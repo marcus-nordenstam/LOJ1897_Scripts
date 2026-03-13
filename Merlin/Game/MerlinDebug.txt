@@ -1,0 +1,27 @@
+# ---------------------------------------------------------------------------------------
+# Merlin debug channels
+#
+# Each non-comment, non-empty line is the name of a debug logging channel
+# to activate on Merlin startup.  Use '#' to comment out lines.
+#
+# Tokens (--prefixed):
+#   --firstNpc      Enable mind tracing on the very first NPC spawned
+# ---------------------------------------------------------------------------------------
+
+#--firstNpc
+#--namedNpc Elizabeth Fallow
+
+mc
+
+#parse
+#wme
+#eps
+#match
+#belief
+#delib
+#pattern
+#action
+#rule
+#decay
+#percept
+#env

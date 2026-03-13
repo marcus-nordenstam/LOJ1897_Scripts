@@ -1,0 +1,79 @@
+
+:QS
+
+"'(' $qs_phrase(QSP) ++? ')'"
+( qs $qs_phrase(QSP) )
+.
+"do you know $qs_phrase(QSP)"
+( qs /doYouKnow $qs_phrase(QSP) )
+.
+"do you know who this is"
+( qs /doYouKnow /this ( any { ?_this /pres name } ).target )
+.
+"do you know who this was"
+( qs /doYouKnow /this ( any { ?_this /past name } ).target )
+.
+"can you identify this"
+( qs /doYouKnow /this ( any { ?_this /pres name } ).target )
+.
+"can you identify $np(NP)"
+( qs /doYouKnow ( any { $np(NP) /pres name } ).target )
+.
+
+:QSP
+
+"what is $person(NP) ++'s name"
+( any { $person(NP) /pres name } ).target
+.
+"what was $person(NP) ++'s name"
+( any { $person(NP) /past name } ).target
+.
+"what is your name"
+( any { ?_you /pres name } ).target
+.
+"what was your name"
+( any { ?_you /past name } ).target
+.
+"what is my name"
+( any { ?_I /pres name } ).target
+.
+"what was my name"
+( any { ?_I /past name } ).target
+.
+
+"who is $person(NP) ++'s $rel(REL)"
+( any { $person(NP) /pres $rel(REL) } ).target
+.
+"who was $person(NP) ++'s $rel(REL)"
+( any { $person(NP) /past $rel(REL) } ).target
+.
+"who is your $rel(REL)"
+( any { ?_you /pres $rel(REL) } ).target
+.
+"who was your $rel(REL)"
+( any { ?_you /past $rel(REL) } ).target
+.
+"who is my $rel(REL)"
+( any { ?_I /pres $rel(REL) } ).target
+.
+"who was my $rel(REL)"
+( any { ?_I /past $rel(REL) } ).target
+.
+
+"where does $person(NP) live"
+( any { $person(NP) /pres home } ).target
+.
+"where did $person(NP) live"
+( any { $person(NP) /past home } ).target
+.
+
+"who $np(NP) is"
+( any { $np(NP) /pres name } ).target
+.
+"who $np(NP) was"
+( any { $np(NP) /past name } ).target
+.
+
+"does $sub_np(NP) want $goal(NP)"
+( prob { $sub_np(NP) /pres goal $goal(NP) } )
+.

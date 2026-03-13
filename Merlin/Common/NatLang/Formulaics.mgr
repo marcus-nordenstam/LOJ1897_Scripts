@@ -1,0 +1,28 @@
+
+# -----------
+# Formulaics
+# -----------
+
+:FORM
+
+#"Good day to you"                   ( formulaic opening goodDay @unknown )    .
+#"Good day to you, too"              ( formulaic response goodDay @unknown )  .
+
+"How do you do"                     ( formulaic opening howDo @unknown )       .
+"How do you do <r>"                 ( formulaic response howDo @unknown )      .
+
+"How do you do, $name(PNAME)"       ( formulaic opening howDo $name(PNAME) )    .
+"How do you do, $name(PNAME) <r>"   ( formulaic response howDo $name(PNAME) )  .
+
+#"A moment, if you please; I am engaged in conversation"                        ( formulaic refusal conv busy ) .
+"I can't talk right now because $st(ST)"                                        ( formulaic refusal $st(ST) ) .
+
+"No, I don't know"                                                              ( formulaic noDontKnow ) .
+"Yes, it's $answer(NP)"                                                         ( formulaic yesIts $answer(NP) ) .
+"Yes, this is my $rel(REL) $name(PNAME)"                                        ( formulaic yesThisIs $rel(REL) $name(PNAME) ) .
+
+"..."                                                                           ( formulaic opening playerTalk ) .
+"Yes?"                                                                          ( formulaic response playerTalk ) .
+
+"It's been most agreeable conversing with you, but I must now take my leave"    ( formulaic leaveTaking bye ) .
+
