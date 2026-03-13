@@ -1,3 +1,0 @@
-ugly	        1
-plainLooking	4
-beautiful	    2

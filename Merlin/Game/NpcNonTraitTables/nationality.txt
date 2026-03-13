@@ -1,3 +1,0 @@
-Jersey	        3 
-English	        2
-Irish	        1
