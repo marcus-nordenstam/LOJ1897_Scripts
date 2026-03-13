@@ -1,9 +1,9 @@
 
-action ?actorEnt MAKE_CONV_META_ENT ?personEnt
+action ?actorEnt MAKE_CONV_META_ENT ?personEnt ?initiatorEnt
     ->
-# If it turns out, by the time this action runs, 
-# that ?actorEnt is already in a conversation, 
-# then this action is unneccessary (and benignly fails) 
+# If it turns out, by the time this action runs,
+# that ?actorEnt is already in a conversation,
+# then this action is unneccessary (and benignly fails)
 # because their conversation partner beat them to it.
 (attr ?actorEnt "conversation"): ?curConv
 (if (eq ?curConv @nothing)
@@ -13,7 +13,7 @@ action ?actorEnt MAKE_CONV_META_ENT ?personEnt
      (setAttr ?actorEnt "conversation" ?convMetaEnt)
      (setAttr ?personEnt "conversation" ?convMetaEnt)
      # Set who started the conversation
-     (setAttr ?convMetaEnt "initiator" ?actorEnt)])
+     (setAttr ?convMetaEnt "initiator" ?initiatorEnt)])
 
 # Be aware that ?personEnt and ?personEnt now have the same conversation
 (perceiveAttr ?actorEnt "conversation")

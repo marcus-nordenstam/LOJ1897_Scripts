@@ -12,6 +12,8 @@ relation
         # * Assume that they are actions: //action
         # * Assume that their subject field is is always a human: //sub human
         # * Assume that their target field is exclusive: //tar @excl
+        #
+        # IMPORTANT: Each action must use exactly ONE motor.
         action /noun //action //sub human //tar @excl
 
             READ            /read   /motor eyes
@@ -22,9 +24,13 @@ relation
 
             CHAT            /obs /motor legs
             HOLD_UMBRELLA   /obs /motor rhand
-            GRIEVE          /obs /motor rhand lhand
 
-            WRITE_DOC       /obs /motor eyes rhand /aux @msg @excl
+            # Grief sub-actions (proposed by the grieve task)
+            RHAND_BURY_FACE /obs /motor rhand
+            LHAND_BURY_FACE /obs /motor lhand
+            HANG_HEAD       /obs /motor head
+
+            WRITE_DOC       /obs /motor rhand /aux @msg @excl
             STACK_TAKE      /obs /motor rhand
             STACK_PUT       /obs /motor rhand
             MAKE_DONE_STACK /obs /motor eyes
@@ -41,9 +47,9 @@ relation
             PUT             /obs /motor rhand
             WEAR            /obs /motor rhand
 
-            HAVE_SEX_WITH   /obs /motor eyes rhand lhand legs /sub human /tar human
-            GIVE_BIRTH      /obs /motor eyes rhand lhand legs /sub human
-            DIE             /obs /motor eyes rhand lhand legs /sub human
+            HAVE_SEX_WITH   /obs /motor legs /sub human /tar human
+            GIVE_BIRTH      /obs /motor legs /sub human
+            DIE             /obs /motor legs /sub human
 
             # Meta-entity actions are imperceptible
             MAKE_CONV_META_ENT      /motor mind /sub human

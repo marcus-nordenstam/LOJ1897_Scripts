@@ -70,6 +70,8 @@ relation
             stackRead           /motor legs rhand       /tar stack
             makeDoneStack                               /tar stack
 
+            grieve              /motor rhand lhand head
+
             giveBirth           /motor eyes rhand legs
             perceiveAttr        /motor eyes             /tar ?
 

@@ -8,7 +8,7 @@ rule maintain-withinReachOf-attention
 
 rule maintain-withinReachOf-belief
 {@self keepInReachOf ?thing}
-(isWithinReachOf ?thing /cont) = ?prob
+(isWithinReachOf ?thing 0.8 /cont) = ?prob # get 20% closer to the target before stopping
     ->
 (maintainBelief {@self withinReachOf ?thing /p ?prob}).
 

@@ -65,6 +65,11 @@ rule importWorkTasks
 (import "HouseAgentClerkJob").
 
 
+rule importEmotionalTasks
+    ->
+(import "Grieve").
+
+
 rule importLifeCycleTasks
     ->
 (import "GiveBirth")

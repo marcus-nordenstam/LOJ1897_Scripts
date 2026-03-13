@@ -25,11 +25,11 @@ rule goal-conv-TELL-bothAvail
 
 # This rule handles the case where we want to say something to someone we're currently speaking with
 rule conv-TELL-todo
-{@self goal {@self TELL ?msg ?audience}}: ?goal
+{@self goal {@self TELL ?msg ?audience}:?tell}: ?goal
 {@self conversation @something:?myConv}
 {?audience conversation ?myConv}
     ->
-(beginBelief {?myConv todo {@self TELL ?msg ?audience} /causes ?goal}). # add explicit cause because todo is state
+(maintainBelief {?myConv todo ?tell /causes ?goal}). # add explicit cause because todo is state
 
 
 rule TELL-proposal

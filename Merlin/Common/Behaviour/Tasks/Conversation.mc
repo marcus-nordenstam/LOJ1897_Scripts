@@ -65,10 +65,10 @@ rule startConv-makeConvFromResponse-proposal
 {?person /succ TELL (formulaic response howDo ?) @self /causes ~?openingTELL}
     ->
 # Create the realis conversation (which is a meta-entity)
-(beginProposal {@self MAKE_CONV_META_ENT ?person}).
+(beginProposal {@self MAKE_CONV_META_ENT ?person @self}).
 
 
-# I am trying to start a conversation with ?person, 
+# I am trying to start a conversation with ?person,
 # but ?person beats me to TELLing the formulaic opening
 rule startConv-makeConvPreemptive-proposal
 {@self startConv ?irrConv}: ?startConv
@@ -76,7 +76,7 @@ rule startConv-makeConvPreemptive-proposal
 {?person /succ TELL (formulaic opening ? ?) @self}
     ->
 # Create the realis conversation (which is a meta-entity)
-(beginProposal {@self MAKE_CONV_META_ENT ?person})
+(beginProposal {@self MAKE_CONV_META_ENT ?person @self})
 (break).
 
 
@@ -154,8 +154,10 @@ rule conv-response-formulaicOpening-proposal
 (addCause ?tellGreeting ?personTell).
 
 
-# Player presses 'T' to talk — the game injects a player_talk formulaic opening.
-# The NPC responds with a simple acknowledgment ("Yes?") and creates a conversation.
+# Player presses 'T' to talk — the game injects a playerTalk formulaic opening.
+# The NPC responds with "Yes?" and creates the conv meta-entity with the PLAYER
+# as initiator, so conv-end-proposal ({?conv initiator @self}) won't match for
+# the NPC — the conversation persists until the player exits dialogue.
 rule conv-response-playerTalk-proposal
 {@self conversation @nothing}
 {?person /succ TELL (formulaic opening playerTalk) @self}: ?personTell
@@ -165,23 +167,9 @@ rule conv-response-playerTalk-proposal
 (formulaic response playerTalk): ?greeting
 (beginGoal {@self TELL ?greeting ?person}): ?tellGreeting
 (addCause ?tellGreeting ?personTell)
-# Maintain facing/looking/proximity independently of the TELL chain
-# so that if TELL is interrupted (e.g. by turning away), the NPC will
-# re-face the player and re-attempt the greeting.
-(maintainProposal {@self keepInReachOf ?person} /absUtil 1000)
-(maintainProposal {@self keepFacing ?person} /absUtil 1000)
-(maintainProposal {@self keepLookingAtPart ?person eyes} /absUtil 1000).
+(beginProposal {@self MAKE_CONV_META_ENT ?person ?person}).
 
 
-# After the NPC responds to the player's T press, create a conversation entity
-# so that conv-maintain-closeAndFacing-proposal keeps facing/looking/proximity alive.
-rule conv-response-playerTalk-makeConv
-{@self conversation @nothing}
-{?person /succ TELL (formulaic opening playerTalk) @self}: ?personTell
-{@self /succ TELL ? ?person /causes ~?personTell}
-    ->
-(print ["conv-response-playerTalk-makeConv FIRED"])
-(beginProposal {@self MAKE_CONV_META_ENT ?person}).
 
 
 rule conv-response-refuseConv-proposal #/breakOnFire
@@ -218,17 +206,6 @@ rule conv-todo-act-proposal
 (addCause ?proposal ?causes) # add expl. cause because there are no task/goal conditions
 (if (eq ?act.label ASK) 
     (beginBelief {@self expect answer ?act.auxiliary /causes ?act})).
-
-
-rule conv-todo-act-complete
-{@self conversation @something:?conv}
-{?conv todo ?act /causes ?causes}: ?todoAct
-# the proposed ?act will have a different pattern-ID from the todo ?act
-# so we just use a wildcard and rely on the cause to connect them
-{@self proposal ? /causes ~?causes /out?} 
-    ->
-(endBelief ?todoAct)
-(print ["ENDING: " ?todoAct]).
 
 
 #-----------------------------------------------------------------------------------------

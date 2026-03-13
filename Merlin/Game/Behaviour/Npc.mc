@@ -19,7 +19,7 @@ rule grieve
 {@self /ever love ?person}
 #{?person /ever condition dead}
     ->
-(maintainProposal {@self GRIEVE}).
+(maintainProposal {@self grieve}).
 
 #rule go-to-waypoint
 #{?waypoint isa [k waypoint]}
