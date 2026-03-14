@@ -17,8 +17,8 @@ mc
 #wme
 #eps
 #match
-#belief
-#delib
+belief
+delib
 #pattern
 #action
 #rule
