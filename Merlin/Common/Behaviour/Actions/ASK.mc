@@ -3,7 +3,7 @@ action ?actorEnt ASK ?question ?personEnt
     ->
 # Create a sound right where the actor/speaker is
 (attr ?actorEnt "obb"): ?actorObb
-(makeEntity "sound" [k sound speech] ?actorObb (floats 4 4 4) (floats 0 0 0 1)): ?soundEnt
+(makeEntity "sound" [k sound speech] ?actorObb (floats 6 6 6) (floats 0 0 0 1)): ?soundEnt
 # Set the sound "createAction" to: "?actorEnt ASK ?question ?personEnt"
 (extAction): ?questionAsk
 (setAttr ?soundEnt "createAction" ?questionAsk)

@@ -39,7 +39,7 @@ rule TELL-proposal
 {@self keepLookingAtPart ?audience eyes}
 (lockRule 0) # only be telling one thing at a time
     ->
-(maintainProposal {@self TELL ?msg ?audience}).
+(beginProposal {@self TELL ?msg ?audience}).
 #(print [@self proposes to say (nl ?message) because (nl ?causes)]).
 
 

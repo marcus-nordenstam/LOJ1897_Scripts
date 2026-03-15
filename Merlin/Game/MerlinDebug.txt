@@ -11,17 +11,18 @@
 #--firstNpc
 #--namedNpc Elizabeth Fallow
 
-mc
+#mc
 
 #parse
 #wme
 #eps
 #match
-belief
-delib
-#pattern
+#belief
+pattern
+#delib
 #action
 #rule
 #decay
 #percept
+#boundary
 #env
