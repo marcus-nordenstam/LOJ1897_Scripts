@@ -1,0 +1,2 @@
+
+action ?actorEnt BLINK -> (fillForeignAction).

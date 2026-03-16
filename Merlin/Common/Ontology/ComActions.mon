@@ -29,6 +29,7 @@ relation
             RHAND_BURY_FACE /obs /motor rhand
             LHAND_BURY_FACE /obs /motor lhand
             HANG_HEAD       /obs /motor head
+            CRY_EXPR        /obs /motor face
 
             WRITE_DOC       /obs /motor rhand /aux @msg @excl
             STACK_TAKE      /obs /motor rhand
@@ -39,7 +40,16 @@ relation
             LOOK_AT         /obs /motor head
 
             WALK_TO         /obs /motor legs
+            WALK            /obs /motor legs
+            RUN             /obs /motor legs
+            JUMP            /obs /motor legs
+            SIT             /obs /motor legs
+            STAND           /obs /motor legs
             HALT            /obs /motor legs
+
+            # Expression actions (engine-driven, not Merlin-proposed)
+            SMILE           /obs /motor face
+            BLINK           /obs /motor eyes
 
             STAB            /obs /motor rhand
             OFFER           /obs /motor rhand

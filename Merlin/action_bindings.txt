@@ -1,0 +1,105 @@
+# action_bindings.txt
+#
+# Maps Merlin actions to GRYM resources. Loaded once at startup.
+# The Merlin action name [SECTION] is the key.
+# Motor comes from the Merlin ontology, not from this file.
+#
+# Keys:
+#   expression = <filename.esp>           expression from library (implies generic expression proc_anim)
+#   proc_anim = <name>                    specialized proc_anim (tell, lookat, blink)
+#   update = <name>                       specialized update function (walk, run, walkto, turn, etc.)
+#   anim = <exact name>                   animation (gender-neutral, without .gra extension)
+#   anim.female = <exact name>            female-specific animation
+#   anim.male = <exact name>              male-specific animation
+#   anim_flags = <flags>                  loop, pingpong, reset, randomize_start, backwards
+#   alias = <MERLIN_ACTION>               reuse another action's animation
+#   state = <flags>                       state bits to set: walking, running, sitting, standing, telling
+#   speed = <float>                       default movement speed or speech rate multiplier
+
+[TELL]
+proc_anim = tell
+update = tell
+state = telling
+speed = 0.85
+
+[LOOK_AT]
+proc_anim = lookat
+update = lookat
+
+[BLINK]
+proc_anim = blink
+update = blink
+
+[SMILE]
+expression = smile_neutral.esp
+
+[CRY_EXPR]
+expression = Scene_01_CryingLady_X_008.esp
+
+# IDLE is engine-internal (not a Merlin action). Settings here are used as input
+# to init_idle_bindings() which creates one idle per motor at startup.
+[IDLE]
+anim.female = Motion_Female_Idle_01
+anim.male = Motion_Male_Idle_02
+anim_flags = pingpong reset randomize_start
+state = standing
+
+[WALK]
+anim.female = Motion_Fem_Walk_Normal_01
+anim.male = Motion_Male_Walk_Normal_01
+anim_flags = loop reset
+update = walk
+state = walking
+speed = 0.1
+
+[WALK_TO]
+alias = WALK
+update = walkto
+state = walking
+speed = 0.1
+
+[RUN]
+anim.female = Motion_Fem_Run_01
+anim.male = Motion_Male_Run_01_
+anim_flags = loop reset
+update = run
+state = running
+speed = 0.5
+
+[JUMP]
+update = jump
+
+[SIT]
+anim = Motion_Uni_Sitting_Talking_01
+anim_flags = loop reset
+state = sitting
+
+[STAND]
+alias = SIT
+update = stand
+anim_flags = backwards
+
+[CHAT]
+anim.female = Motion_Female_Stand_Conversation_Acting_01
+anim.male = Motion_Male_Stand_Listen_01
+anim_flags = loop reset
+state = standing
+
+[HOLD_UMBRELLA]
+anim = Umbrella2
+anim_flags = loop reset
+
+[RHAND_BURY_FACE]
+anim = rhand_bury_face
+anim_flags = loop reset
+
+[LHAND_BURY_FACE]
+anim = lhand_bury_face
+anim_flags = loop reset
+
+[HANG_HEAD]
+anim = hang_head
+anim_flags = loop reset
+
+[TURN_TO]
+update = turn

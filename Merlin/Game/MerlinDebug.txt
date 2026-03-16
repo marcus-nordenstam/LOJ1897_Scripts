@@ -17,11 +17,11 @@
 #wme
 #eps
 #match
-#belief
-pattern
-#delib
+belief
+#pattern
+delib
 #action
-#rule
+rule
 #decay
 #percept
 #boundary

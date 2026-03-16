@@ -1,0 +1,2 @@
+
+action ?actorEnt CHAT -> (fillForeignAction).
