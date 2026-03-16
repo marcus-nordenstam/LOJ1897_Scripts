@@ -8,9 +8,10 @@ rule ->
 
 # Startup behaviour
 
-#rule chat
-#{?waypoint isa [k waypoint]}
-#    ->
+rule go-to-waypoint
+{?waypoint isa [k waypoint]}
+    ->
+(maintainProposal {@self go ?waypoint}).
 #(maintainProposal {@self CHAT})
 #(maintainProposal {@self HOLD_UMBRELLA})
 #.

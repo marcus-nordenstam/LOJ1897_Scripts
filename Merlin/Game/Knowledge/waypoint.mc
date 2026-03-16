@@ -1,2 +1,2 @@
-{ ?waypoint kind [k waypoint] }
+{ ?waypoint isa [k waypoint] }
 { ?waypoint obb ?obb }
