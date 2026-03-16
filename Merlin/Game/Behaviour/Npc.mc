@@ -10,6 +10,7 @@ rule ->
 
 rule go-to-waypoint
 {?waypoint isa [k waypoint]}
+(isWithinReachOf /not ?waypoint /cont)
     ->
 (maintainProposal {@self go ?waypoint}).
 #(maintainProposal {@self CHAT})
