@@ -8,6 +8,18 @@ relation
         # Sounds may hold spoken messages
         speech                  /hear /sub sound @msg
 
+        # Environmental states
+        weather                 /obs /tar @excl weather
+
+        # Weather states
+        fog                     /obs /tar @excl strength_measurement
+        rain                    /obs /tar @excl strength_measurement
+        snow                    /obs /tar @excl strength_measurement
+        wind                    /obs /tar @excl strength_measurement
+        thunder                 /obs /tar @excl strength_measurement
+        temperature             /obs /tar @excl
+        sky                     /obs /tar @excl sky_condition
+
         # Physical states
         obb                     /obs /tar @excl @spatialBounds /discardHistory
         inStack                 /obs /tar ?
@@ -42,6 +54,7 @@ relation
         knowAnswer              /sub human              /tar @qs @S
         price                   /sub ?                  /tar @excl
         possess                 /sub human              /tar object
+        carry                   /sub human              /tar [object]
         expect                  /sub human              /tar ?
         initiator               /tar human
 

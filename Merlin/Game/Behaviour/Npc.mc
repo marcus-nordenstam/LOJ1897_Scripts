@@ -17,6 +17,30 @@ rule go-to-waypoint
 #(maintainProposal {@self HOLD_UMBRELLA})
 #.
 
+#rule propose-use_umbrella
+#{@self in [k region]:?region}
+#{?region weather ?weather}
+#{?weather rain !none}
+#    ->
+#(maintainProposal {@self use_umbrella}).
+
+/*
+rule propose-use_umbrella-take
+{@self use_umbrella}
+{@self carry [k umbrella]:?umbrella}
+{@self hand [k rightHand]:?rhand}
+(none {?rhand control ?umbrella})
+    ->
+(beginProposal {@self TAKE ?umbrella ?rhand}).
+
+rule propose-use_umbrella-bent-right-arm
+{@self use_umbrella}
+{@self hand [k rightHand]:?rhand}
+{?rhand grip [k umbrella]:?umbrella}
+    ->
+(maintainProposal {@self BENT_RIGHT_ARM}).
+*/
+
 rule grieve
 {@self /ever love ?person}
 #{?person /ever condition dead}

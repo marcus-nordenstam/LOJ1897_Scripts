@@ -20,7 +20,7 @@
 proc_anim = tell
 update = tell
 state = telling
-speed = 0.85
+speed = 1
 
 [LOOK_AT]
 proc_anim = lookat
@@ -36,13 +36,6 @@ expression = smile_neutral.esp
 [CRY_EXPR]
 expression = Scene_01_CryingLady_X_008.esp
 
-# IDLE is engine-internal (not a Merlin action). Settings here are used as input
-# to init_idle_bindings() which creates one idle per motor at startup.
-[IDLE]
-anim.female = Motion_Female_Idle_01
-anim.male = Motion_Male_Idle_02
-anim_flags = pingpong reset randomize_start
-state = standing
 
 [WALK]
 anim.female = Motion_Fem_Walk_Normal_01
@@ -85,7 +78,7 @@ anim.male = Motion_Male_Stand_Listen_01
 anim_flags = loop reset
 state = standing
 
-[HOLD_UMBRELLA]
+[BENT_RIGHT_ARM]
 anim = Umbrella2
 anim_flags = loop reset
 
@@ -101,5 +94,20 @@ anim_flags = loop reset
 anim = hang_head
 anim_flags = loop reset
 
+[STOW]
+
+[TAKE]
+
+[PUT]
+
 [TURN_TO]
 update = turn
+
+# -------------------------------------------------------------------------------
+# IDLE is engine-internal (not a Merlin action). Settings here are used as input
+# to init_idle_bindings() which creates one idle per motor at startup.
+[IDLE]
+anim.female = Motion_Female_Idle_01
+anim.male = Motion_Male_Idle_02
+anim_flags = pingpong reset randomize_start
+state = standing

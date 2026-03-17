@@ -6,6 +6,8 @@ concept
     something
     someone
 
+    weather
+
     conversation
 
     phrase
@@ -129,8 +131,21 @@ concept
     payment
         wage
         annualWage
-    measurement
+    
+    sky_condition
+        clear
+        overcast
+        cloudy
+
+    strength_measurement
+        none
+        light
+        medium
+        heavy
+
+    mass_measurement
         weight
+    
     attr
         trait
             charisma

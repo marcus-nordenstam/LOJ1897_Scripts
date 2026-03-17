@@ -23,7 +23,7 @@ relation
             TELL            /listen /motor mouth /uninterruptable /sub @msgAuthor /tar @msg @excl @S /aux @msgAudience
 
             CHAT            /obs /motor legs
-            HOLD_UMBRELLA   /obs /motor rhand
+            BENT_RIGHT_ARM  /obs /motor rhand
 
             # Grief sub-actions (proposed by the grieve task)
             RHAND_BURY_FACE /obs /motor rhand
@@ -54,6 +54,7 @@ relation
             STAB            /obs /motor rhand
             OFFER           /obs /motor rhand
             TAKE            /obs /motor rhand
+            STOW            /obs /motor mind
             PUT             /obs /motor rhand
             WEAR            /obs /motor rhand
 
