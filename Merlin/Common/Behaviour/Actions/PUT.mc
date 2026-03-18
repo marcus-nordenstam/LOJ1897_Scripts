@@ -9,5 +9,6 @@ action ?actorEnt PUT ?thingEnt
 (setAttr ?thingEnt "obb" (worldObb ?thingEnt))
 # Clear controlledBy so the item is now independent
 (setAttr ?thingEnt "controlledBy" @nothing)
-# Notify GRYM — outcome set by handler
-(fillForeignAction).
+# Call handler directly — duration set by handler (animation)
+(callForeignAction)
+(if (actionDone) (setActionOutcome /succ)).

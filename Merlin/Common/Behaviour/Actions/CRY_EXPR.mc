@@ -1,2 +1,2 @@
 
-action ?actorEnt CRY_EXPR -> (fillForeignAction).
+action ?actorEnt CRY_EXPR -> (callForeignAction).

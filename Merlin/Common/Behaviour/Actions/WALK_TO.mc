@@ -1,2 +1,2 @@
 
-action ?actorEnt WALK_TO ?obb -> (fillForeignAction).
+action ?actorEnt WALK_TO ?obb -> (callForeignAction).

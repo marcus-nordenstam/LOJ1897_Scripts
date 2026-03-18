@@ -10,5 +10,6 @@ action ?actorEnt STOW ?thingEnt
 (addAttrItem @self "control" ?thingEnt)
 # Collapse local OBB to zero (item is hidden on body)
 (setAttr ?thingEnt "obb" /localPos 0 0 0)
-# Notify GRYM — outcome set by handler
-(fillForeignAction).
+# Call handler directly — duration set by handler (animation)
+(callForeignAction)
+(if (actionDone) (setActionOutcome /succ)).

@@ -1,2 +1,2 @@
 
-action ?actorEnt WALK -> (fillForeignAction).
+action ?actorEnt WALK -> (callForeignAction).

@@ -1,2 +1,2 @@
 
-action ?actorEnt SIT -> (fillForeignAction).
+action ?actorEnt SIT -> (callForeignAction).

@@ -17,5 +17,6 @@ action ?actorEnt TAKE ?thingEnt ?handEnt
 # Notice that actor is now holding ?thingEnt
 (perceiveEntity ?thingEnt): ?mthing
 (perceiveAttr ?handEnt "control")
-# Notify GRYM — outcome set by handler
-(fillForeignAction).
+# Call handler directly — duration set by handler (animation)
+(callForeignAction)
+(if (actionDone) (setActionOutcome /succ)).

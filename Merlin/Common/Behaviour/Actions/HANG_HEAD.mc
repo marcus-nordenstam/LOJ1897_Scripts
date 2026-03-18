@@ -1,2 +1,2 @@
 
-action ?actorEnt HANG_HEAD -> (fillForeignAction).
+action ?actorEnt HANG_HEAD -> (callForeignAction).

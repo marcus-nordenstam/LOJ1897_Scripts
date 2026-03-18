@@ -1,2 +1,2 @@
 
-action ?actorEnt SMILE -> (fillForeignAction).
+action ?actorEnt SMILE -> (callForeignAction).

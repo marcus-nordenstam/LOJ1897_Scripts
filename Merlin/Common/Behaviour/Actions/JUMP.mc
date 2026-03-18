@@ -1,2 +1,2 @@
 
-action ?actorEnt JUMP -> (fillForeignAction).
+action ?actorEnt JUMP -> (callForeignAction).

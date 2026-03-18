@@ -1,2 +1,2 @@
 
-action ?actorEnt RHAND_BURY_FACE -> (fillForeignAction).
+action ?actorEnt RHAND_BURY_FACE -> (callForeignAction).

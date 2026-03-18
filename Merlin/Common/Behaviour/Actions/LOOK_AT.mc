@@ -1,2 +1,2 @@
 
-action ?actorEnt LOOK_AT ?obb -> (fillForeignAction /dontStopOnSucc).
+action ?actorEnt LOOK_AT ?obb -> (callForeignAction).
