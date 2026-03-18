@@ -7,10 +7,8 @@ action ?actorEnt STOW ?thingEnt
 (perceiveAttr ?prevGripperEnt "control")
 # Set that ?thingEnt is now controlled by @self (stowed on body)
 (setAttr ?thingEnt "controlledBy" @self)
+(addAttrItem @self "control" ?thingEnt)
 # Collapse local OBB to zero (item is hidden on body)
 (setAttr ?thingEnt "obb" /localPos 0 0 0)
-# Add to carry list
-(addAttrItem @self "carry" ?thingEnt)
-(beginBelief {@self carry ?thingEnt})
-(fillForeignAction)
-(setActionOutcome /succ).
+# Notify GRYM — outcome set by handler
+(fillForeignAction).

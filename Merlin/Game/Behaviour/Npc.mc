@@ -24,22 +24,20 @@ rule go-to-waypoint
 #    ->
 #(maintainProposal {@self use_umbrella}).
 
-/*
 rule propose-use_umbrella-take
-{@self use_umbrella}
-{@self carry [k umbrella]:?umbrella}
+#{@self use_umbrella}
+{@self control [k umbrella]:?umbrella}
 {@self hand [k rightHand]:?rhand}
 (none {?rhand control ?umbrella})
     ->
 (beginProposal {@self TAKE ?umbrella ?rhand}).
 
 rule propose-use_umbrella-bent-right-arm
-{@self use_umbrella}
+#{@self use_umbrella}
 {@self hand [k rightHand]:?rhand}
-{?rhand grip [k umbrella]:?umbrella}
+{?rhand control [k umbrella]:?umbrella}
     ->
 (maintainProposal {@self BENT_RIGHT_ARM}).
-*/
 
 rule grieve
 {@self /ever love ?person}

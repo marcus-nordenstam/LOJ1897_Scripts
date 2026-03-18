@@ -15,5 +15,5 @@
 type = character
 
 [umbrella]
-asset = G_Accessories_Umbrella_A_Unfolded.mesh_0.grg
-type = geo
+asset = P_Accessories_Umbrella_A_Unfolded.grs
+type = prefab

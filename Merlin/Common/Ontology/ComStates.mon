@@ -33,7 +33,7 @@ relation
         height                  /obs /tar @excl
         girth                   /obs /tar @excl
         wear                    /obs /sub being|bodyPart /tar accessory|clothing
-        control                 /obs /sub bodyPart       /tar object
+        control                 /obs                     /tar object
         wound                   /obs /tar
         bloodStain              /obs /tar
         bloodType               /obs /tar @excl
@@ -54,7 +54,6 @@ relation
         knowAnswer              /sub human              /tar @qs @S
         price                   /sub ?                  /tar @excl
         possess                 /sub human              /tar object
-        carry                   /sub human              /tar [object]
         expect                  /sub human              /tar ?
         initiator               /tar human
 
