@@ -8,7 +8,7 @@ action ?actorEnt MAKE_CONV_META_ENT ?personEnt ?initiatorEnt
 (attr ?actorEnt "conversation"): ?curConv
 (if (eq ?curConv @nothing)
      # Create a new conversation meta-entity
-    [(makeEntity "conv" [k conversation]): ?convMetaEnt
+    [(makeEntity "conversation" [k conversation]): ?convMetaEnt
      # Set the conversation on each participant
      (setAttr ?actorEnt "conversation" ?convMetaEnt)
      (setAttr ?personEnt "conversation" ?convMetaEnt)

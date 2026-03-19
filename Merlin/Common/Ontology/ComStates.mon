@@ -45,6 +45,8 @@ relation
         # The eyes of a creature
         eyes                    /obs
 
+        fluid_amount            /obs /tar @excl /sub fluid
+
         # Physiological states
         alertness                                       /tar @excl  /def alert /discardHistory
 

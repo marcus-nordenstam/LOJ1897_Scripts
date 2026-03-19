@@ -100,6 +100,8 @@ anim_flags = loop reset
 
 [PUT]
 
+[POUR]
+
 [TURN_TO]
 update = turn
 

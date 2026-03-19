@@ -39,6 +39,8 @@ relation
 
             tell_about                              /sub @msgAuthor human /aux @msgAudience human
 
+            serve_beer      /motor mind             /tar human
+
             # ----------------------------------------------------------------------------------
             # physical tasks - motors are involved
             # ----------------------------------------------------------------------------------

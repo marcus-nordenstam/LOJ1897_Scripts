@@ -44,6 +44,8 @@ object //obs
     # Man-made things
     robot
     prop
+        container
+            drinking_glass
         accessory
             cufflink
             ring
@@ -71,6 +73,8 @@ object //obs
         sportingGear
             ball
                 football
+    fluid
+        beer
     document
         diploma
         letter

@@ -21,4 +21,5 @@ rule ->
 (import "TURN_TO")
 (import "LOOK_AT")
 (import "ACQUIRE")
+(import "POUR")
 .

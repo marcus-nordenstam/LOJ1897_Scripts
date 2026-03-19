@@ -56,6 +56,7 @@ relation
             TAKE            /obs /motor rhand
             STOW            /obs /motor mind
             PUT             /obs /motor rhand
+            POUR            /obs /motor rhand
             WEAR            /obs /motor rhand
 
             HAVE_SEX_WITH   /obs /motor legs /sub human /tar human

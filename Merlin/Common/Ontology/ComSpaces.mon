@@ -1,9 +1,12 @@
 # Kinds of spaces
 
+location //obs
+    waypoint
+    spawnpoint
+        beer_spawnpoint
+
 space //obs
-    gameSpace
-        waypoint
-        spawnSpace
+    spawnSpace
     interiorSpace
         entrance
             mainEntrance
