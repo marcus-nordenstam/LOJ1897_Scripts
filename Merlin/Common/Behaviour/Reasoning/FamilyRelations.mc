@@ -1,7 +1,7 @@
 
 
 # we are all npcs
-#{@we role npc}
+#{@we role nonplayer}
 
 # we are all married
 #{@we spouse @something}

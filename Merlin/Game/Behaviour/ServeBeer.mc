@@ -1,46 +1,40 @@
 
 # serve_beer task: bartender serves a beer to a human
 
-# Step 1: Find a beer_spawnpoint and go to it
-rule serve_beer-go-to-spawnpoint
+rule bartender-serve_beer
+{@self perform [k bartender]}
+# Right now, we just serve beer to ANY human we see
+# later we will require that the patron demands a beer 
+# before serving
+{!@self:?patron isa [k human]}
+    ->
+(maintainProposal {@self serve_beer ?patron}).
+
+
+# Spawn a beer at the spawnpoint
+rule serve_beer-SPAWN-proposal
 {@self serve_beer ?patron}
 {?sp isa [k beer_spawnpoint]}
-{?sp obb !@unknown}
     ->
-(maintainProposal {@self keepInReachOf ?sp} /absUtil 1000)
-(maintainProposal {@self keepFacing ?sp} /absUtil 1000).
+(maintainProposal {@self SPAWN [[k drinking_glass] ?sp] [{@o for ?patron}]})
+(maintainProposal {@self SPAWN [[k beer] ?sp]} [{@o for ?patron}]).
 
-# Step 2: Once at the spawnpoint, spawn a drinking glass
-rule serve_beer-spawn-glass
-{@self serve_beer ?patron}
-{?sp isa [k beer_spawnpoint]}
-{@self withinReachOf ?sp}
-{@self facing ?sp}
-{@self /not /ever SPAWN [k drinking_glass]}
-    ->
-(maintainProposal {@self SPAWN [k drinking_glass] ?sp}).
 
-# Step 3: Once glass exists, spawn beer
-rule serve_beer-spawn-beer
+# Pour uncontrolled beer into glass
+rule serve_beer-POUR-proposal
 {@self serve_beer ?patron}
-{?glass isa [k drinking_glass]}
-{@self /not /ever SPAWN [k beer]}
-    ->
-(maintainProposal {@self SPAWN [k beer] ?glass}).
-
-# Step 4: Pour beer into glass (only if beer is not yet controlled by anything)
-rule serve_beer-pour
-{@self serve_beer ?patron}
-{?glass isa [k drinking_glass]}
-{?beer isa [k beer]}
-(none {@something control ?beer})
+{[k drinking_glass]:?glass for ?patron}
+{[k beer]:?beer for ?patron}
     ->
 (maintainProposal {@self POUR ?beer ?glass}).
 
-# Step 5: Outcome (beer is now controlled by the glass)
+
 rule serve_beer-outcome
-{@self /ever serve_beer ?patron /noOut}: ?task
-{?beer isa [k beer]}
-{?glass control ?beer}
+{@self serve_beer ?patron}: ?serve_beer
+{[k drinking_glass]:?glass for ?patron}: ?glass_for_patron
+{[k beer]:?beer for ?patron}: ?beer_for_patron
+{@self /ever POUR ?beer ?glass /out?}: ?POUR
     ->
-(setOutcome ?task /succ).
+(setOutcome ?serve_beer /from ?POUR)
+(forget ?glass_for_patron)
+(forget ?beer_for_patron).

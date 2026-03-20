@@ -6,7 +6,7 @@
 #
 # When two phrases match, but one of them involves a variable, then
 # the non-variable one always takes precedence.  This is how we always get
-# 'role npc' -> "stranger", and not "npc".
+# 'role nonplayer' -> "stranger", and not "nonplayer".
 
 # Specific category overrides:
 

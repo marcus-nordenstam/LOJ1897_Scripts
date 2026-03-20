@@ -108,7 +108,7 @@ rule
 rule 
 {@self give ?thing ?npc}
 {@self control ?thing}
-{?npc role npc}
+{?npc role nonplayer}
 {@self at ?npc}
     ->
 {propose() {@self OFFER ?thing ?npc}}.

@@ -44,7 +44,7 @@ rule marry-proposal
 (lockRule 0)
     ->
 (beginProposal {@self marry ?fiancee})
-(beginProposal {@self SPAWN ["prop" [k weddingBand] @self (floats 0.2 1 1) (floats 0 0 0 1)]})
+(beginProposal {@self SPAWN [[k weddingBand] @self (floats 0.2 1 1) (floats 0 0 0 1)]})
 (beginGoal {@self TELL (msg {@self home ?myHome}) ?fiancee})
 (beginGoal {@self TELL (msg {?myHome obb ?myHomeObb}) ?fiancee}).
 
@@ -105,7 +105,7 @@ rule conjureGroomWeddingBand
 {?lhand finger [k ringFinger]:?ringFinger}
 {?ringFinger wear [k weddingBand]}
     ->
-(beginProposal {@self SPAWN ["prop" [k weddingBand] @self (floats 0.2 1 1) (floats 0 0 0 1)]}).
+(beginProposal {@self SPAWN [[k weddingBand] @self (floats 0.2 1 1) (floats 0 0 0 1)]}).
 
 rule groomWearWeddingBand
 {@self marry ?fiancee}

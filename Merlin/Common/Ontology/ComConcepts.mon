@@ -36,11 +36,8 @@ concept
         accepted
         rejected
     role
-        gameMaster
-        person
-            player
-            npc
-            rootNpc
+        player
+        nonplayer
     orgPos
         apprenticeship
         membership

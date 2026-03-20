@@ -51,6 +51,7 @@ relation
         alertness                                       /tar @excl  /def alert /discardHistory
 
         # Abstract / reasoned states
+        for                     /tar @excl
         withinReachOf           /tar object|space
         facing                  /tar object|space
         knowAnswer              /sub human              /tar @qs @S
@@ -151,7 +152,7 @@ relation
             livingArrangement   /tar ? @excl            /sub human
             buildings           /tar [structure]        /sub property
             lands               /tar [space]            /sub property
-            property            /sub person
+            property            /sub being
             # This is your primary residence, of which you can only have one at a time
             home                /tar structure @excl    /sub human
             # These are any of your residences, including your home

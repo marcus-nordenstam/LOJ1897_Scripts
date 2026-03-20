@@ -3,7 +3,7 @@ action ?actorEnt WRITE_DOC ?docKind ?writings
     ->
 # Create the document right where the actor is
 (attr ?actorEnt "obb"): ?actorObb
-(makeEntity "prop" ?docKind ?actorObb): ?docEnt
+(makeEntity [?docKind ?actorObb]): ?docEnt
 # Documents are too small to occlude anything
 (setOccluderAttr ?docEnt 0)
 # Add the given writings to the doc
