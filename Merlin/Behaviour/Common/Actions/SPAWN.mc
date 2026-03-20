@@ -5,5 +5,5 @@ action ?actorEnt SPAWN ?entDescr ?beliefList
 (setOccluderAttr ?ent 0)
 (perceiveAttr ?ent "obb")
 (if (neq ?beliefList @u)
-    (beginBelief ?beliefList (perceiveEntity ?ent)))
+    (beginBelief (internalize ?beliefList) (perceiveEntity ?ent)))
 (setActionOutcome /succ).

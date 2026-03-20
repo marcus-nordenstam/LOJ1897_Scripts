@@ -3,14 +3,16 @@
 rule ->
 (import "CommonReasoning")
 (import "CommonActions")
-(import "CommonTasks").
+(import "CommonTasks")
 
+(import "ServeBeer").
 
 # Startup behaviour
 
 rule go-to-waypoint
 {?waypoint isa [k waypoint]}
 (isWithinReachOf /not ?waypoint /cont)
+(none {@self job [k bartender]})
     ->
 (maintainProposal {@self go ?waypoint}).
 #(maintainProposal {@self CHAT})
@@ -29,6 +31,7 @@ rule propose-use_umbrella-take
 {@self control [k umbrella]:?umbrella}
 {@self hand [k rightHand]:?rhand}
 (none {?rhand control ?umbrella})
+(none {@self job [k bartender]})
     ->
 (beginProposal {@self TAKE ?umbrella ?rhand}).
 
@@ -36,6 +39,7 @@ rule propose-use_umbrella-bent-right-arm
 #{@self use_umbrella}
 {@self hand [k rightHand]:?rhand}
 {?rhand control [k umbrella]:?umbrella}
+(none {@self job [k bartender]})
     ->
 (maintainProposal {@self BENT_RIGHT_ARM}).
 

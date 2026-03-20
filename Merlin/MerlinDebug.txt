@@ -8,21 +8,20 @@
 #   --firstNpc      Enable mind tracing on the very first NPC spawned
 # ---------------------------------------------------------------------------------------
 
-#--firstNpc
-#--namedNpc Elizabeth Fallow
+--trace {@self job [k bartender]}
 
 #mc
 
 #parse
-#wme
 #eps
+#wme
 #match
-#belief
+belief
 #pattern
-#delib
+delib
 #action
-#rule
+rule
 #decay
 #percept
-#boundary
+boundary
 #env
