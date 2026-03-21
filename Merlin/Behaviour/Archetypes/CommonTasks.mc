@@ -58,12 +58,12 @@ rule importFamilyTasks
 (import "Parenting").
 
 
-rule importWorkTasks
+rule importProfessionalTasks
     ->
 (import "Work")
 (import "FoundOrg")
-(import "HouseAgentClerkJob").
-
+(import "HouseAgentClerkJob")
+(import "ServeBeer").
 
 rule importEmotionalTasks
     ->

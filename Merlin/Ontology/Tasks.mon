@@ -77,3 +77,4 @@ relation
             giveBirth           /motor eyes rhand legs
             perceiveAttr        /motor eyes             /tar ?
 
+            use_umbrella        /motor rhand lhand

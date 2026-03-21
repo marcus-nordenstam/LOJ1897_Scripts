@@ -34,6 +34,7 @@ relation
         girth                   /obs /tar @excl
         wear                    /obs /sub being|bodyPart /tar accessory|clothing
         control                 /obs                     /tar object
+        region                  /feel /tar region @excl
         wound                   /obs /tar
         bloodStain              /obs /tar
         bloodType               /obs /tar @excl

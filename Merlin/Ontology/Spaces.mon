@@ -1,3 +1,9 @@
+# Kinds of regions (top-level world areas with weather)
+
+world_part //obs
+    region
+
+
 # Kinds of spaces
 
 location //obs
@@ -6,7 +12,6 @@ location //obs
         beer_spawnpoint
 
 space //obs
-    spawnSpace
     interiorSpace
         entrance
             mainEntrance

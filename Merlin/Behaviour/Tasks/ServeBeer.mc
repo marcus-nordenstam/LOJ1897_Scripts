@@ -1,6 +1,6 @@
 
 # serve_beer task: bartender serves a beer to a human
-
+/*
 rule bartender-perform-job
 {@self job [k bartender]:?job}
     ->
@@ -43,3 +43,4 @@ rule serve_beer-outcome
 (setOutcome ?serve_beer /from ?POUR)
 (forget ?glass_for_patron)
 (forget ?beer_for_patron).
+*/

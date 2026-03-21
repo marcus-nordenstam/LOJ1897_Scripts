@@ -1,18 +1,19 @@
 
 # Concepts, names, objects, etc.
 
-using "ComConcepts"
-using "ComEnglishNames"
-using "ComIrishNames"
-using "ComJerseyNames"
-using "ComObjects"
-using "ComSmells"
-using "ComSounds"
-using "ComSpaces"
+using "Concepts"
+using "EnglishNames"
+using "IrishNames"
+using "JerseyNames"
+using "Objects"
+using "Smells"
+using "Sounds"
+using "Spaces"
+using "Locations"
 
 # Relations & behaviour
 
-using "ComStates"
-using "ComActions"
-using "ComTasks"
+using "States"
+using "Actions"
+using "Tasks"
 
