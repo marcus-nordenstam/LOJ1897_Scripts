@@ -67,6 +67,8 @@ relation
             MAKE_CONV_META_ENT      /motor mind /sub human
             DESTROY_CONV_META_ENT   /motor mind /sub human
 
+            CLAIM_TRANSACTION_STATION /motor mind
+
             # These are a bit hacky
             ACQUIRE                 /motor mind
             SPAWN                   /motor mind

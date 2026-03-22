@@ -69,6 +69,9 @@ rule importEmotionalTasks
     ->
 (import "Grieve").
 
+rule importWeatherTasks
+    ->
+(import "use_umbrella").
 
 rule importLifeCycleTasks
     ->

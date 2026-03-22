@@ -11,6 +11,10 @@ location //obs
     spawnpoint
         beer_spawnpoint
 
+transaction_zone //obs
+
+transaction_station //obs
+
 space //obs
     interiorSpace
         entrance
