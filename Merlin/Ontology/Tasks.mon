@@ -17,6 +17,8 @@ relation
             startup
             infer
 
+            pubbing
+
             acquire                                 /tar object
             buy                                     /tar ?
             grant                                   /tar object              /aux human

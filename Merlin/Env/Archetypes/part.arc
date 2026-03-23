@@ -10,7 +10,7 @@ archetype "part" [2048] /obs
     # parent relationships are imperceptible to reduce the mental burden of perceiving them 
     # (and they are technically redundant since we keep track of parts) 
     # but we keep them in the ECS for efficiency reasons
-    "parent"        entity "structure" "part"              /parent
+    "parent"        entity "structure" "part"           /parent
     "parts"         entity [4] /label "part"            /children           /passivePercept
 
     # SPATIAL BOUNDS attrs

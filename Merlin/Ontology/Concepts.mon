@@ -38,6 +38,8 @@ concept
     role
         player
         nonplayer
+    capacity
+        pub_patron
     orgPos
         apprenticeship
         membership

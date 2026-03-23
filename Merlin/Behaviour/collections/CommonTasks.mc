@@ -63,7 +63,8 @@ rule importProfessionalTasks
 (import "Work")
 (import "FoundOrg")
 (import "HouseAgentClerkJob")
-(import "ServeBeer").
+(import "ServeBeer")
+(import "PubPatron").
 
 rule importEmotionalTasks
     ->

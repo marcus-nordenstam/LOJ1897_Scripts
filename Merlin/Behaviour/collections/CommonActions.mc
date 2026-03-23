@@ -22,4 +22,5 @@ rule ->
 (import "LOOK_AT")
 (import "ACQUIRE")
 (import "POUR")
+(import "CLAIM_TRANSACTION_STATION")
 .

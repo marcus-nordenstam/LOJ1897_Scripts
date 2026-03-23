@@ -10,10 +10,13 @@ location //obs
     waypoint
     spawnpoint
         beer_spawnpoint
+    staging_spot
 
 transaction_zone //obs
 
 transaction_station //obs
+    provider_station
+    receiver_station
 
 space //obs
     interiorSpace

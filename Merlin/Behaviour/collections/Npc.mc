@@ -16,36 +16,12 @@ rule go-to-waypoint
 (isWithinReachOf /not ?waypoint /cont)
 (none {@self job [k bartender]})
     ->
+(beginProposal {@self pubbing})
 (maintainProposal {@self go ?waypoint}).
 #(maintainProposal {@self CHAT})
 #(maintainProposal {@self HOLD_UMBRELLA})
 #.
 
-/*
-# Pub patron behaviour
-
-rule propose-rhand-TAKE-glass
-# know this is my beer
-{@self hand [k rightHand]:?hand}
-{?hand control @nothing}
-(none {@self job [k bartender]})
-(lockRule take_glass 1) # higher priority than the left-handed take
-    ->
-(beginProposal {@self TAKE ?glass ?hand})
-(beginProposal {@self BENT_RIGHT_ARM}).
-
-
-rule propose-lhand-TAKE-beer_glass
-# know this is my beer
-{@self hand [k leftHand]:?hand}
-{?hand control @nothing}
-(none {@self job [k bartender]})
-(lockRule take_glass 0)
-    ->
-(beginProposal {@self TAKE ?glass ?hand})
-(beginProposal {@self BENT_RIGHT_ARM}).
-
-*/
 
 
 # Emotional reactions
