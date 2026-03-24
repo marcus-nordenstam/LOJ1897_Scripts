@@ -1,5 +1,5 @@
 # Spaces
-archetype "space" [2096] /obs /alwaysVisible /nonOccluder
+archetype "space" [2096] /obs /alwaysVisible /nonOccluder /sectorCoverage
 {
     "isa"           kind                                /kind               /passivePercept
     "date"          date                                /date

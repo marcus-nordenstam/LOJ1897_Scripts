@@ -26,9 +26,9 @@ EPSWmeCapacityPerNpcMind = 4096
 # ---------------------------------------------------------------------------------------
 
 # Environment pools
-env.occupantsTable.pool             =   200     100     10
+env.occupantsTable.pool             =   2000    1000    100
 env.entityIds32.pool                =   250     100     10
-env.entityIds64.pool                =   250     100     10
+env.entityIds64.pool                =   1000    1000    10
 env.entityIds128.pool               =   250     100     10
 env.sounds.pool                     =   1000    200     20
 

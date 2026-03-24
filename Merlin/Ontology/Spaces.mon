@@ -11,7 +11,9 @@ location //obs
     spawnpoint
         beer_spawnpoint
     staging_spot
-
+        provider_staging_spot
+        receiver_staging_spot
+        
 transaction_zone //obs
 
 transaction_station //obs

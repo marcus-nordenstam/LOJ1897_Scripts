@@ -49,13 +49,11 @@ relation
         fluid_amount            /obs /tar @excl /sub fluid
 
         # Transaction system states
-        provider_station        /obs /tar transaction_station @excl
-        receiver_station        /obs /tar transaction_station @excl
         actor_spot              /obs /tar location @excl
         actor_spot_holder       /obs /tar @excl
-        actor_spot_occupier     /obs /tar @excl
         staging_spot            /obs /tar location @excl
         staging_spot_occupier   /obs /tar @excl
+        counterpart_station     /obs /tar @excl
 
         # Physiological states
         alertness                                       /tar @excl  /def alert /discardHistory
