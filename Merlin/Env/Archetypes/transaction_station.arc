@@ -3,10 +3,12 @@
 # specific locations indicating where each party may stand, and where items 
 # may be dropped/picked up.
 
-archetype "transaction_station" [256] /obs /alwaysVisible /nonOccluder /sectorCoverage
+archetype "transaction_station" [256] /obs /alwaysVisible /nonOccluder
 {
     "isa"                   kind                        /kind               /passivePercept
     "obb"                   obb                         /spatialBounds      /passivePercept
+
+    "parent"                entity "transaction_zone"   /parent             /passivePercept
 
     "actor_spot_holder"     entity                                          /passivePercept
 

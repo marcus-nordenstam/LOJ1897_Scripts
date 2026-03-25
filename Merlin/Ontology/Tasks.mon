@@ -41,8 +41,9 @@ relation
 
             tell_about                              /sub @msgAuthor human /aux @msgAudience human
 
-            serve_beer      /motor mind             /tar human
-            claim_transaction_station /motor mind   /tar transaction_zone
+            order                       /motor legs
+            serve_beer                  /motor mind   /tar human
+            claim_transaction_station   /motor mind   /tar transaction_zone
 
             # ----------------------------------------------------------------------------------
             # physical tasks - motors are involved

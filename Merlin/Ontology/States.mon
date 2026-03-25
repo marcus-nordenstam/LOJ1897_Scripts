@@ -20,6 +20,15 @@ relation
         temperature             /obs /tar @excl
         sky                     /obs /tar @excl sky_condition
 
+        # Spatial containment
+        # NOTE that "in" is reasoned - NOT observable
+        # This is because spatial-containment is imperceptible, which means 
+        # that the perception system will never try to directly perceive that attr.
+        # But if the corresponding state (in) is declared observable, then any belief using
+        # in will be contradicted because the belief states it can be disproven by perception
+        # but perception will never perceive it, so it gets disproven incorrectly
+        in                      /rsn /tar structure|space
+
         # Physical states
         obb                     /obs /tar @excl @spatialBounds /discardHistory
         inStack                 /obs /tar ?

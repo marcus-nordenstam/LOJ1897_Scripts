@@ -16,7 +16,7 @@ rule go-to-waypoint
 (isWithinReachOf /not ?waypoint /cont)
 (none {@self job [k bartender]})
     ->
-(beginProposal {@self pubbing})
+(beginProposal {@self pubbing} /absUtil 10)
 (maintainProposal {@self go ?waypoint}).
 #(maintainProposal {@self CHAT})
 #(maintainProposal {@self HOLD_UMBRELLA})
