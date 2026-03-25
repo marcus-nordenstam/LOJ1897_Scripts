@@ -1,13 +1,31 @@
 
 # serve_beer task: bartender serves a beer to a human
-/*
 rule bartender-perform-job
 {@self job [k bartender]:?job}
     ->
 (maintainProposal {@self perform ?job}).
 
-rule bartender-serve_beer
+
+rule bartender-perform-check-in-pub
 {@self perform [k bartender]}
+(in @self [k building pub])
+    ->
+.
+
+rule bartender-claim-spot
+{@self perform [k bartender]}
+{@self in [k building pub]:?pub}
+{?pub part [k transaction_zone]:?zone}
+{?zone part [k transaction_station]:?station}
+{?station actor_spot_holder @something:?patron}
+{?station counterpart_station ?provider_station}
+    ->
+(maintainProposal {@self go ?provider_station}).
+
+
+/*
+
+
 # Right now, we just serve beer to ANY human we see
 # later we will require that the patron demands a beer 
 # before serving
@@ -43,4 +61,5 @@ rule serve_beer-outcome
 (setOutcome ?serve_beer /from ?POUR)
 (forget ?glass_for_patron)
 (forget ?beer_for_patron).
+
 */

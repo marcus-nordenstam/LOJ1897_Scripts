@@ -8,20 +8,22 @@ rule ->
 
 # Startup behaviour
 
+# Everyone but the bartender starts out pubbing
+rule startup-go-pubbing
+{@self isa [k human]}
+(none {@self job [k bartender]})
+    ->
+(beginProposal {@self pubbing} /absUtil 10).
+
 
 # Waypoint behaviour
 
-rule go-to-waypoint
+rule startup-go-to-waypoint
 {?waypoint isa [k waypoint]}
 (isWithinReachOf /not ?waypoint /cont)
 (none {@self job [k bartender]})
     ->
-(beginProposal {@self pubbing} /absUtil 10)
 (maintainProposal {@self go ?waypoint}).
-#(maintainProposal {@self CHAT})
-#(maintainProposal {@self HOLD_UMBRELLA})
-#.
-
 
 
 # Emotional reactions

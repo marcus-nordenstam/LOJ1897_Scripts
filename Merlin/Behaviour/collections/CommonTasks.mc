@@ -39,7 +39,8 @@ rule importSocialTasks
 (import "WriteDoc")
 (import "Introduce")
 (import "Conversation")
-(import "Socialize").
+(import "Socialize")
+(import "Pubbing").
 
 
 rule importStackTasks
@@ -63,8 +64,7 @@ rule importProfessionalTasks
 (import "Work")
 (import "FoundOrg")
 (import "HouseAgentClerkJob")
-(import "ServeBeer")
-(import "PubPatron").
+(import "ServeBeer").
 
 rule importEmotionalTasks
     ->
