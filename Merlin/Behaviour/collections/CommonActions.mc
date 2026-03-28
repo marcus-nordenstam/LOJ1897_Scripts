@@ -19,8 +19,10 @@ rule ->
 (import "WRITE_DOC")
 (import "SPAWN")
 (import "TURN_TO")
+(import "MIRROR")
 (import "LOOK_AT")
 (import "ACQUIRE")
 (import "POUR")
 (import "CLAIM_TRANSACTION_STATION")
+(import "SET_PROVIDER_OCCUPIER_SLOT")
 .

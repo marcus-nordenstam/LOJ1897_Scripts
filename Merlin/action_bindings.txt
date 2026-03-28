@@ -103,7 +103,8 @@ anim_flags = loop reset
 [POUR]
 
 [TURN_TO]
-update = turn
+
+[MIRROR]
 
 # -------------------------------------------------------------------------------
 # IDLE is engine-internal (not a Merlin action). Settings here are used as input

@@ -22,7 +22,7 @@ rule getAcquaintedWith
 {?person ageGroup >1}
 {@self family ?myFamily}
 {?person family !?myFamily}
-(lockRule 0) # only one firing of this rule at a time / mind
+(lockRule) # only one firing of this rule at a time / mind
 (real ?person)
 (none {@self /succ getAcquaintedWith ?person}) # we don't know this person
     ->

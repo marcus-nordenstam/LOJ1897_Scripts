@@ -15,7 +15,7 @@ rule inferMaritalState
 {@self family ?myFamily}
 {?person family !?myFamily}
     ->
-#(maintainGoal {@self knowAnswer (qs (any {?person maritalState}).target)}).
+#(maintainGoal {@self know '(any {?person maritalState}).target}).
 (maintainProposal {@self infer {?person maritalState}}).
 
 

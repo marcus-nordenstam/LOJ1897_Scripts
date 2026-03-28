@@ -67,15 +67,41 @@ rule believeTargetValueAnswer
 #(print [@self no longer expects answer from ?person]).
 
 
+# This handles answers to questions about the target's target-value of some event, phrased
+# as an "any" question with a target.target field-lookup.  
+#
+# For example, the question 
+#   "what do you want me to serve you?" 
+# is expressed as: 
+#   (qs (any {?person goal {@self serve ? ?person}}).target.target)
+#  
+# If the answer is [k pint], then to understand it, we need to splice together a new 
+# belief out of the question & answer: 
+#   {?person goal {@self serve [k pint] ?person}}.
+rule believe-target-target-answer
+{@self goal /succ {@self ASK (qs (any ?event).target.target):?question ?person}}: ?askQuestionGoal
+{@self /succ ASK ?question ?person /causes ~?askQuestionGoal}: ?askQuestionAction
+{@self expect answer ?person /causes ~?askQuestionAction}
+{?person /succ TELL ?answer @self /causes ~?askQuestionAction}
+    ->
+# Splice together a new belief:
+# ?event = {?person goal {@self serve ? ?person}}, ?answer = [k pint] -> {?person goal {@self serve [k pint] ?person}}
+(beginBelief ?event.target [/target (msgContent ?answer)]): ?targetBelief
+(beginBelief ?event [/target ?targetBelief]): ?understood
+# You are no longer expecting an answer from this person
+(endBelief {@self expect answer ?person}).
+#(print [@self understands (nl ?understood)])
+#(print [@self no longer expects answer from ?person]).
+
+
 # Handles if the person asked doesn't know
 rule believeIDontKnowAnswer
 {@self goal /succ {@self ASK (qs (any ?event).target):?question ?person}}: ?askQuestionGoal
 {@self /succ ASK ?question ?person /causes ~?askQuestionGoal}: ?askQuestionAction
 {@self expect answer ?person /causes ~?askQuestionAction}
-# "I don't know" is represented as @fail.
-{?person /succ TELL (msg @unknown) @self /causes ~?askQuestionAction}
+{?person /succ TELL (msg @unknown) @self /causes ~?askQuestionAction} # "I don't know"
     ->
-(beginBelief {?person /not knowAnswer ?question})
+(beginBelief {?person /not know '(any ?event).target})
 # You are no longer expecting an answer from this person
 (endBelief {@self expect answer ?person}).
 #(print [@self no longer expects answer from ?person]).

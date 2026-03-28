@@ -26,5 +26,14 @@
 
 "..."                                                                           ( formulaic leaveTaking playerBye ) .
 
-"It's been most agreeable conversing with you, but I must now take my leave"    ( formulaic leaveTaking bye ) .
 
+
+
+# Leavetaking (initiating)
+#"Bye"
+"Goodbye"
+( formulaic leaveTaking bye ) .
+
+# Leavetaking (response)
+#"Bye"
+#"Goodbye"

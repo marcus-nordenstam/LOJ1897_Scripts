@@ -11,10 +11,12 @@ archetype "space" [2096] /obs /alwaysVisible /nonOccluder /sectorCoverage
     # parent relationships are imperceptible to reduce the mental burden of perceiving them 
     # (and they are technically redundant since we keep track of parts) 
     # but we keep them in the ECS for efficiency reasons
-    "parent"        entity                              /parent
+    "struct_parent" entity                              /parent
     "parts"         entity [6] /label "part"            /children           /passivePercept
     # The SMALLEST spaces and structures each space is in
     "in"            entity [6] "structure" "space"      /spatialContainment /imperceptible
+    # Reverse of "in": all entities spatially contained within this space
+    "contains"      entity [128]                        /contains           /imperceptible
 
     # SPATIAL BOUNDS attrs
     "obb"           obb                                 /spatialBounds      /passivePercept

@@ -22,11 +22,12 @@
 # wme
 # match
 belief
-# pattern
-delib
-action
-rule
-# decay
+pattern
+# delib
+# action
+# rule
 # percept
 # boundary
 # env
+decay
+rc

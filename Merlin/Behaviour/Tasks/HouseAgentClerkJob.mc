@@ -13,8 +13,7 @@ rule
 {@self processTitleDeed ?buyer ?bldg}
 (none {?buyer name ?})
     ->
-(qs (any {?buyer name}).target): ?qsWhatIsBuyersName
-(maintainGoal {@self knowAnswer ?qsWhatIsBuyersName} /relUtil 1).
+(maintainGoal {@self know '(any {?buyer name}).target} /relUtil 1).
 
 
 rule 

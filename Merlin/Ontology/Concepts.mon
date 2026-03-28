@@ -9,7 +9,8 @@ concept
     weather
 
     conversation
-
+    pub_schedule
+    
     phrase
         yes
         no

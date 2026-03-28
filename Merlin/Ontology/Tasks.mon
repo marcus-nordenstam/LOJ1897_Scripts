@@ -82,3 +82,4 @@ relation
             perceiveAttr        /motor eyes             /tar ?
 
             use_umbrella        /motor rhand lhand
+            serve_customer      /motor rhand lhand legs

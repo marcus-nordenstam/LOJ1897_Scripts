@@ -17,8 +17,8 @@
 # already in a conversation, or not.
 #-----------------------------------------------------------------------------------------
 rule startConv-perceive-conv-proposal /breakOnFire
-{@self goal {@self conversation ?conv}}
-{?conv participant !@self:?person}
+{@self goal {@self conversation ?irrConv}}
+{?irrConv participant !@self:?person}
 (none {?person conversation}) # We don't know if ?person is already in a conversation
     ->
 # If they're too far away to observe (or imaginary), then we could just always assume they're NOT in a conversation.
@@ -34,7 +34,7 @@ rule startConv-proposal
 {@self conversation @nothing}
 {?irrConv participant !@self:?person}
 {?person conversation @nothing} # We know that ?person is NOT in ANY conversation
-(lockRule 0) # Only try to start one conv at a time
+(lockRule) # Only try to start one conv at a time
     ->
 (maintainProposal {@self startConv ?irrConv})
 (print [@self wants to start a conversation with ?person]).
@@ -133,7 +133,7 @@ rule
 {?conv participant !@self:?person}
 {?person conversation @something:?personsConv} # We know that ?person is in a conversation
 (none {@self joinConv})
-(lockRule 0) # Only try to join one conv at a time
+(lockRule) # Only try to join one conv at a time
     ->
 (beginProposal {@self joinConv ?personsConv}).
 */
@@ -146,7 +146,7 @@ rule conv-response-formulaicOpening-proposal
 {@self conversation @nothing}
 {?person /succ TELL (formulaic opening howDo ?) @self}: ?personTell
 (none {@self /ever TELL ? ?person /causes ~?personTell})
-(lockRule 0) # Join only one conversation at a time
+(lockRule) # Join only one conversation at a time
     ->
 (anyOrUnknown {?person name}).target: ?nameOrUnknown
 (formulaic response howDo ?nameOrUnknown): ?greeting
@@ -163,7 +163,7 @@ rule conv-response-playerTalk-proposal
 {?person /succ TELL (formulaic opening playerTalk) @self}: ?personTell
 (none {@self endConv}) # Don't start a new conversation while ending one
 (none {@self /ever TELL ? ?person /causes ~?personTell})
-(lockRule 0) # Join only one conversation at a time
+(lockRule) # Join only one conversation at a time
     ->
 (formulaic response playerTalk): ?greeting
 (beginGoal {@self TELL ?greeting ?person}): ?tellGreeting
@@ -215,7 +215,7 @@ rule conv-maintain-closeAndFacing-proposal
 rule conv-todo-act-proposal
 {@self conversation @something:?conv}
 {?conv todo ?act /causes ?causes}
-(lockRule 0) # only one todo-act at a time
+(lockRule) # only one todo-act at a time
     ->
 (maintainProposal ?act): ?proposal
 (addCause ?proposal ?causes) # add expl. cause because there are no task/goal conditions

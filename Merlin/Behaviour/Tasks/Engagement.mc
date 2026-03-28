@@ -6,10 +6,10 @@ rule goal-knowAnswerToMarriageProposal
 {@self maritalState single}
 #(none {?prospect goal {@prospect marry @self}})
 #(gt (timeSince /cont /weeks ?iWantToMarryHer) 1) # had her in mind for 1 week
-(lockRule 0) # synchronize the ability to activate this rule - only one at a time
+(lockRule) # synchronize the ability to activate this rule - only one at a time
     ->
-(qs (prob {?prospect goal {?prospect marry @self}})): ?marriageProposal
-(maintainGoal {@self knowAnswer ?marriageProposal})
+'(prob {?prospect goal {?prospect marry @self}}): ?marriageProposal
+(maintainGoal {@self know ?marriageProposal})
 (print [@self wants to know (nl ?marriageProposal)]).
 
 
@@ -54,7 +54,7 @@ rule proposal-giveEngagementRing
 {@self gender male}
 {@self hand ?hand}
 {?hand control [k engagementRing]:?ring}
-(lockRule 0)
+(lockRule)
     ->
 (maintainProposal {@self give ?ring ?fiancee}).
 

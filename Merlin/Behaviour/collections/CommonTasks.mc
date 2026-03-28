@@ -23,8 +23,7 @@ rule importLearningTasks
 (import "IdentifyPerson")
 (import "SeekAnswers")
 (import "GetAcquaintedWith")
-(import "LearnTarget")
-(import "LearnProb")
+(import "find_out")
 (import "Read")
 (import "PerceiveAttr").
 
@@ -64,7 +63,7 @@ rule importProfessionalTasks
 (import "Work")
 (import "FoundOrg")
 (import "HouseAgentClerkJob")
-(import "ServeBeer").
+(import "Bartending").
 
 rule importEmotionalTasks
     ->

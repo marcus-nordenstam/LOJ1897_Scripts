@@ -1,0 +1,50 @@
+
+
+# identify customer and serve them
+rule serve-customer-proposal
+{@self job [k bartender]:?bartender ?pub}
+{@self perform ?bartender}
+{?pub part [k transaction_zone]:?zone}
+{?zone part [k transaction_station]:?station}
+{?station actor_spot_holder @something:?patron}
+(overlaps ?patron ?station 1)
+(lockRule) # Deal with one patron at a time
+    ->
+(maintainProposal {@self serve_customer ?patron @unknown}).
+
+
+# find out what drink customer wants
+rule serve-customer-know-what-to-serve-goal
+{@self job [k bartender]:?bartender ?pub}
+{@self perform ?bartender}
+{@self serve_customer ?patron @unknown}
+    ->
+(maintainGoal {@self know '(any {?patron order ? ?pub}).target}).
+
+
+# spawn in the drink
+rule serve-customer-SPAWN-drink-proposal
+{@self job [k bartender]:?bartender ?pub}
+{@self perform ?bartender}
+{@self serve_customer ?patron @unknown}: ?serve
+{?pub part [k transaction_zone]:?zone}
+{?zone part [k provider_staging_spot]:?sp}
+{?zone part ?station}
+{?station actor_spot_holder ?patron}
+{?patron order ?drink ?pub}
+    ->
+(beginProposal {@self SPAWN [[k drinking_glass] ?sp] [{@o for ?patron}]})
+(beginProposal {@self SPAWN [[k beer] ?sp] [{@o for ?patron}]})
+(edit ?serve [/auxiliary ?drink]).
+
+
+# Make the glass control the beer, and set the full glass as the 
+# provider's occupier so that the patron recognizes which beer-glass is theirs
+rule serve-customer-POUR-drink-proposal
+{@self serve_customer ?patron !@unknown:?drink}
+{?station actor_spot_holder ?patron}
+{[k drinking_glass]:?glass for ?patron}
+{[k beer]:?beer for ?patron}
+    ->
+(maintainProposal {@self POUR ?beer ?glass})
+(maintainProposal {@self SET_PROVIDER_OCCUPIER_SLOT ?glass ?station}).

@@ -47,10 +47,11 @@ relation
         wound                   /obs /tar
         bloodStain              /obs /tar
         bloodType               /obs /tar @excl
-        parentStructure         /obs /tar object @excl
-        # The hands of a creature
+        # the structural parent (not human parent)
+        struct_parent           /obs /tar object|space @excl
+        # Either hand of a creature
         hand                    /obs
-        # The fingers on a hand
+        # Any finger on a hand
         finger                  /obs
         # The eyes of a creature
         eyes                    /obs
@@ -71,7 +72,7 @@ relation
         for                     /tar @excl
         withinReachOf           /tar object|space
         facing                  /tar object|space
-        knowAnswer              /sub human              /tar @qs @S
+        know                    /sub human              /tar @S
         price                   /sub ?                  /tar @excl
         possess                 /sub human              /tar object
         expect                  /sub human              /tar ?

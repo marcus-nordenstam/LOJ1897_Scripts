@@ -42,8 +42,8 @@ rule
 (o /per /notI [k human] (none {@o job ?}) (in @o ?workplace /cont)): ?realPerson
     ->
 # then I want to know if they have that specific kind of job at the company
-(qs (real /truth ?jobKind {?realPerson job @o} {@o at (o /known ?orgName)})): ?qsDoYouHaveJobAtOrg
-(maintainGoal {@self knowAnswer ?qsDoYouHaveJobAtOrg} /relUtil 1).
+'(real /truth ?jobKind {?realPerson job @o} {@o at (o /known ?orgName)}): ?if_you_have_job_at_org
+(maintainGoal {@self know ?if_you_have_job_at_org} /relUtil 1).
 
 
 /*

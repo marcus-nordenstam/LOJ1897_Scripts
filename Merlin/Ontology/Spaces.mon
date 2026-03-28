@@ -3,7 +3,6 @@
 world_part //obs
     region
 
-
 # Kinds of spaces
 
 location //obs
@@ -14,13 +13,13 @@ location //obs
         provider_staging_spot
         receiver_staging_spot
         
-transaction_zone //obs
-
-transaction_station //obs
-    provider_station
-    receiver_station
-
 space //obs
+    transaction_zone
+
+    transaction_station
+        provider_station
+        receiver_station
+
     interiorSpace
         entrance
             mainEntrance

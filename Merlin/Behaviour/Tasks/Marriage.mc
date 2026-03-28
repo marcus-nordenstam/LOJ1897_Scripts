@@ -8,7 +8,7 @@ rule seekHomeForSpouse
 {?parent condition alive}
 {?parent home ?parentHome}
 {@self home ?parentHome}
-(lockRule 0)
+(lockRule)
     ->
 (print [@self begins seeking a home])
 (beginGoal {@self home (o /invent [k residentialBuilding])}).
@@ -41,7 +41,7 @@ rule marry-proposal
 {?parent home ?parentHome}
 {@self home !?parentHome:?myHome}
 {?myHome obb ?myHomeObb}
-(lockRule 0)
+(lockRule)
     ->
 (beginProposal {@self marry ?fiancee})
 (beginProposal {@self SPAWN [[k weddingBand] @self (floats 0.2 1 1) (floats 0 0 0 1)]})

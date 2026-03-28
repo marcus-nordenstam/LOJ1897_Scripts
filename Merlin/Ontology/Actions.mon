@@ -37,6 +37,7 @@ relation
             MAKE_DONE_STACK /obs /motor eyes
 
             TURN_TO         /obs /motor body
+            MIRROR          /obs /motor body
             LOOK_AT         /obs /motor head
 
             WALK_TO         /obs /motor legs
@@ -67,7 +68,8 @@ relation
             MAKE_CONV_META_ENT      /motor mind /sub human
             DESTROY_CONV_META_ENT   /motor mind /sub human
 
-            CLAIM_TRANSACTION_STATION /motor mind
+            CLAIM_TRANSACTION_STATION   /motor mind
+            SET_PROVIDER_OCCUPIER_SLOT  /motor mind
 
             # These are a bit hacky
             ACQUIRE                 /motor mind

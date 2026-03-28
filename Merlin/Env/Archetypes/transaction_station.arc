@@ -8,12 +8,8 @@ archetype "transaction_station" [256] /obs /alwaysVisible /nonOccluder
     "isa"                   kind                        /kind               /passivePercept
     "obb"                   obb                         /spatialBounds      /passivePercept
 
-    "parent"                entity "transaction_zone"   /parent             /passivePercept
+    "struct_parent"         entity "transaction_zone"   /parent             /passivePercept
 
     "actor_spot_holder"     entity                                          /passivePercept
-
-    "staging_spot"          entity "location"                               /passivePercept
     "staging_spot_occupier" entity                                          /passivePercept
-
-    "counterpart_station"   entity "transaction_station"                    /passivePercept
 }

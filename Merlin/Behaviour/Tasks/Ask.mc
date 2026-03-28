@@ -44,7 +44,7 @@ rule ASK-proposal
 {@self facing ?audience}
 {?audience obb ?obb}
 {@self LOOK_AT ?obb}
-(lockRule 0) # only be asking one question at a time
+(lockRule) # only be asking one question at a time
     ->
 (maintainProposal {@self ASK ?question ?audience}).
 #(print [@self proposes ask (nl ?question) to ?audience]).

@@ -17,8 +17,8 @@
 "did"                               /past do                    .
 "is near"                           /pres near                  .
 "was near"                          /past near                  .
-"knows the answer to"               /pres knowAnswer            .
-"knew the answer to"                /past knowAnswer            .
+"knows "                            /pres know                  .
+"knew "                             /past know                  .
 "has a conversation with"           /pres conversation          .
 "had a conversation with"           /past conversation          .
 
