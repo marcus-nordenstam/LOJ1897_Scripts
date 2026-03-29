@@ -17,17 +17,17 @@
 
 
 # mc
-# parse
-# eps
-# wme
-# match
+parse
+eps
+wme
+match
+# pattern
 belief
-pattern
-# delib
-# action
-# rule
+delib
+action
+rule
 # percept
 # boundary
 # env
-decay
-rc
+# decay
+# rc
