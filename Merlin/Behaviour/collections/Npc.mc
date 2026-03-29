@@ -50,3 +50,8 @@ rule grieve
 #(maintainProposal {@self go ?waypoint}).
 
 
+rule perform-bartender-job
+{@self job [k bartender]:?bartender_job}
+    ->
+(maintainProposal {@self perform ?bartender_job}).
+
