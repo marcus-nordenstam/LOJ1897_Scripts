@@ -7,6 +7,12 @@
 $form(FORM)
 .
 
+# Bare kind (e.g. "a beer")
+
+"'(' $kind(INDEF_KIND) ')'"
+( msg $kind(INDEF_KIND) )
+.
+
 # Then non-formulaics:
 
 "'('  $st(ST) ')'"

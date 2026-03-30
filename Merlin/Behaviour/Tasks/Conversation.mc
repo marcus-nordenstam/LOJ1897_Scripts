@@ -86,7 +86,7 @@ rule startConv-makeConvPreemptive-proposal
 # then we are now in a conversation with someone, so the goal will
 # have already ended.
 rule realise-conv
-{@self /ever startConv ?irrConv}: ?startConv
+{@self /ever startConv ?irrConv /causes ?causes}: ?startConv
 {?irrConv participant !@self:?person}
 {@self conversation @something:?reaConv}
 {?person conversation ?reaConv}
@@ -96,7 +96,14 @@ rule realise-conv
 # The irrealis conv is the same as the realis conv
 # NOTE that this also ends all possessive ?irrConv beliefs
 # and leads to ?irrConv being forgotten
-(reconcile ?irrConv ?reaConv).
+(reconcile ?irrConv ?reaConv)
+# While this real conversation is occurring, keep close and personal with the participant
+(maintainProposal {@self keepInReachOf ?person} /absUtil 1000): ?keepInReachOf
+(maintainProposal {@self keepFacing ?person} /absUtil 1000): ?keepFacing
+(maintainProposal {@self keepLookingAtPart ?person eyes} /absUtil 1000): ?keepLookingAtPart
+(addCause ?keepInReachOf ?causes)
+(addCause ?keepFacing ?causes)
+(addCause ?keepLookingAtPart ?causes).
 
 # Failure scenarios:
 
@@ -202,15 +209,6 @@ rule conv-response-refuseConv-proposal #/breakOnFire
 #-----------------------------------------------------------------------------------------
 # CONVERSATIONAL BEHAVIOUR
 #-----------------------------------------------------------------------------------------
-
-rule conv-maintain-closeAndFacing-proposal
-{@self conversation @something:?conv}
-{!@self:?person conversation ?conv}
-    ->
-(maintainProposal {@self keepInReachOf ?person} /absUtil 1000)
-(maintainProposal {@self keepFacing ?person} /absUtil 1000)
-(maintainProposal {@self keepLookingAtPart ?person eyes} /absUtil 1000).
-
 
 rule conv-todo-act-proposal
 {@self conversation @something:?conv}

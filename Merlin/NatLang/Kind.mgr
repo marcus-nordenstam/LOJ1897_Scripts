@@ -1,12 +1,6 @@
 
 :INDEF_KIND
 
-"a ?thing"
-[k ?thing ]
-.
-
-:KIND
-
-"?kind"
-[k ?kind ]
+"a $kind(KIND)"
+$kind(KIND)
 .

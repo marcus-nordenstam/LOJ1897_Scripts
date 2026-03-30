@@ -6,9 +6,10 @@
 # Base Rule: If I want to learn some general aspect about a person, I could ask the person.
 #rule /cat learnTarget /rank 0
 rule find-out-target-about-person-general
-{@self goal {@self know (any {[k human]:?person ? ?}).target:?what}}
+{@self goal {@self know (any {[k human]:?person ? ?}).target:?what} /causes ?causes}
    ->
-(maintainGoal {@self ASK (qs ?what) ?person}).
+(maintainGoal {@self ASK (qs ?what) ?person}): ?ask_goal
+(addCause ?ask_goal ?causes).
 
 # Specific versions of the know rule -- overrides base rule:
 

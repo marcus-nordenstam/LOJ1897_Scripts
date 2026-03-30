@@ -23,12 +23,12 @@
 # match
 # pattern
 belief
-# delib
+delib
 action
-# rule
-percept
-boundary
-env
+rule
+# percept
+# boundary
+# env
 # decay
 # rc
 # nl
