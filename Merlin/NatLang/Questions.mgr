@@ -1,10 +1,6 @@
 
 :QS
 
-"'(' $qs_phrase(QSP) ++? ')'"
-( qs $qs_phrase(QSP) )
-.
-
 "do you know $qs_phrase(QSP)"
 ( qs /doYouKnow $qs_phrase(QSP) )
 .
@@ -25,12 +21,16 @@
 ( qs /doYouKnow ( any { $np(NP) /pres name } ).target )
 .
 
-"what'll it be then"
 #"right then, what's yer pleasure"
 #"what are ye havin'"
-( qs ( any { ?_you goal { ?_i serve ? ?_you } } ).target.target )
+"what'll it be then"
+( qs ( any { ?_you /pres order ? ?_i } ).target )
 .
 
+"'(' $qs_phrase(QSP) ++? ')'"
+( qs $qs_phrase(QSP) )
+.
+ 
 
 :QSP
 

@@ -1,24 +1,28 @@
 
 # Pub patron behaviour.
-
 rule pubbing-order-beer-proposal
 {@self pubbing}
-(in @self [k building pub] /output-container): ?pub
+{?bartender perform [k bartending] ?pub}
+(in @self ?pub)
 (none {@self hand.control.control [k beer]})
     ->
-(maintainProposal {@self order [k beer] ?pub}).
+(maintainProposal {@self order [k beer] ?bartender}).
 
 
-rule order-beer-claim-spot
-{@self order [k beer] [k building pub]:?pub}
+rule pubbing-order-beer-claim-spot
+{@self pubbing}
+{@self order [k beer] ?bartender}
+{?bartender perform [k bartending] ?pub}
 (none {[k receiver_station] actor_spot_holder @self})
 (closestPart [k receiver_station] ?pub [{@o actor_spot_holder @nothing}]): ?station
     ->
 (maintainProposal {@self CLAIM_TRANSACTION_STATION ?station}).
 
 
-rule order-beer-go-to-station
-{@self order [k beer] [k building pub]:?pub}
+rule pubbing-order-beer-go-to-station
+{@self pubbing}
+{@self order [k beer] ?bartender}
+{?bartender perform [k bartending] ?pub}
 {?pub part [k transaction_zone]:?zone}
 {?zone part [k transaction_station]:?station}
 {?station actor_spot_holder @self}
@@ -27,8 +31,10 @@ rule order-beer-go-to-station
 (maintainProposal {@self go ?station}).
 
 
-rule order-beer-wait-at-station
-{@self order [k beer] [k building pub]:?pub}
+rule pubbing-order-beer-wait-at-station
+{@self pubbing}
+{@self order [k beer] ?bartender}
+{?bartender perform [k bartending] ?pub}
 {?pub part [k transaction_zone]:?zone}
 {?zone part [k transaction_station]:?station}
 {?station actor_spot_holder @self}

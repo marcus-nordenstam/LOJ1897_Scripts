@@ -7,10 +7,7 @@ concept
     someone
 
     weather
-
-    conversation
-    pub_schedule
-    
+        
     phrase
         yes
         no
@@ -19,28 +16,40 @@ concept
         forSale
         forRent
         offTheMarket
+
     rights
         property
+
     condition
         alive
         dead
+
     livingArrangement
         owner
         houseguest
         renting
+
     class
         upper
         middle
         lower
+    
     status
         examined
         accepted
         rejected
+    
     role
         player
         nonplayer
+    
     capacity
         pub_patron
+
+    activity
+        conversation
+        bartending
+        
     orgPos
         apprenticeship
         membership

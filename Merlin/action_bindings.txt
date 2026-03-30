@@ -22,6 +22,9 @@ update = tell
 state = telling
 speed = 1
 
+[ASK]
+alias = TELL
+
 [LOOK_AT]
 proc_anim = lookat
 update = lookat

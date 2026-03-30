@@ -15,6 +15,7 @@ archetype "sound" [256] /nonOccluder /hear
     # The list of SMALLEST spaces each entity is inside of
     "in"            entity [6] "space"                  /spatialContainment /imperceptible
     "speaker"       entity "human_player"|"human_npc"   /speaker            /imperceptible
+    "preroll"       float                               /preroll             /imperceptible
 
     # SPATIAL BOUNDS attrs
     "obb"           obb                                 /spatialBounds      /passivePercept

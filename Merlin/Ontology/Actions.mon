@@ -67,6 +67,8 @@ relation
             # Meta-entity actions are imperceptible
             MAKE_CONV_META_ENT      /motor mind /sub human
             DESTROY_CONV_META_ENT   /motor mind /sub human
+            START_PERFORMING        /motor mind /tar activity /sub human
+            STOP_PERFORMING         /motor mind /tar activity /sub human
 
             CLAIM_TRANSACTION_STATION   /motor mind
             SET_PROVIDER_OCCUPIER_SLOT  /motor mind

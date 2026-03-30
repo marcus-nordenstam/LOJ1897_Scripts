@@ -2,8 +2,7 @@
 
 # identify customer and serve them
 rule serve-customer-proposal
-{@self job [k bartender]:?bartender ?pub}
-{@self perform ?bartender}
+{@self perform [k bartending] ?pub}
 {?pub part [k transaction_zone]:?zone}
 {?zone part [k transaction_station]:?station}
 {?station actor_spot_holder @something:?patron}
@@ -15,23 +14,21 @@ rule serve-customer-proposal
 
 # find out what drink customer wants
 rule serve-customer-know-what-to-serve-goal
-{@self job [k bartender]:?bartender ?pub}
-{@self perform ?bartender}
+{@self perform [k bartending] ?pub}
 {@self serve_customer ?patron @unknown}
     ->
-(maintainGoal {@self know '(any {?patron order ? ?pub}).target}).
+(maintainGoal {@self know '(any {?patron order ? @self}).target}).
 
 
 # spawn in the drink
 rule serve-customer-SPAWN-drink-proposal
-{@self job [k bartender]:?bartender ?pub}
-{@self perform ?bartender}
+{@self perform [k bartending] ?pub}
 {@self serve_customer ?patron @unknown}: ?serve
 {?pub part [k transaction_zone]:?zone}
 {?zone part [k provider_staging_spot]:?sp}
 {?zone part ?station}
 {?station actor_spot_holder ?patron}
-{?patron order ?drink ?pub}
+{?patron order ?drink @self}
     ->
 (beginProposal {@self SPAWN [[k drinking_glass] ?sp] [{@o for ?patron}]})
 (beginProposal {@self SPAWN [[k beer] ?sp] [{@o for ?patron}]})

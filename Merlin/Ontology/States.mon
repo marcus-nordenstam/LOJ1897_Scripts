@@ -68,10 +68,13 @@ relation
         # Physiological states
         alertness                                       /tar @excl  /def alert /discardHistory
 
-        # Abstract / reasoned states
-        for                     /tar @excl
+        # Spatial states
+        at                      /tar object|space
         withinReachOf           /tar object|space
         facing                  /tar object|space
+
+        # Abstract states
+        for                     /tar @excl
         know                    /sub human              /tar @S
         price                   /sub ?                  /tar @excl
         possess                 /sub human              /tar object
@@ -164,6 +167,7 @@ relation
             trainingPos         /tar orgPos @excl       /sub human
             diplomas            /tar [?]                /sub human
             job                 /tar job                /sub human
+            perform             /obs                    /sub human
             membership                                  /sub human
             hours               /tar ? @excl            /sub human
             timeOfRetirement    /tar ? @excl            /sub human
@@ -188,8 +192,8 @@ relation
 
         # States used to describe a job
         (job)                   //sub job
-            # A job is 'at' an organisation
-            at                  /tar org @excl
+            # A job is offered by an employer
+            employer            /tar org @excl
             # the job level or seniority
             level               /tar @excl
             # who holds the job
@@ -228,4 +232,3 @@ relation
         (activity)
             participant         /tar human
             todo                /tar task
-            do                  /tar task

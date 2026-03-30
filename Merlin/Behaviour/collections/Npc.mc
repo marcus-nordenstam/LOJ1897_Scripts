@@ -50,8 +50,7 @@ rule grieve
 #(maintainProposal {@self go ?waypoint}).
 
 
-rule perform-bartender-job
-{@self job [k bartender]:?bartender_job}
+rule start-performing-job
+{@self job [k bartender]:?job ?pub}
     ->
-(maintainProposal {@self perform ?bartender_job}).
-
+(beginProposal {@self START_PERFORMING [k bartending] ?pub}).

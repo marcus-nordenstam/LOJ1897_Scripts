@@ -9,6 +9,11 @@ archetype "human_npc" [256] /obs /raycastVisible /sentient /inferKindOverride hu
     "isa"           kind                                /kind               /passivePercept /unaware
     "role"          str                                                     /passivePercept /unaware
 
+    # Activity currently being performed (observable by others)
+    # We sneakily remap the perceived target & aux to be the kind and place where the activity takes place
+    # to avoid generating two separate beliefs for this.
+    "perform"       entity "activity"  /lookup_target "isa" /lookup_auxiliary "at"  /passivePercept
+
     # Age etc
     "date"          date                                /date
     "age"           int                                 /age                /feel

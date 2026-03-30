@@ -51,6 +51,6 @@ rule ASK-proposal
 
 rule goal-ASK-outcome
 {@self goal {@self ASK ?question ?audience}}: ?goal
-{@self ASK ?question ?audience /causes ~?goal /out?}: ?ASK
+{@self /past ASK ?question ?audience /causes ~?goal /out?}: ?ASK
     ->
 (setOutcome ?goal /from ?ASK).

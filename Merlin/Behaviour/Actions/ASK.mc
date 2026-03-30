@@ -1,13 +1,13 @@
 
-action ?actorEnt ASK ?question ?personEnt 
+action ?actorEnt ASK ?question ?personEnt
     ->
-# Create a sound right where the actor/speaker is
+# Create a sound entity on first firing only
 (attr ?actorEnt "obb"): ?actorObb
-(makeEntity [[k sound speech] ?actorObb (floats 6 6 6) (floats 0 0 0 1)]): ?soundEnt
-# Set the sound "createAction" to: "?actorEnt ASK ?question ?personEnt"
-(extAction): ?questionAsk
-(setAttr ?soundEnt "createAction" ?questionAsk)
-# Associate the speaker with the sound
-(setAttr ?soundEnt "speaker" ?actorEnt)
-# The ASK action always succeeds.
-(setActionOutcome /succ).
+(if (isFirstFiring) [
+    (makeEntity [[k sound speech] ?actorObb (floats 6 6 6) (floats 0 0 0 1)]): ?soundEnt
+    (setAttr ?soundEnt "createAction" (extAction))
+    (setAttr ?soundEnt "speaker" ?actorEnt)
+])
+# Call handler directly — duration set by handler (speech length)
+(callForeignAction)
+(if (actionDone) (setActionOutcome /succ)).

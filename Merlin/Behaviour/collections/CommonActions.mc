@@ -25,4 +25,6 @@ rule ->
 (import "POUR")
 (import "CLAIM_TRANSACTION_STATION")
 (import "SET_PROVIDER_OCCUPIER_SLOT")
+(import "START_PERFORMING")
+(import "STOP_PERFORMING")
 .

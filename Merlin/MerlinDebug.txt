@@ -21,13 +21,14 @@
 # eps
 # wme
 # match
-pattern
+# pattern
 belief
-delib
-# action
-rule
-# percept
-# boundary
-# env
-decay
-rc
+# delib
+action
+# rule
+percept
+boundary
+env
+# decay
+# rc
+# nl

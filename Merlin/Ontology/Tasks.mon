@@ -28,9 +28,6 @@ relation
             seekAnswers
             marry
 
-            # Performing a job
-            perform                                 /tar job
-
             # Domain-specific tasks
             foundOrg                                /tar org
             processTitleDeed                        /aux structure|space
