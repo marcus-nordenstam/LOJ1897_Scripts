@@ -21,7 +21,7 @@ rule bartending-idle-face-bar
 rule bartending-idle-look-at-customers
 {@self perform [k bartending] ?pub}
 (none {@self serve_customer})
-(observed /leastRecent (in /every [k human] ?pub)): ?least_recently_observed_customer
+(observed /cont /leastRecent (in /every [k human] ?pub)): ?least_recently_observed_customer
     ->
 (maintainProposal {@self LOOK_AT ?least_recently_observed_customer}).
 
