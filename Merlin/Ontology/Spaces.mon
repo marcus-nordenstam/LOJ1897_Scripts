@@ -7,12 +7,11 @@ world_part //obs
         
 space //obs
     transaction_zone
-
     transaction_station
-        provider_station
         receiver_station
 
-    interiorSpace
+    interior_space
+        bar_work_aisle
         entrance
             mainEntrance
         doorway

@@ -1,2 +1,5 @@
 
-action ?actorEnt LOOK_AT ?obb -> (callForeignAction).
+action ?actorEnt LOOK_AT ?target
+    ->
+(callForeignAction)
+(pushAttention ?target).

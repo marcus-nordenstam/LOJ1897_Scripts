@@ -35,19 +35,9 @@ rule conv-ASK-todo
     ->
 (maintainBelief {?myConv todo ?ask /causes ?goal}). # add explicit cause because todo is state
 
-
-rule ASK-proposal
-{@self goal {@self ASK ?question ?audience}}
-{@self conversation @something:?myConv}
-{?audience conversation ?myConv}
-{@self withinReachOf ?audience}
-{@self facing ?audience}
-{?audience obb ?obb}
-{@self LOOK_AT ?obb}
-(lockRule) # only be asking one question at a time
-    ->
-(maintainProposal {@self ASK ?question ?audience}).
-#(print [@self proposes ask (nl ?question) to ?audience]).
+# If you're wondering where the rule that proposes the ASK action is,
+# it's in conversation.mc, which proposes any "todo", which the rule
+# above sets up.
 
 rule goal-ASK-outcome
 {@self goal {@self ASK ?question ?audience}}: ?goal

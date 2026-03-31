@@ -1,7 +1,33 @@
 
 
+
+# if you have nothing to do, hang in back in the bar
+rule bartending-idle-hang-back
+{@self perform [k bartending] ?pub}
+{?pub part [k bar_work_aisle]:?work_aisle}
+(none {@self serve_customer})
+(isWithinReachOf /not /center ?work_aisle) # get 20% closer to the target before stopping
+    ->
+(maintainProposal {@self go ?work_aisle}).
+
+rule bartending-idle-face-bar
+{@self perform [k bartending] ?pub}
+{?pub part [k bar_work_aisle]:?work_aisle}
+(none {@self serve_customer})
+(isWithinReachOf /center ?work_aisle)
+    ->
+(maintainProposal {@self MIRROR ?work_aisle}).
+
+rule bartending-idle-look-at-customers
+{@self perform [k bartending] ?pub}
+(none {@self serve_customer})
+(observed /leastRecent (in /every [k human] ?pub)): ?least_recently_observed_customer
+    ->
+(maintainProposal {@self LOOK_AT ?least_recently_observed_customer}).
+
+
 # identify customer and serve them
-rule serve-customer-proposal
+rule bartending-serve-customer-proposal
 {@self perform [k bartending] ?pub}
 {?pub part [k transaction_zone]:?zone}
 {?zone part [k transaction_station]:?station}
@@ -10,11 +36,11 @@ rule serve-customer-proposal
 (overlaps ?patron ?station 1)
 (lockRule) # Deal with one patron at a time
     ->
-(beginProposal {@self serve_customer ?patron}).
+(beginProposal {@self serve_customer ?patron} /absUtil 1000).
 
 
 # find out what drink customer wants
-rule serve-customer-know-what-to-serve-goal
+rule bartending-serve-customer-know-what-to-serve-goal
 {@self perform [k bartending] ?pub}
 {@self serve_customer ?patron}
     ->
@@ -22,7 +48,7 @@ rule serve-customer-know-what-to-serve-goal
 
 
 # spawn in the drink
-rule serve-customer-SPAWN-drink-proposal
+rule bartending-serve-customer-SPAWN-drink-proposal
 {@self perform [k bartending] ?pub}
 {@self serve_customer ?patron}: ?serve
 {?pub part [k transaction_zone]:?zone}
@@ -37,13 +63,13 @@ rule serve-customer-SPAWN-drink-proposal
 
 # Make the glass control the beer, and set the full glass as the 
 # provider's occupier so that the patron recognizes which beer-glass is theirs
-rule serve-customer-POUR-drink-proposal
+rule bartending-serve-customer-POUR-drink-proposal
 {@self perform [k bartending] ?pub}
 {@self serve_customer ?patron}: ?serve
 {?station actor_spot_holder ?patron}
 {[k drinking_glass]:?glass for ?patron}
 {[k beer]:?beer for ?patron}
     ->
-(maintainProposal {@self POUR ?beer ?glass})
+(beginProposal {@self POUR ?beer ?glass})
 (beginProposal {@self SET_PROVIDER_OCCUPIER_SLOT ?glass ?station})
 (setOutcome /succ ?serve).
