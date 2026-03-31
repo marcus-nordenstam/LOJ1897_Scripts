@@ -15,7 +15,6 @@
 #--trace {@self name [n David Jones]}
 #--trace {@self name [n Edgar Jehan]}
 
-
 # mc
 # parse
 # eps
@@ -23,8 +22,8 @@
 # match
 # pattern
 belief
-delib
-action
+# delib
+# action
 rule
 # percept
 # boundary

@@ -54,3 +54,5 @@ rule goal-ASK-outcome
 {@self /past ASK ?question ?audience /causes ~?goal /out?}: ?ASK
     ->
 (setOutcome ?goal /from ?ASK).
+
+

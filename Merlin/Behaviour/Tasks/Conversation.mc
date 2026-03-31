@@ -218,8 +218,18 @@ rule conv-todo-act-proposal
 (maintainProposal ?act): ?proposal
 (addCause ?proposal ?causes) # add expl. cause because there are no task/goal conditions
 (if (eq ?act.label ASK) 
-    (beginBelief {@self expect answer ?act.auxiliary /causes ?act})).
+    (beginBelief {@self expect answer ?act.auxiliary /causes ?causes})).
 
+
+# We need this separate rule to ensure that the expect-answer belief's causes includes
+# the actual TELL-action belief, and not the tell-todo (which is just a clause)
+rule conv-expect-answer-cause
+{@self conversation @something:?conv}
+{?conv todo {@self ASK ? ?audience} /causes ?causes}
+{@self /ever ASK ? ?audience /causes ?causes}: ?ask
+{@self expect answer ?audience /causes ?causes}: ?expect_answer
+    ->
+(addCause ?expect_answer ?ask).
 
 #-----------------------------------------------------------------------------------------
 # ENDING A CONVERSATION
@@ -253,7 +263,6 @@ rule conv-end-proposal
 (none {?conv todo})
 #(gt (evalCount) 20 /cont) # how many times this instruction has been evaluated since the rule activated
     ->
-(break)
 (maintainProposal {@self endConv ?conv} /relUtil 100).
 
 
