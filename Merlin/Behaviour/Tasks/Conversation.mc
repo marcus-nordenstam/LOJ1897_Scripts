@@ -276,9 +276,9 @@ rule endConv-tellLeaveTaking-proposal
 (addCause ?tellGoal ?endConv).
 
 
-# Only destroy the conversation AFTER leavetaking TELL has succeeded
+# Only destroy the conversation AFTER leavetaking TELL has concluded
 rule endConv-destroyAfterTell-proposal
-{@self endConv ?conv}: ?endConv
+{@self /past endConv ?conv}: ?endConv
 {@self /past TELL ? ? /causes ~?endConv} # we simply use /past instead of /succ in case it gets interrupted
     ->
 (beginProposal {@self DESTROY_CONV_META_ENT ?conv} /relUtil 100).

@@ -6,6 +6,7 @@ rule serve-customer-proposal
 {?pub part [k transaction_zone]:?zone}
 {?zone part [k transaction_station]:?station}
 {?station actor_spot_holder @something:?patron}
+{?station staging_spot_occupier @nothing} # nothing is currently served for this patron
 (overlaps ?patron ?station 1)
 (lockRule) # Deal with one patron at a time
     ->
@@ -38,10 +39,11 @@ rule serve-customer-SPAWN-drink-proposal
 # provider's occupier so that the patron recognizes which beer-glass is theirs
 rule serve-customer-POUR-drink-proposal
 {@self perform [k bartending] ?pub}
-{@self serve_customer ?patron}
+{@self serve_customer ?patron}: ?serve
 {?station actor_spot_holder ?patron}
 {[k drinking_glass]:?glass for ?patron}
 {[k beer]:?beer for ?patron}
     ->
 (maintainProposal {@self POUR ?beer ?glass})
-(maintainProposal {@self SET_PROVIDER_OCCUPIER_SLOT ?glass ?station}).
+(beginProposal {@self SET_PROVIDER_OCCUPIER_SLOT ?glass ?station})
+(setOutcome /succ ?serve).

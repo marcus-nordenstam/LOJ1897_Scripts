@@ -23,10 +23,10 @@ rule find-out-target-about-person-general
 # Base Rule: If I want to learn if something is true about a person, I could ask the person.
 #rule /cat learnProb /rank 0
 rule find-out-prob-about-person-general
-{@self goal {@self know (prob {[k human]:?person ? ?}):?what}}
+{@self goal {@self know (prob {[k human]:?person ? ?}):?what} /causes ?causes}
     ->
-(maintainGoal {@self ASK (qs ?what) ?person})
-(print [@self will ask (nl (qs ?what)) to ?person]).
+(maintainGoal {@self ASK (qs ?what) ?person}): ?ask_goal
+(addCause ?ask_goal ?causes).
 
 
 # If a person has some relation to an object,

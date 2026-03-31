@@ -2,4 +2,6 @@
 location //obs
     waypoint
     spawnpoint
-        beer_spawnpoint
+    staging_spot
+        provider_staging_spot
+        receiver_staging_spot

@@ -4,14 +4,6 @@ world_part //obs
     region
 
 # Kinds of spaces
-
-location //obs
-    waypoint
-    spawnpoint
-        beer_spawnpoint
-    staging_spot
-        provider_staging_spot
-        receiver_staging_spot
         
 space //obs
     transaction_zone

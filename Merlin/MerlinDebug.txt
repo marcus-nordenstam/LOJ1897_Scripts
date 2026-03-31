@@ -22,8 +22,8 @@
 # match
 # pattern
 belief
-# delib
-# action
+delib
+action
 rule
 # percept
 # boundary

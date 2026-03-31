@@ -32,7 +32,7 @@ relation
         # Physical states
         obb                     /obs /tar @excl @spatialBounds /discardHistory
         inStack                 /obs /tar ?
-        part                    /obs /tar object|space
+        part                    /obs /tar object|space|location
         color                   /obs /tar @excl
         gender                  /obs /tar @excl
         height                  /obs /tar @excl
