@@ -13,19 +13,17 @@ rule receive-maintainWithinReachOf-proposal
 rule receive-take-proposal
 {@self receive ?thing ?giver}
 {?thing obb !@unknown}
-{@self hand ?hand}
-{?hand control @nothing}
 {@self withinReachOf ?giver}
 {@self facing ?giver}
 (real ?thing)
     ->
-(maintainProposal {@self TAKE ?thing ?hand}).
+(maintainProposal {@self take ?thing}).
 
 
-# Base the activity's outcome on the corresponding action's outcome
+# Base the activity's outcome on the corresponding take task's outcome
 rule receive-outcome
 {@self /ever receive ?thing /noOut}: ?receive
-{@self /past TAKE ?thing /causes ~?receive}: ?TAKE
+{@self /past take ?thing /causes ~?receive}: ?take
     ->
-(setOutcome ?receive /from ?TAKE).
+(setOutcome ?receive /from ?take).
 

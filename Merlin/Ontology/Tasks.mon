@@ -63,6 +63,7 @@ relation
             receive             /motor rhand            /tar @excl object
 
             get                 /motor legs rhand       /tar @excl object
+            take                /motor lhand rhand      /tar @excl object
 
             read                /motor eyes rhand       /tar @excl document
             write               /motor eyes rhand legs  /tar @excl document

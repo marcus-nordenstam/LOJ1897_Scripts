@@ -6,8 +6,11 @@ rule ->
 (import "CLAIM_TRANSACTION_STATION")
 (import "SET_PROVIDER_OCCUPIER_SLOT")
 (import "OFFER")
-(import "TAKE")
-(import "SPAWN").
+(import "SPAWN")
+(import "LEFT_REACH_FOR")
+(import "RIGHT_REACH_FOR")
+(import "LEFT_GRASP")
+(import "RIGHT_GRASP").
 
 # Communication
 rule ->

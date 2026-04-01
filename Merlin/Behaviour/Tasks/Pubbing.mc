@@ -42,3 +42,15 @@ rule pubbing-order-beer-wait-at-station
     ->
 (maintainProposal {@self MIRROR ?station})
 (maintainProposal {@self HALT}).
+
+
+rule pubbing-order-beer-take-beer
+{@self pubbing}
+{@self order [k beer] ?bartender}
+{?bartender perform [k bartending] ?pub}
+{?pub part [k transaction_zone]:?zone}
+{?zone part ?station}
+{?station actor_spot_holder @self}
+{?station staging_spot_occupier @something:?beer}
+    ->
+(beginProposal {@self take ?beer}).

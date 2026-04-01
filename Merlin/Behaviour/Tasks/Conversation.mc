@@ -180,6 +180,16 @@ rule conv-response-playerTalk-proposal
 
 
 
+rule conv-playerTalk-maintain-closeAndFacing-proposal
+{@self conversation @something:?conv}
+{!@self:?person conversation ?conv}
+{?person role player}
+    ->
+(maintainProposal {@self keepInReachOf ?person} /absUtil 1000)
+(maintainProposal {@self keepFacing ?person} /absUtil 1000)
+(maintainProposal {@self keepLookingAtPart ?person eyes} /absUtil 1000).
+
+
 # Player presses 'Bye' — the game injects a playerBye formulaic leave-taking.
 # The NPC begins endConv through the normal proposal flow.
 # We use beginProposal (one-shot) + addCause so the guard below can prevent
@@ -278,7 +288,7 @@ rule endConv-tellLeaveTaking-proposal
 
 # Only destroy the conversation AFTER leavetaking TELL has concluded
 rule endConv-destroyAfterTell-proposal
-{@self /past endConv ?conv}: ?endConv
+{@self /ever endConv ?conv}: ?endConv
 {@self /past TELL ? ? /causes ~?endConv} # we simply use /past instead of /succ in case it gets interrupted
     ->
 (beginProposal {@self DESTROY_CONV_META_ENT ?conv} /relUtil 100).

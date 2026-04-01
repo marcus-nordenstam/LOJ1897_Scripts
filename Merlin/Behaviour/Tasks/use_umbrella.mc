@@ -9,15 +9,15 @@ rule use_umbrella-propose
 (beginProposal {@self use_umbrella ?umbrella}).
 
 # Take a stowed umbrella into our right hand
-rule use_umbrella-propose-TAKE
+rule use_umbrella-propose-take
 {@self use_umbrella ?umbrella}
 # @self directly controlling something means it is stowed, not in my hand
-{@self control ?umbrella} 
+{@self control ?umbrella}
 {@self hand [k rightHand]:?hand}
 {?hand control @nothing}
     ->
-# TAKE action will remove self-control and set ?hand to be the controlling entity
-(maintainProposal {@self TAKE ?umbrella ?hand}).
+# take task will reach for and grasp the umbrella
+(maintainProposal {@self take ?umbrella}).
 
 # Keep arm bent while holding umbrella
 rule use_umbrella-BENT_RIGHT_ARM

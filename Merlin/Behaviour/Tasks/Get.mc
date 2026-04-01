@@ -9,21 +9,19 @@ rule get-maintain-withinReachOf-proposal
 rule get-take-proposal
 {@self get ?thing}
 {?thing obb !@unknown}
-{@self hand ?hand}
-{?hand control @nothing}
 {@self withinReachOf ?thing}
 {@self facing ?thing}
 (real ?thing)
     ->
-(maintainProposal {@self TAKE ?thing ?hand}).
+(maintainProposal {@self take ?thing}).
 
 
-# Base the activity's outcome on the corresponding action's outcome
+# Base the activity's outcome on the corresponding take task's outcome
 rule get-outcome
 {@self /ever get ?thing /noOut}: ?get
-{@self /past TAKE ?thing /causes ~?get}: ?TAKE
+{@self /past take ?thing /causes ~?get}: ?take
     ->
-(setOutcome ?get /from ?TAKE).
+(setOutcome ?get /from ?take).
 
 /*
 rule 

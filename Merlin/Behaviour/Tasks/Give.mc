@@ -80,7 +80,7 @@ rule give-outcome-giver
 # From the observer's pov
 rule give-outcome-observer
 {!@self:?giver /succ OFFER ?thing ?recipient}: ?offer
-{?recipient /succ TAKE ?thing /causes ~?offer}
+{?recipient /succ take ?thing /causes ~?offer}
     ->
 (beginBelief {?giver give ?thing ?recipient /momentary}): ?give
 (setOutcome ?give /succ)

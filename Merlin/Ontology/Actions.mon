@@ -54,11 +54,17 @@ relation
 
             STAB            /obs /motor rhand
             OFFER           /obs /motor rhand
-            TAKE            /obs /motor rhand
+            # TAKE removed — replaced by take task (REACH_FOR + GRASP)
             STOW            /obs /motor mind
             PUT             /obs /motor rhand
             POUR            /obs /motor rhand
             WEAR            /obs /motor rhand
+
+            # Reach-for and grasp sub-actions (proposed by the take task)
+            LEFT_REACH_FOR  /obs /motor lhand /sub human
+            RIGHT_REACH_FOR /obs /motor rhand /sub human
+            LEFT_GRASP      /motor lhand /sub human
+            RIGHT_GRASP     /motor rhand /sub human
 
             HAVE_SEX_WITH   /obs /motor legs /sub human /tar human
             GIVE_BIRTH      /obs /motor legs /sub human

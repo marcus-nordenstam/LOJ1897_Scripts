@@ -15,6 +15,7 @@ rule importResourceTasks
 (import "Give")
 (import "Receive")
 (import "Get")
+(import "Take")
 (import "BuyBuilding").
 
 
