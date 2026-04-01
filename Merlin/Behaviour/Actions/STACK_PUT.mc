@@ -1,4 +1,11 @@
 
+# This action is too long to parse because it tries to do too much analysis
+# Instead all those embedded conditions using (if...), should be performed 
+# using mental reasoning and potentially then break this action up into a few
+# different simple, specific ones
+
+/*
+
 action ?actorEnt STACK_PUT ?thingEnt ?stackEnt
     ->
 # Add ?thingEnt to the ?stackEnt
@@ -35,3 +42,5 @@ action ?actorEnt STACK_PUT ?thingEnt ?stackEnt
 (endBelief  ?fromStackEvent)
 # Action successful
 (setActionOutcome /succ).
+
+*/

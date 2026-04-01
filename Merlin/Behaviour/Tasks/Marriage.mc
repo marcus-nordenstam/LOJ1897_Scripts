@@ -44,7 +44,7 @@ rule marry-proposal
 (lockRule)
     ->
 (beginProposal {@self marry ?fiancee})
-(beginProposal {@self SPAWN [[k weddingBand] @self (floats 0.2 1 1) (floats 0 0 0 1)]})
+(beginProposal {@self SPAWN [[k weddingBand] @self]})
 (beginGoal {@self TELL (msg {@self home ?myHome}) ?fiancee})
 (beginGoal {@self TELL (msg {?myHome obb ?myHomeObb}) ?fiancee}).
 

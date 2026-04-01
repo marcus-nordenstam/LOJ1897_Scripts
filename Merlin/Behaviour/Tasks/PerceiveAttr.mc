@@ -15,7 +15,7 @@ rule
 # lets us perceive the specific attribute on the object.
 rule 
 {@self perceiveAttr ?thing ?attr}: ?perceiveAttr
-(isPerceived ?thing) # You can't actually perceive any attr on ?thing until you have seen ?thing
+(observed ?thing) # You can't actually perceive any attr on ?thing until you have seen ?thing
     ->
 (maintainProposal {@self PERCEIVE_ATTR ?thing ?attr}).
 

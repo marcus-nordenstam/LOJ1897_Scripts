@@ -6,7 +6,7 @@ rule bartending-idle-hang-back
 {@self perform [k bartending] ?pub}
 {?pub part [k bar_work_aisle]:?work_aisle}
 (none {@self serve_customer})
-(isWithinReachOf /not /center ?work_aisle) # get 20% closer to the target before stopping
+(isWithinReachOf /not /center ?work_aisle 0.5) # get 50% closer to the target before stopping
     ->
 (maintainProposal {@self go ?work_aisle}).
 
@@ -16,14 +16,14 @@ rule bartending-idle-face-bar
 (none {@self serve_customer})
 (isWithinReachOf /center ?work_aisle)
     ->
-(maintainProposal {@self MIRROR ?work_aisle}).
+(maintainProposal /cont {@self MIRROR ?work_aisle}).
 
 rule bartending-idle-look-at-customers
 {@self perform [k bartending] ?pub}
 (none {@self serve_customer})
-(observed /cont /leastRecent (in /every [k human] ?pub)): ?least_recently_observed_customer
+(observed /cont-interval 4 1 /leastRecent (in /every [k human] ?pub)): ?least_recently_observed_customer
     ->
-(maintainProposal {@self LOOK_AT ?least_recently_observed_customer}).
+(maintainProposal /cont-interval 4 1 {@self LOOK_AT ?least_recently_observed_customer}).
 
 
 # identify customer and serve them

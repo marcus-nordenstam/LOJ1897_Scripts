@@ -1,30 +1,51 @@
 
+# Transactions, giving, taking etc
 rule ->
-(import "ASK")
-(import "DESTROY_CONV_META_ENT")
-(import "MAKE_DONE_STACK")
-(import "PERCEIVE_ATTR")
-(import "READ")
-(import "STACK_PUT")
-(import "STACK_TAKE")
-(import "TELL")
-(import "OFFER")
-(import "TAKE")
-(import "HAVE_SEX_WITH")
-(import "MAKE_CONV_META_ENT")
-(import "GIVE_BIRTH")
-(import "DIE")
-(import "WALK_TO")
-(import "WEAR")
-(import "WRITE_DOC")
-(import "SPAWN")
-(import "TURN_TO")
-(import "MIRROR")
-(import "LOOK_AT")
 (import "ACQUIRE")
 (import "POUR")
 (import "CLAIM_TRANSACTION_STATION")
 (import "SET_PROVIDER_OCCUPIER_SLOT")
+(import "OFFER")
+(import "TAKE")
+(import "SPAWN").
+
+# Communication
+rule ->
+(import "ASK")
+(import "TELL")
+(import "WRITE_DOC")
+(import "READ").
+
+# Life-cycle
+rule ->
+(import "HAVE_SEX_WITH")
+(import "GIVE_BIRTH")
+(import "DIE").
+
+# Movement
+rule ->
+(import "WALK_TO")
+(import "TURN_TO")
+(import "MIRROR").
+
+# Perception
+rule ->
+(import "LOOK_AT")
+(import "PERCEIVE_ATTR").
+
+# Apparel, clothing, carrying etc
+rule ->
+(import "WEAR").
+
+# Activities
+rule ->
 (import "START_PERFORMING")
 (import "STOP_PERFORMING")
-.
+(import "MAKE_CONV_META_ENT")
+(import "DESTROY_CONV_META_ENT").
+
+# Stacks
+rule ->
+(import "MAKE_DONE_STACK")
+(import "STACK_PUT")
+(import "STACK_TAKE").

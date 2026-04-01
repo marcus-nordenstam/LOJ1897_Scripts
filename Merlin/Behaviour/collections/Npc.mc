@@ -52,5 +52,7 @@ rule grieve
 
 rule start-performing-job
 {@self job [k bartender]:?job ?pub}
+{@self control [k umbrella]:?umbrella} 
     ->
-(beginProposal {@self START_PERFORMING [k bartending] ?pub}).
+(beginProposal {@self START_PERFORMING [k bartending] ?pub})
+(beginProposal {@self STOW ?umbrella}).

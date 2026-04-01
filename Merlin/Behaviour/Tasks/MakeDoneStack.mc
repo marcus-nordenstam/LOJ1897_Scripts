@@ -10,6 +10,6 @@ rule
 
 rule 
 {@self makeDoneStack ?workingStack ?doneStackObb}
-(isPerceived ?workingStack) # We need to have observed the ?stack in order to make a done-stack for it.
+(observed ?workingStack) # We need to have observed the ?stack in order to make a done-stack for it.
     ->
 (maintainProposal {@self MAKE_DONE_STACK ?workingStack ?doneStackObb}).
