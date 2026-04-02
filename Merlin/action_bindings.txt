@@ -16,6 +16,7 @@
 #   state = <flags>                       state bits to set: walking, running, sitting, standing, telling
 #   base_speed = <float>                  base speed (anim playback rate, turning rad/s, speech rate)
 #   movement_speed = <float>             translation m/s at base_speed=1.0 (walk/run only)
+#   player_transition_speed = <float>    player-only crossfade rate override
 
 [TELL]
 proc_anim = tell
@@ -52,6 +53,7 @@ update = walk
 state = walking
 base_speed = 1.0
 movement_speed = 0.1
+player_transition_speed = 8.0
 
 [WALK_TO]
 alias = WALK
@@ -132,10 +134,10 @@ anim_flags = reset
 base_speed = 1.0
 
 [LEFT_GRASP]
-base_speed = 1.0
+base_speed = 0.01
 
 [RIGHT_GRASP]
-base_speed = 1.0
+base_speed = 0.01
 
 [TURN_TO]
 base_speed = 2.0
