@@ -124,13 +124,11 @@ base_speed = 1.0
 base_speed = 1.0
 
 [LEFT_REACH_FOR]
-anim = left_reach_for
-anim_flags = reset
+proc_anim = reachfor
 base_speed = 1.0
 
 [RIGHT_REACH_FOR]
-anim = right_reach_for
-anim_flags = reset
+proc_anim = reachfor
 base_speed = 1.0
 
 [LEFT_GRASP]
