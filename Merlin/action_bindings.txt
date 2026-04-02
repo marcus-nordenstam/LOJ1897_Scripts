@@ -35,7 +35,7 @@ base_speed = 1.0
 [BLINK]
 proc_anim = blink
 update = blink
-base_speed = 6.0
+base_speed = 2.0
 
 [SMILE]
 expression = smile_neutral.esp
@@ -115,7 +115,7 @@ anim_flags = loop reset
 base_speed = 1.0
 
 [STOW]
-base_speed = 1.0
+base_speed = 4
 
 [PUT]
 base_speed = 1.0
@@ -134,10 +134,10 @@ anim_flags = reset
 base_speed = 1.0
 
 [LEFT_GRASP]
-base_speed = 0.01
+base_speed = 4
 
 [RIGHT_GRASP]
-base_speed = 0.01
+base_speed = 4
 
 [TURN_TO]
 base_speed = 2.0
