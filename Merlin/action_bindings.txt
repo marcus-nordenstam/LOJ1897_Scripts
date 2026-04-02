@@ -14,13 +14,13 @@
 #   anim_flags = <flags>                  loop, pingpong, reset, randomize_start, backwards
 #   alias = <MERLIN_ACTION>               reuse another action's animation
 #   state = <flags>                       state bits to set: walking, running, sitting, standing, telling
-#   speed = <float>                       default movement speed or speech rate multiplier
+#   base_speed = <float>                       base speed (movement m/s, turning rad/s, speech rate, etc.)
 
 [TELL]
 proc_anim = tell
 update = tell
 state = telling
-speed = 1
+base_speed = 1
 
 [ASK]
 alias = TELL
@@ -46,13 +46,13 @@ anim.male = Motion_Male_Walk_Normal_01
 anim_flags = loop reset
 update = walk
 state = walking
-speed = 0.1
+base_speed = 0.1
 
 [WALK_TO]
 alias = WALK
 update = walkto
 state = walking
-speed = 0.1
+base_speed = 0.1
 
 [RUN]
 anim.female = Motion_Fem_Run_01
@@ -60,7 +60,7 @@ anim.male = Motion_Male_Run_01_
 anim_flags = loop reset
 update = run
 state = running
-speed = 0.5
+base_speed = 0.5
 
 [JUMP]
 update = jump
@@ -118,8 +118,10 @@ duration = 1.0
 [RIGHT_GRASP]
 
 [TURN_TO]
+base_speed = 6.09
 
 [MIRROR]
+base_speed = 6.09
 
 # -------------------------------------------------------------------------------
 # IDLE is engine-internal (not a Merlin action). Settings here are used as input
