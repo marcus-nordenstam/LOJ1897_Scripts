@@ -28,14 +28,12 @@ rule take-left-grasp-proposal
 {@self take ?thing}
 {@self LEFT_REACH_FOR ?thing /succ}
     ->
-(maintainProposal {@self LOOK_AT ?thing})
 (beginProposal {@self LEFT_GRASP ?thing}).
 
 rule take-right-grasp-proposal
 {@self take ?thing}
 {@self RIGHT_REACH_FOR ?thing /succ}
     ->
-(maintainProposal {@self LOOK_AT ?thing})
 (beginProposal {@self RIGHT_GRASP ?thing}).
 
 # Outcome: succeed when the hand controls the thing
@@ -44,3 +42,12 @@ rule take-outcome
 {@self [LEFT_GRASP|RIGHT_GRASP] ?thing /causes ~?take /out?}: ?GRASP
     ->
 (setOutcome ?take /from ?GRASP).
+
+
+
+rule hand-control-glass-BENT-RIGHT-ARM-proposal
+{@self hand ?hand}
+{?hand control [k drinking_glass]:?glass}
+    ->
+(maintainProposal {@self BENT_RIGHT_ARM}).
+
