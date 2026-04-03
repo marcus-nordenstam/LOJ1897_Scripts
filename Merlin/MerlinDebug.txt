@@ -19,7 +19,7 @@
 # parse
 # eps
 # wme
-# match
+match
 # pattern
 belief
 delib

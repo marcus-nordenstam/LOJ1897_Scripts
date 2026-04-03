@@ -20,12 +20,12 @@ rule use_umbrella-propose-take
 (maintainProposal {@self take ?umbrella}).
 
 # Keep arm bent while holding umbrella
-rule use_umbrella-BENT_RIGHT_ARM
-{@self use_umbrella}
-{@self hand [k rightHand]:?hand}
-{?hand control [k umbrella]}
-    ->
-(maintainProposal {@self BENT_RIGHT_ARM}).
+#rule use_umbrella-RIGHT_ARM_OUT
+#{@self use_umbrella}
+#{@self hand [k rightHand]:?hand}
+#{?hand control [k umbrella]}
+#    ->
+#(maintainProposal {@self RIGHT_ARM_OUT}).
 
 # Stop using an umbrella if it stops raining or
 # we're inside a building

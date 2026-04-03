@@ -44,10 +44,15 @@ rule take-outcome
 (setOutcome ?take /from ?GRASP).
 
 
-
-rule hand-control-glass-BENT-RIGHT-ARM-proposal
-{@self hand ?hand}
-{?hand control [k drinking_glass]:?glass}
+rule left-hand-control-LEFT_ARM_OUT-proposal
+{@self hand [k leftHand]:?hand}
+{?hand control @something}
     ->
-(maintainProposal {@self BENT_RIGHT_ARM}).
+(maintainProposal {@self LEFT_ARM_OUT}).
+
+rule right-hand-control-RIGHT_ARM_OUT-proposal
+{@self hand [k rightHand]:?hand}
+{?hand control @something}
+    ->
+(maintainProposal {@self RIGHT_ARM_OUT}).
 

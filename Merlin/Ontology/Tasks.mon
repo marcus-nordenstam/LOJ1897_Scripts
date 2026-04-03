@@ -58,26 +58,26 @@ relation
             explore             /motor legs             /tar @excl
             locate              /motor legs             /tar @excl
 
-            drop                /motor rhand            /tar @excl object
-            give                /motor rhand            /tar @excl object
-            receive             /motor rhand            /tar @excl object
+            drop                /motor right_hand            /tar @excl object
+            give                /motor right_hand            /tar @excl object
+            receive             /motor right_hand            /tar @excl object
 
-            get                 /motor legs rhand       /tar @excl object
-            take                /motor lhand rhand      /tar @excl object
+            get                 /motor legs right_hand       /tar @excl object
+            take                /motor left_hand right_hand      /tar @excl object
 
-            read                /motor eyes rhand       /tar @excl document
-            write               /motor eyes rhand legs  /tar @excl document
+            read                /motor eyes right_hand       /tar @excl document
+            write               /motor eyes right_hand legs  /tar @excl document
 
-            stackGet            /motor legs rhand       /tar object /aux stack
-            stackPut            /motor legs rhand       /tar object /aux stack
-            stackBrowse         /motor legs rhand       /tar stack
-            stackRead           /motor legs rhand       /tar stack
+            stackGet            /motor legs right_hand       /tar object /aux stack
+            stackPut            /motor legs right_hand       /tar object /aux stack
+            stackBrowse         /motor legs right_hand       /tar stack
+            stackRead           /motor legs right_hand       /tar stack
             makeDoneStack                               /tar stack
 
-            grieve              /motor rhand lhand head
+            grieve              /motor right_hand left_hand head
 
-            giveBirth           /motor eyes rhand legs
+            giveBirth           /motor eyes right_hand legs
             perceiveAttr        /motor eyes             /tar ?
 
-            use_umbrella        /motor rhand lhand
-            serve_customer      /motor rhand lhand legs
+            use_umbrella        /motor right_hand left_hand
+            serve_customer      /motor right_hand left_hand legs

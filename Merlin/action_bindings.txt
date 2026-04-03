@@ -22,7 +22,7 @@
 proc_anim = tell
 update = tell
 state = telling
-base_speed = 1
+base_speed = 0.8
 
 [ASK]
 alias = TELL
@@ -94,20 +94,40 @@ anim_flags = loop reset
 state = standing
 base_speed = 1.0
 
-[BENT_RIGHT_ARM]
-anim = Umbrella2
+# Arms
+
+[RIGHT_ARM_OUT]
+anim = right_arm_out
 anim_flags = loop reset
 base_speed = 1.0
 
-[RHAND_BURY_FACE]
-anim = rhand_bury_face
+[LEFT_ARM_OUT]
+anim = right_arm_out
 anim_flags = loop reset
 base_speed = 1.0
 
-[LHAND_BURY_FACE]
-anim = lhand_bury_face
+# Hands
+
+[LEFT_GRASP]
+base_speed = 4
+
+[RIGHT_GRASP]
+anim = right_hand_grip
 anim_flags = loop reset
 base_speed = 1.0
+base_speed = 4
+
+[RIGHT_ARM_BURY_FACE]
+anim = right_hand_bury_face
+anim_flags = loop reset
+base_speed = 1.0
+
+[LEFT_ARM_BURY_FACE]
+anim = left_hand_bury_face
+anim_flags = loop reset
+base_speed = 1.0
+
+# Head
 
 [HANG_HEAD]
 anim = hang_head
@@ -131,11 +151,9 @@ base_speed = 1.0
 proc_anim = reachfor
 base_speed = 1.0
 
-[LEFT_GRASP]
-base_speed = 4
-
-[RIGHT_GRASP]
-base_speed = 4
+[OPEN_JAW]
+proc_anim = open_jaw
+base_speed = 2.0
 
 [TURN_TO]
 base_speed = 2.0
