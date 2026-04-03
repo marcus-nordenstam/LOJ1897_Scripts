@@ -30,6 +30,7 @@ object //obs
         finger
             ringFinger
         eye
+        mouth
     wound
         stabWound
     stain

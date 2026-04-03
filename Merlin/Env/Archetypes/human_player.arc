@@ -41,7 +41,7 @@ archetype "human_player" [256] /obs /raycastVisible /player /inferKindOverride h
     "region"        entity "region"                     /region             /feel
 
     # NOTE that parts is imperceptible since we instead perceive specific body-parts below:
-    "parts"         entity "hand"|"eye" [3] /label "part"                         /children           /imperceptible
+    "parts"         entity "hand"|"eye"|"mouth" [4] /label "part"                 /children           /imperceptible
 
     # Hands are so integral to reasoning that we give them their own attr (even though they
     # also appear in the parts attr).
@@ -50,6 +50,9 @@ archetype "human_player" [256] /obs /raycastVisible /player /inferKindOverride h
 
     # Eyes
     "eyes"          entity "eye"   /label "eyes"                            /passivePercept
+
+    # Mouth
+    "mouth"         entity "mouth" /label "mouth"                           /passivePercept
 
     # This is used to keep conversations in sync among NPCs, and also allow anyone close enough
     # to observe the involved parties to infer that they're in a conversation

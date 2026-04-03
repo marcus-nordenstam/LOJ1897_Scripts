@@ -55,7 +55,9 @@ relation
         finger                  /obs
         # The eyes of a creature
         eyes                    /obs
-
+        # The mouth of a creature
+        mouth                   /obs
+        
         fluid_amount            /obs /tar @excl /sub fluid
 
         # Transaction system states

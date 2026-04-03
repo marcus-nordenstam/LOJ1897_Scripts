@@ -22,11 +22,13 @@ archetype "prop" [1024] /obs
 
     # ENTITY attrs
     "parts"         entity [6] /label "part"            /children           /passivePercept
-    "in"            entity [6] "structure" "space"       /spatialContainment /imperceptible
+    "in"            entity [6] "structure" "space"      /spatialContainment /imperceptible
     # The entity currently controlling the position of this prop (if any)
     "controlledBy"  entity                              /controlledBy
     # How hard the entity is being gripped. 0=loose, 1=hard
     "controlForce"  int                                                     /imperceptible
+    # If this is the controlling entity, then this holds what is being controlled
+    "control"       entity [4]                          /control            /passivePercept
     # This gives the stack the prop is in, if any.
     # If the prop is NOT in a stack, this is set to @nothing.
     "inStack"       entity "stack"                      /inStack

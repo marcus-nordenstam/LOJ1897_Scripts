@@ -44,8 +44,7 @@ rule startConv-maintain-closeAndFacing-proposal
 {@self startConv ?conv}
 {?conv participant !@self:?person}
     ->
-(maintainProposal {@self keepInReachOf ?person} /absUtil 1000)
-(maintainProposal {@self keepFacing ?person} /absUtil 1000)
+(maintainProposal {@self keep_near_and_facing ?person} /absUtil 1000)
 (maintainProposal {@self keepLookingAtPart ?person eyes} /absUtil 1000).
 
 
@@ -98,11 +97,9 @@ rule realise-conv
 # and leads to ?irrConv being forgotten
 (reconcile ?irrConv ?reaConv)
 # While this real conversation is occurring, keep close and personal with the participant
-(maintainProposal {@self keepInReachOf ?person} /absUtil 1000): ?keepInReachOf
-(maintainProposal {@self keepFacing ?person} /absUtil 1000): ?keepFacing
+(maintainProposal {@self keep_near_and_facing ?person} /absUtil 1000): ?keep_near_and_facing
 (maintainProposal {@self keepLookingAtPart ?person eyes} /absUtil 1000): ?keepLookingAtPart
-(addCause ?keepInReachOf ?causes)
-(addCause ?keepFacing ?causes)
+(addCause ?keep_near_and_facing ?causes)
 (addCause ?keepLookingAtPart ?causes).
 
 # Failure scenarios:
@@ -185,8 +182,7 @@ rule conv-playerTalk-maintain-closeAndFacing-proposal
 {!@self:?person conversation ?conv}
 {?person role player}
     ->
-(maintainProposal {@self keepInReachOf ?person} /absUtil 1000)
-(maintainProposal {@self keepFacing ?person} /absUtil 1000)
+(maintainProposal {@self keep_near_and_facing ?person} /absUtil 1000)
 (maintainProposal {@self keepLookingAtPart ?person eyes} /absUtil 1000).
 
 

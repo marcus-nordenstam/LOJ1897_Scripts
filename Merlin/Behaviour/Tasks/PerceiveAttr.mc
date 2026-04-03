@@ -7,7 +7,7 @@
 rule 
 {@self perceiveAttr ?thing ?attr}: ?perceiveAttr
     ->
-(maintainProposal {@self keepInReachOf ?thing} /absUtil 1000).
+(maintainProposal {@self keep_near_and_facing ?thing} /absUtil 1000).
 
 
 # If you are close enough, and you have perceived the object, then

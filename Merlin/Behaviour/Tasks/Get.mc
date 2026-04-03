@@ -3,8 +3,7 @@
 rule get-maintain-withinReachOf-proposal
 {@self get ?thing}
     ->
-(maintainProposal {@self keepInReachOf ?thing} /absUtil 1000)
-(maintainProposal {@self keepFacing ?thing} /absUtil 1000).
+(maintainProposal {@self keep_near_and_facing ?thing} /absUtil 1000).
 
 rule get-take-proposal
 {@self get ?thing}

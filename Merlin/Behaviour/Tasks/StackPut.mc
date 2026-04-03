@@ -3,7 +3,7 @@ rule
 {@self stackPut ? ?stack}
 {?stack isa [k object stack]}
     ->
-(maintainProposal {@self keepInReachOf ?stack} /absUtil 1000).
+(maintainProposal {@self keep_near_and_facing ?stack} /absUtil 1000).
 
 
 rule 

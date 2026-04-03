@@ -41,7 +41,7 @@ rule pubbing-order-beer-wait-at-station
 (overlaps @self ?station 1)
     ->
 (maintainProposal {@self MIRROR ?station})
-(maintainProposal {@self HALT}).
+(maintainProposal {@self LOOK_AT ?bartender}).
 
 
 rule pubbing-order-beer-take-beer
@@ -53,4 +53,14 @@ rule pubbing-order-beer-take-beer
 {?station actor_spot_holder @self}
 {?station staging_spot_occupier @something:?beer}
     ->
-(beginProposal {@self take ?beer}).
+(beginProposal {@self take ?beer})
+(beginProposal {@self RELEASE_TRANSACTION_STATION ?station}).
+
+
+rule pubbing-drink-beer-proposal
+{@self pubbing}
+{@self hand ?hand}
+{?hand control [k drinking_glass]:?glass}
+{?glass control [k beer]}
+    ->
+(beginProposal {@self drink ?glass}).

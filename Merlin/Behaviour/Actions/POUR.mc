@@ -1,8 +1,10 @@
 action ?actorEnt POUR ?fluidEnt ?containerEnt
     ->
-(setAttr ?fluidEnt "obb" /localPos 0 0 0)
-(setAttr ?fluidEnt "controlledBy" ?containerEnt)
-(setAttr ?fluidEnt "fluid_amount" 1)
 (callForeignAction)
 (if (actionDone)
-    (setActionOutcome /succ)).
+    [(setAttr ?fluidEnt "obb" /localPos 0 0 0)
+     (setAttr ?fluidEnt "controlledBy" ?containerEnt)
+     (addAttrItem ?containerEnt "control" ?fluidEnt)
+     (perceiveAttr ?containerEnt "control")
+     (setAttr ?fluidEnt "fluid_amount" 1)
+     (setActionOutcome /succ)]).

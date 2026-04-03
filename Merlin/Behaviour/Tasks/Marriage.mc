@@ -53,8 +53,7 @@ rule marry-attention
 {@self marry ?fiancee}
     ->
 (maintainAttention ?fiancee).
-#(maintainProposal {@self keepFacing ?fiancee} /absUtil 1000).
-#(maintainProposal {@self keepInReachOf ?fiancee} /absUtil 1000)
+#(maintainProposal {@self keep_near_and_facing ?fiancee} /absUtil 1000).
 
 
 rule marry-giveWeddingBand

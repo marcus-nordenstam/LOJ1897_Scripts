@@ -1,9 +1,12 @@
 
+rule nourishmentTasks
+    ->
+(import "Drink").
+
 rule importMovementTasks 
     ->
 (import "Go")
-(import "MaintainWithinReachOf")
-(import "MaintainFacing")
+(import "keep_near_and_facing")
 (import "MaintainLookingAt")
 (import "Explore")
 (import "Locate")

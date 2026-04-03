@@ -41,8 +41,8 @@ relation
             STACK_PUT           /obs /motor right_hand
             MAKE_DONE_STACK     /obs /motor eyes
 
-            TURN_TO         /obs /motor body
-            MIRROR          /obs /motor body
+            TURN_TO         /obs /motor legs
+            MIRROR          /obs /motor legs
             LOOK_AT         /obs /motor head
 
             WALK_TO         /obs /motor legs
@@ -51,7 +51,6 @@ relation
             JUMP            /obs /motor legs
             SIT             /obs /motor legs
             STAND           /obs /motor legs
-            HALT            /obs /motor legs
 
             # Expression actions (engine-driven, not Merlin-proposed)
             SMILE           /obs /motor face
@@ -76,6 +75,7 @@ relation
             STOP_PERFORMING         /motor mind /tar activity /sub human
 
             CLAIM_TRANSACTION_STATION   /motor mind
+            RELEASE_TRANSACTION_STATION /motor mind
             SET_PROVIDER_OCCUPIER_SLOT  /motor mind
 
             # These are a bit hacky

@@ -4,6 +4,7 @@ rule ->
 (import "ACQUIRE")
 (import "POUR")
 (import "CLAIM_TRANSACTION_STATION")
+(import "RELEASE_TRANSACTION_STATION")
 (import "SET_PROVIDER_OCCUPIER_SLOT")
 (import "OFFER")
 (import "SPAWN")

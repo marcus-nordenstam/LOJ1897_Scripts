@@ -6,8 +6,7 @@
 rule receive-maintainWithinReachOf-proposal
 {@self receive ?thing ?giver}
     ->
-(maintainProposal {@self keepInReachOf ?giver} /absUtil 1000)
-(maintainProposal {@self keepFacing ?giver} /absUtil 1000).
+(maintainProposal {@self keep_near_and_facing ?giver} /absUtil 1000).
 
 
 rule receive-take-proposal

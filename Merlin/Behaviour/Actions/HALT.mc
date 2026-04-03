@@ -1,2 +1,0 @@
-
-action ?actorEnt HALT -> (callForeignAction).

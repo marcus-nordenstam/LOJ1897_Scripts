@@ -8,8 +8,7 @@ rule goal-conv-TELL-notAvail
 {@self conversation ?myConv}
 {?audience conversation !?myConv}
     ->
-(maintainProposal {@self keepInReachOf ?audience} /absUtil 1000)
-(maintainProposal {@self keepFacing ?audience} /absUtil 1000)
+(maintainProposal {@self keep_near_and_facing ?audience} /absUtil 1000)
 (maintainProposal {@self keepLookingAtPart ?audience eyes} /absUtil 1000).
 
 
@@ -18,8 +17,7 @@ rule goal-conv-TELL-bothAvail
 {@self conversation @nothing}
 {?audience conversation @nothing}
     ->
-(maintainProposal {@self keepInReachOf ?audience} /absUtil 1000)
-(maintainProposal {@self keepFacing ?audience} /absUtil 1000)
+(maintainProposal {@self keep_near_and_facing ?audience} /absUtil 1000)
 (maintainProposal {@self keepLookingAtPart ?audience eyes} /absUtil 1000).
 
 

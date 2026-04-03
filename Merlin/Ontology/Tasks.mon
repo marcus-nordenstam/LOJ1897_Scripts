@@ -48,12 +48,11 @@ relation
             #tell                /motor mouth            /sub @msgAuthor human   /tar @msg @excl @S     /aux @msgAudience human
             #ask                 /motor mouth            /sub @msgAuthor human   /tar @qs @excl @S      /aux @msgAudience human
 
-            approach            /motor legs             /tar @excl
-            go                  /motor legs             /tar @excl
-            keepInReachOf       /motor legs             /tar @excl
-            keepFacing          /motor body             /tar @excl
-            keepLookingAtPart   /motor head             /tar @excl  /aux @excl
-            keepLookingAtWhole  /motor head             /tar @excl
+            approach                /motor legs             /tar @excl
+            go                      /motor legs             /tar @excl
+            keep_near_and_facing    /motor legs             /tar @excl
+            keepLookingAtPart       /motor head             /tar @excl  /aux @excl
+            keepLookingAtWhole      /motor head             /tar @excl
 
             explore             /motor legs             /tar @excl
             locate              /motor legs             /tar @excl
@@ -78,6 +77,8 @@ relation
 
             giveBirth           /motor eyes right_hand legs
             perceiveAttr        /motor eyes             /tar ?
+
+            drink               /motor mouth right_hand left_hand  /tar object
 
             use_umbrella        /motor right_hand left_hand
             serve_customer      /motor right_hand left_hand legs
