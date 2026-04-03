@@ -55,11 +55,11 @@ rule left-hand-control-LEFT_ARM_OUT-proposal
 {@self hand [k leftHand]:?hand}
 {?hand control @something}
     ->
-(maintainProposal {@self LEFT_ARM_OUT} /absUtil 1000).
+(maintainProposal /cont {@self LEFT_ARM_OUT}).
 
 rule right-hand-control-RIGHT_ARM_OUT-proposal
 {@self hand [k rightHand]:?hand}
 {?hand control @something}
     ->
-(maintainProposal {@self RIGHT_ARM_OUT} /absUtil 1000).
+(maintainProposal /cont {@self RIGHT_ARM_OUT}).
 

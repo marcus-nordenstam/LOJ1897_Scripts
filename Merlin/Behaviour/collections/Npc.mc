@@ -22,6 +22,7 @@ rule startup-go-to-waypoint
 {?waypoint isa [k waypoint]}
 (isWithinReachOf /not ?waypoint /cont)
 (none {@self job [k bartender]})
+(in @self /not [k building pub])
     ->
 (maintainProposal {@self go ?waypoint}).
 

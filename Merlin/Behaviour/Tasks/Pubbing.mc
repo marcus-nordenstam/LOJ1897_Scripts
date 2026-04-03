@@ -35,13 +35,14 @@ rule pubbing-order-beer-wait-at-station
 {@self pubbing}
 {@self order [k beer] ?bartender}
 {?bartender perform [k bartending] ?pub}
+{?bartender eyes ?bartender_eyes}
 {?pub part [k transaction_zone]:?zone}
 {?zone part [k transaction_station]:?station}
 {?station actor_spot_holder @self}
 (overlaps @self ?station 1)
     ->
 (maintainProposal {@self MIRROR ?station})
-(maintainProposal {@self LOOK_AT ?bartender}).
+(maintainProposal {@self LOOK_AT ?bartender_eyes}).
 
 
 rule pubbing-order-beer-take-beer
@@ -63,4 +64,4 @@ rule pubbing-drink-beer-proposal
 {?hand control [k drinking_glass]:?glass}
 {?glass control [k beer]}
     ->
-(beginProposal {@self drink ?glass}).
+(beginProposal /cont-interval 8 2 {@self drink ?glass}).
