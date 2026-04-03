@@ -54,7 +54,19 @@ rule pubbing-order-beer-take-beer
 {?station actor_spot_holder @self}
 {?station staging_spot_occupier @something:?beer}
     ->
-(beginProposal {@self take ?beer})
+(beginProposal {@self take ?beer}).
+
+
+rule pubbing-order-beer-release-claim
+{@self pubbing}
+{@self order [k beer] ?bartender}: ?order
+{?bartender perform [k bartending] ?pub}
+{?pub part [k transaction_zone]:?zone}
+{?zone part ?station}
+{?station actor_spot_holder @self}
+{?station staging_spot_occupier @something:?beer}
+{@self /succ take ?beer /causes ~?order} 
+    ->
 (beginProposal {@self RELEASE_TRANSACTION_STATION ?station}).
 
 

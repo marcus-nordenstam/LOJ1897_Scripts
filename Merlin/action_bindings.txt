@@ -148,11 +148,11 @@ base_speed = 1.0
 
 [LEFT_REACH_FOR]
 proc_anim = reachfor
-base_speed = 0.5
+base_speed = 0.1
 
 [RIGHT_REACH_FOR]
 proc_anim = reachfor
-base_speed = 0.5
+base_speed = 0.1
 
 [OPEN_JAW]
 proc_anim = open_jaw
