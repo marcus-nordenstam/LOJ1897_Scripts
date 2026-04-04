@@ -6,5 +6,4 @@ action ?actorEnt POUR ?fluidEnt ?containerEnt
      (setAttr ?fluidEnt "controlledBy" ?containerEnt)
      (addAttrItem ?containerEnt "control" ?fluidEnt)
      (perceiveAttr ?containerEnt "control")
-     (setAttr ?fluidEnt "fluid_amount" 1)
-     (setActionOutcome /succ)]).
+     (setAttr ?fluidEnt "fluid_amount" 1)]).

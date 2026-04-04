@@ -26,16 +26,23 @@ relation
 
             HANG_HEAD           /obs /motor head
             CRY_EXPR            /obs /motor face
+            OPEN_JAW            /obs /motor mouth       /sub human
 
             LEFT_ARM_OUT        /obs /motor left_arm    /sub human
             LEFT_ARM_BURY_FACE  /obs /motor left_arm    /sub human
+            LEFT_ARM_DRINK      /obs /motor left_arm    /sub human
             LEFT_REACH_FOR      /obs /motor left_arm    /sub human
             RIGHT_ARM_OUT       /obs /motor right_arm   /sub human
             RIGHT_ARM_BURY_FACE /obs /motor right_arm   /sub human
+            RIGHT_ARM_DRINK     /obs /motor right_arm   /sub human
             RIGHT_REACH_FOR     /obs /motor right_arm   /sub human
 
             LEFT_GRASP          /obs /motor left_hand   /sub human
+            LEFT_HAND_DRINK     /obs /motor left_hand   /sub human
             RIGHT_GRASP         /obs /motor right_hand  /sub human
+            RIGHT_HAND_DRINK    /obs /motor right_hand  /sub human
+
+            TILT_BACK_HEAD      /obs /motor head        /sub human
             WRITE_DOC           /obs /motor right_hand  /aux @msg @excl
             STACK_TAKE          /obs /motor right_hand
             STACK_PUT           /obs /motor right_hand
@@ -56,7 +63,6 @@ relation
             SMILE           /obs /motor face
             BLINK           /obs /motor eyes
 
-            STAB            /obs /motor right_hand
             OFFER           /obs /motor right_hand
             # TAKE removed — replaced by take task (REACH_FOR + GRASP)
             STOW            /obs /motor mind

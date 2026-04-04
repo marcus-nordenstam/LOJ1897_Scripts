@@ -21,6 +21,5 @@ action ?actorEnt RIGHT_GRASP ?thingEnt
     (setAttr ?thingEnt "controlForce" 1)
     # Notice that actor is now holding ?thingEnt
     (perceiveEntity ?thingEnt)
-    (perceiveAttr ?handEnt "control")    
-    (setActionOutcome /succ)
+    (perceiveAttr ?handEnt "control")
     ]).

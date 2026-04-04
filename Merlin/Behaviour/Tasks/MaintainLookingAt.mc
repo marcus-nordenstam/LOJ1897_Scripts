@@ -11,7 +11,7 @@ rule maintain-lookingAtPart-attention
 
 rule maintain-lookingAtPart-eyes-proposal
 {@self keepLookingAtPart ?thing eyes}
-{?thing eyes ?bodyPart}
+{?thing eyes @something:?bodyPart}
     ->
 (maintainProposal {@self LOOK_AT ?bodyPart}).
 

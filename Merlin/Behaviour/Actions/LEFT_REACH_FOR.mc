@@ -1,5 +1,2 @@
 
-action ?actorEnt LEFT_REACH_FOR ?thingEnt
-    ->
-(callForeignAction)
-(if (actionDone) (setActionOutcome /succ)).
+action ?actorEnt LEFT_REACH_FOR ?thingEnt -> (callForeignAction).

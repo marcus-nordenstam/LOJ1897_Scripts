@@ -8,6 +8,5 @@ action ?actorEnt TELL ?message ?personEnt
     (setAttr ?soundEnt "createAction" (extAction))
     (setAttr ?soundEnt "speaker" ?actorEnt)
 ])
-# Call handler directly — duration set by handler (speech length)
-(callForeignAction)
-(if (actionDone) (setActionOutcome /succ)).
+# Call handler — outcome signalled when speech completes
+(callForeignAction).

@@ -37,6 +37,15 @@ rule ->
 (import "LOOK_AT")
 (import "PERCEIVE_ATTR").
 
+# Drinking
+rule ->
+(import "RIGHT_ARM_DRINK")
+(import "LEFT_ARM_DRINK")
+(import "RIGHT_HAND_DRINK")
+(import "LEFT_HAND_DRINK")
+(import "TILT_BACK_HEAD")
+(import "OPEN_JAW").
+
 # Apparel, clothing, carrying etc
 rule ->
 (import "WEAR").
