@@ -23,6 +23,6 @@ rule drink-right-ACTION-proposals
 
 rule drink-outcome
 {@self drink ?glass}: ?drink
-(gt (elapsedFiringCycles) 50)
+(gt (timeSince /cont /seconds ?drink) 3)
     ->
 (setOutcome /succ ?drink).
