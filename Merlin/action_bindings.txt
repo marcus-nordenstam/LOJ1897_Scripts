@@ -109,24 +109,24 @@ base_speed = 1.0
 [RIGHT_ARM_OUT]
 anim = right_arm_out
 anim_flags = loop reset
-base_speed = 1.0
+base_speed = 0.3
 
 [LEFT_ARM_OUT]
 anim = right_arm_out
 anim_flags = loop reset
-base_speed = 1.0
+base_speed = 0.3
 
 # Hands
 
 [LEFT_GRASP]
 update = grasp
-base_speed = 8
+base_speed = 1
 
 [RIGHT_GRASP]
 anim = right_hand_grip
 anim_flags = loop reset
 update = grasp
-base_speed = 8
+base_speed = 1
 
 [RIGHT_ARM_BURY_FACE]
 anim = right_hand_bury_face
@@ -172,13 +172,13 @@ base_speed = 1.0
 [LEFT_REACH_FOR]
 proc_anim = reachfor
 update = reachfor
-base_speed = 0.3
+base_speed = 0.5
 attempt_duration = 5.0
 
 [RIGHT_REACH_FOR]
 proc_anim = reachfor
 update = reachfor
-base_speed = 0.3
+base_speed = 0.5
 attempt_duration = 5.0
 
 
@@ -205,11 +205,11 @@ base_speed = 0.5
 
 [TURN_TO]
 update = turnto
-base_speed = 2.0
+base_speed = 1.0
 
 [MIRROR]
 update = mirror
-base_speed = 6.0
+base_speed = 1.0
 
 # -------------------------------------------------------------------------------
 # IDLE is engine-internal (not a Merlin action). Settings here are used as input
@@ -219,4 +219,3 @@ anim.female = Motion_Female_Idle_01
 anim.male = Motion_Male_Idle_02
 anim_flags = pingpong reset randomize_start
 state = standing
-base_speed = 1.0
