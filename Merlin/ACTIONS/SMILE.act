@@ -1,0 +1,6 @@
+action = SMILE
+motor = face
+transmission = obs
+
+expression = smile_neutral.esp
+base_speed = 1.0

@@ -1,0 +1,3 @@
+action = MAKE_DONE_STACK
+motor = eyes
+transmission = obs

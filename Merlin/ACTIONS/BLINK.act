@@ -1,0 +1,6 @@
+action = BLINK
+motor = eyes
+transmission = obs
+
+proc_anim = blink
+base_speed = 2.0

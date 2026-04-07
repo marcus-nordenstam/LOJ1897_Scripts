@@ -1,0 +1,9 @@
+action = CHAT
+motor = legs
+transmission = obs
+
+anim.female = Motion_Female_Stand_Conversation_Acting_01
+anim.male = Motion_Male_Stand_Listen_01
+anim_flags = loop reset
+state = standing
+base_speed = 1.0

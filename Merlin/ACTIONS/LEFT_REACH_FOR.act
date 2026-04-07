@@ -1,0 +1,7 @@
+action = LEFT_REACH_FOR
+motor = left_arm
+transmission = obs
+
+proc_anim = reachfor
+base_speed = 0.5
+attempt_duration = 5.0

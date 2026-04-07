@@ -1,0 +1,5 @@
+action = TURN_TO
+motor = legs
+transmission = obs
+
+base_speed = 1.0

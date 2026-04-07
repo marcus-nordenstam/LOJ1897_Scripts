@@ -1,0 +1,8 @@
+action = IDLE
+internal = true
+motor = legs
+
+anim.female = Motion_Female_Idle_01
+anim.male = Motion_Male_Idle_02
+anim_flags = pingpong reset randomize_start
+state = standing

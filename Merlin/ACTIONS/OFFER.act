@@ -1,0 +1,3 @@
+action = OFFER
+motor = right_hand
+transmission = obs

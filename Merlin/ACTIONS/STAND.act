@@ -1,0 +1,7 @@
+action = STAND
+motor = legs
+transmission = obs
+
+anim_flags = backwards
+alias = SIT
+base_speed = 1.0

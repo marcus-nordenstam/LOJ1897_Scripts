@@ -1,0 +1,3 @@
+action = STOP_PERFORMING
+motor = mind
+tar = activity

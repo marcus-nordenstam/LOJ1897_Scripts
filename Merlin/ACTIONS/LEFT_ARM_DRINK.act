@@ -1,0 +1,7 @@
+action = LEFT_ARM_DRINK
+motor = left_arm
+transmission = obs
+
+anim = right_drink
+anim_flags = loop reset
+base_speed = 0.5

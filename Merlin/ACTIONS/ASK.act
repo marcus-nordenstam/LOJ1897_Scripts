@@ -1,0 +1,12 @@
+action = ASK
+motor = mouth
+transmission = listen
+uninterruptable = true
+sub = @msgAuthor
+tar = @qs @excl @S
+aux = @msgAudience
+
+proc_anim = tell
+alias = TELL
+state = telling
+base_speed = 0.8

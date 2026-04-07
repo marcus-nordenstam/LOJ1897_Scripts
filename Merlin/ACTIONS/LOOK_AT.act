@@ -1,0 +1,6 @@
+action = LOOK_AT
+motor = head
+transmission = obs
+
+proc_anim = lookat
+base_speed = 1.0

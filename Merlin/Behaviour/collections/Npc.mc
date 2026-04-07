@@ -2,7 +2,6 @@
 # NPCs have common sense
 rule ->
 (import "CommonReasoning")
-(import "CommonActions")
 (import "CommonTasks").
 
 

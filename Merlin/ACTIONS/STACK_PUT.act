@@ -1,0 +1,3 @@
+action = STACK_PUT
+motor = right_hand
+transmission = obs

@@ -1,0 +1,3 @@
+action = GIVE_BIRTH
+motor = legs
+transmission = obs

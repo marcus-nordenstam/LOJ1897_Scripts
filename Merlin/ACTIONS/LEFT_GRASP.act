@@ -1,0 +1,5 @@
+action = LEFT_GRASP
+motor = left_hand
+transmission = obs
+
+base_speed = 1

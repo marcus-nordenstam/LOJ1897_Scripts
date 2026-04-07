@@ -1,0 +1,9 @@
+action = WALK_TO
+motor = legs
+transmission = obs
+
+alias = WALK
+state = walking
+base_speed = 1.0
+movement_speed = 0.1
+nav_turn_speed = 8.0

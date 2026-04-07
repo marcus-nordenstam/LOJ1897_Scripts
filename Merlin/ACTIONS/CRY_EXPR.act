@@ -1,0 +1,6 @@
+action = CRY_EXPR
+motor = face
+transmission = obs
+
+expression = Scene_01_CryingLady_X_008.esp
+base_speed = 1.0

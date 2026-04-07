@@ -1,0 +1,3 @@
+action = WEAR
+motor = right_hand
+transmission = obs

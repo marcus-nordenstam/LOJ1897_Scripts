@@ -1,0 +1,6 @@
+action = OPEN_JAW
+motor = mouth
+transmission = obs
+
+proc_anim = open_jaw
+base_speed = 2.0

@@ -1,0 +1,7 @@
+action = RIGHT_ARM_BURY_FACE
+motor = right_arm
+transmission = obs
+
+anim = right_hand_bury_face
+anim_flags = loop reset
+base_speed = 1.0

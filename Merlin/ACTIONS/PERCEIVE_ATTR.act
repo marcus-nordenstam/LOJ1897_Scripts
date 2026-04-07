@@ -1,0 +1,3 @@
+action = PERCEIVE_ATTR
+motor = eyes
+transmission = obs

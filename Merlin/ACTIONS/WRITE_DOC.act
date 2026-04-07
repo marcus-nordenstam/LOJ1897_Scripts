@@ -1,0 +1,4 @@
+action = WRITE_DOC
+motor = right_hand
+transmission = obs
+aux = @msg @excl

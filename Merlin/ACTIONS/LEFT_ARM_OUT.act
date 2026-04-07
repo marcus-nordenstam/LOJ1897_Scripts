@@ -1,0 +1,7 @@
+action = LEFT_ARM_OUT
+motor = left_arm
+transmission = obs
+
+anim = right_arm_out
+anim_flags = loop reset
+base_speed = 0.3
