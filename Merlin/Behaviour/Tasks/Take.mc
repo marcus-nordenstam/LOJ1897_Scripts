@@ -39,13 +39,13 @@ rule take-right-grasp-proposal
 # Outcome: succeed when the hand controls the thing
 rule take-left-outcome
 {@self /ever take ?thing /noOut}: ?take
-{@self LEFT_GRASP ?thing /causes ~?take /out?}: ?GRASP
+{@self /past LEFT_GRASP ?thing /causes ~?take /out?}: ?GRASP
     ->
 (setOutcome ?take /from ?GRASP).
 
 rule take-right-outcome
 {@self /ever take ?thing /noOut}: ?take
-{@self RIGHT_GRASP ?thing /causes ~?take /out?}: ?GRASP
+{@self /past RIGHT_GRASP ?thing /causes ~?take /out?}: ?GRASP
     ->
 (setOutcome ?take /from ?GRASP).
 
