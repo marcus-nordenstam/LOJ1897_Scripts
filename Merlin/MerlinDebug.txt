@@ -21,10 +21,10 @@
 # wme
 # match
 # pattern
-# belief
-# delib
+belief
+delib
 action
-# rule
+rule
 # percept
 # boundary
 # env

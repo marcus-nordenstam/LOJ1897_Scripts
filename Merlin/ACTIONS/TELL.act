@@ -6,6 +6,8 @@ sub = @msgAuthor
 tar = @msg @excl @S
 aux = @msgAudience
 
+belief_timeout = 5
+
 proc_anim = tell
 state = telling
 base_speed = 0.8
