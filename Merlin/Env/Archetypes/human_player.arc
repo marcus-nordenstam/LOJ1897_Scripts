@@ -1,5 +1,5 @@
 # Any human PLAYER
-archetype "human_player" [256] /obs /raycastVisible /player /inferKindOverride human player
+archetype "human_player" [256] /obs /raycastVisible /player /nonOccluder /inferKindOverride human player
 {
     # Required for performing physical actions in the world
     "muscles"       physical-motors

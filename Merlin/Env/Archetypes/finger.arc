@@ -1,5 +1,5 @@
 # At the moment, we only do the ring-fingers, so finger-capacity == hand-capacity
-archetype "finger" [512] /obs
+archetype "finger" [512] /obs /nonOccluder
 {
     "isa"           kind                                /kind               /passivePercept /unaware
 

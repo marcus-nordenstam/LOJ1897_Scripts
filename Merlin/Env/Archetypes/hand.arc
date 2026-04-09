@@ -1,5 +1,5 @@
 # "human" system-capacity times two hands / human: 256 x 2 = 512
-archetype "hand" [512] /obs
+archetype "hand" [512] /obs /nonOccluder
 {
     "isa"           kind                                /kind               /passivePercept /unaware
 

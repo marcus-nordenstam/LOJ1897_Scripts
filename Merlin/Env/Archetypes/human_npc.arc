@@ -1,5 +1,5 @@
 # Any human NPC
-archetype "human_npc" [256] /obs /raycastVisible /sentient /inferKindOverride human nonplayer
+archetype "human_npc" [256] /obs /raycastVisible /sentient /nonOccluder /inferKindOverride human nonplayer
 {
     "eyes"          visual-sensor
     "ears"          sound-sensor
