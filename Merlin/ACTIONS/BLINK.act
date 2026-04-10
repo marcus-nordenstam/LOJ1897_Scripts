@@ -1,7 +1,6 @@
 action = BLINK
 motor = eyelid
 transmission = obs
-internal = true
 
 proc_anim = blink
 base_speed = 2.0

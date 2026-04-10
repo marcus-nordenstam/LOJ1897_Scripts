@@ -18,7 +18,6 @@ rule go-walkTo-proposal
     ->
 (maintainProposal {@self WALK_TO ?obb}).
 
-
 # Base the activity's outcome on the corresponding action's outcome
 rule go-outcome
 #{@self /ever go ![k document]:?dest /noOut}: ?go
