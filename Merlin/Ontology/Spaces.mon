@@ -6,6 +6,10 @@ world_part //obs
 # Kinds of spaces
         
 space //obs
+    grid_space
+        small_grid_space
+        medium_grid_space
+        large_grid_space
     transaction_zone
     transaction_station
         receiver_station

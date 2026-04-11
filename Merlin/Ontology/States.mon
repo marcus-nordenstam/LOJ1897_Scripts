@@ -29,6 +29,13 @@ relation
         # but perception will never perceive it, so it gets disproven incorrectly
         in                      /rsn /tar structure|space
 
+        # Spaces can have relations to other spaces or objects, such as "on", "under", etc.
+        spatial_relation        /rsn
+
+        # Grid-spaces have a range of min/max cell-sizes, given as integer levels
+        min_cell_level          /rsn /tar @excl
+        max_cell_level          /rsn /tar @excl
+    
         # Physical states
         obb                     /obs /tar @excl @spatialBounds /discardHistory
         inStack                 /obs /tar ?
