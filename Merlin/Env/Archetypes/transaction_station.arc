@@ -1,15 +1,9 @@
-# Oftentimes, NPCs will need to transact involving some goods or items
-# This structure formalizes the necessary spatial relationships by providing 
-# specific locations indicating where each party may stand, and where items 
-# may be dropped/picked up.
-
+# Transaction stations formalize spatial relationships for goods/item exchange,
+# providing specific locations for each party to stand and for items to be dropped/picked up.
 archetype "transaction_station" [256] /obs /alwaysVisible /nonOccluder
 {
-    "isa"                   kind                        /kind               /passivePercept
-    "obb"                   obb                         /spatialBounds      /passivePercept
-
-    "struct_parent"         entity "transaction_zone"   /parent             /passivePercept
-
-    "actor_spot_holder"     entity                                          /passivePercept
-    "staging_spot_occupier" entity                                          /passivePercept
+    "obb"
+    "struct_parent"
+    "actor_spot_holder"     entity      /obs /auto-percept /state-flags-tar @excl
+    "staging_spot_occupier" entity      /obs /auto-percept /state-flags-tar @excl
 }

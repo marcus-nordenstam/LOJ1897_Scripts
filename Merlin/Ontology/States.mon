@@ -1,5 +1,8 @@
 
-# NOTE: Words in parenthesis -- such as (traits) and (emo) -- are used for GROUPING only: they don't define a sub-category.
+# NOTE: Words in parenthesis -- such as (traits) and (emo) -- are used for GROUPING only.
+#
+# States that correspond to env attrs are auto-registered from attr definitions in .arc files.
+# Only states WITHOUT a corresponding attr are defined here.
 
 relation
 
@@ -10,77 +13,22 @@ relation
 
         # Environmental states
         weather                 /obs /tar @excl weather
-
-        # Weather states
-        fog                     /obs /tar @excl strength_measurement
-        rain                    /obs /tar @excl strength_measurement
-        snow                    /obs /tar @excl strength_measurement
-        wind                    /obs /tar @excl strength_measurement
         thunder                 /obs /tar @excl strength_measurement
         temperature             /obs /tar @excl
-        sky                     /obs /tar @excl sky_condition
 
-        # Spaces can have relations to other spaces or objects, such as "on", "under", etc.
-        spatial_relation        /obs
+        # Spatial states (not directly from attrs)
+        withinReachOf           /tar object|space
+        facing                  /tar object|space
 
-        # Spatial containment
-        # NOTE that "in" is reasoned - NOT observable
-        # This is because spatial-containment is imperceptible, which means 
-        # that the perception system will never try to directly perceive that attr.
-        # But if the corresponding state (in) is declared observable, then any belief using
-        # in will be contradicted because the belief states it can be disproven by perception
-        # but perception will never perceive it, so it gets disproven incorrectly
-        in                      /rsn /tar structure|space
-
-        # Grid-spaces have a range of min/max cell-sizes, given as integer levels
-        min_cell_level          /rsn /tar @excl
-        max_cell_level          /rsn /tar @excl
-    
-        # Physical states
-        obb                     /obs /tar @excl @spatialBounds /discardHistory
-        inStack                 /obs /tar ?
-        part                    /obs /tar object|space|location
-        color                   /obs /tar @excl
-        gender                  /obs /tar @excl
-        height                  /obs /tar @excl
-        girth                   /obs /tar @excl
-        condition               /obs /tar @excl
-        appearance              /obs /tar @excl
-        height                  /obs /tar @excl
-        girth                   /obs /tar @excl
-        wear                    /obs /sub being|bodyPart /tar accessory|clothing
-        control                 /obs                     /tar object
-        region                  /feel /tar region @excl
+        # Physical states not from attrs
         wound                   /obs /tar
         bloodStain              /obs /tar
         bloodType               /obs /tar @excl
-        # the structural parent (not human parent)
-        struct_parent           /obs /tar object|space @excl
-        # Either hand of a creature
-        hand                    /obs
-        # Any finger on a hand
-        finger                  /obs
-        # The eyes of a creature
-        eyes                    /obs
-        # The mouth of a creature
-        mouth                   /obs
-        
-        fluid_amount            /obs /tar @excl /sub fluid
 
-        # Transaction system states
+        # Transaction system states (not from attrs)
         actor_spot              /obs /tar location @excl
-        actor_spot_holder       /obs /tar @excl
         staging_spot            /obs /tar location @excl
-        staging_spot_occupier   /obs /tar @excl
         counterpart_station     /obs /tar @excl
-
-        # Physiological states
-        alertness                                       /tar @excl  /def alert /discardHistory
-
-        # Spatial states
-        at                      /tar object|space
-        withinReachOf           /tar object|space
-        facing                  /tar object|space
 
         # Abstract states
         for                     /tar @excl
@@ -88,51 +36,18 @@ relation
         price                   /sub ?                  /tar @excl
         possess                 /sub human              /tar object
         expect                  /sub human              /tar ?
-        initiator               /tar human
+        status                  /tar ? @excl
 
-        # Stack states
-        # The items in a collection/stack
+        # Stack states not from attrs
         item                    /obs /tar object
-        # The top item in a collection/stack
-        top                     /obs /sub stack          /tar @excl object
-        # The stack which an item was taken from.
-        # This state ends once the item is put back into some stack.
         fromStack               /obs /sub object         /tar @excl stack
-        # This state holds for the current stack item being 'browsed'.
         view                    /obs /sub human          /tar @excl object
-        # The label on a collection/stack
-        stackLabel              /obs /tar ? @excl
-        # Places may hold collections/stacks of items
         stack                   /obs /sub space|structure    /tar @excl stack
         mailStack               /obs /sub space|structure    /tar @excl stack
-        # Each stack may have a corresponding 'done stack' holding items already browsed
         doneStack               /obs /sub stack              /tar @excl stack
 
-        # Special/hacky states:
-        # This state is used to make root NPCs found essential orgs at the start of the historical simulation.
+        # Special states
         mustFoundOrg            /sub human          /tar org
-
-        # Birth-date, founding-date, printing-date or creation-date in general
-        status                  /tar ? @excl
-        #address                /tar @excl          /sub space|structure
-        #canReach
-        #causeOfDeath           /tar @excl
-        # The author of a message (spoken or written)
-        #author                 /tar @excl          /sub human
-
-        # Personality traits
-        (traits)                //tar @excl      //sub human
-            charisma
-            sexualOrient
-            romanticism
-            passion
-            extroversion        /tar ?
-            intelligence        /tar ?
-            interests           /tar [?]
-
-        # Communicative states
-        (comm)                  //sub human
-            conversation        /tar conversation @excl
 
         # Emotional states
         (emo)                   //sub human
@@ -149,34 +64,22 @@ relation
             sister              /tar human
             spouse              /tar human @excl
             fiancee             /tar human @excl
-            pregnantWhen
-            pregnantBy          /tar human @excl
             child               /tar human
             friends             /tar [human]
             acquaintances       /tar [human]
             eligibleForMarriage
             marriageDesirability /tar @excl
             love                 /tar
-            #lovers              /tar [human]
-            #crushes             /tar [human]
-            #reasonForLover      /tar ?
-
 
         # Vocational, legal, "societal" states
         (cultural)
-            name                /tar @name
-            role                /tar role @excl
             capacity            /tar ? @excl
-            age                 /tar @excl
-            ageGroup            /tar @excl
             maritalState        /tar @excl              /sub human      /def @unknown
             class               /tar ? @excl            /sub human
             titles              /tar ?                  /sub human
-            nationality         /tar @excl              /sub human
             trainingPos         /tar orgPos @excl       /sub human
             diplomas            /tar [?]                /sub human
             job                 /tar job                /sub human
-            perform             /obs                    /sub human
             membership                                  /sub human
             hours               /tar ? @excl            /sub human
             timeOfRetirement    /tar ? @excl            /sub human
@@ -184,36 +87,19 @@ relation
             buildings           /tar [structure]        /sub property
             lands               /tar [space]            /sub property
             property            /sub being
-            # This is your primary residence, of which you can only have one at a time
             home                /tar structure @excl    /sub human
-            # These are any of your residences, including your home
-            #residence           /tar structure          /sub human
             owner               /tar human|org @excl
 
-        # States describing a document
-        (doc)
-            # Documents hold physical writings
-            writings            /tar [?] @msg @S    /obs
-
-        # States that describe a building
+        # States describing a building
         (bldg)                  //sub building
             availability        /tar @excl
 
         # States used to describe a job
         (job)                   //sub job
-            # A job is offered by an employer
             employer            /tar org @excl
-            # the job level or seniority
             level               /tar @excl
-            # who holds the job
             holder              /tar human @excl
-            # what the job pays
             annualWage          /tar @excl
-
-        # States used to describe a profession
-        #(prof)                  //sub prof //tar @excl
-        #    minWage
-        #    maxWage
 
         # States that describe an organisation
         (org)                   //sub org
@@ -234,7 +120,6 @@ relation
             memberships         /tar [membership]
             workplace           /tar space|structure @excl
             workplaceKind       /tar ?
-            # The diploma given by an educational institution
             diploma             /tar ? @excl
 
         # States used to describe an activity-object

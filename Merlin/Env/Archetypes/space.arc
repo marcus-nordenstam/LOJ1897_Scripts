@@ -1,25 +1,14 @@
 # Spaces
 archetype "space" [2096] /obs /alwaysVisible /nonOccluder /sectorCoverage
 {
-    "isa"           kind                                /kind               /passivePercept
-    "date"          date                                /date
-    # The name is perceptible or NPCs won't know what space they're in.
-    "name"          name                                /name               /passivePercept
-    # Is the space in, on, under, etc something?
-    "spatial_relation" str                                                  /passivePercept
-
-    # ENTITY attrs
-
-    # parent relationships are imperceptible to reduce the mental burden of perceiving them 
-    # (and they are technically redundant since we keep track of parts) 
-    # but we keep them in the ECS for efficiency reasons
-    "struct_parent" entity                              /parent
-    "parts"         entity [6] /label "part"            /children           /passivePercept
-    # The SMALLEST spaces and structures each space is in
-    "in"            entity [6] "structure" "space"      /spatialContainment /imperceptible
-    # Reverse of "in": all entities spatially contained within this space
-    "contains"      entity []                           /contains           /imperceptible
-
-    # SPATIAL BOUNDS attrs
-    "obb"           obb                                 /spatialBounds      /passivePercept
+    "date"
+    # Name is perceptible so NPCs know what space they're in
+    # Name is auto-perceived so NPCs know what space they're in
+    "name" /auto-percept
+    "spatial_relation"
+    "struct_parent"
+    "parts" /auto-percept
+    "in"
+    "contains"
+    "obb"
 }
