@@ -5,7 +5,9 @@ archetype "space" [2096] /obs /alwaysVisible /nonOccluder /sectorCoverage
     "date"          date                                /date
     # The name is perceptible or NPCs won't know what space they're in.
     "name"          name                                /name               /passivePercept
-   
+    # Is the space in, on, under, etc something?
+    "spatial_relation" str                                                  /passivePercept
+
     # ENTITY attrs
 
     # parent relationships are imperceptible to reduce the mental burden of perceiving them 
@@ -16,7 +18,7 @@ archetype "space" [2096] /obs /alwaysVisible /nonOccluder /sectorCoverage
     # The SMALLEST spaces and structures each space is in
     "in"            entity [6] "structure" "space"      /spatialContainment /imperceptible
     # Reverse of "in": all entities spatially contained within this space
-    "contains"      entity [128]                        /contains           /imperceptible
+    "contains"      entity []                           /contains           /imperceptible
 
     # SPATIAL BOUNDS attrs
     "obb"           obb                                 /spatialBounds      /passivePercept

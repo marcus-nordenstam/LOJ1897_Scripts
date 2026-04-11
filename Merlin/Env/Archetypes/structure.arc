@@ -11,7 +11,7 @@ archetype "structure" [512] /obs /alwaysVisible
     # The SMALLEST spaces each structure is in
     "in"            entity [6] "space"                  /spatialContainment /imperceptible
     # Reverse of "in": all entities spatially contained within this structure
-    "contains"      entity [256]                        /contains           /imperceptible
+    "contains"      entity []                           /contains           /imperceptible
     "parts"         entity [16] /label "part"           /children           /passivePercept
 
     # SPATIAL BOUNDS attrs
