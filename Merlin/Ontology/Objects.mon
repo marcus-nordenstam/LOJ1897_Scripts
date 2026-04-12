@@ -22,15 +22,6 @@ object //obs
                 germanShepard
             cat
                 siamese
-    bodyPart
-        head
-        hand
-            leftHand
-            rightHand
-        finger
-            ringFinger
-        eye
-        mouth
     wound
         stabWound
     stain
@@ -60,8 +51,7 @@ object //obs
             policeUniform
             dress
                 summerDress
-        furniture
-            bar_counter
+        loose_furniture
             table
                 kitchenTable
             evidenceBox
@@ -118,10 +108,21 @@ object //obs
                 policeStation
                 church
                 theatre
-    structurePart
-        interior
-            wall
-        exterior
-            window
-            wall
-            door
+    part
+        body_part
+            head
+            hand
+                leftHand
+                rightHand
+            finger
+                ringFinger
+            eye
+            mouth    
+        structure_part
+            interior_structure_part
+                bar_counter
+                wall
+            exterior_structure_part
+                window
+                wall
+                door

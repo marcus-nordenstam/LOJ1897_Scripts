@@ -1,4 +1,13 @@
 
+rule pubbing-order-beer-claim-spot-at-bar
+{@self pubbing}
+#{?bartender perform [k bartending] ?pub}
+{?pub part [k bar_counter]:?bar_counter}
+(claim_env_cell /adjacent /available /dim @self ?bar_counter): ?claimed_cell
+    ->
+(bb_write @self open_bar_slot ?claimed_cell)
+(print "WOHOO").
+
 /*
 # Pub patron behaviour.
 rule pubbing-order-beer-proposal
@@ -15,7 +24,7 @@ rule pubbing-order-beer-claim-spot-at-bar
 {@self order [k beer] ?bartender}
 {?bartender perform [k bartending] ?pub}
 {?pub part [k bar_counter]:?bar}
-(claim_env_cell /dim @self /nearest /available /adjacent_to ?bar_counter): ?claimed_cell
+(claim_env_cell /adjacent /available /dim @self ?bar_counter): ?claimed_cell
     ->
 (beginBelief {@self open_bar_slot ?claimed_cell}).
 
