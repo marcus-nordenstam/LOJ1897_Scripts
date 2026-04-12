@@ -2,7 +2,6 @@
 archetype "space" [2096] /obs /alwaysVisible /nonOccluder /sectorCoverage
 {
     "date"
-    # Name is perceptible so NPCs know what space they're in
     # Name is auto-perceived so NPCs know what space they're in
     "name" /auto-percept
     "spatial_relation"

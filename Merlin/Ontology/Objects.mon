@@ -61,6 +61,7 @@ object //obs
             dress
                 summerDress
         furniture
+            bar_counter
             table
                 kitchenTable
             evidenceBox

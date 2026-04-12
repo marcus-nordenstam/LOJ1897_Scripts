@@ -33,14 +33,13 @@ relation
             processTitleDeed                        /aux structure|space
             introduceSiblings
 
-            startConv                               /tar conversation
-            endConv                                 /tar conversation
+            start_conv                               /tar conversation
+            end_conv                                 /tar conversation
 
             tell_about                              /sub @msgAuthor human /aux @msgAudience human
 
             order                       /motor legs
             serve_beer                  /motor mind   /tar human
-            claim_transaction_station   /motor mind   /tar transaction_zone
 
             # ----------------------------------------------------------------------------------
             # physical tasks - motors are involved

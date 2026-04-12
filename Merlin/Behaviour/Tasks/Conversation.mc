@@ -16,7 +16,7 @@
 # If we want to have a conversation with someone, we must first determine if that person is 
 # already in a conversation, or not.
 #-----------------------------------------------------------------------------------------
-rule startConv-perceive-conv-proposal /breakOnFire
+rule start-conv-perceive-conv-proposal /breakOnFire
 {@self goal {@self conversation ?irrConv}}
 {?irrConv participant !@self:?person}
 (none {?person conversation}) # We don't know if ?person is already in a conversation
@@ -29,27 +29,27 @@ rule startConv-perceive-conv-proposal /breakOnFire
 # STARTING A CONVERSATION
 #-----------------------------------------------------------------------------------------
 
-rule startConv-proposal
+rule start-conv-proposal
 {@self goal {@self conversation ?irrConv}}
 {@self conversation @nothing}
 {?irrConv participant !@self:?person}
 {?person conversation @nothing} # We know that ?person is NOT in ANY conversation
 (lockRule) # Only try to start one conv at a time
     ->
-(maintainProposal {@self startConv ?irrConv})
+(maintainProposal {@self start_conv ?irrConv})
 (print [@self wants to start a conversation with ?person]).
 
 
-rule startConv-maintain-closeAndFacing-proposal
-{@self startConv ?conv}
+rule start-conv-maintain-closeAndFacing-proposal
+{@self start_conv ?conv}
 {?conv participant !@self:?person}
     ->
 (maintainProposal {@self keep_near_and_facing ?person} /absUtil 1000)
 (maintainProposal {@self keepLookingAtPart ?person eyes} /absUtil 1000).
 
 
-rule startConv-tell-howDo-proposal
-{@self startConv ?conv}
+rule start-conv-tell-howDo-proposal
+{@self start_conv ?conv}
 {?conv participant !@self:?person}
     ->
 (anyOrUnknown {?person name}).target: ?nameOrUnknown
@@ -57,10 +57,10 @@ rule startConv-tell-howDo-proposal
 (maintainGoal {@self TELL ?opening ?person}).
 
 
-rule startConv-makeConvFromResponse-proposal
-{@self startConv ?irrConv}: ?startConv
+rule start-conv-makeConvFromResponse-proposal
+{@self start_conv ?irrConv}: ?start_conv
 {?irrConv participant !@self:?person}
-{@self /succ TELL ? ?person /causes ~?startConv}: ?openingTELL
+{@self /succ TELL ? ?person /causes ~?start_conv}: ?openingTELL
 {?person /succ TELL (formulaic response howDo ?) @self /causes ~?openingTELL}
     ->
 # Create the realis conversation (which is a meta-entity)
@@ -69,8 +69,8 @@ rule startConv-makeConvFromResponse-proposal
 
 # I am trying to start a conversation with ?person,
 # but ?person beats me to TELLing the formulaic opening
-rule startConv-makeConvPreemptive-proposal
-{@self startConv ?irrConv}: ?startConv
+rule start-conv-makeConvPreemptive-proposal
+{@self start_conv ?irrConv}: ?start_conv
 {?irrConv participant !@self:?person}
 {?person /succ TELL (formulaic opening ? ?) @self}
     ->
@@ -85,13 +85,13 @@ rule startConv-makeConvPreemptive-proposal
 # then we are now in a conversation with someone, so the goal will
 # have already ended.
 rule realise-conv
-{@self /ever startConv ?irrConv /causes ?causes}: ?startConv
+{@self /ever start_conv ?irrConv /causes ?causes}: ?start_conv
 {?irrConv participant !@self:?person}
 {@self conversation @something:?reaConv}
 {?person conversation ?reaConv}
     ->
 # The conversation starting task was successful
-(setOutcome ?startConv /succ)
+(setOutcome ?start_conv /succ)
 # The irrealis conv is the same as the realis conv
 # NOTE that this also ends all possessive ?irrConv beliefs
 # and leads to ?irrConv being forgotten
@@ -107,13 +107,13 @@ rule realise-conv
 # Person tells me they're busy with another conversation.
 # This could happen if multiple NPCs try to start a conversation at the same
 # time with one person. 
-rule startConv-outcome-fail /breakOnFire
-{@self startConv ?irrConv}: ?startConv
+rule start-conv-outcome-fail /breakOnFire
+{@self start_conv ?irrConv}: ?start_conv
 {?irrConv participant !@self:?person}
-{@self /succ TELL ? ?person /causes ~?startConv}: ?openingTELL
+{@self /succ TELL ? ?person /causes ~?start_conv}: ?openingTELL
 {?person /succ TELL (formulaic refusal ? ?) @self /causes ~?openingTELL}
     ->
-(setOutcome ?startConv /fail).
+(setOutcome ?start_conv /fail).
 
 # if {@self initiateConversation ?person}
 # and ?person declines your invitation in a rude manner (rude declining phrase, ignore, walk away)
@@ -165,7 +165,7 @@ rule conv-response-formulaicOpening-proposal
 rule conv-response-playerTalk-proposal
 {@self conversation @nothing}
 {?person /succ TELL (formulaic opening playerTalk) @self}: ?personTell
-(none {@self endConv}) # Don't start a new conversation while ending one
+(none {@self end_conv}) # Don't start a new conversation while ending one
 (none {@self /ever TELL ? ?person /causes ~?personTell})
 (lockRule) # Join only one conversation at a time
     ->
@@ -187,16 +187,16 @@ rule conv-playerTalk-maintain-closeAndFacing-proposal
 
 
 # Player presses 'Bye' — the game injects a playerBye formulaic leave-taking.
-# The NPC begins endConv through the normal proposal flow.
+# The NPC begins end_conv through the normal proposal flow.
 # We use beginProposal (one-shot) + addCause so the guard below can prevent
 # re-matching the same old playerBye TELL on future conversations.
 rule conv-response-playerBye-proposal
 {@self conversation @something:?conv}
 {!@self:?person conversation ?conv}
 {?person /succ TELL (formulaic leaveTaking playerBye) @self}: ?personTell
-(none {@self /ever endConv /causes ~?personTell})
+(none {@self /ever end_conv /causes ~?personTell})
     ->
-(beginProposal {@self endConv ?conv} /absUtil 1000): ?proposal
+(beginProposal {@self end_conv ?conv} /absUtil 1000): ?proposal
 (addCause ?proposal ?personTell).
 
 
@@ -257,7 +257,7 @@ rule conv-expect-answer-cause
 # TODO: Don't end if the other person is displaying body-language 
 # to the effect that they have more to say.
 
-rule conv-end-proposal
+rule end-conv-proposal
 {@self conversation @something:?conv}
 {!@self:?audience conversation ?conv}
 # Only let the person who initiated the conversation end it
@@ -269,32 +269,32 @@ rule conv-end-proposal
 (none {?conv todo})
 #(gt (evalCount) 20 /cont) # how many times this instruction has been evaluated since the rule activated
     ->
-(maintainProposal {@self endConv ?conv} /relUtil 100).
+(maintainProposal {@self end_conv ?conv} /relUtil 100).
 
 
-rule endConv-tellLeaveTaking-proposal
-{@self endConv ?conv}: ?endConv
+rule end-conv-tellLeaveTaking-proposal
+{@self end_conv ?conv}: ?end_conv
 {!@self:?person conversation ?conv}
     ->
 # "we'll continue this later", "pardon me", "excuse me", "I have to go now", "bye", "see you later", etc.
 (formulaic leaveTaking bye): ?leaveTaking
 (beginGoal {@self TELL ?leaveTaking ?person} /relUtil 100): ?tellGoal
-(addCause ?tellGoal ?endConv).
+(addCause ?tellGoal ?end_conv).
 
 
 # Only destroy the conversation AFTER leavetaking TELL has concluded
-rule endConv-destroyAfterTell-proposal
-{@self /ever endConv ?conv}: ?endConv
-{@self /past TELL ? ? /causes ~?endConv} # we simply use /past instead of /succ in case it gets interrupted
+rule end-conv-destroyAfterTell-proposal
+{@self /ever end_conv ?conv}: ?end_conv
+{@self /past TELL ? ? /causes ~?end_conv} # we simply use /past instead of /succ in case it gets interrupted
     ->
 (beginProposal {@self DESTROY_CONV_META_ENT ?conv} /relUtil 100).
 
 
-rule endConv-outcome-succ
-{@self endConv ?conv}: ?endConv
+rule end-conv-outcome-succ
+{@self end_conv ?conv}: ?end_conv
 {@self /succ DESTROY_CONV_META_ENT ?conv}
     ->
-(setOutcome ?endConv /succ).
+(setOutcome ?end_conv /succ).
 
 
 # DEBUGGING RULES

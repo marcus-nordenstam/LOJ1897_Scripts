@@ -21,7 +21,7 @@
 # wme
 # match
 # pattern
-# belief
+belief
 #delib
 #action
 # rule

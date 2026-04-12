@@ -6,13 +6,8 @@ world_part //obs
 # Kinds of spaces
         
 space //obs
-    grid_space
-    transaction_zone
-    transaction_station
-        receiver_station
-
     interior_space
-        bar_work_aisle
+        bar_back
         entrance
             mainEntrance
         doorway

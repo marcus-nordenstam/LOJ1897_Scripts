@@ -1,4 +1,5 @@
 
+/*
 # Pub patron behaviour.
 rule pubbing-order-beer-proposal
 {@self pubbing}
@@ -9,65 +10,58 @@ rule pubbing-order-beer-proposal
 (maintainProposal {@self order [k beer] ?bartender}).
 
 
-rule pubbing-order-beer-claim-spot
+rule pubbing-order-beer-claim-spot-at-bar
 {@self pubbing}
 {@self order [k beer] ?bartender}
 {?bartender perform [k bartending] ?pub}
-(none {[k receiver_station] actor_spot_holder @self})
-(closestPart [k receiver_station] ?pub [{@o actor_spot_holder @nothing}]): ?station
+{?pub part [k bar_counter]:?bar}
+(claim_env_cell /dim @self /nearest /available /adjacent_to ?bar_counter): ?claimed_cell
     ->
-(maintainProposal {@self CLAIM_TRANSACTION_STATION ?station}).
+(beginBelief {@self open_bar_slot ?claimed_cell}).
 
 
-rule pubbing-order-beer-go-to-station
+rule pubbing-order-beer-go-to-bar
+{@self pubbing}
+{@self order [k beer] ?bartender}
+{@self open_bar_slot ?claimed_cell}
+(overlaps /not @self ?claimed_cell 0.8)
+    ->
+(maintainProposal {@self go ?claimed_cell}).
+
+
+rule pubbing-order-beer-wait-at-bar
 {@self pubbing}
 {@self order [k beer] ?bartender}
 {?bartender perform [k bartending] ?pub}
-{?pub part [k transaction_zone]:?zone}
-{?zone part [k transaction_station]:?station}
-{?station actor_spot_holder @self}
-(overlaps /not @self ?station 1)
+{@self open_bar_slot ?claimed_cell}
+{?pub part [k bar_counter]:?bar_counter}
+(overlaps @self ?claimed_cell 0.8)
     ->
-(maintainProposal {@self go ?station}).
-
-
-rule pubbing-order-beer-wait-at-station
-{@self pubbing}
-{@self order [k beer] ?bartender}
-{?bartender perform [k bartending] ?pub}
-{?bartender eyes ?bartender_eyes}
-{?pub part [k transaction_zone]:?zone}
-{?zone part [k transaction_station]:?station}
-{?station actor_spot_holder @self}
-(overlaps @self ?station 1)
-    ->
-(maintainProposal {@self MIRROR ?station})
+(maintainProposal {@self TURN_TO ?bar_counter})
 (maintainProposal {@self LOOK_AT ?bartender_eyes}).
 
 
 rule pubbing-order-beer-take-beer
 {@self pubbing}
-{@self order [k beer] ?bartender}
-{?bartender perform [k bartending] ?pub}
-{?pub part [k transaction_zone]:?zone}
-{?zone part ?station}
-{?station actor_spot_holder @self}
-{?station staging_spot_occupier @something:?beer}
-    ->
-(beginProposal {@self take ?beer}).
-
-
-rule pubbing-order-beer-release-claim
-{@self pubbing}
 {@self order [k beer] ?bartender}: ?order
 {?bartender perform [k bartending] ?pub}
-{?pub part [k transaction_zone]:?zone}
-{?zone part ?station}
-{?station actor_spot_holder @self}
-{?station staging_spot_occupier @something:?beer}
-{@self /succ take ?beer /causes ~?order} 
+(bb_read /cont @self served_beer_cell): ?beer_cell
+(env_cell_occupier [k drinking_glass] ?beer_cell): ?beer_glass
     ->
-(beginProposal {@self RELEASE_TRANSACTION_STATION ?station}).
+(beginProposal {@self take ?beer_glass})
+(bb_clear @self served_beer_cell).
+
+
+rule pubbing-order-beer-unclaim-spot-at-bar
+{@self pubbing}
+{?bartender perform [k bartending] ?pub}
+{@self /past order [k beer] ?bartender}: ?order
+{@self /succ take ?beer /causes ~?order}
+{?pub part [k bar_counter]:?bar}
+{@self open_bar_slot ?claimed_cell}: ?open_bar_slot
+    ->
+(unclaim_env_cell ?claimed_cell)
+(endBelief ?open_bar_slot).
 
 
 rule pubbing-drink-beer-proposal
@@ -77,3 +71,5 @@ rule pubbing-drink-beer-proposal
 {?glass control [k beer]}
     ->
 (beginProposal /cont-interval 8 2 {@self drink ?glass}).
+
+*/

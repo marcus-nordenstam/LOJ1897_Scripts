@@ -13,7 +13,7 @@ attr "name"             name                                    /name       /obs
 attr "obb"              obb                                     /spatialBounds  /obs /auto-percept /state-flags-tar @excl
 attr "spatial_relation" str                                                 /obs /auto-percept
 # Parent relationships are kept in the ECS for efficiency (technically redundant with parts)
-attr "struct_parent"    entity "structure"|"part"|"space"|"grid_space"|"transaction_zone"|"hand"|"human_player"|"human_npc"    /parent /obs /state-flags-tar @excl
+attr "struct_parent"    entity "structure"|"part"|"space"|"hand"|"human_player"|"human_npc"    /parent /obs /state-flags-tar @excl
 attr "parts"            entity [] /state "part"                 /children   /obs
 # The SMALLEST spaces and structures each entity is inside of
 attr "in"               entity [4] "structure"|"space"          /spatialContainment /imperceptible
@@ -107,12 +107,6 @@ attr "sky"              str clear                                           /obs
 
 # Conversation
 attr "initiator"        entity "human_player"|"human_npc"                   /obs /auto-percept
-
-# Grid space
-attr "min_cell_level"   int                                                 /imperceptible /state-flags-tar @excl
-attr "max_cell_level"   int                                                 /imperceptible /state-flags-tar @excl
-attr "cell_occupants"   entity []                                           /imperceptible
-attr "intended_cell_occupants"  entity []                                   /imperceptible
 
 # Fluid
 attr "fluid_amount"     float                                               /obs /auto-percept /state-flags-tar @excl

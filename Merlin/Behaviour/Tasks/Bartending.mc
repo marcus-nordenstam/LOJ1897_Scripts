@@ -4,72 +4,62 @@
 # if you have nothing to do, hang in back in the bar
 rule bartending-idle-hang-back
 {@self perform [k bartending] ?pub}
-{?pub part [k bar_work_aisle]:?work_aisle}
+{?pub part [k bar_back]:?bar_back}
 (none {@self serve_customer})
-(isWithinReachOf /not /center ?work_aisle 0.5) # get 50% closer to the target before stopping
+(isWithinReachOf /not /center ?bar_back 0.5) # get 50% closer to the target before stopping
     ->
-(maintainProposal {@self go ?work_aisle}).
+(maintainProposal {@self go ?bar_back}).
 
 rule bartending-idle-face-bar
 {@self perform [k bartending] ?pub}
-{?pub part [k bar_work_aisle]:?work_aisle}
+{?pub part [k bar_back]:?bar_back}
 (none {@self serve_customer})
-(isWithinReachOf /center ?work_aisle)
+(isWithinReachOf /center ?bar_back)
     ->
-(maintainProposal /cont {@self MIRROR ?work_aisle}).
-
-rule bartending-idle-look-at-customers
-{@self perform [k bartending] ?pub}
-(none {@self serve_customer})
-(observed /cont-interval 4 1 /leastRecent (in /every [k human] ?pub)): ?least_recently_observed_customer
-    ->
-(maintainProposal /cont-interval 4 1 {@self LOOK_AT ?least_recently_observed_customer}).
+(maintainProposal /cont {@self MIRROR ?bar_back}).
 
 
-# identify customer and serve them
-rule bartending-serve-customer-proposal
-{@self perform [k bartending] ?pub}
-{?pub part [k transaction_zone]:?zone}
-{?zone part [k transaction_station]:?station}
-{?station actor_spot_holder @something:?patron}
-{?station staging_spot_occupier @nothing} # nothing is currently served for this patron
-(overlaps ?patron ?station 1)
-(lockRule) # Deal with one patron at a time
-    ->
-(beginProposal {@self serve_customer ?patron} /absUtil 1000).
-
-
-# find out what drink customer wants
-rule bartending-serve-customer-know-what-to-serve-goal
-{@self perform [k bartending] ?pub}
-{@self serve_customer ?patron}
-    ->
-(maintainGoal {@self know '(any {?patron order ? @self}).target}).
-
-
-# spawn in the drink
-rule bartending-serve-customer-SPAWN-drink-proposal
-{@self perform [k bartending] ?pub}
-{@self serve_customer ?patron}: ?serve
-{?pub part [k transaction_zone]:?zone}
-{?zone part [k provider_staging_spot]:?sp}
-{?zone part ?station}
-{?station actor_spot_holder ?patron}
-{?patron order ?drink @self}
-    ->
-(beginProposal {@self SPAWN [[k drinking_glass] ?sp] [{@o for ?patron}]})
-(beginProposal {@self SPAWN [[k beer] ?sp] [{@o for ?patron}]}).
-
-
-# Make the glass control the beer, and set the full glass as the 
-# provider's occupier so that the patron recognizes which beer-glass is theirs
-rule bartending-serve-customer-POUR-drink-proposal
-{@self perform [k bartending] ?pub}
-{@self serve_customer ?patron}: ?serve
-{?station actor_spot_holder ?patron}
-{[k drinking_glass]:?glass for ?patron}
-{[k beer]:?beer for ?patron}
-    ->
-(beginProposal {@self POUR ?beer ?glass})
-(beginProposal {@self SET_PROVIDER_OCCUPIER_SLOT ?glass ?station})
-(setOutcome /succ ?serve).
+# TODO: Enable when env-grid API is tested in Player
+#
+# # identify customer and serve them
+# rule bartending-serve-customer-proposal
+# {@self perform [k bartending] ?pub}
+# {?pub part [k bar_counter]:?bar_counter}
+# (none {@self serve_customer})
+# (env_cell_occupier [k human] /adjacent_to ?bar_counter /least-recently-checked): ?patron
+# (none {[k drinking_glass] for ?patron})
+# (lockRule) # Deal with one patron at a time
+#     ->
+# (beginProposal {@self serve_customer ?patron} /absUtil 1000).
+#
+#
+# # find out what drink customer wants
+# rule bartending-serve-customer-know-what-to-serve-goal
+# {@self perform [k bartending] ?pub}
+# {@self serve_customer ?patron}
+#     ->
+# (maintainGoal {@self know '(any {?patron order ? @self}).target}).
+#
+#
+# # spawn in the glass
+# rule bartending-serve-customer-SPAWN-glass-proposal
+# {@self perform [k bartending] ?pub}
+# {@self serve_customer ?patron}: ?serve
+# {?patron order ?drink @self}
+# {?pub part [k bar_counter]:?bar_counter}
+# (env_cell /dim [k drinking_glass] /available /on-top-of ?bar_counter /near ?patron): ?cell
+#     ->
+# (bb_write ?patron served_beer_cell ?cell)
+# (beginProposal {@self SPAWN [[k drinking_glass] ?cell]}).
+#
+#
+# # pour the beer into the glass, which both spawns the beer and makes the glass control the beer.
+# rule bartending-serve-customer-POUR-beer-proposal
+# {@self perform [k bartending] ?pub}
+# {@self serve_customer ?patron}: ?serve
+# {?patron order ?drink @self}
+# (bb_read /cont ?patron served_beer_cell ?beer_cell)
+# (env_cell_occupier [k drinking_glass] ?beer_cell): ?beer_glass
+#     ->
+# (beginProposal {@self POUR [k beer] ?beer_glass})
+# (setOutcome /succ ?serve).
