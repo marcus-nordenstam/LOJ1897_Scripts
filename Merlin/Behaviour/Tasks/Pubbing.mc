@@ -22,12 +22,11 @@ rule pubbing-order-beer-claim-spot-at-bar
 (bb_write @self open_bar_slot ?claimed_cell).
 
 
-
 rule pubbing-order-beer-go-to-bar
 {@self pubbing}
 {@self order [k beer] ?bartender}
 (bb_read @self open_bar_slot): ?claimed_cell
-(overlaps /not @self ?claimed_cell 0.8)
+(overlaps /not ?claimed_cell @self 0.8)
     ->
 (maintainProposal {@self go_env_cell ?claimed_cell}).
 
@@ -39,7 +38,7 @@ rule pubbing-order-beer-wait-at-bar
 {?bartender eyes ?bartender_eyes}
 {?pub part [k bar_counter]:?bar_counter}
 (bb_read @self open_bar_slot): ?claimed_cell
-(overlaps @self ?claimed_cell 0.8)
+(overlaps ?claimed_cell @self 0.8)
     ->
 (maintainProposal {@self TURN_TO ?bar_counter})
 (maintainProposal {@self LOOK_AT ?bartender_eyes}).

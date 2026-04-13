@@ -31,7 +31,6 @@ relation
         counterpart_station     /obs /tar @excl
 
         # Abstract states
-        for                     /tar @excl
         know                    /sub human              /tar @S
         price                   /sub ?                  /tar @excl
         possess                 /sub human              /tar object

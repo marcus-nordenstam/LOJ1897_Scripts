@@ -1,22 +1,12 @@
 
-/*
 
 # if you have nothing to do, hang in back in the bar
-rule bartending-idle-hang-back
-{@self perform [k bartending] ?pub}
-{?pub part [k bar_back]:?bar_back}
-(none {@self serve_customer})
-(isWithinReachOf /not /center ?bar_back 0.5) # get 50% closer to the target before stopping
-    ->
-(maintainProposal {@self go_entity ?bar_back}).
-
 rule bartending-idle-face-bar
 {@self perform [k bartending] ?pub}
-{?pub part [k bar_back]:?bar_back}
+{?pub part [k bar_counter]:?bar_counter}
 (none {@self serve_customer})
-(isWithinReachOf /center ?bar_back)
     ->
-(maintainProposal /cont {@self MIRROR ?bar_back}).
+(maintainProposal /cont {@self TURN_TO ?bar_counter}).
 
 
 # identify customer and serve them
@@ -24,8 +14,8 @@ rule bartending-serve-customer-proposal
 {@self perform [k bartending] ?pub}
 {?pub part [k bar_counter]:?bar_counter}
 (none {@self serve_customer})
-(env_cell_occupier [k human] /adjacent ?bar_counter): ?patron
-(none {[k drinking_glass] for ?patron})
+(env_cell_occupier [k human] /in_front ?bar_counter): ?patron
+(bb_none ?patron served_beer_cell)
 (lockRule) # Deal with one patron at a time
     ->
 (beginProposal {@self serve_customer ?patron} /absUtil 1000).
@@ -38,7 +28,7 @@ rule bartending-serve-customer-know-what-to-serve-goal
     ->
 (maintainGoal {@self know '(any {?patron order ? @self}).target}).
 
-
+/*
 # spawn in the glass
 rule bartending-serve-customer-SPAWN-glass-proposal
 {@self perform [k bartending] ?pub}

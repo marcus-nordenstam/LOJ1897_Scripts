@@ -10,9 +10,9 @@
 
 --traceSpecificMindsOnly
 
-#--trace {@self job [k bartender]}
+--trace {@self job [k bartender]}
 #--trace {@self name [n Elizabeth Fallow]}
---trace {@self name [n David Jones]}
+#--trace {@self name [n David Jones]}
 #--trace {@self name [n Edgar Jehan]}
 
 # mc
@@ -25,7 +25,7 @@ belief
 delib
 action
 rule
-#percept
+# percept
 # boundary
 env
 # decay
