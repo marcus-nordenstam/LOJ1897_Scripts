@@ -13,7 +13,7 @@ rule use_umbrella-propose-take
 {@self use_umbrella ?umbrella}
 # @self directly controlling something means it is stowed, not in my hand
 {@self control ?umbrella}
-{@self hand [k rightHand]:?hand}
+{@self hand [k right_hand]:?hand}
 {?hand control @nothing}
     ->
 # take task will reach for and grasp the umbrella
@@ -22,7 +22,7 @@ rule use_umbrella-propose-take
 # Keep arm bent while holding umbrella
 #rule use_umbrella-RIGHT_ARM_OUT
 #{@self use_umbrella}
-#{@self hand [k rightHand]:?hand}
+#{@self hand [k right_hand]:?hand}
 #{?hand control [k umbrella]}
 #    ->
 #(maintainProposal {@self RIGHT_ARM_OUT}).

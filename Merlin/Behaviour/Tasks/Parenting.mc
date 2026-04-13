@@ -12,7 +12,7 @@ rule tellChildTheirHome
 {@self gender female}
 {@self home ?home}
 {@self child ?child}
-{?child ageGroup 0}
+{?child age_group 0}
 (none {@self /succ TELL (msg {?child home ?home}) ?child})
     ->
 (beginGoal {@self TELL (msg {?child home ?home}) ?child})
@@ -20,7 +20,7 @@ rule tellChildTheirHome
 
 rule tellChildMyHome
 {@self child ?child}
-{?child ageGroup 0}
+{?child age_group 0}
 {@self home ?home}
 (none {@self /succ TELL (msg {@self home ?home}) ?child})
     ->
@@ -28,21 +28,21 @@ rule tellChildMyHome
 (fireAndForget).
 
 # We let the mother introduce the siblings
-rule introduceSiblings
+rule introduce_siblings
 {@self gender female}
 {@self child ?child1}
-{?child1 ageGroup 0}
+{?child1 age_group 0}
 {@self child !?child1:?child2}
-(none {@self /succ introduceSiblings ?child1 ?child2})
+(none {@self /succ introduce_siblings ?child1 ?child2})
     ->
-(maintainProposal {@self introduceSiblings ?child1 ?child2}).
+(maintainProposal {@self introduce_siblings ?child1 ?child2}).
 
 # Once the children are old enough, tell them about the theatre (so they can go there later and socialize)
 rule tellChildTheatreObb
 {@self gender ?gender}
 {@self child ?child}
 {?child gender ?gender}
-{?child ageGroup 1}
+{?child age_group 1}
 {?theatre isa [k building theatre]:?theatreKind}
 {?theatre obb ?obb}
     ->

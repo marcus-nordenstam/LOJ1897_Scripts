@@ -4,7 +4,7 @@
 
 rule take-left-reach-for-proposal
 {@self take ?thing}
-{@self hand [k leftHand]:?hand}
+{@self hand [k left_hand]:?hand}
 {?hand control @nothing}
 (lockRule take 0)
     ->
@@ -14,7 +14,7 @@ rule take-left-reach-for-proposal
 
 rule take-right-reach-for-proposal
 {@self take ?thing}
-{@self hand [k rightHand]:?hand}
+{@self hand [k right_hand]:?hand}
 {?hand control @nothing}
 (lockRule take 1) # prefer right-hand
     ->
@@ -52,13 +52,13 @@ rule take-right-outcome
 
 
 rule left-hand-control-LEFT_ARM_OUT-proposal
-{@self hand [k leftHand]:?hand}
+{@self hand [k left_hand]:?hand}
 {?hand control @something}
     ->
 (maintainProposal /cont {@self LEFT_ARM_OUT}).
 
 rule right-hand-control-RIGHT_ARM_OUT-proposal
-{@self hand [k rightHand]:?hand}
+{@self hand [k right_hand]:?hand}
 {?hand control @something}
     ->
 (maintainProposal /cont {@self RIGHT_ARM_OUT}).

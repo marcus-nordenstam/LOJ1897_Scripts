@@ -3,7 +3,7 @@
 
 rule drink-left-ACTION-proposals
 {@self drink ?glass}
-{@self hand [k leftHand]:?hand}
+{@self hand [k left_hand]:?hand}
 {?hand control ?glass}
     ->
 (maintainProposal {@self LEFT_ARM_DRINK})
@@ -13,7 +13,7 @@ rule drink-left-ACTION-proposals
 
 rule drink-right-ACTION-proposals
 {@self drink ?glass}
-{@self hand [k rightHand]:?hand}
+{@self hand [k right_hand]:?hand}
 {?hand control ?glass}
     ->
 (maintainProposal {@self RIGHT_ARM_DRINK})

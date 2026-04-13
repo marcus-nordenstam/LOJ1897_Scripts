@@ -8,23 +8,23 @@
 #"Good day to you"                   ( formulaic opening goodDay @unknown )    .
 #"Good day to you, too"              ( formulaic response goodDay @unknown )  .
 
-"How do you do"                     ( formulaic opening howDo @unknown )       .
-"How do you do <r>"                 ( formulaic response howDo @unknown )      .
+"How do you do"                     ( formulaic opening how_do @unknown )       .
+"How do you do <r>"                 ( formulaic response how_do @unknown )      .
 
-"How do you do, $name(PNAME)"       ( formulaic opening howDo $name(PNAME) )    .
-"How do you do, $name(PNAME) <r>"   ( formulaic response howDo $name(PNAME) )  .
+"How do you do, $name(PNAME)"       ( formulaic opening how_do $name(PNAME) )    .
+"How do you do, $name(PNAME) <r>"   ( formulaic response how_do $name(PNAME) )  .
 
 #"A moment, if you please; I am engaged in conversation"                        ( formulaic refusal conv busy ) .
 "I can't talk right now because $st(ST)"                                        ( formulaic refusal $st(ST) ) .
 
-"No, I don't know"                                                              ( formulaic noDontKnow ) .
-"Yes, it's $answer(NP)"                                                         ( formulaic yesIts $answer(NP) ) .
-"Yes, this is my $rel(REL) $name(PNAME)"                                        ( formulaic yesThisIs $rel(REL) $name(PNAME) ) .
+"No, I don't know"                                                              ( formulaic no_dont_know ) .
+"Yes, it's $answer(NP)"                                                         ( formulaic yes_its $answer(NP) ) .
+"Yes, this is my $rel(REL) $name(PNAME)"                                        ( formulaic yes_this_is $rel(REL) $name(PNAME) ) .
 
-"..."                                                                           ( formulaic opening playerTalk ) .
-"Yes?"                                                                          ( formulaic response playerTalk ) .
+"..."                                                                           ( formulaic opening player_talk ) .
+"Yes?"                                                                          ( formulaic response player_talk ) .
 
-"..."                                                                           ( formulaic leaveTaking playerBye ) .
+"..."                                                                           ( formulaic leave_taking player_bye ) .
 
 
 
@@ -32,7 +32,7 @@
 # Leavetaking (initiating)
 #"Bye"
 "Goodbye"
-( formulaic leaveTaking bye ) .
+( formulaic leave_taking bye ) .
 
 # Leavetaking (response)
 #"Bye"

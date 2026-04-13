@@ -9,27 +9,27 @@ space //obs
     interior_space
         bar_back
         entrance
-            mainEntrance
+            main_entrance
         doorway
         room
             kitchen
-            diningRoom
-            restaurantDiningRoom
+            dining_room
+            restaurant_dining_room
             hallway
-            livingRoom
+            living_room
             bedroom
         stage
         auditorium
-    exteriorSpace
+    exterior_space
         land
             territory
-                crownDependency
+                crown_dependency
                 nation
                     country
             area
                 town
                 neighborhood
-            sportingGrounds
-                racingGrounds
-                cricketGrounds
+            sporting_grounds
+                racing_grounds
+                cricket_grounds
             estate

@@ -13,9 +13,9 @@ concept
         no
 
     availability
-        forSale
-        forRent
-        offTheMarket
+        for_sale
+        for_rent
+        off_the_market
 
     rights
         property
@@ -24,7 +24,7 @@ concept
         alive
         dead
 
-    livingArrangement
+    living_arrangement
         owner
         houseguest
         renting
@@ -50,7 +50,7 @@ concept
         conversation
         bartending
         
-    orgPos
+    org_pos
         apprenticeship
         membership
         job
@@ -77,11 +77,11 @@ concept
             cook
             farmer
             nurse
-            shopClerk
+            shop_clerk
             waiter
             maid
             bartender
-            factoryWorker
+            factory_worker
             house_agent
 
 
@@ -90,7 +90,7 @@ concept
             junior
             regular
             senior
-            orgHead
+            org_head
     unit
         social
             family
@@ -100,27 +100,27 @@ concept
     org
         edu
             apprenticeship
-            privateSchool
-            stateSchool
+            private_school
+            state_school
             university
         gov
             church
             hospital
             agency
-                landRegistry
-                companyRegistry
+                land_registry
+                company_registry
         com
             club
                 athletic
-                    raceClub
-                    rugbyUnion
+                    race_club
+                    rugby_union
             business
                 factory
                 bank
-                shippingAgent
-                insuranceCo
-                solicitorFirm
-                houseAgency
+                shipping_agent
+                insurance_co
+                solicitor_firm
+                house_agency
                 newspaper
                 pawnbroker
                 hotel
@@ -130,17 +130,17 @@ concept
                 pub
                 apothecary
                 barbershop
-                antiquesShop
+                antiques_shop
                 theatre
     message
         declaration
-        propertyDescription
+        property_description
         article
         advert
         chapter
     payment
         wage
-        annualWage
+        annual_wage
     
     sky_condition
         clear
@@ -169,19 +169,19 @@ concept
             romanticism
                 unromantic
                 romantic
-            sexualOrient
+            sexual_orient
                 hetero
                 bi
                 homo
 
-        culturalAttr
+        cultural_attr
             title
             nationality
                 Jersey
                 English
                 Irish
 
-        physicalAttr //obs
+        physical_attr //obs
             color
                 blue
             gender
@@ -189,7 +189,7 @@ concept
                 female
             appearance
                 ugly
-                plainLooking
+                plain_looking
                 beautiful
             girth
                 thin
@@ -200,7 +200,7 @@ concept
                 medium
                 tall
 
-        bloodType
+        blood_type
             A
             B
             AB

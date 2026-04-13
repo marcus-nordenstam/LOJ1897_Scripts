@@ -2,8 +2,8 @@
 archetype "part" [2048] /obs
 {
     "date"
-    "name" /auto-percept
+    "name" /auto_percept
     "struct_parent"
-    "parts" /auto-percept
+    "parts" /auto_percept
     "obb"
 }

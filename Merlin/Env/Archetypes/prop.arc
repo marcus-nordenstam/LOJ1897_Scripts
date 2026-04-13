@@ -1,19 +1,19 @@
 # Any object that is potentially mobile
-archetype "prop" [1024] /obs
+archetype "prop" [1024] /obs /occupies_env_grid
 {
     "date"
     "color"
     # Some props are broken, some are whole, etc.
     "condition"
     # Maybe some props have an actual name, though rare
-    "name" /auto-percept
+    "name" /auto_percept
     "writings"
-    "parts" /auto-percept
+    "parts" /auto_percept
     "in"
-    "controlledBy"
-    "controlForce"
+    "controlled_by"
+    "control_force"
     "control"
-    "inStack"
+    "in_stack"
     # If prop is in a stack, obb is set to @nothing
     "obb"
 }

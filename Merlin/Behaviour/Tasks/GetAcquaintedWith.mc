@@ -1,6 +1,6 @@
 
-rule seekAnswers
-{@self getAcquaintedWith ?person}
+rule seek_answers
+{@self get_acquainted_with ?person}
     ->
 #(print [@self wants to get to know ?person])
 [(qs (any {?person name}).target)
@@ -8,12 +8,12 @@ rule seekAnswers
  (qs (any {?person father}).target)
  (qs (any {?person spouse}).target)
  (qs (any {?person home}).target)]: ?questions
-(maintainProposal {@self seekAnswers ?questions}).
+(maintainProposal {@self seek_answers ?questions}).
 
 
 rule 
-{@self /ever getAcquaintedWith ?person /noOut}: ?getAcquainted
-{@self /past seekAnswers ? /causes ~?getAcquainted}: ?seekAnswers
+{@self /ever get_acquainted_with ?person /noOut}: ?getAcquainted
+{@self /past seek_answers ? /causes ~?getAcquainted}: ?seek_answers
     ->
-(setOutcome ?getAcquainted /from ?seekAnswers).
+(setOutcome ?getAcquainted /from ?seek_answers).
 

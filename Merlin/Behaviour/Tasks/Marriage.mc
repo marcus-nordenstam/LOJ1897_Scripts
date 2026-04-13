@@ -11,7 +11,7 @@ rule seekHomeForSpouse
 (lockRule)
     ->
 (print [@self begins seeking a home])
-(beginGoal {@self home (o /invent [k residentialBuilding])}).
+(beginGoal {@self home (o /invent [k residential_building])}).
 
 
 rule acquireHome
@@ -44,7 +44,7 @@ rule marry-proposal
 (lockRule)
     ->
 (beginProposal {@self marry ?fiancee})
-(beginProposal {@self SPAWN [[k weddingBand] @self]})
+(beginProposal {@self SPAWN [[k wedding_band] @self]})
 (beginGoal {@self TELL (msg {@self home ?myHome}) ?fiancee})
 (beginGoal {@self TELL (msg {?myHome obb ?myHomeObb}) ?fiancee}).
 
@@ -59,25 +59,25 @@ rule marry-attention
 rule marry-giveWeddingBand
 {@self marry ?fiancee}
 {@self gender male}
-{[k weddingBand]:?weddingBand owner @self}
-{?fiancee hand [k leftHand]:?lhand}
-{?lhand finger [k ringFinger]:?ringFinger}
-(none {?ringFinger wear [k weddingBand]})
+{[k wedding_band]:?wedding_band owner @self}
+{?fiancee hand [k left_hand]:?lhand}
+{?lhand finger [k ring_finger]:?ring_finger}
+(none {?ring_finger wear [k wedding_band]})
     ->
-(beginBelief {?weddingBand owner ?fiancee})
-(beginProposal {@self give ?weddingBand ?fiancee})
-(print [@self will give ?weddingBand to ?fiancee]).
+(beginBelief {?wedding_band owner ?fiancee})
+(beginProposal {@self give ?wedding_band ?fiancee})
+(print [@self will give ?wedding_band to ?fiancee]).
 
 
 # BRIDE behaviour
 rule female-marry
 {@self fiancee @something:?fiancee}
 {@self gender female}
-{?fiancee OFFER [k weddingBand]:?weddingBand @self}
+{?fiancee OFFER [k wedding_band]:?wedding_band @self}
     ->
 (beginProposal {@self marry ?fiancee})
-(maintainGoal {@self possess ?weddingBand})
-(print [@self wants to possess ?weddingBand]).
+(maintainGoal {@self possess ?wedding_band})
+(print [@self wants to possess ?wedding_band]).
 
 
 rule female-marry-wearWeddingBand
@@ -85,35 +85,35 @@ rule female-marry-wearWeddingBand
 {?fiancee home ?fianceeHome}
 {@self gender female}
 {@self hand ?hand}
-{?hand control [k weddingBand]:?ring}
+{?hand control [k wedding_band]:?ring}
 {?fiancee /succ give ?ring @self}
-{@self hand [k leftHand]:?lhand}
-{?lhand finger [k ringFinger]:?ringFinger}
+{@self hand [k left_hand]:?lhand}
+{?lhand finger [k ring_finger]:?ring_finger}
     ->
 (beginBelief {?ring owner @self})
-(maintainProposal {@self WEAR ?ring ?ringFinger})
+(maintainProposal {@self WEAR ?ring ?ring_finger})
 (beginBelief {@self home ?fianceeHome})
-(print [@self wants to put on weddingBand])
+(print [@self wants to put on wedding_band])
 (print (every {?fiancee /ever give})).
 
 
 # GROOM behaviour
 rule conjureGroomWeddingBand
 {@self marry ?fiancee}
-{?fiancee hand [k leftHand]:?lhand}
-{?lhand finger [k ringFinger]:?ringFinger}
-{?ringFinger wear [k weddingBand]}
+{?fiancee hand [k left_hand]:?lhand}
+{?lhand finger [k ring_finger]:?ring_finger}
+{?ring_finger wear [k wedding_band]}
     ->
-(beginProposal {@self SPAWN [[k weddingBand] @self (floats 0.2 1 1) (floats 0 0 0 1)]}).
+(beginProposal {@self SPAWN [[k wedding_band] @self (floats 0.2 1 1) (floats 0 0 0 1)]}).
 
 rule groomWearWeddingBand
 {@self marry ?fiancee}
-{?fiancee hand [k leftHand]:?lhand}
-{?lhand finger [k ringFinger]:?ringFinger}
-{?ringFinger wear [k weddingBand]}
-{[k weddingBand]:?myRing owner @self}
-{@self hand [k leftHand]:?myLeftHand}
-{?myLeftHand finger [k ringFinger]:?myRingFinger}
+{?fiancee hand [k left_hand]:?lhand}
+{?lhand finger [k ring_finger]:?ring_finger}
+{?ring_finger wear [k wedding_band]}
+{[k wedding_band]:?myRing owner @self}
+{@self hand [k left_hand]:?myLeftHand}
+{?myLeftHand finger [k ring_finger]:?myRingFinger}
 (none {?myLeftHand wear ?myRing})
     ->
 (maintainProposal {@self WEAR ?myRing ?myRingFinger}).
@@ -122,12 +122,12 @@ rule groomWearWeddingBand
 # Rules for both BRIDE & GROOM
 rule marriedSuccess
 {@self marry ?fiancee}: ?marry
-{?fiancee hand [k leftHand]:?lhand}
-{?lhand finger [k ringFinger]:?ringFinger}
-{?ringFinger wear [k weddingBand]}
-{@self hand [k leftHand]:?myLeftHand}
-{?myLeftHand finger [k ringFinger]:?myRingFinger}
-{?myRingFinger wear [k weddingBand]}
+{?fiancee hand [k left_hand]:?lhand}
+{?lhand finger [k ring_finger]:?ring_finger}
+{?ring_finger wear [k wedding_band]}
+{@self hand [k left_hand]:?myLeftHand}
+{?myLeftHand finger [k ring_finger]:?myRingFinger}
+{?myRingFinger wear [k wedding_band]}
     ->
 (setOutcome /succ ?marry)
 (endBelief {@self fiancee ?fiancee})
@@ -148,11 +148,11 @@ rule marriedSuccess
 rule 
 {@self fiancee @something:?fiancee}
 {@self gender male}
-{?weddingBand isa [k weddingBand]}
-{@self hand [k leftHand]:?lhand}
-{@self hand [k rightHand]:?rhand}
-(none {? control ?weddingBand})
+{?wedding_band isa [k wedding_band]}
+{@self hand [k left_hand]:?lhand}
+{@self hand [k right_hand]:?rhand}
+(none {? control ?wedding_band})
     ->
-(maintainProposal {@self take ?weddingBand}).
+(maintainProposal {@self take ?wedding_band}).
 
 */

@@ -8,15 +8,15 @@ rule keep_near_and_facing-attention
 
 # You must be near it
 
-rule keep_near_and_facing-withinReachOf-belief
+rule keep_near_and_facing-within_reach_of-belief
 {@self keep_near_and_facing ?thing}
 (isWithinReachOf ?thing 0.8 /cont) = ?prob # get 20% closer to the target before stopping
     ->
-(maintainBelief {@self withinReachOf ?thing /p ?prob}).
+(maintainBelief {@self within_reach_of ?thing /p ?prob}).
 
-rule keep_near_and_facing-withinReachOf-go-proposal
+rule keep_near_and_facing-within_reach_of-go-proposal
 {@self keep_near_and_facing ?thing}
-{@self /not withinReachOf ?thing}
+{@self /not within_reach_of ?thing}
     ->
 (maintainProposal {@self go ?thing}).
 

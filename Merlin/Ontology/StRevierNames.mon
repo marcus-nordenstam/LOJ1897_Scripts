@@ -1,8 +1,8 @@
 
 name
-    firstName
-        maleName
-            maleJerseyName //pname
+    first_name
+        male_name
+            male_st_revier_name //pname
                 Ambrose
                 Anatole
                 Alphonse
@@ -29,8 +29,8 @@ name
                 Théophile
                 Urbain
                 Victor
-        femaleName
-            femaleJerseyName  //pname
+        female_name
+            female_st_revier_name  //pname
                 Adelaide
                 Amélie
                 Annabelle
@@ -68,8 +68,8 @@ name
                 Yvonne
                 Zélie
     surname
-        commonSurname
-            commonJerseySurname //pname
+        common_surname
+            common_st_revier_surname //pname
                 Ahier
                 Bichard
                 Blampied
@@ -95,8 +95,8 @@ name
                 Pipon
                 Queripel
                 Touzel
-        upperClassSurname
-            upperClassJerseySurname //pname
+        upper_class_surname
+            upper_class_st_revier_surname //pname
                 Allez
                 Amy
                 Balleine

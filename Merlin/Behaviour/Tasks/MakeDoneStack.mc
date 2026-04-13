@@ -1,15 +1,15 @@
 
 # We need a 'done' stack to put each item in when we are done viewing it
 rule 
-{@self stackBrowse ?stack}
+{@self stack_browse ?stack}
 {?stack obb ?obb}
-(none {?stack doneStack ?})
+(none {?stack done_stack ?})
     ->
-(maintainProposal {@self makeDoneStack ?stack ?obb}).
+(maintainProposal {@self make_done_stack ?stack ?obb}).
 
 
 rule 
-{@self makeDoneStack ?workingStack ?doneStackObb}
+{@self make_done_stack ?workingStack ?doneStackObb}
 (observed ?workingStack) # We need to have observed the ?stack in order to make a done-stack for it.
     ->
 (maintainProposal {@self MAKE_DONE_STACK ?workingStack ?doneStackObb}).

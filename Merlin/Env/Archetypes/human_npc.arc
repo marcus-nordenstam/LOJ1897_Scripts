@@ -1,14 +1,14 @@
 # Any human NPC
-archetype "human_npc" [256] /obs /raycastVisible /sentient /nonOccluder /inferKindOverride human nonplayer
+archetype "human_npc" [256] /obs /raycast_visible /sentient /non_occluder /occupies_env_grid /infer_kind_override human nonplayer
 {
-    "visual-sensor"
-    "sound-sensor"
-    "physical-motors"
+    "visual_sensor"
+    "sound_sensor"
+    "physical_motors"
     "role"
     "perform"
     "date"
     "age"
-    "ageGroup"
+    "age_group"
     "gender"
     "appearance"
     "height"
@@ -17,9 +17,9 @@ archetype "human_npc" [256] /obs /raycastVisible /sentient /nonOccluder /inferKi
     "name"
     "nationality"
     "condition"
-    "pregnantWhen"
+    "pregnant_when"
     "alertness"
-    "sexualOrient"
+    "sexual_orient"
     "charisma"
     "romanticism"
     "passion"
@@ -30,12 +30,12 @@ archetype "human_npc" [256] /obs /raycastVisible /sentient /nonOccluder /inferKi
     "region"
     # Parts are not auto-perceived — we perceive specific body-parts below instead
     "parts"
-    "leftHand"
-    "rightHand"
+    "left_hand"
+    "right_hand"
     "eyes"
     "mouth"
     "conversation"
-    "pregnantBy"
+    "pregnant_by"
     "control"
     "obb"
 }

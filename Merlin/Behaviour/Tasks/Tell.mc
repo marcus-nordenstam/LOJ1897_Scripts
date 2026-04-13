@@ -9,7 +9,7 @@ rule goal-conv-TELL-notAvail
 {?audience conversation !?myConv}
     ->
 (maintainProposal {@self keep_near_and_facing ?audience} /absUtil 1000)
-(maintainProposal {@self keepLookingAtPart ?audience eyes} /absUtil 1000).
+(maintainProposal {@self keep_looking_at_part ?audience eyes} /absUtil 1000).
 
 
 rule goal-conv-TELL-bothAvail
@@ -18,7 +18,7 @@ rule goal-conv-TELL-bothAvail
 {?audience conversation @nothing}
     ->
 (maintainProposal {@self keep_near_and_facing ?audience} /absUtil 1000)
-(maintainProposal {@self keepLookingAtPart ?audience eyes} /absUtil 1000).
+(maintainProposal {@self keep_looking_at_part ?audience eyes} /absUtil 1000).
 
 
 # This rule handles the case where we want to say something to someone we're currently speaking with
@@ -32,9 +32,9 @@ rule conv-TELL-todo
 
 rule TELL-proposal
 {@self goal {@self TELL ?msg ?audience}}
-{@self withinReachOf ?audience}
+{@self within_reach_of ?audience}
 {@self facing ?audience}
-{@self keepLookingAtPart ?audience eyes}
+{@self keep_looking_at_part ?audience eyes}
 (lockRule) # only be telling one thing at a time
     ->
 (beginProposal {@self TELL ?msg ?audience}).

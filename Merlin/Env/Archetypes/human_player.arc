@@ -1,11 +1,11 @@
 # Any human PLAYER
-archetype "human_player" [256] /obs /raycastVisible /player /nonOccluder /inferKindOverride human player
+archetype "human_player" [256] /obs /raycast_visible /player /non_occluder /occupies_env_grid /infer_kind_override human player
 {
-    "physical-motors"
+    "physical_motors"
     "role"
     "date"
     "age"
-    "ageGroup"
+    "age_group"
     "gender"
     "appearance"
     "height"
@@ -13,18 +13,18 @@ archetype "human_player" [256] /obs /raycastVisible /player /nonOccluder /inferK
     "name"
     "nationality"
     "condition"
-    "pregnantWhen"
+    "pregnant_when"
     "alertness"
     "in"
     "region"
     # Parts are not auto-perceived — we perceive specific body-parts below instead
     "parts"
-    "leftHand"
-    "rightHand"
+    "left_hand"
+    "right_hand"
     "eyes"
     "mouth"
     "conversation"
-    "pregnantBy"
+    "pregnant_by"
     "control"
     "obb"
 }

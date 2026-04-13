@@ -2,8 +2,8 @@
 
 #rule 
 #{@self age ?age}
-#{@self ageGroup ?ageGroup}
+#{@self age_group ?age_group}
 #    ->
 #(print [@self age ?age])
-#(print [@self ageGroup ?ageGroup]).
+#(print [@self age_group ?age_group]).
 

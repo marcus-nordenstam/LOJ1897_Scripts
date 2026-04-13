@@ -5,8 +5,7 @@ rule pubbing-order-beer-claim-spot-at-bar
 {?pub part [k bar_counter]:?bar_counter}
 (claim_env_cell /adjacent /available /dim @self ?bar_counter): ?claimed_cell
     ->
-(bb_write @self open_bar_slot ?claimed_cell)
-(print "WOHOO").
+(bb_write @self open_bar_slot ?claimed_cell).
 
 /*
 # Pub patron behaviour.
@@ -32,7 +31,7 @@ rule pubbing-order-beer-claim-spot-at-bar
 rule pubbing-order-beer-go-to-bar
 {@self pubbing}
 {@self order [k beer] ?bartender}
-{@self open_bar_slot ?claimed_cell}
+(bb_read /cont @self open_bar_slot): ?claimed_cell
 (overlaps /not @self ?claimed_cell 0.8)
     ->
 (maintainProposal {@self go ?claimed_cell}).
@@ -42,7 +41,7 @@ rule pubbing-order-beer-wait-at-bar
 {@self pubbing}
 {@self order [k beer] ?bartender}
 {?bartender perform [k bartending] ?pub}
-{@self open_bar_slot ?claimed_cell}
+(bb_read /cont @self open_bar_slot): ?claimed_cell
 {?pub part [k bar_counter]:?bar_counter}
 (overlaps @self ?claimed_cell 0.8)
     ->

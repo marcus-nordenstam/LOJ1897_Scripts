@@ -1,7 +1,7 @@
 # Any sound — including speech
-archetype "sound" [256] /nonOccluder /hear
+archetype "sound" [256] /non_occluder /hear
 {
-    "createAction"
+    "create_action"
     "in"
     "speaker"
     "preroll"

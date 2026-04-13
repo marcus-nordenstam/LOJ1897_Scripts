@@ -39,7 +39,7 @@ rule
 {?knownOrg workplace ?workplace}
 (in @self ?workplace /cont)
 # and I see a real person in there whose job I don't know
-(o /per /notI [k human] (none {@o job ?}) (in @o ?workplace /cont)): ?realPerson
+(o /per /not_i [k human] (none {@o job ?}) (in @o ?workplace /cont)): ?realPerson
     ->
 # then I want to know if they have that specific kind of job at the company
 '(real /truth ?jobKind {?realPerson job @o} {@o at (o /known ?orgName)}): ?if_you_have_job_at_org

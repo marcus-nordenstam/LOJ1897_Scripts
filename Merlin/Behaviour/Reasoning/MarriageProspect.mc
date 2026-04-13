@@ -7,51 +7,51 @@
 
 
 rule inferMaritalState
-{@self maritalState single}
+{@self marital_state single}
 {@self gender ?gender}
 {[k human]:?person gender !?gender}
-{?person ageGroup >0}
-{?person maritalState @unknown}
+{?person age_group >0}
+{?person marital_state @unknown}
 {@self family ?myFamily}
 {?person family !?myFamily}
     ->
-#(maintainGoal {@self know '(any {?person maritalState}).target}).
-(maintainProposal {@self infer {?person maritalState}}).
+#(maintainGoal {@self know '(any {?person marital_state}).target}).
+(maintainProposal {@self infer {?person marital_state}}).
 
 
-rule eligibleForMarriage
-{@self maritalState single}
+rule eligible_for_marriage
+{@self marital_state single}
 {@self gender ?gender}
 {!@self:?person gender !?gender}
 {?person condition alive}
-{?person maritalState single}
+{?person marital_state single}
 {@self family ?myFamily}
 {?person family !?myFamily}
     ->
-(maintainBelief {?person eligibleForMarriage})
-(if (none {?person marriageDesirability})
-    (beginBelief {?person marriageDesirability (sub 1000 (id ?person))}))
+(maintainBelief {?person eligible_for_marriage})
+(if (none {?person marriage_desirability})
+    (beginBelief {?person marriage_desirability (sub 1000 (id ?person))}))
 (print [@self believes ?person is eligible for marriage])
-(print [@self thinks ?person "has marriage-desirability" (any {?person marriageDesirability}).target]).
+(print [@self thinks ?person "has marriage-desirability" (any {?person marriage_desirability}).target]).
 
 
 rule marry-desirability-decrease-longtimeNoSee
 {@self goal {@self marry ?prospect}}
-{?prospect marriageDesirability ?desirability}
+{?prospect marriage_desirability ?desirability}
 (timeSinceObserved ?prospect /years /cont): ?timeSince
 (ge ?timeSince 1)
     ->
 (sub ?desirability ?timeSince): ?newDesirability
-(beginBelief {?prospect marriageDesirability ?newDesirability}).
+(beginBelief {?prospect marriage_desirability ?newDesirability}).
 
 
 rule goal-marry
-{@self maritalState !married}
-(highest /target {? marriageDesirability ?}): ?desirabilityEvent
+{@self marital_state !married}
+(highest /target {? marriage_desirability ?}): ?desirabilityEvent
 (lookup ?desirabilityEvent).subject: ?prospect
 (lookup ?desirabilityEvent).target: ?desirability
     ->
-#(every {? marriageDesirability ?}): ?every
+#(every {? marriage_desirability ?}): ?every
 #(print ?every)
 (print [@self chooses ?prospect with ?desirability desirability])
 #(log "pattern" on)

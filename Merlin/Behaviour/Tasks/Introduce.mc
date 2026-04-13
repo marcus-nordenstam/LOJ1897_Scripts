@@ -61,10 +61,10 @@
 #   up to each NPC to decide
 #       reasons (one per rule)
 #           to classify/determine romantic prospect
-#               you must be single and ageGroup 3+
+#               you must be single and age_group 3+
 #               not part of family
 #               opposite gender
-#               ageGroup 3+
+#               age_group 3+
 #           to become friends
 #               you must be same gender
 #               you must be same age-group
@@ -86,7 +86,7 @@
 # physically present, and where indirect object references must be used.
 
 rule 
-{@self introduceSiblings ?child1 ?child2}
+{@self introduce_siblings ?child1 ?child2}
 {?child1 name ?child1Name}
 {?child2 name ?child2Name}
 {?child1 gender ?child1Gender}
@@ -106,7 +106,7 @@ rule
 (maintainGoal {@self TELL ?msgChild1IsYourSibling ?child2}).
 
 rule 
-{@self /ever introduceSiblings ?person1 ?person2 /noOut}: ?intro
+{@self /ever introduce_siblings ?person1 ?person2 /noOut}: ?intro
 {@self /succ TELL ? ?person1 /causes ~?intro}
 {@self /succ TELL ? ?person2 /causes ~?intro}
     ->

@@ -37,6 +37,6 @@
 "father"                father                  .
 "brother"               brother                 .
 "sister"                sister                  .
-"marriage prospect"     marriageProspect        .
+"marriage prospect"     marriage_prospect       .
 "family"                family                  .
 "game-role"             game_role               .

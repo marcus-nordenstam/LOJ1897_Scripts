@@ -4,7 +4,7 @@ object //obs
     label
         applications
         mail
-        outMail
+        out_mail
     # Natural (non-living) things
     mineral
         rock
@@ -14,55 +14,55 @@ object //obs
             rose
         tree
     being
+        robot
         cyborg
         animal
             human
             dog
                 whippet
-                germanShepard
+                german_shepard
             cat
                 siamese
     wound
-        stabWound
+        stab_wound
     stain
-        inkStain
-        bloodStain
-        dirtStain
+        ink_stain
+        blood_stain
+        dirt_stain
     # Meals & food
     meal
         breakfast
         lunch
         dinner
     # Man-made things
-    robot
     prop
         container
             drinking_glass
         accessory
             cufflink
             ring
-                engagementRing
-                weddingBand
+                engagement_ring
+                wedding_band
             hat
                 bowler
             umbrella
             backpack
         clothing
-            policeUniform
+            police_uniform
             dress
-                summerDress
+                summer_dress
         loose_furniture
             table
-                kitchenTable
-            evidenceBox
+                kitchen_table
+            evidence_box
         weapon
             knife
         collection
             stack
-                rootNpcKnowledgeStack
-                forSaleListingStack
+                root_npc_knowledge_stack
+                for_sale_listing_stack
             row
-        sportingGear
+        sporting_gear
             ball
                 football
     fluid
@@ -70,30 +70,30 @@ object //obs
     document
         diploma
         letter
-            advertsLetter
+            adverts_letter
         pamphlet
         book
         newspaper
         application
-            jobApplication
-        articlesOfIncorporation
-        jobDescription
-        titleDeed
-        rootNpcKnowledgeDoc
-        forSaleListing
+            job_application
+        articles_of_incorporation
+        job_description
+        title_deed
+        root_npc_knowledge_doc
+        for_sale_listing
 
     # Man-made structures
     structure
         pier
         bridge
-            suspensionBridge
+            suspension_bridge
         building
-            residentialBuilding
+            residential_building
                 manor
                 cottage
                 terrace
                 farmhouse
-            commercialBuilding
+            commercial_building
                 office
                 bank
                 newspaper
@@ -105,17 +105,17 @@ object //obs
                 hotel
                 school
                 hospital
-                policeStation
+                police_station
                 church
                 theatre
     part
         body_part
             head
             hand
-                leftHand
-                rightHand
+                left_hand
+                right_hand
             finger
-                ringFinger
+                ring_finger
             eye
             mouth    
         structure_part

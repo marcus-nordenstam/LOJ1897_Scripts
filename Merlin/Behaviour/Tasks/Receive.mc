@@ -12,7 +12,7 @@ rule receive-maintainWithinReachOf-proposal
 rule receive-take-proposal
 {@self receive ?thing ?giver}
 {?thing obb !@unknown}
-{@self withinReachOf ?giver}
+{@self within_reach_of ?giver}
 {@self facing ?giver}
 (real ?thing)
     ->

@@ -13,7 +13,7 @@ rule give-proposal-getThing
 
 
 # If you have it, you must be close enough to touch the recipient
-rule give-goal-withinReachOfRecipient
+rule give-goal-within_reach_ofRecipient
 {@self give ?thing ?recipient}
 {@self hand ?hand}
 {?hand control ?thing}
@@ -25,7 +25,7 @@ rule give-proposal-offer
 {@self give ?thing ?recipient}
 {@self hand ?hand}
 {?hand control ?thing}
-{@self withinReachOf ?recipient}
+{@self within_reach_of ?recipient}
 {@self facing ?recipient}
 (real ?thing)
     ->
@@ -92,14 +92,14 @@ rule
 {@self give ?thing ?recipient}
 {@self control ?thing}
     ->
-{@self goal {.. maintain {.. faceToFace at ?recipient}} +1000}.
+{@self goal {.. maintain {.. face_to_face at ?recipient}} +1000}.
 
 # If you are giving to a player, then you must be face-to-face with them (so they can see what you are doing)
 rule 
 {@self give ?thing ?player}
 {@self control ?thing}
 {?player role player}
-{@self faceToFace at ?player}
+{@self face_to_face at ?player}
     ->
 {propose() {@self OFFER ?thing ?player}}.
 

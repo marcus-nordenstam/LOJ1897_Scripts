@@ -24,14 +24,14 @@ relation
             grant                                   /tar object              /aux human
 
             identify                                /tar object
-            getAcquaintedWith                       /tar human
-            seekAnswers
+            get_acquainted_with                       /tar human
+            seek_answers
             marry
 
             # Domain-specific tasks
-            foundOrg                                /tar org
-            processTitleDeed                        /aux structure|space
-            introduceSiblings
+            found_org                                /tar org
+            process_title_deed                        /aux structure|space
+            introduce_siblings
 
             start_conv                               /tar conversation
             end_conv                                 /tar conversation
@@ -50,8 +50,8 @@ relation
             approach                /motor legs             /tar @excl
             go                      /motor legs             /tar @excl
             keep_near_and_facing    /motor legs             /tar @excl
-            keepLookingAtPart       /motor head             /tar @excl  /aux @excl
-            keepLookingAtWhole      /motor head             /tar @excl
+            keep_looking_at_part       /motor head             /tar @excl  /aux @excl
+            keep_looking_at_whole      /motor head             /tar @excl
 
             explore             /motor legs             /tar @excl
             locate              /motor legs             /tar @excl
@@ -66,16 +66,16 @@ relation
             read                /motor eyes right_hand       /tar @excl document
             write               /motor eyes right_hand legs  /tar @excl document
 
-            stackGet            /motor legs right_hand       /tar object /aux stack
-            stackPut            /motor legs right_hand       /tar object /aux stack
-            stackBrowse         /motor legs right_hand       /tar stack
-            stackRead           /motor legs right_hand       /tar stack
-            makeDoneStack                               /tar stack
+            stack_get            /motor legs right_hand       /tar object /aux stack
+            stack_put            /motor legs right_hand       /tar object /aux stack
+            stack_browse         /motor legs right_hand       /tar stack
+            stack_read           /motor legs right_hand       /tar stack
+            make_done_stack                               /tar stack
 
             grieve              /motor right_hand left_hand head
 
-            giveBirth           /motor eyes right_hand legs
-            perceiveAttr        /motor eyes             /tar ?
+            give_birth           /motor eyes right_hand legs
+            perceive_attr        /motor eyes             /tar ?
 
             drink               /motor mouth right_hand left_hand  /tar object
 

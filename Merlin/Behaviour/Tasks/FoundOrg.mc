@@ -2,18 +2,18 @@
 
 # Founders must set a goal to found their orgs
 rule 
-{@self mustFoundOrg ?org}
+{@self must_found_org ?org}
     ->
-(maintainProposal {@self foundOrg ?org}).
+(maintainProposal {@self found_org ?org}).
 
-# TODO: When I succeed in foundOrg ?org,
+# TODO: When I succeed in found_org ?org,
 #       because I have created a /def org ?defOrg, then
 #       manually reconcile /des -> /def org.
 rule 
-{@self foundOrg ?org}
-{?org workplaceKind ?workplaceKind}
+{@self found_org ?org}
+{?org workplace_kind ?workplace_kind}
 (none {?org workplace ?})
-(o /realOrHyp ?workplaceKind {@o availability forSale}): ?workplace
+(o /realOrHyp ?workplace_kind {@o availability for_sale}): ?workplace
     ->
 (maintainProposal {@self buy ?workplace}).
 
@@ -25,7 +25,7 @@ rule
 
 /*
 rule 
-{?doc isa [k titleDeed]}
+{?doc isa [k title_deed]}
 (none {@self READ ?doc})
     ->
 (maintainProposal {@self READ ?doc}).
@@ -34,9 +34,9 @@ rule
 
 rule 
 {@self job ?job}
-{?job profName clerk}
+{?job prof_name clerk}
 {?job org ?org}
-{?org isa [k landRegistry]}
+{?org isa [k land_registry]}
 {?founder goal {.. achieve {?clientOrg workplace ?workplaceDescr}}}
 {?clientOrg name ?ownerName}
 {?clientOrg categories ?ownerCats}
@@ -46,7 +46,7 @@ rule
 # Determine if this place is listed in a deed, and that we have directly
 # observed that deed
 (src ?place): ?deed
-(any {/obs ?deed kind titleDeed})
+(any {/obs ?deed kind title_deed})
 # If so, then extract the address and categories of the place
 (has ?place ; name ?address ; cats ?placeCats)
     -> 
@@ -147,7 +147,7 @@ rule
 #
 # So a title deed stating that John Smith owns 14 Victoria Ave, would be encoded as follows:
 #
-{{deed} isa      [k object document titleDeed]}
+{{deed} isa      [k object document title_deed]}
 {{deed} writings [[k declaration] {[n 14 Victoria Ave] owner [n John Smith] /i ?date @ongoing}]}
 
 
@@ -200,7 +200,7 @@ rule
 # John said "Go" to me
 {/st john tell go @me}
 # John shouted "Look out!"
-{/st /exclaim john tell lookOut @me}
+{/st /exclaim john tell look_out @me}
 
 # Say = statements
 {/st john say hi @me}
@@ -245,7 +245,7 @@ rule
 {john wear (o vest [color orange] [pattern plaid])}
 {john wear (o shirt [color white] [material linen])}
 {john wear (o pants [color black] [material wool])}
-{john wear (o topHat [color black])}
+{john wear (o top_hat [color black])}
 
 
 #    giving the following as a condition:
@@ -281,7 +281,7 @@ rule
 
 
 {@self job ?clerkJob}
-{?clerkJob profName clerk}
+{?clerkJob prof_name clerk}
 {?job org ?org}
 {?org workplace @something:?workplace}
 (o /a /known stack ; owner ?org ; inList ^?workplace): ?displacedStack

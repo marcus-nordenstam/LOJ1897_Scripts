@@ -17,15 +17,15 @@
 
 # "do you know who this is?" - respond with relationship + name
 rule respondToDoYouKnowThisQuestion
-{!@self:?person /ever ASK (qs /doYouKnow /this (any {/b ?entity /ever name}).target):?question @self}: ?personAsked
+{!@self:?person /ever ASK (qs /do_you_know /this (any {/b ?entity /ever name}).target):?question @self}: ?personAsked
 (none {@self /succ TELL ? ?person /causes ~?personAsked})
 (lockRule answer_question 1) # higher priority than the general answer-question below
     ->
 (any {?entity /ever name}).target: ?name
 (any {@self /ever ? ?entity}).label: ?relation
 (if (eq ?name @unknown)
-    (maintainGoal {@self TELL (formulaic noDontKnow) ?person} /absUtil 1)
-    (maintainGoal {@self TELL (formulaic yesThisIs ?relation ?name) ?person} /absUtil 1)): ?response
+    (maintainGoal {@self TELL (formulaic no_dont_know) ?person} /absUtil 1)
+    (maintainGoal {@self TELL (formulaic yes_this_is ?relation ?name) ?person} /absUtil 1)): ?response
 (addCause ?response ?personAsked)
 (forgetOnCease).
 

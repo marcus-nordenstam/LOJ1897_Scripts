@@ -2,23 +2,23 @@
 :QS
 
 "do you know $qs_phrase(QSP)"
-( qs /doYouKnow $qs_phrase(QSP) )
+( qs /do_you_know $qs_phrase(QSP) )
 .
 
 "do you know who this is"
-( qs /doYouKnow /this ( any { ?_this /pres name } ).target )
+( qs /do_you_know /this ( any { ?_this /pres name } ).target )
 .
 
 "do you know who this was"
-( qs /doYouKnow /this ( any { ?_this /past name } ).target )
+( qs /do_you_know /this ( any { ?_this /past name } ).target )
 .
 
 "can you identify this"
-( qs /doYouKnow /this ( any { ?_this /pres name } ).target )
+( qs /do_you_know /this ( any { ?_this /pres name } ).target )
 .
 
 "can you identify $np(NP)"
-( qs /doYouKnow ( any { $np(NP) /pres name } ).target )
+( qs /do_you_know ( any { $np(NP) /pres name } ).target )
 .
 
 #"right then, what's yer pleasure"

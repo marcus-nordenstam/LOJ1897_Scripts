@@ -3,7 +3,7 @@
 rule goal-knowAnswerToMarriageProposal
 {@self goal {@self marry ?prospect}}: ?iWantToMarryHer
 {@self gender male}
-{@self maritalState single}
+{@self marital_state single}
 #(none {?prospect goal {@prospect marry @self}})
 #(gt (timeSince /cont /weeks ?iWantToMarryHer) 1) # had her in mind for 1 week
 (lockRule) # synchronize the ability to activate this rule - only one at a time
@@ -29,9 +29,9 @@ rule reasoning-marriageProposalRejected
 (beginBelief {?proposee goal {?proposee marry ?proposer} /p @unknown%})
 (if (eq ?proposer @self) 
     [(setOutcome {@self goal {@self marry ?proposee}} /fail)
-     (any {?proposee marriageDesirability}): ?desirabilityEvent
+     (any {?proposee marriage_desirability}): ?desirabilityEvent
      (sub ?desirabilityEvent.target 0.1): ?newDesirability
-     (beginBelief {?proposee marriageDesirability ?newDesirability})
+     (beginBelief {?proposee marriage_desirability ?newDesirability})
      (print [@self updates desirability for ?proposee to ?newDesirability])])
 (fireAndForget).
 
@@ -42,7 +42,7 @@ rule goal-possessEngagementRing
 {@self fiancee ?fiancee}
 {@self gender female}
 {?fiancee hand ?hand}
-{?hand control [k engagementRing]:?ring}
+{?hand control [k engagement_ring]:?ring}
     ->
 (maintainGoal {@self possess ?ring})
 (print [@self wants to possess ?ring]).
@@ -53,7 +53,7 @@ rule proposal-giveEngagementRing
 {@self fiancee ?fiancee}
 {@self gender male}
 {@self hand ?hand}
-{?hand control [k engagementRing]:?ring}
+{?hand control [k engagement_ring]:?ring}
 (lockRule)
     ->
 (maintainProposal {@self give ?ring ?fiancee}).
@@ -64,10 +64,10 @@ rule proposal-wearEngagementRing
 {@self fiancee ?fiancee}
 {@self gender female}
 {@self hand ?hand}
-{?hand control [k engagementRing]:?ring}
+{?hand control [k engagement_ring]:?ring}
 {?fiancee /succ give ?ring @self}
-{@self hand [k leftHand]:?lhand}
-{?lhand finger [k ringFinger]:?ringFinger}
+{@self hand [k left_hand]:?lhand}
+{?lhand finger [k ring_finger]:?ring_finger}
     ->
 (beginBelief {?ring owner @self})
-(maintainProposal {@self WEAR ?ring ?ringFinger}).
+(maintainProposal {@self WEAR ?ring ?ring_finger}).

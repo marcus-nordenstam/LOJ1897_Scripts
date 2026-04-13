@@ -1,8 +1,8 @@
 
 name
-    firstName
-        maleName
-            maleIrishName //pname
+    first_name
+        male_name
+            male_irish_name //pname
                 Aidan
                 Aengus
                 Barra
@@ -37,8 +37,8 @@ name
                 Tadhg
                 Tiernan
                 Tomás
-        femaleName
-            femaleIrishName //pname
+        female_name
+            female_irish_name //pname
                 Aileen
                 Aisling
                 Aoife
@@ -69,8 +69,8 @@ name
                 Una
                 Treasa
     surname
-        commonSurname
-            commonIrishSurname //pname
+        common_surname
+            common_irish_surname //pname
                 MacCarthy
                 MacDermott
                 MacMahon
@@ -116,8 +116,8 @@ name
                 Ward
                 Whelan
                 Woods
-        upperClassSurname
-            upperClassIrishSurname //pname
+        upper_class_surname
+            upper_class_irish_surname //pname
                 Burke
                 Butler
                 Byrne

@@ -20,44 +20,44 @@
 
 rule 
 {@self [mother|father] ?parent}
-{?parent mother ?grandMother}
+{?parent mother ?grand_mother}
     ->
-(e {@self grandMother ?grandMother}).
+(e {@self grand_mother ?grand_mother}).
 
 
 rule 
 {@self [mother|father] ?parent}
-{?parent father ?grandFather}
+{?parent father ?grand_father}
     ->
-(e {@self grandFather ?grandFather})
+(e {@self grand_father ?grand_father})
 
 
 rule 
-{@self [grandMother|grandFather] ?grandParent}
+{@self [grand_mother|grand_father] ?grandParent}
     ->
-(e {@self grandParents ~?grandParent}).
+(e {@self grand_parents ~?grandParent}).
 
 
 # great grandparents
 
 rule 
-{@self [grandMother|grandFather] ?grandParent}
-{?grandParent mother ?greatGrandMother}
+{@self [grand_mother|grand_father] ?grandParent}
+{?grandParent mother ?great_grand_mother}
     ->
-(e {@self greatGrandMother ?greatGrandMother})
+(e {@self great_grand_mother ?great_grand_mother})
 
 
 rule 
-{@self [grandMother|grandFather] ?grandParent}
-{?grandParent father ?greatGrandFather}
+{@self [grand_mother|grand_father] ?grandParent}
+{?grandParent father ?great_grand_father}
     ->
-(e {@self greatGrandFather ?greatGrandFather})
+(e {@self great_grand_father ?great_grand_father})
 
 
 rule 
-{@self [greatGrandMother|greatGrandFather] ?greatGrandParent}
+{@self [great_grand_mother|great_grand_father] ?greatGrandParent}
     ->
-(e {@self greatGrandParents ~?greatGrandParent}).
+(e {@self great_grand_parents ~?greatGrandParent}).
 
 
 
@@ -71,10 +71,10 @@ rule
 
 
 rule 
-{@self [grandMother|grandFather] ?grandFather}
-{?grandFather brother ?greatUncle}
+{@self [grand_mother|grand_father] ?grand_father}
+{?grand_father brother ?great_uncle}
     ->
-(e {@self greatUncle ?greatUncle})
+(e {@self great_uncle ?great_uncle})
 
 
 
@@ -87,10 +87,10 @@ rule
 (e {@self aunt ?aunt}).
 
 rule 
-{@self [grandMother|grandFather] ?grandFather}
-{?grandFather sister ?greatAunt}
+{@self [grand_mother|grand_father] ?grand_father}
+{?grand_father sister ?great_aunt}
     ->
-(e {@self greatAunt ?greatAunt})
+(e {@self great_aunt ?great_aunt})
 
 
 
@@ -116,7 +116,7 @@ rule
     ->
 (e {@self xfamily ~?family}).
 
-{@self [cousins|nephews|nieces|uncle|aunt|greatAunt|greatUncle|grandParents|greatGrandParents|grandChildren] ?xfamilyMember}
+{@self [cousins|nephews|nieces|uncle|aunt|great_aunt|great_uncle|grand_parents|great_grand_parents|grand_children] ?xfamilyMember}
     ->
 (e {@self xfamily ~?xfamilyMember}).
 

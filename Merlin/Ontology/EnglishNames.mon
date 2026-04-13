@@ -1,8 +1,8 @@
 
 name
-    firstName
-        maleName
-            maleEnglishName //pname
+    first_name
+        male_name
+            male_english_name //pname
                 Arthur
                 Albert
                 Alfred
@@ -66,8 +66,8 @@ name
                 Wilbur
                 Wilfred
                 Winthrop
-        femaleName
-            femaleEnglishName  //pname
+        female_name
+            female_english_name  //pname
                 Alice
                 Amelia
                 Arabella
@@ -115,8 +115,8 @@ name
                 Victoria
                 Violet
     surname
-        commonSurname
-            commonEnglishSurname //pname
+        common_surname
+            common_english_surname //pname
                 Adams
                 Abbott
                 Archer
@@ -208,8 +208,8 @@ name
                 White
                 Williams
                 Wright
-        upperClassSurname
-            upperClassEnglishSurname //pname
+        upper_class_surname
+            upper_class_english_surname //pname
                 Ainsworth
                 Ashford
                 Barrington

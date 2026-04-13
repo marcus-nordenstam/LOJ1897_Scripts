@@ -5,7 +5,7 @@
 rule goTheatre
 {@self alertness alert}
 {@self spouse @nothing}
-#{@self ageGroup >1}
+#{@self age_group >1}
 {[k building theatre]:?theatre obb ?obb}
 (in @self ?theatre /not /cont)
 #(none {@self child})
@@ -15,17 +15,17 @@ rule goTheatre
 
 
 /*
-rule getAcquaintedWith
-{@self ageGroup >1}
+rule get_acquainted_with
+{@self age_group >1}
 {@self gender ?gender}
 {?person gender !?gender}
-{?person ageGroup >1}
+{?person age_group >1}
 {@self family ?myFamily}
 {?person family !?myFamily}
 (lockRule) # only one firing of this rule at a time / mind
 (real ?person)
-(none {@self /succ getAcquaintedWith ?person}) # we don't know this person
+(none {@self /succ get_acquainted_with ?person}) # we don't know this person
     ->
-(maintainProposal {@self getAcquaintedWith ?person}).
+(maintainProposal {@self get_acquainted_with ?person}).
 
 */

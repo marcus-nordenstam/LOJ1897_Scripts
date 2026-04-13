@@ -6,7 +6,7 @@
 
 #rule 
 #{@self explore world}
-#(o /per [k exteriorSpace] {@o obb} {@self /not /ever in @o}): ?space
+#(o /per [k exterior_space] {@o obb} {@self /not /ever in @o}): ?space
 #    ->
 #(maintainProposal {@self go ?space}).
 

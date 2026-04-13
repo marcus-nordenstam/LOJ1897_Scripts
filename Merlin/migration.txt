@@ -1,0 +1,132 @@
+# Kind and attr name migration: old camelCase -> new snake_case
+# Format: "kind oldName = newName" or "attr oldName = newName"
+# Loaded by Editor on startup to remap MerlinComponent data on scene load.
+# Re-save scenes after loading to persist the new names.
+
+# --- Kind renames ---
+
+# Structures
+kind commercialBuilding = commercial_building
+kind residentialBuilding = residential_building
+kind mainBuilding = main_building
+kind policeStation = police_station
+
+# Spaces
+kind diningRoom = dining_room
+kind restaurantDiningRoom = restaurant_dining_room
+kind exteriorSpace = exterior_space
+kind livingRoom = living_room
+kind mainEntrance = main_entrance
+kind sportingGrounds = sporting_grounds
+kind racingGrounds = racing_grounds
+kind cricketGrounds = cricket_grounds
+kind crownDependency = crown_dependency
+kind interiorSpace = interior_space
+
+# Body parts
+kind leftHand = left_hand
+kind rightHand = right_hand
+kind ringFinger = ring_finger
+
+# Objects
+kind kitchenTable = kitchen_table
+kind evidenceBox = evidence_box
+kind policeUniform = police_uniform
+kind summerDress = summer_dress
+kind engagementRing = engagement_ring
+kind weddingBand = wedding_band
+kind titleDeed = title_deed
+kind forSaleListing = for_sale_listing
+kind forSaleListingStack = for_sale_listing_stack
+kind sportingGear = sporting_gear
+kind suspensionBridge = suspension_bridge
+kind topHat = top_hat
+kind bloodStain = blood_stain
+kind dirtStain = dirt_stain
+kind inkStain = ink_stain
+kind stabWound = stab_wound
+kind jobApplication = job_application
+kind jobDescription = job_description
+kind propertyDescription = property_description
+kind articlesOfIncorporation = articles_of_incorporation
+kind advertsLetter = adverts_letter
+
+# Stacks
+kind doneStack = done_stack
+kind fromStack = from_stack
+kind mailStack = mail_stack
+kind appStack = app_stack
+kind rootNpcKnowledgeStack = root_npc_knowledge_stack
+kind rootNpcKnowledgeDoc = root_npc_knowledge_doc
+
+# Names
+kind firstName = first_name
+kind maleName = male_name
+kind femaleName = female_name
+kind maleEnglishName = male_english_name
+kind femaleEnglishName = female_english_name
+kind maleIrishName = male_irish_name
+kind femaleIrishName = female_irish_name
+kind maleJerseyName = male_jersey_name
+kind femaleJerseyName = female_jersey_name
+kind commonSurname = common_surname
+kind commonEnglishSurname = common_english_surname
+kind commonIrishSurname = common_irish_surname
+kind commonJerseySurname = common_jersey_surname
+kind upperClassSurname = upper_class_surname
+kind upperClassEnglishSurname = upper_class_english_surname
+kind upperClassIrishSurname = upper_class_irish_surname
+kind upperClassJerseySurname = upper_class_jersey_surname
+kind informalName = informal_name
+
+# Organisations & jobs
+kind insuranceCo = insurance_co
+kind solicitorFirm = solicitor_firm
+kind houseAgency = house_agency
+kind raceClub = race_club
+kind shippingAgent = shipping_agent
+kind antiquesShop = antiques_shop
+kind companyRegistry = company_registry
+kind landRegistry = land_registry
+kind privateSchool = private_school
+kind stateSchool = state_school
+kind factoryWorker = factory_worker
+kind shopClerk = shop_clerk
+kind vacantJob = vacant_job
+kind workerJobs = worker_jobs
+kind workplaceKind = workplace_kind
+
+# Animals
+kind germanShepard = german_shepard
+
+# Concepts
+kind bloodType = blood_type
+kind annualRevenue = annual_revenue
+kind annualWage = annual_wage
+kind livingArrangement = living_arrangement
+kind timeOfRetirement = time_of_retirement
+kind physicalAttr = physical_attr
+kind culturalAttr = cultural_attr
+kind plainLooking = plain_looking
+kind forRent = for_rent
+kind forSale = for_sale
+kind offTheMarket = off_the_market
+kind eligibleForMarriage = eligible_for_marriage
+kind marriageDesirability = marriage_desirability
+kind maritalState = marital_state
+kind sexualOrient = sexual_orient
+
+# --- Attr renames ---
+
+attr sexualOrient = sexual_orient
+attr controlForce = control_force
+attr controlledBy = controlled_by
+attr leftHand = left_hand
+attr rightHand = right_hand
+attr ringFinger = ring_finger
+attr inStack = in_stack
+attr ageGroup = age_group
+attr pregnantWhen = pregnant_when
+attr pregnantBy = pregnant_by
+attr stackLabel = stack_label
+attr createAction = create_action

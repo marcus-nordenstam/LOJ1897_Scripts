@@ -14,9 +14,9 @@ rule find-out-target-about-person-general
 # Specific versions of the know rule -- overrides base rule:
 
 #rule /cat learnTarget /rank 1
-#{@self goal {@self know '(any {?person maritalState}).target}}
+#{@self goal {@self know '(any {?person marital_state}).target}}
 #    ->
-#(maintainProposal {@self infer {?person maritalState}}).
+#(maintainProposal {@self infer {?person marital_state}}).
 
 
 

@@ -1,10 +1,10 @@
 # Top-level world regions with weather state.
 # Regions have spatial bounds but are never "in" anything.
-# We use /noSectorCoverage to avoid every sector being tagged with a region.
-archetype "region" [16] /obs /nonOccluder /noSectorCoverage
+# We use /no_sector_coverage to avoid every sector being tagged with a region.
+archetype "region" [16] /obs /non_occluder /no_sector_coverage
 {
     # Region bounds exist for containment tests but are not auto-perceived
-    "obb" /no-auto-percept
+    "obb" /no_auto_percept
     "rain"
     "snow"
     "fog"
