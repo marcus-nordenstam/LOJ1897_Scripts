@@ -8,8 +8,8 @@
 "was getting acquainted with"   /past get_acquainted_with         .
 "maintains that"                /pres maintain                  .
 "maintained that"               /past maintain                  .
-"goes to"                       /pres go                        .
-"went to"                       /past go                        .
+"goes to"                       /pres go_entity                 .
+"went to"                       /past go_entity                 .
 "wants to know"                 /pres seek_answers               .
 "wanted to know"                /past seek_answers               .
 "gets"                          /pres get                       .

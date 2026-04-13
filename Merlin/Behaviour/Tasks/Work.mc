@@ -6,5 +6,5 @@ rule
 {?org workplace ?workplace}
 (in /not /cont @self ?workplace)
     ->
-(maintainProposal {@self go ?workplace}).
+(maintainProposal {@self go_entity ?workplace}).
 

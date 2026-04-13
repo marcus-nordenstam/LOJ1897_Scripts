@@ -48,7 +48,8 @@ relation
             #ask                 /motor mouth            /sub @msgAuthor human   /tar @qs @excl @S      /aux @msgAudience human
 
             approach                /motor legs             /tar @excl
-            go                      /motor legs             /tar @excl
+            go_entity               /motor legs             /tar @excl
+            go_env_cell             /motor legs             /tar @excl
             keep_near_and_facing    /motor legs             /tar @excl
             keep_looking_at_part       /motor head             /tar @excl  /aux @excl
             keep_looking_at_whole      /motor head             /tar @excl

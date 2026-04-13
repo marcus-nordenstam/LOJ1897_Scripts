@@ -25,9 +25,9 @@ belief
 delib
 action
 rule
-# percept
+#percept
 # boundary
-# env
+env
 # decay
 # rc
 # nl

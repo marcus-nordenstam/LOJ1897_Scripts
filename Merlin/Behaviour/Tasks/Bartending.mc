@@ -8,7 +8,7 @@ rule bartending-idle-hang-back
 (none {@self serve_customer})
 (isWithinReachOf /not /center ?bar_back 0.5) # get 50% closer to the target before stopping
     ->
-(maintainProposal {@self go ?bar_back}).
+(maintainProposal {@self go_entity ?bar_back}).
 
 rule bartending-idle-face-bar
 {@self perform [k bartending] ?pub}

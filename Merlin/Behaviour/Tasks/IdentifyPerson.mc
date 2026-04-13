@@ -21,7 +21,7 @@ rule
 (in @self /not ?workplace /cont)
     ->
 # then go there.
-(maintainProposal {@self go ?workplace}).
+(maintainProposal {@self go_entity ?workplace}).
 
 rule 
 # If I'm trying to identify a person

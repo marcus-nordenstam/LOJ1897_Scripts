@@ -23,7 +23,7 @@ rule startup-go-to-waypoint
 (none {@self job [k bartender]})
 (in @self /not [k building pub])
     ->
-(maintainProposal {@self go ?waypoint}).
+(maintainProposal {@self go_entity ?waypoint}).
 
 
 # Emotional reactions
@@ -41,13 +41,13 @@ rule grieve
 #    ->
 #(elapsedFiringCycles /cont): ?cycles
 #(if (gt ?cycles 700)
-#    (maintainProposal {@self go ?waypoint})
+#    (maintainProposal {@self go_entity ?waypoint})
 #    (maintainProposal {@self CHAT})).
 
 #rule go-to-waypoint
 #{?waypoint isa [k waypoint]}
 #    ->
-#(maintainProposal {@self go ?waypoint}).
+#(maintainProposal {@self go_entity ?waypoint}).
 
 
 rule start-performing-job

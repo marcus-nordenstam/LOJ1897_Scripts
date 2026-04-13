@@ -10,7 +10,7 @@ rule goTheatre
 (in @self ?theatre /not /cont)
 #(none {@self child})
     ->
-(maintainProposal {@self go ?theatre} /cont).
+(maintainProposal {@self go_entity ?theatre} /cont).
 
 
 
