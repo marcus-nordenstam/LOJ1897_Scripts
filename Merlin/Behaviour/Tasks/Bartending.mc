@@ -14,9 +14,9 @@ rule bartending-serve-customer-proposal
 {@self perform [k bartending] ?pub}
 {?pub part [k bar_counter]:?bar_counter}
 (none {@self serve_customer})
-(env_cell_occupier [k human] /in_front ?bar_counter): ?patron
-(bb_read ?patron wants_drink)
-(bb_none ?patron served_beer_cell)
+(env_cell_occupier [k human] /in_front ?bar_counter 
+    '(and (bb_read @o wants_drink) 
+          (bb_none @o served_beer_cell))): ?patron
 (lockRule) # Deal with one patron at a time
     ->
 (beginProposal {@self serve_customer ?patron} /absUtil 1000).
