@@ -54,6 +54,7 @@ rule pubbing-order-beer-wait-at-bar
 (bb_read @self open_bar_slot): ?claimed_cell
 (overlaps ?claimed_cell @self 0.8)
     ->
+(bb_write @self wants_drink @true)
 (maintainProposal {@self TURN_TO ?bar_counter})
 (maintainProposal {@self LOOK_AT ?bartender_eyes}).
 
@@ -69,7 +70,7 @@ rule pubbing-order-beer-take-beer
 (beginProposal {@self take ?beer_glass}).
 
 
-# Once I've ordered and taken the beer, 
+# Once I've ordered and taken the beer,
 # I'm done being served and I release my slot to others
 rule pubbing-order-beer-unclaim-spot-at-bar
 {@self pubbing}
@@ -79,8 +80,9 @@ rule pubbing-order-beer-unclaim-spot-at-bar
 (bb_read @self open_bar_slot): ?bar_slot
     ->
 (unclaim_env_cell ?bar_slot)
-(bb_clear @self served_beer_cell)
 (bb_clear @self open_bar_slot)
+(bb_clear @self served_beer_cell)
+(bb_clear @self wants_drink)
 (setOutcome ?order /succ).
 
 
