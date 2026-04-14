@@ -1,16 +1,28 @@
 
 
 # Pub patron behaviour.
+
+# If I have a beer in my hand, drink it
+rule pubbing-drink-beer-proposal
+{@self pubbing}
+{@self hand ?hand}
+{?hand control [k drinking_glass]:?glass}
+{?glass control [k beer]}
+    ->
+(beginProposal /cont-interval 8 2 {@self drink ?glass}).
+
+
+# If I don't, order one
 rule pubbing-order-beer-proposal
 {@self pubbing}
 {?bartender perform [k bartending] ?pub}
 (in @self ?pub)
 (none {@self hand.control.control [k beer]})
     ->
-(maintainProposal {@self order [k beer] ?bartender}).
+(beginProposal {@self order [k beer] ?bartender}).
 
 
-
+# First, get a spot by the bar
 rule pubbing-order-beer-claim-spot-at-bar
 {@self pubbing}
 {?bartender perform [k bartending] ?pub}
@@ -22,6 +34,7 @@ rule pubbing-order-beer-claim-spot-at-bar
 (bb_write @self open_bar_slot ?claimed_cell).
 
 
+# Go to the spot
 rule pubbing-order-beer-go-to-bar
 {@self pubbing}
 {@self order [k beer] ?bartender}
@@ -31,6 +44,7 @@ rule pubbing-order-beer-go-to-bar
 (maintainProposal {@self go_env_cell ?claimed_cell}).
 
 
+# Wait for the bartender
 rule pubbing-order-beer-wait-at-bar
 {@self pubbing}
 {@self order [k beer] ?bartender}
@@ -44,36 +58,29 @@ rule pubbing-order-beer-wait-at-bar
 (maintainProposal {@self LOOK_AT ?bartender_eyes}).
 
 
-/*
+# When the bartender serves me a beer, take it
 rule pubbing-order-beer-take-beer
 {@self pubbing}
 {@self order [k beer] ?bartender}: ?order
 {?bartender perform [k bartending] ?pub}
-(bb_read /cont @self served_beer_cell): ?beer_cell
+(bb_read @self served_beer_cell): ?beer_cell
 (env_cell_occupier [k drinking_glass] ?beer_cell): ?beer_glass
     ->
-(beginProposal {@self take ?beer_glass})
-(bb_clear @self served_beer_cell).
+(beginProposal {@self take ?beer_glass}).
 
 
+# Once I've ordered and taken the beer, 
+# I'm done being served and I release my slot to others
 rule pubbing-order-beer-unclaim-spot-at-bar
 {@self pubbing}
 {?bartender perform [k bartending] ?pub}
-{@self /past order [k beer] ?bartender}: ?order
+{@self order [k beer] ?bartender}: ?order
 {@self /succ take ?beer /causes ~?order}
-{?pub part [k bar_counter]:?bar}
-{@self open_bar_slot ?claimed_cell}: ?open_bar_slot
+(bb_read @self open_bar_slot): ?bar_slot
     ->
-(unclaim_env_cell ?claimed_cell)
-(endBelief ?open_bar_slot).
+(unclaim_env_cell ?bar_slot)
+(bb_clear @self served_beer_cell)
+(bb_clear @self open_bar_slot)
+(setOutcome ?order /succ).
 
 
-rule pubbing-drink-beer-proposal
-{@self pubbing}
-{@self hand ?hand}
-{?hand control [k drinking_glass]:?glass}
-{?glass control [k beer]}
-    ->
-(beginProposal /cont-interval 8 2 {@self drink ?glass}).
-
-*/

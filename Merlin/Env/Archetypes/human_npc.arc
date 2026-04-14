@@ -1,5 +1,5 @@
 # Any human NPC
-archetype "human_npc" [256] /obs /raycast_visible /sentient /non_occluder /occupies_env_grid /infer_kind_override human nonplayer
+archetype "human_npc" [256] /obs /raycast_visible /sentient /non_occluder /occupies_env_grid /blackboard /infer_kind_override human nonplayer
 {
     "visual_sensor"
     "sound_sensor"

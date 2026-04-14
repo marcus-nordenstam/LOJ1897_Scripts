@@ -1,5 +1,5 @@
 # Any human PLAYER
-archetype "human_player" [256] /obs /raycast_visible /player /non_occluder /occupies_env_grid /infer_kind_override human player
+archetype "human_player" [256] /obs /raycast_visible /player /non_occluder /occupies_env_grid /blackboard /infer_kind_override human player
 {
     "physical_motors"
     "role"
