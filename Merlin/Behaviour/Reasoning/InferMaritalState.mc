@@ -8,7 +8,6 @@ rule inferSingle
 {?person age_group >0}
     ->
 (beginBelief {?person marital_state single})
-(print [@self infers that ?person is single])
 (fireAndForget).
 
 rule inferEngaged
@@ -16,14 +15,12 @@ rule inferEngaged
 {?person spouse @nothing}
     ->
 (beginBelief {?person marital_state engaged})
-(print [@self infers that ?person is engaged])
 (fireAndForget).
 
 rule inferMarried
 {?person spouse @something}
     ->
 (beginBelief {?person marital_state married})
-(print [@self infers that ?person is married])
 (fireAndForget).
 
 

@@ -10,7 +10,6 @@ rule seekHomeForSpouse
 {@self home ?parentHome}
 (lockRule)
     ->
-(print [@self begins seeking a home])
 (beginGoal {@self home (o /invent [k residential_building])}).
 
 
@@ -18,7 +17,6 @@ rule acquireHome
 {@self goal {@self home ?irrHome}}
 {?irrHome isa [k building]:?bldgKind}
     ->
-(print [@self will acquire ?bldgKind])
 (maintainProposal {@self ACQUIRE ?bldgKind}).
 
 
@@ -27,7 +25,6 @@ rule acquireHomeOutcome
 {?irrHome isa [k building]:?bldgKind}
 {@self /succ ACQUIRE ?bldgKind /causes ~?goal}
     ->
-(print [@self no longer seeks a home])
 (setOutcome /succ ?goal).
 
 
@@ -65,8 +62,7 @@ rule marry-giveWeddingBand
 (none {?ring_finger wear [k wedding_band]})
     ->
 (beginBelief {?wedding_band owner ?fiancee})
-(beginProposal {@self give ?wedding_band ?fiancee})
-(print [@self will give ?wedding_band to ?fiancee]).
+(beginProposal {@self give ?wedding_band ?fiancee}).
 
 
 # BRIDE behaviour
@@ -76,8 +72,7 @@ rule female-marry
 {?fiancee OFFER [k wedding_band]:?wedding_band @self}
     ->
 (beginProposal {@self marry ?fiancee})
-(maintainGoal {@self possess ?wedding_band})
-(print [@self wants to possess ?wedding_band]).
+(maintainGoal {@self possess ?wedding_band}).
 
 
 rule female-marry-wearWeddingBand
@@ -92,9 +87,7 @@ rule female-marry-wearWeddingBand
     ->
 (beginBelief {?ring owner @self})
 (maintainProposal {@self WEAR ?ring ?ring_finger})
-(beginBelief {@self home ?fianceeHome})
-(print [@self wants to put on wedding_band])
-(print (every {?fiancee /ever give})).
+(beginBelief {@self home ?fianceeHome}).
 
 
 # GROOM behaviour
@@ -131,8 +124,7 @@ rule marriedSuccess
     ->
 (setOutcome /succ ?marry)
 (endBelief {@self fiancee ?fiancee})
-(beginBelief {@self spouse ?fiancee})
-(print [@self and ?fiancee are married]).
+(beginBelief {@self spouse ?fiancee}).
 
 
 

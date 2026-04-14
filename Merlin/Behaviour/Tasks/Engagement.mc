@@ -9,8 +9,7 @@ rule goal-knowAnswerToMarriageProposal
 (lockRule) # synchronize the ability to activate this rule - only one at a time
     ->
 '(prob {?prospect goal {?prospect marry @self}}): ?marriageProposal
-(maintainGoal {@self know ?marriageProposal})
-(print [@self wants to know (nl ?marriageProposal)]).
+(maintainGoal {@self know ?marriageProposal}).
 
 
 rule reasoning-marriageProposalAccepted
@@ -31,8 +30,7 @@ rule reasoning-marriageProposalRejected
     [(setOutcome {@self goal {@self marry ?proposee}} /fail)
      (any {?proposee marriage_desirability}): ?desirabilityEvent
      (sub ?desirabilityEvent.target 0.1): ?newDesirability
-     (beginBelief {?proposee marriage_desirability ?newDesirability})
-     (print [@self updates desirability for ?proposee to ?newDesirability])])
+     (beginBelief {?proposee marriage_desirability ?newDesirability})])
 (fireAndForget).
 
 

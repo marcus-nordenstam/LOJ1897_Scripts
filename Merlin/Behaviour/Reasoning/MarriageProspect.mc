@@ -30,10 +30,7 @@ rule eligible_for_marriage
     ->
 (maintainBelief {?person eligible_for_marriage})
 (if (none {?person marriage_desirability})
-    (beginBelief {?person marriage_desirability (sub 1000 (id ?person))}))
-(print [@self believes ?person is eligible for marriage])
-(print [@self thinks ?person "has marriage-desirability" (any {?person marriage_desirability}).target]).
-
+    (beginBelief {?person marriage_desirability (sub 1000 (id ?person))})).
 
 rule marry-desirability-decrease-longtimeNoSee
 {@self goal {@self marry ?prospect}}
@@ -53,7 +50,7 @@ rule goal-marry
     ->
 #(every {? marriage_desirability ?}): ?every
 #(print ?every)
-(print [@self chooses ?prospect with ?desirability desirability])
+#(print [@self chooses ?prospect with ?desirability desirability])
 #(log "pattern" on)
 (maintainGoal {@self marry ?prospect})
 #(log "pattern" off)

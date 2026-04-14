@@ -265,7 +265,6 @@ rule end-conv-proposal
 # Don't end a conversation if you're waiting on an answer
 (none {@self expect answer ?audience})
 # Don't end a conversation until you've said/done everything you intended
-(print ["STILL KICKING:" (any {?conv todo})])
 (none {?conv todo})
 #(gt (evalCount) 20 /cont) # how many times this instruction has been evaluated since the rule activated
     ->
