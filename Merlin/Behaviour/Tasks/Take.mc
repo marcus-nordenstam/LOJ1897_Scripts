@@ -2,10 +2,17 @@
 
 # Phase 1: Propose reach-for (the handler determines when the hand arrives)
 
+rule take-move-closer
+{@self take ?thing}
+(isWithinReachOf /cont /not ?thing 0.5)
+    ->
+(maintainProposal {@self go_entity ?thing} /absUtil 2000).
+
 rule take-left-reach-for-proposal
 {@self take ?thing}
 {@self hand [k left_hand]:?hand}
 {?hand control @nothing}
+(isWithinReachOf /cont ?thing 0.5)
 (lockRule take 0)
     ->
 (maintainProposal {@self LOOK_AT ?thing} /absUtil 1000)
@@ -16,6 +23,7 @@ rule take-right-reach-for-proposal
 {@self take ?thing}
 {@self hand [k right_hand]:?hand}
 {?hand control @nothing}
+(isWithinReachOf /cont ?thing 0.5)
 (lockRule take 1) # prefer right-hand
     ->
 (maintainProposal {@self LOOK_AT ?thing} /absUtil 1000)
