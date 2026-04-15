@@ -4,7 +4,7 @@
 
 rule take-move-closer
 {@self take ?thing}
-(can_reach /cont /not ?thing 0.5)
+(in_range /reach /cont /not ?thing 0.5)
     ->
 (maintainProposal {@self go_entity ?thing} /absUtil 2000).
 
@@ -12,22 +12,22 @@ rule take-left-reach-for-proposal
 {@self take ?thing}
 {@self hand [k left_hand]:?hand}
 {?hand control @nothing}
-(can_reach /cont ?thing 0.5)
+(in_range /reach /cont ?thing 0.5)
 (lockRule take 0)
     ->
 (maintainProposal {@self LOOK_AT ?thing} /absUtil 1000)
-(maintainProposal {@self TURN_TO ?thing} /absUtil 1000)
+#(maintainProposal {@self TURN_TO ?thing} /absUtil 1000)
 (maintainProposal {@self LEFT_REACH_FOR ?thing} /absUtil 1000).
 
 rule take-right-reach-for-proposal
 {@self take ?thing}
 {@self hand [k right_hand]:?hand}
 {?hand control @nothing}
-(can_reach /cont ?thing 0.5)
+(in_range /reach /cont ?thing 0.5)
 (lockRule take 1) # prefer right-hand
     ->
 (maintainProposal {@self LOOK_AT ?thing} /absUtil 1000)
-(maintainProposal {@self TURN_TO ?thing} /absUtil 1000)
+#(maintainProposal {@self TURN_TO ?thing} /absUtil 1000)
 (maintainProposal {@self RIGHT_REACH_FOR ?thing} /absUtil 1000).
 
 # Phase 2: If the reach was successful, propose GRASP (to control it)

@@ -1,194 +1,6 @@
 IMPROVEMENTS
 
 
-Merlin ACTION, ATTR, ENV and Ontology simplification:
-
- This simplifies everything. If each attr is defined exactly once, the attr→state mapping is always unambiguous —
-  there's no conflict resolution needed.
-
-  The design
-
-  Attrs become first-class definitions, separate from archetypes. An archetype just lists which attrs it uses.
-
-  # ── Common attr definitions (defined once) ─────────────────
-
-  attr "isa"          kind        /kind               /passivePercept /unaware
-  attr "role"         str                             /passivePercept /unaware
-  attr "name"         name        /name
-  attr "age"          int         /age                /feel
-  attr "condition"    str alive                       /passivePercept
-  attr "obb"          obb         /spatialBounds      /passivePercept
-  attr "hand"         entity      /label "hand"       /passivePercept
-  attr "parts"        entity [3]  /label "part"       /children /imperceptible
-  attr "color"        str         /label "color"      /passivePercept
-  attr "gender"       str         /label "gender"     /passivePercept
-
-  # ── Archetypes reference attrs by name ─────────────────────
-
-  archetype "human_npc" [256] /obs /sentient /inferKindOverride human nonplayer
-  {
-      "isa"
-      "role"
-      "name"
-      "age"
-      "condition"
-      "obb"
-      "hand"
-      "parts"
-      "color"
-      "gender"
-      eyes        visual-sensor       # sensors are archetype-specific, not shared attrs
-      ears        sound-sensor
-  }
-
-  archetype "dog_npc" [64] /obs /sentient /inferKindOverride dog nonplayer
-  {
-      "isa"
-      "name"
-      "condition"
-      "obb"
-      eyes        visual-sensor
-      ears        sound-sensor
-      "fur_color" str /label "color" /passivePercept   # unique to dogs — inline is OK
-                                                        # (only defined in one archetype)
-  }
-
-  Wait — "fur_color" and "color" are different attrs that map to the same state label. That's fine: the attr name is
-  storage, the label is the ontology link. But I need to reconsider: the "define once" rule applies to attr names, not
-  labels.
-
-  Actually, let me reconsider. The user said "attempts to re-define the same attr inline in multiple archetypes would be
-   a compiler error." The uniqueness constraint is on the attr itself. So the rule is:
-
-  - An attr name can only be defined once globally (either as a standalone attr definition, or inline in exactly one
-  archetype)
-  - Multiple archetypes can reference the same attr by name
-  - If you try to define "color" inline in both human_npc and dog_npc, that's a compile error
-
-  How this affects the attr→ontology design
-
-  It eliminates the conflict problem entirely. Since each attr is defined once with one set of flags, its transmission
-  mechanism is unambiguous. The attr→state mapping becomes a clean function: one attr → one mechanism → one state
-  update. No conflict resolution logic needed.
-
-  Loading becomes:
-
-  1. Parse attr definitions — build a global attr table: attrName → AttrDef (type, label, mechanism, flags)
-  2. Parse archetypes — each archetype body is a list of attr references (resolved from the global table) plus any
-  inline unique attrs (checked for uniqueness)
-  3. Auto-register states — for each attr with a label mapping, register/update the corresponding ontology state with
-  the attr's mechanism
-  4. Everything else continues as before
-
-  The ontology assembly from all sources now looks like:
-
-  .mon (kinds)     →  kind hierarchies
-  .mon (states)    →  manually-defined states (rich semantics, overrides)
-  .arc (attrs)     →  attr definitions → auto-register states with mechanism
-  .arc (archetypes)→  populations referencing attrs
-  .mc (actions)    →  action declarations with motors
-  .mc (tasks)      →  task declarations, motors inferred
-
-  Questions and refinements
-
-  1. Where do common attr definitions live?
-
-  Options:
-  - In a dedicated file (e.g., Attrs.arc or Attrs.def) included by all .arc files
-  - At the top of each .arc file (but then you need cross-file uniqueness checking)
-  - In a separate file type altogether (.attr)
-
-  I'd lean toward a dedicated section in a single file or a new using directive in .arc files, similar to how .mon files
-   have using "States". Something like:
-
-  # Attrs.arc — common attr definitions
-  attr "isa"          kind        /kind               /passivePercept /unaware
-  attr "role"         str                             /passivePercept /unaware
-  attr "name"         name        /name
-  ...
-
-  # Archetypes.arc (or separate files per archetype)
-  using "Attrs"
-
-  archetype "human_npc" [256] /obs /sentient /inferKindOverride human nonplayer
-  {
-      "isa"
-      "role"
-      ...
-  }
-
-  2. Population-level mechanism vs attr-level mechanism.
-
-  Currently, the archetype declares a population-level mechanism (/obs on the archetype line), and attrs inherit it
-  unless they override. With attrs defined separately, the attr already carries its own mechanism. So:
-
-  - The population-level mechanism (/obs on the archetype) becomes: "this population's entities are observable." It sets
-   the entity's transmission mechanism for the isa kind relation (how you perceive that something IS a cat).
-  - Individual attr mechanisms come from the attr definition, not inherited from the population.
-
-  This is actually cleaner — no implicit inheritance to reason about. Each attr says exactly how it's perceived. The
-  population flag just says "entities in this population exist in the world and can be perceived."
-
-  3. Truly unique attrs — the inline escape hatch.
-
-  If an attr is only used by one archetype, defining it inline avoids clutter in the global definitions. The compiler
-  tracks: if "fur_color" appears inline in dog_npc, and later someone tries to define it inline in wolf_npc, that's an
-  error. They must promote it to a shared definition.
-
-  This is a nice progressive workflow: start inline, promote to shared when reuse appears.
-
-  4. Attr value populations.
-
-  Currently, entity-type attrs specify which population(s) they reference:
-  "leftHand"      entity "hand"  /label "hand"  /passivePercept
-  "parts"         entity "hand"|"eye" [3]  /label "part"  /children /imperceptible
-
-  The "hand" and "hand"|"eye" parts reference other archetypes. When an attr is defined globally, these references must
-  still be valid. This works fine — the value populations are part of the attr definition, resolved during archetype
-  activation just as they are today.
-
-  5. What this means for States.mon.
-
-  States.mon shrinks to only:
-  - States with no corresponding attr (pure mental states): mother, spouse, friends, likes, expect, possess, personality
-   traits, etc.
-  - States that need rich field constraints not inferrable from attrs
-  - Explicit overrides where the user wants to force a mechanism
-
-  Most /obs and /feel annotations disappear from States.mon because they're now inferred from attr definitions.
-
-  6. Validation.
-
-  At the end of loading, you can validate:
-  - Every attr label maps to a known ontology state (either manually defined or auto-created)
-  - No two attr definitions share the same name
-  - Every attr referenced by an archetype has been defined
-  - If an attr and a .mon state both specify a mechanism and they disagree → warning (attr wins? .mon wins?
-  configurable?)
-
-  For the last point, I'd say: .mon explicit mechanism wins (it's the deliberate override), attr sets it only when .mon
-  didn't specify one.
-
-  Net effect
-
-  The whole system becomes more modular and less redundant:
-
-  ┌──────────────────────────────────────────────────────────┬──────────────────────────────────────────────────┐
-  │                          Before                          │                      After                       │
-  ├──────────────────────────────────────────────────────────┼──────────────────────────────────────────────────┤
-  │ Attr flags duplicated across archetypes                  │ Each attr defined once                           │
-  ├──────────────────────────────────────────────────────────┼──────────────────────────────────────────────────┤
-  │ Attr mechanism + ontology state mechanism must agree     │ Attr IS the source of mechanism                  │
-  ├──────────────────────────────────────────────────────────┼──────────────────────────────────────────────────┤
-  │ Add new perceivable state → edit States.mon + every .arc │ Add new perceivable state → define attr once     │
-  ├──────────────────────────────────────────────────────────┼──────────────────────────────────────────────────┤
-  │ Change perceptibility → edit States.mon + every .arc     │ Change perceptibility → edit one attr definition │
-  └──────────────────────────────────────────────────────────┴──────────────────────────────────────────────────┘
-
-
-
-
-
 Merlin PERCEPTION improvements
 
   Voluntary path (attention set + stack)
@@ -234,6 +46,21 @@ Merlin PERCEPTION improvements
   ---
   Which of these do you want to tackle? The dirty-flag gate on the voluntary path (point 1) and the salience heuristic
   (point 3) seem like the highest-value changes relative to the original design discussion.
+
+// 1. Reduce the intake:
+//    * Any event whose relation-label never occurs as a decl.condition or in a search can be
+//      trivially forgotten.  Alternatively, we discard it instead of committing it.
+//      If the player asks about things like what we're forgetting, we can use reasoning rules to
+//      come up with answers.
+//    * By default, we only observe large objects and large spaces, and groups of things.
+//      And we don't observe child-objects.
+//    * Instead, all tasks should include explicit observe actions to ensure the NPC is observing
+//      what is necessary to perform the task at hand.  For example, in giving/taking, both parties
+//      should be observing each others hands.
+
+
+
+
 
 
 

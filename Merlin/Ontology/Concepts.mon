@@ -47,7 +47,6 @@ concept
         pub_patron
 
     activity
-        conversation
         bartending
         
     org_pos

@@ -18,9 +18,3 @@
 :INTRANS_TASK
 "prepares to enter the game"                        /pres startup               .
 "prepared to enter the game"                        /past startup               .
-"starts the $conv(NP) conversation"                 /pres start_conv $conv(NP)   .
-"started the $conv(NP) conversation"                /past start_conv $conv(NP)   .
-"starts wrapping up the $conv(NP) conversation"     /pres end_conv $conv(NP)     .
-"started wrapping up the $conv(NP) conversation"    /past end_conv $conv(NP)     .
-"ends the $conv(NP) conversation"                   /pres DESTROY_CONV_META_ENT $conv(NP)  .
-"ended the $conv(NP) conversation"                  /past DESTROY_CONV_META_ENT $conv(NP)  .

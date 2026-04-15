@@ -33,15 +33,13 @@ rule importLearningTasks
 
 
 rule importSocialTasks
-    -> 
-(import "Ask")
+    ->
+(import "Talk")
 (import "AnswerQuestion")
 (import "HearAnswer")
-(import "Tell")
 (import "HearTell")
 (import "WriteDoc")
 (import "Introduce")
-(import "Conversation")
 (import "Socialize")
 (import "Pubbing").
 

@@ -34,7 +34,6 @@ archetype "human_npc" [256] /obs /raycast_visible /sentient /non_occluder /occup
     "right_hand"
     "eyes"
     "mouth"
-    "conversation"
     "pregnant_by"
     "control"
     "obb"

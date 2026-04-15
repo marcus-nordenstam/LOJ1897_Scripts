@@ -55,7 +55,7 @@ rule pubbing-order-beer-wait-at-bar
 (overlaps ?claimed_cell @self 0.8)
     ->
 (bb_write @self wants_drink @true)
-(maintainProposal {@self TURN_TO ?bar_counter})
+#(maintainProposal {@self TURN_TO ?bar_counter})
 (maintainProposal {@self LOOK_AT ?bartender_eyes}).
 
 

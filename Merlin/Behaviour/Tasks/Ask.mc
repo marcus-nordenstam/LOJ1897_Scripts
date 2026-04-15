@@ -7,6 +7,8 @@
 # This means we must set a goal go have a conversation with them (an irrealis 
 # conversation since it hasn't happened yet).
 
+/*
+
 rule goal-conv-ASK-notAvail
 {@self goal {@self ASK ?question ?audience}:?ask}: ?goal
 {@self conversation ?myConv}
@@ -46,3 +48,4 @@ rule goal-ASK-outcome
 (setOutcome ?goal /from ?ASK).
 
 
+*/

@@ -23,7 +23,6 @@ archetype "human_player" [256] /obs /raycast_visible /player /non_occluder /occu
     "right_hand"
     "eyes"
     "mouth"
-    "conversation"
     "pregnant_by"
     "control"
     "obb"

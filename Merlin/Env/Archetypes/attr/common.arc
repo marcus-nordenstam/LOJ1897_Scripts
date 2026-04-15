@@ -67,8 +67,6 @@ attr "intelligence"     float                                               /fee
 attr "interests"        str [3]                                             /feel
 
 # Relationships
-# Keeps conversations in sync among NPCs; allows nearby observers to infer a conversation
-attr "conversation"     entity "conversation"                               /obs /auto_percept /state_flags_tar @excl
 attr "pregnant_when"    date                                                /obs /auto_percept
 # Only used to pass on appropriate DNA from the father
 attr "pregnant_by"      entity                                              /imperceptible

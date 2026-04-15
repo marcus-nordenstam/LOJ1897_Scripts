@@ -33,9 +33,6 @@ relation
             process_title_deed                        /aux structure|space
             introduce_siblings
 
-            start_conv                               /tar conversation
-            end_conv                                 /tar conversation
-
             tell_about                              /sub @msgAuthor human /aux @msgAudience human
 
             order                       /motor legs

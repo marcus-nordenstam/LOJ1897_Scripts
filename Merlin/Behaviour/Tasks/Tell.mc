@@ -1,4 +1,4 @@
-
+/*
 
 # Unlike ASK, TELL can be done inside or outside of a conversation.
 
@@ -35,7 +35,7 @@ rule TELL-proposal
 #(bb_read @self conv_env_cell): ?conv_env_cell
 #(overlaps ?conv_env_cell @self 0.8)
 #{@self within_reach_of ?audience}
-{@self facing ?audience}
+#{@self facing ?audience}
 {@self keep_looking_at_part ?audience eyes}
 (lockRule) # only be telling one thing at a time
     ->
@@ -48,3 +48,5 @@ rule goal-TELL-outcome
 {@self /past TELL ?msg ?audience /causes ~?goal /out?}: ?TELL
     ->
 (setOutcome ?goal /from ?TELL).
+
+*/

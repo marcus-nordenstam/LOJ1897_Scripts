@@ -19,7 +19,7 @@ rule startup-go-pubbing
 
 rule startup-go-to-waypoint
 {?waypoint isa [k waypoint]}
-(can_reach /not ?waypoint /cont)
+(in_range /reach /not ?waypoint /cont)
 (none {@self job [k bartender]})
 (in @self /not [k building pub])
     ->

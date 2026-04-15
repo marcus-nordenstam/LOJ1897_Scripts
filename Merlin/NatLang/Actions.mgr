@@ -13,8 +13,6 @@
 "walked to"                         /past WALK_TO               .
 "has sex with"                      /pres HAVE_SEX_WITH         .
 "had sex with"                      /past HAVE_SEX_WITH         .
-"makes conversation with"           /pres MAKE_CONV_META_ENT    .
-"made conversation with"            /past MAKE_CONV_META_ENT    .
 "acquires"                          /pres ACQUIRE               .
 "acquired"                          /past ACQUIRE               .
 

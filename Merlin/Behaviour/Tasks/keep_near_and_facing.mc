@@ -10,7 +10,7 @@ rule keep_near_and_facing-attention
 
 rule keep_near_and_facing-within_reach_of-belief
 {@self keep_near_and_facing ?thing}
-(can_reach ?thing 0.8 /cont) = ?prob # get 20% closer to the target before stopping
+(in_range /reach ?thing 0.8 /cont) = ?prob # get 20% closer to the target before stopping
     ->
 (maintainBelief {@self within_reach_of ?thing /p ?prob}).
 
@@ -23,6 +23,7 @@ rule keep_near_and_facing-within_reach_of-go-proposal
 # You must face it
 # Bear in mind that facing is NOT exclusive
 
+/*
 rule keep_near_and_facing-facing-belief
 {@self keep_near_and_facing ?thing}
 (isFacing ?thing 0.9 /cont) = ?prob
@@ -34,3 +35,4 @@ rule keep_near_and_facing-TURN_TO-proposal
 {@self /not facing ?thing}
     ->
 (maintainProposal {@self TURN_TO ?thing}).
+*/
