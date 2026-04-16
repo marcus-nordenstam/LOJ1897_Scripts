@@ -32,5 +32,5 @@ rule
 rule 
 {/prop @self TAKE ?thing ?freeHand}: ?TAKE
     ->
-(penalize ?TAKE (distance @self ?thing /cont)).
+(penalize ?TAKE (distance @self ?thing)).
 */

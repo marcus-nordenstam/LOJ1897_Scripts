@@ -18,7 +18,7 @@ rule
 # I belive that the known company exists (it's not hypothetical or imagined)
 (real ?knownOrg)
 # ...but I am not there
-(in @self /not ?workplace /cont)
+(in @self /not ?workplace)
     ->
 # then go there.
 (maintainProposal {@self go_entity ?workplace}).
@@ -37,9 +37,9 @@ rule
 {?knownOrg name ?orgName}
 # and I am in its workplace
 {?knownOrg workplace ?workplace}
-(in @self ?workplace /cont)
+(in @self ?workplace)
 # and I see a real person in there whose job I don't know
-(o /per /not_i [k human] (none {@o job ?}) (in @o ?workplace /cont)): ?realPerson
+(o /per /not_i [k human] (none {@o job ?}) (in @o ?workplace)): ?realPerson
     ->
 # then I want to know if they have that specific kind of job at the company
 '(real /truth ?jobKind {?realPerson job @o} {@o at (o /known ?orgName)}): ?if_you_have_job_at_org

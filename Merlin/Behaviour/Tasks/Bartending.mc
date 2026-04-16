@@ -6,7 +6,7 @@ rule bartending-idle-face-bar
 {?pub part [k bar_counter]:?bar_counter}
 (none {@self serve_customer})
     ->
-(maintainProposal /cont {@self TURN_TO ?bar_counter}).
+(maintainProposal {@self TURN_TO ?bar_counter}).
 
 
 # identify customer and serve them

@@ -5,7 +5,7 @@ rule growFamily
 {@self spouse @something:?spouse}
 (lt (count (every {@self child})) 3)
     ->
-(maintainProposal /cont {@self HAVE_SEX_WITH ?spouse}).
+(maintainProposal {@self HAVE_SEX_WITH ?spouse}).
 
 # We let the mother tell her children about their home
 rule tellChildTheirHome

@@ -7,10 +7,10 @@ rule goTheatre
 {@self spouse @nothing}
 #{@self age_group >1}
 {[k building theatre]:?theatre obb ?obb}
-(in @self ?theatre /not /cont)
+(in @self ?theatre /not)
 #(none {@self child})
     ->
-(maintainProposal {@self go_entity ?theatre} /cont).
+(maintainProposal {@self go_entity ?theatre}).
 
 
 

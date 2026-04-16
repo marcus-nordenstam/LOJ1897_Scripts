@@ -1,5 +1,30 @@
 IMPROVEMENTS
 
+Work left to do before pub-sim demo:
+
+patron:
+  claim a cell on the bar-counter, near you
+  bartender should use this cell to place the beer
+
+bartender:
+  claim a cell behind the bar near the customer
+  - if reuse is given, and the NPC already has a currently claimed cell that matches the criteria, do nothing
+
+fix it so they face each other when speaking
+
+Track beer level. DRINK fluid should reduce fluid level.
+dont drink if fluid level = 0
+if fluid level = 0, put on the nearest counter or table top
+
+implement put
+
+
+/cont = continuous evaluation
+/interval x y = continuous with cooldown - using cycles instead of seconds for x y args
+/discrete = discrete evaluation (suppress any continuous funcs)
+
+
+
 
 Merlin PERCEPTION improvements
 

@@ -94,7 +94,7 @@ rule
 # In order to perform this PHYSICAL introduction, we have to check that all parties can directly
 # refence each other (e.g. that they have all experienced each other and that all of them 
 # still exist in the physical environment)
-(canDirectRef /cont @self ?child1 ?child2)
+(canDirectRef @self ?child1 ?child2)
     ->
 # tell child1 "this is your brother|sister ?child2Name"
 (call siblingRel ?child2Gender): ?child2Rel

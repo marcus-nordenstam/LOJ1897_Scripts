@@ -33,7 +33,7 @@ rule use_umbrella-STOW
 {@self use_umbrella ?umbrella}: ?use_umbrella
 {@self region ?region}
 {?region rain ?rain}
-(or (eq ?rain none) (in /cont @self [k structure]))
+(or (eq ?rain none) (in @self [k structure]))
     ->
 (beginProposal {@self STOW ?umbrella}).
 

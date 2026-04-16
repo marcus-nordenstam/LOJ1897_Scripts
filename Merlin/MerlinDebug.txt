@@ -27,7 +27,7 @@ belief
 rule
 percept
 # boundary
-env
+# env
 # decay
 # rc
 # nl

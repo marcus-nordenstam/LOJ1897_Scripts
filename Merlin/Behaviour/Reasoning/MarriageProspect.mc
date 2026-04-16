@@ -35,7 +35,7 @@ rule eligible_for_marriage
 rule marry-desirability-decrease-longtimeNoSee
 {@self goal {@self marry ?prospect}}
 {?prospect marriage_desirability ?desirability}
-(timeSinceObserved ?prospect /years /cont): ?timeSince
+(timeSinceObserved ?prospect /years): ?timeSince
 (ge ?timeSince 1)
     ->
 (sub ?desirability ?timeSince): ?newDesirability
