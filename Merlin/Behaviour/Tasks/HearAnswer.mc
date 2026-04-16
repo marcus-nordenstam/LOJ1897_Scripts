@@ -29,7 +29,7 @@
 rule believeIsEventTrueAnswer
 {@self goal /succ {@self ASK (qs (prob ?event)):?question ?person}}: ?askQuestionGoal
 {@self /succ ASK ?question ?person /causes ~?askQuestionGoal}: ?askQuestionAction
-{@self expect answer ?person /causes ~?askQuestionAction}
+{@self expect_answer ?person /causes ~?askQuestionAction}
 {?person /succ TELL ?answer @self /causes ~?askQuestionAction}: ?tellAnswer
     ->
 # Now make a belief of the question-phrase (e.g. {@you want.task {@you marry @self}}), 
@@ -37,7 +37,7 @@ rule believeIsEventTrueAnswer
 (beginBelief ?event [/p (msgContent ?answer) /sources ?tellAnswer]): ?beliefFromAnswer
 #(print [@self believes ?beliefFromAnswer])
 # You are no longer expecting an answer from this person
-(endBelief {@self expect answer ?person}).
+(endBelief {@self expect_answer ?person}).
 #(print [@self no longer expects answer from ?person]).
 
 
@@ -55,14 +55,14 @@ rule believeIsEventTrueAnswer
 rule believeTargetValueAnswer
 {@self goal /succ {@self ASK (qs (any ?event).target):?question ?person}}: ?askQuestionGoal
 {@self /succ ASK ?question ?person /causes ~?askQuestionGoal}: ?askQuestionAction
-{@self expect answer ?person /causes ~?askQuestionAction}
+{@self expect_answer ?person /causes ~?askQuestionAction}
 {?person /succ TELL ?answer @self /causes ~?askQuestionAction}
     ->
 # Splice together a new belief:
 # ?event = {?person name}, ?answer = "Toby" -> {?person name "Toby"}
 (beginBelief ?event [/target (msgContent ?answer)]): ?understood
 # You are no longer expecting an answer from this person
-(endBelief {@self expect answer ?person}).
+(endBelief {@self expect_answer ?person}).
 #(print [@self understands (nl ?understood)])
 #(print [@self no longer expects answer from ?person]).
 
@@ -81,7 +81,7 @@ rule believeTargetValueAnswer
 rule believe-target-target-answer
 {@self goal /succ {@self ASK (qs (any ?event).target.target):?question ?person}}: ?askQuestionGoal
 {@self /succ ASK ?question ?person /causes ~?askQuestionGoal}: ?askQuestionAction
-{@self expect answer ?person /causes ~?askQuestionAction}
+{@self expect_answer ?person /causes ~?askQuestionAction}
 {?person /succ TELL ?answer @self /causes ~?askQuestionAction}
     ->
 # Splice together a new belief:
@@ -89,7 +89,7 @@ rule believe-target-target-answer
 (beginBelief ?event.target [/target (msgContent ?answer)]): ?targetBelief
 (beginBelief ?event [/target ?targetBelief]): ?understood
 # You are no longer expecting an answer from this person
-(endBelief {@self expect answer ?person}).
+(endBelief {@self expect_answer ?person}).
 #(print [@self understands (nl ?understood)])
 #(print [@self no longer expects answer from ?person]).
 
@@ -98,12 +98,12 @@ rule believe-target-target-answer
 rule believeIDontKnowAnswer
 {@self goal /succ {@self ASK (qs (any ?event).target):?question ?person}}: ?askQuestionGoal
 {@self /succ ASK ?question ?person /causes ~?askQuestionGoal}: ?askQuestionAction
-{@self expect answer ?person /causes ~?askQuestionAction}
+{@self expect_answer ?person /causes ~?askQuestionAction}
 {?person /succ TELL (msg @unknown) @self /causes ~?askQuestionAction} # "I don't know"
     ->
 (beginBelief {?person /not know '(any ?event).target})
 # You are no longer expecting an answer from this person
-(endBelief {@self expect answer ?person}).
+(endBelief {@self expect_answer ?person}).
 #(print [@self no longer expects answer from ?person]).
 
 
@@ -119,11 +119,11 @@ rule believeIDontKnowAnswer
 rule believeIsObjectRealAnswer
 {@self goal /succ {@self ASK (qs (real ?descriptionOfRealObject)):?question ?person}}: ?askQuestionGoal
 {@self /succ ASK ?question ?person /causes ~?askQuestionGoal}: ?askQuestionAction
-{@self expect answer ?person /causes ~?askQuestionAction}
+{@self expect_answer ?person /causes ~?askQuestionAction}
 {?person /succ TELL (msg @true) @self /causes ~?askQuestionAction}
     ->
 # ?descriptionOfRealObject will control events with @o's in them
 (o /invent /real ?descriptionOfRealObject)
 # You are no longer expecting an answer from this person
-(endBelief {@self expect answer ?person}).
+(endBelief {@self expect_answer ?person}).
 #(print [@self no longer expects answer from ?person]).

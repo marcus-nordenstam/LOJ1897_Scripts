@@ -360,7 +360,7 @@ rule conv-todo-act-proposal
 (maintainProposal ?act): ?proposal
 (addCause ?proposal ?causes) # add expl. cause because there are no task/goal conditions
 (if (eq ?act.label ASK) 
-    (beginBelief {@self expect answer ?act.auxiliary /causes ?causes})).
+    (beginBelief {@self expect_answer ?act.auxiliary /causes ?causes})).
 
 
 # We need this separate rule to ensure that the expect-answer belief's causes includes
@@ -369,7 +369,7 @@ rule conv-expect-answer-cause
 {@self conversation @something:?conv}
 {?conv todo {@self ASK ? ?audience} /causes ?causes}
 {@self /ever ASK ? ?audience /causes ?causes}: ?ask
-{@self expect answer ?audience /causes ?causes}: ?expect_answer
+{@self expect_answer ?audience /causes ?causes}: ?expect_answer
     ->
 (addCause ?expect_answer ?ask).
 
@@ -399,7 +399,7 @@ rule end-conv-proposal
 # Only let the person who initiated the conversation end it
 {?conv initiator @self}
 # Don't end a conversation if you're waiting on an answer
-(none {@self expect answer ?audience})
+(none {@self expect_answer ?audience})
 # Don't end a conversation until you've said/done everything you intended
 (none {?conv todo})
 #(gt (evalCount) 20 /cont) # how many times this instruction has been evaluated since the rule activated

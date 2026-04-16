@@ -34,7 +34,7 @@ relation
         know                    /sub human              /tar @S
         price                   /sub ?                  /tar @excl
         possess                 /sub human              /tar object
-        expect                  /sub human              /tar ?
+        expect_answer           /sub human              /tar ?
         status                  /tar ? @excl
 
         # Stack states not from attrs

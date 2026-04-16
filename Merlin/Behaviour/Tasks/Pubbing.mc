@@ -8,8 +8,8 @@ rule pubbing-drink-beer-proposal
 {@self hand ?hand}
 {?hand control [k drinking_glass]:?glass}
 {?glass control [k beer]}
-    ->
-(beginProposal /cont-interval 8 2 {@self drink ?glass}).
+    -> /cont-interval 8 2
+(beginProposal {@self drink ?glass}).
 
 
 # If I don't, order one

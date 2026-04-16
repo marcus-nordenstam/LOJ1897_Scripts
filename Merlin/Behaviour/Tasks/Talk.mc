@@ -17,24 +17,24 @@
 # =============================================================================
 
 # If I have a goal to TELL someone, maintain the signal and update positioning
-rule want-to-talk-tell
+rule want-to-talk-tell /cont-interval 1 0
 {@self goal {@self TELL ?msg ?person}}
-(claim_env_cell /reuse /in_talk_range ?person): ?talk_cell
+(claim_env_cell  /reuse /in_talk_range ?person): ?talk_cell
 (lockRule talk 0)
     ->
-(bb_maintain @self try_to_talk_to ?person 180)
+(bb_maintain @self try_to_talk_to ?person 30)
 (bb_read @self talk_cell) = ?old_cell
 (if (neq ?old_cell ?talk_cell) (unclaim_env_cell ?old_cell))
 (bb_write @self talk_cell ?talk_cell)
 (maintainAttention ?person).
 
 # If I have a goal to ASK someone, same as TELL
-rule want-to-talk-ask
+rule want-to-talk-ask /cont-interval 1 0
 {@self goal {@self ASK ?question ?person}}
 (claim_env_cell /reuse /in_talk_range ?person): ?talk_cell
 (lockRule talk 0)
     ->
-(bb_maintain @self try_to_talk_to ?person 180)
+(bb_maintain @self try_to_talk_to ?person 30)
 (bb_read @self talk_cell) = ?old_cell
 (if (neq ?old_cell ?talk_cell) (unclaim_env_cell ?old_cell))
 (bb_write @self talk_cell ?talk_cell)
@@ -64,6 +64,22 @@ rule talk-stay-in-cell
 (overlaps ?talk_cell /not @self)
     ->
 (maintainProposal {@self go_env_cell ?talk_cell} /absUtil 1000).
+
+# If I have a talk-cell and I'm in it, stay there and face the person you're talking to
+rule talk-stay-in-cell-face-person-i-am-talking-to
+{@self goal {@self TELL ?msg ?person}}
+(bb_read @self talk_cell): ?talk_cell
+(overlaps ?talk_cell @self)
+    ->
+(maintainProposal {@self TURN_TO ?person} /absUtil 1000).
+
+# If I have a talk-cell and I'm in it, stay there and face the person you're talking to
+rule talk-stay-in-cell-face-person-talking-to-me
+(bb_read @self talk_cell): ?talk_cell
+(bb_any ? try_to_talk_to @self /output_subject): ?person
+(overlaps ?talk_cell @self)
+    ->
+(maintainProposal {@self TURN_TO ?person} /absUtil 1000).
 
 
 # =============================================================================
@@ -106,6 +122,7 @@ rule goal-TELL-outcome
 {@self goal {@self TELL ?msg ?audience}}: ?goal
 {@self /past TELL ?msg ?audience /causes ~?goal /out?}: ?TELL
     ->
+#(bb_clear @self try_to_talk_to)
 (setOutcome ?goal /from ?TELL).
 
 
@@ -122,15 +139,11 @@ rule ASK-propose
 (beginProposal {@self ASK ?question ?person}).
 
 # Track ASK outcome
-rule goal-ASK-outcome
-{@self goal {@self ASK ?question ?audience}}: ?goal
-{@self /past ASK ?question ?audience /causes ~?goal /out?}: ?ASK
-    ->
-(setOutcome ?goal /from ?ASK).
-
 # When asking a question, expect an answer
-rule ASK-expect-answer
+rule goal-ASK-outcome
 {@self goal {@self ASK ?question ?person}}: ?goal
-{@self /succ ASK ?question ?person /causes ~?goal}: ?ask
+{@self /past ASK ?question ?person /causes ~?goal /out?}: ?ASK
     ->
-(beginBelief {@self expect answer ?person /causes ?ask}).
+#(bb_clear @self try_to_talk_to)
+(beginBelief {@self expect_answer ?person /causes ?ASK})
+(setOutcome ?goal /from ?ASK).
