@@ -2,6 +2,12 @@ IMPROVEMENTS
 
 Work left to do before pub-sim demo:
 
+bug: if frame-rate gets too slow, the walking walks too far and causes issues.
+     so limit the distance per frame/cycle to something like what we'd get at 40fps
+     to avoid overshooting.
+ - also when closer than say 2meters, we should walk SLOWER and SLOWER to the target
+
+
 patron:
   claim a cell on the bar-counter, near you
   bartender should use this cell to place the beer
