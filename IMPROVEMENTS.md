@@ -467,5 +467,3 @@ GRYM engine cleanup
 
   Total removable: roughly 3,000+ lines of shader code, ~15KB+ of C++, ~8 duplicate shader files, and ~30 branch points
   that add complexity for a path you'll never take.
-
-
