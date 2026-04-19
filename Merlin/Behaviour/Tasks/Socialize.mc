@@ -2,7 +2,7 @@
 # Social activities
 #   AgeGroup 2+
 #   Attend theatre (to provide a place where they can get to know others)
-rule goTheatre
+rule socialize-go-theatre
 {@self alertness alert}
 {@self spouse @nothing}
 #{@self age_group >1}

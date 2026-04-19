@@ -1,5 +1,5 @@
 
-rule ->
+rule import-common-reasoning ->
 (import "Age")
 (import "MarriageProspect")
 (import "Family")

@@ -11,7 +11,7 @@ rule seek_answers
 (maintainProposal {@self seek_answers ?questions}).
 
 
-rule 
+rule get-acquainted-with-outcome
 {@self /ever get_acquainted_with ?person /noOut}: ?getAcquainted
 {@self /past seek_answers ? /causes ~?getAcquainted}: ?seek_answers
     ->

@@ -26,9 +26,8 @@
 # If the answer is @unknown (e.g. "I don't know"), the resulting belief reflects that as well: 
 #   {@you want.task {@you marry @self} /p unknown}.
 
-rule believeIsEventTrueAnswer
-{@self goal /succ {@self ASK (qs (prob ?event)):?question ?person}}: ?askQuestionGoal
-{@self /succ ASK ?question ?person /causes ~?askQuestionGoal}: ?askQuestionAction
+rule believe-is-event-true-answer
+{@self /succ ASK (qs (prob ?event)):?question ?person}: ?askQuestionAction
 {@self expect_answer ?person /causes ~?askQuestionAction}
 {?person /succ TELL ?answer @self /causes ~?askQuestionAction}: ?tellAnswer
     ->
@@ -52,9 +51,8 @@ rule believeIsEventTrueAnswer
 # If the answer is "Toby", then to understand it, we need to splice together a new 
 # belief out of the question & answer: 
 #   {?person name "Toby"}.
-rule believeTargetValueAnswer
-{@self goal /succ {@self ASK (qs (any ?event).target):?question ?person}}: ?askQuestionGoal
-{@self /succ ASK ?question ?person /causes ~?askQuestionGoal}: ?askQuestionAction
+rule believe-target-value-answer
+{@self /succ ASK (qs (any ?event).target):?question ?person}: ?askQuestionAction
 {@self expect_answer ?person /causes ~?askQuestionAction}
 {?person /succ TELL ?answer @self /causes ~?askQuestionAction}
     ->
@@ -79,8 +77,7 @@ rule believeTargetValueAnswer
 # belief out of the question & answer: 
 #   {?person goal {@self serve [k pint] ?person}}.
 rule believe-target-target-answer
-{@self goal /succ {@self ASK (qs (any ?event).target.target):?question ?person}}: ?askQuestionGoal
-{@self /succ ASK ?question ?person /causes ~?askQuestionGoal}: ?askQuestionAction
+{@self /succ ASK (qs (any ?event).target.target):?question ?person}: ?askQuestionAction
 {@self expect_answer ?person /causes ~?askQuestionAction}
 {?person /succ TELL ?answer @self /causes ~?askQuestionAction}
     ->
@@ -95,9 +92,8 @@ rule believe-target-target-answer
 
 
 # Handles if the person asked doesn't know
-rule believeIDontKnowAnswer
-{@self goal /succ {@self ASK (qs (any ?event).target):?question ?person}}: ?askQuestionGoal
-{@self /succ ASK ?question ?person /causes ~?askQuestionGoal}: ?askQuestionAction
+rule believe-i-dont-know-answer
+{@self /succ ASK (qs (any ?event).target):?question ?person}: ?askQuestionAction
 {@self expect_answer ?person /causes ~?askQuestionAction}
 {?person /succ TELL (msg @unknown) @self /causes ~?askQuestionAction} # "I don't know"
     ->
@@ -116,9 +112,8 @@ rule believeIDontKnowAnswer
 #
 # If the answer "yes", (e.g. @true) the answer is understood by adding a belief
 # that they have that job.
-rule believeIsObjectRealAnswer
-{@self goal /succ {@self ASK (qs (real ?descriptionOfRealObject)):?question ?person}}: ?askQuestionGoal
-{@self /succ ASK ?question ?person /causes ~?askQuestionGoal}: ?askQuestionAction
+rule believe-is-object-real-answer
+{@self /succ ASK (qs (real ?descriptionOfRealObject)):?question ?person}: ?askQuestionAction
 {@self expect_answer ?person /causes ~?askQuestionAction}
 {?person /succ TELL (msg @true) @self /causes ~?askQuestionAction}
     ->

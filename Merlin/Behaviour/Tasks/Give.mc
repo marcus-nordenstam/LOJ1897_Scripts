@@ -4,7 +4,7 @@
 # --------------------------------------
 
 # To give, you must have it
-rule give-proposal-getThing
+rule give-proposal-get-thing
 {@self give ?thing ?recipient}
 {@self hand ?hand}
 {?hand control !?thing}
@@ -13,7 +13,7 @@ rule give-proposal-getThing
 
 
 # If you have it, you must be close enough to touch the recipient
-rule give-goal-within_reach_ofRecipient
+rule give-goal-within-reach-of-recipient
 {@self give ?thing ?recipient}
 {@self hand ?hand}
 {?hand control ?thing}

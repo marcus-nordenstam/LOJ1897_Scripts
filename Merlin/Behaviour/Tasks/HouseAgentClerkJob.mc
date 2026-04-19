@@ -1,5 +1,5 @@
 
-rule 
+rule house-agent-clerk-process-title-deed-for-buyer
 {@self perform [k clerk]:?job}: ?working
 {?job at [k house_agency]:?org}
 {?buyer goal ?otask}
@@ -9,14 +9,14 @@ rule
 # We have to explicitly include ?buyerWantsToBuy as a cause, because it is NOT a self-act
 (maintainProposal {@self process_title_deed ?buyer ?bldg /causes ?buyerWantsToBuy}).
 
-rule 
+rule house-agent-clerk-ask-buyer-name
 {@self process_title_deed ?buyer ?bldg}
 (none {?buyer name ?})
     ->
 (maintainGoal {@self know '(any {?buyer name}).target} /relUtil 1).
 
 
-rule 
+rule house-agent-clerk-write-title-deed
 {@self process_title_deed ?buyer ?bldg}
 {?bldg isa [k building]:?bldgKind}
 {?buyer name ?buyerName}
@@ -28,7 +28,7 @@ rule
 
 
 # Give the doc to buyer
-rule 
+rule house-agent-clerk-give-title-deed-to-buyer
 {@self process_title_deed ?buyer ?bldg}: ?process_title_deed
 {@self /succ write [k title_deed]:?doc /causes ~?process_title_deed}
 {?buyer hand ?hand}

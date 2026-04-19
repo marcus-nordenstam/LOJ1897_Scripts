@@ -1,6 +1,6 @@
 
 
-rule goHome
+rule go-home-when-sleepy
 {@self home ?home}
 {@self alertness sleepy}
 (in @self ?home /not)

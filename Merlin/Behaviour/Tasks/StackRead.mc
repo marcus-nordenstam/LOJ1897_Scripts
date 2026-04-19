@@ -2,7 +2,7 @@
 
 # Reading docs in a stack relies on the "stack_browse" activity 
 # that makes us get docs from the stack, one at a time.
-rule 
+rule stack-read-browse-proposal
 {@self stack_read ?stack}
 {?stack isa [k object stack]}
     ->
@@ -10,7 +10,7 @@ rule
 
 
 # If we are viewing a doc but have not read it, then read it
-rule 
+rule stack-read-read-viewed-doc-proposal
 {@self stack_read ?stack}: ?stack_read
 {@self stack_browse ?stack /causes ~?stack_read}
 # I have NOT read the doc I am currently viewing
@@ -23,7 +23,7 @@ rule
 # If we are still viewing a doc that we have read, 
 # put it into the 'done' stack.  
 # (The stack_browse activity creates this stack for us).
-rule 
+rule stack-read-put-done-doc-proposal
 {@self stack_read ?stack}: ?stack_read
 {@self stack_browse ?stack /causes ~?stack_read}
 # There is a stack where I can put the docs I am done with
@@ -37,7 +37,7 @@ rule
 
 
 # If the stack is empty, end the activity /succ
-rule 
+rule stack-read-outcome-empty-succ
 {@self stack_read ?stack}: ?stack_read
 {?stack isa [k object stack]}
 {?stack top @nothing}
@@ -46,7 +46,7 @@ rule
 (setOutcome ?stack_read /succ).
 
 
-rule 
+rule stack-read-cleanup-read-doc-to-done-stack
 {?doc from_stack ?stack}
 {?stack done_stack ?done_stack}
 {?hand control ?doc}
@@ -57,7 +57,7 @@ rule
 (maintainProposal {@self stack_put ?doc ?done_stack}).
 
 
-rule 
+rule stack-read-cleanup-unread-doc-to-source-stack
 {?doc from_stack ?stack}
 {?hand control ?doc}
 {@self hand ?hand}

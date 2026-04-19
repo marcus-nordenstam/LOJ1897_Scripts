@@ -1,6 +1,6 @@
 
 
-rule 
+rule write-doc-action-proposal
 {@self write ?hypDoc}
 {?hypDoc isa [k document]:?docKind}
 {?hypDoc writings ?writings}
@@ -9,7 +9,7 @@ rule
 
 
 # Base the activity's outcome on the corresponding action's outcome
-rule 
+rule write-doc-outcome
 {@self /ever write ?hypDoc /noOut}: ?writeHypDoc
 {@self /past WRITE_DOC ? ? /causes ~?writeHypDoc}: ?WRITE_DOC
 #(o /only /known /causedBy ?WRITE_DOC): ?defDoc

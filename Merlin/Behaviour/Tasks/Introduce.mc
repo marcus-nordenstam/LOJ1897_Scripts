@@ -85,7 +85,7 @@
 # communicative behaviours where the speaker is talking about an object which may not be 
 # physically present, and where indirect object references must be used.
 
-rule 
+rule introduce-siblings-tell-each-other
 {@self introduce_siblings ?child1 ?child2}
 {?child1 name ?child1Name}
 {?child2 name ?child2Name}
@@ -105,7 +105,7 @@ rule
 (msg {?child2 ?child1Rel (this ?child1 ?child1Name)}): ?msgChild1IsYourSibling
 (maintainGoal {@self TELL ?msgChild1IsYourSibling ?child2}).
 
-rule 
+rule introduce-siblings-outcome
 {@self /ever introduce_siblings ?person1 ?person2 /noOut}: ?intro
 {@self /succ TELL ? ?person1 /causes ~?intro}
 {@self /succ TELL ? ?person2 /causes ~?intro}

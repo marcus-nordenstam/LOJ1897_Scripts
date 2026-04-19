@@ -4,7 +4,7 @@
 # Identifying a person by the kind of job they have:
 # --------------------------------------------------
 
-rule 
+rule identify-person-go-to-workplace-by-job-kind
 # If I'm trying to identify a person
 {@self identify ?person}
 # and this person has a specific KIND of job
@@ -23,7 +23,7 @@ rule
 # then go there.
 (maintainProposal {@self go_entity ?workplace}).
 
-rule 
+rule identify-person-ask-if-has-job-at-org
 # If I'm trying to identify a person
 {@self identify ?person}
 # and this person has a specific kind of job

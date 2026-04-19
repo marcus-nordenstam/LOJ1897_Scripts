@@ -1,6 +1,6 @@
 
 # NPCs have common sense
-rule ->
+rule import-npc-common ->
 (import "CommonReasoning")
 (import "CommonTasks").
 

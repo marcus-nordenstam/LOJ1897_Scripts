@@ -1,9 +1,9 @@
 
-rule nourishmentTasks
+rule import-nourishment-tasks
     ->
 (import "Drink").
 
-rule importMovementTasks 
+rule import-movement-tasks
     ->
 (import "Go")
 (import "keep_near_and_facing")
@@ -13,7 +13,7 @@ rule importMovementTasks
 (import "GoHome").
 
 
-rule importResourceTasks 
+rule import-resource-tasks
     ->
 (import "Give")
 (import "Receive")
@@ -22,7 +22,7 @@ rule importResourceTasks
 (import "BuyBuilding").
 
 
-rule importLearningTasks
+rule import-learning-tasks
     ->
 (import "IdentifyPerson")
 (import "SeekAnswers")
@@ -32,7 +32,7 @@ rule importLearningTasks
 (import "PerceiveAttr").
 
 
-rule importSocialTasks
+rule import-social-tasks
     ->
 (import "Talk")
 (import "AnswerQuestion")
@@ -44,7 +44,7 @@ rule importSocialTasks
 (import "Pubbing").
 
 
-rule importStackTasks
+rule import-stack-tasks
     ->
 (import "StackBrowse")
 (import "StackGet")
@@ -53,29 +53,29 @@ rule importStackTasks
 (import "MakeDoneStack").
 
 
-rule importFamilyTasks
+rule import-family-tasks
     ->
 (import "Engagement")
 (import "Marriage")
 (import "Parenting").
 
 
-rule importProfessionalTasks
+rule import-professional-tasks
     ->
 (import "Work")
 (import "FoundOrg")
 (import "HouseAgentClerkJob")
 (import "Bartending").
 
-rule importEmotionalTasks
+rule import-emotional-tasks
     ->
 (import "Grieve").
 
-rule importWeatherTasks
+rule import-weather-tasks
     ->
 (import "use_umbrella").
 
-rule importLifeCycleTasks
+rule import-life-cycle-tasks
     ->
 (import "GiveBirth")
 (import "Die").

@@ -16,7 +16,7 @@
 
 
 # "do you know who this is?" - respond with relationship + name
-rule respondToDoYouKnowThisQuestion
+rule answer-question-respond-to-do-you-know-this
 {!@self:?person /ever ASK (qs /do_you_know /this (any {/b ?entity /ever name}).target):?question @self}: ?personAsked
 (none {@self /succ TELL ? ?person /causes ~?personAsked})
 (lockRule answer_question 1) # higher priority than the general answer-question below
@@ -38,7 +38,7 @@ rule respondToDoYouKnowThisQuestion
 #   *{bob goal {bob TELL answer john}}
 #    {bob TELL answer john}
 # *=condition handled by this rule
-rule respondToQuestion
+rule answer-question-respond-general
 {!@self:?person /ever ASK ?question @self}: ?personAsked
 (none {@self /succ TELL ? ?person /causes ~?personAsked})
 (lockRule answer_question 0) # general answer-question rule
@@ -59,7 +59,7 @@ rule respondToQuestion
 
 # If someone asks a person if they want to do something, infer that someone wants the person to do it.
 # For example if someone asks "do you want to go for a walk?", one would assume they want you to go for a walk.
-rule infer-desireFromQuestion
+rule answer-question-infer-desire-from-question
 {!@self:?someone /ever ASK (qs (prob {?person goal {?person /task ? ?}:?task})) ?person}: ?question
     ->
 (beginBelief {?someone goal ?task /sources ?question})

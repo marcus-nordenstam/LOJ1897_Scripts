@@ -1,7 +1,7 @@
 
 # Marriage starts once the groom has acquired a new home
 
-rule seekHomeForSpouse
+rule marry-seek-home-for-spouse
 {@self fiancee @something:?fiancee}
 {@self gender male}
 {@self parent ?parent}
@@ -13,14 +13,14 @@ rule seekHomeForSpouse
 (beginGoal {@self home (o /invent [k residential_building])}).
 
 
-rule acquireHome
+rule marry-acquire-home-proposal
 {@self goal {@self home ?irrHome}}
 {?irrHome isa [k building]:?bldgKind}
     ->
 (maintainProposal {@self ACQUIRE ?bldgKind}).
 
 
-rule acquireHomeOutcome
+rule marry-acquire-home-outcome
 {@self goal {@self home ?irrHome}}: ?goal
 {?irrHome isa [k building]:?bldgKind}
 {@self /succ ACQUIRE ?bldgKind /causes ~?goal}
@@ -53,7 +53,7 @@ rule marry-attention
 #(maintainProposal {@self keep_near_and_facing ?fiancee} /absUtil 1000).
 
 
-rule marry-giveWeddingBand
+rule marry-give-wedding-band
 {@self marry ?fiancee}
 {@self gender male}
 {[k wedding_band]:?wedding_band owner @self}
@@ -75,7 +75,7 @@ rule female-marry
 (maintainGoal {@self possess ?wedding_band}).
 
 
-rule female-marry-wearWeddingBand
+rule female-marry-wear-wedding-band
 {@self marry ?fiancee}
 {?fiancee home ?fianceeHome}
 {@self gender female}
@@ -91,7 +91,7 @@ rule female-marry-wearWeddingBand
 
 
 # GROOM behaviour
-rule conjureGroomWeddingBand
+rule marry-conjure-groom-wedding-band
 {@self marry ?fiancee}
 {?fiancee hand [k left_hand]:?lhand}
 {?lhand finger [k ring_finger]:?ring_finger}
@@ -99,7 +99,7 @@ rule conjureGroomWeddingBand
     ->
 (beginProposal {@self SPAWN [[k wedding_band] @self (floats 0.2 1 1) (floats 0 0 0 1)]}).
 
-rule groomWearWeddingBand
+rule marry-groom-wear-wedding-band
 {@self marry ?fiancee}
 {?fiancee hand [k left_hand]:?lhand}
 {?lhand finger [k ring_finger]:?ring_finger}
@@ -113,7 +113,7 @@ rule groomWearWeddingBand
 
 
 # Rules for both BRIDE & GROOM
-rule marriedSuccess
+rule marry-outcome-succ
 {@self marry ?fiancee}: ?marry
 {?fiancee hand [k left_hand]:?lhand}
 {?lhand finger [k ring_finger]:?ring_finger}

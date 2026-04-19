@@ -1,6 +1,6 @@
 
 
-rule 
+rule work-go-to-workplace-proposal
 {@self perform ?job}
 {?job at ?org}
 {?org workplace ?workplace}

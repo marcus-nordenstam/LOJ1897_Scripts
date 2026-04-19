@@ -1,12 +1,12 @@
 
-rule 
+rule stack-put-keep-near-and-facing-proposal
 {@self stack_put ? ?stack}
 {?stack isa [k object stack]}
     ->
 (maintainProposal {@self keep_near_and_facing ?stack} /absUtil 1000).
 
 
-rule 
+rule stack-put-get-thing-proposal
 {@self stack_put ?thing ?stack}
 {?stack isa [k object stack]}
 {@self hand ?hand}
@@ -15,7 +15,7 @@ rule
 (maintainProposal {@self get ?thing}).
 
 
-rule 
+rule stack-put-action-proposal
 {@self stack_put ?thing ?stack}
 {?stack isa [k object stack]}
 {?hand control ?thing}
@@ -26,7 +26,7 @@ rule
 
 
 # Base the activity's outcome on the corresponding action's outcome
-rule 
+rule stack-put-outcome
 {@self /ever stack_put ?thing ?stack /noOut}: ?put
 {@self /past STACK_PUT ?thing ?stack /causes ~?put}: ?PUT
     ->

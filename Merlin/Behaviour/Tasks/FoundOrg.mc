@@ -1,7 +1,7 @@
 
 
 # Founders must set a goal to found their orgs
-rule 
+rule found-org-set-goal
 {@self must_found_org ?org}
     ->
 (maintainProposal {@self found_org ?org}).
@@ -9,7 +9,7 @@ rule
 # TODO: When I succeed in found_org ?org,
 #       because I have created a /def org ?defOrg, then
 #       manually reconcile /des -> /def org.
-rule 
+rule found-org-buy-workplace
 {@self found_org ?org}
 {?org workplace_kind ?workplace_kind}
 (none {?org workplace ?})

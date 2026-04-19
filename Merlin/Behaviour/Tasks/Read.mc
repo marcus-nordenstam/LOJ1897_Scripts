@@ -1,13 +1,13 @@
 
 # To read it, you must have it
-rule 
+rule read-get-proposal
 {@self read ?doc}
 {@self hand ?hand}
 {?hand control !?doc}
     ->
 (maintainProposal {@self get ?doc}).
 
-rule 
+rule read-action-proposal
 {@self read ?doc}
 {@self hand ?hand}
 {?hand control ?doc}
@@ -16,7 +16,7 @@ rule
 
 
 # Base the activity's outcome on the corresponding action's outcome
-rule 
+rule read-outcome
 {@self /ever read ?doc /noOut}: ?read
 {@self /past READ ?doc /causes ~?read}: ?READ
     ->

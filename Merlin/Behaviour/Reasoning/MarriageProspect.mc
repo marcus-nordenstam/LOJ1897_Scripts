@@ -6,7 +6,7 @@
 #   Then have that be used in selecting the current marriage-prospect
 
 
-rule inferMaritalState
+rule infer-marital-state-of-others
 {@self marital_state single}
 {@self gender ?gender}
 {[k human]:?person gender !?gender}
@@ -32,7 +32,7 @@ rule eligible_for_marriage
 (if (none {?person marriage_desirability})
     (beginBelief {?person marriage_desirability (sub 1000 (id ?person))})).
 
-rule marry-desirability-decrease-longtimeNoSee
+rule marry-desirability-decrease-longtime-no-see
 {@self goal {@self marry ?prospect}}
 {?prospect marriage_desirability ?desirability}
 (timeSinceObserved ?prospect /years): ?timeSince

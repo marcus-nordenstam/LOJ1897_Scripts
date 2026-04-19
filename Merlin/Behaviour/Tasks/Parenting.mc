@@ -1,6 +1,6 @@
 
 # If you are married, you'll want kids
-rule growFamily
+rule parenting-grow-family
 {@self gender male}
 {@self spouse @something:?spouse}
 (lt (count (every {@self child})) 3)
@@ -8,7 +8,7 @@ rule growFamily
 (maintainProposal {@self HAVE_SEX_WITH ?spouse}).
 
 # We let the mother tell her children about their home
-rule tellChildTheirHome
+rule parenting-tell-child-their-home
 {@self gender female}
 {@self home ?home}
 {@self child ?child}
@@ -18,7 +18,7 @@ rule tellChildTheirHome
 (beginGoal {@self TELL (msg {?child home ?home}) ?child})
 (fireAndForget).
 
-rule tellChildMyHome
+rule parenting-tell-child-my-home
 {@self child ?child}
 {?child age_group 0}
 {@self home ?home}
@@ -38,7 +38,7 @@ rule introduce_siblings
 (maintainProposal {@self introduce_siblings ?child1 ?child2}).
 
 # Once the children are old enough, tell them about the theatre (so they can go there later and socialize)
-rule tellChildTheatreObb
+rule parenting-tell-child-theatre-obb
 {@self gender ?gender}
 {@self child ?child}
 {?child gender ?gender}

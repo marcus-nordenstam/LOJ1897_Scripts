@@ -1,6 +1,6 @@
 
 
-rule learnBirthFamily
+rule learn-birth-family
 {@self mother ?mother}
 {@self father ?father}
     ->
@@ -17,7 +17,7 @@ rule learnBirthFamily
 #   end {.. family @unknown}
 #   maybe separate our immediate family from the spouse's side of the family...?
 
-rule 
+rule learn-family-via-spouse
 {@self spouse @something:?spouse}
     ->
 (o [k family] {@self family @o}): ?family
@@ -25,7 +25,7 @@ rule
 #(print [@self has family members (any {@self familyMembers}).target])
 (fireAndForget).
 
-rule 
+rule learn-family-via-child
 {@self child ?child}
     ->
 (o [k family] {@self family @o}): ?family
@@ -33,7 +33,7 @@ rule
 #(print [@self has family members (any {@self familyMembers}).target])
 (fireAndForget).
 
-rule 
+rule learn-family-via-sister
 {@self sister ?sister}
     ->
 (o [k family] {@self family @o}): ?family
@@ -41,7 +41,7 @@ rule
 #(print [@self has family members (any {@self familyMembers}).target])
 (fireAndForget).
 
-rule 
+rule learn-family-via-brother
 {@self brother ?brother}
     ->
 (o [k family] {@self family @o}): ?family

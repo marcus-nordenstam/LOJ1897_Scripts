@@ -1,5 +1,5 @@
 
-rule 
+rule give-birth-propose
 {@self pregnant_when !@nothing:?when}
 (gt (timeSince /weeks ?when) 39)
     ->

@@ -1,6 +1,6 @@
 
 
-rule goal-knowAnswerToMarriageProposal
+rule goal-know-answer-to-marriage-proposal
 {@self goal {@self marry ?prospect}}: ?iWantToMarryHer
 {@self gender male}
 {@self marital_state single}
@@ -12,7 +12,7 @@ rule goal-knowAnswerToMarriageProposal
 (maintainGoal {@self know ?marriageProposal}).
 
 
-rule reasoning-marriageProposalAccepted
+rule reasoning-marriage-proposal-accepted
 {?proposer /succ ASK (qs (prob {?proposee goal {?proposee marry ?proposer}})) ?proposee}: ?marriageProposal
 {?proposee /succ TELL (msg @true) ?proposer /causes ~?marriageProposal}
     ->
@@ -21,7 +21,7 @@ rule reasoning-marriageProposalAccepted
 (fireAndForget).
 
 
-rule reasoning-marriageProposalRejected
+rule reasoning-marriage-proposal-rejected
 {?proposer /succ ASK (qs (prob {!@self:?proposee goal {?proposee marry ?proposer}})) ?proposee}: ?marriageProposal
 {?proposee /succ TELL (msg @unknown%) ?proposer /causes ~?marriageProposal}
     ->
@@ -35,7 +35,7 @@ rule reasoning-marriageProposalRejected
 
 
 
-rule goal-possessEngagementRing
+rule goal-possess-engagement-ring
 {@self goal {@self marry ?fiancee}}
 {@self fiancee ?fiancee}
 {@self gender female}
@@ -46,7 +46,7 @@ rule goal-possessEngagementRing
 (print [@self wants to possess ?ring]).
 
 
-rule proposal-giveEngagementRing
+rule proposal-give-engagement-ring
 {@self goal {@self marry ?fiancee}}
 {@self fiancee ?fiancee}
 {@self gender male}
@@ -57,7 +57,7 @@ rule proposal-giveEngagementRing
 (maintainProposal {@self give ?ring ?fiancee}).
 
 
-rule proposal-wearEngagementRing
+rule proposal-wear-engagement-ring
 {@self goal {@self marry ?fiancee}}
 {@self fiancee ?fiancee}
 {@self gender female}

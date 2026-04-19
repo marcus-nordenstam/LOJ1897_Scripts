@@ -3,7 +3,7 @@
 # whom we must be close to, and whose actions we must observe
 # (get only tracks the item, since there is no giver)
 
-rule receive-maintainWithinReachOf-proposal
+rule receive-maintain-within-reach-of-proposal
 {@self receive ?thing ?giver}
     ->
 (maintainProposal {@self keep_near_and_facing ?giver} /absUtil 1000).
