@@ -47,13 +47,14 @@ rule pubbing-order-beer-go-to-bar
 # Wait for the bartender
 rule pubbing-order-beer-wait-at-bar
 {@self pubbing}
-{@self order [k beer] ?bartender}
+{@self order [k beer] ?bartender}: ?order
 {?bartender perform [k bartending] ?pub}
 {?bartender eyes ?bartender_eyes}
 {?pub part [k bar_counter]:?bar_counter}
 (bb_read @self open_bar_slot): ?claimed_cell
 (overlaps ?claimed_cell @self 0.8)
     ->
+(beginBelief {@self expect_question ?bartender /causes ?order})
 (bb_write @self wants_drink @true)
 #(maintainProposal {@self TURN_TO ?bar_counter})
 (maintainProposal {@self LOOK_AT ?bartender_eyes}).

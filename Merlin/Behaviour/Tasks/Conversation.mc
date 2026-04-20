@@ -234,8 +234,8 @@ rule realise-conv
 # While this real conversation is occurring, keep close and personal with the participant
 (maintainProposal {@self keep_near_and_facing ?person} /absUtil 1000): ?keep_near_and_facing
 (maintainProposal {@self keep_looking_at_part ?person eyes} /absUtil 1000): ?keep_looking_at_part
-(addCause ?keep_near_and_facing ?causes)
-(addCause ?keep_looking_at_part ?causes).
+(add_causes ?keep_near_and_facing ?causes)
+(add_causes ?keep_looking_at_part ?causes).
 
 # Failure scenarios:
 
@@ -291,7 +291,7 @@ rule conv-response-formulaicOpening-proposal
 (anyOrUnknown {?person name}).target: ?nameOrUnknown
 (formulaic response how_do ?nameOrUnknown): ?greeting
 (beginGoal {@self TELL ?greeting ?person}): ?tellGreeting
-(addCause ?tellGreeting ?personTell).
+(add_causes ?tellGreeting ?personTell).
 
 
 # Player presses 'T' to talk — the game injects a player_talk formulaic opening.
@@ -307,7 +307,7 @@ rule conv-response-player_talk-proposal
     ->
 (formulaic response player_talk): ?greeting
 (beginGoal {@self TELL ?greeting ?person}): ?tellGreeting
-(addCause ?tellGreeting ?personTell)
+(add_causes ?tellGreeting ?personTell)
 (beginProposal {@self MAKE_CONV_META_ENT ?person ?person}).
 
 
@@ -324,7 +324,7 @@ rule conv-player_talk-maintain-closeAndFacing-proposal
 
 # Player presses 'Bye' — the game injects a player_bye formulaic leave-taking.
 # The NPC begins end_conv through the normal proposal flow.
-# We use beginProposal (one-shot) + addCause so the guard below can prevent
+# We use beginProposal (one-shot) + add_causes so the guard below can prevent
 # re-matching the same old player_bye TELL on future conversations.
 rule conv-response-player_bye-proposal
 {@self conversation @something:?conv}
@@ -333,7 +333,7 @@ rule conv-response-player_bye-proposal
 (none {@self /ever end_conv /causes ~?personTell})
     ->
 (beginProposal {@self end_conv ?conv} /absUtil 1000): ?proposal
-(addCause ?proposal ?personTell).
+(add_causes ?proposal ?personTell).
 
 
 rule conv-response-refuseConv-proposal #/breakOnFire
@@ -346,7 +346,7 @@ rule conv-response-refuseConv-proposal #/breakOnFire
     ->
 (formulaic refusal ?talking): ?refusal
 (beginGoal {@self TELL ?refusal ?person}): ?tellRefusal
-(addCause ?tellRefusal ?personTell).
+(add_causes ?tellRefusal ?personTell).
 
 #-----------------------------------------------------------------------------------------
 # CONVERSATIONAL BEHAVIOUR
@@ -358,7 +358,7 @@ rule conv-todo-act-proposal
 (lockRule) # only one todo-act at a time
     ->
 (maintainProposal ?act): ?proposal
-(addCause ?proposal ?causes) # add expl. cause because there are no task/goal conditions
+(add_causes ?proposal ?causes) # add expl. cause because there are no task/goal conditions
 (if (eq ?act.label ASK) 
     (beginBelief {@self expect_answer ?act.auxiliary /causes ?causes})).
 
@@ -371,7 +371,7 @@ rule conv-expect-answer-cause
 {@self /ever ASK ? ?audience /causes ?causes}: ?ask
 {@self expect_answer ?audience /causes ?causes}: ?expect_answer
     ->
-(addCause ?expect_answer ?ask).
+(add_causes ?expect_answer ?ask).
 
 #-----------------------------------------------------------------------------------------
 # ENDING A CONVERSATION
@@ -414,7 +414,7 @@ rule end-conv-tellLeaveTaking-proposal
 # "we'll continue this later", "pardon me", "excuse me", "I have to go now", "bye", "see you later", etc.
 (formulaic leave_taking bye): ?leave_taking
 (beginGoal {@self TELL ?leave_taking ?person} /relUtil 100): ?tellGoal
-(addCause ?tellGoal ?end_conv).
+(add_causes ?tellGoal ?end_conv).
 
 
 # Only destroy the conversation AFTER leavetaking TELL has concluded

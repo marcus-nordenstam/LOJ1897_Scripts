@@ -17,9 +17,9 @@ rule take-left-reach-for-proposal
 (in_range /reach ?thing 0.5 /stay_at 0.3 /dist_debug)
 (lockRule take 0)
     ->
-(maintainProposal {@self LOOK_AT ?thing} /absUtil 1000)
-#(maintainProposal {@self TURN_TO ?thing} /absUtil 1000)
-(maintainProposal {@self LEFT_REACH_FOR ?thing} /absUtil 1000).
+(maintainProposal {@self LOOK_AT ?thing} /absUtil 2000)
+(maintainProposal {@self TURN_TO ?thing} /absUtil 2000)
+(maintainProposal {@self LEFT_REACH_FOR ?thing} /absUtil 2000).
 
 rule take-right-reach-for-proposal
 {@self take ?thing}
@@ -28,9 +28,9 @@ rule take-right-reach-for-proposal
 (in_range /reach ?thing 0.5 /stay_at 0.3 /dist_debug)
 (lockRule take 1) # prefer right-hand
     ->
-(maintainProposal {@self LOOK_AT ?thing} /absUtil 1000)
-#(maintainProposal {@self TURN_TO ?thing} /absUtil 1000)
-(maintainProposal {@self RIGHT_REACH_FOR ?thing} /absUtil 1000).
+(maintainProposal {@self LOOK_AT ?thing} /absUtil 2000)
+(maintainProposal {@self TURN_TO ?thing} /absUtil 2000)
+(maintainProposal {@self RIGHT_REACH_FOR ?thing} /absUtil 2000).
 
 # Phase 2: If the reach was successful, propose GRASP (to control it)
 
@@ -38,13 +38,13 @@ rule take-left-grasp-proposal
 {@self take ?thing}
 {@self LEFT_REACH_FOR ?thing /succ}
     ->
-(beginProposal {@self LEFT_GRASP ?thing} /absUtil 1000).
+(beginProposal {@self LEFT_GRASP ?thing} /absUtil 2000).
 
 rule take-right-grasp-proposal
 {@self take ?thing}
 {@self RIGHT_REACH_FOR ?thing /succ}
     ->
-(beginProposal {@self RIGHT_GRASP ?thing} /absUtil 1000).
+(beginProposal {@self RIGHT_GRASP ?thing} /absUtil 2000).
 
 # Outcome: succeed when the hand controls the thing
 rule take-left-outcome

@@ -44,7 +44,7 @@ rule goal-possess-receive-proposal
     ->
 # then get it
 (maintainProposal {@self receive ?thing ?giver}): ?proposal
-(addCause ?proposal ?offer). # the offer is not a self-action, so it won't be automatically added as a cause
+(add_causes ?proposal ?offer). # the offer is not a self-action, so it won't be automatically added as a cause
 
 
 /*

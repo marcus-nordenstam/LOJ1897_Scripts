@@ -59,11 +59,22 @@ rule talk-recipient-claim
 # =============================================================================
 
 # If I have a talk-cell and I'm not in it, go to it
-rule talk-stay-in-cell
+
+# Need two rules until I can write TELL|ASK:
+rule talk-stay-in-cell-to-tell
+{@self goal {@self TELL ?msg ?person}}
 (bb_read @self talk_cell): ?talk_cell
 (overlaps ?talk_cell /not @self)
     ->
 (maintainProposal {@self go_env_cell ?talk_cell} /absUtil 1000).
+
+rule talk-stay-in-cell-to-ask
+{@self goal {@self ASK ?msg ?person}}
+(bb_read @self talk_cell): ?talk_cell
+(overlaps ?talk_cell /not @self)
+    ->
+(maintainProposal {@self go_env_cell ?talk_cell} /absUtil 1000).
+
 
 # If I have a talk-cell and I'm in it, stay there and face the person you're talking to
 rule talk-stay-in-cell-face-person-i-am-talking-to
