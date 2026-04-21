@@ -4,7 +4,6 @@ archetype "stack" [512] /obs /non_occluder /occupies_env_grid
 {
     "date"
     "stack_label"
-    "in"
     "items"
     "top"
     "obb"

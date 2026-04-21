@@ -26,7 +26,6 @@ archetype "human_npc" [256] /obs /raycast_visible /sentient /non_occluder /occup
     "extroversion"
     "intelligence"
     "interests"
-    "in"
     "region"
     # Parts are not auto-perceived — we perceive specific body-parts below instead
     "parts"

@@ -15,10 +15,9 @@ attr "spatial_relation" str                                                 /obs
 # Parent relationships are kept in the ECS for efficiency (technically redundant with parts)
 attr "struct_parent"    entity "structure"|"structure_part"|"part"|"space"|"hand"|"human_player"|"human_npc"    /parent /obs /state_flags_tar @excl
 attr "parts"            entity [] /state "part"                 /children   /obs
-# The SMALLEST spaces and structures each entity is inside of
-attr "in"               entity [4] "structure"|"space"          /spatial_containment /imperceptible
-# Reverse of "in": all entities spatially contained within this entity
-attr "contains"         entity []                               /contains   /imperceptible
+# (Spatial containment is resolved on-demand by the `in` rule function via
+# Environment::contains(container, subject) — per-pair cached per cycle. No
+# backing attr is maintained. Rules query with (in ?subject ?container).)
 
 # Ownership & control
 # The entity currently controlling the position of this entity (if any)

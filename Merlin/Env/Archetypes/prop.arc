@@ -9,7 +9,6 @@ archetype "prop" [1024] /obs /occupies_env_grid
     "name" /auto_percept
     "writings"
     "parts" /auto_percept
-    "in"
     "controlled_by"
     "control_force"
     "control"

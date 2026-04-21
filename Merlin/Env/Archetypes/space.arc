@@ -7,7 +7,5 @@ archetype "space" [2096] /obs /always_visible /non_occluder /sector_coverage
     "spatial_relation"
     "struct_parent"
     "parts" /auto_percept
-    "in"
-    "contains"
     "obb"
 }

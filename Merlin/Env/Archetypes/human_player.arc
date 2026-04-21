@@ -15,7 +15,6 @@ archetype "human_player" [256] /obs /raycast_visible /player /non_occluder /occu
     "condition"
     "pregnant_when"
     "alertness"
-    "in"
     "region"
     # Parts are not auto-perceived — we perceive specific body-parts below instead
     "parts"
