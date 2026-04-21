@@ -38,7 +38,7 @@ rule bartending-serve-customer-SPAWN-glass-proposal
 {?patron order ?drink @self}
 {?pub part [k bar_counter]:?bar_counter}
 (bb_none ?patron served_beer_cell)
-(claim_env_cell /dim [k drinking_glass] /on_top ?bar_counter /near ?patron): ?cell
+(claim_env_cell /dim [k drinking_glass] /on_top ?bar_counter /near ?patron /debug): ?cell
     ->
 (bb_write ?patron served_beer_cell ?cell)
 (beginProposal {@self SPAWN [[k drinking_glass] ?cell]}).

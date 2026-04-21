@@ -1,0 +1,3 @@
+# Hand-authored body-part radii (mouth = jaw bone + 0.5m forward, per Game.cc)
+kind = mouth
+radii = 0.03 0.02 0.02
