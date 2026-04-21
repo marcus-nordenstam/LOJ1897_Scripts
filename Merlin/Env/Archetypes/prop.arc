@@ -1,5 +1,5 @@
 # Any object that is potentially mobile
-archetype "prop" [1024] /obs /occupies_env_grid
+archetype "prop" [1024] /obs /occupies_env_grid /non_occluder
 {
     "date"
     "color"
