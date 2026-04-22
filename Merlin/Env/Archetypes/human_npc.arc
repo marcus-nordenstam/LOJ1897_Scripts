@@ -31,6 +31,7 @@ archetype "human_npc" [256] /obs /raycast_visible /sentient /non_occluder /occup
     "parts"
     "left_hand"
     "right_hand"
+    "head"
     "eyes"
     "mouth"
     "pregnant_by"

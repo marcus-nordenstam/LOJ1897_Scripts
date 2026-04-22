@@ -20,6 +20,7 @@ archetype "human_player" [256] /obs /raycast_visible /player /non_occluder /occu
     "parts"
     "left_hand"
     "right_hand"
+    "head"
     "eyes"
     "mouth"
     "pregnant_by"
