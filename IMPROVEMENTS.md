@@ -1,7 +1,6 @@
 IMPROVEMENTS
 
 
-fix popeye
 fix bar-clumping
 
 

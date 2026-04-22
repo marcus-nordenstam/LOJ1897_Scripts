@@ -23,7 +23,7 @@ rule go-entity-walk-to-retry
 {@self go_entity ?dest}: ?go
 {?dest obb !@unknown:?obb}
 {@self WALK_TO ?obb /fail /causes ~?go}
-(wait /cycles 180)
+(wait /cycles 120)
     ->
 (bb_read @self go_count): ?go_count
 (bb_write @self go_count (add ?go_count 1))
@@ -52,8 +52,25 @@ rule go-env-cell-walk-to-proposal
 (maintainProposal {@self WALK_TO ?env_cell}).
 
 
-rule go-env-cell-outcome
-{@self /ever go_env_cell ?env_cell /noOut}: ?go
-{@self /past WALK_TO ?env_cell /causes ~?go}: ?WALK
+rule go-env-cell-walk-to-retry
+{@self go_env_cell ?env_cell}: ?go
+{@self WALK_TO ?env_cell /fail /causes ~?go}
+(wait /cycles 120)
     ->
-(setOutcome ?go /from ?WALK).
+(bb_read @self go_count): ?go_count
+(bb_write @self go_count (add ?go_count 1))
+(if (lt ?go_count 10)
+    (maintainProposal {@self WALK_TO ?env_cell})
+    (setOutcome ?go /fail)).
+
+rule go-env-cell-interrupt
+{@self /ever go_env_cell ?env_cell /noOut}: ?go
+{@self /interrupt WALK_TO ?env_cell /causes ~?go}
+    ->
+(setOutcome ?go /interrupt).
+
+rule go-env-cell-success
+{@self /ever go_env_cell ?env_cell /noOut}: ?go
+{@self /succ WALK_TO ?env_cell /causes ~?go}
+    ->
+(setOutcome ?go /succ).
