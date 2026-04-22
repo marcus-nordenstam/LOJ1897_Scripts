@@ -40,6 +40,7 @@ attr "physical_motors"  physical-motors
 # Hands are integral to reasoning — they get their own attrs even though they also appear in parts
 attr "left_hand"        entity "hand" /state "hand"                         /obs /auto_percept
 attr "right_hand"       entity "hand" /state "hand"                         /obs /auto_percept
+attr "head"             entity "head" /state "head"                         /obs /auto_percept
 attr "eyes"             entity "eye" /state "eyes"                          /obs /auto_percept
 attr "mouth"            entity "mouth" /state "mouth"                       /obs /auto_percept
 attr "ring_finger"      entity "finger" /state "finger"                     /obs /auto_percept
