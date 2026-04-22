@@ -27,7 +27,9 @@ rule bartending-serve-customer-proposal
 rule bartending-serve-customer-know-what-to-serve-goal
 {@self perform [k bartending] ?pub}
 {@self serve_customer ?patron}
+{?pub part [k bar_counter]:?bar_counter}
     ->
+(claim_env_cell /behind ?bar_counter /near ?patron)
 (maintainGoal {@self know '(any {?patron order ? @self}).target}).
 
 
