@@ -1,7 +1,6 @@
 IMPROVEMENTS
 
 
-fix remaining errors in log
 fix popeye
 fix bar-clumping
 

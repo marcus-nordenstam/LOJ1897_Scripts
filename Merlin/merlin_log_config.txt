@@ -2,7 +2,7 @@
 # Merlin debugging, logging etc
 # ---------------------------------------------------------------------------------------
 
-# debug
+debug
 
 #--firstNpc
 
@@ -10,3 +10,4 @@
 --trace {@self name [n Elizabeth Fallow]}
 --trace {@self name [n David Jones]}
 --trace {@self name [n Edgar Jehan]}
+--trace {@self name [n Philippe Fautrat]}
