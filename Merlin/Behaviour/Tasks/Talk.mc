@@ -76,13 +76,26 @@ rule talk-stay-in-cell-to-ask
 (maintainProposal {@self go_env_cell ?talk_cell} /absUtil 1000).
 
 
-# If I have a talk-cell and I'm in it, stay there and face the person you're talking to
-rule talk-stay-in-cell-face-person-i-am-talking-to
+# If I have a talk-cell and I'm in it, go ahead and TELL what you need, 
+# stay there and face the person you're talking to
+rule talk-TELL-and-face-person
 {@self goal {@self TELL ?msg ?person}}
 (bb_read @self talk_cell): ?talk_cell
 (overlaps ?talk_cell @self)
     ->
+(beginProposal {@self TELL ?msg ?person})
 (maintainProposal {@self TURN_TO ?person} /absUtil 1000).
+
+# If I have a talk-cell and I'm in it, go ahead and ASK your question, 
+# stay there and face the person you're talking to
+rule talk-ASK-and-face-person
+{@self goal {@self ASK ?question ?person}}
+(bb_read @self talk_cell): ?talk_cell
+(overlaps ?talk_cell @self)
+    ->
+(beginProposal {@self ASK ?question ?person})
+(maintainProposal {@self TURN_TO ?person} /absUtil 1000).
+
 
 # If I have a talk-cell and I'm in it, stay there and face the person you're talking to
 rule talk-stay-in-cell-face-person-talking-to-me
@@ -91,7 +104,6 @@ rule talk-stay-in-cell-face-person-talking-to-me
 (overlaps ?talk_cell @self)
     ->
 (maintainProposal {@self TURN_TO ?person} /absUtil 1000).
-
 
 # =============================================================================
 # RELEASE
@@ -109,24 +121,8 @@ rule talk-release-cell
 
 
 # =============================================================================
-# TELL EXECUTION
+# OUTCOMES
 # =============================================================================
-
-# Propose TELL when spatial conditions are met (talk cell + in range)
-rule TELL-propose-spatial
-{@self goal {@self TELL ?msg ?person}}
-(bb_read @self talk_cell)
-(in_range /talk @self ?person)
-    ->
-(beginProposal {@self TELL ?msg ?person}).
-
-# Fallback: propose TELL when no spatial system is available (no talk_cell ever claimed)
-rule TELL-propose-nonspatial
-{@self goal {@self TELL ?msg ?person}}
-(bb_none @self talk_cell)
-(lockRule talk 0)
-    ->
-(beginProposal {@self TELL ?msg ?person}).
 
 # Track TELL outcome
 rule goal-TELL-outcome
@@ -135,19 +131,6 @@ rule goal-TELL-outcome
     ->
 #(bb_clear @self try_to_talk_to)
 (setOutcome ?goal /from ?TELL).
-
-
-# =============================================================================
-# ASK EXECUTION
-# =============================================================================
-
-# Propose ASK when I'm in my talk cell and the person is in range
-rule ASK-propose
-{@self goal {@self ASK ?question ?person}}
-(bb_read @self talk_cell)
-(in_range /talk @self ?person)
-    ->
-(beginProposal {@self ASK ?question ?person}).
 
 # Track ASK outcome
 # When asking a question, expect an answer
