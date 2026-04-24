@@ -13,14 +13,22 @@ rule bartending-idle-face-bar
 rule bartending-serve-customer-proposal
 {@self perform [k bartending] ?pub}
 {?pub part [k bar_counter]:?bar_counter}
-(none {@self serve_customer})
+(none {@self serve_customer}) # no code after this should be reached WHILE serving a customer
 (env_cell_occupier [k human] /in_front ?bar_counter 
     '(and (bb_read @o wants_drink) 
           (bb_none @o served_beer_cell))): ?patron
-(print "serving new ?patron")
+(claim_env_cell /behind ?bar_counter /near ?patron): ?talk_cell
 (lockRule) # Deal with one patron at a time
     ->
+(bb_write @self preempted_talk_cell ?talk_cell)
 (beginProposal {@self serve_customer ?patron} /absUtil 1000).
+
+#rule bartending-clear-orphaned-preempted-talk-cell
+#{@self perform [k bartending]}
+#(bb_read @self preempted_talk_cell): ?preempted_talk_cell
+#(none {@self serve_customer})
+#    ->
+#(bb_clear @self preempted_talk_cell).
 
 
 # find out what drink customer wants
@@ -28,9 +36,7 @@ rule bartending-serve-customer-know-what-to-serve-goal
 {@self perform [k bartending] ?pub}
 {@self serve_customer ?patron}
 {?pub part [k bar_counter]:?bar_counter}
-    ->
-(claim_env_cell /behind ?bar_counter /near ?patron): ?talk_cell
-(bb_write @self talk_cell ?talk_cell)
+    -> 
 (maintainGoal {@self know '(any {?patron order ? @self}).target}).
 
 
