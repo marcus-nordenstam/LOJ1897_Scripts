@@ -19,7 +19,7 @@
 # If I have a goal to TELL someone, maintain the signal and update positioning
 rule want-to-talk-tell /cont-interval 1 0
 {@self goal {@self TELL ?msg ?person}}
-(claim_env_cell  /reuse /in_talk_range ?person): ?talk_cell
+(claim_env_cell /in_talk_range ?person): ?talk_cell
 (lockRule talk 0)
     ->
 (bb_maintain @self try_to_talk_to ?person 30)
@@ -31,7 +31,7 @@ rule want-to-talk-tell /cont-interval 1 0
 # If I have a goal to ASK someone, same as TELL
 rule want-to-talk-ask /cont-interval 1 0
 {@self goal {@self ASK ?question ?person}}
-(claim_env_cell /reuse /in_talk_range ?person): ?talk_cell
+(claim_env_cell /in_talk_range ?person): ?talk_cell
 (lockRule talk 0)
     ->
 (bb_maintain @self try_to_talk_to ?person 30)
@@ -49,7 +49,7 @@ rule want-to-talk-ask /cont-interval 1 0
 rule talk-recipient-claim
 (bb_any ? try_to_talk_to @self)
 (bb_none @self talk_cell)
-(claim_env_cell /reuse /at_or_near @self): ?talk_cell
+(claim_env_cell /at_or_near @self): ?talk_cell
     ->
 (bb_write @self talk_cell ?talk_cell).
 

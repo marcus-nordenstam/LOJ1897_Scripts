@@ -1,5 +1,10 @@
 IMPROVEMENTS
 
+Rigourously define: cell-overlap.  
+   Used by (overlaps), but also check how the mx_cell/worlspace mapping work w.r.t that
+   Should talking distance be based on cell coords or worldspace coords? pros and cons
+   
+
 
 Work left to do before pub-sim demo:
 

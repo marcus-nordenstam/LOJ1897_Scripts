@@ -29,7 +29,8 @@ rule bartending-serve-customer-know-what-to-serve-goal
 {@self serve_customer ?patron}
 {?pub part [k bar_counter]:?bar_counter}
     ->
-(claim_env_cell /behind ?bar_counter /near ?patron)
+(claim_env_cell /behind ?bar_counter /near ?patron): ?talk_cell
+(bb_write @self talk_cell ?talk_cell)
 (maintainGoal {@self know '(any {?patron order ? @self}).target}).
 
 
@@ -55,4 +56,7 @@ rule bartending-serve-customer-POUR-beer-proposal
 (env_cell_occupier [k drinking_glass] ?beer_cell): ?beer_glass
     ->
 (beginProposal {@self POUR [k beer] ?beer_glass})
+(bb_read @self talk_cell): ?talk_cell
+(unclaim_env_cell ?talk_cell)
+(bb_clear @self talk_cell)
 (setOutcome /succ ?serve).
