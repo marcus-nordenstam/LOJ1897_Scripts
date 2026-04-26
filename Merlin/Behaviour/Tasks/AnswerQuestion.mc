@@ -24,14 +24,15 @@ rule answer-question-respond-to-do-you-know-this
 (any {?entity /ever name}).target: ?name
 (any {@self /ever ? ?entity}).label: ?relation
 (if (eq ?name @unknown)
-    (maintainGoal {@self TELL (formulaic no_dont_know) ?person} /absUtil 1)
-    (maintainGoal {@self TELL (formulaic yes_this_is ?relation ?name) ?person} /absUtil 1)): ?response
+    (maintainGoal {@self TELL (formulaic no_dont_know) ?person} (abs_util 1))
+    (maintainGoal {@self TELL (formulaic yes_this_is ?relation ?name) ?person} (abs_util 1))): ?response
 # If we are currently expecting a question from ?person, quit expecting it
-(any {@self expect_question ?person}): ?expect_question
-(endBelief ?expect_question)
+#(any {@self expect_question ?person}): ?expect_question
+#(endBelief ?expect_question)
 # Since the person asking is not an act performed by myself,
 # we have to explicitly add it as a cause for my response.
-(add_causes ?response ?person_asked ?expect_question)
+#(add_causes ?response ?person_asked ?expect_question)
+(add_causes ?response ?person_asked)
 (forgetOnCease).
 
 
@@ -44,13 +45,14 @@ rule answer-question-respond-general
 # Evaluate the question to produce an answer
 (evalMsg /outputUnknownOnFail ?question): ?truthfulAnswer
 # Set an absolute utility of 1, signifying that answering a question is higher priority than posing a question
-(maintainGoal {@self TELL (msg ?truthfulAnswer) ?person} /absUtil 1): ?response
+(maintainGoal {@self TELL (msg ?truthfulAnswer) ?person} (abs_util 1)): ?response
 # If we are currently expecting a question from ?person, quit expecting it
-(any {@self expect_question ?person}): ?expect_question
-(endBelief ?expect_question)
+#(any {@self expect_question ?person}): ?expect_question
+#(endBelief ?expect_question)
 # Since the person asking is not an act performed by myself,
 # we have to explicitly add it as a cause for my response.
-(add_causes ?response ?person_asked ?expect_question)
+#(add_causes ?response ?person_asked ?expect_question)
+(add_causes ?response ?person_asked)
 # Most rules declare at least one task among its conditions, which results in the rule not activating without
 # said task-condition.  This rule, however, does *not* list any task since talking isn't something
 # that requires a task.  So, to avoid a build-up of activated (but no longer firing) instances of this rule, 

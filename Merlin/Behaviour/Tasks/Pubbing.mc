@@ -30,7 +30,7 @@ rule pubbing-order-beer-claim-spot-at-bar
 {@self order [k beer] ?bartender}
 {?pub part [k bar_counter]:?bar_counter}
 (bb_public_none @self talk_cell)
-(claim_env_cell /in_front ?bar_counter): ?talk_cell
+(claim_env_cell (in_front_of_des ?bar_counter)): ?talk_cell
     ->
 (beginGoal {@self talk_to ?bartender})
 (bb_public_write @self talk_cell ?talk_cell).
@@ -56,7 +56,7 @@ rule pubbing-order-beer-take-beer
 {@self pubbing}
 {@self order [k beer] ?bartender}: ?order
 {?bartender perform [k bartending] ?pub}
-(bb_public_read @self served_beer_cell): ?beer_cell
+(bb_public_read @self drinking_glass_cell): ?beer_cell
 (env_cell_occupier [k drinking_glass] ?beer_cell): ?beer_glass
     ->
 (setOutcome /succ {@self goal {@self talk_to ?bartender}})
@@ -74,7 +74,7 @@ rule pubbing-order-beer-unclaim-spot-at-bar
     ->
 #(unclaim_env_cell ?talk_cell)
 #(bb_public_clear @self talk_cell)
-(bb_public_clear @self served_beer_cell)
+(bb_public_clear @self drinking_glass_cell)
 (bb_public_clear @self wants_drink)
 (setOutcome ?order /succ).
 

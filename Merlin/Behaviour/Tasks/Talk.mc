@@ -68,7 +68,7 @@ rule talk-recipient-claim-talk-cell
 (bb_public_any ? try_to_talk_to @self /output_subject): ?person
 (bb_public_none @self talk_cell)
 (bb_public_read ?person talk_cell): ?their_talk_cell
-(claim_env_cell /in_talk_range ?their_talk_cell): ?my_talk_cell
+(claim_env_cell (in_talk_range_of_des ?their_talk_cell)): ?my_talk_cell
     ->
 (beginGoal {@self talk_to ?person})
 (bb_public_write @self talk_cell ?my_talk_cell)
@@ -79,7 +79,7 @@ rule talk-recipient-claim-talk-cell
 rule talk-claim-talk-cell
 {@self goal {@self talk_to ?person}}
 (bb_public_none @self talk_cell)
-(claim_env_cell /in_talk_range ?person): ?talk_cell
+(claim_env_cell (in_talk_range_of_des ?person)): ?talk_cell
 (lockRule talk 0)
     ->
 (bb_public_write @self talk_cell ?talk_cell)
@@ -97,7 +97,7 @@ rule talk-go-to-talk-cell
     ->
 # Intentionally higher utility than TURN_TO below, so the NPC
 # continues into the center of the cell, if possible
-(maintainProposal {@self go_env_cell ?talk_cell} /absUtil 1100).
+(maintainProposal {@self go_env_cell ?talk_cell} (abs_util 1100)).
 
 # If I have a talk-cell and I'm in it, stay there and face the person you're talking to
 rule talk-face-person-talking-to-me
@@ -105,8 +105,8 @@ rule talk-face-person-talking-to-me
 (bb_public_read @self talk_cell): ?talk_cell
 (overlaps ?talk_cell @self)
     ->
-(maintainProposal {@self keep_looking_at_part ?person eyes} /absUtil 1000)
-(maintainProposal {@self TURN_TO ?person} /absUtil 1000).
+(maintainProposal {@self keep_looking_at_part ?person eyes} (abs_util 1000))
+(maintainProposal {@self TURN_TO ?person} (abs_util 1000)).
 
 # If I have a talk-cell and I'm in it, go ahead and talk, 
 # stay there and face the person you're talking to
@@ -140,7 +140,7 @@ rule goal-TELL-outcome
 {@self goal {@self TELL ?msg ?audience}}: ?goal
 {@self /past TELL ?msg ?audience /causes ~?goal /out?}: ?TELL
     ->
-(setOutcome ?goal /from ?TELL).
+(setOutcome ?goal (outcome ?TELL)).
 
 # Track ASK outcome
 # When asking a question, expect an answer
@@ -149,4 +149,4 @@ rule goal-ASK-outcome
 {@self /past ASK ?question ?person /causes ~?goal /out?}: ?ASK
     ->
 (beginBelief {@self expect_answer ?person /causes ?ASK})
-(setOutcome ?goal /from ?ASK).
+(setOutcome ?goal (outcome ?ASK)).

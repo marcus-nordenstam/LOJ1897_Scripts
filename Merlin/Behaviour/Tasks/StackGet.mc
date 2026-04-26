@@ -3,7 +3,7 @@ rule stack-get-keep-near-and-facing-proposal
 {@self stack_get ? ?stack}
 {?stack isa [k object stack]}
     ->
-(maintainProposal {@self keep_near_and_facing ?stack} /absUtil 1000).
+(maintainProposal {@self keep_near_and_facing ?stack} (abs_util 1000)).
 
 
 rule stack-get-stack-take-proposal
@@ -21,4 +21,4 @@ rule stack-get-outcome
 {@self /ever stack_get ?thing ?stack /noOut}: ?get
 {@self /past STACK_TAKE ?thing ? /causes ~?get}: ?TAKE
     ->
-(setOutcome ?get /from ?TAKE).
+(setOutcome ?get (outcome ?TAKE)).

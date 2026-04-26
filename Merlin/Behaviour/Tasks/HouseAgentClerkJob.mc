@@ -13,7 +13,7 @@ rule house-agent-clerk-ask-buyer-name
 {@self process_title_deed ?buyer ?bldg}
 (none {?buyer name ?})
     ->
-(maintainGoal {@self know '(any {?buyer name}).target} /relUtil 1).
+(maintainGoal {@self know '(any {?buyer name}).target} (rel_util 1)).
 
 
 rule house-agent-clerk-write-title-deed

@@ -6,7 +6,7 @@
 rule receive-maintain-within-reach-of-proposal
 {@self receive ?thing ?giver}
     ->
-(maintainProposal {@self keep_near_and_facing ?giver} /absUtil 1000).
+(maintainProposal {@self keep_near_and_facing ?giver} (abs_util 1000)).
 
 
 rule receive-take-proposal
@@ -24,5 +24,5 @@ rule receive-outcome
 {@self /ever receive ?thing /noOut}: ?receive
 {@self /past take ?thing /causes ~?receive}: ?take
     ->
-(setOutcome ?receive /from ?take).
+(setOutcome ?receive (outcome ?take)).
 

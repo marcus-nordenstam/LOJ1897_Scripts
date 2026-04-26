@@ -8,8 +8,8 @@ rule goal-conv-TELL-notAvail
 {@self conversation ?myConv}
 {?audience conversation !?myConv}
     ->
-(maintainProposal {@self keep_near_and_facing ?audience} /absUtil 1000)
-(maintainProposal {@self keep_looking_at_part ?audience eyes} /absUtil 1000).
+(maintainProposal {@self keep_near_and_facing ?audience} (abs_util 1000))
+(maintainProposal {@self keep_looking_at_part ?audience eyes} (abs_util 1000)).
 
 
 rule goal-conv-TELL-bothAvail
@@ -17,8 +17,8 @@ rule goal-conv-TELL-bothAvail
 {@self conversation @nothing}
 {?audience conversation @nothing}
     ->
-(maintainProposal {@self keep_near_and_facing ?audience} /absUtil 1000)
-(maintainProposal {@self keep_looking_at_part ?audience eyes} /absUtil 1000).
+(maintainProposal {@self keep_near_and_facing ?audience} (abs_util 1000))
+(maintainProposal {@self keep_looking_at_part ?audience eyes} (abs_util 1000)).
 
 
 # This rule handles the case where we want to say something to someone we're currently speaking with
@@ -47,6 +47,6 @@ rule goal-TELL-outcome
 {@self goal {@self TELL ?msg ?audience}}: ?goal
 {@self /past TELL ?msg ?audience /causes ~?goal /out?}: ?TELL
     ->
-(setOutcome ?goal /from ?TELL).
+(setOutcome ?goal (outcome ?TELL)).
 
 */

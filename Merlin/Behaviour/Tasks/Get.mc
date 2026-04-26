@@ -3,7 +3,7 @@
 rule get-maintain-within_reach_of-proposal
 {@self get ?thing}
     ->
-(maintainProposal {@self keep_near_and_facing ?thing} /absUtil 1000).
+(maintainProposal {@self keep_near_and_facing ?thing} (abs_util 1000)).
 
 rule get-take-proposal
 {@self get ?thing}
@@ -20,7 +20,7 @@ rule get-outcome
 {@self /ever get ?thing /noOut}: ?get
 {@self /past take ?thing /causes ~?get}: ?take
     ->
-(setOutcome ?get /from ?take).
+(setOutcome ?get (outcome ?take)).
 
 /*
 rule 

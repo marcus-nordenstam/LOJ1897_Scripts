@@ -26,3 +26,12 @@ rule drink-outcome
 (gt (timeSince /seconds ?drink) 3)
     ->
 (setOutcome /succ ?drink).
+
+
+# Look at all rules involving left-right hand, now that we have | we can perhaps unify many of them
+
+# Eeach drink task should trigger a new action: INGEST
+#   INGEST may modify the physical state of the actor: hunger, thirst, intoxication
+#   if the entity being ingested is a fluid:
+#       reduce fluid_amount attr on the fluid
+#       if fluid_amount drops to 0, destroy the ingested entity

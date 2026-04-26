@@ -12,10 +12,10 @@ rule write-doc-action-proposal
 rule write-doc-outcome
 {@self /ever write ?hypDoc /noOut}: ?writeHypDoc
 {@self /past WRITE_DOC ? ? /causes ~?writeHypDoc}: ?WRITE_DOC
-#(o /only /known /causedBy ?WRITE_DOC): ?defDoc
-(o /known /causedBy ?WRITE_DOC): ?defDoc
+#(o /only /known (caused_by_des ?WRITE_DOC)): ?defDoc
+(o /known (caused_by_des ?WRITE_DOC)): ?defDoc
     ->
-(setOutcome ?writeHypDoc /from ?WRITE_DOC)
+(setOutcome ?writeHypDoc (outcome ?WRITE_DOC))
 # Replace "I wrote the hypothetical doc" with "I wrote the definite doc".
 # NOTE that we are allowed to do this using (edit...) because the task we are 
 # editing happened in the PAST, so does not need to be proposed.

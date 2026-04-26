@@ -18,7 +18,7 @@ rule give-goal-within-reach-of-recipient
 {@self hand ?hand}
 {?hand control ?thing}
     ->
-(maintainProposal {@self keep_near_and_facing ?recipient} /absUtil 1000).
+(maintainProposal {@self keep_near_and_facing ?recipient} (abs_util 1000)).
 
 
 rule give-proposal-offer

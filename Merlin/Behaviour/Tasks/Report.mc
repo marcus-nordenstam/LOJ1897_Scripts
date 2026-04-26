@@ -7,5 +7,5 @@ rule
 (if (empty ?unreportedInfos)
     (setOutcome ?reportInfos /succ)
 # else
-    (maintainGoal {@self TELL @litem ?audience} ?unreportedInfos /relUtil (mul @lindex 0.1))).
+    (maintainGoal {@self TELL @litem ?audience} ?unreportedInfos (rel_util (mul @lindex 0.1)))).
 */

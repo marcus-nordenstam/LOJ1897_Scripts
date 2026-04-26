@@ -134,13 +134,13 @@ rule introduce-siblings-outcome
 # NL-PRINTED    : NL printed message
 # NL            : Message in NL
 
-# COMPOSITION   : (msg {o1 love o23} /from o1 /to o23) (fire)-> (o {msg {o1 love o23} [@i o1 @you o23]})
+# COMPOSITION   : (msg {o1 love o23} (outcome o1) /to o23) (fire)-> (o {msg {o1 love o23} [@i o1 @you o23]})
 # EXTERNALIZED  : (o {msg {E11 love E23} [@i E11 @you E23]})
 # INTERNALIZED  : (o {msg {o55 love o1}  [@i o55 @you o1]}) (fire)-> {o55 love o1}
 # NL-PRINTED    : {i love you} - pronoun substitution applied only by NL-printing
 # NL            : "I love you"
 
-# COMPOSITION   : (msg {(this o55) name [n John]} /from o1 /to o23) -> (o {msg (this o55) name [n John]} [@he o55]})
+# COMPOSITION   : (msg {(this o55) name [n John]} (outcome o1) /to o23) -> (o {msg (this o55) name [n John]} [@he o55]})
 # EXTERNALIZED  : (o {msg (this E55) name [n John]} [@he E55]})
 # INTERNALIZED  : (o {msg (this o47) name [n John]} [@he o47]}) (fire)-> {o47 name [n John]}
 # NL-PRINTED    : {(this E55) name John}

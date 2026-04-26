@@ -3,7 +3,7 @@ rule stack-put-keep-near-and-facing-proposal
 {@self stack_put ? ?stack}
 {?stack isa [k object stack]}
     ->
-(maintainProposal {@self keep_near_and_facing ?stack} /absUtil 1000).
+(maintainProposal {@self keep_near_and_facing ?stack} (abs_util 1000)).
 
 
 rule stack-put-get-thing-proposal
@@ -30,4 +30,4 @@ rule stack-put-outcome
 {@self /ever stack_put ?thing ?stack /noOut}: ?put
 {@self /past STACK_PUT ?thing ?stack /causes ~?put}: ?PUT
     ->
-(setOutcome ?put /from ?PUT).
+(setOutcome ?put (outcome ?PUT)).

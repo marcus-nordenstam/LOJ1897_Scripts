@@ -64,7 +64,7 @@
 rule want-to-talk-tell
 {@self goal {@self TELL ?msg ?person}}
 # /reuse means to accept existing claims (for me) if they match the criteria
-(claim_env_cell /reuse /in_talk_range ?person): ?talk_cell
+(claim_env_cell /reuse (in_talk_range_of_des ?person)): ?talk_cell
 (lockRule talk) # we may have goals to talk to many, but only execute one talk at a time
     ->
 # maintain pressure on the signal
@@ -79,7 +79,7 @@ rule want-to-talk-tell
 rule want-to-talk-ask
 {@self goal {@self ASK ?msg ?person}}
 # /reuse means to accept existing claims (for me) if they match the criteria
-(claim_env_cell /reuse /in_talk_range ?person): ?talk_cell
+(claim_env_cell /reuse (in_talk_range_of_des ?person)): ?talk_cell
 (lockRule talk) # we may have goals to talk to many, but only execute one talk at a time
     ->
 # maintain pressure on the signal
@@ -96,7 +96,7 @@ rule want-to-talk-ask
 rule talk-recipient-claim
 (bb_public_any ? try_to_talk_to @self)
 (bb_public_none @self talk_cell)
-(claim_env_cell /reuse /at_or_near @self): ?talk_cell # /at_or_near means accept cells occupied by intended-occupier 
+(claim_env_cell /reuse (at_or_near_des @self)): ?talk_cell # (at_or_near_des means) accept cells occupied by intended-occupier 
     ->
 (bb_public_write @self talk_cell ?talk_cell).
 
@@ -107,7 +107,7 @@ rule talk-stay-in-cell
 (bb_public_read @self talk_cell): ?talk_cell
 (overlaps ?talk_cell /not @self)
     ->
-(maintainProposal {@self go_cell ?talk_cell} /absUtil 1000).
+(maintainProposal {@self go_cell ?talk_cell} (abs_util 1000)).
 
 
 # Release cell when I am no longer trying to talk to anyone AND
@@ -179,8 +179,8 @@ rule start-conv-maintain-closeAndFacing-proposal
 {@self start_conv ?conv}
 {?conv participant !@self:?person}
     ->
-(maintainProposal {@self keep_near_and_facing ?person} /absUtil 1000)
-(maintainProposal {@self keep_looking_at_part ?person eyes} /absUtil 1000).
+(maintainProposal {@self keep_near_and_facing ?person} (abs_util 1000))
+(maintainProposal {@self keep_looking_at_part ?person eyes} (abs_util 1000)).
 
 
 rule start-conv-tell-how_do-proposal
@@ -232,8 +232,8 @@ rule realise-conv
 # and leads to ?irrConv being forgotten
 (reconcile ?irrConv ?reaConv)
 # While this real conversation is occurring, keep close and personal with the participant
-(maintainProposal {@self keep_near_and_facing ?person} /absUtil 1000): ?keep_near_and_facing
-(maintainProposal {@self keep_looking_at_part ?person eyes} /absUtil 1000): ?keep_looking_at_part
+(maintainProposal {@self keep_near_and_facing ?person} (abs_util 1000)): ?keep_near_and_facing
+(maintainProposal {@self keep_looking_at_part ?person eyes} (abs_util 1000)): ?keep_looking_at_part
 (add_causes ?keep_near_and_facing ?causes)
 (add_causes ?keep_looking_at_part ?causes).
 
@@ -318,8 +318,8 @@ rule conv-player_talk-maintain-closeAndFacing-proposal
 {!@self:?person conversation ?conv}
 {?person role player}
     ->
-(maintainProposal {@self keep_near_and_facing ?person} /absUtil 1000)
-(maintainProposal {@self keep_looking_at_part ?person eyes} /absUtil 1000).
+(maintainProposal {@self keep_near_and_facing ?person} (abs_util 1000))
+(maintainProposal {@self keep_looking_at_part ?person eyes} (abs_util 1000)).
 
 
 # Player presses 'Bye' — the game injects a player_bye formulaic leave-taking.
@@ -332,7 +332,7 @@ rule conv-response-player_bye-proposal
 {?person /succ TELL (formulaic leave_taking player_bye) @self}: ?personTell
 (none {@self /ever end_conv /causes ~?personTell})
     ->
-(beginProposal {@self end_conv ?conv} /absUtil 1000): ?proposal
+(beginProposal {@self end_conv ?conv} (abs_util 1000)): ?proposal
 (add_causes ?proposal ?personTell).
 
 
@@ -404,7 +404,7 @@ rule end-conv-proposal
 (none {?conv todo})
 #(gt (evalCount) 20 /cont) # how many times this instruction has been evaluated since the rule activated
     ->
-(maintainProposal {@self end_conv ?conv} /relUtil 100).
+(maintainProposal {@self end_conv ?conv} (rel_util 100)).
 
 
 rule end-conv-tellLeaveTaking-proposal
@@ -413,7 +413,7 @@ rule end-conv-tellLeaveTaking-proposal
     ->
 # "we'll continue this later", "pardon me", "excuse me", "I have to go now", "bye", "see you later", etc.
 (formulaic leave_taking bye): ?leave_taking
-(beginGoal {@self TELL ?leave_taking ?person} /relUtil 100): ?tellGoal
+(beginGoal {@self TELL ?leave_taking ?person} (rel_util 100)): ?tellGoal
 (add_causes ?tellGoal ?end_conv).
 
 
@@ -422,7 +422,7 @@ rule end-conv-destroyAfterTell-proposal
 {@self /ever end_conv ?conv}: ?end_conv
 {@self /past TELL ? ? /causes ~?end_conv} # we simply use /past instead of /succ in case it gets interrupted
     ->
-(beginProposal {@self DESTROY_CONV_META_ENT ?conv} /relUtil 100).
+(beginProposal {@self DESTROY_CONV_META_ENT ?conv} (rel_util 100)).
 
 
 rule end-conv-outcome-succ

@@ -15,5 +15,5 @@ rule get-acquainted-with-outcome
 {@self /ever get_acquainted_with ?person /noOut}: ?getAcquainted
 {@self /past seek_answers ? /causes ~?getAcquainted}: ?seek_answers
     ->
-(setOutcome ?getAcquainted /from ?seek_answers).
+(setOutcome ?getAcquainted (outcome ?seek_answers)).
 

@@ -43,7 +43,7 @@ rule identify-person-ask-if-has-job-at-org
     ->
 # then I want to know if they have that specific kind of job at the company
 '(real /truth ?jobKind {?realPerson job @o} {@o at (o /known ?orgName)}): ?if_you_have_job_at_org
-(maintainGoal {@self know ?if_you_have_job_at_org} /relUtil 1).
+(maintainGoal {@self know ?if_you_have_job_at_org} (rel_util 1)).
 
 
 /*

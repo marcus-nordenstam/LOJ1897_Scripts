@@ -20,4 +20,4 @@ rule read-outcome
 {@self /ever read ?doc /noOut}: ?read
 {@self /past READ ?doc /causes ~?read}: ?READ
     ->
-(setOutcome ?read /from ?READ).
+(setOutcome ?read (outcome ?READ)).
