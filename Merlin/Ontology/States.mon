@@ -37,7 +37,8 @@ relation
         expect_answer           /sub human              /tar ?
         expect_question         /sub human              /tar ?
         status                  /tar ? @excl
-
+        talk_to                 /sub human
+        
         # Stack states not from attrs
         item                    /obs /tar object
         from_stack               /obs /sub object         /tar @excl stack

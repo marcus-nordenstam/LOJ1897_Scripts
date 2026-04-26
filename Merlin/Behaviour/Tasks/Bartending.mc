@@ -20,15 +20,8 @@ rule bartending-serve-customer-proposal
 (claim_env_cell /behind ?bar_counter /near ?patron): ?talk_cell
 (lockRule) # Deal with one patron at a time
     ->
-(bb_write @self preempted_talk_cell ?talk_cell)
-(beginProposal {@self serve_customer ?patron} /absUtil 1000).
-
-#rule bartending-clear-orphaned-preempted-talk-cell
-#{@self perform [k bartending]}
-#(bb_read @self preempted_talk_cell): ?preempted_talk_cell
-#(none {@self serve_customer})
-#    ->
-#(bb_clear @self preempted_talk_cell).
+(beginProposal {@self serve_customer ?patron} /absUtil 1000)
+(bb_write @self talk_cell ?talk_cell).
 
 
 # find out what drink customer wants
@@ -36,7 +29,7 @@ rule bartending-serve-customer-know-what-to-serve-goal
 {@self perform [k bartending] ?pub}
 {@self serve_customer ?patron}
 {?pub part [k bar_counter]:?bar_counter}
-    -> 
+    ->
 (maintainGoal {@self know '(any {?patron order ? @self}).target}).
 
 

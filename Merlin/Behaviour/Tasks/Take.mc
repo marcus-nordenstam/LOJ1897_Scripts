@@ -18,7 +18,7 @@ rule take-left-reach-for-proposal
 (lockRule take 0)
     ->
 (maintainProposal {@self LOOK_AT ?thing} /absUtil 2000)
-#(maintainProposal {@self TURN_TO ?thing} /absUtil 2000)
+(maintainProposal {@self TURN_TO ?thing} /absUtil 2000)
 (maintainProposal {@self LEFT_REACH_FOR ?thing} /absUtil 2000).
 
 rule take-right-reach-for-proposal
@@ -29,7 +29,7 @@ rule take-right-reach-for-proposal
 (lockRule take 1) # prefer right-hand
     ->
 (maintainProposal {@self LOOK_AT ?thing} /absUtil 2000)
-#(maintainProposal {@self TURN_TO ?thing} /absUtil 2000)
+(maintainProposal {@self TURN_TO ?thing} /absUtil 2000)
 (maintainProposal {@self RIGHT_REACH_FOR ?thing} /absUtil 2000).
 
 # Phase 2: If the reach was successful, propose GRASP (to control it)

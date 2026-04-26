@@ -11,7 +11,6 @@ rule go-entity-locate-proposal
     ->
 (maintainProposal {@self locate ?dest}).
 
-
 rule go-entity-walk-to-proposal
 {@self go_entity ?dest}
 {?dest obb !@unknown:?obb}
@@ -50,7 +49,6 @@ rule go-env-cell-walk-to-proposal
 {@self go_env_cell ?env_cell}
     ->
 (maintainProposal {@self WALK_TO ?env_cell}).
-
 
 rule go-env-cell-walk-to-retry
 {@self go_env_cell ?env_cell}: ?go

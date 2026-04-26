@@ -27,8 +27,7 @@ rule maintain-looking-at-part-right_hand-proposal
     ->
 (maintainProposal {@self LOOK_AT ?bodyPart}).
 
-# --- keep_looking_at_whole: look at the entity's own OBB ---
-# Here we pass the entity itself, not the OBB, for the same reason.
+# --- keep_looking_at_whole: look at the entity ---
 
 rule maintain-looking-at-whole-attention
 {@self keep_looking_at_whole ?thing}
