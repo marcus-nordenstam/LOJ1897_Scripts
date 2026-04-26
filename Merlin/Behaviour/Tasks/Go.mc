@@ -12,10 +12,10 @@ rule go-entity-locate-proposal
 (maintainProposal {@self locate ?dest}).
 
 rule go-entity-walk-to-proposal
-{@self go_entity ?dest}
+{@self go_entity ?dest}: ?go
 {?dest obb !@unknown:?obb}
     ->
-(bb_public_write @self go_count 1)
+(bb_private_write ?go attempt 1)
 (maintainProposal {@self WALK_TO ?obb}).
 
 rule go-entity-walk-to-retry
@@ -24,8 +24,8 @@ rule go-entity-walk-to-retry
 {@self WALK_TO ?obb /fail /causes ~?go}
 (wait /cycles 120)
     ->
-(bb_public_read @self go_count): ?go_count
-(bb_public_write @self go_count (add ?go_count 1))
+(bb_private_read ?go attempt): ?go_count
+(bb_private_write ?go attempt (add ?go_count 1))
 (if (lt ?go_count 10)
     (maintainProposal {@self WALK_TO ?obb})
     (setOutcome ?go /fail)).
@@ -46,8 +46,9 @@ rule go-entity-outcome-interrupted
 # These are general go-to-env-cell rules
 
 rule go-env-cell-walk-to-proposal
-{@self go_env_cell ?env_cell}
+{@self go_env_cell ?env_cell}: ?go
     ->
+(bb_private_write ?go attempt 1)
 (maintainProposal {@self WALK_TO ?env_cell}).
 
 rule go-env-cell-walk-to-retry
@@ -55,8 +56,8 @@ rule go-env-cell-walk-to-retry
 {@self WALK_TO ?env_cell /fail /causes ~?go}
 (wait /cycles 120)
     ->
-(bb_public_read @self go_count): ?go_count
-(bb_public_write @self go_count (add ?go_count 1))
+(bb_private_read ?go attempt): ?go_count
+(bb_private_write ?go attempt (add ?go_count 1))
 (if (lt ?go_count 10)
     (maintainProposal {@self WALK_TO ?env_cell})
     (setOutcome ?go /fail)).
