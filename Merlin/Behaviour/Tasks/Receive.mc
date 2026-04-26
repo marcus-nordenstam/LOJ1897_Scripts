@@ -6,7 +6,7 @@
 rule receive-maintain-within-reach-of-proposal
 {@self receive ?thing ?giver}
     ->
-(maintainProposal {@self keep_near_and_facing ?giver} (abs_util 1000)).
+(maintain_proposal {@self keep_near_and_facing ?giver} (abs_util 1000)).
 
 
 rule receive-take-proposal
@@ -16,7 +16,7 @@ rule receive-take-proposal
 {@self facing ?giver}
 (real ?thing)
     ->
-(maintainProposal {@self take ?thing}).
+(maintain_proposal {@self take ?thing}).
 
 
 # Base the activity's outcome on the corresponding take task's outcome
@@ -24,5 +24,5 @@ rule receive-outcome
 {@self /ever receive ?thing /noOut}: ?receive
 {@self /past take ?thing /causes ~?receive}: ?take
     ->
-(setOutcome ?receive (outcome ?take)).
+(set_outcome ?receive (outcome ?take)).
 

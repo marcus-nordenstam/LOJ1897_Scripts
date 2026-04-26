@@ -5,7 +5,7 @@ rule
 (unknowns {@self /succ TELL @litem ?audience /causes ~?reportInfos} ?infos): ?unreportedInfos
     ->
 (if (empty ?unreportedInfos)
-    (setOutcome ?reportInfos /succ)
+    (set_outcome ?reportInfos /succ)
 # else
-    (maintainGoal {@self TELL @litem ?audience} ?unreportedInfos (rel_util (mul @lindex 0.1)))).
+    (maintain_goal {@self TELL @litem ?audience} ?unreportedInfos (rel_util (mul @lindex 0.1)))).
 */

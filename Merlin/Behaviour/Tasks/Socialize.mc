@@ -10,7 +10,7 @@ rule socialize-go-theatre
 (in @self ?theatre /not)
 #(none {@self child})
     ->
-(maintainProposal {@self go_entity ?theatre}).
+(maintain_proposal {@self go_entity ?theatre}).
 
 
 
@@ -26,6 +26,6 @@ rule get_acquainted_with
 (real ?person)
 (none {@self /succ get_acquainted_with ?person}) # we don't know this person
     ->
-(maintainProposal {@self get_acquainted_with ?person}).
+(maintain_proposal {@self get_acquainted_with ?person}).
 
 */

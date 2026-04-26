@@ -4,7 +4,7 @@
 rule found-org-set-goal
 {@self must_found_org ?org}
     ->
-(maintainProposal {@self found_org ?org}).
+(maintain_proposal {@self found_org ?org}).
 
 # TODO: When I succeed in found_org ?org,
 #       because I have created a /def org ?defOrg, then
@@ -15,7 +15,7 @@ rule found-org-buy-workplace
 (none {?org workplace ?})
 (o /realOrHyp ?workplace_kind {@o availability for_sale}): ?workplace
     ->
-(maintainProposal {@self buy ?workplace}).
+(maintain_proposal {@self buy ?workplace}).
 
 
 # to obtain a workplace I must go to the house agent and search their stack of available properties
@@ -28,7 +28,7 @@ rule
 {?doc isa [k title_deed]}
 (none {@self READ ?doc})
     ->
-(maintainProposal {@self READ ?doc}).
+(maintain_proposal {@self READ ?doc}).
 
 
 
@@ -57,7 +57,7 @@ rule
 # to the actual deed-document -- which is required in order to perform actions on it,
 # such as the update we do now:
 (call "updateTitleDeed" @self ?deed ?placeCats ?address ?ownerCats ?ownerName ?date)
-(maintainProposal {@self give ?deed ?founder}).
+(maintain_proposal {@self give ?deed ?founder}).
 
 # Creating org stacks
 # Knowing they belong to the org
@@ -188,8 +188,8 @@ rule
 (util ?person learn ?truth): ?truthUtil
 (util ?person learn ?lie): ?lieUtil
 (if (ge ?truthUtil ?lieUtil)
-    (maintainGoal {@i TELL ?truth ?person /motivatedBy ?personAsk})
-    (maintainGoal {@i TELL ?lie ?person /motivatedBy ?personAsk})).
+    (maintain_goal {@i TELL ?truth ?person /motivatedBy ?personAsk})
+    (maintain_goal {@i TELL ?lie ?person /motivatedBy ?personAsk})).
 
 # Event-form is either sentence (/st) or clause (/cl).
 # Arguments are always clauses no matter what.
@@ -211,7 +211,7 @@ rule
 {/st john ask (max {/cl @you observe john}.end) @me}
 {/st john ask (own (o [n John Smith] [date Apr-18-1897]) [n 14 Victoria Ave] [/during March-1901] /qs)}
 # John asks "Do you want to marry me?"
-{/st john ask (maintainProposal {@you marry @me} /qs)}
+{/st john ask (maintain_proposal {@you marry @me} /qs)}
 
 # Make say/read forgettable, so that once the intake rule is done, we don't pollute the mind
 {/st john say {/cl @you name Foo} @me} -> {/st @my name Foo /src [john listen]}

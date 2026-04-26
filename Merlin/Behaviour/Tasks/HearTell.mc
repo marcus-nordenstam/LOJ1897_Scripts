@@ -33,12 +33,12 @@ rule hear-tell
 #rule someone_want_self_action
 #{!@self:?someone goal {/action @self ? ?}:?action}
 #    ->
-#(maintainProposal ?action).
+#(maintain_proposal ?action).
 
 #rule someone_want_self_task
 #{!@self:?someone goal {/task @self ? ?}:?task}
 #    ->
-#(maintainProposal ?task).
+#(maintain_proposal ?task).
 
 
 #rule tell_about

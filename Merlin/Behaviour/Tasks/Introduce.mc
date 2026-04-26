@@ -99,18 +99,18 @@ rule introduce-siblings-tell-each-other
 # tell child1 "this is your brother|sister ?child2Name"
 (call siblingRel ?child2Gender): ?child2Rel
 (msg {?child1 ?child2Rel (this ?child2 ?child2Name)}): ?msgChild2IsYourSibling
-(maintainGoal {@self TELL ?msgChild2IsYourSibling ?child1})
+(maintain_goal {@self TELL ?msgChild2IsYourSibling ?child1})
 # tell child2 "this is your brother|sister ?child1Name"
 (call siblingRel ?child1Gender): ?child1Rel
 (msg {?child2 ?child1Rel (this ?child1 ?child1Name)}): ?msgChild1IsYourSibling
-(maintainGoal {@self TELL ?msgChild1IsYourSibling ?child2}).
+(maintain_goal {@self TELL ?msgChild1IsYourSibling ?child2}).
 
 rule introduce-siblings-outcome
 {@self /ever introduce_siblings ?person1 ?person2 /noOut}: ?intro
 {@self /succ TELL ? ?person1 /causes ~?intro}
 {@self /succ TELL ? ?person2 /causes ~?intro}
     ->
-(setOutcome ?intro /succ).
+(set_outcome ?intro /succ).
 
 # Tell/ask no longer make @msg
 # Instead msg state makes @msg, which is used to decorate msg-objects

@@ -8,12 +8,12 @@ rule seek_answers
  (qs (any {?person father}).target)
  (qs (any {?person spouse}).target)
  (qs (any {?person home}).target)]: ?questions
-(maintainProposal {@self seek_answers ?questions}).
+(maintain_proposal {@self seek_answers ?questions}).
 
 
 rule get-acquainted-with-outcome
 {@self /ever get_acquainted_with ?person /noOut}: ?getAcquainted
 {@self /past seek_answers ? /causes ~?getAcquainted}: ?seek_answers
     ->
-(setOutcome ?getAcquainted (outcome ?seek_answers)).
+(set_outcome ?getAcquainted (outcome ?seek_answers)).
 

@@ -16,7 +16,7 @@ rule goal-conv-ASK-notAvail
     ->
 (o /hyp [k conversation] {@o participant @self} {@o participant ?audience}): ?irrConv
 (maintainBelief {?irrConv todo ?ask /causes ?goal}) # add explicit cause because todo is state
-(maintainGoal {@self conversation ?irrConv}).
+(maintain_goal {@self conversation ?irrConv}).
 
 
 rule goal-conv-ASK-bothAvail
@@ -26,7 +26,7 @@ rule goal-conv-ASK-bothAvail
     ->
 (o /hyp [k conversation] {@o participant @self} {@o participant ?audience}): ?irrConv
 (maintainBelief {?irrConv todo ?ask /causes ?goal}) # add explicit cause because todo is state
-(maintainGoal {@self conversation ?irrConv}).
+(maintain_goal {@self conversation ?irrConv}).
 
 
 # This rule handles the case where we want to ask something to someone we're currently speaking with
@@ -45,7 +45,7 @@ rule goal-ASK-outcome
 {@self goal {@self ASK ?question ?audience}}: ?goal
 {@self /past ASK ?question ?audience /causes ~?goal /out?}: ?ASK
     ->
-(setOutcome ?goal (outcome ?ASK)).
+(set_outcome ?goal (outcome ?ASK)).
 
 
 */

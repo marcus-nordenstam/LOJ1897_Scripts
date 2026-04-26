@@ -6,7 +6,7 @@
 rule stack-browse-perceive-top-proposal
 {@self stack_browse ?stack}: ?browseStack
     ->
-(maintainProposal {@self perceive_attr ?stack top}).
+(maintain_proposal {@self perceive_attr ?stack top}).
 
 
 # We can't start this activity if we're already gripping objects because we don't want to confuse those
@@ -18,7 +18,7 @@ rule stack-browse-drop-unrelated-things-proposal
 # (because STACK_TAKE adds that state)
 (o /known {?hand control @o} {@o /not from_stack ?stack}): ?thing
     ->
-(maintainProposal {@self drop ?thing}).
+(maintain_proposal {@self drop ?thing}).
 
 
 # This rule prevents us from greedily getting multiple docs at a time.
@@ -31,7 +31,7 @@ rule stack-browse-get-next-doc-proposal
 {?hand control @nothing}
     ->
 # then set a goal to get the next doc from the stack
-(maintainProposal {@self stack_get ?doc ?stack}).
+(maintain_proposal {@self stack_get ?doc ?stack}).
 
 
 

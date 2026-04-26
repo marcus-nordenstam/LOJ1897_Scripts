@@ -107,7 +107,7 @@ rule talk-stay-in-cell
 (bb_public_read @self talk_cell): ?talk_cell
 (overlaps ?talk_cell /not @self)
     ->
-(maintainProposal {@self go_cell ?talk_cell} (abs_util 1000)).
+(maintain_proposal {@self go_cell ?talk_cell} (abs_util 1000)).
 
 
 # Release cell when I am no longer trying to talk to anyone AND
@@ -129,14 +129,14 @@ rule TELL-propose
 (bb_public_read @self talk_cell)
 (in_range /talk @self ?person)
     ->
-(beginProposal {@self TELL ?msg ?person}).
+(begin_proposal {@self TELL ?msg ?person}).
 
 rule ASK-propose
 {@self goal {@self ASK ?question ?person}}
 (bb_public_read @self talk_cell)
 (in_range /talk @self ?person)
     ->
-(beginProposal {@self ASK ?question ?person}).
+(begin_proposal {@self ASK ?question ?person}).
 
 
 
@@ -157,7 +157,7 @@ rule start-conv-perceive-conv-proposal /breakOnFire
 (none {?person conversation}) # We don't know if ?person is already in a conversation
     ->
 # If they're too far away to observe (or imaginary), then we could just always assume they're NOT in a conversation.
-(maintainProposal {@self perceive_attr ?person conversation}).
+(maintain_proposal {@self perceive_attr ?person conversation}).
 
 
 #-----------------------------------------------------------------------------------------
@@ -171,7 +171,7 @@ rule start-conv-proposal
 {?person conversation @nothing} # We know that ?person is NOT in ANY conversation
 (lockRule) # Only try to start one conv at a time
     ->
-(maintainProposal {@self start_conv ?irrConv})
+(maintain_proposal {@self start_conv ?irrConv})
 (print [@self wants to start a conversation with ?person]).
 
 
@@ -179,8 +179,8 @@ rule start-conv-maintain-closeAndFacing-proposal
 {@self start_conv ?conv}
 {?conv participant !@self:?person}
     ->
-(maintainProposal {@self keep_near_and_facing ?person} (abs_util 1000))
-(maintainProposal {@self keep_looking_at_part ?person eyes} (abs_util 1000)).
+(maintain_proposal {@self keep_near_and_facing ?person} (abs_util 1000))
+(maintain_proposal {@self keep_looking_at_part ?person eyes} (abs_util 1000)).
 
 
 rule start-conv-tell-how_do-proposal
@@ -189,7 +189,7 @@ rule start-conv-tell-how_do-proposal
     ->
 (anyOrUnknown {?person name}).target: ?nameOrUnknown
 (formulaic opening how_do ?nameOrUnknown): ?opening
-(maintainGoal {@self TELL ?opening ?person}).
+(maintain_goal {@self TELL ?opening ?person}).
 
 
 rule start-conv-makeConvFromResponse-proposal
@@ -199,7 +199,7 @@ rule start-conv-makeConvFromResponse-proposal
 {?person /succ TELL (formulaic response how_do ?) @self /causes ~?openingTELL}
     ->
 # Create the realis conversation (which is a meta-entity)
-(beginProposal {@self MAKE_CONV_META_ENT ?person @self}).
+(begin_proposal {@self MAKE_CONV_META_ENT ?person @self}).
 
 
 # I am trying to start a conversation with ?person,
@@ -210,7 +210,7 @@ rule start-conv-makeConvPreemptive-proposal
 {?person /succ TELL (formulaic opening ? ?) @self}
     ->
 # Create the realis conversation (which is a meta-entity)
-(beginProposal {@self MAKE_CONV_META_ENT ?person @self})
+(begin_proposal {@self MAKE_CONV_META_ENT ?person @self})
 (break).
 
 
@@ -226,14 +226,14 @@ rule realise-conv
 {?person conversation ?reaConv}
     ->
 # The conversation starting task was successful
-(setOutcome ?start_conv /succ)
+(set_outcome ?start_conv /succ)
 # The irrealis conv is the same as the realis conv
 # NOTE that this also ends all possessive ?irrConv beliefs
 # and leads to ?irrConv being forgotten
 (reconcile ?irrConv ?reaConv)
 # While this real conversation is occurring, keep close and personal with the participant
-(maintainProposal {@self keep_near_and_facing ?person} (abs_util 1000)): ?keep_near_and_facing
-(maintainProposal {@self keep_looking_at_part ?person eyes} (abs_util 1000)): ?keep_looking_at_part
+(maintain_proposal {@self keep_near_and_facing ?person} (abs_util 1000)): ?keep_near_and_facing
+(maintain_proposal {@self keep_looking_at_part ?person eyes} (abs_util 1000)): ?keep_looking_at_part
 (add_causes ?keep_near_and_facing ?causes)
 (add_causes ?keep_looking_at_part ?causes).
 
@@ -248,7 +248,7 @@ rule start-conv-outcome-fail /breakOnFire
 {@self /succ TELL ? ?person /causes ~?start_conv}: ?openingTELL
 {?person /succ TELL (formulaic refusal ? ?) @self /causes ~?openingTELL}
     ->
-(setOutcome ?start_conv /fail).
+(set_outcome ?start_conv /fail).
 
 # if {@self initiate_conversation ?person}
 # and ?person declines your invitation in a rude manner (rude declining phrase, ignore, walk away)
@@ -276,7 +276,7 @@ rule
 (none {@self join_conv})
 (lockRule) # Only try to join one conv at a time
     ->
-(beginProposal {@self join_conv ?personsConv}).
+(begin_proposal {@self join_conv ?personsConv}).
 
 #-----------------------------------------------------------------------------------------
 # RESPONDING TO A FORMULAIC OPENING (conversation starter)
@@ -290,7 +290,7 @@ rule conv-response-formulaicOpening-proposal
     ->
 (anyOrUnknown {?person name}).target: ?nameOrUnknown
 (formulaic response how_do ?nameOrUnknown): ?greeting
-(beginGoal {@self TELL ?greeting ?person}): ?tellGreeting
+(begin_goal {@self TELL ?greeting ?person}): ?tellGreeting
 (add_causes ?tellGreeting ?personTell).
 
 
@@ -306,9 +306,9 @@ rule conv-response-player_talk-proposal
 (lockRule) # Join only one conversation at a time
     ->
 (formulaic response player_talk): ?greeting
-(beginGoal {@self TELL ?greeting ?person}): ?tellGreeting
+(begin_goal {@self TELL ?greeting ?person}): ?tellGreeting
 (add_causes ?tellGreeting ?personTell)
-(beginProposal {@self MAKE_CONV_META_ENT ?person ?person}).
+(begin_proposal {@self MAKE_CONV_META_ENT ?person ?person}).
 
 
 
@@ -318,13 +318,13 @@ rule conv-player_talk-maintain-closeAndFacing-proposal
 {!@self:?person conversation ?conv}
 {?person role player}
     ->
-(maintainProposal {@self keep_near_and_facing ?person} (abs_util 1000))
-(maintainProposal {@self keep_looking_at_part ?person eyes} (abs_util 1000)).
+(maintain_proposal {@self keep_near_and_facing ?person} (abs_util 1000))
+(maintain_proposal {@self keep_looking_at_part ?person eyes} (abs_util 1000)).
 
 
 # Player presses 'Bye' — the game injects a player_bye formulaic leave-taking.
 # The NPC begins end_conv through the normal proposal flow.
-# We use beginProposal (one-shot) + add_causes so the guard below can prevent
+# We use begin_proposal (one-shot) + add_causes so the guard below can prevent
 # re-matching the same old player_bye TELL on future conversations.
 rule conv-response-player_bye-proposal
 {@self conversation @something:?conv}
@@ -332,7 +332,7 @@ rule conv-response-player_bye-proposal
 {?person /succ TELL (formulaic leave_taking player_bye) @self}: ?personTell
 (none {@self /ever end_conv /causes ~?personTell})
     ->
-(beginProposal {@self end_conv ?conv} (abs_util 1000)): ?proposal
+(begin_proposal {@self end_conv ?conv} (abs_util 1000)): ?proposal
 (add_causes ?proposal ?personTell).
 
 
@@ -345,7 +345,7 @@ rule conv-response-refuseConv-proposal #/breakOnFire
 (none {@self /ever TELL ? ?person /causes ~?personTell})
     ->
 (formulaic refusal ?talking): ?refusal
-(beginGoal {@self TELL ?refusal ?person}): ?tellRefusal
+(begin_goal {@self TELL ?refusal ?person}): ?tellRefusal
 (add_causes ?tellRefusal ?personTell).
 
 #-----------------------------------------------------------------------------------------
@@ -357,7 +357,7 @@ rule conv-todo-act-proposal
 {?conv todo ?act /causes ?causes}
 (lockRule) # only one todo-act at a time
     ->
-(maintainProposal ?act): ?proposal
+(maintain_proposal ?act): ?proposal
 (add_causes ?proposal ?causes) # add expl. cause because there are no task/goal conditions
 (if (eq ?act.label ASK) 
     (beginBelief {@self expect_answer ?act.auxiliary /causes ?causes})).
@@ -404,7 +404,7 @@ rule end-conv-proposal
 (none {?conv todo})
 #(gt (evalCount) 20 /cont) # how many times this instruction has been evaluated since the rule activated
     ->
-(maintainProposal {@self end_conv ?conv} (rel_util 100)).
+(maintain_proposal {@self end_conv ?conv} (rel_util 100)).
 
 
 rule end-conv-tellLeaveTaking-proposal
@@ -413,7 +413,7 @@ rule end-conv-tellLeaveTaking-proposal
     ->
 # "we'll continue this later", "pardon me", "excuse me", "I have to go now", "bye", "see you later", etc.
 (formulaic leave_taking bye): ?leave_taking
-(beginGoal {@self TELL ?leave_taking ?person} (rel_util 100)): ?tellGoal
+(begin_goal {@self TELL ?leave_taking ?person} (rel_util 100)): ?tellGoal
 (add_causes ?tellGoal ?end_conv).
 
 
@@ -422,14 +422,14 @@ rule end-conv-destroyAfterTell-proposal
 {@self /ever end_conv ?conv}: ?end_conv
 {@self /past TELL ? ? /causes ~?end_conv} # we simply use /past instead of /succ in case it gets interrupted
     ->
-(beginProposal {@self DESTROY_CONV_META_ENT ?conv} (rel_util 100)).
+(begin_proposal {@self DESTROY_CONV_META_ENT ?conv} (rel_util 100)).
 
 
 rule end-conv-outcome-succ
 {@self end_conv ?conv}: ?end_conv
 {@self /succ DESTROY_CONV_META_ENT ?conv}
     ->
-(setOutcome ?end_conv /succ).
+(set_outcome ?end_conv /succ).
 
 */
 

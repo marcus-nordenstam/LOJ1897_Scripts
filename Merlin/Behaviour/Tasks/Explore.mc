@@ -8,7 +8,7 @@
 #{@self explore world}
 #(o /per [k exterior_space] {@o obb} {@self /not /ever in @o}): ?space
 #    ->
-#(maintainProposal {@self go ?space}).
+#(maintain_proposal {@self go ?space}).
 
 #rule 
 #{@self explore world}

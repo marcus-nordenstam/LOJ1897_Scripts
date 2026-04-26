@@ -7,13 +7,13 @@ rule house-agent-clerk-process-title-deed-for-buyer
 (real ?bldg)
     ->
 # We have to explicitly include ?buyerWantsToBuy as a cause, because it is NOT a self-act
-(maintainProposal {@self process_title_deed ?buyer ?bldg /causes ?buyerWantsToBuy}).
+(maintain_proposal {@self process_title_deed ?buyer ?bldg /causes ?buyerWantsToBuy}).
 
 rule house-agent-clerk-ask-buyer-name
 {@self process_title_deed ?buyer ?bldg}
 (none {?buyer name ?})
     ->
-(maintainGoal {@self know '(any {?buyer name}).target} (rel_util 1)).
+(maintain_goal {@self know '(any {?buyer name}).target} (rel_util 1)).
 
 
 rule house-agent-clerk-write-title-deed
@@ -24,7 +24,7 @@ rule house-agent-clerk-write-title-deed
     ->
 (msg {(o ?bldgKind ?address) owner (o {@o name ?buyerName})}): ?writings
 (o /invent /hyp [k title_deed] {@o writings ?writings}): ?hypTitleDeed
-(maintainProposal {@self write ?hypTitleDeed}).
+(maintain_proposal {@self write ?hypTitleDeed}).
 
 
 # Give the doc to buyer
@@ -36,7 +36,7 @@ rule house-agent-clerk-give-title-deed-to-buyer
 (none {?hand /ever control ?doc})
     ->
 # Once give succeeds, then (endBelief  buyer-goal-to-buy...)
-(maintainProposal {@self give ?doc ?buyer}).
+(maintain_proposal {@self give ?doc ?buyer}).
 
 
 # If someone wants to buy a property,

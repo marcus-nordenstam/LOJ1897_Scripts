@@ -18,7 +18,7 @@ rule keep_near_and_facing-within_reach_of-go-proposal
 {@self keep_near_and_facing ?thing}
 {@self /not within_reach_of ?thing}
     ->
-(maintainProposal {@self go_entity ?thing}).
+(maintain_proposal {@self go_entity ?thing}).
 
 # You must face it
 # Bear in mind that facing is NOT exclusive
@@ -34,5 +34,5 @@ rule keep_near_and_facing-TURN_TO-proposal
 {@self keep_near_and_facing ?thing}
 {@self /not facing ?thing}
     ->
-(maintainProposal {@self TURN_TO ?thing}).
+(maintain_proposal {@self TURN_TO ?thing}).
 */

@@ -5,14 +5,14 @@ rule read-get-proposal
 {@self hand ?hand}
 {?hand control !?doc}
     ->
-(maintainProposal {@self get ?doc}).
+(maintain_proposal {@self get ?doc}).
 
 rule read-action-proposal
 {@self read ?doc}
 {@self hand ?hand}
 {?hand control ?doc}
     ->
-(maintainProposal {@self READ ?doc}).
+(maintain_proposal {@self READ ?doc}).
 
 
 # Base the activity's outcome on the corresponding action's outcome
@@ -20,4 +20,4 @@ rule read-outcome
 {@self /ever read ?doc /noOut}: ?read
 {@self /past READ ?doc /causes ~?read}: ?READ
     ->
-(setOutcome ?read (outcome ?READ)).
+(set_outcome ?read (outcome ?READ)).

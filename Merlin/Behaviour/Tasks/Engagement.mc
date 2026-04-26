@@ -9,7 +9,7 @@ rule goal-know-answer-to-marriage-proposal
 (lockRule) # synchronize the ability to activate this rule - only one at a time
     ->
 '(prob {?prospect goal {?prospect marry @self}}): ?marriageProposal
-(maintainGoal {@self know ?marriageProposal}).
+(maintain_goal {@self know ?marriageProposal}).
 
 
 rule reasoning-marriage-proposal-accepted
@@ -27,7 +27,7 @@ rule reasoning-marriage-proposal-rejected
     ->
 (beginBelief {?proposee goal {?proposee marry ?proposer} /p @unknown%})
 (if (eq ?proposer @self) 
-    [(setOutcome {@self goal {@self marry ?proposee}} /fail)
+    [(set_outcome {@self goal {@self marry ?proposee}} /fail)
      (any {?proposee marriage_desirability}): ?desirabilityEvent
      (sub ?desirabilityEvent.target 0.1): ?newDesirability
      (beginBelief {?proposee marriage_desirability ?newDesirability})])
@@ -42,7 +42,7 @@ rule goal-possess-engagement-ring
 {?fiancee hand ?hand}
 {?hand control [k engagement_ring]:?ring}
     ->
-(maintainGoal {@self possess ?ring})
+(maintain_goal {@self possess ?ring})
 (print [@self wants to possess ?ring]).
 
 
@@ -54,7 +54,7 @@ rule proposal-give-engagement-ring
 {?hand control [k engagement_ring]:?ring}
 (lockRule)
     ->
-(maintainProposal {@self give ?ring ?fiancee}).
+(maintain_proposal {@self give ?ring ?fiancee}).
 
 
 rule proposal-wear-engagement-ring
@@ -68,4 +68,4 @@ rule proposal-wear-engagement-ring
 {?lhand finger [k ring_finger]:?ring_finger}
     ->
 (beginBelief {?ring owner @self})
-(maintainProposal {@self WEAR ?ring ?ring_finger}).
+(maintain_proposal {@self WEAR ?ring ?ring_finger}).

@@ -12,7 +12,7 @@ rule startup-go-pubbing
 {@self isa [k human]}
 (none {@self job [k bartender]})
     ->
-(beginProposal {@self pubbing} (abs_util 10)).
+(begin_proposal {@self pubbing} (abs_util 10)).
 
 
 # Waypoint behaviour
@@ -23,7 +23,7 @@ rule startup-go-to-waypoint
 (none {@self job [k bartender]})
 (in @self /not [k building pub])
     ->
-(maintainProposal {@self go_entity ?waypoint}).
+(maintain_proposal {@self go_entity ?waypoint}).
 
 
 # Emotional reactions
@@ -34,25 +34,25 @@ rule grieve
     ->
 # Grieving is an emotion-task which should not compete with regular tasks
 # So it should only express itself if there's nothing else going on
-(maintainProposal {@self grieve} (abs_util -10000)).
+(maintain_proposal {@self grieve} (abs_util -10000)).
 
 #rule go-to-waypoint
 #{?waypoint isa [k waypoint]}
 #    ->
 #(elapsedFiringCycles /cont): ?cycles
 #(if (gt ?cycles 700)
-#    (maintainProposal {@self go_entity ?waypoint})
-#    (maintainProposal {@self CHAT})).
+#    (maintain_proposal {@self go_entity ?waypoint})
+#    (maintain_proposal {@self CHAT})).
 
 #rule go-to-waypoint
 #{?waypoint isa [k waypoint]}
 #    ->
-#(maintainProposal {@self go_entity ?waypoint}).
+#(maintain_proposal {@self go_entity ?waypoint}).
 
 
 rule start-performing-job
 {@self job [k bartender]:?job ?pub}
 {@self control [k umbrella]:?umbrella} 
     ->
-(beginProposal {@self START_PERFORMING [k bartending] ?pub})
-(beginProposal {@self STOW ?umbrella}).
+(begin_proposal {@self START_PERFORMING [k bartending] ?pub})
+(begin_proposal {@self STOW ?umbrella}).

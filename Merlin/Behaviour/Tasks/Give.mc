@@ -9,7 +9,7 @@ rule give-proposal-get-thing
 {@self hand ?hand}
 {?hand control !?thing}
     ->
-(maintainProposal {@self get ?thing}).
+(maintain_proposal {@self get ?thing}).
 
 
 # If you have it, you must be close enough to touch the recipient
@@ -18,7 +18,7 @@ rule give-goal-within-reach-of-recipient
 {@self hand ?hand}
 {?hand control ?thing}
     ->
-(maintainProposal {@self keep_near_and_facing ?recipient} (abs_util 1000)).
+(maintain_proposal {@self keep_near_and_facing ?recipient} (abs_util 1000)).
 
 
 rule give-proposal-offer
@@ -29,7 +29,7 @@ rule give-proposal-offer
 {@self facing ?recipient}
 (real ?thing)
     ->
-(maintainProposal {@self OFFER ?thing ?recipient}).
+(maintain_proposal {@self OFFER ?thing ?recipient}).
 
 
 # ------------------------------------------
@@ -43,7 +43,7 @@ rule goal-possess-receive-proposal
 {?giver OFFER ?thing @self}: ?offer
     ->
 # then get it
-(maintainProposal {@self receive ?thing ?giver}): ?proposal
+(maintain_proposal {@self receive ?thing ?giver}): ?proposal
 (add_causes ?proposal ?offer). # the offer is not a self-action, so it won't be automatically added as a cause
 
 
@@ -60,7 +60,7 @@ rule
     ->
 # then read it to see if it is the actual document I want
 # (the read task will cause me to take it before reading)
-(maintainProposal {@self read ?offeredDoc}).
+(maintain_proposal {@self read ?offeredDoc}).
 */
 
 # ------------------------------------------
@@ -73,7 +73,7 @@ rule give-outcome-giver
 {@self /succ OFFER ?thing ?recipient /causes ~?give}: ?offer
 #{?recipient /succ TAKE ?thing /causes ~?offer}
     ->
-(setOutcome ?give /succ)
+(set_outcome ?give /succ)
 (fireAndForget).
 
 # From the observer's pov
@@ -82,7 +82,7 @@ rule give-outcome-observer
 {?recipient /succ take ?thing /causes ~?offer}
     ->
 (beginBelief {?giver give ?thing ?recipient /momentary}): ?give
-(setOutcome ?give /succ)
+(set_outcome ?give /succ)
 (fireAndForget).
 
 

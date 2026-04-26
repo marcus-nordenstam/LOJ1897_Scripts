@@ -15,8 +15,8 @@ rule infer-marital-state-of-others
 {@self family ?myFamily}
 {?person family !?myFamily}
     ->
-#(maintainGoal {@self know '(any {?person marital_state}).target}).
-(maintainProposal {@self infer {?person marital_state}}).
+#(maintain_goal {@self know '(any {?person marital_state}).target}).
+(maintain_proposal {@self infer {?person marital_state}}).
 
 
 rule eligible_for_marriage
@@ -52,7 +52,7 @@ rule goal-marry
 #(print ?every)
 #(print [@self chooses ?prospect with ?desirability desirability])
 #(log "pattern" on)
-(maintainGoal {@self marry ?prospect})
+(maintain_goal {@self marry ?prospect})
 #(log "pattern" off)
 (check (gt ?desirability 0))
 (check (eq 1 (count (every {@self goal {@self marry ?}})))).

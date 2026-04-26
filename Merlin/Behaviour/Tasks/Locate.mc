@@ -6,4 +6,4 @@ rule locate-explore-world-proposal
 {@self locate ?something}
     ->
 (maintainAttention ?something)
-(maintainProposal {@self explore world}).
+(maintain_proposal {@self explore world}).

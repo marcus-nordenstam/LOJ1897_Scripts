@@ -13,19 +13,19 @@ rule maintain-looking-at-part-eyes-proposal
 {@self keep_looking_at_part ?thing eyes}
 {?thing eyes @something:?bodyPart}
     ->
-(maintainProposal {@self LOOK_AT ?bodyPart}).
+(maintain_proposal {@self LOOK_AT ?bodyPart}).
 
 rule maintain-looking-at-part-left_hand-proposal
 {@self keep_looking_at_part ?thing left_hand}
 {?thing hand [k left_hand]:?bodyPart}
     ->
-(maintainProposal {@self LOOK_AT ?bodyPart}).
+(maintain_proposal {@self LOOK_AT ?bodyPart}).
 
 rule maintain-looking-at-part-right_hand-proposal
 {@self keep_looking_at_part ?thing right_hand}
 {?thing hand [k right_hand]:?bodyPart}
     ->
-(maintainProposal {@self LOOK_AT ?bodyPart}).
+(maintain_proposal {@self LOOK_AT ?bodyPart}).
 
 # --- keep_looking_at_whole: look at the entity ---
 
@@ -37,4 +37,4 @@ rule maintain-looking-at-whole-attention
 rule maintain-looking-at-whole-proposal
 {@self keep_looking_at_whole ?thing}
     ->
-(maintainProposal {@self LOOK_AT ?thing}).
+(maintain_proposal {@self LOOK_AT ?thing}).

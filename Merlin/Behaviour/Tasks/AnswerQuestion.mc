@@ -24,8 +24,8 @@ rule answer-question-respond-to-do-you-know-this
 (any {?entity /ever name}).target: ?name
 (any {@self /ever ? ?entity}).label: ?relation
 (if (eq ?name @unknown)
-    (maintainGoal {@self TELL (formulaic no_dont_know) ?person} (abs_util 1))
-    (maintainGoal {@self TELL (formulaic yes_this_is ?relation ?name) ?person} (abs_util 1))): ?response
+    (maintain_goal {@self TELL (formulaic no_dont_know) ?person} (abs_util 1))
+    (maintain_goal {@self TELL (formulaic yes_this_is ?relation ?name) ?person} (abs_util 1))): ?response
 # If we are currently expecting a question from ?person, quit expecting it
 #(any {@self expect_question ?person}): ?expect_question
 #(endBelief ?expect_question)
@@ -45,7 +45,7 @@ rule answer-question-respond-general
 # Evaluate the question to produce an answer
 (evalMsg /outputUnknownOnFail ?question): ?truthfulAnswer
 # Set an absolute utility of 1, signifying that answering a question is higher priority than posing a question
-(maintainGoal {@self TELL (msg ?truthfulAnswer) ?person} (abs_util 1)): ?response
+(maintain_goal {@self TELL (msg ?truthfulAnswer) ?person} (abs_util 1)): ?response
 # If we are currently expecting a question from ?person, quit expecting it
 #(any {@self expect_question ?person}): ?expect_question
 #(endBelief ?expect_question)
@@ -85,6 +85,6 @@ rule answer-question-infer-desire-from-question
 (util ?person learn ?truth): ?truthUtil
 (util ?person learn ?lie): ?lieUtil
 (if (ge ?truthUtil ?lieUtil)
-    (maintainGoal {@i TELL ?truth ?person /causes ~?personAsk})
-    (maintainGoal {@i TELL ?lie ?person /causes ~?personAsk})).
+    (maintain_goal {@i TELL ?truth ?person /causes ~?personAsk})
+    (maintain_goal {@i TELL ?lie ?person /causes ~?personAsk})).
 */

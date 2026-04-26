@@ -5,4 +5,4 @@ rule go-home-when-sleepy
 {@self alertness sleepy}
 (in @self ?home /not)
     ->
-(maintainProposal {@self go_entity ?home}).
+(maintain_proposal {@self go_entity ?home}).

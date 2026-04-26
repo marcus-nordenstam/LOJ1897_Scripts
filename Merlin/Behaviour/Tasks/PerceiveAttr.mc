@@ -7,7 +7,7 @@
 rule perceive-attr-keep-near-and-facing-proposal
 {@self perceive_attr ?thing ?attr}: ?perceive_attr
     ->
-(maintainProposal {@self keep_near_and_facing ?thing} (abs_util 1000)).
+(maintain_proposal {@self keep_near_and_facing ?thing} (abs_util 1000)).
 
 
 # If you are close enough, and you have perceived the object, then
@@ -17,10 +17,10 @@ rule perceive-attr-action-proposal
 {@self perceive_attr ?thing ?attr}: ?perceive_attr
 (observed ?thing) # You can't actually perceive any attr on ?thing until you have seen ?thing
     ->
-(maintainProposal {@self PERCEIVE_ATTR ?thing ?attr}).
+(maintain_proposal {@self PERCEIVE_ATTR ?thing ?attr}).
 
 rule perceive-attr-outcome
 {@self /ever perceive_attr ? ? /noOut}: ?perceive_attr
 {@self /past PERCEIVE_ATTR ? ? /causes ~?perceive_attr}: ?PERCEIVE_ATTR
     ->
-(setOutcome ?perceive_attr (outcome ?PERCEIVE_ATTR)).
+(set_outcome ?perceive_attr (outcome ?PERCEIVE_ATTR)).

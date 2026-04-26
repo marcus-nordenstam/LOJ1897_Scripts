@@ -6,6 +6,6 @@ rule seek-answers-ask-unknowns
 #(print [SEEKANSWERS @self must learn (count ?unknowns) unknowns])
 #(print (nl ?unknowns))
 (if (empty ?unknowns)
-    [ (setOutcome ?seek_answers /succ)   (print [TASK DONE (nl ?seek_answers)]) ] 
+    [ (set_outcome ?seek_answers /succ)   (print [TASK DONE (nl ?seek_answers)]) ] 
 # else
-    (maintainGoals ?unknowns {@self know @litem} (rel_util (mul @lindex 0.1)))).
+    (maintain_goals ?unknowns {@self know @litem} (rel_util (mul @lindex 0.1)))).

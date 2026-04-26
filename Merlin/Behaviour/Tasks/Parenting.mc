@@ -5,7 +5,7 @@ rule parenting-grow-family
 {@self spouse @something:?spouse}
 (lt (count (every {@self child})) 3)
     ->
-(maintainProposal {@self HAVE_SEX_WITH ?spouse}).
+(maintain_proposal {@self HAVE_SEX_WITH ?spouse}).
 
 # We let the mother tell her children about their home
 rule parenting-tell-child-their-home
@@ -15,7 +15,7 @@ rule parenting-tell-child-their-home
 {?child age_group 0}
 (none {@self /succ TELL (msg {?child home ?home}) ?child})
     ->
-(beginGoal {@self TELL (msg {?child home ?home}) ?child})
+(begin_goal {@self TELL (msg {?child home ?home}) ?child})
 (fireAndForget).
 
 rule parenting-tell-child-my-home
@@ -24,7 +24,7 @@ rule parenting-tell-child-my-home
 {@self home ?home}
 (none {@self /succ TELL (msg {@self home ?home}) ?child})
     ->
-(beginGoal {@self TELL (msg {@self home ?home}) ?child})
+(begin_goal {@self TELL (msg {@self home ?home}) ?child})
 (fireAndForget).
 
 # We let the mother introduce the siblings
@@ -35,7 +35,7 @@ rule introduce_siblings
 {@self child !?child1:?child2}
 (none {@self /succ introduce_siblings ?child1 ?child2})
     ->
-(maintainProposal {@self introduce_siblings ?child1 ?child2}).
+(maintain_proposal {@self introduce_siblings ?child1 ?child2}).
 
 # Once the children are old enough, tell them about the theatre (so they can go there later and socialize)
 rule parenting-tell-child-theatre-obb
@@ -46,7 +46,7 @@ rule parenting-tell-child-theatre-obb
 {?theatre isa [k building theatre]:?theatreKind}
 {?theatre obb ?obb}
     ->
-(maintainGoal {@self TELL (msg (o ?theatreKind {@o obb ?obb})) ?child}).
+(maintain_goal {@self TELL (msg (o ?theatreKind {@o obb ?obb})) ?child}).
 
 # comeWith task:
 #   If someone tells you comeWith, they are the leader and I am the follower

@@ -6,5 +6,5 @@ rule work-go-to-workplace-proposal
 {?org workplace ?workplace}
 (in /not @self ?workplace)
     ->
-(maintainProposal {@self go_entity ?workplace}).
+(maintain_proposal {@self go_entity ?workplace}).
 

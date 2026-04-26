@@ -8,7 +8,7 @@
 rule find-out-target-about-person-general
 {@self goal {@self know (any {[k human]:?person ? ?}).target:?what} /causes ?causes}
    ->
-(maintainGoal {@self ASK (qs ?what) ?person}): ?ask_goal
+(maintain_goal {@self ASK (qs ?what) ?person}): ?ask_goal
 (add_causes ?ask_goal ?causes).
 
 # Specific versions of the know rule -- overrides base rule:
@@ -16,7 +16,7 @@ rule find-out-target-about-person-general
 #rule /cat learnTarget /rank 1
 #{@self goal {@self know '(any {?person marital_state}).target}}
 #    ->
-#(maintainProposal {@self infer {?person marital_state}}).
+#(maintain_proposal {@self infer {?person marital_state}}).
 
 
 
@@ -25,7 +25,7 @@ rule find-out-target-about-person-general
 rule find-out-prob-about-person-general
 {@self goal {@self know (prob {[k human]:?person ? ?}):?what} /causes ?causes}
     ->
-(maintainGoal {@self ASK (qs ?what) ?person}): ?ask_goal
+(maintain_goal {@self ASK (qs ?what) ?person}): ?ask_goal
 (add_causes ?ask_goal ?causes).
 
 
@@ -39,5 +39,5 @@ rule find-out-prob-about-person-general
 #(tail ?qsContent).subject: ?subjects
 #(any {?subjects isa [k human]}).subject: ?person
 #    ->
-#(maintainGoal {@self ASK ?question ?person}).
+#(maintain_goal {@self ASK ?question ?person}).
 

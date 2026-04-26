@@ -5,7 +5,7 @@ rule write-doc-action-proposal
 {?hypDoc isa [k document]:?docKind}
 {?hypDoc writings ?writings}
     ->
-(maintainProposal {@self WRITE_DOC ?docKind ?writings}).
+(maintain_proposal {@self WRITE_DOC ?docKind ?writings}).
 
 
 # Base the activity's outcome on the corresponding action's outcome
@@ -15,7 +15,7 @@ rule write-doc-outcome
 #(o /only /known (caused_by_des ?WRITE_DOC)): ?defDoc
 (o /known (caused_by_des ?WRITE_DOC)): ?defDoc
     ->
-(setOutcome ?writeHypDoc (outcome ?WRITE_DOC))
+(set_outcome ?writeHypDoc (outcome ?WRITE_DOC))
 # Replace "I wrote the hypothetical doc" with "I wrote the definite doc".
 # NOTE that we are allowed to do this using (edit...) because the task we are 
 # editing happened in the PAST, so does not need to be proposed.

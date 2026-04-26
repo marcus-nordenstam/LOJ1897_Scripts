@@ -21,7 +21,7 @@ rule identify-person-go-to-workplace-by-job-kind
 (in @self /not ?workplace)
     ->
 # then go there.
-(maintainProposal {@self go_entity ?workplace}).
+(maintain_proposal {@self go_entity ?workplace}).
 
 rule identify-person-ask-if-has-job-at-org
 # If I'm trying to identify a person
@@ -43,7 +43,7 @@ rule identify-person-ask-if-has-job-at-org
     ->
 # then I want to know if they have that specific kind of job at the company
 '(real /truth ?jobKind {?realPerson job @o} {@o at (o /known ?orgName)}): ?if_you_have_job_at_org
-(maintainGoal {@self know ?if_you_have_job_at_org} (rel_util 1)).
+(maintain_goal {@self know ?if_you_have_job_at_org} (rel_util 1)).
 
 
 /*

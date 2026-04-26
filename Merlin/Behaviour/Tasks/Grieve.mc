@@ -4,7 +4,7 @@
 rule grieve-bury-face-proposal
 {@self grieve}
     ->
-(maintainProposal {@self RIGHT_ARM_BURY_FACE})
-(maintainProposal {@self LEFT_ARM_BURY_FACE})
-(maintainProposal {@self HANG_HEAD})
-(maintainProposal {@self CRY_EXPR}).
+(maintain_proposal {@self RIGHT_ARM_BURY_FACE})
+(maintain_proposal {@self LEFT_ARM_BURY_FACE})
+(maintain_proposal {@self HANG_HEAD})
+(maintain_proposal {@self CRY_EXPR}).

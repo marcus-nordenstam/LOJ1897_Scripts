@@ -6,7 +6,7 @@ rule stack-read-browse-proposal
 {@self stack_read ?stack}
 {?stack isa [k object stack]}
     ->
-(maintainProposal {@self stack_browse ?stack}).
+(maintain_proposal {@self stack_browse ?stack}).
 
 
 # If we are viewing a doc but have not read it, then read it
@@ -17,7 +17,7 @@ rule stack-read-read-viewed-doc-proposal
 {@self view ?doc}
     ->
 # then try to read it
-(maintainProposal {@self read ?doc}).
+(maintain_proposal {@self read ?doc}).
 
 
 # If we are still viewing a doc that we have read, 
@@ -33,7 +33,7 @@ rule stack-read-put-done-doc-proposal
 {@self /succ read ?doc}
     ->
 # then try to dispose of it
-(maintainProposal {@self stack_put ?doc ?done_stack}).
+(maintain_proposal {@self stack_put ?doc ?done_stack}).
 
 
 # If the stack is empty, end the activity /succ
@@ -43,7 +43,7 @@ rule stack-read-outcome-empty-succ
 {?stack top @nothing}
 (none {@self view ?})
     ->
-(setOutcome ?stack_read /succ).
+(set_outcome ?stack_read /succ).
 
 
 rule stack-read-cleanup-read-doc-to-done-stack
@@ -54,7 +54,7 @@ rule stack-read-cleanup-read-doc-to-done-stack
 {@self /ever /succ READ ?doc}
 (none {@self stack_read ?stack})
     ->
-(maintainProposal {@self stack_put ?doc ?done_stack}).
+(maintain_proposal {@self stack_put ?doc ?done_stack}).
 
 
 rule stack-read-cleanup-unread-doc-to-source-stack
@@ -64,4 +64,4 @@ rule stack-read-cleanup-unread-doc-to-source-stack
 (none {@self /ever /succ READ ?doc})
 (none {@self stack_read ?stack})
     ->
-(maintainProposal {@self stack_put ?doc ?stack}).
+(maintain_proposal {@self stack_put ?doc ?stack}).
