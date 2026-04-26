@@ -14,7 +14,7 @@ attr "obb"              obb                                     /spatial_bounds 
 attr "spatial_relation" str                                                 /obs /auto_percept
 # Parent relationships are kept in the ECS for efficiency (technically redundant with parts)
 attr "struct_parent"    entity "structure"|"structure_part"|"part"|"space"|"hand"|"human_player"|"human_npc"    /parent /obs /state_flags_tar @excl
-attr "parts"            entity [] /state "part"                 /children   /obs
+attr "parts"            entity [12] /state "part"                /children   /obs
 # (Spatial containment is resolved on-demand by the `in` rule function via
 # Environment::contains(container, subject) — per-pair cached per cycle. No
 # backing attr is maintained. Rules query with (in ?subject ?container).)
@@ -23,7 +23,7 @@ attr "parts"            entity [] /state "part"                 /children   /obs
 # The entity currently controlling the position of this entity (if any)
 attr "controlled_by"    entity                                  /controlled_by   /imperceptible
 # What this entity controls (stowed or held items)
-attr "control"          entity []                               /control    /obs /auto_percept
+attr "control"          entity [12]                             /control    /obs /auto_percept
 # Which stack this entity is in, if any. If not in a stack, set to @nothing.
 attr "in_stack"         entity "stack"                          /in_stack    /obs
 

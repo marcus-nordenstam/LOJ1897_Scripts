@@ -1,5 +1,13 @@
 IMPROVEMENTS
 
+
+Consider the public bb to be abs-symbol based instead of entity-based, so mirroring how private bb's work
+except they're in the abs-mind and use abs-symbols.  Then both objects AND beliefs can be externalized and
+public bb's can be hung on them, and inter-NPC syncing and broadcasting is possible since NPCs can all see
+the Merlin env's abs-mind blackboard.
+
+
+
 Rigourously define: cell-overlap.  
    Used by (overlaps), but also check how the mx_cell/worlspace mapping work w.r.t that
    Should talking distance be based on cell coords or worldspace coords? pros and cons
