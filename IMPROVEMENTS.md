@@ -22,7 +22,6 @@ patron:
   bartender should use this cell to place the beer
 
 bartender:
-  claim a cell behind the bar near the customer
   - if reuse is given, and the NPC already has a currently claimed cell that matches the criteria, do nothing
 
 fix it so they face each other when speaking

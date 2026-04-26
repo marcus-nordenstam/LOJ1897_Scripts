@@ -3,14 +3,14 @@
 # Starting a conversation with someone
 {@self goal {@self conversation ?irr_conv}}
 {?irr_conv participant !@self:?person}
-(bb_clear_on_fail (bb_try_write_new @self talking_to ?person)
-                  (bb_try_write_new ?person talking_to @self))
+(bb_clear_on_fail (bb_public_try_write_new @self talking_to ?person)
+                  (bb_public_try_write_new ?person talking_to @self))
     ->
 (realise ?irr_conv): ?realis_conv
 (beginBelief {@self conversation ?realis_conv}).
 
 # Realizing that someone is starting a conversation with your
-(bb_read @self talking_to): ?person
+(bb_public_read @self talking_to): ?person
 (none {@self conversation.participant ?person})
 
 
@@ -18,29 +18,29 @@
 # So rules need to check that a TELL succeeded in their reasoning
 #
 
-#   Introduce a new function: bb_maintain which can be used to register slots that time out if not maintained after 
+#   Introduce a new function: bb_public_maintain which can be used to register slots that time out if not maintained after 
 #   some time.  We can use this to represent that someone "has something to say" to someone else.
-#       (bb_maintain @self wants_to_talk_to ?person 3) - for the next 3 seconds, I have something to say
-#   if the bb_maintain function doesn't re-maintain/update that slot for 3 seconds, it automatically gets cleared.
+#       (bb_public_maintain @self wants_to_talk_to ?person 3) - for the next 3 seconds, I have something to say
+#   if the bb_public_maintain function doesn't re-maintain/update that slot for 3 seconds, it automatically gets cleared.
 #
 #   The player-tell action handler would keep calling the mx_* version of that function to update 
 #   (?player wants_to_talk_to ?npc) while the player is in dialogue mode, but regular npcs achieve it through their
 #   tell/ask and dialogue rules it as part of their talking behaviour rules, so that conversations don't instantly die
 #   in-between TELL and ASK actions.
 #
-#   When any slot is written into a blackboard (by any code-path, bb_write, bb_maintain, or mx_* or whatever), all
+#   When any slot is written into a blackboard (by any code-path, bb_public_write, bb_public_maintain, or mx_* or whatever), all
 #   involved entities must be notified and keep a little list of entities who currently have slots in their blackboards
 #   that involve me.  
 #
-#   Then we can efficiently implement (bb_any...) which can use wildcards, as follows: (bb_any ? wants_to_talk_to @self)
+#   Then we can efficiently implement (bb_public_any...) which can use wildcards, as follows: (bb_public_any ? wants_to_talk_to @self)
 # - which returns true if ANYONE wants to talk to me.  It can be efficient becase each entity has a list of which 
 #   entities are reffing me through a bb-slot.  Suppose there are 10,000 entities in the game but only 3 currently ref me
-#   through a bb-slot, then to implement a wildcard in (bb_any...), I can just check those 3 entities' blackboards to 
+#   through a bb-slot, then to implement a wildcard in (bb_public_any...), I can just check those 3 entities' blackboards to 
 #   see if the slot-label and value matches.  
 
 # Armed with these things, we can now easily implement the following behaviour:
 # * In order to TELL or ASK, you must be within 2-cell band of the person you're talking to
-# * If you want to TELL or ASK someone anything, do (bb_maintain @self wants_to_talk_to ?person 3)
+# * If you want to TELL or ASK someone anything, do (bb_public_maintain @self wants_to_talk_to ?person 3)
 # * If you want to TELL or ASK someone anything, you must keep an updated claim a cell adjacent to the 
 #   recipient and be in it, in order to say.
 # * If you know that one or more people want to talk to you, claim the closest possible cell near you 
@@ -54,7 +54,7 @@
 # ISSUES
 
 # When an entity is destroyed, all claims for it should be cleared in the c++ cleanup code.
-# (bb_none should allow 3 args, if the third is a non-wildcard, it must be used to match the value)
+# (bb_public_none should allow 3 args, if the third is a non-wildcard, it must be used to match the value)
 
 
 
@@ -68,12 +68,12 @@ rule want-to-talk-tell
 (lockRule talk) # we may have goals to talk to many, but only execute one talk at a time
     ->
 # maintain pressure on the signal
-(bb_maintain @self try_to_talk_to ?person 3)
+(bb_public_maintain @self try_to_talk_to ?person 3)
 # handle a moving target
-(bb_read @self talk_cell) = ?old_cell
+(bb_public_read @self talk_cell) = ?old_cell
 (if (neq ?old_cell ?talk_cell) (unclaim_env_cell ?old_cell))  # (unclaim...) should just no-op if the arg is not a cell at all, such as @fail
 # keep track of the most up-to-date talk-cell
-(bb_write @self talk_cell ?talk_cell)
+(bb_public_write @self talk_cell ?talk_cell)
 (maintainAttention ?person).
 
 rule want-to-talk-ask
@@ -83,28 +83,28 @@ rule want-to-talk-ask
 (lockRule talk) # we may have goals to talk to many, but only execute one talk at a time
     ->
 # maintain pressure on the signal
-(bb_maintain @self try_to_talk_to ?person 3)
+(bb_public_maintain @self try_to_talk_to ?person 3)
 # handle a moving target
-(bb_read @self talk_cell) = ?old_cell
+(bb_public_read @self talk_cell) = ?old_cell
 (if (neq ?old_cell ?talk_cell) (unclaim_env_cell ?old_cell))  # (unclaim...) should just no-op if the arg is not a cell at all, such as @fail
 # keep track of the most up-to-date talk-cell
-(bb_write @self talk_cell ?talk_cell)
+(bb_public_write @self talk_cell ?talk_cell)
 (maintainAttention ?person).
 
 
 # Someone wants to talk to me: claim my current cell or somewhere very close by
 rule talk-recipient-claim
-(bb_any ? try_to_talk_to @self)
-(bb_none @self talk_cell)
+(bb_public_any ? try_to_talk_to @self)
+(bb_public_none @self talk_cell)
 (claim_env_cell /reuse /at_or_near @self): ?talk_cell # /at_or_near means accept cells occupied by intended-occupier 
     ->
-(bb_write @self talk_cell ?talk_cell).
+(bb_public_write @self talk_cell ?talk_cell).
 
 
 # If I have a talk-cell, then stay in it 
 # (regardless if I'm trying to talk, or someone is talking to me)
 rule talk-stay-in-cell
-(bb_read @self talk_cell): ?talk_cell
+(bb_public_read @self talk_cell): ?talk_cell
 (overlaps ?talk_cell /not @self)
     ->
 (maintainProposal {@self go_cell ?talk_cell} /absUtil 1000).
@@ -113,12 +113,12 @@ rule talk-stay-in-cell
 # Release cell when I am no longer trying to talk to anyone AND
 # nobody is trying to talk to me
 rule talk-release-cell
-(bb_read @self talk_cell): ?talk_cell
-(bb_none ? try_to_talk_to @self)
-(bb_none @self try_to_talk_to ?)
+(bb_public_read @self talk_cell): ?talk_cell
+(bb_public_none ? try_to_talk_to @self)
+(bb_public_none @self try_to_talk_to ?)
     ->
 (unclaim_env_cell ?talk_cell)
-(bb_clear @self talk_cell).
+(bb_public_clear @self talk_cell).
 
 
 # --- TELL/ASK EXECUTION ---
@@ -126,14 +126,14 @@ rule talk-release-cell
 # Propose TELL when in range and in my claimed cell
 rule TELL-propose
 {@self goal {@self TELL ?msg ?person}}
-(bb_read @self talk_cell)
+(bb_public_read @self talk_cell)
 (in_range /talk @self ?person)
     ->
 (beginProposal {@self TELL ?msg ?person}).
 
 rule ASK-propose
 {@self goal {@self ASK ?question ?person}}
-(bb_read @self talk_cell)
+(bb_public_read @self talk_cell)
 (in_range /talk @self ?person)
     ->
 (beginProposal {@self ASK ?question ?person}).

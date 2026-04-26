@@ -1,7 +1,7 @@
 
-# Talk.mc — Proximity-based TELL/ASK with bb_maintain coordination.
+# Talk.mc — Proximity-based TELL/ASK with bb_public_maintain coordination.
 #
-# Conversations arise naturally from the interplay of bb_maintain signals and cell claims:
+# Conversations arise naturally from the interplay of bb_public_maintain signals and cell claims:
 #   - If you want to TELL/ASK someone, maintain a signal and claim a cell near them.
 #   - If someone signals they want to talk to you, claim your current cell and stay put.
 #   - If neither party maintains the signal for 3 seconds, everything auto-releases.
@@ -11,11 +11,11 @@
 # physical act of speaking.
 
 # copy <override_talk_cell ?old_cell ?new_cell ?person>
-#    (bb_read @self talk_cell) = ?old_cell
+#    (bb_public_read @self talk_cell) = ?old_cell
 #    (if (neq ?old_cell ?preempted_talk_cell) (unclaim_env_cell ?old_cell))
-#    (bb_maintain @self try_to_talk_to ?person 30)
-#    (bb_write @self talk_cell ?preempted_talk_cell)
-#    (bb_clear @self preempted_talk_cell)
+#    (bb_public_maintain @self try_to_talk_to ?person 30)
+#    (bb_public_write @self talk_cell ?preempted_talk_cell)
+#    (bb_public_clear @self preempted_talk_cell)
 #    (maintainAttention ?person).
 
 
@@ -60,29 +60,29 @@ rule talk-to-goal
 rule talk-signal-try-to-talk
 {@self goal {@self talk_to ?person}}
     ->
-(bb_maintain @self try_to_talk_to ?person 10).
+(bb_public_maintain @self try_to_talk_to ?person 10).
 
 # If someone wants to talk to me and I am unprepared to talk to (e.g. I don't have a talk-cell for them)
 # then claim a talk cell near their talk cell so we can talk
 rule talk-recipient-claim-talk-cell
-(bb_any ? try_to_talk_to @self /output_subject): ?person
-(bb_none @self talk_cell)
-(bb_read ?person talk_cell): ?their_talk_cell
+(bb_public_any ? try_to_talk_to @self /output_subject): ?person
+(bb_public_none @self talk_cell)
+(bb_public_read ?person talk_cell): ?their_talk_cell
 (claim_env_cell /in_talk_range ?their_talk_cell): ?my_talk_cell
     ->
 (beginGoal {@self talk_to ?person})
-(bb_write @self talk_cell ?my_talk_cell)
+(bb_public_write @self talk_cell ?my_talk_cell)
 (maintainAttention ?person).
 
 # The rule that sets the goal to talk typically will also
 # set the talk-cell, but if not, this is the general catch-call
 rule talk-claim-talk-cell
 {@self goal {@self talk_to ?person}}
-(bb_none @self talk_cell)
+(bb_public_none @self talk_cell)
 (claim_env_cell /in_talk_range ?person): ?talk_cell
 (lockRule talk 0)
     ->
-(bb_write @self talk_cell ?talk_cell)
+(bb_public_write @self talk_cell ?talk_cell)
 (maintainAttention ?person).
 
 # ------------------------------------------------------------------------------------------------
@@ -92,7 +92,7 @@ rule talk-claim-talk-cell
 # If I have a talk-cell and I'm not in it, go to it
 rule talk-go-to-talk-cell
 {@self goal {@self talk_to}}
-(bb_read @self talk_cell): ?talk_cell
+(bb_public_read @self talk_cell): ?talk_cell
 (at /not ?talk_cell)
     ->
 # Intentionally higher utility than TURN_TO below, so the NPC
@@ -102,7 +102,7 @@ rule talk-go-to-talk-cell
 # If I have a talk-cell and I'm in it, stay there and face the person you're talking to
 rule talk-face-person-talking-to-me
 {@self goal {@self talk_to ?person}}
-(bb_read @self talk_cell): ?talk_cell
+(bb_public_read @self talk_cell): ?talk_cell
 (overlaps ?talk_cell @self)
     ->
 (maintainProposal {@self keep_looking_at_part ?person eyes} /absUtil 1000)
@@ -112,7 +112,7 @@ rule talk-face-person-talking-to-me
 # stay there and face the person you're talking to
 rule talk-tell-or-ask-proposal
 {@self goal {@self TELL|ASK ?msg ?person}:?talk_action}
-(bb_read @self talk_cell): ?talk_cell
+(bb_public_read @self talk_cell): ?talk_cell
 (overlaps ?talk_cell @self)
     ->
 (beginProposal ?talk_action).
@@ -124,12 +124,12 @@ rule talk-tell-or-ask-proposal
 # Release cell when I am no longer trying to talk to anyone AND
 # nobody is trying to talk to me
 rule talk-release-cell
-(bb_read @self talk_cell): ?talk_cell
+(bb_public_read @self talk_cell): ?talk_cell
 (none {@self goal {@self talk_to}})
-(bb_none ? try_to_talk_to @self)
+(bb_public_none ? try_to_talk_to @self)
     ->
 (unclaim_env_cell ?talk_cell)
-(bb_clear @self talk_cell).
+(bb_public_clear @self talk_cell).
 
 # ------------------------------------------------------------------------------------------------
 # OUTCOMES

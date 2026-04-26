@@ -15,7 +15,7 @@ rule go-entity-walk-to-proposal
 {@self go_entity ?dest}
 {?dest obb !@unknown:?obb}
     ->
-(bb_write @self go_count 1)
+(bb_public_write @self go_count 1)
 (maintainProposal {@self WALK_TO ?obb}).
 
 rule go-entity-walk-to-retry
@@ -24,8 +24,8 @@ rule go-entity-walk-to-retry
 {@self WALK_TO ?obb /fail /causes ~?go}
 (wait /cycles 120)
     ->
-(bb_read @self go_count): ?go_count
-(bb_write @self go_count (add ?go_count 1))
+(bb_public_read @self go_count): ?go_count
+(bb_public_write @self go_count (add ?go_count 1))
 (if (lt ?go_count 10)
     (maintainProposal {@self WALK_TO ?obb})
     (setOutcome ?go /fail)).
@@ -55,8 +55,8 @@ rule go-env-cell-walk-to-retry
 {@self WALK_TO ?env_cell /fail /causes ~?go}
 (wait /cycles 120)
     ->
-(bb_read @self go_count): ?go_count
-(bb_write @self go_count (add ?go_count 1))
+(bb_public_read @self go_count): ?go_count
+(bb_public_write @self go_count (add ?go_count 1))
 (if (lt ?go_count 10)
     (maintainProposal {@self WALK_TO ?env_cell})
     (setOutcome ?go /fail)).

@@ -66,6 +66,10 @@ npc.beliefIdsByLabel.pool           =   4       4       8
 npc.spatialBounds.pool              =   1000    128     32
 npc.float4.pool                     =   1000    64      16
 
+# Private blackboard pools (per-mind, one bb per active pattern/object that uses it)
+npc.private_bb.pool                 =   1024    128     64
+npc.private_bb_entries.pool         =   1024    128     64
+
 # EPS pools
 npc.wm.pool                         =   4096    256     128
 npc.wmeArray.pool                   =   1024    256     128

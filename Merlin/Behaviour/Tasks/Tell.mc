@@ -32,7 +32,7 @@ rule conv-TELL-todo
 
 rule TELL-proposal
 {@self goal {@self TELL ?msg ?audience}}
-#(bb_read @self conv_env_cell): ?conv_env_cell
+#(bb_public_read @self conv_env_cell): ?conv_env_cell
 #(overlaps ?conv_env_cell @self 0.8)
 #{@self within_reach_of ?audience}
 #{@self facing ?audience}
