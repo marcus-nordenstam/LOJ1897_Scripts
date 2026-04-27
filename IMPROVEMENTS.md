@@ -33,11 +33,17 @@ if you're holding a drinking glass which controls nothing
 then claim a spot on the bar-counter near me and put it there
 UNGRASP
 
-put:
-  REACH_FOR the unoccupied cell
-  PLACE ?entity ?cell
-
-implement put
+put task:
+  -the inverse of the Take task
+  -no longer need a PUT action - instead we compose it with REACH_FOR and UNGRASP (the new action)
+  -ensure there's nothing important PUT used to do that we are missing below:
+  claim a cell and write it to my private bb as put_cell
+  REACH_FOR ?put_cell
+  when REACH_FOR succeeds:
+  UNGRASP ?controlled_entity
+    makes the controlled_entity root (unparents it from hand)
+    reads the private bb to know which cell it's supposed to go in
+    clears the private bb put_cell
 
 
 /cont = continuous evaluation

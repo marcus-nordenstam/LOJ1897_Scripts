@@ -119,7 +119,8 @@ object //obs
             eye
             mouth    
         structure_part
-            bar_counter
+            counter
+                bar_counter
             wall
             opening
                 window

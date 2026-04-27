@@ -11,12 +11,6 @@ rule pubbing-drink-beer-proposal
     -> /cont-interval 8 2
 (begin_proposal {@self drink ?glass}).
 
-
-#(invent [k task] 
-#        (des act {@self drink ?glass})
-#        (des duration 3))
-
-
 # If I don't, order one
 rule pubbing-order-beer-proposal
 {@self pubbing}
@@ -26,6 +20,20 @@ rule pubbing-order-beer-proposal
     ->
 (begin_proposal {@self order [k beer] ?bartender}).
 
+# If I am holding an empty glass in my hand, put it away
+rule pubbing-put-away-empty-glass-proposal
+{@self pubbing}
+{@self hand ?hand}
+{?hand control [k drinking_glass]:?glass}
+{?glass control @nothing}
+(closest [k counter]|[k table]): ?surface
+    ->
+(begin_proposal {@self put ?glass ?surface}).
+
+
+# -------------------------------------------------------------
+# Ordering a beer
+# -------------------------------------------------------------
 
 # First, find a spot at the bar where you can
 # talk to the bartender
@@ -50,7 +58,6 @@ rule pubbing-order-beer-wait-at-bar
 (bb_public_read @self talk_cell): ?talk_cell
 (overlaps ?talk_cell @self)
     ->
-#(beginBelief {@self expect_question ?bartender /causes ?order})
 (bb_public_write @self wants_drink @true)
 #(maintain_proposal {@self TURN_TO ?bar_counter})
 (maintain_proposal {@self keep_looking_at_part ?bartender eyes}).
@@ -75,10 +82,7 @@ rule pubbing-order-beer-unclaim-spot-at-bar
 {?bartender perform [k bartending] ?pub}
 {@self order [k beer] ?bartender}: ?order
 {@self /succ take ?beer /causes ~?order}
-#(bb_public_read @self talk_cell): ?talk_cell
     ->
-#(unclaim_env_cell ?talk_cell)
-#(bb_public_clear @self talk_cell)
 (bb_public_clear @self drinking_glass_cell)
 (bb_public_clear @self wants_drink)
 (set_outcome ?order /succ).

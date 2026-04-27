@@ -19,6 +19,7 @@ rule import-resource-tasks
 (import "Receive")
 (import "Get")
 (import "Take")
+(import "Put")
 (import "BuyBuilding").
 
 

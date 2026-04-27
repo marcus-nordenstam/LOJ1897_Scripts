@@ -59,7 +59,8 @@ relation
             receive             /motor right_hand            /tar @excl object
 
             get                 /motor legs right_hand       /tar @excl object
-            take                /motor left_hand right_hand      /tar @excl object
+            take                /motor left_hand right_hand  /tar @excl object
+            put                 /motor left_hand right_hand  /tar @excl object
 
             read                /motor eyes right_hand       /tar @excl document
             write               /motor eyes right_hand legs  /tar @excl document

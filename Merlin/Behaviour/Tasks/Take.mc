@@ -64,12 +64,12 @@ rule take-right-outcome
 rule left-hand-control-LEFT_ARM_OUT-proposal
 {@self hand [k left_hand]:?hand}
 {?hand control @something}
-    ->
+    -> /cont
 (maintain_proposal {@self LEFT_ARM_OUT}).
 
 rule right-hand-control-RIGHT_ARM_OUT-proposal
 {@self hand [k right_hand]:?hand}
 {?hand control @something}
-    ->
+    -> /cont
 (maintain_proposal {@self RIGHT_ARM_OUT}).
 

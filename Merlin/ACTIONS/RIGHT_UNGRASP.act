@@ -1,0 +1,8 @@
+action = RIGHT_UNGRASP
+motor = right_hand
+transmission = obs
+
+preroll = 0.0
+in      = 0.0
+run     = 0
+out     = 0.1
