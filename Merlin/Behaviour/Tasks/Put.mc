@@ -52,11 +52,15 @@ rule put-right-reach-for-proposal
 # Phase 3 (left): once the reach has succeeded, ungrasp. The put_cell is
 # passed as the action's auxiliary so the C++ handler positions ?thing at
 # the cell the rule reasoned about (not at the hand's instantaneous pose).
+# bb_private_read binds ?put_cell FIRST so the LEFT_REACH_FOR pattern is
+# constrained to the put_cell - otherwise the pattern would match any
+# successful reach the actor has ever done (e.g. an earlier umbrella reach)
+# and ?put_cell would be bound to that wrong target.
 rule put-left-ungrasp-proposal
 {@self put ?thing ?surface}: ?put
+{@self LEFT_REACH_FOR ?put_cell /succ /causes ~?put}
 {@self hand [k left_hand]:?hand}
 {?hand control ?thing}
-{@self LEFT_REACH_FOR ?put_cell /succ}
 (bb_private_read ?put put_cell)
     ->
 (begin_proposal {@self LEFT_UNGRASP ?thing ?put_cell} (des abs_util 2000)).
@@ -64,9 +68,9 @@ rule put-left-ungrasp-proposal
 # Phase 3 (right): symmetric.
 rule put-right-ungrasp-proposal
 {@self put ?thing ?surface}: ?put
+{@self RIGHT_REACH_FOR ?put_cell /succ /causes ~?put}
 {@self hand [k right_hand]:?hand}
 {?hand control ?thing}
-{@self RIGHT_REACH_FOR ?put_cell /succ}
 (bb_private_read ?put put_cell)
     ->
 (begin_proposal {@self RIGHT_UNGRASP ?thing ?put_cell} (des abs_util 2000)).
@@ -76,6 +80,8 @@ rule put-left-outcome
 {@self /ever put ?thing ?surface /noOut}: ?put
 {@self /past LEFT_UNGRASP ?thing ? /causes ~?put /out?}: ?UNGRASP
     ->
+(unclaim_env_cell (bb_private_read ?put put_cell))
+(bb_private_clear ?put put_cell)
 (set_outcome ?put (outcome ?UNGRASP)).
 
 # Outcome (right): symmetric.
@@ -83,15 +89,6 @@ rule put-right-outcome
 {@self /ever put ?thing ?surface /noOut}: ?put
 {@self /past RIGHT_UNGRASP ?thing ? /causes ~?put /out?}: ?UNGRASP
     ->
+(unclaim_env_cell (bb_private_read ?put put_cell))
+(bb_private_clear ?put put_cell)
 (set_outcome ?put (outcome ?UNGRASP)).
-
-# Cleanup: once the put task has an outcome (from anywhere - our outcome
-# rules above OR an external interrupt), release the claim and clear the
-# private bb. After UNGRASP succeeds, ?thing occupies the cell via env
-# auto-occupancy, so the actor's claim is no longer needed.
-rule put-release-cell
-{@self /past put ? ? /out?}: ?put
-(bb_private_read ?put put_cell): ?put_cell
-    ->
-(unclaim_env_cell ?put_cell)
-(bb_private_clear ?put put_cell).
