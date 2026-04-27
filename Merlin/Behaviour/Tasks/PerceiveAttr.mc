@@ -7,7 +7,7 @@
 rule perceive-attr-keep-near-and-facing-proposal
 {@self perceive_attr ?thing ?attr}: ?perceive_attr
     ->
-(maintain_proposal {@self keep_near_and_facing ?thing} (abs_util 1000)).
+(maintain_proposal {@self keep_near_and_facing ?thing} (des abs_util 1000)).
 
 
 # If you are close enough, and you have perceived the object, then

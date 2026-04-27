@@ -1,4 +1,4 @@
-action = ASK
+﻿action = ASK
 motor = mouth
 transmission = listen
 uninterruptable = true
@@ -9,4 +9,8 @@ aux = @msgAudience
 proc_anim = tell
 alias = TELL
 state = telling
-base_speed = 0.8
+
+preroll = 0.0
+in      = 0.1
+run     = ?
+out     = 0.1

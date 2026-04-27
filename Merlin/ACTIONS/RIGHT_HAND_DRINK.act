@@ -1,7 +1,11 @@
-action = RIGHT_HAND_DRINK
+﻿action = RIGHT_HAND_DRINK
 motor = right_hand
 transmission = obs
 
 anim = right_drink
 anim_flags = loop reset
-base_speed = 0.5
+
+preroll = 0.0
+in      = 0.6
+run     = 1.0
+out     = 0.9

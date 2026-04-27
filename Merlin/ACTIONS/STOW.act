@@ -1,5 +1,8 @@
-action = STOW
+﻿action = STOW
 motor = mind
 transmission = obs
 
-base_speed = 4
+preroll = 0.0
+in      = 0.4
+run     = 0.6
+out     = 0.4

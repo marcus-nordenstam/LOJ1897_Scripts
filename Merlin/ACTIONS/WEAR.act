@@ -1,3 +1,8 @@
-action = WEAR
+﻿action = WEAR
 motor = right_hand
 transmission = obs
+
+preroll = 0.0
+in      = 0.4
+run     = 0.6
+out     = 0.4

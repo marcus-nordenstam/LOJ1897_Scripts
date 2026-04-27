@@ -1,6 +1,10 @@
-action = BLINK
+﻿action = BLINK
 motor = eyelid
 transmission = obs
 
 proc_anim = blink
-base_speed = 2.0
+
+preroll = 0.0
+in      = 0.0
+run     = 0.3
+out     = 0.0

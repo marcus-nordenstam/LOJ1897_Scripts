@@ -12,8 +12,8 @@ rule write-doc-action-proposal
 rule write-doc-outcome
 {@self /ever write ?hypDoc /noOut}: ?writeHypDoc
 {@self /past WRITE_DOC ? ? /causes ~?writeHypDoc}: ?WRITE_DOC
-#(o /only /known (caused_by_des ?WRITE_DOC)): ?defDoc
-(o /known (caused_by_des ?WRITE_DOC)): ?defDoc
+#(o /only /known (des caused_by ?WRITE_DOC)): ?defDoc
+(o /known (des caused_by ?WRITE_DOC)): ?defDoc
     ->
 (set_outcome ?writeHypDoc (outcome ?WRITE_DOC))
 # Replace "I wrote the hypothetical doc" with "I wrote the definite doc".

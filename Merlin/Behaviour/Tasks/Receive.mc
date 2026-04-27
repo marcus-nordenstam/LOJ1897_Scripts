@@ -6,7 +6,7 @@
 rule receive-maintain-within-reach-of-proposal
 {@self receive ?thing ?giver}
     ->
-(maintain_proposal {@self keep_near_and_facing ?giver} (abs_util 1000)).
+(maintain_proposal {@self keep_near_and_facing ?giver} (des abs_util 1000)).
 
 
 rule receive-take-proposal

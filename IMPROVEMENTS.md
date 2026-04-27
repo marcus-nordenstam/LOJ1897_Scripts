@@ -29,6 +29,14 @@ when fluid level = 0, the beer controlled by the glass is destroyed
 if fluid level = 0, put on the nearest counter or table top
 
 
+if you're holding a drinking glass which controls nothing
+then claim a spot on the bar-counter near me and put it there
+UNGRASP
+
+put:
+  REACH_FOR the unoccupied cell
+  PLACE ?entity ?cell
+
 implement put
 
 

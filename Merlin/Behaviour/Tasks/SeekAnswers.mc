@@ -8,4 +8,4 @@ rule seek-answers-ask-unknowns
 (if (empty ?unknowns)
     [ (set_outcome ?seek_answers /succ)   (print [TASK DONE (nl ?seek_answers)]) ] 
 # else
-    (maintain_goals ?unknowns {@self know @litem} (rel_util (mul @lindex 0.1)))).
+    (maintain_goals ?unknowns {@self know @litem} (des rel_util (mul @lindex 0.1)))).

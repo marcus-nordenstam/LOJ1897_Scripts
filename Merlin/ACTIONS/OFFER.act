@@ -1,3 +1,8 @@
-action = OFFER
+﻿action = OFFER
 motor = right_hand
 transmission = obs
+
+preroll = 0.0
+in      = 0.3
+run     = ?
+out     = 0.3

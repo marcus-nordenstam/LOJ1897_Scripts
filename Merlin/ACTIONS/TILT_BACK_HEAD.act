@@ -1,7 +1,11 @@
-action = TILT_BACK_HEAD
+﻿action = TILT_BACK_HEAD
 motor = head
 transmission = obs
 
 anim = right_drink
 anim_flags = loop reset
-base_speed = 0.5
+
+preroll = 0.0
+in      = 0.3
+run     = ?
+out     = 0.7

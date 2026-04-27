@@ -17,7 +17,7 @@ rule use_umbrella-propose-take
 {?hand control @nothing}
     ->
 # take task will reach for and grasp the umbrella
-(maintain_proposal {@self take ?umbrella} (abs_util 100)).
+(maintain_proposal {@self take ?umbrella} (des abs_util 100)).
 
 # Keep arm bent while holding umbrella
 #rule use_umbrella-RIGHT_ARM_OUT

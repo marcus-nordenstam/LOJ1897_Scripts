@@ -1,4 +1,4 @@
-﻿action = ACQUIRE
+﻿action = INGEST
 motor = mind
 
 preroll = 0.0

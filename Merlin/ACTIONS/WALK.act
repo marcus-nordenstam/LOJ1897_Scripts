@@ -1,4 +1,4 @@
-action = WALK
+﻿action = WALK
 motor = legs
 transmission = obs
 
@@ -6,7 +6,10 @@ anim.female = Motion_Fem_Walk_Normal_01
 anim.male = Motion_Male_Walk_Normal_01
 anim_flags = loop reset
 state = walking
-base_speed = 1.0
 movement_speed = 0.1
 nav_turn_speed = 8.0
-player_transition_speed = 8.0
+
+preroll = 0
+in      = 0
+run     = ?
+out     = 0.1

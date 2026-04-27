@@ -1,4 +1,4 @@
-action = RUN
+﻿action = RUN
 motor = legs
 transmission = obs
 
@@ -6,6 +6,10 @@ anim.female = Motion_Fem_Run_01
 anim.male = Motion_Male_Run_01_
 anim_flags = loop reset
 state = running
-base_speed = 1.0
 movement_speed = 0.5
 nav_turn_speed = 10.0
+
+preroll = 0
+in      = 0
+run     = ?
+out     = 0

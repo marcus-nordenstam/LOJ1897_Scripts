@@ -107,7 +107,7 @@ rule talk-stay-in-cell
 (bb_public_read @self talk_cell): ?talk_cell
 (overlaps ?talk_cell /not @self)
     ->
-(maintain_proposal {@self go_cell ?talk_cell} (abs_util 1000)).
+(maintain_proposal {@self go_cell ?talk_cell} (des abs_util 1000)).
 
 
 # Release cell when I am no longer trying to talk to anyone AND
@@ -179,8 +179,8 @@ rule start-conv-maintain-closeAndFacing-proposal
 {@self start_conv ?conv}
 {?conv participant !@self:?person}
     ->
-(maintain_proposal {@self keep_near_and_facing ?person} (abs_util 1000))
-(maintain_proposal {@self keep_looking_at_part ?person eyes} (abs_util 1000)).
+(maintain_proposal {@self keep_near_and_facing ?person} (des abs_util 1000))
+(maintain_proposal {@self keep_looking_at_part ?person eyes} (des abs_util 1000)).
 
 
 rule start-conv-tell-how_do-proposal
@@ -232,8 +232,8 @@ rule realise-conv
 # and leads to ?irrConv being forgotten
 (reconcile ?irrConv ?reaConv)
 # While this real conversation is occurring, keep close and personal with the participant
-(maintain_proposal {@self keep_near_and_facing ?person} (abs_util 1000)): ?keep_near_and_facing
-(maintain_proposal {@self keep_looking_at_part ?person eyes} (abs_util 1000)): ?keep_looking_at_part
+(maintain_proposal {@self keep_near_and_facing ?person} (des abs_util 1000)): ?keep_near_and_facing
+(maintain_proposal {@self keep_looking_at_part ?person eyes} (des abs_util 1000)): ?keep_looking_at_part
 (add_causes ?keep_near_and_facing ?causes)
 (add_causes ?keep_looking_at_part ?causes).
 
@@ -318,8 +318,8 @@ rule conv-player_talk-maintain-closeAndFacing-proposal
 {!@self:?person conversation ?conv}
 {?person role player}
     ->
-(maintain_proposal {@self keep_near_and_facing ?person} (abs_util 1000))
-(maintain_proposal {@self keep_looking_at_part ?person eyes} (abs_util 1000)).
+(maintain_proposal {@self keep_near_and_facing ?person} (des abs_util 1000))
+(maintain_proposal {@self keep_looking_at_part ?person eyes} (des abs_util 1000)).
 
 
 # Player presses 'Bye' — the game injects a player_bye formulaic leave-taking.
@@ -332,7 +332,7 @@ rule conv-response-player_bye-proposal
 {?person /succ TELL (formulaic leave_taking player_bye) @self}: ?personTell
 (none {@self /ever end_conv /causes ~?personTell})
     ->
-(begin_proposal {@self end_conv ?conv} (abs_util 1000)): ?proposal
+(begin_proposal {@self end_conv ?conv} (des abs_util 1000)): ?proposal
 (add_causes ?proposal ?personTell).
 
 
@@ -404,7 +404,7 @@ rule end-conv-proposal
 (none {?conv todo})
 #(gt (evalCount) 20 /cont) # how many times this instruction has been evaluated since the rule activated
     ->
-(maintain_proposal {@self end_conv ?conv} (rel_util 100)).
+(maintain_proposal {@self end_conv ?conv} (des rel_util 100)).
 
 
 rule end-conv-tellLeaveTaking-proposal
@@ -413,7 +413,7 @@ rule end-conv-tellLeaveTaking-proposal
     ->
 # "we'll continue this later", "pardon me", "excuse me", "I have to go now", "bye", "see you later", etc.
 (formulaic leave_taking bye): ?leave_taking
-(begin_goal {@self TELL ?leave_taking ?person} (rel_util 100)): ?tellGoal
+(begin_goal {@self TELL ?leave_taking ?person} (des rel_util 100)): ?tellGoal
 (add_causes ?tellGoal ?end_conv).
 
 
@@ -422,7 +422,7 @@ rule end-conv-destroyAfterTell-proposal
 {@self /ever end_conv ?conv}: ?end_conv
 {@self /past TELL ? ? /causes ~?end_conv} # we simply use /past instead of /succ in case it gets interrupted
     ->
-(begin_proposal {@self DESTROY_CONV_META_ENT ?conv} (rel_util 100)).
+(begin_proposal {@self DESTROY_CONV_META_ENT ?conv} (des rel_util 100)).
 
 
 rule end-conv-outcome-succ

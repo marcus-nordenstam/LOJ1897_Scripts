@@ -1,7 +1,11 @@
-action = RIGHT_ARM_OUT
+﻿action = RIGHT_ARM_OUT
 motor = right_arm
 transmission = obs
 
 anim = right_arm_out
 anim_flags = loop reset
-base_speed = 0.3
+
+preroll = 0.0
+in      = 0.4
+run     = ?
+out     = 0.4

@@ -1,7 +1,10 @@
-action = LEFT_REACH_FOR
+﻿action = LEFT_REACH_FOR
 motor = left_arm
 transmission = obs
 
 proc_anim = reachfor
-base_speed = 0.5
-attempt_duration = 5.0
+
+preroll = 0.0
+in      = 0.3
+run     = 5.0
+out     = 0.2

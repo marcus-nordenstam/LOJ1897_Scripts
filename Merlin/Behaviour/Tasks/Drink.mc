@@ -1,25 +1,28 @@
 
 
-
 rule drink-left-ACTION-proposals
 {@self drink ?glass}
 {@self hand [k left_hand]:?hand}
 {?hand control ?glass}
+{?glass control [k fluid]:?fluid}
     ->
 (maintain_proposal {@self LEFT_ARM_DRINK})
 (maintain_proposal {@self LEFT_HAND_DRINK})
-(maintain_proposal {@self OPEN_JAW})
-(maintain_proposal {@self TILT_BACK_HEAD}).
+(maintain_proposal {@self OPEN_JAW}         (des run 0.6) (des in_out 1.0 0.9))
+(maintain_proposal {@self TILT_BACK_HEAD}   (des run 0.3) (des in_out 1.2 0.7) (des preroll 0.3))
+(maintain_proposal {@self INGEST ?fluid}).
 
 rule drink-right-ACTION-proposals
 {@self drink ?glass}
 {@self hand [k right_hand]:?hand}
 {?hand control ?glass}
+{?glass control [k fluid]:?fluid}
     ->
 (maintain_proposal {@self RIGHT_ARM_DRINK})
 (maintain_proposal {@self RIGHT_HAND_DRINK})
-(maintain_proposal {@self OPEN_JAW})
-(maintain_proposal {@self TILT_BACK_HEAD}).
+(maintain_proposal {@self OPEN_JAW}         (des run 0.6) (des in_out 1.0 0.9))
+(maintain_proposal {@self TILT_BACK_HEAD}   (des run 0.3) (des in_out 1.2 0.7) (des preroll 0.3))
+(maintain_proposal {@self INGEST ?fluid}).
 
 rule drink-outcome
 {@self drink ?glass}: ?drink
@@ -28,10 +31,3 @@ rule drink-outcome
 (set_outcome /succ ?drink).
 
 
-# Look at all rules involving left-right hand, now that we have | we can perhaps unify many of them
-
-# Eeach drink task should trigger a new action: INGEST
-#   INGEST may modify the physical state of the actor: hunger, thirst, intoxication
-#   if the entity being ingested is a fluid:
-#       reduce fluid_amount attr on the fluid
-#       if fluid_amount drops to 0, destroy the ingested entity

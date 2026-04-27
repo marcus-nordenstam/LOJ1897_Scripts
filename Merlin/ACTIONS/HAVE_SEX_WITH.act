@@ -1,5 +1,10 @@
-action = HAVE_SEX_WITH
+﻿action = HAVE_SEX_WITH
 motor = legs
 transmission = obs
 sub = human
 tar = human
+
+preroll = 0.0
+in      = 0.5
+run     = 3.0
+out     = 0.5

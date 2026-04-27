@@ -3,7 +3,7 @@ rule stack-put-keep-near-and-facing-proposal
 {@self stack_put ? ?stack}
 {?stack isa [k object stack]}
     ->
-(maintain_proposal {@self keep_near_and_facing ?stack} (abs_util 1000)).
+(maintain_proposal {@self keep_near_and_facing ?stack} (des abs_util 1000)).
 
 
 rule stack-put-get-thing-proposal

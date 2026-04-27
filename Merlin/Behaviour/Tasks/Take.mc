@@ -5,32 +5,32 @@
 # If you're too far away, get closer
 rule take-move-closer
 {@self take ?thing}
-(in_range /reach /not ?thing 0.5 (stay_at_des 0.3) /debug)
+(in_range /reach /not ?thing 0.5 (des stay_at 0.3) /debug)
     ->
-(maintain_proposal {@self go_entity ?thing} (abs_util 2000)).
+(maintain_proposal {@self go_entity ?thing} (des abs_util 2000)).
 
 
 rule take-left-reach-for-proposal
 {@self take ?thing}
 {@self hand [k left_hand]:?hand}
 {?hand control @nothing}
-(in_range /reach ?thing 0.5 (stay_at_des 0.3) /debug)
+(in_range /reach ?thing 0.5 (des stay_at 0.3) /debug)
 (lockRule take 0)
     ->
-(maintain_proposal {@self LOOK_AT ?thing} (abs_util 2000))
-(maintain_proposal {@self TURN_TO ?thing} (abs_util 2000))
-(maintain_proposal {@self LEFT_REACH_FOR ?thing} (abs_util 2000)).
+(maintain_proposal {@self LOOK_AT ?thing} (des abs_util 2000))
+(maintain_proposal {@self TURN_TO ?thing} (des abs_util 2000))
+(maintain_proposal {@self LEFT_REACH_FOR ?thing} (des abs_util 2000)).
 
 rule take-right-reach-for-proposal
 {@self take ?thing}
 {@self hand [k right_hand]:?hand}
 {?hand control @nothing}
-(in_range /reach ?thing 0.5 (stay_at_des 0.3) /debug)
+(in_range /reach ?thing 0.5 (des stay_at 0.3) /debug)
 (lockRule take 1) # prefer right-hand
     ->
-(maintain_proposal {@self LOOK_AT ?thing} (abs_util 2000))
-(maintain_proposal {@self TURN_TO ?thing} (abs_util 2000))
-(maintain_proposal {@self RIGHT_REACH_FOR ?thing} (abs_util 2000)).
+(maintain_proposal {@self LOOK_AT ?thing} (des abs_util 2000))
+(maintain_proposal {@self TURN_TO ?thing} (des abs_util 2000))
+(maintain_proposal {@self RIGHT_REACH_FOR ?thing} (des abs_util 2000)).
 
 # Phase 2: If the reach was successful, propose GRASP (to control it)
 
@@ -38,13 +38,13 @@ rule take-left-grasp-proposal
 {@self take ?thing}
 {@self LEFT_REACH_FOR ?thing /succ}
     ->
-(begin_proposal {@self LEFT_GRASP ?thing} (abs_util 2000)).
+(begin_proposal {@self LEFT_GRASP ?thing} (des abs_util 2000)).
 
 rule take-right-grasp-proposal
 {@self take ?thing}
 {@self RIGHT_REACH_FOR ?thing /succ}
     ->
-(begin_proposal {@self RIGHT_GRASP ?thing} (abs_util 2000)).
+(begin_proposal {@self RIGHT_GRASP ?thing} (des abs_util 2000)).
 
 # Outcome: succeed when the hand controls the thing
 rule take-left-outcome

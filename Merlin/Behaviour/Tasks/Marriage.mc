@@ -50,7 +50,7 @@ rule marry-attention
 {@self marry ?fiancee}
     ->
 (maintainAttention ?fiancee).
-#(maintain_proposal {@self keep_near_and_facing ?fiancee} (abs_util 1000)).
+#(maintain_proposal {@self keep_near_and_facing ?fiancee} (des abs_util 1000)).
 
 
 rule marry-give-wedding-band

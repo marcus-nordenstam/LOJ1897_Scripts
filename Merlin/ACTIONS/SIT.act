@@ -1,8 +1,12 @@
-action = SIT
+﻿action = SIT
 motor = legs
 transmission = obs
 
 anim = Motion_Uni_Sitting_Talking_01
 anim_flags = loop reset
 state = sitting
-base_speed = 1.0
+
+preroll = 0.0
+in      = 0.4
+run     = ?
+out     = 0.4

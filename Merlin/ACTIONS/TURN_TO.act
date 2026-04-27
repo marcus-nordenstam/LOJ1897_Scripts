@@ -1,5 +1,8 @@
-action = TURN_TO
+﻿action = TURN_TO
 motor = legs
 transmission = obs
 
-base_speed = 1.0
+preroll = 0.0
+in      = 0.1
+run     = ?
+out     = 0.1

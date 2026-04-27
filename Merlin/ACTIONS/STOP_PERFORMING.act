@@ -1,3 +1,8 @@
-action = STOP_PERFORMING
+﻿action = STOP_PERFORMING
 motor = mind
 tar = activity
+
+preroll = 0.0
+in      = 0.0
+run     = 0
+out     = 0.0

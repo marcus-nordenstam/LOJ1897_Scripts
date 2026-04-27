@@ -12,7 +12,7 @@ rule startup-go-pubbing
 {@self isa [k human]}
 (none {@self job [k bartender]})
     ->
-(begin_proposal {@self pubbing} (abs_util 10)).
+(begin_proposal {@self pubbing} (des abs_util 10)).
 
 
 # Waypoint behaviour
@@ -34,7 +34,7 @@ rule grieve
     ->
 # Grieving is an emotion-task which should not compete with regular tasks
 # So it should only express itself if there's nothing else going on
-(maintain_proposal {@self grieve} (abs_util -10000)).
+(maintain_proposal {@self grieve} (des abs_util -10000)).
 
 #rule go-to-waypoint
 #{?waypoint isa [k waypoint]}

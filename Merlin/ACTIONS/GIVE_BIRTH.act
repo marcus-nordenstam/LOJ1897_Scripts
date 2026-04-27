@@ -1,3 +1,8 @@
-action = GIVE_BIRTH
+﻿action = GIVE_BIRTH
 motor = legs
 transmission = obs
+
+preroll = 0.0
+in      = 0.5
+run     = 3.0
+out     = 0.5

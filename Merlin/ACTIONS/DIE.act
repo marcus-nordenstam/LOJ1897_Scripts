@@ -1,3 +1,8 @@
-action = DIE
+﻿action = DIE
 motor = legs
 transmission = obs
+
+preroll = 0.0
+in      = 0.2
+run     = 1.5
+out     = 0.0

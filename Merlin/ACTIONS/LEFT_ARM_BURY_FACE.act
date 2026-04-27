@@ -1,7 +1,11 @@
-action = LEFT_ARM_BURY_FACE
+﻿action = LEFT_ARM_BURY_FACE
 motor = left_arm
 transmission = obs
 
 anim = left_hand_bury_face
 anim_flags = loop reset
-base_speed = 1.0
+
+preroll = 0.0
+in      = 0.4
+run     = ?
+out     = 0.4

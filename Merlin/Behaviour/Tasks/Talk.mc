@@ -68,7 +68,7 @@ rule talk-recipient-claim-talk-cell
 (bb_public_any ? try_to_talk_to @self /output_subject): ?person
 (bb_public_none @self talk_cell)
 (bb_public_read ?person talk_cell): ?their_talk_cell
-(claim_env_cell (in_talk_range_of_des ?their_talk_cell)): ?my_talk_cell
+(claim_env_cell (des in_talk_range_of ?their_talk_cell)): ?my_talk_cell
     ->
 (begin_goal {@self talk_to ?person})
 (bb_public_write @self talk_cell ?my_talk_cell)
@@ -79,7 +79,7 @@ rule talk-recipient-claim-talk-cell
 rule talk-claim-talk-cell
 {@self goal {@self talk_to ?person}}
 (bb_public_none @self talk_cell)
-(claim_env_cell (in_talk_range_of_des ?person)): ?talk_cell
+(claim_env_cell (des in_talk_range_of ?person)): ?talk_cell
 (lockRule talk 0)
     ->
 (bb_public_write @self talk_cell ?talk_cell)
@@ -97,7 +97,7 @@ rule talk-go-to-talk-cell
     ->
 # Intentionally higher utility than TURN_TO below, so the NPC
 # continues into the center of the cell, if possible
-(maintain_proposal {@self go_env_cell ?talk_cell} (abs_util 1100)).
+(maintain_proposal {@self go_env_cell ?talk_cell} (des abs_util 1100)).
 
 # If I have a talk-cell and I'm in it, stay there and face the person you're talking to
 rule talk-face-person-talking-to-me
@@ -105,8 +105,8 @@ rule talk-face-person-talking-to-me
 (bb_public_read @self talk_cell): ?talk_cell
 (overlaps ?talk_cell @self)
     ->
-(maintain_proposal {@self keep_looking_at_part ?person eyes} (abs_util 1000))
-(maintain_proposal {@self TURN_TO ?person} (abs_util 1000)).
+(maintain_proposal {@self keep_looking_at_part ?person eyes} (des abs_util 1000))
+(maintain_proposal {@self TURN_TO ?person} (des abs_util 1000)).
 
 # If I have a talk-cell and I'm in it, go ahead and talk, 
 # stay there and face the person you're talking to

@@ -1,3 +1,8 @@
-action = STACK_PUT
+﻿action = STACK_PUT
 motor = right_hand
 transmission = obs
+
+preroll = 0.0
+in      = 0.3
+run     = 0.5
+out     = 0.3

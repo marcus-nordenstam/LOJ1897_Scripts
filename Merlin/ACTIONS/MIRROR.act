@@ -1,5 +1,8 @@
-action = MIRROR
+﻿action = MIRROR
 motor = legs
 transmission = obs
 
-base_speed = 1.0
+preroll = 0.0
+in      = 0.0
+run     = ?
+out     = 0.0

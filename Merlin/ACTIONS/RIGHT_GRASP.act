@@ -1,7 +1,11 @@
-action = RIGHT_GRASP
+﻿action = RIGHT_GRASP
 motor = right_hand
 transmission = obs
 
 anim = right_hand_grip
 anim_flags = loop reset
-base_speed = 8
+
+preroll = 0.0
+in      = 0.0
+run     = 0
+out     = 0.1

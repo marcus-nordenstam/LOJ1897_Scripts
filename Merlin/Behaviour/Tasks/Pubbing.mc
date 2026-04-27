@@ -12,6 +12,11 @@ rule pubbing-drink-beer-proposal
 (begin_proposal {@self drink ?glass}).
 
 
+#(invent [k task] 
+#        (des act {@self drink ?glass})
+#        (des duration 3))
+
+
 # If I don't, order one
 rule pubbing-order-beer-proposal
 {@self pubbing}
@@ -30,7 +35,7 @@ rule pubbing-order-beer-claim-spot-at-bar
 {@self order [k beer] ?bartender}
 {?pub part [k bar_counter]:?bar_counter}
 (bb_public_none @self talk_cell)
-(claim_env_cell (in_front_of_des ?bar_counter)): ?talk_cell
+(claim_env_cell (des in_front_of ?bar_counter)): ?talk_cell
     ->
 (begin_goal {@self talk_to ?bartender})
 (bb_public_write @self talk_cell ?talk_cell).

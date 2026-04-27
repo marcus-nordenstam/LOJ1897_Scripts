@@ -1,7 +1,11 @@
-action = HANG_HEAD
+﻿action = HANG_HEAD
 motor = head
 transmission = obs
 
 anim = hang_head
 anim_flags = loop reset
-base_speed = 1.0
+
+preroll = 0.0
+in      = 0.2
+run     = ?
+out     = 0.2
