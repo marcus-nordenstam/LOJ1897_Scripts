@@ -1,0 +1,27 @@
+# High narcissism + sadism perpetrator targets a romantic interest. Mechanic:
+# the *attitude* graph drives the crime - perp must already be attracted_to
+# the victim. Future versions will gate role binding on existing attitudes;
+# for now the disposition floor stands in.
+event "the_obsession_crime" {
+    display "The Obsession Crime"
+    tag crime psychological
+    schedule recurring from=1700 to=1897
+    magnitude 80
+    cooldown_years 8
+    max_per_decade_global 3
+    role "perpetrator" {
+        kind=npc alive age=18..50
+        tetrad_narc>=200
+        tetrad_sad>=140
+    }
+    role "victim" {
+        kind=npc alive age=15..50
+        lover_of=perpetrator
+    }
+    on_fire {
+        kill victim cause=cause_murder
+        emotion_delta perpetrator pride 0.6
+        emotion_delta perpetrator guilt 0.3
+        propagate died victim observers=region_of fidelity=0.55 salience=0.8
+    }
+}

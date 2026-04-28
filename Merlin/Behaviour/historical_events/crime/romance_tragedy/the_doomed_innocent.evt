@@ -1,0 +1,29 @@
+# Mechanic: a young, innocent victim is killed; ripples are about *grief
+# and witness trauma* across a wide ring of observers - a different shape
+# than the typical inheritance/revenge template.
+event "the_doomed_innocent" {
+    display "The Doomed Innocent"
+    tag crime romance_tragedy
+    schedule recurring from=1700 to=1897
+    magnitude 95
+    cooldown_years 8
+    max_per_decade_global 2
+    role "perpetrator" {
+        kind=npc alive age=25..60
+    }
+    role "victim" {
+        kind=npc alive age=8..22
+    }
+    role "witness" {
+        kind=npc alive age=12..70
+        optional
+    }
+    on_fire {
+        kill victim cause=cause_murder
+        propagate died victim observers=region_of fidelity=0.65 salience=0.95
+        emotion_delta witness grief 0.85
+        emotion_delta witness fear 0.5
+        attitude_set witness perpetrator fear 0.9
+        region_mood_delta region_of=victim plague_fear 0.1
+    }
+}

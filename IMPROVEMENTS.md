@@ -1,56 +1,66 @@
 IMPROVEMENTS
 
+ANIM ISSUES:
+* transitions too snappy - tweak durations
+* ease-in/ease-out?
+* walking looks too stilted
+* when not walking anymore (running TURN_TO or HALT or other legs action?) legs should fade into IDLE anim
+* fading in just a little of the idle motion.
 
-Rigourously define: cell-overlap.  
+BEHAVIOUR ISSUES:
+* switch to relative utilities
+* people should turn their head to face what they drink
+* people should face each other when talking, etc.
+* Robustness:
+*  Player tries to interrupt ordering
+*  NPC ordering is bumped out of their cell
+*  SLOW down when approaching destination / don't overshoot, take frame-rate into account
+*  Bartender stops bartending: patrons should not get stuck
+*  Patron stops wanting a drink: bartender should not get stuck
+
+IMPROVEMENTS:
+* Patrons step away from the bar when done ordering, to let others in?
+* Mark some tables, so patrons put their empty glasses on tables
+* Bartender picks up empty glasses and destroys them
+
+GENERAL CLEANUP:
+* Fix the codebase so I can run in debug without belief-inception errors again.
+* Rigourously define: cell-overlap.  
    Used by (overlaps), but also check how the mx_cell/worlspace mapping work w.r.t that
    Should talking distance be based on cell coords or worldspace coords? pros and cons
-
-Make it robust if the patron 'drops out of the ordering task' at any time during the serving
-think through utilities - make them relative to the tasks
-
-Fix the codebase so I can run in debug without belief-inception errors again.
-
-Work left to do before pub-sim demo:
-
-bug: if frame-rate gets too slow, the walking walks too far and causes issues.
-     so limit the distance per frame/cycle to something like what we'd get at 40fps
-     to avoid overshooting.
- - also when closer than say 2meters, we should walk SLOWER and SLOWER to the target
-
-patron:
-  claim a cell on the bar-counter, near you
-  bartender should use this cell to place the beer
-
-fix it so they face each other when speaking
-
-
-DRINK action reduces fluid level.  we don't present the level decearsing yet.
-when fluid level = 0, the beer controlled by the glass is destroyed
-if fluid level = 0, put on the nearest counter or table top
-
-
-if you're holding a drinking glass which controls nothing
-then claim a spot on the bar-counter near me and put it there
-UNGRASP
-
-put task:
-  -the inverse of the Take task
-  -no longer need a PUT action - instead we compose it with REACH_FOR and UNGRASP (the new action)
-  -ensure there's nothing important PUT used to do that we are missing below:
-  claim a cell and write it to my private bb as put_cell
-  REACH_FOR ?put_cell
-  when REACH_FOR succeeds:
-  UNGRASP ?controlled_entity
-    makes the controlled_entity root (unparents it from hand)
-    reads the private bb to know which cell it's supposed to go in
-    clears the private bb put_cell
-
 
 /cont = continuous evaluation
 /interval x y = continuous with cooldown - using cycles instead of seconds for x y args
 /discrete = discrete evaluation (suppress any continuous funcs)
 
 
+HISTORICAL SIM DESCRIPTION:
+
+The game takes place on the fictional channel island of St-Revier, between England and France, set in 1897.
+The game is an interactive simulation where the player gets to interact with simulated NPCs on this island.
+
+The game simulation is to run as two phases: a non interactive historical sim, followed by the interactive game sim.
+
+The purpose of the historical sim, which runs from 1700 to 1897, is to output a ready-to-simulate NPC population,
+where each NPC has the 'initial mental and physiological state' to directly feed into the rule-based interactive game simulation.  So even if the historical NPC representation is not the same as the interactive game NPC representation, the state built up per historical NPC should be such that it's easy to construct a game-NPC directly from.  For details on the game-sim NPC representation, take a look at the current Merlin system which already implements it.
+
+What is this initial NPC game-state we need to generate during the historical sim?
+* Gender etc
+* Hereditary traits such as those listed in Env/NpcTraitTables.
+* Knowledge: birthdate, name, kind, gender, etc - basic facts about oneself.  Relationships (family, social, professional, romantic, enemies), education, training and occupation, where they live, what they own (possessions), knowledge about their town (Port Christie) such as all the major buildings, streets, etc.  Historical knowledge about their family, the age they live in, and major events that occurred in St-Revier during the past, and during the historical sim.  Also knowledge of all other NPCs in their relationship network: the closer the NPC is to them, the more they know about them.  NOTE that we don't differentiate between knowledge and memories: a memory is simply knowledge about the past, the source of which is your own experience: observation, listning, feeling etc.  
+
+* The simulation needs to start with a small random population and then grow the island population from there.  We want control over the final population.  For this game, we'll probably want to limit the final population to 500-1000 NPCs (this is a game after all).
+* Disease, murder, famine, plagues, accidents and war are great ways to reduce population during the historical sim - but don't underestimate the power of simply having some families or individuals simply moving to France or England or America or elsewhere.  The nice thing about that solution is some of them (or their children) can return to St-Revier later, if the population drops too rapidly - like an insurance policy in the sim.  Use a nice mix of all these techniques to keep the sim population on track.
+* We need to simulate 200 years in seconds to minutes.  That means it needs to be a statistical simulation - and not a moment-to-moment rule-based simulation as the Merlin NPC engine does it.  But we still need the result of the historical sim to be CONSISTENT with its own history and the Merlin game environment, RICH (with knowledge, memories, etc), and VARIED.
+* The historical simulation should not produce stupid results.  1700-1897 are class-based societies, affluent families intermingle, the middle-class crosses both upper and lower classes, but yearns to rise, the lower classes try to survive; people meet and fall in love through shared education, social gatherings, and work.  Try to build some realism based on the era into the historical simulation.  However, it IS a fictional island, so we can also take some liberties.  Expose user-controls for each cultural dimension the simulation takes into account, for example, a black or asian player may wish to have blacks or asians be socially equivalent to white people in their game -- even though historically that wasn't the case.  Same thing about the view of homosexuality, etc.  It is a GAME - not a history lesson.  It should be possible to configure a historical sim (and interactive sim) that is authentic to actual history, but also one that is not - all simply by tweaking sim parameters.
+* During the nearly 200 year simulation, we want to see some patterns emerge:  family feuds, tragedies, crimes, business success, business failures, war, peace, famine, plagues, outside influences based on real history, as well as sweet and happy things.  We want the NPC population emerging from the historical sim to be a rich foundation for subsequent storytelling with mysteries and varying life-stories - all for the player to delve into.
+* Finally, this is a DETECTIVE game.  The player will need mysteries and crimes and cases to solve.  SOme of that is supposed to evolve through the game-sim, but we need some crimes ready-to-go right off the bat, and seeds planted for future crimes.  The historic sim needs to create a rich soil in which crimes and mysteries can naturally evolve in the game-sim.  
+
+Questions about your crime-templates:
+* Is the implementation of these crime templates sufficiently different from each other as to matter?  Or did you implement most of them in such a way they all boil down to the same mechanic/effect and the only real difference is simply the name of the crime-template?
+* How do you define the effects of a crime, given some template?  Are they always as simple as 'victim is killed'?  What about kidnappings, or knowledge-effects, or rippling effects upon the families involved, or soceity as a whole?
+* How do you honor those effects in the historical sim? 
+* Many of these templates imply required characteristics on the roles played by the template participants.  Is the historical NPC representation rich enough for these to be fully mappable onto these templates?
 
 
 Merlin PERCEPTION improvements

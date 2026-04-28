@@ -1,0 +1,19 @@
+# Victorian moral reform wave - shifts the social mood toward pro-reform
+# and lightly suppresses out-of-marriage births. No direct fatalities; this
+# template demonstrates a continuous low-magnitude cultural-shift event.
+event "victorian_reform" {
+    display "Victorian Moral Reform Wave"
+    tag cultural_shift
+    schedule continuous from=1840 to=1880
+    magnitude 50
+    role "citizen" {
+        kind=npc alive
+        optional
+    }
+    on_tick {
+        attitude_delta citizen citizen scorn 0.0
+    }
+    on_end {
+        region_mood_delta region_of=citizen pro_reform 0.5
+    }
+}

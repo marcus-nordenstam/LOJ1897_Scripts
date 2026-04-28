@@ -76,13 +76,17 @@ rule pubbing-order-beer-take-beer
 
 
 # Once I've ordered and taken the beer,
-# I'm done being served and I release my slot to others
+# I'm done being served and I release my slot to others.
+# Also release the spawn cell the bartender claimed for this glass - the glass
+# is now in our hand so the bar-top cell is free for the next patron's drink.
 rule pubbing-order-beer-unclaim-spot-at-bar
 {@self pubbing}
 {?bartender perform [k bartending] ?pub}
 {@self order [k beer] ?bartender}: ?order
 {@self /succ take ?beer /causes ~?order}
+(bb_public_read @self drinking_glass_cell): ?spawn_cell
     ->
+(unclaim_env_cell ?spawn_cell)
 (bb_public_clear @self drinking_glass_cell)
 (bb_public_clear @self wants_drink)
 (set_outcome ?order /succ).

@@ -1,0 +1,13 @@
+event "seven_years_war" {
+    display "Seven Years' War"
+    tag war
+    schedule continuous from=1756 to=1763
+    magnitude 80
+    role "casualty" {
+        kind=npc alive gender=male age=18..40
+        optional
+    }
+    on_tick {
+        kill casualty cause=cause_war
+    }
+}

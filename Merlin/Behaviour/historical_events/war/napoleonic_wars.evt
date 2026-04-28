@@ -1,0 +1,20 @@
+# Napoleonic Wars (1803-1815) - heavy press-ganging, channel fortifications,
+# young-male attrition. Long-running event; on_tick fires demographic
+# effects each month.
+event "napoleonic_wars" {
+    display "Napoleonic Wars"
+    tag war
+    schedule continuous from=1803 to=1815
+    magnitude 110
+    role "casualty" {
+        kind=npc alive gender=male age=18..40
+        optional
+    }
+    on_tick {
+        kill casualty cause=cause_war
+        emotion_delta casualty fear 0.2
+    }
+    on_end {
+        region_mood_delta region_of=casualty war_weariness 0.4
+    }
+}

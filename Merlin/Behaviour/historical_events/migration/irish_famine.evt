@@ -1,0 +1,19 @@
+# Irish potato famine - net immigration pull rather than direct deaths.
+# Future versions of the engine will model immigrants as actual object
+# instantiation; for now the cohort effect is captured via region mood.
+event "irish_famine" {
+    display "Irish Potato Famine Immigration"
+    tag migration_pull
+    schedule continuous from=1845 to=1849
+    magnitude 75
+    role "host_local" {
+        kind=npc alive
+        optional
+    }
+    on_tick {
+        emotion_delta host_local fear 0.05
+    }
+    on_end {
+        region_mood_delta region_of=host_local anti_outsider 0.3
+    }
+}

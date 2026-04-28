@@ -1,0 +1,26 @@
+# Typically arrives via seed_event from a prior wrong (the_inheritance_murder
+# is a common parent). Mechanic: a wronged-party descendant kills the
+# original perpetrator's descendant. Demonstrates *causal* multi-generation
+# storytelling - this template's existence is meaningless without prior
+# events seeding it.
+event "the_revenge_of_the_wronged" {
+    display "The Revenge of the Wronged"
+    tag crime psychological revenge
+    schedule seeded
+    magnitude 90
+    role "avenger" {
+        kind=npc alive age=20..60
+        tetrad_psy>=140
+        optional
+    }
+    role "target" {
+        kind=npc alive age=20..70
+        optional
+    }
+    on_fire {
+        kill target cause=cause_murder
+        emotion_delta avenger pride 0.5
+        attitude_set avenger target hate 1.0
+        propagate died target observers=region_of fidelity=0.6 salience=0.8
+    }
+}

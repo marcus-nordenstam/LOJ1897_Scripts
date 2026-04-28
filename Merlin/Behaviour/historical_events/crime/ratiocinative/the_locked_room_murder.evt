@@ -1,0 +1,25 @@
+# Mechanic: a high-psychopathy perpetrator kills inside a locked room. The
+# ratiocinative twist: the truth is opaque - we propagate a low-fidelity
+# rumor instead of the perpetrator-known belief. Higher solve probability
+# reflects the genre.
+event "the_locked_room_murder" {
+    display "The Locked-Room Murder"
+    tag crime ratiocinative
+    schedule recurring from=1820 to=1897
+    magnitude 85
+    cooldown_years 10
+    max_per_decade_global 2
+    role "perpetrator" {
+        kind=npc alive age=25..60
+        tetrad_psy>=200
+    }
+    role "victim" {
+        kind=npc alive age=20..70
+    }
+    on_fire {
+        kill victim cause=cause_murder
+        emotion_delta perpetrator pride 0.3
+        # Witnesses across the region get only a partial-fidelity rumor:
+        propagate died victim observers=region_of fidelity=0.35 salience=0.6
+    }
+}

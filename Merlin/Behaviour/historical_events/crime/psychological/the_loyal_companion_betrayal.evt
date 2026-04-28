@@ -1,0 +1,26 @@
+# A long-trusted companion betrays. Mechanic: the perpetrator and victim
+# share kin/lover ties; the betrayal installs a strong distrust attitude
+# from the victim's family toward *companions in general* via region mood.
+event "the_loyal_companion_betrayal" {
+    display "The Loyal Companion Betrayal"
+    tag crime psychological betrayal
+    schedule recurring from=1700 to=1897
+    magnitude 82
+    cooldown_years 9
+    max_per_decade_global 2
+    role "perpetrator" {
+        kind=npc alive age=20..60
+        tetrad_mach>=140
+    }
+    role "victim" {
+        kind=npc alive age=20..70
+        kin_of=perpetrator
+    }
+    on_fire {
+        kill victim cause=cause_murder
+        attitude_set perpetrator victim scorn 0.6
+        emotion_delta perpetrator guilt 0.65
+        propagate died victim observers=region_of fidelity=0.6 salience=0.85
+        region_mood_delta region_of=victim anti_aristocratic 0.1
+    }
+}

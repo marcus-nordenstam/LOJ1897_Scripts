@@ -1,0 +1,30 @@
+# Mechanic: master-of-house kills a victim, but a servant in the household
+# witnesses with high fidelity, becoming a long-lived knowledge holder. The
+# perpetrator forms a wary attitude toward the servant (rope tightens).
+event "the_servant_knows_everything" {
+    display "The Servant Knows Everything"
+    tag crime sensation
+    schedule recurring from=1700 to=1897
+    magnitude 80
+    cooldown_years 8
+    max_per_decade_global 3
+    role "perpetrator" {
+        kind=npc alive aristocratic age=25..70
+    }
+    role "victim" {
+        kind=npc alive age=15..70
+    }
+    role "servant" {
+        kind=npc alive lower_class age=14..70
+        optional
+    }
+    on_fire {
+        kill victim cause=cause_murder
+        # Servant gets a near-certain belief; the rest of the region gets a
+        # weak rumor.
+        propagate died victim observers=region_of fidelity=0.4 salience=0.6
+        attitude_set perpetrator servant distrust 0.9
+        attitude_set servant perpetrator fear 0.85
+        emotion_delta servant fear 0.7
+    }
+}

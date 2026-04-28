@@ -13,7 +13,7 @@ rule bartending-idle-face-bar
 rule bartending-serve-customer-proposal
 {@self perform [k bartending] ?pub}
 {?pub part [k bar_counter]:?bar_counter}
-(none {@self serve_customer}) # no code after this should be reached WHILE serving a customer
+(none {@self proposal {@self serve_customer}}) # no code after this should be reached WHILE serving a customer
 (env_cell_occupier [k human] (des in_front_of ?bar_counter) 
     '(and (bb_public_read @o wants_drink) 
           (bb_public_none @o drinking_glass_cell))): ?patron
@@ -57,5 +57,7 @@ rule bartending-serve-customer-POUR-beer-proposal
 (begin_proposal {@self POUR [k beer] ?beer_glass})
 (bb_public_read @self talk_cell): ?talk_cell
 (unclaim_env_cell ?talk_cell)
+(unclaim_env_cell ?beer_cell)
 (bb_public_clear @self talk_cell)
+(endBelief {?patron order ?drink @self})
 (set_outcome /succ ?serve).

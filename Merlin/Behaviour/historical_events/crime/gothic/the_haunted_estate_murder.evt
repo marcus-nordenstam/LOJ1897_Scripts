@@ -1,0 +1,24 @@
+# Setting: aristocratic, isolated estate. Mechanic: kill, region develops
+# elevated plague_fear (the "haunting" rumor), and a region-of grief/fear
+# ripple is heavier than a typical murder. Demonstrates setting-as-mood.
+event "the_haunted_estate_murder" {
+    display "The Haunted Estate Murder"
+    tag crime gothic
+    schedule recurring from=1700 to=1897
+    magnitude 90
+    cooldown_years 12
+    max_per_decade_global 2
+    role "perpetrator" {
+        kind=npc alive aristocratic age=25..60
+        tetrad_mach>=140
+    }
+    role "victim" {
+        kind=npc alive age=8..80
+        kin_of=perpetrator
+    }
+    on_fire {
+        kill victim cause=cause_murder
+        propagate died victim observers=region_of fidelity=0.45 salience=0.85
+        region_mood_delta region_of=victim plague_fear 0.35
+    }
+}

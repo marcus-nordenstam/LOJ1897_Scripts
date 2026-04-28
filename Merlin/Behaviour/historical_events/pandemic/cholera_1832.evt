@@ -1,0 +1,19 @@
+# Cholera pandemic of 1832 - pandemic_curve so deaths ramp up to a midpoint
+# then taper. Hits the lower class harder.
+event "cholera_1832" {
+    display "Cholera Pandemic of 1832"
+    tag pandemic
+    schedule pandemic_curve from=1832 to=1834
+    magnitude 95
+    role "victim" {
+        kind=npc alive lower_class age=0..90
+        optional
+    }
+    on_tick {
+        kill victim cause=cause_disease
+        emotion_delta victim fear 0.5
+    }
+    on_end {
+        region_mood_delta region_of=victim plague_fear 0.6
+    }
+}

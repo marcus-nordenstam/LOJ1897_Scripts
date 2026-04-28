@@ -1,0 +1,33 @@
+# Mechanic: a high-machiavellianism / high-narcissism female perpetrator
+# directs an accomplice (her lover) to do the killing. Three roles, two of
+# whom interact via a non-trivial attitude graph.
+event "the_femme_fatale_manipulation" {
+    display "The Femme Fatale Manipulation"
+    tag crime romance_tragedy psychological
+    schedule recurring from=1780 to=1897
+    magnitude 85
+    cooldown_years 10
+    max_per_decade_global 2
+    role "perpetrator" {
+        kind=npc alive gender=female age=20..50
+        tetrad_mach>=200
+        tetrad_narc>=140
+    }
+    role "accomplice" {
+        kind=npc alive gender=male age=20..60
+        lover_of=perpetrator
+        optional
+    }
+    role "victim" {
+        kind=npc alive gender=male age=25..70
+    }
+    on_fire {
+        kill victim cause=cause_murder
+        attitude_set perpetrator accomplice scorn 0.6
+        attitude_set accomplice perpetrator love 0.85
+        emotion_delta accomplice guilt 0.7
+        propagate died victim observers=region_of fidelity=0.5 salience=0.7
+        # The accomplice is at risk of confessing later -> seed
+        seed_event "the_confession_letter" lag_min=2 p=0.25
+    }
+}
