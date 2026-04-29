@@ -31,6 +31,17 @@ attr "in_stack"         entity "stack"                          /in_stack    /ob
 attr "condition"        str alive                                           /obs /auto_percept /state_flags_tar @excl
 attr "color"            str                                                 /obs /auto_percept /state_flags_tar @excl
 
+# Lifecycle dates (used by historical sim; persist into interactive).
+attr "birth_date"       date                                                /obs /state_flags_tar @excl
+attr "death_date"       date                                                /obs /state_flags_tar @excl
+attr "death_cause"      str                                                 /obs /state_flags_tar @excl
+
+# Dark-tetrad personality - genetic, heritable, drives motives.
+attr "narcissism"       int                                                 /feel
+attr "machiavellianism" int                                                 /feel
+attr "psychopathy"      int                                                 /feel
+attr "sadism"           int                                                 /feel
+
 # Sensors & motors
 attr "visual_sensor"    visual-sensor
 attr "sound_sensor"     sound-sensor
@@ -102,6 +113,26 @@ attr "snow"             str none                                            /obs
 attr "fog"              str none                                            /obs /auto_percept /state_flags_tar @excl
 attr "wind"             str none                                            /obs /auto_percept /state_flags_tar @excl
 attr "sky"              str clear                                           /obs /auto_percept /state_flags_tar @excl
+
+# Region mood - non-sentient archetype, so per Q4 we keep mood state on the
+# region itself as parallel-array attrs. Updated by run_region_mood_pass.
+attr "mood_kinds"        str  [8]                                            /obs /auto_percept
+attr "mood_intensities"  int  [8]                                            /obs
+attr "mood_set_dates"    date [8]                                            /imperceptible
+
+# Building physical / structural properties.
+attr "isolated"         int                                                 /obs
+attr "has_crypt"        int                                                 /obs
+attr "locked_wing"      int                                                 /obs
+# Era bounds - the building physically exists from era_min to era_max.
+attr "era_min"          date                                                /imperceptible
+attr "era_max"          date                                                /imperceptible
+# Address: entity ref to the road the building is on, OR to the estate
+# entity itself when there's no street (estate-on-grounds case). Combined
+# with address_number ("14 Victoria Street", or "Blackthorne Estate" with
+# @nothing number).
+attr "address"          entity "road"|"structure"                           /obs /auto_percept
+attr "address_number"   int                                                 /obs /auto_percept
 
 # Conversation
 attr "initiator"        entity "human_player"|"human_npc"                   /obs /auto_percept

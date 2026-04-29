@@ -1,5 +1,5 @@
 # Any human NPC
-archetype "human_npc" [256] /obs /raycast_visible /sentient /non_occluder /occupies_env_grid /blackboard /infer_kind_override human nonplayer
+archetype "human_npc" [4096] /obs /raycast_visible /sentient /non_occluder /occupies_env_grid /blackboard /infer_kind_override human nonplayer
 {
     "visual_sensor"
     "sound_sensor"
@@ -26,6 +26,15 @@ archetype "human_npc" [256] /obs /raycast_visible /sentient /non_occluder /occup
     "extroversion"
     "intelligence"
     "interests"
+    # Lifecycle dates - written by historical sim, surface into interactive.
+    "birth_date"
+    "death_date"
+    "death_cause"
+    # Dark-tetrad traits - genetic, drive motives.
+    "narcissism"
+    "machiavellianism"
+    "psychopathy"
+    "sadism"
     "region"
     # Parts are not auto-perceived — we perceive specific body-parts below instead
     "parts"

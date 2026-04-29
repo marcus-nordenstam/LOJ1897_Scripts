@@ -10,4 +10,8 @@ archetype "region" [16] /obs /non_occluder /no_sector_coverage
     "fog"
     "wind"
     "sky"
+    # Region atmosphere - non-sentient archetype keeps mood as attrs (Q4).
+    "mood_kinds"
+    "mood_intensities"
+    "mood_set_dates"
 }

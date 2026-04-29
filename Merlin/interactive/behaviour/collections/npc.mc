@@ -1,0 +1,144 @@
+
+rule import-reasoning ->
+(import "Age")
+(import "MarriageProspect")
+(import "Family")
+(import "Death")
+(import "InferMaritalState").
+
+
+rule import-nourishment-tasks
+    ->
+(import "Drink").
+
+rule import-movement-tasks
+    ->
+(import "Go")
+(import "keep_near_and_facing")
+(import "MaintainLookingAt")
+(import "Explore")
+(import "Locate")
+(import "GoHome").
+
+
+rule import-resource-tasks
+    ->
+(import "Give")
+(import "Receive")
+(import "Get")
+(import "Take")
+(import "Put")
+(import "BuyBuilding").
+
+
+rule import-learning-tasks
+    ->
+(import "IdentifyPerson")
+(import "SeekAnswers")
+(import "GetAcquaintedWith")
+(import "find_out")
+(import "Read")
+(import "PerceiveAttr").
+
+
+rule import-social-tasks
+    ->
+(import "Talk")
+(import "AnswerQuestion")
+(import "HearAnswer")
+(import "HearTell")
+(import "WriteDoc")
+(import "Introduce")
+(import "Socialize")
+(import "Pubbing").
+
+
+rule import-stack-tasks
+    ->
+(import "StackBrowse")
+(import "StackGet")
+(import "StackPut")
+(import "StackRead")
+(import "MakeDoneStack").
+
+
+rule import-family-tasks
+    ->
+(import "Engagement")
+(import "Marriage")
+(import "Parenting").
+
+
+rule import-professional-tasks
+    ->
+(import "Work")
+(import "FoundOrg")
+(import "HouseAgentClerkJob")
+(import "Bartending").
+
+rule import-emotional-tasks
+    ->
+(import "Grieve").
+
+rule import-weather-tasks
+    ->
+(import "use_umbrella").
+
+rule import-life-cycle-tasks
+    ->
+(import "GiveBirth")
+(import "Die").
+
+
+
+# Startup behaviour
+
+# Everyone but the bartender starts out pubbing
+rule startup-go-pubbing
+{@self isa [k human]}
+(none {@self job [k bartender]})
+    ->
+(begin_proposal {@self pubbing} (des abs_util 10)).
+
+
+# Waypoint behaviour
+
+rule startup-go-to-waypoint
+{?waypoint isa [k waypoint]}
+(in_range /reach /not ?waypoint)
+(none {@self job [k bartender]})
+(in @self /not [k building pub])
+    ->
+(maintain_proposal {@self go_entity ?waypoint}).
+
+
+# Emotional reactions
+
+rule grieve
+{@self /ever love ?person}
+#{?person /ever condition dead}
+    ->
+# Grieving is an emotion-task which should not compete with regular tasks
+# So it should only express itself if there's nothing else going on
+(maintain_proposal {@self grieve} (des abs_util -10000)).
+
+#rule go-to-waypoint
+#{?waypoint isa [k waypoint]}
+#    ->
+#(elapsedFiringCycles /cont): ?cycles
+#(if (gt ?cycles 700)
+#    (maintain_proposal {@self go_entity ?waypoint})
+#    (maintain_proposal {@self CHAT})).
+
+#rule go-to-waypoint
+#{?waypoint isa [k waypoint]}
+#    ->
+#(maintain_proposal {@self go_entity ?waypoint}).
+
+
+rule start-performing-job
+{@self job [k bartender]:?job ?pub}
+{@self control [k umbrella]:?umbrella} 
+    ->
+(begin_proposal {@self START_PERFORMING [k bartending] ?pub})
+(begin_proposal {@self STOW ?umbrella}).

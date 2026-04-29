@@ -92,7 +92,10 @@ object //obs
                 manor
                 cottage
                 terrace
+                    townhouse
+                tenement
                 farmhouse
+                chapel
             commercial_building
                 office
                 bank
@@ -102,6 +105,7 @@ object //obs
                 restaurant
                 pub
                 factory
+                    warehouse
                 hotel
                 school
                 hospital

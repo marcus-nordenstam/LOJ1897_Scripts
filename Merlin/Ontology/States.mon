@@ -54,6 +54,22 @@ relation
         (emo)                   //sub human
             likes               /tar [?]
             hates               /tar [?]
+            # Directed attitudes - per-NPC beliefs about another person.
+            distrusts           /tar human
+            jealous_of          /tar human
+            admires             /tar human
+            envies              /tar human
+            respects            /tar human
+            fears               /tar human
+            # Undirected emotional state - probability/intensity carried in
+            # the belief itself; Salience drives decay over time.
+            feels_joy
+            feels_grief
+            feels_anger
+            feels_fear
+            feels_shame
+            feels_envy
+            feels_pride
 
         # Relationships with others
         (social)                //sub human
@@ -71,6 +87,12 @@ relation
             eligible_for_marriage
             marriage_desirability /tar @excl
             love                 /tar
+            # Financial / inheritance audit trail.
+            indebted_to         /tar human
+            inherited_from      /tar human
+            # Self-perceived public/material standing.
+            reputation          /tar @excl
+            wealth_tier         /tar @excl
 
         # Vocational, legal, "societal" states
         (cultural)
@@ -127,3 +149,24 @@ relation
         (activity)
             participant         /tar human
             todo                /tar task
+
+        # Historical-sim-only beliefs (hsim_ prefix). These are situations,
+        # motives, and secrets the event engine reads to drive crime / drama
+        # template eligibility and role binding. Pruned from NPC minds at
+        # the historical -> interactive phase transition.
+        (hsim)                  //sub human
+            hsim_motive             /tar @excl
+            hsim_has_affair_with    /tar human
+            hsim_rival_courting_spouse  /tar human
+            hsim_rival_blocks_courtship /tar human
+            hsim_suspects_infidelity    /tar human
+            hsim_secret_at_risk
+            hsim_publicly_humiliated
+            hsim_family_dishonored
+            hsim_legacy_threatened
+            hsim_class_resentful
+            hsim_religious_zealot
+            hsim_political_radical
+            hsim_witness_to_suffering
+            hsim_business_failing
+            hsim_homeless

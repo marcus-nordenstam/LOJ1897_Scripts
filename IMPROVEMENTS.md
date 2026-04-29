@@ -34,33 +34,35 @@ GENERAL CLEANUP:
 /discrete = discrete evaluation (suppress any continuous funcs)
 
 
-HISTORICAL SIM DESCRIPTION:
+HISTORICAL SIM:
 
-The game takes place on the fictional channel island of St-Revier, between England and France, set in 1897.
-The game is an interactive simulation where the player gets to interact with simulated NPCs on this island.
+* Establish occupations
 
-The game simulation is to run as two phases: a non interactive historical sim, followed by the interactive game sim.
+* Establish areas and roads, roads have names and numbered range of addresses.
+* For now, there is the town of Port Christie on the English side of the island, 
+  and Valette is the town on the French side of the island - quite hilly - and 
+  Haven is the industrial town south of Port Chrisite.  All three towns will have some streets.
+  Most middle-class and upper class homes will be outside the towns.  Upper-class homes
+  will usually be estates, where the address is not really a numbered road, but usually just
+  the name of the estate.
+* Establish residential housing in env.
+* Establish commercial buildings for businesses for different occupations in env.
+* Buildings can be detailed simply as tiny, small, large, huge, and given an address.
 
-The purpose of the historical sim, which runs from 1700 to 1897, is to output a ready-to-simulate NPC population,
-where each NPC has the 'initial mental and physiological state' to directly feed into the rule-based interactive game simulation.  So even if the historical NPC representation is not the same as the interactive game NPC representation, the state built up per historical NPC should be such that it's easy to construct a game-NPC directly from.  For details on the game-sim NPC representation, take a look at the current Merlin system which already implements it.
+* Wealthy NPCs may not need an occupation; some are landlords however
+* Middle classes and below do need an occupation - so pick one from the list
+* Establish where each NPC lives and the arrangement: renting or owning.
+* Generally speaking if you are wealthy you own.  Else, if your occupation allows, you own, else you rent.
 
-What is this initial NPC game-state we need to generate during the historical sim?
-* Gender etc
-* Hereditary traits such as those listed in Env/NpcTraitTables.
-* Knowledge: birthdate, name, kind, gender, etc - basic facts about oneself.  Relationships (family, social, professional, romantic, enemies), education, training and occupation, where they live, what they own (possessions), knowledge about their town (Port Christie) such as all the major buildings, streets, etc.  Historical knowledge about their family, the age they live in, and major events that occurred in St-Revier during the past, and during the historical sim.  Also knowledge of all other NPCs in their relationship network: the closer the NPC is to them, the more they know about them.  NOTE that we don't differentiate between knowledge and memories: a memory is simply knowledge about the past, the source of which is your own experience: observation, listning, feeling etc.  
+* Rules regarding changing residence:
+* You leave the house for university or boarding school - if you go to school (only the wealthy).
+* You move to your own house as soon as you have a job that lets you, unless you are wealthy in which case
+  you may stay in your parent's mansion until you marry.
+* When you marry, if you are a woman, you move into your husband's house.
 
-* The simulation needs to start with a small random population and then grow the island population from there.  We want control over the final population.  For this game, we'll probably want to limit the final population to 500-1000 NPCs (this is a game after all).
-* Disease, murder, famine, plagues, accidents and war are great ways to reduce population during the historical sim - but don't underestimate the power of simply having some families or individuals simply moving to France or England or America or elsewhere.  The nice thing about that solution is some of them (or their children) can return to St-Revier later, if the population drops too rapidly - like an insurance policy in the sim.  Use a nice mix of all these techniques to keep the sim population on track.
-* We need to simulate 200 years in seconds to minutes.  That means it needs to be a statistical simulation - and not a moment-to-moment rule-based simulation as the Merlin NPC engine does it.  But we still need the result of the historical sim to be CONSISTENT with its own history and the Merlin game environment, RICH (with knowledge, memories, etc), and VARIED.
-* The historical simulation should not produce stupid results.  1700-1897 are class-based societies, affluent families intermingle, the middle-class crosses both upper and lower classes, but yearns to rise, the lower classes try to survive; people meet and fall in love through shared education, social gatherings, and work.  Try to build some realism based on the era into the historical simulation.  However, it IS a fictional island, so we can also take some liberties.  Expose user-controls for each cultural dimension the simulation takes into account, for example, a black or asian player may wish to have blacks or asians be socially equivalent to white people in their game -- even though historically that wasn't the case.  Same thing about the view of homosexuality, etc.  It is a GAME - not a history lesson.  It should be possible to configure a historical sim (and interactive sim) that is authentic to actual history, but also one that is not - all simply by tweaking sim parameters.
-* During the nearly 200 year simulation, we want to see some patterns emerge:  family feuds, tragedies, crimes, business success, business failures, war, peace, famine, plagues, outside influences based on real history, as well as sweet and happy things.  We want the NPC population emerging from the historical sim to be a rich foundation for subsequent storytelling with mysteries and varying life-stories - all for the player to delve into.
-* Finally, this is a DETECTIVE game.  The player will need mysteries and crimes and cases to solve.  SOme of that is supposed to evolve through the game-sim, but we need some crimes ready-to-go right off the bat, and seeds planted for future crimes.  The historic sim needs to create a rich soil in which crimes and mysteries can naturally evolve in the game-sim.  
+* When an NPC dies, the children inherit.  For now we just go by age, so the oldest inherits everything
+(This can cause jealousy!)
 
-Questions about your crime-templates:
-* Is the implementation of these crime templates sufficiently different from each other as to matter?  Or did you implement most of them in such a way they all boil down to the same mechanic/effect and the only real difference is simply the name of the crime-template?
-* How do you define the effects of a crime, given some template?  Are they always as simple as 'victim is killed'?  What about kidnappings, or knowledge-effects, or rippling effects upon the families involved, or soceity as a whole?
-* How do you honor those effects in the historical sim? 
-* Many of these templates imply required characteristics on the roles played by the template participants.  Is the historical NPC representation rich enough for these to be fully mappable onto these templates?
 
 
 Merlin PERCEPTION improvements

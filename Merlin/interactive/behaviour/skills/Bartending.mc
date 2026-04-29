@@ -1,5 +1,4 @@
 
-
 # if you have nothing to do, hang in back in the bar
 rule bartending-idle-face-bar
 {@self perform [k bartending] ?pub}
@@ -13,15 +12,16 @@ rule bartending-idle-face-bar
 rule bartending-serve-customer-proposal
 {@self perform [k bartending] ?pub}
 {?pub part [k bar_counter]:?bar_counter}
+# deal with one patron at a time:
 (none {@self proposal {@self serve_customer}}) # no code after this should be reached WHILE serving a customer
-(env_cell_occupier [k human] (des in_front_of ?bar_counter) 
-    '(and (bb_public_read @o wants_drink) 
-          (bb_public_none @o drinking_glass_cell))): ?patron
-(claim_env_cell (des behind ?bar_counter) (des near ?patron)): ?talk_cell
-(lockRule) # Deal with one patron at a time
+(env_cell_occupier [k human] 
+                   (des in_front_of ?bar_counter) 
+                   '(and (bb_public_read @o wants_drink) 
+                         (bb_public_none @o drinking_glass_cell))): ?patron
     ->
 (begin_proposal {@self serve_customer ?patron} (des abs_util 1000))
-(bb_public_write @self talk_cell ?talk_cell).
+(bb_private_write @self talk_cell_constraint '[(des behind ?bar_counter) 
+                                               (des in_front_of ?patron)]).
 
 
 # find out what drink customer wants
@@ -32,15 +32,16 @@ rule bartending-serve-customer-know-what-to-serve-goal
     ->
 (maintain_goal {@self know '(any {?patron order ? @self}).target}).
 
-
 # spawn in the glass
 rule bartending-serve-customer-SPAWN-glass-proposal
 {@self perform [k bartending] ?pub}
 {@self serve_customer ?patron}: ?serve
-{?patron order ?drink @self}
+{?patron order ?drink_kind @self}
 {?pub part [k bar_counter]:?bar_counter}
 (bb_public_none ?patron drinking_glass_cell)
-(claim_env_cell (env_cell_size [k drinking_glass]) (des on_top_of ?bar_counter) (des near ?patron) /debug): ?cell
+(claim_env_cell (env_cell_size [k drinking_glass]) 
+                (des on_top_of ?bar_counter) 
+                (des near ?patron) /debug): ?cell
     ->
 (bb_public_write ?patron drinking_glass_cell ?cell)
 (begin_proposal {@self SPAWN [[k drinking_glass] ?cell]}).
@@ -50,14 +51,22 @@ rule bartending-serve-customer-SPAWN-glass-proposal
 rule bartending-serve-customer-POUR-beer-proposal
 {@self perform [k bartending] ?pub}
 {@self serve_customer ?patron}: ?serve
-{?patron order ?drink @self}
+{?patron order ?drink_kind @self}
 (bb_public_read ?patron drinking_glass_cell): ?beer_cell
 (env_cell_occupier [k drinking_glass] ?beer_cell): ?beer_glass
     ->
-(begin_proposal {@self POUR [k beer] ?beer_glass})
-(bb_public_read @self talk_cell): ?talk_cell
-(unclaim_env_cell ?talk_cell)
-(unclaim_env_cell ?beer_cell)
-(bb_public_clear @self talk_cell)
-(endBelief {?patron order ?drink @self})
-(set_outcome /succ ?serve).
+(begin_proposal {@self POUR ?drink_kind ?beer_glass})
+(unclaim_env_cell ?beer_cell).
+
+
+rule bartending-serve-customer-outcome
+{@self perform [k bartending] ?pub}
+{@self serve_customer ?patron}: ?serve
+{?patron order ?drink_kind @self}: ?order
+{@self /succ POUR ?drink_kind ? /causes ~?serve}
+(bb_public_none ?patron try_to_talk_to @self)
+(bb_public_none @self try_to_talk_to ?patron)
+    ->
+(endBelief ?order)
+(set_outcome /succ ?serve)
+(bb_private_clear @self talk_cell_constraint).

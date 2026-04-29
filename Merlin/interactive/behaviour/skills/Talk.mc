@@ -62,15 +62,29 @@ rule talk-signal-try-to-talk
     ->
 (bb_public_maintain @self try_to_talk_to ?person 10).
 
+# If the talk-cell-constraint changes (e.g. a new conversation partner or something)
+# then force a re-trigger of the two rules below to find a new/better talking cell
+rule talk-force-revaluate-talk-cell-rules
+(bb_private_changed @self talk_cell_constraint)
+(bb_public_read @self talk_cell): ?old_cell # but don't do this unless we have an old talk-cell to clear...
+    ->
+(unclaim_env_cell ?old_cell)
+(bb_public_clear @self talk_cell).
+
 # If someone wants to talk to me and I am unprepared to talk to (e.g. I don't have a talk-cell for them)
 # then claim a talk cell near their talk cell so we can talk
 rule talk-recipient-claim-talk-cell
 (bb_public_any ? try_to_talk_to @self /output_subject): ?person
+# I could gate the rest of this rule on NOT being in talk-range..
 (bb_public_none @self talk_cell)
 (bb_public_read ?person talk_cell): ?their_talk_cell
-(claim_env_cell (des in_talk_range_of ?their_talk_cell)): ?my_talk_cell
+# using = so condition succeeds regardless if bb_private_read returns @fail
+(bb_private_read @self talk_cell_constraint) = ?constraint_des
+(if ?constraint_des
+    (claim_env_cell ?constraint_des)
+    (claim_env_cell (des in_talk_range_of ?their_talk_cell))): ?my_talk_cell
     ->
-(begin_goal {@self talk_to ?person})
+(maintain_goal {@self talk_to ?person})
 (bb_public_write @self talk_cell ?my_talk_cell)
 (maintainAttention ?person).
 
@@ -79,7 +93,11 @@ rule talk-recipient-claim-talk-cell
 rule talk-claim-talk-cell
 {@self goal {@self talk_to ?person}}
 (bb_public_none @self talk_cell)
-(claim_env_cell (des in_talk_range_of ?person)): ?talk_cell
+# using = so condition succeeds regardless if bb_private_read returns @fail
+(bb_private_read @self talk_cell_constraint) = ?constraint_des
+(if ?constraint_des
+    (claim_env_cell ?constraint_des)
+    (claim_env_cell (des in_talk_range_of ?person))): ?talk_cell
 (lockRule talk 0)
     ->
 (bb_public_write @self talk_cell ?talk_cell)

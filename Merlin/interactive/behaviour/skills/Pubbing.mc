@@ -35,19 +35,16 @@ rule pubbing-put-away-empty-glass-proposal
 # Ordering a beer
 # -------------------------------------------------------------
 
-# First, find a spot at the bar where you can
-# talk to the bartender
-rule pubbing-order-beer-claim-spot-at-bar
+# First, signal you want to talk to the bartender
+# (and stay on your side of the counter)
+rule pubbing-order-beer-talk-to-bartender
 {@self pubbing}
 {?bartender perform [k bartending] ?pub}
 {@self order [k beer] ?bartender}
 {?pub part [k bar_counter]:?bar_counter}
-(bb_public_none @self talk_cell)
-(claim_env_cell (des in_front_of ?bar_counter)): ?talk_cell
     ->
-(begin_goal {@self talk_to ?bartender})
-(bb_public_write @self talk_cell ?talk_cell).
-
+(maintain_goal {@self talk_to ?bartender})
+(bb_private_maintain @self talk_cell_constraint '(des right_in_front_of ?bar_counter)).
 
 # Wait for the bartender
 rule pubbing-order-beer-wait-at-bar

@@ -15,6 +15,22 @@ archetype "human_player" [256] /obs /raycast_visible /player /non_occluder /occu
     "condition"
     "pregnant_when"
     "alertness"
+    "sexual_orient"
+    "charisma"
+    "romanticism"
+    "passion"
+    "extroversion"
+    "intelligence"
+    "interests"
+    # Lifecycle dates - written by historical sim, surface into interactive.
+    "birth_date"
+    "death_date"
+    "death_cause"
+    # Dark-tetrad traits - genetic, drive motives.
+    "narcissism"
+    "machiavellianism"
+    "psychopathy"
+    "sadism"
     "region"
     # Parts are not auto-perceived — we perceive specific body-parts below instead
     "parts"
