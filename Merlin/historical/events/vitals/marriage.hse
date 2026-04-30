@@ -1,0 +1,34 @@
+; ----------------------------------------------------------------------------
+; Marriage. For each unmarried adult woman, with a small annual chance,
+; sample an unmarried adult man whose age is within 15 years and whose
+; class matches.
+;
+; Schedule: (annually january) - the pre-industrial pattern was for banns
+; and parish marriages to cluster around new year and harvest end.
+;
+; Topology: ?bride is independent (role[0], enumerated). ?groom depends on
+; ?bride's age and class via filters that reference ?bride.
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+(hsim-event marriage
+  (nl         "?groom marries ?bride")
+  (kind       _marriage)
+  (schedule   (annually january))
+  (rng-stream marriages)
+
+  (roles
+    ;; The (chance 0.25) filter rolls per-bride before any groom search runs,
+    ;; so we don't burn the sampler on brides who won't marry this year.
+    (role ?bride (template unmarried_woman)
+                 (chance 0.25))
+    (role ?groom (template unmarried_man)
+                 (= (attr ?self social_class) (attr ?bride social_class))
+                 (<= (- (years-old ?self) (years-old ?bride))  15)
+                 (>= (- (years-old ?self) (years-old ?bride)) -15)))
+
+  (effects
+    (begin-belief ?groom married_to ?bride)
+    (begin-belief ?bride married_to ?groom)
+    (log _marriage ?groom)))

@@ -1,0 +1,29 @@
+; ----------------------------------------------------------------------------
+; Emigration. Young adults occasionally leave the parish for opportunity
+; elsewhere. We model this as a death with cause=emigrated so the rest of
+; the sim sees the same retraction of beliefs (married_to / lives_in get
+; ended just like a real death).
+;
+; Future refinement: distinguish "emigrated" from "dead" once a third
+; life-status state is plumbed through Mind. For the data-driven first cut
+; the cause symbol is enough.
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+(hsim-event emigration
+  (nl         "?who emigrates")
+  (kind       _emigration)
+  (schedule   (annually january))
+  (rng-stream migrations)
+
+  (roles
+    (role ?who (template young_adult)))
+
+  (when (chance 0.015))   ; ~1.5% per year baseline emigration
+
+  (effects
+    (die        ?who :cause emigrated)
+    (end-belief ?who married_to)
+    (end-belief ?who lives_in)
+    (log        _emigration ?who)))

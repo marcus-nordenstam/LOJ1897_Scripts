@@ -1,0 +1,52 @@
+; ----------------------------------------------------------------------------
+; Shared role definitions for hsim events.
+;
+; A role is referenced from inside an event with:
+;     (role ?var (template <name>) <extra-filters>...)
+; The body of a (define-role ...) is authored against ?self; ?self gets
+; rewritten to the call-site var name at parse time.
+; ----------------------------------------------------------------------------
+
+(define-role old_human
+  (kind  human)
+  (alive)
+  (>= (years-old ?self) 15))
+
+;; Any alive human, no age qualifier. Useful as a base for events that gate
+;; on situational filters (disease, war, accidents) regardless of age.
+(define-role any_human
+  (kind  human)
+  (alive))
+
+;; Unmarried adult woman. Fertility / marriage age varies by class; events
+;; layer extra age filters on top.
+(define-role unmarried_woman
+  (kind  human)
+  (alive)
+  (= (attr ?self gender) female)
+  (>= (years-old ?self) 18)
+  (not (believes ?self {@self married_to ?spouse})))
+
+(define-role unmarried_man
+  (kind  human)
+  (alive)
+  (= (attr ?self gender) male)
+  (>= (years-old ?self) 18)
+  (not (believes ?self {@self married_to ?spouse})))
+
+;; Adult woman in fertile age range, currently married. Births event uses
+;; this and recovers the husband via belief query.
+(define-role fertile_wife
+  (kind  human)
+  (alive)
+  (= (attr ?self gender) female)
+  (>= (years-old ?self) 16)
+  (<= (years-old ?self) 42)
+  (believes ?self {@self married_to ?spouse}))
+
+;; Adult of working/migration age. Used by emigration.
+(define-role young_adult
+  (kind  human)
+  (alive)
+  (>= (years-old ?self) 16)
+  (<= (years-old ?self) 45))

@@ -1,0 +1,29 @@
+; ----------------------------------------------------------------------------
+; Background old-age mortality. Per-NPC monthly roll; rate climbs with age.
+; This is the canonical "data-driven vitals" event - everything that used
+; to live in vitals.cc as hardcoded C++ now sits in this file.
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+(include "../shared/tables.hse")
+
+(hsim-event mortality_old_age
+  (nl         "?who dies of old age")
+  (kind       _death)
+  (schedule   (monthly))
+  (rng-stream deaths)
+
+  (roles
+    (role ?who (template old_human)))
+
+  (let ((per-year  (lookup mortality_by_age (years-old ?who)))
+        (per-month (/ per-year 12.0)))
+
+    (when (chance per-month))
+
+    (effects
+      (die        ?who :cause old_age)
+      (end-belief ?who married_to)
+      (end-belief ?who lives_in)
+      (log        _death ?who)))
+)

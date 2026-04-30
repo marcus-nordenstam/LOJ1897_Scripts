@@ -1,0 +1,29 @@
+; ----------------------------------------------------------------------------
+; Background disease mortality. A flat low per-month chance independent of
+; age - in the historical sim this models the steady drumbeat of fevers,
+; consumption, accidents, and respiratory illness that didn't respect class
+; or age but still claimed lives well outside the old-age bracket.
+;
+; Pandemic surges (cholera, smallpox, typhus) layer on top via dedicated
+; pandemic .hse events with their own schedules.
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+(hsim-event mortality_disease
+  (nl         "?who dies of disease")
+  (kind       _death)
+  (schedule   (monthly))
+  (rng-stream deaths)
+
+  (roles
+    (role ?who (template any_human)
+               (>= (years-old ?self) 1)))
+
+  (when (chance 0.0008))   ; ~1% per year background disease rate
+
+  (effects
+    (die        ?who :cause disease)
+    (end-belief ?who married_to)
+    (end-belief ?who lives_in)
+    (log        _death ?who)))

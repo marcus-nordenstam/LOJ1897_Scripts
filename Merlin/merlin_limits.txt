@@ -6,7 +6,9 @@
 cycleBudgetMs = 10000
 
 # Maximum limit on the number of minds/NPCs allowed at any given time.
-npcCapacity = 128
+# 2000 is the safe ceiling - pushing past it requires widening ArenaPoolId
+# from uint16_t (see Sim/Constants.h kNumPoolsPerMind comment).
+npcCapacity = 2000
 
 # Maximum limit on the number of players allowed at any given time.
 playerCapacity = 4
@@ -26,11 +28,13 @@ EPSWmeCapacityPerNpcMind = 4096
 # ---------------------------------------------------------------------------------------
 
 # Environment pools
-env.occupantsTable.pool             =   2000    1000    100
-env.entityIds32.pool                =   250     100     10
-env.entityIds64.pool                =   1000    1000    10
-env.entityIds128.pool               =   250     100     10
-env.sounds.pool                     =   1000    200     20
+# Sized for npcCapacity=2000 historical sim (each NPC has 7 body parts, plus
+# buildings/areas/roads, so env entity-id pools need significant headroom).
+env.occupantsTable.pool             =   20000   2000    200
+env.entityIds32.pool                =   2000    200     20
+env.entityIds64.pool                =   8000    2000    100
+env.entityIds128.pool               =   4000    200     50
+env.sounds.pool                     =   2000    200     50
 
 # Rule pools
 abs.rules.pool                      =   1000    256     64

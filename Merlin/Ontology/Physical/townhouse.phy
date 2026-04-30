@@ -1,0 +1,4 @@
+# Default .phy placeholder, hand-authored until a proper asset exists.
+kind = townhouse
+radii = 3.0 3.5 5.0
+asset =

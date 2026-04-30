@@ -18,10 +18,11 @@ rule bartending-serve-customer-proposal
                    (des in_front_of ?bar_counter) 
                    '(and (bb_public_read @o wants_drink) 
                          (bb_public_none @o drinking_glass_cell))): ?patron
+(bb_public_read ?patron talk_cell): ?patron_talk_cell
     ->
 (begin_proposal {@self serve_customer ?patron} (des abs_util 1000))
-(bb_private_write @self talk_cell_constraint '[(des behind ?bar_counter) 
-                                               (des in_front_of ?patron)]).
+(bb_private_write @self talk_cell_constraint '[(des behind ?bar_counter)
+                                               (des across_from ?patron_talk_cell)]).
 
 
 # find out what drink customer wants
