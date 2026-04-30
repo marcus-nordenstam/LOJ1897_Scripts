@@ -20,19 +20,20 @@
 
 ;; Unmarried adult woman. Fertility / marriage age varies by class; events
 ;; layer extra age filters on top.
+;; Merlin's wildcard symbol is bare `?`, so existence checks use `?`.
 (define-role unmarried_woman
   (kind  human)
   (alive)
   (= (attr ?self gender) female)
   (>= (years-old ?self) 18)
-  (not (believes ?self {@self married_to ?spouse})))
+  (not (believes ?self {@self spouse ?})))
 
 (define-role unmarried_man
   (kind  human)
   (alive)
   (= (attr ?self gender) male)
   (>= (years-old ?self) 18)
-  (not (believes ?self {@self married_to ?spouse})))
+  (not (believes ?self {@self spouse ?})))
 
 ;; Adult woman in fertile age range, currently married. Births event uses
 ;; this and recovers the husband via belief query.
@@ -42,7 +43,7 @@
   (= (attr ?self gender) female)
   (>= (years-old ?self) 16)
   (<= (years-old ?self) 42)
-  (believes ?self {@self married_to ?spouse}))
+  (believes ?self {@self spouse ?}))
 
 ;; Adult of working/migration age. Used by emigration.
 (define-role young_adult

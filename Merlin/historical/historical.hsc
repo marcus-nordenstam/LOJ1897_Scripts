@@ -6,4 +6,4 @@
 (seed              4242)
 (start_year        1700)
 (end_year          1897)
-(start_population  0)
+(start_population  700)

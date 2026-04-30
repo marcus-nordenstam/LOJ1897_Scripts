@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; Emigration. Young adults occasionally leave the parish for opportunity
 ; elsewhere. We model this as a death with cause=emigrated so the rest of
-; the sim sees the same retraction of beliefs (married_to / lives_in get
+; the sim sees the same retraction of beliefs (spouse / lives_in get
 ; ended just like a real death).
 ;
 ; Future refinement: distinguish "emigrated" from "dead" once a third
@@ -24,6 +24,6 @@
 
   (effects
     (die        ?who :cause emigrated)
-    (end-belief ?who married_to)
+    (end-belief ?who spouse)
     (end-belief ?who lives_in)
     (log        _emigration ?who)))

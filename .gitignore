@@ -38,3 +38,5 @@
 
 # Logging
 log.*
+*.bin
+*.msb

@@ -29,6 +29,6 @@
                  (>= (- (years-old ?self) (years-old ?bride)) -15)))
 
   (effects
-    (begin-belief ?groom married_to ?bride)
-    (begin-belief ?bride married_to ?groom)
+    (begin-belief ?groom spouse ?bride)
+    (begin-belief ?bride spouse ?groom)
     (log _marriage ?groom)))

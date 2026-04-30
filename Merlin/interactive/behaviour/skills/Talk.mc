@@ -18,36 +18,8 @@
 #    (bb_public_clear @self preempted_talk_cell)
 #    (maintainAttention ?person).
 
-
-# Splitting concerns into separate but parallel beliefs and bb entries:
-#
-# (a) Having a goal to talk to someone (to proactively TELL or ASK, or because we expect to be asked or expect an answer)
-#     e.g. (goal {@self talk_to ?person}).  This can be used to propagate the cause-chain for utility purposes.
-# (b) Knowing which message or question to to TELL or ASK (TELL/ASK belief)
-# (c) Knowing in what cell to we are planning to uphold our end of the conversation, using bb: (talk_cell)
-#
-# Talking behaviour:
-# * claim a cell within talk-range of your conversational partner, go to your cell, and stay there during talking.
-# * carry multiple simultaneous conversations, but each individual TELL/ASK is executed sequentially 
-# * talking can be done as long as your cell overlaps you, but always try to be at the center of the cell
-
-# Ordering a beer:
-# Patron/bartender - non interrupted
-# Patron/bartender - patron interrupted (stops pubbing, or has to go to bathroom, or dies)
-# Patron/bartender - bartender interruped (e.g. end of shift, has to go to bathroom, or dies)
-#
-# Player/bartender - non interrupted
-# Player/bartender - player runs off in the middle of ordering
-# Patron/bartender - bartender interruped (e.g. end of shift)
-#
-# Dialogue in general:
-#
-# NPC1 walking home, NPC2 tries to talk to them
-# NPC1 talking to NPC2.  NPC3 (or Player) asks a question of NPC1.
-# NPC1 and NPC2 are talking.  NPC1 dies in the middle of the conversation.
-
 # ------------------------------------------------------------------------------------------------
-# Determining the 'talk cell', e.g. the cell from which you will hold your end of the conversation
+# Wanting to talk to someone
 # ------------------------------------------------------------------------------------------------
 
 # If I want to say some message to someone, I want to talk to them
@@ -61,6 +33,10 @@ rule talk-signal-try-to-talk
 {@self goal {@self talk_to ?person}}
     ->
 (bb_public_maintain @self try_to_talk_to ?person 10).
+
+# ------------------------------------------------------------------------------------------------
+# Determining the 'talk cell', e.g. the cell from which you will hold your end of the conversation
+# ------------------------------------------------------------------------------------------------
 
 # If the talk-cell-constraint changes (e.g. a new conversation partner or something)
 # then force a re-trigger of the two rules below to find a new/better talking cell

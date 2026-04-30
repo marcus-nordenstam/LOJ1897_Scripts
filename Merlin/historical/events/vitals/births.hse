@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; Births. For each fertile married woman, with a small monthly chance,
-; spawn a child whose father is recovered via her married_to belief.
+; spawn a child whose father is recovered via her spouse belief.
 ;
 ; The (birth-human ...) verb wraps mx_birth_human - it creates a new entity,
 ; populates traits via Mendelian sampling from mother + father, and asserts
@@ -8,7 +8,7 @@
 ; only needs to identify the couple and trigger the verb.
 ;
 ; Topology: ?wife is enumerated; ?husband is recovered through the
-; (believes ?wife {@self married_to ?husband}) relational filter.
+; (believes ?wife {@self spouse ?husband}) relational filter.
 ; ----------------------------------------------------------------------------
 
 (include "../shared/roles.hse")
@@ -26,7 +26,7 @@
                    (chance 0.033))   ; ~0.40 per couple-year over 12 months
     (role ?husband (template any_human)
                    (= (attr ?self gender) male)
-                   (believes ?wife {@self married_to ?husband})))
+                   (believes ?wife {@self spouse ?husband})))
 
   (effects
     (birth-human :mother ?wife :father ?husband)

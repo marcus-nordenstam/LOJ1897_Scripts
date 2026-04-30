@@ -23,7 +23,7 @@
 
     (effects
       (die        ?who :cause old_age)
-      (end-belief ?who married_to)
+      (end-belief ?who spouse)
       (end-belief ?who lives_in)
       (log        _death ?who)))
 )
