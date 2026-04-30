@@ -57,7 +57,8 @@ rule bartending-serve-customer-POUR-beer-proposal
 (env_cell_occupier [k drinking_glass] ?beer_cell): ?beer_glass
     ->
 (begin_proposal {@self POUR ?drink_kind ?beer_glass})
-(unclaim_env_cell ?beer_cell).
+(unclaim_env_cell ?beer_cell)
+(bb_private_clear @self talk_cell_constraint).
 
 
 rule bartending-serve-customer-outcome
@@ -65,9 +66,6 @@ rule bartending-serve-customer-outcome
 {@self serve_customer ?patron}: ?serve
 {?patron order ?drink_kind @self}: ?order
 {@self /succ POUR ?drink_kind ? /causes ~?serve}
-(bb_public_none ?patron try_to_talk_to @self)
-(bb_public_none @self try_to_talk_to ?patron)
     ->
 (endBelief ?order)
-(set_outcome /succ ?serve)
-(bb_private_clear @self talk_cell_constraint).
+(set_outcome /succ ?serve).

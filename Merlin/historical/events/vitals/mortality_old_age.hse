@@ -16,10 +16,10 @@
   (roles
     (role ?who (template old_human)))
 
-  (let ((per-year  (lookup mortality_by_age (years-old ?who)))
-        (per-month (/ per-year 12.0)))
+  (let ((?per_year  (lookup mortality_by_age (years-old ?who)))
+        (?per_month (/ ?per_year 12.0)))
 
-    (when (chance per-month))
+    (when (chance ?per_month))
 
     (effects
       (die        ?who :cause old_age)

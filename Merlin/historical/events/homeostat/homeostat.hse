@@ -22,15 +22,15 @@
   (schedule   (annually january))
   (rng-stream homeostat)
 
-  (let ((alive    (alive-count))
-        (target   (lookup homeostat_target_population 0))
-        (pressure (/ alive target))
-        (count    (lookup homeostat_emigration_count 0)))
+  (let ((?alive    (alive-count))
+        (?target   (lookup homeostat_target_population 0))
+        (?pressure (/ ?alive ?target))
+        (?count    (lookup homeostat_emigration_count 0)))
 
-    (when (> pressure (lookup homeostat_emigration_pressure 0)))
+    (when (> ?pressure (lookup homeostat_emigration_pressure 0)))
 
     (effects
-      (emigrate-oldest count)
+      (emigrate-oldest ?count)
       (log _emigration_wave)))
 )
 
@@ -40,14 +40,14 @@
   (schedule   (annually january))
   (rng-stream homeostat)
 
-  (let ((alive    (alive-count))
-        (target   (lookup homeostat_target_population 0))
-        (pressure (/ alive target))
-        (count    (lookup homeostat_immigration_count 0)))
+  (let ((?alive    (alive-count))
+        (?target   (lookup homeostat_target_population 0))
+        (?pressure (/ ?alive ?target))
+        (?count    (lookup homeostat_immigration_count 0)))
 
-    (when (< pressure (lookup homeostat_immigration_pressure 0)))
+    (when (< ?pressure (lookup homeostat_immigration_pressure 0)))
 
     (effects
-      (spawn-immigrant count)
+      (spawn-immigrant ?count)
       (log _immigration_wave)))
 )
