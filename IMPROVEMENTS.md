@@ -24,7 +24,6 @@ IMPROVEMENTS:
 * Bartender picks up empty glasses and destroys them
 
 GENERAL CLEANUP:
-* Fix the codebase so I can run in debug without belief-inception errors again.
 * Rigourously define: cell-overlap.  
    Used by (overlaps), but also check how the mx_cell/worlspace mapping work w.r.t that
    Should talking distance be based on cell coords or worldspace coords? pros and cons

@@ -15,7 +15,7 @@ rule bartending-serve-customer-proposal
 # deal with one patron at a time:
 (none {@self proposal {@self serve_customer}}) # no code after this should be reached WHILE serving a customer
 (env_cell_occupier [k human] 
-                   (des in_front_of ?bar_counter) 
+                   (des right_in_front_of ?bar_counter) 
                    '(and (bb_public_read @o wants_drink) 
                          (bb_public_none @o drinking_glass_cell))): ?patron
 (bb_public_read ?patron talk_cell): ?patron_talk_cell
