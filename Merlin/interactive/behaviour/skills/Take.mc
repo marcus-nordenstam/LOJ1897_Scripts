@@ -13,7 +13,7 @@ rule take-move-closer
 rule take-left-reach-for-proposal
 {@self take ?thing}
 {@self hand [k left_hand]:?hand}
-{?hand control @nothing}
+{?hand control _}
 (in_range /reach ?thing 0.5 (des stay_at 0.3) /debug)
 (lockRule take 0)
     ->
@@ -24,7 +24,7 @@ rule take-left-reach-for-proposal
 rule take-right-reach-for-proposal
 {@self take ?thing}
 {@self hand [k right_hand]:?hand}
-{?hand control @nothing}
+{?hand control _}
 (in_range /reach ?thing 0.5 (des stay_at 0.3) /debug)
 (lockRule take 1) # prefer right-hand
     ->

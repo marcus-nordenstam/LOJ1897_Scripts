@@ -21,9 +21,13 @@
   (age-bracket 0
     (else 0.90)))
 
+; Emigration count must absorb births (~70/yr) + the bookkeeping minus
+; deaths from disease/old-age (~40/yr together) to keep population from
+; drifting. Underset emigration was the cause of 700 -> 1103 in 30 years
+; in the prior sim run.
 (define-table homeostat_emigration_count
   (age-bracket 0
-    (else 8)))
+    (else 50)))
 
 (define-table homeostat_immigration_count
   (age-bracket 0

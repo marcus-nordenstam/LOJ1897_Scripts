@@ -10,7 +10,7 @@ rule stack-get-stack-take-proposal
 {@self stack_get ?thing ?stack}
 {?stack isa [k object stack]}
 {@self hand ?hand}
-{?hand control @nothing}
+{?hand control _}
 {@self within_reach_of ?stack}
     ->
 (maintain_proposal {@self STACK_TAKE ?thing ?hand}).

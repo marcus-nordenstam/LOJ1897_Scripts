@@ -40,7 +40,7 @@ rule stack-read-put-done-doc-proposal
 rule stack-read-outcome-empty-succ
 {@self stack_read ?stack}: ?stack_read
 {?stack isa [k object stack]}
-{?stack top @nothing}
+{?stack top _}
 (none {@self view ?})
     ->
 (set_outcome ?stack_read /succ).

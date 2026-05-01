@@ -166,9 +166,9 @@ rule start-conv-perceive-conv-proposal /breakOnFire
 
 rule start-conv-proposal
 {@self goal {@self conversation ?irrConv}}
-{@self conversation @nothing}
+{@self conversation _}
 {?irrConv participant !@self:?person}
-{?person conversation @nothing} # We know that ?person is NOT in ANY conversation
+{?person conversation _} # We know that ?person is NOT in ANY conversation
 (lockRule) # Only try to start one conv at a time
     ->
 (maintain_proposal {@self start_conv ?irrConv})
@@ -283,7 +283,7 @@ rule
 #-----------------------------------------------------------------------------------------
 
 rule conv-response-formulaicOpening-proposal
-{@self conversation @nothing}
+{@self conversation _}
 {?person /succ TELL (formulaic opening how_do ?) @self}: ?personTell
 (none {@self /ever TELL ? ?person /causes ~?personTell})
 (lockRule) # Join only one conversation at a time
@@ -299,7 +299,7 @@ rule conv-response-formulaicOpening-proposal
 # as initiator, so conv-end-proposal ({?conv initiator @self}) won't match for
 # the NPC — the conversation persists until the player exits dialogue.
 rule conv-response-player_talk-proposal
-{@self conversation @nothing}
+{@self conversation _}
 {?person /succ TELL (formulaic opening player_talk) @self}: ?personTell
 (none {@self end_conv}) # Don't start a new conversation while ending one
 (none {@self /ever TELL ? ?person /causes ~?personTell})
@@ -436,7 +436,7 @@ rule end-conv-outcome-succ
 # DEBUGGING RULES
 /*
 rule
-{@self conversation @nothing}
+{@self conversation _}
     ->
 (print ["--- " @self is NOT in a conversation]).
 
@@ -446,7 +446,7 @@ rule
 (print ["+++ " @self IS in a conversation]).
 
 rule
-{!@self:?person conversation @nothing}
+{!@self:?person conversation _}
     ->
 (print [" - " @self believes that ?person is NOT in a conversation]).
 

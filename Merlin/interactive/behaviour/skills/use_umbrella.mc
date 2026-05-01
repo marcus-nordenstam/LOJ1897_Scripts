@@ -14,7 +14,7 @@ rule use_umbrella-propose-take
 # @self directly controlling something means it is stowed, not in my hand
 {@self control ?umbrella}
 {@self hand [k right_hand]:?hand}
-{?hand control @nothing}
+{?hand control _}
     ->
 # take task will reach for and grasp the umbrella
 (maintain_proposal {@self take ?umbrella} (des abs_util 100)).

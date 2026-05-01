@@ -2,8 +2,8 @@
 # I can infer the martial status of anyone by considering the known spouse/fiancee relationships
 
 rule infer-single
-{?person fiancee @nothing}
-{?person spouse @nothing}
+{?person fiancee _}
+{?person spouse _}
 #{?person age_group >2}
 {?person age_group >0}
     ->
@@ -12,7 +12,7 @@ rule infer-single
 
 rule infer-engaged
 {?person fiancee @something}
-{?person spouse @nothing}
+{?person spouse _}
     ->
 (beginBelief {?person marital_state engaged})
 (fireAndForget).
@@ -34,7 +34,7 @@ rule infer-no-fiancee
 {?lhand finger [k ring_finger]:?ring_finger}
 (none {?ring_finger wear [k engagement_ring]})
     ->
-(beginBelief {?person fiancee @nothing}).
+(beginBelief {?person fiancee _}).
 
 
 # If the person, regardless of gender, is NOT wearing a wedding-band, then they're NOT married
@@ -44,7 +44,7 @@ rule infer-no-spouse
 {?lhand finger [k ring_finger]:?ring_finger}
 (none {?ring_finger wear [k wedding_band]})
     ->
-(beginBelief {?person spouse @nothing}).
+(beginBelief {?person spouse _}).
 
 
 # If the person is female and wears an engagement-ring (but no wedding-band), then she's engaged
@@ -57,7 +57,7 @@ rule infer-fiancee
 (none {?ring_finger wear [k wedding_band]})
     ->
 (beginBelief {?person fiancee @something})
-(beginBelief {?person spouse @nothing}).
+(beginBelief {?person spouse _}).
 
 
 # If the person, regardless of gender, wears a wedding-band, then they're married, and NOT engaged (anymore)
@@ -67,6 +67,6 @@ rule infer-spouse
 {?lhand finger [k ring_finger]:?ring_finger}
 {?ring_finger wear [k wedding_band]}
     ->
-(beginBelief {?person fiancee @nothing})
+(beginBelief {?person fiancee _})
 (beginBelief {?person spouse @something}).
 

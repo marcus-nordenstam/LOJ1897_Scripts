@@ -24,7 +24,7 @@ attr "parts"            entity [12] /state "part"                /children   /ob
 attr "controlled_by"    entity                                  /controlled_by   /imperceptible
 # What this entity controls (stowed or held items)
 attr "control"          entity [12]                             /control    /obs /auto_percept
-# Which stack this entity is in, if any. If not in a stack, set to @nothing.
+# Which stack this entity is in, if any. If not in a stack, set to _.
 attr "in_stack"         entity "stack"                          /in_stack    /obs
 
 # Conditions & properties
@@ -130,7 +130,7 @@ attr "era_max"          date                                                /imp
 # Address: entity ref to the road the building is on, OR to the estate
 # entity itself when there's no street (estate-on-grounds case). Combined
 # with address_number ("14 Victoria Street", or "Blackthorne Estate" with
-# @nothing number).
+# _ number).
 attr "address"          entity "road"|"structure"                           /obs /auto_percept
 attr "address_number"   int                                                 /obs /auto_percept
 

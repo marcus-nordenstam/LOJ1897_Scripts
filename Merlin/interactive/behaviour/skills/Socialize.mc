@@ -4,7 +4,7 @@
 #   Attend theatre (to provide a place where they can get to know others)
 rule socialize-go-theatre
 {@self alertness alert}
-{@self spouse @nothing}
+{@self spouse _}
 #{@self age_group >1}
 {[k building theatre]:?theatre obb ?obb}
 (in @self ?theatre /not)

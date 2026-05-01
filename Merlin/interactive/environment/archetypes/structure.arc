@@ -15,7 +15,7 @@ archetype "structure" [2048] /obs /always_visible /children_occupy_env_grid
     "era_min"
     "era_max"
     # Address - road the building is on, OR self-reference for estates.
-    # See common.arc for the @nothing convention on address_number.
+    # See common.arc for the _ convention on address_number.
     "address"
     "address_number"
     "region"

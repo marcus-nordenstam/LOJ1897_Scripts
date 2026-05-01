@@ -28,7 +28,7 @@ rule stack-browse-get-next-doc-proposal
 {?stack top @something:?doc}
 # and I am NOT gripping anything
 {@self hand ?hand}
-{?hand control @nothing}
+{?hand control _}
     ->
 # then set a goal to get the next doc from the stack
 (maintain_proposal {@self stack_get ?doc ?stack}).

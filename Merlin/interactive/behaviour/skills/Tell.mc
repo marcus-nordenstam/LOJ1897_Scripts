@@ -14,8 +14,8 @@ rule goal-conv-TELL-notAvail
 
 rule goal-conv-TELL-bothAvail
 {@self goal {@self TELL ?msg ?audience}}: ?goal
-{@self conversation @nothing}
-{?audience conversation @nothing}
+{@self conversation _}
+{?audience conversation _}
     ->
 (maintain_proposal {@self keep_near_and_facing ?audience} (des abs_util 1000))
 (maintain_proposal {@self keep_looking_at_part ?audience eyes} (des abs_util 1000)).

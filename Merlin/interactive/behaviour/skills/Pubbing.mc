@@ -25,7 +25,7 @@ rule pubbing-put-away-empty-glass-proposal
 {@self pubbing}
 {@self hand ?hand}
 {?hand control [k drinking_glass]:?glass}
-{?glass control @nothing}
+{?glass control _}
 (closest [k counter]|[k table]): ?surface
     ->
 (begin_proposal {@self put ?glass ?surface}).

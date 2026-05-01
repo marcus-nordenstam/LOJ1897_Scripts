@@ -133,7 +133,7 @@ rule
 
 # Title deed of ownership
 {[n ?addr] owner [n ?owner] /i ?date @ongoing}
-{[n ?addr] owner @nothing /i ?date @ongoing}
+{[n ?addr] owner _ /i ?date @ongoing}
 
 # Documents are structured as follows:
 #
@@ -277,7 +277,7 @@ rule
  John walked home
 
 
-{?person goal {?org workplace (o /descr /a ; building ; owner @nothing)}}
+{?person goal {?org workplace (o /descr /a ; building ; owner _)}}
 
 
 {@self job ?clerkJob}

@@ -57,8 +57,8 @@ abs.objectRuleRefs.pool             =   128     64      8
 npc.namedObjectsTable.pool          =   16      8       8
 npc.catObjectsTable.pool            =   16      8       8
 npc.causedObjectsTable.pool         =   16      8       8
-npc.beliefRolesTable.pool           =   512     128     16
-npc.beliefRoles.pool                =   4096    512     64
+npc.beliefRolesTable.pool           =   4096    256     64
+npc.beliefRoles.pool                =   16384   1024    128
 
 # Pattern-related pools
 npc.events.pool                     =   10000   512     128
@@ -73,6 +73,11 @@ npc.float4.pool                     =   1000    64      16
 # Private blackboard pools (per-mind, one bb per active pattern/object that uses it)
 npc.private_bb.pool                 =   1024    128     64
 npc.private_bb_entries.pool         =   1024    128     64
+
+# Public blackboard pool (single, on the abs Mind; one bb per abs-host symbol that
+# uses one). maxItems is bounded by MEnv::k_max_public_bbs (65536) - asserted at
+# startup. Bump initial reserve and stride if profiling shows churn.
+abs.public_bb.pool                  =   65536   1024    512
 
 # EPS pools
 npc.wm.pool                         =   4096    256     128

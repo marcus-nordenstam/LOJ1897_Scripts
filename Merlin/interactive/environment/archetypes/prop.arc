@@ -13,6 +13,6 @@ archetype "prop" [1024] /obs /occupies_env_grid /non_occluder
     "control_force"
     "control"
     "in_stack"
-    # If prop is in a stack, obb is set to @nothing
+    # If prop is in a stack, obb is set to _
     "obb"
 }

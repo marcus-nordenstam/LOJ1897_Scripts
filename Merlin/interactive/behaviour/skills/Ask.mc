@@ -21,8 +21,8 @@ rule goal-conv-ASK-notAvail
 
 rule goal-conv-ASK-bothAvail
 {@self goal {@self ASK ?question ?audience}:?ask}: ?goal
-{@self conversation @nothing}
-{?audience conversation @nothing}
+{@self conversation _}
+{?audience conversation _}
     ->
 (o /hyp [k conversation] {@o participant @self} {@o participant ?audience}): ?irrConv
 (maintainBelief {?irrConv todo ?ask /causes ?goal}) # add explicit cause because todo is state
