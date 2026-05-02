@@ -5,8 +5,8 @@ rule goal-know-answer-to-marriage-proposal
 {@self gender male}
 {@self marital_state single}
 #(none {?prospect goal {@prospect marry @self}})
-#(gt (timeSince /cont /weeks ?iWantToMarryHer) 1) # had her in mind for 1 week
-(lockRule) # synchronize the ability to activate this rule - only one at a time
+#(gt (time_since /cont /weeks ?iWantToMarryHer) 1) # had her in mind for 1 week
+(lock_rule) # synchronize the ability to activate this rule - only one at a time
     ->
 '(prob {?prospect goal {?prospect marry @self}}): ?marriageProposal
 (maintain_goal {@self know ?marriageProposal}).
@@ -16,22 +16,22 @@ rule reasoning-marriage-proposal-accepted
 {?proposer /succ ASK (qs (prob {?proposee goal {?proposee marry ?proposer}})) ?proposee}: ?marriageProposal
 {?proposee /succ TELL (msg @true) ?proposer /causes ~?marriageProposal}
     ->
-(beginBelief {?proposer fiancee ?proposee})
-(beginBelief {?proposee fiancee ?proposer})
-(fireAndForget).
+(begin_belief {?proposer fiancee ?proposee})
+(begin_belief {?proposee fiancee ?proposer})
+(fire_and_forget).
 
 
 rule reasoning-marriage-proposal-rejected
 {?proposer /succ ASK (qs (prob {!@self:?proposee goal {?proposee marry ?proposer}})) ?proposee}: ?marriageProposal
 {?proposee /succ TELL (msg @unknown%) ?proposer /causes ~?marriageProposal}
     ->
-(beginBelief {?proposee goal {?proposee marry ?proposer} /p @unknown%})
+(begin_belief {?proposee goal {?proposee marry ?proposer} /p @unknown%})
 (if (eq ?proposer @self) 
     [(set_outcome {@self goal {@self marry ?proposee}} /fail)
      (any {?proposee marriage_desirability}): ?desirabilityEvent
      (sub ?desirabilityEvent.target 0.1): ?newDesirability
-     (beginBelief {?proposee marriage_desirability ?newDesirability})])
-(fireAndForget).
+     (begin_belief {?proposee marriage_desirability ?newDesirability})])
+(fire_and_forget).
 
 
 
@@ -52,7 +52,7 @@ rule proposal-give-engagement-ring
 {@self gender male}
 {@self hand ?hand}
 {?hand control [k engagement_ring]:?ring}
-(lockRule)
+(lock_rule)
     ->
 (maintain_proposal {@self give ?ring ?fiancee}).
 
@@ -67,5 +67,5 @@ rule proposal-wear-engagement-ring
 {@self hand [k left_hand]:?lhand}
 {?lhand finger [k ring_finger]:?ring_finger}
     ->
-(beginBelief {?ring owner @self})
+(begin_belief {?ring owner @self})
 (maintain_proposal {@self WEAR ?ring ?ring_finger}).

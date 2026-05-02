@@ -26,8 +26,8 @@
 rule hear-tell
 {!@self:?person /succ TELL ?msg ? /causes []}
     ->
-(beginBelief (evalMsg ?msg))
-(fireAndForget).
+(begin_belief (eval_msg ?msg))
+(fire_and_forget).
 
 
 #rule someone_want_self_action

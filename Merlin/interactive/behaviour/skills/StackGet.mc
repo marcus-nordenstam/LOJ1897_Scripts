@@ -18,7 +18,7 @@ rule stack-get-stack-take-proposal
 
 # Base the activity's outcome on the corresponding action's outcome
 rule stack-get-outcome
-{@self /ever stack_get ?thing ?stack /noOut}: ?get
+{@self /ever stack_get ?thing ?stack /no_out}: ?get
 {@self /past STACK_TAKE ?thing ? /causes ~?get}: ?TAKE
     ->
 (set_outcome ?get (outcome ?TAKE)).

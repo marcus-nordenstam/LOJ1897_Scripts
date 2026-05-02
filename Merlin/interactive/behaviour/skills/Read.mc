@@ -17,7 +17,7 @@ rule read-action-proposal
 
 # Base the activity's outcome on the corresponding action's outcome
 rule read-outcome
-{@self /ever read ?doc /noOut}: ?read
+{@self /ever read ?doc /no_out}: ?read
 {@self /past READ ?doc /causes ~?read}: ?READ
     ->
 (set_outcome ?read (outcome ?READ)).

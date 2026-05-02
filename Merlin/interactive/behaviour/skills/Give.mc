@@ -27,7 +27,7 @@ rule give-proposal-offer
 {?hand control ?thing}
 {@self within_reach_of ?recipient}
 {@self facing ?recipient}
-(real ?thing)
+(realis ?thing)
     ->
 (maintain_proposal {@self OFFER ?thing ?recipient}).
 
@@ -74,16 +74,16 @@ rule give-outcome-giver
 #{?recipient /succ TAKE ?thing /causes ~?offer}
     ->
 (set_outcome ?give /succ)
-(fireAndForget).
+(fire_and_forget).
 
 # From the observer's pov
 rule give-outcome-observer
 {!@self:?giver /succ OFFER ?thing ?recipient}: ?offer
 {?recipient /succ take ?thing /causes ~?offer}
     ->
-(beginBelief {?giver give ?thing ?recipient /momentary}): ?give
+(begin_belief {?giver give ?thing ?recipient /momentary}): ?give
 (set_outcome ?give /succ)
-(fireAndForget).
+(fire_and_forget).
 
 
 /*

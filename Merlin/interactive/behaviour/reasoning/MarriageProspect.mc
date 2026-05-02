@@ -28,18 +28,18 @@ rule eligible_for_marriage
 {@self family ?myFamily}
 {?person family !?myFamily}
     ->
-(maintainBelief {?person eligible_for_marriage})
+(maintain_belief {?person eligible_for_marriage})
 (if (none {?person marriage_desirability})
-    (beginBelief {?person marriage_desirability (sub 1000 (id ?person))})).
+    (begin_belief {?person marriage_desirability (sub 1000 (id ?person))})).
 
 rule marry-desirability-decrease-longtime-no-see
 {@self goal {@self marry ?prospect}}
 {?prospect marriage_desirability ?desirability}
-(timeSinceObserved ?prospect /years): ?timeSince
+(time_since_observed ?prospect /years): ?timeSince
 (ge ?timeSince 1)
     ->
 (sub ?desirability ?timeSince): ?newDesirability
-(beginBelief {?prospect marriage_desirability ?newDesirability}).
+(begin_belief {?prospect marriage_desirability ?newDesirability}).
 
 
 rule goal-marry

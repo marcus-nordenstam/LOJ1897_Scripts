@@ -22,8 +22,8 @@ rule get_acquainted_with
 {?person age_group >1}
 {@self family ?myFamily}
 {?person family !?myFamily}
-(lockRule) # only one firing of this rule at a time / mind
-(real ?person)
+(lock_rule) # only one firing of this rule at a time / mind
+(realis ?person)
 (none {@self /succ get_acquainted_with ?person}) # we don't know this person
     ->
 (maintain_proposal {@self get_acquainted_with ?person}).

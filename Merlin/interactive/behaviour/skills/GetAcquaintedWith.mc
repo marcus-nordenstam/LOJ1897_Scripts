@@ -12,7 +12,7 @@ rule seek_answers
 
 
 rule get-acquainted-with-outcome
-{@self /ever get_acquainted_with ?person /noOut}: ?getAcquainted
+{@self /ever get_acquainted_with ?person /no_out}: ?getAcquainted
 {@self /past seek_answers ? /causes ~?getAcquainted}: ?seek_answers
     ->
 (set_outcome ?getAcquainted (outcome ?seek_answers)).

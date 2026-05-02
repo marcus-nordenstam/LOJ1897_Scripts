@@ -125,7 +125,7 @@ rule grieve
 #rule go-to-waypoint
 #{?waypoint isa [k waypoint]}
 #    ->
-#(elapsedFiringCycles /cont): ?cycles
+#(elapsed_firing_cycles /cont): ?cycles
 #(if (gt ?cycles 700)
 #    (maintain_proposal {@self go_entity ?waypoint})
 #    (maintain_proposal {@self CHAT})).

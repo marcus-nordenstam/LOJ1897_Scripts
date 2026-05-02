@@ -10,14 +10,14 @@ rule get-take-proposal
 {?thing obb !@unknown}
 {@self within_reach_of ?thing}
 {@self facing ?thing}
-(real ?thing)
+(realis ?thing)
     ->
 (maintain_proposal {@self take ?thing}).
 
 
 # Base the activity's outcome on the corresponding take task's outcome
 rule get-outcome
-{@self /ever get ?thing /noOut}: ?get
+{@self /ever get ?thing /no_out}: ?get
 {@self /past take ?thing /causes ~?get}: ?take
     ->
 (set_outcome ?get (outcome ?take)).

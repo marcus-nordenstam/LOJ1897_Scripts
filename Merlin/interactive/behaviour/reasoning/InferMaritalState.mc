@@ -7,21 +7,21 @@ rule infer-single
 #{?person age_group >2}
 {?person age_group >0}
     ->
-(beginBelief {?person marital_state single})
-(fireAndForget).
+(begin_belief {?person marital_state single})
+(fire_and_forget).
 
 rule infer-engaged
 {?person fiancee @something}
 {?person spouse _}
     ->
-(beginBelief {?person marital_state engaged})
-(fireAndForget).
+(begin_belief {?person marital_state engaged})
+(fire_and_forget).
 
 rule infer-married
 {?person spouse @something}
     ->
-(beginBelief {?person marital_state married})
-(fireAndForget).
+(begin_belief {?person marital_state married})
+(fire_and_forget).
 
 
 # You can infer spouse/fiancee relationships of OTHERS by examining the rings on the person's left hand ringfinger
@@ -34,7 +34,7 @@ rule infer-no-fiancee
 {?lhand finger [k ring_finger]:?ring_finger}
 (none {?ring_finger wear [k engagement_ring]})
     ->
-(beginBelief {?person fiancee _}).
+(begin_belief {?person fiancee _}).
 
 
 # If the person, regardless of gender, is NOT wearing a wedding-band, then they're NOT married
@@ -44,7 +44,7 @@ rule infer-no-spouse
 {?lhand finger [k ring_finger]:?ring_finger}
 (none {?ring_finger wear [k wedding_band]})
     ->
-(beginBelief {?person spouse _}).
+(begin_belief {?person spouse _}).
 
 
 # If the person is female and wears an engagement-ring (but no wedding-band), then she's engaged
@@ -56,8 +56,8 @@ rule infer-fiancee
 {?ring_finger wear [k engagement_ring]}
 (none {?ring_finger wear [k wedding_band]})
     ->
-(beginBelief {?person fiancee @something})
-(beginBelief {?person spouse _}).
+(begin_belief {?person fiancee @something})
+(begin_belief {?person spouse _}).
 
 
 # If the person, regardless of gender, wears a wedding-band, then they're married, and NOT engaged (anymore)
@@ -67,6 +67,6 @@ rule infer-spouse
 {?lhand finger [k ring_finger]:?ring_finger}
 {?ring_finger wear [k wedding_band]}
     ->
-(beginBelief {?person fiancee _})
-(beginBelief {?person spouse @something}).
+(begin_belief {?person fiancee _})
+(begin_belief {?person spouse @something}).
 

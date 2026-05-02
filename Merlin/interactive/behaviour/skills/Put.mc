@@ -77,7 +77,7 @@ rule put-right-ungrasp-proposal
 
 # Outcome (left): propagate LEFT_UNGRASP's outcome to the put task.
 rule put-left-outcome
-{@self /ever put ?thing ?surface /noOut}: ?put
+{@self /ever put ?thing ?surface /no_out}: ?put
 {@self /past LEFT_UNGRASP ?thing ? /causes ~?put /out?}: ?UNGRASP
     ->
 (unclaim_env_cell (bb_private_read ?put put_cell))
@@ -86,7 +86,7 @@ rule put-left-outcome
 
 # Outcome (right): symmetric.
 rule put-right-outcome
-{@self /ever put ?thing ?surface /noOut}: ?put
+{@self /ever put ?thing ?surface /no_out}: ?put
 {@self /past RIGHT_UNGRASP ?thing ? /causes ~?put /out?}: ?UNGRASP
     ->
 (unclaim_env_cell (bb_private_read ?put put_cell))

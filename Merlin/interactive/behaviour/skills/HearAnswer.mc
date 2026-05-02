@@ -33,10 +33,10 @@ rule believe-is-event-true-answer
     ->
 # Now make a belief of the question-phrase (e.g. {@you want.task {@you marry @self}}), 
 # with the probability equal to the answer
-(beginBelief ?event [/p (msgContent ?answer) /sources ?tellAnswer]): ?beliefFromAnswer
+(begin_belief ?event [/p (msg_content ?answer) /sources ?tellAnswer]): ?beliefFromAnswer
 #(print [@self believes ?beliefFromAnswer])
 # You are no longer expecting an answer from this person
-(endBelief {@self expect_answer ?person}).
+(end_belief {@self expect_answer ?person}).
 #(print [@self no longer expects answer from ?person]).
 
 
@@ -58,9 +58,9 @@ rule believe-target-value-answer
     ->
 # Splice together a new belief:
 # ?event = {?person name}, ?answer = "Toby" -> {?person name "Toby"}
-(beginBelief ?event [/target (msgContent ?answer)]): ?understood
+(begin_belief ?event [/target (msg_content ?answer)]): ?understood
 # You are no longer expecting an answer from this person
-(endBelief {@self expect_answer ?person}).
+(end_belief {@self expect_answer ?person}).
 #(print [@self understands (nl ?understood)])
 #(print [@self no longer expects answer from ?person]).
 
@@ -83,10 +83,10 @@ rule believe-target-target-answer
     ->
 # Splice together a new belief:
 # ?event = {?person goal {@self serve ? ?person}}, ?answer = [k pint] -> {?person goal {@self serve [k pint] ?person}}
-(beginBelief ?event.target [/target (msgContent ?answer)]): ?targetBelief
-(beginBelief ?event [/target ?targetBelief]): ?understood
+(begin_belief ?event.target [/target (msg_content ?answer)]): ?targetBelief
+(begin_belief ?event [/target ?targetBelief]): ?understood
 # You are no longer expecting an answer from this person
-(endBelief {@self expect_answer ?person}).
+(end_belief {@self expect_answer ?person}).
 #(print [@self understands (nl ?understood)])
 #(print [@self no longer expects answer from ?person]).
 
@@ -97,9 +97,9 @@ rule believe-i-dont-know-answer
 {@self expect_answer ?person /causes ~?askQuestionAction}
 {?person /succ TELL (msg @unknown) @self /causes ~?askQuestionAction} # "I don't know"
     ->
-(beginBelief {?person /not know '(any ?event).target})
+(begin_belief {?person /not know '(any ?event).target})
 # You are no longer expecting an answer from this person
-(endBelief {@self expect_answer ?person}).
+(end_belief {@self expect_answer ?person}).
 #(print [@self no longer expects answer from ?person]).
 
 
@@ -108,17 +108,17 @@ rule believe-i-dont-know-answer
 # For example, the question "are you a laywer?" is technically phrased as: 
 #   "is there a real lawyer-job that you have?"
 # expressed as 
-#   (qs (real {@you job @o} [k laywer])).  
+#   (qs (realis {@you job @o} [k laywer])).  
 #
 # If the answer "yes", (e.g. @true) the answer is understood by adding a belief
 # that they have that job.
 rule believe-is-object-real-answer
-{@self /succ ASK (qs (real ?descriptionOfRealObject)):?question ?person}: ?askQuestionAction
+{@self /succ ASK (qs (realis ?descriptionOfRealObject)):?question ?person}: ?askQuestionAction
 {@self expect_answer ?person /causes ~?askQuestionAction}
 {?person /succ TELL (msg @true) @self /causes ~?askQuestionAction}
     ->
 # ?descriptionOfRealObject will control events with @o's in them
-(o /invent /real ?descriptionOfRealObject)
+(o /invent /realis ?descriptionOfRealObject)
 # You are no longer expecting an answer from this person
-(endBelief {@self expect_answer ?person}).
+(end_belief {@self expect_answer ?person}).
 #(print [@self no longer expects answer from ?person]).

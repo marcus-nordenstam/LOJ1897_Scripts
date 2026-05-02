@@ -3,6 +3,6 @@ motor = legs
 transmission = obs
 
 preroll = 0.0
-in      = 0.1
+in      = 0
 run     = ?
-out     = 0.1
+out     = 0

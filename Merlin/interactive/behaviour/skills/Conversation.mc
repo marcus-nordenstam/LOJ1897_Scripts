@@ -7,7 +7,7 @@
                   (bb_public_try_write_new ?person talking_to @self))
     ->
 (realise ?irr_conv): ?realis_conv
-(beginBelief {@self conversation ?realis_conv}).
+(begin_belief {@self conversation ?realis_conv}).
 
 # Realizing that someone is starting a conversation with your
 (bb_public_read @self talking_to): ?person
@@ -65,7 +65,7 @@ rule want-to-talk-tell
 {@self goal {@self TELL ?msg ?person}}
 # /reuse means to accept existing claims (for me) if they match the criteria
 (claim_env_cell /reuse (in_talk_range_of_des ?person)): ?talk_cell
-(lockRule talk) # we may have goals to talk to many, but only execute one talk at a time
+(lock_rule talk) # we may have goals to talk to many, but only execute one talk at a time
     ->
 # maintain pressure on the signal
 (bb_public_maintain @self try_to_talk_to ?person 3)
@@ -74,13 +74,13 @@ rule want-to-talk-tell
 (if (neq ?old_cell ?talk_cell) (unclaim_env_cell ?old_cell))  # (unclaim...) should just no-op if the arg is not a cell at all, such as @fail
 # keep track of the most up-to-date talk-cell
 (bb_public_write @self talk_cell ?talk_cell)
-(maintainAttention ?person).
+(maintain_attention ?person).
 
 rule want-to-talk-ask
 {@self goal {@self ASK ?msg ?person}}
 # /reuse means to accept existing claims (for me) if they match the criteria
 (claim_env_cell /reuse (in_talk_range_of_des ?person)): ?talk_cell
-(lockRule talk) # we may have goals to talk to many, but only execute one talk at a time
+(lock_rule talk) # we may have goals to talk to many, but only execute one talk at a time
     ->
 # maintain pressure on the signal
 (bb_public_maintain @self try_to_talk_to ?person 3)
@@ -89,7 +89,7 @@ rule want-to-talk-ask
 (if (neq ?old_cell ?talk_cell) (unclaim_env_cell ?old_cell))  # (unclaim...) should just no-op if the arg is not a cell at all, such as @fail
 # keep track of the most up-to-date talk-cell
 (bb_public_write @self talk_cell ?talk_cell)
-(maintainAttention ?person).
+(maintain_attention ?person).
 
 
 # Someone wants to talk to me: claim my current cell or somewhere very close by
@@ -151,7 +151,7 @@ rule ASK-propose
 # If we want to have a conversation with someone, we must first determine if that person is 
 # already in a conversation, or not.
 #-----------------------------------------------------------------------------------------
-rule start-conv-perceive-conv-proposal /breakOnFire
+rule start-conv-perceive-conv-proposal /break_on_fire
 {@self goal {@self conversation ?irrConv}}
 {?irrConv participant !@self:?person}
 (none {?person conversation}) # We don't know if ?person is already in a conversation
@@ -169,7 +169,7 @@ rule start-conv-proposal
 {@self conversation _}
 {?irrConv participant !@self:?person}
 {?person conversation _} # We know that ?person is NOT in ANY conversation
-(lockRule) # Only try to start one conv at a time
+(lock_rule) # Only try to start one conv at a time
     ->
 (maintain_proposal {@self start_conv ?irrConv})
 (print [@self wants to start a conversation with ?person]).
@@ -187,7 +187,7 @@ rule start-conv-tell-how_do-proposal
 {@self start_conv ?conv}
 {?conv participant !@self:?person}
     ->
-(anyOrUnknown {?person name}).target: ?nameOrUnknown
+(any_or_unknown {?person name}).target: ?nameOrUnknown
 (formulaic opening how_do ?nameOrUnknown): ?opening
 (maintain_goal {@self TELL ?opening ?person}).
 
@@ -242,7 +242,7 @@ rule realise-conv
 # Person tells me they're busy with another conversation.
 # This could happen if multiple NPCs try to start a conversation at the same
 # time with one person. 
-rule start-conv-outcome-fail /breakOnFire
+rule start-conv-outcome-fail /break_on_fire
 {@self start_conv ?irrConv}: ?start_conv
 {?irrConv participant !@self:?person}
 {@self /succ TELL ? ?person /causes ~?start_conv}: ?openingTELL
@@ -274,7 +274,7 @@ rule
 {?conv participant !@self:?person}
 {?person conversation @something:?personsConv} # We know that ?person is in a conversation
 (none {@self join_conv})
-(lockRule) # Only try to join one conv at a time
+(lock_rule) # Only try to join one conv at a time
     ->
 (begin_proposal {@self join_conv ?personsConv}).
 
@@ -286,9 +286,9 @@ rule conv-response-formulaicOpening-proposal
 {@self conversation _}
 {?person /succ TELL (formulaic opening how_do ?) @self}: ?personTell
 (none {@self /ever TELL ? ?person /causes ~?personTell})
-(lockRule) # Join only one conversation at a time
+(lock_rule) # Join only one conversation at a time
     ->
-(anyOrUnknown {?person name}).target: ?nameOrUnknown
+(any_or_unknown {?person name}).target: ?nameOrUnknown
 (formulaic response how_do ?nameOrUnknown): ?greeting
 (begin_goal {@self TELL ?greeting ?person}): ?tellGreeting
 (add_causes ?tellGreeting ?personTell).
@@ -303,7 +303,7 @@ rule conv-response-player_talk-proposal
 {?person /succ TELL (formulaic opening player_talk) @self}: ?personTell
 (none {@self end_conv}) # Don't start a new conversation while ending one
 (none {@self /ever TELL ? ?person /causes ~?personTell})
-(lockRule) # Join only one conversation at a time
+(lock_rule) # Join only one conversation at a time
     ->
 (formulaic response player_talk): ?greeting
 (begin_goal {@self TELL ?greeting ?person}): ?tellGreeting
@@ -336,9 +336,9 @@ rule conv-response-player_bye-proposal
 (add_causes ?proposal ?personTell).
 
 
-rule conv-response-refuseConv-proposal #/breakOnFire
+rule conv-response-refuseConv-proposal #/break_on_fire
 {@self conversation @something:?conv}: ?talking
-#{?person /succ TELL (formulaic opening ? ?) @self /beforeOrDuring ?talking}: ?personTell
+#{?person /succ TELL (formulaic opening ? ?) @self /before_or_during ?talking}: ?personTell
 {?person /succ TELL (formulaic opening ? ?) @self}: ?personTell
 {?person conversation !?conv}
 #(none {@self proposal {@self MAKE_CONV_META_ENT ?person}}) # don't refuse the person you are about to start a conversation with...
@@ -355,12 +355,12 @@ rule conv-response-refuseConv-proposal #/breakOnFire
 rule conv-todo-act-proposal
 {@self conversation @something:?conv}
 {?conv todo ?act /causes ?causes}
-(lockRule) # only one todo-act at a time
+(lock_rule) # only one todo-act at a time
     ->
 (maintain_proposal ?act): ?proposal
 (add_causes ?proposal ?causes) # add expl. cause because there are no task/goal conditions
 (if (eq ?act.label ASK) 
-    (beginBelief {@self expect_answer ?act.auxiliary /causes ?causes})).
+    (begin_belief {@self expect_answer ?act.auxiliary /causes ?causes})).
 
 
 # We need this separate rule to ensure that the expect-answer belief's causes includes
@@ -402,7 +402,7 @@ rule end-conv-proposal
 (none {@self expect_answer ?audience})
 # Don't end a conversation until you've said/done everything you intended
 (none {?conv todo})
-#(gt (evalCount) 20 /cont) # how many times this instruction has been evaluated since the rule activated
+#(gt (eval_count) 20 /cont) # how many times this instruction has been evaluated since the rule activated
     ->
 (maintain_proposal {@self end_conv ?conv} (des rel_util 100)).
 

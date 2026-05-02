@@ -16,7 +16,7 @@ rule parenting-tell-child-their-home
 (none {@self /succ TELL (msg {?child home ?home}) ?child})
     ->
 (begin_goal {@self TELL (msg {?child home ?home}) ?child})
-(fireAndForget).
+(fire_and_forget).
 
 rule parenting-tell-child-my-home
 {@self child ?child}
@@ -25,7 +25,7 @@ rule parenting-tell-child-my-home
 (none {@self /succ TELL (msg {@self home ?home}) ?child})
     ->
 (begin_goal {@self TELL (msg {@self home ?home}) ?child})
-(fireAndForget).
+(fire_and_forget).
 
 # We let the mother introduce the siblings
 rule introduce_siblings

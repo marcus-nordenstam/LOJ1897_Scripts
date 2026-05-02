@@ -1,4 +1,4 @@
-﻿action = RIGHT_REACH_FOR
+action = RIGHT_REACH_FOR
 motor = right_arm
 transmission = obs
 

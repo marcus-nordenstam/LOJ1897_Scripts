@@ -10,7 +10,7 @@ rule write-doc-action-proposal
 
 # Base the activity's outcome on the corresponding action's outcome
 rule write-doc-outcome
-{@self /ever write ?hypDoc /noOut}: ?writeHypDoc
+{@self /ever write ?hypDoc /no_out}: ?writeHypDoc
 {@self /past WRITE_DOC ? ? /causes ~?writeHypDoc}: ?WRITE_DOC
 #(o /only /known (des caused_by ?WRITE_DOC)): ?defDoc
 (o /known (des caused_by ?WRITE_DOC)): ?defDoc

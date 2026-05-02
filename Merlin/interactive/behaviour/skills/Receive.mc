@@ -14,14 +14,14 @@ rule receive-take-proposal
 {?thing obb !@unknown}
 {@self within_reach_of ?giver}
 {@self facing ?giver}
-(real ?thing)
+(realis ?thing)
     ->
 (maintain_proposal {@self take ?thing}).
 
 
 # Base the activity's outcome on the corresponding take task's outcome
 rule receive-outcome
-{@self /ever receive ?thing /noOut}: ?receive
+{@self /ever receive ?thing /no_out}: ?receive
 {@self /past take ?thing /causes ~?receive}: ?take
     ->
 (set_outcome ?receive (outcome ?take)).

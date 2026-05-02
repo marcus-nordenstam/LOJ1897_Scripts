@@ -94,7 +94,7 @@ rule introduce-siblings-tell-each-other
 # In order to perform this PHYSICAL introduction, we have to check that all parties can directly
 # refence each other (e.g. that they have all experienced each other and that all of them 
 # still exist in the physical environment)
-(canDirectRef @self ?child1 ?child2)
+(can_direct_ref @self ?child1 ?child2)
     ->
 # tell child1 "this is your brother|sister ?child2Name"
 (call siblingRel ?child2Gender): ?child2Rel
@@ -106,7 +106,7 @@ rule introduce-siblings-tell-each-other
 (maintain_goal {@self TELL ?msgChild1IsYourSibling ?child2}).
 
 rule introduce-siblings-outcome
-{@self /ever introduce_siblings ?person1 ?person2 /noOut}: ?intro
+{@self /ever introduce_siblings ?person1 ?person2 /no_out}: ?intro
 {@self /succ TELL ? ?person1 /causes ~?intro}
 {@self /succ TELL ? ?person2 /causes ~?intro}
     ->

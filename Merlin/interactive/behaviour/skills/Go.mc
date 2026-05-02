@@ -31,13 +31,13 @@ rule go-entity-walk-to-retry
     (set_outcome ?go /fail)).
 
 rule go-entity-outcome-success
-{@self /ever go_entity ?dest /noOut}: ?go
+{@self /ever go_entity ?dest /no_out}: ?go
 {@self /succ WALK_TO ? /causes ~?go}
     ->
 (set_outcome ?go /succ).
 
 rule go-entity-outcome-interrupted
-{@self /ever go_entity ?dest /noOut}: ?go
+{@self /ever go_entity ?dest /no_out}: ?go
 {@self /interrupt WALK_TO ? /causes ~?go}
     ->
 (set_outcome ?go /interrupt).
@@ -63,13 +63,13 @@ rule go-env-cell-walk-to-retry
     (set_outcome ?go /fail)).
 
 rule go-env-cell-interrupt
-{@self /ever go_env_cell ?env_cell /noOut}: ?go
+{@self /ever go_env_cell ?env_cell /no_out}: ?go
 {@self /interrupt WALK_TO ?env_cell /causes ~?go}
     ->
 (set_outcome ?go /interrupt).
 
 rule go-env-cell-success
-{@self /ever go_env_cell ?env_cell /noOut}: ?go
+{@self /ever go_env_cell ?env_cell /no_out}: ?go
 {@self /succ WALK_TO ?env_cell /causes ~?go}
     ->
 (set_outcome ?go /succ).

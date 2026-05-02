@@ -67,5 +67,5 @@ rule bartending-serve-customer-outcome
 {?patron order ?drink_kind @self}: ?order
 {@self /succ POUR ?drink_kind ? /causes ~?serve}
     ->
-(endBelief ?order)
+(end_belief ?order)
 (set_outcome /succ ?serve).

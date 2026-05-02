@@ -7,7 +7,7 @@
 rule maintain-looking-at-part-attention
 {@self keep_looking_at_part ?thing ?part}
     ->
-(maintainAttention ?thing).
+(maintain_attention ?thing).
 
 rule maintain-looking-at-part-eyes-proposal
 {@self keep_looking_at_part ?thing eyes}
@@ -32,7 +32,7 @@ rule maintain-looking-at-part-right_hand-proposal
 rule maintain-looking-at-whole-attention
 {@self keep_looking_at_whole ?thing}
     ->
-(maintainAttention ?thing).
+(maintain_attention ?thing).
 
 rule maintain-looking-at-whole-proposal
 {@self keep_looking_at_whole ?thing}

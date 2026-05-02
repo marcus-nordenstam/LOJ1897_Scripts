@@ -13,7 +13,7 @@ rule found-org-buy-workplace
 {@self found_org ?org}
 {?org workplace_kind ?workplace_kind}
 (none {?org workplace ?})
-(o /realOrHyp ?workplace_kind {@o availability for_sale}): ?workplace
+(o /realis_or_irr ?workplace_kind {@o availability for_sale}): ?workplace
     ->
 (maintain_proposal {@self buy ?workplace}).
 
@@ -181,15 +181,15 @@ rule
 # The target of the Ask relation is always a function.
 
 {?person Ask ?question @me}: ?personAsk
-(none {@i TELL ?question ?person /motivatedBy ?personAsk})
+(none {@i TELL ?question ?person /causes ?personAsk})
     ->
-(maintainBelief ?question): ?truth
-(maintainBelief /distort ?question): ?lie
+(maintain_belief ?question): ?truth
+(maintain_belief /distort ?question): ?lie
 (util ?person learn ?truth): ?truthUtil
 (util ?person learn ?lie): ?lieUtil
 (if (ge ?truthUtil ?lieUtil)
-    (maintain_goal {@i TELL ?truth ?person /motivatedBy ?personAsk})
-    (maintain_goal {@i TELL ?lie ?person /motivatedBy ?personAsk})).
+    (maintain_goal {@i TELL ?truth ?person /causes ?personAsk})
+    (maintain_goal {@i TELL ?lie ?person /causes ?personAsk})).
 
 # Event-form is either sentence (/st) or clause (/cl).
 # Arguments are always clauses no matter what.

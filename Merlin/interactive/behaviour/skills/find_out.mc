@@ -33,9 +33,9 @@ rule find-out-prob-about-person-general
 # and I'm trying to learn about that object,
 # I can ask the person about it.
 #rule 
-#{@self goal {@self know '(real {? ? [k human]:?person}):?question}}: ?goal
-#(msgContent ?question): ?qsContent
-#(eqFuncName ?qsContent real)
+#{@self goal {@self know '(realis {? ? [k human]:?person}):?question}}: ?goal
+#(msg_content ?question): ?qsContent
+#(eq_func_name ?qsContent real)
 #(tail ?qsContent).subject: ?subjects
 #(any {?subjects isa [k human]}).subject: ?person
 #    ->

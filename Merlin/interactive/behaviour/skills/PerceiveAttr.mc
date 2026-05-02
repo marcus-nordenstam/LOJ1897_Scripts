@@ -20,7 +20,7 @@ rule perceive-attr-action-proposal
 (maintain_proposal {@self PERCEIVE_ATTR ?thing ?attr}).
 
 rule perceive-attr-outcome
-{@self /ever perceive_attr ? ? /noOut}: ?perceive_attr
+{@self /ever perceive_attr ? ? /no_out}: ?perceive_attr
 {@self /past PERCEIVE_ATTR ? ? /causes ~?perceive_attr}: ?PERCEIVE_ATTR
     ->
 (set_outcome ?perceive_attr (outcome ?PERCEIVE_ATTR)).

@@ -8,7 +8,7 @@ rule marry-seek-home-for-spouse
 {?parent condition alive}
 {?parent home ?parentHome}
 {@self home ?parentHome}
-(lockRule)
+(lock_rule)
     ->
 (begin_goal {@self home (o /invent [k residential_building])}).
 
@@ -38,7 +38,7 @@ rule marry-proposal
 {?parent home ?parentHome}
 {@self home !?parentHome:?myHome}
 {?myHome obb ?myHomeObb}
-(lockRule)
+(lock_rule)
     ->
 (begin_proposal {@self marry ?fiancee})
 (begin_proposal {@self SPAWN [[k wedding_band] @self]})
@@ -49,7 +49,7 @@ rule marry-proposal
 rule marry-attention
 {@self marry ?fiancee}
     ->
-(maintainAttention ?fiancee).
+(maintain_attention ?fiancee).
 #(maintain_proposal {@self keep_near_and_facing ?fiancee} (des abs_util 1000)).
 
 
@@ -61,7 +61,7 @@ rule marry-give-wedding-band
 {?lhand finger [k ring_finger]:?ring_finger}
 (none {?ring_finger wear [k wedding_band]})
     ->
-(beginBelief {?wedding_band owner ?fiancee})
+(begin_belief {?wedding_band owner ?fiancee})
 (begin_proposal {@self give ?wedding_band ?fiancee}).
 
 
@@ -85,9 +85,9 @@ rule female-marry-wear-wedding-band
 {@self hand [k left_hand]:?lhand}
 {?lhand finger [k ring_finger]:?ring_finger}
     ->
-(beginBelief {?ring owner @self})
+(begin_belief {?ring owner @self})
 (maintain_proposal {@self WEAR ?ring ?ring_finger})
-(beginBelief {@self home ?fianceeHome}).
+(begin_belief {@self home ?fianceeHome}).
 
 
 # GROOM behaviour
@@ -123,8 +123,8 @@ rule marry-outcome-succ
 {?myRingFinger wear [k wedding_band]}
     ->
 (set_outcome /succ ?marry)
-(endBelief {@self fiancee ?fiancee})
-(beginBelief {@self spouse ?fiancee}).
+(end_belief {@self fiancee ?fiancee})
+(begin_belief {@self spouse ?fiancee}).
 
 
 

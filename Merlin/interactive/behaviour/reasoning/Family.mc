@@ -5,12 +5,12 @@ rule learn-birth-family
 {@self father ?father}
     ->
 (o [k family] {@self family @o}): ?family
-(beginBelief {?mother spouse ?father})
-(beginBelief {?father spouse ?mother})
-(beginBelief {?mother family ?family})
-(beginBelief {?father family ?family})
+(begin_belief {?mother spouse ?father})
+(begin_belief {?father spouse ?mother})
+(begin_belief {?mother family ?family})
+(begin_belief {?father family ?family})
 #(print [@self has family members (any {@self familyMembers}).target])
-(fireAndForget).
+(fire_and_forget).
 
 
 # We need to either make family exclusive, or
@@ -21,31 +21,31 @@ rule learn-family-via-spouse
 {@self spouse @something:?spouse}
     ->
 (o [k family] {@self family @o}): ?family
-(beginBelief {?spouse family ?family})
+(begin_belief {?spouse family ?family})
 #(print [@self has family members (any {@self familyMembers}).target])
-(fireAndForget).
+(fire_and_forget).
 
 rule learn-family-via-child
 {@self child ?child}
     ->
 (o [k family] {@self family @o}): ?family
-(beginBelief {?child family ?family})
+(begin_belief {?child family ?family})
 #(print [@self has family members (any {@self familyMembers}).target])
-(fireAndForget).
+(fire_and_forget).
 
 rule learn-family-via-sister
 {@self sister ?sister}
     ->
 (o [k family] {@self family @o}): ?family
-(beginBelief {?sister family ?family})
+(begin_belief {?sister family ?family})
 #(print [@self has family members (any {@self familyMembers}).target])
-(fireAndForget).
+(fire_and_forget).
 
 rule learn-family-via-brother
 {@self brother ?brother}
     ->
 (o [k family] {@self family @o}): ?family
-(beginBelief {?brother family ?family})
+(begin_belief {?brother family ?family})
 #(print [@self has family members (any {@self familyMembers}).target])
-(fireAndForget).
+(fire_and_forget).
 

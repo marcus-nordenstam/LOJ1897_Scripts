@@ -1,7 +1,7 @@
 
 rule give-birth-propose
 {@self pregnant_when !_:?when}
-(gt (timeSince /weeks ?when) 39)
+(gt (time_since /weeks ?when) 39)
     ->
 (maintain_proposal {@self GIVE_BIRTH}).
 

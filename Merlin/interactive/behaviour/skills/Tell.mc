@@ -27,7 +27,7 @@ rule conv-TELL-todo
 {@self conversation @something:?myConv}
 {?audience conversation ?myConv}
     ->
-(maintainBelief {?myConv todo ?tell /causes ?goal}). # add explicit cause because todo is state
+(maintain_belief {?myConv todo ?tell /causes ?goal}). # add explicit cause because todo is state
 
 
 rule TELL-proposal
@@ -37,7 +37,7 @@ rule TELL-proposal
 #{@self within_reach_of ?audience}
 #{@self facing ?audience}
 {@self keep_looking_at_part ?audience eyes}
-(lockRule) # only be telling one thing at a time
+(lock_rule) # only be telling one thing at a time
     ->
 (begin_proposal {@self TELL ?msg ?audience}).
 #(print [@self proposes to say (nl ?message) because (nl ?causes)]).

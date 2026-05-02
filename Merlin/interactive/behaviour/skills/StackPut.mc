@@ -27,7 +27,7 @@ rule stack-put-action-proposal
 
 # Base the activity's outcome on the corresponding action's outcome
 rule stack-put-outcome
-{@self /ever stack_put ?thing ?stack /noOut}: ?put
+{@self /ever stack_put ?thing ?stack /no_out}: ?put
 {@self /past STACK_PUT ?thing ?stack /causes ~?put}: ?PUT
     ->
 (set_outcome ?put (outcome ?PUT)).

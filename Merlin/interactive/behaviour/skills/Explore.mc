@@ -15,4 +15,4 @@
 #{@self go ?space}
 #(in @self ?space /cont)
 #    ->
-#(maintainBelief {@self in ?space}).
+#(maintain_belief {@self in ?space}).

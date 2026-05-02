@@ -6,7 +6,7 @@
 #   - If someone signals they want to talk to you, claim your current cell and stay put.
 #   - If neither party maintains the signal for 3 seconds, everything auto-releases.
 #
-# The TELL/ASK action system handles one speech act at a time (lockRule talk...).
+# The TELL/ASK action system handles one speech act at a time (lock_rule talk...).
 # Multiple concurrent conversations are allowed — the lock only serializes the
 # physical act of speaking.
 
@@ -16,7 +16,7 @@
 #    (bb_public_maintain @self try_to_talk_to ?person 30)
 #    (bb_public_write @self talk_cell ?preempted_talk_cell)
 #    (bb_public_clear @self preempted_talk_cell)
-#    (maintainAttention ?person).
+#    (maintain_attention ?person).
 
 # ------------------------------------------------------------------------------------------------
 # Wanting to talk to someone
@@ -64,7 +64,7 @@ rule talk-recipient-claim-talk-cell
     -> /cont
 (maintain_goal {@self talk_to ?person})
 (bb_public_write @self talk_cell ?my_talk_cell)
-(maintainAttention ?person).
+(maintain_attention ?person).
 
 # The rule that sets the goal to talk typically will also
 # set the talk-cell, but if not, this is the general catch-call
@@ -76,12 +76,12 @@ rule talk-claim-talk-cell
 (if ?constraint_des
     (claim_env_cell ?constraint_des)
     (claim_env_cell (des in_talk_range_of ?person))): ?talk_cell
-(lockRule talk 0)
+(lock_rule talk 0)
  # Note the use of CONTINUOUS response to guarantee that a new talk_cell is written, even if
  # the logic above ends up claiming the same talk-cell as was claimed last time conditions evaluated
     -> /cont
 (bb_public_write @self talk_cell ?talk_cell)
-(maintainAttention ?person).
+(maintain_attention ?person).
 
 # ------------------------------------------------------------------------------------------------
 # Ensuring I am in my talk cell
@@ -91,7 +91,7 @@ rule talk-claim-talk-cell
 rule talk-go-to-talk-cell
 {@self goal {@self talk_to}}
 (bb_public_read @self talk_cell): ?talk_cell
-(at /not ?talk_cell)
+(at /not ?talk_cell (des factor 0.5))
     ->
 # Intentionally higher utility than TURN_TO below, so the NPC
 # continues into the center of the cell, if possible
@@ -146,5 +146,5 @@ rule goal-ASK-outcome
 {@self goal {@self ASK ?question ?person}}: ?goal
 {@self /past ASK ?question ?person /causes ~?goal /out?}: ?ASK
     ->
-(beginBelief {@self expect_answer ?person /causes ?ASK})
+(begin_belief {@self expect_answer ?person /causes ?ASK})
 (set_outcome ?goal (outcome ?ASK)).

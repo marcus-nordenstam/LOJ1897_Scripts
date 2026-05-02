@@ -14,8 +14,8 @@ rule goal-conv-ASK-notAvail
 {@self conversation ?myConv}
 {?audience conversation !?myConv}
     ->
-(o /hyp [k conversation] {@o participant @self} {@o participant ?audience}): ?irrConv
-(maintainBelief {?irrConv todo ?ask /causes ?goal}) # add explicit cause because todo is state
+(o /irr [k conversation] {@o participant @self} {@o participant ?audience}): ?irrConv
+(maintain_belief {?irrConv todo ?ask /causes ?goal}) # add explicit cause because todo is state
 (maintain_goal {@self conversation ?irrConv}).
 
 
@@ -24,8 +24,8 @@ rule goal-conv-ASK-bothAvail
 {@self conversation _}
 {?audience conversation _}
     ->
-(o /hyp [k conversation] {@o participant @self} {@o participant ?audience}): ?irrConv
-(maintainBelief {?irrConv todo ?ask /causes ?goal}) # add explicit cause because todo is state
+(o /irr [k conversation] {@o participant @self} {@o participant ?audience}): ?irrConv
+(maintain_belief {?irrConv todo ?ask /causes ?goal}) # add explicit cause because todo is state
 (maintain_goal {@self conversation ?irrConv}).
 
 
@@ -35,7 +35,7 @@ rule conv-ASK-todo
 {@self conversation @something:?myConv}
 {?audience conversation ?myConv}
     ->
-(maintainBelief {?myConv todo ?ask /causes ?goal}). # add explicit cause because todo is state
+(maintain_belief {?myConv todo ?ask /causes ?goal}). # add explicit cause because todo is state
 
 # If you're wondering where the rule that proposes the ASK action is,
 # it's in conversation.mc, which proposes any "todo", which the rule

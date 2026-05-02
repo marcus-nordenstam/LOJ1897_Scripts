@@ -16,7 +16,7 @@ rule identify-person-go-to-workplace-by-job-kind
 {[k org]:?knownOrg isa ?orgKind}
 {?knownOrg workplace ?workplace}
 # I belive that the known company exists (it's not hypothetical or imagined)
-(real ?knownOrg)
+(realis ?knownOrg)
 # ...but I am not there
 (in @self /not ?workplace)
     ->
@@ -42,7 +42,7 @@ rule identify-person-ask-if-has-job-at-org
 (o /per /not_i [k human] (none {@o job ?}) (in @o ?workplace)): ?realPerson
     ->
 # then I want to know if they have that specific kind of job at the company
-'(real /truth ?jobKind {?realPerson job @o} {@o at (o /known ?orgName)}): ?if_you_have_job_at_org
+'(realis /truth ?jobKind {?realPerson job @o} {@o at (o /known ?orgName)}): ?if_you_have_job_at_org
 (maintain_goal {@self know ?if_you_have_job_at_org} (des rel_util 1)).
 
 
