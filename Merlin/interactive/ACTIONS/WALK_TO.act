@@ -7,7 +7,7 @@ belief_timeout = 600
 
 state = walking
 movement_speed = 0.1
-turn_speed = 10.0
+turn_speed = 4.0
 
 preroll = 0.0
 in      = 0.4

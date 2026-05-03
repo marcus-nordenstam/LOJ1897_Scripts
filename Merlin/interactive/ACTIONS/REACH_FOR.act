@@ -8,9 +8,9 @@ transmission = obs
 proc_anim = reachfor
 
 preroll = 0.0
-in      = 2
-run     = 5.0
-out     = 2
+in      = 1
+run     = 0.1
+out     = 1
 
 # Effect-only bounded action: run_func is a no-op. The reach is "successful"
 # once the IK has had its declared run-duration to settle visually.

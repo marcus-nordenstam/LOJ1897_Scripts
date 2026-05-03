@@ -16,7 +16,7 @@ rule pubbing-order-beer-proposal
 {@self pubbing}
 {?bartender perform [k bartending] ?pub}
 (in @self ?pub)
-(none {@self hand.control.control [k beer]})
+(none {@self hand.control [k drinking_glass]})
     ->
 (begin_proposal {@self order [k beer] ?bartender}).
 

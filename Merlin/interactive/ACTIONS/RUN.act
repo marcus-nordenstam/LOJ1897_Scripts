@@ -3,11 +3,11 @@ motor = legs
 transmission = obs
 
 anim.female = Motion_Fem_Run_01
-anim.male = Motion_Male_Run_01_
+anim.male = Motion_Male_Run_01
 anim_flags = loop reset
 state = running
 movement_speed = 0.5
-turn_speed = 2.0
+turn_speed = 6.0
 
 preroll = 0
 in      = 0
