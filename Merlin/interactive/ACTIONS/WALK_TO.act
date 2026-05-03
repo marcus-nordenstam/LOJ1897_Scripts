@@ -1,13 +1,13 @@
 ﻿action = WALK_TO
+alias = WALK
+
 motor = legs
 transmission = obs
-
 belief_timeout = 600
 
-alias = WALK
 state = walking
 movement_speed = 0.1
-nav_turn_speed = 8.0
+turn_speed = 10.0
 
 preroll = 0.0
 in      = 0.4

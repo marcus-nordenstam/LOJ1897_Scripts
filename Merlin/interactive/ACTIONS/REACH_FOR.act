@@ -8,6 +8,6 @@ transmission = obs
 proc_anim = reachfor
 
 preroll = 0.0
-in      = 0.3
+in      = 2
 run     = 5.0
-out     = 0.2
+out     = 2

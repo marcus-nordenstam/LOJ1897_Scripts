@@ -11,7 +11,8 @@ BEHAVIOUR ISSUES:
 * switch to relative utilities
 * people should turn their head to face what they drink
 * people should face each other when talking, etc.
-* Robustness:
+
+ROBUSTNESS:
 *  Player tries to interrupt ordering
 *  NPC ordering is bumped out of their cell
 *  SLOW down when approaching destination / don't overshoot, take frame-rate into account

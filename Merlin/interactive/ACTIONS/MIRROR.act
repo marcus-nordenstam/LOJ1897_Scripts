@@ -2,6 +2,8 @@
 motor = legs
 transmission = obs
 
+turn_speed = 6.0
+
 preroll = 0.0
 in      = 0.0
 run     = ?

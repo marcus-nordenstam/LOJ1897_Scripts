@@ -9,6 +9,6 @@ anim = right_drink
 anim_flags = loop reset
 
 preroll = 0.0
-in      = 0.6
+in      = 2
 run     = 1.0
-out     = 0.9
+out     = 2
