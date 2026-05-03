@@ -1,0 +1,16 @@
+action = STAND_UP
+motor = legs
+transmission = obs
+
+anim_flags = backwards
+alias = SIT
+
+preroll = 0.0
+in      = 0.4
+run     = 1.0
+out     = 0.4
+
+# Stand-up is purely visual: bounded duration, success at cap. The previous
+# implementation polled action.anim.ended for outcome, which made the effect
+# depend on animation completion - that's the principle this refactor fixes.
+anim_timeout_mode = success
