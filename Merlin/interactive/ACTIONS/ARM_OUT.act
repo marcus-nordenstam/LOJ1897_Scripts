@@ -1,5 +1,8 @@
-﻿action = LEFT_ARM_OUT
-motor = left_arm
+action = ARM_OUT
+sided = true
+action_side_field = target
+left_motor  = left_arm
+right_motor = right_arm
 transmission = obs
 
 anim = right_arm_out

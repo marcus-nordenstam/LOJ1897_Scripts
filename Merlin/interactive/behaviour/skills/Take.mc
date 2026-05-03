@@ -9,6 +9,19 @@ rule take-move-closer
     ->
 (maintain_proposal {@self go_entity ?thing} (des abs_util 2000)).
 
+# Reach for ?thing with whichever hand is free. 
+# Using rule-priority to guarantee only taking one thing at a time
+# and preferring the right-hand
+rule take-right-reach-for-proposal
+{@self take ?thing}
+{@self hand [k right_hand]:?hand}
+{?hand control _}
+(in_range /reach ?thing 0.5 (des stay_at 0.3) /debug)
+(lock_rule take 1)
+    ->
+(maintain_proposal {@self LOOK_AT ?thing} (des abs_util 2000))
+(maintain_proposal {@self TURN_TO ?thing} (des abs_util 2000))
+(maintain_proposal {@self REACH_FOR ?thing [k right]} (des abs_util 2000)).
 
 rule take-left-reach-for-proposal
 {@self take ?thing}
@@ -19,57 +32,36 @@ rule take-left-reach-for-proposal
     ->
 (maintain_proposal {@self LOOK_AT ?thing} (des abs_util 2000))
 (maintain_proposal {@self TURN_TO ?thing} (des abs_util 2000))
-(maintain_proposal {@self LEFT_REACH_FOR ?thing} (des abs_util 2000)).
+(maintain_proposal {@self REACH_FOR ?thing [k left]} (des abs_util 2000)).
 
-rule take-right-reach-for-proposal
-{@self take ?thing}
-{@self hand [k right_hand]:?hand}
-{?hand control _}
-(in_range /reach ?thing 0.5 (des stay_at 0.3) /debug)
-(lock_rule take 1) # prefer right-hand
+# Phase 2: Once the reach was successful, propose GRASP. GRASP is sided on its
+# auxiliary slot. Bind ?reach_side from the REACH_FOR action belief's aux slot
+# (which holds the side kind that was used) and pass it straight through to the
+# GRASP proposal -- avoids needing (side ?hand) in a condition position, which
+# the parser turns into a placeholder-binding function call that never indexes
+# into the alpha network. /causes ~?take ensures we only match the REACH_FOR
+# spawned by this take task.
+rule take-grasp-proposal
+{@self take ?thing}: ?take
+{@self REACH_FOR ?thing ?reach_side /succ /causes ~?take}
     ->
-(maintain_proposal {@self LOOK_AT ?thing} (des abs_util 2000))
-(maintain_proposal {@self TURN_TO ?thing} (des abs_util 2000))
-(maintain_proposal {@self RIGHT_REACH_FOR ?thing} (des abs_util 2000)).
+(begin_proposal {@self GRASP ?thing ?reach_side} (des abs_util 2000)).
 
-# Phase 2: If the reach was successful, propose GRASP (to control it)
-
-rule take-left-grasp-proposal
-{@self take ?thing}
-{@self LEFT_REACH_FOR ?thing /succ}
-    ->
-(begin_proposal {@self LEFT_GRASP ?thing} (des abs_util 2000)).
-
-rule take-right-grasp-proposal
-{@self take ?thing}
-{@self RIGHT_REACH_FOR ?thing /succ}
-    ->
-(begin_proposal {@self RIGHT_GRASP ?thing} (des abs_util 2000)).
-
-# Outcome: succeed when the hand controls the thing
-rule take-left-outcome
+# Outcome: succeed when the hand controls the thing. We don't care which side
+# completed the grasp; the task is satisfied once any GRASP of ?thing succeeded.
+rule take-outcome
 {@self /ever take ?thing /no_out}: ?take
-{@self /past LEFT_GRASP ?thing /causes ~?take /out?}: ?GRASP
-    ->
-(set_outcome ?take (outcome ?GRASP)).
-
-rule take-right-outcome
-{@self /ever take ?thing /no_out}: ?take
-{@self /past RIGHT_GRASP ?thing /causes ~?take /out?}: ?GRASP
+{@self /past GRASP ?thing ? /causes ~?take /out?}: ?GRASP
     ->
 (set_outcome ?take (outcome ?GRASP)).
 
 
-
-rule left-hand-control-LEFT_ARM_OUT-proposal
-{@self hand [k left_hand]:?hand}
+# While a hand controls something, keep the corresponding arm out. ARM_OUT is
+# sided on its target slot, so the side kind (derived from the hand) selects
+# left_arm vs right_arm at install time. Fires once per hand that holds
+# something - both sides can be active simultaneously on different arm motors.
+rule hand-control-ARM_OUT-proposal
+{@self hand ?hand}
 {?hand control @something}
     -> /cont
-(maintain_proposal {@self LEFT_ARM_OUT}).
-
-rule right-hand-control-RIGHT_ARM_OUT-proposal
-{@self hand [k right_hand]:?hand}
-{?hand control @something}
-    -> /cont
-(maintain_proposal {@self RIGHT_ARM_OUT}).
-
+(maintain_proposal {@self ARM_OUT (side ?hand)}).

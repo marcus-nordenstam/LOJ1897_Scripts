@@ -1,0 +1,13 @@
+action = REACH_FOR
+sided = true
+action_side_field = aux
+left_motor  = left_arm
+right_motor = right_arm
+transmission = obs
+
+proc_anim = reachfor
+
+preroll = 0.0
+in      = 0.3
+run     = 5.0
+out     = 0.2

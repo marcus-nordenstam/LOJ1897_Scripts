@@ -1,5 +1,8 @@
-﻿action = LEFT_HAND_DRINK
-motor = left_hand
+action = HAND_DRINK
+sided = true
+action_side_field = target
+left_motor  = left_hand
+right_motor = right_hand
 transmission = obs
 
 anim = right_drink

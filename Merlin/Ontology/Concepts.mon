@@ -7,7 +7,15 @@ concept
     someone
 
     weather
-        
+
+
+    # Sidedness. Used by sided actions (REACH_FOR, GRASP, ARM_DRINK, ...) to
+    # designate which arm/hand engages. The (side ?x) rule-function evaluates
+    # to one of these by reading /side off the symbol's kind.
+    side
+        left  /side left
+        right /side right
+
     phrase
         yes
         no

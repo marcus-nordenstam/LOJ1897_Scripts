@@ -1,0 +1,15 @@
+action = ARM_BURY_FACE
+sided = true
+action_side_field = target
+left_motor  = left_arm
+right_motor = right_arm
+transmission = obs
+
+anim.left  = left_hand_bury_face
+anim.right = right_hand_bury_face
+anim_flags = loop reset
+
+preroll = 0.0
+in      = 0.4
+run     = ?
+out     = 0.4

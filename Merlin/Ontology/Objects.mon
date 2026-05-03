@@ -116,8 +116,8 @@ object //obs
         body_part
             head
             hand
-                left_hand
-                right_hand
+                left_hand  /side left
+                right_hand /side right
             finger
                 ring_finger
             eye
