@@ -8,6 +8,6 @@ anim_flags = pingpong reset randomize_start
 state = standing
 
 preroll = 0.0
-in      = 0.0
+in      = inherit-from-outgoing
 run     = ?
-out     = 0.0
+out     = inherit-from-incoming
