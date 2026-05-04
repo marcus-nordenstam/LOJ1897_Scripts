@@ -8,7 +8,7 @@ transmission = obs
 anim = right_drink
 anim_flags = loop reset
 
-preroll = 0.0
-in      = 2
-run     = 1.0
-out     = 2
+preroll = 0
+in      = 1
+run     = 1
+out     = 1

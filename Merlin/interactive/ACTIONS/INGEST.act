@@ -1,7 +1,7 @@
 ﻿action = INGEST
 motor = mind
 
-preroll = 0.0
-in      = 0.0
+preroll = 0
+in      = 0
 run     = 0
-out     = 0.0
+out     = 0
