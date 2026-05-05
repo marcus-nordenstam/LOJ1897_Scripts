@@ -5,7 +5,7 @@ transmission = obs
 turn_speed = 6.0
 
 anim.female = Motion_Female_Idle_01
-anim.male = Motion_Male_Idle_01
+anim.male = Motion_Male_Idle_02
 anim_flags = pingpong reset randomize_start
 
 preroll = 0.0

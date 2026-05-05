@@ -5,7 +5,6 @@
 debug
 
 --trace all
-#--trace first_npc
 
 #--trace {@self job [k bartender]}
 #--trace {@self name [n Elizabeth Fallow]}
