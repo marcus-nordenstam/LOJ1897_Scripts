@@ -1,12 +1,11 @@
 # Immobile structures with their own internal cell-space (buildings, ships, wagons, train_cars).
-# Distinguished from `structure` (pier, bridge) by having openings (doors) and a container_id.
+# Distinguished from `structure` (pier, bridge) by having a container_id (auto-injected in code, not listed here).
 archetype "container_structure" [2048] /obs /always_visible /children_occupy_env_grid
 {
     "date"
     # Name is auto-perceived so NPCs know what building they're in
     "name" /auto_percept
     "parts" /auto_percept
-    "openings" /auto_percept
     "obb"
     # Building physical / structural properties (historical sim writes
     # these; crime templates and behaviour rules may match on them).

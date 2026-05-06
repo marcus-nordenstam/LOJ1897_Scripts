@@ -1,6 +1,6 @@
 # Immobile structures without an internal cell-space (pier, bridge).
 # Buildings, ships, wagons and train_cars use the `container_structure`
-# archetype instead - that one carries openings + a container_id.
+# archetype instead - that one carries a container_id.
 archetype "structure" [256] /obs /always_visible /children_occupy_env_grid
 {
     "date"

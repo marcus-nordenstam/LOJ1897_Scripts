@@ -13,8 +13,7 @@ attr "name"             name                                    /name       /obs
 attr "obb"              obb                                     /spatial_bounds  /obs /auto_percept /state_flags_tar @excl
 # Parent relationships are kept in the ECS for efficiency (technically redundant with parts)
 attr "struct_parent"    entity "structure"|"container_structure"|"structure_part"|"part"|"space"|"hand"|"human_player"|"human_npc"    /parent /obs /state_flags_tar @excl
-attr "parts"            entity [12] /state "part"                /children   /obs
-attr "openings"         entity [4]  /opening /state "opening"    /obs
+attr "parts"            entity [12] /state "part"               /children   /obs
 
 # Ownership & control
 # The entity currently controlling the position of this entity (if any)

@@ -61,11 +61,6 @@ guarantees all the valid movement combinations will work.
 For this to work, all container_structures must ensure there is at least 1 whole chunk of padding surrounding the 
 container_structure's spatial-bounds AND all its child parts (some of which may protrude beyond its spatial bounds, 
 such as an entrance space, or some openings).
-
-
-
-
-
 */
 
 

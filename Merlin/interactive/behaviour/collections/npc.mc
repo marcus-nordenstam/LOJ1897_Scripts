@@ -105,7 +105,7 @@ rule startup-go-pubbing
 
 rule startup-go-to-waypoint
 {?pub isa [k building pub]}
-{?pub opening ?opening}
+{?pub part [k opening]:?opening}
 (in_range @self /not /reach ?opening)
 (none {@self job [k bartender]})
     ->
