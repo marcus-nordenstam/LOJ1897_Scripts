@@ -101,15 +101,15 @@ rule startup-go-pubbing
 (begin_proposal {@self pubbing} (des abs_util 10)).
 
 
-# Waypoint behaviour
+# Go to pub behaviour
 
 rule startup-go-to-waypoint
-{?waypoint isa [k waypoint]}
-(in_range /reach /not ?waypoint)
+{?pub isa [k building pub]}
+{?pub opening ?opening}
+(in_range @self /not /reach ?opening)
 (none {@self job [k bartender]})
-(in @self /not [k building pub])
     ->
-(maintain_proposal {@self go_entity ?waypoint}).
+(maintain_proposal {@self go_entity ?opening}).
 
 
 # Emotional reactions

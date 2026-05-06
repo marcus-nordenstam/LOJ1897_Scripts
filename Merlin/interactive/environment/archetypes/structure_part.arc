@@ -5,5 +5,6 @@ archetype "structure_part" [2048] /obs /always_visible /occupies_env_grid /child
     "name" /auto_percept
     "struct_parent"
     "parts" /auto_percept
+    "openings" /auto_percept
     "obb"
 }

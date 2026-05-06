@@ -84,34 +84,38 @@ object //obs
 
     # Man-made structures
     structure
+        container_structure
+            wagon
+            train_car
+            ship
+            building
+                residential_building
+                    manor
+                    cottage
+                    terrace
+                        townhouse
+                    tenement
+                    farmhouse
+                    chapel
+                commercial_building
+                    office
+                    bank
+                    newspaper
+                    shop
+                    barbershop
+                    restaurant
+                    pub
+                    factory
+                        warehouse
+                    hotel
+                    school
+                    hospital
+                    police_station
+                    church
+                    theatre
         pier
         bridge
             suspension_bridge
-        building
-            residential_building
-                manor
-                cottage
-                terrace
-                    townhouse
-                tenement
-                farmhouse
-                chapel
-            commercial_building
-                office
-                bank
-                newspaper
-                shop
-                barbershop
-                restaurant
-                pub
-                factory
-                    warehouse
-                hotel
-                school
-                hospital
-                police_station
-                church
-                theatre
     part
         body_part
             head

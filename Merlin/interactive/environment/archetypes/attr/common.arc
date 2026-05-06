@@ -11,13 +11,10 @@ attr "name"             name                                    /name       /obs
 
 # Spatial
 attr "obb"              obb                                     /spatial_bounds  /obs /auto_percept /state_flags_tar @excl
-attr "spatial_relation" str                                                 /obs /auto_percept
 # Parent relationships are kept in the ECS for efficiency (technically redundant with parts)
-attr "struct_parent"    entity "structure"|"structure_part"|"part"|"space"|"hand"|"human_player"|"human_npc"    /parent /obs /state_flags_tar @excl
+attr "struct_parent"    entity "structure"|"container_structure"|"structure_part"|"part"|"space"|"hand"|"human_player"|"human_npc"    /parent /obs /state_flags_tar @excl
 attr "parts"            entity [12] /state "part"                /children   /obs
-# (Spatial containment is resolved on-demand by the `in` rule function via
-# Environment::contains(container, subject) — per-pair cached per cycle. No
-# backing attr is maintained. Rules query with (in ?subject ?container).)
+attr "openings"         entity [4]  /opening /state "opening"    /obs
 
 # Ownership & control
 # The entity currently controlling the position of this entity (if any)
@@ -131,7 +128,7 @@ attr "era_max"          date                                                /imp
 # entity itself when there's no street (estate-on-grounds case). Combined
 # with address_number ("14 Victoria Street", or "Blackthorne Estate" with
 # _ number).
-attr "address"          entity "road"|"structure"                           /obs /auto_percept
+attr "address"          entity "road"|"structure"|"container_structure"     /obs /auto_percept
 attr "address_number"   int                                                 /obs /auto_percept
 
 # Conversation
@@ -141,7 +138,7 @@ attr "initiator"        entity "human_player"|"human_npc"                   /obs
 attr "fluid_amount"     float                                               /obs /auto_percept /state_flags_tar @excl
 
 # Transaction
-attr "at"               entity "structure"|"space"                          /obs /auto_percept
+attr "at"               entity "structure"|"container_structure"|"space"   /obs /auto_percept
 
 # Instance
 attr "prototype"        entity                                              /prototype  /imperceptible
