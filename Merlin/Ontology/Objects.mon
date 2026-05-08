@@ -84,6 +84,9 @@ object //obs
 
     # Man-made structures
     structure
+        path
+            road
+            trail
         container_structure
             wagon
             train_car
@@ -130,6 +133,6 @@ object //obs
             counter
                 bar_counter
             wall
-            opening
+            opening //nav_passage
                 window
                 door

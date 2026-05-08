@@ -141,3 +141,17 @@ attr "at"               entity "structure"|"container_structure"|"space"   /obs 
 
 # Instance
 attr "prototype"        entity                                              /prototype  /imperceptible
+
+# Navigation v2 (see Merlin/Docs/nav_v2_plan.md)
+# /is_nav_passage — runtime gate: 1 = passable, 0 = dormant. Action handlers
+#   flip this on the opening entity (door/gate/large_window). nav_graph
+#   subscribes and toggles the corresponding macro-graph passage edge.
+# /nav_mesh — Hstr cache key for the structure's baked nav-mesh data;
+#   written by Player at scene load when an island is registered.
+# Throat geometry, opening identity and binding are all derived at scene-
+# load from the opening Merlin entity's own TransformComponent (position,
+# rotation, scale-as-half-extents per mx_radii_from_world_scale) plus its
+# spatial relationship to nearby nav-meshes. No /opening_name attr; no
+# /passage_throat_obb attr.
+attr "is_nav_passage"   int                                              /is_nav_passage  /obs
+attr "nav_mesh"         str                                              /nav_mesh  /imperceptible

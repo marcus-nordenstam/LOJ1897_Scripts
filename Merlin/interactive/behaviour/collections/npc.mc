@@ -101,15 +101,33 @@ rule startup-go-pubbing
 (begin_proposal {@self pubbing} (des abs_util 10)).
 
 
-# Go to pub behaviour
+# Enter pub behaviour
 
-rule startup-go-to-waypoint
+rule startup-go-to-pub
 {?pub isa [k building pub]}
-{?pub part [k opening]:?opening}
-(in_range @self /not /reach ?opening)
+(in @self /not ?pub)
 (none {@self job [k bartender]})
     ->
+(maintain_proposal {@self enter ?pub}).
+
+
+rule enter-container-go-opening
+{@self enter [k container_structure]:?container}
+{?container part [k opening]:?opening}
+(in @self /not ?opening)
+    ->
 (maintain_proposal {@self go_entity ?opening}).
+
+rule enter-container-go-past-opening
+{@self enter [k container_structure]:?container}
+{?container part [k opening]:?opening}
+(in @self ?opening)
+ # behind the opening = inside the container
+(maintain_claim_env_cell (des behind ?opening)): ?enter_cell
+    ->
+(maintain_proposal {@self go_env_cell ?enter_cell}).
+
+
 
 
 # Emotional reactions
@@ -142,3 +160,29 @@ rule start-performing-job
     ->
 (begin_proposal {@self START_PERFORMING [k bartending] ?pub})
 (begin_proposal {@self STOW ?umbrella}).
+
+
+
+/*
+
+
+maybe eliminate container_structure and just use structure
+each kind can flag if it has its own local path-grid or should be stamped into the world grid.
+
+individually placed trees, large rocks, hedges, lamp-posts, poles, fences, etc.
+a forest: many trees. each forest is unique, so no kind sharing here.
+
+moving entities: human, horse, wagon, train, ship
+
+natural barriers: could be done via splines instead of grid?
+
+if an NPC is pathing across the world, any entity with a local path-grid is NOT stamped into world-grid and thus
+invisible to the world-pathing.  so the world-pathing must simply treat the OBB of those are blocked.  that means
+path-finding would have to test every expanded cell if its inside the OBB.  alternatively, it rasterizes the OBB
+onto the world-grid temporarily.  
+
+finding an available space to claim: (to put something there, to place oneself there as a pathfinding destination, etc)
+pathfinding: seeking a clear route through a space
+
+
+*/

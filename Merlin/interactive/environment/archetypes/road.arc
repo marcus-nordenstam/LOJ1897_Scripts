@@ -7,4 +7,8 @@ archetype "road" [128] /obs /always_visible /non_occluder
     "obb"
     "name" /auto_percept
     "region"
+    # Nav v2: roads can carry a baked nav-mesh in Phase 1 (used as the
+    # "street" island in the test scaffold). nav_spline (Phase 3) replaces
+    # this for production roads.
+    "nav_mesh"
 }

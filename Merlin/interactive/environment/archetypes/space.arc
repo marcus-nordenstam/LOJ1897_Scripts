@@ -7,4 +7,7 @@ archetype "space" [2096] /obs /always_visible /non_occluder /sector_coverage
     "struct_parent"
     "parts" /auto_percept
     "obb"
+    # Nav v2: spaces can host openings whose /is_nav_passage gates a
+    # macro-graph edge (e.g. an archway between rooms).
+    "is_nav_passage"
 }

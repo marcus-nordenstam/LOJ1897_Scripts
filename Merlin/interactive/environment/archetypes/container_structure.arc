@@ -19,4 +19,6 @@ archetype "container_structure" [2048] /obs /always_visible /children_occupy_env
     "address"
     "address_number"
     "region"
+    # Nav v2: cache key into nav_graph's mesh-data table.
+    "nav_mesh"
 }

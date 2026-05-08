@@ -14,4 +14,7 @@ archetype "structure" [256] /obs /always_visible /children_occupy_env_grid
     "address"
     "address_number"
     "region"
+    # Nav v2: cache key into nav_graph's mesh-data table (set by Player at
+    # scene load on entities with a baked .nvm in their MerlinComponent).
+    "nav_mesh"
 }
