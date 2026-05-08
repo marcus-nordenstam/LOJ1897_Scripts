@@ -111,23 +111,14 @@ rule startup-go-to-pub
 (maintain_proposal {@self enter ?pub}).
 
 
-rule enter-container-go-opening
-{@self enter [k container_structure]:?container}
-{?container part [k opening]:?opening}
-(in @self /not ?opening)
-    ->
-(maintain_proposal {@self go_entity ?opening}).
-
 rule enter-container-go-past-opening
 {@self enter [k container_structure]:?container}
 {?container part [k opening]:?opening}
-(in @self ?opening)
- # behind the opening = inside the container
+# behind the opening = inside the container
 (maintain_claim_env_cell (des behind ?opening)): ?enter_cell
+(overlaps /not ?enter_cell @self)
     ->
 (maintain_proposal {@self go_env_cell ?enter_cell}).
-
-
 
 
 # Emotional reactions

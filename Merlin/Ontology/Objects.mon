@@ -87,6 +87,9 @@ object //obs
         path
             road
             trail
+        sporting_grounds
+            racing_grounds
+            cricket_grounds
         container_structure
             wagon
             train_car
