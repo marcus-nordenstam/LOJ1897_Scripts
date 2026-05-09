@@ -500,3 +500,74 @@ GRYM engine cleanup
 
   Total removable: roughly 3,000+ lines of shader code, ~15KB+ of C++, ~8 duplicate shader files, and ~30 branch points
   that add complexity for a path you'll never take.
+
+
+
+
+
+
+
+
+1. Cache-hit path skips the resource manager — latent dangling-resource bug
+
+  wiScene.cpp:1653–1658 (cache hit) calls only tmp.componentLibrary.Serialize(...). Cache miss at :1667 calls tmp.Serialize(...), which goes through resourcemanager::Serialize_READ. The cached
+  archive that's later deserialized never re-runs resource registration. Today this works only because the first miss registered resources globally and the resource manager keeps them alive. The
+  moment a project starts unloading scenes / evicting cold textures / hot-reloading meshes, the cache hit path will deserialize components that reference resource handles whose underlying
+  resources have been freed. This is a ticking time-bomb, not a current crash. The cache should either store the resource section too, or cache hits should re-register via Serialize_READ against
+  the cached blob.
+
+  2. Scene::ResolvePrefabChildReferences is a stub (wiScene.cpp:1819–1834)
+
+  We build seri.prefab_child_refs on save, but resolution is // TODO. So any scene-level component holding an Entity that points into a prefab subtree will write a stale ID and read back garbage
+  on load. MerlinComponent::entityAttrs (per its comment, "Serialized via SerializeEntity for correct prefab/scene remapping") relies on the standard EntitySerializer remap — that works for
+  entities that are serialized; it does NOT work for prefab-children that are excluded from serialization and re-created on load with new IDs. The first time a level designer wires a Merlin
+  entity-attr to a prefab-child entity, this will silently corrupt on save/reload.
+
+  3. Topdown-hierarchy is rebuilt N times during scene load (wiScene.cpp:7948 + per-Instantiate at :1764)
+
+  Each Instantiate calls StartBuildTopDownHierarchy() + WaitBuildTopDownHierarchy(). For a level with M prefab instances, that's M rebuilds — each scanning the growing scene. The rebuild was
+  added because Merge bypasses Component_Attach. Easy win: do it once after the loop in Scene::Serialize, or accumulate work and rebuild lazily.
+
+  4. ReinstantiatePrefab silently destroys local edits
+
+  Sync button → Entity_Remove(child, false) for every child (wiScene.cpp:1779–1781). Anything the user dragged into the instance, repositioned, or attached is wiped with no warning. There's no
+  override / delta system. Acceptable as a design choice but should at least warn on dirty children, or be split into "hard sync" vs "merge".
+
+  5. PrefabInstComponent::file_timestamp is dead state
+
+  Refreshed every Instantiate (wiScene.cpp:1625) and serialized — but never compared. PrefabWindow_ImGui::Update() has the placeholder (PrefabWindow_ImGui.cpp:186-190) but no actual check. It's
+  the field you'd want for "this instance is stale, click sync" UI. Either implement or delete it; right now it's noise that clobbers itself on each instantiation.
+
+  6. Cache key uses the un-normalized prefab_path
+
+  Cache reads/writes use prefabComponent->prefab_path directly (wiScene.cpp:1641, 1672). But the path may be either relative (normal) or absolute (spawn library, see :1622-1624). The same prefab
+  loaded by both paths becomes two cache entries, and clear_prefab_cache(rel_path) won't invalidate the absolute-path entry (or vice versa). Normalize once before keying.
+
+  7. Absolute-path detection is fragile (wiScene.cpp:1623)
+
+  pp[0] == '/' || pp[1] == ':' misses \\server\share UNCs and treats any string with : at position 1 as absolute (e.g., a malformed "X:foo"). Use a real path-classification helper.
+
+  8. No cycle detection on nested prefabs
+
+  A prefab whose subtree contains a PrefabInstComponent referencing itself (directly or via a chain) will recurse until stack overflow. Add a depth limit or visited-set guard in Instantiate.
+
+  9. InstantiateDuplicate null-deref on un-named prefab (wiScene.cpp:1608-1609)
+
+  names.GetComponent(prefabEntity) is dereferenced unconditionally. In current flows the prefab is always named, but nothing in the type system enforces that — a guard costs one line.
+
+  10. Unpack button doesn't record children in undo history (PrefabWindow_ImGui.cpp:69-87)
+
+  RecordEntity(archive, e) is called only for the prefab entity, before and after prefabs.Remove(e). The children — which transition from "excluded on save" to "saved as part of scene" — are not
+  in the history record. Undo restores PrefabInstComponent but the children's state changes leak across the boundary.
+
+  11. Pre-instantiation sky/weather pollution
+
+  This isn't a bug per se, but: today anything in a .grs is dragged in when you instantiate, including the sun/moon/weather entities the prefab author left behind. Two scenes with prefabs end up
+  with duplicate weather components, fighting over realistic-sky state. There's no current filter — your proposal directly addresses this.
+
+  12. Minor / stylistic
+
+  - PrefabInstComponent is the only Component in the codebase still using camelCase / Pascal naming for its struct name (PrefabInst) — minor, but if you're touching it, snake-case rename is a
+  freebie consistent with the migration rule.
+  - tmp.Serialize(prefabArchive, /*skip_ddgi=*/true) (:1667) is good, but tmp.componentLibrary.Serialize (:1657, :1676) doesn't take that flag and so silently relies on prefab archives never
+  having DDGI sections. Brittle.

@@ -111,11 +111,20 @@ rule startup-go-to-pub
 (maintain_proposal {@self enter ?pub}).
 
 
-rule enter-container-go-past-opening
+rule enter-container-go-nearby
 {@self enter [k container_structure]:?container}
 {?container part [k opening]:?opening}
-# behind the opening = inside the container
-(maintain_claim_env_cell (des behind ?opening)): ?enter_cell
+(gt (distance @self ?opening) 10)
+(env_cell (des in_front_of ?opening) /debug): ?nearby_cell
+(lock_rule enter 1)
+    ->
+(maintain_proposal {@self go_env_cell ?nearby_cell}).
+
+
+rule enter-container-go-through-opening
+{@self enter [k container_structure]:?container}
+(lock_rule enter 0)
+(maintain_claim_env_cell (des inside ?container)): ?enter_cell
 (overlaps /not ?enter_cell @self)
     ->
 (maintain_proposal {@self go_env_cell ?enter_cell}).
