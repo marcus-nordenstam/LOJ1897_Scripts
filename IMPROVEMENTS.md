@@ -571,3 +571,64 @@ GRYM engine cleanup
   freebie consistent with the migration rule.
   - tmp.Serialize(prefabArchive, /*skip_ddgi=*/true) (:1667) is good, but tmp.componentLibrary.Serialize (:1657, :1676) doesn't take that flag and so silently relies on prefab archives never
   having DDGI sections. Brittle.
+
+
+
+NAVMESH TODOS:
+
+
+
+  1. Pre-allocated A* node pool — dtNodePool equivalent.
+  Replace per-_plan std::priority_queue + std::unordered_map<t_uni_node, t_meta> with a fixed-capacity slab (sized by k_nav_max_polys_per_mesh) reused across plans. Index by (island_idx << 16) |
+  poly_idx. Eliminates ~2 allocations per pathfind × N actors × replan rate. ~50 LOC in t_nav_graph.
+  Can this be done using a simple FixedTable or FixedArray? Or must we use a pool?
+
+  2. Per-poly XZ AABB cache for find_containing_poly_local.
+  Compute once at parse time alongside neighbour adjacency. Localize currently does point-in-convex on every poly of every passing island. With cached AABBs, it short-circuits ~90 % of poly tests
+   cheaply. No algorithmic change, just early reject.
+  3. Surface raycast / LOS shortcut — dtNavMeshQuery::raycast shape.
+  Walks polys along a 2D line from start to goal, returns "no obstruction" if you can see straight through. When it succeeds, skip A* entirely and emit [start, goal] directly. Cheapest path
+  possible when applicable, which on flat plazas is most paths. ~80 LOC.
+  4. Closest-point-on-poly with height — dtNavMeshQuery::closestPointOnPoly.
+  Today _localize ignores Y entirely. Adding a "snap goal to nearest poly point with the poly's Y" gives accurate Y at endpoints even without a full detail mesh. Critical when Phase 2 terrain
+  lands but already useful for any sloped polygon.
+  5. dtQueryFilter-style area costs — read the high 4 bits of t_nvm_polygon::flags we currently ignore.
+  Even one area type beyond default (e.g. "road" with cost 0.7×, "mud" with cost 2×) makes spline-vs-plaza preference expressible without architecture changes. Stop wasting the bits we already
+  serialise.
+
+
+  Tier 2 — when Phase 2/3 lands
+
+  6. Polymesh detail (rcBuildPolyMeshDetail) — Y-accurate getPolyHeight(x,z).
+  Pointless on flat pubs, mandatory once terrain_nav introduces ramps and stairs. Either delete the dead detail_sample_dist params now or keep them and finally call rcBuildPolyMeshDetail + ship
+  the height samples in the .nvm (extend the format with one section). Don't leave them dead.
+  7. Generic off-mesh connections beyond doors — Detour-style point-to-point links with a "side" (mono/bi-directional).
+  Your t_nav_passage_edge is already an off-mesh edge in disguise. Generalise create_passage to take a (point_a, point_b, bidir) triple and gate it with the same /is_nav_connector mechanism. Buys
+   ladders, balcony drops, jump-down spots, fence-hop points without further plumbing.
+  8. Convex-volume area paint at bake time — Recast's rcMarkConvexPolyArea.
+  Lets level authors paint cost regions (e.g. "the muddy yard near the stables", "the stage area is off-limits during performances") into the heightfield before rcBuildRegions. Pairs with (5).
+  9. moveAlongSurface at the locomotion layer.
+  Not a planner feature — a runtime helper that takes a desired pos and returns the constrained pos clamped to the navmesh, sliding along walls. Massively improves robustness when an actor's RVO
+  impulse pushes them off the mesh edge. Needed once crowds get dense.
+  10. findStraightPath per-waypoint flags — Detour returns DT_STRAIGHTPATH_OFFMESH_CONNECTION / DT_STRAIGHTPATH_END per waypoint.
+
+  Tier 3 — when scale demands it
+
+  11. BVTree per island — Detour's dtMeshTile::bvTree.
+  O(log P) localize via tree descent. Worth it past ~1 K polys/island or when ~50+ islands are loaded. Phase 1 is below that.
+  12. findRandomPointAroundCircle / findRandomPoint — for wander/stroll target selection.
+  Today your behaviours probably pick a target via env-grid or symbolic kind, then ask the planner to reach it. A native "give me a walkable point in radius R that has a route from here" call
+  removes a fail-and-replan round trip when the symbolic target lands on an unreachable poly.
+  13. dtPathCorridor-style live corridor maintenance.
+  Detour treats the path as a "corridor" of polyRefs and re-tightens it as the actor moves: optimizePathTopology, optimizePathVisibility. Your version-snapshot revalidation handles passage flips
+  but doesn't compress the remaining path as obstacles are passed. Useful once paths are long enough that mid-route shortcuts matter — probably with nav_spline in Phase 3.
+  14. Recast's monotone region partitioning — alternative to watershed.
+  Faster bake (~3-5×), less optimal regions. Only relevant if bake time hurts in the editor; today it doesn't.
+
+  While you're in there:
+  - Delete dead detail_sample_dist / detail_sample_max_error params + the t_rc_polymeshdetail_deleter struct (or use them per Tier-2 item 6).
+  - Name the magic numbers (0xFFFFu poly/edge sentinels, 1e-3f A* stale eps).
+  - Fold k_anchor_max_xz_dist_m and k_nav_localize_tolerance_m into one constant — the comment at nav_mesh.h:88-91 promises they agree; let the code enforce it.
+  - Dedupe the sliver-detector (currently implemented twice — once in navmesh_bake.cpp, once in nav_mesh.cc).
+  - Strike the three factually-wrong objections to Detour from nav_v2_plan.md §3.5 and replace them with the actual reason: "Phase 1 ships a working from-scratch implementation; Detour features
+  are cherry-picked as needed."

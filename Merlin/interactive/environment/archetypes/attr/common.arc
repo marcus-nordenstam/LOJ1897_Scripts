@@ -155,3 +155,11 @@ attr "prototype"        entity                                              /pro
 # /passage_throat_obb attr.
 attr "is_nav_passage"   int                                              /is_nav_passage  /obs
 attr "nav_mesh"         str                                              /nav_mesh  /imperceptible
+# /blocks_terrain_nav — when 1, the entity's OBB footprint rasterises as a
+# terrain-walkability blocker during t_terrain_nav::build (nav_v2_plan.md §7).
+# Defaults to 0 on plain `structure`; archetypes that physically obstruct the
+# ground (buildings, walls, fences, gates, large rocks, tree trunks) override
+# to 1 in their own .arc file. Connector throat clearing (§7.3) overrides
+# this for cells under a structure's door, so a building with /blocks_terrain_nav
+# = 1 still allows path entry through its baked-passage doorway.
+attr "blocks_terrain_nav"  int                                           /blocks_terrain_nav  /imperceptible

@@ -21,4 +21,9 @@ archetype "container_structure" [2048] /obs /always_visible /children_occupy_env
     "region"
     # Nav v2: cache key into nav_graph's mesh-data table.
     "nav_mesh"
+    # Nav v2: container_structures (buildings/ships/wagons) physically occupy
+    # their footprint - rasterise as terrain blockers so terrain pathfinding
+    # routes around them. Connector throat clearing (§7.3) re-opens the cells
+    # under each baked passage so doors stay walkable.
+    "blocks_terrain_nav"
 }

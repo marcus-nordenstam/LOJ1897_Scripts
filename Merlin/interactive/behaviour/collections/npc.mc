@@ -125,7 +125,7 @@ rule enter-container-go-through-opening
 {@self enter [k container_structure]:?container}
 (lock_rule enter 0)
 (maintain_claim_env_cell (des inside ?container)): ?enter_cell
-(overlaps /not ?enter_cell @self)
+(overlaps /not ?enter_cell @self 1)
     ->
 (maintain_proposal {@self go_env_cell ?enter_cell}).
 
