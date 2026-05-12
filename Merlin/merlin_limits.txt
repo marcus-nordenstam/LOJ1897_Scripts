@@ -70,6 +70,12 @@ npc.beliefIdsByLabel.pool           =   4       4       8
 npc.spatialBounds.pool              =   1000    128     32
 npc.float4.pool                     =   1000    64      16
 
+# Nav v2 Phase 3: per-mind spline reference slots (Mental::t_spline_ref).
+# Each slot is 16 bytes (an env-entity handle, no CV data). Sized small
+# until full pool wiring lands (see M1.5); 0 would also be valid but the
+# config loader requires a positive maxItems.
+npc.splines.pool                    =   256     16      8
+
 # Private blackboard pools (per-mind, one bb per active pattern/object that uses it)
 npc.private_bb.pool                 =   1024    128     64
 npc.private_bb_entries.pool         =   1024    128     64

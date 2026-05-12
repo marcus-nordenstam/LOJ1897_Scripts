@@ -163,3 +163,14 @@ attr "nav_mesh"         str                                              /nav_me
 # this for cells under a structure's door, so a building with /blocks_nav_terrain
 # = 1 still allows path entry through its baked-passage doorway.
 attr "blocks_nav_terrain"  int                                           /blocks_nav_terrain  /imperceptible
+
+# Navigation v2 Phase 3 - road spline geometry.
+# Per-entity authored road geometry: up to 16 centripetal Catmull-Rom CVs,
+# width in metres, auto-junction radius (default 1.0m), and flags. The CVs
+# come from the GrymEngine SplineComponent + RoadComponent the artist
+# placed; Game.cc's LoadScene bridge reads them and calls
+# mx_write_spline_attr per road entity. Junctions are auto-derived at
+# scene load by Environment::resolve_road_network clustering endpoints;
+# no junction archetype, no /junction attr.
+# See Merlin/Docs/road_network_plan.md.
+attr "spline_geometry"   spline                                           /spline_geometry  /imperceptible
