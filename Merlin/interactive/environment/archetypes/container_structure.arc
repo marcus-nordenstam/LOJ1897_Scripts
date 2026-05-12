@@ -25,5 +25,5 @@ archetype "container_structure" [2048] /obs /always_visible /children_occupy_env
     # their footprint - rasterise as terrain blockers so terrain pathfinding
     # routes around them. Connector throat clearing (§7.3) re-opens the cells
     # under each baked passage so doors stay walkable.
-    "blocks_terrain_nav"
+    "blocks_nav_terrain"
 }

@@ -600,7 +600,7 @@ NAVMESH TODOS:
   Tier 2 — when Phase 2/3 lands
 
   6. Polymesh detail (rcBuildPolyMeshDetail) — Y-accurate getPolyHeight(x,z).
-  Pointless on flat pubs, mandatory once terrain_nav introduces ramps and stairs. Either delete the dead detail_sample_dist params now or keep them and finally call rcBuildPolyMeshDetail + ship
+  Pointless on flat pubs, mandatory once nav_terrain introduces ramps and stairs. Either delete the dead detail_sample_dist params now or keep them and finally call rcBuildPolyMeshDetail + ship
   the height samples in the .nvm (extend the format with one section). Don't leave them dead.
   7. Generic off-mesh connections beyond doors — Detour-style point-to-point links with a "side" (mono/bi-directional).
   Your t_nav_passage_edge is already an off-mesh edge in disguise. Generalise create_passage to take a (point_a, point_b, bidir) triple and gate it with the same /is_nav_connector mechanism. Buys
