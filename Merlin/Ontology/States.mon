@@ -61,6 +61,7 @@ relation
             envies              /tar human
             respects            /tar human
             fears               /tar human
+            enemy               /tar human
             # Undirected emotional state - probability/intensity carried in
             # the belief itself; Salience drives decay over time.
             feels_joy
@@ -79,11 +80,54 @@ relation
             father              /tar human @excl
             brother             /tar human
             sister              /tar human
+            # Sibling is asserted in parallel with brother/sister so that
+            # "who are your siblings?" answers across genders. Half-siblings
+            # get both sibling AND half_sibling.
+            sibling             /tar human
+            half_sibling        /tar human
+            # Grandparents and their inverse. Grand{mother,father} are gendered
+            # and exclusive at-a-time; grandparent/grandchild are the
+            # ungendered plurals.
+            grandmother         /tar human @excl
+            grandfather         /tar human @excl
+            grandparent         /tar human
+            grandchild          /tar human
+            # Aunts/uncles and their inverses. Gendered, non-exclusive
+            # (you can have several aunts).
+            aunt                /tar human
+            uncle               /tar human
+            niece               /tar human
+            nephew              /tar human
+            cousin              /tar human
+            # In-laws acquired through marriage. propagate-in-laws asserts
+            # these at marriage time on both sides.
+            mother_in_law       /tar human @excl
+            father_in_law       /tar human @excl
+            parent_in_law       /tar human
+            sister_in_law       /tar human
+            brother_in_law      /tar human
+            sibling_in_law      /tar human
+            daughter_in_law     /tar human
+            son_in_law          /tar human
+            child_in_law        /tar human
+            # Step-relations created when an NPC remarries and brings
+            # children from a previous spouse.
+            stepmother          /tar human @excl
+            stepfather          /tar human @excl
+            stepchild           /tar human
             spouse              /tar human @excl
             fiancee             /tar human @excl
+            # Lover: non-exclusive (the model permits affairs alongside
+            # marriage). Past lovers are represented by interval-ended
+            # lover beliefs, not by a separate former_lover label.
+            lover               /tar human
             child               /tar human
-            friends             /tar [human]
-            acquaintances       /tar [human]
+            # Friend / acquaintance / neighbour are SINGULAR. Multiple
+            # friends are represented by multiple beliefs, not by a list
+            # target.
+            friend              /tar human
+            acquaintance        /tar human
+            neighbour           /tar human
             eligible_for_marriage
             marriage_desirability /tar @excl
             love                 /tar
@@ -93,6 +137,14 @@ relation
             # Self-perceived public/material standing.
             reputation          /tar @excl
             wealth_tier         /tar @excl
+            # Awareness that another person has died. Asserted with the
+            # deceased person as subject, in the minds of those who knew
+            # them. Romantic-relationship beliefs (spouse, fiancee, lover)
+            # toward the deceased are additionally interval-ended at the
+            # time of death. Kinship beliefs (mother, father, sibling, ...)
+            # stay ongoing — kinship does not end on death.
+            deceased            /tar @excl
+            deceased_year       /tar @excl
 
         # Vocational, legal, "societal" states
         (cultural)

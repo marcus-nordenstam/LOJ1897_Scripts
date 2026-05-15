@@ -632,3 +632,73 @@ NAVMESH TODOS:
   - Dedupe the sliver-detector (currently implemented twice — once in navmesh_bake.cpp, once in nav_mesh.cc).
   - Strike the three factually-wrong objections to Detour from nav_v2_plan.md §3.5 and replace them with the actual reason: "Phase 1 ships a working from-scratch implementation; Detour features
   are cherry-picked as needed."
+
+
+
+
+
+
+● SWE Rivers in GRYM — Investigation Report
+
+  What Crimson Desert actually does
+
+  Their published-talk approach is a 2D Shallow Water Equation solver on a heightfield grid (water column h, momentum hu, hv), running fully on GPU. The bed is the terrain heightmap; water fills basins,
+   flows downhill, interacts both ways with NPCs/objects (current pushes them; they push water). Typically implemented either as direct SWE with a stable explicit scheme (Lax-Friedrichs / MacCormack) or
+   — more commonly in production — the Virtual Pipes approximation (Mei/Decaudin/Neyret '07): per-cell outflow fluxes through 4 "pipes" to neighbors. Virtual Pipes is what most shipping games use; it's
+  unconditionally stable when fluxes are clamped by available volume.
+
+  What GRYM already has that we can lean on
+
+  Rivers as splines (already in tree): Engine/Components/RiverComponent.h defines t_river_component + t_river_node_component (per-node width), with k_auto_flow_map deriving flow direction from spline
+  tangent. wiRiver.cpp builds a ribbon mesh by walking the spline. Today it's pure geometry with scrolling normal maps — no simulation. The authoring side is done.
+
+  Terrain heightfield: unified R16 heightmapGPU (4096² default), texel scale is terrain_unit_size. GPU helpers in Engine/shaders/ShaderInterop_Terrain.h:119-193 (terrain_world_to_local,
+  terrain_local_to_uv, terrain_sample_world_height). CPU side: GetHeightAtWorldPos() in wiTerrain.cpp:1535. The bed is already there.
+
+  GPU sim infrastructure: Ocean2 cascades (ocean2SimulatorCS/DisplacementCS/GradientFoldingCS) demonstrate the full pattern — async-compute dispatch, ping-pong textures, GPU→CPU readback for CPU
+  queries. Scene::GetOceanPosAt() (wiScene.cpp:7714) is the readback API we'd mirror for SWE.
+
+  Cache invalidation precedent: EnsureHeightmapGPU() + InvalidateCellCache() pattern (your recent grass-scatter fix) is the exact model for keeping a SWE bed-texture in sync with terrain edits.
+
+  Physics force injection: wiPhysics_Jolt.cpp:2857 adds wind to soft bodies via body_interface.AddForce(...). Current would use the same call against rigid bodies & character controllers. No per-frame
+  environmental-force pass exists for characters yet — that's a new system_pass.
+
+  Recommended approach
+
+  Solver: Virtual Pipes, not direct SWE. Per-cell state = (h, fL, fR, fU, fD) — water column + 4 outflow fluxes. Two CS passes per substep: (1) flux update from height gradient with volume clamping, (2)
+   height update from net flux. Velocity (hu, hv) derived from fluxes for visuals and current force. Stable without CFL micro-stepping, simple code, well-mapped to GRYM's existing dispatch idioms.
+
+  Domain: clipmap-style around camera (like terrain/grass) rather than world-spanning. 2-3 levels, each 512²–1024², gives kilometers of coverage at ~48 MB and ~1-2 ms compute. Lakes outside the clipmap
+  keep their static authored height; only the active ring runs the simulation.
+
+  Sources/sinks from splines: first node of each river spline becomes a volumetric inflow (m³/s); the spline polyline rasterizes velocity hints into the initial (hu,hv) field so rivers seed flow
+  direction. Boundary with Ocean2 is a pinned-height Dirichlet condition where the SWE clipmap intersects ocean.
+
+  NPC coupling (both directions):
+  - Water → NPC: GPU readback texture (GetWaterStateAt(pos) → {height, velocity, depth}) following the GetOceanPosAt pattern. Per-frame water_system::run() iterates character/rigid bodies, applies drag
+  + buoyancy + current via AddForce/SetLinearVelocity.
+  - NPC → water: a small CS that scatter-writes velocity impulses into the SWE grid at body positions each frame. Cheap (hundreds of bodies, point splats).
+
+  Rendering: keep the projected-grid VS pattern from ocean2SurfaceVS.hlsl, but sample displacement from the SWE height texture instead of FFT cascades. Layer one or two short-wavelength FFT cascades on
+  top for surface ripple. Foam from |∇·v| and velocity magnitude. The current ribbon-mesh river path becomes the fallback for splines flagged "static" — simulated rivers replace the ribbon with the
+  projected grid clipped to their footprint.
+
+  Phase plan
+
+  1. SWE solver in isolation — new wiWaterSim.h/cpp + waterSim*.hlsl, runs on a fixed test grid with hand-authored bed, no engine integration. Verify stability, dam-break, lake-fill.
+  2. Terrain bed integration — clipmap centered on camera, sample heightmapGPU for bed. Spline inflows. Hook reconciliation to terrain edits (mirror EnsureHeightmapGPU flow).
+  3. Render integration — projected-grid sampling SWE texture, foam, optional FFT-ripple overlay. Wire into RiverComponent as a flag.
+  4. Readback + physics coupling — GetWaterStateAt, new water_system::run() applying forces.
+  5. NPC → water displacement — scatter CS, splash particles tied to velocity-injection magnitude.
+  6. Ocean boundary, wetness/substrate feedback — couple to existing moisture substrate so wading paints wet trails (you already invalidate grass on moisture edits — the loop closes).
+
+  Open decisions before I'd start writing code
+
+  - Clipmap vs world-spanning (clipmap is my recommendation, but pinned lakes need a story).
+  - Render-side: replace ribbon entirely for simulated rivers, or composite SWE displacement onto the ribbon mesh?
+  - NPC count target — drives whether readback is per-body CPU or a GPU-side query buffer.
+  - Whether wetness/substrate writeback is in scope for v1 or follow-up.
+
+  Net: GRYM is well-positioned. The river/spline authoring, terrain heightfield access, GPU sim infrastructure, and readback pattern all already exist. The new code is the SWE solver, the projected-grid
+   water shader, and a water_system for physics coupling — maybe 1500–2000 LOC across ~6 files plus shaders. The riskiest part isn't the solver; it's the boundary conditions (ocean interface, clipmap
+  ring scrolling) and getting per-NPC physics coupling fast enough.
