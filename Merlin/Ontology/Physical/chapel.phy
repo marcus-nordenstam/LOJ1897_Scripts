@@ -1,4 +1,0 @@
-# Default .phy placeholder, hand-authored until a proper asset exists.
-kind = chapel
-radii = 4.0 4.0 6.0
-asset =

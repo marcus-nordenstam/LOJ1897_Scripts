@@ -1,3 +1,0 @@
-# Hand-authored body-part radii (adult human head half-extents)
-kind = head
-radii = 0.1 0.13 0.1

@@ -1,3 +1,0 @@
-# Hand-authored body-part radii (eye midpoint between left and right eye bones)
-kind = eye
-radii = 0.05 0.02 0.03

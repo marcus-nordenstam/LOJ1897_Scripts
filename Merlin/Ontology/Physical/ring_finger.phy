@@ -1,3 +1,0 @@
-# Hand-authored body-part radii (ring1 bone of the hand)
-kind = ring_finger
-radii = 0.02 0.01 0.01

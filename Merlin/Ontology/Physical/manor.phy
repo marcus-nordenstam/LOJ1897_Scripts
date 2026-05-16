@@ -1,4 +1,0 @@
-# Default .phy placeholder, hand-authored until a proper asset exists.
-kind = manor
-radii = 8.0 4.0 10.0
-asset =

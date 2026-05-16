@@ -1,5 +1,0 @@
-# Hand-authored default human capsule half-extents.
-# Per-NPC values may differ at runtime: ComputeCharacterOBB overrides these
-# every frame from the GRYM CharacterComponent's width/height.
-kind = human
-radii = 0.3 1.75 1.0
