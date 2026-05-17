@@ -1,0 +1,53 @@
+# ----------------------------------------------------------------------------
+# kind_radii.txt — hsim stand-in OBB half-extents (meters) for every kind
+# the historical pre-sim instantiates as an entity. Replaces the removed
+# .phy files for hsim's purposes (hsim doesn't render, so coarse values
+# suffice — they only need to be non-zero and small enough that the
+# env-grid container-overlap check passes for unique positions).
+#
+# Format: <kind-path>  <half_x>  <half_y>  <half_z>
+#   - kind-path is space-separated (last 3 tokens on the line are the radii)
+#   - lines starting with # are comments; blank lines are skipped
+#   - if a kind is not in the ontology at load time, the line is silently
+#     skipped (so this file stays harmless across ontology refactors)
+# ----------------------------------------------------------------------------
+
+# --- people + body parts (mx_make_human creates these) ---
+human         0.30   0.85   0.20
+head          0.10   0.12   0.10
+eye           0.015  0.015  0.015
+mouth         0.04   0.02   0.03
+left_hand     0.05   0.10   0.06
+right_hand    0.05   0.10   0.06
+ring_finger   0.01   0.025  0.015
+
+# --- residential buildings (unambiguous bare names) ---
+manor         8.0   5.0    8.0
+townhouse     5.0   5.0    5.0
+tenement      6.0   7.0    6.0
+cottage       3.0   3.0    3.0
+chapel        6.0   6.0   10.0
+farmhouse     5.0   4.0    5.0
+terrace       4.0   5.0    4.0
+
+# --- commercial building parent (fallback for unenumerated leaves) ---
+commercial_building   5.0   4.0   5.0
+
+# --- commercial building leaves. Bare names (factory, pub, bank, ...)
+# are ambiguous in the ontology (also exist as business-type concepts),
+# so registration uses the path form. ---
+commercial_building office       5.0   4.0    5.0
+commercial_building factory     12.0   6.0   20.0
+commercial_building newspaper    5.0   4.0    5.0
+commercial_building pub          4.0   4.0    6.0
+commercial_building church       8.0   8.0   15.0
+commercial_building bank         6.0   5.0    6.0
+commercial_building shop         4.0   4.0    5.0
+commercial_building school       8.0   5.0   10.0
+commercial_building hospital    10.0   6.0   12.0
+commercial_building restaurant   5.0   4.0    6.0
+commercial_building barbershop   3.0   3.0    4.0
+
+# --- generic structure fallback (assert_self_beliefs' birthplace search
+# walks structure entities). ---
+structure     5.0   4.0   5.0

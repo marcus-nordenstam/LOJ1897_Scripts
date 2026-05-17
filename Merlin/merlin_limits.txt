@@ -41,39 +41,55 @@ abs.rules.pool                      =   1000    256     64
 npc.rules.pool                      =   256     128     16
 
 # General data pools
-npc.uint16s8.pool                   =   10000   5000    100
-npc.uint32s8.pool                   =   512     256     64
-npc.structIds4.pool                 =   64      16      8
-npc.structIds16.pool                =   1024    512     64
-npc.structIds128.pool               =   16      8       8
+npc.uint16s8.pool                   =   100000  5000    100
+npc.uint32s8.pool                   =   10000   256     64
+npc.structIds4.pool                 =   10000   16      8
+npc.structIds16.pool                =   100000  512     64
+npc.structIds128.pool               =   10000   8       8
 abs.listSymbols.pool                =   4000    2000    10
 npc.listSymbols.pool                =   1000    200     10
 npc.utilSource.pool                 =   100     40      10
 
 # Object-related pools
-npc.objects.pool                    =   1000    128     64
+# Bumped from 1000 → 10000 for hsim: propagate_family_at_birth iterates the
+# population observing each candidate human into the (mother / father)
+# mind, so per-mind object count can climb into the thousands. Game-time
+# minds with normal perception loads sit well under this; the extra
+# reservation is harmless (Arena pools grow on demand up to the cap).
+npc.objects.pool                    =   10000   128     64
 npc.objectRuleRefs.pool             =   1000    512     64
 abs.objectRuleRefs.pool             =   128     64      8
 npc.namedObjectsTable.pool          =   16      8       8
 npc.catObjectsTable.pool            =   16      8       8
 npc.causedObjectsTable.pool         =   16      8       8
-npc.beliefRolesTable.pool           =   4096    256     64
-npc.beliefRoles.pool                =   16384   1024    128
+npc.beliefRolesTable.pool           =   100000  256     64
+npc.beliefRoles.pool                =   500000  1024    128
 
 # Pattern-related pools
-npc.events.pool                     =   10000   512     128
+# events bumped for hsim propagate_family_at_birth — each propagation
+# observes hundreds of humans into a parent's mind, and the per-mind
+# loose-event count climbs accordingly.
+npc.events.pool                     =   100000  512     128
 npc.funcs.pool                      =   2000    512     128
 npc.lists.pool                      =   2000    512     128
 npc.beliefIdsByLabel.pool           =   4       4       8
 
 # Float-data bounds
-npc.spatialBounds.pool              =   1000    128     32
-npc.float4.pool                     =   1000    64      16
+# Bumped along with npc.objects.pool: when propagate_family_at_birth observes
+# many entities into a parent's mind, each observed entity pulls in its
+# spatialBounds + float4 storage too. Keep these in lockstep with objects.
+npc.spatialBounds.pool              =   10000   128     32
+npc.float4.pool                     =   10000   64      16
 
 # Nav v2 Phase 3: per-mind spline reference slots (Mental::t_spline_ref).
 # Each slot is 16 bytes (an env-entity handle, no CV data). Sized small
 # until full pool wiring lands (see M1.5); 0 would also be valid but the
-# config loader requires a positive maxItems.
+# config loader requires a positive maxItems. Abs side needed too — the
+# capacity table is per-realm (kAbs / kNpc) and without the abs entry
+# that slot reads uninitialized heap garbage (manifests as a "huge"
+# capacity like 1.7e9 in the debugger, asserting in any pool sizer that
+# treats it as a count).
+abs.splines.pool                    =   256     16      8
 npc.splines.pool                    =   256     16      8
 
 # Private blackboard pools (per-mind, one bb per active pattern/object that uses it)

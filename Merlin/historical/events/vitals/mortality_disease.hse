@@ -23,7 +23,12 @@
   (when (chance 0.0008))   ; ~1% per year background disease rate
 
   (effects
-    (die        ?who :cause disease)
-    (end-belief ?who spouse)
-    (end-belief ?who lives_in)
-    (log        _death ?who)))
+    ; propagate-death MUST precede die — (die ?who) destroys the entity and
+    ; recycles the abs symbol, after which the sweep can't find it. The
+    ; helper asserts {?who deceased @true} + {?who deceased_year <Y>} in
+    ; every surviving mind that holds a kinship / friend / romantic belief
+    ; toward ?who, and interval-ends those minds' spouse / fiancee / lover
+    ; beliefs whose target is ?who. See hsim_belief_propagation.cc.
+    (propagate-death ?who)
+    (die             ?who :cause disease)
+    (log             _death ?who)))

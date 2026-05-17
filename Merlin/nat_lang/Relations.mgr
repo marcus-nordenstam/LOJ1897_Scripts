@@ -35,8 +35,49 @@
 "spouse"                spouse                  .
 "mother"                mother                  .
 "father"                father                  .
+"parent"                parent                  .
 "brother"               brother                 .
 "sister"                sister                  .
+"sibling"               sibling                 .
+"half sibling"          half_sibling            .
+"half-sibling"          half_sibling            .
+"child"                 child                   .
+"grandmother"           grandmother             .
+"grandfather"           grandfather             .
+"grandparent"           grandparent             .
+"grandchild"            grandchild              .
+"aunt"                  aunt                    .
+"uncle"                 uncle                   .
+"niece"                 niece                   .
+"nephew"                nephew                  .
+"cousin"                cousin                  .
+"mother in law"         mother_in_law           .
+"mother-in-law"         mother_in_law           .
+"father in law"         father_in_law           .
+"father-in-law"         father_in_law           .
+"parent in law"         parent_in_law           .
+"parent-in-law"         parent_in_law           .
+"sister in law"         sister_in_law           .
+"sister-in-law"         sister_in_law           .
+"brother in law"        brother_in_law          .
+"brother-in-law"        brother_in_law          .
+"sibling in law"        sibling_in_law          .
+"sibling-in-law"        sibling_in_law          .
+"daughter in law"       daughter_in_law         .
+"daughter-in-law"       daughter_in_law         .
+"son in law"            son_in_law              .
+"son-in-law"            son_in_law              .
+"child in law"          child_in_law            .
+"child-in-law"          child_in_law            .
+"stepmother"            stepmother              .
+"stepfather"            stepfather              .
+"stepchild"             stepchild               .
+"friend"                friend                  .
+"acquaintance"          acquaintance            .
+"neighbour"             neighbour               .
+"neighbor"              neighbour               .
+"enemy"                 enemy                   .
+"lover"                 lover                   .
 "marriage prospect"     marriage_prospect       .
 "family"                family                  .
 "game-role"             game_role               .

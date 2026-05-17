@@ -31,4 +31,7 @@
   (effects
     (begin-belief ?groom spouse ?bride)
     (begin-belief ?bride spouse ?groom)
+    ; Wires *_in_law and step* beliefs on both sides — see
+    ; Src/Lib/hsim/hsim_belief_propagation.cc :: propagate_in_laws_at_marriage.
+    (propagate-in-laws ?groom ?bride)
     (log _marriage ?groom)))

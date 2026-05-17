@@ -22,8 +22,9 @@
     (when (chance ?per_month))
 
     (effects
-      (die        ?who :cause old_age)
-      (end-belief ?who spouse)
-      (end-belief ?who lives_in)
-      (log        _death ?who)))
+      ; propagate-death MUST precede die — see mortality_disease.hse for
+      ; the rationale.
+      (propagate-death ?who)
+      (die             ?who :cause old_age)
+      (log             _death ?who)))
 )
