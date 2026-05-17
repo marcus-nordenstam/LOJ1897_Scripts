@@ -2,10 +2,10 @@
 ; Births. For each fertile married woman, with a small monthly chance,
 ; spawn a child whose father is recovered via her spouse belief.
 ;
-; The (birth-human ...) verb wraps mx_birth_human - it creates a new entity,
-; populates traits via Mendelian sampling from mother + father, and asserts
-; the bio_parent_of beliefs in both parents' minds. This event therefore
-; only needs to identify the couple and trigger the verb.
+; The (birth-human ...) verb wraps mx_make_entity + mx_make_human - it creates
+; a new entity, populates traits via Mendelian sampling from mother + father,
+; and asserts the bio_parent_of beliefs in both parents' minds. This event
+; therefore only needs to identify the couple and trigger the verb.
 ;
 ; Topology: ?wife is enumerated; ?husband is recovered through the
 ; (believes ?wife {@self spouse ?husband}) relational filter.
