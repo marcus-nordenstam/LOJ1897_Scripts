@@ -54,22 +54,22 @@
 .
 
 "who is $person(NP) ++'s $rel(REL)"
-( any { $person(NP) /pres $rel(REL) } ).target
+( o { $person(NP) /pres $rel(REL) @o } )
 .
 "who was $person(NP) ++'s $rel(REL)"
-( any { $person(NP) /past $rel(REL) } ).target
+( o { $person(NP) /past $rel(REL) @o } )
 .
 "who is your $rel(REL)"
-( any { ?_you /pres $rel(REL) } ).target
+( o { ?_you /pres $rel(REL) @o } )
 .
 "who was your $rel(REL)"
-( any { ?_you /past $rel(REL) } ).target
+( o { ?_you /past $rel(REL) @o } )
 .
 "who is my $rel(REL)"
-( any { ?_I /pres $rel(REL) } ).target
+( o { ?_I /pres $rel(REL) @o } )
 .
 "who was my $rel(REL)"
-( any { ?_I /past $rel(REL) } ).target
+( o { ?_I /past $rel(REL) @o } )
 .
 
 "where does $person(NP) live"
