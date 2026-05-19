@@ -22,10 +22,6 @@
 $form(FORM)
 .
 
-# There is a...
-"There is a $np(NP)"
-( o $np(NP) )
-.
 
 # Command-statements
 

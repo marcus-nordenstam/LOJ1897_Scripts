@@ -3,8 +3,10 @@ archetype "human_player" [256] /obs /raycast_visible /player /non_occluder /occu
 {
     "physical_motors"
     "role"
-    "date"
-    "age"
+    # Lifecycle dates - written by historical sim, surface into interactive.
+    "birth_date"
+    "death_date"
+    "death_cause"
     "age_group"
     "gender"
     "appearance"
@@ -12,6 +14,7 @@ archetype "human_player" [256] /obs /raycast_visible /player /non_occluder /occu
     "girth"
     "name"
     "nationality"
+    "social_class"
     "condition"
     "pregnant_when"
     "alertness"
@@ -22,10 +25,6 @@ archetype "human_player" [256] /obs /raycast_visible /player /non_occluder /occu
     "extroversion"
     "intelligence"
     "interests"
-    # Lifecycle dates - written by historical sim, surface into interactive.
-    "birth_date"
-    "death_date"
-    "death_cause"
     # Dark-tetrad traits - genetic, drive motives.
     "narcissism"
     "machiavellianism"

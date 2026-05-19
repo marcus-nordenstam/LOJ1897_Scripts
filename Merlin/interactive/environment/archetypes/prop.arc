@@ -1,7 +1,7 @@
 # Any object that is potentially mobile
 archetype "prop" [1024] /obs /occupies_env_grid /non_occluder
 {
-    "date"
+    "birth_date"
     "color"
     # Some props are broken, some are whole, etc.
     "condition"

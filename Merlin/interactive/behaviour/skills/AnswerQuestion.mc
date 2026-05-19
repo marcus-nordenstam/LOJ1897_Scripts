@@ -13,17 +13,27 @@
 # cause of the belief.
 
 
+rule compute-answer
+{!@self:?person /ever ASK ?question @self}: ?person_asked
+(bb_private_none ?question answer)
+(none {@self /succ TELL ? ?person /causes ~?person_asked})
+(eval_msg ?question): ?answer
+    ->
+# We have a real answer now...
+(bb_private_write ?question answer ?answer).
+
 
 
 # "do you know who this is?" - respond with relationship + name
-rule answer-question-respond-to-do-you-know-this
+rule tell-answer-do-you-know-this
 {!@self:?person /ever ASK (qs /do_you_know /this (any {/b ?entity /ever name}).target):?question @self}: ?person_asked
+(bb_private_read ?question answer): ?answer
 (none {@self /succ TELL ? ?person /causes ~?person_asked})
-(lock_rule answer_question 1) # higher priority than the general answer-question below
+(lock_rule tell_answer 1) # higher priority than the general answer-question below
     ->
-(any {?entity /ever name}).target: ?name
-(any {@self /ever ? ?entity}).label: ?relation
-(if (eq ?name @unknown)
+#(any {?entity /ever name}).target: ?name
+#(any {@self /ever ? ?entity}).label: ?relation
+(if (eq ?answer @unknown)
     (maintain_goal {@self TELL (formulaic no_dont_know) ?person} (des abs_util 1))
     (maintain_goal {@self TELL (formulaic yes_this_is ?relation ?name) ?person} (des abs_util 1))): ?response
 # If we are currently expecting a question from ?person, quit expecting it
@@ -37,26 +47,20 @@ rule answer-question-respond-to-do-you-know-this
 
 
 
-rule answer-question-respond-general
+rule tell-answer
 {!@self:?person /ever ASK ?question @self}: ?person_asked
+(bb_private_read ?question answer): ?answer
 (none {@self /succ TELL ? ?person /causes ~?person_asked})
-(lock_rule answer_question 0) # general answer-question rule
+(lock_rule tell_answer 0) # defer to higher-priority specialized rules above
     ->
-# Evaluate the question to produce an answer
-(eval_msg /output_unknown_on_fail ?question): ?truthfulAnswer
-# Set an absolute utility of 1, signifying that answering a question is higher priority than posing a question
-(maintain_goal {@self TELL (msg ?truthfulAnswer) ?person} (des abs_util 1)): ?response
-# If we are currently expecting a question from ?person, quit expecting it
-#(any {@self expect_question ?person}): ?expect_question
-#(end_belief ?expect_question)
-# Since the person asking is not an act performed by myself,
-# we have to explicitly add it as a cause for my response.
-#(add_causes ?response ?person_asked ?expect_question)
+# abs_util 1 prioritises answering over posing your own questions
+(maintain_goal {@self TELL (utterable_msg ?answer) ?person} (des abs_util 1)): ?response
+# ?person_asked isn't a self-act so its causal link must be added explicitly
 (add_causes ?response ?person_asked)
-# Most rules declare at least one task among its conditions, which results in the rule not activating without
-# said task-condition.  This rule, however, does *not* list any task since talking isn't something
-# that requires a task.  So, to avoid a build-up of activated (but no longer firing) instances of this rule, 
-# we use (forget_on_cease) to make sure the rule forgotten as soon as it ceases to fire.
+# Done answering this question
+(bb_private_clear ?question answer)
+# No task in conditions - forget the activation once it ceases to keep the
+# activated set from accumulating
 (forget_on_cease).
 
 

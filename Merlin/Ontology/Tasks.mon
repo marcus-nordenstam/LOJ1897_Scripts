@@ -30,7 +30,7 @@ relation
 
             # Domain-specific tasks
             found_org                                /tar org
-            process_title_deed                        /aux structure|space
+            process_title_deed                       /aux structure|space
             introduce_siblings
 
             tell_about                              /sub @msgAuthor human /aux @msgAudience human

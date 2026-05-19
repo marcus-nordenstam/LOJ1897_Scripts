@@ -78,6 +78,157 @@
 "where did $person(NP) live"
 ( any { $person(NP) /past home } ).target
 .
+"where do you live"
+( any { ?_you /pres home } ).target
+.
+"where do I live"
+( any { ?_I /pres home } ).target
+.
+
+# birth year
+"when were you born"
+( any { ?_you /pres birth_year } ).target
+.
+"when was I born"
+( any { ?_I /pres birth_year } ).target
+.
+"when was $person(NP) born"
+( any { $person(NP) /pres birth_year } ).target
+.
+"what year were you born"
+( any { ?_you /pres birth_year } ).target
+.
+"what year was I born"
+( any { ?_I /pres birth_year } ).target
+.
+"what year was $person(NP) born"
+( any { $person(NP) /pres birth_year } ).target
+.
+
+# age - derivative belief, computed on demand from birth_date by
+# reasoning/Age.mc when (any ...) finds no matching age belief.
+"how old are you"
+( any { ?_you /pres age } ).target
+.
+"how old am I"
+( any { ?_I /pres age } ).target
+.
+"how old is $person(NP)"
+( any { $person(NP) /pres age } ).target
+.
+"what is your age"
+( any { ?_you /pres age } ).target
+.
+"what is my age"
+( any { ?_I /pres age } ).target
+.
+"what is $person(NP) ++'s age"
+( any { $person(NP) /pres age } ).target
+.
+
+# birthplace
+"where were you born"
+( any { ?_you /pres birthplace } ).target
+.
+"where was I born"
+( any { ?_I /pres birthplace } ).target
+.
+"where was $person(NP) born"
+( any { $person(NP) /pres birthplace } ).target
+.
+
+# alive / dead
+# `none` returns @true if no matching belief exists, @false if it does.
+# So "is X alive" succeeds (Yes) precisely when X has no /pres deceased @true belief.
+"is $person(NP) alive"
+( none { $person(NP) /pres deceased @true } )
+.
+"are you alive"
+( none { ?_you /pres deceased @true } )
+.
+"is $person(NP) dead"
+( prob { $person(NP) /pres deceased @true } )
+.
+
+# date of death
+"when did $person(NP) die"
+( any { $person(NP) /pres deceased_year } ).target
+.
+"what year did $person(NP) die"
+( any { $person(NP) /pres deceased_year } ).target
+.
+
+# specific interest (do you like X)
+"do you like $thing(KIND)"
+( prob { ?_you /pres interests $thing(KIND) } )
+.
+"do I like $thing(KIND)"
+( prob { ?_I /pres interests $thing(KIND) } )
+.
+"does $person(NP) like $thing(KIND)"
+( prob { $person(NP) /pres interests $thing(KIND) } )
+.
+
+# nationality
+"what is your nationality"
+( any { ?_you /pres nationality } ).target
+.
+"what is my nationality"
+( any { ?_I /pres nationality } ).target
+.
+"what is $person(NP) ++'s nationality"
+( any { $person(NP) /pres nationality } ).target
+.
+"what nationality are you"
+( any { ?_you /pres nationality } ).target
+.
+"what nationality am I"
+( any { ?_I /pres nationality } ).target
+.
+"what nationality is $person(NP)"
+( any { $person(NP) /pres nationality } ).target
+.
+"where are you from"
+( any { ?_you /pres nationality } ).target
+.
+"where am I from"
+( any { ?_I /pres nationality } ).target
+.
+"where is $person(NP) from"
+( any { $person(NP) /pres nationality } ).target
+.
+
+# social class
+"what is your social class"
+( any { ?_you /pres social_class } ).target
+.
+"what is my social class"
+( any { ?_I /pres social_class } ).target
+.
+"what is $person(NP) ++'s social class"
+( any { $person(NP) /pres social_class } ).target
+.
+"what social class are you"
+( any { ?_you /pres social_class } ).target
+.
+"what social class am I"
+( any { ?_I /pres social_class } ).target
+.
+"what social class is $person(NP)"
+( any { $person(NP) /pres social_class } ).target
+.
+"what social class do you belong to"
+( any { ?_you /pres social_class } ).target
+.
+"what social class do I belong to"
+( any { ?_I /pres social_class } ).target
+.
+"what social class does $person(NP) belong to"
+( any { $person(NP) /pres social_class } ).target
+.
+"what social class do you consider yourself part of"
+( any { ?_you /pres social_class } ).target
+.
 
 "who $np(NP) is"
 ( any { $np(NP) /pres name } ).target

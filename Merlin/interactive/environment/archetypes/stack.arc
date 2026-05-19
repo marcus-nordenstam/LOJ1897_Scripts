@@ -2,7 +2,7 @@
 # the same spatial bounds — that of the stack.
 archetype "stack" [512] /obs /non_occluder /occupies_env_grid
 {
-    "date"
+    "birth_date"
     "stack_label"
     "items"
     "top"

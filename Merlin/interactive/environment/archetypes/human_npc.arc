@@ -6,8 +6,10 @@ archetype "human_npc" [4096] /obs /raycast_visible /sentient /non_occluder /occu
     "physical_motors"
     "role"
     "perform"
-    "date"
-    "age"
+    # Lifecycle dates - written by historical sim, surface into interactive.
+    "birth_date"
+    "death_date"
+    "death_cause"
     "age_group"
     "gender"
     "appearance"
@@ -16,6 +18,7 @@ archetype "human_npc" [4096] /obs /raycast_visible /sentient /non_occluder /occu
     # NPCs learn their own name through self-awareness, not passive perception
     "name"
     "nationality"
+    "social_class"
     "condition"
     "pregnant_when"
     "alertness"
@@ -26,10 +29,6 @@ archetype "human_npc" [4096] /obs /raycast_visible /sentient /non_occluder /occu
     "extroversion"
     "intelligence"
     "interests"
-    # Lifecycle dates - written by historical sim, surface into interactive.
-    "birth_date"
-    "death_date"
-    "death_cause"
     # Dark-tetrad traits - genetic, drive motives.
     "narcissism"
     "machiavellianism"

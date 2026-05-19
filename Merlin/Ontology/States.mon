@@ -17,7 +17,7 @@ relation
         temperature             /obs /tar @excl
 
         # Spatial states (not directly from attrs)
-        within_reach_of           /tar object|space
+        within_reach_of         /tar object|space
         facing                  /tar object|space
 
         # Physical states not from attrs

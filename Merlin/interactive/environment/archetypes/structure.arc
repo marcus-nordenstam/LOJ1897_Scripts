@@ -3,7 +3,7 @@
 # archetype instead - that one carries a container_id.
 archetype "structure" [256] /obs /always_visible /children_occupy_env_grid
 {
-    "date"
+    "birth_date"
     # Name is auto-perceived so NPCs know what they're at
     "name" /auto_percept
     "parts" /auto_percept

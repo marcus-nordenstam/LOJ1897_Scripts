@@ -4,8 +4,14 @@
 # Use /state_flags_tar, /state_flags_sub, /state_flags_aux for per-field @-flags (pipe-separated).
 
 # Identity & metadata
+
 # NOTE: "isa" (kind attr) is auto-created on every population — no need to declare it.
-attr "date"             date                                    /date       /imperceptible
+
+# Lifecycle dates (used by historical sim; persist into interactive).
+attr "birth_date"       date                                    /date                  /feel
+attr "death_date"       date                                    /state_flags_tar @excl /imperceptible
+attr "death_cause"      str                                     /state_flags_tar @excl /imperceptible
+
 # Name attr. /auto_percept can be added per-archetype for entities whose name matters (spaces, structures).
 attr "name"             name                                    /name       /obs
 
@@ -26,11 +32,6 @@ attr "in_stack"         entity "stack"                          /in_stack    /ob
 # Conditions & properties
 attr "condition"        str alive                                           /obs /auto_percept /state_flags_tar @excl
 attr "color"            str                                                 /obs /auto_percept /state_flags_tar @excl
-
-# Lifecycle dates (used by historical sim; persist into interactive).
-attr "birth_date"       date                                                /obs /state_flags_tar @excl
-attr "death_date"       date                                                /obs /state_flags_tar @excl
-attr "death_cause"      str                                                 /obs /state_flags_tar @excl
 
 # Dark-tetrad personality - genetic, heritable, drives motives.
 attr "narcissism"       int                                                 /feel
@@ -62,6 +63,7 @@ attr "appearance"       str                                                 /obs
 attr "height"           str                                                 /obs /auto_percept /state_flags_tar @excl
 attr "girth"            str                                                 /obs /auto_percept /state_flags_tar @excl
 attr "nationality"      str                                                 /obs /state_flags_tar @excl
+attr "social_class"     str                                                 /obs /state_flags_tar @excl
 
 # Personality & internal
 attr "alertness"        str alert                                           /feel /state_flags_tar @excl

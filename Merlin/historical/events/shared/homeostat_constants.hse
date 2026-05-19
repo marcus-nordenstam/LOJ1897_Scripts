@@ -11,7 +11,7 @@
 
 (define-table homeostat_target_population
   (age-bracket 0
-    (else 600.0)))
+    (else 60.0)))
 
 (define-table homeostat_emigration_pressure
   (age-bracket 0

@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------------------------
 
 # The max number of milliseconds each cycle is allowed
-cycleBudgetMs = 15
+cycleBudgetMs = 150000000
 
 # Maximum limit on the number of minds/NPCs allowed at any given time.
 # 2000 is the safe ceiling - pushing past it requires widening ArenaPoolId

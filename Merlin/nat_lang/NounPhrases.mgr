@@ -24,6 +24,11 @@
 _
 .
 
+# A named object such as John Smith
+"$pname(PNAME)"
+( o $pname(PNAME) )
+.
+
 # e.g. "my mother"
 "my $rel(REL)"
 ( o { ?_I /pres $rel(REL) @o } )
