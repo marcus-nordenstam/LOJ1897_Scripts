@@ -29,6 +29,15 @@ _
 ( o $pname(PNAME) )
 .
 
+# e.g. "the late John Smith" - utterable_msg emits this form when the
+# speaker's name belief about the referent has been ended (death-
+# propagation set its interval-end). Matches the listener's ended name
+# belief via /past on the constitutive clause. @o is the placeholder
+# for the object being identified (subject of the name belief).
+"the late $pname(PNAME)"
+( o { @o /past name $pname(PNAME) } )
+.
+
 # e.g. "my mother"
 "my $rel(REL)"
 ( o { ?_I /pres $rel(REL) @o } )
@@ -65,3 +74,44 @@ $thing(INDEF_KIND) $pname(PNAME) { @o /pres obb $np(NP) }
 # A general noun-phrase:
 
 :NP = VARIABLE|PRONOUN|REG_NP|PNAME
+
+
+# Question-context noun phrases. Mirrors REG_NP with two question-only
+# adjustments:
+#   1. Relations resolve with /ever instead of /pres, so a present-tense
+#      question like "how old is your mother" matches both ongoing and
+#      ended kinship beliefs (kinship beliefs end when the relative dies).
+#   2. The (o ...) wrapper carries /known, so a noun-phrase that has no
+#      referent in the listener's memory collapses to @fail rather than
+#      inventing a fresh mental-object. Inventing for a question would
+#      asserting kind-null beliefs downstream and is the wrong move
+#      anyway: a question about an unknown referent should answer
+#      @unknown, not fabricate one.
+# REG_NP itself keeps /pres and unqualified (o ...) so statements like
+# "this is your mother" still assert a current relation and may invent.
+# Past-tense questions ("who was your mother") have their own /past
+# forms in Questions.mgr and don't go through this class.
+
+:Q_REG_NP
+
+"$pname(PNAME)"
+( o /known $pname(PNAME) )
+.
+
+"the late $pname(PNAME)"
+( o /known { @o /past name $pname(PNAME) } )
+.
+
+"my $rel(REL)"
+( o /known { ?_I /ever $rel(REL) @o } )
+.
+
+"your $rel(REL)"
+( o /known { ?_you /ever $rel(REL) @o } )
+.
+
+"$pname(PNAME) ++'s $rel(REL)"
+( o /known { $pname(PNAME) /ever $rel(REL) @o } )
+.
+
+:Q_NP = VARIABLE|PRONOUN|Q_REG_NP|PNAME

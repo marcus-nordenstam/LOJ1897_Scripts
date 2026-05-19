@@ -17,8 +17,8 @@
 ( qs /do_you_know /this ( any { ?_this /pres name } ).target )
 .
 
-"can you identify $np(NP)"
-( qs /do_you_know ( any { $np(NP) /pres name } ).target )
+"can you identify $np(Q_NP)"
+( qs /do_you_know ( any { $np(Q_NP) /pres name } ).target )
 .
 
 #"right then, what's yer pleasure"
@@ -34,11 +34,11 @@
 
 :QSP
 
-"what is $person(NP) ++'s name"
-( any { $person(NP) /pres name } ).target
+"what is $person(Q_NP) ++'s name"
+( any { $person(Q_NP) /pres name } ).target
 .
-"what was $person(NP) ++'s name"
-( any { $person(NP) /past name } ).target
+"what was $person(Q_NP) ++'s name"
+( any { $person(Q_NP) /past name } ).target
 .
 "what is your name"
 ( any { ?_you /pres name } ).target
@@ -53,30 +53,30 @@
 ( any { ?_I /past name } ).target
 .
 
-"who is $person(NP) ++'s $rel(REL)"
-( o { $person(NP) /pres $rel(REL) @o } )
+"who is $person(Q_NP) ++'s $rel(REL)"
+( o /known { $person(Q_NP) /ever $rel(REL) @o } )
 .
-"who was $person(NP) ++'s $rel(REL)"
-( o { $person(NP) /past $rel(REL) @o } )
+"who was $person(Q_NP) ++'s $rel(REL)"
+( o /known { $person(Q_NP) /past $rel(REL) @o } )
 .
 "who is your $rel(REL)"
-( o { ?_you /pres $rel(REL) @o } )
+( o /known { ?_you /ever $rel(REL) @o } )
 .
 "who was your $rel(REL)"
-( o { ?_you /past $rel(REL) @o } )
+( o /known { ?_you /past $rel(REL) @o } )
 .
 "who is my $rel(REL)"
-( o { ?_I /pres $rel(REL) @o } )
+( o /known { ?_I /ever $rel(REL) @o } )
 .
 "who was my $rel(REL)"
-( o { ?_I /past $rel(REL) @o } )
+( o /known { ?_I /past $rel(REL) @o } )
 .
 
-"where does $person(NP) live"
-( any { $person(NP) /pres home } ).target
+"where does $person(Q_NP) live"
+( any { $person(Q_NP) /pres home } ).target
 .
-"where did $person(NP) live"
-( any { $person(NP) /past home } ).target
+"where did $person(Q_NP) live"
+( any { $person(Q_NP) /past home } ).target
 .
 "where do you live"
 ( any { ?_you /pres home } ).target
@@ -92,8 +92,8 @@
 "when was I born"
 ( any { ?_I /pres birth_year } ).target
 .
-"when was $person(NP) born"
-( any { $person(NP) /pres birth_year } ).target
+"when was $person(Q_NP) born"
+( any { $person(Q_NP) /pres birth_year } ).target
 .
 "what year were you born"
 ( any { ?_you /pres birth_year } ).target
@@ -101,8 +101,8 @@
 "what year was I born"
 ( any { ?_I /pres birth_year } ).target
 .
-"what year was $person(NP) born"
-( any { $person(NP) /pres birth_year } ).target
+"what year was $person(Q_NP) born"
+( any { $person(Q_NP) /pres birth_year } ).target
 .
 
 # age - derivative belief, computed on demand from birth_date by
@@ -113,8 +113,8 @@
 "how old am I"
 ( any { ?_I /pres age } ).target
 .
-"how old is $person(NP)"
-( any { $person(NP) /pres age } ).target
+"how old is $person(Q_NP)"
+( any { $person(Q_NP) /pres age } ).target
 .
 "what is your age"
 ( any { ?_you /pres age } ).target
@@ -122,8 +122,8 @@
 "what is my age"
 ( any { ?_I /pres age } ).target
 .
-"what is $person(NP) ++'s age"
-( any { $person(NP) /pres age } ).target
+"what is $person(Q_NP) ++'s age"
+( any { $person(Q_NP) /pres age } ).target
 .
 
 # birthplace
@@ -133,29 +133,29 @@
 "where was I born"
 ( any { ?_I /pres birthplace } ).target
 .
-"where was $person(NP) born"
-( any { $person(NP) /pres birthplace } ).target
+"where was $person(Q_NP) born"
+( any { $person(Q_NP) /pres birthplace } ).target
 .
 
 # alive / dead
 # `none` returns @true if no matching belief exists, @false if it does.
 # So "is X alive" succeeds (Yes) precisely when X has no /pres deceased @true belief.
-"is $person(NP) alive"
-( none { $person(NP) /pres deceased @true } )
+"is $person(Q_NP) alive"
+( none { $person(Q_NP) /pres deceased @true } )
 .
 "are you alive"
 ( none { ?_you /pres deceased @true } )
 .
-"is $person(NP) dead"
-( prob { $person(NP) /pres deceased @true } )
+"is $person(Q_NP) dead"
+( prob { $person(Q_NP) /pres deceased @true } )
 .
 
 # date of death
-"when did $person(NP) die"
-( any { $person(NP) /pres deceased_year } ).target
+"when did $person(Q_NP) die"
+( any { $person(Q_NP) /pres deceased_year } ).target
 .
-"what year did $person(NP) die"
-( any { $person(NP) /pres deceased_year } ).target
+"what year did $person(Q_NP) die"
+( any { $person(Q_NP) /pres deceased_year } ).target
 .
 
 # specific interest (do you like X)
@@ -165,8 +165,8 @@
 "do I like $thing(KIND)"
 ( prob { ?_I /pres interests $thing(KIND) } )
 .
-"does $person(NP) like $thing(KIND)"
-( prob { $person(NP) /pres interests $thing(KIND) } )
+"does $person(Q_NP) like $thing(KIND)"
+( prob { $person(Q_NP) /pres interests $thing(KIND) } )
 .
 
 # nationality
@@ -176,8 +176,8 @@
 "what is my nationality"
 ( any { ?_I /pres nationality } ).target
 .
-"what is $person(NP) ++'s nationality"
-( any { $person(NP) /pres nationality } ).target
+"what is $person(Q_NP) ++'s nationality"
+( any { $person(Q_NP) /pres nationality } ).target
 .
 "what nationality are you"
 ( any { ?_you /pres nationality } ).target
@@ -185,8 +185,8 @@
 "what nationality am I"
 ( any { ?_I /pres nationality } ).target
 .
-"what nationality is $person(NP)"
-( any { $person(NP) /pres nationality } ).target
+"what nationality is $person(Q_NP)"
+( any { $person(Q_NP) /pres nationality } ).target
 .
 "where are you from"
 ( any { ?_you /pres nationality } ).target
@@ -194,8 +194,8 @@
 "where am I from"
 ( any { ?_I /pres nationality } ).target
 .
-"where is $person(NP) from"
-( any { $person(NP) /pres nationality } ).target
+"where is $person(Q_NP) from"
+( any { $person(Q_NP) /pres nationality } ).target
 .
 
 # social class
@@ -205,8 +205,8 @@
 "what is my social class"
 ( any { ?_I /pres social_class } ).target
 .
-"what is $person(NP) ++'s social class"
-( any { $person(NP) /pres social_class } ).target
+"what is $person(Q_NP) ++'s social class"
+( any { $person(Q_NP) /pres social_class } ).target
 .
 "what social class are you"
 ( any { ?_you /pres social_class } ).target
@@ -214,8 +214,8 @@
 "what social class am I"
 ( any { ?_I /pres social_class } ).target
 .
-"what social class is $person(NP)"
-( any { $person(NP) /pres social_class } ).target
+"what social class is $person(Q_NP)"
+( any { $person(Q_NP) /pres social_class } ).target
 .
 "what social class do you belong to"
 ( any { ?_you /pres social_class } ).target
@@ -223,20 +223,20 @@
 "what social class do I belong to"
 ( any { ?_I /pres social_class } ).target
 .
-"what social class does $person(NP) belong to"
-( any { $person(NP) /pres social_class } ).target
+"what social class does $person(Q_NP) belong to"
+( any { $person(Q_NP) /pres social_class } ).target
 .
 "what social class do you consider yourself part of"
 ( any { ?_you /pres social_class } ).target
 .
 
-"who $np(NP) is"
-( any { $np(NP) /pres name } ).target
+"who $np(Q_NP) is"
+( any { $np(Q_NP) /pres name } ).target
 .
-"who $np(NP) was"
-( any { $np(NP) /past name } ).target
+"who $np(Q_NP) was"
+( any { $np(Q_NP) /past name } ).target
 .
 
-"does $sub_np(NP) want $goal(NP)"
-( prob { $sub_np(NP) /pres goal $goal(NP) } )
+"does $sub_np(Q_NP) want $goal(NP)"
+( prob { $sub_np(Q_NP) /pres goal $goal(NP) } )
 .

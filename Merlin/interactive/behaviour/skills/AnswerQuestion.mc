@@ -17,9 +17,8 @@ rule compute-answer
 {!@self:?person /ever ASK ?question @self}: ?person_asked
 (bb_private_none ?question answer)
 (none {@self /succ TELL ? ?person /causes ~?person_asked})
-(eval_msg ?question): ?answer
+(eval_msg /output_unknown_on_fail ?question): ?answer
     ->
-# We have a real answer now...
 (bb_private_write ?question answer ?answer).
 
 
@@ -31,20 +30,15 @@ rule tell-answer-do-you-know-this
 (none {@self /succ TELL ? ?person /causes ~?person_asked})
 (lock_rule tell_answer 1) # higher priority than the general answer-question below
     ->
-#(any {?entity /ever name}).target: ?name
-#(any {@self /ever ? ?entity}).label: ?relation
+(any {@self /ever ? ?entity}).label: ?relation
 (if (eq ?answer @unknown)
     (maintain_goal {@self TELL (formulaic no_dont_know) ?person} (des abs_util 1))
-    (maintain_goal {@self TELL (formulaic yes_this_is ?relation ?name) ?person} (des abs_util 1))): ?response
-# If we are currently expecting a question from ?person, quit expecting it
-#(any {@self expect_question ?person}): ?expect_question
-#(end_belief ?expect_question)
-# Since the person asking is not an act performed by myself,
-# we have to explicitly add it as a cause for my response.
-#(add_causes ?response ?person_asked ?expect_question)
+    (maintain_goal {@self TELL (formulaic yes_this_is ?relation ?answer) ?person} (des abs_util 1))): ?response
+# ?person_asked isn't a self-act so its causal link must be added explicitly
 (add_causes ?response ?person_asked)
+# No task among conditions - forget the activation once it ceases to keep the
+# activated set from accumulating
 (forget_on_cease).
-
 
 
 rule tell-answer
@@ -59,7 +53,7 @@ rule tell-answer
 (add_causes ?response ?person_asked)
 # Done answering this question
 (bb_private_clear ?question answer)
-# No task in conditions - forget the activation once it ceases to keep the
+# No task among conditions - forget the activation once it ceases to keep the
 # activated set from accumulating
 (forget_on_cease).
 
