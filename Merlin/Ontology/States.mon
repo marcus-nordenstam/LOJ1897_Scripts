@@ -145,11 +145,10 @@ relation
             # stay ongoing — kinship does not end on death.
             deceased            /tar @excl
             deceased_year       /tar @excl
-            # Self-identity beliefs that mirror the underlying physical /
-            # spatial / genetic ground truth. birth_year mirrors the
-            # birth_date attr; birthplace mirrors the structure the
-            # newborn was placed in at birth (typically mother's home).
-            birth_year          /tar @excl
+            # Self-identity belief: the structure the newborn was placed
+            # in at birth (typically mother's home). The birth_date attr
+            # (see common.arc) auto-registers its own belief label, so
+            # {?p birth_date <date>} works without an explicit entry here.
             birthplace          /tar structure @excl
 
         # Vocational, legal, "societal" states

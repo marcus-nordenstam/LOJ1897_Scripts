@@ -72,6 +72,33 @@
 ( o /known { ?_I /past $rel(REL) @o } )
 .
 
+# Plural-relation questions. (every ...) gathers every matching belief; the
+# .target post-eval field-lookup maps target-extraction across the result
+# list. Three possible answer shapes:
+#   []      - no matching belief at all (renders as "unknown")
+#   [_]     - explicit {?_you sibling _} belief ("I know I have none")
+#   [a b c] - one or more real targets, rendered Oxford-comma style.
+# All three flow through utterable_msg's list-recurse and the Oxford-comma
+# list printer (see Src/Lib/Mental/Knowledge/List/List.cc).
+"who are your $rel_plur(RELP)"
+( every { ?_you /ever $rel_plur(RELP) ? } ).target
+.
+"who are my $rel_plur(RELP)"
+( every { ?_I /ever $rel_plur(RELP) ? } ).target
+.
+"who are $person(Q_NP) ++'s $rel_plur(RELP)"
+( every { $person(Q_NP) /ever $rel_plur(RELP) ? } ).target
+.
+"who were your $rel_plur(RELP)"
+( every { ?_you /past $rel_plur(RELP) ? } ).target
+.
+"who were my $rel_plur(RELP)"
+( every { ?_I /past $rel_plur(RELP) ? } ).target
+.
+"who were $person(Q_NP) ++'s $rel_plur(RELP)"
+( every { $person(Q_NP) /past $rel_plur(RELP) ? } ).target
+.
+
 "where does $person(Q_NP) live"
 ( any { $person(Q_NP) /pres home } ).target
 .
@@ -85,24 +112,24 @@
 ( any { ?_I /pres home } ).target
 .
 
-# birth year
+# birth date
 "when were you born"
-( any { ?_you /pres birth_year } ).target
+( any { ?_you /pres birth_date } ).target
 .
 "when was I born"
-( any { ?_I /pres birth_year } ).target
+( any { ?_I /pres birth_date } ).target
 .
 "when was $person(Q_NP) born"
-( any { $person(Q_NP) /pres birth_year } ).target
+( any { $person(Q_NP) /pres birth_date } ).target
 .
 "what year were you born"
-( any { ?_you /pres birth_year } ).target
+( any { ?_you /pres birth_date } ).target
 .
 "what year was I born"
-( any { ?_I /pres birth_year } ).target
+( any { ?_I /pres birth_date } ).target
 .
 "what year was $person(Q_NP) born"
-( any { $person(Q_NP) /pres birth_year } ).target
+( any { $person(Q_NP) /pres birth_date } ).target
 .
 
 # age - derivative belief, computed on demand from birth_date by

@@ -22,3 +22,12 @@ $form(FORM)
 "'('  $np(NP) ')'"
 ( msg $np(NP) )
 .
+
+# Plural answer payloads (lists of relatives / friends / etc.).
+# utterable_msg's list-recurse rephrases each item to descriptor form
+# ((o [n X]) for living, (o {@o /past name [n X]}) for deceased), and
+# List::print under kPrintNatLang emits them Oxford-comma-joined. NP_PLUR
+# consumes that form; this rule wraps it as a (msg ...) payload.
+"'('  $np_plur(NP_PLUR) ')'"
+( msg $np_plur(NP_PLUR) )
+.

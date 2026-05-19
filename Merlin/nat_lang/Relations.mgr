@@ -30,6 +30,55 @@
 "$rel(REL) are"         /pres $rel(REL)         .
 "$rel(REL) were"        /past $rel(REL)         .
 
+# Plural relation names. Used by plural-answer questions ("who are your
+# siblings"). Labels themselves remain singular - the plural form is just
+# the surface noun. Mirrors the entries in :REL below.
+:RELP
+"siblings"              sibling                 .
+"half siblings"         half_sibling            .
+"half-siblings"         half_sibling            .
+"parents"               parent                  .
+"brothers"              brother                 .
+"sisters"               sister                  .
+"children"              child                   .
+"grandmothers"          grandmother             .
+"grandfathers"          grandfather             .
+"grandparents"          grandparent             .
+"grandchildren"         grandchild              .
+"aunts"                 aunt                    .
+"uncles"                uncle                   .
+"nieces"                niece                   .
+"nephews"               nephew                  .
+"cousins"               cousin                  .
+"mothers in law"        mother_in_law           .
+"mothers-in-law"        mother_in_law           .
+"fathers in law"        father_in_law           .
+"fathers-in-law"        father_in_law           .
+"parents in law"        parent_in_law           .
+"parents-in-law"        parent_in_law           .
+"sisters in law"        sister_in_law           .
+"sisters-in-law"        sister_in_law           .
+"brothers in law"       brother_in_law          .
+"brothers-in-law"       brother_in_law          .
+"siblings in law"       sibling_in_law          .
+"siblings-in-law"       sibling_in_law          .
+"daughters in law"      daughter_in_law         .
+"daughters-in-law"      daughter_in_law         .
+"sons in law"           son_in_law              .
+"sons-in-law"           son_in_law              .
+"children in law"       child_in_law            .
+"children-in-law"       child_in_law            .
+"stepmothers"           stepmother              .
+"stepfathers"           stepfather              .
+"stepchildren"          stepchild               .
+"friends"               friend                  .
+"acquaintances"         acquaintance            .
+"neighbours"            neighbour               .
+"neighbors"             neighbour               .
+"enemies"               enemy                   .
+"lovers"                lover                   .
+
+
 :REL
 "fiancee"               fiancee                 .
 "spouse"                spouse                  .

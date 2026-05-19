@@ -30,6 +30,6 @@
   (effects
     (begin-belief        ?a friend ?b)
     (begin-belief        ?b friend ?a)
-    (believe-attrs-about ?a ?b)
-    (believe-attrs-about ?b ?a)
+    (believe-about ?a ?b)
+    (believe-about ?b ?a)
     (log _friendship ?a)))

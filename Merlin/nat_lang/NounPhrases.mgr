@@ -75,6 +75,26 @@ $thing(INDEF_KIND) $pname(PNAME) { @o /pres obb $np(NP) }
 
 :NP = VARIABLE|PRONOUN|REG_NP|PNAME
 
+# Oxford-comma plural NP-list. Consumes the form emitted by List::print under
+# kPrintNatLang for plural answers:
+#   n=1: "a"
+#   n=2: "a and b"
+#   n=3: "a , b , and c"
+#   n=4: "a , b , c , and d"   (and so on, via recursion on NP_PLUR)
+# Bare comma tokens on the MC side keep tokenisation clean (StringAlgo's
+# tokenizer splits on whitespace, not commas). Bind tokens (++,) on the NL
+# side glue the comma to the preceding name when the output is assembled,
+# producing "Alice, Bob, and Sue" rather than "Alice , Bob , and Sue".
+# The 1-item case naturally absorbs the "nothing" (`_`) and "unknown"
+# (`@unknown`) sentinels because they reach NP via REG_NP and pass through
+# the trivial $np(NP) rule.
+
+:NP_PLUR
+"$np(NP)"                                          $np(NP)                                          .
+"$np(NP) and $np(NP)"                              $np(NP) and $np(NP)                              .
+"$np(NP) ++, and $np(NP)"                          $np(NP) , and $np(NP)                            .
+"$np(NP) ++, $np_plur(NP_PLUR)"                    $np(NP) , $np_plur(NP_PLUR)                      .
+
 
 # Question-context noun phrases. Mirrors REG_NP with two question-only
 # adjustments:

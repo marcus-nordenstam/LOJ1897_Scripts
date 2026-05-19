@@ -31,6 +31,11 @@
   (effects
     (begin-belief ?groom spouse ?bride)
     (begin-belief ?bride spouse ?groom)
+    ; Each spouse learns the other's social profile (identity attrs,
+    ; personality, social_class, birth_date, home, job, immediate kin)
+    ; - see hsim::believe_about for the full set.
+    (believe-about ?groom ?bride)
+    (believe-about ?bride ?groom)
     ; Wires *_in_law and step* beliefs on both sides — see
     ; Src/Lib/hsim/hsim_belief_propagation.cc :: propagate_in_laws_at_marriage.
     (propagate-in-laws ?groom ?bride)
