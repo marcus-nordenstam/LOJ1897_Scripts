@@ -38,7 +38,7 @@ relation
         expect_question         /sub human              /tar ?
         status                  /tar ? @excl
         talk_to                 /sub human
-        
+
         # Stack states not from attrs
         item                    /obs /tar object
         from_stack               /obs /sub object         /tar @excl stack
@@ -128,15 +128,27 @@ relation
             friend              /tar human
             acquaintance        /tar human
             neighbour           /tar human
+            # Typed relationship bonds (F2.1). Warmth bonds (close_to) and
+            # utility bonds (relied_on_by, respected_by) are independent - a
+            # man can be widely relied upon yet close to no one. All
+            # non-exclusive: repeated beliefs, one per partner. respected_by
+            # is the inverse of (emo) respects.
+            close_to            /tar human
+            relied_on_by        /tar human
+            respected_by        /tar human
             eligible_for_marriage
             marriage_desirability /tar @excl
             love                 /tar
             # Financial / inheritance audit trail.
-            indebted_to         /tar human
+            # owe: {debtor owe creditor <debt>} - debtor is the subject,
+            # creditor the target. The auxiliary slot holds the debt - an
+            # integer amount for a money debt, a debt mobject for a
+            # non-money obligation. One owe belief per (debtor, creditor)
+            # pair; the amount is updated in place.
+            owe                 /tar human|org
             inherited_from      /tar human
             # Self-perceived public/material standing.
             reputation          /tar @excl
-            wealth_tier         /tar @excl
             # Awareness that another person has died. Asserted with the
             # deceased person as subject, in the minds of those who knew
             # them. Romantic-relationship beliefs (spouse, fiancee, lover)

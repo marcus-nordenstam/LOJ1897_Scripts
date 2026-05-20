@@ -47,6 +47,7 @@ rule import-social-tasks
 (import "AnswerQuestion")
 (import "HearAnswer")
 (import "HearTell")
+(import "TellAbout")
 (import "WriteDoc")
 (import "Introduce")
 (import "Socialize")

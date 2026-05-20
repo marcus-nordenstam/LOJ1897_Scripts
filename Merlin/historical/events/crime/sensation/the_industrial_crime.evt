@@ -16,7 +16,7 @@ event "the_industrial_crime" {
     }
     on_fire {
         kill victim cause=cause_murder
-        assert_world indebted_to perpetrator victim
+        assert_world owe perpetrator victim
         emotion_delta perpetrator contempt 0.5
         propagate died victim observers=region_of fidelity=0.5 salience=0.7
         region_mood_delta region_of=victim anti_aristocratic 0.2

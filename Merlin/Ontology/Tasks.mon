@@ -33,7 +33,7 @@ relation
             process_title_deed                       /aux structure|space
             introduce_siblings
 
-            tell_about                              /sub @msgAuthor human /aux @msgAudience human
+            tell_about                              /sub @msgAuthor human /tar ? /aux @msgAudience human
 
             order                       /motor legs
             serve_beer                  /motor mind   /tar human

@@ -30,24 +30,13 @@ rule hear-tell
 (fire_and_forget).
 
 
-#rule someone_want_self_action
-#{!@self:?someone goal {/action @self ? ?}:?action}
-#    ->
-#(maintain_proposal ?action).
+rule someone_want_self_action
+{!@self:?someone goal {/action @self ? ?}:?action}
+    ->
+(maintain_proposal ?action).
 
-#rule someone_want_self_task
-#{!@self:?someone goal {/task @self ? ?}:?task}
-#    ->
-#(maintain_proposal ?task).
-
-
-#rule tell_about
-#{@self tell_about ?x ?someone}
-#    ->
-#(break).
-
-
-# If any personality trait > "average threshold", then you'd report it
-#(every {?x interest})
-
+rule someone_want_self_task
+{!@self:?someone goal {/task @self ? ?}:?task}
+    ->
+(maintain_proposal ?task).
  
