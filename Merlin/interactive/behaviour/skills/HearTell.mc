@@ -31,12 +31,27 @@ rule hear-tell
 
 
 rule someone_want_self_action
-{!@self:?someone goal {/action @self ? ?}:?action}
+{!@self:?someone goal {/action @self ? ?}:?action}: ?someones_goal
     ->
-(maintain_proposal ?action).
+(maintain_proposal ?action): ?proposal
+(add_causes ?proposal ?someones_goal).
+
+rule someone_want_self_action_outcome
+{!@self:?someone goal {/action @self ?lab ?sub ?aux}}: ?someones_goal
+{/action @self /past ?lab ?sub ?aux /causes ~?someones_goal}
+    ->
+(end_belief ?someones_goal).
+
 
 rule someone_want_self_task
-{!@self:?someone goal {/task @self ? ?}:?task}
+{!@self:?someone goal {/task @self ? ?}:?task}: ?someones_goal
     ->
-(maintain_proposal ?task).
- 
+(maintain_proposal ?task): ?proposal
+(add_causes ?proposal ?someones_goal).
+
+rule someone_want_self_task_outcome
+{!@self:?someone goal {/task @self ?lab ?sub ?aux}}: ?someones_goal
+{/task @self /past ?lab ?sub ?aux /causes ~?someones_goal}
+    ->
+(end_belief ?someones_goal).
+

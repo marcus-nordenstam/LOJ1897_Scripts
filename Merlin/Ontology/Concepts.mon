@@ -125,7 +125,7 @@ concept
             house_agent
 
 
-    level               /sub job /tar @excl
+    level               /sub human /tar @excl
             apprentice
             junior
             regular
@@ -327,46 +327,41 @@ concept
 
     birthplace          /sub human /tar structure @excl
 
-    # Vocational / legal / societal states (subject is a human).
+    # Vocational / educational / societal states (subject is a human).
     vocational_state    //sub human
         marital_state       /tar @excl /def @unknown
-        titles              /tar ?
         training_pos        /tar org_pos @excl
-        diplomas            /tar [?]
-        hours               /tar ? @excl
         time_of_retirement  /tar ? @excl
         home                /tar structure @excl
+        # Work life-cycle. job and level are noun-states (declared in the
+        # org_pos / level taxonomy higher up); only the non-noun relations
+        # are declared here. employer is the worker's org; apprenticed_to is
+        # the master a youth trains under.
+        employer            /tar org @excl
+        apprenticed_to      /tar human @excl
+        # Education life-cycle. pupil_of is the pupil's school; schooling is
+        # the schooling-level outcome left behind when the pupil leaves.
+        pupil_of            /tar org @excl
+        schooling           /tar ? @excl
 
     # Property holdings (subject owns them).
     holding_state       //sub property
         buildings           /tar [structure]
         lands               /tar [space]
 
-    # States describing a job.
-    job_state           //sub job
-        employer            /tar org @excl
-        holder              /tar human @excl
-        annual_wage         /tar @excl
-
-    # States describing an organisation.
+    # States describing an organisation (subject is the org mental object).
+    # employee is repeated once per worker; record points at the org's
+    # articles_of_incorporation document.
     org_state           //sub org
         informal_name       /tar ? @excl
         founder             /tar human @excl
-        head_prof_name      /tar ? @excl
-        worker_prof_names   /tar [?]
-        annual_revenue      /tar ? @excl
-        rev_position_mult   /tar ? @excl
-        start_time          /tar ? @excl
-        app_stack           /tar ? @excl
-        main_building       /tar ? @excl
-        employees           /tar [human]
-        jobs                /tar [job]
-        head_pos            /tar ? @excl
-        worker_jobs         /tar [job]
-        vacant_job          /tar job
-        memberships         /tar [membership]
+        head_pos            /tar org_pos @excl
+        founding_year       /tar ? @excl
         workplace           /tar space|structure @excl
         workplace_kind      /tar ?
+        employee            /tar human
+        vacant_job          /tar job
+        record              /tar document @excl
         diploma             /tar ? @excl
 
     # States describing an activity-object.

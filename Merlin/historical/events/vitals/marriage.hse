@@ -39,4 +39,7 @@
     ; Wires *_in_law and step* beliefs on both sides — see
     ; Src/Lib/hsim/hsim_belief_propagation.cc :: propagate_in_laws_at_marriage.
     (propagate-in-laws ?groom ?bride)
+    ; Recall-or-mint each spouse's per-mind `family` mental object and enrol
+    ; the partner (plus prior children) - see propagate_family_at_marriage.
+    (propagate-family ?groom ?bride)
     (log _marriage ?groom)))

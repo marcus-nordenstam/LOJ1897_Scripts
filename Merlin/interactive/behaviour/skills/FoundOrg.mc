@@ -138,9 +138,9 @@ rule
 # Documents are structured as follows:
 #
 # doc isa       kind
-# doc writings  [[sectionKind sentences] [sectionKind sentences] ...]
+# doc writing   [[sectionKind sentences] [sectionKind sentences] ...]
 #
-# writings is a list of sections
+# writing is a list of sections
 # each section is itself a list: [sectionKind sentences] 
 # sectionKind is a kind-symbol telling us the kind of section (chapter, declaration, etc)
 # all remaining symbols in the list are expected to be the written sentences.
@@ -148,7 +148,7 @@ rule
 # So a title deed stating that John Smith owns 14 Victoria Ave, would be encoded as follows:
 #
 {{deed} isa      [k object document title_deed]}
-{{deed} writings [[k declaration] {[n 14 Victoria Ave] owner [n John Smith] /i ?date @ongoing}]}
+{{deed} writing [[k declaration] {[n 14 Victoria Ave] owner [n John Smith] /i ?date @ongoing}]}
 
 
 

@@ -22,8 +22,8 @@ rule house-agent-clerk-write-title-deed
 {?buyer name ?buyerName}
 {?bldg name ?address}
     ->
-(msg {(o ?bldgKind ?address) owner (o {@o name ?buyerName})}): ?writings
-(o /invent /irr [k title_deed] {@o writings ?writings}): ?hypTitleDeed
+(msg {(o ?bldgKind ?address) owner (o {@o name ?buyerName})}): ?writing
+(o /invent /irr [k title_deed] {@o writing ?writing}): ?hypTitleDeed
 (maintain_proposal {@self write ?hypTitleDeed}).
 
 

@@ -3,9 +3,9 @@
 rule write-doc-action-proposal
 {@self write ?hypDoc}
 {?hypDoc isa [k document]:?docKind}
-{?hypDoc writings ?writings}
+{?hypDoc writing ?writing}
     ->
-(maintain_proposal {@self WRITE_DOC ?docKind ?writings}).
+(maintain_proposal {@self WRITE_DOC ?docKind ?writing}).
 
 
 # Base the activity's outcome on the corresponding action's outcome
@@ -26,7 +26,7 @@ rule write-doc-outcome
 # TODO: Once I'm done writing, I should read it, but how I interpret it depends on
 # the type of writing it is (non-fiction/fiction), and my knowledge of the author's intent:
 #
-# If the writings/msg is, and I don't know that the author is lying, then:
+# If the writing/msg is, and I don't know that the author is lying, then:
 #   Non-fiction, then I should fire it as /factual /true
 #   Fiction, then I should fire it as /factual /untrue
 # If I know the author is lying then always fire as /factual /untrue

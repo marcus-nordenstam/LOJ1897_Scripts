@@ -44,7 +44,7 @@ rule import-learning-tasks
 rule import-social-tasks
     ->
 (import "Talk")
-(import "AnswerQuestion")
+(import "TellAnswer")
 (import "HearAnswer")
 (import "HearTell")
 (import "TellAbout")

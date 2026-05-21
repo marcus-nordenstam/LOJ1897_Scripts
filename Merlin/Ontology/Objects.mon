@@ -77,6 +77,7 @@ object //obs
         application
             job_application
         articles_of_incorporation
+        employee_register
         job_description
         title_deed
         root_npc_knowledge_doc

@@ -7,7 +7,7 @@ archetype "prop" [1024] /obs /occupies_env_grid /non_occluder
     "condition"
     # Maybe some props have an actual name, though rare
     "name" /auto_percept
-    "writings"
+    "writing"
     "parts" /auto_percept
     "controlled_by"
     "control_force"

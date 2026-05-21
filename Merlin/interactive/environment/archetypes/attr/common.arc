@@ -97,9 +97,10 @@ attr "speaker"          entity "human_player"|"human_npc"       /speaker    /imp
 attr "preroll"          float                                   /preroll    /imperceptible
 
 # Prop-specific
-# Writings are expressed as a Merlin pattern holding a list of messages in sections.
-# e.g. (msg [ [[k title] {book title foo} {book by bar}] [[k chapter] ...]])
-attr "writings"         pattern                                             /read /state_flags_tar @msg @S
+# A writing is a Merlin pattern holding a document's content - a (msg ...)
+# wrapper around one or more belief sentences. /read transmits it to a
+# reader's mind, where the sentences are evaluated into beliefs.
+attr "writing"          pattern                                             /read /state_flags_tar @msg @S
 # How hard the entity is being gripped. 0=loose, 1=hard
 attr "control_force"    int                                                 /imperceptible
 
