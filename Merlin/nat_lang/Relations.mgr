@@ -130,3 +130,10 @@
 "marriage prospect"     marriage_prospect       .
 "family"                family                  .
 "game-role"             game_role               .
+
+# Attribute-style possessive relations - rendered "X's gender is ...".
+# gender is a kind-typed env attr; nationality / class_situation are
+# belief-only. All carry kind-valued targets, rendered by KIND in :NP.
+"gender"                gender                  .
+"nationality"           nationality             .
+"social class"          class_situation         .

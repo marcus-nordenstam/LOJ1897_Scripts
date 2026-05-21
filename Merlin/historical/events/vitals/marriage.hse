@@ -24,7 +24,7 @@
     (role ?bride (template unmarried_woman)
                  (chance 0.25))
     (role ?groom (template unmarried_man)
-                 (= (attr ?self social_class) (attr ?bride social_class))
+                 (= (belief-target ?self class_situation) (belief-target ?bride class_situation))
                  (<= (- (years-old ?self) (years-old ?bride))  15)
                  (>= (- (years-old ?self) (years-old ?bride)) -15)))
 

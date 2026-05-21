@@ -3,7 +3,7 @@
 
 rule marry-seek-home-for-spouse
 {@self fiancee @something:?fiancee}
-{@self gender male}
+{@self gender [k male]}
 {@self parent ?parent}
 {?parent condition alive}
 {?parent home ?parentHome}
@@ -32,7 +32,7 @@ rule marry-acquire-home-outcome
 rule marry-proposal
 {@self goal {@self marry ?fiancee}}
 {@self fiancee ?fiancee}
-{@self gender male}
+{@self gender [k male]}
 {@self parent ?parent}
 {?parent condition alive}
 {?parent home ?parentHome}
@@ -55,7 +55,7 @@ rule marry-attention
 
 rule marry-give-wedding-band
 {@self marry ?fiancee}
-{@self gender male}
+{@self gender [k male]}
 {[k wedding_band]:?wedding_band owner @self}
 {?fiancee hand [k left_hand]:?lhand}
 {?lhand finger [k ring_finger]:?ring_finger}
@@ -68,7 +68,7 @@ rule marry-give-wedding-band
 # BRIDE behaviour
 rule female-marry
 {@self fiancee @something:?fiancee}
-{@self gender female}
+{@self gender [k female]}
 {?fiancee OFFER [k wedding_band]:?wedding_band @self}
     ->
 (begin_proposal {@self marry ?fiancee})
@@ -78,7 +78,7 @@ rule female-marry
 rule female-marry-wear-wedding-band
 {@self marry ?fiancee}
 {?fiancee home ?fianceeHome}
-{@self gender female}
+{@self gender [k female]}
 {@self hand ?hand}
 {?hand control [k wedding_band]:?ring}
 {?fiancee /succ give ?ring @self}
@@ -139,7 +139,7 @@ rule marry-outcome-succ
 
 rule 
 {@self fiancee @something:?fiancee}
-{@self gender male}
+{@self gender [k male]}
 {?wedding_band isa [k wedding_band]}
 {@self hand [k left_hand]:?lhand}
 {@self hand [k right_hand]:?rhand}

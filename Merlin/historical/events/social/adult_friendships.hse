@@ -22,7 +22,7 @@
     (role ?b (template any_human)
              (>= (years-old ?self) 18)
              (not (= ?self ?a))
-             (= (attr ?self social_class) (attr ?a social_class))
+             (= (belief-target ?self class_situation) (belief-target ?a class_situation))
              (<= (- (years-old ?self) (years-old ?a))  10)
              (>= (- (years-old ?self) (years-old ?a)) -10)
              (not (believes ?a {@self friend ?b}))))

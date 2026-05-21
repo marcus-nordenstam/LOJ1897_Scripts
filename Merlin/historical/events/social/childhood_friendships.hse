@@ -29,7 +29,7 @@
              (>= (years-old ?self) 8)
              (<= (years-old ?self) 16)
              (not (= ?self ?a))
-             (= (attr ?self social_class) (attr ?a social_class))
+             (= (belief-target ?self class_situation) (belief-target ?a class_situation))
              (<= (- (years-old ?self) (years-old ?a))  3)
              (>= (- (years-old ?self) (years-old ?a)) -3)
              (not (believes ?a {@self friend ?b}))))

@@ -2,7 +2,7 @@
 name
     first_name
         male_name
-            male_st_revier_name //pname
+            male_st_revieran_name //pname
                 Ambrose
                 Anatole
                 Alphonse
@@ -30,7 +30,7 @@ name
                 Urbain
                 Victor
         female_name
-            female_st_revier_name  //pname
+            female_st_revieran_name  //pname
                 Adelaide
                 Amélie
                 Annabelle
@@ -69,7 +69,7 @@ name
                 Zélie
     surname
         common_surname
-            common_st_revier_surname //pname
+            common_st_revieran_surname //pname
                 Ahier
                 Bichard
                 Blampied
@@ -96,7 +96,7 @@ name
                 Queripel
                 Touzel
         upper_class_surname
-            upper_class_st_revier_surname //pname
+            upper_class_st_revieran_surname //pname
                 Allez
                 Amy
                 Balleine

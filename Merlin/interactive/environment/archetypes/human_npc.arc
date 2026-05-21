@@ -17,8 +17,6 @@ archetype "human_npc" [4096] /obs /raycast_visible /sentient /non_occluder /occu
     "girth"
     # NPCs learn their own name through self-awareness, not passive perception
     "name"
-    "nationality"
-    "social_class"
     "condition"
     "pregnant_when"
     "alertness"

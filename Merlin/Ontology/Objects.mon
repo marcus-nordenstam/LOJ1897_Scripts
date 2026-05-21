@@ -58,7 +58,7 @@ object //obs
         weapon
             knife
         collection
-            stack
+            stack               /sub space|structure /tar @excl
                 root_npc_knowledge_stack
                 for_sale_listing_stack
             row

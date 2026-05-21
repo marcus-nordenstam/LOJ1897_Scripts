@@ -10,7 +10,7 @@
 # Lifecycle dates (used by historical sim; persist into interactive).
 attr "birth_date"       date                                    /date                  /feel
 attr "death_date"       date                                    /state_flags_tar @excl /imperceptible
-attr "death_cause"      str                                     /state_flags_tar @excl /imperceptible
+attr "death_cause"      kind                                                           /imperceptible
 
 # Name attr. /auto_percept can be added per-archetype for entities whose name matters (spaces, structures).
 attr "name"             name                                    /name       /obs
@@ -29,9 +29,9 @@ attr "control"          entity [12]                             /control    /obs
 # Which stack this entity is in, if any. If not in a stack, set to _.
 attr "in_stack"         entity "stack"                          /in_stack    /obs
 
-# Conditions & properties
-attr "condition"        str alive                                           /obs /auto_percept /state_flags_tar @excl
-attr "color"            str                                                 /obs /auto_percept /state_flags_tar @excl
+# Conditions & properties. Conceptual: kind-typed; @excl lives on the concept.
+attr "condition"        kind alive                                          /obs /auto_percept
+attr "color"            kind                                                /obs /auto_percept
 
 # Dark-tetrad personality - genetic, heritable, drives motives.
 attr "narcissism"       int                                                 /feel
@@ -55,25 +55,28 @@ attr "ring_finger"      entity "finger" /state "finger"                     /obs
 attr "wear"             entity                                              /obs /auto_percept
 
 # Demographics
-attr "role"             str                                                 /obs /auto_percept /unaware /state_flags_tar @excl
+attr "role"             kind                                                /obs /auto_percept /unaware
 attr "age"              int                                     /age        /feel /state_flags_tar @excl
 attr "age_group"        int                                     /age_group  /obs /auto_percept /state_flags_tar @excl
-attr "gender"           str                                                 /obs /auto_percept /state_flags_tar @excl
-attr "appearance"       str                                                 /obs /auto_percept /state_flags_tar @excl
-attr "height"           str                                                 /obs /auto_percept /state_flags_tar @excl
-attr "girth"            str                                                 /obs /auto_percept /state_flags_tar @excl
-attr "nationality"      str                                                 /obs /state_flags_tar @excl
-attr "social_class"     str                                                 /obs /state_flags_tar @excl
+# gender / appearance / height / girth are conceptual: kind-typed, value is an
+# ontology term. @excl now lives on the concept in Concepts.mon (rule 4b / 5).
+attr "gender"           kind                                                /obs /auto_percept
+attr "appearance"       kind                                                /obs /auto_percept
+attr "height"           kind                                                /obs /auto_percept
+attr "girth"            kind                                                /obs /auto_percept
+# nationality and social standing are not physical environment state - they
+# exist solely as beliefs (nationality / class_situation labels in States.mon).
 
-# Personality & internal
-attr "alertness"        str alert                                           /feel /state_flags_tar @excl
-attr "sexual_orient"    str                                                 /feel /state_flags_tar @excl
-attr "charisma"         str                                                 /feel /state_flags_tar @excl
-attr "romanticism"      str                                                 /feel /state_flags_tar @excl
-attr "passion"          str                                                 /feel /state_flags_tar @excl
+# Personality & internal. Conceptual traits are kind-typed; @excl lives on the
+# concept in Concepts.mon.
+attr "alertness"        kind alert                                          /feel
+attr "sexual_orient"    kind                                                /feel
+attr "charisma"         kind                                                /feel
+attr "romanticism"      kind                                                /feel
+attr "passion"          kind                                                /feel
 attr "extroversion"     float                                               /feel /state_flags_tar @excl
 attr "intelligence"     float                                               /feel /state_flags_tar @excl
-attr "interests"        str [3]                                             /feel
+attr "interests"        kind [3]                                            /feel
 
 # Relationships
 attr "pregnant_when"    date                                                /obs /auto_percept
@@ -106,15 +109,15 @@ attr "items"            entity [16]                                         /obs
 attr "top"              entity                                              /obs /state_flags_tar @excl
 
 # Weather (region)
-attr "rain"             str heavy                                           /obs /auto_percept /state_flags_tar @excl
-attr "snow"             str none                                            /obs /auto_percept /state_flags_tar @excl
-attr "fog"              str none                                            /obs /auto_percept /state_flags_tar @excl
-attr "wind"             str none                                            /obs /auto_percept /state_flags_tar @excl
-attr "sky"              str clear                                           /obs /auto_percept /state_flags_tar @excl
+attr "rain"             kind heavy                                          /obs /auto_percept
+attr "snow"             kind none                                           /obs /auto_percept
+attr "fog"              kind none                                           /obs /auto_percept
+attr "wind"             kind none                                           /obs /auto_percept
+attr "sky"              kind clear                                          /obs /auto_percept
 
 # Region mood - non-sentient archetype, so per Q4 we keep mood state on the
 # region itself as parallel-array attrs. Updated by run_region_mood_pass.
-attr "mood_kinds"        str  [8]                                            /obs /auto_percept
+attr "mood_kinds"        kind [8]  /state "mood"                             /obs /auto_percept
 attr "mood_intensities"  int  [8]                                            /obs
 attr "mood_set_dates"    date [8]                                            /imperceptible
 

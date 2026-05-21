@@ -2,7 +2,7 @@
 
 rule goal-know-answer-to-marriage-proposal
 {@self goal {@self marry ?prospect}}: ?iWantToMarryHer
-{@self gender male}
+{@self gender [k male]}
 {@self marital_state single}
 #(none {?prospect goal {@prospect marry @self}})
 #(gt (time_since /cont /weeks ?iWantToMarryHer) 1) # had her in mind for 1 week
@@ -38,7 +38,7 @@ rule reasoning-marriage-proposal-rejected
 rule goal-possess-engagement-ring
 {@self goal {@self marry ?fiancee}}
 {@self fiancee ?fiancee}
-{@self gender female}
+{@self gender [k female]}
 {?fiancee hand ?hand}
 {?hand control [k engagement_ring]:?ring}
     ->
@@ -49,7 +49,7 @@ rule goal-possess-engagement-ring
 rule proposal-give-engagement-ring
 {@self goal {@self marry ?fiancee}}
 {@self fiancee ?fiancee}
-{@self gender male}
+{@self gender [k male]}
 {@self hand ?hand}
 {?hand control [k engagement_ring]:?ring}
 (lock_rule)
@@ -60,7 +60,7 @@ rule proposal-give-engagement-ring
 rule proposal-wear-engagement-ring
 {@self goal {@self marry ?fiancee}}
 {@self fiancee ?fiancee}
-{@self gender female}
+{@self gender [k female]}
 {@self hand ?hand}
 {?hand control [k engagement_ring]:?ring}
 {?fiancee /succ give ?ring @self}

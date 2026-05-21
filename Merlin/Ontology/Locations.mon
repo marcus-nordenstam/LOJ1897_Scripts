@@ -2,6 +2,6 @@
 location //obs
     waypoint
     spawnpoint
-    staging_spot
+    staging_spot        /tar @excl location
         provider_staging_spot
         receiver_staging_spot

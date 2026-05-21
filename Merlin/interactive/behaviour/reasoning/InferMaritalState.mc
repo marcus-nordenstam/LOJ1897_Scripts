@@ -50,7 +50,7 @@ rule infer-no-spouse
 # If the person is female and wears an engagement-ring (but no wedding-band), then she's engaged
 rule infer-fiancee
 {@self infer {?person marital_state}}
-{?person gender female}
+{?person gender [k female]}
 {?person hand [k left_hand]:?lhand}
 {?lhand finger [k ring_finger]:?ring_finger}
 {?ring_finger wear [k engagement_ring]}

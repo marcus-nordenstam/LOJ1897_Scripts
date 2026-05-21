@@ -1,7 +1,7 @@
 
 # If you are married, you'll want kids
 rule parenting-grow-family
-{@self gender male}
+{@self gender [k male]}
 {@self spouse @something:?spouse}
 (lt (count (every {@self child})) 3)
     ->
@@ -9,7 +9,7 @@ rule parenting-grow-family
 
 # We let the mother tell her children about their home
 rule parenting-tell-child-their-home
-{@self gender female}
+{@self gender [k female]}
 {@self home ?home}
 {@self child ?child}
 {?child age_group 0}
@@ -29,7 +29,7 @@ rule parenting-tell-child-my-home
 
 # We let the mother introduce the siblings
 rule introduce_siblings
-{@self gender female}
+{@self gender [k female]}
 {@self child ?child1}
 {?child1 age_group 0}
 {@self child !?child1:?child2}

@@ -13,8 +13,6 @@ archetype "human_player" [256] /obs /raycast_visible /player /non_occluder /occu
     "height"
     "girth"
     "name"
-    "nationality"
-    "social_class"
     "condition"
     "pregnant_when"
     "alertness"

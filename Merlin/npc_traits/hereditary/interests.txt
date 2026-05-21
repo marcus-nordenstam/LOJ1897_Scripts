@@ -8,4 +8,4 @@ spiritualism	1
 religion	    1
 antiques	    1
 sports	        1
-sufferage	    1
+suffrage	    1

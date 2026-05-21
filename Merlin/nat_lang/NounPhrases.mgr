@@ -29,6 +29,11 @@ _
 ( o $pname(PNAME) )
 .
 
+# An un-named object known only by its kind, e.g. an unnamed relative.
+"a $kind(KIND)"
+( o $kind(KIND) )
+.
+
 # e.g. "the late John Smith" - utterable_msg emits this form when the
 # speaker's name belief about the referent has been ended (death-
 # propagation set its interval-end). Matches the listener's ended name
@@ -73,7 +78,10 @@ $thing(INDEF_KIND) $pname(PNAME) { @o /pres obb $np(NP) }
 
 # A general noun-phrase:
 
-:NP = VARIABLE|PRONOUN|REG_NP|PNAME
+# KIND (last, lowest precedence) renders a bare kind-valued belief target -
+# e.g. {X gender [k female]} -> "X's gender is female". Variables, pronouns,
+# named objects and proper names all win over it.
+:NP = VARIABLE|PRONOUN|REG_NP|PNAME|KIND
 
 # Oxford-comma plural NP-list. Consumes the form emitted by List::print under
 # kPrintNatLang for plural answers:

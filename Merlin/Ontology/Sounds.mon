@@ -2,7 +2,7 @@
 
 sound //hear
     squeak
-    speech
+    speech              /sub sound @msg
     shout
     song
     scream
