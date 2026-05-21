@@ -9,8 +9,9 @@
 "name was"              /past name              .
 
 
+# age is rendered by the dedicated bare-is template ("X is 56") in
+# Statements.mgr; only the past form keeps a possessive surface here.
 :PASSIVE_NUM_REL
-"age is"                /pres age               .
 "age was"               /past age               .
 
 
@@ -132,8 +133,9 @@
 "game-role"             game_role               .
 
 # Attribute-style possessive relations - rendered "X's gender is ...".
-# gender is a kind-typed env attr; nationality / class_situation are
-# belief-only. All carry kind-valued targets, rendered by KIND in :NP.
+# Kind-valued targets, rendered by KIND in :NP. nationality is NOT here -
+# it is rendered by the dedicated bare-is template ("X is english") in
+# Statements.mgr; keeping it in :REL too would let the longer possessive
+# phrase outsort the bare-is form (see the greedy lexicon sort).
 "gender"                gender                  .
-"nationality"           nationality             .
 "social class"          class_situation         .

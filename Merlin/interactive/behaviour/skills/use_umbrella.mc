@@ -33,7 +33,8 @@ rule use_umbrella-STOW
 {@self use_umbrella ?umbrella}: ?use_umbrella
 {@self region ?region}
 {?region rain ?rain}
-(or (eq ?rain none) (in @self [k structure]))
+# rain is a kind-typed attr - ?rain binds a kind, so compare against [k none]
+(or (eq ?rain [k none]) (in @self [k structure]))
     ->
 (begin_proposal {@self STOW ?umbrella}).
 

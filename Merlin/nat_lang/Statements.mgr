@@ -34,6 +34,30 @@ $form(FORM)
 .
 
 
+# BARE-IS ATTRIBUTE STATEMENTS
+# e.g. "john is 56", "john is english", "john is a physician".
+# Each template names its specific label (age / nationality / job). The
+# $kind(KIND|/isa|<ancestor>) qualifier restricts the value to that label's
+# kind, so the three templates never poach each other's values and so they
+# are not confused with the generic "X is <kind>" -> isa STATE rule below.
+# Note: non-terminal qualifiers are pipe-separated with NO spaces - the
+# phrase tokenizer splits on whitespace before parsing the (...) payload.
+# Placed before the possessive and generic-state templates so they take
+# priority in both directions (first-match-wins, see _translate).
+
+"$sub_np(NP) is $num(NUM)"
+{ $sub_np(NP) /pres age $num(NUM) }
+.
+
+"$sub_np(NP) is $kind(KIND|/isa|nationality)"
+{ $sub_np(NP) /pres nationality $kind(KIND|/isa|nationality) }
+.
+
+"$sub_np(NP) is a $kind(KIND|/isa|job)"
+{ $sub_np(NP) /pres job $kind(KIND|/isa|job) }
+.
+
+
 # POSSESSIVE RELATIONS EXPRESSED IN THE PASSIVE FORM
 # e.g. john's mother is/was...
 
