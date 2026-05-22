@@ -1,76 +1,76 @@
 # -----------------------------------------------------------------------------
-# descriptions.phr - phrasebook for tell_about person descriptions.
+# phrasebook.mph - the shared, language-neutral phrasing-selection layer.
 #
-# A description is assembled as:  opening -> body facts -> coda.
-#  - :opening / :coda carry the speaker's attitude toward the LISTENER (you).
-#  - body :sections are keyed on a FACT; a section is only used when the
-#    subject actually has that fact, and a variant is skipped if any {fill}
-#    it needs is unknown - so a phrasing can never assert what beliefs lack.
+# Holds three thing-kinds, NONE of which is clause text or a belief shape
+# (those live once, in packs/<lang>/*.mgr):
+#   intents:  the closed intent-tag vocabulary every pack's .mgr tags against.
+#   schema:   discourse structure - the ordered slots of a description.
+#   select:   affect-conditioned rules mapping (speaker affect / disposition)
+#             to a ranked phrasing-intent preference for a slot.
 #
-# Phrasings must be RELATION-AGNOSTIC and GENDER-AGNOSTIC: they describe a
-# human reached through any kinship (mother, cousin, wife, friend, ...) and of
-# either sex. Never write "mother" / "she" / "husband" literally - use {kin}
-# and the gender fills. Pets, animals and objects get their own phrasebooks.
+# Format (Phase 0 spec 0.4.2): block headers (intents:/schema/select) start at
+# column 0; their content lines are indented. '#' starts a comment. A select
+# rule is `<key:value>... -> <intent>...`; the first rule whose conditions all
+# hold wins; '*' matches unconditionally; every list ends in a default.
 #
-# Variant line:   "phrase text"            @ key:val key:val
-#  - conditions (all must hold; val|val is an OR). keys:
-#       class   lower | middle | upper        (the speaker's class)
-#       you     likes | neutral | dislikes    (attitude toward the listener)
-#       regard  loves | resents | fears | neutral  (toward the subject)
-#       emotion happy | angry | sad | neutral
-#       age     young | grown | old           (the subject's age band)
-#       gender  male | female                 (the subject's sex)
-#  - no @ line  = unconditional fallback.
-#  - {fill}: name, kin, age:words, age:words+1, age:round, occupation, spouse,
-#            interests, person (man/woman), consort (husband/wife),
-#            pron / Pron / pron:gen / pron:obj, addr.
-#  - [a|b|c]: pick one at random ([a|] may pick nothing).
+# This file is non-interned and hot-reloadable - editing it needs no .msb
+# regen. See Docs/dialogue_nlg_phase4_design.md section 4.5.
 # -----------------------------------------------------------------------------
 
-:opening
-"My {kin} is {name}."
-"My {kin}'s {name}."                                        @ class:lower
-"{name}."                                                   @ you:dislikes
-"{name}. My {kin}."                                         @ you:dislikes emotion:angry
-"My {kin}? {name}."                                         @ regard:fears
-"[Oh, |]that would be {name}, my {kin}."                    @ you:likes emotion:happy
-"{name} - my {kin}, and a finer soul never lived."          @ you:likes regard:loves
+intents: neutral warm curt blunt deferential flowery terse plain metaphorical anecdotal elaborated
 
-:age
-"{age:words}."
-"{age:words}, maybe {age:words+1}."                         @ class:lower emotion:sad
-"Near {age:round} now."                                     @ class:lower age:old
-"Aged {age:words}."                                         @ class:upper
-"{age:words}, and sharp as ever."                           @ age:old regard:loves
-"Only {age:words} - {pron} has {pron:gen} whole life ahead." @ age:young regard:loves
+# --- Discourse schema for a tell_about person description ---------------------
+# Slots mirror the proven body-fact order of the legacy descriptions engine,
+# now declared as data. opening + at least one body fact are required; the
+# rest are optional, relations repeatable.
+schema person_description:
+  slot opening     req
+  slot age         opt
+  slot occupation  opt
+  slot relations   rep
+  slot interests   opt
+  slot regard      opt
+  slot coda        opt
 
-:occupation
-"{Pron} {occupation}."
-"{Pron} {occupation}, and good at it too."                  @ regard:loves
-"{Pron} {occupation} - respectable enough, they say."       @ regard:resents
+# --- Affect-conditioned phrasing-intent selection ----------------------------
+# The condition vocabulary: affect:<term> (the speaker's regard / mood toward
+# the subject or listener), cog:<style>, role:<role>, class / bond / formality.
+# Conditions are resolved against the voice-input model at step 4.6; here they
+# are only parsed and validated.
 
-:spouse
-# The spouse belief is ongoing here, so every variant is present tense -
-# "is married to", never the past-tense "married" / "wed".
-"{Pron:gen} {consort} is {spouse}."
-"{Pron} is married to {spouse}."
-"{Pron}'s married to {spouse}."
-"{Pron} is happily married to {spouse}."                    @ regard:loves
+select opening:
+  affect:loves      -> warm flowery neutral
+  affect:dislikes   -> curt neutral
+  cog:abstract      -> terse neutral
+  cog:sensory       -> flowery neutral
+  *                 -> neutral
 
-:interests
-"{Pron} is fond of {interests}."
-"{Pron} fills {pron:gen} days with {interests}."            @ regard:loves
-"{Pron} cares for little but {interests}."                  @ regard:resents
+select age:
+  cog:abstract      -> terse neutral
+  *                 -> neutral
 
-:regard
-"{Pron} is a good {person}, {addr}."                        @ regard:loves
-"The kindest soul I know."                                  @ regard:loves
-"Never met a {person} so fond of criticism."                @ regard:resents
-"Warmth was never part of the bargain with {pron:obj}."     @ regard:resents emotion:sad
-"One learns to mind one's manners around {pron:obj}."       @ regard:fears
+select occupation:
+  affect:loves      -> warm neutral
+  affect:resents    -> curt neutral
+  *                 -> neutral
 
-:coda
-"{Pron} has done nothing to deserve police attention."      @ you:dislikes
-"I'd thank you not to trouble {pron:obj} unnecessarily."    @ you:dislikes class:middle|upper
-"You'll likely get along splendidly."                       @ you:dislikes emotion:happy
-"Ask {pron:obj} yourself, {addr} - {pron} will set you right."  @ you:likes
+select relations:
+  affect:loves      -> warm neutral
+  cog:abstract      -> terse neutral
+  *                 -> neutral
+
+select interests:
+  affect:loves      -> warm flowery neutral
+  affect:resents    -> curt neutral
+  *                 -> neutral
+
+select regard:
+  affect:loves      -> warm flowery neutral
+  affect:resents    -> blunt curt neutral
+  affect:fears      -> deferential neutral
+  *                 -> neutral
+
+select coda:
+  affect:dislikes   -> curt neutral
+  affect:likes      -> warm neutral
+  *                 -> neutral
