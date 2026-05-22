@@ -96,13 +96,23 @@ relation
         (behaviour)             //sub human
             attend              /tar structure|org
 
-        # Acquired interior drives. A drive is neither an emotion nor a
+        # Acquired interior drives (F4.3). A drive is neither an emotion nor a
         # heritable temperament - it is deposited by a life of events and then
-        # shapes which events cast the NPC. `craving` is an acquired compulsive
-        # drive (addiction to drink); it is durable - reform resists it, never
-        # erases it - and non-exclusive (an NPC may crave more than one thing).
-        # The target is the craved substance kind: {@self craving alcohol}.
+        # shapes which events cast the NPC.
+        #   calling - a life-organising drive toward a domain, seeded once in
+        #     childhood for a minority of NPCs and never lost by interest_lost.
+        #     @excl - one overriding calling. The target is that domain: an
+        #     `interests` topic ({@self calling music}) or a `field_of_study`
+        #     specialism ({@self calling engineering}). Drives event-casting and
+        #     feeds the `purpose` felt-life dimension. (The plan's separate
+        #     topic / specialism subtrees were dropped in Phase 5.2 - `interests`
+        #     is the topic taxonomy, `field_of_study` the specialism one.)
+        #   craving - an acquired compulsive drive (addiction to drink); durable
+        #     - reform resists it, never erases it - and non-exclusive (an NPC
+        #     may crave more than one thing). The target is the craved substance
+        #     kind: {@self craving alcohol}.
         (drive)                 //sub human
+            calling             /tar interests|field_of_study  @excl
             craving             /tar ?
 
         # Derived dimensions (F3.2) - each a single numeric quality, computed
