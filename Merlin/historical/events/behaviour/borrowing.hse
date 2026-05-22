@@ -1,0 +1,28 @@
+; ----------------------------------------------------------------------------
+; borrowing - an F3.7 behaviour seed event. Once a year a share of adults take
+; on a debt to another adult, gaining an `owe` belief. The F3.5 wealth
+; classifier counts distinct creditors: debt is the v1 poverty signal, so the
+; debtors are exactly the population the deserving / undeserving_poor vertical
+; classifies. The (not (believes ...)) filter keeps it one debt per pair.
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+(hsim-event borrowing
+  (nl         "?debtor borrows from ?creditor")
+  (kind       _borrowing)
+  (schedule   (annually may))
+  (rng-stream behaviour)
+
+  (roles
+    ; Low industriousness (less self-supporting) takes on debt more often.
+    ; Mean-1.0 multiplier - total borrowing volume is unchanged.
+    (role ?debtor   (template old_human)
+                    (chance (* 0.06 (- 1.5 (attr ?self industriousness)))))
+    (role ?creditor (template old_human)
+                    (not (= ?self ?debtor))
+                    (not (believes ?debtor {@self owe ?creditor}))))
+
+  (effects
+    (begin-belief ?debtor owe ?creditor)
+    (log _borrowing ?debtor)))

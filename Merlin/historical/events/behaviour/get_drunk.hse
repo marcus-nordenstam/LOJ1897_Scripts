@@ -1,0 +1,42 @@
+; ----------------------------------------------------------------------------
+; get_drunk - the general drinking event. Each month a share of adults who are
+; not yet alcohol-dependent drink to excess. Who drinks is no longer a flat
+; roll: the chance is a multi-causal risk model over the Big Five aspects and
+; the NPC's circumstances - Risk = vulnerability x environment / protection.
+;   vulnerability - low industriousness / low politeness (disinhibition),
+;                   high volatility (reactive drinking), high withdrawal
+;                   (self-medication), high enthusiasm (social drinking).
+;   environment   - debt raises stress.
+;   protection    - churchgoing and deep bonds lower the odds.
+; Each factor is built to sit at ~1.0 for the population mean, so the base
+; rate is the average monthly chance. Each drinking episode also rolls
+; (risk-dependence ?npc) for the slide into a standing craving; dependent
+; NPCs are excluded here and cast by relapse.hse instead.
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+(hsim-event get_drunk
+  (nl         "?npc drinks to excess")
+  (kind       _get_drunk)
+  (schedule   (monthly))
+  (rng-stream behaviour)
+
+  (roles
+    (role ?npc (template old_human)
+               (not (= (belief-target ?self craving) alcohol))
+               (chance
+                 (* 0.014                                                 ; base monthly rate
+                    (+ 0.55 (* 0.90 (- 1.0 (attr ?self industriousness)))) ; low industriousness
+                    (+ 0.65 (* 0.70 (- 1.0 (attr ?self politeness))))      ; low politeness
+                    (+ 0.70 (* 0.60 (attr ?self volatility)))              ; reactive drinking
+                    (+ 0.70 (* 0.60 (attr ?self enthusiasm)))              ; social drinking
+                    (+ 0.70 (* 0.60 (attr ?self withdrawal)))              ; self-medication
+                    (+ 1.0  (* 0.40 (count-beliefs ?self owe)))            ; debt / stress
+                    (/ 1.0  (+ 1.0 (* 0.15 (count-beliefs ?self attend)))) ; churchgoing
+                    (/ 2.0  (+ 2.0 (count-beliefs ?self close_to)))))))    ; deep bonds
+
+  (effects
+    (get-drunk ?npc)
+    (risk-dependence ?npc)
+    (log _get_drunk ?npc)))

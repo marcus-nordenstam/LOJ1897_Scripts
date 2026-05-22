@@ -21,13 +21,21 @@ archetype "human_npc" [4096] /obs /raycast_visible /sentient /non_occluder /occu
     "pregnant_when"
     "alertness"
     "sexual_orient"
-    "charisma"
-    "romanticism"
-    "passion"
-    "extroversion"
-    "intelligence"
     "interests"
-    # Dark-tetrad traits - genetic, drive motives.
+    # Accumulated intoxication - F3.7 sobriety input.
+    "intoxication"
+    # Big Five personality - the ten Big Five Aspect Scale aspects.
+    "openness"
+    "intellect"
+    "industriousness"
+    "orderliness"
+    "enthusiasm"
+    "assertiveness"
+    "compassion"
+    "politeness"
+    "volatility"
+    "withdrawal"
+    # Dark-tetrad traits - genetic, drive crime motives.
     "narcissism"
     "machiavellianism"
     "psychopathy"

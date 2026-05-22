@@ -1,3 +1,0 @@
-dispassionate	1
-neutral	        2
-passionate	    1

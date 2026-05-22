@@ -1,0 +1,31 @@
+; ----------------------------------------------------------------------------
+; relapse - the drinking event for NPCs who have formed a standing craving for
+; drink (the {@self craving alcohol} drive). A craving does not decay - reform
+; resists it, never erases it - so a dependent drinker relapses often. The
+; chance is high and modulated: distress (withdrawal) and weak restraint (low
+; industriousness) drive relapse; churchgoing and deep bonds resist it but
+; never to zero - the lifelong battle. Onset into dependence happens in
+; get_drunk.hse via (risk-dependence ?npc); this event carries it forward.
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+(hsim-event relapse
+  (nl         "?npc relapses into drink")
+  (kind       _relapse)
+  (schedule   (monthly))
+  (rng-stream behaviour)
+
+  (roles
+    (role ?npc (template old_human)
+               (= (belief-target ?self craving) alcohol)
+               (chance
+                 (* 0.30                                                  ; base monthly relapse
+                    (+ 0.60 (* 0.80 (attr ?self withdrawal)))              ; distress drives relapse
+                    (+ 0.70 (* 0.60 (- 1.0 (attr ?self industriousness)))) ; weak restraint
+                    (/ 1.0  (+ 1.0 (* 0.15 (count-beliefs ?self attend)))) ; churchgoing resists
+                    (/ 2.0  (+ 2.0 (count-beliefs ?self close_to)))))))    ; support resists
+
+  (effects
+    (get-drunk ?npc)
+    (log _relapse ?npc)))

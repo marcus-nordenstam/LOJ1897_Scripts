@@ -98,6 +98,22 @@ concept
         sports
         suffrage
 
+    # Competitive sports - the target of the participated_in / won achievement
+    # beliefs (States.mon), written by the sporting_event hsim event. A `sport`
+    # is the competition discipline; distinct from the `sports` interest above.
+    sport
+        cricket
+        rowing
+        rugby
+        horse_racing
+
+    # Intoxicants - the abstract substance an NPC can form a `craving` for
+    # (the (drive) block in States.mon) and that the drinking behaviour events
+    # act on. `alcohol` is the abstract substance; the physical `beer` prop
+    # (Objects.mon) is a separate, concrete layer.
+    substance
+        alcohol
+
     living_arrangement  /sub human /tar ? @excl
         owner           /tar human|org @excl
         houseguest
@@ -222,11 +238,13 @@ concept
     # ----------------------------------------------------------------------
     # Derived situations (F3.3) - a category ("what sort of X"), each an @excl
     # noun-state classified from several dimensions by an F3.5 classifier.
-    # Never authored; computed and cached. class_situation still carries its
-    # old upper/middle/lower values; F3.6's social_class migration re-keys it
-    # to the eight-value derived form (and updates mx_make_human). (`stable` /
-    # `struggling` recur across situations - a deliberate scoped homonym,
-    # resolved by the field's /tar, like `medium`.)
+    # Never authored; computed and cached. F3.6 removed the coarse social_class
+    # attr: class_situation is now the sole class concept, a belief seeded by
+    # mx_make_human (upper/middle/lower). Turning it into a fully derived
+    # belief - the eight-value form, classified from prestige + breeding +
+    # wealth - is future work and needs founder-seeded title/lineage/education
+    # grounding. (`stable` / `struggling` recur across situations - a
+    # deliberate scoped homonym, resolved by the field's /tar, like `medium`.)
     # ----------------------------------------------------------------------
     economic_situation       /sub human /tar @excl
         destitute
@@ -270,6 +288,7 @@ concept
         undeserving_poor
         self_made_man
         nouveau_riche
+        drunkard
 
     message
         declaration
@@ -313,22 +332,14 @@ concept
     mass_measurement
         weight
     
-    personality_trait
-        charisma            /tar @excl
-            dull
-            regular
-            charismatic
-        passion             /tar @excl
-            dispassionate
-            neutral
-            passionate
-        romanticism         /tar @excl
-            unromantic
-            romantic
-        sexual_orient       /tar @excl
-            hetero
-            bi
-            homo
+    # Sexual orientation - a kind-typed /feel attr (common.arc). Genetic;
+    # learned of others only by a spouse / immediate family (believe_about
+    # Band 4). The Big Five personality aspects and the dark tetrad are 0..1
+    # float attrs, not kinds, so they need no taxonomy here.
+    sexual_orient           /tar @excl
+        hetero
+        bi
+        homo
 
     cultural_aspect
         title

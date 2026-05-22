@@ -33,12 +33,6 @@ attr "in_stack"         entity "stack"                          /in_stack    /ob
 attr "condition"        kind alive                                          /obs /auto_percept
 attr "color"            kind                                                /obs /auto_percept
 
-# Dark-tetrad personality - genetic, heritable, drives motives.
-attr "narcissism"       int                                                 /feel
-attr "machiavellianism" int                                                 /feel
-attr "psychopathy"      int                                                 /feel
-attr "sadism"           int                                                 /feel
-
 # Sensors & motors
 attr "visual_sensor"    visual-sensor
 attr "sound_sensor"     sound-sensor
@@ -67,16 +61,39 @@ attr "girth"            kind                                                /obs
 # nationality and social standing are not physical environment state - they
 # exist solely as beliefs (nationality / class_situation labels in States.mon).
 
-# Personality & internal. Conceptual traits are kind-typed; @excl lives on the
-# concept in Concepts.mon.
+# Personality & internal. alertness / sexual_orient are kind-typed; @excl
+# lives on the concept in Concepts.mon. interests is a plural kind attr.
 attr "alertness"        kind alert                                          /feel
 attr "sexual_orient"    kind                                                /feel
-attr "charisma"         kind                                                /feel
-attr "romanticism"      kind                                                /feel
-attr "passion"          kind                                                /feel
-attr "extroversion"     float                                               /feel /state_flags_tar @excl
-attr "intelligence"     float                                               /feel /state_flags_tar @excl
 attr "interests"        kind [3]                                            /feel
+# Accumulated intoxication, 0..1 - the get-drunk seed event bumps it; the F3.7
+# sobriety classifier reads it (see hsim_derive.cc).
+attr "intoxication"     float                                               /obs /feel /state_flags_tar @excl
+
+# Big Five personality - the ten aspects of the Big Five Aspect Scale
+# (DeYoung/Quilty/Peterson 2007), two per OCEAN domain. Genetic and heritable
+# (gaussian + mid-parent blend in mx_make_human), self-known via /feel. Each
+# is a 0..1 float, population mean 0.5. Mirrored as {@self <aspect> <f>}
+# self-beliefs; the appraisal pipeline, mood and the F3 classifiers read them.
+attr "openness"         float                                               /feel /state_flags_tar @excl
+attr "intellect"        float                                               /feel /state_flags_tar @excl
+attr "industriousness"  float                                               /feel /state_flags_tar @excl
+attr "orderliness"      float                                               /feel /state_flags_tar @excl
+attr "enthusiasm"       float                                               /feel /state_flags_tar @excl
+attr "assertiveness"    float                                               /feel /state_flags_tar @excl
+attr "compassion"       float                                               /feel /state_flags_tar @excl
+attr "politeness"       float                                               /feel /state_flags_tar @excl
+attr "volatility"       float                                               /feel /state_flags_tar @excl
+attr "withdrawal"       float                                               /feel /state_flags_tar @excl
+
+# Dark-tetrad personality - a separate four-trait malevolence overlay on the
+# Big Five. Same 0..1 float scale and gaussian/heritable synthesis, but never
+# mirrored across the boundary (believe_about Band 5) - an NPC's malevolence
+# stays secret. Drives crime motives (Phase 10).
+attr "narcissism"       float                                               /feel /state_flags_tar @excl
+attr "machiavellianism" float                                               /feel /state_flags_tar @excl
+attr "psychopathy"      float                                               /feel /state_flags_tar @excl
+attr "sadism"           float                                               /feel /state_flags_tar @excl
 
 # Relationships
 attr "pregnant_when"    date                                                /obs /auto_percept

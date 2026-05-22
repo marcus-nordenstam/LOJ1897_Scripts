@@ -1,0 +1,22 @@
+; ----------------------------------------------------------------------------
+; derive_prototypes - the F3.5 cascade driver. Once a year (december, after the
+; behaviour seed events have run) every adult is re-appraised: the
+; (derive-prototypes ?npc) verb runs wealth/piety/sobriety -> economic /
+; respectability situations -> the deserving_poor / undeserving_poor
+; prototypes, caching each as a belief in the NPC's own mind. No chance gate -
+; the whole adult population is derived every year.
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+(hsim-event derive_prototypes
+  (nl         "?npc is appraised")
+  (kind       _derive)
+  (schedule   (annually december))
+  (rng-stream behaviour)
+
+  (roles
+    (role ?npc (template old_human)))
+
+  (effects
+    (derive-prototypes ?npc)))

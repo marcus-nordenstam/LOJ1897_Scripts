@@ -70,6 +70,11 @@ relation
             member_of           /tar org
             # frequents: a haunt the NPC visits often - a pub, a club.
             frequents           /tar structure|org
+            # backed_by: an investor who has put up founding capital for this
+            # NPC's venture (the investment event). Subject is the backed
+            # party, target the investor. Non-exclusive - a venture may have
+            # several backers.
+            backed_by           /tar human
 
         # Competence - the domains an NPC is practically skilled in. The target
         # is a field_of_study kind, which doubles as the competence taxonomy
@@ -83,6 +88,22 @@ relation
         (achievement)           //sub human
             participated_in     /tar ?
             won                 /tar ?
+
+        # Appraisable behaviours - general-verb act beliefs the F3.5 classifier
+        # cascade reads. Phase 8 fills this block out; F3.7 needs only `attend`
+        # ({actor attend ?place} - the churchgoing seed event writes it, the
+        # piety classifier reads it).
+        (behaviour)             //sub human
+            attend              /tar structure|org
+
+        # Acquired interior drives. A drive is neither an emotion nor a
+        # heritable temperament - it is deposited by a life of events and then
+        # shapes which events cast the NPC. `craving` is an acquired compulsive
+        # drive (addiction to drink); it is durable - reform resists it, never
+        # erases it - and non-exclusive (an NPC may crave more than one thing).
+        # The target is the craved substance kind: {@self craving alcohol}.
+        (drive)                 //sub human
+            craving             /tar ?
 
         # Derived dimensions (F3.2) - each a single numeric quality, computed
         # and cached by an F3.5 classifier, never authored by hand (the same
@@ -100,6 +121,12 @@ relation
             # Conduct-risk
             aggression          /tar ? @excl
             criminality         /tar ? @excl
+            # disinhibition: the externalizing temperament - low industriousness
+            # + low politeness + high volatility. The temperamental root of
+            # impulsive / antisocial conduct; the drinking events read the
+            # aspects directly, this caches the fused score for the F3 cascade
+            # and the interview.
+            disinhibition       /tar ? @excl
             # Material
             wealth              /tar ? @excl
             income_security     /tar ? @excl

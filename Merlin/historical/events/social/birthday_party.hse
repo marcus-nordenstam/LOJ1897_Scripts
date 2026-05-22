@@ -1,0 +1,35 @@
+; ----------------------------------------------------------------------------
+; Birthday party. The recurring gathering that drives gossip: once a year a
+; share of NPCs host a catch-up, and each pair of (host, friend-of-host)
+; exchanges the news of the past year. This is the long-tail propagation
+; channel - ceremonies (betrothal / wedding / christening) carry milestones to
+; a bounded guest list; gossip carries everything else, lossily and slowly.
+;
+; (exchange-news ?host ?guest) is symmetric and uses a fixed one-year lookback
+; window, matching this event's annual cadence. It refreshes each party's
+; profile of the other and relays their recent spouse / child / friend news -
+; so a guest comes to know of people they have never met, through the host.
+;
+; Topology: ?host is enumerated (gated by chance); ?guest is recovered as any
+; person the host holds a {friend} belief toward. The friend filter already
+; excludes infants (no friends), so no age gate is needed.
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+(hsim-event birthday_party
+  (nl         "?host and ?guest exchange news")
+  (kind       _birthday_party)
+  (schedule   (annually october))
+  (rng-stream friendships)
+
+  (roles
+    (role ?host  (template any_human)
+                 (chance 0.4))
+    (role ?guest (template any_human)
+                 (not (= ?self ?host))
+                 (believes ?host {@self friend ?guest})))
+
+  (effects
+    (exchange-news ?host ?guest)
+    (log _birthday_party ?host)))

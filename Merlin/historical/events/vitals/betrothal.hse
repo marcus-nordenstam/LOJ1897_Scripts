@@ -1,0 +1,43 @@
+; ----------------------------------------------------------------------------
+; Betrothal. The matching half of the old single-event marriage: for each
+; unmarried, un-betrothed adult woman, with a small annual chance, sample an
+; unmarried, un-betrothed adult man whose age is within 15 years and whose
+; class matches. It sets the {fiancee} bond on the couple only; the wedding
+; (a separate event, five months later) consumes betrothed couples.
+;
+; Schedule: (annually january) - the pre-industrial pattern was for banns and
+; parish marriages to cluster around new year; betrothal leads the wedding.
+;
+; Topology: ?bride is independent (role[0], enumerated). ?groom depends on
+; ?bride's age and class via filters that reference ?bride.
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+(hsim-event betrothal
+  (nl         "?groom and ?bride are betrothed")
+  (kind       _betrothal)
+  (schedule   (annually january))
+  (rng-stream marriages)
+
+  (roles
+    ;; The (chance 0.25) filter rolls per-bride before any groom search runs,
+    ;; so we don't burn the sampler on brides who won't betroth this year.
+    (role ?bride (template unmarried_woman)
+                 (not (believes ?self {@self fiancee ?}))
+                 (chance 0.25))
+    (role ?groom (template unmarried_man)
+                 (not (believes ?self {@self fiancee ?}))
+                 (= (belief-target ?self class_situation) (belief-target ?bride class_situation))
+                 (<= (- (years-old ?self) (years-old ?bride))  15)
+                 (>= (- (years-old ?self) (years-old ?bride)) -15)))
+
+  (effects
+    (begin-belief ?groom fiancee ?bride)
+    (begin-belief ?bride fiancee ?groom)
+    ; Each betrothed learns the other's social profile (identity attrs,
+    ; personality, class, birth_date, home, job, immediate kin)
+    ; - see hsim::believe_about for the full set.
+    (believe-about ?groom ?bride)
+    (believe-about ?bride ?groom)
+    (log _betrothal ?groom)))

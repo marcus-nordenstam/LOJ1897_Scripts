@@ -227,34 +227,34 @@
 
 # social class
 "what is your social class"
-( any { ?_you /pres social_class } ).target
+( any { ?_you /pres class_situation } ).target
 .
 "what is my social class"
-( any { ?_I /pres social_class } ).target
+( any { ?_I /pres class_situation } ).target
 .
 "what is $person(Q_NP) ++'s social class"
-( any { $person(Q_NP) /pres social_class } ).target
+( any { $person(Q_NP) /pres class_situation } ).target
 .
 "what social class are you"
-( any { ?_you /pres social_class } ).target
+( any { ?_you /pres class_situation } ).target
 .
 "what social class am I"
-( any { ?_I /pres social_class } ).target
+( any { ?_I /pres class_situation } ).target
 .
 "what social class is $person(Q_NP)"
-( any { $person(Q_NP) /pres social_class } ).target
+( any { $person(Q_NP) /pres class_situation } ).target
 .
 "what social class do you belong to"
-( any { ?_you /pres social_class } ).target
+( any { ?_you /pres class_situation } ).target
 .
 "what social class do I belong to"
-( any { ?_I /pres social_class } ).target
+( any { ?_I /pres class_situation } ).target
 .
 "what social class does $person(Q_NP) belong to"
-( any { $person(Q_NP) /pres social_class } ).target
+( any { $person(Q_NP) /pres class_situation } ).target
 .
 "what social class do you consider yourself part of"
-( any { ?_you /pres social_class } ).target
+( any { ?_you /pres class_situation } ).target
 .
 
 "who $np(Q_NP) is"

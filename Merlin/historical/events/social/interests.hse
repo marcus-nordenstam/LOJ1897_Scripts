@@ -1,0 +1,40 @@
+; ----------------------------------------------------------------------------
+; Interests (Phase 6 leaf events). NPCs pick up - and occasionally drop -
+; interests over their lives, on top of the 0-3 hereditary interests the
+; `interests` attr seeds at birth. Both are {@self interests <topic>} beliefs,
+; so an acquired interest is indistinguishable in form from a born one.
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+; --- interest_acquired: a child or adult takes up a new interest -------------
+(hsim-event interest_acquired
+  (nl         "?ego takes up a new interest")
+  (kind       _interest_acquired)
+  (schedule   (annually march))
+  (rng-stream behaviour)
+
+  (roles
+    (role ?ego (template any_human)
+               (>= (years-old ?self) 10)
+               (chance 0.08)))
+
+  (effects
+    (acquire-interest ?ego)
+    (log _interest_acquired ?ego)))
+
+; --- interest_lost: an NPC drops one of their interests ---------------------
+(hsim-event interest_lost
+  (nl         "?ego loses interest")
+  (kind       _interest_lost)
+  (schedule   (annually march))
+  (rng-stream behaviour)
+
+  (roles
+    (role ?ego (template any_human)
+               (believes ?self {@self interests ?})
+               (chance 0.02)))
+
+  (effects
+    (lose-interest ?ego)
+    (log _interest_lost ?ego)))

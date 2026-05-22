@@ -16,9 +16,11 @@
   (rng-stream friendships)
 
   (roles
+    ; High enthusiasm (the sociable Extraversion aspect) makes friends more
+    ; readily. Mean-1.0 multiplier - friendship volume is unchanged.
     (role ?a (template any_human)
              (>= (years-old ?self) 18)
-             (chance 0.05))
+             (chance (* 0.05 (+ 0.5 (attr ?self enthusiasm)))))
     (role ?b (template any_human)
              (>= (years-old ?self) 18)
              (not (= ?self ?a))

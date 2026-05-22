@@ -20,7 +20,9 @@
   (roles
     (role ?who (template young_adult)))
 
-  (when (chance 0.015))   ; ~1.5% per year baseline emigration
+  ; High openness (seeking new experience) emigrates more readily. The
+  ; mean-1.0 multiplier preserves the ~1.5%/yr baseline emigration volume.
+  (when (chance (* 0.015 (+ 0.5 (attr ?who openness)))))
 
   (effects
     (die        ?who :cause emigrated)

@@ -1,20 +1,134 @@
 ; ----------------------------------------------------------------------------
-; Business life-cycle (Phase 7). Only business_failure is authored here for
-; now - the merit-gated founding events (business_founding / _partnership /
-; investment) wait on the F3 derived-situations layer.
+; Business life-cycle (Phase 7). The merit-gated routes into proprietorship -
+; investment, business_partnership, business_founding - plus business_failure.
+;
+; A man's rise into ownership is not a class privilege: diligence, a sound
+; character and means put a non-noble man within reach of a business. The
+; three founding events are the three routes to those means:
+;   - investment          - a backer puts up the capital,
+;   - business_partnership - an established proprietor takes him on as co-owner,
+;   - business_founding   - he self-funds, or founds on a backer's capital.
+; Each gates on merit (a high `diligence` dimension), character (a sound
+; `respectability_situation`) and means (`wealth`, or a `backed_by` belief).
+; The derived dimensions are read via (belief-target ...) - they are cached
+; each December by derive_prototypes, so the January founding events see the
+; prior year's appraisal.
+;
+; CATALOG ORDER MATTERS. investment is authored FIRST so the `backed_by`
+; beliefs it writes are visible to business_founding the same January tick.
+; The three events partition the merit candidates with no overlap: a wealthy
+; or backed man founds; a poor-but-worthy man with a business-owner friend
+; partners; investment claims poor-but-worthy men a year ahead of founding.
 ;
 ; business_failure is a ZERO-ROLE event: it has no per-entity role, so the
 ; engine fires it once each December with no role-enumeration walk in
-; progress. The (fail-businesses ...) verb then collects every org and
-; dissolves the failures. This ordering matters - dissolve_org destroys the
-; org's document entities, and destroying an entity while a role-enumeration
-; mx_for_each_entity is still walking corrupts that walk. (The same reason
-; the engine emigrates only from the zero-role homeostat event.)
-;
-; v1 fails any org at a flat low rate; restricting to commercial orgs and
-; modulating by employee count are refinements for later.
+; progress. The (fail-businesses ...) verb collects every org and dissolves
+; the failures - dissolve_org destroys entities, which would corrupt an
+; in-flight role-enumeration mx_for_each_entity.
 ; ----------------------------------------------------------------------------
 
+(include "../shared/roles.hse")
+
+; --- investment: a backer puts up founding capital for a worthy man ---------
+(hsim-event investment
+  (nl         "?investor backs ?candidate's venture")
+  (kind       _investment)
+  (schedule   (annually january))
+  (rng-stream business)
+
+  (roles
+    ; A merit-and-character man of working age who cannot self-fund and is
+    ; not already backed.
+    (role ?candidate (template old_human)
+                     (>= (years-old ?self) 25)
+                     (<= (years-old ?self) 55)
+                     (believes ?self {@self employer ?})
+                     (not (= (job-level ?self) org_head))
+                     (>= (belief-target ?self diligence) 55)
+                     (or (= (belief-target ?self respectability_situation) respectable)
+                         (= (belief-target ?self respectability_situation) exemplary))
+                     (< (belief-target ?self wealth) 60)
+                     (not (believes ?self {@self backed_by ?}))
+                     (chance (* 0.20 (+ 0.5 (attr ?self assertiveness)))))
+    ; A friend of means - comfortable or better - willing to back him.
+    (role ?investor (template old_human)
+                    (not (= ?self ?candidate))
+                    (believes ?candidate {@self friend ?investor})
+                    (or (= (belief-target ?self economic_situation) comfortable)
+                        (= (belief-target ?self economic_situation) prosperous)
+                        (= (belief-target ?self economic_situation) wealthy))))
+
+  (effects
+    (begin-belief ?candidate backed_by ?investor)
+    (log _investment ?candidate)))
+
+; --- business_partnership: an established proprietor takes on a co-owner ----
+(hsim-event business_partnership
+  (nl         "?candidate is taken into partnership")
+  (kind       _business_partnership)
+  (schedule   (annually january))
+  (rng-stream business)
+
+  (roles
+    ; A merit-and-character man who cannot self-fund and is not backed - the
+    ; clerk-makes-partner route.
+    (role ?candidate (template old_human)
+                     (>= (years-old ?self) 25)
+                     (<= (years-old ?self) 55)
+                     (believes ?self {@self employer ?})
+                     (not (= (job-level ?self) org_head))
+                     (>= (belief-target ?self diligence) 55)
+                     (or (= (belief-target ?self respectability_situation) respectable)
+                         (= (belief-target ?self respectability_situation) exemplary))
+                     (< (belief-target ?self wealth) 60)
+                     (not (believes ?self {@self backed_by ?}))
+                     (chance (* 0.15 (+ 0.5 (attr ?self assertiveness)))))
+    ; An existing business and its proprietor.
+    (role ?principal_articles (template org_articles)
+                              (org-kind-is-a ?self business)))
+
+  ; The proprietor must be someone the candidate already knows.
+  (let ((?principal (org-founder ?principal_articles))))
+  (when (believes ?candidate {@self friend ?principal}))
+
+  (effects
+    ; The candidate leaves his salaried post and joins as a co-proprietor.
+    (fire :worker ?candidate)
+    (add-co-owner :articles ?principal_articles :owner ?candidate)
+    (hire :articles ?principal_articles :worker ?candidate
+          :role proprietor :level org_head)
+    (log _business_partnership ?candidate)))
+
+; --- business_founding: a man of means sets up on his own account ----------
+(hsim-event business_founding
+  (nl         "?founder founds a business")
+  (kind       _business_founding)
+  (schedule   (annually january))
+  (rng-stream business)
+
+  (roles
+    ; Merit, character, and means - either enough wealth to self-fund, or a
+    ; backer (the backed_by belief investment wrote earlier this tick).
+    (role ?founder (template old_human)
+                   (>= (years-old ?self) 25)
+                   (<= (years-old ?self) 55)
+                   (believes ?self {@self employer ?})
+                   (not (= (job-level ?self) org_head))
+                   (>= (belief-target ?self diligence) 55)
+                   (or (= (belief-target ?self respectability_situation) respectable)
+                       (= (belief-target ?self respectability_situation) exemplary))
+                   (or (>= (belief-target ?self wealth) 60)
+                       (believes ?self {@self backed_by ?}))
+                   (chance (* 0.12 (+ 0.5 (attr ?self assertiveness))))))
+
+  (effects
+    ; He leaves paid employment; found-org then spawns the workplace, founds
+    ; the business and installs him as proprietor at org_head rank.
+    (fire :worker ?founder)
+    (found-org :kind business :founder ?founder)
+    (log _business_founding ?founder)))
+
+; --- business_failure: an org folds (zero-role; see header) -----------------
 (hsim-event business_failure
   (nl         "businesses fail in hard times")
   (kind       _business_failure)
