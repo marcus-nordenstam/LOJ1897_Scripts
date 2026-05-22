@@ -1,0 +1,26 @@
+; ----------------------------------------------------------------------------
+; gambling - a Phase 8 behaviour seed event. Each year a few adults take to
+; gambling, gaining a {@self play_game gambling} act-record. The F3.5 sobriety
+; and wealth classifiers read it - a gambler is intemperate and loses money.
+; Binary, like churchgoing's `attend`: one act-record marks the NPC a gambler,
+; and the (not (believes ...)) gate fires the onset at most once per NPC.
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+(hsim-event gambling
+  (nl         "?npc takes to gambling")
+  (kind       _gambling)
+  (schedule   (annually march))
+  (rng-stream behaviour)
+
+  (roles
+    ; Low industriousness (a want of self-discipline) takes to gambling more.
+    ; Mean-1.0 factor - the base rate is the average annual chance.
+    (role ?npc (template old_human)
+               (not (believes ?self {@self play_game ?}))
+               (chance (* 0.006 (+ 0.6 (* 0.8 (- 1.0 (attr ?self industriousness))))))))
+
+  (effects
+    (gamble ?npc)
+    (log _gambling ?npc)))

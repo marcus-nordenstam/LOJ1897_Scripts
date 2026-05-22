@@ -59,13 +59,16 @@
 ; ---- conduct dimensions (Phase 8) ------------------------------------------
 ; chastity: a high prior (chastity-base), less chastity-adultery-penalty per
 ; extra-marital partner. criminality: a low base raised criminality-per-crime
-; per recorded criminal act. honesty / decorum / generosity / aggression are
-; pure trait folds and need no tuning.
+; per recorded criminal act. gambling-*-penalty: the flat sobriety / wealth hit
+; for a standing gambling habit (the play_game act-record). honesty / decorum /
+; generosity / aggression are pure trait folds and need no tuning.
 (conduct
   :chastity-base             85
   :chastity-adultery-penalty 30
   :criminality-base           5
-  :criminality-per-crime     25)
+  :criminality-per-crime     25
+  :gambling-sobriety-penalty 25
+  :gambling-wealth-penalty   15)
 
 ; ---- class_situation <- weighted breeding + prestige + wealth --------------
 ; breeding dominates (the lineage anchor). middle-min / upper-min are lower

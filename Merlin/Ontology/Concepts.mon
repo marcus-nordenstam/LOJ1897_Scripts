@@ -107,6 +107,10 @@ concept
         rugby
         horse_racing
 
+    # Gambling - the vice the Phase 8 `play_game` behaviour act-record targets;
+    # {actor play_game gambling}. The sobriety / wealth classifiers read it.
+    gambling
+
     # Intoxicants - the abstract substance an NPC can form a `craving` for
     # (the (drive) block in States.mon) and that the drinking behaviour events
     # act on. `alcohol` is the abstract substance; the physical `beer` prop
