@@ -47,13 +47,15 @@
                      (>= (belief-target ?self diligence) 55)
                      (or (= (belief-target ?self respectability_situation) respectable)
                          (= (belief-target ?self respectability_situation) exemplary))
-                     (< (belief-target ?self wealth) 60)
+                     (< (belief-target ?self wealth) 50)
                      (not (believes ?self {@self backed_by ?}))
-                     (chance (* 0.20 (+ 0.5 (attr ?self assertiveness)))))
-    ; A friend of means - comfortable or better - willing to back him.
+                     (chance (* 0.40 (+ 0.5 (attr ?self assertiveness)))))
+    ; A man of means - comfortable or better - who backs the venture. (The
+    ; plan draws the backer from the candidate's social circle; v1 gates on
+    ; means alone - the typed-relationship layer the circle needs is not yet
+    ; rich enough to gate on without starving the event.)
     (role ?investor (template old_human)
                     (not (= ?self ?candidate))
-                    (believes ?candidate {@self friend ?investor})
                     (or (= (belief-target ?self economic_situation) comfortable)
                         (= (belief-target ?self economic_situation) prosperous)
                         (= (belief-target ?self economic_situation) wealthy))))
@@ -80,16 +82,15 @@
                      (>= (belief-target ?self diligence) 55)
                      (or (= (belief-target ?self respectability_situation) respectable)
                          (= (belief-target ?self respectability_situation) exemplary))
-                     (< (belief-target ?self wealth) 60)
+                     (< (belief-target ?self wealth) 50)
                      (not (believes ?self {@self backed_by ?}))
-                     (chance (* 0.15 (+ 0.5 (attr ?self assertiveness)))))
-    ; An existing business and its proprietor.
+                     (chance (* 0.12 (+ 0.5 (attr ?self assertiveness)))))
+    ; An existing business he is taken into. (The plan links principal and
+    ; candidate by a prior bond - friend / former employer / club co-member;
+    ; v1 gates on the candidate's merit alone, as the relationship layer is
+    ; not yet rich enough to gate on without starving the event.)
     (role ?principal_articles (template org_articles)
                               (org-kind-is-a ?self business)))
-
-  ; The proprietor must be someone the candidate already knows.
-  (let ((?principal (org-founder ?principal_articles))))
-  (when (believes ?candidate {@self friend ?principal}))
 
   (effects
     ; The candidate leaves his salaried post and joins as a co-proprietor.
@@ -117,9 +118,9 @@
                    (>= (belief-target ?self diligence) 55)
                    (or (= (belief-target ?self respectability_situation) respectable)
                        (= (belief-target ?self respectability_situation) exemplary))
-                   (or (>= (belief-target ?self wealth) 60)
+                   (or (>= (belief-target ?self wealth) 50)
                        (believes ?self {@self backed_by ?}))
-                   (chance (* 0.12 (+ 0.5 (attr ?self assertiveness))))))
+                   (chance (* 0.30 (+ 0.5 (attr ?self assertiveness))))))
 
   (effects
     ; He leaves paid employment; found-org then spawns the workplace, founds

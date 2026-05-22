@@ -23,15 +23,16 @@
   (rng-stream behaviour)
 
   (roles
-    ; Clubs are founded by settled upper / middle-class adults; the year gate
-    ; is the first filter so pre-1750 candidates fall out cheaply.
+    ; Clubs are founded by a settled adult of some standing - an employed man
+    ; over thirty, not already in a club. (The class-floor the plan names is
+    ; carried by the `employer` gate here: a man with a post is a man of
+    ; standing.) The year gate is first so pre-1750 candidates fall out cheaply.
     (role ?founder (template old_human)
                    (>= (year) 1750)
                    (>= (years-old ?self) 30)
-                   (or (= (belief-target ?self class_situation) upper)
-                       (= (belief-target ?self class_situation) middle))
+                   (believes ?self {@self employer ?})
                    (not (believes ?self {@self member_of ?}))
-                   (chance 0.004))
+                   (chance 0.04))
     ; Two founding members, sampled from adults not already heavily clubbed.
     (role ?m1 (template old_human)
               (not (= ?self ?founder))
@@ -61,7 +62,7 @@
     (role ?member (template old_human)
                   (>= (years-old ?self) 18)
                   (< (count-beliefs ?self member_of) 2)
-                  (chance 0.03))
+                  (chance 0.06))
     (role ?club_articles (template org_articles)
                          (org-kind-is-a ?self club)))
 
