@@ -52,9 +52,6 @@ kind articlesOfIncorporation = articles_of_incorporation
 kind advertsLetter = adverts_letter
 
 # Stacks
-kind doneStack = done_stack
-kind fromStack = from_stack
-kind mailStack = mail_stack
 kind appStack = app_stack
 kind rootNpcKnowledgeStack = root_npc_knowledge_stack
 kind rootNpcKnowledgeDoc = root_npc_knowledge_doc
@@ -92,9 +89,8 @@ kind privateSchool = private_school
 kind stateSchool = state_school
 kind factoryWorker = factory_worker
 kind shopClerk = shop_clerk
-kind vacantJob = vacant_job
+kind vacantJob = vacancy
 kind workerJobs = worker_jobs
-kind workplaceKind = workplace_kind
 
 # Animals
 kind germanShepard = german_shepard
@@ -104,16 +100,14 @@ kind bloodType = blood_type
 kind annualRevenue = annual_revenue
 kind annualWage = annual_wage
 kind livingArrangement = living_arrangement
-kind timeOfRetirement = time_of_retirement
+kind timeOfRetirement = retire
 kind physicalAttr = physical_attr
 kind culturalAttr = cultural_attr
 kind plainLooking = plain_looking
 kind forRent = for_rent
 kind forSale = for_sale
 kind offTheMarket = off_the_market
-kind eligibleForMarriage = eligible_for_marriage
 kind marriageDesirability = marriage_desirability
-kind maritalState = marital_state
 kind sexualOrient = sexual_orient
 
 # --- Attr renames ---

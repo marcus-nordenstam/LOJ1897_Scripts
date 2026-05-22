@@ -7,8 +7,8 @@
 ; population matching the per-pair filters. The (not (believes ...))
 ; filter prevents re-asserting an existing friendship.
 ;
-; Friendships are bidirectional — both sides get a `friend` belief plus
-; gender / deceased attribute mirrors so a later "who are your friends?"
+; Friendships are bidirectional - both sides get a `friend` belief plus
+; gender / death-status mirrors so a later "who are your friends?"
 ; query renders with detail.
 ; ----------------------------------------------------------------------------
 

@@ -3,7 +3,8 @@
 rule goal-know-answer-to-marriage-proposal
 {@self goal {@self marry ?prospect}}: ?iWantToMarryHer
 {@self gender [k male]}
-{@self marital_state single}
+(none {@self spouse @something})
+(none {@self fiancee @something})
 #(none {?prospect goal {@prospect marry @self}})
 #(gt (time_since /cont /weeks ?iWantToMarryHer) 1) # had her in mind for 1 week
 (lock_rule) # synchronize the ability to activate this rule - only one at a time

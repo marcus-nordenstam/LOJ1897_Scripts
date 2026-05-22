@@ -29,7 +29,7 @@ relation
             marry
 
             # Domain-specific tasks
-            found_org                                /tar org
+            found                                    /tar org
             process_title_deed                       /aux structure|space
             introduce_siblings
 
@@ -70,7 +70,6 @@ relation
             stack_put            /motor legs right_hand       /tar object /aux stack
             stack_browse         /motor legs right_hand       /tar stack
             stack_read           /motor legs right_hand       /tar stack
-            make_done_stack                               /tar stack
 
             grieve              /motor right_hand left_hand head
 

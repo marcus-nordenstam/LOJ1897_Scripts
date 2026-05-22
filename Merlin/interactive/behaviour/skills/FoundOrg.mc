@@ -1,19 +1,19 @@
 
 
-# Founders must set a goal to found their orgs
-rule found-org-set-goal
-{@self must_found_org ?org}
+# Founding an organisation is goal-driven: the obligation IS the goal
+# {@self goal {@self found ?org}}. Propose the found task while it stands.
+rule found-org-propose
+{@self goal {@self found ?org}}
     ->
-(maintain_proposal {@self found_org ?org}).
+(maintain_proposal {@self found ?org}).
 
-# TODO: When I succeed in found_org ?org,
-#       because I have created a /def org ?defOrg, then
-#       manually reconcile /des -> /def org.
+# To found ?org I need a workplace. While founding, and the org has no
+# workplace yet, look for a for-sale building of the org's own kind.
 rule found-org-buy-workplace
-{@self found_org ?org}
-{?org workplace_kind ?workplace_kind}
+{@self found ?org}
+{?org isa ?org_kind}
 (none {?org workplace ?})
-(o /realis_or_irr ?workplace_kind {@o availability for_sale}): ?workplace
+(o /realis_or_irr ?org_kind {@o availability for_sale}): ?workplace
     ->
 (maintain_proposal {@self buy ?workplace}).
 
@@ -81,18 +81,18 @@ rule
 # "John Smith's property includes the building at '14 Victoria Ave'"
 #
 # Which can be written compactly as follows, taking full advantage of the ontology, which tells us:
-# (1) the target of the 'buildings' relation is expected to be a building
+# (1) the target of the 'building' relation is expected to be a building
 # (2) the subject of the 'property' relation is expected to be a person or organisation, and
 #     the hstr-list [John Smith] contains no terms used to name an organisation, so it must be a person. 
-{(property [n John Smith]) buildings ~[n 14 Victoria Ave]}
+{(property [n John Smith]) building ~[n 14 Victoria Ave]}
 
 # Rephrased as: the property of John Smith, born on Apr-18-1897, includes the building at "14 Victoria Ave"
-{(property (o [n John Smith] [date Apr-18-1897])) buildings ~[14 Victoria Ave]}
+{(property (o [n John Smith] [date Apr-18-1897])) building ~[14 Victoria Ave]}
 
 # Expressing the same information as two separate sentences:
 [
     (property (o [n John Smith] [date Apr-18-1897]))  # John Smith, born on April 18, 1897, has/owns property. 
-    {@it buildings ~[14 Victoria Ave]}              # It includes "14 Victoria Ave".
+    {@it building ~[14 Victoria Ave]}              # It includes "14 Victoria Ave".
 ] 
 
 # The own/owner functions can work as follows:

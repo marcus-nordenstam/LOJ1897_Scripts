@@ -125,7 +125,10 @@ concept
             house_agent
 
 
-    level               /sub human /tar @excl
+    # level grades a human, or a job / org_pos. A trainee clerk is
+    # {@self job ?j} + {?j level trainee}.
+    level               /sub human|org_pos /tar @excl
+            trainee
             apprentice
             junior
             regular
@@ -172,6 +175,19 @@ concept
                 barbershop
                 antiques_shop
                 theatre
+
+    # Fields of study - the target of the `study` and `diploma` relations.
+    field_of_study
+        primary_school_curriculum
+        secondary_school_curriculum
+        classics
+        engineering
+        medicine
+        law
+        theology
+        commerce
+        natural_science
+
     message
         declaration
         property_description
@@ -268,15 +284,10 @@ concept
     # is declared once, here. (States.mon now holds only non-noun verb states.)
     # ---------------------------------------------------------------------
 
-    # Transaction spots and stack-system states.
-    actor_spot          /obs /tar location @excl
-    counterpart_station /obs /tar @excl
+    # Transaction states.
     price               /tar @excl
     item                /obs /tar object
-    from_stack          /obs /sub object /tar @excl stack
     view                /obs /sub human /tar @excl object
-    mail_stack          /obs /sub space|structure /tar @excl stack
-    done_stack          /obs /sub stack /tar @excl stack
 
     # Kinship and social bonds - subject and target are both human.
     person_role         //sub human //tar human
@@ -322,32 +333,32 @@ concept
         marriage_desirability   /tar ? @excl
         love                    /tar ?
         reputation              /tar ? @excl
-        deceased                /tar ? @excl
-        deceased_year           /tar ? @excl
 
     birthplace          /sub human /tar structure @excl
 
     # Vocational / educational / societal states (subject is a human).
     vocational_state    //sub human
-        marital_state       /tar @excl /def @unknown
-        training_pos        /tar org_pos @excl
-        time_of_retirement  /tar ? @excl
+        retire              /tar ? @excl
         home                /tar structure @excl
         # Work life-cycle. job and level are noun-states (declared in the
         # org_pos / level taxonomy higher up); only the non-noun relations
-        # are declared here. employer is the worker's org; apprenticed_to is
-        # the master a youth trains under.
+        # are declared here. employer is the worker's org; master is the
+        # master a youth trains under.
         employer            /tar org @excl
-        apprenticed_to      /tar human @excl
-        # Education life-cycle. pupil_of is the pupil's school; schooling is
-        # the schooling-level outcome left behind when the pupil leaves.
-        pupil_of            /tar org @excl
+        master              /tar human @excl
+        # Education life-cycle. study names the field a pupil reads and the
+        # school they read it at; schooling is the schooling-level outcome
+        # left behind when the pupil leaves. A graduate's credential is the
+        # `diploma` document noun (Objects.mon) - already a state, so no
+        # diploma relation is declared here.
+        study               /tar @excl field_of_study  /aux org
         schooling           /tar ? @excl
 
-    # Property holdings (subject owns them).
-    holding_state       //sub property
-        buildings           /tar [structure]
-        lands               /tar [space]
+    # Property holdings: a holder's owned buildings and land are recorded as
+    # repeated singular {holder building <building>} / {holder land <land>}
+    # beliefs. `building` (Objects.mon) and `land` (Spaces.mon) are nouns and
+    # so are already states - no relation is declared here (re-declaring a
+    # noun in this file would mint a duplicate, ambiguous kind).
 
     # States describing an organisation (subject is the org mental object).
     # employee is repeated once per worker; record points at the org's
@@ -356,13 +367,22 @@ concept
         informal_name       /tar ? @excl
         founder             /tar human @excl
         head_pos            /tar org_pos @excl
-        founding_year       /tar ? @excl
         workplace           /tar space|structure @excl
-        workplace_kind      /tar ?
         employee            /tar human
-        vacant_job          /tar job
+        vacancy             /tar job
         record              /tar document @excl
-        diploma             /tar ? @excl
+
+    # Document -> org back-link: the inverse of org_state's `record`. Lets any
+    # mind reconstruct its own per-mind org object from the stable
+    # articles_of_incorporation env anchor, via
+    # mx_imagine_or_recall(orgkind, mx_observe(articles), "declares_org").
+    declares_org        /sub document /tar org @excl
+
+    # Building -> tenant link: the queryable form of a lease, whose contract
+    # records are the private lease_agreement documents kept at both parties'
+    # premises. @excl - one ongoing tenant at a time (a re-lease opens a fresh
+    # interval after the prior one ends).
+    tenant              /sub building|space /tar human|org @excl
 
     # States describing an activity-object.
     activity_state

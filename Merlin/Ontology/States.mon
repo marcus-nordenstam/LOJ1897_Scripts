@@ -5,7 +5,7 @@
 # declared in Concepts.mon / Objects.mon / etc. is automatically usable as a
 # state, and env attrs contribute the physical realization. This file holds
 # only the states that are NOT nouns: verb / predicate states (know, owe,
-# likes, feels_*, ...) and the historical-sim situation predicates.
+# like, hate, joy, ...) and the historical-sim situation predicates.
 
 relation
 
@@ -21,12 +21,11 @@ relation
         expect_answer           /sub human          /tar ?
         expect_question         /sub human          /tar ?
         talk_to                 /sub human
-        must_found_org          /sub human          /tar org
 
         # Emotional verb states.
         (emo)                   //sub human
-            likes               /tar [?]
-            hates               /tar [?]
+            like                /tar ?
+            hate                /tar ?
             # Directed attitudes - per-NPC beliefs about another person.
             distrusts           /tar human
             jealous_of          /tar human
@@ -36,25 +35,26 @@ relation
             fears               /tar human
             # Undirected emotional state - probability/intensity carried in
             # the belief itself; Salience drives decay over time.
-            feels_joy
-            feels_grief
-            feels_anger
-            feels_fear
-            feels_shame
-            feels_envy
-            feels_pride
+            joy
+            grief
+            anger
+            fear
+            shame
+            envy
+            pride
 
         # Social predicate states. The noun-form social roles (mother,
         # friend, spouse, ...) are noun-states declared in Concepts.mon.
         (social)                //sub human
-            eligible_for_marriage
             # owe: {debtor owe creditor <debt>} - debtor is the subject,
             # creditor the target. The auxiliary slot holds the debt - an
             # integer amount for a money debt, a debt mobject for a non-money
             # obligation. One owe belief per (debtor, creditor) pair; the
             # amount is updated in place.
             owe                 /tar human|org
-            inherited_from      /tar human
+            # inherit: {heir inherit <estate> <benefactor>} - target is the
+            # estate / thing inherited, auxiliary is the benefactor.
+            inherit             /tar ?              /aux human
 
         # Historical-sim-only situation predicates (hsim_ prefix). Read by the
         # event engine to drive crime / drama template eligibility and role
@@ -62,10 +62,6 @@ relation
         # phase transition.
         (hsim)                  //sub human
             hsim_motive             /tar @excl
-            hsim_has_affair_with    /tar human
-            hsim_rival_courting_spouse  /tar human
-            hsim_rival_blocks_courtship /tar human
-            hsim_suspects_infidelity    /tar human
             hsim_secret_at_risk
             hsim_publicly_humiliated
             hsim_family_dishonored

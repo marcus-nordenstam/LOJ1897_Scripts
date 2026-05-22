@@ -1,15 +1,14 @@
 
-# We need a 'done' stack to put each item in when we are done viewing it
+
+# While browsing a stack, if there is no 'done' stack yet, make one - we
+# need somewhere to put each doc once we have finished reading it. The
+# working stack's done-stack is recorded on the private blackboard by the
+# MAKE_DONE_STACK action handler, so (bb_private_none ?stack done_stack)
+# is true exactly until that stack has been made.
 rule make-done-stack-propose
 {@self stack_browse ?stack}
 {?stack obb ?obb}
-(none {?stack done_stack ?})
+(observed ?stack)   # We must have observed the stack to make a done-stack for it.
+(bb_private_none ?stack done_stack)
     ->
-(maintain_proposal {@self make_done_stack ?stack ?obb}).
-
-
-rule make-done-stack-action-propose
-{@self make_done_stack ?workingStack ?doneStackObb}
-(observed ?workingStack) # We need to have observed the ?stack in order to make a done-stack for it.
-    ->
-(maintain_proposal {@self MAKE_DONE_STACK ?workingStack ?doneStackObb}).
+(maintain_proposal {@self MAKE_DONE_STACK ?stack ?obb}).

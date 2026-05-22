@@ -6,29 +6,37 @@
 #   Then have that be used in selecting the current marriage-prospect
 
 
+# I am single (no ongoing spouse or fiancee) and want to size up an
+# age-appropriate, opposite-gender, non-kin person whose marital status I
+# have not yet worked out - propose to infer it from their rings.
 rule infer-marital-state-of-others
-{@self marital_state single}
 {@self gender ?gender}
 {[k human]:?person gender !?gender}
 {?person age_group >0}
-{?person marital_state @unknown}
 {@self family ?myFamily}
 {?person family !?myFamily}
+(none {@self spouse @something})
+(none {@self fiancee @something})
+(none {?person spouse ?})
+(none {?person fiancee ?})
     ->
-#(maintain_goal {@self know '(any {?person marital_state}).target}).
-(maintain_proposal {@self infer {?person marital_state}}).
+(maintain_proposal {@self infer {?person spouse}}).
 
 
-rule eligible_for_marriage
-{@self marital_state single}
+# An age-appropriate, opposite-gender, living, non-kin person who is single
+# (no ongoing spouse or fiancee, on either side) is a marriage prospect:
+# seed their marriage_desirability. Eligibility is derived here, not stored.
+rule seed-marriage-desirability
 {@self gender ?gender}
 {!@self:?person gender !?gender}
 {?person condition alive}
-{?person marital_state single}
 {@self family ?myFamily}
 {?person family !?myFamily}
+(none {@self spouse @something})
+(none {@self fiancee @something})
+(none {?person spouse @something})
+(none {?person fiancee @something})
     ->
-(maintain_belief {?person eligible_for_marriage})
 (if (none {?person marriage_desirability})
     (begin_belief {?person marriage_desirability (sub 1000 (id ?person))})).
 
@@ -43,7 +51,8 @@ rule marry-desirability-decrease-longtime-no-see
 
 
 rule goal-marry
-{@self marital_state !married}
+{? marriage_desirability ?}
+(none {@self spouse @something})
 (highest /target {? marriage_desirability ?}): ?desirabilityEvent
 (lookup ?desirabilityEvent).subject: ?prospect
 (lookup ?desirabilityEvent).target: ?desirability

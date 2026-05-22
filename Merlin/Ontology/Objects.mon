@@ -61,27 +61,35 @@ object //obs
             stack               /sub space|structure /tar @excl
                 root_npc_knowledge_stack
                 for_sale_listing_stack
+                for_lease_listing_stack
+                title_deed_stack
             row
         sporting_gear
             ball
                 football
+        # Documents are props - loose, carriable items. As prop subkinds they
+        # inherit the prop archetype (writing + obb + in_stack attrs), so
+        # mx_make_entity can create them; the org / property documents the
+        # historical sim builds depend on that.
+        document
+            diploma
+            letter
+                adverts_letter
+            pamphlet
+            book
+            newspaper
+            application
+                job_application
+            articles_of_incorporation
+            employee_register
+            job_description
+            title_deed
+            root_npc_knowledge_doc
+            for_sale_listing
+            for_lease_listing
+            lease_agreement
     fluid
         beer
-    document
-        diploma
-        letter
-            adverts_letter
-        pamphlet
-        book
-        newspaper
-        application
-            job_application
-        articles_of_incorporation
-        employee_register
-        job_description
-        title_deed
-        root_npc_knowledge_doc
-        for_sale_listing
 
     # Man-made structures
     structure

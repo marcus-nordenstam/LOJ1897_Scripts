@@ -14,9 +14,10 @@ rule stack-browse-perceive-top-proposal
 rule stack-browse-drop-unrelated-things-proposal
 {@self stack_browse ?stack}: ?stack_browse
 {@self hand ?hand}
-# Any objects taken from the stack will have the 'from_stack' state on them
-# (because STACK_TAKE adds that state)
-(o /known {?hand control @o} {@o /not from_stack ?stack}): ?thing
+{?hand control ?thing}
+# Objects taken from this stack carry a 'from_stack' private-bb entry
+# pointing back at it (STACK_TAKE records it). Drop anything that did not.
+(bb_private_none ?thing from_stack ?stack)
     ->
 (maintain_proposal {@self drop ?thing}).
 

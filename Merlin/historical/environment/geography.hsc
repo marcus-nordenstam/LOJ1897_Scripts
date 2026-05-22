@@ -50,6 +50,14 @@
 (template private_school  (kind "commercial_building school")    (class middle) (extras (business private_school)))
 (template antiques_shop   (kind "commercial_building shop")      (class middle) (extras (business antiques_shop)))
 
+;; Public-good institution buildings. The org-bootstrap matches an org to a
+;; building by ontology kind (commercial_building hospital / office / school).
+(template hospital         (kind "commercial_building hospital") (class middle))
+(template post_office      (kind "commercial_building office")   (class middle))
+(template state_school     (kind "commercial_building school")   (class middle))
+(template land_registry    (kind "commercial_building office")   (class middle))
+(template company_registry (kind "commercial_building office")   (class middle))
+
 ;; ============================================================================
 ;; Area: Port Christie
 ;; ============================================================================
@@ -84,6 +92,13 @@
 (make_entity apothecary     (id hawthorne_apothecary)      (parent market_street))
 (make_entity solicitor_firm (id prentice_solicitors)       (parent victoria_street)  (extras (era_min 1750)))
 (make_entity house_agency   (id haven_house_agency)        (parent market_street)    (extras (era_min 1820)))
+
+;; Public-good institutions of Port Christie.
+(make_entity hospital         (id port_christie_hospital)  (parent victoria_street))
+(make_entity post_office      (id port_christie_post)      (parent market_street))
+(make_entity state_school     (id port_christie_school)    (parent victoria_street))
+(make_entity land_registry    (id port_christie_registry)  (parent market_street))
+(make_entity company_registry (id companies_house)         (parent victoria_street)  (extras (era_min 1840)))
 
 ;; ============================================================================
 ;; Area: Valette
