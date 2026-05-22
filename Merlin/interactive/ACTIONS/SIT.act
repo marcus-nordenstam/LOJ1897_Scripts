@@ -10,3 +10,4 @@ preroll = 0.0
 in      = 0.4
 run     = ?
 out     = 0.4
+nature = neutral_act

@@ -20,3 +20,4 @@ out     = 0.1
 # is the placeholder default the binding falls back to. Bounded run + commit
 # success at the cap is what produces /succ ASK so HearAnswer rules can fire.
 anim_timeout_mode = success
+nature = neutral_act

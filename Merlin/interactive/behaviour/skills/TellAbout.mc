@@ -31,7 +31,9 @@ rule tell-about-tell
 (none {@self /succ TELL ? ?asker /causes ~?tell})
    ->
 # abs_util 1 prioritises answering the request over posing your own questions.
-(maintain_goal {@self TELL (utterable_msg ?msg) ?asker} (des abs_util 1)): ?response
+# utterable_msg's 2nd arg (?asker) derives the speech-act register descriptor
+# toward the listener so it rides the wire on the (msg ...) - plan Phase 2.
+(maintain_goal {@self TELL (utterable_msg ?msg ?asker) ?asker} (des abs_util 1)): ?response
 # ?tell isn't a self-act, so its causal link must be added explicitly.
 (add_causes ?response ?tell)
 # No task in the header - forget the activation once it ceases.

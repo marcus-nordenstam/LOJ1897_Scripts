@@ -60,6 +60,30 @@ concept
         pro_reform
         war_weariness
 
+    # Personal emotion - transient affective states, held as the noun-state
+    # {subject emotion <kind>}. /sub human, so {?other emotion anger} is a
+    # valid held belief (theory of mind for free). Non-@excl: emotions
+    # coexist (joy about one thing, grief about another). /tar is omitted, so
+    # the target defaults to emotion's own subkinds. The directed "about"
+    # focus rides in the belief's aux field. See Docs/emotion_sim_plan.md.
+    emotion             /sub human
+        joy
+        pride
+        hope
+        relief
+        gratitude
+        affection
+        grief
+        distress
+        anger
+        fear
+        shame
+        guilt
+        envy
+        jealousy
+        disgust
+        contempt
+
     # Hereditary interests (the interests attr is plural - no @excl).
     interests
         music
@@ -176,7 +200,11 @@ concept
                 antiques_shop
                 theatre
 
-    # Fields of study - the target of the `study` and `diploma` relations.
+    # Fields of study - the target of the `study` and `diploma` relations, and
+    # of `skilled_in` (States.mon): a field-of-study doubles as the domain an
+    # NPC can be practically competent in. The practical trades below are not
+    # university faculties but are studied (agricultural college, navigation
+    # school, an articled clerkship) and are competences in their own right.
     field_of_study
         primary_school_curriculum
         secondary_school_curriculum
@@ -187,6 +215,61 @@ concept
         theology
         commerce
         natural_science
+        accountancy
+        navigation
+        husbandry
+
+    # ----------------------------------------------------------------------
+    # Derived situations (F3.3) - a category ("what sort of X"), each an @excl
+    # noun-state classified from several dimensions by an F3.5 classifier.
+    # Never authored; computed and cached. class_situation still carries its
+    # old upper/middle/lower values; F3.6's social_class migration re-keys it
+    # to the eight-value derived form (and updates mx_make_human). (`stable` /
+    # `struggling` recur across situations - a deliberate scoped homonym,
+    # resolved by the field's /tar, like `medium`.)
+    # ----------------------------------------------------------------------
+    economic_situation       /sub human /tar @excl
+        destitute
+        poor
+        struggling
+        stable
+        comfortable
+        prosperous
+        wealthy
+    respectability_situation /sub human /tar @excl
+        exemplary
+        respectable
+        questionable
+        disreputable
+        scandalous
+    class_situation          /sub human /tar @excl
+        upper
+        middle
+        lower
+    health_situation         /sub human /tar @excl
+        robust
+        frail
+        ailing
+        invalid
+    social_trajectory        /sub human /tar @excl
+        rising
+        stable
+        declining
+    life_satisfaction        /sub human /tar @excl
+        fulfilled
+        content
+        secure_but_hollow
+        struggling
+        adrift
+
+    # Derived archetypes (F3.4) - a named conjunction over situations and
+    # dimensions; non-@excl, an NPC may match several. Prototype kinds are
+    # added with their classifiers - these four are F3.7 / Phase 7 consumers.
+    prototype                /sub human
+        deserving_poor
+        undeserving_poor
+        self_made_man
+        nouveau_riche
 
     message
         declaration
@@ -197,7 +280,25 @@ concept
     payment
         wage
         annual_wage
-    
+
+    # Reified act-natures - the context-free "nature" of an action, named by
+    # each .act file's `nature =` line and read by the appraisal categorizer
+    # to reduce an act to its effect-signature. Real kinds, so Ontology::is_a
+    # works on them. See Docs/emotion_sim_plan.md section 2.4.
+    construed_act
+        intimacy_act
+        harm_act
+        appropriation_act
+        aid_act
+        disclosure_act
+        coercion_act
+        slight_act
+        honour_act
+        abandonment_act
+        commitment_act
+        provision_act
+        neutral_act
+
     sky_condition
         clear
         overcast
@@ -231,10 +332,6 @@ concept
 
     cultural_aspect
         title
-        class_situation     /sub human /tar @excl
-            upper
-            middle
-            lower
         nationality         /sub human /tar @excl
             english
             irish
@@ -289,41 +386,43 @@ concept
     item                /obs /tar object
     view                /obs /sub human /tar @excl object
 
-    # Kinship and social bonds - subject and target are both human.
-    person_role         //sub human //tar human
-        parent
-        mother          /tar @excl
-        father          /tar @excl
-        brother
-        sister
-        sibling
-        half_sibling
-        grandmother     /tar @excl
-        grandfather     /tar @excl
-        grandparent
-        grandchild
-        aunt
-        uncle
-        niece
-        nephew
-        cousin
-        mother_in_law   /tar @excl
-        father_in_law   /tar @excl
-        parent_in_law
-        sister_in_law
-        brother_in_law
-        sibling_in_law
-        daughter_in_law
-        son_in_law
-        child_in_law
-        stepmother      /tar @excl
-        stepfather      /tar @excl
-        stepchild
-        child
-        spouse          /tar @excl
-        fiancee         /tar @excl
-        lover
-        friend
+    # Kinship and social bonds - subject and target are both human. //noun
+    # makes every role explicitly a noun, so the bond decorations below
+    # (relation flags) do not trip define()'s noun-vs-relation inference.
+    person_role         //sub human //tar human //noun
+        parent          /inclusive_bond
+        mother          /tar @excl /inclusive_bond
+        father          /tar @excl /inclusive_bond
+        brother         /inclusive_bond
+        sister          /inclusive_bond
+        sibling         /inclusive_bond
+        half_sibling    /inclusive_bond
+        grandmother     /tar @excl /inclusive_bond
+        grandfather     /tar @excl /inclusive_bond
+        grandparent     /inclusive_bond
+        grandchild      /inclusive_bond
+        aunt            /inclusive_bond
+        uncle           /inclusive_bond
+        niece           /inclusive_bond
+        nephew          /inclusive_bond
+        cousin          /inclusive_bond
+        mother_in_law   /tar @excl /inclusive_bond
+        father_in_law   /tar @excl /inclusive_bond
+        parent_in_law   /inclusive_bond
+        sister_in_law   /inclusive_bond
+        brother_in_law  /inclusive_bond
+        sibling_in_law  /inclusive_bond
+        daughter_in_law /inclusive_bond
+        son_in_law      /inclusive_bond
+        child_in_law    /inclusive_bond
+        stepmother      /tar @excl /inclusive_bond
+        stepfather      /tar @excl /inclusive_bond
+        stepchild       /inclusive_bond
+        child           /inclusive_bond
+        spouse          /tar @excl /exclusive_bond
+        fiancee         /tar @excl /exclusive_bond
+        lover           /inclusive_bond
+        friend          /inclusive_bond
         acquaintance
         neighbour
         close_to
@@ -331,8 +430,7 @@ concept
         respected_by
         enemy
         marriage_desirability   /tar ? @excl
-        love                    /tar ?
-        reputation              /tar ? @excl
+        love                    /tar ? /exclusive_bond
 
     birthplace          /sub human /tar structure @excl
 
@@ -344,8 +442,8 @@ concept
         # org_pos / level taxonomy higher up); only the non-noun relations
         # are declared here. employer is the worker's org; master is the
         # master a youth trains under.
-        employer            /tar org @excl
-        master              /tar human @excl
+        employer            /noun /tar org @excl /inclusive_bond
+        master              /noun /tar human @excl /inclusive_bond
         # Education life-cycle. study names the field a pupil reads and the
         # school they read it at; schooling is the schooling-level outcome
         # left behind when the pupil leaves. A graduate's credential is the

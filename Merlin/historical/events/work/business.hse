@@ -1,0 +1,25 @@
+; ----------------------------------------------------------------------------
+; Business life-cycle (Phase 7). Only business_failure is authored here for
+; now - the merit-gated founding events (business_founding / _partnership /
+; investment) wait on the F3 derived-situations layer.
+;
+; business_failure is a ZERO-ROLE event: it has no per-entity role, so the
+; engine fires it once each December with no role-enumeration walk in
+; progress. The (fail-businesses ...) verb then collects every org and
+; dissolves the failures. This ordering matters - dissolve_org destroys the
+; org's document entities, and destroying an entity while a role-enumeration
+; mx_for_each_entity is still walking corrupts that walk. (The same reason
+; the engine emigrates only from the zero-role homeostat event.)
+;
+; v1 fails any org at a flat low rate; restricting to commercial orgs and
+; modulating by employee count are refinements for later.
+; ----------------------------------------------------------------------------
+
+(hsim-event business_failure
+  (nl         "businesses fail in hard times")
+  (kind       _business_failure)
+  (schedule   (annually december))
+  (rng-stream business)
+
+  (effects
+    (fail-businesses 0.02)))

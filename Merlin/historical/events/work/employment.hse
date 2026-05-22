@@ -1,0 +1,78 @@
+; ----------------------------------------------------------------------------
+; Employment life-cycle (Phase 7): hiring, promotion, job loss, retirement.
+; All operate through the hsim_org_lifecycle verbs; "employed" is the presence
+; of an ongoing {@self employer ?} belief, "rank" is the level belief on the
+; worker's job object (read via job-level / job-tenure).
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+; --- hiring: a jobless working-age adult is taken on by some org -------------
+(hsim-event hiring
+  (nl         "?worker is hired")
+  (kind       _hiring)
+  (schedule   (annually march))
+  (rng-stream employment)
+
+  (roles
+    (role ?worker (template any_human)
+                  (>= (years-old ?self) 16)
+                  (<= (years-old ?self) 55)
+                  (not (believes ?self {@self employer ?}))
+                  (chance 0.3))
+    (role ?articles (template org_articles)))
+
+  (effects
+    (hire :articles ?articles :worker ?worker :role clerk :level apprentice)
+    (log _hiring ?worker)))
+
+; --- promotion: a worker of three-plus years at rank rises one grade --------
+(hsim-event promotion
+  (nl         "?worker is promoted")
+  (kind       _promotion)
+  (schedule   (annually march))
+  (rng-stream employment)
+
+  (roles
+    (role ?worker (template any_human)
+                  (believes ?self {@self employer ?})
+                  (not (= (job-level ?self) org_head))
+                  (>= (job-tenure ?self) 3)
+                  (chance 0.25)))
+
+  (effects
+    (promote :worker ?worker)
+    (log _promotion ?worker)))
+
+; --- job_loss: an employed worker is let go (low monthly rate) --------------
+(hsim-event job_loss
+  (nl         "?worker loses their job")
+  (kind       _job_loss)
+  (schedule   (monthly))
+  (rng-stream employment)
+
+  (roles
+    (role ?worker (template any_human)
+                  (believes ?self {@self employer ?})
+                  (chance 0.003)))
+
+  (effects
+    (fire :worker ?worker)
+    (log _job_loss ?worker)))
+
+; --- retirement: an employed worker of 65+ leaves working life --------------
+(hsim-event retirement
+  (nl         "?worker retires")
+  (kind       _retirement)
+  (schedule   (annually january))
+  (rng-stream employment)
+
+  (roles
+    (role ?worker (template any_human)
+                  (believes ?self {@self employer ?})
+                  (>= (years-old ?self) 65)
+                  (chance 0.4)))
+
+  (effects
+    (fire :worker ?worker)
+    (log _retirement ?worker)))

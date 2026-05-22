@@ -1,11 +1,11 @@
 
-# NOTE: Words in parenthesis -- such as (emo) -- are used for GROUPING only.
+# NOTE: Words in parenthesis -- such as (attitude) -- are used for GROUPING only.
 #
-# A noun IS a state (see Merlin/docs/ontology_unification.md). Every noun
+# A noun IS a state (see Merlin/docs/knowledge_design_notes.md). Every noun
 # declared in Concepts.mon / Objects.mon / etc. is automatically usable as a
 # state, and env attrs contribute the physical realization. This file holds
 # only the states that are NOT nouns: verb / predicate states (know, owe,
-# like, hate, joy, ...) and the historical-sim situation predicates.
+# like, hate, ...) and the historical-sim situation predicates.
 
 relation
 
@@ -22,26 +22,36 @@ relation
         expect_question         /sub human          /tar ?
         talk_to                 /sub human
 
-        # Emotional verb states.
-        (emo)                   //sub human
-            like                /tar ?
-            hate                /tar ?
-            # Directed attitudes - per-NPC beliefs about another person.
-            distrusts           /tar human
-            jealous_of          /tar human
+        # Attitudes - persistent dispositions toward a person, object or
+        # fact. These are the DRIVERS of emotion, not emotions themselves:
+        # emotions are transient affective states, declared as the `emotion`
+        # noun-taxonomy in Concepts.mon. //appraisal_input marks the whole
+        # block as context the appraisal categorizer consults. See
+        # Docs/emotion_sim_plan.md.
+        (attitude)              //sub human //appraisal_input
+            # like / hate may target a person, an object, OR a fact (@S).
+            like                /tar ? @S
+            hate                /tar ? @S
             admires             /tar human
-            envies              /tar human
             respects            /tar human
-            fears               /tar human
-            # Undirected emotional state - probability/intensity carried in
-            # the belief itself; Salience drives decay over time.
-            joy
-            grief
-            anger
-            fear
-            shame
-            envy
-            pride
+            distrusts           /tar human
+            # value: a held virtue - the identity / values appraisal input.
+            value               /tar ?
+
+        # Construals - relational appraisal categories emitted by the
+        # appraisal categorizer (never authored by hand), observer-relative
+        # and re-derivable. The concrete act that caused a construal rides in
+        # its /causes origin field. See Docs/emotion_sim_plan.md section 2.3.
+        (construal)             //sub human
+            betray              /tar human
+            wrong               /tar human
+            help                /tar human
+            honour              /tar human
+            slight              /tar human
+            threaten            /tar human
+            abandon             /tar human
+            achieve             /tar ?
+            suffer_loss         /tar ?
 
         # Social predicate states. The noun-form social roles (mother,
         # friend, spouse, ...) are noun-states declared in Concepts.mon.
@@ -55,6 +65,64 @@ relation
             # inherit: {heir inherit <estate> <benefactor>} - target is the
             # estate / thing inherited, auxiliary is the benefactor.
             inherit             /tar ?              /aux human
+            # member_of: club / society membership - distinct from employment
+            # (`employer`). Non-exclusive: an NPC may join several.
+            member_of           /tar org
+            # frequents: a haunt the NPC visits often - a pub, a club.
+            frequents           /tar structure|org
+
+        # Competence - the domains an NPC is practically skilled in. The target
+        # is a field_of_study kind, which doubles as the competence taxonomy
+        # (an NPC may be skilled in several - non-exclusive).
+        (competence)            //sub human
+            skilled_in          /tar field_of_study
+
+        # Achievements - sporting / competitive participation and victories.
+        # Targets stay unconstrained until the Phase 6 sports events pin the
+        # event / trophy kinds. Non-exclusive: a life accumulates many.
+        (achievement)           //sub human
+            participated_in     /tar ?
+            won                 /tar ?
+
+        # Derived dimensions (F3.2) - each a single numeric quality, computed
+        # and cached by an F3.5 classifier, never authored by hand (the same
+        # status as the derived {?thing age ?age}). @excl - one ongoing value
+        # per subject; the value is a number, so /tar stays unconstrained.
+        (dimension)             //sub human
+            # Conduct
+            honesty             /tar ? @excl
+            sobriety            /tar ? @excl
+            piety               /tar ? @excl
+            diligence           /tar ? @excl
+            chastity            /tar ? @excl
+            decorum             /tar ? @excl
+            generosity          /tar ? @excl
+            # Conduct-risk
+            aggression          /tar ? @excl
+            criminality         /tar ? @excl
+            # Material
+            wealth              /tar ? @excl
+            income_security     /tar ? @excl
+            # Standing
+            prestige            /tar ? @excl
+            breeding            /tar ? @excl
+            influence           /tar ? @excl
+            connectedness       /tar ? @excl
+            # Physical / mental
+            constitution        /tar ? @excl
+            affliction          /tar ? @excl
+            soundness           /tar ? @excl
+            # Mind
+            radicalism          /tar ? @excl
+            education           /tar ? @excl
+            # Felt life - contentment / agitation are the valence / arousal
+            # halves of mood; their classifiers (F4.6) read emotion_sim_plan.md's
+            # derive_mood. agitation is added by the emotion model.
+            belonging           /tar ? @excl
+            contentment         /tar ? @excl
+            agitation           /tar ? @excl
+            purpose             /tar ? @excl
+            autonomy            /tar ? @excl
 
         # Historical-sim-only situation predicates (hsim_ prefix). Read by the
         # event engine to drive crime / drama template eligibility and role

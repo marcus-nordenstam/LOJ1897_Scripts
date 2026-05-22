@@ -11,3 +11,4 @@ out     = 0.0
 
 # Eyelid animation runs the full bounded duration; commit success at cap.
 anim_timeout_mode = success
+nature = neutral_act

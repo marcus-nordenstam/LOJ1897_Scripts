@@ -11,3 +11,4 @@ preroll = 0.0
 in      = inherit-from-outgoing
 run     = ?
 out     = inherit-from-incoming
+nature = neutral_act

@@ -51,3 +51,9 @@
   (alive)
   (>= (years-old ?self) 16)
   (<= (years-old ?self) 45))
+
+;; An articles_of_incorporation document - the cross-mind anchor of a founded
+;; org. The Phase 7 work events role-bind one to name the org they act on.
+;; No (alive) filter: a document is not an NPC.
+(define-role org_articles
+  (kind  articles_of_incorporation))

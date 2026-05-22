@@ -3,6 +3,7 @@ motor = legs
 transmission = obs
 sub = human
 tar = human
+nature = intimacy_act
 
 preroll = 0.0
 in      = 0.5

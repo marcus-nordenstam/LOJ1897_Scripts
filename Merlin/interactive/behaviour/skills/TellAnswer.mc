@@ -47,8 +47,10 @@ rule tell-answer
 (none {@self /succ TELL ? ?person /causes ~?person_asked})
 (lock_rule tell_answer 0) # defer to higher-priority specialized rules above
     ->
-# abs_util 1 prioritises answering over posing your own questions
-(maintain_goal {@self TELL (utterable_msg ?answer) ?person} (des abs_util 1)): ?response
+# abs_util 1 prioritises answering over posing your own questions.
+# utterable_msg's 2nd arg (?person) derives the speech-act register descriptor
+# toward the listener so it rides the wire on the (msg ...) - plan Phase 2.
+(maintain_goal {@self TELL (utterable_msg ?answer ?person) ?person} (des abs_util 1)): ?response
 # ?person_asked isn't a self-act so its causal link must be added explicitly
 (add_causes ?response ?person_asked)
 # Done answering this question
