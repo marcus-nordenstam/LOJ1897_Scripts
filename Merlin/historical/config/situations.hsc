@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; situations.sexpr - F3 derived-situation tuning data.
+; situations.hsc - F3 derived-situation tuning data.
 ;
 ; Loaded by Merlin at ontology-load time (hsim::derive_load_norms, called from
 ; t_simulator::load_ontology). Editing this file re-tunes the F3 four-layer
@@ -46,14 +46,26 @@
   :comfortable-max 75
   :prosperous-max  90)
 
-; ---- respectability_situation <- (piety + sobriety + diligence) / 3 --------
-; Ascending upper bounds. A score at or above respectable-max reads
-; `exemplary`.
+; ---- respectability_situation <- mean of the seven conduct dimensions ------
+; honesty + sobriety + piety + diligence + chastity + decorum + generosity,
+; divided by 7. Ascending upper bounds; a score at or above respectable-max
+; reads `exemplary`.
 (respectability-situation
   :scandalous-max   20
   :disreputable-max 40
   :questionable-max 60
   :respectable-max  80)
+
+; ---- conduct dimensions (Phase 8) ------------------------------------------
+; chastity: a high prior (chastity-base), less chastity-adultery-penalty per
+; extra-marital partner. criminality: a low base raised criminality-per-crime
+; per recorded criminal act. honesty / decorum / generosity / aggression are
+; pure trait folds and need no tuning.
+(conduct
+  :chastity-base             85
+  :chastity-adultery-penalty 30
+  :criminality-base           5
+  :criminality-per-crime     25)
 
 ; ---- class_situation <- weighted breeding + prestige + wealth --------------
 ; breeding dominates (the lineage anchor). middle-min / upper-min are lower

@@ -89,12 +89,31 @@ relation
             participated_in     /tar ?
             won                 /tar ?
 
-        # Appraisable behaviours - general-verb act beliefs the F3.5 classifier
-        # cascade reads. Phase 8 fills this block out; F3.7 needs only `attend`
-        # ({actor attend ?place} - the churchgoing seed event writes it, the
-        # piety classifier reads it).
+        # Appraisable behaviours - act-record beliefs the F3.5 classifier
+        # cascade reads (Phase 8 / Step 8.1). A behaviour label lives here ONLY
+        # when the behaviour has no ACTION (interactive/ACTIONS/*.act) and no
+        # task (Tasks.mon) form - otherwise the classifier reads that existing
+        # symbol. So `give` (a task) and `HAVE_SEX_WITH` (an ACTION) are NOT
+        # re-declared here; only behaviours with no motor-enacted form are.
         (behaviour)             //sub human
+            # attend: {actor attend ?place} - the churchgoing seed event writes
+            # it, the piety classifier reads it.
             attend              /tar structure|org
+            # play_game: {actor play_game ?game} - a game / gambling pastime.
+            # Target stays unconstrained until the game taxonomy is pinned
+            # (same convention as `won`).
+            play_game           /tar ?
+            # Criminal act-records. Phase 8 registers the labels and their
+            # criminality / aggression appraisal; the events that produce them
+            # are Phase 10's emergent-crime building-block events. Bare
+            # infinitives - the orphaned .evt catalog's past-tense directional
+            # labels (embezzled_from, kidnapped) are re-keyed to these.
+            assault             /tar human
+            steal               /tar human
+            defraud             /tar human
+            embezzle            /tar human|org
+            kill                /tar human
+            kidnap              /tar human
 
         # Acquired interior drives (F4.3). A drive is neither an emotion nor a
         # heritable temperament - it is deposited by a life of events and then

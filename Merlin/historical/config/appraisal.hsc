@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; appraisal.sexpr - emotion / appraisal tuning data.
+; appraisal.hsc - emotion / appraisal tuning data.
 ;
 ; Loaded by Merlin at ontology-load time (appraisal_load_norms, called from
 ; t_simulator::load_ontology). Editing this file re-tunes the emotion model
