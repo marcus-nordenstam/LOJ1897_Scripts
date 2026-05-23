@@ -71,20 +71,40 @@
 (pressure-affect rivalry_pressure   :stress 0.5)
 
 ; ---- trait affect ----------------------------------------------------------
-; How a Big Five personality aspect modulates the salience of the emotions it
-; governs. When the appraiser holds <aspect> at value t in [0,1] (mean 0.5), a
-; named emotion's base salience is scaled by 1 + (t - 0.5) * gain; rows
-; multiply when several name the same emotion. The aspect is read from the
-; appraiser's own {@self <aspect> <f>} self-belief, so personality biases
-; emotion the same way mood does (the section 5 feedback loop).
-;   :amplifies <emotion-kind>...   the emotions this aspect governs
-;   :gain      <fraction>          swing; t=1 -> x(1 + gain/2), t=0 -> x(1 - gain/2)
-; Neuroticism (volatility, withdrawal) drives negative reactivity; Extraversion
-; (enthusiasm) drives positive reactivity. The dark tetrad is deliberately
-; absent - it shapes conduct and crime motive, not felt emotion intensity.
+; How a personality aspect modulates the salience of the emotion / pressure
+; kinds it governs. When the appraiser holds <aspect> at value t in [0,1]
+; (mean 0.5), the named kind's base salience is scaled by 1 + (deviation *
+; gain), where deviation is (t - 0.5) for symmetric Big Five rows and
+; max(0, t - 0.5) for one-sided Dark Tetrad rows (plan section 10.3-AFFECT
+; item K). Rows multiply when several name the same kind. The aspect is
+; read from the appraiser's own {@self <aspect> <f>} self-belief.
+;
+;   :amplifies <kind>...    kinds this aspect's deviation INCREASES
+;   :dampens   <kind>...    kinds this aspect's deviation DECREASES
+;                           (alias for :amplifies with negated gain)
+;   :gain      <fraction>   swing strength
+;   :one_sided              flag (REQUIRED for Dark Tetrad rows): the
+;                           trait's effect floors at the population mean
+;                           so low values contribute zero, not the
+;                           symmetric inverse. Low sadism is "normal
+;                           human aversion," not an anti-sadism bonus.
+;
+; Big Five rows (symmetric - Neuroticism / Extraversion).
 (trait-affect volatility :amplifies anger fear distress jealousy :gain 0.8)
 (trait-affect withdrawal :amplifies grief fear shame guilt :gain 0.8)
 (trait-affect enthusiasm :amplifies joy hope pride gratitude affection relief :gain 0.6)
+
+; Dark Tetrad rows (one-sided - low values contribute zero bias). Plan
+; section 10.3-AFFECT item K: narcissism inflates threat-to-ego (humiliation
+; pressure, injustice pressure, shame / anger / contempt); psychopathy
+; dampens the negative-affect remorse cluster (low fear conditioning, low
+; remorse capacity); machiavellianism modulates conduct via inhibition
+; classifier and branch-weight composer (no emotion / pressure amplification
+; - Machiavellians read accurately, they just do not care); sadism modulates
+; via POV-row substitution (handled in apply_construal, not here) and
+; inhibition classifier - again no trait-affect emotion bias.
+(trait-affect narcissism  :amplifies humiliation injustice shame anger contempt :gain 1.2 :one_sided)
+(trait-affect psychopathy :dampens   guilt fear moral_violation :gain 0.6 :one_sided)
 
 ; ---- category reactions ----------------------------------------------------
 ; One (reaction <category> :pov <pov>) row per (construal category, appraiser
@@ -116,6 +136,19 @@
 ; there plus a row here is all a new category needs. Author the actor and
 ; third_party POV rows as new categories with crime-perpetration consequences
 ; come online (plan Phase B item 8).
+;
+; Sadist-POV substitutions (plan section 10.3-AFFECT item K): when the
+; appraiser's sadism aspect is above k_sadism_pov_threshold (0.65),
+; apply_construal substitutes :pov actor_sadist for :pov actor and :pov
+; third_party_sadist for :pov third_party. Falls back to the modal row if
+; no sadist row is authored. patient POV is unchanged - sadism modifies the
+; response to OTHERS' suffering, not one's own. The example below for
+; `betray` is illustrative; once Phase B's other-nature reactions land
+; (harm / wrong / threaten / ...), author sadist rows alongside the modal
+; ones for each category whose anchor involves another's suffering.
+(reaction betray :pov third_party_sadist
+  (mint joy   :focus none  :salience 12)
+  (mint pride :focus self  :salience 24))
 (reaction betray
   (mint anger :focus actor :salience 12)
   (mint grief :focus none  :salience 72)
