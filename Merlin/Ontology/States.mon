@@ -103,11 +103,6 @@ relation
             # Target stays unconstrained until the game taxonomy is pinned
             # (same convention as `won`).
             play_game           /tar ?
-            # donate: {actor donate <alms>} - a charitable gift; the alms is a
-            # number symbol (the sum given). The generosity classifier reads it.
-            # A behaviour-record state, NOT the `give` task - a task-belief
-            # cannot be directly asserted (belief_inception forbids it).
-            donate              /tar ?
             # Criminal act-records. Phase 8 registers the labels and their
             # criminality / aggression appraisal; the events that produce them
             # are Phase 10's emergent-crime building-block events. Bare

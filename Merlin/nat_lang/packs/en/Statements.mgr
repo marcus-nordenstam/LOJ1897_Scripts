@@ -53,9 +53,67 @@ $form(FORM)
 { $sub_np(NP) /pres nationality $kind(KIND|/isa|nationality) }
 .
 
+# Occupation - two phrasings of the same belief shape. "works as a X" is the
+# longer / more conversational default; "is a X" is the curt / terse form,
+# picked when the sentence planner's intent preference asks for it. Both
+# materialize the same belief, so parsing accepts either form.
+"$sub_np(NP) works as a $kind(KIND|/isa|job)"
+{ $sub_np(NP) /pres job $kind(KIND|/isa|job) }
+.
+
 "$sub_np(NP) is a $kind(KIND|/isa|job)"
 { $sub_np(NP) /pres job $kind(KIND|/isa|job) }
 .
+:: curt terse
+
+
+# THIRD-PARTY KINSHIP / RELATION STATEMENTS.
+# e.g. "John's father is Maurice", "John's spouse is Mary".
+#
+# These are the explicit per-label forms the description renderer relies on.
+# A generic "$sub_np ++'s $passive_rel(PASSIVE_REL) $np" template exists below
+# but the structural realize's predicate-fragment path rejects PASSIVE_REL's
+# non-terminal label position (_realize_predicate in nat_lang_realize.cc), so
+# these label-literal templates carry the description corpus. Mirrors the
+# bare-is statements (age / nationality / job) above.
+
+" $sub_np(NP) ++'s mother is $value(NP) "
+{ $sub_np(NP) /pres mother $value(NP) } .
+" $sub_np(NP) ++'s mother was $value(NP) "
+{ $sub_np(NP) /past mother $value(NP) } .
+" $sub_np(NP) ++'s father is $value(NP) "
+{ $sub_np(NP) /pres father $value(NP) } .
+" $sub_np(NP) ++'s father was $value(NP) "
+{ $sub_np(NP) /past father $value(NP) } .
+" $sub_np(NP) ++'s parent is $value(NP) "
+{ $sub_np(NP) /pres parent $value(NP) } .
+" $sub_np(NP) ++'s sibling is $value(NP) "
+{ $sub_np(NP) /pres sibling $value(NP) } .
+" $sub_np(NP) ++'s brother is $value(NP) "
+{ $sub_np(NP) /pres brother $value(NP) } .
+" $sub_np(NP) ++'s sister is $value(NP) "
+{ $sub_np(NP) /pres sister $value(NP) } .
+" $sub_np(NP) ++'s child is $value(NP) "
+{ $sub_np(NP) /pres child $value(NP) } .
+" $sub_np(NP) ++'s spouse is $value(NP) "
+{ $sub_np(NP) /pres spouse $value(NP) } .
+" $sub_np(NP) ++'s fiancee is $value(NP) "
+{ $sub_np(NP) /pres fiancee $value(NP) } .
+" $sub_np(NP) ++'s friend is $value(NP) "
+{ $sub_np(NP) /pres friend $value(NP) } .
+" $sub_np(NP) ++'s neighbour is $value(NP) "
+{ $sub_np(NP) /pres neighbour $value(NP) } .
+
+# Birthplace / home are object-valued; same possessive shape.
+" $sub_np(NP) ++'s birthplace is $value(NP) "
+{ $sub_np(NP) /pres birthplace $value(NP) } .
+" $sub_np(NP) ++'s home is $value(NP) "
+{ $sub_np(NP) /pres home $value(NP) } .
+
+# Interests is a kind-valued plural; one belief per interest. KIND strips the
+# bracket form so [k music] -> "music".
+" $sub_np(NP) is interested in $kind(KIND|/isa|interests) "
+{ $sub_np(NP) /pres interests $kind(KIND|/isa|interests) } .
 
 
 # POSSESSIVE RELATIONS EXPRESSED IN THE PASSIVE FORM
@@ -66,6 +124,23 @@ $form(FORM)
 " $my(PRONOUN) $rel(REL) is $value(NP) "
 { $my(PRONOUN) /pres $rel(REL) $value(NP) }
 .
+
+# Affectionate variant - the sentence planner picks this when the speaker's
+# regard toward the subject (the $value here) is `loves` or the slot's intent
+# preference is `warm`. The MC belief shape is identical to the neutral form,
+# so parsing accepts either; only the generation choice differs.
+" $my(PRONOUN) dear $rel(REL) is $value(NP) "
+{ $my(PRONOUN) /pres $rel(REL) $value(NP) }
+.
+:: warm
+
+# Curt variant - "Mary, my mother" - drops the copula. The literal comma is
+# tokenised as its own NL token; the bind-tokens ("++,") would only matter for
+# generation glue, and on parse the matcher walks tokens left-to-right.
+" $value(NP) ++, $my(PRONOUN) $rel(REL) "
+{ $my(PRONOUN) /pres $rel(REL) $value(NP) }
+.
+:: curt
 
 " $my(PRONOUN) $rel(REL) was $value(NP) "
 { $my(PRONOUN) /past $rel(REL) $value(NP) }

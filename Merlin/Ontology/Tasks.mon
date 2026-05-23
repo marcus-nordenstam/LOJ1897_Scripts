@@ -56,7 +56,9 @@ relation
             locate              /motor legs             /tar @excl
             
             drop                /motor right_hand            /tar @excl object
-            give                /motor right_hand            /tar @excl object
+            # /tar ? : give targets a physical object (the motor task) or a
+            # money amount (the Phase 8 charity act-record - a number symbol).
+            give                /motor right_hand            /tar @excl ?
             receive             /motor right_hand            /tar @excl object
 
             get                 /motor legs right_hand       /tar @excl object
