@@ -1,0 +1,64 @@
+
+# -----------------------------------------------------------------------------
+# Relations.mgr - Swedish-pack kinship + attribute relations (Phase 7).
+#
+# Each entry maps a Swedish word to the canonical MC label (which stays
+# English / ontology-canonical - labels are language-neutral). v1 covers
+# the kinship subset the tell_about description corpus uses; the long-tail
+# in-law / step terms can grow as the pack matures.
+# -----------------------------------------------------------------------------
+
+:PASSIVE_PNAME_REL
+"heter"                 /pres name              .
+"hette"                 /past name              .
+
+
+:PASSIVE_NUM_REL
+"var"                   /past age               .
+
+
+:PASSIVE_REL
+"$rel(REL) är"          /pres $rel(REL)         .
+"$rel(REL) var"         /past $rel(REL)         .
+
+
+:RELP
+"syskon"                sibling                 .
+"föräldrar"             parent                  .
+"bröder"                brother                 .
+"systrar"               sister                  .
+"barn"                  child                   .
+"kusiner"               cousin                  .
+"vänner"                friend                  .
+"grannar"               neighbour               .
+
+
+:REL
+"fästmö"                fiancee                 .
+"make"                  spouse                  .
+"maka"                  spouse                  .
+"man"                   spouse                  .
+"fru"                   spouse                  .
+"mor"                   mother                  .
+"mamma"                 mother                  .
+"far"                   father                  .
+"pappa"                 father                  .
+"förälder"              parent                  .
+"bror"                  brother                 .
+"syster"                sister                  .
+"syskon"                sibling                 .
+"barn"                  child                   .
+"son"                   child                   .
+"dotter"                child                   .
+"mormor"                grandmother             .
+"farmor"                grandmother             .
+"morfar"                grandfather             .
+"farfar"                grandfather             .
+"kusin"                 cousin                  .
+"vän"                   friend                  .
+"granne"                neighbour               .
+"fiende"                enemy                   .
+"hemort"                home                    .
+"födelseort"            birthplace              .
+"kön"                   gender                  .
+"klass"                 class_situation         .

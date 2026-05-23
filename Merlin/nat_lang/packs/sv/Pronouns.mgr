@@ -1,0 +1,24 @@
+
+# -----------------------------------------------------------------------------
+# Pronouns.mgr - Swedish-pack first/second-person pronouns (Phase 7).
+#
+# Possessive forms ("min" / "mitt" / "mina") are gender/number-inflected in
+# Swedish (common / neuter / plural). v1 ships the common-gender form "min" /
+# "din" only - all the kinship nouns the description corpus surfaces (mor /
+# far / syster / bror / man / fru / son / dotter) are common gender, so this
+# covers tell_about. Adding "mitt" / "mina" is a future morphology-engine
+# job once adjective-agreement lands (see phase7_design.md open items).
+# -----------------------------------------------------------------------------
+
+:PRONOUN
+
+"jag"    ?_I     .
+"mig"    ?_I     .
+"min"    ?_I     .
+
+"du"     ?_you   .
+"dig"    ?_you   .
+"din"    ?_you   .
+
+"den"    ?_this  .
+"det"    ?_this  .

@@ -1,0 +1,208 @@
+
+# -----------------------------------------------------------------------------
+# Statements.mgr - Swedish-pack clause templates (Phase 7).
+#
+# Scope: enough tell_about coverage to demonstrate Phase 7's data-pack
+# contract (the plan's acceptance criterion). Each template's MC side is
+# the canonical English-named ontology label (mother / age / nationality /
+# ...) - those labels are language-neutral; only the NL surface changes.
+#
+# The intent-tag system (Phase 4.6, spec 0.5) carries through unchanged -
+# Swedish templates can tag :: warm / curt / etc. exactly like English.
+# v1 ships untagged (implicit `neutral` / `plain`); intent-tagged variants
+# are a future authoring pass.
+# -----------------------------------------------------------------------------
+
+:ST
+
+# OPENING - the description's vocative-name template. Same shape as English:
+# emits the subject's name as a standalone clause so the body can pronominalise
+# from the very next sentence. Tagged :: intro so .mph's opening select picks
+# it ahead of any structurally-identical possessive template.
+"$pname(PNAME)"
+{ $sub_np(NP) $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) }
+.
+:: intro
+
+# Sentinel responses
+"Jag vet inte"
+@unknown
+.
+
+"Jag är inte säker"
+@unknown%
+.
+
+"Ja"
+@true
+.
+
+"Nej"
+@false
+.
+
+
+# COMMAND-STATEMENTS - the player asking the NPC to describe someone.
+
+"berätta om $obj(NP)"
+{ ?_I /pres goal { ?_you /pres tell_about $obj(NP) ?_I } }
+.
+
+"jag vill att du berättar om $obj(NP)"
+{ ?_I /pres goal { ?_you /pres tell_about $obj(NP) ?_I } }
+.
+
+# Kind-quantified content requests, mirroring the English form.
+"berätta om $obj(NP) ++s $state_kind(KIND)"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { $obj(NP) $state_kind(KIND) ? ? } ?_I } }
+.
+
+"berätta om dina $state_kind(KIND)"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { ?_you $state_kind(KIND) ? ? } ?_I } }
+.
+
+"berätta om mina $state_kind(KIND)"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { ?_I $state_kind(KIND) ? ? } ?_I } }
+.
+
+
+# BARE-IS ATTRIBUTE STATEMENTS - the description body.
+#
+# Age, nationality, occupation, class. Same belief shape as English; only the
+# surface text differs. Swedish uses "är" for is/am/are uniformly.
+
+# "Maria är tjugofyra år gammal." - the additive "år gammal" is the standard
+# Swedish way to qualify a bare numeral as an age.
+"$sub_np(NP) är $num(NUM) år gammal"
+{ $sub_np(NP) /pres age $num(NUM) }
+.
+
+# "Maria är irländsk." - nationality is rendered as the adjective form
+# (the .arc-declared nationality kind's leaf name; e.g. "irländsk" / "svensk").
+# In Swedish nationality adjectives are LOWERCASE - the is_proper_adjective_-
+# kind helper is gated on the active output language and returns false for
+# Swedish, so the realize layer emits lowercase here.
+"$sub_np(NP) är $kind(KIND|/isa|nationality)"
+{ $sub_np(NP) /pres nationality $kind(KIND|/isa|nationality) }
+.
+
+# Class - the kind's leaf name (arbetar / medel / över) suffixed with "klass".
+# Same dash-suffix shape English uses; Swedish concatenates without space.
+"$sub_np(NP) är $kind(KIND|/isa|class_situation) ++klass"
+{ $sub_np(NP) /pres class_situation $kind(KIND|/isa|class_situation) }
+.
+
+# Occupation - "Maria arbetar som hattmakare." (Maria works as a hatmaker).
+# Swedish uses the agentive base form rather than the gendered "-erska".
+"$sub_np(NP) arbetar som $kind(KIND|/isa|job)"
+{ $sub_np(NP) /pres job $kind(KIND|/isa|job) }
+.
+
+
+# THIRD-PARTY KINSHIP / RELATION STATEMENTS.
+# "Marias mor är Anna." - Swedish uses genitive -s suffix exactly like English.
+# The ++s bind-token glues to the preceding name when realizing; on parse
+# the tokenizer accepts "Marias" as a single PNAME token if the name's last
+# character is consumed greedily, OR the user writes "Maria s" with a space.
+
+" $sub_np(NP) ++s mor är $value(NP) "
+{ $sub_np(NP) /pres mother $value(NP) } .
+" $sub_np(NP) ++s mor var $value(NP) "
+{ $sub_np(NP) /past mother $value(NP) } .
+" $sub_np(NP) ++s far är $value(NP) "
+{ $sub_np(NP) /pres father $value(NP) } .
+" $sub_np(NP) ++s far var $value(NP) "
+{ $sub_np(NP) /past father $value(NP) } .
+" $sub_np(NP) ++s förälder är $value(NP) "
+{ $sub_np(NP) /pres parent $value(NP) } .
+" $sub_np(NP) ++s syskon är $value(NP) "
+{ $sub_np(NP) /pres sibling $value(NP) } .
+" $sub_np(NP) ++s bror är $value(NP) "
+{ $sub_np(NP) /pres brother $value(NP) } .
+" $sub_np(NP) ++s syster är $value(NP) "
+{ $sub_np(NP) /pres sister $value(NP) } .
+" $sub_np(NP) ++s barn är $value(NP) "
+{ $sub_np(NP) /pres child $value(NP) } .
+" $sub_np(NP) ++s make är $value(NP) "
+{ $sub_np(NP) /pres spouse $value(NP) } .
+" $sub_np(NP) ++s vän är $value(NP) "
+{ $sub_np(NP) /pres friend $value(NP) } .
+" $sub_np(NP) ++s granne är $value(NP) "
+{ $sub_np(NP) /pres neighbour $value(NP) } .
+
+# Birthplace / home
+" $sub_np(NP) ++s födelseort är $value(NP) "
+{ $sub_np(NP) /pres birthplace $value(NP) } .
+" $sub_np(NP) ++s hemort är $value(NP) "
+{ $sub_np(NP) /pres home $value(NP) } .
+
+
+# REGARD-SLOT - love + selected emotion shapes. v1 covers the unmarked
+# (neutral) form for each shape the discourse planner may route into the
+# regard slot. Intent-tagged variants follow.
+
+# Love
+" $sub_np(NP) älskar $value(NP) "
+{ $sub_np(NP) /pres love $value(NP) } .
+" $sub_np(NP) älskade $value(NP) "
+{ $sub_np(NP) /past love $value(NP) } .
+
+# Emotion : affection (focused)
+" $sub_np(NP) tycker om $value(NP) "
+{ $sub_np(NP) /pres emotion [k affection ] $value(NP) } .
+
+# Emotion : joy (focused + ambient)
+" $sub_np(NP) gläder sig åt $value(NP) "
+{ $sub_np(NP) /pres emotion [k joy ] $value(NP) } .
+" $sub_np(NP) är glad "
+{ $sub_np(NP) /pres emotion [k joy ] } .
+
+# Emotion : grief (focused + ambient)
+" $sub_np(NP) sörjer $value(NP) "
+{ $sub_np(NP) /pres emotion [k grief ] $value(NP) } .
+" $sub_np(NP) är ledsen "
+{ $sub_np(NP) /pres emotion [k grief ] } .
+
+# Emotion : anger (focused + ambient)
+" $sub_np(NP) är arg på $value(NP) "
+{ $sub_np(NP) /pres emotion [k anger ] $value(NP) } .
+" $sub_np(NP) är arg "
+{ $sub_np(NP) /pres emotion [k anger ] } .
+
+# Emotion : fear (focused + ambient)
+" $sub_np(NP) är rädd för $value(NP) "
+{ $sub_np(NP) /pres emotion [k fear ] $value(NP) } .
+" $sub_np(NP) är rädd "
+{ $sub_np(NP) /pres emotion [k fear ] } .
+
+
+# INTEREST - kind-valued plural attribute, one belief per topic. Same shape
+# as English; only the surface differs.
+" $sub_np(NP) är intresserad av $kind(KIND|/isa|interest) "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|interest) } .
+
+
+# POSSESSIVE RELATIONS - first-person and second-person possessive shapes,
+# mirroring English's "my X is Y" / "your X is Y" forms.
+
+# "Min mor är Anna." - first-person possessive (any kinship relation).
+" $my(PRONOUN) $rel(REL) är $value(NP) "
+{ $my(PRONOUN) /pres $rel(REL) $value(NP) }
+.
+
+" $my(PRONOUN) $rel(REL) var $value(NP) "
+{ $my(PRONOUN) /past $rel(REL) $value(NP) }
+.
+
+# Passive-name form for proper-name targets: "Marias namn är Anna."
+" $sub_np(NP) ++s $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME)"
+{ $sub_np(NP)      $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) } .
+
+# Passive-num form for numeric targets: "Marias ålder var 24."
+" $sub_np(NP) ++s ålder $num_rel(PASSIVE_NUM_REL) $num(NUM)"
+{ $sub_np(NP)            $num_rel(PASSIVE_NUM_REL) $num(NUM) } .
+
+# Passive-rel form for noun-phrase targets, plural and singular.
+" $sub_np(NP) ++s $passive_rel(PASSIVE_REL) $np(NP) "
+{ $sub_np(NP)      $passive_rel(PASSIVE_REL) $np(NP) }
+.

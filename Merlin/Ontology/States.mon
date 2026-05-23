@@ -37,6 +37,19 @@ relation
             distrusts           /tar human
             # value: a held virtue - the identity / values appraisal input.
             value               /tar ?
+            # justify: a held cognitive narrative that frames a past or
+            # planned act as acceptable (plan section 10.3-AFFECT item E).
+            # Target is a `narrative` kind ({@self justify they_deserved_it
+            # /aux <victim>}). Pre-perpetration deliberation events mint
+            # justify on the chosen harmful branch as the actor commits;
+            # post-perpetration the actor-POV reaction row mints it when
+            # moral_violation pressure crosses threshold. Each held
+            # justification discounts inhibition (item D's classifier) so
+            # the second bar is lower than the first - the rationalization
+            # feedback loop that turns a one-off crime into a habit.
+            # Detective-gameplay payoff: a guilty NPC's justify beliefs are
+            # queryable through normal interrogation.
+            justify             /tar narrative
 
         # Construals - relational appraisal categories emitted by the
         # appraisal categorizer (never authored by hand), observer-relative
@@ -156,6 +169,17 @@ relation
             # aspects directly, this caches the fused score for the F3 cascade
             # and the interview.
             disinhibition       /tar ? @excl
+            # inhibition: the moral/conscientious brake (plan section
+            # 10.3-AFFECT item D). Fuses Big Five aspects (politeness +
+            # industriousness + compassion), F3 dimensions (piety + decorum -
+            # disinhibition), held virtues, current stress, and held
+            # rationalizations. Higher inhibition = less likely to cross moral
+            # lines under pressure; deliberation events read this to weight
+            # their forgive / confess / kill branches. The runaway feedback
+            # loop is built in: stress lowers inhibition, lowered inhibition
+            # makes a harm branch likelier to fire, the harm event mints
+            # justify beliefs which further lower inhibition.
+            inhibition          /tar ? @excl
             # Material
             wealth              /tar ? @excl
             income_security     /tar ? @excl
@@ -177,6 +201,14 @@ relation
             belonging           /tar ? @excl
             contentment         /tar ? @excl
             agitation           /tar ? @excl
+            # stress: the salience-weighted aggregate of standing `pressure`
+            # beliefs (plan section 10.3-AFFECT item F). Sibling to
+            # contentment / agitation; written by derive_mood. 0..100. Read by
+            # the inhibition classifier (item D) and the stress-biased
+            # categorize() threshold (item G) - both produce the runaway
+            # feedback loop that turns simmering pressure into paranoid
+            # construal and crime-decision motivation.
+            stress              /tar ? @excl
             purpose             /tar ? @excl
             autonomy            /tar ? @excl
             # Rootedness in the community - tenure, employer, property, kin,

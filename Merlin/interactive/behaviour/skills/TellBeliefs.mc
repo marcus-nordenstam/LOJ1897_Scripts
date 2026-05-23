@@ -29,9 +29,7 @@ rule tell-beliefs-compute
 (bb_private_none ?tell tell_beliefs_payload)
 (none {@self /succ TELL ? ?asker /causes ~?tell})
    ->
-(print "tell-beliefs-compute fired: sub= ?sub  label_kind= ?label_kind  asker= ?asker")
 (every {?sub ?label_kind ?tgt ?aux}): ?belief_list
-(print "tell-beliefs-compute: every-returned ?belief_list")
 (bb_private_write ?tell tell_beliefs_payload ?belief_list).
 
 

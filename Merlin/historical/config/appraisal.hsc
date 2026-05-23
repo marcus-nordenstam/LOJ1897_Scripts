@@ -12,15 +12,20 @@
 ; ----------------------------------------------------------------------------
 
 ; ---- global tuning ---------------------------------------------------------
-; max-emotion-salience : hours - ceiling on a compounded emotion's decay
-;                        window (a re-appraised grievance bumps salience up
-;                        to this cap).
-; mood-salience-gain   : agitation 0 -> emotion salience x1.0; peak agitation
-;                        -> x(1 + gain). The event -> emotion -> mood ->
-;                        biased-appraisal feedback loop.
+; max-emotion-salience  : hours - ceiling on a compounded emotion's decay
+;                         window (a re-appraised grievance bumps salience up
+;                         to this cap).
+; max-pressure-salience : hours - ceiling on a compounded pressure's decay
+;                         window. Pressures run weeks-to-years vs emotion's
+;                         hours-to-days; default 8760h = 1 year (plan section
+;                         10.3-AFFECT item A).
+; mood-salience-gain    : agitation 0 -> emotion salience x1.0; peak agitation
+;                         -> x(1 + gain). The event -> emotion -> mood ->
+;                         biased-appraisal feedback loop.
 (tuning
-  :max-emotion-salience 336
-  :mood-salience-gain   0.5)
+  :max-emotion-salience   336
+  :max-pressure-salience  8760
+  :mood-salience-gain     0.5)
 
 ; ---- emotion affect --------------------------------------------------------
 ; Per-emotion-kind valence and arousal. derive_mood folds the salience-
@@ -45,6 +50,26 @@
 (emotion-affect disgust   :valence -1.0 :arousal 0.5)
 (emotion-affect contempt  :valence -1.0 :arousal 0.4)
 
+; ---- pressure affect -------------------------------------------------------
+; Per-pressure-kind contribution to the `stress` mood dimension (plan section
+; 10.3-AFFECT item F). Higher :stress = more stress per intensity unit. A
+; pressure kind without a row contributes zero stress (so authoring is
+; opt-in). stress feeds the inhibition classifier (item D, lowers the
+; inhibition floor) and the stress-biased categorize() threshold (item G,
+; makes ambiguous events read as wrong / threaten when the appraiser is
+; loaded - the paranoid-spiral / simmering-revenge feedback loop).
+(pressure-affect humiliation        :stress 0.8)
+(pressure-affect existential_threat :stress 1.0)
+(pressure-affect exposure_risk      :stress 0.7)
+(pressure-affect moral_violation    :stress 0.6)
+(pressure-affect injustice          :stress 0.7)
+(pressure-affect status_loss        :stress 0.6)
+(pressure-affect attachment_loss    :stress 0.7)
+(pressure-affect autonomy_loss      :stress 0.5)
+(pressure-affect resource_scarcity  :stress 0.6)
+(pressure-affect obligation_strain  :stress 0.4)
+(pressure-affect rivalry_pressure   :stress 0.5)
+
 ; ---- trait affect ----------------------------------------------------------
 ; How a Big Five personality aspect modulates the salience of the emotions it
 ; governs. When the appraiser holds <aspect> at value t in [0,1] (mean 0.5), a
@@ -62,19 +87,35 @@
 (trait-affect enthusiasm :amplifies joy hope pride gratitude affection relief :gain 0.6)
 
 ; ---- category reactions ----------------------------------------------------
-; One (reaction <category>) row per construal category. apply_construal looks
-; up the row by the construal's label and runs it from the patient's point of
-; view (when @self is the construed patient).
+; One (reaction <category> :pov <pov>) row per (construal category, appraiser
+; POV) pair. apply_construal looks up the row by the construal's label AND
+; the appraiser's role - the SAME category fires different rows depending on
+; whether @self is the patient, the actor, or a third-party observer.
 ;
-;   (mint <emotion-kind> :focus actor|patient|none :salience <hours>)
+;   :pov patient       (default if omitted) - @self is the construed patient.
+;                      Anger / distress / shame patterns.
+;   :pov actor         @self is the construed perpetrator. Guilt / fear /
+;                      moral_violation pressure patterns; post-crime psychology
+;                      lives here (plan section 10.3-AFFECT item C).
+;   :pov third_party   @self is neither - a witness or member of the patient's
+;                      social circle who holds the anchor (via gossip or
+;                      direct perception). Softer-salience patient-like
+;                      reactions; the engine half of "the village forms a
+;                      view".
+;
+;   (mint <emotion-kind> :focus actor|patient|self|none :salience <hours>)
 ;       Mint {@self emotion <kind> <focus>}. focus actor / patient resolves
-;       to the construal's subject / target; none leaves the focus blank.
+;       to the construal's subject / target; self resolves to the appraiser
+;       themselves (useful on actor-POV rows where the actor IS @self);
+;       none leaves the focus blank.
 ;       salience is the base decay window, before the mood scaling.
 ;   (end-bond   <relation-label>)   ends   {@self <label> <actor>}
 ;   (begin-bond <relation-label>)   begins {@self <label> <actor>}
 ;
 ; Only `betray` has a category test in appraisal.cc today; adding a test
-; there plus a row here is all a new category needs.
+; there plus a row here is all a new category needs. Author the actor and
+; third_party POV rows as new categories with crime-perpetration consequences
+; come online (plan Phase B item 8).
 (reaction betray
   (mint anger :focus actor :salience 12)
   (mint grief :focus none  :salience 72)

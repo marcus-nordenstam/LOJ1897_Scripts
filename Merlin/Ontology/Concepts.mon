@@ -84,6 +84,44 @@ concept
         disgust
         contempt
 
+    # Personal pressure - second-order standing motivational loads that build
+    # when beliefs + drives + appraisals + constraints converge (plan section
+    # 10.3-AFFECT item A). Parallel to emotion in shape - {subject pressure
+    # <kind>} with the directed focus in aux - but with multi-week to
+    # multi-year salience windows (vs emotion's hours to days) and a
+    # different mood contribution (pressures feed the `stress` dimension, not
+    # contentment / agitation). Non-@excl: pressures stack - the layered
+    # motive a deliberation event reads IS the stacked pressure set.
+    pressure            /sub human
+        status_loss
+        attachment_loss
+        autonomy_loss
+        exposure_risk
+        resource_scarcity
+        humiliation
+        injustice
+        moral_violation
+        existential_threat
+        obligation_strain
+        rivalry_pressure
+
+    # Justifying narratives - the cognitive frames an NPC holds to make a
+    # past or planned harmful act acceptable to themselves (plan section
+    # 10.3-AFFECT item E). Target of the `justify` attitude
+    # (States.mon): {@self justify they_deserved_it /aux <victim>}. The held
+    # narrative discounts inhibition; a guilty NPC's justify beliefs are
+    # queryable through interrogation in isim. Different perpetrators hold
+    # different narratives; a non-guilty NPC holds none.
+    narrative
+        they_deserved_it
+        i_had_no_choice
+        it_was_necessary
+        everyone_does_this
+        i_was_protecting_kin
+        they_are_subhuman
+        the_law_is_unjust
+        self_defense
+
     # Hereditary interests. Seeded as {@self interest <kind>} self-beliefs in
     # mx_make_human and grown / shed by the interest_acquired / interest_lost
     # hsim events. Non-@excl - an NPC may hold several. The kind subtree below

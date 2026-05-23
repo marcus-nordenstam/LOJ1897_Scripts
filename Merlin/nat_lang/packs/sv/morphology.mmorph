@@ -1,0 +1,46 @@
+# -----------------------------------------------------------------------------
+# morphology.mmorph - Swedish-pack morphology (Phase 7, plan section 7.1).
+#
+# Currently scoped to cardinal-number-to-words. The engine's compose style
+# = swedish concatenates tens + ones with no separator ("tjugofyra"), and
+# composes 100s with the "hundra" suffix and no "och" ("etthundratjugotre").
+#
+# Non-interned and hot-reloadable - editing this file needs no .msb regen.
+# -----------------------------------------------------------------------------
+
+style: swedish
+hundred: hundra
+
+# Ones
+number 0 = noll
+number 1 = ett
+number 2 = två
+number 3 = tre
+number 4 = fyra
+number 5 = fem
+number 6 = sex
+number 7 = sju
+number 8 = åtta
+number 9 = nio
+
+# Teens
+number 10 = tio
+number 11 = elva
+number 12 = tolv
+number 13 = tretton
+number 14 = fjorton
+number 15 = femton
+number 16 = sexton
+number 17 = sjutton
+number 18 = arton
+number 19 = nitton
+
+# Tens (the composer fills 21..29 = "tjugo"+"ett".."nio" etc.)
+number 20 = tjugo
+number 30 = trettio
+number 40 = fyrtio
+number 50 = femtio
+number 60 = sextio
+number 70 = sjuttio
+number 80 = åttio
+number 90 = nittio
