@@ -32,6 +32,22 @@ schema person_description:
   slot regard      opt
   slot coda        opt
 
+# --- Discourse schema for "tell me about X's relationship" --------------------
+# The kind-quantified relationship discourse. Every body fact is a kin / social
+# bond clause - the (msg ...) wire's labels are all is_a [k relationship]. The
+# opening still names the subject (intro template) so the body can pronominalise;
+# the body groups family kin (parents, spouse, children, siblings, extended)
+# from non-kin bonds (friends, neighbours).
+schema relationship_description:
+  slot opening      req
+  slot parents      opt
+  slot spouse       opt
+  slot children     opt
+  slot siblings     opt
+  slot extended_kin opt
+  slot bonds        opt
+  slot coda         opt
+
 # --- Affect-conditioned phrasing-intent selection ----------------------------
 # The condition vocabulary: affect:<term> (the speaker's regard / mood toward
 # the subject or listener), cog:<style>, role:<role>, class / bond / formality.
@@ -77,4 +93,32 @@ select regard:
 select coda:
   affect:dislikes   -> curt neutral
   affect:likes      -> warm neutral
+  *                 -> neutral
+
+# --- relationship_description slot selection ---------------------------------
+# The opening is the same vocative-name template as person_description
+# (already tagged `:: intro` and matched via slot-bound intent priority).
+# Body slots default to neutral; future intent-tagged kinship templates can
+# differentiate by affect.
+
+select parents:
+  affect:loves      -> warm neutral
+  *                 -> neutral
+
+select spouse:
+  affect:loves      -> warm flowery neutral
+  *                 -> neutral
+
+select children:
+  affect:loves      -> warm neutral
+  *                 -> neutral
+
+select siblings:
+  *                 -> neutral
+
+select extended_kin:
+  *                 -> neutral
+
+select bonds:
+  affect:loves      -> warm neutral
   *                 -> neutral

@@ -47,6 +47,33 @@ $form(FORM)
 { ?_I /pres goal { ?_you /pres tell_about $obj(NP) ?_I } }
 .
 
+# Kind-quantified content request: "tell me about Olivia's relationships",
+# "tell me about her interests", "tell me about his condition". The
+# $state_kind hole accepts any noun-kind word; plural forms (relationships,
+# interests) are stripped to singular by the kind-class resolver
+# (canonical_singular_kind_name in nat_lang.cc). The target is an INLINE
+# BELIEF PATTERN {subject <state_kind> ? ?} - the answering rule runs
+# (every ...) on this pattern; the (every ...) call is implied, not
+# packaged into the belief (tasks are beliefs and beliefs can't carry
+# function calls in their slots). No /isa restriction in v1 - admitting
+# any noun-kind keeps the grammar permissive (an unmatched query just
+# returns an empty (msg ...) downstream).
+"tell me about $obj(NP) ++'s $state_kind(KIND)"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { $obj(NP) $state_kind(KIND) ? ? } ?_I } }
+.
+
+# Possessive-pronoun shortcut: "tell me about your relationships" - no
+# trailing 's needed because "your" / "my" / "his" / "her" already encode
+# the possessive. NPC describes its own beliefs (subject = ?_you = @self
+# in the receiving rule), which avoids any cross-mind subject resolution.
+"tell me about your $state_kind(KIND)"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { ?_you $state_kind(KIND) ? ? } ?_I } }
+.
+
+"tell me about my $state_kind(KIND)"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { ?_I $state_kind(KIND) ? ? } ?_I } }
+.
+
 
 # BARE-IS ATTRIBUTE STATEMENTS
 # e.g. "john is 56", "john is english", "john is a physician".

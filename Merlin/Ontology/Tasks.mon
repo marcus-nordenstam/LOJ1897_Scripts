@@ -35,6 +35,17 @@ relation
 
             tell_about                              /sub @msgAuthor human /tar ? /aux @msgAudience human
 
+            # tell_beliefs: kind-quantified content request. Target is a
+            # BELIEF PATTERN like {?sub [k <state_kind>] ? ?} - the pattern
+            # IS the query. The (every ...) search is implied by the
+            # answering rule, not packaged into the belief (tasks are
+            # beliefs, and beliefs cannot contain function calls in their
+            # slots; nested-event patterns are admitted via @S). The
+            # classifier reads the pattern's label-kind to dispatch the
+            # right discourse genre (e.g. [k relationship] ->
+            # relationship_description). See Docs/dialogue_nlg_plan.md.
+            tell_beliefs                            /sub @msgAuthor human /tar @S /aux @msgAudience human
+
             order                       /motor legs
             serve_beer                  /motor mind   /tar human
 
