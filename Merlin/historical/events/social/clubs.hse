@@ -51,6 +51,11 @@
     (log _club_founding ?founder)))
 
 ; --- club_joining: an adult joins an existing club --------------------------
+;; Clubs gate on character and class: a scandalous or disreputable member is
+;; blackballed; the matching pool is restricted to the candidate's class
+;; band (a working man does not join a gentlemen's club). Permissive when the
+;; cached belief is missing - a new adult appraised before december still
+;; reads @fail and is not excluded by the (not (= ...)) form.
 (hsim-event club_joining
   (nl         "?member joins a club")
   (kind       _club_joining)
@@ -62,9 +67,13 @@
     (role ?member (template old_human)
                   (>= (years-old ?self) 18)
                   (< (count-beliefs ?self member_of) 2)
+                  (not (= (situation ?self respectability_situation) scandalous))
+                  (not (= (situation ?self respectability_situation) disreputable))
                   (chance 0.06))
     (role ?club_articles (template org_articles)
-                         (org-kind-is-a ?self club)))
+                         (org-kind-is-a ?self club)
+                         (= (situation (org-founder ?self) class_situation)
+                            (situation ?member class_situation))))
 
   (effects
     ; register-member is idempotent on the roster - re-picking the member's

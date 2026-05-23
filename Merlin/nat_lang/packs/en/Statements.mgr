@@ -49,14 +49,29 @@ $form(FORM)
 { $sub_np(NP) /pres age $num(NUM) }
 .
 
+# Terse age - clipped, comma-attached, no copula. The clerk-ledger voice: a
+# fact dropped on the floor without ceremony. Picked by the .mph age select
+# when cog:abstract holds (the speaker compresses to the claim).
+" $sub_np(NP) ++, $num(NUM) "
+{ $sub_np(NP) /pres age $num(NUM) }
+.
+:: terse curt
+
 "$sub_np(NP) is $kind(KIND|/isa|nationality)"
 { $sub_np(NP) /pres nationality $kind(KIND|/isa|nationality) }
 .
 
-# Occupation - two phrasings of the same belief shape. "works as a X" is the
-# longer / more conversational default; "is a X" is the curt / terse form,
-# picked when the sentence planner's intent preference asks for it. Both
-# materialize the same belief, so parsing accepts either form.
+# class_situation is a kind-valued state ([k lower] / [k middle] / [k upper]);
+# the trailing "-class" suffix reads naturally for all three values.
+"$sub_np(NP) is $kind(KIND|/isa|class_situation) ++-class"
+{ $sub_np(NP) /pres class_situation $kind(KIND|/isa|class_situation) }
+.
+
+# Occupation - several phrasings of the same belief shape. "works as a X" is
+# the longer / more conversational default; "is a X" is the curt / terse form;
+# "makes his living as a X" is the affectionate / approving form, picked when
+# the speaker holds the subject in regard. All materialize the same belief, so
+# parsing accepts any of them.
 "$sub_np(NP) works as a $kind(KIND|/isa|job)"
 { $sub_np(NP) /pres job $kind(KIND|/isa|job) }
 .
@@ -65,6 +80,13 @@ $form(FORM)
 { $sub_np(NP) /pres job $kind(KIND|/isa|job) }
 .
 :: curt terse
+
+# Warm - the speaker approves of the subject's livelihood; "makes his living"
+# casts honest labour as a virtue. The 1897-narrator turn of phrase.
+"$sub_np(NP) makes his living as a $kind(KIND|/isa|job)"
+{ $sub_np(NP) /pres job $kind(KIND|/isa|job) }
+.
+:: warm
 
 
 # THIRD-PARTY KINSHIP / RELATION STATEMENTS.
@@ -104,16 +126,323 @@ $form(FORM)
 " $sub_np(NP) ++'s neighbour is $value(NP) "
 { $sub_np(NP) /pres neighbour $value(NP) } .
 
+# Terse / curt variants - fronted-name, dropped copula. The clerkly form a
+# brisk speaker reaches for when reciting a kinship roster: "Emily, Charlotte's
+# mother." Same belief shape as the neutral form above; parse accepts either.
+# The .mph relations select picks these when cog:abstract or intent:terse holds.
+" $value(NP) ++, $sub_np(NP) ++'s mother "
+{ $sub_np(NP) /pres mother $value(NP) } .
+:: terse curt
+" $value(NP) ++, $sub_np(NP) ++'s father "
+{ $sub_np(NP) /pres father $value(NP) } .
+:: terse curt
+" $value(NP) ++, $sub_np(NP) ++'s parent "
+{ $sub_np(NP) /pres parent $value(NP) } .
+:: terse curt
+" $value(NP) ++, $sub_np(NP) ++'s sibling "
+{ $sub_np(NP) /pres sibling $value(NP) } .
+:: terse curt
+" $value(NP) ++, $sub_np(NP) ++'s brother "
+{ $sub_np(NP) /pres brother $value(NP) } .
+:: terse curt
+" $value(NP) ++, $sub_np(NP) ++'s sister "
+{ $sub_np(NP) /pres sister $value(NP) } .
+:: terse curt
+" $value(NP) ++, $sub_np(NP) ++'s child "
+{ $sub_np(NP) /pres child $value(NP) } .
+:: terse curt
+" $value(NP) ++, $sub_np(NP) ++'s spouse "
+{ $sub_np(NP) /pres spouse $value(NP) } .
+:: terse curt
+" $value(NP) ++, $sub_np(NP) ++'s fiancee "
+{ $sub_np(NP) /pres fiancee $value(NP) } .
+:: terse curt
+" $value(NP) ++, $sub_np(NP) ++'s friend "
+{ $sub_np(NP) /pres friend $value(NP) } .
+:: terse curt
+" $value(NP) ++, $sub_np(NP) ++'s neighbour "
+{ $sub_np(NP) /pres neighbour $value(NP) } .
+:: terse curt
+
+# Warm variants - "dear" prepended, the affectionate-narrator's gloss for kin
+# the speaker holds in regard. Mirrors the first-person "my dear mother" form
+# above; same belief shape as the neutral third-party templates.
+" $sub_np(NP) ++'s dear mother is $value(NP) "
+{ $sub_np(NP) /pres mother $value(NP) } .
+:: warm
+" $sub_np(NP) ++'s dear father is $value(NP) "
+{ $sub_np(NP) /pres father $value(NP) } .
+:: warm
+" $sub_np(NP) ++'s dear sister is $value(NP) "
+{ $sub_np(NP) /pres sister $value(NP) } .
+:: warm
+" $sub_np(NP) ++'s dear brother is $value(NP) "
+{ $sub_np(NP) /pres brother $value(NP) } .
+:: warm
+" $sub_np(NP) ++'s dear sibling is $value(NP) "
+{ $sub_np(NP) /pres sibling $value(NP) } .
+:: warm
+" $sub_np(NP) ++'s dear child is $value(NP) "
+{ $sub_np(NP) /pres child $value(NP) } .
+:: warm
+" $sub_np(NP) ++'s dear spouse is $value(NP) "
+{ $sub_np(NP) /pres spouse $value(NP) } .
+:: warm
+" $sub_np(NP) ++'s dear friend is $value(NP) "
+{ $sub_np(NP) /pres friend $value(NP) } .
+:: warm
+
 # Birthplace / home are object-valued; same possessive shape.
 " $sub_np(NP) ++'s birthplace is $value(NP) "
 { $sub_np(NP) /pres birthplace $value(NP) } .
 " $sub_np(NP) ++'s home is $value(NP) "
 { $sub_np(NP) /pres home $value(NP) } .
 
+# ---------------------------------------------------------------------------
+# REGARD-SLOT CLAUSES - love and emotion beliefs.
+# ---------------------------------------------------------------------------
+# The .mph person_description schema's `regard` slot is filled by {X love Y}
+# and {X emotion <kind> <focus>} beliefs (see discourse_planner.cc's slot_for_label).
+# Several intent-tagged variants per shape: the .mph regard select walks
+# warm -> flowery -> blunt -> curt -> deferential -> neutral, falling through
+# until a template carrying the chosen intent exists for the belief.
+#
+# Belief shapes:
+#   { X /pres love Y }                     - 3 args, Y is a human object.
+#   { X /pres emotion [k <kind>] }         - 3 args, ambient (no focus, aux=_).
+#   { X /pres emotion [k <kind>] Y }       - 4 args, Y is what the feeling is
+#                                            about (the focus, in aux slot).
+#
+# All variants share their belief shape with the neutral fallback - parsing
+# any of the surface forms recovers the same MC.
+
+# --- LOVE (person_role) ----------------------------------------------------
+
+# Neutral - the unmarked statement of love. The .mph fallback chain always
+# ends here, so EVERY love belief renders even when no intent matches.
+" $sub_np(NP) loves $value(NP) "
+{ $sub_np(NP) /pres love $value(NP) } .
+
+# Warm - the affectionate narrator's gloss. "Loves dearly" tags the love
+# with the speaker's own approval; the warmest non-flowery reading.
+" $sub_np(NP) loves $value(NP) dearly "
+{ $sub_np(NP) /pres love $value(NP) } .
+:: warm
+
+# Flowery - the romantic-narrator's grand register. The figurative reach a
+# sensory speaker takes when describing someone they themselves love.
+" $sub_np(NP) holds $value(NP) dear above all the world "
+{ $sub_np(NP) /pres love $value(NP) } .
+:: flowery
+
+# Blunt - the matter-of-fact recital, no varnish. Picked when the speaker
+# resents the subject and grudgingly reports the bond as fact.
+" $sub_np(NP) dotes on $value(NP) "
+{ $sub_np(NP) /pres love $value(NP) } .
+:: blunt
+
+# Curt - the dismissive aside, half-shrugged. "Carries a torch for" carries
+# the faint disapproval a brisk gossip puts on someone else's attachment.
+" $sub_np(NP) carries a torch for $value(NP) "
+{ $sub_np(NP) /pres love $value(NP) } .
+:: curt
+
+# Deferential - cautious, formal, "given to understand". Picked when the
+# speaker fears the subject and reports the bond at a respectful remove.
+" $sub_np(NP) is given to a deep regard for $value(NP) "
+{ $sub_np(NP) /pres love $value(NP) } .
+:: deferential
+
+" $sub_np(NP) loved $value(NP) "
+{ $sub_np(NP) /past love $value(NP) } .
+
+# --- EMOTION : AFFECTION (object focus) ------------------------------------
+" $sub_np(NP) is fond of $value(NP) "
+{ $sub_np(NP) /pres emotion [k affection ] $value(NP) } .
+" $sub_np(NP) feels great tenderness toward $value(NP) "
+{ $sub_np(NP) /pres emotion [k affection ] $value(NP) } .
+:: warm flowery
+" $sub_np(NP) thinks well enough of $value(NP) "
+{ $sub_np(NP) /pres emotion [k affection ] $value(NP) } .
+:: curt
+
+# --- EMOTION : JOY ---------------------------------------------------------
+" $sub_np(NP) delights in $value(NP) "
+{ $sub_np(NP) /pres emotion [k joy ] $value(NP) } .
+" $sub_np(NP) takes the greatest joy in $value(NP) "
+{ $sub_np(NP) /pres emotion [k joy ] $value(NP) } .
+:: warm flowery
+" $sub_np(NP) likes $value(NP) well enough "
+{ $sub_np(NP) /pres emotion [k joy ] $value(NP) } .
+:: curt
+" $sub_np(NP) is glad "
+{ $sub_np(NP) /pres emotion [k joy ] } .
+
+# --- EMOTION : PRIDE -------------------------------------------------------
+" $sub_np(NP) is proud of $value(NP) "
+{ $sub_np(NP) /pres emotion [k pride ] $value(NP) } .
+" $sub_np(NP) takes a great pride in $value(NP) "
+{ $sub_np(NP) /pres emotion [k pride ] $value(NP) } .
+:: warm flowery
+" $sub_np(NP) thinks highly of himself for $value(NP) "
+{ $sub_np(NP) /pres emotion [k pride ] $value(NP) } .
+:: blunt
+
+# --- EMOTION : GRIEF -------------------------------------------------------
+" $sub_np(NP) grieves for $value(NP) "
+{ $sub_np(NP) /pres emotion [k grief ] $value(NP) } .
+" $sub_np(NP) is heartbroken over $value(NP) "
+{ $sub_np(NP) /pres emotion [k grief ] $value(NP) } .
+:: flowery
+" $sub_np(NP) bears a great sorrow for $value(NP) "
+{ $sub_np(NP) /pres emotion [k grief ] $value(NP) } .
+:: deferential
+" $sub_np(NP) hasn't gotten over $value(NP) "
+{ $sub_np(NP) /pres emotion [k grief ] $value(NP) } .
+:: curt
+" $sub_np(NP) is sad "
+{ $sub_np(NP) /pres emotion [k grief ] } .
+
+# --- EMOTION : ANGER (the "resents" reading) ------------------------------
+" $sub_np(NP) is angry at $value(NP) "
+{ $sub_np(NP) /pres emotion [k anger ] $value(NP) } .
+" $sub_np(NP) cannot abide $value(NP) "
+{ $sub_np(NP) /pres emotion [k anger ] $value(NP) } .
+:: blunt
+" $sub_np(NP) has no patience for $value(NP) "
+{ $sub_np(NP) /pres emotion [k anger ] $value(NP) } .
+:: curt
+" $sub_np(NP) bears a long-standing grievance against $value(NP) "
+{ $sub_np(NP) /pres emotion [k anger ] $value(NP) } .
+:: flowery
+" $sub_np(NP) is angry "
+{ $sub_np(NP) /pres emotion [k anger ] } .
+
+# --- EMOTION : FEAR --------------------------------------------------------
+" $sub_np(NP) is afraid of $value(NP) "
+{ $sub_np(NP) /pres emotion [k fear ] $value(NP) } .
+" $sub_np(NP) lives in great dread of $value(NP) "
+{ $sub_np(NP) /pres emotion [k fear ] $value(NP) } .
+:: flowery
+" $sub_np(NP) holds $value(NP) in awe and apprehension "
+{ $sub_np(NP) /pres emotion [k fear ] $value(NP) } .
+:: deferential
+" $sub_np(NP) gives $value(NP) a wide berth "
+{ $sub_np(NP) /pres emotion [k fear ] $value(NP) } .
+:: curt
+" $sub_np(NP) is afraid "
+{ $sub_np(NP) /pres emotion [k fear ] } .
+
+# --- EMOTION : SHAME -------------------------------------------------------
+" $sub_np(NP) is ashamed of $value(NP) "
+{ $sub_np(NP) /pres emotion [k shame ] $value(NP) } .
+" $sub_np(NP) bears a deep shame over $value(NP) "
+{ $sub_np(NP) /pres emotion [k shame ] $value(NP) } .
+:: deferential flowery
+" $sub_np(NP) is not proud of $value(NP) "
+{ $sub_np(NP) /pres emotion [k shame ] $value(NP) } .
+:: curt
+
+# --- EMOTION : GUILT -------------------------------------------------------
+" $sub_np(NP) feels guilty about $value(NP) "
+{ $sub_np(NP) /pres emotion [k guilt ] $value(NP) } .
+" $sub_np(NP) cannot forgive himself for $value(NP) "
+{ $sub_np(NP) /pres emotion [k guilt ] $value(NP) } .
+:: flowery deferential
+" $sub_np(NP) carries a weight over $value(NP) "
+{ $sub_np(NP) /pres emotion [k guilt ] $value(NP) } .
+:: warm
+
+# --- EMOTION : ENVY --------------------------------------------------------
+" $sub_np(NP) envies $value(NP) "
+{ $sub_np(NP) /pres emotion [k envy ] $value(NP) } .
+" $sub_np(NP) cannot help but envy $value(NP) "
+{ $sub_np(NP) /pres emotion [k envy ] $value(NP) } .
+:: blunt
+" $sub_np(NP) covets what $value(NP) has "
+{ $sub_np(NP) /pres emotion [k envy ] $value(NP) } .
+:: curt
+
+# --- EMOTION : JEALOUSY ---------------------------------------------------
+" $sub_np(NP) is jealous of $value(NP) "
+{ $sub_np(NP) /pres emotion [k jealousy ] $value(NP) } .
+" $sub_np(NP) burns with jealousy over $value(NP) "
+{ $sub_np(NP) /pres emotion [k jealousy ] $value(NP) } .
+:: flowery
+" $sub_np(NP) keeps a jealous eye on $value(NP) "
+{ $sub_np(NP) /pres emotion [k jealousy ] $value(NP) } .
+:: curt
+
+# --- EMOTION : CONTEMPT ---------------------------------------------------
+" $sub_np(NP) holds $value(NP) in contempt "
+{ $sub_np(NP) /pres emotion [k contempt ] $value(NP) } .
+" $sub_np(NP) has no time at all for $value(NP) "
+{ $sub_np(NP) /pres emotion [k contempt ] $value(NP) } .
+:: blunt curt
+" $sub_np(NP) regards $value(NP) with the deepest scorn "
+{ $sub_np(NP) /pres emotion [k contempt ] $value(NP) } .
+:: flowery
+
+# --- EMOTION : DISGUST ----------------------------------------------------
+" $sub_np(NP) is disgusted by $value(NP) "
+{ $sub_np(NP) /pres emotion [k disgust ] $value(NP) } .
+" $sub_np(NP) cannot stomach $value(NP) "
+{ $sub_np(NP) /pres emotion [k disgust ] $value(NP) } .
+:: blunt curt
+" $sub_np(NP) finds $value(NP) thoroughly repellent "
+{ $sub_np(NP) /pres emotion [k disgust ] $value(NP) } .
+:: flowery
+
+# --- EMOTION : GRATITUDE --------------------------------------------------
+" $sub_np(NP) is grateful to $value(NP) "
+{ $sub_np(NP) /pres emotion [k gratitude ] $value(NP) } .
+" $sub_np(NP) owes $value(NP) a debt of the heart "
+{ $sub_np(NP) /pres emotion [k gratitude ] $value(NP) } .
+:: warm flowery
+" $sub_np(NP) is much beholden to $value(NP) "
+{ $sub_np(NP) /pres emotion [k gratitude ] $value(NP) } .
+:: deferential
+
+# --- EMOTION : HOPE / RELIEF / DISTRESS (ambient + focused) ---------------
+" $sub_np(NP) hopes for $value(NP) "
+{ $sub_np(NP) /pres emotion [k hope ] $value(NP) } .
+" $sub_np(NP) is hopeful "
+{ $sub_np(NP) /pres emotion [k hope ] } .
+" $sub_np(NP) is relieved about $value(NP) "
+{ $sub_np(NP) /pres emotion [k relief ] $value(NP) } .
+" $sub_np(NP) is relieved "
+{ $sub_np(NP) /pres emotion [k relief ] } .
+" $sub_np(NP) is distressed about $value(NP) "
+{ $sub_np(NP) /pres emotion [k distress ] $value(NP) } .
+" $sub_np(NP) is distressed "
+{ $sub_np(NP) /pres emotion [k distress ] } .
+
+# ---------------------------------------------------------------------------
+
 # Interests is a kind-valued plural; one belief per interest. KIND strips the
-# bracket form so [k music] -> "music".
+# bracket form so [k music] -> "music". The neutral default - kept as the
+# fallback the .mph select chain always lands on.
 " $sub_np(NP) is interested in $kind(KIND|/isa|interests) "
 { $sub_np(NP) /pres interests $kind(KIND|/isa|interests) } .
+
+# Warm - the speaker holds the subject in regard. "Fond of" softens the bare
+# fact into approval; the interest becomes something the subject is loved for.
+" $sub_np(NP) is fond of $kind(KIND|/isa|interests) "
+{ $sub_np(NP) /pres interests $kind(KIND|/isa|interests) } .
+:: warm
+
+# Flowery - the .mph escalates warm to flowery when cog:sensory holds.
+# A figurative, romantic-narrator reach: not an interest, but a passion.
+" $sub_np(NP) has a great love of $kind(KIND|/isa|interests) "
+{ $sub_np(NP) /pres interests $kind(KIND|/isa|interests) } .
+:: flowery
+
+# Curt - the speaker resents the subject. Dismissive bare-acknowledgement form
+# - "cares for" said with a shrug, the way the disapproving narrator concedes
+# a fact they don't think much of.
+" $sub_np(NP) cares for $kind(KIND|/isa|interests) "
+{ $sub_np(NP) /pres interests $kind(KIND|/isa|interests) } .
+:: curt
 
 
 # POSSESSIVE RELATIONS EXPRESSED IN THE PASSIVE FORM

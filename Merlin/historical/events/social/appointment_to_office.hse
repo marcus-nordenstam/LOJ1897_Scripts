@@ -1,0 +1,49 @@
+; ----------------------------------------------------------------------------
+; appointment_to_office (Phase 9.3). An exemplary, high-prestige adult is
+; appointed to a public role (church / hospital / agency) at a senior rank.
+; "Which office a person holds is just their job / employment state" (plan
+; 9.3): no new `held_office` label - this is ordinary employment, gated on
+; exemplary character + high prestige + a public (gov-subkind) org.
+;
+; The candidate leaves their current post first (the (fire ...) is a no-op
+; for the jobless), so their `employer` (@excl) is free for the gov hire to
+; take. The (hire :level senior ...) - rather than :org_head - leaves the
+; founder's head slot intact; the head is the position established by
+; whoever founded the org. The senior level is the rung that still lifts
+; prestige and reads as "office" downstream.
+;
+; Schedule: annually march alongside hiring; appointments cluster with the
+; year's other employment changes.
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+(hsim-event appointment_to_office
+  (nl         "?official is appointed to office")
+  (kind       _appointment)
+  (schedule   (annually march))
+  (rng-stream employment)
+
+  (roles
+    ;; An exemplary, high-prestige adult of working age. The prestige floor
+    ;; selects already-distinguished candidates (>= 65 = the existing senior
+    ;; tier). Without an existing senior post a person rarely has the
+    ;; prestige to be appointed, so this naturally targets the already-
+    ;; established class - the historical pattern.
+    (role ?official (template old_human)
+                    (>= (years-old ?self) 30)
+                    (<= (years-old ?self) 65)
+                    (= (situation ?self respectability_situation) exemplary)
+                    (>= (situation ?self prestige) 65)
+                    (chance 0.05))
+    ;; A public organisation - any gov-subkind: church, hospital, agency.
+    (role ?articles (template org_articles)
+                    (org-kind-is-a ?self gov)))
+
+  (effects
+    ;; Leave the current post (no-op for the jobless), then take up the
+    ;; public role. (hire) is idempotent: a candidate already on this
+    ;; org's roster is left untouched, so a malformed re-pick is harmless.
+    (fire :worker ?official)
+    (hire :articles ?articles :worker ?official :role official :level senior)
+    (log _appointment ?official)))

@@ -167,6 +167,10 @@ concept
             bartender
             factory_worker
             house_agent
+            # Phase 9 appointment_to_office hires public-org appointees under
+            # this kind. Distinct from clerk so prestige / pretty-print can
+            # render an officeholder differently from an ordinary employee.
+            official
 
 
     # level grades a human, or a job / org_pos. A trainee clerk is

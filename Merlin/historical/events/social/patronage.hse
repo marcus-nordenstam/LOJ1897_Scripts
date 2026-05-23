@@ -1,0 +1,55 @@
+; ----------------------------------------------------------------------------
+; patronage (Phase 9.3). A man of standing - high prestige, exemplary
+; reputation - takes a lower-class connection under his wing. The effect is
+; a `backed_by` belief on the protege, which `business_founding` (work/
+; business.hse) gates on as a means-branch the next january.
+;
+; Differs from `investment` in direction: investment is candidate-led (a
+; worthy clerk seeks a backer), patronage is patron-led (an established
+; man chooses to elevate someone). Run alongside investment in november so
+; the `backed_by` belief is in place for the january business cycle. The
+; (chance 0.06) per patron is low - patronage is a notable act, not a
+; routine pass.
+;
+; class_situation values today are upper / middle / lower (the F3.6
+; eight-value migration is future work); the (or ...) below encodes the
+; valid one-rung downward sponsorships - an upper patron can elevate a
+; middle or lower protege, a middle one a lower protege. Same-class is
+; excluded - patronage is a class-bridging act by definition.
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+(hsim-event patronage
+  (nl         "?patron takes ?protege under their wing")
+  (kind       _patronage)
+  (schedule   (annually november))
+  (rng-stream business)
+
+  (roles
+    ;; A patron of standing: exemplary character + high prestige (the
+    ;; senior-or-above class signal). prestige is a numeric dimension on
+    ;; the 0..100 scale; a >= 65 floor selects the senior + org_head tier.
+    (role ?patron (template old_human)
+                  (>= (years-old ?self) 35)
+                  (= (situation ?self respectability_situation) exemplary)
+                  (>= (situation ?self prestige) 65)
+                  (chance 0.06))
+    ;; A protege one or more class steps below the patron, of sound
+    ;; character (not scandalous), without an existing backer.
+    (role ?protege (template old_human)
+                   (not (= ?self ?patron))
+                   (>= (years-old ?self) 18)
+                   (<= (years-old ?self) 55)
+                   (not (= (situation ?self respectability_situation) scandalous))
+                   (not (believes ?self {@self backed_by ?}))
+                   (or (and (= (situation ?patron  class_situation) upper)
+                            (= (situation ?self    class_situation) middle))
+                       (and (= (situation ?patron  class_situation) upper)
+                            (= (situation ?self    class_situation) lower))
+                       (and (= (situation ?patron  class_situation) middle)
+                            (= (situation ?self    class_situation) lower)))))
+
+  (effects
+    (begin-belief ?protege backed_by ?patron)
+    (log _patronage ?protege)))

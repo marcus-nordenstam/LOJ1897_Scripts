@@ -18,13 +18,18 @@
   (roles
     ; High enthusiasm (the sociable Extraversion aspect) makes friends more
     ; readily. Mean-1.0 multiplier - friendship volume is unchanged.
+    ; A scandalous reputation closes the social door - no new friendships
+    ; form on either side (the existing friend beliefs are ended by the
+    ; social_ostracism event when the situation falls).
     (role ?a (template any_human)
              (>= (years-old ?self) 18)
+             (not (= (situation ?self respectability_situation) scandalous))
              (chance (* 0.05 (+ 0.5 (attr ?self enthusiasm)))))
     (role ?b (template any_human)
              (>= (years-old ?self) 18)
              (not (= ?self ?a))
-             (= (belief-target ?self class_situation) (belief-target ?a class_situation))
+             (not (= (situation ?self respectability_situation) scandalous))
+             (= (situation ?self class_situation) (situation ?a class_situation))
              (<= (- (years-old ?self) (years-old ?a))  10)
              (>= (- (years-old ?self) (years-old ?a)) -10)
              (not (believes ?a {@self friend ?b}))))
