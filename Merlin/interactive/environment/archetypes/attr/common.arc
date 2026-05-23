@@ -62,10 +62,13 @@ attr "girth"            kind                                                /obs
 # exist solely as beliefs (nationality / class_situation labels in States.mon).
 
 # Personality & internal. alertness / sexual_orient are kind-typed; @excl
-# lives on the concept in Concepts.mon. interests is a plural kind attr.
+# lives on the concept in Concepts.mon. Interests are NOT physical - they
+# are seeded directly as {@self interest <kind>} self-beliefs in
+# mx_make_human (kinds sampled from the `interest` subtree in Concepts.mon)
+# and propagated via the friend-tier belief mirror.
 attr "alertness"        kind alert                                          /feel
 attr "sexual_orient"    kind                                                /feel
-attr "interests"        kind [3]                                            /feel
+
 # Accumulated intoxication, 0..1 - the get-drunk seed event bumps it; the F3.7
 # sobriety classifier reads it (see hsim_derive.cc).
 attr "intoxication"     float                                               /obs /feel /state_flags_tar @excl

@@ -17,7 +17,6 @@ archetype "human_player" [256] /obs /raycast_visible /player /non_occluder /occu
     "pregnant_when"
     "alertness"
     "sexual_orient"
-    "interests"
     # Big Five personality - the ten Big Five Aspect Scale aspects.
     "openness"
     "intellect"

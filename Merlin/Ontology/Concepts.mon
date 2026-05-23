@@ -33,7 +33,7 @@ concept
         for_rent
         off_the_market
 
-    rights
+    legal_right
         property        /sub being
 
     condition           /tar @excl
@@ -84,8 +84,11 @@ concept
         disgust
         contempt
 
-    # Hereditary interests (the interests attr is plural - no @excl).
-    interests
+    # Hereditary interests. Seeded as {@self interest <kind>} self-beliefs in
+    # mx_make_human and grown / shed by the interest_acquired / interest_lost
+    # hsim events. Non-@excl - an NPC may hold several. The kind subtree below
+    # is the sampling pool (children sampled directly, no sidecar file).
+    interest
         music
         theatre
         literature
@@ -409,7 +412,7 @@ concept
     # Kinship and social bonds - subject and target are both human. //noun
     # makes every role explicitly a noun, so the bond decorations below
     # (relation flags) do not trip define()'s noun-vs-relation inference.
-    person_role         //sub human //tar human //noun
+    relationship        //sub human //tar human //noun
         parent          /inclusive_bond
         mother          /tar @excl /inclusive_bond
         father          /tar @excl /inclusive_bond
