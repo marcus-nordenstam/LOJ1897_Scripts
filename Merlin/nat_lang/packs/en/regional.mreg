@@ -1,0 +1,53 @@
+# -----------------------------------------------------------------------------
+# regional.mreg - English-pack regional lexicon (Phase 6, plan section 8.3).
+#
+# Bidirectional standard <-> regional substitution table. Generation reads it
+# forward: pick the speaker's region by nationality / birthplace, walk the
+# realized clause's tokens, swap a standard word for a randomly-chosen
+# regional variant. Parse reads it backward: any regional variant maps back to
+# its standard equivalent so player-typed regional English still parses (plan
+# section 8.4).
+#
+# Format: each `region: <name>` block declares one region. Body lines are
+# `<standard> | <variant>[ | <variant2> ...]` - the standard term on the left,
+# one or more regional variants on the right. Region names are hstrs that
+# match a speaker's `nationality` / `birthplace` belief.
+#
+# This file is non-interned and hot-reloadable - editing it needs no .msb
+# regen.
+# -----------------------------------------------------------------------------
+
+region: irish
+  mother | mam | ma
+  father | da | pa
+  yes    | aye
+  no     | nay
+  child  | wain
+  small  | wee
+  girl   | lass
+  boy    | lad
+  woman  | colleen
+
+region: scottish
+  mother | maw
+  father | da
+  yes    | aye
+  no     | nae
+  small  | wee
+  child  | bairn
+  not    | nae
+  girl   | lass
+  boy    | laddie
+
+region: english_north
+  mother | mam
+  father | dad
+  yes    | aye
+  child  | bairn
+  girl   | lass
+  boy    | lad
+
+region: english_south
+  mother | mum
+  father | dad
+  small  | little

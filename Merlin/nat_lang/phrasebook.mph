@@ -58,41 +58,50 @@ select opening:
   # `intro` is the slot-bound tag the opening's vocative-name template
   # carries; preferring it first guarantees that template wins over the
   # generic-possessive template (which has the same MC shape). Every chain
-  # still ends in neutral as the fallback.
+  # still ends in neutral as the fallback. Schooling is ADDITIVE: low /
+  # unknown leaves the opening at the baseline neutral voice; high biases
+  # toward elaborated / flowery variants.
   affect:loves      -> intro warm flowery neutral
   affect:dislikes   -> intro curt neutral
+  schooling:high    -> intro flowery elaborated neutral
   cog:abstract      -> intro terse neutral
   cog:sensory       -> intro flowery neutral
   *                 -> intro neutral
 
 select age:
+  schooling:high    -> elaborated neutral
   cog:abstract      -> terse neutral
   *                 -> neutral
 
 select occupation:
   affect:loves      -> warm neutral
   affect:resents    -> curt neutral
+  schooling:high    -> elaborated flowery neutral
   *                 -> neutral
 
 select relations:
   affect:loves      -> warm neutral
+  schooling:high    -> elaborated flowery neutral
   cog:abstract      -> terse neutral
   *                 -> neutral
 
 select interest:
   affect:loves      -> warm flowery neutral
   affect:resents    -> curt neutral
+  schooling:high    -> elaborated flowery neutral
   *                 -> neutral
 
 select regard:
   affect:loves      -> warm flowery neutral
   affect:resents    -> blunt curt neutral
   affect:fears      -> deferential neutral
+  schooling:high    -> elaborated neutral
   *                 -> neutral
 
 select coda:
   affect:dislikes   -> curt neutral
   affect:likes      -> warm neutral
+  schooling:high    -> elaborated neutral
   *                 -> neutral
 
 # --- relationship_description slot selection ---------------------------------

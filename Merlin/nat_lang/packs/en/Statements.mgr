@@ -98,6 +98,14 @@ $form(FORM)
 .
 :: terse curt
 
+# Elaborated age - the schooled voice. Picked by the .mph age select when
+# schooling:high holds; the speaker reaches for the more formal periphrasis
+# instead of the bare copula. Same belief shape - parse accepts either.
+" $sub_np(NP) has attained the age of $num(NUM) years "
+{ $sub_np(NP) /pres age $num(NUM) }
+.
+:: elaborated
+
 "$sub_np(NP) is $kind(KIND|/isa|nationality)"
 { $sub_np(NP) /pres nationality $kind(KIND|/isa|nationality) }
 .
@@ -128,6 +136,22 @@ $form(FORM)
 { $sub_np(NP) /pres job $kind(KIND|/isa|job) }
 .
 :: warm
+
+# Elaborated - the schooled voice. "By profession" carries the periphrastic
+# formality the educated speaker reaches for. Picked by the .mph occupation
+# select when schooling:high holds.
+"$sub_np(NP) is by profession a $kind(KIND|/isa|job)"
+{ $sub_np(NP) /pres job $kind(KIND|/isa|job) }
+.
+:: elaborated
+
+# Flowery - the romantic-narrator's reach. "Plies the trade of" is 1897 high
+# style for occupation - the kind of phrasing a well-read speaker uses without
+# irony. Same belief shape as the neutral form.
+"$sub_np(NP) plies the trade of a $kind(KIND|/isa|job)"
+{ $sub_np(NP) /pres job $kind(KIND|/isa|job) }
+.
+:: flowery
 
 
 # THIRD-PARTY KINSHIP / RELATION STATEMENTS.
@@ -233,6 +257,29 @@ $form(FORM)
 { $sub_np(NP) /pres friend $value(NP) } .
 :: warm
 
+# Elaborated kinship - "esteemed" prepended, the schooled-narrator's adjective
+# of choice for naming kin in the formal periphrastic register. Picked by the
+# .mph relations select when schooling:high holds. Same belief shape as the
+# neutral forms, so parse accepts either.
+" $sub_np(NP) ++'s esteemed mother is $value(NP) "
+{ $sub_np(NP) /pres mother $value(NP) } .
+:: elaborated
+" $sub_np(NP) ++'s esteemed father is $value(NP) "
+{ $sub_np(NP) /pres father $value(NP) } .
+:: elaborated
+" $sub_np(NP) ++'s esteemed sibling is $value(NP) "
+{ $sub_np(NP) /pres sibling $value(NP) } .
+:: elaborated
+" $sub_np(NP) ++'s esteemed brother is $value(NP) "
+{ $sub_np(NP) /pres brother $value(NP) } .
+:: elaborated
+" $sub_np(NP) ++'s esteemed sister is $value(NP) "
+{ $sub_np(NP) /pres sister $value(NP) } .
+:: elaborated
+" $sub_np(NP) ++'s esteemed spouse is $value(NP) "
+{ $sub_np(NP) /pres spouse $value(NP) } .
+:: elaborated
+
 # Birthplace / home are object-valued; same possessive shape.
 " $sub_np(NP) ++'s birthplace is $value(NP) "
 { $sub_np(NP) /pres birthplace $value(NP) } .
@@ -275,6 +322,13 @@ $form(FORM)
 " $sub_np(NP) holds $value(NP) dear above all the world "
 { $sub_np(NP) /pres love $value(NP) } .
 :: flowery
+
+# Elaborated - the schooled voice. Periphrastic, slightly formal, the way a
+# well-read speaker glosses an affection without quite reaching for the
+# romantic. Picked by the .mph regard select when schooling:high holds.
+" $sub_np(NP) bears a deep and abiding affection for $value(NP) "
+{ $sub_np(NP) /pres love $value(NP) } .
+:: elaborated
 
 # Blunt - the matter-of-fact recital, no varnish. Picked when the speaker
 # resents the subject and grudgingly reports the bond as fact.
@@ -477,6 +531,13 @@ $form(FORM)
 " $sub_np(NP) has a great love of $kind(KIND|/isa|interest) "
 { $sub_np(NP) /pres interest $kind(KIND|/isa|interest) } .
 :: flowery
+
+# Elaborated - the schooled voice. "Takes a serious interest in" frames the
+# interest as a considered pursuit rather than a bare preference. Picked by
+# the .mph interest select when schooling:high holds.
+" $sub_np(NP) takes a serious interest in $kind(KIND|/isa|interest) "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|interest) } .
+:: elaborated
 
 # Curt - the speaker resents the subject. Dismissive bare-acknowledgement form
 # - "cares for" said with a shrug, the way the disapproving narrator concedes
