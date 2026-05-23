@@ -179,6 +179,12 @@ relation
             agitation           /tar ? @excl
             purpose             /tar ? @excl
             autonomy            /tar ? @excl
+            # Rootedness in the community - tenure, employer, property, kin,
+            # club memberships. The life_satisfaction band classifier reads
+            # it to distinguish a LONER (low life_sat with high rootedness:
+            # established but solitary by character) from an ADRIFT drifter
+            # (low life_sat with low rootedness: newly arrived, no anchor).
+            rootedness          /tar ? @excl
 
         # Historical-sim-only situation predicates (hsim_ prefix). Read by the
         # event engine to drive crime / drama template eligibility and role
