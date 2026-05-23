@@ -1,0 +1,28 @@
+; ----------------------------------------------------------------------------
+; charity - a Phase 8 behaviour seed event. Each year a few adults perform an
+; act of charity, gaining a {@self donate <alms>} act-record - the alms a
+; number symbol, the sum given. The F3.5 generosity classifier reads it.
+; Binary, like gambling: one act-record marks the NPC a giver, and the
+; (not (believes ...)) gate fires the onset at most once per NPC. `donate` is a
+; (behaviour) state label, not the `give` task - an ongoing self-subject
+; task-belief cannot be directly asserted (belief_inception.cc forbids it).
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+(hsim-event charity
+  (nl         "?giver gives to charity")
+  (kind       _charity)
+  (schedule   (annually may))
+  (rng-stream behaviour)
+
+  (roles
+    ; High compassion gives to charity more. Mean-1.0 factor - the base rate is
+    ; the average annual chance.
+    (role ?giver (template old_human)
+                 (not (believes ?self {@self donate ?}))
+                 (chance (* 0.008 (+ 0.4 (* 1.2 (attr ?self compassion)))))))
+
+  (effects
+    (give-alms ?giver)
+    (log _charity ?giver)))

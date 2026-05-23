@@ -68,7 +68,8 @@
   :criminality-base           5
   :criminality-per-crime     25
   :gambling-sobriety-penalty 25
-  :gambling-wealth-penalty   15)
+  :gambling-wealth-penalty   15
+  :charity-generosity-bonus  20)
 
 ; ---- class_situation <- weighted breeding + prestige + wealth --------------
 ; breeding dominates (the lineage anchor). middle-min / upper-min are lower
