@@ -17,7 +17,7 @@
 # regen. See Docs/dialogue_nlg_phase4_design.md section 4.5.
 # -----------------------------------------------------------------------------
 
-intents: neutral warm curt blunt deferential flowery terse plain metaphorical anecdotal elaborated
+intents: neutral warm curt blunt deferential flowery terse plain metaphorical anecdotal elaborated intro
 
 # --- Discourse schema for a tell_about person description ---------------------
 # Slots mirror the proven body-fact order of the legacy descriptions engine,
@@ -28,7 +28,7 @@ schema person_description:
   slot age         opt
   slot occupation  opt
   slot relations   rep
-  slot interests   opt
+  slot interest    req
   slot regard      opt
   slot coda        opt
 
@@ -39,11 +39,15 @@ schema person_description:
 # are only parsed and validated.
 
 select opening:
-  affect:loves      -> warm flowery neutral
-  affect:dislikes   -> curt neutral
-  cog:abstract      -> terse neutral
-  cog:sensory       -> flowery neutral
-  *                 -> neutral
+  # `intro` is the slot-bound tag the opening's vocative-name template
+  # carries; preferring it first guarantees that template wins over the
+  # generic-possessive template (which has the same MC shape). Every chain
+  # still ends in neutral as the fallback.
+  affect:loves      -> intro warm flowery neutral
+  affect:dislikes   -> intro curt neutral
+  cog:abstract      -> intro terse neutral
+  cog:sensory       -> intro flowery neutral
+  *                 -> intro neutral
 
 select age:
   cog:abstract      -> terse neutral
@@ -59,7 +63,7 @@ select relations:
   cog:abstract      -> terse neutral
   *                 -> neutral
 
-select interests:
+select interest:
   affect:loves      -> warm flowery neutral
   affect:resents    -> curt neutral
   *                 -> neutral

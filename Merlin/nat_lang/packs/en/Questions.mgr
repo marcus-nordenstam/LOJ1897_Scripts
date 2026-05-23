@@ -187,13 +187,13 @@
 
 # specific interest (do you like X)
 "do you like $thing(KIND)"
-( prob { ?_you /pres interests $thing(KIND) } )
+( prob { ?_you /pres interest $thing(KIND) } )
 .
 "do I like $thing(KIND)"
-( prob { ?_I /pres interests $thing(KIND) } )
+( prob { ?_I /pres interest $thing(KIND) } )
 .
 "does $person(Q_NP) like $thing(KIND)"
-( prob { $person(Q_NP) /pres interests $thing(KIND) } )
+( prob { $person(Q_NP) /pres interest $thing(KIND) } )
 .
 
 # nationality

@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; Interests (Phase 6 leaf events). NPCs pick up - and occasionally drop -
 ; interests over their lives, on top of the 0-3 hereditary interests the
-; `interests` attr seeds at birth. Both are {@self interests <topic>} beliefs,
+; `interest` attr seeds at birth. Both are {@self interest <topic>} beliefs,
 ; so an acquired interest is indistinguishable in form from a born one.
 ; ----------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@
 
   (roles
     (role ?ego (template any_human)
-               (believes ?self {@self interests ?})
+               (believes ?self {@self interest ?})
                (chance 0.02)))
 
   (effects

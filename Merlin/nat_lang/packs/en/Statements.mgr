@@ -1,6 +1,20 @@
 
 :ST
 
+# OPENING - person_description's introducing vocative. Renders the description
+# subject's name as a standalone phrase ("Thomas Jones.") so the body's first
+# clause can pronominalise from the very next sentence. The MC mirrors the
+# generic-possessive template's predicate-splice shape (so the matcher's
+# proven path applies); the NL emits only the name. Tagged `:: intro` - the
+# slot-bound intent that only `select opening:` requests, guaranteeing this
+# template wins the match against the structurally-identical possessive form
+# below. The discourse planner routes only the description subject's own
+# name belief into the opening slot, so this never fires for other objects.
+"$pname(PNAME)"
+{ $sub_np(NP) $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) }
+.
+:: intro
+
 "I don't know"
 @unknown
 .
@@ -216,7 +230,7 @@ $form(FORM)
 # All variants share their belief shape with the neutral fallback - parsing
 # any of the surface forms recovers the same MC.
 
-# --- LOVE (person_role) ----------------------------------------------------
+# --- LOVE (relationship) ----------------------------------------------------
 
 # Neutral - the unmarked statement of love. The .mph fallback chain always
 # ends here, so EVERY love belief renders even when no intent matches.
@@ -419,29 +433,29 @@ $form(FORM)
 
 # ---------------------------------------------------------------------------
 
-# Interests is a kind-valued plural; one belief per interest. KIND strips the
-# bracket form so [k music] -> "music". The neutral default - kept as the
-# fallback the .mph select chain always lands on.
-" $sub_np(NP) is interested in $kind(KIND|/isa|interests) "
-{ $sub_np(NP) /pres interests $kind(KIND|/isa|interests) } .
+# Interest is a kind-valued plural-attr; one belief per interest topic. KIND
+# strips the bracket form so [k music] -> "music". The neutral default - kept
+# as the fallback the .mph select chain always lands on.
+" $sub_np(NP) is interested in $kind(KIND|/isa|interest) "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|interest) } .
 
 # Warm - the speaker holds the subject in regard. "Fond of" softens the bare
 # fact into approval; the interest becomes something the subject is loved for.
-" $sub_np(NP) is fond of $kind(KIND|/isa|interests) "
-{ $sub_np(NP) /pres interests $kind(KIND|/isa|interests) } .
+" $sub_np(NP) is fond of $kind(KIND|/isa|interest) "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|interest) } .
 :: warm
 
 # Flowery - the .mph escalates warm to flowery when cog:sensory holds.
 # A figurative, romantic-narrator reach: not an interest, but a passion.
-" $sub_np(NP) has a great love of $kind(KIND|/isa|interests) "
-{ $sub_np(NP) /pres interests $kind(KIND|/isa|interests) } .
+" $sub_np(NP) has a great love of $kind(KIND|/isa|interest) "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|interest) } .
 :: flowery
 
 # Curt - the speaker resents the subject. Dismissive bare-acknowledgement form
 # - "cares for" said with a shrug, the way the disapproving narrator concedes
 # a fact they don't think much of.
-" $sub_np(NP) cares for $kind(KIND|/isa|interests) "
-{ $sub_np(NP) /pres interests $kind(KIND|/isa|interests) } .
+" $sub_np(NP) cares for $kind(KIND|/isa|interest) "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|interest) } .
 :: curt
 
 

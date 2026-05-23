@@ -131,7 +131,7 @@ relation
         #     may crave more than one thing). The target is the craved substance
         #     kind: {@self craving alcohol}.
         (drive)                 //sub human
-            calling             /tar interests|field_of_study  @excl
+            calling             /tar interest|field_of_study  @excl
             craving             /tar ?
 
         # Derived dimensions (F3.2) - each a single numeric quality, computed
