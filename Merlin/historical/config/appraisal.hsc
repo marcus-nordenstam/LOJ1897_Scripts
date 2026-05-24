@@ -220,7 +220,7 @@
 (reaction slight_act :pov patient
   (mint anger    :focus actor :salience 8)
   (mint contempt :focus actor :salience 48)
-  (pressure humiliation :focus actor :salience 360))
+  (pressure humiliation :focus actor :salience 8760))   ; 1 year base; mood/trait scaling typically drops to ~25% of base, so 8760 -> ~2000h actual
 
 (reaction slight_act :pov actor
   (mint pride :focus self :salience 24))
