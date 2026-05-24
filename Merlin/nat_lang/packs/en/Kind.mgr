@@ -4,3 +4,50 @@
 "a $kind(KIND)"
 $kind(KIND)
 .
+
+
+# Plural-only kind class for kind-quantified content requests like
+# "tell me about your brothers" / "tell me about your interests" /
+# "tell me about your relationships". Strict-plural - no auto-stripping.
+# Singular surface forms ("brother", "interest") deliberately don't match
+# this class so they fall through to the tell_about NP-recall path
+# ("tell me about your brother" -> the (o {?_you mother @o}) recall).
+#
+# MC binding is a kind atom [k <singular>] so the runtime kind-in-label-
+# position lowering does its is_a expansion - "tell me about your
+# relationships" expands via [k relationship] to match all kinship-labeled
+# beliefs. The singular MC kind is the canonical ontology atom; the plural
+# is purely a surface concern.
+:KIND_PLUR
+
+# Kinship plurals (mirror the surface forms in :RELP, Relations.mgr).
+"brothers"              [k brother]             .
+"sisters"               [k sister]              .
+"siblings"              [k sibling]             .
+"half siblings"         [k half_sibling]        .
+"half-siblings"         [k half_sibling]        .
+"mothers"               [k mother]              .
+"fathers"               [k father]              .
+"parents"               [k parent]              .
+"children"              [k child]               .
+"sons"                  [k child]               .
+"daughters"             [k child]               .
+"grandmothers"          [k grandmother]         .
+"grandfathers"          [k grandfather]         .
+"grandparents"          [k grandparent]         .
+"grandchildren"         [k grandchild]          .
+"aunts"                 [k aunt]                .
+"uncles"                [k uncle]               .
+"nieces"                [k niece]               .
+"nephews"               [k nephew]              .
+"cousins"               [k cousin]              .
+"friends"               [k friend]              .
+"acquaintances"         [k acquaintance]        .
+"neighbours"            [k neighbour]           .
+"neighbors"             [k neighbour]           .
+"enemies"               [k enemy]               .
+"lovers"                [k lover]               .
+
+# Collective concept plurals - the isa expansion picks up child kinds.
+"interests"             [k interest]            .
+"relationships"         [k relationship]        .

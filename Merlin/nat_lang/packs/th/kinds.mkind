@@ -1,0 +1,77 @@
+# -----------------------------------------------------------------------------
+# kinds.mkind - Thai-pack kind-atom localization (Phase 8).
+# -----------------------------------------------------------------------------
+
+# Nationality
+irish           ไอริช
+english         อังกฤษ
+french          ฝรั่งเศส
+st_revieran     เซนต์เรเวียน
+
+# Class
+upper           ชั้นสูง
+middle          ชั้นกลาง
+lower           แรงงาน
+
+# Interest
+literature      วรรณกรรม
+music           ดนตรี
+theatre         ละคร
+riding          ขี่ม้า
+history         ประวัติศาสตร์
+science         วิทยาศาสตร์
+spiritualism    ลัทธิจิตวิญญาณ
+religion        ศาสนา
+antiques        ของเก่า
+sports          กีฬา
+suffrage        สิทธิเลือกตั้ง
+
+# Sport disciplines
+cricket         คริกเก็ต
+rowing          พายเรือ
+rugby           รักบี้
+horse_racing    แข่งม้า
+
+# Job
+editor          บรรณาธิการ
+printer         ช่างพิมพ์
+journalist      นักข่าว
+banker          นายธนาคาร
+landlord        เจ้าของที่ดิน
+industrialist   นักอุตสาหกรรม
+principal       ครูใหญ่
+merchant        พ่อค้า
+apothecary      เภสัชกร
+proprietor      เจ้าของ
+solicitor       ทนายความ
+physician       แพทย์
+priest          บาทหลวง
+clerk           เสมียน
+teacher         ครู
+engineer        วิศวกร
+surgeon         ศัลยแพทย์
+typist          พนักงานพิมพ์ดีด
+barber          ช่างตัดผม
+gardener        ชาวสวน
+cook            คนครัว
+farmer          ชาวนา
+nurse           พยาบาล
+steward         ผู้จัดการ
+shop_clerk      พนักงานร้าน
+waiter          พนักงานเสิร์ฟ
+maid            สาวใช้
+bartender       บาร์เทนเดอร์
+factory_worker  คนงานโรงงาน
+house_agent     นายหน้า
+official        เจ้าหน้าที่
+hatmaker        ช่างทำหมวก
+tailor          ช่างตัดเสื้อ
+baker           คนทำขนมปัง
+
+# Gender
+male            ชาย
+female          หญิง
+
+# Gambling / substances
+gambling        การพนัน
+alcohol         เหล้า

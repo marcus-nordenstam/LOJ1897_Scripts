@@ -1,0 +1,27 @@
+
+# Japanese KIND_PLUR (Phase 8) - limited coverage.
+#
+# Japanese doesn't mark plurality morphologically for most nouns - 母 means
+# "mother" OR "mothers" depending on context. The singular-vs-plural surface
+# differentiator the English KIND / KIND_PLUR split relies on isn't generally
+# available. v1 covers the few cases where Japanese DOES mark plurality:
+#   - explicit たち suffix on animate nouns
+#   - inherently-plural collective compounds (兄弟 brothers / siblings)
+# Singular kinship terms (母, 父, 兄) deliberately don't appear here, so they
+# parse via the NP recall path (e.g. "私の母" -> the (o {?_I mother @o})
+# recall -> tell_about, not tell_beliefs).
+:KIND_PLUR
+
+# Compound and たち-marked plurals. The たち forms are written with a space
+# to match how the segmenter tokenizes them - 子供 and たち are separate
+# dictionary entries, so "子供たち" input segments as ["子供", "たち"].
+"兄弟"                  [k brother]             .
+"姉妹"                  [k sister]              .
+"兄弟姉妹"              [k sibling]             .
+"子供 たち"             [k child]               .
+"友達 たち"             [k friend]              .
+"親 たち"               [k parent]              .
+
+# Collective concepts - Japanese DOES mark these as plural-ish.
+"興味"                  [k interest]            .
+"関係"                  [k relationship]        .

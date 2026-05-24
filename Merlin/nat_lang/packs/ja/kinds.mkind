@@ -1,0 +1,82 @@
+# -----------------------------------------------------------------------------
+# kinds.mkind - Japanese-pack kind-atom localization (Phase 8).
+#
+# Canonical ontology hstrs (English convention) -> Japanese surface forms.
+# Used by realize when emitting [k <kind>] atoms inside Japanese templates,
+# e.g. "$sub_np は $kind(KIND|/isa|nationality) ++人です" renders the
+# nationality kind as アイルランド rather than the canonical "irish".
+# -----------------------------------------------------------------------------
+
+# Nationality
+irish           アイルランド
+english         イギリス
+french          フランス
+st_revieran     セントレヴィエラ
+
+# Class
+upper           上流
+middle          中流
+lower           労働者
+
+# Interest
+literature      文学
+music           音楽
+theatre         演劇
+riding          乗馬
+history         歴史
+science         科学
+spiritualism    心霊主義
+religion        宗教
+antiques        骨董品
+sports          スポーツ
+suffrage        参政権
+
+# Sport disciplines
+cricket         クリケット
+rowing          ボート
+rugby           ラグビー
+horse_racing    競馬
+
+# Job
+editor          編集者
+printer         印刷工
+journalist      記者
+banker          銀行家
+landlord        家主
+industrialist   実業家
+principal       校長
+merchant        商人
+apothecary      薬剤師
+proprietor      所有者
+solicitor       弁護士
+physician       医師
+priest          司祭
+clerk           事務員
+teacher         教師
+engineer        技術者
+surgeon         外科医
+typist          タイピスト
+barber          理容師
+gardener        庭師
+cook            料理人
+farmer          農民
+nurse           看護師
+steward         執事
+shop_clerk      店員
+waiter          給仕
+maid            女中
+bartender       バーテンダー
+factory_worker  工場労働者
+house_agent     不動産業者
+official        役人
+hatmaker        帽子職人
+tailor          仕立て屋
+baker           パン職人
+
+# Gender
+male            男
+female          女
+
+# Gambling / substances
+gambling        賭博
+alcohol         酒

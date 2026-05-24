@@ -4,7 +4,7 @@ archetype "human_npc" (cap 4096) (mech obs) (raycast-visible) (sentient) (non-oc
     "visual_sensor"
     "sound_sensor"
     "physical_motors"
-    "role"
+    "game_role"
     "perform"
     # Lifecycle dates - written by historical sim, surface into interactive.
     "birth_date"

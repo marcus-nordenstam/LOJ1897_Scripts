@@ -316,7 +316,7 @@ rule conv-response-player_talk-proposal
 rule conv-player_talk-maintain-closeAndFacing-proposal
 {@self conversation @something:?conv}
 {!@self:?person conversation ?conv}
-{?person role player}
+{?person game_role player}
     ->
 (maintain_proposal {@self keep_near_and_facing ?person} (des abs_util 1000))
 (maintain_proposal {@self keep_looking_at_part ?person eyes} (des abs_util 1000)).

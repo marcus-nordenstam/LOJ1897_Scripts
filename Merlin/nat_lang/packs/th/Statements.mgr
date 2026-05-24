@@ -67,17 +67,19 @@
 { ?_I /pres goal { ?_you /pres tell_about $obj(NP) ?_I } }
 .
 
-# Kind-quantified content requests
-"บอก ฉัน เกี่ยวกับ $state_kind(KIND) ของ $obj(NP)"
-{ ?_I /pres goal { ?_you /pres tell_beliefs { $obj(NP) $state_kind(KIND) ? ? } ?_I } }
+# Kind-quantified content requests. KIND_PLUR (Kind.mgr) restricts to
+# Thai plural-marked surface forms (reduplication / collective compounds).
+# Thai plurality is sparse v1; singular kinship falls through to NP recall.
+"บอก ฉัน เกี่ยวกับ $state_kind(KIND_PLUR) ของ $obj(NP)"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { $obj(NP) $state_kind(KIND_PLUR) ? ? } ?_I } }
 .
 
-"บอก ฉัน เกี่ยวกับ $state_kind(KIND) ของ คุณ"
-{ ?_I /pres goal { ?_you /pres tell_beliefs { ?_you $state_kind(KIND) ? ? } ?_I } }
+"บอก ฉัน เกี่ยวกับ $state_kind(KIND_PLUR) ของ คุณ"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { ?_you $state_kind(KIND_PLUR) ? ? } ?_I } }
 .
 
-"บอก ฉัน เกี่ยวกับ $state_kind(KIND) ของ ฉัน"
-{ ?_I /pres goal { ?_you /pres tell_beliefs { ?_I $state_kind(KIND) ? ? } ?_I } }
+"บอก ฉัน เกี่ยวกับ $state_kind(KIND_PLUR) ของ ฉัน"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { ?_I $state_kind(KIND_PLUR) ? ? } ?_I } }
 .
 
 

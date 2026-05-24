@@ -1,0 +1,24 @@
+
+# Thai KIND_PLUR (Phase 8) - limited coverage.
+#
+# Thai, like Japanese, does not mark plurality morphologically for most
+# nouns. Plurality is signalled by reduplication (ๆ) or explicit collective
+# markers (ทั้งหลาย, พวก). v1 authors a small set covering the cases where
+# Thai DOES mark plurality (reduplication form, classifier-prefixed plural,
+# and inherently-collective compounds). Singular kinship (แม่, พ่อ) does NOT
+# appear here so it parses via the NP recall path to tell_about.
+:KIND_PLUR
+
+# Reduplicated (พหูพจน์) forms
+"ลูก ๆ"                 [k child]               .
+"เพื่อน ๆ"             [k friend]              .
+
+# Inherently-collective compounds
+"พี่ชายและน้องชาย"      [k brother]             .
+"พี่สาวและน้องสาว"      [k sister]              .
+"พี่น้อง"               [k sibling]             .
+"พ่อแม่"               [k parent]              .
+
+# Collective concepts
+"ความสนใจ"             [k interest]            .
+"ความสัมพันธ์"         [k relationship]        .

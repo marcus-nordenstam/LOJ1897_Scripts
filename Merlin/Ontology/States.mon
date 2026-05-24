@@ -57,6 +57,17 @@ relation
             # tail_through_streets recurrence biased toward target's
             # location).
             infatuation         (tar human)
+            # identity: the salient role(s) an NPC self-identifies as
+            # (parent / spouse / worker / christian / ...). Plan section
+            # 10.3 Pivot C (2026-05-24). Each identity is a held belief that
+            # biases categorize thresholds, deliberate affinities, and the
+            # justify-narrative pick. Non-@excl: an NPC may hold multiple
+            # identities simultaneously; their composite is the "I am X
+            # first" weighting. Derived from substrate state in
+            # hsim_derive::classify_identities (kids -> parent, job ->
+            # worker, ...); future PRs add explicit identity-adoption
+            # events.
+            identity            (tar role)
 
         # Construals are no longer a parallel vocabulary - each construal is
         # one of the construed_act sub-kinds in Concepts.mon (wrong_act,
@@ -140,6 +151,13 @@ relation
             # embezzle gets both the appropriation_act reaction AND the
             # betray_act reaction AND the wrong_act reaction.
             assault             (tar human)       (construed_act harm_act wrong_act)
+            # insult: lesser-affront act. Tagged slight_act so categorize
+            # emits the slight_act construal and the patient-pov reaction
+            # row in appraisal.hsc mints humiliation pressure on the
+            # patient. The minimum-viable anchor for testing the pressure
+            # cascade in vanilla hsim until richer perpetration content
+            # lands.
+            insult              (tar human)       (construed_act slight_act)
             # kill - method (substance kind, weapon object, or _ for
             # unspecified) rides the aux. Phase 10 Phase C: relaxed from
             # /tar human alone so {clara kill ashcombe /aux digitalis} and
@@ -171,6 +189,30 @@ relation
             # ?victim}} in accomplice's mind. Preparatory (the eventual
             # crime carries the appraisal), so no construed_act tag here.
             recruit             (tar human)  (aux ?)
+
+            # Phase 10 Pivot A loop-closure (2026-05-24). Action labels for
+            # every non-floor action atom in deliberation.hsc's affinity
+            # table. The deliberate event mints {actor goal {actor <action>
+            # <focus>}} - the inner clause uses one of these labels. They
+            # are NOT yet construed_act-tagged - perpetration events in
+            # follow-up PRs will commit copies as anchors and the tagging
+            # decision lives with each anchor-producing event. kill /
+            # assault / steal / defraud / embezzle / kidnap / disinherit /
+            # expose / tamper / recruit above already cover the harm-act
+            # side of the table; the labels below cover the rest of
+            # deliberation.hsc's actions.
+            confront_privately  (tar human)
+            withdraw            (tar human)
+            plead               (tar human)
+            flee                (tar human)
+            surrender           (tar human)
+            mourn               (tar human)
+            replace             (tar human)
+            confess_letter      (tar human)
+            confess_in_person   (tar human)
+            atone               (tar human)
+            silence_witness     (tar human)
+            expose_first        (tar human)
 
         # Acquired interior drives (F4.3). A drive is neither an emotion nor a
         # heritable temperament - it is deposited by a life of events and then

@@ -132,6 +132,12 @@
 # === Demonstratives / connectives the templates may need ===
 故
 
+# === Plural-marked / collective forms used by KIND_PLUR ===
+兄弟姉妹
+姉妹
+興味
+関係
+
 # === Particles (single character; placed last because order within the file
 # doesn't matter - the segmenter sorts by length on its own) ===
 は

@@ -1,0 +1,42 @@
+; ----------------------------------------------------------------------------
+; perpetrate_goal.hse - Phase 10 Pivot A loop-closure (2026-05-24).
+;
+; Closes the deliberate -> goal -> act loop in hsim. Casts on any NPC
+; holding a standing {actor goal {actor <action> <focus>}} belief and
+; perpetrates it: commits the inner clause as a real act-anchor (which
+; categorize then construes), then ends the goal.
+;
+; The closed loop:
+;   deliberate (Pivot A)
+;     -> {actor goal {actor <action-label> <focus>}}      (intent recorded)
+;   perpetrate_goal (this event)
+;     -> mx_begin_belief(actor, <action-label>, <focus>)  (act anchor)
+;     -> mx_end_belief(actor, goal, ...)                  (intent fulfilled)
+;     -> categorize (Pivot B) sees the act-label's construed_act tags
+;     -> {actor <tag> focus} construal beliefs
+;     -> appraisal.hsc reaction rows mint pressures on focus
+;     -> {focus pressure <kind> /aux actor}
+;   next deliberate fire on focus
+;     -> humiliation / injustice / existential_threat etc. inform branch
+;        synthesis; non-floor branches mint goals; arc continues.
+;
+; Vanilla hsim has no upstream pressure source yet, so deliberate stays on
+; floor branches and this event no-fires. Once content events mint
+; pressures (or a test scaffold seeds them), the loop activates.
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+(hsim-event perpetrate_goal
+  (nl       "?actor follows through on a standing goal")
+  (kind     _perpetrate_goal)
+  (schedule (monthly))
+  (rng-stream perpetration)
+
+  (roles
+    (role ?actor (template any_human)
+                 (> (count-beliefs ?actor goal) 0)))
+
+  (effects
+    (perpetrate-goal ?actor)
+    (log _perpetrate_goal ?actor)))

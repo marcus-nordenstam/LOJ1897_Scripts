@@ -69,17 +69,20 @@
 .
 :: deferential
 
-# Kind-quantified content requests
-"$obj(NP) の $state_kind(KIND) について 教えて"
-{ ?_I /pres goal { ?_you /pres tell_beliefs { $obj(NP) $state_kind(KIND) ? ? } ?_I } }
+# Kind-quantified content requests. KIND_PLUR (Kind.mgr) restricts to
+# plural-marked surface forms (Japanese plurality is sparse - see ja/Kind.mgr
+# for the limited v1 coverage). Singular kinship falls through to the NP
+# recall path and tell_about.
+"$obj(NP) の $state_kind(KIND_PLUR) について 教えて"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { $obj(NP) $state_kind(KIND_PLUR) ? ? } ?_I } }
 .
 
-"あなた の $state_kind(KIND) について 教えて"
-{ ?_I /pres goal { ?_you /pres tell_beliefs { ?_you $state_kind(KIND) ? ? } ?_I } }
+"あなた の $state_kind(KIND_PLUR) について 教えて"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { ?_you $state_kind(KIND_PLUR) ? ? } ?_I } }
 .
 
-"私 の $state_kind(KIND) について 教えて"
-{ ?_I /pres goal { ?_you /pres tell_beliefs { ?_I $state_kind(KIND) ? ? } ?_I } }
+"私 の $state_kind(KIND_PLUR) について 教えて"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { ?_I $state_kind(KIND_PLUR) ? ? } ?_I } }
 .
 
 

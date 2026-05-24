@@ -58,7 +58,7 @@ attr "ring_finger" (type entity) (entity "finger") (state "finger") (int-mech fe
 attr "wear" (type entity) (mech obs) (auto-percept)
 
 # Demographics
-attr "role" (type kind) (mech obs) (auto-percept) (unaware)
+attr "game_role" (type kind) (mech obs) (auto-percept) (unaware)
 attr "age" (type int) (spec-attr age) (mech feel) (state-flags-tar @excl)
 attr "age_group" (type int) (spec-attr age-group) (mech obs) (auto-percept) (state-flags-tar @excl)
 # gender / appearance / height / girth are conceptual: kind-typed, value is an

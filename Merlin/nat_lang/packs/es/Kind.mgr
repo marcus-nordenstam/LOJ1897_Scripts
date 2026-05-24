@@ -1,0 +1,38 @@
+
+# Spanish KIND_PLUR - plural surface forms for the tell_beliefs shortcut.
+# Spanish marks plurality regularly (-s / -es); the same singular MC kind
+# is the canonical ontology atom.
+:KIND_PLUR
+
+# Kinship plurals
+"hermanos"              [k brother]             .
+"hermanas"              [k sister]              .
+"hermanos y hermanas"   [k sibling]             .
+"madres"                [k mother]              .
+"padres"                [k parent]              .
+# Note: in Spanish "padres" means BOTH "fathers" and "parents". Mapping it
+# to parent here covers the more common collective usage; explicit
+# "fathers" disambiguation would need a separate surface form authored.
+"papás"                 [k father]              .
+"hijos"                 [k child]               .
+"hijas"                 [k child]               .
+"abuelos"               [k grandparent]         .
+"abuelas"               [k grandmother]         .
+"nietos"                [k grandchild]          .
+"tíos"                  [k uncle]               .
+"tías"                  [k aunt]                .
+"sobrinos"              [k nephew]              .
+"sobrinas"              [k niece]               .
+"primos"                [k cousin]              .
+"primas"                [k cousin]              .
+"amigos"                [k friend]              .
+"amigas"                [k friend]              .
+"conocidos"             [k acquaintance]        .
+"vecinos"               [k neighbour]           .
+"vecinas"               [k neighbour]           .
+"enemigos"              [k enemy]               .
+"amantes"               [k lover]               .
+
+# Collective concept plurals
+"intereses"             [k interest]            .
+"relaciones"            [k relationship]        .

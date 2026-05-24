@@ -1,0 +1,83 @@
+# -----------------------------------------------------------------------------
+# kinds.mkind - Swedish-pack kind-atom localization (Phase 8).
+#
+# Each line is "<canonical> <localized>". The canonical is the ontology leaf
+# name (English convention - see LOJ1897_Scripts/Merlin/ontology/Concepts.mon);
+# the localized is the Swedish surface form the realize layer emits when a
+# [k <canonical>] atom is rendered. A kind without an entry falls back to
+# the canonical hstr (so a missing translation is visible but not broken).
+# -----------------------------------------------------------------------------
+
+# Nationality
+irish           irländsk
+english         engelsk
+french          fransk
+st_revieran     st_reviersk
+
+# Class
+upper           över
+middle           medel
+lower           arbetar
+
+# Interest
+literature      litteratur
+music           musik
+theatre         teater
+riding          ridning
+history         historia
+science         vetenskap
+spiritualism    spiritism
+religion        religion
+antiques        antikviteter
+sports          sport
+suffrage        rösträtt
+
+# Sport disciplines
+cricket         cricket
+rowing          rodd
+rugby           rugby
+horse_racing    hästkapplöpning
+
+# Job
+editor          redaktör
+printer         tryckare
+journalist      journalist
+banker          bankir
+landlord        hyresvärd
+industrialist   industriman
+principal       rektor
+merchant        köpman
+apothecary      apotekare
+proprietor      ägare
+solicitor       advokat
+physician       läkare
+priest          präst
+clerk           kontorist
+teacher         lärare
+engineer        ingenjör
+surgeon         kirurg
+typist          maskinskrivare
+barber          barberare
+gardener        trädgårdsmästare
+cook            kock
+farmer          bonde
+nurse           sjuksköterska
+steward         förvaltare
+shop_clerk      butiksbiträde
+waiter          servitör
+maid            hembiträde
+bartender       bartender
+factory_worker  fabriksarbetare
+house_agent     mäklare
+official        ämbetsman
+hatmaker        hattmakare
+tailor          skräddare
+baker           bagare
+
+# Gender
+male            man
+female          kvinna
+
+# Gambling / substances
+gambling        hasardspel
+alcohol         alkohol

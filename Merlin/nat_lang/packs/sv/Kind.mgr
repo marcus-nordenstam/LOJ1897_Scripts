@@ -1,0 +1,41 @@
+
+# Swedish KIND_PLUR - mirror packs/en/Kind.mgr's role: plural surface forms
+# map to the singular ontology kind atom. Used by the tell_beliefs shortcut
+# templates so "berätta om dina syskon" enumerates siblings while "berätta
+# om din syster" falls through to tell_about (single referent).
+:KIND_PLUR
+
+# Kinship plurals
+"bröder"                [k brother]             .
+"systrar"               [k sister]              .
+"syskon"                [k sibling]             .
+"halvsyskon"            [k half_sibling]        .
+"mödrar"                [k mother]              .
+"fäder"                 [k father]              .
+"föräldrar"             [k parent]              .
+"barn"                  [k child]               .
+"söner"                 [k child]               .
+"döttrar"               [k child]               .
+"mormödrar"             [k grandmother]         .
+"farmödrar"             [k grandmother]         .
+"morfäder"              [k grandfather]         .
+"farfäder"              [k grandfather]         .
+"mor- och farföräldrar" [k grandparent]         .
+"barnbarn"              [k grandchild]          .
+"mostrar"               [k aunt]                .
+"morbröder"             [k uncle]               .
+"farbröder"             [k uncle]               .
+"systerdöttrar"         [k niece]               .
+"brorsdöttrar"          [k niece]               .
+"systersöner"           [k nephew]              .
+"brorssöner"            [k nephew]              .
+"kusiner"               [k cousin]              .
+"vänner"                [k friend]              .
+"bekanta"               [k acquaintance]        .
+"grannar"               [k neighbour]           .
+"fiender"               [k enemy]               .
+"älskare"               [k lover]               .
+
+# Collective concept plurals
+"intressen"             [k interest]            .
+"relationer"            [k relationship]        .

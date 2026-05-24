@@ -98,7 +98,7 @@ rule
 rule 
 {@self give ?thing ?player}
 {@self control ?thing}
-{?player role player}
+{?player game_role player}
 {@self face_to_face at ?player}
     ->
 {propose() {@self OFFER ?thing ?player}}.
@@ -107,7 +107,7 @@ rule
 rule 
 {@self give ?thing ?npc}
 {@self control ?thing}
-{?npc role nonplayer}
+{?npc game_role nonplayer}
 {@self at ?npc}
     ->
 {propose() {@self OFFER ?thing ?npc}}.

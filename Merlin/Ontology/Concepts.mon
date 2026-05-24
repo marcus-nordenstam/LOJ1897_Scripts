@@ -140,6 +140,35 @@ concept
         the_law_is_unjust
         self_defense
 
+    # Role-identities an NPC self-identifies as (plan section 10.3 Pivot C,
+    # 2026-05-24). Held as {@self identity <role>} self-beliefs; derived by
+    # hsim_derive::classify_identities from substrate state (kids ->
+    # parent, spouse -> spouse, job -> worker, church member ->
+    # christian); future PRs add explicit identity-adoption events. Read
+    # by the deliberate synthesizer to anchor floor branches (more
+    # identities -> more anchored -> more likely to forgive / do_nothing);
+    # by categorize() to shift thresholds when an anchor's parties overlap
+    # the appraiser's identity-relevant relations (a parent identity makes
+    # child-related construals more salient); by the justify pick to bias
+    # which narrative an actor reaches for (a parent reaches for
+    # i_was_protecting_kin, a christian-priest for it_was_necessary).
+    # Non-@excl - an NPC's composite identity IS the held set.
+    # Atom names are `as_<X>` to avoid colliding with existing kinds of the
+    # same bare name (parent/spouse are relationship bonds; merchant/steward
+    # are job kinds; etc.). The `as_` prefix reads naturally when minted:
+    # `{@self identity as_parent}` = "I identify as a parent".
+    role
+        as_parent
+        as_spouse
+        as_worker
+        as_christian
+        as_gentleman
+        as_lady
+        as_merchant
+        as_servant
+        as_soldier
+        as_steward
+
     # Hereditary interests. Seeded as {@self interest <kind>} self-beliefs in
     # mx_make_human and grown / shed by the interest_acquired / interest_lost
     # hsim events. Non-@excl - an NPC may hold several. The kind subtree below
@@ -495,7 +524,11 @@ concept
         AB
         O
 
-    role                (tar @excl)
+    # Renamed from `role` (2026-05-24) to free that name for the role-
+    # identity taxonomy above (parent / spouse / worker / christian / ...).
+    # game_role distinguishes the player-vs-NPC dispatch the engine reads
+    # from the social-identity beliefs the appraisal pipeline reads.
+    game_role           (tar @excl)
         player
         nonplayer
 

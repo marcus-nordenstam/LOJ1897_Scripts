@@ -2,7 +2,7 @@
 archetype "human_player" (cap 256) (mech obs) (raycast-visible) (player) (non-occluder) (occupies-env-grid) (infer-kind-override human player)
 {
     "physical_motors"
-    "role"
+    "game_role"
     # Lifecycle dates - written by historical sim, surface into interactive.
     "birth_date"
     "death_date"

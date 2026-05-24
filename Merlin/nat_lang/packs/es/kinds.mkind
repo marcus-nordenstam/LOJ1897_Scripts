@@ -1,0 +1,77 @@
+# -----------------------------------------------------------------------------
+# kinds.mkind - Spanish-pack kind-atom localization (Phase 8).
+# -----------------------------------------------------------------------------
+
+# Nationality (masculine form by default; gender agreement is a follow-up)
+irish           irlandés
+english         inglés
+french          francés
+st_revieran     streveriano
+
+# Class
+upper           alta
+middle           media
+lower           obrera
+
+# Interest
+literature      literatura
+music           música
+theatre         teatro
+riding          equitación
+history         historia
+science         ciencia
+spiritualism    espiritualismo
+religion        religión
+antiques        antigüedades
+sports          deportes
+suffrage        sufragio
+
+# Sport disciplines
+cricket         cricket
+rowing          remo
+rugby           rugby
+horse_racing    carrera de caballos
+
+# Job
+editor          editor
+printer         impresor
+journalist      periodista
+banker          banquero
+landlord        casero
+industrialist   industrial
+principal       director
+merchant        comerciante
+apothecary      boticario
+proprietor      propietario
+solicitor       abogado
+physician       médico
+priest          sacerdote
+clerk           empleado
+teacher         maestro
+engineer        ingeniero
+surgeon         cirujano
+typist          mecanógrafo
+barber          barbero
+gardener        jardinero
+cook            cocinero
+farmer          granjero
+nurse           enfermero
+steward         administrador
+shop_clerk      dependiente
+waiter          camarero
+maid            criada
+bartender       barman
+factory_worker  obrero
+house_agent     agente_inmobiliario
+official        funcionario
+hatmaker        sombrerero
+tailor          sastre
+baker           panadero
+
+# Gender
+male            hombre
+female          mujer
+
+# Gambling / substances
+gambling        juego
+alcohol         alcohol
