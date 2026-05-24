@@ -1,0 +1,83 @@
+
+# -----------------------------------------------------------------------------
+# Relations.mgr - Japanese-pack kinship + attribute relations (Phase 8).
+#
+# Each entry maps a Japanese term to the canonical (English) ontology label.
+# Labels are language-neutral; only the surface text differs by pack.
+#
+# Two cuts to flag for the next agent:
+#
+#   1) Japanese splits sibling-by-birth-order: 兄 / 弟 (elder / younger
+#      brother), 姉 / 妹 (elder / younger sister). English's brother / sister
+#      labels carry no birth-order, so a player who types 弟 vs 兄 gets the
+#      same belief written either way. Generation default is the honorific
+#      form (兄, 姉) - elder is the most common kinship assumption when
+#      birth-order is unknown. A future /birth_order aux on kinship beliefs
+#      would let the realizer pick correctly; see dialogue_nlg_phase8_design.md
+#      section 8.10.
+#
+#   2) お母さん / お父さん (polite forms used when addressing someone else's
+#      family) are accepted on parse but generation v1 defaults to the
+#      neutral 母 / 父. Sonkeigo / kenjougo would split these properly; v1's
+#      two-tier keigo (plain vs polite) rides intent tags on the Statements
+#      templates, not on the REL lookups.
+# -----------------------------------------------------------------------------
+
+:PASSIVE_PNAME_REL
+"の 名前 は"            /pres name              .
+"の 名前 は"            /past name              .
+
+
+:PASSIVE_NUM_REL
+"の 年齢 は"            /past age               .
+
+
+:PASSIVE_REL
+"の $rel(REL) は"       /pres $rel(REL)         .
+"の $rel(REL) は"       /past $rel(REL)         .
+
+
+:RELP
+"兄弟"                  sibling                 .
+"親"                    parent                  .
+"兄たち"                 brother                 .
+"姉たち"                 sister                  .
+"子供 たち"             child                   .
+"いとこ たち"            cousin                  .
+"友達 たち"             friend                   .
+"隣人 たち"             neighbour               .
+
+
+:REL
+"婚約者"                fiancee                 .
+"夫"                    spouse                  .
+"妻"                    spouse                  .
+"配偶者"                spouse                  .
+"母"                    mother                  .
+"お母さん"               mother                  .
+"母親"                  mother                  .
+"父"                    father                  .
+"お父さん"               father                  .
+"父親"                  father                  .
+"親"                    parent                  .
+"兄"                    brother                 .
+"弟"                    brother                 .
+"姉"                    sister                  .
+"妹"                    sister                  .
+"兄弟"                  sibling                 .
+"子供"                  child                   .
+"息子"                  child                   .
+"娘"                    child                   .
+"祖母"                  grandmother             .
+"おばあさん"             grandmother             .
+"祖父"                  grandfather             .
+"おじいさん"             grandfather             .
+"いとこ"                cousin                  .
+"友達"                  friend                  .
+"友人"                  friend                  .
+"隣人"                  neighbour               .
+"敵"                    enemy                   .
+"家"                    home                    .
+"出身地"                birthplace              .
+"性別"                  gender                  .
+"階級"                  class_situation         .

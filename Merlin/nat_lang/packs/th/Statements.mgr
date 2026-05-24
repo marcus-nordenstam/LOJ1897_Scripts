@@ -1,0 +1,226 @@
+
+# -----------------------------------------------------------------------------
+# Statements.mgr - Thai-pack clause templates (Phase 8).
+#
+# Two-tier politeness via the existing :: deferential intent tag. Plain
+# templates carry no sentence-final particle; deferential-tagged templates
+# append ครับ (the male polite particle). v1 known-limitation: the proper
+# female polite particle is ค่ะ - emitting the gender-appropriate particle
+# needs a speaker-gender consultation at realize time, deferred (same hook
+# as Japanese 僕 / 私 and Swedish adjective gender agreement).
+#
+# Thai is SVO like English. Copulas:
+#   เป็น (pen)  - "is a X" (categorizing - X is a teacher)
+#   คือ (khue) - "is Y" (equational - X is Y)
+#   อยู่ (yu)   - "is at" / "is in state of"
+#
+# Verbs don't conjugate for tense; past tense is signalled by adverbs/context
+# (เคย = "used to", แล้ว = "already"). v1 emits the bare verb form and lets
+# context carry tense.
+# -----------------------------------------------------------------------------
+
+:ST
+
+# OPENING - vocative-name template.
+"$pname(PNAME)"
+{ $sub_np(NP) $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) }
+.
+:: intro
+
+# Sentinel responses
+"ไม่ทราบ"
+@unknown
+.
+
+"ไม่ทราบ ครับ"
+@unknown
+.
+:: deferential
+
+"ไม่แน่ใจ"
+@unknown%
+.
+
+"ใช่"
+@true
+.
+
+"ไม่"
+@false
+.
+
+
+# COMMAND-STATEMENTS - the player asking the NPC to describe someone.
+# Thai "tell me about X" = "บอก ฉัน เกี่ยวกับ X" (tell me about X) or
+# "เล่า เรื่อง X ให้ ฟัง" (tell story of X for me to hear).
+
+"บอก ฉัน เกี่ยวกับ $obj(NP)"
+{ ?_I /pres goal { ?_you /pres tell_about $obj(NP) ?_I } }
+.
+
+"บอก ฉัน เกี่ยวกับ $obj(NP) ครับ"
+{ ?_I /pres goal { ?_you /pres tell_about $obj(NP) ?_I } }
+.
+:: deferential
+
+"เล่า เรื่อง $obj(NP) ให้ ฉัน ฟัง"
+{ ?_I /pres goal { ?_you /pres tell_about $obj(NP) ?_I } }
+.
+
+# Kind-quantified content requests
+"บอก ฉัน เกี่ยวกับ $state_kind(KIND) ของ $obj(NP)"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { $obj(NP) $state_kind(KIND) ? ? } ?_I } }
+.
+
+"บอก ฉัน เกี่ยวกับ $state_kind(KIND) ของ คุณ"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { ?_you $state_kind(KIND) ? ? } ?_I } }
+.
+
+"บอก ฉัน เกี่ยวกับ $state_kind(KIND) ของ ฉัน"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { ?_I $state_kind(KIND) ? ? } ?_I } }
+.
+
+
+# BARE-IS ATTRIBUTE STATEMENTS - the description body.
+#
+# Each major attribute ships with plain + deferential variants.
+
+# Age - "Maria อายุ ยี่สิบสี่ ปี" (Maria has-age 24 years)
+"$sub_np(NP) อายุ $num(NUM) ปี"
+{ $sub_np(NP) /pres age $num(NUM) }
+.
+
+"$sub_np(NP) อายุ $num(NUM) ปี ครับ"
+{ $sub_np(NP) /pres age $num(NUM) }
+.
+:: deferential
+
+# Nationality - "Maria เป็น คน irish" (Maria is person-of irish)
+"$sub_np(NP) เป็น คน $kind(KIND|/isa|nationality)"
+{ $sub_np(NP) /pres nationality $kind(KIND|/isa|nationality) }
+.
+
+"$sub_np(NP) เป็น คน $kind(KIND|/isa|nationality) ครับ"
+{ $sub_np(NP) /pres nationality $kind(KIND|/isa|nationality) }
+.
+:: deferential
+
+# Class - "Maria เป็น ชนชั้น lower" (Maria is class lower)
+"$sub_np(NP) เป็น ชนชั้น $kind(KIND|/isa|class_situation)"
+{ $sub_np(NP) /pres class_situation $kind(KIND|/isa|class_situation) }
+.
+
+"$sub_np(NP) เป็น ชนชั้น $kind(KIND|/isa|class_situation) ครับ"
+{ $sub_np(NP) /pres class_situation $kind(KIND|/isa|class_situation) }
+.
+:: deferential
+
+# Occupation - "Maria ทำงาน เป็น hatmaker"
+"$sub_np(NP) ทำงาน เป็น $kind(KIND|/isa|job)"
+{ $sub_np(NP) /pres job $kind(KIND|/isa|job) }
+.
+
+"$sub_np(NP) ทำงาน เป็น $kind(KIND|/isa|job) ครับ"
+{ $sub_np(NP) /pres job $kind(KIND|/isa|job) }
+.
+:: deferential
+
+
+# THIRD-PARTY KINSHIP / RELATION STATEMENTS.
+# "แม่ ของ Maria คือ Anna" - mother of Maria is Anna.
+
+" แม่ ของ $sub_np(NP) คือ $value(NP) "
+{ $sub_np(NP) /pres mother $value(NP) } .
+" แม่ ของ $sub_np(NP) เคยเป็น $value(NP) "
+{ $sub_np(NP) /past mother $value(NP) } .
+" พ่อ ของ $sub_np(NP) คือ $value(NP) "
+{ $sub_np(NP) /pres father $value(NP) } .
+" พ่อ ของ $sub_np(NP) เคยเป็น $value(NP) "
+{ $sub_np(NP) /past father $value(NP) } .
+" พ่อแม่ ของ $sub_np(NP) คือ $value(NP) "
+{ $sub_np(NP) /pres parent $value(NP) } .
+" พี่น้อง ของ $sub_np(NP) คือ $value(NP) "
+{ $sub_np(NP) /pres sibling $value(NP) } .
+
+# Birth-order sibling - v1 defaults to the elder forms (พี่ชาย, พี่สาว).
+" พี่ชาย ของ $sub_np(NP) คือ $value(NP) "
+{ $sub_np(NP) /pres brother $value(NP) } .
+" พี่สาว ของ $sub_np(NP) คือ $value(NP) "
+{ $sub_np(NP) /pres sister $value(NP) } .
+
+" ลูก ของ $sub_np(NP) คือ $value(NP) "
+{ $sub_np(NP) /pres child $value(NP) } .
+" คู่สมรส ของ $sub_np(NP) คือ $value(NP) "
+{ $sub_np(NP) /pres spouse $value(NP) } .
+" เพื่อน ของ $sub_np(NP) คือ $value(NP) "
+{ $sub_np(NP) /pres friend $value(NP) } .
+" เพื่อนบ้าน ของ $sub_np(NP) คือ $value(NP) "
+{ $sub_np(NP) /pres neighbour $value(NP) } .
+
+# Birthplace / home
+" บ้านเกิด ของ $sub_np(NP) คือ $value(NP) "
+{ $sub_np(NP) /pres birthplace $value(NP) } .
+" บ้าน ของ $sub_np(NP) คือ $value(NP) "
+{ $sub_np(NP) /pres home $value(NP) } .
+
+
+# REGARD-SLOT - love + emotion shapes.
+
+# Love - "Maria รัก Anna"
+" $sub_np(NP) รัก $value(NP) "
+{ $sub_np(NP) /pres love $value(NP) } .
+" $sub_np(NP) เคยรัก $value(NP) "
+{ $sub_np(NP) /past love $value(NP) } .
+
+# Emotion : affection - "Maria ชอบ Anna" (likes / has affection for)
+" $sub_np(NP) ชอบ $value(NP) "
+{ $sub_np(NP) /pres emotion [k affection ] $value(NP) } .
+
+# Emotion : joy (focused + ambient)
+" $sub_np(NP) ดีใจ ที่ มี $value(NP) "
+{ $sub_np(NP) /pres emotion [k joy ] $value(NP) } .
+" $sub_np(NP) ดีใจ "
+{ $sub_np(NP) /pres emotion [k joy ] } .
+
+# Emotion : grief (focused + ambient)
+" $sub_np(NP) เสียใจ เรื่อง $value(NP) "
+{ $sub_np(NP) /pres emotion [k grief ] $value(NP) } .
+" $sub_np(NP) เสียใจ "
+{ $sub_np(NP) /pres emotion [k grief ] } .
+
+# Emotion : anger (focused + ambient)
+" $sub_np(NP) โกรธ $value(NP) "
+{ $sub_np(NP) /pres emotion [k anger ] $value(NP) } .
+" $sub_np(NP) โกรธ "
+{ $sub_np(NP) /pres emotion [k anger ] } .
+
+# Emotion : fear (focused + ambient)
+" $sub_np(NP) กลัว $value(NP) "
+{ $sub_np(NP) /pres emotion [k fear ] $value(NP) } .
+" $sub_np(NP) กลัว "
+{ $sub_np(NP) /pres emotion [k fear ] } .
+
+
+# INTEREST - kind-valued plural attribute, one belief per topic.
+" $sub_np(NP) สนใจ $kind(KIND|/isa|interest) "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|interest) } .
+
+
+# POSSESSIVE RELATIONS - first-person and second-person possessive shapes.
+
+# "แม่ ของ ฉัน คือ Anna" - first-person possessive
+" $rel(REL) ของ $my(PRONOUN) คือ $value(NP) "
+{ $my(PRONOUN) /pres $rel(REL) $value(NP) }
+.
+
+" $rel(REL) ของ $my(PRONOUN) เคยเป็น $value(NP) "
+{ $my(PRONOUN) /past $rel(REL) $value(NP) }
+.
+
+# Passive-name form for proper-name targets
+" $sub_np(NP) ชื่อ $pname(PNAME) "
+{ $sub_np(NP)      $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) } .
+
+# Passive-num form for numeric targets
+" $sub_np(NP) อายุ $num(NUM) ปี "
+{ $sub_np(NP)            $num_rel(PASSIVE_NUM_REL) $num(NUM) } .

@@ -1,0 +1,48 @@
+# -----------------------------------------------------------------------------
+# morphology.mmorph - Thai-pack morphology (Phase 8).
+#
+# Thai cardinal numbers: 0..10 verbatim, 11..19 = สิบ + ones (with หนึ่ง
+# rendered as เอ็ด in the 11/21/31... positions in standard Thai - v1 cut,
+# documented), 20..99 = tens-digit + สิบ + ones (with ยี่ instead of สอง
+# in the 20-tens position - authored as table slot 20).
+#
+# v1 covers 0..999. Higher positionals (พัน=1000, หมื่น=10000, แสน=100000)
+# are past the description corpus needs and are a follow-up.
+# -----------------------------------------------------------------------------
+
+style: thai
+hundred: ร้อย
+
+# Ones
+number 0  = ศูนย์
+number 1  = หนึ่ง
+number 2  = สอง
+number 3  = สาม
+number 4  = สี่
+number 5  = ห้า
+number 6  = หก
+number 7  = เจ็ด
+number 8  = แปด
+number 9  = เก้า
+
+# Ten + teens. 11 uses เอ็ด (the special X1 form); 12..19 are สิบ + ones.
+number 10 = สิบ
+number 11 = สิบเอ็ด
+number 12 = สิบสอง
+number 13 = สิบสาม
+number 14 = สิบสี่
+number 15 = สิบห้า
+number 16 = สิบหก
+number 17 = สิบเจ็ด
+number 18 = สิบแปด
+number 19 = สิบเก้า
+
+# Tens. 20 is the special ยี่สิบ form (not สองสิบ); 30..90 are regular.
+number 20 = ยี่สิบ
+number 30 = สามสิบ
+number 40 = สี่สิบ
+number 50 = ห้าสิบ
+number 60 = หกสิบ
+number 70 = เจ็ดสิบ
+number 80 = แปดสิบ
+number 90 = เก้าสิบ

@@ -1,0 +1,31 @@
+
+# -----------------------------------------------------------------------------
+# Pronouns.mgr - Thai-pack first/second-person pronouns (Phase 8).
+#
+# Thai pronouns are gender- and formality-aware:
+#   ฉัน (chan)    - first-person, neutral. Default for ?_I.
+#   ผม (phom)     - first-person, masculine, polite. Accepts on parse.
+#   ดิฉัน (dichan) - first-person, feminine, formal. Accepts on parse.
+#   คุณ (khun)    - second-person, polite. Default for ?_you.
+#   เธอ (thoe)    - second-person, intimate. Accepts on parse.
+#
+# Politeness ALSO rides on sentence-final particles (ครับ male / ค่ะ female)
+# at the Statements.mgr level rather than on the pronoun itself. v1 emits
+# ครับ as the polite-particle default - the speaker-gender split is a
+# follow-up shared with Japanese 僕 / 私 selection (see phase8_design.md).
+#
+# Possessive forms in Thai are compositional - "X ของ <pronoun>" (X of-me).
+# NounPhrases.mgr realizes that pattern; no separate possessive pronouns.
+# -----------------------------------------------------------------------------
+
+:PRONOUN
+
+"ฉัน"      ?_I     .
+"ผม"      ?_I     .
+"ดิฉัน"     ?_I     .
+
+"คุณ"      ?_you   .
+"เธอ"      ?_you   .
+
+"นี่"      ?_this  .
+"นั่น"     ?_this  .

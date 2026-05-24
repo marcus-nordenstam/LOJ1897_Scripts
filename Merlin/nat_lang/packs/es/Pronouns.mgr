@@ -1,0 +1,37 @@
+
+# -----------------------------------------------------------------------------
+# Pronouns.mgr - Spanish-pack first/second-person pronouns (Phase 8).
+#
+# Spanish has a tú (informal) vs usted (formal) split that pairs naturally
+# with the two-tier formality intent-tag scheme (untagged = tú, deferential
+# = usted). Both bind to ?_you - the .mc rule layer doesn't distinguish them.
+#
+# v1 ships:
+#   yo / mí / mi   - first-person (singular). mi is the possessive determiner.
+#                    Plural (nosotros, nuestro) is a follow-up.
+#   tú / ti / tu   - second-person informal singular.
+#   usted / su     - second-person formal singular.
+#   él / ella      - third-person; covered in NounPhrases via PNAME / REG_NP
+#                    so not strictly needed here.
+#
+# Possessive forms in Spanish AGREE in number (mi/mis, tu/tus, su/sus) and
+# in some cases gender (nuestro/nuestra). v1 emits singular forms only;
+# plurals would need agreement consulted at realize time - same shared hook
+# as Swedish adjective agreement (deferred).
+# -----------------------------------------------------------------------------
+
+:PRONOUN
+
+"yo"     ?_I     .
+"mí"     ?_I     .
+"mi"     ?_I     .
+
+"tú"     ?_you   .
+"ti"     ?_you   .
+"tu"     ?_you   .
+"usted"  ?_you   .
+"su"     ?_you   .
+
+"este"   ?_this  .
+"esto"   ?_this  .
+"eso"    ?_this  .

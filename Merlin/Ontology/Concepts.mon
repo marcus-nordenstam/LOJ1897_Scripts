@@ -39,6 +39,11 @@ concept
     condition           (tar @excl)
         alive
         dead
+        # Phase 10 Phase C - fate-ambiguous outcome for kidnap-in-progress,
+        # buried-alive scenarios, disappearances. propagate_disappearance
+        # ends present-tense beliefs about the missing person without
+        # minting condition-dead (10.3h).
+        missing
 
     alertness           (tar @excl)
         alert
@@ -50,6 +55,19 @@ concept
         old_age
         childbirth
         violence
+
+    # Phase 10 Phase C - the cause-of-death NARRATIVE witnesses form when
+    # perceiving a death scene (vs death_cause, the objective cause). Used
+    # in `circumstances_of_death` beliefs that F2 gossip carries
+    # village-wide; the "staged story" emerges from observers agreeing on
+    # a particular incident kind. Extensible as new staging shapes are
+    # authored.
+    incident
+        burglary
+        domestic_violence
+        accident
+        duel
+        illness_complication
 
     # Region mood components (the mood_kinds attr is plural - a region carries
     # several at once, so no @excl).
@@ -158,6 +176,9 @@ concept
     # (Objects.mon) is a separate, concrete layer.
     substance
         alcohol
+        # Phase 10 Phase C - cardiac glycoside; the canonical poison in
+        # the case study. Concrete bottles are `prop` entities containing it.
+        digitalis
 
     living_arrangement  (sub human)  (tar ? @excl)
         owner           (tar human|org @excl)
@@ -202,6 +223,11 @@ concept
             cook
             farmer
             nurse
+            # Phase 10 Phase C - the estate manager job-kind. Standard
+            # per-mind job-object pattern: {?npc job ?j_obj} +
+            # {?j_obj isa [k steward]}. Holds the day-to-day authority over
+            # an `estate` org (Concepts.mon, business sub-kind).
+            steward
             shop_clerk
             waiter
             maid
@@ -264,6 +290,12 @@ concept
                 barbershop
                 antiques_shop
                 theatre
+                # Phase 10 Phase C - landed / agricultural estate. Generates
+                # revenue, owns property, employs people, can be sold or
+                # inherited. The case-study perpetrator inherits one when
+                # the death-trigger fires the heir_of -> inherit conversion
+                # (10.3d).
+                estate
 
     # Fields of study - the target of the `study` and `diploma` relations, and
     # of `skilled_in` (States.mon): a field-of-study doubles as the domain an
@@ -510,6 +542,11 @@ concept
         stepfather      (tar @excl)  (inclusive_bond)
         stepchild       (inclusive_bond)
         child           (inclusive_bond)
+        # Phase 10 Phase C - guardianship. {?guardian ward ?ward_npc} reads
+        # "guardian is the legal guardian of ward". Inclusive bond
+        # (multiple wards possible). The case study's Ashcombe/Clara pair
+        # uses this for the pre-perpetration relationship.
+        ward            (inclusive_bond)
         spouse          (tar @excl)  (exclusive_bond)
         fiancee         (tar @excl)  (exclusive_bond)
         lover           (inclusive_bond)

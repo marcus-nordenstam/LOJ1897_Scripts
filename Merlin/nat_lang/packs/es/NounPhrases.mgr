@@ -1,0 +1,119 @@
+
+# -----------------------------------------------------------------------------
+# NounPhrases.mgr - Spanish-pack noun phrases (Phase 8).
+#
+# Mirrors packs/en/NounPhrases.mgr structurally - same phrase-class hierarchy
+# (NP = VARIABLE | PRONOUN | REG_NP | PNAME | KIND). Re-declaring the classes
+# here is idempotent so the Spanish pack reuses the global class graph.
+#
+# Spanish articles: el / la (definite masculine / feminine), un / una
+# (indefinite). v1 emits "el" / "un" by default for un-named objects; gender
+# agreement on articles needs the kind's grammatical gender belief, which
+# isn't available v1. Templates that emit "la" / "una" are alternatives that
+# parse in either direction but are not preferred for generation.
+#
+# Genitive: Spanish uses "X de Y" instead of "Y's X" - "the mother of Maria"
+# rather than "Maria's mother". The template shape is "el|la $rel $de $pname"
+# instead of "$pname ++'s $rel".
+# -----------------------------------------------------------------------------
+
+:REG_NP
+
+# Sentinel atoms
+"desconocido"           @unknown                .
+"no se sabe"            @unknown%               .
+"nada"                  _                       .
+
+# A named object such as "Anna Andersson"
+"$pname(PNAME)"
+( o $pname(PNAME) )
+.
+
+# "el difunto Anna Andersson" - the deceased-name form. v1 defaults to the
+# masculine "el difunto" / "la difunta" split - emits "el difunto" by default
+# since gender agreement isn't wired. Both parse.
+"el difunto $pname(PNAME)"
+( o { @o /past name $pname(PNAME) } )
+.
+"la difunta $pname(PNAME)"
+( o { @o /past name $pname(PNAME) } )
+.
+
+# An un-named object known only by its kind
+"un $kind(KIND)"
+( o $kind(KIND) )
+.
+"una $kind(KIND)"
+( o $kind(KIND) )
+.
+
+# "mi madre" / "mi padre" - first-person possessive
+"mi $rel(REL)"
+( o { ?_I /pres $rel(REL) @o } )
+.
+
+# "tu madre" / "su madre" - second-person possessive (tú / usted)
+"tu $rel(REL)"
+( o { ?_you /pres $rel(REL) @o } )
+.
+"su $rel(REL)"
+( o { ?_you /pres $rel(REL) @o } )
+.
+
+# "la madre de Anna" - genitive name + relation. Spanish uses "de" instead
+# of the English -'s genitive. Templates emit the masculine "el" article
+# by default; "la" form parses both.
+"el $rel(REL) de $pname(PNAME)"
+( o { $pname(PNAME) /pres $rel(REL) @o } )
+.
+"la $rel(REL) de $pname(PNAME)"
+( o { $pname(PNAME) /pres $rel(REL) @o } )
+.
+
+
+# v1 NP composition: same subclass order as English / Swedish.
+:NP = VARIABLE|PRONOUN|REG_NP|PNAME|KIND
+
+
+# Oxford-comma plural NP-list. Spanish uses "y" (and) before the last
+# element. Spanish doesn't use the Oxford comma.
+:NP_PLUR
+"$np(NP)"                                          $np(NP)                                          .
+"$np(NP) y $np(NP)"                                $np(NP) and $np(NP)                              .
+"$np(NP) ++, $np_plur(NP_PLUR)"                    $np(NP) , $np_plur(NP_PLUR)                      .
+
+
+# Question-context NPs.
+:Q_REG_NP
+
+"$pname(PNAME)"
+( o /known $pname(PNAME) )
+.
+
+"el difunto $pname(PNAME)"
+( o /known { @o /past name $pname(PNAME) } )
+.
+"la difunta $pname(PNAME)"
+( o /known { @o /past name $pname(PNAME) } )
+.
+
+"mi $rel(REL)"
+( o /known { ?_I /ever $rel(REL) @o } )
+.
+
+"tu $rel(REL)"
+( o /known { ?_you /ever $rel(REL) @o } )
+.
+
+"su $rel(REL)"
+( o /known { ?_you /ever $rel(REL) @o } )
+.
+
+"el $rel(REL) de $pname(PNAME)"
+( o /known { $pname(PNAME) /ever $rel(REL) @o } )
+.
+"la $rel(REL) de $pname(PNAME)"
+( o /known { $pname(PNAME) /ever $rel(REL) @o } )
+.
+
+:Q_NP = VARIABLE|PRONOUN|Q_REG_NP|PNAME

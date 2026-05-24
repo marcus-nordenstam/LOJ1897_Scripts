@@ -2,14 +2,16 @@
 # building addresses (a building's `address` attr points at its road, or
 # at itself for estate grounds with no street). Roads persist into the
 # interactive sim - NPCs may navigate by road name.
-archetype "road" [128] /obs /always_visible /non_occluder
+archetype "road" (cap 128) (mech obs) (always-visible) (non-occluder)
 {
     # Roads are spline-shaped, not OBB-shaped: their spatial geometry is the
     # CV polyline in /spline_geometry, not a single bounding box. The
     # archetype-parse-time mutex (PopulationStorage::_activateAttrs) forbids
     # declaring both /spatial_bounds and /spline_geometry on the same
     # archetype, so "obb" is intentionally absent here.
-    "name" /auto_percept
+    # Road name is observable (street signs).  ext-mech override - common.arc
+    # leaves name imperceptible for the human model.
+    "name" (auto-percept) (ext-mech obs)
     "region"
     # Nav v2 Phase 3 spline geometry. Written inline by Game.cc's LoadScene
     # entity-creation dispatch (k_spline branch) from the GRYM

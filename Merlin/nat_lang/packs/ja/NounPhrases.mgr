@@ -1,0 +1,95 @@
+
+# -----------------------------------------------------------------------------
+# NounPhrases.mgr - Japanese-pack noun phrases (Phase 8).
+#
+# Mirrors packs/en/NounPhrases.mgr structurally - same phrase-class hierarchy
+# (NP = VARIABLE | PRONOUN | REG_NP | PNAME | KIND). Re-declaring the classes
+# here is idempotent (_phrase_classes.add no-ops on duplicates) so the
+# Japanese pack reuses the global class graph.
+#
+# Japanese has no articles (no "the" / "a"), so REG_NP forms for un-named
+# objects are bare-kind. Possessive is compositional - pronoun + の + REL.
+# -----------------------------------------------------------------------------
+
+:REG_NP
+
+# Sentinel atoms
+"不明"                   @unknown                .
+"わからない"              @unknown%               .
+"何も"                   _                       .
+
+# A named object such as "Anna Andersson". v1 expects names in their
+# ontology-registered form (typically Latin script for LOJ1897), so a
+# romaji name segment is the v1 path. Authoring katakana name aliases is
+# a follow-up that needs ontology-side name registration in katakana.
+"$pname(PNAME)"
+( o $pname(PNAME) )
+.
+
+# "the late Anna Andersson" - the deceased-name form. 故 (ko) is the formal
+# Japanese prefix for the late / deceased.
+"故 $pname(PNAME)"
+( o { @o /past name $pname(PNAME) } )
+.
+
+# An un-named object known only by its kind - Japanese omits articles
+# entirely, so the bare kind suffices.
+"$kind(KIND)"
+( o $kind(KIND) )
+.
+
+# "私 の 母" / "私 の 父" - first-person possessive. の is the possessive
+# particle that links possessor to possessee.
+"私 の $rel(REL)"
+( o { ?_I /pres $rel(REL) @o } )
+.
+
+# "あなた の 母" / "あなた の 父" - second-person possessive.
+"あなた の $rel(REL)"
+( o { ?_you /pres $rel(REL) @o } )
+.
+
+# "アンナ の 母" - genitive name + relation. Same の particle.
+"$pname(PNAME) の $rel(REL)"
+( o { $pname(PNAME) /pres $rel(REL) @o } )
+.
+
+
+# v1 NP composition: same subclass order as English / Swedish.
+:NP = VARIABLE|PRONOUN|REG_NP|PNAME|KIND
+
+
+# Plural NP-list. Japanese uses と (and) between items. No Oxford comma;
+# Japanese lists typically don't use one. v1 ships the と-joined and the
+# bare single-item form; longer comma-separated lists are a follow-up.
+:NP_PLUR
+"$np(NP)"                          $np(NP)                          .
+"$np(NP) と $np(NP)"               $np(NP) and $np(NP)              .
+"$np(NP) と $np_plur(NP_PLUR)"     $np(NP) , $np_plur(NP_PLUR)      .
+
+
+# Question-context NPs - identical shape to REG_NP but the (o ...) carries
+# /known so the matcher knows the asker is referring to an existing entity.
+:Q_REG_NP
+
+"$pname(PNAME)"
+( o /known $pname(PNAME) )
+.
+
+"故 $pname(PNAME)"
+( o /known { @o /past name $pname(PNAME) } )
+.
+
+"私 の $rel(REL)"
+( o /known { ?_I /ever $rel(REL) @o } )
+.
+
+"あなた の $rel(REL)"
+( o /known { ?_you /ever $rel(REL) @o } )
+.
+
+"$pname(PNAME) の $rel(REL)"
+( o /known { $pname(PNAME) /ever $rel(REL) @o } )
+.
+
+:Q_NP = VARIABLE|PRONOUN|Q_REG_NP|PNAME

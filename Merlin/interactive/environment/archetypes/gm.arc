@@ -1,3 +1,3 @@
-archetype "gm" [1] /imperceptible /sentient
+archetype "gm" (cap 1) (imperceptible) (sentient)
 {
 }

@@ -1,11 +1,15 @@
 # Immobile structures with their own internal cell-space (buildings, ships, wagons, train_cars).
 # Distinguished from `structure` (pier, bridge) by having a container_id (auto-injected in code, not listed here).
-archetype "container_structure" [2048] /obs /always_visible /children_occupy_env_grid
+archetype "container_structure" (cap 2048) (mech obs) (always-visible) (children-occupy-env-grid)
 {
     "birth_date"
-    # Name is auto-perceived so NPCs know what building they're in
-    "name" /auto_percept
-    "parts" /auto_percept
+    # Name is auto-perceived so NPCs know what building they're in.  The
+    # ext-mech override (common.arc names default to imperceptible for humans)
+    # lets the visual sensor tag perceived building-name beliefs as OBS so
+    # they live in the OBS pool.  Stopgap until address signs become
+    # observable entities.
+    "name" (auto-percept) (ext-mech obs)
+    "parts" (auto-percept)
     "obb"
     # Building physical / structural properties (historical sim writes
     # these; crime templates and behaviour rules may match on them).

@@ -1,10 +1,12 @@
 # Immobile parts of structures (walls, counters, windows, etc.) that occupy the env-grid
-archetype "structure_part" [2048] /obs /always_visible /occupies_env_grid /children_occupy_env_grid
+archetype "structure_part" (cap 2048) (mech obs) (always-visible) (occupies-env-grid) (children-occupy-env-grid)
 {
     "birth_date"
-    "name" /auto_percept
+    # Structure-part name is observable (engraving / placard).  ext-mech
+    # override - common.arc leaves name imperceptible for the human model.
+    "name" (auto-percept) (ext-mech obs)
     "struct_parent"
-    "parts" /auto_percept
+    "parts" (auto-percept)
     "obb"
     # Nav v2: openings (doors, gates, archways, large_windows) ride this
     # archetype as kind-distinguished children. /is_nav_passage gates the

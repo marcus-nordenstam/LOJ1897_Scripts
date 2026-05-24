@@ -1,5 +1,5 @@
 # Any sound — including speech
-archetype "sound" [256] /non_occluder /hear
+archetype "sound" (cap 256) (non-occluder) (mech hear)
 {
     "create_action"
     "speaker"

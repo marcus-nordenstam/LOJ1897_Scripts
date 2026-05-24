@@ -1,0 +1,70 @@
+
+# -----------------------------------------------------------------------------
+# Relations.mgr - Spanish-pack kinship + attribute relations (Phase 8).
+#
+# Spanish kinship is gendered (madre/padre, hermano/hermana, abuelo/abuela,
+# etc.). Each entry maps a Spanish term to the canonical English ontology
+# label - labels are language-neutral; only the surface text differs.
+#
+# Plural forms (hermanos/hermanas, padres) go in RELP. The Spanish masculine
+# plural "hermanos" is canonically used as a mixed-or-unknown-gender plural,
+# which lets it carry the generic `brother` label for v1; same shape as
+# Swedish's "bröder".
+# -----------------------------------------------------------------------------
+
+:PASSIVE_PNAME_REL
+"se llama"              /pres name              .
+"se llamaba"            /past name              .
+
+
+:PASSIVE_NUM_REL
+"tenía"                 /past age               .
+
+
+:PASSIVE_REL
+"$rel(REL) es"          /pres $rel(REL)         .
+"$rel(REL) era"         /past $rel(REL)         .
+
+
+:RELP
+"hermanos"              sibling                 .
+"padres"                parent                  .
+"hermanos"              brother                 .
+"hermanas"              sister                  .
+"hijos"                 child                   .
+"primos"                cousin                  .
+"amigos"                friend                  .
+"vecinos"               neighbour               .
+
+
+:REL
+"prometida"             fiancee                 .
+"prometido"             fiancee                 .
+"esposo"                spouse                  .
+"esposa"                spouse                  .
+"marido"                spouse                  .
+"mujer"                 spouse                  .
+"cónyuge"               spouse                  .
+"madre"                 mother                  .
+"mamá"                  mother                  .
+"padre"                 father                  .
+"papá"                  father                  .
+"progenitor"            parent                  .
+"hermano"               brother                 .
+"hermana"               sister                  .
+"hijo"                  child                   .
+"hija"                  child                   .
+"abuela"                grandmother             .
+"abuelo"                grandfather             .
+"primo"                 cousin                  .
+"prima"                 cousin                  .
+"amigo"                 friend                  .
+"amiga"                 friend                  .
+"vecino"                neighbour               .
+"vecina"                neighbour               .
+"enemigo"               enemy                   .
+"enemiga"               enemy                   .
+"hogar"                 home                    .
+"lugar de nacimiento"   birthplace              .
+"género"                gender                  .
+"clase"                 class_situation         .

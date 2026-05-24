@@ -1,5 +1,5 @@
 # One head per human; capacity scales with human_npc cap (4096).
-archetype "head" [4096] /obs /non_occluder
+archetype "head" (cap 4096) (mech obs) (non-occluder)
 {
     "struct_parent"
     "obb"

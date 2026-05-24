@@ -1,5 +1,5 @@
 # Two hands per human; capacity scales with human_npc cap (4096).
-archetype "hand" [8192] /obs /non_occluder
+archetype "hand" (cap 8192) (mech obs) (non-occluder)
 {
     "struct_parent"
     "parts"

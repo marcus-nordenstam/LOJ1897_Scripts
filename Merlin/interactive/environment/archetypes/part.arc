@@ -1,9 +1,11 @@
 # This can be a part of a structure OR a prop
-archetype "part" [2048] /obs
+archetype "part" (cap 2048) (mech obs)
 {
     "birth_date"
-    "name" /auto_percept
+    # Part name observable (e.g. a part of a structure or labeled prop-part).
+    # ext-mech override - common.arc leaves name imperceptible for the human model.
+    "name" (auto-percept) (ext-mech obs)
     "struct_parent"
-    "parts" /auto_percept
+    "parts" (auto-percept)
     "obb"
 }

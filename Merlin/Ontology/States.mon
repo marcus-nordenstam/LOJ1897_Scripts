@@ -50,6 +50,13 @@ relation
             # Detective-gameplay payoff: a guilty NPC's justify beliefs are
             # queryable through normal interrogation.
             justify             (tar narrative)
+            # infatuation: obsessive directed attraction, distinct from the
+            # existing like / love (Phase 10 Phase C). Read by the
+            # appraise_obsession deliberation (10.3h) and by opportunity
+            # events that gate on standing infatuation (a
+            # tail_through_streets recurrence biased toward target's
+            # location).
+            infatuation         (tar human)
 
         # Construals are no longer a parallel vocabulary - each construal is
         # one of the construed_act sub-kinds in Concepts.mon (wrong_act,
@@ -81,6 +88,24 @@ relation
             # party, target the investor. Non-exclusive - a venture may have
             # several backers.
             backed_by           (tar human)
+            # heir_of: {heir heir_of benefactor} - prospect, non-@excl (an
+            # estate may name multiple heirs). Parallel to fiancee (prospect
+            # for marriage). Distinct from the past-tense `inherit` event
+            # which mints when the benefactor dies. Disinheritance during
+            # life ends the heir_of belief; the death-triggered conversion
+            # in mortality .hse turns surviving heir_of into inherit
+            # (10.3d). Phase 10 Phase C.
+            heir_of             (tar human)
+            # captor_of: {captor captor_of victim} - the kidnap-in-progress
+            # relationship. Ended by release / escape / mortality. Phase 10
+            # Phase C; consumed by 10.3h kidnap lifecycle.
+            captor_of           (tar human)
+            # circumstances_of_death: {victim circumstances_of_death
+            # <incident>} - the cause-of-death NARRATIVE witnesses form
+            # when perceiving a death scene. F2 gossip carries it
+            # village-wide so the staged story crystallizes. @excl - one
+            # held narrative per observer per victim. Phase 10 Phase C.
+            circumstances_of_death  (tar incident @excl)
 
         # Competence - the domains an NPC is practically skilled in. The target
         # is a field_of_study kind, which doubles as the competence taxonomy
@@ -115,11 +140,37 @@ relation
             # embezzle gets both the appropriation_act reaction AND the
             # betray_act reaction AND the wrong_act reaction.
             assault             (tar human)       (construed_act harm_act wrong_act)
-            kill                (tar human)       (construed_act harm_act wrong_act)
+            # kill - method (substance kind, weapon object, or _ for
+            # unspecified) rides the aux. Phase 10 Phase C: relaxed from
+            # /tar human alone so {clara kill ashcombe /aux digitalis} and
+            # {clara kill ashcombe /aux bronze_bust} both fit one label
+            # (Rule 4 of knowledge_design_notes - don't restate target kind
+            # in label).
+            kill                (tar human)  (aux ?)  (construed_act harm_act wrong_act)
             steal               (tar human)       (construed_act appropriation_act wrong_act)
             defraud             (tar human)       (construed_act appropriation_act wrong_act betray_act)
             embezzle            (tar human|org)   (construed_act appropriation_act wrong_act betray_act)
             kidnap              (tar human)       (construed_act coercion_act threaten_act wrong_act)
+            # Phase 10 Phase C - additional Phase 10 act-records.
+            # disinherit: testamentary act; its effect is to end the
+            # target's heir_of belief. The dropped heir feels abandonment.
+            disinherit          (tar human)       (construed_act abandonment_act wrong_act)
+            # expose: public-disclosure act. Target is a fact (@S). The
+            # fact's sensitivity band determines whether scandal_breaks
+            # (10.3h) fires alongside.
+            expose              (tar @S)          (construed_act expose_act betray_act wrong_act)
+            # tamper: generic trap-setting act. The substance / sabotage
+            # vector rides the aux. Not directly appraisable - it is the
+            # PREPARATION for a perpetration; the trap-fire event mints
+            # the appraisable kill / harm act-record when the trap fires.
+            # So no construed_act tag here.
+            tamper              (tar object)  (aux ?)
+            # recruit: conspiracy delegation. The recruiter holds
+            # {perp recruit accomplice /aux <embedded-goal-fact>}; the
+            # event-effect mints {accomplice goal {accomplice <act>
+            # ?victim}} in accomplice's mind. Preparatory (the eventual
+            # crime carries the appraisal), so no construed_act tag here.
+            recruit             (tar human)  (aux ?)
 
         # Acquired interior drives (F4.3). A drive is neither an emotion nor a
         # heritable temperament - it is deposited by a life of events and then

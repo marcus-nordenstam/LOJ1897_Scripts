@@ -1,0 +1,146 @@
+# -----------------------------------------------------------------------------
+# segmentation.mseg - Japanese-pack segmenter dictionary (Phase 8).
+#
+# The longest-match dictionary the parse-side segmenter consults to insert
+# word boundaries in Japanese input. The dictionary IS the bounded vocabulary
+# the player can type - missing entries surface as parse failures rather than
+# corrupt segmentations.
+#
+# Authored in lockstep with the Japanese .mgr files: every Japanese token
+# any pack template emits or expects should be present here. The longest-match
+# scan picks the longest entry that prefixes the remaining input, so 教えてください
+# wins over 教えて, 母親 wins over 母, etc.
+#
+# v1 known parse limitations (documented in dialogue_nlg_phase8_design.md
+# section 8.7):
+#  - Kanji numerals (二十四) aren't in the dictionary so they over-segment as
+#    individual character tokens. The matcher's NUM class doesn't accept
+#    kanji digits in v1 - the player should use ASCII digits for numeric
+#    fields. Generation emits kanji numerals freely.
+#  - Names not in the ontology's PNAME registry won't match. Romaji
+#    names (Maria) pass through ASCII as-is. Katakana name aliases
+#    (マリア -> Maria) would need ontology-side registration.
+#
+# Hot-reloadable via Talkie's "Reload .mseg" button - no .msb regen needed.
+# -----------------------------------------------------------------------------
+
+# === Verbal phrases (long forms first - longest-match wins) ===
+教えてください
+教えて
+ください
+
+愛しています
+愛していました
+愛している
+愛していた
+気に入っています
+気に入っている
+喜んでいます
+喜んでいる
+悲しんでいます
+悲しんでいる
+怒っています
+怒っている
+恐れています
+恐れている
+怖がっています
+怖がっている
+働いています
+働いている
+興味があります
+興味がある
+嬉しいです
+嬉しい
+悲しいです
+悲しい
+
+# === Postpositions ===
+について
+として
+から
+まで
+
+# === Copulas / auxiliary verbs ===
+ではありません
+でした
+だった
+である
+です
+ます
+だ
+
+# === Sentinels ===
+確かではありません
+わかりません
+わからない
+不明
+何も
+はい
+いいえ
+
+# === Pronouns ===
+わたし
+あなた
+これ
+それ
+私
+僕
+
+# === Kinship (long forms first so 母親 beats 母, おばあさん beats 祖母) ===
+おばあさん
+おじいさん
+お母さん
+お父さん
+配偶者
+婚約者
+祖母
+祖父
+母親
+父親
+兄弟
+子供
+息子
+友達
+友人
+隣人
+いとこ
+たち
+母
+父
+親
+兄
+弟
+姉
+妹
+娘
+夫
+妻
+敵
+家
+
+# === Counter suffixes / generic nouns ===
+出身地
+年齢
+名前
+階級
+性別
+歳
+人
+年
+月
+
+# === Demonstratives / connectives the templates may need ===
+故
+
+# === Particles (single character; placed last because order within the file
+# doesn't matter - the segmenter sorts by length on its own) ===
+は
+の
+を
+に
+で
+と
+が
+へ
+も
+や

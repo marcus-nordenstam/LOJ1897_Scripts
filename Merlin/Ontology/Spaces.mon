@@ -18,6 +18,14 @@ space (+ obs)
             hallway
             living_room
             bedroom
+            # Phase 10 Phase C - rooms the case-study crime arcs need.
+            # study: private workroom; canonical Victorian crime-scene
+            # room (where a gentleman drinks port and reads in the
+            # evening). drawing_room: formal sitting room for receiving
+            # callers. back_office: commercial-building private workspace.
+            study
+            drawing_room
+            back_office
         stage
         auditorium
     exterior_space

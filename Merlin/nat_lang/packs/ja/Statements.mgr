@@ -1,0 +1,347 @@
+
+# -----------------------------------------------------------------------------
+# Statements.mgr - Japanese-pack clause templates (Phase 8).
+#
+# Scope: tell_about coverage, mirroring the Swedish pack's MVP. Two-tier
+# keigo (plain / polite) encoded via the existing :: deferential intent tag -
+# untagged = plain (~だ), deferential-tagged = polite (~です/ます).
+# The .mph select rule for register=formal picks the deferential variant;
+# register=intimate / familiar falls through to the plain variant.
+#
+# Sentence structure note: Japanese is SOV (subject-object-verb) and topic-
+# marked with は. "Maria is 24" reads as "マリア は 二十四 歳 です" - literally
+# "Maria-topic 24-year is". The bind-token ++ glues morphological suffixes
+# (歳 for age, 人 for nationality) to the preceding numeric / kind atom.
+#
+# Known-limitations of v1 (per dialogue_nlg_phase8_design.md section 8.7):
+#  - Kind-typed atoms (nationality / class_situation / job / interest)
+#    render as their ontology hstr leaf (English), so a Japanese sentence
+#    about an Irish person reads "マリア は irish 人 です". Documented;
+#    fix is per-pack kind lookup or ontology-side localization.
+#  - Adjective / verb conjugation done by authoring finished forms rather
+#    than a conjugator (past, negative, etc.). Tense templates duplicate.
+# -----------------------------------------------------------------------------
+
+:ST
+
+# OPENING - vocative-name template. Same shape as English / Swedish: emits
+# the subject's name as a standalone clause; tagged :: intro for the .mph
+# opening-slot select.
+"$pname(PNAME)"
+{ $sub_np(NP) $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) }
+.
+:: intro
+
+# Sentinel responses
+"わかりません"
+@unknown
+.
+:: deferential
+
+"わからない"
+@unknown
+.
+
+"確かではありません"
+@unknown%
+.
+:: deferential
+
+"はい"
+@true
+.
+
+"いいえ"
+@false
+.
+
+
+# COMMAND-STATEMENTS - the player asking the NPC to describe someone.
+# Japanese "tell me about X" = "X について 教えて (polite: 教えてください)".
+# について is the postpositional phrase "about X".
+
+"$obj(NP) について 教えて"
+{ ?_I /pres goal { ?_you /pres tell_about $obj(NP) ?_I } }
+.
+
+"$obj(NP) について 教えてください"
+{ ?_I /pres goal { ?_you /pres tell_about $obj(NP) ?_I } }
+.
+:: deferential
+
+# Kind-quantified content requests
+"$obj(NP) の $state_kind(KIND) について 教えて"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { $obj(NP) $state_kind(KIND) ? ? } ?_I } }
+.
+
+"あなた の $state_kind(KIND) について 教えて"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { ?_you $state_kind(KIND) ? ? } ?_I } }
+.
+
+"私 の $state_kind(KIND) について 教えて"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { ?_I $state_kind(KIND) ? ? } ?_I } }
+.
+
+
+# BARE-IS ATTRIBUTE STATEMENTS - the description body.
+#
+# Two templates per clause shape: plain (~だ) and polite (~です/ます).
+# The :: deferential tag drives the .mph select for formal register.
+
+# Age - "マリア は 二十四 歳 です" - bind ++歳 (years-old counter) to the
+# numeric. Past tense ("マリア は 二十四 歳 でした") is a follow-up.
+"$sub_np(NP) は $num(NUM) ++歳です"
+{ $sub_np(NP) /pres age $num(NUM) }
+.
+:: deferential
+
+"$sub_np(NP) は $num(NUM) ++歳だ"
+{ $sub_np(NP) /pres age $num(NUM) }
+.
+
+# Nationality - "マリア は irish 人 です" (kind atom emits its ontology hstr).
+# 人 (jin) is the nationality counter suffix.
+"$sub_np(NP) は $kind(KIND|/isa|nationality) ++人です"
+{ $sub_np(NP) /pres nationality $kind(KIND|/isa|nationality) }
+.
+:: deferential
+
+"$sub_np(NP) は $kind(KIND|/isa|nationality) ++人だ"
+{ $sub_np(NP) /pres nationality $kind(KIND|/isa|nationality) }
+.
+
+# Class - 階級 (kaikyuu) is the class suffix.
+"$sub_np(NP) は $kind(KIND|/isa|class_situation) ++階級です"
+{ $sub_np(NP) /pres class_situation $kind(KIND|/isa|class_situation) }
+.
+:: deferential
+
+"$sub_np(NP) は $kind(KIND|/isa|class_situation) ++階級だ"
+{ $sub_np(NP) /pres class_situation $kind(KIND|/isa|class_situation) }
+.
+
+# Occupation - "マリア は hatmaker として 働いています" - として = "as",
+# 働いて = "working" (te-form of 働く). Polite: 働いています. Plain: 働いている.
+"$sub_np(NP) は $kind(KIND|/isa|job) として 働いています"
+{ $sub_np(NP) /pres job $kind(KIND|/isa|job) }
+.
+:: deferential
+
+"$sub_np(NP) は $kind(KIND|/isa|job) として 働いている"
+{ $sub_np(NP) /pres job $kind(KIND|/isa|job) }
+.
+
+
+# THIRD-PARTY KINSHIP / RELATION STATEMENTS.
+# "アンナ の 母 は マリア です" - genitive の (no) links possessor to relation.
+
+" $sub_np(NP) の 母 は $value(NP) です "
+{ $sub_np(NP) /pres mother $value(NP) } .
+:: deferential
+" $sub_np(NP) の 母 は $value(NP) だ "
+{ $sub_np(NP) /pres mother $value(NP) } .
+
+" $sub_np(NP) の 母 は $value(NP) でした "
+{ $sub_np(NP) /past mother $value(NP) } .
+:: deferential
+" $sub_np(NP) の 母 は $value(NP) だった "
+{ $sub_np(NP) /past mother $value(NP) } .
+
+" $sub_np(NP) の 父 は $value(NP) です "
+{ $sub_np(NP) /pres father $value(NP) } .
+:: deferential
+" $sub_np(NP) の 父 は $value(NP) だ "
+{ $sub_np(NP) /pres father $value(NP) } .
+
+" $sub_np(NP) の 父 は $value(NP) でした "
+{ $sub_np(NP) /past father $value(NP) } .
+:: deferential
+" $sub_np(NP) の 父 は $value(NP) だった "
+{ $sub_np(NP) /past father $value(NP) } .
+
+" $sub_np(NP) の 親 は $value(NP) です "
+{ $sub_np(NP) /pres parent $value(NP) } .
+:: deferential
+" $sub_np(NP) の 親 は $value(NP) だ "
+{ $sub_np(NP) /pres parent $value(NP) } .
+
+" $sub_np(NP) の 兄弟 は $value(NP) です "
+{ $sub_np(NP) /pres sibling $value(NP) } .
+:: deferential
+" $sub_np(NP) の 兄弟 は $value(NP) だ "
+{ $sub_np(NP) /pres sibling $value(NP) } .
+
+# Sibling-by-birth-order - v1 defaults to elder forms (兄, 姉). See
+# Relations.mgr header note 1.
+" $sub_np(NP) の 兄 は $value(NP) です "
+{ $sub_np(NP) /pres brother $value(NP) } .
+:: deferential
+" $sub_np(NP) の 兄 は $value(NP) だ "
+{ $sub_np(NP) /pres brother $value(NP) } .
+
+" $sub_np(NP) の 姉 は $value(NP) です "
+{ $sub_np(NP) /pres sister $value(NP) } .
+:: deferential
+" $sub_np(NP) の 姉 は $value(NP) だ "
+{ $sub_np(NP) /pres sister $value(NP) } .
+
+" $sub_np(NP) の 子供 は $value(NP) です "
+{ $sub_np(NP) /pres child $value(NP) } .
+:: deferential
+" $sub_np(NP) の 子供 は $value(NP) だ "
+{ $sub_np(NP) /pres child $value(NP) } .
+
+# Spouse - 配偶者 is gender-neutral, formal. v1 ships this; 夫 (husband) /
+# 妻 (wife) variants exist in REL but aren't separately templated here.
+" $sub_np(NP) の 配偶者 は $value(NP) です "
+{ $sub_np(NP) /pres spouse $value(NP) } .
+:: deferential
+" $sub_np(NP) の 配偶者 は $value(NP) だ "
+{ $sub_np(NP) /pres spouse $value(NP) } .
+
+" $sub_np(NP) の 友達 は $value(NP) です "
+{ $sub_np(NP) /pres friend $value(NP) } .
+:: deferential
+" $sub_np(NP) の 友達 は $value(NP) だ "
+{ $sub_np(NP) /pres friend $value(NP) } .
+
+" $sub_np(NP) の 隣人 は $value(NP) です "
+{ $sub_np(NP) /pres neighbour $value(NP) } .
+:: deferential
+" $sub_np(NP) の 隣人 は $value(NP) だ "
+{ $sub_np(NP) /pres neighbour $value(NP) } .
+
+# Birthplace / home
+" $sub_np(NP) の 出身地 は $value(NP) です "
+{ $sub_np(NP) /pres birthplace $value(NP) } .
+:: deferential
+" $sub_np(NP) の 出身地 は $value(NP) だ "
+{ $sub_np(NP) /pres birthplace $value(NP) } .
+
+" $sub_np(NP) の 家 は $value(NP) です "
+{ $sub_np(NP) /pres home $value(NP) } .
+:: deferential
+" $sub_np(NP) の 家 は $value(NP) だ "
+{ $sub_np(NP) /pres home $value(NP) } .
+
+
+# REGARD-SLOT - love + selected emotion shapes. v1 covers the unmarked
+# form for each shape the discourse planner may route into the regard slot.
+# Polite variants tagged :: deferential.
+
+# Love - "マリア は アンナ を 愛しています" (polite) / "愛している" (plain).
+# を (wo) is the direct-object particle.
+" $sub_np(NP) は $value(NP) を 愛しています "
+{ $sub_np(NP) /pres love $value(NP) } .
+:: deferential
+" $sub_np(NP) は $value(NP) を 愛している "
+{ $sub_np(NP) /pres love $value(NP) } .
+
+" $sub_np(NP) は $value(NP) を 愛していました "
+{ $sub_np(NP) /past love $value(NP) } .
+:: deferential
+" $sub_np(NP) は $value(NP) を 愛していた "
+{ $sub_np(NP) /past love $value(NP) } .
+
+# Emotion : affection (focused) - "X を 気に入っている"
+" $sub_np(NP) は $value(NP) を 気に入っています "
+{ $sub_np(NP) /pres emotion [k affection ] $value(NP) } .
+:: deferential
+" $sub_np(NP) は $value(NP) を 気に入っている "
+{ $sub_np(NP) /pres emotion [k affection ] $value(NP) } .
+
+# Emotion : joy (focused + ambient). 喜んで for focused, 嬉しい for ambient.
+" $sub_np(NP) は $value(NP) を 喜んでいます "
+{ $sub_np(NP) /pres emotion [k joy ] $value(NP) } .
+:: deferential
+" $sub_np(NP) は $value(NP) を 喜んでいる "
+{ $sub_np(NP) /pres emotion [k joy ] $value(NP) } .
+" $sub_np(NP) は 嬉しいです "
+{ $sub_np(NP) /pres emotion [k joy ] } .
+:: deferential
+" $sub_np(NP) は 嬉しい "
+{ $sub_np(NP) /pres emotion [k joy ] } .
+
+# Emotion : grief (focused + ambient).
+" $sub_np(NP) は $value(NP) を 悲しんでいます "
+{ $sub_np(NP) /pres emotion [k grief ] $value(NP) } .
+:: deferential
+" $sub_np(NP) は $value(NP) を 悲しんでいる "
+{ $sub_np(NP) /pres emotion [k grief ] $value(NP) } .
+" $sub_np(NP) は 悲しいです "
+{ $sub_np(NP) /pres emotion [k grief ] } .
+:: deferential
+" $sub_np(NP) は 悲しい "
+{ $sub_np(NP) /pres emotion [k grief ] } .
+
+# Emotion : anger (focused + ambient). に for the focus of anger.
+" $sub_np(NP) は $value(NP) に 怒っています "
+{ $sub_np(NP) /pres emotion [k anger ] $value(NP) } .
+:: deferential
+" $sub_np(NP) は $value(NP) に 怒っている "
+{ $sub_np(NP) /pres emotion [k anger ] $value(NP) } .
+" $sub_np(NP) は 怒っています "
+{ $sub_np(NP) /pres emotion [k anger ] } .
+:: deferential
+" $sub_np(NP) は 怒っている "
+{ $sub_np(NP) /pres emotion [k anger ] } .
+
+# Emotion : fear (focused + ambient).
+" $sub_np(NP) は $value(NP) を 恐れています "
+{ $sub_np(NP) /pres emotion [k fear ] $value(NP) } .
+:: deferential
+" $sub_np(NP) は $value(NP) を 恐れている "
+{ $sub_np(NP) /pres emotion [k fear ] $value(NP) } .
+" $sub_np(NP) は 怖がっています "
+{ $sub_np(NP) /pres emotion [k fear ] } .
+:: deferential
+" $sub_np(NP) は 怖がっている "
+{ $sub_np(NP) /pres emotion [k fear ] } .
+
+
+# INTEREST - kind-valued plural attribute, one belief per topic.
+# "マリア は literature に 興味があります" - polite / plain pair.
+" $sub_np(NP) は $kind(KIND|/isa|interest) に 興味があります "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|interest) } .
+:: deferential
+" $sub_np(NP) は $kind(KIND|/isa|interest) に 興味がある "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|interest) } .
+
+
+# POSSESSIVE RELATIONS - first-person and second-person possessive shapes,
+# mirroring English's "my X is Y" / "your X is Y" forms.
+
+# "私 の 母 は アンナ です" - first-person possessive (any kinship relation).
+" $my(PRONOUN) の $rel(REL) は $value(NP) です "
+{ $my(PRONOUN) /pres $rel(REL) $value(NP) }
+.
+:: deferential
+
+" $my(PRONOUN) の $rel(REL) は $value(NP) だ "
+{ $my(PRONOUN) /pres $rel(REL) $value(NP) }
+.
+
+" $my(PRONOUN) の $rel(REL) は $value(NP) でした "
+{ $my(PRONOUN) /past $rel(REL) $value(NP) }
+.
+:: deferential
+
+" $my(PRONOUN) の $rel(REL) は $value(NP) だった "
+{ $my(PRONOUN) /past $rel(REL) $value(NP) }
+.
+
+# Passive-name form for proper-name targets: "マリア の 名前 は アンナ です"
+" $sub_np(NP) の 名前 は $pname(PNAME) です "
+{ $sub_np(NP)      $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) } .
+:: deferential
+
+" $sub_np(NP) の 名前 は $pname(PNAME) だ "
+{ $sub_np(NP)      $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) } .
+
+# Passive-num form for numeric targets: "マリア の 年齢 は 二十四 でした"
+" $sub_np(NP) の 年齢 は $num(NUM) でした "
+{ $sub_np(NP)            $num_rel(PASSIVE_NUM_REL) $num(NUM) } .
+:: deferential
+
+" $sub_np(NP) の 年齢 は $num(NUM) だった "
+{ $sub_np(NP)            $num_rel(PASSIVE_NUM_REL) $num(NUM) } .

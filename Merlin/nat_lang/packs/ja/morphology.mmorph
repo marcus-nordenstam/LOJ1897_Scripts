@@ -1,0 +1,29 @@
+# -----------------------------------------------------------------------------
+# morphology.mmorph - Japanese-pack morphology (Phase 8, plan section 8 / Docs/
+# dialogue_nlg_phase8_design.md section 8.1.4).
+#
+# Currently scoped to cardinal-number-to-words. Japanese composition is highly
+# regular: 0..10 verbatim in kanji, 11..99 composed by tens-digit + 十 + ones,
+# 100..999 composed by hundreds-digit + 百 + remainder. 1000+ is a follow-up
+# (千 / 万 positional - past the tell_about corpus needs).
+#
+# Non-interned and hot-reloadable - editing this file needs no .msb regen.
+# -----------------------------------------------------------------------------
+
+style: japanese
+hundred: 百
+
+# Ones (0-9) + 10. Composer fills 11..99 from these + 十:
+#   11..19  -> 十 + ones (e.g. 24 reads "二十四" = 二 + 十 + 四)
+#   20..99  -> tens_digit + 十 + optional ones
+number 0  = 零
+number 1  = 一
+number 2  = 二
+number 3  = 三
+number 4  = 四
+number 5  = 五
+number 6  = 六
+number 7  = 七
+number 8  = 八
+number 9  = 九
+number 10 = 十

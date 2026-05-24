@@ -1,0 +1,86 @@
+
+# -----------------------------------------------------------------------------
+# NounPhrases.mgr - Thai-pack noun phrases (Phase 8).
+#
+# Thai has no articles, no plural marking on nouns, no grammatical gender.
+# Possessive is purely compositional - "X ของ Y" (X of Y).
+#
+# Mirrors packs/en/NounPhrases.mgr structurally - same phrase-class hierarchy.
+# -----------------------------------------------------------------------------
+
+:REG_NP
+
+# Sentinel atoms
+"ไม่ทราบ"             @unknown                .
+"ไม่แน่ใจ"             @unknown%               .
+"ไม่มี"                _                       .
+
+# A named object. Thai names typically use the same script forms as English
+# in transliteration; ontology PNAME registration determines what parses.
+"$pname(PNAME)"
+( o $pname(PNAME) )
+.
+
+# "ผู้ล่วงลับ $pname" - the deceased-name form. ผู้ล่วงลับ = "the late".
+"ผู้ล่วงลับ $pname(PNAME)"
+( o { @o /past name $pname(PNAME) } )
+.
+
+# An un-named object known only by its kind - Thai has no articles, so the
+# bare kind suffices.
+"$kind(KIND)"
+( o $kind(KIND) )
+.
+
+# "แม่ของฉัน" - first-person possessive. ของ = "of" links the noun to the
+# possessor.
+"$rel(REL) ของ ฉัน"
+( o { ?_I /pres $rel(REL) @o } )
+.
+
+# "แม่ของคุณ" - second-person possessive.
+"$rel(REL) ของ คุณ"
+( o { ?_you /pres $rel(REL) @o } )
+.
+
+# "แม่ของอันนา" - third-person possessive name.
+"$rel(REL) ของ $pname(PNAME)"
+( o { $pname(PNAME) /pres $rel(REL) @o } )
+.
+
+
+# v1 NP composition: same subclass order as English / Swedish / Japanese.
+:NP = VARIABLE|PRONOUN|REG_NP|PNAME|KIND
+
+
+# Plural NP-list. Thai uses และ (and). No Oxford comma in Thai.
+:NP_PLUR
+"$np(NP)"                         $np(NP)                         .
+"$np(NP) และ $np(NP)"             $np(NP) and $np(NP)             .
+"$np(NP) และ $np_plur(NP_PLUR)"   $np(NP) , $np_plur(NP_PLUR)     .
+
+
+# Question-context NPs.
+:Q_REG_NP
+
+"$pname(PNAME)"
+( o /known $pname(PNAME) )
+.
+
+"ผู้ล่วงลับ $pname(PNAME)"
+( o /known { @o /past name $pname(PNAME) } )
+.
+
+"$rel(REL) ของ ฉัน"
+( o /known { ?_I /ever $rel(REL) @o } )
+.
+
+"$rel(REL) ของ คุณ"
+( o /known { ?_you /ever $rel(REL) @o } )
+.
+
+"$rel(REL) ของ $pname(PNAME)"
+( o /known { $pname(PNAME) /ever $rel(REL) @o } )
+.
+
+:Q_NP = VARIABLE|PRONOUN|Q_REG_NP|PNAME

@@ -25,6 +25,8 @@ object (+ obs)
                 siamese
     wound
         stab_wound
+        # Phase 10 Phase C - blunt-instrument injury (bust, club, fall).
+        blunt_wound
     stain
         ink_stain
         blood_stain
@@ -51,12 +53,19 @@ object (+ obs)
             police_uniform
             dress
                 summer_dress
+            # Phase 10 Phase C - footwear, the muddy-prints clue class.
+            boots
         loose_furniture
             table
                 kitchen_table
             evidence_box
         weapon
             knife
+            # Phase 10 Phase C - heavy-object weapon class (bronze bust,
+            # marble sculpture, similar improvised bludgeons).
+            bust
+        # Phase 10 Phase C - physician's carry-bag, holds substance bottles.
+        medical_bag
         collection
             stack               (sub space|structure)  (tar @excl)
                 root_npc_knowledge_stack
@@ -75,6 +84,23 @@ object (+ obs)
             diploma
             letter
                 adverts_letter
+                # Phase 10 Phase C - the perpetrator's own admission;
+                # writing embeds their band-5 self-beliefs. Discovery
+                # internalizes the crime fact via the standard read path.
+                confession_letter
+                # Kidnap-arc artifact; writing embeds
+                # {family goal {family pay perp ?amount}} and
+                # {victim condition missing} beliefs.
+                ransom_note
+                # Structurally a letter but claimed_author env attr differs
+                # from the real author; plant-evidence events place these.
+                forged_letter
+                # Multi-generational revenge channel: a dying ancestor
+                # writes one embedding {@self enemy ?perp_line} beliefs.
+                # Descendants reading it internalize the grievance
+                # (boundary liveness gate prevents fresh-internalization
+                # of dead ancestors otherwise).
+                family_history_letter
             pamphlet
             book
             newspaper
@@ -88,6 +114,10 @@ object (+ obs)
             for_sale_listing
             for_lease_listing
             lease_agreement
+            # Phase 10 Phase C - testamentary document; writing encodes the
+            # testator's goal beliefs about disinheritance / inheritance /
+            # expose. Death-trigger reads it to convert heir_of -> inherit.
+            will
     fluid
         beer
 

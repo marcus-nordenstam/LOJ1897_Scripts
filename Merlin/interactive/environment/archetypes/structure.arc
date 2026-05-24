@@ -1,12 +1,15 @@
 # Immobile structures without an internal cell-space (pier, bridge).
 # Buildings, ships, wagons and train_cars use the `container_structure`
 # archetype instead - that one carries a container_id.
-archetype "structure" [256] /obs /always_visible /children_occupy_env_grid
+archetype "structure" (cap 256) (mech obs) (always-visible) (children-occupy-env-grid)
 {
     "birth_date"
-    # Name is auto-perceived so NPCs know what they're at
-    "name" /auto_percept
-    "parts" /auto_percept
+    # Name is auto-perceived so NPCs know what they're at.  The ext-mech
+    # override re-enables visual perception of the structure's name (common.arc
+    # leaves it imperceptible because human names aren't seen).  Stopgap until
+    # address signs become observable entities in their own right.
+    "name" (auto-percept) (ext-mech obs)
+    "parts" (auto-percept)
     "obb"
     "era_min"
     "era_max"

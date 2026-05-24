@@ -1,0 +1,65 @@
+# -----------------------------------------------------------------------------
+# morphology.mmorph - Spanish-pack morphology (Phase 8).
+#
+# Spanish cardinal numbers: 0..30 are individual lexicalized words; 31..99
+# follow the regular tens-de-tens + "y" + ones pattern (treinta y uno).
+# 16..29 also have single-word forms (dieciséis, veintiuno...) - the table
+# authors them directly so the composer never visits them.
+#
+# Composition style = spanish: 31..99 = tens_w + " y " + ones_w; 100 = "cien"
+# alone, 101..999 = "ciento" + " " + rem (the .mmorph authors hundred: ciento;
+# the composer special-cases 100 to emit "cien").
+#
+# Note on apocope: "uno" -> "un" before masculine nouns (un padre, not uno
+# padre). v1 emits "uno" verbatim; templates that need "un" author it
+# explicitly. Adding agreement-driven apocope is a follow-up shared with
+# Swedish adjective gender agreement.
+# -----------------------------------------------------------------------------
+
+style: spanish
+hundred: ciento
+
+# Ones
+number 0  = cero
+number 1  = uno
+number 2  = dos
+number 3  = tres
+number 4  = cuatro
+number 5  = cinco
+number 6  = seis
+number 7  = siete
+number 8  = ocho
+number 9  = nueve
+
+# Teens
+number 10 = diez
+number 11 = once
+number 12 = doce
+number 13 = trece
+number 14 = catorce
+number 15 = quince
+number 16 = dieciséis
+number 17 = diecisiete
+number 18 = dieciocho
+number 19 = diecinueve
+
+# Twenties (single-word) - the composer never visits 20..29 because of these
+number 20 = veinte
+number 21 = veintiuno
+number 22 = veintidós
+number 23 = veintitrés
+number 24 = veinticuatro
+number 25 = veinticinco
+number 26 = veintiséis
+number 27 = veintisiete
+number 28 = veintiocho
+number 29 = veintinueve
+
+# Tens (composer fills 31..99 = "treinta y uno" etc.)
+number 30 = treinta
+number 40 = cuarenta
+number 50 = cincuenta
+number 60 = sesenta
+number 70 = setenta
+number 80 = ochenta
+number 90 = noventa

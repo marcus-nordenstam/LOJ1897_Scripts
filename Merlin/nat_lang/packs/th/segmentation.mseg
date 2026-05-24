@@ -1,0 +1,109 @@
+# -----------------------------------------------------------------------------
+# segmentation.mseg - Thai-pack segmenter dictionary (Phase 8).
+#
+# Same longest-match scheme as packs/ja/segmentation.mseg - the dictionary
+# IS the bounded vocabulary the player can type in Thai script. v1 covers
+# every token the Thai .mgr files emit, plus a small parser-helper set
+# (question particles, common copulas).
+#
+# v1 known parse limitation: Thai numerals (ยี่สิบสี่) aren't in the
+# dictionary so they over-segment. The matcher's NUM class doesn't accept
+# Thai-digit input in v1 - the player should use ASCII digits for numeric
+# fields. Generation emits Thai numerals freely.
+#
+# Hot-reloadable via Talkie's "Reload .mseg" button.
+# -----------------------------------------------------------------------------
+
+# === Verbal phrases (longest first - longest-match wins) ===
+เกี่ยวกับ
+ทำงาน
+เคยเป็น
+เคยรัก
+เสียใจ
+ดีใจ
+สนใจ
+ครับ
+ค่ะ
+
+# === Demonstratives / phrasal openers ===
+ผู้ล่วงลับ
+บอก ฉัน
+เล่า เรื่อง
+ให้ ฉัน ฟัง
+ที่ มี
+เรื่อง
+
+# === Sentinels ===
+ไม่ทราบ
+ไม่แน่ใจ
+ไม่มี
+ใช่
+ไม่
+
+# === Pronouns ===
+ดิฉัน
+ฉัน
+ผม
+คุณ
+เธอ
+
+# === Possessive particle ===
+ของ
+
+# === Copulas / state verbs ===
+คือ
+เป็น
+อยู่
+มี
+รัก
+ชอบ
+โกรธ
+กลัว
+
+# === Kinship (long forms first so พ่อแม่ beats พ่อ) ===
+คุณแม่
+คุณพ่อ
+พ่อแม่
+พี่ชายและน้องชาย
+พี่สาวและน้องสาว
+ลูกพี่ลูกน้อง
+เพื่อนบ้าน
+เพื่อน ๆ
+ลูก ๆ
+พี่น้อง
+พี่ชาย
+น้องชาย
+พี่สาว
+น้องสาว
+คู่หมั้น
+คู่สมรส
+ภรรยา
+ลูกชาย
+ลูกสาว
+สามี
+เพื่อน
+ศัตรู
+แม่
+พ่อ
+ลูก
+ย่า
+ยาย
+ปู่
+ตา
+
+# === Counter / generic nouns ===
+บ้านเกิด
+ชนชั้น
+อายุ
+ชื่อ
+ชื่อเดิม
+บ้าน
+เพศ
+คน
+ปี
+
+# === Demonstrative / linking ===
+นี่
+นั่น
+ที่
+และ

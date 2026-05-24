@@ -1,0 +1,201 @@
+
+# -----------------------------------------------------------------------------
+# Statements.mgr - Spanish-pack clause templates (Phase 8).
+#
+# Two-tier formality (tú / usted) encoded via the existing :: deferential
+# intent tag. Untagged templates use tú (informal "you"); deferential-tagged
+# templates use usted (formal "you"). Third-person clauses use the same verb
+# form for both (es / tiene / vive), so most templates ship a single variant.
+#
+# Spanish uses ser (es) for permanent/identifying predicates (age, nationality,
+# class, occupation) and estar (está) for transient predicates (emotional
+# state, location). v1 picks the right copula per predicate as authored.
+#
+# Known limitations:
+#  - Gender agreement on adjectives (irlandés/irlandesa) not done; emits the
+#    kind's ontology hstr verbatim (which is English-named anyway).
+#  - Number/gender on possessives (mi/mis, nuestro/nuestra) not done.
+#  - Verb conjugation (past/future) not done; tense templates author the
+#    finished verb form (era for /past, es for /pres).
+# -----------------------------------------------------------------------------
+
+:ST
+
+# OPENING - vocative-name template.
+"$pname(PNAME)"
+{ $sub_np(NP) $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) }
+.
+:: intro
+
+# Sentinel responses
+"no lo sé"
+@unknown
+.
+
+"no estoy seguro"
+@unknown%
+.
+
+"sí"
+@true
+.
+
+"no"
+@false
+.
+
+
+# COMMAND-STATEMENTS - the player asking the NPC to describe someone.
+# Spanish "tell me about X" = "háblame de X" (informal) / "hábleme de X"
+# (formal). The deferential tag carries the usted form.
+
+"háblame de $obj(NP)"
+{ ?_I /pres goal { ?_you /pres tell_about $obj(NP) ?_I } }
+.
+
+"hábleme de $obj(NP)"
+{ ?_I /pres goal { ?_you /pres tell_about $obj(NP) ?_I } }
+.
+:: deferential
+
+"cuéntame sobre $obj(NP)"
+{ ?_I /pres goal { ?_you /pres tell_about $obj(NP) ?_I } }
+.
+
+# Kind-quantified content requests
+"háblame de los $state_kind(KIND) de $obj(NP)"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { $obj(NP) $state_kind(KIND) ? ? } ?_I } }
+.
+
+"háblame de tus $state_kind(KIND)"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { ?_you $state_kind(KIND) ? ? } ?_I } }
+.
+
+"háblame de mis $state_kind(KIND)"
+{ ?_I /pres goal { ?_you /pres tell_beliefs { ?_I $state_kind(KIND) ? ? } ?_I } }
+.
+
+
+# BARE-IS ATTRIBUTE STATEMENTS - the description body.
+
+# Age - "Maria tiene veinticuatro años". Spanish doesn't use the "is N
+# years old" construction; it says "has N years" (tiene N años).
+"$sub_np(NP) tiene $num(NUM) años"
+{ $sub_np(NP) /pres age $num(NUM) }
+.
+
+# Nationality - "Maria es irlandés" (kind atom emits its ontology hstr).
+"$sub_np(NP) es $kind(KIND|/isa|nationality)"
+{ $sub_np(NP) /pres nationality $kind(KIND|/isa|nationality) }
+.
+
+# Class - "Maria es de clase obrero" (of working class). Two-word phrasing.
+"$sub_np(NP) es de clase $kind(KIND|/isa|class_situation)"
+{ $sub_np(NP) /pres class_situation $kind(KIND|/isa|class_situation) }
+.
+
+# Occupation - "Maria trabaja como sombrerero" (works as a hatmaker).
+"$sub_np(NP) trabaja como $kind(KIND|/isa|job)"
+{ $sub_np(NP) /pres job $kind(KIND|/isa|job) }
+.
+
+
+# THIRD-PARTY KINSHIP / RELATION STATEMENTS.
+# "la madre de Maria es Anna" - Spanish genitive uses "de", not -'s.
+# Templates emit the masculine article "el" by default; "la" variant parses
+# both directions for the same belief.
+
+" la madre de $sub_np(NP) es $value(NP) "
+{ $sub_np(NP) /pres mother $value(NP) } .
+" la madre de $sub_np(NP) era $value(NP) "
+{ $sub_np(NP) /past mother $value(NP) } .
+" el padre de $sub_np(NP) es $value(NP) "
+{ $sub_np(NP) /pres father $value(NP) } .
+" el padre de $sub_np(NP) era $value(NP) "
+{ $sub_np(NP) /past father $value(NP) } .
+" el progenitor de $sub_np(NP) es $value(NP) "
+{ $sub_np(NP) /pres parent $value(NP) } .
+" el hermano de $sub_np(NP) es $value(NP) "
+{ $sub_np(NP) /pres sibling $value(NP) } .
+" el hermano de $sub_np(NP) es $value(NP) "
+{ $sub_np(NP) /pres brother $value(NP) } .
+" la hermana de $sub_np(NP) es $value(NP) "
+{ $sub_np(NP) /pres sister $value(NP) } .
+" el hijo de $sub_np(NP) es $value(NP) "
+{ $sub_np(NP) /pres child $value(NP) } .
+" el esposo de $sub_np(NP) es $value(NP) "
+{ $sub_np(NP) /pres spouse $value(NP) } .
+" el amigo de $sub_np(NP) es $value(NP) "
+{ $sub_np(NP) /pres friend $value(NP) } .
+" el vecino de $sub_np(NP) es $value(NP) "
+{ $sub_np(NP) /pres neighbour $value(NP) } .
+
+# Birthplace / home
+" el lugar de nacimiento de $sub_np(NP) es $value(NP) "
+{ $sub_np(NP) /pres birthplace $value(NP) } .
+" el hogar de $sub_np(NP) es $value(NP) "
+{ $sub_np(NP) /pres home $value(NP) } .
+
+
+# REGARD-SLOT - love + emotion shapes. Spanish uses estar (está) for
+# transient emotional states and a focused verb construction for love.
+
+# Love - "Maria ama a Anna" (the "a" before a person object is the
+# personal accusative; Spanish-specific).
+" $sub_np(NP) ama a $value(NP) "
+{ $sub_np(NP) /pres love $value(NP) } .
+" $sub_np(NP) amaba a $value(NP) "
+{ $sub_np(NP) /past love $value(NP) } .
+
+# Emotion : affection - "Maria aprecia a Anna" (cares about / has affection for)
+" $sub_np(NP) aprecia a $value(NP) "
+{ $sub_np(NP) /pres emotion [k affection ] $value(NP) } .
+
+# Emotion : joy (focused + ambient)
+" $sub_np(NP) se alegra por $value(NP) "
+{ $sub_np(NP) /pres emotion [k joy ] $value(NP) } .
+" $sub_np(NP) está alegre "
+{ $sub_np(NP) /pres emotion [k joy ] } .
+
+# Emotion : grief (focused + ambient)
+" $sub_np(NP) llora por $value(NP) "
+{ $sub_np(NP) /pres emotion [k grief ] $value(NP) } .
+" $sub_np(NP) está triste "
+{ $sub_np(NP) /pres emotion [k grief ] } .
+
+# Emotion : anger (focused + ambient)
+" $sub_np(NP) está enojado con $value(NP) "
+{ $sub_np(NP) /pres emotion [k anger ] $value(NP) } .
+" $sub_np(NP) está enojado "
+{ $sub_np(NP) /pres emotion [k anger ] } .
+
+# Emotion : fear (focused + ambient)
+" $sub_np(NP) tiene miedo de $value(NP) "
+{ $sub_np(NP) /pres emotion [k fear ] $value(NP) } .
+" $sub_np(NP) tiene miedo "
+{ $sub_np(NP) /pres emotion [k fear ] } .
+
+
+# INTEREST - kind-valued plural attribute, one belief per topic.
+" $sub_np(NP) se interesa por $kind(KIND|/isa|interest) "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|interest) } .
+
+
+# POSSESSIVE RELATIONS - first-person and second-person possessive shapes.
+
+# "mi madre es Anna" - first-person possessive
+" $my(PRONOUN) $rel(REL) es $value(NP) "
+{ $my(PRONOUN) /pres $rel(REL) $value(NP) }
+.
+
+" $my(PRONOUN) $rel(REL) era $value(NP) "
+{ $my(PRONOUN) /past $rel(REL) $value(NP) }
+.
+
+# Passive-name form for proper-name targets
+" $sub_np(NP) se llama $pname(PNAME) "
+{ $sub_np(NP)      $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) } .
+
+# Passive-num form for numeric targets
+" $sub_np(NP) tenía $num(NUM) años "
+{ $sub_np(NP)            $num_rel(PASSIVE_NUM_REL) $num(NUM) } .

@@ -1,0 +1,71 @@
+
+# -----------------------------------------------------------------------------
+# Relations.mgr - Thai-pack kinship + attribute relations (Phase 8).
+#
+# Thai kinship distinguishes birth-order: พี่ชาย (elder brother) vs น้องชาย
+# (younger brother), พี่สาว (elder sister) vs น้องสาว. English's brother /
+# sister labels carry no birth-order, so v1 defaults to the elder forms
+# (พี่ชาย, พี่สาว) on generation - same v1 cut as Japanese 兄 / 姉.
+# A future /birth_order aux on kinship beliefs would let the realizer pick
+# correctly.
+#
+# Maternal/paternal grandparent split: ปู่/ตา for grandfather, ย่า/ยาย for
+# grandmother. v1 maps both to one label since the ontology doesn't carry
+# the side; default to the paternal form (ปู่, ย่า).
+# -----------------------------------------------------------------------------
+
+:PASSIVE_PNAME_REL
+"ชื่อ"                /pres name              .
+"ชื่อเดิม"             /past name              .
+
+
+:PASSIVE_NUM_REL
+"อายุ"                /past age               .
+
+
+:PASSIVE_REL
+"$rel(REL) คือ"        /pres $rel(REL)         .
+"$rel(REL) เคยเป็น"     /past $rel(REL)         .
+
+
+:RELP
+"พี่น้อง"               sibling                 .
+"พ่อแม่"               parent                  .
+"พี่ชายและน้องชาย"      brother                 .
+"พี่สาวและน้องสาว"      sister                  .
+"ลูก ๆ"                child                   .
+"ลูกพี่ลูกน้อง"          cousin                  .
+"เพื่อน ๆ"             friend                  .
+"เพื่อนบ้าน"           neighbour               .
+
+
+:REL
+"คู่หมั้น"               fiancee                 .
+"สามี"                spouse                  .
+"ภรรยา"               spouse                  .
+"คู่สมรส"              spouse                  .
+"แม่"                 mother                  .
+"คุณแม่"               mother                  .
+"พ่อ"                 father                  .
+"คุณพ่อ"               father                  .
+"พ่อแม่"               parent                  .
+"พี่ชาย"               brother                 .
+"น้องชาย"             brother                 .
+"พี่สาว"               sister                  .
+"น้องสาว"             sister                  .
+"พี่น้อง"               sibling                 .
+"ลูก"                 child                   .
+"ลูกชาย"              child                   .
+"ลูกสาว"              child                   .
+"ย่า"                 grandmother             .
+"ยาย"                 grandmother             .
+"ปู่"                  grandfather             .
+"ตา"                  grandfather             .
+"ลูกพี่ลูกน้อง"          cousin                  .
+"เพื่อน"               friend                  .
+"เพื่อนบ้าน"           neighbour               .
+"ศัตรู"                 enemy                   .
+"บ้าน"                home                    .
+"บ้านเกิด"             birthplace              .
+"เพศ"                 gender                  .
+"ชนชั้น"              class_situation         .
