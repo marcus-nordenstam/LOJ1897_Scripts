@@ -1,6 +1,6 @@
 # PHYSICAL objects
 
-object //obs
+object (+ obs)
     label
         applications
         mail
@@ -58,7 +58,7 @@ object //obs
         weapon
             knife
         collection
-            stack               /sub space|structure /tar @excl
+            stack               (sub space|structure)  (tar @excl)
                 root_npc_knowledge_stack
                 for_sale_listing_stack
                 for_lease_listing_stack
@@ -135,8 +135,8 @@ object //obs
         body_part
             head
             hand
-                left_hand  /side left
-                right_hand /side right
+                left_hand  (side left)
+                right_hand (side right)
             finger
                 ring_finger
             eye
@@ -145,6 +145,6 @@ object //obs
             counter
                 bar_counter
             wall
-            opening //nav_passage
+            opening (+ nav_passage)
                 window
                 door

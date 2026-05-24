@@ -20,6 +20,18 @@
 ( o $pname(PNAME) )
 .
 
+# "the late Anna Andersson" - utterable_msg emits this form for a referent
+# whose name belief has been ended (death-propagation set its interval-end).
+# Mirrors packs/en/NounPhrases.mgr's "the late ..." template; required so a
+# tell_about response that names a deceased person renders cleanly in Swedish
+# instead of falling through to a realize miss in _assemble_nl. "framlidne" is
+# the standard Swedish formal form for "the late"; v1 ships it for both
+# masculine and feminine subjects (gender-inflected variants are a Phase 7.1
+# morphology follow-up - see dialogue_nlg_phase7_design.md section 7.5).
+"framlidne $pname(PNAME)"
+( o { @o /past name $pname(PNAME) } )
+.
+
 # An un-named object known only by its kind
 "en $kind(KIND)"
 ( o $kind(KIND) )
@@ -69,6 +81,11 @@
 
 "$pname(PNAME)"
 ( o /known $pname(PNAME) )
+.
+
+# "the late Anna Andersson" - question-context dead-name form.
+"framlidne $pname(PNAME)"
+( o /known { @o /past name $pname(PNAME) } )
 .
 
 "min $rel(REL)"

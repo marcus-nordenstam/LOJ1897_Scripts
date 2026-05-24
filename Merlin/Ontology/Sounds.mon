@@ -1,8 +1,8 @@
 # Kinds of sounds
 
-sound //hear
+sound (+ hear)
     squeak
-    speech              /sub sound @msg
+    speech              (sub sound @msg)
     shout
     song
     scream

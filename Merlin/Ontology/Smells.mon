@@ -1,5 +1,5 @@
 # Kinds of smells
 
-smell //smell
+smell (+ smell)
     cheese
     fart

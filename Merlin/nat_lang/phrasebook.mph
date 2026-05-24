@@ -48,6 +48,15 @@ schema relationship_description:
   slot bonds        opt
   slot coda         opt
 
+# --- Discourse schema for "tell me about X's interests" -----------------------
+# The kind-quantified interest discourse. Every body fact is a {X interest [k Y]}
+# belief - the discourse_planner aggregates them into one Oxford-comma plural
+# clause via the existing interest slot's render path.
+schema interest_description:
+  slot opening      req
+  slot interest     rep
+  slot coda         opt
+
 # --- Affect-conditioned phrasing-intent selection ----------------------------
 # The condition vocabulary: affect:<term> (the speaker's regard / mood toward
 # the subject or listener), cog:<style>, role:<role>, class / bond / formality.

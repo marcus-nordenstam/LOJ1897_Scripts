@@ -3,13 +3,13 @@
 
 relation
 
-    behaviour /noun
+    behaviour (noun)
 
         # /noun = defines 'task' as a noun
         # For all subsequent definitions:
         # * Assume that they are tasks: //task
         # * Assume that their subject field is is always a human: //sub human
-        task /noun //task //sub human
+        task (noun) (+ task) (+ sub human)
 
             # ----------------------------------------------------------------------------------
             # abstract tasks - no motors involved
@@ -19,21 +19,21 @@ relation
 
             pubbing
 
-            acquire                                 /tar object
-            buy                                     /tar ?
-            grant                                   /tar object              /aux human
+            acquire                                 (tar object)
+            buy                                     (tar ?)
+            grant                                   (tar object)               (aux human)
 
-            identify                                /tar object
-            get_acquainted_with                       /tar human
+            identify                                (tar object)
+            get_acquainted_with                       (tar human)
             seek_answers
             marry
 
             # Domain-specific tasks
-            found                                    /tar org
-            process_title_deed                       /aux structure|space
+            found                                    (tar org)
+            process_title_deed                       (aux structure|space)
             introduce_siblings
 
-            tell_about                              /sub @msgAuthor human /tar ? /aux @msgAudience human
+            tell_about                              (sub @msgAuthor human)   (tar ?)  (aux @msgAudience human)
 
             # tell_beliefs: kind-quantified content request. Target is a
             # BELIEF PATTERN like {?sub [k <state_kind>] ? ?} - the pattern
@@ -44,10 +44,10 @@ relation
             # classifier reads the pattern's label-kind to dispatch the
             # right discourse genre (e.g. [k relationship] ->
             # relationship_description). See Docs/dialogue_nlg_plan.md.
-            tell_beliefs                            /sub @msgAuthor human /tar @S /aux @msgAudience human
+            tell_beliefs                            (sub @msgAuthor human)   (tar @S)  (aux @msgAudience human)
 
-            order                       /motor legs
-            serve_beer                  /motor mind   /tar human
+            order                       (motor legs)
+            serve_beer                  (motor mind)    (tar human)
 
             # ----------------------------------------------------------------------------------
             # physical tasks - motors are involved
@@ -55,41 +55,41 @@ relation
             #tell                /motor mouth            /sub @msgAuthor human   /tar @msg @excl @S     /aux @msgAudience human
             #ask                 /motor mouth            /sub @msgAuthor human   /tar @qs @excl @S      /aux @msgAudience human
 
-            approach                /motor legs             /tar @excl
-            enter                   /motor legs             /tar @excl
-            go_entity               /motor legs             /tar @excl
-            go_env_cell             /motor legs             /tar @excl
-            keep_near_and_facing    /motor legs             /tar @excl
-            keep_looking_at_part       /motor head             /tar @excl  /aux @excl
-            keep_looking_at_whole      /motor head             /tar @excl
+            approach                (motor legs)              (tar @excl)
+            enter                   (motor legs)              (tar @excl)
+            go_entity               (motor legs)              (tar @excl)
+            go_env_cell             (motor legs)              (tar @excl)
+            keep_near_and_facing    (motor legs)              (tar @excl)
+            keep_looking_at_part       (motor head)              (tar @excl)   (aux @excl)
+            keep_looking_at_whole      (motor head)              (tar @excl)
 
-            explore             /motor legs             /tar @excl
-            locate              /motor legs             /tar @excl
+            explore             (motor legs)              (tar @excl)
+            locate              (motor legs)              (tar @excl)
             
-            drop                /motor right_hand            /tar @excl object
+            drop                (motor right_hand)             (tar @excl object)
             # /tar ? : give targets a physical object (the motor task) or a
             # money amount (the Phase 8 charity act-record - a number symbol).
-            give                /motor right_hand            /tar @excl ?
-            receive             /motor right_hand            /tar @excl object
+            give                (motor right_hand)             (tar @excl ?)
+            receive             (motor right_hand)             (tar @excl object)
 
-            get                 /motor legs right_hand       /tar @excl object
-            take                /motor left_hand right_hand  /tar @excl object
-            put                 /motor left_hand right_hand  /tar @excl object
+            get                 (motor legs right_hand)         (tar @excl object)
+            take                (motor left_hand right_hand)    (tar @excl object)
+            put                 (motor left_hand right_hand)    (tar @excl object)
 
-            read                /motor eyes right_hand       /tar @excl document
-            write               /motor eyes right_hand legs  /tar @excl document
+            read                (motor eyes right_hand)         (tar @excl document)
+            write               (motor eyes right_hand legs)     (tar @excl document)
 
-            stack_get            /motor legs right_hand       /tar object /aux stack
-            stack_put            /motor legs right_hand       /tar object /aux stack
-            stack_browse         /motor legs right_hand       /tar stack
-            stack_read           /motor legs right_hand       /tar stack
+            stack_get            (motor legs right_hand)         (tar object)  (aux stack)
+            stack_put            (motor legs right_hand)         (tar object)  (aux stack)
+            stack_browse         (motor legs right_hand)         (tar stack)
+            stack_read           (motor legs right_hand)         (tar stack)
 
-            grieve              /motor right_hand left_hand head
+            grieve              (motor right_hand left_hand head)
 
-            give_birth           /motor eyes right_hand legs
-            perceive_attr        /motor eyes             /tar ?
+            give_birth           (motor eyes right_hand legs)
+            perceive_attr        (motor eyes)              (tar ?)
 
-            drink               /motor mouth right_hand left_hand  /tar object
+            drink               (motor mouth right_hand left_hand)     (tar object)
 
-            use_umbrella        /motor right_hand left_hand
-            serve_customer      /motor right_hand left_hand legs
+            use_umbrella        (motor right_hand left_hand)
+            serve_customer      (motor right_hand left_hand legs)

@@ -2,7 +2,7 @@
 name
     first_name
         male_name
-            male_english_name //pname
+            male_english_name (+ pname)
                 Arthur
                 Albert
                 Alfred
@@ -67,7 +67,7 @@ name
                 Wilfred
                 Winthrop
         female_name
-            female_english_name  //pname
+            female_english_name  (+ pname)
                 Alice
                 Amelia
                 Arabella
@@ -116,7 +116,7 @@ name
                 Violet
     surname
         common_surname
-            common_english_surname //pname
+            common_english_surname (+ pname)
                 Adams
                 Abbott
                 Archer
@@ -209,7 +209,7 @@ name
                 Williams
                 Wright
         upper_class_surname
-            upper_class_english_surname //pname
+            upper_class_english_surname (+ pname)
                 Ainsworth
                 Ashford
                 Barrington

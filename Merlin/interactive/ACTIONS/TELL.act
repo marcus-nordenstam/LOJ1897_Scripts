@@ -22,4 +22,3 @@ out     = 0.1
 # fails to compute a duration. Commit success at the cap - run_func is a
 # no-op, so the only natural completion is "the bounded duration elapsed".
 anim_timeout_mode = success
-nature = neutral_act

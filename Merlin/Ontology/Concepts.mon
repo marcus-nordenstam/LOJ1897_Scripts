@@ -8,14 +8,14 @@ concept
 
     # Weather components. rain/snow/fog/wind carry a strength_measurement;
     # sky carries a sky_condition.
-    weather             /obs /tar @excl
-        rain            /tar @excl strength_measurement
-        snow            /tar @excl strength_measurement
-        fog             /tar @excl strength_measurement
-        wind            /tar @excl strength_measurement
-        sky             /tar @excl sky_condition
-        thunder         /obs /tar @excl strength_measurement
-        temperature     /obs /tar @excl
+    weather             (obs) (tar @excl)
+        rain            (tar @excl strength_measurement)
+        snow            (tar @excl strength_measurement)
+        fog             (tar @excl strength_measurement)
+        wind            (tar @excl strength_measurement)
+        sky             (tar @excl sky_condition)
+        thunder         (obs) (tar @excl strength_measurement)
+        temperature     (obs) (tar @excl)
 
     phrase
         yes
@@ -25,26 +25,26 @@ concept
     # designate which arm/hand engages. The (side ?x) rule-function evaluates
     # to one of these by reading /side off the symbol's kind.
     side
-        left  /side left
-        right /side right
+        left  (side left)
+        right (side right)
 
-    availability        /sub building /tar @excl
+    availability        (sub building)  (tar @excl)
         for_sale
         for_rent
         off_the_market
 
     legal_right
-        property        /sub being
+        property        (sub being)
 
-    condition           /tar @excl
+    condition           (tar @excl)
         alive
         dead
 
-    alertness           /tar @excl
+    alertness           (tar @excl)
         alert
         sleepy
 
-    death_cause         /tar @excl
+    death_cause         (tar @excl)
         disease
         accident
         old_age
@@ -66,7 +66,7 @@ concept
     # coexist (joy about one thing, grief about another). /tar is omitted, so
     # the target defaults to emotion's own subkinds. The directed "about"
     # focus rides in the belief's aux field. See Docs/emotion_sim_plan.md.
-    emotion             /sub human
+    emotion             (sub human)
         joy
         pride
         hope
@@ -92,7 +92,7 @@ concept
     # different mood contribution (pressures feed the `stress` dimension, not
     # contentment / agitation). Non-@excl: pressures stack - the layered
     # motive a deliberation event reads IS the stacked pressure set.
-    pressure            /sub human
+    pressure            (sub human)
         status_loss
         attachment_loss
         autonomy_loss
@@ -159,17 +159,17 @@ concept
     substance
         alcohol
 
-    living_arrangement  /sub human /tar ? @excl
-        owner           /tar human|org @excl
+    living_arrangement  (sub human)  (tar ? @excl)
+        owner           (tar human|org @excl)
         houseguest
         renting
 
-    status              /tar ? @excl
+    status              (tar ? @excl)
         examined
         accepted
         rejected
 
-    capacity            /tar ? @excl
+    capacity            (tar ? @excl)
         pub_patron
 
     activity
@@ -177,8 +177,8 @@ concept
         
     org_pos
         apprenticeship
-        membership          /sub human
-        job                 /sub human
+        membership          (sub human)
+        job                 (sub human)
             editor
             printer
             journalist
@@ -216,7 +216,7 @@ concept
 
     # level grades a human, or a job / org_pos. A trainee clerk is
     # {@self job ?j} + {?j level trainee}.
-    level               /sub human|org_pos /tar @excl
+    level               (sub human|org_pos)  (tar @excl)
             trainee
             apprentice
             junior
@@ -225,7 +225,7 @@ concept
             org_head
     unit
         social
-            family          /sub human /tar @excl /def @unknown
+            family          (sub human)  (tar @excl)  (def @unknown)
     movement
         political
             suffrage
@@ -295,7 +295,7 @@ concept
     # grounding. (`stable` / `struggling` recur across situations - a
     # deliberate scoped homonym, resolved by the field's /tar, like `medium`.)
     # ----------------------------------------------------------------------
-    economic_situation       /sub human /tar @excl
+    economic_situation       (sub human)  (tar @excl)
         destitute
         poor
         struggling
@@ -303,26 +303,26 @@ concept
         comfortable
         prosperous
         wealthy
-    respectability_situation /sub human /tar @excl
+    respectability_situation (sub human)  (tar @excl)
         exemplary
         respectable
         questionable
         disreputable
         scandalous
-    class_situation          /sub human /tar @excl
+    class_situation          (sub human)  (tar @excl)
         upper
         middle
         lower
-    health_situation         /sub human /tar @excl
+    health_situation         (sub human)  (tar @excl)
         robust
         frail
         ailing
         invalid
-    social_trajectory        /sub human /tar @excl
+    social_trajectory        (sub human)  (tar @excl)
         rising
         stable
         declining
-    life_satisfaction        /sub human /tar @excl
+    life_satisfaction        (sub human)  (tar @excl)
         fulfilled
         content
         secure_but_hollow
@@ -333,7 +333,7 @@ concept
     # Derived archetypes (F3.4) - a named conjunction over situations and
     # dimensions; non-@excl, an NPC may match several. Prototype kinds are
     # added with their classifiers - these four are F3.7 / Phase 7 consumers.
-    prototype                /sub human
+    prototype                (sub human)
         deserving_poor
         undeserving_poor
         self_made_man
@@ -350,22 +350,52 @@ concept
         wage
         annual_wage
 
-    # Reified act-natures - the context-free "nature" of an action, named by
-    # each .act file's `nature =` line and read by the appraisal categorizer
-    # to reduce an act to its effect-signature. Real kinds, so Ontology::is_a
-    # works on them. See Docs/emotion_sim_plan.md section 2.4.
-    construed_act
-        intimacy_act
+    # Reified act-categories - the context-free "what kind of act" tags
+    # that the appraisal pipeline reads off any anchor belief (Docs/
+    # emotion_sim_plan.md section 2.4 + plan section 10.3-AFFECT item J).
+    # FLAT vocabulary: no hierarchy among the categories - every leaf state
+    # / action enumerates which categories it falls under via a
+    # (construed_act tag1 tag2 ...) sexpr at declaration time. is_a checks
+    # against the construed_act ROOT recognize any of these as appraisal
+    # categories; specific dispatch is by direct kind comparison. The set
+    # mixes (a) "what was done" categories (wrong, help, honour, intimacy,
+    # ...), (b) outcome categories (suffer_loss, achieve), and (c) the
+    # cross-cutting umbrellas (wrong over harm/slight/appropriation/...,
+    # help over aid/provision, ...) - all flat siblings rather than nested.
+    # Wronging branch  : wrong_act (umbrella) over harm/slight/appropriation/
+    #                    coercion/abandonment/betray/expose/threaten - all of
+    #                    them are flavors of "bad things to someone".
+    # Helping branch   : help_act (umbrella) over aid (direct assistance) and
+    #                    provision (giving alms / gifts / drink).
+    # Honour branch    : honour_act (public recognition) plus commitment_act
+    #                    (keeping a promise IS honouring).
+    # Intimacy         : intimacy_act on its own. Betray-by-diversion mints a
+    #                    separate betray_act construal in observer minds via
+    #                    categorize()'s structural test.
+    # Outcomes         : suffer_loss_act (patient lost something) and
+    #                    achieve_act (actor succeeded) - outcome-based,
+    #                    minted directly by hsim events when relevant.
+    # neutral_act      : legacy "do not appraise" tag - kept so .act files
+    #                    declaring `nature = neutral_act` keep parsing.
+    #                    New code: just omit (construed_act ...) entirely.
+    construed_act       (+ sub human)
+        wrong_act
         harm_act
-        appropriation_act
-        aid_act
-        disclosure_act
-        coercion_act
         slight_act
-        honour_act
+        appropriation_act
+        coercion_act
         abandonment_act
-        commitment_act
+        betray_act
+        expose_act
+        threaten_act
+        help_act
+        aid_act
         provision_act
+        honour_act
+        commitment_act
+        intimacy_act
+        suffer_loss_act
+        achieve_act
         neutral_act
 
     sky_condition
@@ -386,21 +416,21 @@ concept
     # learned of others only by a spouse / immediate family (believe_about
     # Band 4). The Big Five personality aspects and the dark tetrad are 0..1
     # float attrs, not kinds, so they need no taxonomy here.
-    sexual_orient           /tar @excl
+    sexual_orient           (tar @excl)
         hetero
         bi
         homo
 
     cultural_aspect
         title
-        nationality         /sub human /tar @excl
+        nationality         (sub human)  (tar @excl)
             english
             irish
             st_revieran
             french
 
     physical_quality
-        color               /tar @excl
+        color               (tar @excl)
             blue
             brown
             green
@@ -411,29 +441,29 @@ concept
             auburn
             blonde
             white
-        gender              /tar @excl
+        gender              (tar @excl)
             male
             female
-        appearance          /tar @excl
+        appearance          (tar @excl)
             ugly
             plain_looking
             beautiful
-        girth               /tar @excl
+        girth               (tar @excl)
             thin
             medium
             fat
-        height              /tar @excl
+        height              (tar @excl)
             short
             medium
             tall
 
-    blood_type          /obs /tar @excl
+    blood_type          (obs) (tar @excl)
         A
         B
         AB
         O
 
-    role                /tar @excl
+    role                (tar @excl)
         player
         nonplayer
 
@@ -443,75 +473,76 @@ concept
     # ---------------------------------------------------------------------
 
     # Transaction states.
-    price               /tar @excl
-    item                /obs /tar object
-    view                /obs /sub human /tar @excl object
+    price               (tar @excl)
+    item                (obs) (tar object)
+    view                (obs) (sub human)  (tar @excl object)
 
     # Kinship and social bonds - subject and target are both human. //noun
     # makes every role explicitly a noun, so the bond decorations below
     # (relation flags) do not trip define()'s noun-vs-relation inference.
-    relationship        //sub human //tar human //noun
-        parent          /inclusive_bond
-        mother          /tar @excl /inclusive_bond
-        father          /tar @excl /inclusive_bond
-        brother         /inclusive_bond
-        sister          /inclusive_bond
-        sibling         /inclusive_bond
-        half_sibling    /inclusive_bond
-        grandmother     /tar @excl /inclusive_bond
-        grandfather     /tar @excl /inclusive_bond
-        grandparent     /inclusive_bond
-        grandchild      /inclusive_bond
-        aunt            /inclusive_bond
-        uncle           /inclusive_bond
-        niece           /inclusive_bond
-        nephew          /inclusive_bond
-        cousin          /inclusive_bond
-        mother_in_law   /tar @excl /inclusive_bond
-        father_in_law   /tar @excl /inclusive_bond
-        parent_in_law   /inclusive_bond
-        sister_in_law   /inclusive_bond
-        brother_in_law  /inclusive_bond
-        sibling_in_law  /inclusive_bond
-        daughter_in_law /inclusive_bond
-        son_in_law      /inclusive_bond
-        child_in_law    /inclusive_bond
-        stepmother      /tar @excl /inclusive_bond
-        stepfather      /tar @excl /inclusive_bond
-        stepchild       /inclusive_bond
-        child           /inclusive_bond
-        spouse          /tar @excl /exclusive_bond
-        fiancee         /tar @excl /exclusive_bond
-        lover           /inclusive_bond
-        friend          /inclusive_bond
+    relationship        (+ sub human)  (+ tar human)  (+ noun)
+        parent          (inclusive_bond)
+        mother          (tar @excl)  (inclusive_bond)
+        father          (tar @excl)  (inclusive_bond)
+        brother         (inclusive_bond)
+        sister          (inclusive_bond)
+        sibling         (inclusive_bond)
+        half_sibling    (inclusive_bond)
+        grandmother     (tar @excl)  (inclusive_bond)
+        grandfather     (tar @excl)  (inclusive_bond)
+        grandparent     (inclusive_bond)
+        grandchild      (inclusive_bond)
+        aunt            (inclusive_bond)
+        uncle           (inclusive_bond)
+        niece           (inclusive_bond)
+        nephew          (inclusive_bond)
+        cousin          (inclusive_bond)
+        mother_in_law   (tar @excl)  (inclusive_bond)
+        father_in_law   (tar @excl)  (inclusive_bond)
+        parent_in_law   (inclusive_bond)
+        sister_in_law   (inclusive_bond)
+        brother_in_law  (inclusive_bond)
+        sibling_in_law  (inclusive_bond)
+        daughter_in_law (inclusive_bond)
+        son_in_law      (inclusive_bond)
+        child_in_law    (inclusive_bond)
+        stepmother      (tar @excl)  (inclusive_bond)
+        stepfather      (tar @excl)  (inclusive_bond)
+        stepchild       (inclusive_bond)
+        child           (inclusive_bond)
+        spouse          (tar @excl)  (exclusive_bond)
+        fiancee         (tar @excl)  (exclusive_bond)
+        lover           (inclusive_bond)
+        friend          (inclusive_bond)
         acquaintance
         neighbour
         close_to
         relied_on_by
         respected_by
         enemy
-        marriage_desirability   /tar ? @excl
-        love                    /tar ? /exclusive_bond
+        love                    (tar ?)  (exclusive_bond)
 
-    birthplace          /sub human /tar structure @excl
+    marriage_desirability   (tar ? @excl)
+
+    birthplace          (sub human)  (tar structure @excl)
 
     # Vocational / educational / societal states (subject is a human).
-    vocational_state    //sub human
-        retire              /tar ? @excl
-        home                /tar structure @excl
+    vocational_state    (+ sub human)
+        retire              (tar ? @excl)
+        home                (tar structure @excl)
         # Work life-cycle. job and level are noun-states (declared in the
         # org_pos / level taxonomy higher up); only the non-noun relations
         # are declared here. employer is the worker's org; master is the
         # master a youth trains under.
-        employer            /noun /tar org @excl /inclusive_bond
-        master              /noun /tar human @excl /inclusive_bond
+        employer            (noun) (tar org @excl)   (inclusive_bond)
+        master              (noun) (tar human @excl)   (inclusive_bond)
         # Education life-cycle. study names the field a pupil reads and the
         # school they read it at; schooling is the schooling-level outcome
         # left behind when the pupil leaves. A graduate's credential is the
         # `diploma` document noun (Objects.mon) - already a state, so no
         # diploma relation is declared here.
-        study               /tar @excl field_of_study  /aux org
-        schooling           /tar ? @excl
+        study               (tar @excl field_of_study)    (aux org)
+        schooling           (tar ? @excl)
 
     # Property holdings: a holder's owned buildings and land are recorded as
     # repeated singular {holder building <building>} / {holder land <land>}
@@ -522,28 +553,28 @@ concept
     # States describing an organisation (subject is the org mental object).
     # employee is repeated once per worker; record points at the org's
     # articles_of_incorporation document.
-    org_state           //sub org
-        informal_name       /tar ? @excl
-        founder             /tar human @excl
-        head_pos            /tar org_pos @excl
-        workplace           /tar space|structure @excl
-        employee            /tar human
-        vacancy             /tar job
-        record              /tar document @excl
+    org_state           (+ sub org)
+        informal_name       (tar ? @excl)
+        founder             (tar human @excl)
+        head_pos            (tar org_pos @excl)
+        workplace           (tar space|structure @excl)
+        employee            (tar human)
+        vacancy             (tar job)
+        record              (tar document @excl)
 
     # Document -> org back-link: the inverse of org_state's `record`. Lets any
     # mind reconstruct its own per-mind org object from the stable
     # articles_of_incorporation env anchor, via
     # mx_imagine_or_recall(orgkind, mx_observe(articles), "declares_org").
-    declares_org        /sub document /tar org @excl
+    declares_org        (sub document)  (tar org @excl)
 
     # Building -> tenant link: the queryable form of a lease, whose contract
     # records are the private lease_agreement documents kept at both parties'
     # premises. @excl - one ongoing tenant at a time (a re-lease opens a fresh
     # interval after the prior one ends).
-    tenant              /sub building|space /tar human|org @excl
+    tenant              (sub building|space)  (tar human|org @excl)
 
     # States describing an activity-object.
     activity_state
-        participant         /tar human
-        todo                /tar task
+        participant         (tar human)
+        todo                (tar task)

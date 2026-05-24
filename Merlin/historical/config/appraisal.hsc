@@ -107,21 +107,29 @@
 (trait-affect psychopathy :dampens   guilt fear moral_violation :gain 0.6 :one_sided)
 
 ; ---- category reactions ----------------------------------------------------
-; One (reaction <category> :pov <pov>) row per (construal category, appraiser
-; POV) pair. apply_construal looks up the row by the construal's label AND
-; the appraiser's role - the SAME category fires different rows depending on
-; whether @self is the patient, the actor, or a third-party observer.
+; One (reaction <construed_act-kind> :pov <pov>) row per
+; (construed_act, appraiser POV) pair. apply_construal looks up the row
+; by the construal-belief's label (which IS a construed_act sub-kind) AND
+; the appraiser's role. The SAME kind fires different rows for patient /
+; actor / third_party.
 ;
-;   :pov patient       (default if omitted) - @self is the construed patient.
+;   :pov patient       (default if omitted) - @self is the construal's target.
 ;                      Anger / distress / shame patterns.
-;   :pov actor         @self is the construed perpetrator. Guilt / fear /
-;                      moral_violation pressure patterns; post-crime psychology
-;                      lives here (plan section 10.3-AFFECT item C).
+;   :pov actor         @self is the construal's subject (the perpetrator).
+;                      Guilt / fear / moral_violation pressure patterns -
+;                      post-crime psychology (plan section 10.3-AFFECT item C).
 ;   :pov third_party   @self is neither - a witness or member of the patient's
 ;                      social circle who holds the anchor (via gossip or
 ;                      direct perception). Softer-salience patient-like
 ;                      reactions; the engine half of "the village forms a
 ;                      view".
+;
+; Multi-tag accumulation: an anchor declares one or more construed_act tags
+; (e.g. `embezzle (construed_act appropriation_act wrong_act betray_act)`).
+; categorize() emits one construal belief per tag, and each construal's
+; reaction row fires independently. So an embezzle patient feels the
+; appropriation_act reaction AND the wrong_act reaction AND the betray_act
+; reaction - accumulated mints / pressures / bond mutations.
 ;
 ;   (mint <emotion-kind> :focus actor|patient|self|none :salience <hours>)
 ;       Mint {@self emotion <kind> <focus>}. focus actor / patient resolves
@@ -129,28 +137,180 @@
 ;       themselves (useful on actor-POV rows where the actor IS @self);
 ;       none leaves the focus blank.
 ;       salience is the base decay window, before the mood scaling.
+;   (pressure <pressure-kind> :focus ... :salience ...)
+;       Long-burn standing motivational load (plan section 10.3-AFFECT
+;       items A + B).
 ;   (end-bond   <relation-label>)   ends   {@self <label> <actor>}
 ;   (begin-bond <relation-label>)   begins {@self <label> <actor>}
-;
-; Only `betray` has a category test in appraisal.cc today; adding a test
-; there plus a row here is all a new category needs. Author the actor and
-; third_party POV rows as new categories with crime-perpetration consequences
-; come online (plan Phase B item 8).
 ;
 ; Sadist-POV substitutions (plan section 10.3-AFFECT item K): when the
 ; appraiser's sadism aspect is above k_sadism_pov_threshold (0.65),
 ; apply_construal substitutes :pov actor_sadist for :pov actor and :pov
 ; third_party_sadist for :pov third_party. Falls back to the modal row if
 ; no sadist row is authored. patient POV is unchanged - sadism modifies the
-; response to OTHERS' suffering, not one's own. The example below for
-; `betray` is illustrative; once Phase B's other-nature reactions land
-; (harm / wrong / threaten / ...), author sadist rows alongside the modal
-; ones for each category whose anchor involves another's suffering.
-(reaction betray :pov third_party_sadist
-  (mint joy   :focus none  :salience 12)
-  (mint pride :focus self  :salience 24))
-(reaction betray
-  (mint anger :focus actor :salience 12)
-  (mint grief :focus none  :salience 72)
-  (end-bond   love)
+; response to OTHERS' suffering, not one's own.
+
+; -- wrong_act (umbrella: any wronging - fires alongside the specific
+; sub-category reactions when an anchor carries both tags) --
+(reaction wrong_act :pov patient
+  (mint anger    :focus actor :salience 24)
+  (mint distress :focus none  :salience 72)
+  (pressure humiliation :focus actor :salience 720)
+  (pressure injustice   :focus actor :salience 2160)
+  (end-bond   friend)
+  (begin-bond enemy))
+
+(reaction wrong_act :pov actor
+  (mint guilt :focus self    :salience 720)
+  (mint fear  :focus none    :salience 168)
+  (pressure moral_violation :focus self    :salience 2160)
+  (pressure exposure_risk   :focus patient :salience 1440))
+
+(reaction wrong_act :pov third_party
+  (mint distress :focus actor :salience 24)
+  (mint fear     :focus actor :salience 48)
+  (pressure injustice :focus actor :salience 360)
   (begin-bond distrusts))
+
+; -- harm_act (physical / mortal injury) --
+(reaction harm_act :pov patient
+  (mint fear :focus actor :salience 168)
+  (pressure existential_threat :focus actor :salience 2160))
+
+(reaction harm_act :pov actor
+  (mint fear :focus none :salience 168))
+
+(reaction harm_act :pov third_party
+  (mint fear :focus actor :salience 48)
+  (pressure existential_threat :focus actor :salience 720))
+
+; -- appropriation_act (theft / fraud / embezzlement) --
+(reaction appropriation_act :pov patient
+  (mint anger :focus actor :salience 168)
+  (pressure resource_scarcity :focus none :salience 1440))
+
+(reaction appropriation_act :pov actor
+  (pressure exposure_risk :focus patient :salience 1440))
+
+(reaction appropriation_act :pov third_party
+  (mint distress :focus actor :salience 24)
+  (begin-bond distrusts))
+
+; -- coercion_act (forcible compulsion) --
+(reaction coercion_act :pov patient
+  (mint fear :focus actor :salience 168)
+  (pressure autonomy_loss      :focus actor :salience 1440)
+  (pressure existential_threat :focus actor :salience 720))
+
+(reaction coercion_act :pov actor
+  (pressure moral_violation :focus self :salience 720))
+
+(reaction coercion_act :pov third_party
+  (mint fear :focus actor :salience 48))
+
+; -- threaten_act (menace / extortion / implicit harm) --
+(reaction threaten_act :pov patient
+  (mint fear :focus actor :salience 72)
+  (pressure existential_threat :focus actor :salience 720))
+
+(reaction threaten_act :pov third_party
+  (mint fear :focus actor :salience 24))
+
+; -- slight_act (insult / mock / lesser affront) --
+(reaction slight_act :pov patient
+  (mint anger    :focus actor :salience 8)
+  (mint contempt :focus actor :salience 48)
+  (pressure humiliation :focus actor :salience 360))
+
+(reaction slight_act :pov actor
+  (mint pride :focus self :salience 24))
+
+(reaction slight_act :pov third_party
+  (mint contempt :focus actor :salience 24))
+
+; -- betray_act (broken trust) --
+(reaction betray_act :pov patient
+  (mint anger :focus actor :salience 24)
+  (mint grief :focus none  :salience 168)
+  (pressure attachment_loss :focus actor :salience 2160)
+  (end-bond   love)
+  (end-bond   friend)
+  (begin-bond distrusts))
+
+(reaction betray_act :pov actor
+  (mint guilt :focus self :salience 720)
+  (pressure moral_violation :focus self :salience 1440)
+  (pressure exposure_risk   :focus patient :salience 1440))
+
+(reaction betray_act :pov third_party
+  (mint contempt :focus actor :salience 48)
+  (begin-bond distrusts))
+
+(reaction betray_act :pov third_party_sadist
+  (mint joy   :focus none :salience 12)
+  (mint pride :focus self :salience 24))
+
+; -- expose_act (public disclosure of a band-4+ secret) --
+(reaction expose_act :pov patient
+  (mint shame :focus none :salience 720)
+  (pressure humiliation  :focus actor :salience 1440)
+  (pressure status_loss  :focus none  :salience 2160))
+
+(reaction expose_act :pov actor
+  (pressure exposure_risk :focus patient :salience 720))
+
+; -- abandonment_act (disinheritance / desertion) --
+(reaction abandonment_act :pov patient
+  (mint grief    :focus actor :salience 720)
+  (mint distress :focus none  :salience 168)
+  (pressure attachment_loss :focus actor :salience 2160)
+  (pressure status_loss     :focus none  :salience 1440)
+  (end-bond   friend)
+  (end-bond   love))
+
+(reaction abandonment_act :pov actor
+  (mint guilt :focus self :salience 720)
+  (pressure moral_violation :focus self :salience 1440))
+
+(reaction abandonment_act :pov third_party
+  (mint distress :focus actor :salience 48)
+  (pressure injustice :focus actor :salience 360))
+
+; -- aid_act / provision_act (direct assistance / giving) --
+; aid_act and provision_act share an umbrella help_act reaction. Authors
+; can override per-specific category if needed.
+(reaction help_act :pov patient
+  (mint gratitude :focus actor :salience 168)
+  (mint relief    :focus none  :salience 72)
+  (begin-bond friend))
+
+(reaction help_act :pov actor
+  (mint pride :focus self :salience 72))
+
+(reaction help_act :pov third_party
+  (mint affection :focus actor :salience 48))
+
+(reaction aid_act :pov patient
+  (mint gratitude :focus actor :salience 168))
+
+(reaction provision_act :pov patient
+  (mint gratitude :focus actor :salience 168))
+
+; -- honour_act / commitment_act --
+(reaction honour_act :pov patient
+  (mint pride     :focus self  :salience 168)
+  (mint gratitude :focus actor :salience 168)
+  (begin-bond respects))
+
+(reaction honour_act :pov actor
+  (mint pride :focus self :salience 72))
+
+(reaction honour_act :pov third_party
+  (mint affection :focus actor :salience 48))
+
+(reaction commitment_act :pov patient
+  (mint gratitude :focus actor :salience 168))
+
+; -- intimacy_act -- (no reaction by default; betray-by-diversion is a
+; structural test in categorize() that mints a betray_act construal in
+; observer minds, which fires the betray_act rows above.)

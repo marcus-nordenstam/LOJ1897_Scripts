@@ -1,11 +1,11 @@
 # Kinds of regions (top-level world areas with weather)
 
-world_part //obs
+world_part (+ obs)
     region
 
 # Kinds of spaces
         
-space //obs
+space (+ obs)
     interior_space
         bar_back
         entrance

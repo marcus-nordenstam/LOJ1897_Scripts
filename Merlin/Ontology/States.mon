@@ -9,18 +9,18 @@
 
 relation
 
-    state //state
+    state (+ state)
 
         # Spatial predicate states.
-        within_reach_of         /tar object|space
-        facing                  /tar object|space
+        within_reach_of         (tar object|space)
+        facing                  (tar object|space)
 
         # Abstract verb states.
-        know                    /sub human          /tar @S
-        possess                 /sub human          /tar object
-        expect_answer           /sub human          /tar ?
-        expect_question         /sub human          /tar ?
-        talk_to                 /sub human
+        know                    (sub human)           (tar @S)
+        possess                 (sub human)           (tar object)
+        expect_answer           (sub human)           (tar ?)
+        expect_question         (sub human)           (tar ?)
+        talk_to                 (sub human)
 
         # Attitudes - persistent dispositions toward a person, object or
         # fact. These are the DRIVERS of emotion, not emotions themselves:
@@ -28,15 +28,15 @@ relation
         # noun-taxonomy in Concepts.mon. //appraisal_input marks the whole
         # block as context the appraisal categorizer consults. See
         # Docs/emotion_sim_plan.md.
-        (attitude)              //sub human //appraisal_input
+        (attitude)              (+ sub human)  (+ appraisal_input)
             # like / hate may target a person, an object, OR a fact (@S).
-            like                /tar ? @S
-            hate                /tar ? @S
-            admires             /tar human
-            respects            /tar human
-            distrusts           /tar human
+            like                (tar ? @S)
+            hate                (tar ? @S)
+            admires             (tar human)
+            respects            (tar human)
+            distrusts           (tar human)
             # value: a held virtue - the identity / values appraisal input.
-            value               /tar ?
+            value               (tar ?)
             # justify: a held cognitive narrative that frames a past or
             # planned act as acceptable (plan section 10.3-AFFECT item E).
             # Target is a `narrative` kind ({@self justify they_deserved_it
@@ -49,58 +49,51 @@ relation
             # feedback loop that turns a one-off crime into a habit.
             # Detective-gameplay payoff: a guilty NPC's justify beliefs are
             # queryable through normal interrogation.
-            justify             /tar narrative
+            justify             (tar narrative)
 
-        # Construals - relational appraisal categories emitted by the
-        # appraisal categorizer (never authored by hand), observer-relative
-        # and re-derivable. The concrete act that caused a construal rides in
-        # its /causes origin field. See Docs/emotion_sim_plan.md section 2.3.
-        (construal)             //sub human
-            betray              /tar human
-            wrong               /tar human
-            help                /tar human
-            honour              /tar human
-            slight              /tar human
-            threaten            /tar human
-            abandon             /tar human
-            achieve             /tar ?
-            suffer_loss         /tar ?
+        # Construals are no longer a parallel vocabulary - each construal is
+        # one of the construed_act sub-kinds in Concepts.mon (wrong_act,
+        # harm_act, betray_act, etc.). categorize() mints a construal belief
+        # whose label IS the relevant construed_act kind; apply_construal
+        # looks up reaction rows keyed on that kind. The (construal) block
+        # that used to live here (betray / wrong / help / honour / slight /
+        # threaten / abandon / achieve / suffer_loss) is retired.
 
         # Social predicate states. The noun-form social roles (mother,
         # friend, spouse, ...) are noun-states declared in Concepts.mon.
-        (social)                //sub human
+        (social)                (+ sub human)
             # owe: {debtor owe creditor <debt>} - debtor is the subject,
             # creditor the target. The auxiliary slot holds the debt - an
             # integer amount for a money debt, a debt mobject for a non-money
             # obligation. One owe belief per (debtor, creditor) pair; the
             # amount is updated in place.
-            owe                 /tar human|org
+            owe                 (tar human|org)
             # inherit: {heir inherit <estate> <benefactor>} - target is the
             # estate / thing inherited, auxiliary is the benefactor.
-            inherit             /tar ?              /aux human
+            inherit             (tar ?)               (aux human)
             # member_of: club / society membership - distinct from employment
             # (`employer`). Non-exclusive: an NPC may join several.
-            member_of           /tar org
+            member_of           (tar org)
             # frequents: a haunt the NPC visits often - a pub, a club.
-            frequents           /tar structure|org
+            frequents           (tar structure|org)
             # backed_by: an investor who has put up founding capital for this
             # NPC's venture (the investment event). Subject is the backed
             # party, target the investor. Non-exclusive - a venture may have
             # several backers.
-            backed_by           /tar human
+            backed_by           (tar human)
 
         # Competence - the domains an NPC is practically skilled in. The target
         # is a field_of_study kind, which doubles as the competence taxonomy
         # (an NPC may be skilled in several - non-exclusive).
-        (competence)            //sub human
-            skilled_in          /tar field_of_study
+        (competence)            (+ sub human)
+            skilled_in          (tar field_of_study)
 
         # Achievements - sporting / competitive participation and victories.
         # Targets stay unconstrained until the Phase 6 sports events pin the
         # event / trophy kinds. Non-exclusive: a life accumulates many.
-        (achievement)           //sub human
-            participated_in     /tar ?
-            won                 /tar ?
+        (achievement)           (+ sub human)
+            participated_in     (tar ?)
+            won                 (tar ?)
 
         # Appraisable behaviours - act-record beliefs the F3.5 classifier
         # cascade reads (Phase 8 / Step 8.1). A behaviour label lives here ONLY
@@ -108,25 +101,25 @@ relation
         # task (Tasks.mon) form - otherwise the classifier reads that existing
         # symbol. So `give` (a task) and `HAVE_SEX_WITH` (an ACTION) are NOT
         # re-declared here; only behaviours with no motor-enacted form are.
-        (behaviour)             //sub human
+        (behaviour)             (+ sub human)
             # attend: {actor attend ?place} - the churchgoing seed event writes
             # it, the piety classifier reads it.
-            attend              /tar structure|org
+            attend              (tar structure|org)
             # play_game: {actor play_game ?game} - a game / gambling pastime.
             # Target stays unconstrained until the game taxonomy is pinned
             # (same convention as `won`).
-            play_game           /tar ?
-            # Criminal act-records. Phase 8 registers the labels and their
-            # criminality / aggression appraisal; the events that produce them
-            # are Phase 10's emergent-crime building-block events. Bare
-            # infinitives - the orphaned .evt catalog's past-tense directional
-            # labels (embezzled_from, kidnapped) are re-keyed to these.
-            assault             /tar human
-            steal               /tar human
-            defraud             /tar human
-            embezzle            /tar human|org
-            kill                /tar human
-            kidnap              /tar human
+            play_game           (tar ?)
+            # Criminal act-records (plan section 10.3-AFFECT item J +
+            # restructure). Each tag drives a reaction row in appraisal.hsc.
+            # Multiple tags accumulate at appraisal time: the patient of an
+            # embezzle gets both the appropriation_act reaction AND the
+            # betray_act reaction AND the wrong_act reaction.
+            assault             (tar human)       (construed_act harm_act wrong_act)
+            kill                (tar human)       (construed_act harm_act wrong_act)
+            steal               (tar human)       (construed_act appropriation_act wrong_act)
+            defraud             (tar human)       (construed_act appropriation_act wrong_act betray_act)
+            embezzle            (tar human|org)   (construed_act appropriation_act wrong_act betray_act)
+            kidnap              (tar human)       (construed_act coercion_act threaten_act wrong_act)
 
         # Acquired interior drives (F4.3). A drive is neither an emotion nor a
         # heritable temperament - it is deposited by a life of events and then
@@ -143,32 +136,32 @@ relation
         #     - reform resists it, never erases it - and non-exclusive (an NPC
         #     may crave more than one thing). The target is the craved substance
         #     kind: {@self craving alcohol}.
-        (drive)                 //sub human
-            calling             /tar interest|field_of_study  @excl
-            craving             /tar ?
+        (drive)                 (+ sub human)
+            calling             (tar interest|field_of_study @excl)
+            craving             (tar ?)
 
         # Derived dimensions (F3.2) - each a single numeric quality, computed
         # and cached by an F3.5 classifier, never authored by hand (the same
         # status as the derived {?thing age ?age}). @excl - one ongoing value
         # per subject; the value is a number, so /tar stays unconstrained.
-        (dimension)             //sub human
+        (dimension)             (+ sub human)
             # Conduct
-            honesty             /tar ? @excl
-            sobriety            /tar ? @excl
-            piety               /tar ? @excl
-            diligence           /tar ? @excl
-            chastity            /tar ? @excl
-            decorum             /tar ? @excl
-            generosity          /tar ? @excl
+            honesty             (tar ? @excl)
+            sobriety            (tar ? @excl)
+            piety               (tar ? @excl)
+            diligence           (tar ? @excl)
+            chastity            (tar ? @excl)
+            decorum             (tar ? @excl)
+            generosity          (tar ? @excl)
             # Conduct-risk
-            aggression          /tar ? @excl
-            criminality         /tar ? @excl
+            aggression          (tar ? @excl)
+            criminality         (tar ? @excl)
             # disinhibition: the externalizing temperament - low industriousness
             # + low politeness + high volatility. The temperamental root of
             # impulsive / antisocial conduct; the drinking events read the
             # aspects directly, this caches the fused score for the F3 cascade
             # and the interview.
-            disinhibition       /tar ? @excl
+            disinhibition       (tar ? @excl)
             # inhibition: the moral/conscientious brake (plan section
             # 10.3-AFFECT item D). Fuses Big Five aspects (politeness +
             # industriousness + compassion), F3 dimensions (piety + decorum -
@@ -179,28 +172,28 @@ relation
             # loop is built in: stress lowers inhibition, lowered inhibition
             # makes a harm branch likelier to fire, the harm event mints
             # justify beliefs which further lower inhibition.
-            inhibition          /tar ? @excl
+            inhibition          (tar ? @excl)
             # Material
-            wealth              /tar ? @excl
-            income_security     /tar ? @excl
+            wealth              (tar ? @excl)
+            income_security     (tar ? @excl)
             # Standing
-            prestige            /tar ? @excl
-            breeding            /tar ? @excl
-            influence           /tar ? @excl
-            connectedness       /tar ? @excl
+            prestige            (tar ? @excl)
+            breeding            (tar ? @excl)
+            influence           (tar ? @excl)
+            connectedness       (tar ? @excl)
             # Physical / mental
-            constitution        /tar ? @excl
-            affliction          /tar ? @excl
-            soundness           /tar ? @excl
+            constitution        (tar ? @excl)
+            affliction          (tar ? @excl)
+            soundness           (tar ? @excl)
             # Mind
-            radicalism          /tar ? @excl
-            education           /tar ? @excl
+            radicalism          (tar ? @excl)
+            education           (tar ? @excl)
             # Felt life - contentment / agitation are the valence / arousal
             # halves of mood; their classifiers (F4.6) read emotion_sim_plan.md's
             # derive_mood. agitation is added by the emotion model.
-            belonging           /tar ? @excl
-            contentment         /tar ? @excl
-            agitation           /tar ? @excl
+            belonging           (tar ? @excl)
+            contentment         (tar ? @excl)
+            agitation           (tar ? @excl)
             # stress: the salience-weighted aggregate of standing `pressure`
             # beliefs (plan section 10.3-AFFECT item F). Sibling to
             # contentment / agitation; written by derive_mood. 0..100. Read by
@@ -208,22 +201,22 @@ relation
             # categorize() threshold (item G) - both produce the runaway
             # feedback loop that turns simmering pressure into paranoid
             # construal and crime-decision motivation.
-            stress              /tar ? @excl
-            purpose             /tar ? @excl
-            autonomy            /tar ? @excl
+            stress              (tar ? @excl)
+            purpose             (tar ? @excl)
+            autonomy            (tar ? @excl)
             # Rootedness in the community - tenure, employer, property, kin,
             # club memberships. The life_satisfaction band classifier reads
             # it to distinguish a LONER (low life_sat with high rootedness:
             # established but solitary by character) from an ADRIFT drifter
             # (low life_sat with low rootedness: newly arrived, no anchor).
-            rootedness          /tar ? @excl
+            rootedness          (tar ? @excl)
 
         # Historical-sim-only situation predicates (hsim_ prefix). Read by the
         # event engine to drive crime / drama template eligibility and role
         # binding. Pruned from NPC minds at the historical -> interactive
         # phase transition.
-        (hsim)                  //sub human
-            hsim_motive             /tar @excl
+        (hsim)                  (+ sub human)
+            hsim_motive             (tar @excl)
             hsim_secret_at_risk
             hsim_publicly_humiliated
             hsim_family_dishonored

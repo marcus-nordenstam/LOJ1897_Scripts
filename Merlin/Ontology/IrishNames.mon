@@ -2,7 +2,7 @@
 name
     first_name
         male_name
-            male_irish_name //pname
+            male_irish_name (+ pname)
                 Aidan
                 Aengus
                 Barra
@@ -27,7 +27,7 @@ name
                 Liam
                 Lorcan
                 Malachy
-                Miche√°l
+                Miche·l
                 Niall
                 Oisin
                 Patrick
@@ -36,9 +36,9 @@ name
                 Shane
                 Tadhg
                 Tiernan
-                Tom√°s
+                Tom·s
         female_name
-            female_irish_name //pname
+            female_irish_name (+ pname)
                 Aileen
                 Aisling
                 Aoife
@@ -70,7 +70,7 @@ name
                 Treasa
     surname
         common_surname
-            common_irish_surname //pname
+            common_irish_surname (+ pname)
                 MacCarthy
                 MacDermott
                 MacMahon
@@ -117,7 +117,7 @@ name
                 Whelan
                 Woods
         upper_class_surname
-            upper_class_irish_surname //pname
+            upper_class_irish_surname (+ pname)
                 Burke
                 Butler
                 Byrne
