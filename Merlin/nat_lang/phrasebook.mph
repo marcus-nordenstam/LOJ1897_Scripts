@@ -140,3 +140,30 @@ select extended_kin:
 select bonds:
   affect:loves      -> warm neutral
   *                 -> neutral
+
+# --- Phase 9.4 decorations ---------------------------------------------------
+# Per-clause optional surface fragments bolted on top of the realized clause
+# without making .mgr templates enumerate every (decoration, clause-shape)
+# combo. First-match-wins per block; the catch-all "* -> "" " is a no-op so
+# untriggered clauses ship unchanged. v1 evaluates only voice-only conditions
+# (cog / role / formality / schooling / class); affect / bond decorations
+# need clause-subject / audience context and are deferred to a follow-up.
+
+# Address-form suffix (distillation §3.1). A deferential / formal speaker
+# punctuates with "sir"; an intimate / familiar speaker drops the honorific.
+# v1 ships one polite suffix; class-down forms ("my good man") added when the
+# class-delta derivation finds an audience to compare against.
+decoration address_form:
+  position: suffix
+  formality:deferential -> ", sir"
+  formality:formal      -> ", sir"
+  *                     -> ""
+
+# Softener prefix (distillation §3.2). Cushions the question / statement
+# when the speaker holds a deferential register. v1 fires on formality;
+# adding warmth / sensitivity conditions needs the per-clause subject
+# context the decoration evaluator does not yet thread through.
+decoration softener:
+  position: prefix
+  formality:deferential -> "Forgive me, but "
+  *                     -> ""

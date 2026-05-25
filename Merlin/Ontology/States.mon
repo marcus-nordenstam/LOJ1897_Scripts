@@ -270,6 +270,46 @@ relation
             silence_witness     (tar human)
             expose_first        (tar human)
 
+            # PR-goal-A 2026-05-25 - additional goal / act-record labels
+            # (dual: goal-target atoms in {actor goal {actor <label>
+            # <focus>}} AND act-record labels minted by perpetration
+            # terminals). Each unlocks a deliberation.hsc affinity row
+            # plus one or more perpetration.hsc method rows.
+            #
+            # seduce: pursue a sexual relationship. Driven by infatuation
+            # or attachment_loss-rebound. The resulting consummation
+            # mints a `lover` bond; whether it's an affair is DERIVED
+            # from spousal context (no separate label per
+            # knowledge_design_notes.md rule against duplicate-by-
+            # context labels).
+            seduce              (tar human)   (construed_act intimacy_act)
+            # humiliate: publicly degrade. Distinct from `expose` (which
+            # reveals a TRUE secret) - humiliate can be insult / mockery
+            # / orchestrated embarrassment without any prior wrong by
+            # the target. Driven by humiliation pressure.
+            humiliate           (tar human)   (construed_act slight_act wrong_act)
+            # discredit: destroy reputation via lies / character
+            # assassination / rumour. Distinct from `expose` because the
+            # content may be false, and from `humiliate` because the
+            # target is reputation specifically. betray_act-tagged
+            # because the discreditor frequently uses inside information.
+            discredit           (tar human)   (construed_act expose_act betray_act wrong_act)
+            # bribe: corrupt someone via payment. Functional inverse of
+            # coerce (extract compliance via threat vs cash). Aux holds
+            # the requested act so the recipient's mind ends with
+            # {recipient goal {recipient <requested-act> <focus>}} on
+            # accept. No construed_act tag - bribe is the
+            # MEANS-of-pressure, and the appraisable harm is whatever
+            # gets done with the bought compliance.
+            bribe               (tar human)   (aux ?)
+            # frame: plant evidence to incriminate a third party. Severe
+            # - the framed party may suffer the full appraisal weight
+            # of the original crime. Aux carries the redirected crime
+            # fact ({framer frame ?innocent /aux {?actual_perp <crime>
+            # ?victim}} reads "framer makes innocent appear to be the
+            # actor of the actual crime").
+            frame               (tar human)   (aux ?)   (construed_act harm_act betray_act wrong_act)
+
         # Acquired interior drives (F4.3). A drive is neither an emotion nor a
         # heritable temperament - it is deposited by a life of events and then
         # shapes which events cast the NPC.
@@ -359,6 +399,12 @@ relation
             # established but solitary by character) from an ADRIFT drifter
             # (low life_sat with low rootedness: newly arrived, no anchor).
             rootedness          (tar ? @excl)
+            # PR-life-C 2026-05-25 - derived observable locomotion level
+            # (mobile / crutch_assisted / wheelchair_bound / bedridden).
+            # Read from condition + (future) leg-wound state + age in
+            # classify_mobility. Kind-valued (target is one of the
+            # mobility_level sub-kinds declared in Concepts.mon).
+            mobility            (tar @excl mobility_level)
 
         # Historical-sim-only situation predicates (hsim_ prefix). Read by the
         # event engine to drive crime / drama template eligibility and role

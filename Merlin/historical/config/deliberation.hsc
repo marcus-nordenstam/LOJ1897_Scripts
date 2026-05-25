@@ -27,29 +27,36 @@
 (affinity humiliation         expose               0.4)
 (affinity humiliation         withdraw             0.3)
 (affinity humiliation         kill                 0.2)
+; PR-3d 2026-05-25 - new goal labels.
+(affinity humiliation         humiliate            0.5)
+(affinity humiliation         discredit            0.4)
 
 ; ---- injustice: morally indignant; broad release set -----------------------
 (affinity injustice           confront_privately   0.5)
 (affinity injustice           expose               0.5)
 (affinity injustice           plead                0.3)
 (affinity injustice           kill                 0.2)
+(affinity injustice           discredit            0.4)
 
 ; ---- exposure_risk: standing secret may break --------------------------------
 (affinity exposure_risk       silence_witness      0.4)
 (affinity exposure_risk       flee                 0.4)
 (affinity exposure_risk       expose_first         0.3)
 (affinity exposure_risk       confess_letter       0.2)
+(affinity exposure_risk       bribe                0.4)
 
 ; ---- attachment_loss: loss of a bonded other ---------------------------------
 (affinity attachment_loss     mourn                0.7)
 (affinity attachment_loss     withdraw             0.5)
 (affinity attachment_loss     replace              0.2)
+(affinity attachment_loss     seduce               0.2)   ; rebound
 
 ; ---- moral_violation: actor's own held norms breached ------------------------
 (affinity moral_violation     confess_letter       0.5)
 (affinity moral_violation     confess_in_person    0.3)
 (affinity moral_violation     surrender            0.2)
 (affinity moral_violation     atone                0.4)
+(affinity moral_violation     frame                0.2)   ; deflection
 
 ; ---- existential_threat: directed lethal danger ------------------------------
 (affinity existential_threat  flee                 0.8)
@@ -81,6 +88,8 @@
 (affinity rivalry_pressure    confront_privately   0.4)
 (affinity rivalry_pressure    expose               0.4)
 (affinity rivalry_pressure    kill                 0.2)
+(affinity rivalry_pressure    discredit            0.5)
+(affinity rivalry_pressure    humiliate            0.3)
 
 ; ---- floor branches: always considered, absolute weights -------------------
 (floor    forgive             0.15)

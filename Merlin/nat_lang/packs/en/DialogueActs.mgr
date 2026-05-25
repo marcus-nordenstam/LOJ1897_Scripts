@@ -122,13 +122,12 @@
 
 # === NEGATIVE_KNOWLEDGE =====================================================
 # Honest "I don't know" - distinct from DECLINE (refuses an answerable
-# question) and DENY (negates a closed proposition). MC stays at @unknown,
-# matching the existing Formulaics.mgr "no_dont_know" pattern; these
-# entries broaden the surface vocabulary.
+# question) and DENY (negates a closed proposition). Uses the existing
+# @unknown sentinel that every pack's Statements.mgr already authors for
+# "I don't know" / "no lo sé" / "わかりません" / "ไม่ทราบ" / "Jag vet inte".
+# "I don't know" itself stays in Statements.mgr; this block adds extra
+# surface variants over the same MC.
 
-" i don't know "
-@unknown
-.
 " i cannot say "
 @unknown
 .
@@ -141,33 +140,36 @@
 
 
 # === DECLINE ================================================================
-# Refuses to answer an answerable question. MC sits at @unknown for v1
-# because there is no `(refuse-to-answer <reason>)` func in the ontology
-# yet (distillation 4.2). Until that lands, DECLINE and NEGATIVE_KNOWLEDGE
-# share an MC and differ only in surface phrasing - player-visible v1, the
-# receiver mind cannot yet act differently on the two anyway.
+# Refuses to answer an answerable question. Semantically distinct from
+# NEGATIVE_KNOWLEDGE: a witness who declines COULD answer but is choosing
+# not to. The receiver mind dispatches on (formulaic refusal <reason>) and
+# may press, escalate, ask for the reason, or accept - all distinct from
+# the response to (formulaic no_dont_know) ("I have no such belief").
+#
+# Reason atoms (distillation 4.2) name the witness's basis for refusal -
+# the receiver mind reads them to choose its next move:
+#   answer            - generic refusal of the question, no specific basis
+#   speak_ill_of_dead - "nil nisi bonum" / "I'll not blacken a name"
+#   religious_matter  - "between me and God"
+#   above_my_station  - "such matters are above me"
+#
+# Vocabulary is open; new reasons added as the corpus grows. The receiver
+# falls back to a generic press-for-detail when it sees a reason it does
+# not yet have a specific rule for.
 
 " i'll not say "
-@unknown
-.
+( formulaic refusal answer ) .
 " i'd rather not say "
-@unknown
-.
+( formulaic refusal answer ) .
 " i prefer not to discuss it "
-@unknown
-.
+( formulaic refusal answer ) .
 " it is not fit to speak of "
-@unknown
-.
+( formulaic refusal answer ) .
 " nil nisi bonum "
-@unknown
-.
-" that is between me and god "
-@unknown
-.
+( formulaic refusal speak_ill_of_dead ) .
 " i'll not blacken a name "
-@unknown
-.
+( formulaic refusal speak_ill_of_dead ) .
+" that is between me and god "
+( formulaic refusal religious_matter ) .
 " such matters are above me "
-@unknown
-.
+( formulaic refusal above_my_station ) .

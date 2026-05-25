@@ -50,6 +50,20 @@ concept
         alert
         sleepy
 
+    # PR-life-C 2026-05-25 - observable locomotion level. Derived in
+    # hsim_derive::classify_mobility from condition + (future) leg-wound
+    # state + age. Distinct from `alertness` (sleep / wake) and from
+    # `condition` (alive / dead / unconscious): mobility captures what
+    # an NPC can DO physically when conscious. The bedridden value
+    # covers both genuine incapacity (severe injury) and the social
+    # state of staying-in-bed; mobility being derived means the same
+    # symbol can mean both as the substrate behind it varies.
+    mobility_level      (tar @excl)
+        mobile
+        crutch_assisted
+        wheelchair_bound
+        bedridden
+
     death_cause         (tar @excl)
         disease
         accident
@@ -650,6 +664,26 @@ concept
         respected_by
         enemy
         love                    (tar ?)  (exclusive_bond)
+        # PR-rel-A 2026-05-25 - directed competitive bond. May be
+        # asymmetric (A fixates on B; B indifferent). Sourced by
+        # rivalry-pressure-driving events (lost-job-to, outbid-by,
+        # out-courted-by). Read by deliberation affinity rows and by
+        # appraisal to weight slight_act reactions higher when the
+        # source is a held rival.
+        rival                   (inclusive_bond)
+        # PR-rel-A 2026-05-25 - conspiracy bond. Subject = principal
+        # (recruiter), target = helper. Aux carries the embedded
+        # goal-fact that `recruit` minted into the helper's mind.
+        # Closes the loop on the existing `recruit (tar human) (aux ?)`
+        # behaviour label - recruit is the ACT, accomplice is the
+        # ongoing BOND.
+        accomplice              (aux ?)
+        # PR-rel-A 2026-05-25 - co-equity bond in a venture. Symmetric -
+        # minted on both sides when the partnership is formed. Aux
+        # carries the org. Distinct from `founder` (one-shot
+        # constitutive, @excl) and `employer` (subordinate relation).
+        # Same org may have many partners.
+        business_partner        (aux org)
 
     marriage_desirability   (tar ? @excl)
 
