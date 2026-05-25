@@ -90,6 +90,27 @@
 { ?_I /pres emotion [k anger ] $value(NP) } .
 
 
+# === PRESSURE (witness self-disclosure) =====================================
+# The witness's standing pressure belief - {@self pressure <kind>}. Rendered
+# as a confessional first-person statement. Used by the PressureDischarge.mc
+# volunteer rule: when the witness is under load and the asker is not
+# actively disliked, the rule emits (msg {@self pressure <kind>}) and this
+# template surfaces it. Surface phrasing intentionally bare for v1; the
+# `volunteered-preface` decoration (distillation §4.5) will prepend
+# something like "Before we go further, I should say -" once authored.
+
+" i am burdened by $kind(KIND|/isa|pressure) "
+{ ?_I /pres pressure $kind(KIND|/isa|pressure) } .
+
+" i carry the weight of $kind(KIND|/isa|pressure) "
+{ ?_I /pres pressure $kind(KIND|/isa|pressure) } .
+:: flowery
+
+" $kind(KIND|/isa|pressure) "
+{ ?_I /pres pressure $kind(KIND|/isa|pressure) } .
+:: curt
+
+
 # === EMPATHIZE ==============================================================
 # Speaker's emotion ABOUT the listener. v1 uses the focused-emotion belief
 # shape with ?_you as the focus.

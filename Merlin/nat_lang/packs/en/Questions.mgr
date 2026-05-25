@@ -30,6 +30,29 @@
 "'(' $qs_phrase(QSP) ++? ')'"
 ( qs $qs_phrase(QSP) )
 .
+
+# Phase 9.5 - PROBE_FOR_DETAIL. The player asks the NPC to elaborate on a
+# topic the NPC has just mentioned (the dialogue session's last-salient-noun
+# carries the canonical referent). The spec form is a single-word echo
+# ("Music?" / "Sports?"), but the matcher's NL preprocessor strips terminal
+# '?' so the bare-noun form can't be distinguished from any other kind
+# reference at the input layer. v1 ships explicit multi-word triggers
+# below; the single-word echo lands when the preprocessor learns to keep
+# terminal '?' as a literal token (TODO in nat_lang.cc::_preprocess_nl_input).
+# All forms route to (formulaic probe <kind>) which the receiver mind's
+# .mc rules pattern-match to drive elaboration.
+
+"more about $probe_word(KIND)"
+( qs (formulaic probe $probe_word(KIND)) )
+.
+
+"tell me more about $probe_word(KIND)"
+( qs (formulaic probe $probe_word(KIND)) )
+.
+
+"what about $probe_word(KIND)"
+( qs (formulaic probe $probe_word(KIND)) )
+.
  
 
 :QSP
