@@ -15,8 +15,10 @@ relation
         within_reach_of         (tar object|space)
         facing                  (tar object|space)
 
-        # Abstract verb states.
+        # to believe that someone ELSE knows something; theory-of-knowledge
         know                    (sub human)           (tar @S)
+
+        # possess 
         possess                 (sub human)           (tar object)
         expect_answer           (sub human)           (tar ?)
         expect_question         (sub human)           (tar ?)

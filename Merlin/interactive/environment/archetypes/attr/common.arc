@@ -107,6 +107,20 @@ attr "machiavellianism" (type float) (mech feel) (state-flags-tar @excl)
 attr "psychopathy" (type float) (mech feel) (state-flags-tar @excl)
 attr "sadism" (type float) (mech feel) (state-flags-tar @excl)
 
+# Physical traits (PR-3b 2026-05-25). 0..1 floats with population mean 0.5,
+# parallel shape to the Big Five aspects. Genetic + heritable (mid-parent
+# gaussian, to be wired in mx_make_human alongside the existing personality
+# synthesis); age-decay over the lifespan lands in a follow-up. Both /feel
+# (the NPC's own body-awareness) and /obs (others observe build, gait,
+# stamina from outward signs). Read by perpetration.hsc method rows via
+# (attr ?actor <trait>) gates - strength for bludgeon/strangle, dexterity
+# for stab/garrotte (hand-and-finger precision), agility for climb/evade
+# (whole-body acrobatics), endurance for pursuit/sustained fights.
+attr "strength"   (type float) (mech feel) (mech obs) (state-flags-tar @excl)
+attr "dexterity"  (type float) (mech feel) (mech obs) (state-flags-tar @excl)
+attr "agility"    (type float) (mech feel) (mech obs) (state-flags-tar @excl)
+attr "endurance"  (type float) (mech feel) (state-flags-tar @excl)
+
 # Relationships
 attr "pregnant_when" (type date) (mech obs) (auto-percept)
 # Only used to pass on appropriate DNA from the father
@@ -170,6 +184,20 @@ attr "initiator" (type entity) (entity "human_player" "human_npc") (mech obs) (a
 
 # Fluid
 attr "fluid_amount" (type float) (mech obs) (auto-percept) (state-flags-tar @excl)
+
+# Phase 10 Phase D PR-3 - trap-set / trap-fire arc env attr. Lives on fluid
+# and food archetypes. tainted_with names the substance kind added (e.g.
+# digitalis) - a PHYSICAL fact about the vessel's contents. Imperceptible
+# (an NPC sniffing a wine bottle can't tell it's been tainted without a
+# separate explicit detection mechanism, which lands in a later PR
+# alongside taste / smell sensors).
+#
+# WHO tampered is NOT an env fact - that's a who-did-what record. It lives
+# in the perpetrator's band-5 self-belief {actor tamper vessel /aux substance}
+# (and parallel beliefs in any witnessing minds), and on the hsim-side
+# omniscient live-traps registry that the trap-fire event walks to resolve
+# (vessel -> perp + intended victim + substance).
+attr "tainted_with" (type kind) (imperceptible) (state-flags-tar @excl)
 
 # Transaction
 attr "at" (type entity) (entity "structure" "container_structure" "space") (mech obs) (auto-percept)

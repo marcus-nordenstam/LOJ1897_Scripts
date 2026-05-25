@@ -1,0 +1,14 @@
+# Thai verb conjugation (Phase 8.2)
+# Format: verb <base> <tense> = <inflected>
+#
+# Thai verbs do not inflect for tense; past is signalled with the auxiliary
+# เคย (used to) and similar particles. The .mverb table treats each past
+# auxiliary'd form as a synthetic tense variant of a named base so the
+# template-side authoring matches the other packs' $verb(VERB|<base>)
+# pattern. v1 ships the equational copula (khue) and rak (love).
+
+verb khue /pres = คือ
+verb khue /past = เคยเป็น
+
+verb rak  /pres = รัก
+verb rak  /past = เคยรัก

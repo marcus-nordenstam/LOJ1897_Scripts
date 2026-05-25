@@ -1,0 +1,11 @@
+# Japanese verb conjugation (Phase 8.2)
+# Format: verb <base> <tense> = <inflected>
+# v1 ships PLAIN forms only; the polite/deferential variants (です / 愛しています /
+# でした) remain hardcoded in their :: deferential-tagged .mgr templates until
+# the .mverb format grows a register dimension.
+
+verb da    /pres = だ
+verb da    /past = だった
+
+verb aisuru /pres = 愛している
+verb aisuru /past = 愛していた

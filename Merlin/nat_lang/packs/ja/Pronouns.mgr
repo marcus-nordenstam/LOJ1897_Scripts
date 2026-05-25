@@ -3,12 +3,12 @@
 # Pronouns.mgr - Japanese-pack first/second-person pronouns (Phase 8).
 #
 # v1 ships a small pronoun set:
-#   私    - first-person, formal/neutral. Default for ?_I generation.
+#   私    - first-person, formal/neutral. Default for ?_I generation when no
+#            agreement context applies (untagged = wildcard match).
 #   わたし - first-person, semi-formal (hiragana variant). Accepts on parse.
-#   僕    - first-person, casual male. Accepts on parse; not used for
-#            generation in v1 (gender-aware first-person is a follow-up,
-#            shared shape with Swedish adjective gender agreement - see
-#            dialogue_nlg_phase8_design.md section 8.10).
+#   僕    - first-person, casual male. Phase 8.1: tagged `:: agree:m` so
+#            generation picks it only when the speaker's gender belief is
+#            male; female / unknown speakers fall through to 私.
 #   あなた - second-person. Japanese drops 2nd-person more than English, but
 #            tell_about possessive forms ("your mother") need an explicit
 #            possessor token; あなた fills that role.
@@ -25,6 +25,7 @@
 "私"      ?_I     .
 "わたし"   ?_I     .
 "僕"      ?_I     .
+:: agree:m
 
 "あなた"   ?_you   .
 

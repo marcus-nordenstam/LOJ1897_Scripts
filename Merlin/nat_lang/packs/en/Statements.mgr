@@ -164,14 +164,14 @@ $form(FORM)
 # these label-literal templates carry the description corpus. Mirrors the
 # bare-is statements (age / nationality / job) above.
 
-" $sub_np(NP) ++'s mother is $value(NP) "
-{ $sub_np(NP) /pres mother $value(NP) } .
-" $sub_np(NP) ++'s mother was $value(NP) "
-{ $sub_np(NP) /past mother $value(NP) } .
-" $sub_np(NP) ++'s father is $value(NP) "
-{ $sub_np(NP) /pres father $value(NP) } .
-" $sub_np(NP) ++'s father was $value(NP) "
-{ $sub_np(NP) /past father $value(NP) } .
+# Phase 8.2 - one template covers both tenses. $verb(VERB|be) emits "is" /
+# "was" by reading the surrounding belief's tense at realize; at parse the
+# matcher deconjugates the input and replaces the MC's /ever placeholder
+# with the recovered tense before committing.
+" $sub_np(NP) ++'s mother $verb(VERB|be) $value(NP) "
+{ $sub_np(NP) /ever mother $value(NP) } .
+" $sub_np(NP) ++'s father $verb(VERB|be) $value(NP) "
+{ $sub_np(NP) /ever father $value(NP) } .
 " $sub_np(NP) ++'s parent is $value(NP) "
 { $sub_np(NP) /pres parent $value(NP) } .
 " $sub_np(NP) ++'s sibling is $value(NP) "
@@ -308,8 +308,8 @@ $form(FORM)
 
 # Neutral - the unmarked statement of love. The .mph fallback chain always
 # ends here, so EVERY love belief renders even when no intent matches.
-" $sub_np(NP) loves $value(NP) "
-{ $sub_np(NP) /pres love $value(NP) } .
+" $sub_np(NP) $verb(VERB|love) $value(NP) "
+{ $sub_np(NP) /ever love $value(NP) } .
 
 # Warm - the affectionate narrator's gloss. "Loves dearly" tags the love
 # with the speaker's own approval; the warmest non-flowery reading.
@@ -348,8 +348,6 @@ $form(FORM)
 { $sub_np(NP) /pres love $value(NP) } .
 :: deferential
 
-" $sub_np(NP) loved $value(NP) "
-{ $sub_np(NP) /past love $value(NP) } .
 
 # --- EMOTION : AFFECTION (object focus) ------------------------------------
 " $sub_np(NP) is fond of $value(NP) "
@@ -552,8 +550,8 @@ $form(FORM)
 
 # First-person possessive with any attribute (my X is Y)
 # e.g. my game-role is npc, my mother is $mother
-" $my(PRONOUN) $rel(REL) is $value(NP) "
-{ $my(PRONOUN) /pres $rel(REL) $value(NP) }
+" $my(PRONOUN) $rel(REL) $verb(VERB|be) $value(NP) "
+{ $my(PRONOUN) /ever $rel(REL) $value(NP) }
 .
 
 # Affectionate variant - the sentence planner picks this when the speaker's
@@ -573,9 +571,6 @@ $form(FORM)
 .
 :: curt
 
-" $my(PRONOUN) $rel(REL) was $value(NP) "
-{ $my(PRONOUN) /past $rel(REL) $value(NP) }
-.
 
 # any possessive relation that is a proper name, e.g. john's name is ...
 # Uses PNAME for the value so proper names get [n ...] wrapper

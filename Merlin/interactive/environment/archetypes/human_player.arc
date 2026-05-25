@@ -33,6 +33,11 @@ archetype "human_player" (cap 256) (mech obs) (raycast-visible) (player) (non-oc
     "machiavellianism"
     "psychopathy"
     "sadism"
+    # Physical traits (PR-3b 2026-05-25) - genetic, drive method viability.
+    "strength"
+    "dexterity"
+    "agility"
+    "endurance"
     "region"
     # Parts are not auto-perceived — we perceive specific body-parts below instead
     "parts"

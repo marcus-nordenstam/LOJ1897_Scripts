@@ -1,0 +1,14 @@
+# Spanish verb conjugation (Phase 8.2)
+# Format: verb <base> <tense> = <inflected>
+
+verb ser /pres = es
+verb ser /past = era
+
+verb tener /pres = tiene
+verb tener /past = tenia
+
+verb amar /pres = ama
+verb amar /past = amaba
+
+verb trabajar /pres = trabaja
+verb trabajar /past = trabajaba

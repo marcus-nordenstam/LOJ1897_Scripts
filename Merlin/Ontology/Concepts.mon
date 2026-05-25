@@ -141,33 +141,48 @@ concept
         self_defense
 
     # Role-identities an NPC self-identifies as (plan section 10.3 Pivot C,
-    # 2026-05-24). Held as {@self identity <role>} self-beliefs; derived by
-    # hsim_derive::classify_identities from substrate state (kids ->
-    # parent, spouse -> spouse, job -> worker, church member ->
-    # christian); future PRs add explicit identity-adoption events. Read
-    # by the deliberate synthesizer to anchor floor branches (more
-    # identities -> more anchored -> more likely to forgive / do_nothing);
-    # by categorize() to shift thresholds when an anchor's parties overlap
+    # 2026-05-24; expanded by PR-3b 2026-05-25). Held as {@self identity
+    # <role>} self-beliefs; derived by hsim_derive::classify_identities from
+    # substrate state (kids -> parent, spouse -> spouse, job -> worker,
+    # church member -> christian, class + gender -> gentleman / lady, job
+    # kind -> merchant / servant / soldier / steward, Dark Tetrad attr ->
+    # machiavellian / sadist, low assertiveness composite -> coward);
+    # future PRs add explicit identity-adoption events. Read by the
+    # deliberate synthesizer to anchor floor branches (more identities ->
+    # more anchored -> more likely to forgive / do_nothing); by
+    # categorize() to shift thresholds when an anchor's parties overlap
     # the appraiser's identity-relevant relations (a parent identity makes
     # child-related construals more salient); by the justify pick to bias
     # which narrative an actor reaches for (a parent reaches for
-    # i_was_protecting_kin, a christian-priest for it_was_necessary).
+    # i_was_protecting_kin, a christian-priest for it_was_necessary); and
+    # by perpetration.hsc method rows' :id-dampens / :id-boosts to bias
+    # method selection (a gentleman dampens public_confront, a sadist
+    # boosts cook_alive).
     # Non-@excl - an NPC's composite identity IS the held set.
-    # Atom names are `as_<X>` to avoid colliding with existing kinds of the
-    # same bare name (parent/spouse are relationship bonds; merchant/steward
-    # are job kinds; etc.). The `as_` prefix reads naturally when minted:
-    # `{@self identity as_parent}` = "I identify as a parent".
+    # Atom names are `<X>_role` to avoid colliding with existing kinds of
+    # the same bare name (parent / spouse are relationship bonds;
+    # merchant / steward are job kinds; etc.). The `_role` suffix reads
+    # naturally when minted: `{@self identity parent_role}` = "I identify
+    # as a parent."
     role
-        as_parent
-        as_spouse
-        as_worker
-        as_christian
-        as_gentleman
-        as_lady
-        as_merchant
-        as_servant
-        as_soldier
-        as_steward
+        parent_role
+        spouse_role
+        worker_role
+        christian_role
+        gentleman_role
+        lady_role
+        merchant_role
+        servant_role
+        soldier_role
+        steward_role
+        # PR-3b 2026-05-25 - Dark Tetrad and trait-composite identities.
+        # machiavellian / sadist read the homonymous Dark Tetrad attr
+        # against a tunable threshold in situations.hsc; coward fires on
+        # EITHER (low assertiveness AND high withdrawal) OR (high
+        # inhibition AND not-respectable).
+        machiavellian_role
+        sadist_role
+        coward_role
 
     # Hereditary interests. Seeded as {@self interest <kind>} self-beliefs in
     # mx_make_human and grown / shed by the interest_acquired / interest_lost

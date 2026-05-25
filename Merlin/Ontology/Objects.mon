@@ -59,11 +59,34 @@ object (+ obs)
             table
                 kitchen_table
             evidence_box
+        # Purpose-built instruments of harm. PR-3b 2026-05-25 expanded the
+        # subkinds to cover the perpetration.hsc method-row :requires gates -
+        # pointed_blade / edged_blade / heavy_blade subsume the existing
+        # `knife`; blunt_object subsumes the existing `bust`; the rest are
+        # new families.
         weapon
-            knife
-            # Phase 10 Phase C - heavy-object weapon class (bronze bust,
-            # marble sculpture, similar improvised bludgeons).
-            bust
+            pointed_blade
+                knife
+            edged_blade
+            heavy_blade
+            blunt_object
+                # Phase 10 Phase C - bronze bust / marble sculpture / similar
+                # improvised bludgeons. Now a sub-kind of blunt_object.
+                bust
+            cord_or_wire
+            firearm
+            explosive
+        # Improvised harm materials (PR-3b 2026-05-25). NOT weapons - these
+        # are items the world otherwise uses for non-violent purposes
+        # (rope for hauling, cloth for bedding, matches for lighting fires,
+        # a hammer for carpentry) that perpetration.hsc method rows can
+        # nominate as the means. Kept as siblings to `weapon` so a
+        # (controls-any ?actor [k weapon]) check correctly EXCLUDES these.
+        rope
+        pillow_or_cloth
+        ignition_source
+        electrical_apparatus
+        tools
         # Phase 10 Phase C - physician's carry-bag, holds substance bottles.
         medical_bag
         collection
@@ -120,6 +143,25 @@ object (+ obs)
             will
     fluid
         beer
+        # Phase 10 Phase D PR-3 - wine fluid for the trap-set/trap-fire arc.
+        # Tainted via the `tainted_with` attr (declared in common.arc); the
+        # perpetrator is recorded via `tainted_by` on the same vessel.
+        wine
+        # PR-3b 2026-05-25 - combustible accelerant for arson / immolate
+        # perpetration method rows. Sibling to beer / wine because it
+        # follows the same env shape (a fluid carried in a vessel that the
+        # actor possesses); kerosene / paraffin / lamp_oil are future
+        # sub-kinds.
+        flammable_liquid
+
+    # Phase 10 Phase D PR-3 - food taxonomy for the trap-set/trap-fire arc.
+    # Parallel to fluid: a `food` entity carries the same tainted_with /
+    # tainted_by attrs so non-liquid poisoning works too. Sub-kinds are
+    # starter content; extend as authored arcs demand more variants.
+    food
+        bread
+        cheese
+        soup
 
     # Man-made structures
     structure

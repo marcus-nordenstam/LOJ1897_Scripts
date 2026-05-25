@@ -1,11 +1,20 @@
 # -----------------------------------------------------------------------------
 # kinds.mkind - Swedish-pack kind-atom localization (Phase 8).
 #
-# Each line is "<canonical> <localized>". The canonical is the ontology leaf
-# name (English convention - see LOJ1897_Scripts/Merlin/ontology/Concepts.mon);
-# the localized is the Swedish surface form the realize layer emits when a
-# [k <canonical>] atom is rendered. A kind without an entry falls back to
-# the canonical hstr (so a missing translation is visible but not broken).
+# Each line is "<canonical>[.<agree>...] <localized>". The canonical is the
+# ontology leaf name (English convention - see LOJ1897_Scripts/Merlin/ontology/
+# Concepts.mon); the localized is the Swedish surface form the realize layer
+# emits when a [k <canonical>] atom is rendered. A kind without an entry falls
+# back to the canonical hstr (so a missing translation is visible but not
+# broken).
+#
+# Phase 8.1 - kinship nouns carry a grammatical-gender agreement tag (.cg for
+# common / "en"-words, .nt for neuter / "ett"-words). The data is wired up so
+# kind_word_grammatical_features() can return a noun's gender at lookup time;
+# DEFERRED until the realize layer gains a peek-ahead mechanism is the
+# possessive-pronoun selection (min/mitt/mina) that consumes this data. The
+# tags are harmless until then - the lookup picks the bare entry as the
+# unmarked default in every Swedish call site.
 # -----------------------------------------------------------------------------
 
 # Nationality
@@ -16,7 +25,7 @@ st_revieran     st_reviersk
 
 # Class
 upper           över
-middle           medel
+middle          medel
 lower           arbetar
 
 # Interest
@@ -81,3 +90,28 @@ female          kvinna
 # Gambling / substances
 gambling        hasardspel
 alcohol         alkohol
+
+# -----------------------------------------------------------------------------
+# Phase 8.1 - grammatical gender on kinship nouns. Tags drive future
+# possessive-pronoun agreement (min/mitt/mina) once the realize layer can
+# look ahead at the next noun hole's binding.
+# -----------------------------------------------------------------------------
+
+# Kinship - bare nouns. The kinship-relation REL templates currently embed
+# these strings directly in Statements.mgr (mor / far / syster / ...) so these
+# entries serve as the gender-feature source rather than the surface form.
+mother.cg       mor
+father.cg       far
+parent.cg       förälder
+sibling.nt      syskon
+brother.cg      bror
+sister.cg       syster
+child.nt        barn
+son.cg          son
+daughter.cg     dotter
+spouse.cg       make
+husband.cg      make
+wife.cg         fru
+fiancee.cg      fästmö
+friend.cg       vän
+neighbour.cg    granne

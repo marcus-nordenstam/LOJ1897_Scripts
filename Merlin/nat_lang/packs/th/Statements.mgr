@@ -131,14 +131,14 @@
 # THIRD-PARTY KINSHIP / RELATION STATEMENTS.
 # "แม่ ของ Maria คือ Anna" - mother of Maria is Anna.
 
-" แม่ ของ $sub_np(NP) คือ $value(NP) "
-{ $sub_np(NP) /pres mother $value(NP) } .
-" แม่ ของ $sub_np(NP) เคยเป็น $value(NP) "
-{ $sub_np(NP) /past mother $value(NP) } .
-" พ่อ ของ $sub_np(NP) คือ $value(NP) "
-{ $sub_np(NP) /pres father $value(NP) } .
-" พ่อ ของ $sub_np(NP) เคยเป็น $value(NP) "
-{ $sub_np(NP) /past father $value(NP) } .
+# Equational copula conjugated via the .mverb engine - $verb(VERB|khue) emits
+# คือ (/pres) or เคยเป็น (/past). Thai past is an auxiliary'd shape, not a
+# verb inflection; the .mverb table abstracts the pair so templates author
+# once across tenses.
+" แม่ ของ $sub_np(NP) $verb(VERB|khue) $value(NP) "
+{ $sub_np(NP) /ever mother $value(NP) } .
+" พ่อ ของ $sub_np(NP) $verb(VERB|khue) $value(NP) "
+{ $sub_np(NP) /ever father $value(NP) } .
 " พ่อแม่ ของ $sub_np(NP) คือ $value(NP) "
 { $sub_np(NP) /pres parent $value(NP) } .
 " พี่น้อง ของ $sub_np(NP) คือ $value(NP) "
@@ -168,11 +168,10 @@
 
 # REGARD-SLOT - love + emotion shapes.
 
-# Love - "Maria รัก Anna"
-" $sub_np(NP) รัก $value(NP) "
-{ $sub_np(NP) /pres love $value(NP) } .
-" $sub_np(NP) เคยรัก $value(NP) "
-{ $sub_np(NP) /past love $value(NP) } .
+# Love - "Maria รัก Anna" (/pres) / "Maria เคยรัก Anna" (/past)
+# $verb(VERB|rak) covers both via the .mverb table.
+" $sub_np(NP) $verb(VERB|rak) $value(NP) "
+{ $sub_np(NP) /ever love $value(NP) } .
 
 # Emotion : affection - "Maria ชอบ Anna" (likes / has affection for)
 " $sub_np(NP) ชอบ $value(NP) "
@@ -211,12 +210,8 @@
 # POSSESSIVE RELATIONS - first-person and second-person possessive shapes.
 
 # "แม่ ของ ฉัน คือ Anna" - first-person possessive
-" $rel(REL) ของ $my(PRONOUN) คือ $value(NP) "
-{ $my(PRONOUN) /pres $rel(REL) $value(NP) }
-.
-
-" $rel(REL) ของ $my(PRONOUN) เคยเป็น $value(NP) "
-{ $my(PRONOUN) /past $rel(REL) $value(NP) }
+" $rel(REL) ของ $my(PRONOUN) $verb(VERB|khue) $value(NP) "
+{ $my(PRONOUN) /ever $rel(REL) $value(NP) }
 .
 
 # Passive-name form for proper-name targets

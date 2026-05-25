@@ -96,6 +96,27 @@
   :nouveau-breeding-max   35
   :self-made-breeding-max 40)
 
+; ---- identity-thresholds (PR-3b 2026-05-25) --------------------------------
+; Role-identity classifier floors for hsim_derive::classify_identities.
+; The bond / class / job / church identities have no threshold (they fire on
+; structural presence); only the trait-composite identities need tunable
+; cutoffs.
+;
+; machiavellian-min / sadist-min: floor on the homonymous Dark Tetrad attr
+;   (0..1 float, population mean 0.5). 0.65 places the threshold near the
+;   top third of the population given typical gaussian sigma 0.15.
+; coward-assert-max / coward-withdraw-min: trait composite. Both clauses
+;   must hold for the trait-based path to fire (timid-by-nature).
+; coward-inhibition-min: the inhibition-based path. Fires when inhibition
+;   exceeds this AND respectability_situation is not exemplary (cautious by
+;   conscience without the social standing to back it up).
+(identity-thresholds
+  :machiavellian-min     0.65
+  :sadist-min            0.65
+  :coward-assert-max     0.35
+  :coward-withdraw-min   0.65
+  :coward-inhibition-min 70)
+
 ; ---- felt-life dimensions (F4.6) -------------------------------------------
 ; belonging: the warmth-bond need is belonging-min-need plus up to
 ; belonging-need-span scaled by Extraversion. purpose: no calling / a calling

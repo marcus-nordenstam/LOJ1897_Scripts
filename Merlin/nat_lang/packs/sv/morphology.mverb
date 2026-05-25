@@ -1,0 +1,29 @@
+# Swedish verb conjugation (Phase 8.2)
+# Format: verb <base> <tense> = <inflected>
+# v1 ships 3sg only. The corpus uses the copula (vara) and a handful of
+# lexical verbs; widen as more templates land.
+
+# Copula / auxiliary - vara, ha
+verb vara /pres      = är
+verb vara /past      = var
+
+verb ha   /pres      = har
+verb ha   /past      = hade
+
+# Affect verbs - älska (regular -ar/-ade), sörja (irregular sörjer/sörjde)
+verb älska /pres     = älskar
+verb älska /past     = älskade
+
+verb sörja /pres     = sörjer
+verb sörja /past     = sörjde
+
+# Occupation / action
+verb arbeta /pres    = arbetar
+verb arbeta /past    = arbetade
+
+verb berätta /pres   = berättar
+verb berätta /past   = berättade
+
+# Emotional / cognitive
+verb tycka /pres     = tycker
+verb tycka /past     = tyckte

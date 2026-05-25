@@ -106,15 +106,14 @@
 # The ++s bind-token glues to the preceding name when realizing; on parse
 # the tokenizer accepts "Marias" as a single PNAME token if the name's last
 # character is consumed greedily, OR the user writes "Maria s" with a space.
+#
+# The copula är/var is conjugated via $verb(VERB|vara) so each kinship pair
+# shares one NL template; the MC pair carries the tense literal.
 
-" $sub_np(NP) ++s mor är $value(NP) "
-{ $sub_np(NP) /pres mother $value(NP) } .
-" $sub_np(NP) ++s mor var $value(NP) "
-{ $sub_np(NP) /past mother $value(NP) } .
-" $sub_np(NP) ++s far är $value(NP) "
-{ $sub_np(NP) /pres father $value(NP) } .
-" $sub_np(NP) ++s far var $value(NP) "
-{ $sub_np(NP) /past father $value(NP) } .
+" $sub_np(NP) ++s mor $verb(VERB|vara) $value(NP) "
+{ $sub_np(NP) /ever mother $value(NP) } .
+" $sub_np(NP) ++s far $verb(VERB|vara) $value(NP) "
+{ $sub_np(NP) /ever father $value(NP) } .
 " $sub_np(NP) ++s förälder är $value(NP) "
 { $sub_np(NP) /pres parent $value(NP) } .
 " $sub_np(NP) ++s syskon är $value(NP) "
@@ -143,11 +142,12 @@
 # (neutral) form for each shape the discourse planner may route into the
 # regard slot. Intent-tagged variants follow.
 
-# Love
-" $sub_np(NP) älskar $value(NP) "
-{ $sub_np(NP) /pres love $value(NP) } .
-" $sub_np(NP) älskade $value(NP) "
-{ $sub_np(NP) /past love $value(NP) } .
+# Love - conjugated via the .mverb engine. $verb(VERB|älska) emits "älskar"
+# in /pres and "älskade" in /past; the realize co-walk reads tense from the
+# concrete event, parse deconjugates the input. Shared NL surface; the MC
+# pair carries the right tense literal for committing.
+" $sub_np(NP) $verb(VERB|älska) $value(NP) "
+{ $sub_np(NP) /ever love $value(NP) } .
 
 # Emotion : affection (focused)
 " $sub_np(NP) tycker om $value(NP) "
@@ -187,13 +187,11 @@
 # POSSESSIVE RELATIONS - first-person and second-person possessive shapes,
 # mirroring English's "my X is Y" / "your X is Y" forms.
 
-# "Min mor är Anna." - first-person possessive (any kinship relation).
-" $my(PRONOUN) $rel(REL) är $value(NP) "
-{ $my(PRONOUN) /pres $rel(REL) $value(NP) }
-.
-
-" $my(PRONOUN) $rel(REL) var $value(NP) "
-{ $my(PRONOUN) /past $rel(REL) $value(NP) }
+# "Min mor är Anna." - first-person possessive (any kinship relation). The
+# är/var copula is conjugated via $verb(VERB|vara); the MC pair carries the
+# tense literal for committing the right /pres or /past belief.
+" $my(PRONOUN) $rel(REL) $verb(VERB|vara) $value(NP) "
+{ $my(PRONOUN) /ever $rel(REL) $value(NP) }
 .
 
 # Passive-name form for proper-name targets: "Marias namn är Anna."

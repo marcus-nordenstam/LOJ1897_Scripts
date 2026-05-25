@@ -107,14 +107,11 @@
 # Templates emit the masculine article "el" by default; "la" variant parses
 # both directions for the same belief.
 
-" la madre de $sub_np(NP) es $value(NP) "
-{ $sub_np(NP) /pres mother $value(NP) } .
-" la madre de $sub_np(NP) era $value(NP) "
-{ $sub_np(NP) /past mother $value(NP) } .
-" el padre de $sub_np(NP) es $value(NP) "
-{ $sub_np(NP) /pres father $value(NP) } .
-" el padre de $sub_np(NP) era $value(NP) "
-{ $sub_np(NP) /past father $value(NP) } .
+# es/era conjugated via the .mverb engine - $verb(VERB|ser) emits es/era.
+" la madre de $sub_np(NP) $verb(VERB|ser) $value(NP) "
+{ $sub_np(NP) /ever mother $value(NP) } .
+" el padre de $sub_np(NP) $verb(VERB|ser) $value(NP) "
+{ $sub_np(NP) /ever father $value(NP) } .
 " el progenitor de $sub_np(NP) es $value(NP) "
 { $sub_np(NP) /pres parent $value(NP) } .
 " el hermano de $sub_np(NP) es $value(NP) "
@@ -143,11 +140,14 @@
 # transient emotional states and a focused verb construction for love.
 
 # Love - "Maria ama a Anna" (the "a" before a person object is the
-# personal accusative; Spanish-specific).
-" $sub_np(NP) ama a $value(NP) "
-{ $sub_np(NP) /pres love $value(NP) } .
-" $sub_np(NP) amaba a $value(NP) "
-{ $sub_np(NP) /past love $value(NP) } .
+# personal accusative; Spanish-specific). The verb is conjugated via the
+# .mverb engine: $verb(VERB|amar) emits "ama" for /pres and "amaba" for
+# /past, with the tense coming from the surrounding belief (the realize
+# co-walk binds it; parse deconjugates the input back). Two MC templates
+# remain so the matcher dispatches the right tense literal into the
+# committed belief; the NL side is shared.
+" $sub_np(NP) $verb(VERB|amar) a $value(NP) "
+{ $sub_np(NP) /ever love $value(NP) } .
 
 # Emotion : affection - "Maria aprecia a Anna" (cares about / has affection for)
 " $sub_np(NP) aprecia a $value(NP) "
@@ -186,12 +186,8 @@
 # POSSESSIVE RELATIONS - first-person and second-person possessive shapes.
 
 # "mi madre es Anna" - first-person possessive
-" $my(PRONOUN) $rel(REL) es $value(NP) "
-{ $my(PRONOUN) /pres $rel(REL) $value(NP) }
-.
-
-" $my(PRONOUN) $rel(REL) era $value(NP) "
-{ $my(PRONOUN) /past $rel(REL) $value(NP) }
+" $my(PRONOUN) $rel(REL) $verb(VERB|ser) $value(NP) "
+{ $my(PRONOUN) /ever $rel(REL) $value(NP) }
 .
 
 # Passive-name form for proper-name targets

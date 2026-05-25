@@ -237,14 +237,12 @@
 " $sub_np(NP) は $value(NP) を 愛しています "
 { $sub_np(NP) /pres love $value(NP) } .
 :: deferential
-" $sub_np(NP) は $value(NP) を 愛している "
-{ $sub_np(NP) /pres love $value(NP) } .
+" $sub_np(NP) は $value(NP) を $verb(VERB|aisuru) "
+{ $sub_np(NP) /ever love $value(NP) } .
 
 " $sub_np(NP) は $value(NP) を 愛していました "
 { $sub_np(NP) /past love $value(NP) } .
 :: deferential
-" $sub_np(NP) は $value(NP) を 愛していた "
-{ $sub_np(NP) /past love $value(NP) } .
 
 # Emotion : affection (focused) - "X を 気に入っている"
 " $sub_np(NP) は $value(NP) を 気に入っています "

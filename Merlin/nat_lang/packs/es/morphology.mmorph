@@ -10,10 +10,14 @@
 # alone, 101..999 = "ciento" + " " + rem (the .mmorph authors hundred: ciento;
 # the composer special-cases 100 to emit "cien").
 #
-# Note on apocope: "uno" -> "un" before masculine nouns (un padre, not uno
-# padre). v1 emits "uno" verbatim; templates that need "un" author it
-# explicitly. Adding agreement-driven apocope is a follow-up shared with
-# Swedish adjective gender agreement.
+# Apocope: "uno" -> "un" before masculine nouns (un padre, not uno padre);
+# "veintiuno" -> "veintiún", "treinta y uno" -> "treinta y un". Every v1
+# Spanish template that emits a $num(NUM) hole does so before a masculine
+# noun ("años" in tiene/tenía N años, the only number-bearing slots), so the
+# .mmorph authors the apocoped X1 forms (21 = veintiún) and compose_spanish
+# emits "un" instead of "uno" in the 31..91 join. When templates with
+# feminine-noun contexts arrive (counting "hijas" etc.), thread an agreement
+# feature through render_number_words.
 # -----------------------------------------------------------------------------
 
 style: spanish
@@ -45,7 +49,7 @@ number 19 = diecinueve
 
 # Twenties (single-word) - the composer never visits 20..29 because of these
 number 20 = veinte
-number 21 = veintiuno
+number 21 = veintiún
 number 22 = veintidós
 number 23 = veintitrés
 number 24 = veinticuatro

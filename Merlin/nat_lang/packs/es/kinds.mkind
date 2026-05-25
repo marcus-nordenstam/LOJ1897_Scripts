@@ -1,77 +1,186 @@
 # -----------------------------------------------------------------------------
 # kinds.mkind - Spanish-pack kind-atom localization (Phase 8).
+#
+# Phase 8.1 - per-referent gender agreement on adjectives. Kinds that vary by
+# gender ship `.m` (masculine) and `.f` (feminine) variants; the realize
+# layer requests the right one based on the clause subject's gender belief.
+# Untagged entries are the default fallback when no gender context is
+# available (or when only one form is authored).
+#
+# Syntax: `<canonical>[.<agree>...] <localized>`.
+# Agreement tokens: m / f / cg / nt / pl. Multiple `.<token>` accumulate on
+# different axes; same-axis last-wins.
 # -----------------------------------------------------------------------------
 
-# Nationality (masculine form by default; gender agreement is a follow-up)
-irish           irlandés
-english         inglés
-french          francés
-st_revieran     streveriano
+# Nationality - adjective agreement: "Maria es irlandesa" / "Marco es irlandés".
+# Untagged entry left as masculine for back-compat against any caller that
+# bypasses the agreement-aware path.
+irish              irlandés
+irish.m            irlandés
+irish.f            irlandesa
 
-# Class
-upper           alta
-middle           media
-lower           obrera
+english            inglés
+english.m          inglés
+english.f          inglesa
 
-# Interest
-literature      literatura
-music           música
-theatre         teatro
-riding          equitación
-history         historia
-science         ciencia
-spiritualism    espiritualismo
-religion        religión
-antiques        antigüedades
-sports          deportes
-suffrage        sufragio
+french             francés
+french.m           francés
+french.f           francesa
+
+st_revieran        streveriano
+st_revieran.m      streveriano
+st_revieran.f      streveriana
+
+# Class - "es de clase obrera" / "es de clase obrero". v1 description templates
+# wrap class with "de clase X" so the kind word agrees with the class noun
+# (clase is feminine) - all class kinds therefore stay in their feminine form.
+# Kept as untagged so the realize layer's no-agreement-request path still picks
+# the grammatically correct form.
+upper              alta
+middle             media
+lower              obrera
+
+# Interest (noun, not adjective; no gender agreement needed)
+literature         literatura
+music              música
+theatre            teatro
+riding             equitación
+history            historia
+science            ciencia
+spiritualism       espiritualismo
+religion           religión
+antiques           antigüedades
+sports             deportes
+suffrage           sufragio
 
 # Sport disciplines
-cricket         cricket
-rowing          remo
-rugby           rugby
-horse_racing    carrera de caballos
+cricket            cricket
+rowing             remo
+rugby              rugby
+horse_racing       carrera de caballos
 
-# Job
-editor          editor
-printer         impresor
-journalist      periodista
-banker          banquero
-landlord        casero
-industrialist   industrial
-principal       director
-merchant        comerciante
-apothecary      boticario
-proprietor      propietario
-solicitor       abogado
-physician       médico
-priest          sacerdote
-clerk           empleado
-teacher         maestro
-engineer        ingeniero
-surgeon         cirujano
-typist          mecanógrafo
-barber          barbero
-gardener        jardinero
-cook            cocinero
-farmer          granjero
-nurse           enfermero
-steward         administrador
-shop_clerk      dependiente
-waiter          camarero
-maid            criada
-bartender       barman
-factory_worker  obrero
-house_agent     agente_inmobiliario
-official        funcionario
-hatmaker        sombrerero
-tailor          sastre
-baker           panadero
+# Job - gendered occupation nouns. "Maria es sombrerera" / "Marco es sombrerero".
+# Where Spanish has no productive feminine form (-ista, -ente endings invariant
+# or epicene-by-convention nouns), ship a single untagged entry.
+editor             editor
+editor.m           editor
+editor.f           editora
 
-# Gender
-male            hombre
-female          mujer
+printer            impresor
+printer.m          impresor
+printer.f          impresora
+
+journalist         periodista       # invariant -ista ending
+
+banker             banquero
+banker.m           banquero
+banker.f           banquera
+
+landlord           casero
+landlord.m         casero
+landlord.f         casera
+
+industrialist      industrial       # invariant
+
+principal          director
+principal.m        director
+principal.f        directora
+
+merchant           comerciante      # invariant -ante ending
+
+apothecary         boticario
+apothecary.m       boticario
+apothecary.f       boticaria
+
+proprietor         propietario
+proprietor.m       propietario
+proprietor.f       propietaria
+
+solicitor          abogado
+solicitor.m        abogado
+solicitor.f        abogada
+
+physician          médico
+physician.m        médico
+physician.f        médica
+
+priest             sacerdote        # -ote endings rarely feminize productively in 1897 era
+
+clerk              empleado
+clerk.m            empleado
+clerk.f            empleada
+
+teacher            maestro
+teacher.m          maestro
+teacher.f          maestra
+
+engineer           ingeniero
+engineer.m         ingeniero
+engineer.f         ingeniera
+
+surgeon            cirujano
+surgeon.m          cirujano
+surgeon.f          cirujana
+
+typist             mecanógrafo
+typist.m           mecanógrafo
+typist.f           mecanógrafa
+
+barber             barbero
+barber.m           barbero
+barber.f           barbera
+
+gardener           jardinero
+gardener.m         jardinero
+gardener.f         jardinera
+
+cook               cocinero
+cook.m             cocinero
+cook.f             cocinera
+
+farmer             granjero
+farmer.m           granjero
+farmer.f           granjera
+
+nurse              enfermero
+nurse.m            enfermero
+nurse.f            enfermera
+
+steward            administrador
+steward.m          administrador
+steward.f          administradora
+
+shop_clerk         dependiente      # invariant -ente
+waiter             camarero
+waiter.m           camarero
+waiter.f           camarera
+
+maid               criada           # feminine-only profession in 1897
+
+bartender          barman           # english loan, invariant
+factory_worker     obrero
+factory_worker.m   obrero
+factory_worker.f   obrera
+
+house_agent        agente_inmobiliario     # invariant -ente
+official           funcionario
+official.m         funcionario
+official.f         funcionaria
+
+hatmaker           sombrerero
+hatmaker.m         sombrerero
+hatmaker.f         sombrerera
+
+tailor             sastre           # invariant in 1897 usage
+
+baker              panadero
+baker.m            panadero
+baker.f            panadera
+
+# Gender atoms (these ARE the gender labels themselves)
+male               hombre
+female             mujer
 
 # Gambling / substances
-gambling        juego
-alcohol         alcohol
+gambling           juego
+alcohol            alcohol

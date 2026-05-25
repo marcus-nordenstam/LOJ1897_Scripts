@@ -1,0 +1,15 @@
+# English verb conjugation (Phase 8.2)
+# Format: verb <base> <tense> = <inflected>
+# v1 ships 3sg only.
+
+verb be    /pres = is
+verb be    /past = was
+
+verb have  /pres = has
+verb have  /past = had
+
+verb love  /pres = loves
+verb love  /past = loved
+
+verb work  /pres = works
+verb work  /past = worked

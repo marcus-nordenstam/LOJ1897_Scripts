@@ -169,7 +169,7 @@
 (reaction wrong_act :pov third_party
   (mint distress :focus actor :salience 24)
   (mint fear     :focus actor :salience 48)
-  (pressure injustice :focus actor :salience 360)
+  (pressure injustice :focus actor :salience 1440)   ; 60 days; survives 2 monthly deliberate cycles so third-party witnesses keep their grievance long enough to act on it
   (begin-bond distrusts))
 
 ; -- harm_act (physical / mortal injury) --
@@ -220,7 +220,7 @@
 (reaction slight_act :pov patient
   (mint anger    :focus actor :salience 8)
   (mint contempt :focus actor :salience 48)
-  (pressure humiliation :focus actor :salience 8760))   ; 1 year base; mood/trait scaling typically drops to ~25% of base, so 8760 -> ~2000h actual
+  (pressure humiliation :focus actor :salience 8760))   ; 1 year base; mood/trait scaling can only amplify (modal NPC keeps the full base), capped at max-pressure-salience.
 
 (reaction slight_act :pov actor
   (mint pride :focus self :salience 24))
@@ -274,7 +274,7 @@
 
 (reaction abandonment_act :pov third_party
   (mint distress :focus actor :salience 48)
-  (pressure injustice :focus actor :salience 360))
+  (pressure injustice :focus actor :salience 1440))   ; 60 days; was 360 (15 days) which decayed before monthly deliberate could see it
 
 ; -- aid_act / provision_act (direct assistance / giving) --
 ; aid_act and provision_act share an umbrella help_act reaction. Authors
