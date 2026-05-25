@@ -1,0 +1,49 @@
+; ----------------------------------------------------------------------------
+; test_seed_petty_fraud.hse - pressure-source diversity scaffold
+; (2026-05-26).
+;
+; Mints {actor defraud victim} anchors. The `defraud` label is tagged
+; (construed_act appropriation_act wrong_act betray_act) in States.mon
+; so categorize fires three reactions per appraiser POV:
+;
+;   victim (pov=patient):
+;     - appropriation_act -> anger + resource_scarcity pressure
+;     - wrong_act         -> anger + distress + humiliation pressure + injustice pressure
+;     - betray_act        -> anger + grief + attachment_loss pressure + end-bonds
+;   actor (pov=actor):
+;     - appropriation_act -> exposure_risk pressure
+;     - wrong_act         -> guilt + fear + moral_violation pressure + exposure_risk pressure
+;     - betray_act        -> guilt + moral_violation pressure + exposure_risk pressure
+;
+; Single fire produces injustice + moral_violation + exposure_risk +
+; attachment_loss + resource_scarcity pressures - five of the eleven
+; pressure kinds, four of them currently unflowing in vanilla hsim.
+;
+; TEST SCAFFOLD: delete with the rest of _test_seed/ when organic
+; content events (cheating-at-cards, broken-contract, embezzlement
+; discovery) produce defraud anchors via discovery -> categorize.
+;
+; Fire-rate calibration: 2% per actor x 10% per victim = 0.2% per
+; (actor, victim) pair per March. In a ~40-person town that's ~3
+; defraud anchors per year, modest compared to test_seed_insult's
+; ~16/year humiliation feed.
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+(hsim-event test_seed_petty_fraud
+  (nl       "TEST: ?actor defrauds ?victim")
+  (kind     _test_seed_petty_fraud)
+  (schedule (annually march))
+  (rng-stream test_seed)
+
+  (roles
+    (role ?actor  (template any_human)
+                  (chance 0.02))
+    (role ?victim (template any_human)
+                  (not (= ?victim ?actor))
+                  (chance 0.10)))
+
+  (effects
+    (seed-test-anchor ?actor defraud ?victim)
+    (log _test_seed_petty_fraud ?actor)))

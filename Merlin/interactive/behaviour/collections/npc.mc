@@ -52,8 +52,7 @@ rule import-social-tasks
 (import "WriteDoc")
 (import "Introduce")
 (import "Socialize")
-(import "Pubbing")
-(import "PressureDischarge").
+(import "Pubbing").
 
 
 rule import-stack-tasks

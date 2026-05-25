@@ -382,7 +382,7 @@
 ; frame goal -> plant_evidence terminal (yields planted on framed party)
 (method plant_evidence
   :goal-fit       frame
-  :yields         bloodstain
+  :yields         blood_stain
   :method-aux     _
   :terminal       plant_evidence
   :wound-site     torso

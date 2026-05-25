@@ -228,6 +228,22 @@
 (reaction slight_act :pov third_party
   (mint contempt :focus actor :salience 24))
 
+; -- rivalrous_act (actor positionally outcompetes patient) --
+; The patient feels the loss directly; the actor's pride is folded under
+; the achieve_act-style cascade if the actor's anchor is tagged that
+; way (perpetration terminals may add achieve_act when relevant). Pure
+; rivalrous_act mints envy + rivalry_pressure on the loser without
+; minting a positive emotion on the winner; matches the social
+; psychology of zero-sum competition (winner takes the prize, not the
+; emotional payoff).
+(reaction rivalrous_act :pov patient
+  (mint envy     :focus actor :salience 168)
+  (mint contempt :focus actor :salience 48)
+  (pressure rivalry_pressure :focus actor :salience 4320))   ; 6 months base; rivalry decays slower than humiliation but faster than injustice
+
+(reaction rivalrous_act :pov third_party
+  (mint envy :focus actor :salience 24))
+
 ; -- betray_act (broken trust) --
 (reaction betray_act :pov patient
   (mint anger :focus actor :salience 24)

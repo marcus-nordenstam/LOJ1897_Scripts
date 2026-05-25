@@ -531,6 +531,13 @@ concept
         suffer_loss_act
         achieve_act
         neutral_act
+        # rivalrous_act: actor competes with patient for a shared scarce
+        # resource (post, partner, inheritance). Distinct from slight_act
+        # (which is unprovoked affront) - rivalry is positional. Mints
+        # rivalry_pressure on the outcompeted patient via the reaction
+        # row in appraisal.hsc. Placed at end to keep older taxonomy
+        # kind ids stable.
+        rivalrous_act
 
     sky_condition
         clear

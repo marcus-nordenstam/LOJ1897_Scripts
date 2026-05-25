@@ -1,0 +1,49 @@
+; ----------------------------------------------------------------------------
+; test_seed_assault.hse - pressure-source diversity scaffold (2026-05-26).
+;
+; Mints {actor assault victim} anchors. The `assault` label is tagged
+; (construed_act harm_act wrong_act) in States.mon, so categorize fires
+; the harm_act + wrong_act reactions per POV:
+;
+;   victim (pov=patient):
+;     - harm_act  -> fear + existential_threat pressure
+;     - wrong_act -> anger + distress + humiliation + injustice pressure
+;   actor (pov=actor):
+;     - harm_act  -> fear
+;     - wrong_act -> guilt + fear + moral_violation + exposure_risk
+;
+; Unlocks existential_threat (driving flee / plead / surrender / kill
+; affinities in deliberation.hsc) and reinforces injustice +
+; moral_violation + exposure_risk.
+;
+; The victim survives - assault here is the appraisal-anchor, not a
+; perpetration terminal. Lethal harm flows through the perpetration
+; cascade (run_generative_perpetration -> terminal_kill_victim).
+;
+; TEST SCAFFOLD: delete with the rest of _test_seed/ when organic
+; content events (tavern brawls, mugging, street-robbery) produce
+; assault anchors.
+;
+; Fire-rate: 1% per actor x 5% per victim = 0.05% per pair per year.
+; Assault is rarer than fraud or insult; existential_threat should
+; remain a high-impact-low-frequency pressure.
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+(hsim-event test_seed_assault
+  (nl       "TEST: ?actor assaults ?victim")
+  (kind     _test_seed_assault)
+  (schedule (annually june))
+  (rng-stream test_seed)
+
+  (roles
+    (role ?actor  (template any_human)
+                  (chance 0.01))
+    (role ?victim (template any_human)
+                  (not (= ?victim ?actor))
+                  (chance 0.05)))
+
+  (effects
+    (seed-test-anchor ?actor assault ?victim)
+    (log _test_seed_assault ?actor)))

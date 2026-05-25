@@ -205,6 +205,12 @@ relation
             # cascade in vanilla hsim until richer perpetration content
             # lands.
             insult              (tar human)       (construed_act slight_act)
+            # outdo: actor positionally outcompetes patient (won a post,
+            # outbid them, married the partner they courted). Distinct
+            # from insult (unprovoked affront) - this is a zero-sum
+            # outcome. Tagged rivalrous_act so the patient picks up
+            # rivalry_pressure via the appraisal.hsc reaction row.
+            outdo               (tar human)  (aux ?)  (construed_act rivalrous_act)
             # kill - method (substance kind, weapon object, or _ for
             # unspecified) rides the aux. Phase 10 Phase C: relaxed from
             # /tar human alone so {clara kill ashcombe /aux digitalis} and
