@@ -39,11 +39,12 @@ concept
     condition           (tar @excl)
         alive
         dead
-        # Phase 10 Phase C - fate-ambiguous outcome for kidnap-in-progress,
-        # buried-alive scenarios, disappearances. propagate_disappearance
-        # ends present-tense beliefs about the missing person without
-        # minting condition-dead (10.3h).
-        missing
+        # PR-life-A 2026-05-25 - physical incapacity distinct from sleep
+        # (alertness sleepy) and from death. Bedridden / drugged /
+        # knocked-out NPCs read `unconscious` until they recover or die.
+        # Distinct from the (future) `mobility` derived belief which
+        # captures observable locomotion level over time.
+        unconscious
 
     alertness           (tar @excl)
         alert
@@ -55,6 +56,39 @@ concept
         old_age
         childbirth
         violence
+
+    # PR-life-B 2026-05-25 - specific diseases an NPC can have. Distinct
+    # from `death_cause disease` which is the cause-of-death enum value;
+    # this taxonomy names the specific pathology (consumption /
+    # cholera / etc.). Future env attr `disease` (kind, /reason or
+    # /imperceptible per knowledge_design_notes.md - reading it requires
+    # a DIAGNOSE action by a competent physician, not passive
+    # perception) will hold one of these values per sick NPC. Sub-kinds
+    # are starter content for 1897 medical reality; extend as content
+    # demands.
+    disease
+        consumption
+        cholera
+        smallpox
+        typhus
+        dysentery
+        influenza
+        scarlet_fever
+        pneumonia
+
+    # PR-life-B 2026-05-25 - observable symptoms. Distinct from disease:
+    # symptoms are what others SEE (cough / fever / pallor / weakness);
+    # the disease is the diagnosis a physician INFERS from symptoms. Each
+    # leaf has a corresponding env attr on body archetypes (mech obs);
+    # the disease attr is /reason or /imperceptible. Starter set; extend
+    # as content demands.
+    symptom
+        cough
+        fever
+        pallor
+        weakness
+        rash
+        chills
 
     # Phase 10 Phase C - the cause-of-death NARRATIVE witnesses form when
     # perceiving a death scene (vs death_cause, the objective cause). Used
@@ -282,6 +316,16 @@ concept
             # this kind. Distinct from clerk so prestige / pretty-print can
             # render an officeholder differently from an ordinary employee.
             official
+            # Performer parent-kind (Phase 9 dialogue) - witnesses whose job
+            # is_a performer hold an audience-aware self-conception that
+            # gates the theatrical register decoration.
+            performer
+                actor
+                singer
+                musician
+                magician
+                preacher
+                lecturer
 
 
     # level grades a human, or a job / org_pos. A trainee clerk is

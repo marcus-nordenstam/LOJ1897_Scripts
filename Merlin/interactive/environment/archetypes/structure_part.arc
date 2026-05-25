@@ -14,4 +14,8 @@ archetype "structure_part" (cap 2048) (mech obs) (always-visible) (occupies-env-
     # derived at scene-load from the entity's own TransformComponent and
     # its spatial relationship to nearby nav-meshes.
     "is_nav_passage"
+    # PR-evi-A 2026-05-25 - per-object evidence attrs. Blood-stains on
+    # a wall, tool-marks on a door-jamb, gunpowder-residue on a counter.
+    "stains"
+    "marks"
 }

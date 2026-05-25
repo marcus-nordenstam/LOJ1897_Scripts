@@ -36,15 +36,17 @@ rule reasoning-marriage-proposal-rejected
 
 
 
-rule goal-possess-engagement-ring
+# PR-poss-A 2026-05-25 - migrated from `possess` to `hold` (the
+# substrate-constrained equivalent to the plan's `control`).
+rule goal-hold-engagement-ring
 {@self goal {@self marry ?fiancee}}
 {@self fiancee ?fiancee}
 {@self gender [k female]}
 {?fiancee hand ?hand}
 {?hand control [k engagement_ring]:?ring}
     ->
-(maintain_goal {@self possess ?ring})
-(print [@self wants to possess ?ring]).
+(maintain_goal {@self hold ?ring})
+(print [@self wants to hold ?ring]).
 
 
 rule proposal-give-engagement-ring

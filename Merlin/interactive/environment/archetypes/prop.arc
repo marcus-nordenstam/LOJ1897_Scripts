@@ -17,4 +17,9 @@ archetype "prop" (cap 1024) (mech obs) (occupies-env-grid) (non-occluder)
     "in_stack"
     # If prop is in a stack, obb is set to _
     "obb"
+    # PR-evi-A 2026-05-25 - per-object evidence attrs. A blood-stained
+    # weapon, gunpowder-residue on a coat, scratch-marks on a lock-pick.
+    # Wounds are body-only (no `wounds` attr on props).
+    "stains"
+    "marks"
 }

@@ -72,7 +72,7 @@ rule female-marry
 {?fiancee OFFER [k wedding_band]:?wedding_band @self}
     ->
 (begin_proposal {@self marry ?fiancee})
-(maintain_goal {@self possess ?wedding_band}).
+(maintain_goal {@self hold ?wedding_band}).
 
 
 rule female-marry-wear-wedding-band

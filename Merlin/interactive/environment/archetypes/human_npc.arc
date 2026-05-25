@@ -52,6 +52,7 @@ archetype "human_npc" (cap 4096) (mech obs) (raycast-visible) (sentient) (non-oc
     "head"
     "eyes"
     "mouth"
+    "torso"
     "pregnant_by"
     "control"
     "obb"

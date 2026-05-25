@@ -55,6 +55,10 @@ attr "head" (type entity) (entity "head") (state "head") (int-mech feel) (ext-me
 attr "eyes" (type entity) (entity "eye") (state "eyes") (int-mech feel) (ext-mech obs) (auto-percept)
 attr "mouth" (type entity) (entity "mouth") (state "mouth") (int-mech feel) (ext-mech obs) (auto-percept)
 attr "ring_finger" (type entity) (entity "finger") (state "finger") (int-mech feel) (ext-mech obs) (auto-percept)
+# PR-evi-A 2026-05-25 - the central body. Same int-feel-ext-obs split as
+# head / hand / mouth. The default wound-site when a perpetration method
+# row omits :wound-site.
+attr "torso" (type entity) (entity "torso") (state "torso") (int-mech feel) (ext-mech obs) (auto-percept)
 attr "wear" (type entity) (mech obs) (auto-percept)
 
 # Demographics
@@ -185,19 +189,21 @@ attr "initiator" (type entity) (entity "human_player" "human_npc") (mech obs) (a
 # Fluid
 attr "fluid_amount" (type float) (mech obs) (auto-percept) (state-flags-tar @excl)
 
-# Phase 10 Phase D PR-3 - trap-set / trap-fire arc env attr. Lives on fluid
-# and food archetypes. tainted_with names the substance kind added (e.g.
-# digitalis) - a PHYSICAL fact about the vessel's contents. Imperceptible
-# (an NPC sniffing a wine bottle can't tell it's been tainted without a
-# separate explicit detection mechanism, which lands in a later PR
-# alongside taste / smell sensors).
+# PR-evi-A 2026-05-25 - the three plural-kind evidence attrs. Each holds
+# up to 4 leaf-kind atoms of the named taxonomy; the transmitter plural-
+# expands into repeated singular `{?host wound|stain|mark <atom>}` beliefs.
+# State-name override (the bare attr name is plural; the underlying state
+# label is singular). All /obs - perceivable to anyone looking. Wired
+# onto body-part archetypes (wounds + stains + marks), prop and
+# structure_part (stains + marks only - props don't bleed).
 #
-# WHO tampered is NOT an env fact - that's a who-did-what record. It lives
-# in the perpetrator's band-5 self-belief {actor tamper vessel /aux substance}
-# (and parallel beliefs in any witnessing minds), and on the hsim-side
-# omniscient live-traps registry that the trap-fire event walks to resolve
-# (vessel -> perp + intended victim + substance).
-attr "tainted_with" (type kind) (imperceptible) (state-flags-tar @excl)
+# Wounds: see Objects.mon `wound` taxonomy (puncture_wound, slash_wound,
+#   blunt_wound, ligature_mark, burn_wound, bite_wound, bruise).
+# Stains: substances deposited on a surface (see `stain` taxonomy).
+# Marks: physical surface alterations (see `mark` taxonomy).
+attr "wounds"  (type kind array 4) (state "wound") (mech obs) (auto-percept)
+attr "stains"  (type kind array 4) (state "stain") (mech obs) (auto-percept)
+attr "marks"   (type kind array 4) (state "mark")  (mech obs) (auto-percept)
 
 # Transaction
 attr "at" (type entity) (entity "structure" "container_structure" "space") (mech obs) (auto-percept)

@@ -5,4 +5,8 @@ archetype "finger" (cap 8192) (mech obs) (non-occluder)
     "wear"
     "control"
     "obb"
+    # PR-evi-A 2026-05-25 - per-body-part evidence attrs.
+    "wounds"
+    "stains"
+    "marks"
 }

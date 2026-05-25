@@ -36,9 +36,11 @@ rule give-proposal-offer
 # Rules for the RECIPIENT in the "give" task
 # ------------------------------------------
 
-rule goal-possess-receive-proposal
-# If I want to possess a thing
-{@self goal {@self possess ?thing}}
+rule goal-hold-receive-proposal
+# If I want to physically hold a thing (PR-poss-A 2026-05-25:
+# migrated from the retired `possess` label; `hold` named to avoid
+# the body-part `control` env-attr collision).
+{@self goal {@self hold ?thing}}
 # and someone is offering me that thing
 {?giver OFFER ?thing @self}: ?offer
     ->
@@ -49,8 +51,8 @@ rule goal-possess-receive-proposal
 
 /*
 # If I want a hypothetical document of a specific kind
-rule 
-{@self goal {@self possess [k document]:?doc}}
+rule
+{@self goal {@self hold [k document]:?doc}}
 # and someone is offering me that kind of document
 {?giver OFFER ?offeredDoc @self}
 {?offeredDoc isa [k document]:?specificKind}

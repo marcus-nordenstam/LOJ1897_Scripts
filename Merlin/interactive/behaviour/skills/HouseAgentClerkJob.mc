@@ -22,7 +22,10 @@ rule house-agent-clerk-write-title-deed
 {?buyer name ?buyerName}
 {?bldg name ?address}
     ->
-(msg {(o ?bldgKind ?address) owner (o {@o name ?buyerName})}): ?writing
+# PR-poss-A 2026-05-25 - migrated title_deed writing from the
+# `{bldg owner human}` shape to `{human own bldg}` (subject is the
+# legal owner; `own` verb-state added to States.mon under (social)).
+(msg {(o {@o name ?buyerName}) own (o ?bldgKind ?address)}): ?writing
 (o /invent /irr [k title_deed] {@o writing ?writing}): ?hypTitleDeed
 (maintain_proposal {@self write ?hypTitleDeed}).
 

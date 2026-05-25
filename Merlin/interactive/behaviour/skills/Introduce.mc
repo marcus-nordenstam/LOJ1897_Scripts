@@ -3,7 +3,7 @@
 #   {@self brother (o ?PNAME)}
 #   "I have a brother named ?PNAME"
 
-#   (this ?ENT [k car] {o1 possess @o})
+#   (this ?ENT [k car] {o1 hold @o})
 #   "This is my car"
 
 #   (this ?ENT ?PNAME {@self brother @o})
@@ -24,10 +24,10 @@
 {(this ?hammer [k hammer]) save (of life @self) /past}
 
 # I have a car
-{@self possess (o [k car])}
+{@self hold (o [k car])}
 
 # This is my car (e.g. I have this car)
-{@self possess (this ?ENT [k car])}
+{@self hold (this ?ENT [k car])}
 
 # This is my brother (e.g. I have this brother)
 {@self brother (this ?ENT)}

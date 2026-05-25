@@ -1,0 +1,173 @@
+# -----------------------------------------------------------------------------
+# DialogueActs.mgr - Phase 9 item 3.
+#
+# Neutral-tagged clause templates for the interrogation-corpus dialogue acts
+# that Statements.mgr / Questions.mgr / Formulaics.mgr do not already cover.
+# Pre-existing coverage:
+#   ASK_FACT, ASK_SLOT, ASK_ENUMERATE, ASK_KNOWLEDGE  - Questions.mgr
+#   TELL_FACT (most descriptive shapes)               - Statements.mgr
+#   GREETING / CLOSING, AFFIRM/DENY (formulaic)       - Formulaics.mgr
+#
+# This file adds:
+#   EXPRESS_EMOTION    - { ?_I /pres emotion [k <kind>] [?focus] }
+#   EMPATHIZE          - speaker's emotion ABOUT the listener
+#   OBSERVE_AFFECT     - { ?_you /pres emotion [k <kind>] } - inspector names
+#                        the listener's apparent state
+#   NEGATIVE_KNOWLEDGE - sentinel @unknown with broader surface vocabulary
+#   DECLINE            - sentinel @unknown with refusal surface (shares MC
+#                        with NEGATIVE_KNOWLEDGE for v1; differentiates once
+#                        (refuse-to-answer <reason>) lands as a func)
+#
+# Acts NOT yet covered and their blockers (distillation 1 / 1a):
+#   HEDGE              - "I think" surface prefix on a TELL_FACT. The MC is
+#                        the un-hedged belief; the surface "I think" needs a
+#                        wrapper at the :MSG level that produces (msg ...).
+#                        Defer until belief-confidence-from-hedge plumbing
+#                        is designed (the spec ties hedge to salience).
+#   ACCUSE / CONFRONT  - need hostile-content predicate labels (lie, deceive,
+#                        protect, conceal) in States.mon.
+#   THREATEN / PROMISE - future-tense (msg ...) bodies + predicate gap.
+#   PRESENT_EVIDENCE   - composite (msg + ASK_KNOWLEDGE); needs the dialogue
+#                        session to track the indicated object across turns.
+#   REQUEST_ACTION     - needs a new (request <actor> <action>) func.
+#   REQUEST_PERMISSION - needs a new (permitted? <actor> <action>) func.
+#   ASK_NARRATIVE      - tell_about is the v1 facsimile; proper recount
+#                        needs discourse-planner topic anchors.
+#   PROBE_FOR_DETAIL   - dialogue-session-state dependent (item 5).
+#   SILENT_PROMPT      - turn marker, not a speech act (item 5).
+#   TURN_QUESTION_BACK - needs the session's last-ASK_SLOT recorded so the
+#                        matcher can auto-flip it (item 5).
+# -----------------------------------------------------------------------------
+
+:ST
+
+# === EXPRESS_EMOTION ========================================================
+# The speaker reports their own emotion. Mirrors the witness-side third-party
+# templates in Statements.mgr but with ?_I as the subject.
+
+# Joy (ambient)
+" i am happy "
+{ ?_I /pres emotion [k joy ] } .
+" i am glad "
+{ ?_I /pres emotion [k joy ] } .
+
+# Joy (focused)
+" i am happy about $value(NP) "
+{ ?_I /pres emotion [k joy ] $value(NP) } .
+" i rejoice in $value(NP) "
+{ ?_I /pres emotion [k joy ] $value(NP) } .
+
+# Grief (ambient)
+" i am sad "
+{ ?_I /pres emotion [k grief ] } .
+" i grieve "
+{ ?_I /pres emotion [k grief ] } .
+
+# Grief (focused)
+" i mourn $value(NP) "
+{ ?_I /pres emotion [k grief ] $value(NP) } .
+" i grieve for $value(NP) "
+{ ?_I /pres emotion [k grief ] $value(NP) } .
+
+# Fear (ambient)
+" i am afraid "
+{ ?_I /pres emotion [k fear ] } .
+" i am frightened "
+{ ?_I /pres emotion [k fear ] } .
+
+# Fear (focused)
+" i fear $value(NP) "
+{ ?_I /pres emotion [k fear ] $value(NP) } .
+" i am afraid of $value(NP) "
+{ ?_I /pres emotion [k fear ] $value(NP) } .
+
+# Anger (ambient)
+" i am angry "
+{ ?_I /pres emotion [k anger ] } .
+
+# Anger (focused)
+" i am angry with $value(NP) "
+{ ?_I /pres emotion [k anger ] $value(NP) } .
+
+
+# === EMPATHIZE ==============================================================
+# Speaker's emotion ABOUT the listener. v1 uses the focused-emotion belief
+# shape with ?_you as the focus.
+
+" i am sorry for you "
+{ ?_I /pres emotion [k grief ] ?_you } .
+" i am sorry for your loss "
+{ ?_I /pres emotion [k grief ] ?_you } .
+" i feel for you "
+{ ?_I /pres emotion [k grief ] ?_you } .
+
+
+# === OBSERVE_AFFECT =========================================================
+# Inspector names the witness's apparent emotional state. Distinct from
+# EMPATHIZE (which describes the speaker's own emotion); OBSERVE_AFFECT is
+# observational, an invitation to elaborate. MC: TELL_FACT where the listener
+# (?_you) is the subject of an emotion belief held by the speaker.
+
+" you seem upset "
+{ ?_you /pres emotion [k grief ] } .
+" you seem troubled "
+{ ?_you /pres emotion [k grief ] } .
+" you seem afraid "
+{ ?_you /pres emotion [k fear ] } .
+" you seem angry "
+{ ?_you /pres emotion [k anger ] } .
+" you seem happy "
+{ ?_you /pres emotion [k joy ] } .
+
+
+# === NEGATIVE_KNOWLEDGE =====================================================
+# Honest "I don't know" - distinct from DECLINE (refuses an answerable
+# question) and DENY (negates a closed proposition). MC stays at @unknown,
+# matching the existing Formulaics.mgr "no_dont_know" pattern; these
+# entries broaden the surface vocabulary.
+
+" i don't know "
+@unknown
+.
+" i cannot say "
+@unknown
+.
+" i have no way of knowing "
+@unknown
+.
+" i couldn't tell you "
+@unknown
+.
+
+
+# === DECLINE ================================================================
+# Refuses to answer an answerable question. MC sits at @unknown for v1
+# because there is no `(refuse-to-answer <reason>)` func in the ontology
+# yet (distillation 4.2). Until that lands, DECLINE and NEGATIVE_KNOWLEDGE
+# share an MC and differ only in surface phrasing - player-visible v1, the
+# receiver mind cannot yet act differently on the two anyway.
+
+" i'll not say "
+@unknown
+.
+" i'd rather not say "
+@unknown
+.
+" i prefer not to discuss it "
+@unknown
+.
+" it is not fit to speak of "
+@unknown
+.
+" nil nisi bonum "
+@unknown
+.
+" that is between me and god "
+@unknown
+.
+" i'll not blacken a name "
+@unknown
+.
+" such matters are above me "
+@unknown
+.

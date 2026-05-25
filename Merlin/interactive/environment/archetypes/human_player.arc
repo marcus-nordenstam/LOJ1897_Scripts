@@ -46,6 +46,7 @@ archetype "human_player" (cap 256) (mech obs) (raycast-visible) (player) (non-oc
     "head"
     "eyes"
     "mouth"
+    "torso"
     "pregnant_by"
     "control"
     "obb"
