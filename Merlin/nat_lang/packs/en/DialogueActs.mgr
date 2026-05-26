@@ -91,14 +91,17 @@
 
 
 # === PRESSURE (witness self-disclosure) =====================================
-# The witness's standing pressure belief - {@self pressure <kind>}. Rendered
-# as a confessional first-person statement. Used by the PressureDischarge.mc
-# volunteer rule: when the witness is under load and the asker is not
-# actively disliked, the rule emits (msg {@self pressure <kind>}) and this
-# template surfaces it. Surface phrasing intentionally bare for v1; the
-# `volunteered-preface` decoration (distillation §4.5) will prepend
-# something like "Before we go further, I should say -" once authored.
+# The witness's standing pressure belief - {@self pressure <kind> [<focus>]}.
+# Rendered as a confessional first-person statement. Now ridden inline on
+# the same (msg ...) as a tell_about answer by inject_pressure_discharge_beliefs
+# in discourse_functions.h. Two shapes:
+#   - 3-field {@self pressure <kind>}            - ambient (no focus)
+#   - 4-field {@self pressure <kind> <focus>}    - focused on a person / kind
+# Surface phrasing intentionally bare for v1; the `volunteered-preface`
+# decoration (distillation §4.5) will prepend something like "Before we go
+# further, I should say -" once authored.
 
+# Ambient (3-field).
 " i am burdened by $kind(KIND|/isa|pressure) "
 { ?_I /pres pressure $kind(KIND|/isa|pressure) } .
 
@@ -108,6 +111,19 @@
 
 " $kind(KIND|/isa|pressure) "
 { ?_I /pres pressure $kind(KIND|/isa|pressure) } .
+:: curt
+
+# Focused (4-field) - the pressure carries a target (the person / kind the
+# witness's standing load is about). Mirrors the emotion focused form.
+" i am burdened by $kind(KIND|/isa|pressure) concerning $value(NP) "
+{ ?_I /pres pressure $kind(KIND|/isa|pressure) $value(NP) } .
+
+" i carry the weight of $kind(KIND|/isa|pressure) over $value(NP) "
+{ ?_I /pres pressure $kind(KIND|/isa|pressure) $value(NP) } .
+:: flowery
+
+" $kind(KIND|/isa|pressure) - $value(NP) "
+{ ?_I /pres pressure $kind(KIND|/isa|pressure) $value(NP) } .
 :: curt
 
 
