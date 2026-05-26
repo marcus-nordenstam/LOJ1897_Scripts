@@ -88,34 +88,71 @@ object (+ obs)
             table
                 kitchen_table
             evidence_box
-        # Purpose-built instruments of harm. PR-3b 2026-05-25 expanded the
-        # subkinds to cover the perpetration.hsc method-row :requires gates -
-        # pointed_blade / edged_blade / heavy_blade subsume the existing
-        # `knife`; blunt_object subsumes the existing `bust`; the rest are
-        # new families.
+        # Purpose-built instruments of harm. Each leaf is naturally a
+        # weapon (designed for combat / violence) - non-weapon items
+        # that CAN be used to harm (a bust, a candlestick, a knife) live
+        # under their natural parent kinds and pick up the relevant
+        # (facets bludgeon / pierce / ...) instead.
         weapon
-            pointed_blade
-                knife
-            edged_blade
-            heavy_blade
-            blunt_object
-                # Phase 10 Phase C - bronze bust / marble sculpture / similar
-                # improvised bludgeons. Now a sub-kind of blunt_object.
-                bust
-            cord_or_wire
+            dagger              (facets pierce)
+            stiletto            (facets pierce)
+            sword               (facets slash pierce)
+            sabre               (facets slash)
+            cutlass             (facets slash)
+            club                (facets bludgeon)
+            cudgel              (facets bludgeon)
             firearm
+                pistol
+                duelling_pistol
+                musket
+                revolver
+                shotgun
+                hunting_rifle
             explosive
-        # Improvised harm materials (PR-3b 2026-05-25). NOT weapons - these
-        # are items the world otherwise uses for non-violent purposes
-        # (rope for hauling, cloth for bedding, matches for lighting fires,
-        # a hammer for carpentry) that perpetration.hsc method rows can
-        # nominate as the means. Kept as siblings to `weapon` so a
-        # (controls-any ?actor [k weapon]) check correctly EXCLUDES these.
-        rope
-        pillow_or_cloth
-        ignition_source
-        electrical_apparatus
+                gunpowder_keg
+                dynamite_stick
+        # Kitchen / table-service blades. Knife is the canonical sub-kind;
+        # cleaver is the heavy-bladed chopping variant.
+        cutlery
+            knife               (facets pierce slash)
+            cleaver             (facets slash chop bludgeon)
+        # Decorative sculpture (the canonical Victorian crime-novel
+        # improvised bludgeon).
+        sculpture
+            bust                (facets bludgeon)
+        # Cordage. Natural taxonomic parent for rope-like materials. The
+        # strangle facet covers garrotte / hang use.
+        cordage
+            rope                (facets strangle)
+            twine               (facets strangle)
+            garrotte_wire       (facets strangle)
+        # Household textiles. Bedding / linen. The smother facet covers
+        # smother / suffocate use.
+        textile
+            pillow              (facets smother)
+            bedsheet            (facets smother strangle)
+            towel               (facets smother)
+        # Lighting fixtures. A candlestick can also be used to bludgeon
+        # (the brass-base variety); an oil_lamp carries fuel as well as
+        # being an ignition source.
+        lighting
+            candle              (facets ignite)
+            candlestick         (facets bludgeon ignite)
+            oil_lamp            (facets ignite burn_fuel)
+            lantern             (facets ignite)
+        # Fire-starting implements that aren't themselves a light fixture.
+        fire_starter
+            matches             (facets ignite)
+            tinderbox           (facets ignite)
+        # Tools - purpose-built craft / labour implements.
         tools
+            hammer              (facets bludgeon)
+            awl                 (facets pierce)
+            chisel
+            scissors            (facets pierce)
+            saw
+            axe                 (facets chop slash bludgeon)
+            fire_poker          (facets bludgeon)
         # Phase 10 Phase C - physician's carry-bag, holds substance bottles.
         medical_bag
         collection
@@ -128,6 +165,7 @@ object (+ obs)
         sporting_gear
             ball
                 football
+            cricket_bat         (facets bludgeon)
         # Documents are props - loose, carriable items. As prop subkinds they
         # inherit the prop archetype (writing + obb + in_stack attrs), so
         # mx_make_entity can create them; the org / property documents the
@@ -165,6 +203,15 @@ object (+ obs)
             employee_register
             job_description
             title_deed
+            # Purchase trail (weapon_acquire purchase mode). receipt
+            # spawns at the buyer's home; sales_record spawns at the
+            # selling shop. Both serve as physical evidence a detective
+            # can find later. The shopkeeper additionally holds a
+            # `{shopkeeper sell <item> /aux <buyer>}` belief; that
+            # memory is the richest queryable signal until writings
+            # patterns on these documents are wired (future PR).
+            receipt
+            sales_record
             root_npc_knowledge_doc
             for_sale_listing
             for_lease_listing
@@ -181,12 +228,14 @@ object (+ obs)
         # WHAT they added, and the affected vessel are all captured in one
         # belief shape, parallel to other act-records.
         wine
-        # PR-3b 2026-05-25 - combustible accelerant for arson / immolate
-        # perpetration method rows. Sibling to beer / wine because it
-        # follows the same env shape (a fluid carried in a vessel that the
-        # actor possesses); kerosene / paraffin / lamp_oil are future
-        # sub-kinds.
-        flammable_liquid
+        # Combustible accelerants. The (facets burn_fuel) flag is what
+        # perpetration's immolate / arson methods key on, NOT the parent
+        # kind - the function-kind `flammable_liquid` was retired
+        # 2026-05-26 in the facet refactor.
+        whiskey         (facets burn_fuel)
+        lamp_oil        (facets burn_fuel)
+        kerosene        (facets burn_fuel)
+        turpentine      (facets burn_fuel)
 
     # Food taxonomy for trap-set / trap-fire arcs. Parallel to fluid;
     # poisoning a food vessel uses the same `add_substance` belief
@@ -220,27 +269,27 @@ object (+ obs)
                     chapel
                 commercial_building
                     office
-                    # PR-poss-A 2026-05-25 - (public) flag on open-to-public
+                    # PR-poss-A 2026-05-25 - (facets public_space) flag on open-to-public
                     # leaves: any actor is welcome_at without a personal
                     # invitation. Authored per-leaf so private commercial
                     # spaces (office / factory / warehouse / hotel / school /
                     # police_station / newspaper / shop) do NOT inherit.
                     # bank carries the flag for v1 (the lobby); a future
                     # refinement can split bank into bank_lobby / bank_vault.
-                    bank        (public)
-                    newspaper
-                    shop
-                    barbershop  (public)
-                    restaurant  (public)
-                    pub         (public)
+                    bank        (facets public_space)
+                    newspaper   (facets public_space)
+                    shop        (facets public_space)
+                    barbershop  (facets public_space)
+                    restaurant  (facets public_space)
+                    pub         (facets public_space)
                     factory
                         warehouse
                     hotel
                     school
-                    hospital    (public)
+                    hospital    (facets public_space)
                     police_station
-                    church      (public)
-                    theatre     (public)
+                    church      (facets public_space)
+                    theatre     (facets public_space)
         pier
         bridge
             suspension_bridge

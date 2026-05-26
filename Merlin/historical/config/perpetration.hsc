@@ -40,28 +40,28 @@
 ; ---- Sharp (3) -------------------------------------------------------------
 (method stab
   :goal-fit       kill
-  :requires       ((control_any pointed_blade))
+  :requires       ((control_any (facets pierce)))
   :yields         puncture_wound
-  :method-aux     pointed_blade
+  :method-aux     _
   :terminal       kill_victim
   :wound-site     torso
   :weight         1.0)
 
 (method slash
   :goal-fit       kill
-  :requires       ((control_any edged_blade))
+  :requires       ((control_any (facets slash)))
   :yields         slash_wound
-  :method-aux     edged_blade
+  :method-aux     _
   :terminal       kill_victim
   :wound-site     torso
   :weight         0.7)
 
 (method decapitate
   :goal-fit       kill
-  :requires       ((control_any heavy_blade))
+  :requires       ((control_any (facets chop)))
   :victim-state   defenseless
   :yields         slash_wound
-  :method-aux     heavy_blade
+  :method-aux     _
   :terminal       kill_victim
   :wound-site     head
   :pressure-floor humiliation 0.8
@@ -70,18 +70,18 @@
 ; ---- Blunt (3) -------------------------------------------------------------
 (method beat_to_death
   :goal-fit       kill
-  :requires       ((control_any blunt_object))
+  :requires       ((control_any (facets bludgeon)))
   :yields         blunt_wound
-  :method-aux     blunt_object
+  :method-aux     _
   :terminal       kill_victim
   :wound-site     head
   :weight         0.8)
 
 (method bludgeon
   :goal-fit       kill
-  :requires       ((control_any blunt_object))
+  :requires       ((control_any (facets bludgeon)))
   :yields         blunt_wound
-  :method-aux     blunt_object
+  :method-aux     _
   :terminal       kill_victim
   :wound-site     head
   :weight         0.9)
@@ -106,30 +106,30 @@
 
 (method garrotte
   :goal-fit       kill
-  :requires       ((control_any cord_or_wire))
+  :requires       ((control_any (facets strangle)))
   :victim-state   defenseless
   :yields         ligature_mark
-  :method-aux     cord_or_wire
+  :method-aux     _
   :terminal       kill_victim
   :wound-site     head
   :weight         0.5)
 
 (method smother
   :goal-fit       kill
-  :requires       ((control_any pillow_or_cloth))
+  :requires       ((control_any (facets smother)))
   :victim-state   defenseless
   :yields         bruise
-  :method-aux     pillow_or_cloth
+  :method-aux     _
   :terminal       kill_victim
   :wound-site     head
   :weight         0.4)
 
 (method hang
   :goal-fit       kill
-  :requires       ((control_any rope))
+  :requires       ((control_any (facets strangle)))
   :victim-state   defenseless
   :yields         ligature_mark
-  :method-aux     rope
+  :method-aux     _
   :terminal       kill_victim
   :wound-site     head
   :weight         0.3)
@@ -199,18 +199,18 @@
 
 (method immolate
   :goal-fit       kill
-  :requires       ((control_any flammable_liquid) (control_any ignition_source))
+  :requires       ((control_any (facets burn_fuel)) (control_any (facets ignite)))
   :yields         burn_wound
-  :method-aux     flammable_liquid
+  :method-aux     _
   :terminal       kill_victim
   :wound-site     torso
   :weight         0.3)
 
 (method arson
   :goal-fit       kill
-  :requires       ((control_any flammable_liquid) (control_any ignition_source))
+  :requires       ((control_any (facets burn_fuel)) (control_any (facets ignite)))
   :yields         burn_wound
-  :method-aux     flammable_liquid
+  :method-aux     _
   :terminal       kill_victim
   :wound-site     torso
   :weight         0.4)
@@ -225,15 +225,11 @@
   :wound-site     torso
   :weight         0.1)
 
-; ---- Electrical (1) -------------------------------------------------------
-(method electrocute
-  :goal-fit       kill
-  :requires       ((control_any electrical_apparatus))
-  :yields         burn_wound
-  :method-aux     electrical_apparatus
-  :terminal       kill_victim
-  :wound-site     torso
-  :weight         0.3)
+; ---- Electrical (0) - electrocute retired 2026-05-26 with the
+; electrical_apparatus kind. Anachronistic for most of the 1700-1897
+; window anyway (mains electrification is late 1880s+); reintroduce
+; with specific kinds (electric_lamp / telegraph_apparatus) when the
+; setting demands.
 
 ; ---- Animal (2) - require animal substrate that doesn't exist yet ---------
 ; Authored for completeness; the :requires predicates are non-control
@@ -268,14 +264,11 @@
   :wound-site     torso
   :weight         0.2)
 
-; ---- Indirect (3) - delegation-based --------------------------------------
-(method arrange_accident
-  :goal-fit       kill
-  :yields         blunt_wound
-  :method-aux     _
-  :terminal       kill_victim
-  :wound-site     torso
-  :weight         0.2)
+; ---- Indirect (2) - delegation-based --------------------------------------
+; arrange_accident retired 2026-05-26 - too vague to be useful (per design
+; review). push_from_height IS an arranged accident; future named
+; staged-accidents (poisoning, gas-leak, carriage-collision) get explicit
+; rows when authored.
 
 ; uriah_gambit: dispatch to a lethal posting. Needs has_authority_over
 ; (not gated in PR-3d) - authored anyway with low weight.

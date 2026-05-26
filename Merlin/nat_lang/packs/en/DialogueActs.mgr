@@ -91,39 +91,103 @@
 
 
 # === PRESSURE (witness self-disclosure) =====================================
-# The witness's standing pressure belief - {@self pressure <kind> [<focus>]}.
-# Rendered as a confessional first-person statement. Now ridden inline on
-# the same (msg ...) as a tell_about answer by inject_pressure_discharge_beliefs
-# in discourse_functions.h. Two shapes:
-#   - 3-field {@self pressure <kind>}            - ambient (no focus)
-#   - 4-field {@self pressure <kind> <focus>}    - focused on a person / kind
-# Surface phrasing intentionally bare for v1; the `volunteered-preface`
-# decoration (distillation §4.5) will prepend something like "Before we go
-# further, I should say -" once authored.
+# Pressure beliefs are direction-laden: the aux slot tells us whether the
+# speaker is the actor (CONFESSION register) or the patient/witness
+# (GRIEVANCE / LAMENT / GRUDGE / FEAR register). These two speech-acts use
+# opposite first-person framing - a confession owns the act ("I have
+# something on my conscience"); a grievance casts the speaker as patient
+# ("X put me out", "X jilted me", "X and I have not had a civil word").
+#
+# Phrasings draw on Docs/dialogue_witness_interview_vocabulary.md Section U
+# (the volunteered-line corpus). The literals are 19th-c English period-
+# Jersey; non-LOJ:1897 deployments would re-author per sociolect.
+#
+# The matcher discriminates by belief structure:
+#   - kind literal [k <kind>] in the target slot pins to one pressure kind
+#   - ?_I in the aux slot binds only to the speaker's own self-reference
+#     (boundary externalises mself -> abs(self) which equals msg_context->I)
+#   - $value(NP) in the aux slot binds any third-party reference
+# Per-kind direction is fixed by the appraisal taxonomy:
+#   moral_violation: self-inflicted (aux always == self)
+#   exposure_risk:   self-inflicted underlying; aux is the potential exposer
+#   humiliation / injustice / attachment_loss / rivalry_pressure:
+#     other-inflicted (aux is the actor/perpetrator/rival/lost-one)
+#
+# Tier-gated by inject_pressure_discharge_beliefs via
+# pressure_disclosable_at_tier (disclosure_bands.cc): intimate-only for
+# moral_violation / exposure_risk; friend for the personal grievances;
+# acquaintance for rivalry_pressure.
 
-# Ambient (3-field).
-" i am burdened by $kind(KIND|/isa|pressure) "
-{ ?_I /pres pressure $kind(KIND|/isa|pressure) } .
+# --- moral_violation (self-inflicted; aux == self) - CONFESSION
+" i have something on my conscience, sir "
+{ ?_I /pres pressure [k moral_violation ] ?_I } .
 
-" i carry the weight of $kind(KIND|/isa|pressure) "
-{ ?_I /pres pressure $kind(KIND|/isa|pressure) } .
+" i have carried something on my conscience and i cannot carry it another day "
+{ ?_I /pres pressure [k moral_violation ] ?_I } .
 :: flowery
 
-" $kind(KIND|/isa|pressure) "
-{ ?_I /pres pressure $kind(KIND|/isa|pressure) } .
+" my conscience troubles me "
+{ ?_I /pres pressure [k moral_violation ] ?_I } .
 :: curt
 
-# Focused (4-field) - the pressure carries a target (the person / kind the
-# witness's standing load is about). Mirrors the emotion focused form.
-" i am burdened by $kind(KIND|/isa|pressure) concerning $value(NP) "
-{ ?_I /pres pressure $kind(KIND|/isa|pressure) $value(NP) } .
+# --- exposure_risk (self-inflicted underlying act; aux = potential exposer) - FEAR
+" if $value(NP) learns of it, sir, i am done "
+{ ?_I /pres pressure [k exposure_risk ] $value(NP) } .
 
-" i carry the weight of $kind(KIND|/isa|pressure) over $value(NP) "
-{ ?_I /pres pressure $kind(KIND|/isa|pressure) $value(NP) } .
+" i live in dread of what $value(NP) may say "
+{ ?_I /pres pressure [k exposure_risk ] $value(NP) } .
 :: flowery
 
-" $kind(KIND|/isa|pressure) - $value(NP) "
-{ ?_I /pres pressure $kind(KIND|/isa|pressure) $value(NP) } .
+" $value(NP) could ruin me "
+{ ?_I /pres pressure [k exposure_risk ] $value(NP) } .
+:: curt
+
+# --- humiliation (other-inflicted; aux = perpetrator) - GRIEVANCE
+" $value(NP) shamed me, sir "
+{ ?_I /pres pressure [k humiliation ] $value(NP) } .
+
+" i have not forgotten the humiliation $value(NP) dealt me "
+{ ?_I /pres pressure [k humiliation ] $value(NP) } .
+:: flowery
+
+" $value(NP) put me out "
+{ ?_I /pres pressure [k humiliation ] $value(NP) } .
+:: curt
+
+# --- injustice (other-inflicted; aux = perpetrator) - GRIEVANCE
+" $value(NP) wronged me, sir "
+{ ?_I /pres pressure [k injustice ] $value(NP) } .
+
+" there was a wrong $value(NP) did, sir, which i have carried ever since "
+{ ?_I /pres pressure [k injustice ] $value(NP) } .
+:: flowery
+
+" $value(NP) - a wrong, sir "
+{ ?_I /pres pressure [k injustice ] $value(NP) } .
+:: curt
+
+# --- attachment_loss (other-inflicted; aux = lost person) - LAMENT
+" i lost $value(NP), sir "
+{ ?_I /pres pressure [k attachment_loss ] $value(NP) } .
+
+" i have carried the loss of $value(NP) ever since "
+{ ?_I /pres pressure [k attachment_loss ] $value(NP) } .
+:: flowery
+
+" $value(NP) - gone "
+{ ?_I /pres pressure [k attachment_loss ] $value(NP) } .
+:: curt
+
+# --- rivalry_pressure (other-inflicted; aux = rival) - GRUDGE
+" $value(NP) and i, sir, we have not had a civil word in many a year "
+{ ?_I /pres pressure [k rivalry_pressure ] $value(NP) } .
+
+" there is no man i bear less love for than $value(NP) "
+{ ?_I /pres pressure [k rivalry_pressure ] $value(NP) } .
+:: flowery
+
+" $value(NP) - my rival "
+{ ?_I /pres pressure [k rivalry_pressure ] $value(NP) } .
 :: curt
 
 

@@ -127,6 +127,14 @@ relation
             # borrow: free loan, no payment. Interval-ends on return.
             # Aux is the lender.
             borrow              (tar object)           (aux human|org)
+            # sell: shopkeeper's memory of an over-the-counter purchase.
+            # Subject is the seller (a clerk / shopkeeper, or in some
+            # cases the shop org itself); target is the item (a specific
+            # weapon entity or a leaf-kind reference); aux is the buyer.
+            # Minted by hsim::acquire_weapon in purchase mode; the
+            # belief decays under normal forgetting so "if recent" the
+            # shopkeeper still remembers, but a years-stale sale fades.
+            sell                (sub human|org)  (tar object)  (aux human)
             # owe: {debtor owe creditor <debt>} - debtor is the subject,
             # creditor the target. The auxiliary slot holds the debt - an
             # integer amount for a money debt, a debt mobject for a non-money
