@@ -29,6 +29,25 @@ _
 ( o $pname(PNAME) )
 .
 
+# Unnamed person reference - the speaker knows OF a person but does not
+# know their name (or hasn't bothered to use it). "Someone" reads more
+# natural than "a human" in every conversational context. MUST come
+# BEFORE the generic "a $kind(KIND)" rule below - the realize matcher
+# is first-match-wins by file order, not specificity-driven, so a
+# literal-kind rule placed later loses to a variable-kind rule placed
+# earlier. "Somebody" is a flowery variant; .mph schooling=high preference
+# picks it. Gendered / role-typed human variants still fall through to
+# "a <kind>" via the generic rule since they don't match the literal
+# [k human ] kind.
+"someone"
+( o [k human ] )
+.
+
+"somebody"
+( o [k human ] )
+.
+:: flowery
+
 # An un-named object known only by its kind, e.g. an unnamed relative.
 "a $kind(KIND)"
 ( o $kind(KIND) )

@@ -83,6 +83,21 @@ relation
         # that used to live here (betray / wrong / help / honour / slight /
         # threaten / abandon / achieve / suffer_loss) is retired.
 
+        # Semantic summaries (memory-system Phase 5 - Docs/memory_system_plan.md).
+        # Distilled gists minted by fuse_old_memories when N routine episodes
+        # sharing the same (theme, subject, target) accumulate. The peak-
+        # intensity episode is retained as exemplar (in /causes); the rest
+        # are forgotten. Authored here as ordinary verb-states so they
+        # render through the existing NLG / belief-recall paths. Each one
+        # is named in a (theme ...) clause on the underlying episode
+        # relations below. Appraisal_input - a held "X is rude to me"
+        # influences future categorization of X's acts.
+        (semantic_summary)      (+ sub human)  (+ appraisal_input)
+            rude_to             (tar human)
+            violent_to          (tar human)
+            thief_to            (tar human)
+            coercive_to         (tar human)
+
         # Social predicate states. The noun-form social roles (mother,
         # friend, spouse, ...) are noun-states declared in Concepts.mon.
         (social)                (+ sub human)
@@ -112,7 +127,7 @@ relation
             # Named `hold` instead of `control` to avoid colliding with
             # the existing body-part env attr `control` (common.arc:35,
             # which auto-registers a body-part-subject noun-state with
-            # the same name read by ~14 .mc files via {?hand control
+            # the same name read by ~14 .ms2 files via {?hand control
             # ?thing}). The plan originally proposed `control`; this is
             # the substrate-constrained equivalent.
             hold                (tar object)
@@ -188,7 +203,7 @@ relation
 
         # Appraisable behaviours - act-record beliefs the F3.5 classifier
         # cascade reads (Phase 8 / Step 8.1). A behaviour label lives here ONLY
-        # when the behaviour has no ACTION (interactive/ACTIONS/*.act) and no
+        # when the behaviour has no ACTION (interactive/actions/*.act) and no
         # task (Tasks.mon) form - otherwise the classifier reads that existing
         # symbol. So `give` (a task) and `HAVE_SEX_WITH` (an ACTION) are NOT
         # re-declared here; only behaviours with no motor-enacted form are.
@@ -205,14 +220,14 @@ relation
             # Multiple tags accumulate at appraisal time: the patient of an
             # embezzle gets both the appropriation_act reaction AND the
             # betray_act reaction AND the wrong_act reaction.
-            assault             (tar human)       (construed_act harm_act wrong_act)
+            assault             (tar human)       (construed_act harm_act wrong_act)  (theme violent_to)
             # insult: lesser-affront act. Tagged slight_act so categorize
             # emits the slight_act construal and the patient-pov reaction
             # row in appraisal.hsc mints humiliation pressure on the
             # patient. The minimum-viable anchor for testing the pressure
             # cascade in vanilla hsim until richer perpetration content
             # lands.
-            insult              (tar human)       (construed_act slight_act)
+            insult              (tar human)       (construed_act slight_act)  (theme rude_to)
             # outdo: actor positionally outcompetes patient (won a post,
             # outbid them, married the partner they courted). Distinct
             # from insult (unprovoked affront) - this is a zero-sum
@@ -225,11 +240,11 @@ relation
             # {clara kill ashcombe /aux bronze_bust} both fit one label
             # (Rule 4 of knowledge_design_notes - don't restate target kind
             # in label).
-            kill                (tar human)  (aux ?)  (construed_act harm_act wrong_act)
-            steal               (tar human)       (construed_act appropriation_act wrong_act)
-            defraud             (tar human)       (construed_act appropriation_act wrong_act betray_act)
-            embezzle            (tar human|org)   (construed_act appropriation_act wrong_act betray_act)
-            kidnap              (tar human)       (construed_act coercion_act threaten_act wrong_act)
+            kill                (tar human)  (aux ?)  (construed_act harm_act wrong_act)  (theme violent_to)
+            steal               (tar human)       (construed_act appropriation_act wrong_act)  (theme thief_to)
+            defraud             (tar human)       (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)
+            embezzle            (tar human|org)   (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)
+            kidnap              (tar human)       (construed_act coercion_act threaten_act wrong_act)  (theme coercive_to)
             # Phase 10 Phase C - additional Phase 10 act-records.
             # disinherit: testamentary act; its effect is to end the
             # target's heir_of belief. The dropped heir feels abandonment.

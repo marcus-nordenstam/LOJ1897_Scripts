@@ -1,5 +1,5 @@
 
-# Talk.mc — Proximity-based TELL/ASK with bb_public_maintain coordination.
+# talk.ms2 - Proximity-based TELL/ASK with bb_public_maintain coordination.
 #
 # Conversations arise naturally from the interplay of bb_public_maintain signals and cell claims:
 #   - If you want to TELL/ASK someone, maintain a signal and claim a cell near them.

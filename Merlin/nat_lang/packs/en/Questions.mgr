@@ -40,7 +40,7 @@
 # below; the single-word echo lands when the preprocessor learns to keep
 # terminal '?' as a literal token (TODO in nat_lang.cc::_preprocess_nl_input).
 # All forms route to (formulaic probe <kind>) which the receiver mind's
-# .mc rules pattern-match to drive elaboration.
+# .ms2 rules pattern-match to drive elaboration.
 
 "more about $probe_word(KIND)"
 ( qs (formulaic probe $probe_word(KIND)) )
@@ -156,7 +156,7 @@
 .
 
 # age - derivative belief, computed on demand from birth_date by
-# reasoning/Age.mc when (any ...) finds no matching age belief.
+# reasoning/age.ms2 when (any ...) finds no matching age belief.
 "how old are you"
 ( any { ?_you /pres age } ).target
 .

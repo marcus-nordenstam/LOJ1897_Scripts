@@ -3,7 +3,7 @@
 #
 # The grammar maps "tell me about <X>" (Statements.mgr) to
 #   { ?asker goal {@self tell_about ?subject ?asker} }
-# and the receiver internalises the payload via HearTell.mc's hear-tell rule:
+# and the receiver internalises the payload via hear_tell.ms2's hear-tell rule:
 #   (begin_belief (eval_msg ?msg)).
 #
 # utterable_beliefs_about_msg does the whole content-selection / wire-form

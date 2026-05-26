@@ -15,9 +15,9 @@ historical/ - scripts & data for an event & statistics-based simulation
     events - higher level 'rules' and actions and planning all folded into one
 
 interactive/ - scripts & data for a rule-based cognitive simulation
-    ACTIONS - home of all Merlin action .act files, which define action bindings and plugs into Grym's animation system
+    actions - home of all Merlin action .act files, which define action bindings and plugs into Grym's animation system
             Note that the actual action implemention can be found in c++ header files in the GrymeEngine/Apps/Player app.
-    behaviour - all NPC behaviour scripts (in .mc files)
+    behaviour - all NPC behaviour scripts (in .ms2 files)
     environment - environment definitions for interactive sim (population archetypes, attrs etc)
     knowledge - NPC startup knowledge etc
 

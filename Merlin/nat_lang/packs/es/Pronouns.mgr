@@ -4,7 +4,7 @@
 #
 # Spanish has a tú (informal) vs usted (formal) split that pairs naturally
 # with the two-tier formality intent-tag scheme (untagged = tú, deferential
-# = usted). Both bind to ?_you - the .mc rule layer doesn't distinguish them.
+# = usted). Both bind to ?_you - the .ms2 rule layer doesn't distinguish them.
 #
 # v1 ships:
 #   yo / mí / mi   - first-person (singular). mi is the possessive determiner.

@@ -1,5 +1,5 @@
 
-# Put.mc - inverse of Take. The actor places ?thing (which one of @self's
+# put.ms2 - inverse of Take. The actor places ?thing (which one of @self's
 # hands controls) into a put_cell that the task claims and stashes on its
 # private blackboard.
 #

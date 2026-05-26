@@ -1,0 +1,110 @@
+
+
+# If the NPC wants to buy a building but is not aware of any existing building currently for sale,
+# then this behaviour encourages them to read through a stack of "properties for sale listings",
+# assuming the NPC knows of such stack(s).
+rule buy-building-read-listings
+{@self buy [k building]:?bldg}: ?buyBldg
+# In future: extend this rule to only read the closest such stack -- if the NPC knows of more than one
+{?listingStack isa [k for_sale_listing_stack]}
+(none {(realis ?bldg) availability for_sale})
+    ->
+(maintain_proposal {@self stack_read ?listingStack}).
+
+
+# This behaviour prevents NPCs from attempting to buy buildings they haven't actually seen,
+# which eliminates the risk of buying 'fake buildings', and also gives NPCs more things "to do".
+rule buy-building-inspect-first
+{@self buy [k building]:?bldg}: ?buyBldg
+{?bldg availability for_sale}
+(observed /not ?bldg)
+    ->
+(maintain_proposal {@self go_entity ?bldg}).
+
+
+# If I want to a buy a real (not irrealis) building for sale,
+# and which I've personally inspected, then engage a house-agent to purchase it.
+rule buy-building-tell-agent
+{@self buy ?bldg}: ?buyBldg
+{?bldg isa [k building]:?bldgKind}
+{?bldg availability for_sale}
+{?bldg name ?address}
+{?agent job [k house_agent]}
+(observed ?bldg)
+(none {@self /succ TELL ? ?agent /causes ~?buyBldg})
+    ->
+(maintain_goal {@self TELL (msg {@self goal {@self buy (o ?bldgKind ?address)}}) ?agent}).
+
+
+# If I am trying to buy a real (not hypothetical) building, then
+# I want to physically hold the title-deed naming me as the owner.
+# (Wanting to hold the title-deed needs to be an explicit goal, or
+# the NPC won't accept it when offered.) PR-poss-A 2026-05-25 migrated
+# the writing pattern from `{?bldg owner @self}` to `{@self own ?bldg}`
+# (legal ownership is now a verb-state with the owner as subject), and
+# the goal label from `possess` to `hold` (the retired `possess`
+# overloaded want-to-hold with legal-own; `hold` is the substrate-
+# constrained alternative to the plan's `control` - avoids the
+# body-part env-attr collision).
+rule buy-hold
+{@self buy ?bldg}
+(realis ?bldg)
+(o /realis_or_irr [k title_deed] {@o writing (msg ~{@self own ?bldg})}): ?title_deed
+    ->
+(maintain_goal {@self hold ?title_deed}).
+
+
+/*
+# Ensure we add function-matching to the Symbol/EventMatching code
+# Then the below should just work, and it will be the basis for the upcoming
+# (matches...) function, unless we maybe can just use (any...)
+
+# NEW VERSION OF RULE
+rule 
+{@self buy ?bldg}
+{?bldg isa [k building]:?bldgKind}
+{?bldg name ?address}
+{@self name ?myName}
+(realis ?bldg)
+(/msg o ?bldgKind ?address): ?bldgDescr
+(/msg o {@o name ?myName}): ?myDescr
+(o /realis_or_irr [k title_deed] {@o writing (msg ~{?myDescr own ?bldgDescr})}): ?title_deed
+    ->
+#(maintain_goal {@self hold ?title_deed}).
+*/
+
+
+rule buy-outcome /break_on_fire
+{@self buy ?bldg}: ?buy
+{[k title_deed]:?title_deed writing (msg ~{@self own ?bldg})}
+{@self hold ?title_deed}
+(realis ?bldg)
+(realis ?title_deed)
+    ->
+(set_outcome ?buy /succ).
+
+
+# PR-poss-A 2026-05-25 - migrated from `possess` to `hold`. The
+# satisfied-goal pattern (hand carries the thing) IS the (hold ?actor
+# ?thing) derived predicate; once shared_functions/possession ships in
+# PR-poss-B the begin_belief response can drop in favour of letting
+# the predicate satisfy the goal directly. For now the explicit
+# {@self hold ?thing} write keeps the closure observable.
+# The body-part read `{?hand control ?thing}` below is the existing
+# attr-driven env state (common.arc:35) - distinct from the new
+# `hold` verb-state with `@self` subject.
+rule goal-outcome-hold
+{@self goal {@self hold ?thing}}: ?goal
+{@self hand ?hand}
+{?hand control ?thing}
+    ->
+(set_outcome ?goal /succ)
+(begin_belief {@self hold ?thing}).
+
+
+# task-goal (ask, buy)
+#   proposed task (enters selection)
+#       running task
+#           task outcome
+
+# state-goal (to hold)
