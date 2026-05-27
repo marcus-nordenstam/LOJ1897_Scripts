@@ -29,3 +29,22 @@
 
 "นี่"      ?_this  .
 "นั่น"     ?_this  .
+
+# Third-person second-mention pronouns. Thai pronouns have no case
+# distinction; the objective form repeats the subjective.
+
+"เธอ"    ?_third_s
+:: agree:f
+.
+"เขา"    ?_third_s
+:: agree:m
+.
+"พวกเขา"  ?_third_s  .
+
+"เธอ"    ?_third_o
+:: agree:f
+.
+"เขา"    ?_third_o
+:: agree:m
+.
+"พวกเขา"  ?_third_o  .

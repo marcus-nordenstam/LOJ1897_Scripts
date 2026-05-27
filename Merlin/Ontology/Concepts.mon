@@ -39,30 +39,110 @@ concept
     condition           (tar @excl)
         alive
         dead
-        # PR-life-A 2026-05-25 - physical incapacity distinct from sleep
-        # (alertness sleepy) and from death. Bedridden / drugged /
-        # knocked-out NPCs read `unconscious` until they recover or die.
-        # Distinct from the (future) `mobility` derived belief which
-        # captures observable locomotion level over time.
+        # Physical incapacity distinct from sleep (alertness sleepy) and
+        # from death. Bedridden / drugged / knocked-out NPCs read
+        # `unconscious` until they recover or die. Distinct from the
+        # `mobility` derived belief which captures observable locomotion
+        # level over time.
         unconscious
 
     alertness           (tar @excl)
         alert
         sleepy
 
-    # PR-life-C 2026-05-25 - observable locomotion level. Derived in
-    # hsim_derive::classify_mobility from condition + (future) leg-wound
-    # state + age. Distinct from `alertness` (sleep / wake) and from
-    # `condition` (alive / dead / unconscious): mobility captures what
-    # an NPC can DO physically when conscious. The bedridden value
-    # covers both genuine incapacity (severe injury) and the social
-    # state of staying-in-bed; mobility being derived means the same
-    # symbol can mean both as the substrate behind it varies.
+    # Observable locomotion level. Derived in
+    # hsim_derive::classify_mobility from condition + leg-wound state +
+    # age. Distinct from `alertness` (sleep / wake) and from `condition`
+    # (alive / dead / unconscious): mobility captures what an NPC can
+    # DO physically when conscious. The bedridden value covers both
+    # genuine incapacity (severe injury) and the social state of
+    # staying-in-bed; mobility being derived means the same symbol can
+    # mean both as the substrate behind it varies.
     mobility_level      (tar @excl)
         mobile
         crutch_assisted
         wheelchair_bound
         bedridden
+
+    # Short-lived self-belief markers. The target of the
+    # `transient_marker` verb-state in States.mon - a single generic
+    # state replacing what would otherwise be four scattered
+    # patterns (recent-incident cooldowns, stalking prep markers,
+    # skill-practice tickers, substance-administering progress).
+    # Minted with a per-kind decay; checked by `has_recent_marker` in
+    # shared_functions/markers. The aux slot carries the focus (the
+    # other party / domain / substance), so an actor may hold many
+    # transient_marker beliefs concurrently - one per (kind, focus)
+    # pair. Extend by adding a sub-kind here and a mint site in the
+    # consuming PR (PR-A's recent_incident, PR-B's stalk_target,
+    # PR-skill-life's practice, PR-C's administering).
+    marker_kind
+        # PR-A bonded / public incident per-pair cooldown
+        # (~3 months).
+        recent_incident
+        # PR-B perpetration prep marker; actor has been
+        # observing victim's frequents (~30 days). Subsequent
+        # perpetration rolls read this for the surprise modifier.
+        stalk_target
+        # PR-C drugging / poisoning progress marker. Aux carries
+        # the substance kind; cumulative-lethal-dose terminals
+        # decrement against this counter.
+        administering
+        # PR-skill-life: an actor exercised a domain via
+        # perpetration / leisure / profession / apprenticeship /
+        # club / education. Aux carries the domain. Read by
+        # `skill_atrophies.hse` to suppress atrophy (~12 months).
+        practice
+
+    # Existential-frame taxonomy. The target of the `life_aim` drive in
+    # States.mon: what an NPC wants their LIFE to amount to. Distinct
+    # from `calling` (the specific DOMAIN one wants to excel in - music,
+    # engineering, soldiering): same musician (calling=music) can hold
+    # life_aim=wealth_aim (mercenary success), life_aim=legacy_aim (be
+    # remembered), or life_aim=belonging_aim (just play in the local pub
+    # band). Derived annually by hsim_derive::classify_life_aim from
+    # substrate (Big Five + Dark Tetrad + class trajectory + bond counts
+    # + frequents).
+    life_aim            (tar @excl)
+        legacy_aim
+        wealth_aim
+        piety_aim
+        respectability_aim
+        autonomy_aim
+        power_aim
+        belonging_aim
+
+    # Skill-kind taxonomy for the `skilled_in` competence (States.mon).
+    # Combat / craft / operational skills - distinct from the academic
+    # `field_of_study` taxonomy below, which doubles as a competence
+    # domain but is biased toward studied disciplines. Both can target
+    # `skilled_in`; this taxonomy carries the practically-trained skills
+    # an NPC acquires through profession entry, kin teaching, or
+    # club tenure.
+    skill_kind
+        marksmanship
+        knife_fighting
+        swordsmanship
+        pugilism
+        wrestling
+        horsemanship
+        poisoning_knowledge
+        medicine
+        forgery
+        lockpicking
+        climbing
+        evading
+        detecting
+
+    # Competence-level enum - the /aux of `skilled_in` beliefs. Novice
+    # is the entry tier; trained takes years of practice; expert is the
+    # cap reachable through profession tenure or apprenticeship-to-
+    # master. Future tier (master) may land if a 4th band is needed for
+    # exceptional NPCs.
+    competence_level    (tar @excl)
+        novice
+        trained
+        expert
 
     death_cause         (tar @excl)
         disease
@@ -71,7 +151,7 @@ concept
         childbirth
         violence
 
-    # PR-life-B 2026-05-25 - specific diseases an NPC can have. Distinct
+    # Specific diseases an NPC can have. Distinct
     # from `death_cause disease` which is the cause-of-death enum value;
     # this taxonomy names the specific pathology (consumption /
     # cholera / etc.). Future env attr `disease` (kind, /reason or
@@ -90,7 +170,7 @@ concept
         scarlet_fever
         pneumonia
 
-    # PR-life-B 2026-05-25 - observable symptoms. Distinct from disease:
+    # Observable symptoms. Distinct from disease:
     # symptoms are what others SEE (cough / fever / pallor / weakness);
     # the disease is the diagnosis a physician INFERS from symptoms. Each
     # leaf has a corresponding env attr on body archetypes (mech obs);
@@ -104,7 +184,7 @@ concept
         rash
         chills
 
-    # Phase 10 Phase C - the cause-of-death NARRATIVE witnesses form when
+    # Cause-of-death narrative witnesses form when
     # perceiving a death scene (vs death_cause, the objective cause). Used
     # in `circumstances_of_death` beliefs that F2 gossip carries
     # village-wide; the "staged story" emerges from observers agreeing on
@@ -188,8 +268,7 @@ concept
         the_law_is_unjust
         self_defense
 
-    # Role-identities an NPC self-identifies as (plan section 10.3 Pivot C,
-    # 2026-05-24; expanded by PR-3b 2026-05-25). Held as {@self identity
+    # Role-identities an NPC self-identifies as. Held as {@self identity
     # <role>} self-beliefs; derived by hsim_derive::classify_identities from
     # substrate state (kids -> parent, spouse -> spouse, job -> worker,
     # church member -> christian, class + gender -> gentleman / lady, job
@@ -223,7 +302,7 @@ concept
         servant_role
         soldier_role
         steward_role
-        # PR-3b 2026-05-25 - Dark Tetrad and trait-composite identities.
+        # Dark Tetrad and trait-composite identities.
         # machiavellian / sadist read the homonymous Dark Tetrad attr
         # against a tunable threshold in situations.hsc; coward fires on
         # EITHER (low assertiveness AND high withdrawal) OR (high
@@ -268,7 +347,7 @@ concept
     # (Objects.mon) is a separate, concrete layer.
     substance
         alcohol
-        # Phase 10 Phase C - cardiac glycoside; the canonical poison in
+        # Cardiac glycoside; the canonical poison in
         # the case study. Concrete bottles are `prop` entities containing it.
         digitalis
 
@@ -315,7 +394,7 @@ concept
             cook
             farmer
             nurse
-            # Phase 10 Phase C - the estate manager job-kind. Standard
+            # Estate manager job-kind. Standard
             # per-mind job-object pattern: {?npc job ?j_obj} +
             # {?j_obj isa [k steward]}. Holds the day-to-day authority over
             # an `estate` org (Concepts.mon, business sub-kind).
@@ -392,11 +471,10 @@ concept
                 barbershop
                 antiques_shop
                 theatre
-                # Phase 10 Phase C - landed / agricultural estate. Generates
-                # revenue, owns property, employs people, can be sold or
-                # inherited. The case-study perpetrator inherits one when
-                # the death-trigger fires the heir_of -> inherit conversion
-                # (10.3d).
+                # Landed / agricultural estate. Generates revenue, owns
+                # property, employs people, can be sold or inherited.
+                # A perpetrator may inherit one when the death-trigger
+                # fires the heir_of -> inherit conversion.
                 estate
 
     # Fields of study - the target of the `study` and `diploma` relations, and
@@ -604,17 +682,17 @@ concept
         AB
         O
 
-    # Renamed from `role` (2026-05-24) to free that name for the role-
-    # identity taxonomy above (parent / spouse / worker / christian / ...).
-    # game_role distinguishes the player-vs-NPC dispatch the engine reads
-    # from the social-identity beliefs the appraisal pipeline reads.
+    # game_role distinguishes the player-vs-NPC dispatch the engine
+    # reads from the social-identity beliefs (the `role` identity
+    # taxonomy above: parent / spouse / worker / christian / ...) that
+    # the appraisal pipeline reads.
     game_role           (tar @excl)
         player
         nonplayer
 
     # ---------------------------------------------------------------------
-    # Relational states migrated from States.mon - a noun is a state, so each
-    # is declared once, here. (States.mon now holds only non-noun verb states.)
+    # Relational states. A noun is automatically a state, so each is
+    # declared once here; States.mon holds only non-noun verb states.
     # ---------------------------------------------------------------------
 
     # Transaction states.
@@ -655,7 +733,7 @@ concept
         stepfather      (tar @excl)  (inclusive_bond)
         stepchild       (inclusive_bond)
         child           (inclusive_bond)
-        # Phase 10 Phase C - guardianship. {?guardian ward ?ward_npc} reads
+        # Guardianship. {?guardian ward ?ward_npc} reads
         # "guardian is the legal guardian of ward". Inclusive bond
         # (multiple wards possible). The case study's Ashcombe/Clara pair
         # uses this for the pre-perpetration relationship.
@@ -671,21 +749,21 @@ concept
         respected_by
         enemy
         love                    (tar ?)  (exclusive_bond)
-        # PR-rel-A 2026-05-25 - directed competitive bond. May be
+        # Directed competitive bond. May be
         # asymmetric (A fixates on B; B indifferent). Sourced by
         # rivalry-pressure-driving events (lost-job-to, outbid-by,
         # out-courted-by). Read by deliberation affinity rows and by
         # appraisal to weight slight_act reactions higher when the
         # source is a held rival.
         rival                   (inclusive_bond)
-        # PR-rel-A 2026-05-25 - conspiracy bond. Subject = principal
+        # Conspiracy bond. Subject = principal
         # (recruiter), target = helper. Aux carries the embedded
         # goal-fact that `recruit` minted into the helper's mind.
         # Closes the loop on the existing `recruit (tar human) (aux ?)`
         # behaviour label - recruit is the ACT, accomplice is the
         # ongoing BOND.
         accomplice              (aux ?)
-        # PR-rel-A 2026-05-25 - co-equity bond in a venture. Symmetric -
+        # Co-equity bond in a venture. Symmetric -
         # minted on both sides when the partnership is formed. Aux
         # carries the org. Distinct from `founder` (one-shot
         # constitutive, @excl) and `employer` (subordinate relation).

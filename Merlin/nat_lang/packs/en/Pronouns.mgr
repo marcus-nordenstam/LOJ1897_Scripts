@@ -8,3 +8,16 @@
 "you"   ?_you   .
 "your"   ?_you  .
 "this"  ?_this  .
+
+# Third-person second-mention pronouns. The realize layer requests
+# ?_third_s (subjective case) or ?_third_o (objective case), and the
+# `:: agree:` tag selects gender. Untagged entries are the default
+# ("they"/"them") for unknown / non-binary referents.
+
+"she"   ?_third_s   :: agree:f  .
+"he"    ?_third_s   :: agree:m  .
+"they"  ?_third_s               .
+
+"her"   ?_third_o   :: agree:f  .
+"him"   ?_third_o   :: agree:m  .
+"them"  ?_third_o               .

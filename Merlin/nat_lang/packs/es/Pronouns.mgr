@@ -35,3 +35,23 @@
 "este"   ?_this  .
 "esto"   ?_this  .
 "eso"    ?_this  .
+
+# Third-person second-mention pronouns. Spanish renders cleanly for
+# post-preposition use ("una carta sobre ella"); pre-verbal clitic
+# placement ("la vio") would need a separate path.
+
+"ella"   ?_third_s
+:: agree:f
+.
+"él"     ?_third_s
+:: agree:m
+.
+"ellos"  ?_third_s  .
+
+"ella"   ?_third_o
+:: agree:f
+.
+"él"     ?_third_o
+:: agree:m
+.
+"ellos"  ?_third_o  .

@@ -197,10 +197,15 @@ attr "fluid_amount" (type float) (mech obs) (auto-percept) (state-flags-tar @exc
 # onto body-part archetypes (wounds + stains + marks), prop and
 # structure_part (stains + marks only - props don't bleed).
 #
-# Wounds: see Objects.mon `wound` taxonomy (puncture_wound, slash_wound,
-#   blunt_wound, ligature_mark, burn_wound, bite_wound, bruise).
-# Stains: substances deposited on a surface (see `stain` taxonomy).
-# Marks: physical surface alterations (see `mark` taxonomy).
+# Forensic-trace attrs. PR-evi-D 2026-05-27 unifies wound / stain / mark
+# under a single `blemish` parent kind in Objects.mon; the `blemishes`
+# attr below is the unified plural-kind attr that accepts any mix
+# (puncture_wound + blood_stain + tool_mark on the same body-part / prop
+# is one attr write, not three). The three legacy attrs (wounds /
+# stains / marks) remain in place until shared_functions/yield_evidence
+# is migrated to write to `blemishes` instead; new writers should
+# target `blemishes` directly.
+attr "blemishes" (type kind array 4) (state "blemish") (mech obs) (auto-percept)
 attr "wounds"  (type kind array 4) (state "wound") (mech obs) (auto-percept)
 attr "stains"  (type kind array 4) (state "stain") (mech obs) (auto-percept)
 attr "marks"   (type kind array 4) (state "mark")  (mech obs) (auto-percept)

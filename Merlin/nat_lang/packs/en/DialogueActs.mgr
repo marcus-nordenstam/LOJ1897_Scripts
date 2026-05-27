@@ -117,6 +117,73 @@
 # wrap the act-belief output without ever uttering the kind itself.
 
 
+# === PAST WRONG-ACTS ========================================================
+# Cause-belief templates for the acts that pressure-discharge surfaces.
+# When the speaker volunteers a pressure with /causes pointing at a wrong-
+# act involving the asked-about subject (topical-relevance gate in
+# inject_pressure_discharge_beliefs), the act itself is what we voice -
+# never the pressure-kind label.
+#
+# Pronoun rendering is position-aware (nat_lang_realize.cc::_realize_object,
+# Phase 9.7): when the act's subject equals the speaker, the realize layer
+# emits "I"; when it equals the speaker but lands in the target slot, "me";
+# everything else uses the standard name lookup. So one template per act +
+# tense covers confession, accusation, and witness perspectives at once.
+#
+# Past tense is the canonical form - these are recollected events.
+
+" $actor(NP) discredited $patient(NP) "
+{ $actor(NP) /past discredit $patient(NP) } .
+
+" $actor(NP) spoke ill of $patient(NP) "
+{ $actor(NP) /past discredit $patient(NP) }
+:: flowery
+.
+
+" $actor(NP) defrauded $patient(NP) "
+{ $actor(NP) /past defraud $patient(NP) } .
+
+" $actor(NP) cheated $patient(NP) "
+{ $actor(NP) /past defraud $patient(NP) }
+:: flowery
+.
+
+" $actor(NP) exposed $patient(NP) "
+{ $actor(NP) /past expose $patient(NP) } .
+
+" $actor(NP) slighted $patient(NP) "
+{ $actor(NP) /past slight $patient(NP) } .
+
+" $actor(NP) betrayed $patient(NP) "
+{ $actor(NP) /past betray $patient(NP) } .
+
+" $actor(NP) disinherited $patient(NP) "
+{ $actor(NP) /past disinherit $patient(NP) } .
+
+" $actor(NP) assaulted $patient(NP) "
+{ $actor(NP) /past assault $patient(NP) } .
+
+" $actor(NP) insulted $patient(NP) "
+{ $actor(NP) /past insult $patient(NP) } .
+
+" $actor(NP) abandoned $patient(NP) "
+{ $actor(NP) /past abandon $patient(NP) } .
+
+" $actor(NP) stole from $patient(NP) "
+{ $actor(NP) /past steal $patient(NP) } .
+
+" $actor(NP) killed $patient(NP) "
+{ $actor(NP) /past kill $patient(NP) } .
+
+" $actor(NP) wrote an anonymous letter about $patient(NP) "
+{ $actor(NP) /past anonymous_letter $patient(NP) } .
+
+" $actor(NP) sent an anonymous letter denouncing $patient(NP) "
+{ $actor(NP) /past anonymous_letter $patient(NP) }
+:: flowery
+.
+
+
 # === EMPATHIZE ==============================================================
 # Speaker's emotion ABOUT the listener. v1 uses the focused-emotion belief
 # shape with ?_you as the focus.

@@ -24,8 +24,8 @@
 # OPENING - vocative-name template.
 "$pname(PNAME)"
 { $sub_np(NP) $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) }
-.
 :: intro
+.
 
 # Sentinel responses
 "no lo sé"
@@ -55,8 +55,8 @@
 
 "hábleme de $obj(NP)"
 { ?_I /pres goal { ?_you /pres tell_about $obj(NP) ?_I } }
-.
 :: deferential
+.
 
 "cuéntame sobre $obj(NP)"
 { ?_I /pres goal { ?_you /pres tell_about $obj(NP) ?_I } }

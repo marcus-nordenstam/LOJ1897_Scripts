@@ -24,8 +24,8 @@
 # OPENING - vocative-name template.
 "$pname(PNAME)"
 { $sub_np(NP) $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) }
-.
 :: intro
+.
 
 # Sentinel responses
 "ไม่ทราบ"
@@ -34,8 +34,8 @@
 
 "ไม่ทราบ ครับ"
 @unknown
-.
 :: deferential
+.
 
 "ไม่แน่ใจ"
 @unknown%
@@ -60,8 +60,8 @@
 
 "บอก ฉัน เกี่ยวกับ $obj(NP) ครับ"
 { ?_I /pres goal { ?_you /pres tell_about $obj(NP) ?_I } }
-.
 :: deferential
+.
 
 "เล่า เรื่อง $obj(NP) ให้ ฉัน ฟัง"
 { ?_I /pres goal { ?_you /pres tell_about $obj(NP) ?_I } }
@@ -94,8 +94,8 @@
 
 "$sub_np(NP) อายุ $num(NUM) ปี ครับ"
 { $sub_np(NP) /pres age $num(NUM) }
-.
 :: deferential
+.
 
 # Nationality - "Maria เป็น คน irish" (Maria is person-of irish)
 "$sub_np(NP) เป็น คน $kind(KIND|/isa|nationality)"
@@ -104,8 +104,8 @@
 
 "$sub_np(NP) เป็น คน $kind(KIND|/isa|nationality) ครับ"
 { $sub_np(NP) /pres nationality $kind(KIND|/isa|nationality) }
-.
 :: deferential
+.
 
 # Class - "Maria เป็น ชนชั้น lower" (Maria is class lower)
 "$sub_np(NP) เป็น ชนชั้น $kind(KIND|/isa|class_situation)"
@@ -114,8 +114,8 @@
 
 "$sub_np(NP) เป็น ชนชั้น $kind(KIND|/isa|class_situation) ครับ"
 { $sub_np(NP) /pres class_situation $kind(KIND|/isa|class_situation) }
-.
 :: deferential
+.
 
 # Occupation - "Maria ทำงาน เป็น hatmaker"
 "$sub_np(NP) ทำงาน เป็น $kind(KIND|/isa|job)"
@@ -124,8 +124,8 @@
 
 "$sub_np(NP) ทำงาน เป็น $kind(KIND|/isa|job) ครับ"
 { $sub_np(NP) /pres job $kind(KIND|/isa|job) }
-.
 :: deferential
+.
 
 
 # THIRD-PARTY KINSHIP / RELATION STATEMENTS.

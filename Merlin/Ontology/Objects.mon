@@ -23,43 +23,45 @@ object (+ obs)
                 german_shepard
             cat
                 siamese
-    # PR-evi-A 2026-05-25 - wound taxonomy as the target-kind enum for the
-    # `wounds` body-part attr. Per Rule 4 of knowledge_design_notes.md the
-    # wound label does NOT name the weapon - a gunshot entry is a
-    # `puncture_wound` with `firearm` in the method-aux; a `blunt_wound`
-    # is generic to clubs / fists / falls.
-    wound
-        puncture_wound
-        slash_wound
-        blunt_wound
-        ligature_mark
-        burn_wound
-        bite_wound
-        bruise
-    # PR-evi-A 2026-05-25 - extended stain taxonomy (gunpowder_residue, ash,
-    # mud_stain, paint_stain, wine_stain) for the `stains` attr. Stains are
-    # things DEPOSITED on a surface (distinct from marks, which physically
-    # alter the surface - declared as the `mark` parent below).
-    stain
-        ink_stain
-        blood_stain
-        dirt_stain
-        gunpowder_residue
-        ash
-        mud_stain
-        paint_stain
-        wine_stain
-    # PR-evi-A 2026-05-25 - mark parent: physical surface alterations
-    # (scratches, dents, cracks). Distinct from stains (deposits) and from
-    # wounds (body-internal). Backs the `marks` attr on prop /
-    # structure_part / body-part archetypes.
-    mark
-        scratch_mark
-        dent
-        crack
-        scuff
-        tool_mark
-        tear
+    # Forensic-trace families. The `blemish` parent unifies three
+    # sub-trees so the `blemishes` plural-kind attr (common.arc) can
+    # hold any mix and the forensic-detective layer reasons over the
+    # union with one attr walk:
+    #   wound  - body-internal injury (puncture_wound, slash_wound,
+    #            blunt_wound, ligature_mark, burn_wound, bite_wound,
+    #            bruise).
+    #   stain  - substance deposited on a surface (ink, blood, dirt,
+    #            gunpowder_residue, ash, mud, paint, wine).
+    #   mark   - physical surface alteration (scratch, dent, crack,
+    #            scuff, tool_mark, tear).
+    # Per Rule 4 of knowledge_design_notes.md no leaf restates a
+    # weapon kind: a gunshot entry is a `puncture_wound`, not a
+    # `gunshot_wound`.
+    blemish
+        wound
+            puncture_wound
+            slash_wound
+            blunt_wound
+            ligature_mark
+            burn_wound
+            bite_wound
+            bruise
+        stain
+            ink_stain
+            blood_stain
+            dirt_stain
+            gunpowder_residue
+            ash
+            mud_stain
+            paint_stain
+            wine_stain
+        mark
+            scratch_mark
+            dent
+            crack
+            scuff
+            tool_mark
+            tear
     # Meals & food
     meal
         breakfast
@@ -82,7 +84,7 @@ object (+ obs)
             police_uniform
             dress
                 summer_dress
-            # Phase 10 Phase C - footwear, the muddy-prints clue class.
+            # Footwear, the muddy-prints clue class.
             boots
         loose_furniture
             table
@@ -153,7 +155,7 @@ object (+ obs)
             saw
             axe                 (facets chop slash bludgeon)
             fire_poker          (facets bludgeon)
-        # Phase 10 Phase C - physician's carry-bag, holds substance bottles.
+        # Physician's carry-bag, holds substance bottles.
         medical_bag
         collection
             stack               (sub space|structure)  (tar @excl)
@@ -174,16 +176,16 @@ object (+ obs)
             diploma
             letter
                 adverts_letter
-                # Phase 10 Phase C - the perpetrator's own admission;
-                # writing embeds their band-5 self-beliefs. Discovery
-                # internalizes the crime fact via the standard read path.
+                # Perpetrator's own admission; writing embeds their
+                # band-5 self-beliefs. Discovery internalizes the
+                # crime fact via the standard read path.
                 confession_letter
                 # Kidnap-arc artifact; writing embeds
                 # {family goal {family pay perp ?amount}} and a per-mind
-                # "expects-to-see-victim" belief shape (NOT
-                # `condition missing` - that atom was retired in PR-life-A
-                # because missingness is what other minds believe about an
-                # NPC, not a physical fact about the body).
+                # "expects-to-see-victim" belief shape (missingness is
+                # what other minds believe about an NPC, not a physical
+                # fact about the body, so it lives in beliefs rather
+                # than as a condition).
                 ransom_note
                 # Structurally a letter but claimed_author env attr differs
                 # from the real author; plant-evidence events place these.
@@ -209,38 +211,37 @@ object (+ obs)
             # can find later. The shopkeeper additionally holds a
             # `{shopkeeper sell <item> /aux <buyer>}` belief; that
             # memory is the richest queryable signal until writings
-            # patterns on these documents are wired (future PR).
+            # patterns on these documents are wired.
             receipt
             sales_record
             root_npc_knowledge_doc
             for_sale_listing
             for_lease_listing
             lease_agreement
-            # Phase 10 Phase C - testamentary document; writing encodes the
-            # testator's goal beliefs about disinheritance / inheritance /
-            # expose. Death-trigger reads it to convert heir_of -> inherit.
+            # Testamentary document; writing encodes the testator's
+            # goal beliefs about disinheritance / inheritance / expose.
+            # Death-trigger reads it to convert heir_of -> inherit.
             will
     fluid
         beer
-        # Wine fluid for trap-set/trap-fire arcs. Tampering is recorded via
-        # the `add_substance` belief (States.mon, PR-evi-C 2026-05-25):
+        # Wine fluid for trap-set / trap-fire arcs. Tampering is
+        # recorded via the `add_substance` belief (Tasks.mon):
         # `{actor add_substance <poison-obj> <wine-obj>}`. WHO tampered,
-        # WHAT they added, and the affected vessel are all captured in one
-        # belief shape, parallel to other act-records.
+        # WHAT they added, and the affected vessel are all captured in
+        # one belief shape, parallel to other act-records.
         wine
         # Combustible accelerants. The (facets burn_fuel) flag is what
-        # perpetration's immolate / arson methods key on, NOT the parent
-        # kind - the function-kind `flammable_liquid` was retired
-        # 2026-05-26 in the facet refactor.
+        # perpetration's immolate / arson methods key on, not the
+        # parent kind.
         whiskey         (facets burn_fuel)
         lamp_oil        (facets burn_fuel)
         kerosene        (facets burn_fuel)
         turpentine      (facets burn_fuel)
 
     # Food taxonomy for trap-set / trap-fire arcs. Parallel to fluid;
-    # poisoning a food vessel uses the same `add_substance` belief
-    # (States.mon, PR-evi-C 2026-05-25) as fluids. Sub-kinds are starter
-    # content; extend as authored arcs demand more variants.
+    # poisoning a food vessel uses the same `add_substance` task as
+    # fluids. Sub-kinds are starter content; extend as authored arcs
+    # demand more variants.
     food
         bread
         cheese
@@ -269,13 +270,14 @@ object (+ obs)
                     chapel
                 commercial_building
                     office
-                    # PR-poss-A 2026-05-25 - (facets public_space) flag on open-to-public
+                    # (facets public_space) flag on open-to-public
                     # leaves: any actor is welcome_at without a personal
-                    # invitation. Authored per-leaf so private commercial
-                    # spaces (office / factory / warehouse / hotel / school /
-                    # police_station / newspaper / shop) do NOT inherit.
-                    # bank carries the flag for v1 (the lobby); a future
-                    # refinement can split bank into bank_lobby / bank_vault.
+                    # invitation. Authored per-leaf so private
+                    # commercial spaces (office / factory / warehouse /
+                    # hotel / school / police_station / newspaper /
+                    # shop) do NOT inherit. bank carries the flag for
+                    # the lobby; a future refinement can split bank into
+                    # bank_lobby / bank_vault.
                     bank        (facets public_space)
                     newspaper   (facets public_space)
                     shop        (facets public_space)
@@ -303,11 +305,11 @@ object (+ obs)
                 ring_finger
             eye
             mouth
-            # PR-evi-A 2026-05-25 - the central body. Default wound-site
-            # when a method-row's :wound-site slot is omitted; carries
-            # generic torso wounds (stab, gunshot, beating). Additional
-            # body-parts (neck, arm, leg, lungs) land alongside the
-            # method rows that need them.
+            # Central body. Default wound-site when a method-row's
+            # :wound-site slot is omitted; carries generic torso
+            # wounds (stab, gunshot, beating). Additional body-parts
+            # (neck, arm, leg, lungs) land alongside the method rows
+            # that need them.
             torso
         structure_part
             counter

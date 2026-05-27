@@ -45,8 +45,8 @@ _
 
 "somebody"
 ( o [k human ] )
-.
 :: flowery
+.
 
 # An un-named object known only by its kind, e.g. an unnamed relative.
 "a $kind(KIND)"

@@ -1,86 +1,86 @@
 
 rule import-reasoning ->
-(import "Age")
-(import "MarriageProspect")
-(import "Family")
-(import "Death")
-(import "InferMaritalState").
+(import "age")
+(import "marriage_prospect")
+(import "family")
+(import "death")
+(import "infer_marital_state").
 
 
 rule import-nourishment-tasks
     ->
-(import "Drink").
+(import "drink").
 
 rule import-movement-tasks
     ->
-(import "Go")
+(import "go")
 (import "keep_near_and_facing")
-(import "MaintainLookingAt")
-(import "Explore")
-(import "Locate")
-(import "GoHome").
+(import "maintain_looking_at")
+(import "explore")
+(import "locate")
+(import "go_home").
 
 
 rule import-resource-tasks
     ->
-(import "Give")
-(import "Receive")
-(import "Get")
-(import "Take")
-(import "Put")
-(import "BuyBuilding").
+(import "give")
+(import "receive")
+(import "get")
+(import "take")
+(import "put")
+(import "buy_building").
 
 
 rule import-learning-tasks
     ->
-(import "IdentifyPerson")
-(import "SeekAnswers")
-(import "GetAcquaintedWith")
+(import "identify_person")
+(import "seek_answers")
+(import "get_acquainted_with")
 (import "find_out")
-(import "Read")
-(import "PerceiveAttr").
+(import "read")
+(import "perceive_attr").
 
 
 rule import-social-tasks
     ->
-(import "Talk")
-(import "TellAnswer")
-(import "HearAnswer")
-(import "HearTell")
-(import "TellAbout")
-(import "TellBeliefs")
-(import "WriteDoc")
-(import "Introduce")
-(import "Socialize")
-(import "Pubbing").
+(import "talk")
+(import "tell_answer")
+(import "hear_answer")
+(import "hear_tell")
+(import "tell_about")
+(import "tell_beliefs")
+(import "write_doc")
+(import "introduce")
+(import "socialize")
+(import "pubbing").
 
 
 rule import-stack-tasks
     ->
-(import "StackBrowse")
-(import "StackGet")
-(import "StackPut")
-(import "StackRead")
-(import "MakeDoneStack").
+(import "stack_browse")
+(import "stack_get")
+(import "stack_put")
+(import "stack_read")
+(import "make_done_stack").
 
 
 rule import-family-tasks
     ->
-(import "Engagement")
-(import "Marriage")
-(import "Parenting").
+(import "engagement")
+(import "marriage")
+(import "parenting").
 
 
 rule import-professional-tasks
     ->
-(import "Work")
-(import "FoundOrg")
-(import "HouseAgentClerkJob")
-(import "Bartending").
+(import "work")
+(import "found_org")
+(import "house_agent_clerk_job")
+(import "bartending").
 
 rule import-emotional-tasks
     ->
-(import "Grieve").
+(import "mourn").
 
 rule import-weather-tasks
     ->
@@ -88,8 +88,8 @@ rule import-weather-tasks
 
 rule import-life-cycle-tasks
     ->
-(import "GiveBirth")
-(import "Die").
+(import "give_birth")
+(import "die").
 
 
 
@@ -134,13 +134,13 @@ rule enter-container-go-through-opening
 
 # Emotional reactions
 
-rule grieve
+rule mourn
 {@self /ever love ?person}
 #{?person /ever condition dead}
     ->
-# Grieving is an emotion-task which should not compete with regular tasks
+# Mourning is an emotion-task which should not compete with regular tasks
 # So it should only express itself if there's nothing else going on
-(maintain_proposal {@self grieve} (des abs_util -10000)).
+(maintain_proposal {@self mourn} (des abs_util -10000)).
 
 #rule go-to-waypoint
 #{?waypoint isa [k waypoint]}
@@ -158,7 +158,7 @@ rule grieve
 
 rule start-performing-job
 {@self job [k bartender]:?job ?pub}
-{@self control [k umbrella]:?umbrella} 
+{@self control [k umbrella]:?umbrella}
     ->
 (begin_proposal {@self START_PERFORMING [k bartending] ?pub})
 (begin_proposal {@self STOW ?umbrella}).
@@ -181,7 +181,7 @@ natural barriers: could be done via splines instead of grid?
 if an NPC is pathing across the world, any entity with a local path-grid is NOT stamped into world-grid and thus
 invisible to the world-pathing.  so the world-pathing must simply treat the OBB of those are blocked.  that means
 path-finding would have to test every expanded cell if its inside the OBB.  alternatively, it rasterizes the OBB
-onto the world-grid temporarily.  
+onto the world-grid temporarily.
 
 finding an available space to claim: (to put something there, to place oneself there as a pathfinding destination, etc)
 pathfinding: seeking a clear route through a space

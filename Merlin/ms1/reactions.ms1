@@ -25,7 +25,15 @@
 (tuning
   :max-emotion-salience   336
   :max-pressure-salience  8760
-  :mood-salience-gain     0.5)
+  :mood-salience-gain     0.5
+  ; --- per-simulation-mode default salience (memory_system_plan Phase 8) ---
+  ; t_event() reads s_default_salience[current_mode] for fresh beliefs.
+  ;   isim : 24h post-end recall (one day; matches interactive cadence)
+  ;   hsim : 8640h = 12 * 30 * 24 = 12 months at monthly ticks, so a
+  ;          default-salience belief survives a year of sim time before
+  ;          salience-decay sweeps it.
+  :default-salience-isim  24
+  :default-salience-hsim  8640)
 
 ; ---- emotion affect --------------------------------------------------------
 ; Per-emotion-kind valence and arousal. derive_mood folds the salience-

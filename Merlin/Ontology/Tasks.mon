@@ -1,9 +1,14 @@
 
 # NOTE: Words in parenthesis -- such as (traits) and (emo) -- are used for GROUPING only: they don't define a sub-category.
 
+# Every act in the ontology is either a TASK (mini-plan; bubbles down to
+# ACTION sequences at isim time, or to event effects at hsim time) or an
+# ACTION (lowest-level motor primitive declared in
+# interactive/actions/*.act). `act` is the kind-tree parent for both.
+
 relation
 
-    behaviour (noun)
+    act (noun)
 
         # /noun = defines 'task' as a noun
         # For all subsequent definitions:
@@ -84,7 +89,12 @@ relation
             stack_browse         (motor legs right_hand)         (tar stack)
             stack_read           (motor legs right_hand)         (tar stack)
 
-            grieve              (motor right_hand left_hand head)
+            # mourn - the action-plan task that drives the visible
+            # grieving behaviour (head-burial, hands-to-face, hanging
+            # head, crying). The cognitive / affective side of
+            # mourning lives in the affect cascade as the `grief`
+            # emotion, not here.
+            mourn               (motor right_hand left_hand head)
 
             give_birth           (motor eyes right_hand legs)
             perceive_attr        (motor eyes)              (tar ?)
@@ -93,3 +103,187 @@ relation
 
             use_umbrella        (motor right_hand left_hand)
             serve_customer      (motor right_hand left_hand legs)
+
+            # ----------------------------------------------------------------------------------
+            # Tasks below are mini-plans that bubble down to an ACTION
+            # sequence at isim time and to their hsim event's effect
+            # verb at hsim time. construed_act tags drive appraisal
+            # categorisation.
+            # ----------------------------------------------------------------------------------
+
+            # Abstract / cognitive sub-block - no motors. These tasks
+            # consume cycle time but emit no env-mutating ACTION sequence.
+            withdraw                                            (tar human)
+            plead                                               (tar human)
+            atone                                               (tar human)              (construed_act honour_act)
+            surrender                                           (tar human)
+            replace                                             (tar human)
+
+            # urge - influence a target into a sub-task or state. The
+            # inner clause is what's being urged, e.g.
+            # {mother urge {son avoid {son marry girl}}} composes with
+            # the `avoid` state (States.mon). NOT subsumed by `tell`:
+            # urging may include non-verbal pressure (withheld
+            # affection, threats, ultimatum-via-conduct); the
+            # implementing task picks the appropriate ACTION mix.
+            urge                                                (tar @S)
+
+            # Social / communication sub-block - tasks that bubble down to
+            # TELL / WRITE_DOC / ASK ACTION chains. Tags carried over from
+            # the deleted (behaviour) block.
+            insult              (motor mouth)                   (tar human)              (construed_act slight_act)  (theme rude_to)
+            humiliate           (motor mouth)                   (tar human)              (construed_act slight_act wrong_act)
+            discredit           (motor mouth)                   (tar human)              (construed_act expose_act betray_act wrong_act)
+            expose              (motor mouth)                   (tar @S)                 (construed_act expose_act betray_act wrong_act)
+            expose_first        (motor mouth)                   (tar human)              (construed_act expose_act)
+            confront_privately  (motor legs mouth)              (tar human)
+            confess_in_person   (motor legs mouth)              (tar human)              (construed_act honour_act)
+            confess_letter      (motor eyes right_hand legs)    (tar human)              (construed_act honour_act)
+            recruit             (motor mouth)                   (tar human)  (aux ?)
+            attend              (motor legs)                    (tar structure|org)
+            play_game           (motor right_hand left_hand)    (tar ?)
+
+            # Physical / multi-motor sub-block - tasks that compose motor
+            # ACTIONs. Motors marked are the typical mix; the
+            # implementing isim task may add or substitute depending on
+            # method.
+            flee                (motor legs)                    (tar human)
+            seduce              (motor mouth legs body)         (tar human)              (construed_act intimacy_act)
+            assault             (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
+            # kill - ABSTRACT goal task. No method aux: the method is a
+            # separate, more-specific leaf task (strangle / shoot / poison
+            # / push_from_height / etc.) declared further down. A goal
+            # belief like {actor goal {actor kill victim}} expresses
+            # "actor wants victim killed by any means". At perpetration
+            # time the substrate-driven row picks a concrete leaf
+            # method-task; the anchor minted is that leaf-task belief
+            # (e.g. {actor strangle victim}), NOT {actor kill victim
+            # /aux <method>}. Goals can also target the END STATE
+            # directly: {actor goal {victim condition dead}} - then the
+            # actor doesn't even need to do the killing themselves.
+            kill                                                (tar human)                (construed_act harm_act wrong_act)  (theme violent_to)
+            kidnap              (motor legs right_hand left_hand)  (tar human)             (construed_act coercion_act threaten_act wrong_act)  (theme coercive_to)
+            steal               (motor legs right_hand)         (tar human)                (construed_act appropriation_act wrong_act)  (theme thief_to)
+            # Goal-level umbrella tasks that the deliberate event mints
+            # as goal-clause inner labels. Their leaf method-tasks
+            # (declared below) are what actually get performed and
+            # recorded as anchors at perpetration time.
+            coerce                                              (tar human)  (aux ?)       (construed_act coercion_act wrong_act)
+            punish                                              (tar human)                (construed_act harm_act)
+            hurt                                                (tar human)                (construed_act harm_act)
+            # tamper - PREPARATION for a perpetration; the trap-fire event
+            # mints the appraisable kill / harm record when the trap
+            # fires. No construed_act tag at the task level.
+            tamper              (motor right_hand)              (tar object)  (aux ?)
+            # add_substance - perpetrator subject; substance target;
+            # vessel in aux. Preparation - no tag.
+            add_substance       (motor right_hand)              (tar object)  (aux object)
+            frame                                               (tar human)  (aux ?)     (construed_act harm_act betray_act wrong_act)
+            # bribe - functional inverse of coerce. Means-of-pressure;
+            # the appraisable harm is whatever gets done with the bought
+            # compliance, so no construed_act tag here.
+            bribe               (motor right_hand mouth)        (tar human)  (aux ?)
+            defraud                                             (tar human)              (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)
+            embezzle                                            (tar human|org)          (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)
+            # disinherit - testamentary act; effect ends the target's
+            # heir_of belief. The dropped heir feels abandonment.
+            disinherit          (motor eyes right_hand)         (tar human)              (construed_act abandonment_act wrong_act)
+            # silence_witness - composite task. Implementations may
+            # bubble down through kill / bribe / coerce chains depending
+            # on substrate; the anchor records the composite plan that
+            # was undertaken. The patient-end state (silenced) is what
+            # the goal targets; the chosen leaf task is whichever the
+            # actor's substrate-driven perpetration selector picks. The
+            # silenced state itself is expressed as
+            # {witness avoid {witness tell secret}}.
+            silence_witness                                     (tar human)
+
+            # ----------------------------------------------------------------------------------
+            # Leaf method-tasks - the SPECIFIC tasks an actor performs to
+            # achieve an abstract parent goal (kill / coerce / expose /
+            # bribe / etc.). The perpetration .hsc rows enumerate these
+            # plus their substrate-rooted weights, requirements, and
+            # consequences. The anchor minted at task completion is the
+            # leaf-task belief itself - e.g. {actor strangle victim}, not
+            # {actor kill victim /aux strangle}. The kill goal is
+            # recorded separately on the consumed goal-belief; the
+            # crime ledger records BOTH (goal=kill, task=strangle) so
+            # detective queries can pivot on either axis.
+            #
+            # Means / weapon / substance is carried by the substrate, NOT
+            # by an aux on the leaf task. A `shoot` task's firearm is
+            # whatever the actor's hand currently controls (env attr
+            # `controlled_by` on body-part). A `poison` task's substance
+            # is the prior add_substance belief that prepared the vessel.
+            # ----------------------------------------------------------------------------------
+
+            # Sharp-implement leaf kill-tasks. Each requires a blade /
+            # pointed-blade controlled by an actor's hand.
+            stab                (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
+            slash               (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
+            decapitate          (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
+
+            # Blunt-implement leaf kill-tasks.
+            beat_to_death       (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
+            bludgeon            (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
+            push_from_height    (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
+
+            # Asphyxiation leaf kill-tasks. strangle is bare-handed;
+            # garrotte uses cord_or_wire in hand; smother uses a soft
+            # implement; hang and neck_snap are mechanical.
+            strangle            (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
+            garrotte            (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
+            smother             (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
+            hang                (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
+            neck_snap           (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
+
+            # Projectile / explosive leaf kill-tasks.
+            shoot               (motor right_hand eyes)         (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
+            bomb                (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
+
+            # Chemical leaf kill-task. Substance is carried by the prior
+            # add_substance belief that prepared the vessel; poison
+            # itself is the chronic / acute administering task whose
+            # completion is the victim's death.
+            poison                                              (tar human)              (construed_act harm_act wrong_act)
+
+            # Hydraulic / thermal / electrical leaf kill-tasks.
+            drown               (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
+            freeze              (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)
+            immolate            (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
+            arson               (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)
+            cook_alive          (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
+            electrocute         (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
+
+            # Animal-mediated leaf kill-tasks.
+            unleash_animal      (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)
+            unleash_insect      (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)
+
+            # Trap / indirect leaf kill-tasks. death_trap is a delayed
+            # mechanical trap (the actor isn't present at trigger).
+            # uriah_gambit sends the victim into a fatal situation under
+            # false pretense (Bible: David's order to put Uriah in the
+            # front line). hire_assassin delegates the act to a recruit.
+            death_trap          (motor right_hand)              (tar human)              (construed_act harm_act wrong_act betray_act)
+            uriah_gambit                                        (tar human)              (construed_act harm_act wrong_act betray_act)
+            hire_assassin                                       (tar human)  (aux human)  (construed_act harm_act wrong_act)
+
+            # Leaf non-kill-tasks - specific methods for achieving the
+            # non-kill abstract goals (steal / expose / coerce / bribe /
+            # hurt / humiliate / discredit / frame / seduce). Same
+            # principle: the parent task is the goal-class, the leaf
+            # task is what's actually done. Where the parent task is
+            # specific enough (e.g. `insult`, `discredit`) the
+            # perpetration row uses the parent task directly as its
+            # leaf.
+            opportunist_theft   (motor legs right_hand)         (tar human)              (construed_act appropriation_act wrong_act)  (theme thief_to)
+            confront_publicly   (motor mouth)                   (tar human)              (construed_act expose_act)
+            anonymous_letter    (motor eyes right_hand legs)    (tar human)  (aux ?)     (construed_act expose_act betray_act)
+            threaten_violence   (motor mouth)                   (tar human)  (aux ?)     (construed_act coercion_act threaten_act wrong_act)
+            blackmail           (motor mouth)                   (tar human)  (aux ?)     (construed_act coercion_act wrong_act betray_act)
+            beating             (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
+            public_humiliation  (motor mouth)                   (tar human)              (construed_act slight_act wrong_act)
+            spread_rumour       (motor mouth)                   (tar human)  (aux ?)     (construed_act expose_act betray_act wrong_act)
+            offer_bribe         (motor right_hand mouth)        (tar human)  (aux ?)
+            plant_evidence      (motor right_hand)              (tar human)  (aux ?)     (construed_act harm_act betray_act wrong_act)
+            seduction           (motor mouth legs body)         (tar human)              (construed_act intimacy_act)

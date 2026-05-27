@@ -164,9 +164,12 @@
   :weight         0.2)
 
 ; ---- Chemical (1) ---------------------------------------------------------
-; tamper_with_substance: no inventory gate today (no poison_substance
-; kind). :requires authored as documentation; lands once poison kinds exist.
-(method tamper_with_substance
+; poison: the chronic / acute administering kill task (Tasks.mon `poison`).
+; The substance is carried by a prior `add_substance` belief on the
+; vessel; the :requires gate here is the access to that vessel. No
+; inventory gate on the substance kind today (no poison_substance
+; kind); :requires authored as documentation; lands once poison kinds exist.
+(method poison
   :goal-fit       kill
   :requires       ((access_any ingestible_or_inhalable))
   :yields         bruise

@@ -18,12 +18,42 @@ relation
         # to believe that someone ELSE knows something; theory-of-knowledge
         know                    (sub human)           (tar @S)
 
-        # `possess` was retired by PR-poss-A 2026-05-25 - the label
-        # overloaded "wants to physically have," "legally owns," and "is
-        # welcome to use" into one symbol. Goal callers migrated to
-        # `control` (in (social) below); legal callers to `own` / `lease` /
-        # `rent` / `borrow`; permission to the derived `may_use` /
-        # `welcome_at` rule-functions in shared_functions/possession.
+        # avoid: a held aversive state w.r.t. an embedded task pattern,
+        # a substance, a person, a place, or any other symbol. Composes
+        # with task patterns to express "subject is in the avoid-state
+        # of X": {son avoid {son marry girl}} means son is currently
+        # refraining from / disinclined toward the marry-girl task.
+        # {witness avoid {witness tell secret}} expresses the silenced-
+        # witness state. {actor avoid alcohol} expresses sobriety as a
+        # held aversion to a substance. Persists across intervals; ends
+        # when the avoiding circumstance lifts. Causes (the reason
+        # the subject avoids the thing) ride the /causes slot, not a
+        # sub-kind. Read by deliberation (an actor's standing avoid-
+        # beliefs suppress branches that would put them in the avoided
+        # state) and by `urge` (the task that argues a target into an
+        # avoid-state).
+        avoid                   (sub human)           (tar ?)
+
+        # transient_marker - generic short-lived self-belief with
+        # per-mint decay. One unified state replacing four scattered
+        # patterns: recent_incident cooldowns (PR-A bonded /
+        # public incidents), stalk_target prep markers (PR-B
+        # perpetration), administering progress trackers (PR-C
+        # drugging / slow poisoning), and practice tickers
+        # (PR-skill-life atrophy suppression). Sub-kinds declared as
+        # `marker_kind` in Concepts.mon. Non-@excl: an actor may
+        # hold many concurrently - one per (kind, focus) pair, where
+        # the aux slot carries the focus (the other party, the
+        # domain, the substance). Minted via
+        # `shared_functions/markers::mint_transient_marker(actor,
+        # kind, focus, decay_days)`; checked via
+        # `has_recent_marker(actor, kind, focus, max_age_days)`. The
+        # belief interval start is the mint time; the decay rate is
+        # encoded as a salience cap at mint time, so
+        # pattern_decay drops the belief naturally once the window
+        # elapses.
+        transient_marker        (sub human)           (tar marker_kind)  (aux ?)
+
         expect_answer           (sub human)           (tar ?)
         expect_question         (sub human)           (tar ?)
         talk_to                 (sub human)
@@ -56,32 +86,30 @@ relation
             # Detective-gameplay payoff: a guilty NPC's justify beliefs are
             # queryable through normal interrogation.
             justify             (tar narrative)
-            # infatuation: obsessive directed attraction, distinct from the
-            # existing like / love (Phase 10 Phase C). Read by the
-            # appraise_obsession deliberation (10.3h) and by opportunity
-            # events that gate on standing infatuation (a
-            # tail_through_streets recurrence biased toward target's
-            # location).
+            # infatuation: obsessive directed attraction; distinct from
+            # like / love. Read by the appraise_obsession deliberation
+            # and by opportunity events that gate on standing
+            # infatuation (a tail_through_streets recurrence biased
+            # toward target's location).
             infatuation         (tar human)
             # identity: the salient role(s) an NPC self-identifies as
-            # (parent / spouse / worker / christian / ...). Plan section
-            # 10.3 Pivot C (2026-05-24). Each identity is a held belief that
-            # biases categorize thresholds, deliberate affinities, and the
-            # justify-narrative pick. Non-@excl: an NPC may hold multiple
-            # identities simultaneously; their composite is the "I am X
-            # first" weighting. Derived from substrate state in
-            # hsim_derive::classify_identities (kids -> parent, job ->
-            # worker, ...); future PRs add explicit identity-adoption
-            # events.
+            # (parent / spouse / worker / christian / ...). Each
+            # identity is a held belief that biases categorize
+            # thresholds, deliberate affinities, and the
+            # justify-narrative pick. Non-@excl: an NPC may hold
+            # multiple identities simultaneously; their composite is
+            # the "I am X first" weighting. Derived from substrate
+            # state in hsim_derive::classify_identities (kids -> parent,
+            # job -> worker, ...); explicit identity-adoption events
+            # may extend the set.
             identity            (tar role)
 
-        # Construals are no longer a parallel vocabulary - each construal is
-        # one of the construed_act sub-kinds in Concepts.mon (wrong_act,
-        # harm_act, betray_act, etc.). categorize() mints a construal belief
-        # whose label IS the relevant construed_act kind; apply_construal
-        # looks up reaction rows keyed on that kind. The (construal) block
-        # that used to live here (betray / wrong / help / honour / slight /
-        # threaten / abandon / achieve / suffer_loss) is retired.
+        # Construals are tags, not beliefs. Each construal is one of
+        # the construed_act sub-kinds in Concepts.mon (wrong_act,
+        # harm_act, betray_act, etc.) declared on a task / ACTION;
+        # categorize() reads the tag set on the anchor's label and
+        # dispatches one reaction row per tag per POV. No construal
+        # beliefs are minted; the anchor itself is the /causes link.
 
         # Semantic summaries (memory-system Phase 5 - Docs/memory_system_plan.md).
         # Distilled gists minted by fuse_old_memories when N routine episodes
@@ -101,35 +129,32 @@ relation
         # Social predicate states. The noun-form social roles (mother,
         # friend, spouse, ...) are noun-states declared in Concepts.mon.
         (social)                (+ sub human)
-            # PR-poss-A 2026-05-25 - the three-axis split of the retired
-            # `possess` label. See Docs/hsim_plan.md "possession / control
-            # / access vocabulary." Each label below is one of the three
-            # ownership / control / leasing axes; the derived
-            # rule-functions (control, control_any, access, may_use,
-            # welcome_at) live in shared_functions/possession.
+            # The three independent axes of "having a thing":
+            # (a) Legal - own / lease / rent / borrow (verb-states below).
+            # (b) Physical control - env attrs on body-parts and
+            #     containers (controlled_by / wear / in_stack); the
+            #     derived (hold ?actor ?thing) rule-function walks the
+            #     body-part chain to the actor.
+            # (c) Physical access - the derived (access ?actor ?thing)
+            #     = hold OR (recent position-belief AND nav-path-exists).
+            # Welcome is a separate axis (may_use / welcome_at). Derived
+            # rule-functions live in shared_functions/possession.
             #
             # own: legal ownership. Subject is the owner; target is the
             # owned thing (movable prop, building, space). Authored by
             # `.hse` transactions (BuyBuilding, inheritance) and by
             # reading documents (title_deed) whose writings encode the
-            # legal fact. Replaces the pre-PR-poss-A `{?bldg owner ?h}`
-            # noun-state pattern (owner stays declared in Concepts.mon
-            # only as a `living_arrangement` sub-kind; the base legal
-            # fact is now `{?h own ?bldg}`).
+            # legal fact.
             own                 (tar object|space|structure)
             # hold: physical control - what the actor currently has in
-            # hand / on body / in carried containers (via body-part chain).
-            # Dual purpose: goal-target verb-state ({@self goal {@self
-            # hold ?t}}) AND name of the derived predicate `(hold ?actor
-            # ?thing)`. When the predicate matches a standing goal, the
-            # engine ends the satisfied belief.
-            #
-            # Named `hold` instead of `control` to avoid colliding with
-            # the existing body-part env attr `control` (common.arc:35,
-            # which auto-registers a body-part-subject noun-state with
-            # the same name read by ~14 .ms2 files via {?hand control
-            # ?thing}). The plan originally proposed `control`; this is
-            # the substrate-constrained equivalent.
+            # hand / on body / in carried containers (via body-part
+            # chain). Dual purpose: goal-target verb-state
+            # ({@self goal {@self hold ?t}}) AND name of the derived
+            # predicate `(hold ?actor ?thing)`. When the predicate
+            # matches a standing goal, the engine ends the satisfied
+            # belief. Distinct from the body-part env attr `control`
+            # (common.arc), which is the ground-truth primitive the
+            # hold predicate walks.
             hold                (tar object)
             # lease: premises rental. Subject is the lessee, target is
             # the leased premises (building / space), aux is the lessor.
@@ -169,30 +194,36 @@ relation
             # party, target the investor. Non-exclusive - a venture may have
             # several backers.
             backed_by           (tar human)
-            # heir_of: {heir heir_of benefactor} - prospect, non-@excl (an
-            # estate may name multiple heirs). Parallel to fiancee (prospect
-            # for marriage). Distinct from the past-tense `inherit` event
-            # which mints when the benefactor dies. Disinheritance during
-            # life ends the heir_of belief; the death-triggered conversion
-            # in mortality .hse turns surviving heir_of into inherit
-            # (10.3d). Phase 10 Phase C.
+            # heir_of: {heir heir_of benefactor} - prospect, non-@excl
+            # (an estate may name multiple heirs). Parallel to fiancee
+            # (prospect for marriage). Distinct from the past-tense
+            # `inherit` event minted when the benefactor dies.
+            # Disinheritance during life ends the heir_of belief; the
+            # death-triggered conversion in mortality .hse turns
+            # surviving heir_of into inherit.
             heir_of             (tar human)
-            # captor_of: {captor captor_of victim} - the kidnap-in-progress
-            # relationship. Ended by release / escape / mortality. Phase 10
-            # Phase C; consumed by 10.3h kidnap lifecycle.
+            # captor_of: {captor captor_of victim} - kidnap-in-progress
+            # relationship. Ended by release / escape / mortality.
             captor_of           (tar human)
             # circumstances_of_death: {victim circumstances_of_death
-            # <incident>} - the cause-of-death NARRATIVE witnesses form
-            # when perceiving a death scene. F2 gossip carries it
-            # village-wide so the staged story crystallizes. @excl - one
-            # held narrative per observer per victim. Phase 10 Phase C.
+            # <incident>} - the cause-of-death narrative witnesses
+            # form when perceiving a death scene. F2 gossip carries it
+            # village-wide so the staged story crystallizes. @excl -
+            # one held narrative per observer per victim.
             circumstances_of_death  (tar incident @excl)
 
-        # Competence - the domains an NPC is practically skilled in. The target
-        # is a field_of_study kind, which doubles as the competence taxonomy
-        # (an NPC may be skilled in several - non-exclusive).
+        # Competence - the domains an NPC is practically skilled in. The
+        # target accepts either a `field_of_study` kind (academic /
+        # studied disciplines like classics, medicine, accountancy) or
+        # a `skill_kind` (combat / craft / operational competences like
+        # marksmanship, poisoning_knowledge, forgery). Both taxonomies
+        # live in Concepts.mon. The /aux holds a `competence_level`
+        # (novice / trained / expert); absent /aux is treated as novice
+        # for backward-compat with field_of_study-only callsites.
+        # Non-exclusive: an NPC may be skilled in several domains; each
+        # is its own belief.
         (competence)            (+ sub human)
-            skilled_in          (tar field_of_study)
+            skilled_in          (tar field_of_study|skill_kind)  (aux ?)
 
         # Achievements - sporting / competitive participation and victories.
         # Targets stay unconstrained until the Phase 6 sports events pin the
@@ -201,143 +232,16 @@ relation
             participated_in     (tar ?)
             won                 (tar ?)
 
-        # Appraisable behaviours - act-record beliefs the F3.5 classifier
-        # cascade reads (Phase 8 / Step 8.1). A behaviour label lives here ONLY
-        # when the behaviour has no ACTION (interactive/actions/*.act) and no
-        # task (Tasks.mon) form - otherwise the classifier reads that existing
-        # symbol. So `give` (a task) and `HAVE_SEX_WITH` (an ACTION) are NOT
-        # re-declared here; only behaviours with no motor-enacted form are.
-        (behaviour)             (+ sub human)
-            # attend: {actor attend ?place} - the churchgoing seed event writes
-            # it, the piety classifier reads it.
-            attend              (tar structure|org)
-            # play_game: {actor play_game ?game} - a game / gambling pastime.
-            # Target stays unconstrained until the game taxonomy is pinned
-            # (same convention as `won`).
-            play_game           (tar ?)
-            # Criminal act-records (plan section 10.3-AFFECT item J +
-            # restructure). Each tag drives a reaction row in appraisal.hsc.
-            # Multiple tags accumulate at appraisal time: the patient of an
-            # embezzle gets both the appropriation_act reaction AND the
-            # betray_act reaction AND the wrong_act reaction.
-            assault             (tar human)       (construed_act harm_act wrong_act)  (theme violent_to)
-            # insult: lesser-affront act. Tagged slight_act so categorize
-            # emits the slight_act construal and the patient-pov reaction
-            # row in appraisal.hsc mints humiliation pressure on the
-            # patient. The minimum-viable anchor for testing the pressure
-            # cascade in vanilla hsim until richer perpetration content
-            # lands.
-            insult              (tar human)       (construed_act slight_act)  (theme rude_to)
-            # outdo: actor positionally outcompetes patient (won a post,
-            # outbid them, married the partner they courted). Distinct
-            # from insult (unprovoked affront) - this is a zero-sum
-            # outcome. Tagged rivalrous_act so the patient picks up
-            # rivalry_pressure via the appraisal.hsc reaction row.
+        # Zero-sum outcome records. NOT tasks - act-RECORDS minted by
+        # classifiers from base substrate facts (`{actor hired_at ?org}`,
+        # `{actor spouse ?partner}`, `{actor own ?lot_won_at_auction}`)
+        # when the substrate shows a competing patient. The tag drives
+        # the patient's rivalry_pressure via the reaction cascade.
+        (rivalrous_outcome)     (+ sub human)  (+ appraisal_input)
+            # outdo: actor positionally outcompetes patient (won a post
+            # the patient applied for; outbid them at auction; married
+            # the partner they courted).
             outdo               (tar human)  (aux ?)  (construed_act rivalrous_act)
-            # kill - method (substance kind, weapon object, or _ for
-            # unspecified) rides the aux. Phase 10 Phase C: relaxed from
-            # /tar human alone so {clara kill ashcombe /aux digitalis} and
-            # {clara kill ashcombe /aux bronze_bust} both fit one label
-            # (Rule 4 of knowledge_design_notes - don't restate target kind
-            # in label).
-            kill                (tar human)  (aux ?)  (construed_act harm_act wrong_act)  (theme violent_to)
-            steal               (tar human)       (construed_act appropriation_act wrong_act)  (theme thief_to)
-            defraud             (tar human)       (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)
-            embezzle            (tar human|org)   (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)
-            kidnap              (tar human)       (construed_act coercion_act threaten_act wrong_act)  (theme coercive_to)
-            # Phase 10 Phase C - additional Phase 10 act-records.
-            # disinherit: testamentary act; its effect is to end the
-            # target's heir_of belief. The dropped heir feels abandonment.
-            disinherit          (tar human)       (construed_act abandonment_act wrong_act)
-            # expose: public-disclosure act. Target is a fact (@S). The
-            # fact's sensitivity band determines whether scandal_breaks
-            # (10.3h) fires alongside.
-            expose              (tar @S)          (construed_act expose_act betray_act wrong_act)
-            # tamper: generic trap-setting act. The substance / sabotage
-            # vector rides the aux. Not directly appraisable - it is the
-            # PREPARATION for a perpetration; the trap-fire event mints
-            # the appraisable kill / harm act-record when the trap fires.
-            # So no construed_act tag here.
-            tamper              (tar object)  (aux ?)
-            # add_substance: PR-evi-C 2026-05-25 - canonical "this actor
-            # added substance X to vessel Y" record. Subject is the
-            # perpetrator; target is the substance entity (the poison /
-            # contaminant); aux is the vessel (food / fluid entity).
-            # Replaces the retired `tainted_with` env attr - all evidence
-            # of what's in a vessel lives in beliefs (perpetrator's
-            # band-5 self-belief plus any witnessing minds). Not
-            # construed_act-tagged: preparation, like tamper.
-            add_substance       (tar object)  (aux object)
-            # recruit: conspiracy delegation. The recruiter holds
-            # {perp recruit accomplice /aux <embedded-goal-fact>}; the
-            # event-effect mints {accomplice goal {accomplice <act>
-            # ?victim}} in accomplice's mind. Preparatory (the eventual
-            # crime carries the appraisal), so no construed_act tag here.
-            recruit             (tar human)  (aux ?)
-
-            # Phase 10 Pivot A loop-closure (2026-05-24). Action labels for
-            # every non-floor action atom in deliberation.hsc's affinity
-            # table. The deliberate event mints {actor goal {actor <action>
-            # <focus>}} - the inner clause uses one of these labels. They
-            # are NOT yet construed_act-tagged - perpetration events in
-            # follow-up PRs will commit copies as anchors and the tagging
-            # decision lives with each anchor-producing event. kill /
-            # assault / steal / defraud / embezzle / kidnap / disinherit /
-            # expose / tamper / recruit above already cover the harm-act
-            # side of the table; the labels below cover the rest of
-            # deliberation.hsc's actions.
-            confront_privately  (tar human)
-            withdraw            (tar human)
-            plead               (tar human)
-            flee                (tar human)
-            surrender           (tar human)
-            mourn               (tar human)
-            replace             (tar human)
-            confess_letter      (tar human)
-            confess_in_person   (tar human)
-            atone               (tar human)
-            silence_witness     (tar human)
-            expose_first        (tar human)
-
-            # PR-goal-A 2026-05-25 - additional goal / act-record labels
-            # (dual: goal-target atoms in {actor goal {actor <label>
-            # <focus>}} AND act-record labels minted by perpetration
-            # terminals). Each unlocks a deliberation.hsc affinity row
-            # plus one or more perpetration.hsc method rows.
-            #
-            # seduce: pursue a sexual relationship. Driven by infatuation
-            # or attachment_loss-rebound. The resulting consummation
-            # mints a `lover` bond; whether it's an affair is DERIVED
-            # from spousal context (no separate label per
-            # knowledge_design_notes.md rule against duplicate-by-
-            # context labels).
-            seduce              (tar human)   (construed_act intimacy_act)
-            # humiliate: publicly degrade. Distinct from `expose` (which
-            # reveals a TRUE secret) - humiliate can be insult / mockery
-            # / orchestrated embarrassment without any prior wrong by
-            # the target. Driven by humiliation pressure.
-            humiliate           (tar human)   (construed_act slight_act wrong_act)
-            # discredit: destroy reputation via lies / character
-            # assassination / rumour. Distinct from `expose` because the
-            # content may be false, and from `humiliate` because the
-            # target is reputation specifically. betray_act-tagged
-            # because the discreditor frequently uses inside information.
-            discredit           (tar human)   (construed_act expose_act betray_act wrong_act)
-            # bribe: corrupt someone via payment. Functional inverse of
-            # coerce (extract compliance via threat vs cash). Aux holds
-            # the requested act so the recipient's mind ends with
-            # {recipient goal {recipient <requested-act> <focus>}} on
-            # accept. No construed_act tag - bribe is the
-            # MEANS-of-pressure, and the appraisable harm is whatever
-            # gets done with the bought compliance.
-            bribe               (tar human)   (aux ?)
-            # frame: plant evidence to incriminate a third party. Severe
-            # - the framed party may suffer the full appraisal weight
-            # of the original crime. Aux carries the redirected crime
-            # fact ({framer frame ?innocent /aux {?actual_perp <crime>
-            # ?victim}} reads "framer makes innocent appear to be the
-            # actor of the actual crime").
-            frame               (tar human)   (aux ?)   (construed_act harm_act betray_act wrong_act)
 
         # Acquired interior drives (F4.3). A drive is neither an emotion nor a
         # heritable temperament - it is deposited by a life of events and then
@@ -347,9 +251,9 @@ relation
         #     @excl - one overriding calling. The target is that domain: an
         #     `interests` topic ({@self calling music}) or a `field_of_study`
         #     specialism ({@self calling engineering}). Drives event-casting and
-        #     feeds the `purpose` felt-life dimension. (The plan's separate
-        #     topic / specialism subtrees were dropped in Phase 5.2 - `interests`
-        #     is the topic taxonomy, `field_of_study` the specialism one.)
+        #     feeds the `purpose` felt-life dimension. `interests` is the
+        #     topic taxonomy and `field_of_study` is the specialism
+        #     taxonomy; both can be a calling target.
         #   craving - an acquired compulsive drive (addiction to drink); durable
         #     - reform resists it, never erases it - and non-exclusive (an NPC
         #     may crave more than one thing). The target is the craved substance
@@ -357,6 +261,19 @@ relation
         (drive)                 (+ sub human)
             calling             (tar interest|field_of_study @excl)
             craving             (tar ?)
+            # life_aim - the existential-frame drive: what the NPC
+            # wants their LIFE to amount to. Target is a life_aim kind
+            # (legacy_aim / wealth_aim / piety_aim / respectability_aim
+            # / autonomy_aim / power_aim / belonging_aim). Distinct
+            # from calling (DOMAIN: music / engineering / soldiering)
+            # and from craving (substance-targeted compulsion). DERIVED
+            # by hsim_derive::classify_life_aim annually from substrate
+            # (Big Five + Dark Tetrad + class trajectory + bond counts
+            # + frequents); never minted by events. Feeds the
+            # LIFE_AIM_ALIGN factor in the unified weight formula used
+            # by deliberation / perpetration / incident outcome
+            # selectors. @excl - one overriding life_aim per NPC.
+            life_aim            (tar @excl life_aim)
 
         # Derived dimensions (F3.2) - each a single numeric quality, computed
         # and cached by an F3.5 classifier, never authored by hand (the same
@@ -428,7 +345,7 @@ relation
             # established but solitary by character) from an ADRIFT drifter
             # (low life_sat with low rootedness: newly arrived, no anchor).
             rootedness          (tar ? @excl)
-            # PR-life-C 2026-05-25 - derived observable locomotion level
+            # Derived observable locomotion level
             # (mobile / crutch_assisted / wheelchair_bound / bedridden).
             # Read from condition + (future) leg-wound state + age in
             # classify_mobility. Kind-valued (target is one of the

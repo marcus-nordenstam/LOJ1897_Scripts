@@ -24,10 +24,31 @@
 
 "私"      ?_I     .
 "わたし"   ?_I     .
-"僕"      ?_I     .
+"僕"      ?_I
 :: agree:m
+.
 
 "あなた"   ?_you   .
 
 "これ"    ?_this  .
 "それ"    ?_this  .
+
+# Third-person second-mention pronouns. Japanese has no case distinction -
+# the objective form repeats the subjective (case is carried by the
+# following particle: 彼女に / 彼女を). Same pronoun under both markers.
+
+"彼女"    ?_third_s
+:: agree:f
+.
+"彼"      ?_third_s
+:: agree:m
+.
+"彼ら"    ?_third_s  .
+
+"彼女"    ?_third_o
+:: agree:f
+.
+"彼"      ?_third_o
+:: agree:m
+.
+"彼ら"    ?_third_o  .
