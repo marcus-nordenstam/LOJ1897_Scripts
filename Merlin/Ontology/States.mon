@@ -272,8 +272,12 @@ relation
             # + frequents); never minted by events. Feeds the
             # LIFE_AIM_ALIGN factor in the unified weight formula used
             # by deliberation / perpetration / incident outcome
-            # selectors. @excl - one overriding life_aim per NPC.
-            life_aim            (tar @excl life_aim)
+            # selectors. NOT @excl - the classifier explicitly ends the
+            # prior dominant belief with k_unforgettable salience on a
+            # qualitative shift, so multi-decade life_aim history is
+            # queryable as repeated {@self life_aim ?} beliefs with
+            # non-overlapping intervals. See PR-aim-history.
+            life_aim            (tar life_aim)
 
         # Derived dimensions (F3.2) - each a single numeric quality, computed
         # and cached by an F3.5 classifier, never authored by hand (the same

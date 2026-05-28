@@ -102,8 +102,11 @@ concept
     # remembered), or life_aim=belonging_aim (just play in the local pub
     # band). Derived annually by hsim_derive::classify_life_aim from
     # substrate (Big Five + Dark Tetrad + class trajectory + bond counts
-    # + frequents).
-    life_aim            (tar @excl)
+    # + frequents). NOT @excl - the classifier explicitly end-dates the
+    # prior dominant life_aim belief on a qualitative shift (PR-aim-
+    # history), so multi-decade life_aim history is queryable as
+    # repeated {@self life_aim ?} beliefs with non-overlapping intervals.
+    life_aim            (tar)
         legacy_aim
         wealth_aim
         piety_aim
