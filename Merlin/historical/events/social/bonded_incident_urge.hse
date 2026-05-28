@@ -44,10 +44,22 @@
 
   (roles
     (role ?actor  (template any_human)
-                  (= (situation ?actor life_aim) legacy_aim)
-                  (chance (* 0.50
+                  ; The plan's `+legacy, +respectability` for urge is a
+                  ; LIFE_AIM_ALIGN AMPLIFIER, not a hard gate - applied via
+                  ; life-aim-aligns inside the chance product (returns 0.4
+                  ; for legacy_aim, 0.4 for respectability_aim, ~0 for the
+                  ; neutral aims, -0.2 for autonomy_aim per
+                  ; life_aim_affinity.hsc). `(+ 1.0 ...)` keeps the term
+                  ; non-negative (life-aim-aligns is in [-1, 1] so the
+                  ; sum is [0, 2]) - compose_range bails on mixed-sign
+                  ; multiplications, so the offset must be >= the
+                  ; absolute min of the inner. Modal neutral-aim parent
+                  ; multiplier = 1.0; legacy/respectability parent = 1.4;
+                  ; autonomy_aim parent = 0.8.
+                  (chance (* 0.15
                              (- 1.0 (attr ?actor compassion))
-                             (attr ?actor assertiveness))))
+                             (attr ?actor assertiveness)
+                             (+ 1.0 (life-aim-aligns ?actor urge)))))
     (role ?victim (template any_human)
                   (not (= ?victim ?actor))
                   (believes ?actor {@self child ?victim})
