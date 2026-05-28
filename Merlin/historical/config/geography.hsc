@@ -15,10 +15,9 @@
 ;                                (extras (k v) ...))
 ;
 ; The materialiser (hsim_world_setup) creates one Merlin Env entity per
-; area, road, and instantiated entity (mx_make_root_entity /
-; mx_make_sub_entity). Templates declare reusable kind+class; instances
-; can override per-entry. extras carry era_min, era_max, business flag,
-; etc, parsed by downstream consumers.
+; area, road, and instantiated entity (mx_make_entity). Templates declare
+; reusable kind+class; instances can override per-entry. extras carry
+; era_min, era_max, business flag, etc, parsed by downstream consumers.
 ; ----------------------------------------------------------------------------
 
 ;; ---- Templates ----
