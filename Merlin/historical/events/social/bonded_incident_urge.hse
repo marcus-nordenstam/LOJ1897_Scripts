@@ -1,0 +1,59 @@
+; ----------------------------------------------------------------------------
+; bonded_incident_urge (PR-A-7 V1, 2026-05-28).
+;
+; First organic caller of PR-A-5's (urge ...) effect verb. A legacy-aim
+; parent with a substantial value-rift against their adult child
+; applies an urge - a non-verbal-or-verbal pressure to atone. The urge
+; effect:
+;   - builds the inner phrase {victim atone _};
+;   - mints {actor urge <inner>} in both actor's and victim's minds
+;     (the urge anchor; appraisal categorization runs from this);
+;   - rolls success against persuasiveness x deference x
+;     value_rift_term; on a hit, additionally mints {victim atone _}
+;     directly on victim's mind.
+;
+; The 4-arg urge form (urge ?mother ?son avoid ?girl) is what the plan's
+; canonical class-interloper example uses. Reaching that shape needs a
+; third role binding the romantic partner (the avoid-target); this V1
+; uses the 3-arg form (urge ?actor ?victim atone) which composes
+; cleanly with two roles and exercises the urge-verb / value_rift_term
+; substrate. The 4-arg path lands when a follow-up event binds the
+; partner as a separate role.
+;
+; Gating shape:
+;   - actor: holds {@self life_aim legacy_aim} - legacy-minded parents
+;     are the canonical urge senders; other life_aim mixes urge less.
+;   - victim: actor's child AND value_rift >= 0.25. value_rift reads
+;     held value beliefs (chastity / piety / sobriety) on both
+;     parties; a 0.25 floor means at least one disagreement out of
+;     three. (`class` was on the value list but no such kind is
+;     declared in the ontology - dropped from value-rift entirely;
+;     restore when value-belief content events land.) The cooldown
+;     isn't checked here - annual cadence is its own backoff.
+;   - chance dilutes the per-actor / per-victim rate.
+;
+; Schedule: annually september (after the betrothal / wedding season,
+; when the year's value-mismatch surface is freshest).
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+(hsim-event bonded_incident_urge
+  (nl       "?actor urges ?victim to atone")
+  (kind     _bonded_incident_urge)
+  (schedule (annually september))
+  (rng-stream incidents)
+
+  (roles
+    (role ?actor  (template any_human)
+                  (= (situation ?actor life_aim) legacy_aim)
+                  (chance 0.10))
+    (role ?victim (template any_human)
+                  (not (= ?victim ?actor))
+                  (believes ?actor {@self child ?victim})
+                  (> (value-rift ?actor ?victim) 0.24)
+                  (chance 0.30)))
+
+  (effects
+    (urge ?actor ?victim atone)
+    (log _bonded_incident_urge ?actor)))

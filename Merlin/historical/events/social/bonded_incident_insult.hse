@@ -1,0 +1,54 @@
+; ----------------------------------------------------------------------------
+; bonded_incident_insult (PR-A-7 V1, 2026-05-28).
+;
+; First organic insult anchor source. Replaces test_seed_insult's chance-
+; primary scaffold once the bonded / public incident family fills out
+; (PR-A-10 retires the _test_seed/ directory).
+;
+; An actor with low politeness and substantial narcissism encounters
+; someone they personally know and lets fly a verbal slight. The
+; incident-anchor effect:
+;   - mints {actor insult victim} in both minds (categorize fires
+;     pov=actor pride / pov=patient humiliation via the slight_act
+;     reaction row in reactions.ms1);
+;   - mints {actor transient_marker recent_incident /aux victim} on
+;     actor's mind with a 90-day decay, so the same pair does not
+;     re-fire monthly.
+;
+; Gating shape:
+;   - actor: low politeness AND elevated narcissism (substrate-rooted
+;     dispositional disposition; the plan's "low politeness x
+;     narcissism" multiplied trait product).
+;   - victim: personally-knows actor (bonded prerequisite for the
+;     "bonded" branch; public incidents will use frequents-overlap)
+;     AND the per-pair cooldown has elapsed.
+;   - chance dilutes the actor / victim sides as rate jitter on top
+;     of the substrate gates - the architectural ground rule allows
+;     this AS-LONG-AS substrate predicates do the primary work.
+;
+; Schedule: monthly. The cooldown marker stops same-pair re-fires
+; for 3 months; cross-pair fires continue at the monthly cadence.
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+(hsim-event bonded_incident_insult
+  (nl       "?actor insults ?victim")
+  (kind     _bonded_incident_insult)
+  (schedule (monthly))
+  (rng-stream incidents)
+
+  (roles
+    (role ?actor  (template any_human)
+                  (< (attr ?actor politeness) 0.4)
+                  (> (attr ?actor narcissism) 0.5)
+                  (chance 0.02))
+    (role ?victim (template any_human)
+                  (not (= ?victim ?actor))
+                  (personally-knows ?actor ?victim)
+                  (not (has-recent-incident-marker ?actor ?victim))
+                  (chance 0.05)))
+
+  (effects
+    (incident-anchor ?actor insult ?victim)
+    (log _bonded_incident_insult ?actor)))
