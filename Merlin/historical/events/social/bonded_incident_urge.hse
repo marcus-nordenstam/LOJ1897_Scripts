@@ -1,39 +1,37 @@
 ; ----------------------------------------------------------------------------
-; bonded_incident_urge (PR-A-7 V1, 2026-05-28).
+; bonded_incident_urge (PR-A-7, 2026-05-28, v2 multiplicative).
 ;
 ; First organic caller of PR-A-5's (urge ...) effect verb. A legacy-aim
 ; parent with a substantial value-rift against their adult child
-; applies an urge - a non-verbal-or-verbal pressure to atone. The urge
-; effect:
-;   - builds the inner phrase {victim atone _};
-;   - mints {actor urge <inner>} in both actor's and victim's minds
-;     (the urge anchor; appraisal categorization runs from this);
-;   - rolls success against persuasiveness x deference x
-;     value_rift_term; on a hit, additionally mints {victim atone _}
-;     directly on victim's mind.
+; applies an urge - a non-verbal-or-verbal pressure to atone.
 ;
-; The 4-arg urge form (urge ?mother ?son avoid ?girl) is what the plan's
-; canonical class-interloper example uses. Reaching that shape needs a
-; third role binding the romantic partner (the avoid-target); this V1
-; uses the 3-arg form (urge ?actor ?victim atone) which composes
-; cleanly with two roles and exercises the urge-verb / value_rift_term
-; substrate. The 4-arg path lands when a follow-up event binds the
-; partner as a separate role.
+; The plan's outcome row:
+;   urge | low compassion x assertiveness
+;        | triangulation-parental x (class-interloper + value-rift)
+;        | LIFE_AIM_ALIGN +legacy, +respectability
 ;
-; Gating shape:
-;   - actor: holds {@self life_aim legacy_aim} - legacy-minded parents
-;     are the canonical urge senders; other life_aim mixes urge less.
-;   - victim: actor's child AND value_rift >= 0.25. value_rift reads
-;     held value beliefs (chastity / piety / sobriety) on both
-;     parties; a 0.25 floor means at least one disagreement out of
-;     three. (`class` was on the value list but no such kind is
-;     declared in the ontology - dropped from value-rift entirely;
-;     restore when value-belief content events land.) The cooldown
-;     isn't checked here - annual cadence is its own backoff.
-;   - chance dilutes the per-actor / per-victim rate.
+; V2 gating: multiplicative-chance over (1 - compassion) x
+; assertiveness on the actor side; structural amplifiers
+; (triangulation-parental + class-interloper) need a 3-role binding
+; (parent / child / romantic-partner) the .hse layer doesn't yet
+; support cleanly, so V2 keeps the simpler legacy_aim parent + child
+; + value-rift substrate. The 4-arg `(urge ?actor ?victim avoid ?partner)`
+; shape lands when the 3-role binding ships.
 ;
-; Schedule: annually september (after the betrothal / wedding season,
-; when the year's value-mismatch surface is freshest).
+; value-rift becomes an AMPLIFIER (not a hard gate): the modal NPC
+; pair has rift = 0 today (no event mints value beliefs yet) so the
+; 0.2 floor keeps urge alive across the population while letting a
+; substantive divergence lift firing rate ~4x.
+;
+; categorize fires:
+;   - the urge anchor itself (no construed_act tags on urge today;
+;     reaction rows arrive when the appraisal cascade for `urge`
+;     is authored).
+;   - on success, {victim atone _} is minted directly on victim
+;     (honour_act -> guilt + moral_violation pressure in actor's
+;     mind via the appraisal cascade).
+;
+; Schedule: annually september.
 ; ----------------------------------------------------------------------------
 
 (include "../shared/roles.hse")
@@ -47,12 +45,14 @@
   (roles
     (role ?actor  (template any_human)
                   (= (situation ?actor life_aim) legacy_aim)
-                  (chance 0.10))
+                  (chance (* 0.50
+                             (- 1.0 (attr ?actor compassion))
+                             (attr ?actor assertiveness))))
     (role ?victim (template any_human)
                   (not (= ?victim ?actor))
                   (believes ?actor {@self child ?victim})
-                  (> (value-rift ?actor ?victim) 0.24)
-                  (chance 0.30)))
+                  (chance (* 0.80
+                             (+ 0.2 (value-rift ?actor ?victim))))))
 
   (effects
     (urge ?actor ?victim atone)

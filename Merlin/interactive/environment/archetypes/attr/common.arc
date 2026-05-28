@@ -63,8 +63,8 @@ attr "wear" (type entity) (mech obs) (auto-percept)
 
 # Demographics
 attr "game_role" (type kind) (mech obs) (auto-percept) (unaware)
-attr "age" (type int) (spec-attr age) (mech feel) (state-flags-tar @excl)
-attr "age_group" (type int) (spec-attr age-group) (mech obs) (auto-percept) (state-flags-tar @excl)
+attr "age" (type int) (range 0 120) (spec-attr age) (mech feel) (state-flags-tar @excl)
+attr "age_group" (type int) (range 0 8) (spec-attr age-group) (mech obs) (auto-percept) (state-flags-tar @excl)
 # gender / appearance / height / girth are conceptual: kind-typed, value is an
 # ontology term. @excl now lives on the concept in Concepts.mon (rule 4b / 5).
 attr "gender" (type kind) (mech obs) (auto-percept)
@@ -84,32 +84,32 @@ attr "sexual_orient" (type kind) (mech feel)
 
 # Accumulated intoxication, 0..1 - the get-drunk seed event bumps it; the F3.7
 # sobriety classifier reads it (see hsim_derive.cc).
-attr "intoxication" (type float) (mech obs) (mech feel) (state-flags-tar @excl)
+attr "intoxication" (type float) (range 0 1) (mech obs) (mech feel) (state-flags-tar @excl)
 
 # Big Five personality - the ten aspects of the Big Five Aspect Scale
 # (DeYoung/Quilty/Peterson 2007), two per OCEAN domain. Genetic and heritable
 # (gaussian + mid-parent blend in mx_make_human), self-known via /feel. Each
 # is a 0..1 float, population mean 0.5. Mirrored as {@self <aspect> <f>}
 # self-beliefs; the appraisal pipeline, mood and the F3 classifiers read them.
-attr "openness" (type float) (mech feel) (state-flags-tar @excl)
-attr "intellect" (type float) (mech feel) (state-flags-tar @excl)
-attr "industriousness" (type float) (mech feel) (state-flags-tar @excl)
-attr "orderliness" (type float) (mech feel) (state-flags-tar @excl)
-attr "enthusiasm" (type float) (mech feel) (state-flags-tar @excl)
-attr "assertiveness" (type float) (mech feel) (state-flags-tar @excl)
-attr "compassion" (type float) (mech feel) (state-flags-tar @excl)
-attr "politeness" (type float) (mech feel) (state-flags-tar @excl)
-attr "volatility" (type float) (mech feel) (state-flags-tar @excl)
-attr "withdrawal" (type float) (mech feel) (state-flags-tar @excl)
+attr "openness"        (type float) (range 0 1) (mech feel) (state-flags-tar @excl)
+attr "intellect"       (type float) (range 0 1) (mech feel) (state-flags-tar @excl)
+attr "industriousness" (type float) (range 0 1) (mech feel) (state-flags-tar @excl)
+attr "orderliness"     (type float) (range 0 1) (mech feel) (state-flags-tar @excl)
+attr "enthusiasm"      (type float) (range 0 1) (mech feel) (state-flags-tar @excl)
+attr "assertiveness"   (type float) (range 0 1) (mech feel) (state-flags-tar @excl)
+attr "compassion"      (type float) (range 0 1) (mech feel) (state-flags-tar @excl)
+attr "politeness"      (type float) (range 0 1) (mech feel) (state-flags-tar @excl)
+attr "volatility"      (type float) (range 0 1) (mech feel) (state-flags-tar @excl)
+attr "withdrawal"      (type float) (range 0 1) (mech feel) (state-flags-tar @excl)
 
 # Dark-tetrad personality - a separate four-trait malevolence overlay on the
 # Big Five. Same 0..1 float scale and gaussian/heritable synthesis, but never
 # mirrored across the boundary (believe_about Band 5) - an NPC's malevolence
 # stays secret. Drives crime motives (Phase 10).
-attr "narcissism" (type float) (mech feel) (state-flags-tar @excl)
-attr "machiavellianism" (type float) (mech feel) (state-flags-tar @excl)
-attr "psychopathy" (type float) (mech feel) (state-flags-tar @excl)
-attr "sadism" (type float) (mech feel) (state-flags-tar @excl)
+attr "narcissism"       (type float) (range 0 1) (mech feel) (state-flags-tar @excl)
+attr "machiavellianism" (type float) (range 0 1) (mech feel) (state-flags-tar @excl)
+attr "psychopathy"      (type float) (range 0 1) (mech feel) (state-flags-tar @excl)
+attr "sadism"           (type float) (range 0 1) (mech feel) (state-flags-tar @excl)
 
 # Physical traits (PR-3b 2026-05-25). 0..1 floats with population mean 0.5,
 # parallel shape to the Big Five aspects. Genetic + heritable (mid-parent
@@ -120,10 +120,10 @@ attr "sadism" (type float) (mech feel) (state-flags-tar @excl)
 # (attr ?actor <trait>) gates - strength for bludgeon/strangle, dexterity
 # for stab/garrotte (hand-and-finger precision), agility for climb/evade
 # (whole-body acrobatics), endurance for pursuit/sustained fights.
-attr "strength"   (type float) (mech feel) (mech obs) (state-flags-tar @excl)
-attr "dexterity"  (type float) (mech feel) (mech obs) (state-flags-tar @excl)
-attr "agility"    (type float) (mech feel) (mech obs) (state-flags-tar @excl)
-attr "endurance"  (type float) (mech feel) (state-flags-tar @excl)
+attr "strength"   (type float) (range 0 1) (mech feel) (mech obs) (state-flags-tar @excl)
+attr "dexterity"  (type float) (range 0 1) (mech feel) (mech obs) (state-flags-tar @excl)
+attr "agility"    (type float) (range 0 1) (mech feel) (mech obs) (state-flags-tar @excl)
+attr "endurance"  (type float) (range 0 1) (mech feel) (state-flags-tar @excl)
 
 # Relationships
 attr "pregnant_when" (type date) (mech obs) (auto-percept)
@@ -141,7 +141,7 @@ attr "perform" (type entity) (entity "activity") (lookup-target "isa") (lookup-a
 # Imperceptible so we perceive the createAction on its own, not embedded in the sound.
 attr "create_action" (type pattern) (spec-attr create-action) (imperceptible)
 attr "speaker" (type entity) (entity "human_player" "human_npc") (spec-attr speaker) (imperceptible)
-attr "preroll" (type float) (spec-attr preroll) (imperceptible)
+attr "preroll" (type float) (range 0 10) (spec-attr preroll) (imperceptible)
 
 # Prop-specific
 # A writing is a Merlin pattern holding a document's content - a (msg ...)
@@ -149,7 +149,7 @@ attr "preroll" (type float) (spec-attr preroll) (imperceptible)
 # reader's mind, where the sentences are evaluated into beliefs.
 attr "writing" (type pattern) (mech read) (state-flags-tar @msg @S)
 # How hard the entity is being gripped. 0=loose, 1=hard
-attr "control_force" (type int) (imperceptible)
+attr "control_force" (type int) (range 0 1) (imperceptible)
 
 # Stack
 attr "stack_label" (type str) (mech obs) (auto-percept) (state-flags-tar @excl)
@@ -166,13 +166,13 @@ attr "sky" (type kind clear) (mech obs) (auto-percept)
 # Region mood - non-sentient archetype, so per Q4 we keep mood state on the
 # region itself as parallel-array attrs. Updated by run_region_mood_pass.
 attr "mood_kinds" (type kind array 8) (state "mood") (mech obs) (auto-percept)
-attr "mood_intensities" (type int array 8) (mech obs)
+attr "mood_intensities" (type int array 8) (range 0 100) (mech obs)
 attr "mood_set_dates" (type date array 8) (imperceptible)
 
 # Building physical / structural properties.
-attr "isolated" (type int) (mech obs)
-attr "has_crypt" (type int) (mech obs)
-attr "locked_wing" (type int) (mech obs)
+attr "isolated"    (type int) (range 0 1) (mech obs)
+attr "has_crypt"   (type int) (range 0 1) (mech obs)
+attr "locked_wing" (type int) (range 0 1) (mech obs)
 # Era bounds - the building physically exists from era_min to era_max.
 attr "era_min" (type date) (imperceptible)
 attr "era_max" (type date) (imperceptible)
@@ -181,13 +181,13 @@ attr "era_max" (type date) (imperceptible)
 # with address_number ("14 Victoria Street", or "Blackthorne Estate" with
 # _ number).
 attr "address" (type entity) (entity "road" "structure" "container_structure") (mech obs) (auto-percept)
-attr "address_number" (type int) (mech obs) (auto-percept)
+attr "address_number" (type int) (range 1 9999) (mech obs) (auto-percept)
 
 # Conversation
 attr "initiator" (type entity) (entity "human_player" "human_npc") (mech obs) (auto-percept)
 
 # Fluid
-attr "fluid_amount" (type float) (mech obs) (auto-percept) (state-flags-tar @excl)
+attr "fluid_amount" (type float) (range 0 1) (mech obs) (auto-percept) (state-flags-tar @excl)
 
 # PR-evi-A 2026-05-25 - the three plural-kind evidence attrs. Each holds
 # up to 4 leaf-kind atoms of the named taxonomy; the transmitter plural-
@@ -227,7 +227,7 @@ attr "prototype" (type entity) (spec-attr prototype) (imperceptible)
 # rotation, scale-as-half-extents per mx_radii_from_world_scale) plus its
 # spatial relationship to nearby nav-meshes. No /opening_name attr; no
 # /passage_throat_obb attr.
-attr "is_nav_passage" (type int) (is-nav-passage) (mech obs)
+attr "is_nav_passage" (type int) (range 0 1) (is-nav-passage) (mech obs)
 attr "nav_mesh" (type str) (nav-mesh) (imperceptible)
 # /blocks_nav_terrain — when 1, the entity's OBB footprint rasterises as a
 # terrain-walkability blocker during t_nav_terrain::build (nav_v2_plan.md §7).
@@ -236,7 +236,7 @@ attr "nav_mesh" (type str) (nav-mesh) (imperceptible)
 # to 1 in their own .arc file. Connector throat clearing (§7.3) overrides
 # this for cells under a structure's door, so a building with /blocks_nav_terrain
 # = 1 still allows path entry through its baked-passage doorway.
-attr "blocks_nav_terrain" (type int) (blocks-nav-terrain) (imperceptible)
+attr "blocks_nav_terrain" (type int) (range 0 1) (blocks-nav-terrain) (imperceptible)
 
 # Navigation v2 Phase 3 - road spline geometry.
 # Per-entity authored road geometry: up to 16 centripetal Catmull-Rom CVs,

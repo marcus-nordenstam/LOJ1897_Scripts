@@ -1,0 +1,60 @@
+; ----------------------------------------------------------------------------
+; public_incident_assault (PR-A-7 V2, 2026-05-28, multiplicative).
+;
+; First public_incident_* event. Same harm_act + wrong_act anchor as
+; bonded_incident_assault, but with NO prior-bond requirement -
+; binding via frequents-overlap captures the pub-brawl / public-
+; square fight where actor and victim cross paths through shared
+; haunts rather than personal acquaintance.
+;
+; The plan ("public_incident.hse - outcome table"):
+;   Restricted to acts that don't require a prior bond: insult /
+;   snub / threaten / appropriation (purse-snatch) / assault
+;   (public brawl). Victim binding via frequents-overlap. Same
+;   weight formula shape as bonded.
+;
+; Trait gates mirror bonded_incident_assault (volatility +
+; psychopathy + sadism + low politeness + intoxication-amplifier)
+; via multiplicative-chance. Structural difference is the binding
+; predicate. Per-pair cooldown still applies.
+;
+; Public-context note: frequents-overlap fires when both actor and
+; victim share at least one venue. Pub-regular NPCs (the dominant
+; venue overlap signal) produce the canonical pub-brawl pairings;
+; theatre-attendees produce the rarer foyer-altercation shape.
+;
+; categorize fires (identical to bonded_incident_assault):
+;   victim (pov=patient):
+;     - harm_act -> distress + fear + existential_threat pressure
+;     - wrong_act -> anger + injustice pressure
+;   actor (pov=actor):
+;     - harm_act -> guilt + moral_violation pressure (sadism-gated)
+;
+; Schedule: monthly.
+; ----------------------------------------------------------------------------
+
+(include "../shared/roles.hse")
+
+(hsim-event public_incident_assault
+  (nl       "?actor assaults ?victim in public")
+  (kind     _public_incident_assault)
+  (schedule (monthly))
+  (rng-stream incidents)
+
+  (roles
+    (role ?actor  (template any_human)
+                  (chance (* 1.0
+                             (attr ?actor volatility)
+                             (attr ?actor psychopathy)
+                             (attr ?actor sadism)
+                             (- 1.0 (attr ?actor politeness))
+                             (+ 0.2 (* 0.6 (attr ?actor intoxication))))))
+    (role ?victim (template any_human)
+                  (not (= ?victim ?actor))
+                  (frequents-overlap ?actor ?victim)
+                  (not (has-recent-incident-marker ?actor ?victim))
+                  (chance 0.08)))
+
+  (effects
+    (incident-anchor ?actor assault ?victim)
+    (log _public_incident_assault ?actor)))
