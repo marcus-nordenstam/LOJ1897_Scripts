@@ -42,7 +42,9 @@
     ;; amplifies the chance so outgoing parents engage more than
     ;; withdrawn ones.
     (role ?host  (template any_human)
-                 (believes ?self {@self identity parent_role})
+                 (or (= (situation ?self life_aim) belonging_aim)
+                     (= (situation ?self life_aim) respectability_aim)
+                     (believes ?self {@self identity parent_role}))
                  (chance (* 0.80 (attr ?self enthusiasm))))
     (role ?guest (template any_human)
                  (not (= ?self ?host))
