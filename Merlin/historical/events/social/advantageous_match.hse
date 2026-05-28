@@ -26,10 +26,29 @@
 
   (roles
     ;; Exemplary bride: spotless reputation lifts her one class up.
+    ;; The plan's "infatuation-target overlap or parental matchmaking
+    ;; pressure" motivations are V2 work - infatuation substrate ships
+    ;; with PR-A-9 (crush_forms.hse), parental matchmaking pressure
+    ;; needs the parent's life_aim plus child's current courtship state
+    ;; (multi-role join, deferred). V1 substrate-routes the chance via a
+    ;; trait product over (enthusiasm + openness) - outgoing brides
+    ;; engage in seasonal courtship rituals more than withdrawn ones;
+    ;; the constraint filters (exemplary respectability + age gap +
+    ;; class compatibility on the groom side) are already substrate-
+    ;; rooted, so the multiplicative chance just adds a smooth
+    ;; trait-driven gradient on top.
     (role ?bride (template unmarried_woman)
                  (not (believes ?self {@self fiancee ?}))
                  (= (situation ?self respectability_situation) exemplary)
-                 (chance 0.30))
+                 ; Additive form so the chance product stays in [0.2, 1.0]
+                 ; - keeps the static-bound analyser happy and produces a
+                 ; meaningful base rate even for modal-trait brides. The
+                 ; full event is still bottlenecked by the very-tight
+                 ; exemplary bride + one-class-up groom + age-gap filter,
+                 ; so high fire rates aren't expected anyway.
+                 (chance (+ 0.20
+                            (* 0.4 (attr ?self enthusiasm))
+                            (* 0.4 (attr ?self openness)))))
     ;; A groom one class above the bride. class_situation values are upper /
     ;; middle / lower; the explicit kind literals dodge the ambiguous bare
     ;; atom path. Lower-class brides can lift to middle; middle to upper.

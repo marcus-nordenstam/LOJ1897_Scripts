@@ -30,7 +30,7 @@
                  (<= (years-old ?self) 16)
                  (not (believes ?self {@self employer ?}))
                  (not (believes ?self {@self spouse ?}))
-                 (chance (* 0.15 (+ 0.5 (/ (situation ?self breeding) 100)))))
+                 (chance (* 0.15 (+ 0.5 (situation ?self breeding)))))
     ;; A master only takes on a youth of sound family. The master comes from
     ;; the articles' founder slot, so the respectability test sits on the
     ;; articles role - resolved by the (let ?master ...) below.

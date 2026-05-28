@@ -284,22 +284,22 @@ relation
             # HI) on each line is the canonical source for hse_engine's
             # (chance ...) static-bound analyser (no parallel hardcoded
             # table in C++ - data-driven from the .mon files).
-            honesty             (tar ? @excl) (range 0 100)
-            sobriety            (tar ? @excl) (range 0 100)
-            piety               (tar ? @excl) (range 0 100)
-            diligence           (tar ? @excl) (range 0 100)
-            chastity            (tar ? @excl) (range 0 100)
-            decorum             (tar ? @excl) (range 0 100)
-            generosity          (tar ? @excl) (range 0 100)
+            honesty             (tar ? @excl) (range 0 1)
+            sobriety            (tar ? @excl) (range 0 1)
+            piety               (tar ? @excl) (range 0 1)
+            diligence           (tar ? @excl) (range 0 1)
+            chastity            (tar ? @excl) (range 0 1)
+            decorum             (tar ? @excl) (range 0 1)
+            generosity          (tar ? @excl) (range 0 1)
             # Conduct-risk
-            aggression          (tar ? @excl) (range 0 100)
-            criminality         (tar ? @excl) (range 0 100)
+            aggression          (tar ? @excl) (range 0 1)
+            criminality         (tar ? @excl) (range 0 1)
             # disinhibition: the externalizing temperament - low industriousness
             # + low politeness + high volatility. The temperamental root of
             # impulsive / antisocial conduct; the drinking events read the
             # aspects directly, this caches the fused score for the F3 cascade
             # and the interview.
-            disinhibition       (tar ? @excl) (range 0 100)
+            disinhibition       (tar ? @excl) (range 0 1)
             # inhibition: the moral/conscientious brake (plan section
             # 10.3-AFFECT item D). Fuses Big Five aspects (politeness +
             # industriousness + compassion), F3 dimensions (piety + decorum -
@@ -310,28 +310,28 @@ relation
             # loop is built in: stress lowers inhibition, lowered inhibition
             # makes a harm branch likelier to fire, the harm event mints
             # justify beliefs which further lower inhibition.
-            inhibition          (tar ? @excl) (range 0 100)
+            inhibition          (tar ? @excl) (range 0 1)
             # Material
-            wealth              (tar ? @excl) (range 0 100)
-            income_security     (tar ? @excl) (range 0 100)
+            wealth              (tar ? @excl) (range 0 1)
+            income_security     (tar ? @excl) (range 0 1)
             # Standing
-            prestige            (tar ? @excl) (range 0 100)
-            breeding            (tar ? @excl) (range 0 100)
-            influence           (tar ? @excl) (range 0 100)
-            connectedness       (tar ? @excl) (range 0 100)
+            prestige            (tar ? @excl) (range 0 1)
+            breeding            (tar ? @excl) (range 0 1)
+            influence           (tar ? @excl) (range 0 1)
+            connectedness       (tar ? @excl) (range 0 1)
             # Physical / mental
-            constitution        (tar ? @excl) (range 0 100)
-            affliction          (tar ? @excl) (range 0 100)
-            soundness           (tar ? @excl) (range 0 100)
+            constitution        (tar ? @excl) (range 0 1)
+            affliction          (tar ? @excl) (range 0 1)
+            soundness           (tar ? @excl) (range 0 1)
             # Mind
-            radicalism          (tar ? @excl) (range 0 100)
-            education           (tar ? @excl) (range 0 100)
+            radicalism          (tar ? @excl) (range 0 1)
+            education           (tar ? @excl) (range 0 1)
             # Felt life - contentment / agitation are the valence / arousal
             # halves of mood; their classifiers (F4.6) read emotion_sim_plan.md's
             # derive_mood. agitation is added by the emotion model.
-            belonging           (tar ? @excl) (range 0 100)
-            contentment         (tar ? @excl) (range 0 100)
-            agitation           (tar ? @excl) (range 0 100)
+            belonging           (tar ? @excl) (range 0 1)
+            contentment         (tar ? @excl) (range 0 1)
+            agitation           (tar ? @excl) (range 0 1)
             # stress: the salience-weighted aggregate of standing `pressure`
             # beliefs (plan section 10.3-AFFECT item F). Sibling to
             # contentment / agitation; written by derive_mood. 0..100. Read by
@@ -339,15 +339,15 @@ relation
             # categorize() threshold (item G) - both produce the runaway
             # feedback loop that turns simmering pressure into paranoid
             # construal and crime-decision motivation.
-            stress              (tar ? @excl) (range 0 100)
-            purpose             (tar ? @excl) (range 0 100)
-            autonomy            (tar ? @excl) (range 0 100)
+            stress              (tar ? @excl) (range 0 1)
+            purpose             (tar ? @excl) (range 0 1)
+            autonomy            (tar ? @excl) (range 0 1)
             # Rootedness in the community - tenure, employer, property, kin,
             # club memberships. The life_satisfaction band classifier reads
             # it to distinguish a LONER (low life_sat with high rootedness:
             # established but solitary by character) from an ADRIFT drifter
             # (low life_sat with low rootedness: newly arrived, no anchor).
-            rootedness          (tar ? @excl) (range 0 100)
+            rootedness          (tar ? @excl) (range 0 1)
             # Derived observable locomotion level
             # (mobile / crutch_assisted / wheelchair_bound / bedridden).
             # Read from condition + (future) leg-wound state + age in

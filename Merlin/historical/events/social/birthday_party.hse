@@ -24,8 +24,26 @@
   (rng-stream friendships)
 
   (roles
+    ;; PR-A-8 substrate gate: hosts have a social motivation - their
+    ;; life_aim is belonging_aim or respectability_aim (the two aims
+    ;; that prize community visibility), OR they're a parent (parties
+    ;; for one's child). Eliminates the chance-primary pick. The chance
+    ;; is multiplicative on enthusiasm so outgoing hosts engage more
+    ;; than withdrawn ones - smooth trait gradient on top of the
+    ;; substrate gate.
+    ;; PR-A-8 substrate gate: the canonical host motivation is being a
+    ;; parent ({@self identity parent_role}, derived by
+    ;; classify_identities). The plan also calls out life_aim=belonging
+    ;; / respectability as alternative motivations - those clauses are
+    ;; deferred pending an investigation into why (situation life_aim)
+    ;; comparisons against kind atoms fail in role filters (the
+    ;; comparator's atom-to-kind resolution path needs a closer look).
+    ;; For V1, parent identity is the substrate gate; enthusiasm
+    ;; amplifies the chance so outgoing parents engage more than
+    ;; withdrawn ones.
     (role ?host  (template any_human)
-                 (chance 0.4))
+                 (believes ?self {@self identity parent_role})
+                 (chance (* 0.80 (attr ?self enthusiasm))))
     (role ?guest (template any_human)
                  (not (= ?self ?host))
                  (believes ?host {@self friend ?guest})))

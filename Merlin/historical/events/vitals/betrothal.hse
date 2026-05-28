@@ -37,7 +37,7 @@
                  (not (believes ?self {@self fiancee ?}))
                  (not (= (situation ?self respectability_situation) scandalous))
                  (not (= (situation ?self respectability_situation) disreputable))
-                 (or (>= (situation ?self chastity) 50)
+                 (or (>= (situation ?self chastity) 0.5)
                      (not (believes ?self {@self chastity ?})))
                  (chance 0.25))
     (role ?groom (template unmarried_man)

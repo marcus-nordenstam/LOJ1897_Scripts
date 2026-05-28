@@ -48,9 +48,9 @@
                     (+ 0.70 (* 0.60 (attr ?self volatility)))              ; reactive drinking
                     (+ 0.70 (* 0.60 (attr ?self enthusiasm)))              ; social drinking
                     (+ 0.70 (* 0.60 (attr ?self withdrawal)))              ; self-medication
-                    (- 1.5 (/ (situation ?self wealth)    100))            ; low wealth -> stress
-                    (- 1.5 (/ (situation ?self piety)     100))            ; low piety -> less protection
-                    (- 1.5 (/ (situation ?self belonging) 100))))))        ; low belonging -> less protection
+                    (- 1.5 (situation ?self wealth))                      ; low wealth -> stress
+                    (- 1.5 (situation ?self piety))                       ; low piety -> less protection
+                    (- 1.5 (situation ?self belonging))))))               ; low belonging -> less protection
 
   (effects
     (get-drunk ?npc)

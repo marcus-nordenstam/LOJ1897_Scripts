@@ -29,11 +29,11 @@
   (roles
     ;; A patron of standing: exemplary character + high prestige (the
     ;; senior-or-above class signal). prestige is a numeric dimension on
-    ;; the 0..100 scale; a >= 65 floor selects the senior + org_head tier.
+    ;; the 0..1 scale; a >= 0.65 floor selects the senior + org_head tier.
     (role ?patron (template old_human)
                   (>= (years-old ?self) 35)
                   (= (situation ?self respectability_situation) exemplary)
-                  (>= (situation ?self prestige) 65)
+                  (>= (situation ?self prestige) 0.65)
                   (chance 0.06))
     ;; A protege one or more class steps below the patron, of sound
     ;; character (not scandalous), without an existing backer.

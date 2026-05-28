@@ -40,7 +40,7 @@
                   (chance (* 0.08
                              (attr ?actor assertiveness)
                              (attr ?actor narcissism)
-                             (/ (situation ?actor aggression) 100))))
+                             (situation ?actor aggression))))
     (role ?victim (template any_human)
                   (not (= ?victim ?actor))
                   (personally-knows ?actor ?victim)
