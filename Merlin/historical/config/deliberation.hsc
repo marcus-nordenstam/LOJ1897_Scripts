@@ -50,6 +50,10 @@
 (affinity attachment_loss     withdraw             0.5)
 (affinity attachment_loss     replace              0.2)
 (affinity attachment_loss     seduce               0.2)   ; rebound
+; PR-A-6 2026-05-28 - the rare-but-load-bearing jealous-spouse path.
+; betrayed lovers do sometimes escalate to the kill goal; the affinity
+; weight is intentionally low so it stays a tail outcome, not a default.
+(affinity attachment_loss     kill                 0.3)
 
 ; ---- moral_violation: actor's own held norms breached ------------------------
 (affinity moral_violation     confess_letter       0.5)
@@ -68,6 +72,12 @@
 (affinity status_loss         withdraw             0.4)
 (affinity status_loss         confront_privately   0.3)
 (affinity status_loss         flee                 0.2)
+; PR-A-6 2026-05-28 - structural-pressure consumers (PR-A-4 mints
+; status_loss from parental + class-interloper / replacement-threat
+; triangulations).
+(affinity status_loss         discredit            0.4)
+(affinity status_loss         expose               0.4)
+(affinity status_loss         kill                 0.3)
 
 ; ---- autonomy_loss: capability constrained by another ----------------------
 (affinity autonomy_loss       flee                 0.5)
