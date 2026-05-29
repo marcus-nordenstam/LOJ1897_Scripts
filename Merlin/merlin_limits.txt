@@ -60,7 +60,7 @@ npc.beliefRoles.pool                =   500000  1024    128
 
 # Pattern-related pools
 npc.beliefs.pool                    =   50000   512     128
-npc.phrases.pool                    =   50000   512     128
+npc.clauses.pool                    =   50000   512     128
 npc.funcs.pool                      =   2000    512     128
 npc.lists.pool                      =   2000    512     128
 npc.beliefIdsByLabel.pool           =   4       4       8
