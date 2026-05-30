@@ -42,23 +42,25 @@ concept
         # Physical incapacity distinct from sleep (alertness sleepy) and
         # from death. Bedridden / drugged / knocked-out NPCs read
         # `unconscious` until they recover or die. Distinct from the
-        # `mobility` derived belief which captures observable locomotion
-        # level over time.
+        # `physical_mobility` derived belief which captures observable
+        # locomotion level over time.
         unconscious
 
     alertness           (tar @excl)
         alert
         sleepy
 
-    # Observable locomotion level. Derived in
-    # hsim_derive::classify_mobility from condition + leg-wound state +
-    # age. Distinct from `alertness` (sleep / wake) and from `condition`
-    # (alive / dead / unconscious): mobility captures what an NPC can
-    # DO physically when conscious. The bedridden value covers both
-    # genuine incapacity (severe injury) and the social state of
-    # staying-in-bed; mobility being derived means the same symbol can
-    # mean both as the substrate behind it varies.
-    mobility_level      (tar @excl)
+    # Observable locomotion level - the physical-mobility state, mirrored
+    # directly as a belief (like `condition` / `alertness`; no separate
+    # relation). Derived in hsim_derive::classify_physical_mobility from
+    # condition + leg-wound state + age. Distinct from `alertness` (sleep /
+    # wake) and from `condition` (alive / dead / unconscious):
+    # physical_mobility captures what an NPC can DO physically when
+    # conscious. The bedridden value covers both genuine incapacity
+    # (severe injury) and the social state of staying-in-bed;
+    # physical_mobility being derived means the same symbol can mean both
+    # as the substrate behind it varies.
+    physical_mobility   (tar @excl)
         mobile
         crutch_assisted
         wheelchair_bound

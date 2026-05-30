@@ -60,8 +60,11 @@ HISTORICAL SIM:
   you may stay in your parent's mansion until you marry.
 * When you marry, if you are a woman, you move into your husband's house.
 
-* When an NPC dies, the children inherit.  For now we just go by age, so the oldest inherits everything
-(This can cause jealousy!)
+* When an NPC dies, inheritance is governed by the will written by the NPC.
+  Common st-revier law applies if no will exists (base it on common English victorian-era inheriance law)
+  If a will exists, the it governs who gets what.
+  Many emotional reactions and attitudes could/should emerge after a will becomes known such as jealousy, joy, etc.
+
 
 
 

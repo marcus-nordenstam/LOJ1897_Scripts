@@ -352,12 +352,6 @@ relation
             # established but solitary by character) from an ADRIFT drifter
             # (low life_sat with low rootedness: newly arrived, no anchor).
             rootedness          (tar ? @excl) (range 0 1)
-            # Derived observable locomotion level
-            # (mobile / crutch_assisted / wheelchair_bound / bedridden).
-            # Read from condition + (future) leg-wound state + age in
-            # classify_mobility. Kind-valued (target is one of the
-            # mobility_level sub-kinds declared in Concepts.mon).
-            mobility            (tar @excl mobility_level)
 
         # Historical-sim-only situation predicates (hsim_ prefix). Read by the
         # event engine to drive crime / drama template eligibility and role
