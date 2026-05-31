@@ -827,6 +827,13 @@ concept
     # interval after the prior one ends).
     tenant              (sub building|space)  (tar human|org @excl)
 
+    # Building -> occupant link: everyone habitually present in the building,
+    # regardless of legal title - household members and staff at a home,
+    # employees at a workplace. Distinct from owner / tenant (which are about
+    # title); non-@excl, since a building has many occupants and a person
+    # occupies both their home and their workplace.
+    occupant            (sub building|space)  (tar human)
+
     # States describing an activity-object.
     activity_state
         participant         (tar human)
