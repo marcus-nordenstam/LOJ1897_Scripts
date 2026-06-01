@@ -45,7 +45,7 @@ archetype "human_npc" (cap 4096) (mech obs) (raycast-visible) (sentient) (non-oc
     "agility"
     "endurance"
     "region"
-    # Parts are not auto-perceived — we perceive specific body-parts below instead
+    # Parts are not auto-perceived - we perceive specific body-parts below instead
     "parts"
     "left_hand"
     "right_hand"

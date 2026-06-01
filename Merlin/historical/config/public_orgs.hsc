@@ -50,6 +50,43 @@
 
 (public_org company_registry
   (kind      company_registry)
-  (era_min   1840)
+  (era_min   1700)
   (head_pos  clerk)
   (employees 2 clerk))
+
+;; --- Public civic / cultural venues. The bootstrap spawns each one's building
+;;     (library / museum / meeting_hall / sports_ground) when the geography has
+;;     none, installs the head, and hires a minimal staff - so the interest
+;;     activity lane (L5) always has a venue to send enthusiasts to. ---
+(public_org town_library
+  (kind      library)
+  (era_min   1700)
+  (head_pos  librarian)
+  (employees 1 clerk))
+
+(public_org town_museum
+  (kind      museum)
+  (era_min   1700)
+  (head_pos  curator)
+  (employees 1 clerk))
+
+;; The town theatre is also a commercial business the economy may found, but the
+;; interest lane (music / theatre enthusiasts) needs one guaranteed from the
+;; start - so the bootstrap stands one up too.
+(public_org town_theatre
+  (kind      theatre)
+  (era_min   1700)
+  (head_pos  clerk)
+  (employees 1 clerk))
+
+(public_org assembly_rooms
+  (kind      meeting_hall)
+  (era_min   1700)
+  (head_pos  clerk)
+  (employees 1 clerk))
+
+(public_org recreation_ground
+  (kind      sports_ground)
+  (era_min   1700)
+  (head_pos  clerk)
+  (employees 1 gardener))

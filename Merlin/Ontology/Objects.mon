@@ -292,6 +292,15 @@ object (+ obs)
                     police_station
                     church      (facets public_space)
                     theatre     (facets public_space)
+                    # Public civic / cultural venues - founded + minimally
+                    # staffed at sim start by the govt-bootstrap pass
+                    # (public_orgs.hsc), and the venues the interest activity
+                    # lane sends enthusiasts to (activity-lanes L5). All
+                    # open-to-public, so they carry the public_space facet.
+                    library     (facets public_space)
+                    museum      (facets public_space)
+                    meeting_hall (facets public_space)
+                    sports_ground (facets public_space)
         pier
         bridge
             suspension_bridge

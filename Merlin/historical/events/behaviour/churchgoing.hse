@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; churchgoing - an F3.7 behaviour seed event. Once a year a share of adults
-; attend the parish church, gaining an `attend` belief. The F3.5 piety
+; attend the parish church, gaining a `worship` belief. The F3.5 piety
 ; classifier reads it (v1 piety is binary - churchgoer vs not). The
 ; (go-to-church ...) verb locates the church building itself, so the event
 ; needs only the ?npc role.

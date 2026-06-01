@@ -7,7 +7,7 @@
 #   - If neither party maintains the signal for 3 seconds, everything auto-releases.
 #
 # The TELL/ASK action system handles one speech act at a time (lock_rule talk...).
-# Multiple concurrent conversations are allowed — the lock only serializes the
+# Multiple concurrent conversations are allowed - the lock only serializes the
 # physical act of speaking.
 
 # copy <override_talk_cell ?old_cell ?new_cell ?person>
@@ -83,6 +83,11 @@ rule talk-claim-talk-cell
 (bb_public_write @self talk_cell ?talk_cell)
 (maintain_attention ?person).
 
+# The rendezvous initiator (claim_rendezvous) writes each party's reserved seat
+# straight to their talk_cell and seeds the initiator's try_to_talk_to. A
+# recipient holds the talk_cell it was given and acts on it once its own
+# behaviour sets a {@self talk_to ?person} goal (see talk-go-to-talk-cell below).
+
 # ------------------------------------------------------------------------------------------------
 # Ensuring I am in my talk cell
 # ------------------------------------------------------------------------------------------------
@@ -128,6 +133,8 @@ rule talk-release-cell
     ->
 (unclaim_env_cell ?talk_cell)
 (bb_public_clear @self talk_cell).
+# This also frees a rendezvous seat: the reserved cell IS the talk_cell, so
+# unclaim_env_cell here releases it.
 
 # ------------------------------------------------------------------------------------------------
 # OUTCOMES

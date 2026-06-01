@@ -1,8 +1,8 @@
 # ----------------------------------------------------------------------------
-# kind_radii.txt — hsim stand-in OBB half-extents (meters) for every kind
+# kind_radii.txt - hsim stand-in OBB half-extents (meters) for every kind
 # the historical pre-sim instantiates as an entity. Replaces the removed
 # .phy files for hsim's purposes (hsim doesn't render, so coarse values
-# suffice — they only need to be non-zero and small enough that the
+# suffice - they only need to be non-zero and small enough that the
 # env-grid container-overlap check passes for unique positions).
 #
 # Format: <kind-path>  <half_x>  <half_y>  <half_z>

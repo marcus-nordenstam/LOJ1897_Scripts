@@ -41,6 +41,8 @@
 (job clerk         (class_floor middle)                                (may_own false) (era_min 1700))
 (job typist        (class_floor middle)                                (may_own false) (era_min 1875))
 (job house_agent   (class_floor middle) (business_type house_agency)   (may_own true)  (era_min 1820))
+(job librarian     (class_floor middle) (business_type library)        (may_own false) (era_min 1700))
+(job curator       (class_floor middle) (business_type museum)         (may_own false) (era_min 1700))
 
 ;; --- Lower-class trades + service ---
 (job bartender      (class_floor lower) (business_type pub)        (may_own false) (bootstrap true) (era_min 1700))

@@ -410,9 +410,16 @@ concept
             bartender
             factory_worker
             house_agent
-            # Phase 9 appointment_to_office hires public-org appointees under
+            # Heads of the public cultural institutions (gov sub-kinds above):
+            # the librarian runs the library, the curator the museum. The
+            # meeting_hall + sports_ground are run by a clerk (no bespoke job).
+            librarian
+            curator
+            # Phase 9 senior_appointment hires public-org appointees under
             # this kind. Distinct from clerk so prestige / pretty-print can
-            # render an officeholder differently from an ordinary employee.
+            # render a senior official differently from an ordinary employee.
+            # ("Holding a post" is just this job-state - there is no separate
+            # office-as-position concept.)
             official
             # Performer parent-kind (Phase 9 dialogue) - witnesses whose job
             # is_a performer hold an audience-aware self-conception that
@@ -453,6 +460,17 @@ concept
             agency
                 land_registry
                 company_registry
+            # Public civic / cultural institutions. Founded + minimally staffed
+            # at sim start by the govt-bootstrap pass (public_orgs.hsc), each
+            # occupying its own building kind (businesses.hsc). They are the
+            # venues the interest activity lane sends enthusiasts to (L5):
+            # library <- literature/history/science, museum <- antiques,
+            # meeting_hall <- suffrage + the civic default, sports_ground <-
+            # sports/riding.
+            library
+            museum
+            meeting_hall
+            sports_ground
         com
             club
                 athletic
@@ -476,10 +494,12 @@ concept
                 barbershop
                 antiques_shop
                 theatre
-                # Landed / agricultural estate. Generates revenue, owns
-                # property, employs people, can be sold or inherited.
-                # A perpetrator may inherit one when the death-trigger
-                # fires the heir_of -> inherit conversion.
+                # A property business. Covers both the landed / agricultural
+                # estate and the residential-letting company a landlord runs
+                # (hsim::become_landlord founds one and hires the founder as its
+                # `landlord`). Owns property, generates revenue, employs people,
+                # and is sold / inherited / dissolved by the ordinary org
+                # lifecycle - being a landlord is therefore not a special case.
                 estate
 
     # Fields of study - the target of the `study` and `diploma` relations, and
@@ -800,8 +820,7 @@ concept
     # Property holdings: a holder's owned buildings and land are recorded as
     # repeated singular {holder building <building>} / {holder land <land>}
     # beliefs. `building` (Objects.mon) and `land` (Spaces.mon) are nouns and
-    # so are already states - no relation is declared here (re-declaring a
-    # noun in this file would mint a duplicate, ambiguous kind).
+    # so are already states, so no relation is declared here.
 
     # States describing an organisation (subject is the org mental object).
     # employee is repeated once per worker; record points at the org's

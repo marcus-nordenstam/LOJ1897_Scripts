@@ -1,11 +1,11 @@
-# Common attr definitions — shared across archetypes.
+# Common attr definitions - shared across archetypes.
 # Each attr name is defined exactly once here. Archetypes reference them by name.
 # Every attr MUST declare an explicit transmission mechanism: /obs, /feel, /hear, /read, /imperceptible
 # Use /state_flags_tar, /state_flags_sub, /state_flags_aux for per-field @-flags (pipe-separated).
 
 # Identity & metadata
 
-# NOTE: "isa" (kind attr) is auto-created on every population — no need to declare it.
+# NOTE: "isa" (kind attr) is auto-created on every population - no need to declare it.
 
 # Lifecycle dates (used by historical sim; persist into interactive).
 attr "birth_date" (type date) (spec-attr date) (mech feel)
@@ -46,7 +46,7 @@ attr "sound_sensor" (type sound-sensor)
 attr "physical_motors" (type physical-motors)
 
 # Body structure
-# Hands are integral to reasoning — they get their own attrs even though they also appear in parts.
+# Hands are integral to reasoning - they get their own attrs even though they also appear in parts.
 # Body parts are FELT internally (the NPC always knows their own body) AND observed externally
 # (others see your hands when they look at you). Same int-feel-ext-obs split as `name`.
 attr "left_hand" (type entity) (entity "hand") (state "hand") (int-mech feel) (ext-mech obs) (auto-percept)
@@ -130,10 +130,10 @@ attr "pregnant_when" (type date) (mech obs) (auto-percept)
 # Only used to pass on appropriate DNA from the father
 attr "pregnant_by" (type entity) (imperceptible)
 
-# Region — updated by Environment, self-perceived via /feel
+# Region - updated by Environment, self-perceived via /feel
 attr "region" (type entity) (entity "region") (spec-attr region) (mech feel) (state-flags-tar @excl)
 
-# Activity — remaps perceived target & aux to kind and place of the activity
+# Activity - remaps perceived target & aux to kind and place of the activity
 attr "perform" (type entity) (entity "activity") (lookup-target "isa") (lookup-aux "at") (mech obs) (auto-percept)
 
 # Sound
@@ -217,10 +217,10 @@ attr "at" (type entity) (entity "structure" "container_structure" "space") (mech
 attr "prototype" (type entity) (spec-attr prototype) (imperceptible)
 
 # Navigation v2 (see Merlin/Docs/nav_v2_plan.md)
-# /is_nav_passage — runtime gate: 1 = passable, 0 = dormant. Action handlers
+# /is_nav_passage - runtime gate: 1 = passable, 0 = dormant. Action handlers
 #   flip this on the opening entity (door/gate/large_window). nav_graph
 #   subscribes and toggles the corresponding macro-graph passage edge.
-# /nav_mesh — Hstr cache key for the structure's baked nav-mesh data;
+# /nav_mesh - Hstr cache key for the structure's baked nav-mesh data;
 #   written by Player at scene load when an island is registered.
 # Throat geometry, opening identity and binding are all derived at scene-
 # load from the opening Merlin entity's own TransformComponent (position,
@@ -229,7 +229,7 @@ attr "prototype" (type entity) (spec-attr prototype) (imperceptible)
 # /passage_throat_obb attr.
 attr "is_nav_passage" (type int) (range 0 1) (is-nav-passage) (mech obs)
 attr "nav_mesh" (type str) (nav-mesh) (imperceptible)
-# /blocks_nav_terrain — when 1, the entity's OBB footprint rasterises as a
+# /blocks_nav_terrain - when 1, the entity's OBB footprint rasterises as a
 # terrain-walkability blocker during t_nav_terrain::build (nav_v2_plan.md §7).
 # Defaults to 0 on plain `structure`; archetypes that physically obstruct the
 # ground (buildings, walls, fences, gates, large rocks, tree trunks) override

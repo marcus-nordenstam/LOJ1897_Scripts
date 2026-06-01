@@ -3,7 +3,7 @@
 
 This is the ground-truth for all Merlin behavioural scripts, ontology, environment, nat_lang and other scripts relating to the Legends of Justice:1897 video game.
 
-The Dropbox path `C:/Users/realm/Dropbox/CnE/LOJ1897/Game/Content/Merlin/` is a mirror copy updated by the GrymEngine's Player's CMake publish build — do NOT treat it as authoritative.
+The Dropbox path `C:/Users/realm/Dropbox/CnE/LOJ1897/Game/Content/Merlin/` is a mirror copy updated by the GrymEngine's Player's CMake publish build - do NOT treat it as authoritative.
 
 The Merlin folder holds most of it:
 

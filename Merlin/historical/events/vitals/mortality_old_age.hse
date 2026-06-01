@@ -22,7 +22,7 @@
     (when (chance ?per_month))
 
     (effects
-      ; propagate-death MUST precede die — see mortality_disease.hse for
+      ; propagate-death MUST precede die - see mortality_disease.hse for
       ; the rationale.
       (propagate-death ?who)
       (die             ?who :cause old_age)

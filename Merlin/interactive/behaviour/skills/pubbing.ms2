@@ -41,10 +41,23 @@ rule pubbing-order-beer-talk-to-bartender
 {@self pubbing}
 {?bartender perform [k bartending] ?pub}
 {@self order [k beer] ?bartender}
-{?pub part [k bar_counter]:?bar_counter}
+(bb_public_read @self talk_cell): ?cell   # only after claim_rendezvous has seated me (wrote my
+                                          # talk_cell), so the generic talk-claim never races for a cell
     ->
-(maintain_goal {@self talk_to ?bartender})
-(bb_private_maintain @self talk_cell_constraint '(des right_in_front_of ?bar_counter)).
+(maintain_goal {@self talk_to ?bartender}).
+
+# Reserve a counter seat in front (for me) AND behind (for the bartender),
+# atomically. claim_rendezvous writes each party's reserved seat straight to
+# their talk_cell and seeds my try_to_talk_to toward the bartender. Guarded on
+# my talk_cell so it fires once.
+rule pubbing-order-beer-claim-rendezvous
+{@self pubbing}
+{?bartender perform [k bartending] ?pub}
+{@self order [k beer] ?bartender}
+{?pub part [k bar_counter]:?bar_counter}
+(bb_public_none @self talk_cell)
+    ->
+(claim_rendezvous (des focus_counter ?bar_counter) (des party [@self ?bartender])).
 
 # Wait for the bartender
 rule pubbing-order-beer-wait-at-bar

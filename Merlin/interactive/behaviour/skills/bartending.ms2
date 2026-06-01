@@ -14,15 +14,27 @@ rule bartending-serve-customer-proposal
 {?pub part [k bar_counter]:?bar_counter}
 # deal with one patron at a time:
 (none {@self proposal {@self serve_customer}}) # no code after this should be reached WHILE serving a customer
-(env_cell_occupier [k human] 
-                   (des right_in_front_of ?bar_counter) 
-                   '(and (bb_public_read @o wants_drink) 
-                         (bb_public_none @o drinking_glass_cell))): ?patron
-(bb_public_read ?patron talk_cell): ?patron_talk_cell
+(env_cell_occupier [k human]
+                   (des right_in_front_of ?bar_counter)
+                   '(and (bb_public_read @o wants_drink)
+                         (bb_public_none @o drinking_glass_cell)) /debug): ?patron
     ->
-(begin_proposal {@self serve_customer ?patron} (des abs_util 1000))
-(bb_private_write @self talk_cell_constraint '[(des behind ?bar_counter)
-                                               (des across_from ?patron_talk_cell)]).
+(begin_proposal {@self serve_customer ?patron} (des abs_util 1000)).
+# Positioning is patron-driven: the patron's claim_rendezvous reserved a cell
+# behind the counter for this bartender and wrote it straight into the
+# bartender's talk_cell. The bartender walks to it via the normal
+# talk-go-to-talk-cell path once it adopts a talk_to goal (below). No self-claim.
+
+
+# Serving a customer IS wanting to talk to them: emit the general talk_to goal
+# and let the talk rules (talk.ms2) do the rest - walk to the seat the
+# rendezvous put in my talk_cell, face them, signal back. This is the only
+# bartending-specific input the general talk layer needs.
+rule bartending-engage-customer
+{@self perform [k bartending] ?pub}
+{@self serve_customer ?customer}
+    ->
+(maintain_goal {@self talk_to ?customer}).
 
 
 # find out what drink customer wants

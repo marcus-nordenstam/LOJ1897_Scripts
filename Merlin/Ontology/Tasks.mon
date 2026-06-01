@@ -33,6 +33,27 @@ relation
             # attendance frequency.
             dwell                                   (tar structure|org)
             work                                    (tar structure|org)
+            # socialize_at: episodic ad-hoc social-outing memory (activity-lanes
+            # L3). {@self socialize_at <venue> /aux <organizer>} = "went out with
+            # the company <organizer> assembled, at <venue>". One general label
+            # for any friends-gathering (pub night, club, hired hall); the
+            # organizer is in aux. Minted begin+end per outing by the social-
+            # outing lane (host-social-outing); the decay pass folds repeats into
+            # a cumulative belief whose count is the outing frequency.
+            socialize_at                            (tar structure)    (aux human)
+            # pursue: episodic interest-lane memory (activity-lanes L5).
+            # {@self pursue <venue> /aux <domain>} = "pursued my interest
+            # <domain> at <venue>" - the domain an `interest` sub-kind, the
+            # venue the building hosting it. Minted begin+end per outing by the
+            # interest lane (pursue-interest); the decay pass folds repeats into
+            # a cumulative belief whose count is the pursuit frequency.
+            pursue                                  (tar structure)    (aux ?)
+            # worship: churchgoing memory. {@self worship <church>} = "worships
+            # at <church>". classify_piety reads it (a worshipper is pious) -
+            # the specific label replaces the old vague `attend`. The activity-
+            # lanes worship lane (L8) will mint it begin+end per service; the
+            # current churchgoing seed mints one ongoing belief (binary piety).
+            worship                                 (tar structure)
 
             acquire                                 (tar object)
             buy                                     (tar ?)
@@ -150,7 +171,6 @@ relation
             confess_in_person   (motor legs mouth)              (tar human)              (construed_act honour_act)
             confess_letter      (motor eyes right_hand legs)    (tar human)              (construed_act honour_act)
             recruit             (motor mouth)                   (tar human)  (aux ?)
-            attend              (motor legs)                    (tar structure|org)
             play_game           (motor right_hand left_hand)    (tar ?)
 
             # Physical / multi-motor sub-block - tasks that compose motor

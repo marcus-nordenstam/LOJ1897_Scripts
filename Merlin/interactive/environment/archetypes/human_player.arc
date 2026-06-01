@@ -39,7 +39,7 @@ archetype "human_player" (cap 256) (mech obs) (raycast-visible) (player) (non-oc
     "agility"
     "endurance"
     "region"
-    # Parts are not auto-perceived — we perceive specific body-parts below instead
+    # Parts are not auto-perceived - we perceive specific body-parts below instead
     "parts"
     "left_hand"
     "right_hand"
