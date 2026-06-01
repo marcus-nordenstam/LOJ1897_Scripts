@@ -33,7 +33,13 @@
 ;   actor (pov=actor):
 ;     - harm_act -> guilt + moral_violation pressure (sadism-gated)
 ;
-; Schedule: monthly. Per-pair 90-day cooldown via recent_incident.
+; Schedule: (co-present) - activity-lanes L6. NOT on the DES; the day-close
+; co-presence hook fires it once per active date after that date's activity
+; events have built the venue occupancy, so (co-present ?actor ?victim) binds a
+; victim from the actor's actual venue-mates this date (a known one - the
+; bonded branch). A domestic assault is just this event resolving at a HOME
+; venue (household co-presence now exists). Per-pair 90-day cooldown via
+; recent_incident. Witnesses = the rest of that venue's co-present set.
 ; ----------------------------------------------------------------------------
 
 (include "../shared/roles.hse")
@@ -41,23 +47,29 @@
 (hsim-event bonded_incident_assault
   (nl       "?actor assaults ?victim")
   (kind     _bonded_incident_assault)
-  (schedule (monthly))
+  (schedule (co-present))
   (rng-stream incidents)
 
   (roles
-    (role ?actor  (template any_human)
-                  (chance (* 1.0
-                             (attr ?actor volatility)
-                             (attr ?actor psychopathy)
-                             (attr ?actor sadism)
-                             (- 1.0 (attr ?actor politeness))
-                             (+ 0.2 (* 0.6 (attr ?actor intoxication))))))
+    ; ?actor is PRE-BOUND by the day-close hook (fire_co_present_events) from
+    ; the co-present set, so this role is never enumerated over the population.
+    ; The actor trait gate (volatility x psychopathy x sadism x low-politeness x
+    ; intoxication) now lives ONCE in C++ (roll_incident_actor_gate) and is
+    ; rolled by the hook before this event fires.
+    (role ?actor  (template any_human))
     (role ?victim (template any_human)
                   (not (= ?victim ?actor))
+                  (co-present ?actor ?victim)
                   (personally-knows ?actor ?victim)
                   (not (has-recent-incident-marker ?actor ?victim))
-                  (chance 0.08)))
+                  ; 0.02 = 0.08 / k_default_dates_per_month (4): this event now
+                  ; resolves once per active date (co-present schedule), so the
+                  ; per-fire chance is the old monthly 0.08 spread across the
+                  ; month's active days - keeping the monthly incident cadence
+                  ; (and assault-belief volume) roughly unchanged.
+                  (chance 0.02)))
 
   (effects
     (incident-anchor ?actor assault ?victim)
+    (witness-copresence ?actor assault ?victim)
     (log _bonded_incident_assault ?actor)))

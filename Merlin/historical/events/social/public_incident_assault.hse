@@ -18,10 +18,12 @@
 ; via multiplicative-chance. Structural difference is the binding
 ; predicate. Per-pair cooldown still applies.
 ;
-; Public-context note: frequents-overlap fires when both actor and
-; victim share at least one venue. Pub-regular NPCs (the dominant
-; venue overlap signal) produce the canonical pub-brawl pairings;
-; theatre-attendees produce the rarer foyer-altercation shape.
+; Public-context note (activity-lanes L6): binding is now real per-date
+; co-presence, not the frequents-overlap proxy. (co-present ?actor ?victim)
+; +(not (personally-knows ...)) captures STRANGERS who were at the same venue
+; this date - the canonical pub-brawl / foyer-altercation. The bonded branch
+; (bonded_incident_assault) takes the co-present pairs who already know each
+; other, so the two never double-fire on one pair.
 ;
 ; categorize fires (identical to bonded_incident_assault):
 ;   victim (pov=patient):
@@ -30,7 +32,8 @@
 ;   actor (pov=actor):
 ;     - harm_act -> guilt + moral_violation pressure (sadism-gated)
 ;
-; Schedule: monthly.
+; Schedule: (co-present) - activity-lanes L6. Day-close hook fires it per
+; active date over the date's venue occupancy. Witnesses = the co-present set.
 ; ----------------------------------------------------------------------------
 
 (include "../shared/roles.hse")
@@ -38,23 +41,25 @@
 (hsim-event public_incident_assault
   (nl       "?actor assaults ?victim in public")
   (kind     _public_incident_assault)
-  (schedule (monthly))
+  (schedule (co-present))
   (rng-stream incidents)
 
   (roles
-    (role ?actor  (template any_human)
-                  (chance (* 1.0
-                             (attr ?actor volatility)
-                             (attr ?actor psychopathy)
-                             (attr ?actor sadism)
-                             (- 1.0 (attr ?actor politeness))
-                             (+ 0.2 (* 0.6 (attr ?actor intoxication))))))
+    ; ?actor is PRE-BOUND by the day-close hook from the co-present set (never
+    ; enumerated over the population); the actor trait gate lives once in C++
+    ; (roll_incident_actor_gate) and is rolled by the hook before this fires.
+    (role ?actor  (template any_human))
     (role ?victim (template any_human)
                   (not (= ?victim ?actor))
-                  (frequents-overlap ?actor ?victim)
+                  (co-present ?actor ?victim)
+                  (not (personally-knows ?actor ?victim))
                   (not (has-recent-incident-marker ?actor ?victim))
-                  (chance 0.08)))
+                  ; 0.02 = 0.08 / k_default_dates_per_month (4): co-present
+                  ; schedule fires this per active date, so spread the old
+                  ; monthly 0.08 across the active days to hold monthly cadence.
+                  (chance 0.02)))
 
   (effects
     (incident-anchor ?actor assault ?victim)
+    (witness-copresence ?actor assault ?victim)
     (log _public_incident_assault ?actor)))
