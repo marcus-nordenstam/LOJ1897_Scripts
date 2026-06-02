@@ -1,5 +1,5 @@
 # Any object that is potentially mobile
-archetype "prop" (cap 1024) (mech obs) (occupies-env-grid) (non-occluder)
+archetype "prop" (cap 4096) (mech obs) (occupies-env-grid) (non-occluder)
 {
     "birth_date"
     "color"

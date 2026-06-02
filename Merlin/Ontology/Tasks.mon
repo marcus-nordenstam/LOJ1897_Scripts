@@ -79,6 +79,28 @@ relation
             # Distinct from the legacy `play_game <game-kind>` act-record below
             # (which the sobriety/wealth classifiers read).
             play                                    (tar game)    (kind_fold)
+            # Solitary leisure activities at a venue (activity-lanes L8), the
+            # amenity-gated successors to the general `dwell`: what one actually
+            # DID there, gated by the venue's rooms. Episodic {@self <act>
+            # <venue>}. `read_at` (not `read`, the document-reading action
+            # above) = a reading session at a study/library; `dine` needs a
+            # dining_room; `rest` is the low-amenity default. Pub drinking stays
+            # `indulge`.
+            dine                                    (tar structure)
+            read_at                                 (tar structure)
+            rest                                    (tar structure)
+            # Conversational activities (activity-lanes L8) - SPECIFIC, each with
+            # a propagation EFFECT among the co-present, not a vague `converse`:
+            #  gossip <subject>  - spread a belief you hold about a THIRD party
+            #                      to your listeners (they learn what you know).
+            #  confide <listener>- share a private self-belief you have NOT yet
+            #                      told that listener (deepens what they know of
+            #                      you).
+            #  debate <topic>    - participants come to know each other's STANCE
+            #                      on the topic (politics / religion / suffrage).
+            gossip                                  (tar human)
+            confide                                 (tar human)
+            debate                                  (tar ?)
 
             acquire                                 (tar object)
             buy                                     (tar ?)

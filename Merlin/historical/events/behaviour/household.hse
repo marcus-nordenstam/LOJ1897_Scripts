@@ -1,12 +1,16 @@
 ; ----------------------------------------------------------------------------
 ; Household activity lane (hsim_activity_lanes_plan.md, phase L2). Every alive
-; resident records a day spent at home as an EPISODIC memory {@self dwell
-; <home>} - minted begin+end at the visit date, because a day at home is a past
-; event, not an ongoing state. The decay pass consolidates repeated days into a
-; cumulative `dwell` belief whose count is the dwelling frequency. The venue is
-; the dweller's own home (no venue choice). Co-residents minted in one firing
-; share (home, date) - the substrate the L4 co-presence sweep + L6 domestic
-; incidents read.
+; resident records a day spent at home as an EPISODIC memory - minted begin+end
+; at the visit date, because a day at home is a past event, not an ongoing
+; state. The activity is SPECIFIC and amenity-gated (L8): {@self rest <home>} by
+; default, {@self dine <home>} if the home has a dining_room, {@self read_at
+; <home>} if it has a study (every house but the dense terrace/tenement) - so a
+; manor yields a richer leisure menu than a tenement (record-dwelling /
+; pick_home_activity in hse_engine.cc). The decay
+; pass consolidates repeated identical episodes into a cumulative belief whose
+; count is the frequency. The venue is the dweller's own home (no venue choice).
+; Co-residents minted in one firing share (home, date) - the substrate the L4
+; co-presence sweep + L6 domestic incidents read.
 ;
 ; Standing-group lane: no (chance) gate - everyone with a home dwells. Fires
 ; once per month on the active-day bag (L0). The home-belief role filter
