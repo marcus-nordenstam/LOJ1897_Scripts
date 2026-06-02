@@ -346,6 +346,21 @@ concept
     # {actor play_game gambling}. The sobriety / wealth classifiers read it.
     gambling
 
+    # Games - the thing one plays (a hand of cards, a frame of billiards). A
+    # game is a group activity OBJECT: each occasion is a per-mind game object
+    # of one of these kinds (a Mental Object per knowledge_design_notes), wired
+    # {@self play <game>} + {<game> participant <co-player>}. The `(gambling)`
+    # FACET (not a kind branch) marks the money games, cross-cutting the
+    # taxonomy - a card_game may or may not be played for stakes.
+    game
+        card_game
+            poker     (facets gambling)
+            blackjack (facets gambling)
+            whist
+            bridge
+        billiards
+        dominoes      (facets gambling)
+
     # Intoxicants - the abstract substance an NPC can form a `craving` for
     # (the (drive) block in States.mon) and that the drinking behaviour events
     # act on. `alcohol` is the abstract substance; the physical `beer` prop

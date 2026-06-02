@@ -189,6 +189,12 @@ relation
             member_of           (tar org)
             # frequents: a haunt the NPC visits often - a pub, a club.
             frequents           (tar structure|org)
+            # participant: the roster of a game OBJECT - {<game> participant
+            # <person>}. Subject is the game (overriding the block's human
+            # default), target a co-player. The inverse, player-side belief is
+            # {@self play <game>} (Tasks.mon); the two are wired symmetrically
+            # per-mind, like family membership.
+            participant         (sub game)  (tar human)
             # dwell / work are activity-lane TASKS, not states - they live in
             # Tasks.mon ({@self dwell <home>} / {@self work <org>}).
             # backed_by: an investor who has put up founding capital for this

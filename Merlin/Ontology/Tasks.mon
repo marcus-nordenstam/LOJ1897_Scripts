@@ -71,6 +71,14 @@ relation
             # co-present membership the incident pass can read. The standing
             # membership stays {@self member_of <club-org>} (the roster).
             gather                                  (tar structure)
+            # play: a game-playing episode (activity-lanes L8). The target is a
+            # per-mind game OBJECT (of a game kind), not a venue - {@self play
+            # <game>} where <game> isa poker / billiards / ...; the co-players
+            # ride on the game object as {<game> participant <person>}
+            # (States.mon), the venue as the game's own belief or play's aux.
+            # Distinct from the legacy `play_game <game-kind>` act-record below
+            # (which the sobriety/wealth classifiers read).
+            play                                    (tar game)
 
             acquire                                 (tar object)
             buy                                     (tar ?)
