@@ -86,6 +86,15 @@ attr "sexual_orient" (type kind) (mech feel)
 # sobriety classifier reads it (see hsim_derive.cc).
 attr "intoxication" (type float) (range 0 1) (mech obs) (mech feel) (state-flags-tar @excl)
 
+# Gambling addiction, 0..1 (1 = morbidly addicted) - a behavioural addiction,
+# the standing DISPOSITION to gamble (not an act, not a specific game). The
+# gambling seed event bumps it; the sobriety + wealth classifiers read it
+# (graded). (mech feel) mirrors it into the NPC's own mind as a self-belief.
+# The addiction is what makes {@self play_game <game>} for a `gambling`-facet
+# game more likely (realised via event chance / the action pipeline's drive
+# weighting). Supersedes the old `play_game gambling` act-record.
+attr "gambling_addiction" (type float) (range 0 1) (mech obs) (mech feel) (state-flags-tar @excl)
+
 # Big Five personality - the ten aspects of the Big Five Aspect Scale
 # (DeYoung/Quilty/Peterson 2007), two per OCEAN domain. Genetic and heritable
 # (gaussian + mid-parent blend in mx_make_human), self-known via /feel. Each

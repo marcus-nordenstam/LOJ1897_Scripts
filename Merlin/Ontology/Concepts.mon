@@ -342,16 +342,14 @@ concept
         rugby
         horse_racing
 
-    # Gambling - the vice the Phase 8 `play_game` behaviour act-record targets;
-    # {actor play_game gambling}. The sobriety / wealth classifiers read it.
-    gambling
-
     # Games - the thing one plays (a hand of cards, a frame of billiards). A
     # game is a group activity OBJECT: each occasion is a per-mind game object
     # of one of these kinds (a Mental Object per knowledge_design_notes), wired
-    # {@self play <game>} + {<game> participant <co-player>}. The `(gambling)`
-    # FACET (not a kind branch) marks the money games, cross-cutting the
-    # taxonomy - a card_game may or may not be played for stakes.
+    # {@self play_game <game>} + {<game> participant <co-player>}. The
+    # `(gambling)` FACET (not a kind branch) marks the money games, cross-
+    # cutting the taxonomy - a card_game may or may not be played for stakes.
+    # The standing DISPOSITION to gamble is the `gambling_addiction` attr
+    # (common.arc), not a kind here.
     game
         card_game
             poker     (facets gambling)

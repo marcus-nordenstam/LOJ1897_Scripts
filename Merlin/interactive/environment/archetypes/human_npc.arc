@@ -23,6 +23,8 @@ archetype "human_npc" (cap 4096) (mech obs) (raycast-visible) (sentient) (non-oc
     "sexual_orient"
     # Accumulated intoxication - F3.7 sobriety input.
     "intoxication"
+    # Gambling addiction (0..1) - F3.5 sobriety + wealth input.
+    "gambling_addiction"
     # Big Five personality - the ten Big Five Aspect Scale aspects.
     "openness"
     "intellect"
