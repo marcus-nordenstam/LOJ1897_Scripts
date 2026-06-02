@@ -473,9 +473,14 @@ concept
             sports_ground
         com
             club
-                athletic
+                # Athletic clubs - founded procedurally (k_foundable_club_kinds).
+                athletic_club
                     race_club
                     rugby_union
+                # Social/gentlemen's clubs - the named institutions (the Albion,
+                # St-Revi, Mariner's, Meridian House, the Foundry) are specific
+                # pre-placed instances, not procedurally founded.
+                social_club
             business
                 factory
                 bank

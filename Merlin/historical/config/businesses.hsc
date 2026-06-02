@@ -46,12 +46,18 @@
 (business pub            (building pub))
 (business theatre        (building theatre))
 
-;; --- Professional / agency / club: a general office building where clients call ---
+;; --- Professional / agency: a general office building where clients call ---
 (business solicitor_firm (building office))
 (business house_agency   (building office))
 (business insurance_co   (building office))
 (business shipping_agent (building office))
-(business club           (building office))
+;; Clubs convene in their own clubhouse, not an office (activity-lanes L8).
+;; Athletic clubs are founded as the concrete leaves race_club / athletic_club
+;; (k_foundable_club_kinds); social clubs (the named institutions) are pre-placed
+;; instances of social_club. The catalog lookup is per-leaf.
+(business race_club      (building athletic_clubhouse))
+(business athletic_club  (building athletic_clubhouse))
+(business social_club    (building social_clubhouse))
 
 ;; --- Public (gov / edu): bootstrapped, but premises kind declared for completeness ---
 (business church         (building church))

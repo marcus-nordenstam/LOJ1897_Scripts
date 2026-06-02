@@ -54,6 +54,23 @@ relation
             # lanes worship lane (L8) will mint it begin+end per service; the
             # current churchgoing seed mints one ongoing belief (binary piety).
             worship                                 (tar structure)
+            # indulge: episodic vice-lane memory (activity-lanes L8).
+            # {@self indulge <pub> /aux alcohol|gambling} = "indulged in
+            # <vice> at <pub>". One general label for the pub vices; the vice
+            # kind is in aux. Minted begin+end per episode by the vice lane
+            # (the drinking / gambling events), feeding pub co-presence; the
+            # decay pass folds repeats into a cumulative belief. The sobriety /
+            # wealth classifiers still read the intoxication attr / play_game
+            # record, NOT this memory (so the seeds stay load-bearing for now).
+            indulge                                 (tar structure)    (aux ?)
+            # gather: episodic club/civic-lane memory (activity-lanes L8).
+            # {@self gather <clubhouse>} = "attended a gathering at <clubhouse>".
+            # Minted begin+end per gathering by the club lane (club_gathering ->
+            # hold-club-gathering, which walks the club's member-register and the
+            # clubhouse building from the org articles) - giving club premises a
+            # co-present membership the incident pass can read. The standing
+            # membership stays {@self member_of <club-org>} (the roster).
+            gather                                  (tar structure)
 
             acquire                                 (tar object)
             buy                                     (tar ?)

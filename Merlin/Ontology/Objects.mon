@@ -301,6 +301,14 @@ object (+ obs)
                     museum      (facets public_space)
                     meeting_hall (facets public_space)
                     sports_ground (facets public_space)
+                    # Private members' club premises (activity-lanes L8). NOT
+                    # public_space - a club is members-only, so a non-member is
+                    # not welcome_at without invitation. The club lane convenes
+                    # the member-register here (clubhouse co-presence). Split by
+                    # club type: athletic (sporting) vs social (gentlemen's).
+                    clubhouse
+                        athletic_clubhouse
+                        social_clubhouse
         pier
         bridge
             suspension_bridge
