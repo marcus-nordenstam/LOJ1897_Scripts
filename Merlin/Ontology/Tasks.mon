@@ -78,7 +78,7 @@ relation
             # (States.mon), the venue as the game's own belief or play's aux.
             # Distinct from the legacy `play_game <game-kind>` act-record below
             # (which the sobriety/wealth classifiers read).
-            play                                    (tar game)
+            play                                    (tar game)    (kind_fold)
 
             acquire                                 (tar object)
             buy                                     (tar ?)
