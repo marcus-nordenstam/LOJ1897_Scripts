@@ -254,13 +254,15 @@ relation
         #   interest - the casual-pull band of the unified `domain` axis
         #     (interest -> skilled_in -> calling): an NPC is drawn to a domain
         #     without (yet) practising it. {@self interest <domain>}. Seeded
-        #     hereditary in mx_make_human + grown / shed by interest_acquired /
-        #     interest_lost. Non-exclusive. (Was a noun-kind doubling as a label
+        #     hereditary in mx_make_human + grown by the substrate-rooted S3
+        #     acquisition events (parental_seeding / peer_propagation /
+        #     mentor_inspired / temperament_drift) and shed by interest_lapses
+        #     (an unskilled interest only). Non-exclusive. (Was a noun-kind doubling as a label
         #     before the PR-skill-life domain collapse; now an explicit
         #     verb-state so the label keeps validating its domain targets.)
         #   calling - the life-organising band: a drive toward a `domain`, seeded
-        #     once in childhood for a minority of NPCs and never lost by
-        #     interest_lost. @excl - one overriding calling ({@self calling
+        #     once in childhood for a minority of NPCs and never shed by
+        #     interest_lapses. @excl - one overriding calling ({@self calling
         #     music} / {@self calling engineering}). Drives event-casting and
         #     feeds the `purpose` felt-life dimension.
         #   craving - an acquired compulsive drive (addiction to drink); durable
