@@ -23,5 +23,5 @@
 "親 たち"               [k parent]              .
 
 # Collective concepts - Japanese DOES mark these as plural-ish.
-"興味"                  [k interest]            .
+"興味"                  interest                .
 "関係"                  [k relationship]        .

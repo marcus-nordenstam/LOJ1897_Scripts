@@ -187,8 +187,6 @@ relation
             # member_of: club / society membership - distinct from employment
             # (`employer`). Non-exclusive: an NPC may join several.
             member_of           (tar org)
-            # frequents: a haunt the NPC visits often - a pub, a club.
-            frequents           (tar structure|org)
             # participant: the roster of a game OBJECT - {<game> participant
             # <person>}. Subject is the game (overriding the block's human
             # default), target a co-player. The inverse, player-side belief is
@@ -220,18 +218,17 @@ relation
             # one held narrative per observer per victim.
             circumstances_of_death  (tar incident @excl)
 
-        # Competence - the domains an NPC is practically skilled in. The
-        # target accepts either a `field_of_study` kind (academic /
-        # studied disciplines like classics, medicine, accountancy) or
-        # a `skill_kind` (combat / craft / operational competences like
-        # marksmanship, poisoning_knowledge, forgery). Both taxonomies
-        # live in Concepts.mon. The /aux holds a `competence_level`
-        # (novice / trained / expert); absent /aux is treated as novice
-        # for backward-compat with field_of_study-only callsites.
-        # Non-exclusive: an NPC may be skilled in several domains; each
-        # is its own belief.
+        # Competence - the domains an NPC is practically skilled in. Targets a
+        # `domain` kind (Concepts.mon): the academic_field disciplines (classics,
+        # medicine, accountancy), the martial / illicit competences
+        # (marksmanship, forgery), the performance_art / athletics skills, etc.
+        # The earned-competence band of the unified domain axis (interest ->
+        # skilled_in -> calling). The /aux holds a `competence_level`
+        # (novice / trained / expert); absent /aux is treated as novice.
+        # Non-exclusive: an NPC may be skilled in several domains; each is its
+        # own belief.
         (competence)            (+ sub human)
-            skilled_in          (tar field_of_study|skill_kind)  (aux ?)
+            skilled_in          (tar domain)  (aux ?)
 
         # Achievements - sporting / competitive participation and victories.
         # Targets stay unconstrained until the Phase 6 sports events pin the
@@ -254,20 +251,25 @@ relation
         # Acquired interior drives (F4.3). A drive is neither an emotion nor a
         # heritable temperament - it is deposited by a life of events and then
         # shapes which events cast the NPC.
-        #   calling - a life-organising drive toward a domain, seeded once in
-        #     childhood for a minority of NPCs and never lost by interest_lost.
-        #     @excl - one overriding calling. The target is that domain: an
-        #     `interests` topic ({@self calling music}) or a `field_of_study`
-        #     specialism ({@self calling engineering}). Drives event-casting and
-        #     feeds the `purpose` felt-life dimension. `interests` is the
-        #     topic taxonomy and `field_of_study` is the specialism
-        #     taxonomy; both can be a calling target.
+        #   interest - the casual-pull band of the unified `domain` axis
+        #     (interest -> skilled_in -> calling): an NPC is drawn to a domain
+        #     without (yet) practising it. {@self interest <domain>}. Seeded
+        #     hereditary in mx_make_human + grown / shed by interest_acquired /
+        #     interest_lost. Non-exclusive. (Was a noun-kind doubling as a label
+        #     before the PR-skill-life domain collapse; now an explicit
+        #     verb-state so the label keeps validating its domain targets.)
+        #   calling - the life-organising band: a drive toward a `domain`, seeded
+        #     once in childhood for a minority of NPCs and never lost by
+        #     interest_lost. @excl - one overriding calling ({@self calling
+        #     music} / {@self calling engineering}). Drives event-casting and
+        #     feeds the `purpose` felt-life dimension.
         #   craving - an acquired compulsive drive (addiction to drink); durable
         #     - reform resists it, never erases it - and non-exclusive (an NPC
         #     may crave more than one thing). The target is the craved substance
         #     kind: {@self craving alcohol}.
         (drive)                 (+ sub human)
-            calling             (tar interest|field_of_study @excl)
+            interest            (tar domain)
+            calling             (tar domain @excl)
             craving             (tar ?)
             # life_aim - the existential-frame drive: what the NPC
             # wants their LIFE to amount to. Target is a life_aim kind
@@ -277,7 +279,7 @@ relation
             # and from craving (substance-targeted compulsion). DERIVED
             # by hsim_derive::classify_life_aim annually from substrate
             # (Big Five + Dark Tetrad + class trajectory + bond counts
-            # + frequents); never minted by events. Feeds the
+            # + worship); never minted by events. Feeds the
             # LIFE_AIM_ALIGN factor in the unified weight formula used
             # by deliberation / perpetration / incident outcome
             # selectors. NOT @excl - the classifier explicitly ends the

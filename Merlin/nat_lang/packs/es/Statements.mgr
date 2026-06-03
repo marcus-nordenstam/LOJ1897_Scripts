@@ -179,8 +179,8 @@
 
 
 # INTEREST - kind-valued plural attribute, one belief per topic.
-" $sub_np(NP) se interesa por $kind(KIND|/isa|interest) "
-{ $sub_np(NP) /pres interest $kind(KIND|/isa|interest) } .
+" $sub_np(NP) se interesa por $kind(KIND|/isa|domain) "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|domain) } .
 
 
 # POSSESSIVE RELATIONS - first-person and second-person possessive shapes.

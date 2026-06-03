@@ -180,8 +180,8 @@
 
 # INTEREST - kind-valued plural attribute, one belief per topic. Same shape
 # as English; only the surface differs.
-" $sub_np(NP) är intresserad av $kind(KIND|/isa|interest) "
-{ $sub_np(NP) /pres interest $kind(KIND|/isa|interest) } .
+" $sub_np(NP) är intresserad av $kind(KIND|/isa|domain) "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|domain) } .
 
 
 # POSSESSIVE RELATIONS - first-person and second-person possessive shapes,

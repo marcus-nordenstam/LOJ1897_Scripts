@@ -83,7 +83,7 @@ concept
         # (~3 months).
         recent_incident
         # PR-B perpetration prep marker; actor has been
-        # observing victim's frequents (~30 days). Subsequent
+        # observing victim's movements (~30 days). Subsequent
         # perpetration rolls read this for the surprise modifier.
         stalk_target
         # PR-C drugging / poisoning progress marker. Aux carries
@@ -104,7 +104,7 @@ concept
     # remembered), or life_aim=belonging_aim (just play in the local pub
     # band). Derived annually by hsim_derive::classify_life_aim from
     # substrate (Big Five + Dark Tetrad + class trajectory + bond counts
-    # + frequents). NOT @excl - the classifier explicitly end-dates the
+    # + worship). NOT @excl - the classifier explicitly end-dates the
     # prior dominant life_aim belief on a qualitative shift (PR-aim-
     # history), so multi-decade life_aim history is queryable as
     # repeated {@self life_aim ?} beliefs with non-overlapping intervals.
@@ -117,27 +117,70 @@ concept
         power_aim
         belonging_aim
 
-    # Skill-kind taxonomy for the `skilled_in` competence (States.mon).
-    # Combat / craft / operational skills - distinct from the academic
-    # `field_of_study` taxonomy below, which doubles as a competence
-    # domain but is biased toward studied disciplines. Both can target
-    # `skilled_in`; this taxonomy carries the practically-trained skills
-    # an NPC acquires through profession entry, kin teaching, or
-    # club tenure.
-    skill_kind
-        marksmanship
-        knife_fighting
-        swordsmanship
-        pugilism
-        wrestling
-        horsemanship
-        poisoning_knowledge
-        medicine
-        forgery
-        lockpicking
-        climbing
-        evading
-        detecting
+    # Unified domain axis (PR-skill-life). ONE hierarchical taxonomy that
+    # `interest`, `skilled_in`, and `calling` (States.mon) all target as three
+    # progressive bands on the same axis: casual pull -> earned competence ->
+    # life mission. They COMPOSE (an NPC may hold all three on one domain).
+    # Replaces the former separate `interest` / `skill_kind` / `field_of_study`
+    # enums; their leaves are re-parented here unchanged (the `medicine`
+    # duplicate that lived in both skill_kind and field_of_study is deduped to
+    # one leaf). `t_ontology::is_a` answers "any martial skill?" / "any academic
+    # field?" in one query. The semantic categories group the practicable
+    # competences (academic_field / performance_art / martial / illicit / sport)
+    # and the non-practicable topical interests (avocation / devotional / civic)
+    # an NPC may hold an `interest` in without ever being `skilled_in` it.
+    domain
+        # Studied disciplines (former field_of_study) + scholarly topics.
+        academic_field
+            classics
+            engineering
+            medicine
+            law
+            theology
+            commerce
+            natural_science
+            accountancy
+            navigation
+            husbandry
+            primary_school_curriculum
+            secondary_school_curriculum
+            history
+            science
+        # Expressive / cultural arts.
+        performance_art
+            music
+            theatre
+            literature
+        # Combat / physical skills (former skill_kind combat leaves).
+        martial
+            marksmanship
+            knife_fighting
+            swordsmanship
+            pugilism
+            wrestling
+            horsemanship
+            riding
+        # Criminal competences (former skill_kind operational leaves).
+        illicit
+            poisoning_knowledge
+            forgery
+            lockpicking
+            climbing
+            evading
+            detecting
+        # Physical recreation (the `sports` interest). NOT the standalone
+        # `sport` competition-discipline enum below (cricket / rowing / ...),
+        # which is the achievement target of participated_in / won.
+        athletics
+            sports
+        # Topical interests one holds without practising a skill.
+        avocation
+            antiques
+        devotional
+            religion
+            spiritualism
+        civic
+            suffrage
 
     # Competence-level enum - the /aux of `skilled_in` beliefs. Novice
     # is the entry tier; trained takes years of practice; expert is the
@@ -316,22 +359,14 @@ concept
         sadist_role
         coward_role
 
-    # Hereditary interests. Seeded as {@self interest <kind>} self-beliefs in
-    # mx_make_human and grown / shed by the interest_acquired / interest_lost
-    # hsim events. Non-@excl - an NPC may hold several. The kind subtree below
-    # is the sampling pool (children sampled directly, no sidecar file).
-    interest
-        music
-        theatre
-        literature
-        riding
-        history
-        science
-        spiritualism
-        religion
-        antiques
-        sports
-        suffrage
+    # Interests are now `{@self interest <domain>}` beliefs (the casual-pull
+    # band of the unified `domain` axis above); `interest` is an explicit
+    # verb-state in States.mon. The former standalone `interest` topic enum was
+    # folded into `domain` (PR-skill-life): music/theatre/literature ->
+    # performance_art, history/science -> academic_field, riding -> martial,
+    # sports -> athletics, religion/spiritualism -> devotional, antiques ->
+    # avocation, suffrage -> civic. Still seeded as hereditary self-beliefs in
+    # mx_make_human and grown / shed by interest_acquired / interest_lost.
 
     # Competitive sports - the target of the participated_in / won achievement
     # beliefs (States.mon), written by the sporting_event hsim event. A `sport`
@@ -520,24 +555,10 @@ concept
                 # lifecycle - being a landlord is therefore not a special case.
                 estate
 
-    # Fields of study - the target of the `study` and `diploma` relations, and
-    # of `skilled_in` (States.mon): a field-of-study doubles as the domain an
-    # NPC can be practically competent in. The practical trades below are not
-    # university faculties but are studied (agricultural college, navigation
-    # school, an articled clerkship) and are competences in their own right.
-    field_of_study
-        primary_school_curriculum
-        secondary_school_curriculum
-        classics
-        engineering
-        medicine
-        law
-        theology
-        commerce
-        natural_science
-        accountancy
-        navigation
-        husbandry
+    # Fields of study were folded into the unified `domain` axis (PR-skill-life):
+    # the former field_of_study leaves now live under `domain > academic_field`.
+    # The `study` / `diploma` relations and `skilled_in` (States.mon) target
+    # `domain` (a field-of-study is an academic_field sub-kind of domain).
 
     # ----------------------------------------------------------------------
     # Derived situations (F3.3) - a category ("what sort of X"), each an @excl
@@ -832,7 +853,7 @@ concept
         # left behind when the pupil leaves. A graduate's credential is the
         # `diploma` document noun (Objects.mon) - already a state, so no
         # diploma relation is declared here.
-        study               (tar @excl field_of_study)    (aux org)
+        study               (tar @excl academic_field)    (aux org)
         schooling           (tar ? @excl)
 
     # Property holdings: a holder's owned buildings and land are recorded as

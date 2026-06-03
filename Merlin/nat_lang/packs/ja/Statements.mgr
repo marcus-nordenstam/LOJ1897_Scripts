@@ -327,12 +327,12 @@
 
 # INTEREST - kind-valued plural attribute, one belief per topic.
 # "マリア は literature に 興味があります" - polite / plain pair.
-" $sub_np(NP) は $kind(KIND|/isa|interest) に 興味があります "
-{ $sub_np(NP) /pres interest $kind(KIND|/isa|interest) }
+" $sub_np(NP) は $kind(KIND|/isa|domain) に 興味があります "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|domain) }
 :: deferential
 .
-" $sub_np(NP) は $kind(KIND|/isa|interest) に 興味がある "
-{ $sub_np(NP) /pres interest $kind(KIND|/isa|interest) } .
+" $sub_np(NP) は $kind(KIND|/isa|domain) に 興味がある "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|domain) } .
 
 
 # POSSESSIVE RELATIONS - first-person and second-person possessive shapes,

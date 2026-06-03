@@ -1,46 +1,18 @@
 ; ----------------------------------------------------------------------------
-; Leisure (Phase 6 leaf events). Pub regulars, theatre-goers, and dinner
-; parties. pub_regular / theatre give an NPC a `frequents` haunt; dinner_party
-; is a denser believe-about refresh among the married. Class weighting on
-; these is deliberately left to Phase 9's situation-consult pass.
+; Leisure (Phase 6 leaf events). dinner_party only.
 ;
-; (frequent ?patron <kind>) resolves the building itself (scoped kind path),
-; and no-ops gracefully if the geography has no building of that kind.
+; The old pub_regular_started / theatre_attendance_started seeds (which minted a
+; one-shot static {@self frequents <building>}) were retired in the activity-
+; lanes L8 frequents retirement: frequenting is now EMERGENT from the activity
+; lanes - vice (indulge@pub), interest (pursue@venue), social-outing
+; (socialize_at@venue), worship (worship@church). The classifiers that read the
+; old haunt now derive the "is a regular" signal from those activity memories.
+;
+; dinner_party stays: it is a believe-about refresh among the married, not a
+; frequents writer.
 ; ----------------------------------------------------------------------------
 
 (include "../shared/roles.hse")
-
-; --- pub_regular_started: an adult takes to haunting a pub ------------------
-(hsim-event pub_regular_started
-  (nl         "?patron becomes a pub regular")
-  (kind       _pub_regular)
-  (schedule   (annually june))
-  (rng-stream behaviour)
-
-  (roles
-    (role ?patron (template old_human)
-                  (not (believes ?self {@self frequents ?}))
-                  (chance 0.06)))
-
-  (effects
-    (frequent ?patron pub)
-    (log _pub_regular ?patron)))
-
-; --- theatre_attendance_started: an adult takes to the theatre -------------
-(hsim-event theatre_attendance_started
-  (nl         "?patron starts attending the theatre")
-  (kind       _theatre_attendance)
-  (schedule   (annually november))
-  (rng-stream behaviour)
-
-  (roles
-    (role ?patron (template old_human)
-                  (not (believes ?self {@self frequents ?}))
-                  (chance 0.04)))
-
-  (effects
-    (frequent ?patron theatre)
-    (log _theatre_attendance ?patron)))
 
 ; --- dinner_party: a married adult hosts a friend for dinner ---------------
 (hsim-event dinner_party

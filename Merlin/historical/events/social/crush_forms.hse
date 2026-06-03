@@ -13,8 +13,12 @@
 ; enthusiasm x compassion) trait product (people open to new feeling,
 ; outgoing, and warm) AND no current infatuation / lover / spouse
 ; (single people develop crushes; the already-attached don't refresh).
-; Victim binds via frequents-overlap (you meet your crush through
-; venues you both frequent) plus an age-band check.
+; Victim binds via personally-knows (you develop a crush on someone you
+; have actually met) plus an age-band check. The activity-lanes co-presence
+; sweep seeds the acquaintance ties this reads - strangers who keep crossing
+; paths at a venue become acquaintances first, then crush material (a one-
+; cycle lag). This replaced the old frequents-overlap haunt proxy when the
+; static frequents seed was retired (activity-lanes L8).
 ;
 ; Schedule: monthly. The infatuation belief, once minted, persists
 ; through normal belief decay until a romantic event (betrothal /
@@ -52,7 +56,7 @@
                   (not (= ?victim ?actor))
                   (>= (years-old ?self) 14)
                   (<= (years-old ?self) 60)
-                  (frequents-overlap ?actor ?victim)
+                  (personally-knows ?actor ?victim)
                   (<= (- (years-old ?actor) (years-old ?self))  10)
                   (>= (- (years-old ?actor) (years-old ?self)) -10)
                   (chance 0.20)))

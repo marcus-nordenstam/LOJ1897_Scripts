@@ -49,5 +49,8 @@ $kind(KIND)
 "lovers"                [k lover]               .
 
 # Collective concept plurals - the isa expansion picks up child kinds.
-"interests"             [k interest]            .
+# `interest` is a relation label (not a kind) after the domain collapse, so it
+# binds the literal label (no [k ...] kind-expansion); the query then matches
+# {?sub interest ?} directly. `relationships` still expands the kind tree.
+"interests"             interest                .
 "relationships"         [k relationship]        .

@@ -575,36 +575,36 @@ $form(FORM)
 # Interest is a kind-valued plural-attr; one belief per interest topic. KIND
 # strips the bracket form so [k music] -> "music". The neutral default - kept
 # as the fallback the .mph select chain always lands on.
-" $sub_np(NP) is interested in $kind(KIND|/isa|interest) "
-{ $sub_np(NP) /pres interest $kind(KIND|/isa|interest) } .
+" $sub_np(NP) is interested in $kind(KIND|/isa|domain) "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|domain) } .
 
 # Warm - the speaker holds the subject in regard. "Fond of" softens the bare
 # fact into approval; the interest becomes something the subject is loved for.
-" $sub_np(NP) is fond of $kind(KIND|/isa|interest) "
-{ $sub_np(NP) /pres interest $kind(KIND|/isa|interest) }
+" $sub_np(NP) is fond of $kind(KIND|/isa|domain) "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|domain) }
 :: warm
 .
 
 # Flowery - the .mph escalates warm to flowery when cog:sensory holds.
 # A figurative, romantic-narrator reach: not an interest, but a passion.
-" $sub_np(NP) has a great love of $kind(KIND|/isa|interest) "
-{ $sub_np(NP) /pres interest $kind(KIND|/isa|interest) }
+" $sub_np(NP) has a great love of $kind(KIND|/isa|domain) "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|domain) }
 :: flowery
 .
 
 # Elaborated - the schooled voice. "Takes a serious interest in" frames the
 # interest as a considered pursuit rather than a bare preference. Picked by
 # the .mph interest select when schooling:high holds.
-" $sub_np(NP) takes a serious interest in $kind(KIND|/isa|interest) "
-{ $sub_np(NP) /pres interest $kind(KIND|/isa|interest) }
+" $sub_np(NP) takes a serious interest in $kind(KIND|/isa|domain) "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|domain) }
 :: elaborated
 .
 
 # Curt - the speaker resents the subject. Dismissive bare-acknowledgement form
 # - "cares for" said with a shrug, the way the disapproving narrator concedes
 # a fact they don't think much of.
-" $sub_np(NP) cares for $kind(KIND|/isa|interest) "
-{ $sub_np(NP) /pres interest $kind(KIND|/isa|interest) }
+" $sub_np(NP) cares for $kind(KIND|/isa|domain) "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|domain) }
 :: curt
 .
 
