@@ -55,6 +55,10 @@
                   (believes ?self {@self employer ?})
                   (not (= (job-level ?self) org_head))
                   (>= (job-tenure ?self) 3)
+                  ;; S4: a worker must have EARNED competence (>= trained, ~5yr in
+                  ;; the job's domain) before rising. Jobs that confer no domain
+                  ;; (unskilled trades) pass the gate unconditionally.
+                  (job-skilled-at-or-above ?self trained)
                   (not (= (situation ?self respectability_situation) scandalous))
                   (chance (* 0.25 (+ 0.5 (situation ?self diligence))))))
 
