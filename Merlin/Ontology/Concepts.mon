@@ -358,6 +358,20 @@ concept
         machiavellian_role
         sadist_role
         coward_role
+        # Skill-driven trade / talent identities (PR-skill-life S8). Derived by
+        # classify_identities from a held {@self skilled_in <domain>} at >=
+        # trained: physician <- medicine, lawyer <- law, scholar <- any other
+        # academic_field, soldier (soldier_role above) <- martial, musician <-
+        # music, artist <- other performance_art (theatre / literature),
+        # sportsman <- athletics. The competence (not the job title) confers the
+        # identity, so a trained-in-medicine apothecary still identifies as a
+        # physician. Composite (non-@excl): a polymath holds several.
+        physician_role
+        lawyer_role
+        scholar_role
+        musician_role
+        artist_role
+        sportsman_role
 
     # Interests are now `{@self interest <domain>}` beliefs (the casual-pull
     # band of the unified `domain` axis above); `interest` is an explicit
@@ -463,6 +477,12 @@ concept
             # meeting_hall + sports_ground are run by a clerk (no bespoke job).
             librarian
             curator
+            # University don (PR-education). Head + teaching staff of the
+            # `university` org (org > edu > university). class_floor upper -
+            # the professions' apex. Confers no single domain skill (a don's
+            # competence came from their own degree, minted at graduation),
+            # so occupations.hsc gives it no (domain ...).
+            professor
             # Phase 9 senior_appointment hires public-org appointees under
             # this kind. Distinct from clerk so prestige / pretty-print can
             # render a senior official differently from an ordinary employee.

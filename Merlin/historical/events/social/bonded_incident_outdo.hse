@@ -13,9 +13,12 @@
 ; V2 gating: multiplicative-chance over assertiveness x narcissism
 ; x normalized-aggression (situation aggression / 100). A modal NPC
 ; at (0.5, 0.5, 50) hits base x 0.125; a sharp competitor at (0.7,
-; 0.65, 70) hits base x 0.32 - ~2.5x firing rate. Same-field
-; competition (interest / skilled_in / calling overlap) is V3 work
-; once PR-skill-life ships its unified `domain` axis.
+; 0.65, 70) hits base x 0.32 - ~2.5x firing rate.
+;
+; V3 (PR-skill-life S8): same-field competition is now wired. The victim
+; chance DOUBLES when actor and victim are skilled in overlapping domains
+; (same-domain-skilled, the S2 predicate - live now that S4/S6 mint skilled_in):
+; professional rivals outdo each other far more than strangers-in-trade.
 ;
 ; categorize fires:
 ;   victim (pov=patient):
@@ -45,7 +48,7 @@
                   (not (= ?victim ?actor))
                   (personally-knows ?actor ?victim)
                   (not (has-recent-incident-marker ?actor ?victim))
-                  (chance 0.10)))
+                  (chance (* 0.10 (+ 1.0 (same-domain-skilled ?actor ?victim))))))
 
   (effects
     (incident-anchor ?actor outdo ?victim)

@@ -42,6 +42,16 @@
   (head_pos  principal)
   (employees 4 teacher))
 
+;; The town university (PR-education) - the apex of the class -> education ->
+;; profession pipeline. One chartered institution, staffed by dons; graduates
+;; leave with a subject `skilled_in` (medicine / law / ...) that feeds the S8
+;; physician / lawyer / scholar identities.
+(public_org town_university
+  (kind      university)
+  (era_min   1700)
+  (head_pos  professor)
+  (employees 2 professor))
+
 (public_org land_registry
   (kind      land_registry)
   (era_min   1700)

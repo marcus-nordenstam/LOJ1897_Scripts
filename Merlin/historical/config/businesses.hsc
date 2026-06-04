@@ -64,6 +64,9 @@
 (business hospital       (building hospital))
 (business state_school   (building school))
 (business private_school (building school))
+;; The university (PR-education) shares the `school` building kind - there is no
+;; dedicated college building yet; add one if co-presence realism needs it.
+(business university     (building school))
 
 ;; --- Public civic / cultural venues (govt-bootstrap via public_orgs.hsc).
 ;;     Each occupies its own dedicated building; these are the interest-lane

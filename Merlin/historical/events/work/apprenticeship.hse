@@ -30,6 +30,10 @@
                  (<= (years-old ?self) 16)
                  (not (believes ?self {@self employer ?}))
                  (not (believes ?self {@self spouse ?}))
+                 ;; A youth still in school (PR-education) is not on the labour
+                 ;; market - the working-class on-ramp is for those who left after
+                 ;; primary (or never enrolled), not secondary pupils.
+                 (not (believes ?self {@self study ?}))
                  (chance (* 0.15 (+ 0.5 (situation ?self breeding)))))
     ;; A master only takes on a youth of sound family. The master comes from
     ;; the articles' founder slot, so the respectability test sits on the

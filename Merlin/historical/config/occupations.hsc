@@ -38,6 +38,9 @@
 (job apothecary    (class_floor middle) (business_type apothecary)     (may_own true)  (era_min 1700) (domain medicine))
 (job priest        (class_floor middle) (business_type church)         (may_own false) (era_min 1700) (domain theology))
 (job principal     (class_floor middle) (business_type private_school) (may_own false) (era_min 1700) (domain secondary_school_curriculum))
+; professor: the university don (PR-education). No (domain ...): a don's competence
+; is the degree they earned (minted at graduation), not a skill the post confers.
+(job professor     (class_floor upper)  (business_type university)     (may_own false) (era_min 1700))
 
 ;; --- Middle-class professions ---
 (job editor        (class_floor middle) (business_type newspaper)      (may_own true)  (era_min 1750) (domain literature))
