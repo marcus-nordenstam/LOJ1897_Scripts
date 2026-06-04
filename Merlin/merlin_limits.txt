@@ -45,24 +45,24 @@ npc.structIds4.pool                 =   10000   16      8
 npc.structIds16.pool                =   100000  512     64
 npc.structIds128.pool               =   10000   8       8
 abs.listSymbols.pool                =   4000    2000    10
-npc.listSymbols.pool                =   1000    200     10
-npc.utilSource.pool                 =   100     40      10
+npc.listSymbols.pool                =   50000   4000    256
+npc.utilSource.pool                 =   5000    256     64
 
 # Object-related pools
-npc.objects.pool                    =   10000   128     64
+npc.objects.pool                    =   40000   1000    128
 npc.objectRuleRefs.pool             =   1000    512     64
 abs.objectRuleRefs.pool             =   128     64      8
 npc.namedObjectsTable.pool          =   16      8       8
 npc.catObjectsTable.pool            =   16      8       8
 npc.causedObjectsTable.pool         =   16      8       8
-npc.beliefRolesTable.pool           =   50000   256     64
-npc.beliefRoles.pool                =   500000  1024    128
+npc.beliefRolesTable.pool           =   200000  2000    256
+npc.beliefRoles.pool                =   2000000 8000    512
 
 # Pattern-related pools
-npc.beliefs.pool                    =   50000   512     128
-npc.clauses.pool                    =   50000   512     128
-npc.funcs.pool                      =   2000    512     128
-npc.lists.pool                      =   2000    512     128
+npc.beliefs.pool                    =   200000  4000    512
+npc.clauses.pool                    =   200000  4000    512
+npc.funcs.pool                      =   20000   1000    256
+npc.lists.pool                      =   50000   4000    256
 npc.beliefIdsByLabel.pool           =   4       4       8
 
 # Float-data bounds

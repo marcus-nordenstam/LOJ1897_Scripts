@@ -26,7 +26,7 @@
 (affinity humiliation         confront_privately   0.5)
 (affinity humiliation         expose               0.4)
 (affinity humiliation         withdraw             0.3)
-(affinity humiliation         kill                 0.2)
+(affinity humiliation         kill                 0.02)
 ; PR-3d 2026-05-25 - new goal labels.
 (affinity humiliation         humiliate            0.5)
 (affinity humiliation         discredit            0.4)
@@ -35,7 +35,7 @@
 (affinity injustice           confront_privately   0.5)
 (affinity injustice           expose               0.5)
 (affinity injustice           plead                0.3)
-(affinity injustice           kill                 0.2)
+(affinity injustice           kill                 0.02)
 (affinity injustice           discredit            0.4)
 
 ; ---- exposure_risk: standing secret may break --------------------------------
@@ -53,7 +53,7 @@
 ; PR-A-6 2026-05-28 - the rare-but-load-bearing jealous-spouse path.
 ; betrayed lovers do sometimes escalate to the kill goal; the affinity
 ; weight is intentionally low so it stays a tail outcome, not a default.
-(affinity attachment_loss     kill                 0.3)
+(affinity attachment_loss     kill                 0.03)
 
 ; ---- moral_violation: actor's own held norms breached ------------------------
 (affinity moral_violation     confess_letter       0.5)
@@ -66,7 +66,7 @@
 (affinity existential_threat  flee                 0.8)
 (affinity existential_threat  plead                0.4)
 (affinity existential_threat  surrender            0.3)
-(affinity existential_threat  kill                 0.4)
+(affinity existential_threat  kill                 0.04)
 
 ; ---- status_loss: prestige drop --------------------------------------------
 (affinity status_loss         withdraw             0.4)
@@ -77,7 +77,7 @@
 ; triangulations).
 (affinity status_loss         discredit            0.4)
 (affinity status_loss         expose               0.4)
-(affinity status_loss         kill                 0.3)
+(affinity status_loss         kill                 0.03)
 
 ; ---- autonomy_loss: capability constrained by another ----------------------
 (affinity autonomy_loss       flee                 0.5)
@@ -97,7 +97,7 @@
 ; ---- rivalry_pressure: directed competition ----------------------------------
 (affinity rivalry_pressure    confront_privately   0.4)
 (affinity rivalry_pressure    expose               0.4)
-(affinity rivalry_pressure    kill                 0.2)
+(affinity rivalry_pressure    kill                 0.02)
 (affinity rivalry_pressure    discredit            0.5)
 (affinity rivalry_pressure    humiliate            0.3)
 
