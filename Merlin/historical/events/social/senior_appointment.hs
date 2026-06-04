@@ -1,0 +1,60 @@
+; ----------------------------------------------------------------------------
+; senior_appointment (Phase 9.3). An exemplary, high-prestige adult is
+; appointed to a senior public post (church / hospital / agency). The post a
+; person holds IS their job / employment state - there is no separate "office"
+; concept: this is ordinary employment at a senior rank, gated on exemplary
+; character + high prestige + a public (gov-subkind) org.
+;
+; The candidate leaves their current post first (the (fire ...) is a no-op
+; for the jobless), so their `employer` (@excl) is free for the gov hire to
+; take. The (hire :level senior ...) - rather than :org_head - leaves the
+; founder's head slot intact; the head is the position established by
+; whoever founded the org. The senior level is the rung that still lifts
+; prestige and reads as a senior post downstream.
+;
+; Schedule: annually march alongside hiring; appointments cluster with the
+; year's other employment changes.
+; ----------------------------------------------------------------------------
+
+(include "../../definitions/roles.hs")
+
+(hsim-event senior_appointment
+  (nl         "?official is appointed to a senior post")
+  (kind       _appointment)
+  (schedule   (annually march))
+  (rng-stream employment)
+
+  (roles
+    ;; An exemplary, high-prestige adult of working age. The prestige floor
+    ;; selects already-distinguished candidates (>= 65 = the existing senior
+    ;; tier). Without an existing senior post a person rarely has the
+    ;; prestige to be appointed, so this naturally targets the already-
+    ;; established class - the historical pattern.
+    ;;
+    ;; The plan's "member_of of an organisation that hosts the post"
+    ;; tenure gate (PR-A-8 audit) is V2 work - the substrate has the
+    ;; member_of relation but the gov-org subset filter would need a
+    ;; cross-role join the .hse layer doesn't express cleanly today.
+    ;; V1 routes the chance through a trait product: assertiveness +
+    ;; (situation prestige) above the floor amplifies the rate, so a
+    ;; high-prestige assertive candidate fires substantially more often
+    ;; than an exemplary-but-quiet one.
+    (role ?official (template old_human)
+                    (>= (years-old ?self) 30)
+                    (<= (years-old ?self) 65)
+                    (= (situation ?self respectability_situation) exemplary)
+                    (>= (situation ?self prestige) 0.65)
+                    (chance (* 0.10
+                               (attr ?self assertiveness)
+                               (situation ?self prestige))))
+    ;; A public organisation - any gov-subkind: church, hospital, agency.
+    (role ?articles (template org_articles)
+                    (org-kind-is-a ?self gov)))
+
+  (effects
+    ;; Leave the current post (no-op for the jobless), then take up the
+    ;; senior public post. (hire) is idempotent: a candidate already on this
+    ;; org's roster is left untouched, so a malformed re-pick is harmless.
+    (fire :worker ?official)
+    (hire :articles ?articles :worker ?official :role official :level senior)
+    (log _appointment ?official)))

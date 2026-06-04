@@ -1,0 +1,25 @@
+; ----------------------------------------------------------------------------
+; churchgoing - an F3.7 behaviour seed event. Once a year a share of adults
+; attend the parish church, gaining a `worship` belief. The F3.5 piety
+; classifier reads it (v1 piety is binary - churchgoer vs not). The
+; (go-to-church ...) verb locates the church building itself, so the event
+; needs only the ?npc role.
+; ----------------------------------------------------------------------------
+
+(include "../../definitions/roles.hs")
+
+(hsim-event churchgoing
+  (nl         "?npc attends church")
+  (kind       _churchgoing)
+  (schedule   (annually april))
+  (rng-stream behaviour)
+
+  (roles
+    ; High politeness (respect for convention and institution) attends church
+    ; more often. Mean-1.0 multiplier - attendance volume is unchanged.
+    (role ?npc (template old_human)
+               (chance (* 0.4 (+ 0.5 (attr ?self politeness))))))
+
+  (effects
+    (go-to-church ?npc)
+    (log _churchgoing ?npc)))

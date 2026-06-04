@@ -1,0 +1,44 @@
+; ----------------------------------------------------------------------------
+; Childhood friendships. Once a year (in march), each school-aged child has
+; a small chance to befriend a same-class peer within a few years of their
+; own age.
+;
+; Topology: ?a is enumerated; ?b is sampled with backtracking from the
+; population matching the per-pair filters. The (not (believes ...))
+; filter prevents re-asserting an existing friendship.
+;
+; Friendships are bidirectional - both sides get a `friend` belief plus
+; gender / death-status mirrors so a later "who are your friends?"
+; query renders with detail.
+; ----------------------------------------------------------------------------
+
+(include "../../definitions/roles.hs")
+
+(hsim-event childhood_friendship
+  (nl         "?a and ?b become childhood friends")
+  (kind       _friendship)
+  (schedule   (annually march))
+  (rng-stream friendships)
+
+  (roles
+    ; High enthusiasm (the sociable Extraversion aspect) makes friends more
+    ; readily. Mean-1.0 multiplier - friendship volume is unchanged.
+    (role ?a (template any_human)
+             (>= (years-old ?self) 8)
+             (<= (years-old ?self) 16)
+             (chance (* 0.15 (+ 0.5 (attr ?self enthusiasm)))))
+    (role ?b (template any_human)
+             (>= (years-old ?self) 8)
+             (<= (years-old ?self) 16)
+             (not (= ?self ?a))
+             (= (belief-target ?self class_situation) (belief-target ?a class_situation))
+             (<= (- (years-old ?self) (years-old ?a))  3)
+             (>= (- (years-old ?self) (years-old ?a)) -3)
+             (not (believes ?a {@self friend ?b}))))
+
+  (effects
+    (begin-belief        ?a friend ?b)
+    (begin-belief        ?b friend ?a)
+    (believe-about ?a ?b)
+    (believe-about ?b ?a)
+    (log _friendship ?a)))
