@@ -37,8 +37,7 @@
              (not (believes ?a {@self friend ?b}))))
 
   (effects
-    (begin-belief        ?a friend ?b)
-    (begin-belief        ?b friend ?a)
-    (believe-about ?a ?b)
-    (believe-about ?b ?a)
+    ; befriend mints the mutual tie (friend, or acquaintance if either side is
+    ; already at friend-capacity) AND the matching-tier profile sync.
+    (befriend ?a ?b)
     (log _friendship ?a)))
