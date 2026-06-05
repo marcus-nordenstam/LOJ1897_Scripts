@@ -51,6 +51,12 @@
     (role ?articles (template org_articles)
                     (org-kind-is-a ?self gov)))
 
+  ;; Live exclusivity re-check (see betrothal.hs): without it, every gov org
+  ;; enumerated this tick can appoint the same prestigious official before the
+  ;; first appointment commits. The when_gate is live per firing; once the
+  ;; official has been made senior this tick it fails and the sampler backtracks.
+  (when (not (= (job-level ?official) senior)))
+
   (effects
     ;; Leave the current post (no-op for the jobless), then take up the
     ;; senior public post. (hire) is idempotent: a candidate already on this

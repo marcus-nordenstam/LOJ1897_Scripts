@@ -92,6 +92,15 @@
     (role ?principal_articles (template org_articles)
                               (org-kind-is-a ?self business)))
 
+  ;; Live exclusivity re-check (see betrothal.hs): the candidate's "not
+  ;; org_head" eligibility is evaluated at enumeration time, so within one
+  ;; january tick several businesses can each sample the same strong candidate
+  ;; before any partnership commits - one man "taken into partnership" by a
+  ;; dozen firms. The when_gate is evaluated live per firing; once the candidate
+  ;; has been made an org_head this tick, the re-check fails and the sampler
+  ;; backtracks to another candidate.
+  (when (not (= (job-level ?candidate) org_head)))
+
   (effects
     ; The candidate leaves his salaried post and joins as a co-proprietor.
     (fire :worker ?candidate)

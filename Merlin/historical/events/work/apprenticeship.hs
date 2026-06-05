@@ -41,6 +41,14 @@
     (role ?articles (template org_articles)
                     (not (= (situation (org-founder ?self) respectability_situation) scandalous))))
 
+  ;; Live exclusivity re-check (see employment.hs): the youth's "unemployed"
+  ;; filter is alpha-indexed, so within one tick several masters sample the same
+  ;; youth before the first apprenticeship commits. We re-check via (job-level
+  ;; ...) - a computed op reads live, unlike a belief-pattern (which routes
+  ;; through the stale alpha-discriminator). (hire ... :level trainee) sets it
+  ;; live, so once apprenticed this tick the youth reads trainee + backtracks.
+  (when (not (= (job-level ?youth) trainee)))
+
   ;; ?master is the org's founder, read from the articles document.
   (let ((?master (org-founder ?articles)))
     (effects

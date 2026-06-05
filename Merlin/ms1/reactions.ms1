@@ -228,7 +228,7 @@
 (reaction slight_act :pov patient
   (mint anger    :focus actor :salience 8)
   (mint contempt :focus actor :salience 48)
-  (pressure humiliation :focus actor :salience 8760))   ; 1 year base; mood/trait scaling can only amplify (modal NPC keeps the full base), capped at max-pressure-salience.
+  (pressure humiliation :focus actor :salience 336))    ; 2 weeks base. A SINGLE insult should NOT brood or drive action - this fades before the monthly deliberate sees it. But mint_pressure ADDS salience on each re-mint, so the same person insulting you repeatedly builds the humiliation pressure up past the action threshold (and the wrong_act reaction's enemy-bond carries the lasting hatred). Slow-burn grudge, not instant year-long brooding. Capped at max-pressure-salience.
 
 (reaction slight_act :pov actor
   (mint pride :focus self :salience 24))

@@ -32,6 +32,16 @@
                   (chance 0.3))
     (role ?articles (template org_articles)))
 
+  ;; Live exclusivity re-check (see business.hs): the worker's "unemployed"
+  ;; role filter is alpha-indexed, so within one tick every hiring org samples
+  ;; the same available worker before the first hire commits - one man "hired"
+  ;; by 20 firms. We re-check via (job-level ...) NOT (believes employer ...):
+  ;; a computed op reads live, whereas a belief-pattern in the when_gate routes
+  ;; through the same alpha-discriminator that's already stale. (hire ... :level
+  ;; apprentice) sets the level live, so once hired this tick the worker reads
+  ;; apprentice and the sampler backtracks to another candidate.
+  (when (not (= (job-level ?worker) apprentice)))
+
   (effects
     (hire :articles ?articles :worker ?worker :role clerk :level apprentice)
     (log _hiring ?worker)))

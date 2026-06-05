@@ -39,11 +39,12 @@
   (rng-stream deliberation)
 
   (roles
+    ; CAST FILTER (section 19-21): any alive human carrying a standing pressure.
+    ; (has-pressure ?actor) is the cheap early-exit existence test - only
+    ; pressured NPCs run the synthesizer. (A strength threshold via
+    ; total-pressure-load was tried; it skipped the CHEAP low-load NPCs and kept
+    ; the expensive high-load ones, so it cost perf rather than saving it.)
     (role ?actor (template any_human)
-                 ; TEMP: pass every alive human while we validate the wiring.
-                 ; The real OR-of-pressures filter is the comment block below;
-                 ; restore once we've confirmed deliberate fires + synthesizer
-                 ; produces branches.
-                 (> (emotion-load ?actor) -1.0)))
+                 (> (has-pressure ?actor) 0.0)))
 
   (generative-deliberation))

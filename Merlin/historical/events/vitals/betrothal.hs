@@ -48,6 +48,16 @@
                  (<= (- (years-old ?self) (years-old ?bride))  15)
                  (>= (- (years-old ?self) (years-old ?bride)) -15)))
 
+  ;; Exclusivity re-check at FIRING time. The role "un-betrothed" filters are
+  ;; alpha-indexed (a discriminator bitset built once when the event starts),
+  ;; so within a single january tick they go stale: bride #2 still sees a groom
+  ;; that bride #1 already betrothed this tick, and one man ends up with several
+  ;; fiancees. The when_gate is evaluated LIVE per firing (after prior firings'
+  ;; effects commit), so re-checking here catches the within-tick collision;
+  ;; the sampler then backtracks to a still-single groom.
+  (when (and (not (believes ?groom {@self fiancee ?}))
+             (not (believes ?bride {@self fiancee ?}))))
+
   (effects
     (begin-belief ?groom fiancee ?bride)
     (begin-belief ?bride fiancee ?groom)

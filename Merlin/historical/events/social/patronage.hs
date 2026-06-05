@@ -50,6 +50,12 @@
                        (and (= (situation ?patron  class_situation) middle)
                             (= (situation ?self    class_situation) lower)))))
 
+  ;; Live exclusivity re-check (see betrothal.hs): the protege's "not already
+  ;; backed" filter is alpha-indexed, so within one tick several patrons can
+  ;; back the same protege before the first backed_by commits. The when_gate is
+  ;; live per firing; once the protege is backed this tick it fails + backtracks.
+  (when (not (believes ?protege {@self backed_by ?})))
+
   (effects
     (begin-belief ?protege backed_by ?patron)
     (log _patronage ?protege)))

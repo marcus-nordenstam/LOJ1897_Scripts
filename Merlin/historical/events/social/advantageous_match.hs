@@ -65,6 +65,13 @@
                  (<= (- (years-old ?self) (years-old ?bride))  15)
                  (>= (- (years-old ?self) (years-old ?bride)) -15)))
 
+  ;; Live exclusivity re-check (see betrothal.hs): the un-betrothed role filters
+  ;; are alpha-indexed and go stale within the february tick, so without this a
+  ;; groom claimed by an earlier exemplary bride this tick could be claimed
+  ;; again. The when_gate is evaluated live per firing; the sampler backtracks.
+  (when (and (not (believes ?groom {@self fiancee ?}))
+             (not (believes ?bride {@self fiancee ?}))))
+
   (effects
     (begin-belief ?groom fiancee ?bride)
     (begin-belief ?bride fiancee ?groom)
