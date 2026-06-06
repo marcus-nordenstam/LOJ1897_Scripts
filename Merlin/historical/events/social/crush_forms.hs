@@ -50,15 +50,15 @@
                   (>= (years-old ?actor) 14)
                   (<= (years-old ?actor) 50)
                   ; infatuation retired (relational_stance_plan.md Phase 4):
-                  ; directed attraction is now the attraction stance SCALAR
-                  ; (fancy/desire/crave verb-states), driven by mate-value in the
-                  ; standing pass. This event is a dispositional narrative beat for
-                  ; a romantically-open single not already deep in a crush. It does
-                  ; NOT target-gate on the fancied person: a TARGET-SPECIFIC
-                  ; `(believes ?actor {@self fancy ?victim})` does NOT gate (hse
-                  ; two-bound-var believes limitation, 2026-06-06); and the
-                  ; attraction scalar is gender-gated so it is sparse in hsim (a
-                  ; target's gender is known only for believe_about'd contacts).
+                  ; directed attraction is the one-sided attraction stance SCALAR
+                  ; (fancy/desire/crave verb-states). The passive standing-pass
+                  ; mate-value driver is too gated to fire in the small-town repro
+                  ; (opposite-sex AND non-kin AND adult AND centrality>3 at once ->
+                  ; ~0 eligible), so THIS event is the active igniter: a
+                  ; romantically-open single not already deep in a crush nudges
+                  ; attraction toward a known, age-appropriate, opposite-sex person
+                  ; (effects below). The standing pass then maintains/deepens it for
+                  ; believe_about'd contacts; repeated fires push fancy -> desire.
                   (not (believes ?actor {@self desire ?}))
                   (not (believes ?actor {@self lover ?}))
                   (not (believes ?actor {@self spouse ?}))
@@ -71,11 +71,20 @@
                   (>= (years-old ?victim) 14)
                   (<= (years-old ?victim) 60)
                   (personally-knows ?actor ?victim)
+                  ; Opposite-sex (the period-default hetero majority; attr reads,
+                  ; not a two-bound believes, so it gates reliably). Same-sex /
+                  ; bi pulls are left to the orientation-correct standing-pass
+                  ; driver (orient_admits). Excludes same-sex siblings for free.
+                  (not (= (attr ?victim gender) (attr ?actor gender)))
                   (<= (- (years-old ?actor) (years-old ?victim))  10)
                   (>= (- (years-old ?actor) (years-old ?victim)) -10)
                   (chance 0.20)))
 
   (effects
-    ; No belief mint - the `fancy` verb-state IS the durable crush. This event
-    ; surfaces it as a narrative beat.
+    ; Feed the one-sided attraction scalar (relational_stance_plan.md Phase 4):
+    ; a crush is a strong directed pull. 0.5 crosses the `fancy` band (0.20) in
+    ; one fire and sustains ~a year against the sleep decay (0.938); repeated
+    ; fires deepen toward `desire` (0.60). The `fancy` verb-state belief is what
+    ; courtship (betrothal / advantageous_match) now reads.
+    (nudge-stance ?actor ?victim attraction 0.5)
     (log _crush_forms ?actor)))

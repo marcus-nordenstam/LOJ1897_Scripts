@@ -390,9 +390,14 @@
 ; aid_act and provision_act share an umbrella help_act reaction. Authors
 ; can override per-specific category if needed.
 (reaction help_act :pov patient
+  ; A single favour is a WARMTH nudge, not an instant friendship
+  ; (relational_stance_plan.md sections 5.2 / 7). The gratitude mint couples to
+  ; warmth (stance-coupling above); repeated kindnesses accumulate into a `like`
+  ; band, and friendship then forms via the warmth-biased befriend events
+  ; (adult/childhood_friendships). Was (begin-bond friend) - removed: it minted a
+  ; structural friend tie from one favour, conflating affect with the bond.
   (mint gratitude :focus actor :salience 168)
-  (mint relief    :focus none  :salience 72)
-  (begin-bond friend))
+  (mint relief    :focus none  :salience 72))
 
 (reaction help_act :pov actor
   (mint pride :focus self :salience 72))
