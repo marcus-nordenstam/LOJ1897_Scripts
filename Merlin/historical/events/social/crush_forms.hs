@@ -71,10 +71,15 @@
                   (>= (years-old ?victim) 14)
                   (<= (years-old ?victim) 60)
                   (personally-knows ?actor ?victim)
+                  ; No incestuous crush: exclude blood relatives (reliable kin
+                  ; cross-pair BITSET, not a two-bound believes). Without this a
+                  ; near-age opposite-sex sibling/cousin is crush-eligible and
+                  ; would feed fancy -> love_match (kin-marriage).
+                  (not (kin ?actor ?victim))
                   ; Opposite-sex (the period-default hetero majority; attr reads,
                   ; not a two-bound believes, so it gates reliably). Same-sex /
                   ; bi pulls are left to the orientation-correct standing-pass
-                  ; driver (orient_admits). Excludes same-sex siblings for free.
+                  ; driver (orient_admits).
                   (not (= (attr ?victim gender) (attr ?actor gender)))
                   (<= (- (years-old ?actor) (years-old ?victim))  10)
                   (>= (- (years-old ?actor) (years-old ?victim)) -10)

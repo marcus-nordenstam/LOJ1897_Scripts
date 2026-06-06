@@ -47,6 +47,10 @@
                   ; the heart of it: the suitor fancies this person (reliable
                   ; bitset cross-pair - NOT believes-in-chance, see section 13).
                   (stance-at-least ?suitor ?beloved fancy)
+                  ; no marrying blood kin (defense-in-depth - crush_forms already
+                  ; kin-gates the fancy, but a stray standing-pass fancy could
+                  ; slip through; this is the consanguinity backstop).
+                  (not (kin ?suitor ?beloved))
                   ; opposite-sex, so the man/woman wedding machinery applies. fancy
                   ; is already opposite-sex (crush_forms gates it); this is belt-
                   ; and-braces and drops any same-sex standing-pass fancy.

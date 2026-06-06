@@ -46,7 +46,11 @@
                  (not (= (situation ?self respectability_situation) disreputable))
                  (= (situation ?self class_situation) (situation ?bride class_situation))
                  (<= (- (years-old ?self) (years-old ?bride))  15)
-                 (>= (- (years-old ?self) (years-old ?bride)) -15)))
+                 (>= (- (years-old ?self) (years-old ?bride)) -15)
+                 ;; No marrying blood kin. A brother is same-class + similar-age,
+                 ;; so without this the arranged matcher could betroth siblings.
+                 ;; Reliable kin cross-pair BITSET (relational_stance_plan.md).
+                 (not (kin ?bride ?groom))))
 
   ;; Exclusivity re-check at FIRING time. The role "un-betrothed" filters are
   ;; alpha-indexed (a discriminator bitset built once when the event starts),

@@ -63,7 +63,10 @@
                      (and (= (situation ?bride class_situation) middle)
                           (= (situation ?self  class_situation) upper)))
                  (<= (- (years-old ?self) (years-old ?bride))  15)
-                 (>= (- (years-old ?self) (years-old ?bride)) -15)))
+                 (>= (- (years-old ?self) (years-old ?bride)) -15)
+                 ;; No marrying blood kin (see betrothal.hs) - reliable kin
+                 ;; cross-pair BITSET (relational_stance_plan.md).
+                 (not (kin ?bride ?groom))))
 
   ;; Live exclusivity re-check (see betrothal.hs): the un-betrothed role filters
   ;; are alpha-indexed and go stale within the february tick, so without this a
