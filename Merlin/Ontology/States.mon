@@ -65,12 +65,11 @@ relation
         # block as context the appraisal categorizer consults. See
         # Docs/emotion_sim_plan.md.
         (attitude)              (+ sub human)  (+ appraisal_input)
-            # like / hate may target a person, an object, OR a fact (@S).
-            like                (tar ? @S)
-            hate                (tar ? @S)
-            admires             (tar human)
-            respects            (tar human)
-            distrusts           (tar human)
+            # The affiliative / evaluative / epistemic attitudes (like, hate,
+            # admires, respects, distrusts) are RETIRED - they are now the
+            # continuous stance scalars projecting to infinitive verb-states
+            # (like/admire/distrust/...) in the (stance) block above
+            # (relational_stance_plan.md sections 2, 5.4).
             # value: a held virtue - the identity / values appraisal input.
             value               (tar ?)
             # justify: a held cognitive narrative that frames a past or
@@ -115,11 +114,34 @@ relation
         # neutral middle has no belief. appraisal_input so a band change
         # recontextualizes the target's past acts. Non-@excl: one belief per
         # (label, target).
+        # Relational stance (relational_stance_plan.md sections 3, 5.4) - the
+        # DISCRETE projection of the continuous warmth/esteem/trust/attraction
+        # scalars. The regulator (the scalars) lives in the _stance_by_object
+        # cache, NOT here; each scalar projects to one infinitive verb-state per
+        # band as it crosses a threshold, and that verb belief - {@self like sue}
+        # - is what rules / NLG / recall read. Target scope per axis: warmth ->
+        # ANY object instance; esteem/trust -> agents (human|org); attraction ->
+        # human. Per axis at most one verb is held toward a given target.
         (stance)                (+ sub human)  (+ appraisal_input)
-            warmth              (tar human)  (aux ?)
-            esteem              (tar human)  (aux ?)
-            trust               (tar human)  (aux ?)
-            attraction          (tar human)  (aux ?)
+            # warmth axis (affiliative): strong / mild, each side
+            adore               (tar object)
+            like                (tar object)
+            dislike             (tar object)
+            detest              (tar object)
+            # esteem axis (look up / look down)
+            revere              (tar human|org)
+            admire              (tar human|org)
+            disdain             (tar human|org)
+            despise             (tar human|org)
+            # trust axis (will you keep faith)
+            rely                (tar human|org)
+            trust               (tar human|org)
+            distrust            (tar human|org)
+            suspect             (tar human|org)
+            # attraction axis (one-sided pull)
+            fancy               (tar human)
+            desire              (tar human)
+            crave               (tar human)
 
         # Construals are tags, not beliefs. Each construal is one of
         # the construed_act sub-kinds in Concepts.mon (wrong_act,

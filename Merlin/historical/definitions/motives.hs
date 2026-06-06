@@ -12,6 +12,10 @@
 ;     (require situation         <flag>)
 ;     (require situation any_of  <a> <b> ...)
 ;     (require attitude_outgoing <kind>)
+;     (require stance <dim> <band>)   ; a relational-stance band toward the
+;                                     ; target (relational_stance_plan.md), e.g.
+;                                     ; `warmth detest`. Replaces the retired
+;                                     ; like/hate attitudes.
 ;     (require emotion_recent    <kind>)
 ;     (require trait <field> >= <N>)
 ;     (boost   situation <flag> +<n>)
@@ -84,12 +88,14 @@
   (boost   trait narcissism  >= 160 +1))
 
 (motive revenge
-  (require attitude_outgoing hate)
+  ; was attitude_outgoing hate (retired); strong negative warmth (detest)
+  ; toward the target is the disposition that drives revenge.
+  (require stance warmth detest)
   (require situation was_wronged_by_target))
 
 (motive vendetta
   (require situation family_was_wronged)
-  (require attitude_outgoing hate))
+  (require stance warmth detest))
 
 (motive domination
   (require trait sadism >= 128)

@@ -50,8 +50,10 @@
 ; signal for moral / cultural alignment.
 (identity_driver identity :weight 1.0)   ; the @self identity-attitude itself
 (identity_driver value    :weight 0.8)   ; held virtues
-(identity_driver respects :weight 0.4)   ; figures one looks up to
-(identity_driver admires  :weight 0.4)
+; figures one looks up to - now the positive-esteem stance verbs (admires /
+; respects retired -> admire / revere, relational_stance_plan.md section 5.4).
+(identity_driver admire :weight 0.4)
+(identity_driver revere :weight 0.4)
 
 ; ----- Occupation / role ---------------------------------------------------
 ; "I am a doctor" / "I am a docker" is a primary identity statement in the

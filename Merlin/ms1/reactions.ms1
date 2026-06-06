@@ -194,8 +194,11 @@
   (mint distress :focus none  :salience 72)
   (pressure humiliation :focus actor :salience 720)
   (pressure injustice   :focus actor :salience 2160)
-  (end-bond   friend)
-  (begin-bond enemy))
+  ; A wrong ends a friendship but does NOT fabricate a structural `enemy` tie
+  ; (relational_stance_plan.md): the durable affective residue is carried by the
+  ; emotion->stance coupling (anger drags warmth-/trust-/esteem- down). `enemy`
+  ; is reserved for genuine circumstantial feud/rivalry (e.g. the sports event).
+  (end-bond   friend))
 
 (reaction wrong_act :pov actor
   (mint guilt :focus self    :salience 720)
@@ -206,8 +209,7 @@
 (reaction wrong_act :pov third_party
   (mint distress :focus actor :salience 24)
   (mint fear     :focus actor :salience 48)
-  (pressure injustice :focus actor :salience 1440)   ; 60 days; survives 2 monthly deliberate cycles so third-party witnesses keep their grievance long enough to act on it
-  (begin-bond distrusts))
+  (pressure injustice :focus actor :salience 1440))   ; 60 days; survives 2 monthly deliberate cycles so third-party witnesses keep their grievance long enough to act on it
 
 ; -- harm_act (physical / mortal injury) --
 (reaction harm_act :pov patient
@@ -230,8 +232,7 @@
   (pressure exposure_risk :focus patient :salience 1440))
 
 (reaction appropriation_act :pov third_party
-  (mint distress :focus actor :salience 24)
-  (begin-bond distrusts))
+  (mint distress :focus actor :salience 24))
 
 ; -- coercion_act (forcible compulsion) --
 (reaction coercion_act :pov patient
@@ -257,7 +258,7 @@
 (reaction slight_act :pov patient
   (mint anger    :focus actor :salience 8)
   (mint contempt :focus actor :salience 48)
-  (pressure humiliation :focus actor :salience 336))    ; 2 weeks base. A SINGLE insult should NOT brood or drive action - this fades before the monthly deliberate sees it. But mint_pressure ADDS salience on each re-mint, so the same person insulting you repeatedly builds the humiliation pressure up past the action threshold (and the wrong_act reaction's enemy-bond carries the lasting hatred). Slow-burn grudge, not instant year-long brooding. Capped at max-pressure-salience.
+  (pressure humiliation :focus actor :salience 336))    ; 2 weeks base. A SINGLE insult should NOT brood or drive action - this fades before the monthly deliberate sees it. But mint_pressure ADDS salience on each re-mint, so the same person insulting you repeatedly builds the humiliation pressure up past the action threshold (and the emotion->stance coupling drags warmth/esteem down so the lasting dislike persists). Slow-burn grudge, not instant year-long brooding. Capped at max-pressure-salience.
 
 (reaction slight_act :pov actor
   (mint pride :focus self :salience 24))
@@ -286,9 +287,11 @@
   (mint anger :focus actor :salience 24)
   (mint grief :focus none  :salience 168)
   (pressure attachment_loss :focus actor :salience 2160)
+  ; Betrayal ends the love + friend bonds (real structural changes); the trust
+  ; collapse is now the emotion->stance coupling (anger/grief drag trust- down),
+  ; not a separate `distrusts` attitude (relational_stance_plan.md).
   (end-bond   love)
-  (end-bond   friend)
-  (begin-bond distrusts))
+  (end-bond   friend))
 
 (reaction betray_act :pov actor
   (mint guilt :focus self :salience 720)
@@ -296,8 +299,7 @@
   (pressure exposure_risk   :focus patient :salience 1440))
 
 (reaction betray_act :pov third_party
-  (mint contempt :focus actor :salience 48)
-  (begin-bond distrusts))
+  (mint contempt :focus actor :salience 48))
 
 (reaction betray_act :pov third_party_sadist
   (mint joy   :focus none :salience 12)
@@ -351,9 +353,12 @@
 
 ; -- honour_act / commitment_act --
 (reaction honour_act :pov patient
-  (mint pride     :focus self  :salience 168)
-  (mint gratitude :focus actor :salience 168)
-  (begin-bond respects))
+  (mint pride      :focus self  :salience 168)
+  (mint gratitude  :focus actor :salience 168)
+  ; was (begin-bond respects); the `respects` attitude is retired - honour now
+  ; mints admiration toward the actor, which the stance coupling routes to
+  ; esteem+ -> an `admire`/`revere` belief (relational_stance_plan.md 4.1, 5.4).
+  (mint admiration :focus actor :salience 168))
 
 (reaction honour_act :pov actor
   (mint pride :focus self :salience 72))
