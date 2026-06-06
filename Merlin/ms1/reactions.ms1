@@ -143,6 +143,51 @@
 (stance-coupling affection  :warmth  0.5)
 (stance-coupling admiration :esteem  0.5 :warmth  0.2)
 
+; ---- Class II standing comparison (relational_stance_plan.md section 4.2) ---
+; The standing leg of derive_stance pulls stance toward who a known person IS,
+; with no triggering event. It reads what the appraiser already knows of the
+; target (conduct / class / prestige / wealth learned via believe_about's
+; reputation band, plus enemy bonds and the bond graph) and nudges accordingly.
+; Runs amortised over known people (centrality-gated, strided, capped).
+;
+; (standing ...) - cross-cutting weights (magnitudes; direction is in the math):
+;   :lr                   overall standing nudge rate (gentle; accumulates)
+;   :centrality-gate      only targets with centrality > this (known people)
+;   :stride               process 1/stride of targets per tick (amortise)
+;   :budget               max targets processed per tick (cap)
+;   :caring-base          baseline conduct-judging weight (added to own-virtue)
+;   :class-mismatch-warmth / :class-match-warmth   out-group / in-group warmth
+;   :rival-warmth / :rival-esteem                  standing rivalry (enemy bond)
+;   :envy-esteem / :envy-gap-min                   upward fortune gap -> esteem-
+;   :transitive-warmth    a low-warmth target's friend -> warmth- (feud spread)
+(standing
+  :lr                    0.15
+  :centrality-gate       3
+  :stride                4
+  :budget                4096
+  :caring-base           0.4
+  :class-mismatch-warmth 0.20
+  :class-match-warmth    0.08
+  :rival-warmth          0.30
+  :rival-esteem          0.15
+  :envy-esteem           0.30
+  :envy-gap-min          0.15
+  :transitive-warmth     0.25)
+
+; (conduct-stance <dimension> :esteem f :warmth f :trust f [:vice 1])
+; Character / value antipathy. For each known person, the appraiser compares
+; their conduct on this axis (a [0,1] dimension belief) to the neutral midpoint,
+; scaled by how much the appraiser holds that virtue (judging by one's own
+; standard). Weights are positive magnitudes; a `vice` row inverts the level so
+; high = condemned. Virtues earn esteem/warmth/trust when high; criminality
+; drags all three when high. Trust priors (honesty/criminality -> trust) live
+; here too rather than as a separate driver.
+(conduct-stance honesty     :esteem 0.25 :warmth 0.10 :trust 0.40)
+(conduct-stance piety       :esteem 0.30 :warmth 0.15 :trust 0.05)
+(conduct-stance sobriety    :esteem 0.20 :warmth 0.10 :trust 0.10)
+(conduct-stance decorum     :esteem 0.25 :warmth 0.20 :trust 0.05)
+(conduct-stance criminality :esteem 0.40 :warmth 0.30 :trust 0.50 :vice 1)
+
 ; ---- category reactions ----------------------------------------------------
 ; One (reaction <construed_act-kind> :pov <pov>) row per
 ; (construed_act, appraiser POV) pair. apply_construal looks up the row
