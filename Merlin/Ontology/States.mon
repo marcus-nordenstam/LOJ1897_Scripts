@@ -104,6 +104,23 @@ relation
             # may extend the set.
             identity            (tar role)
 
+        # Relational stance (relational_stance_plan.md) - the durable, signed,
+        # per-target orientation toward another person: the slow leaky integral
+        # of the directed emotions felt about that target (Class I) plus standing
+        # contributions (Class II). FOUR orthogonal scalars; the structural tie
+        # (bond) is the separate `relationship` block, NOT part of this vector.
+        # The continuous magnitude lives in the _stance_by_object cache; the
+        # belief stores only the crossed BAND in /aux (a *_band kind,
+        # Concepts.mon), re-minted on a band crossing like skilled_in. The
+        # neutral middle has no belief. appraisal_input so a band change
+        # recontextualizes the target's past acts. Non-@excl: one belief per
+        # (label, target).
+        (stance)                (+ sub human)  (+ appraisal_input)
+            warmth              (tar human)  (aux ?)
+            esteem              (tar human)  (aux ?)
+            trust               (tar human)  (aux ?)
+            attraction          (tar human)  (aux ?)
+
         # Construals are tags, not beliefs. Each construal is one of
         # the construed_act sub-kinds in Concepts.mon (wrong_act,
         # harm_act, betray_act, etc.) declared on a task / ACTION;

@@ -192,6 +192,33 @@ concept
         trained
         expert
 
+    # Relational-stance bands - the /aux of (stance) beliefs (States.mon). A
+    # continuous per-target stance scalar (held in the _stance_by_object cache)
+    # flushes to one of these band kinds when it crosses a band boundary, the
+    # same way skilled_in flushes to a competence_level. The neutral middle has
+    # NO band (the belief is absent). Always resolved by full path
+    # (`warmth_band coldness`) so the bare leaves never resolve ambiguously.
+    # See Docs/social/relational_stance_plan.md sections 3 and 10.1.
+    warmth_band         (tar @excl)
+        coldness
+        dislike
+        liking
+        fondness
+    esteem_band         (tar @excl)
+        scorn
+        disdain
+        regard
+        reverence
+    trust_band          (tar @excl)
+        distrust
+        wariness
+        confidence
+        reliance
+    desire_band         (tar @excl)
+        drawn
+        desire
+        passion
+
     death_cause         (tar @excl)
         disease
         accident
@@ -277,6 +304,10 @@ concept
         jealousy
         disgust
         contempt
+        # admiration: positive esteem - looking UP at competence / honour /
+        # virtue (the sibling of contempt). Minted by honour_act; the Class I
+        # stance coupling routes it to esteem+ (relational_stance_plan 4.1).
+        admiration
 
     # Personal pressure - second-order standing motivational loads that build
     # when beliefs + drives + appraisals + constraints converge (plan section

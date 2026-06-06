@@ -26,6 +26,12 @@
   :max-emotion-salience   336
   :max-pressure-salience  8760
   :mood-salience-gain     0.5
+  ; stance-lr: emotion -> durable-stance learning rate (relational_stance_plan
+  ; sections 3.2 / 4.1). Each genuinely-new emotion mint toward a focus PERSON
+  ; nudges the appraiser's standing stance scalars by (coupling-weight *
+  ; stance-lr), clamped to [-1,1]. Low so a single event is a small step and a
+  ; PATTERN of events accumulates into a durable stance.
+  :stance-lr              0.2
   ; --- per-simulation-mode default salience (memory_system_plan Phase 8) ---
   ; t_event() reads s_default_salience[current_mode] for fresh beliefs.
   ;   isim : 24h post-end recall (one day; matches interactive cadence)
@@ -57,6 +63,7 @@
 (emotion-affect jealousy  :valence -1.0 :arousal 0.7)
 (emotion-affect disgust   :valence -1.0 :arousal 0.5)
 (emotion-affect contempt  :valence -1.0 :arousal 0.4)
+(emotion-affect admiration :valence 1.0 :arousal 0.4)
 
 ; ---- pressure affect -------------------------------------------------------
 ; Per-pressure-kind contribution to the `stress` mood dimension (plan section
@@ -113,6 +120,28 @@
 ; inhibition classifier - again no trait-affect emotion bias.
 (trait-affect narcissism  :amplifies humiliation injustice shame anger contempt :gain 1.2 :one_sided)
 (trait-affect psychopathy :dampens   guilt fear moral_violation :gain 0.6 :one_sided)
+
+; ---- stance coupling -------------------------------------------------------
+; Emotion -> durable relational stance (relational_stance_plan.md section 4.1).
+; When an emotion is minted toward a focus PERSON, it nudges the appraiser's
+; standing stance scalars toward that person. The transient emotion is the
+; flow; these nudges are the slow stock (the _stance_by_object leaky integral,
+; decayed each sleep). One row per emotion kind that leaves a relational
+; residue; weights are in stance-space [-1,1], scaled by stance-lr per
+; genuinely-new mint. An unlisted emotion leaves no durable residue.
+;   :warmth      affiliation ("do I wish you well")
+;   :esteem      evaluation  ("do I look up or down")
+;   :trust       reliability ("will you keep faith")
+;   :attraction  romantic / sexual pull
+(stance-coupling anger      :warmth -0.4 :esteem -0.1 :trust -0.2)
+(stance-coupling contempt   :esteem -0.5 :warmth -0.2)
+(stance-coupling disgust    :esteem -0.4 :warmth -0.3)
+(stance-coupling envy       :esteem -0.3)
+(stance-coupling jealousy   :warmth -0.3 :trust -0.2)
+(stance-coupling fear       :warmth -0.2 :trust -0.3)
+(stance-coupling gratitude  :warmth  0.4 :trust  0.2)
+(stance-coupling affection  :warmth  0.5)
+(stance-coupling admiration :esteem  0.5 :warmth  0.2)
 
 ; ---- category reactions ----------------------------------------------------
 ; One (reaction <construed_act-kind> :pov <pov>) row per
