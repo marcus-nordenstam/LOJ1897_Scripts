@@ -133,6 +133,11 @@ attr "strength"   (type float) (range 0 1) (mech feel) (mech obs) (state-flags-t
 attr "dexterity"  (type float) (range 0 1) (mech feel) (mech obs) (state-flags-tar @excl)
 attr "agility"    (type float) (range 0 1) (mech feel) (mech obs) (state-flags-tar @excl)
 attr "endurance"  (type float) (range 0 1) (mech feel) (state-flags-tar @excl)
+# Physical attractiveness / mate-value (relational_stance_plan.md Phase 4). 0..1
+# float, mean 0.5, genetic + heritable (rolled in k_continuous_traits). (mech obs)
+# - looks are publicly visible, so it mirrors at all tiers (believe_about band1)
+# and feeds the attraction stance scalar.
+attr "attractiveness" (type float) (range 0 1) (mech feel) (mech obs) (state-flags-tar @excl)
 
 # Relationships
 attr "pregnant_when" (type date) (mech obs) (auto-percept)

@@ -42,25 +42,40 @@
   (rng-stream incidents)
 
   (roles
+    ; NB: inline role filters use the EXPLICIT role var (?actor / ?victim), not
+    ; ?self. A `?self` in an inline filter that also references the OTHER role
+    ; (the age-gap below) mis-compiles and silently drops the trailing chance
+    ; residue (hse engine quirk found 2026-06-06) - so the gate would never fire.
     (role ?actor  (template any_human)
-                  (>= (years-old ?self) 14)
-                  (<= (years-old ?self) 50)
-                  (not (believes ?self {@self infatuation ?}))
-                  (not (believes ?self {@self lover ?}))
-                  (not (believes ?self {@self spouse ?}))
+                  (>= (years-old ?actor) 14)
+                  (<= (years-old ?actor) 50)
+                  ; infatuation retired (relational_stance_plan.md Phase 4):
+                  ; directed attraction is now the attraction stance SCALAR
+                  ; (fancy/desire/crave verb-states), driven by mate-value in the
+                  ; standing pass. This event is a dispositional narrative beat for
+                  ; a romantically-open single not already deep in a crush. It does
+                  ; NOT target-gate on the fancied person: a TARGET-SPECIFIC
+                  ; `(believes ?actor {@self fancy ?victim})` does NOT gate (hse
+                  ; two-bound-var believes limitation, 2026-06-06); and the
+                  ; attraction scalar is gender-gated so it is sparse in hsim (a
+                  ; target's gender is known only for believe_about'd contacts).
+                  (not (believes ?actor {@self desire ?}))
+                  (not (believes ?actor {@self lover ?}))
+                  (not (believes ?actor {@self spouse ?}))
                   (chance (* 0.30
-                             (attr ?self openness)
-                             (attr ?self enthusiasm)
-                             (attr ?self compassion))))
+                             (attr ?actor openness)
+                             (attr ?actor enthusiasm)
+                             (attr ?actor compassion))))
     (role ?victim (template any_human)
                   (not (= ?victim ?actor))
-                  (>= (years-old ?self) 14)
-                  (<= (years-old ?self) 60)
+                  (>= (years-old ?victim) 14)
+                  (<= (years-old ?victim) 60)
                   (personally-knows ?actor ?victim)
-                  (<= (- (years-old ?actor) (years-old ?self))  10)
-                  (>= (- (years-old ?actor) (years-old ?self)) -10)
+                  (<= (- (years-old ?actor) (years-old ?victim))  10)
+                  (>= (- (years-old ?actor) (years-old ?victim)) -10)
                   (chance 0.20)))
 
   (effects
-    (begin-belief ?actor infatuation ?victim)
+    ; No belief mint - the `fancy` verb-state IS the durable crush. This event
+    ; surfaces it as a narrative beat.
     (log _crush_forms ?actor)))

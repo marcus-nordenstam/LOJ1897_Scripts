@@ -85,12 +85,11 @@ relation
             # Detective-gameplay payoff: a guilty NPC's justify beliefs are
             # queryable through normal interrogation.
             justify             (tar narrative)
-            # infatuation: obsessive directed attraction; distinct from
-            # like / love. Read by the appraise_obsession deliberation
-            # and by opportunity events that gate on standing
-            # infatuation (a tail_through_streets recurrence biased
-            # toward target's location).
-            infatuation         (tar human)
+            # infatuation RETIRED (relational_stance_plan.md Phase 4): directed
+            # attraction is now the one-sided attraction stance scalar, projected
+            # to fancy/desire/crave verb-state beliefs (the same regulator/
+            # regulated split as warmth/esteem/trust). crush_forms reads the
+            # attraction verb; motives.hs reads (require stance attraction ...).
             # identity: the salient role(s) an NPC self-identifies as
             # (parent / spouse / worker / christian / ...). Each
             # identity is a held belief that biases categorize

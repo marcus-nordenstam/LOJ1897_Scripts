@@ -172,7 +172,17 @@
   :rival-esteem          0.15
   :envy-esteem           0.30
   :envy-gap-min          0.15
-  :transitive-warmth     0.25)
+  :transitive-warmth     0.25
+  ; Attraction (Phase 4): mate-value -> the one-sided attraction scalar
+  ; (fancy/desire/crave), gated by sex/orientation/age/kin. Looks + status
+  ; weights are sex-asymmetric (period-typical). :attr-lr 0 disables the driver.
+  :attr-lr               0.40
+  :attr-min-age          16
+  :attr-looks-male       0.70
+  :attr-looks-female     0.35
+  :attr-status-male      0.20
+  :attr-status-female    0.55
+  :attr-agegap-penalty   0.50)
 
 ; (conduct-stance <dimension> :esteem f :warmth f :trust f [:vice 1])
 ; Character / value antipathy. For each known person, the appraiser compares

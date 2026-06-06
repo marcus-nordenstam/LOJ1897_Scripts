@@ -12,6 +12,7 @@ archetype "human_player" (cap 256) (mech obs) (raycast-visible) (player) (non-oc
     "appearance"
     "height"
     "girth"
+    "attractiveness"
     "name"
     "condition"
     "pregnant_when"

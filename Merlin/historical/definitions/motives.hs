@@ -78,11 +78,15 @@
   (boost   trait machiavellianism >= 160 +1))
 
 (motive mate_acquisition
-  (require attitude_outgoing infatuation)
+  ; was attitude_outgoing infatuation (retired); attraction toward the target is
+  ; now the attraction stance scalar (fancy/desire/crave verb-states).
+  (require stance attraction fancy)
   (require situation rival_blocks_courtship))
 
 (motive obsession
-  (require attitude_outgoing infatuation)
+  ; was attitude_outgoing infatuation (retired); obsessive pursuit needs strong
+  ; attraction (desire) plus the dark-triad disposition below.
+  (require stance attraction desire)
   (require trait psychopathy >= 128)
   (boost   trait psychopathy >= 180 +1)
   (boost   trait narcissism  >= 160 +1))

@@ -15,6 +15,7 @@ archetype "human_npc" (cap 4096) (mech obs) (raycast-visible) (sentient) (non-oc
     "appearance"
     "height"
     "girth"
+    "attractiveness"
     # NPCs learn their own name through self-awareness, not passive perception
     "name"
     "condition"
