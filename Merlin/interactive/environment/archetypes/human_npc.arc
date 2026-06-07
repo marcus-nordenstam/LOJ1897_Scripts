@@ -16,6 +16,8 @@ archetype "human_npc" (cap 4096) (mech obs) (raycast-visible) (sentient) (non-oc
     "height"
     "girth"
     "attractiveness"
+    # Liquid savings; signed (gambling debt). Accrues yearly, transfers to heir.
+    "bank_balance"
     # NPCs learn their own name through self-awareness, not passive perception
     "name"
     "condition"

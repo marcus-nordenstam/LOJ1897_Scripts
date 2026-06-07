@@ -138,6 +138,12 @@ attr "endurance"  (type float) (range 0 1) (mech feel) (state-flags-tar @excl)
 # - looks are publicly visible, so it mirrors at all tiers (believe_about band1)
 # and feeds the attraction stance scalar.
 attr "attractiveness" (type float) (range 0 1) (mech feel) (mech obs) (state-flags-tar @excl)
+# Liquid savings ("money in the bank"). SIGNED - can go negative (debt) when
+# gambling losses outrun income (homicide_motive_realism_plan.md 4b). Accrues
+# yearly in derive_prototypes (savings from job rank, taxed by gambling), feeds
+# classify_wealth, and transfers to the heir on death (propagate_death ->
+# inherit_money). Not a rolled genetic trait - starts at 0 and accumulates.
+attr "bank_balance" (type float) (range -100000 1000000) (mech feel) (state-flags-tar @excl)
 
 # Relationships
 attr "pregnant_when" (type date) (mech obs) (auto-percept)
