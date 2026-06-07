@@ -44,6 +44,11 @@
 (affinity exposure_risk       expose_first         0.3)
 (affinity exposure_risk       confess_letter       0.2)
 (affinity exposure_risk       bribe                0.4)
+; Cover-up / murder-to-silence: kill the witness (the exposure_risk focus is the
+; patient who could expose the actor - they need not have wronged the actor).
+; A tail weight so it stays rare; Part A pins the exposure_risk pressure as the
+; goal's /cause, so the rap-sheet reads "kill <witness> <- exposure_risk".
+(affinity exposure_risk       kill                 0.05)
 
 ; ---- attachment_loss: loss of a bonded other ---------------------------------
 (affinity attachment_loss     mourn                0.7)
