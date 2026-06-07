@@ -64,6 +64,7 @@
 (emotion-affect disgust   :valence -1.0 :arousal 0.5)
 (emotion-affect contempt  :valence -1.0 :arousal 0.4)
 (emotion-affect admiration :valence 1.0 :arousal 0.4)
+(emotion-affect longing    :valence 0.7 :arousal 0.6)
 
 ; ---- pressure affect -------------------------------------------------------
 ; Per-pressure-kind contribution to the `stress` mood dimension (plan section

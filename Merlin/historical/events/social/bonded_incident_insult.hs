@@ -28,9 +28,10 @@
 ; despised are preferentially targeted, while a neutral acquaintance can
 ; still be hit (the displaced-anger path - dislike is never required).
 ;
-; The structural amplifiers from the plan's row (stress, intoxication,
-; prestige-gap-either-way) and the actor-side emotion-spillover term
-; (displaced anger scaled by current anger load) are V3 work.
+; The actor-side emotion-spillover term (displaced anger scaled by the current
+; anger load) is now wired into the actor chance below (V3). The remaining
+; structural amplifiers from the plan's row (stress, intoxication,
+; prestige-gap-either-way) are still future work.
 ;
 ; Schedule: monthly.
 ; ----------------------------------------------------------------------------
@@ -45,9 +46,21 @@
 
   (roles
     (role ?actor  (template any_human)
-                  (chance (* 0.06
-                             (- 1.0 (attr ?actor politeness))
-                             (attr ?actor narcissism))))
+                  ; Two additive impulse sources (relational_stance_plan 5.1):
+                  ;  - the dispositional base: low politeness x narcissism;
+                  ;  - displaced anger: a high current ANGER load (from ANY
+                  ;    source, summed across foci) raises the urge to lash out,
+                  ;    discharged on whatever the victim pool offers - the 0.10
+                  ;    displacement floor on ?victim lets an innocent acquaintance
+                  ;    be hit, so the anger need not be AT the victim (12.4 V3).
+                  ; emotion-load is unbounded, so this chance takes the
+                  ; per-candidate slow path (one benign load-time warning); the
+                  ; actor role is enumerated per candidate regardless, so there is
+                  ; no added cost.
+                  (chance (+ (* 0.06
+                                (- 1.0 (attr ?actor politeness))
+                                (attr ?actor narcissism))
+                             (* 0.08 (emotion-load ?actor anger)))))
     (role ?victim (template any_human)
                   (not (= ?victim ?actor))
                   (personally-knows ?actor ?victim)

@@ -286,6 +286,14 @@ concept
         # virtue (the sibling of contempt). Minted by honour_act; the Class I
         # stance coupling routes it to esteem+ (relational_stance_plan 4.1).
         admiration
+        # longing: the felt pull of attraction - the transient affective surface
+        # of the durable attraction scalar (fancy/desire/crave verb-states).
+        # Minted by the standing attraction driver toward a mate-valued target
+        # (relational_stance_plan 4.3 / 12.6). Named `longing`, not `desire`, to
+        # avoid colliding with the `desire` attraction verb-state label. No stance
+        # coupling row: the attraction scalar is already driven by mate-value, so
+        # this is a pure feeling (mood / NLG surface), not a stance re-driver.
+        longing
 
     # Personal pressure - second-order standing motivational loads that build
     # when beliefs + drives + appraisals + constraints converge (plan section
