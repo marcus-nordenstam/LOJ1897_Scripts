@@ -13,9 +13,10 @@ rule learn-birth-family
 (fire_and_forget).
 
 
-# We need to either make family exclusive, or
-#   end {.. family @unknown}
-#   maybe separate our immediate family from the spouse's side of the family...?
+# family is @excl and the {.. family @unknown} default was dropped from
+# Concepts.mon, so an unknown family is now the absence of a belief (no
+# placeholder to clear before begin_belief). Open: separate our immediate
+# family from the spouse's side of the family?
 
 rule learn-family-via-spouse
 {@self spouse @something:?spouse}

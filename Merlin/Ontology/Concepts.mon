@@ -529,7 +529,7 @@ concept
             org_head
     unit
         social
-            family          (sub human)  (tar @excl)  (def @unknown)
+            family          (sub human)  (tar @excl)
     movement
         political
             suffrage
