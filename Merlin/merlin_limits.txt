@@ -63,7 +63,7 @@ npc.beliefs.pool                    =   200000  4000    512
 npc.clauses.pool                    =   200000  4000    512
 npc.funcs.pool                      =   20000   1000    256
 npc.lists.pool                      =   50000   4000    256
-npc.beliefIdsByLabel.pool           =   4       4       8
+npc.beliefIdsByLabel.pool           =   16       4       8
 
 # Float-data bounds
 npc.spatialBounds.pool              =   10000   128     32
