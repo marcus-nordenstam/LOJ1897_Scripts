@@ -71,7 +71,12 @@
 (affinity existential_threat  flee                 0.8)
 (affinity existential_threat  plead                0.4)
 (affinity existential_threat  surrender            0.3)
-(affinity existential_threat  kill                 0.04)
+; WS3 (homicide_motive_realism_plan.md): existential_threat was the kill
+; MONOCULTURE driver - 0.04 was 2x every other pressure's kill-affinity AND it is
+; the most-minted pressure (assault -> existential_threat is strong). Flattened to
+; 0.02, parity with humiliation / injustice / rivalry, so no single pressure
+; dominates the kill-motive mix. Fear still resolves overwhelmingly to flee (0.8).
+(affinity existential_threat  kill                 0.02)
 
 ; ---- status_loss: prestige drop --------------------------------------------
 (affinity status_loss         withdraw             0.4)
