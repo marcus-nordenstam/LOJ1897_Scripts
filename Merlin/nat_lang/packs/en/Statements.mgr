@@ -89,15 +89,17 @@ $form(FORM)
 # Placed before the possessive and generic-state templates so they take
 # priority in both directions (first-match-wins, see _translate).
 
-"$sub_np(NP) is $num(NUM)"
-{ $sub_np(NP) /pres age $num(NUM) }
+"$sub_np(NP) $verb(VERB|be) $num(NUM)"
+{ $sub_np(NP) /ever age $num(NUM) }
 .
 
 # Terse age - clipped, comma-attached, no copula. The clerk-ledger voice: a
 # fact dropped on the floor without ceremony. Picked by the .mph age select
-# when cog:abstract holds (the speaker compresses to the claim).
+# when cog:abstract holds (the speaker compresses to the claim). /ever so a
+# deceased subject's age renders the same clipped form (tense is carried by
+# the surrounding clauses, not the bare number).
 " $sub_np(NP) ++, $num(NUM) "
-{ $sub_np(NP) /pres age $num(NUM) }
+{ $sub_np(NP) /ever age $num(NUM) }
 :: terse curt
 .
 
@@ -109,14 +111,14 @@ $form(FORM)
 :: elaborated
 .
 
-"$sub_np(NP) is $kind(KIND|/isa|nationality)"
-{ $sub_np(NP) /pres nationality $kind(KIND|/isa|nationality) }
+"$sub_np(NP) $verb(VERB|be) $kind(KIND|/isa|nationality)"
+{ $sub_np(NP) /ever nationality $kind(KIND|/isa|nationality) }
 .
 
 # class_situation is a kind-valued state ([k lower] / [k middle] / [k upper]);
 # the trailing "-class" suffix reads naturally for all three values.
-"$sub_np(NP) is $kind(KIND|/isa|class_situation) ++-class"
-{ $sub_np(NP) /pres class_situation $kind(KIND|/isa|class_situation) }
+"$sub_np(NP) $verb(VERB|be) $kind(KIND|/isa|class_situation) ++-class"
+{ $sub_np(NP) /ever class_situation $kind(KIND|/isa|class_situation) }
 .
 
 # Occupation - several phrasings of the same belief shape. "works as a X" is
@@ -124,12 +126,12 @@ $form(FORM)
 # "makes his living as a X" is the affectionate / approving form, picked when
 # the speaker holds the subject in regard. All materialize the same belief, so
 # parsing accepts any of them.
-"$sub_np(NP) works as a $kind(KIND|/isa|job)"
-{ $sub_np(NP) /pres job $kind(KIND|/isa|job) }
+"$sub_np(NP) $verb(VERB|work) as a $kind(KIND|/isa|job)"
+{ $sub_np(NP) /ever job $kind(KIND|/isa|job) }
 .
 
-"$sub_np(NP) is a $kind(KIND|/isa|job)"
-{ $sub_np(NP) /pres job $kind(KIND|/isa|job) }
+"$sub_np(NP) $verb(VERB|be) a $kind(KIND|/isa|job)"
+{ $sub_np(NP) /ever job $kind(KIND|/isa|job) }
 :: curt terse
 .
 
@@ -577,9 +579,10 @@ $form(FORM)
 
 # Interest is a kind-valued plural-attr; one belief per interest topic. KIND
 # strips the bracket form so [k music] -> "music". The neutral default - kept
-# as the fallback the .mph select chain always lands on.
-" $sub_np(NP) is interested in $kind(KIND|/isa|domain) "
-{ $sub_np(NP) /pres interest $kind(KIND|/isa|domain) } .
+# as the fallback the .mph select chain always lands on. $verb(VERB|be) carries
+# both tenses (is / was interested in) so a deceased subject's interests render.
+" $sub_np(NP) $verb(VERB|be) interested in $kind(KIND|/isa|domain) "
+{ $sub_np(NP) /ever interest $kind(KIND|/isa|domain) } .
 
 # Warm - the speaker holds the subject in regard. "Fond of" softens the bare
 # fact into approval; the interest becomes something the subject is loved for.

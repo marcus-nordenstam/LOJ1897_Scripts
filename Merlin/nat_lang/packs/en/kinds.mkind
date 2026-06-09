@@ -1,0 +1,74 @@
+# -----------------------------------------------------------------------------
+# kinds.mkind - English-pack kind-atom surface forms.
+#
+# English is the canonical ontology language, so for a kind whose ontology hstr
+# already IS the desired surface word ("history", "music") no entry is needed -
+# the lookup falls back to the canonical hstr. This file exists for the kinds
+# whose surface form differs from the bare hstr: multi-word atoms the hstr packs
+# with underscores ("knife_fighting" -> "knife fighting"), and atoms that read
+# more naturally as a different noun ("poisoning_knowledge" -> "poisons"). It
+# also keeps English symmetric with the other packs (every language owns its
+# kind vocabulary in one file) and is the single home for future surface
+# variants - phrasing / educational-band / cultural-background forms ride the
+# same per-entry tag mechanism the agreement variants (.m/.f/.cg/.nt/.pl) use.
+#
+# Syntax: `<canonical>[.<tag>...] <localized>`. The localized form may contain
+# spaces. Same-axis last-wins; an untagged entry is the unmarked default.
+# -----------------------------------------------------------------------------
+
+# === domain axis (interest / skilled_in / calling targets) ===================
+# Concepts.mon `domain` subtree. The interest band is the prominent description
+# element, so the whole axis is owned here for a clean, browsable vocabulary.
+
+# academic_field
+classics                      classics
+engineering                   engineering
+medicine                      medicine
+law                           law
+theology                      theology
+commerce                      commerce
+natural_science               natural science
+accountancy                   accountancy
+navigation                    navigation
+husbandry                     husbandry
+primary_school_curriculum     primary schooling
+secondary_school_curriculum   secondary schooling
+history                       history
+science                       science
+
+# performance_art
+music                         music
+theatre                       theatre
+literature                    literature
+
+# martial
+marksmanship                  marksmanship
+knife_fighting                knife fighting
+swordsmanship                 swordsmanship
+pugilism                      pugilism
+wrestling                     wrestling
+horsemanship                  horsemanship
+riding                        riding
+
+# illicit
+poisoning_knowledge           poisons
+forgery                       forgery
+lockpicking                   lockpicking
+climbing                      climbing
+evading                       evasion
+detecting                     detective work
+
+# athletics
+sports                        sports
+
+# avocation / devotional / civic
+antiques                      antiques
+religion                      religion
+spiritualism                  spiritualism
+suffrage                      suffrage
+
+# === nationality (proper adjectives - the realize layer title-cases) =========
+# The single-word ones already capitalise correctly from the canonical hstr;
+# st_revieran needs an explicit two-word form (capitalise_first only touches the
+# first letter, so the second word is pre-capitalised here).
+st_revieran                   St Revieran
