@@ -39,12 +39,12 @@ $form(FORM)
 
 # Command-statements
 
-"tell me about $obj(NP)"
-{ ?_I /pres goal { ?_you /pres tell_about $obj(NP) ?_I } }
+"tell me about $obj(Q_NP)"
+{ ?_I /pres goal { ?_you /pres tell_about $obj(Q_NP) ?_I } }
 .
 
-"I want you to tell me about $obj(NP)"
-{ ?_I /pres goal { ?_you /pres tell_about $obj(NP) ?_I } }
+"I want you to tell me about $obj(Q_NP)"
+{ ?_I /pres goal { ?_you /pres tell_about $obj(Q_NP) ?_I } }
 .
 
 # Kind-quantified content request: "tell me about Olivia's relationships",
@@ -52,8 +52,11 @@ $form(FORM)
 # $state_kind hole uses KIND_PLUR (Kind.mgr) - PLURAL-ONLY surface forms,
 # strict, no auto-stripping. Singular kinship like "tell me about your
 # brother" deliberately does NOT match this template; it falls through to
-# the "tell me about $obj(NP)" path above and the (o {?_you brother @o})
-# recall resolves a specific referent for tell_about. Plural surface forms
+# the "tell me about $obj(Q_NP)" path above. Q_NP resolves the referent
+# any-tense + /known - (o /known {?_you /ever brother @o}) - so a DECEASED
+# relative (kinship belief ends at death) still resolves instead of failing a
+# present-tense recall, and an unknown referent yields @unknown rather than an
+# invented object. Plural surface forms
 # ("brothers", "interests") match here and the (every {?_you brother ? ?})
 # search enumerates all matching beliefs. KIND_PLUR's MC binding is a kind
 # atom [k <singular>] so the runtime isa expansion picks up child kinds for

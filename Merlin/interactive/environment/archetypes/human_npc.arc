@@ -10,6 +10,8 @@ archetype "human_npc" (cap 4096) (mech obs) (raycast-visible) (sentient) (non-oc
     "birth_date"
     "death_date"
     "death_cause"
+    # 1 = created parent-less (founder / immigrant); 0 = born in-sim with parents.
+    "parentless"
     "age_group"
     "gender"
     "appearance"

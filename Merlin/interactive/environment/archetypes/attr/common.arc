@@ -12,6 +12,15 @@ attr "birth_date" (type date) (spec-attr date) (mech feel)
 attr "death_date" (type date) (state-flags-tar @excl) (imperceptible)
 attr "death_cause" (type kind) (imperceptible)
 
+# Provenance marker (diagnostics). 1 = this NPC was created WITHOUT parents - a
+# founder, or an immigrant minted from a parent-less spec - so it legitimately
+# holds NO {@self mother/father} belief. 0 = born in-sim with parents (kin
+# seeded by mx_make_human's assert_kin_beliefs). Set once at creation in
+# mx_make_human. Lets diagnostics (hsim `kin-census`, the Talkie kin picker)
+# tell "no parent belief because founder/immigrant" (expected) apart from "no
+# parent belief because the kin belief was lost or never seeded" (a bug).
+attr "parentless" (type int) (range 0 1) (imperceptible)
+
 # Name attr. For humans: cognitively KNOWN, not felt (you don't sense your
 # name as a body feeling - you reason about it); externally imperceptible (you
 # can't tell a stranger's name by looking at them). Beliefs land in the

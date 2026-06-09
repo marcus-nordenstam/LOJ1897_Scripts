@@ -53,7 +53,17 @@
 "what about $probe_word(KIND)"
 ( qs (formulaic probe $probe_word(KIND)) )
 .
- 
+
+# Any bare question-phrase asked directly - "what is your name", "who is your
+# mother", "what is your age", etc. - with no "do you know" prefix and no
+# enclosing parens. Wraps the QSP in qs so mx_player_say routes it as an ASK
+# (-> compute-answer / tell-answer), not a TELL. Without this a plain question
+# matched the bare QSP at top level and shipped as a TELL, whose hear-tell
+# eval_msg of a question-expression returns @fail, so the NPC never answered.
+"$qs_phrase(QSP)"
+( qs $qs_phrase(QSP) )
+.
+
 
 :QSP
 
