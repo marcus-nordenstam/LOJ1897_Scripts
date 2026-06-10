@@ -530,6 +530,17 @@ concept
                 singer
                 musician
                 magician
+            # The marginal stratum (serial_predation Phase 5): the socially
+            # invisible class - the historical victim pool of the Cream
+            # case study. NOT in occupations.hsc (the catalog drives
+            # org-bound employment; marginal work has no org, no register,
+            # no premises): assigned at immigrant spawn (spawn-immigrant,
+            # k_marginal_immigrant_frac), employer-less so the labour
+            # market can still hire them out of it (upward mobility), and
+            # left to the existing destitute / disreputable classifiers.
+            prostitute
+            vagrant
+            casual_laborer
                 preacher
                 lecturer
 
