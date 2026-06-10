@@ -117,6 +117,13 @@ concept
         power_aim
         belonging_aim
 
+    # A predator's stable victim-type preference (serial_predation Phase 2):
+    # {@self fixation <gender>}, seeded once per qualifying actor from the
+    # perpetration rng stream on their first predation tick. Stable for
+    # life, so a serial killer's victim-type consistency EMERGES instead of
+    # being authored; it also renders in the rap-sheet why-chain.
+    fixation            (sub human)  (tar gender @excl)
+
     # Unified domain axis (PR-skill-life). ONE hierarchical taxonomy that
     # `interest`, `skilled_in`, and `calling` (States.mon) all target as three
     # progressive bands on the same axis: casual pull -> earned competence ->
