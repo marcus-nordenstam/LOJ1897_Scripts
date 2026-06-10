@@ -174,13 +174,30 @@
 ; mechanical residue; the staging composition adds the restraint hand
 ; bruise (the detective's contradiction), and the burial verdict reads
 ; the corpse as natural either way.
+; Chronic dosing (serial_predation 4d): poison_administer doses monthly
+; (act anchor + administering marker + the victim's circle learning
+; {victim health_situation ailing} - priming the natural-death prior);
+; the standing kill goal persists until the cumulative dose is lethal,
+; then the shared kill path runs. The victim dies weeks after last
+; contact with the killer - the delayed covert death.
 (method poison
   :goal-fit       kill
   :requires       ((control_any poison_bottle))
   :method-aux     _
-  :terminal       kill_victim
+  :terminal       poison_administer
   :wound-site     torso
   :weight         0.6)
+
+; ---- Skill-affinity map (serial_predation 4c / 4f(i)) ----------------------
+; An actor skilled_in <domain> picks the mapped methods more readily
+; (x k_skill_affinity_mult at the weight site), and committing a mapped
+; method mints the `practice` marker for its FIRST declared domain -
+; the loop that turns a poisoner into a craftsman. Domains are `domain`
+; sub-kinds (Concepts.mon); methods are (method ...) atoms above.
+(skill-affinity poisoning_knowledge (methods poison))
+(skill-affinity medicine            (methods poison))
+(skill-affinity marksmanship        (methods shoot))
+(skill-affinity knife_fighting      (methods stab slash))
 
 ; ---- Hydraulic (1) --------------------------------------------------------
 ; (access_any body_of_water) re-lands when the kind + env water features
