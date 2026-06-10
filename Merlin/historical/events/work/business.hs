@@ -39,15 +39,18 @@
   (roles
     ; A merit-and-character man of working age who cannot self-fund and is
     ; not already backed.
+    ; Dimensions are float 0..1 post-normalisation (the old 0..100 thresholds
+    ; could never pass - investment/partnership/founding silently never fired;
+    ; the homeostat masked it).
     (role ?candidate (template old_human)
                      (>= (years-old ?self) 25)
                      (<= (years-old ?self) 55)
                      (believes ?self {@self employer ?})
                      (not (= (job-level ?self) org_head))
-                     (>= (belief-target ?self diligence) 55)
+                     (>= (belief-target ?self diligence) 0.55)
                      (or (= (belief-target ?self repute) respectable)
                          (= (belief-target ?self repute) exemplary))
-                     (< (belief-target ?self wealth) 50)
+                     (< (belief-target ?self wealth) 0.5)
                      (not (believes ?self {@self backed_by ?}))
                      (chance (* 0.40 (+ 0.5 (attr ?self assertiveness)))))
     ; A man of means - comfortable or better - who backs the venture. (The
@@ -74,15 +77,16 @@
   (roles
     ; A merit-and-character man who cannot self-fund and is not backed - the
     ; clerk-makes-partner route.
+    ; Float 0..1 thresholds - see the investment role's note.
     (role ?candidate (template old_human)
                      (>= (years-old ?self) 25)
                      (<= (years-old ?self) 55)
                      (believes ?self {@self employer ?})
                      (not (= (job-level ?self) org_head))
-                     (>= (belief-target ?self diligence) 55)
+                     (>= (belief-target ?self diligence) 0.55)
                      (or (= (belief-target ?self repute) respectable)
                          (= (belief-target ?self repute) exemplary))
-                     (< (belief-target ?self wealth) 50)
+                     (< (belief-target ?self wealth) 0.5)
                      (not (believes ?self {@self backed_by ?}))
                      (chance (* 0.12 (+ 0.5 (attr ?self assertiveness)))))
     ; An existing business he is taken into. (The plan links principal and
@@ -119,15 +123,16 @@
   (roles
     ; Merit, character, and means - either enough wealth to self-fund, or a
     ; backer (the backed_by belief investment wrote earlier this tick).
+    ; Float 0..1 thresholds - see the investment role's note.
     (role ?founder (template old_human)
                    (>= (years-old ?self) 25)
                    (<= (years-old ?self) 55)
                    (believes ?self {@self employer ?})
                    (not (= (job-level ?self) org_head))
-                   (>= (belief-target ?self diligence) 55)
+                   (>= (belief-target ?self diligence) 0.55)
                    (or (= (belief-target ?self repute) respectable)
                        (= (belief-target ?self repute) exemplary))
-                   (or (>= (belief-target ?self wealth) 50)
+                   (or (>= (belief-target ?self wealth) 0.5)
                        (believes ?self {@self backed_by ?}))
                    (chance (* 0.30 (+ 0.5 (attr ?self assertiveness))))))
 
