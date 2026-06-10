@@ -30,7 +30,11 @@
                   (not (believes ?self {@self employer ?}))
                   (not (= (situation ?self respectability_situation) scandalous))
                   (chance 0.3))
-    (role ?articles (template org_articles)))
+    ;; A household is an org but NOT a labour-market employer: its servants
+    ;; are taken on by the staff_household pass (role-appropriate,
+    ;; gender-normed), never as generic clerks here.
+    (role ?articles (template org_articles)
+                    (not (org-kind-is-a ?self household))))
 
   ;; Live exclusivity re-check (see business.hs): the worker's "unemployed"
   ;; role filter is alpha-indexed, so within one tick every hiring org samples

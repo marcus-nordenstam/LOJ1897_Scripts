@@ -71,6 +71,20 @@ object (+ obs)
     prop
         container
             drinking_glass
+            jewelry_box
+            # Concealment caches (covert_affair_conduct_plan Phase 0) - the
+            # places a household member hides letters and small valuables.
+            # One hiding_spot entity per cache, spawned at the owner's home;
+            # cached items point their `at` attr AT the hiding_spot and carry
+            # the engine is_hidden bit, so perception skips them until a
+            # search surfaces them. The leaf kind encodes the concealment
+            # quality (a secret_chamber outlasts a jewelry_box_lining).
+            hiding_spot
+                floorboard_cache
+                book_cache
+                jewelry_box_lining
+                painting_cache
+                secret_chamber
         accessory
             cufflink
             ring
@@ -196,6 +210,14 @@ object (+ obs)
                 # (boundary liveness gate prevents fresh-internalization
                 # of dead ancestors otherwise).
                 family_history_letter
+                # Affair correspondence (covert_affair_conduct_plan Phase 1).
+                # A love_letter's writing carries the affair fact itself
+                # ({author lover recipient}) - reading one IS discovering
+                # the affair. A tryst_note's writing carries a concrete
+                # meeting ({author meet recipient /at venue}) - the
+                # rendezvous channel (Phase 2).
+                love_letter
+                tryst_note
             pamphlet
             book
             newspaper
@@ -204,6 +226,10 @@ object (+ obs)
             articles_of_incorporation
             employee_register
             job_description
+            # A hotel's guest book (covert_affair_conduct_plan Phase 2): the
+            # front desk's record of who stayed when - the paper residue a
+            # shared-hotel rendezvous leaves for the detective.
+            hotel_register
             title_deed
             # Purchase trail (weapon_acquire purchase mode). receipt
             # spawns at the buyer's home; sales_record spawns at the

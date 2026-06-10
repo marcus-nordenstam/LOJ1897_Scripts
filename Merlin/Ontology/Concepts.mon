@@ -591,6 +591,15 @@ concept
                 # and is sold / inherited / dissolved by the ordinary org
                 # lifecycle - being a landlord is therefore not a special case.
                 estate
+        # The staffed domestic establishment of a quality home (manor /
+        # townhouse). Founded by the staff_household pass with the household
+        # head as founder, seated at the home itself; employs maid / cook /
+        # steward / gardener through the ordinary org machinery, so its
+        # employee_register doubles as the servants' wage-book and the
+        # establishment is inherited with the rest of the estate
+        # (propagate_death's inherit_or_dissolve_orgs). The staff are the
+        # interception / surveillance surface of covert_affair_conduct_plan.
+        household
 
     # Fields of study were folded into the unified `domain` axis (PR-skill-life):
     # the former field_of_study leaves now live under `domain > academic_field`.

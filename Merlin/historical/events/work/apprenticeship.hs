@@ -38,7 +38,9 @@
     ;; A master only takes on a youth of sound family. The master comes from
     ;; the articles' founder slot, so the respectability test sits on the
     ;; articles role - resolved by the (let ?master ...) below.
+    ;; A household is an org but NOT a trade: no master, no apprenticeship.
     (role ?articles (template org_articles)
+                    (not (org-kind-is-a ?self household))
                     (not (= (situation (org-founder ?self) respectability_situation) scandalous))))
 
   ;; Live exclusivity re-check (see employment.hs): the youth's "unemployed"
