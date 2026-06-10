@@ -92,7 +92,11 @@
                   (believes ?jilter {@self lover ?})
                   (not (believes ?jilter {@self fiancee ?}))
                   (not (believes ?jilter {@self spouse ?}))
-                  (chance (* 0.15 (+ 0.3 (attr ?jilter decorum)))))
+                  ;; decorum is a DERIVED conduct dimension (belief), not an
+                  ;; env attr - read it through the situation op. An unread
+                  ;; dimension contributes 0; the +0.3 base keeps the event
+                  ;; alive for the un-derived.
+                  (chance (* 0.15 (+ 0.3 (situation ?jilter decorum)))))
     ; The lover beneath the jilter's station (at least one class below).
     (role ?jilted (template any_human)
                   (not (= ?jilted ?jilter))
