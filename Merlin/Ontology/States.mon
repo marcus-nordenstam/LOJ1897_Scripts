@@ -58,6 +58,12 @@ relation
         expect_question         (sub human)           (tar ?)
         talk_to                 (sub human)
 
+        # meet: an arranged meeting between two people; the aux carries the
+        # venue. A tryst_note's writing quotes it ({author meet recipient
+        # /aux <hotel>}) - the paper that names the place
+        # (covert_affair_conduct_plan Phase 2).
+        meet                    (sub human)           (tar human)  (aux ?)
+
         # Attitudes - persistent dispositions toward a person, object or
         # fact. These are the DRIVERS of emotion, not emotions themselves:
         # emotions are transient affective states, declared as the `emotion`
