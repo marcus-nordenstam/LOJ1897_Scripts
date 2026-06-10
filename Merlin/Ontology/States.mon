@@ -64,6 +64,19 @@ relation
         # (covert_affair_conduct_plan Phase 2).
         meet                    (sub human)           (tar human)  (aux ?)
 
+        # under_suspicion: the graded wariness an observer has accumulated
+        # toward someone hiding something (covert_affair_conduct_plan Phase
+        # 3). Held in the OBSERVER's mind about the watched person:
+        # {<wife> under_suspicion 0.6} = "in my eyes she is 0.6 suspect".
+        # Accrues from unexplained absences, handled letters in an unknown
+        # hand, and public indiscretions; past a threshold a hostile observer
+        # ACTS (engineers an interception - the Alice Yapp pattern). Distinct
+        # from the `suspect` trust-band verb-state (the stance projection):
+        # this is an evidence-accumulator, not an affective stance. No decay
+        # (a Victorian misgiving, once seeded, is nursed). One value at a
+        # time per watched person.
+        under_suspicion         (sub human)           (tar ? @excl)
+
         # Attitudes - persistent dispositions toward a person, object or
         # fact. These are the DRIVERS of emotion, not emotions themselves:
         # emotions are transient affective states, declared as the `emotion`
