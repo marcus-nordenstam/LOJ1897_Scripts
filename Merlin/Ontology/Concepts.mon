@@ -204,6 +204,12 @@ concept
         childbirth
         violence
         suicide
+        # The covert kill: no violent mechanism in the body, so a burial
+        # verdict (serial_predation Phase 1) reads the corpse as natural.
+        # Written by the poison kill terminal; the divergence between this
+        # body-truth and the village's circumstances_of_death story is the
+        # detective's case.
+        poison
 
     # Specific diseases an NPC can have. Distinct
     # from `death_cause disease` which is the cause-of-death enum value;
@@ -859,6 +865,13 @@ concept
         relied_on_by
         respected_by
         enemy
+        # The per-mind handle for "whoever killed X": {?dead killer ?o},
+        # where ?o is each mind's own imagined unknown-culprit object
+        # (mx_imagine_or_recall - per-mind identity by design) until
+        # evidence ever names a real person. Minted into the dead's circle
+        # by the burial-verdict pass when the corpse carries violent
+        # evidence (serial_predation Phase 1).
+        killer
         love                    (tar ?)  (exclusive_bond)
         # Directed competitive bond. May be
         # asymmetric (A fixates on B; B indifferent). Sourced by
