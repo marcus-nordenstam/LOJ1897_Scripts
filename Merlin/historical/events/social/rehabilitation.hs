@@ -29,7 +29,7 @@
     ;; (politeness) tries the church door. The chance is well above the
     ;; baseline churchgoing rate so the situation has a real shot at climbing.
     (role ?npc (template old_human)
-               (= (situation ?self respectability_situation) disreputable)
+               (= (situation ?self repute) disreputable)
                (chance (* 0.6 (+ 0.5 (attr ?self politeness))))))
 
   (effects

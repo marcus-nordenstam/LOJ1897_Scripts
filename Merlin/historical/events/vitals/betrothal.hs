@@ -33,17 +33,28 @@
     ;; with more than one such past. The chastity filter is permissive when
     ;; the dimension is unread (returns @fail, which falls through < 50 as
     ;; non-numeric -> false comparison, so the (or ...) catches it).
+    ;; De-telepathized (jilt_blackmail_reputation_plan Phase R): the market
+    ;; reads `repute` / `reputed_chastity` - what has LEAKED - never the
+    ;; secret-inclusive self-derived values. A held secret costs nothing
+    ;; here; its exposure would - that delta is the blackmail stake.
     (role ?bride (template unmarried_woman)
                  (not (believes ?self {@self fiancee ?}))
-                 (not (= (situation ?self respectability_situation) scandalous))
-                 (not (= (situation ?self respectability_situation) disreputable))
-                 (or (>= (situation ?self chastity) 0.5)
-                     (not (believes ?self {@self chastity ?})))
+                 ;; The romantically ATTACHED do not enter the arranged market:
+                 ;; a standing lover bond means they hold out for (and are
+                 ;; mutually fancied by) their lover, whom love_match can marry
+                 ;; once both are free. Without this gate widows were handed
+                 ;; arranged rematches while their lover still lived.
+                 (not (believes ?self {@self lover ?}))
+                 (not (= (situation ?self repute) scandalous))
+                 (not (= (situation ?self repute) disreputable))
+                 (or (>= (situation ?self reputed_chastity) 0.5)
+                     (not (believes ?self {@self reputed_chastity ?})))
                  (chance 0.25))
     (role ?groom (template unmarried_man)
                  (not (believes ?self {@self fiancee ?}))
-                 (not (= (situation ?self respectability_situation) scandalous))
-                 (not (= (situation ?self respectability_situation) disreputable))
+                 (not (believes ?self {@self lover ?}))
+                 (not (= (situation ?self repute) scandalous))
+                 (not (= (situation ?self repute) disreputable))
                  (= (situation ?self class_situation) (situation ?bride class_situation))
                  (<= (- (years-old ?self) (years-old ?bride))  15)
                  (>= (- (years-old ?self) (years-old ?bride)) -15)

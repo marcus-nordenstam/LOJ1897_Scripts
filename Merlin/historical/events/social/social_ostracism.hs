@@ -28,7 +28,7 @@
 
   (roles
     (role ?npc (template old_human)
-               (= (situation ?self respectability_situation) scandalous)))
+               (= (situation ?self repute) scandalous)))
 
   (effects
     (social-ostracism ?npc)

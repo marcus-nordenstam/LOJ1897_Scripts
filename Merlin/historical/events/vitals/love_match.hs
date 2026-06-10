@@ -37,16 +37,23 @@
                   (>= (years-old ?suitor) 18)
                   (not (believes ?suitor {@self fiancee ?}))
                   (not (believes ?suitor {@self spouse ?}))
-                  (not (= (situation ?suitor respectability_situation) scandalous)))
+                  (not (= (situation ?suitor repute) scandalous)))
     (role ?beloved (template any_human)
                   (not (= ?beloved ?suitor))
                   (>= (years-old ?beloved) 18)
                   (not (believes ?beloved {@self fiancee ?}))
                   (not (believes ?beloved {@self spouse ?}))
-                  (not (= (situation ?beloved respectability_situation) scandalous))
+                  (not (= (situation ?beloved repute) scandalous))
                   ; the heart of it: the suitor fancies this person (reliable
                   ; bitset cross-pair - NOT believes-in-chance, see section 13).
                   (stance-at-least ?suitor ?beloved fancy)
+                  ; lover fidelity: a party holding a standing `lover` bond
+                  ; love-matches ONLY that lover (the widowed affair-partners
+                  ; finally marrying), never a third party over them.
+                  (or (not (believes ?suitor {@self lover ?}))
+                      (believes ?suitor {@self lover ?beloved}))
+                  (or (not (believes ?beloved {@self lover ?}))
+                      (believes ?beloved {@self lover ?suitor}))
                   ; no marrying blood kin (defense-in-depth - crush_forms already
                   ; kin-gates the fancy, but a stray standing-pass fancy could
                   ; slip through; this is the consanguinity backstop).

@@ -33,9 +33,11 @@
 (job solicitor     (class_floor middle) (business_type solicitor_firm) (may_own true)  (bootstrap true) (era_min 1700) (domain law))
 (job physician     (class_floor middle) (business_type hospital)       (may_own false) (era_min 1700) (domain medicine))
 (job surgeon       (class_floor middle) (business_type hospital)       (may_own false) (era_min 1780) (domain medicine))
-; apothecary is not bootstrapped: Concepts.mon has no `apothecary` business
-; kind (org > com > business > ...). Add one, then restore (bootstrap true).
-(job apothecary    (class_floor middle) (business_type apothecary)     (may_own true)  (era_min 1700) (domain medicine))
+; apothecary: the business kind exists (businesses.hs `(business apothecary
+; (building shop))`, Concepts.mon org kind), so the shop bootstraps and is
+; staffed - the poison-register counter the purchase trail needs
+; (jilt_blackmail_reputation_plan sec 5 / serial-predation pipeline).
+(job apothecary    (class_floor middle) (business_type apothecary)     (may_own true)  (bootstrap true) (era_min 1700) (domain medicine))
 (job priest        (class_floor middle) (business_type church)         (may_own false) (era_min 1700) (domain theology))
 (job principal     (class_floor middle) (business_type private_school) (may_own false) (era_min 1700) (domain secondary_school_curriculum))
 ; professor: the university don (PR-education). No (domain ...): a don's competence

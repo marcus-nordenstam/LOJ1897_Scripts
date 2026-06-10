@@ -30,6 +30,9 @@
 ; PR-3d 2026-05-25 - new goal labels.
 (affinity humiliation         humiliate            0.5)
 (affinity humiliation         discredit            0.4)
+; jilt_blackmail_reputation_plan Phase B + S (see the attachment_loss rows).
+(affinity humiliation         coerce               0.10)
+(affinity humiliation         suicide              0.01)
 
 ; ---- injustice: morally indignant; broad release set -----------------------
 (affinity injustice           confront_privately   0.5)
@@ -59,6 +62,17 @@
 ; betrayed lovers do sometimes escalate to the kill goal; the affinity
 ; weight is intentionally low so it stays a tail outcome, not a default.
 (affinity attachment_loss     kill                 0.03)
+; jilt_blackmail_reputation_plan Phase B - the jilted lover's coercion
+; branch ("marry me or I show your letters to your father"). The demand
+; is derived at the silence_coerce terminal from the lost relationship.
+; Kill affinities stay untouched: blackmail must out-compete murder for
+; the jilted party (the jilted party is L'Angelier, not the killer).
+(affinity attachment_loss     coerce               0.20)
+; Phase S - the self-destruction tail. The engine gates this branch HARD
+; (despair mood x low-resilience traits) before anything fires; the
+; weight only makes it reachable. A deliberated-but-not-chosen pick
+; mints the witnessed suicidal-ideation belief (the valet testimony).
+(affinity attachment_loss     suicide              0.03)
 
 ; ---- moral_violation: actor's own held norms breached ------------------------
 (affinity moral_violation     confess_letter       0.5)

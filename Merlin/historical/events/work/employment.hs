@@ -28,7 +28,7 @@
                   (>= (years-old ?self) 16)
                   (<= (years-old ?self) 55)
                   (not (believes ?self {@self employer ?}))
-                  (not (= (situation ?self respectability_situation) scandalous))
+                  (not (= (situation ?self repute) scandalous))
                   (chance 0.3))
     ;; A household is an org but NOT a labour-market employer: its servants
     ;; are taken on by the staff_household pass (role-appropriate,
@@ -73,7 +73,7 @@
                   ;; the job's domain) before rising. Jobs that confer no domain
                   ;; (unskilled trades) pass the gate unconditionally.
                   (job-skilled-at-or-above ?self trained)
-                  (not (= (situation ?self respectability_situation) scandalous))
+                  (not (= (situation ?self repute) scandalous))
                   (chance (* 0.25 (+ 0.5 (situation ?self diligence))))))
 
   (effects

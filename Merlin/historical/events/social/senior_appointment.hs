@@ -42,7 +42,7 @@
     (role ?official (template old_human)
                     (>= (years-old ?self) 30)
                     (<= (years-old ?self) 65)
-                    (= (situation ?self respectability_situation) exemplary)
+                    (= (situation ?self repute) exemplary)
                     (>= (situation ?self prestige) 0.65)
                     (chance (* 0.10
                                (attr ?self assertiveness)

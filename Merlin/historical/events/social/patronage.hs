@@ -32,7 +32,7 @@
     ;; the 0..1 scale; a >= 0.65 floor selects the senior + org_head tier.
     (role ?patron (template old_human)
                   (>= (years-old ?self) 35)
-                  (= (situation ?self respectability_situation) exemplary)
+                  (= (situation ?self repute) exemplary)
                   (>= (situation ?self prestige) 0.65)
                   (chance 0.06))
     ;; A protege one or more class steps below the patron, of sound
@@ -41,7 +41,7 @@
                    (not (= ?self ?patron))
                    (>= (years-old ?self) 18)
                    (<= (years-old ?self) 55)
-                   (not (= (situation ?self respectability_situation) scandalous))
+                   (not (= (situation ?self repute) scandalous))
                    (not (believes ?self {@self backed_by ?}))
                    (or (and (= (situation ?patron  class_situation) upper)
                             (= (situation ?self    class_situation) middle))

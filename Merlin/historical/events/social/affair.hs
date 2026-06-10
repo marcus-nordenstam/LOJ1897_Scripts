@@ -89,9 +89,13 @@
     ; the obsession pass and route blame.
     (begin-belief ?actor lover ?lover)
     (begin-belief ?lover lover ?actor)
-    ; Ground the pull in the stance substrate (the affair developed an attraction
-    ; the marriage no longer holds).
+    ; Ground the pull in the stance substrate ON BOTH SIDES - a lover bond is
+    ; constructed on physical attraction, so both parties hold at least the
+    ; `fancy` band (0.4 clears the 0.24 band-entry threshold). Without the
+    ; reciprocal nudge a paramour could "be a lover" while fancying nobody,
+    ; which broke love_match's ability to marry the pair once both were free.
     (nudge-stance ?actor ?lover attraction 0.4)
+    (nudge-stance ?lover ?actor attraction 0.4)
     (believe-about ?actor ?lover)
     (believe-about ?lover ?actor)
     (log _affair ?actor)))

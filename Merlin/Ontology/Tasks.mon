@@ -265,6 +265,13 @@ relation
             # disinherit - testamentary act; effect ends the target's
             # heir_of belief. The dropped heir feels abandonment.
             disinherit          (motor eyes right_hand)         (tar human)              (construed_act abandonment_act wrong_act)
+            # jilt - the chosen ending of a lover bond (the jilter breaks
+            # with the jilted, typically for a class-suitable betrothal).
+            # Patient cascade: abandonment_act -> grief + attachment_loss +
+            # status_loss; wrong_act -> anger + humiliation + injustice -
+            # the obsessive-ex pressure stack the coerce deliberation
+            # affinity reads (jilt_blackmail_reputation_plan Phase J).
+            jilt                (motor mouth)                   (tar human)              (construed_act abandonment_act wrong_act)
             # silence_witness - composite task. Implementations may
             # bubble down through kill / bribe / coerce chains depending
             # on substrate; the anchor records the composite plan that

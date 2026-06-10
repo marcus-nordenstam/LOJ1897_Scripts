@@ -203,6 +203,7 @@ concept
         old_age
         childbirth
         violence
+        suicide
 
     # Specific diseases an NPC can have. Distinct
     # from `death_cause disease` which is the cause-of-death enum value;

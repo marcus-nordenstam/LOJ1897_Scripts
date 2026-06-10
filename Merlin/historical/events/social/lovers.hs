@@ -72,6 +72,12 @@
     ; downstream consumers see a fully-wired pair).
     (begin-belief ?a lover ?b)
     (begin-belief ?b lover ?a)
+    ; A lover bond is constructed on physical attraction - BOTH sides hold at
+    ; least the `fancy` band (0.4 clears the 0.24 entry threshold; ?b may have
+    ; reciprocated with warmth only, but becoming lovers grows the attraction).
+    ; This is what lets love_match marry the pair later: it keys on `fancy`.
+    (nudge-stance ?a ?b attraction 0.4)
+    (nudge-stance ?b ?a attraction 0.4)
     (believe-about ?a ?b)
     (believe-about ?b ?a)
     (log _lovers ?a)))

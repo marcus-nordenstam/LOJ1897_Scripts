@@ -64,6 +64,25 @@ relation
         # (covert_affair_conduct_plan Phase 2).
         meet                    (sub human)           (tar human)  (aux ?)
 
+        # mention: the subject has SPOKEN OF the target concept - a
+        # witnessed remark, not an enacted state. {<despairing> mention
+        # [k death_cause suicide]} held in a confidant's mind is the
+        # suicidal-ideation testimony Phase S of
+        # jilt_blackmail_reputation_plan mints when the suicide branch is
+        # deliberated (the valet-testimony half of the Not-Proven engine).
+        mention                 (sub human)           (tar ?)
+
+        # extort: the STANDING coercion - the subject presses an unmet
+        # demand on the target; aux carries the demand clause ({target
+        # lover subject} for the jilted ex-lover; nothing = a silence
+        # demand). Deliberately distinct from the `coerce` TASK: the task
+        # commits as a point-interval act-record (the threat as an act),
+        # while THIS is the ongoing relation the repeat-demand coercion
+        # pass walks monthly and the victim's exposure_risk pressure hangs
+        # its /cause on. Ends when the demand is met, the secret leaks, or
+        # a party dies (jilt_blackmail_reputation_plan Phase B).
+        extort                  (sub human)           (tar human)  (aux ?)
+
         # under_suspicion: the graded wariness an observer has accumulated
         # toward someone hiding something (covert_affair_conduct_plan Phase
         # 3). Held in the OBSERVER's mind about the watched person:
@@ -362,6 +381,14 @@ relation
             piety               (tar ? @excl) (range 0 1)
             diligence           (tar ? @excl) (range 0 1)
             chastity            (tar ? @excl) (range 0 1)
+            # reputed_chastity - the PUBLIC reading of chastity: counts
+            # only extra-marital partners at least one third mind knows
+            # of (leaked via gossip, interception, witness or
+            # publication). Derived beside chastity by
+            # classify_reputed_chastity; the marriage-market filters read
+            # THIS, never the secret-inclusive self-derived value
+            # (jilt_blackmail_reputation_plan Phase R).
+            reputed_chastity    (tar ? @excl) (range 0 1)
             decorum             (tar ? @excl) (range 0 1)
             generosity          (tar ? @excl) (range 0 1)
             # Conduct-risk
@@ -428,6 +455,16 @@ relation
             # it annually; a parent reads each child's score to feel the
             # autonomy_loss pressure when a child strikes out on their own.
             family_alignment    (tar ? @excl) (range 0 1)
+
+        # repute - the PUBLIC respectability: the same seven-dimension fuse
+        # as respectability_situation but with reputed_chastity in place of
+        # the self-derived chastity. What the parish CAN know, vs
+        # respectability_situation = what is true; the gap between the two
+        # is the blackmail stake (jilt_blackmail_reputation_plan Phase R).
+        # Consumed by every observer-facing filter (marriage market,
+        # employment, clubs, patronage, ostracism) and the family-taint
+        # pass; self-appraisal keeps reading respectability_situation.
+        repute                  (sub human)           (tar respectability_situation @excl)
 
         # Historical-sim-only situation predicates (hsim_ prefix). Read by the
         # event engine to drive crime / drama template eligibility and role

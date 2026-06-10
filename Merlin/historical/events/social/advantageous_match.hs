@@ -39,7 +39,7 @@
     ;; trait-driven gradient on top.
     (role ?bride (template unmarried_woman)
                  (not (believes ?self {@self fiancee ?}))
-                 (= (situation ?self respectability_situation) exemplary)
+                 (= (situation ?self repute) exemplary)
                  ; Additive form so the chance product stays in [0.2, 1.0]
                  ; - keeps the static-bound analyser happy and produces a
                  ; meaningful base rate even for modal-trait brides. The
@@ -56,8 +56,8 @@
     ;; encodes the two valid class-lifts.
     (role ?groom (template unmarried_man)
                  (not (believes ?self {@self fiancee ?}))
-                 (not (= (situation ?self respectability_situation) scandalous))
-                 (not (= (situation ?self respectability_situation) disreputable))
+                 (not (= (situation ?self repute) scandalous))
+                 (not (= (situation ?self repute) disreputable))
                  (or (and (= (situation ?bride class_situation) lower)
                           (= (situation ?self  class_situation) middle))
                      (and (= (situation ?bride class_situation) middle)
