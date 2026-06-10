@@ -208,8 +208,10 @@ concept
         # verdict (serial_predation Phase 1) reads the corpse as natural.
         # Written by the poison kill terminal; the divergence between this
         # body-truth and the village's circumstances_of_death story is the
-        # detective's case.
-        poison
+        # detective's case. Named `poisoning` (the manner of death), not
+        # `poison`: the bare term is already the kill TASK relation and a
+        # noun-state would collide with it.
+        poisoning
 
     # Specific diseases an NPC can have. Distinct
     # from `death_cause disease` which is the cause-of-death enum value;

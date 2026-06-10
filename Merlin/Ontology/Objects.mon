@@ -171,6 +171,15 @@ object (+ obs)
             fire_poker          (facets bludgeon)
         # Physician's carry-bag, holds substance bottles.
         medical_bag
+        # Stoppered glass containers. A poison_bottle's CONTENTS are a
+        # `substance` kind (Concepts.mon - digitalis is the canonical
+        # poison); the bottle is the concrete prop the perpetration
+        # poison row's (control_any poison_bottle) gate matches and the
+        # apothecary / hospital dispensary stock. Purchasing one rides
+        # mint_purchase_trail (receipt + sales_record + shopkeeper
+        # memory) - the Victorian poison register.
+        bottle
+            poison_bottle
         collection
             stack               (sub space|structure)  (tar @excl)
                 root_npc_knowledge_stack

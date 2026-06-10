@@ -165,23 +165,29 @@
 
 ; ---- Chemical (1) ---------------------------------------------------------
 ; poison: the chronic / acute administering kill task (Tasks.mon `poison`).
-; The substance is carried by a prior `add_substance` belief on the
-; vessel; the :requires gate here is the access to that vessel. No
-; inventory gate on the substance kind today (no poison_substance
-; kind); :requires authored as documentation; lands once poison kinds exist.
+; Gated on CONTROL of a poison_bottle (Objects.mon): owned / authorized /
+; purchase / steal via weapon_acquire. Deliberately NOT profession-gated -
+; arsenic was over-the-counter (a public-space buy rides the purchase
+; trail: receipt + sales_record, the poison register); medical staff get
+; authorized hospital-dispensary access with NO trail (0.9x vs purchase
+; 0.7x) - cleaner access, exactly Cream. No :yields - poison leaves no
+; mechanical residue; the staging composition adds the restraint hand
+; bruise (the detective's contradiction), and the burial verdict reads
+; the corpse as natural either way.
 (method poison
   :goal-fit       kill
-  :requires       ((access_any ingestible_or_inhalable))
-  :yields         bruise
+  :requires       ((control_any poison_bottle))
   :method-aux     _
   :terminal       kill_victim
   :wound-site     torso
   :weight         0.6)
 
 ; ---- Hydraulic (1) --------------------------------------------------------
+; (access_any body_of_water) re-lands when the kind + env water features
+; exist; access_any IS evaluated now, and an unresolvable kind would just
+; warn-and-drop at load (leaving the row ungated either way).
 (method drown
   :goal-fit       kill
-  :requires       ((access_any body_of_water))
   :victim-state   defenseless
   :yields         bruise
   :method-aux     _
@@ -218,10 +224,10 @@
   :wound-site     torso
   :weight         0.4)
 
+; (access_any hot_enclosure) re-lands with the kind (see drown note).
 (method cook_alive
   :goal-fit       kill
   :victim-state   defenseless
-  :requires       ((access_any hot_enclosure))
   :yields         burn_wound
   :method-aux     _
   :terminal       kill_victim
@@ -235,12 +241,13 @@
 ; setting demands.
 
 ; ---- Animal (2) - require animal substrate that doesn't exist yet ---------
-; Authored for completeness; the :requires predicates are non-control
-; (access to a kept animal), so without the evaluator extension they
-; fire even without an animal. Drop weight low so they rarely pick.
+; Authored for completeness. (access_any ...) IS evaluated now (reach at
+; home / workplace / public / free-standing feature), but the animal kinds
+; are not declared in the ontology yet - the gates re-land with the
+; animal substrate (an unresolvable kind would warn-and-drop at load,
+; leaving the rows ungated either way). Weights stay tiny meanwhile.
 (method unleash_animal
   :goal-fit       kill
-  :requires       ((access_any dangerous_animal))
   :yields         bite_wound
   :method-aux     _
   :terminal       kill_victim
@@ -249,7 +256,6 @@
 
 (method unleash_insect
   :goal-fit       kill
-  :requires       ((access_any venomous_insects))
   :victim-state   defenseless
   :yields         bruise
   :method-aux     _
