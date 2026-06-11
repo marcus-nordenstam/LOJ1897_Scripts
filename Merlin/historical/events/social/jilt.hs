@@ -68,14 +68,15 @@
 ; ----------------------------------------------------------------------------
 ; jilt_for_station - the class-ambition jilt (the literal Smith opening).
 ;
-; betrothal and love_match now GATE OUT lover-holders (fidelity: an attached
-; party holds out for, or marries, their lover), so the only fiancee a
-; lover-holder can acquire is the advantageous match. This sibling form
-; supplies the other half of the Smith shape: a woman whose secret lover sits
-; BELOW her station breaks the affair to enter the january marriage market -
-; the cross-class courtship that could never become the marriage. She jilts
-; FIRST, betroths at the next market tick; the jilted clerk's pressure stack
-; is identical to the betrothal-triggered form.
+; betrothal and love_match gate lover-holders by VIABILITY: a same-station
+; lover keeps one out of the arranged market (those pairs wed via
+; love_match), but a lover beneath one's station is no impediment in the
+; family's eyes - the arranged match proceeds OVER the secret affair, landing
+; the jilter in the lover+fiancee state the betrothal-triggered `jilt` above
+; consumes (the engagement-first Smith ordering). This sibling form supplies
+; the anticipatory half: a woman whose secret lover sits BELOW her station
+; breaks the affair FIRST to enter the january market clean; the jilted
+; clerk's pressure stack is identical either way.
 ; ----------------------------------------------------------------------------
 
 (hsim-event jilt_for_station

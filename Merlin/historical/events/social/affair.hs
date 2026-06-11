@@ -55,10 +55,14 @@
                  ; sociable, low-decorum minority does (mirrors crush_forms'
                  ; openness x enthusiasm x compassion igniter, with decorum
                  ; INVERTED so impropriety, not warmth, is the driver).
+                 ;; decorum is a DERIVED conduct dimension (belief), no longer
+                 ;; an env attr (the reputation rework) - read it through the
+                 ;; situation op. Un-derived reads contribute 0, making
+                 ;; (- 1 ...) permissive - the not-yet-appraised stray freely.
                  (chance (* 0.5
                             (attr ?actor openness)
                             (attr ?actor enthusiasm)
-                            (- 1 (attr ?actor decorum)))))
+                            (- 1 (situation ?actor decorum)))))
     (role ?lover (template any_human)
                  (not (= ?lover ?actor))
                  (>= (years-old ?lover) 18)

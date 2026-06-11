@@ -39,12 +39,19 @@
     ;; here; its exposure would - that delta is the blackmail stake.
     (role ?bride (template unmarried_woman)
                  (not (believes ?self {@self fiancee ?}))
-                 ;; The romantically ATTACHED do not enter the arranged market:
-                 ;; a standing lover bond means they hold out for (and are
-                 ;; mutually fancied by) their lover, whom love_match can marry
-                 ;; once both are free. Without this gate widows were handed
-                 ;; arranged rematches while their lover still lived.
-                 (not (believes ?self {@self lover ?}))
+                 ;; A lover bond keeps one out of the arranged market ONLY when
+                 ;; the lover is a VIABLE match (same station) - such pairs wed
+                 ;; via love_match instead, and widows are never handed arranged
+                 ;; rematches over a living, marriageable lover. A lover beneath
+                 ;; (or above) one's station is NO impediment in the family's
+                 ;; eyes: the arranged match proceeds OVER the secret affair -
+                 ;; the Madeleine Smith collision (engagement -> jilt attempt ->
+                 ;; the letters become blackmail) that the jilt plan consumes.
+                 ;; No lover -> belief-target reads @fail -> the (and ...) is
+                 ;; false -> eligible.
+                 (not (and (believes ?self {@self lover ?})
+                           (= (situation (belief-target ?self lover) class_situation)
+                              (situation ?self class_situation))))
                  (not (= (situation ?self repute) scandalous))
                  (not (= (situation ?self repute) disreputable))
                  (or (>= (situation ?self reputed_chastity) 0.5)
@@ -52,7 +59,9 @@
                  (chance 0.25))
     (role ?groom (template unmarried_man)
                  (not (believes ?self {@self fiancee ?}))
-                 (not (believes ?self {@self lover ?}))
+                 (not (and (believes ?self {@self lover ?})
+                           (= (situation (belief-target ?self lover) class_situation)
+                              (situation ?self class_situation))))
                  (not (= (situation ?self repute) scandalous))
                  (not (= (situation ?self repute) disreputable))
                  (= (situation ?self class_situation) (situation ?bride class_situation))
