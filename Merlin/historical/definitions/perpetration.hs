@@ -279,6 +279,9 @@
   :method-aux     _
   :terminal       kill_victim
   :wound-site     torso
+  ; Holding a struggling victim under water is a sustained strength
+  ; contest, even though the staged corpse reads as an accident.
+  :strength-demand 0.7
   :weight         0.3)
 
 ; ---- Thermal (4) ----------------------------------------------------------
