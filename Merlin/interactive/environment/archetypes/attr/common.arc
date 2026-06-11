@@ -80,6 +80,11 @@ attr "gender" (type kind) (mech obs) (auto-percept)
 attr "appearance" (type kind) (mech obs) (auto-percept)
 attr "height" (type kind) (mech obs) (auto-percept)
 attr "girth" (type kind) (mech obs) (auto-percept)
+# Hair / eye colour - observable physical traits (serial_predation
+# generalized fixation). Kind-typed; seeded at creation from the
+# hereditary trait tables (hair_color.txt / eye_color.txt).
+attr "hair_color" (type kind) (mech obs) (auto-percept)
+attr "eye_color" (type kind) (mech obs) (auto-percept)
 # nationality and social standing are not physical environment state - they
 # exist solely as beliefs (nationality / class_situation labels in States.mon).
 

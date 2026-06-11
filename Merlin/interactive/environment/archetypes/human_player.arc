@@ -12,6 +12,8 @@ archetype "human_player" (cap 256) (mech obs) (raycast-visible) (player) (non-oc
     "appearance"
     "height"
     "girth"
+    "hair_color"
+    "eye_color"
     "attractiveness"
     "bank_balance"
     "name"

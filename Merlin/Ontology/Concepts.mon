@@ -117,12 +117,18 @@ concept
         power_aim
         belonging_aim
 
-    # A predator's stable victim-type preference (serial_predation Phase 2):
-    # {@self fixation <gender>}, seeded once per qualifying actor from the
-    # perpetration rng stream on their first predation tick. Stable for
-    # life, so a serial killer's victim-type consistency EMERGES instead of
-    # being authored; it also renders in the rap-sheet why-chain.
-    fixation            (sub human)  (tar gender @excl)
+    # A predator's stable victim-type FIXATION (serial_predation Phase 2,
+    # generalized): repeated {@self fixation <trait-value>} beliefs whose
+    # conjunction is the victim-type PROFILE (e.g. {fixation tall} +
+    # {fixation blonde} + {fixation male} = "tall blond men"). Each target
+    # is any physical / social trait-value kind (a gender / height / girth /
+    # appearance / hair_color / eye_color / nationality / class_situation /
+    # job leaf); the value's parent kind IS its axis, so the matcher reads
+    # the right attr / belief / job generically. NOT @excl - a profile is
+    # several beliefs. Seeded once per predator by copying 1-2 traits off a
+    # random "type prototype" person, so victim-type consistency EMERGES
+    # (and the profile is guaranteed achievable). Renders in the rap-sheet.
+    fixation            (sub human)  (tar ?)
 
     # Unified domain axis (PR-skill-life). ONE hierarchical taxonomy that
     # `interest`, `skilled_in`, and `calling` (States.mon) all target as three
@@ -812,6 +818,27 @@ concept
             short
             medium
             tall
+        # Hair / eye colour (serial_predation generalized fixation): their
+        # OWN leaf taxonomies (not the shared `color` palette above) so the
+        # trait loader's scoped value resolution ("hair_color blonde") works
+        # and a fixation value's parent kind unambiguously names its axis.
+        # Repeated leaves across the two (brown / grey) are fine - scoped
+        # resolution keeps them distinct, exactly like girth / height
+        # `medium`. Seeded at human creation from the .txt trait tables.
+        hair_color          (tar @excl)
+            black
+            brown
+            auburn
+            red
+            blonde
+            grey
+            white
+        eye_color           (tar @excl)
+            blue
+            brown
+            green
+            grey
+            hazel
 
     blood_type          (obs) (tar @excl)
         A

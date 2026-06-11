@@ -16,18 +16,30 @@
 ;   2. rate gate: k_predation_base_rate x disinhibition x lethal
 ;      disposition, x k_predation_power_aim_mult for {@self life_aim
 ;      power_aim} holders;
-;   3. seeds the per-predator fixation ({@self fixation <gender>}, once,
-;      stable for life - victim-type consistency without authoring it);
-;   4. scores every eligible non-kin adult by invisibility and
-;      weighted-samples ONE victim. Small circle = few mourners = small
-;      Phase-1 violent-verdict fan-out, so invisible victims are
-;      MECHANICALLY safer - the loop the Cream case study runs on;
+;   3. seeds the per-predator victim-type PROFILE once, stable for life:
+;      repeated {@self fixation <trait-value>} beliefs, 1-2 trait axes
+;      copied off a random living-adult "type prototype" person. The axes
+;      are authored as (fixation-axis <name>) rows in
+;      definitions/perpetration.hs (gender / height / girth / appearance /
+;      hair_color / eye_color / nationality / class_situation / job) -
+;      adding one there needs no C++. Sampling a real person weights
+;      profiles by population frequency and guarantees the profile is
+;      achievable; victim-type consistency EMERGES without authoring it
+;      ("tall blond men", "disreputable working girls", ...);
+;   4. HARD-filters every eligible non-kin adult to the full profile, then
+;      scores the survivors by invisibility and weighted-samples ONE
+;      victim. Small circle = few mourners = small Phase-1 violent-verdict
+;      fan-out, so invisible victims are MECHANICALLY safer - the loop the
+;      Cream case study runs on. A predator whose profile matches nobody
+;      this tick stays latent until a victim of his type exists;
 ;   5. mints the stalk_target marker (~30 days; attempt_harm reads it as
 ;      a weight multiplier - the prepared predator's surprise) and the
-;      kill goal, /cause-pinned to the life_aim / sadism self-belief so
-;      the rap-sheet chain stays legible.
+;      kill goal, /cause-pinned to the first fixation belief (else the
+;      power_aim life_aim) so the rap-sheet chain stays legible
+;      ("kill <victim> <- {@self fixation blonde}").
 ; attempt_harm then consumes the goal and executes a method as usual -
-; a poisoner-predator emerges when the method affinity favours poison.
+; the MO is whatever the method affinity favours (a skilled apothecary
+; poisons, a soldier strangles or stabs); nothing here is poison-bound.
 ;
 ; Kept a tail by design (trait floor + base rate): the target is 1-3
 ; predators per few generations. To A/B, rename/remove this file.

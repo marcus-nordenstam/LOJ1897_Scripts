@@ -17,6 +17,8 @@ archetype "human_npc" (cap 4096) (mech obs) (raycast-visible) (sentient) (non-oc
     "appearance"
     "height"
     "girth"
+    "hair_color"
+    "eye_color"
     "attractiveness"
     # Liquid savings; signed (gambling debt). Accrues yearly, transfers to heir.
     "bank_balance"

@@ -1,0 +1,5 @@
+brown	        5
+black	        3
+blonde	        2
+auburn	        1
+red	        1
