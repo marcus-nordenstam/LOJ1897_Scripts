@@ -95,6 +95,14 @@ concept
         # club / education. Aux carries the domain. Read by
         # `skill_atrophies.hse` to suppress atrophy (~12 months).
         practice
+        # Acquisition/use split (interrogation detail plan 3b point 1):
+        # the actor has PROCURED a weapon for a kill and stowed it at
+        # home (hidden if covert, openly displayed if not), but not yet
+        # struck. Aux carries the intended victim. A later perpetration
+        # fire reads it to proceed to the kill instead of re-procuring;
+        # the ~80-day window spans a few monthly ticks before the
+        # premeditation cools.
+        armed
 
     # Existential-frame taxonomy. The target of the `life_aim` drive in
     # States.mon: what an NPC wants their LIFE to amount to. Distinct
