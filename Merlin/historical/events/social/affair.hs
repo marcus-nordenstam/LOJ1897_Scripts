@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; affair (homicide_motive_realism_plan.md WS1 - the betrayal-starvation lever).
+; affair - the betrayal-starvation lever.
 ;
 ; The piece the betrayal-homicide path was missing. run_generative_obsession
 ; (crime_of_passion.hs) detects a jealous spouse whose own spouse holds a
@@ -36,6 +36,7 @@
   (nl         "?actor strays into an affair with ?lover")
   (kind       _affair)
   (schedule   (annually september))
+  (band      evening)
   (rng-stream incidents)
 
   (roles

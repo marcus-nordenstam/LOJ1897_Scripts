@@ -15,6 +15,7 @@
   (nl         "?giver gives to charity")
   (kind       _charity)
   (schedule   (annually may))
+  (band      afternoon)
   (rng-stream behaviour)
 
   (roles

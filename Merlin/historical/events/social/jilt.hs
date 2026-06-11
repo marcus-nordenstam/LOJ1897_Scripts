@@ -1,5 +1,6 @@
 ; ----------------------------------------------------------------------------
-; jilt (jilt_blackmail_reputation_plan.md Phase J - the Smith genesis).
+; jilt - the Smith genesis (see Docs/hsim/hsim_social.md "Ending an affair by
+; choice: jilt").
 ;
 ; A lover bond endable by CHOICE - before this event, lover bonds ended only
 ; by death, marriage or divorce. The lead form is betrothal-triggered: an NPC
@@ -36,6 +37,7 @@
   (nl         "?jilter jilts ?jilted")
   (kind       _jilt)
   (schedule   (monthly))
+  (band      afternoon)
   (rng-stream marriages)
 
   (roles
@@ -83,6 +85,7 @@
   (nl         "?jilter breaks with ?jilted to keep their station")
   (kind       _jilt)
   (schedule   (monthly))
+  (band      afternoon)
   (rng-stream marriages)
 
   (roles

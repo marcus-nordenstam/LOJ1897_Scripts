@@ -21,6 +21,7 @@
   (nl         "?bride and ?groom celebrate their engagement")
   (kind       _engagement_party)
   (schedule   (annually february))
+  (band      evening)
   (rng-stream marriages)
 
   (roles

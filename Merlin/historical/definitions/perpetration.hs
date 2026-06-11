@@ -380,8 +380,8 @@
   :weight         0.5)
 
 ; ---- confess (1) ------------------------------------------------------------
-; The exposure_risk confess_letter affinity gains its terminal
-; (jilt_blackmail_reputation_plan Phase B rider): the actor reveals their
+; The exposure_risk confess_letter affinity gains its terminal:
+; the actor reveals their
 ; OWN secret to their nearest kin - the secret reaches the father from
 ; HER. Scandal without murder; the leak also kills any standing blackmail
 ; leverage (the coercion refresh pass sees the secret is out).

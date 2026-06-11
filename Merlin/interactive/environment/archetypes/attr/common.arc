@@ -147,13 +147,13 @@ attr "strength"   (type float) (range 0 1) (mech feel) (mech obs) (state-flags-t
 attr "dexterity"  (type float) (range 0 1) (mech feel) (mech obs) (state-flags-tar @excl)
 attr "agility"    (type float) (range 0 1) (mech feel) (mech obs) (state-flags-tar @excl)
 attr "endurance"  (type float) (range 0 1) (mech feel) (state-flags-tar @excl)
-# Physical attractiveness / mate-value (relational_stance_plan.md Phase 4). 0..1
+# Physical attractiveness / mate-value. 0..1
 # float, mean 0.5, genetic + heritable (rolled in k_continuous_traits). (mech obs)
 # - looks are publicly visible, so it mirrors at all tiers (believe_about band1)
 # and feeds the attraction stance scalar.
 attr "attractiveness" (type float) (range 0 1) (mech feel) (mech obs) (state-flags-tar @excl)
 # Liquid savings ("money in the bank"). SIGNED - can go negative (debt) when
-# gambling losses outrun income (homicide_motive_realism_plan.md 4b). Accrues
+# gambling losses outrun income. Accrues
 # yearly in derive_prototypes (savings from job rank, taxed by gambling), feeds
 # classify_wealth, and transfers to the heir on death (propagate_death ->
 # inherit_money). Not a rolled genetic trait - starts at 0 and accumulates.
@@ -246,6 +246,15 @@ attr "marks"   (type kind array 4) (state "mark")  (mech obs) (auto-percept)
 
 # Transaction
 attr "at" (type entity) (entity "structure" "container_structure" "space") (mech obs) (auto-percept)
+
+# Delta-driven co-presence prop perception (interrogation plan 3b point
+# 1b): the date a prop was last deliberately added to / removed from this
+# container space. An arriving NPC does a full unhidden-prop sweep ONLY
+# when this stamp is newer than their last sweep of the space (or it is
+# their first visit) - the common case, unchanged rooms, is a single date
+# compare and no observation at all. Bumped by the deliberate-placement
+# sites (disposal, letter delivery, vessel spawn, weapon acquisition).
+attr "inventory_changed" (type date) (imperceptible)
 
 # Instance
 attr "prototype" (type entity) (spec-attr prototype) (imperceptible)

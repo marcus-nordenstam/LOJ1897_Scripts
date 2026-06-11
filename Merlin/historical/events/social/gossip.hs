@@ -21,6 +21,7 @@
   (nl         "?actor spreads gossip among friends")
   (kind       _gossip)
   (schedule   (monthly))
+  (band      afternoon)
   (rng-stream behaviour)
 
   (roles

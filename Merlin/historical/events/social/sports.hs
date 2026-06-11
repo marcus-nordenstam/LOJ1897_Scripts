@@ -22,6 +22,7 @@
   (nl         "a sporting club holds its annual competition")
   (kind       _sporting_event)
   (schedule   (annually june))
+  (band      afternoon)
   (rng-stream behaviour)
 
   (roles

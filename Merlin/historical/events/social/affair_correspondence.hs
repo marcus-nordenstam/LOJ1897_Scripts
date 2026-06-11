@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; affair_correspondence.hs - the letter channel of a covert affair
-; (covert_affair_conduct_plan Phase 1 - the spine).
+; (see Docs/hsim/hsim_social.md "Conduct channel 1: correspondence").
 ;
 ; The `(generative-correspondence)` flag dispatches to hse_engine.cc::
 ; run_generative_correspondence, which (per lover-holding adult, monthly):
@@ -33,6 +33,7 @@
   (nl         "?actor writes to a secret lover")
   (kind       _affair_correspondence)
   (schedule   (monthly))
+  (band      afternoon)
   (rng-stream incidents)
   (generative-correspondence)
 

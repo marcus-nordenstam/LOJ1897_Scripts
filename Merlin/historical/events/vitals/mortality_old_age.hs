@@ -11,6 +11,7 @@
   (nl         "?who dies of old age")
   (kind       _death)
   (schedule   (monthly))
+  (band      dawn)
   (rng-stream deaths)
 
   (roles

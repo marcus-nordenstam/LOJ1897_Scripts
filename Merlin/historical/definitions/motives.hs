@@ -13,9 +13,8 @@
 ;     (require situation any_of  <a> <b> ...)
 ;     (require attitude_outgoing <kind>)
 ;     (require stance <dim> <band>)   ; a relational-stance band toward the
-;                                     ; target (relational_stance_plan.md), e.g.
-;                                     ; `warmth detest`. Replaces the retired
-;                                     ; like/hate attitudes.
+;                                     ; target (see Docs/social/relational_stance.md),
+;                                     ; e.g. `warmth detest`.
 ;     (require emotion_recent    <kind>)
 ;     (require trait <field> >= <N>)
 ;     (boost   situation <flag> +<n>)

@@ -12,6 +12,7 @@
   (nl         "?worker is hired")
   (kind       _hiring)
   (schedule   (annually march))
+  (band      morning)
   (rng-stream employment)
 
   (roles
@@ -62,6 +63,7 @@
   (nl         "?worker is promoted")
   (kind       _promotion)
   (schedule   (annually march))
+  (band      morning)
   (rng-stream employment)
 
   (roles
@@ -85,6 +87,7 @@
   (nl         "?worker loses their job")
   (kind       _job_loss)
   (schedule   (monthly))
+  (band      morning)
   (rng-stream employment)
 
   (roles
@@ -101,6 +104,7 @@
   (nl         "?worker retires")
   (kind       _retirement)
   (schedule   (annually january))
+  (band      morning)
   (rng-stream employment)
 
   (roles

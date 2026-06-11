@@ -45,6 +45,7 @@
   (nl         "?child starts primary school")
   (kind       _education)
   (schedule   (annually march))
+  (band      morning)
   (rng-stream behaviour)
 
   (roles
@@ -69,6 +70,7 @@
   (nl         "?youth goes on to secondary school")
   (kind       _education)
   (schedule   (annually june))
+  (band      morning)
   (rng-stream behaviour)
 
   (roles
@@ -94,6 +96,7 @@
   (nl         "?youth goes up to university")
   (kind       _education)
   (schedule   (annually june))
+  (band      morning)
   (rng-stream behaviour)
 
   (roles
@@ -117,6 +120,7 @@
   (nl         "?pupil finishes primary school")
   (kind       _education)
   (schedule   (annually september))
+  (band      morning)
   (rng-stream behaviour)
 
   (roles
@@ -137,6 +141,7 @@
   (nl         "?pupil finishes secondary school")
   (kind       _education)
   (schedule   (annually september))
+  (band      morning)
   (rng-stream behaviour)
 
   (roles
@@ -153,6 +158,7 @@
   (nl         "?graduate takes their degree")
   (kind       _education)
   (schedule   (annually september))
+  (band      morning)
   (rng-stream behaviour)
 
   (roles

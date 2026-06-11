@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; express_contempt (relational_stance_plan.md 5.1 / 12.4 follow-on).
+; express_contempt.
 ;
 ; The DELIBERATE, attitude-driven insult - the considered counterpart to the
 ; impulsive bonded_incident_insult. Where that event is a trait roll
@@ -18,9 +18,9 @@
 ; Delivered as an event, NOT a perpetration method: the perpetration pipeline
 ; selects methods from pressure-derived goals (deliberation.hs affinity rows),
 ; with no stance input, so it cannot host an attitude-driven act. The reliable
-; stance gate (stance-at-least despise, the cross-pair BITSET predicate,
-; relational_stance_plan 13.1) carries the intent directly, and the non-root
-; (chance ...) gates correctly since the hse residue fix (13.2).
+; stance gate (stance-at-least despise, the cross-pair BITSET
+; predicate) carries the intent directly, and the non-root
+; (chance ...) gates correctly.
 ;
 ; Re-uses the `insult` incident anchor (so the victim's existing contempt /
 ; anger reaction fires) + the per-pair 90-day cooldown (no carpet-bombing).
@@ -34,6 +34,7 @@
   (nl       "?actor treats ?victim with open contempt")
   (kind     _express_contempt)
   (schedule (monthly))
+  (band      evening)
   (rng-stream incidents)
 
   (roles

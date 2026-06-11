@@ -17,6 +17,7 @@
   (nl         "?wife and ?husband have a child")
   (kind       _birth)
   (schedule   (monthly))
+  (band      dawn)
   (rng-stream births)
 
   (roles

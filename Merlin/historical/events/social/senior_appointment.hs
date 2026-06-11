@@ -22,6 +22,7 @@
   (nl         "?official is appointed to a senior post")
   (kind       _appointment)
   (schedule   (annually march))
+  (band      morning)
   (rng-stream employment)
 
   (roles

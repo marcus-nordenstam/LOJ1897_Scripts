@@ -23,6 +23,9 @@ archetype "container_structure" (cap 2048) (mech obs) (always-visible) (children
     "address"
     "address_number"
     "region"
+    # Delta-driven prop perception: last prop add/remove date (see
+    # common.arc).
+    "inventory_changed"
     # Nav v2: cache key into nav_graph's mesh-data table.
     "nav_mesh"
     # Nav v2: container_structures (buildings/ships/wagons) physically occupy

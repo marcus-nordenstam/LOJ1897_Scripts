@@ -21,7 +21,7 @@
 ; humiliate / frame / hurt / seduce / silence_witness / bribe / steal /
 ; defraud / urge / disinherit / atone / confess_in_person /
 ; confess_letter / forgive). Magnitudes here are starter values matched
-; to the Docs/hsim_status.md bonded_incident outcome table; tune as
+; to the bonded_incident outcome table; tune as
 ; behaviour-distribution drift surfaces from mxlog.
 ;
 ; Format:  (life-aim-affinity <life-aim-kind> <action> <signed-weight>)

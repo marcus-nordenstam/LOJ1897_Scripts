@@ -24,14 +24,14 @@
 ; per-pair 90-day cooldown so the same actor doesn't carpet-bomb the
 ; same victim monthly. The base chance dilutes by victim-population
 ; scale, then is biased by the actor's durable relational stance toward
-; the candidate (relational_stance_plan.md Phase 5): the disliked and
+; the candidate: the disliked and
 ; despised are preferentially targeted, while a neutral acquaintance can
 ; still be hit (the displaced-anger path - dislike is never required).
 ;
 ; The actor-side emotion-spillover term (displaced anger scaled by the current
-; anger load) is now wired into the actor chance below (V3). The remaining
-; structural amplifiers from the plan's row (stress, intoxication,
-; prestige-gap-either-way) are still future work.
+; anger load) is wired into the actor chance below. The remaining
+; structural amplifiers (stress, intoxication,
+; prestige-gap-either-way) are still future work (see Docs/future_work.md).
 ;
 ; Schedule: monthly.
 ; ----------------------------------------------------------------------------
@@ -42,17 +42,18 @@
   (nl       "?actor insults ?victim")
   (kind     _bonded_incident_insult)
   (schedule (monthly))
+  (band      evening)
   (rng-stream incidents)
 
   (roles
     (role ?actor  (template any_human)
-                  ; Two additive impulse sources (relational_stance_plan 5.1):
+                  ; Two additive impulse sources:
                   ;  - the dispositional base: low politeness x narcissism;
                   ;  - displaced anger: a high current ANGER load (from ANY
                   ;    source, summed across foci) raises the urge to lash out,
                   ;    discharged on whatever the victim pool offers - the 0.10
                   ;    displacement floor on ?victim lets an innocent acquaintance
-                  ;    be hit, so the anger need not be AT the victim (12.4 V3).
+                  ;    be hit, so the anger need not be AT the victim.
                   ; emotion-load is unbounded, so this chance takes the
                   ; per-candidate slow path (one benign load-time warning); the
                   ; actor role is enumerated per candidate regardless, so there is
@@ -65,8 +66,8 @@
                   (not (= ?victim ?actor))
                   (personally-knows ?actor ?victim)
                   (not (has-recent-incident-marker ?actor ?victim))
-                  ; Stance-weighted victim selection (relational_stance_plan.md
-                  ; Phase 5). The pool is uniformly sampled, so raising a
+                  ; Stance-weighted victim selection.
+                  ; The pool is uniformly sampled, so raising a
                   ; candidate's pool-membership chance raises its odds of being
                   ; the victim. Floor 0.10 is the displaced-anger path: any
                   ; acquaintance can still be hit at the old baseline rate, so we

@@ -1,6 +1,5 @@
 ; ----------------------------------------------------------------------------
-; reacquaint (relational_stance_plan.md 12.5 / 12.6 follow-on - conduct /
-; attractiveness live re-sync).
+; reacquaint - conduct / attractiveness live re-sync.
 ;
 ; A's beliefs ABOUT a known contact B (B's conduct - honesty / piety /
 ; criminality / prestige / wealth - and B's attractiveness) are a snapshot taken
@@ -14,7 +13,7 @@
 ; their known contacts and refreshes the whole profile (believe_about re-copies
 ; the disclosure bands, conduct + attractiveness among them). Cheap, content-only
 ; - no engine change - and reliable now that personally-knows + the sampler bind
-; correctly (relational_stance_plan 13.2). The recurring social events (leisure,
+; correctly. The recurring social events (leisure,
 ; interest_outing) already refresh co-attendees; this catches the contacts you
 ; do not regularly see.
 ;
@@ -29,6 +28,7 @@
   (nl       "?a catches up on ?b")
   (kind     _reacquaint)
   (schedule (annually august))
+  (band      afternoon)
   (rng-stream behaviour)
 
   (roles

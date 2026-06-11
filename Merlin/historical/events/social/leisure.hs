@@ -19,6 +19,7 @@
   (nl         "?host hosts ?guest for dinner")
   (kind       _dinner_party)
   (schedule   (monthly))
+  (band      evening)
   (rng-stream behaviour)
 
   (roles

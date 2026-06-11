@@ -24,6 +24,7 @@
   (nl         "?npc relapses into drink")
   (kind       _relapse)
   (schedule   (monthly))
+  (band      evening)
   (rng-stream behaviour)
 
   (roles

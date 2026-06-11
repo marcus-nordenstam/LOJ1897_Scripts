@@ -14,6 +14,7 @@
   (nl         "?npc takes to gambling")
   (kind       _gambling)
   (schedule   (annually march))
+  (band      evening)
   (rng-stream behaviour)
 
   (roles

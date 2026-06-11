@@ -36,11 +36,11 @@
 ; apothecary: the business kind exists (businesses.hs `(business apothecary
 ; (building shop))`, Concepts.mon org kind), so the shop bootstraps and is
 ; staffed - the poison-register counter the purchase trail needs
-; (jilt_blackmail_reputation_plan sec 5 / serial-predation pipeline).
+; (the serial-predation pipeline, see Docs/hsim/hsim_crime.md).
 (job apothecary    (class_floor middle) (business_type apothecary)     (may_own true)  (bootstrap true) (era_min 1700) (domain medicine))
 (job priest        (class_floor middle) (business_type church)         (may_own false) (era_min 1700) (domain theology))
 (job principal     (class_floor middle) (business_type private_school) (may_own false) (era_min 1700) (domain secondary_school_curriculum))
-; professor: the university don (PR-education). No (domain ...): a don's competence
+; professor: the university don. No (domain ...): a don's competence
 ; is the degree they earned (minted at graduation), not a skill the post confers.
 (job professor     (class_floor upper)  (business_type university)     (may_own false) (era_min 1700))
 

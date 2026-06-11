@@ -39,6 +39,7 @@
   (nl       "?actor forms a crush on ?victim")
   (kind     _crush_forms)
   (schedule (monthly))
+  (band      afternoon)
   (rng-stream incidents)
 
   (roles
@@ -49,7 +50,7 @@
     (role ?actor  (template any_human)
                   (>= (years-old ?actor) 14)
                   (<= (years-old ?actor) 50)
-                  ; infatuation retired (relational_stance_plan.md Phase 4):
+                  ; infatuation retired:
                   ; directed attraction is the one-sided attraction stance SCALAR
                   ; (fancy/desire/crave verb-states). The passive standing-pass
                   ; mate-value driver is too gated to fire in the small-town repro
@@ -86,7 +87,7 @@
                   (chance 0.20)))
 
   (effects
-    ; Feed the one-sided attraction scalar (relational_stance_plan.md Phase 4):
+    ; Feed the one-sided attraction scalar:
     ; a crush is a strong directed pull. 0.5 crosses the `fancy` band (0.20) in
     ; one fire and sustains ~a year against the sleep decay (0.938); repeated
     ; fires deepen toward `desire` (0.60). The `fancy` verb-state belief is what

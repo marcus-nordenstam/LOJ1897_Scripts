@@ -3,8 +3,8 @@
 ;
 ; Loaded by Merlin at ontology-load time (appraisal_load_norms, called from
 ; t_simulator::load_ontology). Editing this file re-tunes the emotion model
-; for isim AND hsim - no rebuild, no rule changes. See Docs/emotion_sim_plan.md
-; sections 4.5 and 5.
+; for isim AND hsim - no rebuild, no rule changes. See
+; Docs/emotion/emotion_system.md.
 ;
 ; The category TESTS and the effect-signature table are code (appraisal.cc);
 ; only the tuning data - intensities, mood weights, the category -> reaction
@@ -26,13 +26,13 @@
   :max-emotion-salience   336
   :max-pressure-salience  8760
   :mood-salience-gain     0.5
-  ; stance-lr: emotion -> durable-stance learning rate (relational_stance_plan
-  ; sections 3.2 / 4.1). Each genuinely-new emotion mint toward a focus PERSON
+  ; stance-lr: emotion -> durable-stance learning rate (see
+  ; Docs/social/relational_stance.md). Each genuinely-new emotion mint toward a focus PERSON
   ; nudges the appraiser's standing stance scalars by (coupling-weight *
   ; stance-lr), clamped to [-1,1]. Low so a single event is a small step and a
   ; PATTERN of events accumulates into a durable stance.
   :stance-lr              0.2
-  ; --- per-simulation-mode default salience (memory_system_plan Phase 8) ---
+  ; --- per-simulation-mode default salience (see Docs/memory/memory_system.md) ---
   ; t_event() reads s_default_salience[current_mode] for fresh beliefs.
   ;   isim : 24h post-end recall (one day; matches interactive cadence)
   ;   hsim : 8640h = 12 * 30 * 24 = 12 months at monthly ticks, so a
@@ -123,7 +123,7 @@
 (trait-affect psychopathy :dampens   guilt fear moral_violation :gain 0.6 :one_sided)
 
 ; ---- stance coupling -------------------------------------------------------
-; Emotion -> durable relational stance (relational_stance_plan.md section 4.1).
+; Emotion -> durable relational stance (see Docs/social/relational_stance.md).
 ; When an emotion is minted toward a focus PERSON, it nudges the appraiser's
 ; standing stance scalars toward that person. The transient emotion is the
 ; flow; these nudges are the slow stock (the _stance_by_object leaky integral,
@@ -144,7 +144,7 @@
 (stance-coupling affection  :warmth  0.5)
 (stance-coupling admiration :esteem  0.5 :warmth  0.2)
 
-; ---- Class II standing comparison (relational_stance_plan.md section 4.2) ---
+; ---- Class II standing comparison ------------------------------------------
 ; The standing leg of derive_stance pulls stance toward who a known person IS,
 ; with no triggering event. It reads what the appraiser already knows of the
 ; target (conduct / class / prestige / wealth learned via believe_about's
@@ -250,8 +250,8 @@
   (mint distress :focus none  :salience 72)
   (pressure humiliation :focus actor :salience 720)
   (pressure injustice   :focus actor :salience 2160)
-  ; A wrong ends a friendship but does NOT fabricate a structural `enemy` tie
-  ; (relational_stance_plan.md): the durable affective residue is carried by the
+  ; A wrong ends a friendship but does NOT fabricate a structural `enemy` tie:
+  ; the durable affective residue is carried by the
   ; emotion->stance coupling (anger drags warmth-/trust-/esteem- down). `enemy`
   ; is reserved for genuine circumstantial feud/rivalry (e.g. the sports event).
   (end-bond   friend))
@@ -345,7 +345,7 @@
   (pressure attachment_loss :focus actor :salience 2160)
   ; Betrayal ends the love + friend bonds (real structural changes); the trust
   ; collapse is now the emotion->stance coupling (anger/grief drag trust- down),
-  ; not a separate `distrusts` attitude (relational_stance_plan.md).
+  ; not a separate `distrusts` attitude.
   (end-bond   love)
   (end-bond   friend))
 
@@ -391,8 +391,8 @@
 ; aid_act and provision_act share an umbrella help_act reaction. Authors
 ; can override per-specific category if needed.
 (reaction help_act :pov patient
-  ; A single favour is a WARMTH nudge, not an instant friendship
-  ; (relational_stance_plan.md sections 5.2 / 7). The gratitude mint couples to
+  ; A single favour is a WARMTH nudge, not an instant friendship.
+  ; The gratitude mint couples to
   ; warmth (stance-coupling above); repeated kindnesses accumulate into a `like`
   ; band, and friendship then forms via the warmth-biased befriend events
   ; (adult/childhood_friendships). Was (begin-bond friend) - removed: it minted a
@@ -418,7 +418,7 @@
   (mint gratitude  :focus actor :salience 168)
   ; was (begin-bond respects); the `respects` attitude is retired - honour now
   ; mints admiration toward the actor, which the stance coupling routes to
-  ; esteem+ -> an `admire`/`revere` belief (relational_stance_plan.md 4.1, 5.4).
+  ; esteem+ -> an `admire`/`revere` belief.
   (mint admiration :focus actor :salience 168))
 
 (reaction honour_act :pov actor

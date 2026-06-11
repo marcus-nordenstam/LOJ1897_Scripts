@@ -12,6 +12,7 @@
   (nl         "?debtor borrows from ?creditor")
   (kind       _borrowing)
   (schedule   (annually may))
+  (band      afternoon)
   (rng-stream behaviour)
 
   (roles

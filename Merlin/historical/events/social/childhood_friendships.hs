@@ -18,6 +18,7 @@
   (nl         "?a and ?b become childhood friends")
   (kind       _friendship)
   (schedule   (annually march))
+  (band      afternoon)
   (rng-stream friendships)
 
   (roles
@@ -35,9 +36,9 @@
              (<= (- (years-old ?self) (years-old ?a))  3)
              (>= (- (years-old ?self) (years-old ?a)) -3)
              (not (believes ?a {@self friend ?b}))
-             ; Warmth-gated (relational_stance_plan.md Phase 4 / 5.2): see
-             ; adult_friendships.hs. Reliable cross-pair BITSET gates (section
-             ; 13.1) - kids rarely hold a dislike band yet, so volume is ~unchanged;
+             ; Warmth-gated: see
+             ; adult_friendships.hs. Reliable cross-pair BITSET gates
+             ; - kids rarely hold a dislike band yet, so volume is ~unchanged;
              ; the gate just prevents befriending an already-disliked peer.
              (not (stance-at-least ?a ?b dislike))
              (not (stance-at-least ?a ?b detest))))

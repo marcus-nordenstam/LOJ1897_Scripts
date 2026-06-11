@@ -27,6 +27,7 @@
   (nl       "?actor reckons with a partner's affair")
   (kind     _affair_fallout)
   (schedule (monthly))
+  (band      evening)
   (rng-stream incidents)
   (generative-betrayal)
 

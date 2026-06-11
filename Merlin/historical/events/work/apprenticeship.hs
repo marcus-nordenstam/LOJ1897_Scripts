@@ -14,6 +14,7 @@
   (nl         "?youth is apprenticed")
   (kind       _apprenticeship)
   (schedule   (annually september))
+  (band      morning)
   (rng-stream apprenticeship)
 
   (roles
@@ -62,6 +63,7 @@
   (nl         "?apprentice completes their apprenticeship")
   (kind       _apprenticeship)
   (schedule   (annually september))
+  (band      morning)
   (rng-stream apprenticeship)
 
   (roles

@@ -17,6 +17,7 @@
   (nl         "?actor's family gathers for dinner")
   (kind       _family_dinner)
   (schedule   (monthly))
+  (band      evening)
   (rng-stream behaviour)
 
   (roles

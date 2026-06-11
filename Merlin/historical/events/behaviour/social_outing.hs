@@ -1,10 +1,11 @@
 ; ----------------------------------------------------------------------------
-; Ad-hoc social-outing lane (hsim_activity_lanes_plan.md, phase L3). An
+; Ad-hoc social-outing lane (see Docs/hsim/hsim_social.md "Co-presence and
+; activity lanes"). An
 ; extraverted NPC (the organizer) assembles a handful of its OWN available
 ; friends and takes them out - to a pub in its town. Every attendee (organizer
 ; included) records the episodic memory {@self socialize_at <venue> /aux
-; <organizer>}; the whole party shares this firing's active-day (L0), so they
-; share (venue, date) - the substrate the L4 co-presence sweep reads.
+; <organizer>}; the whole party shares this firing's active-day, so they
+; share (venue, date) - the substrate the co-presence sweep reads.
 ;
 ; Organizer-driven, per-mind (core principle 2): role-0 enumerates candidate
 ; organizers; the effect (host-social-outing) reads the organizer's friend
@@ -24,6 +25,7 @@
   (nl         "?organizer takes friends out")
   (kind       _social_outing)
   (schedule   (monthly))
+  (band      evening)
   (rng-stream behaviour)
 
   (roles

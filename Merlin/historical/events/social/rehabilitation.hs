@@ -22,6 +22,7 @@
   (nl         "?npc seeks rehabilitation")
   (kind       _rehabilitation)
   (schedule   (annually april))
+  (band      afternoon)
   (rng-stream behaviour)
 
   (roles

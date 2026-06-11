@@ -16,6 +16,7 @@
   (nl         "?actor catches up with friends")
   (kind       _catch_up)
   (schedule   (monthly))
+  (band      afternoon)
   (rng-stream behaviour)
 
   (roles

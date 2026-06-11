@@ -27,10 +27,9 @@
 (affinity humiliation         expose               0.4)
 (affinity humiliation         withdraw             0.3)
 (affinity humiliation         kill                 0.02)
-; PR-3d 2026-05-25 - new goal labels.
 (affinity humiliation         humiliate            0.5)
 (affinity humiliation         discredit            0.4)
-; jilt_blackmail_reputation_plan Phase B + S (see the attachment_loss rows).
+; Coercion + suicide tails (see the attachment_loss rows).
 (affinity humiliation         coerce               0.10)
 (affinity humiliation         suicide              0.01)
 
@@ -58,17 +57,17 @@
 (affinity attachment_loss     withdraw             0.5)
 (affinity attachment_loss     replace              0.2)
 (affinity attachment_loss     seduce               0.2)   ; rebound
-; PR-A-6 2026-05-28 - the rare-but-load-bearing jealous-spouse path.
+; The rare-but-load-bearing jealous-spouse path:
 ; betrayed lovers do sometimes escalate to the kill goal; the affinity
 ; weight is intentionally low so it stays a tail outcome, not a default.
 (affinity attachment_loss     kill                 0.03)
-; jilt_blackmail_reputation_plan Phase B - the jilted lover's coercion
+; The jilted lover's coercion
 ; branch ("marry me or I show your letters to your father"). The demand
 ; is derived at the silence_coerce terminal from the lost relationship.
 ; Kill affinities stay untouched: blackmail must out-compete murder for
 ; the jilted party (the jilted party is L'Angelier, not the killer).
 (affinity attachment_loss     coerce               0.20)
-; Phase S - the self-destruction tail. The engine gates this branch HARD
+; The self-destruction tail. The engine gates this branch HARD
 ; (despair mood x low-resilience traits) before anything fires; the
 ; weight only makes it reachable. A deliberated-but-not-chosen pick
 ; mints the witnessed suicidal-ideation belief (the valet testimony).
@@ -85,9 +84,8 @@
 (affinity existential_threat  flee                 0.8)
 (affinity existential_threat  plead                0.4)
 (affinity existential_threat  surrender            0.3)
-; WS3 (homicide_motive_realism_plan.md): existential_threat was the kill
-; MONOCULTURE driver - 0.04 was 2x every other pressure's kill-affinity AND it is
-; the most-minted pressure (assault -> existential_threat is strong). Flattened to
+; existential_threat is the most-minted pressure (assault ->
+; existential_threat is strong), so its kill affinity is held at
 ; 0.02, parity with humiliation / injustice / rivalry, so no single pressure
 ; dominates the kill-motive mix. Fear still resolves overwhelmingly to flee (0.8).
 (affinity existential_threat  kill                 0.02)

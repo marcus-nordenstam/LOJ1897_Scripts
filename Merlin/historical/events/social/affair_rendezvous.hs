@@ -1,5 +1,6 @@
 ; ----------------------------------------------------------------------------
-; affair_rendezvous.hs - the lovers MEET (covert_affair_conduct_plan Phase 2).
+; affair_rendezvous.hs - the lovers MEET (see Docs/hsim/hsim_social.md
+; "Conduct channel 2: rendezvous").
 ;
 ; The `(generative-rendezvous)` flag dispatches to hse_engine.cc::
 ; run_generative_rendezvous, which (per lover-holding adult, monthly, after the
@@ -33,6 +34,7 @@
   (nl         "?actor steals away to meet a secret lover")
   (kind       _affair_rendezvous)
   (schedule   (monthly))
+  (band      night)
   (rng-stream incidents)
   (generative-rendezvous)
 

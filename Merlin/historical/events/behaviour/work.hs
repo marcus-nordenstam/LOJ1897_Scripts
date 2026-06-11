@@ -1,5 +1,6 @@
 ; ----------------------------------------------------------------------------
-; Work activity lane (hsim_activity_lanes_plan.md, phase L2). The twin of
+; Work activity lane (see Docs/hsim/hsim_social.md "Co-presence and activity
+; lanes"). The twin of
 ; household.hse. Every alive employee records a day spent at work as the
 ; EPISODIC task {@self work <org>} ("working at the workplace") - minted
 ; begin+end at the visit date, because a day at work is a past event, not an
@@ -21,6 +22,7 @@
   (nl         "?worker spends the day at work")
   (kind       _work_day)
   (schedule   (monthly))
+  (band      morning)
   (rng-stream behaviour)
 
   (roles

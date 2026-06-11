@@ -1,5 +1,6 @@
 ; ----------------------------------------------------------------------------
-; coercion - the repeat-demand loop (jilt_blackmail_reputation_plan Phase B).
+; coercion - the repeat-demand loop (see Docs/hsim/hsim_crime.md "Blackmail /
+; coercion").
 ;
 ; An actor holding a standing coercion anchor ({@self extort X /aux <demand>},
 ; the ONGOING verb state the silence_coerce perpetration terminal mints - the
@@ -26,6 +27,7 @@
   (nl       "?actor presses a standing demand")
   (kind     _coercion)
   (schedule (monthly))
+  (band      night)
   (rng-stream perpetration)
   (generative-coercion)
 

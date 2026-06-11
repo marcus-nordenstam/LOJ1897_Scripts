@@ -23,6 +23,7 @@
   (nl         "?groom marries ?bride")
   (kind       _wedding)
   (schedule   (annually june))
+  (band      morning)
   (rng-stream marriages)
 
   (roles

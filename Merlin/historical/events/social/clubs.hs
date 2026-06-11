@@ -20,6 +20,7 @@
   (nl         "?founder founds a club")
   (kind       _club_founding)
   (schedule   (annually september))
+  (band      afternoon)
   (rng-stream behaviour)
 
   (roles
@@ -59,6 +60,7 @@
   (nl         "?member joins a club")
   (kind       _club_joining)
   (schedule   (annually september))
+  (band      afternoon)
   (rng-stream behaviour)
 
   (roles
@@ -91,6 +93,7 @@
   (nl         "a club holds a members' gathering")
   (kind       _club_gathering)
   (schedule   (monthly))
+  (band      evening)
   (rng-stream behaviour)
 
   (roles
@@ -106,6 +109,7 @@
   (nl         "?member resigns from a club")
   (kind       _club_resignation)
   (schedule   (annually september))
+  (band      afternoon)
   (rng-stream behaviour)
 
   (roles

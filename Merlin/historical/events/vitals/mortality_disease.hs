@@ -14,6 +14,7 @@
   (nl         "?who dies of disease")
   (kind       _death)
   (schedule   (monthly))
+  (band      dawn)
   (rng-stream deaths)
 
   (roles

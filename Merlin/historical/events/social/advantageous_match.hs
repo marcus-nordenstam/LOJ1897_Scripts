@@ -22,6 +22,7 @@
   (nl         "?groom and ?bride make an advantageous match")
   (kind       _advantageous_match)
   (schedule   (annually february))
+  (band      afternoon)
   (rng-stream marriages)
 
   (roles
@@ -65,7 +66,7 @@
                  (<= (- (years-old ?self) (years-old ?bride))  15)
                  (>= (- (years-old ?self) (years-old ?bride)) -15)
                  ;; No marrying blood kin (see betrothal.hs) - reliable kin
-                 ;; cross-pair BITSET (relational_stance_plan.md).
+                 ;; cross-pair BITSET.
                  (not (kin ?bride ?groom))))
 
   ;; Live exclusivity re-check (see betrothal.hs): the un-betrothed role filters

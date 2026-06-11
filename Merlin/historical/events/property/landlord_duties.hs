@@ -18,6 +18,7 @@
   (nl         "landlords advertise their vacant properties to let")
   (kind       _landlord_duties)
   (schedule   (annually february))
+  (band      morning)
   (rng-stream behaviour)
 
   (effects

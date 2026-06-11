@@ -28,6 +28,7 @@
   (nl       "?actor follows through on a standing perpetration goal")
   (kind     _attempt_harm)
   (schedule (monthly))
+  (band      night)
   (rng-stream perpetration)
   (generative-perpetration)
 

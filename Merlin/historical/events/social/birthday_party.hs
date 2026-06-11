@@ -21,6 +21,7 @@
   (nl         "?host and ?guest exchange news")
   (kind       _birthday_party)
   (schedule   (annually october))
+  (band      evening)
   (rng-stream friendships)
 
   (roles

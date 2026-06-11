@@ -1,8 +1,9 @@
 ; ----------------------------------------------------------------------------
-; Household activity lane (hsim_activity_lanes_plan.md, phase L2). Every alive
+; Household activity lane (see Docs/hsim/hsim_social.md "Co-presence and
+; activity lanes"). Every alive
 ; resident records a day spent at home as an EPISODIC memory - minted begin+end
 ; at the visit date, because a day at home is a past event, not an ongoing
-; state. The activity is SPECIFIC and amenity-gated (L8): {@self rest <home>} by
+; state. The activity is SPECIFIC and amenity-gated: {@self rest <home>} by
 ; default, {@self dine <home>} if the home has a dining_room, {@self read_at
 ; <home>} if it has a study (every house but the dense terrace/tenement) - so a
 ; manor yields a richer leisure menu than a tenement (record-dwelling /
@@ -24,6 +25,7 @@
   (nl         "?dweller spends the day at home")
   (kind       _household_day)
   (schedule   (monthly))
+  (band      morning)
   (rng-stream behaviour)
 
   (roles

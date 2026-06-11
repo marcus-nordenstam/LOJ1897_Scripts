@@ -40,6 +40,7 @@
   (nl       "?actor urges ?victim to atone")
   (kind     _bonded_incident_urge)
   (schedule (annually september))
+  (band      evening)
   (rng-stream incidents)
 
   (roles

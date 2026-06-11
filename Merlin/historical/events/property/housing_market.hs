@@ -23,6 +23,7 @@
   (nl         "the housing market turns over")
   (kind       _housing_market)
   (schedule   (annually march))
+  (band      morning)
   (rng-stream behaviour)
 
   (effects

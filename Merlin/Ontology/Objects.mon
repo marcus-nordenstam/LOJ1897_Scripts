@@ -51,6 +51,10 @@ object (+ obs)
             blood_stain
             dirt_stain
             gunpowder_residue
+            # Toxin residue left in an unwashed vessel by a poisoning's
+            # dose transfer. A washed vessel is the stain cleared -
+            # cleanup is modelled behaviour, never entity deletion.
+            poison_residue
             ash
             mud_stain
             paint_stain
@@ -62,17 +66,31 @@ object (+ obs)
             scuff
             tool_mark
             tear
-    # Meals & food
+    # Meals & food. The leaves double as the OCCASION vocabulary the
+    # evidence layer samples ("the wine, at supper") - a poisoning's
+    # consume record carries one of these as its /aux occasion, chosen
+    # consistently with the victim's habit beliefs. Victorian table:
+    # breakfast / luncheon / tea / supper alongside the plain lunch /
+    # dinner.
     meal
         breakfast
         lunch
+        luncheon
         dinner
+        tea
+        supper
     # Man-made things
     prop
         container
             drinking_glass
+            # Table-service vessels - the poison-delivery layer's concrete
+            # props. A dose moves from the poison_bottle into one of these
+            # at the sampled occasion; the vessel then carries the
+            # poison_residue stain until washed.
+            cup
+            decanter
             jewelry_box
-            # Concealment caches (covert_affair_conduct_plan Phase 0) - the
+            # Concealment caches - the
             # places a household member hides letters and small valuables.
             # One hiding_spot entity per cache, spawned at the owner's home;
             # cached items point their `at` attr AT the hiding_spot and carry
@@ -219,14 +237,19 @@ object (+ obs)
                 # (boundary liveness gate prevents fresh-internalization
                 # of dead ancestors otherwise).
                 family_history_letter
-                # Affair correspondence (covert_affair_conduct_plan Phase 1).
+                # Affair correspondence (see Docs/hsim/hsim_social.md).
                 # A love_letter's writing carries the affair fact itself
                 # ({author lover recipient}) - reading one IS discovering
                 # the affair. A tryst_note's writing carries a concrete
                 # meeting ({author meet recipient /at venue}) - the
-                # rendezvous channel (Phase 2).
+                # rendezvous channel.
                 love_letter
                 tryst_note
+                # The repeat-demand coercion pass's physical demand note
+                # ({blackmailer coerce victim /aux <demand>}), routed down
+                # the covert letter channel. Its own kind so the per-kind
+                # cache caps don't share a budget with conspiracy letters.
+                blackmail_note
             pamphlet
             book
             newspaper
@@ -235,7 +258,7 @@ object (+ obs)
             articles_of_incorporation
             employee_register
             job_description
-            # A hotel's guest book (covert_affair_conduct_plan Phase 2): the
+            # A hotel's guest book: the
             # front desk's record of who stayed when - the paper residue a
             # shared-hotel rendezvous leaves for the detective.
             hotel_register

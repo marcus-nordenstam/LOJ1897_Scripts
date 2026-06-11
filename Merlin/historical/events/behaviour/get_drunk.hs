@@ -36,6 +36,7 @@
   (nl         "?npc drinks to excess")
   (kind       _get_drunk)
   (schedule   (monthly))
+  (band      evening)
   (rng-stream behaviour)
 
   (roles

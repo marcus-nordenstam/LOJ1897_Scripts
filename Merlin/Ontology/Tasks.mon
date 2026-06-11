@@ -87,7 +87,11 @@ relation
             # above) = a reading session at a study/library; `dine` needs a
             # dining_room; `rest` is the low-amenity default. Pub drinking stays
             # `indulge`.
-            dine                                    (tar structure)
+            # dine's /aux carries the meal occasion (breakfast / luncheon /
+            # tea / supper - Objects.mon `meal` leaves). The evidence
+            # layer's consume record reads "dined at <venue>, at <supper>";
+            # an absent aux is just "dined at <venue>".
+            dine                                    (tar structure)    (aux meal)
             read_at                                 (tar structure)
             rest                                    (tar structure)
             # Conversational activities (activity-lanes L8) - SPECIFIC, each with
@@ -210,12 +214,12 @@ relation
             # Social / communication sub-block - tasks that bubble down to
             # TELL / WRITE_DOC / ASK ACTION chains. Tags carried over from
             # the deleted (behaviour) block.
-            insult              (motor mouth)                   (tar human)              (construed_act slight_act)  (theme rude_to)
+            # insult / confront_privately moved into the `speech_act`
+            # group at the end of this block.
             humiliate           (motor mouth)                   (tar human)              (construed_act slight_act wrong_act)
             discredit           (motor mouth)                   (tar human)              (construed_act expose_act betray_act wrong_act)
             expose              (motor mouth)                   (tar @S)                 (construed_act expose_act betray_act wrong_act)
             expose_first        (motor mouth)                   (tar human)              (construed_act expose_act)
-            confront_privately  (motor legs mouth)              (tar human)
             confess_in_person   (motor legs mouth)              (tar human)              (construed_act honour_act)
             confess_letter      (motor eyes right_hand legs)    (tar human)              (construed_act honour_act)
             recruit             (motor mouth)                   (tar human)  (aux ?)
@@ -270,7 +274,7 @@ relation
             # Patient cascade: abandonment_act -> grief + attachment_loss +
             # status_loss; wrong_act -> anger + humiliation + injustice -
             # the obsessive-ex pressure stack the coerce deliberation
-            # affinity reads (jilt_blackmail_reputation_plan Phase J).
+            # affinity reads.
             jilt                (motor mouth)                   (tar human)              (construed_act abandonment_act wrong_act)
             # silence_witness - composite task. Implementations may
             # bubble down through kill / bribe / coerce chains depending
@@ -294,48 +298,54 @@ relation
             # crime ledger records BOTH (goal=kill, task=strangle) so
             # detective queries can pivot on either axis.
             #
-            # Means / weapon / substance is carried by the substrate, NOT
-            # by an aux on the leaf task. A `shoot` task's firearm is
-            # whatever the actor's hand currently controls (env attr
-            # `controlled_by` on body-part). A `poison` task's substance
-            # is the prior add_substance belief that prepared the vessel.
+            # Where a method uses an INSTRUMENT, the act record's /aux
+            # carries the instrument ENTITY (each mind's mental object for
+            # it; the abs entity in the ledger) - "THAT knife", never a
+            # bare kind. Showing the recovered weapon to a witness is then
+            # a recognition test against their existing mental object. A
+            # genuinely bare-handed method (strangle, neck_snap) has no
+            # instrument and carries no aux; its evidence is the wound
+            # state. For `poison` the aux is the VESSEL the dose was
+            # served in (liquids are not entities); the substance is the
+            # prior add_substance belief + the vessel's residue stain.
             # ----------------------------------------------------------------------------------
 
             # Sharp-implement leaf kill-tasks. Each requires a blade /
             # pointed-blade controlled by an actor's hand.
-            stab                (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
-            slash               (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
-            decapitate          (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
+            stab                (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)
+            slash               (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)
+            decapitate          (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)
 
             # Blunt-implement leaf kill-tasks.
-            beat_to_death       (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
-            bludgeon            (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
+            beat_to_death       (motor right_hand left_hand legs)  (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)
+            bludgeon            (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)
             push_from_height    (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
 
             # Asphyxiation leaf kill-tasks. strangle is bare-handed;
             # garrotte uses cord_or_wire in hand; smother uses a soft
             # implement; hang and neck_snap are mechanical.
             strangle            (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
-            garrotte            (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
-            smother             (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
-            hang                (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
+            garrotte            (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)
+            smother             (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)
+            hang                (motor right_hand left_hand legs)  (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)
             neck_snap           (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
 
             # Projectile / explosive leaf kill-tasks.
-            shoot               (motor right_hand eyes)         (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
-            bomb                (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
+            shoot               (motor right_hand eyes)         (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)
+            bomb                (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)
 
-            # Chemical leaf kill-task. Substance is carried by the prior
-            # add_substance belief that prepared the vessel; poison
-            # itself is the chronic / acute administering task whose
-            # completion is the victim's death.
-            poison                                              (tar human)              (construed_act harm_act wrong_act)
+            # Chemical leaf kill-task. The /aux is the VESSEL entity the
+            # dose was served in; the substance is carried by the prior
+            # add_substance belief + the vessel's poison_residue stain.
+            # poison itself is the chronic / acute administering task
+            # whose completion is the victim's death.
+            poison                                              (tar human)  (aux object)  (construed_act harm_act wrong_act)
 
             # Hydraulic / thermal / electrical leaf kill-tasks.
             drown               (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
             freeze              (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)
-            immolate            (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
-            arson               (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)
+            immolate            (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)
+            arson               (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)
             cook_alive          (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
             electrocute         (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
 
@@ -348,7 +358,7 @@ relation
             # uriah_gambit sends the victim into a fatal situation under
             # false pretense (Bible: David's order to put Uriah in the
             # front line). hire_assassin delegates the act to a recruit.
-            death_trap          (motor right_hand)              (tar human)              (construed_act harm_act wrong_act betray_act)
+            death_trap          (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act betray_act)
             uriah_gambit                                        (tar human)              (construed_act harm_act wrong_act betray_act)
             hire_assassin                                       (tar human)  (aux human)  (construed_act harm_act wrong_act)
 
@@ -361,13 +371,37 @@ relation
             # perpetration row uses the parent task directly as its
             # leaf.
             opportunist_theft   (motor legs right_hand)         (tar human)              (construed_act appropriation_act wrong_act)  (theme thief_to)
-            confront_publicly   (motor mouth)                   (tar human)              (construed_act expose_act)
             anonymous_letter    (motor eyes right_hand legs)    (tar human)  (aux ?)     (construed_act expose_act betray_act)
-            threaten_violence   (motor mouth)                   (tar human)  (aux ?)     (construed_act coercion_act threaten_act wrong_act)
-            blackmail           (motor mouth)                   (tar human)  (aux ?)     (construed_act coercion_act wrong_act betray_act)
             beating             (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
-            public_humiliation  (motor mouth)                   (tar human)              (construed_act slight_act wrong_act)
-            spread_rumour       (motor mouth)                   (tar human)  (aux ?)     (construed_act expose_act betray_act wrong_act)
             offer_bribe         (motor right_hand mouth)        (tar human)  (aux ?)
             plant_evidence      (motor right_hand)              (tar human)  (aux ?)     (construed_act harm_act betray_act wrong_act)
             seduction           (motor mouth legs body)         (tar human)              (construed_act intimacy_act)
+
+            # ----------------------------------------------------------------------------------
+            # Speech acts - the verbal-method vocabulary. These labels are
+            # NOT minted as act-record beliefs: the memory of a verbal act
+            # is a TELL action belief whose @msg target carries the
+            # utterance, classified by a trailing (msg_class <leaf>) arg
+            # on the msg func - {actor TELL (msg ~{grievance}
+            # (msg_class insult)) /aux victim}. The leaves remain real
+            # task kinds because (a) deliberation goal clauses still name
+            # them ({actor goal {actor confront_privately victim}} - the
+            # victim stays the goal clause's target), (b) perpetration
+            # rows validate their :method atoms against Tasks.mon, and
+            # (c) their (construed_act ...) tags are what categorize()
+            # reads off the msg_class kind when appraising the TELL
+            # anchor (patient = the TELL's @msgAudience aux).
+            #
+            # KEEP THIS GROUP LAST in the task block: a .mon de-indent
+            # resets cascaded (+) flags (the (+ task) (+ sub human) on
+            # `task`), so no flat task sibling may follow this nested
+            # group.
+            # ----------------------------------------------------------------------------------
+            speech_act
+                insult              (motor mouth)                   (tar human)              (construed_act slight_act)  (theme rude_to)
+                confront_privately  (motor legs mouth)              (tar human)
+                confront_publicly   (motor mouth)                   (tar human)              (construed_act expose_act)
+                threaten_violence   (motor mouth)                   (tar human)  (aux ?)     (construed_act coercion_act threaten_act wrong_act)
+                blackmail           (motor mouth)                   (tar human)  (aux ?)     (construed_act coercion_act wrong_act betray_act)
+                public_humiliation  (motor mouth)                   (tar human)              (construed_act slight_act wrong_act)
+                spread_rumour       (motor mouth)                   (tar human)  (aux ?)     (construed_act expose_act betray_act wrong_act)

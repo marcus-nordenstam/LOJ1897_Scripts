@@ -12,6 +12,7 @@
   (nl         "?npc attends church")
   (kind       _churchgoing)
   (schedule   (annually april))
+  (band      morning)
   (rng-stream behaviour)
 
   (roles

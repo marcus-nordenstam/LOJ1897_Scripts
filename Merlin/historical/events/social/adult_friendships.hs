@@ -13,6 +13,7 @@
   (nl         "?a and ?b become friends")
   (kind       _friendship)
   (schedule   (annually september))
+  (band      afternoon)
   (rng-stream friendships)
 
   (roles
@@ -33,10 +34,10 @@
              (<= (- (years-old ?self) (years-old ?a))  10)
              (>= (- (years-old ?self) (years-old ?a)) -10)
              (not (believes ?a {@self friend ?b}))
-             ; Warmth-gated (relational_stance_plan.md Phase 4 / 5.2): you do not
+             ; Warmth-gated: you do not
              ; befriend someone you actively dislike. Reliable cross-pair BITSET
-             ; gates (section 13.1; ?a is the bound outer believer, ?b the
-             ; candidate), NOT believes-in-chance (the unreliable section-13 path).
+             ; gates (?a is the bound outer believer, ?b the
+             ; candidate), NOT believes-in-chance (the unreliable path).
              ; Positive warmth is NOT required - mere-exposure friendships among
              ; neutral same-class peers still form (volume holds); only the two
              ; negative warmth bands block.

@@ -34,6 +34,7 @@
   (nl         "?investor backs ?candidate's venture")
   (kind       _investment)
   (schedule   (annually january))
+  (band      morning)
   (rng-stream business)
 
   (roles
@@ -72,6 +73,7 @@
   (nl         "?candidate is taken into partnership")
   (kind       _business_partnership)
   (schedule   (annually january))
+  (band      morning)
   (rng-stream business)
 
   (roles
@@ -118,6 +120,7 @@
   (nl         "?founder founds a business")
   (kind       _business_founding)
   (schedule   (annually january))
+  (band      morning)
   (rng-stream business)
 
   (roles
@@ -148,6 +151,7 @@
   (nl         "businesses fail in hard times")
   (kind       _business_failure)
   (schedule   (annually december))
+  (band      morning)
   (rng-stream business)
 
   (effects
@@ -170,6 +174,7 @@
   (nl         "the town's commerce keeps pace with its people")
   (kind       _business_homeostat)
   (schedule   (annually january))
+  (band      morning)
   (rng-stream business)
 
   (effects

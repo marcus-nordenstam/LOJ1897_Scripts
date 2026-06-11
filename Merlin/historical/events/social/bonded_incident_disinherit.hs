@@ -39,6 +39,7 @@
   (nl       "?actor disinherits ?victim")
   (kind     _bonded_incident_disinherit)
   (schedule (annually september))
+  (band      afternoon)
   (rng-stream incidents)
 
   (roles

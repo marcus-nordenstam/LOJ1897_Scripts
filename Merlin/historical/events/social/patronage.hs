@@ -24,6 +24,7 @@
   (nl         "?patron takes ?protege under their wing")
   (kind       _patronage)
   (schedule   (annually november))
+  (band      afternoon)
   (rng-stream business)
 
   (roles

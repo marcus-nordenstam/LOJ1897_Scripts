@@ -60,15 +60,13 @@ relation
 
         # meet: an arranged meeting between two people; the aux carries the
         # venue. A tryst_note's writing quotes it ({author meet recipient
-        # /aux <hotel>}) - the paper that names the place
-        # (covert_affair_conduct_plan Phase 2).
+        # /aux <hotel>}) - the paper that names the place.
         meet                    (sub human)           (tar human)  (aux ?)
 
         # mention: the subject has SPOKEN OF the target concept - a
         # witnessed remark, not an enacted state. {<despairing> mention
         # [k death_cause suicide]} held in a confidant's mind is the
-        # suicidal-ideation testimony Phase S of
-        # jilt_blackmail_reputation_plan mints when the suicide branch is
+        # suicidal-ideation testimony minted when the suicide branch is
         # deliberated (the valet-testimony half of the Not-Proven engine).
         mention                 (sub human)           (tar ?)
 
@@ -80,12 +78,12 @@ relation
         # while THIS is the ongoing relation the repeat-demand coercion
         # pass walks monthly and the victim's exposure_risk pressure hangs
         # its /cause on. Ends when the demand is met, the secret leaks, or
-        # a party dies (jilt_blackmail_reputation_plan Phase B).
+        # a party dies.
         extort                  (sub human)           (tar human)  (aux ?)
 
         # under_suspicion: the graded wariness an observer has accumulated
-        # toward someone hiding something (covert_affair_conduct_plan Phase
-        # 3). Held in the OBSERVER's mind about the watched person:
+        # toward someone hiding something (see Docs/hsim/hsim_social.md).
+        # Held in the OBSERVER's mind about the watched person:
         # {<wife> under_suspicion 0.6} = "in my eyes she is 0.6 suspect".
         # Accrues from unexplained absences, handled letters in an unknown
         # hand, and public indiscretions; past a threshold a hostile observer
@@ -101,29 +99,28 @@ relation
         # emotions are transient affective states, declared as the `emotion`
         # noun-taxonomy in Concepts.mon. //appraisal_input marks the whole
         # block as context the appraisal categorizer consults. See
-        # Docs/emotion_sim_plan.md.
+        # Docs/emotion/emotion_system.md.
         (attitude)              (+ sub human)  (+ appraisal_input)
             # The affiliative / evaluative / epistemic attitudes (like, hate,
             # admires, respects, distrusts) are RETIRED - they are now the
             # continuous stance scalars projecting to infinitive verb-states
-            # (like/admire/distrust/...) in the (stance) block above
-            # (relational_stance_plan.md sections 2, 5.4).
+            # (like/admire/distrust/...) in the (stance) block above.
             # value: a held virtue - the identity / values appraisal input.
             value               (tar ?)
             # justify: a held cognitive narrative that frames a past or
-            # planned act as acceptable (plan section 10.3-AFFECT item E).
+            # planned act as acceptable.
             # Target is a `narrative` kind ({@self justify they_deserved_it
             # /aux <victim>}). Pre-perpetration deliberation events mint
             # justify on the chosen harmful branch as the actor commits;
             # post-perpetration the actor-POV reaction row mints it when
             # moral_violation pressure crosses threshold. Each held
-            # justification discounts inhibition (item D's classifier) so
+            # justification discounts inhibition so
             # the second bar is lower than the first - the rationalization
             # feedback loop that turns a one-off crime into a habit.
             # Detective-gameplay payoff: a guilty NPC's justify beliefs are
             # queryable through normal interrogation.
             justify             (tar narrative)
-            # infatuation RETIRED (relational_stance_plan.md Phase 4): directed
+            # infatuation RETIRED: directed
             # attraction is now the one-sided attraction stance scalar, projected
             # to fancy/desire/crave verb-state beliefs (the same regulator/
             # regulated split as warmth/esteem/trust). crush_forms reads the
@@ -140,7 +137,7 @@ relation
             # may extend the set.
             identity            (tar role)
 
-        # Relational stance (relational_stance_plan.md) - the durable, signed,
+        # Relational stance (see Docs/social/relational_stance.md) - the durable, signed,
         # per-target orientation toward another person: the slow leaky integral
         # of the directed emotions felt about that target (Class I) plus standing
         # contributions (Class II). FOUR orthogonal scalars; the structural tie
@@ -151,7 +148,7 @@ relation
         # neutral middle has no belief. appraisal_input so a band change
         # recontextualizes the target's past acts. Non-@excl: one belief per
         # (label, target).
-        # Relational stance (relational_stance_plan.md sections 3, 5.4) - the
+        # Relational stance - the
         # DISCRETE projection of the continuous warmth/esteem/trust/attraction
         # scalars. The regulator (the scalars) lives in the _stance_by_object
         # cache, NOT here; each scalar projects to one infinitive verb-state per
@@ -187,7 +184,7 @@ relation
         # dispatches one reaction row per tag per POV. No construal
         # beliefs are minted; the anchor itself is the /causes link.
 
-        # Semantic summaries (memory-system Phase 5 - Docs/memory_system_plan.md).
+        # Semantic summaries (see Docs/memory/memory_system.md).
         # Distilled gists minted by fuse_old_memories when N routine episodes
         # sharing the same (theme, subject, target) accumulate. The peak-
         # intensity episode is retained as exemplar (in /causes); the rest
@@ -386,8 +383,7 @@ relation
             # of (leaked via gossip, interception, witness or
             # publication). Derived beside chastity by
             # classify_reputed_chastity; the marriage-market filters read
-            # THIS, never the secret-inclusive self-derived value
-            # (jilt_blackmail_reputation_plan Phase R).
+            # THIS, never the secret-inclusive self-derived value.
             reputed_chastity    (tar ? @excl) (range 0 1)
             decorum             (tar ? @excl) (range 0 1)
             generosity          (tar ? @excl) (range 0 1)
@@ -427,7 +423,7 @@ relation
             radicalism          (tar ? @excl) (range 0 1)
             education           (tar ? @excl) (range 0 1)
             # Felt life - contentment / agitation are the valence / arousal
-            # halves of mood; their classifiers (F4.6) read emotion_sim_plan.md's
+            # halves of mood; their classifiers read
             # derive_mood. agitation is added by the emotion model.
             belonging           (tar ? @excl) (range 0 1)
             contentment         (tar ? @excl) (range 0 1)
@@ -460,7 +456,7 @@ relation
         # as respectability_situation but with reputed_chastity in place of
         # the self-derived chastity. What the parish CAN know, vs
         # respectability_situation = what is true; the gap between the two
-        # is the blackmail stake (jilt_blackmail_reputation_plan Phase R).
+        # is the blackmail stake (see Docs/hsim/hsim_social.md "Reputation").
         # Consumed by every observer-facing filter (marriage market,
         # employment, clubs, patronage, ostracism) and the family-taint
         # pass; self-appraisal keeps reading respectability_situation.

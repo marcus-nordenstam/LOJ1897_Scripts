@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; friendship_fraying (relational_stance_plan.md 5.2 / 12.6 follow-on).
+; friendship_fraying.
 ;
 ; The bond/affect split made durable on the negative side. A friend bond
 ; persists while warmth stays positive; until now it only ended on a wrong
@@ -16,11 +16,10 @@
 ; sides).
 ;
 ; Reliability: ?b is intersected with the actor's `detest`-target BITSET
-; (stance-at-least cross-pair, relational_stance_plan 13.1 - a tiny set) and
+; (the stance-at-least cross-pair - a tiny set) and
 ; confirmed a current friend via a `believes` residue; the per-pair (chance 0.5)
 ; makes the fray gradual rather than an instant snap. Both the believes residue
-; and the non-root (chance ...) gate correctly since the hse non-root-residue
-; fix (relational_stance_plan 13.2).
+; and the non-root (chance ...) gate correctly.
 ;
 ; Schedule: annually november - after friendships form (september) and
 ; ostracism resolves (october), so a year's soured warmth is settled at year

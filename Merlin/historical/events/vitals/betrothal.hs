@@ -18,6 +18,7 @@
   (nl         "?groom and ?bride are betrothed")
   (kind       _betrothal)
   (schedule   (annually january))
+  (band      afternoon)
   (rng-stream marriages)
 
   (roles
@@ -33,7 +34,7 @@
     ;; with more than one such past. The chastity filter is permissive when
     ;; the dimension is unread (returns @fail, which falls through < 50 as
     ;; non-numeric -> false comparison, so the (or ...) catches it).
-    ;; De-telepathized (jilt_blackmail_reputation_plan Phase R): the market
+    ;; The market
     ;; reads `repute` / `reputed_chastity` - what has LEAKED - never the
     ;; secret-inclusive self-derived values. A held secret costs nothing
     ;; here; its exposure would - that delta is the blackmail stake.
@@ -46,7 +47,7 @@
                  ;; (or above) one's station is NO impediment in the family's
                  ;; eyes: the arranged match proceeds OVER the secret affair -
                  ;; the Madeleine Smith collision (engagement -> jilt attempt ->
-                 ;; the letters become blackmail) that the jilt plan consumes.
+                 ;; the letters become blackmail) that the jilt machinery consumes.
                  ;; No lover -> belief-target reads @fail -> the (and ...) is
                  ;; false -> eligible.
                  (not (and (believes ?self {@self lover ?})
@@ -69,7 +70,7 @@
                  (>= (- (years-old ?self) (years-old ?bride)) -15)
                  ;; No marrying blood kin. A brother is same-class + similar-age,
                  ;; so without this the arranged matcher could betroth siblings.
-                 ;; Reliable kin cross-pair BITSET (relational_stance_plan.md).
+                 ;; Reliable kin cross-pair BITSET.
                  (not (kin ?bride ?groom))))
 
   ;; Exclusivity re-check at FIRING time. The role "un-betrothed" filters are

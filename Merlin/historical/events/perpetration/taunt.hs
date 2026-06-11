@@ -27,6 +27,7 @@
   (nl       "?actor inserts themselves into their own mystery")
   (kind     _taunt)
   (schedule (monthly))
+  (band      night)
   (rng-stream perpetration)
   (generative-taunt)
 

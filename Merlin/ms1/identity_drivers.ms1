@@ -14,7 +14,7 @@
 ; salience decay AND retroactively flags its supporters as core episodes.
 ;
 ; .ms1 = System 1 (subconscious / appraisal) layer; see
-; Docs/memory_system_plan.md section 9 for the file-type convention.
+; Docs/memory/memory_system.md for the file-type convention.
 ;
 ; Syntax:
 ;   (identity_driver <label> [:tar <kind>] [:weight <float>])
@@ -50,8 +50,8 @@
 ; signal for moral / cultural alignment.
 (identity_driver identity :weight 1.0)   ; the @self identity-attitude itself
 (identity_driver value    :weight 0.8)   ; held virtues
-; figures one looks up to - now the positive-esteem stance verbs (admires /
-; respects retired -> admire / revere, relational_stance_plan.md section 5.4).
+; figures one looks up to - the positive-esteem stance verbs
+; (admire / revere).
 (identity_driver admire :weight 0.4)
 (identity_driver revere :weight 0.4)
 

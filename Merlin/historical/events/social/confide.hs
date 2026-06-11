@@ -15,6 +15,7 @@
   (nl         "?actor confides in a close friend")
   (kind       _confide)
   (schedule   (monthly))
+  (band      evening)
   (rng-stream behaviour)
 
   (roles

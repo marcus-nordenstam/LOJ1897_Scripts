@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; lovers (relational_stance_plan.md 5.2 / 12.6 follow-on).
+; lovers.
 ;
 ; The romance that bridges the one-sided crush and the formal betrothal. Two
 ; unmarried, un-betrothed adults pair off when one is attracted (`fancy`) and
@@ -12,14 +12,14 @@
 ; inclusive_bond (Concepts.mon), so this never trips the exclusive-bond betray
 ; cascade and never collides with an @excl placeholder.
 ;
-; The plan's driver is "fancy + warmth": ?a is attracted to ?b, and ?b
+; The driver is "fancy + warmth": ?a is attracted to ?b, and ?b
 ; reciprocates - with warmth (like/adore) OR with attraction (fancy/desire) of
 ; its own. Expressed reliably:
 ;   - (stance-at-least ?a ?b fancy)  -> ?b is in ?a's `fancy`-target BITSET
-;     (the cross-pair predicate, relational_stance_plan 13.1);
+;     (the cross-pair predicate);
 ;   - an (or ...) of `believes` residues on the reverse direction -> ?b is at
 ;     least fond of / drawn to ?a (so the pairing is not unrequited).
-; Both gate correctly since the hse non-root-residue fix (13.2).
+; Both gate correctly.
 ;
 ; Schedule: annually july - crushes (monthly crush_forms) have had time to
 ; accumulate on both sides, and it sits clear of the january betrothal tick.
@@ -31,6 +31,7 @@
   (nl         "?a and ?b become lovers")
   (kind       _lovers)
   (schedule   (annually july))
+  (band      evening)
   (rng-stream marriages)
 
   (roles

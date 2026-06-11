@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; love_match - affect-driven betrothal (relational_stance_plan.md Phase 4 / 5.2).
+; love_match - affect-driven betrothal.
 ;
 ; A suitor who FANCIES someone (the one-sided attraction scalar -> the `fancy`
 ; verb-state belief, ignited by crush_forms) becomes betrothed to them: a love
@@ -27,6 +27,7 @@
   (nl         "?suitor and ?beloved marry for love")
   (kind       _betrothal)
   (schedule   (annually january))
+  (band      evening)
   (rng-stream marriages)
 
   (roles

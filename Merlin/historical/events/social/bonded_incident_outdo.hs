@@ -36,6 +36,7 @@
   (nl       "?actor outdoes ?victim")
   (kind     _bonded_incident_outdo)
   (schedule (monthly))
+  (band      afternoon)
   (rng-stream incidents)
 
   (roles

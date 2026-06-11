@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; staff_household.hs - domestic-service staffing of quality homes
-; (covert_affair_conduct_plan Phase 0).
+; (see Docs/hsim/hsim_social.md "Households").
 ;
 ; The `(generative-staffing)` flag dispatches to hse_engine.cc::
 ; run_generative_staffing, which (per candidate, annually):
@@ -27,6 +27,7 @@
   (nl         "?actor takes on domestic staff")
   (kind       _staff_household)
   (schedule   (annually april))
+  (band      morning)
   (rng-stream employment)
   (generative-staffing)
 

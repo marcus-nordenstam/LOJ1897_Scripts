@@ -1,10 +1,11 @@
 ; ----------------------------------------------------------------------------
-; Interest activity lane (hsim_activity_lanes_plan.md, phase L5). An NPC who
+; Interest activity lane (see Docs/hsim/hsim_social.md "Co-presence and
+; activity lanes"). An NPC who
 ; holds an interest pursues it - going to the theatre for music / theatre, the
 ; church for religion / spiritualism, the pub for everything else (the
 ; universal society / discussion venue, no dedicated lecture-hall kind exists
 ; yet). Each pursuit records the episodic memory {@self pursue <venue> /aux
-; <domain>}; the (venue, date) it lands on is the substrate the L4 co-presence
+; <domain>}; the (venue, date) it lands on is the substrate the co-presence
 ; sweep reads.
 ;
 ; Group-vs-individual is decided INSIDE the effect (pursue-interest), per-mind
@@ -27,6 +28,7 @@
   (nl         "?ego pursues an interest")
   (kind       _interest_outing)
   (schedule   (monthly))
+  (band      afternoon)
   (rng-stream behaviour)
 
   (roles
