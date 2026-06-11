@@ -51,10 +51,6 @@ object (+ obs)
             blood_stain
             dirt_stain
             gunpowder_residue
-            # Toxin residue left in an unwashed vessel by a poisoning's
-            # dose transfer. A washed vessel is the stain cleared -
-            # cleanup is modelled behaviour, never entity deletion.
-            poison_residue
             ash
             mud_stain
             paint_stain
@@ -84,9 +80,10 @@ object (+ obs)
         container
             drinking_glass
             # Table-service vessels - the poison-delivery layer's concrete
-            # props. A dose moves from the poison_bottle into one of these
-            # at the sampled occasion; the vessel then carries the
-            # poison_residue stain until washed.
+            # props. The victim's drink (a wine / tea fluid) sits in one of
+            # these; a poisoning TAINTS that drink fluid (the `taint` attr),
+            # so the vessel is the recovered delivery object and the tainted
+            # fluid inside it is the forensic proof.
             cup
             decanter
             jewelry_box
@@ -187,17 +184,24 @@ object (+ obs)
             saw
             axe                 (facets chop slash bludgeon)
             fire_poker          (facets bludgeon)
+        # Surgical instruments - a hospital / surgeon's sharps. They pierce
+        # and slash like any blade, so they satisfy the same perpetration
+        # facet gates (a surgeon killing with a scalpel is the in-period case).
+        surgical_instrument
+            scalpel             (facets pierce slash)
+            lancet              (facets pierce)
+            bone_saw            (facets slash chop)
         # Physician's carry-bag, holds substance bottles.
         medical_bag
-        # Stoppered glass containers. A poison_bottle's CONTENTS are a
-        # `substance` kind (Concepts.mon - digitalis is the canonical
-        # poison); the bottle is the concrete prop the perpetration
-        # poison row's (control_any poison_bottle) gate matches and the
-        # apothecary / hospital dispensary stock. Purchasing one rides
-        # mint_purchase_trail (receipt + sales_record + shopkeeper
-        # memory) - the Victorian poison register.
+        # Stoppered glass containers - the generic carriable vessel. There
+        # is NO `poison_bottle` kind: a bottle is just a bottle, and the
+        # POISON it holds is a concrete `poison` fluid (Objects.mon `fluid`)
+        # with its own fill level. The apothecary / hospital dispensary
+        # stocks a `toxin` fluid (the perpetration row gates on
+        # (control_any toxin)); purchasing it rides mint_purchase_trail
+        # (receipt + sales_record + shopkeeper memory) - the Victorian
+        # poison register.
         bottle
-            poison_bottle
         collection
             stack               (sub space|structure)  (tar @excl)
                 root_npc_knowledge_stack
@@ -282,12 +286,57 @@ object (+ obs)
             will
     fluid
         beer
-        # Wine fluid for trap-set / trap-fire arcs. Tampering is
-        # recorded via the `add_substance` belief (Tasks.mon):
-        # `{actor add_substance <poison-obj> <wine-obj>}`. WHO tampered,
-        # WHAT they added, and the affected vessel are all captured in
-        # one belief shape, parallel to other act-records.
+        # Drink fluids - what sits in a table-service vessel. A poisoning
+        # TAINTS the victim's drink: the chosen drink fluid's `taint` attr
+        # (common.arc) names the concentrated poison kind it was laced with
+        # (the forensic ground truth a chemical analysis reveals - distinct
+        # from the perpetrator's `add_substance` act-record belief). The
+        # occasion picks the drink: supper / luncheon -> wine, tea ->
+        # tea, breakfast -> water.
         wine
+        tea
+        water
+        # Concentrated poison substances - the contents of a poison bottle,
+        # the trade good behind the perpetration row's (control_any toxin)
+        # gate. (`toxin`, not `poison`: `poison` is already the leaf kill
+        # TASK in Tasks.mon, and two noun kinds of the same name make the
+        # kind-value parser ambiguous.) Each is a real Victorian-era poison;
+        # the `fluid_amount` (fluid.arc) is the bottle's fill level, depleted
+        # one dose at a time by chronic poisoning - an emptied bottle is
+        # spent evidence at the killer's home. A dose laces the victim's
+        # drink (sets that drink fluid's `taint` to this kind). Modelled
+        # under `fluid` as the deliverable concentrated substance; the
+        # vermin killers below were physically powders (white arsenic) or
+        # crystals (oxalic acid) dissolved into food / drink - the dose
+        # mechanics are identical. Availability per venue lives in
+        # weapon_seed.cc, not the ontology.
+        toxin
+            # Medicinal extracts / draughts - apothecary & hospital
+            # dispensary (purchase / authorized). The line between medicine
+            # and poison was the dose. laudanum=opium tincture,
+            # opium=raw opiate, digitalis_tincture=foxglove heart stimulant,
+            # prussic_acid=hydrocyanic (rapid neat), chloral_draught=sedative,
+            # antimony=tartar emetic, aconite=monkshood, belladonna=deadly
+            # nightshade, chloroform=anaesthetic, corrosive_sublimate=mercuric
+            # chloride disinfectant.
+            laudanum
+            opium
+            digitalis_tincture
+            prussic_acid
+            chloral_draught
+            antimony
+            aconite
+            belladonna
+            chloroform
+            corrosive_sublimate
+            # Vermin killers / household chemicals - general shop, grocer,
+            # agricultural supplier (purchase, no profession gate). The
+            # classic over-the-counter poisons. white_arsenic=arsenic trioxide
+            # (tasteless rat poison), strychnine=convulsant vermin killer,
+            # oxalic_acid=rust / stain remover mistaken for sugar.
+            white_arsenic
+            strychnine
+            oxalic_acid
         # Combustible accelerants. The (facets burn_fuel) flag is what
         # perpetration's immolate / arson methods key on, not the
         # parent kind.

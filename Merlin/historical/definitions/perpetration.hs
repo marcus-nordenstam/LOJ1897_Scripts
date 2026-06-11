@@ -20,7 +20,18 @@
 ;     :terminal       <terminal-atom>           ; which C++ terminal verb to dispatch
 ;     :wound-site     <body-part-atom>          ; where wound/stain/mark land (default torso)
 ;     :pressure-floor <kind> <intensity>        ; weight bias when pressure held
+;     :strength-demand <0..1>                   ; muscle the method needs (default 0)
 ;     :weight         <base>)                   ; base selection weight
+;
+; :strength-demand (0..1) gates physical viability against the genetic
+; `strength` attr. 0 = no muscle needed - the great equalizers a frail
+; poisoner or a woman with a pistol use as readily as anyone (poison /
+; shoot / bomb leave it unset). Higher values mean overpowering the victim
+; IS the act (strangle / beat). It scales two things: the SELECTION dampener
+; (a weaker-than-victim attacker is less likely to pick the method) and the
+; dispatch-time ATTEMPTED-MURDER roll (if they pick it anyway, a strength
+; deficit can make them FAIL - the victim survives, injured, and knows the
+; attacker). This is how poison becomes the weak attacker's rational choice.
 ;
 ; PR-3d v1 wires :requires (control_any <kind>) only. Other :requires
 ; predicates (access_any, has_authority_over, trait gates) are
@@ -45,6 +56,9 @@
   :method-aux     _
   :terminal       kill_victim
   :wound-site     torso
+  ; A blade is an equalizer - less muscle than a grapple, but overpowering a
+  ; struggling victim to land the thrust still takes some strength.
+  :strength-demand 0.35
   :weight         1.0)
 
 (method slash
@@ -54,6 +68,7 @@
   :method-aux     _
   :terminal       kill_victim
   :wound-site     torso
+  :strength-demand 0.4
   :weight         0.7)
 
 (method decapitate
@@ -65,6 +80,7 @@
   :terminal       kill_victim
   :wound-site     head
   :pressure-floor humiliation 0.8
+  :strength-demand 0.8
   :weight         0.3)
 
 ; ---- Blunt (3) -------------------------------------------------------------
@@ -75,6 +91,9 @@
   :method-aux     _
   :terminal       kill_victim
   :wound-site     head
+  ; Brute force - sustained blows on a resisting victim, the whole act is
+  ; overpowering them. The clearest strength-gated method.
+  :strength-demand 0.9
   :weight         0.8)
 
 (method bludgeon
@@ -84,6 +103,9 @@
   :method-aux     _
   :terminal       kill_victim
   :wound-site     head
+  ; A weapon multiplies force, but landing a lethal blow on a struggling
+  ; adult still favours the stronger party.
+  :strength-demand 0.7
   :weight         0.9)
 
 (method push_from_height
@@ -92,6 +114,9 @@
   :method-aux     _
   :terminal       kill_victim
   :wound-site     torso
+  ; A shove off a height needs less raw power than a grapple, but a
+  ; stronger victim resists the edge or pulls the pusher with them.
+  :strength-demand 0.55
   :weight         0.4)
 
 ; ---- Asphyxiation (5) ------------------------------------------------------
@@ -102,6 +127,10 @@
   :method-aux     _
   :terminal       kill_victim
   :wound-site     head
+  ; Bare-handed throttling - holding a struggling victim down until they
+  ; stop. Almost pure strength contest; the classic method a weaker
+  ; attacker cannot pull off against a stronger one.
+  :strength-demand 0.85
   :weight         0.6)
 
 (method garrotte
@@ -112,6 +141,9 @@
   :method-aux     _
   :terminal       kill_victim
   :wound-site     head
+  ; A ligature gives leverage over bare hands, but still a hold-them-down
+  ; struggle.
+  :strength-demand 0.65
   :weight         0.5)
 
 (method smother
@@ -122,6 +154,9 @@
   :method-aux     _
   :terminal       kill_victim
   :wound-site     head
+  ; Pressing a pillow over an able-bodied adult is a hold-down; trivial on
+  ; an infant or the infirm (the defenseless gate the roll also reads).
+  :strength-demand 0.6
   :weight         0.4)
 
 (method hang
@@ -132,6 +167,8 @@
   :method-aux     _
   :terminal       kill_victim
   :wound-site     head
+  ; Stringing up a live, resisting victim is a heavy physical job.
+  :strength-demand 0.7
   :weight         0.3)
 
 (method neck_snap
@@ -141,6 +178,9 @@
   :method-aux     _
   :terminal       kill_victim
   :wound-site     head
+  ; Breaking a neck by hand is the most strength- and skill-dependent
+  ; unarmed kill there is.
+  :strength-demand 0.9
   :weight         0.2)
 
 ; ---- Projectile (1) --------------------------------------------------------
@@ -165,14 +205,16 @@
 
 ; ---- Chemical (1) ---------------------------------------------------------
 ; poison: the chronic / acute administering kill task (Tasks.mon `poison`).
-; Gated on CONTROL of a poison_bottle (Objects.mon): owned / authorized /
-; purchase / steal via weapon_acquire. Deliberately NOT profession-gated -
-; arsenic was over-the-counter (a public-space buy rides the purchase
-; trail: receipt + sales_record, the poison register); medical staff get
-; authorized hospital-dispensary access with NO trail (0.9x vs purchase
-; 0.7x) - cleaner access, exactly Cream. No :yields - poison leaves no
-; mechanical residue; the staging composition adds the restraint hand
-; bruise (the detective's contradiction), and the burial verdict reads
+; Gated on CONTROL of a `toxin` fluid (Objects.mon fluid > toxin - a
+; concentrated poison with a fill level): owned / authorized / purchase /
+; steal via weapon_acquire. Deliberately NOT profession-gated - arsenic was
+; over-the-counter (a public-space buy rides the purchase trail: receipt +
+; sales_record, the poison register); medical staff get authorized
+; hospital-dispensary access with NO trail (0.9x vs purchase 0.7x) -
+; cleaner access, exactly Cream. No :yields - poison leaves no mechanical
+; residue; each dose laces the victim's drink (the drink fluid's `taint`
+; attr) and depletes the bottle, the staging composition adds the restraint
+; hand bruise (the detective's contradiction), and the burial verdict reads
 ; the corpse as natural either way.
 ; Chronic dosing (serial_predation 4d): poison_administer doses monthly
 ; (act anchor + administering marker + the victim's circle learning
@@ -182,11 +224,21 @@
 ; contact with the killer - the delayed covert death.
 (method poison
   :goal-fit       kill
-  :requires       ((control_any poison_bottle))
+  :requires       ((control_any toxin))
   :method-aux     _
   :terminal       poison_administer
   :wound-site     torso
-  :weight         0.6)
+  ; Poison was a prominent Victorian murder method, not a fringe one -
+  ; cheap, covert (passes as natural death), and needing no strength, so it
+  ; is the rational choice for the weak / female poisoner the strength gate
+  ; steers here. The base only sets how often a course STARTS (competitive
+  ; with the physical methods); the stowed-poison commitment multiplier in
+  ; perpetration.cc carries a started course through its multi-month doses,
+  ; so the base need not be inflated to overcome the re-roll fragility. (The
+  ; tiny no-args repro regenerates a different town per parameter, so the
+  ; absolute poison count there is noisy - tune the rate on the full
+  ; population, not single repro runs.)
+  :weight         1.5)
 
 ; ---- Fixation axes (serial_predation generalized victim-type) --------------
 ; The trait axes a serial predator can fixate on. A predator's profile is

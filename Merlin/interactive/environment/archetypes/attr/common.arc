@@ -222,6 +222,14 @@ attr "initiator" (type entity) (entity "human_player" "human_npc") (mech obs) (a
 
 # Fluid
 attr "fluid_amount" (type float) (range 0 1) (mech obs) (auto-percept) (state-flags-tar @excl)
+# Poison taint on a drink fluid (interrogation detail plan): the concrete
+# poison kind (Objects.mon `fluid > poison`) a wine / tea / water fluid was
+# laced with. IMPERCEPTIBLE - poison in a drink is not seen by looking; it
+# is the forensic ground truth a chemical-analysis action reveals, the
+# physical complement to the perpetrator's `add_substance` act-record
+# belief (a fluid can be tainted with one poison at a time). Kind-typed so
+# the value is an ontology term end to end.
+attr "taint" (type kind) (imperceptible) (state-flags-tar @excl)
 
 # PR-evi-A 2026-05-25 - the three plural-kind evidence attrs. Each holds
 # up to 4 leaf-kind atoms of the named taxonomy; the transmitter plural-

@@ -335,9 +335,10 @@ relation
             bomb                (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)
 
             # Chemical leaf kill-task. The /aux is the VESSEL entity the
-            # dose was served in; the substance is carried by the prior
-            # add_substance belief + the vessel's poison_residue stain.
-            # poison itself is the chronic / acute administering task
+            # dose was served in; the poison itself is a concentrated
+            # `poison` fluid the killer holds, and the dose LACES the
+            # victim's drink (the drink fluid's `taint` attr names the
+            # poison kind). poison is the chronic / acute administering task
             # whose completion is the victim's death.
             poison                                              (tar human)  (aux object)  (construed_act harm_act wrong_act)
 
