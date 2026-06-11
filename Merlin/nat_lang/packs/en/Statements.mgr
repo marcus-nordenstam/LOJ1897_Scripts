@@ -577,10 +577,106 @@ $form(FORM)
 
 # ---------------------------------------------------------------------------
 
+# BEHAVIOURAL INTEREST PROSE - one template per domain kind. A description
+# voices an interest as the behaviour it produces ("she haunts the curiosity
+# shops"), not as inventory ("she is interested in antiques"). Each entry
+# leads with a $verb hole so the surrounding belief's tense carries (a
+# deceased subject's interests render in the past); the literal tail after
+# the verb must stay non-finite (no "whenever the weather allows" - the baked
+# present tense would survive into past renderings). MUST come before the
+# generic interested-in templates below - the realize matcher is first-match-
+# wins by file order, so a kind-literal entry placed later would lose to the
+# variable-kind generic. Untagged = neutral; behavioural variants for the
+# warm / curt / elaborated voices are a follow-up. An unauthored future kind
+# falls through to the generic "interested in" form.
+
+# academic_field
+" $sub_np(NP) $verb(VERB|spend) long hours with the Greek and Latin authors "
+{ $sub_np(NP) /ever interest [k classics ] } .
+" $sub_np(NP) $verb(VERB|tinker) endlessly with machines and contrivances "
+{ $sub_np(NP) /ever interest [k engineering ] } .
+" $sub_np(NP) $verb(VERB|read) every medical tract worth the name "
+{ $sub_np(NP) /ever interest [k medicine ] } .
+" $sub_np(NP) $verb(VERB|follow) the courts closely "
+{ $sub_np(NP) /ever interest [k law ] } .
+" $sub_np(NP) $verb(VERB|read) deeply in works of divinity "
+{ $sub_np(NP) /ever interest [k theology ] } .
+" $sub_np(NP) $verb(VERB|keep) a close eye on the markets "
+{ $sub_np(NP) /ever interest [k commerce ] } .
+" $sub_np(NP) $verb(VERB|collect) specimens of every description "
+{ $sub_np(NP) /ever interest [k natural_science ] } .
+" $sub_np(NP) $verb(VERB|keep) meticulous ledgers "
+{ $sub_np(NP) /ever interest [k accountancy ] } .
+" $sub_np(NP) $verb(VERB|pore) over charts and tide-tables "
+{ $sub_np(NP) /ever interest [k navigation ] } .
+" $sub_np(NP) $verb(VERB|be) happiest among the livestock "
+{ $sub_np(NP) /ever interest [k husbandry ] } .
+" $sub_np(NP) $verb(VERB|practise) letters and sums of an evening "
+{ $sub_np(NP) /ever interest [k primary_school_curriculum ] } .
+" $sub_np(NP) $verb(VERB|keep) up with the schoolbooks "
+{ $sub_np(NP) /ever interest [k secondary_school_curriculum ] } .
+" $sub_np(NP) $verb(VERB|be) a great reader of histories "
+{ $sub_np(NP) /ever interest [k history ] } .
+" $sub_np(NP) $verb(VERB|attend) the public lectures "
+{ $sub_np(NP) /ever interest [k science ] } .
+
+# performance_art
+" $sub_np(NP) $verb(VERB|go) to every concert in town "
+{ $sub_np(NP) /ever interest [k music ] } .
+" $sub_np(NP) $verb(VERB|go) to the theatre at every opportunity "
+{ $sub_np(NP) /ever interest [k theatre ] } .
+" $sub_np(NP) $verb(VERB|spend) a great deal of time in the library "
+{ $sub_np(NP) /ever interest [k literature ] } .
+
+# martial
+" $sub_np(NP) $verb(VERB|practise) with pistol and rifle "
+{ $sub_np(NP) /ever interest [k marksmanship ] } .
+" $sub_np(NP) $verb(VERB|handle) a knife with uncommon familiarity "
+{ $sub_np(NP) /ever interest [k knife_fighting ] } .
+" $sub_np(NP) $verb(VERB|fence) with anyone willing "
+{ $sub_np(NP) /ever interest [k swordsmanship ] } .
+" $sub_np(NP) $verb(VERB|follow) the prize-fights "
+{ $sub_np(NP) /ever interest [k pugilism ] } .
+" $sub_np(NP) $verb(VERB|miss) no wrestling match "
+{ $sub_np(NP) /ever interest [k wrestling ] } .
+" $sub_np(NP) $verb(VERB|spend) every spare hour on horseback "
+{ $sub_np(NP) /ever interest [k horsemanship ] } .
+" $sub_np(NP) $verb(VERB|ride) at every opportunity "
+{ $sub_np(NP) /ever interest [k riding ] } .
+
+# illicit
+" $sub_np(NP) $verb(VERB|know) a great deal about poisons "
+{ $sub_np(NP) /ever interest [k poisoning_knowledge ] } .
+" $sub_np(NP) $verb(VERB|have) a suspicious talent for imitating another's hand "
+{ $sub_np(NP) /ever interest [k forgery ] } .
+" $sub_np(NP) $verb(VERB|tinker) with locks "
+{ $sub_np(NP) /ever interest [k lockpicking ] } .
+" $sub_np(NP) $verb(VERB|be) always climbing something "
+{ $sub_np(NP) /ever interest [k climbing ] } .
+" $sub_np(NP) $verb(VERB|have) a way of disappearing at convenient moments "
+{ $sub_np(NP) /ever interest [k evading ] } .
+" $sub_np(NP) $verb(VERB|poke) about in other people's business "
+{ $sub_np(NP) /ever interest [k detecting ] } .
+
+# athletics / avocation / devotional / civic
+" $sub_np(NP) $verb(VERB|turn) out for every sporting contest "
+{ $sub_np(NP) /ever interest [k sports ] } .
+" $sub_np(NP) $verb(VERB|haunt) the curiosity shops "
+{ $sub_np(NP) /ever interest [k antiques ] } .
+" $sub_np(NP) $verb(VERB|be) at church more than most "
+{ $sub_np(NP) /ever interest [k religion ] } .
+" $sub_np(NP) $verb(VERB|dabble) in table-rapping and spirit circles "
+{ $sub_np(NP) /ever interest [k spiritualism ] } .
+" $sub_np(NP) $verb(VERB|go) to the suffrage meetings "
+{ $sub_np(NP) /ever interest [k suffrage ] } .
+
 # Interest is a kind-valued plural-attr; one belief per interest topic. KIND
 # strips the bracket form so [k music] -> "music". The neutral default - kept
 # as the fallback the .mph select chain always lands on. $verb(VERB|be) carries
 # both tenses (is / was interested in) so a deceased subject's interests render.
+# With the behavioural templates above, this generic form fires only for
+# unauthored kinds, for the aggregated interest_description list, and for the
+# parse direction.
 " $sub_np(NP) $verb(VERB|be) interested in $kind(KIND|/isa|domain) "
 { $sub_np(NP) /ever interest $kind(KIND|/isa|domain) } .
 

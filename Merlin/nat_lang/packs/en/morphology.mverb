@@ -13,3 +13,61 @@ verb love  /past = loved
 
 verb work  /pres = works
 verb work  /past = worked
+
+# Behavioural interest prose (Statements.mgr behavioural block).
+verb spend    /pres = spends
+verb spend    /past = spent
+
+verb tinker   /pres = tinkers
+verb tinker   /past = tinkered
+
+verb read     /pres = reads
+verb read     /past = read
+
+verb follow   /pres = follows
+verb follow   /past = followed
+
+verb keep     /pres = keeps
+verb keep     /past = kept
+
+verb collect  /pres = collects
+verb collect  /past = collected
+
+verb pore     /pres = pores
+verb pore     /past = pored
+
+verb practise /pres = practises
+verb practise /past = practised
+
+verb attend   /pres = attends
+verb attend   /past = attended
+
+verb go       /pres = goes
+verb go       /past = went
+
+verb fence    /pres = fences
+verb fence    /past = fenced
+
+verb miss     /pres = misses
+verb miss     /past = missed
+
+verb ride     /pres = rides
+verb ride     /past = rode
+
+verb know     /pres = knows
+verb know     /past = knew
+
+verb handle   /pres = handles
+verb handle   /past = handled
+
+verb poke     /pres = pokes
+verb poke     /past = poked
+
+verb turn     /pres = turns
+verb turn     /past = turned
+
+verb haunt    /pres = haunts
+verb haunt    /past = haunted
+
+verb dabble   /pres = dabbles
+verb dabble   /past = dabbled

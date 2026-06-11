@@ -1,13 +1,15 @@
 
 :PRONOUN
 
-"I"     ?_I     .
-"me"    ?_I     .
-"my"    ?_I     .
-"mine"  ?_I     .
-"you"   ?_you   .
-"your"   ?_you  .
-"this"  ?_this  .
+"I"        ?_I     .
+"me"       ?_I     .
+"my"       ?_I     .
+"mine"     ?_I     .
+"myself"   ?_I     .
+"you"      ?_you   .
+"your"     ?_you   .
+"yourself" ?_you   .
+"this"     ?_this  .
 
 # Third-person second-mention pronouns. The realize layer requests
 # ?_third_s (subjective case) or ?_third_o (objective case), and the
