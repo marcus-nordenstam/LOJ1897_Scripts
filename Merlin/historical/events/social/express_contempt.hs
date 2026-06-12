@@ -56,5 +56,5 @@
                   (chance (* 0.04 (- 1.0 (attr ?actor compassion))))))
 
   (effects
-    (incident-anchor ?actor insult ?victim)
+    (incident-anchor ?actor insult ?victim :context cold_contempt)
     (log _express_contempt ?actor)))

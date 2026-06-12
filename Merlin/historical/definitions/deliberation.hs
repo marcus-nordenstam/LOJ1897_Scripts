@@ -132,10 +132,17 @@
 (affinity obligation_strain   flee                 0.2)
 
 ; ---- rivalry_pressure: directed competition ----------------------------------
-(affinity rivalry_pressure    confront_privately   0.4)
+; Being outdone is CONCEALED, not announced (envy is the most-hidden emotion):
+; no confront branch. The dominant outlet is strive (benign envy - train for
+; the rematch; resolves inline in the engine, mints the practice marker the
+; sporting victor roll reads, and discharges half the pressure). humiliate is
+; the deliberated put-down (a real barb about the WINNER, never about the
+; loss). expose stays reachable only with actual material - the engine's
+; known-secret gate applies to every expose branch, this one included.
+(affinity rivalry_pressure    strive               0.6)
+(affinity rivalry_pressure    humiliate            0.5)
 (affinity rivalry_pressure    expose               0.4)
 (affinity rivalry_pressure    kill                 0.02)
-(affinity rivalry_pressure    humiliate            0.3)
 
 ; ---- floor branches: always considered, absolute weights -------------------
 (floor    forgive             0.15)

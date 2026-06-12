@@ -216,7 +216,7 @@ relation
             # the deleted (behaviour) block.
             # insult / confront_privately moved into the `speech_act`
             # group at the end of this block.
-            humiliate           (motor mouth)                   (tar human)              (construed_act slight_act wrong_act)
+            humiliate           (motor mouth)                   (tar human)              (construed_act degrade_act wrong_act)
             discredit           (motor mouth)                   (tar human)              (construed_act expose_act betray_act wrong_act)
             expose              (motor mouth)                   (tar @S)                 (construed_act expose_act betray_act wrong_act)
             expose_first        (motor mouth)                   (tar human)              (construed_act expose_act)
@@ -417,5 +417,5 @@ relation
                 confront_publicly   (motor mouth)                   (tar human)              (construed_act expose_act)
                 threaten_violence   (motor mouth)                   (tar human)  (aux ?)     (construed_act coercion_act threaten_act wrong_act)
                 blackmail           (motor mouth)                   (tar human)  (aux ?)     (construed_act coercion_act wrong_act betray_act)
-                public_humiliation  (motor mouth)                   (tar human)              (construed_act slight_act wrong_act)
+                public_humiliation  (motor mouth)                   (tar human)              (construed_act degrade_act wrong_act)
                 spread_rumour       (motor mouth)                   (tar human)  (aux ?)     (construed_act expose_act betray_act wrong_act)

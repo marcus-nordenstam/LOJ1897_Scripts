@@ -124,7 +124,7 @@ relation
             # attraction is now the one-sided attraction stance scalar, projected
             # to fancy/desire/crave verb-state beliefs (the same regulator/
             # regulated split as warmth/esteem/trust). crush_forms reads the
-            # attraction verb; motives.hs reads (require stance attraction ...).
+            # attraction verb.
             # identity: the salient role(s) an NPC self-identifies as
             # (parent / spouse / worker / christian / ...). Each
             # identity is a held belief that biases categorize

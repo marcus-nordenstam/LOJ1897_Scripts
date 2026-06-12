@@ -786,6 +786,14 @@ concept
         # husband), unlike abandonment_act where third parties fault the
         # deserter. Appended at end to keep kind ids stable.
         repudiation_act
+        # degrade_act: a deliberated PUBLIC put-down - humiliation with an
+        # audience. Distinct from slight_act (the dyadic insult sting):
+        # the audience makes the injury a STATUS event, so the patient
+        # feels shame + status_loss (the expose_act-shaped cascade)
+        # without any secret being disclosed. Carried by the
+        # public_humiliation perpetration leaf. Appended at end to keep
+        # kind ids stable.
+        degrade_act
 
     sky_condition
         clear

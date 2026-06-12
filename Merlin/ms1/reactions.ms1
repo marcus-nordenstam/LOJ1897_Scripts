@@ -375,6 +375,23 @@
   (mint joy   :focus none :salience 12)
   (mint pride :focus self :salience 24))
 
+; -- degrade_act (a deliberated PUBLIC put-down - humiliation with an
+; audience; the public_humiliation leaf). The audience makes the injury a
+; STATUS event: shame + status_loss like expose_act, plus anger at the
+; mocker - no secret was disclosed, just standing destroyed. The dyadic
+; slight_act sting stays light by contrast.
+(reaction degrade_act :pov patient
+  (mint shame :focus none  :salience 720)
+  (mint anger :focus actor :salience 168)
+  (pressure humiliation :focus actor :salience 1440)
+  (pressure status_loss :focus none  :salience 1440))
+
+(reaction degrade_act :pov actor
+  (mint pride :focus self :salience 24))
+
+(reaction degrade_act :pov third_party
+  (mint contempt :focus actor :salience 24))
+
 ; -- expose_act (public disclosure of a band-4+ secret) --
 (reaction expose_act :pov patient
   (mint shame :focus none :salience 720)
