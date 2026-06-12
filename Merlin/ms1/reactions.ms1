@@ -290,6 +290,20 @@
 (reaction appropriation_act :pov third_party
   (mint distress :focus actor :salience 24))
 
+; -- suffer_loss_act (patient lost something - theft discovery, ruin) --
+; Anchor shape is {<prop> stolen_from <owner>} (States.mon loss_outcome):
+; the agent slot is the LOST PROP, never a person - the culprit is unknown
+; by design (knowing them would be telepathy). So the patient's anger and
+; distress are FOCUSLESS (no one to be angry AT yet), and the pressure is
+; resource_scarcity (focus none), which drives acquisitive deliberation
+; branches rather than aggression against a target. No actor row (a prop
+; cannot appraise) and no third-party row (a witness learning of another's
+; loss has no modelled response yet).
+(reaction suffer_loss_act :pov patient
+  (mint anger    :focus none :salience 72)
+  (mint distress :focus none :salience 168)
+  (pressure resource_scarcity :focus none :salience 1440))
+
 ; -- coercion_act (forcible compulsion) --
 (reaction coercion_act :pov patient
   (mint fear :focus actor :salience 168)

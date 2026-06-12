@@ -321,6 +321,20 @@ relation
             # the partner they courted).
             outdo               (tar human)  (aux ?)  (construed_act rivalrous_act)
 
+        # Loss-outcome records. NOT tasks - act-RECORDS minted by the
+        # absence-discovery classifier (the hse arrival sweep) when an
+        # owner finds a possession GONE from their own home: subject is
+        # the missing PROP, target the wronged discoverer. The thief's
+        # identity is deliberately absent - the owner knows the thing was
+        # taken, never (yet) by whom; knowing would be telepathy. The
+        # suffer_loss_act reaction is therefore focusless (anger/distress
+        # at no one, resource_scarcity pressure) - see ms1/reactions.ms1.
+        (loss_outcome)          (+ sub prop)  (+ appraisal_input)
+            # stolen_from: the discoverer's "someone took my X" memory,
+            # dated at DISCOVERY (the sweep that found it gone), not at
+            # the unknown taking time.
+            stolen_from         (tar human)  (construed_act suffer_loss_act)
+
         # Acquired interior drives (F4.3). A drive is neither an emotion nor a
         # heritable temperament - it is deposited by a life of events and then
         # shapes which events cast the NPC.
