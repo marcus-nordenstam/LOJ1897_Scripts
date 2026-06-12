@@ -290,6 +290,13 @@ relation
             # village-wide so the staged story crystallizes. @excl -
             # one held narrative per observer per victim.
             circumstances_of_death  (tar incident @excl)
+            # suspect: {victim suspect culprit /aux <act-clause>} - whom
+            # the holder believes wronged them, the aux quoting the act
+            # suspected of. Minted when filing a crime report whose
+            # grievance names its actor; the crime_report letter carries
+            # the same sentence for the player. Non-exclusive - several
+            # suspicions may stand at once.
+            suspect             (tar human)  (aux ?)
 
         # Competence - the domains an NPC is practically skilled in. Targets a
         # `domain` kind (Concepts.mon): the academic_field disciplines (classics,
@@ -332,8 +339,9 @@ relation
         (loss_outcome)          (+ sub prop)  (+ appraisal_input)
             # stolen_from: the discoverer's "someone took my X" memory,
             # dated at DISCOVERY (the sweep that found it gone), not at
-            # the unknown taking time.
-            stolen_from         (tar human)  (construed_act suffer_loss_act)
+            # the unknown taking time. reportable_crime: a discovered
+            # theft is what a victim takes to the police station.
+            stolen_from         (tar human)  (construed_act suffer_loss_act)  (facets reportable_crime)
 
         # Acquired interior drives (F4.3). A drive is neither an emotion nor a
         # heritable temperament - it is deposited by a life of events and then

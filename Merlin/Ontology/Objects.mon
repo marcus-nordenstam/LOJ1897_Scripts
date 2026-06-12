@@ -132,16 +132,20 @@ object (+ obs)
             cutlass             (facets slash)
             club                (facets bludgeon)
             cudgel              (facets bludgeon)
+            # conspicuous: a gun sale is REMEMBERED (the shopkeeper, the
+            # sales_record); the acquisition calculus has careful buyers
+            # prefer a safe theft over the paper trail. Per-leaf - facets
+            # do not cascade.
             firearm
-                pistol
-                duelling_pistol
-                musket
-                revolver
-                shotgun
-                hunting_rifle
+                pistol          (facets conspicuous)
+                duelling_pistol (facets conspicuous)
+                musket          (facets conspicuous)
+                revolver        (facets conspicuous)
+                shotgun         (facets conspicuous)
+                hunting_rifle   (facets conspicuous)
             explosive
-                gunpowder_keg
-                dynamite_stick
+                gunpowder_keg   (facets conspicuous)
+                dynamite_stick  (facets conspicuous)
         # Kitchen / table-service blades. Knife is the canonical sub-kind;
         # cleaver is the heavy-bladed chopping variant.
         cutlery
@@ -254,6 +258,12 @@ object (+ obs)
                 # the covert letter channel. Its own kind so the per-kind
                 # cache caps don't share a budget with conspiracy letters.
                 blackmail_note
+                # A victim's report to the police station: sentence 1 the
+                # crime that befell them (the grievance act), sentence 2 -
+                # when the wrongdoer is known - {victim suspect culprit}.
+                # Nobody staffs the station, so reports accumulate unread:
+                # the PLAYER's case feed.
+                crime_report_letter
             pamphlet
             book
             newspaper
@@ -319,24 +329,26 @@ object (+ obs)
             # antimony=tartar emetic, aconite=monkshood, belladonna=deadly
             # nightshade, chloroform=anaesthetic, corrosive_sublimate=mercuric
             # chloride disinfectant.
-            laudanum
-            opium
-            digitalis_tincture
-            prussic_acid
-            chloral_draught
-            antimony
-            aconite
-            belladonna
-            chloroform
-            corrosive_sublimate
+            # conspicuous: every toxin sale goes in the poison register -
+            # the canonical paper trail a careful poisoner avoids.
+            laudanum            (facets conspicuous)
+            opium               (facets conspicuous)
+            digitalis_tincture  (facets conspicuous)
+            prussic_acid        (facets conspicuous)
+            chloral_draught     (facets conspicuous)
+            antimony            (facets conspicuous)
+            aconite             (facets conspicuous)
+            belladonna          (facets conspicuous)
+            chloroform          (facets conspicuous)
+            corrosive_sublimate (facets conspicuous)
             # Vermin killers / household chemicals - general shop, grocer,
             # agricultural supplier (purchase, no profession gate). The
             # classic over-the-counter poisons. white_arsenic=arsenic trioxide
             # (tasteless rat poison), strychnine=convulsant vermin killer,
             # oxalic_acid=rust / stain remover mistaken for sugar.
-            white_arsenic
-            strychnine
-            oxalic_acid
+            white_arsenic       (facets conspicuous)
+            strychnine          (facets conspicuous)
+            oxalic_acid         (facets conspicuous)
         # Combustible accelerants. The (facets burn_fuel) flag is what
         # perpetration's immolate / arson methods key on, not the
         # parent kind.

@@ -222,6 +222,10 @@ relation
             expose_first        (motor mouth)                   (tar human)              (construed_act expose_act)
             confess_in_person   (motor legs mouth)              (tar human)              (construed_act honour_act)
             confess_letter      (motor eyes right_hand legs)    (tar human)              (construed_act honour_act)
+            # report_crime: the lawful-channel deliberation goal. Target is
+            # the known wrongdoer, or the wronged PROP when the culprit is
+            # unknown (a theft discovered by absence).
+            report_crime        (motor mouth eyes right_hand)   (tar ?)
             recruit             (motor mouth)                   (tar human)  (aux ?)
 
             # Physical / multi-motor sub-block - tasks that compose motor
@@ -244,7 +248,7 @@ relation
             # actor doesn't even need to do the killing themselves.
             kill                                                (tar human)                (construed_act harm_act wrong_act)  (theme violent_to)
             kidnap              (motor legs right_hand left_hand)  (tar human)             (construed_act coercion_act threaten_act wrong_act)  (theme coercive_to)
-            steal               (motor legs right_hand)         (tar human)                (construed_act appropriation_act wrong_act)  (theme thief_to)
+            steal               (motor legs right_hand)         (tar human)                (construed_act appropriation_act wrong_act)  (theme thief_to)  (facets reportable_crime)
             # Goal-level umbrella tasks that the deliberate event mints
             # as goal-clause inner labels. Their leaf method-tasks
             # (declared below) are what actually get performed and
@@ -264,8 +268,8 @@ relation
             # the appraisable harm is whatever gets done with the bought
             # compliance, so no construed_act tag here.
             bribe               (motor right_hand mouth)        (tar human)  (aux ?)
-            defraud                                             (tar human)              (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)
-            embezzle                                            (tar human|org)          (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)
+            defraud                                             (tar human)              (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)  (facets reportable_crime)
+            embezzle                                            (tar human|org)          (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)  (facets reportable_crime)
             # disinherit - testamentary act; effect ends the target's
             # heir_of belief. The dropped heir feels abandonment.
             disinherit          (motor eyes right_hand)         (tar human)              (construed_act abandonment_act wrong_act)
@@ -371,8 +375,11 @@ relation
             # specific enough (e.g. `insult`, `discredit`) the
             # perpetration row uses the parent task directly as its
             # leaf.
-            opportunist_theft   (motor legs right_hand)         (tar human)              (construed_act appropriation_act wrong_act)  (theme thief_to)
+            opportunist_theft   (motor legs right_hand)         (tar human)              (construed_act appropriation_act wrong_act)  (theme thief_to)  (facets reportable_crime)
             anonymous_letter    (motor eyes right_hand legs)    (tar human)  (aux ?)     (construed_act expose_act betray_act)
+            # report_to_police: the report_crime goal's leaf - writing and
+            # delivering a crime_report letter to the police station.
+            report_to_police    (motor eyes right_hand legs)    (tar ?)  (aux ?)         (construed_act honour_act)
             beating             (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
             offer_bribe         (motor right_hand mouth)        (tar human)  (aux ?)
             plant_evidence      (motor right_hand)              (tar human)  (aux ?)     (construed_act harm_act betray_act wrong_act)

@@ -27,6 +27,7 @@
 (template townhouse (kind townhouse) (class middle))
 (template tenement  (kind tenement)  (class lower))
 (template cottage   (kind cottage)   (class lower))
+(template farmhouse (kind farmhouse) (class lower))
 (template chapel    (kind chapel)    (class middle))
 
 ;; Businesses are physical commercial buildings (kind in Objects.mon)
@@ -131,6 +132,19 @@
 (make_entity estate  (id haven_manor)        (parent haven))
 (make_entity cottage (id carrigan_cottage)   (parent fishermans_walk))
 (make_entity cottage (id oconnell_cottage)   (parent fishermans_walk))
+
+;; ============================================================================
+;; Outlying dwellings - isolated farms and cottages scattered BETWEEN the
+;; settlements. Explicit world coords keep each one well clear of every
+;; road cluster and of each other, so the bootstrap isolation pass stamps
+;; them isolated=1: the remote premises a burglar can break into at night
+;; with no neighbors to see (the theft calculus's preferred steal sources).
+;; ============================================================================
+(make_entity farmhouse (id thornfield_farm)    (parent port_christie) (coord -1500 5  600))
+(make_entity farmhouse (id mosshollow_farm)    (parent valette)       (coord     0 5 -800))
+(make_entity cottage   (id heath_cottage)      (parent valette)       (coord  -200 5  900))
+(make_entity farmhouse (id greywether_farm)    (parent haven)         (coord  1500 5 -500))
+(make_entity cottage   (id lighthouse_cottage) (parent haven)         (coord  1700 5  700))
 
 ;; Residential bulk for Haven (smallest of the three areas).
 (make_entity_along cottage   cliff_road      1 60)

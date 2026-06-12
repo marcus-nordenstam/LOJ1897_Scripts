@@ -467,12 +467,18 @@
   :pressure-floor humiliation 0.6
   :weight         1.0)
 
-; discredit goal -> spread_rumour terminal (witness-propagated false story)
-(method spread_rumour
-  :goal-fit       discredit
+; report_crime goal -> file_report terminal. NOT a crime - the lawful
+; channel: the terminal files a crime_report letter at the police station
+; (the victimhood sentence + a {victim suspect culprit} sentence when the
+; grievance names its wrongdoer) and appends NO ledger row. The station is
+; unstaffed by design - the letters are the PLAYER's case feed.
+; (The old discredit goal / spread_rumour method is gone: reputation damage
+; is emergent via witnesses + gossip, never a deliberated "start a rumour".)
+(method report_to_police
+  :goal-fit       report_crime
+  :requires       ((can_write))
   :method-aux     _
-  :terminal       spread_rumour
-  :pressure-floor rivalry_pressure 0.5
+  :terminal       file_report
   :weight         1.0)
 
 ; bribe goal -> pay_off terminal (cash transfer; PR-3d ships as mint-only stub)
@@ -497,3 +503,24 @@
   :method-aux     _
   :terminal       consummate
   :weight         1.0)
+
+; ============================================================================
+; Item prices (shillings) - the acquisition calculus's affordability gate.
+;   (item-price <kind> <price>)
+; A purchase requires bank_balance >= price and debits it. Lookup is
+; most-specific-first: an exact kind row wins, else the first row the
+; candidate's kind is_a. Unlisted kinds use the engine default (cheap
+; everyday goods - rope, hammer, bedsheet - that anyone can buy).
+; Scale: bank_balance ranges roughly 0..150 (wealth = balance/120), so a
+; labourer cannot afford a firearm but anyone can afford rope.
+; ============================================================================
+(item-price firearm        60)
+(item-price explosive      40)
+(item-price toxin           8)
+(item-price candlestick    12)
+(item-price oil_lamp        4)
+(item-price axe             3)
+(item-price cleaver         3)
+(item-price knife           2)
+(item-price hammer          2)
+(item-price rope            1)

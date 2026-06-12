@@ -22,13 +22,19 @@
 ; Pressure kinds must match the (pressure) block of Concepts.mon.
 ; ----------------------------------------------------------------------------
 
+; NOTE: the `discredit` goal (spread_rumour) is GONE. Reputation damage is
+; emergent - witnesses, leaky confidants and the gossip cascade tarnish a
+; wrongdoer's repute on their own; a deliberated "start a rumour" branch
+; modelled nothing real. The specific channels replace it: confide / kin
+; mobilisation, expose (with actual material), humiliate (a public slight),
+; and report_crime (the lawful channel - see the report_crime rows).
+
 ; ---- humiliation: a directed slight needing release ------------------------
 (affinity humiliation         confront_privately   0.5)
 (affinity humiliation         expose               0.4)
 (affinity humiliation         withdraw             0.3)
 (affinity humiliation         kill                 0.02)
 (affinity humiliation         humiliate            0.5)
-(affinity humiliation         discredit            0.4)
 ; Coercion + suicide tails (see the attachment_loss rows).
 (affinity humiliation         coerce               0.10)
 (affinity humiliation         suicide              0.01)
@@ -38,7 +44,11 @@
 (affinity injustice           expose               0.5)
 (affinity injustice           plead                0.3)
 (affinity injustice           kill                 0.02)
-(affinity injustice           discredit            0.4)
+; The lawful channel: report the wrong to the police station. The terminal
+; verifies a concrete act-grievance survives on the cause chain and files
+; the crime_report letter (with a suspect sentence when the wrongdoer is
+; known) for the PLAYER to read - hsim itself never adjudicates.
+(affinity injustice           report_crime         0.5)
 
 ; ---- exposure_risk: standing secret may break --------------------------------
 (affinity exposure_risk       silence_witness      0.4)
@@ -97,7 +107,6 @@
 ; PR-A-6 2026-05-28 - structural-pressure consumers (PR-A-4 mints
 ; status_loss from parental + class-interloper / replacement-threat
 ; triangulations).
-(affinity status_loss         discredit            0.4)
 (affinity status_loss         expose               0.4)
 (affinity status_loss         kill                 0.03)
 
@@ -110,6 +119,12 @@
 (affinity resource_scarcity   plead                0.5)
 (affinity resource_scarcity   steal                0.3)
 (affinity resource_scarcity   withdraw             0.3)
+; A theft discovered by absence (stolen_from) mints resource_scarcity with
+; NO culprit focus; the engine resolves the report goal's target to the
+; wronged PROP off the pressure's act cause, and the terminal drops the
+; report when the scarcity has no concrete act-grievance behind it (mere
+; poverty is not a crime to report).
+(affinity resource_scarcity   report_crime         0.3)
 
 ; ---- obligation_strain: too many duties --------------------------------------
 (affinity obligation_strain   withdraw             0.5)
@@ -120,7 +135,6 @@
 (affinity rivalry_pressure    confront_privately   0.4)
 (affinity rivalry_pressure    expose               0.4)
 (affinity rivalry_pressure    kill                 0.02)
-(affinity rivalry_pressure    discredit            0.5)
 (affinity rivalry_pressure    humiliate            0.3)
 
 ; ---- floor branches: always considered, absolute weights -------------------

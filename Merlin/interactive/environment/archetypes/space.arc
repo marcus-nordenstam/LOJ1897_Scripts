@@ -1,5 +1,8 @@
 # Spaces
-archetype "space" (cap 2096) (mech obs) (always-visible) (non-occluder) (sector-coverage)
+# cap: the full St-Revier geography (588 buildings) subdivides into ~2000
+# rooms at setup; a century of runtime building spawns (housing market,
+# civic fallbacks) needs the headroom above that.
+archetype "space" (cap 4096) (mech obs) (always-visible) (non-occluder) (sector-coverage)
 {
     "birth_date"
     # Name is auto-perceived so NPCs know what space they're in.  The ext-mech
