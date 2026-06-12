@@ -38,13 +38,27 @@
                   (>= (years-old ?suitor) 18)
                   (not (believes ?suitor {@self fiancee ?}))
                   (not (believes ?suitor {@self spouse ?}))
-                  (not (= (situation ?suitor repute) scandalous)))
+                  (not (= (situation ?suitor repute) scandalous))
+                  ;; Fallen-woman gate, class-modulated (late-Victorian model):
+                  ;; the respectable classes shut her out of courtship entirely,
+                  ;; but working-class communities are pragmatic - a lower-class
+                  ;; fall may still wed (the beloved role completes the pair
+                  ;; check: BOTH sides must be lower).
+                  (or (not (believes ?suitor {@self prototype fallen_woman}))
+                      (= (situation ?suitor class_situation) lower)))
     (role ?beloved (template any_human)
                   (not (= ?beloved ?suitor))
                   (>= (years-old ?beloved) 18)
                   (not (believes ?beloved {@self fiancee ?}))
                   (not (believes ?beloved {@self spouse ?}))
                   (not (= (situation ?beloved repute) scandalous))
+                  ;; Pair half of the fallen-woman gate: a fallen party (either
+                  ;; side) weds only when BOTH sides are lower class.
+                  (or (not (believes ?beloved {@self prototype fallen_woman}))
+                      (and (= (situation ?beloved class_situation) lower)
+                           (= (situation ?suitor  class_situation) lower)))
+                  (or (not (believes ?suitor {@self prototype fallen_woman}))
+                      (= (situation ?beloved class_situation) lower))
                   ; the heart of it: the suitor fancies this person (reliable
                   ; bitset cross-pair - NOT believes-in-chance, see section 13).
                   (stance-at-least ?suitor ?beloved fancy)

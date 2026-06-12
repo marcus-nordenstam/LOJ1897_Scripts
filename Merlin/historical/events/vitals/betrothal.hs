@@ -55,6 +55,10 @@
                               (situation ?self class_situation))))
                  (not (= (situation ?self repute) scandalous))
                  (not (= (situation ?self repute) disreputable))
+                 ;; A fallen woman (divorced for adultery) is shut out of the
+                 ;; respectable market absolutely - no decorum or chastity
+                 ;; recovery readmits her.
+                 (not (believes ?self {@self prototype fallen_woman}))
                  (or (>= (situation ?self reputed_chastity) 0.5)
                      (not (believes ?self {@self reputed_chastity ?})))
                  (chance 0.25))

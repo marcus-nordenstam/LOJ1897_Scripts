@@ -384,6 +384,22 @@
 (reaction expose_act :pov actor
   (pressure exposure_risk :focus patient :salience 720))
 
+; -- repudiation_act (a husband divorces an adulterous wife) --
+; The disgrace lands on the PATIENT: the cast-off wife bears shame, the loss
+; of her station and the severed attachment. Third parties side with the
+; wronged husband - their contempt targets HER (the fallen-woman scorn),
+; the inverse of abandonment_act where the deserter is faulted.
+(reaction repudiation_act :pov patient
+  (mint shame :focus none  :salience 2160)
+  (mint grief :focus actor :salience 720)
+  (pressure status_loss     :focus none  :salience 4320)
+  (pressure attachment_loss :focus actor :salience 1440)
+  (end-bond love)
+  (end-bond friend))
+
+(reaction repudiation_act :pov third_party
+  (mint contempt :focus patient :salience 96))
+
 ; -- abandonment_act (disinheritance / desertion) --
 (reaction abandonment_act :pov patient
   (mint grief    :focus actor :salience 720)

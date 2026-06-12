@@ -702,6 +702,18 @@ concept
         self_made_man
         nouveau_riche
         drunkard
+        # fallen_woman: a woman whose sexual misconduct became PUBLICLY
+        # known - the divorce that answered a discovered affair (hse_engine
+        # run_generative_betrayal marks directly) or an adulterous liaison
+        # at least one third mind learned of (hsim_derive
+        # classify_fallen_woman, annual). Class-modulated consumers:
+        # betrothal excludes her absolutely, love_match re-admits only a
+        # lower-class pair (working-class pragmatism), respectable service
+        # (households / schools) turns her out; the gossiped divorce
+        # record's repudiation_act reactions carry the parish scorn. NOT
+        # irreversible: a fall lived down quietly for a decade may
+        # rehabilitate on a small annual roll.
+        fallen_woman
 
     message
         declaration
@@ -767,6 +779,13 @@ concept
         # row in appraisal.hsc. Placed at end to keep older taxonomy
         # kind ids stable.
         rivalrous_act
+        # repudiation_act: actor formally casts the patient off (a husband
+        # divorcing an adulterous wife). The patient bears the public
+        # disgrace - shame + status_loss on the patient, third-party
+        # contempt at the PATIENT (society sides with the wronged
+        # husband), unlike abandonment_act where third parties fault the
+        # deserter. Appended at end to keep kind ids stable.
+        repudiation_act
 
     sky_condition
         clear
