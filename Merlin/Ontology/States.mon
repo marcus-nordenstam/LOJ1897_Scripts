@@ -79,7 +79,31 @@ relation
         # pass walks monthly and the victim's exposure_risk pressure hangs
         # its /cause on. Ends when the demand is met, the secret leaks, or
         # a party dies.
-        extort                  (sub human)           (tar human)  (aux ?)
+        extort                  (sub human)           (tar human)  (aux ?)  (facets blackmailable)
+
+        # ---- Contract killing (the hire_assassin redesign) ----------------
+        # commission: the STANDING murder contract - the instigator (subject)
+        # has hired the killer (target) to murder the aux victim. Ongoing
+        # (the extort-anchor shape); ends when the hit is done or a party
+        # dies. blackmailable: an instigator who commissioned a murder is
+        # exposed to the killer's later leverage.
+        commission              (sub human)           (tar human)  (aux human)  (facets blackmailable)
+        # hired_by: the reciprocal the KILLER holds - {killer hired_by
+        # instigator /aux victim}. The killer's knowledge of who paid him is
+        # the latent blackmail-back leverage (deferred).
+        hired_by                (sub human)           (tar human)  (aux human)  (facets blackmailable)
+        # vouched_for: the connection edge that UNLOCKS commissioning - the
+        # subject has been introduced to / can deal with the target (a
+        # for_hire killer or a go_between fixer). Minted by the connection
+        # gate (seek_killer_connection); read as the precondition for a
+        # commission.
+        vouched_for             (sub human)           (tar human)
+        # sought_introduction: the WITNESS record - the subject (the asked
+        # acquaintance) remembers that the aux instigator asked them to be
+        # put in touch with a hard man. A permanent evidence thread ("he
+        # asked me where to find someone who'd do violence"). Held in the
+        # asked party's mind.
+        sought_introduction     (sub human)           (tar human)  (aux ?)
 
         # under_suspicion: the graded wariness an observer has accumulated
         # toward someone hiding something (see Docs/hsim/hsim_social.md).
@@ -309,6 +333,17 @@ relation
         # own belief.
         (competence)            (+ sub human)
             skilled_in          (tar domain)  (aux ?)
+            # served: military / naval service, a seeded biographical
+            # self-belief ({@self served <rank>}). Tense lives in the
+            # interval: ONGOING = still serving, ENDED = discharged
+            # veteran. The rank is the target (a military_rank kind,
+            # Concepts.mon). Seeded by seed_military_service (alongside the
+            # martial skill the service conferred); the NPC KNOWS it, so
+            # the interrogation / background-query path can answer "were you
+            # in the army?" with the rank. Drives the contract-killing
+            # pool (a discharged or serving soldier with the bad-seed or
+            # desperation gate is for_hire) and the soldier identity.
+            served              (tar military_rank)
 
         # Achievements - sporting / competitive participation and victories.
         # Targets stay unconstrained until the Phase 6 sports events pin the

@@ -39,3 +39,6 @@ log.*
 *.bin
 *.msb
 *.hsb
+
+# Scratch / per-run test output (rapsheets, narrative dumps, run captures)
+_*.txt

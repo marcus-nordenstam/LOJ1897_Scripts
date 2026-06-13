@@ -189,6 +189,13 @@ concept
             climbing
             evading
             detecting
+            # garrotting: the footpad / street-violence craft (the 1862
+            # garrotting panic) - the silent approach, the cosh, the
+            # ligature. The recidivist's competence, distinct from a
+            # one-off desperate labourer's brute strength. skill-affinity
+            # maps it to strangle / bludgeon (perpetration.hs). Held by
+            # ticket-of-leave men + career footpads in the for_hire pool.
+            garrotting
         # Physical recreation (the `sports` interest). NOT the standalone
         # `sport` competition-discipline enum below (cricket / rowing / ...),
         # which is the achievement target of participated_in / won.
@@ -212,6 +219,22 @@ concept
         novice
         trained
         expert
+
+    # Military rank - the /aux of a seeded `served` self-belief (States.mon):
+    # {@self served <unit> /aux <rank>}. Scales the martial skill band a
+    # veteran/serving soldier carries (a colonel out-shoots a private) and
+    # the contract-killing fee. The officer tier (ensign+) is gentry-born -
+    # the fallen-officer killer an upper-class instigator can reach directly
+    # (the Sebastian Moran case). Seeded by seed_military_service.
+    military_rank       (tar @excl)
+        private
+        corporal
+        sergeant
+        ensign
+        lieutenant
+        captain
+        major
+        colonel
 
     # (Relational stance no longer uses band-kind aux taxonomies; the continuous
     # warmth/esteem/trust/attraction scalar projects directly to infinitive
@@ -518,6 +541,10 @@ concept
             maid
             bartender
             factory_worker
+            # Professional race rider employed by a race_club - the ONLY
+            # NPCs permitted to ride in the annual horse_racing meet
+            # (hold-sporting-event). Club members attend; they never ride.
+            jockey
             house_agent
             # Heads of the public cultural institutions (gov sub-kinds above):
             # the librarian runs the library, the curator the museum. The
@@ -714,6 +741,26 @@ concept
         # irreversible: a fall lived down quietly for a decade may
         # rehabilitate on a small annual roll.
         fallen_woman
+        # for_hire: available to be hired as a contract killer (the
+        # contract-killing redesign, classify_hirelings, annual). Derived
+        # when the person is LETHALLY CAPABLE (skilled_in a martial leaf,
+        # or illicit garrotting, or raw strength + the street-default
+        # methods) AND either a BAD SEED (low compassion x high
+        # disinhibition - the remorseless mercenary, reliable, repeat
+        # business) OR ECONOMICALLY DESPERATE (destitute/poor - the
+        # reluctant man who takes one job out of need, mints guilt, often
+        # botches and never repeats). The TYPE (street tough / prizefighter
+        # / discharged or serving soldier) is read from the held skills +
+        # `served` belief, not a separate label. A self-belief the person
+        # holds; the connection gate reads it on the instigator's
+        # acquaintances.
+        for_hire
+        # go_between: the underworld FIXER - acquainted both upward (toward
+        # respectable society) and downward (into the for_hire pool). The
+        # corrupt publican / fence / flash sporting-man. Derived by
+        # classify_fixers (annual). An upper-class instigator can only reach
+        # a killer THROUGH one of these; takes a cut of the fee.
+        go_between
 
     message
         declaration

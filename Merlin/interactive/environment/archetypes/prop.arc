@@ -20,9 +20,9 @@ archetype "prop" (cap 12288) (mech obs) (occupies-env-grid) (non-occluder)
     "control"
     # The building a loose prop currently sits in. Written by the hsim
     # evidence trails (receipt / sales_record, letters, hiding caches) and
-    # read back by their location scans; without it those `at` writes were
-    # silent no-ops and the scans could never find anything.
-    "at"
+    # read back by their location scans; without it those `location` writes
+    # were silent no-ops and the scans could never find anything.
+    "location"
     "in_stack"
     # If prop is in a stack, obb is set to _
     "obb"

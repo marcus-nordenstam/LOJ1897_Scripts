@@ -1,7 +1,7 @@
 
 rule house-agent-clerk-process-title-deed-for-buyer
 {@self perform [k clerk]:?job}: ?working
-{?job at [k house_agency]:?org}
+{?job location [k house_agency]:?org}
 {?buyer goal ?otask}
 {?otask task {?buyer buy [k building]:?bldg}}: ?buyerWantsToBuy
 (realis ?bldg)

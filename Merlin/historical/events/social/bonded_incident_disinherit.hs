@@ -14,10 +14,19 @@
 ; V2 gating: multiplicative-chance over (1 - compassion) x narcissism
 ; on the actor side; the family-disinheritance variant gates on
 ; actor-is-parent-of-victim (the authority-over predicate for the
-; family case). value-rift becomes an AMPLIFIER on the victim side
-; (additive 0.2 floor, so the rift is a 5x amplifier when fully
-; present rather than a hard gate that excludes the entire population
-; today - no event mints value beliefs yet, so modal rift = 0).
+; family case).
+;
+; V3: disinheritance needs GROUNDS. The victim side is stance-gated
+; with NO floor: the father must already hold the child in standing
+; disregard (dislike/detest warmth or disdain/despise esteem - the
+; bands the child's own conduct eroded), else the event cannot fire.
+; A callous patriarch no longer cuts off a beloved child on a trait
+; roll - the Louis Green pathology (he avenged his daughter against
+; his own brother, then disinherited her unprompted). The old
+; value-rift amplifier was a dead placeholder (no event mints value
+; beliefs; modal rift = 0 behind a 0.2 floor) and is dropped; real
+; value-rift grounds (a child's scandalous marriage / disgrace) can
+; re-enter as amplifiers when value beliefs exist.
 ;
 ; categorize fires:
 ;   victim (pov=patient):
@@ -51,8 +60,15 @@
                   (not (= ?victim ?actor))
                   (believes ?actor {@self child ?victim})
                   (not (has-recent-incident-marker ?actor ?victim))
-                  (chance (* 0.80
-                             (+ 0.2 (value-rift ?actor ?victim))))))
+                  ; Grounds, not a floor: mild standing disregard (dislike /
+                  ; disdain) admits the cut at 0.2 each, deep disregard
+                  ; (detest / despise) at 0.3 each; a child the father holds
+                  ; no grudge against CANNOT be disinherited. believes folds
+                  ; to 0/1; static max 1.0 keeps chance's pre-roll early-out.
+                  (chance (+ (* 0.2 (+ (believes ?actor {@self dislike ?victim})
+                                       (believes ?actor {@self disdain ?victim})))
+                             (* 0.3 (+ (believes ?actor {@self detest  ?victim})
+                                       (believes ?actor {@self despise ?victim})))))))
 
   (effects
     (incident-anchor ?actor disinherit ?victim)

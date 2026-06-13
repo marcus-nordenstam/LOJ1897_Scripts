@@ -6,14 +6,20 @@
 ; sporting_event casts the club; the (hold-sporting-event ...) verb does the
 ; rest from the club's roster - a document walk the .hse role layer cannot
 ; express:
-;   - every alive roster member gains a {participated_in <sport>} belief;
-;   - one member is the victor and gains a {won <sport>} belief
+;   - every competitor gains a {participated_in <sport>} belief;
+;   - one competitor is the victor and gains a {won <sport>} belief
 ;     (notable_victory, folded in - `won` feeds the prestige dimension);
-;   - with a chance the victor and one bested member fall into a mutual
-;     `enemy` rivalry (sporting_rivalry, folded in).
+;   - with a chance one bested competitor resents the victor and records the
+;     {victor outdo bested} contest anchor (sporting_rivalry, folded in).
 ;
 ; The sport is read from the club's kind: a race_club runs horse_racing, a
 ; rugby_union plays rugby, a generic athletic club plays cricket.
+;
+; WHO competes is sport-scoped: horse_racing is ridden ONLY by professional
+; jockeys - roster entries the club employs under the `job jockey` occupation
+; (members attend the meet, they never ride; the verb tops the club's string
+; of riders up to its headcount from the jobless lower-class male pool before
+; each meet). Cricket / rugby are played by the male members themselves.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")

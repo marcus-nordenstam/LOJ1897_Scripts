@@ -267,6 +267,12 @@
 (skill-affinity medicine            (methods poison))
 (skill-affinity marksmanship        (methods shoot))
 (skill-affinity knife_fighting      (methods stab slash))
+; Contract-killing pool skills (the hired-killer types steer to their craft).
+; pugilism / wrestling = the prizefighter / bully (beat the victim down);
+; garrotting = the footpad's silent strangle-and-cosh (the 1862 panic).
+(skill-affinity pugilism            (methods beat_to_death strangle))
+(skill-affinity wrestling           (methods strangle beat_to_death))
+(skill-affinity garrotting          (methods garrotte strangle bludgeon))
 
 ; ---- Hydraulic (1) --------------------------------------------------------
 ; (access_any body_of_water) re-lands when the kind + env water features
@@ -379,14 +385,23 @@
   :wound-site     torso
   :weight         0.1)
 
-; hire_assassin: needs money + underworld contact - both absent today.
-; Authored for substrate completeness, low weight.
-(method hire_assassin
+; commission_killing: the hired-killing CONSPIRACY (replaces the old
+; hire_assassin self-kill). The instigator outsources the murder to a
+; connected killer (class-gated connection + blood money, in
+; contract_killing.cc). NO corpse, NO wound and NO method are decided HERE -
+; the commission only strikes the contract + plants the kill goal on the
+; hireling. The METHOD is entirely the hireling's: his own perpetration picks
+; it from HIS skills + weapon access + forensic signature (a garrotter
+; strangles, a marksman shoots, a desperate ex-soldier takes whatever he can
+; get), and the instigator is provably elsewhere (the alibi). So this method
+; carries no :wound-site / :yields / :method-aux - it is pure delegation. Low
+; base weight: outsourcing needs money AND a connection AND a reason to
+; delegate (status / physical inability), so a hired hit is rarer than a
+; personal one. The terminal re-checks reachability + affordability; an
+; unconnected / broke instigator simply falls back to a personal method.
+(method commission_killing
   :goal-fit       kill
-  :yields         puncture_wound
-  :method-aux     _
-  :terminal       kill_victim
-  :wound-site     torso
+  :terminal       commission_killing
   :weight         0.05)
 
 ; ============================================================================

@@ -168,7 +168,7 @@ attr "pregnant_by" (type entity) (imperceptible)
 attr "region" (type entity) (entity "region") (spec-attr region) (mech feel) (state-flags-tar @excl)
 
 # Activity - remaps perceived target & aux to kind and place of the activity
-attr "perform" (type entity) (entity "activity") (lookup-target "isa") (lookup-aux "at") (mech obs) (auto-percept)
+attr "perform" (type entity) (entity "activity") (lookup-target "isa") (lookup-aux "location") (mech obs) (auto-percept)
 
 # Sound
 # Holds the specific action that produced this sound (e.g. {john TELL (msg...) sam}).
@@ -252,8 +252,11 @@ attr "wounds"  (type kind array 4) (state "wound") (mech obs) (auto-percept)
 attr "stains"  (type kind array 4) (state "stain") (mech obs) (auto-percept)
 attr "marks"   (type kind array 4) (state "mark")  (mech obs) (auto-percept)
 
-# Transaction
-attr "at" (type entity) (entity "structure" "container_structure" "space") (mech obs) (auto-percept)
+# Whereabouts - the place (building / room / space) an entity is located in.
+# The universal location label: props use it for "the building this prop sits
+# in" (evidence trails) and people use the matching belief for dated
+# where-were-you memories. Replaces the retired `at` label.
+attr "location" (type entity) (entity "structure" "container_structure" "space") (mech obs) (auto-percept)
 
 # Delta-driven co-presence prop perception (interrogation plan 3b point
 # 1b): the date a prop was last deliberately added to / removed from this
@@ -263,6 +266,16 @@ attr "at" (type entity) (entity "structure" "container_structure" "space") (mech
 # compare and no observation at all. Bumped by the deliberate-placement
 # sites (disposal, letter delivery, vessel spawn, weapon acquisition).
 attr "inventory_changed" (type date) (imperceptible)
+
+# Per-building loose-item index: the inverse of `location`. The set of loose
+# props (weapons, tools, vessels, merchandise) whose `location` points at this
+# building, maintained incrementally as items move (hsim set_prop_location).
+# Lets "what is in this building" - store inventory, weapons to grab, loot to
+# case - be a direct O(1) read instead of an O(world) entity scan. Imperceptible:
+# this is env-side bookkeeping, NOT a perception source (prop knowledge stays
+# delta-driven via inventory_changed + per-prop sweeps). Items remain loose
+# entities - this is a reverse lookup, not containment/hierarchy.
+attr "contents" (type entity array 64) (imperceptible)
 
 # Instance
 attr "prototype" (type entity) (spec-attr prototype) (imperceptible)

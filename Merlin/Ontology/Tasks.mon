@@ -1,4 +1,4 @@
-
+﻿
 # NOTE: Words in parenthesis -- such as (traits) and (emo) -- are used for GROUPING only: they don't define a sub-category.
 
 # Every act in the ontology is either a TASK (mini-plan; bubbles down to
@@ -239,7 +239,7 @@ relation
             # implementing isim task may add or substitute depending on
             # method.
             flee                (motor legs)                    (tar human)
-            seduce              (motor mouth legs body)         (tar human)              (construed_act intimacy_act)
+            seduce              (motor mouth legs body)         (tar human)              (construed_act intimacy_act)  (facets blackmailable)
             assault             (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
             # kill - ABSTRACT goal task. No method aux: the method is a
             # separate, more-specific leaf task (strangle / shoot / poison
@@ -252,14 +252,14 @@ relation
             # /aux <method>}. Goals can also target the END STATE
             # directly: {actor goal {victim condition dead}} - then the
             # actor doesn't even need to do the killing themselves.
-            kill                                                (tar human)                (construed_act harm_act wrong_act)  (theme violent_to)
+            kill                                                (tar human)                (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime blackmailable)
             kidnap              (motor legs right_hand left_hand)  (tar human)             (construed_act coercion_act threaten_act wrong_act)  (theme coercive_to)
-            steal               (motor legs right_hand)         (tar human)                (construed_act appropriation_act wrong_act)  (theme thief_to)  (facets reportable_crime)
+            steal               (motor legs right_hand)         (tar human)                (construed_act appropriation_act wrong_act)  (theme thief_to)  (facets reportable_crime blackmailable)
             # Goal-level umbrella tasks that the deliberate event mints
             # as goal-clause inner labels. Their leaf method-tasks
             # (declared below) are what actually get performed and
             # recorded as anchors at perpetration time.
-            coerce                                              (tar human)  (aux ?)       (construed_act coercion_act wrong_act)
+            coerce                                              (tar human)  (aux ?)       (construed_act coercion_act wrong_act)  (facets reportable_crime)
             punish                                              (tar human)                (construed_act harm_act)
             hurt                                                (tar human)                (construed_act harm_act)
             # tamper - PREPARATION for a perpetration; the trap-fire event
@@ -269,13 +269,13 @@ relation
             # add_substance - perpetrator subject; substance target;
             # vessel in aux. Preparation - no tag.
             add_substance       (motor right_hand)              (tar object)  (aux object)
-            frame                                               (tar human)  (aux ?)     (construed_act harm_act betray_act wrong_act)
+            frame                                               (tar human)  (aux ?)     (construed_act harm_act betray_act wrong_act)  (facets reportable_crime)
             # bribe - functional inverse of coerce. Means-of-pressure;
             # the appraisable harm is whatever gets done with the bought
             # compliance, so no construed_act tag here.
-            bribe               (motor right_hand mouth)        (tar human)  (aux ?)
-            defraud                                             (tar human)              (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)  (facets reportable_crime)
-            embezzle                                            (tar human|org)          (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)  (facets reportable_crime)
+            bribe               (motor right_hand mouth)        (tar human)  (aux ?)     (facets reportable_crime)
+            defraud                                             (tar human)              (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)  (facets reportable_crime blackmailable)
+            embezzle                                            (tar human|org)          (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)  (facets reportable_crime blackmailable)
             # disinherit - testamentary act; effect ends the target's
             # heir_of belief. The dropped heir feels abandonment.
             disinherit          (motor eyes right_hand)         (tar human)              (construed_act abandonment_act wrong_act)
@@ -350,7 +350,7 @@ relation
             # victim's drink (the drink fluid's `taint` attr names the
             # poison kind). poison is the chronic / acute administering task
             # whose completion is the victim's death.
-            poison                                              (tar human)  (aux object)  (construed_act harm_act wrong_act)
+            poison                                              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (facets blackmailable)
 
             # Hydraulic / thermal / electrical leaf kill-tasks.
             drown               (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
@@ -368,10 +368,11 @@ relation
             # mechanical trap (the actor isn't present at trigger).
             # uriah_gambit sends the victim into a fatal situation under
             # false pretense (Bible: David's order to put Uriah in the
-            # front line). hire_assassin delegates the act to a recruit.
+            # front line). commission_killing delegates the act to a hired
+            # killer (the murder-for-hire conspiracy - contract_killing.cc).
             death_trap          (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act betray_act)
             uriah_gambit                                        (tar human)              (construed_act harm_act wrong_act betray_act)
-            hire_assassin                                       (tar human)  (aux human)  (construed_act harm_act wrong_act)
+            commission_killing                                  (tar human)  (aux human)  (construed_act harm_act wrong_act)
 
             # Leaf non-kill-tasks - specific methods for achieving the
             # non-kill abstract goals (steal / expose / coerce / bribe /
@@ -381,14 +382,14 @@ relation
             # specific enough (e.g. `insult`, `discredit`) the
             # perpetration row uses the parent task directly as its
             # leaf.
-            opportunist_theft   (motor legs right_hand)         (tar human)              (construed_act appropriation_act wrong_act)  (theme thief_to)  (facets reportable_crime)
-            anonymous_letter    (motor eyes right_hand legs)    (tar human)  (aux ?)     (construed_act expose_act betray_act)
+            opportunist_theft   (motor legs right_hand)         (tar human)              (construed_act appropriation_act wrong_act)  (theme thief_to)  (facets reportable_crime blackmailable)
+            anonymous_letter    (motor eyes right_hand legs)    (tar human)  (aux ?)     (construed_act expose_act betray_act)  (facets blackmailable)
             # report_to_police: the report_crime goal's leaf - writing and
             # delivering a crime_report letter to the police station.
             report_to_police    (motor eyes right_hand legs)    (tar ?)  (aux ?)         (construed_act honour_act)
             beating             (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
-            offer_bribe         (motor right_hand mouth)        (tar human)  (aux ?)
-            plant_evidence      (motor right_hand)              (tar human)  (aux ?)     (construed_act harm_act betray_act wrong_act)
+            offer_bribe         (motor right_hand mouth)        (tar human)  (aux ?)     (facets blackmailable)
+            plant_evidence      (motor right_hand)              (tar human)  (aux ?)     (construed_act harm_act betray_act wrong_act)  (facets blackmailable)
             seduction           (motor mouth legs body)         (tar human)              (construed_act intimacy_act)
 
             # ----------------------------------------------------------------------------------

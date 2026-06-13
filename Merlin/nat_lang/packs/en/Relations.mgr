@@ -2,6 +2,11 @@
 :ACTIVE_REL
 "lives at"              /pres home              .
 "lived at"              /past home              .
+# Whereabouts: the dated location memory {X location <venue>}. The past form
+# answers "where were you" (the act-memory alibi substrate); the present form
+# renders a standing whereabouts (e.g. a prop's current building).
+"is at"                /pres location          .
+"was at"               /past location          .
 
 
 :PASSIVE_PNAME_REL

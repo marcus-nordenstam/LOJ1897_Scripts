@@ -1,4 +1,10 @@
 
-location (+ obs)
+# `location` is also the universal whereabouts belief label: {X location Y}
+# reads "X is/was at place Y" for both props (the building a prop sits in) and
+# people (the dated where-were-you memory). The explicit (tar ?) keeps the
+# auto-registered state target UNCONSTRAINED - a venue may be a building, a
+# room/space, or a mental org object - instead of defaulting to the noun's own
+# waypoint/spawnpoint subkinds (which would trip (tar) enforcement).
+location (+ obs) (tar ?)
     waypoint
     spawnpoint

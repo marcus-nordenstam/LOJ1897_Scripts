@@ -67,3 +67,8 @@
 (job shop_clerk     (class_floor lower) (business_type grocer)     (may_own false) (bootstrap true) (era_min 1700))
 (job waiter         (class_floor lower) (business_type restaurant) (may_own false) (era_min 1700))
 (job factory_worker (class_floor lower) (business_type factory)    (may_own false) (era_min 1830))
+; jockey: professional race rider, employed by a race_club. The annual
+; horse_racing meet (hold-sporting-event) admits ONLY jockey-job roster
+; entries as riders; the club tops its string up to the jockey headcount
+; before each meet from the jobless lower-class adult male pool.
+(job jockey         (class_floor lower) (business_type race_club)  (may_own false) (era_min 1700) (domain husbandry))

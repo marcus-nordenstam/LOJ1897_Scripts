@@ -218,6 +218,22 @@
 ( any { $person(Q_NP) /pres deceased_year } ).target
 .
 
+# whereabouts on the night of a crime - the alibi question. Anchored on the
+# victim: death_date is the start of the answerer's {victim condition dead}
+# belief; night_of wraps that day to its night window; whereabouts_on returns
+# the location memory overlapping it, and .target yields the venue ("the Red
+# Lion"). No memory -> @unknown ("I don't know") until the routine fallback
+# lands. The answerer is ?_you (the suspect being questioned).
+"where were you the night $person(Q_NP) was killed"
+( whereabouts_on ?_you ( night_of ( death_date $person(Q_NP) ) ) ).target
+.
+"where were you the night $person(Q_NP) was murdered"
+( whereabouts_on ?_you ( night_of ( death_date $person(Q_NP) ) ) ).target
+.
+"where were you the night $person(Q_NP) died"
+( whereabouts_on ?_you ( night_of ( death_date $person(Q_NP) ) ) ).target
+.
+
 # specific interest (do you like X)
 "do you like $thing(KIND)"
 ( prob { ?_you /pres interest $thing(KIND) } )

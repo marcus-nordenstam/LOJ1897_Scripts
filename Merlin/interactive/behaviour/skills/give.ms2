@@ -94,14 +94,14 @@ rule
 {@self give ?thing ?recipient}
 {@self control ?thing}
     ->
-{@self goal {.. maintain {.. face_to_face at ?recipient}} +1000}.
+{@self goal {.. maintain {.. face_to_face location ?recipient}} +1000}.
 
 # If you are giving to a player, then you must be face-to-face with them (so they can see what you are doing)
 rule 
 {@self give ?thing ?player}
 {@self control ?thing}
 {?player game_role player}
-{@self face_to_face at ?player}
+{@self face_to_face location ?player}
     ->
 {propose() {@self OFFER ?thing ?player}}.
 

@@ -2,7 +2,7 @@
 
 rule work-go-to-workplace-proposal
 {@self perform ?job}
-{?job at ?org}
+{?job location ?org}
 {?org workplace ?workplace}
 (in /not @self ?workplace)
     ->
