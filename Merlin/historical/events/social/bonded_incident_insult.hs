@@ -64,6 +64,9 @@
                              (* 0.08 (emotion-load ?actor anger)))))
     (role ?victim (template any_human)
                   (not (= ?victim ?actor))
+                  ; Place model (b1-1 fix): only insult someone you are actually
+                  ; WITH this date - a face-to-face act, not across the bond-graph.
+                  (co-present ?actor ?victim)
                   (personally-knows ?actor ?victim)
                   (not (has-recent-incident-marker ?actor ?victim))
                   ; Stance-weighted victim selection.

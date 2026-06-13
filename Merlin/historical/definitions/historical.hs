@@ -5,6 +5,6 @@
 
 (seed              4242)
 (start_year        1700)
-(end_year          1797)
+(end_year          1747)
 ;(end_year          1897)
 (start_population  200)

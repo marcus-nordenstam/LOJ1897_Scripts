@@ -17,8 +17,10 @@
 ; apply. Re-uses the _betrothal kind/log so the existing wedding event consumes
 ; the couple unchanged.
 ;
-; Schedule: (annually january), with betrothal. The live un-betrothed re-check
-; (when) resolves within-tick collisions; whoever fires first claims the pair.
+; Schedule: (annually november) - AHEAD of the arranged season (betrothal in
+; january, advantageous_match in february), so a mutually-in-love couple weds
+; for love before the arranged matches claim them. The live un-betrothed
+; re-check (when) resolves within-tick collisions.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -26,7 +28,7 @@
 (hsim-event love_match
   (nl         "?suitor and ?beloved marry for love")
   (kind       _betrothal)
-  (schedule   (annually january))
+  (schedule   (annually november))
   (band      evening)
   (rng-stream marriages)
 
@@ -62,6 +64,15 @@
                   ; the heart of it: the suitor fancies this person (reliable
                   ; bitset cross-pair - NOT believes-in-chance, see section 13).
                   (stance-at-least ?suitor ?beloved fancy)
+                  ; MUTUAL fancy - she fancies him BACK. A love match is a meeting
+                  ; of two hearts: the suitor courts (the `court` affordance builds
+                  ; her fancy toward him), and only once she reciprocates do they
+                  ; betroth. A one-sided crush does NOT marry here - it routes to
+                  ; the arranged `betrothal` / `advantageous_match` (good-match,
+                  ; no-fancy) path or simply goes nowhere. ?beloved is the inner
+                  ; role, so this is the two-bound believes residue (both already
+                  ; bound), the same reciprocation shape lovers.hs uses.
+                  (believes ?beloved {@self fancy ?suitor})
                   ; lover fidelity: a party holding a standing `lover` bond
                   ; love-matches ONLY that lover (the widowed affair-partners
                   ; finally marrying), never a third party over them.

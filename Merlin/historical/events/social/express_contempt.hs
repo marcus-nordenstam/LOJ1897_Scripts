@@ -42,6 +42,9 @@
                   (>= (years-old ?actor) 18))
     (role ?victim (template any_human)
                   (not (= ?victim ?actor))
+                  ; Place model (b1-1 fix): contempt is shown to someone's face -
+                  ; only to a target you are co-present with this date.
+                  (co-present ?actor ?victim)
                   ; the actor holds ?victim in deep contempt (esteem `despise`,
                   ; the strong negative band) - the reliable cross-pair bitset.
                   (stance-at-least ?actor ?victim despise)

@@ -30,7 +30,16 @@
 (hsim-event lovers
   (nl         "?a and ?b become lovers")
   (kind       _lovers)
-  (schedule   (annually july))
+  ; Place-pure courtship (P3 errand-magnetism, Docs/future_work.md 4.8). Courtship
+  ; is a TARGETED arc (a SPECIFIC attracted pair), which chance co-presence cannot
+  ; stage - which is why a same-date co-present gate once dropped lovers to 0. P3
+  ; supplies the missing mechanism: run_errand_movement travels the suitor to a
+  ; public venue the beloved attends that date, so the attracted pair becomes
+  ; GENUINELY co-present. The (co-present ?a ?b) gate below now binds them. Cadence
+  ; is MONTHLY, not annual: the formation needs the sampled-day chances for an
+  ; errand to coincide with a firing (the earlier monthly-collapse was WITHOUT any
+  ; mechanism creating the co-presence; errand magnetism is exactly that).
+  (schedule   (monthly))
   (band      evening)
   (rng-stream marriages)
 
@@ -61,7 +70,14 @@
              ; opposite-sex (fancy is opposite-sex via crush_forms; belt-and-
              ; braces, and drops any same-sex standing-pass fancy) and not kin.
              (not (= (attr ?b gender) (attr ?a gender)))
-             (not (kin ?a ?b))))
+             (not (kin ?a ?b))
+             ; Place-pure: the pair must actually share a venue this date. P3
+             ; errand-magnetism makes this reachable - the suitor ?a (who holds
+             ; {@self fancy ?b}) travels to a public venue ?b attends. Without an
+             ; errand coinciding this date the courtship simply waits for a later
+             ; monthly tick (the accepted realism: some arcs take time, some never
+             ; happen).
+             (co-present ?a ?b)))
 
   ;; Live re-check: within the july tick the un-attached role filters go stale
   ;; as earlier firings mint lover bonds; re-confirm both are still free.

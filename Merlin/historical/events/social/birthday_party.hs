@@ -49,7 +49,12 @@
                  (chance (* 0.80 (attr ?self enthusiasm))))
     (role ?guest (template any_human)
                  (not (= ?self ?host))
-                 (believes ?host {@self friend ?guest})))
+                 (believes ?host {@self friend ?guest})
+                 ; Place model (b1-3 fix): you celebrate with the friends + family
+                 ; actually present, not a friend in another town. (A full
+                 ; invite-and-travel gathering, like host-social-outing, is the
+                 ; later placement refinement.)
+                 (co-present ?host ?guest)))
 
   (effects
     (exchange-news ?host ?guest)

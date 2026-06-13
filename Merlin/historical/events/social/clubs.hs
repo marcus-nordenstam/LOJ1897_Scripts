@@ -82,27 +82,12 @@
     (register-member :articles ?club_articles :member ?member)
     (log _club_joining ?member)))
 
-; --- club_gathering: a club holds a members' gathering ----------------------
-;; The club/civic activity lane (activity-lanes L8). Each month every club
-;; convenes its members: hold-club-gathering walks the member-register and the
-;; clubhouse building from the org articles, recording an episodic
-;; {@self gather <clubhouse>} per available member and registering clubhouse
-;; co-presence (so club premises feed the incident pass). Org-anchored - the
-;; .hse casts the club, the verb does the roster walk the role layer can't.
-(hsim-event club_gathering
-  (nl         "a club holds a members' gathering")
-  (kind       _club_gathering)
-  (schedule   (monthly))
-  (band      evening)
-  (rng-stream behaviour)
-
-  (roles
-    (role ?club_articles (template org_articles)
-                         (org-kind-is-a ?self club)))
-
-  (effects
-    (hold-club-gathering :articles ?club_articles)
-    (log _club_gathering ?club_articles)))
+; club_gathering RETIRED (place-and-time reframe, Section 4.8 P2b): club members
+; are now drawn to the clubhouse by the band itinerary's SOCIAL lane (members
+; route to building social_clubhouse), and the clubhouse's afforded events
+; (gossip / gamble / confide / court / outdo) fire among the co-present members
+; via resolve_affordances - so a standalone monthly roster-walk that registered
+; clubhouse co-presence is now redundant double-routing.
 
 ; --- club_resignation: an adult resigns from a club -------------------------
 (hsim-event club_resignation
