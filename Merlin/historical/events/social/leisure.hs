@@ -24,11 +24,15 @@
 
   (roles
     (role ?host  (template old_human)
-                 (believes ?self {@self spouse ?})
-                 (chance 0.03))
+                 (believes ?self {@self spouse ?}))
     (role ?guest (template any_human)
                  (not (= ?self ?host))
-                 (believes ?host {@self friend ?guest})))
+                 (believes ?host {@self friend ?guest})
+                 ; Place model: the friend must be AT the dinner - co-present at
+                 ; the host's home (run_gatherings brings them). Fired by the
+                 ; residential_building `dinner_party` affordance, so the
+                 ; per-occasion chance lives on the affordance, not here.
+                 (co-present ?host ?guest)))
 
   (effects
     (believe-about ?host ?guest)

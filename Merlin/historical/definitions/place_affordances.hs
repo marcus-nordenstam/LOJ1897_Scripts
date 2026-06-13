@@ -56,6 +56,13 @@
   (afford confide          pair       0.10)
   (afford affair_rendezvous lover     0.18)
   (afford gossip           pair       0.10)
+  ; Gatherings (run_gatherings pulls a host's friends home): the party events
+  ; fire among the co-present guests. At an ordinary home (only kin present, no
+  ; friends) their (co-present ?host ?guest) friend-gate finds no guest, so they
+  ; no-op - they only fire at an actual gathering. Occasion-scaled (recurring
+  ; per-pair news exchange, see is_aggregate_affordance).
+  (afford birthday_party   pair       0.30)
+  (afford dinner_party     pair       0.25)
   (afford poison           cohabitant 0.01))
 
 ;; --- Leisure / social venues ---

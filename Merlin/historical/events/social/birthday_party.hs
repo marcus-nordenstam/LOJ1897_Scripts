@@ -50,10 +50,11 @@
     (role ?guest (template any_human)
                  (not (= ?self ?host))
                  (believes ?host {@self friend ?guest})
-                 ; Place model (b1-3 fix): you celebrate with the friends + family
-                 ; actually present, not a friend in another town. (A full
-                 ; invite-and-travel gathering, like host-social-outing, is the
-                 ; later placement refinement.)
+                 ; Place model: you celebrate with the friends actually present.
+                 ; run_gatherings does the invite-and-travel (the host's friends
+                 ; leave their routine and come to the host's home this evening),
+                 ; and the residential_building `birthday_party` affordance fires
+                 ; this among them - so the guest list is the gathered circle.
                  (co-present ?host ?guest)))
 
   (effects
