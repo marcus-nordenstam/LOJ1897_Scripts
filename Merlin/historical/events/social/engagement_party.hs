@@ -20,7 +20,12 @@
 (hsim-event engagement_party
   (nl         "?bride and ?groom celebrate their engagement")
   (kind       _engagement_party)
-  (schedule   (annually february))
+  ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
+  ; MONTHLY. The (belief-age ?bride fiancee) == 0 gate (whole years) holds while
+  ; the betrothal is under a year old, but the wedding occasion (emergent) marries
+  ; couples within a month or two, so in practice this fires ~1-2x per betrothal
+  ; before the bride is no longer unmarried_woman; hold-engagement-party is
+  ; idempotent, so the re-announce is harmless.
   (band      evening)
   (rng-stream marriages)
 

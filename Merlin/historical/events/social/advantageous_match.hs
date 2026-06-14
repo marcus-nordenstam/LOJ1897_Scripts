@@ -21,7 +21,9 @@
 (hsim-event advantageous_match
   (nl         "?groom and ?bride make an advantageous match")
   (kind       _advantageous_match)
-  (schedule   (annually february))
+  ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
+  ; MONTHLY; the per-bride (chance) is scaled by /12 (the *0.0833 wrapper) to hold
+  ; the old annual rate.
   (band      afternoon)
   (rng-stream marriages)
 
@@ -47,9 +49,10 @@
                  ; full event is still bottlenecked by the very-tight
                  ; exemplary bride + one-class-up groom + age-gap filter,
                  ; so high fire rates aren't expected anyway.
-                 (chance (+ 0.20
-                            (* 0.4 (attr ?self enthusiasm))
-                            (* 0.4 (attr ?self openness)))))
+                 (chance (* 0.0833
+                            (+ 0.20
+                               (* 0.4 (attr ?self enthusiasm))
+                               (* 0.4 (attr ?self openness))))))
     ;; A groom one class above the bride. class_situation values are upper /
     ;; middle / lower; the explicit kind literals dodge the ambiguous bare
     ;; atom path. Lower-class brides can lift to middle; middle to upper.
