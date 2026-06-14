@@ -3,6 +3,12 @@
 ; All operate through the hsim_org_lifecycle verbs; "employed" is the presence
 ; of an ongoing {@self employer ?} belief, "rank" is the level belief on the
 ; worker's job object (read via job-level / job-tenure).
+;
+; EMERGENT (Section 4.11): no (schedule) - all four fire via the per-NPC emergent
+; pass (institutional acts gated on the worker's own beliefs + the org articles,
+; no physical co-presence). They fire MONTHLY now, so the annual ones (hiring /
+; promotion / retirement) have their (chance) /12 to hold volume; job_loss was
+; already monthly and is unchanged.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -11,26 +17,24 @@
 (hsim-event hiring
   (nl         "?worker is hired")
   (kind       _hiring)
-  (schedule   (annually march))
   (band      morning)
   (rng-stream employment)
 
   (roles
-    ;; Employers favour character: scandalous applicants are not hired, and the
-    ;; chance is honesty-weighted (an honest worker is preferred). The
-    ;; (not (= ...)) form is permissive when the situation is unknown - a
-    ;; jobless adult appraised before december reads @fail, not scandalous,
-    ;; and is not excluded. The honesty multiplier uses (+ 0.5 ...) over a
-    ;; 0..1 normalisation so the chance is non-zero even when honesty is
-    ;; not yet derived (the F3 cascade returns 0 for an unmemoised dimension,
-    ;; and the arithmetic on @fail short-circuits to 0; the constant base
-    ;; preserves the prior fire rate).
+    ;; A jobless working-age adult looks for work this month. The (chance) is just
+    ;; how often they SEEK - the real gate is the eligibility MATCH in the
+    ;; `hire-matched` effect (Section 4.11 career model): per org, it reads the
+    ;; org's needed job and the candidate's class / reputation / skills (+ the
+    ;; tenure-conferred domain skill = experience), hiring into THAT job only if
+    ;; eligible, weighted by a preferred-trait fit. So scandalous / under-skilled
+    ;; / wrong-class applicants are filtered per JOB by the data, not here. The
+    ;; scandalous gate stays as a coarse pre-filter (saves match work).
     (role ?worker (template any_human)
                   (>= (years-old ?self) 16)
                   (<= (years-old ?self) 55)
                   (not (believes ?self {@self employer ?}))
                   (not (= (situation ?self repute) scandalous))
-                  (chance 0.3))
+                  (chance 0.3))   ; how often a jobless adult seeks work (monthly)
     ;; A household is an org but NOT a labour-market employer: its servants
     ;; are taken on by the staff_household pass (role-appropriate,
     ;; gender-normed), never as generic clerks here.
@@ -48,7 +52,10 @@
   (when (not (= (job-level ?worker) apprentice)))
 
   (effects
-    (hire :articles ?articles :worker ?worker :role clerk :level apprentice)
+    ; Eligibility-match hire: picks the org's needed job kind (banker at a bank,
+    ; nurse at a hospital, ... no longer a generic clerk) and hires the worker
+    ; into it at apprentice level IF they match, weighted by the fit score.
+    (hire-matched :articles ?articles :worker ?worker)
     (log _hiring ?worker)))
 
 ; --- promotion: a worker of three-plus years at rank rises one grade --------
@@ -62,7 +69,6 @@
 (hsim-event promotion
   (nl         "?worker is promoted")
   (kind       _promotion)
-  (schedule   (annually march))
   (band      morning)
   (rng-stream employment)
 
@@ -76,7 +82,8 @@
                   ;; (unskilled trades) pass the gate unconditionally.
                   (job-skilled-at-or-above ?self trained)
                   (not (= (situation ?self repute) scandalous))
-                  (chance (* 0.25 (+ 0.5 (situation ?self diligence))))))
+                  ; /12 of the old annual 0.25 (now monthly).
+                  (chance (* 0.021 (+ 0.5 (situation ?self diligence))))))
 
   (effects
     (promote :worker ?worker)
@@ -86,7 +93,6 @@
 (hsim-event job_loss
   (nl         "?worker loses their job")
   (kind       _job_loss)
-  (schedule   (monthly))
   (band      morning)
   (rng-stream employment)
 
@@ -103,7 +109,6 @@
 (hsim-event retirement
   (nl         "?worker retires")
   (kind       _retirement)
-  (schedule   (annually january))
   (band      morning)
   (rng-stream employment)
 
@@ -111,7 +116,7 @@
     (role ?worker (template any_human)
                   (believes ?self {@self employer ?})
                   (>= (years-old ?self) 65)
-                  (chance 0.4)))
+                  (chance 0.033)))   ; /12 of the old annual 0.4 (now monthly)
 
   (effects
     (fire :worker ?worker)

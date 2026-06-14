@@ -6,6 +6,11 @@
 ; Employment model: a `job` is a mental object whose kind is the occupation;
 ; `level` rides on the job object. hire / promote (hsim_org_lifecycle) own
 ; that object - these events only cast the parties and call the verbs.
+;
+; EMERGENT (Section 4.11): no (schedule) - both fire via the per-NPC emergent
+; pass (belief/org-gated, no co-presence), MONTHLY now, so apprenticeship_start's
+; (chance) is /12 (0.15 -> 0.0125) and apprenticeship_completion's is /12
+; (0.4 -> 0.033) to hold the annual volume.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -13,7 +18,6 @@
 (hsim-event apprenticeship_start
   (nl         "?youth is apprenticed")
   (kind       _apprenticeship)
-  (schedule   (annually september))
   (band      morning)
   (rng-stream apprenticeship)
 
@@ -35,7 +39,7 @@
                  ;; market - the working-class on-ramp is for those who left after
                  ;; primary (or never enrolled), not secondary pupils.
                  (not (believes ?self {@self study ?}))
-                 (chance (* 0.15 (+ 0.5 (situation ?self breeding)))))
+                 (chance (* 0.0125 (+ 0.5 (situation ?self breeding)))))
     ;; A master only takes on a youth of sound family. The master comes from
     ;; the articles' founder slot, so the respectability test sits on the
     ;; articles role - resolved by the (let ?master ...) below.
@@ -62,7 +66,6 @@
 (hsim-event apprenticeship_completion
   (nl         "?apprentice completes their apprenticeship")
   (kind       _apprenticeship)
-  (schedule   (annually september))
   (band      morning)
   (rng-stream apprenticeship)
 
@@ -72,7 +75,7 @@
     (role ?apprentice (template any_human)
                       (= (job-level ?self) trainee)
                       (>= (job-tenure ?self) 3)
-                      (chance 0.4)))
+                      (chance 0.033)))   ; /12 of the old annual 0.4 (now monthly)
 
   ;; Recover the master so the master bond can be ended on completion.
   (let ((?master (belief-target ?apprentice master)))

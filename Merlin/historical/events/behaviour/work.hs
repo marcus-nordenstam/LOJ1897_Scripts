@@ -11,9 +11,10 @@
 ; the L4 co-presence sweep reads.
 ;
 ; Standing-group lane: no (chance) gate - everyone with an employer works.
-; Fires once per month on the active-day bag (L0). The employer-belief role
-; filter excludes the unemployed; the (alive ...) gate excludes the
-; dead-but-unburied whose employer belief has not yet been cleared.
+; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
+; once a month (the twin of household_day, also emergent), same monthly cadence.
+; The employer-belief role filter excludes the unemployed; the (alive ...) gate
+; excludes the dead-but-unburied whose employer belief has not yet been cleared.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -21,7 +22,6 @@
 (hsim-event work_day
   (nl         "?worker spends the day at work")
   (kind       _work_day)
-  (schedule   (monthly))
   (band      morning)
   (rng-stream behaviour)
 

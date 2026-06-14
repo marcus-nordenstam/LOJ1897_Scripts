@@ -25,6 +25,15 @@
 ; progress. The (fail-businesses ...) verb collects every org and dissolves
 ; the failures - dissolve_org destroys entities, which would corrupt an
 ; in-flight role-enumeration mx_for_each_entity.
+;
+; LANE SPLIT (Section 4.11): the three NPC-caused founding routes (investment /
+; business_partnership / business_founding) are EMERGENT - no (schedule), fired
+; by the per-NPC pass MONTHLY, so each (chance) is /12 to hold the annual rate.
+; business_failure + business_homeostat are TOWN-LEVEL MACROS (zero-role market /
+; homeostat regulators, NOT caused by a specific NPC) and KEEP their (schedule) -
+; they stay on the DES (the scheduled-macro residents). NB the catalog-order
+; dependency (investment before founding, for backed_by) now resolves within the
+; one monthly per-NPC pass, which runs them in catalog order.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -33,7 +42,6 @@
 (hsim-event investment
   (nl         "?investor backs ?candidate's venture")
   (kind       _investment)
-  (schedule   (annually january))
   (band      morning)
   (rng-stream business)
 
@@ -53,7 +61,8 @@
                          (= (belief-target ?self repute) exemplary))
                      (< (belief-target ?self wealth) 0.5)
                      (not (believes ?self {@self backed_by ?}))
-                     (chance (* 0.40 (+ 0.5 (attr ?self assertiveness)))))
+                     ; /12 of the old annual 0.40 (now monthly).
+                     (chance (* 0.033 (+ 0.5 (attr ?self assertiveness)))))
     ; A man of means - comfortable or better - who backs the venture. (The
     ; plan draws the backer from the candidate's social circle; v1 gates on
     ; means alone - the typed-relationship layer the circle needs is not yet
@@ -72,7 +81,6 @@
 (hsim-event business_partnership
   (nl         "?candidate is taken into partnership")
   (kind       _business_partnership)
-  (schedule   (annually january))
   (band      morning)
   (rng-stream business)
 
@@ -90,7 +98,8 @@
                          (= (belief-target ?self repute) exemplary))
                      (< (belief-target ?self wealth) 0.5)
                      (not (believes ?self {@self backed_by ?}))
-                     (chance (* 0.12 (+ 0.5 (attr ?self assertiveness)))))
+                     ; /12 of the old annual 0.12 (now monthly).
+                     (chance (* 0.01 (+ 0.5 (attr ?self assertiveness)))))
     ; An existing business he is taken into. (The plan links principal and
     ; candidate by a prior bond - friend / former employer / club co-member;
     ; v1 gates on the candidate's merit alone, as the relationship layer is
@@ -119,7 +128,6 @@
 (hsim-event business_founding
   (nl         "?founder founds a business")
   (kind       _business_founding)
-  (schedule   (annually january))
   (band      morning)
   (rng-stream business)
 
@@ -137,7 +145,8 @@
                        (= (belief-target ?self repute) exemplary))
                    (or (>= (belief-target ?self wealth) 0.5)
                        (believes ?self {@self backed_by ?}))
-                   (chance (* 0.30 (+ 0.5 (attr ?self assertiveness))))))
+                   ; /12 of the old annual 0.30 (now monthly).
+                   (chance (* 0.025 (+ 0.5 (attr ?self assertiveness))))))
 
   (effects
     ; He leaves paid employment; found-org then spawns the workplace, founds

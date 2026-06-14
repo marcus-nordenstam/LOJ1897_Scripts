@@ -8,18 +8,19 @@
 
 (include "../../definitions/roles.hs")
 
+; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
+; (relational: debtor + a non-self creditor, no co-presence), MONTHLY now, so the
+; debtor (chance) base is /12 (0.06 -> 0.005) to hold the annual borrowing volume.
 (hsim-event borrowing
   (nl         "?debtor borrows from ?creditor")
   (kind       _borrowing)
-  (schedule   (annually may))
   (band      afternoon)
   (rng-stream behaviour)
 
   (roles
     ; Low industriousness (less self-supporting) takes on debt more often.
-    ; Mean-1.0 multiplier - total borrowing volume is unchanged.
     (role ?debtor   (template old_human)
-                    (chance (* 0.06 (- 1.5 (attr ?self industriousness)))))
+                    (chance (* 0.005 (- 1.5 (attr ?self industriousness)))))
     (role ?creditor (template old_human)
                     (not (= ?self ?debtor))
                     (not (believes ?debtor {@self owe ?creditor}))))

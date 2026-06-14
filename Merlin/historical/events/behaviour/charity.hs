@@ -11,19 +11,20 @@
 
 (include "../../definitions/roles.hs")
 
+; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
+; (per-individual, compassion-weighted), MONTHLY now, so the (chance) is /12
+; (0.008 -> 0.00067) to hold the annual giving rate.
 (hsim-event charity
   (nl         "?giver gives to charity")
   (kind       _charity)
-  (schedule   (annually may))
   (band      afternoon)
   (rng-stream behaviour)
 
   (roles
-    ; High compassion gives to charity more. Mean-1.0 factor - the base rate is
-    ; the average annual chance.
+    ; High compassion gives to charity more.
     (role ?giver (template old_human)
                  (not (believes ?self {@self give ? ?}))
-                 (chance (* 0.008 (+ 0.4 (* 1.2 (attr ?self compassion)))))))
+                 (chance (* 0.00067 (+ 0.4 (* 1.2 (attr ?self compassion)))))))
 
   (effects
     (give-alms ?giver)
