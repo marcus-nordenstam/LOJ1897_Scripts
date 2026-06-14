@@ -12,8 +12,12 @@
 ; whoever founded the org. The senior level is the rung that still lifts
 ; prestige and reads as a senior post downstream.
 ;
-; Schedule: annually march alongside hiring; appointments cluster with the
-; year's other employment changes.
+; EMERGENT (Section 4.11): no (schedule) - a senior appointment is an INDIVIDUAL
+; hire, the same act as ordinary `hiring`, so it rides the per-NPC emergent pass
+; MONTHLY (not annually-march-clustered) for consistency with employment. The
+; role-0 (chance) is /12 of the old annual 0.10 (-> 0.0083) to hold the trickle.
+; Identical topology to hiring: role-0 ?official (human, gated + chanced by the
+; per-NPC pass), role-1 ?articles (the gov org), live-rechecked in (when).
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -21,7 +25,6 @@
 (hsim-event senior_appointment
   (nl         "?official is appointed to a senior post")
   (kind       _appointment)
-  (schedule   (annually march))
   (band      morning)
   (rng-stream employment)
 
@@ -45,7 +48,7 @@
                     (<= (years-old ?self) 65)
                     (= (situation ?self repute) exemplary)
                     (>= (situation ?self prestige) 0.65)
-                    (chance (* 0.10
+                    (chance (* 0.0083
                                (attr ?self assertiveness)
                                (situation ?self prestige))))
     ;; A public organisation - any gov-subkind: church, hospital, agency.
