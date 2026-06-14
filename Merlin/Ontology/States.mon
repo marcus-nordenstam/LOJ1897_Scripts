@@ -444,6 +444,13 @@ relation
             reputed_chastity    (tar ? @excl) (range 0 1)
             decorum             (tar ? @excl) (range 0 1)
             generosity          (tar ? @excl) (range 0 1)
+            # work_standing - a BOSS's subjective assessment of an EMPLOYEE's job
+            # performance (Section 4.11 career model; NOT self-derived). Held in
+            # the boss's mind as {<employee> work_standing <0..1>}, nudged by the
+            # employee's workday conduct + any workplace incident; promotion /
+            # firing read it. The boss is the org head (or, in a household, the
+            # steward over the staff, the head over the steward).
+            work_standing       (tar ? @excl) (range 0 1)
             # Conduct-risk
             aggression          (tar ? @excl) (range 0 1)
             criminality         (tar ? @excl) (range 0 1)

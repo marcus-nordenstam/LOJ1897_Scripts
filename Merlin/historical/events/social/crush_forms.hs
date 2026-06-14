@@ -44,49 +44,38 @@
   (band      afternoon)
   (rng-stream incidents)
 
+  ; PLACE-EMERGENT (Section 4.11): the crush sparks on someone the actor is
+  ; CO-PRESENT with this band (a venue spark, incl. the workplace), via the
+  ; `crush_forms` affordance. ?actor is PRESET from the venue's occupants, so its
+  ; eligibility (single, romantically-open) moves to the (when) gate below - preset
+  ; role-0 skips its own role filters (the lovers/love_match pattern).
   (roles
-    ; NB: inline role filters use the EXPLICIT role var (?actor / ?victim), not
-    ; ?self. A `?self` in an inline filter that also references the OTHER role
-    ; (the age-gap below) mis-compiles and silently drops the trailing chance
-    ; residue (hse engine quirk found 2026-06-06) - so the gate would never fire.
-    (role ?actor  (template any_human)
-                  (>= (years-old ?actor) 14)
-                  (<= (years-old ?actor) 50)
-                  ; infatuation retired:
-                  ; directed attraction is the one-sided attraction stance SCALAR
-                  ; (fancy/desire/crave verb-states). The passive standing-pass
-                  ; mate-value driver is too gated to fire in the small-town repro
-                  ; (opposite-sex AND non-kin AND adult AND centrality>3 at once ->
-                  ; ~0 eligible), so THIS event is the active igniter: a
-                  ; romantically-open single not already deep in a crush nudges
-                  ; attraction toward a known, age-appropriate, opposite-sex person
-                  ; (effects below). The standing pass then maintains/deepens it for
-                  ; believe_about'd contacts; repeated fires push fancy -> desire.
-                  (not (believes ?actor {@self desire ?}))
-                  (not (believes ?actor {@self lover ?}))
-                  (not (believes ?actor {@self spouse ?}))
-                  (chance (* 0.30
-                             (attr ?actor openness)
-                             (attr ?actor enthusiasm)
-                             (attr ?actor compassion))))
+    (role ?actor (template any_human))
     (role ?victim (template any_human)
                   (not (= ?victim ?actor))
                   (>= (years-old ?victim) 14)
                   (<= (years-old ?victim) 60)
-                  (personally-knows ?actor ?victim)
-                  ; No incestuous crush: exclude blood relatives (reliable kin
-                  ; cross-pair BITSET, not a two-bound believes). Without this a
-                  ; near-age opposite-sex sibling/cousin is crush-eligible and
-                  ; would feed fancy -> love_match (kin-marriage).
+                  ; the crush ignites on whoever the actor SHARES THE VENUE with.
+                  (co-present ?actor ?victim)
+                  ; No incestuous crush (reliable kin cross-pair BITSET).
                   (not (kin ?actor ?victim))
-                  ; Opposite-sex (the period-default hetero majority; attr reads,
-                  ; not a two-bound believes, so it gates reliably). Same-sex /
-                  ; bi pulls are left to the orientation-correct standing-pass
-                  ; driver (orient_admits).
+                  ; Opposite-sex (period-default hetero majority; attr read).
                   (not (= (attr ?victim gender) (attr ?actor gender)))
                   (<= (- (years-old ?actor) (years-old ?victim))  10)
-                  (>= (- (years-old ?actor) (years-old ?victim)) -10)
-                  (chance 0.20)))
+                  (>= (- (years-old ?actor) (years-old ?victim)) -10)))
+
+  ;; Actor eligibility (preset role-0 skips role filters, so it lives here): a
+  ;; romantically-open single, not already deep in a crush. The trait chance
+  ;; (openness x enthusiasm x compassion) makes the receptive crush more readily.
+  (when (and (>= (years-old ?actor) 14)
+             (<= (years-old ?actor) 50)
+             (not (believes ?actor {@self desire ?}))
+             (not (believes ?actor {@self lover ?}))
+             (not (believes ?actor {@self spouse ?}))
+             (chance (* 0.30
+                        (attr ?actor openness)
+                        (attr ?actor enthusiasm)
+                        (attr ?actor compassion)))))
 
   (effects
     ; Feed the one-sided attraction scalar:

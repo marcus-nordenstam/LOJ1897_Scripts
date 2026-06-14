@@ -68,6 +68,14 @@
 ;; --- Leisure / social venues ---
 (place pub
   (afford drink     solo 0.50)
+  ; Venue-sourced social ties (Section 4.11): friendships / crushes / affairs now
+  ; SPARK between co-present people (the events are place-lane) - so every venue,
+  ; incl. the workplace, generates its share. Friend slots are decade-paced
+  ; (friend_allowance), so work co-presence competes for the slots that open as an
+  ; NPC ages. Rates UNTUNED - measure the per-venue + work share, then tune.
+  (afford adult_friendship pair 0.08)
+  (afford crush_forms      pair 0.06)
+  (afford affair           pair 0.015)
   (afford gossip    pair 0.30)
   (afford catch_up  pair 0.15)
   (afford court      pair 0.20)
@@ -81,6 +89,9 @@
 
 (place social_clubhouse
   (afford gossip    pair  0.30)
+  (afford adult_friendship pair 0.08)
+  (afford crush_forms      pair 0.06)
+  (afford affair           pair 0.015)
   (afford gamble    pair  0.15)
   (afford confide   pair  0.08)
   (afford court      pair  0.12)
@@ -102,6 +113,9 @@
 
 (place restaurant
   (afford court      pair 0.30)
+  (afford adult_friendship pair 0.08)
+  (afford crush_forms      pair 0.06)
+  (afford affair           pair 0.015)
   ; Courtship culmination (Section 4.11): the fancied pair, co-present here, pair
   ; off (lovers) or propose (love_match). UNTUNED - watch the marriage rate.
   (afford lovers     pair 0.10)
@@ -142,6 +156,8 @@
 ;;     destinations). Enthusiasts pursue their interest here. ---
 (place church
   (afford worship solo 0.60)
+  (afford adult_friendship pair 0.08)
+  (afford crush_forms      pair 0.06)
   (afford gossip  pair 0.20)
   (afford confide pair 0.08)
   (afford court      pair 0.15)
@@ -187,28 +203,70 @@
 ;;     ones a shared workplace hosts. ---
 (place office
   (afford work     solo  0.80)
+  ; On-the-job social ties (Section 4.11): colleagues befriend, crush on, and have
+  ; affairs with each other (incl. the boss) - the events spark on workplace
+  ; co-presence. The work SHARE emerges via decade-paced friend slots, no quota.
+  (afford adult_friendship pair 0.08)
+  (afford crush_forms      pair 0.06)
+  (afford affair           pair 0.015)
+  (afford court    pair  0.06)
   (afford gossip   pair  0.20)
-  (afford ambition rival 0.04))
+  (afford ambition rival 0.04)
+  ; Workplace friction (Section 4.11 career model): the existing insult / brawl
+  ; events fire among co-present colleagues; resolve_affordances dings the
+  ; instigator's work_standing when the venue is their own workplace.
+  (afford insult   pair  0.03)
+  (afford brawl    pair  0.02))
 
 (place factory
   (afford work   solo 0.80)
-  (afford gossip pair 0.15))
+  (afford adult_friendship pair 0.08)
+  (afford crush_forms      pair 0.06)
+  (afford affair           pair 0.015)
+  (afford court  pair 0.06)
+  (afford gossip pair 0.15)
+  (afford insult pair 0.03)
+  (afford brawl  pair 0.02))
 
 (place warehouse
-  (afford work solo 0.80))
+  (afford work   solo 0.80)
+  (afford adult_friendship pair 0.08)
+  (afford crush_forms      pair 0.06)
+  (afford affair           pair 0.015)
+  (afford court  pair 0.06)
+  (afford insult pair 0.03)
+  (afford brawl  pair 0.02))
 
 (place newspaper
   (afford work   solo 0.80)
-  (afford gossip pair 0.15))
+  (afford adult_friendship pair 0.08)
+  (afford crush_forms      pair 0.06)
+  (afford affair           pair 0.015)
+  (afford court  pair 0.06)
+  (afford gossip pair 0.15)
+  (afford insult pair 0.03)
+  (afford brawl  pair 0.02))
 
 (place school
   (afford study  solo 0.50)
   (afford work   solo 0.40)
-  (afford gossip pair 0.15))
+  (afford adult_friendship pair 0.08)
+  (afford crush_forms      pair 0.06)
+  (afford affair           pair 0.015)
+  (afford court  pair 0.06)
+  (afford gossip pair 0.15)
+  (afford insult pair 0.03)
+  (afford brawl  pair 0.02))
 
 (place hospital
   (afford work       solo 0.60)
-  (afford convalesce solo 0.10))
+  (afford convalesce solo 0.10)
+  (afford adult_friendship pair 0.08)
+  (afford crush_forms      pair 0.06)
+  (afford affair           pair 0.015)
+  (afford court      pair 0.06)
+  (afford insult     pair 0.03)
+  (afford brawl      pair 0.02))
 
 (place police_station
   (afford work        solo  0.60)

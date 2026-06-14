@@ -40,55 +40,37 @@
   (band      evening)
   (rng-stream incidents)
 
+  ; PLACE-EMERGENT (Section 4.11): the affair sparks with a CO-PRESENT third party
+  ; (a colleague at the workplace, the boss, a fellow club-goer), via the `affair`
+  ; affordance. ?actor is PRESET from the venue's occupants, so its eligibility
+  ; (married, not-already-straying, the propensity to stray) moves to (when).
   (roles
-    ; ?actor is the enumerated BELIEVER (role[0]) - it must be the outer role for
-    ; the two-role spouse filter on ?lover to resolve. A married adult, not
-    ; already carrying an affair, with the disposition to stray.
-    (role ?actor (template any_human)
-                 (>= (years-old ?actor) 18)
-                 ; married ...
-                 (believes ?actor {@self spouse ?})
-                 ; ... and not already mid-affair (one paramour at a time; also
-                 ; stops a contented re-mint every year on the same pair).
-                 (not (believes ?actor {@self lover ?}))
-                 ; infidelity propensity: open to novelty x outgoing x low
-                 ; propriety. A product of three [0,1] traits - the modal
-                 ; conscientious homebody never clears it; the restless,
-                 ; sociable, low-decorum minority does (mirrors crush_forms'
-                 ; openness x enthusiasm x compassion igniter, with decorum
-                 ; INVERTED so impropriety, not warmth, is the driver).
-                 ;; decorum is a DERIVED conduct dimension (belief), no longer
-                 ;; an env attr (the reputation rework) - read it through the
-                 ;; situation op. Un-derived reads contribute 0, making
-                 ;; (- 1 ...) permissive - the not-yet-appraised stray freely.
-                 ; /12 of the old annual 0.5 - the per-NPC emergent pass fires
-                 ; this monthly now, so divide to hold the annual affair trickle.
-                 (chance (* 0.04
-                            (attr ?actor openness)
-                            (attr ?actor enthusiasm)
-                            (- 1 (situation ?actor decorum)))))
+    (role ?actor (template any_human))
     (role ?lover (template any_human)
                  (not (= ?lover ?actor))
                  (>= (years-old ?lover) 18)
-                 ; the paramour must NOT be the actor's own spouse (the affair is
-                 ; by definition with a third party - same two-role believes shape
-                 ; wedding.hs uses to recover the groom from the bride).
+                 ; the paramour must NOT be the actor's own spouse (a third party).
                  (not (believes ?actor {@self spouse ?lover}))
-                 ; someone the actor actually knows (the acquaintance network the
-                 ; activity-lanes co-presence sweep seeds), age-appropriate ...
-                 (personally-knows ?actor ?lover)
+                 ; the affair ignites with whoever shares the venue this band.
+                 (co-present ?actor ?lover)
                  (<= (- (years-old ?actor) (years-old ?lover))  15)
                  (>= (- (years-old ?actor) (years-old ?lover)) -15)
-                 ; ... opposite-sex (period-default hetero majority; an attr read,
-                 ; not a two-bound believes, so it gates reliably) and not kin.
+                 ; opposite-sex (period-default hetero majority; attr read), non-kin.
                  (not (= (attr ?lover gender) (attr ?actor gender)))
-                 (not (kin ?actor ?lover))
-                 (chance 0.30)))
+                 (not (kin ?actor ?lover))))
 
-  ;; Live re-check: the un-attached actor filter is alpha-indexed and goes stale
-  ;; within the september tick as earlier firings mint lover bonds; re-confirm
-  ;; the actor is still affair-free so one straying spouse takes one paramour.
-  (when (not (believes ?actor {@self lover ?})))
+  ;; Actor eligibility (preset role-0 skips role filters): a married adult, not
+  ;; already mid-affair, with the disposition to stray - openness x enthusiasm x
+  ;; impropriety (decorum INVERTED; an un-derived decorum reads 0, so the
+  ;; not-yet-appraised stray freely). Per-OCCASION now (the afford rate sets the
+  ;; opportunity frequency), so the chance is the full propensity, not the /12.
+  (when (and (>= (years-old ?actor) 18)
+             (believes ?actor {@self spouse ?})
+             (not (believes ?actor {@self lover ?}))
+             (chance (* 0.4
+                        (attr ?actor openness)
+                        (attr ?actor enthusiasm)
+                        (- 1 (situation ?actor decorum))))))
 
   (effects
     ; Reciprocal lover bond + mutual profile sync (mirrors lovers.hs's shape so

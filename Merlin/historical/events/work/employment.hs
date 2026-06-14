@@ -6,9 +6,11 @@
 ;
 ; EMERGENT (Section 4.11): no (schedule) - all four fire via the per-NPC emergent
 ; pass (institutional acts gated on the worker's own beliefs + the org articles,
-; no physical co-presence). They fire MONTHLY now, so the annual ones (hiring /
-; promotion / retirement) have their (chance) /12 to hold volume; job_loss was
-; already monthly and is unchanged.
+; no physical co-presence), MONTHLY. hiring is an eligibility MATCH (hire-matched,
+; phase 1); retirement keeps its /12 age-gated chance. promotion + job_loss are
+; PERFORMANCE-driven (phase 3): both read the worker's work_standing accumulator
+; (phase 2) - good performers rise, those who fall below the keep-threshold are
+; let go (mass economic layoffs remain business_failure's job).
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -82,8 +84,12 @@
                   ;; (unskilled trades) pass the gate unconditionally.
                   (job-skilled-at-or-above ?self trained)
                   (not (= (situation ?self repute) scandalous))
-                  ; /12 of the old annual 0.25 (now monthly).
-                  (chance (* 0.021 (+ 0.5 (situation ?self diligence))))))
+                  ; Section 4.11 phase 3: promotion (with the implicit rank/raise)
+                  ; is driven by DEMONSTRATED performance - the work_standing the
+                  ; workday conduct + on-the-job skill built - not the abstract
+                  ; diligence dimension. A strong performer rises; a middling one
+                  ; mostly holds station.
+                  (chance (* 0.03 (work-standing ?self)))))
 
   (effects
     (promote :worker ?worker)
@@ -97,9 +103,15 @@
   (rng-stream employment)
 
   (roles
+    ;; Section 4.11 phase 3: firing is PERFORMANCE-driven. Only a worker whose
+    ;; work_standing has fallen below the keep-threshold (0.4) is at risk, and the
+    ;; further it has fallen the likelier the sacking. Good / average workers are
+    ;; safe here - mass economic layoffs are business_failure's job, not this. The
+    ;; (< ...) gate keeps the chance non-negative (candidates are all below 0.4).
     (role ?worker (template any_human)
                   (believes ?self {@self employer ?})
-                  (chance 0.003)))
+                  (< (work-standing ?self) 0.4)
+                  (chance (* 0.08 (- 0.4 (work-standing ?self))))))
 
   (effects
     (fire :worker ?worker)

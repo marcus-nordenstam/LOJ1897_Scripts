@@ -20,16 +20,14 @@
   (band      afternoon)
   (rng-stream friendships)
 
+  ; PLACE-EMERGENT (Section 4.11): a friendship forms between two people who SHARE
+  ; A VENUE this band (pub, club, church, the workplace, ...), via the
+  ; `adult_friendship` affordance. ?a is PRESET from the venue's occupants, so its
+  ; eligibility (adult, not scandalous) moves to the (when) gate. Friend slots are
+  ; decade-paced (friend_allowance), so work co-presence competes for the slots
+  ; that open as the NPC ages - the work share emerges, no quota needed.
   (roles
-    ; High enthusiasm (the sociable Extraversion aspect) makes friends more
-    ; readily. Mean-1.0 multiplier - friendship volume is unchanged.
-    ; A scandalous reputation closes the social door - no new friendships
-    ; form on either side (the existing friend beliefs are ended by the
-    ; social_ostracism event when the situation falls).
-    (role ?a (template any_human)
-             (>= (years-old ?self) 18)
-             (not (= (situation ?self repute) scandalous))
-             (chance (* 0.004 (+ 0.5 (attr ?self enthusiasm)))))
+    (role ?a (template any_human))
     (role ?b (template any_human)
              (>= (years-old ?self) 18)
              (not (= ?self ?a))
@@ -37,16 +35,20 @@
              (= (situation ?self class_situation) (situation ?a class_situation))
              (<= (- (years-old ?self) (years-old ?a))  10)
              (>= (- (years-old ?self) (years-old ?a)) -10)
+             ; the friendship forms with whoever shares the venue this band.
+             (co-present ?a ?b)
              (not (believes ?a {@self friend ?b}))
-             ; Warmth-gated: you do not
-             ; befriend someone you actively dislike. Reliable cross-pair BITSET
-             ; gates (?a is the bound outer believer, ?b the
-             ; candidate), NOT believes-in-chance (the unreliable path).
-             ; Positive warmth is NOT required - mere-exposure friendships among
-             ; neutral same-class peers still form (volume holds); only the two
-             ; negative warmth bands block.
+             ; Warmth-gated: you do not befriend someone you actively dislike
+             ; (reliable cross-pair BITSET). Neutral same-class peers still pair
+             ; (mere-exposure); only the two negative warmth bands block.
              (not (stance-at-least ?a ?b dislike))
              (not (stance-at-least ?a ?b detest))))
+
+  ;; Actor eligibility (preset role-0 skips role filters): an adult of sound
+  ;; standing; enthusiasm (the sociable aspect) makes the outgoing befriend more.
+  (when (and (>= (years-old ?a) 18)
+             (not (= (situation ?a repute) scandalous))
+             (chance (+ 0.3 (attr ?a enthusiasm)))))
 
   (effects
     ; befriend mints the mutual tie (friend, or acquaintance if either side is
