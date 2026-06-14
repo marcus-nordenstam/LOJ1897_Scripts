@@ -31,7 +31,6 @@
 (hsim-event ambition
   (nl       "?actor's ambition turns murderous")
   (kind     _ambition)
-  (schedule (monthly))
   (rng-stream perpetration)
   (generative-ambition)
 

@@ -24,7 +24,6 @@
 (hsim-event covet_inheritance
   (nl       "?actor covets a wealthier relative's fortune")
   (kind     _covet_inheritance)
-  (schedule (monthly))
   (rng-stream perpetration)
   (generative-covet)
 

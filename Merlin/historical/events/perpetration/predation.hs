@@ -50,7 +50,6 @@
 (hsim-event predation
   (nl       "?actor's appetite turns predatory")
   (kind     _predation)
-  (schedule (monthly))
   (band      night)
   (rng-stream perpetration)
   (generative-predation)

@@ -26,7 +26,6 @@
 (hsim-event coercion
   (nl       "?actor presses a standing demand")
   (kind     _coercion)
-  (schedule (monthly))
   (band      night)
   (rng-stream perpetration)
   (generative-coercion)
