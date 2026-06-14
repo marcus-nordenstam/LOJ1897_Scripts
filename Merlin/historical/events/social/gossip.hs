@@ -12,7 +12,9 @@
 ; Per-mind (organizer-driven): role-0 enumerates candidate gossips; the effect
 ; reads the actor's own circle + about-others beliefs from the actor's mind.
 ; The (chance) is extraversion-weighted (enthusiasm + assertiveness) on top of
-; the structural gate (has at least one friend). Fires monthly.
+; the structural gate (has at least one friend). EMERGENT (Section 4.11): no
+; (schedule) - fired by the `gossip` affordance via resolve_affordances when the
+; actor is co-present with someone (place-lane, suppressed from the DES).
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -20,7 +22,6 @@
 (hsim-event gossip
   (nl         "?actor spreads gossip among friends")
   (kind       _gossip)
-  (schedule   (monthly))
   (band      afternoon)
   (rng-stream behaviour)
 

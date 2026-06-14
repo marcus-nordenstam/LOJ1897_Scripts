@@ -7,7 +7,8 @@
 ; listener, so a listener can pass "did you hear, ?actor had a child" along.
 ;
 ; Per-mind (organizer-driven). Extraversion-weighted chance on top of the
-; has-a-friend gate. Fires monthly.
+; has-a-friend gate. EMERGENT (Section 4.11): no (schedule) - fired by the
+; `catch_up` affordance via resolve_affordances when co-present (place-lane).
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -15,7 +16,6 @@
 (hsim-event catch_up
   (nl         "?actor catches up with friends")
   (kind       _catch_up)
-  (schedule   (monthly))
   (band      afternoon)
   (rng-stream behaviour)
 

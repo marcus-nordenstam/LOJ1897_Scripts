@@ -23,7 +23,8 @@
 (hsim-event court
   (nl         "?suitor courts ?beloved")
   (kind       _court)
-  (schedule   (monthly))
+  ; EMERGENT (Section 4.11): no (schedule) - fired by the `court` affordance via
+  ; resolve_affordances (place-lane); the suitor is the co-present actor.
   (band      evening)
   (rng-stream marriages)
 

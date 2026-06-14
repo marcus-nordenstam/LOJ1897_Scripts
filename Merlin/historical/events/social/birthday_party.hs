@@ -20,7 +20,9 @@
 (hsim-event birthday_party
   (nl         "?host and ?guest exchange news")
   (kind       _birthday_party)
-  (schedule   (annually october))
+  ; EMERGENT (Section 4.11): no (schedule) - fired by the residential_building
+  ; `birthday_party` affordance among the gathered guests (run_gatherings does
+  ; the invite-and-travel; place-lane, suppressed from the DES).
   (band      evening)
   (rng-stream friendships)
 

@@ -30,16 +30,16 @@
 (hsim-event lovers
   (nl         "?a and ?b become lovers")
   (kind       _lovers)
-  ; Place-pure courtship (P3 errand-magnetism, Docs/future_work.md 4.8). Courtship
-  ; is a TARGETED arc (a SPECIFIC attracted pair), which chance co-presence cannot
-  ; stage - which is why a same-date co-present gate once dropped lovers to 0. P3
-  ; supplies the missing mechanism: run_errand_movement travels the suitor to a
-  ; public venue the beloved attends that date, so the attracted pair becomes
-  ; GENUINELY co-present. The (co-present ?a ?b) gate below now binds them. Cadence
-  ; is MONTHLY, not annual: the formation needs the sampled-day chances for an
-  ; errand to coincide with a firing (the earlier monthly-collapse was WITHOUT any
-  ; mechanism creating the co-presence; errand magnetism is exactly that).
-  (schedule   (monthly))
+  ; Place-emergent courtship (Section 4.11). EMERGENT: no (schedule) - fired by
+  ; the `lovers` affordance (the courtship venues: pub / restaurant / theatre /
+  ; social_clubhouse / church) via resolve_affordances. Courtship is a TARGETED
+  ; arc (a SPECIFIC attracted pair), which chance co-presence cannot stage - so a
+  ; world-lane (schedule) could never see the (co-present ?a ?b) gate below (the
+  ; DES drains AFTER the bands flush the co-presence tables, so it read false and
+  ; lovers NEVER fired). The fix is place-lane: errand-magnetism
+  ; (run_band_itinerary) travels the suitor ?a to a public venue the beloved ?b
+  ; attends this band, and the affordance then fires the event WHILE they are
+  ; co-present. An attracted pair that never coincides simply waits (the realism).
   (band      evening)
   (rng-stream marriages)
 

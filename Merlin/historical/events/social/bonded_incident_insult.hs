@@ -33,7 +33,8 @@
 ; structural amplifiers (stress, intoxication,
 ; prestige-gap-either-way) are still future work (see Docs/future_work.md).
 ;
-; Schedule: monthly.
+; EMERGENT (Section 4.11): no (schedule) - fired by the `insult` affordance via
+; resolve_affordances (place-lane); the victim binds from the co-present set.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -41,7 +42,6 @@
 (hsim-event bonded_incident_insult
   (nl       "?actor insults ?victim")
   (kind     _bonded_incident_insult)
-  (schedule (monthly))
   (band      evening)
   (rng-stream incidents)
 

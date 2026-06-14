@@ -70,7 +70,9 @@
   (afford drink     solo 0.50)
   (afford gossip    pair 0.30)
   (afford catch_up  pair 0.15)
-  (afford court     pair 0.20)
+  (afford court      pair 0.20)
+  (afford lovers     pair 0.10)
+  (afford love_match pair 0.06)
   (afford gamble    pair 0.10)
   (afford insult    pair 0.05)
   (afford brawl     pair 0.04)
@@ -81,7 +83,9 @@
   (afford gossip    pair  0.30)
   (afford gamble    pair  0.15)
   (afford confide   pair  0.08)
-  (afford court     pair  0.12)
+  (afford court      pair  0.12)
+  (afford lovers     pair  0.10)
+  (afford love_match pair  0.06)
   (afford patronage pair  0.05)
   (afford recruit   pair  0.04)
   (afford outdo     rival 0.10)
@@ -97,13 +101,19 @@
   (draw evening 0.80 club_member))
 
 (place restaurant
-  (afford court    pair 0.30)
+  (afford court      pair 0.30)
+  ; Courtship culmination (Section 4.11): the fancied pair, co-present here, pair
+  ; off (lovers) or propose (love_match). UNTUNED - watch the marriage rate.
+  (afford lovers     pair 0.10)
+  (afford love_match pair 0.06)
   (afford catch_up pair 0.20)
   (afford gossip   pair 0.15)
   (draw evening 0.70 gentry))
 
 (place theatre
-  (afford court    pair 0.25)
+  (afford court      pair 0.25)
+  (afford lovers     pair 0.10)
+  (afford love_match pair 0.06)
   (afford catch_up pair 0.10)
   (afford gossip   pair 0.15)
   (draw evening 0.70 gentry))
@@ -134,7 +144,9 @@
   (afford worship solo 0.60)
   (afford gossip  pair 0.20)
   (afford confide pair 0.08)
-  (afford court   pair 0.15)
+  (afford court      pair 0.15)
+  (afford lovers     pair 0.10)
+  (afford love_match pair 0.06)
   (afford wed     pair 0.02)
   (draw dawn 1.00 pious))
 

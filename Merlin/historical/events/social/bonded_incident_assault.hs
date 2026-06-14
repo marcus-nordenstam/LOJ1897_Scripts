@@ -47,10 +47,9 @@
 (hsim-event bonded_incident_assault
   (nl       "?actor assaults ?victim")
   (kind     _bonded_incident_assault)
-  ; Place-lane: fired by the `brawl` affordance via resolve_affordances (the
-  ; venue offers it to its co-present occupants), so suppressed from the DES.
-  ; The (co-present ?a ?b) role filter still binds the victim from the venue.
-  (schedule (monthly))
+  ; EMERGENT (Section 4.11): no (schedule) - fired by the `brawl` affordance via
+  ; resolve_affordances (the venue offers it to its co-present occupants),
+  ; suppressed from the DES. The (co-present ?a ?b) role filter binds the victim.
   (rng-stream incidents)
 
   (roles

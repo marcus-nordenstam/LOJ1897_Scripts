@@ -17,10 +17,14 @@
 ; apply. Re-uses the _betrothal kind/log so the existing wedding event consumes
 ; the couple unchanged.
 ;
-; Schedule: (annually november) - AHEAD of the arranged season (betrothal in
-; january, advantageous_match in february), so a mutually-in-love couple weds
-; for love before the arranged matches claim them. The live un-betrothed
-; re-check (when) resolves within-tick collisions.
+; Place-emergent (Section 4.11): no (schedule) - fired by the `love_match`
+; affordance at the courtship venues (pub / restaurant / theatre /
+; social_clubhouse / church) via resolve_affordances. The proposal happens where
+; the mutually-fancied pair are actually co-present (the (co-present ?suitor
+; ?beloved) gate below) - the boy pops the question at the place they share, not
+; on a global november tick. Runs alongside the arranged `betrothal` /
+; `advantageous_match` paths. The live un-betrothed re-check (when) resolves
+; within-band collisions.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -28,7 +32,6 @@
 (hsim-event love_match
   (nl         "?suitor and ?beloved marry for love")
   (kind       _betrothal)
-  (schedule   (annually november))
   (band      evening)
   (rng-stream marriages)
 
@@ -61,6 +64,10 @@
                            (= (situation ?suitor  class_situation) lower)))
                   (or (not (believes ?suitor {@self prototype fallen_woman}))
                       (= (situation ?beloved class_situation) lower))
+                  ; Place-emergent (Section 4.11): the proposal happens where the
+                  ; pair are actually together this band (errand-magnetism brought
+                  ; the suitor to her venue). Binds ?beloved from the co-present set.
+                  (co-present ?suitor ?beloved)
                   ; the heart of it: the suitor fancies this person (reliable
                   ; bitset cross-pair - NOT believes-in-chance, see section 13).
                   (stance-at-least ?suitor ?beloved fancy)

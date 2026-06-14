@@ -8,7 +8,9 @@
 ; member next dines with their OWN family, a household at a time.
 ;
 ; Gated on having a spouse (the canonical household head); single / widowed
-; members still spread news through gossip / catch_up. Fires monthly.
+; members still spread news through gossip / catch_up. EMERGENT (Section 4.11):
+; no (schedule) - fired by the `family_dinner` affordance at the home when the
+; co-resident family is present (place-lane, suppressed from the DES).
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -16,7 +18,6 @@
 (hsim-event family_dinner
   (nl         "?actor's family gathers for dinner")
   (kind       _family_dinner)
-  (schedule   (monthly))
   (band      evening)
   (rng-stream behaviour)
 

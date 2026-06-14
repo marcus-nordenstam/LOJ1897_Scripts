@@ -23,7 +23,9 @@
 (hsim-event patronage
   (nl         "?patron takes ?protege under their wing")
   (kind       _patronage)
-  (schedule   (annually november))
+  ; EMERGENT (Section 4.11): no (schedule) - fired by the social_clubhouse
+  ; `patronage` affordance via resolve_affordances; the patron is the co-present
+  ; actor (place-lane, suppressed from the DES), the protege enumerated below.
   (band      afternoon)
   (rng-stream business)
 

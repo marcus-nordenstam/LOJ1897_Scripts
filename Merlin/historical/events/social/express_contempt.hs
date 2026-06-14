@@ -25,7 +25,8 @@
 ; Re-uses the `insult` incident anchor (so the victim's existing contempt /
 ; anger reaction fires) + the per-pair 90-day cooldown (no carpet-bombing).
 ;
-; Schedule: monthly, with the rest of the incident family.
+; EMERGENT (Section 4.11): no (schedule) - fired by the `insult` affordance via
+; resolve_affordances (place-lane); the despised victim binds from co-presence.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -33,7 +34,6 @@
 (hsim-event express_contempt
   (nl       "?actor treats ?victim with open contempt")
   (kind     _express_contempt)
-  (schedule (monthly))
   (band      evening)
   (rng-stream incidents)
 

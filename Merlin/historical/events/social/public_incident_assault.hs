@@ -41,9 +41,9 @@
 (hsim-event public_incident_assault
   (nl       "?actor assaults ?victim in public")
   (kind     _public_incident_assault)
-  ; Place-lane: fired by the `brawl` affordance via resolve_affordances, so
-  ; suppressed from the DES. The (co-present ?a ?b) role filter binds the victim.
-  (schedule (monthly))
+  ; EMERGENT (Section 4.11): no (schedule) - fired by the `brawl` affordance via
+  ; resolve_affordances, suppressed from the DES. The (co-present ?a ?b) role
+  ; filter binds the stranger victim from the venue's occupant set.
   (rng-stream incidents)
 
   (roles

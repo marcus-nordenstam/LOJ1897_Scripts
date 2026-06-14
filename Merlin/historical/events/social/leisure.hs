@@ -18,7 +18,8 @@
 (hsim-event dinner_party
   (nl         "?host hosts ?guest for dinner")
   (kind       _dinner_party)
-  (schedule   (monthly))
+  ; EMERGENT (Section 4.11): no (schedule) - fired by the residential_building
+  ; `dinner_party` affordance among the gathered guests (place-lane).
   (band      evening)
   (rng-stream behaviour)
 

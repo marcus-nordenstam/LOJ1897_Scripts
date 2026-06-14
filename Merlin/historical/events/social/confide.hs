@@ -5,8 +5,9 @@
 ; confidant from the actor's friends / lovers / fiancees. The rarest of the
 ; conversation events - intimacy, not chatter - so the lowest chance.
 ;
-; Per-mind (organizer-driven). Fires monthly with a low extraversion-weighted
-; chance on top of the has-a-friend gate.
+; Per-mind (organizer-driven). EMERGENT (Section 4.11): no (schedule) - fired by
+; the `confide` affordance via resolve_affordances when co-present (place-lane);
+; the low extraversion-weighted chance on top of the has-a-friend gate remains.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -14,7 +15,6 @@
 (hsim-event confide
   (nl         "?actor confides in a close friend")
   (kind       _confide)
-  (schedule   (monthly))
   (band      evening)
   (rng-stream behaviour)
 

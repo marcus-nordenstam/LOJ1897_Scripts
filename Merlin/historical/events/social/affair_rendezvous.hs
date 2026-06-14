@@ -33,7 +33,9 @@
 (hsim-event affair_rendezvous
   (nl         "?actor steals away to meet a secret lover")
   (kind       _affair_rendezvous)
-  (schedule   (monthly))
+  ; EMERGENT (Section 4.11): no (schedule) - fired by the `affair_rendezvous`
+  ; affordance (residential_building / hotel) via resolve_affordances when a
+  ; lover-holder is co-present; the generative dispatch then stages the tryst.
   (band      night)
   (rng-stream incidents)
   (generative-rendezvous)
