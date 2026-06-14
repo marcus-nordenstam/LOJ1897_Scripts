@@ -35,7 +35,10 @@
 (hsim-event get_drunk
   (nl         "?npc drinks to excess")
   (kind       _get_drunk)
-  (schedule   (monthly))
+  ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass.
+  ; The per-NPC risk-model (chance) below IS the rate (monthly); the pass is the
+  ; cadence. Co-presence + the "drank at a pub" memory move to a place-coupled
+  ; pub affordance later; here only the venueless intoxication bump fires.
   (band      evening)
   (rng-stream behaviour)
 

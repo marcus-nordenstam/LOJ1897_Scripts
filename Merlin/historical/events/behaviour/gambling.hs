@@ -13,7 +13,10 @@
 (hsim-event gambling
   (nl         "?npc takes to gambling")
   (kind       _gambling)
-  (schedule   (annually march))
+  ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
+  ; MONTHLY. gambling ACCUMULATES (each fire deepens the addiction), so the
+  ; formerly-annual (chance) is /12 to hold the annual deepening rate
+  ; (0.006 -> 0.0005). Venueless (the gamble verb only bumps the attr).
   (band      evening)
   (rng-stream behaviour)
 
@@ -21,7 +24,7 @@
     ; Low industriousness (a want of self-discipline) takes to gambling more.
     ; Mean-1.0 factor - the base rate is the average annual chance.
     (role ?npc (template old_human)
-               (chance (* 0.006 (+ 0.6 (* 0.8 (- 1.0 (attr ?self industriousness))))))))
+               (chance (* 0.0005 (+ 0.6 (* 0.8 (- 1.0 (attr ?self industriousness))))))))
 
   (effects
     (gamble ?npc)
