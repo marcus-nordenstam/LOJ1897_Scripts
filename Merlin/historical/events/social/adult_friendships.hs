@@ -1,10 +1,15 @@
 ; ----------------------------------------------------------------------------
 ; Adult friendships. Lower per-person rate than childhood - adults make
 ; friends less often once kin / work / marriage already structure their
-; social orbit. Once a year in september.
+; social orbit.
 ;
 ; Topology: ?a enumerated; ?b sampled from same-class adults within 10
 ; years of age who are not already ?a's friend.
+;
+; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
+; (relational: same-class, near-age, warmth-gated; physical co-presence not
+; required - a place-lane "befriend at a venue" form is a future refinement).
+; MONTHLY now, so the ?a (chance) base is /12 (0.05 -> 0.004) to hold volume.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -12,7 +17,6 @@
 (hsim-event adult_friendship
   (nl         "?a and ?b become friends")
   (kind       _friendship)
-  (schedule   (annually september))
   (band      afternoon)
   (rng-stream friendships)
 
@@ -25,7 +29,7 @@
     (role ?a (template any_human)
              (>= (years-old ?self) 18)
              (not (= (situation ?self repute) scandalous))
-             (chance (* 0.05 (+ 0.5 (attr ?self enthusiasm)))))
+             (chance (* 0.004 (+ 0.5 (attr ?self enthusiasm)))))
     (role ?b (template any_human)
              (>= (years-old ?self) 18)
              (not (= ?self ?a))

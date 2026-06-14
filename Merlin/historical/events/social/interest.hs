@@ -33,8 +33,10 @@
 ; is deferred to S7 (family_alignment); S3 mints the bare belief, matching the
 ; S4 derive_skills precedent.
 ;
-; All acquisition events fire annually (interests develop over years, not
-; months) on the behaviour rng-stream.
+; EMERGENT (Section 4.11): no (schedule) - all five fire via the per-NPC emergent
+; pass (per-individual, relational-source-gated, no co-presence) on the behaviour
+; rng-stream. They fire MONTHLY now, so each (chance) is /12 to preserve the
+; annual cadence (interests develop over years, not months).
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -43,7 +45,6 @@
 (hsim-event interest_parental_seeding
   (nl         "?child takes up a parent's interest")
   (kind       _interest_parental_seeding)
-  (schedule   (annually march))
   (rng-stream behaviour)
 
   (roles
@@ -54,7 +55,7 @@
                  (>= (years-old ?self) 3)
                  (<= (years-old ?self) 14)
                  (believes ?self {@self mother ?})
-                 (chance (* 0.18 (+ 0.3 (attr ?self politeness))))))
+                 (chance (* 0.015 (+ 0.3 (attr ?self politeness))))))
 
   (effects
     (seed-interest-from-parents ?child)
@@ -64,7 +65,6 @@
 (hsim-event interest_peer_propagation
   (nl         "?ego catches a friend's interest")
   (kind       _interest_peer_propagation)
-  (schedule   (annually june))
   (rng-stream behaviour)
 
   (roles
@@ -74,7 +74,7 @@
     (role ?ego (template any_human)
                (>= (years-old ?self) 8)
                (believes ?self {@self friend ?})
-               (chance (* 0.20 (attr ?self openness) (+ 0.5 (attr ?self enthusiasm))))))
+               (chance (* 0.0167 (attr ?self openness) (+ 0.5 (attr ?self enthusiasm))))))
 
   (effects
     (seed-interest-from-friends ?ego)
@@ -84,7 +84,6 @@
 (hsim-event interest_mentor_inspired
   (nl         "?ego takes an interest in the master's craft")
   (kind       _interest_mentor_inspired)
-  (schedule   (annually september))
   (rng-stream behaviour)
 
   (roles
@@ -94,7 +93,7 @@
     ; interest, which interest_deepens can later raise to a skill - S6).
     (role ?ego (template any_human)
                (believes ?self {@self master ?})
-               (chance (* 0.30 (+ 0.3 (attr ?self openness))))))
+               (chance (* 0.025 (+ 0.3 (attr ?self openness))))))
 
   (effects
     (seed-interest-from-mentor ?ego)
@@ -104,7 +103,6 @@
 (hsim-event interest_temperament_drift
   (nl         "?ego drifts into a new interest")
   (kind       _interest_temperament_drift)
-  (schedule   (annually december))
   (rng-stream behaviour)
 
   (roles
@@ -114,7 +112,7 @@
     ; base rate than the old generic interest_acquired (0.08).
     (role ?ego (template any_human)
                (>= (years-old ?self) 10)
-               (chance (* 0.10 (attr ?self openness) (attr ?self openness)))))
+               (chance (* 0.0083 (attr ?self openness) (attr ?self openness)))))
 
   (effects
     (acquire-interest ?ego)
@@ -124,7 +122,6 @@
 (hsim-event interest_lapses
   (nl         "?ego loses an interest")
   (kind       _interest_lapses)
-  (schedule   (annually march))
   (rng-stream behaviour)
 
   (roles
@@ -133,7 +130,7 @@
     ; exempt. No-op (event fires, mints nothing) if every interest is skill-backed.
     (role ?ego (template any_human)
                (believes ?self {@self interest ?})
-               (chance 0.03)))
+               (chance 0.0025)))
 
   (effects
     (lapse-interest ?ego)

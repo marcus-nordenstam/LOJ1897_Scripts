@@ -21,9 +21,10 @@
 ; makes the fray gradual rather than an instant snap. Both the believes residue
 ; and the non-root (chance ...) gate correctly.
 ;
-; Schedule: annually november - after friendships form (september) and
-; ostracism resolves (october), so a year's soured warmth is settled at year
-; end.
+; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
+; (relational, gated on the detest stance + a friend bond, no co-presence). It
+; fires MONTHLY now, so the per-pair (chance) is /12 (0.5 -> 0.04) to keep the
+; fray gradual (a year's soured warmth settling rather than an instant snap).
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -31,7 +32,6 @@
 (hsim-event friendship_fraying
   (nl       "?a and ?b drift apart")
   (kind     _friendship_fraying)
-  (schedule (annually november))
   (rng-stream friendships)
 
   (roles
@@ -43,7 +43,8 @@
              (stance-at-least ?a ?b detest)
              ; ... and the two are currently friends.
              (believes ?a {@self friend ?b})
-             (chance 0.5)))
+             ; /12 of the old annual 0.5 - the per-NPC pass fires this monthly.
+             (chance 0.04)))
 
   ;; Live re-check: within the november tick the role filters are alpha-indexed
   ;; and go stale, and a fray could have already severed this pair from the

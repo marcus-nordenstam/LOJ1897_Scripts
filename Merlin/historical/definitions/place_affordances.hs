@@ -147,7 +147,7 @@
   (afford court      pair 0.15)
   (afford lovers     pair 0.10)
   (afford love_match pair 0.06)
-  (afford wed     pair 0.02)
+  ; weddings are occasion-fired (the venue pool's transient tier), not afforded.
   (draw dawn 1.00 pious))
 
 (place library

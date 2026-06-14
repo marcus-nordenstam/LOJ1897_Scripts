@@ -17,9 +17,11 @@
 ; interest_outing) already refresh co-attendees; this catches the contacts you
 ; do not regularly see.
 ;
-; Topology: ?a enumerated and gated by a per-person annual chance (so not
-; everyone reconnects every year); ?b a uniformly-sampled known contact.
-; Schedule: annually august (clear of the marriage / friendship clusters).
+; Topology: ?a enumerated and gated by a per-person chance (so not everyone
+; reconnects); ?b a uniformly-sampled known contact.
+; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
+; (relational, personally-knows-gated, no co-presence); MONTHLY now, so the ?a
+; (chance) is /12 (0.5 -> 0.04) to hold the annual reconnection volume.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -27,14 +29,13 @@
 (hsim-event reacquaint
   (nl       "?a catches up on ?b")
   (kind     _reacquaint)
-  (schedule (annually august))
   (band      afternoon)
   (rng-stream behaviour)
 
   (roles
     (role ?a (template any_human)
              (>= (years-old ?a) 18)
-             (chance 0.5))
+             (chance 0.04))
     (role ?b (template any_human)
              (not (= ?b ?a))
              (personally-knows ?a ?b)))

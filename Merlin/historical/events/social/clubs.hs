@@ -15,11 +15,17 @@
 
 (include "../../definitions/roles.hs")
 
+; EMERGENT (Section 4.11): the three club events are fired by the per-NPC
+; emergent pass (no (schedule)). club_founding CREATES the clubhouse venue (so it
+; cannot itself be place-lane), and club_joining/resignation are roster acts; all
+; three fire MONTHLY now, so each (chance) is /12 to hold the annual volume.
+; (Future: bind club_joining to the clubhouse the member is actually in - needs
+; the affordance resolver to pass the venue's club context.)
+
 ; --- club_founding: an established adult founds a club with two members ------
 (hsim-event club_founding
   (nl         "?founder founds a club")
   (kind       _club_founding)
-  (schedule   (annually september))
   (band      afternoon)
   (rng-stream behaviour)
 
@@ -32,7 +38,7 @@
                    (>= (years-old ?self) 30)
                    (believes ?self {@self employer ?})
                    (not (believes ?self {@self member_of ?}))
-                   (chance 0.04))
+                   (chance 0.0033))
     ; Two founding members, sampled from adults not already heavily clubbed.
     (role ?m1 (template old_human)
               (not (= ?self ?founder))
@@ -59,7 +65,6 @@
 (hsim-event club_joining
   (nl         "?member joins a club")
   (kind       _club_joining)
-  (schedule   (annually september))
   (band      afternoon)
   (rng-stream behaviour)
 
@@ -70,7 +75,7 @@
                   (< (count-beliefs ?self member_of) 2)
                   (not (= (situation ?self repute) scandalous))
                   (not (= (situation ?self repute) disreputable))
-                  (chance 0.06))
+                  (chance 0.005))
     (role ?club_articles (template org_articles)
                          (org-kind-is-a ?self club)
                          (= (situation (org-founder ?self) class_situation)
@@ -93,14 +98,13 @@
 (hsim-event club_resignation
   (nl         "?member resigns from a club")
   (kind       _club_resignation)
-  (schedule   (annually september))
   (band      afternoon)
   (rng-stream behaviour)
 
   (roles
     (role ?member (template old_human)
                   (believes ?self {@self member_of ?})
-                  (chance 0.05)))
+                  (chance 0.004)))
 
   (effects
     (unregister-member :member ?member)

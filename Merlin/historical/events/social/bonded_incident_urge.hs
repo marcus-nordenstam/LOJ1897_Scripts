@@ -31,7 +31,9 @@
 ;     (honour_act -> guilt + moral_violation pressure in actor's
 ;     mind via the appraisal cascade).
 ;
-; Schedule: annually september.
+; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
+; (relational: parent-of-victim + value-rift, no co-presence). MONTHLY now, so
+; the actor (chance) base is /12 (0.15 -> 0.0125) to hold the annual volume.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -39,7 +41,6 @@
 (hsim-event bonded_incident_urge
   (nl       "?actor urges ?victim to atone")
   (kind     _bonded_incident_urge)
-  (schedule (annually september))
   (band      evening)
   (rng-stream incidents)
 
@@ -57,7 +58,7 @@
                   ; absolute min of the inner. Modal neutral-aim parent
                   ; multiplier = 1.0; legacy/respectability parent = 1.4;
                   ; autonomy_aim parent = 0.8.
-                  (chance (* 0.15
+                  (chance (* 0.0125
                              (- 1.0 (attr ?actor compassion))
                              (attr ?actor assertiveness)
                              (+ 1.0 (life-aim-aligns ?actor urge)))))

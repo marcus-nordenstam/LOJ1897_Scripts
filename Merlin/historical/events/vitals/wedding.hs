@@ -4,13 +4,18 @@
 ; fiancee bond is ended and the {spouse} bond asserted; hold-wedding then
 ; carries the marriage to both guest circles.
 ;
-; Schedule: (annually june) - the wedding trails the (annually january)
-; betrothal by five months, so a couple betrothed this year weds this year.
-; The gap also keeps betrothal and wedding from racing inside one tick.
+; OCCASION-FIRED (Section 4.11): no (schedule). The wedding is fired by the venue
+; pool's occasion system (realize_occasions): produce_occasions stages a wedding
+; occasion at the bride's parish church for each still-betrothed couple on the
+; month's first active day, draws the couple (+ guests) there, and fires THIS
+; event with ?bride and ?groom both PRESET - so the gender-correct couple is bound
+; directly (not an arbitrary church-goer) and only the (when) gate + effects run.
+; It is suppressed from the DES and the per-NPC pass (marked place-lane in
+; run_tick) and carries no afford entry, so resolve_affordances never offers it.
 ;
-; Topology: ?bride is enumerated; ?groom is recovered through the
-; (believes ?bride {@self fiancee ?groom}) relational filter, exactly as
-; births.hse recovers the husband from the spouse belief.
+; Topology: ?bride and ?groom are both supplied by the occasion (bride = the
+; woman, groom = her fiance); the (when) gate below re-confirms the betrothal at
+; fire time (defence against within-tick staleness).
 ;
 ; This supersedes the propagation the old marriage.hse performed: it carries
 ; the {spouse} beliefs, the believe-about mirror (already done at betrothal),
@@ -22,7 +27,6 @@
 (hsim-event wedding
   (nl         "?groom marries ?bride")
   (kind       _wedding)
-  (schedule   (annually june))
   (band      morning)
   (rng-stream marriages)
 
@@ -31,6 +35,13 @@
                  (believes ?self {@self fiancee ?}))
     (role ?groom (template unmarried_man)
                  (believes ?bride {@self fiancee ?groom})))
+
+  ;; Both roles are preset by the occasion (their role filters are skipped on
+  ;; preset), so re-confirm the betrothal still stands and neither has married
+  ;; since the couple list was built - else drop this firing cleanly.
+  (when (and (believes ?bride {@self fiancee ?groom})
+             (not (believes ?bride {@self spouse ?}))
+             (not (believes ?groom {@self spouse ?}))))
 
   (effects
     ; End the betrothal, then assert the marriage. fiancee and spouse are

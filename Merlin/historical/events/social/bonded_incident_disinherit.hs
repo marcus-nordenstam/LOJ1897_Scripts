@@ -39,7 +39,9 @@
 ;     - wrong_act -> guilt + fear + moral_violation +
 ;                    exposure_risk pressure
 ;
-; Schedule: annually september.
+; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
+; (relational: parent-of-victim + standing disregard, no co-presence). MONTHLY
+; now, so the actor (chance) base is /12 (0.30 -> 0.025) to hold annual volume.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -47,13 +49,12 @@
 (hsim-event bonded_incident_disinherit
   (nl       "?actor disinherits ?victim")
   (kind     _bonded_incident_disinherit)
-  (schedule (annually september))
   (band      afternoon)
   (rng-stream incidents)
 
   (roles
     (role ?actor  (template any_human)
-                  (chance (* 0.30
+                  (chance (* 0.025
                              (- 1.0 (attr ?actor compassion))
                              (attr ?actor narcissism))))
     (role ?victim (template any_human)

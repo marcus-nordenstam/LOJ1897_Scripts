@@ -20,7 +20,10 @@
 ; cycle lag). This replaced the old frequents-overlap haunt proxy when the
 ; static frequents seed was retired (activity-lanes L8).
 ;
-; Schedule: monthly. The infatuation belief, once minted, persists
+; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
+; (relational, gated on personally-knows; no physical co-presence needed), once
+; a month, same rate as the old monthly cadence. The infatuation belief, once
+; minted, persists
 ; through normal belief decay until a romantic event (betrothal /
 ; advantageous_match / crush_lapses-PLANNED) supersedes it. No
 ; transient_marker cooldown - a person can carry only one infatuation
@@ -38,7 +41,6 @@
 (hsim-event crush_forms
   (nl       "?actor forms a crush on ?victim")
   (kind     _crush_forms)
-  (schedule (monthly))
   (band      afternoon)
   (rng-stream incidents)
 

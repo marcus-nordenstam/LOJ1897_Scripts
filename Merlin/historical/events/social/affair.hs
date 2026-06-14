@@ -24,10 +24,12 @@
 ; already holds a {spouse} bond is well-formed - it does not collide with the
 ; spouse @excl placeholder and does not trip the exclusive-bond betray cascade.
 ;
-; Schedule: (annually september) - one roll per married NPC per year, clear of
-; the january betrothal / june wedding / july lovers ticks. A trickle is enough:
-; crime_of_passion re-checks the standing affair MONTHLY, so a small stock of
-; unfaithful spouses is read for years until a jealous partner finally snaps.
+; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
+; (relational: gated on marriage + personally-knows, no physical co-presence).
+; It now fires MONTHLY instead of annually, so the actor (chance) is /12 (0.5 ->
+; 0.04) to hold the annual trickle. A trickle is enough: crime_of_passion
+; re-checks the standing affair MONTHLY, so a small stock of unfaithful spouses
+; is read for years until a jealous partner finally snaps.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -35,7 +37,6 @@
 (hsim-event affair
   (nl         "?actor strays into an affair with ?lover")
   (kind       _affair)
-  (schedule   (annually september))
   (band      evening)
   (rng-stream incidents)
 
@@ -60,7 +61,9 @@
                  ;; an env attr (the reputation rework) - read it through the
                  ;; situation op. Un-derived reads contribute 0, making
                  ;; (- 1 ...) permissive - the not-yet-appraised stray freely.
-                 (chance (* 0.5
+                 ; /12 of the old annual 0.5 - the per-NPC emergent pass fires
+                 ; this monthly now, so divide to hold the annual affair trickle.
+                 (chance (* 0.04
                             (attr ?actor openness)
                             (attr ?actor enthusiasm)
                             (- 1 (situation ?actor decorum)))))

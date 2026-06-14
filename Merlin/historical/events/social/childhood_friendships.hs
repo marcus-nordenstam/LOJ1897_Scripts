@@ -1,11 +1,15 @@
 ; ----------------------------------------------------------------------------
-; Childhood friendships. Once a year (in march), each school-aged child has
-; a small chance to befriend a same-class peer within a few years of their
-; own age.
+; Childhood friendships. Each school-aged child has a small chance to befriend a
+; same-class peer within a few years of their own age.
 ;
 ; Topology: ?a is enumerated; ?b is sampled with backtracking from the
 ; population matching the per-pair filters. The (not (believes ...))
 ; filter prevents re-asserting an existing friendship.
+;
+; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
+; (relational: same-class, near-age peers, no co-presence yet - kids' venue
+; placement is a future refinement). MONTHLY now, so the ?a (chance) base is /12
+; (0.15 -> 0.0125) to hold the annual childhood-friendship volume.
 ;
 ; Friendships are bidirectional - both sides get a `friend` belief plus
 ; gender / death-status mirrors so a later "who are your friends?"
@@ -17,7 +21,6 @@
 (hsim-event childhood_friendship
   (nl         "?a and ?b become childhood friends")
   (kind       _friendship)
-  (schedule   (annually march))
   (band      afternoon)
   (rng-stream friendships)
 
@@ -27,7 +30,7 @@
     (role ?a (template any_human)
              (>= (years-old ?self) 8)
              (<= (years-old ?self) 16)
-             (chance (* 0.15 (+ 0.5 (attr ?self enthusiasm)))))
+             (chance (* 0.0125 (+ 0.5 (attr ?self enthusiasm)))))
     (role ?b (template any_human)
              (>= (years-old ?self) 8)
              (<= (years-old ?self) 16)

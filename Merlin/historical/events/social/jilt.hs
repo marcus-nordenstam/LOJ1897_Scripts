@@ -27,8 +27,10 @@
 ; sibling event gated on (not (stance-at-least ?jilter ?jilted fancy)) when
 ; the distribution wants it.
 ;
-; Schedule: monthly - a betrothed affair-holder breaks with the lover within
-; a couple of months of the (annually january) betrothal.
+; EMERGENT (Section 4.11): no (schedule) - both jilt forms fire via the per-NPC
+; emergent pass (relational, bond-gated, no physical co-presence), monthly as
+; before, so a betrothed affair-holder breaks with the lover within a couple of
+; months of betrothal. (chance unchanged - they were already monthly.)
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -36,7 +38,6 @@
 (hsim-event jilt
   (nl         "?jilter jilts ?jilted")
   (kind       _jilt)
-  (schedule   (monthly))
   (band      afternoon)
   (rng-stream marriages)
 
@@ -84,7 +85,6 @@
 (hsim-event jilt_for_station
   (nl         "?jilter breaks with ?jilted to keep their station")
   (kind       _jilt)
-  (schedule   (monthly))
   (band      afternoon)
   (rng-stream marriages)
 

@@ -11,9 +11,10 @@
 ; to respectable in one pass. The disreputable can rehabilitate; the
 ; scandalous needs a longer, multi-year recovery the time-decay handles.
 ;
-; Schedule: annually april (the existing churchgoing event also runs in
-; april; rehabilitation runs alongside as a second, situation-conditional
-; pass for the disreputable subset).
+; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
+; (per-individual, situation-conditional). MONTHLY now, so the (chance) is /12
+; (0.6 -> 0.05) to hold the annual rehabilitation rate (still well above the
+; baseline churchgoing rate so the situation has a real shot at climbing).
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -21,17 +22,15 @@
 (hsim-event rehabilitation
   (nl         "?npc seeks rehabilitation")
   (kind       _rehabilitation)
-  (schedule   (annually april))
   (band      afternoon)
   (rng-stream behaviour)
 
   (roles
     ;; A disreputable adult with a personality lift toward conformity
-    ;; (politeness) tries the church door. The chance is well above the
-    ;; baseline churchgoing rate so the situation has a real shot at climbing.
+    ;; (politeness) tries the church door.
     (role ?npc (template old_human)
                (= (situation ?self repute) disreputable)
-               (chance (* 0.6 (+ 0.5 (attr ?self politeness))))))
+               (chance (* 0.05 (+ 0.5 (attr ?self politeness))))))
 
   (effects
     (go-to-church ?npc)
