@@ -34,7 +34,7 @@ attr "name" (type name) (spec-attr name) (int-mech reason) (ext-mech imperceptib
 # Spatial
 attr "obb" (type obb) (spec-attr spatial-bounds) (mech obs) (auto-percept) (state-flags-tar @excl)
 # Parent relationships are kept in the ECS for efficiency (technically redundant with parts)
-attr "struct_parent" (type entity) (entity "structure" "container_structure" "structure_part" "part" "space" "hand" "human_player" "human_npc") (spec-attr parent) (mech obs) (state-flags-tar @excl)
+attr "struct_parent" (type entity) (entity "structure" "container_structure" "structure_part" "part" "interior_space" "exterior_space" "hand" "human_player" "human_npc") (spec-attr parent) (mech obs) (state-flags-tar @excl)
 attr "parts" (type entity array 12) (state "part") (spec-attr children) (int-mech feel) (ext-mech obs)
 
 # Ownership & control
@@ -215,8 +215,13 @@ attr "era_max" (type date) (imperceptible)
 #   - that address-SPACE's address -> the road it fronts (with address_number).
 # So a building's full street address is read FROM its address-space (the space's
 # `address` road + `address_number`). Estates with no street self-reference.
-attr "address" (type entity) (entity "road" "structure" "container_structure" "space") (mech obs) (auto-percept)
+attr "address" (type entity) (entity "road" "structure" "container_structure" "exterior_space") (mech obs) (auto-percept)
 attr "address_number" (type int) (range 1 9999) (mech obs) (auto-percept)
+# Apartment number (Section 4.12). INTERIOR spaces only: one building at one
+# street address may hold several apartments, each an interior_space with its
+# own number; rooms within carry it via their apartment's struct_parent. Distinct
+# from address_number (the street number on the exterior address-space).
+attr "apartment_number" (type int) (range 1 9999) (mech obs) (auto-percept)
 
 # Conversation
 attr "initiator" (type entity) (entity "human_player" "human_npc") (mech obs) (auto-percept)
@@ -257,7 +262,7 @@ attr "marks"   (type kind array 4) (state "mark")  (mech obs) (auto-percept)
 # The universal location label: props use it for "the building this prop sits
 # in" (evidence trails) and people use the matching belief for dated
 # where-were-you memories. Replaces the retired `at` label.
-attr "location" (type entity) (entity "structure" "container_structure" "space") (mech obs) (auto-percept)
+attr "location" (type entity) (entity "structure" "container_structure" "interior_space" "exterior_space") (mech obs) (auto-percept)
 
 # Delta-driven co-presence prop perception (interrogation plan 3b point
 # 1b): the date a prop was last deliberately added to / removed from this
