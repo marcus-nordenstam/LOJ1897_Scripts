@@ -155,3 +155,23 @@
 (make_entity church        (id saint_marys)   (parent st_marys_road))
 (make_entity grocer        (id haven_grocer)  (parent fishermans_walk))
 (make_entity antiques_shop (id haven_smithy)  (parent st_marys_road))
+
+;; ============================================================================
+;; Exterior amenity + remote wilds (Section 4.12). Authored exterior_space
+;; entities: their OBB is a co-presence region just like a room. Placement is
+;; deliberate - the parks sit in town fronting a street; the wilds sit well
+;; clear of every settlement, the isolated scenes a transit-kill needs.
+;;   (feature <kind> (name "..") (at x y z) (extent hx hy hz) [(road id) (number n)])
+;; Parks front a street (an address); wilds are name-only.
+;; ============================================================================
+(feature park   (name "Victoria Park")      (at -2100  2  220) (extent  55  2  55) (road victoria_street))
+(feature park   (name "Kings Gardens")      (at  -600  2  230) (extent  45  2  45) (road kings_road))
+(feature park   (name "The Esplanade")      (at   900  2  130) (extent  50  2  50) (road cliff_road))
+
+(feature forest (name "Blackwood Forest")   (at -3300  6    0) (extent 150  6 150))
+(feature moor   (name "Gallows Moor")       (at -1500  6 1650) (extent 160  6 160))
+(feature meadow (name "Julie's Meadow")     (at     0  5 -1450) (extent  90  5  90))
+(feature bluff  (name "Raven's Bluff")      (at  1700 12 -1100) (extent  45 12  70))
+(feature cliff  (name "St Brendan's Cliff") (at  1500 14 1300) (extent  35 14  90))
+(feature moor   (name "Carrick Moor")       (at -2500  6 -1250) (extent 150  6 150))
+(feature forest (name "Eastmoor Wood")      (at  2000  6  350) (extent 110  6 110))
