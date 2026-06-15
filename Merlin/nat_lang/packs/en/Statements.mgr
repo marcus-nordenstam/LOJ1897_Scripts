@@ -860,3 +860,92 @@ $form(FORM)
 " $sub_np(NP) $state(STATE) $obj(ST|QS|MSG|NP) "
 { $sub_np(NP) $state(STATE) $obj(ST|QS|MSG|NP) }
 .
+
+
+# =============================================================================
+# DETECTIVE-INTERROGATION RESPONSE GRAMMAR (questionnaire.txt)
+# -----------------------------------------------------------------------------
+# Full-sentence renderings for the belief labels surfaced by the new
+# Questions.mgr detective pack. The direct-answer path returns a bare value
+# (".target") and renders it as a noun phrase ("A physician.", "At the Red
+# Lion."); these templates give the FULL-SENTENCE form used when the NPC
+# volunteers the fact, when a person_description voices it, and for the parse
+# direction. Each names its specific label (no generic-state poaching), mirrors
+# the existing job / nationality / home shapes above, and uses /ever so a
+# deceased subject's history still renders. Placed at end-of-file so first-
+# match-wins by file order never lets these outsort an earlier template.
+# =============================================================================
+
+# --- EMPLOYER (org-valued; distinct from the job-kind templates above) -------
+" $sub_np(NP) $verb(VERB|work) for $value(NP) "
+{ $sub_np(NP) /ever employer $value(NP) } .
+" $sub_np(NP) is employed by $value(NP) "
+{ $sub_np(NP) /pres employer $value(NP) }
+:: elaborated
+.
+" $sub_np(NP) is in the service of $value(NP) "
+{ $sub_np(NP) /pres employer $value(NP) }
+:: flowery
+.
+
+# --- MEMBER_OF (clubs / societies) -------------------------------------------
+" $sub_np(NP) belongs to $value(NP) "
+{ $sub_np(NP) /ever member_of $value(NP) } .
+" $sub_np(NP) is a member of $value(NP) "
+{ $sub_np(NP) /pres member_of $value(NP) }
+:: elaborated
+.
+
+# --- STUDY (academic_field) --------------------------------------------------
+" $sub_np(NP) studied $kind(KIND|/isa|academic_field) "
+{ $sub_np(NP) /past study $kind(KIND|/isa|academic_field) } .
+" $sub_np(NP) studies $kind(KIND|/isa|academic_field) "
+{ $sub_np(NP) /pres study $kind(KIND|/isa|academic_field) } .
+
+# --- MASTER (apprenticeship) -------------------------------------------------
+" $sub_np(NP) was apprenticed to $value(NP) "
+{ $sub_np(NP) /past master $value(NP) } .
+" $sub_np(NP) ++'s master is $value(NP) "
+{ $sub_np(NP) /pres master $value(NP) } .
+
+# --- SKILLED_IN (domain) -----------------------------------------------------
+" $sub_np(NP) $verb(VERB|be) skilled in $kind(KIND|/isa|domain) "
+{ $sub_np(NP) /ever skilled_in $kind(KIND|/isa|domain) } .
+
+# --- SERVED (military_rank) --------------------------------------------------
+" $sub_np(NP) served as a $kind(KIND|/isa|military_rank) "
+{ $sub_np(NP) /past served $kind(KIND|/isa|military_rank) } .
+
+# --- REPUTE (respectability_situation; distinct surface from class/isa) ------
+" $sub_np(NP) ++'s reputation is $kind(KIND|/isa|respectability_situation) "
+{ $sub_np(NP) /ever repute $kind(KIND|/isa|respectability_situation) } .
+" $sub_np(NP) $verb(VERB|be) considered $kind(KIND|/isa|respectability_situation) "
+{ $sub_np(NP) /ever repute $kind(KIND|/isa|respectability_situation) }
+:: elaborated
+.
+
+# --- OWE (creditor; debt as a standing relation) -----------------------------
+" $sub_np(NP) owes money to $value(NP) "
+{ $sub_np(NP) /pres owe $value(NP) } .
+" $sub_np(NP) owed money to $value(NP) "
+{ $sub_np(NP) /past owe $value(NP) } .
+" $sub_np(NP) is in debt to $value(NP) "
+{ $sub_np(NP) /pres owe $value(NP) }
+:: curt
+.
+
+# --- STANCE VERBS (trust / distrust / suspect) -------------------------------
+# Yes/No answers render without these; the statement forms are for volunteering
+# ("I suspect Mr Hale") and the parse direction.
+" $sub_np(NP) trusts $value(NP) "
+{ $sub_np(NP) /pres trust $value(NP) } .
+" $sub_np(NP) distrusts $value(NP) "
+{ $sub_np(NP) /pres distrust $value(NP) } .
+" $sub_np(NP) suspects $value(NP) "
+{ $sub_np(NP) /pres suspect $value(NP) } .
+" $sub_np(NP) admires $value(NP) "
+{ $sub_np(NP) /pres admire $value(NP) } .
+" $sub_np(NP) despises $value(NP) "
+{ $sub_np(NP) /pres despise $value(NP) } .
+" $sub_np(NP) relies on $value(NP) "
+{ $sub_np(NP) /pres rely $value(NP) } .

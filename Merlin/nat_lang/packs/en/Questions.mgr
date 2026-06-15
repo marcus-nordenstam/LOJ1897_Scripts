@@ -316,3 +316,566 @@
 "does $sub_np(Q_NP) want $goal(NP)"
 ( prob { $sub_np(Q_NP) /pres goal $goal(NP) } )
 .
+
+
+# =============================================================================
+# DETECTIVE-INTERROGATION QUESTION PACK (questionnaire.txt categories)
+# -----------------------------------------------------------------------------
+# All entries below are :QSP forms - the top-level "$qs_phrase(QSP)" router
+# (above) wraps any of them in (qs ...) so mx_player_say ships them as an ASK
+# and compute-answer / tell-answer evaluate them against the answerer's own
+# beliefs. Each question carries several surface phrasings, blunt -> eloquent,
+# so the same fact can be asked plainly ("what do you do") or formally ("by
+# what trade do you make your living").
+#
+# Answer-shape conventions (matching the existing file):
+#   ( any { S /pres LABEL } ).target      -> single value (kind / number / obj)
+#   ( o /known { S /ever LABEL @o } )      -> single bound object (a person/org)
+#   ( every { S /ever LABEL ? } ).target  -> Oxford-comma enumeration
+#   ( prob { S /pres LABEL <arg> } )       -> Yes / No  (renders @true/@false)
+#   ( none { S /pres LABEL @true } )       -> Yes when NO such belief (alive)
+# Subjects: ?_you = the witness answering about themselves; $person(Q_NP) = a
+# third party (the victim, a neighbour); answers about others are bounded by
+# the believe_about disclosure ceiling - the witness can only answer what it
+# actually holds.
+#
+# NOTE (verify in Talkie): the Yes/No forms use ( prob { ... ? } ) as a
+# positive existence test. If prob requires a bound target, swap to whatever
+# existence-predicate the engine prefers; the belief shapes are correct.
+#
+# # FLAG lines mark sub-questions whose substrate/func is NOT in place yet
+# (durations, arbitrary clock-times, day-of-week, arrest/prison, "why" parse,
+# scalar-trait categorisation). They are the truly-new work from the plan.
+# =============================================================================
+
+
+# --- 1. IDENTITY (extends the name/age/birth set already above) --------------
+
+"what is your full name"
+( any { ?_you /pres name } ).target
+.
+"by what name are you known"
+( any { ?_you /pres name } ).target
+.
+"what are you called"
+( any { ?_you /pres name } ).target
+.
+"have you ever gone by another name"
+( any { ?_you /past name } ).target
+.
+"have you ever used another name"
+( any { ?_you /past name } ).target
+.
+"what was your maiden name"
+( any { ?_you /past name } ).target
+.
+
+# # FLAG: religion/denomination has no categorical label (piety is a 0..1
+# scalar); worship-venue + {interest religion} are the nearest substrate.
+"what is your religion"
+( prob { ?_you /pres interest [k religion ] } )
+.
+
+
+# --- 1b. MARRIAGE / CHILDREN -------------------------------------------------
+
+"are you married"
+( prob { ?_you /pres spouse ? } )
+.
+"have you a wife"
+( prob { ?_you /pres spouse ? } )
+.
+"have you a husband"
+( prob { ?_you /pres spouse ? } )
+.
+"were you ever married"
+( prob { ?_you /past spouse ? } )
+.
+"are you a widow"
+( prob { ?_you /past spouse ? } )
+.
+"are you a widower"
+( prob { ?_you /past spouse ? } )
+.
+"who is your wife"
+( o /known { ?_you /pres spouse @o } )
+.
+"who is your husband"
+( o /known { ?_you /pres spouse @o } )
+.
+"is $person(Q_NP) married"
+( prob { $person(Q_NP) /pres spouse ? } )
+.
+
+"do you have children"
+( prob { ?_you /pres child ? } )
+.
+"have you any children"
+( prob { ?_you /pres child ? } )
+.
+"are you a father"
+( prob { ?_you /pres child ? } )
+.
+"are you a mother"
+( prob { ?_you /pres child ? } )
+.
+
+# "are they alive" - per-named-person; mirrors the existing alive/dead set.
+"is your $rel(REL) alive"
+( none { ( o /known { ?_you /ever $rel(REL) @o } ) /pres deceased @true } )
+.
+
+
+# --- 3. EDUCATION & TRAINING -------------------------------------------------
+
+"what did you study"
+( any { ?_you /ever study ? } ).target
+.
+"what were you schooled in"
+( any { ?_you /ever study ? } ).target
+.
+"were you educated"
+( prob { ?_you /ever study ? } )
+.
+"did you have any schooling"
+( prob { ?_you /ever study ? } )
+.
+
+"were you apprenticed"
+( prob { ?_you /ever master ? } )
+.
+"who was your master"
+( o /known { ?_you /ever master @o } )
+.
+"who taught you your trade"
+( o /known { ?_you /ever master @o } )
+.
+"to whom were you apprenticed"
+( o /known { ?_you /ever master @o } )
+.
+
+"what are you skilled in"
+( every { ?_you /ever skilled_in ? } ).target
+.
+"what is your training"
+( every { ?_you /ever skilled_in ? } ).target
+.
+"are you skilled in $thing(KIND)"
+( prob { ?_you /pres skilled_in $thing(KIND) } )
+.
+
+"did you serve in the army"
+( prob { ?_you /ever served ? } )
+.
+"have you a military record"
+( prob { ?_you /ever served ? } )
+.
+"what rank did you hold"
+( any { ?_you /ever served ? } ).target
+.
+
+# # FLAG: literacy ("can you read") has no dedicated belief; education is a
+# 0..1 dimension. Needs a categorical literacy projection or a reading skill.
+
+
+# --- 4. PROFESSIONAL LIFE ----------------------------------------------------
+
+"what do you do"
+( any { ?_you /pres job } ).target
+.
+"what is your occupation"
+( any { ?_you /pres job } ).target
+.
+"what is your trade"
+( any { ?_you /pres job } ).target
+.
+"what is your profession"
+( any { ?_you /pres job } ).target
+.
+"how do you earn your living"
+( any { ?_you /pres job } ).target
+.
+"by what trade do you make your living"
+( any { ?_you /pres job } ).target
+.
+"what is $person(Q_NP) ++'s occupation"
+( any { $person(Q_NP) /pres job } ).target
+.
+"what does $person(Q_NP) do"
+( any { $person(Q_NP) /pres job } ).target
+.
+
+"who employs you"
+( o /known { ?_you /pres employer @o } )
+.
+"who is your employer"
+( o /known { ?_you /pres employer @o } )
+.
+"who do you work for"
+( o /known { ?_you /pres employer @o } )
+.
+"in whose service are you"
+( o /known { ?_you /pres employer @o } )
+.
+"who employs $person(Q_NP)"
+( o /known { $person(Q_NP) /pres employer @o } )
+.
+
+"have you ever had another position"
+( prob { ?_you /past employer ? } )
+.
+"where did you work before"
+( o /known { ?_you /past employer @o } )
+.
+
+# # FLAG: wage ("how much do you earn"), tenure ("how long have you worked
+# there"), supervisor, dismissal-reason are not standing beliefs (no interval
+# extraction / no dismissal-cause record). Truly-new substrate work.
+
+
+# --- 5. FINANCIAL ------------------------------------------------------------
+
+"are you in debt"
+( prob { ?_you /pres owe ? } )
+.
+"do you owe anyone money"
+( prob { ?_you /pres owe ? } )
+.
+"do you owe money to anyone"
+( prob { ?_you /pres owe ? } )
+.
+"who do you owe money to"
+( o /known { ?_you /pres owe @o } )
+.
+"to whom are you indebted"
+( o /known { ?_you /pres owe @o } )
+.
+"do you owe $person(Q_NP) money"
+( prob { ?_you /pres owe $person(Q_NP) } )
+.
+
+"does anyone owe you money"
+( prob { ? /pres owe ?_you } )
+.
+"who owes you money"
+( o /known { @o /pres owe ?_you } )
+.
+"does $person(Q_NP) owe you money"
+( prob { $person(Q_NP) /pres owe ?_you } )
+.
+
+# # FLAG: absolute wealth ("how much money do you possess") renders as a raw
+# bank_balance number; inheritance / gambling-losses / large-recent-spend are
+# the planned gambling-and-debt substrate (future_work, not started).
+
+
+# --- 6. DAILY ROUTINE & HABITS -----------------------------------------------
+
+"where do you worship"
+( any { ?_you /pres worship ? } ).target
+.
+"which church do you attend"
+( any { ?_you /pres worship ? } ).target
+.
+"where do you drink"
+( any { ?_you /pres indulge ? } ).target
+.
+"where do you take your leisure"
+( any { ?_you /pres socialize_at ? } ).target
+.
+"where do you spend your evenings"
+( any { ?_you /pres socialize_at ? } ).target
+.
+"do you belong to any club"
+( prob { ?_you /pres member_of ? } )
+.
+"what clubs do you belong to"
+( every { ?_you /pres member_of ? } ).target
+.
+"are you a member of $np(Q_NP)"
+( prob { ?_you /pres member_of $np(Q_NP) } )
+.
+
+# # FLAG: day-of-week / time-of-day routine ("what do you do on Sundays",
+# "what do you do of a morning") and "was he acting normally?" anomaly checks
+# need a routine-vs-episode comparison that is not surfaced yet (truly-new).
+
+
+# --- 7. SOCIAL NETWORK -------------------------------------------------------
+
+# (kinship "who are your friends/enemies" already covered by the RELP set.)
+"do you trust $person(Q_NP)"
+( prob { ?_you /pres trust $person(Q_NP) } )
+.
+"can $person(Q_NP) be trusted"
+( prob { ?_you /pres trust $person(Q_NP) } )
+.
+"do you distrust $person(Q_NP)"
+( prob { ?_you /pres distrust $person(Q_NP) } )
+.
+"do you like $person(Q_NP)"
+( prob { ?_you /pres like $person(Q_NP) } )
+.
+"do you dislike $person(Q_NP)"
+( prob { ?_you /pres dislike $person(Q_NP) } )
+.
+"do you admire $person(Q_NP)"
+( prob { ?_you /pres admire $person(Q_NP) } )
+.
+"do you despise $person(Q_NP)"
+( prob { ?_you /pres despise $person(Q_NP) } )
+.
+"do you rely on $person(Q_NP)"
+( prob { ?_you /pres rely $person(Q_NP) } )
+.
+"is $person(Q_NP) a friend of yours"
+( prob { ?_you /pres friend $person(Q_NP) } )
+.
+"are you acquainted with $person(Q_NP)"
+( prob { ?_you /pres acquaintance $person(Q_NP) } )
+.
+"is $person(Q_NP) your enemy"
+( prob { ?_you /pres enemy $person(Q_NP) } )
+.
+"do you have a quarrel with $person(Q_NP)"
+( prob { ?_you /pres rival $person(Q_NP) } )
+.
+"who do you trust"
+( o /known { ?_you /pres trust @o } )
+.
+"who are you at odds with"
+( o /known { ?_you /pres enemy @o } )
+.
+
+
+# --- 8. ROMANTIC & SEXUAL HISTORY --------------------------------------------
+
+"are you courting anyone"
+( prob { ?_you /pres fancy ? } )
+.
+"is there anyone you fancy"
+( prob { ?_you /pres fancy ? } )
+.
+"who do you fancy"
+( o /known { ?_you /pres fancy @o } )
+.
+"do you fancy $person(Q_NP)"
+( prob { ?_you /pres fancy $person(Q_NP) } )
+.
+"have you ever been engaged"
+( prob { ?_you /past fiancee ? } )
+.
+"are you betrothed"
+( prob { ?_you /pres fiancee ? } )
+.
+"who are you betrothed to"
+( o /known { ?_you /pres fiancee @o } )
+.
+"do you have a lover"
+( prob { ?_you /pres lover ? } )
+.
+"did you love $person(Q_NP)"
+( prob { ?_you /past love $person(Q_NP) } )
+.
+"do you love $person(Q_NP)"
+( prob { ?_you /pres love $person(Q_NP) } )
+.
+"were you jealous of $person(Q_NP)"
+( prob { ?_you /ever emotion [k jealousy ] $person(Q_NP) } )
+.
+
+
+# --- 9. KNOWLEDGE OF THE VICTIM / A THIRD PARTY ------------------------------
+
+# # FLAG: a unified "did you know them at all" is the planned acquaintance-test
+# (priority, not built). Until then the bond-specific forms below answer it.
+"are you acquainted with the deceased"
+( prob { ?_you /pres acquaintance $person(Q_NP) } )
+.
+"did you know $person(Q_NP)"
+( prob { ?_you /pres acquaintance $person(Q_NP) } )
+.
+"were you a friend of $person(Q_NP)"
+( prob { ?_you /pres friend $person(Q_NP) } )
+.
+"did you get on with $person(Q_NP)"
+( prob { ?_you /pres friend $person(Q_NP) } )
+.
+"did you quarrel with $person(Q_NP)"
+( prob { ?_you /pres enemy $person(Q_NP) } )
+.
+"were you afraid of $person(Q_NP)"
+( prob { ?_you /ever emotion [k fear ] $person(Q_NP) } )
+.
+
+
+# --- 12. CHARACTER & REPUTATION (of a third party) --------------------------
+
+"what is $person(Q_NP) ++'s reputation"
+( any { $person(Q_NP) /pres repute } ).target
+.
+"what sort of person is $person(Q_NP)"
+( any { $person(Q_NP) /pres repute } ).target
+.
+"is $person(Q_NP) respectable"
+( any { $person(Q_NP) /pres repute } ).target
+.
+"is $person(Q_NP) well thought of"
+( any { $person(Q_NP) /pres repute } ).target
+.
+
+# # FLAG: intrinsic-trait yes/no ("is he honest", "does he drink", "is she
+# violent") map to honesty/sobriety scalar dimensions with no categorical
+# word to utter - needs the planned ms1-authored band-threshold projection.
+
+
+# --- 13. CRIMINAL HISTORY ----------------------------------------------------
+
+"have you ever stolen anything"
+( prob { ?_you /ever steal ? } )
+.
+"have you ever stolen from anyone"
+( prob { ?_you /ever steal ? } )
+.
+"did you steal from $person(Q_NP)"
+( prob { ?_you /ever steal $person(Q_NP) } )
+.
+"have you ever killed anyone"
+( prob { ?_you /ever kill ? } )
+.
+"did you kill $person(Q_NP)"
+( prob { ?_you /ever kill $person(Q_NP) } )
+.
+"have you ever assaulted anyone"
+( prob { ?_you /ever assault ? } )
+.
+"who do you suspect"
+( o /known { ?_you /pres suspect @o } )
+.
+"who do you think killed $person(Q_NP)"
+( o /known { ?_you /pres suspect @o } )
+.
+"do you suspect $person(Q_NP)"
+( prob { ?_you /pres suspect $person(Q_NP) } )
+.
+
+# # FLAG: arrest / trial / imprisonment are NOT represented (hsim runs no
+# justice arc) - these questions are correctly unanswerable by design.
+
+
+# --- 15. EMOTIONAL STATE -----------------------------------------------------
+
+"are you afraid"
+( prob { ?_you /pres emotion [k fear ] } )
+.
+"are you afraid of $person(Q_NP)"
+( prob { ?_you /pres emotion [k fear ] $person(Q_NP) } )
+.
+"are you angry"
+( prob { ?_you /pres emotion [k anger ] } )
+.
+"are you angry with $person(Q_NP)"
+( prob { ?_you /pres emotion [k anger ] $person(Q_NP) } )
+.
+"are you grieving"
+( prob { ?_you /pres emotion [k grief ] } )
+.
+"do you grieve for $person(Q_NP)"
+( prob { ?_you /pres emotion [k grief ] $person(Q_NP) } )
+.
+"do you feel guilty"
+( prob { ?_you /pres emotion [k guilt ] } )
+.
+
+# # FLAG: "why are you upset / why were you angry / why did you fear him" needs
+# WH-why parsing (discourse_planner: why-questions are unsupported) normalised
+# onto a cause predicate. Truly-new work; the cause chain exists (/causes).
+
+
+# --- 10. ALIBI (extends the crime-night set already above) -------------------
+
+"where were you on the night of the murder"
+( whereabouts_on ?_you ( night_of ( death_date $person(Q_NP) ) ) ).target
+.
+"can you account for your whereabouts the night $person(Q_NP) died"
+( whereabouts_on ?_you ( night_of ( death_date $person(Q_NP) ) ) ).target
+.
+"where were you the morning $person(Q_NP) was killed"
+( whereabouts_on ?_you ( morning_of ( death_date $person(Q_NP) ) ) ).target
+.
+
+# # FLAG: an inspector-named clock time ("where were you at nine") needs a
+# band-from-clock-time func; only crime-anchored day-bands resolve today.
+
+
+# =============================================================================
+# OBJECT-CENTRIC FORMS  (+ inline-alternation demonstration)
+# -----------------------------------------------------------------------------
+# People ask about the SPECIFIC entity behind a fact - "what church do you
+# attend", "what firm employs you", "who is your closest friend" - not just the
+# abstract category. These forms return the bound object (a building / org /
+# person) via ( any { ... } ).target or ( o /known { ... @o } ).
+#
+# They also exercise the new inline-alternation syntax: "[go to|attend]" in a
+# phrase literal expands at LOAD time to one row per branch, all sharing this
+# meaning. Brackets are used (not parens) so the delimiter never collides with
+# a $hole(...) or a kind literal [k ...]. Branches may be multi-word and may
+# contain holes. REQUIRES the rebuilt parser (t_nat_lang::_expand_nl_
+# alternations); until then these lines read as literal text and will not match.
+# Each `[a|b]` below replaces what would otherwise be 2-4 near-duplicate lines.
+# =============================================================================
+
+# --- Residence / birthplace (object) -----------------------------------------
+"[what|which] [house|address] do you [live at|reside at]"
+( any { ?_you /pres home } ).target
+.
+"[what|which] [town|parish] were you born in"
+( any { ?_you /pres birthplace } ).target
+.
+
+# --- Profession: the employer ENTITY (org) -----------------------------------
+"[what|which] [firm|house|establishment|concern] [do you work for|employs you]"
+( o /known { ?_you /pres employer @o } )
+.
+"[who|what house] does $person(Q_NP) [work for|serve]"
+( o /known { $person(Q_NP) /pres employer @o } )
+.
+
+# --- Routine: the church / public-house ENTITY (building) --------------------
+"[what|which] [church|chapel] do you [attend|worship at|go to]"
+( any { ?_you /pres worship ? } ).target
+.
+"[what|which] [public house|tavern|inn] do you [drink at|frequent]"
+( any { ?_you /pres indulge ? } ).target
+.
+
+# --- Social: the specific person -------------------------------------------
+"who is your [closest|dearest|best] friend"
+( o /known { ?_you /pres friend @o } )
+.
+"who do you [trust most|rely on]"
+( o /known { ?_you /pres trust @o } )
+.
+
+# --- Romance: the specific person -------------------------------------------
+"who are you [courting|sweet on|fond of]"
+( o /known { ?_you /pres fancy @o } )
+.
+
+# --- Criminal: the suspected person -----------------------------------------
+"who do you [suspect|think did it|believe is guilty]"
+( o /known { ?_you /pres suspect @o } )
+.
+
+# --- Education: the school ENTITY (object) -----------------------------------
+# # FLAG: the school as an ENTITY is NOT in the substrate - hsim mints
+# {pupil study <curriculum>} with the SUBJECT as target and leaves study's
+# (aux org) institution slot unset (hse_engine.cc enroll), and there is no
+# `.aux` accessor. So this returns @unknown today. To answer it: (1) hsim must
+# set study's aux org to the school entity at enroll, and (2) add a `.aux`
+# post-eval field accessor (parallel to `.target`/`.label`/`.sub`). The phrasing
+# is staged here so it is ready the moment the substrate lands; for now it
+# best-effort confirms WHAT was studied, not WHERE.
+"[what|which] school did you [go to|attend|study at]"
+( any { ?_you /ever study ? } ).target
+.
