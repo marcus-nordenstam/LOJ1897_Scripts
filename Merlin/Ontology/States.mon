@@ -200,6 +200,12 @@ relation
             fancy               (tar human)
             desire              (tar human)
             crave               (tar human)
+            # dread axis (one-sided fear OF a person - the long-tail of the fear
+            # emotion: durable, slow-decay, so you remember whom you fear for a
+            # lifetime. Verbs avoid the `fear` emotion-kind name (taxonomy clash).
+            wary                (tar human)
+            dread               (tar human)
+            terror              (tar human)
 
         # Construals are tags, not beliefs. Each construal is one of
         # the construed_act sub-kinds in Concepts.mon (wrong_act,

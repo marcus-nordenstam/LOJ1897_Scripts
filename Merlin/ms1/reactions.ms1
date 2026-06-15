@@ -139,7 +139,7 @@
 (stance-coupling disgust    :esteem -0.4 :warmth -0.3)
 (stance-coupling envy       :esteem -0.3)
 (stance-coupling jealousy   :warmth -0.3 :trust -0.2)
-(stance-coupling fear       :warmth -0.2 :trust -0.3)
+(stance-coupling fear       :warmth -0.2 :trust -0.3 :dread 0.6)   ; fear feeds the durable, slow-decay dread stance (whom you fear, for a lifetime)
 (stance-coupling gratitude  :warmth  0.4 :trust  0.2)
 (stance-coupling affection  :warmth  0.5)
 (stance-coupling admiration :esteem  0.5 :warmth  0.2)
