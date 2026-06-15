@@ -210,11 +210,12 @@ attr "locked_wing" (type int) (range 0 1) (mech obs)
 # Era bounds - the building physically exists from era_min to era_max.
 attr "era_min" (type date) (imperceptible)
 attr "era_max" (type date) (imperceptible)
-# Address: entity ref to the road the building is on, OR to the estate
-# entity itself when there's no street (estate-on-grounds case). Combined
-# with address_number ("14 Victoria Street", or "Blackthorne Estate" with
-# _ number).
-attr "address" (type entity) (entity "road" "structure" "container_structure") (mech obs) (auto-percept)
+# Address (Section 4.12 exterior-spaces model). Two levels share this attr:
+#   - a BUILDING's address -> its exterior address-SPACE entity (the location).
+#   - that address-SPACE's address -> the road it fronts (with address_number).
+# So a building's full street address is read FROM its address-space (the space's
+# `address` road + `address_number`). Estates with no street self-reference.
+attr "address" (type entity) (entity "road" "structure" "container_structure" "space") (mech obs) (auto-percept)
 attr "address_number" (type int) (range 1 9999) (mech obs) (auto-percept)
 
 # Conversation

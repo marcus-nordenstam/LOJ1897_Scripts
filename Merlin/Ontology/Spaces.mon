@@ -36,3 +36,20 @@ space (+ obs)
                     country
             area
                 neighborhood
+        # Occupiable exterior spaces with OBBs (Section 4.12). Each is a `space`
+        # entity (so it reuses the OBB co-presence machinery) and may carry
+        # name / address (-> road) / address_number.
+        # street_space: the frontage at one street address - its OBB covers the
+        #   building + the overlapping stretch of road. A building's `address`
+        #   points to its street_space.
+        street_space
+        # Amenity grounds for larger homes + public open space.
+        garden
+        field
+        park
+        # Remote named wilds (usually name-only, no road/number).
+        meadow
+        forest
+        moor
+        bluff
+        cliff
