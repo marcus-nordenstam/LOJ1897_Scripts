@@ -83,8 +83,12 @@
 (job apothecary    (class_floor middle) (business_type apothecary)     (may_own true)  (bootstrap true) (era_min 1700) (domain medicine)
    (req_repute respectable)
    (pref_trait industriousness 0.8))
+; A priest keeps irregular hours and the week is NOT Mon-Sat (Sunday is the
+; working day). work_schedule names the working days explicitly; omitted days
+; are off.
 (job priest        (class_floor middle) (business_type church)         (may_own false) (era_min 1700) (domain theology)
    (req_repute respectable)
+   (work_schedule (sunday 8am 1pm) (wednesday 10am 12pm) (saturday 4pm 6pm))
    (pref_trait politeness 0.8) (pref_trait compassion 0.8))
 (job principal     (class_floor middle) (business_type private_school) (may_own false) (era_min 1700) (domain secondary_school_curriculum)
    (req_repute respectable) (req_skill secondary_school_curriculum trained)
@@ -144,13 +148,20 @@
    (pref_trait industriousness 0.6))
 (job maid           (class_floor lower)                            (may_own false) (era_min 1700)
    (pref_trait industriousness 0.6) (pref_trait politeness 0.5))
+; A hospital runs ROUND THE CLOCK, so a nurse is assigned ONE of two shifts at
+; hire (day or night) - two `shift` clauses; the night shift wraps past midnight.
 (job nurse          (class_floor lower) (business_type hospital)   (may_own false) (era_min 1700) (domain medicine)
+   (shift (monday 7am 7pm) (tuesday 7am 7pm) (wednesday 7am 7pm) (thursday 7am 7pm) (friday 7am 7pm) (saturday 7am 7pm) (sunday 7am 7pm))
+   (shift (monday 7pm 7am) (tuesday 7pm 7am) (wednesday 7pm 7am) (thursday 7pm 7am) (friday 7pm 7am) (saturday 7pm 7am) (sunday 7pm 7am))
    (pref_trait compassion 1.0) (pref_trait industriousness 0.6))
 (job shop_clerk     (class_floor lower) (business_type grocer)     (may_own false) (bootstrap true) (era_min 1700)
    (pref_trait enthusiasm 0.6) (pref_trait politeness 0.5))
 (job waiter         (class_floor lower) (business_type restaurant) (may_own false) (era_min 1700)
    (pref_trait politeness 0.6) (pref_trait enthusiasm 0.5))
+; A factory runs day AND night shifts; a hand is assigned one at hire.
 (job factory_worker (class_floor lower) (business_type factory)    (may_own false) (era_min 1830)
+   (shift (monday 6am 6pm) (tuesday 6am 6pm) (wednesday 6am 6pm) (thursday 6am 6pm) (friday 6am 6pm) (saturday 6am 6pm))
+   (shift (monday 6pm 6am) (tuesday 6pm 6am) (wednesday 6pm 6am) (thursday 6pm 6am) (friday 6pm 6am) (saturday 6pm 6am))
    (pref_trait industriousness 0.6))
 ; jockey: professional race rider, employed by a race_club. The annual
 ; horse_racing meet (hold-sporting-event) admits ONLY jockey-job roster

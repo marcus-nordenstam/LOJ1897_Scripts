@@ -586,6 +586,18 @@ concept
                 lecturer
 
 
+    # Work hours (band_deliberate substrate): a worker's shift on one weekday,
+    # held on their job object as {<job> <weekday>_hours <start> <end>} - target
+    # is the start hour (0..23), aux the end hour; start > end wraps past midnight
+    # (a night shift). A weekday with no relation is a day off. Stamped at hire
+    # from the occupation's authored shift(s) (occupations.hs).
+    mon_hours           (sub human|org_pos)  (tar ? @excl)  (aux ?)
+    tue_hours           (sub human|org_pos)  (tar ? @excl)  (aux ?)
+    wed_hours           (sub human|org_pos)  (tar ? @excl)  (aux ?)
+    thu_hours           (sub human|org_pos)  (tar ? @excl)  (aux ?)
+    fri_hours           (sub human|org_pos)  (tar ? @excl)  (aux ?)
+    sat_hours           (sub human|org_pos)  (tar ? @excl)  (aux ?)
+    sun_hours           (sub human|org_pos)  (tar ? @excl)  (aux ?)
     # level grades a human, or a job / org_pos. A trainee clerk is
     # {@self job ?j} + {?j level trainee}.
     level               (sub human|org_pos)  (tar @excl)

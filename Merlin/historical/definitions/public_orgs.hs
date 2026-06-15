@@ -24,11 +24,14 @@
   (head_pos  priest)
   (employees 2 clerk))
 
+; The cottage hospital runs round the clock: nurses carry a day OR a night shift
+; (assigned at hire from the nurse occupation's two shifts), so 6 of them reliably
+; staff both. The physician head keeps day hours (a doctor on call by night).
 (public_org cottage_hospital
   (kind      hospital)
   (era_min   1700)
   (head_pos  physician)
-  (employees 4 nurse))
+  (employees 6 nurse))
 
 (public_org post_office
   (kind      agency)
