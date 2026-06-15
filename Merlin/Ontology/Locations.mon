@@ -1,10 +1,16 @@
 
-# `location` is also the universal whereabouts belief label: {X location Y}
-# reads "X is/was at place Y" for both props (the building a prop sits in) and
-# people (the dated where-were-you memory). The explicit (tar ?) keeps the
-# auto-registered state target UNCONSTRAINED - a venue may be a building, a
-# room/space, or a mental org object - instead of defaulting to the noun's own
-# waypoint/spawnpoint subkinds (which would trip (tar) enforcement).
+# `location` is the universal whereabouts belief label: {X location Y} reads
+# "X is/was at place Y" for both props (the building/space a prop sits in) and
+# people (the dated where-were-you memory). The explicit (tar ?) keeps the state
+# target UNCONSTRAINED - a location may be a building, a room/space, an exterior
+# address-space, or a mental org object.
 location (+ obs) (tar ?)
+
+# env_point: nav waypoints / spawnpoints (the env_point.arc archetype). Renamed
+# from the old `location` archetype/kind so the `location` name is reserved for
+# the whereabouts belief-label above and the space-as-location model (exterior
+# spaces are `space` entities, not env_points). Dormant in hsim - GrymEngine
+# runtime nav/spawn instantiates these.
+env_point (+ obs)
     waypoint
     spawnpoint
