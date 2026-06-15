@@ -10,7 +10,7 @@
 ; affordance-resolution pass) consumes (afford ...).
 ;
 ; Form:
-;   (place <building-kind>
+; (location <building-kind>
 ;     (capacity <N>)                       ; max occupants; 0/omitted = default crowd cap
 ;     (afford <event> <precond> <rate>)    ; one per affordance the place hosts
 ;     (draw   <band> <weight> [selector])) ; one per reason an agent comes here
@@ -50,7 +50,7 @@
 ;; --- Home (any residence): the domestic + intimate affordances. Reached by
 ;;     routine, so no (draw ...). poison is the cohabiting crime opportunity the
 ;;     Phase 2 crime migration will bind. ---
-(place residential_building
+(location residential_building
   (afford family_dinner    cohabitant 0.40)
   (afford domestic_quarrel cohabitant 0.06)
   (afford confide          pair       0.10)
@@ -66,7 +66,7 @@
   (afford poison           cohabitant 0.01))
 
 ;; --- Leisure / social venues ---
-(place pub
+(location pub
   (afford drink     solo 0.50)
   ; Venue-sourced social ties (Section 4.11): friendships / crushes / affairs now
   ; SPARK between co-present people (the events are place-lane) - so every venue,
@@ -87,7 +87,7 @@
   (draw evening 1.00 sociable)
   (draw midday   0.25 working_class))
 
-(place social_clubhouse
+(location social_clubhouse
   (afford gossip    pair  0.30)
   (afford adult_friendship pair 0.08)
   (afford crush_forms      pair 0.06)
@@ -103,7 +103,7 @@
   (draw evening 1.00 club_member)
   (draw night   0.40 club_member))
 
-(place athletic_clubhouse
+(location athletic_clubhouse
   (afford club_sport pair  0.40)
   (afford gossip     pair  0.20)
   (afford court      pair  0.12)
@@ -111,7 +111,7 @@
   (draw midday   0.60 club_member)
   (draw evening 0.80 club_member))
 
-(place restaurant
+(location restaurant
   (afford court      pair 0.30)
   (afford adult_friendship pair 0.08)
   (afford crush_forms      pair 0.06)
@@ -124,7 +124,7 @@
   (afford gossip   pair 0.15)
   (draw evening 0.70 gentry))
 
-(place theatre
+(location theatre
   (afford court      pair 0.25)
   (afford lovers     pair 0.10)
   (afford love_match pair 0.06)
@@ -135,26 +135,26 @@
 ;; --- Retail / services: errand-driven (Phase 3), so light (draw ...) only.
 ;;     The shop is where weapon purchase + general buying happen; the barbershop
 ;;     is the iconic gossip counter. ---
-(place shop
+(location shop
   (afford purchase   staff 0.30)
   (afford buy_weapon staff 0.05)
   (afford browse     solo  0.20)
   (afford gossip     pair  0.12)
   (draw midday 0.30))
 
-(place barbershop
+(location barbershop
   (afford purchase staff 0.30)
   (afford gossip   pair  0.25)
   (draw midday 0.25 sociable))
 
-(place bank
+(location bank
   (afford deposit staff 0.30)
   (afford borrow  staff 0.05)
   (draw midday 0.20))
 
 ;; --- Civic / cultural venues (govt-bootstrapped; the interest activity lane's
 ;;     destinations). Enthusiasts pursue their interest here. ---
-(place church
+(location church
   (afford worship solo 0.60)
   (afford adult_friendship pair 0.08)
   (afford crush_forms      pair 0.06)
@@ -166,26 +166,26 @@
   ; weddings are occasion-fired (the venue pool's transient tier), not afforded.
   (draw dawn 1.00 pious))
 
-(place library
+(location library
   (afford study  solo 0.40)
   (afford gossip pair 0.08)
   (afford court  pair 0.15)
   (draw midday   0.40 enthusiast)
   (draw evening 0.30 enthusiast))
 
-(place museum
+(location museum
   (afford browse   solo 0.40)
   (afford catch_up pair 0.10)
   (afford court    pair 0.15)
   (draw midday 0.40 enthusiast))
 
-(place meeting_hall
+(location meeting_hall
   (afford assembly pair 0.30)
   (afford gossip   pair 0.20)
   (afford court    pair 0.15)
   (draw evening 0.40))
 
-(place sports_ground
+(location sports_ground
   (afford spectate   pair  0.40)
   (afford club_sport pair  0.25)
   (afford gossip     pair  0.20)
@@ -194,14 +194,14 @@
   (draw midday   0.40 enthusiast)
   (draw evening 0.50 enthusiast))
 
-(place hotel
+(location hotel
   (afford affair_rendezvous lover 0.30)
   (afford gossip            pair  0.10))
 
 ;; --- Workplaces: reached by the employment routine, so no (draw ...). work is
 ;;     the solo routine affordance; gossip + ambition are the incidental social
 ;;     ones a shared workplace hosts. ---
-(place office
+(location office
   (afford work     solo  0.80)
   ; On-the-job social ties (Section 4.11): colleagues befriend, crush on, and have
   ; affairs with each other (incl. the boss) - the events spark on workplace
@@ -218,7 +218,7 @@
   (afford insult   pair  0.03)
   (afford brawl    pair  0.02))
 
-(place factory
+(location factory
   (afford work   solo 0.80)
   (afford adult_friendship pair 0.08)
   (afford crush_forms      pair 0.06)
@@ -228,7 +228,7 @@
   (afford insult pair 0.03)
   (afford brawl  pair 0.02))
 
-(place warehouse
+(location warehouse
   (afford work   solo 0.80)
   (afford adult_friendship pair 0.08)
   (afford crush_forms      pair 0.06)
@@ -237,7 +237,7 @@
   (afford insult pair 0.03)
   (afford brawl  pair 0.02))
 
-(place newspaper
+(location newspaper
   (afford work   solo 0.80)
   (afford adult_friendship pair 0.08)
   (afford crush_forms      pair 0.06)
@@ -247,7 +247,7 @@
   (afford insult pair 0.03)
   (afford brawl  pair 0.02))
 
-(place school
+(location school
   (afford study  solo 0.50)
   (afford work   solo 0.40)
   (afford adult_friendship pair 0.08)
@@ -258,7 +258,7 @@
   (afford insult pair 0.03)
   (afford brawl  pair 0.02))
 
-(place hospital
+(location hospital
   (afford work       solo 0.60)
   (afford convalesce solo 0.10)
   (afford adult_friendship pair 0.08)
@@ -268,6 +268,6 @@
   (afford insult     pair 0.03)
   (afford brawl      pair 0.02))
 
-(place police_station
+(location police_station
   (afford work        solo  0.60)
   (afford file_report staff 0.10))
