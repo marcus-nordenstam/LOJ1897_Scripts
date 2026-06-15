@@ -23,12 +23,17 @@
 (hsim-event social_ostracism
   (nl         "?npc is ostracised")
   (kind       _ostracism)
-  (schedule   (annually october))
+  ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
+  ; MONTHLY. social-ostracism is idempotent (re-ending already-ended warmth bonds /
+  ; club memberships is a no-op), but to avoid 12x/year log + scan churn the role
+  ; carries (chance 0.0833) ~= the old annual cadence; a scandalous NPC is
+  ; ostracised ~once a year (and re-ostracised if they form new warmth ties).
   (rng-stream behaviour)
 
   (roles
     (role ?npc (template old_human)
-               (= (situation ?self repute) scandalous)))
+               (= (situation ?self repute) scandalous)
+               (chance 0.0833)))
 
   (effects
     (social-ostracism ?npc)
