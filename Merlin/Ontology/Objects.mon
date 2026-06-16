@@ -115,9 +115,38 @@ object (+ obs)
                 summer_dress
             # Footwear, the muddy-prints clue class.
             boots
+        # Inert household furniture - scene dressing the detective walks
+        # through and searches. None carry a weapon facet (a heavy chair is
+        # not modelled as an improvised bludgeon - keeping these inert stops
+        # furniture from flooding the improvised-weapon pool; the genuine
+        # improvised weapons are the candlestick / fire_poker / cutlery kinds
+        # under their own families).
         loose_furniture
             table
                 kitchen_table
+                dining_table
+            chair
+            stool
+            armchair
+            bed
+            wardrobe
+            chest
+            crate
+            writing_desk
+            writing_bureau
+            bookshelf
+            sideboard
+            display_cabinet
+            smoking_cabinet
+            hat_stand
+            umbrella_stand
+            bell_pull
+            sewing_machine
+            drying_rack
+            fireplace
+            piano
+                upright_piano
+                grand_piano
             evidence_box
         # Purpose-built instruments of harm. Each leaf is naturally a
         # weapon (designed for combat / violence) - non-weapon items
@@ -167,6 +196,7 @@ object (+ obs)
             pillow              (facets smother)
             bedsheet            (facets smother strangle)
             towel               (facets smother)
+            blanket             (facets smother)
         # Lighting fixtures. A candlestick can also be used to bludgeon
         # (the brass-base variety); an oil_lamp carries fuel as well as
         # being an ignition source.
@@ -175,6 +205,8 @@ object (+ obs)
             candlestick         (facets bludgeon ignite)
             oil_lamp            (facets ignite burn_fuel)
             lantern             (facets ignite)
+            gas_lamp            (facets ignite)
+            chandelier          (facets ignite)
         # Fire-starting implements that aren't themselves a light fixture.
         fire_starter
             matches             (facets ignite)
@@ -206,6 +238,58 @@ object (+ obs)
         # (receipt + sales_record + shopkeeper memory) - the Victorian
         # poison register.
         bottle
+        # Clocks and timepieces. Inert household time-keeping props; a stopped
+        # mantel / grandfather clock is the classic time-of-death clue.
+        timepiece
+            wall_clock
+            mantel_clock
+            grandfather_clock
+        # Decorative ornaments - inert scene dressing the detective searches.
+        ornament
+            figurine
+            painting
+            mirror
+            taxidermy
+            photograph
+            vase
+        # Floor coverings - rugs / carpets (the body-under-the-rug clue).
+        floor_covering
+            rug
+                rag_rug
+                persian_rug
+        # Scientific / observation instruments - a gentleman's study pieces.
+        scientific_instrument
+            globe
+            telescope
+        # Household / kitchen utility goods. Inert (no weapon facet) so they
+        # furnish rooms without flooding the improvised-weapon pool; the
+        # cutting goods that ARE weapons live under `cutlery`.
+        houseware
+            cooking_pot
+            stove
+            coal_scuttle
+            wash_basin
+            pitcher
+            chamber_pot
+            broom
+            sewing_kit
+            flatiron
+            washtub
+            tin_cup
+            tin_plate
+            teacup
+            inkstand
+        # Tea / dinner services - class-signalling tableware (a silver service
+        # marks an upper-class home).
+        tableware
+            tea_set
+            silver_tea_service
+            china_service
+        # Parlour games. (`game` proper is a Concepts.mon activity object; these
+        # are the physical play sets.)
+        parlour_game
+            chess_set
+            playing_cards
         collection
             stack               (sub space|structure)  (tar @excl)
                 root_npc_knowledge_stack

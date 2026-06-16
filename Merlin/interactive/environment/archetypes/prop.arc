@@ -1,9 +1,12 @@
 # Any object that is potentially mobile
-# cap: the full St-Revier geography seeds household props per building, and
-# a century of runs accumulates PERMANENT paper evidence by design (the
+# cap: the full St-Revier geography now furnishes every room of every home
+# (beds, tables, chairs, dressers, clocks, ornaments, housewares - tens of
+# props per dwelling, class-stratified) ON TOP of the weapon seeding, and a
+# century of runs accumulates PERMANENT paper evidence by design (the
 # police-station crime-report archive, receipts, sales_records, letters) -
-# the 4096 cap died mid-run at 1734.
-archetype "prop" (cap 12288) (mech obs) (occupies-env-grid) (non-occluder)
+# the 4096 cap died mid-run at 1734; 12288 was tight once homes were
+# furnished, so the reservation is sized for the furnished world.
+archetype "prop" (cap 32768) (mech obs) (occupies-env-grid) (non-occluder)
 {
     "birth_date"
     "color"

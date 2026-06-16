@@ -24,12 +24,11 @@ archetype "container_structure" (cap 2048) (mech obs) (always-visible) (children
     "address_number"
     "region"
     # Delta-driven prop perception: last prop add/remove date (see
-    # common.arc).
+    # common.arc). Stays on the BUILDING (perception is building-granular: an
+    # occupant takes in the whole dwelling); a prop added to any of its rooms
+    # bumps this stamp via bump_inventory_stamp. The loose-item `contents`
+    # index itself now lives PER-ROOM on interior_space / exterior_space.
     "inventory_changed"
-    # Per-building loose-item index (inverse of each prop's `location`). The
-    # weapon/loot/store-inventory lookups read this instead of scanning the
-    # world. Maintained by hsim set_prop_location.
-    "contents"
     # Nav v2: cache key into nav_graph's mesh-data table.
     "nav_mesh"
     # Nav v2: container_structures (buildings/ships/wagons) physically occupy

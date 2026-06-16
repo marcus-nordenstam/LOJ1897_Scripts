@@ -24,4 +24,10 @@ archetype "interior_space" (cap 4096) (mech obs) (always-visible) (non-occluder)
     # An interior space's apartment number, when its building subdivides into
     # numbered apartments (rooms inherit it via their apartment struct_parent).
     "apartment_number"
+    # Per-room loose-item index (inverse of each prop's `location`): the props
+    # physically in THIS room. Moved here from the building (Section 4.12 per-
+    # space model) so weapon / loot / vessel lookups and the confrontation grab
+    # are room-scoped (a thief reaches only the room he is in; a defender the
+    # whole house). Maintained by hsim set_prop_location.
+    "contents"
 }

@@ -24,4 +24,9 @@ archetype "exterior_space" (cap 4096) (mech obs) (always-visible) (non-occluder)
     # points to the road. Unset for remote wilds.
     "address"
     "address_number"
+    # Per-space loose-item index (inverse of each prop's `location`): props
+    # dropped in this outdoor space (a weapon flung in a street / field). The
+    # confrontation grab and acquisition read it the same as a room's. Maintained
+    # by hsim set_prop_location.
+    "contents"
 }
