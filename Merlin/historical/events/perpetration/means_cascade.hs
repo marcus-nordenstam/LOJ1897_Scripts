@@ -65,3 +65,21 @@
   (effects
     (acquire-control ?actor means)
     (log _means_acquired ?actor)))
+
+; The kill STRIKE terminal (4.13 Phase G). Fired ONLY by run_night_home_kill_strikes
+; (preset ?actor + ?victim, on the night/dawn bands, for night-home-occasion kill
+; pairs) - NOT by the DES or the per-NPC pass (it is marked location-pass). The
+; (co-present ...) gate is the place-emergent condition (the killer and victim share
+; a room right now); the (strike ...) terminal routes to commit_domestic_kill_strike,
+; which resolves the scene + isolation and runs the wake-confrontation or the
+; one-shot kill with the premeditated method. No (log) here - the kill records
+; itself (the perpetration ledger + binlog). This replaces the bespoke
+; fire_domestic_kills loop: the co-presence test + commit now live in the cascade.
+(hsim-event means_strike
+  (nl   "?actor falls upon ?victim")
+  (kind _means_strike)
+  (roles (role ?actor  (template any_human))
+         (role ?victim (template any_human)))
+  (when (co-present ?actor ?victim))
+  (effects
+    (strike ?actor ?victim)))
