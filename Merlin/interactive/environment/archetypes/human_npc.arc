@@ -64,5 +64,10 @@ archetype "human_npc" (cap 4096) (mech obs) (raycast-visible) (sentient) (non-oc
     "torso"
     "pregnant_by"
     "control"
+    # The NPC's current SPACE (room / exterior_space). Perceptible + auto-percept
+    # (the universal `location` attr): relocate writes it on every move, the NPC
+    # self-perceives it, and co-presence is read straight off it - no belief dig.
+    # (4.13 movement substrate.)
+    "location"
     "obb"
 }
