@@ -22,13 +22,13 @@
 
 (hsim-event relapse
   (nl         "?npc relapses into drink")
-  (kind       _relapse)
+  (kind [k _relapse])
   (band      evening)
   (rng-stream behaviour)
 
   (roles
     (role ?npc (template old_human)
-               (= (belief-target ?self craving) alcohol)
+               (= (belief-target ?self craving) [k alcohol])
                (chance
                  (* 0.30                                                  ; base monthly relapse
                     (+ 0.60 (* 0.80 (attr ?self withdrawal)))              ; distress drives relapse

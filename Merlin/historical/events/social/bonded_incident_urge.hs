@@ -40,7 +40,7 @@
 
 (hsim-event bonded_incident_urge
   (nl       "?actor urges ?victim to atone")
-  (kind     _bonded_incident_urge)
+  (kind [k _bonded_incident_urge])
   (band      evening)
   (rng-stream incidents)
 

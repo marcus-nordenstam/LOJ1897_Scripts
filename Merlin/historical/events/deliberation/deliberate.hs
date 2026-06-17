@@ -34,7 +34,7 @@
 
 (hsim-event deliberate
   (nl       "?actor weighs their pressure load and acts")
-  (kind     _deliberate)
+  (kind [k _deliberate])
   (rng-stream deliberation)
 
   (roles

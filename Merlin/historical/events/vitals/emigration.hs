@@ -11,7 +11,7 @@
 
 (hsim-event emigration
   (nl         "?who emigrates")
-  (kind       _emigration)
+  (kind [k _emigration])
   (schedule   (annually january))
   (rng-stream migrations)
 

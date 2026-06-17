@@ -28,58 +28,51 @@
 (include "../../definitions/roles.hs")
 
 ; Step 1 - the killer lacks the means and resolves to acquire it.
+; IMPLICIT ACTOR (4.13 fork-B): a cascade event deliberated for one NPC declares
+; NO actor role - the actor IS the deliberating NPC, referenced as ?self (run_cascade
+; binds it). ?self / @self both resolve to that NPC.
 (hsim-event means_plan_acquire
   (cascade)
-  (nl   "?actor resolves to acquire the means for the deed")
-  (kind _means_plan)
-  (roles (role ?actor (template any_human)))
-  (when (and (not (controls ?actor means))
-             (not (believes ?actor {@self acquire means}))))
+  (nl   "?self resolves to acquire the means for the deed")
+  (kind [k _means_plan])
+  (when (and (has-means ?self)
+             (not (controls ?self means))
+             (not (believes ?self {@self acquire means}))))
+  ; NB: NO (log) here - this fires in the PARALLEL deliberation pass, and (log)
+  ; appends to the shared narrative; only per-mind writes (the hsim-wm overlay)
+  ; are allowed during deliberation. The acquisition is narrated by the serial
+  ; means_acquired completion event instead.
   (effects
-    (wm-begin-belief ?actor acquire means)
-    (log _means_plan ?actor)))
+    (wm-begin-belief ?self acquire means)))
 
 ; Step 2 - resolved + still unarmed -> the DURATIVE obtain act. (act ...) marks
 ; act-quiescence and schedules `means_acquired` a real round-trip travel-time
 ; later; the result lands at COMPLETION, not now.
 (hsim-event means_plan_obtain
   (cascade)
-  (nl   "?actor sets out to obtain the means")
-  (kind _means_plan)
-  (roles (role ?actor (template any_human)))
-  (when (and (believes ?actor {@self acquire means})
-             (not (controls ?actor means))))
+  (nl   "?self sets out to obtain the means")
+  (kind [k _means_plan])
+  (when (and (has-means ?self)
+             (believes ?self {@self acquire means})
+             (not (controls ?self means))))
+  ; NO (log) - parallel deliberation pass (shared-write-free); the obtain act is
+  ; narrated by means_acquired (serial completion).
   (effects
-    (log _means_plan ?actor)
-    (act means_acquired (travel-minutes ?actor means))))
+    (act means_acquired (travel-minutes ?self means))))
 
 ; The COMPLETION-EVENT of the obtain act: fired by process_due_completions a
 ; travel-time later (serial completion pass; (chain-only) keeps it off the DES +
 ; per-NPC passes). acquire-control performs the REAL acquisition (acquire_weapon
-; -> controlled_by), so the killer now physically holds the means.
+; -> controlled_by), so the killer now physically holds the means. Implicit actor:
+; process_due_completions binds the act's owner as ?self.
 (hsim-event means_acquired
   (schedule (chain-only))
-  (nl   "?actor returns having obtained the means")
-  (kind _means_acquired)
-  (roles (role ?actor (template any_human)))
+  (nl   "?self returns having obtained the means")
+  (kind [k _means_acquired])
   (effects
-    (acquire-control ?actor means)
-    (log _means_acquired ?actor)))
+    (acquire-control ?self means)
+    (log _means_acquired ?self)))
 
-; The kill STRIKE terminal (4.13 Phase G). Fired ONLY by run_night_home_kill_strikes
-; (preset ?actor + ?victim, on the night/dawn bands, for night-home-occasion kill
-; pairs) - NOT by the DES or the per-NPC pass (it is marked location-pass). The
-; (co-present ...) gate is the place-emergent condition (the killer and victim share
-; a room right now); the (strike ...) terminal routes to commit_domestic_kill_strike,
-; which resolves the scene + isolation and runs the wake-confrontation or the
-; one-shot kill with the premeditated method. No (log) here - the kill records
-; itself (the perpetration ledger + binlog). This replaces the bespoke
-; fire_domestic_kills loop: the co-presence test + commit now live in the cascade.
-(hsim-event means_strike
-  (nl   "?actor falls upon ?victim")
-  (kind _means_strike)
-  (roles (role ?actor  (template any_human))
-         (role ?victim (template any_human)))
-  (when (co-present ?actor ?victim))
-  (effects
-    (strike ?actor ?victim)))
+; NB: the kill STRIKE terminal (means_strike) was moved to
+; historical/_unported_events/means_strike.hs when the place-lane crime passes were
+; retired - re-port it as a co-presence cascade terminal alongside the kill behaviour.

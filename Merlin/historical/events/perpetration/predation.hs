@@ -49,12 +49,12 @@
 
 (hsim-event predation
   (nl       "?actor's appetite turns predatory")
-  (kind     _predation)
+  (kind [k _predation])
   (band      night)
   (rng-stream perpetration)
   (generative-predation)
 
   (roles
-    (role ?actor (kind human)
+    (role ?actor (kind [k human])
       (alive)
       (>= (years-old ?actor) 18))))

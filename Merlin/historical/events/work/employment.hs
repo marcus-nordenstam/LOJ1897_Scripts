@@ -18,7 +18,7 @@
 ; --- hiring: a jobless working-age adult is taken on by some org -------------
 (hsim-event hiring
   (nl         "?worker is hired")
-  (kind       _hiring)
+  (kind [k _hiring])
   (band      morning)
   (rng-stream employment)
 
@@ -35,13 +35,13 @@
                   (>= (years-old ?self) 16)
                   (<= (years-old ?self) 55)
                   (not (believes ?self {@self employer ?}))
-                  (not (= (situation ?self repute) scandalous))
+                  (not (= (situation ?self repute) [k scandalous]))
                   (chance 0.3))   ; how often a jobless adult seeks work (monthly)
     ;; A household is an org but NOT a labour-market employer: its servants
     ;; are taken on by the staff_household pass (role-appropriate,
     ;; gender-normed), never as generic clerks here.
     (role ?articles (template org_articles)
-                    (not (org-kind-is-a ?self household))))
+                    (not (org-kind-is-a ?self [k org household]))))
 
   ;; Live exclusivity re-check (see business.hs): the worker's "unemployed"
   ;; role filter is alpha-indexed, so within one tick every hiring org samples
@@ -51,7 +51,7 @@
   ;; through the same alpha-discriminator that's already stale. (hire ... :level
   ;; apprentice) sets the level live, so once hired this tick the worker reads
   ;; apprentice and the sampler backtracks to another candidate.
-  (when (not (= (job-level ?worker) apprentice)))
+  (when (not (= (job-level ?worker) [k apprentice])))
 
   (effects
     ; Eligibility-match hire: picks the org's needed job kind (banker at a bank,
@@ -70,20 +70,20 @@
 ;; the mid-range chance the worker had before Phase 9).
 (hsim-event promotion
   (nl         "?worker is promoted")
-  (kind       _promotion)
+  (kind [k _promotion])
   (band      morning)
   (rng-stream employment)
 
   (roles
     (role ?worker (template any_human)
                   (believes ?self {@self employer ?})
-                  (not (= (job-level ?self) org_head))
+                  (not (= (job-level ?self) [k org_head]))
                   (>= (job-tenure ?self) 3)
                   ;; S4: a worker must have EARNED competence (>= trained, ~5yr in
                   ;; the job's domain) before rising. Jobs that confer no domain
                   ;; (unskilled trades) pass the gate unconditionally.
                   (job-skilled-at-or-above ?self trained)
-                  (not (= (situation ?self repute) scandalous))
+                  (not (= (situation ?self repute) [k scandalous]))
                   ; Section 4.11 phase 3: promotion (with the implicit rank/raise)
                   ; is driven by DEMONSTRATED performance - the work_standing the
                   ; workday conduct + on-the-job skill built - not the abstract
@@ -98,7 +98,7 @@
 ; --- job_loss: an employed worker is let go (low monthly rate) --------------
 (hsim-event job_loss
   (nl         "?worker loses their job")
-  (kind       _job_loss)
+  (kind [k _job_loss])
   (band      morning)
   (rng-stream employment)
 
@@ -120,7 +120,7 @@
 ; --- retirement: an employed worker of 65+ leaves working life --------------
 (hsim-event retirement
   (nl         "?worker retires")
-  (kind       _retirement)
+  (kind [k _retirement])
   (band      morning)
   (rng-stream employment)
 

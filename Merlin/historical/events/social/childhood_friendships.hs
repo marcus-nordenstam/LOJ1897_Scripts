@@ -20,7 +20,7 @@
 
 (hsim-event childhood_friendship
   (nl         "?a and ?b become childhood friends")
-  (kind       _friendship)
+  (kind [k _friendship])
   (band      afternoon)
   (rng-stream friendships)
 

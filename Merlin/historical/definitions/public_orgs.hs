@@ -19,7 +19,7 @@
 ; ----------------------------------------------------------------------------
 
 (public_org parish_church
-  (kind      church)
+  (kind [k church])
   (era_min   1700)
   (head_pos  priest)
   (employees 2 clerk))
@@ -28,19 +28,19 @@
 ; (assigned at hire from the nurse occupation's two shifts), so 6 of them reliably
 ; staff both. The physician head keeps day hours (a doctor on call by night).
 (public_org cottage_hospital
-  (kind      hospital)
+  (kind [k hospital])
   (era_min   1700)
   (head_pos  physician)
   (employees 6 nurse))
 
 (public_org post_office
-  (kind      agency)
+  (kind [k agency])
   (era_min   1700)
   (head_pos  clerk)
   (employees 3 clerk))
 
 (public_org parish_school
-  (kind      state_school)
+  (kind [k state_school])
   (era_min   1700)
   (head_pos  principal)
   (employees 4 teacher))
@@ -50,19 +50,19 @@
 ;; leave with a subject `skilled_in` (medicine / law / ...) that feeds the S8
 ;; physician / lawyer / scholar identities.
 (public_org town_university
-  (kind      university)
+  (kind [k university])
   (era_min   1700)
   (head_pos  professor)
   (employees 2 professor))
 
 (public_org land_registry
-  (kind      land_registry)
+  (kind [k land_registry])
   (era_min   1700)
   (head_pos  clerk)
   (employees 2 clerk))
 
 (public_org company_registry
-  (kind      company_registry)
+  (kind [k company_registry])
   (era_min   1700)
   (head_pos  clerk)
   (employees 2 clerk))
@@ -72,13 +72,13 @@
 ;;     none, installs the head, and hires a minimal staff - so the interest
 ;;     activity lane (L5) always has a venue to send enthusiasts to. ---
 (public_org town_library
-  (kind      library)
+  (kind [k library])
   (era_min   1700)
   (head_pos  librarian)
   (employees 1 clerk))
 
 (public_org town_museum
-  (kind      museum)
+  (kind [k museum])
   (era_min   1700)
   (head_pos  curator)
   (employees 1 clerk))
@@ -87,19 +87,19 @@
 ;; interest lane (music / theatre enthusiasts) needs one guaranteed from the
 ;; start - so the bootstrap stands one up too.
 (public_org town_theatre
-  (kind      theatre)
+  (kind [k theatre])
   (era_min   1700)
   (head_pos  clerk)
   (employees 1 clerk))
 
 (public_org assembly_rooms
-  (kind      meeting_hall)
+  (kind [k meeting_hall])
   (era_min   1700)
   (head_pos  clerk)
   (employees 1 clerk))
 
 (public_org recreation_ground
-  (kind      sports_ground)
+  (kind [k sports_ground])
   (era_min   1700)
   (head_pos  clerk)
   (employees 1 gardener))

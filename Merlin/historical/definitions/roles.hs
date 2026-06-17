@@ -8,46 +8,46 @@
 ; ----------------------------------------------------------------------------
 
 (define-role old_human
-  (kind  human)
+  (kind [k human])
   (alive)
   (>= (years-old ?self) 15))
 
 ;; Any alive human, no age qualifier. Useful as a base for events that gate
 ;; on situational filters (disease, war, accidents) regardless of age.
 (define-role any_human
-  (kind  human)
+  (kind [k human])
   (alive))
 
 ;; Unmarried adult woman. Fertility / marriage age varies by class; events
 ;; layer extra age filters on top.
 ;; Merlin's wildcard symbol is bare `?`, so existence checks use `?`.
 (define-role unmarried_woman
-  (kind  human)
+  (kind [k human])
   (alive)
-  (= (attr ?self gender) female)
+  (= (attr ?self gender) [k female])
   (>= (years-old ?self) 18)
   (not (believes ?self {@self spouse ?})))
 
 (define-role unmarried_man
-  (kind  human)
+  (kind [k human])
   (alive)
-  (= (attr ?self gender) male)
+  (= (attr ?self gender) [k male])
   (>= (years-old ?self) 18)
   (not (believes ?self {@self spouse ?})))
 
 ;; Adult woman in fertile age range, currently married. Births event uses
 ;; this and recovers the husband via belief query.
 (define-role fertile_wife
-  (kind  human)
+  (kind [k human])
   (alive)
-  (= (attr ?self gender) female)
+  (= (attr ?self gender) [k female])
   (>= (years-old ?self) 16)
   (<= (years-old ?self) 42)
   (believes ?self {@self spouse ?}))
 
 ;; Adult of working/migration age. Used by emigration.
 (define-role young_adult
-  (kind  human)
+  (kind [k human])
   (alive)
   (>= (years-old ?self) 16)
   (<= (years-old ?self) 45))
@@ -56,4 +56,4 @@
 ;; org. The Phase 7 work events role-bind one to name the org they act on.
 ;; No (alive) filter: a document is not an NPC.
 (define-role org_articles
-  (kind  articles_of_incorporation))
+  (kind [k articles_of_incorporation]))

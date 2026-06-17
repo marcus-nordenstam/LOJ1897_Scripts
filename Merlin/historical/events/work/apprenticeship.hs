@@ -17,7 +17,7 @@
 
 (hsim-event apprenticeship_start
   (nl         "?youth is apprenticed")
-  (kind       _apprenticeship)
+  (kind [k _apprenticeship])
   (band      morning)
   (rng-stream apprenticeship)
 
@@ -45,8 +45,8 @@
     ;; articles role - resolved by the (let ?master ...) below.
     ;; A household is an org but NOT a trade: no master, no apprenticeship.
     (role ?articles (template org_articles)
-                    (not (org-kind-is-a ?self household))
-                    (not (= (situation (org-founder ?self) repute) scandalous))))
+                    (not (org-kind-is-a ?self [k org household]))
+                    (not (= (situation (org-founder ?self) repute) [k scandalous]))))
 
   ;; Live exclusivity re-check (see employment.hs): the youth's "unemployed"
   ;; filter is alpha-indexed, so within one tick several masters sample the same
@@ -54,7 +54,7 @@
   ;; ...) - a computed op reads live, unlike a belief-pattern (which routes
   ;; through the stale alpha-discriminator). (hire ... :level trainee) sets it
   ;; live, so once apprenticed this tick the youth reads trainee + backtracks.
-  (when (not (= (job-level ?youth) trainee)))
+  (when (not (= (job-level ?youth) [k trainee])))
 
   ;; ?master is the org's founder, read from the articles document.
   (let ((?master (org-founder ?articles)))
@@ -65,7 +65,7 @@
 
 (hsim-event apprenticeship_completion
   (nl         "?apprentice completes their apprenticeship")
-  (kind       _apprenticeship)
+  (kind [k _apprenticeship])
   (band      morning)
   (rng-stream apprenticeship)
 
@@ -73,7 +73,7 @@
     ;; A trainee who has held the trainee rank at least three years; the
     ;; chance spreads completion over the following years.
     (role ?apprentice (template any_human)
-                      (= (job-level ?self) trainee)
+                      (= (job-level ?self) [k trainee])
                       (>= (job-tenure ?self) 3)
                       (chance 0.033)))   ; /12 of the old annual 0.4 (now monthly)
 

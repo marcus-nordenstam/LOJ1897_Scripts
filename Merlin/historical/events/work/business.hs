@@ -41,7 +41,7 @@
 ; --- investment: a backer puts up founding capital for a worthy man ---------
 (hsim-event investment
   (nl         "?investor backs ?candidate's venture")
-  (kind       _investment)
+  (kind [k _investment])
   (band      morning)
   (rng-stream business)
 
@@ -55,10 +55,10 @@
                      (>= (years-old ?self) 25)
                      (<= (years-old ?self) 55)
                      (believes ?self {@self employer ?})
-                     (not (= (job-level ?self) org_head))
+                     (not (= (job-level ?self) [k org_head]))
                      (>= (belief-target ?self diligence) 0.55)
-                     (or (= (belief-target ?self repute) respectable)
-                         (= (belief-target ?self repute) exemplary))
+                     (or (= (belief-target ?self repute) [k respectable])
+                         (= (belief-target ?self repute) [k exemplary]))
                      (< (belief-target ?self wealth) 0.5)
                      (not (believes ?self {@self backed_by ?}))
                      ; /12 of the old annual 0.40 (now monthly).
@@ -69,9 +69,9 @@
     ; rich enough to gate on without starving the event.)
     (role ?investor (template old_human)
                     (not (= ?self ?candidate))
-                    (or (= (belief-target ?self economic_situation) comfortable)
-                        (= (belief-target ?self economic_situation) prosperous)
-                        (= (belief-target ?self economic_situation) wealthy))))
+                    (or (= (belief-target ?self economic_situation) [k comfortable])
+                        (= (belief-target ?self economic_situation) [k prosperous])
+                        (= (belief-target ?self economic_situation) [k wealthy]))))
 
   (effects
     (begin-belief ?candidate backed_by ?investor)
@@ -80,7 +80,7 @@
 ; --- business_partnership: an established proprietor takes on a co-owner ----
 (hsim-event business_partnership
   (nl         "?candidate is taken into partnership")
-  (kind       _business_partnership)
+  (kind [k _business_partnership])
   (band      morning)
   (rng-stream business)
 
@@ -92,10 +92,10 @@
                      (>= (years-old ?self) 25)
                      (<= (years-old ?self) 55)
                      (believes ?self {@self employer ?})
-                     (not (= (job-level ?self) org_head))
+                     (not (= (job-level ?self) [k org_head]))
                      (>= (belief-target ?self diligence) 0.55)
-                     (or (= (belief-target ?self repute) respectable)
-                         (= (belief-target ?self repute) exemplary))
+                     (or (= (belief-target ?self repute) [k respectable])
+                         (= (belief-target ?self repute) [k exemplary]))
                      (< (belief-target ?self wealth) 0.5)
                      (not (believes ?self {@self backed_by ?}))
                      ; /12 of the old annual 0.12 (now monthly).
@@ -105,7 +105,7 @@
     ; v1 gates on the candidate's merit alone, as the relationship layer is
     ; not yet rich enough to gate on without starving the event.)
     (role ?principal_articles (template org_articles)
-                              (org-kind-is-a ?self business)))
+                              (org-kind-is-a ?self [k org business])))
 
   ;; Live exclusivity re-check (see betrothal.hs): the candidate's "not
   ;; org_head" eligibility is evaluated at enumeration time, so within one
@@ -114,7 +114,7 @@
   ;; dozen firms. The when_gate is evaluated live per firing; once the candidate
   ;; has been made an org_head this tick, the re-check fails and the sampler
   ;; backtracks to another candidate.
-  (when (not (= (job-level ?candidate) org_head)))
+  (when (not (= (job-level ?candidate) [k org_head])))
 
   (effects
     ; The candidate leaves his salaried post and joins as a co-proprietor.
@@ -127,7 +127,7 @@
 ; --- business_founding: a man of means sets up on his own account ----------
 (hsim-event business_founding
   (nl         "?founder founds a business")
-  (kind       _business_founding)
+  (kind [k _business_founding])
   (band      morning)
   (rng-stream business)
 
@@ -139,10 +139,10 @@
                    (>= (years-old ?self) 25)
                    (<= (years-old ?self) 55)
                    (believes ?self {@self employer ?})
-                   (not (= (job-level ?self) org_head))
+                   (not (= (job-level ?self) [k org_head]))
                    (>= (belief-target ?self diligence) 0.55)
-                   (or (= (belief-target ?self repute) respectable)
-                       (= (belief-target ?self repute) exemplary))
+                   (or (= (belief-target ?self repute) [k respectable])
+                       (= (belief-target ?self repute) [k exemplary]))
                    (or (>= (belief-target ?self wealth) 0.5)
                        (believes ?self {@self backed_by ?}))
                    ; /12 of the old annual 0.30 (now monthly).
@@ -158,7 +158,7 @@
 ; --- business_failure: an org folds (zero-role; see header) -----------------
 (hsim-event business_failure
   (nl         "businesses fail in hard times")
-  (kind       _business_failure)
+  (kind [k _business_failure])
   (schedule   (annually december))
   (band      morning)
   (rng-stream business)
@@ -181,7 +181,7 @@
 ; new businesses from the jobless.
 (hsim-event business_homeostat
   (nl         "the town's commerce keeps pace with its people")
-  (kind       _business_homeostat)
+  (kind [k _business_homeostat])
   (schedule   (annually january))
   (band      morning)
   (rng-stream business)

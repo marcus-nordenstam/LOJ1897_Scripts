@@ -43,7 +43,7 @@
 ; --- enroll_primary: a young child starts primary school ---------------------
 (hsim-event enroll_primary
   (nl         "?child starts primary school")
-  (kind       _education)
+  (kind [k _education])
   (schedule   (annually march))
   (band      morning)
   (rng-stream behaviour)
@@ -58,7 +58,7 @@
                  (>= (years-old ?self) 5)
                  (<= (years-old ?self) 7)
                  (not (believes ?self {@self study ?}))
-                 (not (believes ?self {@self skilled_in primary_school_curriculum}))
+                 (not (believes ?self {@self skilled_in [k primary_school_curriculum]}))
                  (chance (* (situation ?self breeding) (situation ?self breeding)))))
 
   (effects
@@ -68,7 +68,7 @@
 ; --- enroll_secondary: a middle+ youth goes on to secondary ------------------
 (hsim-event enroll_secondary
   (nl         "?youth goes on to secondary school")
-  (kind       _education)
+  (kind [k _education])
   (schedule   (annually june))
   (band      morning)
   (rng-stream behaviour)
@@ -81,9 +81,9 @@
     (role ?youth (template any_human)
                  (>= (years-old ?self) 12)
                  (<= (years-old ?self) 14)
-                 (believes ?self {@self skilled_in primary_school_curriculum})
+                 (believes ?self {@self skilled_in [k primary_school_curriculum]})
                  (not (believes ?self {@self study ?}))
-                 (not (believes ?self {@self skilled_in secondary_school_curriculum}))
+                 (not (believes ?self {@self skilled_in [k secondary_school_curriculum]}))
                  (not (believes ?self {@self employer ?}))
                  (chance (* (situation ?self breeding) (situation ?self breeding)))))
 
@@ -94,7 +94,7 @@
 ; --- enroll_university: an upper / wealthy youth goes up to university --------
 (hsim-event enroll_university
   (nl         "?youth goes up to university")
-  (kind       _education)
+  (kind [k _education])
   (schedule   (annually june))
   (band      morning)
   (rng-stream behaviour)
@@ -106,7 +106,7 @@
     (role ?youth (template any_human)
                  (>= (years-old ?self) 18)
                  (<= (years-old ?self) 20)
-                 (believes ?self {@self skilled_in secondary_school_curriculum})
+                 (believes ?self {@self skilled_in [k secondary_school_curriculum]})
                  (not (believes ?self {@self study ?}))
                  (not (believes ?self {@self employer ?}))
                  (chance (* (situation ?self breeding) (* (situation ?self breeding) (situation ?self breeding))))))
@@ -118,7 +118,7 @@
 ; --- leave_primary: every primary pupil finishes at ~11 ----------------------
 (hsim-event leave_primary
   (nl         "?pupil finishes primary school")
-  (kind       _education)
+  (kind [k _education])
   (schedule   (annually september))
   (band      morning)
   (rng-stream behaviour)
@@ -130,7 +130,7 @@
     ; secondary enrollment; a non-continuer becomes apprenticeship-eligible.
     (role ?pupil (template any_human)
                  (>= (years-old ?self) 11)
-                 (believes ?self {@self study primary_school_curriculum})))
+                 (believes ?self {@self study [k primary_school_curriculum]})))
 
   (effects
     (graduate ?pupil)
@@ -139,7 +139,7 @@
 ; --- leave_secondary: a secondary pupil finishes at ~17 ----------------------
 (hsim-event leave_secondary
   (nl         "?pupil finishes secondary school")
-  (kind       _education)
+  (kind [k _education])
   (schedule   (annually september))
   (band      morning)
   (rng-stream behaviour)
@@ -147,7 +147,7 @@
   (roles
     (role ?pupil (template any_human)
                  (>= (years-old ?self) 17)
-                 (believes ?self {@self study secondary_school_curriculum})))
+                 (believes ?self {@self study [k secondary_school_curriculum]})))
 
   (effects
     (graduate ?pupil)
@@ -156,7 +156,7 @@
 ; --- graduate_university: a degree is taken at ~22 ---------------------------
 (hsim-event graduate_university
   (nl         "?graduate takes their degree")
-  (kind       _education)
+  (kind [k _education])
   (schedule   (annually september))
   (band      morning)
   (rng-stream behaviour)

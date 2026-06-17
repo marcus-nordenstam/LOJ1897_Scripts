@@ -25,7 +25,7 @@
 ; --- club_founding: an established adult founds a club with two members ------
 (hsim-event club_founding
   (nl         "?founder founds a club")
-  (kind       _club_founding)
+  (kind [k _club_founding])
   (band      afternoon)
   (rng-stream behaviour)
 
@@ -64,7 +64,7 @@
 ;; reads @fail and is not excluded by the (not (= ...)) form.
 (hsim-event club_joining
   (nl         "?member joins a club")
-  (kind       _club_joining)
+  (kind [k _club_joining])
   (band      afternoon)
   (rng-stream behaviour)
 
@@ -73,11 +73,11 @@
     (role ?member (template old_human)
                   (>= (years-old ?self) 18)
                   (< (count-beliefs ?self member_of) 2)
-                  (not (= (situation ?self repute) scandalous))
-                  (not (= (situation ?self repute) disreputable))
+                  (not (= (situation ?self repute) [k scandalous]))
+                  (not (= (situation ?self repute) [k disreputable]))
                   (chance 0.005))
     (role ?club_articles (template org_articles)
-                         (org-kind-is-a ?self club)
+                         (org-kind-is-a ?self [k org club])
                          (= (situation (org-founder ?self) class_situation)
                             (situation ?member class_situation))))
 
@@ -97,7 +97,7 @@
 ; --- club_resignation: an adult resigns from a club -------------------------
 (hsim-event club_resignation
   (nl         "?member resigns from a club")
-  (kind       _club_resignation)
+  (kind [k _club_resignation])
   (band      afternoon)
   (rng-stream behaviour)
 

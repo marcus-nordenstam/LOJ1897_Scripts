@@ -16,7 +16,7 @@
 
 (hsim-event betrothal
   (nl         "?groom and ?bride are betrothed")
-  (kind       _betrothal)
+  (kind [k _betrothal])
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY, so the per-bride (chance) is /12 of the old annual 0.25 (-> 0.0208)
   ; to hold the annual betrothal rate. Betrothals spread year-round now (the
@@ -58,12 +58,12 @@
                  (not (and (believes ?self {@self lover ?})
                            (= (situation (belief-target ?self lover) class_situation)
                               (situation ?self class_situation))))
-                 (not (= (situation ?self repute) scandalous))
-                 (not (= (situation ?self repute) disreputable))
+                 (not (= (situation ?self repute) [k scandalous]))
+                 (not (= (situation ?self repute) [k disreputable]))
                  ;; A fallen woman (divorced for adultery) is shut out of the
                  ;; respectable market absolutely - no decorum or chastity
                  ;; recovery readmits her.
-                 (not (believes ?self {@self prototype fallen_woman}))
+                 (not (believes ?self {@self prototype [k fallen_woman]}))
                  (or (>= (situation ?self reputed_chastity) 0.5)
                      (not (believes ?self {@self reputed_chastity ?})))
                  (chance 0.0208))
@@ -72,8 +72,8 @@
                  (not (and (believes ?self {@self lover ?})
                            (= (situation (belief-target ?self lover) class_situation)
                               (situation ?self class_situation))))
-                 (not (= (situation ?self repute) scandalous))
-                 (not (= (situation ?self repute) disreputable))
+                 (not (= (situation ?self repute) [k scandalous]))
+                 (not (= (situation ?self repute) [k disreputable]))
                  (= (situation ?self class_situation) (situation ?bride class_situation))
                  (<= (- (years-old ?self) (years-old ?bride))  15)
                  (>= (- (years-old ?self) (years-old ?bride)) -15)

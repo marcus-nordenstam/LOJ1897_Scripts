@@ -23,7 +23,7 @@
 
 (hsim-event household_day
   (nl         "?dweller spends the day at home")
-  (kind       _household_day)
+  (kind [k _household_day])
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; (monthly). The home dwelling-episode is true (the NPC is home); home
   ; co-presence is no longer registered here (the routine itinerary does it).

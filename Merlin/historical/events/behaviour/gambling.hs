@@ -12,7 +12,7 @@
 
 (hsim-event gambling
   (nl         "?npc takes to gambling")
-  (kind       _gambling)
+  (kind [k _gambling])
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY. gambling ACCUMULATES (each fire deepens the addiction), so the
   ; formerly-annual (chance) is /12 to hold the annual deepening rate

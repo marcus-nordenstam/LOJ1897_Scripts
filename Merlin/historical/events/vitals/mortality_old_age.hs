@@ -9,7 +9,7 @@
 
 (hsim-event mortality_old_age
   (nl         "?who dies of old age")
-  (kind       _death)
+  (kind [k _death])
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass.
   ; The per-age (when (chance ?per_month)) below IS the rate; the monthly pass
   ; is the cadence.

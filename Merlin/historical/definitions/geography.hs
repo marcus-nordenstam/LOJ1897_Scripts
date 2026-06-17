@@ -23,12 +23,12 @@
 ;; ---- Templates ----
 ;; "estate" entries represent a manor on its own grounds. The building
 ;; entity is the manor; the grounds are modeled by the parent area.
-(template estate    (kind manor)     (class upper))
-(template townhouse (kind townhouse) (class middle))
-(template tenement  (kind tenement)  (class lower))
-(template cottage   (kind cottage)   (class lower))
-(template farmhouse (kind farmhouse) (class lower))
-(template chapel    (kind chapel)    (class middle))
+(template estate    (kind [k manor])     (class upper))
+(template townhouse (kind [k townhouse]) (class middle))
+(template tenement  (kind [k tenement])  (class lower))
+(template cottage   (kind [k cottage])   (class lower))
+(template farmhouse (kind [k farmhouse]) (class lower))
+(template chapel    (kind [k chapel])    (class middle))
 
 ;; Businesses are physical commercial buildings (kind in Objects.mon)
 ;; with a `business` extra naming the company kind from Concepts.mon.
@@ -37,26 +37,26 @@
 ;; with their parent path so the resolver disambiguates against
 ;; same-named org kinds in Concepts.mon (e.g. "factory" exists both as
 ;; a physical structure and as a business org).
-(template shipping_agent  (kind "commercial_building office")    (class middle) (extras (business shipping_agent)))
-(template factory         (kind "commercial_building factory")   (class middle) (extras (business factory)))
-(template newspaper       (kind "commercial_building newspaper") (class middle) (extras (business newspaper)))
-(template pub             (kind "commercial_building pub")       (class middle) (extras (business pub)))
-(template church          (kind "commercial_building church")    (class middle) (extras (business church)))
-(template bank            (kind "commercial_building bank")      (class middle) (extras (business bank)))
-(template grocer          (kind "commercial_building shop")      (class middle) (extras (business grocer)))
-(template apothecary      (kind "commercial_building shop")      (class middle) (extras (business apothecary)))
-(template solicitor_firm  (kind "commercial_building office")    (class middle) (extras (business solicitor_firm)))
-(template house_agency    (kind "commercial_building office")    (class middle) (extras (business house_agency)))
-(template private_school  (kind "commercial_building school")    (class middle) (extras (business private_school)))
-(template antiques_shop   (kind "commercial_building shop")      (class middle) (extras (business antiques_shop)))
+(template shipping_agent  (kind [k commercial_building office])    (class middle) (extras (business shipping_agent)))
+(template factory         (kind [k commercial_building factory])   (class middle) (extras (business factory)))
+(template newspaper       (kind [k commercial_building newspaper]) (class middle) (extras (business newspaper)))
+(template pub             (kind [k commercial_building pub])       (class middle) (extras (business pub)))
+(template church          (kind [k commercial_building church])    (class middle) (extras (business church)))
+(template bank            (kind [k commercial_building bank])      (class middle) (extras (business bank)))
+(template grocer          (kind [k commercial_building shop])      (class middle) (extras (business grocer)))
+(template apothecary      (kind [k commercial_building shop])      (class middle) (extras (business apothecary)))
+(template solicitor_firm  (kind [k commercial_building office])    (class middle) (extras (business solicitor_firm)))
+(template house_agency    (kind [k commercial_building office])    (class middle) (extras (business house_agency)))
+(template private_school  (kind [k commercial_building school])    (class middle) (extras (business private_school)))
+(template antiques_shop   (kind [k commercial_building shop])      (class middle) (extras (business antiques_shop)))
 
 ;; Public-good institution buildings. The org-bootstrap matches an org to a
 ;; building by ontology kind (commercial_building hospital / office / school).
-(template hospital         (kind "commercial_building hospital") (class middle))
-(template post_office      (kind "commercial_building office")   (class middle))
-(template state_school     (kind "commercial_building school")   (class middle))
-(template land_registry    (kind "commercial_building office")   (class middle))
-(template company_registry (kind "commercial_building office")   (class middle))
+(template hospital         (kind [k commercial_building hospital]) (class middle))
+(template post_office      (kind [k commercial_building office])   (class middle))
+(template state_school     (kind [k commercial_building school])   (class middle))
+(template land_registry    (kind [k commercial_building office])   (class middle))
+(template company_registry (kind [k commercial_building office])   (class middle))
 
 ;; ============================================================================
 ;; Area: Port Christie

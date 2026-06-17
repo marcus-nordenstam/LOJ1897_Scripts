@@ -21,7 +21,7 @@
 
 (hsim-event work_day
   (nl         "?worker spends the day at work")
-  (kind       _work_day)
+  (kind [k _work_day])
   (band      morning)
   (rng-stream behaviour)
 

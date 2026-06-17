@@ -24,7 +24,7 @@
 
 (hsim-event senior_appointment
   (nl         "?official is appointed to a senior post")
-  (kind       _appointment)
+  (kind [k _appointment])
   (band      morning)
   (rng-stream employment)
 
@@ -46,20 +46,20 @@
     (role ?official (template old_human)
                     (>= (years-old ?self) 30)
                     (<= (years-old ?self) 65)
-                    (= (situation ?self repute) exemplary)
+                    (= (situation ?self repute) [k exemplary])
                     (>= (situation ?self prestige) 0.65)
                     (chance (* 0.0083
                                (attr ?self assertiveness)
                                (situation ?self prestige))))
     ;; A public organisation - any gov-subkind: church, hospital, agency.
     (role ?articles (template org_articles)
-                    (org-kind-is-a ?self gov)))
+                    (org-kind-is-a ?self [k org gov])))
 
   ;; Live exclusivity re-check (see betrothal.hs): without it, every gov org
   ;; enumerated this tick can appoint the same prestigious official before the
   ;; first appointment commits. The when_gate is live per firing; once the
   ;; official has been made senior this tick it fails and the sampler backtracks.
-  (when (not (= (job-level ?official) senior)))
+  (when (not (= (job-level ?official) [k senior])))
 
   (effects
     ;; Leave the current post (no-op for the jobless), then take up the

@@ -37,7 +37,7 @@
 
 (hsim-event jilt
   (nl         "?jilter jilts ?jilted")
-  (kind       _jilt)
+  (kind [k _jilt])
   (band      afternoon)
   (rng-stream marriages)
 
@@ -84,7 +84,7 @@
 
 (hsim-event jilt_for_station
   (nl         "?jilter breaks with ?jilted to keep their station")
-  (kind       _jilt)
+  (kind [k _jilt])
   (band      afternoon)
   (rng-stream marriages)
 
@@ -105,10 +105,10 @@
     (role ?jilted (template any_human)
                   (not (= ?jilted ?jilter))
                   (believes ?jilter {@self lover ?jilted})
-                  (or (and (= (situation ?jilter class_situation) upper)
-                           (not (= (situation ?jilted class_situation) upper)))
-                      (and (= (situation ?jilter class_situation) middle)
-                           (= (situation ?jilted class_situation) lower)))))
+                  (or (and (= (situation ?jilter class_situation) [k upper])
+                           (not (= (situation ?jilted class_situation) [k upper])))
+                      (and (= (situation ?jilter class_situation) [k middle])
+                           (= (situation ?jilted class_situation) [k lower])))))
 
   (when (believes ?jilter {@self lover ?jilted}))
 

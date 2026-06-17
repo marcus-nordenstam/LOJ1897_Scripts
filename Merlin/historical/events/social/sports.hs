@@ -26,14 +26,14 @@
 
 (hsim-event sporting_event
   (nl         "a sporting club holds its annual competition")
-  (kind       _sporting_event)
+  (kind [k _sporting_event])
   (schedule   (annually june))
   (band      afternoon)
   (rng-stream behaviour)
 
   (roles
     (role ?club_articles (template org_articles)
-                         (org-kind-is-a ?self club)))
+                         (org-kind-is-a ?self [k org club])))
 
   (effects
     (hold-sporting-event :articles ?club_articles)

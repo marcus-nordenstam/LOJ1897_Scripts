@@ -28,7 +28,7 @@
 
 (hsim-event reacquaint
   (nl       "?a catches up on ?b")
-  (kind     _reacquaint)
+  (kind [k _reacquaint])
   (band      afternoon)
   (rng-stream behaviour)
 

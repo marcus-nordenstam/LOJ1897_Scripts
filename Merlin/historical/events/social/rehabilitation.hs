@@ -21,7 +21,7 @@
 
 (hsim-event rehabilitation
   (nl         "?npc seeks rehabilitation")
-  (kind       _rehabilitation)
+  (kind [k _rehabilitation])
   (band      afternoon)
   (rng-stream behaviour)
 
@@ -29,7 +29,7 @@
     ;; A disreputable adult with a personality lift toward conformity
     ;; (politeness) tries the church door.
     (role ?npc (template old_human)
-               (= (situation ?self repute) disreputable)
+               (= (situation ?self repute) [k disreputable])
                (chance (* 0.05 (+ 0.5 (attr ?self politeness))))))
 
   (effects

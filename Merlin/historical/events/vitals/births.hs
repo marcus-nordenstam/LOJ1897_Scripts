@@ -15,7 +15,7 @@
 
 (hsim-event birth
   (nl         "?wife and ?husband have a child")
-  (kind       _birth)
+  (kind [k _birth])
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass.
   ; The per-wife (chance) below IS the rate; the monthly pass is the cadence.
   (band      dawn)
@@ -27,7 +27,7 @@
     (role ?wife    (template fertile_wife)
                    (chance 0.033))   ; ~0.40 per couple-year over 12 months
     (role ?husband (template any_human)
-                   (= (attr ?self gender) male)
+                   (= (attr ?self gender) [k male])
                    (believes ?wife {@self spouse ?husband})))
 
   (effects

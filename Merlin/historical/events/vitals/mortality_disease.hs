@@ -12,7 +12,7 @@
 
 (hsim-event mortality_disease
   (nl         "?who dies of disease")
-  (kind       _death)
+  (kind [k _death])
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass.
   ; The (when (chance ...)) below IS the rate; the monthly pass is the cadence.
   (band      dawn)

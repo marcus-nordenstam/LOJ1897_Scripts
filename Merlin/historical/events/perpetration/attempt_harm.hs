@@ -26,7 +26,7 @@
 
 (hsim-event attempt_harm
   (nl       "?actor follows through on a standing perpetration goal")
-  (kind     _attempt_harm)
+  (kind [k _attempt_harm])
   (band      night)
   (rng-stream perpetration)
   (generative-perpetration)

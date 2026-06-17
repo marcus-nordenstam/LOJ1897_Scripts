@@ -25,12 +25,12 @@
 
 (hsim-event taunt
   (nl       "?actor inserts themselves into their own mystery")
-  (kind     _taunt)
+  (kind [k _taunt])
   (band      night)
   (rng-stream perpetration)
   (generative-taunt)
 
   (roles
-    (role ?actor (kind human)
+    (role ?actor (kind [k human])
       (alive)
       (>= (years-old ?actor) 18))))

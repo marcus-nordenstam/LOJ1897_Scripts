@@ -26,7 +26,7 @@
 
 (hsim-event burial
   (nl       "?dead is buried")
-  (kind     _burial)
+  (kind [k _burial])
   (schedule (monthly))
   (band      morning)
   (rng-stream burials)
@@ -36,8 +36,8 @@
   ; gives us every human archetype member; the condition / age filters
   ; narrow to old-enough corpses.
   (roles
-    (role ?dead (kind human)
-                (= (attr ?dead condition) dead)
+    (role ?dead (kind [k human])
+                (= (attr ?dead condition) [k dead])
                 (>= (months-since-death ?dead) 1)))
 
   (effects

@@ -25,7 +25,7 @@
 
 (hsim-event staff_household
   (nl         "?actor takes on domestic staff")
-  (kind       _staff_household)
+  (kind [k _staff_household])
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY. No (chance) needed: staff_household is FILL-TO-TARGET (hsim::
   ; staff_household returns 0 when the establishment is fully staffed), so monthly

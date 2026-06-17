@@ -34,7 +34,7 @@
 
 (hsim-event get_drunk
   (nl         "?npc drinks to excess")
-  (kind       _get_drunk)
+  (kind [k _get_drunk])
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass.
   ; The per-NPC risk-model (chance) below IS the rate (monthly); the pass is the
   ; cadence. Co-presence + the "drank at a pub" memory move to a place-coupled
@@ -44,7 +44,7 @@
 
   (roles
     (role ?npc (template old_human)
-               (not (= (belief-target ?self craving) alcohol))
+               (not (= (belief-target ?self craving) [k alcohol]))
                (chance
                  (* 0.014                                                  ; base monthly rate
                     (+ 0.55 (* 0.90 (- 1.0 (attr ?self industriousness)))) ; low industriousness
