@@ -11,11 +11,13 @@
 ; self-at, workplace-of / home-of, in-work-hours / work-starts-soon, the (stay)
 ; durations (minutes-until-shift-end / minutes-until-alarm), and leisure-venue.
 ;
-; PRIORITY = file order: run_cascade evaluates events in catalog order and STOPS
-; at the first act emitted, so earlier rules out-rank later ones. Acquisition
-; (perpetration/means_cascade.hs) loads first (alphabetically), so an unarmed
-; killer's weapon-errand out-ranks the day shape; once armed they fall through to
-; the routine below.
+; PRIORITY = (utility ...): run_cascade gathers EVERY eligible act and commits the
+; max-utility one (b2), so precedence is by situational utility, not file order. The
+; routine ladder: sleep (100, dominates at home at night) > work / go-to-work (80,
+; dominate when the shift is on or imminent) > leisure/vice acts (~30, win in free
+; time) > go-home (1, the fallback when nothing else is eligible). Each rule's (when
+; ...) still gates ELIGIBILITY (work only near a shift, sleep only at night); utility
+; breaks ties among the eligible.
 ; ----------------------------------------------------------------------------
 
 ; 1. WORK - at the workplace during (or just before) the shift: stay until it ends.
@@ -25,6 +27,7 @@
   (intra-day)
   (when (and (self-at (workplace-of ?self))
              (or (in-work-hours ?self) (work-starts-soon ?self))))
+  (utility 80)
   (effects (stay (minutes-until-shift-end ?self))))
 
 ; 2. GO TO WORK - the shift is on or imminent and the NPC is not yet there:
@@ -37,6 +40,7 @@
   (when (and (has-job ?self)
              (or (in-work-hours ?self) (work-starts-soon ?self))
              (not (self-at (workplace-of ?self)))))
+  (utility 80)
   (effects (go ?self (workplace-of ?self))))
 
 ; 3. SLEEP - at home at night: sleep until the morning alarm (a worker rises an
@@ -45,6 +49,7 @@
   (intra-day)
   (when (and (self-at (home-of ?self))
              (or (>= (now-hour) 22) (< (now-hour) 6))))
+  (utility 100)
   (effects (stay (minutes-until-alarm ?self))))
 
 ; 6. GO HOME - anywhere else (after work, after an outing): head home. The lowest-
@@ -53,4 +58,5 @@
 (hsim-event day_go_home
   (intra-day)
   (when (not (self-at (home-of ?self))))
+  (utility 1)
   (effects (go ?self (home-of ?self))))

@@ -15,9 +15,11 @@
 ; physically AT the venue when the stepper's completion-pass self-perception
 ; stamps {@self location <room>} at the real instant.
 ;
-; INTERIM (b1): the intra-day events self-gate on free time (not in/near a shift,
-; daytime/evening) so they fire only when the day-shape would otherwise idle. (b2)
-; replaces those hand-gates with a situational (utility ...) competition.
+; The intra-day acts carry a situational (utility 30): they out-compete the
+; go-home fallback (1) so a craver in free time heads to the pub, but lose to work
+; (80) and sleep (100) when those are eligible - so drinking happens in the day's
+; gaps, not during a shift or at night. No hand-coded time gates: the WHEN only
+; tests the goal + whereabouts; precedence is the utility competition (b2).
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -54,11 +56,8 @@
   (intra-day)
   (nl   "?self sets out for a drink")
   (when (and (has-goal drink)
-             (not (can-drink ?self))
-             (not (in-work-hours ?self))
-             (not (work-starts-soon ?self))
-             (>= (now-hour) 6)
-             (< (now-hour) 22)))
+             (not (can-drink ?self))))
+  (utility 30)
   (effects
     (go ?self (drink-venue ?self))))
 
@@ -68,11 +67,8 @@
   (intra-day)
   (nl   "?self drinks")
   (when (and (has-goal drink)
-             (can-drink ?self)
-             (not (in-work-hours ?self))
-             (not (work-starts-soon ?self))
-             (>= (now-hour) 6)
-             (< (now-hour) 22)))
+             (can-drink ?self)))
+  (utility 30)
   (effects
     (act drink_episode 90)))
 
