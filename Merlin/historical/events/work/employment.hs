@@ -18,8 +18,6 @@
 ; --- hiring: a jobless working-age adult is taken on by some org -------------
 (hsim-event hiring
   (nl         "?worker is hired")
-  (kind [k _hiring])
-  (band      morning)
   (rng-stream employment)
 
   (roles
@@ -70,8 +68,6 @@
 ;; the mid-range chance the worker had before Phase 9).
 (hsim-event promotion
   (nl         "?worker is promoted")
-  (kind [k _promotion])
-  (band      morning)
   (rng-stream employment)
 
   (roles
@@ -98,8 +94,6 @@
 ; --- job_loss: an employed worker is let go (low monthly rate) --------------
 (hsim-event job_loss
   (nl         "?worker loses their job")
-  (kind [k _job_loss])
-  (band      morning)
   (rng-stream employment)
 
   (roles
@@ -120,8 +114,6 @@
 ; --- retirement: an employed worker of 65+ leaves working life --------------
 (hsim-event retirement
   (nl         "?worker retires")
-  (kind [k _retirement])
-  (band      morning)
   (rng-stream employment)
 
   (roles

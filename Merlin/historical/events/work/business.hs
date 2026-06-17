@@ -41,8 +41,6 @@
 ; --- investment: a backer puts up founding capital for a worthy man ---------
 (hsim-event investment
   (nl         "?investor backs ?candidate's venture")
-  (kind [k _investment])
-  (band      morning)
   (rng-stream business)
 
   (roles
@@ -80,8 +78,6 @@
 ; --- business_partnership: an established proprietor takes on a co-owner ----
 (hsim-event business_partnership
   (nl         "?candidate is taken into partnership")
-  (kind [k _business_partnership])
-  (band      morning)
   (rng-stream business)
 
   (roles
@@ -127,8 +123,6 @@
 ; --- business_founding: a man of means sets up on his own account ----------
 (hsim-event business_founding
   (nl         "?founder founds a business")
-  (kind [k _business_founding])
-  (band      morning)
   (rng-stream business)
 
   (roles
@@ -158,9 +152,7 @@
 ; --- business_failure: an org folds (zero-role; see header) -----------------
 (hsim-event business_failure
   (nl         "businesses fail in hard times")
-  (kind [k _business_failure])
   (schedule   (annually december))
-  (band      morning)
   (rng-stream business)
 
   (effects
@@ -181,9 +173,7 @@
 ; new businesses from the jobless.
 (hsim-event business_homeostat
   (nl         "the town's commerce keeps pace with its people")
-  (kind [k _business_homeostat])
   (schedule   (annually january))
-  (band      morning)
   (rng-stream business)
 
   (effects

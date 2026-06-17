@@ -16,8 +16,6 @@
 ; (0.008 -> 0.00067) to hold the annual giving rate.
 (hsim-event charity
   (nl         "?giver gives to charity")
-  (kind [k _charity])
-  (band      afternoon)
   (rng-stream behaviour)
 
   (roles

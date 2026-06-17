@@ -25,8 +25,6 @@
 
 (hsim-event affair_fallout
   (nl       "?actor reckons with a partner's affair")
-  (kind [k _affair_fallout])
-  (band      evening)
   (rng-stream incidents)
   (generative-betrayal)
 

@@ -18,7 +18,6 @@
 
 (hsim-event homeostat_emigration
   (nl         "homeostat: emigration wave (alive=?alive)")
-  (kind [k _emigration_wave])
   (schedule   (annually january))
   (rng-stream homeostat)
 
@@ -36,7 +35,6 @@
 
 (hsim-event homeostat_immigration
   (nl         "homeostat: immigration wave (alive=?alive)")
-  (kind [k _immigration_wave])
   (schedule   (annually january))
   (rng-stream homeostat)
 

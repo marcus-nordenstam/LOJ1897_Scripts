@@ -21,7 +21,6 @@
 
 (hsim-event skill_predicate_probe
   (nl       "?fan's academic-field affinity probes the S2 predicates")
-  (kind [k _skill_predicate_probe])
   (schedule (annually june))
   (rng-stream behaviour)
 

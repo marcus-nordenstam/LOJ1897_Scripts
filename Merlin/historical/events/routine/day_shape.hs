@@ -5,7 +5,7 @@
 ; (when ...) holds emits an act ((go ...) / (stay ...)); the act's completion a
 ; duration later re-deliberates the NPC, so the day shape emerges step by step.
 ;
-; IMPLICIT ACTOR: a (cascade) event declares NO actor role - the actor IS the
+; IMPLICIT ACTOR: an (intra-day) event declares NO actor role - the actor IS the
 ; deliberating NPC, referenced as ?self (run_cascade binds it). The rules read
 ; everything they need DECLARATIVELY through the day-shape ops: now-hour, has-job,
 ; self-at, workplace-of / home-of, in-work-hours / work-starts-soon, the (stay)
@@ -22,7 +22,7 @@
 ;    One (stay) spans the whole shift (and any pre-start wait); the completion at
 ;    shift-end re-deliberates (-> go home / outing).
 (hsim-event day_work
-  (cascade)
+  (intra-day)
   (when (and (self-at (workplace-of ?self))
              (or (in-work-hours ?self) (work-starts-soon ?self))))
   (effects (stay (minutes-until-shift-end ?self))))
@@ -33,7 +33,7 @@
 ;    shirking returns later with a per-NPC RNG. Evening outings (which need the
 ;    leisure-venue picker, not yet parallel-safe) are likewise deferred.
 (hsim-event day_go_to_work
-  (cascade)
+  (intra-day)
   (when (and (has-job ?self)
              (or (in-work-hours ?self) (work-starts-soon ?self))
              (not (self-at (workplace-of ?self)))))
@@ -42,7 +42,7 @@
 ; 3. SLEEP - at home at night: sleep until the morning alarm (a worker rises an
 ;    hour before the shift; everyone else at the default wake hour).
 (hsim-event day_sleep
-  (cascade)
+  (intra-day)
   (when (and (self-at (home-of ?self))
              (or (>= (now-hour) 22) (< (now-hour) 6))))
   (effects (stay (minutes-until-alarm ?self))))
@@ -51,6 +51,6 @@
 ;    priority routine rule; if even this cannot fire (no home), deliberate_next_act
 ;    falls back to a 3h idle.
 (hsim-event day_go_home
-  (cascade)
+  (intra-day)
   (when (not (self-at (home-of ?self))))
   (effects (go ?self (home-of ?self))))

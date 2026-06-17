@@ -26,9 +26,7 @@
 
 (hsim-event burial
   (nl       "?dead is buried")
-  (kind [k _burial])
   (schedule (monthly))
-  (band      morning)
   (rng-stream burials)
 
   ; Inline role - NOT (template any_human), because that template includes

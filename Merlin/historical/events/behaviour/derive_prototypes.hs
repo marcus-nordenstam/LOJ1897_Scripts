@@ -11,7 +11,6 @@
 
 (hsim-event derive_prototypes
   (nl         "?npc is appraised")
-  (kind [k _derive])
   (schedule   (annually december))
   (rng-stream behaviour)
 

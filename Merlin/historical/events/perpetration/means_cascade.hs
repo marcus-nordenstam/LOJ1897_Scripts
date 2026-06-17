@@ -32,9 +32,8 @@
 ; NO actor role - the actor IS the deliberating NPC, referenced as ?self (run_cascade
 ; binds it). ?self / @self both resolve to that NPC.
 (hsim-event means_plan_acquire
-  (cascade)
+  (intra-day)
   (nl   "?self resolves to acquire the means for the deed")
-  (kind [k _means_plan])
   (when (and (has-means ?self)
              (not (controls ?self means))
              (not (believes ?self {@self acquire means}))))
@@ -49,9 +48,8 @@
 ; act-quiescence and schedules `means_acquired` a real round-trip travel-time
 ; later; the result lands at COMPLETION, not now.
 (hsim-event means_plan_obtain
-  (cascade)
+  (intra-day)
   (nl   "?self sets out to obtain the means")
-  (kind [k _means_plan])
   (when (and (has-means ?self)
              (believes ?self {@self acquire means})
              (not (controls ?self means))))
@@ -68,7 +66,6 @@
 (hsim-event means_acquired
   (schedule (chain-only))
   (nl   "?self returns having obtained the means")
-  (kind [k _means_acquired])
   (effects
     (acquire-control ?self means)
     (log _means_acquired ?self)))

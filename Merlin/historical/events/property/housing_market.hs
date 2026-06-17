@@ -21,9 +21,7 @@
 
 (hsim-event housing_market
   (nl         "the housing market turns over")
-  (kind [k _housing_market])
   (schedule   (annually march))
-  (band      morning)
   (rng-stream behaviour)
 
   (effects

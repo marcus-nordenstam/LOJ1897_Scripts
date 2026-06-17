@@ -17,8 +17,6 @@
 
 (hsim-event apprenticeship_start
   (nl         "?youth is apprenticed")
-  (kind [k _apprenticeship])
-  (band      morning)
   (rng-stream apprenticeship)
 
   (roles
@@ -65,8 +63,6 @@
 
 (hsim-event apprenticeship_completion
   (nl         "?apprentice completes their apprenticeship")
-  (kind [k _apprenticeship])
-  (band      morning)
   (rng-stream apprenticeship)
 
   (roles

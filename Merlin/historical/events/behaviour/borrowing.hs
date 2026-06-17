@@ -13,8 +13,6 @@
 ; debtor (chance) base is /12 (0.06 -> 0.005) to hold the annual borrowing volume.
 (hsim-event borrowing
   (nl         "?debtor borrows from ?creditor")
-  (kind [k _borrowing])
-  (band      afternoon)
   (rng-stream behaviour)
 
   (roles

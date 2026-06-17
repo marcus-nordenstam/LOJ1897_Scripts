@@ -37,8 +37,6 @@
 
 (hsim-event jilt
   (nl         "?jilter jilts ?jilted")
-  (kind [k _jilt])
-  (band      afternoon)
   (rng-stream marriages)
 
   (roles
@@ -84,8 +82,6 @@
 
 (hsim-event jilt_for_station
   (nl         "?jilter breaks with ?jilted to keep their station")
-  (kind [k _jilt])
-  (band      afternoon)
   (rng-stream marriages)
 
   (roles

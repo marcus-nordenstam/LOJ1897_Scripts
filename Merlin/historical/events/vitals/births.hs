@@ -15,10 +15,8 @@
 
 (hsim-event birth
   (nl         "?wife and ?husband have a child")
-  (kind [k _birth])
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass.
   ; The per-wife (chance) below IS the rate; the monthly pass is the cadence.
-  (band      dawn)
   (rng-stream births)
 
   (roles

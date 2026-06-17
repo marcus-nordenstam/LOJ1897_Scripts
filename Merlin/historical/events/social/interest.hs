@@ -44,7 +44,6 @@
 ; --- parental_seeding: a child adopts one of a parent's interests ------------
 (hsim-event interest_parental_seeding
   (nl         "?child takes up a parent's interest")
-  (kind [k _interest_parental_seeding])
   (rng-stream behaviour)
 
   (roles
@@ -64,7 +63,6 @@
 ; --- peer_propagation: a friend's enthusiasm rubs off -----------------------
 (hsim-event interest_peer_propagation
   (nl         "?ego catches a friend's interest")
-  (kind [k _interest_peer_propagation])
   (rng-stream behaviour)
 
   (roles
@@ -83,7 +81,6 @@
 ; --- mentor_inspired: an apprentice catches the master's craft --------------
 (hsim-event interest_mentor_inspired
   (nl         "?ego takes an interest in the master's craft")
-  (kind [k _interest_mentor_inspired])
   (rng-stream behaviour)
 
   (roles
@@ -102,7 +99,6 @@
 ; --- temperament_drift: the residual openness-driven catch-all --------------
 (hsim-event interest_temperament_drift
   (nl         "?ego drifts into a new interest")
-  (kind [k _interest_temperament_drift])
   (rng-stream behaviour)
 
   (roles
@@ -121,7 +117,6 @@
 ; --- interest_lapses: an unskilled interest fades --------------------------
 (hsim-event interest_lapses
   (nl         "?ego loses an interest")
-  (kind [k _interest_lapses])
   (rng-stream behaviour)
 
   (roles

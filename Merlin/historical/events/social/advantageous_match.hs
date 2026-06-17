@@ -20,11 +20,9 @@
 
 (hsim-event advantageous_match
   (nl         "?groom and ?bride make an advantageous match")
-  (kind [k _advantageous_match])
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY; the per-bride (chance) is scaled by /12 (the *0.0833 wrapper) to hold
   ; the old annual rate.
-  (band      afternoon)
   (rng-stream marriages)
 
   (roles

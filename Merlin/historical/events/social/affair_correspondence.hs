@@ -31,8 +31,6 @@
 
 (hsim-event affair_correspondence
   (nl         "?actor writes to a secret lover")
-  (kind [k _affair_correspondence])
-  (band      afternoon)
   (rng-stream incidents)
   (generative-correspondence)
 

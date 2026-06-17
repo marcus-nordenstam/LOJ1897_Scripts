@@ -24,8 +24,6 @@
 
 (hsim-event senior_appointment
   (nl         "?official is appointed to a senior post")
-  (kind [k _appointment])
-  (band      morning)
   (rng-stream employment)
 
   (roles

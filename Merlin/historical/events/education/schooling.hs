@@ -43,9 +43,7 @@
 ; --- enroll_primary: a young child starts primary school ---------------------
 (hsim-event enroll_primary
   (nl         "?child starts primary school")
-  (kind [k _education])
   (schedule   (annually march))
-  (band      morning)
   (rng-stream behaviour)
 
   (roles
@@ -68,9 +66,7 @@
 ; --- enroll_secondary: a middle+ youth goes on to secondary ------------------
 (hsim-event enroll_secondary
   (nl         "?youth goes on to secondary school")
-  (kind [k _education])
   (schedule   (annually june))
-  (band      morning)
   (rng-stream behaviour)
 
   (roles
@@ -94,9 +90,7 @@
 ; --- enroll_university: an upper / wealthy youth goes up to university --------
 (hsim-event enroll_university
   (nl         "?youth goes up to university")
-  (kind [k _education])
   (schedule   (annually june))
-  (band      morning)
   (rng-stream behaviour)
 
   (roles
@@ -118,9 +112,7 @@
 ; --- leave_primary: every primary pupil finishes at ~11 ----------------------
 (hsim-event leave_primary
   (nl         "?pupil finishes primary school")
-  (kind [k _education])
   (schedule   (annually september))
-  (band      morning)
   (rng-stream behaviour)
 
   (roles
@@ -139,9 +131,7 @@
 ; --- leave_secondary: a secondary pupil finishes at ~17 ----------------------
 (hsim-event leave_secondary
   (nl         "?pupil finishes secondary school")
-  (kind [k _education])
   (schedule   (annually september))
-  (band      morning)
   (rng-stream behaviour)
 
   (roles
@@ -156,9 +146,7 @@
 ; --- graduate_university: a degree is taken at ~22 ---------------------------
 (hsim-event graduate_university
   (nl         "?graduate takes their degree")
-  (kind [k _education])
   (schedule   (annually september))
-  (band      morning)
   (rng-stream behaviour)
 
   (roles

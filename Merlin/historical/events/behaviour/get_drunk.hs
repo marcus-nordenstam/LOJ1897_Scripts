@@ -1,52 +1,40 @@
 ; ----------------------------------------------------------------------------
-; get_drunk - the general drinking event. Each month a share of adults who
-; are not yet alcohol-dependent drink to excess. Who drinks is a multi-
-; causal risk model: Risk = vulnerability x environment / protection.
-;   vulnerability - low industriousness / low politeness (disinhibition),
-;                   high volatility (reactive drinking), high withdrawal
-;                   (self-medication), high enthusiasm (social drinking).
-;   environment   - low wealth raises financial stress.
-;   protection    - religious involvement and deep social ties lower
-;                   the odds.
+; The DRINKING lane - the reference three-stage cascade (4.13 (b)):
 ;
-; Each factor sits at ~1.0 at the population median (Big Five attr ~0.5,
-; derived situation aggregates ~50/100), so 0.014 is the median monthly
-; chance. Each drinking episode also rolls (risk-dependence ?npc) for the
-; slide into a standing craving; dependent NPCs are excluded here and
-; cast by relapse.hse instead.
+;   (a) DESIRE   crave_drink   (sim-window-start) - the multi-causal risk model
+;       decides WHO wants to drink to excess today; on a hit it mints the
+;       standing goal {@self goal {@self drink}}. No act, no venue - just the want.
+;   (b) APPROACH seek_drink    (intra-day) - holds the drink goal but is nowhere it
+;       can drink -> a (go) travel act to a PUB (the social drinking venue).
+;   (c) EXECUTE  drink         (intra-day) - holds the drink goal AND is somewhere
+;       it can drink (a pub, or its own home) -> the durative drink act; its
+;       completion (drink_episode) bumps intoxication, rolls the slide into
+;       dependence, and CLEARS the goal so the desire does not re-fire.
 ;
-; Design note. The environment and protection factors are read from the
-; aggregated situations cached by derive_prototypes once a year, not from
-; raw (count-beliefs ...) tallies:
-;   - The signal isn't "how many debts" but "how much financial stress"
-;     - the wealth situation already weighs debts against assets.
-;   - The signal isn't "how often did they attend church" but "how
-;     religious is this NPC" - the piety situation captures that.
-;   - The signal isn't "how many close friends" but "how socially
-;     embedded" - the belonging situation captures that.
+; The "drank at the Crown" whereabouts is no longer minted by hand: the NPC is
+; physically AT the venue when the stepper's completion-pass self-perception
+; stamps {@self location <room>} at the real instant.
 ;
-; The bounded form lets the engine decompose this chance into a cheap
-; (chance ~0.20) pre-roll plus a residual conditional roll, short-
-; circuiting ~80% of candidates before the risk-model tree evaluates.
+; INTERIM (b1): the intra-day events self-gate on free time (not in/near a shift,
+; daytime/evening) so they fire only when the day-shape would otherwise idle. (b2)
+; replaces those hand-gates with a situational (utility ...) competition.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
 
-(hsim-event get_drunk
-  (nl         "?npc drinks to excess")
-  (kind [k _get_drunk])
-  ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass.
-  ; The per-NPC risk-model (chance) below IS the rate (monthly); the pass is the
-  ; cadence. Co-presence + the "drank at a pub" memory move to a place-coupled
-  ; pub affordance later; here only the venueless intoxication bump fires.
-  (band      evening)
+; (a) DESIRE - window-start craving appraisal. Risk = vulnerability x environment /
+; protection (low industriousness/politeness = disinhibition, volatility = reactive,
+; withdrawal = self-medication, enthusiasm = social; low wealth = stress; piety +
+; belonging = protection). Already-dependent NPCs are excluded (relapse casts them).
+(hsim-event crave_drink
+  (sim-window-start)
   (rng-stream behaviour)
 
   (roles
     (role ?npc (template old_human)
                (not (= (belief-target ?self craving) [k alcohol]))
                (chance
-                 (* 0.014                                                  ; base monthly rate
+                 (* 0.014                                                  ; base daily rate
                     (+ 0.55 (* 0.90 (- 1.0 (attr ?self industriousness)))) ; low industriousness
                     (+ 0.65 (* 0.70 (- 1.0 (attr ?self politeness))))      ; low politeness
                     (+ 0.70 (* 0.60 (attr ?self volatility)))              ; reactive drinking
@@ -57,6 +45,45 @@
                     (- 1.5 (situation ?self belonging))))))               ; low belonging -> less protection
 
   (effects
-    (get-drunk ?npc)
-    (risk-dependence ?npc)
-    (log _get_drunk ?npc)))
+    (goal ?npc drink)))
+
+; (b) APPROACH - hold the goal, nowhere to drink: set out for a pub. drink-venue
+; picks a same-town pub; k_fail (no pub reachable) means the rule does not fire and
+; the goal simply waits.
+(hsim-event seek_drink
+  (intra-day)
+  (nl   "?self sets out for a drink")
+  (when (and (has-goal drink)
+             (not (can-drink ?self))
+             (not (in-work-hours ?self))
+             (not (work-starts-soon ?self))
+             (>= (now-hour) 6)
+             (< (now-hour) 22)))
+  (effects
+    (go ?self (drink-venue ?self))))
+
+; (c) EXECUTE - hold the goal and at a place with drink (a pub, or home): the
+; durative drink act.
+(hsim-event drink
+  (intra-day)
+  (nl   "?self drinks")
+  (when (and (has-goal drink)
+             (can-drink ?self)
+             (not (in-work-hours ?self))
+             (not (work-starts-soon ?self))
+             (>= (now-hour) 6)
+             (< (now-hour) 22)))
+  (effects
+    (act drink_episode 90)))
+
+; The COMPLETION of the drink act (chain-only: never seeded, fired only when the
+; act lands a duration later, in the serial completion pass). Applies the real
+; effects + clears the goal. Implicit actor: the act's owner is bound as ?self.
+(hsim-event drink_episode
+  (schedule (chain-only))
+  (nl   "?self has drunk to excess")
+  (effects
+    (get-drunk ?self)
+    (risk-dependence ?self)
+    (clear-goal ?self drink)
+    (log _drink_episode ?self)))

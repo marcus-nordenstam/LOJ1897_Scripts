@@ -48,8 +48,6 @@
 
 (hsim-event bonded_incident_disinherit
   (nl       "?actor disinherits ?victim")
-  (kind [k _bonded_incident_disinherit])
-  (band      afternoon)
   (rng-stream incidents)
 
   (roles

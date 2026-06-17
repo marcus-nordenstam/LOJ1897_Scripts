@@ -26,9 +26,7 @@
 
 (hsim-event sporting_event
   (nl         "a sporting club holds its annual competition")
-  (kind [k _sporting_event])
   (schedule   (annually june))
-  (band      afternoon)
   (rng-stream behaviour)
 
   (roles

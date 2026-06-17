@@ -25,8 +25,6 @@
 
 (hsim-event taunt
   (nl       "?actor inserts themselves into their own mystery")
-  (kind [k _taunt])
-  (band      night)
   (rng-stream perpetration)
   (generative-taunt)
 

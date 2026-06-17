@@ -49,8 +49,6 @@
 
 (hsim-event predation
   (nl       "?actor's appetite turns predatory")
-  (kind [k _predation])
-  (band      night)
   (rng-stream perpetration)
   (generative-predation)
 

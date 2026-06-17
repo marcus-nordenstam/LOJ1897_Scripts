@@ -10,12 +10,10 @@
 
 (hsim-event churchgoing
   (nl         "?npc attends church")
-  (kind [k _churchgoing])
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY, so the formerly-annual (chance) is /12 to hold the annual rate
   ; (0.4 -> 0.0333). The worship belief is idempotent (binary piety), so the
   ; re-fires are harmless; congregation co-presence comes from the itinerary.
-  (band      morning)
   (rng-stream behaviour)
 
   (roles

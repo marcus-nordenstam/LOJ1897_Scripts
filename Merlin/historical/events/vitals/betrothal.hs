@@ -16,14 +16,12 @@
 
 (hsim-event betrothal
   (nl         "?groom and ?bride are betrothed")
-  (kind [k _betrothal])
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY, so the per-bride (chance) is /12 of the old annual 0.25 (-> 0.0208)
   ; to hold the annual betrothal rate. Betrothals spread year-round now (the
   ; historical new-year season could be re-added later as a seasonal chance
   ; multiplier). The wedding occasion (already emergent) consumes betrothed couples
   ; monthly; engagement_party announces in the short gap between.
-  (band      afternoon)
   (rng-stream marriages)
 
   (roles

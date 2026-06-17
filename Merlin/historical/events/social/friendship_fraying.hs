@@ -31,7 +31,6 @@
 
 (hsim-event friendship_fraying
   (nl       "?a and ?b drift apart")
-  (kind [k _friendship_fraying])
   (rng-stream friendships)
 
   (roles

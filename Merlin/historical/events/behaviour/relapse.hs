@@ -22,8 +22,6 @@
 
 (hsim-event relapse
   (nl         "?npc relapses into drink")
-  (kind [k _relapse])
-  (band      evening)
   (rng-stream behaviour)
 
   (roles

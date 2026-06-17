@@ -23,8 +23,6 @@
 
 (hsim-event crime_of_passion
   (nl       "?actor's obsession turns murderous")
-  (kind [k _crime_of_passion])
-  (band      night)
   (rng-stream perpetration)
   (generative-obsession)
 

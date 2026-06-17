@@ -21,8 +21,6 @@
 
 (hsim-event rehabilitation
   (nl         "?npc seeks rehabilitation")
-  (kind [k _rehabilitation])
-  (band      afternoon)
   (rng-stream behaviour)
 
   (roles

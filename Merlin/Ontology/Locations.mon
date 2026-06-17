@@ -3,8 +3,11 @@
 # "X is/was at place Y" for both props (the building/space a prop sits in) and
 # people (the dated where-were-you memory). The explicit (tar ?) keeps the state
 # target UNCONSTRAINED - a location may be a building, a room/space, an exterior
-# address-space, or a mental org object.
-location (+ obs) (tar ?)
+# address-space, or a mental org object. @excl: a subject is in exactly ONE place
+# at a time, so minting a new whereabouts ENDS the prior one (closing its
+# interval) - without this an NPC accumulates many never-ending {X location Y}
+# beliefs and the comings-and-goings timeline is unreadable.
+location (+ obs) (tar ? @excl)
 
 # env_point: nav waypoints / spawnpoints (the env_point.arc archetype). Renamed
 # from the old `location` archetype/kind so the `location` name is reserved for
