@@ -47,19 +47,17 @@
   (rng-stream incidents)
 
   (roles
-    ; ?actor is PRE-BOUND by the day-close hook from the co-present set (never
-    ; enumerated over the population); the actor trait gate lives once in C++
-    ; (roll_incident_actor_gate) and is rolled by the hook before this fires.
+    ; ?actor is PRE-BOUND by run_social_incidents AFTER its per-actor dark-tetrad
+    ; assault-disposition roll (see bonded_incident_assault): the dispatcher decides
+    ; WHO turns violent (rolled once per actor - a (when ...) gate here would re-roll
+    ; per stranger candidate and the large stranger pool inflated this ~40x). This
+    ; event only binds the stranger victim from the live co-presence.
     (role ?actor  (template any_human))
     (role ?victim (template any_human)
                   (not (= ?victim ?actor))
                   (co-present ?actor ?victim)
                   (not (personally-knows ?actor ?victim))
-                  (not (has-recent-incident-marker ?actor ?victim))
-                  ; 0.02 = 0.08 / k_default_dates_per_month (4): co-present
-                  ; schedule fires this per active date, so spread the old
-                  ; monthly 0.08 across the active days to hold monthly cadence.
-                  (chance 0.02)))
+                  (not (has-recent-incident-marker ?actor ?victim))))
 
   (effects
     (incident-anchor ?actor assault ?victim)

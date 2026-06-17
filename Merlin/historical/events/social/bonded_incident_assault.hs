@@ -53,23 +53,19 @@
   (rng-stream incidents)
 
   (roles
-    ; ?actor is PRE-BOUND by the day-close hook (fire_co_present_events) from
-    ; the co-present set, so this role is never enumerated over the population.
-    ; The actor trait gate (volatility x psychopathy x sadism x low-politeness x
-    ; intoxication) now lives ONCE in C++ (roll_incident_actor_gate) and is
-    ; rolled by the hook before this event fires.
+    ; ?actor is PRE-BOUND by run_social_incidents AFTER it has rolled the actor's
+    ; dark-tetrad assault disposition ONCE per actor (vol x psy x sad x (1-pol) x
+    ; intox-amplifier). That decision lives in the dispatcher (not a (when ...) gate
+    ; here): a per-actor gate must roll once, but a (when ...) on a preset-actor
+    ; event re-rolls per victim candidate, which inflates with the victim pool size
+    ; (the stranger pool made public_incident_assault fire ~40x the bonded one). So
+    ; the dispatcher decides WHO turns violent; this event only binds the victim.
     (role ?actor  (template any_human))
     (role ?victim (template any_human)
                   (not (= ?victim ?actor))
                   (co-present ?actor ?victim)
                   (personally-knows ?actor ?victim)
-                  (not (has-recent-incident-marker ?actor ?victim))
-                  ; 0.02 = 0.08 / k_default_dates_per_month (4): this event now
-                  ; resolves once per active date (co-present schedule), so the
-                  ; per-fire chance is the old monthly 0.08 spread across the
-                  ; month's active days - keeping the monthly incident cadence
-                  ; (and assault-belief volume) roughly unchanged.
-                  (chance 0.02)))
+                  (not (has-recent-incident-marker ?actor ?victim))))
 
   (effects
     (incident-anchor ?actor assault ?victim)

@@ -46,22 +46,10 @@
   (rng-stream incidents)
 
   (roles
-    (role ?actor  (template any_human)
-                  ; Two additive impulse sources:
-                  ;  - the dispositional base: low politeness x narcissism;
-                  ;  - displaced anger: a high current ANGER load (from ANY
-                  ;    source, summed across foci) raises the urge to lash out,
-                  ;    discharged on whatever the victim pool offers - the 0.10
-                  ;    displacement floor on ?victim lets an innocent acquaintance
-                  ;    be hit, so the anger need not be AT the victim.
-                  ; emotion-load is unbounded, so this chance takes the
-                  ; per-candidate slow path (one benign load-time warning); the
-                  ; actor role is enumerated per candidate regardless, so there is
-                  ; no added cost.
-                  (chance (+ (* 0.06
-                                (- 1.0 (attr ?actor politeness))
-                                (attr ?actor narcissism))
-                             (* 0.08 (emotion-load ?actor anger)))))
+    ; ?actor is PRE-BOUND by resolve_affordances (the venue offers the `insult`
+    ; affordance to its co-present occupants); the actor impulse gate lives in the
+    ; (when ...) below (a preset role's own filters are skipped).
+    (role ?actor  (template any_human))
     (role ?victim (template any_human)
                   (not (= ?victim ?actor))
                   ; Place model (b1-1 fix): only insult someone you are actually
@@ -86,6 +74,23 @@
                                         (believes ?actor {@self disdain ?victim})))
                              (* 0.30 (+ (believes ?actor {@self detest  ?victim})
                                         (believes ?actor {@self despise ?victim})))))))
+
+  ; The actor's impulse to lash out, two additive sources:
+  ;  - the dispositional base: low-politeness x narcissism;
+  ;  - displaced anger: a high current ANGER load (from ANY source, summed across
+  ;    foci) raises the urge to lash out, discharged on whatever the victim pool
+  ;    offers (the 0.10 displacement floor on ?victim lets an innocent acquaintance
+  ;    be hit, so the anger need not be AT the victim).
+  ; A (when ...) gate, NOT an ?actor role filter: resolve_affordances PRE-BINDS
+  ; ?actor, and a preset role's own filters are skipped - only the (when ...) gate
+  ; re-checks on a preset firing. (This impulse gate was previously masked by the
+  ; C++ roll_incident_actor_gate, now retired.) emotion-load is unbounded, so this
+  ; chance takes the slow path (one benign load-time warning) - harmless, ?actor is
+  ; already bound so nothing is enumerated.
+  (when (chance (+ (* 0.06
+                      (- 1.0 (attr ?actor politeness))
+                      (attr ?actor narcissism))
+                   (* 0.08 (emotion-load ?actor anger)))))
 
   (effects
     (incident-anchor ?actor insult ?victim)

@@ -38,8 +38,10 @@
   (rng-stream incidents)
 
   (roles
-    (role ?actor  (template any_human)
-                  (>= (years-old ?actor) 18))
+    ; ?actor is PRE-BOUND by resolve_affordances (the venue offers the `insult`
+    ; affordance to its co-present occupants); the actor age gate is a (when ...)
+    ; below (a preset role's own filters are skipped, so it cannot sit here).
+    (role ?actor  (template any_human))
     (role ?victim (template any_human)
                   (not (= ?victim ?actor))
                   ; Place model (b1-1 fix): contempt is shown to someone's face -
@@ -57,6 +59,11 @@
                   ; stays rarer than the impulsive bonded_incident_insult even
                   ; though despise is common in a conflict-heavy population.
                   (chance (* 0.04 (- 1.0 (attr ?actor compassion))))))
+
+  ; Open contempt is a considered, adult act - minors do not deliver it. A
+  ; (when ...) gate, NOT an ?actor role filter: ?actor is pre-bound, so its role
+  ; filters are skipped; only the (when ...) gate re-checks on a preset firing.
+  (when (>= (years-old ?actor) 18))
 
   (effects
     (incident-anchor ?actor insult ?victim :context cold_contempt)
