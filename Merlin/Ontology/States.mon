@@ -346,7 +346,10 @@ relation
         (occasion_agenda)       (+ sub human)
             host                (sub occasion)  (tar human)
             venue               (sub occasion)  (tar building|space)
-            date                (sub occasion)  (tar ?)
+            # `held_on` (the occasion's date), NOT the core temporal `date` relation
+            # (year/month/day/hour/date/...): reusing `date` would impose this
+            # (sub occasion) constraint on every time object's own `date` belief.
+            held_on             (sub occasion)  (tar ?)
             hours               (sub occasion)  (tar ?)  (aux ?)
             organize            (tar occasion)
             invite              (tar occasion)  (aux human)

@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; ambition.hs - instrumental homicide genesis: ambition (WS1, the last motive).
+; ambition.hs - instrumental homicide genesis: ambition (npc-think).
 ;
 ; Sibling of covet_inheritance.hs and crime_of_passion.hs. A cold, ambitious
 ; actor who is the CLEAR HEIR-APPARENT of their organisation's leadership post -
@@ -22,17 +22,19 @@
 ; incumbent dies. Without that backfill this motive would be hollow (the org
 ; passes to the founder's kin heir, never the killer).
 ;
-; Kept rare by design (k_ambition_base_rate + the clear-deputy requirement, so
-; only a handful of NPCs qualify at any time). To A/B, rename/remove this file.
+; A mental change (a kill goal + cause is planted), so npc-think; the located
+; execution is attempt_harm's. Kept rare by design (k_ambition_base_rate + the
+; clear-deputy requirement, so only a handful of NPCs qualify at any time).
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
 
 (hsim-event ambition
   (nl       "?actor's ambition turns murderous")
-  (kind     _ambition)
   (rng-stream perpetration)
   (generative-ambition)
 
   (roles
-    (role ?actor (template any_human))))
+    (role ?actor (kind [k human])
+      (alive)
+      (>= (years-old ?actor) 18))))
