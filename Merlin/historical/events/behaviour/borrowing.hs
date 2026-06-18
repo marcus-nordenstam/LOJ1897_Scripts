@@ -18,9 +18,9 @@
   (roles
     ; Low industriousness (less self-supporting) takes on debt more often.
     (role ?debtor   (template old_human)
-                    (chance (* 0.005 (- 1.5 (attr ?self industriousness)))))
+                    (chance (* 0.005 (- 1.5 (attr ?this industriousness)))))
     (role ?creditor (template old_human)
-                    (not (= ?self ?debtor))
+                    (not (= ?this ?debtor))
                     (not (believes ?debtor {@self owe ?creditor}))))
 
   (effects

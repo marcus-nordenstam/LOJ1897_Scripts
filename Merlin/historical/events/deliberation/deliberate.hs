@@ -33,17 +33,16 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event deliberate
-  (nl       "?actor weighs their pressure load and acts")
+  (nl       "@self weighs their pressure load and acts")
   (sim-window-start)
   (rng-stream deliberation)
 
-  (roles
-    ; CAST FILTER (section 19-21): any alive human carrying a standing pressure.
-    ; (has-pressure ?actor) is the cheap early-exit existence test - only
-    ; pressured NPCs run the synthesizer. (A strength threshold via
-    ; total-pressure-load was tried; it skipped the CHEAP low-load NPCs and kept
-    ; the expensive high-load ones, so it cost perf rather than saving it.)
-    (role ?actor (template any_human)
-                 (> (has-pressure ?actor) 0.0)))
+  ; CAST (section 19-21): the per-NPC window-start driver runs this for every living
+  ; NPC (@self); the synthesizer reads @self's OWN pressure stack. No role: @self is
+  ; always a living human, so the old (template any_human) gate was redundant. The
+  ; (has-pressure @self) gate is the cheap early-exit - only pressured NPCs run the
+  ; synthesizer. (A strength threshold via total-pressure-load was tried; it skipped
+  ; the CHEAP low-load NPCs and kept the expensive high-load ones, costing perf.)
+  (when (> (has-pressure @self) 0.0))
 
   (generative-deliberation))

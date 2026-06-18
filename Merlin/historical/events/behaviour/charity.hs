@@ -1,29 +1,52 @@
 ; ----------------------------------------------------------------------------
-; charity - a Phase 8 behaviour seed event. Each year a few adults perform an
-; act of charity, gaining a {@self give <alms>} act-record - the alms a number
-; symbol, the sum given. The F3.5 generosity classifier reads it. Binary,
-; like gambling: one act-record marks the NPC a giver, and the (not (believes
-; ...)) gate fires the onset at most once per NPC. Reuses the existing `give`
-; task label - hsim runs in historic mode, where the action-pipeline guard
-; that normally rejects a directly-asserted self-subject task-belief is
-; skipped (sim/sim_mode.h).
+; The CHARITY lane - the three-stage cascade (4.13.15):
+;
+;   (a) DESIRE   feel_charitable (sim-window-start) - high compassion moves an NPC
+;       to give alms; on a hit it mints {@self goal {@self give}}.
+;   (b) APPROACH seek_alms_church (intra-day) - holds the goal but is not at a
+;       church -> a (go) travel act to the parish church (the Victorian charity
+;       venue).
+;   (c) EXECUTE  give_alms_act (intra-day) - at a church with the goal -> the
+;       durative almsgiving; its completion mints the {@self give <sum>} act-record
+;       (read by the F3.5 generosity classifier) and clears the goal.
+;
+; The old once-per-giver gate ({@self give ? ?}) is dropped: a compassionate NPC
+; gives repeatedly, and the recurrence is the generosity signal.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
 
-; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
-; (per-individual, compassion-weighted), MONTHLY now, so the (chance) is /12
-; (0.008 -> 0.00067) to hold the annual giving rate.
-(hsim-event charity
-  (nl         "?giver gives to charity")
+(hsim-event feel_charitable
+  (sim-window-start)
   (rng-stream behaviour)
-
   (roles
-    ; High compassion gives to charity more.
-    (role ?giver (template old_human)
-                 (not (believes ?self {@self give ? ?}))
-                 (chance (* 0.00067 (+ 0.4 (* 1.2 (attr ?self compassion)))))))
-
+    (role @self (template grown)))
+  (when (chance (* 0.00067 (+ 0.4 (* 1.2 (attr @self compassion))))))
   (effects
-    (give-alms ?giver)
-    (log _charity ?giver)))
+    (goal @self give_alms)))
+
+(hsim-event seek_alms_church
+  (intra-day)
+  (nl   "@self sets out to give alms")
+  (when (and (has-goal give_alms)
+             (not (self-at [k building church]))))
+  (utility 30)
+  (effects
+    (go @self (venue [k building church]))))
+
+(hsim-event give_alms_act
+  (intra-day)
+  (nl   "@self gives alms")
+  (when (and (has-goal give_alms)
+             (self-at [k building church])))
+  (utility 30)
+  (effects
+    (act alms_episode 60)))
+
+(hsim-event alms_episode
+  (schedule (chain-only))
+  (nl   "@self gives alms at the church")
+  (effects
+    (give-alms @self)
+    (clear-goal @self give_alms)
+    (log _alms_episode @self)))

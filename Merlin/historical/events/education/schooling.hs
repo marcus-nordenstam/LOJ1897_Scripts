@@ -53,11 +53,11 @@
     ; supporting parents" branch. The two (not ...) guards keep a once-schooled
     ; child from re-enrolling on a later year of the 5-7 window.
     (role ?child (template any_human)
-                 (>= (years-old ?self) 5)
-                 (<= (years-old ?self) 7)
-                 (not (believes ?self {@self study ?}))
-                 (not (believes ?self {@self skilled_in [k primary_school_curriculum]}))
-                 (chance (* (situation ?self breeding) (situation ?self breeding)))))
+                 (>= (years-old ?this) 5)
+                 (<= (years-old ?this) 7)
+                 (not (believes ?this {@self study ?}))
+                 (not (believes ?this {@self skilled_in [k primary_school_curriculum]}))
+                 (chance (* (situation ?this breeding) (situation ?this breeding)))))
 
   (effects
     (enroll ?child primary_school_curriculum)
@@ -75,13 +75,13 @@
     ; child who finished primary has a low chance here and instead falls to the
     ; apprenticeship on-ramp (apprenticeship_start, which now excludes pupils).
     (role ?youth (template any_human)
-                 (>= (years-old ?self) 12)
-                 (<= (years-old ?self) 14)
-                 (believes ?self {@self skilled_in [k primary_school_curriculum]})
-                 (not (believes ?self {@self study ?}))
-                 (not (believes ?self {@self skilled_in [k secondary_school_curriculum]}))
-                 (not (believes ?self {@self employer ?}))
-                 (chance (* (situation ?self breeding) (situation ?self breeding)))))
+                 (>= (years-old ?this) 12)
+                 (<= (years-old ?this) 14)
+                 (believes ?this {@self skilled_in [k primary_school_curriculum]})
+                 (not (believes ?this {@self study ?}))
+                 (not (believes ?this {@self skilled_in [k secondary_school_curriculum]}))
+                 (not (believes ?this {@self employer ?}))
+                 (chance (* (situation ?this breeding) (situation ?this breeding)))))
 
   (effects
     (enroll ?youth secondary_school_curriculum)
@@ -98,12 +98,12 @@
     ; steep breeding-cubed gate - the professions' gateway). The subject is
     ; interest-led, chosen inside (enroll-university).
     (role ?youth (template any_human)
-                 (>= (years-old ?self) 18)
-                 (<= (years-old ?self) 20)
-                 (believes ?self {@self skilled_in [k secondary_school_curriculum]})
-                 (not (believes ?self {@self study ?}))
-                 (not (believes ?self {@self employer ?}))
-                 (chance (* (situation ?self breeding) (* (situation ?self breeding) (situation ?self breeding))))))
+                 (>= (years-old ?this) 18)
+                 (<= (years-old ?this) 20)
+                 (believes ?this {@self skilled_in [k secondary_school_curriculum]})
+                 (not (believes ?this {@self study ?}))
+                 (not (believes ?this {@self employer ?}))
+                 (chance (* (situation ?this breeding) (* (situation ?this breeding) (situation ?this breeding))))))
 
   (effects
     (enroll-university ?youth)
@@ -121,8 +121,8 @@
     ; curriculum at novice and ends the study). The credential then gates
     ; secondary enrollment; a non-continuer becomes apprenticeship-eligible.
     (role ?pupil (template any_human)
-                 (>= (years-old ?self) 11)
-                 (believes ?self {@self study [k primary_school_curriculum]})))
+                 (>= (years-old ?this) 11)
+                 (believes ?this {@self study [k primary_school_curriculum]})))
 
   (effects
     (graduate ?pupil)
@@ -136,8 +136,8 @@
 
   (roles
     (role ?pupil (template any_human)
-                 (>= (years-old ?self) 17)
-                 (believes ?self {@self study [k secondary_school_curriculum]})))
+                 (>= (years-old ?this) 17)
+                 (believes ?this {@self study [k secondary_school_curriculum]})))
 
   (effects
     (graduate ?pupil)
@@ -155,8 +155,8 @@
     ; {@self skilled_in <subject> trained}, feeding the S8 physician / lawyer /
     ; scholar identities + the prestige bump - the profession pipeline payoff.
     (role ?graduate (template any_human)
-                    (>= (years-old ?self) 22)
-                    (believes ?self {@self study ?})))
+                    (>= (years-old ?this) 22)
+                    (believes ?this {@self study ?})))
 
   (effects
     (graduate ?graduate)

@@ -19,7 +19,7 @@ archetype "human_player" (cap 256) (mech obs) (raycast-visible) (player) (non-oc
     "name"
     "condition"
     "pregnant_when"
-    "alertness"
+    "fatigue"
     "sexual_orient"
     # Big Five personality - the ten Big Five Aspect Scale aspects.
     "openness"

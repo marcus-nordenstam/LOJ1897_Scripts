@@ -26,8 +26,10 @@ archetype "human_npc" (cap 4096) (mech obs) (raycast-visible) (sentient) (non-oc
     "name"
     "condition"
     "pregnant_when"
-    "alertness"
     "sexual_orient"
+    # Continuous physical tiredness (0..2) - the rest lane reads it; the sleep
+    # act's completion reduces it, waking time accrues it (imperceptible).
+    "fatigue"
     # Accumulated intoxication - F3.7 sobriety input.
     "intoxication"
     # Gambling addiction (0..1) - F3.5 sobriety + wealth input.

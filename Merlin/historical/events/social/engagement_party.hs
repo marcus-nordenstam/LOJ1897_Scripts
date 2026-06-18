@@ -29,8 +29,8 @@
 
   (roles
     (role ?bride (template unmarried_woman)
-                 (believes ?self {@self fiancee ?})
-                 (= (belief-age ?self fiancee) 0))
+                 (believes ?this {@self fiancee ?})
+                 (= (belief-age ?this fiancee) 0))
     (role ?groom (template unmarried_man)
                  (believes ?bride {@self fiancee ?groom})))
 

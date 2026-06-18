@@ -1,29 +1,52 @@
 ; ----------------------------------------------------------------------------
-; gambling - a behaviour seed event. Each year a few adults take to (or sink
-; deeper into) gambling: the (gamble ...) effect bumps their `gambling_addiction`
-; attr (0..1, capped at morbid), exactly as get_drunk bumps `intoxication`. The
-; F3.5 sobriety and wealth classifiers read the attr GRADED - a deeper addiction
-; is more intemperate and loses more money. No once-per-NPC gate: re-firing is
-; how the addiction DEEPENS (the effect's cap bounds it). Low industriousness
-; (a want of self-discipline) raises the annual chance.
+; The GAMBLING lane - the three-stage cascade (4.13.15), the twin of get_drunk:
+;
+;   (a) DESIRE   gamble_urge (sim-window-start) - low industriousness (a want of
+;       self-discipline) takes to (or sinks deeper into) gambling; on a hit it
+;       mints the standing goal {@self goal {@self play_game}}.
+;   (b) APPROACH seek_game   (intra-day) - holds the goal but is not at a pub ->
+;       a (go) travel act to a pub (the gambling venue).
+;   (c) EXECUTE  gamble_act  (intra-day) - at a pub with the goal -> the durative
+;       gamble act; its completion bumps `gambling_addiction` (capped at morbid,
+;       exactly as get_drunk bumps `intoxication`) and clears the goal.
+;
+; Gambling ACCUMULATES (each fire deepens the addiction ~0.5 -> ~2 fires to morbid),
+; so the desire is a low-rate repeat; the addiction depth is the running total.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
 
-(hsim-event gambling
-  (nl         "?npc takes to gambling")
-  ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
-  ; MONTHLY. gambling ACCUMULATES (each fire deepens the addiction), so the
-  ; formerly-annual (chance) is /12 to hold the annual deepening rate
-  ; (0.006 -> 0.0005). Venueless (the gamble verb only bumps the attr).
+(hsim-event gamble_urge
+  (sim-window-start)
   (rng-stream behaviour)
-
   (roles
-    ; Low industriousness (a want of self-discipline) takes to gambling more.
-    ; Mean-1.0 factor - the base rate is the average annual chance.
-    (role ?npc (template old_human)
-               (chance (* 0.0005 (+ 0.6 (* 0.8 (- 1.0 (attr ?self industriousness))))))))
-
+    (role @self (template grown)))
+  (when (chance (* 0.0005 (+ 0.6 (* 0.8 (- 1.0 (attr @self industriousness)))))))
   (effects
-    (gamble ?npc)
-    (log _gambling ?npc)))
+    (goal @self play_game)))
+
+(hsim-event seek_game
+  (intra-day)
+  (nl   "@self sets out to gamble")
+  (when (and (has-goal play_game)
+             (not (self-at [k building pub]))))
+  (utility 30)
+  (effects
+    (go @self (venue [k building pub]))))
+
+(hsim-event gamble_act
+  (intra-day)
+  (nl   "@self gambles")
+  (when (and (has-goal play_game)
+             (self-at [k building pub])))
+  (utility 30)
+  (effects
+    (act gamble_episode 90)))
+
+(hsim-event gamble_episode
+  (schedule (chain-only))
+  (nl   "@self gambles at the table")
+  (effects
+    (gamble @self)
+    (clear-goal @self play_game)
+    (log _gamble_episode @self)))

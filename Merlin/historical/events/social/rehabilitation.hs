@@ -27,8 +27,8 @@
     ;; A disreputable adult with a personality lift toward conformity
     ;; (politeness) tries the church door.
     (role ?npc (template old_human)
-               (= (situation ?self repute) [k disreputable])
-               (chance (* 0.05 (+ 0.5 (attr ?self politeness))))))
+               (= (situation ?this repute) [k disreputable])
+               (chance (* 0.05 (+ 0.5 (attr ?this politeness))))))
 
   (effects
     (go-to-church ?npc)

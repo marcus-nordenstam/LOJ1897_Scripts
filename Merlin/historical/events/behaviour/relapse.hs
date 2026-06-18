@@ -5,8 +5,11 @@
 ; often. The chance is high and modulated: distress (withdrawal) and weak
 ; restraint (low industriousness) drive relapse; religious involvement and
 ; deep social embedding resist it but never to zero - the lifelong battle.
-; Onset into dependence happens in get_drunk.hse via (risk-dependence ?npc);
-; this event carries it forward.
+; Onset into dependence happens in get_drunk.hs (risk-dependence ?npc); this is
+; the dependent's DESIRE stage (sim-window-start): it mints the SAME {@self goal
+; {@self drink}} as crave_drink (which excludes the dependent), so the dependent
+; relapses through the very same seek_drink -> drink -> drink_episode pipeline -
+; one executor, two desires. Relapse just has a far higher base rate.
 ;
 ; Design note. The protective factors read the piety and belonging
 ; situations cached by derive_prototypes, not raw (count-beliefs attend)
@@ -21,19 +24,17 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event relapse
-  (nl         "?npc relapses into drink")
+  (sim-window-start)
+  (nl         "@self relapses into drink")
   (rng-stream behaviour)
-
   (roles
-    (role ?npc (template old_human)
-               (= (belief-target ?self craving) [k alcohol])
-               (chance
-                 (* 0.30                                                  ; base monthly relapse
-                    (+ 0.60 (* 0.80 (attr ?self withdrawal)))              ; distress drives relapse
-                    (+ 0.70 (* 0.60 (- 1.0 (attr ?self industriousness)))) ; weak restraint
-                    (- 1.3 (* 0.6 (situation ?self piety)))                ; piety resists
-                    (- 1.3 (* 0.6 (situation ?self belonging))))))) ; belonging resists
-
+    (role @self (template grown)))
+  (when (and (= (belief-target @self craving) [k alcohol])
+             (chance
+               (* 0.30                                                  ; base daily relapse
+                  (+ 0.60 (* 0.80 (attr @self withdrawal)))              ; distress drives relapse
+                  (+ 0.70 (* 0.60 (- 1.0 (attr @self industriousness)))) ; weak restraint
+                  (- 1.3 (* 0.6 (situation @self piety)))                ; piety resists
+                  (- 1.3 (* 0.6 (situation @self belonging)))))))        ; belonging resists
   (effects
-    (get-drunk ?npc)
-    (log _relapse ?npc)))
+    (goal @self drink)))

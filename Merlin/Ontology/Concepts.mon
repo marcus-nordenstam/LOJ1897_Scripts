@@ -46,8 +46,12 @@ concept
         # locomotion level over time.
         unconscious
 
+    # The discrete de-quantization of the continuous `fatigue` attr, minted as a
+    # {@self alertness <kind>} self-belief by the fatigue appraiser (the queryable
+    # memory of tiredness; the physiology + sleep-pull utility read the attr).
     alertness           (tar @excl)
         alert
+        tired
         sleepy
 
     # Observable locomotion level - the physical-mobility state, mirrored

@@ -42,16 +42,16 @@
     ;; high-prestige assertive candidate fires substantially more often
     ;; than an exemplary-but-quiet one.
     (role ?official (template old_human)
-                    (>= (years-old ?self) 30)
-                    (<= (years-old ?self) 65)
-                    (= (situation ?self repute) [k exemplary])
-                    (>= (situation ?self prestige) 0.65)
+                    (>= (years-old ?this) 30)
+                    (<= (years-old ?this) 65)
+                    (= (situation ?this repute) [k exemplary])
+                    (>= (situation ?this prestige) 0.65)
                     (chance (* 0.0083
-                               (attr ?self assertiveness)
-                               (situation ?self prestige))))
+                               (attr ?this assertiveness)
+                               (situation ?this prestige))))
     ;; A public organisation - any gov-subkind: church, hospital, agency.
     (role ?articles (template org_articles)
-                    (org-kind-is-a ?self [k org gov])))
+                    (org-kind-is-a ?this [k org gov])))
 
   ;; Live exclusivity re-check (see betrothal.hs): without it, every gov org
   ;; enumerated this tick can appoint the same prestigious official before the

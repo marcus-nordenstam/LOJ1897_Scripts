@@ -33,20 +33,20 @@
     ; carried by the `employer` gate here: a man with a post is a man of
     ; standing.)
     (role ?founder (template old_human)
-                   (>= (years-old ?self) 30)
-                   (believes ?self {@self employer ?})
-                   (not (believes ?self {@self member_of ?}))
+                   (>= (years-old ?this) 30)
+                   (believes ?this {@self employer ?})
+                   (not (believes ?this {@self member_of ?}))
                    (chance 0.0033))
     ; Two founding members, sampled from adults not already heavily clubbed.
     (role ?m1 (template old_human)
-              (not (= ?self ?founder))
-              (>= (years-old ?self) 18)
-              (< (count-beliefs ?self member_of) 2))
+              (not (= ?this ?founder))
+              (>= (years-old ?this) 18)
+              (< (count-beliefs ?this member_of) 2))
     (role ?m2 (template old_human)
-              (not (= ?self ?founder))
-              (not (= ?self ?m1))
-              (>= (years-old ?self) 18)
-              (< (count-beliefs ?self member_of) 2)))
+              (not (= ?this ?founder))
+              (not (= ?this ?m1))
+              (>= (years-old ?this) 18)
+              (< (count-beliefs ?this member_of) 2)))
 
   (effects
     ; found-org spawns the clubhouse, founds the club, and enrols the founder
@@ -67,14 +67,14 @@
   (roles
     ; An adult who belongs to fewer than two clubs takes up another.
     (role ?member (template old_human)
-                  (>= (years-old ?self) 18)
-                  (< (count-beliefs ?self member_of) 2)
-                  (not (= (situation ?self repute) [k scandalous]))
-                  (not (= (situation ?self repute) [k disreputable]))
+                  (>= (years-old ?this) 18)
+                  (< (count-beliefs ?this member_of) 2)
+                  (not (= (situation ?this repute) [k scandalous]))
+                  (not (= (situation ?this repute) [k disreputable]))
                   (chance 0.005))
     (role ?club_articles (template org_articles)
-                         (org-kind-is-a ?self [k org club])
-                         (= (situation (org-founder ?self) class_situation)
+                         (org-kind-is-a ?this [k org club])
+                         (= (situation (org-founder ?this) class_situation)
                             (situation ?member class_situation))))
 
   (effects
@@ -97,7 +97,7 @@
 
   (roles
     (role ?member (template old_human)
-                  (believes ?self {@self member_of ?})
+                  (believes ?this {@self member_of ?})
                   (chance 0.004)))
 
   (effects

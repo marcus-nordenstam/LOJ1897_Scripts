@@ -1,27 +1,52 @@
 ; ----------------------------------------------------------------------------
-; churchgoing - an F3.7 behaviour seed event. Once a year a share of adults
-; attend the parish church, gaining a `worship` belief. The F3.5 piety
-; classifier reads it (v1 piety is binary - churchgoer vs not). The
-; (go-to-church ...) verb locates the church building itself, so the event
-; needs only the ?npc role.
+; The CHURCHGOING lane - the three-stage cascade (4.13.15):
+;
+;   (a) DESIRE   feel_devout   (sim-window-start) - high politeness (respect for
+;       convention) draws an NPC to worship; on a hit it mints {@self goal {@self
+;       worship}}.
+;   (b) APPROACH seek_church   (intra-day) - holds the goal but is not at a church
+;       -> a (go) travel act to the parish church.
+;   (c) EXECUTE  attend_church (intra-day) - at a church with the goal -> the
+;       durative service; its completion mints the standing `worship` piety belief
+;       (about the church they are AT) and clears the goal.
+;
+; Piety is binary (the F3.5 classifier reads the worship belief); the re-mints are
+; idempotent, so a devout NPC re-worships harmlessly.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
 
-(hsim-event churchgoing
-  (nl         "?npc attends church")
-  ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
-  ; MONTHLY, so the formerly-annual (chance) is /12 to hold the annual rate
-  ; (0.4 -> 0.0333). The worship belief is idempotent (binary piety), so the
-  ; re-fires are harmless; congregation co-presence comes from the itinerary.
+(hsim-event feel_devout
+  (sim-window-start)
   (rng-stream behaviour)
-
   (roles
-    ; High politeness (respect for convention and institution) attends church
-    ; more often. Mean-1.0 multiplier - attendance volume is unchanged.
-    (role ?npc (template old_human)
-               (chance (* 0.0333 (+ 0.5 (attr ?self politeness))))))
-
+    (role @self (template grown)))
+  (when (chance (* 0.0333 (+ 0.5 (attr @self politeness)))))
   (effects
-    (go-to-church ?npc)
-    (log _churchgoing ?npc)))
+    (goal @self worship)))
+
+(hsim-event seek_church
+  (intra-day)
+  (nl   "@self sets out for church")
+  (when (and (has-goal worship)
+             (not (self-at [k building church]))))
+  (utility 30)
+  (effects
+    (go @self (venue [k building church]))))
+
+(hsim-event attend_church
+  (intra-day)
+  (nl   "@self attends the service")
+  (when (and (has-goal worship)
+             (self-at [k building church])))
+  (utility 30)
+  (effects
+    (act worship_episode 90)))
+
+(hsim-event worship_episode
+  (schedule (chain-only))
+  (nl   "@self worships at church")
+  (effects
+    (go-to-church @self)
+    (clear-goal @self worship)
+    (log _worship_episode @self)))

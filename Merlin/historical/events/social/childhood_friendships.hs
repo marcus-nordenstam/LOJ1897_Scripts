@@ -26,16 +26,16 @@
     ; High enthusiasm (the sociable Extraversion aspect) makes friends more
     ; readily. Mean-1.0 multiplier - friendship volume is unchanged.
     (role ?a (template any_human)
-             (>= (years-old ?self) 8)
-             (<= (years-old ?self) 16)
-             (chance (* 0.0125 (+ 0.5 (attr ?self enthusiasm)))))
+             (>= (years-old ?this) 8)
+             (<= (years-old ?this) 16)
+             (chance (* 0.0125 (+ 0.5 (attr ?this enthusiasm)))))
     (role ?b (template any_human)
-             (>= (years-old ?self) 8)
-             (<= (years-old ?self) 16)
-             (not (= ?self ?a))
-             (= (belief-target ?self class_situation) (belief-target ?a class_situation))
-             (<= (- (years-old ?self) (years-old ?a))  3)
-             (>= (- (years-old ?self) (years-old ?a)) -3)
+             (>= (years-old ?this) 8)
+             (<= (years-old ?this) 16)
+             (not (= ?this ?a))
+             (= (belief-target ?this class_situation) (belief-target ?a class_situation))
+             (<= (- (years-old ?this) (years-old ?a))  3)
+             (>= (- (years-old ?this) (years-old ?a)) -3)
              (not (believes ?a {@self friend ?b}))
              ; Warmth-gated: see
              ; adult_friendships.hs. Reliable cross-pair BITSET gates

@@ -25,7 +25,7 @@
     (role ?wife    (template fertile_wife)
                    (chance 0.033))   ; ~0.40 per couple-year over 12 months
     (role ?husband (template any_human)
-                   (= (attr ?self gender) [k male])
+                   (= (attr ?this gender) [k male])
                    (believes ?wife {@self spouse ?husband})))
 
   (effects

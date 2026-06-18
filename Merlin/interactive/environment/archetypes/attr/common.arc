@@ -88,13 +88,20 @@ attr "eye_color" (type kind) (mech obs) (auto-percept)
 # nationality and social standing are not physical environment state - they
 # exist solely as beliefs (nationality / class_situation labels in States.mon).
 
-# Personality & internal. alertness / sexual_orient are kind-typed; @excl
-# lives on the concept in Concepts.mon. Interests are NOT physical - they
-# are seeded directly as {@self interest <kind>} self-beliefs in
-# mx_make_human (kinds sampled from the `interest` subtree in Concepts.mon)
-# and propagated via the friend-tier belief mirror.
-attr "alertness" (type kind alert) (mech feel)
+# Personality & internal. sexual_orient is kind-typed; @excl lives on the
+# concept in Concepts.mon. Interests are NOT physical - they are seeded
+# directly as {@self interest <kind>} self-beliefs in mx_make_human (kinds
+# sampled from the `interest` subtree in Concepts.mon) and propagated via the
+# friend-tier belief mirror.
 attr "sexual_orient" (type kind) (mech feel)
+
+# Fatigue, the continuous physical tiredness state (0 rested .. 1 ready-for-bed,
+# can exceed 1 when sleep is denied). Imperceptible: the physiological scalar is
+# never auto-mirrored into the mind as a belief - the alertness appraiser
+# de-quantizes it into a discrete {@self alertness alert|tired|sleepy} belief
+# (the queryable memory). The rest lane reads it for the sleep-pull utility; the
+# sleep act's completion reduces it (1/6 per hour slept), waking time accrues it.
+attr "fatigue" (type float) (range 0 2) (imperceptible) (state-flags-tar @excl)
 
 # Accumulated intoxication, 0..1 - the get-drunk seed event bumps it; the F3.7
 # sobriety classifier reads it (see hsim_derive.cc).

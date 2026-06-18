@@ -31,55 +31,53 @@
 (hsim-event crave_drink
   (sim-window-start)
   (rng-stream behaviour)
-
   (roles
-    (role ?npc (template old_human)
-               (not (= (belief-target ?self craving) [k alcohol]))
-               (chance
-                 (* 0.014                                                  ; base daily rate
-                    (+ 0.55 (* 0.90 (- 1.0 (attr ?self industriousness)))) ; low industriousness
-                    (+ 0.65 (* 0.70 (- 1.0 (attr ?self politeness))))      ; low politeness
-                    (+ 0.70 (* 0.60 (attr ?self volatility)))              ; reactive drinking
-                    (+ 0.70 (* 0.60 (attr ?self enthusiasm)))              ; social drinking
-                    (+ 0.70 (* 0.60 (attr ?self withdrawal)))              ; self-medication
-                    (- 1.5 (situation ?self wealth))                      ; low wealth -> stress
-                    (- 1.5 (situation ?self piety))                       ; low piety -> less protection
-                    (- 1.5 (situation ?self belonging))))))               ; low belonging -> less protection
-
+    (role @self (template grown)))
+  (when (and (not (= (belief-target @self craving) [k alcohol]))
+             (chance
+               (* 0.014                                                  ; base daily rate
+                  (+ 0.55 (* 0.90 (- 1.0 (attr @self industriousness)))) ; low industriousness
+                  (+ 0.65 (* 0.70 (- 1.0 (attr @self politeness))))      ; low politeness
+                  (+ 0.70 (* 0.60 (attr @self volatility)))              ; reactive drinking
+                  (+ 0.70 (* 0.60 (attr @self enthusiasm)))              ; social drinking
+                  (+ 0.70 (* 0.60 (attr @self withdrawal)))              ; self-medication
+                  (- 1.5 (situation @self wealth))                       ; low wealth -> stress
+                  (- 1.5 (situation @self piety))                        ; low piety -> less protection
+                  (- 1.5 (situation @self belonging))))))                ; low belonging -> less protection
   (effects
-    (goal ?npc drink)))
+    (goal @self drink)))
 
 ; (b) APPROACH - hold the goal, nowhere to drink: set out for a pub. drink-venue
 ; picks a same-town pub; k_fail (no pub reachable) means the rule does not fire and
 ; the goal simply waits.
 (hsim-event seek_drink
   (intra-day)
-  (nl   "?self sets out for a drink")
+  (nl   "@self sets out for a drink")
   (when (and (has-goal drink)
-             (not (can-drink ?self))))
+             (not (can-drink @self))))
   (utility 30)
   (effects
-    (go ?self (drink-venue ?self))))
+    (go @self (drink-venue @self))))
 
 ; (c) EXECUTE - hold the goal and at a place with drink (a pub, or home): the
 ; durative drink act.
 (hsim-event drink
   (intra-day)
-  (nl   "?self drinks")
+  (nl   "@self drinks")
   (when (and (has-goal drink)
-             (can-drink ?self)))
+             (can-drink @self)))
   (utility 30)
   (effects
     (act drink_episode 90)))
 
 ; The COMPLETION of the drink act (chain-only: never seeded, fired only when the
 ; act lands a duration later, in the serial completion pass). Applies the real
-; effects + clears the goal. Implicit actor: the act's owner is bound as ?self.
+; effects + clears the goal. Implicit actor: the act's owner is bound as @self.
 (hsim-event drink_episode
   (schedule (chain-only))
-  (nl   "?self has drunk to excess")
+  (nl   "@self has drunk to excess")
   (effects
-    (get-drunk ?self)
-    (risk-dependence ?self)
-    (clear-goal ?self drink)
-    (log _drink_episode ?self)))
+    (get-drunk @self)
+    (risk-dependence @self)
+    (clear-goal @self drink)
+    (log _drink_episode @self)))

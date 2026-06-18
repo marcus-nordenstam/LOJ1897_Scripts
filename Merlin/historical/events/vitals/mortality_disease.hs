@@ -18,7 +18,7 @@
 
   (roles
     (role ?who (template any_human)
-               (>= (years-old ?self) 1)))
+               (>= (years-old ?this) 1)))
 
   (when (chance 0.0008))   ; ~1% per year background disease rate
 

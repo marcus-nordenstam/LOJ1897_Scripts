@@ -1,0 +1,9 @@
+action = SLEEP
+motor = body
+transmission = obs
+
+preroll = 0.0
+in      = 0.0
+run     = ?
+out     = 0.0
+nature = neutral_act

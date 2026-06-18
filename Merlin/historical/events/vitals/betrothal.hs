@@ -42,7 +42,7 @@
     ;; secret-inclusive self-derived values. A held secret costs nothing
     ;; here; its exposure would - that delta is the blackmail stake.
     (role ?bride (template unmarried_woman)
-                 (not (believes ?self {@self fiancee ?}))
+                 (not (believes ?this {@self fiancee ?}))
                  ;; A lover bond keeps one out of the arranged market ONLY when
                  ;; the lover is a VIABLE match (same station) - such pairs wed
                  ;; via love_match instead, and widows are never handed arranged
@@ -53,28 +53,28 @@
                  ;; the letters become blackmail) that the jilt machinery consumes.
                  ;; No lover -> belief-target reads @fail -> the (and ...) is
                  ;; false -> eligible.
-                 (not (and (believes ?self {@self lover ?})
-                           (= (situation (belief-target ?self lover) class_situation)
-                              (situation ?self class_situation))))
-                 (not (= (situation ?self repute) [k scandalous]))
-                 (not (= (situation ?self repute) [k disreputable]))
+                 (not (and (believes ?this {@self lover ?})
+                           (= (situation (belief-target ?this lover) class_situation)
+                              (situation ?this class_situation))))
+                 (not (= (situation ?this repute) [k scandalous]))
+                 (not (= (situation ?this repute) [k disreputable]))
                  ;; A fallen woman (divorced for adultery) is shut out of the
                  ;; respectable market absolutely - no decorum or chastity
                  ;; recovery readmits her.
-                 (not (believes ?self {@self prototype [k fallen_woman]}))
-                 (or (>= (situation ?self reputed_chastity) 0.5)
-                     (not (believes ?self {@self reputed_chastity ?})))
+                 (not (believes ?this {@self prototype [k fallen_woman]}))
+                 (or (>= (situation ?this reputed_chastity) 0.5)
+                     (not (believes ?this {@self reputed_chastity ?})))
                  (chance 0.0208))
     (role ?groom (template unmarried_man)
-                 (not (believes ?self {@self fiancee ?}))
-                 (not (and (believes ?self {@self lover ?})
-                           (= (situation (belief-target ?self lover) class_situation)
-                              (situation ?self class_situation))))
-                 (not (= (situation ?self repute) [k scandalous]))
-                 (not (= (situation ?self repute) [k disreputable]))
-                 (= (situation ?self class_situation) (situation ?bride class_situation))
-                 (<= (- (years-old ?self) (years-old ?bride))  15)
-                 (>= (- (years-old ?self) (years-old ?bride)) -15)
+                 (not (believes ?this {@self fiancee ?}))
+                 (not (and (believes ?this {@self lover ?})
+                           (= (situation (belief-target ?this lover) class_situation)
+                              (situation ?this class_situation))))
+                 (not (= (situation ?this repute) [k scandalous]))
+                 (not (= (situation ?this repute) [k disreputable]))
+                 (= (situation ?this class_situation) (situation ?bride class_situation))
+                 (<= (- (years-old ?this) (years-old ?bride))  15)
+                 (>= (- (years-old ?this) (years-old ?bride)) -15)
                  ;; No marrying blood kin. A brother is same-class + similar-age,
                  ;; so without this the arranged matcher could betroth siblings.
                  ;; Reliable kin cross-pair BITSET.

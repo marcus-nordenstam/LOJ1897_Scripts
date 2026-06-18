@@ -30,16 +30,16 @@
     ;; / wrong-class applicants are filtered per JOB by the data, not here. The
     ;; scandalous gate stays as a coarse pre-filter (saves match work).
     (role ?worker (template any_human)
-                  (>= (years-old ?self) 16)
-                  (<= (years-old ?self) 55)
-                  (not (believes ?self {@self employer ?}))
-                  (not (= (situation ?self repute) [k scandalous]))
+                  (>= (years-old ?this) 16)
+                  (<= (years-old ?this) 55)
+                  (not (believes ?this {@self employer ?}))
+                  (not (= (situation ?this repute) [k scandalous]))
                   (chance 0.3))   ; how often a jobless adult seeks work (monthly)
     ;; A household is an org but NOT a labour-market employer: its servants
     ;; are taken on by the staff_household pass (role-appropriate,
     ;; gender-normed), never as generic clerks here.
     (role ?articles (template org_articles)
-                    (not (org-kind-is-a ?self [k org household]))))
+                    (not (org-kind-is-a ?this [k org household]))))
 
   ;; Live exclusivity re-check (see business.hs): the worker's "unemployed"
   ;; role filter is alpha-indexed, so within one tick every hiring org samples
@@ -72,20 +72,20 @@
 
   (roles
     (role ?worker (template any_human)
-                  (believes ?self {@self employer ?})
-                  (not (= (job-level ?self) [k org_head]))
-                  (>= (job-tenure ?self) 3)
+                  (believes ?this {@self employer ?})
+                  (not (= (job-level ?this) [k org_head]))
+                  (>= (job-tenure ?this) 3)
                   ;; S4: a worker must have EARNED competence (>= trained, ~5yr in
                   ;; the job's domain) before rising. Jobs that confer no domain
                   ;; (unskilled trades) pass the gate unconditionally.
-                  (job-skilled-at-or-above ?self trained)
-                  (not (= (situation ?self repute) [k scandalous]))
+                  (job-skilled-at-or-above ?this trained)
+                  (not (= (situation ?this repute) [k scandalous]))
                   ; Section 4.11 phase 3: promotion (with the implicit rank/raise)
                   ; is driven by DEMONSTRATED performance - the work_standing the
                   ; workday conduct + on-the-job skill built - not the abstract
                   ; diligence dimension. A strong performer rises; a middling one
                   ; mostly holds station.
-                  (chance (* 0.03 (work-standing ?self)))))
+                  (chance (* 0.03 (work-standing ?this)))))
 
   (effects
     (promote :worker ?worker)
@@ -103,9 +103,9 @@
     ;; safe here - mass economic layoffs are business_failure's job, not this. The
     ;; (< ...) gate keeps the chance non-negative (candidates are all below 0.4).
     (role ?worker (template any_human)
-                  (believes ?self {@self employer ?})
-                  (< (work-standing ?self) 0.4)
-                  (chance (* 0.08 (- 0.4 (work-standing ?self))))))
+                  (believes ?this {@self employer ?})
+                  (< (work-standing ?this) 0.4)
+                  (chance (* 0.08 (- 0.4 (work-standing ?this))))))
 
   (effects
     (fire :worker ?worker)
@@ -118,8 +118,8 @@
 
   (roles
     (role ?worker (template any_human)
-                  (believes ?self {@self employer ?})
-                  (>= (years-old ?self) 65)
+                  (believes ?this {@self employer ?})
+                  (>= (years-old ?this) 65)
                   (chance 0.033)))   ; /12 of the old annual 0.4 (now monthly)
 
   (effects

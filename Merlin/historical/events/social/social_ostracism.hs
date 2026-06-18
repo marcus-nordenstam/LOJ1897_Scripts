@@ -31,7 +31,7 @@
 
   (roles
     (role ?npc (template old_human)
-               (= (situation ?self repute) [k scandalous])
+               (= (situation ?this repute) [k scandalous])
                (chance 0.0833)))
 
   (effects

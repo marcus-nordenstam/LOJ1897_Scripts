@@ -31,7 +31,7 @@
 
   (roles
     (role ?club_articles (template org_articles)
-                         (org-kind-is-a ?self [k org club])))
+                         (org-kind-is-a ?this [k org club])))
 
   (effects
     (hold-sporting-event :articles ?club_articles)

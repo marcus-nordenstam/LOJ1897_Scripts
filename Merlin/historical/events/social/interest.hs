@@ -51,10 +51,10 @@
     ; both parents. politeness (deference to family / convention) amplifies -
     ; the conforming child takes up the parent's hobby, the contrarian rarely.
     (role ?child (template any_human)
-                 (>= (years-old ?self) 3)
-                 (<= (years-old ?self) 14)
-                 (believes ?self {@self mother ?})
-                 (chance (* 0.015 (+ 0.3 (attr ?self politeness))))))
+                 (>= (years-old ?this) 3)
+                 (<= (years-old ?this) 14)
+                 (believes ?this {@self mother ?})
+                 (chance (* 0.015 (+ 0.3 (attr ?this politeness))))))
 
   (effects
     (seed-interest-from-parents ?child)
@@ -70,9 +70,9 @@
     ; aspect - more friends, more exposure). The effect reads each friend's own
     ; interests and copies one ego lacks.
     (role ?ego (template any_human)
-               (>= (years-old ?self) 8)
-               (believes ?self {@self friend ?})
-               (chance (* 0.0167 (attr ?self openness) (+ 0.5 (attr ?self enthusiasm))))))
+               (>= (years-old ?this) 8)
+               (believes ?this {@self friend ?})
+               (chance (* 0.0167 (attr ?this openness) (+ 0.5 (attr ?this enthusiasm))))))
 
   (effects
     (seed-interest-from-friends ?ego)
@@ -89,8 +89,8 @@
     ; copies one ego lacks (so the craft becomes the apprentice's casual
     ; interest, which interest_deepens can later raise to a skill - S6).
     (role ?ego (template any_human)
-               (believes ?self {@self master ?})
-               (chance (* 0.025 (+ 0.3 (attr ?self openness))))))
+               (believes ?this {@self master ?})
+               (chance (* 0.025 (+ 0.3 (attr ?this openness))))))
 
   (effects
     (seed-interest-from-mentor ?ego)
@@ -107,8 +107,8 @@
     ; only the genuinely curious drift - trait-rooted, not bare chance. Lower
     ; base rate than the old generic interest_acquired (0.08).
     (role ?ego (template any_human)
-               (>= (years-old ?self) 10)
-               (chance (* 0.0083 (attr ?self openness) (attr ?self openness)))))
+               (>= (years-old ?this) 10)
+               (chance (* 0.0083 (attr ?this openness) (attr ?this openness)))))
 
   (effects
     (acquire-interest ?ego)
@@ -124,7 +124,7 @@
     ; domain ego is NOT skilled_in - a skilled domain is settled identity and is
     ; exempt. No-op (event fires, mints nothing) if every interest is skill-backed.
     (role ?ego (template any_human)
-               (believes ?self {@self interest ?})
+               (believes ?this {@self interest ?})
                (chance 0.0025)))
 
   (effects

@@ -39,8 +39,8 @@
     ;; rooted, so the multiplicative chance just adds a smooth
     ;; trait-driven gradient on top.
     (role ?bride (template unmarried_woman)
-                 (not (believes ?self {@self fiancee ?}))
-                 (= (situation ?self repute) [k exemplary])
+                 (not (believes ?this {@self fiancee ?}))
+                 (= (situation ?this repute) [k exemplary])
                  ; Additive form so the chance product stays in [0.2, 1.0]
                  ; - keeps the static-bound analyser happy and produces a
                  ; meaningful base rate even for modal-trait brides. The
@@ -49,23 +49,23 @@
                  ; so high fire rates aren't expected anyway.
                  (chance (* 0.0833
                             (+ 0.20
-                               (* 0.4 (attr ?self enthusiasm))
-                               (* 0.4 (attr ?self openness))))))
+                               (* 0.4 (attr ?this enthusiasm))
+                               (* 0.4 (attr ?this openness))))))
     ;; A groom one class above the bride. class_situation values are upper /
     ;; middle / lower; the explicit kind literals dodge the ambiguous bare
     ;; atom path. Lower-class brides can lift to middle; middle to upper.
     ;; An upper-class bride uses the ordinary betrothal pathway. The (or ...)
     ;; encodes the two valid class-lifts.
     (role ?groom (template unmarried_man)
-                 (not (believes ?self {@self fiancee ?}))
-                 (not (= (situation ?self repute) [k scandalous]))
-                 (not (= (situation ?self repute) [k disreputable]))
+                 (not (believes ?this {@self fiancee ?}))
+                 (not (= (situation ?this repute) [k scandalous]))
+                 (not (= (situation ?this repute) [k disreputable]))
                  (or (and (= (situation ?bride class_situation) [k lower])
-                          (= (situation ?self  class_situation) [k middle]))
+                          (= (situation ?this  class_situation) [k middle]))
                      (and (= (situation ?bride class_situation) [k middle])
-                          (= (situation ?self  class_situation) [k upper])))
-                 (<= (- (years-old ?self) (years-old ?bride))  15)
-                 (>= (- (years-old ?self) (years-old ?bride)) -15)
+                          (= (situation ?this  class_situation) [k upper])))
+                 (<= (- (years-old ?this) (years-old ?bride))  15)
+                 (>= (- (years-old ?this) (years-old ?bride)) -15)
                  ;; No marrying blood kin (see betrothal.hs) - reliable kin
                  ;; cross-pair BITSET.
                  (not (kin ?bride ?groom))))

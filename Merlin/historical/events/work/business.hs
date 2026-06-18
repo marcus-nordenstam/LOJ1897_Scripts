@@ -50,26 +50,26 @@
     ; could never pass - investment/partnership/founding silently never fired;
     ; the homeostat masked it).
     (role ?candidate (template old_human)
-                     (>= (years-old ?self) 25)
-                     (<= (years-old ?self) 55)
-                     (believes ?self {@self employer ?})
-                     (not (= (job-level ?self) [k org_head]))
-                     (>= (belief-target ?self diligence) 0.55)
-                     (or (= (belief-target ?self repute) [k respectable])
-                         (= (belief-target ?self repute) [k exemplary]))
-                     (< (belief-target ?self wealth) 0.5)
-                     (not (believes ?self {@self backed_by ?}))
+                     (>= (years-old ?this) 25)
+                     (<= (years-old ?this) 55)
+                     (believes ?this {@self employer ?})
+                     (not (= (job-level ?this) [k org_head]))
+                     (>= (belief-target ?this diligence) 0.55)
+                     (or (= (belief-target ?this repute) [k respectable])
+                         (= (belief-target ?this repute) [k exemplary]))
+                     (< (belief-target ?this wealth) 0.5)
+                     (not (believes ?this {@self backed_by ?}))
                      ; /12 of the old annual 0.40 (now monthly).
-                     (chance (* 0.033 (+ 0.5 (attr ?self assertiveness)))))
+                     (chance (* 0.033 (+ 0.5 (attr ?this assertiveness)))))
     ; A man of means - comfortable or better - who backs the venture. (The
     ; plan draws the backer from the candidate's social circle; v1 gates on
     ; means alone - the typed-relationship layer the circle needs is not yet
     ; rich enough to gate on without starving the event.)
     (role ?investor (template old_human)
-                    (not (= ?self ?candidate))
-                    (or (= (belief-target ?self economic_situation) [k comfortable])
-                        (= (belief-target ?self economic_situation) [k prosperous])
-                        (= (belief-target ?self economic_situation) [k wealthy]))))
+                    (not (= ?this ?candidate))
+                    (or (= (belief-target ?this economic_situation) [k comfortable])
+                        (= (belief-target ?this economic_situation) [k prosperous])
+                        (= (belief-target ?this economic_situation) [k wealthy]))))
 
   (effects
     (begin-belief ?candidate backed_by ?investor)
@@ -85,23 +85,23 @@
     ; clerk-makes-partner route.
     ; Float 0..1 thresholds - see the investment role's note.
     (role ?candidate (template old_human)
-                     (>= (years-old ?self) 25)
-                     (<= (years-old ?self) 55)
-                     (believes ?self {@self employer ?})
-                     (not (= (job-level ?self) [k org_head]))
-                     (>= (belief-target ?self diligence) 0.55)
-                     (or (= (belief-target ?self repute) [k respectable])
-                         (= (belief-target ?self repute) [k exemplary]))
-                     (< (belief-target ?self wealth) 0.5)
-                     (not (believes ?self {@self backed_by ?}))
+                     (>= (years-old ?this) 25)
+                     (<= (years-old ?this) 55)
+                     (believes ?this {@self employer ?})
+                     (not (= (job-level ?this) [k org_head]))
+                     (>= (belief-target ?this diligence) 0.55)
+                     (or (= (belief-target ?this repute) [k respectable])
+                         (= (belief-target ?this repute) [k exemplary]))
+                     (< (belief-target ?this wealth) 0.5)
+                     (not (believes ?this {@self backed_by ?}))
                      ; /12 of the old annual 0.12 (now monthly).
-                     (chance (* 0.01 (+ 0.5 (attr ?self assertiveness)))))
+                     (chance (* 0.01 (+ 0.5 (attr ?this assertiveness)))))
     ; An existing business he is taken into. (The plan links principal and
     ; candidate by a prior bond - friend / former employer / club co-member;
     ; v1 gates on the candidate's merit alone, as the relationship layer is
     ; not yet rich enough to gate on without starving the event.)
     (role ?principal_articles (template org_articles)
-                              (org-kind-is-a ?self [k org business])))
+                              (org-kind-is-a ?this [k org business])))
 
   ;; Live exclusivity re-check (see betrothal.hs): the candidate's "not
   ;; org_head" eligibility is evaluated at enumeration time, so within one
@@ -130,17 +130,17 @@
     ; backer (the backed_by belief investment wrote earlier this tick).
     ; Float 0..1 thresholds - see the investment role's note.
     (role ?founder (template old_human)
-                   (>= (years-old ?self) 25)
-                   (<= (years-old ?self) 55)
-                   (believes ?self {@self employer ?})
-                   (not (= (job-level ?self) [k org_head]))
-                   (>= (belief-target ?self diligence) 0.55)
-                   (or (= (belief-target ?self repute) [k respectable])
-                       (= (belief-target ?self repute) [k exemplary]))
-                   (or (>= (belief-target ?self wealth) 0.5)
-                       (believes ?self {@self backed_by ?}))
+                   (>= (years-old ?this) 25)
+                   (<= (years-old ?this) 55)
+                   (believes ?this {@self employer ?})
+                   (not (= (job-level ?this) [k org_head]))
+                   (>= (belief-target ?this diligence) 0.55)
+                   (or (= (belief-target ?this repute) [k respectable])
+                       (= (belief-target ?this repute) [k exemplary]))
+                   (or (>= (belief-target ?this wealth) 0.5)
+                       (believes ?this {@self backed_by ?}))
                    ; /12 of the old annual 0.30 (now monthly).
-                   (chance (* 0.025 (+ 0.5 (attr ?self assertiveness))))))
+                   (chance (* 0.025 (+ 0.5 (attr ?this assertiveness))))))
 
   (effects
     ; He leaves paid employment; found-org then spawns the workplace, founds
