@@ -51,12 +51,13 @@
   ;; apprentice and the sampler backtracks to another candidate.
   (when (not (= (job-level ?worker) [k apprentice])))
 
+  ; SPLIT (Item 5, EMPLOYEE-side job-search): the WORKER seeks work at the org. Mints
+  ; {?worker goal {?worker engage_staff ?articles}}; the npc-act (hire_errand.hs)
+  ; takes him to the firm and the eligibility-match hire commits there. Worker-driven
+  ; (not the boss) so goals stay bounded - a boss-driven hire would pile EVERY jobless
+  ; applicant's goal on one org-head and overflow the memory-fusion gather.
   (effects
-    ; Eligibility-match hire: picks the org's needed job kind (banker at a bank,
-    ; nurse at a hospital, ... no longer a generic clerk) and hires the worker
-    ; into it at apprentice level IF they match, weighted by the fit score.
-    (hire-matched :articles ?articles :worker ?worker)
-    (log _hiring ?worker)))
+    (goal ?worker engage_staff ?articles)))
 
 ; --- promotion: a worker of three-plus years at rank rises one grade --------
 ;; Promotion weighs honest, diligent character. A scandalous worker is not
@@ -87,9 +88,11 @@
                   ; mostly holds station.
                   (chance (* 0.03 (work-standing ?this)))))
 
+  ; SPLIT (Item 5, employer-side): the BOSS decides to promote. Mints {<boss> goal
+  ; {<boss> promote_staff ?worker}}; the npc-act (promote_errand.hs) takes the boss
+  ; to the workplace and the completion advances the worker's grade there.
   (effects
-    (promote :worker ?worker)
-    (log _promotion ?worker)))
+    (goal (org-founder (employer-articles ?worker)) promote_staff ?worker)))
 
 ; --- job_loss: an employed worker is let go (low monthly rate) --------------
 (hsim-event job_loss
@@ -107,13 +110,22 @@
                   (< (work-standing ?this) 0.4)
                   (chance (* 0.08 (- 0.4 (work-standing ?this))))))
 
+  ; SPLIT (Item 5, employer-side): the decider is the BOSS (the org-head of the
+  ; worker's employer). Mints {<boss> goal {<boss> sack ?worker}}; the npc-act
+  ; (sack_errand.hs) takes the boss to the workplace to let the man go, and the
+  ; completion both fires him AND seeds the sacked man's grudge toward the named
+  ; boss (a motive). boss = (org-founder (employer-articles ?worker)).
   (effects
-    (fire :worker ?worker)
-    (log _job_loss ?worker)))
+    (goal (org-founder (employer-articles ?worker)) sack ?worker)))
 
 ; --- retirement: an employed worker of 65+ leaves working life --------------
+; SPLIT (Item 5, the great split): this event is now the npc-THINK - the decision
+; to retire. It no longer ends the job here; it mints {?worker goal {?worker retire}}.
+; The npc-ACT (events/work/retire.hs) routes the worker to their workplace and the
+; completion fires the actual (fire) commit - so a retirement happens AT the
+; workplace, by the man himself, generating the co-presence a witness would see.
 (hsim-event retirement
-  (nl         "?worker retires")
+  (nl         "?worker decides to retire")
   (rng-stream employment)
 
   (roles
@@ -121,7 +133,9 @@
                   (believes ?this {@self employer ?})
                   (>= (years-old ?this) 65)
                   (chance 0.033)))   ; /12 of the old annual 0.4 (now monthly)
+  ; Re-firing is harmless: (goal) is idempotent, so re-rolling the chance while the
+  ; worker still holds an unacted retire goal just re-mints the same goal (no-op).
 
   (effects
-    (fire :worker ?worker)
+    (goal ?worker quit_work)
     (log _retirement ?worker)))

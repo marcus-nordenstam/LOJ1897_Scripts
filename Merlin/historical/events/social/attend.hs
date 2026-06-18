@@ -52,5 +52,8 @@
     ; If this was a WEDDING and the attendee is a principal, the marriage is made
     ; here, at the church, by who showed up (no-op for any other occasion).
     (formalize-wedding @self)
+    ; If the attendee is the HOST, appraise who came vs who was invited: a no-show's
+    ; standing with the host degrades (Item 6), and the invited records close.
+    (note-attendance @self)
     (clear-goal @self attend)
     (log _attend_episode @self)))

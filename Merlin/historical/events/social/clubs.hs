@@ -36,23 +36,15 @@
                    (>= (years-old ?this) 30)
                    (believes ?this {@self employer ?})
                    (not (believes ?this {@self member_of ?}))
-                   (chance 0.0033))
-    ; Two founding members, sampled from adults not already heavily clubbed.
-    (role ?m1 (template old_human)
-              (not (= ?this ?founder))
-              (>= (years-old ?this) 18)
-              (< (count-beliefs ?this member_of) 2))
-    (role ?m2 (template old_human)
-              (not (= ?this ?founder))
-              (not (= ?this ?m1))
-              (>= (years-old ?this) 18)
-              (< (count-beliefs ?this member_of) 2)))
+                   (chance 0.0033)))
 
+  ; SPLIT (Item 5): the npc-think - the decision to found a club. Mints {?founder
+  ; goal {?founder found_club}}; the npc-act (club_found_errand.hs) takes the founder
+  ; out to found it (found-org spawns the clubhouse + enrols him). The two founding
+  ; members the old event seeded are dropped - members now trickle in via
+  ; club_joining, so a new club simply starts with its founder.
   (effects
-    ; found-org spawns the clubhouse, founds the club, and enrols the founder
-    ; plus both :member roles.
-    (found-org :kind club :founder ?founder :member ?m1 :member ?m2)
-    (log _club_founding ?founder)))
+    (goal ?founder found_club)))
 
 ; --- club_joining: an adult joins an existing club --------------------------
 ;; Clubs gate on character and class: a scandalous or disreputable member is
@@ -77,11 +69,11 @@
                          (= (situation (org-founder ?this) class_situation)
                             (situation ?member class_situation))))
 
+  ; SPLIT (Item 5): the npc-think - the decision to join. Mints {?member goal
+  ; {?member join_club ?club_articles}}; the npc-act (club_join_errand.hs) sends the
+  ; member to the clubhouse and registers him there. (goal) is idempotent.
   (effects
-    ; register-member is idempotent on the roster - re-picking the member's
-    ; own club is a no-op.
-    (register-member :articles ?club_articles :member ?member)
-    (log _club_joining ?member)))
+    (goal ?member join_club ?club_articles)))
 
 ; club_gathering RETIRED (place-and-time reframe, Section 4.8 P2b): club members
 ; are now drawn to the clubhouse by the band itinerary's SOCIAL lane (members
@@ -100,6 +92,8 @@
                   (believes ?this {@self member_of ?})
                   (chance 0.004)))
 
+  ; SPLIT (Item 5): the npc-think - the decision to resign. Mints {?member goal
+  ; {?member resign_club}}; the npc-act (club_resign_errand.hs) sends the member to
+  ; a clubhouse and unregisters him there (unregister-member resolves his own club).
   (effects
-    (unregister-member :member ?member)
-    (log _club_resignation ?member)))
+    (goal ?member resign_club)))

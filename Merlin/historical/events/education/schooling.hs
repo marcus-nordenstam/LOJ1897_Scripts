@@ -59,9 +59,11 @@
                  (not (believes ?this {@self skilled_in [k primary_school_curriculum]}))
                  (chance (* (situation ?this breeding) (situation ?this breeding)))))
 
+  ; SPLIT (Item 5): the npc-think - the decision to school the child. Mints
+  ; {?child goal {?child enrol_primary}}; the npc-act (schooling_errands.hs) walks
+  ; the child to a school and enrols him there.
   (effects
-    (enroll ?child primary_school_curriculum)
-    (log _education ?child)))
+    (goal ?child enrol_primary)))
 
 ; --- enroll_secondary: a middle+ youth goes on to secondary ------------------
 (hsim-event enroll_secondary
@@ -83,9 +85,10 @@
                  (not (believes ?this {@self employer ?}))
                  (chance (* (situation ?this breeding) (situation ?this breeding)))))
 
+  ; SPLIT (Item 5): npc-think -> {?youth goal {?youth enrol_secondary}}; the act
+  ; (schooling_errands.hs) walks the youth to school and enrols him.
   (effects
-    (enroll ?youth secondary_school_curriculum)
-    (log _education ?youth)))
+    (goal ?youth enrol_secondary)))
 
 ; --- enroll_university: an upper / wealthy youth goes up to university --------
 (hsim-event enroll_university
@@ -105,9 +108,10 @@
                  (not (believes ?this {@self employer ?}))
                  (chance (* (situation ?this breeding) (* (situation ?this breeding) (situation ?this breeding))))))
 
+  ; SPLIT (Item 5): npc-think -> {?youth goal {?youth enrol_university}}; the act
+  ; (schooling_errands.hs) takes the youth up to university and matriculates him.
   (effects
-    (enroll-university ?youth)
-    (log _education ?youth)))
+    (goal ?youth enrol_university)))
 
 ; --- leave_primary: every primary pupil finishes at ~11 ----------------------
 (hsim-event leave_primary

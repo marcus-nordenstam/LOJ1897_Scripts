@@ -71,9 +71,12 @@
                         (= (belief-target ?this economic_situation) [k prosperous])
                         (= (belief-target ?this economic_situation) [k wealthy]))))
 
+  ; SPLIT (Item 5): the npc-think - the BACKER decides to back the candidate. Mints
+  ; {?investor goal {?investor back ?candidate}}; the npc-act (invest_errand.hs)
+  ; sends the investor to call on the candidate and the completion records the
+  ; {candidate backed_by investor} there. (goal) is idempotent.
   (effects
-    (begin-belief ?candidate backed_by ?investor)
-    (log _investment ?candidate)))
+    (goal ?investor back ?candidate)))
 
 ; --- business_partnership: an established proprietor takes on a co-owner ----
 (hsim-event business_partnership
@@ -112,17 +115,22 @@
   ;; backtracks to another candidate.
   (when (not (= (job-level ?candidate) [k org_head])))
 
+  ; SPLIT (Item 5): the npc-think - the clerk decides to buy in. Mints {?candidate
+  ; goal {?candidate partner ?principal_articles}}; the npc-act (partner_errand.hs)
+  ; sends him to the firm's premises and the completion buys him in there. (goal)
+  ; is idempotent.
   (effects
-    ; The candidate leaves his salaried post and joins as a co-proprietor.
-    (fire :worker ?candidate)
-    (add-co-owner :articles ?principal_articles :owner ?candidate)
-    (hire :articles ?principal_articles :worker ?candidate
-          :role proprietor :level org_head)
-    (log _business_partnership ?candidate)))
+    (goal ?candidate partner ?principal_articles)))
 
 ; --- business_founding: a man of means sets up on his own account ----------
+; SPLIT (Item 5, the great split): this is now the npc-THINK - the decision to
+; set up in business. It mints {?founder goal {?founder found}}; the npc-act
+; (events/work/found_business.hs) routes the founder to the bank and the
+; completion does the real (found-org) commit - so the business is founded at the
+; bank, by the man himself, leaving the founding documents (the clue trail) and the
+; co-presence a witness would see, instead of a faceless world-lane edit.
 (hsim-event business_founding
-  (nl         "?founder founds a business")
+  (nl         "?founder resolves to set up in business")
   (rng-stream business)
 
   (roles
@@ -142,12 +150,10 @@
                    ; /12 of the old annual 0.30 (now monthly).
                    (chance (* 0.025 (+ 0.5 (attr ?this assertiveness))))))
 
+  ; Re-firing is harmless: (goal) is idempotent, so re-rolling the chance while the
+  ; founder still holds an unacted found goal just re-mints the same goal (no-op).
   (effects
-    ; He leaves paid employment; found-org then spawns the workplace, founds
-    ; the business and installs him as proprietor at org_head rank.
-    (fire :worker ?founder)
-    (found-org :kind business :founder ?founder)
-    (log _business_founding ?founder)))
+    (goal ?founder found)))
 
 ; --- business_failure: an org folds (zero-role; see header) -----------------
 (hsim-event business_failure

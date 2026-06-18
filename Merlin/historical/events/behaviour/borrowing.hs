@@ -23,6 +23,9 @@
                     (not (= ?this ?debtor))
                     (not (believes ?debtor {@self owe ?creditor}))))
 
+  ; SPLIT (Item 5): the npc-think - the decision to borrow. It mints {?debtor goal
+  ; {?debtor borrow ?creditor}}; the npc-act (borrow_errand.hs) sends the debtor to
+  ; the creditor's home and the completion records the {owe} there. (goal) is
+  ; idempotent, so re-rolling while the goal stands is a no-op.
   (effects
-    (begin-belief ?debtor owe ?creditor)
-    (log _borrowing ?debtor)))
+    (goal ?debtor take_loan ?creditor)))

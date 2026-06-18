@@ -54,12 +54,11 @@
   ;; live, so once apprenticed this tick the youth reads trainee + backtracks.
   (when (not (= (job-level ?youth) [k trainee])))
 
-  ;; ?master is the org's founder, read from the articles document.
-  (let ((?master (org-founder ?articles)))
-    (effects
-      (hire :articles ?articles :worker ?youth :role clerk :level trainee)
-      (begin-belief ?youth master ?master)
-      (log _apprenticeship ?youth))))
+  ;; SPLIT (Item 5): the npc-think - the youth chooses a trade. Mints {?youth goal
+  ;; {?youth seek_indenture ?articles}}; the npc-act (apprentice_errand.hs) sends him
+  ;; to the master's premises and the indenture is sealed there. (goal) is idempotent.
+  (effects
+    (goal ?youth seek_indenture ?articles)))
 
 (hsim-event apprenticeship_completion
   (nl         "?apprentice completes their apprenticeship")
