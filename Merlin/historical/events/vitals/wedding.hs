@@ -27,16 +27,14 @@
 (hsim-event plan_wedding
   (sim-window-start)
   (rng-stream marriages)
-  ; @self GATE uses the LIGHT `grown` template (age only - a FULL template like
-  ; unmarried_man, with its kind/alive/gender filters meant for BINDING roles,
-  ; silently gates every @self out here). The man-only + betrothed + not-already-
-  ; married + not-already-arranging checks live in (when).
+  ; @self GATE: unmarried adult man (the template's male / 18+ / not-spouse filters
+  ; apply to @self; its kind/alive existence checks are no-ops for @self and are
+  ; skipped by the gate-builder). Only the groom plans; the bride is wired in as
+  ; co-principal by plan-wedding.
   (roles
-    (role @self (template grown)))
+    (role @self (template unmarried_man)))
   (nl "@self arranges to wed")
-  (when (and (= (attr @self gender) [k male])
-             (believes @self {@self fiancee ?})
-             (not (believes @self {@self spouse ?}))
+  (when (and (believes @self {@self fiancee ?})
              (not (organizing-occasion [k wedding]))))
   (effects
     (plan-wedding @self (belief-target @self fiancee) 3 11 14)
