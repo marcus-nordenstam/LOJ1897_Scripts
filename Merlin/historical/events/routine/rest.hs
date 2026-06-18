@@ -49,6 +49,11 @@
   ; time to get ready instead of napping straight through it. (min ...) of the
   ; alarm and every constraint; minutes-until-attend is a huge sentinel when no
   ; occasion is pending, so ordinary nights are unaffected.
+  ; Duration is a FUNCTION: sleep until the morning alarm, but no longer than
+  ; until a pending obligation - a tired NPC with a gathering tonight wakes in
+  ; time to get ready instead of napping straight through it. (min ...) of the
+  ; alarm and every constraint; minutes-until-attend is a huge sentinel when no
+  ; occasion is pending, so ordinary nights are unaffected.
   (effects (act sleep_episode (min (minutes-until-alarm @self)
                                    (minutes-until-attend @self)))))
 

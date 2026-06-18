@@ -1,0 +1,43 @@
+; ----------------------------------------------------------------------------
+; wedding - the marriage SPLIT into npc-think + npc-act (occasion_ceremony_plan.md
+; Item 4B / Item 5). The old single wedding event (which both decided AND made the
+; marriage in one step) is replaced:
+;
+;   plan_wedding (HERE, npc-think): a betrothed man stages a WEDDING OCCASION at a
+;       same-town church ~3 months out. Both bride and groom become principals of
+;       it (each holds {@self organize <occ>}), so both are forced-attend (the
+;       couple ALWAYS shows up); both guest circles are invited. No marriage yet.
+;
+;   attend_* (the attendance act, attend.hs): the couple + guests route to the
+;       church and gather there on the day.
+;
+;   formalize-wedding (the attend COMPLETION, attend.hs): the marriage is MADE AT
+;       THE CHURCH by whoever shows up - the first principal to arrive ends the
+;       betrothal, begins the {spouse} bond on both sides, and propagates the
+;       in-laws / family / guest-circle announcement (the old wedding's effects).
+;
+; Gated to fire ONCE per betrothal: a man who holds a fiancee, is not yet married,
+; and is not already organizing a wedding. (organizing-occasion [k wedding]) is the
+; idempotence guard - without it each window would stage a fresh occasion at a new
+; date. Only the groom (unmarried_man) plans; the bride is wired in as co-principal.
+; ----------------------------------------------------------------------------
+
+(include "../../definitions/roles.hs")
+
+(hsim-event plan_wedding
+  (sim-window-start)
+  (rng-stream marriages)
+  ; @self GATE uses the LIGHT `grown` template (age only - a FULL template like
+  ; unmarried_man, with its kind/alive/gender filters meant for BINDING roles,
+  ; silently gates every @self out here). The man-only + betrothed + not-already-
+  ; married + not-already-arranging checks live in (when).
+  (roles
+    (role @self (template grown)))
+  (nl "@self arranges to wed")
+  (when (and (= (attr @self gender) [k male])
+             (believes @self {@self fiancee ?})
+             (not (believes @self {@self spouse ?}))
+             (not (organizing-occasion [k wedding]))))
+  (effects
+    (plan-wedding @self (belief-target @self fiancee) 3 11 14)
+    (log _plan_wedding @self)))
