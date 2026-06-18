@@ -482,6 +482,27 @@ concept
         billiards
         dominoes      (facets gambling)
 
+    # Occasions - a planned social gathering (a wedding, dinner party, church
+    # service, market day, ...). Per the occasion/ceremony model an occasion is a
+    # per-mind Mental Object (knowledge_design_notes), NOT an env entity: the host,
+    # each invitee, and any onlooker each mint their OWN occasion object, all
+    # anchored to the SHARED env entities (the host NPC + the venue building) plus
+    # the date, so cross-mind agreement falls out of the shared anchors - there is
+    # no ground-truth occasion entity, name string, or hsim-side ledger. Decorated
+    # with {<occ> host <human>} / {<occ> venue <building>} / {<occ> date <date>} /
+    # {<occ> hours <start> /aux <end>} (States.mon). The constitutive identity pair
+    # is {host, date} (a host throws at most one thing per date). The appointment
+    # beliefs that carry it are {@self organize <occ>} (host) and {@self invite
+    # <occ> /aux <organizer>} (guest).
+    occasion
+        dinner_party
+        wedding
+        engagement_party
+        birthday_party
+        sporting_occasion
+        church_service
+        market_day
+
     # Intoxicants - the abstract substance an NPC can form a `craving` for
     # (the (drive) block in States.mon) and that the drinking behaviour events
     # act on. `alcohol` is the abstract substance; the physical `beer` prop

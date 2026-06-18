@@ -328,6 +328,33 @@ relation
             # suspicions may stand at once.
             suspect             (tar human)  (aux ?)
 
+        # Occasions (the occasion/ceremony model). Two roles share this block:
+        #  (a) the DECORATIONS on an occasion Mental Object (Concepts.mon
+        #      `occasion`) - subject overridden to `occasion`. {<occ> host
+        #      <human>} + {<occ> date <date>} are the CONSTITUTIVE identity pair
+        #      (recall-or-mint keys on them, so two occasions sharing a host OR a
+        #      venue stay distinct); {<occ> venue <building>} + {<occ> hours
+        #      <start> /aux <end>} describe it. No env occasion entity exists; the
+        #      shared host + venue + date anchors are what make every attendee's
+        #      local occasion object refer to the same gathering.
+        #  (b) the per-holder APPOINTMENT beliefs (human subject) the window-start
+        #      review scans: {@self organize <occ>} = I am throwing it (host);
+        #      {@self invite <occ> /aux <organizer>} = I was invited (guest), the
+        #      organizer kept in aux for invitation provenance + the no-show
+        #      reaction. Their intervals close when the date passes (the expiry
+        #      sweep) or when something blocks attendance.
+        (occasion_agenda)       (+ sub human)
+            host                (sub occasion)  (tar human)
+            venue               (sub occasion)  (tar building|space)
+            date                (sub occasion)  (tar ?)
+            hours               (sub occasion)  (tar ?)  (aux ?)
+            organize            (tar occasion)
+            invite              (tar occasion)  (aux human)
+            # invited: the HOST-side record of whom they invited - {@self invited
+            # <guest> /aux <occ>}. The no-show reaction (Item 6) reads it to find
+            # who held an invitation but never appeared.
+            invited             (tar human)  (aux occasion)
+
         # Competence - the domains an NPC is practically skilled in. Targets a
         # `domain` kind (Concepts.mon): the academic_field disciplines (classics,
         # medicine, accountancy), the martial / illicit competences

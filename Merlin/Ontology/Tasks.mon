@@ -80,6 +80,14 @@ relation
             # genuinely different activities). The disposition to gamble is the
             # `gambling_addiction` ATTR (common.arc), NOT this episode.
             play_game                               (tar game)    (kind_fold)
+            # attend: routing to + dwelling at an OCCASION (the occasion/ceremony
+            # model). {@self attend <occ>} where <occ> is a per-mind occasion
+            # Mental Object (Concepts.mon `occasion`), NOT a venue - the venue is
+            # the occasion's own {<occ> venue <building>} belief. The window-start
+            # appointment review emits {@self goal {@self attend <occ>}} for an
+            # occasion whose date lands in the current window; the attendance act
+            # ((does ATTEND)) routes to the venue + drains the goal on arrival.
+            attend                                  (tar occasion)
             # Solitary leisure activities at a venue (activity-lanes L8), the
             # amenity-gated successors to the general `dwell`: what one actually
             # DID there, gated by the venue's rooms. Episodic {@self <act>
