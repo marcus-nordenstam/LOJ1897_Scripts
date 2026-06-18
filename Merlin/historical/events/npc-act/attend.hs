@@ -55,5 +55,8 @@
     ; If the attendee is the HOST, appraise who came vs who was invited: a no-show's
     ; standing with the host degrades (Item 6), and the invited records close.
     (note-attendance @self)
+    ; The wedding-MURDER terminal: a jealous ex who crashed the occasion and carries
+    ; a kill goal strikes his rival if present (no-op for the ordinary guest).
+    (strike-at-occasion @self)
     (clear-goal @self attend)
     (log _attend_episode @self)))

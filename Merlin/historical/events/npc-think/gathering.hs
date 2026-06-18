@@ -42,6 +42,19 @@
   (effects
     (plan-occasion @self [k dinner_party] (home-of @self) 3 19 23 formal)))
 
+; An IMPROMPTU supper (the INFORMAL channel): unlike the planned dinner party, this
+; reaches only whoever the host is physically WITH right now - the co-present set at
+; his current location (invite_copresent), nobody from the wider circle. Set for the
+; same window (0 months ahead), an evening affair at home.
+(hsim-event plan_impromptu_supper
+  (sim-window-start)
+  (rng-stream behaviour)
+  (roles
+    (role @self (template grown)))
+  (when (chance 0.015))
+  (effects
+    (plan-occasion @self [k dinner_party] (home-of @self) 0 18 22 informal)))
+
 ; The per-window appointment review (npc-think): expire past appointments + emit
 ; an attend goal for any occasion due this window. Runs for every grown NPC.
 (hsim-event review_appointments
