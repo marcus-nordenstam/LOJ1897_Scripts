@@ -50,34 +50,3 @@
 ; (b) APPROACH - hold the goal, nowhere to drink: set out for a pub. drink-venue
 ; picks a same-town pub; k_fail (no pub reachable) means the rule does not fire and
 ; the goal simply waits.
-(hsim-event seek_drink
-  (intra-day)
-  (nl   "@self sets out for a drink")
-  (when (and (has-goal drink)
-             (not (can-drink @self))))
-  (utility 30)
-  (effects
-    (go @self (drink-venue @self))))
-
-; (c) EXECUTE - hold the goal and at a place with drink (a pub, or home): the
-; durative drink act.
-(hsim-event drink
-  (intra-day)
-  (nl   "@self drinks")
-  (when (and (has-goal drink)
-             (can-drink @self)))
-  (utility 30)
-  (effects
-    (act drink_episode 90)))
-
-; The COMPLETION of the drink act (chain-only: never seeded, fired only when the
-; act lands a duration later, in the serial completion pass). Applies the real
-; effects + clears the goal. Implicit actor: the act's owner is bound as @self.
-(hsim-event drink_episode
-  (schedule (chain-only))
-  (nl   "@self has drunk to excess")
-  (effects
-    (get-drunk @self)
-    (risk-dependence @self)
-    (clear-goal @self drink)
-    (log _drink_episode @self)))
