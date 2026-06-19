@@ -273,6 +273,12 @@ relation
             flee                (motor legs)                    (tar human)
             seduce              (motor mouth legs body)         (tar human)              (construed_act intimacy_act)  (facets blackmailable)
             assault             (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
+            # fight - the EMERGENT-COMBAT goal (the unified think/act model): a melee
+            # killer's standing {actor goal {actor fight victim}}, minted by the
+            # perpetration melee branch in place of committing the kill. The fight
+            # cascade (fight.hs) reaches the victim and strikes 1-minute blows until
+            # someone dies (the victim can resist / flee - follow-up).
+            fight               (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
             # kill - ABSTRACT goal task. No method aux: the method is a
             # separate, more-specific leaf task (strangle / shoot / poison
             # / push_from_height / etc.) declared further down. A goal

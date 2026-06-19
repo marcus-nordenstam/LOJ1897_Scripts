@@ -50,6 +50,7 @@
 
 ; ---- Sharp (3) -------------------------------------------------------------
 (method stab
+  :melee
   :goal-fit       kill
   :requires       ((control_any (facets pierce)))
   :yields         puncture_wound
@@ -62,6 +63,7 @@
   :weight         1.0)
 
 (method slash
+  :melee
   :goal-fit       kill
   :requires       ((control_any (facets slash)))
   :yields         slash_wound
@@ -72,6 +74,7 @@
   :weight         0.7)
 
 (method decapitate
+  :melee
   :goal-fit       kill
   :requires       ((control_any (facets chop)))
   :victim-state   defenseless
@@ -85,6 +88,7 @@
 
 ; ---- Blunt (3) -------------------------------------------------------------
 (method beat_to_death
+  :melee
   :goal-fit       kill
   :requires       ((control_any (facets bludgeon)))
   :yields         blunt_wound
@@ -97,6 +101,7 @@
   :weight         0.8)
 
 (method bludgeon
+  :melee
   :goal-fit       kill
   :requires       ((control_any (facets bludgeon)))
   :yields         blunt_wound
@@ -121,6 +126,7 @@
 
 ; ---- Asphyxiation (5) ------------------------------------------------------
 (method strangle
+  :melee
   :goal-fit       kill
   :victim-state   defenseless
   :yields         ligature_mark bruise
@@ -134,6 +140,7 @@
   :weight         0.6)
 
 (method garrotte
+  :melee
   :goal-fit       kill
   :requires       ((control_any (facets strangle)))
   :victim-state   defenseless
@@ -147,6 +154,7 @@
   :weight         0.5)
 
 (method smother
+  :melee
   :goal-fit       kill
   :requires       ((control_any (facets smother)))
   :victim-state   defenseless
@@ -160,6 +168,7 @@
   :weight         0.4)
 
 (method hang
+  :melee
   :goal-fit       kill
   :requires       ((control_any (facets strangle)))
   :victim-state   defenseless
@@ -172,6 +181,7 @@
   :weight         0.3)
 
 (method neck_snap
+  :melee
   :goal-fit       kill
   :victim-state   defenseless
   :yields         bruise
@@ -185,6 +195,7 @@
 
 ; ---- Projectile (1) --------------------------------------------------------
 (method shoot
+  :melee
   :goal-fit       kill
   :requires       ((control_any firearm))
   :yields         puncture_wound
