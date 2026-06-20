@@ -53,5 +53,7 @@
   (schedule (chain-only))
   (nl   "@self strikes a violent blow")
   (effects
-    (strike-blow @self (goal-focus fight) kill)
+    ; (strike-blow <foe> <intent>) - the actor is implicit (@self); pass the foe +
+    ; intent atom only.
+    (strike-blow (goal-focus fight) kill)
     (log _kill_blow @self)))

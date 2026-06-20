@@ -24,19 +24,17 @@
 
 (include "../../definitions/roles.hs")
 
-; CHOOSE-METHOD: the unified think/act model wants this as a (long-term-think) so
-; it runs in the per-NPC window-start pass (the world lane skips crime as dormant),
-; routing a violent kill into the emergent fight (the C++ melee branch + fight.hs
-; are in place). Two bugs block activating it (revisit before adding the decoration):
-;   A. (goal-focus fight) returns a non-entity foe -> strike-blow rejects it.
-;   B. a non-melee kill still reaches commit + asserts (symbol.h:335) when this runs
-;      window-start (the "kill reached commit with no place-lane scene" warning path).
-; Until then it keeps its bare flag (world-lane, dormant) - the pre-existing state.
+; CHOOSE-METHOD runs as a (long-term-think): it fires in the per-NPC window-start
+; pass (the world lane skips crime events as dormant), routing a violent kill into
+; the emergent fight (the C++ melee branch mints {@self goal {@self fight V}} and
+; fight.hs plays it out blow by blow). Non-melee methods (poison / traps / fire)
+; still commit through the terminal.
 (hsim-event attempt_harm
-  (nl       "?actor follows through on a standing perpetration goal")
+  (long-term-think)
+  (nl       "@self follows through on a standing perpetration goal")
   (rng-stream perpetration)
   (generative-perpetration)
 
   (roles
-    (role ?actor (template any_human)
-                 (> (count-beliefs ?actor goal) 0))))
+    (role @self (template any_human)
+                (> (count-beliefs @self goal) 0))))
