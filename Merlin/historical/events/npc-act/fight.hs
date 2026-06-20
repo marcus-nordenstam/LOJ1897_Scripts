@@ -8,12 +8,20 @@
 ; stepping the 1-minute acts, and the kill ENDS the fight (a fatal blow runs
 ; propagate_death, so the co-presence gate then fails and the strikes stop).
 ;
-; THIS FIRST CUT covers the AGGRESSOR's side: an armed killer who holds a kill
-; goal and is co-present with the victim falls upon them and strikes until a fatal
-; blow lands. (Holding a [k weapon] gates OUT the non-violent methods - a poisoner
-; carries toxin, not a weapon, so they never enter this melee.) Still to come:
-; the victim's threat-perception + fight-back, flee / yield short-term-think, and
-; routing the perpetration method-choice here instead of run_generative_perpetration.
+; THE AGGRESSOR's side: an armed killer who holds a kill goal and is co-present
+; with the victim falls upon them and strikes until a fatal blow lands. (Holding a
+; [k weapon] gates OUT the non-violent methods - a poisoner carries toxin, not a
+; weapon, so they never enter this melee.)
+;
+; THE VICTIM's side (fight_back, below): when a blow lands non-fatally, the
+; strike-blow primitive mints {@self under_attack <foe>} on the victim and WAKES
+; it (re-deliberate this very minute, interrupting sleep / work). The victim's
+; (short-term-think) then decides - by combat resolve - to turn and fight, minting
+; its OWN {@self goal {@self fight <foe>}}: the SAME kill_seek / kill_strike /
+; kill_blow now fire for it too, so the fight is TWO-SIDED and trades blows until
+; one party dies. Still to come: flee / yield short-term-think (a victim who will
+; not fight currently just endures), and routing the perpetration method-choice
+; here instead of run_generative_perpetration.
 ; ----------------------------------------------------------------------------
 
 ; The `fight` goal is minted by the perpetration MELEE branch (a violent murder
@@ -57,3 +65,42 @@
     ; intent atom only.
     (strike-blow (goal-focus fight) kill)
     (log _kill_blow @self)))
+
+; THE VICTIM FIGHTS BACK (intra-day act). A struck victim holds the threat state
+; {@self under_attack <foe>} (set in the victim's mind by the blow that landed) and
+; was woken THIS instant. If the foe is still co-present and the victim's combat
+; resolve (volatility + sadism + low compassion - the run_confrontation formula)
+; carries it THIS round, it lands a blow of its own: the two-sided exchange.
+;
+; NO standing fight goal for the victim: the persistent under_attack state plus a
+; PER-ROUND resolve roll drive each defensive blow, so a wavering victim trades
+; some rounds and falters others, versus the committed aggressor who always strikes
+; via its fight goal. (Folding the decision into the act gate, not a separate think,
+; keeps the whole victim reaction READ-ONLY in the deliberation cascade - a real
+; goal-write mid-cascade is unsafe; only the serial completion pass writes beliefs.)
+; Gated on the foe being PRESENT (no swinging at a fled / slain attacker) and on
+; not already holding a fight goal (then kill_strike covers it). Flee / yield is a
+; follow-up; a victim who never wins the roll simply endures.
+(hsim-event defend_strike
+  (intra-day)
+  (nl   "@self fights back")
+  (when (and (under-attack)
+             (not (has-goal fight))
+             (co-present @self (threat-focus))
+             (chance (clamp (+ (attr @self volatility)
+                               (attr @self sadism)
+                               (- 1.0 (attr @self compassion)))
+                            0.05 0.95))))
+  (utility 200)
+  (effects (act defend_blow 1)))
+
+; The victim's blow (chain-only completion), mirroring kill_blow but striking the
+; THREAT focus (the attacker) rather than a fight-goal focus. A fatal result runs
+; the ledger + propagate_death inside (strike-blow) and clears the dead foe's hold;
+; a non-fatal one re-arms the attacker's own under_attack (the exchange continues).
+(hsim-event defend_blow
+  (schedule (chain-only))
+  (nl   "@self strikes back")
+  (effects
+    (strike-blow (threat-focus) kill)
+    (log _defend_blow @self)))
