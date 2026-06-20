@@ -24,6 +24,14 @@
 
 (include "../../definitions/roles.hs")
 
+; CHOOSE-METHOD: the unified think/act model wants this as a (long-term-think) so
+; it runs in the per-NPC window-start pass (the world lane skips crime as dormant),
+; routing a violent kill into the emergent fight (the C++ melee branch + fight.hs
+; are in place). Two bugs block activating it (revisit before adding the decoration):
+;   A. (goal-focus fight) returns a non-entity foe -> strike-blow rejects it.
+;   B. a non-melee kill still reaches commit + asserts (symbol.h:335) when this runs
+;      window-start (the "kill reached commit with no place-lane scene" warning path).
+; Until then it keeps its bare flag (world-lane, dormant) - the pre-existing state.
 (hsim-event attempt_harm
   (nl       "?actor follows through on a standing perpetration goal")
   (rng-stream perpetration)
