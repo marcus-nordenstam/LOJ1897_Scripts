@@ -94,29 +94,28 @@
   (effects
     (goal (org-founder (employer-articles ?worker)) promote_staff ?worker)))
 
-; --- job_loss: an employed worker is let go (low monthly rate) --------------
+; --- job_loss: a boss reviews their own staff and decides whom to dismiss ------
+; BOSS-DRIVEN THINK (perf inversion). Firing is the EMPLOYER's decision, made from
+; the employer's OWN assessment of their OWN staff - so @self is the BOSS, not the
+; workforce. A window-start think gated to the employed; review-own-staff then
+; confirms @self heads their org and walks only that establishment's register,
+; reading its own work_standing beliefs and minting {@self goal {@self sack <w>}}
+; for underperformers (standing below the 0.4 keep-threshold, likelier the lower).
+; The intra-day act (sack_errand.hs) executes the firing: it takes the boss to the
+; workplace, edits the documents, and seeds the sacked man's grudge toward the boss.
+; This replaces the old worker-first enumeration (every human x an O(all-articles)
+; boss_of scan to reach the boss-side assessment), which dominated the world lane.
 (hsim-event job_loss
-  (nl         "?worker loses their job")
+  (sim-window-start)
+  (nl         "@self reviews their staff for dismissals")
   (rng-stream employment)
 
   (roles
-    ;; Section 4.11 phase 3: firing is PERFORMANCE-driven. Only a worker whose
-    ;; work_standing has fallen below the keep-threshold (0.4) is at risk, and the
-    ;; further it has fallen the likelier the sacking. Good / average workers are
-    ;; safe here - mass economic layoffs are business_failure's job, not this. The
-    ;; (< ...) gate keeps the chance non-negative (candidates are all below 0.4).
-    (role ?worker (template any_human)
-                  (believes ?this {@self employer ?})
-                  (< (work-standing ?this) 0.4)
-                  (chance (* 0.08 (- 0.4 (work-standing ?this))))))
+    (role @self (template any_human)
+                (believes @self {@self employer ?})))
 
-  ; SPLIT (Item 5, employer-side): the decider is the BOSS (the org-head of the
-  ; worker's employer). Mints {<boss> goal {<boss> sack ?worker}}; the npc-act
-  ; (sack_errand.hs) takes the boss to the workplace to let the man go, and the
-  ; completion both fires him AND seeds the sacked man's grudge toward the named
-  ; boss (a motive). boss = (org-founder (employer-articles ?worker)).
   (effects
-    (goal (org-founder (employer-articles ?worker)) sack ?worker)))
+    (review-own-staff @self)))
 
 ; --- retirement: an employed worker of 65+ leaves working life --------------
 ; SPLIT (Item 5, the great split): this event is now the npc-THINK - the decision

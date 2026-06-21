@@ -564,6 +564,11 @@ concept
             shop_clerk
             waiter
             maid
+            # The head of a domestic household org (org household): the gentry
+            # home-owner who employs the live-in staff. Held as {@self job <obj>}
+            # + {<obj> level org_head}; the dedicated kind lets the household-
+            # staffing think gate cheaply on {@self job [k head_of_household]}.
+            head_of_household
             bartender
             factory_worker
             # Professional race rider employed by a race_club - the ONLY
