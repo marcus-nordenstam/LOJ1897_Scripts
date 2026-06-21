@@ -79,8 +79,9 @@
 ; keeps the whole victim reaction READ-ONLY in the deliberation cascade - a real
 ; goal-write mid-cascade is unsafe; only the serial completion pass writes beliefs.)
 ; Gated on the foe being PRESENT (no swinging at a fled / slain attacker) and on
-; not already holding a fight goal (then kill_strike covers it). Flee / yield is a
-; follow-up; a victim who never wins the roll simply endures.
+; not already holding a fight goal (then kill_strike covers it). A victim who does
+; not win the resolve roll FLEES or SCREAMS instead (below) - never sleeps (the
+; rest lane is gated out while under attack).
 (hsim-event defend_strike
   (intra-day)
   (nl   "@self fights back")
@@ -104,3 +105,36 @@
   (effects
     (strike-blow (threat-focus) kill)
     (log _defend_blow @self)))
+
+; THE VICTIM FLEES (intra-day act). A struck victim that does NOT turn to fight
+; bolts for a public place (flee-destination: a populated venue - the assailant
+; breaks off before witnesses, and the killer's stalk looks at the victim's HOME,
+; not the venue). Lower utility than fighting (200), so a bold victim fights and a
+; timid one runs. The escape is a CONTEST, not a guarantee: the (go) takes travel
+; time during which the victim is still co-present, so a connecting blow WAKES it
+; (cancelling the run) - it gets away only if the attacker keeps missing. If no
+; venue is reachable, (go) emits no act and the victim falls through to a scream.
+(hsim-event flee_attack
+  (intra-day)
+  (nl   "@self flees their attacker")
+  (when (and (under-attack)
+             (not (has-goal fight))
+             (co-present @self (threat-focus))))
+  (utility 150)
+  (effects (go @self (flee-destination @self))))
+
+; THE VICTIM SCREAMS FOR HELP (intra-day act) - the last resort when it can neither
+; fight (failed the resolve roll) nor flee (nowhere to run). Lowest utility, so it
+; only wins when the other two produce no act. A one-minute cry that keeps the
+; victim ACTIVE (never falling back to sleep / idle while under attack) and
+; re-deliberating each round. (Drawing a responder who intervenes is a follow-up;
+; the point here is that cowering-and-screaming, not sleeping, is the floor.)
+(hsim-event scream_for_help
+  (intra-day)
+  (nl   "@self screams for help")
+  (when (and (under-attack)
+             (co-present @self (threat-focus))))
+  (utility 100)
+  (effects
+    (stay 1)
+    (log _scream_for_help @self)))

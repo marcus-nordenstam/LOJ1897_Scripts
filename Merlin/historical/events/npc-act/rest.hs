@@ -24,7 +24,8 @@
 (hsim-event seek_rest
   (intra-day)
   (nl   "@self heads home to rest")
-  (when (and (not (self-at (home-of @self)))
+  (when (and (not (under-attack))
+             (not (self-at (home-of @self)))
              (> (fatigue @self) 0.7)))
   (utility (if (> (fatigue @self) 1.0) 10000 (* 90 (fatigue @self))))
   (effects (go @self (home-of @self))))
@@ -36,7 +37,10 @@
   (intra-day)
   (nl   "@self sleeps")
   (does SLEEP)
-  (when (and (self-at (home-of @self))
+  ; You cannot sleep through an assault - being under attack gates the whole rest
+  ; lane OUT, so the fight acts (defend / flee / scream) take over (fight.hs).
+  (when (and (not (under-attack))
+             (self-at (home-of @self))
              (or (> (fatigue @self) 0.5)
                  (>= (now-hour) 22)
                  (< (now-hour) 6))))
@@ -69,6 +73,7 @@
 (hsim-event idle_go_home
   (intra-day)
   (nl   "@self drifts home")
-  (when (not (self-at (home-of @self))))
+  (when (and (not (under-attack))
+             (not (self-at (home-of @self)))))
   (utility 1)
   (effects (go @self (home-of @self))))
