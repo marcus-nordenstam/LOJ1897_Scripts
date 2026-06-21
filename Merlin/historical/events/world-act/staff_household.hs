@@ -24,21 +24,28 @@
 (include "../../definitions/roles.hs")
 
 ; --- THINK: a quality-home OWNER takes on the standing staffing duty -----------
-; The slow dispositional (window-start) pass, per NPC. consider-staffing checks
-; - from self-beliefs - whether @self owns a manor/townhouse, and if so mints the
-; {@self goal {@self staff_household}} standing duty once. Tenants / co-resident
-; spouses own no quality home and never take it on. The ACT below fulfils it.
+; The slow dispositional (window-start) pass, per NPC, fully declarative: a 21+
+; adult who, IN WINTER and not already holding the duty, OWNS the manor / townhouse
+; that is their HOME mints the standing goal {@self goal {@self staff_household}}.
+; Tenants and co-resident spouses (home is a manor but they do not OWN it) never
+; take it on. Clause order matters - the cheap gates short-circuit first so the
+; is-a checks run only for winter, dutyless, home-owning candidates; and `?h` is
+; BOUND by the first (believes) (the home), then reused to test ownership + kind.
 (hsim-event consider_household_staffing
   (sim-window-start)
   (nl         "@self resolves to keep their household in service")
   (rng-stream employment)
 
   (roles
-    (role @self (template any_human)
-                (>= (years-old @self) 21)
-                (believes @self {@self home ?})))
+    (role @self (template any_human) (>= (years-old @self) 21)))
 
-  (effects (consider-staffing @self)))
+  (when (and (in-season winter)                        ; once a year - duty is standing
+             (not (has-goal staff_household))          ; mint once, then skip
+             (believes @self {@self home ?h})          ; BIND ?h = the home
+             (believes @self {@self own ?h})           ; @self OWNS that home (the head)
+             (or (is-a ?h [k manor]) (is-a ?h [k townhouse]))))
+
+  (effects (goal @self staff_household)))
 
 ; --- ACT: the head fulfils the duty - founds + hires what the household lacks ---
 (hsim-event staff_household
