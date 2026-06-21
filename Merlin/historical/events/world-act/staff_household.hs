@@ -23,13 +23,32 @@
 
 (include "../../definitions/roles.hs")
 
+; --- THINK: a quality-home OWNER takes on the standing staffing duty -----------
+; The slow dispositional (window-start) pass, per NPC. consider-staffing checks
+; - from self-beliefs - whether @self owns a manor/townhouse, and if so mints the
+; {@self goal {@self staff_household}} standing duty once. Tenants / co-resident
+; spouses own no quality home and never take it on. The ACT below fulfils it.
+(hsim-event consider_household_staffing
+  (sim-window-start)
+  (nl         "@self resolves to keep their household in service")
+  (rng-stream employment)
+
+  (roles
+    (role @self (template any_human)
+                (>= (years-old @self) 21)
+                (believes @self {@self home ?})))
+
+  (effects (consider-staffing @self)))
+
+; --- ACT: the head fulfils the duty - founds + hires what the household lacks ---
 (hsim-event staff_household
   (nl         "?actor takes on domestic staff")
-  ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
-  ; MONTHLY. No (chance) needed: staff_household is FILL-TO-TARGET (hsim::
-  ; staff_household returns 0 when the establishment is fully staffed), so monthly
-  ; firing just refills vacancies promptly (within a month vs a year) and no-ops
-  ; once full - it self-throttles.
+  ; EMERGENT: no (schedule) - fired by the per-NPC emergent pass MONTHLY. The
+  ; (generative-staffing) dispatch (run_generative_staffing) now GATES on the
+  ; {@self goal {@self staff_household}} duty the think minted, then FILLS-TO-TARGET
+  ; (hsim::staff_household founds the org if needed + hires the shortfall, updating
+  ; the env register AND each servant's mind). It no-ops once full - self-throttles
+  ; - so the standing duty needs no clearing.
   (rng-stream employment)
   (generative-staffing)
 

@@ -141,6 +141,10 @@ relation
             seek_indenture                          (tar human)
             enroll_child                            (tar human)
             engage_staff                            (tar human)
+            # staff_household -> the head's STANDING duty to keep their domestic
+            # establishment staffed (the window-start think mints it; the emergent
+            # act fulfils it). No target: the duty itself, not a specific hire.
+            staff_household                         (tar ?)
             sack                                    (tar human)
             promote_staff                           (tar human)
             found_club                              (tar ?)
