@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; attend - the occasion ATTENDANCE act (occasion_ceremony_plan.md, Item 4).
 ;
-; An npc-act in the three-stage cascade shape (cf. the drinking lane). On the
+; An npc-act in the three-stage intra-day lane shape (cf. the drinking lane). On the
 ; window in which an occasion's date lands, the appointment review has minted an
 ; attend goal {@self goal {@self attend <occ>}}; these intra-day events drain it:
 ;
@@ -11,7 +11,7 @@
 ;                   dwell act. The dwell IS the attendance; co-presence (the
 ;                   location attr stamped on arrival) is what every other attendee
 ;                   - and the detective trail - reads.
-;   attend_episode: the dwell completion (chain-only) - clears the goal so the
+;   attend_episode: the dwell completion (completion-only) - clears the goal so the
 ;                   desire does not re-fire, and records the attendance narrative.
 ;
 ; SEPARATION OF CONCERNS: (when ...) gates TIMING - (attend-in-window @self) reads
@@ -46,7 +46,7 @@
   (effects (act attend_episode (attend-minutes-left @self))))
 
 (hsim-event attend_episode
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self has attended a gathering")
   (effects
     ; If this was a WEDDING and the attendee is a principal, the marriage is made

@@ -9,7 +9,7 @@
 ;
 ;   resign_go     : hold the goal, not at a clubhouse -> travel act to one.
 ;   resign_dwell  : hold the goal, AT a clubhouse -> a short dwell.
-;   resign_commit : completion (chain-only) - unregisters the member + clears goal.
+;   resign_commit : completion (completion-only) - unregisters the member + clears goal.
 ; ----------------------------------------------------------------------------
 
 (hsim-event resign_go
@@ -29,7 +29,7 @@
   (effects (act resign_commit 45)))
 
 (hsim-event resign_commit
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self resigns from a club")
   (effects
     (unregister-member :member @self)

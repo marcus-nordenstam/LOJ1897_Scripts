@@ -9,7 +9,7 @@
 ;
 ;   partner_go     : hold the goal, not at the firm -> travel act to its premises.
 ;   partner_dwell  : hold the goal, AT the firm -> a dwell (settling the terms).
-;   partner_commit : completion (chain-only) - leaves his salaried post, is added
+;   partner_commit : completion (completion-only) - leaves his salaried post, is added
 ;                    as co-owner + installed as proprietor (org_head), clears goal.
 ; ----------------------------------------------------------------------------
 
@@ -30,7 +30,7 @@
   (effects (act partner_commit 90)))
 
 (hsim-event partner_commit
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self is taken into partnership")
   (effects
     (fire :worker @self)

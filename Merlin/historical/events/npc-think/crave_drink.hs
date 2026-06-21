@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; The DRINKING lane - the reference three-stage cascade (4.13 (b)):
+; The DRINKING lane - the reference three-stage intra-day lane (4.13 (b)):
 ;
 ;   (a) DESIRE   crave_drink   (sim-window-start) - the multi-causal risk model
 ;       decides WHO wants to drink to excess today; on a hit it mints the

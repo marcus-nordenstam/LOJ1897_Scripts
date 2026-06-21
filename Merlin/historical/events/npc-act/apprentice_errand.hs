@@ -10,7 +10,7 @@
 ;
 ;   indenture_go     : hold the goal, not at the master's premises -> travel act.
 ;   indenture_dwell  : hold the goal, AT the premises -> a dwell (being taken on).
-;   indenture_commit : completion (chain-only) - hires the youth as a trainee clerk,
+;   indenture_commit : completion (completion-only) - hires the youth as a trainee clerk,
 ;                      mints the {@self master <master>} bond, clears the goal.
 ; ----------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@
   (effects (act indenture_commit 90)))
 
 (hsim-event indenture_commit
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self is apprenticed")
   (effects
     (hire :articles (goal-focus seek_indenture) :worker @self :role clerk :level trainee)

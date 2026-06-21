@@ -10,7 +10,7 @@
 ;
 ;   borrow_go     : hold the goal, not at the lender's home -> travel act to it.
 ;   borrow_dwell  : hold the goal, AT the lender's home -> a short dwell (the call).
-;   borrow_commit : the dwell completion (chain-only) - records {@self owe
+;   borrow_commit : the dwell completion (completion-only) - records {@self owe
 ;                   <creditor>} + clears the goal.
 ; ----------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@
   (effects (act borrow_commit 45)))
 
 (hsim-event borrow_commit
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self borrows from a creditor")
   (effects
     (begin-belief @self owe (goal-focus take_loan))

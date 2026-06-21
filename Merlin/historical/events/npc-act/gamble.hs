@@ -20,7 +20,7 @@
     (act gamble_episode 90)))
 
 (hsim-event gamble_episode
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self gambles at the table")
   (effects
     (gamble @self)

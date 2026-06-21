@@ -9,7 +9,7 @@
 ;
 ;   hire_go     : hold the goal, not at the firm -> travel act to its premises.
 ;   hire_dwell  : hold the goal, AT the firm -> a short dwell (the interview).
-;   hire_commit : completion (chain-only) - the eligibility-match hire + clears goal.
+;   hire_commit : completion (completion-only) - the eligibility-match hire + clears goal.
 ; ----------------------------------------------------------------------------
 
 (hsim-event hire_go
@@ -29,7 +29,7 @@
   (effects (act hire_commit 45)))
 
 (hsim-event hire_commit
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self is hired")
   (effects
     (hire-matched :articles (goal-focus engage_staff) :worker @self)

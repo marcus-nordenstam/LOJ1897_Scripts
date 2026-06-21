@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
-; rest - the FATIGUE / REST lane (npc-act), replacing day_shape's time-of-day
-; sleep hack with a real physiological fatigue model.
+; rest - the FATIGUE / REST lane (npc-act): a real physiological fatigue model
+; drives when an NPC sleeps.
 ;
 ; (fatigue @self) reads the continuous, imperceptible `fatigue` attr (0 rested ..
 ; 1 ready-for-bed, can exceed 1 when sleep is denied). The stepper mutates it:
@@ -9,13 +9,13 @@
 ; appraiser de-quantizes it into {@self alertness alert|tired|sleepy} (the
 ; queryable memory); this lane and the utility only ever read the attr.
 ;
-; Three intra-day cascade rules, competing by (utility):
+; Three intra-day rules, competing by (utility):
 ;   - seek_rest    : tired and not home -> head home (rises with fatigue).
 ;   - sleep        : at home -> the durative sleep act ((does sleep) records the
 ;                    {@self sleep} memory; its completion resets fatigue). Utility
 ;                    climbs with fatigue and SKYROCKETS once fatigue > 1.0, so an
 ;                    over-tired NPC abandons everything else and goes to bed.
-;   - idle_go_home : the mild fallback (old day_go_home) - when nothing pulls you,
+;   - idle_go_home : the mild fallback - when nothing pulls you,
 ;                    drift home. Lowest priority.
 ; ----------------------------------------------------------------------------
 
@@ -61,10 +61,10 @@
   (effects (act sleep_episode (min (minutes-until-alarm @self)
                                    (minutes-until-attend @self)))))
 
-; completion of the sleep act (chain-only): the engine ends the {@self sleep}
+; completion of the sleep act (completion-only): the engine ends the {@self sleep}
 ; act-belief and resets fatigue automatically; this just records the wake.
 (hsim-event sleep_episode
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self wakes rested")
   (effects
     (log _sleep_episode @self)))

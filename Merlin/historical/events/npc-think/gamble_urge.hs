@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; The GAMBLING lane - the three-stage cascade (4.13.15), the twin of get_drunk:
+; The GAMBLING lane - the three-stage intra-day lane (4.13.15), the twin of get_drunk:
 ;
 ;   (a) DESIRE   gamble_urge (sim-window-start) - low industriousness (a want of
 ;       self-discipline) takes to (or sinks deeper into) gambling; on a hit it

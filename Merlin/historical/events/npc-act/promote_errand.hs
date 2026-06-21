@@ -7,7 +7,7 @@
 ;
 ;   promote_go     : hold the goal, not at the workplace -> travel act to it.
 ;   promote_dwell  : hold the goal, AT the workplace -> a short dwell.
-;   promote_commit : completion (chain-only) - promotes the worker + clears the goal.
+;   promote_commit : completion (completion-only) - promotes the worker + clears the goal.
 ; ----------------------------------------------------------------------------
 
 (hsim-event promote_go
@@ -27,7 +27,7 @@
   (effects (act promote_commit 45)))
 
 (hsim-event promote_commit
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self promotes a worker")
   (effects
     (promote :worker (goal-focus promote_staff))

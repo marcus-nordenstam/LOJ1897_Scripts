@@ -59,12 +59,12 @@
     (act means_acquired (travel-minutes @self means))))
 
 ; The COMPLETION-EVENT of the obtain act: fired by process_due_completions a
-; travel-time later (serial completion pass; (chain-only) keeps it off the DES +
+; travel-time later (serial completion pass; (completion-only) keeps it off the DES +
 ; per-NPC passes). acquire-control performs the REAL acquisition (acquire_weapon
 ; -> controlled_by), so the killer now physically holds the means. Implicit actor:
 ; process_due_completions binds the act's owner as @self.
 (hsim-event means_acquired
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self returns having obtained the means")
   (effects
     (acquire-control @self means)

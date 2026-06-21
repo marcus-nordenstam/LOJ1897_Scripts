@@ -9,7 +9,7 @@
 ;
 ;   join_go     : hold the goal, not at the clubhouse -> travel act to it.
 ;   join_dwell  : hold the goal, AT the clubhouse -> a dwell (being introduced).
-;   join_commit : completion (chain-only) - registers the member + clears the goal.
+;   join_commit : completion (completion-only) - registers the member + clears the goal.
 ; ----------------------------------------------------------------------------
 
 (hsim-event join_go
@@ -29,7 +29,7 @@
   (effects (act join_commit 60)))
 
 (hsim-event join_commit
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self joins a club")
   (effects
     (register-member :articles (goal-focus join_club) :member @self)

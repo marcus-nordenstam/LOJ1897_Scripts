@@ -20,7 +20,7 @@
     (act alms_episode 60)))
 
 (hsim-event alms_episode
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self gives alms at the church")
   (effects
     (give-alms @self)

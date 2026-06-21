@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; UNPORTED (4.13 reference). The kill STRIKE terminal - extracted from
 ; means_cascade.hs when the place-lane crime passes were retired. Re-port as a
-; (cascade) terminal fired at co-presence (the killer and victim share a room),
+; (intra-day) terminal fired at co-presence (the killer and victim share a room),
 ; routing to the kill commit. NOT loaded (outside the events walk); kept here as
 ; the authoring reference for the kill-behaviour port.
 ;

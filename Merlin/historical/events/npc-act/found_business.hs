@@ -2,14 +2,14 @@
 ; found_business - the npc-ACT half of the business-founding split (Item 5).
 ;
 ; The decision (events/work/business.hs `business_founding`) minted {@self goal
-; {@self found}}. These intra-day cascade events drain it: the would-be proprietor
+; {@self found}}. These intra-day events drain it: the would-be proprietor
 ; goes to the bank to arrange his capital + file, and the business is FOUNDED there
 ; as the act's completion - leaving the founding documents (the detective clue
 ; trail) and the co-presence a witness would see, instead of a faceless world edit.
 ;
 ;   found_go     : hold the goal, not at a bank -> travel act to a same-town bank.
 ;   found_dwell  : hold the goal, AT the bank -> a dwell (arranging the founding).
-;   found_commit : the dwell completion (chain-only) - leaves paid employment,
+;   found_commit : the dwell completion (completion-only) - leaves paid employment,
 ;                  founds the org (found-org spawns the workplace + installs him as
 ;                  proprietor + writes the articles), and clears the goal.
 ;
@@ -40,7 +40,7 @@
   (effects (act found_commit 90)))
 
 (hsim-event found_commit
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self founds a business")
   (effects
     (fire :worker @self)

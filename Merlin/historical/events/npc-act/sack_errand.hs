@@ -9,7 +9,7 @@
 ;
 ;   sack_go     : hold the goal, not at the workplace -> travel act to it.
 ;   sack_dwell  : hold the goal, AT the workplace -> a short dwell (the dismissal).
-;   sack_commit : completion (chain-only) - fires the worker, drops his warmth
+;   sack_commit : completion (completion-only) - fires the worker, drops his warmth
 ;                 toward the boss (the grudge), and clears the goal.
 ; ----------------------------------------------------------------------------
 
@@ -30,7 +30,7 @@
   (effects (act sack_commit 45)))
 
 (hsim-event sack_commit
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self dismisses a worker")
   (effects
     (fire :worker (goal-focus sack))

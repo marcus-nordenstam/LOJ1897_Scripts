@@ -4,12 +4,11 @@
 ; The labour market (employment.hs / business.hs / apprenticeship.hs) mints the
 ; employer/job beliefs but never moves anyone; THIS lane is what physically gets
 ; an employed NPC to their workplace during their shift and holds them there.
-; Promoted out of the retired day_shape scaffold (rules 1-2), gated on the
-; employer belief the labour market already mints (`has-job`) + the per-weekday
-; shift hours stamped at hire.
+; Gated on the employer belief the labour market already mints (`has-job`) + the
+; per-weekday shift hours stamped at hire.
 ;
-; Two intra-day cascade rules competing by (utility); the cascade commits the
-; max-utility eligible act:
+; Two intra-day rules competing by (utility); the intra-day deliberation commits
+; the max-utility eligible act:
 ;   - day_work     : already AT the workplace during/just-before the shift -> a
 ;                    single (stay) spanning the rest of the shift; its completion
 ;                    re-deliberates (-> go home / outing / rest).

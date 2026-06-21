@@ -22,7 +22,7 @@
   (utility 35)
   (effects (act primary_commit 60)))
 (hsim-event primary_commit
-  (schedule (chain-only)) (nl "@self starts primary school")
+  (schedule (completion-only)) (nl "@self starts primary school")
   (effects
     (enroll @self primary_school_curriculum)
     (clear-goal @self enrol_primary)
@@ -40,7 +40,7 @@
   (utility 35)
   (effects (act secondary_commit 60)))
 (hsim-event secondary_commit
-  (schedule (chain-only)) (nl "@self goes on to secondary school")
+  (schedule (completion-only)) (nl "@self goes on to secondary school")
   (effects
     (enroll @self secondary_school_curriculum)
     (clear-goal @self enrol_secondary)
@@ -58,7 +58,7 @@
   (utility 35)
   (effects (act university_commit 60)))
 (hsim-event university_commit
-  (schedule (chain-only)) (nl "@self goes up to university")
+  (schedule (completion-only)) (nl "@self goes up to university")
   (effects
     (enroll-university @self)
     (clear-goal @self enrol_university)

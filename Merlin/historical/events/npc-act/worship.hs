@@ -20,7 +20,7 @@
     (act worship_episode 90)))
 
 (hsim-event worship_episode
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self worships at church")
   (effects
     (go-to-church @self)

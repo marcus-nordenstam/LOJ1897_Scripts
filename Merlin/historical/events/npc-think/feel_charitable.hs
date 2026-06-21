@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; The CHARITY lane - the three-stage cascade (4.13.15):
+; The CHARITY lane - the three-stage intra-day lane (4.13.15):
 ;
 ;   (a) DESIRE   feel_charitable (sim-window-start) - high compassion moves an NPC
 ;       to give alms; on a hit it mints {@self goal {@self give}}.

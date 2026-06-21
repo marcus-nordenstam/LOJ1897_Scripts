@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; The CHURCHGOING lane - the three-stage cascade (4.13.15):
+; The CHURCHGOING lane - the three-stage intra-day lane (4.13.15):
 ;
 ;   (a) DESIRE   feel_devout   (sim-window-start) - high politeness (respect for
 ;       convention) draws an NPC to worship; on a hit it mints {@self goal {@self

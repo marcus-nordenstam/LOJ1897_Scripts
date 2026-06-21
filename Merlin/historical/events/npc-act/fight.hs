@@ -74,12 +74,12 @@
   (utility (* 30 (max 0 (- (fight-elapsed) 10))))
   (effects (go @self (home-of @self))))
 
-; The blow (chain-only completion): one exchange of the emergent fight. A fatal
+; The blow (completion-only completion): one exchange of the emergent fight. A fatal
 ; result runs the ledger + propagate_death inside (strike-blow); a non-fatal one
 ; leaves a wound and the next deliberation strikes again (while the victim lives
 ; and is still co-present).
 (hsim-event kill_blow
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self strikes a violent blow")
   (effects
     ; (strike-blow <foe> <intent>) - the actor is implicit (@self); pass the foe +
@@ -97,8 +97,8 @@
 ; PER-ROUND resolve roll drive each defensive blow, so a wavering victim trades
 ; some rounds and falters others, versus the committed aggressor who always strikes
 ; via its fight goal. (Folding the decision into the act gate, not a separate think,
-; keeps the whole victim reaction READ-ONLY in the deliberation cascade - a real
-; goal-write mid-cascade is unsafe; only the serial completion pass writes beliefs.)
+; keeps the whole victim reaction READ-ONLY in the intra-day deliberation - a real
+; goal-write mid-deliberation is unsafe; only the serial completion pass writes beliefs.)
 ; Gated on the foe being PRESENT (no swinging at a fled / slain attacker) and on
 ; not already holding a fight goal (then kill_strike covers it). A victim who does
 ; not win the resolve roll FLEES or SCREAMS instead (below) - never sleeps (the
@@ -116,12 +116,12 @@
   (utility 200)
   (effects (act defend_blow 1)))
 
-; The victim's blow (chain-only completion), mirroring kill_blow but striking the
+; The victim's blow (completion-only completion), mirroring kill_blow but striking the
 ; THREAT focus (the attacker) rather than a fight-goal focus. A fatal result runs
 ; the ledger + propagate_death inside (strike-blow) and clears the dead foe's hold;
 ; a non-fatal one re-arms the attacker's own under_attack (the exchange continues).
 (hsim-event defend_blow
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self strikes back")
   (effects
     (strike-blow (threat-focus) kill)
@@ -144,11 +144,11 @@
   (utility 150)
   (effects (act flee_attempt 1)))
 
-; The flee attempt's completion (chain-only): roll the escape. On success
+; The flee attempt's completion (completion-only): roll the escape. On success
 ; (attempt-flee) relocates the victim to safety + clears its threat state - the
 ; fight ends; on failure nothing changes and the victim tries again next round.
 (hsim-event flee_attempt
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self bolts for safety")
   (effects
     (attempt-flee)

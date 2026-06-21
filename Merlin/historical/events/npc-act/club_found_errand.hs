@@ -8,7 +8,7 @@
 ;
 ;   found_club_go     : hold the goal, not at a pub -> travel act to one.
 ;   found_club_dwell  : hold the goal, AT a pub -> a dwell (the founding meeting).
-;   found_club_commit : completion (chain-only) - founds the club + clears the goal.
+;   found_club_commit : completion (completion-only) - founds the club + clears the goal.
 ; ----------------------------------------------------------------------------
 
 (hsim-event found_club_go
@@ -28,7 +28,7 @@
   (effects (act found_club_commit 90)))
 
 (hsim-event found_club_commit
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self founds a club")
   (effects
     (found-org :kind club :founder @self)

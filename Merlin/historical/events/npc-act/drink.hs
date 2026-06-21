@@ -21,11 +21,11 @@
   (effects
     (act drink_episode 90)))
 
-; The COMPLETION of the drink act (chain-only: never seeded, fired only when the
+; The COMPLETION of the drink act (completion-only: never seeded, fired only when the
 ; act lands a duration later, in the serial completion pass). Applies the real
 ; effects + clears the goal. Implicit actor: the act's owner is bound as @self.
 (hsim-event drink_episode
-  (schedule (chain-only))
+  (schedule (completion-only))
   (nl   "@self has drunk to excess")
   (effects
     (get-drunk @self)
