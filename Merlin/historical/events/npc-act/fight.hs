@@ -34,24 +34,45 @@
 ; victim's HOME (where they return at night). When the victim is co-present there,
 ; kill_strike (utility 200) outweighs this seek (150) and the blows begin. This is
 ; the minimal `reach` leg; a general location-of/stalk refinement is future work.
+; EXPOSURE CLOCK (the killer's break-off, end-condition c). The seek/strike
+; utilities hold full force for the first ~10 minutes of the episode, then DECAY
+; (-30/min) as exposure mounts, while break_off_fight's utility RISES; they cross
+; ~13 min, after which the killer abandons THIS attempt and leaves. (fight-elapsed)
+; is wall-clock minutes since the first blow, reset each month - so the kill+fight
+; goals persist but the striking is one timed burst per month.
 (hsim-event kill_seek
   (intra-day)
   (nl   "@self stalks their victim")
   (when (and (has-goal fight)
              (not (co-present @self (goal-focus fight)))))
-  (utility 150)
+  (utility (if (< (fight-elapsed) 10) 150
+               (max 0 (- 150 (* 30 (- (fight-elapsed) 10))))))
   (effects (go @self (home-of (goal-focus fight)))))
 
 ; The killer at the victim strikes - a committed murderer prioritises the blow
-; over everything (utility 200 dominates work 80 / sleep 100). A 1-minute act;
-; its completion lands the blow and the stepper re-deliberates the killer.
+; (utility 200 dominates work 80 / sleep 100) UNTIL the exposure clock drags it
+; down. A 1-minute act; its completion lands the blow and re-deliberates the killer.
 (hsim-event kill_strike
   (intra-day)
   (nl   "@self falls upon their victim")
   (when (and (has-goal fight)
              (co-present @self (goal-focus fight))))
-  (utility 200)
+  (utility (if (< (fight-elapsed) 10) 200
+               (max 0 (- 200 (* 30 (- (fight-elapsed) 10))))))
   (effects (act kill_blow 1)))
+
+; BREAK OFF (end-condition c): a killer whose attempt has dragged on without a kill
+; gives up for now and leaves - exposure outweighs the deed. Utility is 0 for the
+; first ~10 minutes then rises (+30/min), overtaking the decaying kill_strike around
+; ~13 min, so the killer retreats home (breaking co-presence). The kill+fight goals
+; PERSIST - cold-start clears the exposure clock and it tries again next month.
+(hsim-event break_off_fight
+  (intra-day)
+  (nl   "@self breaks off the attack")
+  (when (and (has-goal fight)
+             (not (self-at (home-of @self)))))
+  (utility (* 30 (max 0 (- (fight-elapsed) 10))))
+  (effects (go @self (home-of @self))))
 
 ; The blow (chain-only completion): one exchange of the emergent fight. A fatal
 ; result runs the ledger + propagate_death inside (strike-blow); a non-fatal one
@@ -106,22 +127,32 @@
     (strike-blow (threat-focus) kill)
     (log _defend_blow @self)))
 
-; THE VICTIM FLEES (intra-day act). A struck victim that does NOT turn to fight
-; bolts for a public place (flee-destination: a populated venue - the assailant
-; breaks off before witnesses, and the killer's stalk looks at the victim's HOME,
-; not the venue). Lower utility than fighting (200), so a bold victim fights and a
-; timid one runs. The escape is a CONTEST, not a guarantee: the (go) takes travel
-; time during which the victim is still co-present, so a connecting blow WAKES it
-; (cancelling the run) - it gets away only if the attacker keeps missing. If no
-; venue is reachable, (go) emits no act and the victim falls through to a scream.
+; THE VICTIM TRIES TO FLEE (intra-day act, end-condition b). A struck victim that
+; does NOT turn to fight makes a one-round bid to break away. Lower utility than
+; fighting (200), so a bold victim fights and a timid one runs. Each round is an
+; ATTEMPT, not a guaranteed escape: the flee_attempt completion rolls the getaway by
+; the attacker's accumulated misses + the victim's agility / strength / nerve. On
+; SUCCESS the melee is OVER - the victim is whisked to a public place this instant
+; (no multi-minute "fleeing" while blows keep landing) and co-presence breaks. On
+; FAILURE it is still pinned and re-deliberates (fight / flee / scream) next round.
 (hsim-event flee_attack
   (intra-day)
-  (nl   "@self flees their attacker")
+  (nl   "@self tries to flee their attacker")
   (when (and (under-attack)
              (not (has-goal fight))
              (co-present @self (threat-focus))))
   (utility 150)
-  (effects (go @self (flee-destination @self))))
+  (effects (act flee_attempt 1)))
+
+; The flee attempt's completion (chain-only): roll the escape. On success
+; (attempt-flee) relocates the victim to safety + clears its threat state - the
+; fight ends; on failure nothing changes and the victim tries again next round.
+(hsim-event flee_attempt
+  (schedule (chain-only))
+  (nl   "@self bolts for safety")
+  (effects
+    (attempt-flee)
+    (log _flee_attempt @self)))
 
 ; THE VICTIM SCREAMS FOR HELP (intra-day act) - the last resort when it can neither
 ; fight (failed the resolve roll) nor flee (nowhere to run). Lowest utility, so it
