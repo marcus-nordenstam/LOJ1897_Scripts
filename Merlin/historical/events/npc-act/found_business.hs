@@ -27,7 +27,7 @@
   (intra-day)
   (nl   "@self sets out to arrange a business")
   (when (and (has-goal found)
-             (not (self-at [k building bank]))))
+             (not (at-place-kind [k building bank]))))
   (utility 85)
   (effects (go @self (venue [k building bank]))))
 
@@ -35,7 +35,7 @@
   (intra-day)
   (nl   "@self arranges his business at the bank")
   (when (and (has-goal found)
-             (self-at [k building bank])))
+             (at-place-kind [k building bank])))
   (utility 85)
   (effects (act found_commit 90)))
 

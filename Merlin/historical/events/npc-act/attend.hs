@@ -30,20 +30,22 @@
 (hsim-event attend_go
   (intra-day)
   (nl   "@self sets out for a gathering")
-  (when (and (has-goal attend)
-             (attend-in-window @self)
-             (not (self-at (attend-venue @self)))))
-  (utility (attend-utility @self))
-  (effects (go @self (attend-venue @self))))
+  (let ((?venue (attend-venue @self)))
+    (when (and (has-goal attend)
+               (attend-in-window @self)
+               (not (at-place ?venue))))
+    (utility (attend-utility @self))
+    (effects (go @self ?venue))))
 
 (hsim-event attend_dwell
   (intra-day)
   (nl   "@self attends a gathering")
-  (when (and (has-goal attend)
-             (attend-in-window @self)
-             (self-at (attend-venue @self))))
-  (utility (attend-utility @self))
-  (effects (act attend_episode (attend-minutes-left @self))))
+  (let ((?venue (attend-venue @self)))
+    (when (and (has-goal attend)
+               (attend-in-window @self)
+               (at-place ?venue)))
+    (utility (attend-utility @self))
+    (effects (act attend_episode (attend-minutes-left @self)))))
 
 (hsim-event attend_episode
   (schedule (completion-only))

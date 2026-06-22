@@ -5,7 +5,7 @@
   (intra-day)
   (nl   "@self sets out to gamble")
   (when (and (has-goal play_game)
-             (not (self-at [k building pub]))))
+             (not (at-place-kind [k building pub]))))
   (utility 30)
   (effects
     (go @self (venue [k building pub]))))
@@ -14,7 +14,7 @@
   (intra-day)
   (nl   "@self gambles")
   (when (and (has-goal play_game)
-             (self-at [k building pub])))
+             (at-place-kind [k building pub])))
   (utility 30)
   (effects
     (act gamble_episode 90)))

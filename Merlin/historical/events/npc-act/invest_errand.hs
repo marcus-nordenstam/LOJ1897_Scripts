@@ -21,7 +21,7 @@
   (let ((?candidate (goal-focus back)))
     (when (and (has-goal back)
                (bind {?candidate home ?cand_home})
-               (not (self-at ?cand_home))))
+               (not (at-place ?cand_home))))
     (utility 60)
     (effects (go @self ?cand_home))))
 
@@ -31,7 +31,7 @@
   (let ((?candidate (goal-focus back)))
     (when (and (has-goal back)
                (bind {?candidate home ?cand_home})
-               (self-at ?cand_home)))
+               (at-place ?cand_home)))
     (utility 60)
     (effects (act invest_commit 45))))
 

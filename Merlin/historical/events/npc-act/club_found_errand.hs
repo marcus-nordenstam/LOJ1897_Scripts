@@ -15,7 +15,7 @@
   (intra-day)
   (nl   "@self sets out to found a club")
   (when (and (has-goal found_club)
-             (not (self-at [k building pub]))))
+             (not (at-place-kind [k building pub]))))
   (utility 45)
   (effects (go @self (venue [k building pub]))))
 
@@ -23,7 +23,7 @@
   (intra-day)
   (nl   "@self gathers men to found a club")
   (when (and (has-goal found_club)
-             (self-at [k building pub])))
+             (at-place-kind [k building pub])))
   (utility 45)
   (effects (act found_club_commit 90)))
 

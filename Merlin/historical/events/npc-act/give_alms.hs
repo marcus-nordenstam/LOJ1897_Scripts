@@ -5,7 +5,7 @@
   (intra-day)
   (nl   "@self sets out to give alms")
   (when (and (has-goal give_alms)
-             (not (self-at [k building church]))))
+             (not (at-place-kind [k building church]))))
   (utility 30)
   (effects
     (go @self (venue [k building church]))))
@@ -14,7 +14,7 @@
   (intra-day)
   (nl   "@self gives alms")
   (when (and (has-goal give_alms)
-             (self-at [k building church])))
+             (at-place-kind [k building church])))
   (utility 30)
   (effects
     (act alms_episode 60)))

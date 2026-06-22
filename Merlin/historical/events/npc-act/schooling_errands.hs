@@ -13,12 +13,12 @@
 ; ----- primary -------------------------------------------------------------
 (hsim-event primary_go
   (intra-day) (nl "@self sets off for school")
-  (when (and (has-goal enrol_primary) (not (self-at [k building school]))))
+  (when (and (has-goal enrol_primary) (not (at-place-kind [k building school]))))
   (utility 35)
   (effects (go @self (venue [k building school]))))
 (hsim-event primary_dwell
   (intra-day) (nl "@self is enrolled at school")
-  (when (and (has-goal enrol_primary) (self-at [k building school])))
+  (when (and (has-goal enrol_primary) (at-place-kind [k building school])))
   (utility 35)
   (effects (act primary_commit 60)))
 (hsim-event primary_commit
@@ -31,12 +31,12 @@
 ; ----- secondary -----------------------------------------------------------
 (hsim-event secondary_go
   (intra-day) (nl "@self sets off for school")
-  (when (and (has-goal enrol_secondary) (not (self-at [k building school]))))
+  (when (and (has-goal enrol_secondary) (not (at-place-kind [k building school]))))
   (utility 35)
   (effects (go @self (venue [k building school]))))
 (hsim-event secondary_dwell
   (intra-day) (nl "@self is enrolled at school")
-  (when (and (has-goal enrol_secondary) (self-at [k building school])))
+  (when (and (has-goal enrol_secondary) (at-place-kind [k building school])))
   (utility 35)
   (effects (act secondary_commit 60)))
 (hsim-event secondary_commit
@@ -49,12 +49,12 @@
 ; ----- university ----------------------------------------------------------
 (hsim-event university_go
   (intra-day) (nl "@self sets off for university")
-  (when (and (has-goal enrol_university) (not (self-at [k building school]))))
+  (when (and (has-goal enrol_university) (not (at-place-kind [k building school]))))
   (utility 35)
   (effects (go @self (venue [k building school]))))
 (hsim-event university_dwell
   (intra-day) (nl "@self matriculates")
-  (when (and (has-goal enrol_university) (self-at [k building school])))
+  (when (and (has-goal enrol_university) (at-place-kind [k building school])))
   (utility 35)
   (effects (act university_commit 60)))
 (hsim-event university_commit

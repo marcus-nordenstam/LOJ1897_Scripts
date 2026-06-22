@@ -19,7 +19,7 @@
   (when (and (has-goal sack)
              (bind {@self employer ?org})
              (bind {?org workplace ?wp})
-             (not (self-at ?wp))))
+             (not (at-place ?wp))))
   (utility 82)
   (effects (go @self ?wp)))
 
@@ -29,7 +29,7 @@
   (when (and (has-goal sack)
              (bind {@self employer ?org})
              (bind {?org workplace ?wp})
-             (self-at ?wp)))
+             (at-place ?wp)))
   (utility 82)
   (effects (act sack_commit 45)))
 

@@ -17,18 +17,20 @@
 (hsim-event indenture_go
   (intra-day)
   (nl   "@self sets out to be apprenticed")
-  (when (and (has-goal seek_indenture)
-             (not (self-at (articles-building (goal-focus seek_indenture))))))
-  (utility 80)
-  (effects (go @self (articles-building (goal-focus seek_indenture)))))
+  (let ((?venue (articles-building (goal-focus seek_indenture))))
+    (when (and (has-goal seek_indenture)
+               (not (at-place ?venue))))
+    (utility 80)
+    (effects (go @self ?venue))))
 
 (hsim-event indenture_dwell
   (intra-day)
   (nl   "@self presents himself to a master")
-  (when (and (has-goal seek_indenture)
-             (self-at (articles-building (goal-focus seek_indenture)))))
-  (utility 80)
-  (effects (act indenture_commit 90)))
+  (let ((?venue (articles-building (goal-focus seek_indenture))))
+    (when (and (has-goal seek_indenture)
+               (at-place ?venue)))
+    (utility 80)
+    (effects (act indenture_commit 90))))
 
 (hsim-event indenture_commit
   (schedule (completion-only))

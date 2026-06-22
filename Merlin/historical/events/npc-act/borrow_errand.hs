@@ -22,7 +22,7 @@
   (let ((?creditor (goal-focus take_loan)))
     (when (and (has-goal take_loan)
                (bind {?creditor home ?cred_home})
-               (not (self-at ?cred_home))))
+               (not (at-place ?cred_home))))
     (utility 60)
     (effects (go @self ?cred_home))))
 
@@ -32,7 +32,7 @@
   (let ((?creditor (goal-focus take_loan)))
     (when (and (has-goal take_loan)
                (bind {?creditor home ?cred_home})
-               (self-at ?cred_home)))
+               (at-place ?cred_home)))
     (utility 60)
     (effects (act borrow_commit 45))))
 

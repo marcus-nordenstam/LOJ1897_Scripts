@@ -72,7 +72,7 @@
   (intra-day)
   (nl   "@self breaks off the attack")
   (when (and (has-goal fight)
-             (not (self-at (target {@self home ?})))))
+             (not (at-home))))
   (utility (* 30 (max 0 (- (fight-elapsed) 10))))
   (effects (go @self (target {@self home ?}))))
 

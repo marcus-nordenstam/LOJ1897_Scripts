@@ -16,7 +16,7 @@
   (intra-day)
   (nl   "@self sets out to resign from a club")
   (when (and (has-goal resign_club)
-             (not (self-at [k building social_clubhouse]))))
+             (not (at-place-kind [k building social_clubhouse]))))
   (utility 40)
   (effects (go @self (venue [k building social_clubhouse]))))
 
@@ -24,7 +24,7 @@
   (intra-day)
   (nl   "@self calls at his club")
   (when (and (has-goal resign_club)
-             (self-at [k building social_clubhouse])))
+             (at-place-kind [k building social_clubhouse])))
   (utility 40)
   (effects (act resign_commit 45)))
 

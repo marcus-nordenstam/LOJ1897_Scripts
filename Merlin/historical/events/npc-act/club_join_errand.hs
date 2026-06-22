@@ -15,18 +15,20 @@
 (hsim-event join_go
   (intra-day)
   (nl   "@self sets out for a club")
-  (when (and (has-goal join_club)
-             (not (self-at (articles-building (goal-focus join_club))))))
-  (utility 40)
-  (effects (go @self (articles-building (goal-focus join_club)))))
+  (let ((?venue (articles-building (goal-focus join_club))))
+    (when (and (has-goal join_club)
+               (not (at-place ?venue))))
+    (utility 40)
+    (effects (go @self ?venue))))
 
 (hsim-event join_dwell
   (intra-day)
   (nl   "@self is introduced at a club")
-  (when (and (has-goal join_club)
-             (self-at (articles-building (goal-focus join_club)))))
-  (utility 40)
-  (effects (act join_commit 60)))
+  (let ((?venue (articles-building (goal-focus join_club))))
+    (when (and (has-goal join_club)
+               (at-place ?venue)))
+    (utility 40)
+    (effects (act join_commit 60))))
 
 (hsim-event join_commit
   (schedule (completion-only))

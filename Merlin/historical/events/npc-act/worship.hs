@@ -5,7 +5,7 @@
   (intra-day)
   (nl   "@self sets out for church")
   (when (and (has-goal worship)
-             (not (self-at [k building church]))))
+             (not (at-place-kind [k building church]))))
   (utility 30)
   (effects
     (go @self (venue [k building church]))))
@@ -14,7 +14,7 @@
   (intra-day)
   (nl   "@self attends the service")
   (when (and (has-goal worship)
-             (self-at [k building church])))
+             (at-place-kind [k building church])))
   (utility 30)
   (effects
     (act worship_episode 90)))
