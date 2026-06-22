@@ -43,11 +43,13 @@
 (hsim-event kill_seek
   (intra-day)
   (nl   "@self stalks their victim")
-  (when (and (has-goal fight)
-             (not (co-present @self (goal-focus fight)))))
-  (utility (if (< (fight-elapsed) 10) 150
-               (max 0 (- 150 (* 30 (- (fight-elapsed) 10))))))
-  (effects (go @self (home-of (goal-focus fight)))))
+  (let ((?victim (goal-focus fight)))
+    (when (and (has-goal fight)
+               (bind {?victim home ?victim_home})
+               (not (co-present @self ?victim))))
+    (utility (if (< (fight-elapsed) 10) 150
+                 (max 0 (- 150 (* 30 (- (fight-elapsed) 10))))))
+    (effects (go @self ?victim_home))))
 
 ; The killer at the victim strikes - a committed murderer prioritises the blow
 ; (utility 200 dominates work 80 / sleep 100) UNTIL the exposure clock drags it
@@ -70,9 +72,9 @@
   (intra-day)
   (nl   "@self breaks off the attack")
   (when (and (has-goal fight)
-             (not (self-at (home-of @self)))))
+             (not (self-at (target {@self home ?})))))
   (utility (* 30 (max 0 (- (fight-elapsed) 10))))
-  (effects (go @self (home-of @self))))
+  (effects (go @self (target {@self home ?}))))
 
 ; The blow (completion-only completion): one exchange of the emergent fight. A fatal
 ; result runs the ledger + propagate_death inside (strike-blow); a non-fatal one

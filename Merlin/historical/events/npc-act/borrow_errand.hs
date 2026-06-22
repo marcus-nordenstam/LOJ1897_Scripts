@@ -4,9 +4,11 @@
 ; The decision (borrowing.hs) minted {@self goal {@self borrow <creditor>}}. The
 ; debtor calls on his creditor (the lender) at home and the debt is struck there -
 ; a located commit with the co-presence a witness would see, instead of a faceless
-; world edit. The creditor is the goal focus, so the destination composes from the
-; generic ops: (home-of (goal-focus take_loan)) - the lender's home (deterministic, so
-; arrival is gated on that same instance, no kind-fallback needed).
+; world edit. The creditor is the goal focus; the debtor navigates to the lender's
+; home he ALREADY KNOWS - his OWN belief {?creditor home ?h}, mirrored when they
+; became acquainted (no telepathy: we never read the creditor's mind). If he does
+; not know where the creditor lives, the bind fails and the call cannot be made
+; (a directory lookup to acquire an unknown address is future work).
 ;
 ;   borrow_go     : hold the goal, not at the lender's home -> travel act to it.
 ;   borrow_dwell  : hold the goal, AT the lender's home -> a short dwell (the call).
@@ -17,18 +19,22 @@
 (hsim-event borrow_go
   (intra-day)
   (nl   "@self calls on a creditor")
-  (when (and (has-goal take_loan)
-             (not (self-at (home-of (goal-focus take_loan))))))
-  (utility 60)
-  (effects (go @self (home-of (goal-focus take_loan)))))
+  (let ((?creditor (goal-focus take_loan)))
+    (when (and (has-goal take_loan)
+               (bind {?creditor home ?cred_home})
+               (not (self-at ?cred_home))))
+    (utility 60)
+    (effects (go @self ?cred_home))))
 
 (hsim-event borrow_dwell
   (intra-day)
   (nl   "@self arranges a loan")
-  (when (and (has-goal take_loan)
-             (self-at (home-of (goal-focus take_loan)))))
-  (utility 60)
-  (effects (act borrow_commit 45)))
+  (let ((?creditor (goal-focus take_loan)))
+    (when (and (has-goal take_loan)
+               (bind {?creditor home ?cred_home})
+               (self-at ?cred_home)))
+    (utility 60)
+    (effects (act borrow_commit 45))))
 
 (hsim-event borrow_commit
   (schedule (completion-only))

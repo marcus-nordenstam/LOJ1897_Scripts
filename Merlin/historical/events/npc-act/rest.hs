@@ -25,10 +25,10 @@
   (intra-day)
   (nl   "@self heads home to rest")
   (when (and (not (under-attack))
-             (not (self-at (home-of @self)))
+             (not (self-at (target {@self home ?})))
              (> (fatigue @self) 0.7)))
   (utility (if (> (fatigue @self) 1.0) 10000 (* 90 (fatigue @self))))
-  (effects (go @self (home-of @self))))
+  (effects (go @self (target {@self home ?}))))
 
 ; at home and at all tired (or it is night): sleep until the morning alarm. The
 ; sleep act records a {@self sleep} memory ((does sleep)); its completion resets
@@ -40,7 +40,7 @@
   ; You cannot sleep through an assault - being under attack gates the whole rest
   ; lane OUT, so the fight acts (defend / flee / scream) take over (fight.hs).
   (when (and (not (under-attack))
-             (self-at (home-of @self))
+             (self-at (target {@self home ?}))
              (or (> (fatigue @self) 0.5)
                  (>= (now-hour) 22)
                  (< (now-hour) 6))))
@@ -74,6 +74,6 @@
   (intra-day)
   (nl   "@self drifts home")
   (when (and (not (under-attack))
-             (not (self-at (home-of @self)))))
+             (not (self-at (target {@self home ?})))))
   (utility 1)
-  (effects (go @self (home-of @self))))
+  (effects (go @self (target {@self home ?}))))
