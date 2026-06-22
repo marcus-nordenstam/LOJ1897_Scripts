@@ -4,10 +4,12 @@
 ; The labour market (employment.hs / business.hs / apprenticeship.hs) mints the
 ; employer/job beliefs but never moves anyone; THIS lane is what physically gets
 ; an employed NPC to their workplace during their shift and holds them there.
-; Gated on the employer belief the labour market already mints - resolved live as the
-; two-hop (bind-target {@self employer ?org}) (bind-target {?org workplace ?wp}); a
-; missing employer/workplace fails the gate (no job -> no commute). Plus the
-; per-weekday shift hours stamped at hire.
+; Gated on the beliefs the labour market mints, all resolved live as composable
+; belief reads: (bind {@self employer ?org}) (bind {?org workplace ?wp}) for the
+; destination, and (bind {@self job ?job}) (bind {?job (work-hours-today-label)
+; ?start ?end}) for today's shift hours. A missing employer / workplace / shift fails
+; the gate (no job, or a day off -> no commute). The shift clock-math ops then test
+; the bound ?start / ?end against the env clock.
 ;
 ; Two intra-day rules competing by (utility); the intra-day deliberation commits
 ; the max-utility eligible act:
@@ -24,19 +26,23 @@
 (hsim-event day_work
   (intra-day)
   (nl   "@self works")
-  (when (and (bind-target {@self employer ?org})
-             (bind-target {?org workplace ?wp})
+  (when (and (bind {@self employer ?org})
+             (bind {?org workplace ?wp})
+             (bind {@self job ?job})
+             (bind {?job (work-hours-today-label) ?start ?end})
              (self-at ?wp)
-             (or (in-work-hours @self) (work-starts-soon @self))))
+             (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
   (utility 80)
-  (effects (stay (minutes-until-shift-end @self))))
+  (effects (stay (minutes-until-shift-end ?end))))
 
 (hsim-event day_go_to_work
   (intra-day)
   (nl   "@self sets out for work")
-  (when (and (bind-target {@self employer ?org})
-             (bind-target {?org workplace ?wp})
-             (or (in-work-hours @self) (work-starts-soon @self))
+  (when (and (bind {@self employer ?org})
+             (bind {?org workplace ?wp})
+             (bind {@self job ?job})
+             (bind {?job (work-hours-today-label) ?start ?end})
+             (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))
              (not (self-at ?wp))))
   (utility 80)
   (effects (go @self ?wp)))
