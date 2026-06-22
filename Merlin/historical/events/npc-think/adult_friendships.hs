@@ -42,7 +42,7 @@
              (= (belief-target ?b class_situation) (belief-target @self class_situation))
              (<= (- (years-old ?b) (years-old @self))  10)
              (>= (- (years-old ?b) (years-old @self)) -10)
-             (not (believes @self {@self friend ?b}))
+             (not (believes {@self friend ?b}))
              ; Warmth-gated: you do not befriend someone you actively dislike
              ; (reliable cross-pair BITSET). Neutral same-class peers still pair
              ; (mere-exposure); only the two negative warmth bands block.

@@ -26,7 +26,7 @@
   (roles
     (role @self (template any_human)
                 (>= (years-old @self) 12)
-                (believes @self {@self friend ?})
+                (believes {@self friend ?})
                 (chance (* 0.3
                            (+ 0.5 (attr @self enthusiasm))
                            (+ 0.5 (attr @self assertiveness))))))

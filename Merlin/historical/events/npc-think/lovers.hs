@@ -37,9 +37,9 @@
     ; attached; the chance is rolled once per NPC per window.
     (role @self (template any_human)
                 (>= (years-old @self) 18)
-                (not (believes @self {@self spouse ?}))
-                (not (believes @self {@self fiancee ?}))
-                (not (believes @self {@self lover ?}))
+                (not (believes {@self spouse ?}))
+                (not (believes {@self fiancee ?}))
+                (not (believes {@self lover ?}))
                 (chance 0.2))
     (role ?b (template any_human)
              (not (= ?b @self))
@@ -64,7 +64,7 @@
 
   ;; Live re-check: within the window the un-attached role filters go stale as
   ;; earlier firings mint lover bonds; re-confirm both are still free.
-  (when (and (not (believes @self {@self lover ?}))
+  (when (and (not (believes {@self lover ?}))
              (not (believes ?b   {@self lover ?}))))
 
   (effects

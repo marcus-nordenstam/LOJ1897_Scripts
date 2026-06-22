@@ -37,9 +37,9 @@
     (role @self (template any_human)
                 (>= (years-old @self) 14)
                 (<= (years-old @self) 50)
-                (not (believes @self {@self desire ?}))
-                (not (believes @self {@self lover ?}))
-                (not (believes @self {@self spouse ?}))
+                (not (believes {@self desire ?}))
+                (not (believes {@self lover ?}))
+                (not (believes {@self spouse ?}))
                 (chance (* 0.30
                            (attr @self openness)
                            (attr @self enthusiasm)

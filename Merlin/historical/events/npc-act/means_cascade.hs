@@ -36,7 +36,7 @@
   (nl   "@self resolves to acquire the means for the deed")
   (when (and (has-means @self)
              (not (controls @self means))
-             (not (believes @self {@self acquire means}))))
+             (not (believes {@self acquire means}))))
   ; NB: NO (log) here - this fires in the PARALLEL deliberation pass, and (log)
   ; appends to the shared narrative; only per-mind writes (the hsim-wm overlay)
   ; are allowed during deliberation. The acquisition is narrated by the serial
@@ -51,7 +51,7 @@
   (intra-day)
   (nl   "@self sets out to obtain the means")
   (when (and (has-means @self)
-             (believes @self {@self acquire means})
+             (believes {@self acquire means})
              (not (controls @self means))))
   ; NO (log) - parallel deliberation pass (shared-write-free); the obtain act is
   ; narrated by means_acquired (serial completion).

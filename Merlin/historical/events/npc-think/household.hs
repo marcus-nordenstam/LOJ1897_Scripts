@@ -27,7 +27,7 @@
 
   (roles
     (role @self (template any_human)
-                (believes @self {@self home ?})))
+                (believes {@self home ?})))
 
   (effects
     (record-dwelling @self)

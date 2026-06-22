@@ -15,7 +15,7 @@
 ; (triangulation-parental + class-interloper) need a 3-role binding
 ; (parent / child / romantic-partner) the .hse layer doesn't yet
 ; support cleanly, so V2 keeps the simpler legacy_aim parent + child
-; + value-rift substrate. The 4-arg `(urge ?actor ?victim avoid ?partner)`
+; + value-rift substrate. The 4-arg `(urge @self ?victim avoid ?partner)`
 ; shape lands when the 3-role binding ships.
 ;
 ; value-rift becomes an AMPLIFIER (not a hard gate): the modal NPC
@@ -39,11 +39,11 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event bonded_incident_urge
-  (nl       "?actor urges ?victim to atone")
+  (nl       "@self urges ?victim to atone")
   (rng-stream incidents)
 
   (roles
-    (role ?actor  (template any_human)
+    (role @self  (template any_human)
                   ; The plan's `+legacy, +respectability` for urge is a
                   ; LIFE_AIM_ALIGN AMPLIFIER, not a hard gate - applied via
                   ; life-aim-aligns inside the chance product (returns 0.4
@@ -57,15 +57,15 @@
                   ; multiplier = 1.0; legacy/respectability parent = 1.4;
                   ; autonomy_aim parent = 0.8.
                   (chance (* 0.0125
-                             (- 1.0 (attr ?actor compassion))
-                             (attr ?actor assertiveness)
-                             (+ 1.0 (life-aim-aligns ?actor urge)))))
+                             (- 1.0 (attr @self compassion))
+                             (attr @self assertiveness)
+                             (+ 1.0 (life-aim-aligns @self urge)))))
     (role ?victim (template any_human)
-                  (not (= ?victim ?actor))
-                  (believes ?actor {@self child ?victim})
+                  (not (= ?victim @self))
+                  (believes {@self child ?victim})
                   (chance (* 0.80
-                             (+ 0.2 (value-rift ?actor ?victim))))))
+                             (+ 0.2 (value-rift @self ?victim))))))
 
   (effects
-    (urge ?actor ?victim atone)
-    (log _bonded_incident_urge ?actor)))
+    (urge @self ?victim atone)
+    (log _bonded_incident_urge @self)))

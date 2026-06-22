@@ -12,20 +12,20 @@
 ; (relational: debtor + a non-self creditor, no co-presence), MONTHLY now, so the
 ; debtor (chance) base is /12 (0.06 -> 0.005) to hold the annual borrowing volume.
 (hsim-event borrowing
-  (nl         "?debtor borrows from ?creditor")
+  (nl         "@self borrows from ?creditor")
   (rng-stream behaviour)
 
   (roles
     ; Low industriousness (less self-supporting) takes on debt more often.
-    (role ?debtor   (template old_human)
+    (role @self   (template old_human)
                     (chance (* 0.005 (- 1.5 (attr ?this industriousness)))))
     (role ?creditor (template old_human)
-                    (not (= ?this ?debtor))
-                    (not (believes ?debtor {@self owe ?creditor}))))
+                    (not (= ?this @self))
+                    (not (believes {@self owe ?creditor}))))
 
-  ; SPLIT (Item 5): the npc-think - the decision to borrow. It mints {?debtor goal
-  ; {?debtor borrow ?creditor}}; the npc-act (borrow_errand.hs) sends the debtor to
+  ; SPLIT (Item 5): the npc-think - the decision to borrow. It mints {@self goal
+  ; {@self borrow ?creditor}}; the npc-act (borrow_errand.hs) sends the debtor to
   ; the creditor's home and the completion records the {owe} there. (goal) is
   ; idempotent, so re-rolling while the goal stands is a no-op.
   (effects
-    (goal ?debtor take_loan ?creditor)))
+    (goal @self take_loan ?creditor)))

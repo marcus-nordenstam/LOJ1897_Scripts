@@ -39,8 +39,8 @@
     ;; the annual 0.5, rolled once per NPC per window.
     (role @self (template any_human)
                 (>= (years-old @self) 18)
-                (believes @self {@self spouse ?})
-                (not (believes @self {@self lover ?}))
+                (believes {@self spouse ?})
+                (not (believes {@self lover ?}))
                 (chance (* 0.04
                            (attr @self openness)
                            (attr @self enthusiasm)
@@ -49,7 +49,7 @@
                  (not (= ?lover @self))
                  (>= (years-old ?lover) 18)
                  ; the paramour must NOT be @self's own spouse (a third party).
-                 (not (believes @self {@self spouse ?lover}))
+                 (not (believes {@self spouse ?lover}))
                  ; the affair ignites with a known third party (social tie).
                  (personally-knows @self ?lover)
                  (<= (- (years-old @self) (years-old ?lover))  15)

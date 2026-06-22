@@ -38,11 +38,11 @@
     (role @self (template any_human)
                 (or (= (situation @self life_aim) belonging_aim)
                     (= (situation @self life_aim) respectability_aim)
-                    (believes @self {@self identity parent_role}))
+                    (believes {@self identity parent_role}))
                 (chance (* 0.0667 (attr @self enthusiasm))))
     (role ?guest (template any_human)
                  (not (= ?guest @self))
-                 (believes @self {@self friend ?guest})))
+                 (believes {@self friend ?guest})))
 
   (effects
     (exchange-news @self ?guest)

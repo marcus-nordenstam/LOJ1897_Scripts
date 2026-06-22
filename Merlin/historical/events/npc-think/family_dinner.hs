@@ -26,7 +26,7 @@
   (roles
     (role @self (template any_human)
                 (>= (years-old @self) 18)
-                (believes @self {@self spouse ?})
+                (believes {@self spouse ?})
                 (chance 0.4)))
 
   (effects

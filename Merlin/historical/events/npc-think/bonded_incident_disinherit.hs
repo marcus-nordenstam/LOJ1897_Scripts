@@ -47,28 +47,28 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event bonded_incident_disinherit
-  (nl       "?actor disinherits ?victim")
+  (nl       "@self disinherits ?victim")
   (rng-stream incidents)
 
   (roles
-    (role ?actor  (template any_human)
+    (role @self  (template any_human)
                   (chance (* 0.025
-                             (- 1.0 (attr ?actor compassion))
-                             (attr ?actor narcissism))))
+                             (- 1.0 (attr @self compassion))
+                             (attr @self narcissism))))
     (role ?victim (template any_human)
-                  (not (= ?victim ?actor))
-                  (believes ?actor {@self child ?victim})
-                  (not (has-recent-incident-marker ?actor ?victim))
+                  (not (= ?victim @self))
+                  (believes {@self child ?victim})
+                  (not (has-recent-incident-marker @self ?victim))
                   ; Grounds, not a floor: mild standing disregard (dislike /
                   ; disdain) admits the cut at 0.2 each, deep disregard
                   ; (detest / despise) at 0.3 each; a child the father holds
                   ; no grudge against CANNOT be disinherited. believes folds
                   ; to 0/1; static max 1.0 keeps chance's pre-roll early-out.
-                  (chance (+ (* 0.2 (+ (believes ?actor {@self dislike ?victim})
-                                       (believes ?actor {@self disdain ?victim})))
-                             (* 0.3 (+ (believes ?actor {@self detest  ?victim})
-                                       (believes ?actor {@self despise ?victim})))))))
+                  (chance (+ (* 0.2 (+ (believes {@self dislike ?victim})
+                                       (believes {@self disdain ?victim})))
+                             (* 0.3 (+ (believes {@self detest  ?victim})
+                                       (believes {@self despise ?victim})))))))
 
   (effects
-    (incident-anchor ?actor disinherit ?victim)
-    (log _bonded_incident_disinherit ?actor)))
+    (incident-anchor @self disinherit ?victim)
+    (log _bonded_incident_disinherit @self)))

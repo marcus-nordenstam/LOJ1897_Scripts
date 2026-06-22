@@ -43,10 +43,10 @@
                   ; believes folds to 0/1, so the sums are graded counts; static
                   ; max = 0.10 + 0.15*2 + 0.30*2 = 1.0.
                   (chance (+ 0.10
-                             (* 0.15 (+ (believes @self {@self dislike ?victim})
-                                        (believes @self {@self disdain ?victim})))
-                             (* 0.30 (+ (believes @self {@self detest  ?victim})
-                                        (believes @self {@self despise ?victim})))))))
+                             (* 0.15 (+ (believes {@self dislike ?victim})
+                                        (believes {@self disdain ?victim})))
+                             (* 0.30 (+ (believes {@self detest  ?victim})
+                                        (believes {@self despise ?victim})))))))
 
   (effects
     (incident-anchor @self insult ?victim)

@@ -29,9 +29,9 @@
     ; courtship is the directed pursuit of a specific crush, not a random advance.
     (role @self (template any_human)
                 (>= (years-old @self) 16)
-                (not (believes @self {@self spouse ?}))
-                (not (believes @self {@self fiancee ?}))
-                (believes @self {@self fancy ?})
+                (not (believes {@self spouse ?}))
+                (not (believes {@self fiancee ?}))
+                (believes {@self fancy ?})
                 (chance 0.5))
     (role ?beloved (template any_human)
                   (not (= ?beloved @self))

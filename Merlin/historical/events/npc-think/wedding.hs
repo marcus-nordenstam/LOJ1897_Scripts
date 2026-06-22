@@ -34,7 +34,7 @@
   (roles
     (role @self (template unmarried_man)))
   (nl "@self arranges to wed")
-  (when (and (believes @self {@self fiancee ?})
+  (when (and (believes {@self fiancee ?})
              (not (organizing-occasion [k wedding]))))
   (effects
     (plan-wedding @self (belief-target @self fiancee) 3 11 14)

@@ -15,7 +15,7 @@
 ; IS the obsessive-ex representation, free from the substrate (covert plan
 ; axiom 0). No new "obsession" state.
 ;
-; The incident-anchor mints {?jilter jilt ?jilted} in BOTH minds; the patient
+; The incident-anchor mints {@self jilt ?jilted} in BOTH minds; the patient
 ; cascade (Tasks.mon: abandonment_act + wrong_act) mints grief +
 ; attachment_loss + status_loss + anger + humiliation + injustice in the
 ; jilted - the exact pressure stack the new (affinity attachment_loss coerce)
@@ -24,7 +24,7 @@
 ;
 ; Tuning knobs: the (chance 0.6) jilt-on-betrothal probability. A stance-decay
 ; jilt form (the bond simply cools, no betrothal) is a deferred knob - add a
-; sibling event gated on (not (stance-at-least ?jilter ?jilted fancy)) when
+; sibling event gated on (not (stance-at-least @self ?jilted fancy)) when
 ; the distribution wants it.
 ;
 ; EMERGENT (Section 4.11): no (schedule) - both jilt forms fire via the per-NPC
@@ -36,35 +36,35 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event jilt
-  (nl         "?jilter jilts ?jilted")
+  (nl         "@self jilts ?jilted")
   (rng-stream marriages)
 
   (roles
     ; The jilter: holds BOTH a lover bond and a betrothal (to someone else -
     ; the ?jilted filters enforce the third party).
-    (role ?jilter (template any_human)
-                  (believes ?jilter {@self lover ?})
-                  (believes ?jilter {@self fiancee ?})
+    (role @self (template any_human)
+                  (believes {@self lover ?})
+                  (believes {@self fiancee ?})
                   (chance 0.6))
     ; The jilted: the jilter's lover who is NOT the jilter's fiancee (the
     ; two-bound believes shape wedding.hs uses to recover the groom).
     (role ?jilted (template any_human)
-                  (not (= ?jilted ?jilter))
-                  (believes ?jilter {@self lover ?jilted})
-                  (not (believes ?jilter {@self fiancee ?jilted}))))
+                  (not (= ?jilted @self))
+                  (believes {@self lover ?jilted})
+                  (not (believes {@self fiancee ?jilted}))))
 
   ;; Live re-check: an earlier firing this tick may already have ended the
   ;; jilter's lover bond (one jilt per jilter per tick).
-  (when (believes ?jilter {@self lover ?jilted}))
+  (when (believes {@self lover ?jilted}))
 
   (effects
     ; One-sided ending - ONLY the jilter's belief (see header).
-    (end-belief ?jilter lover ?jilted)
+    (end-belief @self lover ?jilted)
     ; The act-record in both minds + the appraisal cascade in each.
-    (incident-anchor ?jilter jilt ?jilted)
+    (incident-anchor @self jilt ?jilted)
     ; Warmth curdles; attraction is NOT touched (longing persists).
-    (nudge-stance ?jilted ?jilter warmth -0.4)
-    (log _jilt ?jilter)))
+    (nudge-stance ?jilted @self warmth -0.4)
+    (log _jilt @self)))
 
 ; ----------------------------------------------------------------------------
 ; jilt_for_station - the class-ambition jilt (the literal Smith opening).
@@ -81,35 +81,35 @@
 ; ----------------------------------------------------------------------------
 
 (hsim-event jilt_for_station
-  (nl         "?jilter breaks with ?jilted to keep their station")
+  (nl         "@self breaks with ?jilted to keep their station")
   (rng-stream marriages)
 
   (roles
     ; An un-betrothed, unmarried lover-holder of marriageable standing - the
     ; market is open to them the moment the affair ends. decorum-weighted:
     ; the proper feel the impropriety of the mismatch most keenly.
-    (role ?jilter (template any_human)
-                  (believes ?jilter {@self lover ?})
-                  (not (believes ?jilter {@self fiancee ?}))
-                  (not (believes ?jilter {@self spouse ?}))
+    (role @self (template any_human)
+                  (believes {@self lover ?})
+                  (not (believes {@self fiancee ?}))
+                  (not (believes {@self spouse ?}))
                   ;; decorum is a DERIVED conduct dimension (belief), not an
                   ;; env attr - read it through the situation op. An unread
                   ;; dimension contributes 0; the +0.3 base keeps the event
                   ;; alive for the un-derived.
-                  (chance (* 0.15 (+ 0.3 (situation ?jilter decorum)))))
+                  (chance (* 0.15 (+ 0.3 (situation @self decorum)))))
     ; The lover beneath the jilter's station (at least one class below).
     (role ?jilted (template any_human)
-                  (not (= ?jilted ?jilter))
-                  (believes ?jilter {@self lover ?jilted})
-                  (or (and (= (situation ?jilter class_situation) [k upper])
+                  (not (= ?jilted @self))
+                  (believes {@self lover ?jilted})
+                  (or (and (= (situation @self class_situation) [k upper])
                            (not (= (situation ?jilted class_situation) [k upper])))
-                      (and (= (situation ?jilter class_situation) [k middle])
+                      (and (= (situation @self class_situation) [k middle])
                            (= (situation ?jilted class_situation) [k lower])))))
 
-  (when (believes ?jilter {@self lover ?jilted}))
+  (when (believes {@self lover ?jilted}))
 
   (effects
-    (end-belief ?jilter lover ?jilted)
-    (incident-anchor ?jilter jilt ?jilted)
-    (nudge-stance ?jilted ?jilter warmth -0.4)
-    (log _jilt ?jilter)))
+    (end-belief @self lover ?jilted)
+    (incident-anchor @self jilt ?jilted)
+    (nudge-stance ?jilted @self warmth -0.4)
+    (log _jilt @self)))

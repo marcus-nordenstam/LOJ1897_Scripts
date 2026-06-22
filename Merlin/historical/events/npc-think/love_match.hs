@@ -34,14 +34,14 @@
     ; out. The chance on the @self role is rolled once per suitor per window.
     (role @self (template any_human)
                 (>= (years-old @self) 18)
-                (not (believes @self {@self fiancee ?}))
-                (not (believes @self {@self spouse ?}))
+                (not (believes {@self fiancee ?}))
+                (not (believes {@self spouse ?}))
                 (not (= (situation @self repute) [k scandalous]))
                 ;; Fallen-woman gate, class-modulated (late-Victorian model): the
                 ;; respectable classes shut her out of courtship entirely, but
                 ;; working-class communities are pragmatic - a lower-class fall may
                 ;; still wed (the beloved role completes the pair check).
-                (or (not (believes @self {@self prototype fallen_woman}))
+                (or (not (believes {@self prototype fallen_woman}))
                     (= (situation @self class_situation) [k lower]))
                 (chance 0.3))
     (role ?beloved (template any_human)
@@ -55,7 +55,7 @@
                   (or (not (believes ?beloved {@self prototype fallen_woman}))
                       (and (= (situation ?beloved class_situation) [k lower])
                            (= (situation @self    class_situation) [k lower])))
-                  (or (not (believes @self {@self prototype fallen_woman}))
+                  (or (not (believes {@self prototype fallen_woman}))
                       (= (situation ?beloved class_situation) [k lower]))
                   ; the heart of it: @self fancies this person (cross-pair bitset,
                   ; @self the outer believer) ...
@@ -70,10 +70,10 @@
                   ; love-matches ONLY that lover (the widowed affair-partners
                   ; finally marrying), never a third party over them. `lover` is
                   ; mutual, so "@self holds ?beloved as lover" answers both sides.
-                  (or (not (believes @self {@self lover ?}))
-                      (believes @self {@self lover ?beloved}))
+                  (or (not (believes {@self lover ?}))
+                      (believes {@self lover ?beloved}))
                   (or (not (believes ?beloved {@self lover ?}))
-                      (believes @self {@self lover ?beloved}))
+                      (believes {@self lover ?beloved}))
                   ; no marrying blood kin (consanguinity backstop) ...
                   (not (kin @self ?beloved))
                   ; ... opposite-sex (drops any same-sex standing-pass fancy).
@@ -83,7 +83,7 @@
 
   ;; Live un-betrothed re-check (see betrothal.hs): the role filters are
   ;; alpha-indexed and go stale within the window, so re-check at firing.
-  (when (and (not (believes @self    {@self fiancee ?}))
+  (when (and (not (believes    {@self fiancee ?}))
              (not (believes ?beloved {@self fiancee ?}))))
 
   (effects

@@ -112,7 +112,7 @@
 
   (roles
     (role @self (template any_human)
-                (believes @self {@self employer ?})))
+                (believes {@self employer ?})))
 
   (effects
     (review-own-staff @self)))
