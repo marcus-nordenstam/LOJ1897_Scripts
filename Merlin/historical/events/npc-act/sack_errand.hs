@@ -17,15 +17,19 @@
   (intra-day)
   (nl   "@self sets out to dismiss a man")
   (when (and (has-goal sack)
-             (not (self-at (workplace-of @self)))))
+             (bind-target {@self employer ?org})
+             (bind-target {?org workplace ?wp})
+             (not (self-at ?wp))))
   (utility 82)
-  (effects (go @self (workplace-of @self))))
+  (effects (go @self ?wp)))
 
 (hsim-event sack_dwell
   (intra-day)
   (nl   "@self deals with a failing man")
   (when (and (has-goal sack)
-             (self-at (workplace-of @self))))
+             (bind-target {@self employer ?org})
+             (bind-target {?org workplace ?wp})
+             (self-at ?wp)))
   (utility 82)
   (effects (act sack_commit 45)))
 

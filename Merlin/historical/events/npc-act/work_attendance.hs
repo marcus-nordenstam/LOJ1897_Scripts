@@ -4,7 +4,9 @@
 ; The labour market (employment.hs / business.hs / apprenticeship.hs) mints the
 ; employer/job beliefs but never moves anyone; THIS lane is what physically gets
 ; an employed NPC to their workplace during their shift and holds them there.
-; Gated on the employer belief the labour market already mints (`has-job`) + the
+; Gated on the employer belief the labour market already mints - resolved live as the
+; two-hop (bind-target {@self employer ?org}) (bind-target {?org workplace ?wp}); a
+; missing employer/workplace fails the gate (no job -> no commute). Plus the
 ; per-weekday shift hours stamped at hire.
 ;
 ; Two intra-day rules competing by (utility); the intra-day deliberation commits
@@ -22,7 +24,9 @@
 (hsim-event day_work
   (intra-day)
   (nl   "@self works")
-  (when (and (self-at (workplace-of @self))
+  (when (and (bind-target {@self employer ?org})
+             (bind-target {?org workplace ?wp})
+             (self-at ?wp)
              (or (in-work-hours @self) (work-starts-soon @self))))
   (utility 80)
   (effects (stay (minutes-until-shift-end @self))))
@@ -30,8 +34,9 @@
 (hsim-event day_go_to_work
   (intra-day)
   (nl   "@self sets out for work")
-  (when (and (has-job @self)
+  (when (and (bind-target {@self employer ?org})
+             (bind-target {?org workplace ?wp})
              (or (in-work-hours @self) (work-starts-soon @self))
-             (not (self-at (workplace-of @self)))))
+             (not (self-at ?wp))))
   (utility 80)
-  (effects (go @self (workplace-of @self))))
+  (effects (go @self ?wp)))

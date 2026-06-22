@@ -22,15 +22,19 @@
   (intra-day)
   (nl   "@self sets out to give notice")
   (when (and (has-goal quit_work)
-             (not (self-at (workplace-of @self)))))
+             (bind-target {@self employer ?org})
+             (bind-target {?org workplace ?wp})
+             (not (self-at ?wp))))
   (utility 85)
-  (effects (go @self (workplace-of @self))))
+  (effects (go @self ?wp)))
 
 (hsim-event retire_dwell
   (intra-day)
   (nl   "@self gives notice at work")
   (when (and (has-goal quit_work)
-             (self-at (workplace-of @self))))
+             (bind-target {@self employer ?org})
+             (bind-target {?org workplace ?wp})
+             (self-at ?wp)))
   (utility 85)
   (effects (act retire_commit 60)))
 

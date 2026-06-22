@@ -14,15 +14,19 @@
   (intra-day)
   (nl   "@self sets out to advance a man")
   (when (and (has-goal promote_staff)
-             (not (self-at (workplace-of @self)))))
+             (bind-target {@self employer ?org})
+             (bind-target {?org workplace ?wp})
+             (not (self-at ?wp))))
   (utility 82)
-  (effects (go @self (workplace-of @self))))
+  (effects (go @self ?wp)))
 
 (hsim-event promote_dwell
   (intra-day)
   (nl   "@self reviews a worthy man")
   (when (and (has-goal promote_staff)
-             (self-at (workplace-of @self))))
+             (bind-target {@self employer ?org})
+             (bind-target {?org workplace ?wp})
+             (self-at ?wp)))
   (utility 82)
   (effects (act promote_commit 45)))
 
