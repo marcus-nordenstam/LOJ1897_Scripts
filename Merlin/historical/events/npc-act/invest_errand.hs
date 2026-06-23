@@ -1,44 +1,42 @@
 ; ----------------------------------------------------------------------------
 ; invest_errand - the npc-ACT half of the investment split (Item 5).
 ;
-; The decision (business.hs `investment`) minted {@self goal {@self back
-; <candidate>}} on the BACKER. He calls on the candidate and the backing is sealed
-; there: {<candidate> backed_by @self}. The candidate is the goal focus; the backer
-; navigates to the home he ALREADY KNOWS - his OWN belief {?candidate home ?h},
-; mirrored when they became acquainted (no telepathy). An unknown address fails the
-; bind and the call cannot be made (directory lookup is future work).
+; The decision (business.hs `investment`) minted {@self goal {@self back <org>}} on
+; the CLERK, where <org> is his own employer (the goal focus). He calls on the firm -
+; the workplace he already attends - and the backing is sealed there: {@self backed_by
+; <org>}. The destination is the org's `workplace` belief (the same bind work_attendance
+; uses), so no telepathy and no address lookup.
 ;
-;   invest_go     : hold the goal, not at the candidate's home -> travel act.
-;   invest_dwell  : hold the goal, AT the candidate's home -> a short dwell.
-;   invest_commit : completion (completion-only) - records {<candidate> backed_by @self}
-;                   (subject = the candidate via goal-focus, target = the backer)
-;                   + clears the goal.
+;   invest_go     : hold the goal, not at the firm -> travel act to its workplace.
+;   invest_dwell  : hold the goal, AT the firm -> a short dwell (the proposal).
+;   invest_commit : completion (completion-only) - records {@self backed_by <org>}
+;                   (the org via goal-focus) + clears the goal.
 ; ----------------------------------------------------------------------------
 
 (hsim-event invest_go
   (intra-day)
-  (nl   "@self calls on a promising man")
-  (let ((?candidate (goal-focus back)))
+  (nl   "@self calls on their employer for backing")
+  (let ((?org (goal-focus back)))
     (when (and (has-goal back)
-               (bind {?candidate home ?cand_home})
-               (not (at-place ?cand_home))))
+               (bind {?org workplace ?wp})
+               (not (at-place ?wp))))
     (utility 60)
-    (effects (go @self ?cand_home))))
+    (effects (go @self ?wp))))
 
 (hsim-event invest_dwell
   (intra-day)
-  (nl   "@self discusses a venture")
-  (let ((?candidate (goal-focus back)))
+  (nl   "@self proposes a venture to their employer")
+  (let ((?org (goal-focus back)))
     (when (and (has-goal back)
-               (bind {?candidate home ?cand_home})
-               (at-place ?cand_home)))
+               (bind {?org workplace ?wp})
+               (at-place ?wp)))
     (utility 60)
     (effects (act invest_commit 45))))
 
 (hsim-event invest_commit
   (schedule (completion-only))
-  (nl   "@self backs a venture")
+  (nl   "@self secures backing")
   (effects
-    (begin-belief (goal-focus back) backed_by @self)
+    (begin-belief @self backed_by (goal-focus back))
     (clear-goal @self back)
     (log _investment @self)))

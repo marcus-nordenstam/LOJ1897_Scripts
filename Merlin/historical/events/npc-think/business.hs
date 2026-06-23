@@ -38,53 +38,45 @@
 
 (include "../../definitions/roles.hs")
 
-; --- investment: a backer puts up founding capital for a worthy man ---------
+; --- investment: a worthy clerk secures his employer's backing -------------
 (hsim-event investment
   (sim-window-start)
-  (nl         "?investor backs ?candidate's venture")
+  (nl         "@self resolves to seek backing to set up in business")
   (rng-stream business)
 
-  ; SELF-POV (telepathy purge CAT-2): the BACKER is the sole deliberator. @self
-  ; reads his OWN means, then judges a candidate he KNOWS from his OWN view of
-  ; the man (3-arg (situation ?candidate <dim> @self) - diligence / repute / wealth
-  ; banded in via believe_about). A candidate the backer has never met @fails the
-  ; positive merit gates and is not backed - backing is grounded in acquaintance.
+  ; SELF-POV (reframe 2026-06-23): the worthy CLERK is the deliberator and seeks his
+  ; own EMPLOYER's backing to set up on his own account. The employer-employee bond is
+  ; the KNOWN connection (both already know each other), so there is no blind candidate
+  ; scan and no telepathy. This replaces the old backer-scans-all-candidates form, which
+  ; never connected - a backer almost never KNEW an eligible clerk, so the candidate's
+  ; banded diligence/repute @failed: 628k futile candidate-evals / 0 backings, and a
+  ; 450ms+ per-run perf hog. @self weighs his OWN merit + means here, exactly like
+  ; business_partnership (which fires healthily). A backed clerk then founds his own
+  ; business via business_founding's `backed_by` means-branch.
   (roles
-    ; A man of means - comfortable or better - who decides to back a worthy man.
+    ; A merit-and-character clerk of working age who cannot self-fund and is not yet
+    ; backed. The backing firm is his employer, resolved in the effect via
+    ; (target {@self employer}). Float 0..1 dim thresholds - see the partnership note.
     (role @self (template old_human)
-                (or (believes {@self economic_situation [k comfortable]})
-                    (believes {@self economic_situation [k prosperous]})
-                    (believes {@self economic_situation [k wealthy]})))
-    ; A merit-and-character man of working age who cannot self-fund and is not
-    ; already backed - judged from the backer's own knowledge of him.
-    ; Dimensions are float 0..1 post-normalisation (the old 0..100 thresholds
-    ; could never pass - investment/partnership/founding silently never fired;
-    ; the homeostat masked it). NB the old (not org_head) rank gate is dropped:
-    ; job-LEVEL is not a banded fact, so the backer cannot know it; "has a job +
-    ; wealth < 0.5" already stands in for "a clerk, not a proprietor".
-    (role ?candidate (template old_human)
-                     (not (= ?candidate @self))
-                     (>= (years-old ?candidate) 25)
-                     (<= (years-old ?candidate) 55)
-                     (believes {?candidate job ?})
-                     (>= (target {?candidate diligence}) 0.55)
-                     (or (believes {?candidate repute [k respectable]})
-                         (believes {?candidate repute [k exemplary]}))
-                     (< (target {?candidate wealth}) 0.5)
-                     ; Not already backed - read from the BACKER's OWN knowledge
-                     ; ({backed_by} is banded in via believe_about), no mind peek.
-                     ; Permissive on the unknown: a same-tick double-back is left
-                     ; to a future public-blackboard claim, not a telepathic read.
-                     (not (believes {?candidate backed_by ?}))
-                     ; /12 of the old annual 0.40 (now monthly).
-                     (chance (* 0.033 (+ 0.5 (attr ?candidate assertiveness))))))
+                (>= (years-old @self) 25)
+                (<= (years-old @self) 55)
+                (believes {@self employer ?})
+                (not (= (job-level @self) [k org_head]))
+                (>= (target {@self diligence}) 0.55)
+                (or (believes {@self repute [k respectable]})
+                    (believes {@self repute [k exemplary]}))
+                (< (target {@self wealth}) 0.5)
+                (not (believes {@self backed_by ?}))
+                ; /12 of the old annual 0.40 (now monthly).
+                (chance (* 0.033 (+ 0.5 (attr @self assertiveness))))))
 
-  ; SPLIT (Item 5): the npc-think - the BACKER decides to back the candidate. Mints
-  ; {@self goal {@self back ?candidate}}; the npc-act (invest_errand.hs)
-  ; sends the investor to call on the candidate and the completion records the
-  ; {candidate backed_by investor} there. (goal) is idempotent.
+  ; npc-think: the clerk resolves to secure his employer's backing. Mints {@self goal
+  ; {@self back ?org}} (focus = the employer firm); the npc-act (invest_errand.hs)
+  ; sends him to the firm and the completion records {@self backed_by ?org} there.
+  ; (goal) is idempotent. (`back` label reused as the clerk's pursue-backing goal.)
+  ; Focus = the employer firm, read inline from @self's own employer belief.
   (effects
-    (goal @self back ?candidate)))
+    (goal @self back (target {@self employer}))))
 
 ; --- business_partnership: an established proprietor takes on a co-owner ----
 ; SELF-POV (telepathy purge CAT-2): the clerk is the sole deliberator - he weighs
