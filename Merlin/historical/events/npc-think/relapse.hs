@@ -29,12 +29,12 @@
   (rng-stream behaviour)
   (roles
     (role @self (template grown)))
-  (when (and (= (belief-target @self craving) [k alcohol])
+  (when (and (= (target {@self craving}) [k alcohol])
              (chance
                (* 0.30                                                  ; base daily relapse
                   (+ 0.60 (* 0.80 (attr @self withdrawal)))              ; distress drives relapse
                   (+ 0.70 (* 0.60 (- 1.0 (attr @self industriousness)))) ; weak restraint
-                  (- 1.3 (* 0.6 (situation @self piety)))                ; piety resists
-                  (- 1.3 (* 0.6 (situation @self belonging)))))))        ; belonging resists
+                  (- 1.3 (* 0.6 (target {@self piety})))                ; piety resists
+                  (- 1.3 (* 0.6 (target {@self belonging})))))))        ; belonging resists
   (effects
     (goal @self drink)))

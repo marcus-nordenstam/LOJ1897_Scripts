@@ -40,6 +40,7 @@
 
 ; --- investment: a backer puts up founding capital for a worthy man ---------
 (hsim-event investment
+  (sim-window-start)
   (nl         "?investor backs ?candidate's venture")
   (rng-stream business)
 
@@ -90,6 +91,7 @@
 ; his OWN standing (diligence / repute / wealth, all self-beliefs) and resolves to
 ; buy into a firm. @self, no counterpart mind is read.
 (hsim-event business_partnership
+  (sim-window-start)
   (nl         "@self is taken into partnership")
   (rng-stream business)
 
@@ -140,6 +142,7 @@
 ; bank, by the man himself, leaving the founding documents (the clue trail) and the
 ; co-presence a witness would see, instead of a faceless world-lane edit.
 (hsim-event business_founding
+  (sim-window-start)
   (nl         "?founder resolves to set up in business")
   (rng-stream business)
 

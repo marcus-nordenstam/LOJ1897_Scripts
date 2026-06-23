@@ -47,6 +47,7 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event bonded_incident_disinherit
+  (sim-window-start)
   (nl       "@self disinherits ?victim")
   (rng-stream incidents)
 

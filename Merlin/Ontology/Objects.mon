@@ -466,9 +466,9 @@ object (+ obs)
                 residential_building
                     manor
                     cottage
+                    townhouse
                     terrace
-                        townhouse
-                    tenement
+                        tenement
                     farmhouse
                     chapel
                 commercial_building

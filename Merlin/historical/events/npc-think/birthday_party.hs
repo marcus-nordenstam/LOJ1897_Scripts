@@ -36,8 +36,8 @@
     ;; multiplicative on enthusiasm so outgoing hosts engage more than withdrawn
     ;; ones, /12'd to the monthly window cadence, rolled once per host per window.
     (role @self (template any_human)
-                (or (= (situation @self life_aim) belonging_aim)
-                    (= (situation @self life_aim) respectability_aim)
+                (or (believes {@self life_aim belonging_aim})
+                    (believes {@self life_aim respectability_aim})
                     (believes {@self identity parent_role}))
                 (chance (* 0.0667 (attr @self enthusiasm))))
     (role ?guest (template any_human)

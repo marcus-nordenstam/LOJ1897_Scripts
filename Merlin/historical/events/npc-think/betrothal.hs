@@ -15,6 +15,7 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event betrothal
+  (sim-window-start)
   (nl         "@self and ?bride are betrothed")
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY, so the per-bride (chance) is /12 of the old annual 0.25 (-> 0.0208)

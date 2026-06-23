@@ -16,6 +16,7 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event apprenticeship_start
+  (sim-window-start)
   (nl         "?youth is apprenticed")
   (rng-stream apprenticeship)
 

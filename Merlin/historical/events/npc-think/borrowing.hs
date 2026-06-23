@@ -12,6 +12,7 @@
 ; (relational: debtor + a non-self creditor, no co-presence), MONTHLY now, so the
 ; debtor (chance) base is /12 (0.06 -> 0.005) to hold the annual borrowing volume.
 (hsim-event borrowing
+  (sim-window-start)
   (nl         "@self borrows from ?creditor")
   (rng-stream behaviour)
 

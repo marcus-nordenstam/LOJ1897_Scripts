@@ -39,6 +39,7 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event bonded_incident_urge
+  (sim-window-start)
   (nl       "@self urges ?victim to atone")
   (rng-stream incidents)
 

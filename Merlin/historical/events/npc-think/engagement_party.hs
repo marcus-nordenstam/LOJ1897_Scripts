@@ -18,6 +18,7 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event engagement_party
+  (sim-window-start)
   (nl         "@self and ?bride celebrate their engagement")
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY. The (belief-age ?bride fiancee) == 0 gate (whole years) holds while

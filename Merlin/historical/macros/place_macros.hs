@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; place_macros.hs - "am I at <place>" predicates, as def-macros.
+; place_macros.hs - "am I at <place>" predicates, as define-macros.
 ;
 ; These replace the old (self-at ...) C++ op. Each expands to pure belief reads
 ; over the deliberating NPC's OWN mind (no telepathy, no objective-hierarchy
@@ -22,7 +22,7 @@
 ; `bind` PRODUCES the free ?home (my home address-space); `believes` is the
 ; fully-bound existence test ("is ?home my current location") - bind rejects a
 ; fully-bound field, that is what believes is for.
-(def-macro at-home ()
+(define-macro at-home ()
   (and (bind {@self home ?home})
        (believes @self {@self location ?home})))
 
@@ -31,7 +31,7 @@
 ; whose enclosing building is ?place (a workplace / venue building). Both arms are
 ; fully-bound existence tests (?place is the bound argument) -> believes; the room
 ; arm first PRODUCES the free ?room with bind.
-(def-macro at-place (?place)
+(define-macro at-place (?place)
   (or (believes @self {@self location ?place})
       (and (bind {@self location ?room})
            (believes @self {?room building ?place}))))
@@ -40,6 +40,6 @@
 ; of the given kind (pub / church / bank / school / social_clubhouse / ...). Both
 ; clauses PRODUCE a free var (the room, then the kind-cast building), so bind is
 ; correct here - the `[k ..]:?var` kind-cast is a producing bind, not a constraint.
-(def-macro at-place-kind (?kind)
+(define-macro at-place-kind (?kind)
   (and (bind {@self location ?room})
        (bind {?room building ?kind:?bldg})))

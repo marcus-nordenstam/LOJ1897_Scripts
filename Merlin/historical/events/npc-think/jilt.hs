@@ -36,6 +36,7 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event jilt
+  (sim-window-start)
   (nl         "@self jilts ?jilted")
   (rng-stream marriages)
 
@@ -81,6 +82,7 @@
 ; ----------------------------------------------------------------------------
 
 (hsim-event jilt_for_station
+  (sim-window-start)
   (nl         "@self breaks with ?jilted to keep their station")
   (rng-stream marriages)
 

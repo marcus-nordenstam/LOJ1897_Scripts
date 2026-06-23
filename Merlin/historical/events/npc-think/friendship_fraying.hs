@@ -30,6 +30,7 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event friendship_fraying
+  (sim-window-start)
   (nl       "?a and ?b drift apart")
   (rng-stream friendships)
 

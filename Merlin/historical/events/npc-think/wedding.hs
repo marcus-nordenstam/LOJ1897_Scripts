@@ -37,5 +37,5 @@
   (when (and (believes {@self fiancee ?})
              (not (organizing-occasion [k wedding]))))
   (effects
-    (plan-wedding @self (belief-target @self fiancee) 3 11 14)
+    (plan-wedding @self (target {@self fiancee}) 3 11 14)
     (log _plan_wedding @self)))

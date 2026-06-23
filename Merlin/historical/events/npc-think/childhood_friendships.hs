@@ -19,6 +19,7 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event childhood_friendship
+  (sim-window-start)
   (nl         "?a and ?b become childhood friends")
   (rng-stream friendships)
 

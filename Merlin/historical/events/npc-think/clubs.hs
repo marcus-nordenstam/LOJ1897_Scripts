@@ -53,6 +53,7 @@
 ;; cached belief is missing - a new adult appraised before december still
 ;; reads @fail and is not excluded by the (not (= ...)) form.
 (hsim-event club_joining
+  (sim-window-start)
   (nl         "@self joins a club")
   (rng-stream behaviour)
 

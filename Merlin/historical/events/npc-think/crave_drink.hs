@@ -33,7 +33,7 @@
   (rng-stream behaviour)
   (roles
     (role @self (template grown)))
-  (when (and (not (= (belief-target @self craving) [k alcohol]))
+  (when (and (not (= (target {@self craving}) [k alcohol]))
              (chance
                (* 0.014                                                  ; base daily rate
                   (+ 0.55 (* 0.90 (- 1.0 (attr @self industriousness)))) ; low industriousness
@@ -41,9 +41,9 @@
                   (+ 0.70 (* 0.60 (attr @self volatility)))              ; reactive drinking
                   (+ 0.70 (* 0.60 (attr @self enthusiasm)))              ; social drinking
                   (+ 0.70 (* 0.60 (attr @self withdrawal)))              ; self-medication
-                  (- 1.5 (situation @self wealth))                       ; low wealth -> stress
-                  (- 1.5 (situation @self piety))                        ; low piety -> less protection
-                  (- 1.5 (situation @self belonging))))))                ; low belonging -> less protection
+                  (- 1.5 (target {@self wealth}))                       ; low wealth -> stress
+                  (- 1.5 (target {@self piety}))                        ; low piety -> less protection
+                  (- 1.5 (target {@self belonging}))))))                ; low belonging -> less protection
   (effects
     (goal @self drink)))
 

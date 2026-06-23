@@ -44,7 +44,7 @@
                 (chance (* 0.04
                            (attr @self openness)
                            (attr @self enthusiasm)
-                           (- 1 (situation @self decorum)))))
+                           (- 1 (target {@self decorum})))))
     (role ?lover (template any_human)
                  (not (= ?lover @self))
                  (>= (years-old ?lover) 18)
