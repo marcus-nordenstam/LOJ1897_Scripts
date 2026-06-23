@@ -19,7 +19,7 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event advantageous_match
-  (nl         "?groom and ?bride make an advantageous match")
+  (nl         "@self and ?bride make an advantageous match")
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY; the per-bride (chance) is scaled by /12 (the *0.0833 wrapper) to hold
   ; the old annual rate.
@@ -38,48 +38,47 @@
     ;; class compatibility on the groom side) are already substrate-
     ;; rooted, so the multiplicative chance just adds a smooth
     ;; trait-driven gradient on top.
+    ;; SELF-POV (telepathy purge CAT-3): @self the GROOM is the deliberator (light
+    ;; @self template + inline gates; the man proposes). He marries DOWN one class to
+    ;; an exemplary woman he KNOWS - her exemplary repute / class read from his own
+    ;; view ((situation ?bride <dim> @self)), her availability his own belief. The
+    ;; (chance) (trait-graded by HIS outgoingness) paces it; selectivity is the
+    ;; exemplary-bride + one-class-down + age gates.
+    (role @self (template adult)
+                (= (attr @self gender) [k male])
+                (not (believes {@self spouse ?}))
+                (not (believes {@self fiancee ?}))
+                (not (believes {@self repute [k scandalous]}))
+                (not (believes {@self repute [k disreputable]}))
+                ; Additive form so the chance product stays in [0.2, 1.0].
+                (chance (* 0.0833
+                           (+ 0.20
+                              (* 0.4 (attr @self enthusiasm))
+                              (* 0.4 (attr @self openness))))))
+    ;; An exemplary bride one class BELOW the groom (spotless reputation lifts her).
+    ;; class_situation values are upper / middle / lower; the explicit kind literals
+    ;; dodge the ambiguous bare-atom path. The (or ...) encodes the two valid lifts.
     (role ?bride (template unmarried_woman)
-                 (not (believes ?this {@self fiancee ?}))
-                 (= (situation ?this repute) [k exemplary])
-                 ; Additive form so the chance product stays in [0.2, 1.0]
-                 ; - keeps the static-bound analyser happy and produces a
-                 ; meaningful base rate even for modal-trait brides. The
-                 ; full event is still bottlenecked by the very-tight
-                 ; exemplary bride + one-class-up groom + age-gap filter,
-                 ; so high fire rates aren't expected anyway.
-                 (chance (* 0.0833
-                            (+ 0.20
-                               (* 0.4 (attr ?this enthusiasm))
-                               (* 0.4 (attr ?this openness))))))
-    ;; A groom one class above the bride. class_situation values are upper /
-    ;; middle / lower; the explicit kind literals dodge the ambiguous bare
-    ;; atom path. Lower-class brides can lift to middle; middle to upper.
-    ;; An upper-class bride uses the ordinary betrothal pathway. The (or ...)
-    ;; encodes the two valid class-lifts.
-    (role ?groom (template unmarried_man)
-                 (not (believes ?this {@self fiancee ?}))
-                 (not (= (situation ?this repute) [k scandalous]))
-                 (not (= (situation ?this repute) [k disreputable]))
-                 (or (and (= (situation ?bride class_situation) [k lower])
-                          (= (situation ?this  class_situation) [k middle]))
-                     (and (= (situation ?bride class_situation) [k middle])
-                          (= (situation ?this  class_situation) [k upper])))
-                 (<= (- (years-old ?this) (years-old ?bride))  15)
-                 (>= (- (years-old ?this) (years-old ?bride)) -15)
+                 (not (= ?bride @self))
+                 (not (believes {?bride fiancee ?}))
+                 (believes {?bride repute [k exemplary]})
+                 (or (and (believes {@self class_situation [k middle]})
+                          (believes {?bride class_situation [k lower]}))
+                     (and (believes {@self class_situation [k upper]})
+                          (believes {?bride class_situation [k middle]})))
+                 (<= (- (years-old @self) (years-old ?bride))  15)
+                 (>= (- (years-old @self) (years-old ?bride)) -15)
                  ;; No marrying blood kin (see betrothal.hs) - reliable kin
                  ;; cross-pair BITSET.
-                 (not (kin ?bride ?groom))))
+                 (not (kin @self ?bride))))
 
-  ;; Live exclusivity re-check (see betrothal.hs): the un-betrothed role filters
-  ;; are alpha-indexed and go stale within the february tick, so without this a
-  ;; groom claimed by an earlier exemplary bride this tick could be claimed
-  ;; again. The when_gate is evaluated live per firing; the sampler backtracks.
-  (when (and (not (believes ?groom {@self fiancee ?}))
-             (not (believes ?bride {@self fiancee ?}))))
+  ;; Live exclusivity re-check (see betrothal.hs), from the groom's OWN beliefs.
+  (when (and (not (believes {@self fiancee ?}))
+             (not (believes {?bride fiancee ?}))))
 
   (effects
-    (begin-belief ?groom fiancee ?bride)
-    (begin-belief ?bride fiancee ?groom)
-    (believe-about ?groom ?bride)
-    (believe-about ?bride ?groom)
-    (log _advantageous_match ?groom)))
+    (begin-belief @self fiancee ?bride)
+    (begin-belief ?bride fiancee @self)
+    (believe-about @self ?bride)
+    (believe-about ?bride @self)
+    (log _advantageous_match @self)))

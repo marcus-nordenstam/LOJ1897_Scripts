@@ -92,19 +92,20 @@
                   (believes {@self lover ?})
                   (not (believes {@self fiancee ?}))
                   (not (believes {@self spouse ?}))
-                  ;; decorum is a DERIVED conduct dimension (belief), not an
-                  ;; env attr - read it through the situation op. An unread
-                  ;; dimension contributes 0; the +0.3 base keeps the event
-                  ;; alive for the un-derived.
-                  (chance (* 0.15 (+ 0.3 (situation @self decorum)))))
+                  ;; decorum is a DERIVED conduct dimension (belief) read from @self's
+                  ;; own mind via (target {...}). An unread dimension contributes 0;
+                  ;; the +0.3 base keeps the event alive for the un-derived.
+                  (chance (* 0.15 (+ 0.3 (target {@self decorum})))))
     ; The lover beneath the jilter's station (at least one class below).
     (role ?jilted (template any_human)
                   (not (= ?jilted @self))
                   (believes {@self lover ?jilted})
-                  (or (and (= (situation @self class_situation) [k upper])
-                           (not (= (situation ?jilted class_situation) [k upper])))
-                      (and (= (situation @self class_situation) [k middle])
-                           (= (situation ?jilted class_situation) [k lower])))))
+                  ;; @self reads the jilted lover's class from his OWN belief about him
+                  ;; (he knows his lover intimately, so it is banded in).
+                  (or (and (believes {@self class_situation [k upper]})
+                           (not (believes {?jilted class_situation [k upper]})))
+                      (and (believes {@self class_situation [k middle]})
+                           (believes {?jilted class_situation [k lower]})))))
 
   (when (believes {@self lover ?jilted}))
 

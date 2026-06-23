@@ -41,31 +41,34 @@
                 (not (believes {@self fiancee ?}))
                 (not (believes {@self lover ?}))
                 (chance 0.2))
+    ;; SELF-POV (telepathy purge CAT-3): @self reads ?b's free/attached state from
+    ;; his OWN knowledge (permissive on the unknown), and ?b's reciprocation as SHE
+    ;; signalled it (confess_fancy). No cross-mind read.
     (role ?b (template any_human)
              (not (= ?b @self))
              (>= (years-old ?b) 18)
-             (not (believes ?b {@self spouse ?}))
-             (not (believes ?b {@self fiancee ?}))
-             (not (believes ?b {@self lover ?}))
+             (not (believes {?b spouse ?}))
+             (not (believes {?b fiancee ?}))
+             (not (believes {?b lover ?}))
              ; @self is attracted to ?b (cross-pair bitset, @self the outer
              ; believer) ...
              (stance-at-least @self ?b fancy)
-             ; ... and ?b reciprocates - at least fond of, or drawn to, @self (the
-             ; reverse direction: an (or ...) of believes residues so the pairing is
-             ; never unrequited; @self is the target = the deliberating actor).
-             (or (believes ?b {?b like  @self})
-                 (believes ?b {?b adore @self})
-                 (believes ?b {?b fancy @self})
-                 (believes ?b {?b desire @self}))
+             ; ... and ?b reciprocates - she has TOLD HIM she fancies him
+             ; (confess_fancy minted {?b fancy @self} in his mind), so the pairing
+             ; is never unrequited. (The old warmth-only reciprocity is dropped: a
+             ; lover bond is built on attraction, and warmth she never voiced cannot
+             ; be read without a mind peek.)
+             (believes {?b fancy @self})
              ; opposite-sex (fancy is opposite-sex via crush_forms; belt-and-
              ; braces, and drops any same-sex standing-pass fancy) and not kin.
              (not (= (attr ?b gender) (attr @self gender)))
              (not (kin @self ?b))))
 
   ;; Live re-check: within the window the un-attached role filters go stale as
-  ;; earlier firings mint lover bonds; re-confirm both are still free.
+  ;; earlier firings mint lover bonds; re-confirm both are still free - from @self's
+  ;; OWN beliefs (his own bond, and what he knows of ?b's).
   (when (and (not (believes {@self lover ?}))
-             (not (believes ?b   {@self lover ?}))))
+             (not (believes {?b   lover ?}))))
 
   (effects
     ; Reciprocal lover bond + mutual profile sync (mirrors betrothal's shape so

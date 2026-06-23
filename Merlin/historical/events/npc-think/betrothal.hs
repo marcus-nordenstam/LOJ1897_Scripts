@@ -15,7 +15,7 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event betrothal
-  (nl         "?groom and ?bride are betrothed")
+  (nl         "@self and ?bride are betrothed")
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY, so the per-bride (chance) is /12 of the old annual 0.25 (-> 0.0208)
   ; to hold the annual betrothal rate. Betrothals spread year-round now (the
@@ -24,78 +24,57 @@
   ; monthly; engagement_party announces in the short gap between.
   (rng-stream marriages)
 
+  ;; SELF-POV (telepathy purge CAT-3): @self the GROOM is the deliberator (the POV
+  ;; NPC is bound, never enumerated; he uses a LIGHT @self template + inline gates -
+  ;; the heavy unmarried_man template is for BINDING roles). He proposes to a bride
+  ;; he KNOWS, judging her ONLY from his own knowledge: her repute / class /
+  ;; reputed_chastity as banded in via the venue acquaintance channel
+  ;; ((situation ?bride <dim> @self)), her availability as his own belief
+  ;; ((believes {?bride <label> ?}), permissive on the unknown). The market reads
+  ;; `repute` / `reputed_chastity` - what has LEAKED - never secret self-values.
   (roles
-    ;; The (chance 0.25) filter rolls per-bride before any groom search runs,
-    ;; so we don't burn the sampler on brides who won't betroth this year.
-    ;; Respectability matters: a scandalous OR disreputable bride is socially
-    ;; un-marriageable - both are filtered out, the strong-negative the plan
-    ;; calls for. The (not (= ...)) form is permissive when the cached belief
-    ;; is missing (a young woman appraised before her first december cycle
-    ;; reads @fail, not scandalous, and is not excluded). A low chastity
-    ;; dimension is catastrophic for a woman - the F3 chastity base is 85 and
-    ;; drops by 30 per extra-marital partner, so the 50 floor blocks anyone
-    ;; with more than one such past. The chastity filter is permissive when
-    ;; the dimension is unread (returns @fail, which falls through < 50 as
-    ;; non-numeric -> false comparison, so the (or ...) catches it).
-    ;; The market
-    ;; reads `repute` / `reputed_chastity` - what has LEAKED - never the
-    ;; secret-inclusive self-derived values. A held secret costs nothing
-    ;; here; its exposure would - that delta is the blackmail stake.
+    (role @self (template adult)
+                (= (attr @self gender) [k male])
+                (not (believes {@self spouse ?}))
+                (not (believes {@self fiancee ?}))
+                ;; A same-station lover keeps him out of the arranged market (such
+                ;; pairs wed via love_match); a lover beneath/above his station is no
+                ;; impediment. He knows his OWN lover's class. No lover -> @fail ->
+                ;; the (and ...) is false -> eligible.
+                (not (and (believes {@self lover ?})
+                          (= (target {(target {@self lover}) class_situation})
+                             (target {@self class_situation}))))
+                (not (believes {@self repute [k scandalous]}))
+                (not (believes {@self repute [k disreputable]}))
+                (chance 0.0208))
     (role ?bride (template unmarried_woman)
-                 (not (believes ?this {@self fiancee ?}))
-                 ;; A lover bond keeps one out of the arranged market ONLY when
-                 ;; the lover is a VIABLE match (same station) - such pairs wed
-                 ;; via love_match instead, and widows are never handed arranged
-                 ;; rematches over a living, marriageable lover. A lover beneath
-                 ;; (or above) one's station is NO impediment in the family's
-                 ;; eyes: the arranged match proceeds OVER the secret affair -
-                 ;; the Madeleine Smith collision (engagement -> jilt attempt ->
-                 ;; the letters become blackmail) that the jilt machinery consumes.
-                 ;; No lover -> belief-target reads @fail -> the (and ...) is
-                 ;; false -> eligible.
-                 (not (and (believes ?this {@self lover ?})
-                           (= (situation (belief-target ?this lover) class_situation)
-                              (situation ?this class_situation))))
-                 (not (= (situation ?this repute) [k scandalous]))
-                 (not (= (situation ?this repute) [k disreputable]))
-                 ;; A fallen woman (divorced for adultery) is shut out of the
-                 ;; respectable market absolutely - no decorum or chastity
-                 ;; recovery readmits her.
-                 (not (believes ?this {@self prototype [k fallen_woman]}))
-                 (or (>= (situation ?this reputed_chastity) 0.5)
-                     (not (believes ?this {@self reputed_chastity ?})))
-                 (chance 0.0208))
-    (role ?groom (template unmarried_man)
-                 (not (believes ?this {@self fiancee ?}))
-                 (not (and (believes ?this {@self lover ?})
-                           (= (situation (belief-target ?this lover) class_situation)
-                              (situation ?this class_situation))))
-                 (not (= (situation ?this repute) [k scandalous]))
-                 (not (= (situation ?this repute) [k disreputable]))
-                 (= (situation ?this class_situation) (situation ?bride class_situation))
-                 (<= (- (years-old ?this) (years-old ?bride))  15)
-                 (>= (- (years-old ?this) (years-old ?bride)) -15)
-                 ;; No marrying blood kin. A brother is same-class + similar-age,
-                 ;; so without this the arranged matcher could betroth siblings.
-                 ;; Reliable kin cross-pair BITSET.
-                 (not (kin ?bride ?groom))))
+                 (not (= ?bride @self))
+                 ;; Not already spoken-for (he avoids a woman he KNOWS is engaged or
+                 ;; attached; a secret he has not heard does not stop the match).
+                 (not (believes {?bride fiancee ?}))
+                 (not (believes {?bride lover ?}))
+                 ;; A fallen woman (divorced for adultery) is shut out absolutely.
+                 (not (believes {?bride prototype [k fallen_woman]}))
+                 (not (believes {?bride repute [k scandalous]}))
+                 (not (believes {?bride repute [k disreputable]}))
+                 (or (>= (target {?bride reputed_chastity}) 0.5)
+                     (not (believes {?bride reputed_chastity})))
+                 (= (target {?bride class_situation}) (target {@self class_situation}))
+                 (<= (- (years-old @self) (years-old ?bride))  15)
+                 (>= (- (years-old @self) (years-old ?bride)) -15)
+                 ;; No marrying blood kin (reliable kin cross-pair BITSET).
+                 (not (kin @self ?bride))))
 
-  ;; Exclusivity re-check at FIRING time. The role "un-betrothed" filters are
-  ;; alpha-indexed (a discriminator bitset built once when the event starts),
-  ;; so within a single january tick they go stale: bride #2 still sees a groom
-  ;; that bride #1 already betrothed this tick, and one man ends up with several
-  ;; fiancees. The when_gate is evaluated LIVE per firing (after prior firings'
-  ;; effects commit), so re-checking here catches the within-tick collision;
-  ;; the sampler then backtracks to a still-single groom.
-  (when (and (not (believes ?groom {@self fiancee ?}))
-             (not (believes ?bride {@self fiancee ?}))))
+  ;; Exclusivity re-check at FIRING time, from the groom's OWN beliefs (his own
+  ;; engagement + what he knows of hers). A same-tick double-betroth by two grooms
+  ;; who BOTH do not yet know is left to a future public-blackboard claim.
+  (when (and (not (believes {@self fiancee ?}))
+             (not (believes {?bride fiancee ?}))))
 
   (effects
-    (begin-belief ?groom fiancee ?bride)
-    (begin-belief ?bride fiancee ?groom)
-    ; Each betrothed learns the other's social profile (identity attrs,
-    ; personality, class, birth_date, home, job, immediate kin)
-    ; - see hsim::believe_about for the full set.
-    (believe-about ?groom ?bride)
-    (believe-about ?bride ?groom)
-    (log _betrothal ?groom)))
+    (begin-belief @self fiancee ?bride)
+    (begin-belief ?bride fiancee @self)
+    ; Each betrothed learns the other's social profile - see hsim::believe_about.
+    (believe-about @self ?bride)
+    (believe-about ?bride @self)
+    (log _betrothal @self)))

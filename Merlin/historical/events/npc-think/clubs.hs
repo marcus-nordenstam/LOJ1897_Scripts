@@ -53,27 +53,33 @@
 ;; cached belief is missing - a new adult appraised before december still
 ;; reads @fail and is not excluded by the (not (= ...)) form.
 (hsim-event club_joining
-  (nl         "?member joins a club")
+  (nl         "@self joins a club")
   (rng-stream behaviour)
 
   (roles
-    ; An adult who belongs to fewer than two clubs takes up another.
-    (role ?member (template old_human)
-                  (>= (years-old ?this) 18)
-                  (< (count-beliefs ?this member_of) 2)
-                  (not (= (situation ?this repute) [k scandalous]))
-                  (not (= (situation ?this repute) [k disreputable]))
-                  (chance 0.005))
+    ; An adult who belongs to fewer than two clubs takes up another. SELF-POV
+    ; (telepathy purge CAT-2): @self reads his OWN club-count + repute.
+    (role @self (template old_human)
+                (>= (years-old @self) 18)
+                (< (count-beliefs @self member_of) 2)
+                (not (believes {@self repute [k scandalous]}))
+                (not (believes {@self repute [k disreputable]}))
+                (chance 0.005))
+    ; A man joins a club of his OWN class band. The club's tier is read as @self's
+    ; view of the founder's class (3-arg (situation ... @self), banded in via
+    ; believe_about) - a positive match, so @self only joins a club whose founder
+    ; he actually knows (an unfamiliar club @fails the class match). (A public
+    ; class-tier on the club articles would later drop the founder-proxy.)
     (role ?club_articles (template org_articles)
                          (org-kind-is-a ?this [k org club])
-                         (= (situation (org-founder ?this) class_situation)
-                            (situation ?member class_situation))))
+                         (= (target {(org-founder ?this) class_situation})
+                            (target {@self class_situation}))))
 
-  ; SPLIT (Item 5): the npc-think - the decision to join. Mints {?member goal
-  ; {?member join_club ?club_articles}}; the npc-act (club_join_errand.hs) sends the
+  ; SPLIT (Item 5): the npc-think - the decision to join. Mints {@self goal
+  ; {@self join_club ?club_articles}}; the npc-act (club_join_errand.hs) sends the
   ; member to the clubhouse and registers him there. (goal) is idempotent.
   (effects
-    (goal ?member join_club ?club_articles)))
+    (goal @self join_club ?club_articles)))
 
 ; club_gathering RETIRED (place-and-time reframe, Section 4.8 P2b): club members
 ; are now drawn to the clubhouse by the band itinerary's SOCIAL lane (members

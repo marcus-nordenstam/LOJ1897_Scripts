@@ -43,62 +43,72 @@
   (nl         "?investor backs ?candidate's venture")
   (rng-stream business)
 
+  ; SELF-POV (telepathy purge CAT-2): the BACKER is the sole deliberator. @self
+  ; reads his OWN means, then judges a candidate he KNOWS from his OWN view of
+  ; the man (3-arg (situation ?candidate <dim> @self) - diligence / repute / wealth
+  ; banded in via believe_about). A candidate the backer has never met @fails the
+  ; positive merit gates and is not backed - backing is grounded in acquaintance.
   (roles
-    ; A merit-and-character man of working age who cannot self-fund and is
-    ; not already backed.
+    ; A man of means - comfortable or better - who decides to back a worthy man.
+    (role @self (template old_human)
+                (or (believes {@self economic_situation [k comfortable]})
+                    (believes {@self economic_situation [k prosperous]})
+                    (believes {@self economic_situation [k wealthy]})))
+    ; A merit-and-character man of working age who cannot self-fund and is not
+    ; already backed - judged from the backer's own knowledge of him.
     ; Dimensions are float 0..1 post-normalisation (the old 0..100 thresholds
     ; could never pass - investment/partnership/founding silently never fired;
-    ; the homeostat masked it).
+    ; the homeostat masked it). NB the old (not org_head) rank gate is dropped:
+    ; job-LEVEL is not a banded fact, so the backer cannot know it; "has a job +
+    ; wealth < 0.5" already stands in for "a clerk, not a proprietor".
     (role ?candidate (template old_human)
-                     (>= (years-old ?this) 25)
-                     (<= (years-old ?this) 55)
-                     (believes ?this {@self employer ?})
-                     (not (= (job-level ?this) [k org_head]))
-                     (>= (belief-target ?this diligence) 0.55)
-                     (or (= (belief-target ?this repute) [k respectable])
-                         (= (belief-target ?this repute) [k exemplary]))
-                     (< (belief-target ?this wealth) 0.5)
-                     (not (believes ?this {@self backed_by ?}))
+                     (not (= ?candidate @self))
+                     (>= (years-old ?candidate) 25)
+                     (<= (years-old ?candidate) 55)
+                     (believes {?candidate job ?})
+                     (>= (target {?candidate diligence}) 0.55)
+                     (or (believes {?candidate repute [k respectable]})
+                         (believes {?candidate repute [k exemplary]}))
+                     (< (target {?candidate wealth}) 0.5)
+                     ; Not already backed - read from the BACKER's OWN knowledge
+                     ; ({backed_by} is banded in via believe_about), no mind peek.
+                     ; Permissive on the unknown: a same-tick double-back is left
+                     ; to a future public-blackboard claim, not a telepathic read.
+                     (not (believes {?candidate backed_by ?}))
                      ; /12 of the old annual 0.40 (now monthly).
-                     (chance (* 0.033 (+ 0.5 (attr ?this assertiveness)))))
-    ; A man of means - comfortable or better - who backs the venture. (The
-    ; plan draws the backer from the candidate's social circle; v1 gates on
-    ; means alone - the typed-relationship layer the circle needs is not yet
-    ; rich enough to gate on without starving the event.)
-    (role ?investor (template old_human)
-                    (not (= ?this ?candidate))
-                    (or (= (belief-target ?this economic_situation) [k comfortable])
-                        (= (belief-target ?this economic_situation) [k prosperous])
-                        (= (belief-target ?this economic_situation) [k wealthy]))))
+                     (chance (* 0.033 (+ 0.5 (attr ?candidate assertiveness))))))
 
   ; SPLIT (Item 5): the npc-think - the BACKER decides to back the candidate. Mints
-  ; {?investor goal {?investor back ?candidate}}; the npc-act (invest_errand.hs)
+  ; {@self goal {@self back ?candidate}}; the npc-act (invest_errand.hs)
   ; sends the investor to call on the candidate and the completion records the
   ; {candidate backed_by investor} there. (goal) is idempotent.
   (effects
-    (goal ?investor back ?candidate)))
+    (goal @self back ?candidate)))
 
 ; --- business_partnership: an established proprietor takes on a co-owner ----
+; SELF-POV (telepathy purge CAT-2): the clerk is the sole deliberator - he weighs
+; his OWN standing (diligence / repute / wealth, all self-beliefs) and resolves to
+; buy into a firm. @self, no counterpart mind is read.
 (hsim-event business_partnership
-  (nl         "?candidate is taken into partnership")
+  (nl         "@self is taken into partnership")
   (rng-stream business)
 
   (roles
     ; A merit-and-character man who cannot self-fund and is not backed - the
     ; clerk-makes-partner route.
     ; Float 0..1 thresholds - see the investment role's note.
-    (role ?candidate (template old_human)
-                     (>= (years-old ?this) 25)
-                     (<= (years-old ?this) 55)
-                     (believes ?this {@self employer ?})
-                     (not (= (job-level ?this) [k org_head]))
-                     (>= (belief-target ?this diligence) 0.55)
-                     (or (= (belief-target ?this repute) [k respectable])
-                         (= (belief-target ?this repute) [k exemplary]))
-                     (< (belief-target ?this wealth) 0.5)
-                     (not (believes ?this {@self backed_by ?}))
-                     ; /12 of the old annual 0.12 (now monthly).
-                     (chance (* 0.01 (+ 0.5 (attr ?this assertiveness)))))
+    (role @self (template old_human)
+                (>= (years-old @self) 25)
+                (<= (years-old @self) 55)
+                (believes {@self employer ?})
+                (not (= (job-level @self) [k org_head]))
+                (>= (target {@self diligence}) 0.55)
+                (or (believes {@self repute [k respectable]})
+                    (believes {@self repute [k exemplary]}))
+                (< (target {@self wealth}) 0.5)
+                (not (believes {@self backed_by ?}))
+                ; /12 of the old annual 0.12 (now monthly).
+                (chance (* 0.01 (+ 0.5 (attr @self assertiveness)))))
     ; An existing business he is taken into. (The plan links principal and
     ; candidate by a prior bond - friend / former employer / club co-member;
     ; v1 gates on the candidate's merit alone, as the relationship layer is
@@ -113,14 +123,14 @@
   ;; dozen firms. The when_gate is evaluated live per firing; once the candidate
   ;; has been made an org_head this tick, the re-check fails and the sampler
   ;; backtracks to another candidate.
-  (when (not (= (job-level ?candidate) [k org_head])))
+  (when (not (= (job-level @self) [k org_head])))
 
-  ; SPLIT (Item 5): the npc-think - the clerk decides to buy in. Mints {?candidate
-  ; goal {?candidate partner ?principal_articles}}; the npc-act (partner_errand.hs)
+  ; SPLIT (Item 5): the npc-think - the clerk decides to buy in. Mints {@self
+  ; goal {@self partner ?principal_articles}}; the npc-act (partner_errand.hs)
   ; sends him to the firm's premises and the completion buys him in there. (goal)
   ; is idempotent.
   (effects
-    (goal ?candidate partner ?principal_articles)))
+    (goal @self partner ?principal_articles)))
 
 ; --- business_founding: a man of means sets up on his own account ----------
 ; SPLIT (Item 5, the great split): this is now the npc-THINK - the decision to
@@ -135,24 +145,25 @@
 
   (roles
     ; Merit, character, and means - either enough wealth to self-fund, or a
-    ; backer (the backed_by belief investment wrote earlier this tick).
-    ; Float 0..1 thresholds - see the investment role's note.
-    (role ?founder (template old_human)
-                   (>= (years-old ?this) 25)
-                   (<= (years-old ?this) 55)
-                   (believes ?this {@self employer ?})
-                   (not (= (job-level ?this) [k org_head]))
-                   (>= (belief-target ?this diligence) 0.55)
-                   (or (= (belief-target ?this repute) [k respectable])
-                       (= (belief-target ?this repute) [k exemplary]))
-                   (or (>= (belief-target ?this wealth) 0.5)
-                       (believes ?this {@self backed_by ?}))
-                   ; /12 of the old annual 0.30 (now monthly).
-                   (chance (* 0.025 (+ 0.5 (attr ?this assertiveness))))))
+    ; backer (the backed_by belief a prior patronage / investment errand wrote).
+    ; SELF-POV (telepathy purge CAT-2): @self weighs his OWN standing; no other
+    ; mind is read. Float 0..1 thresholds - see the investment role's note.
+    (role @self (template old_human)
+                (>= (years-old @self) 25)
+                (<= (years-old @self) 55)
+                (believes {@self employer ?})
+                (not (= (job-level @self) [k org_head]))
+                (>= (target {@self diligence}) 0.55)
+                (or (believes {@self repute [k respectable]})
+                    (believes {@self repute [k exemplary]}))
+                (or (>= (target {@self wealth}) 0.5)
+                    (believes {@self backed_by ?}))
+                ; /12 of the old annual 0.30 (now monthly).
+                (chance (* 0.025 (+ 0.5 (attr @self assertiveness))))))
 
   ; Re-firing is harmless: (goal) is idempotent, so re-rolling the chance while the
   ; founder still holds an unacted found goal just re-mints the same goal (no-op).
   (effects
-    (goal ?founder found)))
+    (goal @self found)))
 
 ; --- business_failure: an org folds (zero-role; see header) -----------------

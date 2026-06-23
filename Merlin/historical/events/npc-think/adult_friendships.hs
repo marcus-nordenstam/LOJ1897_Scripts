@@ -33,13 +33,18 @@
     ; (before ?b enumeration), not once per candidate.
     (role @self (template any_human)
                 (>= (years-old @self) 18)
-                (not (= (situation @self repute) [k scandalous]))
+                (not (believes {@self repute [k scandalous]}))
                 (chance (* 0.004 (+ 0.5 (attr @self enthusiasm)))))
+    ;; SELF-POV (telepathy purge CAT-3): @self sizes up ?b from what HE knows -
+    ;; ?b's repute / class as banded in via gossip / believe_about (3-arg
+    ;; situation). The class match is positive, so @self only befriends a
+    ;; same-class peer he is actually acquainted with (a stranger's class @fails);
+    ;; the repute gate is permissive on the unknown. No cross-mind read.
     (role ?b (template any_human)
              (>= (years-old ?b) 18)
              (not (= ?b @self))
-             (not (= (situation ?b repute) [k scandalous]))
-             (= (belief-target ?b class_situation) (belief-target @self class_situation))
+             (not (believes {?b repute [k scandalous]}))
+             (= (target {?b class_situation}) (target {@self class_situation}))
              (<= (- (years-old ?b) (years-old @self))  10)
              (>= (- (years-old ?b) (years-old @self)) -10)
              (not (believes {@self friend ?b}))

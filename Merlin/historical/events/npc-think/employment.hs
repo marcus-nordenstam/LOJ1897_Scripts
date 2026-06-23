@@ -1,16 +1,18 @@
 ; ----------------------------------------------------------------------------
-; Employment life-cycle (Phase 7): hiring, promotion, job loss, retirement.
+; Employment life-cycle (Phase 7): hiring, the boss's staff review (which both
+; promotes and dismisses), retirement.
 ; All operate through the hsim_org_lifecycle verbs; "employed" is the presence
 ; of an ongoing {@self employer ?} belief, "rank" is the level belief on the
-; worker's job object (read via job-level / job-tenure).
+; worker's job object (read via job-level).
 ;
-; EMERGENT (Section 4.11): no (schedule) - all four fire via the per-NPC emergent
-; pass (institutional acts gated on the worker's own beliefs + the org articles,
+; EMERGENT (Section 4.11): no (schedule) - all fire via the per-NPC emergent
+; pass (institutional acts gated on the actor's own beliefs + the org articles,
 ; no physical co-presence), MONTHLY. hiring is an eligibility MATCH (hire-matched,
-; phase 1); retirement keeps its /12 age-gated chance. promotion + job_loss are
-; PERFORMANCE-driven (phase 3): both read the worker's work_standing accumulator
-; (phase 2) - good performers rise, those who fall below the keep-threshold are
-; let go (mass economic layoffs remain business_failure's job).
+; phase 1); retirement keeps its /12 age-gated chance. PERFORMANCE outcomes
+; (phase 3) - promotion AND dismissal - are decided in ONE boss-side pass
+; (job_loss -> review-own-staff): the employer reads HIS OWN work_standing
+; assessment of each worker (phase 2) and rises the excellent / lets go those
+; below the keep-threshold (mass economic layoffs remain business_failure's job).
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -59,55 +61,26 @@
   (effects
     (goal ?worker engage_staff ?articles)))
 
-; --- promotion: a worker of three-plus years at rank rises one grade --------
-;; Promotion weighs honest, diligent character. A scandalous worker is not
-;; promoted; the base chance is scaled by the diligence dimension so a worker
-;; well below the population mean is rarely advanced and an exemplary one
-;; rises faster. (+ 0.5 (/ diligence 100)) maps a 0..100 dimension to
-;; 0.5..1.5; an unmemoised dimension reads @fail and the arithmetic falls
-;; through to 0.5 (the engine's non-number short-circuits the / to 0, leaving
-;; the mid-range chance the worker had before Phase 9).
-(hsim-event promotion
-  (nl         "?worker is promoted")
-  (rng-stream employment)
-
-  (roles
-    (role ?worker (template any_human)
-                  (believes ?this {@self employer ?})
-                  (not (= (job-level ?this) [k org_head]))
-                  (>= (job-tenure ?this) 3)
-                  ;; S4: a worker must have EARNED competence (>= trained, ~5yr in
-                  ;; the job's domain) before rising. Jobs that confer no domain
-                  ;; (unskilled trades) pass the gate unconditionally.
-                  (job-skilled-at-or-above ?this trained)
-                  (not (= (situation ?this repute) [k scandalous]))
-                  ; Section 4.11 phase 3: promotion (with the implicit rank/raise)
-                  ; is driven by DEMONSTRATED performance - the work_standing the
-                  ; workday conduct + on-the-job skill built - not the abstract
-                  ; diligence dimension. A strong performer rises; a middling one
-                  ; mostly holds station.
-                  (chance (* 0.03 (work-standing ?this)))))
-
-  ; SPLIT (Item 5, employer-side): the BOSS decides to promote. Mints {<boss> goal
-  ; {<boss> promote_staff ?worker}}; the npc-act (promote_errand.hs) takes the boss
-  ; to the workplace and the completion advances the worker's grade there.
-  (effects
-    (goal (org-founder (employer-articles ?worker)) promote_staff ?worker)))
-
-; --- job_loss: a boss reviews their own staff and decides whom to dismiss ------
-; BOSS-DRIVEN THINK (perf inversion). Firing is the EMPLOYER's decision, made from
-; the employer's OWN assessment of their OWN staff - so @self is the BOSS, not the
-; workforce. A window-start think gated to the employed; review-own-staff then
-; confirms @self heads their org and walks only that establishment's register,
-; reading its own work_standing beliefs and minting {@self goal {@self sack <w>}}
-; for underperformers (standing below the 0.4 keep-threshold, likelier the lower).
-; The intra-day act (sack_errand.hs) executes the firing: it takes the boss to the
-; workplace, edits the documents, and seeds the sacked man's grudge toward the boss.
-; This replaces the old worker-first enumeration (every human x an O(all-articles)
+; --- staff review: a boss reviews their own staff and promotes / dismisses -----
+; BOSS-DRIVEN THINK (perf inversion). Both performance outcomes are the EMPLOYER's
+; decision, made from the employer's OWN assessment of their OWN staff - so @self is
+; the BOSS, not the workforce. A window-start think gated to the employed;
+; review-own-staff then confirms @self heads their org and walks only that
+; establishment's register, reading its OWN work_standing beliefs (no worker-mind
+; read) and, per worker, minting in ONE pass either {@self goal {@self sack <w>}}
+; for an underperformer (standing below the 0.4 keep-threshold, likelier the lower)
+; or {@self goal {@self promote_staff <w>}} for an excellent one (above the 0.7
+; promote floor). The two bands cannot overlap, and work_standing is a slow monthly
+; accumulator starting at the neutral 0.5, so a promotion is implicitly tenure-gated
+; (the old explicit job-tenure / job-skilled-at-or-above gates are subsumed).
+; The intra-day acts execute the decision AT the workplace: sack_errand.hs fires the
+; man (and seeds his grudge toward the boss); promote_errand.hs advances his grade
+; (promote() caps the rise at senior - headship is succession-only). This replaces
+; the old worker-first promotion enumeration (every human x an O(all-articles)
 ; boss_of scan to reach the boss-side assessment), which dominated the world lane.
 (hsim-event job_loss
   (sim-window-start)
-  (nl         "@self reviews their staff for dismissals")
+  (nl         "@self reviews their staff for promotions and dismissals")
   (rng-stream employment)
 
   (roles

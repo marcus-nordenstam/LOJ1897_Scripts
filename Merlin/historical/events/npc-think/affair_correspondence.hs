@@ -35,6 +35,9 @@
   (generative-correspondence)
 
   (roles
-    (role ?actor (template any_human)
-                 (>= (years-old ?actor) 18)
-                 (believes ?actor {@self lover ?}))))
+    ;; SELF-POV: @self gates on his OWN standing lover bond (self-read); the C++
+    ;; generative pass stages the covert letter via human channels (servant courier
+    ;; / post / poste-restante), never a mind peek.
+    (role @self (template any_human)
+                (>= (years-old @self) 18)
+                (believes {@self lover ?}))))

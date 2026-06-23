@@ -18,7 +18,7 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event engagement_party
-  (nl         "?bride and ?groom celebrate their engagement")
+  (nl         "@self and ?bride celebrate their engagement")
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY. The (belief-age ?bride fiancee) == 0 gate (whole years) holds while
   ; the betrothal is under a year old, but the wedding occasion (emergent) marries
@@ -27,13 +27,18 @@
   ; idempotent, so the re-announce is harmless.
   (rng-stream marriages)
 
+  ;; SELF-POV (telepathy purge CAT-3): @self the GROOM (light @self template +
+  ;; inline gates) announces HIS OWN fresh engagement; ?bride is recovered from his
+  ;; OWN fiancee belief (no mind peek).
   (roles
+    (role @self (template adult)
+                (= (attr @self gender) [k male])
+                (not (believes {@self spouse ?}))
+                (believes {@self fiancee ?})
+                (= (belief-age @self fiancee) 0))
     (role ?bride (template unmarried_woman)
-                 (believes ?this {@self fiancee ?})
-                 (= (belief-age ?this fiancee) 0))
-    (role ?groom (template unmarried_man)
-                 (believes ?bride {@self fiancee ?groom})))
+                 (believes {@self fiancee ?bride})))
 
   (effects
-    (hold-engagement-party ?bride ?groom)
-    (log _engagement_party ?bride)))
+    (hold-engagement-party ?bride @self)
+    (log _engagement_party @self)))

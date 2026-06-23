@@ -36,43 +36,49 @@
                 (>= (years-old @self) 18)
                 (not (believes {@self fiancee ?}))
                 (not (believes {@self spouse ?}))
-                (not (= (situation @self repute) [k scandalous]))
+                (not (believes {@self repute [k scandalous]}))
                 ;; Fallen-woman gate, class-modulated (late-Victorian model): the
                 ;; respectable classes shut her out of courtship entirely, but
                 ;; working-class communities are pragmatic - a lower-class fall may
                 ;; still wed (the beloved role completes the pair check).
                 (or (not (believes {@self prototype fallen_woman}))
-                    (= (situation @self class_situation) [k lower]))
+                    (believes {@self class_situation [k lower]}))
                 (chance 0.3))
+    ;; SELF-POV (telepathy purge CAT-3): @self judges the beloved from his OWN
+    ;; knowledge - her marital state / lover / fallen mark as HE knows them (banded
+    ;; in via gossip/believe_about; permissive on the unknown), her repute as HE
+    ;; sees it (3-arg situation), and crucially her RECIPROCAL fancy as SHE TOLD
+    ;; HIM (confess_fancy minted {?beloved fancy @self} in his mind). No mind peek.
     (role ?beloved (template any_human)
                   (not (= ?beloved @self))
                   (>= (years-old ?beloved) 18)
-                  (not (believes ?beloved {@self fiancee ?}))
-                  (not (believes ?beloved {@self spouse ?}))
-                  (not (= (situation ?beloved repute) [k scandalous]))
+                  (not (believes {?beloved fiancee ?}))
+                  (not (believes {?beloved spouse ?}))
+                  (not (believes {?beloved repute [k scandalous]}))
                   ;; Pair half of the fallen-woman gate: a fallen party (either
                   ;; side) weds only when BOTH sides are lower class.
-                  (or (not (believes ?beloved {@self prototype fallen_woman}))
-                      (and (= (situation ?beloved class_situation) [k lower])
-                           (= (situation @self    class_situation) [k lower])))
+                  (or (not (believes {?beloved prototype fallen_woman}))
+                      (and (believes {?beloved class_situation [k lower]})
+                           (believes {@self    class_situation [k lower]})))
                   (or (not (believes {@self prototype fallen_woman}))
-                      (= (situation ?beloved class_situation) [k lower]))
+                      (believes {?beloved class_situation [k lower]}))
                   ; the heart of it: @self fancies this person (cross-pair bitset,
                   ; @self the outer believer) ...
                   (stance-at-least @self ?beloved fancy)
-                  ; ... and MUTUAL fancy - she fancies him BACK. A love match is a
-                  ; meeting of two hearts: court builds her fancy toward him, and
-                  ; only once she reciprocates do they betroth. A one-sided crush
+                  ; ... and MUTUAL fancy - she fancies him BACK, and SAID SO. A love
+                  ; match is a meeting of two hearts: court builds her fancy toward
+                  ; him, confess_fancy carries her admission into his mind, and only
+                  ; once he KNOWS she reciprocates do they betroth. A one-sided crush
                   ; does NOT marry here - it routes to the arranged betrothal /
                   ; advantageous_match path or goes nowhere.
-                  (believes ?beloved {?beloved fancy @self})
+                  (believes {?beloved fancy @self})
                   ; lover fidelity: a party holding a standing `lover` bond
                   ; love-matches ONLY that lover (the widowed affair-partners
                   ; finally marrying), never a third party over them. `lover` is
                   ; mutual, so "@self holds ?beloved as lover" answers both sides.
                   (or (not (believes {@self lover ?}))
                       (believes {@self lover ?beloved}))
-                  (or (not (believes ?beloved {@self lover ?}))
+                  (or (not (believes {?beloved lover ?}))
                       (believes {@self lover ?beloved}))
                   ; no marrying blood kin (consanguinity backstop) ...
                   (not (kin @self ?beloved))
@@ -81,10 +87,12 @@
                   (<= (- (years-old @self) (years-old ?beloved))  15)
                   (>= (- (years-old @self) (years-old ?beloved)) -15)))
 
-  ;; Live un-betrothed re-check (see betrothal.hs): the role filters are
-  ;; alpha-indexed and go stale within the window, so re-check at firing.
-  (when (and (not (believes    {@self fiancee ?}))
-             (not (believes ?beloved {@self fiancee ?}))))
+  ;; Live un-betrothed re-check: the role filters are alpha-indexed and go stale
+  ;; within the window, so re-check at firing - now from @self's OWN beliefs
+  ;; (his own engagement, and what he knows of hers). A same-window double-betroth
+  ;; race is left to a future public-blackboard claim, never a mind peek.
+  (when (and (not (believes {@self fiancee ?}))
+             (not (believes {?beloved fiancee ?}))))
 
   (effects
     ; Symmetric fiancee bond + mutual profile sync - identical to betrothal, so

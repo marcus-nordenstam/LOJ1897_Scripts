@@ -33,24 +33,29 @@
                 (not (believes {@self fiancee ?}))
                 (believes {@self fancy ?})
                 (chance 0.5))
+    ;; SELF-POV (telepathy purge CAT-3): the suitor reads the beloved from his OWN
+    ;; knowledge - her marital state / lover / fallen mark as HE knows them
+    ;; (permissive on the unknown), and her receptivity as SHE has signalled it to
+    ;; him (confess_fancy). No cross-mind read.
     (role ?beloved (template any_human)
                   (not (= ?beloved @self))
                   (>= (years-old ?beloved) 16)
-                  (not (believes ?beloved {@self spouse ?}))
-                  (not (believes ?beloved {@self fiancee ?}))
+                  (not (believes {?beloved spouse ?}))
+                  (not (believes {?beloved fiancee ?}))
                   ; You do not court a TAKEN or FALLEN woman: a lover bond means
                   ; she is spoken-for or compromised, and the fallen-woman mark is
-                  ; the ruined maiden a respectable suitor abandons.
-                  (not (believes ?beloved {@self lover ?}))
-                  (not (believes ?beloved {@self prototype fallen_woman}))
+                  ; the ruined maiden a respectable suitor abandons. (As @self knows
+                  ; them - he courts on; a secret he has not heard does not stop him.)
+                  (not (believes {?beloved lover ?}))
+                  (not (believes {?beloved prototype fallen_woman}))
                   ; the specific person @self fancies (cross-pair bitset) ...
                   (stance-at-least @self ?beloved fancy)
-                  ; RECEPTIVITY: courting only sways an AVAILABLE heart - she
-                  ; already fancies HIM (deepening), or she fancies NO ONE yet
-                  ; (winnable). A girl who already fancies ANOTHER is not courted
-                  ; away - that rival suitor loses.
-                  (or (believes ?beloved {?beloved fancy @self})
-                      (not (believes ?beloved {?beloved fancy ?})))
+                  ; RECEPTIVITY: courting only sways an AVAILABLE heart - she has
+                  ; TOLD HIM she fancies him (deepening), or - as far as HE knows -
+                  ; she fancies NO ONE yet (winnable). A girl HE KNOWS to fancy
+                  ; another is not courted - that rival suitor has been heard of.
+                  (or (believes {?beloved fancy @self})
+                      (not (believes {?beloved fancy ?})))
                   ; opposite-sex (attr read, gates reliably) and not kin.
                   (not (= (attr ?beloved gender) (attr @self gender)))
                   (not (kin @self ?beloved))))

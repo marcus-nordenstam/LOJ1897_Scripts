@@ -28,23 +28,28 @@
     ;; The breeding dimension is the lineage anchor mx_make_human seeds at
     ;; birth, so it IS available throughout childhood; a low-breeding youth
     ;; (well below the population mean of 55) is rarely taken on by a master.
-    (role ?youth (template any_human)
-                 (>= (years-old ?this) 12)
-                 (<= (years-old ?this) 16)
-                 (not (believes ?this {@self employer ?}))
-                 (not (believes ?this {@self spouse ?}))
-                 ;; A youth still in school (PR-education) is not on the labour
-                 ;; market - the working-class on-ramp is for those who left after
-                 ;; primary (or never enrolled), not secondary pupils.
-                 (not (believes ?this {@self study ?}))
-                 (chance (* 0.0125 (+ 0.5 (situation ?this breeding)))))
-    ;; A master only takes on a youth of sound family. The master comes from
-    ;; the articles' founder slot, so the respectability test sits on the
-    ;; articles role - resolved by the (let ?master ...) below.
+    ;; SELF-POV (telepathy purge CAT-2): the youth is the sole deliberator,
+    ;; reading his OWN employment / marital / schooling state + his own breeding.
+    (role @self (template any_human)
+                (>= (years-old @self) 12)
+                (<= (years-old @self) 16)
+                (not (believes {@self employer ?}))
+                (not (believes {@self spouse ?}))
+                ;; A youth still in school (PR-education) is not on the labour
+                ;; market - the working-class on-ramp is for those who left after
+                ;; primary (or never enrolled), not secondary pupils.
+                (not (believes {@self study ?}))
+                (chance (* 0.0125 (+ 0.5 (target {@self breeding})))))
+    ;; A master only takes on a youth of sound family - and reciprocally the
+    ;; youth (or his family) avoids a master KNOWN to be scandalous. The youth
+    ;; judges the master from his OWN view (3-arg (situation ... @self), banded in
+    ;; via believe_about); the gate is permissive on the unknown, so an unheard-of
+    ;; master is not excluded - only one the youth knows to be scandalous.
+    ;; The master comes from the articles' founder slot.
     ;; A household is an org but NOT a trade: no master, no apprenticeship.
     (role ?articles (template org_articles)
                     (not (org-kind-is-a ?this [k org household]))
-                    (not (= (situation (org-founder ?this) repute) [k scandalous]))))
+                    (not (believes {(org-founder ?this) repute [k scandalous]}))))
 
   ;; Live exclusivity re-check (see employment.hs): the youth's "unemployed"
   ;; filter is alpha-indexed, so within one tick several masters sample the same
@@ -52,13 +57,13 @@
   ;; ...) - a computed op reads live, unlike a belief-pattern (which routes
   ;; through the stale alpha-discriminator). (hire ... :level trainee) sets it
   ;; live, so once apprenticed this tick the youth reads trainee + backtracks.
-  (when (not (= (job-level ?youth) [k trainee])))
+  (when (not (= (job-level @self) [k trainee])))
 
-  ;; SPLIT (Item 5): the npc-think - the youth chooses a trade. Mints {?youth goal
-  ;; {?youth seek_indenture ?articles}}; the npc-act (apprentice_errand.hs) sends him
+  ;; SPLIT (Item 5): the npc-think - the youth chooses a trade. Mints {@self goal
+  ;; {@self seek_indenture ?articles}}; the npc-act (apprentice_errand.hs) sends him
   ;; to the master's premises and the indenture is sealed there. (goal) is idempotent.
   (effects
-    (goal ?youth seek_indenture ?articles)))
+    (goal @self seek_indenture ?articles)))
 
 (hsim-event apprenticeship_completion
   (nl         "?apprentice completes their apprenticeship")

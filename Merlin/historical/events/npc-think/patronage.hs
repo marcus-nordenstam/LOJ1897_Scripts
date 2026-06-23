@@ -35,29 +35,35 @@
     ;; on the @self role is rolled once per patron per window.
     (role @self (template old_human)
                 (>= (years-old @self) 35)
-                (= (situation @self repute) [k exemplary])
-                (>= (situation @self prestige) 0.65)
+                (believes {@self repute [k exemplary]})
+                (>= (target {@self prestige}) 0.65)
                 (chance 0.005))
     ;; A protege one or more class steps below the patron, of sound character
-    ;; (not scandalous), without an existing backer.
+    ;; (not scandalous), without an existing backer. The patron judges the
+    ;; protege from his OWN view (3-arg (situation ?protege <dim> @self), banded
+    ;; in via believe_about) - he can only elevate a connection he actually KNOWS:
+    ;; the class match @fails (no firing) for a stranger, while the repute gate is
+    ;; permissive on the unknown (only a KNOWN-scandalous protege is excluded).
+    ;; (Not already backed - read from the PATRON's OWN knowledge ({backed_by} is
+    ;; banded in via believe_about), no mind peek; permissive on the unknown.)
     (role ?protege (template old_human)
                    (not (= ?protege @self))
                    (>= (years-old ?protege) 18)
                    (<= (years-old ?protege) 55)
-                   (not (= (situation ?protege repute) [k scandalous]))
-                   (not (believes ?protege {@self backed_by ?}))
-                   (or (and (= (situation @self     class_situation) [k upper])
-                            (= (situation ?protege  class_situation) [k middle]))
-                       (and (= (situation @self     class_situation) [k upper])
-                            (= (situation ?protege  class_situation) [k lower]))
-                       (and (= (situation @self     class_situation) [k middle])
-                            (= (situation ?protege  class_situation) [k lower])))))
+                   (not (believes {?protege repute [k scandalous]}))
+                   (not (believes {?protege backed_by ?}))
+                   (or (and (believes {@self    class_situation [k upper]})
+                            (believes {?protege class_situation [k middle]}))
+                       (and (believes {@self    class_situation [k upper]})
+                            (believes {?protege class_situation [k lower]}))
+                       (and (believes {@self    class_situation [k middle]})
+                            (believes {?protege class_situation [k lower]})))))
 
-  ;; Live exclusivity re-check (see betrothal.hs): the protege's "not already
-  ;; backed" filter is alpha-indexed, so within one window several patrons can
-  ;; back the same protege before the first backed_by commits. The when_gate is
-  ;; live per firing; once the protege is backed this window it fails + backtracks.
-  (when (not (believes ?protege {@self backed_by ?})))
+  ;; The old live exclusivity re-check read the protege's OWN backed_by belief
+  ;; (telepathy) to catch a same-window double-back. Removed: the patron now gates
+  ;; only on his OWN knowledge of who is backed (the role filter above). A rare
+  ;; same-window double-back by two patrons is left for a future public-blackboard
+  ;; claim (the sanctioned synchronized-group mechanism), never a mind peek.
 
   (effects
     (begin-belief ?protege backed_by @self)
