@@ -5,7 +5,7 @@
 ; ORGS / businesses have NAMES, drawn from this file. A building is surfaced by
 ; its sole org's name when it houses exactly ONE org (a pub, a shop, a club),
 ; or by a named-residence name (mansion / chateau / manor); otherwise it is
-; surfaced as "<address> [k <kind>]" e.g. "14 Victoria Street [k cottage]".
+; surfaced as "<address> [k <kind>]" e.g. "14 Victoria Street [k rowhouse]".
 ;
 ; Two forms:
 ;

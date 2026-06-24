@@ -25,11 +25,9 @@ torso         0.25   0.40   0.15
 # --- residential buildings (unambiguous bare names) ---
 manor         8.0   5.0    8.0
 townhouse     5.0   5.0    5.0
-tenement      6.0   7.0    6.0
-cottage       3.0   3.0    3.0
+rowhouse      5.0   6.0    5.0
 chapel        6.0   6.0   10.0
 farmhouse     5.0   4.0    5.0
-terrace       4.0   5.0    4.0
 
 # --- commercial building parent (fallback for unenumerated leaves) ---
 commercial_building   5.0   4.0   5.0

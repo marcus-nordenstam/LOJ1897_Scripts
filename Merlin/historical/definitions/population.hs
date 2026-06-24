@@ -46,12 +46,12 @@
   (child  Edwin    male   6))
 
 ;; --- Lower class ---
-(family Carrigan lower carrigan_cottage
+(family Carrigan lower carrigan_rowhouse
   (head   William male   28)
   (spouse Rose    female 26)
   (child  Daniel  male   3))
 
-(family O_Connell lower oconnell_cottage
+(family O_Connell lower oconnell_rowhouse
   (head   Liam     male   33)
   (spouse Bridget  female 29)
   (child  Cathleen female 5))

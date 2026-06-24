@@ -25,8 +25,7 @@
 ;; entity is the manor; the grounds are modeled by the parent area.
 (template estate    (kind [k manor])     (class upper))
 (template townhouse (kind [k townhouse]) (class middle))
-(template tenement  (kind [k tenement])  (class lower))
-(template cottage   (kind [k cottage])   (class lower))
+(template rowhouse  (kind [k rowhouse])  (class lower))
 (template farmhouse (kind [k farmhouse]) (class lower))
 (template chapel    (kind [k chapel])    (class middle))
 
@@ -78,9 +77,9 @@
 ;; <template>_<road>_<n> downstream so collisions are impossible.
 (make_entity_along townhouse victoria_street 1 60)
 (make_entity_along townhouse market_street   1 60)
-(make_entity_along tenement  harbour_lane    1 60)
-(make_entity_along tenement  dock_road       1 50)
-(make_entity_along cottage   chapel_row      1 30)
+(make_entity_along rowhouse  harbour_lane    1 60)
+(make_entity_along rowhouse  dock_road       1 50)
+(make_entity_along rowhouse  chapel_row      1 30)
 
 (make_entity shipping_agent (id harbour_dock)              (parent dock_road))
 (make_entity factory        (id weaving_mill)              (parent dock_road)        (extras (era_min 1830)))
@@ -113,7 +112,7 @@
 ;; Residential bulk for Valette.
 (make_entity_along townhouse south_promenade 1 50)
 (make_entity_along townhouse kings_road      1 50)
-(make_entity_along tenement  mill_lane       1 50)
+(make_entity_along rowhouse  mill_lane       1 50)
 
 (make_entity factory        (id valette_mill)    (parent mill_lane)        (extras (era_min 1840)))
 (make_entity pub            (id kingsroad_pub)   (parent kings_road))
@@ -129,12 +128,12 @@
 (road fishermans_walk haven "Fishermans Walk")
 (road st_marys_road   haven "St Marys Road")
 
-(make_entity estate  (id haven_manor)        (parent haven))
-(make_entity cottage (id carrigan_cottage)   (parent fishermans_walk))
-(make_entity cottage (id oconnell_cottage)   (parent fishermans_walk))
+(make_entity estate   (id haven_manor)          (parent haven))
+(make_entity rowhouse (id carrigan_rowhouse)    (parent fishermans_walk))
+(make_entity rowhouse (id oconnell_rowhouse)    (parent fishermans_walk))
 
 ;; ============================================================================
-;; Outlying dwellings - isolated farms and cottages scattered BETWEEN the
+;; Outlying dwellings - isolated farms scattered BETWEEN the
 ;; settlements. Explicit world coords keep each one well clear of every
 ;; road cluster and of each other, so the bootstrap isolation pass stamps
 ;; them isolated=1: the remote premises a burglar can break into at night
@@ -142,13 +141,13 @@
 ;; ============================================================================
 (make_entity farmhouse (id thornfield_farm)    (parent port_christie) (coord -1500 5  600))
 (make_entity farmhouse (id mosshollow_farm)    (parent valette)       (coord     0 5 -800))
-(make_entity cottage   (id heath_cottage)      (parent valette)       (coord  -200 5  900))
+(make_entity farmhouse (id heath_farmhouse)    (parent valette)       (coord  -200 5  900))
 (make_entity farmhouse (id greywether_farm)    (parent haven)         (coord  1500 5 -500))
-(make_entity cottage   (id lighthouse_cottage) (parent haven)         (coord  1700 5  700))
+(make_entity farmhouse (id lighthouse_farmhouse) (parent haven)       (coord  1700 5  700))
 
 ;; Residential bulk for Haven (smallest of the three areas).
-(make_entity_along cottage   cliff_road      1 60)
-(make_entity_along cottage   fishermans_walk 1 50)
+(make_entity_along rowhouse  cliff_road      1 60)
+(make_entity_along rowhouse  fishermans_walk 1 50)
 (make_entity_along townhouse st_marys_road   1 30)
 
 (make_entity pub           (id haven_pub)     (parent fishermans_walk))

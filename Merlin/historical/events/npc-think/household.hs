@@ -2,7 +2,7 @@
 ; household_day (npc-think). Records @self's day-at-home as an EPISODIC dwelling
 ; memory: an amenity-gated {@self rest <home>} by default, {@self dine <home>} if
 ; the home has a dining_room, {@self read_at <home>} if it has a study - so a
-; manor yields a richer home-leisure record than a tenement (record-dwelling /
+; manor yields a richer home-leisure record than a rowhouse (record-dwelling /
 ; pick_home_activity). The decay pass consolidates repeated identical episodes
 ; into a cumulative belief whose count is the frequency.
 ;
