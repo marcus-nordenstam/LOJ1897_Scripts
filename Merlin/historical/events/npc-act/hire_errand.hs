@@ -15,20 +15,20 @@
 (hsim-event hire_go
   (intra-day)
   (nl   "@self sets out to seek work")
-  (let ((?venue (articles-building (goal-focus engage_staff))))
-    (when (and (has-goal engage_staff)
-               (not (at-place ?venue))))
-    (utility 82)
-    (effects (go @self ?venue))))
+  (when (and (articles-building (goal-focus engage_staff) ?venue)
+             (has-goal engage_staff)
+             (not (at-place ?venue))))
+  (utility 82)
+  (effects (go @self ?venue)))
 
 (hsim-event hire_dwell
   (intra-day)
   (nl   "@self applies for a post")
-  (let ((?venue (articles-building (goal-focus engage_staff))))
-    (when (and (has-goal engage_staff)
-               (at-place ?venue)))
-    (utility 82)
-    (effects (act hire_commit 45))))
+  (when (and (articles-building (goal-focus engage_staff) ?venue)
+             (has-goal engage_staff)
+             (at-place ?venue)))
+  (utility 82)
+  (effects (act hire_commit 45)))
 
 (hsim-event hire_commit
   (schedule (completion-only))

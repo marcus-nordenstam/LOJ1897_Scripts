@@ -17,26 +17,31 @@
 (hsim-event indenture_go
   (intra-day)
   (nl   "@self sets out to be apprenticed")
-  (let ((?venue (articles-building (goal-focus seek_indenture))))
-    (when (and (has-goal seek_indenture)
-               (not (at-place ?venue))))
-    (utility 80)
-    (effects (go @self ?venue))))
+  ; articles-building BINDS ?venue (the master's premises) off the goal-focus
+  ; articles, threading it to the at-place gate + the (go) effect.
+  (when (and (articles-building (goal-focus seek_indenture) ?venue)
+             (has-goal seek_indenture)
+             (not (at-place ?venue))))
+  (utility 80)
+  (effects (go @self ?venue)))
 
 (hsim-event indenture_dwell
   (intra-day)
   (nl   "@self presents himself to a master")
-  (let ((?venue (articles-building (goal-focus seek_indenture))))
-    (when (and (has-goal seek_indenture)
-               (at-place ?venue)))
-    (utility 80)
-    (effects (act indenture_commit 90))))
+  (when (and (articles-building (goal-focus seek_indenture) ?venue)
+             (has-goal seek_indenture)
+             (at-place ?venue)))
+  (utility 80)
+  (effects (act indenture_commit 90)))
 
 (hsim-event indenture_commit
   (schedule (completion-only))
   (nl   "@self is apprenticed")
+  ; org-founder BINDS ?master off the goal-focus articles; the gate also drops the
+  ; commit cleanly if the org's articles became unreadable (no master to bond to).
+  (when (org-founder (goal-focus seek_indenture) ?master))
   (effects
     (hire :articles (goal-focus seek_indenture) :worker @self :role clerk :level trainee)
-    (begin-belief @self master (org-founder (goal-focus seek_indenture)))
+    (begin-belief @self master ?master)
     (clear-goal @self seek_indenture)
     (log _apprenticeship @self)))

@@ -33,7 +33,6 @@
                   ; strong negative band) - the reliable cross-pair bitset, @self
                   ; the outer believer.
                   (stance-at-least @self ?victim despise)
-                  (not (has-recent-incident-marker @self ?victim))
                   ; how readily the contempt surfaces: the callous (low compassion)
                   ; cut openly; the compassionate restrain it even toward the
                   ; despised. Low base: a pointed, deliberate act, rarer than the

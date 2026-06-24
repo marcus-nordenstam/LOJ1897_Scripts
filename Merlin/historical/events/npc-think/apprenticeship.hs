@@ -50,7 +50,8 @@
     ;; A household is an org but NOT a trade: no master, no apprenticeship.
     (role ?articles (template org_articles)
                     (not (org-kind-is-a ?this [k org household]))
-                    (not (believes {(org-founder ?this) repute [k scandalous]}))))
+                    (and (org-founder ?this ?master)
+                         (not (believes {?master repute [k scandalous]})))))
 
   ;; Live exclusivity re-check (see employment.hs): the youth's "unemployed"
   ;; filter is alpha-indexed, so within one tick several masters sample the same

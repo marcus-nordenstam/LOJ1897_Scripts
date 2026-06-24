@@ -16,20 +16,20 @@
 (hsim-event partner_go
   (intra-day)
   (nl   "@self sets out to settle a partnership")
-  (let ((?venue (articles-building (goal-focus partner))))
-    (when (and (has-goal partner)
-               (not (at-place ?venue))))
-    (utility 85)
-    (effects (go @self ?venue))))
+  (when (and (articles-building (goal-focus partner) ?venue)
+             (has-goal partner)
+             (not (at-place ?venue))))
+  (utility 85)
+  (effects (go @self ?venue)))
 
 (hsim-event partner_dwell
   (intra-day)
   (nl   "@self settles into the firm")
-  (let ((?venue (articles-building (goal-focus partner))))
-    (when (and (has-goal partner)
-               (at-place ?venue)))
-    (utility 85)
-    (effects (act partner_commit 90))))
+  (when (and (articles-building (goal-focus partner) ?venue)
+             (has-goal partner)
+             (at-place ?venue)))
+  (utility 85)
+  (effects (act partner_commit 90)))
 
 (hsim-event partner_commit
   (schedule (completion-only))

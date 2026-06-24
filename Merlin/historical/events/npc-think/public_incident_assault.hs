@@ -40,8 +40,7 @@
                   (not (= ?victim @self))
                   ; the victim is co-present (physically THERE) and a STRANGER.
                   (co-present @self ?victim)
-                  (not (personally-knows @self ?victim))
-                  (not (has-recent-incident-marker @self ?victim))))
+                  (not (personally-knows @self ?victim))))
 
   (effects
     (incident-anchor @self assault ?victim)

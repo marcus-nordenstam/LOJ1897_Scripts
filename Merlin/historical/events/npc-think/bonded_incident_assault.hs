@@ -39,8 +39,7 @@
                            (+ 0.3 (* 0.7 (attr @self intoxication))))))
     (role ?victim (template any_human)
                   (not (= ?victim @self))
-                  (personally-knows @self ?victim)
-                  (not (has-recent-incident-marker @self ?victim))))
+                  (personally-knows @self ?victim)))
 
   (effects
     (incident-anchor @self assault ?victim)

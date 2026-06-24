@@ -35,12 +35,11 @@ relation
         avoid                   (sub human)           (tar ?)
 
         # transient_marker - generic short-lived self-belief with
-        # per-mint decay. One unified state replacing four scattered
-        # patterns: recent_incident cooldowns (PR-A bonded /
-        # public incidents), stalk_target prep markers (PR-B
-        # perpetration), administering progress trackers (PR-C
-        # drugging / slow poisoning), and practice tickers
-        # (PR-skill-life atrophy suppression). Sub-kinds declared as
+        # per-mint decay. One unified state for scattered prep
+        # patterns: stalk_target prep markers (PR-B perpetration),
+        # administering progress trackers (PR-C drugging / slow
+        # poisoning), and practice tickers (PR-skill-life atrophy
+        # suppression). Sub-kinds declared as
         # `marker_kind` in Concepts.mon. Non-@excl: an actor may
         # hold many concurrently - one per (kind, focus) pair, where
         # the aux slot carries the focus (the other party, the

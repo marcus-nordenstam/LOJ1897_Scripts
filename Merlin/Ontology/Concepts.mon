@@ -80,12 +80,9 @@ concept
     # other party / domain / substance), so an actor may hold many
     # transient_marker beliefs concurrently - one per (kind, focus)
     # pair. Extend by adding a sub-kind here and a mint site in the
-    # consuming PR (PR-A's recent_incident, PR-B's stalk_target,
-    # PR-skill-life's practice, PR-C's administering).
+    # consuming PR (PR-B's stalk_target, PR-skill-life's practice,
+    # PR-C's administering).
     marker_kind
-        # PR-A bonded / public incident per-pair cooldown
-        # (~3 months).
-        recent_incident
         # PR-B perpetration prep marker; actor has been
         # observing victim's movements (~30 days). Subsequent
         # perpetration rolls read this for the surprise modifier.

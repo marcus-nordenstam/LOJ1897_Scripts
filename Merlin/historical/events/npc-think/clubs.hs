@@ -73,8 +73,9 @@
     ; class-tier on the club articles would later drop the founder-proxy.)
     (role ?club_articles (template org_articles)
                          (org-kind-is-a ?this [k org club])
-                         (= (target {(org-founder ?this) class_situation})
-                            (target {@self class_situation}))))
+                         (and (org-founder ?this ?founder)
+                              (= (target {?founder class_situation})
+                                 (target {@self class_situation})))))
 
   ; SPLIT (Item 5): the npc-think - the decision to join. Mints {@self goal
   ; {@self join_club ?club_articles}}; the npc-act (club_join_errand.hs) sends the

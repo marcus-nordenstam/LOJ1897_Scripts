@@ -35,7 +35,6 @@
     (role ?victim (template any_human)
                   (not (= ?victim @self))
                   (personally-knows @self ?victim)
-                  (not (has-recent-incident-marker @self ?victim))
                   ; Stance-weighted victim selection. Floor 0.10 is the
                   ; displaced-anger path (any acquaintance can be hit); negative
                   ; warmth (dislike/detest) and esteem (disdain/despise) add on top

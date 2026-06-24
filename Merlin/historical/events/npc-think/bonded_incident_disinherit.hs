@@ -59,7 +59,6 @@
     (role ?victim (template any_human)
                   (not (= ?victim @self))
                   (believes {@self child ?victim})
-                  (not (has-recent-incident-marker @self ?victim))
                   ; Grounds, not a floor: mild standing disregard (dislike /
                   ; disdain) admits the cut at 0.2 each, deep disregard
                   ; (detest / despise) at 0.3 each; a child the father holds
