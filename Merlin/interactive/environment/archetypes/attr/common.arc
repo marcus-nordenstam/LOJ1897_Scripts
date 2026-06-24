@@ -230,6 +230,20 @@ attr "address_number" (type int) (range 1 9999) (mech obs) (auto-percept)
 # from address_number (the street number on the exterior address-space).
 attr "apartment_number" (type int) (range 1 9999) (mech obs) (auto-percept)
 
+# Address-numbering POLICY (lives on the ROAD; see road.arc). Authored in the
+# GrymEngine Spline Tool and pushed by the Player at scene load. These tell the
+# shared sim-time numbering pass (merlin::assign_street_addresses_all) HOW to
+# number the street_spaces fronting this road; the NUMBERS themselves are never
+# authored, only generated. Imperceptible - policy, not an observable property.
+#   address_even_side: 0 = even house numbers on the road's LEFT side, 1 = RIGHT.
+#   address_start:     first house number assigned per side.
+#   address_step:      increment between consecutive same-side numbers (2 = odd/even).
+#   address_ascends_forward: 1 = low numbers at the first CV end, 0 = at the last.
+attr "address_even_side" (type int) (range 0 1) (imperceptible)
+attr "address_start" (type int) (range 1 9999) (imperceptible)
+attr "address_step" (type int) (range 1 16) (imperceptible)
+attr "address_ascends_forward" (type int) (range 0 1) (imperceptible)
+
 # Conversation
 attr "initiator" (type entity) (entity "human_player" "human_npc") (mech obs) (auto-percept)
 
