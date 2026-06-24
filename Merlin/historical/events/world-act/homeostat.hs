@@ -13,8 +13,7 @@
 ; Both events run unconditionally each year - the (when ...) gate is what
 ; decides whether anything actually happens.
 ; ----------------------------------------------------------------------------
-
-(include "../../definitions/homeostat_constants.hs")
+; The homeostat tables are auto-loaded from historical/tables/.
 
 (hsim-event homeostat_emigration
   (nl         "homeostat: emigration wave (alive=?alive)")
@@ -22,11 +21,11 @@
   (rng-stream homeostat)
 
   (let ((?alive    (alive-count))
-        (?target   (lookup homeostat_target_population 0))
+        (?target   (homeostat_target_population))
         (?pressure (/ ?alive ?target))
-        (?count    (lookup homeostat_emigration_count 0)))
+        (?count    (homeostat_emigration_count)))
 
-    (when (> ?pressure (lookup homeostat_emigration_pressure 0)))
+    (when (> ?pressure (homeostat_emigration_pressure)))
 
     (effects
       (emigrate-oldest ?count)
@@ -39,11 +38,11 @@
   (rng-stream homeostat)
 
   (let ((?alive    (alive-count))
-        (?target   (lookup homeostat_target_population 0))
+        (?target   (homeostat_target_population))
         (?pressure (/ ?alive ?target))
-        (?count    (lookup homeostat_immigration_count 0)))
+        (?count    (homeostat_immigration_count)))
 
-    (when (< ?pressure (lookup homeostat_immigration_pressure 0)))
+    (when (< ?pressure (homeostat_immigration_pressure)))
 
     (effects
       (spawn-immigrant ?count)

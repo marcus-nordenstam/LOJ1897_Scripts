@@ -5,7 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
-(include "../../definitions/tables.hs")
+; mortality_by_age is auto-loaded from historical/tables/.
 
 (hsim-event mortality_old_age
   (nl         "?who dies of old age")
@@ -17,7 +17,7 @@
   (roles
     (role ?who (template old_human)))
 
-  (let ((?per_year  (lookup mortality_by_age (years-old ?who)))
+  (let ((?per_year  (mortality_by_age (years-old ?who)))
         (?per_month (/ ?per_year 12.0)))
 
     (when (chance ?per_month))
