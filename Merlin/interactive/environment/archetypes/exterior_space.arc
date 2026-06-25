@@ -19,9 +19,10 @@ archetype "exterior_space" (cap 4096) (mech obs) (always-visible) (non-occluder)
     "obb"
     # Nav v2: spaces can host openings whose /is_nav_passage gates a macro-graph edge.
     "is_nav_passage"
-    # Exterior address-spaces: the road this space fronts + its street number. A
-    # building's `address` points to its address-space; the space's own `address`
-    # points to the road. Unset for remote wilds.
+    # The address lives ON the premise: the road this exterior space fronts +
+    # its street number. (Both a building and an addressed exterior_space carry
+    # their own `address` -> road; there is no street_space frontage box.) Unset
+    # for remote wilds.
     "address"
     "address_number"
     # Per-space loose-item index (inverse of each prop's `location`): props

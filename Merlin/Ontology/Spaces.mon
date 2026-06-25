@@ -38,11 +38,9 @@ space (+ obs)
                 neighborhood
         # Occupiable exterior spaces with OBBs (Section 4.12). Each is a `space`
         # entity (so it reuses the OBB co-presence machinery) and may carry
-        # name / address (-> road) / address_number.
-        # street_space: the frontage at one street address - its OBB covers the
-        #   building + the overlapping stretch of road. A building's `address`
-        #   points to its street_space.
-        street_space
+        # name / address (-> road) / address_number. (street_space deleted: the
+        # address lives ON the premise now - a building / exterior_space carries
+        # its own address -> road + address_number, no frontage-box indirection.)
         # Amenity grounds for larger homes + public open space.
         garden
         field

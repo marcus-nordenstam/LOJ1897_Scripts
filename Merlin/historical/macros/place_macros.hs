@@ -7,34 +7,32 @@
 ; macro expander inlines the body at every call site (each (bind ...) keeps its
 ; own op-memo slot) and gensyms the body-internal ?vars per expansion.
 ;
-; SPATIAL MODEL (the home->address migration):
-;   - `home` belief targets the exterior ADDRESS-SPACE (the residence's frontage),
-;     not the building. A resident "at home" stands at that frontage, so their
-;     {@self location} equals their {@self home} (the INTERIM placement - interior
-;     rooms are a later follow-up; at-home gains a room branch then, here).
+; SPATIAL MODEL (the address-on-the-premise model):
+;   - `home` belief targets the BUILDING directly (the address lives ON the
+;     premise: building.address -> road, building.address_number -> int; there is
+;     no street_space frontage box). A resident is "at home" when their current
+;     room resolves to that building - exactly the at-place test against the home.
 ;   - `location` is the perceptible CURRENT ROOM/space, self-perceived on arrival.
 ;   - {room building <bldg>} is the reverse-containment belief minted on arrival
 ;     (perceive_here) + when a building's rooms are learned: it lets a room resolve
 ;     to its enclosing building purely from belief.
 ; ----------------------------------------------------------------------------
 
-; (at-home): the NPC is at their own home (its exterior address-space frontage).
-; `bind` PRODUCES the free ?home (my home address-space); `believes` is the
-; fully-bound existence test ("is ?home my current location") - bind rejects a
-; fully-bound field, that is what believes is for.
+; (at-home): the NPC is at their own home BUILDING. `bind` PRODUCES the free
+; ?home (my home building); then it is exactly (at-place ?home) - standing at the
+; building directly OR inside a room whose enclosing building is the home. Reuses
+; at-place (nested macros re-expand) rather than re-reading {@self location}.
 (define-macro at-home ()
   (and (bind {@self home ?home})
-       (believes @self {@self location ?home})))
+       (at-place ?home)))
 
-; (at-place ?place): the NPC is at ?place - either standing AT it directly (a
-; frontage / exterior space, e.g. someone else's home address), OR inside a room
-; whose enclosing building is ?place (a workplace / venue building). Both arms are
-; fully-bound existence tests (?place is the bound argument) -> believes; the room
-; arm first PRODUCES the free ?room with bind.
+; (at-place ?place): the NPC is at ?place. Bind {@self location ?loc} ONCE, then
+; either ?loc IS ?place (standing at it directly - a building / exterior space) OR
+; ?loc is a room whose enclosing building is ?place (a workplace / venue building).
 (define-macro at-place (?place)
-  (or (believes @self {@self location ?place})
-      (and (bind {@self location ?room})
-           (believes @self {?room building ?place}))))
+  (and (bind {@self location ?loc})
+       (or (= ?loc ?place)
+           (believes @self {?loc building ?place}))))
 
 ; (at-place-kind [k building <leaf>]): the NPC's current room is inside a building
 ; of the given kind (pub / church / bank / school / social_clubhouse / ...). Both

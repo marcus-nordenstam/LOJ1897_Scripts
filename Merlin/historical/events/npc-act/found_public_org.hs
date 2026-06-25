@@ -26,9 +26,11 @@
                 (>= (years-old @self) 25)))
 
   (effects
+    ; Found the org with its HEAD only; the emergent labour market (employment.hs
+    ; `hiring` -> hire_errand -> hire-matched) staffs it from the unemployed over
+    ; subsequent ticks. employee_count / employee_role are no longer read here.
     (for-each-table-record public_orgs
-        (kind ?k) (head_pos ?hp) (employee_count ?ec) (employee_role ?er) (class_floor ?cf)
+        (kind ?k) (head_pos ?hp) (class_floor ?cf)
       (if (and (not (any-org-of-kind ?k)) (class-at-least @self ?cf))
-          (do (found-org :kind ?k :founder @self
-                         :head-role ?hp :staff-role ?er :staff-count ?ec)
+          (do (found-org-seq ?k ?hp)
               (break))))))

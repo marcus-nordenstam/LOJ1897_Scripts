@@ -73,7 +73,7 @@
 ;;     venues an enthusiast pursues their interest at (activity-lanes L5). ---
 (business library        (building library))
 (business museum         (building museum))
-(business meeting_hall   (building meeting_hall))
+(business meeting_hall   (building theatre))
 (business sports_ground  (building sports_ground))
 
 ;; --- The landlord's estate: a sole proprietor runs it from his study (the

@@ -43,7 +43,15 @@
   (schedule (completion-only))
   (nl   "@self founds a business")
   (effects
-    (fire :worker @self)
-    (found-org :kind business :founder @self)
-    (clear-goal @self found)
-    (log _business_founding @self)))
+    ; Roll a HOUSABLE business kind first (premises-aware: only kinds with a free
+    ; building of their declared kind). If none can be housed right now, ?bizkind is
+    ; a fail value and we do nothing - the founder keeps his job and his goal and
+    ; retries later. No premises -> no founding -> no error.
+    (roll-business-org-kind (bind ?bizkind))
+    (if ?bizkind
+      (do
+        (fire :worker @self)
+        ; mint the founding via the atomic-op sequence (proprietor head).
+        (found-org-seq ?bizkind [k job proprietor])
+        (clear-goal @self found)
+        (log _business_founding @self)))))
