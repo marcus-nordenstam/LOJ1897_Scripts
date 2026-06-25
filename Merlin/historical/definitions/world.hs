@@ -6,8 +6,8 @@
 ; different config with --world-cfg <path>.
 ;
 ; Both paths are absolute. The .mob kind sidecars are picked up automatically
-; from the same folder as the .mwo (Content/Merlin/environment). The .ter is
+; from the same folder as the .mwo (Content/Environment/Merlin). The .ter is
 ; resolved as <content>/<terrain-ref-stored-in-the-.mwo>.
 
-(mwo     "C:/Users/realm/Dropbox/CnE/LOJ1897/Game/Content/Merlin/environment/demo_tech_level_v2.mwo")
+(mwo     "C:/Users/realm/Dropbox/CnE/LOJ1897/Game/Content/Environment/Merlin/demo_tech_level_v2.mwo")
 (content "C:/Users/realm/Dropbox/CnE/LOJ1897/Game/Content")
