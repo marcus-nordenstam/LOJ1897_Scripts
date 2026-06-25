@@ -34,9 +34,11 @@
 (hsim-event partner_commit
   (schedule (completion-only))
   (nl   "@self is taken into partnership")
-  (effects
-    (fire :worker @self)
-    (add-co-owner :articles (goal-focus partner) :owner @self)
-    (hire :articles (goal-focus partner) :worker @self :role proprietor :level org_head)
-    (clear-goal @self partner)
-    (log _business_partnership @self)))
+  ; bind the firm's articles to a plain ?var (hire-seq needs it as a {pattern} subject).
+  (let ((?art (goal-focus partner)))
+    (effects
+      (fire :worker @self)
+      (add-co-owner :articles ?art :owner @self)
+      (hire-seq ?art [k job proprietor] [k org_head])
+      (clear-goal @self partner)
+      (log _business_partnership @self))))

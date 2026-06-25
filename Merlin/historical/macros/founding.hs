@@ -62,3 +62,51 @@
         (imagine-or-recall ?head-role {@self job ?job})
         (begin-belief {?job level [k org_head]})
         (stamp-work-hours ?job ?head-role)))))
+
+; ----------------------------------------------------------------------------
+; hire-seq - the WORKER-side hiring belief sequence, as atomic .hse ops.
+;
+; The decomposition of the old monolithic C++ hire() belief-mint, mirroring
+; found-org-seq: where founding CREATES the org's documents + premises, hiring
+; READS them from the existing articles and seats @self as an employee. Every
+; mental belief is minted in @self's mind - and in every emergent hire path the
+; worker IS @self (hire_commit / indenture / partner: @self; senior_appointment:
+; @self == the role-0 official), so there is NO telepathy here. Only the env-side
+; roster write (abs-native) and (stamp-work-hours) (occupation-catalog reuse,
+; retires with the catalog) touch anything outside @self's own mind.
+;
+;   (hire-seq ?art ?job-kind ?level)
+;     ?art       - the org's articles document (the goal focus / appointment org)
+;     ?job-kind  - the worker's SCOPED job kind ([k job clerk], a matched (bind ?jk),
+;                  [k job proprietor], ...): the roster `job` field, the job mental
+;                  object kind, AND the work-hours catalog key (same triple role as
+;                  found-org-seq's ?head-role).
+;     ?level     - the starting rank ([k apprentice] / [k trainee] / [k senior] / ...)
+;
+; STAFFING note: the matched job kind comes from (match-job ...) (C++: the
+; occupation catalog + career scan) which binds ?jk = [k job <leaf>] or @fail;
+; the caller guards (if ?jk (hire-seq ... ?jk ...)). The fixed-role paths
+; (indenture / partner / senior) pass a literal [k job <role>].
+; ----------------------------------------------------------------------------
+
+(define-macro hire-seq (?art ?job-kind ?level)
+  (do
+    ; --- read the org's kind, premises, and roster off the existing articles ----
+    (read-doc-record [k articles_of_incorporation] ?art
+        (kind ?org-kind) (building ?wp) (register ?reg))
+    ; --- env-side roster (abs): record @self under the matched job kind ---------
+    (write-doc-record [k employee_register] ?reg (worker @self) (job ?job-kind))
+    ; --- @self's mind: the org object + the employment beliefs ------------------
+    (imagine-or-recall ?org-kind {?art declares_org ?org})
+    (begin-belief {@self employer ?org})
+    (begin-belief {?wp occupant @self})
+    (begin-belief {?org workplace ?wp})
+    ; @self LEARNS the workplace's rooms (the building's `parts` that are rooms):
+    ; {building room <room>} + the reverse {room building <building>}.
+    (for-each ?room (attr-values ?wp parts [k interior_space room])
+        (begin-belief {?wp room ?room})
+        (begin-belief {?room building ?wp}))
+    ; --- the job mental object carrying the rank, plus its work-hours -----------
+    (imagine-or-recall ?job-kind {@self job ?job})
+    (begin-belief {?job level ?level})
+    (stamp-work-hours ?job ?job-kind)))

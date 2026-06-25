@@ -37,11 +37,14 @@
 (hsim-event indenture_commit
   (schedule (completion-only))
   (nl   "@self is apprenticed")
-  ; org-founder BINDS ?master off the goal-focus articles; the gate also drops the
-  ; commit cleanly if the org's articles became unreadable (no master to bond to).
-  (when (org-founder (goal-focus seek_indenture) ?master))
-  (effects
-    (hire :articles (goal-focus seek_indenture) :worker @self :role clerk :level trainee)
-    (begin-belief @self master ?master)
-    (clear-goal @self seek_indenture)
-    (log _apprenticeship @self)))
+  ; bind the master's articles to a plain ?var (a macro arg used as a {pattern}
+  ; subject inside hire-seq must be a ?var, not an expr).
+  (let ((?art (goal-focus seek_indenture)))
+    ; org-founder BINDS ?master off the articles; the gate also drops the commit
+    ; cleanly if the org's articles became unreadable (no master to bond to).
+    (when (org-founder ?art ?master))
+    (effects
+      (hire-seq ?art [k job clerk] [k trainee])
+      (begin-belief @self master ?master)
+      (clear-goal @self seek_indenture)
+      (log _apprenticeship @self))))
