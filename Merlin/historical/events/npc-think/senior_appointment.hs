@@ -23,46 +23,44 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event senior_appointment
-  (nl         "?official is appointed to a senior post")
+  (nl         "@self is appointed to a senior post")
   (rng-stream employment)
 
   (roles
-    ;; An exemplary, high-prestige adult of working age. The prestige floor
-    ;; selects already-distinguished candidates (>= 65 = the existing senior
-    ;; tier). Without an existing senior post a person rarely has the
-    ;; prestige to be appointed, so this naturally targets the already-
-    ;; established class - the historical pattern.
+    ;; The candidate IS the deliberating NPC (@self self-role, the standard
+    ;; emergent shape - cf. adult_friendships / betrothal): an exemplary,
+    ;; high-prestige adult of working age. The prestige floor selects already-
+    ;; distinguished candidates, naturally targeting the established class.
     ;;
-    ;; The plan's "member_of of an organisation that hosts the post"
-    ;; tenure gate (PR-A-8 audit) is V2 work - the substrate has the
-    ;; member_of relation but the gov-org subset filter would need a
-    ;; cross-role join the .hse layer doesn't express cleanly today.
-    ;; V1 routes the chance through a trait product: assertiveness +
-    ;; (situation prestige) above the floor amplifies the rate, so a
-    ;; high-prestige assertive candidate fires substantially more often
-    ;; than an exemplary-but-quiet one.
-    (role ?official (template old_human)
-                    (>= (years-old ?this) 30)
-                    (<= (years-old ?this) 65)
-                    (= (situation ?this repute) [k exemplary])
-                    (>= (situation ?this prestige) 0.65)
-                    (chance (* 0.0083
-                               (attr ?this assertiveness)
-                               (situation ?this prestige))))
+    ;; The plan's "member_of of an organisation that hosts the post" tenure
+    ;; gate (PR-A-8 audit) is V2 work - the substrate has the member_of relation
+    ;; but the gov-org subset filter would need a cross-role join the .hse layer
+    ;; doesn't express cleanly today. V1 routes the chance through a trait
+    ;; product: assertiveness + (situation prestige) above the floor amplifies
+    ;; the rate, so a high-prestige assertive candidate fires far more often.
+    (role @self (template old_human)
+                (>= (years-old @self) 30)
+                (<= (years-old @self) 65)
+                (= (situation @self repute) [k exemplary])
+                (>= (situation @self prestige) 0.65)
+                (chance (* 0.0083
+                           (attr @self assertiveness)
+                           (situation @self prestige))))
     ;; A public organisation - any gov-subkind: church, hospital, agency.
     (role ?articles (template org_articles)
                     (org-kind-is-a ?this [k org gov])))
 
   ;; Live exclusivity re-check (see betrothal.hs): without it, every gov org
-  ;; enumerated this tick can appoint the same prestigious official before the
-  ;; first appointment commits. The when_gate is live per firing; once the
-  ;; official has been made senior this tick it fails and the sampler backtracks.
-  (when (not (= (job-level ?official) [k senior])))
+  ;; enumerated this tick can appoint @self before the first appointment commits.
+  ;; The when_gate is live per firing; once @self is senior this tick it fails
+  ;; and the sampler backtracks.
+  (when (not (= (job-level @self) [k senior])))
 
   (effects
-    ;; Leave the current post (no-op for the jobless), then take up the
-    ;; senior public post. (hire) is idempotent: a candidate already on this
-    ;; org's roster is left untouched, so a malformed re-pick is harmless.
-    (fire :worker ?official)
-    (hire :articles ?articles :worker ?official :role official :level senior)
-    (log _appointment ?official)))
+    ;; Leave the current post (no-op for the jobless), then take up the senior
+    ;; public post. hire-seq mints the employment beliefs in @self's own mind
+    ;; (no telepathy - @self IS the appointee). fire-first frees the @excl
+    ;; employer slot so the gov hire takes cleanly.
+    (fire :worker @self)
+    (hire-seq ?articles [k job official] [k senior])
+    (log _appointment @self)))
