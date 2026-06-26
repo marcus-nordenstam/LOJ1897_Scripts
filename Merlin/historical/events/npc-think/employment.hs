@@ -7,8 +7,9 @@
 ;
 ; EMERGENT (Section 4.11): no (schedule) - all fire via the per-NPC emergent
 ; pass (institutional acts gated on the actor's own beliefs + the org articles,
-; no physical co-presence), MONTHLY. hiring is an eligibility MATCH (hire-matched,
-; phase 1); retirement keeps its /12 age-gated chance. PERFORMANCE outcomes
+; no physical co-presence), MONTHLY. hiring is an eligibility MATCH (match-job
+; binds the job kind, hire-seq mints the beliefs); retirement keeps its /12
+; age-gated chance. PERFORMANCE outcomes
 ; (phase 3) - promotion AND dismissal - are decided in ONE boss-side pass
 ; (job_loss -> review-own-staff): the employer reads HIS OWN work_standing
 ; assessment of each worker (phase 2) and rises the excellent / lets go those
