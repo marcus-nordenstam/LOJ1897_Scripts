@@ -46,14 +46,40 @@
 
   (effects (goal @self staff_household)))
 
-; --- ACT: the head fulfils the duty - founds + hires what the household lacks ---
+; --- FOUND: the head constitutes the household org at his home study -----------
+; A separate window-start pass (not season-gated, so it catches the standing duty
+; whatever the event load order): a head who holds the staffing duty, OWNS the
+; manor / townhouse that is his HOME, and does NOT yet run a household founds the
+; `org household` via the shared found-org-seq macro. household is residence-seated
+; (businesses.hs), so acquire-org-premises returns the home study - the same seat
+; the old C++ found_org used. The (head-runs-household @self) gate (the head's O(1)
+; {@self employer <household-org>} -> articles lookup) flips true once founded, so
+; this self-throttles to exactly one household per head. Servant hiring stays in
+; the monthly ACT below (it now no-ops until the articles exist).
+(hsim-event found_household
+  (sim-window-start)
+  (rng-stream employment)
+
+  (roles
+    (role @self (template any_human) (>= (years-old @self) 21)))
+
+  (when (and (has-goal staff_household)                 ; head took the duty
+             (not (head-runs-household @self))          ; not already founded
+             (believes @self {@self home ?h})           ; BIND ?h = the home
+             (believes @self {@self own ?h})            ; @self OWNS that home (the head)
+             (or (is-a ?h [k manor]) (is-a ?h [k townhouse]))))
+
+  (effects (found-org-seq [k org household] [k job head_of_household])))
+
+; --- ACT: the head fulfils the duty - hires what the founded household lacks ---
 (hsim-event staff_household
   ; EMERGENT: no (schedule) - fired by the per-NPC emergent pass MONTHLY. The
   ; (generative-staffing) dispatch (run_generative_staffing) now GATES on the
   ; {@self goal {@self staff_household}} duty the think minted, then FILLS-TO-TARGET
-  ; (hsim::staff_household founds the org if needed + hires the shortfall, updating
-  ; the env register AND each servant's mind). It no-ops once full - self-throttles
-  ; - so the standing duty needs no clearing.
+  ; (hsim::staff_household hires the shortfall once the household_found pass has
+  ; constituted the org, updating the env register AND each servant's mind; it
+  ; no-ops while no articles exist yet). It no-ops once full - self-throttles - so
+  ; the standing duty needs no clearing.
   (rng-stream employment)
   (generative-staffing)
 

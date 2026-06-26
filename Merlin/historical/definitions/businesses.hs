@@ -81,4 +81,12 @@
 ;;     property it opens an on-site office and hires a house_agent. ---
 (business estate         (building office) (back_office_room study) (premises residence))
 
+;; --- The gentry household: NOT a business, but a residence-seated org all the
+;;     same. The head founds it from his home study (found-org-seq via the
+;;     household_found think); its employee_register doubles as the servants'
+;;     wage book. Listed here only so acquire-org-premises seats it at the home
+;;     (the homeostat rolls businesses off a separate C++ list, never the
+;;     catalog, so this entry never makes households spawn as commerce). ---
+(business household      (back_office_room study) (premises residence))
+
 (estate_scale_threshold 5)
