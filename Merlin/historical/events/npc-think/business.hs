@@ -26,14 +26,15 @@
 ; the failures - dissolve_org destroys entities, which would corrupt an
 ; in-flight role-enumeration mx_for_each_entity.
 ;
-; LANE SPLIT (Section 4.11): the three NPC-caused founding routes (investment /
-; business_partnership / business_founding) are EMERGENT - no (schedule), fired
-; by the per-NPC pass MONTHLY, so each (chance) is /12 to hold the annual rate.
-; business_failure + business_homeostat are TOWN-LEVEL MACROS (zero-role market /
-; homeostat regulators, NOT caused by a specific NPC) and KEEP their (schedule) -
-; they stay on the DES (the scheduled-macro residents). NB the catalog-order
-; dependency (investment before founding, for backed_by) now resolves within the
-; one monthly per-NPC pass, which runs them in catalog order.
+; LANE SPLIT (Section 4.11): the NPC-caused founding routes (investment /
+; business_partnership / business_founding / business_homeostat) are EMERGENT -
+; no (schedule), fired by the per-NPC pass MONTHLY, so each (chance) is /12 to hold
+; the annual rate. The first three are MERIT-gated; business_homeostat is the
+; non-merit floor net (founds from any adult while the town is below its business
+; floor). business_failure remains a TOWN-LEVEL zero-role market macro (world-act/
+; business_macro.hs) and KEEPS its (schedule). NB the catalog-order dependency
+; (investment before founding, for backed_by) resolves within the one monthly
+; per-NPC pass, which runs them in catalog order.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -158,6 +159,43 @@
 
   ; Re-firing is harmless: (goal) is idempotent, so re-rolling the chance while the
   ; founder still holds an unacted found goal just re-mints the same goal (no-op).
+  (effects
+    (goal @self found)))
+
+; --- business_homeostat: the org-supply floor, founder-by-founder --------------
+; The safety net that sustains EMPLOYMENT across generations. The MERIT founding
+; events above require the founder to ALREADY be employed + monied, so once the
+; seed businesses die out the eligible pool empties and founding stops (observed:
+; founding ends ~cycle 42, employment by ~cycle 208). This event founds from ANY
+; alive adult of founding age - breaking that chicken-and-egg - but ONLY while the
+; town sits below its business floor (one per dozen souls). It mints the SAME
+; {@self goal {@self found}} the merit path does, so the found_business errand
+; (roll a housable kind -> leave the old post -> found-org-seq) does the founding,
+; at a bank, with the clue trail - no faceless world edit, no C++ hire().
+;
+; EMERGENT per-NPC (was a zero-role world-act macro): fired MONTHLY by the per-NPC
+; pass. The (orgs-below-population-floor ...) gate is LIVE, so it stops minting once
+; the town is at floor; a small (chance) throttles the per-month volume so the
+; goal->commit lag cannot overshoot far. Premises availability self-limits it too.
+(hsim-event business_homeostat
+  (sim-window-start)
+  (nl         "@self resolves to set up in trade")
+  (rng-stream business)
+
+  (roles
+    ; Any alive adult of founding age who is not already an owner and not already
+    ; pursuing a founding - NO merit gate (that is the whole point of the floor net).
+    (role @self (template old_human)
+                (>= (years-old @self) 25)
+                (<= (years-old @self) 55)
+                (not (= (job-level @self) [k org_head]))
+                (not (has-goal found))
+                (orgs-below-population-floor [k org business] 12)
+                ; a modest monthly chance: enough eligible adults resolve to found
+                ; to refill the floor as businesses fail, without a goal-storm (the
+                ; goal->bank->commit lag is premises-capped regardless).
+                (chance 0.05)))
+
   (effects
     (goal @self found)))
 
