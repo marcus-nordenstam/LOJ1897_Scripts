@@ -33,7 +33,6 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event deliberate
-  (nl       "@self weighs their pressure load and acts")
   (sim-window-start)
   (rng-stream deliberation)
 

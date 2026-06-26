@@ -16,7 +16,6 @@
 
 (hsim-event betrothal
   (sim-window-start)
-  (nl         "@self and ?bride are betrothed")
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY, so the per-bride (chance) is /12 of the old annual 0.25 (-> 0.0208)
   ; to hold the annual betrothal rate. Betrothals spread year-round now (the
@@ -78,4 +77,4 @@
     ; Each betrothed learns the other's social profile - see hsim::believe_about.
     (believe-about @self ?bride)
     (believe-about ?bride @self)
-    (log _betrothal @self)))
+    ))

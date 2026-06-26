@@ -18,7 +18,6 @@
 
 (hsim-event borrow_go
   (intra-day)
-  (nl   "@self calls on a creditor")
   (let ((?creditor (goal-focus take_loan)))
     (when (and (has-goal take_loan)
                (bind {?creditor home ?cred_home})
@@ -28,7 +27,6 @@
 
 (hsim-event borrow_dwell
   (intra-day)
-  (nl   "@self arranges a loan")
   (let ((?creditor (goal-focus take_loan)))
     (when (and (has-goal take_loan)
                (bind {?creditor home ?cred_home})
@@ -38,8 +36,7 @@
 
 (hsim-event borrow_commit
   (schedule (completion-only))
-  (nl   "@self borrows from a creditor")
   (effects
     (begin-belief @self owe (goal-focus take_loan))
     (clear-goal @self take_loan)
-    (log _borrowing @self)))
+    ))

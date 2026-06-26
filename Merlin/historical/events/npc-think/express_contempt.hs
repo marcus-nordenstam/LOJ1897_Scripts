@@ -20,7 +20,6 @@
 
 (hsim-event express_contempt
   (sim-window-start)
-  (nl       "@self treats ?victim with open contempt")
   (rng-stream incidents)
 
   (roles
@@ -41,4 +40,4 @@
 
   (effects
     (incident-anchor @self insult ?victim :context cold_contempt)
-    (log _express_contempt @self)))
+    ))

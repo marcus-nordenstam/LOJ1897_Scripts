@@ -23,7 +23,6 @@
 ; stays below the work shift (80) until exhaustion, then overrides.
 (hsim-event seek_rest
   (intra-day)
-  (nl   "@self heads home to rest")
   (when (and (not (under-attack))
              (not (at-home))
              (> (fatigue @self) 0.7)))
@@ -35,7 +34,6 @@
 ; fatigue. Utility skyrockets past full fatigue so sleep dominates work / leisure.
 (hsim-event sleep
   (intra-day)
-  (nl   "@self sleeps")
   (does SLEEP)
   ; You cannot sleep through an assault - being under attack gates the whole rest
   ; lane OUT, so the fight acts (defend / flee / scream) take over (fight.hs).
@@ -65,14 +63,12 @@
 ; act-belief and resets fatigue automatically; this just records the wake.
 (hsim-event sleep_episode
   (schedule (completion-only))
-  (nl   "@self wakes rested")
   (effects
-    (log _sleep_episode @self)))
+    ))
 
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.
 (hsim-event idle_go_home
   (intra-day)
-  (nl   "@self drifts home")
   (when (and (not (under-attack))
              (not (at-home))))
   (utility 1)

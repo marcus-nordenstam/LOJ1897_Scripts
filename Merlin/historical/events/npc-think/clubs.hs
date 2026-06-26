@@ -24,7 +24,6 @@
 
 ; --- club_founding: an established adult founds a club with two members ------
 (hsim-event club_founding
-  (nl         "?founder founds a club")
   (rng-stream behaviour)
 
   (roles
@@ -54,7 +53,6 @@
 ;; reads @fail and is not excluded by the (not (= ...)) form.
 (hsim-event club_joining
   (sim-window-start)
-  (nl         "@self joins a club")
   (rng-stream behaviour)
 
   (roles
@@ -92,7 +90,6 @@
 
 ; --- club_resignation: an adult resigns from a club -------------------------
 (hsim-event club_resignation
-  (nl         "?member resigns from a club")
   (rng-stream behaviour)
 
   (roles

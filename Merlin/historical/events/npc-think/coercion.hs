@@ -24,7 +24,6 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event coercion
-  (nl       "?actor presses a standing demand")
   (rng-stream perpetration)
   (generative-coercion)
 

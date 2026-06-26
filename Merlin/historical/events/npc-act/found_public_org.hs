@@ -18,7 +18,6 @@
 
 (hsim-event found_public_org
   (startup)
-  (nl         "@self founds a public institution")
   (rng-stream business)
 
   (roles

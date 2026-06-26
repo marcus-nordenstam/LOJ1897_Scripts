@@ -14,7 +14,6 @@
 
 (hsim-event resign_go
   (intra-day)
-  (nl   "@self sets out to resign from a club")
   (when (and (has-goal resign_club)
              (not (at-place-kind [k building social_clubhouse]))))
   (utility 40)
@@ -22,7 +21,6 @@
 
 (hsim-event resign_dwell
   (intra-day)
-  (nl   "@self calls at his club")
   (when (and (has-goal resign_club)
              (at-place-kind [k building social_clubhouse])))
   (utility 40)
@@ -30,8 +28,7 @@
 
 (hsim-event resign_commit
   (schedule (completion-only))
-  (nl   "@self resigns from a club")
   (effects
     (unregister-member :member @self)
     (clear-goal @self resign_club)
-    (log _club_resignation @self)))
+    ))

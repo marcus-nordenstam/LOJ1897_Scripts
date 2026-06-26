@@ -20,7 +20,6 @@
 
 (hsim-event gossip
   (sim-window-start)
-  (nl         "@self spreads gossip among friends")
   (rng-stream behaviour)
 
   (roles
@@ -33,4 +32,4 @@
 
   (effects
     (gossip @self)
-    (log _gossip @self)))
+    ))

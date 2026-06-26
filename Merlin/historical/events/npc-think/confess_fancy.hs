@@ -25,7 +25,6 @@
 
 (hsim-event confess_fancy
   (sim-window-start)
-  (nl         "@self lets ?target know of their feelings")
   (rng-stream marriages)
 
   (roles

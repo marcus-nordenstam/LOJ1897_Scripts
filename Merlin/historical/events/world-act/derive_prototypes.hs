@@ -10,7 +10,6 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event derive_prototypes
-  (nl         "?npc is appraised")
   (schedule   (annually december))
   (rng-stream behaviour)
 

@@ -48,7 +48,6 @@
 
 (hsim-event bonded_incident_disinherit
   (sim-window-start)
-  (nl       "@self disinherits ?victim")
   (rng-stream incidents)
 
   (roles
@@ -71,4 +70,4 @@
 
   (effects
     (incident-anchor @self disinherit ?victim)
-    (log _bonded_incident_disinherit @self)))
+    ))

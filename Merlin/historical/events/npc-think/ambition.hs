@@ -30,7 +30,6 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event ambition
-  (nl       "?actor's ambition turns murderous")
   (rng-stream perpetration)
   (generative-ambition)
 

@@ -26,7 +26,6 @@
 
 (hsim-event love_match
   (sim-window-start)
-  (nl         "@self and ?beloved marry for love")
   (rng-stream marriages)
 
   (roles
@@ -102,4 +101,4 @@
     (begin-belief ?beloved fiancee @self)
     (believe-about @self    ?beloved)
     (believe-about ?beloved @self)
-    (log _betrothal @self)))
+    ))

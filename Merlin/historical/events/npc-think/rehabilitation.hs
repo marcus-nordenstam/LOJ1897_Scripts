@@ -20,7 +20,6 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event rehabilitation
-  (nl         "?npc seeks rehabilitation")
   (rng-stream behaviour)
 
   (roles
@@ -32,4 +31,4 @@
 
   (effects
     (go-to-church ?npc)
-    (log _rehabilitation ?npc)))
+    ))

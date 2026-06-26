@@ -16,7 +16,6 @@
 
 (hsim-event indenture_go
   (intra-day)
-  (nl   "@self sets out to be apprenticed")
   ; articles-building BINDS ?venue (the master's premises) off the goal-focus
   ; articles, threading it to the at-place gate + the (go) effect.
   (when (and (articles-building (goal-focus seek_indenture) ?venue)
@@ -27,7 +26,6 @@
 
 (hsim-event indenture_dwell
   (intra-day)
-  (nl   "@self presents himself to a master")
   (when (and (articles-building (goal-focus seek_indenture) ?venue)
              (has-goal seek_indenture)
              (at-place ?venue)))
@@ -36,7 +34,6 @@
 
 (hsim-event indenture_commit
   (schedule (completion-only))
-  (nl   "@self is apprenticed")
   ; bind the master's articles to a plain ?var (a macro arg used as a {pattern}
   ; subject inside hire-seq must be a ?var, not an expr).
   (let ((?art (goal-focus seek_indenture)))
@@ -47,4 +44,4 @@
       (hire-seq ?art [k job clerk] [k trainee])
       (begin-belief @self master ?master)
       (clear-goal @self seek_indenture)
-      (log _apprenticeship @self))))
+      )))

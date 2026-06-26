@@ -48,7 +48,6 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event predation
-  (nl       "?actor's appetite turns predatory")
   (rng-stream perpetration)
   (generative-predation)
 

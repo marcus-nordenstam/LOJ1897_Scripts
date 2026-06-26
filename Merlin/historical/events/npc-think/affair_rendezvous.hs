@@ -29,7 +29,6 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event affair_rendezvous
-  (nl         "?actor steals away to meet a secret lover")
   (rng-stream incidents)
   (generative-rendezvous)
 

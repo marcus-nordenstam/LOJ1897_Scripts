@@ -33,7 +33,6 @@
 ; BOUND by the first (believes) (the home), then reused to test ownership + kind.
 (hsim-event consider_household_staffing
   (sim-window-start)
-  (nl         "@self resolves to keep their household in service")
   (rng-stream employment)
 
   (roles
@@ -49,7 +48,6 @@
 
 ; --- ACT: the head fulfils the duty - founds + hires what the household lacks ---
 (hsim-event staff_household
-  (nl         "?actor takes on domestic staff")
   ; EMERGENT: no (schedule) - fired by the per-NPC emergent pass MONTHLY. The
   ; (generative-staffing) dispatch (run_generative_staffing) now GATES on the
   ; {@self goal {@self staff_household}} duty the think minted, then FILLS-TO-TARGET

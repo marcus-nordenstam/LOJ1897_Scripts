@@ -10,7 +10,6 @@
 ; (dispatched on the committed occasion to the domestic / meal / street body).
 ; ----------------------------------------------------------------------------
 (hsim-event means_strike
-  (nl   "?actor falls upon ?victim")
   (kind _means_strike)
   (roles (role ?actor  (template any_human))
          (role ?victim (template any_human)))

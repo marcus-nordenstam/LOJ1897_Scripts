@@ -8,7 +8,6 @@
 ; mortality_by_age is auto-loaded from historical/tables/.
 
 (hsim-event mortality_old_age
-  (nl         "?who dies of old age")
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass.
   ; The per-age (when (chance ?per_month)) below IS the rate; the monthly pass
   ; is the cadence.
@@ -27,5 +26,5 @@
       ; the rationale.
       (propagate-death ?who)
       (die             ?who :cause old_age)
-      (log             _death ?who)))
+      ))
 )

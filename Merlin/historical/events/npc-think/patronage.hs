@@ -25,7 +25,6 @@
 
 (hsim-event patronage
   (sim-window-start)
-  (nl         "@self takes ?protege under their wing")
   (rng-stream business)
 
   (roles
@@ -67,4 +66,4 @@
 
   (effects
     (begin-belief ?protege backed_by @self)
-    (log _patronage ?protege)))
+    ))

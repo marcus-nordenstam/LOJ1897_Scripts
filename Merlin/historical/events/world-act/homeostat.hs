@@ -16,7 +16,6 @@
 ; The homeostat tables are auto-loaded from historical/tables/.
 
 (hsim-event homeostat_emigration
-  (nl         "homeostat: emigration wave (alive=?alive)")
   (schedule   (annually january))
   (rng-stream homeostat)
 
@@ -29,11 +28,10 @@
 
     (effects
       (emigrate-oldest ?count)
-      (log _emigration_wave)))
+      ))
 )
 
 (hsim-event homeostat_immigration
-  (nl         "homeostat: immigration wave (alive=?alive)")
   (schedule   (annually january))
   (rng-stream homeostat)
 
@@ -46,5 +44,5 @@
 
     (effects
       (spawn-immigrant ?count)
-      (log _immigration_wave)))
+      ))
 )

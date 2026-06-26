@@ -25,7 +25,6 @@
 
 (hsim-event day_work
   (intra-day)
-  (nl   "@self works")
   (when (and (bind {@self employer ?org})
              (bind {?org workplace ?wp})
              (bind {@self job ?job})
@@ -37,7 +36,6 @@
 
 (hsim-event day_go_to_work
   (intra-day)
-  (nl   "@self sets out for work")
   (when (and (bind {@self employer ?org})
              (bind {?org workplace ?wp})
              (bind {@self job ?job})

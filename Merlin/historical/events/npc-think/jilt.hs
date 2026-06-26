@@ -37,7 +37,6 @@
 
 (hsim-event jilt
   (sim-window-start)
-  (nl         "@self jilts ?jilted")
   (rng-stream marriages)
 
   (roles
@@ -65,7 +64,7 @@
     (incident-anchor @self jilt ?jilted)
     ; Warmth curdles; attraction is NOT touched (longing persists).
     (nudge-stance ?jilted @self warmth -0.4)
-    (log _jilt @self)))
+    ))
 
 ; ----------------------------------------------------------------------------
 ; jilt_for_station - the class-ambition jilt (the literal Smith opening).
@@ -83,7 +82,6 @@
 
 (hsim-event jilt_for_station
   (sim-window-start)
-  (nl         "@self breaks with ?jilted to keep their station")
   (rng-stream marriages)
 
   (roles
@@ -115,4 +113,4 @@
     (end-belief @self lover ?jilted)
     (incident-anchor @self jilt ?jilted)
     (nudge-stance ?jilted @self warmth -0.4)
-    (log _jilt @self)))
+    ))

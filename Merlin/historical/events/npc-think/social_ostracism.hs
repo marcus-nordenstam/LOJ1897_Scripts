@@ -21,7 +21,6 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event social_ostracism
-  (nl         "?npc is ostracised")
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY. social-ostracism is idempotent (re-ending already-ended warmth bonds /
   ; club memberships is a no-op), but to avoid 12x/year log + scan churn the role
@@ -36,4 +35,4 @@
 
   (effects
     (social-ostracism ?npc)
-    (log _ostracism ?npc)))
+    ))

@@ -22,7 +22,6 @@
 
 (hsim-event bonded_incident_assault
   (sim-window-start)
-  (nl       "@self assaults ?victim")
   (rng-stream incidents)
 
   (roles
@@ -44,4 +43,4 @@
   (effects
     (incident-anchor @self assault ?victim)
     (witness-copresence @self assault ?victim)
-    (log _bonded_incident_assault @self)))
+    ))

@@ -3,7 +3,6 @@
 
 (hsim-event seek_game
   (intra-day)
-  (nl   "@self sets out to gamble")
   (when (and (has-goal play_game)
              (not (at-place-kind [k building pub]))))
   (utility 30)
@@ -12,7 +11,6 @@
 
 (hsim-event gamble_act
   (intra-day)
-  (nl   "@self gambles")
   (when (and (has-goal play_game)
              (at-place-kind [k building pub])))
   (utility 30)
@@ -21,8 +19,7 @@
 
 (hsim-event gamble_episode
   (schedule (completion-only))
-  (nl   "@self gambles at the table")
   (effects
     (gamble @self)
     (clear-goal @self play_game)
-    (log _gamble_episode @self)))
+    ))

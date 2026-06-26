@@ -24,7 +24,6 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event affair_fallout
-  (nl       "?actor reckons with a partner's affair")
   (rng-stream incidents)
   (generative-betrayal)
 

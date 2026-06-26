@@ -14,7 +14,6 @@
 
 (hsim-event hire_go
   (intra-day)
-  (nl   "@self sets out to seek work")
   (when (and (articles-building (goal-focus engage_staff) ?venue)
              (has-goal engage_staff)
              (not (at-place ?venue))))
@@ -23,7 +22,6 @@
 
 (hsim-event hire_dwell
   (intra-day)
-  (nl   "@self applies for a post")
   (when (and (articles-building (goal-focus engage_staff) ?venue)
              (has-goal engage_staff)
              (at-place ?venue)))
@@ -32,7 +30,6 @@
 
 (hsim-event hire_commit
   (schedule (completion-only))
-  (nl   "@self is hired")
   ; bind the org's articles to a plain ?var so it can serve as a {pattern} subject
   ; inside hire-seq (a macro arg used in a pattern must be a ?var, not an expr).
   (let ((?art (goal-focus engage_staff)))
@@ -44,4 +41,4 @@
       (if ?jk
         (hire-seq ?art ?jk [k apprentice]))
       (clear-goal @self engage_staff)
-      (log _hiring @self))))
+      )))

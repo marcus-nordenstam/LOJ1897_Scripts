@@ -42,7 +42,6 @@
 ; goals persist but the striking is one timed burst per month.
 (hsim-event kill_seek
   (intra-day)
-  (nl   "@self stalks their victim")
   (let ((?victim (goal-focus fight)))
     (when (and (has-goal fight)
                (bind {?victim home ?victim_home})
@@ -56,7 +55,6 @@
 ; down. A 1-minute act; its completion lands the blow and re-deliberates the killer.
 (hsim-event kill_strike
   (intra-day)
-  (nl   "@self falls upon their victim")
   (when (and (has-goal fight)
              (co-present @self (goal-focus fight))))
   (utility (if (< (fight-elapsed) 10) 200
@@ -70,7 +68,6 @@
 ; PERSIST - cold-start clears the exposure clock and it tries again next month.
 (hsim-event break_off_fight
   (intra-day)
-  (nl   "@self breaks off the attack")
   (when (and (has-goal fight)
              (not (at-home))))
   (utility (* 30 (max 0 (- (fight-elapsed) 10))))
@@ -82,12 +79,11 @@
 ; and is still co-present).
 (hsim-event kill_blow
   (schedule (completion-only))
-  (nl   "@self strikes a violent blow")
   (effects
     ; (strike-blow <foe> <intent>) - the actor is implicit (@self); pass the foe +
     ; intent atom only.
     (strike-blow (goal-focus fight) kill)
-    (log _kill_blow @self)))
+    ))
 
 ; THE VICTIM FIGHTS BACK (intra-day act). A struck victim holds the threat state
 ; {@self under_attack <foe>} (set in the victim's mind by the blow that landed) and
@@ -107,7 +103,6 @@
 ; rest lane is gated out while under attack).
 (hsim-event defend_strike
   (intra-day)
-  (nl   "@self fights back")
   (when (and (under-attack)
              (not (has-goal fight))
              (co-present @self (threat-focus))
@@ -124,10 +119,9 @@
 ; a non-fatal one re-arms the attacker's own under_attack (the exchange continues).
 (hsim-event defend_blow
   (schedule (completion-only))
-  (nl   "@self strikes back")
   (effects
     (strike-blow (threat-focus) kill)
-    (log _defend_blow @self)))
+    ))
 
 ; THE VICTIM TRIES TO FLEE (intra-day act, end-condition b). A struck victim that
 ; does NOT turn to fight makes a one-round bid to break away. Lower utility than
@@ -139,7 +133,6 @@
 ; FAILURE it is still pinned and re-deliberates (fight / flee / scream) next round.
 (hsim-event flee_attack
   (intra-day)
-  (nl   "@self tries to flee their attacker")
   (when (and (under-attack)
              (not (has-goal fight))
              (co-present @self (threat-focus))))
@@ -151,10 +144,9 @@
 ; fight ends; on failure nothing changes and the victim tries again next round.
 (hsim-event flee_attempt
   (schedule (completion-only))
-  (nl   "@self bolts for safety")
   (effects
     (attempt-flee)
-    (log _flee_attempt @self)))
+    ))
 
 ; THE VICTIM SCREAMS FOR HELP (intra-day act) - the last resort when it can neither
 ; fight (failed the resolve roll) nor flee (nowhere to run). Lowest utility, so it
@@ -164,10 +156,9 @@
 ; the point here is that cowering-and-screaming, not sleeping, is the floor.)
 (hsim-event scream_for_help
   (intra-day)
-  (nl   "@self screams for help")
   (when (and (under-attack)
              (co-present @self (threat-focus))))
   (utility 100)
   (effects
     (stay 1)
-    (log _scream_for_help @self)))
+    ))

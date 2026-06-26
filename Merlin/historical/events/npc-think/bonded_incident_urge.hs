@@ -40,7 +40,6 @@
 
 (hsim-event bonded_incident_urge
   (sim-window-start)
-  (nl       "@self urges ?victim to atone")
   (rng-stream incidents)
 
   (roles
@@ -69,4 +68,4 @@
 
   (effects
     (urge @self ?victim atone)
-    (log _bonded_incident_urge @self)))
+    ))

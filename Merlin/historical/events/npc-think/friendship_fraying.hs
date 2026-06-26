@@ -31,7 +31,6 @@
 
 (hsim-event friendship_fraying
   (sim-window-start)
-  (nl       "?a and ?b drift apart")
   (rng-stream friendships)
 
   ;; SELF-POV: @self reads only his OWN mind - his soured warmth toward ?b and his
@@ -58,4 +57,4 @@
     ; Sever the mutual friend tie - the bond is structural, so both drop it.
     (end-belief @self friend ?b)
     (end-belief ?b friend @self)
-    (log _friendship_fraying @self)))
+    ))

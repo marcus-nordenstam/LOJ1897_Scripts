@@ -20,7 +20,6 @@
 
 ; --- hiring: a jobless working-age adult is taken on by some org -------------
 (hsim-event hiring
-  (nl         "?worker is hired")
   (rng-stream employment)
 
   (roles
@@ -81,7 +80,6 @@
 ; boss_of scan to reach the boss-side assessment), which dominated the world lane.
 (hsim-event job_loss
   (sim-window-start)
-  (nl         "@self reviews their staff for promotions and dismissals")
   (rng-stream employment)
 
   (roles
@@ -98,7 +96,6 @@
 ; completion fires the actual (fire) commit - so a retirement happens AT the
 ; workplace, by the man himself, generating the co-presence a witness would see.
 (hsim-event retirement
-  (nl         "?worker decides to retire")
   (rng-stream employment)
 
   (roles
@@ -111,4 +108,4 @@
 
   (effects
     (goal ?worker quit_work)
-    (log _retirement ?worker)))
+    ))

@@ -33,7 +33,6 @@
 ; binds it as E.self_actor).
 (hsim-event means_plan_acquire
   (intra-day)
-  (nl   "@self resolves to acquire the means for the deed")
   (when (and (has-means @self)
              (not (controls @self means))
              (not (believes {@self acquire means}))))
@@ -49,7 +48,6 @@
 ; later; the result lands at COMPLETION, not now.
 (hsim-event means_plan_obtain
   (intra-day)
-  (nl   "@self sets out to obtain the means")
   (when (and (has-means @self)
              (believes {@self acquire means})
              (not (controls @self means))))
@@ -65,10 +63,9 @@
 ; process_due_completions binds the act's owner as @self.
 (hsim-event means_acquired
   (schedule (completion-only))
-  (nl   "@self returns having obtained the means")
   (effects
     (acquire-control @self means)
-    (log _means_acquired @self)))
+    ))
 
 ; NB: the kill STRIKE terminal (means_strike) was moved to
 ; historical/_unported_events/means_strike.hs when the place-lane crime passes were

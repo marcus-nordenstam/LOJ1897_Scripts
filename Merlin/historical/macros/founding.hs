@@ -50,7 +50,8 @@
         (begin-belief {?org record ?art})
 
         ; --- seat the founder as HEAD (org_head): roster + employment beliefs -----
-        (write-doc-record [k employee_register] ?reg (worker @self) (job ?head-role))
+        (write-doc-record [k employee_register] ?reg
+            (worker @self) (job ?head-role) (level [k org_head]))
         (begin-belief {@self employer ?org})
         (begin-belief {?wp occupant @self})
         ; the head LEARNS the workplace's rooms (the building's `parts` that are rooms):
@@ -64,16 +65,51 @@
         (stamp-work-hours ?job ?head-role)))))
 
 ; ----------------------------------------------------------------------------
-; hire-seq - the WORKER-side hiring belief sequence, as atomic .hse ops.
+; hire-beliefs - the BELIEF-ONLY half of hiring (no roster write).
+;
+; Reads the org's kind + premises off the existing articles and mints every
+; employment belief in @self's mind. It does NOT touch the roster - the worker is
+; rostered separately: hire-seq (below) writes the register itself for an emergent
+; hire, while the C++ candidate-scan effects (bootstrap / staff_household / jockey)
+; roster the worker via the thin enrol verb and let the materialize_employment
+; event call THIS to mint the beliefs. So the beliefs live in .hs; the roster
+; (objective) is owned by whoever enrolled the worker. @self is always the worker
+; (no telepathy). Only (stamp-work-hours) (occupation-catalog reuse) reaches
+; outside @self's own mind.
+;
+;   (hire-beliefs ?art ?job-kind ?level)  - args as hire-seq below.
+; ----------------------------------------------------------------------------
+
+(define-macro hire-beliefs (?art ?job-kind ?level)
+  (do
+    ; --- read the org's kind + premises off the existing articles --------------
+    (read-doc-record [k articles_of_incorporation] ?art
+        (kind ?org-kind) (building ?wp))
+    ; --- @self's mind: the org object + the employment beliefs ------------------
+    (imagine-or-recall ?org-kind {?art declares_org ?org})
+    (begin-belief {@self employer ?org})
+    (begin-belief {?wp occupant @self})
+    (begin-belief {?org workplace ?wp})
+    ; @self LEARNS the workplace's rooms (the building's `parts` that are rooms):
+    ; {building room <room>} + the reverse {room building <building>}.
+    (for-each ?room (attr-values ?wp parts [k interior_space room])
+        (begin-belief {?wp room ?room})
+        (begin-belief {?room building ?wp}))
+    ; --- the job mental object carrying the rank, plus its work-hours -----------
+    (imagine-or-recall ?job-kind {@self job ?job})
+    (begin-belief {?job level ?level})
+    (stamp-work-hours ?job ?job-kind)))
+
+; ----------------------------------------------------------------------------
+; hire-seq - the full WORKER-side hire: roster write + employment beliefs.
 ;
 ; The decomposition of the old monolithic C++ hire() belief-mint, mirroring
 ; found-org-seq: where founding CREATES the org's documents + premises, hiring
-; READS them from the existing articles and seats @self as an employee. Every
-; mental belief is minted in @self's mind - and in every emergent hire path the
-; worker IS @self (hire_commit / indenture / partner: @self; senior_appointment:
-; @self == the role-0 official), so there is NO telepathy here. Only the env-side
-; roster write (abs-native) and (stamp-work-hours) (occupation-catalog reuse,
-; retires with the catalog) touch anything outside @self's own mind.
+; READS them from the existing articles, ENROLS @self on the register, and mints
+; his beliefs (hire-beliefs). The emergent hire paths use this - the worker is not
+; yet rostered, so it must both enrol him AND mint his beliefs. In every emergent
+; path the worker IS @self (hire_commit / indenture / partner: @self;
+; senior_appointment: @self == the role-0 official), so there is NO telepathy.
 ;
 ;   (hire-seq ?art ?job-kind ?level)
 ;     ?art       - the org's articles document (the goal focus / appointment org)
@@ -91,22 +127,9 @@
 
 (define-macro hire-seq (?art ?job-kind ?level)
   (do
-    ; --- read the org's kind, premises, and roster off the existing articles ----
-    (read-doc-record [k articles_of_incorporation] ?art
-        (kind ?org-kind) (building ?wp) (register ?reg))
-    ; --- env-side roster (abs): record @self under the matched job kind ---------
-    (write-doc-record [k employee_register] ?reg (worker @self) (job ?job-kind))
-    ; --- @self's mind: the org object + the employment beliefs ------------------
-    (imagine-or-recall ?org-kind {?art declares_org ?org})
-    (begin-belief {@self employer ?org})
-    (begin-belief {?wp occupant @self})
-    (begin-belief {?org workplace ?wp})
-    ; @self LEARNS the workplace's rooms (the building's `parts` that are rooms):
-    ; {building room <room>} + the reverse {room building <building>}.
-    (for-each ?room (attr-values ?wp parts [k interior_space room])
-        (begin-belief {?wp room ?room})
-        (begin-belief {?room building ?wp}))
-    ; --- the job mental object carrying the rank, plus its work-hours -----------
-    (imagine-or-recall ?job-kind {@self job ?job})
-    (begin-belief {?job level ?level})
-    (stamp-work-hours ?job ?job-kind)))
+    ; --- env-side roster (abs): record @self under the matched job kind + rank --
+    (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
+    (write-doc-record [k employee_register] ?reg
+        (worker @self) (job ?job-kind) (level ?level))
+    ; --- the employment beliefs in @self's mind --------------------------------
+    (hire-beliefs ?art ?job-kind ?level)))

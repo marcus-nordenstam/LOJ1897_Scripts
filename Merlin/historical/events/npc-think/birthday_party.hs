@@ -26,7 +26,6 @@
 
 (hsim-event birthday_party
   (sim-window-start)
-  (nl         "@self and ?guest exchange news")
   (rng-stream friendships)
 
   (roles
@@ -46,4 +45,4 @@
 
   (effects
     (exchange-news @self ?guest)
-    (log _birthday_party @self)))
+    ))

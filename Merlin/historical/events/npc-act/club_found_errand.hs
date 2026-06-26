@@ -13,7 +13,6 @@
 
 (hsim-event found_club_go
   (intra-day)
-  (nl   "@self sets out to found a club")
   (when (and (has-goal found_club)
              (not (at-place-kind [k building pub]))))
   (utility 45)
@@ -21,7 +20,6 @@
 
 (hsim-event found_club_dwell
   (intra-day)
-  (nl   "@self gathers men to found a club")
   (when (and (has-goal found_club)
              (at-place-kind [k building pub])))
   (utility 45)
@@ -29,8 +27,7 @@
 
 (hsim-event found_club_commit
   (schedule (completion-only))
-  (nl   "@self founds a club")
   (effects
     (found-org :kind club :founder @self)
     (clear-goal @self found_club)
-    (log _club_founding @self)))
+    ))

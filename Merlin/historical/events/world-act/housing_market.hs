@@ -20,7 +20,6 @@
 ; ----------------------------------------------------------------------------
 
 (hsim-event housing_market
-  (nl         "the housing market turns over")
   (schedule   (annually march))
   (rng-stream behaviour)
 

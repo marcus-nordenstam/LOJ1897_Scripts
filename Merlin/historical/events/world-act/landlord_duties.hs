@@ -15,7 +15,6 @@
 ; ----------------------------------------------------------------------------
 
 (hsim-event landlord_duties
-  (nl         "landlords advertise their vacant properties to let")
   (schedule   (annually february))
   (rng-stream behaviour)
 

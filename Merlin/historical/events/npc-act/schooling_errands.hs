@@ -12,54 +12,54 @@
 
 ; ----- primary -------------------------------------------------------------
 (hsim-event primary_go
-  (intra-day) (nl "@self sets off for school")
+  (intra-day)
   (when (and (has-goal enrol_primary) (not (at-place-kind [k building school]))))
   (utility 35)
   (effects (go @self (venue [k building school]))))
 (hsim-event primary_dwell
-  (intra-day) (nl "@self is enrolled at school")
+  (intra-day)
   (when (and (has-goal enrol_primary) (at-place-kind [k building school])))
   (utility 35)
   (effects (act primary_commit 60)))
 (hsim-event primary_commit
-  (schedule (completion-only)) (nl "@self starts primary school")
+  (schedule (completion-only))
   (effects
     (enroll @self primary_school_curriculum)
     (clear-goal @self enrol_primary)
-    (log _education @self)))
+    ))
 
 ; ----- secondary -----------------------------------------------------------
 (hsim-event secondary_go
-  (intra-day) (nl "@self sets off for school")
+  (intra-day)
   (when (and (has-goal enrol_secondary) (not (at-place-kind [k building school]))))
   (utility 35)
   (effects (go @self (venue [k building school]))))
 (hsim-event secondary_dwell
-  (intra-day) (nl "@self is enrolled at school")
+  (intra-day)
   (when (and (has-goal enrol_secondary) (at-place-kind [k building school])))
   (utility 35)
   (effects (act secondary_commit 60)))
 (hsim-event secondary_commit
-  (schedule (completion-only)) (nl "@self goes on to secondary school")
+  (schedule (completion-only))
   (effects
     (enroll @self secondary_school_curriculum)
     (clear-goal @self enrol_secondary)
-    (log _education @self)))
+    ))
 
 ; ----- university ----------------------------------------------------------
 (hsim-event university_go
-  (intra-day) (nl "@self sets off for university")
+  (intra-day)
   (when (and (has-goal enrol_university) (not (at-place-kind [k building school]))))
   (utility 35)
   (effects (go @self (venue [k building school]))))
 (hsim-event university_dwell
-  (intra-day) (nl "@self matriculates")
+  (intra-day)
   (when (and (has-goal enrol_university) (at-place-kind [k building school])))
   (utility 35)
   (effects (act university_commit 60)))
 (hsim-event university_commit
-  (schedule (completion-only)) (nl "@self goes up to university")
+  (schedule (completion-only))
   (effects
     (enroll-university @self)
     (clear-goal @self enrol_university)
-    (log _education @self)))
+    ))

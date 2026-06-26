@@ -20,7 +20,6 @@
 
 (hsim-event retire_go
   (intra-day)
-  (nl   "@self sets out to give notice")
   (when (and (has-goal quit_work)
              (bind {@self employer ?org})
              (bind {?org workplace ?wp})
@@ -30,7 +29,6 @@
 
 (hsim-event retire_dwell
   (intra-day)
-  (nl   "@self gives notice at work")
   (when (and (has-goal quit_work)
              (bind {@self employer ?org})
              (bind {?org workplace ?wp})
@@ -40,8 +38,7 @@
 
 (hsim-event retire_commit
   (schedule (completion-only))
-  (nl   "@self retires")
   (effects
     (fire :worker @self)
     (clear-goal @self quit_work)
-    (log _retirement @self)))
+    ))

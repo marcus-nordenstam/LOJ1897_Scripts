@@ -31,7 +31,6 @@
 ; still commit through the terminal.
 (hsim-event attempt_harm
   (long-term-think)
-  (nl       "@self follows through on a standing perpetration goal")
   (rng-stream perpetration)
   (generative-perpetration)
 

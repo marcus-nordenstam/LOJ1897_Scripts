@@ -22,7 +22,6 @@
 
 (hsim-event adult_friendship
   (sim-window-start)
-  (nl         "@self and ?b become friends")
   (rng-stream friendships)
 
   (roles
@@ -58,4 +57,4 @@
     ; befriend mints the mutual tie (friend, or acquaintance if either side is
     ; already at friend-capacity) AND the matching-tier profile sync.
     (befriend @self ?b)
-    (log _friendship @self)))
+    ))

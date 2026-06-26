@@ -25,7 +25,6 @@
 
 (hsim-event relapse
   (sim-window-start)
-  (nl         "@self relapses into drink")
   (rng-stream behaviour)
   (roles
     (role @self (template grown)))

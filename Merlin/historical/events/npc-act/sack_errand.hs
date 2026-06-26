@@ -15,7 +15,6 @@
 
 (hsim-event sack_go
   (intra-day)
-  (nl   "@self sets out to dismiss a man")
   (when (and (has-goal sack)
              (bind {@self employer ?org})
              (bind {?org workplace ?wp})
@@ -25,7 +24,6 @@
 
 (hsim-event sack_dwell
   (intra-day)
-  (nl   "@self deals with a failing man")
   (when (and (has-goal sack)
              (bind {@self employer ?org})
              (bind {?org workplace ?wp})
@@ -35,10 +33,9 @@
 
 (hsim-event sack_commit
   (schedule (completion-only))
-  (nl   "@self dismisses a worker")
   (effects
     (fire :worker (goal-focus sack))
     ; the grudge: the dismissed man resents the boss who let him go (a named motive)
     (nudge-stance (goal-focus sack) @self warmth -0.5)
     (clear-goal @self sack)
-    (log _job_loss @self)))
+    ))

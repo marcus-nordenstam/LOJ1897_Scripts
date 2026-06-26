@@ -42,7 +42,6 @@
 ; --- investment: a worthy clerk secures his employer's backing -------------
 (hsim-event investment
   (sim-window-start)
-  (nl         "@self resolves to seek backing to set up in business")
   (rng-stream business)
 
   ; SELF-POV (reframe 2026-06-23): the worthy CLERK is the deliberator and seeks his
@@ -85,7 +84,6 @@
 ; buy into a firm. @self, no counterpart mind is read.
 (hsim-event business_partnership
   (sim-window-start)
-  (nl         "@self is taken into partnership")
   (rng-stream business)
 
   (roles
@@ -136,7 +134,6 @@
 ; co-presence a witness would see, instead of a faceless world-lane edit.
 (hsim-event business_founding
   (sim-window-start)
-  (nl         "?founder resolves to set up in business")
   (rng-stream business)
 
   (roles
@@ -179,7 +176,6 @@
 ; goal->commit lag cannot overshoot far. Premises availability self-limits it too.
 (hsim-event business_homeostat
   (sim-window-start)
-  (nl         "@self resolves to set up in trade")
   (rng-stream business)
 
   (roles

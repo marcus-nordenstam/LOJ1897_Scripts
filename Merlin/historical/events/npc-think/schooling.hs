@@ -42,7 +42,6 @@
 
 ; --- enroll_primary: a young child starts primary school ---------------------
 (hsim-event enroll_primary
-  (nl         "?child starts primary school")
   (schedule   (annually march))
   (rng-stream behaviour)
 
@@ -67,7 +66,6 @@
 
 ; --- enroll_secondary: a middle+ youth goes on to secondary ------------------
 (hsim-event enroll_secondary
-  (nl         "?youth goes on to secondary school")
   (schedule   (annually june))
   (rng-stream behaviour)
 
@@ -92,7 +90,6 @@
 
 ; --- enroll_university: an upper / wealthy youth goes up to university --------
 (hsim-event enroll_university
-  (nl         "?youth goes up to university")
   (schedule   (annually june))
   (rng-stream behaviour)
 
@@ -115,7 +112,6 @@
 
 ; --- leave_primary: every primary pupil finishes at ~11 ----------------------
 (hsim-event leave_primary
-  (nl         "?pupil finishes primary school")
   (schedule   (annually september))
   (rng-stream behaviour)
 
@@ -130,11 +126,10 @@
 
   (effects
     (graduate ?pupil)
-    (log _education ?pupil)))
+    ))
 
 ; --- leave_secondary: a secondary pupil finishes at ~17 ----------------------
 (hsim-event leave_secondary
-  (nl         "?pupil finishes secondary school")
   (schedule   (annually september))
   (rng-stream behaviour)
 
@@ -145,11 +140,10 @@
 
   (effects
     (graduate ?pupil)
-    (log _education ?pupil)))
+    ))
 
 ; --- graduate_university: a degree is taken at ~22 ---------------------------
 (hsim-event graduate_university
-  (nl         "?graduate takes their degree")
   (schedule   (annually september))
   (rng-stream behaviour)
 
@@ -164,4 +158,4 @@
 
   (effects
     (graduate ?graduate)
-    (log _education ?graduate)))
+    ))

@@ -20,7 +20,6 @@
 
 (hsim-event family_dinner
   (sim-window-start)
-  (nl         "@self's family gathers for dinner")
   (rng-stream behaviour)
 
   (roles
@@ -31,4 +30,4 @@
 
   (effects
     (family-dinner @self)
-    (log _family_dinner @self)))
+    ))

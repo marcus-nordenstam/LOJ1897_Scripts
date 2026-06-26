@@ -21,7 +21,6 @@
 
 (hsim-event bonded_incident_insult
   (sim-window-start)
-  (nl       "@self insults ?victim")
   (rng-stream incidents)
 
   (roles
@@ -49,4 +48,4 @@
 
   (effects
     (incident-anchor @self insult ?victim)
-    (log _bonded_incident_insult @self)))
+    ))

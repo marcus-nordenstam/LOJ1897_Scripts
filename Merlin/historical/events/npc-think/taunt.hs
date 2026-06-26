@@ -24,7 +24,6 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event taunt
-  (nl       "?actor inserts themselves into their own mystery")
   (rng-stream perpetration)
   (generative-taunt)
 

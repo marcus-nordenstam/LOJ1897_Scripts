@@ -12,7 +12,6 @@
 
 (hsim-event promote_go
   (intra-day)
-  (nl   "@self sets out to advance a man")
   (when (and (has-goal promote_staff)
              (bind {@self employer ?org})
              (bind {?org workplace ?wp})
@@ -22,7 +21,6 @@
 
 (hsim-event promote_dwell
   (intra-day)
-  (nl   "@self reviews a worthy man")
   (when (and (has-goal promote_staff)
              (bind {@self employer ?org})
              (bind {?org workplace ?wp})
@@ -32,8 +30,7 @@
 
 (hsim-event promote_commit
   (schedule (completion-only))
-  (nl   "@self promotes a worker")
   (effects
     (promote :worker (goal-focus promote_staff))
     (clear-goal @self promote_staff)
-    (log _promotion @self)))
+    ))

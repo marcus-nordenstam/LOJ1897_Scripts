@@ -28,7 +28,6 @@
 
 (hsim-event lovers
   (sim-window-start)
-  (nl         "@self and ?b become lovers")
   (rng-stream marriages)
 
   (roles
@@ -83,4 +82,4 @@
     (nudge-stance ?b @self attraction 0.4)
     (believe-about @self ?b)
     (believe-about ?b @self)
-    (log _lovers @self)))
+    ))

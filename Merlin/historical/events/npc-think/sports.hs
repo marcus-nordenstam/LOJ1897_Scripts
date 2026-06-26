@@ -25,7 +25,6 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event sporting_event
-  (nl         "a sporting club holds its annual competition")
   (schedule   (annually june))
   (rng-stream behaviour)
 
@@ -35,4 +34,4 @@
 
   (effects
     (hold-sporting-event :articles ?club_articles)
-    (log _sporting_event ?club_articles)))
+    ))

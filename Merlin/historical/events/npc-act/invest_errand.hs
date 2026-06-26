@@ -15,7 +15,6 @@
 
 (hsim-event invest_go
   (intra-day)
-  (nl   "@self calls on their employer for backing")
   (let ((?org (goal-focus back)))
     (when (and (has-goal back)
                (bind {?org workplace ?wp})
@@ -25,7 +24,6 @@
 
 (hsim-event invest_dwell
   (intra-day)
-  (nl   "@self proposes a venture to their employer")
   (let ((?org (goal-focus back)))
     (when (and (has-goal back)
                (bind {?org workplace ?wp})
@@ -35,8 +33,7 @@
 
 (hsim-event invest_commit
   (schedule (completion-only))
-  (nl   "@self secures backing")
   (effects
     (begin-belief @self backed_by (goal-focus back))
     (clear-goal @self back)
-    (log _investment @self)))
+    ))

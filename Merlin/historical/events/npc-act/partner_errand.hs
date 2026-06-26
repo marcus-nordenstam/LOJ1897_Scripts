@@ -15,7 +15,6 @@
 
 (hsim-event partner_go
   (intra-day)
-  (nl   "@self sets out to settle a partnership")
   (when (and (articles-building (goal-focus partner) ?venue)
              (has-goal partner)
              (not (at-place ?venue))))
@@ -24,7 +23,6 @@
 
 (hsim-event partner_dwell
   (intra-day)
-  (nl   "@self settles into the firm")
   (when (and (articles-building (goal-focus partner) ?venue)
              (has-goal partner)
              (at-place ?venue)))
@@ -33,7 +31,6 @@
 
 (hsim-event partner_commit
   (schedule (completion-only))
-  (nl   "@self is taken into partnership")
   ; bind the firm's articles to a plain ?var (hire-seq needs it as a {pattern} subject).
   (let ((?art (goal-focus partner)))
     (effects
@@ -41,4 +38,4 @@
       (add-co-owner :articles ?art :owner @self)
       (hire-seq ?art [k job proprietor] [k org_head])
       (clear-goal @self partner)
-      (log _business_partnership @self))))
+      )))

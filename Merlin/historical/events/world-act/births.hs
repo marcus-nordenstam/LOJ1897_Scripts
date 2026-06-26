@@ -14,7 +14,6 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event birth
-  (nl         "?wife and ?husband have a child")
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass.
   ; The per-wife (chance) below IS the rate; the monthly pass is the cadence.
   (rng-stream births)
@@ -30,4 +29,4 @@
 
   (effects
     (birth-human :mother ?wife :father ?husband)
-    (log _birth ?wife)))
+    ))

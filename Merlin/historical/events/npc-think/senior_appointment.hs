@@ -23,7 +23,6 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event senior_appointment
-  (nl         "@self is appointed to a senior post")
   (rng-stream employment)
 
   (roles
@@ -63,4 +62,4 @@
     ;; employer slot so the gov hire takes cleanly.
     (fire :worker @self)
     (hire-seq ?articles [k job official] [k senior])
-    (log _appointment @self)))
+    ))

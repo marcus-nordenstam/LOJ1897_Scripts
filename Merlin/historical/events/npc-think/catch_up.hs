@@ -19,7 +19,6 @@
 
 (hsim-event catch_up
   (sim-window-start)
-  (nl         "@self catches up with friends")
   (rng-stream behaviour)
 
   (roles
@@ -30,4 +29,4 @@
 
   (effects
     (catch-up @self)
-    (log _catch_up @self)))
+    ))

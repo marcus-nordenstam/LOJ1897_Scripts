@@ -30,7 +30,6 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event affair_correspondence
-  (nl         "?actor writes to a secret lover")
   (rng-stream incidents)
   (generative-correspondence)
 

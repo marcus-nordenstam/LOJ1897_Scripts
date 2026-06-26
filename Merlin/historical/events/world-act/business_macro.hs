@@ -3,7 +3,6 @@
 ; net (business_homeostat) are per-NPC events in npc-think/business.hs.
 
 (hsim-event business_failure
-  (nl         "businesses fail in hard times")
   (schedule   (annually december))
   (rng-stream business)
 

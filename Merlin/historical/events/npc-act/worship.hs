@@ -3,7 +3,6 @@
 
 (hsim-event seek_church
   (intra-day)
-  (nl   "@self sets out for church")
   (when (and (has-goal worship)
              (not (at-place-kind [k building church]))))
   (utility 30)
@@ -12,7 +11,6 @@
 
 (hsim-event attend_church
   (intra-day)
-  (nl   "@self attends the service")
   (when (and (has-goal worship)
              (at-place-kind [k building church])))
   (utility 30)
@@ -21,8 +19,7 @@
 
 (hsim-event worship_episode
   (schedule (completion-only))
-  (nl   "@self worships at church")
   (effects
     (go-to-church @self)
     (clear-goal @self worship)
-    (log _worship_episode @self)))
+    ))

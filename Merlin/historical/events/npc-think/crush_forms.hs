@@ -26,7 +26,6 @@
 
 (hsim-event crush_forms
   (sim-window-start)
-  (nl       "@self forms a crush on ?victim")
   (rng-stream incidents)
 
   (roles
@@ -63,4 +62,4 @@
     ; the sleep decay (0.938); repeated fires deepen toward `desire` (0.60). The
     ; `fancy` verb-state belief is what courtship (love_match / court) now reads.
     (nudge-stance @self ?victim attraction 0.5)
-    (log _crush_forms @self)))
+    ))

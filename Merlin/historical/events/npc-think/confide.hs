@@ -15,7 +15,6 @@
 
 (hsim-event confide
   (sim-window-start)
-  (nl         "@self confides in a close friend")
   (rng-stream behaviour)
 
   (roles
@@ -26,4 +25,4 @@
 
   (effects
     (confide @self)
-    (log _confide @self)))
+    ))

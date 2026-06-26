@@ -25,7 +25,6 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event burial
-  (nl       "?dead is buried")
   (schedule (monthly))
   (rng-stream burials)
 
@@ -40,4 +39,4 @@
 
   (effects
     (bury ?dead)
-    (log  _burial ?dead)))
+    ))

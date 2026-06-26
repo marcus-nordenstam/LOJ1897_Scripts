@@ -14,5 +14,10 @@
 ;   (hsim_org_lifecycle.h k_articles_kind/founder/building/.../register_slot = 0/1/2/3/4)
 (define-document articles_of_incorporation (fields kind founder building year register))
 
-; The org roster: a list-of-records doc, one (worker job) record per employee.
-(define-document employee_register (fields worker job))
+; The org roster: a list-of-records doc, one (worker job level) record per
+; employee. `level` is the starting rank kind ([k org_head] / [k apprentice] /
+; ...), written alongside worker + job so the materialize_employment event can
+; reconstruct the employment beliefs from the roster alone (the beliefs live in
+; .hs; the roster, objective, is written by the thin C++ enrol verb / hire-seq).
+; A club membership entry carries only (member membership) - no level.
+(define-document employee_register (fields worker job level))

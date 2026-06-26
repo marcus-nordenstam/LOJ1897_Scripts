@@ -21,7 +21,6 @@
 
 (hsim-event court
   (sim-window-start)
-  (nl         "@self courts ?beloved")
   (rng-stream marriages)
 
   (roles
@@ -70,4 +69,4 @@
     ; stays keen, so his fancy does not decay below the band before the pair reach
     ; love_match.
     (nudge-stance @self ?beloved attraction 0.10)
-    (log _court @self)))
+    ))

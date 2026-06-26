@@ -29,7 +29,6 @@
 
 (hsim-event attend_go
   (intra-day)
-  (nl   "@self sets out for a gathering")
   (let ((?venue (attend-venue @self)))
     (when (and (has-goal attend)
                (attend-in-window @self)
@@ -39,7 +38,6 @@
 
 (hsim-event attend_dwell
   (intra-day)
-  (nl   "@self attends a gathering")
   (let ((?venue (attend-venue @self)))
     (when (and (has-goal attend)
                (attend-in-window @self)
@@ -49,7 +47,6 @@
 
 (hsim-event attend_episode
   (schedule (completion-only))
-  (nl   "@self has attended a gathering")
   (effects
     ; If this was a WEDDING and the attendee is a principal, the marriage is made
     ; here, at the church, by who showed up (no-op for any other occasion).
@@ -61,4 +58,4 @@
     ; a kill goal strikes his rival if present (no-op for the ordinary guest).
     (strike-at-occasion @self)
     (clear-goal @self attend)
-    (log _attend_episode @self)))
+    ))

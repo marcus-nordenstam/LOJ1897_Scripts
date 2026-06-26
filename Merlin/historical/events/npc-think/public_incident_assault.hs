@@ -24,7 +24,6 @@
 
 (hsim-event public_incident_assault
   (sim-window-start)
-  (nl       "@self assaults ?victim in public")
   (rng-stream incidents)
 
   (roles
@@ -45,4 +44,4 @@
   (effects
     (incident-anchor @self assault ?victim)
     (witness-copresence @self assault ?victim)
-    (log _public_incident_assault @self)))
+    ))

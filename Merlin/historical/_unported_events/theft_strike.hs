@@ -19,7 +19,6 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event theft_strike
-  (nl   "?thief steals at the scene")
   (kind _theft_strike)
   (rng-stream theft)
 

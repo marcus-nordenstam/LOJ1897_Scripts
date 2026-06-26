@@ -22,7 +22,6 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event crime_of_passion
-  (nl       "?actor's obsession turns murderous")
   (rng-stream perpetration)
   (generative-obsession)
 

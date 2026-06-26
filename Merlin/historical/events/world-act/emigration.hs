@@ -10,7 +10,6 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event emigration
-  (nl         "?who emigrates")
   (schedule   (annually january))
   (rng-stream migrations)
 
@@ -26,4 +25,4 @@
     ; (emigrate) settles the residence (list owned for sale / end a lease) in
     ; its handler before destroying the entity - see release_home_on_emigration.
     (emigrate   ?who)
-    (log        _emigration ?who)))
+    ))

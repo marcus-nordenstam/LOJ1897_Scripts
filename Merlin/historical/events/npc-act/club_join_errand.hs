@@ -14,7 +14,6 @@
 
 (hsim-event join_go
   (intra-day)
-  (nl   "@self sets out for a club")
   (when (and (articles-building (goal-focus join_club) ?venue)
              (has-goal join_club)
              (not (at-place ?venue))))
@@ -23,7 +22,6 @@
 
 (hsim-event join_dwell
   (intra-day)
-  (nl   "@self is introduced at a club")
   (when (and (articles-building (goal-focus join_club) ?venue)
              (has-goal join_club)
              (at-place ?venue)))
@@ -32,8 +30,7 @@
 
 (hsim-event join_commit
   (schedule (completion-only))
-  (nl   "@self joins a club")
   (effects
     (register-member :articles (goal-focus join_club) :member @self)
     (clear-goal @self join_club)
-    (log _club_joining @self)))
+    ))

@@ -29,7 +29,6 @@
 
 (hsim-event affair
   (sim-window-start)
-  (nl         "@self strays into an affair with ?lover")
   (rng-stream incidents)
 
   (roles
@@ -74,4 +73,4 @@
     (nudge-stance ?lover @self attraction 0.4)
     (believe-about @self ?lover)
     (believe-about ?lover @self)
-    (log _affair @self)))
+    ))

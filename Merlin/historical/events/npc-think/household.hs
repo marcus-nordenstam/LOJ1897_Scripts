@@ -22,7 +22,6 @@
 
 (hsim-event household_day
   (sim-window-start)
-  (nl         "@self spends the day at home")
   (rng-stream behaviour)
 
   (roles
@@ -31,4 +30,4 @@
 
   (effects
     (record-dwelling @self)
-    (log _household_day @self)))
+    ))

@@ -17,7 +17,6 @@
 
 (hsim-event apprenticeship_start
   (sim-window-start)
-  (nl         "?youth is apprenticed")
   (rng-stream apprenticeship)
 
   (roles
@@ -68,7 +67,6 @@
     (goal @self seek_indenture ?articles)))
 
 (hsim-event apprenticeship_completion
-  (nl         "?apprentice completes their apprenticeship")
   (rng-stream apprenticeship)
 
   (roles
@@ -84,4 +82,4 @@
     (effects
       (promote     :worker ?apprentice)
       (end-belief  ?apprentice master ?master)
-      (log _apprenticeship ?apprentice))))
+      )))

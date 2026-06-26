@@ -25,7 +25,6 @@
 ; bank). Mirrors the drinking lane's (can-drink) at-a-pub gate.
 (hsim-event found_go
   (intra-day)
-  (nl   "@self sets out to arrange a business")
   (when (and (has-goal found)
              (not (at-place-kind [k building bank]))))
   (utility 85)
@@ -33,7 +32,6 @@
 
 (hsim-event found_dwell
   (intra-day)
-  (nl   "@self arranges his business at the bank")
   (when (and (has-goal found)
              (at-place-kind [k building bank])))
   (utility 85)
@@ -41,7 +39,6 @@
 
 (hsim-event found_commit
   (schedule (completion-only))
-  (nl   "@self founds a business")
   (effects
     ; Roll a HOUSABLE business kind first (premises-aware: only kinds with a free
     ; building of their declared kind). If none can be housed right now, ?bizkind is
@@ -54,4 +51,4 @@
         ; mint the founding via the atomic-op sequence (proprietor head).
         (found-org-seq ?bizkind [k job proprietor])
         (clear-goal @self found)
-        (log _business_founding @self)))))
+        ))))

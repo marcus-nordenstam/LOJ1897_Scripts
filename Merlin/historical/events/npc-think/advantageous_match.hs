@@ -20,7 +20,6 @@
 
 (hsim-event advantageous_match
   (sim-window-start)
-  (nl         "@self and ?bride make an advantageous match")
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY; the per-bride (chance) is scaled by /12 (the *0.0833 wrapper) to hold
   ; the old annual rate.
@@ -82,4 +81,4 @@
     (begin-belief ?bride fiancee @self)
     (believe-about @self ?bride)
     (believe-about ?bride @self)
-    (log _advantageous_match @self)))
+    ))

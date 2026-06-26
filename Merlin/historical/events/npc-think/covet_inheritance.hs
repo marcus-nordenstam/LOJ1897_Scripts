@@ -22,7 +22,6 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event covet_inheritance
-  (nl       "?actor covets a wealthier relative's fortune")
   (rng-stream perpetration)
   (generative-covet)
 
