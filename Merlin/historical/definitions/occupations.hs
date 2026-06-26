@@ -10,7 +10,6 @@
 ;     (class_floor   <lower|middle|upper>)    ; minimum class allowed (HARD gate)
 ;     (business_type <symbol>)                ; optional, ties job to a business kind
 ;     (may_own       <true|false>)            ; default false
-;     (bootstrap     <true|false>)            ; default false; org pre-exists at sim start
 ;     (era_min       <year>)                  ; default 1700
 ;     (era_max       <year>)                  ; default 9999
 ;     (domain        <leaf>)                  ; optional; a `domain` leaf this job
@@ -56,7 +55,7 @@
 ; ----------------------------------------------------------------------------
 
 ;; --- Upper-class professions ---
-(job banker        (class_floor middle) (business_type bank)           (may_own true)  (bootstrap true) (era_min 1700) (domain accountancy)
+(job banker        (class_floor middle) (business_type bank)           (may_own true)  (era_min 1700) (domain accountancy)
    (req_repute respectable) (req_skill accountancy trained)
    (pref_trait industriousness 1.0) (pref_trait politeness 0.6))
 (job industrialist (class_floor upper)  (business_type factory)        (may_own true)  (era_min 1830) (domain engineering)
@@ -69,7 +68,7 @@
    (pref_trait assertiveness 1.0) (pref_trait enthusiasm 0.6))
 (job proprietor    (class_floor middle)                                (may_own true)  (era_min 1700) (domain commerce)
    (pref_trait assertiveness 0.8) (pref_trait industriousness 0.8))
-(job solicitor     (class_floor middle) (business_type solicitor_firm) (may_own true)  (bootstrap true) (era_min 1700) (domain law)
+(job solicitor     (class_floor middle) (business_type solicitor_firm) (may_own true)  (era_min 1700) (domain law)
    (req_repute respectable) (req_skill law trained)
    (pref_trait industriousness 1.0) (pref_trait openness 0.5))
 (job physician     (class_floor middle) (business_type hospital)       (may_own false) (era_min 1700) (domain medicine)
@@ -80,7 +79,7 @@
    (pref_trait industriousness 1.0) (pref_trait assertiveness 0.5))
 ; apothecary: may_own + business_type, so entered by founding OR hired as a
 ; junior who learns medicine on the counter (no req_skill - the on-ramp).
-(job apothecary    (class_floor middle) (business_type apothecary)     (may_own true)  (bootstrap true) (era_min 1700) (domain medicine)
+(job apothecary    (class_floor middle) (business_type apothecary)     (may_own true)  (era_min 1700) (domain medicine)
    (req_repute respectable)
    (pref_trait industriousness 0.8))
 ; A priest keeps irregular hours and the week is NOT Mon-Sat (Sunday is the
@@ -136,7 +135,7 @@
    (pref_trait openness 0.8) (pref_trait politeness 0.6))
 
 ;; --- Lower-class trades + service (no hard gates - the on-ramp stays open) ---
-(job bartender      (class_floor lower) (business_type pub)        (may_own false) (bootstrap true) (era_min 1700)
+(job bartender      (class_floor lower) (business_type pub)        (may_own false) (era_min 1700)
    (pref_trait enthusiasm 0.8))
 (job barber         (class_floor lower) (business_type barbershop) (may_own false) (era_min 1700)
    (pref_trait enthusiasm 0.6))
@@ -154,7 +153,7 @@
    (shift (monday 7am 7pm) (tuesday 7am 7pm) (wednesday 7am 7pm) (thursday 7am 7pm) (friday 7am 7pm) (saturday 7am 7pm) (sunday 7am 7pm))
    (shift (monday 7pm 7am) (tuesday 7pm 7am) (wednesday 7pm 7am) (thursday 7pm 7am) (friday 7pm 7am) (saturday 7pm 7am) (sunday 7pm 7am))
    (pref_trait compassion 1.0) (pref_trait industriousness 0.6))
-(job shop_clerk     (class_floor lower) (business_type grocer)     (may_own false) (bootstrap true) (era_min 1700)
+(job shop_clerk     (class_floor lower) (business_type grocer)     (may_own false) (era_min 1700)
    (pref_trait enthusiasm 0.6) (pref_trait politeness 0.5))
 (job waiter         (class_floor lower) (business_type restaurant) (may_own false) (era_min 1700)
    (pref_trait politeness 0.6) (pref_trait enthusiasm 0.5))
