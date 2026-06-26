@@ -65,6 +65,41 @@
         (stamp-work-hours ?job ?head-role)))))
 
 ; ----------------------------------------------------------------------------
+; found-club-seq - the CLUB analogue of found-org-seq.
+;
+; A club has MEMBERS, not employees: no head is seated, no employment beliefs are
+; minted. So this is found-org-seq with the head-enrol block replaced by a single
+; (register-member @self) - the founder is the club's first member (member_of, not
+; employer). Premises are acquired exactly as for any org (acquire-org-premises:
+; same building-kind catalog + pool acquisition + title deed); a dry pool binds ?wp
+; to a fail value and the (if ?wp ...) guard skips the founding (clubs are not
+; premises-gated upstream, so this is the only dry-pool handling).
+;
+;   (found-club-seq ?club-kind)
+;     ?club-kind - the rolled club kind value ([k org race_club] / [k org athletic_club])
+; ----------------------------------------------------------------------------
+
+(define-macro found-club-seq (?club-kind)
+  (do
+    (acquire-org-premises ?club-kind @self (bind ?wp))
+    (if ?wp
+      (do
+        ; --- the club's documents (abs-native): articles + an empty register -----
+        (create-entity [k articles_of_incorporation] (qual location ?wp) (bind ?art))
+        (create-entity [k employee_register]          (qual location ?wp) (bind ?reg))
+        (write-doc-record [k articles_of_incorporation] ?art
+            (kind ?club-kind) (founder @self) (building ?wp) (year (year)) (register ?reg))
+
+        ; --- founder's mind: the org object + its constitutive beliefs -----------
+        (imagine-or-recall ?club-kind {?art declares_org ?org})
+        (begin-belief {?org founder @self})
+        (begin-belief {?org workplace ?wp})
+        (begin-belief {?org record ?art})
+
+        ; --- the founder is the club's first MEMBER (member_of, not employment) ---
+        (register-member :articles ?art :member @self)))))
+
+; ----------------------------------------------------------------------------
 ; hire-beliefs - the BELIEF-ONLY half of hiring (no roster write).
 ;
 ; Reads the org's kind + premises off the existing articles and mints every

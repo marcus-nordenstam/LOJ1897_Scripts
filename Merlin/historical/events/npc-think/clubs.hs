@@ -5,8 +5,9 @@
 ;
 ; A club is an `org` (an athletic / race club) anchored on its
 ; articles_of_incorporation, exactly like a workplace - but its roster carries
-; `member_of` beliefs rather than employment. The found-org / register-member /
-; unregister-member verbs (hsim_org_lifecycle) own that roster.
+; `member_of` beliefs rather than employment. The found-club-seq macro (founding.hs)
+; founds it; the register-member / unregister-member verbs (hsim_org_lifecycle) own
+; its roster.
 ;
 ; Clubs may form from the sim start (1700) - no era gate - so club premises and
 ; their co-present membership exist throughout. join and resign run
@@ -39,9 +40,8 @@
 
   ; SPLIT (Item 5): the npc-think - the decision to found a club. Mints {?founder
   ; goal {?founder found_club}}; the npc-act (club_found_errand.hs) takes the founder
-  ; out to found it (found-org spawns the clubhouse + enrols him). The two founding
-  ; members the old event seeded are dropped - members now trickle in via
-  ; club_joining, so a new club simply starts with its founder.
+  ; out to found it (found-club-seq acquires the clubhouse + enrols him). A new club
+  ; starts with just its founder; members trickle in via club_joining.
   (effects
     (goal ?founder found_club)))
 

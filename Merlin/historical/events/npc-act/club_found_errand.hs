@@ -3,8 +3,8 @@
 ;
 ; The decision (clubs.hs `club_founding`) minted {@self goal {@self found_club}}.
 ; The founder goes out (to a pub - the period's clubs grew out of tavern society)
-; and founds the club there; found-org spawns the clubhouse, founds the org, and
-; enrols him. Members join afterwards via club_joining.
+; and founds the club there; found-club-seq acquires the clubhouse, founds the org,
+; and enrols him as its first member. Members join afterwards via club_joining.
 ;
 ;   found_club_go     : hold the goal, not at a pub -> travel act to one.
 ;   found_club_dwell  : hold the goal, AT a pub -> a dwell (the founding meeting).
@@ -28,6 +28,7 @@
 (hsim-event found_club_commit
   (schedule (completion-only))
   (effects
-    (found-org :kind club :founder @self)
+    (roll-club-org-kind (bind ?clubkind))
+    (if ?clubkind (found-club-seq ?clubkind))
     (clear-goal @self found_club)
     ))
