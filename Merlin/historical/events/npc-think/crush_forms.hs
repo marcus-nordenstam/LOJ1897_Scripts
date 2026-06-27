@@ -34,8 +34,7 @@
     ;; readily; it is rolled once per NPC per window (on the @self role) before
     ;; ?victim enumeration.
     (role @self (template any_human)
-                (>= (years-old @self) 14)
-                (<= (years-old @self) 50)
+                (working-age @self)
                 (not (believes {@self desire ?}))
                 (not (believes {@self lover ?}))
                 (not (believes {@self spouse ?}))
@@ -45,16 +44,17 @@
                            (attr @self compassion))))
     (role ?victim (template any_human)
                   (not (= ?victim @self))
-                  (>= (years-old ?victim) 14)
-                  (<= (years-old ?victim) 60)
+                  (marriageable-age ?victim)
                   ; the crush forms on someone @self has actually met.
                   (personally-knows @self ?victim)
-                  ; No incestuous crush (reliable kin cross-pair BITSET).
+                  ; No incestuous crush (kin cross-pair believes-macro).
                   (not (blood-kin @self ?victim))
-                  ; Opposite-sex (period-default hetero majority; attr read).
-                  (not (= (attr ?victim gender) (attr @self gender)))
-                  (<= (- (years-old @self) (years-old ?victim))  10)
-                  (>= (- (years-old @self) (years-old ?victim)) -10)))
+                  ; Opposite-sex: @self's belief that ?victim's PERCEIVED gender
+                  ; differs from his own (visible-on-sight -> cacheable).
+                  (not (believes {?victim gender (target {@self gender})}))
+                  ; Similar age: same or adjacent perceived age-band (the belief-pure
+                  ; replacement for the old +/-10 year window).
+                  (age-peers @self ?victim)))
 
   (effects
     ; Feed the one-sided attraction scalar: a crush is a strong directed pull.
