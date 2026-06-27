@@ -57,16 +57,17 @@
                              (attr @self narcissism))))
     (role ?victim (template any_human)
                   (not (= ?victim @self))
-                  (believes {@self child ?victim})
-                  ; Grounds, not a floor: mild standing disregard (dislike /
-                  ; disdain) admits the cut at 0.2 each, deep disregard
-                  ; (detest / despise) at 0.3 each; a child the father holds
-                  ; no grudge against CANNOT be disinherited. believes folds
-                  ; to 0/1; static max 1.0 keeps chance's pre-roll early-out.
-                  (chance (+ (* 0.2 (+ (believes {@self dislike ?victim})
-                                       (believes {@self disdain ?victim})))
-                             (* 0.3 (+ (believes {@self detest  ?victim})
-                                       (believes {@self despise ?victim})))))))
+                  (believes {@self child ?victim})))
+
+  ; Grounds, not a floor: mild standing disregard (dislike / disdain) admits the cut
+  ; at 0.2 each, deep disregard (detest / despise) at 0.3 each; a child the father
+  ; holds no grudge against CANNOT be disinherited. believes folds to 0/1; static max
+  ; 1.0. A non-belief (chance) gate reading per-victim stance, rolled per victim at
+  ; firing, so it lives in (when), not as a role criterion (would not be cacheable).
+  (when (chance (+ (* 0.2 (+ (believes {@self dislike ?victim})
+                             (believes {@self disdain ?victim})))
+                   (* 0.3 (+ (believes {@self detest  ?victim})
+                             (believes {@self despise ?victim}))))))
 
   (effects
     (incident-anchor @self disinherit ?victim)

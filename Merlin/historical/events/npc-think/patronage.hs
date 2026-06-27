@@ -47,8 +47,9 @@
     ;; banded in via believe_about), no mind peek; permissive on the unknown.)
     (role ?protege (template old_human)
                    (not (= ?protege @self))
-                   (>= (years-old ?protege) 18)
-                   (<= (years-old ?protege) 55)
+                   ; A working-age adult, elevatable into a trade - the belief-pure
+                   ; perceived-band gate replacing the old 18-55 specific-age window.
+                   (working-age ?protege)
                    (not (believes {?protege repute [k scandalous]}))
                    (not (believes {?protege backed_by ?}))
                    (or (and (believes {@self    class_situation [k upper]})

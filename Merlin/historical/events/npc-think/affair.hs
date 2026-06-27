@@ -52,8 +52,9 @@
                  ; the affair ignites with a known third party (social tie).
                  (personally-knows @self ?lover)
                  (age-peers @self ?lover)
-                 ; opposite-sex (period-default hetero majority; attr read), non-kin.
-                 (not (= (attr ?lover gender) (attr @self gender)))
+                 ; opposite-sex: @self's belief that ?lover's PERCEIVED gender differs
+                 ; from his own (visible-on-sight -> cacheable), and non-kin.
+                 (not (believes {?lover gender (target {@self gender})}))
                  (not (blood-kin @self ?lover))))
 
   (effects

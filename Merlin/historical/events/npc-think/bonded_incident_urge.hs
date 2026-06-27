@@ -62,9 +62,14 @@
                              (+ 1.0 (life-aim-aligns @self urge)))))
     (role ?victim (template any_human)
                   (not (= ?victim @self))
-                  (believes {@self child ?victim})
-                  (chance (* 0.80
-                             (+ 0.2 (value-rift @self ?victim))))))
+                  (believes {@self child ?victim})))
+
+  ; value-rift amplifier (0.2 floor + the parent/child divergence) - an OPAQUE belief
+  ; op inside a (chance), so it lives in (when), rolled per victim at firing, not as a
+  ; role criterion (would not be cacheable). When value-rift becomes an explicit
+  ; belief read it can fold back into the role.
+  (when (chance (* 0.80
+                   (+ 0.2 (value-rift @self ?victim)))))
 
   (effects
     (urge @self ?victim atone)

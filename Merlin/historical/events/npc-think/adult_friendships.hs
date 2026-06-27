@@ -43,7 +43,9 @@
              (adult-age ?b)
              (not (= ?b @self))
              (not (believes {?b repute [k scandalous]}))
-             (= (target {?b class_situation}) (target {@self class_situation}))
+             ; Same class: @self's belief that ?b's class matches his own (dynamic-
+             ; target shape-2, cacheable - replaces the (= (target..)(target..)) pair).
+             (believes {?b class_situation (target {@self class_situation})})
              (age-peers @self ?b)
              (not (believes {@self friend ?b}))
              ; Warmth-gated: you do not befriend someone you actively dislike. The

@@ -33,18 +33,19 @@
                            (* 0.08 (emotion-load @self [k anger])))))
     (role ?victim (template any_human)
                   (not (= ?victim @self))
-                  (personally-knows @self ?victim)
-                  ; Stance-weighted victim selection. Floor 0.10 is the
-                  ; displaced-anger path (any acquaintance can be hit); negative
-                  ; warmth (dislike/detest) and esteem (disdain/despise) add on top
-                  ; - mild +0.15, strong +0.30 - so the despised are hit most.
-                  ; believes folds to 0/1, so the sums are graded counts; static
-                  ; max = 0.10 + 0.15*2 + 0.30*2 = 1.0.
-                  (chance (+ 0.10
-                             (* 0.15 (+ (believes {@self dislike ?victim})
-                                        (believes {@self disdain ?victim})))
-                             (* 0.30 (+ (believes {@self detest  ?victim})
-                                        (believes {@self despise ?victim})))))))
+                  (personally-knows @self ?victim)))
+
+  ; Stance-weighted victim selection. Floor 0.10 is the displaced-anger path (any
+  ; acquaintance can be hit); negative warmth (dislike/detest) and esteem (disdain/
+  ; despise) add on top - mild +0.15, strong +0.30 - so the despised are hit most.
+  ; believes folds to 0/1, so the sums are graded counts; static max = 1.0. A non-
+  ; belief (chance) gate reading per-victim stance, rolled per victim at firing, so
+  ; it lives in (when), not as a role criterion (would not be cacheable).
+  (when (chance (+ 0.10
+                   (* 0.15 (+ (believes {@self dislike ?victim})
+                              (believes {@self disdain ?victim})))
+                   (* 0.30 (+ (believes {@self detest  ?victim})
+                              (believes {@self despise ?victim}))))))
 
   (effects
     (incident-anchor @self insult ?victim)

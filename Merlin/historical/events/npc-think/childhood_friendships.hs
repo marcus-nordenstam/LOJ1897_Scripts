@@ -35,7 +35,9 @@
     (role ?b (template any_human)
              (schoolchild-age ?b)
              (not (= ?b @self))
-             (= (target {?b class_situation}) (target {@self class_situation}))
+             ; Same class: @self's belief that ?b's class matches his own (dynamic-
+             ; target shape-2, cacheable - replaces the (= (target..)(target..)) pair).
+             (believes {?b class_situation (target {@self class_situation})})
              (age-peers @self ?b)
              (not (believes {@self friend ?b}))
              ; Warmth-gated: see adult_friendships.hs. The two negative warmth

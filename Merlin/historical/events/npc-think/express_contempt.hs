@@ -31,12 +31,12 @@
                   ; @self holds ?victim in deep contempt (esteem `despise`, the
                   ; floor esteem band - so the exact-band belief IS "esteem at
                   ; least despise"), read as an EXPLICIT verb-state belief.
-                  (believes {@self despise ?victim})
-                  ; how readily the contempt surfaces: the callous (low compassion)
-                  ; cut openly; the compassionate restrain it even toward the
-                  ; despised. Low base: a pointed, deliberate act, rarer than the
-                  ; impulsive insult.
-                  (chance (* 0.04 (- 1.0 (attr @self compassion))))))
+                  (believes {@self despise ?victim})))
+
+  ; How readily the contempt surfaces: the callous (low compassion) cut openly; the
+  ; compassionate restrain it. A non-belief (chance) gate, rolled per victim at
+  ; firing, so it lives in (when) - not as a role criterion (would not be cacheable).
+  (when (chance (* 0.04 (- 1.0 (attr @self compassion)))))
 
   (effects
     (incident-anchor @self insult ?victim :context cold_contempt)

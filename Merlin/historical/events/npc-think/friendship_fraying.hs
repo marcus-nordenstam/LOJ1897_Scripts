@@ -46,14 +46,14 @@
              ; warmth band - so the exact-band belief IS "warmth at least detest") ...
              (believes {@self detest ?b})
              ; ... and the two are currently friends.
-             (believes {@self friend ?b})
-             ; /12 of the old annual 0.5 - the per-NPC pass fires this monthly.
-             (chance 0.04)))
+             (believes {@self friend ?b})))
 
-  ;; Live re-check: within the november tick the role filters are alpha-indexed
-  ;; and go stale, and a fray could have already severed this pair from the
-  ;; other direction. Re-confirm the friend tie still holds before ending it.
-  (when (believes {@self friend ?b}))
+  ;; Live re-check: within the tick the role filters are alpha-indexed and go stale,
+  ;; and a fray could have already severed this pair from the other direction. Re-
+  ;; confirm the friend tie still holds, AND roll the per-pair fray chance here (/12
+  ;; of the old annual 0.5) - a non-belief gate, so it lives in (when), not the role.
+  (when (and (believes {@self friend ?b})
+             (chance 0.04)))
 
   (effects
     ; Sever the mutual friend tie - the bond is structural, so both drop it.
