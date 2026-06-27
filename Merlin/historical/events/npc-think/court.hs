@@ -57,8 +57,9 @@
                   ; another is not courted - that rival suitor has been heard of.
                   (or (believes {?beloved fancy @self})
                       (not (believes {?beloved fancy ?})))
-                  ; opposite-sex (attr read, gates reliably) and not kin.
-                  (not (= (attr ?beloved gender) (attr @self gender)))
+                  ; opposite-sex: @self's belief that the beloved's PERCEIVED gender
+                  ; differs from his own (visible-on-sight -> cacheable). And not kin.
+                  (not (believes {?beloved gender (target {@self gender})}))
                   (not (blood-kin @self ?beloved))))
 
   (effects

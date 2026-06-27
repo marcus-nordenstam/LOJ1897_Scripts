@@ -81,8 +81,10 @@
                       (believes {@self lover ?beloved}))
                   ; no marrying blood kin (consanguinity backstop) ...
                   (not (blood-kin @self ?beloved))
-                  ; ... opposite-sex (drops any same-sex standing-pass fancy).
-                  (not (= (attr ?beloved gender) (attr @self gender)))
+                  ; ... opposite-sex: @self's belief that the beloved's PERCEIVED
+                  ; gender differs from his own (gender is visible-on-sight, so this
+                  ; dynamic-target belief is object-cacheable; drops same-sex passes).
+                  (not (believes {?beloved gender (target {@self gender})}))
                   (age-peers @self ?beloved)))
 
   ;; Live un-betrothed re-check: the role filters are alpha-indexed and go stale

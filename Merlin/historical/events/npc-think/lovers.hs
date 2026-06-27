@@ -58,9 +58,10 @@
              ; lover bond is built on attraction, and warmth she never voiced cannot
              ; be read without a mind peek.)
              (believes {?b fancy @self})
-             ; opposite-sex (fancy is opposite-sex via crush_forms; belt-and-
-             ; braces, and drops any same-sex standing-pass fancy) and not kin.
-             (not (= (attr ?b gender) (attr @self gender)))
+             ; opposite-sex (fancy is opposite-sex via crush_forms; belt-and-braces):
+             ; @self's belief that ?b's PERCEIVED gender differs from his own (visible-
+             ; on-sight, so cacheable as a dynamic-target belief). And not kin.
+             (not (believes {?b gender (target {@self gender})}))
              (not (blood-kin @self ?b))))
 
   ;; Live re-check: within the window the un-attached role filters go stale as
