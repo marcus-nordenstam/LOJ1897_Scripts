@@ -27,7 +27,7 @@
     ; @self the suitor must ALREADY fancy someone and be a marriageable single -
     ; courtship is the directed pursuit of a specific crush, not a random advance.
     (role @self (template any_human)
-                (>= (years-old @self) 16)
+                (marriageable-age @self)
                 (not (believes {@self spouse ?}))
                 (not (believes {@self fiancee ?}))
                 (believes {@self fancy ?})
@@ -38,7 +38,7 @@
     ;; him (confess_fancy). No cross-mind read.
     (role ?beloved (template any_human)
                   (not (= ?beloved @self))
-                  (>= (years-old ?beloved) 16)
+                  (marriageable-age ?beloved)
                   (not (believes {?beloved spouse ?}))
                   (not (believes {?beloved fiancee ?}))
                   ; You do not court a TAKEN or FALLEN woman: a lover bond means
@@ -47,8 +47,10 @@
                   ; them - he courts on; a secret he has not heard does not stop him.)
                   (not (believes {?beloved lover ?}))
                   (not (believes {?beloved prototype fallen_woman}))
-                  ; the specific person @self fancies (cross-pair bitset) ...
-                  (stance-at-least @self ?beloved fancy)
+                  ; the specific person @self is attracted to (the attraction
+                  ; stance has reached at least the `fancy` band, read as the
+                  ; explicit band-ladder verb-state belief) ...
+                  (is-attracted-to @self ?beloved)
                   ; RECEPTIVITY: courting only sways an AVAILABLE heart - she has
                   ; TOLD HIM she fancies him (deepening), or - as far as HE knows -
                   ; she fancies NO ONE yet (winnable). A girl HE KNOWS to fancy
@@ -57,7 +59,7 @@
                       (not (believes {?beloved fancy ?})))
                   ; opposite-sex (attr read, gates reliably) and not kin.
                   (not (= (attr ?beloved gender) (attr @self gender)))
-                  (not (kin @self ?beloved))))
+                  (not (blood-kin @self ?beloved))))
 
   (effects
     ; Attention from her suitor grows her attraction toward him (reciprocal fancy

@@ -15,9 +15,13 @@
 ; about @self via update_self_awareness). No omniscient (kind ...) / (alive) /
 ; (attr ...) / (years-old ...) ops remain. Age is band-only (see age_macros.hs).
 ;
-; A BINDING role (?var) re-reads the candidate's own mind; an @self GATE reads the
-; deliberating mind. The light @self gates carry no isa/condition (the deliberating
-; NPC is a living human by construction) - just the age band.
+; Every filter reads the DELIBERATING mind: a BINDING role (?var) is the
+; deliberating mind's own beliefs ABOUT the candidate ({?var <label> ..}), which
+; is what the per-(mind, signature) object cache materializes; an @self GATE reads
+; its beliefs about itself. (No 2-arg {?var {@self ..}} cross-mind reads - those
+; are telepathy and are not object-cacheable.) The light @self gates carry no
+; isa/condition (the deliberating NPC is a living human by construction) - just
+; the age band.
 ; ----------------------------------------------------------------------------
 
 (define-role old_human
@@ -47,7 +51,11 @@
   (believes {?this condition [k alive]})
   (believes {?this gender [k female]})
   (adult-age ?this)
-  (not (believes ?this {@self spouse ?})))
+  ; The deliberating mind's OWN belief about the candidate's marital status
+  ; (shape-2, {?this spouse ?}), NOT the candidate's self-knowledge (the 2-arg
+  ; {?this {@self spouse ?}} telepathic read) - so this is object-cacheable and
+  ; telepathy-pure: you only skip women YOU know to be married.
+  (not (believes {?this spouse ?})))
 
 (define-role unmarried_man
   (believes {?this isa [k human]})

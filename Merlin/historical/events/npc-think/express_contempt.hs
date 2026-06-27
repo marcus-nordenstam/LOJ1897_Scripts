@@ -25,13 +25,13 @@
   (roles
     ; Open contempt is a considered, adult act - minors do not deliver it.
     (role @self (template any_human)
-                (>= (years-old @self) 18))
+                (adult-age @self))
     (role ?victim (template any_human)
                   (not (= ?victim @self))
                   ; @self holds ?victim in deep contempt (esteem `despise`, the
-                  ; strong negative band) - the reliable cross-pair bitset, @self
-                  ; the outer believer.
-                  (stance-at-least @self ?victim despise)
+                  ; floor esteem band - so the exact-band belief IS "esteem at
+                  ; least despise"), read as an EXPLICIT verb-state belief.
+                  (believes {@self despise ?victim})
                   ; how readily the contempt surfaces: the callous (low compassion)
                   ; cut openly; the compassionate restrain it even toward the
                   ; despised. Low base: a pointed, deliberate act, rarer than the

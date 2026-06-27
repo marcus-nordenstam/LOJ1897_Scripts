@@ -31,7 +31,7 @@
     ; The chance lives on the @self role, so it is rolled ONCE per NPC per window
     ; (before ?b enumeration), not once per candidate.
     (role @self (template any_human)
-                (>= (years-old @self) 18)
+                (adult-age @self)
                 (not (believes {@self repute [k scandalous]}))
                 (chance (* 0.004 (+ 0.5 (attr @self enthusiasm)))))
     ;; SELF-POV (telepathy purge CAT-3): @self sizes up ?b from what HE knows -
@@ -40,18 +40,19 @@
     ;; same-class peer he is actually acquainted with (a stranger's class @fails);
     ;; the repute gate is permissive on the unknown. No cross-mind read.
     (role ?b (template any_human)
-             (>= (years-old ?b) 18)
+             (adult-age ?b)
              (not (= ?b @self))
              (not (believes {?b repute [k scandalous]}))
              (= (target {?b class_situation}) (target {@self class_situation}))
-             (<= (- (years-old ?b) (years-old @self))  10)
-             (>= (- (years-old ?b) (years-old @self)) -10)
+             (age-peers @self ?b)
              (not (believes {@self friend ?b}))
-             ; Warmth-gated: you do not befriend someone you actively dislike
-             ; (reliable cross-pair BITSET). Neutral same-class peers still pair
-             ; (mere-exposure); only the two negative warmth bands block.
-             (not (stance-at-least @self ?b dislike))
-             (not (stance-at-least @self ?b detest))))
+             ; Warmth-gated: you do not befriend someone you actively dislike. The
+             ; two negative warmth bands are EXPLICIT verb-state beliefs (core
+             ; appraisal projects the warmth scalar onto them). Neutral same-class
+             ; peers still pair (mere-exposure); only the two negative bands block.
+             ; The pair excludes BOTH bands, since each `believes` is exact-band.
+             (not (believes {@self dislike ?b}))
+             (not (believes {@self detest ?b}))))
 
   (effects
     ; befriend mints the mutual tie (friend, or acquaintance if either side is

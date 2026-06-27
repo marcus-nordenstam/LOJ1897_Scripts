@@ -20,10 +20,17 @@
     ((<  95)  0.220)
     (else     1.000)))
 
-; Population homeostat tunables (constants). Emigration count must absorb births
-; (~70/yr) minus disease/old-age deaths (~40/yr) to keep population from drifting.
+; Population homeostat tunables (constants). target_population is the carrying
+; capacity both the per-NPC emigration (population-pressure) and the sparse-side
+; immigration valve steer toward. The emigration count/pressure knobs were retired
+; with the homeostat_emigration world valve - outflow is now per-NPC and organic.
 (define-macro homeostat_target_population   () 200.0)
-(define-macro homeostat_emigration_pressure () 1.10)
 (define-macro homeostat_immigration_pressure () 0.90)
-(define-macro homeostat_emigration_count    () 50)
 (define-macro homeostat_immigration_count   () 6)
+
+; Live crowding ratio: alive-count / target. 1.0 at carrying capacity, < 1 when
+; sparse, > 1 when crowded. The per-NPC emigration think scales each young
+; adult's monthly leave-chance by it, so crowding raises the outflow and a sparse
+; parish (immigration territory) sheds almost no one. Replaces the old
+; homeostat_emigration "emigrate the oldest N by fiat" world valve.
+(define-macro population-pressure () (/ (alive-count) (homeostat_target_population)))

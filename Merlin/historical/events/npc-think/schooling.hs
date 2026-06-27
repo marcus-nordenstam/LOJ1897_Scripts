@@ -42,120 +42,128 @@
 
 ; --- enroll_primary: a young child starts primary school ---------------------
 (hsim-event enroll_primary
-  (schedule   (annually march))
+  (long-term-think)
   (rng-stream behaviour)
 
+  ; The child (@self) is the subject, not yet schooled. The two (not ...) belief
+  ; guards keep a once-schooled child from re-enrolling on a later month of the
+  ; 5-7 window. age + the breeding-squared class-gate chance are non-belief ops ->
+  ; (when); the chance carries the /12 annual->monthly factor (now per-month). The
+  ; breeding-squared gate routes an upper child (breeding ~0.85) into school almost
+  ; always, a working-class child (~0.25) only rarely.
   (roles
-    ; A young child not yet schooled. The breeding-squared chance is the class
-    ; gate: an upper child (breeding ~0.85) almost always attends, a middle child
-    ; often, a working-class child (breeding ~0.25) only rarely - the "lucky +
-    ; supporting parents" branch. The two (not ...) guards keep a once-schooled
-    ; child from re-enrolling on a later year of the 5-7 window.
-    (role ?child (template any_human)
-                 (>= (years-old ?this) 5)
-                 (<= (years-old ?this) 7)
-                 (not (believes ?this {@self study ?}))
-                 (not (believes ?this {@self skilled_in [k primary_school_curriculum]}))
-                 (chance (* (situation ?this breeding) (situation ?this breeding)))))
+    (role @self (template any_human)
+                (not (believes {@self study ?}))
+                (not (believes {@self skilled_in [k primary_school_curriculum]}))))
+
+  (when (and (>= (years-old @self) 5)
+             (<= (years-old @self) 7)
+             (chance (* 0.0833 (situation @self breeding) (situation @self breeding)))))
 
   ; SPLIT (Item 5): the npc-think - the decision to school the child. Mints
-  ; {?child goal {?child enrol_primary}}; the npc-act (schooling_errands.hs) walks
+  ; {@self goal {@self enrol_primary}}; the npc-act (schooling_errands.hs) walks
   ; the child to a school and enrols him there.
   (effects
-    (goal ?child enrol_primary)))
+    (goal @self enrol_primary)))
 
 ; --- enroll_secondary: a middle+ youth goes on to secondary ------------------
 (hsim-event enroll_secondary
-  (schedule   (annually june))
+  (long-term-think)
   (rng-stream behaviour)
 
+  ; @self completed primary (holds the credential), not currently enrolled, not
+  ; yet in work / apprenticeship. age + the middle+ breeding-squared gate -> (when)
+  ; (with /12 monthly factor). The working-class child who finished primary has a
+  ; low chance and instead falls to apprenticeship_start (which excludes pupils).
   (roles
-    ; Completed primary (holds the credential), not currently enrolled, not yet
-    ; in work / apprenticeship, middle+ (breeding-squared gate). The working-class
-    ; child who finished primary has a low chance here and instead falls to the
-    ; apprenticeship on-ramp (apprenticeship_start, which now excludes pupils).
-    (role ?youth (template any_human)
-                 (>= (years-old ?this) 12)
-                 (<= (years-old ?this) 14)
-                 (believes ?this {@self skilled_in [k primary_school_curriculum]})
-                 (not (believes ?this {@self study ?}))
-                 (not (believes ?this {@self skilled_in [k secondary_school_curriculum]}))
-                 (not (believes ?this {@self employer ?}))
-                 (chance (* (situation ?this breeding) (situation ?this breeding)))))
+    (role @self (template any_human)
+                (believes {@self skilled_in [k primary_school_curriculum]})
+                (not (believes {@self study ?}))
+                (not (believes {@self skilled_in [k secondary_school_curriculum]}))
+                (not (believes {@self employer ?}))))
 
-  ; SPLIT (Item 5): npc-think -> {?youth goal {?youth enrol_secondary}}; the act
+  (when (and (>= (years-old @self) 12)
+             (<= (years-old @self) 14)
+             (chance (* 0.0833 (situation @self breeding) (situation @self breeding)))))
+
+  ; SPLIT (Item 5): npc-think -> {@self goal {@self enrol_secondary}}; the act
   ; (schooling_errands.hs) walks the youth to school and enrols him.
   (effects
-    (goal ?youth enrol_secondary)))
+    (goal @self enrol_secondary)))
 
 ; --- enroll_university: an upper / wealthy youth goes up to university --------
 (hsim-event enroll_university
-  (schedule   (annually june))
+  (long-term-think)
   (rng-stream behaviour)
 
+  ; @self is secondary-educated, not enrolled, not employed. age + the steep
+  ; upper / wealthy-middle breeding-cubed gate (the professions' gateway) -> (when)
+  ; (with /12 monthly factor). The subject is interest-led, chosen inside the act.
   (roles
-    ; Secondary-educated, not enrolled, not employed, upper / wealthy-middle (a
-    ; steep breeding-cubed gate - the professions' gateway). The subject is
-    ; interest-led, chosen inside (enroll-university).
-    (role ?youth (template any_human)
-                 (>= (years-old ?this) 18)
-                 (<= (years-old ?this) 20)
-                 (believes ?this {@self skilled_in [k secondary_school_curriculum]})
-                 (not (believes ?this {@self study ?}))
-                 (not (believes ?this {@self employer ?}))
-                 (chance (* (situation ?this breeding) (* (situation ?this breeding) (situation ?this breeding))))))
+    (role @self (template any_human)
+                (believes {@self skilled_in [k secondary_school_curriculum]})
+                (not (believes {@self study ?}))
+                (not (believes {@self employer ?}))))
 
-  ; SPLIT (Item 5): npc-think -> {?youth goal {?youth enrol_university}}; the act
+  (when (and (>= (years-old @self) 18)
+             (<= (years-old @self) 20)
+             (chance (* 0.0833 (situation @self breeding) (* (situation @self breeding) (situation @self breeding))))))
+
+  ; SPLIT (Item 5): npc-think -> {@self goal {@self enrol_university}}; the act
   ; (schooling_errands.hs) takes the youth up to university and matriculates him.
   (effects
-    (goal ?youth enrol_university)))
+    (goal @self enrol_university)))
 
 ; --- leave_primary: every primary pupil finishes at ~11 ----------------------
 (hsim-event leave_primary
-  (schedule   (annually september))
+  (long-term-think)
   (rng-stream behaviour)
 
+  ; Deterministic: @self, a primary pupil who has reached the leaving age, takes
+  ; the basic-schooling credential (graduate mints skilled_in primary_school_
+  ; curriculum at novice and ends the study). The credential then gates secondary
+  ; enrollment; a non-continuer becomes apprenticeship-eligible. Monthly firing is
+  ; idempotent - the first fire ends the study, so later months no-op. age -> (when).
   (roles
-    ; Deterministic: a primary pupil who has reached the leaving age takes the
-    ; basic-schooling credential (graduate mints skilled_in primary_school_
-    ; curriculum at novice and ends the study). The credential then gates
-    ; secondary enrollment; a non-continuer becomes apprenticeship-eligible.
-    (role ?pupil (template any_human)
-                 (>= (years-old ?this) 11)
-                 (believes ?this {@self study [k primary_school_curriculum]})))
+    (role @self (template any_human)
+                (believes {@self study [k primary_school_curriculum]})))
+
+  (when (>= (years-old @self) 11))
 
   (effects
-    (graduate ?pupil)
+    (graduate @self)
     ))
 
 ; --- leave_secondary: a secondary pupil finishes at ~17 ----------------------
 (hsim-event leave_secondary
-  (schedule   (annually september))
+  (long-term-think)
   (rng-stream behaviour)
 
   (roles
-    (role ?pupil (template any_human)
-                 (>= (years-old ?this) 17)
-                 (believes ?this {@self study [k secondary_school_curriculum]})))
+    (role @self (template any_human)
+                (believes {@self study [k secondary_school_curriculum]})))
+
+  (when (>= (years-old @self) 17))
 
   (effects
-    (graduate ?pupil)
+    (graduate @self)
     ))
 
 ; --- graduate_university: a degree is taken at ~22 ---------------------------
 (hsim-event graduate_university
-  (schedule   (annually september))
+  (long-term-think)
   (rng-stream behaviour)
 
+  ; Any ongoing study at 22+ is a university degree (primary / secondary pupils
+  ; are <18 and have already left). graduate mints the subject credential
+  ; {@self skilled_in <subject> trained}, feeding the S8 physician / lawyer /
+  ; scholar identities + the prestige bump - the profession pipeline payoff.
   (roles
-    ; Any ongoing study at 22+ is a university degree (primary / secondary pupils
-    ; are <18 and have already left). graduate mints the subject credential
-    ; {@self skilled_in <subject> trained}, feeding the S8 physician / lawyer /
-    ; scholar identities + the prestige bump - the profession pipeline payoff.
-    (role ?graduate (template any_human)
-                    (>= (years-old ?this) 22)
-                    (believes ?this {@self study ?})))
+    (role @self (template any_human)
+                (believes {@self study ?})))
+
+  (when (>= (years-old @self) 22))
 
   (effects
-    (graduate ?graduate)
+    (graduate @self)
     ))

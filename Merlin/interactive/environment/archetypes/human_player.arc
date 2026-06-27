@@ -1,5 +1,5 @@
 # Any human PLAYER
-archetype "human_player" (cap 256) (mech obs) (raycast-visible) (player) (non-occluder) (occupies-env-grid) (infer-kind-override human player)
+archetype "human_player" (cap 256) (per obs) (raycast-visible) (player) (non-occluder) (occupies-env-grid) (infer-kind-override human player)
 {
     "physical_motors"
     "game_role"

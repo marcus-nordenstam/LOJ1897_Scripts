@@ -21,18 +21,20 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event social_ostracism
-  ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
-  ; MONTHLY. social-ostracism is idempotent (re-ending already-ended warmth bonds /
-  ; club memberships is a no-op), but to avoid 12x/year log + scan churn the role
-  ; carries (chance 0.0833) ~= the old annual cadence; a scandalous NPC is
-  ; ostracised ~once a year (and re-ostracised if they form new warmth ties).
+  ; Per-NPC (long-term-think), MONTHLY. social-ostracism is idempotent (re-ending
+  ; already-ended warmth bonds / club memberships is a no-op); the (chance 0.0833)
+  ; ~= an annual cadence so a scandalous NPC is ostracised ~once a year (and
+  ; re-ostracised if they form new warmth ties). situation / chance are non-belief
+  ; ops, so they gate the fire in (when), not role selection.
+  (long-term-think)
   (rng-stream behaviour)
 
   (roles
-    (role ?npc (template old_human)
-               (= (situation ?this repute) [k scandalous])
-               (chance 0.0833)))
+    (role @self (template old_human)))
+
+  (when (and (= (situation @self repute) [k scandalous])
+             (chance 0.0833)))
 
   (effects
-    (social-ostracism ?npc)
+    (social-ostracism @self)
     ))

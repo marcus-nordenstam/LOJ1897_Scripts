@@ -20,15 +20,18 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event rehabilitation
+  (long-term-think)
   (rng-stream behaviour)
 
   (roles
-    ;; A disreputable adult with a personality lift toward conformity
-    ;; (politeness) tries the church door.
-    (role ?npc (template old_human)
-               (= (situation ?this repute) [k disreputable])
-               (chance (* 0.05 (+ 0.5 (attr ?this politeness))))))
+    (role @self (template old_human)))
+
+  ;; A disreputable adult with a personality lift toward conformity
+  ;; (politeness) tries the church door. situation / attr / chance are
+  ;; non-belief ops, so they gate the fire in (when), not role selection.
+  (when (and (= (situation @self repute) [k disreputable])
+             (chance (* 0.05 (+ 0.5 (attr @self politeness))))))
 
   (effects
-    (go-to-church ?npc)
+    (go-to-church @self)
     ))

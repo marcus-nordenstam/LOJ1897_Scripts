@@ -57,13 +57,18 @@
                  (not (believes {?bride prototype [k fallen_woman]}))
                  (not (believes {?bride repute [k scandalous]}))
                  (not (believes {?bride repute [k disreputable]}))
-                 (or (>= (target {?bride reputed_chastity}) 0.5)
-                     (not (believes {?bride reputed_chastity})))
-                 (= (target {?bride class_situation}) (target {@self class_situation}))
-                 (<= (- (years-old @self) (years-old ?bride))  15)
-                 (>= (- (years-old @self) (years-old ?bride)) -15)
+                 ;; Not KNOWN to be disgraced (two+ leaked affairs). An unread
+                 ;; chastity passes - the market gives the benefit of the doubt
+                 ;; (the old `(>= reputed_chastity 0.5) OR unread` gate, now a
+                 ;; single negated band belief: disgraced is the sub-0.5 band).
+                 (not (believes {?bride reputed_chastity [k disgraced]}))
+                 ;; Same class as the groom: the deliberating mind's belief that
+                 ;; the bride's class_situation equals @self's own (dynamic-target
+                 ;; shape-2, cacheable - like age-peers; NOT a cross-(target =)).
+                 (believes {?bride class_situation (target {@self class_situation})})
+                 (age-peers @self ?bride)
                  ;; No marrying blood kin (reliable kin cross-pair BITSET).
-                 (not (kin @self ?bride))))
+                 (not (blood-kin @self ?bride))))
 
   ;; Exclusivity re-check at FIRING time, from the groom's OWN beliefs (his own
   ;; engagement + what he knows of hers). A same-tick double-betroth by two grooms

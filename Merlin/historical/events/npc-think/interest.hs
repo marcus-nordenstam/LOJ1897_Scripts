@@ -43,85 +43,95 @@
 
 ; --- parental_seeding: a child adopts one of a parent's interests ------------
 (hsim-event interest_parental_seeding
+  (long-term-think)
   (rng-stream behaviour)
 
+  ; The child (@self) is the subject; a known mother gates it (births always seed
+  ; one), and the effect reads both parents. age / politeness-weighted chance are
+  ; non-belief ops -> (when). politeness amplifies - the conforming child takes up
+  ; the parent's hobby, the contrarian rarely.
   (roles
-    ; A known mother gates the event (births always seed one); the effect reads
-    ; both parents. politeness (deference to family / convention) amplifies -
-    ; the conforming child takes up the parent's hobby, the contrarian rarely.
-    (role ?child (template any_human)
-                 (>= (years-old ?this) 3)
-                 (<= (years-old ?this) 14)
-                 (believes ?this {@self mother ?})
-                 (chance (* 0.015 (+ 0.3 (attr ?this politeness))))))
+    (role @self (template any_human)
+                (believes {@self mother ?})))
+
+  (when (and (>= (years-old @self) 3)
+             (<= (years-old @self) 14)
+             (chance (* 0.015 (+ 0.3 (attr @self politeness))))))
 
   (effects
-    (seed-interest-from-parents ?child)
+    (seed-interest-from-parents @self)
     ))
 
 ; --- peer_propagation: a friend's enthusiasm rubs off -----------------------
 (hsim-event interest_peer_propagation
+  (long-term-think)
   (rng-stream behaviour)
 
+  ; @self is the subject; a known friend gates it and the effect reads each
+  ; friend's own interests and copies one @self lacks. age + the openness x
+  ; enthusiasm chance are non-belief ops -> (when).
   (roles
-    ; openness (receptivity to the new) x enthusiasm (the sociable Extraversion
-    ; aspect - more friends, more exposure). The effect reads each friend's own
-    ; interests and copies one ego lacks.
-    (role ?ego (template any_human)
-               (>= (years-old ?this) 8)
-               (believes ?this {@self friend ?})
-               (chance (* 0.0167 (attr ?this openness) (+ 0.5 (attr ?this enthusiasm))))))
+    (role @self (template any_human)
+                (believes {@self friend ?})))
+
+  (when (and (>= (years-old @self) 8)
+             (chance (* 0.0167 (attr @self openness) (+ 0.5 (attr @self enthusiasm))))))
 
   (effects
-    (seed-interest-from-friends ?ego)
+    (seed-interest-from-friends @self)
     ))
 
 ; --- mentor_inspired: an apprentice catches the master's craft --------------
 (hsim-event interest_mentor_inspired
+  (long-term-think)
   (rng-stream behaviour)
 
+  ; @self (the apprentice) holds a standing master bond (minted by
+  ; apprenticeship_start); the effect reads the master's skilled_in + calling
+  ; domains and copies one @self lacks. The openness-weighted chance -> (when).
   (roles
-    ; A standing master bond (minted by apprenticeship_start). openness
-    ; amplifies. The effect reads the master's skilled_in + calling domains and
-    ; copies one ego lacks (so the craft becomes the apprentice's casual
-    ; interest, which interest_deepens can later raise to a skill - S6).
-    (role ?ego (template any_human)
-               (believes ?this {@self master ?})
-               (chance (* 0.025 (+ 0.3 (attr ?this openness))))))
+    (role @self (template any_human)
+                (believes {@self master ?})))
+
+  (when (chance (* 0.025 (+ 0.3 (attr @self openness)))))
 
   (effects
-    (seed-interest-from-mentor ?ego)
+    (seed-interest-from-mentor @self)
     ))
 
 ; --- temperament_drift: the residual openness-driven catch-all --------------
 (hsim-event interest_temperament_drift
+  (long-term-think)
   (rng-stream behaviour)
 
+  ; The only non-relational path: @self drifts into a brand-new interest with no
+  ; specific source, sampled at random. No belief filter; age + the openness-squared
+  ; chance are non-belief ops -> (when). Gated HARD on openness so only the
+  ; genuinely curious drift - trait-rooted, not bare chance.
   (roles
-    ; The only non-relational path: a brand-new interest with no specific
-    ; source, sampled at random. Gated HARD on openness (openness-squared) so
-    ; only the genuinely curious drift - trait-rooted, not bare chance. Lower
-    ; base rate than the old generic interest_acquired (0.08).
-    (role ?ego (template any_human)
-               (>= (years-old ?this) 10)
-               (chance (* 0.0083 (attr ?this openness) (attr ?this openness)))))
+    (role @self (template any_human)))
+
+  (when (and (>= (years-old @self) 10)
+             (chance (* 0.0083 (attr @self openness) (attr @self openness)))))
 
   (effects
-    (acquire-interest ?ego)
+    (acquire-interest @self)
     ))
 
 ; --- interest_lapses: an unskilled interest fades --------------------------
 (hsim-event interest_lapses
+  (long-term-think)
   (rng-stream behaviour)
 
+  ; @self holds at least one interest; low rate. The effect ends one interest whose
+  ; domain @self is NOT skilled_in - a skilled domain is settled identity and is
+  ; exempt. No-op (fires, mints nothing) if every interest is skill-backed.
   (roles
-    ; Holds at least one interest; low rate. The effect ends one interest whose
-    ; domain ego is NOT skilled_in - a skilled domain is settled identity and is
-    ; exempt. No-op (event fires, mints nothing) if every interest is skill-backed.
-    (role ?ego (template any_human)
-               (believes ?this {@self interest ?})
-               (chance 0.0025)))
+    (role @self (template any_human)
+                (believes {@self interest ?})))
+
+  (when (chance 0.0025))
 
   (effects
-    (lapse-interest ?ego)
+    (lapse-interest @self)
     ))

@@ -15,11 +15,12 @@
 ; both sides drop it (cf. social_ostracism, which ends warmth bonds on both
 ; sides).
 ;
-; Reliability: ?b is intersected with the actor's `detest`-target BITSET
-; (the stance-at-least cross-pair - a tiny set) and
-; confirmed a current friend via a `believes` residue; the per-pair (chance 0.5)
-; makes the fray gradual rather than an instant snap. Both the believes residue
-; and the non-root (chance ...) gate correctly.
+; Reliability: ?b is gated on the actor's `detest` warmth band - read as an
+; EXPLICIT verb-state belief (core appraisal projects the warmth scalar onto the
+; band; detest is the floor band, so the exact-band belief IS "warmth at least
+; detest") - and confirmed a current friend via a `believes` residue; the per-pair
+; (chance 0.5) makes the fray gradual rather than an instant snap. Both the
+; believes residue and the non-root (chance ...) gate correctly.
 ;
 ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
 ; (relational, gated on the detest stance + a friend bond, no co-presence). It
@@ -38,11 +39,12 @@
   ;; sides, as befriend mints it on both.)
   (roles
     (role @self (template any_human)
-             (>= (years-old @self) 18))
+             (adult-age @self))
     (role ?b (template any_human)
              (not (= ?b @self))
-             ; @self now detests ?b (sustained strong-negative warmth) ...
-             (stance-at-least @self ?b detest)
+             ; @self now detests ?b (sustained strong-negative warmth, the floor
+             ; warmth band - so the exact-band belief IS "warmth at least detest") ...
+             (believes {@self detest ?b})
              ; ... and the two are currently friends.
              (believes {@self friend ?b})
              ; /12 of the old annual 0.5 - the per-NPC pass fires this monthly.

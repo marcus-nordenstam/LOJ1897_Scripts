@@ -50,7 +50,7 @@
                   ; the crush forms on someone @self has actually met.
                   (personally-knows @self ?victim)
                   ; No incestuous crush (reliable kin cross-pair BITSET).
-                  (not (kin @self ?victim))
+                  (not (blood-kin @self ?victim))
                   ; Opposite-sex (period-default hetero majority; attr read).
                   (not (= (attr ?victim gender) (attr @self gender)))
                   (<= (- (years-old @self) (years-old ?victim))  10)

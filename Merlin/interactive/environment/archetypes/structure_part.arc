@@ -1,10 +1,10 @@
 # Immobile parts of structures (walls, counters, windows, etc.) that occupy the env-grid
-archetype "structure_part" (cap 2048) (mech obs) (always-visible) (occupies-env-grid) (children-occupy-env-grid)
+archetype "structure_part" (cap 2048) (per obs) (always-visible) (occupies-env-grid) (children-occupy-env-grid)
 {
     "birth_date"
     # Structure-part name is observable (engraving / placard).  ext-mech
     # override - common.arc leaves name imperceptible for the human model.
-    "name" (auto-percept) (ext-mech obs)
+    "name" (auto-percept) (ext-per obs)
     "struct_parent"
     "parts" (auto-percept)
     "obb"

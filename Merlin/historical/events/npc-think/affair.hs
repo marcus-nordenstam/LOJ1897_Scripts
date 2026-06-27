@@ -37,7 +37,7 @@
     ;; decorum reads 0, so the not-yet-appraised stray freely). The chance is /12 of
     ;; the annual 0.5, rolled once per NPC per window.
     (role @self (template any_human)
-                (>= (years-old @self) 18)
+                (adult-age @self)
                 (believes {@self spouse ?})
                 (not (believes {@self lover ?}))
                 (chance (* 0.04
@@ -46,16 +46,15 @@
                            (- 1 (target {@self decorum})))))
     (role ?lover (template any_human)
                  (not (= ?lover @self))
-                 (>= (years-old ?lover) 18)
+                 (adult-age ?lover)
                  ; the paramour must NOT be @self's own spouse (a third party).
                  (not (believes {@self spouse ?lover}))
                  ; the affair ignites with a known third party (social tie).
                  (personally-knows @self ?lover)
-                 (<= (- (years-old @self) (years-old ?lover))  15)
-                 (>= (- (years-old @self) (years-old ?lover)) -15)
+                 (age-peers @self ?lover)
                  ; opposite-sex (period-default hetero majority; attr read), non-kin.
                  (not (= (attr ?lover gender) (attr @self gender)))
-                 (not (kin @self ?lover))))
+                 (not (blood-kin @self ?lover))))
 
   (effects
     ; Reciprocal lover bond + mutual profile sync (mirrors lovers.hs's shape so

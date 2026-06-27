@@ -24,7 +24,7 @@
 ;
 ; Tuning knobs: the (chance 0.6) jilt-on-betrothal probability. A stance-decay
 ; jilt form (the bond simply cools, no betrothal) is a deferred knob - add a
-; sibling event gated on (not (stance-at-least @self ?jilted fancy)) when
+; sibling event gated on (not (is-attracted-to @self ?jilted)) when
 ; the distribution wants it.
 ;
 ; EMERGENT (Section 4.11): no (schedule) - both jilt forms fire via the per-NPC

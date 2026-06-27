@@ -17,9 +17,9 @@
 ; the per-NPC emergent pass MONTHLY; the per-suitor (chance) gives the courtship
 ; duration before the mutually-fancied pair commit (a tuning knob).
 ;
-; The fancy gate is (stance-at-least ?suitor ?beloved fancy) - the reliable
-; cross-pair BITSET predicate. The believer (?suitor) is the enumerated outer
-; role; ?beloved is intersected with the suitor's fancied targets.
+; The fancy gate is (is-attracted-to @self ?beloved) - the band-ladder believes
+; (attraction at least the `fancy` band, an EXPLICIT verb-state belief read). The
+; believer (@self) is the enumerated outer role; ?beloved is the attracted target.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -32,7 +32,7 @@
     ; @self the suitor: an unmarried, un-betrothed adult who is not socially shut
     ; out. The chance on the @self role is rolled once per suitor per window.
     (role @self (template any_human)
-                (>= (years-old @self) 18)
+                (adult-age @self)
                 (not (believes {@self fiancee ?}))
                 (not (believes {@self spouse ?}))
                 (not (believes {@self repute [k scandalous]}))
@@ -50,7 +50,7 @@
     ;; HIM (confess_fancy minted {?beloved fancy @self} in his mind). No mind peek.
     (role ?beloved (template any_human)
                   (not (= ?beloved @self))
-                  (>= (years-old ?beloved) 18)
+                  (adult-age ?beloved)
                   (not (believes {?beloved fiancee ?}))
                   (not (believes {?beloved spouse ?}))
                   (not (believes {?beloved repute [k scandalous]}))
@@ -61,9 +61,9 @@
                            (believes {@self    class_situation [k lower]})))
                   (or (not (believes {@self prototype fallen_woman}))
                       (believes {?beloved class_situation [k lower]}))
-                  ; the heart of it: @self fancies this person (cross-pair bitset,
-                  ; @self the outer believer) ...
-                  (stance-at-least @self ?beloved fancy)
+                  ; the heart of it: @self is attracted to this person (attraction
+                  ; at least the `fancy` band, the explicit band-ladder belief) ...
+                  (is-attracted-to @self ?beloved)
                   ; ... and MUTUAL fancy - she fancies him BACK, and SAID SO. A love
                   ; match is a meeting of two hearts: court builds her fancy toward
                   ; him, confess_fancy carries her admission into his mind, and only
@@ -80,11 +80,10 @@
                   (or (not (believes {?beloved lover ?}))
                       (believes {@self lover ?beloved}))
                   ; no marrying blood kin (consanguinity backstop) ...
-                  (not (kin @self ?beloved))
+                  (not (blood-kin @self ?beloved))
                   ; ... opposite-sex (drops any same-sex standing-pass fancy).
                   (not (= (attr ?beloved gender) (attr @self gender)))
-                  (<= (- (years-old @self) (years-old ?beloved))  15)
-                  (>= (- (years-old @self) (years-old ?beloved)) -15)))
+                  (age-peers @self ?beloved)))
 
   ;; Live un-betrothed re-check: the role filters are alpha-indexed and go stale
   ;; within the window, so re-check at firing - now from @self's OWN beliefs

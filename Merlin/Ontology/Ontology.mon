@@ -97,7 +97,7 @@
 # Plural-kind attrs: blemish unifies wound / stain / mark
 # ----------------------------------------------------------------------------
 # Forensic traces (body wounds, surface stains, surface marks) share
-# the `(type kind array 4) (mech obs) (auto-percept)` shape. The
+# the `(type kind array 4) (per obs) (auto-percept)` shape. The
 # `blemish` parent kind in Objects.mon unifies them so the `blemishes`
 # attr (common.arc) can hold any mix; new writers should target
 # `blemishes` directly.

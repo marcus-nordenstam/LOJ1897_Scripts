@@ -1,5 +1,5 @@
 # Any human NPC
-archetype "human_npc" (cap 4096) (mech obs) (raycast-visible) (sentient) (non-occluder) (occupies-env-grid) (infer-kind-override human nonplayer)
+archetype "human_npc" (cap 4096) (per obs) (raycast-visible) (sentient) (non-occluder) (occupies-env-grid) (infer-kind-override human nonplayer)
 {
     "visual_sensor"
     "sound_sensor"
@@ -13,6 +13,9 @@ archetype "human_npc" (cap 4096) (mech obs) (raycast-visible) (sentient) (non-oc
     # 1 = created parent-less (founder / immigrant); 0 = born in-sim with parents.
     "parentless"
     "age_group"
+    # Perceptible life-stage + its +/-1 proximity window (see common.arc).
+    "age_band"
+    "age_span"
     "gender"
     "appearance"
     "height"
@@ -30,6 +33,8 @@ archetype "human_npc" (cap 4096) (mech obs) (raycast-visible) (sentient) (non-oc
     # Continuous physical tiredness (0..2) - the rest lane reads it; the sleep
     # act's completion reduces it, waking time accrues it (imperceptible).
     "fatigue"
+    # Emigration marker (0/1) - set per-NPC, swept zero-role (mark-then-sweep).
+    "emigrating"
     # Accumulated intoxication - F3.7 sobriety input.
     "intoxication"
     # Gambling addiction (0..1) - F3.5 sobriety + wealth input.

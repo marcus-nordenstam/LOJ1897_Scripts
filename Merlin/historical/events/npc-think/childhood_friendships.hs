@@ -30,23 +30,22 @@
     ;; believe_about), so a same-class match needs the two to be acquainted (an
     ;; unknown child's class @fails). No cross-mind read.
     (role @self (template any_human)
-             (>= (years-old @self) 8)
-             (<= (years-old @self) 16)
+             (schoolchild-age @self)
              (chance (* 0.0125 (+ 0.5 (attr @self enthusiasm)))))
     (role ?b (template any_human)
-             (>= (years-old ?b) 8)
-             (<= (years-old ?b) 16)
+             (schoolchild-age ?b)
              (not (= ?b @self))
              (= (target {?b class_situation}) (target {@self class_situation}))
-             (<= (- (years-old ?b) (years-old @self))  3)
-             (>= (- (years-old ?b) (years-old @self)) -3)
+             (age-peers @self ?b)
              (not (believes {@self friend ?b}))
-             ; Warmth-gated: see
-             ; adult_friendships.hs. Reliable cross-pair BITSET gates
-             ; - kids rarely hold a dislike band yet, so volume is ~unchanged;
-             ; the gate just prevents befriending an already-disliked peer.
-             (not (stance-at-least @self ?b dislike))
-             (not (stance-at-least @self ?b detest))))
+             ; Warmth-gated: see adult_friendships.hs. The two negative warmth
+             ; bands (dislike, detest) are read as EXPLICIT verb-state beliefs
+             ; (core appraisal projects the warmth scalar onto them) - kids rarely
+             ; hold either yet, so volume is ~unchanged; the gate just prevents
+             ; befriending an already-disliked peer. The pair excludes BOTH bands
+             ; (= "warmth not below neutral"), since each `believes` is exact-band.
+             (not (believes {@self dislike ?b}))
+             (not (believes {@self detest ?b}))))
 
   (effects
     ; befriend mints the mutual tie (friend, or acquaintance if either side is

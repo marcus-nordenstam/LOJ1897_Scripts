@@ -280,7 +280,7 @@ concept
     # Observable symptoms. Distinct from disease:
     # symptoms are what others SEE (cough / fever / pallor / weakness);
     # the disease is the diagnosis a physician INFERS from symptoms. Each
-    # leaf has a corresponding env attr on body archetypes (mech obs);
+    # leaf has a corresponding env attr on body archetypes (per obs);
     # the disease attr is /reason or /imperceptible. Starter set; extend
     # as content demands.
     symptom
@@ -738,6 +738,15 @@ concept
         questionable
         disreputable
         scandalous
+    # chastity_repute - the PUBLIC chastity standing, banded from the
+    # reputed_chastity scalar at the base/penalty ladder midpoints (each KNOWN
+    # extra-marital partner drops one band). The marriage market shuts out the
+    # `disgraced` band (the old reputed_chastity >= 0.5 gate). Perceptible only
+    # as far as it has leaked (disclosure channel), like `repute`.
+    chastity_repute          (sub human)  (tar @excl)
+        spotless
+        tarnished
+        disgraced
     class_situation          (sub human)  (tar @excl)
         upper
         middle
@@ -758,6 +767,34 @@ concept
         struggling
         loner
         adrift
+
+    # Perceptible life-stage. age_band is the single current band (one per
+    # person, @excl - re-minted on a band crossing); a PERCEIVED approximation
+    # (you can see roughly how old someone is) minted at acquaintance contact.
+    # Exact age (birth_date) is communicated only to friends-and-closer. The
+    # ladder is contiguous + ORDERED, deliberately NARROW under 30 and WIDE at
+    # 30+, so a "same / adjacent band" peer test stands in for the old numeric
+    # age-diff windows (tight among the young, loose among adults). The band
+    # BOUNDARIES are the single source of truth in C++ (age_band_for); keep this
+    # list in lockstep with it.
+    # Bands (ranges, in lockstep with age_band_index in hsim_belief_propagation.cc):
+    #   infant 0-2  juvenile 3-9  adolescent 10-15  youth 16-17
+    #   young_adult 18-29  middle_aged 30-49  mature 50-69  elderly 70+
+    # (`juvenile` not `child` - `child` is already the kinship bond kind.)
+    age_band                 (sub human)  (tar @excl)
+        infant
+        juvenile
+        adolescent
+        youth
+        young_adult
+        middle_aged
+        mature
+        elderly
+    # The proximity window: each person's own band PLUS its immediate neighbours
+    # (band +/- 1), so 2-3 values. Non-@excl. Proximity ("are we age peers")
+    # binds @self's single age_band and tests whether the candidate's age_span
+    # covers it - i.e. |band(self) - band(other)| <= 1 (same or adjacent).
+    age_span                 (sub human)  (tar age_band)
 
     # Derived archetypes (F3.4) - a named conjunction over situations and
     # dimensions; non-@excl, an NPC may match several. Prototype kinds are

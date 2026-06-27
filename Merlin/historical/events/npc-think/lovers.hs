@@ -35,7 +35,7 @@
     ; to resolve. An available adult who fancies someone and is not already
     ; attached; the chance is rolled once per NPC per window.
     (role @self (template any_human)
-                (>= (years-old @self) 18)
+                (adult-age @self)
                 (not (believes {@self spouse ?}))
                 (not (believes {@self fiancee ?}))
                 (not (believes {@self lover ?}))
@@ -45,13 +45,13 @@
     ;; signalled it (confess_fancy). No cross-mind read.
     (role ?b (template any_human)
              (not (= ?b @self))
-             (>= (years-old ?b) 18)
+             (adult-age ?b)
              (not (believes {?b spouse ?}))
              (not (believes {?b fiancee ?}))
              (not (believes {?b lover ?}))
-             ; @self is attracted to ?b (cross-pair bitset, @self the outer
-             ; believer) ...
-             (stance-at-least @self ?b fancy)
+             ; @self is attracted to ?b (attraction at least the `fancy` band,
+             ; the explicit band-ladder verb-state belief) ...
+             (is-attracted-to @self ?b)
              ; ... and ?b reciprocates - she has TOLD HIM she fancies him
              ; (confess_fancy minted {?b fancy @self} in his mind), so the pairing
              ; is never unrequited. (The old warmth-only reciprocity is dropped: a
@@ -61,7 +61,7 @@
              ; opposite-sex (fancy is opposite-sex via crush_forms; belt-and-
              ; braces, and drops any same-sex standing-pass fancy) and not kin.
              (not (= (attr ?b gender) (attr @self gender)))
-             (not (kin @self ?b))))
+             (not (blood-kin @self ?b))))
 
   ;; Live re-check: within the window the un-attached role filters go stale as
   ;; earlier firings mint lover bonds; re-confirm both are still free - from @self's

@@ -486,8 +486,11 @@ relation
             # of (leaked via gossip, interception, witness or
             # publication). Derived beside chastity by
             # classify_reputed_chastity; the marriage-market filters read
-            # THIS, never the secret-inclusive self-derived value.
-            reputed_chastity    (tar ? @excl) (range 0 1)
+            # THIS, never the secret-inclusive self-derived value. Banded to a
+            # chastity_repute KIND (spotless/tarnished/disgraced) so role
+            # filters test it as a perceptible belief (like `repute`); the raw
+            # scalar still feeds `repute` in C++.
+            reputed_chastity    (tar chastity_repute @excl)
             decorum             (tar ? @excl) (range 0 1)
             generosity          (tar ? @excl) (range 0 1)
             # work_standing - a BOSS's subjective assessment of an EMPLOYEE's job

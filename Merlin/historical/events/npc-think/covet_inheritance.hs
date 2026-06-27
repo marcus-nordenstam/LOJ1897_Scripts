@@ -22,8 +22,9 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event covet_inheritance
+  (long-term-think)
   (rng-stream perpetration)
   (generative-covet)
 
   (roles
-    (role ?actor (template any_human))))
+    (role @self (template any_human))))

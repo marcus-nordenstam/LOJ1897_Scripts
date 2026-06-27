@@ -1,0 +1,14 @@
+action = DEAD_IDLE
+internal = true
+motor = legs
+
+anim.female = Female_Death_Pose
+anim.male = Male_Death_Pose
+anim_flags = reset
+state = dead
+
+preroll = 0.0
+in      = 0.2
+run     = ?
+out     = 0.0
+nature = neutral_act

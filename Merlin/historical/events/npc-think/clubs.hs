@@ -25,25 +25,27 @@
 
 ; --- club_founding: an established adult founds a club with two members ------
 (hsim-event club_founding
+  (long-term-think)
   (rng-stream behaviour)
 
+  ; Clubs are founded by a settled adult of some standing - an employed man
+  ; over thirty, not already in a club. (The class-floor the plan names is carried
+  ; by the `employer` gate: a man with a post is a man of standing.) The founder
+  ; is the sole deliberator (@self); age + chance are non-belief ops -> (when).
   (roles
-    ; Clubs are founded by a settled adult of some standing - an employed man
-    ; over thirty, not already in a club. (The class-floor the plan names is
-    ; carried by the `employer` gate here: a man with a post is a man of
-    ; standing.)
-    (role ?founder (template old_human)
-                   (>= (years-old ?this) 30)
-                   (believes ?this {@self employer ?})
-                   (not (believes ?this {@self member_of ?}))
-                   (chance 0.0033)))
+    (role @self (template old_human)
+                (believes {@self employer ?})
+                (not (believes {@self member_of ?}))))
 
-  ; SPLIT (Item 5): the npc-think - the decision to found a club. Mints {?founder
-  ; goal {?founder found_club}}; the npc-act (club_found_errand.hs) takes the founder
+  (when (and (>= (years-old @self) 30)
+             (chance 0.0033)))
+
+  ; SPLIT (Item 5): the npc-think - the decision to found a club. Mints {@self
+  ; goal {@self found_club}}; the npc-act (club_found_errand.hs) takes the founder
   ; out to found it (found-club-seq acquires the clubhouse + enrols him). A new club
   ; starts with just its founder; members trickle in via club_joining.
   (effects
-    (goal ?founder found_club)))
+    (goal @self found_club)))
 
 ; --- club_joining: an adult joins an existing club --------------------------
 ;; Clubs gate on character and class: a scandalous or disreputable member is
@@ -90,15 +92,18 @@
 
 ; --- club_resignation: an adult resigns from a club -------------------------
 (hsim-event club_resignation
+  (long-term-think)
   (rng-stream behaviour)
 
+  ; The resigning member is the sole deliberator (@self); chance -> (when).
   (roles
-    (role ?member (template old_human)
-                  (believes ?this {@self member_of ?})
-                  (chance 0.004)))
+    (role @self (template old_human)
+                (believes {@self member_of ?})))
 
-  ; SPLIT (Item 5): the npc-think - the decision to resign. Mints {?member goal
-  ; {?member resign_club}}; the npc-act (club_resign_errand.hs) sends the member to
+  (when (chance 0.004))
+
+  ; SPLIT (Item 5): the npc-think - the decision to resign. Mints {@self goal
+  ; {@self resign_club}}; the npc-act (club_resign_errand.hs) sends the member to
   ; a clubhouse and unregisters him there (unregister-member resolves his own club).
   (effects
-    (goal ?member resign_club)))
+    (goal @self resign_club)))

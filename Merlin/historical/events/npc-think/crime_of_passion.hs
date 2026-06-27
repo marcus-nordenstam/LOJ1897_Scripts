@@ -22,8 +22,9 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event crime_of_passion
+  (long-term-think)
   (rng-stream perpetration)
   (generative-obsession)
 
   (roles
-    (role ?actor (template any_human))))
+    (role @self (template any_human))))

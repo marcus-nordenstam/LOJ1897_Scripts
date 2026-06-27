@@ -7,13 +7,13 @@
 # when they front a road; remote wilds are name-only.
 # cap: ~579 per-address street_spaces + a handful of areas/neighborhoods + the
 # P4 amenity/wild spaces + a century of runtime spawns.
-archetype "exterior_space" (cap 4096) (mech obs) (always-visible) (non-occluder) (sector-coverage)
+archetype "exterior_space" (cap 4096) (per obs) (always-visible) (non-occluder) (sector-coverage)
 {
     "birth_date"
     # Name is auto-perceived so NPCs know what space they're in (e.g. "the moors",
     # "Julie's Meadow"). The ext-mech override lands perceived name beliefs in the
     # OBS pool. Stopgap until address signs become observable entities.
-    "name" (auto-percept) (ext-mech obs)
+    "name" (auto-percept) (ext-per obs)
     "struct_parent"
     "parts" (auto-percept)
     "obb"

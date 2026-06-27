@@ -36,9 +36,10 @@
   (rng-stream employment)
 
   (roles
-    (role @self (template any_human) (>= (years-old @self) 21)))
+    (role @self (template any_human)))
 
-  (when (and (in-season winter)                        ; once a year - duty is standing
+  (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
+             (in-season winter)                        ; once a year - duty is standing
              (not (has-goal staff_household))          ; mint once, then skip
              (believes @self {@self home ?h})          ; BIND ?h = the home
              (believes @self {@self own ?h})           ; @self OWNS that home (the head)
@@ -61,9 +62,10 @@
   (rng-stream employment)
 
   (roles
-    (role @self (template any_human) (>= (years-old @self) 21)))
+    (role @self (template any_human)))
 
-  (when (and (has-goal staff_household)                 ; head took the duty
+  (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
+             (has-goal staff_household)                 ; head took the duty
              (not (head-runs-household @self))          ; not already founded
              (believes @self {@self home ?h})           ; BIND ?h = the home
              (believes @self {@self own ?h})            ; @self OWNS that home (the head)
@@ -73,17 +75,18 @@
 
 ; --- ACT: the head fulfils the duty - hires what the founded household lacks ---
 (hsim-event staff_household
-  ; EMERGENT: no (schedule) - fired by the per-NPC emergent pass MONTHLY. The
-  ; (generative-staffing) dispatch (run_generative_staffing) now GATES on the
+  ; PER-NPC (long-term-think): the household head fulfils his standing staffing
+  ; duty once a month-window. The (generative-staffing) dispatch
+  ; (run_generative_staffing -> begin_generative_actor) reads @self, GATES on the
   ; {@self goal {@self staff_household}} duty the think minted, then FILLS-TO-TARGET
-  ; (hsim::staff_household hires the shortfall once the household_found pass has
-  ; constituted the org, updating the env register AND each servant's mind; it
-  ; no-ops while no articles exist yet). It no-ops once full - self-throttles - so
-  ; the standing duty needs no clearing.
+  ; (hsim::staff_household hires the shortfall once found_household has constituted
+  ; the org; no-ops while no articles exist and once full - self-throttles).
+  (long-term-think)
   (rng-stream employment)
   (generative-staffing)
 
   (roles
-    (role ?actor (template any_human)
-                 (>= (years-old ?actor) 21)
-                 (believes ?actor {@self home ?}))))
+    (role @self (template any_human)
+                (believes {@self home ?})))
+
+  (when (>= (years-old @self) 21)))   ; non-belief age gate -> (when)

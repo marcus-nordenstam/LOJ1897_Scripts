@@ -1,35 +1,21 @@
 ; ----------------------------------------------------------------------------
-; Population homeostat. Annual feedback loop that nudges alive-count toward
-; the target carrying capacity. Two zero-role events:
+; Population homeostat. The sparse-side feedback valve only.
 ;
-;   homeostat_emigration: too crowded -> emigrate the oldest N
 ;   homeostat_immigration: too sparse -> spawn N adult immigrants
 ;
-; Force-reconciliation (final-year hard pin) is a third event that runs at
-; (one-shot end_year december). It uses the same verbs but with a target
-; passed in via the cfg knob; deferred until cfg.force_survivors is exposed
-; to the engine (today the homeostat target is a literal in the .hse).
+; Immigration STAYS a world-act: spawning a brand-new arrival is pure creation -
+; it casts no existing NPC's role (the new entity does not exist yet), so it does
+; not violate the "world-acts never touch a specific NPC" rule.
 ;
-; Both events run unconditionally each year - the (when ...) gate is what
-; decides whether anything actually happens.
+; The crowded-side valve (the old homeostat_emigration: "emigrate the oldest N by
+; fiat") was RETIRED. Reaching in to remove specific people is not a world concern;
+; emigration is now a per-NPC decision (events/npc-think/emigration.hs) whose
+; per-month chance scales with (population-pressure), and the actual removal is the
+; zero-role (sweep-emigrants) sweep. So crowding raises the outflow organically.
+;
+; This event runs unconditionally each year - the (when ...) gate decides whether
+; anything happens. The homeostat tunables live in macros/tunables.hs.
 ; ----------------------------------------------------------------------------
-; The homeostat tables are auto-loaded from historical/tables/.
-
-(hsim-event homeostat_emigration
-  (schedule   (annually january))
-  (rng-stream homeostat)
-
-  (let ((?alive    (alive-count))
-        (?target   (homeostat_target_population))
-        (?pressure (/ ?alive ?target))
-        (?count    (homeostat_emigration_count)))
-
-    (when (> ?pressure (homeostat_emigration_pressure)))
-
-    (effects
-      (emigrate-oldest ?count)
-      ))
-)
 
 (hsim-event homeostat_immigration
   (schedule   (annually january))

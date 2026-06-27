@@ -66,11 +66,10 @@
                           (believes {?bride class_situation [k lower]}))
                      (and (believes {@self class_situation [k upper]})
                           (believes {?bride class_situation [k middle]})))
-                 (<= (- (years-old @self) (years-old ?bride))  15)
-                 (>= (- (years-old @self) (years-old ?bride)) -15)
+                 (age-peers @self ?bride)
                  ;; No marrying blood kin (see betrothal.hs) - reliable kin
                  ;; cross-pair BITSET.
-                 (not (kin @self ?bride))))
+                 (not (blood-kin @self ?bride))))
 
   ;; Live exclusivity re-check (see betrothal.hs), from the groom's OWN beliefs.
   (when (and (not (believes {@self fiancee ?}))

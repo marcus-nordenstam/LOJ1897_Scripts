@@ -24,9 +24,10 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event coercion
+  (long-term-think)
   (rng-stream perpetration)
   (generative-coercion)
 
   (roles
-    (role ?actor (template any_human)
-                 (> (count-beliefs ?actor extort) 0))))
+    (role @self (template any_human)
+                (> (count-beliefs @self extort) 0))))

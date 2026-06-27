@@ -67,19 +67,23 @@
     (goal @self seek_indenture ?articles)))
 
 (hsim-event apprenticeship_completion
+  (long-term-think)
   (rng-stream apprenticeship)
 
+  ;; The trainee is the sole deliberator (@self). job-level / job-tenure / chance
+  ;; are non-belief ops, so they gate the fire in (when), not role selection.
   (roles
-    ;; A trainee who has held the trainee rank at least three years; the
-    ;; chance spreads completion over the following years.
-    (role ?apprentice (template any_human)
-                      (= (job-level ?this) [k trainee])
-                      (>= (job-tenure ?this) 3)
-                      (chance 0.033)))   ; /12 of the old annual 0.4 (now monthly)
+    (role @self (template any_human)))
+
+  ;; A trainee who has held the trainee rank at least three years; the chance
+  ;; spreads completion over the following years (0.033/mo ~= the old 0.4/yr).
+  (when (and (= (job-level @self) [k trainee])
+             (>= (job-tenure @self) 3)
+             (chance 0.033)))
 
   ;; Recover the master so the master bond can be ended on completion.
-  (let ((?master (belief-target ?apprentice master)))
+  (let ((?master (belief-target @self master)))
     (effects
-      (promote     :worker ?apprentice)
-      (end-belief  ?apprentice master ?master)
+      (promote     :worker @self)
+      (end-belief  @self master ?master)
       )))

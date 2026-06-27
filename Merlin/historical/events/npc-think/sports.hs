@@ -2,9 +2,11 @@
 ; Sports (Phase 7; moved here from Phase 6 - sport needs clubs, and clubs are
 ; founded by Phase 7's club_founding).
 ;
-; Once a year every athletic / racing club holds its competition. The single
-; sporting_event casts the club; the (hold-sporting-event ...) verb does the
-; rest from the club's roster - a document walk the .hse role layer cannot
+; Once a year every athletic / racing club holds its competition. This is a
+; ZERO-ROLE scheduled world sweep: a club is an org-document, not an NPC, so it
+; is not cast as a role (the engine no longer enumerates a ?var role-0). The
+; (hold-sporting-events) verb self-enumerates every club's articles and runs each
+; club's contest from its roster - a document walk the .hse role layer cannot
 ; express:
 ;   - every competitor gains a {participated_in <sport>} belief;
 ;   - one competitor is the victor and gains a {won <sport>} belief
@@ -22,16 +24,10 @@
 ; each meet). Cricket / rugby are played by the male members themselves.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.hs")
-
 (hsim-event sporting_event
   (schedule   (annually june))
   (rng-stream behaviour)
 
-  (roles
-    (role ?club_articles (template org_articles)
-                         (org-kind-is-a ?this [k org club])))
-
   (effects
-    (hold-sporting-event :articles ?club_articles)
+    (hold-sporting-events)
     ))

@@ -6,7 +6,7 @@
 # police-station crime-report archive, receipts, sales_records, letters) -
 # the 4096 cap died mid-run at 1734; 12288 was tight once homes were
 # furnished, so the reservation is sized for the furnished world.
-archetype "prop" (cap 32768) (mech obs) (occupies-env-grid) (non-occluder)
+archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
 {
     "birth_date"
     "color"
@@ -15,7 +15,7 @@ archetype "prop" (cap 32768) (mech obs) (occupies-env-grid) (non-occluder)
     # Maybe some props have an actual name, though rare.  ext-mech override -
     # common.arc leaves name imperceptible for the human model; props with a
     # visible label / engraving / sign need observable names.
-    "name" (auto-percept) (ext-mech obs)
+    "name" (auto-percept) (ext-per obs)
     "writing"
     "parts" (auto-percept)
     "controlled_by"

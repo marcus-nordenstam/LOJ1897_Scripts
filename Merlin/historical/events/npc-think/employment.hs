@@ -20,46 +20,41 @@
 
 ; --- hiring: a jobless working-age adult is taken on by some org -------------
 (hsim-event hiring
+  (long-term-think)
   (rng-stream employment)
 
+  ;; The jobless adult (@self) is the deliberator: he looks for work this month.
+  ;; The org is the inner role. age / situation / chance are non-belief ops, so
+  ;; they gate the fire in (when), not role selection.
   (roles
-    ;; A jobless working-age adult looks for work this month. The (chance) is just
-    ;; how often they SEEK - the real gate is the eligibility MATCH in the
-    ;; `hire-matched` effect (Section 4.11 career model): per org, it reads the
-    ;; org's needed job and the candidate's class / reputation / skills (+ the
-    ;; tenure-conferred domain skill = experience), hiring into THAT job only if
-    ;; eligible, weighted by a preferred-trait fit. So scandalous / under-skilled
-    ;; / wrong-class applicants are filtered per JOB by the data, not here. The
-    ;; scandalous gate stays as a coarse pre-filter (saves match work).
-    (role ?worker (template any_human)
-                  (>= (years-old ?this) 16)
-                  (<= (years-old ?this) 55)
-                  (not (believes ?this {@self employer ?}))
-                  (not (= (situation ?this repute) [k scandalous]))
-                  (chance 0.3))   ; how often a jobless adult seeks work (monthly)
+    (role @self (template any_human)
+                (not (believes {@self employer ?})))
     ;; A household is an org but NOT a labour-market employer: its servants
     ;; are taken on by the staff_household pass (role-appropriate,
     ;; gender-normed), never as generic clerks here.
     (role ?articles (template org_articles)
                     (not (org-kind-is-a ?this [k org household]))))
 
-  ;; Live exclusivity re-check (see business.hs): the worker's "unemployed"
-  ;; role filter is alpha-indexed, so within one tick every hiring org samples
-  ;; the same available worker before the first hire commits - one man "hired"
-  ;; by 20 firms. We re-check via (job-level ...) NOT (believes employer ...):
-  ;; a computed op reads live, whereas a belief-pattern in the when_gate routes
-  ;; through the same alpha-discriminator that's already stale. (hire ... :level
-  ;; apprentice) sets the level live, so once hired this tick the worker reads
-  ;; apprentice and the sampler backtracks to another candidate.
-  (when (not (= (job-level ?worker) [k apprentice])))
+  ;; The (chance) is just how often @self SEEKS - the real gate is the eligibility
+  ;; MATCH in the `engage_staff` act (Section 4.11 career model): per org, it reads
+  ;; the org's needed job and the candidate's class / reputation / skills, hiring
+  ;; into THAT job only if eligible. So scandalous / under-skilled / wrong-class
+  ;; applicants are filtered per JOB by the data; the scandalous test here is a
+  ;; coarse pre-filter. Live exclusivity re-check via (job-level ...) - a computed
+  ;; op reads live, so once hired this tick @self reads apprentice and backtracks.
+  (when (and (>= (years-old @self) 16)
+             (<= (years-old @self) 55)
+             (not (= (situation @self repute) [k scandalous]))
+             (chance 0.3)
+             (not (= (job-level @self) [k apprentice]))))
 
   ; SPLIT (Item 5, EMPLOYEE-side job-search): the WORKER seeks work at the org. Mints
-  ; {?worker goal {?worker engage_staff ?articles}}; the npc-act (hire_errand.hs)
+  ; {@self goal {@self engage_staff ?articles}}; the npc-act (hire_errand.hs)
   ; takes him to the firm and the eligibility-match hire commits there. Worker-driven
   ; (not the boss) so goals stay bounded - a boss-driven hire would pile EVERY jobless
   ; applicant's goal on one org-head and overflow the memory-fusion gather.
   (effects
-    (goal ?worker engage_staff ?articles)))
+    (goal @self engage_staff ?articles)))
 
 ; --- staff review: a boss reviews their own staff and promotes / dismisses -----
 ; BOSS-DRIVEN THINK (perf inversion). Both performance outcomes are the EMPLOYER's
@@ -96,16 +91,19 @@
 ; completion fires the actual (fire) commit - so a retirement happens AT the
 ; workplace, by the man himself, generating the co-presence a witness would see.
 (hsim-event retirement
+  (long-term-think)
   (rng-stream employment)
 
+  ;; The worker (@self) decides to retire; age + chance -> (when).
   (roles
-    (role ?worker (template any_human)
-                  (believes ?this {@self employer ?})
-                  (>= (years-old ?this) 65)
-                  (chance 0.033)))   ; /12 of the old annual 0.4 (now monthly)
+    (role @self (template any_human)
+                (believes {@self employer ?})))
+
   ; Re-firing is harmless: (goal) is idempotent, so re-rolling the chance while the
   ; worker still holds an unacted retire goal just re-mints the same goal (no-op).
+  (when (and (>= (years-old @self) 65)
+             (chance 0.033)))   ; /12 of the old annual 0.4 (now monthly)
 
   (effects
-    (goal ?worker quit_work)
+    (goal @self quit_work)
     ))

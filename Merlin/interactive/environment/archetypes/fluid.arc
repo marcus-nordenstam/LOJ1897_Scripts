@@ -6,7 +6,7 @@
 # independent of any mind - is the `taint` attr below (common.arc). The two
 # are complementary: the belief is who-did-it (mind-held), the attr is
 # what-the-drink-contains (env ground truth).
-archetype "fluid" (cap 256) (mech obs) (occupies-env-grid) (non-occluder)
+archetype "fluid" (cap 256) (per obs) (occupies-env-grid) (non-occluder)
 {
     "controlled_by"
     "fluid_amount"

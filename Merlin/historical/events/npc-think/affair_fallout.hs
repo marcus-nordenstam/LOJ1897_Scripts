@@ -24,8 +24,9 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event affair_fallout
+  (long-term-think)
   (rng-stream incidents)
   (generative-betrayal)
 
   (roles
-    (role ?actor (template any_human))))
+    (role @self (template any_human))))

@@ -31,15 +31,16 @@
     ; @self fancies someone and is free to court (the cheap @self-role pre-gate;
     ; the specific pair is the ?target stance gate below).
     (role @self (template any_human)
-                (>= (years-old @self) 16)
+                (marriageable-age @self)
                 (not (believes {@self spouse ?}))
                 (believes {@self fancy ?}))
-    ; ?target is the specific person @self fancies (cross-pair `fancy` bitset,
-    ; @self the outer believer - the same gate court / love_match read).
+    ; ?target is the specific person @self is attracted to (attraction at least
+    ; the `fancy` band, the explicit band-ladder belief - the same gate court /
+    ; love_match read).
     (role ?target (template any_human)
                   (not (= ?target @self))
-                  (>= (years-old ?target) 16)
-                  (stance-at-least @self ?target fancy)))
+                  (marriageable-age ?target)
+                  (is-attracted-to @self ?target)))
 
   (effects
     ; Mint {@self fancy ?target} into ?target's mind - she/he now KNOWS.

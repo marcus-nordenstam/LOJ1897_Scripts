@@ -48,10 +48,11 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event predation
+  (long-term-think)
   (rng-stream perpetration)
   (generative-predation)
 
   (roles
-    (role ?actor (kind [k human])
-      (alive)
-      (>= (years-old ?actor) 18))))
+    (role @self (template any_human)))
+
+  (when (>= (years-old @self) 18)))   ; non-belief age gate -> (when)
