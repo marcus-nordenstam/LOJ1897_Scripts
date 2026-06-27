@@ -45,9 +45,10 @@
                 (chance (* 0.0083
                            (attr @self assertiveness)
                            (situation @self prestige))))
-    ;; A public organisation - any gov-subkind: church, hospital, agency.
-    (role ?articles (template org_articles)
-                    (org-kind-is-a ?this [k org gov])))
+    ;; A public organisation - any gov-subkind: church, hospital, agency. A KNOWN
+    ;; org of gov kind (@self learned it at new_job_orientation). Belief-pure + cached.
+    (role ?org (template known_org)
+               (believes {?this isa [k org gov]})))
 
   ;; Live exclusivity re-check (see betrothal.hs): without it, every gov org
   ;; enumerated this tick can appoint @self before the first appointment commits.
@@ -55,11 +56,15 @@
   ;; and the sampler backtracks.
   (when (not (= (job-level @self) [k senior])))
 
-  (effects
-    ;; Leave the current post (no-op for the jobless), then take up the senior
-    ;; public post. hire-seq mints the employment beliefs in @self's own mind
-    ;; (no telepathy - @self IS the appointee). fire-first frees the @excl
-    ;; employer slot so the gov hire takes cleanly.
-    (fire :worker @self)
-    (hire-seq ?articles [k job official] [k senior])
-    ))
+  ;; The org's articles (hire-seq's ?var arg - a macro arg used in a pattern must be
+  ;; a ?var, not an expr) is recovered from @self's {?org record ?art} belief; the
+  ;; let must WRAP (effects ...), like apprenticeship_completion.
+  (let ((?articles (target {?org record})))
+    (effects
+      ;; Leave the current post (no-op for the jobless), then take up the senior
+      ;; public post. hire-seq mints the employment beliefs in @self's own mind
+      ;; (no telepathy - @self IS the appointee). fire-first frees the @excl
+      ;; employer slot so the gov hire takes cleanly.
+      (fire :worker @self)
+      (hire-seq ?articles [k job official] [k senior])
+      )))

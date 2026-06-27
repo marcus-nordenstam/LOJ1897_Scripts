@@ -29,11 +29,13 @@
   (roles
     (role @self (template any_human)
                 (not (believes {@self employer ?})))
-    ;; A household is an org but NOT a labour-market employer: its servants
-    ;; are taken on by the staff_household pass (role-appropriate,
-    ;; gender-normed), never as generic clerks here.
-    (role ?articles (template org_articles)
-                    (not (org-kind-is-a ?this [k org household]))))
+    ;; A known org (@self learned it at new_job_orientation - a mental org object
+    ;; carrying its isa belief), excluding households: an org but NOT a labour-market
+    ;; employer - its servants are taken on by the staff_household pass (role-
+    ;; appropriate, gender-normed), never as generic clerks here. Belief-pure +
+    ;; cached: the old (kind ...) / org-kind-is-a omniscient doc ops are gone.
+    (role ?org (template known_org)
+               (not (believes {?this isa [k org household]}))))
 
   ;; The (chance) is just how often @self SEEKS - the real gate is the eligibility
   ;; MATCH in the `engage_staff` act (Section 4.11 career model): per org, it reads
@@ -53,8 +55,10 @@
   ; takes him to the firm and the eligibility-match hire commits there. Worker-driven
   ; (not the boss) so goals stay bounded - a boss-driven hire would pile EVERY jobless
   ; applicant's goal on one org-head and overflow the memory-fusion gather.
+  ; the org's articles (the goal focus the hire_errand reads) is recovered from
+  ; @self's own {?org record ?art} belief, externalized to the env doc by (goal).
   (effects
-    (goal @self engage_staff ?articles)))
+    (goal @self engage_staff (target {?org record}))))
 
 ; --- staff review: a boss reviews their own staff and promotes / dismisses -----
 ; BOSS-DRIVEN THINK (perf inversion). Both performance outcomes are the EMPLOYER's

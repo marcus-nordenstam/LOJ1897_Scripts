@@ -66,22 +66,28 @@
                 (not (believes {@self repute [k scandalous]}))
                 (not (believes {@self repute [k disreputable]}))
                 (chance 0.005))
-    ; A man joins a club of his OWN class band. The club's tier is read as @self's
-    ; view of the founder's class (3-arg (situation ... @self), banded in via
-    ; believe_about) - a positive match, so @self only joins a club whose founder
-    ; he actually knows (an unfamiliar club @fails the class match). (A public
-    ; class-tier on the club articles would later drop the founder-proxy.)
-    (role ?club_articles (template org_articles)
-                         (org-kind-is-a ?this [k org club])
-                         (and (org-founder ?this ?founder)
-                              (= (target {?founder class_situation})
-                                 (target {@self class_situation})))))
+    ; A KNOWN club (@self learned it at new_job_orientation). Belief-pure + cached:
+    ; the omniscient org-kind-is-a doc read is gone. The own-class match (below)
+    ; binds the founder - a secondary var the per-candidate cache cannot - so it
+    ; lives in (when), evaluated live per firing.
+    (role ?club_org (template known_org)
+                    (believes {?this isa [k org club]})))
+
+  ; A man joins a club of his OWN class band. The club's tier is read as @self's
+  ; view of the founder's class (3-arg (situation ... @self), banded in via
+  ; believe_about) - a positive match, so @self only joins a club whose founder he
+  ; actually knows (an unfamiliar founder's class @fails the match). Binds ?founder
+  ; off @self's {?club_org founder ?founder} belief (minted at orientation).
+  (when (and (believes {?club_org founder ?founder})
+             (= (target {?founder class_situation})
+                (target {@self class_situation}))))
 
   ; SPLIT (Item 5): the npc-think - the decision to join. Mints {@self goal
-  ; {@self join_club ?club_articles}}; the npc-act (club_join_errand.hs) sends the
-  ; member to the clubhouse and registers him there. (goal) is idempotent.
+  ; {@self join_club <articles>}}; the npc-act (club_join_errand.hs) sends the member
+  ; to the clubhouse and registers him there. (goal) is idempotent. Focus = the
+  ; club's articles, recovered from @self's {?club_org record ?art} belief.
   (effects
-    (goal @self join_club ?club_articles)))
+    (goal @self join_club (target {?club_org record}))))
 
 ; club_gathering RETIRED (place-and-time reframe, Section 4.8 P2b): club members
 ; are now drawn to the clubhouse by the band itinerary's SOCIAL lane (members

@@ -102,12 +102,13 @@
                 (not (believes {@self backed_by ?}))
                 ; /12 of the old annual 0.12 (now monthly).
                 (chance (* 0.01 (+ 0.5 (attr @self assertiveness)))))
-    ; An existing business he is taken into. (The plan links principal and
-    ; candidate by a prior bond - friend / former employer / club co-member;
-    ; v1 gates on the candidate's merit alone, as the relationship layer is
-    ; not yet rich enough to gate on without starving the event.)
-    (role ?principal_articles (template org_articles)
-                              (org-kind-is-a ?this [k org business])))
+    ; An existing business he is taken into - a KNOWN org of business kind (@self
+    ; learned it at new_job_orientation). Belief-pure + cached. (The plan links
+    ; principal and candidate by a prior bond - friend / former employer / club
+    ; co-member; v1 gates on the candidate's merit alone, as the relationship layer
+    ; is not yet rich enough to gate on without starving the event.)
+    (role ?principal_org (template known_org)
+                         (believes {?this isa [k org business]})))
 
   ;; Live exclusivity re-check (see betrothal.hs): the candidate's "not
   ;; org_head" eligibility is evaluated at enumeration time, so within one
@@ -119,11 +120,11 @@
   (when (not (= (job-level @self) [k org_head])))
 
   ; SPLIT (Item 5): the npc-think - the clerk decides to buy in. Mints {@self
-  ; goal {@self partner ?principal_articles}}; the npc-act (partner_errand.hs)
-  ; sends him to the firm's premises and the completion buys him in there. (goal)
-  ; is idempotent.
+  ; goal {@self partner <articles>}}; the npc-act (partner_errand.hs) sends him to
+  ; the firm's premises and the completion buys him in there. (goal) is idempotent.
+  ; Focus = the firm's articles, recovered from @self's {?org record ?art} belief.
   (effects
-    (goal @self partner ?principal_articles)))
+    (goal @self partner (target {?principal_org record}))))
 
 ; --- business_founding: a man of means sets up on his own account ----------
 ; SPLIT (Item 5, the great split): this is now the npc-THINK - the decision to

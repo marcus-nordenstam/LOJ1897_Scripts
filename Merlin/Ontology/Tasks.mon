@@ -148,6 +148,13 @@ relation
             sack                                    (tar human)
             promote_staff                           (tar human)
             found_club                              (tar ?)
+            # orient -> new_job_orientation: @self goes to the parish and reads the
+            # public incorporation register, forming a mental org object (+ isa /
+            # founder / record beliefs) per org so the belief-pure casting events
+            # (hiring / club_joining / apprenticeship / partnership / appointment)
+            # can role over orgs @self KNOWS. No focus - the church is resolved in
+            # the act via (venue [k building church]).
+            orient                                  (tar ?)
             enrol_primary                           (tar ?)
             enrol_secondary                         (tar ?)
             enrol_university                        (tar ?)

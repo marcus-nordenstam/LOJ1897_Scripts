@@ -40,17 +40,13 @@
                 ;; primary (or never enrolled), not secondary pupils.
                 (not (believes {@self study ?}))
                 (chance (* 0.0125 (+ 0.5 (target {@self breeding})))))
-    ;; A master only takes on a youth of sound family - and reciprocally the
-    ;; youth (or his family) avoids a master KNOWN to be scandalous. The youth
-    ;; judges the master from his OWN view (3-arg (situation ... @self), banded in
-    ;; via believe_about); the gate is permissive on the unknown, so an unheard-of
-    ;; master is not excluded - only one the youth knows to be scandalous.
-    ;; The master comes from the articles' founder slot.
-    ;; A household is an org but NOT a trade: no master, no apprenticeship.
-    (role ?articles (template org_articles)
-                    (not (org-kind-is-a ?this [k org household]))
-                    (and (org-founder ?this ?master)
-                         (not (believes {?master repute [k scandalous]})))))
+    ;; A KNOWN org (the youth learned it at new_job_orientation), not a household:
+    ;; a household is an org but NOT a trade - no master, no apprenticeship. Belief-
+    ;; pure + cached. The master gate (the org's founder, whom the youth avoids if
+    ;; KNOWN to be scandalous - permissive on the unknown) binds a secondary var,
+    ;; which the per-candidate cache cannot, so it lives in (when), evaluated live.
+    (role ?org (template known_org)
+               (not (believes {?this isa [k org household]}))))
 
   ;; Live exclusivity re-check (see employment.hs): the youth's "unemployed"
   ;; filter is alpha-indexed, so within one tick several masters sample the same
@@ -58,13 +54,19 @@
   ;; ...) - a computed op reads live, unlike a belief-pattern (which routes
   ;; through the stale alpha-discriminator). (hire ... :level trainee) sets it
   ;; live, so once apprenticed this tick the youth reads trainee + backtracks.
-  (when (not (= (job-level @self) [k trainee])))
+  ;; The master gate also lives here (secondary-var bind, not cacheable): bind the
+  ;; org's founder ?master and exclude one the youth KNOWS to be scandalous
+  ;; (permissive on the unknown - (not (believes ...)) is true when unheard-of).
+  (when (and (not (= (job-level @self) [k trainee]))
+             (believes {?org founder ?master})
+             (not (believes {?master repute [k scandalous]}))))
 
   ;; SPLIT (Item 5): the npc-think - the youth chooses a trade. Mints {@self goal
-  ;; {@self seek_indenture ?articles}}; the npc-act (apprentice_errand.hs) sends him
+  ;; {@self seek_indenture <articles>}}; the npc-act (apprentice_errand.hs) sends him
   ;; to the master's premises and the indenture is sealed there. (goal) is idempotent.
+  ;; Focus = the org's articles, recovered from @self's {?org record ?art} belief.
   (effects
-    (goal @self seek_indenture ?articles)))
+    (goal @self seek_indenture (target {?org record}))))
 
 (hsim-event apprenticeship_completion
   (long-term-think)

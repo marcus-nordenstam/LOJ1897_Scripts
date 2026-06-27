@@ -79,12 +79,11 @@
   (believes {?this condition [k alive]})
   (working-age ?this))        ; 16-49 (was numeric 16-45)
 
-;; An articles_of_incorporation document - the cross-mind anchor of a founded
-;; org. The Phase 7 work events role-bind one to name the org they act on.
-;; No (alive) filter: a document is not an NPC.
-;; This is the ONE remaining non-belief op in role filters: a document is not yet
-;; (hsim-percept), so its kind cannot be read as a perceived belief. Flip to
-;; (believes {?this isa [k articles_of_incorporation]}) once documents carry the
-;; perceptible-kind flag (deferred with the org_articles document-belief work).
-(define-role org_articles
-  (kind [k articles_of_incorporation]))
+;; An org the deliberator already KNOWS - a mental org object carrying its kind
+;; belief (minted at founding / hire / new_job_orientation when @self reads the
+;; org's articles). This is the belief-pure successor to org_articles: the casting
+;; events role over orgs @self has learned, not over every articles document in
+;; the world. `isa [k org]` matches any org kind (is-a); each casting event then
+;; narrows to its category ([k org club] / business / gov) or excludes household.
+(define-role known_org
+  (believes {?this isa [k org]}))

@@ -45,6 +45,11 @@
 
         ; --- founder's mind: the org object + its constitutive beliefs ------------
         (imagine-or-recall ?org-kind {?art declares_org ?org})
+        ; the org object's KIND as a queryable belief (imagine-or-recall sets the
+        ; object kind but mints no isa belief; the belief-pure casting filters read
+        ; isa, so every org-object-formation site mints it - keeps the cache matcher
+        ; and the live (believes) op reading the same fact).
+        (begin-belief {?org isa ?org-kind})
         (begin-belief {?org founder @self})
         (begin-belief {?org workplace ?wp})
         (begin-belief {?org record ?art})
@@ -92,6 +97,7 @@
 
         ; --- founder's mind: the org object + its constitutive beliefs -----------
         (imagine-or-recall ?club-kind {?art declares_org ?org})
+        (begin-belief {?org isa ?club-kind})    ; queryable kind belief - see found-org-seq
         (begin-belief {?org founder @self})
         (begin-belief {?org workplace ?wp})
         (begin-belief {?org record ?art})
@@ -122,6 +128,7 @@
         (kind ?org-kind) (building ?wp))
     ; --- @self's mind: the org object + the employment beliefs ------------------
     (imagine-or-recall ?org-kind {?art declares_org ?org})
+    (begin-belief {?org isa ?org-kind})    ; queryable kind belief - see found-org-seq
     (begin-belief {@self employer ?org})
     (begin-belief {?wp occupant @self})
     (begin-belief {?org workplace ?wp})
