@@ -48,8 +48,12 @@
         ; the org object's KIND as a queryable belief (imagine-or-recall sets the
         ; object kind but mints no isa belief; the belief-pure casting filters read
         ; isa, so every org-object-formation site mints it - keeps the cache matcher
-        ; and the live (believes) op reading the same fact).
-        (begin-belief {?org isa ?org-kind})
+        ; and the live (believes) op reading the same fact). Read the kind back into
+        ; a let-bound ?ok: a macro PARAM (?org-kind) is not in let_names, so as a
+        ; begin-belief pattern TARGET it reads as a free ?var (flatten_pattern_field
+        ; resolves targets via var_is_bound only); the doc read binds ?ok properly.
+        (read-doc-record [k articles_of_incorporation] ?art (kind ?ok))
+        (begin-belief {?org isa ?ok})
         (begin-belief {?org founder @self})
         (begin-belief {?org workplace ?wp})
         (begin-belief {?org record ?art})
@@ -97,7 +101,10 @@
 
         ; --- founder's mind: the org object + its constitutive beliefs -----------
         (imagine-or-recall ?club-kind {?art declares_org ?org})
-        (begin-belief {?org isa ?club-kind})    ; queryable kind belief - see found-org-seq
+        ; read the kind back into a let-bound ?ok (macro param ?club-kind is not in
+        ; let_names, so it reads free as a begin-belief pattern target - see found-org-seq).
+        (read-doc-record [k articles_of_incorporation] ?art (kind ?ok))
+        (begin-belief {?org isa ?ok})    ; queryable kind belief - see found-org-seq
         (begin-belief {?org founder @self})
         (begin-belief {?org workplace ?wp})
         (begin-belief {?org record ?art})
