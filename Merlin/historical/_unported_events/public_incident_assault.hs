@@ -1,4 +1,14 @@
 ; ----------------------------------------------------------------------------
+; UNPORTED (object-cache model). The victim binder is `(co-present @self ?victim)`
+; - a POSITIONAL gate, not a belief, so the ?victim role cannot be object-cacheable
+; (the per-mind cache enumerates belief-pools, never physical co-presence). Re-port
+; under the place-lane / venue co-presence arm (per_mind plan Phase 6): the venue
+; supplies the co-present candidate SET directly, instead of enumerating strangers
+; town-wide and filtering by co-presence (which both regresses the delib lane and
+; mass-churns the space-presence perception path). NOT loaded (outside the events
+; walk); kept here as the authoring reference. Same venue lane that means_strike /
+; theft_strike await.
+; ----------------------------------------------------------------------------
 ; public_incident_assault (npc-think). The stranger-victim assault - a public
 ; brawl / square fight where @self turns violent on someone NOT personally known,
 ; bound from the live co-presence (you can only brawl with whoever is actually
