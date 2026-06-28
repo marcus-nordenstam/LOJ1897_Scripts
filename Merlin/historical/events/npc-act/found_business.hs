@@ -42,13 +42,18 @@
   (effects
     ; Roll a HOUSABLE business kind first (premises-aware: only kinds with a free
     ; building of their declared kind). If none can be housed right now, ?bizkind is
-    ; a fail value and we do nothing - the founder keeps his job and his goal and
-    ; retries later. No premises -> no founding -> no error.
+    ; a fail value and we found nothing this trip. No premises -> no founding -> no error.
     (roll-business-org-kind (bind ?bizkind))
     (if ?bizkind
       (do
         (fire :worker @self)
         ; mint the founding via the atomic-op sequence (proprietor head).
-        (found-org-seq ?bizkind [k job proprietor])
-        (clear-goal @self found)
-        ))))
+        (found-org-seq ?bizkind [k job proprietor])))
+    ; Clear the goal regardless of the premises outcome. A dry-premises resolution
+    ; LAPSES rather than persisting: were the goal kept on a dry roll, the founder
+    ; would re-run found_dwell -> found_commit (and found_go) every intra-day cycle
+    ; for as long as the town sat at premises capacity - a ~20k-fire/5yr storm. The
+    ; resolution is re-minted at the proper deliberation cadence instead (annual
+    ; business_founding / monthly business_homeostat), so a man whose town has no
+    ; free premises simply tries again next window.
+    (clear-goal @self found)))
