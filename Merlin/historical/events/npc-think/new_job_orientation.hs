@@ -27,11 +27,14 @@
   (sim-window-start)
   (rng-stream employment)
 
+  ;; Only the JOBLESS consult the register - this is a JOB SEARCH. A man already in
+  ;; a post does not go reading the vacancies. The jobless filter is a belief-pure
+  ;; self-role criterion, so the @self enumeration itself caches.
   (roles
-    (role @self (template any_human)))
+    (role @self (template any_human)
+                (not (believes {@self employer ?}))))
 
   (when (and (>= (years-old @self) 12)
-             (not (= (job-level @self) [k org_head]))
              (chance 0.3)))
 
   (effects
