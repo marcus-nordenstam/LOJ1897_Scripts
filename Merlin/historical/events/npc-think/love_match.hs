@@ -30,7 +30,7 @@
 
   (roles
     ; @self the suitor: an unmarried, un-betrothed adult who is not socially shut
-    ; out. The chance on the @self role is rolled once per suitor per window.
+    ; out. The per-suitor (chance) gate has moved to (when ...) (role-belief purity).
     (role @self (template any_human)
                 (adult-age @self)
                 (not (believes {@self fiancee ?}))
@@ -41,8 +41,7 @@
                 ;; working-class communities are pragmatic - a lower-class fall may
                 ;; still wed (the beloved role completes the pair check).
                 (or (not (believes {@self prototype fallen_woman}))
-                    (believes {@self class_situation [k lower]}))
-                (chance 0.3))
+                    (believes {@self class_situation [k lower]})))
     ;; SELF-POV (telepathy purge CAT-3): @self judges the beloved from his OWN
     ;; knowledge - her marital state / lover / fallen mark as HE knows them (banded
     ;; in via gossip/believe_about; permissive on the unknown), her repute as HE
@@ -91,15 +90,18 @@
   ;; within the window, so re-check at firing - now from @self's OWN beliefs
   ;; (his own engagement, and what he knows of hers). A same-window double-betroth
   ;; race is left to a future public-blackboard claim, never a mind peek.
-  (when (and (not (believes {@self fiancee ?}))
+  ;; (chance 0.3) moved here from the @self role (role-belief purity); FIRST so it
+  ;; short-circuits cheaply. It is the per-suitor courtship-duration knob.
+  (when (and (chance 0.3)
+             (not (believes {@self fiancee ?}))
              (not (believes {?beloved fiancee ?}))))
 
   (effects
     ; Symmetric fiancee bond + mutual profile sync - identical to betrothal, so
     ; the existing wedding event consumes the couple (it recovers the groom from
     ; the bride's fiancee belief regardless of which side initiated).
-    (begin-belief @self    fiancee ?beloved)
-    (begin-belief ?beloved fiancee @self)
+    (begin-belief {@self fiancee ?beloved})
+    (begin-belief ?beloved {?beloved fiancee @self})
     (believe-about @self    ?beloved)
     (believe-about ?beloved @self)
     ))

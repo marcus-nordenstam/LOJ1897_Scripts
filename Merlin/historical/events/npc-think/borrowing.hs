@@ -16,12 +16,15 @@
   (rng-stream behaviour)
 
   (roles
-    ; Low industriousness (less self-supporting) takes on debt more often.
-    (role @self   (template old_human)
-                    (chance (* 0.005 (- 1.5 (attr ?this industriousness)))))
+    (role @self   (template old_human))
     (role ?creditor (template old_human)
                     (not (= ?this @self))
                     (not (believes {@self owe ?creditor}))))
+
+  ; The borrow roll - moved out of the @self role (a (chance)/(attr) gate is
+  ; non-belief, so it lives in (when), not the role). Low industriousness (less
+  ; self-supporting) takes on debt more often.
+  (when (chance (* 0.005 (- 1.5 (attr @self industriousness)))))
 
   ; SPLIT (Item 5): the npc-think - the decision to borrow. It mints {@self goal
   ; {@self borrow ?creditor}}; the npc-act (borrow_errand.hs) sends the debtor to

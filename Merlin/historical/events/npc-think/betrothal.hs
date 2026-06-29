@@ -34,19 +34,10 @@
   ;; `repute` / `reputed_chastity` - what has LEAKED - never secret self-values.
   (roles
     (role @self (template adult)
-                (= (attr @self gender) [k male])
                 (not (believes {@self spouse ?}))
                 (not (believes {@self fiancee ?}))
-                ;; A same-station lover keeps him out of the arranged market (such
-                ;; pairs wed via love_match); a lover beneath/above his station is no
-                ;; impediment. He knows his OWN lover's class. No lover -> @fail ->
-                ;; the (and ...) is false -> eligible.
-                (not (and (believes {@self lover ?})
-                          (= (target {(target {@self lover}) class_situation})
-                             (target {@self class_situation}))))
                 (not (believes {@self repute [k scandalous]}))
-                (not (believes {@self repute [k disreputable]}))
-                (chance 0.0208))
+                (not (believes {@self repute [k disreputable]})))
     (role ?bride (template unmarried_woman)
                  (not (= ?bride @self))
                  ;; Not already spoken-for (he avoids a woman he KNOWS is engaged or
@@ -66,19 +57,34 @@
                  ;; the bride's class_situation equals @self's own (dynamic-target
                  ;; shape-2, cacheable - like age-peers; NOT a cross-(target =)).
                  (believes {?bride class_situation (target {@self class_situation})})
+                 ;; Belief-pure perceived predicates - the near-age window and the
+                 ;; blood-kin exclusion - stay role filters (cacheable), gating the
+                 ;; bride candidate set directly.
                  (age-peers @self ?bride)
-                 ;; No marrying blood kin (reliable kin cross-pair BITSET).
                  (not (blood-kin @self ?bride))))
 
   ;; Exclusivity re-check at FIRING time, from the groom's OWN beliefs (his own
   ;; engagement + what he knows of hers). A same-tick double-betroth by two grooms
   ;; who BOTH do not yet know is left to a future public-blackboard claim.
-  (when (and (not (believes {@self fiancee ?}))
-             (not (believes {?bride fiancee ?}))))
+  ;; ROLE-PURITY: the non-belief gates moved out of the roles live here - the
+  ;; per-groom (chance) (first, short-circuits), the male gender read, and the
+  ;; same-station-lover impediment (a lover whose class equals his keeps him out
+  ;; of the arranged market; such pairs wed via love_match - no lover -> @fail ->
+  ;; the (and ...) is false -> eligible). (age-peers / blood-kin are belief-pure
+  ;; and stay in the ?bride role.)
+  (when (and (chance 0.0208)
+             (not (believes {@self fiancee ?}))
+             (not (believes {?bride fiancee ?}))
+             (= (attr @self gender) [k male])
+             (not (and (believes {@self lover ?})
+                       (= (target {(target {@self lover}) class_situation})
+                          (target {@self class_situation}))))))
 
   (effects
-    (begin-belief @self fiancee ?bride)
-    (begin-belief ?bride fiancee @self)
+    (begin-belief {@self fiancee ?bride})
+    ; The bride's own engagement belief lands in HER mind (the wedding event
+    ; recovers the groom from the bride's fiancee belief, either side initiating).
+    (begin-belief ?bride {?bride fiancee @self})
     ; Each betrothed learns the other's social profile - see hsim::believe_about.
     (believe-about @self ?bride)
     (believe-about ?bride @self)

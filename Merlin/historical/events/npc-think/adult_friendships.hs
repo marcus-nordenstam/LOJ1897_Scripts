@@ -26,27 +26,26 @@
 
   (roles
     ; @self is the deliberating NPC (bound O(1)); ?b is enumerated underneath.
-    ; Enthusiasm (the sociable Extraversion aspect) makes friends more readily.
-    ; Mean-1.0 multiplier on the /12 base - adult-friendship volume is unchanged.
-    ; The chance lives on the @self role, so it is rolled ONCE per NPC per window
-    ; (before ?b enumeration), not once per candidate.
+    ; The roles keep belief / template / self-exclusion filters - including the
+    ; belief-pure perceived age-band predicates (adult-age / age-peers, which expand
+    ; to age_band believes). Only the enthusiasm-scaled (chance) roll is non-belief
+    ; and lives in the (when ...) clause below.
     (role @self (template any_human)
-                (adult-age @self)
                 (not (believes {@self repute [k scandalous]}))
-                (chance (* 0.004 (+ 0.5 (attr @self enthusiasm)))))
+                (adult-age @self))
     ;; SELF-POV (telepathy purge CAT-3): @self sizes up ?b from what HE knows -
     ;; ?b's repute / class as banded in via gossip / believe_about (3-arg
     ;; situation). The class match is positive, so @self only befriends a
     ;; same-class peer he is actually acquainted with (a stranger's class @fails);
     ;; the repute gate is permissive on the unknown. No cross-mind read.
     (role ?b (template any_human)
-             (adult-age ?b)
              (not (= ?b @self))
+             (adult-age ?b)
+             (age-peers @self ?b)
              (not (believes {?b repute [k scandalous]}))
              ; Same class: @self's belief that ?b's class matches his own (dynamic-
              ; target shape-2, cacheable - replaces the (= (target..)(target..)) pair).
              (believes {?b class_situation (target {@self class_situation})})
-             (age-peers @self ?b)
              (not (believes {@self friend ?b}))
              ; Warmth-gated: you do not befriend someone you actively dislike. The
              ; two negative warmth bands are EXPLICIT verb-state beliefs (core
@@ -55,6 +54,10 @@
              ; The pair excludes BOTH bands, since each `believes` is exact-band.
              (not (believes {@self dislike ?b}))
              (not (believes {@self detest ?b}))))
+
+  ; Non-belief gate moved out of the @self role (role-belief-purity invariant):
+  ; the enthusiasm-scaled (chance), rolled ONCE per @self per window.
+  (when (chance (* 0.004 (+ 0.5 (attr @self enthusiasm)))))
 
   (effects
     ; befriend mints the mutual tie (friend, or acquaintance if either side is

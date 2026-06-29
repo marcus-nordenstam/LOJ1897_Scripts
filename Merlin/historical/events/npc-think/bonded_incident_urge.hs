@@ -43,33 +43,31 @@
   (rng-stream incidents)
 
   (roles
-    (role @self  (template any_human)
-                  ; The plan's `+legacy, +respectability` for urge is a
-                  ; LIFE_AIM_ALIGN AMPLIFIER, not a hard gate - applied via
-                  ; life-aim-aligns inside the chance product (returns 0.4
-                  ; for legacy_aim, 0.4 for respectability_aim, ~0 for the
-                  ; neutral aims, -0.2 for autonomy_aim per
-                  ; life_aim_affinity.hsc). `(+ 1.0 ...)` keeps the term
-                  ; non-negative (life-aim-aligns is in [-1, 1] so the
-                  ; sum is [0, 2]) - compose_range bails on mixed-sign
-                  ; multiplications, so the offset must be >= the
-                  ; absolute min of the inner. Modal neutral-aim parent
-                  ; multiplier = 1.0; legacy/respectability parent = 1.4;
-                  ; autonomy_aim parent = 0.8.
-                  (chance (* 0.0125
-                             (- 1.0 (attr @self compassion))
-                             (attr @self assertiveness)
-                             (+ 1.0 (life-aim-aligns @self urge)))))
+    (role @self  (template any_human))
     (role ?victim (template any_human)
                   (not (= ?victim @self))
                   (believes {@self child ?victim})))
 
-  ; value-rift amplifier (0.2 floor + the parent/child divergence) - an OPAQUE belief
-  ; op inside a (chance), so it lives in (when), rolled per victim at firing, not as a
-  ; role criterion (would not be cacheable). When value-rift becomes an explicit
-  ; belief read it can fold back into the role.
-  (when (chance (* 0.80
-                   (+ 0.2 (value-rift @self ?victim)))))
+  ; Non-belief gates (moved out of the roles - none are cacheable belief queries):
+  ;  - actor (chance): the plan's `+legacy, +respectability` for urge is a
+  ;    LIFE_AIM_ALIGN AMPLIFIER, not a hard gate - applied via life-aim-aligns
+  ;    inside the chance product (returns 0.4 for legacy_aim, 0.4 for
+  ;    respectability_aim, ~0 for the neutral aims, -0.2 for autonomy_aim per
+  ;    life_aim_affinity.hsc). `(+ 1.0 ...)` keeps the term non-negative
+  ;    (life-aim-aligns is in [-1, 1] so the sum is [0, 2]) - compose_range
+  ;    bails on mixed-sign multiplications, so the offset must be >= the
+  ;    absolute min of the inner. Modal neutral-aim parent multiplier = 1.0;
+  ;    legacy/respectability parent = 1.4; autonomy_aim parent = 0.8.
+  ;  - value-rift amplifier (0.2 floor + the parent/child divergence) - an
+  ;    OPAQUE belief op inside a (chance), rolled per victim at firing. When
+  ;    value-rift becomes an explicit belief read it can fold back into the role.
+  ; Cheap chances FIRST so they short-circuit.
+  (when (and (chance (* 0.0125
+                        (- 1.0 (attr @self compassion))
+                        (attr @self assertiveness)
+                        (+ 1.0 (life-aim-aligns @self urge))))
+             (chance (* 0.80
+                        (+ 0.2 (value-rift @self ?victim))))))
 
   (effects
     (urge @self ?victim atone)

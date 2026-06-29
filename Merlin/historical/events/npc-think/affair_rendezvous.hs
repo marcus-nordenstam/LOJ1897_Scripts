@@ -37,5 +37,8 @@
     ;; generative pass stages the tryst's located co-presence via human channels,
     ;; never a mind peek.
     (role @self (template any_human)
-                (>= (years-old @self) 18)
-                (believes {@self lover ?}))))
+                (believes {@self lover ?})))
+
+  ;; moved from the @self role: the adult age gate is a non-belief attr-read,
+  ;; so it lives in (when) rather than the belief-pure role.
+  (when (>= (years-old @self) 18)))

@@ -37,6 +37,6 @@
 (hsim-event borrow_commit
   (schedule (completion-only))
   (effects
-    (begin-belief @self owe (goal-focus take_loan))
+    (begin-belief {@self owe (goal-focus take_loan)})
     (clear-goal @self take_loan)
     ))

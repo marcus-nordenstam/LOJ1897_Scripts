@@ -42,42 +42,47 @@
     ;; @self template + inline gates; the man proposes). He marries DOWN one class to
     ;; an exemplary woman he KNOWS - her exemplary repute / class read from his own
     ;; view ((situation ?bride <dim> @self)), her availability his own belief. The
-    ;; (chance) (trait-graded by HIS outgoingness) paces it; selectivity is the
-    ;; exemplary-bride + one-class-down + age gates.
+    ;; non-belief gates (the (chance) trait-graded pacing and the groom gender read)
+    ;; now live in (when); the role keeps the belief-pure availability / repute
+    ;; filters plus the perceived age-peer + blood-kin predicates (belief macros).
     (role @self (template adult)
-                (= (attr @self gender) [k male])
                 (not (believes {@self spouse ?}))
                 (not (believes {@self fiancee ?}))
                 (not (believes {@self repute [k scandalous]}))
-                (not (believes {@self repute [k disreputable]}))
-                ; Additive form so the chance product stays in [0.2, 1.0].
-                (chance (* 0.0833
-                           (+ 0.20
-                              (* 0.4 (attr @self enthusiasm))
-                              (* 0.4 (attr @self openness))))))
+                (not (believes {@self repute [k disreputable]})))
     ;; An exemplary bride one class BELOW the groom (spotless reputation lifts her).
     ;; class_situation values are upper / middle / lower; the explicit kind literals
     ;; dodge the ambiguous bare-atom path. The (or ...) encodes the two valid lifts.
+    ;; age-peers / blood-kin are belief-pure perceived predicates, so they stay role
+    ;; filters (cacheable), gating the bride candidate set directly.
     (role ?bride (template unmarried_woman)
                  (not (= ?bride @self))
+                 (age-peers @self ?bride)
+                 (not (blood-kin @self ?bride))
                  (not (believes {?bride fiancee ?}))
                  (believes {?bride repute [k exemplary]})
                  (or (and (believes {@self class_situation [k middle]})
                           (believes {?bride class_situation [k lower]}))
                      (and (believes {@self class_situation [k upper]})
-                          (believes {?bride class_situation [k middle]})))
-                 (age-peers @self ?bride)
-                 ;; No marrying blood kin (see betrothal.hs) - reliable kin
-                 ;; cross-pair BITSET.
-                 (not (blood-kin @self ?bride))))
+                          (believes {?bride class_situation [k middle]})))))
 
   ;; Live exclusivity re-check (see betrothal.hs), from the groom's OWN beliefs.
-  (when (and (not (believes {@self fiancee ?}))
-             (not (believes {?bride fiancee ?}))))
+  ;; Non-belief gates moved out of the roles: the (chance) pacing (first - it
+  ;; short-circuits the additive trait product) and the groom gender read. (when)
+  ;; evaluates ops for @self and sees the cast ?bride role var, so they work here.
+  (when (and (chance (* 0.0833
+                        (+ 0.20
+                           (* 0.4 (attr @self enthusiasm))
+                           (* 0.4 (attr @self openness)))))
+             (not (believes {@self fiancee ?}))
+             (not (believes {?bride fiancee ?}))
+             (= (attr @self gender) [k male])))
 
   (effects
-    (begin-belief @self fiancee ?bride)
-    (begin-belief ?bride fiancee @self)
+    (begin-belief {@self fiancee ?bride})
+    ; The bride's own engagement belief lands in HER mind (wedding recovers the
+    ; groom from the bride's fiancee belief, either side initiating).
+    (begin-belief ?bride {?bride fiancee @self})
     (believe-about @self ?bride)
     (believe-about ?bride @self)
     ))

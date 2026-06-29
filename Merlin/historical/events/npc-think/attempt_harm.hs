@@ -35,5 +35,8 @@
   (generative-perpetration)
 
   (roles
-    (role @self (template any_human)
-                (> (count-beliefs @self goal) 0))))
+    (role @self (template any_human)))
+
+  ; Moved from the @self role (non-belief gate): restricts the cast to
+  ; goal-holding NPCs; non-goal-holders never perpetrate.
+  (when (> (count-beliefs @self goal) 0)))

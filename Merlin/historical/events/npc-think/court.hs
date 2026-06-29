@@ -30,8 +30,7 @@
                 (marriageable-age @self)
                 (not (believes {@self spouse ?}))
                 (not (believes {@self fiancee ?}))
-                (believes {@self fancy ?})
-                (chance 0.5))
+                (believes {@self fancy ?}))
     ;; SELF-POV (telepathy purge CAT-3): the suitor reads the beloved from his OWN
     ;; knowledge - her marital state / lover / fallen mark as HE knows them
     ;; (permissive on the unknown), and her receptivity as SHE has signalled it to
@@ -61,6 +60,10 @@
                   ; differs from his own (visible-on-sight -> cacheable). And not kin.
                   (not (believes {?beloved gender (target {@self gender})}))
                   (not (blood-kin @self ?beloved))))
+
+  ; Non-belief gate moved out of the @self role: the per-suitor (chance) that
+  ; paces repeated courting is not a belief query, so it lives here.
+  (when (chance 0.5))
 
   (effects
     ; Attention from her suitor grows her attraction toward him (reciprocal fancy

@@ -21,8 +21,10 @@
   (rng-stream business)
 
   (roles
-    (role @self (template any_human)
-                (>= (years-old @self) 25)))
+    (role @self (template any_human)))
+
+  ; age gate moved here from the @self role (non-belief filter)
+  (when (>= (years-old @self) 25))
 
   (effects
     ; Found the business with its HEAD only (the proprietor); the emergent labour

@@ -23,15 +23,12 @@
   (rng-stream friendships)
 
   (roles
-    ; High enthusiasm (the sociable Extraversion aspect) makes friends more
-    ; readily. Mean-1.0 multiplier - friendship volume is unchanged.
     ;; SELF-POV (telepathy purge CAT-3): @self the child befriends a peer he KNOWS -
     ;; the peer's class is read from @self's own view (3-arg situation, banded in via
     ;; believe_about), so a same-class match needs the two to be acquainted (an
     ;; unknown child's class @fails). No cross-mind read.
     (role @self (template any_human)
-             (schoolchild-age @self)
-             (chance (* 0.0125 (+ 0.5 (attr @self enthusiasm)))))
+             (schoolchild-age @self))
     (role ?b (template any_human)
              (schoolchild-age ?b)
              (not (= ?b @self))
@@ -48,6 +45,11 @@
              ; (= "warmth not below neutral"), since each `believes` is exact-band.
              (not (believes {@self dislike ?b}))
              (not (believes {@self detest ?b}))))
+
+  ; Non-belief gate moved out of the @self role: the enthusiasm-scaled chance.
+  ; High enthusiasm (the sociable Extraversion aspect) makes friends more readily;
+  ; mean-1.0 multiplier - friendship volume is unchanged.
+  (when (chance (* 0.0125 (+ 0.5 (attr @self enthusiasm)))))
 
   (effects
     ; befriend mints the mutual tie (friend, or acquaintance if either side is

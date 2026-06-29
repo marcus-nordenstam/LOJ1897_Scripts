@@ -28,8 +28,10 @@
   (roles
     ;; The candidate IS the deliberating NPC (@self self-role, the standard
     ;; emergent shape - cf. adult_friendships / betrothal): an exemplary,
-    ;; high-prestige adult of working age. The prestige floor selects already-
-    ;; distinguished candidates, naturally targeting the established class.
+    ;; high-prestige adult of working age. The age / repute / prestige floors and
+    ;; the trait-product chance now live in (when ...) (role-belief purity); the
+    ;; role itself keeps only the belief-pure template. The prestige floor selects
+    ;; already-distinguished candidates, naturally targeting the established class.
     ;;
     ;; The plan's "member_of of an organisation that hosts the post" tenure
     ;; gate (PR-A-8 audit) is V2 work - the substrate has the member_of relation
@@ -37,24 +39,25 @@
     ;; doesn't express cleanly today. V1 routes the chance through a trait
     ;; product: assertiveness + (situation prestige) above the floor amplifies
     ;; the rate, so a high-prestige assertive candidate fires far more often.
-    (role @self (template old_human)
-                (>= (years-old @self) 30)
-                (<= (years-old @self) 65)
-                (= (situation @self repute) [k exemplary])
-                (>= (situation @self prestige) 0.65)
-                (chance (* 0.0083
-                           (attr @self assertiveness)
-                           (situation @self prestige))))
+    (role @self (template old_human))
     ;; A public organisation - any gov-subkind: church, hospital, agency. A KNOWN
     ;; org of gov kind (@self learned it at new_job_orientation). Belief-pure + cached.
     (role ?org (template known_org)
                (believes {?this isa [k org gov]})))
 
-  ;; Live exclusivity re-check (see betrothal.hs): without it, every gov org
-  ;; enumerated this tick can appoint @self before the first appointment commits.
-  ;; The when_gate is live per firing; once @self is senior this tick it fails
-  ;; and the sampler backtracks.
-  (when (not (= (job-level @self) [k senior])))
+  ;; (chance) FIRST (cheap, short-circuits), then the live exclusivity re-check
+  ;; (see betrothal.hs): without it, every gov org enumerated this tick can appoint
+  ;; @self before the first appointment commits; once @self is senior this tick it
+  ;; fails and the sampler backtracks. The age / repute / prestige gates and the
+  ;; trait-product chance were moved here verbatim from the @self role.
+  (when (and (chance (* 0.0083
+                         (attr @self assertiveness)
+                         (situation @self prestige)))
+             (not (= (job-level @self) [k senior]))
+             (>= (years-old @self) 30)
+             (<= (years-old @self) 65)
+             (= (situation @self repute) [k exemplary])
+             (>= (situation @self prestige) 0.65)))
 
   ;; The org's articles (hire-seq's ?var arg - a macro arg used in a pattern must be
   ;; a ?var, not an expr) is recovered from @self's {?org record ?art} belief; the

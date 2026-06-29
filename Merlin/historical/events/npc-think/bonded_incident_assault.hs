@@ -25,20 +25,24 @@
   (rng-stream incidents)
 
   (roles
-    ; Dark-tetrad assault disposition, rolled once per NPC: volatility x
-    ; psychopathy x sadism x (1 - politeness), amplified by intoxication (the
-    ; 0.3 sober floor + 0.7*intox keeps the amplifier in [0.3, 1.0] so the whole
-    ; product stays <= 1 - sober high-tetrad actors still occasionally fire,
-    ; drunk ones much more).
-    (role @self (template any_human)
-                (chance (* (attr @self volatility)
-                           (attr @self psychopathy)
-                           (attr @self sadism)
-                           (- 1.0 (attr @self politeness))
-                           (+ 0.3 (* 0.7 (attr @self intoxication))))))
+    ; @self is any human; the dark-tetrad assault disposition that rolls once
+    ; per NPC now lives in the (when ...) gate below (a non-belief chance read
+    ; cannot live on the role under the belief-purity invariant).
+    (role @self (template any_human))
     (role ?victim (template any_human)
                   (not (= ?victim @self))
                   (personally-knows @self ?victim)))
+
+  ; Dark-tetrad assault disposition, rolled once per NPC (moved off the @self
+  ; role): volatility x psychopathy x sadism x (1 - politeness), amplified by
+  ; intoxication (the 0.3 sober floor + 0.7*intox keeps the amplifier in
+  ; [0.3, 1.0] so the whole product stays <= 1 - sober high-tetrad actors still
+  ; occasionally fire, drunk ones much more).
+  (when (chance (* (attr @self volatility)
+                   (attr @self psychopathy)
+                   (attr @self sadism)
+                   (- 1.0 (attr @self politeness))
+                   (+ 0.3 (* 0.7 (attr @self intoxication))))))
 
   (effects
     (incident-anchor @self assault ?victim)

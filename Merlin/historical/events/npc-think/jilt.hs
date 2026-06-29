@@ -44,8 +44,7 @@
     ; the ?jilted filters enforce the third party).
     (role @self (template any_human)
                   (believes {@self lover ?})
-                  (believes {@self fiancee ?})
-                  (chance 0.6))
+                  (believes {@self fiancee ?}))
     ; The jilted: the jilter's lover who is NOT the jilter's fiancee (the
     ; two-bound believes shape wedding.hs uses to recover the groom).
     (role ?jilted (template any_human)
@@ -53,9 +52,11 @@
                   (believes {@self lover ?jilted})
                   (not (believes {@self fiancee ?jilted}))))
 
+  ;; (chance 0.6) moved here from the @self role (non-belief gate).
   ;; Live re-check: an earlier firing this tick may already have ended the
   ;; jilter's lover bond (one jilt per jilter per tick).
-  (when (believes {@self lover ?jilted}))
+  (when (and (chance 0.6)
+             (believes {@self lover ?jilted})))
 
   (effects
     ; One-sided ending - ONLY the jilter's belief (see header).
@@ -91,11 +92,7 @@
     (role @self (template any_human)
                   (believes {@self lover ?})
                   (not (believes {@self fiancee ?}))
-                  (not (believes {@self spouse ?}))
-                  ;; decorum is a DERIVED conduct dimension (belief) read from @self's
-                  ;; own mind via (target {...}). An unread dimension contributes 0;
-                  ;; the +0.3 base keeps the event alive for the un-derived.
-                  (chance (* 0.15 (+ 0.3 (target {@self decorum})))))
+                  (not (believes {@self spouse ?})))
     ; The lover beneath the jilter's station (at least one class below).
     (role ?jilted (template any_human)
                   (not (= ?jilted @self))
@@ -107,7 +104,12 @@
                       (and (believes {@self class_situation [k middle]})
                            (believes {?jilted class_situation [k lower]})))))
 
-  (when (believes {@self lover ?jilted}))
+  ;; chance gate moved here from the @self role (non-belief gate). decorum is a
+  ;; DERIVED conduct dimension (belief) read from @self's own mind via
+  ;; (target {...}). An unread dimension contributes 0; the +0.3 base keeps the
+  ;; event alive for the un-derived.
+  (when (and (chance (* 0.15 (+ 0.3 (target {@self decorum}))))
+             (believes {@self lover ?jilted})))
 
   (effects
     (end-belief @self lover ?jilted)

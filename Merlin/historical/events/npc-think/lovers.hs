@@ -33,13 +33,12 @@
   (roles
     ; @self is the BELIEVER - the outer role for the cross-pair fancy gate on ?b
     ; to resolve. An available adult who fancies someone and is not already
-    ; attached; the chance is rolled once per NPC per window.
+    ; attached. (The per-NPC (chance) that paces pairing now lives in (when).)
     (role @self (template any_human)
                 (adult-age @self)
                 (not (believes {@self spouse ?}))
                 (not (believes {@self fiancee ?}))
-                (not (believes {@self lover ?}))
-                (chance 0.2))
+                (not (believes {@self lover ?})))
     ;; SELF-POV (telepathy purge CAT-3): @self reads ?b's free/attached state from
     ;; his OWN knowledge (permissive on the unknown), and ?b's reciprocation as SHE
     ;; signalled it (confess_fancy). No cross-mind read.
@@ -66,15 +65,20 @@
 
   ;; Live re-check: within the window the un-attached role filters go stale as
   ;; earlier firings mint lover bonds; re-confirm both are still free - from @self's
-  ;; OWN beliefs (his own bond, and what he knows of ?b's).
-  (when (and (not (believes {@self lover ?}))
+  ;; OWN beliefs (his own bond, and what he knows of ?b's). The per-NPC (chance) -
+  ;; the pacing knob, rolled once per NPC per window - moved here from the @self
+  ;; role (non-belief filters are not role-cacheable); it leads the (and) so it
+  ;; short-circuits cheaply.
+  (when (and (chance 0.2)
+             (not (believes {@self lover ?}))
              (not (believes {?b   lover ?}))))
 
   (effects
     ; Reciprocal lover bond + mutual profile sync (mirrors betrothal's shape so
     ; downstream consumers see a fully-wired pair).
-    (begin-belief @self lover ?b)
-    (begin-belief ?b lover @self)
+    (begin-belief {@self lover ?b})
+    ; The reciprocal bond lands in ?b's own mind (so ?b knows of the pairing).
+    (begin-belief ?b {?b lover @self})
     ; A lover bond is constructed on physical attraction - BOTH sides hold at
     ; least the `fancy` band (0.4 clears the 0.24 entry threshold; ?b may have
     ; reciprocated with warmth only, but becoming lovers grows the attraction).

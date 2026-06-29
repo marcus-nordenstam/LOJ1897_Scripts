@@ -51,10 +51,7 @@
   (rng-stream incidents)
 
   (roles
-    (role @self  (template any_human)
-                  (chance (* 0.025
-                             (- 1.0 (attr @self compassion))
-                             (attr @self narcissism))))
+    (role @self  (template any_human))
     (role ?victim (template any_human)
                   (not (= ?victim @self))
                   (believes {@self child ?victim})))
@@ -64,10 +61,15 @@
   ; holds no grudge against CANNOT be disinherited. believes folds to 0/1; static max
   ; 1.0. A non-belief (chance) gate reading per-victim stance, rolled per victim at
   ; firing, so it lives in (when), not as a role criterion (would not be cacheable).
-  (when (chance (+ (* 0.2 (+ (believes {@self dislike ?victim})
-                             (believes {@self disdain ?victim})))
-                   (* 0.3 (+ (believes {@self detest  ?victim})
-                             (believes {@self despise ?victim}))))))
+  ; The actor trait (chance) gate ((1 - compassion) x narcissism) moved here off the
+  ; @self role for the same reason (attr reads are non-belief, not role-cacheable).
+  (when (and (chance (* 0.025
+                        (- 1.0 (attr @self compassion))
+                        (attr @self narcissism)))
+             (chance (+ (* 0.2 (+ (believes {@self dislike ?victim})
+                                  (believes {@self disdain ?victim})))
+                        (* 0.3 (+ (believes {@self detest  ?victim})
+                                  (believes {@self despise ?victim})))))))
 
   (effects
     (incident-anchor @self disinherit ?victim)

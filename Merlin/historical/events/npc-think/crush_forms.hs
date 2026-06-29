@@ -30,18 +30,13 @@
 
   (roles
     ;; @self - a romantically-open single, not already deep in a crush. The trait
-    ;; chance (openness x enthusiasm x compassion) makes the receptive crush more
-    ;; readily; it is rolled once per NPC per window (on the @self role) before
-    ;; ?victim enumeration.
+    ;; chance (openness x enthusiasm x compassion) gates the receptive crush; it now
+    ;; lives in (when ...) below (non-belief filters do not belong in a role).
     (role @self (template any_human)
                 (working-age @self)
                 (not (believes {@self desire ?}))
                 (not (believes {@self lover ?}))
-                (not (believes {@self spouse ?}))
-                (chance (* 0.30
-                           (attr @self openness)
-                           (attr @self enthusiasm)
-                           (attr @self compassion))))
+                (not (believes {@self spouse ?})))
     (role ?victim (template any_human)
                   (not (= ?victim @self))
                   (marriageable-age ?victim)
@@ -55,6 +50,14 @@
                   ; Similar age: same or adjacent perceived age-band (the belief-pure
                   ; replacement for the old +/-10 year window).
                   (age-peers @self ?victim)))
+
+  ; Moved from the @self role: the trait chance (openness x enthusiasm x
+  ; compassion) is a non-belief filter, so it is rolled once per NPC per window
+  ; here rather than inside the role.
+  (when (chance (* 0.30
+                   (attr @self openness)
+                   (attr @self enthusiasm)
+                   (attr @self compassion))))
 
   (effects
     ; Feed the one-sided attraction scalar: a crush is a strong directed pull.

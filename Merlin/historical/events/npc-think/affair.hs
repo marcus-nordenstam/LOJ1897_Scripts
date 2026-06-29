@@ -32,18 +32,13 @@
   (rng-stream incidents)
 
   (roles
-    ;; @self - a married adult, not already mid-affair, with the disposition to
-    ;; stray - openness x enthusiasm x impropriety (decorum INVERTED; an un-derived
-    ;; decorum reads 0, so the not-yet-appraised stray freely). The chance is /12 of
-    ;; the annual 0.5, rolled once per NPC per window.
+    ;; @self - a married adult, not already mid-affair. The disposition-to-stray
+    ;; gate (the chance product over openness x enthusiasm x impropriety) is a
+    ;; non-belief filter and lives in the (when ...) clause below.
     (role @self (template any_human)
                 (adult-age @self)
                 (believes {@self spouse ?})
-                (not (believes {@self lover ?}))
-                (chance (* 0.04
-                           (attr @self openness)
-                           (attr @self enthusiasm)
-                           (- 1 (target {@self decorum})))))
+                (not (believes {@self lover ?})))
     (role ?lover (template any_human)
                  (not (= ?lover @self))
                  (adult-age ?lover)
@@ -57,13 +52,24 @@
                  (not (believes {?lover gender (target {@self gender})}))
                  (not (blood-kin @self ?lover))))
 
+  ;; Moved here from the @self role (non-belief filter): the disposition-to-stray
+  ;; chance - openness x enthusiasm x impropriety (decorum INVERTED; an un-derived
+  ;; decorum reads 0, so the not-yet-appraised stray freely). The 0.04 is /12 of the
+  ;; annual 0.5, rolled once per NPC per window.
+  (when (chance (* 0.04
+                   (attr @self openness)
+                   (attr @self enthusiasm)
+                   (- 1 (target {@self decorum})))))
+
   (effects
     ; Reciprocal lover bond + mutual profile sync (mirrors lovers.hs's shape so
     ; downstream consumers - betrayal detection, the romantic-rival derive - see a
     ; fully-wired pair). @self's spouse will read {@self lover ?lover} in the
     ; obsession pass and route blame.
-    (begin-belief @self lover ?lover)
-    (begin-belief ?lover lover @self)
+    (begin-belief {@self lover ?lover})
+    ; The reciprocal bond lands in the LOVER's own mind (so the lover knows of the
+    ; affair, and their own spouse's obsession pass can read {?lover lover @self}).
+    (begin-belief ?lover {?lover lover @self})
     ; Ground the pull in the stance substrate ON BOTH SIDES - a lover bond is
     ; constructed on physical attraction, so both hold at least the `fancy` band
     ; (0.4 clears the 0.24 band-entry threshold). Without the reciprocal nudge a

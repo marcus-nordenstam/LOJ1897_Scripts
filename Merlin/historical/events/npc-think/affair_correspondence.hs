@@ -38,5 +38,7 @@
     ;; generative pass stages the covert letter via human channels (servant courier
     ;; / post / poste-restante), never a mind peek.
     (role @self (template any_human)
-                (>= (years-old @self) 18)
-                (believes {@self lover ?}))))
+                (believes {@self lover ?})))
+
+  ;; non-belief gate moved off the @self role: adult age check
+  (when (>= (years-old @self) 18)))

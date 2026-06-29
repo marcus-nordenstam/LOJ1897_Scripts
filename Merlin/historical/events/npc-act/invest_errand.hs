@@ -34,6 +34,6 @@
 (hsim-event invest_commit
   (schedule (completion-only))
   (effects
-    (begin-belief @self backed_by (goal-focus back))
+    (begin-belief {@self backed_by (goal-focus back)})
     (clear-goal @self back)
     ))

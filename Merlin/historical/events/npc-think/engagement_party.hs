@@ -27,17 +27,21 @@
   ; idempotent, so the re-announce is harmless.
   (rng-stream marriages)
 
-  ;; SELF-POV (telepathy purge CAT-3): @self the GROOM (light @self template +
-  ;; inline gates) announces HIS OWN fresh engagement; ?bride is recovered from his
-  ;; OWN fiancee belief (no mind peek).
+  ;; SELF-POV (telepathy purge CAT-3): @self the GROOM (belief-pure @self role)
+  ;; announces HIS OWN fresh engagement; ?bride is recovered from his OWN fiancee
+  ;; belief (no mind peek). The male-gender gate and the first-year belief-age
+  ;; re-fire guard are non-belief filters - moved to (when ...) below.
   (roles
     (role @self (template adult)
-                (= (attr @self gender) [k male])
                 (not (believes {@self spouse ?}))
-                (believes {@self fiancee ?})
-                (= (belief-age @self fiancee) 0))
+                (believes {@self fiancee ?}))
     (role ?bride (template unmarried_woman)
                  (believes {@self fiancee ?bride})))
+
+  ;; Moved from the @self role (non-belief filters): groom must be male, and the
+  ;; fiancee belief must be in its first year (the once-per-betrothal re-fire guard).
+  (when (and (= (attr @self gender) [k male])
+             (= (belief-age @self fiancee) 0)))
 
   (effects
     (hold-engagement-party ?bride @self)

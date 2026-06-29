@@ -29,5 +29,8 @@
   (generative-coercion)
 
   (roles
-    (role @self (template any_human)
-                (> (count-beliefs @self extort) 0))))
+    (role @self (template any_human)))
+
+  ; coerce-anchor existence-test moved here from the @self role: a
+  ; (count-beliefs ...) comparison is a non-belief filter, illegal in a role.
+  (when (> (count-beliefs @self extort) 0)))

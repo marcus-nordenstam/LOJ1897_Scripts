@@ -54,21 +54,24 @@
   ; business_partnership (which fires healthily). A backed clerk then founds his own
   ; business via business_founding's `backed_by` means-branch.
   (roles
-    ; A merit-and-character clerk of working age who cannot self-fund and is not yet
-    ; backed. The backing firm is his employer, resolved in the effect via
-    ; (target {@self employer}). Float 0..1 dim thresholds - see the partnership note.
+    ; A merit-and-character clerk who cannot self-fund and is not yet backed (the
+    ; belief-pure part). The backing firm is his employer, resolved in the effect via
+    ; (target {@self employer}). The working-age band, not-already-an-owner, merit and
+    ; means dims, and the monthly chance are all non-belief and live in (when ...) below.
     (role @self (template old_human)
-                (>= (years-old @self) 25)
-                (<= (years-old @self) 55)
                 (believes {@self employer ?})
-                (not (= (job-level @self) [k org_head]))
-                (>= (target {@self diligence}) 0.55)
                 (or (believes {@self repute [k respectable]})
                     (believes {@self repute [k exemplary]}))
-                (< (target {@self wealth}) 0.5)
-                (not (believes {@self backed_by ?}))
-                ; /12 of the old annual 0.40 (now monthly).
-                (chance (* 0.033 (+ 0.5 (attr @self assertiveness))))))
+                (not (believes {@self backed_by ?}))))
+
+  ; Moved from the @self role (non-belief gates): the monthly chance (/12 of the old
+  ; annual 0.40), working-age band, not-already-an-owner, and the merit + means dims.
+  (when (and (chance (* 0.033 (+ 0.5 (attr @self assertiveness))))
+             (>= (years-old @self) 25)
+             (<= (years-old @self) 55)
+             (not (= (job-level @self) [k org_head]))
+             (>= (target {@self diligence}) 0.55)
+             (< (target {@self wealth}) 0.5)))
 
   ; npc-think: the clerk resolves to secure his employer's backing. Mints {@self goal
   ; {@self back ?org}} (focus = the employer firm); the npc-act (invest_errand.hs)
@@ -88,20 +91,14 @@
 
   (roles
     ; A merit-and-character man who cannot self-fund and is not backed - the
-    ; clerk-makes-partner route.
-    ; Float 0..1 thresholds - see the investment role's note.
+    ; clerk-makes-partner route (the belief-pure part). The age band, not-already-an-
+    ; owner, merit + means dims and the monthly chance are non-belief and live in
+    ; (when ...) below.
     (role @self (template old_human)
-                (>= (years-old @self) 25)
-                (<= (years-old @self) 55)
                 (believes {@self employer ?})
-                (not (= (job-level @self) [k org_head]))
-                (>= (target {@self diligence}) 0.55)
                 (or (believes {@self repute [k respectable]})
                     (believes {@self repute [k exemplary]}))
-                (< (target {@self wealth}) 0.5)
-                (not (believes {@self backed_by ?}))
-                ; /12 of the old annual 0.12 (now monthly).
-                (chance (* 0.01 (+ 0.5 (attr @self assertiveness)))))
+                (not (believes {@self backed_by ?})))
     ; An existing business he is taken into - a KNOWN org of business kind (@self
     ; learned it at new_job_orientation). Belief-pure + cached. (The plan links
     ; principal and candidate by a prior bond - friend / former employer / club
@@ -117,7 +114,14 @@
   ;; dozen firms. The when_gate is evaluated live per firing; once the candidate
   ;; has been made an org_head this tick, the re-check fails and the sampler
   ;; backtracks to another candidate.
-  (when (not (= (job-level @self) [k org_head])))
+  ;; Also hosts the non-belief @self gates moved out of the role: the monthly chance
+  ;; (/12 of the old annual 0.12), the working-age band, and the merit + means dims.
+  (when (and (chance (* 0.01 (+ 0.5 (attr @self assertiveness))))
+             (not (= (job-level @self) [k org_head]))
+             (>= (years-old @self) 25)
+             (<= (years-old @self) 55)
+             (>= (target {@self diligence}) 0.55)
+             (< (target {@self wealth}) 0.5)))
 
   ; SPLIT (Item 5): the npc-think - the clerk decides to buy in. Mints {@self
   ; goal {@self partner <articles>}}; the npc-act (partner_errand.hs) sends him to
@@ -141,22 +145,26 @@
     ; Merit, character, and means - either enough wealth to self-fund, or a
     ; backer (the backed_by belief a prior patronage / investment errand wrote).
     ; SELF-POV (telepathy purge CAT-2): @self weighs his OWN standing; no other
-    ; mind is read. Float 0..1 thresholds - see the investment role's note.
+    ; mind is read. Belief-pure part only; the age band, not-already-an-owner, merit
+    ; dim, means branch and the monthly chance are non-belief and live in (when ...).
     (role @self (template old_human)
-                (>= (years-old @self) 25)
-                (<= (years-old @self) 55)
                 (believes {@self employer ?})
-                (not (= (job-level @self) [k org_head]))
-                (>= (target {@self diligence}) 0.55)
                 (or (believes {@self repute [k respectable]})
-                    (believes {@self repute [k exemplary]}))
-                (or (>= (target {@self wealth}) 0.5)
-                    (believes {@self backed_by ?}))
-                ; /12 of the old annual 0.30 (now monthly).
-                (chance (* 0.025 (+ 0.5 (attr @self assertiveness))))))
+                    (believes {@self repute [k exemplary]}))))
 
+  ; Moved from the @self role (non-belief gates): the monthly chance (/12 of the old
+  ; annual 0.30), working-age band, not-already-an-owner, the merit dim, and the means
+  ; branch (enough wealth OR a backer) - a mixed numeric/belief OR, so it lives here.
   ; Re-firing is harmless: (goal) is idempotent, so re-rolling the chance while the
   ; founder still holds an unacted found goal just re-mints the same goal (no-op).
+  (when (and (chance (* 0.025 (+ 0.5 (attr @self assertiveness))))
+             (>= (years-old @self) 25)
+             (<= (years-old @self) 55)
+             (not (= (job-level @self) [k org_head]))
+             (>= (target {@self diligence}) 0.55)
+             (or (>= (target {@self wealth}) 0.5)
+                 (believes {@self backed_by ?}))))
+
   (effects
     (goal @self found)))
 
@@ -180,18 +188,23 @@
   (rng-stream business)
 
   (roles
-    ; Any alive adult of founding age who is not already an owner and not already
-    ; pursuing a founding - NO merit gate (that is the whole point of the floor net).
-    (role @self (template old_human)
-                (>= (years-old @self) 25)
-                (<= (years-old @self) 55)
-                (not (= (job-level @self) [k org_head]))
-                (not (has-goal found))
-                (orgs-below-population-floor [k org business] 12)
-                ; a modest monthly chance: enough eligible adults resolve to found
-                ; to refill the floor as businesses fail, without a goal-storm (the
-                ; goal->bank->commit lag is premises-capped regardless).
-                (chance 0.05)))
+    ; Any alive adult - the belief-pure part is just the template. NO merit gate
+    ; (that is the whole point of the floor net). The founding-age band, not-already-
+    ; an-owner, not-already-pursuing, the LIVE business-floor gate and the chance are
+    ; all non-belief and live in (when ...) below.
+    (role @self (template old_human)))
+
+  ; Moved from the @self role (all non-belief): a modest monthly chance (enough
+  ; eligible adults resolve to found to refill the floor as businesses fail, without a
+  ; goal-storm - the goal->bank->commit lag is premises-capped regardless), the
+  ; founding-age band, not-already-an-owner, not-already-pursuing-a-founding, and the
+  ; LIVE business-floor gate.
+  (when (and (chance 0.05)
+             (>= (years-old @self) 25)
+             (<= (years-old @self) 55)
+             (not (= (job-level @self) [k org_head]))
+             (not (has-goal found))
+             (orgs-below-population-floor [k org business] 12)))
 
   (effects
     (goal @self found)))

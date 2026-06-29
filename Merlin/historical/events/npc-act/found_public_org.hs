@@ -21,8 +21,10 @@
   (rng-stream business)
 
   (roles
-    (role @self (template any_human)
-                (>= (years-old @self) 25)))
+    (role @self (template any_human)))
+
+  ; moved from the @self role: adult-age gate (non-belief op read).
+  (when (>= (years-old @self) 25))
 
   (effects
     ; Found the org with its HEAD only; the emergent labour market (employment.hs

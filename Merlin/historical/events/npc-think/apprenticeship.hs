@@ -27,19 +27,18 @@
     ;; the apprentice's character directly - they look at lineage instead.
     ;; The breeding dimension is the lineage anchor mx_make_human seeds at
     ;; birth, so it IS available throughout childhood; a low-breeding youth
-    ;; (well below the population mean of 55) is rarely taken on by a master.
+    ;; (well below the population mean of 55) is rarely taken on by a master -
+    ;; that breeding-weighted (chance) and the 12-16 age window are non-belief
+    ;; @self reads, so they gate the fire in (when), not role selection.
     ;; SELF-POV (telepathy purge CAT-2): the youth is the sole deliberator,
-    ;; reading his OWN employment / marital / schooling state + his own breeding.
+    ;; reading his OWN employment / marital / schooling state.
     (role @self (template any_human)
-                (>= (years-old @self) 12)
-                (<= (years-old @self) 16)
                 (not (believes {@self employer ?}))
                 (not (believes {@self spouse ?}))
                 ;; A youth still in school (PR-education) is not on the labour
                 ;; market - the working-class on-ramp is for those who left after
                 ;; primary (or never enrolled), not secondary pupils.
-                (not (believes {@self study ?}))
-                (chance (* 0.0125 (+ 0.5 (target {@self breeding})))))
+                (not (believes {@self study ?})))
     ;; A KNOWN org (the youth learned it at new_job_orientation), not a household:
     ;; a household is an org but NOT a trade - no master, no apprenticeship. Belief-
     ;; pure + cached. The master gate (the org's founder, whom the youth avoids if
@@ -57,9 +56,16 @@
   ;; The master gate also lives here (secondary-var bind, not cacheable): bind the
   ;; org's founder ?master and exclude one the youth KNOWS to be scandalous
   ;; (permissive on the unknown - (not (believes ...)) is true when unheard-of).
-  (when (and (not (= (job-level @self) [k trainee]))
+  ;; Role-belief-purity: the per-youth (chance) gate (low-breeding youths, below
+  ;; the population mean of 55, are rarely taken on) and the 12-16 age window are
+  ;; non-belief @self reads, so they moved here from the @self role; (chance) leads
+  ;; the (and ...) to short-circuit cheaply.
+  (when (and (chance (* 0.0125 (+ 0.5 (target {@self breeding}))))
+             (not (= (job-level @self) [k trainee]))
              (believes {?org founder ?master})
-             (not (believes {?master repute [k scandalous]}))))
+             (not (believes {?master repute [k scandalous]}))
+             (>= (years-old @self) 12)
+             (<= (years-old @self) 16)))
 
   ;; SPLIT (Item 5): the npc-think - the youth chooses a trade. Mints {@self goal
   ;; {@self seek_indenture <articles>}}; the npc-act (apprentice_errand.hs) sends him

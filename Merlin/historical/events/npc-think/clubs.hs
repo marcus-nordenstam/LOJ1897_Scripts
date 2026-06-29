@@ -59,13 +59,11 @@
 
   (roles
     ; An adult who belongs to fewer than two clubs takes up another. SELF-POV
-    ; (telepathy purge CAT-2): @self reads his OWN club-count + repute.
+    ; (telepathy purge CAT-2): @self reads his OWN repute (belief-pure). The
+    ; age + club-count + chance gates are non-belief ops -> (when).
     (role @self (template old_human)
-                (>= (years-old @self) 18)
-                (< (count-beliefs @self member_of) 2)
                 (not (believes {@self repute [k scandalous]}))
-                (not (believes {@self repute [k disreputable]}))
-                (chance 0.005))
+                (not (believes {@self repute [k disreputable]})))
     ; A KNOWN club (@self learned it at new_job_orientation). Belief-pure + cached:
     ; the omniscient org-kind-is-a doc read is gone. The own-class match (below)
     ; binds the founder - a secondary var the per-candidate cache cannot - so it
@@ -78,7 +76,11 @@
   ; believe_about) - a positive match, so @self only joins a club whose founder he
   ; actually knows (an unfamiliar founder's class @fails the match). Binds ?founder
   ; off @self's {?club_org founder ?founder} belief (minted at orientation).
-  (when (and (believes {?club_org founder ?founder})
+  ; chance + age + club-count moved here from the @self role (non-belief gates).
+  (when (and (chance 0.005)
+             (>= (years-old @self) 18)
+             (< (count-beliefs @self member_of) 2)
+             (believes {?club_org founder ?founder})
              (= (target {?founder class_situation})
                 (target {@self class_situation}))))
 
