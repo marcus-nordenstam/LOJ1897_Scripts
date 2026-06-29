@@ -22,16 +22,16 @@
     (role @self (template any_human)))
 
   ; years-old is a non-belief op, so the age gate lives in (when), not the role.
-  (let ((?per_year  (mortality_by_age (years-old @self)))
-        (?per_month (/ ?per_year 12.0)))
+  (bind (mortality_by_age (years-old @self)) ?per_year)
+  (bind (/ ?per_year 12.0)                   ?per_month)
 
-    (when (and (>= (years-old @self) 15)
-               (chance ?per_month)))
+  (when (and (>= (years-old @self) 15)
+             (chance ?per_month)))
 
-    (effects
-      ; propagate-death MUST precede die - die marks @self dead, and propagation
-      ; reads @self's still-living kin/social ties to spread the death belief.
-      (propagate-death @self)
-      (die             @self :cause old_age)
-      ))
+  (effects
+    ; propagate-death MUST precede die - die marks @self dead, and propagation
+    ; reads @self's still-living kin/social ties to spread the death belief.
+    (propagate-death @self)
+    (die             @self /cause old_age)
+    )
 )

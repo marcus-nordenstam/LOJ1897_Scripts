@@ -18,25 +18,25 @@
 
 (hsim-event borrow_go
   (intra-day)
-  (let ((?creditor (goal-focus take_loan)))
-    (when (and (has-goal take_loan)
-               (bind {?creditor home ?cred_home})
-               (not (at-place ?cred_home))))
-    (utility 60)
-    (effects (go @self ?cred_home))))
+  (bind (goal-focus take_loan) ?creditor)
+  (when (and (has-goal take_loan)
+             (bind {?creditor home ?cred_home})
+             (not (at-place ?cred_home))))
+  (utility 60)
+  (effects (go @self ?cred_home)))
 
 (hsim-event borrow_dwell
   (intra-day)
-  (let ((?creditor (goal-focus take_loan)))
-    (when (and (has-goal take_loan)
-               (bind {?creditor home ?cred_home})
-               (at-place ?cred_home)))
-    (utility 60)
-    (effects (act borrow_commit 45))))
+  (bind (goal-focus take_loan) ?creditor)
+  (when (and (has-goal take_loan)
+             (bind {?creditor home ?cred_home})
+             (at-place ?cred_home)))
+  (utility 60)
+  (effects (act borrow_commit 45)))
 
 (hsim-event borrow_commit
   (schedule (completion-only))
   (effects
     (begin-belief {@self owe (goal-focus take_loan)})
-    (clear-goal @self take_loan)
+    (end-goal {@self take_loan})
     ))

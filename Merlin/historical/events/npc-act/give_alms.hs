@@ -21,5 +21,5 @@
   (schedule (completion-only))
   (effects
     (give-alms @self)
-    (clear-goal @self give_alms)
+    (end-goal {@self give_alms})
     ))

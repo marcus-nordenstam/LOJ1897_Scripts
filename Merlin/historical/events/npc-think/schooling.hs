@@ -64,7 +64,7 @@
   ; {@self goal {@self enrol_primary}}; the npc-act (schooling_errands.hs) walks
   ; the child to a school and enrols him there.
   (effects
-    (goal @self enrol_primary)))
+    (begin-goal {@self enrol_primary})))
 
 ; --- enroll_secondary: a middle+ youth goes on to secondary ------------------
 (hsim-event enroll_secondary
@@ -89,7 +89,7 @@
   ; SPLIT (Item 5): npc-think -> {@self goal {@self enrol_secondary}}; the act
   ; (schooling_errands.hs) walks the youth to school and enrols him.
   (effects
-    (goal @self enrol_secondary)))
+    (begin-goal {@self enrol_secondary})))
 
 ; --- enroll_university: an upper / wealthy youth goes up to university --------
 (hsim-event enroll_university
@@ -112,7 +112,7 @@
   ; SPLIT (Item 5): npc-think -> {@self goal {@self enrol_university}}; the act
   ; (schooling_errands.hs) takes the youth up to university and matriculates him.
   (effects
-    (goal @self enrol_university)))
+    (begin-goal {@self enrol_university})))
 
 ; --- leave_primary: every primary pupil finishes at ~11 ----------------------
 (hsim-event leave_primary

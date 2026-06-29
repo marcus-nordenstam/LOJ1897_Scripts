@@ -28,5 +28,5 @@
              (believes {@self spouse ?husband})))
 
   (effects
-    (birth-human :mother @self :father ?husband)
+    (birth-human /mother @self /father ?husband)
     ))

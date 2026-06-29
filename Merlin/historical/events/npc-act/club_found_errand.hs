@@ -30,5 +30,5 @@
   (effects
     (roll-club-org-kind (bind ?clubkind))
     (if ?clubkind (found-club-seq ?clubkind))
-    (clear-goal @self found_club)
+    (end-goal {@self found_club})
     ))

@@ -30,15 +30,15 @@
 
 (hsim-event hire_commit
   (schedule (completion-only))
-  ; bind the org's articles to a plain ?var so it can serve as a {pattern} subject
-  ; inside hire-seq (a macro arg used in a pattern must be a ?var, not an expr).
-  (let ((?art (goal-focus engage_staff)))
-    (effects
-      ; eligibility MATCH (C++: occupation catalog + career scan) binds ?jk = the
-      ; matched scoped job kind ([k job <leaf>]) or @fail (a marginal fit may not be
-      ; taken); the .hs hire-seq then mints the employment beliefs in @self's mind.
-      (match-job :articles ?art :worker @self (bind ?jk))
-      (if ?jk
-        (hire-seq ?art ?jk [k apprentice]))
-      (clear-goal @self engage_staff)
-      )))
+  (effects
+    ; bind the org's articles to a plain ?var so it can serve as a {pattern} subject
+    ; inside hire-seq (a macro arg used in a pattern must be a ?var, not an expr).
+    (bind (goal-focus engage_staff) ?art)
+    ; eligibility MATCH (C++: occupation catalog + career scan) binds ?jk = the
+    ; matched scoped job kind ([k job <leaf>]) or @fail (a marginal fit may not be
+    ; taken); the .hs hire-seq then mints the employment beliefs in @self's mind.
+    (match-job /articles ?art /worker @self (bind ?jk))
+    (if ?jk
+      (hire-seq ?art ?jk [k apprentice]))
+    (end-goal {@self engage_staff})
+    ))

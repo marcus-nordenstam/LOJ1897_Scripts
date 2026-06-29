@@ -23,23 +23,23 @@
 ;                         -> x(1 + gain). The event -> emotion -> mood ->
 ;                         biased-appraisal feedback loop.
 (tuning
-  :max-emotion-salience   336
-  :max-pressure-salience  8760
-  :mood-salience-gain     0.5
+  /max-emotion-salience   336
+  /max-pressure-salience  8760
+  /mood-salience-gain     0.5
   ; stance-lr: emotion -> durable-stance learning rate (see
   ; Docs/social/relational_stance.md). Each genuinely-new emotion mint toward a focus PERSON
   ; nudges the appraiser's standing stance scalars by (coupling-weight *
   ; stance-lr), clamped to [-1,1]. Low so a single event is a small step and a
   ; PATTERN of events accumulates into a durable stance.
-  :stance-lr              0.2
+  /stance-lr              0.2
   ; --- per-simulation-mode default salience (see Docs/memory/memory_system.md) ---
   ; t_event() reads s_default_salience[current_mode] for fresh beliefs.
   ;   isim : 24h post-end recall (one day; matches interactive cadence)
   ;   hsim : 8640h = 12 * 30 * 24 = 12 months at monthly ticks, so a
   ;          default-salience belief survives a year of sim time before
   ;          salience-decay sweeps it.
-  :default-salience-isim  24
-  :default-salience-hsim  8640)
+  /default-salience-isim  24
+  /default-salience-hsim  8640)
 
 ; ---- emotion affect --------------------------------------------------------
 ; Per-emotion-kind valence and arousal. derive_mood folds the salience-
@@ -47,44 +47,44 @@
 ;   valence : -1.0 (negative) .. +1.0 (positive)
 ;   arousal :  0.0 (calm)      ..  1.0 (activated)
 ; One row per kind in the Concepts.mon `emotion` taxonomy.
-(emotion-affect joy       :valence  1.0 :arousal 0.6)
-(emotion-affect pride     :valence  1.0 :arousal 0.5)
-(emotion-affect hope      :valence  1.0 :arousal 0.4)
-(emotion-affect relief    :valence  1.0 :arousal 0.2)
-(emotion-affect gratitude :valence  1.0 :arousal 0.3)
-(emotion-affect affection :valence  1.0 :arousal 0.3)
-(emotion-affect grief     :valence -1.0 :arousal 0.2)
-(emotion-affect distress  :valence -1.0 :arousal 0.7)
-(emotion-affect anger     :valence -1.0 :arousal 0.9)
-(emotion-affect fear      :valence -1.0 :arousal 0.9)
-(emotion-affect shame     :valence -1.0 :arousal 0.4)
-(emotion-affect guilt     :valence -1.0 :arousal 0.4)
-(emotion-affect envy      :valence -1.0 :arousal 0.6)
-(emotion-affect jealousy  :valence -1.0 :arousal 0.7)
-(emotion-affect disgust   :valence -1.0 :arousal 0.5)
-(emotion-affect contempt  :valence -1.0 :arousal 0.4)
-(emotion-affect admiration :valence 1.0 :arousal 0.4)
-(emotion-affect longing    :valence 0.7 :arousal 0.6)
+(emotion-affect joy       /valence  1.0 /arousal 0.6)
+(emotion-affect pride     /valence  1.0 /arousal 0.5)
+(emotion-affect hope      /valence  1.0 /arousal 0.4)
+(emotion-affect relief    /valence  1.0 /arousal 0.2)
+(emotion-affect gratitude /valence  1.0 /arousal 0.3)
+(emotion-affect affection /valence  1.0 /arousal 0.3)
+(emotion-affect grief     /valence -1.0 /arousal 0.2)
+(emotion-affect distress  /valence -1.0 /arousal 0.7)
+(emotion-affect anger     /valence -1.0 /arousal 0.9)
+(emotion-affect fear      /valence -1.0 /arousal 0.9)
+(emotion-affect shame     /valence -1.0 /arousal 0.4)
+(emotion-affect guilt     /valence -1.0 /arousal 0.4)
+(emotion-affect envy      /valence -1.0 /arousal 0.6)
+(emotion-affect jealousy  /valence -1.0 /arousal 0.7)
+(emotion-affect disgust   /valence -1.0 /arousal 0.5)
+(emotion-affect contempt  /valence -1.0 /arousal 0.4)
+(emotion-affect admiration /valence 1.0 /arousal 0.4)
+(emotion-affect longing    /valence 0.7 /arousal 0.6)
 
 ; ---- pressure affect -------------------------------------------------------
 ; Per-pressure-kind contribution to the `stress` mood dimension (plan section
-; 10.3-AFFECT item F). Higher :stress = more stress per intensity unit. A
+; 10.3-AFFECT item F). Higher /stress = more stress per intensity unit. A
 ; pressure kind without a row contributes zero stress (so authoring is
 ; opt-in). stress feeds the inhibition classifier (item D, lowers the
 ; inhibition floor) and the stress-biased categorize() threshold (item G,
 ; makes ambiguous events read as wrong / threaten when the appraiser is
 ; loaded - the paranoid-spiral / simmering-revenge feedback loop).
-(pressure-affect humiliation        :stress 0.8)
-(pressure-affect existential_threat :stress 1.0)
-(pressure-affect exposure_risk      :stress 0.7)
-(pressure-affect moral_violation    :stress 0.6)
-(pressure-affect injustice          :stress 0.7)
-(pressure-affect status_loss        :stress 0.6)
-(pressure-affect attachment_loss    :stress 0.7)
-(pressure-affect autonomy_loss      :stress 0.5)
-(pressure-affect resource_scarcity  :stress 0.6)
-(pressure-affect obligation_strain  :stress 0.4)
-(pressure-affect rivalry_pressure   :stress 0.5)
+(pressure-affect humiliation        /stress 0.8)
+(pressure-affect existential_threat /stress 1.0)
+(pressure-affect exposure_risk      /stress 0.7)
+(pressure-affect moral_violation    /stress 0.6)
+(pressure-affect injustice          /stress 0.7)
+(pressure-affect status_loss        /stress 0.6)
+(pressure-affect attachment_loss    /stress 0.7)
+(pressure-affect autonomy_loss      /stress 0.5)
+(pressure-affect resource_scarcity  /stress 0.6)
+(pressure-affect obligation_strain  /stress 0.4)
+(pressure-affect rivalry_pressure   /stress 0.5)
 
 ; ---- trait affect ----------------------------------------------------------
 ; How a personality aspect modulates the salience of the emotion / pressure
@@ -95,20 +95,20 @@
 ; item K). Rows multiply when several name the same kind. The aspect is
 ; read from the appraiser's own {@self <aspect> <f>} self-belief.
 ;
-;   :amplifies <kind>...    kinds this aspect's deviation INCREASES
-;   :dampens   <kind>...    kinds this aspect's deviation DECREASES
-;                           (alias for :amplifies with negated gain)
-;   :gain      <fraction>   swing strength
-;   :one_sided              flag (REQUIRED for Dark Tetrad rows): the
+;   /amplifies <kind>...    kinds this aspect's deviation INCREASES
+;   /dampens   <kind>...    kinds this aspect's deviation DECREASES
+;                           (alias for /amplifies with negated gain)
+;   /gain      <fraction>   swing strength
+;   /one_sided              flag (REQUIRED for Dark Tetrad rows): the
 ;                           trait's effect floors at the population mean
 ;                           so low values contribute zero, not the
 ;                           symmetric inverse. Low sadism is "normal
 ;                           human aversion," not an anti-sadism bonus.
 ;
 ; Big Five rows (symmetric - Neuroticism / Extraversion).
-(trait-affect volatility :amplifies anger fear distress jealousy :gain 0.8)
-(trait-affect withdrawal :amplifies grief fear shame guilt :gain 0.8)
-(trait-affect enthusiasm :amplifies joy hope pride gratitude affection relief :gain 0.6)
+(trait-affect volatility /amplifies anger fear distress jealousy /gain 0.8)
+(trait-affect withdrawal /amplifies grief fear shame guilt /gain 0.8)
+(trait-affect enthusiasm /amplifies joy hope pride gratitude affection relief /gain 0.6)
 
 ; Dark Tetrad rows (one-sided - low values contribute zero bias). Plan
 ; section 10.3-AFFECT item K: narcissism inflates threat-to-ego (humiliation
@@ -119,8 +119,8 @@
 ; - Machiavellians read accurately, they just do not care); sadism modulates
 ; via POV-row substitution (handled in apply_construal, not here) and
 ; inhibition classifier - again no trait-affect emotion bias.
-(trait-affect narcissism  :amplifies humiliation injustice shame anger contempt :gain 1.2 :one_sided)
-(trait-affect psychopathy :dampens   guilt fear moral_violation :gain 0.6 :one_sided)
+(trait-affect narcissism  /amplifies humiliation injustice shame anger contempt /gain 1.2 /one_sided)
+(trait-affect psychopathy /dampens   guilt fear moral_violation /gain 0.6 /one_sided)
 
 ; ---- stance coupling -------------------------------------------------------
 ; Emotion -> durable relational stance (see Docs/social/relational_stance.md).
@@ -130,19 +130,19 @@
 ; decayed each sleep). One row per emotion kind that leaves a relational
 ; residue; weights are in stance-space [-1,1], scaled by stance-lr per
 ; genuinely-new mint. An unlisted emotion leaves no durable residue.
-;   :warmth      affiliation ("do I wish you well")
-;   :esteem      evaluation  ("do I look up or down")
-;   :trust       reliability ("will you keep faith")
-;   :attraction  romantic / sexual pull
-(stance-coupling anger      :warmth -0.4 :esteem -0.1 :trust -0.2)
-(stance-coupling contempt   :esteem -0.5 :warmth -0.2)
-(stance-coupling disgust    :esteem -0.4 :warmth -0.3)
-(stance-coupling envy       :esteem -0.3)
-(stance-coupling jealousy   :warmth -0.3 :trust -0.2)
-(stance-coupling fear       :warmth -0.2 :trust -0.3 :dread 0.6)   ; fear feeds the durable, slow-decay dread stance (whom you fear, for a lifetime)
-(stance-coupling gratitude  :warmth  0.4 :trust  0.2)
-(stance-coupling affection  :warmth  0.5)
-(stance-coupling admiration :esteem  0.5 :warmth  0.2)
+;   /warmth      affiliation ("do I wish you well")
+;   /esteem      evaluation  ("do I look up or down")
+;   /trust       reliability ("will you keep faith")
+;   /attraction  romantic / sexual pull
+(stance-coupling anger      /warmth -0.4 /esteem -0.1 /trust -0.2)
+(stance-coupling contempt   /esteem -0.5 /warmth -0.2)
+(stance-coupling disgust    /esteem -0.4 /warmth -0.3)
+(stance-coupling envy       /esteem -0.3)
+(stance-coupling jealousy   /warmth -0.3 /trust -0.2)
+(stance-coupling fear       /warmth -0.2 /trust -0.3 /dread 0.6)   ; fear feeds the durable, slow-decay dread stance (whom you fear, for a lifetime)
+(stance-coupling gratitude  /warmth  0.4 /trust  0.2)
+(stance-coupling affection  /warmth  0.5)
+(stance-coupling admiration /esteem  0.5 /warmth  0.2)
 
 ; ---- Class II standing comparison ------------------------------------------
 ; The standing leg of derive_stance pulls stance toward who a known person IS,
@@ -152,40 +152,40 @@
 ; Runs amortised over known people (centrality-gated, strided, capped).
 ;
 ; (standing ...) - cross-cutting weights (magnitudes; direction is in the math):
-;   :lr                   overall standing nudge rate (gentle; accumulates)
-;   :centrality-gate      only targets with centrality > this (known people)
-;   :stride               process 1/stride of targets per tick (amortise)
-;   :budget               max targets processed per tick (cap)
-;   :caring-base          baseline conduct-judging weight (added to own-virtue)
-;   :class-mismatch-warmth / :class-match-warmth   out-group / in-group warmth
-;   :rival-warmth / :rival-esteem                  standing rivalry (enemy bond)
-;   :envy-esteem / :envy-gap-min                   upward fortune gap -> esteem-
-;   :transitive-warmth    a low-warmth target's friend -> warmth- (feud spread)
+;   /lr                   overall standing nudge rate (gentle; accumulates)
+;   /centrality-gate      only targets with centrality > this (known people)
+;   /stride               process 1/stride of targets per tick (amortise)
+;   /budget               max targets processed per tick (cap)
+;   /caring-base          baseline conduct-judging weight (added to own-virtue)
+;   /class-mismatch-warmth / /class-match-warmth   out-group / in-group warmth
+;   /rival-warmth / /rival-esteem                  standing rivalry (enemy bond)
+;   /envy-esteem / /envy-gap-min                   upward fortune gap -> esteem-
+;   /transitive-warmth    a low-warmth target's friend -> warmth- (feud spread)
 (standing
-  :lr                    0.15
-  :centrality-gate       3
-  :stride                4
-  :budget                4096
-  :caring-base           0.4
-  :class-mismatch-warmth 0.20
-  :class-match-warmth    0.08
-  :rival-warmth          0.30
-  :rival-esteem          0.15
-  :envy-esteem           0.30
-  :envy-gap-min          0.15
-  :transitive-warmth     0.25
+  /lr                    0.15
+  /centrality-gate       3
+  /stride                4
+  /budget                4096
+  /caring-base           0.4
+  /class-mismatch-warmth 0.20
+  /class-match-warmth    0.08
+  /rival-warmth          0.30
+  /rival-esteem          0.15
+  /envy-esteem           0.30
+  /envy-gap-min          0.15
+  /transitive-warmth     0.25
   ; Attraction (Phase 4): mate-value -> the one-sided attraction scalar
   ; (fancy/desire/crave), gated by sex/orientation/age/kin. Looks + status
-  ; weights are sex-asymmetric (period-typical). :attr-lr 0 disables the driver.
-  :attr-lr               0.40
-  :attr-min-age          16
-  :attr-looks-male       0.70
-  :attr-looks-female     0.35
-  :attr-status-male      0.20
-  :attr-status-female    0.55
-  :attr-agegap-penalty   0.50)
+  ; weights are sex-asymmetric (period-typical). /attr-lr 0 disables the driver.
+  /attr-lr               0.40
+  /attr-min-age          16
+  /attr-looks-male       0.70
+  /attr-looks-female     0.35
+  /attr-status-male      0.20
+  /attr-status-female    0.55
+  /attr-agegap-penalty   0.50)
 
-; (conduct-stance <dimension> :esteem f :warmth f :trust f [:vice 1])
+; (conduct-stance <dimension> /esteem f /warmth f /trust f [/vice 1])
 ; Character / value antipathy. For each known person, the appraiser compares
 ; their conduct on this axis (a [0,1] dimension belief) to the neutral midpoint,
 ; scaled by how much the appraiser holds that virtue (judging by one's own
@@ -193,25 +193,25 @@
 ; high = condemned. Virtues earn esteem/warmth/trust when high; criminality
 ; drags all three when high. Trust priors (honesty/criminality -> trust) live
 ; here too rather than as a separate driver.
-(conduct-stance honesty     :esteem 0.25 :warmth 0.10 :trust 0.40)
-(conduct-stance piety       :esteem 0.30 :warmth 0.15 :trust 0.05)
-(conduct-stance sobriety    :esteem 0.20 :warmth 0.10 :trust 0.10)
-(conduct-stance decorum     :esteem 0.25 :warmth 0.20 :trust 0.05)
-(conduct-stance criminality :esteem 0.40 :warmth 0.30 :trust 0.50 :vice 1)
+(conduct-stance honesty     /esteem 0.25 /warmth 0.10 /trust 0.40)
+(conduct-stance piety       /esteem 0.30 /warmth 0.15 /trust 0.05)
+(conduct-stance sobriety    /esteem 0.20 /warmth 0.10 /trust 0.10)
+(conduct-stance decorum     /esteem 0.25 /warmth 0.20 /trust 0.05)
+(conduct-stance criminality /esteem 0.40 /warmth 0.30 /trust 0.50 /vice 1)
 
 ; ---- category reactions ----------------------------------------------------
-; One (reaction <construed_act-kind> :pov <pov>) row per
+; One (reaction <construed_act-kind> /pov <pov>) row per
 ; (construed_act, appraiser POV) pair. apply_construal looks up the row
 ; by the construal-belief's label (which IS a construed_act sub-kind) AND
 ; the appraiser's role. The SAME kind fires different rows for patient /
 ; actor / third_party.
 ;
-;   :pov patient       (default if omitted) - @self is the construal's target.
+;   /pov patient       (default if omitted) - @self is the construal's target.
 ;                      Anger / distress / shame patterns.
-;   :pov actor         @self is the construal's subject (the perpetrator).
+;   /pov actor         @self is the construal's subject (the perpetrator).
 ;                      Guilt / fear / moral_violation pressure patterns -
 ;                      post-crime psychology (plan section 10.3-AFFECT item C).
-;   :pov third_party   @self is neither - a witness or member of the patient's
+;   /pov third_party   @self is neither - a witness or member of the patient's
 ;                      social circle who holds the anchor (via gossip or
 ;                      direct perception). Softer-salience patient-like
 ;                      reactions; the engine half of "the village forms a
@@ -224,13 +224,13 @@
 ; appropriation_act reaction AND the wrong_act reaction AND the betray_act
 ; reaction - accumulated mints / pressures / bond mutations.
 ;
-;   (mint <emotion-kind> :focus actor|patient|self|none :salience <hours>)
+;   (mint <emotion-kind> /focus actor|patient|self|none /salience <hours>)
 ;       Mint {@self emotion <kind> <focus>}. focus actor / patient resolves
 ;       to the construal's subject / target; self resolves to the appraiser
 ;       themselves (useful on actor-POV rows where the actor IS @self);
 ;       none leaves the focus blank.
 ;       salience is the base decay window, before the mood scaling.
-;   (pressure <pressure-kind> :focus ... :salience ...)
+;   (pressure <pressure-kind> /focus ... /salience ...)
 ;       Long-burn standing motivational load (plan section 10.3-AFFECT
 ;       items A + B).
 ;   (end-bond   <relation-label>)   ends   {@self <label> <actor>}
@@ -238,57 +238,57 @@
 ;
 ; Sadist-POV substitutions (plan section 10.3-AFFECT item K): when the
 ; appraiser's sadism aspect is above k_sadism_pov_threshold (0.65),
-; apply_construal substitutes :pov actor_sadist for :pov actor and :pov
-; third_party_sadist for :pov third_party. Falls back to the modal row if
+; apply_construal substitutes /pov actor_sadist for /pov actor and /pov
+; third_party_sadist for /pov third_party. Falls back to the modal row if
 ; no sadist row is authored. patient POV is unchanged - sadism modifies the
 ; response to OTHERS' suffering, not one's own.
 
 ; -- wrong_act (umbrella: any wronging - fires alongside the specific
 ; sub-category reactions when an anchor carries both tags) --
-(reaction wrong_act :pov patient
-  (mint anger    :focus actor :salience 24)
-  (mint distress :focus none  :salience 72)
-  (pressure humiliation :focus actor :salience 720)
-  (pressure injustice   :focus actor :salience 2160)
+(reaction wrong_act /pov patient
+  (mint anger    /focus actor /salience 24)
+  (mint distress /focus none  /salience 72)
+  (pressure humiliation /focus actor /salience 720)
+  (pressure injustice   /focus actor /salience 2160)
   ; A wrong ends a friendship but does NOT fabricate a structural `enemy` tie:
   ; the durable affective residue is carried by the
   ; emotion->stance coupling (anger drags warmth-/trust-/esteem- down). `enemy`
   ; is reserved for genuine circumstantial feud/rivalry (e.g. the sports event).
   (end-bond   friend))
 
-(reaction wrong_act :pov actor
-  (mint guilt :focus self    :salience 720)
-  (mint fear  :focus none    :salience 168)
-  (pressure moral_violation :focus self    :salience 2160)
-  (pressure exposure_risk   :focus patient :salience 1440))
+(reaction wrong_act /pov actor
+  (mint guilt /focus self    /salience 720)
+  (mint fear  /focus none    /salience 168)
+  (pressure moral_violation /focus self    /salience 2160)
+  (pressure exposure_risk   /focus patient /salience 1440))
 
-(reaction wrong_act :pov third_party
-  (mint distress :focus actor :salience 24)
-  (mint fear     :focus actor :salience 48)
-  (pressure injustice :focus actor :salience 1440))   ; 60 days; survives 2 monthly deliberate cycles so third-party witnesses keep their grievance long enough to act on it
+(reaction wrong_act /pov third_party
+  (mint distress /focus actor /salience 24)
+  (mint fear     /focus actor /salience 48)
+  (pressure injustice /focus actor /salience 1440))   ; 60 days; survives 2 monthly deliberate cycles so third-party witnesses keep their grievance long enough to act on it
 
 ; -- harm_act (physical / mortal injury) --
-(reaction harm_act :pov patient
-  (mint fear :focus actor :salience 168)
-  (pressure existential_threat :focus actor :salience 2160))
+(reaction harm_act /pov patient
+  (mint fear /focus actor /salience 168)
+  (pressure existential_threat /focus actor /salience 2160))
 
-(reaction harm_act :pov actor
-  (mint fear :focus none :salience 168))
+(reaction harm_act /pov actor
+  (mint fear /focus none /salience 168))
 
-(reaction harm_act :pov third_party
-  (mint fear :focus actor :salience 48)
-  (pressure existential_threat :focus actor :salience 720))
+(reaction harm_act /pov third_party
+  (mint fear /focus actor /salience 48)
+  (pressure existential_threat /focus actor /salience 720))
 
 ; -- appropriation_act (theft / fraud / embezzlement) --
-(reaction appropriation_act :pov patient
-  (mint anger :focus actor :salience 168)
-  (pressure resource_scarcity :focus none :salience 1440))
+(reaction appropriation_act /pov patient
+  (mint anger /focus actor /salience 168)
+  (pressure resource_scarcity /focus none /salience 1440))
 
-(reaction appropriation_act :pov actor
-  (pressure exposure_risk :focus patient :salience 1440))
+(reaction appropriation_act /pov actor
+  (pressure exposure_risk /focus patient /salience 1440))
 
-(reaction appropriation_act :pov third_party
-  (mint distress :focus actor :salience 24))
+(reaction appropriation_act /pov third_party
+  (mint distress /focus actor /salience 24))
 
 ; -- suffer_loss_act (patient lost something - theft discovery, ruin) --
 ; Anchor shape is {<prop> stolen_from <owner>} (States.mon loss_outcome):
@@ -299,42 +299,42 @@
 ; branches rather than aggression against a target. No actor row (a prop
 ; cannot appraise) and no third-party row (a witness learning of another's
 ; loss has no modelled response yet).
-(reaction suffer_loss_act :pov patient
-  (mint anger    :focus none :salience 72)
-  (mint distress :focus none :salience 168)
-  (pressure resource_scarcity :focus none :salience 1440))
+(reaction suffer_loss_act /pov patient
+  (mint anger    /focus none /salience 72)
+  (mint distress /focus none /salience 168)
+  (pressure resource_scarcity /focus none /salience 1440))
 
 ; -- coercion_act (forcible compulsion) --
-(reaction coercion_act :pov patient
-  (mint fear :focus actor :salience 168)
-  (pressure autonomy_loss      :focus actor :salience 1440)
-  (pressure existential_threat :focus actor :salience 720))
+(reaction coercion_act /pov patient
+  (mint fear /focus actor /salience 168)
+  (pressure autonomy_loss      /focus actor /salience 1440)
+  (pressure existential_threat /focus actor /salience 720))
 
-(reaction coercion_act :pov actor
-  (pressure moral_violation :focus self :salience 720))
+(reaction coercion_act /pov actor
+  (pressure moral_violation /focus self /salience 720))
 
-(reaction coercion_act :pov third_party
-  (mint fear :focus actor :salience 48))
+(reaction coercion_act /pov third_party
+  (mint fear /focus actor /salience 48))
 
 ; -- threaten_act (menace / extortion / implicit harm) --
-(reaction threaten_act :pov patient
-  (mint fear :focus actor :salience 72)
-  (pressure existential_threat :focus actor :salience 720))
+(reaction threaten_act /pov patient
+  (mint fear /focus actor /salience 72)
+  (pressure existential_threat /focus actor /salience 720))
 
-(reaction threaten_act :pov third_party
-  (mint fear :focus actor :salience 24))
+(reaction threaten_act /pov third_party
+  (mint fear /focus actor /salience 24))
 
 ; -- slight_act (insult / mock / lesser affront) --
-(reaction slight_act :pov patient
-  (mint anger    :focus actor :salience 8)
-  (mint contempt :focus actor :salience 48)
-  (pressure humiliation :focus actor :salience 336))    ; 2 weeks base. A SINGLE insult should NOT brood or drive action - this fades before the monthly deliberate sees it. But mint_pressure ADDS salience on each re-mint, so the same person insulting you repeatedly builds the humiliation pressure up past the action threshold (and the emotion->stance coupling drags warmth/esteem down so the lasting dislike persists). Slow-burn grudge, not instant year-long brooding. Capped at max-pressure-salience.
+(reaction slight_act /pov patient
+  (mint anger    /focus actor /salience 8)
+  (mint contempt /focus actor /salience 48)
+  (pressure humiliation /focus actor /salience 336))    ; 2 weeks base. A SINGLE insult should NOT brood or drive action - this fades before the monthly deliberate sees it. But mint_pressure ADDS salience on each re-mint, so the same person insulting you repeatedly builds the humiliation pressure up past the action threshold (and the emotion->stance coupling drags warmth/esteem down so the lasting dislike persists). Slow-burn grudge, not instant year-long brooding. Capped at max-pressure-salience.
 
-(reaction slight_act :pov actor
-  (mint pride :focus self :salience 24))
+(reaction slight_act /pov actor
+  (mint pride /focus self /salience 24))
 
-(reaction slight_act :pov third_party
-  (mint contempt :focus actor :salience 24))
+(reaction slight_act /pov third_party
+  (mint contempt /focus actor /salience 24))
 
 ; -- rivalrous_act (actor positionally outcompetes patient) --
 ; The patient feels the loss directly; the actor's pride is folded under
@@ -344,138 +344,138 @@
 ; minting a positive emotion on the winner; matches the social
 ; psychology of zero-sum competition (winner takes the prize, not the
 ; emotional payoff).
-(reaction rivalrous_act :pov patient
-  (mint envy     :focus actor :salience 168)
-  (mint contempt :focus actor :salience 48)
-  (pressure rivalry_pressure :focus actor :salience 4320))   ; 6 months base; rivalry decays slower than humiliation but faster than injustice
+(reaction rivalrous_act /pov patient
+  (mint envy     /focus actor /salience 168)
+  (mint contempt /focus actor /salience 48)
+  (pressure rivalry_pressure /focus actor /salience 4320))   ; 6 months base; rivalry decays slower than humiliation but faster than injustice
 
-(reaction rivalrous_act :pov third_party
-  (mint envy :focus actor :salience 24))
+(reaction rivalrous_act /pov third_party
+  (mint envy /focus actor /salience 24))
 
 ; -- betray_act (broken trust) --
-(reaction betray_act :pov patient
-  (mint anger :focus actor :salience 24)
-  (mint grief :focus none  :salience 168)
-  (pressure attachment_loss :focus actor :salience 2160)
+(reaction betray_act /pov patient
+  (mint anger /focus actor /salience 24)
+  (mint grief /focus none  /salience 168)
+  (pressure attachment_loss /focus actor /salience 2160)
   ; Betrayal ends the love + friend bonds (real structural changes); the trust
   ; collapse is now the emotion->stance coupling (anger/grief drag trust- down),
   ; not a separate `distrusts` attitude.
   (end-bond   love)
   (end-bond   friend))
 
-(reaction betray_act :pov actor
-  (mint guilt :focus self :salience 720)
-  (pressure moral_violation :focus self :salience 1440)
-  (pressure exposure_risk   :focus patient :salience 1440))
+(reaction betray_act /pov actor
+  (mint guilt /focus self /salience 720)
+  (pressure moral_violation /focus self /salience 1440)
+  (pressure exposure_risk   /focus patient /salience 1440))
 
-(reaction betray_act :pov third_party
-  (mint contempt :focus actor :salience 48))
+(reaction betray_act /pov third_party
+  (mint contempt /focus actor /salience 48))
 
-(reaction betray_act :pov third_party_sadist
-  (mint joy   :focus none :salience 12)
-  (mint pride :focus self :salience 24))
+(reaction betray_act /pov third_party_sadist
+  (mint joy   /focus none /salience 12)
+  (mint pride /focus self /salience 24))
 
 ; -- degrade_act (a deliberated PUBLIC put-down - humiliation with an
 ; audience; the public_humiliation leaf). The audience makes the injury a
 ; STATUS event: shame + status_loss like expose_act, plus anger at the
 ; mocker - no secret was disclosed, just standing destroyed. The dyadic
 ; slight_act sting stays light by contrast.
-(reaction degrade_act :pov patient
-  (mint shame :focus none  :salience 720)
-  (mint anger :focus actor :salience 168)
-  (pressure humiliation :focus actor :salience 1440)
-  (pressure status_loss :focus none  :salience 1440))
+(reaction degrade_act /pov patient
+  (mint shame /focus none  /salience 720)
+  (mint anger /focus actor /salience 168)
+  (pressure humiliation /focus actor /salience 1440)
+  (pressure status_loss /focus none  /salience 1440))
 
-(reaction degrade_act :pov actor
-  (mint pride :focus self :salience 24))
+(reaction degrade_act /pov actor
+  (mint pride /focus self /salience 24))
 
-(reaction degrade_act :pov third_party
-  (mint contempt :focus actor :salience 24))
+(reaction degrade_act /pov third_party
+  (mint contempt /focus actor /salience 24))
 
 ; -- expose_act (public disclosure of a band-4+ secret) --
-(reaction expose_act :pov patient
-  (mint shame :focus none :salience 720)
-  (pressure humiliation  :focus actor :salience 1440)
-  (pressure status_loss  :focus none  :salience 2160))
+(reaction expose_act /pov patient
+  (mint shame /focus none /salience 720)
+  (pressure humiliation  /focus actor /salience 1440)
+  (pressure status_loss  /focus none  /salience 2160))
 
-(reaction expose_act :pov actor
-  (pressure exposure_risk :focus patient :salience 720))
+(reaction expose_act /pov actor
+  (pressure exposure_risk /focus patient /salience 720))
 
 ; -- repudiation_act (a husband divorces an adulterous wife) --
 ; The disgrace lands on the PATIENT: the cast-off wife bears shame, the loss
 ; of her station and the severed attachment. Third parties side with the
 ; wronged husband - their contempt targets HER (the fallen-woman scorn),
 ; the inverse of abandonment_act where the deserter is faulted.
-(reaction repudiation_act :pov patient
-  (mint shame :focus none  :salience 2160)
-  (mint grief :focus actor :salience 720)
-  (pressure status_loss     :focus none  :salience 4320)
-  (pressure attachment_loss :focus actor :salience 1440)
+(reaction repudiation_act /pov patient
+  (mint shame /focus none  /salience 2160)
+  (mint grief /focus actor /salience 720)
+  (pressure status_loss     /focus none  /salience 4320)
+  (pressure attachment_loss /focus actor /salience 1440)
   (end-bond love)
   (end-bond friend))
 
-(reaction repudiation_act :pov third_party
-  (mint contempt :focus patient :salience 96))
+(reaction repudiation_act /pov third_party
+  (mint contempt /focus patient /salience 96))
 
 ; -- abandonment_act (disinheritance / desertion) --
-(reaction abandonment_act :pov patient
-  (mint grief    :focus actor :salience 720)
-  (mint distress :focus none  :salience 168)
-  (pressure attachment_loss :focus actor :salience 2160)
-  (pressure status_loss     :focus none  :salience 1440)
+(reaction abandonment_act /pov patient
+  (mint grief    /focus actor /salience 720)
+  (mint distress /focus none  /salience 168)
+  (pressure attachment_loss /focus actor /salience 2160)
+  (pressure status_loss     /focus none  /salience 1440)
   (end-bond   friend)
   (end-bond   love))
 
-(reaction abandonment_act :pov actor
-  (mint guilt :focus self :salience 720)
-  (pressure moral_violation :focus self :salience 1440))
+(reaction abandonment_act /pov actor
+  (mint guilt /focus self /salience 720)
+  (pressure moral_violation /focus self /salience 1440))
 
-(reaction abandonment_act :pov third_party
-  (mint distress :focus actor :salience 48)
-  (pressure injustice :focus actor :salience 1440))   ; 60 days; was 360 (15 days) which decayed before monthly deliberate could see it
+(reaction abandonment_act /pov third_party
+  (mint distress /focus actor /salience 48)
+  (pressure injustice /focus actor /salience 1440))   ; 60 days; was 360 (15 days) which decayed before monthly deliberate could see it
 
 ; -- aid_act / provision_act (direct assistance / giving) --
 ; aid_act and provision_act share an umbrella help_act reaction. Authors
 ; can override per-specific category if needed.
-(reaction help_act :pov patient
+(reaction help_act /pov patient
   ; A single favour is a WARMTH nudge, not an instant friendship.
   ; The gratitude mint couples to
   ; warmth (stance-coupling above); repeated kindnesses accumulate into a `like`
   ; band, and friendship then forms via the warmth-biased befriend events
   ; (adult/childhood_friendships). Was (begin-bond friend) - removed: it minted a
   ; structural friend tie from one favour, conflating affect with the bond.
-  (mint gratitude :focus actor :salience 168)
-  (mint relief    :focus none  :salience 72))
+  (mint gratitude /focus actor /salience 168)
+  (mint relief    /focus none  /salience 72))
 
-(reaction help_act :pov actor
-  (mint pride :focus self :salience 72))
+(reaction help_act /pov actor
+  (mint pride /focus self /salience 72))
 
-(reaction help_act :pov third_party
-  (mint affection :focus actor :salience 48))
+(reaction help_act /pov third_party
+  (mint affection /focus actor /salience 48))
 
-(reaction aid_act :pov patient
-  (mint gratitude :focus actor :salience 168))
+(reaction aid_act /pov patient
+  (mint gratitude /focus actor /salience 168))
 
-(reaction provision_act :pov patient
-  (mint gratitude :focus actor :salience 168))
+(reaction provision_act /pov patient
+  (mint gratitude /focus actor /salience 168))
 
 ; -- honour_act / commitment_act --
-(reaction honour_act :pov patient
-  (mint pride      :focus self  :salience 168)
-  (mint gratitude  :focus actor :salience 168)
+(reaction honour_act /pov patient
+  (mint pride      /focus self  /salience 168)
+  (mint gratitude  /focus actor /salience 168)
   ; was (begin-bond respects); the `respects` attitude is retired - honour now
   ; mints admiration toward the actor, which the stance coupling routes to
   ; esteem+ -> an `admire`/`revere` belief.
-  (mint admiration :focus actor :salience 168))
+  (mint admiration /focus actor /salience 168))
 
-(reaction honour_act :pov actor
-  (mint pride :focus self :salience 72))
+(reaction honour_act /pov actor
+  (mint pride /focus self /salience 72))
 
-(reaction honour_act :pov third_party
-  (mint affection :focus actor :salience 48))
+(reaction honour_act /pov third_party
+  (mint affection /focus actor /salience 48))
 
-(reaction commitment_act :pov patient
-  (mint gratitude :focus actor :salience 168))
+(reaction commitment_act /pov patient
+  (mint gratitude /focus actor /salience 168))
 
 ; -- intimacy_act -- (no reaction by default; betray-by-diversion is a
 ; structural test in categorize() that mints a betray_act construal in

@@ -21,14 +21,14 @@
   (schedule   (annually january))
   (rng-stream homeostat)
 
-  (let ((?alive    (alive-count))
-        (?target   (homeostat_target_population))
-        (?pressure (/ ?alive ?target))
-        (?count    (homeostat_immigration_count)))
+  (bind (alive-count)                    ?alive)
+  (bind (homeostat_target_population)     ?target)
+  (bind (/ ?alive ?target)               ?pressure)
+  (bind (homeostat_immigration_count)    ?count)
 
-    (when (< ?pressure (homeostat_immigration_pressure)))
+  (when (< ?pressure (homeostat_immigration_pressure)))
 
-    (effects
-      (spawn-immigrant ?count)
-      ))
+  (effects
+    (spawn-immigrant ?count)
+    )
 )

@@ -45,7 +45,7 @@
                   (- 1.5 (target {@self piety}))                        ; low piety -> less protection
                   (- 1.5 (target {@self belonging}))))))                ; low belonging -> less protection
   (effects
-    (goal @self drink)))
+    (begin-goal {@self drink})))
 
 ; (b) APPROACH - hold the goal, nowhere to drink: set out for a pub. drink-venue
 ; picks a same-town pub; k_fail (no pub reachable) means the rule does not fire and

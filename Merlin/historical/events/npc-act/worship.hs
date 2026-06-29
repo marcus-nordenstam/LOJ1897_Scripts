@@ -21,5 +21,5 @@
   (schedule (completion-only))
   (effects
     (go-to-church @self)
-    (clear-goal @self worship)
+    (end-goal {@self worship})
     ))

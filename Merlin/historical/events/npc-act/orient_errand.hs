@@ -41,4 +41,4 @@
         (begin-belief {?org isa ?ok})
         (begin-belief {?org record ?art})
         (begin-belief {?org founder ?f})))
-    (clear-goal @self orient)))
+    (end-goal {@self orient})))

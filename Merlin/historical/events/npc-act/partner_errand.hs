@@ -31,11 +31,11 @@
 
 (hsim-event partner_commit
   (schedule (completion-only))
-  ; bind the firm's articles to a plain ?var (hire-seq needs it as a {pattern} subject).
-  (let ((?art (goal-focus partner)))
-    (effects
-      (fire :worker @self)
-      (add-co-owner :articles ?art :owner @self)
-      (hire-seq ?art [k job proprietor] [k org_head])
-      (clear-goal @self partner)
-      )))
+  (effects
+    ; bind the firm's articles to a plain ?var (hire-seq needs it as a {pattern} subject).
+    (bind (goal-focus partner) ?art)
+    (fire /worker @self)
+    (add-co-owner /articles ?art /owner @self)
+    (hire-seq ?art [k job proprietor] [k org_head])
+    (end-goal {@self partner})
+    ))

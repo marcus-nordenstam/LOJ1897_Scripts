@@ -36,4 +36,4 @@
                   (- 1.3 (* 0.6 (target {@self piety})))                ; piety resists
                   (- 1.3 (* 0.6 (target {@self belonging})))))))        ; belonging resists
   (effects
-    (goal @self drink)))
+    (begin-goal {@self drink})))

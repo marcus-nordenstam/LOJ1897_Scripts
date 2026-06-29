@@ -31,6 +31,6 @@
 (hsim-event promote_commit
   (schedule (completion-only))
   (effects
-    (promote :worker (goal-focus promote_staff))
-    (clear-goal @self promote_staff)
+    (promote /worker (goal-focus promote_staff))
+    (end-goal {@self promote_staff})
     ))

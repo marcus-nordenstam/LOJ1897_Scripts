@@ -58,7 +58,7 @@
   ; the org's articles (the goal focus the hire_errand reads) is recovered from
   ; @self's own {?org record ?art} belief, externalized to the env doc by (goal).
   (effects
-    (goal @self engage_staff (target {?org record}))))
+    (begin-goal {@self engage_staff (target {?org record})})))
 
 ; --- staff review: a boss reviews their own staff and promotes / dismisses -----
 ; BOSS-DRIVEN THINK (perf inversion). Both performance outcomes are the EMPLOYER's
@@ -109,5 +109,5 @@
              (chance 0.033)))   ; /12 of the old annual 0.4 (now monthly)
 
   (effects
-    (goal @self quit_work)
+    (begin-goal {@self quit_work})
     ))

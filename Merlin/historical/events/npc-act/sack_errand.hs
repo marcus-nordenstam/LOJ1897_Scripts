@@ -34,8 +34,8 @@
 (hsim-event sack_commit
   (schedule (completion-only))
   (effects
-    (fire :worker (goal-focus sack))
+    (fire /worker (goal-focus sack))
     ; the grudge: the dismissed man resents the boss who let him go (a named motive)
     (nudge-stance (goal-focus sack) @self warmth -0.5)
-    (clear-goal @self sack)
+    (end-goal {@self sack})
     ))

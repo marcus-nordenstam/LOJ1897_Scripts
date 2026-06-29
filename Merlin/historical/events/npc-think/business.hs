@@ -79,7 +79,7 @@
   ; (goal) is idempotent. (`back` label reused as the clerk's pursue-backing goal.)
   ; Focus = the employer firm, read inline from @self's own employer belief.
   (effects
-    (goal @self back (target {@self employer}))))
+    (begin-goal {@self back (target {@self employer})})))
 
 ; --- business_partnership: an established proprietor takes on a co-owner ----
 ; SELF-POV (telepathy purge CAT-2): the clerk is the sole deliberator - he weighs
@@ -128,7 +128,7 @@
   ; the firm's premises and the completion buys him in there. (goal) is idempotent.
   ; Focus = the firm's articles, recovered from @self's {?org record ?art} belief.
   (effects
-    (goal @self partner (target {?principal_org record}))))
+    (begin-goal {@self partner (target {?principal_org record})})))
 
 ; --- business_founding: a man of means sets up on his own account ----------
 ; SPLIT (Item 5, the great split): this is now the npc-THINK - the decision to
@@ -166,7 +166,7 @@
                  (believes {@self backed_by ?}))))
 
   (effects
-    (goal @self found)))
+    (begin-goal {@self found})))
 
 ; --- business_homeostat: the org-supply floor, founder-by-founder --------------
 ; The safety net that sustains EMPLOYMENT across generations. The MERIT founding
@@ -207,6 +207,6 @@
              (orgs-below-population-floor [k org business] 12)))
 
   (effects
-    (goal @self found)))
+    (begin-goal {@self found})))
 
 ; --- business_failure: an org folds (zero-role; see header) -----------------

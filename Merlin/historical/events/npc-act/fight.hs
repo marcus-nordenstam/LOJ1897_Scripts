@@ -42,13 +42,13 @@
 ; goals persist but the striking is one timed burst per month.
 (hsim-event kill_seek
   (intra-day)
-  (let ((?victim (goal-focus fight)))
-    (when (and (has-goal fight)
-               (bind {?victim home ?victim_home})
-               (not (co-present @self ?victim))))
-    (utility (if (< (fight-elapsed) 10) 150
-                 (max 0 (- 150 (* 30 (- (fight-elapsed) 10))))))
-    (effects (go @self ?victim_home))))
+  (bind (goal-focus fight) ?victim)
+  (when (and (has-goal fight)
+             (bind {?victim home ?victim_home})
+             (not (co-present @self ?victim))))
+  (utility (if (< (fight-elapsed) 10) 150
+               (max 0 (- 150 (* 30 (- (fight-elapsed) 10))))))
+  (effects (go @self ?victim_home)))
 
 ; The killer at the victim strikes - a committed murderer prioritises the blow
 ; (utility 200 dominates work 80 / sleep 100) UNTIL the exposure clock drags it

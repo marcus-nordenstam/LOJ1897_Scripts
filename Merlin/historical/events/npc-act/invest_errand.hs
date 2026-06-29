@@ -15,25 +15,25 @@
 
 (hsim-event invest_go
   (intra-day)
-  (let ((?org (goal-focus back)))
-    (when (and (has-goal back)
-               (bind {?org workplace ?wp})
-               (not (at-place ?wp))))
-    (utility 60)
-    (effects (go @self ?wp))))
+  (bind (goal-focus back) ?org)
+  (when (and (has-goal back)
+             (bind {?org workplace ?wp})
+             (not (at-place ?wp))))
+  (utility 60)
+  (effects (go @self ?wp)))
 
 (hsim-event invest_dwell
   (intra-day)
-  (let ((?org (goal-focus back)))
-    (when (and (has-goal back)
-               (bind {?org workplace ?wp})
-               (at-place ?wp)))
-    (utility 60)
-    (effects (act invest_commit 45))))
+  (bind (goal-focus back) ?org)
+  (when (and (has-goal back)
+             (bind {?org workplace ?wp})
+             (at-place ?wp)))
+  (utility 60)
+  (effects (act invest_commit 45)))
 
 (hsim-event invest_commit
   (schedule (completion-only))
   (effects
     (begin-belief {@self backed_by (goal-focus back)})
-    (clear-goal @self back)
+    (end-goal {@self back})
     ))

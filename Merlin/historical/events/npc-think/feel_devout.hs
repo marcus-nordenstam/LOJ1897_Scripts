@@ -23,5 +23,5 @@
     (role @self (template grown)))
   (when (chance (* 0.0333 (+ 0.5 (attr @self politeness)))))
   (effects
-    (goal @self worship)))
+    (begin-goal {@self worship})))
 

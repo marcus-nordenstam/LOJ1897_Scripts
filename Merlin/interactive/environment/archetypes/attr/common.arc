@@ -309,23 +309,15 @@ attr "marks"   (type kind array 4) (state "mark")  (per obs) (auto-percept)
 # where-were-you memories. Replaces the retired `at` label.
 attr "location" (type entity) (entity "structure" "container_structure" "interior_space" "exterior_space") (per obs) (auto-percept)
 
-# Delta-driven co-presence prop perception (interrogation plan 3b point
-# 1b): the date a prop was last deliberately added to / removed from this
-# container space. An arriving NPC does a full unhidden-prop sweep ONLY
-# when this stamp is newer than their last sweep of the space (or it is
-# their first visit) - the common case, unchanged rooms, is a single date
-# compare and no observation at all. Bumped by the deliberate-placement
-# sites (disposal, letter delivery, vessel spawn, weapon acquisition).
-attr "inventory_changed" (type date) (imperceptible)
-
 # Per-building loose-item index: the inverse of `location`. The set of loose
 # props (weapons, tools, vessels, merchandise) whose `location` points at this
 # building, maintained incrementally as items move (hsim set_prop_location).
 # Lets "what is in this building" - store inventory, weapons to grab, loot to
 # case - be a direct O(1) read instead of an O(world) entity scan. Imperceptible:
-# this is env-side bookkeeping, NOT a perception source (prop knowledge stays
-# delta-driven via inventory_changed + per-prop sweeps). Items remain loose
-# entities - this is a reverse lookup, not containment/hierarchy.
+# this is env-side bookkeeping, NOT a perception source (prop knowledge is
+# delta-driven via the relocation dirty-space pass on arrival/departure plus
+# perceive_here's absence pass on return). Items remain loose entities - this is
+# a reverse lookup, not containment/hierarchy.
 attr "contents" (type entity array 64) (imperceptible)
 
 # Instance

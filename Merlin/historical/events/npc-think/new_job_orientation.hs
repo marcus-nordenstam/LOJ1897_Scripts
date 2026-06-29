@@ -38,4 +38,4 @@
              (chance 0.3)))
 
   (effects
-    (goal @self orient)))
+    (begin-goal {@self orient})))

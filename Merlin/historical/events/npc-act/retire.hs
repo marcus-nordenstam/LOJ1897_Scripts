@@ -39,6 +39,6 @@
 (hsim-event retire_commit
   (schedule (completion-only))
   (effects
-    (fire :worker @self)
-    (clear-goal @self quit_work)
+    (fire /worker @self)
+    (end-goal {@self quit_work})
     ))

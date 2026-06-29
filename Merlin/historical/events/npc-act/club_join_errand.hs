@@ -31,6 +31,6 @@
 (hsim-event join_commit
   (schedule (completion-only))
   (effects
-    (register-member :articles (goal-focus join_club) :member @self)
-    (clear-goal @self join_club)
+    (register-member /articles (goal-focus join_club) /member @self)
+    (end-goal {@self join_club})
     ))

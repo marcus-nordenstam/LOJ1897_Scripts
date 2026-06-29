@@ -46,7 +46,7 @@
     (roll-business-org-kind (bind ?bizkind))
     (if ?bizkind
       (do
-        (fire :worker @self)
+        (fire /worker @self)
         ; mint the founding via the atomic-op sequence (proprietor head).
         (found-org-seq ?bizkind [k job proprietor])))
     ; Clear the goal regardless of the premises outcome. A dry-premises resolution
@@ -56,4 +56,4 @@
     ; resolution is re-minted at the proper deliberation cadence instead (annual
     ; business_founding / monthly business_homeostat), so a man whose town has no
     ; free premises simply tries again next window.
-    (clear-goal @self found)))
+    (end-goal {@self found})))

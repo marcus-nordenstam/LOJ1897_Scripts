@@ -11,10 +11,10 @@
 ; `(effects)` / `(branches)` and dispatch to
 ; `hsim/perpetration.cc::run_generative_perpetration`. That function:
 ;   1. Walks actor's `{actor goal ...}` beliefs.
-;   2. For each goal, filters perpetration.hsc rows by :goal-fit +
-;      :requires + :victim-state + :in-season.
+;   2. For each goal, filters perpetration.hsc rows by /goal-fit +
+;      /requires + /victim-state + /in-season.
 ;   3. Composes weights: base * disinhibition * pressure-floor.
-;   4. Weighted-samples; dispatches the chosen row's :terminal.
+;   4. Weighted-samples; dispatches the chosen row's /terminal.
 ;
 ; Monthly schedule - actors with standing goals attempt perpetration
 ; opportunistically. The `(> (count-beliefs ?actor goal) 0)` filter

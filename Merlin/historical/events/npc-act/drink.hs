@@ -27,5 +27,5 @@
   (effects
     (get-drunk @self)
     (risk-dependence @self)
-    (clear-goal @self drink)
+    (end-goal {@self drink})
     ))

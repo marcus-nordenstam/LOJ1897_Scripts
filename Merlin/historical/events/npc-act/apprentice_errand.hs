@@ -35,13 +35,14 @@
 (hsim-event indenture_commit
   (schedule (completion-only))
   ; bind the master's articles to a plain ?var (a macro arg used as a {pattern}
-  ; subject inside hire-seq must be a ?var, not an expr).
-  (let ((?art (goal-focus seek_indenture)))
-    ; org-founder BINDS ?master off the articles; the gate also drops the commit
-    ; cleanly if the org's articles became unreadable (no master to bond to).
-    (when (org-founder ?art ?master))
-    (effects
-      (hire-seq ?art [k job clerk] [k trainee])
-      (begin-belief {@self master ?master})
-      (clear-goal @self seek_indenture)
-      )))
+  ; subject inside hire-seq must be a ?var, not an expr). Needed in the gate, so
+  ; it is a top-level (bind ...), evaluated before (when).
+  (bind (goal-focus seek_indenture) ?art)
+  ; org-founder BINDS ?master off the articles; the gate also drops the commit
+  ; cleanly if the org's articles became unreadable (no master to bond to).
+  (when (org-founder ?art ?master))
+  (effects
+    (hire-seq ?art [k job clerk] [k trainee])
+    (begin-belief {@self master ?master})
+    (end-goal {@self seek_indenture})
+    ))

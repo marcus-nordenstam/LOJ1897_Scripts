@@ -23,5 +23,5 @@
     (role @self (template grown)))
   (when (chance (* 0.00067 (+ 0.4 (* 1.2 (attr @self compassion))))))
   (effects
-    (goal @self give_alms)))
+    (begin-goal {@self give_alms})))
 

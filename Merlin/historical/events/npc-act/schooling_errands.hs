@@ -25,7 +25,7 @@
   (schedule (completion-only))
   (effects
     (enroll @self primary_school_curriculum)
-    (clear-goal @self enrol_primary)
+    (end-goal {@self enrol_primary})
     ))
 
 ; ----- secondary -----------------------------------------------------------
@@ -43,7 +43,7 @@
   (schedule (completion-only))
   (effects
     (enroll @self secondary_school_curriculum)
-    (clear-goal @self enrol_secondary)
+    (end-goal {@self enrol_secondary})
     ))
 
 ; ----- university ----------------------------------------------------------
@@ -61,5 +61,5 @@
   (schedule (completion-only))
   (effects
     (enroll-university @self)
-    (clear-goal @self enrol_university)
+    (end-goal {@self enrol_university})
     ))

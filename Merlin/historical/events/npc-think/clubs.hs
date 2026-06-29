@@ -45,7 +45,7 @@
   ; out to found it (found-club-seq acquires the clubhouse + enrols him). A new club
   ; starts with just its founder; members trickle in via club_joining.
   (effects
-    (goal @self found_club)))
+    (begin-goal {@self found_club})))
 
 ; --- club_joining: an adult joins an existing club --------------------------
 ;; Clubs gate on character and class: a scandalous or disreputable member is
@@ -89,7 +89,7 @@
   ; to the clubhouse and registers him there. (goal) is idempotent. Focus = the
   ; club's articles, recovered from @self's {?club_org record ?art} belief.
   (effects
-    (goal @self join_club (target {?club_org record}))))
+    (begin-goal {@self join_club (target {?club_org record})})))
 
 ; club_gathering RETIRED (place-and-time reframe, Section 4.8 P2b): club members
 ; are now drawn to the clubhouse by the band itinerary's SOCIAL lane (members
@@ -114,4 +114,4 @@
   ; {@self resign_club}}; the npc-act (club_resign_errand.hs) sends the member to
   ; a clubhouse and unregisters him there (unregister-member resolves his own club).
   (effects
-    (goal @self resign_club)))
+    (begin-goal {@self resign_club})))

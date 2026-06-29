@@ -51,7 +51,7 @@
   ;; filter is alpha-indexed, so within one tick several masters sample the same
   ;; youth before the first apprenticeship commits. We re-check via (job-level
   ;; ...) - a computed op reads live, unlike a belief-pattern (which routes
-  ;; through the stale alpha-discriminator). (hire ... :level trainee) sets it
+  ;; through the stale alpha-discriminator). (hire ... /level trainee) sets it
   ;; live, so once apprenticed this tick the youth reads trainee + backtracks.
   ;; The master gate also lives here (secondary-var bind, not cacheable): bind the
   ;; org's founder ?master and exclude one the youth KNOWS to be scandalous
@@ -72,7 +72,7 @@
   ;; to the master's premises and the indenture is sealed there. (goal) is idempotent.
   ;; Focus = the org's articles, recovered from @self's {?org record ?art} belief.
   (effects
-    (goal @self seek_indenture (target {?org record}))))
+    (begin-goal {@self seek_indenture (target {?org record})})))
 
 (hsim-event apprenticeship_completion
   (long-term-think)
@@ -89,9 +89,9 @@
              (>= (job-tenure @self) 3)
              (chance 0.033)))
 
-  ;; Recover the master so the master bond can be ended on completion.
-  (let ((?master (belief-target @self master)))
-    (effects
-      (promote     :worker @self)
-      (end-belief  @self master ?master)
-      )))
+  (effects
+    ;; Recover the master so the master bond can be ended on completion.
+    (bind (belief-target @self master) ?master)
+    (promote     /worker @self)
+    (end-belief  @self master ?master)
+    ))

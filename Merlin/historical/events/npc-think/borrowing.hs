@@ -31,4 +31,4 @@
   ; the creditor's home and the completion records the {owe} there. (goal) is
   ; idempotent, so re-rolling while the goal stands is a no-op.
   (effects
-    (goal @self take_loan ?creditor)))
+    (begin-goal {@self take_loan ?creditor})))

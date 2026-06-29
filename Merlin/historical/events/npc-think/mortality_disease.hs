@@ -27,5 +27,5 @@
 
   (effects
     (propagate-death @self)
-    (die             @self :cause disease)
+    (die             @self /cause disease)
     ))

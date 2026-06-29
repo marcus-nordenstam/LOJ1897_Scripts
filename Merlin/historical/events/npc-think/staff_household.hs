@@ -45,7 +45,7 @@
              (believes @self {@self own ?h})           ; @self OWNS that home (the head)
              (or (is-a ?h [k manor]) (is-a ?h [k townhouse]))))
 
-  (effects (goal @self staff_household)))
+  (effects (begin-goal {@self staff_household})))
 
 ; --- FOUND: the head constitutes the household org at his home study -----------
 ; A separate window-start pass (not season-gated, so it catches the standing duty

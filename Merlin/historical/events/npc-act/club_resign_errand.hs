@@ -29,6 +29,6 @@
 (hsim-event resign_commit
   (schedule (completion-only))
   (effects
-    (unregister-member :member @self)
-    (clear-goal @self resign_club)
+    (unregister-member /member @self)
+    (end-goal {@self resign_club})
     ))

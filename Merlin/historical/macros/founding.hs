@@ -110,7 +110,7 @@
         (begin-belief {?org record ?art})
 
         ; --- the founder is the club's first MEMBER (member_of, not employment) ---
-        (register-member :articles ?art :member @self)))))
+        (register-member /articles ?art /member @self)))))
 
 ; ----------------------------------------------------------------------------
 ; hire-beliefs - the BELIEF-ONLY half of hiring (no roster write).

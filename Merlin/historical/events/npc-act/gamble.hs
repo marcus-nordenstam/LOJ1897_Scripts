@@ -21,5 +21,5 @@
   (schedule (completion-only))
   (effects
     (gamble @self)
-    (clear-goal @self play_game)
+    (end-goal {@self play_game})
     ))

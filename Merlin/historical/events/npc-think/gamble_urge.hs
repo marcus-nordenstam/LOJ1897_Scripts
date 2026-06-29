@@ -23,5 +23,5 @@
     (role @self (template grown)))
   (when (chance (* 0.0005 (+ 0.6 (* 0.8 (- 1.0 (attr @self industriousness)))))))
   (effects
-    (goal @self play_game)))
+    (begin-goal {@self play_game})))
 

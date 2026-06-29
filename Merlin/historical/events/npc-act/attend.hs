@@ -29,21 +29,21 @@
 
 (hsim-event attend_go
   (intra-day)
-  (let ((?venue (attend-venue @self)))
-    (when (and (has-goal attend)
-               (attend-in-window @self)
-               (not (at-place ?venue))))
-    (utility (attend-utility @self))
-    (effects (go @self ?venue))))
+  (bind (attend-venue @self) ?venue)
+  (when (and (has-goal attend)
+             (attend-in-window @self)
+             (not (at-place ?venue))))
+  (utility (attend-utility @self))
+  (effects (go @self ?venue)))
 
 (hsim-event attend_dwell
   (intra-day)
-  (let ((?venue (attend-venue @self)))
-    (when (and (has-goal attend)
-               (attend-in-window @self)
-               (at-place ?venue)))
-    (utility (attend-utility @self))
-    (effects (act attend_episode (attend-minutes-left @self)))))
+  (bind (attend-venue @self) ?venue)
+  (when (and (has-goal attend)
+             (attend-in-window @self)
+             (at-place ?venue)))
+  (utility (attend-utility @self))
+  (effects (act attend_episode (attend-minutes-left @self))))
 
 (hsim-event attend_episode
   (schedule (completion-only))
@@ -57,5 +57,5 @@
     ; The wedding-MURDER terminal: a jealous ex who crashed the occasion and carries
     ; a kill goal strikes his rival if present (no-op for the ordinary guest).
     (strike-at-occasion @self)
-    (clear-goal @self attend)
+    (end-goal {@self attend})
     ))
