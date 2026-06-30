@@ -23,10 +23,9 @@
 ;     enough, the lover takes up the deed - their own accomplice bond + kill goal
 ;     (a cross-mind mint into the lover's mind).
 ; attempt_harm then consumes the goal and executes a method (poison's domestic
-; deniability fits the co-resident victim).
-;
-; NOTE: the conspiracy's paper trail (the murder-proposal letter down the covert
-; channel - evidence, not behaviour) is not yet emitted here; see Docs/future_work.md.
+; deniability fits the co-resident victim). The murder proposal rides the covert
+; letter channel ((route-covert-letter ... (msg {@self urge {?paramour kill
+; ?spouse}}) ...)) - the conspiracy evidence trail implicating both.
 ;
 ; Kept rare by design (the dark floor + drive + base rate). To A/B, rename / remove
 ; this file (runtime-loaded; no rebuild).
@@ -65,17 +64,21 @@
   ; Agency fork (P(instigated) = 0.7 * machiavellianism, a schemer keeps clean hands).
   (effects
     (if (chance (* 0.7 (attr @self machiavellianism)))
-        ; INSTIGATED: the cheater recruits the lover. (The bond's embedded plot
-        ; clause - aux {lover kill spouse} - is evidence detail begin-belief cannot
-        ; carry as a clause aux; deferred, see Docs/future_work.md.)
+        ; INSTIGATED: the cheater recruits the lover. The accomplice bond carries the
+        ; embedded plot as its AUX clause (4th positional field): {@self accomplice
+        ; <lover> {<lover> kill <spouse>}} - target = the lover, aux = the kill plot.
         (do
-          (begin-belief {@self accomplice ?paramour})
+          (begin-belief {@self accomplice ?paramour {?paramour kill ?spouse}})
+          ; The murder proposal rides the covert letter channel - the cheater urges
+          ; the lover to kill the spouse. Composed here (.hs content); an intercepted
+          ; or cached letter is the conspiracy evidence trail implicating both.
+          (route-covert-letter ?paramour (msg {@self urge {?paramour kill ?spouse}}) [k letter])
           ; The lover adopts if they DESIRE the cheater (attraction band >= 2) and
           ; are dark enough - their own bond + kill goal, minted in THEIR mind.
           (if (and (>= (stance-band ?paramour @self attraction) 2)
                    (chance (attr ?paramour psychopathy)))
               (do
-                (begin-belief ?paramour {?paramour accomplice @self})
+                (begin-belief ?paramour {?paramour accomplice @self {?paramour kill ?spouse}})
                 (begin-goal {?paramour kill ?spouse} /cause {?paramour accomplice @self}))))
         ; DIRECT: the cheater acts alone.
         (begin-goal {@self kill ?spouse} /cause {@self lover ?paramour}))))
