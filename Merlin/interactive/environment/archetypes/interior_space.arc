@@ -17,6 +17,10 @@ archetype "interior_space" (cap 4096) (per obs) (always-visible) (non-occluder) 
     "name" (auto-percept) (ext-per obs)
     "struct_parent"
     "parts" (auto-percept)
+    # The NPC who MADE this space owns it - a hiding_spot cache belongs to its
+    # maker. Imperceptible (a concealed cache's ownership is not on show); it gates
+    # who searches it (only the owner, via the search_secret_caches act).
+    "owner"
     "obb"
     # Nav v2: spaces can host openings whose /is_nav_passage gates a
     # macro-graph edge (e.g. an archway between rooms).

@@ -87,3 +87,11 @@
 ;; narrows to its category ([k org club] / business / gov) or excludes household.
 (define-role known_org
   (believes {?this isa [k org]}))
+
+;; A letter / document the deliberating mind has SEEN - perception minted
+;; {?this isa [k letter]} (and its observable attrs, e.g. {?this addressee ..})
+;; when @self observed it in their space or their own secret cache. Roles can
+;; bind ANY entity, not just people; the mail-reading routine casts letters this
+;; way. is-a [k letter] matches every letter subkind (love_letter, tryst_note ..).
+(define-role any_letter
+  (believes {?this isa [k letter]}))

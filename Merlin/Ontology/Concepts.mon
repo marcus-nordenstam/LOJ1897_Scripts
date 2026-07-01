@@ -1107,6 +1107,14 @@ concept
     vocational_state    (+ sub human)
         retire              (tar ? @excl)
         home                (tar structure @excl)
+        # A private hiding-spot cache the NPC MADE (an interior sub-space they own).
+        # A DEFINED relation so {@self hiding_spot <cache>} mints reasoned (/rsn) and
+        # PERSISTS - an undefined label mints /obs and self-perception disproves it
+        # every cycle, which re-opens the make_secret_cache gate and floods a bedroom's
+        # sub-spaces. Shares its NAME with the `hiding_spot` KIND; kind references
+        # disambiguate with the full path `[k interior_space hiding_spot]` /
+        # mx_resolve_kind_id("interior_space hiding_spot"). Inclusive.
+        hiding_spot         (tar interior_space)
         # Work life-cycle. job and level are noun-states (declared in the
         # org_pos / level taxonomy higher up); only the non-noun relations
         # are declared here. employer is the worker's org; master is the

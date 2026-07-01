@@ -87,19 +87,6 @@ object (+ obs)
             cup
             decanter
             jewelry_box
-            # Concealment caches - the
-            # places a household member hides letters and small valuables.
-            # One hiding_spot entity per cache, spawned at the owner's home;
-            # cached items point their `at` attr AT the hiding_spot and carry
-            # the engine is_hidden bit, so perception skips them until a
-            # search surfaces them. The leaf kind encodes the concealment
-            # quality (a secret_chamber outlasts a jewelry_box_lining).
-            hiding_spot
-                floorboard_cache
-                book_cache
-                jewelry_box_lining
-                painting_cache
-                secret_chamber
         accessory
             cufflink
             ring

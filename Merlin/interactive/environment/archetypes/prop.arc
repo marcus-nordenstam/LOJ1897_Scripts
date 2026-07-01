@@ -26,6 +26,14 @@ archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
     # read back by their location scans; without it those `location` writes
     # were silent no-ops and the scans could never find anything.
     "location"
+    # The NPC who MADE this prop owns it (a secret cache belongs to its maker).
+    # Imperceptible - a hidden cache's ownership is not on show; it gates who may
+    # observe the cache's contents (only the owner).
+    "owner"
+    # The person a letter is addressed to. hsim-perceptible: a mind that observes
+    # the letter learns {letter addressee <person>} on sight (the envelope), but
+    # NOT the message - reading it is a separate act.
+    "addressee"
     "in_stack"
     # If prop is in a stack, obb is set to _
     "obb"

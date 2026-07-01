@@ -40,10 +40,19 @@ attr "parts" (type entity array 12) (state "part") (spec-attr children) (int-per
 # Ownership & control
 # The entity currently controlling the position of this entity (if any)
 attr "controlled_by" (type entity) (spec-attr controlled-by) (imperceptible)
+# Durable OWNER of this entity: whoever created it (general rule - you make it,
+# you own it). IMPERCEPTIBLE: ownership of a SECRET cache is not visible to
+# others (the whole point), and the owner drives "observe your OWN cache".
+attr "owner" (type entity) (imperceptible)
 # What this entity controls (stowed or held items)
 attr "control" (type entity array 12) (spec-attr control) (per obs) (auto-percept)
 # Which stack this entity is in, if any. If not in a stack, set to _.
 attr "in_stack" (type entity) (entity "stack") (spec-attr in-stack) (per obs)
+# The person a document (letter) is addressed to. hsim-perceptible: the envelope
+# addressee is visible on sight, so a mind that observes the letter internalizes
+# {letter addressee <person>} - WITHOUT learning the message (that needs reading).
+# The role-based mail-reading binds a letter via this belief.
+attr "addressee" (type entity) (per obs) (auto-percept) (hsim-percept)
 
 # Conditions & properties. Conceptual: kind-typed; @excl lives on the concept.
 # condition is hsim-perceptible: liveness (alive/dead) is visible on sight, so a
@@ -307,7 +316,7 @@ attr "marks"   (type kind array 4) (state "mark")  (per obs) (auto-percept)
 # The universal location label: props use it for "the building this prop sits
 # in" (evidence trails) and people use the matching belief for dated
 # where-were-you memories. Replaces the retired `at` label.
-attr "location" (type entity) (entity "structure" "container_structure" "interior_space" "exterior_space") (per obs) (auto-percept)
+attr "location" (type entity) (entity "structure" "container_structure" "interior_space" "exterior_space") (spec-attr location) (per obs) (auto-percept)
 
 # Per-building loose-item index: the inverse of `location`. The set of loose
 # props (weapons, tools, vessels, merchandise) whose `location` points at this
