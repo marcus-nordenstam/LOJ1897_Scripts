@@ -56,7 +56,7 @@
   ;; chance - openness x enthusiasm x impropriety (decorum INVERTED; an un-derived
   ;; decorum reads 0, so the not-yet-appraised stray freely). The 0.04 is /12 of the
   ;; annual 0.5, rolled once per NPC per window.
-  (when (chance (* 0.04
+  (when (chance (* (crime-scale) 0.04
                    (attr @self openness)
                    (attr @self enthusiasm)
                    (- 1 (target {@self decorum})))))

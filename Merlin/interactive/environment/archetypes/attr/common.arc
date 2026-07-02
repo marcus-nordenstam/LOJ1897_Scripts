@@ -316,7 +316,7 @@ attr "marks"   (type kind array 4) (state "mark")  (per obs) (auto-percept)
 # The universal location label: props use it for "the building this prop sits
 # in" (evidence trails) and people use the matching belief for dated
 # where-were-you memories. Replaces the retired `at` label.
-attr "location" (type entity) (entity "structure" "container_structure" "interior_space" "exterior_space") (spec-attr location) (per obs) (auto-percept)
+attr "location" (type entity) (entity "structure" "container_structure" "interior_space" "exterior_space") (spec-attr location) (per obs) (auto-percept) (hsim-percept)
 
 # Per-building loose-item index: the inverse of `location`. The set of loose
 # props (weapons, tools, vessels, merchandise) whose `location` points at this

@@ -49,7 +49,7 @@
   ; propensity = (1 - inhibition) * rage; fire at 0.02 * propensity. (knows-affair)
   ; keeps crave the FALLBACK: a discovered betrayal routes to betrayal_kill.hs.
   (when (and (not (knows-affair @self))
-             (chance (* 0.02
+             (chance (* (crime-scale) 0.02
                         (* (- 1 (target {@self inhibition}))
                            (* 0.5 (+ (attr @self volatility)
                                      (attr @self psychopathy))))))))

@@ -25,9 +25,9 @@ archetype "exterior_space" (cap 4096) (per obs) (always-visible) (non-occluder) 
     # for remote wilds.
     "address"
     "address_number"
-    # Per-space loose-item index (inverse of each prop's `location`): props
-    # dropped in this outdoor space (a weapon flung in a street / field). The
-    # confrontation grab and acquisition read it the same as a room's. Maintained
-    # by hsim set_prop_location.
-    "contents"
+    # NO `contents` index: exterior spaces are unbounded, so they keep no
+    # loose-item inverse. They remain valid `location` targets (the env seam
+    # still sets an outdoor entity's location to the smallest exterior space
+    # holding its OBB center); outdoor occupancy queries scan the forward
+    # `location` attr instead (hsim occupants_at fallback).
 }

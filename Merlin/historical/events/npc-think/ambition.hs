@@ -38,7 +38,7 @@
   ; Disposition pre-gate + adult floor. ambition = mean(machiavellianism, narcissism);
   ; propensity = (1 - inhibition) * ambition; fire at 0.03 * propensity.
   (when (and (>= (years-old @self) 18)
-             (chance (* 0.03
+             (chance (* (crime-scale) 0.03
                         (* (- 1 (target {@self inhibition}))
                            (* 0.5 (+ (attr @self machiavellianism)
                                      (attr @self narcissism))))))))

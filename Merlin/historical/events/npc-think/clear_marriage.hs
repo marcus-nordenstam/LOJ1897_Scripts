@@ -53,7 +53,7 @@
              (not (is-married ?paramour))
              (>= (- (stance-band ?paramour attraction) (stance-band ?spouse warmth)) 2)
              (chance
-               (* 0.03
+               (* (crime-scale) 0.03
                   (* (attr @self psychopathy)
                      (* (attr @self machiavellianism)
                         (* (- 1 (target {@self inhibition}))

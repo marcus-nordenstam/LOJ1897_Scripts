@@ -62,7 +62,7 @@
   ;    OPAQUE belief op inside a (chance), rolled per victim at firing. When
   ;    value-rift becomes an explicit belief read it can fold back into the role.
   ; Cheap chances FIRST so they short-circuit.
-  (when (and (chance (* 0.0125
+  (when (and (chance (* (crime-scale) 0.0125
                         (- 1.0 (attr @self compassion))
                         (attr @self assertiveness)
                         (+ 1.0 (life-aim-aligns @self urge))))

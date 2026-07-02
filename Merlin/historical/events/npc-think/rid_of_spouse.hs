@@ -44,7 +44,7 @@
              (or (<= (stance-band ?spouse warmth) -2)
                  (believes {?spouse assault @self}))
              (chance
-               (* 0.02
+               (* (crime-scale) 0.02
                   (* (+ (if (<= (stance-band ?spouse warmth) -2) 1 0)
                         (if (believes {?spouse assault @self}) 1 0))
                      (* (+ 0.5 (attr @self psychopathy))

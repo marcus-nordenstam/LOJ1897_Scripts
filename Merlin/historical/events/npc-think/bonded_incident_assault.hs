@@ -38,7 +38,8 @@
   ; intoxication (the 0.3 sober floor + 0.7*intox keeps the amplifier in
   ; [0.3, 1.0] so the whole product stays <= 1 - sober high-tetrad actors still
   ; occasionally fire, drunk ones much more).
-  (when (chance (* (attr @self volatility)
+  (when (chance (* (crime-scale)
+                   (attr @self volatility)
                    (attr @self psychopathy)
                    (attr @self sadism)
                    (- 1.0 (attr @self politeness))

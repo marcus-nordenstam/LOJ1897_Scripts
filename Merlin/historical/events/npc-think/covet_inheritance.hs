@@ -45,7 +45,7 @@
   ; Disposition pre-gate + wealth floor. greed = mean(machiavellianism, psychopathy);
   ; propensity = (1 - inhibition) * greed; fire at k_covet_base_rate * propensity.
   (when (and (>= (target {?benefactor wealth}) 0.5)
-             (chance (* 0.02
+             (chance (* (crime-scale) 0.02
                         (* (- 1 (target {@self inhibition}))
                            (* 0.5 (+ (attr @self machiavellianism)
                                      (attr @self psychopathy))))))))

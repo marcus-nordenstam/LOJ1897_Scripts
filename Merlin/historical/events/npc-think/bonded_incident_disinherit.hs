@@ -63,7 +63,7 @@
   ; firing, so it lives in (when), not as a role criterion (would not be cacheable).
   ; The actor trait (chance) gate ((1 - compassion) x narcissism) moved here off the
   ; @self role for the same reason (attr reads are non-belief, not role-cacheable).
-  (when (and (chance (* 0.025
+  (when (and (chance (* (crime-scale) 0.025
                         (- 1.0 (attr @self compassion))
                         (attr @self narcissism)))
              (chance (+ (* 0.2 (+ (believes {@self dislike ?victim})

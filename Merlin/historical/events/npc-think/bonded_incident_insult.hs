@@ -39,10 +39,10 @@
   ; it lives in (when), not as a role criterion (would not be cacheable).
   ; MOVED from the @self role (non-belief, not role-cacheable): the actor's impulse
   ; chance (dispositional base + displaced anger). Both gates are (chance), kept first.
-  (when (and (chance (+ (* 0.06
+  (when (and (chance (+ (* (crime-scale) 0.06
                            (- 1.0 (attr @self politeness))
                            (attr @self narcissism))
-                        (* 0.08 (emotion-load @self [k anger]))))
+                        (* (crime-scale) 0.08 (emotion-load @self [k anger]))))
              (chance (+ 0.10
                         (* 0.15 (+ (believes {@self dislike ?victim})
                                    (believes {@self disdain ?victim})))

@@ -55,7 +55,7 @@
   ;; (chance 0.6) moved here from the @self role (non-belief gate).
   ;; Live re-check: an earlier firing this tick may already have ended the
   ;; jilter's lover bond (one jilt per jilter per tick).
-  (when (and (chance 0.6)
+  (when (and (chance (* (crime-scale) 0.6))
              (believes {@self lover ?jilted})))
 
   (effects
@@ -108,7 +108,7 @@
   ;; DERIVED conduct dimension (belief) read from @self's own mind via
   ;; (target {...}). An unread dimension contributes 0; the +0.3 base keeps the
   ;; event alive for the un-derived.
-  (when (and (chance (* 0.15 (+ 0.3 (target {@self decorum}))))
+  (when (and (chance (* (crime-scale) 0.15 (+ 0.3 (target {@self decorum}))))
              (believes {@self lover ?jilted})))
 
   (effects

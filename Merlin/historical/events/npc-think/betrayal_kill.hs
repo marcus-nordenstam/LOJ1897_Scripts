@@ -42,7 +42,7 @@
 
   ; Jealous-rage pre-gate. rage = mean(volatility, psychopathy); propensity =
   ; (1 - inhibition) * rage; fire at 0.02 * propensity.
-  (when (chance (* 0.02
+  (when (chance (* (crime-scale) 0.02
                    (* (- 1 (target {@self inhibition}))
                       (* 0.5 (+ (attr @self volatility)
                                 (attr @self psychopathy)))))))
@@ -56,7 +56,7 @@
     ; Mint the affair appraisal (anger / contempt / humiliation) in @self's mind.
     (appraise-betrayal ?partner ?interloper)
     ; Dual when anger-load + decorum + machiavellianism >= 2.5 and both live.
-    (if (and (>= (+ (emotion-load [k anger])
+    (if (and (>= (+ (emotion-load @self [k anger])
                     (+ (target {@self decorum}) (attr @self machiavellianism)))
                  2.5)
              (alive ?partner) (alive ?interloper))
