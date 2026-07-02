@@ -30,6 +30,7 @@
 (include "../../definitions/roles.hs")
 
 (hsim-event affair_correspondence
+  (long-term-think)
   (rng-stream incidents)
   (generative-correspondence)
 
