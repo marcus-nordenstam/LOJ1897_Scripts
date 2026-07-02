@@ -17,7 +17,7 @@ rule compute-answer
 {!@self:?person /ever ASK ?question @self}: ?person_asked
 (bb_private_none ?question answer)
 (none {@self /succ TELL ? ?person /causes ~?person_asked})
-(eval_msg /output_unknown_on_fail ?question): ?answer
+(eval_msg /output_unknown_on_fail ?question ?person): ?answer
     ->
 (bb_private_write ?question answer ?answer).
 

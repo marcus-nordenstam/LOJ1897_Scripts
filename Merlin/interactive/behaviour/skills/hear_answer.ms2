@@ -33,7 +33,7 @@ rule believe-is-event-true-answer
     ->
 # Now make a belief of the question-phrase (e.g. {@you want.task {@you marry @self}}), 
 # with the probability equal to the answer
-(begin_belief ?event [/p (msg_content ?answer) /sources ?tellAnswer]): ?beliefFromAnswer
+(begin_belief ?event [/p (msg_content ?answer ?person) /sources ?tellAnswer]): ?beliefFromAnswer
 #(print [@self believes ?beliefFromAnswer])
 # You are no longer expecting an answer from this person
 (end_belief {@self expect_answer ?person}).
@@ -58,7 +58,7 @@ rule believe-target-value-answer
     ->
 # Splice together a new belief:
 # ?event = {?person name}, ?answer = "Toby" -> {?person name "Toby"}
-(begin_belief ?event [/target (msg_content ?answer)]): ?understood
+(begin_belief ?event [/target (msg_content ?answer ?person)]): ?understood
 # You are no longer expecting an answer from this person
 (end_belief {@self expect_answer ?person}).
 #(print [@self understands (nl ?understood)])
@@ -83,7 +83,7 @@ rule believe-target-target-answer
     ->
 # Splice together a new belief:
 # ?event = {?person goal {@self serve ? ?person}}, ?answer = [k pint] -> {?person goal {@self serve [k pint] ?person}}
-(begin_belief ?event.target [/target (msg_content ?answer)]): ?targetBelief
+(begin_belief ?event.target [/target (msg_content ?answer ?person)]): ?targetBelief
 (begin_belief ?event [/target ?targetBelief]): ?understood
 # You are no longer expecting an answer from this person
 (end_belief {@self expect_answer ?person}).

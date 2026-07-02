@@ -5,9 +5,8 @@
 ; self-analysis, no cross-NPC, no world mutation - so it runs in the per-NPC
 ; (long-term-think) window-start pass with @self bound. No role casting.
 ;
-; Gated to winter (the old event ran annually in December; there is no month-only
-; op, so winter is the nearest gate). derive-prototypes is idempotent - re-running
-; it across Dec/Jan/Feb just refreshes the cached prototype from current state.
+; Gated to December (in-month): the cached prototype refreshes once a year.
+; derive-prototypes is idempotent - a re-run just refreshes it from current state.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -19,9 +18,9 @@
   (roles
     (role @self (template any_human)))
 
-  ; years-old + in-season are non-belief ops, so they gate the fire in (when).
-  (when (and (>= (years-old @self) 15)
-             (in-season winter)))
+  ; years-old + in-month are non-belief ops, so they gate the fire in (when).
+  (when (and (in-month december)
+             (>= (years-old @self) 15)))
 
   (effects
     (derive-prototypes @self)))
