@@ -227,7 +227,10 @@ attr "control_force" (type int) (range 0 1) (imperceptible)
 
 # Stack
 attr "stack_label" (type str) (per obs) (auto-percept) (state-flags-tar @excl)
-attr "items" (type entity array 16) (per obs)
+# Cap sized for the mail model: a read-mail stack accumulates a household's
+# whole correspondence history, and the police station's report archive holds
+# every crime report ever filed (128 filled by sim-year 12 of a 20yr run).
+attr "items" (type entity array 512) (per obs)
 attr "top" (type entity) (per obs) (state-flags-tar @excl)
 
 # Weather (region)
@@ -327,7 +330,9 @@ attr "location" (type entity) (entity "structure" "container_structure" "interio
 # delta-driven via the relocation dirty-space pass on arrival/departure plus
 # perceive_here's absence pass on return). Items remain loose entities - this is
 # a reverse lookup, not containment/hierarchy.
-attr "contents" (type entity array 64) (imperceptible)
+# Cap 256: a whole-town gathering (church service, ~200+ souls) files every
+# attendee into ONE room's contents alongside the room's furnishings.
+attr "contents" (type entity array 256) (imperceptible)
 
 # Instance
 attr "prototype" (type entity) (spec-attr prototype) (imperceptible)

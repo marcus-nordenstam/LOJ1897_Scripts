@@ -283,6 +283,12 @@ object (+ obs)
                 for_sale_listing_stack
                 for_lease_listing_stack
                 title_deed_stack
+                # Per-premises mail piles (one pair in each home's mail room,
+                # one pair inside each hiding-spot cache): letters are always
+                # DELIVERED into the unread stack; reading takes a letter out
+                # of it and files it into the read stack - the paper trail.
+                unread_mail_stack
+                read_mail_stack
             row
         sporting_gear
             ball
