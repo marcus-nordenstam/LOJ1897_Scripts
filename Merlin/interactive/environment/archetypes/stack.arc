@@ -2,7 +2,10 @@
 # the same spatial bounds - that of the stack. The `items` inverse (and `top`) are
 # maintained by the env in_stack seam (attr.cc update_stack_in_environment) - the
 # single writer, mirroring how location<->contents is seam-maintained.
-archetype "stack" (cap 512) (per obs) (non-occluder) (occupies-env-grid)
+# Cap sized for the mail model over a long run: two piles per premises (~400)
+# plus two per hiding-spot cache - caches accrue one per new affair pairing
+# for decades - plus the registry stacks (a 20yr run hit 512).
+archetype "stack" (cap 2048) (per obs) (non-occluder) (occupies-env-grid)
 {
     "birth_date"
     "stack_label"
