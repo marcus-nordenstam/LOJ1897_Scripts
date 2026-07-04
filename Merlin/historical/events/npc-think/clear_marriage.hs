@@ -19,13 +19,11 @@
 ;   - (effects ...) forks on machiavellianism (P = 0.7 * mach): DIRECT mints
 ;     {@self kill <spouse>} /cause {@self lover <paramour>}; INSTIGATED mints the
 ;     cheater's accomplice bond {@self accomplice <lover> /aux {<lover> kill <spouse>}}
-;     and, if the lover DESIRES the cheater (their attraction band >= 2) and is dark
-;     enough, the lover takes up the deed - their own accomplice bond + kill goal
-;     (a cross-mind mint into the lover's mind).
+;     and routes the murder proposal as a covert letter; the lover's side of the
+;     conspiracy lives in conspiracy_adoption.hs, fired by READING that letter.
 ; attempt_harm then consumes the goal and executes a method (poison's domestic
 ; deniability fits the co-resident victim). The murder proposal rides the covert
-; letter channel ((route-covert-letter ... (msg {@self urge {?paramour kill
-; ?spouse}}) ...)) - the conspiracy evidence trail implicating both.
+; letter channel ((route-covert-letter ... (msg {...} signed) ...)) - the conspiracy evidence trail implicating both.
 ;
 ; Kept rare by design (the dark floor + drive + base rate). To A/B, rename / remove
 ; this file (runtime-loaded; no rebuild).
@@ -72,13 +70,11 @@
           ; The murder proposal rides the covert letter channel - the cheater urges
           ; the lover to kill the spouse. Composed here (.hs content); an intercepted
           ; or cached letter is the conspiracy evidence trail implicating both.
-          (route-covert-letter ?paramour (msg {@self urge {?paramour kill ?spouse}}) [k letter])
-          ; The lover adopts if they DESIRE the cheater (attraction band >= 2) and
-          ; are dark enough - their own bond + kill goal, minted in THEIR mind.
-          (if (and (>= (stance-band ?paramour @self attraction) 2)
-                   (chance (attr ?paramour psychopathy)))
-              (do
-                (begin-belief ?paramour {?paramour accomplice @self {?paramour kill ?spouse}})
-                (begin-goal {?paramour kill ?spouse} /cause {?paramour accomplice @self}))))
+          ; The lover's side of the conspiracy is NOT minted here: they learn the
+          ; plot by READING the letter (read_secret_letters adopts the urge belief
+          ; into their mind), and conspiracy_adoption.hs decides whether they take
+          ; up the deed - no telepathy, and an intercepted letter means the lover
+          ; never learns of the plot at all.
+          (route-covert-letter ?paramour (msg {@self urge {?paramour kill ?spouse}} signed) [k letter]))
         ; DIRECT: the cheater acts alone.
         (begin-goal {@self kill ?spouse} /cause {@self lover ?paramour}))))
