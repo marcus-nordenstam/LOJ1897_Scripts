@@ -6,12 +6,22 @@
 # address-space, or a mental org object. @excl: a subject is in exactly ONE place
 # at a time, so minting a new whereabouts ENDS the prior one (closing its
 # interval) - without this an NPC accumulates many never-ending {X location Y}
-# beliefs and the comings-and-goings timeline is unreadable. (theme location)
+# beliefs and the comings-and-goings timeline is unreadable. (theme frequent)
 # routes ended whereabouts episodes through the sleep-time themed fuse: routine
 # comings-and-goings compress into the semantic gist while flashbulb-buffed
 # whereabouts (intensity-stamped by a co-occurring high-emotion event) survive
 # as the peak exemplar - the detective-relevant "I remember where I was".
-location (+ obs) (tar ? @excl) (theme location)
+location (+ obs) (tar ? @excl) (theme frequent)
+
+# `frequent` is location's semantic-summary label: the themed fuse folds a
+# subject's ended {X location <place>} episodes into an ongoing
+# {X frequent <place>} gist. It MUST be a different label from `location`
+# (episodic vs semantic must never share a label): location is @excl, and a
+# same-label summary would overlap the retained first/last/peak episodes and
+# trip the exclusivity validator. Non-excl on purpose - a subject frequents
+# many places over overlapping spans. Subject unconstrained (props accumulate
+# whereabouts episodes too).
+frequent (tar ?)
 
 # env_point: nav waypoints / spawnpoints (the env_point.arc archetype). Renamed
 # from the old `location` archetype/kind so the `location` name is reserved for
