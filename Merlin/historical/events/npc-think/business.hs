@@ -117,6 +117,7 @@
   ;; Also hosts the non-belief @self gates moved out of the role: the monthly chance
   ;; (/12 of the old annual 0.12), the working-age band, and the merit + means dims.
   (when (and (chance (* 0.01 (+ 0.5 (attr @self assertiveness))))
+             (not (has-goal partner))
              (not (= (job-level @self) [k org_head]))
              (>= (years-old @self) 25)
              (<= (years-old @self) 55)
@@ -125,7 +126,12 @@
 
   ; SPLIT (Item 5): the npc-think - the clerk decides to buy in. Mints {@self
   ; goal {@self partner <articles>}}; the npc-act (partner_errand.hs) sends him to
-  ; the firm's premises and the completion buys him in there. (goal) is idempotent.
+  ; the firm's premises and the completion buys him in there. ONE standing buy-in
+  ; ambition at a time (the has-goal gate): begin-goal is idempotent only per
+  ; identical target, and each firm's articles is a DISTINCT object - without the
+  ; gate a chronically eligible clerk minted a fresh partner goal toward a
+  ; different firm every lucky month (13 standing goals by 1707 in the 10yr run;
+  ; the goals never retire because partner_errand needs him AT the firm).
   ; Focus = the firm's articles, recovered from @self's {?org record ?art} belief.
   (effects
     (begin-goal {@self partner (target {?principal_org record})})))
