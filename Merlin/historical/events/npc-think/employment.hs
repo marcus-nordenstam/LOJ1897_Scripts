@@ -57,7 +57,12 @@
   ; applicant's goal on one org-head and overflow the memory-fusion gather.
   ; the org's articles (the goal focus the hire_errand reads) is recovered from
   ; @self's own {?org record ?art} belief, externalized to the env doc by (goal).
+  ; RE-TARGET: one standing job-search goal, replaced each fire - at (chance 0.3)
+  ; a chronically ineligible seeker otherwise stacks a distinct goal per firm's
+  ; articles (30+ by 1706, the attention-set overflow), while a blocking has-goal
+  ; gate would freeze the search on whichever firm was sampled first.
   (effects
+    (end-goal {@self engage_staff})
     (begin-goal {@self engage_staff (target {?org record})})))
 
 ; --- staff review: a boss reviews their own staff and promotes / dismisses -----

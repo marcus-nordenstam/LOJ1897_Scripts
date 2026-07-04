@@ -86,9 +86,12 @@
 
   ; SPLIT (Item 5): the npc-think - the decision to join. Mints {@self goal
   ; {@self join_club <articles>}}; the npc-act (club_join_errand.hs) sends the member
-  ; to the clubhouse and registers him there. (goal) is idempotent. Focus = the
-  ; club's articles, recovered from @self's {?club_org record ?art} belief.
+  ; to the clubhouse and registers him there. RE-TARGET: one standing join goal,
+  ; replaced each fire (per-target idempotency would stack a distinct goal per
+  ; club's articles; a blocking gate would deadlock on an unreachable club).
+  ; Focus = the club's articles, recovered from @self's {?club_org record ?art} belief.
   (effects
+    (end-goal {@self join_club})
     (begin-goal {@self join_club (target {?club_org record})})))
 
 ; club_gathering RETIRED (place-and-time reframe, Section 4.8 P2b): club members

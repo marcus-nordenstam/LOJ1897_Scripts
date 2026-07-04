@@ -69,9 +69,13 @@
 
   ;; SPLIT (Item 5): the npc-think - the youth chooses a trade. Mints {@self goal
   ;; {@self seek_indenture <articles>}}; the npc-act (apprentice_errand.hs) sends him
-  ;; to the master's premises and the indenture is sealed there. (goal) is idempotent.
+  ;; to the master's premises and the indenture is sealed there. RE-TARGET: one
+  ;; standing search goal, replaced each fire (per-target idempotency would stack a
+  ;; distinct goal per org's articles and overflow the attention set; a blocking
+  ;; gate would deadlock the search on an unreachable first master).
   ;; Focus = the org's articles, recovered from @self's {?org record ?art} belief.
   (effects
+    (end-goal {@self seek_indenture})
     (begin-goal {@self seek_indenture (target {?org record})})))
 
 (hsim-event apprenticeship_completion
