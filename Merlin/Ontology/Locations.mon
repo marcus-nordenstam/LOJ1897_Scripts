@@ -6,8 +6,12 @@
 # address-space, or a mental org object. @excl: a subject is in exactly ONE place
 # at a time, so minting a new whereabouts ENDS the prior one (closing its
 # interval) - without this an NPC accumulates many never-ending {X location Y}
-# beliefs and the comings-and-goings timeline is unreadable.
-location (+ obs) (tar ? @excl)
+# beliefs and the comings-and-goings timeline is unreadable. (theme location)
+# routes ended whereabouts episodes through the sleep-time themed fuse: routine
+# comings-and-goings compress into the semantic gist while flashbulb-buffed
+# whereabouts (intensity-stamped by a co-occurring high-emotion event) survive
+# as the peak exemplar - the detective-relevant "I remember where I was".
+location (+ obs) (tar ? @excl) (theme location)
 
 # env_point: nav waypoints / spawnpoints (the env_point.arc archetype). Renamed
 # from the old `location` archetype/kind so the `location` name is reserved for
