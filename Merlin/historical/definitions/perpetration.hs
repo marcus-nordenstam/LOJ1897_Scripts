@@ -622,3 +622,24 @@
 (kill-cost stab          (occasion night_home street) (requirement blade)   (aversion hands_on) (exposure 0.40))
 (kill-cost slash         (occasion night_home street) (requirement blade)   (aversion hands_on) (exposure 0.40))
 (kill-cost shoot         (occasion street)            (requirement firearm) (aversion ranged)   (exposure 0.50))
+
+; ---- misadventure staging ----------------------------------------------------
+; Kill methods whose corpse can pass as a non-violent death, mapped to the
+; `incident` narrative leaf corpse_discovered publicizes. A poisoning reads as
+; a sudden illness; the exposure / drowning / fall deaths read as accidents.
+; Every unlisted method is overt - the corpse tells its own story.
+(misadventure poison           illness_complication)
+(misadventure freeze           accident)
+(misadventure drown            accident)
+(misadventure push_from_height accident)
+(misadventure death_trap       accident)
+
+; ---- kill-cost skills + access tiers -------------------------------------------
+; The skill that discharges a requirement class's exec-skill-miss cost.
+(cost-skill blade   knife_fighting)
+(cost-skill firearm marksmanship)
+; The warmth-bond labels that read as the `friend` access tier in the
+; kill-cost relationship classifier (cohabitant > coworker > friend >
+; acquaintance).
+(cost-friend-label friend)
+(cost-friend-label close_to)
