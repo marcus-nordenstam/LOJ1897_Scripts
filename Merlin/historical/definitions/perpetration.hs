@@ -239,6 +239,10 @@
   /method-aux     _
   /terminal       poison_administer
   /wound-site     torso
+  ; The corpse carries no violent mechanism - it reads as a natural death
+  ; (the body-truth vs town-story gap). Every other method defaults to
+  ; death_cause violence.
+  /death-cause    death_cause poisoning
   ; Poison was a prominent Victorian murder method, not a fringe one -
   ; cheap, covert (passes as natural death), and needing no strength, so it
   ; is the rational choice for the weak / female poisoner the strength gate
