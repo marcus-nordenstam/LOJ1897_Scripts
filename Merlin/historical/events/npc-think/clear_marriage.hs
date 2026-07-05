@@ -37,27 +37,26 @@
 
   (roles
     (role @self (template any_human))
-    (role ?spouse (template any_human) (believes {@self spouse ?spouse}) (prefer 1))
+    (role ?spouse (template any_human) (believes {@self spouse ?spouse}) (pick-first-matching-role))
     ; A covert lover (belief-query role filter: a lover who is not the spouse). The
     ; unmarried check is an opaque verb gate, so it lives in (when), not the filter.
     (role ?paramour (template any_human)
       (believes {@self lover ?paramour})
       (not (believes {@self spouse ?paramour}))
-      (prefer 1)))
+      (pick-first-matching-role)))
 
-  ; Dark floor + the lover must be free to marry + drive + propensity.
-  ; drive = attraction(lover) - warmth(spouse).
+  ; Dark floor + the lover must be free to marry + drive + propensity
+  ; (score_macros.hs: romantic-drive = attraction(lover) - warmth(spouse)).
   (when (and (>= (* (attr @self psychopathy) (attr @self machiavellianism)) 0.36)
              (not (is-married ?paramour))
-             (>= (- (stance-band ?paramour attraction) (stance-band ?spouse warmth)) 2)
+             (>= (romantic-drive ?paramour ?spouse) 2)
              (chance
                (* (crime-scale) 0.03
                   (* (attr @self psychopathy)
                      (* (attr @self machiavellianism)
-                        (* (- 1 (target {@self inhibition}))
-                           (* (- 1 (target {@self compassion}))
-                              (- (stance-band ?paramour attraction)
-                                 (stance-band ?spouse warmth))))))))))
+                        (* (disinhibition @self)
+                           (* (callousness @self)
+                              (romantic-drive ?paramour ?spouse)))))))))
 
   ; Agency fork (P(instigated) = 0.7 * machiavellianism, a schemer keeps clean hands).
   (effects

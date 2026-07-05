@@ -33,7 +33,7 @@
 
   (roles
     (role @self (template any_human))
-    (role ?spouse (template any_human) (believes {@self spouse ?spouse}) (prefer 1)))
+    (role ?spouse (template any_human) (believes {@self spouse ?spouse}) (pick-first-matching-role)))
 
   ; Misery gate (deep hatred OR abuse) + propensity. misery counts the two:
   ; hated = warmth band toward the spouse <= -2 (the detest band); abused = the
@@ -41,15 +41,15 @@
   ; (0.5 + psychopathy) * (1 - inhibition) * (1 - compassion) *
   ; (1 + spouse-wealth) * (1.5 if an unmarriageable lover waits else 1.0).
   (when (and (>= (years-old @self) 18)
-             (or (<= (stance-band ?spouse warmth) -2)
+             (or (detests ?spouse)
                  (believes {?spouse assault @self}))
              (chance
                (* (crime-scale) 0.02
-                  (* (+ (if (<= (stance-band ?spouse warmth) -2) 1 0)
+                  (* (+ (if (detests ?spouse) 1 0)
                         (if (believes {?spouse assault @self}) 1 0))
                      (* (+ 0.5 (attr @self psychopathy))
-                        (* (- 1 (target {@self inhibition}))
-                           (* (- 1 (target {@self compassion}))
+                        (* (disinhibition @self)
+                           (* (callousness @self)
                               (* (+ 1 (target {?spouse wealth}))
                                  (if (is-married (target {@self lover})) 1.5 1.0))))))))))
 

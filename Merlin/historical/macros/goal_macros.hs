@@ -7,8 +7,10 @@
 ; reads like any other belief - no bespoke C++ op. The read runs in @self's OWN
 ; mind (goals are self-authored; no telepathy).
 ;
-;   (has-goal ?action)   -> does @self hold a goal whose action is ?action?
-;   (goal-focus ?action) -> the focus entity of that goal (@fail if none).
+;   (has-goal ?action)            -> does @self hold a goal whose action is ?action?
+;   (has-goal-on ?action ?target) -> ... whose action is ?action AND whose focus
+;                                    IS ?target (the bound-inner-target form)?
+;   (goal-focus ?action)          -> the focus entity of that goal (@fail if none).
 ;
 ; These REPLACE the old C++ (has-goal) / (goal-focus) ops. The npc-act errands
 ; keep their readable `(has-goal X)` / `(goal-focus X)` call sites unchanged.
@@ -16,6 +18,9 @@
 
 (define-macro has-goal (?action)
   (believes {@self goal {@self ?action ?}}))
+
+(define-macro has-goal-on (?action ?target)
+  (believes {@self goal {@self ?action ?target}}))
 
 (define-macro goal-focus (?action)
   (target {@self goal {@self ?action ?}}))

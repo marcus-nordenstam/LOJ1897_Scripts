@@ -2,16 +2,14 @@
 ; staff_household.hs - domestic-service staffing of quality homes
 ; (see Docs/hsim/hsim_social.md "Households").
 ;
-; The `(generative-staffing)` flag dispatches to hse_engine.cc::
-; run_generative_staffing, which (per candidate, annually):
-;   1. requires the actor to OWN the quality home they live in (manor /
-;      townhouse - the household head; tenants and co-resident spouses skip),
-;   2. founds the `org household` establishment seated AT the home (its
-;      employee_register doubles as the servants' wage book) when none exists,
-;   3. fills vacant roster slots (manor: steward / cook / 2 maids / gardener;
-;      townhouse: cook / maid) from the jobless lower-class adult pool,
-;      acquainting each new servant with the head + spouse and seeding a
-;      temperament-fit warmth stance (the hostile-staff lever).
+; PURE .hs, three passes: THINK (a quality-home owner takes on the standing
+; staffing duty), FOUND (the head constitutes the `org household` seated AT
+; the home - its employee_register doubles as the servants' wage book), and
+; ACT (the head fills vacant roster slots via the (staff-household ?h)
+; construction verb - manor: steward / cook / 2 maids / gardener; townhouse:
+; cook / maid - from the jobless lower-class adult pool, acquainting each new
+; servant with the head + spouse and seeding a temperament-fit warmth stance,
+; the hostile-staff lever).
 ;
 ; The household is an ORDINARY org, so the establishment is inherited /
 ; dissolved with the rest of the estate by propagate_death, and servants are
@@ -76,17 +74,21 @@
 ; --- ACT: the head fulfils the duty - hires what the founded household lacks ---
 (hsim-event staff_household
   ; PER-NPC (long-term-think): the household head fulfils his standing staffing
-  ; duty once a month-window. The (generative-staffing) dispatch
-  ; (run_generative_staffing -> begin_generative_actor) reads @self, GATES on the
-  ; {@self goal {@self staff_household}} duty the think minted, then FILLS-TO-TARGET
-  ; (hsim::staff_household hires the shortfall once found_household has constituted
-  ; the org; no-ops while no articles exist and once full - self-throttles).
+  ; duty once a month-window. PURE .hs: the gate is the duty the think minted
+  ; plus ownership of the home (a co-resident spouse / tenant staffs nothing);
+  ; (staff-household ?h) then FILLS-TO-TARGET (hsim::staff_household hires the
+  ; shortfall once found_household has constituted the org; no-ops while no
+  ; articles exist and once full - self-throttles).
   (long-term-think)
   (rng-stream employment)
-  (generative-staffing)
 
   (roles
     (role @self (template any_human)
                 (believes {@self home ?})))
 
-  (when (>= (years-old @self) 21)))   ; non-belief age gate -> (when)
+  (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
+             (has-goal staff_household)                 ; the standing duty
+             (believes @self {@self home ?h})           ; BIND ?h = the home
+             (believes @self {@self own ?h})))          ; @self OWNS it (the head)
+
+  (effects (staff-household ?h)))

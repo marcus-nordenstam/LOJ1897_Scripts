@@ -1,24 +1,24 @@
 ; ----------------------------------------------------------------------------
-; coercion - the repeat-demand loop (see Docs/hsim/hsim_crime.md "Blackmail /
+; coercion.hs - the repeat-demand loop (see Docs/hsim/hsim_crime.md "Blackmail /
 ; coercion").
 ;
-; An actor holding a standing coercion anchor ({@self extort X /aux <demand>},
-; the ONGOING verb state the silence_coerce perpetration terminal mints - the
-; `coerce` TASK label commits as a point-interval act-record and would never
-; read back as standing) re-presses the demand monthly. The
-; `(generative-coercion)` flag dispatches to
-; hsim/hse_engine.cc::run_generative_coercion, which per anchor:
-;   1. ends it if the victim is dead, the demand is met (the coerced match -
-;      a substrate scar, no crime), or the secret has leaked into any third
-;      mind (published / confessed / intercepted / gossiped - spent leverage);
-;   2. else REFRESHES the victim's exposure_risk (mint_pressure compounds the
-;      salience, so the standing demand is what walks the victim from bribe /
-;      confess_letter toward the kill tail across ticks - no scripted
-;      escalation) and rides a blackmail note down the covert letter channel
-;      (interception or cache = the coercion evidence trail).
-;
-; Cast: any alive human holding at least one coerce anchor - the same cheap
-; existence-test shape attempt_harm uses for goals.
+; PURE .hs (no C++ generator). An actor holding a standing coercion anchor
+; ({@self extort X /aux <demand>}, the ONGOING verb state the silence_coerce
+; perpetration terminal mints - the `coerce` TASK label commits as a
+; point-interval act-record and would never read back as standing) re-presses
+; the demand monthly. The ?victim role has NO reducer, so the event fires once
+; per standing anchor - the multi-anchor walk the old C++ pass hand-rolled.
+; Per anchor:
+;   - a dead victim ends the matter;
+;   - a RELATIONSHIP demand (the anchor carries a demand clause) is MET when
+;     the victim now holds the lover or fiancee bond toward the actor (the
+;     coerced match - a substrate scar, no crime): the anchor ends. The
+;     demand-met read enters the victim's mind - the coerced bond is the
+;     visible outcome the coercer is watching for;
+;   - a demand-LESS (silence) coercion eventually loses its heat (0.10/month);
+;   - otherwise (press-coercion ?victim) (coercion_macros.hs): end on spent
+;     leverage, else refresh the victim's exposure_risk and ride the
+;     anonymous blackmail note down the covert letter channel.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -26,11 +26,26 @@
 (hsim-event coercion
   (long-term-think)
   (rng-stream perpetration)
-  (generative-coercion)
 
   (roles
-    (role @self (template any_human)))
+    (role @self (template any_human))
+    ; One firing per standing anchor: no (prefer) / (pick-first-matching-role).
+    (role ?victim (template any_human)
+      (believes {@self extort ?victim})))
 
-  ; coerce-anchor existence-test moved here from the @self role: a
-  ; (count-beliefs ...) comparison is a non-belief filter, illegal in a role.
-  (when (> (count-beliefs @self extort) 0)))
+  (effects
+    (if (not (alive ?victim))
+        (end-belief @self extort ?victim)
+        (do
+          ; The anchor's demand rides its AUX clause; no clause = a silence
+          ; coercion.
+          (bind (auxiliary {@self extort ?victim}) ?demand)
+          (if (is-clause ?demand)
+              ; Either bond satisfies a relationship demand.
+              (if (or (believes ?victim {?victim lover @self})
+                      (believes ?victim {?victim fiancee @self}))
+                  (end-belief @self extort ?victim)
+                  (press-coercion ?victim))
+              (if (chance 0.10)
+                  (end-belief @self extort ?victim)
+                  (press-coercion ?victim)))))))

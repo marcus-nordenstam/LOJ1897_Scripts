@@ -12,9 +12,9 @@
 ; clear-marriage / rid-of-spouse branches are betrayal_kill.hs / clear_marriage.hs
 ; / rid_of_spouse.hs). The selection that run_generative_obsession dispatched is
 ; expressed here:
-;   - (role ?beloved ... (believes {@self crave ?beloved}) (prefer 1)) binds ONE
-;     craved beloved (the object-cache filters the crave bucket; (prefer 1) picks
-;     one so a multi-crave obsessive strikes a single victim per tick);
+;   - (role ?beloved ... (believes {@self crave ?beloved})
+;     (pick-first-matching-role)) binds ONE craved beloved, so a multi-crave
+;     obsessive strikes a single victim per tick;
 ;   - (when ...) is the jealous-rage pre-gate (volatility + psychopathy, scaled by
 ;     disinhibition, at the 0.02 obsession base rate) PLUS (not (knows-affair @self))
 ;     - crave is the fallback, so a known betrayal routes to betrayal_kill.hs instead
@@ -38,21 +38,22 @@
 
   (roles
     (role @self (template any_human))
-    ; The craved beloved. The crave stance is the object-cache filter; (prefer 1)
-    ; binds ONE (a constant score - argmax keeps the first), so a multi-crave actor
-    ; strikes a single victim per tick (parity with the old first-viable walk).
+    ; The craved beloved. The crave stance is the object-cache filter;
+    ; pick-first-matching-role binds ONE, so a multi-crave actor strikes a
+    ; single victim per tick (parity with the old first-viable walk).
     (role ?beloved (template any_human)
       (believes {@self crave ?beloved})
-      (prefer 1)))
+      (pick-first-matching-role)))
 
   ; Jealous-rage pre-gate + the fallback guard. rage = mean(volatility, psychopathy);
   ; propensity = (1 - inhibition) * rage; fire at 0.02 * propensity. (knows-affair)
   ; keeps crave the FALLBACK: a discovered betrayal routes to betrayal_kill.hs.
+  ; The jealous-rage tail released by disinhibition, at the 0.02 base rate
+  ; (score_macros.hs); crave is the FALLBACK, so a known affair routes to
+  ; betrayal_kill.hs instead.
   (when (and (not (knows-affair @self))
              (chance (* (crime-scale) 0.02
-                        (* (- 1 (target {@self inhibition}))
-                           (* 0.5 (+ (attr @self volatility)
-                                     (attr @self psychopathy))))))))
+                        (dark-propensity @self (rage-disposition @self))))))
 
   ; crave-rival resolves the rival for the beloved (read in @self's own mind), else
   ; the beloved. /cause pins the crave belief - the obsessive signature.

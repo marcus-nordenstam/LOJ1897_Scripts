@@ -57,10 +57,9 @@
   ; propensity = (1 - inhibition) * lethal; fire at 0.005 * propensity, doubled for
   ; {@self life_aim power_aim} holders.
   (when (and (>= (years-old @self) 18)
-             (>= (* 0.5 (+ (attr @self psychopathy) (attr @self sadism))) 0.65)
+             (>= (lethal-disposition @self) 0.65)
              (chance (* (crime-scale) 0.005
-                        (* (* (- 1 (target {@self inhibition}))
-                              (* 0.5 (+ (attr @self psychopathy) (attr @self sadism))))
+                        (* (dark-propensity @self (lethal-disposition @self))
                            (if (believes {@self life_aim [k power_aim]}) 2.0 1.0))))))
 
   ; predation-target seeds the victim-type profile on the first hunt, then resolves

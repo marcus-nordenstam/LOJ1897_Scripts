@@ -1,0 +1,43 @@
+; ----------------------------------------------------------------------------
+; affair_macros.hs - shared covert-affair effect sequences.
+;
+; (covert-affair-motive ?paramour): the concealment gate - an affair conducts
+; itself covertly only when discovery has a price: a married side, a betrothed
+; side, or a cross-class pairing. An open same-class courtship between the
+; unattached needs no covert channel. Shared by the correspondence +
+; rendezvous conduct events.
+;
+; (tryst-tail ?paramour ?location): what EVERY consummated meeting leaves
+; behind, whatever the mode - the mutual attraction nudge, the consummation
+; roll's reciprocal punctual HAVE_SEX_WITH act-records (what the chastity
+; classifiers count once they leak), the optional hand-delivered tryst_note
+; naming the place (no interception surface; cached as detective paper at the
+; paramour's home), and the paramour's spouse's unexplained-absence suspicion
+; tick. The ACTOR-side absence tick stays with the caller - a hotel excursion
+; explains the actor's absence (the spouse was co-present), the other modes do
+; not.
+; ----------------------------------------------------------------------------
+
+(define-macro covert-affair-motive (?paramour)
+  (or (is-married @self) (is-married ?paramour)
+      (is-betrothed @self) (is-betrothed ?paramour)
+      (cross-class @self ?paramour)))
+
+(define-macro tryst-tail (?paramour ?location)
+  (do
+    ; The meeting advances the affair on both sides.
+    (nudge-stance @self ?paramour attraction 0.10)
+    (nudge-stance ?paramour @self attraction 0.10)
+    ; Consummation: not every affair is sexual.
+    (if (chance 0.60)
+        (do
+          (begin-ended-belief {@self HAVE_SEX_WITH ?paramour})
+          (begin-ended-belief ?paramour {?paramour HAVE_SEX_WITH @self})))
+    ; The hand-to-hand note naming the place (the aux is the 4th positional
+    ; pattern field: {@self meet <paramour> <location>}).
+    (if (and (chance 0.30) (is-entity (home-of ?paramour)))
+        (spawn-letter [k tryst_note]
+                      (msg {@self meet ?paramour ?location} signed)
+                      (home-of ?paramour)))
+    ; Unexplained absence: the paramour's spouse grows a little more suspicious.
+    (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)))

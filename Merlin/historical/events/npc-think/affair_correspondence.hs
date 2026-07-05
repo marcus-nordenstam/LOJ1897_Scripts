@@ -2,29 +2,24 @@
 ; affair_correspondence.hs - the letter channel of a covert affair
 ; (see Docs/hsim/hsim_social.md "Conduct channel 1: correspondence").
 ;
-; The `(generative-correspondence)` flag dispatches to hse_engine.cc::
-; run_generative_correspondence, which (per lover-holding adult, monthly):
-;   1. confirms the affair is COVERT (a third-party lover, with at least one
-;      side married - open courtships write no secret letters),
-;   2. picks a CHANNEL from the sender's substrate affordances:
-;        servant courier   - needs the sender's own household staff; the
-;                            carrying servant is the interception surface
-;        post, home-addr.  - always reachable (post office stands from 1700);
-;                            the recipient household's mail-handler is the
-;                            surface
-;        poste-restante    - a false-name box; needs middle/upper standing;
-;                            no surface until the alias is blown
-;   3. rolls interception per the surface servant's dislike of the cheater
-;      they serve (warmth stance band) - the Alice Yapp pattern: discovery
-;      correlates with hostile-staff households, never a flat telepathic roll,
-;   4. DELIVERED: the letter (writing = the affair fact {author lover
-;      recipient}) is hidden in the recipient's hiding_spot cache - the
-;      durable evidence trail (bounded per cache; later letters are burned),
-;      INTERCEPTED: the letter surfaces in hostile hands, the interceptor
-;      learns the affair and word is carried to the betrayed spouse; the
-;      gossip cascade spreads it from there. crime_of_passion /
-;      affair_fallout then consume the knowledge through the (now
-;      evidence-mediated) discover_affair.
+; PURE .hs (no C++ generator) - sibling of the other affair/motive events:
+;   - ?paramour is the actor's first live third-party lover (a lover who is
+;     not also a spouse - the actor's OWN beliefs, self-POV, no mind peek);
+;   - (when ...) is the CONCEALMENT motive - an affair conducts itself
+;     covertly only when discovery has a price: a married side, a betrothed
+;     side (the engaged party's match is at stake), or a cross-class pairing
+;     (the un-marriageable courtship whose exposure is the chastity /
+;     standing scandal - the Smith shape). An open same-class courtship
+;     between the unattached writes no secret letters. Plus the monthly
+;     writer rate (0.5);
+;   - (effects ...) composes the love letter - the writing IS the affair
+;     fact {@i lover (o [n paramour])}, SIGNED (love letters carry their
+;     author's name; reading one is discovering the affair) - and routes it
+;     down the covert channel: servant courier / home-addressed post /
+;     poste-restante, interception per the surface servant's dislike (the
+;     Alice Yapp pattern), delivery into the recipient's hiding-spot cache
+;     (the durable evidence trail). crime_of_passion / affair_fallout then
+;     consume the knowledge through the evidence-mediated discover_affair.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -32,14 +27,24 @@
 (hsim-event affair_correspondence
   (long-term-think)
   (rng-stream incidents)
-  (generative-correspondence)
 
   (roles
-    ;; SELF-POV: @self gates on his OWN standing lover bond (self-read); the C++
-    ;; generative pass stages the covert letter via human channels (servant courier
-    ;; / post / poste-restante), never a mind peek.
     (role @self (template any_human)
-                (believes {@self lover ?})))
+                (believes {@self lover ?}))
+    ; The paramour: a lover who is not also a spouse (the covert third party).
+    (role ?paramour (template any_human)
+      (believes {@self lover ?paramour})
+      (not (believes {@self spouse ?paramour}))
+      (pick-first-matching-role)))
 
-  ;; non-belief gate moved off the @self role: adult age check
-  (when (>= (years-old @self) 18)))
+  ; Adult floor, live paramour, the concealment motive (affair_macros.hs),
+  ; the monthly rate.
+  (when (and (>= (years-old @self) 18)
+             (alive ?paramour)
+             (covert-affair-motive ?paramour)
+             (chance 0.5)))
+
+  (effects
+    (route-covert-letter ?paramour
+                         (msg {@self lover ?paramour} signed)
+                         [k love_letter])))
