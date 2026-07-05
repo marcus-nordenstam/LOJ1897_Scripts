@@ -147,3 +147,87 @@
 ; ---- floor branches: always considered, absolute weights -------------------
 (floor    forgive             0.15)
 (floor    do_nothing          0.40)
+
+; ---- action categories: which bucket biases which action -------------------
+; The trait / mood bias rows below key on these buckets. An unlisted action
+; (steal / bribe / strive / suicide / confront_privately) biases neutrally.
+(category kill              aggressive)
+(category coerce            aggressive)
+(category expose            aggressive)
+(category threaten          aggressive)
+(category humiliate         aggressive)
+(category frame             aggressive)
+(category hurt              aggressive)
+(category seduce            aggressive)
+(category silence_witness   aggressive)
+(category forgive           prosocial)
+(category atone             prosocial)
+(category confess_in_person prosocial)
+(category confess_letter    prosocial)
+(category report_crime      prosocial)
+(category do_nothing        prosocial)
+(category withdraw          passive)
+(category flee              passive)
+(category mourn             passive)
+(category plead             passive)
+(category surrender         passive)
+(category replace           passive)
+(category expose_first      passive)
+
+; ---- trait biases: disposition tilts a category ----------------------------
+; (trait-bias <category> <dimension> self|attr <sign>): `self` reads the
+; {@self <dimension>} self-belief (Big Five aspects), `attr` the env attr
+; (the Dark Tetrad). Aggressive amplifies with dark traits / volatility,
+; dampens with politeness / compassion; prosocial inverts; passive rides
+; withdrawal against assertiveness.
+(trait-bias aggressive politeness       self -1)
+(trait-bias aggressive compassion       self -1)
+(trait-bias aggressive volatility       self  1)
+(trait-bias aggressive narcissism       attr  1)
+(trait-bias aggressive machiavellianism attr  1)
+(trait-bias aggressive psychopathy      attr  1)
+(trait-bias aggressive sadism           attr  1)
+(trait-bias prosocial  politeness       self  1)
+(trait-bias prosocial  compassion       self  1)
+(trait-bias prosocial  volatility       self -1)
+(trait-bias prosocial  narcissism       attr -1)
+(trait-bias prosocial  machiavellianism attr -1)
+(trait-bias prosocial  psychopathy      attr -1)
+(trait-bias prosocial  sadism           attr -1)
+(trait-bias passive    assertiveness    self -1)
+(trait-bias passive    withdrawal       self  1)
+
+; ---- mood biases: the transient in-the-moment overlay -----------------------
+(mood-bias aggressive stress      self  1)
+(mood-bias aggressive agitation   self  1)
+(mood-bias aggressive contentment self -1)
+(mood-bias prosocial  stress      self -1)
+(mood-bias prosocial  agitation   self -1)
+(mood-bias prosocial  contentment self  1)
+(mood-bias passive    stress      self  1)
+
+; ---- the master crime-scalar set --------------------------------------------
+; Every aggressive-category action is throttled by (crime-scale) implicitly;
+; these are the crimes OUTSIDE that category (they bias neutrally but must
+; still throttle).
+(crime-action steal)
+(crime-action bribe)
+
+; ---- material gates ----------------------------------------------------------
+; expose is reachable only with actual discreditable material (the
+; known-secret gate) - a material-less expose goal never mints.
+(requires-known-secret expose)
+
+; ---- lethal concentration ----------------------------------------------------
+; Concentrate the rare kill tail on the lethal-disposed: the kill branch is
+; multiplied by a centered exponential in mean(psychopathy, sadism) - 0.5
+; reads x1.0; floor 0.25 (a saint still rarely, but can, kill), cap 1.8.
+; A who-kills lever tuned so the overall murder rate barely moves.
+(lethal-concentration kill 4.0 0.25 1.8 psychopathy sadism)
+
+; ---- prize damping -----------------------------------------------------------
+; Nobody murders over a hand of whist: a rivalry kill is damped by the gravity
+; of the contested prize off the outdo cause - a parlour game a sliver, a
+; sport a long shot, a post or person full weight.
+(prize-damp rivalry_pressure kill game  0.02)
+(prize-damp rivalry_pressure kill sport 0.25)
