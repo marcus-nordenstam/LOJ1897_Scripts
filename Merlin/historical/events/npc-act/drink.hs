@@ -25,7 +25,19 @@
 (hsim-event drink_episode
   (schedule (completion-only))
   (effects
-    (get-drunk @self)
-    (risk-dependence @self)
+    ; Intoxication accumulates as a lifetime-drinking proxy (v1 - no decay);
+    ; the sobriety classifier reads the attr back. Locationless by design: pub
+    ; co-presence comes from the itinerary's vice/social routing, so no false
+    ; "drank at the Crown" whereabouts is minted here.
+    (set-attr @self intoxication (min 1 (+ (attr @self intoxication) 0.34)))
+    ; Dependence onset: only an established heavy drinker is at risk, scaled
+    ; by temperament - weak restraint (low industriousness) and negative-affect
+    ; self-medication (high withdrawal) raise the odds without making it a
+    ; destiny. The durable craving drive belief is idempotent at commit.
+    (if (and (>= (attr @self intoxication) 0.5)
+             (chance (* 0.06
+                        (+ 0.4 (* 1.6 (- 1 (attr @self industriousness))))
+                        (+ 0.6 (* 0.8 (attr @self withdrawal))))))
+        (begin-belief {@self craving [k alcohol]}))
     (end-goal {@self drink})
     ))

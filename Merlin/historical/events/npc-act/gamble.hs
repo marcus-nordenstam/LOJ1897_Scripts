@@ -20,6 +20,10 @@
 (hsim-event gamble_episode
   (schedule (completion-only))
   (effects
-    (gamble @self)
+    ; gambling_addiction is the standing DISPOSITION to gamble (a state, not
+    ; an act), accumulating exactly as intoxication does (~2 onsets to morbid);
+    ; the sobriety + wealth classifiers read it graded.
+    (set-attr @self gambling_addiction
+              (min 1 (+ (attr @self gambling_addiction) 0.5)))
     (end-goal {@self play_game})
     ))

@@ -20,6 +20,12 @@
 (hsim-event worship_episode
   (schedule (completion-only))
   (effects
-    (go-to-church @self)
+    ; The standing piety marker the classifier reads (v1 piety is binary;
+    ; idempotent at commit). Minted about the church the NPC is ACTUALLY at -
+    ; the churchgoing lane travelled them there, so this is real co-presence,
+    ; not a picked location.
+    (bind (current-building @self) ?church)
+    (if (is-entity ?church)
+        (begin-belief {@self worship ?church}))
     (end-goal {@self worship})
     ))

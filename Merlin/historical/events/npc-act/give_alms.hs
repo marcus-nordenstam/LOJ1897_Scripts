@@ -20,6 +20,9 @@
 (hsim-event alms_episode
   (schedule (completion-only))
   (effects
-    (give-alms @self)
+    ; A punctual {@self give <sum>} act-record (born ended - a begin would
+    ; leave the give ongoing forever and a later identical amount would trip
+    ; the self-act contradiction tripwire). The generosity classifier reads it.
+    (begin-ended-belief {@self give (random-int 10 100)})
     (end-goal {@self give_alms})
     ))
