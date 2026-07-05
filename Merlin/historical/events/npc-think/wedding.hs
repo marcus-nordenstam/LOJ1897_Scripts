@@ -36,5 +36,9 @@
   (when (and (believes {@self fiancee ?})
              (not (organizing-occasion [k wedding]))))
   (effects
-    (plan-wedding @self (target {@self fiancee}) 3 11 14)
+    ; The venue is the groom's same-town church; ~3 months' banns lead, an
+    ; 11-14h ceremony. plan-wedding stages the occasion (both principals
+    ; forced-attend, both circles invited).
+    (plan-wedding @self (target {@self fiancee})
+                  (pick-location @self [k building church]) 3 11 14)
     ))

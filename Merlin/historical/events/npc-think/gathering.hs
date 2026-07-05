@@ -62,4 +62,4 @@
   (roles
     (role @self (template grown)))
   (effects
-    (review-appointments @self)))
+    (review-appointments @self attend)))

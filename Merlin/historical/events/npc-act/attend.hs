@@ -48,12 +48,21 @@
 (hsim-event attend_episode
   (schedule (completion-only))
   (effects
-    ; If this was a WEDDING and the attendee is a principal, the marriage is made
-    ; here, at the church, by who showed up (no-op for any other occasion).
-    (formalize-wedding @self)
-    ; If the attendee is the HOST, appraise who came vs who was invited: a no-show's
-    ; standing with the host degrades (Item 6), and the invited records close.
-    (note-attendance @self)
+    ; If this was a WEDDING and the attendee is one of its principals, the
+    ; marriage is made HERE, at the church, by who showed up: end the
+    ; betrothal, spouse bond both sides, propagate (formalize-marriage). The
+    ; second principal to arrive fails the not-married gate - idempotent.
+    (bind (attend-occasion [k wedding]) ?wedding)
+    (if (and (is-entity ?wedding)
+             (believes {@self organize ?wedding})
+             (not (is-married @self))
+             (is-entity (target {@self fiancee})))
+        (formalize-marriage (target {@self fiancee})))
+    ; If the attendee is the HOST, appraise who came vs who was invited: a
+    ; no-show's standing with the host degrades - snub -0.15 base, deepened
+    ; +0.35 x prior warmth (a close friend's absence wounds more) - and the
+    ; invited records close.
+    (note-attendance @self 0.15 0.35)
     ; The wedding-MURDER terminal: a jealous ex who crashed the occasion and carries
     ; a kill goal strikes his rival if present (no-op for the ordinary guest).
     (strike-at-occasion @self)
