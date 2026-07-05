@@ -24,7 +24,7 @@
 (hsim-event primary_commit
   (schedule (completion-only))
   (effects
-    (enroll @self primary_school_curriculum)
+    (begin-belief {@self study [k primary_school_curriculum]})
     (end-goal {@self enrol_primary})
     ))
 
@@ -42,7 +42,7 @@
 (hsim-event secondary_commit
   (schedule (completion-only))
   (effects
-    (enroll @self secondary_school_curriculum)
+    (begin-belief {@self study [k secondary_school_curriculum]})
     (end-goal {@self enrol_secondary})
     ))
 
@@ -60,6 +60,19 @@
 (hsim-event university_commit
   (schedule (completion-only))
   (effects
-    (enroll-university @self)
+    ; The SUBJECT is interest-led (the class gate decided WHETHER you attend;
+    ; interest decides WHAT you read), falling back to a random discipline.
+    ; The primary / secondary curricula are tiers, not disciplines - excluded.
+    (bind (random-held-kind-target interest [k academic_field]
+                                   [k primary_school_curriculum]
+                                   [k secondary_school_curriculum]) ?led)
+    (if (is-kind ?led)
+        (begin-belief {@self study ?led})
+        (do
+          (bind (random-subkind [k academic_field]
+                                [k primary_school_curriculum]
+                                [k secondary_school_curriculum]) ?subject)
+          (if (is-kind ?subject)
+              (begin-belief {@self study ?subject}))))
     (end-goal {@self enrol_university})
     ))

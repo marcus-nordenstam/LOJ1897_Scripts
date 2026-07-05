@@ -34,7 +34,7 @@
 ;   enroll_secondary (12-14)    -> leave_secondary (>=17)   [secondary credential]
 ;   enroll_university (18-20)   -> graduate_university (>=22)[subject credential]
 ; The leave / graduate events are DETERMINISTIC at the tier's leaving age (the
-; age IS the gate, no chance jitter); (graduate ?pupil) reads the ongoing study
+; age IS the gate, no chance jitter); (graduate-from-study) reads the ongoing study
 ; and mints the tier credential, deriving the tier from the study target.
 ; ----------------------------------------------------------------------------
 
@@ -131,7 +131,7 @@
   (when (>= (years-old @self) 11))
 
   (effects
-    (graduate @self)
+    (graduate-from-study)
     ))
 
 ; --- leave_secondary: a secondary pupil finishes at ~17 ----------------------
@@ -146,7 +146,7 @@
   (when (>= (years-old @self) 17))
 
   (effects
-    (graduate @self)
+    (graduate-from-study)
     ))
 
 ; --- graduate_university: a degree is taken at ~22 ---------------------------
@@ -155,7 +155,7 @@
   (rng-stream behaviour)
 
   ; Any ongoing study at 22+ is a university degree (primary / secondary pupils
-  ; are <18 and have already left). graduate mints the subject credential
+  ; are <18 and have already left). graduate-from-study mints the subject credential
   ; {@self skilled_in <subject> trained}, feeding the S8 physician / lawyer /
   ; scholar identities + the prestige bump - the profession pipeline payoff.
   (roles
@@ -165,5 +165,5 @@
   (when (>= (years-old @self) 22))
 
   (effects
-    (graduate @self)
+    (graduate-from-study)
     ))

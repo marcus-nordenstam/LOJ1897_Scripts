@@ -59,7 +59,15 @@
              (chance (* 0.015 (+ 0.3 (attr @self politeness))))))
 
   (effects
-    (seed-interest-from-parents @self)
+    ; One novel domain copied off a parent's interests (a 50/50 pick when both
+    ; parents offer one) - the hobbies the child grows up around.
+    (bind (random-unheld-kind-target (target {@self mother}) interest interest) ?dm)
+    (bind (random-unheld-kind-target (target {@self father}) interest interest) ?df)
+    (bind (if (is-kind ?dm)
+              (if (and (is-kind ?df) (chance 0.5)) ?df ?dm)
+              ?df) ?d)
+    (if (is-kind ?d)
+        (begin-belief {@self interest ?d}))
     ))
 
 ; --- peer_propagation: a friend's enthusiasm rubs off -----------------------
@@ -72,13 +80,19 @@
   ; enthusiasm chance are non-belief ops -> (when).
   (roles
     (role @self (template any_human)
-                (believes {@self friend ?})))
+                (believes {@self friend ?}))
+    ; The friend whose enthusiasm rubs off - a uniform pick over the circle.
+    (role ?friend (template any_human)
+      (believes {@self friend ?friend})
+      (prefer 1) (policy weighted)))
 
   (when (and (>= (years-old @self) 8)
              (chance (* 0.0167 (attr @self openness) (+ 0.5 (attr @self enthusiasm))))))
 
   (effects
-    (seed-interest-from-friends @self)
+    (bind (random-unheld-kind-target ?friend interest interest) ?d)
+    (if (is-kind ?d)
+        (begin-belief {@self interest ?d}))
     ))
 
 ; --- mentor_inspired: an apprentice catches the master's craft --------------
@@ -96,7 +110,11 @@
   (when (chance (* 0.025 (+ 0.3 (attr @self openness)))))
 
   (effects
-    (seed-interest-from-mentor @self)
+    ; The master's craft becomes the apprentice's casual interest (which
+    ; interest_deepens can later raise to a skill of its own).
+    (bind (random-unheld-kind-target (target {@self master}) interest skilled_in calling) ?d)
+    (if (is-kind ?d)
+        (begin-belief {@self interest ?d}))
     ))
 
 ; --- temperament_drift: the residual openness-driven catch-all --------------
@@ -115,7 +133,11 @@
              (chance (* 0.0083 (attr @self openness) (attr @self openness)))))
 
   (effects
-    (acquire-interest @self)
+    ; A brand-new interest sampled off the whole domain axis (leaf-only, so a
+    ; category node is never picked); idempotent per domain at commit.
+    (bind (random-subkind [k domain]) ?d)
+    (if (is-kind ?d)
+        (begin-belief {@self interest ?d}))
     ))
 
 ; --- interest_lapses: an unskilled interest fades --------------------------
@@ -133,5 +155,10 @@
   (when (chance 0.0025))
 
   (effects
-    (lapse-interest @self)
+    ; Drop one interest never built into a skill (an overlapping skilled_in
+    ; domain is settled identity - exempt). Unforgettable: "I used to be keen
+    ; on botany" survives the sleep sweep as history.
+    (bind (random-unbacked-kind-target interest skilled_in) ?d)
+    (if (is-kind ?d)
+        (end-belief @self interest ?d unforgettable))
     ))

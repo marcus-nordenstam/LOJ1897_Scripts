@@ -1,0 +1,36 @@
+; ----------------------------------------------------------------------------
+; education_macros.hs - the schooling credential sequence (schooling.hs).
+;
+; (graduate-from-study): end the ongoing {@self study <curriculum>} interval
+; (unforgettable, so the schooling years survive as queryable history) and
+; mint / raise the {@self skilled_in <curriculum> <band>} credential - primary
+; graduates novice, everything above trained (the band that trips the
+; physician / lawyer / scholar identities + the prestige bump). MONOTONIC:
+; never downgrades a skill a job pushed higher (competence-rank compares the
+; held band). A studied UNIVERSITY SUBJECT (a discipline, not the primary /
+; secondary tier) also kindles a standing interest - it maintains the skill
+; against atrophy AND unlocks derive_calling (skilled_in >= trained AND an
+; interest), the educated-poisoner archetype's root. No-op when not enrolled.
+; ----------------------------------------------------------------------------
+
+(define-macro graduate-from-study ()
+  (do
+    (bind (target {@self study}) ?curriculum)
+    (if (is-kind ?curriculum)
+        (do
+          (bind (competence-rank (auxiliary {@self skilled_in ?curriculum})) ?cur_rank)
+          (bind (if (is-a ?curriculum [k primary_school_curriculum]) 1 0) ?is_primary)
+          (end-belief @self study ?curriculum unforgettable)
+          ; Monotonic credential (novice 0 / trained 1 / expert 2).
+          (if (< ?cur_rank (- 1 ?is_primary))
+              (do
+                (if (>= ?cur_rank 0)
+                    (end-belief @self skilled_in ?curriculum unforgettable))
+                (begin-belief {@self skilled_in ?curriculum
+                               (if (>= ?is_primary 1)
+                                   [k competence_level novice]
+                                   [k competence_level trained])})))
+          ; A university discipline kindles the standing interest.
+          (if (not (or (is-a ?curriculum [k primary_school_curriculum])
+                       (is-a ?curriculum [k secondary_school_curriculum])))
+              (begin-belief {@self interest ?curriculum}))))))
