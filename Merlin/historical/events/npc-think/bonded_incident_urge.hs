@@ -70,5 +70,13 @@
                         (+ 0.2 (value-rift @self ?victim))))))
 
   (effects
-    (urge @self ?victim atone)
+    ; Success = persuasiveness x deference x rift-term (the urged party's
+    ; compassion defers, half again for one's own parent, capped; a value
+    ; rift makes the demand land harder). The verb mints the urge clause in
+    ; both minds, rolls this, and on success mints the urged state.
+    (urge @self ?victim atone
+          (* (mean2 (attr @self assertiveness) (attr @self politeness))
+             (min 1 (* (attr ?victim compassion)
+                       (if (believes {@self child ?victim}) 1.5 1.0)))
+             (+ 0.3 (* 0.7 (value-rift @self ?victim)))))
     ))
