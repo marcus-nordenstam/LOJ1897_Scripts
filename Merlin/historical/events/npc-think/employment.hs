@@ -91,7 +91,10 @@
                 (believes {@self employer ?})))
 
   (effects
-    (review-own-staff @self)))
+    ; The boss's own decision policy: below 0.4 standing risks the sack at
+    ; 0.08/month per unit of gap; above 0.7 earns promotion consideration at
+    ; 0.12/month per unit. The goals feed sack_errand / promote_errand.
+    (review-own-staff @self sack 0.4 0.08 promote_staff 0.7 0.12)))
 
 ; --- retirement: an employed worker of 65+ leaves working life --------------
 ; SPLIT (Item 5, the great split): this event is now the npc-THINK - the decision

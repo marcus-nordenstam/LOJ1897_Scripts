@@ -28,7 +28,10 @@
 (hsim-event found_club_commit
   (schedule (completion-only))
   (effects
-    (roll-club-org-kind (bind ?clubkind))
+    ; The foundable-club catalog, ungated (0): clubs are not premises-gated -
+    ; a dry pool just no-ops the founding macro via its (if ?wp) guard.
+    (roll-org-kind (bind ?clubkind) 0
+                   [k org race_club] [k org athletic_club])
     (if ?clubkind (found-club-seq ?clubkind))
     (end-goal {@self found_club})
     ))

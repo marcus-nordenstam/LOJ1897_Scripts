@@ -43,7 +43,13 @@
     ; Roll a HOUSABLE business kind first (premises-aware: only kinds with a free
     ; building of their declared kind). If none can be housed right now, ?bizkind is
     ; a fail value and we found nothing this trip. No premises -> no founding -> no error.
-    (roll-business-org-kind (bind ?bizkind))
+    ; The foundable-business catalog, premises-gated (1): only a kind a free
+    ; building of its declared premises kind can house right now is rolled -
+    ; supply self-limits to what the authored level provides.
+    (roll-org-kind (bind ?bizkind) 1
+                   [k org grocer] [k org bookseller] [k org barbershop]
+                   [k org restaurant] [k org pawnbroker] [k org apothecary]
+                   [k org antiques_shop] [k org hotel])
     (if ?bizkind
       (do
         (fire /worker @self)
