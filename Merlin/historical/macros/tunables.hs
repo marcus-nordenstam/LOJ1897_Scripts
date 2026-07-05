@@ -34,3 +34,17 @@
 ; parish (immigration territory) sheds almost no one. Replaces the old
 ; homeostat_emigration "emigrate the oldest N by fiat" world valve.
 (define-macro population-pressure () (/ (alive-count) (homeostat_target_population)))
+
+; Deliberation inaction floor: the fixed weight of "forgive / do nothing" in the
+; act-vs-floor pick that follows the (select-joint ...) deliberation. The winner's
+; pressure-driven action score competes against this ONCE per fire, so a weak
+; pressure resolves to inaction and a strong one acts. Replaces the old per-branch
+; C++ floor rows + identity anchor.
+(define-macro deliberation_inaction_floor () 0.55)
+
+; Suicide despair gate: the act fires only when despair (= stress x (1 - contentment))
+; and withdrawal both clear these floors; the witnessed ideation is minted regardless.
+(define-macro suicide_despair_min    () 0.40)
+(define-macro suicide_withdrawal_min () 0.55)
+; The practice-marker window (days) the strive outlet stamps; read by skill atrophy.
+(define-macro skill_practice_window_days () 548)

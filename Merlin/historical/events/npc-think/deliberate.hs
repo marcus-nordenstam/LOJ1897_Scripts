@@ -1,33 +1,18 @@
 ; ----------------------------------------------------------------------------
-; deliberate.hse - Phase 10 Phase D Pivot A (2026-05-24).
+; deliberate.hs - the ONE deliberation event, event-ized.
 ;
-; The ONE deliberation event. Plan section 10.3c.
+; The actor's standing pressure stack x the (pressure-kind, action) affinity table
+; (deliberation_affinity.hs), reduced to ONE (pressure, action) pair by the joint
+; kernel op (select-joint (over-pressures ...) (table ...) ...). The per-pair weight
+; is (deliberation-score ...) - the term-free scorer over the loaded trait/mood/
+; lethal/prize/crime-scale data - times disinhibition. The winner's score then
+; competes ONCE against the inaction floor (forgive / do nothing); if the action
+; wins, its goal {@self <action> <focus>} is minted with the driving pressure as
+; /cause (the rap-sheet provenance).
 ;
-; There is no taxonomy of named deliberation events. Earlier drafts proposed
-; 7 (resolve_to_confess / resolve_on_a_secret / resolve_on_a_rival / ...);
-; each was a specific (pressure-kind, action-set) instantiation expressing
-; the same shape. That set is itself a finite taxonomy of story openings -
-; an actor whose pressure profile doesn't map cleanly to one of them never
-; deliberates. DELETED.
-;
-; The replacement: ONE event whose branches are NOT authored. They are
-; SYNTHESIZED at fire-time from the actor's standing pressure stack x the
-; affinity table in historical/config/deliberation.hsc. The branch-set
-; lives entirely outside this file - new pressures / new actions / new
-; affinities are .hsc rows, not new events.
-;
-; CAST FILTER: any alive human carrying a non-trivial standing pressure of
-; any kind. The (total-pressure-load ?actor) reader will land in the
-; next sub-PR; for PR-1 we sum a representative pressure kind directly.
-;
-; OUTCOME: synthesized at fire-time by the engine (see hsim/deliberation.cc
-; and hsim/hse_engine.cc::run_generative_deliberation). The (generative-
-; deliberation) flag tells the engine to take that path; the event must NOT
-; also author (effects ...) or (branches ...).
-;
-; PR-1 OUTPUT: a narrative entry "deliberate: <actor> -> <action>" per
-; fire. Follow-up PRs wire the chosen action to nested goal-belief minting
-; ({actor goal {actor <action> <focus>}}) and to action-pipeline consumers.
+; Replaces run_generative_deliberation (the C++ synthesizer). Deferred to the next
+; increment (noted): the suicide + strive inline outlets, and the displacement /
+; report-prop-fallback refinements.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -36,12 +21,28 @@
   (sim-window-start)
   (rng-stream deliberation)
 
-  ; CAST (section 19-21): the per-NPC window-start driver runs this for every living
-  ; NPC (@self); the synthesizer reads @self's OWN pressure stack. No role: @self is
-  ; always a living human, so the old (template any_human) gate was redundant. The
-  ; (has-pressure @self) gate is the cheap early-exit - only pressured NPCs run the
-  ; synthesizer. (A strength threshold via total-pressure-load was tried; it skipped
-  ; the CHEAP low-load NPCs and kept the expensive high-load ones, costing perf.)
+  ; Only pressured NPCs run the (expensive) joint reduction.
   (when (> (has-pressure @self) 0.0))
 
-  (generative-deliberation))
+  ; Sample ONE (pressure, action) pair, weighted by the full deliberation score.
+  ; ?pressure is the driving pressure belief (the goal's /cause); ?winscore is the
+  ; chosen pair's score, for the act-vs-inaction pick below.
+  (select-joint
+    (over-pressures ?pk ?focus ?pressure)
+    (table deliberation_affinity)
+    (bind pressure_kind ?rpk)
+    (bind action ?action)
+    (bind weight ?weight)
+    (bind-total ?total)
+    (score (* (deliberation-score ?pressure ?rpk ?action ?focus ?weight)
+              (disinhibition @self)))
+    (policy weighted))
+
+  ; The WHOLE candidate mass (?total) competes against the inaction floor - so the
+  ; act-vs-abstain rate reflects all viable branches, not just the one sampled winner
+  ; (?action). Acting mints the winner's goal; inaction does nothing.
+  (branches
+    (branch (weight ?total)
+      (effects (resolve-deliberation ?action ?focus ?pressure)))
+    (branch (weight (deliberation_inaction_floor))
+      (effects))))
