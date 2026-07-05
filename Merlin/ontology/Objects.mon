@@ -86,7 +86,7 @@ object (+ obs)
             # fluid inside it is the forensic proof.
             cup
             decanter
-            jewelry_box
+            jewelry_box         (facets valuable)
         accessory
             cufflink
             ring
@@ -229,11 +229,11 @@ object (+ obs)
         # mantel / grandfather clock is the classic time-of-death clue.
         timepiece
             wall_clock
-            mantel_clock
+            mantel_clock        (facets valuable)
             grandfather_clock
         # Decorative ornaments - inert scene dressing the detective searches.
         ornament
-            figurine
+            figurine            (facets valuable)
             painting
             mirror
             taxidermy
@@ -269,9 +269,9 @@ object (+ obs)
         # Tea / dinner services - class-signalling tableware (a silver service
         # marks an upper-class home).
         tableware
-            tea_set
-            silver_tea_service
-            china_service
+            tea_set             (facets valuable)
+            silver_tea_service  (facets valuable)
+            china_service       (facets valuable)
         # Parlour games. (`game` proper is a Concepts.mon activity object; these
         # are the physical play sets.)
         parlour_game
