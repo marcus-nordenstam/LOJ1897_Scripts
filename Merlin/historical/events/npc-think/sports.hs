@@ -29,5 +29,11 @@
   (rng-stream behaviour)
 
   (effects
-    (hold-sporting-events)
+    (hold-sporting-events
+      /sports                 club_sports
+      /jockey-age-min         (jockey_hire_age_min)
+      /jockey-age-max         (jockey_hire_age_max)
+      /trained-victory-weight (trained_victory_weight)
+      /training-window-days   (training_window_days)
+      /hire-position          apprentice)
     ))

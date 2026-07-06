@@ -93,3 +93,9 @@
 ; tables/household_staff.hs).
 (define-macro staff_hire_age_min () 16)
 (define-macro staff_hire_age_max () 55)
+
+; Sporting-meet model (the per-sport rows live in tables/club_sports.hs).
+(define-macro jockey_hire_age_min      () 16)
+(define-macro jockey_hire_age_max      () 45)
+(define-macro trained_victory_weight   () 3.0)  ; practice marker's edge in the victor roll
+(define-macro training_window_days     () 365)
