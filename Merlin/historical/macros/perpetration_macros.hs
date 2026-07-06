@@ -213,9 +213,61 @@
                             ?kin_home))))
     (end-goal {@self confess_letter})))
 
+; public_slight terminal (humiliate goal): the deliberated public put-down. The
+; EXISTING incident machinery does the landing - (incident-anchor) mints the act
+; anchor in BOTH minds (the victim's copy construes degrade_act: shame /
+; status_loss / humiliation via appraisal) and (witness-copresence) seeds any
+; bystanders (no-op when the pair is not co-present). Then discharge, the
+; ledger row, end-goal. A dead / self / kind-valued focus just ends the goal.
+; DELTA vs the old C++: the quoted BARB content (the hsim_barbs ladder) is not
+; carried - the anchor records the slight without the words - and with no barb
+; scan there is no wordless-fail path (the impotence ratchet retires with it).
+; Porting the barb ladder to .hs content macros is the follow-up that restores
+; the words.
+(define-macro terminal-humiliate (?victim ?goal)
+  (do
+    (if (and (is-entity ?victim) (alive ?victim) (not (= ?victim @self)))
+        (do
+          (incident-anchor @self public_humiliation ?victim)
+          (witness-copresence @self public_humiliation ?victim)
+          (bind (driving-pressure-of-goal ?goal) ?pressure)
+          (discharge-pressure ?pressure 0.75)
+          (crime-ledger-append @self ?victim public_humiliation humiliate @fail @fail)))
+    (end-goal {@self humiliate})))
+
+; file_report terminal (report_crime goal): the lawful channel - NOT a crime,
+; NO ledger row. The report needs a concrete self-wrong the victim actually
+; REMEMBERS: their own {@self stolen_from ?loot} discovery record (the theft-
+; discovery channel mints it; mere poverty or a witnessed brawl never files -
+; the old reportable_crime facet gate reduced to exactly the theft family in
+; practice, and stolen_from is its only surviving self-subject record). One
+; report per wronged party ({@self report_to_police <target>} is the dedupe
+; anchor), literacy required, and the crime_report_letter lands at the police
+; station: the suspect sentence when the goal names a live culprit, else the
+; loss itself. The goal ends regardless (the impulse passed).
+(define-macro terminal-report (?victim ?goal)
+  (do
+    (bind (target {@self stolen_from ?}) ?loot)
+    (if (and (can-write @self)
+             (is-entity ?loot)
+             (not (believes {@self report_to_police (if (is-entity ?victim) ?victim ?loot)})))
+        (do
+          (begin-belief {@self report_to_police (if (is-entity ?victim) ?victim ?loot)})
+          (bind (find-building [k police_station]) ?station)
+          (if (alive ?victim)
+              (do
+                (begin-belief {@self suspect ?victim})
+                (if (is-entity ?station)
+                    (spawn-letter [k crime_report_letter]
+                                  (msg {@self suspect ?victim}) ?station)))
+              (if (is-entity ?station)
+                  (spawn-letter [k crime_report_letter]
+                                (msg {@self stolen_from ?loot}) ?station)))))
+    (end-goal {@self report_crime})))
+
 ; Dispatch the select-joint winner (?terminal from the perpetration_terminals row)
-; to its terminal body. ONE arm per event-ized terminal; the C++ generative loop
-; still owns every terminal not listed here (and skips this goal, so no double-fire).
+; to its terminal body. ONE arm per event-ized terminal. Every terminal is .hs
+; now - the C++ generative loop is retired (step 6).
 (define-macro resolve-perpetration-terminal (?terminal ?victim ?action ?goal)
   (if (= ?terminal pay_off)         (terminal-pay-off ?victim ?goal)
   (if (= ?terminal harm_non_lethal) (terminal-harm-non-lethal ?victim ?goal)
@@ -223,4 +275,6 @@
   (if (= ?terminal silence_coerce)  (terminal-silence-coerce ?victim ?goal)
   (if (= ?terminal publish_secret)  (terminal-publish-secret ?victim ?goal)
   (if (= ?terminal consummate)      (terminal-consummate ?victim ?goal)
-  (if (= ?terminal confess_secret)  (terminal-confess ?goal)))))))))
+  (if (= ?terminal confess_secret)  (terminal-confess ?goal)
+  (if (= ?terminal public_slight)   (terminal-humiliate ?victim ?goal)
+  (if (= ?terminal file_report)     (terminal-report ?victim ?goal)))))))))))

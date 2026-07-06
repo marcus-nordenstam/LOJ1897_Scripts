@@ -30,4 +30,10 @@
   (record seduce consummate)
   ; confess_letter goal -> confess_secret terminal (the liaison confessed to kin;
   ; the confession_letter spawns at the kin's home; kills blackmail leverage).
-  (record confess_letter confess_secret))
+  (record confess_letter confess_secret)
+  ; humiliate goal -> public_slight terminal (the two-sided incident anchor +
+  ; witnesses; degrade_act construals on the victim's copy).
+  (record humiliate public_slight)
+  ; report_crime goal -> file_report terminal (the lawful channel - no ledger
+  ; row; the crime_report_letter is the PLAYER's case feed).
+  (record report_crime file_report))
