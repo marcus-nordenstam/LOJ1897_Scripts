@@ -48,3 +48,17 @@
 (define-macro suicide_withdrawal_min () 0.55)
 ; The practice-marker window (days) the strive outlet stamps; read by skill atrophy.
 (define-macro skill_practice_window_days () 548)
+
+; Covert-letter channel model (route-covert-letter's authored knobs; composed
+; by send-covert-letter in affair_macros.hs). Channel weights are relative -
+; the courier needs the sender's own staff, poste-restante needs standing, so
+; either may zero out at routing time and the rest renormalize.
+(define-macro covert_w_courier          () 0.35)
+(define-macro covert_w_post             () 0.45)
+(define-macro covert_w_poste            () 0.20)
+(define-macro covert_intercept_courier  () 0.10)  ; the carrying servant reads it
+(define-macro covert_intercept_post     () 0.06)  ; recipient household mail-handler
+(define-macro covert_dislike_gain       () 1.5)   ; x per negative warmth band
+(define-macro covert_suspicion_gain     () 1.0)   ; passive-roll multiplier per unit
+(define-macro covert_intercept_cap      () 0.5)
+(define-macro covert_handling_suspicion () 0.06)  ; a strange hand on the post, again

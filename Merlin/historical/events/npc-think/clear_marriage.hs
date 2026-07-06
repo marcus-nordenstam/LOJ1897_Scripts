@@ -74,6 +74,6 @@
           ; into their mind), and conspiracy_adoption.hs decides whether they take
           ; up the deed - no telepathy, and an intercepted letter means the lover
           ; never learns of the plot at all.
-          (route-covert-letter ?paramour (msg {@self urge {?paramour kill ?spouse}} signed) [k letter]))
+          (send-covert-letter ?paramour (msg {@self urge {?paramour kill ?spouse}} signed) [k letter]))
         ; DIRECT: the cheater acts alone.
         (begin-goal {@self kill ?spouse} /cause {@self lover ?paramour}))))

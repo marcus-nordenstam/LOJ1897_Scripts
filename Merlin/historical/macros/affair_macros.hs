@@ -41,3 +41,17 @@
                       (home-of ?paramour)))
     ; Unexplained absence: the paramour's spouse grows a little more suspicious.
     (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)))
+
+; Route one covert letter with the authored channel model (tunables.hs). The
+; ONE way content should call the routing verb - the C++ carries no defaults.
+(define-macro send-covert-letter (?to ?msg ?kind)
+  (route-covert-letter ?to ?msg ?kind
+    /w-courier          (covert_w_courier)
+    /w-post             (covert_w_post)
+    /w-poste            (covert_w_poste)
+    /intercept-courier  (covert_intercept_courier)
+    /intercept-post     (covert_intercept_post)
+    /dislike-gain       (covert_dislike_gain)
+    /suspicion-gain     (covert_suspicion_gain)
+    /intercept-cap      (covert_intercept_cap)
+    /handling-suspicion (covert_handling_suspicion)))

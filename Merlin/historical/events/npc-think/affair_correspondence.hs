@@ -45,6 +45,6 @@
              (chance 0.5)))
 
   (effects
-    (route-covert-letter ?paramour
+    (send-covert-letter ?paramour
                          (msg {@self lover ?paramour} signed)
                          [k love_letter])))
