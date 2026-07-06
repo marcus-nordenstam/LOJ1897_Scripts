@@ -53,10 +53,85 @@
     (end-goal {@self frame})
     (crime-ledger-append @self ?victim plant_evidence frame @fail @fail)))
 
+; silence_coerce terminal (coerce goal): the threat is EXECUTED. The act anchor {@self
+; <method> <victim>} (the method is the leaf recorded), the pressure discharged, the
+; goal ended, the ACTOR-side standing {@self extort <victim>} anchor established (the
+; existing coercion refresh press-coercion re-presses + composes the demand note off
+; it), the TARGET-side threat delivered (deliver-coercion-threat mints the victim's
+; threat record + {actor extort @self} + exposure_risk pressure), and the ledger row.
+; TWO methods share this terminal: blackmail needs LEVERAGE (a known liaison / a
+; blackmailable act) - threaten_violence needs none, so a material-less coercer threatens.
+; DEFERRED: the jilted-lover demand clause on the actor-side extort /aux (press-coercion
+; composes its own demand note, so the terminal need not).
+(define-macro coerce-blackmail (?victim ?goal)
+  (do
+    (begin-belief {@self blackmail ?victim})
+    (bind (driving-pressure-of-goal ?goal) ?pressure)
+    (discharge-pressure ?pressure 0.75)
+    (end-goal {@self coerce})
+    (if (not (believes {@self extort ?victim})) (begin-belief {@self extort ?victim}))
+    (deliver-coercion-threat ?victim blackmail)
+    (crime-ledger-append @self ?victim blackmail coerce @fail @fail)))
+
+(define-macro coerce-threaten (?victim ?goal)
+  (do
+    (begin-belief {@self threaten_violence ?victim})
+    (bind (driving-pressure-of-goal ?goal) ?pressure)
+    (discharge-pressure ?pressure 0.75)
+    (end-goal {@self coerce})
+    (if (not (believes {@self extort ?victim})) (begin-belief {@self extort ?victim}))
+    (deliver-coercion-threat ?victim threaten_violence)
+    (crime-ledger-append @self ?victim threaten_violence coerce @fail @fail)))
+
+(define-macro terminal-silence-coerce (?victim ?goal)
+  (if (holds-coercion-material ?victim)
+      (if (chance 0.42) (coerce-blackmail ?victim ?goal) (coerce-threaten ?victim ?goal))
+      (coerce-threaten ?victim ?goal)))
+
+; publish_secret terminal (expose goal): the secret MOVES from private to reputed. Gated
+; on @self knowing a non-spousal liaison of the victim (nothing to denounce otherwise -
+; no act, the goal stays standing). The act anchor {@self <method> <victim>}, the pressure
+; discharged, the goal ended, any standing extort anchor ended (a published secret is
+; spent leverage), the gossip cascade launched (publish-secret-about seeds the victim's
+; own circle; the scandal-gossip amplifies village-wide), and the ledger row. TWO methods:
+; anonymous_letter needs literacy (can-write); confront_publicly does not. DEFERRED (fold
+; in later): the quoted {victim lover partner} speech content on the confront TELL, the
+; anonymous letter physically posted to an authority (spouse / father), and the victim
+; learning they were exposed - the essential publication (gossip + ledger) is here.
+(define-macro expose-confront (?victim ?goal)
+  (do
+    (begin-belief {@self confront_publicly ?victim})
+    (bind (driving-pressure-of-goal ?goal) ?pressure)
+    (discharge-pressure ?pressure 0.75)
+    (end-goal {@self expose})
+    (if (believes {@self extort ?victim}) (end-belief @self extort ?victim))
+    (publish-secret-about @self ?victim)
+    (crime-ledger-append @self ?victim confront_publicly expose @fail @fail)))
+
+(define-macro expose-anon (?victim ?goal)
+  (do
+    (begin-belief {@self anonymous_letter ?victim})
+    (bind (driving-pressure-of-goal ?goal) ?pressure)
+    (discharge-pressure ?pressure 0.75)
+    (end-goal {@self expose})
+    (if (believes {@self extort ?victim}) (end-belief @self extort ?victim))
+    (publish-secret-about @self ?victim)
+    (crime-ledger-append @self ?victim anonymous_letter expose @fail @fail)))
+
+(define-macro terminal-publish-secret (?victim ?goal)
+  (do
+    (bind (known-nonspousal-liaison ?victim) ?partner)
+    (if (is-entity ?partner)
+        (if (and (can-write @self) (chance 0.4))
+            (expose-anon ?victim ?goal)
+            (expose-confront ?victim ?goal)))))
+
 ; Dispatch the select-joint winner (?terminal from the perpetration_terminals row)
 ; to its terminal body. ONE arm per event-ized terminal; the C++ generative loop
 ; still owns every terminal not listed here (and skips this goal, so no double-fire).
 (define-macro resolve-perpetration-terminal (?terminal ?victim ?action ?goal)
   (if (= ?terminal pay_off)         (terminal-pay-off ?victim ?goal)
   (if (= ?terminal harm_non_lethal) (terminal-harm-non-lethal ?victim ?goal)
-  (if (= ?terminal plant_evidence)  (terminal-plant-evidence ?victim ?goal)))))
+  (if (= ?terminal plant_evidence)  (terminal-plant-evidence ?victim ?goal)
+  (if (= ?terminal silence_coerce)  (terminal-silence-coerce ?victim ?goal)
+  (if (= ?terminal publish_secret)  (terminal-publish-secret ?victim ?goal)))))))

@@ -21,4 +21,8 @@
   ; hurt goal -> harm_non_lethal terminal (a beating; mint-only + a bruise).
   (record hurt harm_non_lethal)
   ; frame goal -> plant_evidence terminal (mint-only + a planted blood_stain).
-  (record frame plant_evidence))
+  (record frame plant_evidence)
+  ; coerce goal -> silence_coerce terminal (threaten / blackmail; extort anchor + threat).
+  (record coerce silence_coerce)
+  ; expose goal -> publish_secret terminal (confront / anonymous letter; gossip cascade).
+  (record expose publish_secret))
