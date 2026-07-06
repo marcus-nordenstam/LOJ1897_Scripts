@@ -126,6 +126,33 @@
             (expose-anon ?victim ?goal)
             (expose-confront ?victim ?goal)))))
 
+; consummate terminal (seduce goal): the deliberated seduction lands. Period-norm
+; gates first (opposite-sex + non-kin, mirroring every romance genesis - a seduce goal
+; targets a pressure focus, which could be anyone; without the gates the consummation
+; minted same-sex / sibling `lover` bonds the marriage pipeline then consumed). On a
+; pass: the seduction act anchor, the pressure discharged, the goal ended, reciprocal
+; `lover` + punctual HAVE_SEX_WITH records on both minds, and - for a seduced UNMARRIED
+; woman - the lifelong {@self prototype fallen_woman} ruin (shuts her out of respectable
+; courtship). Blocked (same-sex / kin): the goal just ends, the impulse spent. NOT a
+; crime with a victim in the moral sense, but a crime-ledger row records the act.
+(define-macro terminal-consummate (?victim ?goal)
+  (if (and (not (= (attr @self gender) (attr ?victim gender)))
+           (not (blood-kin @self ?victim)))
+      (do
+        (begin-belief {@self seduction ?victim})
+        (bind (driving-pressure-of-goal ?goal) ?pressure)
+        (discharge-pressure ?pressure 0.75)
+        (end-goal {@self seduce})
+        (begin-belief {@self lover ?victim})
+        (begin-ended-belief {@self HAVE_SEX_WITH ?victim})
+        (begin-belief ?victim {?victim lover @self})
+        (begin-ended-belief ?victim {?victim HAVE_SEX_WITH @self})
+        (if (and (= (attr ?victim gender) [k female])
+                 (not (believes {?victim spouse ?})))
+            (begin-belief ?victim {?victim prototype [k fallen_woman]}))
+        (crime-ledger-append @self ?victim seduction seduce @fail @fail))
+      (end-goal {@self seduce})))
+
 ; Dispatch the select-joint winner (?terminal from the perpetration_terminals row)
 ; to its terminal body. ONE arm per event-ized terminal; the C++ generative loop
 ; still owns every terminal not listed here (and skips this goal, so no double-fire).
@@ -134,4 +161,5 @@
   (if (= ?terminal harm_non_lethal) (terminal-harm-non-lethal ?victim ?goal)
   (if (= ?terminal plant_evidence)  (terminal-plant-evidence ?victim ?goal)
   (if (= ?terminal silence_coerce)  (terminal-silence-coerce ?victim ?goal)
-  (if (= ?terminal publish_secret)  (terminal-publish-secret ?victim ?goal)))))))
+  (if (= ?terminal publish_secret)  (terminal-publish-secret ?victim ?goal)
+  (if (= ?terminal consummate)      (terminal-consummate ?victim ?goal))))))))

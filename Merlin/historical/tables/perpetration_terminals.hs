@@ -25,4 +25,6 @@
   ; coerce goal -> silence_coerce terminal (threaten / blackmail; extort anchor + threat).
   (record coerce silence_coerce)
   ; expose goal -> publish_secret terminal (confront / anonymous letter; gossip cascade).
-  (record expose publish_secret))
+  (record expose publish_secret)
+  ; seduce goal -> consummate terminal (reciprocal lover + HAVE_SEX_WITH; fallen_woman).
+  (record seduce consummate))
