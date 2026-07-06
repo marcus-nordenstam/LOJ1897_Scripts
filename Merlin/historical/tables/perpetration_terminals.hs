@@ -17,4 +17,8 @@
   (fields action terminal)
 
   ; bribe goal -> pay_off terminal (cash transfer; a pure mint-only act + ledger row).
-  (record bribe pay_off))
+  (record bribe pay_off)
+  ; hurt goal -> harm_non_lethal terminal (a beating; mint-only + a bruise).
+  (record hurt harm_non_lethal)
+  ; frame goal -> plant_evidence terminal (mint-only + a planted blood_stain).
+  (record frame plant_evidence))
