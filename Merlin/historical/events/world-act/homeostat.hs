@@ -29,6 +29,6 @@
   (when (< ?pressure (homeostat_immigration_pressure)))
 
   (effects
-    (spawn-immigrant ?count)
+    (spawn-immigrant-wave ?count)
     )
 )

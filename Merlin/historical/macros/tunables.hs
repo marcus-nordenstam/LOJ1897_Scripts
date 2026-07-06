@@ -62,3 +62,29 @@
 (define-macro covert_suspicion_gain     () 1.0)   ; passive-roll multiplier per unit
 (define-macro covert_intercept_cap      () 0.5)
 (define-macro covert_handling_suspicion () 0.06)  ; a strange hand on the post, again
+
+; The immigrant-wave model (spawn-immigrant's authored knobs; the row data -
+; ranks / origins / marginal jobs - lives in tables/immigrant_tables.hs).
+(define-macro immigrant_female_frac        () 0.5)
+(define-macro immigrant_marginal_frac      () 0.30)  ; arrive socially invisible
+(define-macro immigrant_military_frac      () 0.20)  ; of MALE immigrants
+(define-macro immigrant_still_serving_frac () 0.20)  ; of those, still in uniform
+(define-macro immigrant_swordsman_frac     () 0.25)  ; blade vs musket
+(define-macro immigrant_age_min            () 18)
+(define-macro immigrant_age_max            () 32)
+
+; One immigrant wave with the full authored model - the ONE way content
+; should call the spawn verb (no C++ defaults).
+(define-macro spawn-immigrant-wave (?count)
+  (spawn-immigrant ?count
+    /female-frac        (immigrant_female_frac)
+    /marginal-frac      (immigrant_marginal_frac)
+    /military-frac      (immigrant_military_frac)
+    /still-serving-frac (immigrant_still_serving_frac)
+    /swordsman-frac     (immigrant_swordsman_frac)
+    /age-min            (immigrant_age_min)
+    /age-max            (immigrant_age_max)
+    /class              lower
+    /ranks              immigrant_ranks
+    /origins            immigrant_origins
+    /marginal-jobs      immigrant_marginal_jobs))
