@@ -91,4 +91,7 @@
              (believes @self {@self home ?h})           ; BIND ?h = the home
              (believes @self {@self own ?h})))          ; @self OWNS it (the head)
 
-  (effects (staff-household ?h)))
+  (effects (staff-household ?h
+             /slots   household_staff_slots
+             /age-min (staff_hire_age_min)
+             /age-max (staff_hire_age_max))))

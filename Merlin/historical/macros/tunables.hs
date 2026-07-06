@@ -88,3 +88,8 @@
     /ranks              immigrant_ranks
     /origins            immigrant_origins
     /marginal-jobs      immigrant_marginal_jobs))
+
+; Household staffing hire-age window (the staff slots themselves live in
+; tables/household_staff.hs).
+(define-macro staff_hire_age_min () 16)
+(define-macro staff_hire_age_max () 55)
