@@ -44,3 +44,9 @@
             (begin-goal {@self hurt ?sub}   /cause ?pressure)
             (begin-goal {@self kill ?focus} /cause ?pressure)))
       (begin-goal {@self ?action ?focus} /cause ?pressure)))))
+
+; (has-pressure ?actor): does ?actor hold ANY ongoing pressure belief? Folds the
+; old C++ (has-pressure) op - its body was a first-ongoing {?actor pressure ?}
+; bucket walk (has_any_ongoing_pressure), i.e. exactly this pattern existence.
+(define-macro has-pressure (?actor)
+  (believes {?actor pressure ?}))

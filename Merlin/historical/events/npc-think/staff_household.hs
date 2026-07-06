@@ -37,7 +37,7 @@
     (role @self (template any_human)))
 
   (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
-             (in-season winter)                        ; once a year - duty is standing
+             (or (in-month 12) (in-month 1) (in-month 2)) ; winter, once a year
              (not (has-goal staff_household))          ; mint once, then skip
              (believes @self {@self home ?h})          ; BIND ?h = the home
              (believes @self {@self own ?h})           ; @self OWNS that home (the head)

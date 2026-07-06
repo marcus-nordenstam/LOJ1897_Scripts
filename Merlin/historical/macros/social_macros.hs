@@ -57,3 +57,9 @@
 ; in stance_verb_label() (src/lib/mental/reasoning/shared_functions/appraisal.cc).
 (define-macro is-attracted-to (?who ?other)
   (believes {?who fancy|desire|crave ?other}))
+
+; (can-write ?actor): is ?actor literate? Folds the old C++ op - the actor's own
+; `education` belief (a 0..1 float) vs the 0.30 literacy floor (the threshold is
+; now authored here, not a C++ constant).
+(define-macro can-write (?actor)
+  (>= (target {?actor education}) 0.30))

@@ -41,3 +41,9 @@
 (define-macro at-place-kind (?kind)
   (and (bind {@self location ?room})
        (bind {?room building ?kind:?bldg})))
+
+; (can-drink ?actor): is ?actor AT a pub? (drinking to excess is a pub activity;
+; the craver elsewhere must first travel to one). Folds the old C++ op -
+; building_of_location(current_location) is-a pub.
+(define-macro can-drink (?actor)
+  (is-a (current-building ?actor) [k building pub]))
