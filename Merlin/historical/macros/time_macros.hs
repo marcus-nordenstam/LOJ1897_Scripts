@@ -39,3 +39,9 @@
   (if (<= (- (* ?end 60) (now-min)) 0)
       (+ (- (* ?end 60) (now-min)) 1440)
       (- (* ?end 60) (now-min))))
+
+; (work-hours-today-label): the {job <label> start end} shift-belief label for
+; today's weekday. Folds the old C++ 7-entry map into a (lookup) over the
+; weekday_hours_label table (lookup_tables.hs).
+(define-macro work-hours-today-label ()
+  (lookup weekday_hours_label weekday (now-weekday) label))

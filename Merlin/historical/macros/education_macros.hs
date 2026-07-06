@@ -34,3 +34,9 @@
           (if (not (or (is-a ?curriculum [k primary_school_curriculum])
                        (is-a ?curriculum [k secondary_school_curriculum])))
               (begin-belief {@self interest ?curriculum}))))))
+
+; (competence-rank ?band): the monotonic rank of a competence band (novice 0 /
+; trained 1 / expert 2), -1 when unheld. Folds the old C++ op into a (lookup)
+; over the band_rank table (lookup_tables.hs).
+(define-macro competence-rank (?band)
+  (lookup band_rank band ?band rank -1))
