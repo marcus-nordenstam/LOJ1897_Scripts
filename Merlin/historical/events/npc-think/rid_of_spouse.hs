@@ -35,6 +35,11 @@
     (role @self (template any_human))
     (role ?spouse (template any_human) (believes {@self spouse ?spouse}) (pick-first-matching-role)))
 
+  ; The actor's lover, bound once (an unmarriageable - already-married - lover
+  ; waiting raises the propensity). Bound at top-level so (is-married ?lover)
+  ; below takes a plain ?var (a macro arg cannot carry an op-expr into a pattern).
+  (bind (target {@self lover}) ?lover)
+
   ; Misery gate (deep hatred OR abuse) + propensity. misery counts the two:
   ; hated = warmth band toward the spouse <= -2 (the detest band); abused = the
   ; spouse holds an assault record against the actor. propensity = misery *
@@ -51,7 +56,7 @@
                         (* (disinhibition @self)
                            (* (callousness @self)
                               (* (+ 1 (target {?spouse wealth}))
-                                 (if (is-married (target {@self lover})) 1.5 1.0))))))))))
+                                 (if (is-married ?lover) 1.5 1.0))))))))))
 
   ; /cause: the held detest belief, else dislike, else the spouse-wealth belief.
   (effects

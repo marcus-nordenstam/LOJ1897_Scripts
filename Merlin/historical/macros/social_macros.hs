@@ -24,10 +24,23 @@
 (define-macro personally-knows (?who ?other)
   (believes {?who friend|acquaintance|spouse|lover|mother|father|sibling|child|talk_to ?other}))
 
-; (is-married ?p): does ?p have a living spouse? Folds the old C++ (is-married)
-; op into (spouse-of ?p) (its whole body was first_live_spouse_of().is_object()).
+; (spouse-of ?p): who @self believes ?p is married to. The old C++ op read ?p's
+; OWN mind (telepathy - you cannot see another's private spouse belief); this
+; reads the ASKER's own knowledge of ?p's marriage. Every call site is @self
+; (own spouse - self-knowledge) or the asker's paramour (you know your lover is
+; married), so the knowledge is present. present-tense, so a widow(er) reads
+; @fail (propagate-death ends the spouse belief everywhere it propagated).
+(define-macro spouse-of (?p)
+  (target {?p spouse ?}))
+
+; (is-married ?p): does @self believe ?p has a spouse? Composes spouse-of.
 (define-macro is-married (?p)
   (is-entity (spouse-of ?p)))
+
+; (is-betrothed ?p): does @self believe ?p holds a fiancee bond? Asker's-own-
+; knowledge, same anti-telepathy fix as spouse-of (the old op read ?p's mind).
+(define-macro is-betrothed (?p)
+  (is-entity (target {?p fiancee ?})))
 
 ; (blood-kin ?who ?other): does ?who hold ANY consanguinity bond to ?other - the
 ; courtship / crush / affair blood-relative exclusion (used as `(not (blood-kin
