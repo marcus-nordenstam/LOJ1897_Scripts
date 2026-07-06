@@ -555,78 +555,6 @@
 (item-price hammer          2)
 (item-price rope            1)
 
-; ============================================================================
-; KILL-METHOD COST MODEL (the commitment reframe). Once a month each would-be
-; killer scores every NON-deferred method for a victim and COMMITS to the
-; cheapest; the place lane then fires that method ONLY at its occasion (so a
-; poisoner waits for a meal instead of being dragged into a night attack). All
-; the numbers below are KNOBS - tune here, no recompile.
-;
-;   cost = w_opp*O + w_req*R + w_exec*E + w_aversion*A + w_exposure*X
-;     O  opportunity - the co-presence the method's occasion needs, by relationship
-;     R  requirement - getting the instrument (toxin / firearm; blades are cheap)
-;     E  execution   - strength deficit (read from the method's /strength-demand)
-;                      + skill miss (an unskilled shot is dear)
-;     A  aversion    - personality recoil from the method's nature
-;     X  exposure    - getting caught, scaled by the killer's machiavellianism
-; Lowest cost wins; ties within `near-tie-band` are sampled (any will do).
-; ============================================================================
-
-(cost-weight opportunity 1.0)
-(cost-weight requirement 1.0)
-(cost-weight execution   1.0)
-(cost-weight aversion    1.0)
-(cost-weight exposure    1.0)
-(cost-knob   near-tie-band   0.15)   ; fraction of the min cost counted a "tie"
-(cost-knob   exec-skill-miss 0.40)   ; execution penalty for an unskilled skill-method
-(cost-knob   exec-strength   1.20)   ; scales the strength deficit into execution cost
-(cost-knob   req-firearm-own 0.20)   ; R when a needed item is owned / in hand
-(cost-knob   req-authorized  0.20)   ; R via authorized access (medic -> dispensary toxin)
-(cost-knob   req-purchase    0.60)   ; R via a (trail-leaving) purchase
-(cost-knob   req-steal       0.80)   ; R via theft
-(cost-knob   req-blade       0.10)   ; a knife is in every kitchen
-(cost-knob   req-blunt       0.05)   ; a poker / candlestick is to hand anywhere
-(cost-knob   req-unavailable 9.00)   ; cannot get the instrument -> method ruled out
-
-; Opportunity cost: (opportunity <relationship> <occasion> <cost>). Relationships:
-; cohabitant (shares the home - INCLUDING live-in household staff, so the cook /
-; maid poisoning the family or a fellow servant is cheap), coworker (shares the
-; workplace, incl. day staff), friend, acquaintance, stranger. Occasions: meal,
-; night_home, street. A high cost means "this method's occasion is hard to reach
-; for this relationship" (a stranger shares no meal; only the street is open).
-(opportunity cohabitant   meal        0.10)
-(opportunity cohabitant   night_home  0.10)
-(opportunity cohabitant   street      0.30)
-(opportunity coworker     meal        0.30)
-(opportunity coworker     night_home  1.30)
-(opportunity coworker     street      0.30)
-(opportunity friend       meal        0.50)
-(opportunity friend       night_home  1.30)
-(opportunity friend       street      0.30)
-(opportunity acquaintance meal        0.90)
-(opportunity acquaintance night_home  1.30)
-(opportunity acquaintance street      0.40)
-(opportunity stranger     meal        1.60)
-(opportunity stranger     night_home  1.30)
-(opportunity stranger     street      0.40)
-
-; Per-method cost class. (kill-cost <method> (occasion <occ>...) (requirement
-; <none|blade|blunt|firearm|toxin>) (aversion <hands_on|ranged|covert>)
-; (exposure <0..1>)). The /strength-demand is read from the (method ...) row
-; above, not repeated here. A kill method with NO kill-cost row is DEFERRED -
-; it is never chosen until its occasion/opportunity is modelled (the exotic
-; methods: push_from_height, drown, arson, cook_alive, death_trap, freeze,
-; unleash_animal, unleash_insect, hang, decapitate, neck_snap, uriah_gambit).
-(kill-cost poison        (occasion meal)              (requirement toxin)   (aversion covert)   (exposure 0.10))
-(kill-cost strangle      (occasion night_home)        (requirement none)    (aversion hands_on) (exposure 0.30))
-(kill-cost smother       (occasion night_home)        (requirement none)    (aversion hands_on) (exposure 0.30))
-(kill-cost garrotte      (occasion night_home)        (requirement blunt)   (aversion hands_on) (exposure 0.30))
-(kill-cost beat_to_death (occasion night_home street) (requirement none)    (aversion hands_on) (exposure 0.40))
-(kill-cost bludgeon      (occasion night_home street) (requirement blunt)   (aversion hands_on) (exposure 0.40))
-(kill-cost stab          (occasion night_home street) (requirement blade)   (aversion hands_on) (exposure 0.40))
-(kill-cost slash         (occasion night_home street) (requirement blade)   (aversion hands_on) (exposure 0.40))
-(kill-cost shoot         (occasion street)            (requirement firearm) (aversion ranged)   (exposure 0.50))
-
 ; ---- misadventure staging ----------------------------------------------------
 ; Kill methods whose corpse can pass as a non-violent death, mapped to the
 ; `incident` narrative leaf corpse_discovered publicizes. A poisoning reads as
@@ -637,13 +565,3 @@
 (misadventure drown            accident)
 (misadventure push_from_height accident)
 (misadventure death_trap       accident)
-
-; ---- kill-cost skills + access tiers -------------------------------------------
-; The skill that discharges a requirement class's exec-skill-miss cost.
-(cost-skill blade   knife_fighting)
-(cost-skill firearm marksmanship)
-; The warmth-bond labels that read as the `friend` access tier in the
-; kill-cost relationship classifier (cohabitant > coworker > friend >
-; acquaintance).
-(cost-friend-label friend)
-(cost-friend-label close_to)

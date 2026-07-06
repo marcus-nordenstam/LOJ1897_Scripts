@@ -63,8 +63,8 @@
     ; +0.35 x prior warmth (a close friend's absence wounds more) - and the
     ; invited records close.
     (note-attendance @self 0.15 0.35)
-    ; The wedding-MURDER terminal: a jealous ex who crashed the occasion and carries
-    ; a kill goal strikes his rival if present (no-op for the ordinary guest).
-    (strike-at-occasion @self)
+    ; (The wedding MURDER needs no hook here: a crasher with a kill goal holds a
+    ; fight goal from the melee routing, and kill_strike (fight.hs) outweighs
+    ; every attend act the moment he is co-present with his rival.)
     (end-goal {@self attend})
     ))

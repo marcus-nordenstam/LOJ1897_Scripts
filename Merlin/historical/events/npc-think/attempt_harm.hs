@@ -24,11 +24,10 @@
 
 (include "../../definitions/roles.hs")
 
-; CHOOSE-METHOD runs as a (long-term-think): it fires in the per-NPC window-start
-; pass (the world lane skips crime events as dormant), routing a violent kill into
-; the emergent fight (the C++ melee branch mints {@self goal {@self fight V}} and
-; fight.hs plays it out blow by blow). Non-melee methods (poison / traps / fire)
-; still commit through the terminal.
+; Runs as a (long-term-think) in the per-NPC window-start pass. The C++ loop now
+; serves ONLY the not-yet-event-ized goals (confess_letter / report_crime /
+; humiliate); kill routes through attempt_kill.hs -> the emergent fight, steal
+; through the burglary pass, and the rest through attempt_nonlethal.hs.
 (hsim-event attempt_harm
   (long-term-think)
   (rng-stream perpetration)

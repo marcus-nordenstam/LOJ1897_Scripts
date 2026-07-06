@@ -24,11 +24,10 @@
 ; here instead of run_generative_perpetration.
 ; ----------------------------------------------------------------------------
 
-; The `fight` goal is minted by the perpetration MELEE branch (a violent murder
-; method leaves it standing instead of committing the kill). The killer uses
-; whatever weapon they hold (means_cascade arms a stab/shoot/bludgeon method) or
-; their bare hands (strangle / beat) - so this fires for ALL melee methods, armed
-; or not. The intent is kill (the goal descends from a kill goal).
+; The `fight` goal is minted by attempt_kill.hs (a standing kill goal routes
+; here instead of committing anywhere else). The killer uses whatever weapon
+; they hold (means_cascade arms, when engaged) or their bare hands (strangle /
+; beat). The intent is kill (the goal descends from a kill goal).
 
 ; APPROACH: a killer not yet with the victim seeks them out - stalk to the
 ; victim's HOME (where they return at night). When the victim is co-present there,
