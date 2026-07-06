@@ -304,3 +304,15 @@
       (if (is-entity (target {?beloved lover ?}))
           (target {?beloved lover ?})
           ?beloved)))
+
+; The actor's own recent OVERT-method murder victim whose corpse is still in
+; its pre-burial window (@fail when none) - the taunt substrate. The label
+; set IS the content: every kill method whose corpse cannot pass as an
+; accident (the staged methods - poison / freeze / drown / push_from_height /
+; death_trap - are excluded: taunting a death that reads natural would blow
+; the cover). Keep in step with the (method ...) rows in perpetration.hs.
+(define-macro covert-kill-corpse ()
+  (own-act-corpse @self
+    stab slash decapitate beat_to_death bludgeon strangle garrotte smother
+    hang neck_snap shoot bomb immolate arson cook_alive unleash_animal
+    unleash_insect uriah_gambit))

@@ -6,7 +6,7 @@
 ; sibling of predation.hs / covet_inheritance.hs:
 ;   - (when ...) is the narcissism tail (>= 0.7, env ground truth), the
 ;     adult floor, and the per-corpse-window-month base rate (0.04);
-;   - (own-kill-corpse @self) resolves the actor's own recent OVERT-method
+;   - (covert-kill-corpse) resolves the actor's own recent OVERT-method
 ;     murder victim whose corpse is still in its pre-burial window (an overt
 ;     corpse's violent verdict at burial is inevitable, and the killer KNOWS
 ;     his method was overt - no waiting for the inquest). The one
@@ -40,7 +40,7 @@
   (effects
     ; The actor's own recent overt-method kill, corpse still pre-burial;
     ; @fail (no letter) when there is none - the taunt needs a live mystery.
-    (bind (own-kill-corpse @self) ?victim)
+    (bind (covert-kill-corpse) ?victim)
     (if (is-entity ?victim)
         (do
           (bind (random-alive-human @self ?victim) ?innocent)
