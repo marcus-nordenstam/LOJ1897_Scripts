@@ -63,3 +63,11 @@
 ; now authored here, not a C++ constant).
 (define-macro can-write (?actor)
   (>= (target {?actor education}) 0.30))
+
+; (organizing-occasion [k <kind>]): is @self hosting an occasion of that kind? An
+; occasion is a MENTAL OBJECT (its kind is wedding / birthday_party / ...), so a
+; plain (believes {@self organize [k wedding]}) misses it (that tests a kind-
+; VALUED target, not an object-of-kind). (believes-obj-kind) is the kind-aware
+; belief query. Folds the old C++ (organizing-occasion) op.
+(define-macro organizing-occasion (?kind)
+  (believes-obj-kind organize ?kind))
