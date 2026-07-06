@@ -1,0 +1,20 @@
+; ----------------------------------------------------------------------------
+; perpetration_terminals.hs - the goal-action -> terminal metadata table for the
+; EVENT-IZED perpetration terminals (the Phase 3(c) terminal decomposition).
+;
+; attempt_nonlethal.hs crosses the actor's standing goals with these rows via
+; (select-joint (over-goals ?action ?victim ?goal) (table perpetration_terminals) ...);
+; a pair scores 1 only when the goal's action matches the row's action, so the
+; select-joint picks ONE standing goal whose terminal has been event-ized, and the
+; resolve-perpetration-terminal macro dispatches on the row's `terminal`.
+;
+; ONE row per event-ized (action, terminal). Growing this table + the dispatcher
+; macro + removing the goal's C++ skip in perpetration.cc is how each further
+; terminal moves from the C++ generative loop to .hs. Kept minimal until then.
+; ----------------------------------------------------------------------------
+
+(define-table perpetration_terminals
+  (fields action terminal)
+
+  ; bribe goal -> pay_off terminal (cash transfer; a pure mint-only act + ledger row).
+  (record bribe pay_off))

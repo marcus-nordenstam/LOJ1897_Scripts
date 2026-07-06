@@ -32,6 +32,9 @@
   (when (and (= (situation @self repute) [k disreputable])
              (chance (* 0.05 (+ 0.5 (attr @self politeness))))))
 
+  ;; Drive the churchgoing lane (the same desire feel_devout mints): the worship
+  ;; lane (worship.hs) plays it out and mints the {@self worship <church>} piety
+  ;; belief the F3 classifier reads. (go-to-church was never an op - a bare goal
+  ;; mint is how every other lane requests behaviour.)
   (effects
-    (go-to-church @self)
-    ))
+    (begin-goal {@self worship})))
