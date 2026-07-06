@@ -26,9 +26,11 @@
 ; Every tryst runs the shared (tryst-tail ...) (affair_macros.hs): mutual
 ; attraction nudge, the consummation roll's punctual HAVE_SEX_WITH records,
 ; the optional hand-delivered tryst_note, the paramour-spouse absence tick.
-; Discovery stays evidence-mediated: every leak plants {cheater lover
-; paramour} in a WITNESS; gossip + discover_affair carry it to the betrayed
-; spouse from there.
+; Discovery stays evidence-mediated: every leak is a witnessed EPISODE
+; (witness-copresence act records); the witness's ongoing {cheater lover
+; paramour} bonds are ABDUCED from the episode (Docs/hsim/hsim_abduction.md).
+; The one explicit cross-mind mint left is the houseguest ally relay - a TOLD
+; gossip fact. Gossip + discover_affair carry it to the betrayed spouse.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -75,10 +77,14 @@
               (record-hotel-guest ?hotel ?paramour)
               ; The cover IS the threat: the spouse is in the next room, and a
               ; spouse already nursing a misgiving watches that much closer.
+              ; Delivery is the EPISODE: everyone registered at the hotel this
+              ; date (the spouse among them) witnesses the indiscretion as an
+              ; act record; the ongoing lover bonds are ABDUCED from it
+              ; (Docs/hsim/hsim_abduction.md), never copied cross-mind.
               (if (chance (* 0.20 (carelessness-of @self ?paramour)
                              (+ 1 (suspicion-of ?spouse @self))))
-                  (do (begin-belief ?spouse {@self lover ?paramour})
-                      (begin-belief ?spouse {?paramour lover @self})))
+                  (do (witness-copresence @self lover ?paramour)
+                      (witness-copresence ?paramour lover @self)))
               ; No actor-side absence tick: the spouse was co-present, the
               ; excursion explains him.
               (tryst-tail ?paramour ?hotel)))))
@@ -97,10 +103,15 @@
                                     (+ 1 (* 1.5 (hostility-of ?witness @self)))
                                     (+ 1 (suspicion-of ?witness @self)))))
                 (do
-                  (begin-belief ?witness {@self lover ?paramour})
-                  (begin-belief ?witness {?paramour lover @self})
+                  ; The keyhole leak is the EPISODE: whoever is in the house
+                  ; this date witnesses the act record; the ongoing lover
+                  ; bonds are ABDUCED from it (Docs/hsim/hsim_abduction.md),
+                  ; never copied cross-mind.
+                  (witness-copresence @self lover ?paramour)
+                  (witness-copresence ?paramour lover @self)
                   ; Word carried to the wronged principal: the actor's own
-                  ; spouse first, else the paramour's.
+                  ; spouse first, else the paramour's (the gossip relay - a
+                  ; TOLD fact, kept explicit).
                   (bind (if (is-entity (spouse-of @self))
                             (spouse-of @self) (spouse-of ?paramour)) ?ally)
                   (if (and (is-entity ?ally)
