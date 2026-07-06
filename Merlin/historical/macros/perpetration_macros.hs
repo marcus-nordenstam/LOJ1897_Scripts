@@ -280,3 +280,27 @@
   (if (= ?terminal confess_secret)  (terminal-confess ?goal)
   (if (= ?terminal public_slight)   (terminal-humiliate ?victim ?goal)
   (if (= ?terminal file_report)     (terminal-report ?victim ?goal)))))))))))
+
+; The foe of the deliberator's first {@self under_attack <foe>} state (@fail
+; when none) - the threat mirror of goal-focus. Minted by strike-blow on a
+; non-fatal blow; ended when the fight resolves.
+(define-macro threat-focus ()
+  (target {@self under_attack ?}))
+
+; Is the deliberator under a LIVE threat: an under_attack foe who is still
+; alive and co-present. A stale state toward a fled or dead foe does not
+; count, so the rest lane (gated on (not (under-attack))) un-gates the moment
+; the threat is gone and the dwelling belief lies inert.
+(define-macro under-attack ()
+  (and (alive (threat-focus)) (co-present @self (threat-focus))))
+
+; The rival for ?beloved AS THE DELIBERATOR KNOWS IT: the beloved's spouse,
+; else their lover, else the beloved themselves - every read from the
+; deliberator's own beliefs (evidence-mediated, no mind-entering). The caller
+; must exclude @self (a beloved married to the deliberator names @self here).
+(define-macro crave-rival (?beloved)
+  (if (is-entity (target {?beloved spouse ?}))
+      (target {?beloved spouse ?})
+      (if (is-entity (target {?beloved lover ?}))
+          (target {?beloved lover ?})
+          ?beloved)))

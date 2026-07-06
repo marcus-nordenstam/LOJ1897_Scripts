@@ -16,7 +16,7 @@
 ;     (pick-first-matching-role)) binds ONE craved beloved, so a multi-crave
 ;     obsessive strikes a single victim per tick;
 ;   - (when ...) is the jealous-rage pre-gate (volatility + psychopathy, scaled by
-;     disinhibition, at the 0.02 obsession base rate) PLUS (not (knows-affair @self))
+;     disinhibition, at the 0.02 obsession base rate) PLUS (not (knows-affair))
 ;     - crave is the fallback, so a known betrayal routes to betrayal_kill.hs instead
 ;     (the old arbiter's betrayed -> A, else crave precedence);
 ;   - (crave-rival ?beloved) resolves the victim - the beloved's spouse / lover read
@@ -51,7 +51,7 @@
   ; The jealous-rage tail released by disinhibition, at the 0.02 base rate
   ; (score_macros.hs); crave is the FALLBACK, so a known affair routes to
   ; betrayal_kill.hs instead.
-  (when (and (not (knows-affair @self))
+  (when (and (not (knows-affair))
              (chance (* (crime-scale) 0.02
                         (dark-propensity @self (rage-disposition @self))))))
 
@@ -59,5 +59,5 @@
   ; the beloved. /cause pins the crave belief - the obsessive signature.
   (effects
     (bind (crave-rival ?beloved) ?victim)
-    (if (alive ?victim)
+    (if (and (alive ?victim) (not (= ?victim @self)))
         (begin-goal {@self kill ?victim} /cause {@self crave ?beloved}))))

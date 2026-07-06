@@ -84,3 +84,12 @@
 ; belief query. Folds the old C++ (organizing-occasion) op.
 (define-macro organizing-occasion (?kind)
   (believes-obj-kind organize ?kind))
+
+; Does the deliberator KNOW of an affair among their own partners: an
+; interloper they believe their spouse or a lover keeps (interloper-of reads
+; the deliberator's own beliefs; a partner-less read @fails harmlessly).
+; Evidence-mediated: the belief arrives by witnessing, gossip or abduction,
+; never by reading the partner's mind.
+(define-macro knows-affair ()
+  (or (is-entity (interloper-of (target {@self spouse ?})))
+      (is-entity (interloper-of (target {@self lover ?})))))

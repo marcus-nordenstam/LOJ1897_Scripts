@@ -113,3 +113,19 @@
 (define-macro dual-outrage-score ()
   (+ (emotion-load @self [k anger])
      (+ (target {@self decorum}) (attr @self machiavellianism))))
+
+; Value dissonance between ?a and ?b AS THE DELIBERATOR KNOWS IT: the share of
+; declared moral values (chastity / piety / sobriety) the two hold differently,
+; every side read from the deliberator's OWN beliefs ({X value <k>} - own values
+; for @self, learned/mirrored values for another; an unknown value reads
+; absent). Replaces the old C++ value-rift op - the value list is content and
+; lives here now. believes folds to 0/1 in arithmetic, so a gap is |a - b|.
+(define-macro value-gap (?a ?b ?vk)
+  (max (- (believes {?a value ?vk}) (believes {?b value ?vk}))
+       (- (believes {?b value ?vk}) (believes {?a value ?vk}))))
+
+(define-macro value-rift (?a ?b)
+  (/ (+ (value-gap ?a ?b [k chastity])
+        (value-gap ?a ?b [k piety])
+        (value-gap ?a ?b [k sobriety]))
+     3))
