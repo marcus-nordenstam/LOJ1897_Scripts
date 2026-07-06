@@ -46,7 +46,9 @@
     (bind (goal-focus stow) ?item)
     (if (is-entity ?item)
         (do
-          (bind {@self hiding_spot ?cache})
+          ; (target {..}) op-binds (@fail when no cache exists) - a plain
+          ; pattern-bind would leave ?cache unbound on a miss and error.
+          (bind (target {@self hiding_spot ?}) ?cache)
           (if (is-entity ?cache)
               (put-item ?item ?cache)
               (put-item ?item (attr @self location)))))

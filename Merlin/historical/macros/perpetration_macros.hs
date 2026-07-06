@@ -183,6 +183,36 @@
         (crime-ledger-append @self ?owner ?task steal @fail @fail))
     (burglary-confrontation @self ?scene)))
 
+; confess_secret terminal (confess_letter goal): the actor reveals their OWN
+; liaison to their nearest kin - scandal without murder; the leak also kills any
+; standing blackmail leverage (the coercion refresh pass sees the secret is out).
+; NOT a crime - no ledger row. The kin is the first living close relation on the
+; father > mother > fiancee > spouse > sibling ladder (the belief ground-alts read
+; them in one pattern); the confessed partner must be a real third party. The
+; confession is WRITTEN (letter mandate): the confession_letter spawns at the
+; kin's home carrying the fact through the shared codec, and the kin learns the
+; lover fact directly (the read-on-delivery shortcut every letter takes while
+; read_pending_mail stays caller-less). Nothing confessable / no kin -> the goal
+; still ends (the impulse passed).
+(define-macro terminal-confess (?goal)
+  (do
+    (bind (known-nonspousal-liaison @self) ?partner)
+    ; The kin ladder in ONE ground-alt read; (target {..}) op-binds (@fail when
+    ; the actor has no living close kin) - a plain pattern-bind would leave the
+    ; var unbound on a miss and error downstream.
+    (bind (target {@self father|mother|fiancee|spouse|sibling ?}) ?kin)
+    (if (and (is-entity ?partner) (is-entity ?kin)
+             (alive ?kin) (not (= ?kin ?partner)))
+        (do
+          (begin-belief {@self confession_letter ?kin})
+          (begin-belief ?kin {@self lover ?partner})
+          (bind (home-of ?kin) ?kin_home)
+          (if (is-entity ?kin_home)
+              (spawn-letter [k confession_letter]
+                            (msg {@self lover ?partner})
+                            ?kin_home))))
+    (end-goal {@self confess_letter})))
+
 ; Dispatch the select-joint winner (?terminal from the perpetration_terminals row)
 ; to its terminal body. ONE arm per event-ized terminal; the C++ generative loop
 ; still owns every terminal not listed here (and skips this goal, so no double-fire).
@@ -192,4 +222,5 @@
   (if (= ?terminal plant_evidence)  (terminal-plant-evidence ?victim ?goal)
   (if (= ?terminal silence_coerce)  (terminal-silence-coerce ?victim ?goal)
   (if (= ?terminal publish_secret)  (terminal-publish-secret ?victim ?goal)
-  (if (= ?terminal consummate)      (terminal-consummate ?victim ?goal))))))))
+  (if (= ?terminal consummate)      (terminal-consummate ?victim ?goal)
+  (if (= ?terminal confess_secret)  (terminal-confess ?goal)))))))))

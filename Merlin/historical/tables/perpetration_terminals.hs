@@ -27,4 +27,7 @@
   ; expose goal -> publish_secret terminal (confront / anonymous letter; gossip cascade).
   (record expose publish_secret)
   ; seduce goal -> consummate terminal (reciprocal lover + HAVE_SEX_WITH; fallen_woman).
-  (record seduce consummate))
+  (record seduce consummate)
+  ; confess_letter goal -> confess_secret terminal (the liaison confessed to kin;
+  ; the confession_letter spawns at the kin's home; kills blackmail leverage).
+  (record confess_letter confess_secret))
