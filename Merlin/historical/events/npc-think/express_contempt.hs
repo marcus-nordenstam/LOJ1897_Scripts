@@ -39,5 +39,5 @@
   (when (chance (* (crime-scale) 0.04 (- 1.0 (attr @self compassion)))))
 
   (effects
-    (incident-anchor @self insult ?victim /context cold_contempt)
+    (insult-anchor ?victim cold_contempt)
     ))

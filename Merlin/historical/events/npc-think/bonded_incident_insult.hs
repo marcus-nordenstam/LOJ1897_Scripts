@@ -50,5 +50,10 @@
                                    (believes {@self despise ?victim})))))))
 
   (effects
-    (incident-anchor @self insult ?victim)
+    ; Context picks the barb ladder: a high standing anger load marks the
+    ; displaced-anger lash-out (perceptual barbs, what's at hand); otherwise
+    ; the dispositional put-down (status barbs) - mirroring the two additive
+    ; impulse sources in (when).
+    (insult-anchor ?victim
+      (if (> (emotion-load @self [k anger]) 0.5) displaced_anger dispositional))
     ))

@@ -93,3 +93,12 @@
 (define-macro knows-affair ()
   (or (is-entity (interloper-of (target {@self spouse ?})))
       (is-entity (interloper-of (target {@self lover ?})))))
+
+; An insult incident WITH its spoken barb: the anchor carries the authored
+; barb model (tables/barbs.hs) and the context that picks the ladder. The
+; ONE way an insult should be minted - a barbless call mints wordlessly.
+(define-macro insult-anchor (?victim ?ctx)
+  (incident-anchor @self insult ?victim
+    /context        ?ctx
+    /barb-ladders   barb_ladders
+    /barb-materials barb_materials))
