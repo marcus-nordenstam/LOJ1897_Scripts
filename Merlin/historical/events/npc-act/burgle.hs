@@ -19,9 +19,15 @@
 ;                    presence, no break-in. The place-lane's embezzle method
 ;                    (has_authority_over) or shop-floor opportunist_theft
 ;                    commits there; the work itinerary supplies the presence.
-;   burgle_commit  : completion - (commit-theft @self) runs the perpetration
-;                    steal place-lane at the CURRENT premises: method row x
-;                    transfer_property terminal, crime-ledger row, goal ended.
+;   burgle_commit  : completion - the PURE .hs theft terminal (terminal-steal,
+;                    perpetration_macros.hs) at the CURRENT premises: anchor +
+;                    discharge + end-goal, take the first visible valuable, a
+;                    stow goal to carry it home (stow.hs), the crime-ledger row,
+;                    then the residents' chance to stir (burglary-confrontation).
+;                    The task leaf is the context: embezzle at the thief's OWN
+;                    workplace, opportunist_theft anywhere else. An ownerless /
+;                    self-owned / dead-owner premises ends the goal (nothing
+;                    there worth wronging) - the old commit-bail parity.
 ;
 ; Rate control is upstream: the deliberation's steal affinity weight x
 ; disinhibition x the master crime scalar decide who ever holds the goal.
@@ -58,4 +64,16 @@
 
 (hsim-event burgle_commit
   (schedule (completion-only))
-  (effects (commit-theft @self)))
+  (effects
+    (bind (current-building @self) ?scene)
+    (if (is-entity ?scene)
+        (do
+          (bind (owner-of ?scene) ?owner)
+          (bind (goal-belief steal) ?goal)
+          (if (and (is-entity ?owner) (not (= ?owner @self)) (alive ?owner))
+              (if (and (bind {@self employer ?emp})
+                       (bind {?emp workplace ?work})
+                       (at-place ?work))
+                  (terminal-steal ?scene embezzle ?owner ?goal)
+                  (terminal-steal ?scene opportunist_theft ?owner ?goal))
+              (end-goal {@self steal}))))))

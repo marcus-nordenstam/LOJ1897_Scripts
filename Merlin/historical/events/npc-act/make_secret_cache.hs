@@ -37,10 +37,12 @@
   (roles
     (role @self (template any_human)))
 
-  ; A covert lover is the reason; no cache yet; bind the home + a bedroom in it
-  ; (the pattern-binds thread along the (and) spine and GATE - no home or bedroom
-  ; => no cache).
-  (when (and (believes {@self lover ?})
+  ; Something to hide is the reason - a covert lover (secret letters) or a
+  ; standing stow goal (loot, a stained instrument); no cache yet; bind the
+  ; home + a bedroom in it (the pattern-binds thread along the (and) spine and
+  ; GATE - no home or bedroom => no cache).
+  (when (and (or (believes {@self lover ?})
+                 (has-goal stow))
              (not (believes {@self hiding_spot ?}))
              (bind {@self home ?building})
              (bind {?building room [k bedroom]:?bedroom})))

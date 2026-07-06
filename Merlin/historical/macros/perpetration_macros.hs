@@ -153,6 +153,36 @@
         (crime-ledger-append @self ?victim seduction seduce @fail @fail))
       (end-goal {@self seduce})))
 
+; transfer_property terminal (steal goal): the thief is AT the scene (burgle.hs
+; walked them there; ?task = opportunist_theft at a residence, embezzle at their
+; own workplace). The wronged party is the premises' titled owner (whose house
+; this is = village-public knowledge). The act anchor + discharge + end-goal,
+; then the thief works the rooms and TAKES the first loose, visible valuable -
+; possession flips (the owner's standing {loot location <room>} belief is now
+; provably stale, which the attended-whereabouts verify discovers) - and a stow
+; goal carries it home to the cache (stow.hs, the generic put lane). The loot's
+; leaf kind rides the ledger anchor ("stole: jewelry_box"); an empty-handed
+; break-in still ledgers (the intrusion happened). Ends with the defenders'
+; chance to stir (burglary-confrontation).
+(define-macro terminal-steal (?scene ?task ?owner ?goal)
+  (do
+    (begin-belief {@self ?task ?owner})
+    (bind (driving-pressure-of-goal ?goal) ?pressure)
+    (discharge-pressure ?pressure 0.75)
+    (end-goal {@self steal})
+    (for-each ?room (attr-values ?scene parts [k interior_space room])
+      (for-each ?item (attr-values ?room contents)
+        (if (and (not (has-goal stow))
+                 (has-facet ?item valuable)
+                 (not (is-hidden ?item)))
+            (do
+              (take-item ?item)
+              (begin-goal {@self stow ?item})
+              (crime-ledger-append @self ?owner ?task steal (kind ?item) @fail)))))
+    (if (not (has-goal stow))
+        (crime-ledger-append @self ?owner ?task steal @fail @fail))
+    (burglary-confrontation @self ?scene)))
+
 ; Dispatch the select-joint winner (?terminal from the perpetration_terminals row)
 ; to its terminal body. ONE arm per event-ized terminal; the C++ generative loop
 ; still owns every terminal not listed here (and skips this goal, so no double-fire).
