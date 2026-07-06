@@ -7,7 +7,7 @@
              (not (can-drink @self))))
   (utility 30)
   (effects
-    (go @self (drink-venue @self))))
+    (go @self (venue [k building pub]))))
 
 ; (c) EXECUTE - hold the goal and at a place with drink (a pub, or home): the
 ; durative drink act.

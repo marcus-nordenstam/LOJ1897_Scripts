@@ -32,6 +32,6 @@
     ; propagate-death MUST precede die - die marks @self dead, and propagation
     ; reads @self's still-living kin/social ties to spread the death belief.
     (propagate-death @self)
-    (die             @self /cause old_age)
+    (record-corpse-death @self [k death_cause old_age])
     )
 )

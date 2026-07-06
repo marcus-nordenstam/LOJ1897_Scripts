@@ -24,6 +24,11 @@
 (define-macro personally-knows (?who ?other)
   (believes {?who friend|acquaintance|spouse|lover|mother|father|sibling|child|talk_to ?other}))
 
+; (is-married ?p): does ?p have a living spouse? Folds the old C++ (is-married)
+; op into (spouse-of ?p) (its whole body was first_live_spouse_of().is_object()).
+(define-macro is-married (?p)
+  (is-entity (spouse-of ?p)))
+
 ; (blood-kin ?who ?other): does ?who hold ANY consanguinity bond to ?other - the
 ; courtship / crush / affair blood-relative exclusion (used as `(not (blood-kin
 ; @self ?o))`). Expands to a single ground-alts `believes` so the belief read is

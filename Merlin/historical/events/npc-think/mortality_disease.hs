@@ -27,5 +27,5 @@
 
   (effects
     (propagate-death @self)
-    (die             @self /cause disease)
+    (record-corpse-death @self [k death_cause disease])
     ))

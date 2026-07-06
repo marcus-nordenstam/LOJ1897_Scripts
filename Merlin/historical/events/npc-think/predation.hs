@@ -73,4 +73,4 @@
           (if (believes {@self fixation})
               (begin-goal {@self kill ?victim} /cause {@self fixation})
               (begin-goal {@self kill ?victim} /cause {@self life_aim [k power_aim]}))
-          (mark-stalk ?victim)))))
+          (mark @self [k stalk_target] ?victim 30)))))

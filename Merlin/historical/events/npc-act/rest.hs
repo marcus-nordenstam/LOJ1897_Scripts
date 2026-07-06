@@ -2,7 +2,7 @@
 ; rest - the FATIGUE / REST lane (npc-act): a real physiological fatigue model
 ; drives when an NPC sleeps.
 ;
-; (fatigue @self) reads the continuous, imperceptible `fatigue` attr (0 rested ..
+; (attr @self fatigue) reads the continuous, imperceptible `fatigue` attr (0 rested ..
 ; 1 ready-for-bed, can exceed 1 when sleep is denied). The stepper mutates it:
 ; the sleep act's completion REDUCES it (1/6 per hour slept -> 6h clears 1.0),
 ; waking time ACCRUES it (~1/16 per hour -> ~1.0 by late evening). A separate
@@ -25,8 +25,8 @@
   (intra-day)
   (when (and (not (under-attack))
              (not (at-home))
-             (> (fatigue @self) 0.7)))
-  (utility (if (> (fatigue @self) 1.0) 10000 (* 90 (fatigue @self))))
+             (> (attr @self fatigue) 0.7)))
+  (utility (if (> (attr @self fatigue) 1.0) 10000 (* 90 (attr @self fatigue))))
   (effects (go @self (target {@self home ?}))))
 
 ; at home and at all tired (or it is night): sleep until the morning alarm. The
@@ -39,12 +39,12 @@
   ; lane OUT, so the fight acts (defend / flee / scream) take over (fight.hs).
   (when (and (not (under-attack))
              (at-home)
-             (or (> (fatigue @self) 0.5)
+             (or (> (attr @self fatigue) 0.5)
                  (>= (now-hour) 22)
                  (< (now-hour) 6))))
-  (utility (if (> (fatigue @self) 1.0)
+  (utility (if (> (attr @self fatigue) 1.0)
                10000
-               (max (* 90 (fatigue @self))
+               (max (* 90 (attr @self fatigue))
                     (if (or (>= (now-hour) 22) (< (now-hour) 6)) 100 0))))
   ; Duration is a FUNCTION: sleep until the morning alarm, but no longer than
   ; until a pending obligation - a tired NPC with a gathering tonight wakes in
