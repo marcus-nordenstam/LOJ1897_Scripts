@@ -214,21 +214,23 @@
     (end-goal {@self confess_letter})))
 
 ; public_slight terminal (humiliate goal): the deliberated public put-down. The
-; EXISTING incident machinery does the landing - (incident-anchor) mints the act
-; anchor in BOTH minds (the victim's copy construes degrade_act: shame /
-; status_loss / humiliation via appraisal) and (witness-copresence) seeds any
-; bystanders (no-op when the pair is not co-present). Then discharge, the
-; ledger row, end-goal. A dead / self / kind-valued focus just ends the goal.
+; slight is a two-sided act record minted by the GENERAL cross-mind write - the
+; actor's own anchor plus the victim's copy (whose degrade_act construals fire
+; shame / status_loss / humiliation on their next appraisal) - and
+; (witness-copresence) seeds any bystanders (no-op when the pair is not
+; co-present). Then discharge, the ledger row, end-goal. A dead / self /
+; kind-valued focus just ends the goal.
 ; DELTA vs the old C++: the quoted BARB content (the hsim_barbs ladder) is not
 ; carried - the anchor records the slight without the words - and with no barb
 ; scan there is no wordless-fail path (the impotence ratchet retires with it).
 ; Porting the barb ladder to .hs content macros is the follow-up that restores
-; the words.
+; the words (as a (tell-to ?victim <barb fact>)).
 (define-macro terminal-humiliate (?victim ?goal)
   (do
     (if (and (is-entity ?victim) (alive ?victim) (not (= ?victim @self)))
         (do
-          (incident-anchor @self public_humiliation ?victim)
+          (begin-belief {@self public_humiliation ?victim})
+          (begin-belief ?victim {@self public_humiliation ?victim})
           (witness-copresence @self public_humiliation ?victim)
           (bind (driving-pressure-of-goal ?goal) ?pressure)
           (discharge-pressure ?pressure 0.75)
