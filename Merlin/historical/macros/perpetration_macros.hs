@@ -95,7 +95,7 @@
 ; spent leverage), the gossip cascade launched (publish-secret-about seeds the victim's
 ; own circle; the scandal-gossip amplifies village-wide), and the ledger row. TWO methods:
 ; anonymous_letter needs literacy (can-write); confront_publicly does not. DEFERRED (fold
-; in later): the quoted {victim lover partner} speech content on the confront TELL, the
+; in later): the quoted {victim lover partner} speech content on the confront SAY, the
 ; anonymous letter physically posted to an authority (spouse / father), and the victim
 ; learning they were exposed - the essential publication (gossip + ledger) is here.
 (define-macro expose-confront (?victim ?goal)
@@ -170,11 +170,13 @@
     (bind (driving-pressure-of-goal ?goal) ?pressure)
     (discharge-pressure ?pressure 0.75)
     (end-goal {@self steal})
+    ; No hidden test on the loot: items are never hidden - a cached valuable
+    ; sits in a hidden SUB-SPACE whose own contents index this rooms-only
+    ; walk never reads.
     (for-each ?room (attr-values ?scene parts [k interior_space room])
       (for-each ?item (attr-values ?room contents)
         (if (and (not (has-goal stow))
-                 (has-facet ?item valuable)
-                 (not (is-hidden ?item)))
+                 (has-facet ?item valuable))
             (do
               (take-item ?item)
               (begin-goal {@self stow ?item})

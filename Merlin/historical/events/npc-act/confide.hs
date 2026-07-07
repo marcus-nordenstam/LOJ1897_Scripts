@@ -13,7 +13,7 @@
 ; an action, not just mint a belief in @self's own mind). Fired by the per-NPC
 ; emergent pass, MONTHLY: the low extraversion-weighted chance gates the fire in
 ; (when) (a roll is a non-belief gate, never a role filter). The shared fact lands
-; in each listener sourced to {@self TELL ...} (the tell-act + the pre-sim
+; in each listener sourced to {@self SAY ...} (the tell-act + the pre-sim
 ; hear-tell adoption), so provenance is preserved: the listener knows @self TOLD
 ; them.
 ;
@@ -43,6 +43,6 @@
     ;; Say the calling ALOUD. The tell-act makes a speech sound at @self's
     ;; location; the post-effects auditory pass delivers + adopts {@self calling
     ;; ?domain} into ?confidant (and anyone else co-present), sourced to the
-    ;; spoken {@self TELL ...} record.
+    ;; spoken {@self SAY ...} record.
     (tell {@self calling ?domain})
     ))

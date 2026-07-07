@@ -30,15 +30,15 @@
 
 rule tell-beliefs
 {@self tell_beliefs {?sub ?label_kind ?tgt ?aux} ?asker}: ?tell
-(none {@self /succ TELL ? ?asker /causes ~?tell})
+(none {@self /succ SAY ? ?asker /causes ~?tell})
    ->
-(maintain_goal {@self TELL (utterable_beliefs_msg {?sub ?label_kind ?tgt ?aux} ?asker) ?asker} (des abs_util 1)): ?response
+(maintain_goal {@self SAY (utterable_beliefs_msg {?sub ?label_kind ?tgt ?aux} ?asker) ?asker} (des abs_util 1)): ?response
 (add_causes ?response ?tell)
 (forget_on_cease).
 
 
 rule tell-beliefs-outcome
 {@self tell_beliefs ?pattern ?asker}: ?tell
-{@self /succ TELL ? ?asker /causes ~?tell}: ?TELL
+{@self /succ SAY ? ?asker /causes ~?tell}: ?SAY
     ->
-(set_outcome ?tell (outcome ?TELL)).
+(set_outcome ?tell (outcome ?SAY)).

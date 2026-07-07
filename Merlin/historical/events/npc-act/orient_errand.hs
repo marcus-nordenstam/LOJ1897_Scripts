@@ -36,9 +36,14 @@
     ; ?f = founder (both off the articles writing); ?org = the formed mental object.
     (for-each ?art (documents [k articles_of_incorporation])
       (do
-        (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (founder ?f))
+        (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (founder ?f) (building ?b))
         (imagine-or-recall ?ok {?art declares_org ?org})
         (begin-belief {?org isa ?ok})
         (begin-belief {?org record ?art})
-        (begin-belief {?org founder ?f})))
+        (begin-belief {?org founder ?f})
+        ; Practical town knowledge off the same page: the register names each
+        ; org's premises, so the reader now knows WHERE the grocer trades -
+        ; the venue the provisioning / starving lanes (meals.hs) route on.
+        (if (and (is-a ?ok [k org grocer]) (is-entity ?b))
+            (begin-belief {@self provisions_shop ?b}))))
     (end-goal {@self orient})))

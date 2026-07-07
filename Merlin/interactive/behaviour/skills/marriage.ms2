@@ -42,8 +42,8 @@ rule marry-proposal
     ->
 (begin_proposal {@self marry ?fiancee})
 (begin_proposal {@self SPAWN [[k wedding_band] @self]})
-(begin_goal {@self TELL (msg {@self home ?myHome}) ?fiancee})
-(begin_goal {@self TELL (msg {?myHome obb ?myHomeObb}) ?fiancee}).
+(begin_goal {@self SAY (msg {@self home ?myHome}) ?fiancee})
+(begin_goal {@self SAY (msg {?myHome obb ?myHomeObb}) ?fiancee}).
 
 
 rule marry-attention

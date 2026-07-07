@@ -33,6 +33,7 @@ archetype "human_npc" (cap 4096) (per obs) (raycast-visible) (sentient) (non-occ
     # Continuous physical tiredness (0..2) - the rest lane reads it; the sleep
     # act's completion reduces it, waking time accrues it (imperceptible).
     "fatigue"
+    "hunger"
     # Emigration marker (0/1) - set per-NPC, swept zero-role (mark-then-sweep).
     "emigrating"
     # Accumulated intoxication - F3.7 sobriety input.

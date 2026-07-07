@@ -104,6 +104,19 @@ relation
         # asked party's mind.
         sought_introduction     (sub human)           (tar human)  (aux ?)
 
+        # Household mealtimes - the COOK's authority (tell-only comms plan,
+        # ruling 11): {<home> breakfast_hour 6} / {<home> lunch_hour 12} /
+        # {<home> supper_hour 18}, held per-mind. The cook DECIDES them
+        # (set_mealtimes, household.hs - genesis of her own decision, with
+        # per-cook variation) and SAYS them; residents adopt from the say or
+        # re-learn through the ask-the-cook channel ((ask-to) /
+        # (asked-me-about) - so a forgotten mealtime self-heals by asking).
+        # The 2h meal window opens AT the hour; the meal lanes (meals.hs)
+        # gate on it. Int-hour target (a scalar - bypasses tar checks).
+        breakfast_hour          (sub structure)        (tar ? @excl)
+        lunch_hour              (sub structure)        (tar ? @excl)
+        supper_hour             (sub structure)        (tar ? @excl)
+
         # under_suspicion: the graded wariness an observer has accumulated
         # toward someone hiding something (see Docs/hsim/hsim_social.md).
         # Held in the OBSERVER's mind about the watched person:

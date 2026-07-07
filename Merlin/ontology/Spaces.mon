@@ -27,11 +27,14 @@ space (+ obs)
             drawing_room
             back_office
         # Concealment caches - the places a household member hides letters and small valuables.
-        # One hiding_spot entity per cache, spawned at the owner's home;
-        # cached items point their `at` attr AT the hiding_spot and carry
-        # the engine is_hidden bit, so perception skips them until a
-        # search surfaces them. The leaf kind encodes the concealment
-        # quality (a secret_chamber outlasts a jewelry_box_lining).
+        # One hiding_spot entity per cache, spawned at the owner's home.
+        # The CACHE SPACE carries the engine hidden bit - never the items:
+        # concealment is containment. A cached item is placed INSIDE the
+        # hiding_spot (location = the cache; filed in the cache's own
+        # `contents`), and observation never recurses into hidden
+        # sub-spaces, so the contents stay unseen until a deliberate search
+        # observes the cache directly. The leaf kind encodes the
+        # concealment quality (a secret_chamber outlasts a jewelry_box_lining).
         hiding_spot
             floorboard_cache
             book_cache

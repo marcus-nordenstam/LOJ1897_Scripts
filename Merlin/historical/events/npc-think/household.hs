@@ -12,10 +12,12 @@
 ; provides co-presence; this event only records the activity episode. Gated on
 ; having a home (the homeless do not dwell).
 ;
-; NOTE: the home-activity episodes (dine / read_at) this records are not yet
-; reproduced by any other lane (the rest lane only mints sleep); a future
-; home-leisure lane may subsume this. See the future_work "rest habit vs episodic
-; collision" note re: the {@self rest <home>} record sharing the rest-habit shape.
+; NOTE: the dine episode is now owned by the SUPPER lane (npc-act/meals.hs,
+; a real daily at-home act with table talk), so record-dwelling no longer
+; picks dine - it records rest / read_at only. The read_at episode is still
+; not reproduced by any other lane; a future home-leisure lane may subsume
+; it. See the future_work "rest habit vs episodic collision" note re: the
+; {@self rest <home>} record sharing the rest-habit shape.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -30,4 +32,136 @@
 
   (effects
     (record-dwelling @self)
+    ))
+
+; ----------------------------------------------------------------------------
+; set_mealtimes (npc-think) - the COOK decides the household mealtimes
+; (tell-only comms plan, ruling 11). Fires for the ONE person
+; (household-cook ?home) resolves (hired cook > woman of the house > adult
+; daughter > head) when her OWN mind lacks the home's supper_hour - so it
+; fires once per cook per home (and again only if the cook changes homes or
+; the beliefs are somehow lost). The hours are HER decision (genesis, not
+; communication): base 6/12/18 shifted by a per-cook offset, the whole day
+; coherent. She then SAYS them aloud - at window start the household is home
+; (asleep co-presence), so the residents adopt the facts from the say; any
+; straggler self-heals through the ask-the-cook channel below.
+; The missing-belief gate comes FIRST so the (household-cook) resolution
+; (an entity scan) runs only while the mealtimes are actually unset.
+; ----------------------------------------------------------------------------
+
+(hsim-event set_mealtimes
+  (sim-window-start)
+  (rng-stream behaviour)
+
+  (roles
+    (role @self (template grown)
+                (believes {@self home ?})))
+
+  ; ?home binds on the when-spine (a self-role believes does not export its
+  ; free vars to the event scope - the work_attendance shape).
+  (when (and (bind {@self home ?home})
+             (not (believes {?home supper_hour ?}))
+             (= (household-cook ?home) @self)))
+
+  (effects
+    ; The per-cook offset: -1 / 0 / +1 on the whole day (breakfast 5-7,
+    ; lunch 11-13, supper 17-19; each window is 2h from the hour).
+    (bind (if (chance 0.33) -1 (if (chance 0.5) 0 1)) ?o)
+    (begin-belief {?home breakfast_hour (+ 6 ?o)})
+    (begin-belief {?home lunch_hour (+ 12 ?o)})
+    (begin-belief {?home supper_hour (+ 18 ?o)})
+    ; Say the house's hours aloud - the household hears and adopts.
+    (tell {?home breakfast_hour (+ 6 ?o)}
+          {?home lunch_hour (+ 12 ?o)}
+          {?home supper_hour (+ 18 ?o)})
+    ))
+
+; ----------------------------------------------------------------------------
+; ask_mealtimes / answer_mealtimes - the ask-the-cook channel (ruling 12).
+; A resident who does not know the house's supper hour ASKS the cook (a real
+; question say - {@self SAY (qs {?home supper_hour _}) /aux cook}); the cook,
+; gated on having HEARD such a question ((asked-me-about supper_hour) - the
+; cheap per-mind gate comes first), answers with a directed tell of all three
+; hours. tell-to's per-listener dedup makes re-answers harmless; the asked
+; record fades on the normal recall curve. Semantic self-healing: mealtime
+; knowledge can never be permanently lost while the cook lives.
+; Both are SAYS (acts carried by perception), but they run at window start
+; (the household's at-home hour) - npc-think placement keeps them beside
+; set_mealtimes, whose decision they complete.
+; ----------------------------------------------------------------------------
+
+(hsim-event ask_mealtimes
+  (sim-window-start)
+  (rng-stream behaviour)
+
+  (roles
+    (role @self (template any_human)
+                (believes {@self home ?})))
+
+  (when (and (bind {@self home ?home})
+             (not (believes {?home supper_hour ?}))
+             (>= (years-old @self) 3)))
+
+  (effects
+    (ask-to (household-cook ?home) {?home supper_hour ?})
+    ))
+
+(hsim-event answer_mealtimes
+  (sim-window-start)
+  (rng-stream behaviour)
+
+  (roles
+    (role @self (template grown)
+                (believes {@self home ?})))
+
+  ; The cheap per-mind gate first: (asked-me-about) walks only @self's own
+  ; heard-SAY records and fails fast when nobody asked.
+  (bind (asked-me-about supper_hour) ?asker)
+
+  (when (and (is-entity ?asker)
+             (bind {@self home ?home})
+             (bind {?home breakfast_hour ?b})
+             (bind {?home lunch_hour ?l})
+             (bind {?home supper_hour ?s})))
+
+  (effects
+    (tell-to ?asker {?home breakfast_hour ?b}
+                    {?home lunch_hour ?l}
+                    {?home supper_hour ?s})
+    ))
+
+; ----------------------------------------------------------------------------
+; plan_provisioning (npc-think) - the cook checks the larder and, if it is
+; genuinely low, takes on the provisioning errand; the npc-act lanes
+; (meals.hs provision_go_known / provision_search / provision_take) drain
+; the goal. The check is DELIBERATE whereabouts work (take-stock-of-room,
+; stocktake_macros.hs): her believed stock can be stale in both directions
+; (phantom loaves the family ate unseen; loaves she forgot), so she walks
+; the rooms she keeps food in and validates before deciding - checking the
+; larder IS the act whose purpose is confirming / disproving those
+; beliefs. She can only do that while physically home (window-start finds
+; her there overnight). Gate order matters: the cheap believed-count
+; pre-gate ("could it be low?") runs first, the (household-cook)
+; resolution (an entity scan) only for possibly-low homes; the verified
+; count decides.
+; ----------------------------------------------------------------------------
+
+(hsim-event plan_provisioning
+  (sim-window-start)
+  (rng-stream behaviour)
+
+  (roles
+    (role @self (template grown)
+                (believes {@self home ?})))
+
+  (when (and (bind {@self home ?home})
+             (at-home)
+             (< (count-believed-located [k food] ?home) 8)
+             (= (household-cook ?home) @self)))
+
+  (effects
+    (for-each ?room (attr-values ?home parts [k interior_space room])
+      (take-stock-of-provisions ?room))
+    (if (< (count-believed-located [k food] ?home) 4)
+        (begin-goal {@self provision}))
     ))

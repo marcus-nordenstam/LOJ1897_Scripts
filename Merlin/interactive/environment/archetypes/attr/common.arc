@@ -129,6 +129,18 @@ attr "sexual_orient" (type kind) (per feel)
 # sleep act's completion reduces it (1/6 per hour slept), waking time accrues it.
 attr "fatigue" (type float) (range 0 2) (imperceptible) (state-flags-tar @excl)
 
+# Hunger, the continuous physical need-to-eat state (0 just-ate .. 1 very
+# hungry, can exceed 1 when meals are missed). Imperceptible, like fatigue:
+# the physiological scalar is never auto-mirrored as a belief - the satiety
+# appraiser de-quantizes it into a discrete {@self satiety sated|hungry|
+# famished} belief (the queryable memory). Waking AND sleeping time accrue it
+# (you wake hungry); meal-act completions reduce it (meal size is authored in
+# the meal events via set-attr). Meal-lane eligibility reads it as a gate;
+# meal UTILITY is proximity to the household mealtime, never hunger
+# (tell-only comms plan, ruling 10) - hunger re-enters utility only at the
+# famished starvation tail.
+attr "hunger" (type float) (range 0 2) (imperceptible) (state-flags-tar @excl)
+
 # Emigration marker (0 / 1). Set by (mark-emigrating @self) in the per-NPC
 # emigration think event; the zero-role (sweep-emigrants) world-act collects
 # every entity carrying it and destroys them (mark-then-sweep, like burial).
@@ -211,7 +223,7 @@ attr "region" (type entity) (entity "region") (spec-attr region) (per feel) (sta
 attr "perform" (type entity) (entity "activity") (lookup-target "isa") (lookup-aux "location") (per obs) (auto-percept)
 
 # Sound
-# Holds the specific action that produced this sound (e.g. {john TELL (msg...) sam}).
+# Holds the specific action that produced this sound (e.g. {john SAY (msg...) sam}).
 # Imperceptible so we perceive the createAction on its own, not embedded in the sound.
 attr "create_action" (type pattern) (spec-attr create-action) (imperceptible)
 attr "speaker" (type entity) (entity "human_player" "human_npc") (spec-attr speaker) (imperceptible)

@@ -27,9 +27,9 @@
 #   {@you want.task {@you marry @self} /p unknown}.
 
 rule believe-is-event-true-answer
-{@self /succ ASK (qs (prob ?event)):?question ?person}: ?askQuestionAction
+{@self /succ SAY (qs (prob ?event)):?question ?person}: ?askQuestionAction
 {@self expect_answer ?person /causes ~?askQuestionAction}
-{?person /succ TELL ?answer @self /causes ~?askQuestionAction}: ?tellAnswer
+{?person /succ SAY ?answer @self /causes ~?askQuestionAction}: ?tellAnswer
     ->
 # Now make a belief of the question-phrase (e.g. {@you want.task {@you marry @self}}), 
 # with the probability equal to the answer
@@ -52,9 +52,9 @@ rule believe-is-event-true-answer
 # belief out of the question & answer: 
 #   {?person name "Toby"}.
 rule believe-target-value-answer
-{@self /succ ASK (qs (any ?event).target):?question ?person}: ?askQuestionAction
+{@self /succ SAY (qs (any ?event).target):?question ?person}: ?askQuestionAction
 {@self expect_answer ?person /causes ~?askQuestionAction}
-{?person /succ TELL ?answer @self /causes ~?askQuestionAction}
+{?person /succ SAY ?answer @self /causes ~?askQuestionAction}
     ->
 # Splice together a new belief:
 # ?event = {?person name}, ?answer = "Toby" -> {?person name "Toby"}
@@ -77,9 +77,9 @@ rule believe-target-value-answer
 # belief out of the question & answer: 
 #   {?person goal {@self serve [k pint] ?person}}.
 rule believe-target-target-answer
-{@self /succ ASK (qs (any ?event).target.target):?question ?person}: ?askQuestionAction
+{@self /succ SAY (qs (any ?event).target.target):?question ?person}: ?askQuestionAction
 {@self expect_answer ?person /causes ~?askQuestionAction}
-{?person /succ TELL ?answer @self /causes ~?askQuestionAction}
+{?person /succ SAY ?answer @self /causes ~?askQuestionAction}
     ->
 # Splice together a new belief:
 # ?event = {?person goal {@self serve ? ?person}}, ?answer = [k pint] -> {?person goal {@self serve [k pint] ?person}}
@@ -93,9 +93,9 @@ rule believe-target-target-answer
 
 # Handles if the person asked doesn't know
 rule believe-i-dont-know-answer
-{@self /succ ASK (qs (any ?event).target):?question ?person}: ?askQuestionAction
+{@self /succ SAY (qs (any ?event).target):?question ?person}: ?askQuestionAction
 {@self expect_answer ?person /causes ~?askQuestionAction}
-{?person /succ TELL (msg @unknown) @self /causes ~?askQuestionAction} # "I don't know"
+{?person /succ SAY (msg @unknown) @self /causes ~?askQuestionAction} # "I don't know"
     ->
 (begin_belief {?person /not know '(any ?event).target})
 # You are no longer expecting an answer from this person
@@ -113,9 +113,9 @@ rule believe-i-dont-know-answer
 # If the answer "yes", (e.g. @true) the answer is understood by adding a belief
 # that they have that job.
 rule believe-is-object-real-answer
-{@self /succ ASK (qs (realis ?descriptionOfRealObject)):?question ?person}: ?askQuestionAction
+{@self /succ SAY (qs (realis ?descriptionOfRealObject)):?question ?person}: ?askQuestionAction
 {@self expect_answer ?person /causes ~?askQuestionAction}
-{?person /succ TELL (msg @true) @self /causes ~?askQuestionAction}
+{?person /succ SAY (msg @true) @self /causes ~?askQuestionAction}
     ->
 # ?descriptionOfRealObject will control events with @o's in them
 (o /invent /realis ?descriptionOfRealObject)

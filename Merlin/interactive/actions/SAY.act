@@ -1,0 +1,29 @@
+action = SAY
+motor = mouth
+transmission = listen
+uninterruptable = true
+sub = @msgAuthor
+tar = @msg @excl @S
+aux = @msgAudience
+
+belief_timeout = 5
+
+proc_anim = tell
+state = telling
+
+preroll = 0.0
+in      = 0.1
+run     = 1.0
+out     = 0.1
+
+# SAY is the ONE verbal action label: the mood lives in the payload func -
+# (msg ...) states, (qs ...) asks. The @msg target flag accepts both (a qs
+# func carries the msg flag too); a @qs flag would reject statements.
+#
+# SAY's run-duration is a per-utterance value computed in in_func from the
+# viseme stream (presented) or kSayUnpresentedDurationS (unpresented). The
+# 1.0 here is a placeholder default the binding falls back to if in_func
+# fails to compute a duration. Commit success at the cap - run_func is a
+# no-op, so the only natural completion is "the bounded duration elapsed";
+# success at the cap is what produces /succ SAY so hear-answer rules can fire.
+anim_timeout_mode = success

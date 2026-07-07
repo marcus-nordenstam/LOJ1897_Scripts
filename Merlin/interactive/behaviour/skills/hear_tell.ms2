@@ -21,10 +21,15 @@
 #   {{john} like [k shoe] /p @false}
 
 
-# This handles the general case where someone makes a verbal statement, 
+# This handles the general case where someone makes a verbal statement,
 # but it's NOT in response to anything.
+# SAY carries questions too ((qs ...) payloads); only STATEMENTS ((msg ...)
+# payloads) are adopted as beliefs - eq_func_name gates the mood
+# arity-agnostically (a (msg ... (reg_des ...)) instance still passes;
+# formulaics carry no adoptable content and are excluded).
 rule hear-tell
-{!@self:?person /succ TELL ?msg ? /causes []}
+{!@self:?person /succ SAY ?msg ? /causes []}
+(eq_func_name ?msg msg)
     ->
 (begin_belief (eval_msg ?msg ?person))
 (fire_and_forget).

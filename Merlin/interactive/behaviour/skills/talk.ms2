@@ -1,12 +1,15 @@
 
-# talk.ms2 - Proximity-based TELL/ASK with bb_public_maintain coordination.
+# talk.ms2 - Proximity-based SAY with bb_public_maintain coordination.
+#
+# SAY is the ONE verbal action label: the mood lives in the payload func -
+# (msg ...) states, (qs ...) asks.
 #
 # Conversations arise naturally from the interplay of bb_public_maintain signals and cell claims:
-#   - If you want to TELL/ASK someone, maintain a signal and claim a cell near them.
+#   - If you want to SAY something to someone, maintain a signal and claim a cell near them.
 #   - If someone signals they want to talk to you, claim your current cell and stay put.
 #   - If neither party maintains the signal for 3 seconds, everything auto-releases.
 #
-# The TELL/ASK action system handles one speech act at a time (lock_rule talk...).
+# The SAY action system handles one speech act at a time (lock_rule talk...).
 # Multiple concurrent conversations are allowed - the lock only serializes the
 # physical act of speaking.
 
@@ -24,7 +27,7 @@
 
 # If I want to say some message to someone, I want to talk to them
 rule talk-to-goal
-{@self goal {@self TELL|ASK ? ?person}}
+{@self goal {@self SAY ? ?person}}
     ->
 (maintain_goal {@self talk_to ?person}).
 
@@ -113,8 +116,8 @@ rule talk-face-person-talking-to-me
 
 # If I have a talk-cell and I'm in it, go ahead and talk, 
 # stay there and face the person you're talking to
-rule talk-tell-or-ask-proposal
-{@self goal {@self TELL|ASK ?msg ?person}:?talk_action}
+rule talk-say-proposal
+{@self goal {@self SAY ?msg ?person}:?talk_action}
 (bb_public_read @self talk_cell): ?talk_cell
 (overlaps ?talk_cell @self)
     ->
@@ -140,18 +143,19 @@ rule talk-release-cell
 # OUTCOMES
 # ------------------------------------------------------------------------------------------------
 
-# Track TELL outcome
-rule goal-TELL-outcome
-{@self goal {@self TELL ?msg ?audience}}: ?goal
-{@self /past TELL ?msg ?audience /causes ~?goal /out?}: ?TELL
+# Track SAY outcome (statements and questions alike)
+rule goal-SAY-outcome
+{@self goal {@self SAY ?msg ?audience}}: ?goal
+{@self /past SAY ?msg ?audience /causes ~?goal /out?}: ?SAY
     ->
-(set_outcome ?goal (outcome ?TELL)).
+(set_outcome ?goal (outcome ?SAY)).
 
-# Track ASK outcome
-# When asking a question, expect an answer
-rule goal-ASK-outcome
-{@self goal {@self ASK ?question ?person}}: ?goal
-{@self /past ASK ?question ?person /causes ~?goal /out?}: ?ASK
+# When asking a question (a qs payload), expect an answer. The label no
+# longer discriminates mood, so gate on the payload func name - eq_func_name
+# is arity-agnostic (a (qs ... (reg_des ...)) instance still passes).
+rule goal-SAY-question-expect-answer
+{@self goal {@self SAY ?question ?person}}: ?goal
+{@self /past SAY ?question ?person /causes ~?goal /out?}: ?SAY
+(eq_func_name ?question qs)
     ->
-(begin_belief {@self expect_answer ?person /causes ?ASK})
-(set_outcome ?goal (outcome ?ASK)).
+(begin_belief {@self expect_answer ?person /causes ?SAY}).

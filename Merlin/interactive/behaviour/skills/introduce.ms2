@@ -99,16 +99,16 @@ rule introduce-siblings-tell-each-other
 # tell child1 "this is your brother|sister ?child2Name"
 (call siblingRel ?child2Gender): ?child2Rel
 (msg {?child1 ?child2Rel (this ?child2 ?child2Name)}): ?msgChild2IsYourSibling
-(maintain_goal {@self TELL ?msgChild2IsYourSibling ?child1})
+(maintain_goal {@self SAY ?msgChild2IsYourSibling ?child1})
 # tell child2 "this is your brother|sister ?child1Name"
 (call siblingRel ?child1Gender): ?child1Rel
 (msg {?child2 ?child1Rel (this ?child1 ?child1Name)}): ?msgChild1IsYourSibling
-(maintain_goal {@self TELL ?msgChild1IsYourSibling ?child2}).
+(maintain_goal {@self SAY ?msgChild1IsYourSibling ?child2}).
 
 rule introduce-siblings-outcome
 {@self /ever introduce_siblings ?person1 ?person2 /no_out}: ?intro
-{@self /succ TELL ? ?person1 /causes ~?intro}
-{@self /succ TELL ? ?person2 /causes ~?intro}
+{@self /succ SAY ? ?person1 /causes ~?intro}
+{@self /succ SAY ? ?person2 /causes ~?intro}
     ->
 (set_outcome ?intro /succ).
 

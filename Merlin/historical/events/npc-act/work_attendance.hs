@@ -18,9 +18,12 @@
 ;                    re-deliberates (-> go home / outing / rest).
 ;   - day_go_work  : shift on or imminent and not yet there -> a (go) travel act.
 ;
-; Utility 80 dominates leisure/vice (~30) and the rest lane's mild fallback, but
-; loses to night sleep (100). Trait-driven shirking (industriousness) is a
-; follow-up - utility becomes a (factors ...) of industriousness then.
+; Utility is trait-scaled (the ruling-10 disposition factor): base 80 x
+; (0.75 + 0.5 x industriousness) -> 60..100. The shirker's 60 loses the
+; supper crossing early (and even to a long lunch); the driven man's 100
+; works through the meal windows and only night sleep (100) or exhaustion
+; pulls him off the shift. Leisure/vice (~30) and the rest fallback stay
+; dominated for everyone.
 ; ----------------------------------------------------------------------------
 
 (hsim-event day_work
@@ -31,8 +34,12 @@
              (bind {?job (work-hours-today-label) ?start ?end})
              (at-place ?wp)
              (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
-  (utility 80)
-  (effects (stay (minutes-until-shift-end ?end))))
+  (utility (* 80 (factors (attr @self industriousness) 0.75 0.5)))
+  ; The stay YIELDS at the workplace lunch band (12-14): eligibility is only
+  ; sampled at act completions, so an uncapped shift-long stay would leap
+  ; clean over work_lunch's window. After lunch the next 12:00 is tomorrow
+  ; (a huge cap), so the stay runs to shift end.
+  (effects (stay (min (minutes-until-shift-end ?end) (minutes-until-hour 12)))))
 
 (hsim-event day_go_to_work
   (intra-day)
@@ -42,5 +49,5 @@
              (bind {?job (work-hours-today-label) ?start ?end})
              (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))
              (not (at-place ?wp))))
-  (utility 80)
+  (utility (* 80 (factors (attr @self industriousness) 0.75 0.5)))
   (effects (go @self ?wp)))

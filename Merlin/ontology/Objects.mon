@@ -371,8 +371,15 @@ object (+ obs)
             # goal beliefs about disinheritance / inheritance / expose.
             # Death-trigger reads it to convert heir_of -> inherit.
             will
+    # consumable (the drink leaves below + the food taxonomy): knowledge
+    # about a consumable is EPISODIC even while ongoing - a mind does not
+    # remember every loaf and every glass forever; the decay sweep runs
+    # their standing beliefs on the same forgetting curve as episodes.
+    # Deliberately NOT on the toxins / accelerants (a poison bottle's
+    # whereabouts is detective evidence and keeps standing permanence),
+    # and facets don't cascade - tag leaves, not `fluid`.
     fluid
-        beer
+        beer            (facets consumable)
         # Drink fluids - what sits in a table-service vessel. A poisoning
         # TAINTS the victim's drink: the chosen drink fluid's `taint` attr
         # (common.arc) names the concentrated poison kind it was laced with
@@ -380,9 +387,9 @@ object (+ obs)
         # from the perpetrator's `add_substance` act-record belief). The
         # occasion picks the drink: supper / luncheon -> wine, tea ->
         # tea, breakfast -> water.
-        wine
-        tea
-        water
+        wine            (facets consumable)
+        tea             (facets consumable)
+        water           (facets consumable)
         # Concentrated poison substances - the contents of a poison bottle,
         # the trade good behind the perpetration row's (control_any toxin)
         # gate. (`toxin`, not `poison`: `poison` is already the leaf kill
@@ -437,11 +444,12 @@ object (+ obs)
     # Food taxonomy for trap-set / trap-fire arcs. Parallel to fluid;
     # poisoning a food vessel uses the same `add_substance` task as
     # fluids. Sub-kinds are starter content; extend as authored arcs
-    # demand more variants.
-    food
-        bread
-        cheese
-        soup
+    # demand more variants. consumable: see the fluid note above - every
+    # new food leaf MUST carry it (facets don't cascade).
+    food            (facets consumable)
+        bread       (facets consumable)
+        cheese      (facets consumable)
+        soup        (facets consumable)
 
     # Man-made structures
     structure

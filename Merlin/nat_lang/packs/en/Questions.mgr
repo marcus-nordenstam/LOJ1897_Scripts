@@ -56,10 +56,10 @@
 
 # Any bare question-phrase asked directly - "what is your name", "who is your
 # mother", "what is your age", etc. - with no "do you know" prefix and no
-# enclosing parens. Wraps the QSP in qs so mx_player_say routes it as an ASK
-# (-> compute-answer / tell-answer), not a TELL. Without this a plain question
-# matched the bare QSP at top level and shipped as a TELL, whose hear-tell
-# eval_msg of a question-expression returns @fail, so the NPC never answered.
+# enclosing parens. Wraps the QSP in qs so the SAY ships a question payload
+# (-> compute-answer / tell-answer), not a (msg ...) statement. Without this
+# a plain question matched the bare QSP at top level and shipped as a
+# statement, which hear-tell's mood gate ignores, so the NPC never answered.
 "$qs_phrase(QSP)"
 ( qs $qs_phrase(QSP) )
 .
@@ -322,9 +322,9 @@
 # DETECTIVE-INTERROGATION QUESTION PACK (questionnaire.txt categories)
 # -----------------------------------------------------------------------------
 # All entries below are :QSP forms - the top-level "$qs_phrase(QSP)" router
-# (above) wraps any of them in (qs ...) so mx_player_say ships them as an ASK
-# and compute-answer / tell-answer evaluate them against the answerer's own
-# beliefs. Each question carries several surface phrasings, blunt -> eloquent,
+# (above) wraps any of them in (qs ...) so mx_player_say ships them as a
+# question-payload SAY and compute-answer / tell-answer evaluate them against
+# the answerer's own beliefs. Each question carries several surface phrasings, blunt -> eloquent,
 # so the same fact can be asked plainly ("what do you do") or formally ("by
 # what trade do you make your living").
 #

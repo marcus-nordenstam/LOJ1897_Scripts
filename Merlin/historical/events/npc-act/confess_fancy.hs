@@ -6,7 +6,7 @@
 ; beloved's heart. THE FIX: whoever fancies someone TELLS THEM - when they are
 ; together. (tell-to ?target {@self fancy ?target}) says it directly to ?target;
 ; perception delivers {@self fancy ?target} into ?target's mind, sourced to the
-; spoken {@self TELL ...}. Now each suitor reads the OTHER side's fancy from his
+; spoken {@self SAY ...}. Now each suitor reads the OTHER side's fancy from his
 ; OWN belief (love_match / court / lovers gate on (believes {?beloved fancy @self}))
 ; - never a cross-mind read.
 ;

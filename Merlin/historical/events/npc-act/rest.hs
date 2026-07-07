@@ -39,6 +39,7 @@
   ; lane OUT, so the fight acts (defend / flee / scream) take over (fight.hs).
   (when (and (not (under-attack))
              (at-home)
+             (bind {@self home ?home})
              (or (> (attr @self fatigue) 0.5)
                  (>= (now-hour) 22)
                  (< (now-hour) 6))))
@@ -48,16 +49,16 @@
                     (if (or (>= (now-hour) 22) (< (now-hour) 6)) 100 0))))
   ; Duration is a FUNCTION: sleep until the morning alarm, but no longer than
   ; until a pending obligation - a tired NPC with a gathering tonight wakes in
-  ; time to get ready instead of napping straight through it. (min ...) of the
-  ; alarm and every constraint; minutes-until-attend is a huge sentinel when no
-  ; occasion is pending, so ordinary nights are unaffected.
-  ; Duration is a FUNCTION: sleep until the morning alarm, but no longer than
-  ; until a pending obligation - a tired NPC with a gathering tonight wakes in
-  ; time to get ready instead of napping straight through it. (min ...) of the
-  ; alarm and every constraint; minutes-until-attend is a huge sentinel when no
-  ; occasion is pending, so ordinary nights are unaffected.
+  ; time to get ready instead of napping straight through it, and an evening
+  ; napper wakes for the household supper (the pre-dinner doze; on a normal
+  ; NIGHT sleep the next supper hour is ~20h away, far past the alarm, so
+  ; nights are unaffected - and an exhausted riser just goes straight back to
+  ; bed, the fatigue knee wins the 18:00 re-deliberation). (min ...) of the
+  ; alarm and every constraint; minutes-until-attend / -until-hour are huge
+  ; sentinels when nothing is pending.
   (effects (act sleep_episode (min (minutes-until-alarm @self)
-                                   (minutes-until-attend @self)))))
+                                   (minutes-until-attend @self)
+                                   (minutes-until-hour (target {?home supper_hour}))))))
 
 ; completion of the sleep act (completion-only): the engine ends the {@self sleep}
 ; act-belief and resets fatigue automatically; this just records the wake.

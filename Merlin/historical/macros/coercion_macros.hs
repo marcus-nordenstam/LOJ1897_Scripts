@@ -7,7 +7,7 @@
 ; travels the believe_about mirror / gossip, so a public disgrace reaches
 ; him) - the anchor ends: a secret everyone knows coerces nobody. Otherwise
 ; the demand is pressed - the victim's threatened
-; TELL record + exposure_risk pressure refresh (compounding salience walks
+; SAY record + exposure_risk pressure refresh (compounding salience walks
 ; her from bribe / confess toward the kill tail across ticks, unscripted) -
 ; and half the months a blackmail note rides the covert letter channel: the
 ; anonymous {@self coerce ?victim {?victim lover @self}} demand note, a

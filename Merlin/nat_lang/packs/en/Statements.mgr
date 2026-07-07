@@ -783,19 +783,21 @@ $form(FORM)
 
 
 # SPEECH ACTIONS
+# SAY is the ONE verbal action label - the payload func discriminates the
+# mood ($msg = statement, $qs = question).
 
 " $sub_np(NP) says ++:   $msg(MSG) to $obj_np(NP)"
-{ $sub_np(NP) /pres TELL $msg(MSG)    $obj_np(NP) }
+{ $sub_np(NP) /pres SAY $msg(MSG)    $obj_np(NP) }
 .
 " $sub_np(NP) said ++:   $msg(MSG) to $obj_np(NP)"
-{ $sub_np(NP) /past TELL $msg(MSG)    $obj_np(NP) }
+{ $sub_np(NP) /past SAY $msg(MSG)    $obj_np(NP) }
 .
 
 " $sub_np(NP) says ++:   $qs(QS) to $obj_np(NP)"
-{ $sub_np(NP) /pres ASK  $qs(QS)    $obj_np(NP) }
+{ $sub_np(NP) /pres SAY $qs(QS)    $obj_np(NP) }
 .
 " $sub_np(NP) said ++:   $qs(QS) to $obj_np(NP)"
-{ $sub_np(NP) /past ASK  $qs(QS)    $obj_np(NP) }
+{ $sub_np(NP) /past SAY $qs(QS)    $obj_np(NP) }
 .
 
 # SPEECH TASKS

@@ -3,7 +3,7 @@
 ; fiancee / child / friendship) to whoever is co-present. (top-untold-belief @self
 ; _ @self spouse fiancee lover child) picks the freshest such fact they have not
 ; already announced (about = @self -> self-news; checked against their {@self
-; TELL ...} memories so they do not repeat it), and (tell ...) broadcasts it. A
+; SAY ...} memories so they do not repeat it), and (tell ...) broadcasts it. A
 ; listener who hears it files @self as the source and can pass "did you hear, X had
 ; a child" along - self-news cascades onward as ordinary gossip.
 ;

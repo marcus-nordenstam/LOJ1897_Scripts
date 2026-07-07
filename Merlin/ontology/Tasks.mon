@@ -102,6 +102,18 @@ relation
             dine                                    (tar structure)    (aux meal)
             read_at                                 (tar structure)
             rest                                    (tar structure)
+            # provision - the cook's keep-the-larder-stocked errand (buy
+            # food at the grocer, carry it home, stow it in the kitchen).
+            # The goal the plan_provisioning think event mints and the
+            # meals.hs provisioning acts drain.
+            provision                               (tar ?)
+            # stocktake - the shopkeeper's morning inventory round: walk the
+            # premises and validate the believed stock against the shelves
+            # (take-stock-of-room, stocktake_macros.hs). The act whose whole
+            # PURPOSE is confirming / disproving whereabouts beliefs -
+            # deliberate attention, the only sanctioned absence-disproof
+            # beyond the goal-attended reach-for-it verify.
+            stocktake                               (tar ?)
             # Conversational activities (activity-lanes L8) - SPECIFIC, each with
             # a propagation EFFECT among the co-present, not a vague `converse`:
             #  gossip <subject>  - spread a belief you hold about a THIRD party
@@ -255,7 +267,7 @@ relation
             urge                                                (tar @S)
 
             # Social / communication sub-block - tasks that bubble down to
-            # TELL / WRITE_DOC / ASK ACTION chains. Tags carried over from
+            # SAY / WRITE_DOC ACTION chains. Tags carried over from
             # the deleted (behaviour) block.
             # insult / confront_privately moved into the `speech_act`
             # group at the end of this block.
@@ -444,17 +456,17 @@ relation
             # ----------------------------------------------------------------------------------
             # Speech acts - the verbal-method vocabulary. These labels are
             # NOT minted as act-record beliefs: the memory of a verbal act
-            # is a TELL action belief whose @msg target carries the
+            # is a SAY action belief whose @msg target carries the
             # utterance, classified by a trailing (msg_class <leaf>) arg
-            # on the msg func - {actor TELL (msg ~{grievance}
+            # on the msg func - {actor SAY (msg ~{grievance}
             # (msg_class insult)) /aux victim}. The leaves remain real
             # task kinds because (a) deliberation goal clauses still name
             # them ({actor goal {actor confront_privately victim}} - the
             # victim stays the goal clause's target), (b) perpetration
             # rows validate their :method atoms against Tasks.mon, and
             # (c) their (construed_act ...) tags are what categorize()
-            # reads off the msg_class kind when appraising the TELL
-            # anchor (patient = the TELL's @msgAudience aux).
+            # reads off the msg_class kind when appraising the SAY
+            # anchor (patient = the SAY's @msgAudience aux).
             #
             # KEEP THIS GROUP LAST in the task block: a .mon de-indent
             # resets cascaded (+) flags (the (+ task) (+ sub human) on

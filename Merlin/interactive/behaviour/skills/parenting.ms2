@@ -13,18 +13,18 @@ rule parenting-tell-child-their-home
 {@self home ?home}
 {@self child ?child}
 {?child age_group 0}
-(none {@self /succ TELL (msg {?child home ?home}) ?child})
+(none {@self /succ SAY (msg {?child home ?home}) ?child})
     ->
-(begin_goal {@self TELL (msg {?child home ?home}) ?child})
+(begin_goal {@self SAY (msg {?child home ?home}) ?child})
 (fire_and_forget).
 
 rule parenting-tell-child-my-home
 {@self child ?child}
 {?child age_group 0}
 {@self home ?home}
-(none {@self /succ TELL (msg {@self home ?home}) ?child})
+(none {@self /succ SAY (msg {@self home ?home}) ?child})
     ->
-(begin_goal {@self TELL (msg {@self home ?home}) ?child})
+(begin_goal {@self SAY (msg {@self home ?home}) ?child})
 (fire_and_forget).
 
 # We let the mother introduce the siblings
@@ -46,7 +46,7 @@ rule parenting-tell-child-theatre-obb
 {?theatre isa [k building theatre]:?theatreKind}
 {?theatre obb ?obb}
     ->
-(maintain_goal {@self TELL (msg (o ?theatreKind {@o obb ?obb})) ?child}).
+(maintain_goal {@self SAY (msg (o ?theatreKind {@o obb ?obb})) ?child}).
 
 # comeWith task:
 #   If someone tells you comeWith, they are the leader and I am the follower

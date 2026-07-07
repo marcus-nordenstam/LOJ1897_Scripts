@@ -20,7 +20,7 @@
 #     and may be referenced as goal-clause inner labels.
 #
 #   * an ACTION (declared in interactive/actions/*.act). An ACTION is the
-#     lowest-level motor primitive - WALK_TO, GRASP, TELL, INGEST, POUR.
+#     lowest-level motor primitive - WALK_TO, GRASP, SAY, INGEST, POUR.
 #     ACTIONs directly affect the shared Merlin env; tasks do not. ACTIONs
 #     auto-register as kinds under `act` from the `.act` files; the
 #     construed_act analogue for ACTIONs is the `nature = <tag>` line in

@@ -31,9 +31,9 @@ rule buy-building-tell-agent
 {?bldg name ?address}
 {?agent job [k house_agent]}
 (observed ?bldg)
-(none {@self /succ TELL ? ?agent /causes ~?buyBldg})
+(none {@self /succ SAY ? ?agent /causes ~?buyBldg})
     ->
-(maintain_goal {@self TELL (msg {@self goal {@self buy (o ?bldgKind ?address)}}) ?agent}).
+(maintain_goal {@self SAY (msg {@self goal {@self buy (o ?bldgKind ?address)}}) ?agent}).
 
 
 # If I am trying to buy a real (not hypothetical) building, then

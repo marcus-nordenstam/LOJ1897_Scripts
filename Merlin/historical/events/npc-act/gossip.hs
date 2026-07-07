@@ -3,7 +3,7 @@
 ; know about a third party (a witnessed scandal preferred over mere relationship
 ; news) - and have not already aired. (top-untold-belief @self _ _ <labels>) ranks
 ; the actor's about-others beliefs by the label list (scandal first), skips any
-; they already hold a {@self TELL ...} memory of (so they never repeat the same
+; they already hold a {@self SAY ...} memory of (so they never repeat the same
 ; gossip), and applies the leaky-silence shame-seal (a victim does not broadcast
 ; their own disgrace). (tell ...) emits a real speech sound, so perception delivers
 ; the fact to whoever is co-present and the adoption pass files the gossiped-about

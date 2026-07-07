@@ -45,6 +45,13 @@ concept
         # `physical_mobility` derived belief which captures observable
         # locomotion level over time.
         unconscious
+        # A consumable prop that was eaten / drunk / used up, as far as the
+        # holder knows (the consumer's own act; a witness's percept). The
+        # prop twin of `dead`: minted ONGOING and never ended (the condition
+        # persists), while every other belief about the prop is ENDED at the
+        # same realization seam. Still forgotten eventually - prop-subject
+        # knowledge follows the episodic forgetting rules even while ongoing.
+        consumed
 
     # The discrete de-quantization of the continuous `fatigue` attr, minted as a
     # {@self alertness <kind>} self-belief by the fatigue appraiser (the queryable
@@ -53,6 +60,17 @@ concept
         alert
         tired
         sleepy
+
+    # The discrete de-quantization of the continuous `hunger` attr, minted as
+    # a {@self satiety <kind>} self-belief by the physiology appraiser (like
+    # `alertness` over `fatigue`). The meal lanes gate eligibility on the
+    # attr; consumers of the BELIEF are the body couplings (mood; physical
+    # weakness arrives with the combat spec) and the famished starvation
+    # tail.
+    satiety             (tar @excl)
+        sated
+        hungry
+        famished
 
     # Observable locomotion level - the physical-mobility state, mirrored
     # directly as a belief (like `condition` / `alertness`; no separate
@@ -1116,6 +1134,12 @@ concept
     vocational_state    (+ sub human)
         retire              (tar ? @excl)
         home                (tar structure @excl)  (disclosure acquaintance)
+        # WHERE the NPC believes provisions are sold - the shop they buy food
+        # at. Per-mind venue knowledge, learned honestly (the public register
+        # read at orientation, or having found food at a shop's counter);
+        # meals.hs provisioning / starving lanes route on it. @excl: one
+        # habitual shop; a new discovery supersedes.
+        provisions_shop     (tar structure @excl)  (disclosure acquaintance)
         # A private hiding-spot cache the NPC MADE (an interior sub-space they own).
         # A DEFINED relation so {@self hiding_spot <cache>} mints reasoned (/rsn) and
         # PERSISTS - an undefined label mints /obs and self-perception disproves it
