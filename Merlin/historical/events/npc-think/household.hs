@@ -134,7 +134,7 @@
 ; plan_provisioning (npc-think) - the cook checks the larder and, if it is
 ; genuinely low, takes on the provisioning errand; the npc-act lanes
 ; (meals.hs provision_go_known / provision_search / provision_take) drain
-; the goal. The check is DELIBERATE whereabouts work (take-stock-of-room,
+; the goal. The check is DELIBERATE whereabouts work (take-stock-of,
 ; stocktake_macros.hs): her believed stock can be stale in both directions
 ; (phantom loaves the family ate unseen; loaves she forgot), so she walks
 ; the rooms she keeps food in and validates before deciding - checking the
@@ -161,7 +161,7 @@
 
   (effects
     (for-each ?room (attr-values ?home parts [k interior_space room])
-      (take-stock-of-provisions ?room))
+      (take-stock-of ?room [k food]))
     (if (< (count-believed-located [k food] ?home) 4)
         (begin-goal {@self provision}))
     ))
