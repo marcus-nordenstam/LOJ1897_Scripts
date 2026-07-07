@@ -117,7 +117,7 @@ concept
     # prior dominant life_aim belief on a qualitative shift (PR-aim-
     # history), so multi-decade life_aim history is queryable as
     # repeated {@self life_aim ?} beliefs with non-overlapping intervals.
-    life_aim            (tar)
+    life_aim            (tar)  (disclosure friend)
         legacy_aim
         wealth_aim
         piety_aim
@@ -538,7 +538,7 @@ concept
     org_pos
         apprenticeship
         membership          (sub human)
-        job                 (sub human)
+        job                 (sub human)  (disclosure stranger)
             editor
             printer
             journalist
@@ -756,7 +756,7 @@ concept
         spotless
         tarnished
         disgraced
-    class_situation          (sub human)  (tar @excl)
+    class_situation          (sub human)  (tar @excl)  (disclosure stranger)
         upper
         middle
         lower
@@ -952,7 +952,7 @@ concept
 
     cultural_aspect
         title
-        nationality         (sub human)  (tar @excl)
+        nationality         (sub human)  (tar @excl)  (disclosure stranger)
             english
             irish
             st_revieran
@@ -970,7 +970,7 @@ concept
             auburn
             blonde
             white
-        gender              (tar @excl)
+        gender              (tar @excl)  (disclosure stranger)
             male
             female
         appearance          (tar @excl)
@@ -1035,22 +1035,22 @@ concept
     # makes every role explicitly a noun, so the bond decorations below
     # (relation flags) do not trip define()'s noun-vs-relation inference.
     relationship        (+ sub human)  (+ tar human)  (+ noun)
-        parent          (inclusive_bond)
-        mother          (tar @excl)  (inclusive_bond)
-        father          (tar @excl)  (inclusive_bond)
-        brother         (inclusive_bond)
-        sister          (inclusive_bond)
-        sibling         (inclusive_bond)
-        half_sibling    (inclusive_bond)
-        grandmother     (tar @excl)  (inclusive_bond)
-        grandfather     (tar @excl)  (inclusive_bond)
-        grandparent     (inclusive_bond)
-        grandchild      (inclusive_bond)
-        aunt            (inclusive_bond)
-        uncle           (inclusive_bond)
-        niece           (inclusive_bond)
-        nephew          (inclusive_bond)
-        cousin          (inclusive_bond)
+        parent          (inclusive_bond)  (disclosure acquaintance)
+        mother          (tar @excl)  (inclusive_bond)  (disclosure acquaintance)
+        father          (tar @excl)  (inclusive_bond)  (disclosure acquaintance)
+        brother         (inclusive_bond)  (disclosure acquaintance)
+        sister          (inclusive_bond)  (disclosure acquaintance)
+        sibling         (inclusive_bond)  (disclosure acquaintance)
+        half_sibling    (inclusive_bond)  (disclosure acquaintance)
+        grandmother     (tar @excl)  (inclusive_bond)  (disclosure acquaintance)
+        grandfather     (tar @excl)  (inclusive_bond)  (disclosure acquaintance)
+        grandparent     (inclusive_bond)  (disclosure acquaintance)
+        grandchild      (inclusive_bond)  (disclosure acquaintance)
+        aunt            (inclusive_bond)  (disclosure acquaintance)
+        uncle           (inclusive_bond)  (disclosure acquaintance)
+        niece           (inclusive_bond)  (disclosure acquaintance)
+        nephew          (inclusive_bond)  (disclosure acquaintance)
+        cousin          (inclusive_bond)  (disclosure acquaintance)
         mother_in_law   (tar @excl)  (inclusive_bond)
         father_in_law   (tar @excl)  (inclusive_bond)
         parent_in_law   (inclusive_bond)
@@ -1063,19 +1063,19 @@ concept
         stepmother      (tar @excl)  (inclusive_bond)
         stepfather      (tar @excl)  (inclusive_bond)
         stepchild       (inclusive_bond)
-        child           (inclusive_bond)
+        child           (inclusive_bond)  (disclosure acquaintance)
         # Guardianship. {?guardian ward ?ward_npc} reads
         # "guardian is the legal guardian of ward". Inclusive bond
         # (multiple wards possible). The case study's Ashcombe/Clara pair
         # uses this for the pre-perpetration relationship.
         ward            (inclusive_bond)
-        spouse          (tar @excl)  (exclusive_bond)
-        fiancee         (tar @excl)  (exclusive_bond)
-        lover           (inclusive_bond)
-        friend          (inclusive_bond)
-        acquaintance    (inclusive_bond)
-        neighbour       (inclusive_bond)
-        close_to
+        spouse          (tar @excl)  (exclusive_bond)  (disclosure acquaintance)
+        fiancee         (tar @excl)  (exclusive_bond)  (disclosure acquaintance)
+        lover           (inclusive_bond)  (disclosure intimate)
+        friend          (inclusive_bond)  (disclosure acquaintance)
+        acquaintance    (inclusive_bond)  (disclosure acquaintance)
+        neighbour       (inclusive_bond)  (disclosure acquaintance)
+        close_to  (disclosure close_friend)
         relied_on_by
         respected_by
         enemy           (inclusive_bond)
@@ -1110,12 +1110,12 @@ concept
 
     marriage_desirability   (tar ? @excl)
 
-    birthplace          (sub human)  (tar structure @excl)
+    birthplace          (sub human)  (tar structure @excl)  (disclosure acquaintance)
 
     # Vocational / educational / societal states (subject is a human).
     vocational_state    (+ sub human)
         retire              (tar ? @excl)
-        home                (tar structure @excl)
+        home                (tar structure @excl)  (disclosure acquaintance)
         # A private hiding-spot cache the NPC MADE (an interior sub-space they own).
         # A DEFINED relation so {@self hiding_spot <cache>} mints reasoned (/rsn) and
         # PERSISTS - an undefined label mints /obs and self-perception disproves it

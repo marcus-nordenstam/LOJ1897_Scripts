@@ -140,7 +140,7 @@ relation
             # continuous stance scalars projecting to infinitive verb-states
             # (like/admire/distrust/...) in the (stance) block above.
             # value: a held virtue - the identity / values appraisal input.
-            value               (tar ?)
+            value               (tar ?)  (disclosure friend)
             # justify: a held cognitive narrative that frames a past or
             # planned act as acceptable.
             # Target is a `narrative` kind ({@self justify they_deserved_it
@@ -312,7 +312,7 @@ relation
             # NPC's venture (the investment event). Subject is the backed
             # party, target the investor. Non-exclusive - a venture may have
             # several backers.
-            backed_by           (tar human)
+            backed_by           (tar human)  (disclosure acquaintance)
             # heir_of: {heir heir_of benefactor} - prospect, non-@excl
             # (an estate may name multiple heirs). Parallel to fiancee
             # (prospect for marriage). Distinct from the past-tense
@@ -446,8 +446,8 @@ relation
         #     may crave more than one thing). The target is the craved substance
         #     kind: {@self craving alcohol}.
         (drive)                 (+ sub human)
-            interest            (tar domain)
-            calling             (tar domain @excl)
+            interest            (tar domain)  (disclosure acquaintance)
+            calling             (tar domain @excl)  (disclosure friend)
             craving             (tar ?)
             # life_aim - the existential-frame drive: what the NPC
             # wants their LIFE to amount to. Target is a life_aim kind
@@ -465,7 +465,7 @@ relation
             # qualitative shift, so multi-decade life_aim history is
             # queryable as repeated {@self life_aim ?} beliefs with
             # non-overlapping intervals. See PR-aim-history.
-            life_aim            (tar life_aim)
+            life_aim            (tar life_aim)  (disclosure friend)
 
         # Derived dimensions (F3.2) - each a single numeric quality, computed
         # and cached by an F3.5 classifier, never authored by hand (the same
