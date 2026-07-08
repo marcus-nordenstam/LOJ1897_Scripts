@@ -30,6 +30,7 @@
 
 ; --- emergent: workers the world lane enrols during the sim (monthly per-NPC) ---
 (hsim-event materialize_employment
+  (long-term-think)
   (rng-stream employment)
 
   (roles
