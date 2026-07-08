@@ -22,7 +22,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event attempt_kill
+(hsim-npc-behaviour attempt_kill
   (long-term-think)
 
   (roles

@@ -11,22 +11,22 @@
 ;   found_club_commit : completion (completion-only) - founds the club + clears the goal.
 ; ----------------------------------------------------------------------------
 
-(hsim-event found_club_go
-  (intra-day)
+(hsim-npc-behaviour found_club_go
+  (short-term-think)
   (when (and (has-goal found_club)
              (not (at-place-kind [k building pub]))))
   (utility 45)
   (effects (go @self (venue [k building pub]))))
 
-(hsim-event found_club_dwell
-  (intra-day)
+(hsim-npc-behaviour found_club_dwell
+  (short-term-think)
   (when (and (has-goal found_club)
              (at-place-kind [k building pub])))
   (utility 45)
   (effects (act found_club_commit 90)))
 
-(hsim-event found_club_commit
-  (schedule (completion-only))
+(hsim-npc-behaviour found_club_commit
+  (on-completion)
   (effects
     ; The foundable-club catalog, ungated (0): clubs are not premises-gated -
     ; a dry pool just no-ops the founding macro via its (if ?wp) guard.

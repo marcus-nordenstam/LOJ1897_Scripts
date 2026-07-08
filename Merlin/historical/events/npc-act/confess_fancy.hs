@@ -24,8 +24,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event confess_fancy
-  (sim-window-start)
+(hsim-npc-behaviour confess_fancy
+  (long-term-think)
   (rng-stream marriages)
 
   (roles

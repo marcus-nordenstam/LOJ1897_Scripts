@@ -26,8 +26,8 @@
 ; dominated for everyone.
 ; ----------------------------------------------------------------------------
 
-(hsim-event day_work
-  (intra-day)
+(hsim-npc-behaviour day_work
+  (short-term-think)
   (when (and (bind {@self employer ?org})
              (bind {?org workplace ?wp})
              (bind {@self job ?job})
@@ -41,8 +41,8 @@
   ; (a huge cap), so the stay runs to shift end.
   (effects (stay (min (minutes-until-shift-end ?end) (minutes-until-hour 12)))))
 
-(hsim-event day_go_to_work
-  (intra-day)
+(hsim-npc-behaviour day_go_to_work
+  (short-term-think)
   (when (and (bind {@self employer ?org})
              (bind {?org workplace ?wp})
              (bind {@self job ?job})

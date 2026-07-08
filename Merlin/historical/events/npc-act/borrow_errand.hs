@@ -16,8 +16,8 @@
 ;                   <creditor>} + clears the goal.
 ; ----------------------------------------------------------------------------
 
-(hsim-event borrow_go
-  (intra-day)
+(hsim-npc-behaviour borrow_go
+  (short-term-think)
   (bind (goal-focus take_loan) ?creditor)
   (when (and (has-goal take_loan)
              (bind {?creditor home ?cred_home})
@@ -25,8 +25,8 @@
   (utility 60)
   (effects (go @self ?cred_home)))
 
-(hsim-event borrow_dwell
-  (intra-day)
+(hsim-npc-behaviour borrow_dwell
+  (short-term-think)
   (bind (goal-focus take_loan) ?creditor)
   (when (and (has-goal take_loan)
              (bind {?creditor home ?cred_home})
@@ -34,8 +34,8 @@
   (utility 60)
   (effects (act borrow_commit 45)))
 
-(hsim-event borrow_commit
-  (schedule (completion-only))
+(hsim-npc-behaviour borrow_commit
+  (on-completion)
   (effects
     (begin-belief {@self owe (goal-focus take_loan)})
     (end-goal {@self take_loan})

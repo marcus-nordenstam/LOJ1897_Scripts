@@ -24,8 +24,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event plan_wedding
-  (sim-window-start)
+(hsim-npc-behaviour plan_wedding
+  (long-term-think)
   (rng-stream marriages)
   ; @self GATE: unmarried adult man (the template's male / 18+ / not-spouse filters
   ; apply to @self; its kind/alive existence checks are no-ops for @self and are

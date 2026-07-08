@@ -20,7 +20,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event social_ostracism
+(hsim-npc-behaviour social_ostracism
   ; Per-NPC (long-term-think), MONTHLY. social-ostracism is idempotent (re-ending
   ; already-ended warmth bonds / club memberships is a no-op); the (chance 0.0833)
   ; ~= an annual cadence so a scandalous NPC is ostracised ~once a year (and

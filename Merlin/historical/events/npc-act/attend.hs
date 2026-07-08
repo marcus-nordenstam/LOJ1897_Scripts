@@ -27,8 +27,8 @@
 ; the other lanes win (the goal simply waits, then expires next window).
 ; ----------------------------------------------------------------------------
 
-(hsim-event attend_go
-  (intra-day)
+(hsim-npc-behaviour attend_go
+  (short-term-think)
   (bind (attend-venue @self) ?venue)
   (when (and (has-goal attend)
              (attend-in-window @self)
@@ -36,8 +36,8 @@
   (utility (attend-utility @self))
   (effects (go @self ?venue)))
 
-(hsim-event attend_dwell
-  (intra-day)
+(hsim-npc-behaviour attend_dwell
+  (short-term-think)
   (bind (attend-venue @self) ?venue)
   (when (and (has-goal attend)
              (attend-in-window @self)
@@ -45,8 +45,8 @@
   (utility (attend-utility @self))
   (effects (act attend_episode (attend-minutes-left @self))))
 
-(hsim-event attend_episode
-  (schedule (completion-only))
+(hsim-npc-behaviour attend_episode
+  (on-completion)
   (effects
     ; If this was a WEDDING and the attendee is one of its principals, the
     ; marriage is made HERE, at the church, by who showed up: end the

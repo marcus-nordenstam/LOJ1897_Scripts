@@ -9,8 +9,8 @@
 ; is future work - today a gap is simply a gap.
 ; ----------------------------------------------------------------------------
 
-(hsim-event plan_stocktake
-  (sim-window-start)
+(hsim-npc-behaviour plan_stocktake
+  (long-term-think)
   (rng-stream behaviour)
 
   (roles

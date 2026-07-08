@@ -24,8 +24,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event crush_forms
-  (sim-window-start)
+(hsim-npc-behaviour crush_forms
+  (long-term-think)
   (rng-stream incidents)
 
   (roles

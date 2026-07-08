@@ -20,8 +20,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event bonded_incident_assault
-  (sim-window-start)
+(hsim-npc-behaviour bonded_incident_assault
+  (long-term-think)
   (rng-stream incidents)
 
   (roles

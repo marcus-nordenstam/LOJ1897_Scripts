@@ -1,24 +1,24 @@
 ; gamble - the APPROACH/EXECUTE acts of the gambling lane (npc-act). Desire (gamble_urge) is in npc-think/gamble_urge.hs.
 ; (Split from the original lane file in the npc-think/npc-act reorg.)
 
-(hsim-event seek_game
-  (intra-day)
+(hsim-npc-behaviour seek_game
+  (short-term-think)
   (when (and (has-goal play_game)
              (not (at-place-kind [k building pub]))))
   (utility 30)
   (effects
     (go @self (venue [k building pub]))))
 
-(hsim-event gamble_act
-  (intra-day)
+(hsim-npc-behaviour gamble_act
+  (short-term-think)
   (when (and (has-goal play_game)
              (at-place-kind [k building pub])))
   (utility 30)
   (effects
     (act gamble_episode 90)))
 
-(hsim-event gamble_episode
-  (schedule (completion-only))
+(hsim-npc-behaviour gamble_episode
+  (on-completion)
   (effects
     ; gambling_addiction is the standing DISPOSITION to gamble (a state, not
     ; an act), accumulating exactly as intoxication does (~2 onsets to morbid);

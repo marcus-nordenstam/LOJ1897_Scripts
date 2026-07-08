@@ -1,8 +1,8 @@
 ; drink - the APPROACH/EXECUTE acts of the drinking lane (npc-act). Desire (crave_drink) is in npc-think/crave_drink.hs.
 ; (Split from the original lane file in the npc-think/npc-act reorg.)
 
-(hsim-event seek_drink
-  (intra-day)
+(hsim-npc-behaviour seek_drink
+  (short-term-think)
   (when (and (has-goal drink)
              (not (can-drink @self))))
   (utility 30)
@@ -11,8 +11,8 @@
 
 ; (c) EXECUTE - hold the goal and at a place with drink (a pub, or home): the
 ; durative drink act.
-(hsim-event drink
-  (intra-day)
+(hsim-npc-behaviour drink
+  (short-term-think)
   (when (and (has-goal drink)
              (can-drink @self)))
   (utility 30)
@@ -22,8 +22,8 @@
 ; The COMPLETION of the drink act (completion-only: never seeded, fired only when the
 ; act lands a duration later, in the serial completion pass). Applies the real
 ; effects + clears the goal. Implicit actor: the act's owner is bound as @self.
-(hsim-event drink_episode
-  (schedule (completion-only))
+(hsim-npc-behaviour drink_episode
+  (on-completion)
   (effects
     ; Intoxication accumulates as a lifetime-drinking proxy (v1 - no decay);
     ; the sobriety classifier reads the attr back. Locationless by design: pub

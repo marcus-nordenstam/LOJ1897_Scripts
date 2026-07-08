@@ -1,12 +1,12 @@
 ; ----------------------------------------------------------------------------
 ; The GAMBLING lane - the three-stage intra-day lane (4.13.15), the twin of get_drunk:
 ;
-;   (a) DESIRE   gamble_urge (sim-window-start) - low industriousness (a want of
+;   (a) DESIRE   gamble_urge (long-term-think) - low industriousness (a want of
 ;       self-discipline) takes to (or sinks deeper into) gambling; on a hit it
 ;       mints the standing goal {@self goal {@self play_game}}.
-;   (b) APPROACH seek_game   (intra-day) - holds the goal but is not at a pub ->
+;   (b) APPROACH seek_game   (short-term-think) - holds the goal but is not at a pub ->
 ;       a (go) travel act to a pub (the gambling venue).
-;   (c) EXECUTE  gamble_act  (intra-day) - at a pub with the goal -> the durative
+;   (c) EXECUTE  gamble_act  (short-term-think) - at a pub with the goal -> the durative
 ;       gamble act; its completion bumps `gambling_addiction` (capped at morbid,
 ;       exactly as get_drunk bumps `intoxication`) and clears the goal.
 ;
@@ -16,8 +16,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event gamble_urge
-  (sim-window-start)
+(hsim-npc-behaviour gamble_urge
+  (long-term-think)
   (rng-stream behaviour)
   (roles
     (role @self (template grown)))

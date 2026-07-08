@@ -12,22 +12,22 @@
 ;   resign_commit : completion (completion-only) - unregisters the member + clears goal.
 ; ----------------------------------------------------------------------------
 
-(hsim-event resign_go
-  (intra-day)
+(hsim-npc-behaviour resign_go
+  (short-term-think)
   (when (and (has-goal resign_club)
              (not (at-place-kind [k building social_clubhouse]))))
   (utility 40)
   (effects (go @self (venue [k building social_clubhouse]))))
 
-(hsim-event resign_dwell
-  (intra-day)
+(hsim-npc-behaviour resign_dwell
+  (short-term-think)
   (when (and (has-goal resign_club)
              (at-place-kind [k building social_clubhouse])))
   (utility 40)
   (effects (act resign_commit 45)))
 
-(hsim-event resign_commit
-  (schedule (completion-only))
+(hsim-npc-behaviour resign_commit
+  (on-completion)
   (effects
     (unregister-member /member @self)
     (end-goal {@self resign_club})

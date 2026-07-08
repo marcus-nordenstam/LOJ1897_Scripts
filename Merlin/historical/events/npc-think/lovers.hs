@@ -26,8 +26,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event lovers
-  (sim-window-start)
+(hsim-npc-behaviour lovers
+  (long-term-think)
   (rng-stream marriages)
 
   (roles

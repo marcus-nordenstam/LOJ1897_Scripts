@@ -23,7 +23,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event coercion
+(hsim-npc-behaviour coercion
   (long-term-think)
   (rng-stream perpetration)
 

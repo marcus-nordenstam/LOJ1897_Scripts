@@ -19,8 +19,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event gossip
-  (sim-window-start)
+(hsim-npc-behaviour gossip
+  (long-term-think)
   (rng-stream behaviour)
 
   (roles

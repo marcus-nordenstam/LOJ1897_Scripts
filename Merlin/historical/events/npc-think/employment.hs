@@ -19,7 +19,7 @@
 (include "../../definitions/roles.hs")
 
 ; --- hiring: a jobless working-age adult is taken on by some org -------------
-(hsim-event hiring
+(hsim-npc-behaviour hiring
   (long-term-think)
   (rng-stream employment)
 
@@ -82,8 +82,8 @@
 ; (promote() caps the rise at senior - headship is succession-only). This replaces
 ; the old worker-first promotion enumeration (every human x an O(all-articles)
 ; boss_of scan to reach the boss-side assessment), which dominated the world lane.
-(hsim-event job_loss
-  (sim-window-start)
+(hsim-npc-behaviour job_loss
+  (long-term-think)
   (rng-stream employment)
 
   (roles
@@ -102,7 +102,7 @@
 ; The npc-ACT (events/work/retire.hs) routes the worker to their workplace and the
 ; completion fires the actual (fire) commit - so a retirement happens AT the
 ; workplace, by the man himself, generating the co-presence a witness would see.
-(hsim-event retirement
+(hsim-npc-behaviour retirement
   (long-term-think)
   (rng-stream employment)
 

@@ -18,8 +18,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event express_contempt
-  (sim-window-start)
+(hsim-npc-behaviour express_contempt
+  (long-term-think)
   (rng-stream incidents)
 
   (roles

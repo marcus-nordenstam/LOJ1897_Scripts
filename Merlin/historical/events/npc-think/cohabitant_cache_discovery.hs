@@ -27,7 +27,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event cohabitant_cache_discovery
+(hsim-npc-behaviour cohabitant_cache_discovery
   (long-term-think)
   (rng-stream incidents)
 

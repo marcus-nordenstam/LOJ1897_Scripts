@@ -22,8 +22,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event stow_go
-  (intra-day)
+(hsim-npc-behaviour stow_go
+  (short-term-think)
   (bind (goal-focus stow) ?item)
   (when (and (has-goal stow)
              (is-entity ?item)
@@ -32,16 +32,16 @@
   (utility 90)
   (effects (go @self ?home)))
 
-(hsim-event stow_put
-  (intra-day)
+(hsim-npc-behaviour stow_put
+  (short-term-think)
   (when (and (has-goal stow)
              (is-entity (goal-focus stow))
              (at-home)))
   (utility 91)
   (effects (act stow_finish 5)))
 
-(hsim-event stow_finish
-  (schedule (completion-only))
+(hsim-npc-behaviour stow_finish
+  (on-completion)
   (effects
     (bind (goal-focus stow) ?item)
     (if (is-entity ?item)

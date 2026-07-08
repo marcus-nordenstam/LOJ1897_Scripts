@@ -16,7 +16,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event found_cornerstone_business
+(hsim-npc-behaviour found_cornerstone_business
   (startup)
   (rng-stream business)
 

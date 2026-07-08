@@ -12,24 +12,24 @@
 ;   join_commit : completion (completion-only) - registers the member + clears the goal.
 ; ----------------------------------------------------------------------------
 
-(hsim-event join_go
-  (intra-day)
+(hsim-npc-behaviour join_go
+  (short-term-think)
   (when (and (articles-building (goal-focus join_club) ?venue)
              (has-goal join_club)
              (not (at-place ?venue))))
   (utility 40)
   (effects (go @self ?venue)))
 
-(hsim-event join_dwell
-  (intra-day)
+(hsim-npc-behaviour join_dwell
+  (short-term-think)
   (when (and (articles-building (goal-focus join_club) ?venue)
              (has-goal join_club)
              (at-place ?venue)))
   (utility 40)
   (effects (act join_commit 60)))
 
-(hsim-event join_commit
-  (schedule (completion-only))
+(hsim-npc-behaviour join_commit
+  (on-completion)
   (effects
     (register-member /articles (goal-focus join_club) /member @self)
     (end-goal {@self join_club})

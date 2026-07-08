@@ -29,7 +29,7 @@
 (include "../../definitions/roles.hs")
 
 ; --- emergent: workers the world lane enrols during the sim (monthly per-NPC) ---
-(hsim-event materialize_employment
+(hsim-npc-behaviour materialize_employment
   (long-term-think)
   (rng-stream employment)
 
@@ -49,7 +49,7 @@
         ))))
 
 ; --- startup: the cold-start bootstrap workers (one round-based per-NPC pass) ---
-(hsim-event materialize_employment_startup
+(hsim-npc-behaviour materialize_employment_startup
   (startup)
   (rng-stream employment)
 

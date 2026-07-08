@@ -17,8 +17,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event engagement_party
-  (sim-window-start)
+(hsim-npc-behaviour engagement_party
+  (long-term-think)
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY. The (belief-age ?bride fiancee) == 0 gate (whole years) holds while
   ; the betrothal is under a year old, but the wedding occasion (emergent) marries

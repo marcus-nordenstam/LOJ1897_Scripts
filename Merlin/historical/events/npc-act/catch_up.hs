@@ -15,8 +15,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event catch_up
-  (sim-window-start)
+(hsim-npc-behaviour catch_up
+  (long-term-think)
   (rng-stream behaviour)
 
   (roles

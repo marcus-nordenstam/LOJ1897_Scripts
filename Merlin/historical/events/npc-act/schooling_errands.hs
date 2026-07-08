@@ -11,54 +11,54 @@
 ; ----------------------------------------------------------------------------
 
 ; ----- primary -------------------------------------------------------------
-(hsim-event primary_go
-  (intra-day)
+(hsim-npc-behaviour primary_go
+  (short-term-think)
   (when (and (has-goal enrol_primary) (not (at-place-kind [k building school]))))
   (utility 35)
   (effects (go @self (venue [k building school]))))
-(hsim-event primary_dwell
-  (intra-day)
+(hsim-npc-behaviour primary_dwell
+  (short-term-think)
   (when (and (has-goal enrol_primary) (at-place-kind [k building school])))
   (utility 35)
   (effects (act primary_commit 60)))
-(hsim-event primary_commit
-  (schedule (completion-only))
+(hsim-npc-behaviour primary_commit
+  (on-completion)
   (effects
     (begin-belief {@self study [k primary_school_curriculum]})
     (end-goal {@self enrol_primary})
     ))
 
 ; ----- secondary -----------------------------------------------------------
-(hsim-event secondary_go
-  (intra-day)
+(hsim-npc-behaviour secondary_go
+  (short-term-think)
   (when (and (has-goal enrol_secondary) (not (at-place-kind [k building school]))))
   (utility 35)
   (effects (go @self (venue [k building school]))))
-(hsim-event secondary_dwell
-  (intra-day)
+(hsim-npc-behaviour secondary_dwell
+  (short-term-think)
   (when (and (has-goal enrol_secondary) (at-place-kind [k building school])))
   (utility 35)
   (effects (act secondary_commit 60)))
-(hsim-event secondary_commit
-  (schedule (completion-only))
+(hsim-npc-behaviour secondary_commit
+  (on-completion)
   (effects
     (begin-belief {@self study [k secondary_school_curriculum]})
     (end-goal {@self enrol_secondary})
     ))
 
 ; ----- university ----------------------------------------------------------
-(hsim-event university_go
-  (intra-day)
+(hsim-npc-behaviour university_go
+  (short-term-think)
   (when (and (has-goal enrol_university) (not (at-place-kind [k building school]))))
   (utility 35)
   (effects (go @self (venue [k building school]))))
-(hsim-event university_dwell
-  (intra-day)
+(hsim-npc-behaviour university_dwell
+  (short-term-think)
   (when (and (has-goal enrol_university) (at-place-kind [k building school])))
   (utility 35)
   (effects (act university_commit 60)))
-(hsim-event university_commit
-  (schedule (completion-only))
+(hsim-npc-behaviour university_commit
+  (on-completion)
   (effects
     ; The SUBJECT is interest-led (the class gate decided WHETHER you attend;
     ; interest decides WHAT you read), falling back to a random discipline.

@@ -22,8 +22,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event household_day
-  (sim-window-start)
+(hsim-npc-behaviour household_day
+  (long-term-think)
   (rng-stream behaviour)
 
   (roles
@@ -49,8 +49,8 @@
 ; (an entity scan) runs only while the mealtimes are actually unset.
 ; ----------------------------------------------------------------------------
 
-(hsim-event set_mealtimes
-  (sim-window-start)
+(hsim-npc-behaviour set_mealtimes
+  (long-term-think)
   (rng-stream behaviour)
 
   (roles
@@ -90,8 +90,8 @@
 ; set_mealtimes, whose decision they complete.
 ; ----------------------------------------------------------------------------
 
-(hsim-event ask_mealtimes
-  (sim-window-start)
+(hsim-npc-behaviour ask_mealtimes
+  (long-term-think)
   (rng-stream behaviour)
 
   (roles
@@ -106,8 +106,8 @@
     (ask-to (household-cook ?home) {?home supper_hour ?})
     ))
 
-(hsim-event answer_mealtimes
-  (sim-window-start)
+(hsim-npc-behaviour answer_mealtimes
+  (long-term-think)
   (rng-stream behaviour)
 
   (roles
@@ -146,8 +146,8 @@
 ; count decides.
 ; ----------------------------------------------------------------------------
 
-(hsim-event plan_provisioning
-  (sim-window-start)
+(hsim-npc-behaviour plan_provisioning
+  (long-term-think)
   (rng-stream behaviour)
 
   (roles

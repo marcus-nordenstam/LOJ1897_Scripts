@@ -19,7 +19,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event read_secret_letters
+(hsim-npc-behaviour read_secret_letters
   (long-term-think)
 
   (roles

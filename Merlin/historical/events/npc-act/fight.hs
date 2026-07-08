@@ -39,8 +39,8 @@
 ; ~13 min, after which the killer abandons THIS attempt and leaves. (fight-elapsed)
 ; is wall-clock minutes since the first blow, reset each month - so the kill+fight
 ; goals persist but the striking is one timed burst per month.
-(hsim-event kill_seek
-  (intra-day)
+(hsim-npc-behaviour kill_seek
+  (short-term-think)
   (bind (goal-focus fight) ?victim)
   (when (and (has-goal fight)
              (bind {?victim home ?victim_home})
@@ -52,8 +52,8 @@
 ; The killer at the victim strikes - a committed murderer prioritises the blow
 ; (utility 200 dominates work 80 / sleep 100) UNTIL the exposure clock drags it
 ; down. A 1-minute act; its completion lands the blow and re-deliberates the killer.
-(hsim-event kill_strike
-  (intra-day)
+(hsim-npc-behaviour kill_strike
+  (short-term-think)
   (when (and (has-goal fight)
              (co-present @self (goal-focus fight))))
   (utility (if (< (fight-elapsed) 10) 200
@@ -65,8 +65,8 @@
 ; first ~10 minutes then rises (+30/min), overtaking the decaying kill_strike around
 ; ~13 min, so the killer retreats home (breaking co-presence). The kill+fight goals
 ; PERSIST - cold-start clears the exposure clock and it tries again next month.
-(hsim-event break_off_fight
-  (intra-day)
+(hsim-npc-behaviour break_off_fight
+  (short-term-think)
   (when (and (has-goal fight)
              (not (at-home))))
   (utility (* 30 (max 0 (- (fight-elapsed) 10))))
@@ -76,8 +76,8 @@
 ; result runs the ledger + propagate_death inside (strike-blow); a non-fatal one
 ; leaves a wound and the next deliberation strikes again (while the victim lives
 ; and is still co-present).
-(hsim-event kill_blow
-  (schedule (completion-only))
+(hsim-npc-behaviour kill_blow
+  (on-completion)
   (effects
     ; (strike-blow <foe> <intent>) - the actor is implicit (@self); pass the foe +
     ; intent atom only.
@@ -100,8 +100,8 @@
 ; not already holding a fight goal (then kill_strike covers it). A victim who does
 ; not win the resolve roll FLEES or SCREAMS instead (below) - never sleeps (the
 ; rest lane is gated out while under attack).
-(hsim-event defend_strike
-  (intra-day)
+(hsim-npc-behaviour defend_strike
+  (short-term-think)
   (when (and (under-attack)
              (not (has-goal fight))
              (co-present @self (threat-focus))
@@ -116,8 +116,8 @@
 ; THREAT focus (the attacker) rather than a fight-goal focus. A fatal result runs
 ; the ledger + propagate_death inside (strike-blow) and clears the dead foe's hold;
 ; a non-fatal one re-arms the attacker's own under_attack (the exchange continues).
-(hsim-event defend_blow
-  (schedule (completion-only))
+(hsim-npc-behaviour defend_blow
+  (on-completion)
   (effects
     (strike-blow (threat-focus) kill)
     ))
@@ -130,8 +130,8 @@
 ; SUCCESS the melee is OVER - the victim is whisked to a public place this instant
 ; (no multi-minute "fleeing" while blows keep landing) and co-presence breaks. On
 ; FAILURE it is still pinned and re-deliberates (fight / flee / scream) next round.
-(hsim-event flee_attack
-  (intra-day)
+(hsim-npc-behaviour flee_attack
+  (short-term-think)
   (when (and (under-attack)
              (not (has-goal fight))
              (co-present @self (threat-focus))))
@@ -141,8 +141,8 @@
 ; The flee attempt's completion (completion-only): roll the escape. On success
 ; (attempt-flee) relocates the victim to safety + clears its threat state - the
 ; fight ends; on failure nothing changes and the victim tries again next round.
-(hsim-event flee_attempt
-  (schedule (completion-only))
+(hsim-npc-behaviour flee_attempt
+  (on-completion)
   (effects
     (attempt-flee)
     ))
@@ -153,8 +153,8 @@
 ; victim ACTIVE (never falling back to sleep / idle while under attack) and
 ; re-deliberating each round. (Drawing a responder who intervenes is a follow-up;
 ; the point here is that cowering-and-screaming, not sleeping, is the floor.)
-(hsim-event scream_for_help
-  (intra-day)
+(hsim-npc-behaviour scream_for_help
+  (short-term-think)
   (when (and (under-attack)
              (co-present @self (threat-focus))))
   (utility 100)

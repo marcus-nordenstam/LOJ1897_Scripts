@@ -23,8 +23,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event confide
-  (sim-window-start)
+(hsim-npc-behaviour confide
+  (long-term-think)
   (rng-stream behaviour)
 
   (roles

@@ -14,7 +14,7 @@
 ; because the entity being removed cannot remove itself.
 ; ----------------------------------------------------------------------------
 
-(hsim-event sweep_emigrants
+(hsim-world-event sweep_emigrants
   (schedule (monthly))
   (rng-stream migrations)
 

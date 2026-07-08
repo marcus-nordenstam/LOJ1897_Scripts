@@ -1,24 +1,24 @@
 ; worship - the APPROACH/EXECUTE acts of the churchgoing lane (npc-act). Desire (feel_devout) is in npc-think/feel_devout.hs.
 ; (Split from the original lane file in the npc-think/npc-act reorg.)
 
-(hsim-event seek_church
-  (intra-day)
+(hsim-npc-behaviour seek_church
+  (short-term-think)
   (when (and (has-goal worship)
              (not (at-place-kind [k building church]))))
   (utility 30)
   (effects
     (go @self (venue [k building church]))))
 
-(hsim-event attend_church
-  (intra-day)
+(hsim-npc-behaviour attend_church
+  (short-term-think)
   (when (and (has-goal worship)
              (at-place-kind [k building church])))
   (utility 30)
   (effects
     (act worship_episode 90)))
 
-(hsim-event worship_episode
-  (schedule (completion-only))
+(hsim-npc-behaviour worship_episode
+  (on-completion)
   (effects
     ; The standing piety marker the classifier reads (v1 piety is binary;
     ; idempotent at commit). Minted about the church the NPC is ACTUALLY at -

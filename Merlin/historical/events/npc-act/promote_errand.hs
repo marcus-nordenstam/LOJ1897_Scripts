@@ -10,8 +10,8 @@
 ;   promote_commit : completion (completion-only) - promotes the worker + clears the goal.
 ; ----------------------------------------------------------------------------
 
-(hsim-event promote_go
-  (intra-day)
+(hsim-npc-behaviour promote_go
+  (short-term-think)
   (when (and (has-goal promote_staff)
              (bind {@self employer ?org})
              (bind {?org workplace ?wp})
@@ -19,8 +19,8 @@
   (utility 82)
   (effects (go @self ?wp)))
 
-(hsim-event promote_dwell
-  (intra-day)
+(hsim-npc-behaviour promote_dwell
+  (short-term-think)
   (when (and (has-goal promote_staff)
              (bind {@self employer ?org})
              (bind {?org workplace ?wp})
@@ -28,8 +28,8 @@
   (utility 82)
   (effects (act promote_commit 45)))
 
-(hsim-event promote_commit
-  (schedule (completion-only))
+(hsim-npc-behaviour promote_commit
+  (on-completion)
   (effects
     (promote /worker (goal-focus promote_staff))
     (end-goal {@self promote_staff})

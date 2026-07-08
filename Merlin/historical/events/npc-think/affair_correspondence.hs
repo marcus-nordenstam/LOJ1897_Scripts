@@ -24,7 +24,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event affair_correspondence
+(hsim-npc-behaviour affair_correspondence
   (long-term-think)
   (rng-stream incidents)
 

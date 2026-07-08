@@ -11,7 +11,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event derive_prototypes
+(hsim-npc-behaviour derive_prototypes
   (long-term-think)
   (rng-stream behaviour)
 

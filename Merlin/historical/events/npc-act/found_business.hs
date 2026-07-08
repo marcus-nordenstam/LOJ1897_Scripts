@@ -23,22 +23,22 @@
 ; (venue ...) random-picks a same-town bank per call, so it names a travel target
 ; for (go) but cannot be used to test arrival (each call could pick a different
 ; bank). Mirrors the drinking lane's (can-drink) at-a-pub gate.
-(hsim-event found_go
-  (intra-day)
+(hsim-npc-behaviour found_go
+  (short-term-think)
   (when (and (has-goal found)
              (not (at-place-kind [k building bank]))))
   (utility 85)
   (effects (go @self (venue [k building bank]))))
 
-(hsim-event found_dwell
-  (intra-day)
+(hsim-npc-behaviour found_dwell
+  (short-term-think)
   (when (and (has-goal found)
              (at-place-kind [k building bank])))
   (utility 85)
   (effects (act found_commit 90)))
 
-(hsim-event found_commit
-  (schedule (completion-only))
+(hsim-npc-behaviour found_commit
+  (on-completion)
   (effects
     ; Roll a HOUSABLE business kind first (premises-aware: only kinds with a free
     ; building of their declared kind). If none can be housed right now, ?bizkind is

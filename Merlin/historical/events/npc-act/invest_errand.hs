@@ -13,8 +13,8 @@
 ;                   (the org via goal-focus) + clears the goal.
 ; ----------------------------------------------------------------------------
 
-(hsim-event invest_go
-  (intra-day)
+(hsim-npc-behaviour invest_go
+  (short-term-think)
   (bind (goal-focus back) ?org)
   (when (and (has-goal back)
              (bind {?org workplace ?wp})
@@ -22,8 +22,8 @@
   (utility 60)
   (effects (go @self ?wp)))
 
-(hsim-event invest_dwell
-  (intra-day)
+(hsim-npc-behaviour invest_dwell
+  (short-term-think)
   (bind (goal-focus back) ?org)
   (when (and (has-goal back)
              (bind {?org workplace ?wp})
@@ -31,8 +31,8 @@
   (utility 60)
   (effects (act invest_commit 45)))
 
-(hsim-event invest_commit
-  (schedule (completion-only))
+(hsim-npc-behaviour invest_commit
+  (on-completion)
   (effects
     (begin-belief {@self backed_by (goal-focus back)})
     (end-goal {@self back})

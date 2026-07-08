@@ -14,22 +14,22 @@
 ;   orient_read  : completion - read the register + clear the goal.
 ; ----------------------------------------------------------------------------
 
-(hsim-event orient_go
-  (intra-day)
+(hsim-npc-behaviour orient_go
+  (short-term-think)
   (when (and (has-goal orient)
              (not (at-place-kind [k building church]))))
   (utility 28)
   (effects (go @self (venue [k building church]))))
 
-(hsim-event orient_dwell
-  (intra-day)
+(hsim-npc-behaviour orient_dwell
+  (short-term-think)
   (when (and (has-goal orient)
              (at-place-kind [k building church])))
   (utility 28)
   (effects (act orient_read 30)))
 
-(hsim-event orient_read
-  (schedule (completion-only))
+(hsim-npc-behaviour orient_read
+  (on-completion)
   (effects
     ; Read the public register: per articles document, form / recall its org object
     ; and mint the queryable beliefs the casting filters read. ?ok = org kind,

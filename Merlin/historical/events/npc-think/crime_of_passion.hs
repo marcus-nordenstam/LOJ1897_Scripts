@@ -32,7 +32,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event crime_of_passion
+(hsim-npc-behaviour crime_of_passion
   (long-term-think)
   (rng-stream perpetration)
 

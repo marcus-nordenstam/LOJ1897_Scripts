@@ -28,7 +28,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event conspiracy_adoption
+(hsim-npc-behaviour conspiracy_adoption
   (long-term-think)
   (rng-stream perpetration)
 

@@ -28,8 +28,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event landlord_estate
-  (sim-window-start)
+(hsim-npc-behaviour landlord_estate
+  (long-term-think)
   (rng-stream business)
 
   (roles

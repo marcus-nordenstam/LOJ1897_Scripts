@@ -12,24 +12,24 @@
 ;   hire_commit : completion (completion-only) - the eligibility-match hire + clears goal.
 ; ----------------------------------------------------------------------------
 
-(hsim-event hire_go
-  (intra-day)
+(hsim-npc-behaviour hire_go
+  (short-term-think)
   (when (and (articles-building (goal-focus engage_staff) ?venue)
              (has-goal engage_staff)
              (not (at-place ?venue))))
   (utility 82)
   (effects (go @self ?venue)))
 
-(hsim-event hire_dwell
-  (intra-day)
+(hsim-npc-behaviour hire_dwell
+  (short-term-think)
   (when (and (articles-building (goal-focus engage_staff) ?venue)
              (has-goal engage_staff)
              (at-place ?venue)))
   (utility 82)
   (effects (act hire_commit 45)))
 
-(hsim-event hire_commit
-  (schedule (completion-only))
+(hsim-npc-behaviour hire_commit
+  (on-completion)
   (effects
     ; bind the org's articles to a plain ?var so it can serve as a {pattern} subject
     ; inside hire-seq (a macro arg used in a pattern must be a ?var, not an expr).

@@ -1,12 +1,12 @@
 ; ----------------------------------------------------------------------------
 ; The CHURCHGOING lane - the three-stage intra-day lane (4.13.15):
 ;
-;   (a) DESIRE   feel_devout   (sim-window-start) - high politeness (respect for
+;   (a) DESIRE   feel_devout   (long-term-think) - high politeness (respect for
 ;       convention) draws an NPC to worship; on a hit it mints {@self goal {@self
 ;       worship}}.
-;   (b) APPROACH seek_church   (intra-day) - holds the goal but is not at a church
+;   (b) APPROACH seek_church   (short-term-think) - holds the goal but is not at a church
 ;       -> a (go) travel act to the parish church.
-;   (c) EXECUTE  attend_church (intra-day) - at a church with the goal -> the
+;   (c) EXECUTE  attend_church (short-term-think) - at a church with the goal -> the
 ;       durative service; its completion mints the standing `worship` piety belief
 ;       (about the church they are AT) and clears the goal.
 ;
@@ -16,8 +16,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event feel_devout
-  (sim-window-start)
+(hsim-npc-behaviour feel_devout
+  (long-term-think)
   (rng-stream behaviour)
   (roles
     (role @self (template grown)))

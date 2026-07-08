@@ -22,7 +22,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event senior_appointment
+(hsim-npc-behaviour senior_appointment
   (long-term-think)
   (rng-stream employment)
 

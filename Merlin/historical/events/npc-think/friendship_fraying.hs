@@ -30,8 +30,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event friendship_fraying
-  (sim-window-start)
+(hsim-npc-behaviour friendship_fraying
+  (long-term-think)
   (rng-stream friendships)
 
   ;; SELF-POV: @self reads only his OWN mind - his soured warmth toward ?b and his

@@ -6,7 +6,7 @@
 ; restraint (low industriousness) drive relapse; religious involvement and
 ; deep social embedding resist it but never to zero - the lifelong battle.
 ; Onset into dependence happens in get_drunk.hs (risk-dependence ?npc); this is
-; the dependent's DESIRE stage (sim-window-start): it mints the SAME {@self goal
+; the dependent's DESIRE stage (long-term-think): it mints the SAME {@self goal
 ; {@self drink}} as crave_drink (which excludes the dependent), so the dependent
 ; relapses through the very same seek_drink -> drink -> drink_episode pipeline -
 ; one executor, two desires. Relapse just has a far higher base rate.
@@ -23,8 +23,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event relapse
-  (sim-window-start)
+(hsim-npc-behaviour relapse
+  (long-term-think)
   (rng-stream behaviour)
   (roles
     (role @self (template grown)))

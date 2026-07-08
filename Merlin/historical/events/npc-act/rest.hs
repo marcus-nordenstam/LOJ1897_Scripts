@@ -21,8 +21,8 @@
 
 ; tired and away from home: go home to rest. Utility climbs with fatigue but
 ; stays below the work shift (80) until exhaustion, then overrides.
-(hsim-event seek_rest
-  (intra-day)
+(hsim-npc-behaviour seek_rest
+  (short-term-think)
   (when (and (not (under-attack))
              (not (at-home))
              (> (attr @self fatigue) 0.7)))
@@ -32,8 +32,8 @@
 ; at home and at all tired (or it is night): sleep until the morning alarm. The
 ; sleep act records a {@self sleep} memory ((does sleep)); its completion resets
 ; fatigue. Utility skyrockets past full fatigue so sleep dominates work / leisure.
-(hsim-event sleep
-  (intra-day)
+(hsim-npc-behaviour sleep
+  (short-term-think)
   (does SLEEP)
   ; You cannot sleep through an assault - being under attack gates the whole rest
   ; lane OUT, so the fight acts (defend / flee / scream) take over (fight.hs).
@@ -62,14 +62,14 @@
 
 ; completion of the sleep act (completion-only): the engine ends the {@self sleep}
 ; act-belief and resets fatigue automatically; this just records the wake.
-(hsim-event sleep_episode
-  (schedule (completion-only))
+(hsim-npc-behaviour sleep_episode
+  (on-completion)
   (effects
     ))
 
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.
-(hsim-event idle_go_home
-  (intra-day)
+(hsim-npc-behaviour idle_go_home
+  (short-term-think)
   (when (and (not (under-attack))
              (not (at-home))))
   (utility 1)

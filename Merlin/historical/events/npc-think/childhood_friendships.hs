@@ -18,8 +18,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event childhood_friendship
-  (sim-window-start)
+(hsim-npc-behaviour childhood_friendship
+  (long-term-think)
   (rng-stream friendships)
 
   (roles

@@ -23,8 +23,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event new_job_orientation
-  (sim-window-start)
+(hsim-npc-behaviour new_job_orientation
+  (long-term-think)
   (rng-stream employment)
 
   ;; Only the JOBLESS consult the register - this is a JOB SEARCH. A man already in

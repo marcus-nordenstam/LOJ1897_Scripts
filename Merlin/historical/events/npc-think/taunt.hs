@@ -25,7 +25,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event taunt
+(hsim-npc-behaviour taunt
   (long-term-think)
   (rng-stream perpetration)
 

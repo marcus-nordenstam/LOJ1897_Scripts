@@ -13,8 +13,8 @@
 ;                 toward the boss (the grudge), and clears the goal.
 ; ----------------------------------------------------------------------------
 
-(hsim-event sack_go
-  (intra-day)
+(hsim-npc-behaviour sack_go
+  (short-term-think)
   (when (and (has-goal sack)
              (bind {@self employer ?org})
              (bind {?org workplace ?wp})
@@ -22,8 +22,8 @@
   (utility 82)
   (effects (go @self ?wp)))
 
-(hsim-event sack_dwell
-  (intra-day)
+(hsim-npc-behaviour sack_dwell
+  (short-term-think)
   (when (and (has-goal sack)
              (bind {@self employer ?org})
              (bind {?org workplace ?wp})
@@ -31,8 +31,8 @@
   (utility 82)
   (effects (act sack_commit 45)))
 
-(hsim-event sack_commit
-  (schedule (completion-only))
+(hsim-npc-behaviour sack_commit
+  (on-completion)
   (effects
     (fire /worker (goal-focus sack))
     ; the grudge: the dismissed man resents the boss who let him go (a named motive)

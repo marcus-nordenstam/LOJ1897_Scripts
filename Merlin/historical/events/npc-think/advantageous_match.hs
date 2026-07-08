@@ -18,8 +18,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event advantageous_match
-  (sim-window-start)
+(hsim-npc-behaviour advantageous_match
+  (long-term-think)
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY; the per-bride (chance) is scaled by /12 (the *0.0833 wrapper) to hold
   ; the old annual rate.

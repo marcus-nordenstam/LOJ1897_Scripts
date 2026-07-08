@@ -38,8 +38,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event bonded_incident_urge
-  (sim-window-start)
+(hsim-npc-behaviour bonded_incident_urge
+  (long-term-think)
   (rng-stream incidents)
 
   (roles

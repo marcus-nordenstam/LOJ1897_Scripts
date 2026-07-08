@@ -9,8 +9,8 @@
 ; happens on arrival and the counter work resumes after.
 ; ----------------------------------------------------------------------------
 
-(hsim-event stocktake_round
-  (intra-day)
+(hsim-npc-behaviour stocktake_round
+  (short-term-think)
   (when (and (not (under-attack))
              (has-goal stocktake)
              (bind {@self employer ?org})
@@ -19,8 +19,8 @@
   (utility 82)
   (effects (act stocktake_done 30)))
 
-(hsim-event stocktake_done
-  (schedule (completion-only))
+(hsim-npc-behaviour stocktake_done
+  (on-completion)
   (effects
     (bind (current-building @self) ?shop)
     (if (is-entity ?shop)

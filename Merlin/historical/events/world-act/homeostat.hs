@@ -17,7 +17,7 @@
 ; anything happens. The homeostat tunables live in macros/tunables.hs.
 ; ----------------------------------------------------------------------------
 
-(hsim-event homeostat_immigration
+(hsim-world-event homeostat_immigration
   (schedule   (annually january))
   (rng-stream homeostat)
 

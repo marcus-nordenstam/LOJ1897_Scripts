@@ -46,8 +46,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event bonded_incident_disinherit
-  (sim-window-start)
+(hsim-npc-behaviour bonded_incident_disinherit
+  (long-term-think)
   (rng-stream incidents)
 
   (roles

@@ -17,8 +17,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event deliberate
-  (sim-window-start)
+(hsim-npc-behaviour deliberate
+  (long-term-think)
   (rng-stream deliberation)
 
   ; Only pressured NPCs run the (expensive) joint reduction.

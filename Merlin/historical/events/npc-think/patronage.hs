@@ -23,8 +23,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event patronage
-  (sim-window-start)
+(hsim-npc-behaviour patronage
+  (long-term-think)
   (rng-stream business)
 
   (roles

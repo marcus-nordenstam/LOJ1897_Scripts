@@ -18,7 +18,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event attempt_nonlethal
+(hsim-npc-behaviour attempt_nonlethal
   (long-term-think)
   (rng-stream perpetration)
 

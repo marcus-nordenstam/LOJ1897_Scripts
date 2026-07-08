@@ -31,7 +31,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event clear_marriage
+(hsim-npc-behaviour clear_marriage
   (long-term-think)
   (rng-stream perpetration)
 

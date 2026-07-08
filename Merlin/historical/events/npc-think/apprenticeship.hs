@@ -15,8 +15,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event apprenticeship_start
-  (sim-window-start)
+(hsim-npc-behaviour apprenticeship_start
+  (long-term-think)
   (rng-stream apprenticeship)
 
   (roles
@@ -78,7 +78,7 @@
     (end-goal {@self seek_indenture})
     (begin-goal {@self seek_indenture (target {?org record})})))
 
-(hsim-event apprenticeship_completion
+(hsim-npc-behaviour apprenticeship_completion
   (long-term-think)
   (rng-stream apprenticeship)
 

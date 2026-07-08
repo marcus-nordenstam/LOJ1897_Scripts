@@ -1,12 +1,12 @@
 ; ----------------------------------------------------------------------------
 ; The DRINKING lane - the reference three-stage intra-day lane (4.13 (b)):
 ;
-;   (a) DESIRE   crave_drink   (sim-window-start) - the multi-causal risk model
+;   (a) DESIRE   crave_drink   (long-term-think) - the multi-causal risk model
 ;       decides WHO wants to drink to excess today; on a hit it mints the
 ;       standing goal {@self goal {@self drink}}. No act, no venue - just the want.
-;   (b) APPROACH seek_drink    (intra-day) - holds the drink goal but is nowhere it
+;   (b) APPROACH seek_drink    (short-term-think) - holds the drink goal but is nowhere it
 ;       can drink -> a (go) travel act to a PUB (the social drinking venue).
-;   (c) EXECUTE  drink         (intra-day) - holds the drink goal AND is somewhere
+;   (c) EXECUTE  drink         (short-term-think) - holds the drink goal AND is somewhere
 ;       it can drink (a pub, or its own home) -> the durative drink act; its
 ;       completion (drink_episode) bumps intoxication, rolls the slide into
 ;       dependence, and CLEARS the goal so the desire does not re-fire.
@@ -28,8 +28,8 @@
 ; protection (low industriousness/politeness = disinhibition, volatility = reactive,
 ; withdrawal = self-medication, enthusiasm = social; low wealth = stress; piety +
 ; belonging = protection). Already-dependent NPCs are excluded (relapse casts them).
-(hsim-event crave_drink
-  (sim-window-start)
+(hsim-npc-behaviour crave_drink
+  (long-term-think)
   (rng-stream behaviour)
   (roles
     (role @self (template grown)))

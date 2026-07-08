@@ -19,7 +19,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event rehabilitation
+(hsim-npc-behaviour rehabilitation
   (long-term-think)
   (rng-stream behaviour)
 

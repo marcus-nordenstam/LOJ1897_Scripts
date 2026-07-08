@@ -14,7 +14,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event mortality_disease
+(hsim-npc-behaviour mortality_disease
   (long-term-think)
   (rng-stream deaths)
 

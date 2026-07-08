@@ -42,7 +42,7 @@
 (include "../../definitions/roles.hs")
 
 ; --- parental_seeding: a child adopts one of a parent's interests ------------
-(hsim-event interest_parental_seeding
+(hsim-npc-behaviour interest_parental_seeding
   (long-term-think)
   (rng-stream behaviour)
 
@@ -71,7 +71,7 @@
     ))
 
 ; --- peer_propagation: a friend's enthusiasm rubs off -----------------------
-(hsim-event interest_peer_propagation
+(hsim-npc-behaviour interest_peer_propagation
   (long-term-think)
   (rng-stream behaviour)
 
@@ -96,7 +96,7 @@
     ))
 
 ; --- mentor_inspired: an apprentice catches the master's craft --------------
-(hsim-event interest_mentor_inspired
+(hsim-npc-behaviour interest_mentor_inspired
   (long-term-think)
   (rng-stream behaviour)
 
@@ -118,7 +118,7 @@
     ))
 
 ; --- temperament_drift: the residual openness-driven catch-all --------------
-(hsim-event interest_temperament_drift
+(hsim-npc-behaviour interest_temperament_drift
   (long-term-think)
   (rng-stream behaviour)
 
@@ -141,7 +141,7 @@
     ))
 
 ; --- interest_lapses: an unskilled interest fades --------------------------
-(hsim-event interest_lapses
+(hsim-npc-behaviour interest_lapses
   (long-term-think)
   (rng-stream behaviour)
 

@@ -35,7 +35,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event affair_rendezvous
+(hsim-npc-behaviour affair_rendezvous
   (long-term-think)
   (rng-stream incidents)
 

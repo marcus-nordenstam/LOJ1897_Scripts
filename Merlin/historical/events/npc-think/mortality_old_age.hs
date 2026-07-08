@@ -12,7 +12,7 @@
 (include "../../definitions/roles.hs")
 ; mortality_by_age is auto-loaded from historical/tables/.
 
-(hsim-event mortality_old_age
+(hsim-npc-behaviour mortality_old_age
   ; PER-NPC: fires once per month-window for each living NPC (self_actor = @self).
   ; The per-age (when (chance ?per_month)) IS the rate; the window pass is the cadence.
   (long-term-think)

@@ -19,8 +19,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event court
-  (sim-window-start)
+(hsim-npc-behaviour court
+  (long-term-think)
   (rng-stream marriages)
 
   (roles

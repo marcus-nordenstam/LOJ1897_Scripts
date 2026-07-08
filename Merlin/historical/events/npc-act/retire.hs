@@ -18,8 +18,8 @@
 ; (100), so he does it by day.
 ; ----------------------------------------------------------------------------
 
-(hsim-event retire_go
-  (intra-day)
+(hsim-npc-behaviour retire_go
+  (short-term-think)
   (when (and (has-goal quit_work)
              (bind {@self employer ?org})
              (bind {?org workplace ?wp})
@@ -27,8 +27,8 @@
   (utility 85)
   (effects (go @self ?wp)))
 
-(hsim-event retire_dwell
-  (intra-day)
+(hsim-npc-behaviour retire_dwell
+  (short-term-think)
   (when (and (has-goal quit_work)
              (bind {@self employer ?org})
              (bind {?org workplace ?wp})
@@ -36,8 +36,8 @@
   (utility 85)
   (effects (act retire_commit 60)))
 
-(hsim-event retire_commit
-  (schedule (completion-only))
+(hsim-npc-behaviour retire_commit
+  (on-completion)
   (effects
     (fire /worker @self)
     (end-goal {@self quit_work})

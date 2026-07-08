@@ -13,24 +13,24 @@
 ;                    as co-owner + installed as proprietor (org_head), clears goal.
 ; ----------------------------------------------------------------------------
 
-(hsim-event partner_go
-  (intra-day)
+(hsim-npc-behaviour partner_go
+  (short-term-think)
   (when (and (articles-building (goal-focus partner) ?venue)
              (has-goal partner)
              (not (at-place ?venue))))
   (utility 85)
   (effects (go @self ?venue)))
 
-(hsim-event partner_dwell
-  (intra-day)
+(hsim-npc-behaviour partner_dwell
+  (short-term-think)
   (when (and (articles-building (goal-focus partner) ?venue)
              (has-goal partner)
              (at-place ?venue)))
   (utility 85)
   (effects (act partner_commit 90)))
 
-(hsim-event partner_commit
-  (schedule (completion-only))
+(hsim-npc-behaviour partner_commit
+  (on-completion)
   (effects
     ; bind the firm's articles to a plain ?var (hire-seq needs it as a {pattern} subject).
     (bind (goal-focus partner) ?art)

@@ -27,8 +27,8 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event affair
-  (sim-window-start)
+(hsim-npc-behaviour affair
+  (long-term-think)
   (rng-stream incidents)
 
   (roles

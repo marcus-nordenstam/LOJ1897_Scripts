@@ -31,7 +31,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-event make_secret_cache
+(hsim-npc-behaviour make_secret_cache
   (long-term-think)
 
   (roles
