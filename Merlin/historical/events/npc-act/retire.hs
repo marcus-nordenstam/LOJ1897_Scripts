@@ -34,7 +34,7 @@
              (bind {?org workplace ?wp})
              (at-place ?wp)))
   (utility 85)
-  (effects (act retire_commit 60)))
+  (effects (begin-act {@self quit_work} 60 retire_commit)))
 
 (hsim-npc-behaviour retire_commit
   (on-completion)

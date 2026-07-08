@@ -58,7 +58,7 @@
              (co-present @self (goal-focus fight))))
   (utility (if (< (fight-elapsed) 10) 200
                (max 0 (- 200 (* 30 (- (fight-elapsed) 10))))))
-  (effects (act kill_blow 1)))
+  (effects (begin-act {@self fight} 1 kill_blow)))
 
 ; BREAK OFF (end-condition c): a killer whose attempt has dragged on without a kill
 ; gives up for now and leaves - exposure outweighs the deed. Utility is 0 for the
@@ -110,7 +110,7 @@
                                (- 1.0 (attr @self compassion)))
                             0.05 0.95))))
   (utility 200)
-  (effects (act defend_blow 1)))
+  (effects (begin-act {@self fight} 1 defend_blow)))
 
 ; The victim's blow (completion-only completion), mirroring kill_blow but striking the
 ; THREAT focus (the attacker) rather than a fight-goal focus. A fatal result runs
@@ -136,7 +136,7 @@
              (not (has-goal fight))
              (co-present @self (threat-focus))))
   (utility 150)
-  (effects (act flee_attempt 1)))
+  (effects (begin-act {@self flee} 1 flee_attempt)))
 
 ; The flee attempt's completion (completion-only): roll the escape. On success
 ; (attempt-flee) relocates the victim to safety + clears its threat state - the
@@ -159,5 +159,5 @@
              (co-present @self (threat-focus))))
   (utility 100)
   (effects
-    (stay 1)
+    (begin-act {@self scream} 1)
     ))

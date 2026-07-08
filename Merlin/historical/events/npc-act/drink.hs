@@ -17,7 +17,7 @@
              (can-drink @self)))
   (utility 30)
   (effects
-    (act drink_episode 90)))
+    (begin-act {@self drink} 90 drink_episode)))
 
 ; The COMPLETION of the drink act (completion-only: never seeded, fired only when the
 ; act lands a duration later, in the serial completion pass). Applies the real

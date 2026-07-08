@@ -15,7 +15,7 @@
              (at-place-kind [k building pub])))
   (utility 30)
   (effects
-    (act gamble_episode 90)))
+    (begin-act {@self play_game} 90 gamble_episode)))
 
 (hsim-npc-behaviour gamble_episode
   (on-completion)

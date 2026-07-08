@@ -114,6 +114,13 @@ relation
             # deliberate attention, the only sanctioned absence-disproof
             # beyond the goal-attended reach-for-it verify.
             stocktake                               (tar ?)
+            # Act-belief labels for the begin-act unification: an act IS an ongoing
+            # {@self <label> <target>} belief, so its label must be a defined
+            # state/action/task (goal-clause labels alone are not enough). stow -
+            # putting a carried item away (burgle / provisioning tail); give_alms -
+            # the charity act. (scream is already a defined relation-term.)
+            stow                                    (tar ?)
+            give_alms                               (tar ?)
             # Conversational activities (activity-lanes L8) - SPECIFIC, each with
             # a propagation EFFECT among the co-present, not a vague `converse`:
             #  gossip <subject>  - spread a belief you hold about a THIRD party

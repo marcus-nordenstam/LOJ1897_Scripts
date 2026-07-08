@@ -23,7 +23,7 @@
   (when (and (has-goal found_club)
              (at-place-kind [k building pub])))
   (utility 45)
-  (effects (act found_club_commit 90)))
+  (effects (begin-act {@self found_club} 90 found_club_commit)))
 
 (hsim-npc-behaviour found_club_commit
   (on-completion)

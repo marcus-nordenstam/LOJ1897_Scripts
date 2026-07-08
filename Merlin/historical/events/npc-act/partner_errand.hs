@@ -27,7 +27,7 @@
              (has-goal partner)
              (at-place ?venue)))
   (utility 85)
-  (effects (act partner_commit 90)))
+  (effects (begin-act {@self partner} 90 partner_commit)))
 
 (hsim-npc-behaviour partner_commit
   (on-completion)

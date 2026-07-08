@@ -35,7 +35,7 @@
   (when (and (has-goal found)
              (at-place-kind [k building bank])))
   (utility 85)
-  (effects (act found_commit 90)))
+  (effects (begin-act {@self found} 90 found_commit)))
 
 (hsim-npc-behaviour found_commit
   (on-completion)

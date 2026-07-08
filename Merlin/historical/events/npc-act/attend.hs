@@ -43,7 +43,7 @@
              (attend-in-window @self)
              (at-place ?venue)))
   (utility (attend-utility @self))
-  (effects (act attend_episode (attend-minutes-left @self))))
+  (effects (begin-act {@self attend} (attend-minutes-left @self) attend_episode)))
 
 (hsim-npc-behaviour attend_episode
   (on-completion)

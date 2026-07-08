@@ -30,7 +30,7 @@
              (has-goal seek_indenture)
              (at-place ?venue)))
   (utility 80)
-  (effects (act indenture_commit 90)))
+  (effects (begin-act {@self seek_indenture} 90 indenture_commit)))
 
 (hsim-npc-behaviour indenture_commit
   (on-completion)

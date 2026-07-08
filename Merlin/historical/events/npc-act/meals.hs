@@ -90,7 +90,7 @@
              (< (now-hour) (+ ?h 3))
              (> (count-believed-located [k food] ?home) 0)))
   (utility 82)
-  (effects (act breakfast_episode 30)))
+  (effects (begin-act {@self dine} 30 breakfast_episode)))
 
 (hsim-npc-behaviour breakfast_episode
   (on-completion)
@@ -118,7 +118,7 @@
              (>= (now-hour) 12)
              (< (now-hour) 14)))
   (utility 85)
-  (effects (act work_lunch_episode 40)))
+  (effects (begin-act {@self dine} 40 work_lunch_episode)))
 
 (hsim-npc-behaviour work_lunch_episode
   (on-completion)
@@ -153,7 +153,7 @@
              (< (now-hour) (+ ?h 2))
              (> (count-believed-located [k food] ?home) 0)))
   (utility 76)
-  (effects (act home_lunch_episode 30)))
+  (effects (begin-act {@self dine} 30 home_lunch_episode)))
 
 (hsim-npc-behaviour home_lunch_episode
   (on-completion)
@@ -194,7 +194,7 @@
              (< (now-hour) (+ ?h 2))
              (> (count-believed-located [k food] ?home) 0)))
   (utility 78)
-  (effects (act supper_episode 60)))
+  (effects (begin-act {@self dine} 60 supper_episode)))
 
 ; The supper COMPLETION: the meal record, the family table talk, the big
 ; meal's hunger reset. @self is the diner; co-presence is whoever is at the
@@ -306,7 +306,7 @@
              (has-goal provision)
              (at-place-kind [k building shop])))
   (utility 56)
-  (effects (act provision_episode 15)))
+  (effects (begin-act {@self provision} 15 provision_episode)))
 
 (hsim-npc-behaviour provision_episode
   (on-completion)
@@ -375,7 +375,7 @@
              (< (now-hour) (+ ?h 2))
              (= (count-believed-located [k food] ?home) 0)))
   (utility 70)
-  (effects (act eat_out_episode 45)))
+  (effects (begin-act {@self dine} 45 eat_out_episode)))
 
 (hsim-npc-behaviour eat_out_restaurant
   (short-term-think)
@@ -388,7 +388,7 @@
              (< (now-hour) (+ ?h 2))
              (= (count-believed-located [k food] ?home) 0)))
   (utility 70)
-  (effects (act eat_out_episode 45)))
+  (effects (begin-act {@self dine} 45 eat_out_episode)))
 
 ; The venue kitchen is abstract in v1 (no prop consumed); the dine record
 ; lands at the venue - the evidence layer's "dined at the Crown, at supper".
@@ -423,7 +423,7 @@
              (is-entity ?item)
              (is-a ?item [k food])))
   (utility 141)
-  (effects (act starving_eat_carried_episode 10)))
+  (effects (begin-act {@self dine} 10 starving_eat_carried_episode)))
 
 (hsim-npc-behaviour starving_eat_carried_episode
   (on-completion)
@@ -444,7 +444,7 @@
              (bind {@self home ?home})
              (> (count-believed-located [k food] ?home) 0)))
   (utility 140)
-  (effects (act starving_eat_episode 10)))
+  (effects (begin-act {@self dine} 10 starving_eat_episode)))
 
 (hsim-npc-behaviour starving_go_home
   (short-term-think)
@@ -491,7 +491,7 @@
              (> (target {@self wealth}) 0.2)
              (at-place-kind [k building shop])))
   (utility 135)
-  (effects (act starving_buy_episode 10)))
+  (effects (begin-act {@self dine} 10 starving_buy_episode)))
 
 (hsim-npc-behaviour starving_buy_episode
   (on-completion)
@@ -531,7 +531,7 @@
              (not (> (target {@self wealth}) 0.2))
              (at-place-kind [k building shop])))
   (utility 130)
-  (effects (act starving_steal_episode 10)))
+  (effects (begin-act {@self dine} 10 starving_steal_episode)))
 
 (hsim-npc-behaviour starving_steal_episode
   (on-completion)

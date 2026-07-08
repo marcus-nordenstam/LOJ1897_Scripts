@@ -24,7 +24,7 @@
   (when (and (has-goal resign_club)
              (at-place-kind [k building social_clubhouse])))
   (utility 40)
-  (effects (act resign_commit 45)))
+  (effects (begin-act {@self resign_club} 45 resign_commit)))
 
 (hsim-npc-behaviour resign_commit
   (on-completion)

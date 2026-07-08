@@ -15,7 +15,7 @@
              (at-place-kind [k building church])))
   (utility 30)
   (effects
-    (act alms_episode 60)))
+    (begin-act {@self give_alms} 60 alms_episode)))
 
 (hsim-npc-behaviour alms_episode
   (on-completion)

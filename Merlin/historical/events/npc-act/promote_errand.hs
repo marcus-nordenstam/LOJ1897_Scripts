@@ -26,7 +26,7 @@
              (bind {?org workplace ?wp})
              (at-place ?wp)))
   (utility 82)
-  (effects (act promote_commit 45)))
+  (effects (begin-act {@self promote_staff} 45 promote_commit)))
 
 (hsim-npc-behaviour promote_commit
   (on-completion)

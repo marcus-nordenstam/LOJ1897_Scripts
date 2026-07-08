@@ -32,7 +32,7 @@
              (bind {?creditor home ?cred_home})
              (at-place ?cred_home)))
   (utility 60)
-  (effects (act borrow_commit 45)))
+  (effects (begin-act {@self take_loan} 45 borrow_commit)))
 
 (hsim-npc-behaviour borrow_commit
   (on-completion)

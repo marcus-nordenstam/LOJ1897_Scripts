@@ -29,7 +29,7 @@
              (bind {?org workplace ?wp})
              (at-place ?wp)))
   (utility 82)
-  (effects (act sack_commit 45)))
+  (effects (begin-act {@self sack} 45 sack_commit)))
 
 (hsim-npc-behaviour sack_commit
   (on-completion)

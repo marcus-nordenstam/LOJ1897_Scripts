@@ -26,7 +26,7 @@
              (has-goal engage_staff)
              (at-place ?venue)))
   (utility 82)
-  (effects (act hire_commit 45)))
+  (effects (begin-act {@self engage_staff} 45 hire_commit)))
 
 (hsim-npc-behaviour hire_commit
   (on-completion)

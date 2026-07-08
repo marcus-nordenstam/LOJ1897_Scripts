@@ -38,7 +38,7 @@
              (is-entity (goal-focus stow))
              (at-home)))
   (utility 91)
-  (effects (act stow_finish 5)))
+  (effects (begin-act {@self stow} 5 stow_finish)))
 
 (hsim-npc-behaviour stow_finish
   (on-completion)

@@ -26,7 +26,7 @@
   (when (and (has-goal orient)
              (at-place-kind [k building church])))
   (utility 28)
-  (effects (act orient_read 30)))
+  (effects (begin-act {@self orient} 30 orient_read)))
 
 (hsim-npc-behaviour orient_read
   (on-completion)

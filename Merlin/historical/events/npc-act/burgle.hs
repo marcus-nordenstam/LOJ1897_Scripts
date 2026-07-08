@@ -51,7 +51,7 @@
              (not (at-home))
              (at-place-kind [k building residential_building])))
   (utility 86)
-  (effects (act burgle_commit 15)))
+  (effects (begin-act {@self steal} 15 burgle_commit)))
 
 (hsim-npc-behaviour embezzle_strike
   (short-term-think)
@@ -60,7 +60,7 @@
              (bind {?emp workplace ?work})
              (at-place ?work)))
   (utility 86)
-  (effects (act burgle_commit 10)))
+  (effects (begin-act {@self steal} 10 burgle_commit)))
 
 (hsim-npc-behaviour burgle_commit
   (on-completion)

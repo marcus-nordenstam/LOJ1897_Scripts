@@ -17,7 +17,7 @@
              (bind {?org workplace ?wp})
              (at-place ?wp)))
   (utility 82)
-  (effects (act stocktake_done 30)))
+  (effects (begin-act {@self stocktake} 30 stocktake_done)))
 
 (hsim-npc-behaviour stocktake_done
   (on-completion)

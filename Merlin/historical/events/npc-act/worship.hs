@@ -15,7 +15,7 @@
              (at-place-kind [k building church])))
   (utility 30)
   (effects
-    (act worship_episode 90)))
+    (begin-act {@self worship} 90 worship_episode)))
 
 (hsim-npc-behaviour worship_episode
   (on-completion)

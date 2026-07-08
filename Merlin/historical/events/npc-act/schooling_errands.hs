@@ -20,7 +20,7 @@
   (short-term-think)
   (when (and (has-goal enrol_primary) (at-place-kind [k building school])))
   (utility 35)
-  (effects (act primary_commit 60)))
+  (effects (begin-act {@self enrol_primary} 60 primary_commit)))
 (hsim-npc-behaviour primary_commit
   (on-completion)
   (effects
@@ -38,7 +38,7 @@
   (short-term-think)
   (when (and (has-goal enrol_secondary) (at-place-kind [k building school])))
   (utility 35)
-  (effects (act secondary_commit 60)))
+  (effects (begin-act {@self enrol_secondary} 60 secondary_commit)))
 (hsim-npc-behaviour secondary_commit
   (on-completion)
   (effects
@@ -56,7 +56,7 @@
   (short-term-think)
   (when (and (has-goal enrol_university) (at-place-kind [k building school])))
   (utility 35)
-  (effects (act university_commit 60)))
+  (effects (begin-act {@self enrol_university} 60 university_commit)))
 (hsim-npc-behaviour university_commit
   (on-completion)
   (effects

@@ -29,7 +29,7 @@
              (bind {?org workplace ?wp})
              (at-place ?wp)))
   (utility 60)
-  (effects (act invest_commit 45)))
+  (effects (begin-act {@self back} 45 invest_commit)))
 
 (hsim-npc-behaviour invest_commit
   (on-completion)

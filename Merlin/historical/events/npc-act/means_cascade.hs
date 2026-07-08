@@ -54,7 +54,7 @@
   ; NO (log) - parallel deliberation pass (shared-write-free); the obtain act is
   ; narrated by means_acquired (serial completion).
   (effects
-    (act means_acquired (travel-minutes @self means))))
+    (begin-act {@self acquire} (travel-minutes @self means) means_acquired)))
 
 ; The COMPLETION-EVENT of the obtain act: fired by process_due_completions a
 ; travel-time later (serial completion pass; (completion-only) keeps it off the DES +

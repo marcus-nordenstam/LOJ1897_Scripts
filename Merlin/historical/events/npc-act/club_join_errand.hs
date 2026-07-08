@@ -26,7 +26,7 @@
              (has-goal join_club)
              (at-place ?venue)))
   (utility 40)
-  (effects (act join_commit 60)))
+  (effects (begin-act {@self join_club} 60 join_commit)))
 
 (hsim-npc-behaviour join_commit
   (on-completion)
