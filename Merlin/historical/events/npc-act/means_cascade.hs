@@ -64,7 +64,14 @@
 (hsim-npc-behaviour means_acquired
   (on-completion)
   (effects
-    (acquire-control @self means)
+    ; DEMAND RE-VALIDATION. The obtain act is a demand-derived sub-act: it exists
+    ; only to serve a kill the actor still intends. A durative sub-act must stay
+    ; demand-gated for its WHOLE duration, not just at launch - so re-check the
+    ; demand at completion. If the kill goal lapsed while the actor was travelling
+    ; to get the tool (the victim died and the alive-gate pruned the goal, or the
+    ; grudge faded), do NOT acquire a weapon for an abandoned kill.
+    (if (has-goal kill)
+        (acquire-control @self means))
     ))
 
 ; NB: the kill STRIKE terminal (means_strike) was moved to
