@@ -1,29 +1,15 @@
-; gamble - the APPROACH/EXECUTE acts of the gambling lane (npc-act). Desire (gamble_urge) is in npc-think/gamble_urge.hs.
-; (Split from the original lane file in the npc-think/npc-act reorg.)
+; gamble - the gambling ACT-BODY (npc-act). The pressure think that proposes it is
+; npc-think/gamble_urge.hs. The {@self play_game <pub>} act-belief - begun at commit,
+; ended by (end-act) at completion - IS the episodic memory days-since-last reads.
+; No aim, no end-goal.
 
-(hsim-npc-behaviour seek_game
-  (short-term-think)
-  (when (and (has-goal play_game)
-             (not (at-place-kind [k building pub]))))
-  (utility 30)
+(npc-act gamble_act
+  (when (believes {@self play_game ?venue}))
+  (duration 90)
   (effects
-    (bind (venue [k building pub]) ?go_dest) (begin-act {@self go ?go_dest})))
-
-(hsim-npc-behaviour gamble_act
-  (short-term-think)
-  (when (and (has-goal play_game)
-             (at-place-kind [k building pub])))
-  (utility 30)
-  (effects
-    (begin-act {@self play_game} 90 gamble_episode)))
-
-(hsim-npc-behaviour gamble_episode
-  (on-completion)
-  (effects
-    ; gambling_addiction is the standing DISPOSITION to gamble (a state, not
-    ; an act), accumulating exactly as intoxication does (~2 onsets to morbid);
-    ; the sobriety + wealth classifiers read it graded.
+    ; gambling_addiction is the standing DISPOSITION (a state) - and the amplifier
+    ; gamble_urge feeds back into: accumulating ~0.5 per fire (~2 to morbid), it
+    ; deepens the pull. The sobriety + wealth classifiers read it graded.
     (set-attr @self gambling_addiction
               (min 1 (+ (attr @self gambling_addiction) 0.5)))
-    (end-goal {@self play_game})
-    ))
+    (end-act {@self play_game ?venue})))

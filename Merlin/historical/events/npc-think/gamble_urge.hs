@@ -1,27 +1,25 @@
 ; ----------------------------------------------------------------------------
-; The GAMBLING lane - the three-stage intra-day lane (4.13.15), the twin of get_drunk:
-;
-;   (a) DESIRE   gamble_urge (long-term-think) - low industriousness (a want of
-;       self-discipline) takes to (or sinks deeper into) gambling; on a hit it
-;       mints the standing goal {@self goal {@self play_game}}.
-;   (b) APPROACH seek_game   (short-term-think) - holds the goal but is not at a pub ->
-;       a (go) travel act to a pub (the gambling venue).
-;   (c) EXECUTE  gamble_act  (short-term-think) - at a pub with the goal -> the durative
-;       gamble act; its completion bumps `gambling_addiction` (capped at morbid,
-;       exactly as get_drunk bumps `intoxication`) and clears the goal.
-;
-; Gambling ACCUMULATES (each fire deepens the addiction ~0.5 -> ~2 fires to morbid),
-; so the desire is a low-rate repeat; the addiction depth is the running total.
+; The GAMBLING lane (B4 pressure model). ONE think:
+;   gamble_urge (npc-think): gambling is a VICE, so its pressure is ADDICTION-
+;     driven, not "overdue"-driven (a man who never gambled feels no pull). The
+;     utility is susceptibility (low industriousness) x an amplifier that starts
+;     tiny - a rare deep-idle ONSET draw - and SPIRALS with gambling_addiction, x
+;     a days-since-last craving modulator clamped to [0,1] (so a never-gambler's
+;     sentinel days-since never blows the pressure up, and gambling paces the
+;     recurrence). The disciplined never gamble; the addicted are pulled in deep.
+;     At a pub -> the play_game act-goal there; else -> a `go` sub-act-goal.
+;   gamble_act (npc-act, gamble.hs): bumps gambling_addiction (the amplifier it
+;     feeds back into), ends the act. No aim, no end-goal.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour gamble_urge
-  (long-term-think)
-  (rng-stream behaviour)
+(npc-think gamble_urge
+  (short-term-think)
   (roles
     (role @self (template grown)))
-  (when (chance (* 0.0005 (+ 0.6 (* 0.8 (- 1.0 (attr @self industriousness)))))))
-  (effects
-    (begin-goal {@self play_game})))
-
+  (when (>= (days-since-last @self play_game) 10))
+  (utility (* (- 1 (attr @self industriousness))                    ; susceptibility (0 = disciplined)
+              (+ 2 (* 22 (attr @self gambling_addiction)))          ; onset 2 -> morbid 24 (below leisure)
+              (min (* (days-since-last @self play_game) 0.04) 1.0))) ; slow craving modulator [0,1]
+  (effects (propose-venue-act [k building pub] play_game)))
