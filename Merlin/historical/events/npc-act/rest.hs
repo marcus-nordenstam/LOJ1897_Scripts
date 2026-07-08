@@ -34,7 +34,6 @@
 ; fatigue. Utility skyrockets past full fatigue so sleep dominates work / leisure.
 (hsim-npc-behaviour sleep
   (short-term-think)
-  (does SLEEP)
   ; You cannot sleep through an assault - being under attack gates the whole rest
   ; lane OUT, so the fight acts (defend / flee / scream) take over (fight.hs).
   (when (and (not (under-attack))
@@ -56,9 +55,14 @@
   ; bed, the fatigue knee wins the 18:00 re-deliberation). (min ...) of the
   ; alarm and every constraint; minutes-until-attend / -until-hour are huge
   ; sentinels when nothing is pending.
-  (effects (act sleep_episode (min (minutes-until-alarm @self)
-                                   (minutes-until-attend @self)
-                                   (minutes-until-hour (target {?home supper_hour}))))))
+  ; begin-act {@self SLEEP} - the unified act shape: the ongoing act-belief IS
+  ; the act (self-targeted here), its interval the sleep duration; sleep_episode
+  ; is the on-completion event. Replaces the old (act ...) + (does SLEEP) pair.
+  (effects (begin-act {@self SLEEP}
+                      (min (minutes-until-alarm @self)
+                           (minutes-until-attend @self)
+                           (minutes-until-hour (target {?home supper_hour})))
+                      sleep_episode)))
 
 ; completion of the sleep act (completion-only): the engine ends the {@self sleep}
 ; act-belief and resets fatigue automatically; this just records the wake.
