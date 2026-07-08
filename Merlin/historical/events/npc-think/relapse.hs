@@ -1,39 +1,35 @@
 ; ----------------------------------------------------------------------------
-; relapse - the drinking event for NPCs who have formed a standing craving
-; for drink (the {@self craving alcohol} drive). A craving does not decay -
-; reform resists it, never erases it - so a dependent drinker relapses
-; often. The chance is high and modulated: distress (withdrawal) and weak
-; restraint (low industriousness) drive relapse; religious involvement and
-; deep social embedding resist it but never to zero - the lifelong battle.
-; Onset into dependence happens in get_drunk.hs (risk-dependence ?npc); this is
-; the dependent's DESIRE stage (long-term-think): it mints the SAME {@self goal
-; {@self drink}} as crave_drink (which excludes the dependent), so the dependent
-; relapses through the very same seek_drink -> drink -> drink_episode pipeline -
-; one executor, two desires. Relapse just has a far higher base rate.
+; relapse (B4 pressure model) - the drink pressure of a DEPENDENT drinker (the
+; standing {@self craving alcohol} drive). A craving never decays, so a dependent
+; relapses OFTEN: the same drink pressure as crave_drink but a far shorter fuse
+; and a higher ceiling. Distress (withdrawal) and weak restraint drive it up;
+; piety and belonging resist but never to zero - the lifelong battle.
 ;
-; Design note. The protective factors read the piety and belonging
-; situations cached by derive_prototypes, not raw (count-beliefs attend)
-; / (count-beliefs close_to) tallies - the signal is "how religious /
-; socially-embedded is this NPC" not "how many of each individual event
-; have been logged." Bounded factors let the engine's (chance ...)
-; decomposition engage; worst-case product is ~0.92 so the pre-roll
-; trims only a small fraction (relapse has a high base rate by design)
-; but the math is exact, and the slow-path warning is gone.
+; crave_drink excludes the dependent and relapse casts only him, so the two are
+; disjoint drivers of the ONE {@self drink} act-goal (one executor, two desires).
+; Dependence ONSET is still rolled by drink_act (drink.hs). No aim, no end-goal:
+; drinking resets the days-since pressure and relapse quiets until it rebuilds.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour relapse
-  (long-term-think)
-  (rng-stream behaviour)
+(npc-think relapse
+  (short-term-think)
   (roles
     (role @self (template grown)))
+  ; A dependent, a drink already ~due (short fuse - he relapses fast).
   (when (and (= (target {@self craving}) [k alcohol])
-             (chance
-               (* 0.30                                                  ; base daily relapse
-                  (+ 0.60 (* 0.80 (attr @self withdrawal)))              ; distress drives relapse
-                  (+ 0.70 (* 0.60 (- 1.0 (attr @self industriousness)))) ; weak restraint
-                  (- 1.3 (* 0.6 (target {@self piety})))                ; piety resists
-                  (- 1.3 (* 0.6 (target {@self belonging})))))))        ; belonging resists
+             (>= (days-since-last @self drink) 1)))
+  ; High pull: distress + weak restraint drive, piety/belonging resist (bounded,
+  ; never to zero). Ramps fast, capped high enough to be a near-daily draw but
+  ; still short of work / sleep.
+  (utility (* (min (* (+ 0.5 (* 0.8 (attr @self withdrawal)))
+                      (+ 0.6 (* 0.6 (- 1 (attr @self industriousness))))
+                      (- 1.3 (* 0.6 (target {@self piety})))
+                      (- 1.3 (* 0.6 (target {@self belonging})))) 1.6)
+              (min (* (days-since-last @self drink) 5) 45)))
   (effects
-    (begin-goal {@self drink})))
+    (if (can-drink @self)
+        (begin-goal {@self drink})
+        (do (bind (venue [k building pub]) ?go_dest)
+            (if (is-entity ?go_dest) (begin-goal {@self go ?go_dest}))))))
