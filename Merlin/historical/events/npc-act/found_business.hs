@@ -28,7 +28,7 @@
   (when (and (has-goal found)
              (not (at-place-kind [k building bank]))))
   (utility 85)
-  (effects (go @self (venue [k building bank]))))
+  (effects (bind (venue [k building bank]) ?go_dest) (begin-act {@self go ?go_dest})))
 
 (hsim-npc-behaviour found_dwell
   (short-term-think)

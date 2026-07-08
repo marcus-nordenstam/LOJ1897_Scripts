@@ -23,7 +23,7 @@
              (bind {?creditor home ?cred_home})
              (not (at-place ?cred_home))))
   (utility 60)
-  (effects (go @self ?cred_home)))
+  (effects (begin-act {@self go ?cred_home})))
 
 (hsim-npc-behaviour borrow_dwell
   (short-term-think)

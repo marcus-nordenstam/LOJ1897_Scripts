@@ -16,7 +16,7 @@
   (when (and (has-goal found_club)
              (not (at-place-kind [k building pub]))))
   (utility 45)
-  (effects (go @self (venue [k building pub]))))
+  (effects (bind (venue [k building pub]) ?go_dest) (begin-act {@self go ?go_dest})))
 
 (hsim-npc-behaviour found_club_dwell
   (short-term-think)

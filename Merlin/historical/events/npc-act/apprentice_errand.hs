@@ -22,7 +22,7 @@
              (has-goal seek_indenture)
              (not (at-place ?venue))))
   (utility 80)
-  (effects (go @self ?venue)))
+  (effects (begin-act {@self go ?venue})))
 
 (hsim-npc-behaviour indenture_dwell
   (short-term-think)

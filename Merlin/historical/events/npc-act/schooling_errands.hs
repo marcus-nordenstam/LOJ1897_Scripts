@@ -15,7 +15,7 @@
   (short-term-think)
   (when (and (has-goal enrol_primary) (not (at-place-kind [k building school]))))
   (utility 35)
-  (effects (go @self (venue [k building school]))))
+  (effects (bind (venue [k building school]) ?go_dest) (begin-act {@self go ?go_dest})))
 (hsim-npc-behaviour primary_dwell
   (short-term-think)
   (when (and (has-goal enrol_primary) (at-place-kind [k building school])))
@@ -33,7 +33,7 @@
   (short-term-think)
   (when (and (has-goal enrol_secondary) (not (at-place-kind [k building school]))))
   (utility 35)
-  (effects (go @self (venue [k building school]))))
+  (effects (bind (venue [k building school]) ?go_dest) (begin-act {@self go ?go_dest})))
 (hsim-npc-behaviour secondary_dwell
   (short-term-think)
   (when (and (has-goal enrol_secondary) (at-place-kind [k building school])))
@@ -51,7 +51,7 @@
   (short-term-think)
   (when (and (has-goal enrol_university) (not (at-place-kind [k building school]))))
   (utility 35)
-  (effects (go @self (venue [k building school]))))
+  (effects (bind (venue [k building school]) ?go_dest) (begin-act {@self go ?go_dest})))
 (hsim-npc-behaviour university_dwell
   (short-term-think)
   (when (and (has-goal enrol_university) (at-place-kind [k building school])))

@@ -19,7 +19,7 @@
              (has-goal partner)
              (not (at-place ?venue))))
   (utility 85)
-  (effects (go @self ?venue)))
+  (effects (begin-act {@self go ?venue})))
 
 (hsim-npc-behaviour partner_dwell
   (short-term-think)

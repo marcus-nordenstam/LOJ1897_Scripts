@@ -17,7 +17,7 @@
   (when (and (has-goal resign_club)
              (not (at-place-kind [k building social_clubhouse]))))
   (utility 40)
-  (effects (go @self (venue [k building social_clubhouse]))))
+  (effects (bind (venue [k building social_clubhouse]) ?go_dest) (begin-act {@self go ?go_dest})))
 
 (hsim-npc-behaviour resign_dwell
   (short-term-think)

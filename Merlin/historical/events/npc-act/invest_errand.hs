@@ -20,7 +20,7 @@
              (bind {?org workplace ?wp})
              (not (at-place ?wp))))
   (utility 60)
-  (effects (go @self ?wp)))
+  (effects (begin-act {@self go ?wp})))
 
 (hsim-npc-behaviour invest_dwell
   (short-term-think)

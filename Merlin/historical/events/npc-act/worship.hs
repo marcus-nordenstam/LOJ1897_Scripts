@@ -7,7 +7,7 @@
              (not (at-place-kind [k building church]))))
   (utility 30)
   (effects
-    (go @self (venue [k building church]))))
+    (bind (venue [k building church]) ?go_dest) (begin-act {@self go ?go_dest})))
 
 (hsim-npc-behaviour attend_church
   (short-term-think)

@@ -7,7 +7,7 @@
              (not (at-place-kind [k building pub]))))
   (utility 30)
   (effects
-    (go @self (venue [k building pub]))))
+    (bind (venue [k building pub]) ?go_dest) (begin-act {@self go ?go_dest})))
 
 (hsim-npc-behaviour gamble_act
   (short-term-think)

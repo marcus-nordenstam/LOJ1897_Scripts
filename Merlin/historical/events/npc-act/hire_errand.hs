@@ -18,7 +18,7 @@
              (has-goal engage_staff)
              (not (at-place ?venue))))
   (utility 82)
-  (effects (go @self ?venue)))
+  (effects (begin-act {@self go ?venue})))
 
 (hsim-npc-behaviour hire_dwell
   (short-term-think)

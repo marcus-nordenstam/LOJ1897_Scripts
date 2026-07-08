@@ -19,7 +19,7 @@
   (when (and (has-goal orient)
              (not (at-place-kind [k building church]))))
   (utility 28)
-  (effects (go @self (venue [k building church]))))
+  (effects (bind (venue [k building church]) ?go_dest) (begin-act {@self go ?go_dest})))
 
 (hsim-npc-behaviour orient_dwell
   (short-term-think)

@@ -39,7 +39,8 @@
   ; sampled at act completions, so an uncapped shift-long stay would leap
   ; clean over work_lunch's window. After lunch the next 12:00 is tomorrow
   ; (a huge cap), so the stay runs to shift end.
-  (effects (stay (min (minutes-until-shift-end ?end) (minutes-until-hour 12)))))
+  (effects (begin-act {@self work ?wp}
+                      (min (minutes-until-shift-end ?end) (minutes-until-hour 12)))))
 
 (hsim-npc-behaviour day_go_to_work
   (short-term-think)
@@ -50,4 +51,4 @@
              (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))
              (not (at-place ?wp))))
   (utility (* 80 (factors (attr @self industriousness) 0.75 0.5)))
-  (effects (go @self ?wp)))
+  (effects (begin-act {@self go ?wp})))

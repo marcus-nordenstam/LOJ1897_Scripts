@@ -43,7 +43,7 @@
   (effects
     (bind (burgle-target @self) ?scene)
     (if ?scene
-        (go @self ?scene))))
+        (begin-act {@self go ?scene}))))
 
 (hsim-npc-behaviour burgle_strike
   (short-term-think)

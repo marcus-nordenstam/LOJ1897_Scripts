@@ -18,7 +18,7 @@
              (has-goal join_club)
              (not (at-place ?venue))))
   (utility 40)
-  (effects (go @self ?venue)))
+  (effects (begin-act {@self go ?venue})))
 
 (hsim-npc-behaviour join_dwell
   (short-term-think)

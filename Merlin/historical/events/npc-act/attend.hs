@@ -34,7 +34,7 @@
              (attend-in-window @self)
              (not (at-place ?venue))))
   (utility (attend-utility @self))
-  (effects (go @self ?venue)))
+  (effects (begin-act {@self go ?venue})))
 
 (hsim-npc-behaviour attend_dwell
   (short-term-think)

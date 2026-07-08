@@ -30,7 +30,7 @@
              (bind {@self home ?home})
              (not (at-home))))
   (utility 90)
-  (effects (go @self ?home)))
+  (effects (begin-act {@self go ?home})))
 
 (hsim-npc-behaviour stow_put
   (short-term-think)

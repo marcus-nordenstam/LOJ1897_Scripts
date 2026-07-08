@@ -7,7 +7,7 @@
              (not (can-drink @self))))
   (utility 30)
   (effects
-    (go @self (venue [k building pub]))))
+    (bind (venue [k building pub]) ?go_dest) (begin-act {@self go ?go_dest})))
 
 ; (c) EXECUTE - hold the goal and at a place with drink (a pub, or home): the
 ; durative drink act.

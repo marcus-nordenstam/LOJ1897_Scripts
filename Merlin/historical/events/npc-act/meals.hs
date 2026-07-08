@@ -69,10 +69,11 @@
              (at-home)
              (bind {@self home ?home})))
   (utility 2)
-  (effects (stay (min 180
-                      (minutes-until-hour (target {?home breakfast_hour}))
-                      (minutes-until-hour (target {?home lunch_hour}))
-                      (minutes-until-hour (target {?home supper_hour}))))))
+  (effects (begin-act {@self dwell ?home}
+                      (min 180
+                           (minutes-until-hour (target {?home breakfast_hour}))
+                           (minutes-until-hour (target {?home lunch_hour}))
+                           (minutes-until-hour (target {?home supper_hour}))))))
 
 ; ---------------------------------------------------------------- breakfast
 
@@ -180,7 +181,7 @@
              (< (now-hour) (+ ?h 2))
              (not (at-home))))
   (utility 78)
-  (effects (go @self ?home)))
+  (effects (begin-act {@self go ?home})))
 
 ; EXECUTE - at home inside the cook's window: the hour at table.
 (hsim-npc-behaviour supper
@@ -288,7 +289,7 @@
              (is-entity ?shop)
              (not (at-place ?shop))))
   (utility 55)
-  (effects (go @self ?shop)))
+  (effects (begin-act {@self go ?shop})))
 
 (hsim-npc-behaviour provision_search
   (short-term-think)
@@ -298,7 +299,7 @@
              (not (is-entity ?shop))
              (not (at-place-kind [k building shop]))))
   (utility 55)
-  (effects (go @self (venue [k building shop]))))
+  (effects (bind (venue [k building shop]) ?go_dest) (begin-act {@self go ?go_dest})))
 
 (hsim-npc-behaviour provision_take
   (short-term-think)
@@ -347,7 +348,7 @@
              (not (at-place-kind [k building pub]))
              (= (count-believed-located [k food] ?home) 0)))
   (utility 70)
-  (effects (go @self (venue [k building pub]))))
+  (effects (bind (venue [k building pub]) ?go_dest) (begin-act {@self go ?go_dest})))
 
 (hsim-npc-behaviour eat_out_go_restaurant
   (short-term-think)
@@ -362,7 +363,7 @@
              (not (at-place-kind [k building restaurant]))
              (= (count-believed-located [k food] ?home) 0)))
   (utility 70)
-  (effects (go @self (venue [k building restaurant]))))
+  (effects (bind (venue [k building restaurant]) ?go_dest) (begin-act {@self go ?go_dest})))
 
 (hsim-npc-behaviour eat_out_pub
   (short-term-think)
@@ -454,7 +455,7 @@
              (bind {@self home ?home})
              (> (count-believed-located [k food] ?home) 0)))
   (utility 138)
-  (effects (go @self ?home)))
+  (effects (begin-act {@self go ?home})))
 
 (hsim-npc-behaviour starving_eat_episode
   (on-completion)
@@ -481,8 +482,8 @@
   (utility 135)
   (effects
     (if (is-entity ?shop)
-        (go @self ?shop)
-        (go @self (venue [k building shop])))))
+        (begin-act {@self go ?shop})
+        (do (bind (venue [k building shop]) ?go_dest) (begin-act {@self go ?go_dest})))))
 
 (hsim-npc-behaviour starving_buy
   (short-term-think)
@@ -521,8 +522,8 @@
   (utility 130)
   (effects
     (if (is-entity ?shop)
-        (go @self ?shop)
-        (go @self (venue [k building shop])))))
+        (begin-act {@self go ?shop})
+        (do (bind (venue [k building shop]) ?go_dest) (begin-act {@self go ?go_dest})))))
 
 (hsim-npc-behaviour starving_steal
   (short-term-think)
