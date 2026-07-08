@@ -1,27 +1,25 @@
 ; ----------------------------------------------------------------------------
-; The CHARITY lane - the three-stage intra-day lane (4.13.15):
-;
-;   (a) DESIRE   feel_charitable (long-term-think) - high compassion moves an NPC
-;       to give alms; on a hit it mints {@self goal {@self give}}.
-;   (b) APPROACH seek_alms_church (short-term-think) - holds the goal but is not at a
-;       church -> a (go) travel act to the parish church (the Victorian charity
-;       venue).
-;   (c) EXECUTE  give_alms_act (short-term-think) - at a church with the goal -> the
-;       durative almsgiving; its completion mints the {@self give <sum>} act-record
-;       (read by the F3.5 generosity classifier) and clears the goal.
-;
-; The old once-per-giver gate ({@self give ? ?}) is dropped: a compassionate NPC
-; gives repeatedly, and the recurrence is the generosity signal.
+; The CHARITY lane (B4 pressure model). ONE think:
+;   feel_charitable (npc-think): almsgiving is a VIRTUE - a duty-style pressure
+;     (like worship) = days-since-last-alms ramp x COMPASSION, capped LOW as a
+;     rare leisure act (charity is occasional, not a fixture). The uncompassionate
+;     never clear a routine act. At a church -> the give_alms act-goal there; else
+;     -> a `go` sub-act-goal to a church (the Victorian charity venue).
+;   give_alms_act (npc-act, give_alms.hs): the durative almsgiving - mints the
+;     punctual {@self give <sum>} record the generosity classifier reads, ends the
+;     act. The {@self give_alms <church>} act-belief IS the episodic memory
+;     days-since-last reads. No aim, no end-goal.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour feel_charitable
-  (long-term-think)
-  (rng-stream behaviour)
+(npc-think feel_charitable
+  (short-term-think)
   (roles
     (role @self (template grown)))
-  (when (chance (* 0.00067 (+ 0.4 (* 1.2 (attr @self compassion))))))
-  (effects
-    (begin-goal {@self give_alms})))
-
+  (when (>= (days-since-last @self give_alms) 20))
+  ; compassion x a slow days-since ramp, capped low (rare deep-idle draw); the
+  ; uncompassionate stay below every routine act, so they never give.
+  (utility (* (attr @self compassion)
+              (min (* (days-since-last @self give_alms) 0.8) 25)))
+  (effects (propose-venue-act [k building church] give_alms)))
