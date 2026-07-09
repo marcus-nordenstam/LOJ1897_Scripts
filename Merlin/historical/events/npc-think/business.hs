@@ -105,7 +105,7 @@
     ; co-member; v1 gates on the candidate's merit alone, as the relationship layer
     ; is not yet rich enough to gate on without starving the event.)
     (role ?principal_org (template known_org)
-                         (believes {?this isa [k org business]})))
+                         [k org business]))
 
   ;; Live exclusivity re-check (see betrothal.hs): the candidate's "not
   ;; org_head" eligibility is evaluated at enumeration time, so within one

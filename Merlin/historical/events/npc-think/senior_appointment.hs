@@ -44,7 +44,7 @@
     ;; A public organisation - any gov-subkind: church, hospital, agency. A KNOWN
     ;; org of gov kind (@self learned it at new_job_orientation). Belief-pure + cached.
     (role ?org (template known_org)
-               (believes {?this isa [k org gov]})))
+               [k org gov]))
 
   ;; (chance) FIRST (cheap, short-circuits), then the live exclusivity re-check
   ;; (see betrothal.hs): without it, every gov org enumerated this tick can appoint
