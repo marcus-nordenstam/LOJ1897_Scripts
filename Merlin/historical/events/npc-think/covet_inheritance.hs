@@ -40,7 +40,19 @@
     ; floor is enforced in (when) on the winner.
     (role ?benefactor (template any_human)
       (believes {@self mother|father|parent|spouse|sibling ?benefactor})
-      (prefer (target {?benefactor wealth}))))
+      (prefer (target {?benefactor wealth})))
+    ; The benefactor's HEIR, role-cast via the object-cache JOIN: the cross-role filter
+    ; {?heir <kin> ?benefactor} makes ?heir's cache depend on ?benefactor's - the engine
+    ; materializes, per benefactor, the heirs the actor KNOWS (a candidate's own kin
+    ; belief toward that benefactor: a child's parent IS the benefactor, a spouse's
+    ; spouse IS, a sibling's sibling IS - the pick_heir co-heir set). The birth_date
+    ; filter is the KNOWLEDGE PRECONDITION - the actor only weighs an heir whose age he
+    ; knows (a friends-and-closer belief) - and (prefer (years-old ...)) picks the ELDEST
+    ; such heir. No omniscient (heir-apparent ...) kin-graph read.
+    (role ?heir (template old_human)
+      (believes {?heir mother|father|parent|spouse|sibling ?benefactor})
+      (believes {?heir birth_date ?})
+      (prefer (years-old ?heir)) (policy argmax)))
 
   ; Disposition pre-gate + wealth floor. greed = mean(machiavellianism, psychopathy);
   ; propensity = (1 - inhibition) * greed; fire at k_covet_base_rate * propensity.
@@ -55,7 +67,6 @@
   ; /cause pins @self's belief in the benefactor's wealth - the appetitive motive -
   ; so the rap sheet reads "kill <victim> <- {<benefactor> wealth ..}".
   (effects
-    (bind (heir-apparent ?benefactor) ?heir)
     (if (= ?heir @self)
         (begin-goal {@self kill ?benefactor} /cause {?benefactor wealth})
         (if (alive ?heir)

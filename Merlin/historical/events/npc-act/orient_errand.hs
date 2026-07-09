@@ -16,10 +16,14 @@
 
 (hsim-npc-behaviour orient_go
   (short-term-think)
+  ; The church is role-cast from the churches the NPC KNOWS; nearest preferred,
+  ; weighted. No known church -> no fire (the goal waits). Replaces (venue ...).
+  (roles
+    (role ?go_dest [k building church] (prefer (near @self ?go_dest)) (policy weighted)))
   (when (and (has-goal orient)
              (not (at-place-kind [k building church]))))
   (utility 28)
-  (effects (bind (venue [k building church]) ?go_dest) (begin-act {@self go ?go_dest})))
+  (effects (begin-act {@self go ?go_dest})))
 
 (hsim-npc-behaviour orient_dwell
   (short-term-think)

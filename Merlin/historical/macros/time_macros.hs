@@ -45,3 +45,26 @@
 ; weekday_hours_label table (lookup_tables.hs).
 (define-macro work-hours-today-label ()
   (lookup weekday_hours_label weekday (now-weekday) label))
+
+; ----------------------------------------------------------------------------
+; Age from a KNOWN birth date (belief-reading; replaces the omniscient C++
+; (years-old) op that read the env birth_date attr). Composed from the general
+; date primitives (date_now) + (year|month|day <date>), which decompose ANY date -
+; a stored birth_date, today, an anniversary. `years-old` is EXACT: full years
+; elapsed, minus one until this year's birthday falls.
+; ----------------------------------------------------------------------------
+
+; (birthday-passed ?bd): has the birthday named by date ?bd already arrived this
+; year (today counts)? Month-then-day comparison against today.
+(define-macro birthday-passed (?bd)
+  (or (> (month (date_now)) (month ?bd))
+      (and (= (month (date_now)) (month ?bd))
+           (>= (day (date_now)) (day ?bd)))))
+
+; (years-old ?who): the EXACT whole-years age, read from ?who's OWN {?who birth_date
+; <date>} belief - mental, no env attr, no omniscience. Works on @self and on anyone
+; whose birth_date the mind has learned (friends-and-closer); for strangers use the
+; perceived age_band predicates (age_macros.hs) instead.
+(define-macro years-old (?who)
+  (- (- (year (date_now)) (year (target {?who birth_date})))
+     (if (birthday-passed (target {?who birth_date})) 0 1)))
