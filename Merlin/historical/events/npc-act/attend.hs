@@ -34,9 +34,9 @@
 ; -> the (at-place ?venue) gate fails and the lane simply waits.
 (hsim-npc-behaviour attend_go
   (short-term-think)
+  (goal {@self attend})
   (bind (target {@self goal {@self attend ?}}) ?occ)
-  (when (and (has-goal attend)
-             (bind {?occ venue ?venue})
+  (when (and (bind {?occ venue ?venue})
              (attend-in-window @self)
              (not (at-place ?venue))))
   (utility (attend-utility @self))
@@ -44,9 +44,9 @@
 
 (hsim-npc-behaviour attend_dwell
   (short-term-think)
+  (goal {@self attend})
   (bind (target {@self goal {@self attend ?}}) ?occ)
-  (when (and (has-goal attend)
-             (bind {?occ venue ?venue})
+  (when (and (bind {?occ venue ?venue})
              (attend-in-window @self)
              (at-place ?venue)))
   (utility (attend-utility @self))

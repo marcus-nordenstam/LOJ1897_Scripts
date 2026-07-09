@@ -14,16 +14,16 @@
 
 (hsim-npc-behaviour hire_go
   (short-term-think)
+  (goal {@self engage_staff})
   (when (and (articles-building (goal-focus engage_staff) ?venue)
-             (has-goal engage_staff)
              (not (at-place ?venue))))
   (utility 82)
   (effects (begin-act {@self go ?venue})))
 
 (hsim-npc-behaviour hire_dwell
   (short-term-think)
+  (goal {@self engage_staff})
   (when (and (articles-building (goal-focus engage_staff) ?venue)
-             (has-goal engage_staff)
              (at-place ?venue)))
   (utility 82)
   (effects (begin-act {@self engage_staff} 45 hire_commit)))

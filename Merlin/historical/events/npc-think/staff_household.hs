@@ -38,7 +38,7 @@
 
   (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
              (or (in-month 12) (in-month 1) (in-month 2)) ; winter, once a year
-             (not (has-goal staff_household))          ; mint once, then skip
+             (no-goal {@self staff_household})         ; mint once, then skip
              (believes @self {@self home ?h})          ; BIND ?h = the home
              (believes @self {@self own ?h})           ; @self OWNS that home (the head)
              (or (is-a ?h [k manor]) (is-a ?h [k townhouse]))))
@@ -57,13 +57,13 @@
 ; the monthly ACT below (it now no-ops until the articles exist).
 (hsim-npc-behaviour found_household
   (long-term-think)
+  (goal {@self staff_household})
   (rng-stream employment)
 
   (roles
     (role @self (template any_human)))
 
   (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
-             (has-goal staff_household)                 ; head took the duty
              (not (head-runs-household @self))          ; not already founded
              (believes @self {@self home ?h})           ; BIND ?h = the home
              (believes @self {@self own ?h})            ; @self OWNS that home (the head)
@@ -80,6 +80,7 @@
   ; shortfall once found_household has constituted the org; no-ops while no
   ; articles exist and once full - self-throttles).
   (long-term-think)
+  (goal {@self staff_household})
   (rng-stream employment)
 
   (roles
@@ -87,7 +88,6 @@
                 (believes {@self home ?})))
 
   (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
-             (has-goal staff_household)                 ; the standing duty
              (believes @self {@self home ?h})           ; BIND ?h = the home
              (believes @self {@self own ?h})))          ; @self OWNS it (the head)
 

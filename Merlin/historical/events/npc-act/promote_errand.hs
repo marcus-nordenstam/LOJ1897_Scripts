@@ -12,8 +12,8 @@
 
 (hsim-npc-behaviour promote_go
   (short-term-think)
-  (when (and (has-goal promote_staff)
-             (bind {@self employer ?org})
+  (goal {@self promote_staff})
+  (when (and (bind {@self employer ?org})
              (bind {?org workplace ?wp})
              (not (at-place ?wp))))
   (utility 82)
@@ -21,8 +21,8 @@
 
 (hsim-npc-behaviour promote_dwell
   (short-term-think)
-  (when (and (has-goal promote_staff)
-             (bind {@self employer ?org})
+  (goal {@self promote_staff})
+  (when (and (bind {@self employer ?org})
              (bind {?org workplace ?wp})
              (at-place ?wp)))
   (utility 82)

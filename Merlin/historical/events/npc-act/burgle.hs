@@ -37,8 +37,8 @@
 
 (hsim-npc-behaviour burgle_go
   (short-term-think)
+  (goal {@self steal})
   (rng-stream theft)
-  (when (has-goal steal))
   (utility 85)
   (effects
     (bind (burgle-target @self) ?scene)
@@ -47,16 +47,16 @@
 
 (hsim-npc-behaviour burgle_strike
   (short-term-think)
-  (when (and (has-goal steal)
-             (not (at-home))
+  (goal {@self steal})
+  (when (and (not (at-home))
              (at-place-kind [k building residential_building])))
   (utility 86)
   (effects (begin-act {@self steal} 15 burgle_commit)))
 
 (hsim-npc-behaviour embezzle_strike
   (short-term-think)
-  (when (and (has-goal steal)
-             (bind {@self employer ?emp})
+  (goal {@self steal})
+  (when (and (bind {@self employer ?emp})
              (bind {?emp workplace ?work})
              (at-place ?work)))
   (utility 86)

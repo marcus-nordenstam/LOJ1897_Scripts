@@ -15,18 +15,18 @@
 
 (hsim-npc-behaviour invest_go
   (short-term-think)
+  (goal {@self back})
   (bind (goal-focus back) ?org)
-  (when (and (has-goal back)
-             (bind {?org workplace ?wp})
+  (when (and (bind {?org workplace ?wp})
              (not (at-place ?wp))))
   (utility 60)
   (effects (begin-act {@self go ?wp})))
 
 (hsim-npc-behaviour invest_dwell
   (short-term-think)
+  (goal {@self back})
   (bind (goal-focus back) ?org)
-  (when (and (has-goal back)
-             (bind {?org workplace ?wp})
+  (when (and (bind {?org workplace ?wp})
              (at-place ?wp)))
   (utility 60)
   (effects (begin-act {@self back} 45 invest_commit)))

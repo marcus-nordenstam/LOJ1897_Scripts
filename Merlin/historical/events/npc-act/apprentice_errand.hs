@@ -16,18 +16,18 @@
 
 (hsim-npc-behaviour indenture_go
   (short-term-think)
+  (goal {@self seek_indenture})
   ; articles-building BINDS ?venue (the master's premises) off the goal-focus
   ; articles, threading it to the at-place gate + the (go) effect.
   (when (and (articles-building (goal-focus seek_indenture) ?venue)
-             (has-goal seek_indenture)
              (not (at-place ?venue))))
   (utility 80)
   (effects (begin-act {@self go ?venue})))
 
 (hsim-npc-behaviour indenture_dwell
   (short-term-think)
+  (goal {@self seek_indenture})
   (when (and (articles-building (goal-focus seek_indenture) ?venue)
-             (has-goal seek_indenture)
              (at-place ?venue)))
   (utility 80)
   (effects (begin-act {@self seek_indenture} 90 indenture_commit)))

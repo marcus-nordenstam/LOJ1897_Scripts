@@ -24,6 +24,7 @@
 
 (hsim-npc-behaviour attempt_kill
   (long-term-think)
+  (goal {@self kill})
 
   (roles
     (role @self (template any_human)))
@@ -32,10 +33,9 @@
   ; profile goal not yet bound to a person) or a dead victim gates out; the
   ; per-victim fight-goal test keeps the mint idempotent across months.
   (bind (goal-focus kill) ?victim)
-  (when (and (has-goal kill)
-             (is-entity ?victim)
+  (when (and (is-entity ?victim)
              (alive ?victim)
-             (not (has-goal-on fight ?victim))))
+             (no-goal {@self fight ?victim})))
 
   (effects
     (begin-goal {@self fight ?victim})))

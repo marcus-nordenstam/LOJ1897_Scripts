@@ -13,19 +13,19 @@
 
 (hsim-npc-behaviour found_club_go
   (short-term-think)
+  (goal {@self found_club})
   ; The pub is role-cast from the pubs the NPC KNOWS; nearest preferred, weighted.
   ; No known pub -> no fire (the goal waits). Replaces (venue ...).
   (roles
     (role ?go_dest [k building pub] (prefer (near @self ?go_dest)) (policy weighted)))
-  (when (and (has-goal found_club)
-             (not (at-place-kind [k building pub]))))
+  (when (not (at-place-kind [k building pub])))
   (utility 45)
   (effects (begin-act {@self go ?go_dest})))
 
 (hsim-npc-behaviour found_club_dwell
   (short-term-think)
-  (when (and (has-goal found_club)
-             (at-place-kind [k building pub])))
+  (goal {@self found_club})
+  (when (at-place-kind [k building pub]))
   (utility 45)
   (effects (begin-act {@self found_club} 90 found_club_commit)))
 

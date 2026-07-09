@@ -13,16 +13,18 @@
 ; ----- primary -------------------------------------------------------------
 (hsim-npc-behaviour primary_go
   (short-term-think)
+  (goal {@self enrol_primary})
   ; The school is role-cast from the schools the NPC KNOWS; nearest preferred,
   ; weighted. No known school -> no fire (the goal waits). Replaces (venue ...).
   (roles
     (role ?go_dest [k building school] (prefer (near @self ?go_dest)) (policy weighted)))
-  (when (and (has-goal enrol_primary) (not (at-place-kind [k building school]))))
+  (when (not (at-place-kind [k building school])))
   (utility 35)
   (effects (begin-act {@self go ?go_dest})))
 (hsim-npc-behaviour primary_dwell
   (short-term-think)
-  (when (and (has-goal enrol_primary) (at-place-kind [k building school])))
+  (goal {@self enrol_primary})
+  (when (at-place-kind [k building school]))
   (utility 35)
   (effects (begin-act {@self enrol_primary} 60 primary_commit)))
 (hsim-npc-behaviour primary_commit
@@ -35,14 +37,16 @@
 ; ----- secondary -----------------------------------------------------------
 (hsim-npc-behaviour secondary_go
   (short-term-think)
+  (goal {@self enrol_secondary})
   (roles
     (role ?go_dest [k building school] (prefer (near @self ?go_dest)) (policy weighted)))
-  (when (and (has-goal enrol_secondary) (not (at-place-kind [k building school]))))
+  (when (not (at-place-kind [k building school])))
   (utility 35)
   (effects (begin-act {@self go ?go_dest})))
 (hsim-npc-behaviour secondary_dwell
   (short-term-think)
-  (when (and (has-goal enrol_secondary) (at-place-kind [k building school])))
+  (goal {@self enrol_secondary})
+  (when (at-place-kind [k building school]))
   (utility 35)
   (effects (begin-act {@self enrol_secondary} 60 secondary_commit)))
 (hsim-npc-behaviour secondary_commit
@@ -55,14 +59,16 @@
 ; ----- university ----------------------------------------------------------
 (hsim-npc-behaviour university_go
   (short-term-think)
+  (goal {@self enrol_university})
   (roles
     (role ?go_dest [k building school] (prefer (near @self ?go_dest)) (policy weighted)))
-  (when (and (has-goal enrol_university) (not (at-place-kind [k building school]))))
+  (when (not (at-place-kind [k building school])))
   (utility 35)
   (effects (begin-act {@self go ?go_dest})))
 (hsim-npc-behaviour university_dwell
   (short-term-think)
-  (when (and (has-goal enrol_university) (at-place-kind [k building school])))
+  (goal {@self enrol_university})
+  (when (at-place-kind [k building school]))
   (utility 35)
   (effects (begin-act {@self enrol_university} 60 university_commit)))
 (hsim-npc-behaviour university_commit

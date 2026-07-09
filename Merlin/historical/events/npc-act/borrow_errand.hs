@@ -18,18 +18,18 @@
 
 (hsim-npc-behaviour borrow_go
   (short-term-think)
+  (goal {@self take_loan})
   (bind (goal-focus take_loan) ?creditor)
-  (when (and (has-goal take_loan)
-             (bind {?creditor home ?cred_home})
+  (when (and (bind {?creditor home ?cred_home})
              (not (at-place ?cred_home))))
   (utility 60)
   (effects (begin-act {@self go ?cred_home})))
 
 (hsim-npc-behaviour borrow_dwell
   (short-term-think)
+  (goal {@self take_loan})
   (bind (goal-focus take_loan) ?creditor)
-  (when (and (has-goal take_loan)
-             (bind {?creditor home ?cred_home})
+  (when (and (bind {?creditor home ?cred_home})
              (at-place ?cred_home)))
   (utility 60)
   (effects (begin-act {@self take_loan} 45 borrow_commit)))

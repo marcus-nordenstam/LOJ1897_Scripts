@@ -283,9 +283,9 @@
 
 (hsim-npc-behaviour provision_go_known
   (short-term-think)
+  (goal {@self provision})
   (bind (target {@self provisions_shop ?}) ?shop)
   (when (and (not (under-attack))
-             (has-goal provision)
              (is-entity ?shop)
              (not (at-place ?shop))))
   (utility 55)
@@ -293,13 +293,13 @@
 
 (hsim-npc-behaviour provision_search
   (short-term-think)
+  (goal {@self provision})
   ; No known provisions_shop: role-cast a shop the NPC KNOWS (nearest preferred,
   ; weighted) and head there. No known shop -> no fire. Replaces (venue ...).
   (roles
     (role ?go_dest [k building shop] (prefer (near @self ?go_dest)) (policy weighted)))
   (bind (target {@self provisions_shop ?}) ?shop)
   (when (and (not (under-attack))
-             (has-goal provision)
              (not (is-entity ?shop))
              (not (at-place-kind [k building shop]))))
   (utility 55)
@@ -307,8 +307,8 @@
 
 (hsim-npc-behaviour provision_take
   (short-term-think)
+  (goal {@self provision})
   (when (and (not (under-attack))
-             (has-goal provision)
              (at-place-kind [k building shop])))
   (utility 56)
   (effects (begin-act {@self provision} 15 provision_episode)))

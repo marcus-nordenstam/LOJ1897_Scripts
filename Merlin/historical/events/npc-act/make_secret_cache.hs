@@ -42,7 +42,7 @@
   ; home + a bedroom in it (the pattern-binds thread along the (and) spine and
   ; GATE - no home or bedroom => no cache).
   (when (and (or (believes {@self lover ?})
-                 (has-goal stow))
+                 (goal? {@self stow}))
              (not (believes {@self hiding_spot ?}))
              (bind {@self home ?building})
              (bind {?building room [k bedroom]:?bedroom})))

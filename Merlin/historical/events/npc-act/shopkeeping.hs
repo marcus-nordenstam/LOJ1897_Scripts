@@ -11,8 +11,8 @@
 
 (hsim-npc-behaviour stocktake_round
   (short-term-think)
+  (goal {@self stocktake})
   (when (and (not (under-attack))
-             (has-goal stocktake)
              (bind {@self employer ?org})
              (bind {?org workplace ?wp})
              (at-place ?wp)))

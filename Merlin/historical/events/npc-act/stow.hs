@@ -24,9 +24,9 @@
 
 (hsim-npc-behaviour stow_go
   (short-term-think)
+  (goal {@self stow})
   (bind (goal-focus stow) ?item)
-  (when (and (has-goal stow)
-             (is-entity ?item)
+  (when (and (is-entity ?item)
              (bind {@self home ?home})
              (not (at-home))))
   (utility 90)
@@ -34,8 +34,8 @@
 
 (hsim-npc-behaviour stow_put
   (short-term-think)
-  (when (and (has-goal stow)
-             (is-entity (goal-focus stow))
+  (goal {@self stow})
+  (when (and (is-entity (goal-focus stow))
              (at-home)))
   (utility 91)
   (effects (begin-act {@self stow} 5 stow_finish)))

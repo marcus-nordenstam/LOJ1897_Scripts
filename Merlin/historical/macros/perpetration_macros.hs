@@ -175,13 +175,13 @@
     ; walk never reads.
     (for-each ?room (attr-values ?scene parts [k interior_space room])
       (for-each ?item (attr-values ?room contents)
-        (if (and (not (has-goal stow))
+        (if (and (no-goal {@self stow})
                  (has-facet ?item valuable))
             (do
               (take-item ?item)
               (begin-goal {@self stow ?item})
               (crime-ledger-append @self ?owner ?task steal (kind ?item) @fail)))))
-    (if (not (has-goal stow))
+    (if (no-goal {@self stow})
         (crime-ledger-append @self ?owner ?task steal @fail @fail))
     (burglary-confrontation @self ?scene)))
 

@@ -14,19 +14,19 @@
 
 (hsim-npc-behaviour resign_go
   (short-term-think)
+  (goal {@self resign_club})
   ; The clubhouse is role-cast from the clubhouses the NPC KNOWS; nearest preferred,
   ; weighted. No known clubhouse -> no fire (the goal waits). Replaces (venue ...).
   (roles
     (role ?go_dest [k building social_clubhouse] (prefer (near @self ?go_dest)) (policy weighted)))
-  (when (and (has-goal resign_club)
-             (not (at-place-kind [k building social_clubhouse]))))
+  (when (not (at-place-kind [k building social_clubhouse])))
   (utility 40)
   (effects (begin-act {@self go ?go_dest})))
 
 (hsim-npc-behaviour resign_dwell
   (short-term-think)
-  (when (and (has-goal resign_club)
-             (at-place-kind [k building social_clubhouse])))
+  (goal {@self resign_club})
+  (when (at-place-kind [k building social_clubhouse]))
   (utility 40)
   (effects (begin-act {@self resign_club} 45 resign_commit)))
 

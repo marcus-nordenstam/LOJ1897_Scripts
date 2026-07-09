@@ -20,8 +20,8 @@
 
 (hsim-npc-behaviour retire_go
   (short-term-think)
-  (when (and (has-goal quit_work)
-             (bind {@self employer ?org})
+  (goal {@self quit_work})
+  (when (and (bind {@self employer ?org})
              (bind {?org workplace ?wp})
              (not (at-place ?wp))))
   (utility 85)
@@ -29,8 +29,8 @@
 
 (hsim-npc-behaviour retire_dwell
   (short-term-think)
-  (when (and (has-goal quit_work)
-             (bind {@self employer ?org})
+  (goal {@self quit_work})
+  (when (and (bind {@self employer ?org})
              (bind {?org workplace ?wp})
              (at-place ?wp)))
   (utility 85)

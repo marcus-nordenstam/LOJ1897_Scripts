@@ -129,7 +129,7 @@
   ; a search-type pursuit holds ONE standing goal, replaced (not stacked) each
   ; fire - begin-goal is idempotent only per identical target and each firm's
   ; articles is a DISTINCT object, so an accumulating mint overflowed the
-  ; attention set (13 standing goals by 1707); a blocking has-goal gate instead
+  ; attention set (13 standing goals by 1707); a blocking goal gate instead
   ; deadlocks the search on an unreachable first target. (end-goal) no-ops when
   ; no goal stands. Focus = the firm's articles ({?org record ?art}).
   (effects
@@ -209,7 +209,7 @@
              (>= (years-old @self) 25)
              (<= (years-old @self) 55)
              (not (= (job-level @self) [k org_head]))
-             (not (has-goal found))
+             (no-goal {@self found})
              (orgs-below-population-floor [k org business] 12)))
 
   (effects

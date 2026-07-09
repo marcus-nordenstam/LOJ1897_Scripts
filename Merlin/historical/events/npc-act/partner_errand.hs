@@ -15,16 +15,16 @@
 
 (hsim-npc-behaviour partner_go
   (short-term-think)
+  (goal {@self partner})
   (when (and (articles-building (goal-focus partner) ?venue)
-             (has-goal partner)
              (not (at-place ?venue))))
   (utility 85)
   (effects (begin-act {@self go ?venue})))
 
 (hsim-npc-behaviour partner_dwell
   (short-term-think)
+  (goal {@self partner})
   (when (and (articles-building (goal-focus partner) ?venue)
-             (has-goal partner)
              (at-place ?venue)))
   (utility 85)
   (effects (begin-act {@self partner} 90 partner_commit)))

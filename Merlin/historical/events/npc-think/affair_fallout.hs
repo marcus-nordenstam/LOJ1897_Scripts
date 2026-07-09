@@ -56,8 +56,8 @@
     ; Resolve the interloper in @self's own beliefs; @fail = no known affair.
     (bind (interloper-of ?partner) ?interloper)
     (if (and (is-entity ?interloper)
-             (not (has-goal-on kill ?partner))
-             (not (has-goal-on kill ?interloper)))
+             (no-goal {@self kill ?partner})
+             (no-goal {@self kill ?interloper}))
         (do
           ; The betrayal appraisal: anger / contempt / humiliation pressure -
           ; deliberation turns it into the non-lethal release set later.

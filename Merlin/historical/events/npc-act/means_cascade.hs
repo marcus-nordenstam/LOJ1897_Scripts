@@ -70,7 +70,7 @@
     ; demand at completion. If the kill goal lapsed while the actor was travelling
     ; to get the tool (the victim died and the alive-gate pruned the goal, or the
     ; grudge faded), do NOT acquire a weapon for an abandoned kill.
-    (if (has-goal kill)
+    (if (goal? {@self kill})
         (acquire-control @self means))
     ))
 

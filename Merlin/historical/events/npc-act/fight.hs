@@ -41,9 +41,9 @@
 ; goals persist but the striking is one timed burst per month.
 (hsim-npc-behaviour kill_seek
   (short-term-think)
+  (goal {@self fight})
   (bind (goal-focus fight) ?victim)
-  (when (and (has-goal fight)
-             (bind {?victim home ?victim_home})
+  (when (and (bind {?victim home ?victim_home})
              (not (co-present @self ?victim))))
   (utility (if (< (fight-elapsed) 10) 150
                (max 0 (- 150 (* 30 (- (fight-elapsed) 10))))))
@@ -54,8 +54,8 @@
 ; down. A 1-minute act; its completion lands the blow and re-deliberates the killer.
 (hsim-npc-behaviour kill_strike
   (short-term-think)
-  (when (and (has-goal fight)
-             (co-present @self (goal-focus fight))))
+  (goal {@self fight})
+  (when (co-present @self (goal-focus fight)))
   (utility (if (< (fight-elapsed) 10) 200
                (max 0 (- 200 (* 30 (- (fight-elapsed) 10))))))
   (effects (begin-act {@self fight} 1 kill_blow)))
@@ -67,8 +67,8 @@
 ; PERSIST - cold-start clears the exposure clock and it tries again next month.
 (hsim-npc-behaviour break_off_fight
   (short-term-think)
-  (when (and (has-goal fight)
-             (not (at-home))))
+  (goal {@self fight})
+  (when (not (at-home)))
   (utility (* 30 (max 0 (- (fight-elapsed) 10))))
   (effects (bind (target {@self home ?}) ?go_dest) (begin-act {@self go ?go_dest})))
 
@@ -103,7 +103,7 @@
 (hsim-npc-behaviour defend_strike
   (short-term-think)
   (when (and (under-attack)
-             (not (has-goal fight))
+             (no-goal {@self fight})
              (co-present @self (threat-focus))
              (chance (clamp (+ (attr @self volatility)
                                (attr @self sadism)
@@ -133,7 +133,7 @@
 (hsim-npc-behaviour flee_attack
   (short-term-think)
   (when (and (under-attack)
-             (not (has-goal fight))
+             (no-goal {@self fight})
              (co-present @self (threat-focus))))
   (utility 150)
   (effects (begin-act {@self flee} 1 flee_attempt)))

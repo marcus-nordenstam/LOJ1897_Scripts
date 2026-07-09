@@ -14,16 +14,16 @@
 
 (hsim-npc-behaviour join_go
   (short-term-think)
+  (goal {@self join_club})
   (when (and (articles-building (goal-focus join_club) ?venue)
-             (has-goal join_club)
              (not (at-place ?venue))))
   (utility 40)
   (effects (begin-act {@self go ?venue})))
 
 (hsim-npc-behaviour join_dwell
   (short-term-think)
+  (goal {@self join_club})
   (when (and (articles-building (goal-focus join_club) ?venue)
-             (has-goal join_club)
              (at-place ?venue)))
   (utility 40)
   (effects (begin-act {@self join_club} 60 join_commit)))
