@@ -8,8 +8,8 @@ world_part (+ obs)
 space (+ obs)
     interior_space
         bar_back
-        entrance
-            main_entrance
+        entrance (facets entrance)
+            main_entrance (facets entrance)
         doorway
         room
             kitchen
