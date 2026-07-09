@@ -270,8 +270,13 @@ attr "era_max" (type date) (imperceptible)
 #   - that address-SPACE's address -> the road it fronts (with address_number).
 # So a building's full street address is read FROM its address-space (the space's
 # `address` road + `address_number`). Estates with no street self-reference.
-attr "address" (type entity) (entity "road" "structure" "container_structure" "exterior_space") (per obs) (auto-percept)
-attr "address_number" (type int) (range 1 9999) (per obs) (auto-percept)
+# hsim-perceptible: observing a premise from the street mirrors {premise address
+# <road>} + its number, so the road arrives as a known object through the belief
+# target (roads are spline-only, never in the sector grid, never seen directly -
+# address belief is the ONLY road-knowledge channel). Consumed by the Stage-5
+# fringe policy (fringe-on-my-current-road).
+attr "address" (type entity) (entity "road" "structure" "container_structure" "exterior_space") (per obs) (auto-percept) (hsim-percept)
+attr "address_number" (type int) (range 1 9999) (per obs) (auto-percept) (hsim-percept)
 # Apartment number (Section 4.12). INTERIOR spaces only: one building at one
 # street address may hold several apartments, each an interior_space with its
 # own number; rooms within carry it via their apartment's struct_parent. Distinct

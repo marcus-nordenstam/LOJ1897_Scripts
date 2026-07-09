@@ -22,7 +22,12 @@
 (npc-think feel_devout
   (short-term-think)
   (roles
-    (role @self (template grown)))
+    (role @self (template grown))
+    ; The nearest church the NPC KNOWS (role-cast over its own church objects; the
+    ; naked [k ..] is sugar for (believes {?this isa [k ..]})). No known church ->
+    ; the role binds nothing and the think does not fire (find_building supplies the
+    ; knowledge). Replaces the omniscient (venue ...) pick.
+    (role ?venue [k building church] (prefer (near @self ?venue)) (policy weighted)))
   ; Only consider it once a service is ~due (perf: most passes skip). Utility ramps
   ; with the days since, x politeness, and is CAPPED as a LEISURE act (max ~40, well
   ; below work / meals / sleep) - worship fills free time, it never overrides a
@@ -31,7 +36,7 @@
   ; never-worshipped case (days-since = sentinel) to the same leisure ceiling.
   (when (>= (days-since-last @self worship) 15))
   (utility (* (attr @self politeness) (min (* (days-since-last @self worship) 1.5) 40)))
-  (effects (propose-venue-act [k building church] worship)))
+  (effects (propose-venue-act ?venue worship)))
 
 (npc-act worship_act
   (when (believes {@self worship ?church}))
@@ -39,10 +44,4 @@
   ; The act-belief {@self worship ?church} IS the service memory: ending it here
   ; closes its interval to [commit, now] (the ~90-min service). No marker, no aim.
   (effects (end-act {@self worship ?church})))
-
-(npc-act go_act
-  (when (believes {@self go ?dest}))
-  (duration (travel-minutes @self ?dest))
-  (effects
-    (relocate @self ?dest)
-    (end-act {@self go ?dest})))
+; go_act (the shared travel act) now lives in npc-act/go.hs.

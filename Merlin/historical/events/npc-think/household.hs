@@ -22,7 +22,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour household_day
+(npc-think household_day
   (long-term-think)
   (rng-stream behaviour)
 
@@ -49,7 +49,7 @@
 ; (an entity scan) runs only while the mealtimes are actually unset.
 ; ----------------------------------------------------------------------------
 
-(hsim-npc-behaviour set_mealtimes
+(npc-think set_mealtimes
   (long-term-think)
   (rng-stream behaviour)
 
@@ -58,10 +58,13 @@
                 (believes {@self home ?})))
 
   ; ?home binds on the when-spine (a self-role believes does not export its
-  ; free vars to the event scope - the work_attendance shape).
+  ; free vars to the event scope - the work_attendance shape). The COOK is the
+  ; woman of the house - self-identified from @self's OWN gender belief (mental,
+  ; no household-cook scan). Whichever adult woman fires first sets the hours;
+  ; the (not supper_hour) gate then closes the window for the rest.
   (when (and (bind {@self home ?home})
              (not (believes {?home supper_hour ?}))
-             (= (household-cook ?home) @self)))
+             (believes {@self gender [k female]})))
 
   (effects
     ; The per-cook offset: -1 / 0 / +1 on the whole day (breakfast 5-7,
@@ -90,23 +93,30 @@
 ; set_mealtimes, whose decision they complete.
 ; ----------------------------------------------------------------------------
 
-(hsim-npc-behaviour ask_mealtimes
+(npc-think ask_mealtimes
   (long-term-think)
   (rng-stream behaviour)
 
   (roles
     (role @self (template any_human)
-                (believes {@self home ?})))
+                (believes {@self home ?}))
+    ; The woman of the house, role-cast from the asker's OWN kinship beliefs: a
+    ; female mother / parent / spouse (a child asks their mother; a husband his
+    ; wife). Same {@self <kin> ?cand} cacheable shape covet uses. The woman
+    ; herself (no female parent/spouse at home) casts nothing here - she already
+    ; knows the hours, so she never needs to ask.
+    (role ?cook (believes {@self mother|parent|spouse ?cook})
+                (believes {?cook gender [k female]})))
 
   (when (and (bind {@self home ?home})
              (not (believes {?home supper_hour ?}))
              (>= (years-old @self) 3)))
 
   (effects
-    (ask-to (household-cook ?home) {?home supper_hour ?})
+    (ask-to ?cook {?home supper_hour ?})
     ))
 
-(hsim-npc-behaviour answer_mealtimes
+(npc-think answer_mealtimes
   (long-term-think)
   (rng-stream behaviour)
 
@@ -146,7 +156,7 @@
 ; count decides.
 ; ----------------------------------------------------------------------------
 
-(hsim-npc-behaviour plan_provisioning
+(npc-think plan_provisioning
   (long-term-think)
   (rng-stream behaviour)
 
@@ -157,7 +167,7 @@
   (when (and (bind {@self home ?home})
              (at-home)
              (< (count-believed-located [k food] ?home) 8)
-             (= (household-cook ?home) @self)))
+             (believes {@self gender [k female]})))
 
   (effects
     (for-each ?room (attr-values ?home parts [k interior_space room])

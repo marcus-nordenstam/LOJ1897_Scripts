@@ -25,10 +25,16 @@
 ; bank). Mirrors the drinking lane's (can-drink) at-a-pub gate.
 (hsim-npc-behaviour found_go
   (short-term-think)
+  ; The bank is role-cast from the banks the NPC KNOWS (naked [k ..] = (believes
+  ; {?this isa [k ..]})); the nearest is preferred, weighted so the town spreads.
+  ; No known bank -> the role binds nothing and found_go does not fire (the goal
+  ; waits). Replaces the omniscient (venue ...) pick.
+  (roles
+    (role ?go_dest [k building bank] (prefer (near @self ?go_dest)) (policy weighted)))
   (when (and (has-goal found)
              (not (at-place-kind [k building bank]))))
   (utility 85)
-  (effects (bind (venue [k building bank]) ?go_dest) (begin-act {@self go ?go_dest})))
+  (effects (begin-act {@self go ?go_dest})))
 
 (hsim-npc-behaviour found_dwell
   (short-term-think)

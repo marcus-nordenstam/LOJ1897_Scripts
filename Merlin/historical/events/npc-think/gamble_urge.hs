@@ -17,9 +17,11 @@
 (npc-think gamble_urge
   (short-term-think)
   (roles
-    (role @self (template grown)))
+    (role @self (template grown))
+    ; The nearest pub the NPC KNOWS (role-cast; no known pub -> no fire).
+    (role ?venue [k building pub] (prefer (near @self ?venue)) (policy weighted)))
   (when (>= (days-since-last @self play_game) 10))
   (utility (* (- 1 (attr @self industriousness))                    ; susceptibility (0 = disciplined)
               (+ 2 (* 22 (attr @self gambling_addiction)))          ; onset 2 -> morbid 24 (below leisure)
               (min (* (days-since-last @self play_game) 0.04) 1.0))) ; slow craving modulator [0,1]
-  (effects (propose-venue-act [k building pub] play_game)))
+  (effects (propose-venue-act ?venue play_game)))

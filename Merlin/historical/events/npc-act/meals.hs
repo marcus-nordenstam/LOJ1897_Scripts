@@ -293,13 +293,17 @@
 
 (hsim-npc-behaviour provision_search
   (short-term-think)
+  ; No known provisions_shop: role-cast a shop the NPC KNOWS (nearest preferred,
+  ; weighted) and head there. No known shop -> no fire. Replaces (venue ...).
+  (roles
+    (role ?go_dest [k building shop] (prefer (near @self ?go_dest)) (policy weighted)))
   (bind (target {@self provisions_shop ?}) ?shop)
   (when (and (not (under-attack))
              (has-goal provision)
              (not (is-entity ?shop))
              (not (at-place-kind [k building shop]))))
   (utility 55)
-  (effects (bind (venue [k building shop]) ?go_dest) (begin-act {@self go ?go_dest})))
+  (effects (begin-act {@self go ?go_dest})))
 
 (hsim-npc-behaviour provision_take
   (short-term-think)
@@ -337,6 +341,10 @@
 
 (hsim-npc-behaviour eat_out_go_pub
   (short-term-think)
+  ; Role-cast a pub the NPC KNOWS (nearest preferred, weighted). No known pub -> no
+  ; fire. Replaces (venue ...).
+  (roles
+    (role ?go_dest [k building pub] (prefer (near @self ?go_dest)) (policy weighted)))
   (when (and (not (under-attack))
              (> (attr @self hunger) 0.25)
              (bind {@self home ?home})
@@ -348,10 +356,14 @@
              (not (at-place-kind [k building pub]))
              (= (count-believed-located [k food] ?home) 0)))
   (utility 70)
-  (effects (bind (venue [k building pub]) ?go_dest) (begin-act {@self go ?go_dest})))
+  (effects (begin-act {@self go ?go_dest})))
 
 (hsim-npc-behaviour eat_out_go_restaurant
   (short-term-think)
+  ; Role-cast a restaurant the NPC KNOWS (nearest preferred, weighted). No known
+  ; restaurant -> no fire. Replaces (venue ...).
+  (roles
+    (role ?go_dest [k building restaurant] (prefer (near @self ?go_dest)) (policy weighted)))
   (when (and (not (under-attack))
              (> (attr @self hunger) 0.25)
              (bind {@self home ?home})
@@ -363,7 +375,7 @@
              (not (at-place-kind [k building restaurant]))
              (= (count-believed-located [k food] ?home) 0)))
   (utility 70)
-  (effects (bind (venue [k building restaurant]) ?go_dest) (begin-act {@self go ?go_dest})))
+  (effects (begin-act {@self go ?go_dest})))
 
 (hsim-npc-behaviour eat_out_pub
   (short-term-think)
@@ -474,6 +486,10 @@
 ; on the spot (paid-for in the same v1 no-coin sense as provisioning).
 (hsim-npc-behaviour starving_buy_go
   (short-term-think)
+  ; The known provisions_shop is preferred; else a role-cast shop the NPC KNOWS
+  ; (nearest, weighted). Replaces the (venue ...) fallback.
+  (roles
+    (role ?go_dest [k building shop] (prefer (near @self ?go_dest)) (policy weighted)))
   (bind (target {@self provisions_shop ?}) ?shop)
   (when (and (not (under-attack))
              (> (attr @self hunger) 1.3)
@@ -483,7 +499,7 @@
   (effects
     (if (is-entity ?shop)
         (begin-act {@self go ?shop})
-        (do (bind (venue [k building shop]) ?go_dest) (begin-act {@self go ?go_dest})))))
+        (begin-act {@self go ?go_dest}))))
 
 (hsim-npc-behaviour starving_buy
   (short-term-think)
@@ -514,6 +530,10 @@
 ; walking into an open shop and finding nothing is no crime.
 (hsim-npc-behaviour starving_steal_go
   (short-term-think)
+  ; The known provisions_shop is preferred; else a role-cast shop the NPC KNOWS
+  ; (nearest, weighted). Replaces the (venue ...) fallback.
+  (roles
+    (role ?go_dest [k building shop] (prefer (near @self ?go_dest)) (policy weighted)))
   (bind (target {@self provisions_shop ?}) ?shop)
   (when (and (not (under-attack))
              (> (attr @self hunger) 1.3)
@@ -523,7 +543,7 @@
   (effects
     (if (is-entity ?shop)
         (begin-act {@self go ?shop})
-        (do (bind (venue [k building shop]) ?go_dest) (begin-act {@self go ?go_dest})))))
+        (begin-act {@self go ?go_dest}))))
 
 (hsim-npc-behaviour starving_steal
   (short-term-think)

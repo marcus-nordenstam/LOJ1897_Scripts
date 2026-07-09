@@ -164,6 +164,12 @@ relation
             seek_indenture                          (tar human)
             enroll_child                            (tar human)
             engage_staff                            (tar human)
+            # find_building -> the venue-discovery search ACT (find_building.hs). A seek
+            # rule maintains {@self goal {@self find_building [k building <kind>]}} while it
+            # wants a venue of a kind it knows none of; that goal promotes to find_building_act,
+            # which front-parks + exterior-perceives to grow the known-building set until one
+            # is learned. Target = the sought KIND spec, so (tar ?).
+            find_building                           (tar ?)
             # staff_household -> the head's STANDING duty to keep their domestic
             # establishment staffed (the window-start think mints it; the emergent
             # act fulfils it). No target: the duty itself, not a specific hire.

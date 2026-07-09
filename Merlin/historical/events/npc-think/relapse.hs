@@ -16,7 +16,9 @@
 (npc-think relapse
   (short-term-think)
   (roles
-    (role @self (template grown)))
+    (role @self (template grown))
+    ; The nearest pub the NPC KNOWS (role-cast; no known pub -> no fire).
+    (role ?pub [k building pub] (prefer (near @self ?pub)) (policy weighted)))
   ; A dependent, a drink already ~due (short fuse - he relapses fast).
   (when (and (= (target {@self craving}) [k alcohol])
              (>= (days-since-last @self drink) 1)))
@@ -31,5 +33,5 @@
   (effects
     (if (can-drink @self)
         (begin-goal {@self drink})
-        (do (bind (venue [k building pub]) ?go_dest)
-            (if (is-entity ?go_dest) (begin-goal {@self go ?go_dest}))))))
+        (if (and (is-entity ?pub) (not (= ?pub @self)))
+            (begin-goal {@self go ?pub})))))

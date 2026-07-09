@@ -69,7 +69,7 @@
     ; binds the founder - a secondary var the per-candidate cache cannot - so it
     ; lives in (when), evaluated live per firing.
     (role ?club_org (template known_org)
-                    (believes {?this isa [k org club]})))
+                    [k org club]))
 
   ; A man joins a club of his OWN class band. The club's tier is read as @self's
   ; view of the founder's class (3-arg (situation ... @self), banded in via

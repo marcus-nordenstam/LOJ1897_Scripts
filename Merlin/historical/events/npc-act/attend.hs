@@ -27,10 +27,16 @@
 ; the other lanes win (the goal simply waits, then expires next window).
 ; ----------------------------------------------------------------------------
 
+; The venue is a pure own-belief chain: the occasion is the focus of @self's
+; attend goal ({@self goal {@self attend ?occ}}), and the occasion carries a
+; {?occ venue ?venue} belief - both read from the NPC's OWN mind (mental, no
+; C++ venue op, no scan). A goal-less / venue-less occasion leaves ?venue unbound
+; -> the (at-place ?venue) gate fails and the lane simply waits.
 (hsim-npc-behaviour attend_go
   (short-term-think)
-  (bind (attend-venue @self) ?venue)
+  (bind (target {@self goal {@self attend ?}}) ?occ)
   (when (and (has-goal attend)
+             (bind {?occ venue ?venue})
              (attend-in-window @self)
              (not (at-place ?venue))))
   (utility (attend-utility @self))
@@ -38,8 +44,9 @@
 
 (hsim-npc-behaviour attend_dwell
   (short-term-think)
-  (bind (attend-venue @self) ?venue)
+  (bind (target {@self goal {@self attend ?}}) ?occ)
   (when (and (has-goal attend)
+             (bind {?occ venue ?venue})
              (attend-in-window @self)
              (at-place ?venue)))
   (utility (attend-utility @self))
