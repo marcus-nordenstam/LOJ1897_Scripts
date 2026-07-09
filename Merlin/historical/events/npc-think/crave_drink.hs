@@ -1,40 +1,53 @@
 ; ----------------------------------------------------------------------------
-; The DRINKING lane (B4 pressure model). ONE think:
-;   crave_drink (npc-think): drink PRESSURE = days-since-last-drink ramp x a
-;     drinking PROPENSITY (low industriousness = disinhibition, high withdrawal =
-;     self-medication), capped as a LEISURE act. It rises until the NPC drinks
-;     (which resets it), so a susceptible man returns to drink regularly while a
-;     temperate one's utility never clears a routine act. can-drink (a pub OR his
-;     own home) -> the drink act-goal; otherwise -> a `go` sub-act-goal to a pub.
-;   drink_act (npc-act, drink.hs): the durative drink - bumps intoxication, rolls
-;     the slide into dependence, ends the act. The {@self drink} act-belief IS the
-;     episodic memory days-since-last reads. No aim, no end-goal.
+; The DRINKING lane - B4 desire + case sub-goals (hierarchical goals).
 ;
-; Already-dependent NPCs are excluded here (relapse.hs casts them - a second
-; additive drink source, like rehabilitation is for worship).
+; ONE desire computes the pressure ONCE; the case rules just read the drink goal and
+; maintain the appropriate sub-goal, which INHERITS the drink drive (mint_goal /cause
+; inheritance) and, as the live leaf, out-competes its parent (leaf-only promotion):
+;
+;   want_drink  (desire): pressure-gated (drink-due), utility = drink-drive. Maintains
+;                {@self drink} while thirsty; auto-retracts when the pressure lapses.
+;   AT a pub   (case A):  {@self drink} has no active sub-goal, so it is the leaf and
+;                promotes straight to drink_act (drink.hs). No rule needed.
+;   know a pub (case B):  drink_go maintains {@self go ?pub} /cause the drink goal.
+;   know none  (case C):  drink_find maintains {@self find_building [k pub]} /cause it.
+;
+; The go / find sub-goals carry the inherited drive and, being the live leaves, win the
+; motor; the drink goal itself only promotes once no sub-goal is active (i.e. at a pub).
+; The cases are mutually exclusive (at-pub vs role ?pub vs no-role), so exactly one path
+; is live at a time.
+;
+; Already-dependent NPCs are excluded here (relapse.hs casts them - a second drink source).
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
 
-(npc-think crave_drink
+; The DESIRE. The ONLY place the pressure is computed.
+(npc-think want_drink
   (short-term-think)
+  (roles (role @self (template grown)))
+  (when    (drink-due @self))
+  (utility (drink-drive @self))
+  (effects (maintain-goal {@self drink})))
+
+; CASE B - not at a pub, but knows one: head to it. The (goal ...) clause pins the drink
+; goal as this rule's parent, so the go sub-goal inherits the drink drive and auto-links
+; its /cause - no hand-written /cause, no re-checked pressure.
+(npc-think drink_go
+  (short-term-think)
+  (goal    {@self drink})
   (roles
     (role @self (template grown))
-    ; The nearest pub the NPC KNOWS (role-cast; no known pub -> no fire).
     (role ?pub [k building pub] (prefer (near @self ?pub)) (policy weighted)))
-  ; Not already dependent; a drink ~due (perf: most passes skip).
-  (when (and (not (= (target {@self craving}) [k alcohol]))
-             (>= (days-since-last @self drink) 3)))
-  ; propensity (disinhibition + self-medication, capped) x days-since ramp; the
-  ; leisure ceiling keeps drinking in the day's gaps, never over work / sleep, and
-  ; the propensity multiplier keeps a temperate man's utility below every routine
-  ; act (he effectively never drinks to excess).
-  (utility (* (min (+ 0.35
-                      (* 0.9 (- 1 (attr @self industriousness)))
-                      (* 0.8 (attr @self withdrawal))) 1.5)
-              (min (* (days-since-last @self drink) 2) 30)))
-  (effects
-    (if (can-drink @self)
-        (begin-goal {@self drink})
-        (if (and (is-entity ?pub) (not (= ?pub @self)))
-            (begin-goal {@self go ?pub})))))
+  (when    (not (can-drink @self)))
+  (effects (maintain-goal {@self go ?pub})))
+
+; CASE C - not at a pub and knows none: search for one (find_building.hs runs it).
+(npc-think drink_find
+  (short-term-think)
+  (goal    {@self drink})
+  (roles
+    (role @self (template grown))
+    (no-role [k building pub]))
+  (when    (not (can-drink @self)))
+  (effects (maintain-goal {@self find_building [k building pub]})))

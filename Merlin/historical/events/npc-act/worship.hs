@@ -44,10 +44,4 @@
   ; The act-belief {@self worship ?church} IS the service memory: ending it here
   ; closes its interval to [commit, now] (the ~90-min service). No marker, no aim.
   (effects (end-act {@self worship ?church})))
-
-(npc-act go_act
-  (when (believes {@self go ?dest}))
-  (duration (travel-minutes @self ?dest))
-  (effects
-    (relocate @self ?dest)
-    (end-act {@self go ?dest})))
+; go_act (the shared travel act) now lives in npc-act/go.hs.
