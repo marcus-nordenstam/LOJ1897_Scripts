@@ -51,8 +51,8 @@
   (rng-stream incidents)
 
   (roles
-    (role @self  (template any_human))
-    (role ?victim (template any_human)
+    (role @self  (any_human @self))
+    (role ?victim (any_human ?victim)
                   (not (= ?victim @self))
                   (believes {@self child ?victim})))
 

@@ -58,7 +58,7 @@
     ; belief-pure part). The backing firm is his employer, resolved in the effect via
     ; (target {@self employer}). The working-age band, not-already-an-owner, merit and
     ; means dims, and the monthly chance are all non-belief and live in (when ...) below.
-    (role @self (template old_human)
+    (role @self (old_human @self)
                 (believes {@self employer ?})
                 (or (believes {@self repute [k respectable]})
                     (believes {@self repute [k exemplary]}))
@@ -94,7 +94,7 @@
     ; clerk-makes-partner route (the belief-pure part). The age band, not-already-an-
     ; owner, merit + means dims and the monthly chance are non-belief and live in
     ; (when ...) below.
-    (role @self (template old_human)
+    (role @self (old_human @self)
                 (believes {@self employer ?})
                 (or (believes {@self repute [k respectable]})
                     (believes {@self repute [k exemplary]}))
@@ -104,7 +104,7 @@
     ; principal and candidate by a prior bond - friend / former employer / club
     ; co-member; v1 gates on the candidate's merit alone, as the relationship layer
     ; is not yet rich enough to gate on without starving the event.)
-    (role ?principal_org (template known_org)
+    (role ?principal_org (known_org ?principal_org)
                          [k org business]))
 
   ;; Live exclusivity re-check (see betrothal.hs): the candidate's "not
@@ -153,7 +153,7 @@
     ; SELF-POV (telepathy purge CAT-2): @self weighs his OWN standing; no other
     ; mind is read. Belief-pure part only; the age band, not-already-an-owner, merit
     ; dim, means branch and the monthly chance are non-belief and live in (when ...).
-    (role @self (template old_human)
+    (role @self (old_human @self)
                 (believes {@self employer ?})
                 (or (believes {@self repute [k respectable]})
                     (believes {@self repute [k exemplary]}))))
@@ -198,7 +198,7 @@
     ; (that is the whole point of the floor net). The founding-age band, not-already-
     ; an-owner, not-already-pursuing, the LIVE business-floor gate and the chance are
     ; all non-belief and live in (when ...) below.
-    (role @self (template old_human)))
+    (role @self (old_human @self)))
 
   ; Moved from the @self role (all non-belief): a modest monthly chance (enough
   ; eligible adults resolve to found to refill the floor as businesses fail, without a

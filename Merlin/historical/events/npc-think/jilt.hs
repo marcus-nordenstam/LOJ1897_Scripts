@@ -42,12 +42,12 @@
   (roles
     ; The jilter: holds BOTH a lover bond and a betrothal (to someone else -
     ; the ?jilted filters enforce the third party).
-    (role @self (template any_human)
+    (role @self (any_human @self)
                   (believes {@self lover ?})
                   (believes {@self fiancee ?}))
     ; The jilted: the jilter's lover who is NOT the jilter's fiancee (the
     ; two-bound believes shape wedding.hs uses to recover the groom).
-    (role ?jilted (template any_human)
+    (role ?jilted (any_human ?jilted)
                   (not (= ?jilted @self))
                   (believes {@self lover ?jilted})
                   (not (believes {@self fiancee ?jilted}))))
@@ -89,12 +89,12 @@
     ; An un-betrothed, unmarried lover-holder of marriageable standing - the
     ; market is open to them the moment the affair ends. decorum-weighted:
     ; the proper feel the impropriety of the mismatch most keenly.
-    (role @self (template any_human)
+    (role @self (any_human @self)
                   (believes {@self lover ?})
                   (not (believes {@self fiancee ?}))
                   (not (believes {@self spouse ?})))
     ; The lover beneath the jilter's station (at least one class below).
-    (role ?jilted (template any_human)
+    (role ?jilted (any_human ?jilted)
                   (not (= ?jilted @self))
                   (believes {@self lover ?jilted})
                   ;; @self reads the jilted lover's class from his OWN belief about him

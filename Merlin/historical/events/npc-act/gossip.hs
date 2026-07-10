@@ -24,7 +24,7 @@
   (rng-stream behaviour)
 
   (roles
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (believes {@self friend ?})))
 
   ; Non-belief gates (out of the role): extraversion-weighted (chance, first so it

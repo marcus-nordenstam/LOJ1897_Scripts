@@ -31,7 +31,7 @@
     ;; @self the discloser: old enough to hold a calling (grown >= 16), actually
     ;; has one (binds ?domain - the kind they will name aloud), and has a friend
     ;; to confide in (?confidant). Belief queries only - no chance/attr in a role.
-    (role @self (template grown)
+    (role @self (grown @self)
                 (believes {@self calling ?domain})
                 (believes {@self friend ?confidant})))
 

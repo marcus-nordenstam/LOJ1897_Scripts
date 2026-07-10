@@ -37,11 +37,11 @@
   (rng-stream perpetration)
 
   (roles
-    (role @self (template any_human))
+    (role @self (any_human @self))
     ; The craved beloved. The crave stance is the object-cache filter;
     ; pick-first-matching-role binds ONE, so a multi-crave actor strikes a
     ; single victim per tick (parity with the old first-viable walk).
-    (role ?beloved (template any_human)
+    (role ?beloved (any_human ?beloved)
       (believes {@self crave ?beloved})
       (pick-first-matching-role)))
 

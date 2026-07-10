@@ -20,7 +20,7 @@
   (rng-stream births)
 
   (roles
-    (role @self (template fertile_wife)))
+    (role @self (fertile_wife @self)))
 
   ; chance first (cheap, short-circuits), then bind the husband from her spouse
   ; belief - ~0.40 per couple-year over 12 monthly rolls.

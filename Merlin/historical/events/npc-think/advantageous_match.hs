@@ -45,7 +45,7 @@
     ;; non-belief gates (the (chance) trait-graded pacing and the groom gender read)
     ;; now live in (when); the role keeps the belief-pure availability / repute
     ;; filters plus the perceived age-peer + blood-kin predicates (belief macros).
-    (role @self (template adult)
+    (role @self (adult @self)
                 (not (believes {@self spouse ?}))
                 (not (believes {@self fiancee ?}))
                 (not (believes {@self repute [k scandalous]}))
@@ -55,7 +55,7 @@
     ;; dodge the ambiguous bare-atom path. The (or ...) encodes the two valid lifts.
     ;; age-peers / blood-kin are belief-pure perceived predicates, so they stay role
     ;; filters (cacheable), gating the bride candidate set directly.
-    (role ?bride (template unmarried_woman)
+    (role ?bride (unmarried_woman ?bride)
                  (not (= ?bride @self))
                  (age-peers @self ?bride)
                  (not (blood-kin @self ?bride))

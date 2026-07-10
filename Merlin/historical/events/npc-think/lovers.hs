@@ -34,7 +34,7 @@
     ; @self is the BELIEVER - the outer role for the cross-pair fancy gate on ?b
     ; to resolve. An available adult who fancies someone and is not already
     ; attached. (The per-NPC (chance) that paces pairing now lives in (when).)
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (adult-age @self)
                 (not (believes {@self spouse ?}))
                 (not (believes {@self fiancee ?}))
@@ -42,7 +42,7 @@
     ;; SELF-POV (telepathy purge CAT-3): @self reads ?b's free/attached state from
     ;; his OWN knowledge (permissive on the unknown), and ?b's reciprocation as SHE
     ;; signalled it (confess_fancy). No cross-mind read.
-    (role ?b (template any_human)
+    (role ?b (any_human ?b)
              (not (= ?b @self))
              (adult-age ?b)
              (not (believes {?b spouse ?}))

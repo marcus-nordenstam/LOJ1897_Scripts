@@ -33,12 +33,12 @@
   ;; ((believes {?bride <label> ?}), permissive on the unknown). The market reads
   ;; `repute` / `reputed_chastity` - what has LEAKED - never secret self-values.
   (roles
-    (role @self (template adult)
+    (role @self (adult @self)
                 (not (believes {@self spouse ?}))
                 (not (believes {@self fiancee ?}))
                 (not (believes {@self repute [k scandalous]}))
                 (not (believes {@self repute [k disreputable]})))
-    (role ?bride (template unmarried_woman)
+    (role ?bride (unmarried_woman ?bride)
                  (not (= ?bride @self))
                  ;; Not already spoken-for (he avoids a woman he KNOWS is engaged or
                  ;; attached; a secret he has not heard does not stop the match).

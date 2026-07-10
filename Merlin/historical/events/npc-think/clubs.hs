@@ -33,7 +33,7 @@
   ; by the `employer` gate: a man with a post is a man of standing.) The founder
   ; is the sole deliberator (@self); age + chance are non-belief ops -> (when).
   (roles
-    (role @self (template old_human)
+    (role @self (old_human @self)
                 (believes {@self employer ?})
                 (not (believes {@self member_of ?}))))
 
@@ -61,14 +61,14 @@
     ; An adult who belongs to fewer than two clubs takes up another. SELF-POV
     ; (telepathy purge CAT-2): @self reads his OWN repute (belief-pure). The
     ; age + club-count + chance gates are non-belief ops -> (when).
-    (role @self (template old_human)
+    (role @self (old_human @self)
                 (not (believes {@self repute [k scandalous]}))
                 (not (believes {@self repute [k disreputable]})))
     ; A KNOWN club (@self learned it at new_job_orientation). Belief-pure + cached:
     ; the omniscient org-kind-is-a doc read is gone. The own-class match (below)
     ; binds the founder - a secondary var the per-candidate cache cannot - so it
     ; lives in (when), evaluated live per firing.
-    (role ?club_org (template known_org)
+    (role ?club_org (known_org ?club_org)
                     [k org club]))
 
   ; A man joins a club of his OWN class band. The club's tier is read as @self's
@@ -108,7 +108,7 @@
 
   ; The resigning member is the sole deliberator (@self); chance -> (when).
   (roles
-    (role @self (template old_human)
+    (role @self (old_human @self)
                 (believes {@self member_of ?})))
 
   (when (chance 0.004))

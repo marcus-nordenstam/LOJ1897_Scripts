@@ -26,7 +26,7 @@
   (roles
     ; @self the suitor must ALREADY fancy someone and be a marriageable single -
     ; courtship is the directed pursuit of a specific crush, not a random advance.
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (marriageable-age @self)
                 (not (believes {@self spouse ?}))
                 (not (believes {@self fiancee ?}))
@@ -35,7 +35,7 @@
     ;; knowledge - her marital state / lover / fallen mark as HE knows them
     ;; (permissive on the unknown), and her receptivity as SHE has signalled it to
     ;; him (confess_fancy). No cross-mind read.
-    (role ?beloved (template any_human)
+    (role ?beloved (any_human ?beloved)
                   (not (= ?beloved @self))
                   (marriageable-age ?beloved)
                   (not (believes {?beloved spouse ?}))

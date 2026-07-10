@@ -30,7 +30,7 @@
     ; belief-pure perceived age-band predicates (adult-age / age-peers, which expand
     ; to age_band believes). Only the enthusiasm-scaled (chance) roll is non-belief
     ; and lives in the (when ...) clause below.
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (not (believes {@self repute [k scandalous]}))
                 (adult-age @self))
     ;; SELF-POV (telepathy purge CAT-3): @self sizes up ?b from what HE knows -
@@ -38,7 +38,7 @@
     ;; situation). The class match is positive, so @self only befriends a
     ;; same-class peer he is actually acquainted with (a stranger's class @fails);
     ;; the repute gate is permissive on the unknown. No cross-mind read.
-    (role ?b (template any_human)
+    (role ?b (any_human ?b)
              (not (= ?b @self))
              (adult-age ?b)
              (age-peers @self ?b)

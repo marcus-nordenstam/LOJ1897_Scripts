@@ -38,9 +38,9 @@
   ;; own friend bond. (The bond is structural/mutual, so the effect drops it on both
   ;; sides, as befriend mints it on both.)
   (roles
-    (role @self (template any_human)
+    (role @self (any_human @self)
              (adult-age @self))
-    (role ?b (template any_human)
+    (role ?b (any_human ?b)
              (not (= ?b @self))
              ; @self now detests ?b (sustained strong-negative warmth, the floor
              ; warmth band - so the exact-band belief IS "warmth at least detest") ...

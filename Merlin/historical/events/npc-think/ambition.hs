@@ -33,7 +33,7 @@
   (rng-stream perpetration)
 
   (roles
-    (role @self (template any_human)))
+    (role @self (any_human @self)))
 
   ; Disposition pre-gate + adult floor. ambition = mean(machiavellianism, narcissism);
   ; propensity = (1 - inhibition) * ambition; fire at 0.03 * propensity.

@@ -34,7 +34,7 @@
   (rng-stream employment)
 
   (roles
-    (role @self (template old_human)))
+    (role @self (old_human @self)))
 
   (when (not (believes {@self employer ?})))
 
@@ -54,7 +54,7 @@
   (rng-stream employment)
 
   (roles
-    (role @self (template any_human)))
+    (role @self (any_human @self)))
 
   (when (not (believes {@self employer ?})))
 

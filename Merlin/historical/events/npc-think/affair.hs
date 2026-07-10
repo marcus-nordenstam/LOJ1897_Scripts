@@ -35,11 +35,11 @@
     ;; @self - a married adult, not already mid-affair. The disposition-to-stray
     ;; gate (the chance product over openness x enthusiasm x impropriety) is a
     ;; non-belief filter and lives in the (when ...) clause below.
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (adult-age @self)
                 (believes {@self spouse ?})
                 (not (believes {@self lover ?})))
-    (role ?lover (template any_human)
+    (role ?lover (any_human ?lover)
                  (not (= ?lover @self))
                  (adult-age ?lover)
                  ; the paramour must NOT be @self's own spouse (a third party).

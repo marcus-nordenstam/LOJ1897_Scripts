@@ -31,7 +31,7 @@
     ;; @self the patron, a man of standing: exemplary character (belief-pure here).
     ;; The age / prestige floors and the per-patron (chance) roll are non-belief
     ;; gates and now live in the (when ...) clause below.
-    (role @self (template old_human)
+    (role @self (old_human @self)
                 (believes {@self repute [k exemplary]}))
     ;; A protege one or more class steps below the patron, of sound character
     ;; (not scandalous), without an existing backer. The patron judges the
@@ -41,7 +41,7 @@
     ;; permissive on the unknown (only a KNOWN-scandalous protege is excluded).
     ;; (Not already backed - read from the PATRON's OWN knowledge ({backed_by} is
     ;; banded in via believe_about), no mind peek; permissive on the unknown.)
-    (role ?protege (template old_human)
+    (role ?protege (old_human ?protege)
                    (not (= ?protege @self))
                    ;; A working-age adult, elevatable into a trade - a belief-pure
                    ;; perceived age-band predicate, so it stays a role filter.

@@ -34,7 +34,7 @@
   (rng-stream employment)
 
   (roles
-    (role @self (template any_human)))
+    (role @self (any_human @self)))
 
   (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
              (or (in-month 12) (in-month 1) (in-month 2)) ; winter, once a year
@@ -61,7 +61,7 @@
   (rng-stream employment)
 
   (roles
-    (role @self (template any_human)))
+    (role @self (any_human @self)))
 
   (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
              (not (head-runs-household @self))          ; not already founded
@@ -84,7 +84,7 @@
   (rng-stream employment)
 
   (roles
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (believes {@self home ?})))
 
   (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)

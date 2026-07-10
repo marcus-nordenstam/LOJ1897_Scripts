@@ -23,7 +23,7 @@
   (rng-stream perpetration)
 
   (roles
-    (role @self (template any_human)))
+    (role @self (any_human @self)))
 
   ; Cheap early-out: only goal-holders run the (joint) reduction.
   (when (> (count-beliefs @self goal) 0))

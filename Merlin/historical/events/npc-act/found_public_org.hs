@@ -21,7 +21,7 @@
   (rng-stream business)
 
   (roles
-    (role @self (template any_human)))
+    (role @self (any_human @self)))
 
   ; moved from the @self role: adult-age gate (non-belief op read).
   (when (>= (years-old @self) 25))

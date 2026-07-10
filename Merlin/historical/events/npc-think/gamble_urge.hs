@@ -17,7 +17,7 @@
 (npc-think gamble_urge
   (short-term-think)
   (roles
-    (role @self (template grown))
+    (role @self (grown @self))
     ; The nearest pub the NPC KNOWS (role-cast; no known pub -> no fire).
     (role ?venue [k building pub] (prefer (near @self ?venue)) (policy weighted)))
   (when (>= (days-since-last @self play_game) 10))

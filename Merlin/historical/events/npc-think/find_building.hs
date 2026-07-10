@@ -37,7 +37,7 @@
   (short-term-think)
   (goal    {@self find_building ?sought})
   (roles
-    (role @self (template grown))
+    (role @self (grown @self))
     (role ?next [k building]
           (bb-none ?next surveyed)
           (prefer (distance @self ?next)) (policy argmax)))

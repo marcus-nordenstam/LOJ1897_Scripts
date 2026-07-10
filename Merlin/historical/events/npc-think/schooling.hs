@@ -52,7 +52,7 @@
   ; breeding-squared gate routes an upper child (breeding ~0.85) into school almost
   ; always, a working-class child (~0.25) only rarely.
   (roles
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (not (believes {@self study ?}))
                 (not (believes {@self skilled_in [k primary_school_curriculum]}))))
 
@@ -76,7 +76,7 @@
   ; (with /12 monthly factor). The working-class child who finished primary has a
   ; low chance and instead falls to apprenticeship_start (which excludes pupils).
   (roles
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (believes {@self skilled_in [k primary_school_curriculum]})
                 (not (believes {@self study ?}))
                 (not (believes {@self skilled_in [k secondary_school_curriculum]}))
@@ -100,7 +100,7 @@
   ; upper / wealthy-middle breeding-cubed gate (the professions' gateway) -> (when)
   ; (with /12 monthly factor). The subject is interest-led, chosen inside the act.
   (roles
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (believes {@self skilled_in [k secondary_school_curriculum]})
                 (not (believes {@self study ?}))
                 (not (believes {@self employer ?}))))
@@ -125,7 +125,7 @@
   ; enrollment; a non-continuer becomes apprenticeship-eligible. Monthly firing is
   ; idempotent - the first fire ends the study, so later months no-op. age -> (when).
   (roles
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (believes {@self study [k primary_school_curriculum]})))
 
   (when (>= (years-old @self) 11))
@@ -140,7 +140,7 @@
   (rng-stream behaviour)
 
   (roles
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (believes {@self study [k secondary_school_curriculum]})))
 
   (when (>= (years-old @self) 17))
@@ -159,7 +159,7 @@
   ; {@self skilled_in <subject> trained}, feeding the S8 physician / lawyer /
   ; scholar identities + the prestige bump - the profession pipeline payoff.
   (roles
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (believes {@self study ?})))
 
   (when (>= (years-old @self) 22))

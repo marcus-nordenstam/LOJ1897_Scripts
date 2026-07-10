@@ -33,11 +33,11 @@
     ;; social life_aim (belonging / respectability - the aims that prize community
     ;; visibility) OR being a parent (parties for one's child). The enthusiasm-scaled
     ;; chance gate moved to (when) below (non-belief filter).
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (or (believes {@self life_aim belonging_aim})
                     (believes {@self life_aim respectability_aim})
                     (believes {@self identity parent_role})))
-    (role ?guest (template any_human)
+    (role ?guest (any_human ?guest)
                  (not (= ?guest @self))
                  (believes {@self friend ?guest})))
 

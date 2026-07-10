@@ -26,7 +26,7 @@
   (rng-stream migrations)
 
   (roles
-    (role @self (template young_adult)))
+    (role @self (young_adult @self)))
 
   (when (chance (* 0.00125 (+ 0.5 (attr @self openness)) (population-pressure))))
 

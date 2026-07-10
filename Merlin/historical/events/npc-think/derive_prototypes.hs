@@ -16,7 +16,7 @@
   (rng-stream behaviour)
 
   (roles
-    (role @self (template any_human)))
+    (role @self (any_human @self)))
 
   ; years-old + in-month are non-belief ops, so they gate the fire in (when).
   (when (and (in-month december)

@@ -31,7 +31,7 @@
 ; instead of losing the pure pressure-vs-routine competition the weekday model always lost.
 (npc-think want_worship
   (short-term-think)
-  (roles (role @self (template grown)))
+  (roles (role @self (grown @self)))
   (when    (and (< (now-weekday) 1)
                 (>= (days-since-last @self worship) 3)
                 (>= (attr @self politeness) 0.3)))
@@ -43,7 +43,7 @@
   (short-term-think)
   (goal    {@self worship})
   (roles
-    (role @self (template grown))
+    (role @self (grown @self))
     (role ?church [k building church] (prefer (near @self ?church)) (policy weighted)))
   (when    (not (is-a (current-building @self) [k building church])))
   (cont-fire-effects (excl-goal {@self go ?church})))
@@ -54,7 +54,7 @@
   (goal    {@self worship})
   (fatigue-timeout 90)                                 ; ~90 min of searching a day, then rest
   (roles
-    (role @self (template grown))
+    (role @self (grown @self))
     (no-role [k building church]))
   (when    (not (is-a (current-building @self) [k building church])))
   (cont-fire-effects (excl-goal {@self find_building [k building church]})))

@@ -35,7 +35,7 @@
   (long-term-think)
 
   (roles
-    (role @self (template any_human)))
+    (role @self (any_human @self)))
 
   ; Something to hide is the reason - a covert lover (secret letters) or a
   ; standing stow goal (loot, a stained instrument); no cache yet; bind the

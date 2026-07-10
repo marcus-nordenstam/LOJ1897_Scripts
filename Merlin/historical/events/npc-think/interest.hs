@@ -51,7 +51,7 @@
   ; non-belief ops -> (when). politeness amplifies - the conforming child takes up
   ; the parent's hobby, the contrarian rarely.
   (roles
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (believes {@self mother ?})))
 
   (when (and (>= (years-old @self) 3)
@@ -79,10 +79,10 @@
   ; friend's own interests and copies one @self lacks. age + the openness x
   ; enthusiasm chance are non-belief ops -> (when).
   (roles
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (believes {@self friend ?}))
     ; The friend whose enthusiasm rubs off - a uniform pick over the circle.
-    (role ?friend (template any_human)
+    (role ?friend (any_human ?friend)
       (believes {@self friend ?friend})
       (prefer 1) (policy weighted)))
 
@@ -104,7 +104,7 @@
   ; apprenticeship_start); the effect reads the master's skilled_in + calling
   ; domains and copies one @self lacks. The openness-weighted chance -> (when).
   (roles
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (believes {@self master ?})))
 
   (when (chance (* 0.025 (+ 0.3 (attr @self openness)))))
@@ -127,7 +127,7 @@
   ; chance are non-belief ops -> (when). Gated HARD on openness so only the
   ; genuinely curious drift - trait-rooted, not bare chance.
   (roles
-    (role @self (template any_human)))
+    (role @self (any_human @self)))
 
   (when (and (>= (years-old @self) 10)
              (chance (* 0.0083 (attr @self openness) (attr @self openness)))))
@@ -149,7 +149,7 @@
   ; domain @self is NOT skilled_in - a skilled domain is settled identity and is
   ; exempt. No-op (fires, mints nothing) if every interest is skill-backed.
   (roles
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (believes {@self interest ?})))
 
   (when (chance 0.0025))

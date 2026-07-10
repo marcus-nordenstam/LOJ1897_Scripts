@@ -30,7 +30,7 @@
   (rng-stream perpetration)
 
   (roles
-    (role @self (template any_human)))
+    (role @self (any_human @self)))
 
   ; Narcissism tail + adult floor + rate gate.
   (when (and (>= (years-old @self) 18)

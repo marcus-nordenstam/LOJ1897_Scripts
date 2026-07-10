@@ -14,7 +14,7 @@
   (rng-stream behaviour)
 
   (roles
-    (role @self (template grown)
+    (role @self (grown @self)
                 (believes {@self employer ?})))
 
   (when (believes-obj-kind job [k job shop_clerk]))

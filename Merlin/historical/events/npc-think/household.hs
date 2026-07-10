@@ -27,7 +27,7 @@
   (rng-stream behaviour)
 
   (roles
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (believes {@self home ?})))
 
   (effects
@@ -54,7 +54,7 @@
   (rng-stream behaviour)
 
   (roles
-    (role @self (template grown)
+    (role @self (grown @self)
                 (believes {@self home ?})))
 
   ; ?home binds on the when-spine (a self-role believes does not export its
@@ -98,7 +98,7 @@
   (rng-stream behaviour)
 
   (roles
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (believes {@self home ?}))
     ; The woman of the house, role-cast from the asker's OWN kinship beliefs: a
     ; female mother / parent / spouse (a child asks their mother; a husband his
@@ -121,7 +121,7 @@
   (rng-stream behaviour)
 
   (roles
-    (role @self (template grown)
+    (role @self (grown @self)
                 (believes {@self home ?})))
 
   ; The cheap per-mind gate first: (asked-me-about) walks only @self's own
@@ -161,7 +161,7 @@
   (rng-stream behaviour)
 
   (roles
-    (role @self (template grown)
+    (role @self (grown @self)
                 (believes {@self home ?})))
 
   (when (and (bind {@self home ?home})

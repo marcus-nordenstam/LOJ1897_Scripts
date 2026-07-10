@@ -32,7 +32,7 @@
   (rng-stream incidents)
 
   (roles
-    (role @self (template any_human)))
+    (role @self (any_human @self)))
 
   ; Only home-holders can stumble about their own home.
   (when (bind {@self home ?home}))

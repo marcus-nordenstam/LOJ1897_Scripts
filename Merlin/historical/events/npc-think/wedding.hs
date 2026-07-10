@@ -32,7 +32,7 @@
   ; skipped by the gate-builder). Only the groom plans; the bride is wired in as
   ; co-principal by plan-wedding.
   (roles
-    (role @self (template unmarried_man)))
+    (role @self (unmarried_man @self)))
   (when (and (believes {@self fiancee ?})
              (not (organizing-occasion [k wedding]))))
   (effects

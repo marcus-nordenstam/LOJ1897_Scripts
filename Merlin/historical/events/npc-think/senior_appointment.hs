@@ -40,10 +40,10 @@
     ;; doesn't express cleanly today. V1 routes the chance through a trait
     ;; product: assertiveness + (situation prestige) above the floor amplifies
     ;; the rate, so a high-prestige assertive candidate fires far more often.
-    (role @self (template old_human))
+    (role @self (old_human @self))
     ;; A public organisation - any gov-subkind: church, hospital, agency. A KNOWN
     ;; org of gov kind (@self learned it at new_job_orientation). Belief-pure + cached.
-    (role ?org (template known_org)
+    (role ?org (known_org ?org)
                [k org gov]))
 
   ;; (chance) FIRST (cheap, short-circuits), then the live exclusivity re-check

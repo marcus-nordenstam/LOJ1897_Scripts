@@ -26,8 +26,8 @@
     ; The actor's impulse to lash out: dispositional base (low-politeness x
     ; narcissism) + displaced anger (emotion-load). The (chance) gate is non-belief
     ; (not role-cacheable), so it lives in (when) below, not on this role.
-    (role @self (template any_human))
-    (role ?victim (template any_human)
+    (role @self (any_human @self))
+    (role ?victim (any_human ?victim)
                   (not (= ?victim @self))
                   (personally-knows @self ?victim)))
 

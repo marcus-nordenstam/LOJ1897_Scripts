@@ -28,9 +28,9 @@
   (rng-stream perpetration)
 
   (roles
-    (role @self (template any_human))
+    (role @self (any_human @self))
     ; One firing per standing anchor: no (prefer) / (pick-first-matching-role).
-    (role ?victim (template any_human)
+    (role ?victim (any_human ?victim)
       (believes {@self extort ?victim})))
 
   (effects

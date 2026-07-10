@@ -23,7 +23,7 @@
   (long-term-think)
 
   (roles
-    (role @self (template any_human))
+    (role @self (any_human @self))
     ; Each hiding-spot @self made and knows.
     (role ?cache (believes {@self hiding_spot ?cache})))
 

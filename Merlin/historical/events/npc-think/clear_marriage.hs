@@ -36,11 +36,11 @@
   (rng-stream perpetration)
 
   (roles
-    (role @self (template any_human))
-    (role ?spouse (template any_human) (believes {@self spouse ?spouse}) (pick-first-matching-role))
+    (role @self (any_human @self))
+    (role ?spouse (any_human ?spouse) (believes {@self spouse ?spouse}) (pick-first-matching-role))
     ; A covert lover (belief-query role filter: a lover who is not the spouse). The
     ; unmarried check is an opaque verb gate, so it lives in (when), not the filter.
-    (role ?paramour (template any_human)
+    (role ?paramour (any_human ?paramour)
       (believes {@self lover ?paramour})
       (not (believes {@self spouse ?paramour}))
       (pick-first-matching-role)))

@@ -30,7 +30,7 @@
   (rng-stream behaviour)
 
   (roles
-    (role @self (template old_human)))
+    (role @self (old_human @self)))
 
   (when (and (= (situation @self repute) [k scandalous])
              (chance 0.0833)))

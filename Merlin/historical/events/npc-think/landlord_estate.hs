@@ -33,7 +33,7 @@
   (rng-stream business)
 
   (roles
-    (role @self (template old_human))
+    (role @self (old_human @self))
     (role ?rental (believes {@self own ?rental})
                   (or (believes {?rental availability [k for_rent]})
                       (believes {?rental tenant ?}))))

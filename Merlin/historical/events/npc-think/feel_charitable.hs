@@ -16,7 +16,7 @@
 (npc-think feel_charitable
   (short-term-think)
   (roles
-    (role @self (template grown))
+    (role @self (grown @self))
     ; The nearest church the NPC KNOWS (role-cast; no known church -> no fire).
     (role ?venue [k building church] (prefer (near @self ?venue)) (policy weighted)))
   (when (>= (days-since-last @self give_alms) 20))

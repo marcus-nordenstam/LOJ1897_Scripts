@@ -32,8 +32,8 @@
   (rng-stream perpetration)
 
   (roles
-    (role @self (template any_human))
-    (role ?spouse (template any_human) (believes {@self spouse ?spouse}) (pick-first-matching-role)))
+    (role @self (any_human @self))
+    (role ?spouse (any_human ?spouse) (believes {@self spouse ?spouse}) (pick-first-matching-role)))
 
   ; The actor's lover, bound once (an unmarriageable - already-married - lover
   ; waiting raises the propensity). Bound at top-level so (is-married ?lover)

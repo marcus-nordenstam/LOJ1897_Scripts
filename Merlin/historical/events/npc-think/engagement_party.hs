@@ -32,10 +32,10 @@
   ;; belief (no mind peek). The male-gender gate and the first-year belief-age
   ;; re-fire guard are non-belief filters - moved to (when ...) below.
   (roles
-    (role @self (template adult)
+    (role @self (adult @self)
                 (not (believes {@self spouse ?}))
                 (believes {@self fiancee ?}))
-    (role ?bride (template unmarried_woman)
+    (role ?bride (unmarried_woman ?bride)
                  (believes {@self fiancee ?bride})))
 
   ;; Moved from the @self role (non-belief filters): groom must be male, and the

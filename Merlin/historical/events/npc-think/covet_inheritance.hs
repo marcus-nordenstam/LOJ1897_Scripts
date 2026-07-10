@@ -33,12 +33,12 @@
   (rng-stream perpetration)
 
   (roles
-    (role @self (template any_human))
+    (role @self (any_human @self))
     ; The wealthiest co-heir benefactor the actor KNOWS. The kin edge is the
     ; object-cache filter (Shape-1 {@self <label> ?cand}); (prefer) ranks the
     ; cached set by believed wealth and binds the single richest. The wealth
     ; floor is enforced in (when) on the winner.
-    (role ?benefactor (template any_human)
+    (role ?benefactor (any_human ?benefactor)
       (believes {@self mother|father|parent|spouse|sibling ?benefactor})
       (prefer (target {?benefactor wealth})))
     ; The benefactor's HEIR, role-cast via the object-cache JOIN: the cross-role filter
@@ -49,7 +49,7 @@
     ; filter is the KNOWLEDGE PRECONDITION - the actor only weighs an heir whose age he
     ; knows (a friends-and-closer belief) - and (prefer (years-old ...)) picks the ELDEST
     ; such heir. No omniscient (heir-apparent ...) kin-graph read.
-    (role ?heir (template old_human)
+    (role ?heir (old_human ?heir)
       (believes {?heir mother|father|parent|spouse|sibling ?benefactor})
       (believes {?heir birth_date ?})
       (prefer (years-old ?heir)) (policy argmax)))

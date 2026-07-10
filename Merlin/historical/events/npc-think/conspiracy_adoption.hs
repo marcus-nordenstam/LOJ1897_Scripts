@@ -33,10 +33,10 @@
   (rng-stream perpetration)
 
   (roles
-    (role @self (template any_human))
+    (role @self (any_human @self))
     ; Anyone @self believes has urged something - the belief arrives only by
     ; reading the letter (or hearing the words), never by telepathy.
-    (role ?instigator (template any_human)
+    (role ?instigator (any_human ?instigator)
           (not (= ?instigator @self))
           (believes {?instigator urge ?})))
 

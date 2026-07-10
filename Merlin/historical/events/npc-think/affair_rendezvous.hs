@@ -40,10 +40,10 @@
   (rng-stream incidents)
 
   (roles
-    (role @self (template any_human)
+    (role @self (any_human @self)
                 (believes {@self lover ?}))
     ; The paramour: a lover who is not also a spouse (the covert third party).
-    (role ?paramour (template any_human)
+    (role ?paramour (any_human ?paramour)
       (believes {@self lover ?paramour})
       (not (believes {@self spouse ?paramour}))
       (pick-first-matching-role)))
