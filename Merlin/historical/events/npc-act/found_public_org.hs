@@ -22,8 +22,12 @@
 
   (role @self (any_human @self))
 
-  ; moved from the @self role: adult-age gate (non-belief op read).
-  (when (>= (years-old @self) 25))
+  ; moved from the @self role: adult-age gate (non-belief op read). The not-already-
+  ; employed gate keeps a founder to ONE org: `employer` is exclusive, so a man who has
+  ; already founded (here or in found_cornerstone_business this same startup pass) must
+  ; not found another and bounce his own employer belief to past.
+  (when (and (>= (years-old @self) 25)
+             (not (believes {@self employer ?}))))
 
   (effects
     ; Found the org with its HEAD only; the emergent labour market (employment.hs
