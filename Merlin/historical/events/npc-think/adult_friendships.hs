@@ -20,7 +20,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour adult_friendship
+(npc-think adult_friendship
   (long-term-think)
   (rng-stream friendships)
 

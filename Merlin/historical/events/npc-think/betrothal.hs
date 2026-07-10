@@ -14,7 +14,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour betrothal
+(npc-think betrothal
   (long-term-think)
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY, so the per-bride (chance) is /12 of the old annual 0.25 (-> 0.0208)

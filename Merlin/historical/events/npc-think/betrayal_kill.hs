@@ -25,7 +25,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour betrayal_kill
+(npc-think betrayal_kill
   (long-term-think)
   (rng-stream perpetration)
 

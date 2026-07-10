@@ -12,15 +12,15 @@
 ;   hire_commit : completion (completion-only) - the eligibility-match hire + clears goal.
 ; ----------------------------------------------------------------------------
 
-(hsim-npc-behaviour hire_go
+(npc-think hire_go
   (short-term-think)
   (goal {@self engage_staff})
   (when (and (articles-building (goal-focus engage_staff) ?venue)
              (not (at-place ?venue))))
   (utility 82)
-  (effects (begin-act {@self go ?venue})))
+  (cont-fire-effects (excl-goal {@self go ?venue})))
 
-(hsim-npc-behaviour hire_dwell
+(npc-think hire_dwell
   (short-term-think)
   (goal {@self engage_staff})
   (when (and (articles-building (goal-focus engage_staff) ?venue)
@@ -28,7 +28,7 @@
   (utility 82)
   (effects (begin-act {@self engage_staff} 45 hire_commit)))
 
-(hsim-npc-behaviour hire_commit
+(npc-think hire_commit
   (on-completion)
   (effects
     ; bind the org's articles to a plain ?var so it can serve as a {pattern} subject

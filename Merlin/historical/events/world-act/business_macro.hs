@@ -2,7 +2,7 @@
 ; The merit-founding THINKS (investment/partnership/founding) AND the non-merit floor
 ; net (business_homeostat) are per-NPC events in npc-think/business.hs.
 
-(hsim-world-event business_failure
+(world-event business_failure
   (schedule   (annually december))
   (rng-stream business)
 

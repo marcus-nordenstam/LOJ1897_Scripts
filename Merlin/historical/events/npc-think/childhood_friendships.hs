@@ -18,7 +18,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour childhood_friendship
+(npc-think childhood_friendship
   (long-term-think)
   (rng-stream friendships)
 

@@ -19,7 +19,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour read_secret_letters
+(npc-think read_secret_letters
   (long-term-think)
 
   (role @self (any_human @self))

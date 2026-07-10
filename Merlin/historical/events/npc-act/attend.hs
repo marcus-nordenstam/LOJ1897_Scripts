@@ -32,7 +32,7 @@
 ; {?occ venue ?venue} belief - both read from the NPC's OWN mind (mental, no
 ; C++ venue op, no scan). A goal-less / venue-less occasion leaves ?venue unbound
 ; -> the (at-place ?venue) gate fails and the lane simply waits.
-(hsim-npc-behaviour attend_go
+(npc-think attend_go
   (short-term-think)
   (goal {@self attend})
   (bind (target {@self goal {@self attend ?}}) ?occ)
@@ -40,9 +40,9 @@
              (attend-in-window @self)
              (not (at-place ?venue))))
   (utility (attend-utility @self))
-  (effects (begin-act {@self go ?venue})))
+  (cont-fire-effects (excl-goal {@self go ?venue})))
 
-(hsim-npc-behaviour attend_dwell
+(npc-think attend_dwell
   (short-term-think)
   (goal {@self attend})
   (bind (target {@self goal {@self attend ?}}) ?occ)
@@ -52,7 +52,7 @@
   (utility (attend-utility @self))
   (effects (begin-act {@self attend} (attend-minutes-left @self) attend_episode)))
 
-(hsim-npc-behaviour attend_episode
+(npc-think attend_episode
   (on-completion)
   (effects
     ; If this was a WEDDING and the attendee is one of its principals, the

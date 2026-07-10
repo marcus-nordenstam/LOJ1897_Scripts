@@ -23,7 +23,7 @@
 ; (venue ...) random-picks a same-town bank per call, so it names a travel target
 ; for (go) but cannot be used to test arrival (each call could pick a different
 ; bank). Mirrors the drinking lane's (can-drink) at-a-pub gate.
-(hsim-npc-behaviour found_go
+(npc-think found_go
   (short-term-think)
   (goal {@self found})
   ; The bank is role-cast from the banks the NPC KNOWS (naked [k ..] = (believes
@@ -33,16 +33,16 @@
   (role ?go_dest [k building bank] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building bank])))
   (utility 85)
-  (effects (begin-act {@self go ?go_dest})))
+  (cont-fire-effects (excl-goal {@self go ?go_dest})))
 
-(hsim-npc-behaviour found_dwell
+(npc-think found_dwell
   (short-term-think)
   (goal {@self found})
   (when (at-place-kind [k building bank]))
   (utility 85)
   (effects (begin-act {@self found} 90 found_commit)))
 
-(hsim-npc-behaviour found_commit
+(npc-think found_commit
   (on-completion)
   (effects
     ; Roll a HOUSABLE business kind first (premises-aware: only kinds with a free

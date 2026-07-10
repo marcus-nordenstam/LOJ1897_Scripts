@@ -15,7 +15,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour birth
+(npc-think birth
   (long-term-think)
   (rng-stream births)
 

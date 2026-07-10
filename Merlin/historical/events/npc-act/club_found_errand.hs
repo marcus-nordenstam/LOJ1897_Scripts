@@ -11,7 +11,7 @@
 ;   found_club_commit : completion (completion-only) - founds the club + clears the goal.
 ; ----------------------------------------------------------------------------
 
-(hsim-npc-behaviour found_club_go
+(npc-think found_club_go
   (short-term-think)
   (goal {@self found_club})
   ; The pub is role-cast from the pubs the NPC KNOWS; nearest preferred, weighted.
@@ -19,16 +19,16 @@
   (role ?go_dest [k building pub] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building pub])))
   (utility 45)
-  (effects (begin-act {@self go ?go_dest})))
+  (cont-fire-effects (excl-goal {@self go ?go_dest})))
 
-(hsim-npc-behaviour found_club_dwell
+(npc-think found_club_dwell
   (short-term-think)
   (goal {@self found_club})
   (when (at-place-kind [k building pub]))
   (utility 45)
   (effects (begin-act {@self found_club} 90 found_club_commit)))
 
-(hsim-npc-behaviour found_club_commit
+(npc-think found_club_commit
   (on-completion)
   (effects
     ; The foundable-club catalog, ungated (0): clubs are not premises-gated -

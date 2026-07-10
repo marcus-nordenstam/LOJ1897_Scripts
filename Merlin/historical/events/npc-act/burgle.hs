@@ -35,7 +35,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour burgle_go
+(npc-think burgle_go
   (short-term-think)
   (goal {@self steal})
   (rng-stream theft)
@@ -43,9 +43,9 @@
   (effects
     (bind (burgle-target @self) ?scene)
     (if ?scene
-        (begin-act {@self go ?scene}))))
+        (excl-goal {@self go ?scene}))))
 
-(hsim-npc-behaviour burgle_strike
+(npc-think burgle_strike
   (short-term-think)
   (goal {@self steal})
   (when (and (not (at-home))
@@ -53,7 +53,7 @@
   (utility 86)
   (effects (begin-act {@self steal} 15 burgle_commit)))
 
-(hsim-npc-behaviour embezzle_strike
+(npc-think embezzle_strike
   (short-term-think)
   (goal {@self steal})
   (when (and (bind {@self employer ?emp})
@@ -62,7 +62,7 @@
   (utility 86)
   (effects (begin-act {@self steal} 10 burgle_commit)))
 
-(hsim-npc-behaviour burgle_commit
+(npc-think burgle_commit
   (on-completion)
   (effects
     (bind (current-building @self) ?scene)

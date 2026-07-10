@@ -12,7 +12,7 @@
 ;   resign_commit : completion (completion-only) - unregisters the member + clears goal.
 ; ----------------------------------------------------------------------------
 
-(hsim-npc-behaviour resign_go
+(npc-think resign_go
   (short-term-think)
   (goal {@self resign_club})
   ; The clubhouse is role-cast from the clubhouses the NPC KNOWS; nearest preferred,
@@ -20,16 +20,16 @@
   (role ?go_dest [k building social_clubhouse] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building social_clubhouse])))
   (utility 40)
-  (effects (begin-act {@self go ?go_dest})))
+  (cont-fire-effects (excl-goal {@self go ?go_dest})))
 
-(hsim-npc-behaviour resign_dwell
+(npc-think resign_dwell
   (short-term-think)
   (goal {@self resign_club})
   (when (at-place-kind [k building social_clubhouse]))
   (utility 40)
   (effects (begin-act {@self resign_club} 45 resign_commit)))
 
-(hsim-npc-behaviour resign_commit
+(npc-think resign_commit
   (on-completion)
   (effects
     (unregister-member /member @self)

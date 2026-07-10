@@ -19,7 +19,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour gossip
+(npc-think gossip
   (long-term-think)
   (rng-stream behaviour)
 

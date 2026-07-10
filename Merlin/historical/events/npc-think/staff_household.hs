@@ -29,7 +29,7 @@
 ; take it on. Clause order matters - the cheap gates short-circuit first so the
 ; is-a checks run only for winter, dutyless, home-owning candidates; and `?h` is
 ; BOUND by the first (believes) (the home), then reused to test ownership + kind.
-(hsim-npc-behaviour consider_household_staffing
+(npc-think consider_household_staffing
   (long-term-think)
   (rng-stream employment)
 
@@ -54,7 +54,7 @@
 ; {@self employer <household-org>} -> articles lookup) flips true once founded, so
 ; this self-throttles to exactly one household per head. Servant hiring stays in
 ; the monthly ACT below (it now no-ops until the articles exist).
-(hsim-npc-behaviour found_household
+(npc-think found_household
   (long-term-think)
   (goal {@self staff_household})
   (rng-stream employment)
@@ -70,7 +70,7 @@
   (effects (found-org-seq [k org household] [k job head_of_household])))
 
 ; --- ACT: the head fulfils the duty - hires what the founded household lacks ---
-(hsim-npc-behaviour staff_household
+(npc-think staff_household
   ; PER-NPC (long-term-think): the household head fulfils his standing staffing
   ; duty once a month-window. PURE .hs: the gate is the duty the think minted
   ; plus ownership of the home (a co-resident spouse / tenant staffs nothing);

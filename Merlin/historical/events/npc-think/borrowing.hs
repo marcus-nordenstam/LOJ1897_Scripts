@@ -11,7 +11,7 @@
 ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
 ; (relational: debtor + a non-self creditor, no co-presence), MONTHLY now, so the
 ; debtor (chance) base is /12 (0.06 -> 0.005) to hold the annual borrowing volume.
-(hsim-npc-behaviour borrowing
+(npc-think borrowing
   (long-term-think)
   (rng-stream behaviour)
 

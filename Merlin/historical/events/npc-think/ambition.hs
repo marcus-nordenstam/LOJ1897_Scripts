@@ -28,7 +28,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour ambition
+(npc-think ambition
   (long-term-think)
   (rng-stream perpetration)
 

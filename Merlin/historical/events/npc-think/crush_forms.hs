@@ -24,7 +24,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour crush_forms
+(npc-think crush_forms
   (long-term-think)
   (rng-stream incidents)
 

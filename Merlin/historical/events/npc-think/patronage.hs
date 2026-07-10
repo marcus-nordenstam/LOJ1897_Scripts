@@ -23,7 +23,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour patronage
+(npc-think patronage
   (long-term-think)
   (rng-stream business)
 

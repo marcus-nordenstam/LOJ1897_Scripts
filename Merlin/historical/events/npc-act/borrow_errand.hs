@@ -16,16 +16,16 @@
 ;                   <creditor>} + clears the goal.
 ; ----------------------------------------------------------------------------
 
-(hsim-npc-behaviour borrow_go
+(npc-think borrow_go
   (short-term-think)
   (goal {@self take_loan})
   (bind (goal-focus take_loan) ?creditor)
   (when (and (bind {?creditor home ?cred_home})
              (not (at-place ?cred_home))))
   (utility 60)
-  (effects (begin-act {@self go ?cred_home})))
+  (cont-fire-effects (excl-goal {@self go ?cred_home})))
 
-(hsim-npc-behaviour borrow_dwell
+(npc-think borrow_dwell
   (short-term-think)
   (goal {@self take_loan})
   (bind (goal-focus take_loan) ?creditor)
@@ -34,7 +34,7 @@
   (utility 60)
   (effects (begin-act {@self take_loan} 45 borrow_commit)))
 
-(hsim-npc-behaviour borrow_commit
+(npc-think borrow_commit
   (on-completion)
   (effects
     (begin-belief {@self owe (goal-focus take_loan)})

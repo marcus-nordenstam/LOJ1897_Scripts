@@ -17,7 +17,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour engagement_party
+(npc-think engagement_party
   (long-term-think)
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY. The (belief-age ?bride fiancee) == 0 gate (whole years) holds while

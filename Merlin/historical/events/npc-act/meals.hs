@@ -63,7 +63,7 @@
 ; at the next meal hour, so the meal lanes get their deliberation instant.
 ; An unknown mealtime contributes a huge sentinel (minutes-until-hour) and
 ; drops out of the (min ...).
-(hsim-npc-behaviour idle_at_home
+(npc-think idle_at_home
   (short-term-think)
   (when (and (not (under-attack))
              (at-home)
@@ -77,7 +77,7 @@
 
 ; ---------------------------------------------------------------- breakfast
 
-(hsim-npc-behaviour breakfast
+(npc-think breakfast
   (short-term-think)
   (when (and (not (under-attack))
              (at-home)
@@ -93,7 +93,7 @@
   (utility 82)
   (effects (begin-act {@self dine} 30 breakfast_episode)))
 
-(hsim-npc-behaviour breakfast_episode
+(npc-think breakfast_episode
   (on-completion)
   (effects
     ; A food prop is a PERSON-DAY of provisions: the day's stock drawdown
@@ -109,7 +109,7 @@
 
 ; The worker's lunch: at the workplace at midday, with whoever else works
 ; there - the colleague talk channel. No travel (you eat where you stand).
-(hsim-npc-behaviour work_lunch
+(npc-think work_lunch
   (short-term-think)
   (when (and (not (under-attack))
              (> (attr @self hunger) 0.25)
@@ -121,7 +121,7 @@
   (utility 85)
   (effects (begin-act {@self dine} 40 work_lunch_episode)))
 
-(hsim-npc-behaviour work_lunch_episode
+(npc-think work_lunch_episode
   (on-completion)
   (effects
     (set-attr @self hunger (max 0 (- (attr @self hunger) 0.35)))
@@ -143,7 +143,7 @@
 
 ; The at-home midday meal (the jobless, the housewife, the child): silent,
 ; per the cook's lunch_hour.
-(hsim-npc-behaviour home_lunch
+(npc-think home_lunch
   (short-term-think)
   (when (and (not (under-attack))
              (at-home)
@@ -156,7 +156,7 @@
   (utility 76)
   (effects (begin-act {@self dine} 30 home_lunch_episode)))
 
-(hsim-npc-behaviour home_lunch_episode
+(npc-think home_lunch_episode
   (on-completion)
   (effects
     ; No stock drawdown - see breakfast_episode (person-day grain).
@@ -171,7 +171,7 @@
 ; APPROACH - the hour before the cook's window through its end, holding real
 ; hunger and not home: head home. Travel is 30 min, so opening the lane an
 ; hour early lands the household at table by the cook's hour.
-(hsim-npc-behaviour supper_go_home
+(npc-think supper_go_home
   (short-term-think)
   (when (and (not (under-attack))
              (> (attr @self hunger) 0.25)
@@ -181,10 +181,10 @@
              (< (now-hour) (+ ?h 2))
              (not (at-home))))
   (utility 78)
-  (effects (begin-act {@self go ?home})))
+  (cont-fire-effects (excl-goal {@self go ?home})))
 
 ; EXECUTE - at home inside the cook's window: the hour at table.
-(hsim-npc-behaviour supper
+(npc-think supper
   (short-term-think)
   (when (and (not (under-attack))
              (at-home)
@@ -200,7 +200,7 @@
 ; The supper COMPLETION: the meal record, the family table talk, the big
 ; meal's hunger reset. @self is the diner; co-presence is whoever is at the
 ; house when the completion lands.
-(hsim-npc-behaviour supper_episode
+(npc-think supper_episode
   (on-completion)
   (effects
     ; The day's stock drawdown: one PERSON-DAY prop per diner. The diner
@@ -281,7 +281,7 @@
 ; Errand-band utility (55-56): above leisure, below the work shift; take
 ; outbids the walks by a point so arrival flips travel into the stop.
 
-(hsim-npc-behaviour provision_go_known
+(npc-think provision_go_known
   (short-term-think)
   (goal {@self provision})
   (bind (target {@self provisions_shop ?}) ?shop)
@@ -289,9 +289,9 @@
              (is-entity ?shop)
              (not (at-place ?shop))))
   (utility 55)
-  (effects (begin-act {@self go ?shop})))
+  (cont-fire-effects (excl-goal {@self go ?shop})))
 
-(hsim-npc-behaviour provision_search
+(npc-think provision_search
   (short-term-think)
   (goal {@self provision})
   ; No known provisions_shop: role-cast a shop the NPC KNOWS (nearest preferred,
@@ -302,9 +302,9 @@
              (not (is-entity ?shop))
              (not (at-place-kind [k building shop]))))
   (utility 55)
-  (effects (begin-act {@self go ?go_dest})))
+  (cont-fire-effects (excl-goal {@self go ?go_dest})))
 
-(hsim-npc-behaviour provision_take
+(npc-think provision_take
   (short-term-think)
   (goal {@self provision})
   (when (and (not (under-attack))
@@ -312,7 +312,7 @@
   (utility 56)
   (effects (begin-act {@self provision} 15 provision_episode)))
 
-(hsim-npc-behaviour provision_episode
+(npc-think provision_episode
   (on-completion)
   (effects
     (bind (current-building @self) ?shop)
@@ -338,7 +338,7 @@
 ; the home supper (whose stock gate already failed if this is eligible),
 ; over leisure.
 
-(hsim-npc-behaviour eat_out_go_pub
+(npc-think eat_out_go_pub
   (short-term-think)
   ; Role-cast a pub the NPC KNOWS (nearest preferred, weighted). No known pub -> no
   ; fire. Replaces (venue ...).
@@ -354,9 +354,9 @@
              (not (at-place-kind [k building pub]))
              (= (count-believed-located [k food] ?home) 0)))
   (utility 70)
-  (effects (begin-act {@self go ?go_dest})))
+  (cont-fire-effects (excl-goal {@self go ?go_dest})))
 
-(hsim-npc-behaviour eat_out_go_restaurant
+(npc-think eat_out_go_restaurant
   (short-term-think)
   ; Role-cast a restaurant the NPC KNOWS (nearest preferred, weighted). No known
   ; restaurant -> no fire. Replaces (venue ...).
@@ -372,9 +372,9 @@
              (not (at-place-kind [k building restaurant]))
              (= (count-believed-located [k food] ?home) 0)))
   (utility 70)
-  (effects (begin-act {@self go ?go_dest})))
+  (cont-fire-effects (excl-goal {@self go ?go_dest})))
 
-(hsim-npc-behaviour eat_out_pub
+(npc-think eat_out_pub
   (short-term-think)
   (when (and (not (under-attack))
              (> (attr @self hunger) 0.25)
@@ -387,7 +387,7 @@
   (utility 70)
   (effects (begin-act {@self dine} 45 eat_out_episode)))
 
-(hsim-npc-behaviour eat_out_restaurant
+(npc-think eat_out_restaurant
   (short-term-think)
   (when (and (not (under-attack))
              (> (attr @self hunger) 0.25)
@@ -402,7 +402,7 @@
 
 ; The venue kitchen is abstract in v1 (no prop consumed); the dine record
 ; lands at the venue - the evidence layer's "dined at the Crown, at supper".
-(hsim-npc-behaviour eat_out_episode
+(npc-think eat_out_episode
   (on-completion)
   (effects
     (set-attr @self hunger (max 0 (- (attr @self hunger) 0.6)))
@@ -425,7 +425,7 @@
 ; stow goal is a food item eats it on the spot. (goal-focus stow) and
 ; (end-goal {@self stow}) walk the same goal bucket in the same order, so
 ; the goal ended is the goal gated on.
-(hsim-npc-behaviour starving_eat_carried
+(npc-think starving_eat_carried
   (short-term-think)
   (bind (goal-focus stow) ?item)
   (when (and (not (under-attack))
@@ -435,7 +435,7 @@
   (utility 141)
   (effects (begin-act {@self dine} 10 starving_eat_carried_episode)))
 
-(hsim-npc-behaviour starving_eat_carried_episode
+(npc-think starving_eat_carried_episode
   (on-completion)
   (effects
     (bind (goal-focus stow) ?item)
@@ -446,7 +446,7 @@
           (end-goal {@self stow})))
     (set-attr @self hunger (max 0 (- (attr @self hunger) 0.5)))))
 
-(hsim-npc-behaviour starving_pantry
+(npc-think starving_pantry
   (short-term-think)
   (when (and (not (under-attack))
              (> (attr @self hunger) 1.3)
@@ -456,7 +456,7 @@
   (utility 140)
   (effects (begin-act {@self dine} 10 starving_eat_episode)))
 
-(hsim-npc-behaviour starving_go_home
+(npc-think starving_go_home
   (short-term-think)
   (when (and (not (under-attack))
              (> (attr @self hunger) 1.3)
@@ -464,9 +464,9 @@
              (bind {@self home ?home})
              (> (count-believed-located [k food] ?home) 0)))
   (utility 138)
-  (effects (begin-act {@self go ?home})))
+  (cont-fire-effects (excl-goal {@self go ?home})))
 
-(hsim-npc-behaviour starving_eat_episode
+(npc-think starving_eat_episode
   (on-completion)
   (effects
     (bind {@self home ?home})
@@ -481,7 +481,7 @@
 
 ; Buy: to the shop she knows, else any shop; at the counter, one item eaten
 ; on the spot (paid-for in the same v1 no-coin sense as provisioning).
-(hsim-npc-behaviour starving_buy_go
+(npc-think starving_buy_go
   (short-term-think)
   ; The known provisions_shop is preferred; else a role-cast shop the NPC KNOWS
   ; (nearest, weighted). Replaces the (venue ...) fallback.
@@ -494,10 +494,10 @@
   (utility 135)
   (effects
     (if (is-entity ?shop)
-        (begin-act {@self go ?shop})
-        (begin-act {@self go ?go_dest}))))
+        (excl-goal {@self go ?shop})
+        (excl-goal {@self go ?go_dest}))))
 
-(hsim-npc-behaviour starving_buy
+(npc-think starving_buy
   (short-term-think)
   (when (and (not (under-attack))
              (> (attr @self hunger) 1.3)
@@ -506,7 +506,7 @@
   (utility 135)
   (effects (begin-act {@self dine} 10 starving_buy_episode)))
 
-(hsim-npc-behaviour starving_buy_episode
+(npc-think starving_buy_episode
   (on-completion)
   (effects
     (bind (current-building @self) ?shop)
@@ -524,7 +524,7 @@
 ; the ledger (the owner of the shop is the victim, the loot gone down the
 ; thief's throat). The row lands only when something was actually eaten -
 ; walking into an open shop and finding nothing is no crime.
-(hsim-npc-behaviour starving_steal_go
+(npc-think starving_steal_go
   (short-term-think)
   ; The known provisions_shop is preferred; else a role-cast shop the NPC KNOWS
   ; (nearest, weighted). Replaces the (venue ...) fallback.
@@ -537,10 +537,10 @@
   (utility 130)
   (effects
     (if (is-entity ?shop)
-        (begin-act {@self go ?shop})
-        (begin-act {@self go ?go_dest}))))
+        (excl-goal {@self go ?shop})
+        (excl-goal {@self go ?go_dest}))))
 
-(hsim-npc-behaviour starving_steal
+(npc-think starving_steal
   (short-term-think)
   (when (and (not (under-attack))
              (> (attr @self hunger) 1.3)
@@ -549,7 +549,7 @@
   (utility 130)
   (effects (begin-act {@self dine} 10 starving_steal_episode)))
 
-(hsim-npc-behaviour starving_steal_episode
+(npc-think starving_steal_episode
   (on-completion)
   (effects
     (bind (current-building @self) ?shop)

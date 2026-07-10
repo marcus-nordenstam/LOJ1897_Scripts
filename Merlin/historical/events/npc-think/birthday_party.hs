@@ -24,7 +24,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour birthday_party
+(npc-think birthday_party
   (long-term-think)
   (rng-stream friendships)
 

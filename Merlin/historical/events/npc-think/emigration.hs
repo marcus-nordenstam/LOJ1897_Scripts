@@ -21,7 +21,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour emigration
+(npc-think emigration
   (long-term-think)
   (rng-stream migrations)
 

@@ -27,7 +27,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour rid_of_spouse
+(npc-think rid_of_spouse
   (long-term-think)
   (rng-stream perpetration)
 

@@ -23,7 +23,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour new_job_orientation
+(npc-think new_job_orientation
   (long-term-think)
   (rng-stream employment)
 

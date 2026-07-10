@@ -17,7 +17,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour deliberate
+(npc-think deliberate
   (long-term-think)
   (rng-stream deliberation)
 

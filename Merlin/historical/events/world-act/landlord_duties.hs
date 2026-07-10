@@ -14,7 +14,7 @@
 ; the occupancy record - a building with no living resident is available to let.
 ; ----------------------------------------------------------------------------
 
-(hsim-world-event landlord_duties
+(world-event landlord_duties
   (schedule   (annually february))
   (rng-stream behaviour)
 

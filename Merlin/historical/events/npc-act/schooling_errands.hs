@@ -11,7 +11,7 @@
 ; ----------------------------------------------------------------------------
 
 ; ----- primary -------------------------------------------------------------
-(hsim-npc-behaviour primary_go
+(npc-think primary_go
   (short-term-think)
   (goal {@self enrol_primary})
   ; The school is role-cast from the schools the NPC KNOWS; nearest preferred,
@@ -19,14 +19,14 @@
   (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building school])))
   (utility 35)
-  (effects (begin-act {@self go ?go_dest})))
-(hsim-npc-behaviour primary_dwell
+  (cont-fire-effects (excl-goal {@self go ?go_dest})))
+(npc-think primary_dwell
   (short-term-think)
   (goal {@self enrol_primary})
   (when (at-place-kind [k building school]))
   (utility 35)
   (effects (begin-act {@self enrol_primary} 60 primary_commit)))
-(hsim-npc-behaviour primary_commit
+(npc-think primary_commit
   (on-completion)
   (effects
     (begin-belief {@self study [k primary_school_curriculum]})
@@ -34,20 +34,20 @@
     ))
 
 ; ----- secondary -----------------------------------------------------------
-(hsim-npc-behaviour secondary_go
+(npc-think secondary_go
   (short-term-think)
   (goal {@self enrol_secondary})
   (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building school])))
   (utility 35)
-  (effects (begin-act {@self go ?go_dest})))
-(hsim-npc-behaviour secondary_dwell
+  (cont-fire-effects (excl-goal {@self go ?go_dest})))
+(npc-think secondary_dwell
   (short-term-think)
   (goal {@self enrol_secondary})
   (when (at-place-kind [k building school]))
   (utility 35)
   (effects (begin-act {@self enrol_secondary} 60 secondary_commit)))
-(hsim-npc-behaviour secondary_commit
+(npc-think secondary_commit
   (on-completion)
   (effects
     (begin-belief {@self study [k secondary_school_curriculum]})
@@ -55,20 +55,20 @@
     ))
 
 ; ----- university ----------------------------------------------------------
-(hsim-npc-behaviour university_go
+(npc-think university_go
   (short-term-think)
   (goal {@self enrol_university})
   (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building school])))
   (utility 35)
-  (effects (begin-act {@self go ?go_dest})))
-(hsim-npc-behaviour university_dwell
+  (cont-fire-effects (excl-goal {@self go ?go_dest})))
+(npc-think university_dwell
   (short-term-think)
   (goal {@self enrol_university})
   (when (at-place-kind [k building school]))
   (utility 35)
   (effects (begin-act {@self enrol_university} 60 university_commit)))
-(hsim-npc-behaviour university_commit
+(npc-think university_commit
   (on-completion)
   (effects
     ; The SUBJECT is interest-led (the class gate decided WHETHER you attend;

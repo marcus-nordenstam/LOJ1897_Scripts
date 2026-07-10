@@ -20,7 +20,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour bonded_incident_assault
+(npc-think bonded_incident_assault
   (long-term-think)
   (rng-stream incidents)
 

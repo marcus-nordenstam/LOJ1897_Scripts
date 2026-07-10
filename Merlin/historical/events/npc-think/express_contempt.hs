@@ -18,7 +18,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour express_contempt
+(npc-think express_contempt
   (long-term-think)
   (rng-stream incidents)
 

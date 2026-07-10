@@ -9,7 +9,7 @@
 ; is future work - today a gap is simply a gap.
 ; ----------------------------------------------------------------------------
 
-(hsim-npc-behaviour plan_stocktake
+(npc-think plan_stocktake
   (long-term-think)
   (rng-stream behaviour)
 

@@ -24,7 +24,7 @@
 ; the affordance resolver to pass the venue's club context.)
 
 ; --- club_founding: an established adult founds a club with two members ------
-(hsim-npc-behaviour club_founding
+(npc-think club_founding
   (long-term-think)
   (rng-stream behaviour)
 
@@ -52,7 +52,7 @@
 ;; band (a working man does not join a gentlemen's club). Permissive when the
 ;; cached belief is missing - a new adult appraised before december still
 ;; reads @fail and is not excluded by the (not (= ...)) form.
-(hsim-npc-behaviour club_joining
+(npc-think club_joining
   (long-term-think)
   (rng-stream behaviour)
 
@@ -100,7 +100,7 @@
 ; clubhouse co-presence is now redundant double-routing.
 
 ; --- club_resignation: an adult resigns from a club -------------------------
-(hsim-npc-behaviour club_resignation
+(npc-think club_resignation
   (long-term-think)
   (rng-stream behaviour)
 

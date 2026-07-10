@@ -41,7 +41,7 @@
 (include "../../definitions/roles.hs")
 
 ; --- enroll_primary: a young child starts primary school ---------------------
-(hsim-npc-behaviour enroll_primary
+(npc-think enroll_primary
   (long-term-think)
   (rng-stream behaviour)
 
@@ -66,7 +66,7 @@
     (begin-goal {@self enrol_primary})))
 
 ; --- enroll_secondary: a middle+ youth goes on to secondary ------------------
-(hsim-npc-behaviour enroll_secondary
+(npc-think enroll_secondary
   (long-term-think)
   (rng-stream behaviour)
 
@@ -90,7 +90,7 @@
     (begin-goal {@self enrol_secondary})))
 
 ; --- enroll_university: an upper / wealthy youth goes up to university --------
-(hsim-npc-behaviour enroll_university
+(npc-think enroll_university
   (long-term-think)
   (rng-stream behaviour)
 
@@ -112,7 +112,7 @@
     (begin-goal {@self enrol_university})))
 
 ; --- leave_primary: every primary pupil finishes at ~11 ----------------------
-(hsim-npc-behaviour leave_primary
+(npc-think leave_primary
   (long-term-think)
   (rng-stream behaviour)
 
@@ -131,7 +131,7 @@
     ))
 
 ; --- leave_secondary: a secondary pupil finishes at ~17 ----------------------
-(hsim-npc-behaviour leave_secondary
+(npc-think leave_secondary
   (long-term-think)
   (rng-stream behaviour)
 
@@ -145,7 +145,7 @@
     ))
 
 ; --- graduate_university: a degree is taken at ~22 ---------------------------
-(hsim-npc-behaviour graduate_university
+(npc-think graduate_university
   (long-term-think)
   (rng-stream behaviour)
 

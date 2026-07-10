@@ -22,7 +22,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour attempt_kill
+(npc-think attempt_kill
   (long-term-think)
   (goal {@self kill})
 

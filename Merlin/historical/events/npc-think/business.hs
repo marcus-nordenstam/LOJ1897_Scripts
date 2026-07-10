@@ -40,7 +40,7 @@
 (include "../../definitions/roles.hs")
 
 ; --- investment: a worthy clerk secures his employer's backing -------------
-(hsim-npc-behaviour investment
+(npc-think investment
   (long-term-think)
   (rng-stream business)
 
@@ -84,7 +84,7 @@
 ; SELF-POV (telepathy purge CAT-2): the clerk is the sole deliberator - he weighs
 ; his OWN standing (diligence / repute / wealth, all self-beliefs) and resolves to
 ; buy into a firm. @self, no counterpart mind is read.
-(hsim-npc-behaviour business_partnership
+(npc-think business_partnership
   (long-term-think)
   (rng-stream business)
 
@@ -141,7 +141,7 @@
 ; completion does the real (found-org) commit - so the business is founded at the
 ; bank, by the man himself, leaving the founding documents (the clue trail) and the
 ; co-presence a witness would see, instead of a faceless world-lane edit.
-(hsim-npc-behaviour business_founding
+(npc-think business_founding
   (long-term-think)
   (rng-stream business)
 
@@ -186,7 +186,7 @@
 ; pass. The (orgs-below-population-floor ...) gate is LIVE, so it stops minting once
 ; the town is at floor; a small (chance) throttles the per-month volume so the
 ; goal->commit lag cannot overshoot far. Premises availability self-limits it too.
-(hsim-npc-behaviour business_homeostat
+(npc-think business_homeostat
   (long-term-think)
   (rng-stream business)
 

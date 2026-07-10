@@ -28,7 +28,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour landlord_estate
+(npc-think landlord_estate
   (long-term-think)
   (rng-stream business)
 

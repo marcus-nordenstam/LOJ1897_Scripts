@@ -22,7 +22,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour stow_go
+(npc-think stow_go
   (short-term-think)
   (goal {@self stow})
   (bind (goal-focus stow) ?item)
@@ -30,9 +30,9 @@
              (bind {@self home ?home})
              (not (at-home))))
   (utility 90)
-  (effects (begin-act {@self go ?home})))
+  (cont-fire-effects (excl-goal {@self go ?home})))
 
-(hsim-npc-behaviour stow_put
+(npc-think stow_put
   (short-term-think)
   (goal {@self stow})
   (when (and (is-entity (goal-focus stow))
@@ -40,7 +40,7 @@
   (utility 91)
   (effects (begin-act {@self stow} 5 stow_finish)))
 
-(hsim-npc-behaviour stow_finish
+(npc-think stow_finish
   (on-completion)
   (effects
     (bind (goal-focus stow) ?item)

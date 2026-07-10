@@ -21,18 +21,18 @@
 
 ; tired and away from home: go home to rest. Utility climbs with fatigue but
 ; stays below the work shift (80) until exhaustion, then overrides.
-(hsim-npc-behaviour seek_rest
+(npc-think seek_rest
   (short-term-think)
   (when (and (not (under-attack))
              (not (at-home))
              (> (attr @self fatigue) 0.7)))
   (utility (if (> (attr @self fatigue) 1.0) 10000 (* 90 (attr @self fatigue))))
-  (effects (bind (target {@self home ?}) ?go_dest) (begin-act {@self go ?go_dest})))
+  (effects (bind (target {@self home ?}) ?go_dest) (excl-goal {@self go ?go_dest})))
 
 ; at home and at all tired (or it is night): sleep until the morning alarm. The
 ; sleep act records a {@self sleep} memory ((does sleep)); its completion resets
 ; fatigue. Utility skyrockets past full fatigue so sleep dominates work / leisure.
-(hsim-npc-behaviour sleep
+(npc-think sleep
   (short-term-think)
   ; You cannot sleep through an assault - being under attack gates the whole rest
   ; lane OUT, so the fight acts (defend / flee / scream) take over (fight.hs).
@@ -66,15 +66,15 @@
 
 ; completion of the sleep act (completion-only): the engine ends the {@self sleep}
 ; act-belief and resets fatigue automatically; this just records the wake.
-(hsim-npc-behaviour sleep_episode
+(npc-think sleep_episode
   (on-completion)
   (effects
     ))
 
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.
-(hsim-npc-behaviour idle_go_home
+(npc-think idle_go_home
   (short-term-think)
   (when (and (not (under-attack))
              (not (at-home))))
   (utility 1)
-  (effects (bind (target {@self home ?}) ?go_dest) (begin-act {@self go ?go_dest})))
+  (effects (bind (target {@self home ?}) ?go_dest) (excl-goal {@self go ?go_dest})))

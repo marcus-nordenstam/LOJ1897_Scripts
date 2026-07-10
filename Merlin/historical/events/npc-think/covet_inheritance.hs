@@ -28,7 +28,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour covet_inheritance
+(npc-think covet_inheritance
   (long-term-think)
   (rng-stream perpetration)
 

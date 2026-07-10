@@ -13,16 +13,16 @@
 ;                 toward the boss (the grudge), and clears the goal.
 ; ----------------------------------------------------------------------------
 
-(hsim-npc-behaviour sack_go
+(npc-think sack_go
   (short-term-think)
   (goal {@self sack})
   (when (and (bind {@self employer ?org})
              (bind {?org workplace ?wp})
              (not (at-place ?wp))))
   (utility 82)
-  (effects (begin-act {@self go ?wp})))
+  (cont-fire-effects (excl-goal {@self go ?wp})))
 
-(hsim-npc-behaviour sack_dwell
+(npc-think sack_dwell
   (short-term-think)
   (goal {@self sack})
   (when (and (bind {@self employer ?org})
@@ -31,7 +31,7 @@
   (utility 82)
   (effects (begin-act {@self sack} 45 sack_commit)))
 
-(hsim-npc-behaviour sack_commit
+(npc-think sack_commit
   (on-completion)
   (effects
     (fire /worker (goal-focus sack))

@@ -24,7 +24,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour love_match
+(npc-think love_match
   (long-term-think)
   (rng-stream marriages)
 

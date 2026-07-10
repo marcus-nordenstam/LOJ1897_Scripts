@@ -16,7 +16,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour found_public_org
+(npc-think found_public_org
   (startup)
   (rng-stream business)
 

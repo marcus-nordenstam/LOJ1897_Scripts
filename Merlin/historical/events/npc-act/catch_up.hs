@@ -15,7 +15,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour catch_up
+(npc-think catch_up
   (long-term-think)
   (rng-stream behaviour)
 

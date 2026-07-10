@@ -35,7 +35,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour jilt
+(npc-think jilt
   (long-term-think)
   (rng-stream marriages)
 
@@ -80,7 +80,7 @@
 ; clerk's pressure stack is identical either way.
 ; ----------------------------------------------------------------------------
 
-(hsim-npc-behaviour jilt_for_station
+(npc-think jilt_for_station
   (long-term-think)
   (rng-stream marriages)
 

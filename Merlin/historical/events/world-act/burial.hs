@@ -14,7 +14,7 @@
 ; cannot bury itself; sweeping the dead is genuine world bookkeeping.
 ; ----------------------------------------------------------------------------
 
-(hsim-world-event burial
+(world-event burial
   (schedule (monthly))
   (rng-stream burials)
 

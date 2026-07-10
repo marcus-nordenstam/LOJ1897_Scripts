@@ -46,7 +46,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour bonded_incident_disinherit
+(npc-think bonded_incident_disinherit
   (long-term-think)
   (rng-stream incidents)
 

@@ -31,7 +31,7 @@
 ; IMPLICIT ACTOR (4.13 fork-B): a cascade event deliberated for one NPC declares
 ; NO actor role - the actor IS the deliberating NPC, referenced as @self (run_cascade
 ; binds it as E.self_actor).
-(hsim-npc-behaviour means_plan_acquire
+(npc-think means_plan_acquire
   (short-term-think)
   (when (and (has-means @self)
              (not (controls @self means))
@@ -46,7 +46,7 @@
 ; Step 2 - resolved + still unarmed -> the DURATIVE obtain act. (act ...) marks
 ; act-quiescence and schedules `means_acquired` a real round-trip travel-time
 ; later; the result lands at COMPLETION, not now.
-(hsim-npc-behaviour means_plan_obtain
+(npc-think means_plan_obtain
   (short-term-think)
   (when (and (has-means @self)
              (believes {@self acquire means})
@@ -61,7 +61,7 @@
 ; per-NPC passes). acquire-control performs the REAL acquisition (acquire_weapon
 ; -> controlled_by), so the killer now physically holds the means. Implicit actor:
 ; process_due_completions binds the act's owner as @self.
-(hsim-npc-behaviour means_acquired
+(npc-think means_acquired
   (on-completion)
   (effects
     ; DEMAND RE-VALIDATION. The obtain act is a demand-derived sub-act: it exists

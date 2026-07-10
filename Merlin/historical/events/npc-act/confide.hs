@@ -23,7 +23,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour confide
+(npc-think confide
   (long-term-think)
   (rng-stream behaviour)
 

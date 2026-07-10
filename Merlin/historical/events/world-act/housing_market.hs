@@ -19,7 +19,7 @@
 ; so it must not run inside a role-enumeration walk.
 ; ----------------------------------------------------------------------------
 
-(hsim-world-event housing_market
+(world-event housing_market
   (schedule   (annually march))
   (rng-stream behaviour)
 

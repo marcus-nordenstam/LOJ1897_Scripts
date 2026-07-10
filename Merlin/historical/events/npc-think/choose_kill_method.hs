@@ -15,7 +15,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour choose_kill_method
+(npc-think choose_kill_method
   (long-term-think)
   (rng-stream perpetration)
 

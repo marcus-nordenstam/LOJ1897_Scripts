@@ -19,7 +19,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour court
+(npc-think court
   (long-term-think)
   (rng-stream marriages)
 

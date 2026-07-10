@@ -24,7 +24,7 @@
 ; each meet). Cricket / rugby are played by the male members themselves.
 ; ----------------------------------------------------------------------------
 
-(hsim-world-event sporting_event
+(world-event sporting_event
   (schedule   (annually june))
   (rng-stream behaviour)
 

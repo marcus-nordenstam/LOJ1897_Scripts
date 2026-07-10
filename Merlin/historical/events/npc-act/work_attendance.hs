@@ -26,7 +26,7 @@
 ; dominated for everyone.
 ; ----------------------------------------------------------------------------
 
-(hsim-npc-behaviour day_work
+(npc-think day_work
   (short-term-think)
   (when (and (bind {@self employer ?org})
              (bind {?org workplace ?wp})
@@ -42,7 +42,7 @@
   (effects (begin-act {@self work ?wp}
                       (min (minutes-until-shift-end ?end) (minutes-until-hour 12)))))
 
-(hsim-npc-behaviour day_go_to_work
+(npc-think day_go_to_work
   (short-term-think)
   (when (and (bind {@self employer ?org})
              (bind {?org workplace ?wp})
@@ -51,4 +51,4 @@
              (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))
              (not (at-place ?wp))))
   (utility (* 80 (factors (attr @self industriousness) 0.75 0.5)))
-  (effects (begin-act {@self go ?wp})))
+  (cont-fire-effects (excl-goal {@self go ?wp})))

@@ -33,7 +33,7 @@
 
 ; The host's planning decision (npc-think). ~2% of grown NPCs per simulated
 ; window decide to host; the occasion is set ~3 months ahead, an evening affair.
-(hsim-npc-behaviour plan_gathering
+(npc-think plan_gathering
   (long-term-think)
   (rng-stream behaviour)
   (role @self (grown @self))
@@ -45,7 +45,7 @@
 ; reaches only whoever the host is physically WITH right now - the co-present set at
 ; his current location (invite_copresent), nobody from the wider circle. Set for the
 ; same window (0 months ahead), an evening affair at home.
-(hsim-npc-behaviour plan_impromptu_supper
+(npc-think plan_impromptu_supper
   (long-term-think)
   (rng-stream behaviour)
   (role @self (grown @self))
@@ -55,7 +55,7 @@
 
 ; The per-window appointment review (npc-think): expire past appointments + emit
 ; an attend goal for any occasion due this window. Runs for every grown NPC.
-(hsim-npc-behaviour review_appointments
+(npc-think review_appointments
   (long-term-think)
   (role @self (grown @self))
   (effects

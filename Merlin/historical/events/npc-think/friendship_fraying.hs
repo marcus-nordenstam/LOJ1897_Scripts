@@ -30,7 +30,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour friendship_fraying
+(npc-think friendship_fraying
   (long-term-think)
   (rng-stream friendships)
 

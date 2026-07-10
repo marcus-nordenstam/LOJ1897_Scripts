@@ -31,7 +31,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour make_secret_cache
+(npc-think make_secret_cache
   (long-term-think)
 
   (role @self (any_human @self))

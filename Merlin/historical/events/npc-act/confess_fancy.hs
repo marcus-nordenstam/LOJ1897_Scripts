@@ -24,7 +24,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour confess_fancy
+(npc-think confess_fancy
   (long-term-think)
   (rng-stream marriages)
 

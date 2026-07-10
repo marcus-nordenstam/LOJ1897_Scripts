@@ -18,7 +18,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour bonded_incident_insult
+(npc-think bonded_incident_insult
   (long-term-think)
   (rng-stream incidents)
 

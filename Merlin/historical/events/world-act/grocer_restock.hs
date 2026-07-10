@@ -19,7 +19,7 @@
 ; keep them in step.
 ; ----------------------------------------------------------------------------
 
-(hsim-world-event grocer_restock
+(world-event grocer_restock
   (schedule (daily))
 
   (effects

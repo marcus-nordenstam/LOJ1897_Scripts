@@ -14,7 +14,7 @@
 ;                      mints the {@self master <master>} bond, clears the goal.
 ; ----------------------------------------------------------------------------
 
-(hsim-npc-behaviour indenture_go
+(npc-think indenture_go
   (short-term-think)
   (goal {@self seek_indenture})
   ; articles-building BINDS ?venue (the master's premises) off the goal-focus
@@ -22,9 +22,9 @@
   (when (and (articles-building (goal-focus seek_indenture) ?venue)
              (not (at-place ?venue))))
   (utility 80)
-  (effects (begin-act {@self go ?venue})))
+  (cont-fire-effects (excl-goal {@self go ?venue})))
 
-(hsim-npc-behaviour indenture_dwell
+(npc-think indenture_dwell
   (short-term-think)
   (goal {@self seek_indenture})
   (when (and (articles-building (goal-focus seek_indenture) ?venue)
@@ -32,7 +32,7 @@
   (utility 80)
   (effects (begin-act {@self seek_indenture} 90 indenture_commit)))
 
-(hsim-npc-behaviour indenture_commit
+(npc-think indenture_commit
   (on-completion)
   ; bind the master's articles to a plain ?var (a macro arg used as a {pattern}
   ; subject inside hire-seq must be a ?var, not an expr). Needed in the gate, so

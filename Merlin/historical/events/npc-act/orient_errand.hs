@@ -14,7 +14,7 @@
 ;   orient_read  : completion - read the register + clear the goal.
 ; ----------------------------------------------------------------------------
 
-(hsim-npc-behaviour orient_go
+(npc-think orient_go
   (short-term-think)
   (goal {@self orient})
   ; The church is role-cast from the churches the NPC KNOWS; nearest preferred,
@@ -22,16 +22,16 @@
   (role ?go_dest [k building church] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building church])))
   (utility 28)
-  (effects (begin-act {@self go ?go_dest})))
+  (cont-fire-effects (excl-goal {@self go ?go_dest})))
 
-(hsim-npc-behaviour orient_dwell
+(npc-think orient_dwell
   (short-term-think)
   (goal {@self orient})
   (when (at-place-kind [k building church]))
   (utility 28)
   (effects (begin-act {@self orient} 30 orient_read)))
 
-(hsim-npc-behaviour orient_read
+(npc-think orient_read
   (on-completion)
   (effects
     ; Read the public register: per articles document, form / recall its org object

@@ -45,7 +45,7 @@
 
 (include "../../definitions/roles.hs")
 
-(hsim-npc-behaviour predation
+(npc-think predation
   (long-term-think)
   (rng-stream perpetration)
 

@@ -39,7 +39,7 @@
 ; ~13 min, after which the killer abandons THIS attempt and leaves. (fight-elapsed)
 ; is wall-clock minutes since the first blow, reset each month - so the kill+fight
 ; goals persist but the striking is one timed burst per month.
-(hsim-npc-behaviour kill_seek
+(npc-think kill_seek
   (short-term-think)
   (goal {@self fight})
   (bind (goal-focus fight) ?victim)
@@ -47,12 +47,12 @@
              (not (co-present @self ?victim))))
   (utility (if (< (fight-elapsed) 10) 150
                (max 0 (- 150 (* 30 (- (fight-elapsed) 10))))))
-  (effects (begin-act {@self go ?victim_home})))
+  (cont-fire-effects (excl-goal {@self go ?victim_home})))
 
 ; The killer at the victim strikes - a committed murderer prioritises the blow
 ; (utility 200 dominates work 80 / sleep 100) UNTIL the exposure clock drags it
 ; down. A 1-minute act; its completion lands the blow and re-deliberates the killer.
-(hsim-npc-behaviour kill_strike
+(npc-think kill_strike
   (short-term-think)
   (goal {@self fight})
   (when (co-present @self (goal-focus fight)))
@@ -65,18 +65,18 @@
 ; first ~10 minutes then rises (+30/min), overtaking the decaying kill_strike around
 ; ~13 min, so the killer retreats home (breaking co-presence). The kill+fight goals
 ; PERSIST - cold-start clears the exposure clock and it tries again next month.
-(hsim-npc-behaviour break_off_fight
+(npc-think break_off_fight
   (short-term-think)
   (goal {@self fight})
   (when (not (at-home)))
   (utility (* 30 (max 0 (- (fight-elapsed) 10))))
-  (effects (bind (target {@self home ?}) ?go_dest) (begin-act {@self go ?go_dest})))
+  (effects (bind (target {@self home ?}) ?go_dest) (excl-goal {@self go ?go_dest})))
 
 ; The blow (completion-only completion): one exchange of the emergent fight. A fatal
 ; result runs the ledger + propagate_death inside (strike-blow); a non-fatal one
 ; leaves a wound and the next deliberation strikes again (while the victim lives
 ; and is still co-present).
-(hsim-npc-behaviour kill_blow
+(npc-think kill_blow
   (on-completion)
   (effects
     ; (strike-blow <foe> <intent>) - the actor is implicit (@self); pass the foe +
@@ -100,7 +100,7 @@
 ; not already holding a fight goal (then kill_strike covers it). A victim who does
 ; not win the resolve roll FLEES or SCREAMS instead (below) - never sleeps (the
 ; rest lane is gated out while under attack).
-(hsim-npc-behaviour defend_strike
+(npc-think defend_strike
   (short-term-think)
   (when (and (under-attack)
              (no-goal {@self fight})
@@ -116,7 +116,7 @@
 ; THREAT focus (the attacker) rather than a fight-goal focus. A fatal result runs
 ; the ledger + propagate_death inside (strike-blow) and clears the dead foe's hold;
 ; a non-fatal one re-arms the attacker's own under_attack (the exchange continues).
-(hsim-npc-behaviour defend_blow
+(npc-think defend_blow
   (on-completion)
   (effects
     (strike-blow (threat-focus) kill)
@@ -130,7 +130,7 @@
 ; SUCCESS the melee is OVER - the victim is whisked to a public place this instant
 ; (no multi-minute "fleeing" while blows keep landing) and co-presence breaks. On
 ; FAILURE it is still pinned and re-deliberates (fight / flee / scream) next round.
-(hsim-npc-behaviour flee_attack
+(npc-think flee_attack
   (short-term-think)
   (when (and (under-attack)
              (no-goal {@self fight})
@@ -141,7 +141,7 @@
 ; The flee attempt's completion (completion-only): roll the escape. On success
 ; (attempt-flee) relocates the victim to safety + clears its threat state - the
 ; fight ends; on failure nothing changes and the victim tries again next round.
-(hsim-npc-behaviour flee_attempt
+(npc-think flee_attempt
   (on-completion)
   (effects
     (attempt-flee)
@@ -153,7 +153,7 @@
 ; victim ACTIVE (never falling back to sleep / idle while under attack) and
 ; re-deliberating each round. (Drawing a responder who intervenes is a follow-up;
 ; the point here is that cowering-and-screaming, not sleeping, is the floor.)
-(hsim-npc-behaviour scream_for_help
+(npc-think scream_for_help
   (short-term-think)
   (when (and (under-attack)
              (co-present @self (threat-focus))))
