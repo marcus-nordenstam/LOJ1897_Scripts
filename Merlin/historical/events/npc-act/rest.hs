@@ -55,21 +55,21 @@
   ; bed, the fatigue knee wins the 18:00 re-deliberation). (min ...) of the
   ; alarm and every constraint; minutes-until-attend / -until-hour are huge
   ; sentinels when nothing is pending.
-  ; begin-act {@self SLEEP} - the unified act shape: the ongoing act-belief IS
-  ; the act (self-targeted here), its interval the sleep duration; sleep_episode
-  ; is the on-completion event. Replaces the old (act ...) + (does SLEEP) pair.
-  (effects (begin-act {@self SLEEP}
-                      (min (minutes-until-alarm @self)
-                           (minutes-until-attend @self)
-                           (minutes-until-hour (target {?home supper_hour})))
-                      sleep_episode)))
+  ; mint the SLEEP act-goal; at home (the leaf) it promotes to sleep_act, which carries
+  ; the duration + ends the belief. Fatigue recovery keys on the SLEEP label at completion.
+  (cont-fire-effects (excl-goal {@self SLEEP})))
 
-; completion of the sleep act (completion-only): the engine ends the {@self sleep}
-; act-belief and resets fatigue automatically; this just records the wake.
-(npc-think sleep_episode
-  (on-completion)
-  (effects
-    ))
+; The sleep act, promoted from the SLEEP desire at home. Duration = until the morning
+; alarm, capped by any pending obligation (attend / supper); minutes-until-attend /
+; -until-hour are huge sentinels when nothing is pending. The engine resets fatigue on
+; completion (keyed on the SLEEP label); the body just ends the act-belief.
+(npc-act sleep_act
+  (when (and (believes {@self SLEEP})
+             (bind {@self home ?home})))
+  (duration (min (minutes-until-alarm @self)
+                 (minutes-until-attend @self)
+                 (minutes-until-hour (target {?home supper_hour}))))
+  (act-effects (end-act {@self SLEEP})))
 
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.
 (npc-think idle_go_home
