@@ -48,6 +48,10 @@
 (define-macro suicide_withdrawal_min () 0.55)
 ; The practice-marker window (days) the strive outlet stamps; read by skill atrophy.
 (define-macro skill_practice_window_days () 548)
+; find_building's `surveyed` private-bb marker lifetime, in hsim cycles (= months).
+; Long enough for one coverage sweep to complete without re-surveying; short enough
+; that a searcher's markers self-reclaim within a year of the search ending.
+(define-macro survey_marker_ttl_cycles () 12)
 
 ; Covert-letter channel model (route-covert-letter's authored knobs; composed
 ; by send-covert-letter in affair_macros.hs). Channel weights are relative -
@@ -99,3 +103,10 @@
 (define-macro jockey_hire_age_max      () 45)
 (define-macro trained_victory_weight   () 3.0)  ; practice marker's edge in the victor roll
 (define-macro training_window_days     () 365)
+
+; Minimum minutes a `go` act occupies, even for a ~0-distance hop (a venue right next
+; door, or a re-go to where you already stand). Floors the completion cadence so an NPC
+; cannot re-deliberate every simulated minute - defense-in-depth against destination
+; thrash. Small enough not to distort real travel; the real fix for "why re-go at all"
+; is the arriving lane firing its purpose act (see at-place-kind).
+(define-macro go_travel_floor_min      () 5)

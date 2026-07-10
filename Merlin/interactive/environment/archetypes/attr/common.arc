@@ -35,7 +35,7 @@ attr "name" (type name) (spec-attr name) (int-per reason) (ext-per imperceptible
 attr "obb" (type obb) (spec-attr spatial-bounds) (per obs) (auto-percept) (state-flags-tar @excl)
 # Parent relationships are kept in the ECS for efficiency (technically redundant with parts)
 attr "struct_parent" (type entity) (entity "structure" "container_structure" "structure_part" "part" "interior_space" "exterior_space" "hand" "human_player" "human_npc") (spec-attr parent) (per obs) (state-flags-tar @excl)
-attr "parts" (type entity array 12) (state "part") (spec-attr children) (int-per feel) (ext-per obs)
+attr "parts" (type entity array 16) (state "part") (spec-attr children) (int-per feel) (ext-per obs)
 
 # Ownership & control
 # The entity currently controlling the position of this entity (if any)
@@ -76,9 +76,6 @@ attr "head" (type entity) (entity "head") (state "head") (int-per feel) (ext-per
 attr "eyes" (type entity) (entity "eye") (state "eyes") (int-per feel) (ext-per obs) (auto-percept)
 attr "mouth" (type entity) (entity "mouth") (state "mouth") (int-per feel) (ext-per obs) (auto-percept)
 attr "ring_finger" (type entity) (entity "finger") (state "finger") (int-per feel) (ext-per obs) (auto-percept)
-# PR-evi-A 2026-05-25 - the central body. Same int-feel-ext-obs split as
-# head / hand / mouth. The default wound-site when a perpetration method
-# row omits :wound-site.
 attr "torso" (type entity) (entity "torso") (state "torso") (int-per feel) (ext-per obs) (auto-percept)
 attr "wear" (type entity) (per obs) (auto-percept)
 

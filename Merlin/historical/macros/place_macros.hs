@@ -34,13 +34,14 @@
        (or (= ?loc ?place)
            (believes @self {?loc building ?place}))))
 
-; (at-place-kind [k building <leaf>]): the NPC's current room is inside a building
-; of the given kind (pub / church / bank / school / social_clubhouse / ...). Both
-; clauses PRODUCE a free var (the room, then the kind-cast building), so bind is
-; correct here - the `[k ..]:?var` kind-cast is a producing bind, not a constraint.
+; (at-place-kind [k building <leaf>]): the NPC is currently in a building of the given
+; kind (pub / church / bank / shop / school / social_clubhouse / ...). Uses the actor's
+; OWN current building (current-building resolves location -> enclosing building, whether
+; location is stored as the building itself or a room inside it) - self-knowledge, not
+; telepathy. Mirrors can-drink; robust to room-less venues where location IS the building
+; (the room -> building bind form alone missed those, stranding the buy/dine lanes there).
 (define-macro at-place-kind (?kind)
-  (and (bind {@self location ?room})
-       (bind {?room building ?kind:?bldg})))
+  (is-a (current-building @self) ?kind))
 
 ; (can-drink ?actor): is ?actor AT a pub? (drinking to excess is a pub activity;
 ; the craver elsewhere must first travel to one). Folds the old C++ op -

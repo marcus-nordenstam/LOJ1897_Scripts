@@ -1,47 +1,68 @@
-; worship - the churchgoing lane in the B4 think -> act-goal -> act-behaviour model.
+; ----------------------------------------------------------------------------
+; worship - the churchgoing lane, B4 desire + case sub-goals (mirrors the drinking
+; lane in crave_drink.hs).
 ;
-; ONE think, PRESSURE-driven (no separate desire event, no standing aim, no goal
-; the act has to end):
-;   feel_devout (npc-think): worship PRESSURE = days since the last service,
-;     gated + scaled by politeness (respect for convention). It rises daily and
-;     collapses the moment the NPC worships, so a devout man is drawn back ~weekly
-;     while a secular one's utility never clears a routine act. Not at a church ->
-;     a `go` sub-act-goal to one; at a church -> the `worship` act-goal there.
-;   worship_act / go_act (npc-act): implement them. The {@self worship <church>}
-;     act-belief - begun at commit, ended by (end-act) at completion - IS the
-;     episodic service memory (interval = the service). days-since-last reads it
-;     for the pressure; classify_piety reads it (any-tense) for the gist. So there
-;     is no separate piety marker: the act IS the record.
+; ONE desire computes the pressure ONCE; the case rules read the worship goal and
+; maintain the appropriate sub-goal, which INHERITS the worship drive (auto-/cause off
+; the (goal ...) clause) and, as the live leaf, out-competes its parent (leaf-only):
 ;
-; The act ends the belief and NOTHING ELSE about the think - an act-behaviour does
-; its act with no knowledge of which think proposed it. The think ceases on its own
-; because worshipping reset its pressure.
+;   want_worship (desire): PRESSURE = days since the last service, x politeness (respect
+;     for convention), CAPPED as a LEISURE act (max ~40, below work / meals / sleep). It
+;     rises daily and collapses the moment the NPC worships, so a devout man is drawn back
+;     ~weekly while a secular one never clears a routine act. Holds {@self worship}.
+;   AT a church (case A): {@self worship} has no active sub-goal, so it is the leaf and
+;     promotes straight to worship_act (the service). No rule needed.
+;   know a church (case B): worship_go holds {@self go ?church}.
+;   know none  (case C): worship_find holds {@self find_building [k church]}.
+;
+; The {@self worship} act-belief - begun at commit, ended by (end-act) at completion - IS
+; the episodic service memory (interval = the service). days-since-last reads it for the
+; pressure; classify_piety reads it (any-tense) for the gist. Locationless like `drink`:
+; the church co-presence comes from being AT the church (location), not from the belief.
+; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
 
-(npc-think feel_devout
+; The DESIRE - SCHEDULED per Sunday (the sabbath). A churchgoer (some politeness) who has
+; not been to a service in the last few days wants to attend TODAY; worshipping resets
+; days-since, so it fires ONCE per Sunday and again the next - weekly churchgoing. (now-weekday)
+; is 0 on Sunday, so (< (now-weekday) 1) is the sabbath test. A HIGH Sunday utility (x
+; politeness) so churchgoing wins the day's motor and reliably routes the NPC to a church,
+; instead of losing the pure pressure-vs-routine competition the weekday model always lost.
+(npc-think want_worship
   (short-term-think)
+  (roles (role @self (template grown)))
+  (when    (and (< (now-weekday) 1)
+                (>= (days-since-last @self worship) 3)
+                (>= (attr @self politeness) 0.3)))
+  (utility (* (attr @self politeness) 80))
+  (cont-fire-effects (excl-goal {@self worship})))
+
+; CASE B - not at a church, but knows one: head to it. Inherits the worship drive.
+(npc-think worship_go
+  (short-term-think)
+  (goal    {@self worship})
   (roles
     (role @self (template grown))
-    ; The nearest church the NPC KNOWS (role-cast over its own church objects; the
-    ; naked [k ..] is sugar for (believes {?this isa [k ..]})). No known church ->
-    ; the role binds nothing and the think does not fire (find_building supplies the
-    ; knowledge). Replaces the omniscient (venue ...) pick.
-    (role ?venue [k building church] (prefer (near @self ?venue)) (policy weighted)))
-  ; Only consider it once a service is ~due (perf: most passes skip). Utility ramps
-  ; with the days since, x politeness, and is CAPPED as a LEISURE act (max ~40, well
-  ; below work / meals / sleep) - worship fills free time, it never overrides a
-  ; livelihood. A devout man reaches the cap ~monthly; a secular one's utility stays
-  ; below every routine act, so he effectively never goes. The cap also bounds the
-  ; never-worshipped case (days-since = sentinel) to the same leisure ceiling.
-  (when (>= (days-since-last @self worship) 15))
-  (utility (* (attr @self politeness) (min (* (days-since-last @self worship) 1.5) 40)))
-  (effects (propose-venue-act ?venue worship)))
+    (role ?church [k building church] (prefer (near @self ?church)) (policy weighted)))
+  (when    (not (is-a (current-building @self) [k building church])))
+  (cont-fire-effects (excl-goal {@self go ?church})))
 
+; CASE C - not at a church and knows none: search for one (find_building.hs runs it).
+(npc-think worship_find
+  (short-term-think)
+  (goal    {@self worship})
+  (fatigue-timeout 90)                                 ; ~90 min of searching a day, then rest
+  (roles
+    (role @self (template grown))
+    (no-role [k building church]))
+  (when    (not (is-a (current-building @self) [k building church])))
+  (cont-fire-effects (excl-goal {@self find_building [k building church]})))
+
+; The service (case A): at a church {@self worship} is the leaf and promotes here. The
+; act-belief IS the service memory; ending it closes its interval to the ~90-min service.
 (npc-act worship_act
-  (when (believes {@self worship ?church}))
+  (when (believes {@self worship}))
   (duration 90)
-  ; The act-belief {@self worship ?church} IS the service memory: ending it here
-  ; closes its interval to [commit, now] (the ~90-min service). No marker, no aim.
-  (effects (end-act {@self worship ?church})))
-; go_act (the shared travel act) now lives in npc-act/go.hs.
+  (effects (end-act {@self worship})))
+; go_act (the shared travel act) lives in npc-act/go.hs.
