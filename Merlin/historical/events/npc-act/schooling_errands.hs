@@ -25,13 +25,14 @@
   (goal {@self enrol_primary})
   (when (at-place-kind [k building school]))
   (utility 35)
-  (effects (begin-act {@self enrol_primary} 60 primary_commit)))
-(npc-think primary_commit
-  (on-completion)
-  (effects
+  (cont-fire-effects (begin-goal {@self enrol_primary})))
+(npc-act enrol_primary_act
+  (when (believes {@self enrol_primary}))
+  (duration 60)
+  (act-effects
     (begin-belief {@self study [k primary_school_curriculum]})
-    (end-goal {@self enrol_primary})
-    ))
+    (end-act {@self enrol_primary})
+    (end-goal {@self enrol_primary})))
 
 ; ----- secondary -----------------------------------------------------------
 (npc-think secondary_go
@@ -46,13 +47,14 @@
   (goal {@self enrol_secondary})
   (when (at-place-kind [k building school]))
   (utility 35)
-  (effects (begin-act {@self enrol_secondary} 60 secondary_commit)))
-(npc-think secondary_commit
-  (on-completion)
-  (effects
+  (cont-fire-effects (begin-goal {@self enrol_secondary})))
+(npc-act enrol_secondary_act
+  (when (believes {@self enrol_secondary}))
+  (duration 60)
+  (act-effects
     (begin-belief {@self study [k secondary_school_curriculum]})
-    (end-goal {@self enrol_secondary})
-    ))
+    (end-act {@self enrol_secondary})
+    (end-goal {@self enrol_secondary})))
 
 ; ----- university ----------------------------------------------------------
 (npc-think university_go
@@ -67,10 +69,11 @@
   (goal {@self enrol_university})
   (when (at-place-kind [k building school]))
   (utility 35)
-  (effects (begin-act {@self enrol_university} 60 university_commit)))
-(npc-think university_commit
-  (on-completion)
-  (effects
+  (cont-fire-effects (begin-goal {@self enrol_university})))
+(npc-act enrol_university_act
+  (when (believes {@self enrol_university}))
+  (duration 60)
+  (act-effects
     ; The SUBJECT is interest-led (the class gate decided WHETHER you attend;
     ; interest decides WHAT you read), falling back to a random discipline.
     ; The primary / secondary curricula are tiers, not disciplines - excluded.
@@ -85,5 +88,5 @@
                                 [k secondary_school_curriculum]) ?subject)
           (if (is-kind ?subject)
               (begin-belief {@self study ?subject}))))
-    (end-goal {@self enrol_university})
-    ))
+    (end-act {@self enrol_university})
+    (end-goal {@self enrol_university})))

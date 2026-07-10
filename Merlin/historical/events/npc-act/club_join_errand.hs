@@ -26,11 +26,12 @@
   (when (and (articles-building (goal-focus join_club) ?venue)
              (at-place ?venue)))
   (utility 40)
-  (effects (begin-act {@self join_club} 60 join_commit)))
+  (cont-fire-effects (begin-goal {@self join_club})))
 
-(npc-think join_commit
-  (on-completion)
-  (effects
+(npc-act join_club_act
+  (when (believes {@self join_club}))
+  (duration 60)
+  (act-effects
     (register-member /articles (goal-focus join_club) /member @self)
-    (end-goal {@self join_club})
-    ))
+    (end-act {@self join_club})
+    (end-goal {@self join_club})))

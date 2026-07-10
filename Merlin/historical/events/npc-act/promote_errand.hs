@@ -26,11 +26,12 @@
              (bind {?org workplace ?wp})
              (at-place ?wp)))
   (utility 82)
-  (effects (begin-act {@self promote_staff} 45 promote_commit)))
+  (cont-fire-effects (begin-goal {@self promote_staff})))
 
-(npc-think promote_commit
-  (on-completion)
-  (effects
+(npc-act promote_staff_act
+  (when (believes {@self promote_staff}))
+  (duration 45)
+  (act-effects
     (promote /worker (goal-focus promote_staff))
-    (end-goal {@self promote_staff})
-    ))
+    (end-act {@self promote_staff})
+    (end-goal {@self promote_staff})))

@@ -27,11 +27,12 @@
   (goal {@self resign_club})
   (when (at-place-kind [k building social_clubhouse]))
   (utility 40)
-  (effects (begin-act {@self resign_club} 45 resign_commit)))
+  (cont-fire-effects (begin-goal {@self resign_club})))
 
-(npc-think resign_commit
-  (on-completion)
-  (effects
+(npc-act resign_club_act
+  (when (believes {@self resign_club}))
+  (duration 45)
+  (act-effects
     (unregister-member /member @self)
-    (end-goal {@self resign_club})
-    ))
+    (end-act {@self resign_club})
+    (end-goal {@self resign_club})))

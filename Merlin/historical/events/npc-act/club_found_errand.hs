@@ -26,15 +26,16 @@
   (goal {@self found_club})
   (when (at-place-kind [k building pub]))
   (utility 45)
-  (effects (begin-act {@self found_club} 90 found_club_commit)))
+  (cont-fire-effects (begin-goal {@self found_club})))
 
-(npc-think found_club_commit
-  (on-completion)
-  (effects
+(npc-act found_club_act
+  (when (believes {@self found_club}))
+  (duration 90)
+  (act-effects
     ; The foundable-club catalog, ungated (0): clubs are not premises-gated -
     ; a dry pool just no-ops the founding macro via its (if ?wp) guard.
     (roll-org-kind (bind ?clubkind) 0
                    [k org race_club] [k org athletic_club])
     (if ?clubkind (found-club-seq ?clubkind))
-    (end-goal {@self found_club})
-    ))
+    (end-act {@self found_club})
+    (end-goal {@self found_club})))

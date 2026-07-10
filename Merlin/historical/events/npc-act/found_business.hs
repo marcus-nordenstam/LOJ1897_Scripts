@@ -40,11 +40,12 @@
   (goal {@self found})
   (when (at-place-kind [k building bank]))
   (utility 85)
-  (effects (begin-act {@self found} 90 found_commit)))
+  (cont-fire-effects (begin-goal {@self found})))
 
-(npc-think found_commit
-  (on-completion)
-  (effects
+(npc-act found_act
+  (when (believes {@self found}))
+  (duration 90)
+  (act-effects
     ; Roll a HOUSABLE business kind first (premises-aware: only kinds with a free
     ; building of their declared kind). If none can be housed right now, ?bizkind is
     ; a fail value and we found nothing this trip. No premises -> no founding -> no error.
@@ -67,4 +68,5 @@
     ; resolution is re-minted at the proper deliberation cadence instead (annual
     ; business_founding / monthly business_homeostat), so a man whose town has no
     ; free premises simply tries again next window.
+    (end-act {@self found})
     (end-goal {@self found})))

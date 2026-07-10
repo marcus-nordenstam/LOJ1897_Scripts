@@ -29,13 +29,14 @@
              (bind {?org workplace ?wp})
              (at-place ?wp)))
   (utility 82)
-  (effects (begin-act {@self sack} 45 sack_commit)))
+  (cont-fire-effects (begin-goal {@self sack})))
 
-(npc-think sack_commit
-  (on-completion)
-  (effects
+(npc-act sack_act
+  (when (believes {@self sack}))
+  (duration 45)
+  (act-effects
     (fire /worker (goal-focus sack))
     ; the grudge: the dismissed man resents the boss who let him go (a named motive)
     (nudge-stance (goal-focus sack) @self warmth -0.5)
-    (end-goal {@self sack})
-    ))
+    (end-act {@self sack})
+    (end-goal {@self sack})))

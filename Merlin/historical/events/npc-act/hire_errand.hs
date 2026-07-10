@@ -26,11 +26,12 @@
   (when (and (articles-building (goal-focus engage_staff) ?venue)
              (at-place ?venue)))
   (utility 82)
-  (effects (begin-act {@self engage_staff} 45 hire_commit)))
+  (cont-fire-effects (begin-goal {@self engage_staff})))
 
-(npc-think hire_commit
-  (on-completion)
-  (effects
+(npc-act engage_staff_act
+  (when (believes {@self engage_staff}))
+  (duration 45)
+  (act-effects
     ; bind the org's articles to a plain ?var so it can serve as a {pattern} subject
     ; inside hire-seq (a macro arg used in a pattern must be a ?var, not an expr).
     (bind (goal-focus engage_staff) ?art)
@@ -40,5 +41,5 @@
     (match-job /articles ?art /worker @self (bind ?jk))
     (if ?jk
       (hire-seq ?art ?jk [k apprentice]))
-    (end-goal {@self engage_staff})
-    ))
+    (end-act {@self engage_staff})
+    (end-goal {@self engage_staff})))

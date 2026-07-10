@@ -27,15 +27,16 @@
   (when (and (articles-building (goal-focus partner) ?venue)
              (at-place ?venue)))
   (utility 85)
-  (effects (begin-act {@self partner} 90 partner_commit)))
+  (cont-fire-effects (begin-goal {@self partner})))
 
-(npc-think partner_commit
-  (on-completion)
-  (effects
+(npc-act partner_act
+  (when (believes {@self partner}))
+  (duration 90)
+  (act-effects
     ; bind the firm's articles to a plain ?var (hire-seq needs it as a {pattern} subject).
     (bind (goal-focus partner) ?art)
     (fire /worker @self)
     (add-co-owner /articles ?art /owner @self)
     (hire-seq ?art [k job proprietor] [k org_head])
-    (end-goal {@self partner})
-    ))
+    (end-act {@self partner})
+    (end-goal {@self partner})))

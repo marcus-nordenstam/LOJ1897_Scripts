@@ -38,11 +38,12 @@
   (when (and (is-entity (goal-focus stow))
              (at-home)))
   (utility 91)
-  (effects (begin-act {@self stow} 5 stow_finish)))
+  (cont-fire-effects (begin-goal {@self stow})))
 
-(npc-think stow_finish
-  (on-completion)
-  (effects
+(npc-act stow_act
+  (when (believes {@self stow}))
+  (duration 5)
+  (act-effects
     (bind (goal-focus stow) ?item)
     (if (is-entity ?item)
         (do
@@ -55,4 +56,5 @@
           (if (and (is-entity ?cache) (has-facet ?item valuable))
               (put-item ?item ?cache)
               (put-item ?item (attr @self location)))))
+    (end-act {@self stow})
     (end-goal {@self stow})))

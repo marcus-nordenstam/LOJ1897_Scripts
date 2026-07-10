@@ -29,11 +29,12 @@
   (goal {@self orient})
   (when (at-place-kind [k building church]))
   (utility 28)
-  (effects (begin-act {@self orient} 30 orient_read)))
+  (cont-fire-effects (begin-goal {@self orient})))
 
-(npc-think orient_read
-  (on-completion)
-  (effects
+(npc-act orient_act
+  (when (believes {@self orient}))
+  (duration 30)
+  (act-effects
     ; Read the public register: per articles document, form / recall its org object
     ; and mint the queryable beliefs the casting filters read. ?ok = org kind,
     ; ?f = founder (both off the articles writing); ?org = the formed mental object.
@@ -49,4 +50,5 @@
         ; the venue the provisioning / starving lanes (meals.hs) route on.
         (if (and (is-a ?ok [k org grocer]) (is-entity ?b))
             (begin-belief {@self provisions_shop ?b}))))
+    (end-act {@self orient})
     (end-goal {@self orient})))

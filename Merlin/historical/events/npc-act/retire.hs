@@ -34,11 +34,12 @@
              (bind {?org workplace ?wp})
              (at-place ?wp)))
   (utility 85)
-  (effects (begin-act {@self quit_work} 60 retire_commit)))
+  (cont-fire-effects (begin-goal {@self quit_work})))
 
-(npc-think retire_commit
-  (on-completion)
-  (effects
+(npc-act quit_work_act
+  (when (believes {@self quit_work}))
+  (duration 60)
+  (act-effects
     (fire /worker @self)
-    (end-goal {@self quit_work})
-    ))
+    (end-act {@self quit_work})
+    (end-goal {@self quit_work})))
