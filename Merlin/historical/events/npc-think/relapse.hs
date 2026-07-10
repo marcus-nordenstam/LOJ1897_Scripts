@@ -17,7 +17,7 @@
   (short-term-think)
   (role @self (grown @self))
   ; The nearest pub the NPC KNOWS (role-cast; no known pub -> no fire).
-  (role ?pub [k building pub] (prefer (near @self ?pub)) (policy weighted))
+  (role ?pub [k building pub] (select (score (near @self ?pub)) (policy roulette)))
   ; A dependent, a drink already ~due (short fuse - he relapses fast).
   (when (and (= (target {@self craving}) [k alcohol])
              (>= (days-since-last @self drink) 1)))

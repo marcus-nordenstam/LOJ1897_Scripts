@@ -17,7 +17,7 @@
   (short-term-think)
   (role @self (grown @self))
   ; The nearest church the NPC KNOWS (role-cast; no known church -> no fire).
-  (role ?venue [k building church] (prefer (near @self ?venue)) (policy weighted))
+  (role ?venue [k building church] (select (score (near @self ?venue)) (policy roulette)))
   (when (>= (days-since-last @self give_alms) 20))
   ; compassion x a slow days-since ramp, capped low (rare deep-idle draw); the
   ; uncompassionate stay below every routine act, so they never give.

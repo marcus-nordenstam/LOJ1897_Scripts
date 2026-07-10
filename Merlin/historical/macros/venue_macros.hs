@@ -3,7 +3,7 @@
 ;
 ; (propose-venue-act ?venue ?act): the effect every venue-lane THINK shares. ?venue
 ; is a KNOWN building the THINK already settled on by role-casting (a role filtered
-; to the venue kind with (prefer (distance @self ?venue)) (policy argmin) -> the
+; to the venue kind with (select (score (distance @self ?venue)) (policy argmin)) -> the
 ; nearest one the NPC knows). If already AT ?venue, propose the ?act act-goal there;
 ; otherwise propose a `go` sub-act-goal to it. Knowledge-honest by construction - the
 ; role never binds a venue the NPC has not learned, so no omniscient venue pick. Two
@@ -21,9 +21,9 @@
           (begin-goal {@self go ?venue}))))
 
 ; (near ?a ?b): a PROXIMITY weight (higher = closer) for a role's
-; (prefer (near @self ?venue)) (policy weighted) selector. Mirrors the old venue
-; picker's `base + pull/(1+dist)`: a 0.1 floor keeps every known venue reachable,
-; plus a 1/(1+distance) pull toward the near ones. Weighted (not argmin) so the
+; (select (score (near @self ?venue)) (policy roulette)) selector. Mirrors the old
+; venue picker's `base + pull/(1+dist)`: a 0.1 floor keeps every known venue reachable,
+; plus a 1/(1+distance) pull toward the near ones. Roulette (not argmin) so the
 ; town SPREADS across the venues it knows instead of every NPC funnelling into the
 ; single nearest one (which overruns a venue's occupancy).
 (define-macro near (?a ?b)

@@ -43,7 +43,7 @@
   (short-term-think)
   (goal    {@self worship})
   (role @self (grown @self))
-  (role ?church [k building church] (prefer (near @self ?church)) (policy weighted))
+  (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
   (when    (not (is-a (current-building @self) [k building church])))
   (cont-fire-effects (excl-goal {@self go ?church})))
 

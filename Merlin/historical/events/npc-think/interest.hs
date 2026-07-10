@@ -82,7 +82,7 @@
   ; The friend whose enthusiasm rubs off - a uniform pick over the circle.
   (role ?friend (any_human ?friend)
     (believes {@self friend ?friend})
-    (prefer 1) (policy weighted))
+    (select (score 1) (policy roulette)))
 
   (when (and (>= (years-old @self) 8)
              (chance (* 0.0167 (attr @self openness) (+ 0.5 (attr @self enthusiasm))))))

@@ -23,7 +23,7 @@
 
   (role @self (old_human @self))
   ; The nearest church the NPC KNOWS (role-cast; no known church -> no fire).
-  (role ?venue [k building church] (prefer (near @self ?venue)) (policy weighted))
+  (role ?venue [k building church] (select (score (near @self ?venue)) (policy roulette)))
 
   ;; A disreputable adult, once a service is ~due. Shares feel_devout's
   ;; days-since-worship gate/ramp so worshipping resets this pressure too.

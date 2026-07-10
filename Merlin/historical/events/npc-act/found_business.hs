@@ -30,7 +30,7 @@
   ; {?this isa [k ..]})); the nearest is preferred, weighted so the town spreads.
   ; No known bank -> the role binds nothing and found_go does not fire (the goal
   ; waits). Replaces the omniscient (venue ...) pick.
-  (role ?go_dest [k building bank] (prefer (near @self ?go_dest)) (policy weighted))
+  (role ?go_dest [k building bank] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building bank])))
   (utility 85)
   (effects (begin-act {@self go ?go_dest})))

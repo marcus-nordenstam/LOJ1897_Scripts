@@ -40,7 +40,7 @@
                       (if (>= (target-or @self bank_balance 0) 80) 1 0)
                       1))
                0))
-    (policy weighted))
+    (policy roulette))
 
   (effects
     (if (= ?method commission_killing)

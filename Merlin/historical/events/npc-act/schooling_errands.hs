@@ -16,7 +16,7 @@
   (goal {@self enrol_primary})
   ; The school is role-cast from the schools the NPC KNOWS; nearest preferred,
   ; weighted. No known school -> no fire (the goal waits). Replaces (venue ...).
-  (role ?go_dest [k building school] (prefer (near @self ?go_dest)) (policy weighted))
+  (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building school])))
   (utility 35)
   (effects (begin-act {@self go ?go_dest})))
@@ -37,7 +37,7 @@
 (hsim-npc-behaviour secondary_go
   (short-term-think)
   (goal {@self enrol_secondary})
-  (role ?go_dest [k building school] (prefer (near @self ?go_dest)) (policy weighted))
+  (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building school])))
   (utility 35)
   (effects (begin-act {@self go ?go_dest})))
@@ -58,7 +58,7 @@
 (hsim-npc-behaviour university_go
   (short-term-think)
   (goal {@self enrol_university})
-  (role ?go_dest [k building school] (prefer (near @self ?go_dest)) (policy weighted))
+  (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building school])))
   (utility 35)
   (effects (begin-act {@self go ?go_dest})))

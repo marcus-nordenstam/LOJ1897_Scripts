@@ -37,7 +37,7 @@
     (bind action ?row_action)
     (bind terminal ?terminal)
     (score (if (= ?action ?row_action) 1 0))
-    (policy weighted))
+    (policy roulette))
 
   (effects
     (resolve-perpetration-terminal ?terminal ?victim ?action ?goal)))

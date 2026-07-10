@@ -296,7 +296,7 @@
   (goal {@self provision})
   ; No known provisions_shop: role-cast a shop the NPC KNOWS (nearest preferred,
   ; weighted) and head there. No known shop -> no fire. Replaces (venue ...).
-  (role ?go_dest [k building shop] (prefer (near @self ?go_dest)) (policy weighted))
+  (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
   (bind (target {@self provisions_shop ?}) ?shop)
   (when (and (not (under-attack))
              (not (is-entity ?shop))
@@ -342,7 +342,7 @@
   (short-term-think)
   ; Role-cast a pub the NPC KNOWS (nearest preferred, weighted). No known pub -> no
   ; fire. Replaces (venue ...).
-  (role ?go_dest [k building pub] (prefer (near @self ?go_dest)) (policy weighted))
+  (role ?go_dest [k building pub] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (and (not (under-attack))
              (> (attr @self hunger) 0.25)
              (bind {@self home ?home})
@@ -360,7 +360,7 @@
   (short-term-think)
   ; Role-cast a restaurant the NPC KNOWS (nearest preferred, weighted). No known
   ; restaurant -> no fire. Replaces (venue ...).
-  (role ?go_dest [k building restaurant] (prefer (near @self ?go_dest)) (policy weighted))
+  (role ?go_dest [k building restaurant] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (and (not (under-attack))
              (> (attr @self hunger) 0.25)
              (bind {@self home ?home})
@@ -485,7 +485,7 @@
   (short-term-think)
   ; The known provisions_shop is preferred; else a role-cast shop the NPC KNOWS
   ; (nearest, weighted). Replaces the (venue ...) fallback.
-  (role ?go_dest [k building shop] (prefer (near @self ?go_dest)) (policy weighted))
+  (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
   (bind (target {@self provisions_shop ?}) ?shop)
   (when (and (not (under-attack))
              (> (attr @self hunger) 1.3)
@@ -528,7 +528,7 @@
   (short-term-think)
   ; The known provisions_shop is preferred; else a role-cast shop the NPC KNOWS
   ; (nearest, weighted). Replaces the (venue ...) fallback.
-  (role ?go_dest [k building shop] (prefer (near @self ?go_dest)) (policy weighted))
+  (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
   (bind (target {@self provisions_shop ?}) ?shop)
   (when (and (not (under-attack))
              (> (attr @self hunger) 1.3)

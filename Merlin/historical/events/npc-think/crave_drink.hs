@@ -37,7 +37,7 @@
   (short-term-think)
   (goal    {@self drink})
   (role @self (grown @self))
-  (role ?pub [k building pub] (prefer (near @self ?pub)) (policy weighted))
+  (role ?pub [k building pub] (select (score (near @self ?pub)) (policy roulette)))
   (when    (not (can-drink @self)))
   (cont-fire-effects (excl-goal {@self go ?pub})))
 

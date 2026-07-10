@@ -36,7 +36,7 @@
     (bind-total ?total)
     (score (* (deliberation-score ?pressure ?rpk ?action ?focus ?weight)
               (disinhibition @self)))
-    (policy weighted))
+    (policy roulette))
 
   ; The WHOLE candidate mass (?total) competes against the inaction floor - so the
   ; act-vs-abstain rate reflects all viable branches, not just the one sampled winner
