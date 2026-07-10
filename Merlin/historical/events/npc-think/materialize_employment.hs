@@ -33,8 +33,7 @@
   (long-term-think)
   (rng-stream employment)
 
-  (roles
-    (role @self (old_human @self)))
+  (role @self (old_human @self))
 
   (when (not (believes {@self employer ?})))
 
@@ -53,8 +52,7 @@
   (startup)
   (rng-stream employment)
 
-  (roles
-    (role @self (any_human @self)))
+  (role @self (any_human @self))
 
   (when (not (believes {@self employer ?})))
 

@@ -19,33 +19,32 @@
   (long-term-think)
   (rng-stream apprenticeship)
 
-  (roles
-    ;; ?youth is enumerated and per-youth chance-gated; ?articles is then
-    ;; sampled - any org will take an apprentice. The youth's own derived
-    ;; situations are usually un-memoised at age 12-16 (derive_prototypes
-    ;; runs annually for >=15-year-olds only), so masters cannot yet read
-    ;; the apprentice's character directly - they look at lineage instead.
-    ;; The breeding dimension is the lineage anchor mx_make_human seeds at
-    ;; birth, so it IS available throughout childhood; a low-breeding youth
-    ;; (well below the population mean of 55) is rarely taken on by a master -
-    ;; that breeding-weighted (chance) and the 12-16 age window are non-belief
-    ;; @self reads, so they gate the fire in (when), not role selection.
-    ;; SELF-POV (telepathy purge CAT-2): the youth is the sole deliberator,
-    ;; reading his OWN employment / marital / schooling state.
-    (role @self (any_human @self)
-                (not (believes {@self employer ?}))
-                (not (believes {@self spouse ?}))
-                ;; A youth still in school (PR-education) is not on the labour
-                ;; market - the working-class on-ramp is for those who left after
-                ;; primary (or never enrolled), not secondary pupils.
-                (not (believes {@self study ?})))
-    ;; A KNOWN org (the youth learned it at new_job_orientation), not a household:
-    ;; a household is an org but NOT a trade - no master, no apprenticeship. Belief-
-    ;; pure + cached. The master gate (the org's founder, whom the youth avoids if
-    ;; KNOWN to be scandalous - permissive on the unknown) binds a secondary var,
-    ;; which the per-candidate cache cannot, so it lives in (when), evaluated live.
-    (role ?org (known_org ?org)
-               (not (believes {?org isa [k org household]}))))
+  ;; ?youth is enumerated and per-youth chance-gated; ?articles is then
+  ;; sampled - any org will take an apprentice. The youth's own derived
+  ;; situations are usually un-memoised at age 12-16 (derive_prototypes
+  ;; runs annually for >=15-year-olds only), so masters cannot yet read
+  ;; the apprentice's character directly - they look at lineage instead.
+  ;; The breeding dimension is the lineage anchor mx_make_human seeds at
+  ;; birth, so it IS available throughout childhood; a low-breeding youth
+  ;; (well below the population mean of 55) is rarely taken on by a master -
+  ;; that breeding-weighted (chance) and the 12-16 age window are non-belief
+  ;; @self reads, so they gate the fire in (when), not role selection.
+  ;; SELF-POV (telepathy purge CAT-2): the youth is the sole deliberator,
+  ;; reading his OWN employment / marital / schooling state.
+  (role @self (any_human @self)
+              (not (believes {@self employer ?}))
+              (not (believes {@self spouse ?}))
+              ;; A youth still in school (PR-education) is not on the labour
+              ;; market - the working-class on-ramp is for those who left after
+              ;; primary (or never enrolled), not secondary pupils.
+              (not (believes {@self study ?})))
+  ;; A KNOWN org (the youth learned it at new_job_orientation), not a household:
+  ;; a household is an org but NOT a trade - no master, no apprenticeship. Belief-
+  ;; pure + cached. The master gate (the org's founder, whom the youth avoids if
+  ;; KNOWN to be scandalous - permissive on the unknown) binds a secondary var,
+  ;; which the per-candidate cache cannot, so it lives in (when), evaluated live.
+  (role ?org (known_org ?org)
+             (not (believes {?org isa [k org household]})))
 
   ;; Live exclusivity re-check (see employment.hs): the youth's "unemployed"
   ;; filter is alpha-indexed, so within one tick several masters sample the same
@@ -84,8 +83,7 @@
 
   ;; The trainee is the sole deliberator (@self). job-level / job-tenure / chance
   ;; are non-belief ops, so they gate the fire in (when), not role selection.
-  (roles
-    (role @self (any_human @self)))
+  (role @self (any_human @self))
 
   ;; A trainee who has held the trainee rank at least three years; the chance
   ;; spreads completion over the following years (0.033/mo ~= the old 0.4/yr).

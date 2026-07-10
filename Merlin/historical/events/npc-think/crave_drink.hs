@@ -25,7 +25,7 @@
 ; The DESIRE. The ONLY place the pressure is computed.
 (npc-think want_drink
   (short-term-think)
-  (roles (role @self (grown @self)))
+ (role @self (grown @self))
   (when    (drink-due @self))
   (utility (drink-drive @self))
   (cont-fire-effects (excl-goal {@self drink})))
@@ -36,9 +36,8 @@
 (npc-think drink_go
   (short-term-think)
   (goal    {@self drink})
-  (roles
-    (role @self (grown @self))
-    (role ?pub [k building pub] (prefer (near @self ?pub)) (policy weighted)))
+  (role @self (grown @self))
+  (role ?pub [k building pub] (prefer (near @self ?pub)) (policy weighted))
   (when    (not (can-drink @self)))
   (cont-fire-effects (excl-goal {@self go ?pub})))
 
@@ -47,8 +46,7 @@
   (short-term-think)
   (goal    {@self drink})
   (fatigue-timeout 90)                                 ; ~90 min of searching a day, then rest
-  (roles
-    (role @self (grown @self))
-    (no-role [k building pub]))
+  (role @self (grown @self))
+  (no-role [k building pub])
   (when    (not (can-drink @self)))
   (cont-fire-effects (excl-goal {@self find_building [k building pub]})))

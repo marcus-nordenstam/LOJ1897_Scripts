@@ -22,10 +22,9 @@
 (hsim-npc-behaviour read_secret_letters
   (long-term-think)
 
-  (roles
-    (role @self (any_human @self))
-    ; Each hiding-spot @self made and knows.
-    (role ?cache (believes {@self hiding_spot ?cache})))
+  (role @self (any_human @self))
+  ; Each hiding-spot @self made and knows.
+  (role ?cache (believes {@self hiding_spot ?cache}))
 
   (effects
     (read-cache ?cache)))

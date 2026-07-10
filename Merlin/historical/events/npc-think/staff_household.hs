@@ -33,8 +33,7 @@
   (long-term-think)
   (rng-stream employment)
 
-  (roles
-    (role @self (any_human @self)))
+  (role @self (any_human @self))
 
   (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
              (or (in-month 12) (in-month 1) (in-month 2)) ; winter, once a year
@@ -60,8 +59,7 @@
   (goal {@self staff_household})
   (rng-stream employment)
 
-  (roles
-    (role @self (any_human @self)))
+  (role @self (any_human @self))
 
   (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
              (not (head-runs-household @self))          ; not already founded
@@ -83,9 +81,8 @@
   (goal {@self staff_household})
   (rng-stream employment)
 
-  (roles
-    (role @self (any_human @self)
-                (believes {@self home ?})))
+  (role @self (any_human @self)
+              (believes {@self home ?}))
 
   (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
              (believes @self {@self home ?h})           ; BIND ?h = the home

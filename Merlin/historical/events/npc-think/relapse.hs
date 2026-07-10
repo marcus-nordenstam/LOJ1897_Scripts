@@ -15,10 +15,9 @@
 
 (npc-think relapse
   (short-term-think)
-  (roles
-    (role @self (grown @self))
-    ; The nearest pub the NPC KNOWS (role-cast; no known pub -> no fire).
-    (role ?pub [k building pub] (prefer (near @self ?pub)) (policy weighted)))
+  (role @self (grown @self))
+  ; The nearest pub the NPC KNOWS (role-cast; no known pub -> no fire).
+  (role ?pub [k building pub] (prefer (near @self ?pub)) (policy weighted))
   ; A dependent, a drink already ~due (short fuse - he relapses fast).
   (when (and (= (target {@self craving}) [k alcohol])
              (>= (days-since-last @self drink) 1)))

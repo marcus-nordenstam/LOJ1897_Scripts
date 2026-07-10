@@ -31,26 +31,25 @@
   (long-term-think)
   (rng-stream incidents)
 
-  (roles
-    ;; @self - a married adult, not already mid-affair. The disposition-to-stray
-    ;; gate (the chance product over openness x enthusiasm x impropriety) is a
-    ;; non-belief filter and lives in the (when ...) clause below.
-    (role @self (any_human @self)
-                (adult-age @self)
-                (believes {@self spouse ?})
-                (not (believes {@self lover ?})))
-    (role ?lover (any_human ?lover)
-                 (not (= ?lover @self))
-                 (adult-age ?lover)
-                 ; the paramour must NOT be @self's own spouse (a third party).
-                 (not (believes {@self spouse ?lover}))
-                 ; the affair ignites with a known third party (social tie).
-                 (personally-knows @self ?lover)
-                 (age-peers @self ?lover)
-                 ; opposite-sex: @self's belief that ?lover's PERCEIVED gender differs
-                 ; from his own (visible-on-sight -> cacheable), and non-kin.
-                 (not (believes {?lover gender (target {@self gender})}))
-                 (not (blood-kin @self ?lover))))
+  ;; @self - a married adult, not already mid-affair. The disposition-to-stray
+  ;; gate (the chance product over openness x enthusiasm x impropriety) is a
+  ;; non-belief filter and lives in the (when ...) clause below.
+  (role @self (any_human @self)
+              (adult-age @self)
+              (believes {@self spouse ?})
+              (not (believes {@self lover ?})))
+  (role ?lover (any_human ?lover)
+               (not (= ?lover @self))
+               (adult-age ?lover)
+               ; the paramour must NOT be @self's own spouse (a third party).
+               (not (believes {@self spouse ?lover}))
+               ; the affair ignites with a known third party (social tie).
+               (personally-knows @self ?lover)
+               (age-peers @self ?lover)
+               ; opposite-sex: @self's belief that ?lover's PERCEIVED gender differs
+               ; from his own (visible-on-sight -> cacheable), and non-kin.
+               (not (believes {?lover gender (target {@self gender})}))
+               (not (blood-kin @self ?lover)))
 
   ;; Moved here from the @self role (non-belief filter): the disposition-to-stray
   ;; chance - openness x enthusiasm x impropriety (decorum INVERTED; an un-derived

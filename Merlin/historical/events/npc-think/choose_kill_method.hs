@@ -19,8 +19,7 @@
   (long-term-think)
   (rng-stream perpetration)
 
-  (roles
-    (role @self (any_human @self)))
+  (role @self (any_human @self))
 
   ; Cheap early-out: only goal-holders run the joint reduction; one method
   ; per campaign (re-choice on discharge is future work).

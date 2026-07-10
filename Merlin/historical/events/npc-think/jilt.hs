@@ -39,18 +39,17 @@
   (long-term-think)
   (rng-stream marriages)
 
-  (roles
-    ; The jilter: holds BOTH a lover bond and a betrothal (to someone else -
-    ; the ?jilted filters enforce the third party).
-    (role @self (any_human @self)
-                  (believes {@self lover ?})
-                  (believes {@self fiancee ?}))
-    ; The jilted: the jilter's lover who is NOT the jilter's fiancee (the
-    ; two-bound believes shape wedding.hs uses to recover the groom).
-    (role ?jilted (any_human ?jilted)
-                  (not (= ?jilted @self))
-                  (believes {@self lover ?jilted})
-                  (not (believes {@self fiancee ?jilted}))))
+  ; The jilter: holds BOTH a lover bond and a betrothal (to someone else -
+  ; the ?jilted filters enforce the third party).
+  (role @self (any_human @self)
+                (believes {@self lover ?})
+                (believes {@self fiancee ?}))
+  ; The jilted: the jilter's lover who is NOT the jilter's fiancee (the
+  ; two-bound believes shape wedding.hs uses to recover the groom).
+  (role ?jilted (any_human ?jilted)
+                (not (= ?jilted @self))
+                (believes {@self lover ?jilted})
+                (not (believes {@self fiancee ?jilted})))
 
   ;; (chance 0.6) moved here from the @self role (non-belief gate).
   ;; Live re-check: an earlier firing this tick may already have ended the
@@ -85,24 +84,23 @@
   (long-term-think)
   (rng-stream marriages)
 
-  (roles
-    ; An un-betrothed, unmarried lover-holder of marriageable standing - the
-    ; market is open to them the moment the affair ends. decorum-weighted:
-    ; the proper feel the impropriety of the mismatch most keenly.
-    (role @self (any_human @self)
-                  (believes {@self lover ?})
-                  (not (believes {@self fiancee ?}))
-                  (not (believes {@self spouse ?})))
-    ; The lover beneath the jilter's station (at least one class below).
-    (role ?jilted (any_human ?jilted)
-                  (not (= ?jilted @self))
-                  (believes {@self lover ?jilted})
-                  ;; @self reads the jilted lover's class from his OWN belief about him
-                  ;; (he knows his lover intimately, so it is banded in).
-                  (or (and (believes {@self class_situation [k upper]})
-                           (not (believes {?jilted class_situation [k upper]})))
-                      (and (believes {@self class_situation [k middle]})
-                           (believes {?jilted class_situation [k lower]})))))
+  ; An un-betrothed, unmarried lover-holder of marriageable standing - the
+  ; market is open to them the moment the affair ends. decorum-weighted:
+  ; the proper feel the impropriety of the mismatch most keenly.
+  (role @self (any_human @self)
+                (believes {@self lover ?})
+                (not (believes {@self fiancee ?}))
+                (not (believes {@self spouse ?})))
+  ; The lover beneath the jilter's station (at least one class below).
+  (role ?jilted (any_human ?jilted)
+                (not (= ?jilted @self))
+                (believes {@self lover ?jilted})
+                ;; @self reads the jilted lover's class from his OWN belief about him
+                ;; (he knows his lover intimately, so it is banded in).
+                (or (and (believes {@self class_situation [k upper]})
+                         (not (believes {?jilted class_situation [k upper]})))
+                    (and (believes {@self class_situation [k middle]})
+                         (believes {?jilted class_situation [k lower]}))))
 
   ;; chance gate moved here from the @self role (non-belief gate). decorum is a
   ;; DERIVED conduct dimension (belief) read from @self's own mind via

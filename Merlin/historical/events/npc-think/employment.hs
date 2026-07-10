@@ -26,16 +26,15 @@
   ;; The jobless adult (@self) is the deliberator: he looks for work this month.
   ;; The org is the inner role. age / situation / chance are non-belief ops, so
   ;; they gate the fire in (when), not role selection.
-  (roles
-    (role @self (any_human @self)
-                (not (believes {@self employer ?})))
-    ;; A known org (@self learned it at new_job_orientation - a mental org object
-    ;; carrying its isa belief), excluding households: an org but NOT a labour-market
-    ;; employer - its servants are taken on by the staff_household pass (role-
-    ;; appropriate, gender-normed), never as generic clerks here. Belief-pure +
-    ;; cached: the old (kind ...) / org-kind-is-a omniscient doc ops are gone.
-    (role ?org (known_org ?org)
-               (not (believes {?org isa [k org household]}))))
+  (role @self (any_human @self)
+              (not (believes {@self employer ?})))
+  ;; A known org (@self learned it at new_job_orientation - a mental org object
+  ;; carrying its isa belief), excluding households: an org but NOT a labour-market
+  ;; employer - its servants are taken on by the staff_household pass (role-
+  ;; appropriate, gender-normed), never as generic clerks here. Belief-pure +
+  ;; cached: the old (kind ...) / org-kind-is-a omniscient doc ops are gone.
+  (role ?org (known_org ?org)
+             (not (believes {?org isa [k org household]})))
 
   ;; The (chance) is just how often @self SEEKS - the real gate is the eligibility
   ;; MATCH in the `engage_staff` act (Section 4.11 career model): per org, it reads
@@ -86,9 +85,8 @@
   (long-term-think)
   (rng-stream employment)
 
-  (roles
-    (role @self (any_human @self)
-                (believes {@self employer ?})))
+  (role @self (any_human @self)
+              (believes {@self employer ?}))
 
   (effects
     ; The boss's own decision policy: below 0.4 standing risks the sack at
@@ -107,9 +105,8 @@
   (rng-stream employment)
 
   ;; The worker (@self) decides to retire; age + chance -> (when).
-  (roles
-    (role @self (any_human @self)
-                (believes {@self employer ?})))
+  (role @self (any_human @self)
+              (believes {@self employer ?}))
 
   ; Re-firing is harmless: (goal) is idempotent, so re-rolling the chance while the
   ; worker still holds an unacted retire goal just re-mints the same goal (no-op).

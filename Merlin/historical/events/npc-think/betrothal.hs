@@ -32,36 +32,35 @@
   ;; ((situation ?bride <dim> @self)), her availability as his own belief
   ;; ((believes {?bride <label> ?}), permissive on the unknown). The market reads
   ;; `repute` / `reputed_chastity` - what has LEAKED - never secret self-values.
-  (roles
-    (role @self (adult @self)
-                (not (believes {@self spouse ?}))
-                (not (believes {@self fiancee ?}))
-                (not (believes {@self repute [k scandalous]}))
-                (not (believes {@self repute [k disreputable]})))
-    (role ?bride (unmarried_woman ?bride)
-                 (not (= ?bride @self))
-                 ;; Not already spoken-for (he avoids a woman he KNOWS is engaged or
-                 ;; attached; a secret he has not heard does not stop the match).
-                 (not (believes {?bride fiancee ?}))
-                 (not (believes {?bride lover ?}))
-                 ;; A fallen woman (divorced for adultery) is shut out absolutely.
-                 (not (believes {?bride prototype [k fallen_woman]}))
-                 (not (believes {?bride repute [k scandalous]}))
-                 (not (believes {?bride repute [k disreputable]}))
-                 ;; Not KNOWN to be disgraced (two+ leaked affairs). An unread
-                 ;; chastity passes - the market gives the benefit of the doubt
-                 ;; (the old `(>= reputed_chastity 0.5) OR unread` gate, now a
-                 ;; single negated band belief: disgraced is the sub-0.5 band).
-                 (not (believes {?bride reputed_chastity [k disgraced]}))
-                 ;; Same class as the groom: the deliberating mind's belief that
-                 ;; the bride's class_situation equals @self's own (dynamic-target
-                 ;; shape-2, cacheable - like age-peers; NOT a cross-(target =)).
-                 (believes {?bride class_situation (target {@self class_situation})})
-                 ;; Belief-pure perceived predicates - the near-age window and the
-                 ;; blood-kin exclusion - stay role filters (cacheable), gating the
-                 ;; bride candidate set directly.
-                 (age-peers @self ?bride)
-                 (not (blood-kin @self ?bride))))
+  (role @self (adult @self)
+              (not (believes {@self spouse ?}))
+              (not (believes {@self fiancee ?}))
+              (not (believes {@self repute [k scandalous]}))
+              (not (believes {@self repute [k disreputable]})))
+  (role ?bride (unmarried_woman ?bride)
+               (not (= ?bride @self))
+               ;; Not already spoken-for (he avoids a woman he KNOWS is engaged or
+               ;; attached; a secret he has not heard does not stop the match).
+               (not (believes {?bride fiancee ?}))
+               (not (believes {?bride lover ?}))
+               ;; A fallen woman (divorced for adultery) is shut out absolutely.
+               (not (believes {?bride prototype [k fallen_woman]}))
+               (not (believes {?bride repute [k scandalous]}))
+               (not (believes {?bride repute [k disreputable]}))
+               ;; Not KNOWN to be disgraced (two+ leaked affairs). An unread
+               ;; chastity passes - the market gives the benefit of the doubt
+               ;; (the old `(>= reputed_chastity 0.5) OR unread` gate, now a
+               ;; single negated band belief: disgraced is the sub-0.5 band).
+               (not (believes {?bride reputed_chastity [k disgraced]}))
+               ;; Same class as the groom: the deliberating mind's belief that
+               ;; the bride's class_situation equals @self's own (dynamic-target
+               ;; shape-2, cacheable - like age-peers; NOT a cross-(target =)).
+               (believes {?bride class_situation (target {@self class_situation})})
+               ;; Belief-pure perceived predicates - the near-age window and the
+               ;; blood-kin exclusion - stay role filters (cacheable), gating the
+               ;; bride candidate set directly.
+               (age-peers @self ?bride)
+               (not (blood-kin @self ?bride)))
 
   ;; Exclusivity re-check at FIRING time, from the groom's OWN beliefs (his own
   ;; engagement + what he knows of hers). A same-tick double-betroth by two grooms

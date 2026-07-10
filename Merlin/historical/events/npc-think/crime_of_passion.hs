@@ -36,14 +36,13 @@
   (long-term-think)
   (rng-stream perpetration)
 
-  (roles
-    (role @self (any_human @self))
-    ; The craved beloved. The crave stance is the object-cache filter;
-    ; pick-first-matching-role binds ONE, so a multi-crave actor strikes a
-    ; single victim per tick (parity with the old first-viable walk).
-    (role ?beloved (any_human ?beloved)
-      (believes {@self crave ?beloved})
-      (pick-first-matching-role)))
+  (role @self (any_human @self))
+  ; The craved beloved. The crave stance is the object-cache filter;
+  ; pick-first-matching-role binds ONE, so a multi-crave actor strikes a
+  ; single victim per tick (parity with the old first-viable walk).
+  (role ?beloved (any_human ?beloved)
+    (believes {@self crave ?beloved})
+    (pick-first-matching-role))
 
   ; Jealous-rage pre-gate + the fallback guard. rage = mean(volatility, psychopathy);
   ; propensity = (1 - inhibition) * rage; fire at 0.02 * propensity. (knows-affair)

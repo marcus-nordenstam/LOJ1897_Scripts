@@ -29,8 +29,7 @@
   (long-term-think)
   (rng-stream behaviour)
 
-  (roles
-    (role @self (old_human @self)))
+  (role @self (old_human @self))
 
   (when (and (= (situation @self repute) [k scandalous])
              (chance 0.0833)))

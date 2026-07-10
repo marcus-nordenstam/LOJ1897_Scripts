@@ -30,38 +30,37 @@
   (long-term-think)
   (rng-stream marriages)
 
-  (roles
-    ; @self is the BELIEVER - the outer role for the cross-pair fancy gate on ?b
-    ; to resolve. An available adult who fancies someone and is not already
-    ; attached. (The per-NPC (chance) that paces pairing now lives in (when).)
-    (role @self (any_human @self)
-                (adult-age @self)
-                (not (believes {@self spouse ?}))
-                (not (believes {@self fiancee ?}))
-                (not (believes {@self lover ?})))
-    ;; SELF-POV (telepathy purge CAT-3): @self reads ?b's free/attached state from
-    ;; his OWN knowledge (permissive on the unknown), and ?b's reciprocation as SHE
-    ;; signalled it (confess_fancy). No cross-mind read.
-    (role ?b (any_human ?b)
-             (not (= ?b @self))
-             (adult-age ?b)
-             (not (believes {?b spouse ?}))
-             (not (believes {?b fiancee ?}))
-             (not (believes {?b lover ?}))
-             ; @self is attracted to ?b (attraction at least the `fancy` band,
-             ; the explicit band-ladder verb-state belief) ...
-             (is-attracted-to @self ?b)
-             ; ... and ?b reciprocates - she has TOLD HIM she fancies him
-             ; (confess_fancy minted {?b fancy @self} in his mind), so the pairing
-             ; is never unrequited. (The old warmth-only reciprocity is dropped: a
-             ; lover bond is built on attraction, and warmth she never voiced cannot
-             ; be read without a mind peek.)
-             (believes {?b fancy @self})
-             ; opposite-sex (fancy is opposite-sex via crush_forms; belt-and-braces):
-             ; @self's belief that ?b's PERCEIVED gender differs from his own (visible-
-             ; on-sight, so cacheable as a dynamic-target belief). And not kin.
-             (not (believes {?b gender (target {@self gender})}))
-             (not (blood-kin @self ?b))))
+  ; @self is the BELIEVER - the outer role for the cross-pair fancy gate on ?b
+  ; to resolve. An available adult who fancies someone and is not already
+  ; attached. (The per-NPC (chance) that paces pairing now lives in (when).)
+  (role @self (any_human @self)
+              (adult-age @self)
+              (not (believes {@self spouse ?}))
+              (not (believes {@self fiancee ?}))
+              (not (believes {@self lover ?})))
+  ;; SELF-POV (telepathy purge CAT-3): @self reads ?b's free/attached state from
+  ;; his OWN knowledge (permissive on the unknown), and ?b's reciprocation as SHE
+  ;; signalled it (confess_fancy). No cross-mind read.
+  (role ?b (any_human ?b)
+           (not (= ?b @self))
+           (adult-age ?b)
+           (not (believes {?b spouse ?}))
+           (not (believes {?b fiancee ?}))
+           (not (believes {?b lover ?}))
+           ; @self is attracted to ?b (attraction at least the `fancy` band,
+           ; the explicit band-ladder verb-state belief) ...
+           (is-attracted-to @self ?b)
+           ; ... and ?b reciprocates - she has TOLD HIM she fancies him
+           ; (confess_fancy minted {?b fancy @self} in his mind), so the pairing
+           ; is never unrequited. (The old warmth-only reciprocity is dropped: a
+           ; lover bond is built on attraction, and warmth she never voiced cannot
+           ; be read without a mind peek.)
+           (believes {?b fancy @self})
+           ; opposite-sex (fancy is opposite-sex via crush_forms; belt-and-braces):
+           ; @self's belief that ?b's PERCEIVED gender differs from his own (visible-
+           ; on-sight, so cacheable as a dynamic-target belief). And not kin.
+           (not (believes {?b gender (target {@self gender})}))
+           (not (blood-kin @self ?b)))
 
   ;; Live re-check: within the window the un-attached role filters go stale as
   ;; earlier firings mint lover bonds; re-confirm both are still free - from @self's

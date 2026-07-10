@@ -28,28 +28,27 @@
   (long-term-think)
   (rng-stream incidents)
 
-  (roles
-    ;; @self - a romantically-open single, not already deep in a crush. The trait
-    ;; chance (openness x enthusiasm x compassion) gates the receptive crush; it now
-    ;; lives in (when ...) below (non-belief filters do not belong in a role).
-    (role @self (any_human @self)
-                (working-age @self)
-                (not (believes {@self desire ?}))
-                (not (believes {@self lover ?}))
-                (not (believes {@self spouse ?})))
-    (role ?victim (any_human ?victim)
-                  (not (= ?victim @self))
-                  (marriageable-age ?victim)
-                  ; the crush forms on someone @self has actually met.
-                  (personally-knows @self ?victim)
-                  ; No incestuous crush (kin cross-pair believes-macro).
-                  (not (blood-kin @self ?victim))
-                  ; Opposite-sex: @self's belief that ?victim's PERCEIVED gender
-                  ; differs from his own (visible-on-sight -> cacheable).
-                  (not (believes {?victim gender (target {@self gender})}))
-                  ; Similar age: same or adjacent perceived age-band (the belief-pure
-                  ; replacement for the old +/-10 year window).
-                  (age-peers @self ?victim)))
+  ;; @self - a romantically-open single, not already deep in a crush. The trait
+  ;; chance (openness x enthusiasm x compassion) gates the receptive crush; it now
+  ;; lives in (when ...) below (non-belief filters do not belong in a role).
+  (role @self (any_human @self)
+              (working-age @self)
+              (not (believes {@self desire ?}))
+              (not (believes {@self lover ?}))
+              (not (believes {@self spouse ?})))
+  (role ?victim (any_human ?victim)
+                (not (= ?victim @self))
+                (marriageable-age ?victim)
+                ; the crush forms on someone @self has actually met.
+                (personally-knows @self ?victim)
+                ; No incestuous crush (kin cross-pair believes-macro).
+                (not (blood-kin @self ?victim))
+                ; Opposite-sex: @self's belief that ?victim's PERCEIVED gender
+                ; differs from his own (visible-on-sight -> cacheable).
+                (not (believes {?victim gender (target {@self gender})}))
+                ; Similar age: same or adjacent perceived age-band (the belief-pure
+                ; replacement for the old +/-10 year window).
+                (age-peers @self ?victim))
 
   ; Moved from the @self role: the trait chance (openness x enthusiasm x
   ; compassion) is a non-belief filter, so it is rolled once per NPC per window

@@ -32,10 +32,9 @@
   ; over thirty, not already in a club. (The class-floor the plan names is carried
   ; by the `employer` gate: a man with a post is a man of standing.) The founder
   ; is the sole deliberator (@self); age + chance are non-belief ops -> (when).
-  (roles
-    (role @self (old_human @self)
-                (believes {@self employer ?})
-                (not (believes {@self member_of ?}))))
+  (role @self (old_human @self)
+              (believes {@self employer ?})
+              (not (believes {@self member_of ?})))
 
   (when (and (>= (years-old @self) 30)
              (chance 0.0033)))
@@ -57,19 +56,18 @@
   (long-term-think)
   (rng-stream behaviour)
 
-  (roles
-    ; An adult who belongs to fewer than two clubs takes up another. SELF-POV
-    ; (telepathy purge CAT-2): @self reads his OWN repute (belief-pure). The
-    ; age + club-count + chance gates are non-belief ops -> (when).
-    (role @self (old_human @self)
-                (not (believes {@self repute [k scandalous]}))
-                (not (believes {@self repute [k disreputable]})))
-    ; A KNOWN club (@self learned it at new_job_orientation). Belief-pure + cached:
-    ; the omniscient org-kind-is-a doc read is gone. The own-class match (below)
-    ; binds the founder - a secondary var the per-candidate cache cannot - so it
-    ; lives in (when), evaluated live per firing.
-    (role ?club_org (known_org ?club_org)
-                    [k org club]))
+  ; An adult who belongs to fewer than two clubs takes up another. SELF-POV
+  ; (telepathy purge CAT-2): @self reads his OWN repute (belief-pure). The
+  ; age + club-count + chance gates are non-belief ops -> (when).
+  (role @self (old_human @self)
+              (not (believes {@self repute [k scandalous]}))
+              (not (believes {@self repute [k disreputable]})))
+  ; A KNOWN club (@self learned it at new_job_orientation). Belief-pure + cached:
+  ; the omniscient org-kind-is-a doc read is gone. The own-class match (below)
+  ; binds the founder - a secondary var the per-candidate cache cannot - so it
+  ; lives in (when), evaluated live per firing.
+  (role ?club_org (known_org ?club_org)
+                  [k org club])
 
   ; A man joins a club of his OWN class band. The club's tier is read as @self's
   ; view of the founder's class (3-arg (situation ... @self), banded in via
@@ -107,9 +105,8 @@
   (rng-stream behaviour)
 
   ; The resigning member is the sole deliberator (@self); chance -> (when).
-  (roles
-    (role @self (old_human @self)
-                (believes {@self member_of ?})))
+  (role @self (old_human @self)
+              (believes {@self member_of ?}))
 
   (when (chance 0.004))
 

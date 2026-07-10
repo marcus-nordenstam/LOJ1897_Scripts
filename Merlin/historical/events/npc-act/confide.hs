@@ -27,13 +27,12 @@
   (long-term-think)
   (rng-stream behaviour)
 
-  (roles
-    ;; @self the discloser: old enough to hold a calling (grown >= 16), actually
-    ;; has one (binds ?domain - the kind they will name aloud), and has a friend
-    ;; to confide in (?confidant). Belief queries only - no chance/attr in a role.
-    (role @self (grown @self)
-                (believes {@self calling ?domain})
-                (believes {@self friend ?confidant})))
+  ;; @self the discloser: old enough to hold a calling (grown >= 16), actually
+  ;; has one (binds ?domain - the kind they will name aloud), and has a friend
+  ;; to confide in (?confidant). Belief queries only - no chance/attr in a role.
+  (role @self (grown @self)
+              (believes {@self calling ?domain})
+              (believes {@self friend ?confidant}))
 
   ;; The disclosure roll - once per discloser per window, weighted by extraversion.
   ;; A (chance)/(attr) gate is non-belief, so it lives in (when), not the role.

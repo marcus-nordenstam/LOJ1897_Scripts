@@ -32,27 +32,26 @@
   (long-term-think)
   (rng-stream perpetration)
 
-  (roles
-    (role @self (any_human @self))
-    ; The wealthiest co-heir benefactor the actor KNOWS. The kin edge is the
-    ; object-cache filter (Shape-1 {@self <label> ?cand}); (prefer) ranks the
-    ; cached set by believed wealth and binds the single richest. The wealth
-    ; floor is enforced in (when) on the winner.
-    (role ?benefactor (any_human ?benefactor)
-      (believes {@self mother|father|parent|spouse|sibling ?benefactor})
-      (prefer (target {?benefactor wealth})))
-    ; The benefactor's HEIR, role-cast via the object-cache JOIN: the cross-role filter
-    ; {?heir <kin> ?benefactor} makes ?heir's cache depend on ?benefactor's - the engine
-    ; materializes, per benefactor, the heirs the actor KNOWS (a candidate's own kin
-    ; belief toward that benefactor: a child's parent IS the benefactor, a spouse's
-    ; spouse IS, a sibling's sibling IS - the pick_heir co-heir set). The birth_date
-    ; filter is the KNOWLEDGE PRECONDITION - the actor only weighs an heir whose age he
-    ; knows (a friends-and-closer belief) - and (prefer (years-old ...)) picks the ELDEST
-    ; such heir. No omniscient (heir-apparent ...) kin-graph read.
-    (role ?heir (old_human ?heir)
-      (believes {?heir mother|father|parent|spouse|sibling ?benefactor})
-      (believes {?heir birth_date ?})
-      (prefer (years-old ?heir)) (policy argmax)))
+  (role @self (any_human @self))
+  ; The wealthiest co-heir benefactor the actor KNOWS. The kin edge is the
+  ; object-cache filter (Shape-1 {@self <label> ?cand}); (prefer) ranks the
+  ; cached set by believed wealth and binds the single richest. The wealth
+  ; floor is enforced in (when) on the winner.
+  (role ?benefactor (any_human ?benefactor)
+    (believes {@self mother|father|parent|spouse|sibling ?benefactor})
+    (prefer (target {?benefactor wealth})))
+  ; The benefactor's HEIR, role-cast via the object-cache JOIN: the cross-role filter
+  ; {?heir <kin> ?benefactor} makes ?heir's cache depend on ?benefactor's - the engine
+  ; materializes, per benefactor, the heirs the actor KNOWS (a candidate's own kin
+  ; belief toward that benefactor: a child's parent IS the benefactor, a spouse's
+  ; spouse IS, a sibling's sibling IS - the pick_heir co-heir set). The birth_date
+  ; filter is the KNOWLEDGE PRECONDITION - the actor only weighs an heir whose age he
+  ; knows (a friends-and-closer belief) - and (prefer (years-old ...)) picks the ELDEST
+  ; such heir. No omniscient (heir-apparent ...) kin-graph read.
+  (role ?heir (old_human ?heir)
+    (believes {?heir mother|father|parent|spouse|sibling ?benefactor})
+    (believes {?heir birth_date ?})
+    (prefer (years-old ?heir)) (policy argmax))
 
   ; Disposition pre-gate + wealth floor. greed = mean(machiavellianism, psychopathy);
   ; propensity = (1 - inhibition) * greed; fire at k_covet_base_rate * propensity.

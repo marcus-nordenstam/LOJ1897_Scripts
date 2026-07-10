@@ -40,13 +40,12 @@
   (long-term-think)
   (rng-stream incidents)
 
-  (roles
-    (role @self (any_human @self))
-    ; The unfaithful partner: a spouse or lover of the actor's (the interloper
-    ; is resolved in (effects) - a cross-role read, not a role filter).
-    (role ?partner (any_human ?partner)
-      (believes {@self spouse|lover ?partner})
-      (pick-first-matching-role)))
+  (role @self (any_human @self))
+  ; The unfaithful partner: a spouse or lover of the actor's (the interloper
+  ; is resolved in (effects) - a cross-role read, not a role filter).
+  (role ?partner (any_human ?partner)
+    (believes {@self spouse|lover ?partner})
+    (pick-first-matching-role))
 
   ; The affair surfaces some months, not every one (probabilistic discovery).
   (when (and (alive ?partner)

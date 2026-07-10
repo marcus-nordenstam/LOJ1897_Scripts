@@ -51,10 +51,9 @@
   ; (when); the chance carries the /12 annual->monthly factor (now per-month). The
   ; breeding-squared gate routes an upper child (breeding ~0.85) into school almost
   ; always, a working-class child (~0.25) only rarely.
-  (roles
-    (role @self (any_human @self)
-                (not (believes {@self study ?}))
-                (not (believes {@self skilled_in [k primary_school_curriculum]}))))
+  (role @self (any_human @self)
+              (not (believes {@self study ?}))
+              (not (believes {@self skilled_in [k primary_school_curriculum]})))
 
   (when (and (>= (years-old @self) 5)
              (<= (years-old @self) 7)
@@ -75,12 +74,11 @@
   ; yet in work / apprenticeship. age + the middle+ breeding-squared gate -> (when)
   ; (with /12 monthly factor). The working-class child who finished primary has a
   ; low chance and instead falls to apprenticeship_start (which excludes pupils).
-  (roles
-    (role @self (any_human @self)
-                (believes {@self skilled_in [k primary_school_curriculum]})
-                (not (believes {@self study ?}))
-                (not (believes {@self skilled_in [k secondary_school_curriculum]}))
-                (not (believes {@self employer ?}))))
+  (role @self (any_human @self)
+              (believes {@self skilled_in [k primary_school_curriculum]})
+              (not (believes {@self study ?}))
+              (not (believes {@self skilled_in [k secondary_school_curriculum]}))
+              (not (believes {@self employer ?})))
 
   (when (and (>= (years-old @self) 12)
              (<= (years-old @self) 14)
@@ -99,11 +97,10 @@
   ; @self is secondary-educated, not enrolled, not employed. age + the steep
   ; upper / wealthy-middle breeding-cubed gate (the professions' gateway) -> (when)
   ; (with /12 monthly factor). The subject is interest-led, chosen inside the act.
-  (roles
-    (role @self (any_human @self)
-                (believes {@self skilled_in [k secondary_school_curriculum]})
-                (not (believes {@self study ?}))
-                (not (believes {@self employer ?}))))
+  (role @self (any_human @self)
+              (believes {@self skilled_in [k secondary_school_curriculum]})
+              (not (believes {@self study ?}))
+              (not (believes {@self employer ?})))
 
   (when (and (>= (years-old @self) 18)
              (<= (years-old @self) 20)
@@ -124,9 +121,8 @@
   ; curriculum at novice and ends the study). The credential then gates secondary
   ; enrollment; a non-continuer becomes apprenticeship-eligible. Monthly firing is
   ; idempotent - the first fire ends the study, so later months no-op. age -> (when).
-  (roles
-    (role @self (any_human @self)
-                (believes {@self study [k primary_school_curriculum]})))
+  (role @self (any_human @self)
+              (believes {@self study [k primary_school_curriculum]}))
 
   (when (>= (years-old @self) 11))
 
@@ -139,9 +135,8 @@
   (long-term-think)
   (rng-stream behaviour)
 
-  (roles
-    (role @self (any_human @self)
-                (believes {@self study [k secondary_school_curriculum]})))
+  (role @self (any_human @self)
+              (believes {@self study [k secondary_school_curriculum]}))
 
   (when (>= (years-old @self) 17))
 
@@ -158,9 +153,8 @@
   ; are <18 and have already left). graduate-from-study mints the subject credential
   ; {@self skilled_in <subject> trained}, feeding the S8 physician / lawyer /
   ; scholar identities + the prestige bump - the profession pipeline payoff.
-  (roles
-    (role @self (any_human @self)
-                (believes {@self study ?})))
+  (role @self (any_human @self)
+              (believes {@self study ?}))
 
   (when (>= (years-old @self) 22))
 

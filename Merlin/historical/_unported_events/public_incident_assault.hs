@@ -36,20 +36,19 @@
   (sim-window-start)
   (rng-stream incidents)
 
-  (roles
-    ; Dark-tetrad assault disposition, rolled once per NPC (see
-    ; bonded_incident_assault for the formula rationale).
-    (role @self (any_human @self)
-                (chance (* (attr @self volatility)
-                           (attr @self psychopathy)
-                           (attr @self sadism)
-                           (- 1.0 (attr @self politeness))
-                           (+ 0.3 (* 0.7 (attr @self intoxication))))))
-    (role ?victim (any_human ?victim)
-                  (not (= ?victim @self))
-                  ; the victim is co-present (physically THERE) and a STRANGER.
-                  (co-present @self ?victim)
-                  (not (personally-knows @self ?victim))))
+  ; Dark-tetrad assault disposition, rolled once per NPC (see
+  ; bonded_incident_assault for the formula rationale).
+  (role @self (any_human @self)
+              (chance (* (attr @self volatility)
+                         (attr @self psychopathy)
+                         (attr @self sadism)
+                         (- 1.0 (attr @self politeness))
+                         (+ 0.3 (* 0.7 (attr @self intoxication))))))
+  (role ?victim (any_human ?victim)
+                (not (= ?victim @self))
+                ; the victim is co-present (physically THERE) and a STRANGER.
+                (co-present @self ?victim)
+                (not (personally-knows @self ?victim)))
 
   (effects
     (incident-anchor @self assault ?victim)

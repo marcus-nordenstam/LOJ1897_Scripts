@@ -13,9 +13,8 @@
   (long-term-think)
   (rng-stream behaviour)
 
-  (roles
-    (role @self (grown @self)
-                (believes {@self employer ?})))
+  (role @self (grown @self)
+              (believes {@self employer ?}))
 
   (when (believes-obj-kind job [k job shop_clerk]))
 

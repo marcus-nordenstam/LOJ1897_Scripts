@@ -31,8 +31,7 @@
   ; apply to @self; its kind/alive existence checks are no-ops for @self and are
   ; skipped by the gate-builder). Only the groom plans; the bride is wired in as
   ; co-principal by plan-wedding.
-  (roles
-    (role @self (unmarried_man @self)))
+  (role @self (unmarried_man @self))
   (when (and (believes {@self fiancee ?})
              (not (organizing-occasion [k wedding]))))
   (effects

@@ -26,9 +26,8 @@
   (long-term-think)
   (rng-stream behaviour)
 
-  (roles
-    (role @self (any_human @self)
-                (believes {@self home ?})))
+  (role @self (any_human @self)
+              (believes {@self home ?}))
 
   (effects
     (record-dwelling @self)
@@ -53,9 +52,8 @@
   (long-term-think)
   (rng-stream behaviour)
 
-  (roles
-    (role @self (grown @self)
-                (believes {@self home ?})))
+  (role @self (grown @self)
+              (believes {@self home ?}))
 
   ; ?home binds on the when-spine (a self-role believes does not export its
   ; free vars to the event scope - the work_attendance shape). The COOK is the
@@ -97,16 +95,15 @@
   (long-term-think)
   (rng-stream behaviour)
 
-  (roles
-    (role @self (any_human @self)
-                (believes {@self home ?}))
-    ; The woman of the house, role-cast from the asker's OWN kinship beliefs: a
-    ; female mother / parent / spouse (a child asks their mother; a husband his
-    ; wife). Same {@self <kin> ?cand} cacheable shape covet uses. The woman
-    ; herself (no female parent/spouse at home) casts nothing here - she already
-    ; knows the hours, so she never needs to ask.
-    (role ?cook (believes {@self mother|parent|spouse ?cook})
-                (believes {?cook gender [k female]})))
+  (role @self (any_human @self)
+              (believes {@self home ?}))
+  ; The woman of the house, role-cast from the asker's OWN kinship beliefs: a
+  ; female mother / parent / spouse (a child asks their mother; a husband his
+  ; wife). Same {@self <kin> ?cand} cacheable shape covet uses. The woman
+  ; herself (no female parent/spouse at home) casts nothing here - she already
+  ; knows the hours, so she never needs to ask.
+  (role ?cook (believes {@self mother|parent|spouse ?cook})
+              (believes {?cook gender [k female]}))
 
   (when (and (bind {@self home ?home})
              (not (believes {?home supper_hour ?}))
@@ -120,9 +117,8 @@
   (long-term-think)
   (rng-stream behaviour)
 
-  (roles
-    (role @self (grown @self)
-                (believes {@self home ?})))
+  (role @self (grown @self)
+              (believes {@self home ?}))
 
   ; The cheap per-mind gate first: (asked-me-about) walks only @self's own
   ; heard-SAY records and fails fast when nobody asked.
@@ -160,9 +156,8 @@
   (long-term-think)
   (rng-stream behaviour)
 
-  (roles
-    (role @self (grown @self)
-                (believes {@self home ?})))
+  (role @self (grown @self)
+              (believes {@self home ?}))
 
   (when (and (bind {@self home ?home})
              (at-home)

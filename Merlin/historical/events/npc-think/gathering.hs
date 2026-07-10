@@ -36,8 +36,7 @@
 (hsim-npc-behaviour plan_gathering
   (long-term-think)
   (rng-stream behaviour)
-  (roles
-    (role @self (grown @self)))
+  (role @self (grown @self))
   (when (chance 0.02))
   (effects
     (plan-occasion @self [k dinner_party] (target {@self home ?}) 3 19 23 formal)))
@@ -49,8 +48,7 @@
 (hsim-npc-behaviour plan_impromptu_supper
   (long-term-think)
   (rng-stream behaviour)
-  (roles
-    (role @self (grown @self)))
+  (role @self (grown @self))
   (when (chance 0.015))
   (effects
     (plan-occasion @self [k dinner_party] (target {@self home ?}) 0 18 22 informal)))
@@ -59,7 +57,6 @@
 ; an attend goal for any occasion due this window. Runs for every grown NPC.
 (hsim-npc-behaviour review_appointments
   (long-term-think)
-  (roles
-    (role @self (grown @self)))
+  (role @self (grown @self))
   (effects
     (review-appointments @self attend)))

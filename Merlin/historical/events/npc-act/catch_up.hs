@@ -19,9 +19,8 @@
   (long-term-think)
   (rng-stream behaviour)
 
-  (roles
-    (role @self (any_human @self)
-                (believes {@self friend ?})))
+  (role @self (any_human @self)
+              (believes {@self friend ?}))
 
   ; Non-belief gates (out of the role): extraversion-weighted chance + minimum age.
   (when (and (chance (* 0.25 (+ 0.5 (attr @self enthusiasm))))

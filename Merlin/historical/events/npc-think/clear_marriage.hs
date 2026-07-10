@@ -35,15 +35,14 @@
   (long-term-think)
   (rng-stream perpetration)
 
-  (roles
-    (role @self (any_human @self))
-    (role ?spouse (any_human ?spouse) (believes {@self spouse ?spouse}) (pick-first-matching-role))
-    ; A covert lover (belief-query role filter: a lover who is not the spouse). The
-    ; unmarried check is an opaque verb gate, so it lives in (when), not the filter.
-    (role ?paramour (any_human ?paramour)
-      (believes {@self lover ?paramour})
-      (not (believes {@self spouse ?paramour}))
-      (pick-first-matching-role)))
+  (role @self (any_human @self))
+  (role ?spouse (any_human ?spouse) (believes {@self spouse ?spouse}) (pick-first-matching-role))
+  ; A covert lover (belief-query role filter: a lover who is not the spouse). The
+  ; unmarried check is an opaque verb gate, so it lives in (when), not the filter.
+  (role ?paramour (any_human ?paramour)
+    (believes {@self lover ?paramour})
+    (not (believes {@self spouse ?paramour}))
+    (pick-first-matching-role))
 
   ; Dark floor + the lover must be free to marry + drive + propensity
   ; (score_macros.hs: romantic-drive = attraction(lover) - warmth(spouse)).

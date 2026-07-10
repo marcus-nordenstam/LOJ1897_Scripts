@@ -26,25 +26,24 @@
   (long-term-think)
   (rng-stream employment)
 
-  (roles
-    ;; The candidate IS the deliberating NPC (@self self-role, the standard
-    ;; emergent shape - cf. adult_friendships / betrothal): an exemplary,
-    ;; high-prestige adult of working age. The age / repute / prestige floors and
-    ;; the trait-product chance now live in (when ...) (role-belief purity); the
-    ;; role itself keeps only the belief-pure template. The prestige floor selects
-    ;; already-distinguished candidates, naturally targeting the established class.
-    ;;
-    ;; The plan's "member_of of an organisation that hosts the post" tenure
-    ;; gate (PR-A-8 audit) is V2 work - the substrate has the member_of relation
-    ;; but the gov-org subset filter would need a cross-role join the .hse layer
-    ;; doesn't express cleanly today. V1 routes the chance through a trait
-    ;; product: assertiveness + (situation prestige) above the floor amplifies
-    ;; the rate, so a high-prestige assertive candidate fires far more often.
-    (role @self (old_human @self))
-    ;; A public organisation - any gov-subkind: church, hospital, agency. A KNOWN
-    ;; org of gov kind (@self learned it at new_job_orientation). Belief-pure + cached.
-    (role ?org (known_org ?org)
-               [k org gov]))
+  ;; The candidate IS the deliberating NPC (@self self-role, the standard
+  ;; emergent shape - cf. adult_friendships / betrothal): an exemplary,
+  ;; high-prestige adult of working age. The age / repute / prestige floors and
+  ;; the trait-product chance now live in (when ...) (role-belief purity); the
+  ;; role itself keeps only the belief-pure template. The prestige floor selects
+  ;; already-distinguished candidates, naturally targeting the established class.
+  ;;
+  ;; The plan's "member_of of an organisation that hosts the post" tenure
+  ;; gate (PR-A-8 audit) is V2 work - the substrate has the member_of relation
+  ;; but the gov-org subset filter would need a cross-role join the .hse layer
+  ;; doesn't express cleanly today. V1 routes the chance through a trait
+  ;; product: assertiveness + (situation prestige) above the floor amplifies
+  ;; the rate, so a high-prestige assertive candidate fires far more often.
+  (role @self (old_human @self))
+  ;; A public organisation - any gov-subkind: church, hospital, agency. A KNOWN
+  ;; org of gov kind (@self learned it at new_job_orientation). Belief-pure + cached.
+  (role ?org (known_org ?org)
+             [k org gov])
 
   ;; (chance) FIRST (cheap, short-circuits), then the live exclusivity re-check
   ;; (see betrothal.hs): without it, every gov org enumerated this tick can appoint

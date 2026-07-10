@@ -28,18 +28,17 @@
   (long-term-think)
   (rng-stream friendships)
 
-  (roles
-    ;; @self is the host. PR-A-8 substrate gate: the canonical host motivation is a
-    ;; social life_aim (belonging / respectability - the aims that prize community
-    ;; visibility) OR being a parent (parties for one's child). The enthusiasm-scaled
-    ;; chance gate moved to (when) below (non-belief filter).
-    (role @self (any_human @self)
-                (or (believes {@self life_aim belonging_aim})
-                    (believes {@self life_aim respectability_aim})
-                    (believes {@self identity parent_role})))
-    (role ?guest (any_human ?guest)
-                 (not (= ?guest @self))
-                 (believes {@self friend ?guest})))
+  ;; @self is the host. PR-A-8 substrate gate: the canonical host motivation is a
+  ;; social life_aim (belonging / respectability - the aims that prize community
+  ;; visibility) OR being a parent (parties for one's child). The enthusiasm-scaled
+  ;; chance gate moved to (when) below (non-belief filter).
+  (role @self (any_human @self)
+              (or (believes {@self life_aim belonging_aim})
+                  (believes {@self life_aim respectability_aim})
+                  (believes {@self identity parent_role})))
+  (role ?guest (any_human ?guest)
+               (not (= ?guest @self))
+               (believes {@self friend ?guest}))
 
   ;; Moved from the @self role (non-belief): enthusiasm-scaled chance, multiplicative
   ;; so outgoing hosts engage more than withdrawn ones, /12'd to the monthly window

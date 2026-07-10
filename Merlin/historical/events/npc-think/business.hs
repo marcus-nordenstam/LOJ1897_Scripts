@@ -53,16 +53,15 @@
   ; 450ms+ per-run perf hog. @self weighs his OWN merit + means here, exactly like
   ; business_partnership (which fires healthily). A backed clerk then founds his own
   ; business via business_founding's `backed_by` means-branch.
-  (roles
-    ; A merit-and-character clerk who cannot self-fund and is not yet backed (the
-    ; belief-pure part). The backing firm is his employer, resolved in the effect via
-    ; (target {@self employer}). The working-age band, not-already-an-owner, merit and
-    ; means dims, and the monthly chance are all non-belief and live in (when ...) below.
-    (role @self (old_human @self)
-                (believes {@self employer ?})
-                (or (believes {@self repute [k respectable]})
-                    (believes {@self repute [k exemplary]}))
-                (not (believes {@self backed_by ?}))))
+  ; A merit-and-character clerk who cannot self-fund and is not yet backed (the
+  ; belief-pure part). The backing firm is his employer, resolved in the effect via
+  ; (target {@self employer}). The working-age band, not-already-an-owner, merit and
+  ; means dims, and the monthly chance are all non-belief and live in (when ...) below.
+  (role @self (old_human @self)
+              (believes {@self employer ?})
+              (or (believes {@self repute [k respectable]})
+                  (believes {@self repute [k exemplary]}))
+              (not (believes {@self backed_by ?})))
 
   ; Moved from the @self role (non-belief gates): the monthly chance (/12 of the old
   ; annual 0.40), working-age band, not-already-an-owner, and the merit + means dims.
@@ -89,23 +88,22 @@
   (long-term-think)
   (rng-stream business)
 
-  (roles
-    ; A merit-and-character man who cannot self-fund and is not backed - the
-    ; clerk-makes-partner route (the belief-pure part). The age band, not-already-an-
-    ; owner, merit + means dims and the monthly chance are non-belief and live in
-    ; (when ...) below.
-    (role @self (old_human @self)
-                (believes {@self employer ?})
-                (or (believes {@self repute [k respectable]})
-                    (believes {@self repute [k exemplary]}))
-                (not (believes {@self backed_by ?})))
-    ; An existing business he is taken into - a KNOWN org of business kind (@self
-    ; learned it at new_job_orientation). Belief-pure + cached. (The plan links
-    ; principal and candidate by a prior bond - friend / former employer / club
-    ; co-member; v1 gates on the candidate's merit alone, as the relationship layer
-    ; is not yet rich enough to gate on without starving the event.)
-    (role ?principal_org (known_org ?principal_org)
-                         [k org business]))
+  ; A merit-and-character man who cannot self-fund and is not backed - the
+  ; clerk-makes-partner route (the belief-pure part). The age band, not-already-an-
+  ; owner, merit + means dims and the monthly chance are non-belief and live in
+  ; (when ...) below.
+  (role @self (old_human @self)
+              (believes {@self employer ?})
+              (or (believes {@self repute [k respectable]})
+                  (believes {@self repute [k exemplary]}))
+              (not (believes {@self backed_by ?})))
+  ; An existing business he is taken into - a KNOWN org of business kind (@self
+  ; learned it at new_job_orientation). Belief-pure + cached. (The plan links
+  ; principal and candidate by a prior bond - friend / former employer / club
+  ; co-member; v1 gates on the candidate's merit alone, as the relationship layer
+  ; is not yet rich enough to gate on without starving the event.)
+  (role ?principal_org (known_org ?principal_org)
+                       [k org business])
 
   ;; Live exclusivity re-check (see betrothal.hs): the candidate's "not
   ;; org_head" eligibility is evaluated at enumeration time, so within one
@@ -147,16 +145,15 @@
   (long-term-think)
   (rng-stream business)
 
-  (roles
-    ; Merit, character, and means - either enough wealth to self-fund, or a
-    ; backer (the backed_by belief a prior patronage / investment errand wrote).
-    ; SELF-POV (telepathy purge CAT-2): @self weighs his OWN standing; no other
-    ; mind is read. Belief-pure part only; the age band, not-already-an-owner, merit
-    ; dim, means branch and the monthly chance are non-belief and live in (when ...).
-    (role @self (old_human @self)
-                (believes {@self employer ?})
-                (or (believes {@self repute [k respectable]})
-                    (believes {@self repute [k exemplary]}))))
+  ; Merit, character, and means - either enough wealth to self-fund, or a
+  ; backer (the backed_by belief a prior patronage / investment errand wrote).
+  ; SELF-POV (telepathy purge CAT-2): @self weighs his OWN standing; no other
+  ; mind is read. Belief-pure part only; the age band, not-already-an-owner, merit
+  ; dim, means branch and the monthly chance are non-belief and live in (when ...).
+  (role @self (old_human @self)
+              (believes {@self employer ?})
+              (or (believes {@self repute [k respectable]})
+                  (believes {@self repute [k exemplary]})))
 
   ; Moved from the @self role (non-belief gates): the monthly chance (/12 of the old
   ; annual 0.30), working-age band, not-already-an-owner, the merit dim, and the means
@@ -193,12 +190,11 @@
   (long-term-think)
   (rng-stream business)
 
-  (roles
-    ; Any alive adult - the belief-pure part is just the template. NO merit gate
-    ; (that is the whole point of the floor net). The founding-age band, not-already-
-    ; an-owner, not-already-pursuing, the LIVE business-floor gate and the chance are
-    ; all non-belief and live in (when ...) below.
-    (role @self (old_human @self)))
+  ; Any alive adult - the belief-pure part is just the template. NO merit gate
+  ; (that is the whole point of the floor net). The founding-age band, not-already-
+  ; an-owner, not-already-pursuing, the LIVE business-floor gate and the chance are
+  ; all non-belief and live in (when ...) below.
+  (role @self (old_human @self))
 
   ; Moved from the @self role (all non-belief): a modest monthly chance (enough
   ; eligible adults resolve to found to refill the floor as businesses fail, without a

@@ -26,8 +26,7 @@
   (long-term-think)
   (goal {@self kill})
 
-  (roles
-    (role @self (any_human @self)))
+  (role @self (any_human @self))
 
   ; The victim of the (first) standing kill goal. A kind-valued target (a
   ; profile goal not yet bound to a person) or a dead victim gates out; the

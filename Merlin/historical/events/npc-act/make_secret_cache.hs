@@ -34,8 +34,7 @@
 (hsim-npc-behaviour make_secret_cache
   (long-term-think)
 
-  (roles
-    (role @self (any_human @self)))
+  (role @self (any_human @self))
 
   ; Something to hide is the reason - a covert lover (secret letters) or a
   ; standing stow goal (loot, a stained instrument); no cache yet; bind the

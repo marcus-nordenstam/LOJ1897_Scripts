@@ -17,8 +17,7 @@
   (goal {@self resign_club})
   ; The clubhouse is role-cast from the clubhouses the NPC KNOWS; nearest preferred,
   ; weighted. No known clubhouse -> no fire (the goal waits). Replaces (venue ...).
-  (roles
-    (role ?go_dest [k building social_clubhouse] (prefer (near @self ?go_dest)) (policy weighted)))
+  (role ?go_dest [k building social_clubhouse] (prefer (near @self ?go_dest)) (policy weighted))
   (when (not (at-place-kind [k building social_clubhouse])))
   (utility 40)
   (effects (begin-act {@self go ?go_dest})))

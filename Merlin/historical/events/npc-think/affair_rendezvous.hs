@@ -39,14 +39,13 @@
   (long-term-think)
   (rng-stream incidents)
 
-  (roles
-    (role @self (any_human @self)
-                (believes {@self lover ?}))
-    ; The paramour: a lover who is not also a spouse (the covert third party).
-    (role ?paramour (any_human ?paramour)
-      (believes {@self lover ?paramour})
-      (not (believes {@self spouse ?paramour}))
-      (pick-first-matching-role)))
+  (role @self (any_human @self)
+              (believes {@self lover ?}))
+  ; The paramour: a lover who is not also a spouse (the covert third party).
+  (role ?paramour (any_human ?paramour)
+    (believes {@self lover ?paramour})
+    (not (believes {@self spouse ?paramour}))
+    (pick-first-matching-role))
 
   ; Adult floor, live paramour, the concealment motive, the monthly rate.
   (when (and (>= (years-old @self) 18)

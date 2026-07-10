@@ -23,43 +23,42 @@
   (long-term-think)
   (rng-stream marriages)
 
-  (roles
-    ; @self the suitor must ALREADY fancy someone and be a marriageable single -
-    ; courtship is the directed pursuit of a specific crush, not a random advance.
-    (role @self (any_human @self)
-                (marriageable-age @self)
-                (not (believes {@self spouse ?}))
-                (not (believes {@self fiancee ?}))
-                (believes {@self fancy ?}))
-    ;; SELF-POV (telepathy purge CAT-3): the suitor reads the beloved from his OWN
-    ;; knowledge - her marital state / lover / fallen mark as HE knows them
-    ;; (permissive on the unknown), and her receptivity as SHE has signalled it to
-    ;; him (confess_fancy). No cross-mind read.
-    (role ?beloved (any_human ?beloved)
-                  (not (= ?beloved @self))
-                  (marriageable-age ?beloved)
-                  (not (believes {?beloved spouse ?}))
-                  (not (believes {?beloved fiancee ?}))
-                  ; You do not court a TAKEN or FALLEN woman: a lover bond means
-                  ; she is spoken-for or compromised, and the fallen-woman mark is
-                  ; the ruined maiden a respectable suitor abandons. (As @self knows
-                  ; them - he courts on; a secret he has not heard does not stop him.)
-                  (not (believes {?beloved lover ?}))
-                  (not (believes {?beloved prototype fallen_woman}))
-                  ; the specific person @self is attracted to (the attraction
-                  ; stance has reached at least the `fancy` band, read as the
-                  ; explicit band-ladder verb-state belief) ...
-                  (is-attracted-to @self ?beloved)
-                  ; RECEPTIVITY: courting only sways an AVAILABLE heart - she has
-                  ; TOLD HIM she fancies him (deepening), or - as far as HE knows -
-                  ; she fancies NO ONE yet (winnable). A girl HE KNOWS to fancy
-                  ; another is not courted - that rival suitor has been heard of.
-                  (or (believes {?beloved fancy @self})
-                      (not (believes {?beloved fancy ?})))
-                  ; opposite-sex: @self's belief that the beloved's PERCEIVED gender
-                  ; differs from his own (visible-on-sight -> cacheable). And not kin.
-                  (not (believes {?beloved gender (target {@self gender})}))
-                  (not (blood-kin @self ?beloved))))
+  ; @self the suitor must ALREADY fancy someone and be a marriageable single -
+  ; courtship is the directed pursuit of a specific crush, not a random advance.
+  (role @self (any_human @self)
+              (marriageable-age @self)
+              (not (believes {@self spouse ?}))
+              (not (believes {@self fiancee ?}))
+              (believes {@self fancy ?}))
+  ;; SELF-POV (telepathy purge CAT-3): the suitor reads the beloved from his OWN
+  ;; knowledge - her marital state / lover / fallen mark as HE knows them
+  ;; (permissive on the unknown), and her receptivity as SHE has signalled it to
+  ;; him (confess_fancy). No cross-mind read.
+  (role ?beloved (any_human ?beloved)
+                (not (= ?beloved @self))
+                (marriageable-age ?beloved)
+                (not (believes {?beloved spouse ?}))
+                (not (believes {?beloved fiancee ?}))
+                ; You do not court a TAKEN or FALLEN woman: a lover bond means
+                ; she is spoken-for or compromised, and the fallen-woman mark is
+                ; the ruined maiden a respectable suitor abandons. (As @self knows
+                ; them - he courts on; a secret he has not heard does not stop him.)
+                (not (believes {?beloved lover ?}))
+                (not (believes {?beloved prototype fallen_woman}))
+                ; the specific person @self is attracted to (the attraction
+                ; stance has reached at least the `fancy` band, read as the
+                ; explicit band-ladder verb-state belief) ...
+                (is-attracted-to @self ?beloved)
+                ; RECEPTIVITY: courting only sways an AVAILABLE heart - she has
+                ; TOLD HIM she fancies him (deepening), or - as far as HE knows -
+                ; she fancies NO ONE yet (winnable). A girl HE KNOWS to fancy
+                ; another is not courted - that rival suitor has been heard of.
+                (or (believes {?beloved fancy @self})
+                    (not (believes {?beloved fancy ?})))
+                ; opposite-sex: @self's belief that the beloved's PERCEIVED gender
+                ; differs from his own (visible-on-sight -> cacheable). And not kin.
+                (not (believes {?beloved gender (target {@self gender})}))
+                (not (blood-kin @self ?beloved)))
 
   ; Non-belief gate moved out of the @self role: the per-suitor (chance) that
   ; paces repeated courting is not a belief query, so it lives here.

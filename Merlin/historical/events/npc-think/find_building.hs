@@ -36,11 +36,10 @@
 (npc-think find_building_step
   (short-term-think)
   (goal    {@self find_building ?sought})
-  (roles
-    (role @self (grown @self))
-    (role ?next [k building]
-          (bb-none ?next surveyed)
-          (prefer (distance @self ?next)) (policy argmax)))
+  (role @self (grown @self))
+  (role ?next [k building]
+        (bb-none ?next surveyed)
+        (prefer (distance @self ?next)) (policy argmax))
   (cont-fire-effects (excl-goal {@self go ?next})))
 
 ; TERMINAL - no unsurveyed building known: idle briefly, then re-deliberate (a marker may

@@ -32,11 +32,10 @@
   (long-term-think)
   (rng-stream business)
 
-  (roles
-    (role @self (old_human @self))
-    (role ?rental (believes {@self own ?rental})
-                  (or (believes {?rental availability [k for_rent]})
-                      (believes {?rental tenant ?}))))
+  (role @self (old_human @self))
+  (role ?rental (believes {@self own ?rental})
+                (or (believes {?rental availability [k for_rent]})
+                    (believes {?rental tenant ?})))
 
   ; Self-throttle: already running an estate = the actor's own ongoing
   ; {@self employer <org>} belief whose org object is-a estate (the same walk

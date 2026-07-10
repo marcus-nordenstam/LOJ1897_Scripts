@@ -42,11 +42,10 @@
   (long-term-think)
   (rng-stream incidents)
 
-  (roles
-    (role @self  (any_human @self))
-    (role ?victim (any_human ?victim)
-                  (not (= ?victim @self))
-                  (believes {@self child ?victim})))
+  (role @self  (any_human @self))
+  (role ?victim (any_human ?victim)
+                (not (= ?victim @self))
+                (believes {@self child ?victim}))
 
   ; Non-belief gates (moved out of the roles - none are cacheable belief queries):
   ;  - actor (chance): the plan's `+legacy, +respectability` for urge is a

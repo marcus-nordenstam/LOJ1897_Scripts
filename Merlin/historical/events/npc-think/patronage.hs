@@ -27,33 +27,32 @@
   (long-term-think)
   (rng-stream business)
 
-  (roles
-    ;; @self the patron, a man of standing: exemplary character (belief-pure here).
-    ;; The age / prestige floors and the per-patron (chance) roll are non-belief
-    ;; gates and now live in the (when ...) clause below.
-    (role @self (old_human @self)
-                (believes {@self repute [k exemplary]}))
-    ;; A protege one or more class steps below the patron, of sound character
-    ;; (not scandalous), without an existing backer. The patron judges the
-    ;; protege from his OWN view (3-arg (situation ?protege <dim> @self), banded
-    ;; in via believe_about) - he can only elevate a connection he actually KNOWS:
-    ;; the class match @fails (no firing) for a stranger, while the repute gate is
-    ;; permissive on the unknown (only a KNOWN-scandalous protege is excluded).
-    ;; (Not already backed - read from the PATRON's OWN knowledge ({backed_by} is
-    ;; banded in via believe_about), no mind peek; permissive on the unknown.)
-    (role ?protege (old_human ?protege)
-                   (not (= ?protege @self))
-                   ;; A working-age adult, elevatable into a trade - a belief-pure
-                   ;; perceived age-band predicate, so it stays a role filter.
-                   (working-age ?protege)
-                   (not (believes {?protege repute [k scandalous]}))
-                   (not (believes {?protege backed_by ?}))
-                   (or (and (believes {@self    class_situation [k upper]})
-                            (believes {?protege class_situation [k middle]}))
-                       (and (believes {@self    class_situation [k upper]})
-                            (believes {?protege class_situation [k lower]}))
-                       (and (believes {@self    class_situation [k middle]})
-                            (believes {?protege class_situation [k lower]})))))
+  ;; @self the patron, a man of standing: exemplary character (belief-pure here).
+  ;; The age / prestige floors and the per-patron (chance) roll are non-belief
+  ;; gates and now live in the (when ...) clause below.
+  (role @self (old_human @self)
+              (believes {@self repute [k exemplary]}))
+  ;; A protege one or more class steps below the patron, of sound character
+  ;; (not scandalous), without an existing backer. The patron judges the
+  ;; protege from his OWN view (3-arg (situation ?protege <dim> @self), banded
+  ;; in via believe_about) - he can only elevate a connection he actually KNOWS:
+  ;; the class match @fails (no firing) for a stranger, while the repute gate is
+  ;; permissive on the unknown (only a KNOWN-scandalous protege is excluded).
+  ;; (Not already backed - read from the PATRON's OWN knowledge ({backed_by} is
+  ;; banded in via believe_about), no mind peek; permissive on the unknown.)
+  (role ?protege (old_human ?protege)
+                 (not (= ?protege @self))
+                 ;; A working-age adult, elevatable into a trade - a belief-pure
+                 ;; perceived age-band predicate, so it stays a role filter.
+                 (working-age ?protege)
+                 (not (believes {?protege repute [k scandalous]}))
+                 (not (believes {?protege backed_by ?}))
+                 (or (and (believes {@self    class_situation [k upper]})
+                          (believes {?protege class_situation [k middle]}))
+                     (and (believes {@self    class_situation [k upper]})
+                          (believes {?protege class_situation [k lower]}))
+                     (and (believes {@self    class_situation [k middle]})
+                          (believes {?protege class_situation [k lower]}))))
 
   ;; Non-belief gates moved out of the @self role: the per-patron (chance) roll
   ;; (first, cheap, short-circuits) and the patron's age / prestige floors.

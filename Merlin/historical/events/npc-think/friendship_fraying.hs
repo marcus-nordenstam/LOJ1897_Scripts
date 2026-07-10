@@ -37,16 +37,15 @@
   ;; SELF-POV: @self reads only his OWN mind - his soured warmth toward ?b and his
   ;; own friend bond. (The bond is structural/mutual, so the effect drops it on both
   ;; sides, as befriend mints it on both.)
-  (roles
-    (role @self (any_human @self)
-             (adult-age @self))
-    (role ?b (any_human ?b)
-             (not (= ?b @self))
-             ; @self now detests ?b (sustained strong-negative warmth, the floor
-             ; warmth band - so the exact-band belief IS "warmth at least detest") ...
-             (believes {@self detest ?b})
-             ; ... and the two are currently friends.
-             (believes {@self friend ?b})))
+  (role @self (any_human @self)
+           (adult-age @self))
+  (role ?b (any_human ?b)
+           (not (= ?b @self))
+           ; @self now detests ?b (sustained strong-negative warmth, the floor
+           ; warmth band - so the exact-band belief IS "warmth at least detest") ...
+           (believes {@self detest ?b})
+           ; ... and the two are currently friends.
+           (believes {@self friend ?b}))
 
   ;; Live re-check: within the tick the role filters are alpha-indexed and go stale,
   ;; and a fray could have already severed this pair from the other direction. Re-

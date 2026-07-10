@@ -28,19 +28,18 @@
   (long-term-think)
   (rng-stream marriages)
 
-  (roles
-    ; @self fancies someone and is free to court (cheap @self pre-gate; the
-    ; specific pair is the ?target stance gate below).
-    (role @self (any_human @self)
-                (marriageable-age @self)
-                (not (believes {@self spouse ?}))
-                (believes {@self fancy ?}))
-    ; ?target is the specific person @self is attracted to (attraction at least
-    ; the `fancy` band - the same gate court / love_match read).
-    (role ?target (any_human ?target)
-                  (not (= ?target @self))
-                  (marriageable-age ?target)
-                  (is-attracted-to @self ?target)))
+  ; @self fancies someone and is free to court (cheap @self pre-gate; the
+  ; specific pair is the ?target stance gate below).
+  (role @self (any_human @self)
+              (marriageable-age @self)
+              (not (believes {@self spouse ?}))
+              (believes {@self fancy ?}))
+  ; ?target is the specific person @self is attracted to (attraction at least
+  ; the `fancy` band - the same gate court / love_match read).
+  (role ?target (any_human ?target)
+                (not (= ?target @self))
+                (marriageable-age ?target)
+                (is-attracted-to @self ?target))
 
   ; The confession only happens when they are actually TOGETHER (no telepathy; also
   ; keeps the per-listener untold record honest).

@@ -28,63 +28,62 @@
   (long-term-think)
   (rng-stream marriages)
 
-  (roles
-    ; @self the suitor: an unmarried, un-betrothed adult who is not socially shut
-    ; out. The per-suitor (chance) gate has moved to (when ...) (role-belief purity).
-    (role @self (any_human @self)
-                (adult-age @self)
-                (not (believes {@self fiancee ?}))
-                (not (believes {@self spouse ?}))
-                (not (believes {@self repute [k scandalous]}))
-                ;; Fallen-woman gate, class-modulated (late-Victorian model): the
-                ;; respectable classes shut her out of courtship entirely, but
-                ;; working-class communities are pragmatic - a lower-class fall may
-                ;; still wed (the beloved role completes the pair check).
+  ; @self the suitor: an unmarried, un-betrothed adult who is not socially shut
+  ; out. The per-suitor (chance) gate has moved to (when ...) (role-belief purity).
+  (role @self (any_human @self)
+              (adult-age @self)
+              (not (believes {@self fiancee ?}))
+              (not (believes {@self spouse ?}))
+              (not (believes {@self repute [k scandalous]}))
+              ;; Fallen-woman gate, class-modulated (late-Victorian model): the
+              ;; respectable classes shut her out of courtship entirely, but
+              ;; working-class communities are pragmatic - a lower-class fall may
+              ;; still wed (the beloved role completes the pair check).
+              (or (not (believes {@self prototype fallen_woman}))
+                  (believes {@self class_situation [k lower]})))
+  ;; SELF-POV (telepathy purge CAT-3): @self judges the beloved from his OWN
+  ;; knowledge - her marital state / lover / fallen mark as HE knows them (banded
+  ;; in via gossip/believe_about; permissive on the unknown), her repute as HE
+  ;; sees it (3-arg situation), and crucially her RECIPROCAL fancy as SHE TOLD
+  ;; HIM (confess_fancy minted {?beloved fancy @self} in his mind). No mind peek.
+  (role ?beloved (any_human ?beloved)
+                (not (= ?beloved @self))
+                (adult-age ?beloved)
+                (not (believes {?beloved fiancee ?}))
+                (not (believes {?beloved spouse ?}))
+                (not (believes {?beloved repute [k scandalous]}))
+                ;; Pair half of the fallen-woman gate: a fallen party (either
+                ;; side) weds only when BOTH sides are lower class.
+                (or (not (believes {?beloved prototype fallen_woman}))
+                    (and (believes {?beloved class_situation [k lower]})
+                         (believes {@self    class_situation [k lower]})))
                 (or (not (believes {@self prototype fallen_woman}))
-                    (believes {@self class_situation [k lower]})))
-    ;; SELF-POV (telepathy purge CAT-3): @self judges the beloved from his OWN
-    ;; knowledge - her marital state / lover / fallen mark as HE knows them (banded
-    ;; in via gossip/believe_about; permissive on the unknown), her repute as HE
-    ;; sees it (3-arg situation), and crucially her RECIPROCAL fancy as SHE TOLD
-    ;; HIM (confess_fancy minted {?beloved fancy @self} in his mind). No mind peek.
-    (role ?beloved (any_human ?beloved)
-                  (not (= ?beloved @self))
-                  (adult-age ?beloved)
-                  (not (believes {?beloved fiancee ?}))
-                  (not (believes {?beloved spouse ?}))
-                  (not (believes {?beloved repute [k scandalous]}))
-                  ;; Pair half of the fallen-woman gate: a fallen party (either
-                  ;; side) weds only when BOTH sides are lower class.
-                  (or (not (believes {?beloved prototype fallen_woman}))
-                      (and (believes {?beloved class_situation [k lower]})
-                           (believes {@self    class_situation [k lower]})))
-                  (or (not (believes {@self prototype fallen_woman}))
-                      (believes {?beloved class_situation [k lower]}))
-                  ; the heart of it: @self is attracted to this person (attraction
-                  ; at least the `fancy` band, the explicit band-ladder belief) ...
-                  (is-attracted-to @self ?beloved)
-                  ; ... and MUTUAL fancy - she fancies him BACK, and SAID SO. A love
-                  ; match is a meeting of two hearts: court builds her fancy toward
-                  ; him, confess_fancy carries her admission into his mind, and only
-                  ; once he KNOWS she reciprocates do they betroth. A one-sided crush
-                  ; does NOT marry here - it routes to the arranged betrothal /
-                  ; advantageous_match path or goes nowhere.
-                  (believes {?beloved fancy @self})
-                  ; lover fidelity: a party holding a standing `lover` bond
-                  ; love-matches ONLY that lover (the widowed affair-partners
-                  ; finally marrying), never a third party over them. `lover` is
-                  ; mutual, so "@self holds ?beloved as lover" answers both sides.
-                  (or (not (believes {@self lover ?}))
-                      (believes {@self lover ?beloved}))
-                  (or (not (believes {?beloved lover ?}))
-                      (believes {@self lover ?beloved}))
-                  ; no marrying blood kin (consanguinity backstop) ...
-                  (not (blood-kin @self ?beloved))
-                  ; ... opposite-sex: @self's belief that the beloved's PERCEIVED
-                  ; gender differs from his own (gender is visible-on-sight, so this
-                  ; dynamic-target belief is object-cacheable; drops same-sex passes).
-                  (not (believes {?beloved gender (target {@self gender})}))
-                  (age-peers @self ?beloved)))
+                    (believes {?beloved class_situation [k lower]}))
+                ; the heart of it: @self is attracted to this person (attraction
+                ; at least the `fancy` band, the explicit band-ladder belief) ...
+                (is-attracted-to @self ?beloved)
+                ; ... and MUTUAL fancy - she fancies him BACK, and SAID SO. A love
+                ; match is a meeting of two hearts: court builds her fancy toward
+                ; him, confess_fancy carries her admission into his mind, and only
+                ; once he KNOWS she reciprocates do they betroth. A one-sided crush
+                ; does NOT marry here - it routes to the arranged betrothal /
+                ; advantageous_match path or goes nowhere.
+                (believes {?beloved fancy @self})
+                ; lover fidelity: a party holding a standing `lover` bond
+                ; love-matches ONLY that lover (the widowed affair-partners
+                ; finally marrying), never a third party over them. `lover` is
+                ; mutual, so "@self holds ?beloved as lover" answers both sides.
+                (or (not (believes {@self lover ?}))
+                    (believes {@self lover ?beloved}))
+                (or (not (believes {?beloved lover ?}))
+                    (believes {@self lover ?beloved}))
+                ; no marrying blood kin (consanguinity backstop) ...
+                (not (blood-kin @self ?beloved))
+                ; ... opposite-sex: @self's belief that the beloved's PERCEIVED
+                ; gender differs from his own (gender is visible-on-sight, so this
+                ; dynamic-target belief is object-cacheable; drops same-sex passes).
+                (not (believes {?beloved gender (target {@self gender})}))
+                (age-peers @self ?beloved))
 
   ;; Live un-betrothed re-check: the role filters are alpha-indexed and go stale
   ;; within the window, so re-check at firing - now from @self's OWN beliefs

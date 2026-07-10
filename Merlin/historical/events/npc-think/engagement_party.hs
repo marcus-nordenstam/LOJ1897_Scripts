@@ -31,12 +31,11 @@
   ;; announces HIS OWN fresh engagement; ?bride is recovered from his OWN fiancee
   ;; belief (no mind peek). The male-gender gate and the first-year belief-age
   ;; re-fire guard are non-belief filters - moved to (when ...) below.
-  (roles
-    (role @self (adult @self)
-                (not (believes {@self spouse ?}))
-                (believes {@self fiancee ?}))
-    (role ?bride (unmarried_woman ?bride)
-                 (believes {@self fiancee ?bride})))
+  (role @self (adult @self)
+              (not (believes {@self spouse ?}))
+              (believes {@self fiancee ?}))
+  (role ?bride (unmarried_woman ?bride)
+               (believes {@self fiancee ?bride}))
 
   ;; Moved from the @self role (non-belief filters): groom must be male, and the
   ;; fiancee belief must be in its first year (the once-per-betrothal re-fire guard).

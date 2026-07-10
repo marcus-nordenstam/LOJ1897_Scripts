@@ -29,8 +29,7 @@
   (long-term-think)
   (rng-stream perpetration)
 
-  (roles
-    (role @self (any_human @self)))
+  (role @self (any_human @self))
 
   ; Narcissism tail + adult floor + rate gate.
   (when (and (>= (years-old @self) 18)

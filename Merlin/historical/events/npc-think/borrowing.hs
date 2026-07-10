@@ -15,11 +15,10 @@
   (long-term-think)
   (rng-stream behaviour)
 
-  (roles
-    (role @self   (old_human @self))
-    (role ?creditor (old_human ?creditor)
-                    (not (= ?creditor @self))
-                    (not (believes {@self owe ?creditor}))))
+  (role @self   (old_human @self))
+  (role ?creditor (old_human ?creditor)
+                  (not (= ?creditor @self))
+                  (not (believes {@self owe ?creditor})))
 
   ; The borrow roll - moved out of the @self role (a (chance)/(attr) gate is
   ; non-belief, so it lives in (when), not the role). Low industriousness (less

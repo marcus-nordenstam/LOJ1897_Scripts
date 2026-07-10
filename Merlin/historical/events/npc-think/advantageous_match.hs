@@ -25,46 +25,45 @@
   ; the old annual rate.
   (rng-stream marriages)
 
-  (roles
-    ;; Exemplary bride: spotless reputation lifts her one class up.
-    ;; The plan's "infatuation-target overlap or parental matchmaking
-    ;; pressure" motivations are V2 work - infatuation substrate ships
-    ;; with PR-A-9 (crush_forms.hse), parental matchmaking pressure
-    ;; needs the parent's life_aim plus child's current courtship state
-    ;; (multi-role join, deferred). V1 substrate-routes the chance via a
-    ;; trait product over (enthusiasm + openness) - outgoing brides
-    ;; engage in seasonal courtship rituals more than withdrawn ones;
-    ;; the constraint filters (exemplary respectability + age gap +
-    ;; class compatibility on the groom side) are already substrate-
-    ;; rooted, so the multiplicative chance just adds a smooth
-    ;; trait-driven gradient on top.
-    ;; SELF-POV (telepathy purge CAT-3): @self the GROOM is the deliberator (light
-    ;; @self template + inline gates; the man proposes). He marries DOWN one class to
-    ;; an exemplary woman he KNOWS - her exemplary repute / class read from his own
-    ;; view ((situation ?bride <dim> @self)), her availability his own belief. The
-    ;; non-belief gates (the (chance) trait-graded pacing and the groom gender read)
-    ;; now live in (when); the role keeps the belief-pure availability / repute
-    ;; filters plus the perceived age-peer + blood-kin predicates (belief macros).
-    (role @self (adult @self)
-                (not (believes {@self spouse ?}))
-                (not (believes {@self fiancee ?}))
-                (not (believes {@self repute [k scandalous]}))
-                (not (believes {@self repute [k disreputable]})))
-    ;; An exemplary bride one class BELOW the groom (spotless reputation lifts her).
-    ;; class_situation values are upper / middle / lower; the explicit kind literals
-    ;; dodge the ambiguous bare-atom path. The (or ...) encodes the two valid lifts.
-    ;; age-peers / blood-kin are belief-pure perceived predicates, so they stay role
-    ;; filters (cacheable), gating the bride candidate set directly.
-    (role ?bride (unmarried_woman ?bride)
-                 (not (= ?bride @self))
-                 (age-peers @self ?bride)
-                 (not (blood-kin @self ?bride))
-                 (not (believes {?bride fiancee ?}))
-                 (believes {?bride repute [k exemplary]})
-                 (or (and (believes {@self class_situation [k middle]})
-                          (believes {?bride class_situation [k lower]}))
-                     (and (believes {@self class_situation [k upper]})
-                          (believes {?bride class_situation [k middle]})))))
+  ;; Exemplary bride: spotless reputation lifts her one class up.
+  ;; The plan's "infatuation-target overlap or parental matchmaking
+  ;; pressure" motivations are V2 work - infatuation substrate ships
+  ;; with PR-A-9 (crush_forms.hse), parental matchmaking pressure
+  ;; needs the parent's life_aim plus child's current courtship state
+  ;; (multi-role join, deferred). V1 substrate-routes the chance via a
+  ;; trait product over (enthusiasm + openness) - outgoing brides
+  ;; engage in seasonal courtship rituals more than withdrawn ones;
+  ;; the constraint filters (exemplary respectability + age gap +
+  ;; class compatibility on the groom side) are already substrate-
+  ;; rooted, so the multiplicative chance just adds a smooth
+  ;; trait-driven gradient on top.
+  ;; SELF-POV (telepathy purge CAT-3): @self the GROOM is the deliberator (light
+  ;; @self template + inline gates; the man proposes). He marries DOWN one class to
+  ;; an exemplary woman he KNOWS - her exemplary repute / class read from his own
+  ;; view ((situation ?bride <dim> @self)), her availability his own belief. The
+  ;; non-belief gates (the (chance) trait-graded pacing and the groom gender read)
+  ;; now live in (when); the role keeps the belief-pure availability / repute
+  ;; filters plus the perceived age-peer + blood-kin predicates (belief macros).
+  (role @self (adult @self)
+              (not (believes {@self spouse ?}))
+              (not (believes {@self fiancee ?}))
+              (not (believes {@self repute [k scandalous]}))
+              (not (believes {@self repute [k disreputable]})))
+  ;; An exemplary bride one class BELOW the groom (spotless reputation lifts her).
+  ;; class_situation values are upper / middle / lower; the explicit kind literals
+  ;; dodge the ambiguous bare-atom path. The (or ...) encodes the two valid lifts.
+  ;; age-peers / blood-kin are belief-pure perceived predicates, so they stay role
+  ;; filters (cacheable), gating the bride candidate set directly.
+  (role ?bride (unmarried_woman ?bride)
+               (not (= ?bride @self))
+               (age-peers @self ?bride)
+               (not (blood-kin @self ?bride))
+               (not (believes {?bride fiancee ?}))
+               (believes {?bride repute [k exemplary]})
+               (or (and (believes {@self class_situation [k middle]})
+                        (believes {?bride class_situation [k lower]}))
+                   (and (believes {@self class_situation [k upper]})
+                        (believes {?bride class_situation [k middle]}))))
 
   ;; Live exclusivity re-check (see betrothal.hs), from the groom's OWN beliefs.
   ;; Non-belief gates moved out of the roles: the (chance) pacing (first - it

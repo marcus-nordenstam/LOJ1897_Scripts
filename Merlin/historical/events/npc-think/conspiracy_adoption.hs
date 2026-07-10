@@ -32,13 +32,12 @@
   (long-term-think)
   (rng-stream perpetration)
 
-  (roles
-    (role @self (any_human @self))
-    ; Anyone @self believes has urged something - the belief arrives only by
-    ; reading the letter (or hearing the words), never by telepathy.
-    (role ?instigator (any_human ?instigator)
-          (not (= ?instigator @self))
-          (believes {?instigator urge ?})))
+  (role @self (any_human @self))
+  ; Anyone @self believes has urged something - the belief arrives only by
+  ; reading the letter (or hearing the words), never by telepathy.
+  (role ?instigator (any_human ?instigator)
+        (not (= ?instigator @self))
+        (believes {?instigator urge ?}))
 
   ; The plot must ask ME to kill someone, and I must be willing: desire for
   ; the instigator (attraction band >= 2) plus the dark roll - the same

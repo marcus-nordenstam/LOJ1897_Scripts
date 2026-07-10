@@ -18,8 +18,7 @@
   (long-term-think)
   (rng-stream deaths)
 
-  (roles
-    (role @self (any_human @self)))
+  (role @self (any_human @self))
 
   ; years-old is a non-belief op, so the age gate lives in (when), not the role.
   (when (and (>= (years-old @self) 1)

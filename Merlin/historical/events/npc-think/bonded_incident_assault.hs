@@ -24,14 +24,13 @@
   (long-term-think)
   (rng-stream incidents)
 
-  (roles
-    ; @self is any human; the dark-tetrad assault disposition that rolls once
-    ; per NPC now lives in the (when ...) gate below (a non-belief chance read
-    ; cannot live on the role under the belief-purity invariant).
-    (role @self (any_human @self))
-    (role ?victim (any_human ?victim)
-                  (not (= ?victim @self))
-                  (personally-knows @self ?victim)))
+  ; @self is any human; the dark-tetrad assault disposition that rolls once
+  ; per NPC now lives in the (when ...) gate below (a non-belief chance read
+  ; cannot live on the role under the belief-purity invariant).
+  (role @self (any_human @self))
+  (role ?victim (any_human ?victim)
+                (not (= ?victim @self))
+                (personally-knows @self ?victim))
 
   ; Dark-tetrad assault disposition, rolled once per NPC (moved off the @self
   ; role): volatility x psychopathy x sadism x (1 - politeness), amplified by

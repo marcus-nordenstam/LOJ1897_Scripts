@@ -27,11 +27,10 @@
   (long-term-think)
   (rng-stream perpetration)
 
-  (roles
-    (role @self (any_human @self))
-    ; One firing per standing anchor: no (prefer) / (pick-first-matching-role).
-    (role ?victim (any_human ?victim)
-      (believes {@self extort ?victim})))
+  (role @self (any_human @self))
+  ; One firing per standing anchor: no (prefer) / (pick-first-matching-role).
+  (role ?victim (any_human ?victim)
+    (believes {@self extort ?victim}))
 
   (effects
     (if (not (alive ?victim))

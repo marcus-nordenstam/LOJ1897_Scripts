@@ -49,8 +49,7 @@
   (long-term-think)
   (rng-stream perpetration)
 
-  (roles
-    (role @self (any_human @self)))
+  (role @self (any_human @self))
 
   ; Disposition pre-gate + adult floor + rate. lethal = mean(psychopathy, sadism);
   ; the >= 0.65 floor is the hard trait tail (only the top tail EVER qualifies).

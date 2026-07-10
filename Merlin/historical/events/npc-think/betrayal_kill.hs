@@ -29,13 +29,12 @@
   (long-term-think)
   (rng-stream perpetration)
 
-  (roles
-    (role @self (any_human @self))
-    ; The unfaithful partner: a spouse or lover the actor believes keeps a
-    ; third-party lover (the belief-query role filter). The interloper is resolved
-    ; in (effects) via (interloper-of ?partner) - a cross-role read, not a role filter.
-    (role ?partner (any_human ?partner)
-      (believes {@self spouse|lover ?partner}) (pick-first-matching-role)))
+  (role @self (any_human @self))
+  ; The unfaithful partner: a spouse or lover the actor believes keeps a
+  ; third-party lover (the belief-query role filter). The interloper is resolved
+  ; in (effects) via (interloper-of ?partner) - a cross-role read, not a role filter.
+  (role ?partner (any_human ?partner)
+    (believes {@self spouse|lover ?partner}) (pick-first-matching-role))
 
   ; Jealous-rage pre-gate: the rage tail released by disinhibition, at the
   ; 0.02 base rate (score_macros.hs).

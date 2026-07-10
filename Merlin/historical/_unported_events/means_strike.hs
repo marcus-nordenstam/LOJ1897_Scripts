@@ -11,8 +11,8 @@
 ; ----------------------------------------------------------------------------
 (hsim-event means_strike
   (kind _means_strike)
-  (roles (role ?actor  (any_human ?actor))
-         (role ?victim (any_human ?victim)))
+ (role ?actor  (any_human ?actor))
+       (role ?victim (any_human ?victim))
   (when (co-present ?actor ?victim))
   (effects
     (strike ?actor ?victim)))
