@@ -32,11 +32,14 @@
   (when (and (bind {?creditor home ?cred_home})
              (at-place ?cred_home)))
   (utility 60)
-  (effects (begin-act {@self take_loan} 45 borrow_commit)))
+  (cont-fire-effects (begin-goal {@self take_loan})))
 
-(npc-think borrow_commit
-  (on-completion)
-  (effects
+; The 45-min call, promoted from the take_loan aim at the lender's home; matched by its
+; (when) on the promoted {@self take_loan} belief. Records the debt, ends act + aim.
+(npc-act take_loan_act
+  (when (believes {@self take_loan}))
+  (duration 45)
+  (act-effects
     (begin-belief {@self owe (goal-focus take_loan)})
-    (end-goal {@self take_loan})
-    ))
+    (end-act {@self take_loan})
+    (end-goal {@self take_loan})))

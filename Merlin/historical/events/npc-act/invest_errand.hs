@@ -7,10 +7,11 @@
 ; <org>}. The destination is the org's `workplace` belief (the same bind work_attendance
 ; uses), so no telepathy and no address lookup.
 ;
-;   invest_go     : hold the goal, not at the firm -> travel act to its workplace.
-;   invest_dwell  : hold the goal, AT the firm -> a short dwell (the proposal).
-;   invest_commit : completion (completion-only) - records {@self backed_by <org>}
-;                   (the org via goal-focus) + clears the goal.
+;   invest_go     : hold the aim, not at the firm -> travel sub-goal to its workplace.
+;   invest_dwell  : hold the aim, AT the firm -> feed the aim this think's drive so it
+;                   PROMOTES (the proposal).
+;   invest_act    : the promoted 45-min proposal - records {@self backed_by <org>} (the
+;                   org via goal-focus) + ends the act + the aim.
 ; ----------------------------------------------------------------------------
 
 (npc-think invest_go
@@ -22,6 +23,9 @@
   (utility 60)
   (cont-fire-effects (excl-goal {@self go ?wp})))
 
+; AT the firm: re-affirm the standing back aim with this think's drive so it promotes
+; (the go sub-goal spent, the aim is the leaf). begin-goal, not excl-goal - the aim is a
+; latched goal, not this node's to auto-retract.
 (npc-think invest_dwell
   (short-term-think)
   (goal {@self back})
@@ -29,11 +33,14 @@
   (when (and (bind {?org workplace ?wp})
              (at-place ?wp)))
   (utility 60)
-  (effects (begin-act {@self back} 45 invest_commit)))
+  (cont-fire-effects (begin-goal {@self back})))
 
-(npc-think invest_commit
-  (on-completion)
-  (effects
+; The 45-min proposal, promoted from the back aim at the firm; matched by its (when) on
+; the promoted {@self back} belief.
+(npc-act invest_act
+  (when (believes {@self back}))
+  (duration 45)
+  (act-effects
     (begin-belief {@self backed_by (goal-focus back)})
-    (end-goal {@self back})
-    ))
+    (end-act {@self back})
+    (end-goal {@self back})))

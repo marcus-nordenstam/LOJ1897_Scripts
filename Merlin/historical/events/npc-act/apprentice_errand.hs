@@ -8,10 +8,12 @@
 ; (articles-building (goal-focus seek_indenture)) and the master is
 ; (org-founder (goal-focus seek_indenture)).
 ;
-;   indenture_go     : hold the goal, not at the master's premises -> travel act.
-;   indenture_dwell  : hold the goal, AT the premises -> a dwell (being taken on).
-;   indenture_commit : completion (completion-only) - hires the youth as a trainee clerk,
-;                      mints the {@self master <master>} bond, clears the goal.
+;   indenture_go     : hold the aim, not at the premises -> travel sub-goal.
+;   indenture_dwell  : hold the aim, AT the premises -> feed the aim this think's drive
+;                      so it PROMOTES (the go sub-goal done, the aim is the leaf).
+;   indenture_act    : the promoted act - the 90-min articling; matched by its (when)
+;                      on the promoted {@self seek_indenture} belief. Hires the youth,
+;                      mints the master bond, ends the act + the aim.
 ; ----------------------------------------------------------------------------
 
 (npc-think indenture_go
@@ -24,25 +26,30 @@
   (utility 80)
   (cont-fire-effects (excl-goal {@self go ?venue})))
 
+; AT the premises: re-affirm the standing seek_indenture aim with this think's utility so
+; it carries a drive. With the go sub-goal spent, the aim is the leaf and promotes to
+; indenture_act. begin-goal (not excl-goal) - the aim is a latched goal, not this node's
+; to auto-retract; the utility source is what makes it win the motor here.
 (npc-think indenture_dwell
   (short-term-think)
   (goal {@self seek_indenture})
   (when (and (articles-building (goal-focus seek_indenture) ?venue)
              (at-place ?venue)))
   (utility 80)
-  (effects (begin-act {@self seek_indenture} 90 indenture_commit)))
+  (cont-fire-effects (begin-goal {@self seek_indenture})))
 
-(npc-think indenture_commit
-  (on-completion)
+; The 90-min articling. Promoted from the seek_indenture aim at the premises; its (when)
+; matches the promoted {@self seek_indenture} belief + binds the master off the articles
+; (dropping cleanly if unreadable). Ends both the running act and the aim on completion.
+(npc-act indenture_act
   ; bind the master's articles to a plain ?var (a macro arg used as a {pattern}
-  ; subject inside hire-seq must be a ?var, not an expr). Needed in the gate, so
-  ; it is a top-level (bind ...), evaluated before (when).
+  ; subject inside hire-seq must be a ?var, not an expr).
   (bind (goal-focus seek_indenture) ?art)
-  ; org-founder BINDS ?master off the articles; the gate also drops the commit
-  ; cleanly if the org's articles became unreadable (no master to bond to).
-  (when (org-founder ?art ?master))
-  (effects
+  (when (and (believes {@self seek_indenture})
+             (org-founder ?art ?master)))
+  (duration 90)
+  (act-effects
     (hire-seq ?art [k job clerk] [k trainee])
     (begin-belief {@self master ?master})
-    (end-goal {@self seek_indenture})
-    ))
+    (end-act {@self seek_indenture})
+    (end-goal {@self seek_indenture})))
