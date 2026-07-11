@@ -33,6 +33,14 @@ concept
         for_rent
         off_the_market
 
+    # A general open/shut STATUS. The value kinds for perceivable open/closed
+    # states - e.g. the struct_status attr on interior_space (common.arc): a room
+    # reads `open` while its premises trade and `closed` once shuttered (perceived
+    # on sight, so a worker who steps into a closed room learns his firm has folded).
+    status
+        open
+        closed
+
     legal_right
         property        (sub being)
 

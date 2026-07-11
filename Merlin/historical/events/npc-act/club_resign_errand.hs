@@ -20,7 +20,7 @@
   (role ?go_dest [k building social_clubhouse] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building social_clubhouse])))
   (utility 40)
-  (cont-fire-effects (excl-goal {@self go ?go_dest})))
+  (cont-fire-effects (go-into ?go_dest)))
 
 (npc-think resign_dwell
   (short-term-think)

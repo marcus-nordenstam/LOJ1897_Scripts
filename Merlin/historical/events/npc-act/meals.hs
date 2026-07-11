@@ -115,7 +115,7 @@
              (> (attr @self hunger) 0.25)
              (bind {@self employer ?org})
              (bind {?org workplace ?wp})
-             (at-place ?wp)
+             (at-workplace ?wp)
              (>= (now-hour) 12)
              (< (now-hour) 14)))
   (utility 85)
@@ -181,7 +181,7 @@
              (< (now-hour) (+ ?h 2))
              (not (at-home))))
   (utility 78)
-  (cont-fire-effects (excl-goal {@self go ?home})))
+  (cont-fire-effects (go-into ?home)))
 
 ; EXECUTE - at home inside the cook's window: the hour at table.
 (npc-think supper
@@ -287,9 +287,9 @@
   (bind (target {@self provisions_shop ?}) ?shop)
   (when (and (not (under-attack))
              (is-entity ?shop)
-             (not (at-place ?shop))))
+             (not (in-building ?shop))))
   (utility 55)
-  (cont-fire-effects (excl-goal {@self go ?shop})))
+  (cont-fire-effects (go-into ?shop)))
 
 (npc-think provision_search
   (short-term-think)
@@ -302,7 +302,7 @@
              (not (is-entity ?shop))
              (not (at-place-kind [k building shop]))))
   (utility 55)
-  (cont-fire-effects (excl-goal {@self go ?go_dest})))
+  (cont-fire-effects (go-into ?go_dest)))
 
 (npc-think provision_take
   (short-term-think)
@@ -354,7 +354,7 @@
              (not (at-place-kind [k building pub]))
              (= (count-believed-located [k food] ?home) 0)))
   (utility 70)
-  (cont-fire-effects (excl-goal {@self go ?go_dest})))
+  (cont-fire-effects (go-into ?go_dest)))
 
 (npc-think eat_out_go_restaurant
   (short-term-think)
@@ -372,7 +372,7 @@
              (not (at-place-kind [k building restaurant]))
              (= (count-believed-located [k food] ?home) 0)))
   (utility 70)
-  (cont-fire-effects (excl-goal {@self go ?go_dest})))
+  (cont-fire-effects (go-into ?go_dest)))
 
 (npc-think eat_out_pub
   (short-term-think)
@@ -464,7 +464,7 @@
              (bind {@self home ?home})
              (> (count-believed-located [k food] ?home) 0)))
   (utility 138)
-  (cont-fire-effects (excl-goal {@self go ?home})))
+  (cont-fire-effects (go-into ?home)))
 
 (npc-think starving_eat_episode
   (on-completion)
@@ -494,8 +494,8 @@
   (utility 135)
   (effects
     (if (is-entity ?shop)
-        (excl-goal {@self go ?shop})
-        (excl-goal {@self go ?go_dest}))))
+        (go-into ?shop)
+        (go-into ?go_dest))))
 
 (npc-think starving_buy
   (short-term-think)
@@ -537,8 +537,8 @@
   (utility 130)
   (effects
     (if (is-entity ?shop)
-        (excl-goal {@self go ?shop})
-        (excl-goal {@self go ?go_dest}))))
+        (go-into ?shop)
+        (go-into ?go_dest))))
 
 (npc-think starving_steal
   (short-term-think)

@@ -33,4 +33,4 @@
     (if (can-drink @self)
         (begin-goal {@self drink})
         (if (and (is-entity ?pub) (not (= ?pub @self)))
-            (begin-goal {@self go ?pub})))))
+            (go-into ?pub)))))

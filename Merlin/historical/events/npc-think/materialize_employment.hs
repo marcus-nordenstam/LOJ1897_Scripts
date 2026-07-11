@@ -47,21 +47,11 @@
         (hire-beliefs ?art ?job ?lvl)
         ))))
 
-; --- startup: the cold-start bootstrap workers (one round-based per-NPC pass) ---
-(npc-think materialize_employment_startup
-  (startup)
-  (rng-stream employment)
-
-  (role @self (any_human @self))
-
-  (when (not (believes {@self employer ?})))
-
-  (effects
-    (find-my-enrollment (bind ?art))
-    (if ?art
-      (do
-        (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
-        (read-doc-record [k employee_register] ?reg
-            (find worker @self) (job ?job) (level ?lvl))
-        (hire-beliefs ?art ?job ?lvl)
-        ))))
+; NOTE: there is NO (startup) twin of this event. At the cold-start (startup) pass the
+; only enrollments are org HEADS (found-org-seq mints their beliefs inline), so a startup
+; materialize had nobody to reconstruct - it fired for every adult x every startup round,
+; each doing an O(all-docs) find-my-enrollment scan that always came back empty (verified:
+; 0 reconstructions). That fruitless scan WAS the ~43s startup cost; deleting it removed
+; it outright. Register-only enrollees (servants / jockeys / the landlord's seat, all
+; enrolled MONTHLY by the long-term-think staffing passes) are reconstructed by the
+; emergent event above, in the window they are enrolled.

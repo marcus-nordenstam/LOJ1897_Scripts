@@ -39,7 +39,7 @@
   (role @self (grown @self))
   (role ?pub [k building pub] (select (score (near @self ?pub)) (policy roulette)))
   (when    (not (can-drink @self)))
-  (cont-fire-effects (excl-goal {@self go ?pub})))
+  (cont-fire-effects (go-into ?pub)))
 
 ; CASE C - not at a pub and knows none: search for one (find_building.hs runs it).
 (npc-think drink_find

@@ -35,7 +35,7 @@ attr "name" (type name) (spec-attr name) (int-per reason) (ext-per imperceptible
 attr "obb" (type obb) (spec-attr spatial-bounds) (per obs) (auto-percept) (state-flags-tar @excl)
 # Parent relationships are kept in the ECS for efficiency (technically redundant with parts)
 attr "struct_parent" (type entity) (entity "structure" "container_structure" "structure_part" "part" "interior_space" "exterior_space" "hand" "human_player" "human_npc") (spec-attr parent) (per obs) (state-flags-tar @excl)
-attr "parts" (type entity array 24) (state "part") (spec-attr children) (int-per feel) (ext-per obs)
+attr "parts" (type entity array 48) (state "part") (spec-attr children) (int-per feel) (ext-per obs)
 
 # Ownership & control
 # The entity currently controlling the position of this entity (if any)
@@ -259,6 +259,15 @@ attr "mood_set_dates" (type date array 8) (imperceptible)
 attr "isolated"    (type int) (range 0 1) (per obs)
 attr "has_crypt"   (type int) (range 0 1) (per obs)
 attr "locked_wing" (type int) (range 0 1) (per obs)
+# Premises open/closed STATUS (no-telepathy teardown). A perceivable PHYSICAL fact the
+# owner's closure act sets on the BUILDING via (shutter-building ?wp) (closure_macros.hs),
+# writing [k closed] (from [k open]). (hsim-percept): since NPCs ALWAYS front-park a
+# building on arrival (Stage-5 two-arm), a worker RE-OBSERVES his workplace every commute
+# via exterior perception and INTERNALIZES {building struct_status [k closed]} fresh;
+# reconcile_closed drops his own stale employment beliefs off that PERCEIVED belief - no
+# mind but his own is written. Kind-valued (open|closed under `status`, Concepts.mon), so
+# it mirrors as a clean belief like `condition`. Lives on container_structure (buildings).
+attr "struct_status" (type kind open) (per obs) (auto-percept) (hsim-percept)
 # Era bounds - the building physically exists from era_min to era_max.
 attr "era_min" (type date) (imperceptible)
 attr "era_max" (type date) (imperceptible)

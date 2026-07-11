@@ -22,7 +22,7 @@
   (role ?go_dest [k building church] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building church])))
   (utility 28)
-  (cont-fire-effects (excl-goal {@self go ?go_dest})))
+  (cont-fire-effects (go-into ?go_dest)))
 
 (npc-think orient_dwell
   (short-term-think)

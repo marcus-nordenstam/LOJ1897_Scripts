@@ -19,7 +19,7 @@
   (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building school])))
   (utility 35)
-  (cont-fire-effects (excl-goal {@self go ?go_dest})))
+  (cont-fire-effects (go-into ?go_dest)))
 (npc-think primary_dwell
   (short-term-think)
   (goal {@self enrol_primary})
@@ -41,7 +41,7 @@
   (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building school])))
   (utility 35)
-  (cont-fire-effects (excl-goal {@self go ?go_dest})))
+  (cont-fire-effects (go-into ?go_dest)))
 (npc-think secondary_dwell
   (short-term-think)
   (goal {@self enrol_secondary})
@@ -63,7 +63,7 @@
   (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building school])))
   (utility 35)
-  (cont-fire-effects (excl-goal {@self go ?go_dest})))
+  (cont-fire-effects (go-into ?go_dest)))
 (npc-think university_dwell
   (short-term-think)
   (goal {@self enrol_university})

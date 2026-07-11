@@ -19,7 +19,7 @@
   (role ?go_dest [k building pub] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building pub])))
   (utility 45)
-  (cont-fire-effects (excl-goal {@self go ?go_dest})))
+  (cont-fire-effects (go-into ?go_dest)))
 
 (npc-think found_club_dwell
   (short-term-think)

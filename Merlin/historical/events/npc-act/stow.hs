@@ -30,7 +30,7 @@
              (bind {@self home ?home})
              (not (at-home))))
   (utility 90)
-  (cont-fire-effects (excl-goal {@self go ?home})))
+  (cont-fire-effects (go-into ?home)))
 
 (npc-think stow_put
   (short-term-think)

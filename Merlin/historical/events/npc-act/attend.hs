@@ -31,16 +31,16 @@
 ; attend goal ({@self goal {@self attend ?occ}}), and the occasion carries a
 ; {?occ venue ?venue} belief - both read from the NPC's OWN mind (mental, no
 ; C++ venue op, no scan). A goal-less / venue-less occasion leaves ?venue unbound
-; -> the (at-place ?venue) gate fails and the lane simply waits.
+; -> the (in-building ?venue) gate fails and the lane simply waits.
 (npc-think attend_go
   (short-term-think)
   (goal {@self attend})
   (bind (target {@self goal {@self attend ?}}) ?occ)
   (when (and (bind {?occ venue ?venue})
              (attend-in-window @self)
-             (not (at-place ?venue))))
+             (not (in-building ?venue))))
   (utility (attend-utility @self))
-  (cont-fire-effects (excl-goal {@self go ?venue})))
+  (cont-fire-effects (go-into ?venue)))
 
 (npc-think attend_dwell
   (short-term-think)
@@ -48,7 +48,7 @@
   (bind (target {@self goal {@self attend ?}}) ?occ)
   (when (and (bind {?occ venue ?venue})
              (attend-in-window @self)
-             (at-place ?venue)))
+             (in-building ?venue)))
   (utility (attend-utility @self))
   (effects (begin-act {@self attend} (attend-minutes-left @self) attend_episode)))
 

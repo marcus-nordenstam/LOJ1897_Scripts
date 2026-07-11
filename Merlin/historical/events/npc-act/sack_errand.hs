@@ -18,16 +18,16 @@
   (goal {@self sack})
   (when (and (bind {@self employer ?org})
              (bind {?org workplace ?wp})
-             (not (at-place ?wp))))
+             (not (at-workplace ?wp))))
   (utility 82)
-  (cont-fire-effects (excl-goal {@self go ?wp})))
+  (cont-fire-effects (go-into ?wp)))
 
 (npc-think sack_dwell
   (short-term-think)
   (goal {@self sack})
   (when (and (bind {@self employer ?org})
              (bind {?org workplace ?wp})
-             (at-place ?wp)))
+             (at-workplace ?wp)))
   (utility 82)
   (cont-fire-effects (begin-goal {@self sack})))
 

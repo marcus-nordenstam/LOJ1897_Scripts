@@ -16,6 +16,13 @@ archetype "container_structure" (cap 2048) (per obs) (always-visible) (children-
     "isolated"
     "has_crypt"
     "locked_wing"
+    # Premises open/closed STATUS (no-telepathy teardown): [k closed] = shuttered. Set on
+    # the building by the owner's closure act (shutter-building ?wp). Since NPCs ALWAYS
+    # front-park a building on arrival (Stage-5 two-arm), a worker RE-OBSERVES it every
+    # commute via exterior perception and internalizes {building struct_status [k closed]}
+    # fresh; reconcile_closed drops his own stale employer/job beliefs off that perceived
+    # belief. hsim-perceptible, kind-valued open|closed (common.arc).
+    "struct_status"
     "era_min"
     "era_max"
     # Address - road the building is on, OR self-reference for estates.

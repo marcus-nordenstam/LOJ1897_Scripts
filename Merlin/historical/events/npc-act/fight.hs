@@ -47,7 +47,7 @@
              (not (co-present @self ?victim))))
   (utility (if (< (fight-elapsed) 10) 150
                (max 0 (- 150 (* 30 (- (fight-elapsed) 10))))))
-  (cont-fire-effects (excl-goal {@self go ?victim_home})))
+  (cont-fire-effects (go-into ?victim_home)))
 
 ; The killer at the victim strikes - a committed murderer prioritises the blow
 ; (utility 200 dominates work 80 / sleep 100) UNTIL the exposure clock drags it
@@ -70,7 +70,7 @@
   (goal {@self fight})
   (when (not (at-home)))
   (utility (* 30 (max 0 (- (fight-elapsed) 10))))
-  (effects (bind (target {@self home ?}) ?go_dest) (excl-goal {@self go ?go_dest})))
+  (effects (bind (target {@self home ?}) ?go_dest) (go-into ?go_dest)))
 
 ; The blow (completion-only completion): one exchange of the emergent fight. A fatal
 ; result runs the ledger + propagate_death inside (strike-blow); a non-fatal one

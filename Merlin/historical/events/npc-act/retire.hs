@@ -23,16 +23,16 @@
   (goal {@self quit_work})
   (when (and (bind {@self employer ?org})
              (bind {?org workplace ?wp})
-             (not (at-place ?wp))))
+             (not (at-workplace ?wp))))
   (utility 85)
-  (cont-fire-effects (excl-goal {@self go ?wp})))
+  (cont-fire-effects (go-into ?wp)))
 
 (npc-think retire_dwell
   (short-term-think)
   (goal {@self quit_work})
   (when (and (bind {@self employer ?org})
              (bind {?org workplace ?wp})
-             (at-place ?wp)))
+             (at-workplace ?wp)))
   (utility 85)
   (cont-fire-effects (begin-goal {@self quit_work})))
 

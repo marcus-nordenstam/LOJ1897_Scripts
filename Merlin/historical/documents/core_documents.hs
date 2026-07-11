@@ -21,3 +21,17 @@
 ; .hs; the roster, objective, is written by the thin C++ enrol verb / hire-seq).
 ; A club membership entry carries only (member membership) - no level.
 (define-document employee_register (fields worker job level))
+
+; ----- property register schemas --------------------------------------------
+; The housing-market documents the property register files. Slot order matches the
+; C++ writers in hsim_property.cc (k_building_slot = 0, k_deed_owner_slot = 1):
+;   list_on_market  writes a listing record of just [building];
+;   register_ownership writes the title_deed record [building owner].
+; The Phase-1 housing / landlord read events role / for-each over these by kind.
+;
+; A dwelling offered for purchase: [building]
+(define-document for_sale_listing  (fields building))
+; The registry ownership record: [building owner]
+(define-document title_deed        (fields building owner))
+; A dwelling offered to let: [building]
+(define-document for_lease_listing (fields building))

@@ -125,6 +125,19 @@ relation
             # the charity act. (scream is already a defined relation-term.)
             stow                                    (tar ?)
             give_alms                               (tar ?)
+            # burial lane (events/npc-act/convey_corpse.hs + bury.hs). Pure
+            # perception, no telepathy: a bereaved NPC CARRIES the body to a
+            # church; the co-present priest PERCEIVES the corpse in his church
+            # and buries it. convey - the bereaved kin's deposit goal {@self
+            # convey <corpse>} (route to a church, relocate the body in).
+            # conveyed - the bearer's one-shot "already delivered" marker (bars
+            # re-carting the same corpse). bury - the priest's burial-rite
+            # act-belief {@self bury <corpse>} (verdict + tombstone + destroy).
+            # All (tar ?): a corpse's {isa human} belief is end-dated at death,
+            # so the target is not kind-constrainable.
+            convey                                  (tar ?)
+            conveyed                                (tar ?)
+            bury                                    (tar ?)
             # Conversational activities (activity-lanes L8) - SPECIFIC, each with
             # a propagation EFFECT among the co-present, not a vague `converse`:
             #  gossip <subject>  - spread a belief you hold about a THIRD party

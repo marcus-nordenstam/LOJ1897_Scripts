@@ -16,15 +16,15 @@
   (short-term-think)
   (goal {@self engage_staff})
   (when (and (articles-building (goal-focus engage_staff) ?venue)
-             (not (at-place ?venue))))
+             (not (in-building ?venue))))
   (utility 82)
-  (cont-fire-effects (excl-goal {@self go ?venue})))
+  (cont-fire-effects (go-into ?venue)))
 
 (npc-think hire_dwell
   (short-term-think)
   (goal {@self engage_staff})
   (when (and (articles-building (goal-focus engage_staff) ?venue)
-             (at-place ?venue)))
+             (in-building ?venue)))
   (utility 82)
   (cont-fire-effects (begin-goal {@self engage_staff})))
 

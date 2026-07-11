@@ -17,15 +17,15 @@
   (short-term-think)
   (goal {@self partner})
   (when (and (articles-building (goal-focus partner) ?venue)
-             (not (at-place ?venue))))
+             (not (in-building ?venue))))
   (utility 85)
-  (cont-fire-effects (excl-goal {@self go ?venue})))
+  (cont-fire-effects (go-into ?venue)))
 
 (npc-think partner_dwell
   (short-term-think)
   (goal {@self partner})
   (when (and (articles-building (goal-focus partner) ?venue)
-             (at-place ?venue)))
+             (in-building ?venue)))
   (utility 85)
   (cont-fire-effects (begin-goal {@self partner})))
 

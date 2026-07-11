@@ -16,15 +16,15 @@
   (short-term-think)
   (goal {@self join_club})
   (when (and (articles-building (goal-focus join_club) ?venue)
-             (not (at-place ?venue))))
+             (not (in-building ?venue))))
   (utility 40)
-  (cont-fire-effects (excl-goal {@self go ?venue})))
+  (cont-fire-effects (go-into ?venue)))
 
 (npc-think join_dwell
   (short-term-think)
   (goal {@self join_club})
   (when (and (articles-building (goal-focus join_club) ?venue)
-             (at-place ?venue)))
+             (in-building ?venue)))
   (utility 40)
   (cont-fire-effects (begin-goal {@self join_club})))
 

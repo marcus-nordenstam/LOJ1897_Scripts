@@ -32,7 +32,7 @@
              (bind {?org workplace ?wp})
              (bind {@self job ?job})
              (bind {?job (work-hours-today-label) ?start ?end})
-             (at-place ?wp)
+             (at-workplace ?wp)
              (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
   (utility (* 80 (factors (attr @self industriousness) 0.75 0.5)))
   ; The stay YIELDS at the workplace lunch band (12-14): eligibility is only
@@ -59,6 +59,6 @@
              (bind {@self job ?job})
              (bind {?job (work-hours-today-label) ?start ?end})
              (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))
-             (not (at-place ?wp))))
+             (not (at-workplace ?wp))))
   (utility (* 80 (factors (attr @self industriousness) 0.75 0.5)))
-  (cont-fire-effects (excl-goal {@self go ?wp})))
+  (cont-fire-effects (go-into ?wp)))

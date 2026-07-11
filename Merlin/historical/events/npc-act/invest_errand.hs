@@ -19,9 +19,9 @@
   (goal {@self back})
   (bind (goal-focus back) ?org)
   (when (and (bind {?org workplace ?wp})
-             (not (at-place ?wp))))
+             (not (at-workplace ?wp))))
   (utility 60)
-  (cont-fire-effects (excl-goal {@self go ?wp})))
+  (cont-fire-effects (go-into ?wp)))
 
 ; AT the firm: re-affirm the standing back aim with this think's drive so it promotes
 ; (the go sub-goal spent, the aim is the leaf). begin-goal, not excl-goal - the aim is a
@@ -31,7 +31,7 @@
   (goal {@self back})
   (bind (goal-focus back) ?org)
   (when (and (bind {?org workplace ?wp})
-             (at-place ?wp)))
+             (at-workplace ?wp)))
   (utility 60)
   (cont-fire-effects (begin-goal {@self back})))
 

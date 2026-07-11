@@ -43,7 +43,7 @@
   (effects
     (bind (burgle-target @self) ?scene)
     (if ?scene
-        (excl-goal {@self go ?scene}))))
+        (go-into ?scene))))
 
 (npc-think burgle_strike
   (short-term-think)
@@ -58,7 +58,7 @@
   (goal {@self steal})
   (when (and (bind {@self employer ?emp})
              (bind {?emp workplace ?work})
-             (at-place ?work)))
+             (at-workplace ?work)))
   (utility 86)
   (effects (begin-act {@self steal} 10 burgle_commit)))
 
@@ -73,7 +73,7 @@
           (if (and (is-entity ?owner) (not (= ?owner @self)) (alive ?owner))
               (if (and (bind {@self employer ?emp})
                        (bind {?emp workplace ?work})
-                       (at-place ?work))
+                       (at-workplace ?work))
                   (terminal-steal ?scene embezzle ?owner ?goal)
                   (terminal-steal ?scene opportunist_theft ?owner ?goal))
               (end-goal {@self steal}))))))

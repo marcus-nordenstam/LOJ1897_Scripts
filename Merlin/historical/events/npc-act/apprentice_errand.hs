@@ -22,9 +22,9 @@
   ; articles-building BINDS ?venue (the master's premises) off the goal-focus
   ; articles, threading it to the at-place gate + the (go) effect.
   (when (and (articles-building (goal-focus seek_indenture) ?venue)
-             (not (at-place ?venue))))
+             (not (in-building ?venue))))
   (utility 80)
-  (cont-fire-effects (excl-goal {@self go ?venue})))
+  (cont-fire-effects (go-into ?venue)))
 
 ; AT the premises: re-affirm the standing seek_indenture aim with this think's utility so
 ; it carries a drive. With the go sub-goal spent, the aim is the leaf and promotes to
@@ -34,7 +34,7 @@
   (short-term-think)
   (goal {@self seek_indenture})
   (when (and (articles-building (goal-focus seek_indenture) ?venue)
-             (at-place ?venue)))
+             (in-building ?venue)))
   (utility 80)
   (cont-fire-effects (begin-goal {@self seek_indenture})))
 

@@ -53,6 +53,16 @@
 ; that a searcher's markers self-reclaim within a year of the search ending.
 (define-macro survey_marker_ttl_cycles () 12)
 
+; buy_home's public-bb `claimed` marker lifetime, in hsim cycles (= months). A buyer
+; posts it on the dwelling he commits to (choose_home) so a rival seeker in the same
+; window defers. choose_home cont-fires and RE-POSTS the claim every cycle the buyer
+; stays committed, so the ttl only bounds how fast an ABANDONED claim self-clears once
+; he stops (bought the dwelling and destroyed its listing, or lost the motor). 3 cycles
+; comfortably bridges the one-cycle gap from selection to buy_home_act destroying the
+; listing, and frees an abandoned claim within a season so a rival is not blocked for
+; the rest of the march buying window.
+(define-macro claim_marker_ttl_cycles () 3)
+
 ; Covert-letter channel model (route-covert-letter's authored knobs; composed
 ; by send-covert-letter in affair_macros.hs). Channel weights are relative -
 ; the courier needs the sender's own staff, poste-restante needs standing, so

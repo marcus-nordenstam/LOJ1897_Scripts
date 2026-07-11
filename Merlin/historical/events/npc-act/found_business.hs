@@ -33,7 +33,7 @@
   (role ?go_dest [k building bank] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building bank])))
   (utility 85)
-  (cont-fire-effects (excl-goal {@self go ?go_dest})))
+  (cont-fire-effects (go-into ?go_dest)))
 
 (npc-think found_dwell
   (short-term-think)

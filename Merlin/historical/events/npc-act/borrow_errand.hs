@@ -21,16 +21,16 @@
   (goal {@self take_loan})
   (bind (goal-focus take_loan) ?creditor)
   (when (and (bind {?creditor home ?cred_home})
-             (not (at-place ?cred_home))))
+             (not (in-building ?cred_home))))
   (utility 60)
-  (cont-fire-effects (excl-goal {@self go ?cred_home})))
+  (cont-fire-effects (go-into ?cred_home)))
 
 (npc-think borrow_dwell
   (short-term-think)
   (goal {@self take_loan})
   (bind (goal-focus take_loan) ?creditor)
   (when (and (bind {?creditor home ?cred_home})
-             (at-place ?cred_home)))
+             (in-building ?cred_home)))
   (utility 60)
   (cont-fire-effects (begin-goal {@self take_loan})))
 

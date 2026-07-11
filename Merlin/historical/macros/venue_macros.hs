@@ -15,7 +15,7 @@
 ; ----------------------------------------------------------------------------
 
 (define-macro propose-venue-act (?venue ?act)
-  (if (at-place ?venue)
+  (if (in-building ?venue)
       (begin-goal {@self ?act ?venue})
       (if (and (is-entity ?venue) (not (= ?venue @self)))
           (begin-goal {@self go ?venue}))))
