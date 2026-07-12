@@ -333,6 +333,11 @@ relation
             # implementing isim task may add or substitute depending on
             # method.
             flee                (motor legs)                    (tar human)
+            # cry_out - the under-attack victim's scream for help (fight.hs): a
+            # focusless 1-minute act that keeps the victim active (not sleeping)
+            # while it can neither fight nor flee. (`scream` names a Sounds kind,
+            # so the act-label is cry_out.)
+            cry_out             (motor mouth)                   (tar ?)
             seduce              (motor mouth legs body)         (tar human)              (construed_act intimacy_act)  (facets blackmailable)
             assault             (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
             # fight - the EMERGENT-COMBAT goal (the unified think/act model): a melee
