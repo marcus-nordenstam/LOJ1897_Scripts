@@ -21,7 +21,10 @@
 (define-macro covert-affair-motive (?paramour)
   (or (is-married @self) (is-married ?paramour)
       (is-betrothed @self) (is-betrothed ?paramour)
-      (cross-class @self ?paramour)))
+      ; cross-class as @self KNOWS it: @self holds a class belief about ?paramour and
+      ; it is not @self's own class (telepathy-pure - no read of ?paramour's own mind).
+      (and (believes {?paramour class_situation ?})
+           (not (believes {?paramour class_situation (target {@self class_situation})})))))
 
 (define-macro tryst-tail (?paramour ?location)
   (do
