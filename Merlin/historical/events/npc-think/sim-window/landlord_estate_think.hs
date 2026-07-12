@@ -40,7 +40,7 @@
   ; Self-throttle: already running an estate = the actor's own ongoing
   ; {@self employer <org>} belief whose org object is-a estate (the same walk
   ; the retired runs-org op did).
-  (when (not (believes-obj-kind employer [k org estate])))
+  (when (not (believes {@self employer [k org estate]})))
 
   (cont-fire-effects
     (found-org-seq [k org estate] [k job landlord])

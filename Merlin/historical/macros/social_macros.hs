@@ -78,12 +78,10 @@
   (>= (target {?actor education}) 0.30))
 
 ; (organizing-occasion [k <kind>]): is @self hosting an occasion of that kind? An
-; occasion is a MENTAL OBJECT (its kind is wedding / birthday_party / ...), so a
-; plain (believes {@self organize [k wedding]}) misses it (that tests a kind-
-; VALUED target, not an object-of-kind). (believes-obj-kind) is the kind-aware
-; belief query. Folds the old C++ (organizing-occasion) op.
+; occasion is a MENTAL OBJECT (its kind is wedding / birthday_party / ...); a [k <kind>]
+; target matches an object of that kind by is-a (the belief matcher's object-vs-kind rule).
 (define-macro organizing-occasion (?kind)
-  (believes-obj-kind organize ?kind))
+  (believes {@self organize ?kind}))
 
 ; Does the deliberator KNOW of an affair among their own partners: an
 ; interloper they believe their spouse or a lover keeps (interloper-of reads

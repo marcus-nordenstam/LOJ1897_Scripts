@@ -6,7 +6,7 @@
 ; an act of a SPECIFIC official - the town's senior civic gatekeeper (the [k job
 ; official] a senior_appointment installs at a public gov org). So it runs in the
 ; (sim-window-think) window-start pass with @self bound to each living NPC; the
-; (grown @self) template + the (believes-obj-kind job [k job official]) gate cast
+; (grown @self) template + the (believes {@self job [k job official]}) gate cast
 ; @self down to a holder of a senior public post, reading his OWN job belief (no
 ; scan, no telepathy). While the parish is sparse he quietly admits arrivals;
 ; each admission raises (alive-count), so (population-pressure) climbs toward the
@@ -49,7 +49,7 @@
   ;; Fire only while sparse, and then with a sparseness-scaled monthly chance. The
   ;; (< ...) guard fires the (and ...) only below the threshold, so the (chance ...)
   ;; argument is strictly positive whenever it is rolled.
-  (when (and (believes-obj-kind job [k job official])
+  (when (and (believes {@self job [k job official]})
              (< (population-pressure) (homeostat_immigration_pressure))
              (chance (* (immigrant_admit_scale)
                         (- (homeostat_immigration_pressure) (population-pressure))))))

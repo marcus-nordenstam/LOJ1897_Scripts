@@ -44,7 +44,7 @@
   ; -> the routing branch no-ops; a co-present body still buries where he stands.
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
   ; A priest (his OWN job belief - no scan), and the coroner window has passed.
-  (when (and (believes-obj-kind job [k job priest])
+  (when (and (believes {@self job [k job priest]})
              (>= (months-since-death ?corpse) 1)))
   (utility 55)
   (cont-fire-effects

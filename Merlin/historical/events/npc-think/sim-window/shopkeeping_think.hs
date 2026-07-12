@@ -17,7 +17,7 @@
   (role @self (grown @self)
               (believes {@self employer ?}))
 
-  (when (believes-obj-kind job [k job shop_clerk]))
+  (when (believes {@self job [k job shop_clerk]}))
 
   (cont-fire-effects
     (begin-goal {@self stocktake})
