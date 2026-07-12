@@ -58,7 +58,10 @@
                 ; opposite-sex: @self's belief that the beloved's PERCEIVED gender
                 ; differs from his own (visible-on-sight -> cacheable). And not kin.
                 (not (believes {?beloved gender (target {@self gender})}))
-                (not (blood-kin @self ?beloved)))
+                (not (blood-kin @self ?beloved))
+                ; Court the ONE the suitor is most drawn to - "the directed pursuit of a
+                ; specific crush", so the fan-out reduces to the strongest attraction.
+                (select (score (stance-band ?beloved attraction)) (policy argmax)))
 
   ; Non-belief gate moved out of the @self role: the per-suitor (chance) that
   ; paces repeated courting is not a belief query, so it lives here.

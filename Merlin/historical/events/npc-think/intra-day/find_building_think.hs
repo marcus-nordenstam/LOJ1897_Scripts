@@ -10,9 +10,10 @@
 ;   go_act, which TRAVELS there and front-parks; the arrival perceive_here surveys the
 ;   vantage and mints the UNKNOWN buildings around it (they enter the ?next role via the
 ;   belief-write reconcile), and go_act marks ?next surveyed BECAUSE a find goal stands.
-;   Preferring the FARTHEST vantage (not the nearest) leaps to the edge of known territory
-;   each step, so a survey there reveals a fresh ring of unknown buildings - the fringe fans
-;   outward in FEWER hops than dawdling among near buildings would. Repeat until a building
+;   Preferring the NEAREST unsurveyed vantage (policy argmin) crawls outward through
+;   REACHABLE territory one hop at a time. Picking the farthest instead lets a searcher
+;   fixate on a distant vantage it never actually arrives at, so its survey never advances
+;   and its markers pile up until the private-bb pool overflows. Repeat until a building
 ;   of the sought kind is learned; the instant it is, the seek rule's (no-role ...) fills,
 ;   it stops firing, its excl-goal drops the find goal, and the go-rung takes over.
 ;
@@ -36,5 +37,5 @@
   (role @self (grown @self))
   (role ?next [k building]
         (bb-none ?next surveyed)
-        (select (score (distance @self ?next)) (policy argmax)))
+        (select (score (distance @self ?next)) (policy argmin)))
   (cont-fire-effects (excl-goal {@self go ?next})))

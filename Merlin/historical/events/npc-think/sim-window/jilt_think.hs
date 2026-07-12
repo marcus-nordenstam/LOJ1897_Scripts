@@ -49,7 +49,8 @@
   (role ?jilted (any_human ?jilted)
                 (not (= ?jilted @self))
                 (believes {@self lover ?jilted})
-                (not (believes {@self fiancee ?jilted})))
+                (not (believes {@self fiancee ?jilted}))
+                (select (policy first-match)))
 
   ;; (chance 0.6) moved here from the @self role (non-belief gate).
   ;; Live re-check: an earlier firing this tick may already have ended the
@@ -100,7 +101,8 @@
                 (or (and (believes {@self class_situation [k upper]})
                          (not (believes {?jilted class_situation [k upper]})))
                     (and (believes {@self class_situation [k middle]})
-                         (believes {?jilted class_situation [k lower]}))))
+                         (believes {?jilted class_situation [k lower]})))
+                (select (policy first-match)))
 
   ;; chance gate moved here from the @self role (non-belief gate). decorum is a
   ;; DERIVED conduct dimension (belief) read from @self's own mind via
