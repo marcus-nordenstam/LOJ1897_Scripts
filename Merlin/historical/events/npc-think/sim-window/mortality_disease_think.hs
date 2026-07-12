@@ -24,7 +24,7 @@
   (when (and (>= (years-old @self) 1)
              (chance 0.0008)))   ; ~1% per year background disease rate
 
-  (effects
+  (cont-fire-effects
     (propagate-death @self)
     (record-corpse-death @self [k death_cause disease])
     ))

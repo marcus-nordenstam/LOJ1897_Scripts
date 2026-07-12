@@ -26,5 +26,5 @@
   ; Each hiding-spot @self made and knows.
   (role ?cache (believes {@self hiding_spot ?cache}))
 
-  (effects
+  (act-effects
     (read-cache ?cache)))

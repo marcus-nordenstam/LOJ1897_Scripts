@@ -58,7 +58,7 @@
                                  (if (is-married ?lover) 1.5 1.0))))))))))
 
   ; /cause: the held detest belief, else dislike, else the spouse-wealth belief.
-  (effects
+  (cont-fire-effects
     (if (believes {@self detest ?spouse})
         (begin-goal {@self kill ?spouse} /cause {@self detest ?spouse})
         (if (believes {@self dislike ?spouse})

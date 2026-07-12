@@ -72,7 +72,7 @@
              (not (believes {@self lover ?}))
              (not (believes {?b   lover ?}))))
 
-  (effects
+  (cont-fire-effects
     ; Reciprocal lover bond + mutual profile sync (mirrors betrothal's shape so
     ; downstream consumers see a fully-wired pair).
     (begin-belief {@self lover ?b})

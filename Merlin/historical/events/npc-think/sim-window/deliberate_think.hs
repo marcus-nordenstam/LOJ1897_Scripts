@@ -43,6 +43,6 @@
   ; (?action). Acting mints the winner's goal; inaction does nothing.
   (branches
     (branch (weight ?total)
-      (effects (resolve-deliberation ?action ?focus ?pressure)))
+      (cont-fire-effects (resolve-deliberation ?action ?focus ?pressure)))
     (branch (weight (deliberation_inaction_floor))
-      (effects))))
+      (cont-fire-effects))))

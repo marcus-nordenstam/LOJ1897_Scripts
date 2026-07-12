@@ -46,7 +46,7 @@
   ; hierarchy (the one irreducible computation, exposed as a verb). /cause pins
   ; @self's employer belief - the instrumental stake - so the rap sheet reads
   ; "kill <head> <- {@self employer <org>}".
-  (effects
+  (cont-fire-effects
     (bind (ambition-target @self) ?victim)
     (if (alive ?victim)
         (begin-goal {@self kill ?victim} /cause {@self employer}))))

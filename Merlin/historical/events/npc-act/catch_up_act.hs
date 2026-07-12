@@ -26,7 +26,7 @@
   (when (and (chance (* 0.25 (+ 0.5 (attr @self enthusiasm))))
              (>= (years-old @self) 12)))
 
-  (effects
+  (act-effects
     ; Broadcast (audience = _) the freshest untold self-news (about = @self).
     (tell (top-untold-belief @self _ @self spouse fiancee lover child))
     ))

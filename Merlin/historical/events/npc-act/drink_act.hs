@@ -8,7 +8,7 @@
 (npc-act drink_act
   (when (believes {@self drink}))
   (duration 90)
-  (effects
+  (act-effects
     ; Intoxication accumulates as a lifetime-drinking proxy (v1 - no decay); the
     ; sobriety classifier reads the attr back. Locationless by design: pub
     ; co-presence comes from the itinerary, so no false "drank at the Crown".

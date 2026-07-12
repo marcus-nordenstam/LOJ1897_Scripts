@@ -29,7 +29,7 @@
   (role @self (any_human @self)
               (believes {@self home ?}))
 
-  (effects
+  (cont-fire-effects
     (record-dwelling @self)
     ))
 
@@ -64,7 +64,7 @@
              (not (believes {?home supper_hour ?}))
              (believes {@self gender [k female]})))
 
-  (effects
+  (cont-fire-effects
     ; The per-cook offset: -1 / 0 / +1 on the whole day (breakfast 5-7,
     ; lunch 11-13, supper 17-19; each window is 2h from the hour).
     (bind (if (chance 0.33) -1 (if (chance 0.5) 0 1)) ?o)
@@ -109,7 +109,7 @@
              (not (believes {?home supper_hour ?}))
              (>= (years-old @self) 3)))
 
-  (effects
+  (cont-fire-effects
     (ask-to ?cook {?home supper_hour ?})
     ))
 
@@ -130,7 +130,7 @@
              (bind {?home lunch_hour ?l})
              (bind {?home supper_hour ?s})))
 
-  (effects
+  (cont-fire-effects
     (tell-to ?asker {?home breakfast_hour ?b}
                     {?home lunch_hour ?l}
                     {?home supper_hour ?s})
@@ -169,7 +169,7 @@
   (when (and (believes {@self gender [k female]})
              (not (believes {@self shop_weekday ?}))))
 
-  (effects
+  (cont-fire-effects
     (begin-belief {@self shop_weekday (random-int 0 6)})
     (begin-belief {@self shop_hour (random-int 7 15)})))
 
@@ -197,4 +197,4 @@
                  (>= (days-since-last @self provision) 9)
                  (< (count-believed-located [k food] ?home) 3))))
 
-  (effects (begin-goal {@self provision})))
+  (cont-fire-effects (begin-goal {@self provision})))

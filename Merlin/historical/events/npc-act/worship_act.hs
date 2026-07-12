@@ -15,5 +15,5 @@
 (npc-act worship_act
   (when (believes {@self worship}))
   (duration 90)
-  (effects (end-act {@self worship})))
+  (act-effects (end-act {@self worship})))
 ; go_act (the shared travel act) lives in npc-act/go.hs.

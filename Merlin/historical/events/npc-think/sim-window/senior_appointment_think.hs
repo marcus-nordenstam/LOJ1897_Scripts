@@ -59,7 +59,7 @@
              (= (situation @self repute) [k exemplary])
              (>= (situation @self prestige) 0.65)))
 
-  (effects
+  (cont-fire-effects
     ;; The org's articles (hire-seq's ?var arg - a macro arg used in a pattern must
     ;; be a ?var, not an expr) is recovered from @self's {?org record ?art} belief.
     (bind (target {?org record}) ?articles)

@@ -45,6 +45,6 @@
   ; keeps the per-listener untold record honest).
   (when (co-present @self ?target))
 
-  (effects
+  (act-effects
     ; Say it to ?target's face: she/he now KNOWS @self fancies them.
     (tell-to ?target {@self fancy ?target})))

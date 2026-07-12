@@ -34,6 +34,6 @@
   (when (and (= (situation @self repute) [k scandalous])
              (chance 0.0833)))
 
-  (effects
+  (cont-fire-effects
     (social-ostracism @self)
     ))

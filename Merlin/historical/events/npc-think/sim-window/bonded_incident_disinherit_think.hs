@@ -70,6 +70,6 @@
                         (* 0.3 (+ (believes {@self detest  ?victim})
                                   (believes {@self despise ?victim})))))))
 
-  (effects
+  (cont-fire-effects
     (incident-anchor @self disinherit ?victim)
     ))

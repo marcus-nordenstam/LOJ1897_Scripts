@@ -29,7 +29,7 @@
   (when (and (>= (years-old @self) 25)
              (not (believes {@self employer ?}))))
 
-  (effects
+  (cont-fire-effects
     ; Found the business with its HEAD only (the proprietor); the emergent labour
     ; market staffs it from the unemployed over subsequent ticks.
     (for-each-table-record cornerstone_businesses

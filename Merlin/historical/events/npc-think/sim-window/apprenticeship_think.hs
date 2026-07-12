@@ -73,7 +73,7 @@
   ;; distinct goal per org's articles and overflow the attention set; a blocking
   ;; gate would deadlock the search on an unreachable first master).
   ;; Focus = the org's articles, recovered from @self's {?org record ?art} belief.
-  (effects
+  (cont-fire-effects
     (end-goal {@self seek_indenture})
     (begin-goal {@self seek_indenture (target {?org record})})))
 
@@ -91,7 +91,7 @@
              (>= (job-tenure @self) 3)
              (chance 0.033)))
 
-  (effects
+  (cont-fire-effects
     ;; Recover the master so the master bond can be ended on completion.
     (bind (belief-target @self master) ?master)
     (promote     /worker @self)

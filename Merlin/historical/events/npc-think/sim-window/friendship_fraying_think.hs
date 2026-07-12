@@ -54,7 +54,7 @@
   (when (and (believes {@self friend ?b})
              (chance 0.04)))
 
-  (effects
+  (cont-fire-effects
     ; Sever the mutual friend tie - the bond is structural, so both drop it.
     (end-belief @self friend ?b)
     (end-belief ?b friend @self)

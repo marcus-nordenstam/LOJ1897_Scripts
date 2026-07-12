@@ -42,6 +42,6 @@
   (when (and (= (attr @self gender) [k male])
              (= (belief-age @self fiancee) 0)))
 
-  (effects
+  (cont-fire-effects
     (hold-engagement-party ?bride @self)
     ))

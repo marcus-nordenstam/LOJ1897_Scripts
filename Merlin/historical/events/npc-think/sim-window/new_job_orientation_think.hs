@@ -36,5 +36,5 @@
   (when (and (>= (years-old @self) 12)
              (chance 0.3)))
 
-  (effects
+  (cont-fire-effects
     (begin-goal {@self orient})))

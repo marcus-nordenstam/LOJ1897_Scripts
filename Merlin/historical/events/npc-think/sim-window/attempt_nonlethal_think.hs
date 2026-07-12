@@ -39,5 +39,5 @@
     (score (if (= ?action ?row_action) 1 0))
     (policy roulette))
 
-  (effects
+  (cont-fire-effects
     (resolve-perpetration-terminal ?terminal ?victim ?action ?goal)))

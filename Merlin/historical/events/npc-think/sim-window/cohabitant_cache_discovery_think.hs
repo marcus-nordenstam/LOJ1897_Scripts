@@ -36,7 +36,7 @@
   ; Only home-holders can stumble about their own home.
   (when (bind {@self home ?home}))
 
-  (effects
+  (cont-fire-effects
     (for-each ?room (attr-values ?home parts [k interior_space room])
       (for-each ?cache (attr-values ?room parts [k interior_space hiding_spot])
         (if (and (not (believes {@self hiding_spot ?cache}))

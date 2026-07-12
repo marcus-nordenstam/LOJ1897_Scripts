@@ -56,7 +56,7 @@
 
   ; crave-rival resolves the rival for the beloved (read in @self's own mind), else
   ; the beloved. /cause pins the crave belief - the obsessive signature.
-  (effects
+  (cont-fire-effects
     (bind (crave-rival ?beloved) ?victim)
     (if (and (alive ?victim) (not (= ?victim @self)))
         (begin-goal {@self kill ?victim} /cause {@self crave ?beloved}))))

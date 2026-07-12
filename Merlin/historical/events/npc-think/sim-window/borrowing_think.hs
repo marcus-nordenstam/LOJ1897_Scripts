@@ -29,5 +29,5 @@
   ; {@self borrow ?creditor}}; the npc-act (borrow_errand.hs) sends the debtor to
   ; the creditor's home and the completion records the {owe} there. (goal) is
   ; idempotent, so re-rolling while the goal stands is a no-op.
-  (effects
+  (cont-fire-effects
     (begin-goal {@self take_loan ?creditor})))

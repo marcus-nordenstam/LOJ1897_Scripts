@@ -48,7 +48,7 @@
                         (* 0.30 (+ (believes {@self detest  ?victim})
                                    (believes {@self despise ?victim})))))))
 
-  (effects
+  (cont-fire-effects
     ; Context picks the barb ladder: a high standing anger load marks the
     ; displaced-anger lash-out (perceptual barbs, what's at hand); otherwise
     ; the dispositional put-down (status barbs) - mirroring the two additive

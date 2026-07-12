@@ -33,7 +33,7 @@
                         (+ 0.5 (attr @self assertiveness))))
              (>= (years-old @self) 12)))
 
-  (effects
+  (act-effects
     ; Say the freshest untold scandal / news the actor holds about ANYONE in their
     ; circle (about = _), to whoever is co-present (audience = _, broadcast -> the
     ; "told" exclusion is global). Label order IS priority: scandal acts, then the

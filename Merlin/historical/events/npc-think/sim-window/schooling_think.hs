@@ -62,7 +62,7 @@
   ; SPLIT (Item 5): the npc-think - the decision to school the child. Mints
   ; {@self goal {@self enrol_primary}}; the npc-act (schooling_errands.hs) walks
   ; the child to a school and enrols him there.
-  (effects
+  (cont-fire-effects
     (begin-goal {@self enrol_primary})))
 
 ; --- enroll_secondary: a middle+ youth goes on to secondary ------------------
@@ -86,7 +86,7 @@
 
   ; SPLIT (Item 5): npc-think -> {@self goal {@self enrol_secondary}}; the act
   ; (schooling_errands.hs) walks the youth to school and enrols him.
-  (effects
+  (cont-fire-effects
     (begin-goal {@self enrol_secondary})))
 
 ; --- enroll_university: an upper / wealthy youth goes up to university --------
@@ -108,7 +108,7 @@
 
   ; SPLIT (Item 5): npc-think -> {@self goal {@self enrol_university}}; the act
   ; (schooling_errands.hs) takes the youth up to university and matriculates him.
-  (effects
+  (cont-fire-effects
     (begin-goal {@self enrol_university})))
 
 ; --- leave_primary: every primary pupil finishes at ~11 ----------------------
@@ -126,7 +126,7 @@
 
   (when (>= (years-old @self) 11))
 
-  (effects
+  (cont-fire-effects
     (graduate-from-study)
     ))
 
@@ -140,7 +140,7 @@
 
   (when (>= (years-old @self) 17))
 
-  (effects
+  (cont-fire-effects
     (graduate-from-study)
     ))
 
@@ -158,6 +158,6 @@
 
   (when (>= (years-old @self) 22))
 
-  (effects
+  (cont-fire-effects
     (graduate-from-study)
     ))

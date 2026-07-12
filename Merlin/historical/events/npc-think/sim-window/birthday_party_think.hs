@@ -45,7 +45,7 @@
   ;; cadence, rolled once per host per window.
   (when (chance (* 0.0667 (attr @self enthusiasm))))
 
-  (effects
+  (cont-fire-effects
     ; Broadcast the host's own freshest untold news to the co-present gathering.
     (tell (top-untold-belief @self _ @self spouse fiancee lover child))
     ))

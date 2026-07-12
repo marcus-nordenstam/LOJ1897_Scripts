@@ -42,7 +42,7 @@
                0))
     (policy roulette))
 
-  (effects
+  (cont-fire-effects
     (if (= ?method commission_killing)
         (if (commission-killing ?victim)
             (do (begin-belief {@self method ?method} /cause ?goal)

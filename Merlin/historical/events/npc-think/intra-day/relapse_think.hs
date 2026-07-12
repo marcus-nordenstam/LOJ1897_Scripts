@@ -29,7 +29,7 @@
                       (- 1.3 (* 0.6 (target {@self piety})))
                       (- 1.3 (* 0.6 (target {@self belonging})))) 1.6)
               (min (* (days-since-last @self drink) 5) 45)))
-  (effects
+  (cont-fire-effects
     (if (can-drink @self)
         (begin-goal {@self drink})
         (if (and (is-entity ?pub) (not (= ?pub @self)))

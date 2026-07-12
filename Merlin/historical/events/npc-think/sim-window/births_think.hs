@@ -26,6 +26,6 @@
   (when (and (chance 0.033)
              (believes {@self spouse ?husband})))
 
-  (effects
+  (cont-fire-effects
     (birth-human /mother @self /father ?husband)
     ))

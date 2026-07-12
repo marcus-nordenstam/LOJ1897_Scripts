@@ -31,5 +31,5 @@
 
   (when (chance (* 0.00125 (+ 0.5 (attr @self openness)) (population-pressure))))
 
-  (effects
+  (cont-fire-effects
     (begin-goal {@self depart})))

@@ -50,7 +50,7 @@
   ; mean-1.0 multiplier - friendship volume is unchanged.
   (when (chance (* 0.0125 (+ 0.5 (attr @self enthusiasm)))))
 
-  (effects
+  (cont-fire-effects
     ; befriend mints the mutual tie (friend, or acquaintance if either side is
     ; already at friend-capacity) AND the matching-tier profile sync.
     (befriend @self ?b)

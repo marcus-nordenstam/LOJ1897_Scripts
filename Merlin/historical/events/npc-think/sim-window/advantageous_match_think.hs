@@ -77,7 +77,7 @@
              (not (believes {?bride fiancee ?}))
              (= (attr @self gender) [k male])))
 
-  (effects
+  (cont-fire-effects
     (begin-belief {@self fiancee ?bride})
     ; The bride's own engagement belief lands in HER mind (wedding recovers the
     ; groom from the bride's fiancee belief, either side initiating).

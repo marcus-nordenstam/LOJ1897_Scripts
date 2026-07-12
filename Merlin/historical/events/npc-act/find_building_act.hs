@@ -16,5 +16,5 @@
 (npc-act find_building_exhausted
   (when (believes {@self find_building ?sought}))
   (duration 60)
-  (effects (end-act {@self find_building ?sought})))
+  (act-effects (end-act {@self find_building ?sought})))
 ; go_act (travel + arrival survey/mark while a find goal stands) lives in npc-act/go.hs.

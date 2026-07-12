@@ -6,7 +6,7 @@
 (npc-act gamble_act
   (when (believes {@self play_game ?venue}))
   (duration 90)
-  (effects
+  (act-effects
     ; gambling_addiction is the standing DISPOSITION (a state) - and the amplifier
     ; gamble_urge feeds back into: accumulating ~0.5 per fire (~2 to morbid), it
     ; deepens the pull. The sobriety + wealth classifiers read it graded.

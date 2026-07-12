@@ -29,7 +29,7 @@
   (when (and (>= (years-old @self) 25)
              (not (believes {@self employer ?}))))
 
-  (effects
+  (cont-fire-effects
     ; Found the org with its HEAD only; the emergent labour market (employment.hs
     ; `hiring` -> hire_errand -> hire-matched) staffs it from the unemployed over
     ; subsequent ticks. employee_count / employee_role are no longer read here.

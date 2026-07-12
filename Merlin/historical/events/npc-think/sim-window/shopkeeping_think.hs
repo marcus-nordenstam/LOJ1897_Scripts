@@ -19,6 +19,6 @@
 
   (when (believes-obj-kind job [k job shop_clerk]))
 
-  (effects
+  (cont-fire-effects
     (begin-goal {@self stocktake})
     ))

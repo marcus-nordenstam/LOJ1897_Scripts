@@ -36,5 +36,5 @@
              (alive ?victim)
              (no-goal {@self fight ?victim})))
 
-  (effects
+  (cont-fire-effects
     (begin-goal {@self fight ?victim})))

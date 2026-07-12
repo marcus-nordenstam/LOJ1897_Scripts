@@ -57,7 +57,7 @@
              (<= (years-old @self) 14)
              (chance (* 0.015 (+ 0.3 (attr @self politeness))))))
 
-  (effects
+  (cont-fire-effects
     ; One novel domain copied off a parent's interests (a 50/50 pick when both
     ; parents offer one) - the hobbies the child grows up around.
     (bind (random-unheld-kind-target (target {@self mother}) interest interest) ?dm)
@@ -87,7 +87,7 @@
   (when (and (>= (years-old @self) 8)
              (chance (* 0.0167 (attr @self openness) (+ 0.5 (attr @self enthusiasm))))))
 
-  (effects
+  (cont-fire-effects
     (bind (random-unheld-kind-target ?friend interest interest) ?d)
     (if (is-kind ?d)
         (begin-belief {@self interest ?d}))
@@ -106,7 +106,7 @@
 
   (when (chance (* 0.025 (+ 0.3 (attr @self openness)))))
 
-  (effects
+  (cont-fire-effects
     ; The master's craft becomes the apprentice's casual interest (which
     ; interest_deepens can later raise to a skill of its own).
     (bind (random-unheld-kind-target (target {@self master}) interest skilled_in calling) ?d)
@@ -128,7 +128,7 @@
   (when (and (>= (years-old @self) 10)
              (chance (* 0.0083 (attr @self openness) (attr @self openness)))))
 
-  (effects
+  (cont-fire-effects
     ; A brand-new interest sampled off the whole domain axis (leaf-only, so a
     ; category node is never picked); idempotent per domain at commit.
     (bind (random-subkind [k domain]) ?d)
@@ -149,7 +149,7 @@
 
   (when (chance 0.0025))
 
-  (effects
+  (cont-fire-effects
     ; Drop one interest never built into a skill (an overlapping skilled_in
     ; domain is settled identity - exempt). Unforgettable: "I used to be keen
     ; on botany" survives the sleep sweep as history.

@@ -21,5 +21,5 @@
   (when (and (in-month december)
              (>= (years-old @self) 15)))
 
-  (effects
+  (cont-fire-effects
     (derive-prototypes @self)))

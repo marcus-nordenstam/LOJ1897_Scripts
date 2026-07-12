@@ -51,7 +51,7 @@
   (when (and (alive ?partner)
              (chance 0.12)))
 
-  (effects
+  (cont-fire-effects
     ; Resolve the interloper in @self's own beliefs; @fail = no known affair.
     (bind (interloper-of ?partner) ?interloper)
     (if (and (is-entity ?interloper)

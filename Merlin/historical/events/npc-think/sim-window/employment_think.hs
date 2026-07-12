@@ -60,7 +60,7 @@
   ; a chronically ineligible seeker otherwise stacks a distinct goal per firm's
   ; articles (30+ by 1706, the attention-set overflow), while a blocking has-goal
   ; gate would freeze the search on whichever firm was sampled first.
-  (effects
+  (cont-fire-effects
     (end-goal {@self engage_staff})
     (begin-goal {@self engage_staff (target {?org record})})))
 
@@ -88,7 +88,7 @@
   (role @self (any_human @self)
               (believes {@self employer ?}))
 
-  (effects
+  (cont-fire-effects
     ; The boss's own decision policy: below 0.4 standing risks the sack at
     ; 0.08/month per unit of gap; above 0.7 earns promotion consideration at
     ; 0.12/month per unit. The goals feed sack_errand / promote_errand.
@@ -113,6 +113,6 @@
   (when (and (>= (years-old @self) 65)
              (chance 0.033)))   ; /12 of the old annual 0.4 (now monthly)
 
-  (effects
+  (cont-fire-effects
     (begin-goal {@self quit_work})
     ))

@@ -46,7 +46,7 @@
              (bind {@self home ?building})
              (bind {?building room [k bedroom]:?bedroom})))
 
-  (effects
+  (act-effects
     ; Tier 1 - claim the home's built-in secret chamber (a hidden sub-space
     ; world-gen seeded; you live here, you know the house's secret).
     (for-each ?room (attr-values ?building parts [k interior_space room])

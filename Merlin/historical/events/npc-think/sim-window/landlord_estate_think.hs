@@ -42,6 +42,6 @@
   ; the retired runs-org op did).
   (when (not (believes-obj-kind employer [k org estate])))
 
-  (effects
+  (cont-fire-effects
     (found-org-seq [k org estate] [k job landlord])
     (reassign-rentals-to-estate @self)))

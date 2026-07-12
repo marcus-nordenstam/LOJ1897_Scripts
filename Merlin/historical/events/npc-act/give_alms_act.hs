@@ -6,7 +6,7 @@
 (npc-act give_alms_act
   (when (believes {@self give_alms ?church}))
   (duration 60)
-  (effects
+  (act-effects
     ; A punctual {@self give <sum>} act-record (born ended - a begin would leave
     ; the give ongoing forever, and a later identical sum would trip the self-act
     ; contradiction tripwire). The generosity classifier reads it.

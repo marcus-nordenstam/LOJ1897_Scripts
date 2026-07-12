@@ -34,7 +34,7 @@
   (role @self (unmarried_man @self))
   (when (and (believes {@self fiancee ?})
              (not (organizing-occasion [k wedding]))))
-  (effects
+  (cont-fire-effects
     ; The venue is the groom's same-town church; ~3 months' banns lead, an
     ; 11-14h ceremony. plan-wedding stages the occasion (both principals
     ; forced-attend, both circles invited).

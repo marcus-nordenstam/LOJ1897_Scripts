@@ -32,7 +32,7 @@
   (role ?victim (any_human ?victim)
     (believes {@self extort ?victim}))
 
-  (effects
+  (cont-fire-effects
     (if (not (alive ?victim))
         (end-belief @self extort ?victim)
         (do

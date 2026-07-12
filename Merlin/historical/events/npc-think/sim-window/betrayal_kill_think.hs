@@ -41,7 +41,7 @@
   (when (chance (* (crime-scale) 0.02
                    (dark-propensity @self (rage-disposition @self)))))
 
-  (effects
+  (cont-fire-effects
     ; Resolve the interloper (the partner's third-party lover, in @self's own
     ; beliefs); @fail when no affair is known - then nothing fires.
     (bind (interloper-of ?partner) ?interloper)

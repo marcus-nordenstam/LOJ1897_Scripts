@@ -38,4 +38,4 @@
 
   ;; The same churchgoing proposal feel_devout makes (shared macro) - both thinks
   ;; stack their utility on the one {@self worship <church>} act-goal.
-  (effects (propose-venue-act ?venue worship)))
+  (cont-fire-effects (propose-venue-act ?venue worship)))

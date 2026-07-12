@@ -66,7 +66,7 @@
   ;; same-window double-back by two patrons is left for a future public-blackboard
   ;; claim (the sanctioned synchronized-group mechanism), never a mind peek.
 
-  (effects
+  (cont-fire-effects
     ; The protege learns of the backing in THEIR own mind ({me backed_by patron}).
     (begin-belief ?protege {?protege backed_by @self})
     ))

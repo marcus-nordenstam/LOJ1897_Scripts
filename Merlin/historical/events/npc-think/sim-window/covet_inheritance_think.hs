@@ -65,7 +65,7 @@
   ; benefactor's kin graph (the one irreducible computation, exposed as a verb).
   ; /cause pins @self's belief in the benefactor's wealth - the appetitive motive -
   ; so the rap sheet reads "kill <victim> <- {<benefactor> wealth ..}".
-  (effects
+  (cont-fire-effects
     (if (= ?heir @self)
         (begin-goal {@self kill ?benefactor} /cause {?benefactor wealth})
         (if (alive ?heir)

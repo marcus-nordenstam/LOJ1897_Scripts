@@ -60,7 +60,7 @@
                    (attr @self enthusiasm)
                    (- 1 (target {@self decorum})))))
 
-  (effects
+  (cont-fire-effects
     ; Reciprocal lover bond + mutual profile sync (mirrors lovers.hs's shape so
     ; downstream consumers - betrayal detection, the romantic-rival derive - see a
     ; fully-wired pair). @self's spouse will read {@self lover ?lover} in the

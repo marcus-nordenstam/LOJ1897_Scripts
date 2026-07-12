@@ -43,7 +43,7 @@
   ; goal {@self found_club}}; the npc-act (club_found_errand.hs) takes the founder
   ; out to found it (found-club-seq acquires the clubhouse + enrols him). A new club
   ; starts with just its founder; members trickle in via club_joining.
-  (effects
+  (cont-fire-effects
     (begin-goal {@self found_club})))
 
 ; --- club_joining: an adult joins an existing club --------------------------
@@ -88,7 +88,7 @@
   ; replaced each fire (per-target idempotency would stack a distinct goal per
   ; club's articles; a blocking gate would deadlock on an unreachable club).
   ; Focus = the club's articles, recovered from @self's {?club_org record ?art} belief.
-  (effects
+  (cont-fire-effects
     (end-goal {@self join_club})
     (begin-goal {@self join_club (target {?club_org record})})))
 
@@ -113,5 +113,5 @@
   ; SPLIT (Item 5): the npc-think - the decision to resign. Mints {@self goal
   ; {@self resign_club}}; the npc-act (club_resign_errand.hs) sends the member to
   ; a clubhouse and unregisters him there (unregister-member resolves his own club).
-  (effects
+  (cont-fire-effects
     (begin-goal {@self resign_club})))

@@ -77,7 +77,7 @@
   ; sends him to the firm and the completion records {@self backed_by ?org} there.
   ; (goal) is idempotent. (`back` label reused as the clerk's pursue-backing goal.)
   ; Focus = the employer firm, read inline from @self's own employer belief.
-  (effects
+  (cont-fire-effects
     (begin-goal {@self back (target {@self employer})})))
 
 ; --- business_partnership: an established proprietor takes on a co-owner ----
@@ -130,7 +130,7 @@
   ; attention set (13 standing goals by 1707); a blocking goal gate instead
   ; deadlocks the search on an unreachable first target. (end-goal) no-ops when
   ; no goal stands. Focus = the firm's articles ({?org record ?art}).
-  (effects
+  (cont-fire-effects
     (end-goal {@self partner})
     (begin-goal {@self partner (target {?principal_org record})})))
 
@@ -168,7 +168,7 @@
              (or (>= (target {@self wealth}) 0.5)
                  (believes {@self backed_by ?}))))
 
-  (effects
+  (cont-fire-effects
     (begin-goal {@self found})))
 
 ; --- business_homeostat: the org-supply floor, founder-by-founder --------------
@@ -208,7 +208,7 @@
              (no-goal {@self found})
              (orgs-below-population-floor [k org business] 12)))
 
-  (effects
+  (cont-fire-effects
     (begin-goal {@self found})))
 
 ; --- business_failure: an org folds (zero-role; see header) -----------------

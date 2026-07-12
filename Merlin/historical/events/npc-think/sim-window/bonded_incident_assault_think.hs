@@ -44,7 +44,7 @@
                    (- 1.0 (attr @self politeness))
                    (+ 0.3 (* 0.7 (attr @self intoxication))))))
 
-  (effects
+  (cont-fire-effects
     (incident-anchor @self assault ?victim)
     (witness-copresence @self assault ?victim)
     ))

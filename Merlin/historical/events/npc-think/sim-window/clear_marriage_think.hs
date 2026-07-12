@@ -58,7 +58,7 @@
                               (romantic-drive ?paramour ?spouse)))))))))
 
   ; Agency fork (P(instigated) = 0.7 * machiavellianism, a schemer keeps clean hands).
-  (effects
+  (cont-fire-effects
     (if (chance (* 0.7 (attr @self machiavellianism)))
         ; INSTIGATED: the cheater recruits the lover. The accomplice bond carries the
         ; embedded plot as its AUX clause (4th positional field): {@self accomplice

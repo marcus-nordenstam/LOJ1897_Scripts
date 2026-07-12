@@ -48,7 +48,7 @@
              (>= (stance-band ?instigator attraction) 2)
              (chance (attr @self psychopathy))))
 
-  (effects
+  (cont-fire-effects
     (bind (clause-target ?plot) ?victim)
     ; My own side of the conspiracy: the bond embeds the plot as its AUX
     ; clause, and the goal is pinned to the bond.

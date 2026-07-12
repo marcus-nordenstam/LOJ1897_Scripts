@@ -57,7 +57,7 @@
   (when (and (chance (* (crime-scale) 0.6))
              (believes {@self lover ?jilted})))
 
-  (effects
+  (cont-fire-effects
     ; One-sided ending - ONLY the jilter's belief (see header).
     (end-belief @self lover ?jilted)
     ; The act-record in both minds + the appraisal cascade in each.
@@ -109,7 +109,7 @@
   (when (and (chance (* (crime-scale) 0.15 (+ 0.3 (target {@self decorum}))))
              (believes {@self lover ?jilted})))
 
-  (effects
+  (cont-fire-effects
     (end-belief @self lover ?jilted)
     (incident-anchor @self jilt ?jilted)
     (nudge-stance ?jilted @self warmth -0.4)

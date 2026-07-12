@@ -95,7 +95,7 @@
              (not (believes {@self fiancee ?}))
              (not (believes {?beloved fiancee ?}))))
 
-  (effects
+  (cont-fire-effects
     ; Symmetric fiancee bond + mutual profile sync - identical to betrothal, so
     ; the existing wedding event consumes the couple (it recovers the groom from
     ; the bride's fiancee belief regardless of which side initiated).

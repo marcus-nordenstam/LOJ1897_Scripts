@@ -68,7 +68,7 @@
              (chance (* 0.80
                         (+ 0.2 (value-rift @self ?victim))))))
 
-  (effects
+  (cont-fire-effects
     ; Success = persuasiveness x deference x rift-term (the urged party's
     ; compassion defers, half again for one's own parent, capped; a value
     ; rift makes the demand land harder). The verb mints the urge clause in

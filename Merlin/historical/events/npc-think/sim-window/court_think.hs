@@ -64,7 +64,7 @@
   ; paces repeated courting is not a belief query, so it lives here.
   (when (chance 0.5))
 
-  (effects
+  (cont-fire-effects
     ; Attention from her suitor grows her attraction toward him (reciprocal fancy
     ; builds over repeated courting), so a one-sided crush becomes the MUTUAL fancy
     ; love_match marries. 0.25 per courting clears the fancy band (0.20) in

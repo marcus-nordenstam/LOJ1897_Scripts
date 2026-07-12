@@ -38,7 +38,7 @@
   (rng-stream behaviour)
   (role @self (grown @self))
   (when (chance 0.02))
-  (effects
+  (cont-fire-effects
     (plan-occasion @self [k dinner_party] (target {@self home ?}) 3 19 23 formal)))
 
 ; An IMPROMPTU supper (the INFORMAL channel): unlike the planned dinner party, this
@@ -50,7 +50,7 @@
   (rng-stream behaviour)
   (role @self (grown @self))
   (when (chance 0.015))
-  (effects
+  (cont-fire-effects
     (plan-occasion @self [k dinner_party] (target {@self home ?}) 0 18 22 informal)))
 
 ; The per-window appointment review (npc-think): expire past appointments + emit
@@ -58,5 +58,5 @@
 (npc-think review_appointments
   (sim-window-think)
   (role @self (grown @self))
-  (effects
+  (cont-fire-effects
     (review-appointments @self attend)))

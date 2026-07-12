@@ -36,7 +36,7 @@
              (>= (attr @self narcissism) 0.7)
              (chance 0.04)))
 
-  (effects
+  (cont-fire-effects
     ; The actor's own recent overt-method kill, corpse still pre-burial;
     ; @fail (no letter) when there is none - the taunt needs a live mystery.
     (bind (covert-kill-corpse) ?victim)

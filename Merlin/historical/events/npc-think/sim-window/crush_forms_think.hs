@@ -58,7 +58,7 @@
                    (attr @self enthusiasm)
                    (attr @self compassion))))
 
-  (effects
+  (cont-fire-effects
     ; Feed the one-sided attraction scalar: a crush is a strong directed pull.
     ; 0.5 crosses the `fancy` band (0.20) in one fire and sustains ~a year against
     ; the sleep decay (0.938); repeated fires deepen toward `desire` (0.60). The

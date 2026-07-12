@@ -28,7 +28,7 @@
              (not (at-home))
              (> (attr @self fatigue) 0.7)))
   (utility (if (> (attr @self fatigue) 1.0) 10000 (* 90 (attr @self fatigue))))
-  (effects (bind (target {@self home ?}) ?go_dest) (go-into ?go_dest)))
+  (cont-fire-effects (bind (target {@self home ?}) ?go_dest) (go-into ?go_dest)))
 
 ; at home and at all tired (or it is night): sleep until the morning alarm. The
 ; sleep act records a {@self sleep} memory ((does sleep)); its completion resets
@@ -66,4 +66,4 @@
   (when (and (not (under-attack))
              (not (at-home))))
   (utility 1)
-  (effects (bind (target {@self home ?}) ?go_dest) (go-into ?go_dest)))
+  (cont-fire-effects (bind (target {@self home ?}) ?go_dest) (go-into ?go_dest)))

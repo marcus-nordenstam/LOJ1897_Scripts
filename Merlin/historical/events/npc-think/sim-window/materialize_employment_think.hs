@@ -37,7 +37,7 @@
 
   (when (not (believes {@self employer ?})))
 
-  (effects
+  (cont-fire-effects
     (find-my-enrollment (bind ?art))
     (if ?art
       (do

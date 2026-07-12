@@ -79,7 +79,7 @@
                        (= (target {(target {@self lover}) class_situation})
                           (target {@self class_situation}))))))
 
-  (effects
+  (cont-fire-effects
     (begin-belief {@self fiancee ?bride})
     ; The bride's own engagement belief lands in HER mind (the wedding event
     ; recovers the groom from the bride's fiancee belief, either side initiating).

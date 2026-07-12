@@ -38,7 +38,7 @@
   ;; A (chance)/(attr) gate is non-belief, so it lives in (when), not the role.
   (when (chance (* 0.08 (+ 0.5 (attr @self enthusiasm)))))
 
-  (effects
+  (act-effects
     ;; Say the calling ALOUD. The tell-act makes a speech sound at @self's
     ;; location; the post-effects auditory pass delivers + adopts {@self calling
     ;; ?domain} into ?confidant (and anyone else co-present), sourced to the

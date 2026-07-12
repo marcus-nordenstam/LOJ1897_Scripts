@@ -65,7 +65,7 @@
   ; the invisible victim (the irreducible scan, exposed as a verb). /cause pins the
   ; first fixation belief (the appetitive signature), else the power_aim life_aim
   ; belief. mark-stalk arms the surprise weight modifier attempt_harm reads.
-  (effects
+  (cont-fire-effects
     (bind (predation-target @self) ?victim)
     (if (alive ?victim)
         (do

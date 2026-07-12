@@ -42,7 +42,7 @@
              (believes @self {@self own ?h})           ; @self OWNS that home (the head)
              (or (is-a ?h [k manor]) (is-a ?h [k townhouse]))))
 
-  (effects (begin-goal {@self staff_household})))
+  (cont-fire-effects (begin-goal {@self staff_household})))
 
 ; --- FOUND: the head constitutes the household org at his home study -----------
 ; A separate window-start pass (not season-gated, so it catches the standing duty
@@ -67,7 +67,7 @@
              (believes @self {@self own ?h})            ; @self OWNS that home (the head)
              (or (is-a ?h [k manor]) (is-a ?h [k townhouse]))))
 
-  (effects (found-org-seq [k org household] [k job head_of_household])))
+  (cont-fire-effects (found-org-seq [k org household] [k job head_of_household])))
 
 ; --- ACT: the head fulfils the duty - hires what the founded household lacks ---
 (npc-think staff_household
@@ -88,7 +88,7 @@
              (believes @self {@self home ?h})           ; BIND ?h = the home
              (believes @self {@self own ?h})))          ; @self OWNS it (the head)
 
-  (effects (staff-household ?h
+  (cont-fire-effects (staff-household ?h
              /slots   household_staff_slots
              /age-min (staff_hire_age_min)
              /age-max (staff_hire_age_max))))

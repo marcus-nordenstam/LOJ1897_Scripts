@@ -27,7 +27,7 @@
   (when (and (>= (years-old @self) 15)
              (chance ?per_month)))
 
-  (effects
+  (cont-fire-effects
     ; propagate-death MUST precede die - die marks @self dead, and propagation
     ; reads @self's still-living kin/social ties to spread the death belief.
     (propagate-death @self)
