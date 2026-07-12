@@ -6,7 +6,8 @@
 ; against what actually is (take-stock-of, stocktake_macros.hs): a
 ; sold / stolen / eaten item's whereabouts belief ends at the gap where it
 ; used to sit. Utility 82: a shade over the work shift (80), so the round
-; happens on arrival and the counter work resumes after.
+; happens on arrival and the counter work resumes after. The per-cycle desire
+; (stocktake_round) lives in npc-think/shopkeeping.hs.
 ;
 ; RE-STOCK: restocking the shelves is the grocer's OWN daily job, done at
 ; his OWN co-present shop - the deliveries a Victorian shop takes each
@@ -29,21 +30,6 @@
 ; whole-shop total stays ~200 (the validated food-economy tuning) instead
 ; of 200-per-room.
 (define-macro grocer_shelf_stock () 200)
-
-; The per-cycle DESIRE: while the standing stocktake goal holds and the clerk is
-; at his counter, push utility 82 onto it so it promotes to stocktake_act. The
-; (goal) requirement throttles it to once per window - when stocktake_act ends the
-; goal at completion, this stops firing (no re-mint), and plan_stocktake re-seeds
-; the goal next window.
-(npc-think stocktake_round
-  (short-term-think)
-  (goal {@self stocktake})
-  (when (and (not (under-attack))
-             (bind {@self employer ?org})
-             (bind {?org workplace ?wp})
-             (at-workplace ?wp)))
-  (utility 82)
-  (cont-fire-effects (begin-goal {@self stocktake})))
 
 ; The stocktake round itself: the goal, at the counter, is the leaf and promotes
 ; here. The begun-then-ended {@self stocktake} act-belief IS the round (30 min).

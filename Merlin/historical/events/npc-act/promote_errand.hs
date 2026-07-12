@@ -1,32 +1,11 @@
 ; ----------------------------------------------------------------------------
-; promote_errand - the npc-ACT half of the employer-side promotion split (Item 5).
+; promote_errand (npc-act) - the ACT half of the employer-side promotion split.
 ;
 ; The decision (employment.hs `promotion`) minted {@self goal {@self promote_staff
 ; <worker>}} on the BOSS. He goes to the workplace and advances the worker's grade
-; there. The worker is the goal focus.
-;
-;   promote_go     : hold the goal, not at the workplace -> travel act to it.
-;   promote_dwell  : hold the goal, AT the workplace -> a short dwell.
-;   promote_commit : completion (completion-only) - promotes the worker + clears the goal.
+; there. The worker is the goal focus. The go/dwell think half lives in
+; npc-think/promote_errand.hs; this file holds the completion commit.
 ; ----------------------------------------------------------------------------
-
-(npc-think promote_go
-  (short-term-think)
-  (goal {@self promote_staff})
-  (when (and (bind {@self employer ?org})
-             (bind {?org workplace ?wp})
-             (not (at-workplace ?wp))))
-  (utility 82)
-  (cont-fire-effects (go-into ?wp)))
-
-(npc-think promote_dwell
-  (short-term-think)
-  (goal {@self promote_staff})
-  (when (and (bind {@self employer ?org})
-             (bind {?org workplace ?wp})
-             (at-workplace ?wp)))
-  (utility 82)
-  (cont-fire-effects (begin-goal {@self promote_staff})))
 
 (npc-act promote_staff_act
   (when (believes {@self promote_staff}))

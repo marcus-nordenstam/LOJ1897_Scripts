@@ -14,23 +14,6 @@
 ;   orient_read  : completion - read the register + clear the goal.
 ; ----------------------------------------------------------------------------
 
-(npc-think orient_go
-  (short-term-think)
-  (goal {@self orient})
-  ; The church is role-cast from the churches the NPC KNOWS; nearest preferred,
-  ; weighted. No known church -> no fire (the goal waits). Replaces (venue ...).
-  (role ?go_dest [k building church] (select (score (near @self ?go_dest)) (policy roulette)))
-  (when (not (at-place-kind [k building church])))
-  (utility 28)
-  (cont-fire-effects (go-into ?go_dest)))
-
-(npc-think orient_dwell
-  (short-term-think)
-  (goal {@self orient})
-  (when (at-place-kind [k building church]))
-  (utility 28)
-  (cont-fire-effects (begin-goal {@self orient})))
-
 (npc-act orient_act
   (when (believes {@self orient}))
   (duration 30)

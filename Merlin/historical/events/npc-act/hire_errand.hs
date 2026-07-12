@@ -12,22 +12,6 @@
 ;   hire_commit : completion (completion-only) - the eligibility-match hire + clears goal.
 ; ----------------------------------------------------------------------------
 
-(npc-think hire_go
-  (short-term-think)
-  (goal {@self engage_staff})
-  (when (and (articles-building (goal-focus engage_staff) ?venue)
-             (not (in-building ?venue))))
-  (utility 82)
-  (cont-fire-effects (go-into ?venue)))
-
-(npc-think hire_dwell
-  (short-term-think)
-  (goal {@self engage_staff})
-  (when (and (articles-building (goal-focus engage_staff) ?venue)
-             (in-building ?venue)))
-  (utility 82)
-  (cont-fire-effects (begin-goal {@self engage_staff})))
-
 (npc-act engage_staff_act
   (when (believes {@self engage_staff}))
   (duration 45)

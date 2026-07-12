@@ -1,22 +1,17 @@
 ; ----------------------------------------------------------------------------
-; close_business_errand - the npc-ACT half of the business-failure split.
+; close_business_errand (act lane) - the npc-ACT half of the business-failure split.
+; The go/dwell think rungs live in npc-think/close_business_errand.hs.
 ;
 ; The decision (npc-think/close_business.hs) minted {@self goal {@self
-; close_business <own_articles>}} on the proprietor each December. These intra-day
-; events drain it: the owner goes to his OWN premises and winds the firm up in
+; close_business <own_articles>}} on the proprietor each December. The intra-day
+; think rungs drain it: the owner goes to his OWN premises and winds the firm up in
 ; person - so the failure happens AT the workplace, by the man himself, leaving the
 ; co-presence a witness (and his staff) would see, instead of a faceless town-lane
 ; cull. His articles are the goal focus, so the premises are (articles-building
 ; (goal-focus close_business)) - mirrors apprentice_errand.
 ;
-;   close_go     : hold the goal, not at the premises -> travel sub-goal to it.
-;   close_dwell  : hold the goal, AT the premises -> re-affirm the aim so it promotes.
 ;   close_business_act : the promoted act - the winding-up, entirely over the owner's
 ;                  OWN state (no cross-mind write), then ends the act + the goal.
-;
-; Utility 85 matches retirement / founding: a man set on closing pursues it over
-; another shift (work lane 80) but still yields to night sleep (100), so he does it
-; by day.
 ;
 ; THE TEARDOWN - NO TELEPATHY. The owner touches ONLY his own state + true env
 ; primitives. He does NOT reach into any worker's mind (the old (dissolve-org)
@@ -44,27 +39,6 @@
 ;      for_sale} belief - the same abs-native listing list_to_let_act files for a
 ;      let, NOT the banned cross-mind list_for_sale op.
 ; ----------------------------------------------------------------------------
-
-; Not at the premises: pursue a `go` sub-goal to them. articles-building BINDS ?wp
-; (the firm's premises building) off the goal-focus articles, threading it to the
-; at-place gate + the (go) effect.
-(npc-think close_go
-  (short-term-think)
-  (goal {@self close_business})
-  (when (and (articles-building (goal-focus close_business) ?wp)
-             (not (at-workplace ?wp))))
-  (utility 85)
-  (cont-fire-effects (go-into ?wp)))
-
-; AT the premises: re-affirm the standing aim with this think's utility so, the go
-; sub-goal spent, the aim is the leaf and promotes to close_business_act.
-(npc-think close_dwell
-  (short-term-think)
-  (goal {@self close_business})
-  (when (and (articles-building (goal-focus close_business) ?wp)
-             (at-workplace ?wp)))
-  (utility 85)
-  (cont-fire-effects (begin-goal {@self close_business})))
 
 ; The winding-up - the owner's own act on his own state. Binds his articles to a
 ; plain ?var, reads the premises + register off it, shutters the doors, destroys

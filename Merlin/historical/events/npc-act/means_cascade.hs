@@ -26,19 +26,6 @@
 
 (include "../../definitions/roles.hs")
 
-; The DESIRE: a killer who holds a method_means it does not yet control resolves to
-; obtain it. Binds the required tool kind off its own belief and pushes utility 90
-; onto the standing {@self acquire [k <means>]} goal (the killer's memory of setting
-; out to arm), which - the leaf - promotes to acquire_act. Stops firing the moment
-; the killer controls the tool (real-possession termination). NO (log) here - this
-; fires in the deliberation pass; the acquisition is narrated at completion.
-(npc-think means_plan_acquire
-  (short-term-think)
-  (when (and (bind {@self method_means ?means})
-             (not (controls @self ?means))))
-  (utility 90)
-  (cont-fire-effects (begin-goal {@self acquire ?means})))
-
 ; The obtain act: the acquire goal, the leaf, promotes here. A DURATIVE dwell of the
 ; round-trip travel time to fetch the tool; the world-write lands at COMPLETION.
 ; DEMAND RE-VALIDATION: the obtain is a sub-act serving a kill the actor still

@@ -13,22 +13,6 @@
 ;                    as co-owner + installed as proprietor (org_head), clears goal.
 ; ----------------------------------------------------------------------------
 
-(npc-think partner_go
-  (short-term-think)
-  (goal {@self partner})
-  (when (and (articles-building (goal-focus partner) ?venue)
-             (not (in-building ?venue))))
-  (utility 85)
-  (cont-fire-effects (go-into ?venue)))
-
-(npc-think partner_dwell
-  (short-term-think)
-  (goal {@self partner})
-  (when (and (articles-building (goal-focus partner) ?venue)
-             (in-building ?venue)))
-  (utility 85)
-  (cont-fire-effects (begin-goal {@self partner})))
-
 (npc-act partner_act
   (when (believes {@self partner}))
   (duration 90)

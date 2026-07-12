@@ -14,27 +14,6 @@
 ;                   org via goal-focus) + ends the act + the aim.
 ; ----------------------------------------------------------------------------
 
-(npc-think invest_go
-  (short-term-think)
-  (goal {@self back})
-  (bind (goal-focus back) ?org)
-  (when (and (bind {?org workplace ?wp})
-             (not (at-workplace ?wp))))
-  (utility 60)
-  (cont-fire-effects (go-into ?wp)))
-
-; AT the firm: re-affirm the standing back aim with this think's drive so it promotes
-; (the go sub-goal spent, the aim is the leaf). begin-goal, not excl-goal - the aim is a
-; latched goal, not this node's to auto-retract.
-(npc-think invest_dwell
-  (short-term-think)
-  (goal {@self back})
-  (bind (goal-focus back) ?org)
-  (when (and (bind {?org workplace ?wp})
-             (at-workplace ?wp)))
-  (utility 60)
-  (cont-fire-effects (begin-goal {@self back})))
-
 ; The 45-min proposal, promoted from the back aim at the firm; matched by its (when) on
 ; the promoted {@self back} belief.
 (npc-act invest_act

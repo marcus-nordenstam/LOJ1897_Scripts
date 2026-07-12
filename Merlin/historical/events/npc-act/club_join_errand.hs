@@ -1,32 +1,11 @@
 ; ----------------------------------------------------------------------------
-; club_join_errand - the npc-ACT half of the club-joining split (Item 5).
+; club_join_errand (npc-act lane) - the ACT half of the club-joining split.
 ;
 ; The decision (clubs.hs `club_joining`) minted {@self goal {@self join_club
-; <club_articles>}}. The member goes to the clubhouse and is enrolled on the roster
-; there - the co-presence the clubhouse's afforded events read, instead of a
-; faceless roster edit. The club's articles are the goal focus, so the clubhouse is
-; (articles-building (goal-focus join_club)).
-;
-;   join_go     : hold the goal, not at the clubhouse -> travel act to it.
-;   join_dwell  : hold the goal, AT the clubhouse -> a dwell (being introduced).
-;   join_commit : completion (completion-only) - registers the member + clears the goal.
+; <club_articles>}}. The member goes to the clubhouse (npc-think lane) and is
+; enrolled on the roster there - the co-presence the clubhouse's afforded events
+; read, instead of a faceless roster edit.
 ; ----------------------------------------------------------------------------
-
-(npc-think join_go
-  (short-term-think)
-  (goal {@self join_club})
-  (when (and (articles-building (goal-focus join_club) ?venue)
-             (not (in-building ?venue))))
-  (utility 40)
-  (cont-fire-effects (go-into ?venue)))
-
-(npc-think join_dwell
-  (short-term-think)
-  (goal {@self join_club})
-  (when (and (articles-building (goal-focus join_club) ?venue)
-             (in-building ?venue)))
-  (utility 40)
-  (cont-fire-effects (begin-goal {@self join_club})))
 
 (npc-act join_club_act
   (when (believes {@self join_club}))
