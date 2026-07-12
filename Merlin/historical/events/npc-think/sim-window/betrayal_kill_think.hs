@@ -34,7 +34,7 @@
   ; third-party lover (the belief-query role filter). The interloper is resolved
   ; in (effects) via (interloper-of ?partner) - a cross-role read, not a role filter.
   (role ?partner (any_human ?partner)
-    (believes {@self spouse|lover ?partner}) (pick-first-matching-role))
+    (believes {@self spouse|lover ?partner}) (select (policy first-match)))
 
   ; Jealous-rage pre-gate: the rage tail released by disinhibition, at the
   ; 0.02 base rate (score_macros.hs).

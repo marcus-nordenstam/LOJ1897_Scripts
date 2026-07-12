@@ -13,7 +13,7 @@
 ; / rid_of_spouse.hs). The selection that run_generative_obsession dispatched is
 ; expressed here:
 ;   - (role ?beloved ... (believes {@self crave ?beloved})
-;     (pick-first-matching-role)) binds ONE craved beloved, so a multi-crave
+;     (select (policy first-match))) binds ONE craved beloved, so a multi-crave
 ;     obsessive strikes a single victim per tick;
 ;   - (when ...) is the jealous-rage pre-gate (volatility + psychopathy, scaled by
 ;     disinhibition, at the 0.02 obsession base rate) PLUS (not (knows-affair))
@@ -38,11 +38,11 @@
 
   (role @self (any_human @self))
   ; The craved beloved. The crave stance is the object-cache filter;
-  ; pick-first-matching-role binds ONE, so a multi-crave actor strikes a
+  ; (policy first-match) binds ONE, so a multi-crave actor strikes a
   ; single victim per tick (parity with the old first-viable walk).
   (role ?beloved (any_human ?beloved)
     (believes {@self crave ?beloved})
-    (pick-first-matching-role))
+    (select (policy first-match)))
 
   ; Jealous-rage pre-gate + the fallback guard. rage = mean(volatility, psychopathy);
   ; propensity = (1 - inhibition) * rage; fire at 0.02 * propensity. (knows-affair)

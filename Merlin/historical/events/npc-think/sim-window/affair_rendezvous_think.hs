@@ -45,7 +45,7 @@
   (role ?paramour (any_human ?paramour)
     (believes {@self lover ?paramour})
     (not (believes {@self spouse ?paramour}))
-    (pick-first-matching-role))
+    (select (policy first-match)))
 
   ; Adult floor, live paramour, the concealment motive, the monthly rate.
   (when (and (>= (years-old @self) 18)

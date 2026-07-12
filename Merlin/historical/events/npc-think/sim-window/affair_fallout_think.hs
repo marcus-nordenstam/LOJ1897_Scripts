@@ -45,7 +45,7 @@
   ; is resolved in (effects) - a cross-role read, not a role filter).
   (role ?partner (any_human ?partner)
     (believes {@self spouse|lover ?partner})
-    (pick-first-matching-role))
+    (select (policy first-match)))
 
   ; The affair surfaces some months, not every one (probabilistic discovery).
   (when (and (alive ?partner)

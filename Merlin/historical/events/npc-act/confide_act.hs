@@ -28,15 +28,16 @@
   (rng-stream behaviour)
 
   ;; @self the discloser: old enough to hold a calling (grown >= 16), actually
-  ;; has one (binds ?domain - the kind they will name aloud), and has a friend
-  ;; to confide in (?confidant). Belief queries only - no chance/attr in a role.
+  ;; has one, and has a friend to confide in. A pure existence gate (@self reads
+  ;; its own beliefs) - the calling KIND is bound in (when) below for the tell.
   (role @self (grown @self)
-              (believes {@self calling ?domain})
-              (believes {@self friend ?confidant}))
+              (believes {@self calling ?})
+              (believes {@self friend ?}))
 
-  ;; The disclosure roll - once per discloser per window, weighted by extraversion.
-  ;; A (chance)/(attr) gate is non-belief, so it lives in (when), not the role.
-  (when (chance (* 0.08 (+ 0.5 (attr @self enthusiasm)))))
+  ;; Bind ?domain (@self's calling kind, named aloud) and roll the disclosure -
+  ;; once per discloser per window, weighted by extraversion.
+  (when (and (believes {@self calling ?domain})
+             (chance (* 0.08 (+ 0.5 (attr @self enthusiasm))))))
 
   (act-effects
     ;; Say the calling ALOUD. The tell-act makes a speech sound at @self's

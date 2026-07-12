@@ -54,14 +54,14 @@
 (define-macro unmarried_man (?x)
   (and (believes {?x isa [k human], condition [k alive], gender [k male]})
        (adult-age ?x)
-       (not (believes ?x {@self spouse ?}))))
+       (not (believes {?x spouse ?}))))
 
-;; Adult woman in fertile age range, currently married. Births recovers the husband
-;; via belief query.
+;; Adult woman in fertile age range, currently married. Shape-2 spouse read (the
+;; deliberating mind's own belief), so it stays object-cacheable like unmarried_woman.
 (define-macro fertile_wife (?x)
   (and (believes {?x isa [k human], condition [k alive], gender [k female]})
        (working-age ?x)                  ; 16-49 childbearing band
-       (believes ?x {@self spouse ?})))
+       (believes {?x spouse ?})))
 
 ;; Adult of working / migration age. Used by emigration.
 (define-macro young_adult (?x)
