@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
+(include "../../../macros/possession_macros.hs")
 
 ; The DESIRE: a killer who holds a method_means it does not yet control resolves to
 ; obtain it. Binds the required tool kind off its own belief and pushes utility 90
@@ -15,6 +16,6 @@
 (npc-think means_plan_acquire
   (short-term-think)
   (when (and (bind {@self method_means ?means})
-             (not (controls @self ?means))))
+             (not (control ?means))))
   (utility 90)
   (cont-fire-effects (begin-goal {@self acquire ?means})))
