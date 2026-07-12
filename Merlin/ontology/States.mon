@@ -117,6 +117,15 @@ relation
         lunch_hour              (sub structure)        (tar ? @excl)
         supper_hour             (sub structure)        (tar ? @excl)
 
+        # The cook's personal grocery-run slot (2a staggering, household.hs
+        # set_shop_schedule / plan_provisioning). Each cook picks a random
+        # weekday (0-6, 0=Sunday) and start hour ONCE, so the town's grocer
+        # trips spread across the week and day instead of every household
+        # converging on the one shop the same day (the 256-contents stampede).
+        # Int scalar targets, held on the cook's OWN self-object.
+        shop_weekday            (sub human)            (tar ? @excl)
+        shop_hour               (sub human)            (tar ? @excl)
+
         # under_suspicion: the graded wariness an observer has accumulated
         # toward someone hiding something (see Docs/hsim/hsim_social.md).
         # Held in the OBSERVER's mind about the watched person:

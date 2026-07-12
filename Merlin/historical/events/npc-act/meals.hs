@@ -255,6 +255,24 @@
 
 ; -------------------------------------------------------- the food economy
 
+; The steady-state home larder in PERSON-DAYS of food. The cook's weekly run
+; tops the larder up to this, so an average household eats through the week
+; without the pantry emptying (which would drop every member into the per-NPC
+; starving lanes and re-crowd the shop); a large household that outruns it
+; leans on plan_provisioning's catch-up / emergency fallbacks. Sized to keep
+; the town's food-prop count under the food archetype cap (food.arc, cap 8192 =
+; ~60 occupied homes x this + the grocer shelves). A ~2-week larder gives the
+; household a multi-day buffer so a single missed weekly run never empties the
+; pantry into the starving lanes. MUST match the world-gen starter larder
+; (weapon_seed.h k_home_starter_larder) so homes open in steady state.
+(define-macro larder_target () 56)
+
+; How many food items a cook carries home in ONE trip. take/put is a one-load
+; seam: she grasps at most this, walks home, stows, and makes another weekly
+; trip if the larder is still short. MUST stay under the hand's control cap
+; (common.arc control array = 12) so one grasp never overflows the hand.
+(define-macro carry_cap () 8)
+
 ; PROVISIONING - the cook keeps the larder stocked (ruling 14). The desire
 ; (plan_provisioning, npc-think/household.hs) mints {@self goal {@self
 ; provision}} when the cook BELIEVES the home stock is low; these acts
@@ -278,8 +296,15 @@
 ;                        still ends - she gives it up until the next
 ;                        window's think re-arms it.
 ;
-; Errand-band utility (55-56): above leisure, below the work shift; take
-; outbids the walks by a point so arrival flips travel into the stop.
+; Completion-band utility (77 walk / 79 take): high enough that the weekly run
+; actually COMPLETES rather than oscillating. It beats midday leisure / lunch
+; (home_lunch 76) so the cook makes uninterrupted daytime progress to the shop,
+; but stays under breakfast (82), work (80) and sleep (100) so she still eats,
+; works and sleeps - a working cook simply shops on a day off or after her
+; shift. At 55 the errand lost to every meal and the evening supper-go-home
+; pull, so the cook never arrived and the town fell through to the (high-
+; utility) starving lanes for its food. Take outbids the walks by two points so
+; arrival flips travel into the counter stop even against the supper pull (78).
 
 (npc-think provision_go_known
   (short-term-think)
@@ -288,7 +313,7 @@
   (when (and (not (under-attack))
              (is-entity ?shop)
              (not (in-building ?shop))))
-  (utility 55)
+  (utility 77)
   (cont-fire-effects (go-into ?shop)))
 
 (npc-think provision_search
@@ -301,7 +326,7 @@
   (when (and (not (under-attack))
              (not (is-entity ?shop))
              (not (at-place-kind [k building shop]))))
-  (utility 55)
+  (utility 77)
   (cont-fire-effects (go-into ?go_dest)))
 
 (npc-think provision_take
@@ -309,23 +334,30 @@
   (goal {@self provision})
   (when (and (not (under-attack))
              (at-place-kind [k building shop])))
-  (utility 56)
+  (utility 79)
   (effects (begin-act {@self provision} 15 provision_episode)))
 
 (npc-think provision_episode
   (on-completion)
   (effects
     (bind (current-building @self) ?shop)
+    (bind {@self home ?home})
     (if (is-entity ?shop)
-        ; The counter stop: work the shop's rooms and take a BASKETFUL of
-        ; food - /limit 6 is the basket (a shelf holds ~80; the cap keeps
-        ; the carry and the stow-goal count physical). Physically present,
-        ; physically browsing: the rooms' actual contents are what her
-        ; hands reach (the terminal-steal precedent). Each find also
-        ; teaches / refreshes WHERE provisions are sold - the venue belief
-        ; the go_known and starving lanes route on (idempotent, @excl).
+        ; The counter stop: browse the shop's rooms and grab up to a BASKET's
+        ; worth of food (carry_cap), never more than the larder is short. The
+        ; /limit subtracts what is ALREADY in hand and re-evaluates on each
+        ; room, so the basket fills ACROSS rooms and stops at carry_cap total,
+        ; never per-room (the hand's control array is one shared 12-slot store).
+        ; A near-full larder buys little, a bare one a basketful, a full one
+        ; nothing. Physically present, physically browsing: the rooms' actual
+        ; contents are what her hands reach (the terminal-steal precedent). Each
+        ; find also teaches / refreshes WHERE provisions are sold (the venue
+        ; belief the go_known and starving lanes route on). One weekly trip tops
+        ; the larder toward larder_target over successive runs.
         (for-each ?room (attr-values ?shop parts [k interior_space room])
-          (for-each ?item (attr-values ?room contents [k food]) /limit 6
+          (for-each ?item (attr-values ?room contents [k food])
+                    /limit (- (min (carry_cap) (- (larder_target) (count-believed-located [k food] ?home)))
+                              (count-controlled @self [k food]))
             (do
               (take-item ?item)
               (begin-goal {@self stow ?item})

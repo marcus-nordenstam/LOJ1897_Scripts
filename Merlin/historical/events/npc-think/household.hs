@@ -152,21 +152,49 @@
 ; count decides.
 ; ----------------------------------------------------------------------------
 
-(npc-think plan_provisioning
+; set_shop_schedule (npc-think) - the cook picks her personal grocery-run slot
+; ONCE (mirrors set_mealtimes): a random weekday + start hour. This is the 2a
+; staggering: with ~50 cooks scattered over 7 weekdays x an 8h window the town's
+; grocer trips spread to ~1 shopper at a time instead of the whole town
+; converging on the one shop the same day (the 256-contents stampede). A working
+; cook whose slot falls in her shift simply provisions after it - the errand
+; utility (55) yields to the work lane (80), so the slot is a floor, not a fence.
+(npc-think set_shop_schedule
   (long-term-think)
   (rng-stream behaviour)
 
   (role @self (grown @self)
               (believes {@self home ?}))
 
-  (when (and (bind {@self home ?home})
-             (at-home)
-             (< (count-believed-located [k food] ?home) 8)
-             (believes {@self gender [k female]})))
+  (when (and (believes {@self gender [k female]})
+             (not (believes {@self shop_weekday ?}))))
 
   (effects
-    (for-each ?room (attr-values ?home parts [k interior_space room])
-      (take-stock-of ?room [k food]))
-    (if (< (count-believed-located [k food] ?home) 4)
-        (begin-goal {@self provision}))
-    ))
+    (begin-belief {@self shop_weekday (random-int 0 6)})
+    (begin-belief {@self shop_hour (random-int 7 15)})))
+
+; plan_provisioning (npc-think) - the cook takes on the weekly provisioning
+; errand on HER scheduled slot; the npc-act lanes (meals.hs provision_go_known /
+; provision_search / provision_take) drain the goal, buying a WEEK's stock at a
+; time (top-up to larder_target) so the larder lasts to the next slot and the
+; family never falls through to the per-NPC starving lanes. days-since-last
+; provision is the once-a-week dedup (the worship.hs weekly-churchgoing pattern).
+; Two fallbacks keep a straggler fed without re-synchronising the town: a
+; catch-up (slot missed, shop any day) and an emergency (believed larder nearly
+; bare) - both rare, and phased apart by each cook's own days-since clock.
+(npc-think plan_provisioning
+  (long-term-think)
+
+  (role @self (grown @self)
+              (believes {@self home ?}))
+
+  (when (and (bind {@self home ?home})
+             (believes {@self gender [k female]})
+             (bind {@self shop_weekday ?swd})
+             (bind {@self shop_hour ?shr})
+             (>= (days-since-last @self provision) 6)
+             (or (and (= (now-weekday) ?swd) (>= (now-hour) ?shr))
+                 (>= (days-since-last @self provision) 9)
+                 (< (count-believed-located [k food] ?home) 3))))
+
+  (effects (begin-goal {@self provision})))
