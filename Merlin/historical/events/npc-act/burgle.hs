@@ -35,45 +35,61 @@
 
 (include "../../definitions/roles.hs")
 
+; The two STRIKEABLE scenes for the steal goal: an occupied residence that is not
+; the thief's own home (a break-in), or the thief's OWN workplace (embezzlement -
+; authorized presence). burgle_go heads to a residence when at neither; at either,
+; the steal goal is the leaf and promotes to steal_act.
+(define-macro at-burgle-residence ()
+  (and (not (at-home))
+       (at-place-kind [k building residential_building])))
+(define-macro at-own-workplace ()
+  (and (bind {@self employer ?emp})
+       (bind {?emp workplace ?work})
+       (at-workplace ?work)))
+
+; APPROACH - hold the steal goal but not yet at a strikeable scene: pick an
+; occupied non-home same-town residence ((burgle-target), env-truth) and travel
+; there. Pushes the steal utility so the go sub-goal it maintains promotes; steal
+; is a non-leaf while {@self go ?scene} stands. No scene qualifies -> nothing.
 (npc-think burgle_go
   (short-term-think)
   (goal {@self steal})
   (rng-stream theft)
+  (when (and (not (at-burgle-residence))
+             (not (at-own-workplace))))
   (utility 85)
-  (effects
+  (cont-fire-effects
+    (begin-goal {@self steal})
     (bind (burgle-target @self) ?scene)
     (if ?scene
         (go-into ?scene))))
 
+; AT a strikeable scene: push the steal utility so {@self steal}, now the leaf,
+; promotes to steal_act. One desire for both scenes; steal_act's completion picks
+; the crime method (embezzle at the thief's own workplace, else opportunist_theft).
 (npc-think burgle_strike
   (short-term-think)
   (goal {@self steal})
-  (when (and (not (at-home))
-             (at-place-kind [k building residential_building])))
+  (when (or (at-burgle-residence)
+            (at-own-workplace)))
   (utility 86)
-  (effects (begin-act {@self steal} 15 burgle_commit)))
+  (cont-fire-effects (begin-goal {@self steal})))
 
-(npc-think embezzle_strike
-  (short-term-think)
-  (goal {@self steal})
-  (when (and (bind {@self employer ?emp})
-             (bind {?emp workplace ?work})
-             (at-workplace ?work)))
-  (utility 86)
-  (effects (begin-act {@self steal} 10 burgle_commit)))
-
-(npc-think burgle_commit
-  (on-completion)
-  (effects
+; The theft act: the begun-then-ended {@self steal} act-belief IS the theft
+; (15 min a break-in, 10 min an embezzlement). The completion is the PURE .hs
+; theft terminal at the current premises.
+(npc-act steal_act
+  (when (believes {@self steal}))
+  (duration (if (at-burgle-residence) 15 10))
+  (act-effects
     (bind (current-building @self) ?scene)
     (if (is-entity ?scene)
         (do
           (bind (owner-of ?scene) ?owner)
           (bind (goal-belief steal) ?goal)
           (if (and (is-entity ?owner) (not (= ?owner @self)) (alive ?owner))
-              (if (and (bind {@self employer ?emp})
-                       (bind {?emp workplace ?work})
-                       (at-workplace ?work))
+              (if (at-own-workplace)
                   (terminal-steal ?scene embezzle ?owner ?goal)
                   (terminal-steal ?scene opportunist_theft ?owner ?goal))
-              (end-goal {@self steal}))))))
+              (end-goal {@self steal}))))
+    (end-act {@self steal})))

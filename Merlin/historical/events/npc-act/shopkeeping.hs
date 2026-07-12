@@ -30,6 +30,11 @@
 ; of 200-per-room.
 (define-macro grocer_shelf_stock () 200)
 
+; The per-cycle DESIRE: while the standing stocktake goal holds and the clerk is
+; at his counter, push utility 82 onto it so it promotes to stocktake_act. The
+; (goal) requirement throttles it to once per window - when stocktake_act ends the
+; goal at completion, this stops firing (no re-mint), and plan_stocktake re-seeds
+; the goal next window.
 (npc-think stocktake_round
   (short-term-think)
   (goal {@self stocktake})
@@ -38,11 +43,14 @@
              (bind {?org workplace ?wp})
              (at-workplace ?wp)))
   (utility 82)
-  (effects (begin-act {@self stocktake} 30 stocktake_done)))
+  (cont-fire-effects (begin-goal {@self stocktake})))
 
-(npc-think stocktake_done
-  (on-completion)
-  (effects
+; The stocktake round itself: the goal, at the counter, is the leaf and promotes
+; here. The begun-then-ended {@self stocktake} act-belief IS the round (30 min).
+(npc-act stocktake_act
+  (when (believes {@self stocktake}))
+  (duration 30)
+  (act-effects
     (bind (current-building @self) ?shop)
     (if (is-entity ?shop)
         (do
@@ -55,4 +63,5 @@
           (for-each ?room (attr-values ?shop parts [k interior_space room]) /limit 1
             (repeat (- (grocer_shelf_stock) (count-entities [k food] ?room))
               (create-entity [k food] (qual location ?room) (bind ?item))))))
+    (end-act {@self stocktake})
     (end-goal {@self stocktake})))
