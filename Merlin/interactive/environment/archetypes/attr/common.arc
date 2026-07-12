@@ -34,8 +34,8 @@ attr "name" (type name) (spec-attr name) (int-per reason) (ext-per imperceptible
 # Spatial
 attr "obb" (type obb) (spec-attr spatial-bounds) (per obs) (auto-percept) (state-flags-tar @excl)
 # Parent relationships are kept in the ECS for efficiency (technically redundant with parts)
-attr "struct_parent" (type entity) (entity "structure" "container_structure" "structure_part" "part" "interior_space" "exterior_space" "hand" "human_player" "human_npc") (spec-attr parent) (per obs) (state-flags-tar @excl)
-attr "parts" (type entity array 48) (state "part") (spec-attr children) (int-per feel) (ext-per obs)
+attr "struct_parent" (type entity) (entity "structure" "container_structure" "structure_part" "part" "interior_space" "exterior_space" "hand" "human_player" "human_npc") (per obs) (hsim-percept) (spec-attr parent) (state-flags-tar @excl)
+attr "parts" (type entity array 48) (int-per feel) (ext-per obs) (hsim-percept) (spec-attr children) (state "part")
 
 # Ownership & control
 # The entity currently controlling the position of this entity (if any)
