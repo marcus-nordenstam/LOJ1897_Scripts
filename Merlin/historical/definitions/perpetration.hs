@@ -4,17 +4,13 @@
 ; Method table for the generative-perpetration event (attempt_harm.hse).
 ; One row per method (33 total: 26 kill methods + 7 non-kill). At fire
 ; time, run_generative_perpetration walks the actor's standing goal
-; beliefs cross-product these rows, filters by /goal-fit + /requires +
-; (future /victim-state / /in-season), weighted-samples by
-; base * disinhibition * pressure-floor, and dispatches the chosen
+; beliefs cross-product these rows, filters by /goal-fit, weighted-samples
+; by base * disinhibition * pressure-floor, and dispatches the chosen
 ; row's /terminal.
 ;
 ; Row schema:
 ;   (method <atom>
 ;     /goal-fit       <goal-label>...           ; which goals this method satisfies
-;     /requires       (<predicate>...)          ; viability gates (control_any wired; others ignored in PR-3d)
-;     /victim-state   <atom>                    ; parsed-but-not-yet-gated
-;     /in-season      <atom>                    ; parsed-but-not-yet-gated
 ;     /yields         <evidence-atom>...        ; wound/stain/mark atoms passed to yield_evidence
 ;     /method-aux     <atom>                    ; rides the band-5 act-anchor's /aux slot
 ;     /terminal       <terminal-atom>           ; which C++ terminal verb to dispatch
@@ -33,11 +29,6 @@
 ; deficit can make them FAIL - the victim survives, injured, and knows the
 ; attacker). This is how poison becomes the weak attacker's rational choice.
 ;
-; PR-3d v1 wires /requires (control_any <kind>) only. Other /requires
-; predicates (access_any, has_authority_over, trait gates) are
-; documentation - rows fire even when those predicates would fail. A
-; follow-up extends the evaluator.
-;
 ; Body-part inventory today: head / left_hand / right_hand / finger /
 ; eye / mouth / torso. Methods that conceptually target neck/lungs/
 ; limbs map to nearest existing part (head for neck wounds; torso for
@@ -52,7 +43,6 @@
 (method stab
   /melee
   /goal-fit       kill
-  /requires       ((control_any (facets pierce)))
   /yields         puncture_wound
   /method-aux     _
   /terminal       kill_victim
@@ -65,7 +55,6 @@
 (method slash
   /melee
   /goal-fit       kill
-  /requires       ((control_any (facets slash)))
   /yields         slash_wound
   /method-aux     _
   /terminal       kill_victim
@@ -76,8 +65,6 @@
 (method decapitate
   /melee
   /goal-fit       kill
-  /requires       ((control_any (facets chop)))
-  /victim-state   defenseless
   /yields         slash_wound
   /method-aux     _
   /terminal       kill_victim
@@ -90,7 +77,6 @@
 (method beat_to_death
   /melee
   /goal-fit       kill
-  /requires       ((control_any (facets bludgeon)))
   /yields         blunt_wound
   /method-aux     _
   /terminal       kill_victim
@@ -103,7 +89,6 @@
 (method bludgeon
   /melee
   /goal-fit       kill
-  /requires       ((control_any (facets bludgeon)))
   /yields         blunt_wound
   /method-aux     _
   /terminal       kill_victim
@@ -128,7 +113,6 @@
 (method strangle
   /melee
   /goal-fit       kill
-  /victim-state   defenseless
   /yields         ligature_mark bruise
   /method-aux     _
   /terminal       kill_victim
@@ -142,8 +126,6 @@
 (method garrotte
   /melee
   /goal-fit       kill
-  /requires       ((control_any (facets strangle)))
-  /victim-state   defenseless
   /yields         ligature_mark
   /method-aux     _
   /terminal       kill_victim
@@ -156,8 +138,6 @@
 (method smother
   /melee
   /goal-fit       kill
-  /requires       ((control_any (facets smother)))
-  /victim-state   defenseless
   /yields         bruise
   /method-aux     _
   /terminal       kill_victim
@@ -170,8 +150,6 @@
 (method hang
   /melee
   /goal-fit       kill
-  /requires       ((control_any (facets strangle)))
-  /victim-state   defenseless
   /yields         ligature_mark
   /method-aux     _
   /terminal       kill_victim
@@ -183,7 +161,6 @@
 (method neck_snap
   /melee
   /goal-fit       kill
-  /victim-state   defenseless
   /yields         bruise
   /method-aux     _
   /terminal       kill_victim
@@ -197,7 +174,6 @@
 (method shoot
   /melee
   /goal-fit       kill
-  /requires       ((control_any firearm))
   /yields         puncture_wound
   /method-aux     firearm
   /terminal       kill_victim
@@ -207,7 +183,6 @@
 ; ---- Explosive (1) ---------------------------------------------------------
 (method bomb
   /goal-fit       kill
-  /requires       ((control_any explosive))
   /yields         burn_wound blunt_wound
   /method-aux     explosive
   /terminal       kill_victim
@@ -235,7 +210,6 @@
 ; contact with the killer - the delayed covert death.
 (method poison
   /goal-fit       kill
-  /requires       ((control_any toxin))
   /method-aux     _
   /terminal       poison_administer
   /wound-site     torso
@@ -295,7 +269,6 @@
 ; warn-and-drop at load (leaving the row ungated either way).
 (method drown
   /goal-fit       kill
-  /victim-state   defenseless
   /yields         bruise
   /method-aux     _
   /terminal       kill_victim
@@ -308,8 +281,6 @@
 ; ---- Thermal (4) ----------------------------------------------------------
 (method freeze
   /goal-fit       kill
-  /victim-state   defenseless
-  /in-season      winter
   /yields         burn_wound
   /method-aux     _
   /terminal       kill_victim
@@ -318,7 +289,6 @@
 
 (method immolate
   /goal-fit       kill
-  /requires       ((control_any (facets burn_fuel)) (control_any (facets ignite)))
   /yields         burn_wound
   /method-aux     _
   /terminal       kill_victim
@@ -327,7 +297,6 @@
 
 (method arson
   /goal-fit       kill
-  /requires       ((control_any (facets burn_fuel)) (control_any (facets ignite)))
   /yields         burn_wound
   /method-aux     _
   /terminal       kill_victim
@@ -337,7 +306,6 @@
 ; (access_any hot_enclosure) re-lands with the kind (see drown note).
 (method cook_alive
   /goal-fit       kill
-  /victim-state   defenseless
   /yields         burn_wound
   /method-aux     _
   /terminal       kill_victim
@@ -366,7 +334,6 @@
 
 (method unleash_insect
   /goal-fit       kill
-  /victim-state   defenseless
   /yields         bruise
   /method-aux     _
   /terminal       kill_victim
@@ -376,7 +343,6 @@
 ; ---- Trap (1) -------------------------------------------------------------
 (method death_trap
   /goal-fit       kill
-  /requires       ((control_any tools))
   /yields         blunt_wound
   /method-aux     tools
   /terminal       kill_victim
@@ -393,7 +359,6 @@
 ; (not gated in PR-3d) - authored anyway with low weight.
 (method uriah_gambit
   /goal-fit       kill
-  /requires       ((has_authority_over))
   /yields         puncture_wound
   /method-aux     _
   /terminal       kill_victim
@@ -432,7 +397,6 @@
 
 (method embezzle
   /goal-fit       steal
-  /requires       ((has_authority_over))
   /method-aux     _
   /terminal       transfer_property
   /weight         0.4)
@@ -446,7 +410,6 @@
 
 (method anonymous_letter
   /goal-fit       expose
-  /requires       ((can_write))
   /method-aux     _
   /terminal       publish_secret
   /weight         0.4)
@@ -506,7 +469,6 @@
 ; is emergent via witnesses + gossip, never a deliberated "start a rumour".)
 (method report_to_police
   /goal-fit       report_crime
-  /requires       ((can_write))
   /method-aux     _
   /terminal       file_report
   /weight         1.0)
