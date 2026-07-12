@@ -57,11 +57,18 @@
              (at-home)
              (bind {@self home ?home})))
   (utility 2)
-  (effects (begin-act {@self dwell ?home}
-                      (min 180
-                           (minutes-until-hour (target {?home breakfast_hour}))
-                           (minutes-until-hour (target {?home lunch_hour}))
-                           (minutes-until-hour (target {?home supper_hour}))))))
+  (cont-fire-effects (excl-goal {@self dwell ?home})))
+
+; The at-home idle dwell: the leaf when nothing else pulls, CAPPED to yield at the
+; next mealtime (so a multi-hour idle never leaps clean over a 2h meal window). Its
+; completion re-deliberates, giving the meal lanes their instant.
+(npc-act dwell_act
+  (when (bind {@self dwell ?home}))
+  (duration (min 180
+                 (minutes-until-hour (target {?home breakfast_hour}))
+                 (minutes-until-hour (target {?home lunch_hour}))
+                 (minutes-until-hour (target {?home supper_hour}))))
+  (act-effects (end-act {@self dwell ?home})))
 
 ; ============================ the unified eat lane ==========================
 ; Every routine meal is ONE act-goal {@self eat [k <meal>] <place>}: a desire
@@ -172,7 +179,7 @@
   (short-term-think)
   (goal    {@self eat ?meal ?place})
   (when    (and (not (under-attack))
-                (not (in-building ?place))))
+                (not (at-place ?place))))
   (cont-fire-effects (go-into ?place)))
 
 ; ---- the act: one body for every meal, differentiated by the meal-kind -------
@@ -306,11 +313,12 @@
   (when (and (not (under-attack))
              (at-place-kind [k building shop])))
   (utility 79)
-  (effects (begin-act {@self provision} 15 provision_episode)))
+  (cont-fire-effects (begin-goal {@self provision})))
 
-(npc-think provision_episode
-  (on-completion)
-  (effects
+(npc-act provision_act
+  (when (believes {@self provision}))
+  (duration 15)
+  (act-effects
     (bind (current-building @self) ?shop)
     (bind {@self home ?home})
     (if (is-entity ?shop)
@@ -333,6 +341,7 @@
               (take-item ?item)
               (begin-goal {@self stow ?item})
               (begin-belief {@self provisions_shop ?shop})))))
+    (end-act {@self provision})
     (end-goal {@self provision})))
 
 ; (EATING OUT is folded into the unified eat lane above: want_eat_out_pub /
@@ -349,10 +358,13 @@
 ; Venue knowledge rides the same provisions_shop belief the provisioning
 ; errand builds; a starving stranger to the town tries any shop.
 
-; Eat what you carry: the laden cook (or laden thief) whose FIRST standing
-; stow goal is a food item eats it on the spot. (goal-focus stow) and
-; (end-goal {@self stow}) walk the same goal bucket in the same order, so
-; the goal ended is the goal gated on.
+; The four food-source DESIRES all push utility onto one {@self forage} goal (the
+; ladder is by branch ORDER in forage_act, not by competing goals): eat what you
+; carry (141) > eat the pantry (140) > buy at a shop (135) > STEAL and eat (130).
+; The GO lanes (already goal-based) route to home / a shop when not there.
+
+; Eat what you carry: the laden cook (or laden thief) whose FIRST standing stow
+; goal is a food item.
 (npc-think starving_eat_carried
   (short-term-think)
   (bind (goal-focus stow) ?item)
@@ -361,18 +373,7 @@
              (is-entity ?item)
              (is-a ?item [k food])))
   (utility 141)
-  (effects (begin-act {@self dine} 10 starving_eat_carried_episode)))
-
-(npc-think starving_eat_carried_episode
-  (on-completion)
-  (effects
-    (bind (goal-focus stow) ?item)
-    (if (and (is-entity ?item) (is-a ?item [k food]))
-        (do
-          (realize-destroyed ?item [k condition consumed])
-          (destroy-entity ?item)
-          (end-goal {@self stow})))
-    (set-attr @self hunger (max 0 (- (attr @self hunger) 0.5)))))
+  (cont-fire-effects (begin-goal {@self forage})))
 
 (npc-think starving_pantry
   (short-term-think)
@@ -382,7 +383,7 @@
              (bind {@self home ?home})
              (> (count-believed-located [k food] ?home) 0)))
   (utility 140)
-  (effects (begin-act {@self dine} 10 starving_eat_episode)))
+  (cont-fire-effects (begin-goal {@self forage})))
 
 (npc-think starving_go_home
   (short-term-think)
@@ -394,21 +395,17 @@
   (utility 138)
   (cont-fire-effects (go-into ?home)))
 
-(npc-think starving_eat_episode
-  (on-completion)
-  (effects
-    (bind {@self home ?home})
-    (if (is-entity ?home)
-        (do
-          (bind (believed-located [k food] ?home) ?meal)
-          (if (is-entity ?meal)
-              (do
-                (realize-destroyed ?meal [k condition consumed])
-                (destroy-entity ?meal)))))
-    (set-attr @self hunger (max 0 (- (attr @self hunger) 0.5)))))
+; Buy: at a shop with wealth, one item eaten on the spot (paid-for in the v1
+; no-coin sense as provisioning).
+(npc-think starving_buy
+  (short-term-think)
+  (when (and (not (under-attack))
+             (> (attr @self hunger) 1.3)
+             (> (target {@self wealth}) 0.2)
+             (at-place-kind [k building shop])))
+  (utility 135)
+  (cont-fire-effects (begin-goal {@self forage})))
 
-; Buy: to the shop she knows, else any shop; at the counter, one item eaten
-; on the spot (paid-for in the same v1 no-coin sense as provisioning).
 (npc-think starving_buy_go
   (short-term-think)
   ; The known provisions_shop is preferred; else a role-cast shop the NPC KNOWS
@@ -420,54 +417,14 @@
              (> (target {@self wealth}) 0.2)
              (not (at-place-kind [k building shop]))))
   (utility 135)
-  (effects
+  (cont-fire-effects
     (if (is-entity ?shop)
         (go-into ?shop)
         (go-into ?go_dest))))
 
-(npc-think starving_buy
-  (short-term-think)
-  (when (and (not (under-attack))
-             (> (attr @self hunger) 1.3)
-             (> (target {@self wealth}) 0.2)
-             (at-place-kind [k building shop])))
-  (utility 135)
-  (effects (begin-act {@self dine} 10 starving_buy_episode)))
-
-(npc-think starving_buy_episode
-  (on-completion)
-  (effects
-    (bind (current-building @self) ?shop)
-    (if (is-entity ?shop)
-        (for-each ?room (attr-values ?shop parts [k interior_space room])
-          (for-each ?item (attr-values ?room contents [k food]) /limit 1
-            (do
-              (realize-destroyed ?item [k condition consumed])
-              (destroy-entity ?item)
-              ; Finding food here IS learning where provisions are sold.
-              (begin-belief {@self provisions_shop ?shop})))))
-    (set-attr @self hunger (max 0 (- (attr @self hunger) 0.4)))))
-
-; Steal: the pauper's act - same walk, no wealth, and the mouthful goes on
-; the ledger (the owner of the shop is the victim, the loot gone down the
-; thief's throat). The row lands only when something was actually eaten -
-; walking into an open shop and finding nothing is no crime.
-(npc-think starving_steal_go
-  (short-term-think)
-  ; The known provisions_shop is preferred; else a role-cast shop the NPC KNOWS
-  ; (nearest, weighted). Replaces the (venue ...) fallback.
-  (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
-  (bind (target {@self provisions_shop ?}) ?shop)
-  (when (and (not (under-attack))
-             (> (attr @self hunger) 1.3)
-             (not (> (target {@self wealth}) 0.2))
-             (not (at-place-kind [k building shop]))))
-  (utility 130)
-  (effects
-    (if (is-entity ?shop)
-        (go-into ?shop)
-        (go-into ?go_dest))))
-
+; Steal: the pauper's act - at a shop with no wealth, the mouthful goes on the
+; ledger (the shop owner is the victim). The row lands only when something was
+; actually eaten - forage_act appends it inside its shop branch.
 (npc-think starving_steal
   (short-term-think)
   (when (and (not (under-attack))
@@ -475,18 +432,64 @@
              (not (> (target {@self wealth}) 0.2))
              (at-place-kind [k building shop])))
   (utility 130)
-  (effects (begin-act {@self dine} 10 starving_steal_episode)))
+  (cont-fire-effects (begin-goal {@self forage})))
 
-(npc-think starving_steal_episode
-  (on-completion)
-  (effects
-    (bind (current-building @self) ?shop)
+(npc-think starving_steal_go
+  (short-term-think)
+  (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
+  (bind (target {@self provisions_shop ?}) ?shop)
+  (when (and (not (under-attack))
+             (> (attr @self hunger) 1.3)
+             (not (> (target {@self wealth}) 0.2))
+             (not (at-place-kind [k building shop]))))
+  (utility 130)
+  (cont-fire-effects
     (if (is-entity ?shop)
-        (for-each ?room (attr-values ?shop parts [k interior_space room])
-          (for-each ?item (attr-values ?room contents [k food]) /limit 1
-            (do
-              (realize-destroyed ?item [k condition consumed])
-              (destroy-entity ?item)
-              (begin-belief {@self provisions_shop ?shop})
-              (crime-ledger-append @self (owner-of ?shop) steal steal _ _)))))
-    (set-attr @self hunger (max 0 (- (attr @self hunger) 0.4)))))
+        (go-into ?shop)
+        (go-into ?go_dest))))
+
+; The forage act: the {@self forage} goal, at a food source, promotes here. It
+; consumes ONE food item from the highest-priority source available and reduces
+; hunger. Branch order IS the ladder: carried > pantry > shop (buy if wealth, else
+; steal, the mouthful on the crime ledger).
+(npc-act forage_act
+  (when (believes {@self forage}))
+  (duration 10)
+  (act-effects
+    ; Bind the candidate sources up front (effect-position value-binds); the branch
+    ; conditions below then test them with plain predicates.
+    (bind (goal-focus stow) ?carried)
+    (bind {@self home ?home})
+    (if (and (is-entity ?carried) (is-a ?carried [k food]))
+        ; 1. carried food item.
+        (do
+          (realize-destroyed ?carried [k condition consumed])
+          (destroy-entity ?carried)
+          (end-goal {@self stow}))
+        (do
+          (bind (believed-located [k food] ?home) ?pantry)
+          (if (and (at-home) (is-entity ?pantry))
+              ; 2. the home pantry.
+              (do
+                (realize-destroyed ?pantry [k condition consumed])
+                (destroy-entity ?pantry))
+              (if (at-place-kind [k building shop])
+                  ; 3. at a shop: eat one item; buy if wealth, else STEAL (ledger).
+                  (do
+                    (bind (current-building @self) ?shop)
+                    (if (is-entity ?shop)
+                        (for-each ?room (attr-values ?shop parts [k interior_space room])
+                          (for-each ?item (attr-values ?room contents [k food]) /limit 1
+                            (do
+                              (realize-destroyed ?item [k condition consumed])
+                              (destroy-entity ?item)
+                              (begin-belief {@self provisions_shop ?shop})
+                              (if (not (> (target {@self wealth}) 0.2))
+                                  (crime-ledger-append @self (owner-of ?shop) steal steal _ _)))))))))))
+    ; The forage sitting IS a meal's hunger relief, whether or not the specific
+    ; believed item still resolved (a stale belief - a sibling ate the loaf - must
+    ; not re-arm the >1.3 gate and loop). Reduce unconditionally, like the old
+    ; starving episodes did.
+    (set-attr @self hunger (max 0 (- (attr @self hunger) 0.5)))
+    (end-act {@self forage})
+    (end-goal {@self forage})))

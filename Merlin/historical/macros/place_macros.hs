@@ -56,6 +56,14 @@
   (and (bind {@self home ?home})
        (in-building ?home)))
 
+; (at-place ?p): the NPC is at ?p, whose granularity is MIXED - a home / venue is a
+; BUILDING (in-building), a gentleman's workplace is a ROOM / study (in-room). The
+; honest OR over the two crisp primitives, for a target that may be either (the eat
+; lane's <place>: home building | workplace building-or-study | pub / restaurant).
+(define-macro at-place (?p)
+  (or (in-building ?p)
+      (in-room ?p)))
+
 ; (at-place-kind [k building <leaf>]): the NPC is currently in a building of the given
 ; kind (pub / church / bank / shop / school / social_clubhouse / ...). Uses the actor's
 ; OWN current building (current-building resolves location -> enclosing building, whether

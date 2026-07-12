@@ -118,6 +118,10 @@ relation
             # The goal the plan_provisioning think event mints and the
             # meals.hs provisioning acts drain.
             provision                               (tar ?)
+            # forage - the STARVATION-tail eat act (meals.hs): a famished NPC
+            # consumes one food item from the highest-priority source it can reach
+            # (carried > pantry > shop buy/steal). Focusless.
+            forage                                  (tar ?)
             # stocktake - the shopkeeper's morning inventory round: walk the
             # premises and validate the believed stock against the shelves
             # (take-stock-of-room, stocktake_macros.hs). The act whose whole
