@@ -36,7 +36,7 @@
 
 ; The `fight` goal is minted by attempt_kill.hs (a standing kill goal routes here)
 ; for the aggressor, and per-round by defend_strike for a victim. It carries the
-; foe as its focus. The killer uses whatever weapon they hold (means_cascade arms,
+; foe as its focus. The killer uses whatever weapon they hold (means arms,
 ; when engaged) or their bare hands (strangle / beat).
 
 ; APPROACH: a killer not yet with the victim seeks them out - stalk to the

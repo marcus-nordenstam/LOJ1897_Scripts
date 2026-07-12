@@ -15,7 +15,7 @@
 ; gated the mint month). The loop now skips kill goals entirely.
 ;
 ; The killer arms BEFOREHAND or not at all: possession is their own state
-; ((controls @self ...)), acquisition is the means_cascade errand - never a
+; ((controls @self ...)), acquisition is the means errand - never a
 ; world scan. An unarmed killer fights bare-handed (strangle / beat), exactly
 ; what (strike-blow)'s weapon-class resolution models.
 ; ----------------------------------------------------------------------------

@@ -4,7 +4,7 @@
 ; weight-scored, money-gated for the commission. The choice mints:
 ;   {@self method <atom>}            - the MO (rap-sheet / attribution)
 ;   {@self method_means [k <kind>]}  - the tool requirement; the means seam
-;     (intra_day_means_kind_for) reads THIS belief, arming the means_cascade
+;     (intra_day_means_kind_for) reads THIS belief, arming the means
 ;     acquisition (travel + purchase/steal), which in turn arms the fight
 ;     lane with the tool.
 ; commission_killing executes IMMEDIATELY through the (commission-killing)

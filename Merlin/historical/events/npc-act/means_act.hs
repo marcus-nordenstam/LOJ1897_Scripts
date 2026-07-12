@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; means_cascade - a kill-method's MEANS acquired by PLAN-AS-YOU-GO (4.13 C/D/G).
+; means - a kill-method's MEANS acquired by PLAN-AS-YOU-GO (4.13 C/D/G).
 ;
 ; The generalization of the Phase C poison cascade to ALL weapon-gated kill
 ; methods: a killer whose chosen method needs a tool in hand (poison->toxin,

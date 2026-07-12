@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; means_cascade - the npc-THINK half: the DESIRE that arms a weapon-gated killer.
+; means - the npc-THINK half: the DESIRE that arms a weapon-gated killer.
 ; A killer holding a method_means it does not yet control pushes utility onto the
 ; standing {@self acquire [k <means>]} goal so it promotes to acquire_act.
 ; ----------------------------------------------------------------------------
