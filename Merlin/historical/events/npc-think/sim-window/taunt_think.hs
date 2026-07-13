@@ -29,11 +29,11 @@
   (sim-window-think)
   (rng-stream perpetration)
 
-  (role @self (any_human @self))
+  (role @self (any_human @self)
+              (adult @self))
 
   ; Narcissism tail + adult floor + rate gate.
-  (when (and (>= (years-old @self) 18)
-             (>= (attr @self narcissism) 0.7)
+  (when (and (>= (attr @self narcissism) 0.7)
              (chance 0.04)))
 
   (cont-fire-effects

@@ -32,7 +32,7 @@
   ; profile goal not yet bound to a person) or a dead victim gates out; the
   ; per-victim fight-goal test keeps the mint idempotent across months.
   (when (and (is-entity ?victim)
-             (alive ?victim)
+             (not (believes {?victim condition [k dead]}))
              (no-goal {@self fight ?victim})))
 
   (cont-fire-effects

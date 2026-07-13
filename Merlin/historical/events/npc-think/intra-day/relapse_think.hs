@@ -15,12 +15,12 @@
 
 (npc-think relapse
   (short-term-think)
-  (role @self (grown @self))
+  (role @self (grown @self)
+              (believes {@self craving [k alcohol]}))   ; the dependency - cached
   ; The nearest pub the NPC KNOWS (role-cast; no known pub -> no fire).
   (role ?pub [k building pub] (select (score (near @self ?pub)) (policy roulette)))
   ; A dependent, a drink already ~due (short fuse - he relapses fast).
-  (when (and (= (target {@self craving}) [k alcohol])
-             (>= (days-since-last @self drink) 1)))
+  (when (>= (days-since-last @self drink) 1))
   ; High pull: distress + weak restraint drive, piety/belonging resist (bounded,
   ; never to zero). Ramps fast, capped high enough to be a near-daily draw but
   ; still short of work / sleep.

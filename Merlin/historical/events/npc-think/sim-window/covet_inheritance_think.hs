@@ -68,5 +68,4 @@
   (cont-fire-effects
     (if (= ?heir @self)
         (begin-goal {@self kill ?benefactor} /cause {?benefactor wealth})
-        (if (alive ?heir)
-            (begin-goal {@self kill ?heir} /cause {?benefactor wealth})))))
+        (begin-goal {@self kill ?heir} /cause {?benefactor wealth}))))

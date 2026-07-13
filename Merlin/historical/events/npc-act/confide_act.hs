@@ -28,16 +28,14 @@
   (rng-stream behaviour)
 
   ;; @self the discloser: old enough to hold a calling (grown >= 16), actually
-  ;; has one, and has a friend to confide in. A pure existence gate (@self reads
-  ;; its own beliefs) - the calling KIND is bound in (when) below for the tell.
+  ;; has one (the filter fire-binds the calling KIND into ?domain for the tell),
+  ;; and has a friend to confide in.
   (role @self (grown @self)
-              (believes {@self calling ?})
+              (believes {@self calling ?domain})
               (believes {@self friend ?}))
 
-  ;; Bind ?domain (@self's calling kind, named aloud) and roll the disclosure -
-  ;; once per discloser per window, weighted by extraversion.
-  (when (and (believes {@self calling ?domain})
-             (chance (* 0.08 (+ 0.5 (attr @self enthusiasm))))))
+  ;; Roll the disclosure - once per discloser per window, weighted by extraversion.
+  (when (chance (* 0.08 (+ 0.5 (attr @self enthusiasm)))))
 
   (act-effects
     ;; Say the calling ALOUD. The tell-act makes a speech sound at @self's

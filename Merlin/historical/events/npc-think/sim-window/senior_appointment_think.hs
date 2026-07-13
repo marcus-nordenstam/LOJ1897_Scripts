@@ -39,7 +39,8 @@
   ;; doesn't express cleanly today. V1 routes the chance through a trait
   ;; product: assertiveness + (situation prestige) above the floor amplifies
   ;; the rate, so a high-prestige assertive candidate fires far more often.
-  (role @self (old_human @self))
+  (role @self (old_human @self)
+              (believes {@self repute [k exemplary]}))
   ;; A public organisation - any gov-subkind: church, hospital, agency. A KNOWN
   ;; org of gov kind (@self learned it at new_job_orientation). Belief-pure + cached.
   (role ?org (known_org ?org)
@@ -52,12 +53,11 @@
   ;; trait-product chance were moved here verbatim from the @self role.
   (when (and (chance (* 0.0083
                          (attr @self assertiveness)
-                         (situation @self prestige)))
+                         (target {@self prestige})))
              (not (= (job-level @self) [k senior]))
              (>= (years-old @self) 30)
              (<= (years-old @self) 65)
-             (= (situation @self repute) [k exemplary])
-             (>= (situation @self prestige) 0.65)))
+             (>= (target {@self prestige}) 0.65)))
 
   (cont-fire-effects
     ;; The org's articles (hire-seq's ?var arg - a macro arg used in a pattern must

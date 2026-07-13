@@ -44,7 +44,8 @@
   ;; KNOWN to be scandalous - permissive on the unknown) binds a secondary var,
   ;; which the per-candidate cache cannot, so it lives in (when), evaluated live.
   (role ?org (known_org ?org)
-             (not (believes {?org isa [k org household]})))
+             (not (believes {?org isa [k org household]}))
+             (believes {?org founder ?master}))   ; existence cached, ?master binds at fire
 
   ;; Live exclusivity re-check (see employment.hs): the youth's "unemployed"
   ;; filter is alpha-indexed, so within one tick several masters sample the same
@@ -61,7 +62,6 @@
   ;; the (and ...) to short-circuit cheaply.
   (when (and (chance (* 0.0125 (+ 0.5 (target {@self breeding}))))
              (not (= (job-level @self) [k trainee]))
-             (believes {?org founder ?master})
              (not (believes {?master repute [k scandalous]}))
              (>= (years-old @self) 12)
              (<= (years-old @self) 16)))

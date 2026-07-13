@@ -55,14 +55,13 @@
   ;; chance - openness x enthusiasm x impropriety (decorum INVERTED; an un-derived
   ;; decorum reads 0, so the not-yet-appraised stray freely). The 0.04 is /12 of the
   ;; annual 0.5, rolled once per NPC per window.
-  ; The @self-lover exclusion is a LIVE re-check here (not the cached self-gate): under
-  ; fan-out, the first paramour minted this tick gives @self a lover, so subsequent
-  ; candidates fail here - one new affair per straying spouse per tick.
-  (when (and (chance (* (crime-scale) 0.04
-                        (attr @self openness)
-                        (attr @self enthusiasm)
-                        (- 1 (target {@self decorum}))))
-             (not (believes {@self lover ?}))))
+  ; No @self-lover re-check: the engine re-consults the cached self-gate PER
+  ; CANDIDATE fire (write-reconciled), so the first paramour minted this tick
+  ; empties the gate and stops the rest - one new affair per spouse per tick.
+  (when (chance (* (crime-scale) 0.04
+                   (attr @self openness)
+                   (attr @self enthusiasm)
+                   (- 1 (target {@self decorum})))))
 
   (cont-fire-effects
     ; Reciprocal lover bond + mutual profile sync (mirrors lovers.hs's shape so

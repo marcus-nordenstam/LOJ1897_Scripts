@@ -28,20 +28,18 @@
   (sim-window-think)
   (rng-stream incidents)
 
-  (role @self (any_human @self)
+  (role @self (adult @self)
               (believes {@self lover ?}))
   ; The paramour: a lover who is not also a spouse (the covert third party).
   (role ?paramour (any_human ?paramour)
     (believes {@self lover ?paramour})
     (not (believes {@self spouse ?paramour}))
+    (covert-affair-motive ?paramour)   ; belief-pure macro - cached
     (select (policy first-match)))
 
   ; Adult floor, live paramour, the concealment motive (affair_macros.hs),
   ; the monthly rate.
-  (when (and (>= (years-old @self) 18)
-             (alive ?paramour)
-             (covert-affair-motive ?paramour)
-             (chance 0.5)))
+  (when (chance 0.5))
 
   (cont-fire-effects
     (send-covert-letter ?paramour

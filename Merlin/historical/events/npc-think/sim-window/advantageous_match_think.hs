@@ -45,6 +45,7 @@
   ;; now live in (when); the role keeps the belief-pure availability / repute
   ;; filters plus the perceived age-peer + blood-kin predicates (belief macros).
   (role @self (adult @self)
+              (believes {@self gender [k male]})
               (not (believes {@self spouse ?}))
               (not (believes {@self fiancee ?}))
               (not (believes {@self repute [k scandalous]}))
@@ -65,17 +66,14 @@
                    (and (believes {@self class_situation [k upper]})
                         (believes {?bride class_situation [k middle]}))))
 
-  ;; Live exclusivity re-check (see betrothal.hs), from the groom's OWN beliefs.
-  ;; Non-belief gates moved out of the roles: the (chance) pacing (first - it
-  ;; short-circuits the additive trait product) and the groom gender read. (when)
-  ;; evaluates ops for @self and sees the cast ?bride role var, so they work here.
-  (when (and (chance (* 0.0833
-                        (+ 0.20
-                           (* 0.4 (attr @self enthusiasm))
-                           (* 0.4 (attr @self openness)))))
-             (not (believes {@self fiancee ?}))
-             (not (believes {?bride fiancee ?}))
-             (= (attr @self gender) [k male])))
+  ;; Only the trait-graded pacing stays live: the exclusivity conditions ARE the
+  ;; role/self-gate filters (the cache reconciles at belief-write, so a live
+  ;; re-read of the same store cannot differ), and the gender read is the
+  ;; maintained {@self gender} self-belief filter above.
+  (when (chance (* 0.0833
+                   (+ 0.20
+                      (* 0.4 (attr @self enthusiasm))
+                      (* 0.4 (attr @self openness))))))
 
   (cont-fire-effects
     (begin-belief {@self fiancee ?bride})

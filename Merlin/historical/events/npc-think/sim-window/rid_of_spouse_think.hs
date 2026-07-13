@@ -31,7 +31,8 @@
   (sim-window-think)
   (rng-stream perpetration)
 
-  (role @self (any_human @self))
+  (role @self (any_human @self)
+              (adult @self))
   (role ?spouse (any_human ?spouse) (believes {@self spouse ?spouse}) (select (policy first-match)))
 
   ; The actor's lover, bound once (an unmarriageable - already-married - lover
@@ -44,8 +45,7 @@
   ; spouse holds an assault record against the actor. propensity = misery *
   ; (0.5 + psychopathy) * (1 - inhibition) * (1 - compassion) *
   ; (1 + spouse-wealth) * (1.5 if an unmarriageable lover waits else 1.0).
-  (when (and (>= (years-old @self) 18)
-             (or (detests ?spouse)
+  (when (and (or (detests ?spouse)
                  (believes {?spouse assault @self}))
              (chance
                (* (crime-scale) 0.02

@@ -37,17 +37,17 @@
 
   (role @self (any_human @self))
   (role ?spouse (any_human ?spouse) (believes {@self spouse ?spouse}) (select (policy first-match)))
-  ; A covert lover (belief-query role filter: a lover who is not the spouse). The
-  ; unmarried check is an opaque verb gate, so it lives in (when), not the filter.
+  ; A covert lover (belief-query role filter: a lover who is not the spouse,
+  ; and not KNOWN married - is-married is a pure belief macro, cached here).
   (role ?paramour (any_human ?paramour)
     (believes {@self lover ?paramour})
     (not (believes {@self spouse ?paramour}))
+    (not (believes {?paramour spouse ?}))   ; free to marry - cached
     (select (policy first-match)))
 
   ; Dark floor + the lover must be free to marry + drive + propensity
   ; (score_macros.hs: romantic-drive = attraction(lover) - warmth(spouse)).
   (when (and (>= (* (attr @self psychopathy) (attr @self machiavellianism)) 0.36)
-             (not (is-married ?paramour))
              (>= (romantic-drive ?paramour ?spouse) 2)
              (chance
                (* (crime-scale) 0.03

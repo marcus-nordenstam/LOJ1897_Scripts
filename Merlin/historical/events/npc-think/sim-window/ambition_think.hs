@@ -32,15 +32,15 @@
   (sim-window-think)
   (rng-stream perpetration)
 
-  (role @self (any_human @self))
+  (role @self (any_human @self)
+              (adult @self))
 
   ; Disposition pre-gate + adult floor. ambition = mean(machiavellianism, narcissism);
   ; propensity = (1 - inhibition) * ambition; fire at 0.03 * propensity.
-  (when (and (>= (years-old @self) 18)
-             (chance (* (crime-scale) 0.03
-                        (* (- 1 (target {@self inhibition}))
-                           (* 0.5 (+ (attr @self machiavellianism)
-                                     (attr @self narcissism))))))))
+  (when (chance (* (crime-scale) 0.03
+                   (* (- 1 (target {@self inhibition}))
+                      (* 0.5 (+ (attr @self machiavellianism)
+                                (attr @self narcissism)))))))
 
   ; Mint the kill goal toward the resolved obstacle. ambition-target reads the org
   ; hierarchy (the one irreducible computation, exposed as a verb). /cause pins
@@ -48,5 +48,5 @@
   ; "kill <head> <- {@self employer <org>}".
   (cont-fire-effects
     (bind (ambition-target @self) ?victim)
-    (if (alive ?victim)
+    (if (not (believes {?victim condition [k dead]}))
         (begin-goal {@self kill ?victim} /cause {@self employer}))))

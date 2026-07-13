@@ -21,14 +21,14 @@
 (npc-think rehabilitation
   (short-term-think)
 
-  (role @self (old_human @self))
+  (role @self (old_human @self)
+              (believes {@self repute [k disreputable]}))   ; derive-maintained band - cached
   ; The nearest church the NPC KNOWS (role-cast; no known church -> no fire).
   (role ?venue [k building church] (select (score (near @self ?venue)) (policy roulette)))
 
   ;; A disreputable adult, once a service is ~due. Shares feel_devout's
   ;; days-since-worship gate/ramp so worshipping resets this pressure too.
-  (when (and (= (situation @self repute) [k disreputable])
-             (>= (days-since-last @self worship) 15)))
+  (when (>= (days-since-last @self worship) 15))
 
   ;; Disrepute-driven pull: ramps with days-since-worship, capped as a leisure-
   ;; level source (well below work / meals / sleep). It STACKS on feel_devout's

@@ -58,5 +58,5 @@
   ; the beloved. /cause pins the crave belief - the obsessive signature.
   (cont-fire-effects
     (bind (crave-rival ?beloved) ?victim)
-    (if (and (alive ?victim) (not (= ?victim @self)))
+    (if (and (not (believes {?victim condition [k dead]})) (not (= ?victim @self)))
         (begin-goal {@self kill ?victim} /cause {@self crave ?beloved}))))

@@ -48,8 +48,10 @@
     (select (policy first-match)))
 
   ; The affair surfaces some months, not every one (probabilistic discovery).
-  (when (and (alive ?partner)
-             (chance 0.12)))
+  ; No liveness re-check: (any_human ?partner) IS the belief-pure liveness
+  ; filter (believed-alive AND not-known-dead); the omniscient (alive ...) op
+  ; was both a telepathy cheat and redundant with it.
+  (when (chance 0.12))
 
   (cont-fire-effects
     ; Resolve the interloper in @self's own beliefs; @fail = no known affair.

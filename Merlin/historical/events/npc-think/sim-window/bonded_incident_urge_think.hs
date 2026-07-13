@@ -75,7 +75,8 @@
     ; both minds, rolls this, and on success mints the urged state.
     (urge @self ?victim atone
           (* (mean2 (attr @self assertiveness) (attr @self politeness))
-             (min 1 (* (attr ?victim compassion)
-                       (if (believes {@self child ?victim}) 1.5 1.0)))
+             ; ?victim is always @self's child (role filter), so the parent-bonus
+             ; branch is unconditional (1.5).
+             (min 1 (* (attr ?victim compassion) 1.5))
              (+ 0.3 (* 0.7 (value-rift @self ?victim)))))
     ))

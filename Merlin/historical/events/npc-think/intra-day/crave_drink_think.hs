@@ -25,8 +25,9 @@
 ; The DESIRE. The ONLY place the pressure is computed.
 (npc-think want_drink
   (short-term-think)
- (role @self (grown @self))
-  (when    (drink-due @self))
+ (role @self (grown @self)
+              (not (believes {@self craving [k alcohol]})))   ; dependents use the relapse lane
+  (when    (>= (days-since-last @self drink) 3))
   (utility (drink-drive @self))
   (cont-fire-effects (excl-goal {@self drink})))
 

@@ -51,8 +51,7 @@
   ;; and a fray could have already severed this pair from the other direction. Re-
   ;; confirm the friend tie still holds, AND roll the per-pair fray chance here (/12
   ;; of the old annual 0.5) - a non-belief gate, so it lives in (when), not the role.
-  (when (and (believes {@self friend ?b})
-             (chance 0.04)))
+  (when (chance 0.04))
 
   (cont-fire-effects
     ; Sever the mutual friend tie - the bond is structural, so both drop it.

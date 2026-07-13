@@ -19,12 +19,9 @@
   (sim-window-think)
   (rng-stream perpetration)
 
-  (role @self (any_human @self))
-
-  ; Cheap early-out: only goal-holders run the joint reduction; one method
-  ; per campaign (re-choice on discharge is future work).
-  (when (and (> (count-beliefs @self goal) 0)
-             (not (believes {@self method ?}))))
+  (role @self (any_human @self)
+              (not (believes {@self method ?})))
+  (when (> (count-beliefs @self goal) 0))
 
   (select-joint
     (over-goals ?action ?victim ?goal)

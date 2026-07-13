@@ -49,14 +49,14 @@
   (sim-window-think)
   (rng-stream perpetration)
 
-  (role @self (any_human @self))
+  (role @self (any_human @self)
+              (adult @self))
 
   ; Disposition pre-gate + adult floor + rate. lethal = mean(psychopathy, sadism);
   ; the >= 0.65 floor is the hard trait tail (only the top tail EVER qualifies).
   ; propensity = (1 - inhibition) * lethal; fire at 0.005 * propensity, doubled for
   ; {@self life_aim power_aim} holders.
-  (when (and (>= (years-old @self) 18)
-             (>= (lethal-disposition @self) 0.65)
+  (when (and (>= (lethal-disposition @self) 0.65)
              (chance (* (crime-scale) 0.005
                         (* (dark-propensity @self (lethal-disposition @self))
                            (if (believes {@self life_aim [k power_aim]}) 2.0 1.0))))))
@@ -67,7 +67,7 @@
   ; belief. mark-stalk arms the surprise weight modifier attempt_harm reads.
   (cont-fire-effects
     (bind (predation-target @self) ?victim)
-    (if (alive ?victim)
+    (if (is-entity ?victim)
         (do
           (if (believes {@self fixation})
               (begin-goal {@self kill ?victim} /cause {@self fixation})

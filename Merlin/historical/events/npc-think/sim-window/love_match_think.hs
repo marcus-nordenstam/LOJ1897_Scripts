@@ -91,9 +91,7 @@
   ;; race is left to a future public-blackboard claim, never a mind peek.
   ;; (chance 0.3) moved here from the @self role (role-belief purity); FIRST so it
   ;; short-circuits cheaply. It is the per-suitor courtship-duration knob.
-  (when (and (chance 0.3)
-             (not (believes {@self fiancee ?}))
-             (not (believes {?beloved fiancee ?}))))
+  (when (chance 0.3))
 
   (cont-fire-effects
     ; Symmetric fiancee bond + mutual profile sync - identical to betrothal, so

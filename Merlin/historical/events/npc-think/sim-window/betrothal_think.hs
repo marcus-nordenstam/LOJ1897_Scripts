@@ -33,6 +33,7 @@
   ;; ((believes {?bride <label> ?}), permissive on the unknown). The market reads
   ;; `repute` / `reputed_chastity` - what has LEAKED - never secret self-values.
   (role @self (adult @self)
+              (believes {@self gender [k male]})
               (not (believes {@self spouse ?}))
               (not (believes {@self fiancee ?}))
               (not (believes {@self repute [k scandalous]}))
@@ -62,19 +63,13 @@
                (age-peers @self ?bride)
                (not (blood-kin @self ?bride)))
 
-  ;; Exclusivity re-check at FIRING time, from the groom's OWN beliefs (his own
-  ;; engagement + what he knows of hers). A same-tick double-betroth by two grooms
-  ;; who BOTH do not yet know is left to a future public-blackboard claim.
-  ;; ROLE-PURITY: the non-belief gates moved out of the roles live here - the
-  ;; per-groom (chance) (first, short-circuits), the male gender read, and the
-  ;; same-station-lover impediment (a lover whose class equals his keeps him out
-  ;; of the arranged market; such pairs wed via love_match - no lover -> @fail ->
-  ;; the (and ...) is false -> eligible). (age-peers / blood-kin are belief-pure
-  ;; and stay in the ?bride role.)
+  ;; Only the non-cacheable gates stay live: the per-groom (chance) pacing and
+  ;; the same-station-lover impediment (a lover whose class equals his keeps him
+  ;; out of the arranged market; such pairs wed via love_match - no lover ->
+  ;; @fail -> the (and ...) is false -> eligible). Exclusivity and gender ARE
+  ;; the role/self-gate filters (the cache reconciles at belief-write; a live
+  ;; re-read of the same store cannot differ).
   (when (and (chance 0.0208)
-             (not (believes {@self fiancee ?}))
-             (not (believes {?bride fiancee ?}))
-             (= (attr @self gender) [k male])
              (not (and (believes {@self lover ?})
                        (= (target {(target {@self lover}) class_situation})
                           (target {@self class_situation}))))))

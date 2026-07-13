@@ -45,20 +45,18 @@
     ; Resolve the interloper (the partner's third-party lover, in @self's own
     ; beliefs); @fail when no affair is known - then nothing fires.
     (bind (interloper-of ?partner) ?interloper)
-    (if (alive ?interloper)
+    (if (not (believes {?interloper condition [k dead]}))
       (do
         ; Mint the affair appraisal (anger / contempt / humiliation) in @self's mind.
         (appraise-betrayal ?partner ?interloper)
         ; Dual (kill BOTH) when the outrage clears the bar and both live.
-        (if (and (>= (dual-outrage-score) 2.5)
-                (alive ?partner) (alive ?interloper))
+        (if (>= (dual-outrage-score) 2.5)
             (do (begin-goal {@self kill ?partner}    /cause {@self emotion [k anger]})
                 (begin-goal {@self kill ?interloper} /cause {@self emotion [k contempt]}))
             ; Else single-blame: the partner when blaming HER outweighs blaming the
             ; interloper (score_macros.hs spells out both scales), else the interloper.
-            (if (and (>= (blame-partner-score ?partner)
-                        (blame-interloper-score ?partner ?interloper))
-                    (alive ?partner))
+            (if (>= (blame-partner-score ?partner)
+                    (blame-interloper-score ?partner ?interloper))
                 (begin-goal {@self kill ?partner} /cause {@self emotion [k anger]})
-                (if (alive ?interloper)
+                (if (not (believes {?interloper condition [k dead]}))
                     (begin-goal {@self kill ?interloper} /cause {@self emotion [k contempt]}))))))))

@@ -68,9 +68,7 @@
   ;; the pacing knob, rolled once per NPC per window - moved here from the @self
   ;; role (non-belief filters are not role-cacheable); it leads the (and) so it
   ;; short-circuits cheaply.
-  (when (and (chance 0.2)
-             (not (believes {@self lover ?}))
-             (not (believes {?b   lover ?}))))
+  (when (chance 0.2))
 
   (cont-fire-effects
     ; Reciprocal lover bond + mutual profile sync (mirrors betrothal's shape so
