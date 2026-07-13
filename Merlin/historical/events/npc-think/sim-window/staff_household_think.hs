@@ -50,10 +50,11 @@
 ; manor / townhouse that is his HOME, and does NOT yet run a household founds the
 ; `org household` via the shared found-org-seq macro. household is residence-seated
 ; (businesses.hs), so acquire-org-premises returns the home study - the same seat
-; the old C++ found_org used. The (head-runs-household @self) gate (the head's O(1)
-; {@self employer <household-org>} -> articles lookup) flips true once founded, so
-; this self-throttles to exactly one household per head. Servant hiring stays in
-; the monthly ACT below (it now no-ops until the articles exist).
+; the old C++ found_org used. The self-throttle gate is the head's own O(1)
+; {@self employer [k org household]} self-belief (a household seat he heads); the
+; kind criterion matches the employer target's org-object kind by is-a, so it flips
+; true once founded and this self-throttles to exactly one household per head.
+; Servant hiring stays in the monthly ACT below (it no-ops until the articles exist).
 (npc-think found_household
   (sim-window-think)
   (goal {@self staff_household})
@@ -62,10 +63,10 @@
   (role @self (any_human @self))
 
   (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
-             (not (head-runs-household @self))          ; not already founded
              (believes @self {@self home ?h})           ; BIND ?h = the home
              (believes @self {@self own ?h})            ; @self OWNS that home (the head)
-             (or (is-a ?h [k manor]) (is-a ?h [k townhouse]))))
+             (or (is-a ?h [k manor]) (is-a ?h [k townhouse]))
+             (not (believes {@self employer [k org household]}))))
 
   (cont-fire-effects (found-org-seq [k org household] [k job head_of_household])))
 

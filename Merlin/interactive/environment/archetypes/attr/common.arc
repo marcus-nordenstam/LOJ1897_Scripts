@@ -45,7 +45,7 @@ attr "controlled_by" (type entity) (spec-attr controlled-by) (imperceptible)
 # others (the whole point), and the owner drives "observe your OWN cache".
 attr "owner" (type entity) (imperceptible)
 # What this entity controls (stowed or held items)
-attr "control" (type entity array 12) (spec-attr control) (per obs) (auto-percept)
+attr "control" (type entity array 12) (spec-attr control) (per obs) (auto-percept) (hsim-percept)
 # Which stack this entity is in, if any. If not in a stack, set to _.
 attr "in_stack" (type entity) (entity "stack") (spec-attr in-stack) (per obs)
 # The person a document (letter) is addressed to. hsim-perceptible: the envelope
@@ -70,8 +70,8 @@ attr "physical_motors" (type physical-motors)
 # Hands are integral to reasoning - they get their own attrs even though they also appear in parts.
 # Body parts are FELT internally (the NPC always knows their own body) AND observed externally
 # (others see your hands when they look at you). Same int-feel-ext-obs split as `name`.
-attr "left_hand" (type entity) (entity "hand") (state "hand") (int-per feel) (ext-per obs) (auto-percept)
-attr "right_hand" (type entity) (entity "hand") (state "hand") (int-per feel) (ext-per obs) (auto-percept)
+attr "left_hand" (type entity) (entity "hand") (state "hand") (int-per feel) (ext-per obs) (auto-percept) (hsim-percept)
+attr "right_hand" (type entity) (entity "hand") (state "hand") (int-per feel) (ext-per obs) (auto-percept) (hsim-percept)
 attr "head" (type entity) (entity "head") (state "head") (int-per feel) (ext-per obs) (auto-percept)
 attr "eyes" (type entity) (entity "eye") (state "eyes") (int-per feel) (ext-per obs) (auto-percept)
 attr "mouth" (type entity) (entity "mouth") (state "mouth") (int-per feel) (ext-per obs) (auto-percept)
