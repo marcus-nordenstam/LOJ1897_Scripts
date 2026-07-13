@@ -9,19 +9,23 @@
 ; wealthy, diligent one in an expansion - so failures cluster on the weak in bad
 ; years, instead of striking uniformly at random.
 ;
-; ACTOR = the proprietor, identified from his OWN beliefs, NO world scan:
-;   {@self employer ?org}  - he is seated at ?org, AND
+; ACTOR = the proprietor, identified from his OWN beliefs, NO world scan. ?org is
+; a CACHED role (both filters test the SAME candidate):
+;   {@self employer [k org business]:?org} - he is seated at ?org AND ?org is-a
+;                            trading firm, so churches / clubs / hospitals (public
+;                            orgs, never "fail" this way) are excluded. The
+;                            kind-cast matches the org OBJECT's permanent kind -
+;                            never the decaying {?org isa ...} belief, which
+;                            lapses at ~9 months and would darken the gate for
+;                            any firm older than that. AND
 ;   {?org founder @self}   - the OWNER test. `founder`'s target is the REAL founder,
 ;                            so this holds ONLY for him. (record alone is NOT
 ;                            owner-exclusive: orient_errand mints {?org record ?art}
 ;                            for ANY worker who reads the articles at church - so a
-;                            mere employee would falsely pass a record-only gate.) AND
-;   {?org record ?art}     - binds his OWN articles document (?art) for the teardown, AND
-;   {?org isa [k org business]} - a trading firm, so churches / clubs / hospitals
-;                            (public orgs, never "fail" this way) are excluded.
-; All three bind in (when ...) - where a (bind {...}) provably threads to the
-; lifecycle block (same eval env; the retire / sack routing thinks rely on the
-; identical when-bind-to-effects threading).
+;                            mere employee would falsely pass a record-only gate.)
+; The articles bind {?org record ?art} stays in (when ...) - a role filter cannot
+; bind, and the (bind {...}) provably threads to the lifecycle block (same eval
+; env; the retire / sack routing thinks rely on the identical threading).
 ;
 ; LANE: (year-think december) - runs IN the intra-day cascade but is month-gated
 ; to December, so it is a fresh not-firing -> firing transition once a year and
@@ -56,20 +60,19 @@
   (year-think december)
   (rng-stream business)
 
-  ; Light @self gate; the owner-identification + article binding is in (when),
-  ; where the binds thread to (first-fire-effects).
+  ; Light @self gate; the owner + business-kind identification is the cached
+  ; ?org role; only the articles bind stays live in (when), threading ?art to
+  ; (first-fire-effects).
   (role @self (grown @self))
+  (role ?org (believes {@self employer [k org business]:?org})
+             (believes {?org founder @self}))
 
-  ; Owner test + own-articles bind + business-kind filter. DETERMINISTIC (no
-  ; chance): the gate must hold stably across every December intra-day cycle so
-  ; the not-firing -> firing transition (hence first-fire) happens exactly ONCE.
-  ; The stochastic failure roll lives in first-fire-effects, where it fires once
-  ; per year - a chance IN the per-cycle gate would re-roll every cycle and
-  ; inflate the annual rate toward certainty.
-  (when (and (bind {@self employer ?org})
-             (believes {?org founder @self})
-             (bind {?org record ?art})
-             (believes {?org isa [k org business]})))
+  ; DETERMINISTIC (no chance): the gate must hold stably across every December
+  ; intra-day cycle so the not-firing -> firing transition (hence first-fire)
+  ; happens exactly ONCE. The stochastic failure roll lives in
+  ; first-fire-effects, where it fires once per year - a chance IN the per-cycle
+  ; gate would re-roll every cycle and inflate the annual rate toward certainty.
+  (when (bind {?org record ?art}))
 
   ; The once-a-year failure roll (base x climate x means-penalty x merit-penalty;
   ; wealth / diligence are his OWN derived dims, read as the founding events do),

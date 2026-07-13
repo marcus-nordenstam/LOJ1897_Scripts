@@ -26,21 +26,24 @@
 ; adult who, IN WINTER and not already holding the duty, OWNS the manor / townhouse
 ; that is their HOME mints the standing goal {@self goal {@self staff_household}}.
 ; Tenants and co-resident spouses (home is a manor but they do not OWN it) never
-; take it on. Clause order matters - the cheap gates short-circuit first so the
-; is-a checks run only for winter, dutyless, home-owning candidates; and `?h` is
-; BOUND by the first (believes) (the home), then reused to test ownership + kind.
+; take it on. `?h` is a CACHED role: the object-cache membership test runs every
+; filter against the SAME candidate, so home + own share one witness, and the
+; `[k <kind>]:?h` kind-cast is identity AND is-a against the owned object's
+; PERMANENT kind (never a decaying isa belief). Non-owners carry an empty set and
+; skip the event without any belief scan; only the non-belief date / age / goal
+; gates stay live in (when).
 (npc-think consider_household_staffing
   (sim-window-think)
   (rng-stream employment)
 
   (role @self (any_human @self))
+  (role ?h (believes {@self home ?h})
+           (or (believes {@self own [k manor]:?h})
+               (believes {@self own [k townhouse]:?h})))
 
   (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
              (or (in-month 12) (in-month 1) (in-month 2)) ; winter, once a year
-             (no-goal {@self staff_household})         ; mint once, then skip
-             (believes @self {@self home ?h})          ; BIND ?h = the home
-             (believes @self {@self own ?h})           ; @self OWNS that home (the head)
-             (or (is-a ?h [k manor]) (is-a ?h [k townhouse]))))
+             (no-goal {@self staff_household})))        ; mint once, then skip
 
   (cont-fire-effects (begin-goal {@self staff_household})))
 
@@ -50,23 +53,26 @@
 ; manor / townhouse that is his HOME, and does NOT yet run a household founds the
 ; `org household` via the shared found-org-seq macro. household is residence-seated
 ; (businesses.hs), so acquire-org-premises returns the home study - the same seat
-; the old C++ found_org used. The self-throttle gate is the head's own O(1)
-; {@self employer [k org household]} self-belief (a household seat he heads); the
-; kind criterion matches the employer target's org-object kind by is-a, so it flips
-; true once founded and this self-throttles to exactly one household per head.
-; Servant hiring stays in the monthly ACT below (it no-ops until the articles exist).
+; the old C++ found_org used. The self-throttle is the CACHED self-gate filter
+; (not (believes {@self employer [k org household]})): the kind criterion matches
+; the employer target's org-object kind by is-a (the symbolic matcher's
+; object-vs-kind, permanent - never the decaying {?org isa ...} belief), so it
+; flips false once founded and this self-throttles to exactly one household per
+; head, reconciled on employer writes. `?h` is the same cached owned-quality-home
+; role as the THINK above. Servant hiring stays in the monthly ACT below (it
+; no-ops until the articles exist).
 (npc-think found_household
   (sim-window-think)
   (goal {@self staff_household})
   (rng-stream employment)
 
-  (role @self (any_human @self))
+  (role @self (any_human @self)
+              (not (believes {@self employer [k org household]})))
+  (role ?h (believes {@self home ?h})
+           (or (believes {@self own [k manor]:?h})
+               (believes {@self own [k townhouse]:?h})))
 
-  (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
-             (believes @self {@self home ?h})           ; BIND ?h = the home
-             (believes @self {@self own ?h})            ; @self OWNS that home (the head)
-             (or (is-a ?h [k manor]) (is-a ?h [k townhouse]))
-             (not (believes {@self employer [k org household]}))))
+  (when (>= (years-old @self) 21))                      ; non-belief age gate -> (when)
 
   (cont-fire-effects (found-org-seq [k org household] [k job head_of_household])))
 
@@ -74,20 +80,21 @@
 (npc-think staff_household
   ; PER-NPC (sim-window-think): the household head fulfils his standing staffing
   ; duty once a month-window. PURE .hs: the gate is the duty the think minted
-  ; plus ownership of the home (a co-resident spouse / tenant staffs nothing);
-  ; (staff-household ?h) then FILLS-TO-TARGET (hsim::staff_household hires the
-  ; shortfall once found_household has constituted the org; no-ops while no
-  ; articles exist and once full - self-throttles).
+  ; plus ownership of the home (a co-resident spouse / tenant staffs nothing).
+  ; `?h` is a CACHED role - home + own tested against the SAME candidate, and the
+  ; role BINDS ?h for the effect. (staff-household ?h) then FILLS-TO-TARGET
+  ; (hsim::staff_household hires the shortfall once found_household has
+  ; constituted the org; no-ops while no articles exist and once full -
+  ; self-throttles).
   (sim-window-think)
   (goal {@self staff_household})
   (rng-stream employment)
 
-  (role @self (any_human @self)
-              (believes {@self home ?}))
+  (role @self (any_human @self))
+  (role ?h (believes {@self home ?h})
+           (believes {@self own ?h}))
 
-  (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
-             (believes @self {@self home ?h})           ; BIND ?h = the home
-             (believes @self {@self own ?h})))          ; @self OWNS it (the head)
+  (when (>= (years-old @self) 21))                      ; non-belief age gate -> (when)
 
   (cont-fire-effects (staff-household ?h
              /slots   household_staff_slots

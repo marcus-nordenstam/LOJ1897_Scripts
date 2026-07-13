@@ -46,15 +46,18 @@
 
 (npc-think buy_home
   (year-think march)
-  (role @self (adult @self))
   ; Seeker: an UNMARRIED adult who has a home but neither owns nor leases it (an
   ; adult child still in the natal / inherited home). The unmarried gate keeps the
   ; market from re-separating a couple housed in a spouse's owned / leased home -
-  ; the marital-home case the old C++ market special-cased.
-  (when (and (not (believes {@self spouse ?}))
-             (bind {@self home ?h})
-             (not (believes {@self own ?h}))
-             (not (believes {?h tenant @self}))))
+  ; the marital-home case the old C++ market special-cased. FULLY CACHED: the
+  ; unmarried gate is a self-gate filter, and ?h is a cached role whose filters
+  ; all test the SAME candidate (his home, unowned, unleased) - a non-seeker
+  ; carries an empty set and skips without any live belief scan.
+  (role @self (adult @self)
+              (not (believes {@self spouse ?})))
+  (role ?h (believes {@self home ?h})
+           (not (believes {@self own ?h}))
+           (not (believes {?h tenant @self})))
   (first-fire-effects (begin-goal {@self acquire})))
 
 ; CASE B - knows a house agency, register unread, not at its office: travel there.
