@@ -514,7 +514,7 @@ object (+ obs)
         pier
         bridge
             suspension_bridge
-    part
+    part (tar space|part)
         body_part
             head
             hand

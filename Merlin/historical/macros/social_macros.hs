@@ -35,12 +35,13 @@
 
 ; (is-married ?p): does @self believe ?p has a spouse? Composes spouse-of.
 (define-macro is-married (?p)
-  (is-entity (spouse-of ?p)))
+  (believes {?p spouse @something}))
 
 ; (is-betrothed ?p): does @self believe ?p holds a fiancee bond? Asker's-own-
 ; knowledge, same anti-telepathy fix as spouse-of (the old op read ?p's mind).
 (define-macro is-betrothed (?p)
-  (is-entity (target {?p fiancee ?})))
+  (believes {?p fiancee @something}))
+
 
 ; (blood-kin ?who ?other): does ?who hold ANY consanguinity bond to ?other - the
 ; courtship / crush / affair blood-relative exclusion (used as `(not (blood-kin
