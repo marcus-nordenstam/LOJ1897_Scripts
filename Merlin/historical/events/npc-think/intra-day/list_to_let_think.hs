@@ -45,9 +45,9 @@
 (npc-think list_to_let_go
   (short-term-think)
   (goal {@self let})
-  (role ?agency (believes {?agency isa [k org house_agency]}))
-  (when (and (bind {?agency record ?art})
-             (articles-building ?art ?venue)
+  (role ?agency (believes {?agency isa [k org house_agency]})
+                (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
+  (when (and (articles-building ?art ?venue)
              (not (in-building ?venue))))
   (utility 40)
   (cont-fire-effects (go-into ?venue)))
@@ -59,9 +59,9 @@
 (npc-think list_to_let_dwell
   (short-term-think)
   (goal {@self let})
-  (role ?agency (believes {?agency isa [k org house_agency]}))
-  (when (and (bind {?agency record ?art})
-             (articles-building ?art ?venue)
+  (role ?agency (believes {?agency isa [k org house_agency]})
+                (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
+  (when (and (articles-building ?art ?venue)
              (in-building ?venue)))
   (utility 40)
   (cont-fire-effects (begin-goal {@self let})))

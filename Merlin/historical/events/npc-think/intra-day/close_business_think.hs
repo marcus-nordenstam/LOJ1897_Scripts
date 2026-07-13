@@ -61,18 +61,17 @@
   (rng-stream business)
 
   ; Light @self gate; the owner + business-kind identification is the cached
-  ; ?org role; only the articles bind stays live in (when), threading ?art to
-  ; (first-fire-effects).
+  ; ?org role; the articles filter caches as EXISTENCE and binds ?art at fire.
   (role @self (grown @self))
   (role ?org (believes {@self employer [k org business]:?org})
-             (believes {?org founder @self}))
+             (believes {?org founder @self})
+             (believes {?org record ?art}))
 
   ; DETERMINISTIC (no chance): the gate must hold stably across every December
   ; intra-day cycle so the not-firing -> firing transition (hence first-fire)
   ; happens exactly ONCE. The stochastic failure roll lives in
   ; first-fire-effects, where it fires once per year - a chance IN the per-cycle
   ; gate would re-roll every cycle and inflate the annual rate toward certainty.
-  (when (bind {?org record ?art}))
 
   ; The once-a-year failure roll (base x climate x means-penalty x merit-penalty;
   ; wealth / diligence are his OWN derived dims, read as the founding events do),

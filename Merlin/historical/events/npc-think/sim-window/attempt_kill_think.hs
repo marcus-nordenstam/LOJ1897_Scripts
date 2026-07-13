@@ -24,14 +24,13 @@
 
 (npc-think attempt_kill
   (sim-window-think)
-  (goal {@self kill})
+  (goal {@self kill ?victim})
 
   (role @self (any_human @self))
 
-  ; The victim of the (first) standing kill goal. A kind-valued target (a
+  ; ?victim = the first standing kill goal focus, bound by the goal clause. A kind-valued target (a
   ; profile goal not yet bound to a person) or a dead victim gates out; the
-  ; per-victim fight-goal test keeps the mint idempotent across months.
-  (bind (goal-focus kill) ?victim)
+  ; per-victim fight-goal test keeps the mint idempotent across months.
   (when (and (is-entity ?victim)
              (alive ?victim)
              (no-goal {@self fight ?victim})))

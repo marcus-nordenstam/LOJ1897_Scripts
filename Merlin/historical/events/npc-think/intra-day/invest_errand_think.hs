@@ -6,8 +6,7 @@
 
 (npc-think invest_go
   (short-term-think)
-  (goal {@self back})
-  (bind (goal-focus back) ?org)
+  (goal {@self back ?org})
   (when (and (bind {?org workplace ?wp})
              (not (at-workplace ?wp))))
   (utility 60)
@@ -18,8 +17,7 @@
 ; latched goal, not this node's to auto-retract.
 (npc-think invest_dwell
   (short-term-think)
-  (goal {@self back})
-  (bind (goal-focus back) ?org)
+  (goal {@self back ?org})
   (when (and (bind {?org workplace ?wp})
              (at-workplace ?wp)))
   (utility 60)

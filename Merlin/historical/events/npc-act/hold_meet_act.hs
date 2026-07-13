@@ -28,8 +28,11 @@
 (include "../../definitions/roles.hs")
 
 (npc-act hold_meet_act
-  ; @self first (the completion path presets role-0 to the actor); the light gate.
-  (role @self (grown @self))
+  ; @self first (the completion path presets role-0 to the actor). The act-belief
+  ; sits IN the cached self-gate (not (when)): the gate rejects O(1) BEFORE the
+  ; ?victor/?bested pools materialize; (when) would only run after them.
+  (role @self (believes {@self hold_meet_run})
+              (grown @self))
 
   ; The VICTOR: a co-present competitor, drawn weighted by observable vigour
   ; (assertiveness + a base so anyone present can win). co-present rides the SCORE
@@ -47,8 +50,6 @@
                 (not (= ?bested @self))
                 (select (score (co-present @self ?bested))
                         (policy roulette)))
-
-  (when (believes {@self hold_meet_run}))
 
   (duration 60)
 

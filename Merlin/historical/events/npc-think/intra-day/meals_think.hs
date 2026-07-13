@@ -64,11 +64,11 @@
 ; rule): you breakfast in the house you woke in or not at all.
 (npc-think want_breakfast
   (short-term-think)
-  (role ?home (believes {@self home ?home}))
+  (role ?home (believes {@self home ?home})
+              (believes {?home breakfast_hour ?h}))   ; existence cached, ?h binds at fire
   (when (and (not (under-attack))
              (at-home)
              (> (attr @self hunger) 0.25)
-             (bind {?home breakfast_hour ?h})
              (>= (now-hour) ?h)
              (< (now-hour) (+ ?h 3))
              (> (count-believed-located [k food] ?home) 0)))
@@ -91,11 +91,11 @@
 ; LUNCH at home - the jobless / housewife / child midday meal, per lunch_hour.
 (npc-think want_lunch_home
   (short-term-think)
-  (role ?home (believes {@self home ?home}))
+  (role ?home (believes {@self home ?home})
+              (believes {?home lunch_hour ?h}))   ; existence cached, ?h binds at fire
   (when (and (not (under-attack))
              (at-home)
              (> (attr @self hunger) 0.25)
-             (bind {?home lunch_hour ?h})
              (>= (now-hour) ?h)
              (< (now-hour) (+ ?h 2))
              (> (count-believed-located [k food] ?home) 0)))
@@ -106,10 +106,10 @@
 ; travel (30 min) lands the household home by the cook's hour.
 (npc-think want_supper
   (short-term-think)
-  (role ?home (believes {@self home ?home}))
+  (role ?home (believes {@self home ?home})
+              (believes {?home supper_hour ?h}))   ; existence cached, ?h binds at fire
   (when (and (not (under-attack))
              (> (attr @self hunger) 0.25)
-             (bind {?home supper_hour ?h})
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
              (> (count-believed-located [k food] ?home) 0)))
@@ -124,11 +124,11 @@
   (short-term-think)
   ; class gate = CACHED self-gate filter (the belief form, not the live conjunct).
   (role @self (not (believes {@self class_situation [k upper]})))
-  (role ?home (believes {@self home ?home}))
+  (role ?home (believes {@self home ?home})
+              (believes {?home supper_hour ?h}))   ; existence cached, ?h binds at fire
   (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette)))
   (when (and (not (under-attack))
              (> (attr @self hunger) 0.25)
-             (bind {?home supper_hour ?h})
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
              (> (target {@self wealth}) 0.2)
@@ -141,11 +141,11 @@
   ; upper-class only - the CACHED self-gate skips the majority (and the
   ; larder belief-fold below) with zero eval.
   (role @self (believes {@self class_situation [k upper]}))
-  (role ?home (believes {@self home ?home}))
+  (role ?home (believes {@self home ?home})
+              (believes {?home supper_hour ?h}))   ; existence cached, ?h binds at fire
   (role ?venue [k building restaurant] (select (score (near @self ?venue)) (policy roulette)))
   (when (and (not (under-attack))
              (> (attr @self hunger) 0.25)
-             (bind {?home supper_hour ?h})
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
              (> (target {@self wealth}) 0.2)
@@ -255,7 +255,7 @@
 ; goal is a food item.
 (npc-think starving_eat_carried
   (short-term-think)
-  (bind (goal-focus stow) ?item)
+  (goal {@self stow ?item})
   (when (and (not (under-attack))
              (> (attr @self hunger) 1.3)
              (is-entity ?item)

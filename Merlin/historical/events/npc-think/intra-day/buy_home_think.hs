@@ -66,9 +66,9 @@
   (short-term-think)
   (goal {@self acquire})
   (role @self (not (believes {@self for_sale ?})))   ; register unread - cached
-  (role ?agency (believes {?agency isa [k org house_agency]}))
-  (when (and (bind {?agency record ?art})
-             (articles-building ?art ?venue)
+  (role ?agency (believes {?agency isa [k org house_agency]})
+                (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
+  (when (and (articles-building ?art ?venue)
              (not (in-building ?venue))))
   (utility 35)
   (cont-fire-effects (go-into ?venue)))
@@ -79,9 +79,9 @@
   (short-term-think)
   (goal {@self acquire})
   (role @self (not (believes {@self for_sale ?})))   ; register unread - cached
-  (role ?agency (believes {?agency isa [k org house_agency]}))
-  (when (and (bind {?agency record ?art})
-             (articles-building ?art ?venue)
+  (role ?agency (believes {?agency isa [k org house_agency]})
+                (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
+  (when (and (articles-building ?art ?venue)
              (in-building ?venue)))
   (utility 35)
   (cont-fire-effects (begin-goal {@self read_listings})))

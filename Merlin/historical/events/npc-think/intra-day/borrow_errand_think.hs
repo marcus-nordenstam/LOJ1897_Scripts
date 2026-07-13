@@ -9,8 +9,7 @@
 
 (npc-think borrow_go
   (short-term-think)
-  (goal {@self take_loan})
-  (bind (goal-focus take_loan) ?creditor)
+  (goal {@self take_loan ?creditor})
   (when (and (bind {?creditor home ?cred_home})
              (not (in-building ?cred_home))))
   (utility 60)
@@ -18,8 +17,7 @@
 
 (npc-think borrow_dwell
   (short-term-think)
-  (goal {@self take_loan})
-  (bind (goal-focus take_loan) ?creditor)
+  (goal {@self take_loan ?creditor})
   (when (and (bind {?creditor home ?cred_home})
              (in-building ?cred_home)))
   (utility 60)

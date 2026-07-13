@@ -32,8 +32,7 @@
 ; non-leaf while {@self go ?venue} stands, so the go rung promotes.
 (npc-think attend_go
   (short-term-think)
-  (goal {@self attend})
-  (bind (target {@self goal {@self attend ?}}) ?occ)
+  (goal {@self attend ?occ})
   (when (and (bind {?occ venue ?venue})
              (attend-in-window @self)
              (not (in-building ?venue))))
@@ -44,8 +43,7 @@
 ; now the leaf, promotes to attend_act (the attendance dwell).
 (npc-think attend_dwell
   (short-term-think)
-  (goal {@self attend})
-  (bind (target {@self goal {@self attend ?}}) ?occ)
+  (goal {@self attend ?occ})
   (when (and (bind {?occ venue ?venue})
              (attend-in-window @self)
              (in-building ?venue)))

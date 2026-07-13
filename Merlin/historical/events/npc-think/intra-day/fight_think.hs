@@ -52,8 +52,7 @@
 ; is wall-clock minutes since the first blow, reset each month.
 (npc-think kill_seek
   (short-term-think)
-  (goal {@self fight})
-  (bind (goal-focus fight) ?victim)
+  (goal {@self fight ?victim})
   (when (and (bind {?victim home ?victim_home})
              (not (co-present @self ?victim))))
   (utility (if (< (fight-elapsed) 10) 150
@@ -66,8 +65,7 @@
 ; co-present - promotes to fight_act (the 1-minute blow).
 (npc-think kill_strike
   (short-term-think)
-  (goal {@self fight})
-  (bind (goal-focus fight) ?victim)
+  (goal {@self fight ?victim})
   (when (co-present @self ?victim))
   (utility (if (< (fight-elapsed) 10) 200
                (max 0 (- 200 (* 30 (- (fight-elapsed) 10))))))

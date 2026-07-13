@@ -123,11 +123,11 @@
   ; heard-SAY records and fails fast when nobody asked.
   (bind (asked-me-about supper_hour) ?asker)
 
-  (role ?home (believes {@self home ?home}))
-  (when (and (is-entity ?asker)
-             (bind {?home breakfast_hour ?b})
-             (bind {?home lunch_hour ?l})
-             (bind {?home supper_hour ?s})))
+  (role ?home (believes {@self home ?home})
+              (believes {?home breakfast_hour ?b})   ; existence cached; the three
+              (believes {?home lunch_hour ?l})       ; hours bind at fire for the
+              (believes {?home supper_hour ?s}))     ; tell-to below
+  (when (is-entity ?asker))
 
   (cont-fire-effects
     (tell-to ?asker {?home breakfast_hour ?b}
