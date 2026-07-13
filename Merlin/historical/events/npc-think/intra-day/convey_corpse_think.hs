@@ -33,8 +33,11 @@
 ; condition dead, so the filter is exact. The one-shot {@self conveyed ?corpse}
 ; marker bars re-carting the SAME body (the role's (not (believes ...)) drops
 ; it): one church-trip per known death, not a standing pilgrimage. A corpse
-; already buried elsewhere (env entity destroyed) reads (months-since-death) = 0
-; and the relocate is a safe no-op on its dead abs link.
+; already buried elsewhere is excluded belief-side for everyone who attended or
+; was told of the rite (bury_act's (tell {?corpse condition [k buried]}) drops
+; it from the dead-and-not-buried cast); an absent knower's stale dead-belief
+; fades on the normal decay curve, and the relocate stays a safe no-op on a
+; dead abs link meanwhile.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
@@ -48,6 +51,7 @@
   (short-term-think)
   (role @self (grown @self))
   (role ?corpse (believes {?corpse condition [k dead]})
+                (not (believes {?corpse condition [k buried]}))
                 (not (believes {@self conveyed ?corpse}))
                 (select (score (months-since-death ?corpse)) (policy argmax)))
   (when    (>= (attr @self politeness) 0.3))

@@ -14,6 +14,15 @@ historical/ - scripts & data for an event & statistics-based simulation
     environment - anything related to the historical simulation environment, including archetypes for the historical sim
     events - higher level 'rules' and actions and planning all folded into one
 
+    Event-authoring rule of thumb: belief conditions on @self or a candidate belong in
+    cached (role ...) filters (shared-witness joins, [k K]:?x kind-cast identity, chain
+    labels), NOT in live (when ...) gates; (when) keeps only non-belief ops (age/date/
+    no-goal/chance) and binds that thread to effects. Never write 2-arg
+    (believes @self {...}) - the 1-arg form is identical and cache-eligible. The full
+    contract lives in historical/definitions/roles.hs (header) and Merlin's
+    src/lib/hsim/CLAUDE.md ("role-ify by default" + kinds gotchas); exemplars:
+    staff_household_think.hs, buy_home_think.hs, close_business_think.hs.
+
 interactive/ - scripts & data for a rule-based cognitive simulation
     actions - home of all Merlin action .act files, which define action bindings and plugs into Grym's animation system
             Note that the actual action implemention can be found in c++ header files in the GrymeEngine/Apps/Player app.

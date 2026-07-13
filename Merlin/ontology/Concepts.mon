@@ -44,7 +44,13 @@ concept
     legal_right
         property        (sub being)
 
-    condition           (tar @excl)
+    # NOT exclusive: conditions COEXIST as ongoing beliefs - a buried corpse is
+    # {?c condition dead} AND {?c condition buried}, both ongoing. Transitions that
+    # genuinely supersede (alive -> dead) run through the explicit end-then-assert
+    # seams (propagate_death's end-all + assert_condition_dead), never through
+    # contradiction resolution; role filters that must exclude a later condition
+    # say so explicitly ((not (believes {?c condition [k buried]}))).
+    condition
         alive
         dead
         # Physical incapacity distinct from sleep (alertness sleepy) and
@@ -60,6 +66,11 @@ concept
         # same realization seam. Still forgotten eventually - prop-subject
         # knowledge follows the episodic forgetting rules even while ongoing.
         consumed
+        # The corpse was interred, as far as the holder knows (the burying
+        # priest's own realization; burial-awareness propagation for everyone
+        # who knew of the death). COEXISTS with the ongoing `dead`; the bury /
+        # convey lanes self-throttle on dead-and-not-buried filters.
+        buried
 
     # The discrete de-quantization of the continuous `fatigue` attr, minted as a
     # {@self alertness <kind>} self-belief by the fatigue appraiser (the queryable

@@ -24,9 +24,12 @@
 ; corpse's {isa human} belief is end-dated at death (propagate_death), so a
 ; [k human] positional kind - which compiles to a (believes {?corpse isa
 ; [k human]}) ongoing-belief filter - would never match. Only humans carry
-; condition dead, so the filter is exact. A corpse already buried (env entity
-; destroyed) reads (months-since-death) = 0 via the boundary liveness gate, so
-; the coroner-window gate self-excludes it - no re-bury, no stale read.
+; condition dead, so the filter is exact. An already-buried corpse is excluded
+; belief-side: bury_act mints {?corpse condition buried} (kept ONGOING beside
+; `dead` - condition is non-exclusive) in the burying priest's mind and TELLS
+; the rite's co-present witnesses, so the (not (believes ... buried)) filter
+; drops it - no re-bury, no env-existence probe. A knower absent from the rite
+; keeps the stale dead-belief until it fades (peripheral-object decay).
 ; ----------------------------------------------------------------------------
 
 ; The priest's standing duty. Casts a stale corpse he has perceived; when the
@@ -39,6 +42,7 @@
   (short-term-think)
   ; The most-overdue dead person the priest knows (perceived in his church).
   (role ?corpse (believes {?corpse condition [k dead]})
+                (not (believes {?corpse condition [k buried]}))
                 (select (score (months-since-death ?corpse)) (policy argmax)))
   ; The nearest church he KNOWS (his own workplace / graveyard). No known church
   ; -> the routing branch no-ops; a co-present body still buries where he stands.

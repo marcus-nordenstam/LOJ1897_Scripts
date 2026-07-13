@@ -10,8 +10,15 @@
 ; ----------------------------------------------------------------------------
 
 ; The rite. Reads (verdict / tombstone / violence) BEFORE the destroy while the
-; corpse still resolves, then destroys the single known corpse and ends the
-; act-belief (so the act fires exactly once - the engine does not auto-end it).
+; corpse still resolves, then realizes the interment: the priest's own ongoing
+; {?corpse condition buried} (realize-destroyed keeps the `dead` condition beside
+; it - condition is non-exclusive), TOLD to everyone co-present at the rite (the
+; conveyer, the mourners) through the ordinary communication channel, so their
+; dead-and-not-buried bury / convey filters unmatch too. Absent knowers keep
+; their stale dead-belief until it fades on the normal decay curve (a corpse is
+; a peripheral object) - honest ignorance, not a propagation target. Then the
+; corpse is destroyed and the act-belief ended (so the act fires exactly once -
+; the engine does not auto-end it).
 (npc-act bury_act
   (when (believes {@self bury ?corpse}))
   (duration 60)
@@ -19,6 +26,8 @@
     (record-verdict ?corpse)
     (tombstone ?corpse)
     (if (violent-corpse ?corpse) (propagate-murder-awareness ?corpse))
+    (realize-destroyed ?corpse [k condition buried])
+    (tell {?corpse condition [k buried]})
     (destroy-entity ?corpse)
     (end-act {@self bury ?corpse})))
 ; go_act (the shared travel act) lives in npc-act/go.hs.

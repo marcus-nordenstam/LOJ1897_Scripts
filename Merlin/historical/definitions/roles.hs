@@ -23,16 +23,31 @@
 ; reads - those are telepathy and are not object-cacheable.) The light @self gates
 ; carry no isa/condition (the deliberating NPC is a living human by construction) -
 ; just the age band.
+;
+; All filters of one role are membership-tested against the SAME candidate, so a
+; multi-filter role is a shared-witness join ({@self home ?h} + {@self own ?h} =
+; "owns the home he lives in"). A kind-cast target [k K]:?x (ONE kind, no alts) is
+; identity AND is-a against the object's PERMANENT kind - the decay-proof kind test
+; on a relation ({@self employer [k org business]:?org}); chain labels (a.b) and
+; ground-alts compose as filters too. Filters never BIND free vars - a bind whose
+; var must thread to effects stays in (when).
 ; ----------------------------------------------------------------------------
 
-(define-macro old_human (?x)
+;; `condition` is NOT exclusive (a stale {?x condition alive} percept-mirror can
+;; coexist ongoing beside a later-learned {?x condition dead} in minds outside the
+;; death-propagation circle), so every liveness gate is alive-AND-not-known-dead.
+(define-macro known_alive (?x)
   (and (believes {?x isa [k human], condition [k alive]})
+       (not (believes {?x condition [k dead]}))))
+
+(define-macro old_human (?x)
+  (and (known_alive ?x)
        (marriageable-age ?x)))          ; >=16
 
 ;; Any alive human, no age qualifier. Base for events that gate on situational
 ;; filters (disease, war, accidents) regardless of age.
 (define-macro any_human (?x)
-  (believes {?x isa [k human], condition [k alive]}))
+  (known_alive ?x))
 
 ;; LIGHT @self-only gates - no redundant isa / condition (the deliberating NPC is
 ;; always a living human). Age-band-only, for (role @self ...).
@@ -47,25 +62,28 @@
 ;; candidate's self-knowledge (the 2-arg {?x {@self spouse ?}} telepathic read) - so
 ;; it stays object-cacheable and telepathy-pure: you only skip women YOU know married.
 (define-macro unmarried_woman (?x)
-  (and (believes {?x isa [k human], condition [k alive], gender [k female]})
+  (and (known_alive ?x)
+       (believes {?x gender [k female]})
        (adult-age ?x)
        (not (believes {?x spouse ?}))))
 
 (define-macro unmarried_man (?x)
-  (and (believes {?x isa [k human], condition [k alive], gender [k male]})
+  (and (known_alive ?x)
+       (believes {?x gender [k male]})
        (adult-age ?x)
        (not (believes {?x spouse ?}))))
 
 ;; Adult woman in fertile age range, currently married. Shape-2 spouse read (the
 ;; deliberating mind's own belief), so it stays object-cacheable like unmarried_woman.
 (define-macro fertile_wife (?x)
-  (and (believes {?x isa [k human], condition [k alive], gender [k female]})
+  (and (known_alive ?x)
+       (believes {?x gender [k female]})
        (working-age ?x)                  ; 16-49 childbearing band
        (believes {?x spouse ?})))
 
 ;; Adult of working / migration age. Used by emigration.
 (define-macro young_adult (?x)
-  (and (believes {?x isa [k human], condition [k alive]})
+  (and (known_alive ?x)
        (working-age ?x)))                ; 16-49
 
 ;; An org the deliberator already KNOWS - a mental org object carrying its kind belief
