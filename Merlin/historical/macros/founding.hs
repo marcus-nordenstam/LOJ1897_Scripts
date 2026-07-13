@@ -10,14 +10,14 @@
 ;                              a fail value (no abort) and the (if ?wp ...) guard
 ;                              below skips the founding; see
 ;                              hsim_org_lifecycle::acquire_org_premises.
-;   (stamp-work-hours ...)   - reuse of the occupation-catalog shift stamp that
-;                              hire() still depends on (retires with hire(), step 4).
+;   (stamp-work-hours ...)   - the shift stamp, reading the occupation_shifts
+;                              (define-table) rows for the job kind.
 ;
 ; STAFFING is NOT done here. A new org is founded with its HEAD only; the emergent
 ; labour market staffs it over subsequent ticks from the unemployed pool - the
 ; role-enumerated `hiring` event (employment.hs) mints an engage_staff goal on a
-; jobless adult, hire_errand walks him to the firm, and (match-job) + (hire-seq)
-; commit the eligibility-matched hire. No bulk population scan, no catalog headcount.
+; jobless adult, hire_errand walks him to the firm, and its (select-record ...) match
+; + (hire-seq) commit the eligibility-matched hire. No bulk scan, no catalog headcount.
 ;
 ; The head's job is passed as a SCOPED job kind ([k job <role>]) so it serves three
 ; roles unchanged: the head's job mental-object kind, the roster `job` field, and
@@ -122,8 +122,8 @@
 ; roster the worker via the thin enrol verb and let the materialize_employment
 ; event call THIS to mint the beliefs. So the beliefs live in .hs; the roster
 ; (objective) is owned by whoever enrolled the worker. @self is always the worker
-; (no telepathy). Only (stamp-work-hours) (occupation-catalog reuse) reaches
-; outside @self's own mind.
+; (no telepathy). Only (stamp-work-hours) (the occupation_shifts table stamp)
+; reaches outside @self's own mind.
 ;
 ;   (hire-beliefs ?art ?job-kind ?level)  - args as hire-seq below.
 ; ----------------------------------------------------------------------------
@@ -168,9 +168,9 @@
 ;                  found-org-seq's ?head-role).
 ;     ?level     - the starting rank ([k apprentice] / [k trainee] / [k senior] / ...)
 ;
-; STAFFING note: the matched job kind comes from (match-job ...) (C++: the
-; occupation catalog + career scan) which binds ?jk = [k job <leaf>] or @fail;
-; the caller guards (if ?jk (hire-seq ... ?jk ...)). The fixed-role paths
+; STAFFING note: the matched job kind comes from hire_errand_act's
+; (select-record ...) over the occupations table, which binds ?jk =
+; [k job <leaf>] or @fail; the caller guards on ?jk. The fixed-role paths
 ; (indenture / partner / senior) pass a literal [k job <role>].
 ; ----------------------------------------------------------------------------
 

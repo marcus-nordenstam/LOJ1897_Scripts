@@ -4,16 +4,20 @@
 ;
 ; The {@self worship} act-belief - begun at commit, ended by (end-act) at completion - IS
 ; the episodic service memory (interval = the service). days-since-last reads it for the
-; pressure; classify_piety reads it (any-tense) for the gist. Locationless like `drink`:
-; the church co-presence comes from being AT the church (location), not from the belief.
+; pressure; classify_piety reads it (any-tense) for the gist. The when-gate REQUIRES being
+; INSIDE a church: the service can only fire on arrival, so the cascade (worship_go /
+; worship_find) must actually deliver her there first. Without this gate a bare worship
+; goal promotes here off-site and "worships" at home / on the road, falsely resetting
+; days-since-last and collapsing the find-a-church search before she ever arrives.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
 
-; The service (case A): at a church {@self worship} is the leaf and promotes here. The
+; The service (case A): AT a church {@self worship} is the leaf and promotes here. The
 ; act-belief IS the service memory; ending it closes its interval to the ~90-min service.
 (npc-act worship_act
-  (when (believes {@self worship}))
+  (when (and (believes {@self worship})
+             (is-a (current-building @self) [k building church])))
   (duration 90)
   (act-effects (end-act {@self worship})))
 ; go_act (the shared travel act) lives in npc-act/go.hs.

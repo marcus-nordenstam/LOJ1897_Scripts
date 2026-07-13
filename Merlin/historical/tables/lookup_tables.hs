@@ -14,6 +14,17 @@
   (record [k competence_level trained] 1)
   (record [k competence_level expert]  2))
 
+; respectability bands -> monotonic rank (worst -> best). The unappraised
+; default (-1) is supplied at the call site (repute-rank macro), so a trust
+; post's req_repute gate fails a worker with NO proven band.
+(define-table repute_rank
+  (fields band rank)
+  (record [k scandalous]   0)
+  (record [k disreputable] 1)
+  (record [k questionable] 2)
+  (record [k respectable]  3)
+  (record [k exemplary]    4))
+
 ; weekday index (0=Sun .. 6=Sat) -> the {job <label> start end} shift-belief label
 ; for today. Read with (now-weekday) as the key.
 (define-table weekday_hours_label

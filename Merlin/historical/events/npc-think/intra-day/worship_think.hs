@@ -19,17 +19,18 @@
 
 (include "../../../definitions/roles.hs")
 
-; The DESIRE - SCHEDULED per Sunday (the sabbath). A churchgoer (some politeness) who has
-; not been to a service in the last few days wants to attend TODAY; worshipping resets
-; days-since, so it fires ONCE per Sunday and again the next - weekly churchgoing. (now-weekday)
-; is 0 on Sunday, so (< (now-weekday) 1) is the sabbath test. A HIGH Sunday utility (x
-; politeness) so churchgoing wins the day's motor and reliably routes the NPC to a church,
-; instead of losing the pure pressure-vs-routine competition the weekday model always lost.
+; The DESIRE. A churchgoer (some politeness) who has not been to a service since the
+; last representative day wants to attend. hsim simulates ONE representative day per
+; monthly window, so this is the finest churchgoing cadence the pre-sim can carry - a
+; weekday gate (e.g. Sunday-only) would fire only on the ~1 window a year whose
+; representative day happens to land on that weekday, never converging. Worshipping
+; resets days-since, so it re-arms each window. A HIGH utility (x politeness) so
+; churchgoing wins the representative day's motor when the NPC is off work and reliably
+; routes them to a church, instead of losing the pure pressure-vs-routine competition.
 (npc-think want_worship
   (short-term-think)
  (role @self (grown @self))
-  (when    (and (< (now-weekday) 1)
-                (>= (days-since-last @self worship) 3)
+  (when    (and (>= (days-since-last @self worship) 3)
                 (>= (attr @self politeness) 0.3)))
   (utility (* (attr @self politeness) 80))
   (cont-fire-effects (excl-goal {@self worship})))

@@ -4,12 +4,11 @@
 ; worship / an errand); that goal, being the live leaf, promotes to go_act, which spends
 ; the travel time and relocates the actor on completion. Not owned by any one lane.
 ;
-; While a find_building search stands, go_act ALSO marks its arrival building surveyed:
-; find_building_step just maintains {@self go <unsurveyed building>} and NEVER marks, so
-; its target stays stable across re-deliberations (a search hop that loses the motor is
-; simply re-maintained, not re-picked) - marking on ARRIVAL here is what keeps the frontier
-; sweep from churning markers. Any building the searcher reaches (errand or survey) counts:
-; it has been there and exterior-perceived its neighbours, so it drops out of the frontier.
+; While a find_building search stands, go_act ALSO marks its arrival building surveyed.
+; The search's own hop lives in npc-act/find_building.hs (find_building_act walks and
+; marks directly); this arrival-marking covers the ERRAND case: any building the searcher
+; reaches for another reason counts - it has been there and exterior-perceived its
+; neighbours, so it drops out of the frontier.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")

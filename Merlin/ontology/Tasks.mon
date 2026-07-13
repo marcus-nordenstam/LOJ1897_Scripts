@@ -190,11 +190,12 @@ relation
             engage_staff                            (tar human)
             # find_building -> the venue-discovery search GOAL (find_building.hs). A seek
             # rule maintains {@self goal {@self find_building [k building <kind>]}} while it
-            # wants a venue of a kind it knows none of; find_building_step serves it by
-            # maintaining {@self go <unsurveyed building>} until one of the sought kind is
-            # learned. go_act marks each arrival surveyed while a find goal stands, so the
-            # search never re-marks (stable target -> no churn). Target = the sought KIND
-            # spec, so (tar ?).
+            # wants a venue of a kind it knows none of; the goal is the walking leaf -
+            # find_building_act spends each won motor slot on one survey hop (nearest
+            # unsurveyed known building, front-park, mark surveyed) until one of the sought
+            # kind is learned. Several find goals can stand at once; whichever wins walks,
+            # and one hop advances every standing search (the surveyed marker is
+            # kind-agnostic). Target = the sought KIND spec, so (tar ?).
             find_building                           (tar ?)
             # staff_household -> the head's STANDING duty to keep their domestic
             # establishment staffed (the window-start think mints it; the emergent
