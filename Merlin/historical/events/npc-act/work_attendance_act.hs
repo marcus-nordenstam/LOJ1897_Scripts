@@ -11,8 +11,11 @@
 ; ----------------------------------------------------------------------------
 
 (npc-act work_act
+  ; the job is a CACHED role (binds ?job for the shift-hours read); the work
+  ; act-desire stays live (act-lifecycle label), as does the dynamic-label
+  ; hours bind (filter-illegal, reads the role-bound ?job).
+  (role ?job (believes {@self job ?job}))
   (when (and (believes {@self work ?wp})
-             (bind {@self job ?job})
              (bind {?job (work-hours-today-label) ?start ?end})))
   (duration (min (minutes-until-shift-end ?end) (minutes-until-hour 12)))
   (act-effects (end-act {@self work ?wp})))

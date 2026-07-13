@@ -34,16 +34,20 @@
 (npc-think make_secret_cache
   (sim-window-think)
 
-  (role @self (any_human @self))
+  ; No-cache-yet is a CACHED self-gate filter - every NPC who owns a cache
+  ; empty-set-skips the whole think permanently.
+  (role @self (any_human @self)
+              (not (believes {@self hiding_spot ?})))
+  ; The home is a CACHED role (the role BINDS ?building for the bedroom bind +
+  ; the effects) - no live home read per window.
+  (role ?building (believes {@self home ?building}))
 
   ; Something to hide is the reason - a covert lover (secret letters) or a
-  ; standing stow goal (loot, a stained instrument); no cache yet; bind the
-  ; home + a bedroom in it (the pattern-binds thread along the (and) spine and
-  ; GATE - no home or bedroom => no cache).
+  ; standing stow goal (loot, a stained instrument); the (or ...) carries a
+  ; goal? read (non-belief), so it stays live; the bedroom kind-cast bind stays
+  ; too (a bind, filter-illegal) and GATES - no bedroom => no cache.
   (when (and (or (believes {@self lover ?})
                  (goal? {@self stow}))
-             (not (believes {@self hiding_spot ?}))
-             (bind {@self home ?building})
              (bind {?building room [k bedroom]:?bedroom})))
 
   (act-effects

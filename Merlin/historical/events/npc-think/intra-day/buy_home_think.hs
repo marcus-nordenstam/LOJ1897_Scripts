@@ -65,9 +65,9 @@
 (npc-think buy_home_go
   (short-term-think)
   (goal {@self acquire})
+  (role @self (not (believes {@self for_sale ?})))   ; register unread - cached
   (role ?agency (believes {?agency isa [k org house_agency]}))
-  (when (and (not (believes {@self for_sale ?}))
-             (bind {?agency record ?art})
+  (when (and (bind {?agency record ?art})
              (articles-building ?art ?venue)
              (not (in-building ?venue))))
   (utility 35)
@@ -78,9 +78,9 @@
 (npc-think buy_home_read
   (short-term-think)
   (goal {@self acquire})
+  (role @self (not (believes {@self for_sale ?})))   ; register unread - cached
   (role ?agency (believes {?agency isa [k org house_agency]}))
-  (when (and (not (believes {@self for_sale ?}))
-             (bind {?agency record ?art})
+  (when (and (bind {?agency record ?art})
              (articles-building ?art ?venue)
              (in-building ?venue)))
   (utility 35)
@@ -98,7 +98,7 @@
   (short-term-think)
   (goal {@self acquire})
   (no-role [k org house_agency])
-  (when (not (believes {@self for_sale ?})))
+  (role @self (not (believes {@self for_sale ?})))   ; register unread - cached
   (utility 30)
   (cont-fire-effects (excl-goal {@self orient})))
 

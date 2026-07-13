@@ -52,17 +52,15 @@
   (sim-window-think)
   (rng-stream behaviour)
 
+  ; The COOK is the woman of the house - self-identified from @self's OWN gender
+  ; belief (mental, no household-cook scan) - a CACHED self-gate filter. ?home is
+  ; a CACHED role: home + no-supper-hour tested against the SAME candidate, and
+  ; the role BINDS ?home for the effects. Whichever adult woman fires first sets
+  ; the hours; the (not supper_hour) filter then empties for the whole household.
   (role @self (grown @self)
-              (believes {@self home ?}))
-
-  ; ?home binds on the when-spine (a self-role believes does not export its
-  ; free vars to the event scope - the work_attendance shape). The COOK is the
-  ; woman of the house - self-identified from @self's OWN gender belief (mental,
-  ; no household-cook scan). Whichever adult woman fires first sets the hours;
-  ; the (not supper_hour) gate then closes the window for the rest.
-  (when (and (bind {@self home ?home})
-             (not (believes {?home supper_hour ?}))
-             (believes {@self gender [k female]})))
+              (believes {@self gender [k female]}))
+  (role ?home (believes {@self home ?home})
+              (not (believes {?home supper_hour ?})))
 
   (cont-fire-effects
     ; The per-cook offset: -1 / 0 / +1 on the whole day (breakfast 5-7,
@@ -95,8 +93,7 @@
   (sim-window-think)
   (rng-stream behaviour)
 
-  (role @self (any_human @self)
-              (believes {@self home ?}))
+  (role @self (any_human @self))
   ; The woman of the house, role-cast from the asker's OWN kinship beliefs: a
   ; female mother / parent / spouse (a child asks their mother; a husband his
   ; wife). Same {@self <kin> ?cand} cacheable shape covet uses. The woman
@@ -104,10 +101,12 @@
   ; knows the hours, so she never needs to ask.
   (role ?cook (believes {@self mother|parent|spouse ?cook})
               (believes {?cook gender [k female]}))
+  ; The unknown-hours gate as a CACHED role (binds ?home for the ask): empties
+  ; the instant the supper hour is learned, closing the window for good.
+  (role ?home (believes {@self home ?home})
+              (not (believes {?home supper_hour ?})))
 
-  (when (and (bind {@self home ?home})
-             (not (believes {?home supper_hour ?}))
-             (>= (years-old @self) 3)))
+  (when (>= (years-old @self) 3))
 
   (cont-fire-effects
     (ask-to ?cook {?home supper_hour ?})
@@ -124,8 +123,8 @@
   ; heard-SAY records and fails fast when nobody asked.
   (bind (asked-me-about supper_hour) ?asker)
 
+  (role ?home (believes {@self home ?home}))
   (when (and (is-entity ?asker)
-             (bind {@self home ?home})
              (bind {?home breakfast_hour ?b})
              (bind {?home lunch_hour ?l})
              (bind {?home supper_hour ?s})))
@@ -163,11 +162,12 @@
   (sim-window-think)
   (rng-stream behaviour)
 
+  ; Fully CACHED self-gate (no (when)): female + home + no-slot-yet; the
+  ; shop_weekday negation empties the gate forever once the slot is set.
   (role @self (grown @self)
-              (believes {@self home ?}))
-
-  (when (and (believes {@self gender [k female]})
-             (not (believes {@self shop_weekday ?}))))
+              (believes {@self home ?})
+              (believes {@self gender [k female]})
+              (not (believes {@self shop_weekday ?})))
 
   (cont-fire-effects
     (begin-belief {@self shop_weekday (random-int 0 6)})
@@ -185,12 +185,15 @@
 (npc-think plan_provisioning
   (sim-window-think)
 
+  ; Gender is a CACHED self-gate filter (skips every man with zero eval); the
+  ; home / slot binds stay in (when) - their values feed the weekday / hour /
+  ; larder-count live ops below.
   (role @self (grown @self)
-              (believes {@self home ?}))
+              (believes {@self home ?})
+              (believes {@self gender [k female]}))
 
-  (when (and (bind {@self home ?home})
-             (believes {@self gender [k female]})
-             (bind {@self shop_weekday ?swd})
+  (role ?home (believes {@self home ?home}))
+  (when (and             (bind {@self shop_weekday ?swd})
              (bind {@self shop_hour ?shr})
              (>= (days-since-last @self provision) 6)
              (or (and (= (now-weekday) ?swd) (>= (now-hour) ?shr))

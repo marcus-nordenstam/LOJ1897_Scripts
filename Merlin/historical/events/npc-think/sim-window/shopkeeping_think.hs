@@ -15,9 +15,8 @@
   (rng-stream behaviour)
 
   (role @self (grown @self)
-              (believes {@self employer ?}))
-
-  (when (believes {@self job [k job shop_clerk]}))
+              (believes {@self employer ?})
+              (believes {@self job [k job shop_clerk]}))
 
   (cont-fire-effects
     (begin-goal {@self stocktake})

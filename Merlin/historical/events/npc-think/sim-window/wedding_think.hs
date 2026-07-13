@@ -31,13 +31,13 @@
   ; apply to @self; its kind/alive existence checks are no-ops for @self and are
   ; skipped by the gate-builder). Only the groom plans; the bride is wired in as
   ; co-principal by plan-wedding.
-  (role @self (unmarried_man @self))
-  (when (and (believes {@self fiancee ?})
-             (not (organizing-occasion [k wedding]))))
+  (role @self (unmarried_man @self)
+              (believes {@self fiancee ?fiancee}))   ; existence cached, ?fiancee binds at fire
+  (when (not (organizing-occasion [k wedding])))
   (cont-fire-effects
     ; The venue is the groom's same-town church; ~3 months' banns lead, an
     ; 11-14h ceremony. plan-wedding stages the occasion (both principals
     ; forced-attend, both circles invited).
-    (plan-wedding @self (target {@self fiancee})
+    (plan-wedding @self ?fiancee
                   (pick-location @self [k building church]) 3 11 14)
     ))

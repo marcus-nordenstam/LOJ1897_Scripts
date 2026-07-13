@@ -12,9 +12,9 @@
 (npc-think stocktake_round
   (short-term-think)
   (goal {@self stocktake})
+  (role ?org (believes {@self employer ?org})
+             (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (not (under-attack))
-             (bind {@self employer ?org})
-             (bind {?org workplace ?wp})
              (at-workplace ?wp)))
   (utility 82)
   (cont-fire-effects (begin-goal {@self stocktake})))

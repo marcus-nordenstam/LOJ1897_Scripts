@@ -22,9 +22,9 @@
 (npc-think stow_go
   (short-term-think)
   (goal {@self stow})
+  (role ?home (believes {@self home ?home}))
   (bind (goal-focus stow) ?item)
   (when (and (is-entity ?item)
-             (bind {@self home ?home})
              (not (at-home))))
   (utility 90)
   (cont-fire-effects (go-into ?home)))

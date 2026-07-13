@@ -37,10 +37,10 @@
 
 (npc-think reconcile_closed
   (short-term-think)
-  (when (and (bind {@self employer ?org})
-             (bind {?org workplace ?wp})
-             (bind {@self job ?job})
-             (believes {?wp struct_status [k closed]})))
+  (role ?org (believes {@self employer ?org})
+             (believes {?org workplace ?wp}))   ; ?wp binds at fire
+  (role ?job (believes {@self job ?job}))
+  (when (and (believes {?wp struct_status [k closed]})))
   (cont-fire-effects
     (end-belief {@self employer ?org})
     (end-belief {@self job ?job})))

@@ -32,15 +32,14 @@
   (sim-window-think)
   (rng-stream business)
 
-  (role @self (old_human @self))
+  ; Self-throttle as a CACHED self-gate filter: already running an estate = the
+  ; actor's own ongoing {@self employer <org>} belief whose org object is-a
+  ; estate (permanent-kind match, decay-proof - the found_household shape).
+  (role @self (old_human @self)
+              (not (believes {@self employer [k org estate]})))
   (role ?rental (believes {@self own ?rental})
                 (or (believes {?rental availability [k for_rent]})
                     (believes {?rental tenant ?})))
-
-  ; Self-throttle: already running an estate = the actor's own ongoing
-  ; {@self employer <org>} belief whose org object is-a estate (the same walk
-  ; the retired runs-org op did).
-  (when (not (believes {@self employer [k org estate]})))
 
   (cont-fire-effects
     (found-org-seq [k org estate] [k job landlord])

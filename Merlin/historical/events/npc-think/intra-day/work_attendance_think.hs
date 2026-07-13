@@ -29,10 +29,10 @@
 
 (npc-think day_work
   (short-term-think)
-  (when (and (bind {@self employer ?org})
-             (bind {?org workplace ?wp})
-             (bind {@self job ?job})
-             (bind {?job (work-hours-today-label) ?start ?end})
+  (role ?org (believes {@self employer ?org})
+             (believes {?org workplace ?wp}))   ; ?wp binds at fire
+  (role ?job (believes {@self job ?job}))
+  (when (and (bind {?job (work-hours-today-label) ?start ?end})
              (at-workplace ?wp)
              (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
   (utility (* 80 (factors (attr @self industriousness) 0.75 0.5)))
@@ -44,10 +44,10 @@
 
 (npc-think day_go_to_work
   (short-term-think)
-  (when (and (bind {@self employer ?org})
-             (bind {?org workplace ?wp})
-             (bind {@self job ?job})
-             (bind {?job (work-hours-today-label) ?start ?end})
+  (role ?org (believes {@self employer ?org})
+             (believes {?org workplace ?wp}))   ; ?wp binds at fire
+  (role ?job (believes {@self job ?job}))
+  (when (and (bind {?job (work-hours-today-label) ?start ?end})
              (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))
              (not (at-workplace ?wp))))
   (utility (* 80 (factors (attr @self industriousness) 0.75 0.5)))

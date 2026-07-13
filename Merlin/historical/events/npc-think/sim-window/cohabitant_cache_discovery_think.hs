@@ -33,8 +33,8 @@
 
   (role @self (any_human @self))
 
-  ; Only home-holders can stumble about their own home.
-  (when (bind {@self home ?home}))
+  ; Only home-holders can stumble about their own home - the CACHED home role.
+  (role ?home (believes {@self home ?home}))
 
   (cont-fire-effects
     (for-each ?room (attr-values ?home parts [k interior_space room])

@@ -45,9 +45,9 @@
 ; drops out of the (min ...).
 (npc-think idle_at_home
   (short-term-think)
+  (role ?home (believes {@self home ?home}))
   (when (and (not (under-attack))
-             (at-home)
-             (bind {@self home ?home})))
+             (at-home)))
   (utility 2)
   (cont-fire-effects (excl-goal {@self dwell ?home})))
 
@@ -64,10 +64,10 @@
 ; rule): you breakfast in the house you woke in or not at all.
 (npc-think want_breakfast
   (short-term-think)
+  (role ?home (believes {@self home ?home}))
   (when (and (not (under-attack))
              (at-home)
              (> (attr @self hunger) 0.25)
-             (bind {@self home ?home})
              (bind {?home breakfast_hour ?h})
              (>= (now-hour) ?h)
              (< (now-hour) (+ ?h 3))
@@ -78,10 +78,10 @@
 ; LUNCH at the workplace - the CO-WORKER channel (eat where you stand at midday).
 (npc-think want_lunch_work
   (short-term-think)
+  (role ?org (believes {@self employer ?org})
+             (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (not (under-attack))
              (> (attr @self hunger) 0.25)
-             (bind {@self employer ?org})
-             (bind {?org workplace ?wp})
              (at-workplace ?wp)
              (>= (now-hour) 12)
              (< (now-hour) 14)))
@@ -91,10 +91,10 @@
 ; LUNCH at home - the jobless / housewife / child midday meal, per lunch_hour.
 (npc-think want_lunch_home
   (short-term-think)
+  (role ?home (believes {@self home ?home}))
   (when (and (not (under-attack))
              (at-home)
              (> (attr @self hunger) 0.25)
-             (bind {@self home ?home})
              (bind {?home lunch_hour ?h})
              (>= (now-hour) ?h)
              (< (now-hour) (+ ?h 2))
@@ -106,9 +106,9 @@
 ; travel (30 min) lands the household home by the cook's hour.
 (npc-think want_supper
   (short-term-think)
+  (role ?home (believes {@self home ?home}))
   (when (and (not (under-attack))
              (> (attr @self hunger) 0.25)
-             (bind {@self home ?home})
              (bind {?home supper_hour ?h})
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
@@ -122,30 +122,33 @@
 ; (whose stock gate already failed if this is eligible), over leisure.
 (npc-think want_eat_out_pub
   (short-term-think)
+  ; class gate = CACHED self-gate filter (the belief form, not the live conjunct).
+  (role @self (not (believes {@self class_situation [k upper]})))
+  (role ?home (believes {@self home ?home}))
   (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette)))
   (when (and (not (under-attack))
              (> (attr @self hunger) 0.25)
-             (bind {@self home ?home})
              (bind {?home supper_hour ?h})
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
              (> (target {@self wealth}) 0.2)
-             (not (believes {@self class_situation [k upper]}))
              (= (count-believed-located [k food] ?home) 0)))
   (utility 70)
   (cont-fire-effects (excl-goal {@self eat [k supper] ?venue})))
 
 (npc-think want_eat_out_restaurant
   (short-term-think)
+  ; upper-class only - the CACHED self-gate skips the majority (and the
+  ; larder belief-fold below) with zero eval.
+  (role @self (believes {@self class_situation [k upper]}))
+  (role ?home (believes {@self home ?home}))
   (role ?venue [k building restaurant] (select (score (near @self ?venue)) (policy roulette)))
   (when (and (not (under-attack))
              (> (attr @self hunger) 0.25)
-             (bind {@self home ?home})
              (bind {?home supper_hour ?h})
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
              (> (target {@self wealth}) 0.2)
-             (believes {@self class_situation [k upper]})
              (= (count-believed-located [k food] ?home) 0)))
   (utility 70)
   (cont-fire-effects (excl-goal {@self eat [k supper] ?venue})))
@@ -262,20 +265,20 @@
 
 (npc-think starving_pantry
   (short-term-think)
+  (role ?home (believes {@self home ?home}))
   (when (and (not (under-attack))
              (> (attr @self hunger) 1.3)
              (at-home)
-             (bind {@self home ?home})
              (> (count-believed-located [k food] ?home) 0)))
   (utility 140)
   (cont-fire-effects (begin-goal {@self forage})))
 
 (npc-think starving_go_home
   (short-term-think)
+  (role ?home (believes {@self home ?home}))
   (when (and (not (under-attack))
              (> (attr @self hunger) 1.3)
              (not (at-home))
-             (bind {@self home ?home})
              (> (count-believed-located [k food] ?home) 0)))
   (utility 138)
   (cont-fire-effects (go-into ?home)))

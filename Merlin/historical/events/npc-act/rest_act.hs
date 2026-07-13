@@ -9,8 +9,10 @@
 ; -until-hour are huge sentinels when nothing is pending. The engine resets fatigue on
 ; completion (keyed on the SLEEP label); the body just ends the act-belief.
 (npc-act sleep_act
-  (when (and (believes {@self SLEEP})
-             (bind {@self home ?home})))
+  ; the home is a CACHED role (binds ?home for the duration read); the SLEEP
+  ; act-desire stays live (act-lifecycle label - caching it would churn daily).
+  (role ?home (believes {@self home ?home}))
+  (when (believes {@self SLEEP}))
   (duration (min (minutes-until-alarm @self)
                  (minutes-until-attend @self)
                  (minutes-until-hour (target {?home supper_hour}))))

@@ -11,17 +11,17 @@
 (npc-think promote_go
   (short-term-think)
   (goal {@self promote_staff})
-  (when (and (bind {@self employer ?org})
-             (bind {?org workplace ?wp})
-             (not (at-workplace ?wp))))
+  (role ?org (believes {@self employer ?org})
+             (believes {?org workplace ?wp}))   ; ?wp binds at fire
+  (when (and (not (at-workplace ?wp))))
   (utility 82)
   (cont-fire-effects (go-into ?wp)))
 
 (npc-think promote_dwell
   (short-term-think)
   (goal {@self promote_staff})
-  (when (and (bind {@self employer ?org})
-             (bind {?org workplace ?wp})
-             (at-workplace ?wp)))
+  (role ?org (believes {@self employer ?org})
+             (believes {?org workplace ?wp}))   ; ?wp binds at fire
+  (when (and (at-workplace ?wp)))
   (utility 82)
   (cont-fire-effects (begin-goal {@self promote_staff})))

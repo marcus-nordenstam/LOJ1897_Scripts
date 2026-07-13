@@ -20,14 +20,15 @@
   (startup)
   (rng-stream business)
 
-  (role @self (any_human @self))
+  ; The not-already-employed gate is a CACHED self-gate filter: `employer` is
+  ; exclusive, so a man who has already founded (here or in found_public_org this
+  ; same startup pass) drops out of the set the instant he founds - each round
+  ; skips the grown employed set at zero cost.
+  (role @self (any_human @self)
+              (not (believes {@self employer ?})))
 
-  ; age gate moved here from the @self role (non-belief filter). The not-already-
-  ; employed gate keeps a founder to ONE cornerstone org: `employer` is exclusive, so
-  ; a man who has already founded (here or in found_public_org this same startup pass)
-  ; must not found another and bounce his own employer belief to past.
-  (when (and (>= (years-old @self) 25)
-             (not (believes {@self employer ?}))))
+  ; age gate stays live (non-belief op read).
+  (when (>= (years-old @self) 25))
 
   (cont-fire-effects
     ; Found the business with its HEAD only (the proprietor); the emergent labour

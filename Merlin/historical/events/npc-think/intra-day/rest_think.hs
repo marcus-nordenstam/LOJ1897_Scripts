@@ -35,11 +35,11 @@
 ; fatigue. Utility skyrockets past full fatigue so sleep dominates work / leisure.
 (npc-think sleep
   (short-term-think)
+  (role ?home (believes {@self home ?home}))
   ; You cannot sleep through an assault - being under attack gates the whole rest
   ; lane OUT, so the fight acts (defend / flee / scream) take over (fight.hs).
   (when (and (not (under-attack))
              (at-home)
-             (bind {@self home ?home})
              (or (> (attr @self fatigue) 0.5)
                  (>= (now-hour) 22)
                  (< (now-hour) 6))))

@@ -24,15 +24,17 @@
   ; Per-NPC (sim-window-think), MONTHLY. social-ostracism is idempotent (re-ending
   ; already-ended warmth bonds / club memberships is a no-op); the (chance 0.0833)
   ; ~= an annual cadence so a scandalous NPC is ostracised ~once a year (and
-  ; re-ostracised if they form new warmth ties). situation / chance are non-belief
-  ; ops, so they gate the fire in (when), not role selection.
+  ; re-ostracised if they form new warmth ties). The scandal gate reads the
+  ; {@self repute <band>} self-belief the derive pass maintains alongside the
+  ; situation op (hsim_derive mints it each window) - a CACHED self-gate filter,
+  ; so the non-scandalous town empty-set-skips. chance stays in (when).
   (sim-window-think)
   (rng-stream behaviour)
 
-  (role @self (old_human @self))
+  (role @self (old_human @self)
+              (believes {@self repute [k scandalous]}))
 
-  (when (and (= (situation @self repute) [k scandalous])
-             (chance 0.0833)))
+  (when (chance 0.0833))
 
   (cont-fire-effects
     (social-ostracism @self)

@@ -40,6 +40,9 @@
 ; goes false, so the goal is swept.
 (npc-think plan_burial
   (short-term-think)
+  ; A priest (his OWN job belief) - the CACHED self-gate, so every non-priest
+  ; empty-set-skips the whole think before the corpse/church pools materialize.
+  (role @self (believes {@self job [k job priest]}))
   ; The most-overdue dead person the priest knows (perceived in his church).
   (role ?corpse (believes {?corpse condition [k dead]})
                 (not (believes {?corpse condition [k buried]}))
@@ -47,9 +50,8 @@
   ; The nearest church he KNOWS (his own workplace / graveyard). No known church
   ; -> the routing branch no-ops; a co-present body still buries where he stands.
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
-  ; A priest (his OWN job belief - no scan), and the coroner window has passed.
-  (when (and (believes {@self job [k job priest]})
-             (>= (months-since-death ?corpse) 1)))
+  ; The coroner window has passed.
+  (when (>= (months-since-death ?corpse) 1))
   ; 85: must out-compete the priest's own day_work (80) - the stated intent
   ; ("a solemn office duty that out-competes routine work"); at 55 the bury act
   ; almost never won the motor and deposited corpses lay in the church for months.

@@ -33,9 +33,10 @@
   (sim-window-think)
   (rng-stream employment)
 
-  (role @self (old_human @self))
-
-  (when (not (believes {@self employer ?})))
+  ; Jobless gate as a CACHED self-gate filter - empties the instant the NPC gains
+  ; an employer, so the employed majority skips the enrollment scan at zero cost.
+  (role @self (old_human @self)
+              (not (believes {@self employer ?})))
 
   (cont-fire-effects
     (find-my-enrollment (bind ?art))
