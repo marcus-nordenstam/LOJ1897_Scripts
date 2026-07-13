@@ -50,7 +50,10 @@
   ; A priest (his OWN job belief - no scan), and the coroner window has passed.
   (when (and (believes {@self job [k job priest]})
              (>= (months-since-death ?corpse) 1)))
-  (utility 55)
+  ; 85: must out-compete the priest's own day_work (80) - the stated intent
+  ; ("a solemn office duty that out-competes routine work"); at 55 the bury act
+  ; almost never won the motor and deposited corpses lay in the church for months.
+  (utility 85)
   (cont-fire-effects
     ; CO-PRESENT with the body (it is in his room now) -> perform the rite. Else
     ; route to a church he knows and stand with it again.

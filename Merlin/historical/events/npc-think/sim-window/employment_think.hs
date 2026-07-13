@@ -88,11 +88,32 @@
   (role @self (any_human @self)
               (believes {@self employer ?}))
 
+  ; PURE .hs (the old C++ review-own-staff verb is gone). Navigate the boss's
+  ; OWN forward links {@self employer ?org} -> {?org record ?art}: the record
+  ; belief exists only in the FOUNDER's mind, so a mere employee fails the
+  ; second bind and the event never fires - the when-gate IS the head check,
+  ; and its spine binds thread into the effects.
+  (when (and (bind {@self employer ?org})
+             (bind {?org record ?art})))
+
   (cont-fire-effects
-    ; The boss's own decision policy: below 0.4 standing risks the sack at
+    ; Read the register off the articles and walk its rows. Per living worker
+    ; (a register row may name a destroyed entity - (alive ?w) guards), the
+    ; boss's own decision policy: below 0.4 work_standing risks the sack at
     ; 0.08/month per unit of gap; above 0.7 earns promotion consideration at
-    ; 0.12/month per unit. The goals feed sack_errand / promote_errand.
-    (review-own-staff @self sack 0.4 0.08 promote_staff 0.7 0.12)))
+    ; 0.12/month per unit (unassessed reads as the neutral 0.5 - implicitly
+    ; tenure-gating both bands). The goals feed sack_errand / promote_errand.
+    (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
+    (for-each-doc-record [k employee_register] ?reg (worker ?w)
+      (if (and (alive ?w) (not (= ?w @self)))
+          (do
+            (bind (target-or ?w work_standing 0.5) ?ws)
+            (if (> 0.4 ?ws)
+                (if (chance (* 0.08 (- 0.4 ?ws)))
+                    (begin-goal {@self sack ?w}))
+                (if (> ?ws 0.7)
+                    (if (chance (* 0.12 (- ?ws 0.7)))
+                        (begin-goal {@self promote_staff ?w})))))))))
 
 ; --- retirement: an employed worker of 65+ leaves working life --------------
 ; SPLIT (Item 5, the great split): this event is now the npc-THINK - the decision

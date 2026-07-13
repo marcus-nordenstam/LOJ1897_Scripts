@@ -55,7 +55,9 @@
                 (not (believes {@self conveyed ?corpse}))
                 (select (score (months-since-death ?corpse)) (policy argmax)))
   (when    (>= (attr @self politeness) 0.3))
-  (utility (* (attr @self politeness) 40))
+  ; x80 like want_worship: the x40 errand weight ALWAYS lost the routine contest
+  ; (day_work 80, meals, sleep) and no corpse was ever delivered.
+  (utility (* (attr @self politeness) 80))
   (cont-fire-effects (excl-goal {@self convey ?corpse})))
 
 ; CASE B - not at a church, but knows one: head to it. The (goal ...) clause pins
@@ -67,7 +69,7 @@
   (role @self (grown @self))
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
   (when    (not (is-a (current-building @self) [k building church])))
-  (cont-fire-effects (excl-goal {@self go ?church})))
+  (cont-fire-effects (go-into ?church)))
 
 ; CASE C - not at a church and knows none: search for one (find_building.hs runs it).
 (npc-think convey_find
