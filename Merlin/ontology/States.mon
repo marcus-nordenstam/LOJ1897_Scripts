@@ -501,6 +501,12 @@ relation
             honesty             (tar ? @excl) (range 0 1)
             sobriety            (tar ? @excl) (range 0 1)
             piety               (tar ? @excl) (range 0 1)
+            # devoutness - the piety SIGNAL banded to a piety_band KIND
+            # (devout/observant/secular) by the derived-signals engine
+            # (definitions/signals.hs). The band is the discrete, queryable
+            # belief; the continuous magnitude lives OFF the belief timeline
+            # in the per-mind signal table.
+            devoutness          (tar piety_band @excl)
             diligence           (tar ? @excl) (range 0 1)
             chastity            (tar ? @excl) (range 0 1)
             # reputed_chastity - the PUBLIC reading of chastity: counts

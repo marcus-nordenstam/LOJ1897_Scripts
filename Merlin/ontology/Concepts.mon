@@ -793,6 +793,16 @@ concept
         spotless
         tarnished
         disgraced
+    # piety_band - devoutness standing, banded from the continuous piety
+    # SIGNAL by the derived-signals engine (Merlin docs/
+    # derived_signals_program.md; declared in definitions/signals.hs). The
+    # signal accrues per worship act and leaks monthly, so the band tracks
+    # LIVED devoutness: a regular churchgoer reads devout, a lapsed one
+    # slides through observant to secular over ~2 years.
+    piety_band               (sub human)  (tar @excl)
+        devout
+        observant
+        secular
     class_situation          (sub human)  (tar @excl)  (disclosure stranger)
         upper
         middle
