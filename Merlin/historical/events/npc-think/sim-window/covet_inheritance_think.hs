@@ -57,7 +57,7 @@
   ; propensity = (1 - inhibition) * greed; fire at k_covet_base_rate * propensity.
   (when (and (>= (target {?benefactor wealth}) 0.5)
              (chance (* (crime-scale) 0.02
-                        (* (- 1 (target {@self inhibition}))
+                        (* (- 1 (classifier-value inhibition))
                            (* 0.5 (+ (attr @self machiavellianism)
                                      (attr @self psychopathy))))))))
 

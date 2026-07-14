@@ -26,7 +26,7 @@
   ; still short of work / sleep.
   (utility (* (min (* (+ 0.5 (* 0.8 (attr @self withdrawal)))
                       (+ 0.6 (* 0.6 (- 1 (attr @self industriousness))))
-                      (- 1.3 (* 0.6 (target {@self piety})))
+                      (- 1.3 (* 0.6 (classifier-value piety)))
                       (- 1.3 (* 0.6 (target {@self belonging})))) 1.6)
               (min (* (days-since-last @self drink) 5) 45)))
   (cont-fire-effects

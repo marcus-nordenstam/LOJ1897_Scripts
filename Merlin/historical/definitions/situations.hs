@@ -26,8 +26,6 @@
   /won-prestige-bonus        4
   /won-prestige-cap         20
   /default-breeding         55
-  /secular-piety            25
-  /churchgoer-piety         85
   /craving-sobriety-cap     15)
 
 ; ---- rank curves -----------------------------------------------------------
@@ -35,16 +33,6 @@
 ; regular senior org_head): wealth income, and public standing.
 (income-by-rank    25 35 50 65 80 95)
 (prestige-by-rank  20 20 30 45 65 90)
-
-; ---- respectability_situation <- mean of the seven conduct dimensions ------
-; honesty + sobriety + piety + diligence + chastity + decorum + generosity,
-; divided by 7. Ascending upper bounds; a score at or above respectable-max
-; reads `exemplary`.
-(respectability-situation
-  /scandalous-max   20
-  /disreputable-max 40
-  /questionable-max 60
-  /respectable-max  80)
 
 ; ---- conduct dimensions (Phase 8) ------------------------------------------
 ; chastity: a high prior (chastity-base), less chastity-adultery-penalty per
