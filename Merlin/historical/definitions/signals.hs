@@ -99,6 +99,37 @@
          ([k piety_band secular]   -1)))
 
 ; ----------------------------------------------------------------------------
+; Conduct trait dimensions (Shape V value-only) - the temperamental priors the
+; respectability / repute / inhibition fuses and the business/leisure gates
+; read via (dim ...) / (classifier-value ...). Ported from hsim_derive's C++
+; trait folds: a plain mean of the (possibly inverted) Big-Five / dark-tetrad
+; aspects, read @self-only ((attr ...) is the mind's own entity). No float
+; belief is minted; every reader evaluates the fold on demand.
+; ----------------------------------------------------------------------------
+
+; diligence - the industriousness aspect.
+(classify diligence (value) (from (attr industriousness)))
+
+; honesty - high politeness, low Machiavellianism (the dark-tetrad deceit trait).
+(classify honesty (value)
+  (from (mean (attr politeness) (inv (attr machiavellianism)))))
+
+; disinhibition - the externalizing temperament: low industriousness, low
+; politeness, high volatility.
+(classify disinhibition (value)
+  (from (mean (inv (attr industriousness)) (inv (attr politeness)) (attr volatility))))
+
+; aggression - the temperamental fold of high volatility, low politeness and
+; dark-tetrad sadism.
+(classify aggression (value)
+  (from (mean (attr volatility) (inv (attr politeness)) (attr sadism))))
+
+; generosity - the compassion prior, lifted 0.20 by any recorded act of charity
+; (an ended {@self give <alms>} act-record still counts - a lifetime tally).
+(classify generosity (value)
+  (from (clamp (sum (attr compassion) (scale (ge (count-ever give) 1) 0.20)) 0 1)))
+
+; ----------------------------------------------------------------------------
 ; Situation fusions (Shape A bands) - ported from hsim_derive's C++ folds.
 ; Each reads the float dimension beliefs the annual derive pass mints
 ; ((dim ...) inputs; a subject without them - children, fresh spawns - skips
