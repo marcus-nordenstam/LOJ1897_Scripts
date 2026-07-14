@@ -35,6 +35,55 @@
          ([k piety_band secular]   -1)))
 
 ; ----------------------------------------------------------------------------
+; Situation fusions (Shape A bands) - ported from hsim_derive's C++ folds.
+; Each reads the float dimension beliefs the annual derive pass mints
+; ((dim ...) inputs; a subject without them - children, fresh spawns - skips
+; and keeps its seeded classification). derive_prototypes runs this catalog
+; INLINE right after the dims mint, so its in-pass consumers (scarcity seed,
+; for_hire, life_satisfaction) read fresh bands; the monthly emit keeps them
+; current between derive passes. DECLARATION ORDER IS EVALUATION ORDER:
+; situations must precede the prototypes that read them.
+; (respectability_situation / repute stay C++ - they fuse the transient
+; concealment-adjusted visible_sobriety.)
+; ----------------------------------------------------------------------------
+
+; economic_situation <- the wealth dimension. Band mins are the old ascending
+; upper bounds (15/30/45/60/75/90 on the 0..100 scale) read as descending
+; entry thresholds on the 0..1 dimension.
+(classify economic_situation
+  (from (dim wealth))
+  (bands ([k economic_situation wealthy]     0.90)
+         ([k economic_situation prosperous]  0.75)
+         ([k economic_situation comfortable] 0.60)
+         ([k economic_situation stable]      0.45)
+         ([k economic_situation struggling]  0.30)
+         ([k economic_situation poor]        0.15)
+         ([k economic_situation destitute]   -1)))
+
+; class_situation <- breeding (the dominant lineage anchor) + prestige (public
+; office) + wealth, weights 5/3/2 normalized. A high prestige + wealth can
+; carry a low-breeding man up a band - the self-made climb; idle high breeding
+; alone slides down.
+(classify class_situation
+  (from (weighted-sum (0.5 (dim breeding))
+                      (0.3 (dim prestige))
+                      (0.2 (dim wealth))))
+  (bands ([k class_situation upper]  0.70)
+         ([k class_situation middle] 0.40)
+         ([k class_situation lower]  -1)))
+
+; social_trajectory <- the divergence of achieved standing ((prestige +
+; wealth) / 2) from the inherited breeding anchor; +/- 0.15 counts as a move.
+; The climbing clerk reads rising; the idle high-breeding heir declining.
+(classify social_trajectory
+  (from (sum (scale (dim prestige) 0.5)
+             (scale (dim wealth)   0.5)
+             (scale (dim breeding) -1)))
+  (bands ([k social_trajectory rising]    0.15)
+         ([k social_trajectory stable]    -0.15)
+         ([k social_trajectory declining] -2)))
+
+; ----------------------------------------------------------------------------
 ; Prototypes (Shape B toggles) - named conjunctions over the situations /
 ; dimensions, ported from hsim_derive's C++ predicates. Each reads the
 ; situation BAND beliefs and float dimension beliefs the annual derive pass

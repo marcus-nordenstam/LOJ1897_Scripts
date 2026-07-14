@@ -36,16 +36,6 @@
 (income-by-rank    25 35 50 65 80 95)
 (prestige-by-rank  20 20 30 45 65 90)
 
-; ---- economic_situation <- wealth ------------------------------------------
-; Ascending upper bounds. wealth at or above prosperous-max reads `wealthy`.
-(economic-situation
-  /destitute-max   15
-  /poor-max        30
-  /struggling-max  45
-  /stable-max      60
-  /comfortable-max 75
-  /prosperous-max  90)
-
 ; ---- respectability_situation <- mean of the seven conduct dimensions ------
 ; honesty + sobriety + piety + diligence + chastity + decorum + generosity,
 ; divided by 7. Ascending upper bounds; a score at or above respectable-max
@@ -70,31 +60,6 @@
   /gambling-sobriety-penalty 25
   /gambling-wealth-penalty   15
   /charity-generosity-bonus  20)
-
-; ---- class_situation <- weighted breeding + prestige + wealth --------------
-; breeding dominates (the lineage anchor). middle-min / upper-min are lower
-; bounds on the fused score; a score below middle-min reads `lower`.
-(class-situation
-  /weight-breeding 5
-  /weight-prestige 3
-  /weight-wealth   2
-  /middle-min      40
-  /upper-min       70)
-
-; ---- social_trajectory -----------------------------------------------------
-; The gap between achieved standing ((prestige + wealth) / 2) and the
-; inherited breeding anchor; a gap of +/- margin or more counts as a move.
-(social-trajectory
-  /margin 15)
-
-; ---- prototype gates -------------------------------------------------------
-; nouveau_riche: wealth >= nouveau-wealth-min carried by breeding <=
-; nouveau-breeding-max. self_made_man: a low-born origin, breeding <=
-; self-made-breeding-max.
-(prototype-tuning
-  /nouveau-wealth-min     60
-  /nouveau-breeding-max   35
-  /self-made-breeding-max 40)
 
 ; ---- identity-thresholds (PR-3b 2026-05-25) --------------------------------
 ; Role-identity classifier floors for hsim_derive::classify_identities.
