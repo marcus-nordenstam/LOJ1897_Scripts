@@ -597,6 +597,16 @@ relation
         # pass; self-appraisal keeps reading respectability_situation.
         repute                  (sub human)           (tar respectability_situation @excl)
 
+        # starving - the physiology-to-belief seam marker. Minted/ended by the
+        # meals starving_watch pair at the hunger threshold crossing, so the
+        # starvation-tail lanes gate on a CACHED self-belief instead of
+        # re-reading the hunger attr per deliberation. Label-only self state.
+        starving                (sub human)
+
+        # household_cook - @self is THE cook of <home> (one per household,
+        # elected via the home's public-bb `cook` marker; provisioning_think).
+        household_cook          (sub human)  (tar structure @excl)
+
         # Historical-sim-only situation predicates (hsim_ prefix). Read by the
         # event engine to drive crime / drama template eligibility and role
         # binding. Pruned from NPC minds at the historical -> interactive

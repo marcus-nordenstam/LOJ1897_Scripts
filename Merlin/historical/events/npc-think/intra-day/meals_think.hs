@@ -58,6 +58,27 @@
 ; act-belief IS the meal memory (target = the meal occasion, aux = the place);
 ; there is no separate dine record.
 
+; ---- notice the larder -----------------------------------------------------
+; A home, hungry resident who believes there is NO food OBSERVES their own
+; kitchen (the larder room), surfacing its contents into belief. Without this
+; only the cook - who stocks and frequents the kitchen - knows the food is there;
+; the rest of the family believes an empty larder, skips the family table, and
+; starves beside a full kitchen. Per-mind honest (you check your own kitchen when
+; hungry at home) and un-gated by food belief (LEARNING whether food is there is
+; the whole point). Self-limiting: once the food is seen the count is > 0 and this
+; stops firing until the larder is eaten down again; a truly empty kitchen keeps
+; reading 0 and the resident falls through to the meal-less lanes, as it should.
+(npc-think notice_larder
+  (short-term-think)
+  (role ?home (believes {@self home ?home}))
+  (when (and (not (under-attack))
+             (at-home)
+             (> (attr @self hunger) 0.25)
+             (= (count-believed-located [k food] ?home) 0)
+             (bind {?home room [k kitchen]:?kitchen})))   ; a resident who does not know their kitchen just skips
+  (cont-fire-effects
+    (observe ?kitchen)))
+
 ; ---- the meal desires (mint {@self eat [k <meal>] <place>}) ----------------
 
 ; BREAKFAST - at home, come-as-you-wake (3h window, the one exception to the 2h
@@ -73,7 +94,8 @@
              (< (now-hour) (+ ?h 3))
              (> (count-believed-located [k food] ?home) 0)))
   (utility 82)
-  (cont-fire-effects (excl-goal {@self eat [k breakfast] ?home})))
+  (cont-fire-effects
+    (excl-goal {@self eat [k breakfast] ?home})))
 
 ; LUNCH at the workplace - the CO-WORKER channel (eat where you stand at midday).
 (npc-think want_lunch_work
@@ -86,7 +108,8 @@
              (>= (now-hour) 12)
              (< (now-hour) 14)))
   (utility 85)
-  (cont-fire-effects (excl-goal {@self eat [k lunch] ?wp})))
+  (cont-fire-effects
+    (excl-goal {@self eat [k lunch] ?wp})))
 
 ; LUNCH at home - the jobless / housewife / child midday meal, per lunch_hour.
 (npc-think want_lunch_home
@@ -100,7 +123,8 @@
              (< (now-hour) (+ ?h 2))
              (> (count-believed-located [k food] ?home) 0)))
   (utility 76)
-  (cont-fire-effects (excl-goal {@self eat [k lunch] ?home})))
+  (cont-fire-effects
+    (excl-goal {@self eat [k lunch] ?home})))
 
 ; SUPPER at home - the FAMILY table. The window opens an hour early so eat_go's
 ; travel (30 min) lands the household home by the cook's hour.
@@ -114,7 +138,8 @@
              (< (now-hour) (+ ?h 2))
              (> (count-believed-located [k food] ?home) 0)))
   (utility 78)
-  (cont-fire-effects (excl-goal {@self eat [k supper] ?home})))
+  (cont-fire-effects
+    (excl-goal {@self eat [k supper] ?home})))
 
 ; EATING OUT - no food at home (as the diner KNOWS) in the supper window and
 ; wealth permits: a pub supper (lower/middle), a restaurant one (upper). The
@@ -166,71 +191,9 @@
                 (not (at-place ?place))))
   (cont-fire-effects (go-into ?place)))
 
-; -------------------------------------------------------- the food economy
-
-; PROVISIONING - the cook keeps the larder stocked (ruling 14). The desire
-; (plan_provisioning, npc-think/household.hs) mints {@self goal {@self
-; provision}} when the cook BELIEVES the home stock is low; these acts
-; drain it over the EXISTING atomic vocabulary - no bespoke verbs:
-;
-;   provision_go_known : she knows where provisions are sold ({@self
-;                        provisions_shop ?shop} - the register read at
-;                        orientation, or a past find) -> walk there.
-;   provision_search   : no such knowledge -> try A shop ((venue [k building
-;                        shop]), the generic kind-approach the pub / church
-;                        errands use). The wrong counter teaches her nothing
-;                        but costs only the walk; finding food mints the
-;                        provisions_shop belief and ends the searching.
-;   provision_take     : at a shop with the goal - the counter stop. The
-;                        completion takes a BASKETFUL: one take-act per item
-;                        (the ONE possession seam), one stow goal per item,
-;                        and the generic stow lane (stow.hs) walks her home
-;                        laden and puts the food away openly. Like the
-;                        weapon purchase path, v1 records no coin movement.
-;                        Empty-handed (wrong shop / bare shelf) the errand
-;                        still ends - she gives it up until the next
-;                        window's think re-arms it.
-;
-; Completion-band utility (77 walk / 79 take): high enough that the weekly run
-; actually COMPLETES rather than oscillating. It beats midday leisure / lunch
-; (home_lunch 76) so the cook makes uninterrupted daytime progress to the shop,
-; but stays under breakfast (82), work (80) and sleep (100) so she still eats,
-; works and sleeps - a working cook simply shops on a day off or after her
-; shift. At 55 the errand lost to every meal and the evening supper-go-home
-; pull, so the cook never arrived and the town fell through to the (high-
-; utility) starving lanes for its food. Take outbids the walks by two points so
-; arrival flips travel into the counter stop even against the supper pull (78).
-
-(npc-think provision_go_known
-  (short-term-think)
-  (goal {@self provision})
-  (bind (target {@self provisions_shop ?}) ?shop)
-  (when (and (not (under-attack))
-             (is-entity ?shop)
-             (not (in-building ?shop))))
-  (utility 77)
-  (cont-fire-effects (go-into ?shop)))
-
-(npc-think provision_search
-  (short-term-think)
-  (goal {@self provision})
-  ; No known provisions_shop: role-cast a shop the NPC KNOWS (nearest preferred,
-  ; weighted) and head there. No known shop -> no fire. Replaces (venue ...).
-  (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
-  (bind (target {@self provisions_shop ?}) ?shop)
-  (when (and (not (under-attack))
-             (not (is-entity ?shop))
-             (not (at-place-kind [k building shop]))))
-  (utility 77)
-  (cont-fire-effects (go-into ?go_dest)))
-
-(npc-think provision_take
-  (short-term-think)
-  (goal {@self provision})
-  (when (and (not (under-attack))
-             (at-place-kind [k building shop])))
-  (utility 79)
-  (cont-fire-effects (begin-goal {@self provision})))
+; (PROVISIONING - the cook keeping the kitchen larder stocked - lives in
+; npc-think/provisioning_think.hs; the general carry-to-a-place chain in
+; npc-think/bring_think.hs. Meals only EAT here.)
 
 ; (EATING OUT is folded into the unified eat lane above: want_eat_out_pub /
 ; want_eat_out_restaurant mint {@self eat [k supper] <venue>}, eat_go walks
@@ -246,6 +209,28 @@
 ; Venue knowledge rides the same provisions_shop belief the provisioning
 ; errand builds; a starving stranger to the town tries any shop.
 
+; THE STARVING WATCH - the physiology->belief seam. Hunger is an ATTR (no belief
+; seam, so no cached gate can key on it directly); this pair maintains the
+; {@self starving} marker belief AT the crossing, so every tail lane below keys
+; on the CACHED self-gate instead of re-reading the attr per deliberation. The
+; watch itself is the only per-deliberation hunger read left (one attr read,
+; gated to the not-yet-starving); the marker ends at the same threshold once
+; a meal brings hunger back under. The tails keep the live hunger conjunct as
+; the freshness check - it now only ever runs for the starving few.
+(npc-think starving_watch
+  (short-term-think)
+  (role @self (not (believes {@self starving})))
+  (when (> (attr @self hunger) 1.3))
+  (cont-fire-effects
+    (begin-belief {@self starving})))
+
+(npc-think starving_watch_end
+  (short-term-think)
+  (role @self (believes {@self starving}))
+  (when (not (> (attr @self hunger) 1.3)))
+  (cont-fire-effects
+    (end-belief {@self starving})))
+
 ; The four food-source DESIRES all push utility onto one {@self forage} goal (the
 ; ladder is by branch ORDER in forage_act, not by competing goals): eat what you
 ; carry (141) > eat the pantry (140) > buy at a shop (135) > STEAL and eat (130).
@@ -255,16 +240,16 @@
 ; goal is a food item.
 (npc-think starving_eat_carried
   (short-term-think)
-  (goal {@self stow ?item})
+  (role @self (believes {@self starving}))
   (when (and (not (under-attack))
              (> (attr @self hunger) 1.3)
-             (is-entity ?item)
-             (is-a ?item [k food])))
+             (control [k food])))
   (utility 141)
   (cont-fire-effects (begin-goal {@self forage})))
 
 (npc-think starving_pantry
   (short-term-think)
+  (role @self (believes {@self starving}))
   (role ?home (believes {@self home ?home}))
   (when (and (not (under-attack))
              (> (attr @self hunger) 1.3)
@@ -275,6 +260,7 @@
 
 (npc-think starving_go_home
   (short-term-think)
+  (role @self (believes {@self starving}))
   (role ?home (believes {@self home ?home}))
   (when (and (not (under-attack))
              (> (attr @self hunger) 1.3)
@@ -287,6 +273,7 @@
 ; no-coin sense as provisioning).
 (npc-think starving_buy
   (short-term-think)
+  (role @self (believes {@self starving}))
   (when (and (not (under-attack))
              (> (attr @self hunger) 1.3)
              (> (target {@self wealth}) 0.2)
@@ -296,6 +283,7 @@
 
 (npc-think starving_buy_go
   (short-term-think)
+  (role @self (believes {@self starving}))
   ; The known provisions_shop is preferred; else a role-cast shop the NPC KNOWS
   ; (nearest, weighted). Replaces the (venue ...) fallback.
   (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
@@ -315,6 +303,7 @@
 ; actually eaten - forage_act appends it inside its shop branch.
 (npc-think starving_steal
   (short-term-think)
+  (role @self (believes {@self starving}))
   (when (and (not (under-attack))
              (> (attr @self hunger) 1.3)
              (not (> (target {@self wealth}) 0.2))
@@ -324,6 +313,7 @@
 
 (npc-think starving_steal_go
   (short-term-think)
+  (role @self (believes {@self starving}))
   (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
   (bind (target {@self provisions_shop ?}) ?shop)
   (when (and (not (under-attack))

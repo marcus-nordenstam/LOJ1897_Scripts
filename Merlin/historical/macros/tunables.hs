@@ -120,3 +120,19 @@
 ; thrash. Small enough not to distort real travel; the real fix for "why re-go at all"
 ; is the arriving lane firing its purpose act (see at-place-kind).
 (define-macro go_travel_floor_min      () 5)
+
+; The household cook's public-bb claim lifetime, in hsim cycles (= months). The
+; sitting cook RE-POSTS it every cycle (renew_cook), so the ttl only bounds how
+; fast a DEAD or emigrated cook's household re-elects.
+(define-macro cook_marker_ttl_cycles () 3)
+
+; The kitchen-larder doctrine numbers, in PERSON-DAYS of food (1 prop = 1
+; person-day; only a home supper consumes, so a 4-head household eats 4 per
+; sim-day). Target 16 = ~4 sim-days; the low-water refill (a basket of 8) puts
+; the cook at the counter every OTHER sim-day - pure count-driven cadence.
+; larder_target MUST match weapon_seed.h k_home_starter_larder.
+(define-macro larder_target    () 16)
+(define-macro larder_low_water () 8)
+; One basket: what the cook carries home in one trip. MUST stay under the
+; hand's control cap (common.arc control array = 12).
+(define-macro carry_cap () 8)
