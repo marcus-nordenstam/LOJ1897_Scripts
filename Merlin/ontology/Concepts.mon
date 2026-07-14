@@ -803,6 +803,17 @@ concept
         devout
         observant
         secular
+    # impression - perceived-CHARACTER kinds abduced from witnessed episodes
+    # (abduction v2). The (impression <attr> [k impression <leaf>] <weight>)
+    # rows in definitions/signals.hs map an emitting event's trait-attr gate
+    # terms to these leaves; a witness then mints {actor seems <leaf>} at the
+    # authored weight. Targets of the `seems` relation (States.mon), never
+    # minted as a band; NOT @excl there - the leaves are independent.
+    impression               (sub human)  (tar)
+        hot_tempered
+        callous
+        cruel
+        selfish
     class_situation          (sub human)  (tar @excl)  (disclosure stranger)
         upper
         middle

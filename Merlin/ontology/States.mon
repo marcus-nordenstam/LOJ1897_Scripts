@@ -239,6 +239,16 @@ relation
             dread               (tar human)
             terror              (tar human)
 
+        # seems - the abduced-IMPRESSION relation (abduction v2): an
+        # observer's perceived-character conclusion about another person,
+        # minted by abduce_witnessed_episode when a witnessed episode's
+        # emitting gate reads a trait attr mapped by an
+        # (impression <attr> [k impression <leaf>] <w>) row in
+        # definitions/signals.hs. The target is an impression KIND leaf
+        # (Concepts.mon). Non-@excl: a person can seem hot_tempered AND
+        # cruel - each leaf is an independent conclusion.
+        seems                   (sub human)           (tar impression)
+
         # Construals are tags, not beliefs. Each construal is one of
         # the construed_act sub-kinds in Concepts.mon (wrong_act,
         # harm_act, betray_act, etc.) declared on a task / ACTION;

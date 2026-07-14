@@ -19,5 +19,11 @@
   (when (and (believes {@self worship})
              (is-a (current-building @self) [k building church])))
   (duration 90)
-  (act-effects (end-act {@self worship})))
+  (act-effects
+    ; The congregation SEES the service: co-present others mint {her worship her}
+    ; (capped fan-out) - the observable-practice evidence observer-side
+    ; devoutness folds and abduction read. The record is identical for the
+    ; devout and the appearances-keeping pretender, by design.
+    (witness-copresence @self worship @self)
+    (end-act {@self worship})))
 ; go_act (the shared travel act) lives in npc-act/go.hs.

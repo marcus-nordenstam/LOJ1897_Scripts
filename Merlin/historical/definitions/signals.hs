@@ -22,6 +22,21 @@
 ; ----------------------------------------------------------------------------
 
 ; ----------------------------------------------------------------------------
+; Impression map (abduction v2). An event that emits a witnessed episode
+; (incident-anchor / witness-copresence) and gates its (chance ...) on
+; (attr @self <trait>) reveals character to bystanders: witnessing the episode
+; mints {actor seems <impression kind>} at the AUTHORED weight below. The
+; gate's numeric constants are rate constants (how often the act fires), not
+; evidence strengths, so the strength is authored per row. Inverted reads
+; ((- 1 (attr ...))) and unmapped traits contribute nothing.
+; ----------------------------------------------------------------------------
+
+(impression volatility  [k impression hot_tempered] 0.6)
+(impression psychopathy [k impression callous]      0.5)
+(impression sadism      [k impression cruel]        0.5)
+(impression narcissism  [k impression selfish]      0.4)
+
+; ----------------------------------------------------------------------------
 ; Shared sub-expressions.
 ; ----------------------------------------------------------------------------
 
@@ -46,7 +61,7 @@
 (def visible-sobriety
   (clamp (sum (dim sobriety)
               (product (inv (ge (dim sobriety) 0.70))
-                       (sum (scale (inv (act-at indulge [k building pub])) 0.25)
+                       (sum (scale (inv (act-at drink [k building pub])) 0.25)
                             (scale (present employer) 0.20)
                             (scale (present spouse) 0.15)
                             (scale (ge (dim wealth) 0.65) 0.20)))) 0 1))
@@ -77,6 +92,7 @@
 ;2-year lapse decays through observant to secular as the memories age and
 ; fade. The floor band (secular, min -1) means every NPC carries a reading.
 (classify devoutness
+  (about others)
   (from observance)
   (bands ([k piety_band devout]    0.55)
          ([k piety_band observant] 0.15)
