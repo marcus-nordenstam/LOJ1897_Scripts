@@ -54,10 +54,16 @@
                 (not (believes {?corpse condition [k buried]}))
                 (not (believes {@self conveyed ?corpse}))
                 (select (score (months-since-death ?corpse)) (policy argmax)))
-  (when    (>= (attr @self politeness) 0.3))
-  ; x80 like want_worship: the x40 errand weight ALWAYS lost the routine contest
-  ; (day_work 80, meals, sleep) and no corpse was ever delivered.
-  (utility (* (attr @self politeness) 80))
+  ; FRESHNESS cap beside the politeness gate: a death known for months no longer
+  ; motivates the errand (someone has surely dealt with it) - the belt-and-braces
+  ; bound on the standing-corpse scan where the burial propagation missed a
+  ; knower (an emigrant, a returnee).
+  (when    (and (>= (attr @self politeness) 0.3)
+                (< (months-since-death ?corpse) 6)))
+  ; x85, a shade OVER want_worship's x80: burying your dead outranks attending a
+  ; service, so at the church the deposit wins the first slot and the service
+  ; follows (at x80 the two tied and the deposit lost the tie for years).
+  (utility (* (attr @self politeness) 85))
   (cont-fire-effects (excl-goal {@self convey ?corpse})))
 
 ; CASE B - not at a church, but knows one: head to it. The (goal ...) clause pins

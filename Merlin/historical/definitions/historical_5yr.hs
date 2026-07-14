@@ -8,4 +8,4 @@
 (seed              4242)
 (start_year        1700)
 (end_year          1704)
-(start_population  200)
+(start_population  50)

@@ -78,54 +78,8 @@
               {?home supper_hour ?s}))
     (end-act {@self eat ?meal ?place})))
 
-; -------------------------------------------------------- the food economy
-
-; The steady-state home larder in PERSON-DAYS of food. The cook's weekly run
-; tops the larder up to this, so an average household eats through the week
-; without the pantry emptying (which would drop every member into the per-NPC
-; starving lanes and re-crowd the shop); a large household that outruns it
-; leans on plan_provisioning's catch-up / emergency fallbacks. Sized to keep
-; the town's food-prop count under the food archetype cap (food.arc, cap 8192 =
-; ~60 occupied homes x this + the grocer shelves). A ~2-week larder gives the
-; household a multi-day buffer so a single missed weekly run never empties the
-; pantry into the starving lanes. MUST match the world-gen starter larder
-; (weapon_seed.h k_home_starter_larder) so homes open in steady state.
-(define-macro larder_target () 56)
-
-; How many food items a cook carries home in ONE trip. take/put is a one-load
-; seam: she grasps at most this, walks home, stows, and makes another weekly
-; trip if the larder is still short. MUST stay under the hand's control cap
-; (common.arc control array = 12) so one grasp never overflows the hand.
-(define-macro carry_cap () 8)
-
-(npc-act provision_act
-  (when (believes {@self provision}))
-  (duration 15)
-  (act-effects
-    (bind (current-building @self) ?shop)
-    (bind {@self home ?home})
-    (if (is-entity ?shop)
-        ; The counter stop: browse the shop's rooms and grab up to a BASKET's
-        ; worth of food (carry_cap), never more than the larder is short. The
-        ; /limit subtracts what is ALREADY in hand and re-evaluates on each
-        ; room, so the basket fills ACROSS rooms and stops at carry_cap total,
-        ; never per-room (the hand's control array is one shared 12-slot store).
-        ; A near-full larder buys little, a bare one a basketful, a full one
-        ; nothing. Physically present, physically browsing: the rooms' actual
-        ; contents are what her hands reach (the terminal-steal precedent). Each
-        ; find also teaches / refreshes WHERE provisions are sold (the venue
-        ; belief the go_known and starving lanes route on). One weekly trip tops
-        ; the larder toward larder_target over successive runs.
-        (for-each ?room (attr-values ?shop parts [k interior_space room])
-          (for-each ?item (attr-values ?room contents [k food])
-                    /limit (- (min (carry_cap) (- (larder_target) (count-believed-located [k food] ?home)))
-                              (count-controlled @self [k food]))
-            (do
-              (take-item ?item)
-              (begin-goal {@self stow ?item})
-              (begin-belief {@self provisions_shop ?shop})))))
-    (end-act {@self provision})
-    (end-goal {@self provision})))
+; (provision_act - the counter stop - lives in npc-act/provision_act.hs;
+; the general put-down completion in npc-act/bring_act.hs.)
 
 ; The forage act: the {@self forage} goal, at a food source, promotes here. It
 ; consumes ONE food item from the highest-priority source available and reduces
@@ -135,16 +89,15 @@
   (when (believes {@self forage}))
   (duration 10)
   (act-effects
-    ; Bind the candidate sources up front (effect-position value-binds); the branch
-    ; conditions below then test them with plain predicates.
-    (bind (goal-focus stow) ?carried)
+    (bind (count-controlled @self [k food]) ?ncarried)
     (bind {@self home ?home})
-    (if (and (is-entity ?carried) (is-a ?carried [k food]))
-        ; 1. carried food item.
-        (do
-          (realize-destroyed ?carried [k condition consumed])
-          (destroy-entity ?carried)
-          (end-goal {@self stow}))
+    (if (> ?ncarried 0)
+        ; 1. carried food - the HAND decides, not a goal (a laden walker eats
+        ;   from the basket whether or not the delivery intention survived).
+        (for-each ?item (attr-values @self control [k food]) /limit 1
+          (do
+            (realize-destroyed ?item [k condition consumed])
+            (destroy-entity ?item)))
         (do
           (bind (believed-located [k food] ?home) ?pantry)
           (if (and (at-home) (is-entity ?pantry))
