@@ -29,6 +29,7 @@
 
 (npc-think day_work
   (short-term-think)
+  (fatigue-timeout 0)              ; a work shift is not a fruitless search - never fatigue-capped
   (role ?org (believes {@self employer ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (role ?job (believes {@self job ?job}))
@@ -44,6 +45,7 @@
 
 (npc-think day_go_to_work
   (short-term-think)
+  (fatigue-timeout 0)              ; commuting to work is not a fruitless search - never fatigue-capped
   (role ?org (believes {@self employer ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (role ?job (believes {@self job ?job}))
