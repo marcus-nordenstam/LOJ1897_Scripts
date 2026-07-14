@@ -33,3 +33,54 @@
   (bands ([k piety_band devout]    0.55)
          ([k piety_band observant] 0.18)
          ([k piety_band secular]   -1)))
+
+; ----------------------------------------------------------------------------
+; Prototypes (Shape B toggles) - named conjunctions over the situations /
+; dimensions, ported from hsim_derive's C++ predicates. Each reads the
+; situation BAND beliefs and float dimension beliefs the annual derive pass
+; mints; a subject the cascade has not derived yet (children, fresh spawns)
+; holds its (dim ...) inputs absent, so the classifier skips and the
+; classification waits for the first derive - same admission rule as the old
+; annual pass. Booleans compose as products of (ge/le/has) 0-or-1 terms;
+; OR = (clamp (sum ...) 0 1).
+; ----------------------------------------------------------------------------
+
+; drunkard: a standing craving for drink IS the dependency.
+(classify prototype
+  (kind [k prototype drunkard])
+  (when (present craving)))
+
+; nouveau_riche: high wealth (>= 0.60) carried by low breeding (<= 0.35) -
+; new money, not old blood. Thresholds mirror situations.hs prototype-tuning.
+(classify prototype
+  (kind [k prototype nouveau_riche])
+  (when (product (ge (dim wealth) 0.60)
+                 (le (dim breeding) 0.35))))
+
+; self_made_man: a low-born man risen into the middle class or above on a
+; sound character - rising trajectory + arrived class + low breeding +
+; reputable standing.
+(classify prototype
+  (kind [k prototype self_made_man])
+  (when (product (has social_trajectory [k social_trajectory rising])
+                 (clamp (sum (has class_situation [k class_situation middle])
+                             (has class_situation [k class_situation upper])) 0 1)
+                 (le (dim breeding) 0.40)
+                 (clamp (sum (has respectability_situation [k respectability_situation exemplary])
+                             (has respectability_situation [k respectability_situation respectable])) 0 1))))
+
+; deserving_poor / undeserving_poor: the shared economic test (poor or
+; destitute), split on respectability.
+(classify prototype
+  (kind [k prototype deserving_poor])
+  (when (product (clamp (sum (has economic_situation [k economic_situation poor])
+                             (has economic_situation [k economic_situation destitute])) 0 1)
+                 (clamp (sum (has respectability_situation [k respectability_situation exemplary])
+                             (has respectability_situation [k respectability_situation respectable])) 0 1))))
+
+(classify prototype
+  (kind [k prototype undeserving_poor])
+  (when (product (clamp (sum (has economic_situation [k economic_situation poor])
+                             (has economic_situation [k economic_situation destitute])) 0 1)
+                 (clamp (sum (has respectability_situation [k respectability_situation disreputable])
+                             (has respectability_situation [k respectability_situation scandalous])) 0 1))))
