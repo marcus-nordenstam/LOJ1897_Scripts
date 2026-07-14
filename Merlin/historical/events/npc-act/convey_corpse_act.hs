@@ -13,8 +13,13 @@
 ; then PERCEIVES {?corpse condition dead} there - no telepathy. The one-shot
 ; marker bars re-carting; ending the act-belief makes the deposit fire exactly
 ; once. Depositing a corpse already gone (buried elsewhere) is a safe no-op.
+; The when-gate REQUIRES being inside a church: without it a convey goal whose
+; search sub-goal fatigued out promoted here off-site and filed the body into
+; whatever building the bearer stood in. The act-label lives in the cached
+; self-role gate, so the promotion scan rejects O(1) before any mind-entry.
 (npc-act convey_act
-  (when (believes {@self convey ?corpse}))
+  (role @self (believes {@self convey ?corpse}))
+  (when (is-a (current-building @self) [k building church]))
   (duration 15)
   (act-effects
     (relocate ?corpse (current-building @self))

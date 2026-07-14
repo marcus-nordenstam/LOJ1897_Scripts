@@ -9,7 +9,7 @@
 ; (grown @self) template + the (believes {@self job [k job official]}) gate cast
 ; @self down to a holder of a senior public post, reading his OWN job belief (no
 ; scan, no telepathy). While the parish is sparse he quietly admits arrivals;
-; each admission raises (alive-count), so (population-pressure) climbs toward the
+; each admission raises (living-npc-count), so (population-pressure) climbs toward the
 ; immigration threshold and the chance decays to zero - self-limiting, no sweep.
 ;
 ; The chance is scaled by SPARSENESS: (immigration_pressure - population_pressure),

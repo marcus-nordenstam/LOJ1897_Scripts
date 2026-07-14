@@ -58,8 +58,11 @@
   (utility 85)
   (cont-fire-effects
     ; CO-PRESENT with the body (it is in his room now) -> perform the rite. Else
-    ; route to a church he knows and stand with it again.
+    ; route INTO a church he knows ((go-into): front-park, then ENTER its entry
+    ; room - the same room the convey deposit files bodies into). A bare
+    ; (go ?church) only FRONT-PARKS a building post-Stage-5, leaving the priest
+    ; at the door where room-level co-presence with the corpse can never hold.
     (if (co-present @self ?corpse)
         (excl-goal {@self bury ?corpse})
         (if (and (is-entity ?church) (not (= ?church @self)))
-            (excl-goal {@self go ?church})))))
+            (go-into ?church)))))

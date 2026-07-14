@@ -28,12 +28,12 @@
 (define-macro homeostat_immigration_pressure () 0.90)
 (define-macro homeostat_immigration_count   () 6)
 
-; Live crowding ratio: alive-count / target. 1.0 at carrying capacity, < 1 when
+; Live crowding ratio: living-npc-count / target. 1.0 at carrying capacity, < 1 when
 ; sparse, > 1 when crowded. The per-NPC emigration think scales each young
 ; adult's monthly leave-chance by it, so crowding raises the outflow and a sparse
 ; parish (immigration territory) sheds almost no one. Replaces the old
 ; homeostat_emigration "emigrate the oldest N by fiat" world valve.
-(define-macro population-pressure () (/ (alive-count) (homeostat_target_population)))
+(define-macro population-pressure () (/ (living-npc-count) (homeostat_target_population)))
 
 ; Deliberation inaction floor: the fixed weight of "forgive / do nothing" in the
 ; act-vs-floor pick that follows the (select-joint ...) deliberation. The winner's
