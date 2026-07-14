@@ -35,6 +35,7 @@
 ; fatigue. Utility skyrockets past full fatigue so sleep dominates work / leisure.
 (npc-think sleep
   (short-term-think)
+  (fatigue-timeout 0)              ; sleep is a bodily need, not a fruitless search - never fatigue-capped
   (role ?home (believes {@self home ?home}))
   ; You cannot sleep through an assault - being under attack gates the whole rest
   ; lane OUT, so the fight acts (defend / flee / scream) take over (fight.hs).
