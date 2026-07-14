@@ -14,19 +14,18 @@
 ; ----------------------------------------------------------------------------
 
 ; ---- dimension tuning ------------------------------------------------------
-; Scalars feeding the wealth / prestige / piety / sobriety / breeding
-; classifiers. unemployed-* are the no-job floors; creditor-wealth-penalty is
-; the wealth lost per outstanding `owe`; won-prestige-* the capped bonus per
-; sporting victory; craving-sobriety-cap the sobriety ceiling once a `craving`
-; has formed; default-breeding the fallback when the seeded belief is absent.
+; Scalars feeding the wealth / prestige / breeding classifiers.
+; unemployed-* are the no-job floors; creditor-wealth-penalty is the wealth
+; lost per outstanding `owe`; won-prestige-* the capped bonus per sporting
+; victory; default-breeding the fallback when the seeded belief is absent.
+; (sobriety's craving cap moved to the signals.hs sobriety declaration.)
 (dimension-tuning
   /unemployed-wealth        30
   /creditor-wealth-penalty  15
   /unemployed-prestige      15
   /won-prestige-bonus        4
   /won-prestige-cap         20
-  /default-breeding         55
-  /craving-sobriety-cap     15)
+  /default-breeding         55)
 
 ; ---- rank curves -----------------------------------------------------------
 ; Six values each, indexed by job rank 0..5 (trainee apprentice junior
@@ -36,18 +35,14 @@
 
 ; ---- conduct dimensions (Phase 8) ------------------------------------------
 ; chastity: a high prior (chastity-base), less chastity-adultery-penalty per
-; extra-marital partner. criminality: a low base raised criminality-per-crime
-; per recorded criminal act. gambling-*-penalty: the flat sobriety / wealth hit
-; for a standing gambling habit (the play_game act-record). honesty / decorum /
-; generosity / aggression are pure trait folds and need no tuning.
+; extra-marital partner. gambling-wealth-penalty: the flat wealth hit for a
+; standing gambling habit (the play_game act-record). (criminality, the
+; sobriety gambling penalty, and the charity generosity bonus moved to their
+; signals.hs declarations; honesty / decorum / aggression are pure folds.)
 (conduct
   /chastity-base             85
   /chastity-adultery-penalty 30
-  /criminality-base           5
-  /criminality-per-crime     25
-  /gambling-sobriety-penalty 25
-  /gambling-wealth-penalty   15
-  /charity-generosity-bonus  20)
+  /gambling-wealth-penalty   15)
 
 ; ---- identity-thresholds (PR-3b 2026-05-25) --------------------------------
 ; Role-identity classifier floors for hsim_derive::classify_identities.

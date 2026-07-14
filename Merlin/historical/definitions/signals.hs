@@ -129,6 +129,27 @@
 (classify generosity (value)
   (from (clamp (sum (attr compassion) (scale (ge (count-ever give) 1) 0.20)) 0 1)))
 
+; criminality - a low base (0.05), raised 0.25 per recorded crime of ANY tense
+; (assault / theft / fraud / embezzlement / homicide / kidnap - the act-records
+; the crime pipeline writes). A single conviction reads middling; a habitual
+; offender saturates.
+(classify criminality (value)
+  (from (clamp (sum 0.05
+                    (scale (sum (count-ever assault) (count-ever steal)
+                                (count-ever defraud) (count-ever embezzle)
+                                (count-ever kill)    (count-ever kidnap)) 0.25)) 0 1)))
+
+; sobriety - the inverse of accumulated intoxication (an absent intoxication
+; attr reads 0 = fully sober, NOT the 0.5 midpoint), hard-capped at 0.15 once a
+; standing `craving` for drink has formed (a dependent drinker reads no higher
+; however the attr stands), and further docked 0.25 x the gambling-addiction
+; severity (intemperance compounds).
+(def raw-sobriety (inv (attr intoxication 0)))
+(classify sobriety (value)
+  (from (clamp (sum (sum (product (inv (present craving)) raw-sobriety)
+                         (product (present craving)       (min raw-sobriety 0.15)))
+                    (scale (attr gambling_addiction 0) -0.25)) 0 1)))
+
 ; ----------------------------------------------------------------------------
 ; Situation fusions (Shape A bands) - ported from hsim_derive's C++ folds.
 ; Each reads the float dimension beliefs the annual derive pass mints
