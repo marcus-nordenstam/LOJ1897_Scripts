@@ -158,6 +158,28 @@
                   (* (attr gambling_addiction 0) -0.25)) 0 1)))
 
 ; ----------------------------------------------------------------------------
+; Felt-life value classifiers (Shape V value-only) - ported from hsim_derive's
+; C++ felt-life folds. No float belief minted; the (dim ...) readers fall
+; through the linchpin and any C++ consumer evaluates on demand.
+; ----------------------------------------------------------------------------
+
+; rootedness - how established the NPC is in the community. Local lineage
+; (mother / father), a spouse, children (each +0.06, capped at 4 = +0.24), a
+; steady employer, owned property and club membership each add a partial score;
+; the sum clamps to 1. A recently-arrived immigrant with just an employer reads
+; low (~0.20); a settled local family - parents + spouse + children + employer -
+; reads high. Weights are the historical situations.hs rootedness-* points on
+; the 0..1 scale.
+(classify rootedness (value)
+  (from (clamp (+ (* 0.15 (present mother))
+                  (* 0.15 (present father))
+                  (* 0.20 (present spouse))
+                  (* 0.06 (min (count child) 4))
+                  (* 0.20 (present employer))
+                  (* 0.15 (>= (count building) 1))
+                  (* 0.10 (>= (count member_of) 1))) 0 1)))
+
+; ----------------------------------------------------------------------------
 ; Situation fusions (Shape A bands) - ported from hsim_derive's C++ folds.
 ; Each reads the float dimension beliefs the annual derive pass mints
 ; ((dim ...) inputs; a subject without them - children, fresh spawns - skips
