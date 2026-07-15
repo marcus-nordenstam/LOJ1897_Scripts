@@ -59,12 +59,16 @@
     ; hearer-min tier-gate clamps each fact by the lowest-tier ear present (a
     ; servant at table caps the family's talk); breakfast / home-lunch / pub
     ; meals, silent before, are now tier-limited talkative - intended.
-    (tell (top-untold-belief @self _ @self
-            spouse fiancee child
-            job interest birthplace
-            calling value life_aim lover))
+    ; Self-disclosure: say ONE piece of my own profile I have not aired at this
+    ; table (freshest untold). See catch_up_act for the for-each-belief +
+    ; (utterable-msg)-dedup shape. TODO(disclosure): per-tier (no-role) company gate.
+    (for-each-belief ?fact {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life_aim|lover ?tgt}
+      (do
+        (bind (utterable-msg ?fact) ?msg)
+        (if (not (believes {@self SAY ?msg _}))
+            (do (tell ?fact) (break)))))
     (tell (top-untold-belief @self _ _
-            spouse fiancee child circumstances_of_death))
+            spouse fiancee child condition circumstances_of_death))
     ; THE TABLE ANNOUNCEMENT (home meals): now and then re-air the house's hours
     ; ("supper at six, as always"), adopted by everyone at table onto their own
     ; home object. Idempotent; the chance keeps the say-record volume low.

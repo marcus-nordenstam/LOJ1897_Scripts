@@ -100,9 +100,9 @@ attr "age_span" (type kind array 3) (per obs) (auto-percept) (hsim-percept)
 # gender / appearance / height / girth are conceptual: kind-typed, value is an
 # ontology term. @excl now lives on the concept in Concepts.mon (rule 4b / 5).
 attr "gender" (type kind) (per obs) (auto-percept) (hsim-percept)
-attr "appearance" (type kind) (per obs) (auto-percept)
-attr "height" (type kind) (per obs) (auto-percept)
-attr "girth" (type kind) (per obs) (auto-percept)
+attr "appearance" (type kind) (per obs) (auto-percept) (hsim-percept)
+attr "height" (type kind) (per obs) (auto-percept) (hsim-percept)
+attr "girth" (type kind) (per obs) (auto-percept) (hsim-percept)
 # Hair / eye colour - observable physical traits (serial_predation
 # generalized fixation). Kind-typed; seeded at creation from the
 # hereditary trait tables (hair_color.txt / eye_color.txt).

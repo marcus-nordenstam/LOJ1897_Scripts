@@ -23,5 +23,5 @@
         (deliver-coercion-threat ?victim)
         (if (chance 0.5)
             (send-covert-letter ?victim
-                                 (msg {@self coerce ?victim {?victim lover @self}})
+                                 (written-msg {@self coerce ?victim {?victim lover @self}})
                                  [k blackmail_note])))))

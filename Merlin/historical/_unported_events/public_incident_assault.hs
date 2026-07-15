@@ -51,6 +51,7 @@
                 (not (personally-knows @self ?victim)))
 
   (effects
+    ; incident-anchor now also auto-witnesses co-present bystanders (assault is
+    ; observable); the old paired (witness-copresence ...) is retired.
     (incident-anchor @self assault ?victim)
-    (witness-copresence @self assault ?victim)
     ))

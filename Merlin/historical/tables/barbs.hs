@@ -24,7 +24,7 @@
 ; ----------------------------------------------------------------------------
 
 (define-table barb_ladders
-  (fields context lane rank)
+  (fields context          lane          rank)
   ; displaced_anger: lashing out grabs what's visible at hand.
   (record displaced_anger  appearance    3)
   (record displaced_anger  drunkard      2)
@@ -64,7 +64,7 @@
   (record stranger         appearance    1))
 
 (define-table barb_materials
-  (fields lane source label value threshold)
+  (fields lane          source      label           value                       threshold)
   (record moral_failing act_record  assault         none                        0)
   (record moral_failing act_record  jilt            none                        0)
   (record moral_failing act_record  disinherit      none                        0)

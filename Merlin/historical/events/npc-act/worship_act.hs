@@ -23,7 +23,7 @@
     ; The congregation SEES the service: co-present others mint {her worship her}
     ; (capped fan-out) - the observable-practice evidence observer-side
     ; devoutness folds and abduction read. The record is identical for the
-    ; devout and the appearances-keeping pretender, by design.
-    (witness-copresence @self worship @self)
+    ; devout and the appearances-keeping pretender, by design. Witnessing is now
+    ; engine-side (auto-witness on this obs act at completion), not hand-authored.
     (end-act {@self worship})))
 ; go_act (the shared travel act) lives in npc-act/go.hs.

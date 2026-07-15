@@ -19,6 +19,13 @@
 ;            kind, prior ended on change ((core-episode) preserves history)
 ; (def <name> <expr>) names a shared sub-expression. Band boundaries carry
 ; hysteresis (the engine dead-band); a band with min -1 is the floor band.
+;
+; The <expr> in every (from ...) / (when ...) / argmax arm is an ORDINARY .hs
+; expression, compiled by the ONE shared parser and evaluated by the shared
+; combinators (+ - * / >= <= min max clamp) PLUS the classifier belief reads
+; (signal / dim / attr / count / count-ever / present / has / evidence /
+; act-at). Boolean predicates compose arithmetically: AND = (* a b ...),
+; OR = (clamp (+ a b ...) 0 1), each (>= / <= / has / present) a 0-or-1 term.
 ; ----------------------------------------------------------------------------
 
 ; ----------------------------------------------------------------------------
@@ -51,7 +58,7 @@
 
 ; piety01 - observance mapped onto the historical piety anchors: 0.25 the
 ; never-worships floor, 0.85 the regular-churchgoer ceiling.
-(def piety01 (clamp (sum 0.25 (scale observance 0.60)) 0 1))
+(def piety01 (clamp (+ 0.25 (* observance 0.60)) 0 1))
 
 ; visible-sobriety - the PUBLIC reading of the drinking habit: below the 0.70
 ; visibility threshold, each trapping of respectability conceals (not a pub
@@ -59,20 +66,20 @@
 ; theory-of-mind stand-in (what the parish can see) used ONLY by repute;
 ; dissolves when abduction v2 makes repute per-observer.
 (def visible-sobriety
-  (clamp (sum (dim sobriety)
-              (product (inv (ge (dim sobriety) 0.70))
-                       (sum (scale (inv (act-at drink [k building pub])) 0.25)
-                            (scale (present employer) 0.20)
-                            (scale (present spouse) 0.15)
-                            (scale (ge (dim wealth) 0.65) 0.20)))) 0 1))
+  (clamp (+ (dim sobriety)
+            (* (- 1 (>= (dim sobriety) 0.70))
+               (+ (* (- 1 (act-at drink [k building pub])) 0.25)
+                  (* (present employer) 0.20)
+                  (* (present spouse) 0.15)
+                  (* (>= (dim wealth) 0.65) 0.20)))) 0 1))
 
 ; reputed-chastity01 - the chastity_repute band mapped back to its scalar
 ; rungs: spotless 0.85 (no leaked liaison), tarnished 0.55 (one), disgraced
 ; 0.25 (two or more).
 (def reputed-chastity01
-  (sum (scale (has reputed_chastity [k chastity_repute spotless])  0.85)
-       (scale (has reputed_chastity [k chastity_repute tarnished]) 0.55)
-       (scale (has reputed_chastity [k chastity_repute disgraced]) 0.25)))
+  (+ (* (has reputed_chastity [k chastity_repute spotless])  0.85)
+     (* (has reputed_chastity [k chastity_repute tarnished]) 0.55)
+     (* (has reputed_chastity [k chastity_repute disgraced]) 0.25)))
 
 ; piety - Shape V (value-only, NOTHING minted): the dimension consumers -
 ; (classifier-value piety) in .hs gates, deliberation dim rows, the
@@ -112,43 +119,43 @@
 
 ; honesty - high politeness, low Machiavellianism (the dark-tetrad deceit trait).
 (classify honesty (value)
-  (from (mean (attr politeness) (inv (attr machiavellianism)))))
+  (from (/ (+ (attr politeness) (- 1 (attr machiavellianism))) 2)))
 
 ; disinhibition - the externalizing temperament: low industriousness, low
 ; politeness, high volatility.
 (classify disinhibition (value)
-  (from (mean (inv (attr industriousness)) (inv (attr politeness)) (attr volatility))))
+  (from (/ (+ (- 1 (attr industriousness)) (- 1 (attr politeness)) (attr volatility)) 3)))
 
 ; aggression - the temperamental fold of high volatility, low politeness and
 ; dark-tetrad sadism.
 (classify aggression (value)
-  (from (mean (attr volatility) (inv (attr politeness)) (attr sadism))))
+  (from (/ (+ (attr volatility) (- 1 (attr politeness)) (attr sadism)) 3)))
 
 ; generosity - the compassion prior, lifted 0.20 by any recorded act of charity
 ; (an ended {@self give <alms>} act-record still counts - a lifetime tally).
 (classify generosity (value)
-  (from (clamp (sum (attr compassion) (scale (ge (count-ever give) 1) 0.20)) 0 1)))
+  (from (clamp (+ (attr compassion) (* (>= (count-ever give) 1) 0.20)) 0 1)))
 
 ; criminality - a low base (0.05), raised 0.25 per recorded crime of ANY tense
 ; (assault / theft / fraud / embezzlement / homicide / kidnap - the act-records
 ; the crime pipeline writes). A single conviction reads middling; a habitual
 ; offender saturates.
 (classify criminality (value)
-  (from (clamp (sum 0.05
-                    (scale (sum (count-ever assault) (count-ever steal)
-                                (count-ever defraud) (count-ever embezzle)
-                                (count-ever kill)    (count-ever kidnap)) 0.25)) 0 1)))
+  (from (clamp (+ 0.05
+                  (* (+ (count-ever assault) (count-ever steal)
+                        (count-ever defraud) (count-ever embezzle)
+                        (count-ever kill)    (count-ever kidnap)) 0.25)) 0 1)))
 
 ; sobriety - the inverse of accumulated intoxication (an absent intoxication
 ; attr reads 0 = fully sober, NOT the 0.5 midpoint), hard-capped at 0.15 once a
 ; standing `craving` for drink has formed (a dependent drinker reads no higher
 ; however the attr stands), and further docked 0.25 x the gambling-addiction
 ; severity (intemperance compounds).
-(def raw-sobriety (inv (attr intoxication 0)))
+(def raw-sobriety (- 1 (attr intoxication 0)))
 (classify sobriety (value)
-  (from (clamp (sum (sum (product (inv (present craving)) raw-sobriety)
-                         (product (present craving)       (min raw-sobriety 0.15)))
-                    (scale (attr gambling_addiction 0) -0.25)) 0 1)))
+  (from (clamp (+ (+ (* (- 1 (present craving)) raw-sobriety)
+                     (* (present craving)       (min raw-sobriety 0.15)))
+                  (* (attr gambling_addiction 0) -0.25)) 0 1)))
 
 ; ----------------------------------------------------------------------------
 ; Situation fusions (Shape A bands) - ported from hsim_derive's C++ folds.
@@ -179,9 +186,9 @@
 ; carry a low-breeding man up a band - the self-made climb; idle high breeding
 ; alone slides down.
 (classify class_situation
-  (from (weighted-sum (0.5 (dim breeding))
-                      (0.3 (dim prestige))
-                      (0.2 (dim wealth))))
+  (from (+ (* 0.5 (dim breeding))
+           (* 0.3 (dim prestige))
+           (* 0.2 (dim wealth))))
   (bands ([k class_situation upper]  0.70)
          ([k class_situation middle] 0.40)
          ([k class_situation lower]  -1)))
@@ -190,9 +197,9 @@
 ; wealth) / 2) from the inherited breeding anchor; +/- 0.15 counts as a move.
 ; The climbing clerk reads rising; the idle high-breeding heir declining.
 (classify social_trajectory
-  (from (sum (scale (dim prestige) 0.5)
-             (scale (dim wealth)   0.5)
-             (scale (dim breeding) -1)))
+  (from (+ (* (dim prestige) 0.5)
+           (* (dim wealth)   0.5)
+           (* (dim breeding) -1)))
   (bands ([k social_trajectory rising]    0.15)
          ([k social_trajectory stable]    -0.15)
          ([k social_trajectory declining] -2)))
@@ -204,13 +211,13 @@
 ; alcoholic reads low here while his repute stays high; the gap is the
 ; blackmail stake).
 (classify respectability_situation
-  (from (mean (dim honesty)
+  (from (/ (+ (dim honesty)
               (dim sobriety)
               piety01
               (dim diligence)
               (dim chastity)
               (dim decorum)
-              (dim generosity)))
+              (dim generosity)) 7))
   (bands ([k respectability_situation exemplary]    0.80)
          ([k respectability_situation respectable]  0.60)
          ([k respectability_situation questionable] 0.40)
@@ -222,13 +229,13 @@
 ; stand-in (the subject models what the town can know) until abduction v2
 ; makes reputation genuinely per-observer.
 (classify repute
-  (from (mean (dim honesty)
+  (from (/ (+ (dim honesty)
               visible-sobriety
               piety01
               (dim diligence)
               reputed-chastity01
               (dim decorum)
-              (dim generosity)))
+              (dim generosity)) 7))
   (bands ([k respectability_situation exemplary]    0.80)
          ([k respectability_situation respectable]  0.60)
          ([k respectability_situation questionable] 0.40)
@@ -243,19 +250,19 @@
 ; amplification convention); held values steady the brake, rationalising
 ; justifications erode it.
 (classify inhibition (value)
-  (from (clamp (sum (sum (scale (attr politeness)      0.30)
-                         (scale (attr industriousness) 0.30)
-                         (scale (attr compassion)      0.15)
-                         (scale piety01                0.20)
-                         (scale (dim decorum)          0.10)
-                         (scale (dim disinhibition)   -0.20)
-                         (scale (dim stress 0)        -0.30))
-                    (sum (scale (clamp (sum (attr narcissism)       -0.5) 0 1) -0.10)
-                         (scale (clamp (sum (attr machiavellianism) -0.5) 0 1) -0.15)
-                         (scale (clamp (sum (attr psychopathy)      -0.5) 0 1) -0.20)
-                         (scale (clamp (sum (attr sadism)           -0.5) 0 1) -0.25)
-                         (scale (count value)    0.05)
-                         (scale (count justify) -0.08))) 0 1)))
+  (from (clamp (+ (+ (* (attr politeness)      0.30)
+                     (* (attr industriousness) 0.30)
+                     (* (attr compassion)      0.15)
+                     (* piety01                0.20)
+                     (* (dim decorum)          0.10)
+                     (* (dim disinhibition)   -0.20)
+                     (* (dim stress 0)        -0.30))
+                  (+ (* (clamp (+ (attr narcissism)       -0.5) 0 1) -0.10)
+                     (* (clamp (+ (attr machiavellianism) -0.5) 0 1) -0.15)
+                     (* (clamp (+ (attr psychopathy)      -0.5) 0 1) -0.20)
+                     (* (clamp (+ (attr sadism)           -0.5) 0 1) -0.25)
+                     (* (count value)    0.05)
+                     (* (count justify) -0.08))) 0 1)))
 
 ; life_aim - the dominant of the seven aims (argmax over multiplicative
 ; composites; the floor keeps a featureless NPC wanting to belong somewhere).
@@ -266,34 +273,34 @@
   (core-episode)
   (argmax
     ([k life_aim legacy_aim]
-       (product (mean (attr compassion) (attr politeness))
-                (sum 0.3 (scale (present child) 0.7))
-                (sum 0.3 (scale (clamp (sum (has class_situation [k class_situation upper])
-                                            (has class_situation [k class_situation middle])) 0 1) 0.7))))
+       (* (/ (+ (attr compassion) (attr politeness)) 2)
+          (+ 0.3 (* (present child) 0.7))
+          (+ 0.3 (* (clamp (+ (has class_situation [k class_situation upper])
+                              (has class_situation [k class_situation middle])) 0 1) 0.7))))
     ([k life_aim wealth_aim]
-       (product (attr industriousness)
-                (inv piety01)
-                (max (inv (dim wealth))
-                     (has social_trajectory [k social_trajectory rising]))))
+       (* (attr industriousness)
+          (- 1 piety01)
+          (max (- 1 (dim wealth))
+               (has social_trajectory [k social_trajectory rising]))))
     ([k life_aim piety_aim]
-       (product piety01
-                (inv (dim criminality))
-                (sum 0.4 (scale (act-at worship [k building church]) 0.6))))
+       (* piety01
+          (- 1 (dim criminality))
+          (+ 0.4 (* (act-at worship [k building church]) 0.6))))
     ([k life_aim respectability_aim]
-       (product (attr politeness)
-                piety01
-                (sum 0.2 (scale (has class_situation [k class_situation middle]) 0.8))
-                (dim decorum)))
+       (* (attr politeness)
+          piety01
+          (+ 0.2 (* (has class_situation [k class_situation middle]) 0.8))
+          (dim decorum)))
     ([k life_aim autonomy_aim]
-       (product (attr assertiveness) (inv (dim rootedness))))
+       (* (attr assertiveness) (- 1 (dim rootedness))))
     ([k life_aim power_aim]
-       (product (attr machiavellianism)
-                (attr narcissism)
-                (sum 0.3 (scale (present employer) 0.7))))
+       (* (attr machiavellianism)
+          (attr narcissism)
+          (+ 0.3 (* (present employer) 0.7))))
     ([k life_aim belonging_aim]
-       (product (attr enthusiasm)
-                (inv (dim rootedness))
-                (clamp (scale (count friend) 0.2) 0 1)))
+       (* (attr enthusiasm)
+          (- 1 (dim rootedness))
+          (clamp (* (count friend) 0.2) 0 1)))
     (floor 0.01 [k life_aim belonging_aim])))
 ; ----------------------------------------------------------------------------
 ; Prototypes (Shape B toggles) - named conjunctions over the situations /
@@ -302,8 +309,8 @@
 ; mints; a subject the cascade has not derived yet (children, fresh spawns)
 ; holds its (dim ...) inputs absent, so the classifier skips and the
 ; classification waits for the first derive - same admission rule as the old
-; annual pass. Booleans compose as products of (ge/le/has) 0-or-1 terms;
-; OR = (clamp (sum ...) 0 1).
+; annual pass. Booleans compose as products of (>= / <= / has) 0-or-1 terms;
+; OR = (clamp (+ ...) 0 1).
 ; ----------------------------------------------------------------------------
 
 ; drunkard: a standing craving for drink IS the dependency.
@@ -315,33 +322,33 @@
 ; new money, not old blood. Thresholds mirror situations.hs prototype-tuning.
 (classify prototype
   (kind [k prototype nouveau_riche])
-  (when (product (ge (dim wealth) 0.60)
-                 (le (dim breeding) 0.35))))
+  (when (* (>= (dim wealth) 0.60)
+           (<= (dim breeding) 0.35))))
 
 ; self_made_man: a low-born man risen into the middle class or above on a
 ; sound character - rising trajectory + arrived class + low breeding +
 ; reputable standing.
 (classify prototype
   (kind [k prototype self_made_man])
-  (when (product (has social_trajectory [k social_trajectory rising])
-                 (clamp (sum (has class_situation [k class_situation middle])
-                             (has class_situation [k class_situation upper])) 0 1)
-                 (le (dim breeding) 0.40)
-                 (clamp (sum (has respectability_situation [k respectability_situation exemplary])
-                             (has respectability_situation [k respectability_situation respectable])) 0 1))))
+  (when (* (has social_trajectory [k social_trajectory rising])
+           (clamp (+ (has class_situation [k class_situation middle])
+                     (has class_situation [k class_situation upper])) 0 1)
+           (<= (dim breeding) 0.40)
+           (clamp (+ (has respectability_situation [k respectability_situation exemplary])
+                     (has respectability_situation [k respectability_situation respectable])) 0 1))))
 
 ; deserving_poor / undeserving_poor: the shared economic test (poor or
 ; destitute), split on respectability.
 (classify prototype
   (kind [k prototype deserving_poor])
-  (when (product (clamp (sum (has economic_situation [k economic_situation poor])
-                             (has economic_situation [k economic_situation destitute])) 0 1)
-                 (clamp (sum (has respectability_situation [k respectability_situation exemplary])
-                             (has respectability_situation [k respectability_situation respectable])) 0 1))))
+  (when (* (clamp (+ (has economic_situation [k economic_situation poor])
+                     (has economic_situation [k economic_situation destitute])) 0 1)
+           (clamp (+ (has respectability_situation [k respectability_situation exemplary])
+                     (has respectability_situation [k respectability_situation respectable])) 0 1))))
 
 (classify prototype
   (kind [k prototype undeserving_poor])
-  (when (product (clamp (sum (has economic_situation [k economic_situation poor])
-                             (has economic_situation [k economic_situation destitute])) 0 1)
-                 (clamp (sum (has respectability_situation [k respectability_situation disreputable])
-                             (has respectability_situation [k respectability_situation scandalous])) 0 1))))
+  (when (* (clamp (+ (has economic_situation [k economic_situation poor])
+                     (has economic_situation [k economic_situation destitute])) 0 1)
+           (clamp (+ (has respectability_situation [k respectability_situation disreputable])
+                     (has respectability_situation [k respectability_situation scandalous])) 0 1))))

@@ -45,6 +45,7 @@
                    (+ 0.3 (* 0.7 (attr @self intoxication))))))
 
   (cont-fire-effects
+    ; incident-anchor records the principals AND (engine-side auto-witness) the
+    ; co-present bystanders, since assault is externally observable.
     (incident-anchor @self assault ?victim)
-    (witness-copresence @self assault ?victim)
     ))

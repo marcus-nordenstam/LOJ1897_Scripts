@@ -40,7 +40,7 @@
     ; pattern field: {@self meet <paramour> <location>}).
     (if (and (chance 0.30) (is-entity (home-of ?paramour)))
         (spawn-letter [k tryst_note]
-                      (msg {@self meet ?paramour ?location} signed)
+                      (written-msg {@self meet ?paramour ?location} signed)
                       (home-of ?paramour)))
     ; Unexplained absence: the paramour's spouse grows a little more suspicious.
     (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)))

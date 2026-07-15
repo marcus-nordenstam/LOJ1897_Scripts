@@ -47,5 +47,11 @@
 
   (cont-fire-effects
     ; Broadcast the host's own freshest untold news to the co-present gathering.
-    (tell (top-untold-belief @self _ @self spouse fiancee lover child))
+    ; The host airs one piece of their own news not yet told (see catch_up_act for
+    ; the for-each-belief + (utterable-msg)-dedup shape).
+    (for-each-belief ?fact {@self spouse|fiancee|lover|child ?tgt}
+      (do
+        (bind (utterable-msg ?fact) ?msg)
+        (if (not (believes {@self SAY ?msg _}))
+            (do (tell ?fact) (break)))))
     ))

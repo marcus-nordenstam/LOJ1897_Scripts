@@ -23,7 +23,7 @@
 ;     conspiracy lives in conspiracy_adoption.hs, fired by READING that letter.
 ; attempt_harm then consumes the goal and executes a method (poison's domestic
 ; deniability fits the co-resident victim). The murder proposal rides the covert
-; letter channel ((route-covert-letter ... (msg {...} signed) ...)) - the conspiracy evidence trail implicating both.
+; letter channel ((route-covert-letter ... (written-msg {...} signed) ...)) - the conspiracy evidence trail implicating both.
 ;
 ; Kept rare by design (the dark floor + drive + base rate). To A/B, rename / remove
 ; this file (runtime-loaded; no rebuild).
@@ -73,6 +73,6 @@
           ; into their mind), and conspiracy_adoption.hs decides whether they take
           ; up the deed - no telepathy, and an intercepted letter means the lover
           ; never learns of the plot at all.
-          (send-covert-letter ?paramour (msg {@self urge {?paramour kill ?spouse}} signed) [k letter]))
+          (send-covert-letter ?paramour (written-msg {@self urge {?paramour kill ?spouse}} signed) [k letter]))
         ; DIRECT: the cheater acts alone.
         (begin-goal {@self kill ?spouse} /cause {@self lover ?paramour}))))

@@ -53,7 +53,7 @@ relation
             # the specific label replaces the old vague `attend`. The activity-
             # lanes worship lane (L8) will mint it begin+end per service; the
             # current churchgoing seed mints one ongoing belief (binary piety).
-            worship                                 (tar structure)
+            worship                                 (tar structure)    (obs)
             # indulge: episodic vice-lane memory (activity-lanes L8).
             # {@self indulge <pub> /aux alcohol|gambling} = "indulged in
             # <vice> at <pub>". One general label for the pub vices; the vice
@@ -238,7 +238,7 @@ relation
             tell_beliefs                            (sub @msgAuthor human)   (tar @S)  (aux @msgAudience human)
 
             order                       (motor legs)
-            serve_beer                  (motor mind)    (tar human)
+            serve_beer                  (motor mind)    (tar human)    (obs)  (belief_timeout 1800)
 
             # ----------------------------------------------------------------------------------
             # physical tasks - motors are involved
@@ -267,8 +267,8 @@ relation
             take                (motor left_hand right_hand)    (tar @excl object)
             put                 (motor left_hand right_hand)    (tar @excl object)
 
-            read                (motor eyes right_hand)         (tar @excl document)
-            write               (motor eyes right_hand legs)     (tar @excl document)
+            read                (motor eyes right_hand)         (tar @excl document)   (obs)  (belief_timeout 600)
+            write               (motor eyes right_hand legs)     (tar @excl document)   (obs)  (belief_timeout 600)
 
             stack_get            (motor legs right_hand)         (tar object)  (aux stack)
             stack_put            (motor legs right_hand)         (tar object)  (aux stack)
@@ -285,10 +285,10 @@ relation
             give_birth           (motor eyes right_hand legs)
             perceive_attr        (motor eyes)              (tar ?)
 
-            drink               (motor mouth right_hand left_hand)     (tar object)
+            drink               (motor mouth right_hand left_hand)     (tar object)  (obs)
 
             use_umbrella        (motor right_hand left_hand)
-            serve_customer      (motor right_hand left_hand legs)
+            serve_customer      (motor right_hand left_hand legs)   (obs)  (belief_timeout 1800)
 
             # ----------------------------------------------------------------------------------
             # Tasks below are mini-plans that bubble down to an ACTION
@@ -348,13 +348,13 @@ relation
             # so the act-label is cry_out.)
             cry_out             (motor mouth)                   (tar ?)
             seduce              (motor mouth legs body)         (tar human)              (construed_act intimacy_act)  (facets blackmailable)
-            assault             (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
+            assault             (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
             # fight - the EMERGENT-COMBAT goal (the unified think/act model): a melee
             # killer's standing {actor goal {actor fight victim}}, minted by the
             # perpetration melee branch in place of committing the kill. The fight
             # cascade (fight.hs) reaches the victim and strikes 1-minute blows until
             # someone dies (the victim can resist / flee - follow-up).
-            fight               (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
+            fight               (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
             # kill - ABSTRACT goal task. No method aux: the method is a
             # separate, more-specific leaf task (strangle / shoot / poison
             # / push_from_height / etc.) declared further down. A goal
@@ -367,7 +367,7 @@ relation
             # directly: {actor goal {victim condition dead}} - then the
             # actor doesn't even need to do the killing themselves.
             kill                                                (tar human)                (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime blackmailable)
-            kidnap              (motor legs right_hand left_hand)  (tar human)             (construed_act coercion_act threaten_act wrong_act)  (theme coercive_to)  (facets reportable_crime)
+            kidnap              (motor legs right_hand left_hand)  (tar human)             (construed_act coercion_act threaten_act wrong_act)  (theme coercive_to)  (facets reportable_crime)  (obs)
             steal               (motor legs right_hand)         (tar human)                (construed_act appropriation_act wrong_act)  (theme thief_to)  (facets reportable_crime blackmailable)
             # Goal-level umbrella tasks that the deliberate event mints
             # as goal-clause inner labels. Their leaf method-tasks
@@ -436,27 +436,27 @@ relation
 
             # Sharp-implement leaf kill-tasks. Each requires a blade /
             # pointed-blade controlled by an actor's hand.
-            stab                (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)
-            slash               (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)
-            decapitate          (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)
+            stab                (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+            slash               (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+            decapitate          (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
 
             # Blunt-implement leaf kill-tasks.
-            beat_to_death       (motor right_hand left_hand legs)  (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)
-            bludgeon            (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)
-            push_from_height    (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)
+            beat_to_death       (motor right_hand left_hand legs)  (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+            bludgeon            (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+            push_from_height    (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
 
             # Asphyxiation leaf kill-tasks. strangle is bare-handed;
             # garrotte uses cord_or_wire in hand; smother uses a soft
             # implement; hang and neck_snap are mechanical.
-            strangle            (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)
-            garrotte            (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)
-            smother             (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)
-            hang                (motor right_hand left_hand legs)  (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)
-            neck_snap           (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
+            strangle            (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+            garrotte            (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+            smother             (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+            hang                (motor right_hand left_hand legs)  (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+            neck_snap           (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
 
             # Projectile / explosive leaf kill-tasks.
-            shoot               (motor right_hand eyes)         (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)
-            bomb                (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)
+            shoot               (motor right_hand eyes)         (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
+            bomb                (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
 
             # Chemical leaf kill-task. The /aux is the VESSEL entity the
             # dose was served in; the poison itself is a concentrated
@@ -467,12 +467,12 @@ relation
             poison                                              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (facets reportable_crime blackmailable)
 
             # Hydraulic / thermal / electrical leaf kill-tasks.
-            drown               (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)
+            drown               (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
             freeze              (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)
-            immolate            (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)
+            immolate            (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
             arson               (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)
-            cook_alive          (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
-            electrocute         (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)
+            cook_alive          (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
+            electrocute         (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
 
             # Animal-mediated leaf kill-tasks.
             unleash_animal      (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)
@@ -501,7 +501,7 @@ relation
             # report_to_police: the report_crime goal's leaf - writing and
             # delivering a crime_report letter to the police station.
             report_to_police    (motor eyes right_hand legs)    (tar ?)  (aux ?)         (construed_act honour_act)
-            beating             (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)
+            beating             (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
             offer_bribe         (motor right_hand mouth)        (tar human)  (aux ?)     (facets blackmailable)
             plant_evidence      (motor right_hand)              (tar human)  (aux ?)     (construed_act harm_act betray_act wrong_act)  (facets reportable_crime blackmailable)
             seduction           (motor mouth legs body)         (tar human)              (construed_act intimacy_act)

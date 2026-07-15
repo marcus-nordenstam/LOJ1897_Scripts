@@ -22,6 +22,6 @@
         (begin-belief {@self craving [k alcohol]}))
     ; Public drinking is SEEN: co-present others mint {him drink him} - the
     ; visible-vice evidence observer estimates read. The home drinker generates
-    ; no witnesses; concealment is emergent, not simulated.
-    (witness-copresence @self drink @self)
+    ; no witnesses; concealment is emergent, not simulated. Witnessing is now
+    ; engine-side (auto-witness on this obs act at completion), not hand-authored.
     (end-act {@self drink})))

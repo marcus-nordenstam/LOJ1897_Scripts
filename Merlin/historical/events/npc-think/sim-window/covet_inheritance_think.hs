@@ -44,14 +44,15 @@
   ; {?heir <kin> ?benefactor} makes ?heir's cache depend on ?benefactor's - the engine
   ; materializes, per benefactor, the heirs the actor KNOWS (a candidate's own kin
   ; belief toward that benefactor: a child's parent IS the benefactor, a spouse's
-  ; spouse IS, a sibling's sibling IS - the pick_heir co-heir set). The birth_date
-  ; filter is the KNOWLEDGE PRECONDITION - the actor only weighs an heir whose age he
-  ; knows (a friends-and-closer belief) - and (select (score (years-old ...))) picks the ELDEST
-  ; such heir. No omniscient (heir-apparent ...) kin-graph read.
+  ; spouse IS, a sibling's sibling IS - the pick_heir co-heir set). old_human gates on
+  ; the PERCEIVED age band (marriageable-age, minted on sight even for strangers) - a
+  ; grown co-heir who stands to inherit. No exact-age read: birth_date is a
+  ; friends-and-closer disclosure, and without parish records the actor cannot rank
+  ; co-heirs by exact age, so first-match binds one perceived co-heir obstacle rather
+  ; than the strict eldest. No omniscient (heir-apparent ...) kin-graph read.
   (role ?heir (old_human ?heir)
     (believes {?heir mother|father|parent|spouse|sibling ?benefactor})
-    (believes {?heir birth_date ?})
-    (select (score (years-old ?heir)) (policy argmax)))
+    (select (policy first-match)))
 
   ; Disposition pre-gate + wealth floor. greed = mean(machiavellianism, psychopathy);
   ; propensity = (1 - inhibition) * greed; fire at k_covet_base_rate * propensity.

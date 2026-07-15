@@ -15,7 +15,7 @@
 ;     uniformly, so repeated letters do not accuse the same early-slot NPC;
 ;   - (effects ...) plants the forged_letter {innocent kill victim} in the
 ;     actor's OWN home mail pile (the kept draft - discoverable evidence).
-;     (msg ...) composes it ANONYMOUS through the shared letter codec; the
+;     (written-msg ...) composes it ANONYMOUS through the shared letter codec; the
 ;     claimed knowledge ("who did it") is the player-facing tell.
 ;
 ; hsim does NOT react to the letter beyond normal document existence - no
@@ -46,5 +46,5 @@
           (bind (target {@self home}) ?home)
           (if (and (is-entity ?innocent) (is-entity ?home))
               (spawn-letter [k forged_letter]
-                            (msg {?innocent kill ?victim})
+                            (written-msg {?innocent kill ?victim})
                             ?home))))))

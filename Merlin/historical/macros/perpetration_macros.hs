@@ -192,10 +192,10 @@
 ; father > mother > fiancee > spouse > sibling ladder (the belief ground-alts read
 ; them in one pattern); the confessed partner must be a real third party. The
 ; confession is WRITTEN (letter mandate): the confession_letter spawns at the
-; kin's home carrying the fact through the shared codec, and the kin learns the
-; lover fact directly (the read-on-delivery shortcut every letter takes while
-; read_pending_mail stays caller-less). Nothing confessable / no kin -> the goal
-; still ends (the impulse passed).
+; kin's home (author = @i, the confessor), and the kin learns the lover fact when
+; they read it from their home mail pile (read_pending_mail, drained each window) -
+; no fiat cross-mind write. Nothing confessable / no kin -> the goal still ends
+; (the impulse passed).
 (define-macro terminal-confess (?goal)
   (do
     (bind (known-nonspousal-liaison @self) ?partner)
@@ -207,11 +207,10 @@
              (alive ?kin) (not (= ?kin ?partner)))
         (do
           (begin-belief {@self confession_letter ?kin})
-          (begin-belief ?kin {@self lover ?partner})
           (bind (home-of ?kin) ?kin_home)
           (if (is-entity ?kin_home)
               (spawn-letter [k confession_letter]
-                            (msg {@self lover ?partner})
+                            (written-msg {@i lover ?partner})
                             ?kin_home))))
     (end-goal {@self confess_letter})))
 
@@ -233,7 +232,6 @@
         (do
           (begin-belief {@self public_humiliation ?victim})
           (begin-belief ?victim {@self public_humiliation ?victim})
-          (witness-copresence @self public_humiliation ?victim)
           (bind (driving-pressure-of-goal ?goal) ?pressure)
           (discharge-pressure ?pressure 0.75)
           (crime-ledger-append @self ?victim public_humiliation humiliate @fail @fail)))
@@ -251,9 +249,10 @@
 ; loss itself. The goal ends regardless (the impulse passed).
 (define-macro terminal-report (?victim ?goal)
   (do
-    (bind (target {@self stolen_from ?}) ?loot)
-    (if (and (can-write @self)
-             (is-entity ?loot)
+    ; the discovered loss is minted {?loot stolen_from @self} (prop=subject,
+    ; @self=the wronged discoverer), so bind the loot off the FREE subject.
+    (if (and (bind {?loot stolen_from @self})
+             (can-write @self)
              (not (believes {@self report_to_police (if (is-entity ?victim) ?victim ?loot)})))
         (do
           (begin-belief {@self report_to_police (if (is-entity ?victim) ?victim ?loot)})
@@ -263,10 +262,10 @@
                 (begin-belief {@self suspect ?victim})
                 (if (is-entity ?station)
                     (spawn-letter [k crime_report_letter]
-                                  (msg {@self suspect ?victim}) ?station)))
+                                  (written-msg {@self suspect ?victim}) ?station)))
               (if (is-entity ?station)
                   (spawn-letter [k crime_report_letter]
-                                (msg {@self stolen_from ?loot}) ?station)))))
+                                (written-msg {?loot stolen_from @self}) ?station)))))
     (end-goal {@self report_crime})))
 
 ; Dispatch the select-joint winner (?terminal from the perpetration_terminals row)

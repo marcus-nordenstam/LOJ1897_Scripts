@@ -75,13 +75,10 @@
               ; The cover IS the threat: the spouse is in the next room, and a
               ; spouse already nursing a misgiving watches that much closer.
               ; Delivery is the EPISODE: everyone registered at the hotel this
-              ; date (the spouse among them) witnesses the indiscretion as an
-              ; act record; the ongoing lover bonds are ABDUCED from it
-              ; (Docs/hsim/hsim_abduction.md), never copied cross-mind.
-              (if (chance (* 0.20 (carelessness-of @self ?paramour)
-                             (+ 1 (suspicion-of ?spouse @self))))
-                  (do (witness-copresence @self lover ?paramour)
-                      (witness-copresence ?paramour lover @self)))
+              ; (Spouse-witnesses-indiscretion via the `lover` bond dropped with
+              ; witness-copresence: `lover` is not an observable ACT, so the
+              ; observability-gated auto-witness does not cover it. Suspicion +
+              ; the gossip/told path remain the affair-discovery channels.)
               ; No actor-side absence tick: the spouse was co-present, the
               ; excursion explains him.
               (tryst-tail ?paramour ?hotel)))))
@@ -100,12 +97,10 @@
                                     (+ 1 (* 1.5 (hostility-of ?witness @self)))
                                     (+ 1 (suspicion-of ?witness @self)))))
                 (do
-                  ; The keyhole leak is the EPISODE: whoever is in the house
-                  ; this date witnesses the act record; the ongoing lover
-                  ; bonds are ABDUCED from it (Docs/hsim/hsim_abduction.md),
-                  ; never copied cross-mind.
-                  (witness-copresence @self lover ?paramour)
-                  (witness-copresence ?paramour lover @self)
+                  ; (Keyhole lover-bond witnessing dropped with witness-copresence:
+                  ; `lover` is not an observable ACT, so the observability-gated
+                  ; auto-witness does not cover it. The gossip/told relay below
+                  ; still carries the affair to the wronged principal.)
                   ; Word carried to the wronged principal: the actor's own
                   ; spouse first, else the paramour's (the gossip relay - a
                   ; TOLD fact, kept explicit).
@@ -135,8 +130,8 @@
         ; (the opportunity-set rule); whispers reach the spouses regardless.
         (if (chance (* 0.10 (carelessness-of @self ?paramour)))
             (do
-              (witness-copresence @self lover ?paramour)
-              (witness-copresence ?paramour lover @self)
+              ; (lover-bond witnessing dropped with witness-copresence: `lover`
+              ; is not an observable ACT. Discovery keeps the suspicion path.)
               (bump-suspicion (spouse-of @self) @self 0.20)
               (bump-suspicion (spouse-of ?paramour) ?paramour 0.20)))
         (tryst-tail ?paramour ?venue)

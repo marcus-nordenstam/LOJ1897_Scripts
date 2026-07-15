@@ -41,6 +41,6 @@
     (tell (top-untold-belief @self _ _
             assault disinherit insult outdo discredit public_humiliation
             seduce expose spread_rumour confront_publicly divorce prototype
-            circumstances_of_death
+            condition circumstances_of_death
             spouse fiancee lover child))
     ))

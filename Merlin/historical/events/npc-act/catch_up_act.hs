@@ -27,6 +27,17 @@
              (>= (years-old @self) 12)))
 
   (act-effects
-    ; Broadcast (audience = _) the freshest untold self-news (about = @self).
-    (tell (top-untold-belief @self _ @self spouse fiancee lover child))
+    ; Say ONE piece of my OWN news I have not already aired to the room.
+    ; for-each-belief walks my own {@self <label> ?} beliefs (ground-alts = one
+    ; deduped sweep, binding the belief symbol ?fact); (utterable-msg ?fact)
+    ; composes the exact wire msg a (tell) would store, so "have I aired this?" is
+    ; the plain belief read (believes {@self SAY ?msg _}) over my broadcast SAY
+    ; memories; (break) stops at the first untold fact.
+    ; TODO(disclosure): no tier gate yet - tells any untold bond/kin fact regardless
+    ; of company. Restore prudence with the per-tier (no-role ...) company gate.
+    (for-each-belief ?fact {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality ?tgt}
+      (do
+        (bind (utterable-msg ?fact) ?msg)
+        (if (not (believes {@self SAY ?msg _}))
+            (do (tell ?fact) (break)))))
     ))

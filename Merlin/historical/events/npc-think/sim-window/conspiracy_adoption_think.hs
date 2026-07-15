@@ -2,7 +2,7 @@
 ; conspiracy_adoption.hs - taking up a murder proposal learned from a letter.
 ;
 ; The read-side half of clear_marriage's INSTIGATED conspiracy. The cheater's
-; covert letter carries the plot ((msg {@self urge {?paramour kill ?spouse}}));
+; covert letter carries the plot ((written-msg {@self urge {?paramour kill ?spouse}}));
 ; reading it (read_secret_letters -> the codec adopt seam) mints the urge
 ; belief {<instigator> urge <plot>} in the reader's OWN mind - a reportable-
 ; crime-free record of being asked. THIS event is the decision to comply:

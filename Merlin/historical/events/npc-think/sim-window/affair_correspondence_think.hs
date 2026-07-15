@@ -43,5 +43,5 @@
 
   (cont-fire-effects
     (send-covert-letter ?paramour
-                         (msg {@self lover ?paramour} signed)
+                         (written-msg {@self lover ?paramour} signed)
                          [k love_letter])))
