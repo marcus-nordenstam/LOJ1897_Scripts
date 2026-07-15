@@ -17,15 +17,14 @@
 ; Scalars feeding the wealth / prestige / breeding classifiers.
 ; unemployed-* are the no-job floors; creditor-wealth-penalty is the wealth
 ; lost per outstanding `owe`; won-prestige-* the capped bonus per sporting
-; victory; default-breeding the fallback when the seeded belief is absent.
-; (sobriety's craving cap moved to the signals.hs sobriety declaration.)
+; victory. (sobriety's craving cap moved to the signals.hs sobriety
+; declaration; breeding is a seeded belief with no derived fallback.)
 (dimension-tuning
   /unemployed-wealth        30
   /creditor-wealth-penalty  15
   /unemployed-prestige      15
   /won-prestige-bonus        4
-  /won-prestige-cap         20
-  /default-breeding         55)
+  /won-prestige-cap         20)
 
 ; ---- rank curves -----------------------------------------------------------
 ; Six values each, indexed by job rank 0..5 (trainee apprentice junior
@@ -67,28 +66,9 @@
 
 ; ---- felt-life dimensions (F4.6) -------------------------------------------
 ; belonging: the warmth-bond need is belonging-min-need plus up to
-; belonging-need-span scaled by Extraversion. purpose: no calling / a calling
-; matched by a skill / an unmatched calling. autonomy: a base adjusted for
-; gender, coverture, property and the craving drive. contentment-neutral is
-; the reading for a mind that holds no mood.
+; belonging-need-span scaled by Extraversion. contentment-neutral is the
+; reading for a mind that holds no mood.
 (felt-life
   /belonging-min-need          1
   /belonging-need-span         5
-  /purpose-no-calling         50
-  /purpose-served             85
-  /purpose-unserved           20
-  /autonomy-base              55
-  /autonomy-female-penalty    20
-  /autonomy-coverture-penalty 20
-  /autonomy-property-bonus    20
-  /autonomy-craving-penalty   15
   /contentment-neutral        50)
-
-; ---- life_satisfaction <- (belonging + contentment + purpose) / 3 ----------
-; The middling band splits on economic security (secure_but_hollow vs
-; struggling). fulfilled-min / content-min are lower bounds; adrift-max an
-; upper bound.
-(life-satisfaction
-  /fulfilled-min 72
-  /content-min   55
-  /adrift-max    35)
