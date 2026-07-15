@@ -32,7 +32,7 @@
   (sim-window-think)
   (rng-stream perpetration)
 
-  (role @self (any_human @self)
+  (role @self 
               (adult @self))
 
   ; Disposition pre-gate + adult floor. ambition = mean(machiavellianism, narcissism);

@@ -15,7 +15,7 @@
   (sim-window-think)
   (rng-stream behaviour)
 
-  (role @self (any_human @self))
+  (role @self )
 
   ; years-old + in-month are non-belief ops, so they gate the fire in (when).
   (when (and (in-month december)

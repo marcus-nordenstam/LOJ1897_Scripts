@@ -27,7 +27,7 @@
   (sim-window-think)
   (rng-stream perpetration)
 
-  (role @self (any_human @self))
+  (role @self )
   ; One firing per standing anchor: no (select ...) / (select (policy first-match)).
   (role ?victim (any_human ?victim)
     (believes {@self extort ?victim}))

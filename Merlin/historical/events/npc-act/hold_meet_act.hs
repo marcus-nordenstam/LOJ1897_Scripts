@@ -39,7 +39,6 @@
   ; (not a role filter - positional co-presence is not object-cacheable), so a
   ; town-known human who is NOT in the room scores 0 and is never drawn.
   (role ?victor [k human]
-                (not (= ?victor @self))
                 (select (score (* (co-present @self ?victor)
                                   (+ 0.15 (attr ?victor assertiveness))))
                         (policy roulette)))
@@ -47,7 +46,6 @@
   ; ONE bested rival: a co-present competitor, drawn uniformly among those present
   ; (score = co-presence). Whether he actually resents is the trait roll below.
   (role ?bested [k human]
-                (not (= ?bested @self))
                 (select (score (co-present @self ?bested))
                         (policy roulette)))
 
@@ -70,14 +68,13 @@
         ; THE VICTOR takes the honours (skip the degenerate self-only draw).
         (if (not (= ?victor @self))
             (begin-belief ?victor {?victor won ?sport}))
-        ; THE BESTED RIVAL resents the win with the narcissism x assertiveness
-        ; roll (floor 0.15, trait scale 0.85 - the roll_outdo_resentment model),
-        ; and records {victor outdo bested} in both principals' minds. Guarded to a
-        ; distinct, non-self loser so a one-competitor meet mints no grudge.
+        ; THE BESTED RIVAL resents the win with the narcissism x assertiveness roll
+        ; (floor 0.15, trait scale 0.85). The self / victor exclusions live HERE in
+        ; the effect (a cross-role equality is not object-cacheable in a role), so a
+        ; one-competitor meet mints no grudge.
         (if (and (not (= ?bested @self))
                  (not (= ?bested ?victor))
-                 (chance (+ 0.15 (* 0.85 (attr ?bested narcissism)
-                                        (attr ?bested assertiveness)))))
+                 (chance (+ 0.15 (* 0.85 (attr ?bested narcissism) (attr ?bested assertiveness)))))
             (incident-anchor ?victor outdo ?bested))))
     (end-act {@self hold_meet_run})
     (end-goal {@self hold_meet})))

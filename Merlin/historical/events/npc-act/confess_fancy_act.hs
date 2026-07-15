@@ -38,7 +38,6 @@
   ; ?target is the specific person @self is attracted to (attraction at least
   ; the `fancy` band - the same gate court / love_match read).
   (role ?target (any_human ?target)
-                (not (= ?target @self))
                 (marriageable-age ?target)
                 (is-attracted-to @self ?target))
 

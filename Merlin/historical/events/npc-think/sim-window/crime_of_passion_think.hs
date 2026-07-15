@@ -36,7 +36,7 @@
   (sim-window-think)
   (rng-stream perpetration)
 
-  (role @self (any_human @self))
+  (role @self )
   ; The craved beloved. The crave stance is the object-cache filter;
   ; (policy first-match) binds ONE, so a multi-crave actor strikes a
   ; single victim per tick (parity with the old first-viable walk).
@@ -58,5 +58,5 @@
   ; the beloved. /cause pins the crave belief - the obsessive signature.
   (cont-fire-effects
     (bind (crave-rival ?beloved) ?victim)
-    (if (and (not (believes {?victim condition [k dead]})) (not (= ?victim @self)))
+    (if (not (believes {?victim condition [k dead]}))
         (begin-goal {@self kill ?victim} /cause {@self crave ?beloved}))))

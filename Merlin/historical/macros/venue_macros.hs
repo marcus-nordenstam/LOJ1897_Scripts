@@ -17,7 +17,7 @@
 (define-macro propose-venue-act (?venue ?act)
   (if (in-building ?venue)
       (begin-goal {@self ?act ?venue})
-      (if (and (is-entity ?venue) (not (= ?venue @self)))
+      (if (is-entity ?venue)
           (begin-goal {@self go ?venue}))))
 
 ; (near ?a ?b): a PROXIMITY weight (higher = closer) for a role's

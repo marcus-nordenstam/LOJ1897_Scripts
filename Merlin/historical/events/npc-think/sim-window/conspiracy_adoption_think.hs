@@ -32,11 +32,10 @@
   (sim-window-think)
   (rng-stream perpetration)
 
-  (role @self (any_human @self))
+  (role @self )
   ; Anyone @self believes has urged something - the belief arrives only by
   ; reading the letter (or hearing the words), never by telepathy.
   (role ?instigator (any_human ?instigator)
-        (not (= ?instigator @self))
         (believes {?instigator urge ?}))
 
   ; The plot must ask ME to kill someone, and I must be willing: desire for

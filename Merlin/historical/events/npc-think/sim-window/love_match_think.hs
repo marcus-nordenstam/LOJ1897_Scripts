@@ -30,7 +30,7 @@
 
   ; @self the suitor: an unmarried, un-betrothed adult who is not socially shut
   ; out. The per-suitor (chance) gate has moved to (when ...) (role-belief purity).
-  (role @self (any_human @self)
+  (role @self 
               (adult-age @self)
               (not (believes {@self fiancee ?}))
               (not (believes {@self spouse ?}))
@@ -47,7 +47,6 @@
   ;; sees it (3-arg situation), and crucially her RECIPROCAL fancy as SHE TOLD
   ;; HIM (confess_fancy minted {?beloved fancy @self} in his mind). No mind peek.
   (role ?beloved (any_human ?beloved)
-                (not (= ?beloved @self))
                 (adult-age ?beloved)
                 (not (believes {?beloved fiancee ?}))
                 (not (believes {?beloved spouse ?}))

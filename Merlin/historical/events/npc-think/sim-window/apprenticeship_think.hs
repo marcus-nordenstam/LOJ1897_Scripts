@@ -31,7 +31,7 @@
   ;; @self reads, so they gate the fire in (when), not role selection.
   ;; SELF-POV (telepathy purge CAT-2): the youth is the sole deliberator,
   ;; reading his OWN employment / marital / schooling state.
-  (role @self (any_human @self)
+  (role @self 
               (not (believes {@self employer ?}))
               (not (believes {@self spouse ?}))
               ;; A youth still in school (PR-education) is not on the labour
@@ -83,7 +83,7 @@
 
   ;; The trainee is the sole deliberator (@self). job-level (live op) / job-tenure
   ;; (belief-start macro) / chance gate the fire in (when), not role selection.
-  (role @self (any_human @self))
+  (role @self )
 
   ;; A trainee who has held the trainee rank at least three years; the chance
   ;; spreads completion over the following years (0.033/mo ~= the old 0.4/yr).

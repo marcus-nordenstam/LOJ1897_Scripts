@@ -29,7 +29,7 @@
   (sim-window-think)
   (rng-stream perpetration)
 
-  (role @self (any_human @self))
+  (role @self )
   ; The unfaithful partner: a spouse or lover the actor believes keeps a
   ; third-party lover (the belief-query role filter). The interloper is resolved
   ; in (effects) via (interloper-of ?partner) - a cross-role read, not a role filter.

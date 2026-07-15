@@ -228,7 +228,7 @@
 ; the words (as a (tell-to ?victim <barb fact>)).
 (define-macro terminal-humiliate (?victim ?goal)
   (do
-    (if (and (is-entity ?victim) (alive ?victim) (not (= ?victim @self)))
+    (if (and (is-entity ?victim) (alive ?victim))
         (do
           (begin-belief {@self public_humiliation ?victim})
           (begin-belief ?victim {@self public_humiliation ?victim})

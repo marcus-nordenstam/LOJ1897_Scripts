@@ -22,7 +22,7 @@
 (npc-think read_secret_letters
   (sim-window-think)
 
-  (role @self (any_human @self))
+  (role @self )
   ; Each hiding-spot @self made and knows.
   (role ?cache (believes {@self hiding_spot ?cache}))
 

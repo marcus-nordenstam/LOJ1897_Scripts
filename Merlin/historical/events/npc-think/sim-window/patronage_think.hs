@@ -41,7 +41,6 @@
   ;; (Not already backed - read from the PATRON's OWN knowledge ({backed_by} is
   ;; banded in via believe_about), no mind peek; permissive on the unknown.)
   (role ?protege (old_human ?protege)
-                 (not (= ?protege @self))
                  ;; A working-age adult, elevatable into a trade - a belief-pure
                  ;; perceived age-band predicate, so it stays a role filter.
                  (working-age ?protege)

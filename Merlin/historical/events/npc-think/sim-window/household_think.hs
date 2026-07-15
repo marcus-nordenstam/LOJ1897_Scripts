@@ -26,7 +26,7 @@
   (sim-window-think)
   (rng-stream behaviour)
 
-  (role @self (any_human @self)
+  (role @self 
               (believes {@self home ?}))
 
   (cont-fire-effects
@@ -93,7 +93,7 @@
   (sim-window-think)
   (rng-stream behaviour)
 
-  (role @self (any_human @self))
+  (role @self )
   ; The woman of the house, role-cast from the asker's OWN kinship beliefs: a
   ; female mother / parent / spouse (a child asks their mother; a husband his
   ; wife). Same {@self <kin> ?cand} cacheable shape covet uses. The woman

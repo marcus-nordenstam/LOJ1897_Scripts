@@ -36,7 +36,7 @@
 
   ; No-cache-yet is a CACHED self-gate filter - every NPC who owns a cache
   ; empty-set-skips the whole think permanently.
-  (role @self (any_human @self)
+  (role @self 
               (not (believes {@self hiding_spot ?})))
   ; The home is a CACHED role (the role BINDS ?building for the bedroom bind +
   ; the effects) - no live home read per window.

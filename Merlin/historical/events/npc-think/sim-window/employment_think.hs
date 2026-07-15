@@ -27,7 +27,7 @@
   ;; The jobless adult (@self) is the deliberator: he looks for work this month.
   ;; The org is the inner role. age / situation / chance are non-belief ops, so
   ;; they gate the fire in (when), not role selection.
-  (role @self (any_human @self)
+  (role @self 
               (not (believes {@self employer ?})))
   ;; A known org (@self learned it at new_job_orientation - a mental org object
   ;; carrying its isa belief), excluding households: an org but NOT a labour-market
@@ -86,7 +86,7 @@
   (sim-window-think)
   (rng-stream employment)
 
-  (role @self (any_human @self)
+  (role @self 
               (believes {@self employer ?}))
 
   ; PURE .hs (the old C++ review-own-staff verb is gone). Navigate the boss's
@@ -127,7 +127,7 @@
   (rng-stream employment)
 
   ;; The worker (@self) decides to retire; age + chance -> (when).
-  (role @self (any_human @self)
+  (role @self 
               (believes {@self employer ?}))
 
   ; Re-firing is harmless: (goal) is idempotent, so re-rolling the chance while the

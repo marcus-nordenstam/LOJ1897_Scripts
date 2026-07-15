@@ -4,7 +4,9 @@
 ; (propagate-death ?dead) is the ONE sanctioned director-channel sweep that runs
 ; when a person dies (natural death, suicide, kill - every terminal calls it).
 ; It walks the deceased's OWN social-tie beliefs (the kin / bond / loose label
-; alts below, one deduped pass) and, for each survivor:
+; alts below, one deduped pass, via the /their-mind for-each - the sanctioned
+; director read of the SUBJECT's own mind, not @self's beliefs about them) and,
+; for each survivor:
 ;   - checks the heir prospect FIRST ({?svr heir_of ?dead}, read before the
 ;     end-all wipes it),
 ;   - interval-ends EVERY belief the survivor holds about the deceased at
@@ -29,7 +31,7 @@
 
 (define-macro propagate-death (?dead)
   (do
-    (for-each-belief {?dead mother|father|parent|sibling|half_sibling|brother|sister|child|grandmother|grandfather|grandparent|grandchild|aunt|uncle|niece|nephew|cousin|mother_in_law|father_in_law|parent_in_law|sister_in_law|brother_in_law|sibling_in_law|daughter_in_law|son_in_law|child_in_law|stepmother|stepfather|stepchild|spouse|fiancee|friend|lover|acquaintance|neighbour|enemy ?svr}
+    (for-each-belief {?dead mother|father|parent|sibling|half_sibling|brother|sister|child|grandmother|grandfather|grandparent|grandchild|aunt|uncle|niece|nephew|cousin|mother_in_law|father_in_law|parent_in_law|sister_in_law|brother_in_law|sibling_in_law|daughter_in_law|son_in_law|child_in_law|stepmother|stepfather|stepchild|spouse|fiancee|friend|lover|acquaintance|neighbour|enemy ?svr /their-mind}
       (do
         (bind (believes ?svr {?svr heir_of ?dead}) ?was_heir)
         (end-beliefs-about ?svr ?dead /salience unforgettable)
@@ -44,5 +46,5 @@
     (die ?dead)))
 
 (define-macro propagate-burial (?corpse)
-  (for-each-belief {?corpse mother|father|parent|sibling|half_sibling|brother|sister|child|grandmother|grandfather|grandparent|grandchild|aunt|uncle|niece|nephew|cousin|mother_in_law|father_in_law|parent_in_law|sister_in_law|brother_in_law|sibling_in_law|daughter_in_law|son_in_law|child_in_law|stepmother|stepfather|stepchild|spouse|fiancee|friend|lover|acquaintance|neighbour|enemy ?svr}
+  (for-each-belief {?corpse mother|father|parent|sibling|half_sibling|brother|sister|child|grandmother|grandfather|grandparent|grandchild|aunt|uncle|niece|nephew|cousin|mother_in_law|father_in_law|parent_in_law|sister_in_law|brother_in_law|sibling_in_law|daughter_in_law|son_in_law|child_in_law|stepmother|stepfather|stepchild|spouse|fiancee|friend|lover|acquaintance|neighbour|enemy ?svr /their-mind}
     (begin-belief-in ?svr {?corpse condition [k buried]})))

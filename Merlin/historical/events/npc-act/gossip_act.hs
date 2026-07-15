@@ -1,20 +1,20 @@
 ; ----------------------------------------------------------------------------
-; gossip (npc-act). An NPC SAYS ALOUD the single most gossip-worthy thing they
-; know about a third party (a witnessed scandal preferred over mere relationship
-; news) - and have not already aired. (top-untold-belief @self _ _ <labels>) ranks
-; the actor's about-others beliefs by the label list (scandal first), skips any
-; they already hold a {@self SAY ...} memory of (so they never repeat the same
-; gossip), and applies the leaky-silence shame-seal (a victim does not broadcast
-; their own disgrace). (tell ...) emits a real speech sound, so perception delivers
-; the fact to whoever is co-present and the adoption pass files the gossiped-about
-; party as an acquaintance in each listener - which is what lets a scandal cascade
-; outward through the subject's widening acquaintance network. Telling nothing (the
-; selector found nothing fresh) is a safe no-op.
+; gossip (npc-think). @self tells ONE co-present listener the single most gossip-
+; worthy thing @self knows about a THIRD PARTY - a witnessed scandal preferred over
+; mere relationship news, and not already aired to that listener.
 ;
-; An ACT (tell) carried by perception, so npc-act. Fired by the per-NPC emergent
-; pass MONTHLY: the (chance) is extraversion-weighted (enthusiasm + assertiveness)
-; on top of the structural has-a-friend gate. Overhearing by anyone present is
-; emergent - the same model isim uses for spoken messages.
+; ?x (gossiped ABOUT) is drawn by roulette from the people @self knows of; ?ear (the
+; listener) from whoever shares @self's room (the location JOIN, cf. introduce.hs).
+; for-each-belief walks @self's OWN beliefs about ?x (the DEFAULT subject-anchored
+; read - @self's own mind, never telepathy) in label-PRIORITY order (scandal labels
+; first, so a scandal outranks relationship news), skips any already in a {@self SAY
+; ... ?ear} memory (per-listener dedup), and applies the shame-seal - @self does not
+; air a fact in which @self is the victim ((not (= ?tgt @self))). (break) stops at
+; the first tellable fact. A listener who hears it files ?x as an acquaintance -
+; which is what lets a scandal cascade outward through ?x's widening network.
+;
+; Fired MONTHLY (sim-window): the (chance) is extraversion + assertiveness weighted
+; on top of the has-a-friend gate. Telling nothing is a safe no-op.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -23,24 +23,29 @@
   (sim-window-think)
   (rng-stream behaviour)
 
-  (role @self (any_human @self)
-              (believes {@self friend ?}))
+  (role @self (believes {@self friend ?}))
+  ; The person gossiped ABOUT: someone @self knows of, drawn by roulette.
+  (role ?x (any_human ?x)
+           (select (score 1) (policy roulette)))
+  ; The LISTENER: a co-present person (the location JOIN), drawn by roulette.
+  (role ?ear (any_human ?ear)
+             (believes {?ear location (target {@self location})})
+             (select (score 1) (policy roulette)))
 
-  ; Non-belief gates (out of the role): extraversion-weighted (chance, first so it
-  ; short-circuits) and the minimum-age check.
-  (when (and (chance (* 0.3
+  ; Non-belief gates (out of the roles): don't gossip to ?x about themselves (a cross-
+  ; role equality, so it lives in (when), not a cacheable role filter), extraversion +
+  ; assertiveness weighted chance, and the minimum-age check.
+  (when (and (not (= ?ear ?x))
+             (chance (* 0.3
                         (+ 0.5 (attr @self enthusiasm))
                         (+ 0.5 (attr @self assertiveness))))
              (>= (years-old @self) 12)))
 
   (act-effects
-    ; Say the freshest untold scandal / news the actor holds about ANYONE in their
-    ; circle (about = _), to whoever is co-present (audience = _, broadcast -> the
-    ; "told" exclusion is global). Label order IS priority: scandal acts, then the
-    ; death-story, then relationship news.
-    (tell (top-untold-belief @self _ _
-            assault disinherit insult outdo discredit public_humiliation
-            seduce expose spread_rumour confront_publicly divorce prototype
-            condition circumstances_of_death
-            spouse fiancee lover child))
-    ))
+    ; Label order IS priority: scandal acts, then the death-story, then relationship
+    ; news. ?news is the matched fact; ?tgt its target (the shame-seal check).
+    (for-each-belief ?news {?x assault|disinherit|insult|outdo|discredit|public_humiliation|seduce|expose|spread_rumour|confront_publicly|divorce|prototype|condition|circumstances_of_death|spouse|fiancee|lover|child ?tgt}
+      (do
+        (if (and (not (= ?tgt @self))
+                 (not (believes {@self SAY (utterable-msg ?news) ?ear})))
+            (do (tell-to ?ear ?news) (break)))))))

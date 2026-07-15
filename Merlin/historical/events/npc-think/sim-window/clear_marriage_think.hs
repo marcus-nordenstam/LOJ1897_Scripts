@@ -35,7 +35,7 @@
   (sim-window-think)
   (rng-stream perpetration)
 
-  (role @self (any_human @self))
+  (role @self )
   (role ?spouse (any_human ?spouse) (believes {@self spouse ?spouse}) (select (policy first-match)))
   ; A covert lover (belief-query role filter: a lover who is not the spouse,
   ; and not KNOWN married - is-married is a pure belief macro, cached here).

@@ -39,7 +39,6 @@
               (not (believes {@self repute [k scandalous]}))
               (not (believes {@self repute [k disreputable]})))
   (role ?bride (unmarried_woman ?bride)
-               (not (= ?bride @self))
                ;; Not already spoken-for (he avoids a woman he KNOWS is engaged or
                ;; attached; a secret he has not heard does not stop the match).
                (not (believes {?bride fiancee ?}))

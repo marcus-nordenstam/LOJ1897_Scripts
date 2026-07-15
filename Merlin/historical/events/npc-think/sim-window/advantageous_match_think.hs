@@ -56,7 +56,6 @@
   ;; age-peers / blood-kin are belief-pure perceived predicates, so they stay role
   ;; filters (cacheable), gating the bride candidate set directly.
   (role ?bride (unmarried_woman ?bride)
-               (not (= ?bride @self))
                (age-peers @self ?bride)
                (not (blood-kin @self ?bride))
                (not (believes {?bride fiancee ?}))

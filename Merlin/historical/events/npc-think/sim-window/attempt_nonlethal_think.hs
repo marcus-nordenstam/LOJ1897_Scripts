@@ -22,7 +22,7 @@
   (sim-window-think)
   (rng-stream perpetration)
 
-  (role @self (any_human @self))
+  (role @self )
 
   ; Cheap early-out: only goal-holders run the (joint) reduction.
   (when (> (count-beliefs @self goal) 0))

@@ -44,7 +44,6 @@
 
   (role @self  (any_human @self))
   (role ?victim (any_human ?victim)
-                (not (= ?victim @self))
                 (believes {@self child ?victim}))
 
   ; Non-belief gates (moved out of the roles - none are cacheable belief queries):

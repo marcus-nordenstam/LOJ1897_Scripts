@@ -16,13 +16,12 @@
   (sim-window-think)
   (rng-stream behaviour)
 
-  (role @self (any_human @self))
+  (role @self )
   ; A co-present, not-yet-known person. The location JOIN binds @self's own current
   ; room off {@self location ?loc}, then the candidate must be perceived in that
   ; same room ({?stranger location ?loc} in @self's OWN mind) and NOT already known.
   (role ?stranger (any_human ?stranger)
-    (believes {@self location ?loc})
-    (believes {?stranger location ?loc})
+    (believes {?stranger location (target {@self location})})
     (not (personally-knows @self ?stranger)))
 
   ; Sociability gate: an extraverted NPC strikes up an introduction more readily.

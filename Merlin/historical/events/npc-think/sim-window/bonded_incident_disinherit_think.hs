@@ -52,7 +52,6 @@
 
   (role @self  (any_human @self))
   (role ?victim (any_human ?victim)
-                (not (= ?victim @self))
                 (believes {@self child ?victim}))
 
   ; Grounds, not a floor: mild standing disregard (dislike / disdain) admits the cut

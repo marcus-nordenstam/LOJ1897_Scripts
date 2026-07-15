@@ -31,8 +31,8 @@ relation
             # work lanes (record-dwelling / record-work); the decay pass folds
             # repeated days into a cumulative belief whose count is the
             # attendance frequency.
-            dwell                                   (tar structure|org)
-            work                                    (tar structure|org)
+            dwell                                   (tar structure|org|space)
+            work                                    (tar structure|org|space)
             # socialize_at: episodic ad-hoc social-outing memory (activity-lanes
             # L3). {@self socialize_at <venue> /aux <organizer>} = "went out with
             # the company <organizer> assembled, at <venue>". One general label
@@ -99,16 +99,16 @@ relation
             # tea / supper - Objects.mon `meal` leaves). The evidence
             # layer's consume record reads "dined at <venue>, at <supper>";
             # an absent aux is just "dined at <venue>".
-            dine                                    (tar structure)    (aux meal)
+            dine                                    (tar structure|space)    (aux meal)
             # eat - the UNIFIED meal act (meals.hs), one lane for breakfast /
             # lunch / supper (incl. eating out). The act-belief
             # {@self eat [k <meal>] <place>} IS the episodic meal memory (begun at
             # commit, ended at completion): target = the meal-kind occasion, aux =
             # the place eaten at. Supersedes the old per-meal `dine` begin-act lanes
             # + their separate punctual dine records.
-            eat                                     (tar meal)         (aux structure)
-            read_at                                 (tar structure)
-            rest                                    (tar structure)
+            eat                                     (tar meal)         (aux structure|space)
+            read_at                                 (tar structure|space)
+            rest                                    (tar structure|space)
             # go - the TRAVEL act as a first-class ongoing belief ({@self go
             # <place>}, the begin-act unification): "heading to <place>", its
             # interval the travel time, the completion relocating the actor.
@@ -136,9 +136,11 @@ relation
             # the charity act. (scream is already a defined relation-term.)
             stow                                    (tar ?)
             # bring - carry what you hold of a KIND to a destination and put it
-            # away there ({@self bring [k food] <home>}); decomposes to a put
-            # once inside the destination. The provisioning carry-home leg.
-            bring                                   (tar ?)  (aux structure)
+            # away there ({@self bring [k food] <kitchen>}); decomposes to a put
+            # once at the destination. The provisioning carry-home leg. The dest is
+            # unconstrained: the act just walks to it and puts down at @self's room,
+            # so a room (kitchen) or a structure (home) both work.
+            bring                                   (tar ?)  (aux ?)
             give_alms                               (tar ?)
             # burial lane (events/npc-act/convey_corpse.hs + bury.hs). Pure
             # perception, no telepathy: a bereaved NPC CARRIES the body to a

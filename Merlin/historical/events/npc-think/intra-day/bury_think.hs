@@ -64,5 +64,5 @@
     ; at the door where room-level co-presence with the corpse can never hold.
     (if (co-present @self ?corpse)
         (excl-goal {@self bury ?corpse})
-        (if (and (is-entity ?church) (not (= ?church @self)))
+        (if (is-entity ?church)
             (go-into ?church)))))

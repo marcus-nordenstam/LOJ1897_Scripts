@@ -24,7 +24,7 @@
   ; exclusive, so a man who has already founded (here or in
   ; found_cornerstone_business this same startup pass) drops out of the set the
   ; instant he founds - each round skips the grown employed set at zero cost.
-  (role @self (any_human @self)
+  (role @self 
               (not (believes {@self employer ?})))
 
   ; age gate stays live (non-belief op read).

@@ -19,7 +19,7 @@
   (sim-window-think)
   (rng-stream perpetration)
 
-  (role @self (any_human @self)
+  (role @self 
               (not (believes {@self method ?})))
   (when (> (count-beliefs @self goal) 0))
 

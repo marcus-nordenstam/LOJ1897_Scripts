@@ -29,7 +29,7 @@
   (sim-window-think)
   (rng-stream perpetration)
 
-  (role @self (any_human @self)
+  (role @self 
               (adult @self))
 
   ; Narcissism tail + adult floor + rate gate.

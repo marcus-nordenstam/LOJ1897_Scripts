@@ -50,7 +50,7 @@
   ; one), and the effect reads both parents. age / politeness-weighted chance are
   ; non-belief ops -> (when). politeness amplifies - the conforming child takes up
   ; the parent's hobby, the contrarian rarely.
-  (role @self (any_human @self)
+  (role @self 
               (believes {@self mother ?}))
 
   (when (and (>= (years-old @self) 3)
@@ -77,7 +77,7 @@
   ; @self is the subject; a known friend gates it and the effect reads each
   ; friend's own interests and copies one @self lacks. age + the openness x
   ; enthusiasm chance are non-belief ops -> (when).
-  (role @self (any_human @self)
+  (role @self 
               (believes {@self friend ?}))
   ; The friend whose enthusiasm rubs off - a uniform pick over the circle.
   (role ?friend (any_human ?friend)
@@ -101,7 +101,7 @@
   ; @self (the apprentice) holds a standing master bond (minted by
   ; apprenticeship_start); the effect reads the master's skilled_in + calling
   ; domains and copies one @self lacks. The openness-weighted chance -> (when).
-  (role @self (any_human @self)
+  (role @self 
               (believes {@self master ?}))
 
   (when (chance (* 0.025 (+ 0.3 (attr @self openness)))))
@@ -123,7 +123,7 @@
   ; specific source, sampled at random. No belief filter; age + the openness-squared
   ; chance are non-belief ops -> (when). Gated HARD on openness so only the
   ; genuinely curious drift - trait-rooted, not bare chance.
-  (role @self (any_human @self))
+  (role @self )
 
   (when (and (>= (years-old @self) 10)
              (chance (* 0.0083 (attr @self openness) (attr @self openness)))))
@@ -144,7 +144,7 @@
   ; @self holds at least one interest; low rate. The effect ends one interest whose
   ; domain @self is NOT skilled_in - a skilled domain is settled identity and is
   ; exempt. No-op (fires, mints nothing) if every interest is skill-backed.
-  (role @self (any_human @self)
+  (role @self 
               (believes {@self interest ?}))
 
   (when (chance 0.0025))

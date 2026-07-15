@@ -25,9 +25,8 @@
   ; The actor's impulse to lash out: dispositional base (low-politeness x
   ; narcissism) + displaced anger (emotion-load). The (chance) gate is non-belief
   ; (not role-cacheable), so it lives in (when) below, not on this role.
-  (role @self (any_human @self))
+  (role @self )
   (role ?victim (any_human ?victim)
-                (not (= ?victim @self))
                 (personally-knows @self ?victim))
 
   ; Stance-weighted victim selection. Floor 0.10 is the displaced-anger path (any

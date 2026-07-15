@@ -179,6 +179,23 @@
                   (* 0.15 (>= (count building) 1))
                   (* 0.10 (>= (count member_of) 1))) 0 1)))
 
+; belonging - how well the NPC's warmth bonds + immediate kin meet its
+; sociability need. Warmth = friends (close_to / friend) + kin (spouse x2,
+; children capped at 5, parents capped at 2, siblings capped at 4). The need is
+; 1 + Extraversion x 5, Extraversion = the mean of enthusiasm + assertiveness.
+; belonging falls 0.18 per unit of unmet need (desired - warmth): an introvert
+; with few bonds still reads content, an extravert with the same bonds starves.
+(def belonging-warmth
+  (+ (count close_to) (count friend)
+     (* 2 (present spouse))
+     (min (count child) 5)
+     (min (+ (count mother) (count father)) 2)
+     (min (+ (count sibling) (count half_sibling)) 4)))
+(def belonging-sociability (* (+ (attr enthusiasm) (attr assertiveness)) 0.5))
+(def belonging-desired (+ 1 (round (* belonging-sociability 5))))
+(classify belonging (value)
+  (from (clamp (- 1 (* (max (- belonging-desired belonging-warmth) 0) 0.18)) 0 1)))
+
 ; ----------------------------------------------------------------------------
 ; Situation fusions (Shape A bands) - ported from hsim_derive's C++ folds.
 ; Each reads the float dimension beliefs the annual derive pass mints

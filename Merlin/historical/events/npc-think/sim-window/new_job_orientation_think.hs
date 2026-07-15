@@ -30,7 +30,7 @@
   ;; Only the JOBLESS consult the register - this is a JOB SEARCH. A man already in
   ;; a post does not go reading the vacancies. The jobless filter is a belief-pure
   ;; self-role criterion, so the @self enumeration itself caches.
-  (role @self (any_human @self)
+  (role @self 
               (not (believes {@self employer ?})))
 
   (when (and (>= (years-old @self) 12)

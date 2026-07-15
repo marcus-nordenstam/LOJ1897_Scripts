@@ -51,7 +51,7 @@
   ; (when); the chance carries the /12 annual->monthly factor (now per-month). The
   ; breeding-squared gate routes an upper child (breeding ~0.85) into school almost
   ; always, a working-class child (~0.25) only rarely.
-  (role @self (any_human @self)
+  (role @self 
               (not (believes {@self study ?}))
               (not (believes {@self skilled_in [k primary_school_curriculum]})))
 
@@ -74,7 +74,7 @@
   ; yet in work / apprenticeship. age + the middle+ breeding-squared gate -> (when)
   ; (with /12 monthly factor). The working-class child who finished primary has a
   ; low chance and instead falls to apprenticeship_start (which excludes pupils).
-  (role @self (any_human @self)
+  (role @self 
               (believes {@self skilled_in [k primary_school_curriculum]})
               (not (believes {@self study ?}))
               (not (believes {@self skilled_in [k secondary_school_curriculum]}))
@@ -97,7 +97,7 @@
   ; @self is secondary-educated, not enrolled, not employed. age + the steep
   ; upper / wealthy-middle breeding-cubed gate (the professions' gateway) -> (when)
   ; (with /12 monthly factor). The subject is interest-led, chosen inside the act.
-  (role @self (any_human @self)
+  (role @self 
               (believes {@self skilled_in [k secondary_school_curriculum]})
               (not (believes {@self study ?}))
               (not (believes {@self employer ?})))
@@ -121,7 +121,7 @@
   ; curriculum at novice and ends the study). The credential then gates secondary
   ; enrollment; a non-continuer becomes apprenticeship-eligible. Monthly firing is
   ; idempotent - the first fire ends the study, so later months no-op. age -> (when).
-  (role @self (any_human @self)
+  (role @self 
               (believes {@self study [k primary_school_curriculum]}))
 
   (when (>= (years-old @self) 11))
@@ -135,7 +135,7 @@
   (sim-window-think)
   (rng-stream behaviour)
 
-  (role @self (any_human @self)
+  (role @self 
               (believes {@self study [k secondary_school_curriculum]}))
 
   (when (>= (years-old @self) 17))
@@ -153,7 +153,7 @@
   ; are <18 and have already left). graduate-from-study mints the subject credential
   ; {@self skilled_in <subject> trained}, feeding the S8 physician / lawyer /
   ; scholar identities + the prestige bump - the profession pipeline payoff.
-  (role @self (any_human @self)
+  (role @self 
               (believes {@self study ?}))
 
   (when (>= (years-old @self) 22))

@@ -1,16 +1,16 @@
 ; ----------------------------------------------------------------------------
-; catch_up (npc-act). An NPC SAYS ALOUD their OWN recent news (a new spouse /
-; fiancee / child / friendship) to whoever is co-present. (top-untold-belief @self
-; _ @self spouse fiancee lover child) picks the freshest such fact they have not
-; already announced (about = @self -> self-news; checked against their {@self
-; SAY ...} memories so they do not repeat it), and (tell ...) broadcasts it. A
-; listener who hears it files @self as the source and can pass "did you hear, X had
-; a child" along - self-news cascades onward as ordinary gossip.
+; catch_up (npc-think). Away from the table, @self SAYS ALOUD their OWN recent news
+; (a new spouse / fiancee / child / friendship) to whoever is CO-PRESENT. The
+; listener ?guest is bound by the location JOIN ({@self location ?loc} + {?guest
+; location ?loc}, cf. introduce.hs - the guest perceived sharing @self's room), and
+; @self tells each ONE fact they have not heard. Hearing it, a guest files @self as
+; the source and can pass "did you hear, X had a child" along - self-news cascades
+; onward as ordinary gossip.
 ;
-; An ACT (tell) carried by perception, so npc-act. CAST-FREE: @self is the
-; deliberating NPC and speaks to the room (no second binding role). Fired once per
-; NPC per window; the gates (extraversion-weighted chance + a minimum age) live in
-; (when). Telling nothing (no fresh news) is a safe no-op.
+; Fired per NPC per window; the gates (extraversion-weighted chance + a minimum
+; age) live in (when). Dedup is PER-LISTENER (the SAY's aux is the guest), so a
+; guest hears each fact only once. Telling nothing (all heard, or nobody
+; co-present) is a safe no-op. Meal-table chatter is table_talk_think.hs.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -19,20 +19,25 @@
   (sim-window-think)
   (rng-stream behaviour)
 
-  (role @self (any_human @self)
-              (believes {@self friend ?}))
+  ; ?guest is anyone CO-PRESENT (the location JOIN, cf. introduce.hs): @self's own
+  ; room off {@self location ?loc}, the guest perceived in that same room. Enumerated,
+  ; so each co-present listener hears their own untold slice of @self's news.
+  (role ?guest (any_human ?guest)
+               (believes {?guest location (target {@self location})}))
 
   ; Non-belief gates (out of the role): extraversion-weighted chance + minimum age.
-  (when (and (chance (* 0.25 (+ 0.5 (attr @self enthusiasm))))
+  (when (and ;(co-present @self ?guest)
+             (chance (* 0.25 (+ 0.5 (attr @self enthusiasm))))
              (>= (years-old @self) 12)))
 
   (act-effects
-    ; Say ONE untold piece of my OWN news to the room. for-each-belief walks my
-    ; {@self <label> ?} beliefs across the relationship labels, binding BOTH the matched
-    ; label (the :?label capture) and its target; (utterable-msg) dedups against my SAY
-    ; memories; (break) stops at the first untold fact. Telling nothing is a safe no-op.
-    (for-each-belief {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality:?label ?tgt}
+    ; Tell ?guest ONE piece of my OWN news they have not heard. for-each-belief walks my
+    ; {@self <label> ?} beliefs across the relationship labels, binding the matched label
+    ; (the :?label capture) + its target; the dedup is PER-GUEST - the SAY's aux is the
+    ; listener, so {@self SAY <msg> ?guest} is "have I told THIS guest this". (break)
+    ; stops at the first untold fact. Telling nothing is a safe no-op.
+    (for-each-belief ?belief {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality ?}
       (do
-        (if (not (believes {@self SAY (utterable-msg {@self ?label ?tgt}) _}))
-            (do (tell {@self ?label ?tgt}) (break)))))
+        (if (not (believes {@self SAY (utterable-msg ?belief) ?guest}))
+            (do (tell-to ?guest ?belief) (break)))))
     ))

@@ -32,5 +32,5 @@
   (cont-fire-effects
     (if (can-drink @self)
         (begin-goal {@self drink})
-        (if (and (is-entity ?pub) (not (= ?pub @self)))
+        (if (is-entity ?pub)
             (go-into ?pub)))))

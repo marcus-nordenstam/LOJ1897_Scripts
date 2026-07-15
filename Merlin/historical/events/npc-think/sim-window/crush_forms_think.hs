@@ -31,13 +31,12 @@
   ;; @self - a romantically-open single, not already deep in a crush. The trait
   ;; chance (openness x enthusiasm x compassion) gates the receptive crush; it now
   ;; lives in (when ...) below (non-belief filters do not belong in a role).
-  (role @self (any_human @self)
+  (role @self 
               (working-age @self)
               (not (believes {@self desire ?}))
               (not (believes {@self lover ?}))
               (not (believes {@self spouse ?})))
   (role ?victim (any_human ?victim)
-                (not (= ?victim @self))
                 (marriageable-age ?victim)
                 ; the crush forms on someone @self has actually met.
                 (personally-knows @self ?victim)

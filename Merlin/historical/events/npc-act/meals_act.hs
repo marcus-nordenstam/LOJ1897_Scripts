@@ -11,11 +11,11 @@
 ; eat_act. The begun-then-ended act-belief IS the meal memory (interval = the
 ; sitting) - there is no separate `dine` record.
 ;
-; TABLE TALK is unified in eat_act: one self-disclosure turn + one circle-news
-; turn, the hearer-min tier-gate clamping each fact by the lowest-tier ear
-; present. Only a HOME SUPPER consumes (one person-day food prop per diner);
-; breakfast / lunch / eating-out are abstract. Being under attack gates every
-; lane out (the fight lane owns the moment).
+; TABLE TALK is its OWN role-bearing event (npc-think/intra-day/table_talk_think.hs)
+; so it can bind the diner it addresses and dedup per-listener; eat_act keeps only
+; the food + the house-hours re-air. Only a HOME SUPPER consumes (one person-day
+; food prop per diner); breakfast / lunch / eating-out are abstract. Being under
+; attack gates every lane out (the fight lane owns the moment).
 ; ----------------------------------------------------------------------------
 
 ; The at-home idle dwell: the leaf when nothing else pulls, CAPPED to yield at the
@@ -55,19 +55,8 @@
     (if (is-a ?meal [k supper])
         (set-attr @self hunger 0)
         (set-attr @self hunger (max 0 (- (attr @self hunger) 0.35))))
-    ; TABLE TALK (unified, every meal): self-disclosure then circle news. The
-    ; hearer-min tier-gate clamps each fact by the lowest-tier ear present (a
-    ; servant at table caps the family's talk); breakfast / home-lunch / pub
-    ; meals, silent before, are now tier-limited talkative - intended.
-    ; Self-disclosure: say ONE untold piece of my own profile at this table. for-each-belief
-    ; walks my {@self <label> ?} beliefs, binding the matched label + target; (utterable-msg)
-    ; dedups against my SAY memories; (break) stops at the first untold fact.
-    (for-each-belief {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life_aim|lover:?label ?tgt}
-      (do
-        (if (not (believes {@self SAY (utterable-msg {@self ?label ?tgt}) _}))
-            (do (tell {@self ?label ?tgt}) (break)))))
-    (tell (top-untold-belief @self _ _
-            spouse fiancee child condition circumstances_of_death))
+    ; TABLE TALK (self-disclosure + circle news) is its own role-bearing event now
+    ; (npc-think/intra-day/table_talk_think.hs) - it binds the listener it speaks to.
     ; THE TABLE ANNOUNCEMENT (home meals): now and then re-air the house's hours
     ; ("supper at six, as always"), adopted by everyone at table onto their own
     ; home object. Idempotent; the chance keeps the say-record volume low.

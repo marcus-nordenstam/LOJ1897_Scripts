@@ -31,7 +31,7 @@
   (sim-window-think)
   (rng-stream incidents)
 
-  (role @self (any_human @self))
+  (role @self )
 
   ; Only home-holders can stumble about their own home - the CACHED home role.
   (role ?home (believes {@self home ?home}))
