@@ -210,7 +210,7 @@
           (bind (home-of ?kin) ?kin_home)
           (if (is-entity ?kin_home)
               (spawn-letter [k confession_letter]
-                            (written-msg {@i lover ?partner})
+                            (written-msg {@self lover ?partner})
                             ?kin_home))))
     (end-goal {@self confess_letter})))
 
@@ -251,21 +251,26 @@
   (do
     ; the discovered loss is minted {?loot stolen_from @self} (prop=subject,
     ; @self=the wronged discoverer), so bind the loot off the FREE subject.
-    (if (and (bind {?loot stolen_from @self})
-             (can-write @self)
-             (not (believes {@self report_to_police (if (is-entity ?victim) ?victim ?loot)})))
-        (do
-          (begin-belief {@self report_to_police (if (is-entity ?victim) ?victim ?loot)})
-          (bind (find-building [k police_station]) ?station)
-          (if (alive ?victim)
-              (do
-                (begin-belief {@self suspect ?victim})
-                (if (is-entity ?station)
-                    (spawn-letter [k crime_report_letter]
-                                  (written-msg {@self suspect ?victim}) ?station)))
-              (if (is-entity ?station)
-                  (spawn-letter [k crime_report_letter]
-                                (written-msg {?loot stolen_from @self}) ?station)))))
+    ; The discovered loss lives as {?loot stolen_from @self} (loot=subject); the
+    ; subject-enumeration (for-each-belief) binds ?loot off the FREE subject (a
+    ; plain free-subject (bind) does not thread into scope). One report per party.
+    (for-each-belief {?loot stolen_from @self}
+      (do
+        (if (and (can-write @self)
+                 (not (believes {@self report_to_police (if (is-entity ?victim) ?victim ?loot)})))
+            (do
+              (begin-belief {@self report_to_police (if (is-entity ?victim) ?victim ?loot)})
+              (bind (find-building [k police_station]) ?station)
+              (if (alive ?victim)
+                  (do
+                    (begin-belief {@self suspect ?victim})
+                    (if (is-entity ?station)
+                        (spawn-letter [k crime_report_letter]
+                                      (written-msg {@self suspect ?victim}) ?station)))
+                  (if (is-entity ?station)
+                      (spawn-letter [k crime_report_letter]
+                                    (written-msg {?loot stolen_from @self}) ?station)))))
+        (break)))
     (end-goal {@self report_crime})))
 
 ; Dispatch the select-joint winner (?terminal from the perpetration_terminals row)

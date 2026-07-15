@@ -46,12 +46,10 @@
   (when (chance (* 0.0667 (attr @self enthusiasm))))
 
   (cont-fire-effects
-    ; Broadcast the host's own freshest untold news to the co-present gathering.
-    ; The host airs one piece of their own news not yet told (see catch_up_act for
-    ; the for-each-belief + (utterable-msg)-dedup shape).
-    (for-each-belief ?fact {@self spouse|fiancee|lover|child ?tgt}
+    ; Broadcast ONE untold piece of the host's own news to the co-present gathering.
+    ; for-each-belief binds the matched label (:?label) + target; (utterable-msg) dedups.
+    (for-each-belief {@self spouse|fiancee|lover|child:?label ?tgt}
       (do
-        (bind (utterable-msg ?fact) ?msg)
-        (if (not (believes {@self SAY ?msg _}))
-            (do (tell ?fact) (break)))))
+        (if (not (believes {@self SAY (utterable-msg {@self ?label ?tgt}) _}))
+            (do (tell {@self ?label ?tgt}) (break)))))
     ))

@@ -59,14 +59,13 @@
     ; hearer-min tier-gate clamps each fact by the lowest-tier ear present (a
     ; servant at table caps the family's talk); breakfast / home-lunch / pub
     ; meals, silent before, are now tier-limited talkative - intended.
-    ; Self-disclosure: say ONE piece of my own profile I have not aired at this
-    ; table (freshest untold). See catch_up_act for the for-each-belief +
-    ; (utterable-msg)-dedup shape. TODO(disclosure): per-tier (no-role) company gate.
-    (for-each-belief ?fact {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life_aim|lover ?tgt}
+    ; Self-disclosure: say ONE untold piece of my own profile at this table. for-each-belief
+    ; walks my {@self <label> ?} beliefs, binding the matched label + target; (utterable-msg)
+    ; dedups against my SAY memories; (break) stops at the first untold fact.
+    (for-each-belief {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life_aim|lover:?label ?tgt}
       (do
-        (bind (utterable-msg ?fact) ?msg)
-        (if (not (believes {@self SAY ?msg _}))
-            (do (tell ?fact) (break)))))
+        (if (not (believes {@self SAY (utterable-msg {@self ?label ?tgt}) _}))
+            (do (tell {@self ?label ?tgt}) (break)))))
     (tell (top-untold-belief @self _ _
             spouse fiancee child condition circumstances_of_death))
     ; THE TABLE ANNOUNCEMENT (home meals): now and then re-air the house's hours
