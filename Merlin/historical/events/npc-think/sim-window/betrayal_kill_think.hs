@@ -48,6 +48,7 @@
     (if (not (believes {?interloper condition [k dead]}))
       (do
         ; Mint the affair appraisal (anger / contempt / humiliation) in @self's mind.
+        (debug-print "TRACE_BETRAYAL_FIRES @self partner=?partner interloper=?interloper")
         (appraise-betrayal ?partner ?interloper)
         ; Dual (kill BOTH) when the outrage clears the bar and both live.
         (if (>= (dual-outrage-score) 2.5)

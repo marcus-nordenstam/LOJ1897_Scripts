@@ -293,13 +293,6 @@
 (define-macro threat-focus ()
   (target {@self under_attack ?}))
 
-; Is the deliberator under a LIVE threat: an under_attack foe who is still
-; alive and co-present. A stale state toward a fled or dead foe does not
-; count, so the rest lane (gated on (not (under-attack))) un-gates the moment
-; the threat is gone and the dwelling belief lies inert.
-(define-macro under-attack ()
-  (and (alive (threat-focus)) (co-present @self (threat-focus))))
-
 ; The rival for ?beloved AS THE DELIBERATOR KNOWS IT: the beloved's spouse,
 ; else their lover, else the beloved themselves - every read from the
 ; deliberator's own beliefs (evidence-mediated, no mind-entering). The caller

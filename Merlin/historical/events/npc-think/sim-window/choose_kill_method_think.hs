@@ -40,6 +40,7 @@
     (policy roulette))
 
   (cont-fire-effects
+    (debug-print "TRACE_METHOD @self method=?method means=?means victim=?victim")
     (if (= ?method commission_killing)
         (if (commission-killing ?victim)
             (do (begin-belief {@self method ?method} /cause ?goal)

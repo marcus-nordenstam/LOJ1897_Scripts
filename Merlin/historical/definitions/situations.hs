@@ -65,10 +65,8 @@
   /coward-inhibition-min 70)
 
 ; ---- felt-life dimensions (F4.6) -------------------------------------------
-; belonging: the warmth-bond need is belonging-min-need plus up to
-; belonging-need-span scaled by Extraversion. contentment-neutral is the
-; reading for a mind that holds no mood.
+; contentment-neutral is the reading for a mind that holds no mood. (belonging
+; is a DECLARED value classifier now - definitions/signals.hs carries its
+; warmth-bond + Extraversion-need weights.)
 (felt-life
-  /belonging-min-need          1
-  /belonging-need-span         5
   /contentment-neutral        50)

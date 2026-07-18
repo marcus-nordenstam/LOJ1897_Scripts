@@ -19,15 +19,14 @@
   (sim-window-think)
   (rng-stream behaviour)
 
-  ; ?guest is anyone CO-PRESENT (the location JOIN, cf. introduce.hs): @self's own
-  ; room off {@self location ?loc}, the guest perceived in that same room. Enumerated,
-  ; so each co-present listener hears their own untold slice of @self's news.
+  ; ?guest is anyone CO-PRESENT: sourced OBJECTIVELY from @self's current room (env
+  ; contents), each guest passively perceived - enumerated, so each co-present listener
+  ; hears their own untold slice of @self's news.
   (role ?guest (any_human ?guest)
-               (believes {?guest location (target {@self location})}))
+               (co-present @self))
 
   ; Non-belief gates (out of the role): extraversion-weighted chance + minimum age.
-  (when (and ;(co-present @self ?guest)
-             (chance (* 0.25 (+ 0.5 (attr @self enthusiasm))))
+  (when (and (chance (* 0.25 (+ 0.5 (attr @self enthusiasm))))
              (>= (years-old @self) 12)))
 
   (act-effects

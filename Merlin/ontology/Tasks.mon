@@ -194,6 +194,9 @@ relation
             seek_indenture                          (tar human)
             enroll_child                            (tar human)
             engage_staff                            (tar human)
+
+            hold_meet_run                           (sub human)
+
             # find_building -> the venue-discovery search GOAL (find_building.hs). A seek
             # rule maintains {@self goal {@self find_building [k building <kind>]}} while it
             # wants a venue of a kind it knows none of; the goal is the walking leaf -

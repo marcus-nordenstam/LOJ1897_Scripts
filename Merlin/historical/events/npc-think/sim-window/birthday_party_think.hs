@@ -34,11 +34,11 @@
   (role @self (or (believes {@self life_aim belonging_aim})
                   (believes {@self life_aim respectability_aim})
                   (believes {@self identity parent_role})))
-  ; A CO-PRESENT friend (the party guest actually in the room): the friend tie is
-  ; the guest list, the location JOIN (cf. introduce.hs) is who is here to be told.
+  ; A CO-PRESENT friend (the party guest actually in the room): the friend tie is the
+  ; guest list; co-presence (objective room occupancy) is who is here to be told.
   (role ?guest (any_human ?guest)
                (believes {@self friend ?guest})
-               (believes {?guest location (target {@self location})}))
+               (co-present @self))
 
   ;; Moved from the @self role (non-belief): enthusiasm-scaled chance, multiplicative
   ;; so outgoing hosts engage more than withdrawn ones, /12'd to the monthly window

@@ -21,6 +21,9 @@ archetype "human_player" (cap 256) (per obs) (raycast-visible) (player) (non-occ
     "pregnant_when"
     "fatigue"
     "hunger"
+    "adrenaline"
+    "sleepiness"
+    "appetite"
     "sexual_orient"
     # Big Five personality - the ten Big Five Aspect Scale aspects.
     "openness"

@@ -39,11 +39,8 @@
   ; the `fancy` band - the same gate court / love_match read).
   (role ?target (any_human ?target)
                 (marriageable-age ?target)
-                (is-attracted-to @self ?target))
-
-  ; The confession only happens when they are actually TOGETHER (no telepathy; also
-  ; keeps the per-listener untold record honest).
-  (when (co-present @self ?target))
+                (is-attracted-to @self ?target)
+                (co-present @self))
 
   (act-effects
     ; Say it to ?target's face: she/he now KNOWS @self fancies them.

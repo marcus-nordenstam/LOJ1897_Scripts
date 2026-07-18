@@ -2,10 +2,12 @@
 ; rest (npc-think) - the FATIGUE / REST lane: a real physiological fatigue model
 ; drives when an NPC sleeps.
 ;
-; (attr @self fatigue) reads the continuous, imperceptible `fatigue` attr (0 rested ..
-; 1 ready-for-bed, can exceed 1 when sleep is denied). The stepper mutates it:
-; the sleep act's completion REDUCES it (1/6 per hour slept -> 6h clears 1.0),
-; waking time ACCRUES it (~1/16 per hour -> ~1.0 by late evening). A separate
+; (attr @self sleepiness) reads the ADRENALINE-MASKED fatigue (sleepiness = fatigue *
+; (1 - adrenaline), derived by update_physiology). The raw `fatigue` attr (0 rested ..
+; 1 ready-for-bed, can exceed 1) is the untouched debt; the sleep act's completion REDUCES
+; it (1/6 per hour slept -> 6h clears 1.0), waking time accrues it. A combatant reads
+; sleepiness ~0 during a fight (adrenaline masks it) then crashes when the surge fades.
+; A separate
 ; appraiser de-quantizes it into {@self alertness alert|tired|sleepy} (the
 ; queryable memory); this lane and the utility only ever read the attr.
 ;
@@ -24,10 +26,9 @@
 ; stays below the work shift (80) until exhaustion, then overrides.
 (npc-think seek_rest
   (short-term-think)
-  (when (and (not (under-attack))
-             (not (at-home))
-             (> (attr @self fatigue) 0.7)))
-  (utility (if (> (attr @self fatigue) 1.0) 10000 (* 90 (attr @self fatigue))))
+  (when (and (not (at-home))
+             (> (attr @self sleepiness) 0.7)))
+  (utility (if (> (attr @self sleepiness) 1.0) 10000 (* 90 (attr @self sleepiness))))
   (cont-fire-effects (bind (target {@self home ?}) ?go_dest) (go-into ?go_dest)))
 
 ; at home and at all tired (or it is night): sleep until the morning alarm. The
@@ -39,14 +40,13 @@
   (role ?home (believes {@self home ?home}))
   ; You cannot sleep through an assault - being under attack gates the whole rest
   ; lane OUT, so the fight acts (defend / flee / scream) take over (fight.hs).
-  (when (and (not (under-attack))
-             (at-home)
-             (or (> (attr @self fatigue) 0.5)
+  (when (and (at-home)
+             (or (> (attr @self sleepiness) 0.5)
                  (>= (now-hour) 22)
                  (< (now-hour) 6))))
-  (utility (if (> (attr @self fatigue) 1.0)
+  (utility (if (> (attr @self sleepiness) 1.0)
                10000
-               (max (* 90 (attr @self fatigue))
+               (max (* 90 (attr @self sleepiness))
                     (if (or (>= (now-hour) 22) (< (now-hour) 6)) 100 0))))
   ; Duration is a FUNCTION: sleep until the morning alarm, but no longer than
   ; until a pending obligation - a tired NPC with a gathering tonight wakes in
@@ -64,7 +64,6 @@
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.
 (npc-think idle_go_home
   (short-term-think)
-  (when (and (not (under-attack))
-             (not (at-home))))
+  (when (not (at-home)))
   (utility 1)
   (cont-fire-effects (bind (target {@self home ?}) ?go_dest) (go-into ?go_dest)))

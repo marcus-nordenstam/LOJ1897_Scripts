@@ -34,6 +34,13 @@ archetype "human_npc" (cap 4096) (per obs) (raycast-visible) (sentient) (non-occ
     # act's completion reduces it, waking time accrues it (imperceptible).
     "fatigue"
     "hunger"
+    # Fight-or-flight surge (0..1) + the adrenaline-masked drives it derives:
+    # sleepiness = fatigue*(1-adrenaline), appetite = hunger*(1-adrenaline). The rest
+    # / meal lanes read sleepiness / appetite so a combatant does not doze / break to
+    # eat mid-fight, then crashes when the surge fades (update_physiology owns them).
+    "adrenaline"
+    "sleepiness"
+    "appetite"
     # Emigration marker (0/1) - set per-NPC, swept zero-role (mark-then-sweep).
     "emigrating"
     # Accumulated intoxication - F3.7 sobriety input.

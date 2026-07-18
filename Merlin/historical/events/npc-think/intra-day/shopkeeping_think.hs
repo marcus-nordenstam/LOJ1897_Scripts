@@ -14,7 +14,6 @@
   (goal {@self stocktake})
   (role ?org (believes {@self employer ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
-  (when (and (not (under-attack))
-             (at-workplace ?wp)))
+  (when  (at-workplace ?wp))
   (utility 82)
   (cont-fire-effects (begin-goal {@self stocktake})))

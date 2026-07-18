@@ -32,9 +32,11 @@
   ; profile goal not yet bound to a person) or a dead victim gates out; the
   ; per-victim fight-goal test keeps the mint idempotent across months.
 
-  (when (and (is-entity ?victim)
+  (when (and (debug-print "TRACE_ATKILL_GATE @self victim=?victim")
+             (is-entity ?victim)
              (not (believes {?victim condition [k dead]}))
              (no-goal {@self fight ?victim})))
 
   (cont-fire-effects
+    (debug-print "TRACE_ATKILL_MINT @self -> fight victim=?victim")
     (begin-goal {@self fight ?victim})))

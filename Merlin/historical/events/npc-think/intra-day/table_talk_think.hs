@@ -32,11 +32,10 @@
   ; in (when) below.
   (role @self (believes {@self eat ?}))
 
-  ; THE LISTENER: one co-present diner, drawn by roulette. The location JOIN binds
-  ; @self's own room off {@self location ?loc}, then the diner must be perceived in
-  ; that same room.
+  ; THE LISTENER: one co-present diner, drawn by roulette. Sourced OBJECTIVELY from
+  ; @self's current room (env contents), each diner passively perceived.
   (role ?diner (any_human ?diner)
-               (believes {?diner location (target {@self location})})
+               (co-present @self)
                (select (score 1) (policy roulette)))
 
   ; Bind the meal place, then require @self to be AT it - seated, not still walking

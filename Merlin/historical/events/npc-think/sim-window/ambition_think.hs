@@ -47,6 +47,8 @@
   ; @self's employer belief - the instrumental stake - so the rap sheet reads
   ; "kill <head> <- {@self employer <org>}".
   (cont-fire-effects
+    (debug-print "TRACE_AMBITION_FIRES @self")
     (bind (ambition-target @self) ?victim)
     (if (not (believes {?victim condition [k dead]}))
-        (begin-goal {@self kill ?victim} /cause {@self employer}))))
+        (do (debug-print "TRACE_KILLGOAL ambition @self -> ?victim")
+            (begin-goal {@self kill ?victim} /cause {@self employer})))))

@@ -57,6 +57,8 @@
   ; crave-rival resolves the rival for the beloved (read in @self's own mind), else
   ; the beloved. /cause pins the crave belief - the obsessive signature.
   (cont-fire-effects
+    (debug-print "TRACE_PASSION_FIRES @self beloved=?beloved")
     (bind (crave-rival ?beloved) ?victim)
     (if (not (believes {?victim condition [k dead]}))
-        (begin-goal {@self kill ?victim} /cause {@self crave ?beloved}))))
+        (do (debug-print "TRACE_KILLGOAL passion @self -> ?victim")
+            (begin-goal {@self kill ?victim} /cause {@self crave ?beloved})))))

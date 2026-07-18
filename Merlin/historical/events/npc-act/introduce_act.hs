@@ -17,12 +17,10 @@
   (rng-stream behaviour)
 
   (role @self )
-  ; A co-present, not-yet-known person. The location JOIN binds @self's own current
-  ; room off {@self location ?loc}, then the candidate must be perceived in that
-  ; same room ({?stranger location ?loc} in @self's OWN mind) and NOT already known.
-  (role ?stranger (any_human ?stranger)
-    (believes {?stranger location (target {@self location})})
-    (not (personally-knows @self ?stranger)))
+  ; A co-present, not-yet-known person: sourced OBJECTIVELY from @self's current room
+  ; (env contents), each candidate passively perceived, then filtered to those NOT
+  ; already personally known.
+  (role ?stranger (any_human ?stranger) (co-present @self) (not (personally-knows @self ?stranger)))
 
   ; Sociability gate: an extraverted NPC strikes up an introduction more readily.
   (when (chance (* 0.5 (+ 0.4 (attr @self enthusiasm)))))

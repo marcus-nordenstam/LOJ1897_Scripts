@@ -18,6 +18,7 @@
   (when (bind {@self fight ?foe}))
   (duration 1)
   (act-effects
+    (set-attr @self adrenaline 1)
     (strike-blow ?foe kill)
     (if (not (alive ?foe)) (propagate-death ?foe))
     (end-act {@self fight ?foe})))
@@ -26,10 +27,13 @@
   (when (bind {@self flee ?foe}))
   (duration 1)
   (act-effects
+    (set-attr @self adrenaline 1)
     (attempt-flee)
     (end-act {@self flee ?foe})))
 
 (npc-act cry_out_act
   (when (believes {@self cry_out}))
   (duration 1)
-  (act-effects (end-act {@self cry_out})))
+  (act-effects
+    (set-attr @self adrenaline 1)
+    (end-act {@self cry_out})))

@@ -49,11 +49,10 @@
 (npc-think claim_cook_hired
   (short-term-think)
   (role @self (grown @self)
-              (believes {@self job [k job cook]})
+                           (believes {@self job [k job cook]})
               (not (believes {@self household_cook ?})))
   (role ?home (believes {@self home ?home}))
-  (when (and (not (under-attack))
-             (pub-bb-none ?home cook)))
+  (when (pub-bb-none ?home cook))
   (cont-fire-effects
     (pub-bb-post ?home cook (cook_marker_ttl_cycles))
     (begin-belief {@self household_cook ?home})))
@@ -61,12 +60,11 @@
 (npc-think claim_cook_woman
   (short-term-think)
   (role @self (grown @self)
-              (believes {@self gender [k female]})
+                           (believes {@self gender [k female]})
               (not (believes {@self household_cook ?}))
               (not (believes {@self class_situation [k upper]})))
   (role ?home (believes {@self home ?home}))
-  (when (and (not (under-attack))
-             (pub-bb-none ?home cook)
+  (when (and (pub-bb-none ?home cook)
              (not (and (bind {@self mother ?mum})
                        (believes {?mum home ?home})))))
   (cont-fire-effects
@@ -76,13 +74,12 @@
 (npc-think claim_cook_man
   (short-term-think)
   (role @self (grown @self)
-              (believes {@self gender [k male]})
+                           (believes {@self gender [k male]})
               (not (believes {@self household_cook ?}))
               (not (believes {@self spouse ?}))
               (not (believes {@self class_situation [k upper]})))
   (role ?home (believes {@self home ?home}))
-  (when (and (not (under-attack))
-             (pub-bb-none ?home cook)
+  (when (and (pub-bb-none ?home cook)
              (not (and (bind {@self child ?c})
                        (believes {?c gender [k female]})
                        (believes {?c home ?home})))))
@@ -102,8 +99,7 @@
   (role ?home (believes {@self household_cook ?home}))
   ; The kitchen resolves from the cook's OWN room knowledge (the home pre-teach
   ; mints {home room <r>}): the kind-cast bind picks the is-a kitchen target.
-  (when (and (not (under-attack))
-             (bind {?home room [k kitchen]:?kitchen})
+  (when (and (bind {?home room [k kitchen]:?kitchen})
              (< (count-believed-located [k food] ?kitchen) (larder_low_water))))
   (utility 77)
   (cont-fire-effects
@@ -118,8 +114,7 @@
   (short-term-think)
   (goal {@self provision})
   (bind (target {@self provisions_shop ?}) ?shop)
-  (when (and (not (under-attack))
-             (is-entity ?shop)
+  (when (and (is-entity ?shop)
              (not (in-building ?shop))))
   (cont-fire-effects (go-into ?shop)))
 
@@ -127,8 +122,7 @@
   (short-term-think)
   (goal {@self provision})
   (bind (target {@self provisions_shop ?}) ?shop)
-  (when (and (not (under-attack))
-             (not (is-entity ?shop))
+  (when (and (not (is-entity ?shop))
              (no-goal {@self orient})))
   (cont-fire-effects
     (begin-goal {@self orient})))
@@ -144,8 +138,7 @@
 (npc-think provision_rearm
   (short-term-think)
   (role ?home (believes {@self home ?home}))
-  (when (and (not (under-attack))
-             (bind {?home room [k kitchen]:?kitchen})
+  (when (and (bind {?home room [k kitchen]:?kitchen})
              (control [k food])))
   (utility (if (at-place ?kitchen) 250 90))
   (cont-fire-effects (begin-goal {@self bring [k food] ?kitchen})))

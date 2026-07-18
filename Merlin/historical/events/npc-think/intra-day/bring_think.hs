@@ -22,6 +22,5 @@
 (npc-think bring_go
   (short-term-think)
   (goal {@self bring ?ware ?dest})
-  (when (and (not (under-attack))
-             (not (at-place ?dest))))
+  (when (not (at-place ?dest)))
   (cont-fire-effects (go-into ?dest)))

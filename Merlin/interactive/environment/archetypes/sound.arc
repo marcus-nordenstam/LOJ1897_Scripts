@@ -1,5 +1,5 @@
 # Any sound - including speech
-archetype "sound" (cap 256) (non-occluder) (per hear)
+archetype "sound" (cap 512) (non-occluder) (per hear)
 {
     "create_action"
     "speaker"

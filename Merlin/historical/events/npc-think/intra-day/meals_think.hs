@@ -46,8 +46,7 @@
 (npc-think idle_at_home
   (short-term-think)
   (role ?home (believes {@self home ?home}))
-  (when (and (not (under-attack))
-             (at-home)))
+  (when (at-home))
   (utility 2)
   (cont-fire-effects (excl-goal {@self dwell ?home})))
 
@@ -71,9 +70,8 @@
 (npc-think notice_larder
   (short-term-think)
   (role ?home (believes {@self home ?home}))
-  (when (and (not (under-attack))
-             (at-home)
-             (> (attr @self hunger) 0.25)
+  (when (and (at-home)
+             (> (attr @self appetite) 0.25)
              (= (count-believed-located [k food] ?home) 0)
              (bind {?home room [k kitchen]:?kitchen})))   ; a resident who does not know their kitchen just skips
   (cont-fire-effects
@@ -87,9 +85,8 @@
   (short-term-think)
   (role ?home (believes {@self home ?home})
               (believes {?home breakfast_hour ?h}))   ; existence cached, ?h binds at fire
-  (when (and (not (under-attack))
-             (at-home)
-             (> (attr @self hunger) 0.25)
+  (when (and (at-home)
+             (> (attr @self appetite) 0.25)
              (>= (now-hour) ?h)
              (< (now-hour) (+ ?h 3))
              (> (count-believed-located [k food] ?home) 0)))
@@ -102,8 +99,7 @@
   (short-term-think)
   (role ?org (believes {@self employer ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
-  (when (and (not (under-attack))
-             (> (attr @self hunger) 0.25)
+  (when (and (> (attr @self appetite) 0.25)
              (at-workplace ?wp)
              (>= (now-hour) 12)
              (< (now-hour) 14)))
@@ -116,9 +112,8 @@
   (short-term-think)
   (role ?home (believes {@self home ?home})
               (believes {?home lunch_hour ?h}))   ; existence cached, ?h binds at fire
-  (when (and (not (under-attack))
-             (at-home)
-             (> (attr @self hunger) 0.25)
+  (when (and (at-home)
+             (> (attr @self appetite) 0.25)
              (>= (now-hour) ?h)
              (< (now-hour) (+ ?h 2))
              (> (count-believed-located [k food] ?home) 0)))
@@ -132,8 +127,7 @@
   (short-term-think)
   (role ?home (believes {@self home ?home})
               (believes {?home supper_hour ?h}))   ; existence cached, ?h binds at fire
-  (when (and (not (under-attack))
-             (> (attr @self hunger) 0.25)
+  (when (and (> (attr @self appetite) 0.25)
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
              (> (count-believed-located [k food] ?home) 0)))
@@ -152,8 +146,7 @@
   (role ?home (believes {@self home ?home})
               (believes {?home supper_hour ?h}))   ; existence cached, ?h binds at fire
   (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette)))
-  (when (and (not (under-attack))
-             (> (attr @self hunger) 0.25)
+  (when (and (> (attr @self appetite) 0.25)
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
              (> (target {@self wealth}) 0.2)
@@ -169,8 +162,7 @@
   (role ?home (believes {@self home ?home})
               (believes {?home supper_hour ?h}))   ; existence cached, ?h binds at fire
   (role ?venue [k building restaurant] (select (score (near @self ?venue)) (policy roulette)))
-  (when (and (not (under-attack))
-             (> (attr @self hunger) 0.25)
+  (when (and (> (attr @self appetite) 0.25)
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
              (> (target {@self wealth}) 0.2)
@@ -187,8 +179,7 @@
 (npc-think eat_go
   (short-term-think)
   (goal    {@self eat ?meal ?place})
-  (when    (and (not (under-attack))
-                (not (at-place ?place))))
+  (when    (not (at-place ?place)))
   (cont-fire-effects (go-into ?place)))
 
 ; (PROVISIONING - the cook keeping the kitchen larder stocked - lives in
@@ -220,14 +211,14 @@
 (npc-think starving_watch
   (short-term-think)
   (role @self (not (believes {@self starving})))
-  (when (> (attr @self hunger) 1.3))
+  (when (> (attr @self appetite) 1.3))
   (cont-fire-effects
     (begin-belief {@self starving})))
 
 (npc-think starving_watch_end
   (short-term-think)
   (role @self (believes {@self starving}))
-  (when (not (> (attr @self hunger) 1.3)))
+  (when (not (> (attr @self appetite) 1.3)))
   (cont-fire-effects
     (end-belief {@self starving})))
 
@@ -241,8 +232,7 @@
 (npc-think starving_eat_carried
   (short-term-think)
   (role @self (believes {@self starving}))
-  (when (and (not (under-attack))
-             (> (attr @self hunger) 1.3)
+  (when (and (> (attr @self appetite) 1.3)
              (control [k food])))
   (utility 141)
   (cont-fire-effects (begin-goal {@self forage})))
@@ -251,8 +241,7 @@
   (short-term-think)
   (role @self (believes {@self starving}))
   (role ?home (believes {@self home ?home}))
-  (when (and (not (under-attack))
-             (> (attr @self hunger) 1.3)
+  (when (and (> (attr @self appetite) 1.3)
              (at-home)
              (> (count-believed-located [k food] ?home) 0)))
   (utility 140)
@@ -262,8 +251,7 @@
   (short-term-think)
   (role @self (believes {@self starving}))
   (role ?home (believes {@self home ?home}))
-  (when (and (not (under-attack))
-             (> (attr @self hunger) 1.3)
+  (when (and (> (attr @self appetite) 1.3)
              (not (at-home))
              (> (count-believed-located [k food] ?home) 0)))
   (utility 138)
@@ -274,8 +262,7 @@
 (npc-think starving_buy
   (short-term-think)
   (role @self (believes {@self starving}))
-  (when (and (not (under-attack))
-             (> (attr @self hunger) 1.3)
+  (when (and (> (attr @self appetite) 1.3)
              (> (target {@self wealth}) 0.2)
              (at-place-kind [k building shop])))
   (utility 135)
@@ -288,8 +275,7 @@
   ; (nearest, weighted). Replaces the (venue ...) fallback.
   (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
   (bind (target {@self provisions_shop ?}) ?shop)
-  (when (and (not (under-attack))
-             (> (attr @self hunger) 1.3)
+  (when (and (> (attr @self appetite) 1.3)
              (> (target {@self wealth}) 0.2)
              (not (at-place-kind [k building shop]))))
   (utility 135)
@@ -304,8 +290,7 @@
 (npc-think starving_steal
   (short-term-think)
   (role @self (believes {@self starving}))
-  (when (and (not (under-attack))
-             (> (attr @self hunger) 1.3)
+  (when (and (> (attr @self appetite) 1.3)
              (not (> (target {@self wealth}) 0.2))
              (at-place-kind [k building shop])))
   (utility 130)
@@ -316,8 +301,7 @@
   (role @self (believes {@self starving}))
   (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
   (bind (target {@self provisions_shop ?}) ?shop)
-  (when (and (not (under-attack))
-             (> (attr @self hunger) 1.3)
+  (when (and (> (attr @self appetite) 1.3)
              (not (> (target {@self wealth}) 0.2))
              (not (at-place-kind [k building shop]))))
   (utility 130)

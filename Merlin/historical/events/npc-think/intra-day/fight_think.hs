@@ -53,11 +53,14 @@
 (npc-think kill_seek
   (short-term-think)
   (goal {@self fight ?victim})
+
   (when (and (bind {?victim home ?victim_home})
              (not (co-present @self ?victim))))
   (utility (if (< (fight-elapsed) 10) 150
                (max 0 (- 150 (* 30 (- (fight-elapsed) 10))))))
-  (cont-fire-effects (go-into ?victim_home)))
+  (cont-fire-effects
+    (debug-print "TRACE_KILLSEEK @self stalks victim=?victim to ?victim_home")
+    (go-into ?victim_home)))
 
 ; The killer at the victim strikes - a committed murderer prioritises the blow
 ; (utility 200 dominates work 80 / sleep 100) UNTIL the exposure clock drags it
@@ -69,7 +72,9 @@
   (when (co-present @self ?victim))
   (utility (if (< (fight-elapsed) 10) 200
                (max 0 (- 200 (* 30 (- (fight-elapsed) 10))))))
-  (cont-fire-effects (begin-goal {@self fight ?victim})))
+  (cont-fire-effects
+    (debug-print "TRACE_KILLSTRIKE @self strikes victim=?victim")
+    (begin-goal {@self fight ?victim})))
 
 ; BREAK OFF (end-condition c): a killer whose attempt has dragged on without a kill
 ; gives up for now and leaves - exposure outweighs the deed. Utility is 0 for the
@@ -96,13 +101,11 @@
 (npc-think defend_strike
   (short-term-think)
   (bind (threat-focus) ?foe)
-  (when (and (under-attack)
-             (co-present @self ?foe)
-             (chance (clamp (+ (attr @self volatility)
-                               (attr @self sadism)
-                               (- 1.0 (attr @self compassion)))
-                            0.05 0.95))))
-  (utility 200)
+  (when (chance (clamp (+ (attr @self volatility)
+                          (attr @self sadism)
+                          (- 1.0 (attr @self compassion)))
+                          0.05 0.95)))
+  (utility 20000)
   (cont-fire-effects (excl-goal {@self fight ?foe})))
 
 ; THE VICTIM TRIES TO FLEE (end-condition b). A struck victim that does NOT turn to
@@ -113,11 +116,9 @@
 ; and co-presence breaks; on FAILURE it is still pinned and re-deliberates next round.
 (npc-think flee_attack
   (short-term-think)
-  (bind (threat-focus) ?foe)
-  (when (and (under-attack)
-             (no-goal {@self fight})
-             (co-present @self ?foe)))
-  (utility 150)
+  (role ?foe (believes {@self under_attack ?foe}))
+  (when (no-goal {@self fight}))
+  (utility 15000)
   (cont-fire-effects (excl-goal {@self flee ?foe})))
 
 ; THE VICTIM SCREAMS FOR HELP - the last resort when it can neither fight (failed the
@@ -126,7 +127,6 @@
 ; falling back to sleep / idle while under attack) and re-deliberating each round.
 (npc-think scream_for_help
   (short-term-think)
-  (when (and (under-attack)
-             (co-present @self (threat-focus))))
-  (utility 100)
+  (role ?foe (believes {@self under_attack ?foe}))
+  (utility 12000)
   (cont-fire-effects (excl-goal {@self cry_out})))

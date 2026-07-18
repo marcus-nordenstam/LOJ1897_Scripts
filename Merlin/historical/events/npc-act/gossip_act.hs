@@ -27,9 +27,9 @@
   ; The person gossiped ABOUT: someone @self knows of, drawn by roulette.
   (role ?x (any_human ?x)
            (select (score 1) (policy roulette)))
-  ; The LISTENER: a co-present person (the location JOIN), drawn by roulette.
+  ; The LISTENER: a co-present person (objective room occupancy), drawn by roulette.
   (role ?ear (any_human ?ear)
-             (believes {?ear location (target {@self location})})
+             (co-present @self)
              (select (score 1) (policy roulette)))
 
   ; Non-belief gates (out of the roles): don't gossip to ?x about themselves (a cross-
