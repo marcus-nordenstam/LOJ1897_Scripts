@@ -211,29 +211,10 @@
 ; bands the wealth dimension via (mint-band) in a (sim-window-think). The
 ; (classify ...) declaration here is retired (one writer only).
 
-; class_situation <- breeding (the dominant lineage anchor) + prestige (public
-; office) + wealth, weights 5/3/2 normalized. A high prestige + wealth can
-; carry a low-breeding man up a band - the self-made climb; idle high breeding
-; alone slides down.
-(classify class_situation
-  (from (+ (* 0.5 (dim breeding))
-           (* 0.3 (dim prestige))
-           (* 0.2 (dim wealth))))
-  (bands ([k class_situation upper]  0.70)
-         ([k class_situation middle] 0.40)
-         ([k class_situation lower]  -1)))
-
-; social_trajectory <- the divergence of achieved standing ((prestige +
-; wealth) / 2) from the inherited breeding anchor; +/- 0.15 counts as a move.
-; The climbing clerk reads rising; the idle high-breeding heir declining.
-(classify social_trajectory
-  (from (+ (* (dim prestige) 0.5)
-           (* (dim wealth)   0.5)
-           (* (dim breeding) -1)))
-  (bands ([k social_trajectory rising]    0.15)
-         ([k social_trajectory stable]    -0.15)
-         ([k social_trajectory declining] -2)))
-
+; class_situation + social_trajectory are EVENTIFIED now -
+; events/classifiers/{class_situation,social_trajectory}.hs band the
+; breeding/prestige/wealth fusion via (mint-band). The (classify ...) forms are
+; retired (one writer only).
 
 ; respectability_situation - the TRUE-character fuse: the mean of the seven
 ; conduct dimensions with RAW sobriety and TRUE chastity (ruling C1: what is
@@ -343,42 +324,7 @@
 ; OR = (clamp (+ ...) 0 1).
 ; ----------------------------------------------------------------------------
 
-; drunkard: a standing craving for drink IS the dependency.
-(classify prototype
-  (kind [k prototype drunkard])
-  (when (present craving)))
-
-; nouveau_riche: high wealth (>= 0.60) carried by low breeding (<= 0.35) -
-; new money, not old blood. Thresholds mirror situations.hs prototype-tuning.
-(classify prototype
-  (kind [k prototype nouveau_riche])
-  (when (* (>= (dim wealth) 0.60)
-           (<= (dim breeding) 0.35))))
-
-; self_made_man: a low-born man risen into the middle class or above on a
-; sound character - rising trajectory + arrived class + low breeding +
-; reputable standing.
-(classify prototype
-  (kind [k prototype self_made_man])
-  (when (* (has social_trajectory [k social_trajectory rising])
-           (clamp (+ (has class_situation [k class_situation middle])
-                     (has class_situation [k class_situation upper])) 0 1)
-           (<= (dim breeding) 0.40)
-           (clamp (+ (has respectability_situation [k respectability_situation exemplary])
-                     (has respectability_situation [k respectability_situation respectable])) 0 1))))
-
-; deserving_poor / undeserving_poor: the shared economic test (poor or
-; destitute), split on respectability.
-(classify prototype
-  (kind [k prototype deserving_poor])
-  (when (* (clamp (+ (has economic_situation [k economic_situation poor])
-                     (has economic_situation [k economic_situation destitute])) 0 1)
-           (clamp (+ (has respectability_situation [k respectability_situation exemplary])
-                     (has respectability_situation [k respectability_situation respectable])) 0 1))))
-
-(classify prototype
-  (kind [k prototype undeserving_poor])
-  (when (* (clamp (+ (has economic_situation [k economic_situation poor])
-                     (has economic_situation [k economic_situation destitute])) 0 1)
-           (clamp (+ (has respectability_situation [k respectability_situation disreputable])
-                     (has respectability_situation [k respectability_situation scandalous])) 0 1))))
+; The five prototypes (drunkard / nouveau_riche / self_made_man / deserving_poor
+; / undeserving_poor) are EVENTIFIED now - events/classifiers/prototypes.hs
+; toggles each via (mint-band {@self prototype} <bool> [k prototype <p>] 0.5). The
+; (classify ...) forms are retired.
