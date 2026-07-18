@@ -207,18 +207,9 @@
 ; situations must precede the prototypes that read them.
 ; ----------------------------------------------------------------------------
 
-; economic_situation <- the wealth dimension. Band mins are the old ascending
-; upper bounds (15/30/45/60/75/90 on the 0..100 scale) read as descending
-; entry thresholds on the 0..1 dimension.
-(classify economic_situation
-  (from (dim wealth))
-  (bands ([k economic_situation wealthy]     0.90)
-         ([k economic_situation prosperous]  0.75)
-         ([k economic_situation comfortable] 0.60)
-         ([k economic_situation stable]      0.45)
-         ([k economic_situation struggling]  0.30)
-         ([k economic_situation poor]        0.15)
-         ([k economic_situation destitute]   -1)))
+; economic_situation is EVENTIFIED now - events/classifiers/economic_situation.hs
+; bands the wealth dimension via (mint-band) in a (sim-window-think). The
+; (classify ...) declaration here is retired (one writer only).
 
 ; class_situation <- breeding (the dominant lineage anchor) + prestige (public
 ; office) + wealth, weights 5/3/2 normalized. A high prestige + wealth can
