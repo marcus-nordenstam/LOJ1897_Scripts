@@ -216,24 +216,10 @@
 ; breeding/prestige/wealth fusion via (mint-band). The (classify ...) forms are
 ; retired (one writer only).
 
-; respectability_situation - the TRUE-character fuse: the mean of the seven
-; conduct dimensions with RAW sobriety and TRUE chastity (ruling C1: what is
-; true of the conduct, not what the parish can see - the functioning
-; alcoholic reads low here while his repute stays high; the gap is the
-; blackmail stake).
-(classify respectability_situation
-  (from (/ (+ (dim honesty)
-              (dim sobriety)
-              piety01
-              (dim diligence)
-              (dim chastity)
-              (dim decorum)
-              (dim generosity)) 7))
-  (bands ([k respectability_situation exemplary]    0.80)
-         ([k respectability_situation respectable]  0.60)
-         ([k respectability_situation questionable] 0.40)
-         ([k respectability_situation disreputable] 0.20)
-         ([k respectability_situation scandalous]   -1)))
+; respectability_situation is EVENTIFIED now -
+; events/classifiers/respectability_situation.hs fuses the seven conduct dims
+; (value-classifiers via (classifier-value ...) + the C++ chastity/decorum floats)
+; and bands via (mint-band). The (classify ...) form is retired.
 
 ; repute - the PUBLIC-estimate fuse: visible sobriety + the leaked chastity
 ; band in place of the true dimensions. A transitional theory-of-mind
