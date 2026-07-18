@@ -261,44 +261,9 @@
                      (* (count value)    0.05)
                      (* (count justify) -0.08))) 0 1)))
 
-; life_aim - the dominant of the seven aims (argmax over multiplicative
-; composites; the floor keeps a featureless NPC wanting to belong somewhere).
-; Non-@excl label: the emitter ends the prior dominant aim on a qualitative
-; shift and (core-episode) preserves the multi-decade interval history
-; through semantic compression.
-(classify life_aim
-  (core-episode)
-  (argmax
-    ([k life_aim legacy_aim]
-       (* (/ (+ (attr compassion) (attr politeness)) 2)
-          (+ 0.3 (* (present child) 0.7))
-          (+ 0.3 (* (clamp (+ (has class_situation [k class_situation upper])
-                              (has class_situation [k class_situation middle])) 0 1) 0.7))))
-    ([k life_aim wealth_aim]
-       (* (attr industriousness)
-          (- 1 piety01)
-          (max (- 1 (dim wealth))
-               (has social_trajectory [k social_trajectory rising]))))
-    ([k life_aim piety_aim]
-       (* piety01
-          (- 1 (dim criminality))
-          (+ 0.4 (* (act-at worship [k building church]) 0.6))))
-    ([k life_aim respectability_aim]
-       (* (attr politeness)
-          piety01
-          (+ 0.2 (* (has class_situation [k class_situation middle]) 0.8))
-          (dim decorum)))
-    ([k life_aim autonomy_aim]
-       (* (attr assertiveness) (- 1 (dim rootedness))))
-    ([k life_aim power_aim]
-       (* (attr machiavellianism)
-          (attr narcissism)
-          (+ 0.3 (* (present employer) 0.7))))
-    ([k life_aim belonging_aim]
-       (* (attr enthusiasm)
-          (- 1 (dim rootedness))
-          (clamp (* (count friend) 0.2) 0 1)))
-    (floor 0.01 [k life_aim belonging_aim])))
+; life_aim is EVENTIFIED now - events/classifiers/life_aim.hs runs the seven-aim
+; argmax via (mint-argmax) (core-episode preserved). The (classify ...) form is
+; retired.
 ; ----------------------------------------------------------------------------
 ; Prototypes (Shape B toggles) - named conjunctions over the situations /
 ; dimensions, ported from hsim_derive's C++ predicates. Each reads the

@@ -1,0 +1,51 @@
+; ----------------------------------------------------------------------------
+; life_aim (classifier, Shape M). The dominant of the seven aims - an argmax over
+; multiplicative composites; the floor keeps a featureless NPC wanting to belong
+; somewhere. Eventified (mint-argmax) replacement of the (classify) declaration:
+; (mint-argmax ends the prior dominant on a qualitative shift and marks both ends
+; core-episode so the multi-decade interval history survives semantic compression).
+;
+; Reads value dims via (classifier-value ...), the C++ wealth/decorum floats via
+; (target ...), the situation bands + (present ...) via (believes ...), the
+; any-tense worship-at-church act-record via a kind-cast /ever believes, and the
+; friend count via (count-beliefs ...). Gated on wealth+decorum being derived.
+; ----------------------------------------------------------------------------
+
+(npc-think classify_life_aim
+  (sim-window-think)
+  (rng-stream behaviour)
+
+  (role @self (believes {@self wealth ?})
+              (believes {@self decorum ?}))
+
+  (cont-fire-effects
+    (mint-argmax {@self life_aim} 0.01 [k life_aim belonging_aim]
+      [k life_aim legacy_aim]
+        (* (/ (+ (attr @self compassion) (attr @self politeness)) 2)
+           (+ 0.3 (* (believes {@self child ?}) 0.7))
+           (+ 0.3 (* (clamp (+ (believes {@self class_situation [k class_situation upper]})
+                               (believes {@self class_situation [k class_situation middle]})) 0 1) 0.7)))
+      [k life_aim wealth_aim]
+        (* (attr @self industriousness)
+           (- 1 (classifier-value piety))
+           (max (- 1 (target {@self wealth}))
+                (believes {@self social_trajectory [k social_trajectory rising]})))
+      [k life_aim piety_aim]
+        (* (classifier-value piety)
+           (- 1 (classifier-value criminality))
+           (+ 0.4 (* (believes {@self worship [k building church]:?w /ever}) 0.6)))
+      [k life_aim respectability_aim]
+        (* (attr @self politeness)
+           (classifier-value piety)
+           (+ 0.2 (* (believes {@self class_situation [k class_situation middle]}) 0.8))
+           (target {@self decorum}))
+      [k life_aim autonomy_aim]
+        (* (attr @self assertiveness) (- 1 (classifier-value rootedness)))
+      [k life_aim power_aim]
+        (* (attr @self machiavellianism)
+           (attr @self narcissism)
+           (+ 0.3 (* (believes {@self employer ?}) 0.7)))
+      [k life_aim belonging_aim]
+        (* (attr @self enthusiasm)
+           (- 1 (classifier-value rootedness))
+           (clamp (* (count-beliefs @self friend) 0.2) 0 1)))))
