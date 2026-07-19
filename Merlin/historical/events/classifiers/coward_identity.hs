@@ -19,6 +19,8 @@
 
 (npc-think classify_coward_identity
   (sim-window-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (rng-stream behaviour)
 
   (role @self (believes {@self respectability_situation ?}))

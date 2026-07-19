@@ -11,6 +11,8 @@
 
 (npc-think classify_class_situation
   (sim-window-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (rng-stream behaviour)
 
   (role @self (believes {@self breeding ?})
