@@ -12,6 +12,13 @@
 
 (npc-think classify_respectability_situation
   (sim-window-think)
+  ; Monthly cooldown: the seven-term mean folds continuously-drifting reads - (sobriety) via the
+  ; intoxication attr, (piety) via decaying worship evidence - that never edge the belief seam,
+  ; so an edge-driven schedule would leave respectability stale between the rare commits. A
+  ; once-per-window recompute (gated on chastity+decorum being derived) tracks the drift as the
+  ; legacy monthly fire did; self-primed by cold_start_window.
+  (schedule cooldown 1 m)
+  (if-blocked hold)
   (rng-stream behaviour)
 
   (role @self (believes {@self chastity ?})

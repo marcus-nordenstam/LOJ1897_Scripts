@@ -12,6 +12,11 @@
 ; drunkard: a standing craving for drink IS the dependency.
 (npc-think classify_drunkard
   (sim-window-think)
+  ; on-changed on craving: the drunkard toggle mints when a craving forms and REMOVES when it
+  ; is forgotten (rehabilitation) - the forget edge is what on-commit would miss. The gate's
+  ; prototype disjunct keeps the event eligible across the removing fire.
+  (schedule on-changed {@self craving ?})
+  (if-blocked hold)
   (rng-stream behaviour)
   (role @self (or (believes {@self craving ?})
                   (believes {@self prototype [k prototype drunkard]})))
@@ -22,6 +27,10 @@
 ; nouveau_riche: high wealth (>= 0.60) carried by low breeding (<= 0.35).
 (npc-think classify_nouveau_riche
   (sim-window-think)
+  ; wealth re-derives annually (the toggle flip); breeding is birth-seeded (inert trigger,
+  ; kept to document the input). on-changed so the toggle also drops if wealth is retracted.
+  (schedule on-changed {@self wealth ?} {@self breeding ?})
+  (if-blocked hold)
   (rng-stream behaviour)
   (role @self (believes {@self wealth ?}))
   (cont-fire-effects
@@ -33,6 +42,11 @@
 ; self_made_man: rising trajectory + arrived class + low breeding + reputable.
 (npc-think classify_self_made_man
   (sim-window-think)
+  ; Toggle over the situation bands + respectability_situation (a Tier-2 sibling this reads);
+  ; breeding is birth-seeded (inert). on-changed so it drops when any band toggles off.
+  (schedule on-changed {@self social_trajectory ?} {@self class_situation ?}
+                       {@self breeding ?} {@self respectability_situation ?})
+  (if-blocked hold)
   (rng-stream behaviour)
   (role @self (believes {@self class_situation ?}))
   (cont-fire-effects
@@ -48,6 +62,8 @@
 ; deserving_poor: poor/destitute + reputable.
 (npc-think classify_deserving_poor
   (sim-window-think)
+  (schedule on-changed {@self economic_situation ?} {@self respectability_situation ?})
+  (if-blocked hold)
   (rng-stream behaviour)
   (role @self (believes {@self economic_situation ?}))
   (cont-fire-effects
@@ -61,6 +77,8 @@
 ; undeserving_poor: poor/destitute + disreputable.
 (npc-think classify_undeserving_poor
   (sim-window-think)
+  (schedule on-changed {@self economic_situation ?} {@self respectability_situation ?})
+  (if-blocked hold)
   (rng-stream behaviour)
   (role @self (believes {@self economic_situation ?}))
   (cont-fire-effects

@@ -16,6 +16,14 @@
 
 (npc-think classify_self_repute
   (sim-window-think)
+  ; on-changed: the fully-banded fuse recomputes when any conduct band toggles (a band drops
+  ; when its evidence is forgotten). Triggers = the four conduct bands + devoutness + decorum
+  ; + lover (chastity-scalar) + class_situation (gate). These are the exact repute-fold inputs.
+  ; (classify_others_repute below stays on legacy cont-fire - about-others reschedule deferred.)
+  (schedule on-changed {@self honesty ?} {@self diligence ?} {@self generosity ?}
+                       {@self sobriety ?} {@self devoutness ?} {@self decorum ?}
+                       {@self lover ?} {@self class_situation ?})
+  (if-blocked hold)
   (rng-stream behaviour)
 
   (role @self (believes {@self class_situation ?}))

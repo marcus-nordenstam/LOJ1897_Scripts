@@ -15,7 +15,15 @@
 
 (npc-think classify_self_conduct
   (sim-window-think)
-  (rng-stream behaviour)
+  ; Monthly cooldown, NOT on-commit: sobriety folds the continuously-drifting intoxication attr
+  ; (which never edges the belief seam) and the give act-record; a purely edge-driven schedule
+  ; would leave those bands stale between the rare belief commits. A once-per-window timer keeps
+  ; the conduct bands as fresh as the legacy monthly fire, desynced across the herd, and off the
+  ; agenda while cooling. cold_start_window self-primes it (no seed-edge dependency).
+  ; (conduct_bands_others.hs stays on legacy cont-fire - about-others reschedule needs a
+  ; subject-aware seam, deferred.)
+  (schedule cooldown 1 m)
+  (if-blocked hold)
 
   (role @self (believes {@self class_situation ?}))
 
