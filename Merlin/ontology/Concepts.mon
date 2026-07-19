@@ -795,9 +795,6 @@ concept
         lax
         fair
         good
-    # (chastity_repute KIND removed - reputed_chastity is killed; chastity is
-    # per-observer, judged on demand from (count-beliefs-about ?other lover),
-    # not banded into a public standing.)
     # piety_band - devoutness standing, banded from the continuous piety
     # SIGNAL by the derived-signals engine (Merlin docs/
     # derived_signals_program.md; declared in definitions/signals.hs). The

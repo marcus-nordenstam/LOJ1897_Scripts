@@ -7,13 +7,11 @@
 ;   - classify_others_repute: {?other repute}  from what @self knows of them
 ;                             (mint-band-about, in @self's own pool).
 ;
-; This REPLACES the catalog repute self-classifier + the believe_about repute MIRROR
-; (which broadcast one omniscient self-computed band to every acquaintance). Reputation
-; is now genuinely per-observer: two people can hold different repute beliefs about the
-; same third party, and a stranger reads middling (fair defaults) rather than a
-; mirrored verdict. An observer with only negative evidence caps a person below
-; exemplary - you do not credit a prestige-marriage-grade character to someone you know
-; nothing good about. (Bands: the historical respectability thresholds.)
+; Reputation is per-observer: two people can hold different repute beliefs about the
+; same third party, and a stranger reads middling (fair defaults). An observer with
+; only negative evidence caps a person below exemplary - you do not credit a
+; prestige-marriage-grade character to someone you know nothing good about. (Bands:
+; the historical respectability thresholds.)
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_self_repute

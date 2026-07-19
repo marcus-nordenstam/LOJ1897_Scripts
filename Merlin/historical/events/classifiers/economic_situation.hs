@@ -1,13 +1,11 @@
 ; ----------------------------------------------------------------------------
 ; economic_situation (classifier). Bands the wealth dimension into the
-; {@self economic_situation <band>} belief - the first eventified classifier
-; (replaces the (classify economic_situation ...) declaration in signals.hs and
-; the C++ hsim_derive emit).
+; {@self economic_situation <band>} belief.
 ;
 ; Per-NPC self-analysis: runs in the (sim-window-think) window-start pass while
 ; @self holds a wealth belief (the (role @self (believes {@self wealth ?})) gate
 ; is the intra-day agenda's input conjunct - a mind without a derived wealth is
-; off-agenda and keeps its seeded band, the old dim-missing skip). (mint-band)
+; off-agenda and keeps its seeded band). (mint-band)
 ; carries the hysteresis dead-band + interval history: a value crossing ends the
 ; held band and begins the new one, a same-band value is a no-op.
 ;

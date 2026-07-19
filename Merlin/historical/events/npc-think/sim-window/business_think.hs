@@ -69,7 +69,7 @@
              (>= (years-old @self) 25)
              (<= (years-old @self) 55)
              (not (= (job-level @self) [k org_head]))
-             (>= (classifier-value diligence) 0.55)
+             (>= (diligence) 0.55)
              (< (target {@self wealth}) 0.5)))
 
   ; npc-think: the clerk resolves to secure his employer's backing. Mints {@self goal
@@ -118,7 +118,7 @@
              (not (= (job-level @self) [k org_head]))
              (>= (years-old @self) 25)
              (<= (years-old @self) 55)
-             (>= (classifier-value diligence) 0.55)
+             (>= (diligence) 0.55)
              (< (target {@self wealth}) 0.5)))
 
   ; SPLIT (Item 5): the npc-think - the clerk decides to buy in. Mints {@self
@@ -164,7 +164,7 @@
              (>= (years-old @self) 25)
              (<= (years-old @self) 55)
              (not (= (job-level @self) [k org_head]))
-             (>= (classifier-value diligence) 0.55)
+             (>= (diligence) 0.55)
              (or (>= (target {@self wealth}) 0.5)
                  (believes {@self backed_by ?}))))
 

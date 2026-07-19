@@ -1,18 +1,16 @@
 ; ----------------------------------------------------------------------------
-; coward identity (classifier) - eventified. Toggles {@self identity [k role
-; coward_role]} via mint-band: a single band at 0.5 IS a toggle (>= 0.5 begins,
-; < 0.5 ends), and the held-scan matches only coward_role, so the other identities
-; classify_identities still mints (parent / worker / christian / gentleman / ...)
-; are untouched. Ported from hsim_derive's classify_identities coward clause + its
-; inhibition read.
+; coward identity (classifier). Toggles {@self identity [k role coward_role]} via
+; mint-band: a single band at 0.5 IS a toggle (>= 0.5 begins, < 0.5 ends), and the
+; held-scan matches only coward_role, so the other identities classify_identities
+; mints (parent / worker / christian / gentleman / ...) are untouched.
 ;
 ; Fires on EITHER the timid-by-nature trait composite (low assertiveness AND high
 ; withdrawal) OR the cautious-by-conscience composite (high inhibition AND not
 ; exemplary) - the two routes to the same self-concept, deliberately permissive.
 ; Booleans compose as products of 0-or-1 terms; OR = (clamp (+ ...) 0 1). Gated on
 ; respectability_situation being derived (the !exemplary term is meaningful only
-; then, and it is the derive-admission gate the old annual pass used). Norm
-; thresholds (were situations.hs identity-thresholds coward-*) are the tunables below.
+; then, and it is the adult-derive admission gate). Norm thresholds are the
+; tunables below.
 ; ----------------------------------------------------------------------------
 
 (define-macro coward-assert-max ()     0.35)   ; timid: assertiveness below this ...

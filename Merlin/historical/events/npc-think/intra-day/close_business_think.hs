@@ -81,5 +81,5 @@
   (first-fire-effects
     (if (chance (* (* (business_failure_base) (business_failure_climate_mult))
                    (* (+ 1.0 (* (business_failure_means_weight) (- 1.0 (target {@self wealth}))))
-                      (+ 1.0 (* (business_failure_merit_weight)  (- 1.0 (classifier-value diligence)))))))
+                      (+ 1.0 (* (business_failure_merit_weight)  (- 1.0 (diligence)))))))
         (begin-goal {@self close_business ?art}))))

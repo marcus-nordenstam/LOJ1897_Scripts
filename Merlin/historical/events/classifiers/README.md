@@ -1,10 +1,9 @@
 # events/classifiers
 
-Eventified derived-signal classifiers (the derived-signals program,
+Derived-signal classifiers (the derived-signals program,
 `Merlin/docs/derived_signals_program.md`). Each file here is an ordinary `.hs`
 event (`npc-think`) that derives a per-mind category belief from what the mind
-already holds - replacing the C++ `hsim_derive.cc` classifier cascade and the
-`(classify ...)` declarations in `definitions/signals.hs`.
+already holds.
 
 Two shapes:
 

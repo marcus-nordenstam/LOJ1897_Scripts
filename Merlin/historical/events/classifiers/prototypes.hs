@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; Prototypes (Shape B toggles) - eventified. Each is a (mint-band {@self prototype}
+; Prototypes (Shape B toggles). Each is a (mint-band {@self prototype}
 ; <bool> [k prototype <proto>] 0.5): a single band at 0.5 IS a toggle (bool >= 0.5
 ; begins the kind, < 0.5 ends it), and mint-band's held-scan only matches the ONE
 ; declared kind, so a toggle never disturbs the other (non-@excl) prototype beliefs.

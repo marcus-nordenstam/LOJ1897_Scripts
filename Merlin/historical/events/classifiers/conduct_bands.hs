@@ -9,9 +9,8 @@
 ; remaining terms come from elsewhere - piety from {X devoutness} (the about-others
 ; classifier, already per-observer), decorum from the {X decorum} float, and chastity
 ; on demand from (count-beliefs-about X lover). Bands: good >= 0.66, fair >= 0.33,
-; lax the floor. Values read via (classifier-value ...) for now (the honesty /
-; diligence / generosity / sobriety value classifiers are still catalog-declared;
-; they become dimensions.hs macros in a later value-dim cleanup).
+; lax the floor. honesty / diligence / generosity read the dimensions.hs value
+; macros; sobriety reads (classifier-value sobriety).
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_self_conduct
@@ -21,11 +20,11 @@
   (role @self (believes {@self class_situation ?}))
 
   (cont-fire-effects
-    (mint-band {@self honesty}    (classifier-value honesty)
+    (mint-band {@self honesty}    (honesty)
       [k conduct_level good] 0.66 [k conduct_level fair] 0.33 [k conduct_level lax] -1)
-    (mint-band {@self diligence}  (classifier-value diligence)
+    (mint-band {@self diligence}  (diligence)
       [k conduct_level good] 0.66 [k conduct_level fair] 0.33 [k conduct_level lax] -1)
-    (mint-band {@self generosity} (classifier-value generosity)
+    (mint-band {@self generosity} (generosity)
       [k conduct_level good] 0.66 [k conduct_level fair] 0.33 [k conduct_level lax] -1)
     (mint-band {@self sobriety}   (classifier-value sobriety)
       [k conduct_level good] 0.66 [k conduct_level fair] 0.33 [k conduct_level lax] -1)))

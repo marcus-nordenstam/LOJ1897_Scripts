@@ -1,15 +1,15 @@
 ; ----------------------------------------------------------------------------
 ; life_aim (classifier, Shape M). The dominant of the seven aims - an argmax over
 ; multiplicative composites; the floor keeps a featureless NPC wanting to belong
-; somewhere. Eventified (mint-argmax) replacement of the (classify) declaration:
-; (mint-argmax ends the prior dominant on a qualitative shift and marks both ends
-; core-episode so the multi-decade interval history survives semantic compression).
+; somewhere. (mint-argmax) ends the prior dominant on a qualitative shift and marks
+; both ends core-episode so the multi-decade interval history survives semantic
+; compression.
 ;
-; Reads value dims via (classifier-value ...) (piety) and dim-macros ((criminality)
-; / (rootedness) - historical/macros/dimensions.hs), the C++ wealth/decorum floats via
-; (target ...), the situation bands + (present ...) via (believes ...), the
-; any-tense worship-at-church act-record via a kind-cast /ever believes, and the
-; friend count via (count-beliefs ...). Gated on wealth+decorum being derived.
+; Reads value dims via the dimensions.hs macros ((piety) / (criminality) /
+; (rootedness)), the C++ wealth/decorum floats via (target ...), the situation bands
+; + (present ...) via (believes ...), the any-tense worship-at-church act-record via
+; a kind-cast /ever believes, and the friend count via (count-beliefs ...). Gated on
+; wealth+decorum being derived.
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_life_aim
@@ -28,16 +28,16 @@
                                (believes {@self class_situation [k class_situation middle]})) 0 1) 0.7)))
       [k life_aim wealth_aim]
         (* (attr @self industriousness)
-           (- 1 (classifier-value piety))
+           (- 1 (piety))
            (max (- 1 (target {@self wealth}))
                 (believes {@self social_trajectory [k social_trajectory rising]})))
       [k life_aim piety_aim]
-        (* (classifier-value piety)
+        (* (piety)
            (- 1 (criminality))
            (+ 0.4 (* (believes {@self worship [k building church]:?w /ever}) 0.6)))
       [k life_aim respectability_aim]
         (* (attr @self politeness)
-           (classifier-value piety)
+           (piety)
            (+ 0.2 (* (believes {@self class_situation [k class_situation middle]}) 0.8))
            (target {@self decorum}))
       [k life_aim autonomy_aim]

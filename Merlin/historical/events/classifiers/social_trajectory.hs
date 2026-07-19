@@ -3,7 +3,6 @@
 ; ((prestige + wealth) / 2) from the inherited breeding anchor into the
 ; {@self social_trajectory <band>} belief; +/- 0.15 counts as a move. The
 ; climbing clerk reads rising; the idle high-breeding heir declining.
-; Eventified (mint-band) replacement of the (classify) declaration.
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_social_trajectory

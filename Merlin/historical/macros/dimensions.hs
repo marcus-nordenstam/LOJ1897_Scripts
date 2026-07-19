@@ -1,10 +1,8 @@
 ; ----------------------------------------------------------------------------
 ; dimensions.hs - value-dimension DEFS (define-macro). A value dim is a 0..1
-; magnitude a fusion or utility reads on demand - never a minted belief. It was
-; a Shape V (value) classifier in definitions/signals.hs; here it is an ordinary
-; zero-arg macro inlined by every consumer, so there is ONE encoding and no
-; classifier catalog to evaluate it. Consumers write (dimname) in place of the
-; retired (classifier-value dimname).
+; magnitude a fusion or utility reads on demand - never a minted belief. Each is
+; an ordinary zero-arg macro inlined by every consumer (written (dimname)), so
+; there is ONE encoding and no classifier catalog to evaluate it.
 ;
 ; The macro bodies are ordinary .hs read/fold expressions (attr / believes /
 ; count-beliefs / count-ever / evidence + the + - * / min max clamp >= <=
@@ -78,6 +76,18 @@
             (* 0.20 (believes {@self employer ?}))
             (* 0.15 (>= (count-beliefs @self building) 1))
             (* 0.10 (>= (count-beliefs @self member_of) 1))) 0 1))
+
+; diligence - the industriousness aspect.
+(define-macro diligence () (attr @self industriousness))
+
+; honesty - high politeness, low Machiavellianism (the dark-tetrad deceit trait).
+(define-macro honesty ()
+  (/ (+ (attr @self politeness) (- 1 (attr @self machiavellianism))) 2))
+
+; generosity - the compassion prior, lifted 0.20 by any recorded act of charity (an
+; ended {@self give <alms>} act-record still counts - a lifetime tally).
+(define-macro generosity ()
+  (clamp (+ (attr @self compassion) (* (>= (count-ever @self give) 1) 0.20)) 0 1))
 
 ; piety - worship-episode observance mapped onto the historical piety anchors:
 ; 0.25 the never-worships floor, 0.85 the regular-churchgoer ceiling. observance

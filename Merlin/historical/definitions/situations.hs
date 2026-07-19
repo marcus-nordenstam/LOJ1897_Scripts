@@ -52,15 +52,11 @@
 ; machiavellian-min / sadist-min: floor on the homonymous Dark Tetrad attr
 ;   (0..1 float, population mean 0.5). 0.65 places the threshold near the
 ;   top third of the population given typical gaussian sigma 0.15.
-; (coward is a value-driven identity now - its thresholds live on the
-;  events/classifiers/coward_identity.hs tunables.)
 (identity-thresholds
   /machiavellian-min     0.65
   /sadist-min            0.65)
 
 ; ---- felt-life dimensions (F4.6) -------------------------------------------
-; contentment-neutral is the reading for a mind that holds no mood. (belonging
-; is a DECLARED value classifier now - definitions/signals.hs carries its
-; warmth-bond + Extraversion-need weights.)
+; contentment-neutral is the reading for a mind that holds no mood.
 (felt-life
   /contentment-neutral        50)

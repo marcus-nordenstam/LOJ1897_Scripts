@@ -3,7 +3,7 @@
 ; prestige (public office) + wealth, weights 5/3/2 normalized, into the
 ; {@self class_situation <band>} belief. A high prestige + wealth carries a
 ; low-breeding man up a band (the self-made climb); idle high breeding slides
-; down. Eventified (mint-band) replacement of the (classify) declaration.
+; down.
 ;
 ; Gated on all three input dimensions being derived (the intra-day agenda's
 ; conjuncts) - a subject the cascade has not derived yet keeps its seeded band.
