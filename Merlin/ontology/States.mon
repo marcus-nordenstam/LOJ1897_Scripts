@@ -518,17 +518,12 @@ relation
             # in the per-mind signal table.
             devoutness          (tar piety_band @excl)
             diligence           (tar ? @excl) (range 0 1)
+            # chastity - the self-derived TRUE chastity float (@self-only,
+            # secret-inclusive). Others judge a person's chastity PER-OBSERVER, on
+            # demand from the liaisons they themselves know of ((count-beliefs-about
+            # ?other lover)) - there is no omniscient public `reputed_chastity` band
+            # (killed with the anti-telepathy program).
             chastity            (tar ? @excl) (range 0 1)
-            # reputed_chastity - the PUBLIC reading of chastity: counts
-            # only extra-marital partners at least one third mind knows
-            # of (leaked via gossip, interception, witness or
-            # publication). Derived beside chastity by
-            # classify_reputed_chastity; the marriage-market filters read
-            # THIS, never the secret-inclusive self-derived value. Banded to a
-            # chastity_repute KIND (spotless/tarnished/disgraced) so role
-            # filters test it as a perceptible belief (like `repute`); the raw
-            # scalar still feeds `repute` in C++.
-            reputed_chastity    (tar chastity_repute @excl)
             decorum             (tar ? @excl) (range 0 1)
             generosity          (tar ? @excl) (range 0 1)
             # work_standing - a BOSS's subjective assessment of an EMPLOYEE's job
@@ -604,10 +599,11 @@ relation
             family_alignment    (tar ? @excl) (range 0 1)
 
         # repute - the PUBLIC respectability: the same seven-dimension fuse
-        # as respectability_situation but with reputed_chastity in place of
-        # the self-derived chastity. What the parish CAN know, vs
-        # respectability_situation = what is true; the gap between the two
-        # is the blackmail stake (see Docs/hsim/hsim_social.md "Reputation").
+        # as respectability_situation but with visible (not true) sobriety.
+        # What the parish CAN know, vs respectability_situation = what is true;
+        # the gap is the blackmail stake (see Docs/hsim/hsim_social.md "Reputation").
+        # (Transitional: still a self-classification; goes per-observer under the
+        # anti-telepathy program - each mind will fold what IT knows of the subject.)
         # Consumed by every observer-facing filter (marriage market,
         # employment, clubs, patronage, ostracism) and the family-taint
         # pass; self-appraisal keeps reading respectability_situation.

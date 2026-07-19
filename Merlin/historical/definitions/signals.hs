@@ -73,13 +73,10 @@
                   (* (present spouse) 0.15)
                   (* (>= (dim wealth) 0.65) 0.20)))) 0 1))
 
-; reputed-chastity01 - the chastity_repute band mapped back to its scalar
-; rungs: spotless 0.85 (no leaked liaison), tarnished 0.55 (one), disgraced
-; 0.25 (two or more).
-(def reputed-chastity01
-  (+ (* (has reputed_chastity [k chastity_repute spotless])  0.85)
-     (* (has reputed_chastity [k chastity_repute tarnished]) 0.55)
-     (* (has reputed_chastity [k chastity_repute disgraced]) 0.25)))
+; reputed-chastity01 is RETIRED - reputed_chastity (the omniscient public band) is
+; killed. repute's self-classification now reads @self's own TRUE chastity float
+; (dim chastity) directly (0..1, @self-only, self-known); the per-observer OTHER
+; chastity judgement lives in the consumers ((count-beliefs-about ?other lover)).
 
 ; piety - Shape V (value-only, NOTHING minted): the dimension consumers -
 ; (classifier-value piety) in .hs gates, deliberation dim rows, the
@@ -126,25 +123,13 @@
 (classify disinhibition (value)
   (from (/ (+ (- 1 (attr industriousness)) (- 1 (attr politeness)) (attr volatility)) 3)))
 
-; aggression - the temperamental fold of high volatility, low politeness and
-; dark-tetrad sadism.
-(classify aggression (value)
-  (from (/ (+ (attr volatility) (- 1 (attr politeness)) (attr sadism)) 3)))
-
 ; generosity - the compassion prior, lifted 0.20 by any recorded act of charity
 ; (an ended {@self give <alms>} act-record still counts - a lifetime tally).
 (classify generosity (value)
   (from (clamp (+ (attr compassion) (* (>= (count-ever give) 1) 0.20)) 0 1)))
 
-; criminality - a low base (0.05), raised 0.25 per recorded crime of ANY tense
-; (assault / theft / fraud / embezzlement / homicide / kidnap - the act-records
-; the crime pipeline writes). A single conviction reads middling; a habitual
-; offender saturates.
-(classify criminality (value)
-  (from (clamp (+ 0.05
-                  (* (+ (count-ever assault) (count-ever steal)
-                        (count-ever defraud) (count-ever embezzle)
-                        (count-ever kill)    (count-ever kidnap)) 0.25)) 0 1)))
+; criminality is a value-dim DEF now - historical/macros/dimensions.hs (any-tense
+; crime tally via (count-ever), read by life_aim). The (classify) form is retired.
 
 ; sobriety - the inverse of accumulated intoxication (an absent intoxication
 ; attr reads 0 = fully sober, NOT the 0.5 midpoint), hard-capped at 0.15 once a
@@ -163,21 +148,9 @@
 ; through the linchpin and any C++ consumer evaluates on demand.
 ; ----------------------------------------------------------------------------
 
-; rootedness - how established the NPC is in the community. Local lineage
-; (mother / father), a spouse, children (each +0.06, capped at 4 = +0.24), a
-; steady employer, owned property and club membership each add a partial score;
-; the sum clamps to 1. A recently-arrived immigrant with just an employer reads
-; low (~0.20); a settled local family - parents + spouse + children + employer -
-; reads high. Weights are the historical situations.hs rootedness-* points on
-; the 0..1 scale.
-(classify rootedness (value)
-  (from (clamp (+ (* 0.15 (present mother))
-                  (* 0.15 (present father))
-                  (* 0.20 (present spouse))
-                  (* 0.06 (min (count child) 4))
-                  (* 0.20 (present employer))
-                  (* 0.15 (>= (count building) 1))
-                  (* 0.10 (>= (count member_of) 1))) 0 1)))
+; rootedness is a value-dim DEF now - historical/macros/dimensions.hs (present/count
+; fold over local lineage / spouse / children / employer / property / clubs, read by
+; life_aim). The (classify) form is retired.
 
 ; belonging - how well the NPC's warmth bonds + immediate kin meet its
 ; sociability need. Warmth = friends (close_to / friend) + kin (spouse x2,
@@ -221,16 +194,18 @@
 ; (value-classifiers via (classifier-value ...) + the C++ chastity/decorum floats)
 ; and bands via (mint-band). The (classify ...) form is retired.
 
-; repute - the PUBLIC-estimate fuse: visible sobriety + the leaked chastity
-; band in place of the true dimensions. A transitional theory-of-mind
-; stand-in (the subject models what the town can know) until abduction v2
-; makes reputation genuinely per-observer.
+; repute - the PUBLIC-estimate fuse: visible sobriety + @self's own chastity in
+; place of the true dimensions. A transitional theory-of-mind stand-in (the
+; subject models what the town can know) until abduction v2 makes reputation
+; genuinely per-observer; the chastity term now reads @self's own (dim chastity)
+; float (reputed_chastity is killed - chastity is per-observer, judged by others
+; from what THEY know, not an omniscient public band).
 (classify repute
   (from (/ (+ (dim honesty)
               visible-sobriety
               piety01
               (dim diligence)
-              reputed-chastity01
+              (dim chastity)
               (dim decorum)
               (dim generosity)) 7))
   (bands ([k respectability_situation exemplary]    0.80)
@@ -239,27 +214,10 @@
          ([k respectability_situation disreputable] 0.20)
          ([k respectability_situation scandalous]   -1)))
 
-; inhibition - Shape V (value-only): the moral / conscientious brake on
-; pressure-driven impulse, evaluated on demand by deliberation, the
-; (classifier-value inhibition) gates and the coward identity clause.
-; Weights are the historical situations.hs values on the 0..1 scale; the
-; dark-tetrad terms apply above the population mean only (the one-sided
-; amplification convention); held values steady the brake, rationalising
-; justifications erode it.
-(classify inhibition (value)
-  (from (clamp (+ (+ (* (attr politeness)      0.30)
-                     (* (attr industriousness) 0.30)
-                     (* (attr compassion)      0.15)
-                     (* piety01                0.20)
-                     (* (dim decorum)          0.10)
-                     (* (dim disinhibition)   -0.20)
-                     (* (dim stress 0)        -0.30))
-                  (+ (* (clamp (+ (attr narcissism)       -0.5) 0 1) -0.10)
-                     (* (clamp (+ (attr machiavellianism) -0.5) 0 1) -0.15)
-                     (* (clamp (+ (attr psychopathy)      -0.5) 0 1) -0.20)
-                     (* (clamp (+ (attr sadism)           -0.5) 0 1) -0.25)
-                     (* (count value)    0.05)
-                     (* (count justify) -0.08))) 0 1)))
+; inhibition is a value-dim DEF now - historical/macros/dimensions.hs (the moral /
+; conscientious brake fold). Its consumers read the (inhibition) macro: .hs gates
+; (ambition / covet), the eventified coward identity, and the displace-victim propensity
+; (passed in as (- 1 (inhibition))). The (classify) form is retired.
 
 ; life_aim is EVENTIFIED now - events/classifiers/life_aim.hs runs the seven-aim
 ; argmax via (mint-argmax) (core-episode preserved). The (classify ...) form is

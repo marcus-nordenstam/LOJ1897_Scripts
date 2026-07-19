@@ -16,8 +16,12 @@
 ; ----------------------------------------------------------------------------
 
 (define-macro press-coercion (?victim)
-  (if (or (believes {?victim reputed_chastity [k chastity_repute tarnished]})
-          (believes {?victim reputed_chastity [k chastity_repute disgraced]}))
+  ; Leverage is spent once the blackmailer already knows of the victim's OTHER
+  ; liaisons (per-observer chastity: (count-beliefs-about ?victim lover) counts the
+  ; victim's affairs THIS mind holds - excluding its own dyad, which is {@self lover
+  ; ?victim}, a different subject). If she is already known-unchaste to him, threatening
+  ; to expose their affair no longer bites. Replaces the omniscient reputed_chastity read.
+  (if (>= (count-beliefs-about ?victim lover) 1)
       (end-belief @self extort ?victim)
       (do
         (deliver-coercion-threat ?victim)

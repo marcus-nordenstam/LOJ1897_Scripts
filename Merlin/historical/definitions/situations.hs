@@ -52,17 +52,11 @@
 ; machiavellian-min / sadist-min: floor on the homonymous Dark Tetrad attr
 ;   (0..1 float, population mean 0.5). 0.65 places the threshold near the
 ;   top third of the population given typical gaussian sigma 0.15.
-; coward-assert-max / coward-withdraw-min: trait composite. Both clauses
-;   must hold for the trait-based path to fire (timid-by-nature).
-; coward-inhibition-min: the inhibition-based path. Fires when inhibition
-;   exceeds this AND respectability_situation is not exemplary (cautious by
-;   conscience without the social standing to back it up).
+; (coward is a value-driven identity now - its thresholds live on the
+;  events/classifiers/coward_identity.hs tunables.)
 (identity-thresholds
   /machiavellian-min     0.65
-  /sadist-min            0.65
-  /coward-assert-max     0.35
-  /coward-withdraw-min   0.65
-  /coward-inhibition-min 70)
+  /sadist-min            0.65)
 
 ; ---- felt-life dimensions (F4.6) -------------------------------------------
 ; contentment-neutral is the reading for a mind that holds no mood. (belonging

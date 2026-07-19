@@ -784,15 +784,9 @@ concept
         questionable
         disreputable
         scandalous
-    # chastity_repute - the PUBLIC chastity standing, banded from the
-    # reputed_chastity scalar at the base/penalty ladder midpoints (each KNOWN
-    # extra-marital partner drops one band). The marriage market shuts out the
-    # `disgraced` band (the old reputed_chastity >= 0.5 gate). Perceptible only
-    # as far as it has leaked (disclosure channel), like `repute`.
-    chastity_repute          (sub human)  (tar @excl)
-        spotless
-        tarnished
-        disgraced
+    # (chastity_repute KIND removed - reputed_chastity is killed; chastity is
+    # per-observer, judged on demand from (count-beliefs-about ?other lover),
+    # not banded into a public standing.)
     # piety_band - devoutness standing, banded from the continuous piety
     # SIGNAL by the derived-signals engine (Merlin docs/
     # derived_signals_program.md; declared in definitions/signals.hs). The

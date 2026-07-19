@@ -39,7 +39,7 @@
   (if (= ?action strive)  (resolve-strive @self ?pressure)
   (if (= ?action kill)
       (do
-        (bind (displace-victim @self ?focus) ?sub)
+        (bind (displace-victim @self ?focus (- 1 (inhibition))) ?sub)
         (if (is-entity ?sub)
             (begin-goal {@self hurt ?sub}   /cause ?pressure)
             (begin-goal {@self kill ?focus} /cause ?pressure)))

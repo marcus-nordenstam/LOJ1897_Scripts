@@ -27,11 +27,11 @@
   ;; SELF-POV (telepathy purge CAT-3): @self the GROOM is the deliberator (the POV
   ;; NPC is bound, never enumerated; he uses a LIGHT @self template + inline gates -
   ;; the heavy unmarried_man template is for BINDING roles). He proposes to a bride
-  ;; he KNOWS, judging her ONLY from his own knowledge: her repute / class /
-  ;; reputed_chastity as banded in via the venue acquaintance channel
-  ;; ((situation ?bride <dim> @self)), her availability as his own belief
-  ;; ((believes {?bride <label> ?}), permissive on the unknown). The market reads
-  ;; `repute` / `reputed_chastity` - what has LEAKED - never secret self-values.
+  ;; he KNOWS, judging her ONLY from his own knowledge: her repute / class as
+  ;; banded in via the venue acquaintance channel, her chastity from the liaisons
+  ;; HE has heard of ((count-beliefs-about ?bride lover) - per-observer, never an
+  ;; omniscient public reading), her availability as his own belief
+  ;; ((believes {?bride <label> ?}), permissive on the unknown).
   (role @self (adult @self)
               (believes {@self gender [k male]})
               (not (believes {@self spouse ?}))
@@ -47,11 +47,9 @@
                (not (believes {?bride prototype [k fallen_woman]}))
                (not (believes {?bride repute [k scandalous]}))
                (not (believes {?bride repute [k disreputable]}))
-               ;; Not KNOWN to be disgraced (two+ leaked affairs). An unread
-               ;; chastity passes - the market gives the benefit of the doubt
-               ;; (the old `(>= reputed_chastity 0.5) OR unread` gate, now a
-               ;; single negated band belief: disgraced is the sub-0.5 band).
-               (not (believes {?bride reputed_chastity [k disgraced]}))
+               ;; (The chastity gate moved to (when) - per-observer, a count of the
+               ;; liaisons the groom himself has heard of; line 45 already bars a known
+               ;; ONGOING lover.)
                ;; Same class as the groom: the deliberating mind's belief that
                ;; the bride's class_situation equals @self's own (dynamic-target
                ;; shape-2, cacheable - like age-peers; NOT a cross-(target =)).
@@ -69,6 +67,10 @@
   ;; the role/self-gate filters (the cache reconciles at belief-write; a live
   ;; re-read of the same store cannot differ).
   (when (and (chance 0.0208)
+             ;; Not KNOWN to be disgraced: fewer than two liaisons the groom himself
+             ;; has heard of (per-observer chastity, any tense). A bride whose past he
+             ;; has not heard passes - the market gives the benefit of the doubt.
+             (< (count-beliefs-about ?bride lover) 2)
              (not (and (believes {@self lover ?})
                        (= (target {(target {@self lover}) class_situation})
                           (target {@self class_situation}))))))

@@ -5,7 +5,8 @@
 ; (mint-argmax ends the prior dominant on a qualitative shift and marks both ends
 ; core-episode so the multi-decade interval history survives semantic compression).
 ;
-; Reads value dims via (classifier-value ...), the C++ wealth/decorum floats via
+; Reads value dims via (classifier-value ...) (piety) and dim-macros ((criminality)
+; / (rootedness) - historical/macros/dimensions.hs), the C++ wealth/decorum floats via
 ; (target ...), the situation bands + (present ...) via (believes ...), the
 ; any-tense worship-at-church act-record via a kind-cast /ever believes, and the
 ; friend count via (count-beliefs ...). Gated on wealth+decorum being derived.
@@ -32,7 +33,7 @@
                 (believes {@self social_trajectory [k social_trajectory rising]})))
       [k life_aim piety_aim]
         (* (classifier-value piety)
-           (- 1 (classifier-value criminality))
+           (- 1 (criminality))
            (+ 0.4 (* (believes {@self worship [k building church]:?w /ever}) 0.6)))
       [k life_aim respectability_aim]
         (* (attr @self politeness)
@@ -40,12 +41,12 @@
            (+ 0.2 (* (believes {@self class_situation [k class_situation middle]}) 0.8))
            (target {@self decorum}))
       [k life_aim autonomy_aim]
-        (* (attr @self assertiveness) (- 1 (classifier-value rootedness)))
+        (* (attr @self assertiveness) (- 1 (rootedness)))
       [k life_aim power_aim]
         (* (attr @self machiavellianism)
            (attr @self narcissism)
            (+ 0.3 (* (believes {@self employer ?}) 0.7)))
       [k life_aim belonging_aim]
         (* (attr @self enthusiasm)
-           (- 1 (classifier-value rootedness))
+           (- 1 (rootedness))
            (clamp (* (count-beliefs @self friend) 0.2) 0 1)))))
