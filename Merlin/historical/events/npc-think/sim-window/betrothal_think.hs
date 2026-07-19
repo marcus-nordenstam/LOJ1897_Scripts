@@ -80,7 +80,9 @@
     ; The bride's own engagement belief lands in HER mind (the wedding event
     ; recovers the groom from the bride's fiancee belief, either side initiating).
     (begin-belief ?bride {?bride fiancee @self})
-    ; Each betrothed learns the other's social profile - see hsim::believe_about.
-    (believe-about @self ?bride)
-    (believe-about ?bride @self)
+    ; @self (the groom) discloses his friend-tier profile to the bride (the SAY she
+    ; hears and adopts) - the honest replacement for the believe_about profile-copy,
+    ; delivered by co-presence. His own knowledge of her pre-exists from courtship.
+    (for-each-belief ?fact {@self (disclosure-tier-labels friend) ?}
+      (tell-to ?bride ?fact))
     ))

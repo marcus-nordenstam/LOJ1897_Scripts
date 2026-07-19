@@ -81,6 +81,9 @@
     ; This is what lets love_match marry the pair later: it keys on `fancy`.
     (nudge-stance @self ?b attraction 0.4)
     (nudge-stance ?b @self attraction 0.4)
-    (believe-about @self ?b)
-    (believe-about ?b @self)
+    ; @self discloses their friend-tier profile to ?b (the SAY they hear and adopt);
+    ; @self's knowledge of ?b pre-exists. Friend-tier keeps @self's other lovers
+    ; (intimate-tier) unspoken.
+    (for-each-belief ?fact {@self (disclosure-tier-labels friend) ?}
+      (tell-to ?b ?fact))
     ))

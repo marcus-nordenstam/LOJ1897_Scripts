@@ -9,7 +9,7 @@
 ; Re-fire guard: (= (belief-age ?bride fiancee) 0) - the fiancee belief is in
 ; its first year. Combined with the annual schedule the party fires at most
 ; once per betrothal: next february the belief is a year old and the gate
-; fails. hold-engagement-party is itself idempotent regardless.
+; fails. The say's per-listener dedup makes any re-announce harmless regardless.
 ;
 ; Topology: ?bride is enumerated; ?groom is recovered from her fiancee belief.
 ; Restricting ?bride to women makes each couple enumerate exactly once.
@@ -23,8 +23,8 @@
   ; MONTHLY. The (belief-age ?bride fiancee) == 0 gate (whole years) holds while
   ; the betrothal is under a year old, but the wedding occasion (emergent) marries
   ; couples within a month or two, so in practice this fires ~1-2x per betrothal
-  ; before the bride is no longer unmarried_woman; hold-engagement-party is
-  ; idempotent, so the re-announce is harmless.
+  ; before the bride is no longer unmarried_woman; the say's per-listener dedup
+  ; makes the re-announce harmless.
   (rng-stream marriages)
 
   ;; SELF-POV (telepathy purge CAT-3): @self the GROOM (belief-pure @self role)
@@ -43,5 +43,7 @@
   (when (= (belief-age @self fiancee) 0))
 
   (cont-fire-effects
-    (hold-engagement-party ?bride @self)
+    ; Announce the fresh engagement to whoever is co-present (the SAY they hear and
+    ; adopt); the wider circle learns via gossip (fiancee is a gossip label).
+    (tell {@self fiancee ?bride})
     ))

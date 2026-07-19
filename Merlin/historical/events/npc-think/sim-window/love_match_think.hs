@@ -98,6 +98,8 @@
     ; the bride's fiancee belief regardless of which side initiated).
     (begin-belief {@self fiancee ?beloved})
     (begin-belief ?beloved {?beloved fiancee @self})
-    (believe-about @self    ?beloved)
-    (believe-about ?beloved @self)
+    ; @self discloses their friend-tier profile to the beloved (the SAY they hear
+    ; and adopt); @self's knowledge of the beloved pre-exists from courtship.
+    (for-each-belief ?fact {@self (disclosure-tier-labels friend) ?}
+      (tell-to ?beloved ?fact))
     ))

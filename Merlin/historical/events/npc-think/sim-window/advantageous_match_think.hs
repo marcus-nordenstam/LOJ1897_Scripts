@@ -79,6 +79,8 @@
     ; The bride's own engagement belief lands in HER mind (wedding recovers the
     ; groom from the bride's fiancee belief, either side initiating).
     (begin-belief ?bride {?bride fiancee @self})
-    (believe-about @self ?bride)
-    (believe-about ?bride @self)
+    ; @self (the groom) discloses his friend-tier profile to the bride (the SAY she
+    ; hears and adopts); his own knowledge of her pre-exists from courtship.
+    (for-each-belief ?fact {@self (disclosure-tier-labels friend) ?}
+      (tell-to ?bride ?fact))
     ))

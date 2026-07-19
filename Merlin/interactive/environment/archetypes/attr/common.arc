@@ -29,7 +29,7 @@ attr "parentless" (type int) (range 0 1) (imperceptible)
 # (buildings, roads) override (ext-per obs) per-archetype because their names
 # WILL eventually be observable via address signs - for now those archetypes
 # also add (auto-percept).
-attr "name" (type name) (spec-attr name) (int-per reason) (ext-per imperceptible)
+attr "name" (type name) (spec-attr name) (int-per reason) (ext-per imperceptible) (disclosure stranger)
 
 # Spatial
 attr "obb" (type obb) (spec-attr spatial-bounds) (per obs) (auto-percept) (state-flags-tar @excl)

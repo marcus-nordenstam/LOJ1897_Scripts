@@ -78,6 +78,9 @@
     ; ability to marry the pair once both were free.
     (nudge-stance @self ?lover attraction 0.4)
     (nudge-stance ?lover @self attraction 0.4)
-    (believe-about @self ?lover)
-    (believe-about ?lover @self)
+    ; @self discloses their friend-tier profile to the lover (the SAY they hear and
+    ; adopt); @self's knowledge of the lover pre-exists. Friend-tier, so @self does
+    ; not reveal their OTHER lovers (that is intimate-tier, above this band).
+    (for-each-belief ?fact {@self (disclosure-tier-labels friend) ?}
+      (tell-to ?lover ?fact))
     ))
