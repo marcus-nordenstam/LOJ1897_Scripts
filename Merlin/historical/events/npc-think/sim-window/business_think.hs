@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; Business life-cycle (Phase 7). The merit-gated routes into proprietorship -
-; investment, business_partnership, business_founding - plus business_failure.
+; investment, business_partnership, business_founding.
 ;
 ; A man's rise into ownership is not a class privilege: diligence, a sound
 ; character and means put a non-noble man within reach of a business. The
@@ -20,19 +20,11 @@
 ; or backed man founds; a poor-but-worthy man with a business-owner friend
 ; partners; investment claims poor-but-worthy men a year ahead of founding.
 ;
-; business_failure is a ZERO-ROLE event: it has no per-entity role, so the
-; engine fires it once each December with no role-enumeration walk in
-; progress. The (fail-businesses ...) verb collects every org and dissolves
-; the failures - dissolve_org destroys entities, which would corrupt an
-; in-flight role-enumeration mx_for_each_entity.
-;
-; LANE SPLIT (Section 4.11): the NPC-caused founding routes (investment /
-; business_partnership / business_founding / business_homeostat) are EMERGENT -
-; no (schedule), fired by the per-NPC pass MONTHLY, so each (chance) is /12 to hold
-; the annual rate. The first three are MERIT-gated; business_homeostat is the
-; non-merit floor net (founds from any adult while the town is below its business
-; floor). business_failure remains a TOWN-LEVEL zero-role market macro (world-act/
-; business_macro.hs) and KEEPS its (schedule). NB the catalog-order dependency
+; LANE SPLIT: the founding routes (investment / business_partnership /
+; business_founding / business_homeostat) are EMERGENT - fired by the per-NPC pass
+; MONTHLY, so each (chance) is /12 to hold the annual rate. The first three are
+; MERIT-gated; business_homeostat is the non-merit floor net (founds from any adult
+; while the town is below its business floor). NB the catalog-order dependency
 ; (investment before founding, for backed_by) resolves within the one monthly
 ; per-NPC pass, which runs them in catalog order.
 ; ----------------------------------------------------------------------------
@@ -182,8 +174,8 @@
 ; (roll a housable kind -> leave the old post -> found-org-seq) does the founding,
 ; at a bank, with the clue trail - no faceless world edit, no C++ hire().
 ;
-; EMERGENT per-NPC (was a zero-role world-act macro): fired MONTHLY by the per-NPC
-; pass. The (orgs-below-population-floor ...) gate is LIVE, so it stops minting once
+; EMERGENT per-NPC: fired MONTHLY by the per-NPC pass. The
+; (orgs-below-population-floor ...) gate is LIVE, so it stops minting once
 ; the town is at floor; a small (chance) throttles the per-month volume so the
 ; goal->commit lag cannot overshoot far. Premises availability self-limits it too.
 (npc-think business_homeostat
@@ -210,5 +202,3 @@
 
   (cont-fire-effects
     (begin-goal {@self found})))
-
-; --- business_failure: an org folds (zero-role; see header) -----------------
