@@ -15,6 +15,46 @@
 ; humans).
 ; ----------------------------------------------------------------------------
 
+; --- per-observer repute fold (uniform for @self and a tracked other) ------------
+; repute reads BANDED conduct beliefs {X <dim> <conduct_level>} + {X devoutness},
+; the {X decorum} float, and per-observer chastity - all keyed on ?who, so ONE fold
+; serves self-repute (?who = @self) and other-repute (?who = a tracked person). An
+; absent band reads `fair` (unknown -> benefit of the doubt), so reputation sharpens
+; only with evidence and an unknown other reads middling, never scandalous.
+
+; conduct-scalar - a conduct_level band -> 0..1 (good 0.85, lax 0.25, fair/absent 0.5).
+(define-macro conduct-scalar (?who ?dim)
+  (if (believes {?who ?dim [k conduct_level good]}) 0.85
+  (if (believes {?who ?dim [k conduct_level lax]})  0.25
+      0.5)))
+
+; devoutness-scalar - the piety_band -> 0..1 (devout 0.85, secular 0.25, else 0.5).
+(define-macro devoutness-scalar (?who)
+  (if (believes {?who devoutness [k piety_band devout]})  0.85
+  (if (believes {?who devoutness [k piety_band secular]}) 0.25
+      0.5)))
+
+; decorum-scalar - the decorum float (@self's own C++-derived value, or a tracked
+; other's mirrored value), reading 0.5 when unknown.
+(define-macro decorum-scalar (?who)
+  (if (believes {?who decorum ?}) (target {?who decorum}) 0.5))
+
+; chastity-scalar - 0.85 minus a rung per extra-marital liaison THIS mind knows of
+; ?who (uniform: @self's own affairs for @self, the observer's knowledge for others).
+(define-macro chastity-scalar (?who)
+  (- 0.85 (* (>= (count-beliefs-about ?who lover) 1) 0.30)
+          (* (>= (count-beliefs-about ?who lover) 2) 0.30)))
+
+; repute-fold - the seven-term mean the repute band-cut reads, for @self or ?other.
+(define-macro repute-fold (?who)
+  (/ (+ (conduct-scalar ?who honesty)
+        (conduct-scalar ?who diligence)
+        (conduct-scalar ?who generosity)
+        (conduct-scalar ?who sobriety)
+        (devoutness-scalar ?who)
+        (decorum-scalar ?who)
+        (chastity-scalar ?who)) 7))
+
 ; criminality - a low base (0.05), raised 0.25 per recorded crime of ANY tense
 ; (assault / theft / fraud / embezzlement / homicide / kidnap - the act-records
 ; the crime pipeline writes). A single conviction reads middling; a habitual

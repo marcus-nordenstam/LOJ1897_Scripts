@@ -60,18 +60,11 @@
 ; never-worships floor, 0.85 the regular-churchgoer ceiling.
 (def piety01 (clamp (+ 0.25 (* observance 0.60)) 0 1))
 
-; visible-sobriety - the PUBLIC reading of the drinking habit: below the 0.70
-; visibility threshold, each trapping of respectability conceals (not a pub
-; regular 0.25, employer 0.20, spouse 0.15, wealth >= 0.65 adds 0.20). A
-; theory-of-mind stand-in (what the parish can see) used ONLY by repute;
-; dissolves when abduction v2 makes repute per-observer.
-(def visible-sobriety
-  (clamp (+ (dim sobriety)
-            (* (- 1 (>= (dim sobriety) 0.70))
-               (+ (* (- 1 (act-at drink [k building pub])) 0.25)
-                  (* (present employer) 0.20)
-                  (* (present spouse) 0.15)
-                  (* (>= (dim wealth) 0.65) 0.20)))) 0 1))
+; visible-sobriety is RETIRED - it was a subject-side theory-of-mind SIMULATION of
+; the town's reading (a halo prior), used ONLY by the old catalog repute. repute is
+; per-observer now (events/classifiers/repute.hs): concealment EMERGES because private
+; drinking generates no witnessed episode, so no observer bands the drinker's sobriety
+; down - no simulated halo needed.
 
 ; reputed-chastity01 is RETIRED - reputed_chastity (the omniscient public band) is
 ; killed. repute's self-classification now reads @self's own TRUE chastity float
@@ -194,25 +187,11 @@
 ; (value-classifiers via (classifier-value ...) + the C++ chastity/decorum floats)
 ; and bands via (mint-band). The (classify ...) form is retired.
 
-; repute - the PUBLIC-estimate fuse: visible sobriety + @self's own chastity in
-; place of the true dimensions. A transitional theory-of-mind stand-in (the
-; subject models what the town can know) until abduction v2 makes reputation
-; genuinely per-observer; the chastity term now reads @self's own (dim chastity)
-; float (reputed_chastity is killed - chastity is per-observer, judged by others
-; from what THEY know, not an omniscient public band).
-(classify repute
-  (from (/ (+ (dim honesty)
-              visible-sobriety
-              piety01
-              (dim diligence)
-              (dim chastity)
-              (dim decorum)
-              (dim generosity)) 7))
-  (bands ([k respectability_situation exemplary]    0.80)
-         ([k respectability_situation respectable]  0.60)
-         ([k respectability_situation questionable] 0.40)
-         ([k respectability_situation disreputable] 0.20)
-         ([k respectability_situation scandalous]   -1)))
+; repute is PER-OBSERVER now - events/classifiers/repute.hs derives {X repute <band>}
+; from (repute-fold X) (the conduct bands + devoutness + decorum + per-observer chastity)
+; for BOTH @self (mint-band) and each tracked other (mint-band-about, in @self's own pool),
+; replacing this omniscient self-classifier + the believe_about repute mirror. The
+; (classify ...) form is retired.
 
 ; inhibition is a value-dim DEF now - historical/macros/dimensions.hs (the moral /
 ; conscientious brake fold). Its consumers read the (inhibition) macro: .hs gates

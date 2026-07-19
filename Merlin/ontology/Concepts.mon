@@ -784,6 +784,17 @@ concept
         questionable
         disreputable
         scandalous
+    # conduct_level - a shared 3-level band (lax / fair / good) for the per-observer
+    # conduct dimensions (honesty / diligence / generosity / sobriety), banded PER-(mind,
+    # subject): {@self <dim> <level>} from @self's own dims, {?other <dim> <level>} abduced
+    # from what the observer has witnessed (unknown -> fair, the benefit of the doubt).
+    # repute fuses these bands (+ devoutness for piety, the decorum float, and per-observer
+    # chastity) identically for self and for a tracked other - reputation is genuinely
+    # per-observer, sharpening with evidence.
+    conduct_level            (sub human)  (tar @excl)
+        lax
+        fair
+        good
     # (chastity_repute KIND removed - reputed_chastity is killed; chastity is
     # per-observer, judged on demand from (count-beliefs-about ?other lover),
     # not banded into a public standing.)
