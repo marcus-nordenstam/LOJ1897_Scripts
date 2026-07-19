@@ -122,6 +122,21 @@
 (trait-affect narcissism  /amplifies humiliation injustice shame anger contempt /gain 1.2 /one_sided)
 (trait-affect psychopathy /dampens   guilt fear moral_violation /gain 0.6 /one_sided)
 
+; ---- relational-signal dimensions ------------------------------------------
+; The per-(mind, object) continuous stance regulators (see signal_dims.h and
+; Docs/social/relational_stance.md). Each (signal ...) declares one dimension:
+;   /range       signed [-1,1] (warmth-like) or unsigned [0,1] (attraction-like)
+;   /retention   per-sleep leak factor (1.0 = never fades)
+;   /thresholds  band magnitude cut points, increasing (2 signed, 3 one-sided)
+;   /neg /pos    verb-state belief minted per band level (neg: -1,-2; pos: +1..)
+; The five stance dims MUST be declared first, in warmth/esteem/trust/attraction/
+; dread order (the t_stance_dim enum contract the C++ readers rely on).
+(signal warmth     /range signed   /retention 0.938 /thresholds 0.20 0.60      /neg dislike detest   /pos like adore)
+(signal esteem     /range signed   /retention 0.938 /thresholds 0.20 0.60      /neg disdain despise  /pos admire revere)
+(signal trust      /range signed   /retention 0.938 /thresholds 0.20 0.60      /neg distrust suspect /pos trust rely)
+(signal attraction /range unsigned /retention 0.938 /thresholds 0.20 0.60 0.85 /pos fancy desire crave)
+(signal dread      /range unsigned /retention 0.99  /thresholds 0.20 0.60 0.85 /pos wary dread terror)
+
 ; ---- stance coupling -------------------------------------------------------
 ; Emotion -> durable relational stance (see Docs/social/relational_stance.md).
 ; When an emotion is minted toward a focus PERSON, it nudges the appraiser's
