@@ -9,12 +9,19 @@
 ;     punctual {@self give <sum>} record the generosity classifier reads, ends the
 ;     act. The {@self give_alms <church>} act-belief IS the episodic memory
 ;     days-since-last reads. No aim, no end-goal.
+;
+; SCHEDULED cooldown (event-cadence Phase 2): the drive is edge/timer-driven - it
+; leaves the agenda after proposing and returns on a ~20-day refractory (the
+; days-since-last ramp is retained as the utility SHAPE; the cooldown is the floor).
+; (if-blocked hold) so the drive still fires once the church/grown gates re-align.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
 
 (npc-think feel_charitable
-  (short-term-think)
+  (sim-window-think)
+  (schedule cooldown 20 d)
+  (if-blocked hold)
   (role @self (grown @self))
   ; The nearest church the NPC KNOWS (role-cast; no known church -> no fire).
   (role ?venue [k building church] (select (score (near @self ?venue)) (policy roulette)))
