@@ -39,7 +39,7 @@
   ; Jealous-rage pre-gate: the rage tail released by disinhibition, at the
   ; 0.02 base rate (score_macros.hs).
   (when (chance (* (crime-scale) 0.02
-                   (dark-propensity @self (rage-disposition @self)))))
+                   (dark-propensity (rage-disposition @self)))))
 
   (cont-fire-effects
     ; Resolve the interloper (the partner's third-party lover, in @self's own

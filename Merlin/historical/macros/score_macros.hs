@@ -28,9 +28,9 @@
 
 ; --- Layer 1: single-quantity readings ---------------------------------------
 
-; How uninhibited ?who is (no inhibition belief reads as fully disinhibited).
-(define-macro disinhibition (?who)
-  (- 1 (target {?who inhibition})))
+; How uninhibited @self is: the inverse of the inhibition moral brake.
+(define-macro disinhibition ()
+  (- 1 (inhibition)))
 
 ; How cold ?who is (inverse compassion).
 (define-macro callousness (?who)
@@ -81,9 +81,9 @@
 ; --- Layer 2: the propensity product -----------------------------------------
 
 ; The standard motive-gate product: a disposition released by disinhibition.
-; Use inside (chance (* (crime-scale) <base-rate> (dark-propensity ?who (..)))).
-(define-macro dark-propensity (?who ?disposition)
-  (* (disinhibition ?who) ?disposition))
+; Use inside (chance (* (crime-scale) <base-rate> (dark-propensity (..)))).
+(define-macro dark-propensity (?disposition)
+  (* (disinhibition) ?disposition))
 
 ; --- Layer 3: betrayal blame (betrayal_kill.hs) ------------------------------
 

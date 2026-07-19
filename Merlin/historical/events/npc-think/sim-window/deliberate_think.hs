@@ -35,7 +35,7 @@
     (bind weight ?weight)
     (bind-total ?total)
     (score (* (deliberation-score ?pressure ?rpk ?action ?focus ?weight)
-              (disinhibition @self)))
+              (disinhibition)))
     (policy roulette))
 
   ; The WHOLE candidate mass (?total) competes against the inaction floor - so the

@@ -58,7 +58,7 @@
   ; {@self life_aim power_aim} holders.
   (when (and (>= (lethal-disposition @self) 0.65)
              (chance (* (crime-scale) 0.005
-                        (* (dark-propensity @self (lethal-disposition @self))
+                        (* (dark-propensity (lethal-disposition @self))
                            (if (believes {@self life_aim [k power_aim]}) 2.0 1.0))))))
 
   ; predation-target seeds the victim-type profile on the first hunt, then resolves

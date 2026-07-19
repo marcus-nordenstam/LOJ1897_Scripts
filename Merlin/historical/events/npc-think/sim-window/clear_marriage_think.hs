@@ -53,7 +53,7 @@
                (* (crime-scale) 0.03
                   (* (attr @self psychopathy)
                      (* (attr @self machiavellianism)
-                        (* (disinhibition @self)
+                        (* (disinhibition)
                            (* (callousness @self)
                               (romantic-drive ?paramour ?spouse)))))))))
 

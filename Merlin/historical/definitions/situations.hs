@@ -17,8 +17,7 @@
 ; Scalars feeding the wealth / prestige / breeding classifiers.
 ; unemployed-* are the no-job floors; creditor-wealth-penalty is the wealth
 ; lost per outstanding `owe`; won-prestige-* the capped bonus per sporting
-; victory. (sobriety's craving cap moved to the signals.hs sobriety
-; declaration; breeding is a seeded belief with no derived fallback.)
+; victory. breeding is a seeded belief with no derived fallback.
 (dimension-tuning
   /unemployed-wealth        30
   /creditor-wealth-penalty  15
@@ -35,9 +34,7 @@
 ; ---- conduct dimensions (Phase 8) ------------------------------------------
 ; chastity: a high prior (chastity-base), less chastity-adultery-penalty per
 ; extra-marital partner. gambling-wealth-penalty: the flat wealth hit for a
-; standing gambling habit (the play_game act-record). (criminality, the
-; sobriety gambling penalty, and the charity generosity bonus moved to their
-; signals.hs declarations; honesty / decorum / aggression are pure folds.)
+; standing gambling habit (the play_game act-record).
 (conduct
   /chastity-base             85
   /chastity-adultery-penalty 30
@@ -55,8 +52,3 @@
 (identity-thresholds
   /machiavellian-min     0.65
   /sadist-min            0.65)
-
-; ---- felt-life dimensions (F4.6) -------------------------------------------
-; contentment-neutral is the reading for a mind that holds no mood.
-(felt-life
-  /contentment-neutral        50)

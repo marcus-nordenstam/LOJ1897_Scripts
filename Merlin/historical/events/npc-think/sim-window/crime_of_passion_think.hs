@@ -52,7 +52,7 @@
   ; betrayal_kill.hs instead.
   (when (and (not (knows-affair))
              (chance (* (crime-scale) 0.02
-                        (dark-propensity @self (rage-disposition @self))))))
+                        (dark-propensity (rage-disposition @self))))))
 
   ; crave-rival resolves the rival for the beloved (read in @self's own mind), else
   ; the beloved. /cause pins the crave belief - the obsessive signature.

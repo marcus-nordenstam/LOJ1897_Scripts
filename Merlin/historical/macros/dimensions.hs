@@ -89,6 +89,27 @@
 (define-macro generosity ()
   (clamp (+ (attr @self compassion) (* (>= (count-ever @self give) 1) 0.20)) 0 1))
 
+; sobriety - inverse of accumulated intoxication (absent intoxication = 0 = fully
+; sober), hard-capped at 0.15 once a standing craving for drink has formed, and
+; docked 0.25 x the gambling-addiction severity.
+(define-macro sobriety ()
+  (clamp (+ (* (- 1 (believes {@self craving ?})) (- 1 (attr @self intoxication)))
+            (* (believes {@self craving ?})       (min (- 1 (attr @self intoxication)) 0.15))
+            (* (attr @self gambling_addiction) -0.25)) 0 1))
+
+; belonging - how well warmth bonds + immediate kin meet the sociability need.
+; Warmth = friends (close_to / friend) + kin (spouse x2, children capped 5, parents
+; capped 2, siblings capped 4). Need = 1 + Extraversion x 5 (Extraversion = the mean
+; of enthusiasm + assertiveness); belonging falls 0.18 per unit of unmet need.
+(define-macro belonging ()
+  (clamp (- 1 (* (max (- (+ 1 (* (* (+ (attr @self enthusiasm) (attr @self assertiveness)) 0.5) 5))
+                         (+ (count-beliefs @self close_to) (count-beliefs @self friend)
+                            (* 2 (believes {@self spouse ?}))
+                            (min (count-beliefs @self child) 5)
+                            (min (+ (count-beliefs @self mother) (count-beliefs @self father)) 2)
+                            (min (+ (count-beliefs @self sibling) (count-beliefs @self half_sibling)) 4)))
+                     0) 0.18)) 0 1))
+
 ; piety - worship-episode observance mapped onto the historical piety anchors:
 ; 0.25 the never-worships floor, 0.85 the regular-churchgoer ceiling. observance
 ; is the recency-weighted mass of the subject's OWN worship memories (forgetting

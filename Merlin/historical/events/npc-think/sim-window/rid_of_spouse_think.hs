@@ -52,7 +52,7 @@
                   (* (+ (if (detests ?spouse) 1 0)
                         (if (believes {?spouse assault @self}) 1 0))
                      (* (+ 0.5 (attr @self psychopathy))
-                        (* (disinhibition @self)
+                        (* (disinhibition)
                            (* (callousness @self)
                               (* (+ 1 (target {?spouse wealth}))
                                  (if (is-married ?lover) 1.5 1.0))))))))))
