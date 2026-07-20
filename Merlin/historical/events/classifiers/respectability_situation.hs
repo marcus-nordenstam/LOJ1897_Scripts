@@ -11,7 +11,6 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_respectability_situation
-  (sim-window-think)
   ; Monthly cooldown: the seven-term mean folds continuously-drifting reads - (sobriety) via the
   ; intoxication attr, (piety) via decaying worship evidence - that never edge the belief seam,
   ; so an edge-driven schedule would leave respectability stale between the rare commits. A

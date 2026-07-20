@@ -14,7 +14,6 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_self_conduct
-  (sim-window-think)
   ; Monthly cooldown, NOT on-commit: sobriety folds the continuously-drifting intoxication attr
   ; (which never edges the belief seam) and the give act-record; a purely edge-driven schedule
   ; would leave those bands stale between the rare belief commits. A once-per-window timer keeps

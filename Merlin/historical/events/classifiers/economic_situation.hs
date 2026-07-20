@@ -17,7 +17,6 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_economic_situation
-  (sim-window-think)
   (schedule on-commit)
   (if-blocked hold)
   (rng-stream behaviour)

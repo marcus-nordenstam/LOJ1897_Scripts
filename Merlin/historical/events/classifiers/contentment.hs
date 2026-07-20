@@ -17,7 +17,6 @@
 (define-macro contentment-jobless-penalty () -0.08)   ; no employer and no job
 
 (npc-think classify_contentment
-  (sim-window-think)
   ; Monthly cooldown: contentment folds the continuously-drifting (sobriety) (intoxication attr)
   ; and (belonging) reads alongside wealth and the kin/employ beliefs, so a periodic recompute
   ; tracks the drift the belief edges miss. Once-per-window (gated on wealth being derived) keeps

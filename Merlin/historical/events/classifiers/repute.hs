@@ -15,7 +15,6 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_self_repute
-  (sim-window-think)
   ; on-changed: the fully-banded fuse recomputes when any conduct band toggles (a band drops
   ; when its evidence is forgotten). Triggers = the four conduct bands + devoutness + decorum
   ; + lover (chastity-scalar) + class_situation (gate). These are the exact repute-fold inputs.

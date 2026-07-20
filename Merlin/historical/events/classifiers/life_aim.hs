@@ -13,7 +13,6 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_life_aim
-  (sim-window-think)
   ; Monthly cooldown: the argmax folds (piety) (decaying worship evidence) and (criminality) /
   ; (rootedness) tallies alongside the wealth/decorum floats and situation bands; the decaying
   ; reads never edge the seam, so a periodic recompute is needed to track them. Once-per-window

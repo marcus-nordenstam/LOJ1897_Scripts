@@ -9,7 +9,6 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_self_devoutness
-  (sim-window-think)
   ; Monthly cooldown: (evidence ...) is a recency-weighted fold that DECAYS continuously between
   ; worship episodes (a lapsing churchgoer slides devout->observant->secular purely by the clock),
   ; so no belief edge marks the band change - only a periodic recompute catches it. Once-per-window

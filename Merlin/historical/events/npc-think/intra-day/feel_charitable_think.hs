@@ -19,7 +19,6 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think feel_charitable
-  (sim-window-think)
   (schedule cooldown 20 d)
   (if-blocked hold)
   (role @self (grown @self))

@@ -6,7 +6,6 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_social_trajectory
-  (sim-window-think)
   (schedule on-commit)
   (if-blocked hold)
   (rng-stream behaviour)
