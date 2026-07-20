@@ -44,6 +44,10 @@
   (cont-fire-effects (excl-goal {@self work ?wp})))
 
 (npc-think day_go_to_work
+  ; The (when) binds TWO free vars (?start ?end) via one belief - believes binds only the
+  ; target, not the aux, so this needs (bind ...), which errors when a maintenance (when) is
+  ; re-evaluated. So this rung stays LEVEL-triggered for now; go-into -> the enter chain. The
+  ; target-form conversion here waits for a multi-var re-eval-safe bind (§5.8 vicinity).
   (short-term-think)
   (fatigue-timeout 0)              ; commuting to work is not a fruitless search - never fatigue-capped
   (role ?org (believes {@self employer ?org})
@@ -53,4 +57,4 @@
              (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))
              (not (at-workplace ?wp))))
   (utility (* 80 (factors (attr @self industriousness) 0.75 0.5)))
-  (cont-fire-effects (go-into ?wp)))
+  (cont-fire-effects (excl-goal {@self enter ?wp})))

@@ -45,14 +45,16 @@
 ; CASE B - knows a house agency, not at its office: travel there. Its incorporation
 ; articles name the office he calls at (articles-building).
 (npc-think list_to_let_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self let})
   (role ?agency (believes {?agency isa [k org house_agency]})
                 (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
              (not (in-building ?venue))))
   (utility 40)
-  (cont-fire-effects (go-into ?venue)))
+  (effects       (begin-goal {@self enter ?venue}))
+  (cease-effects (end-goal   {@self enter ?venue})))
 
 ; CASE A - AT a known agency: re-affirm the standing intent with this think's
 ; utility so, with the go sub-goal spent, the let goal is the leaf and promotes to

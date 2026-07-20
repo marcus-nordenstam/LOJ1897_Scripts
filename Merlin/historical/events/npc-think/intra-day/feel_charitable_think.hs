@@ -30,4 +30,7 @@
   ; uncompassionate stay below every routine act, so they never give.
   (utility (* (attr @self compassion)
               (min (* (days-since-last @self give_alms) 0.8) 25)))
-  (cont-fire-effects (propose-venue-act ?venue give_alms)))
+  (cont-fire-effects
+    (if (in-building ?venue)
+        (begin-goal {@self give_alms ?venue})
+        (begin-goal {@self enter ?venue}))))

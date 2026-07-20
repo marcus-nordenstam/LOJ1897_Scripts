@@ -262,14 +262,16 @@
   (cont-fire-effects (begin-goal {@self forage})))
 
 (npc-think starving_go_home
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (role @self (believes {@self starving}))
   (role ?home (believes {@self home ?home}))
   (when (and (> (attr @self appetite) 1.3)
              (not (at-home))
              (> (count-believed-located [k food] ?home) 0)))
   (utility 138)
-  (cont-fire-effects (go-into ?home)))
+  (effects       (begin-goal {@self enter ?home}))
+  (cease-effects (end-goal   {@self enter ?home})))
 
 ; Buy: at a shop with wealth, one item eaten on the spot (paid-for in the v1
 ; no-coin sense as provisioning).
@@ -283,7 +285,8 @@
   (cont-fire-effects (begin-goal {@self forage})))
 
 (npc-think starving_buy_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (role @self (believes {@self starving}))
   ; The known provisions_shop is preferred; else a role-cast shop the NPC KNOWS
   ; (nearest, weighted). Replaces the (venue ...) fallback.
@@ -293,10 +296,14 @@
              (> (target {@self wealth}) 0.2)
              (not (at-place-kind [k building shop]))))
   (utility 135)
-  (cont-fire-effects
+  (effects
     (if (is-entity ?shop)
-        (go-into ?shop)
-        (go-into ?go_dest))))
+        (begin-goal {@self enter ?shop})
+        (begin-goal {@self enter ?go_dest})))
+  (cease-effects
+    (if (is-entity ?shop)
+        (end-goal {@self enter ?shop})
+        (end-goal {@self enter ?go_dest}))))
 
 ; Steal: the pauper's act - at a shop with no wealth, the mouthful goes on the
 ; ledger (the shop owner is the victim). The row lands only when something was
@@ -311,7 +318,8 @@
   (cont-fire-effects (begin-goal {@self forage})))
 
 (npc-think starving_steal_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (role @self (believes {@self starving}))
   (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
   (bind (target {@self provisions_shop ?}) ?shop)
@@ -319,7 +327,11 @@
              (not (> (target {@self wealth}) 0.2))
              (not (at-place-kind [k building shop]))))
   (utility 130)
-  (cont-fire-effects
+  (effects
     (if (is-entity ?shop)
-        (go-into ?shop)
-        (go-into ?go_dest))))
+        (begin-goal {@self enter ?shop})
+        (begin-goal {@self enter ?go_dest})))
+  (cease-effects
+    (if (is-entity ?shop)
+        (end-goal {@self enter ?shop})
+        (end-goal {@self enter ?go_dest}))))

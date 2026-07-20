@@ -12,14 +12,16 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think resign_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self resign_club})
   ; The clubhouse is role-cast from the clubhouses the NPC KNOWS; nearest preferred,
   ; weighted. No known clubhouse -> no fire (the goal waits). Replaces (venue ...).
   (role ?go_dest [k building social_clubhouse] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building social_clubhouse])))
   (utility 40)
-  (cont-fire-effects (go-into ?go_dest)))
+  (effects       (begin-goal {@self enter ?go_dest}))
+  (cease-effects (end-goal   {@self enter ?go_dest})))
 
 (npc-think resign_dwell
   (short-term-think)

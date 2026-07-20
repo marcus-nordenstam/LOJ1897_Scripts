@@ -20,7 +20,9 @@
 ; The go sub-goal INHERITS the bring goal's drive through /cause (worship_go
 ; shape) - the MINTING lane owns the utility (provisioning: provision_rearm 90).
 (npc-think bring_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self bring ?ware ?dest})
   (when (not (at-place ?dest)))
-  (cont-fire-effects (go-into ?dest)))
+  (effects       (begin-goal {@self enter ?dest}))
+  (cease-effects (end-goal   {@self enter ?dest})))

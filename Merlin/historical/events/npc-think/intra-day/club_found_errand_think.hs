@@ -10,14 +10,16 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think found_club_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self found_club})
   ; The pub is role-cast from the pubs the NPC KNOWS; nearest preferred, weighted.
   ; No known pub -> no fire (the goal waits). Replaces (venue ...).
   (role ?go_dest [k building pub] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building pub])))
   (utility 45)
-  (cont-fire-effects (go-into ?go_dest)))
+  (effects       (begin-goal {@self enter ?go_dest}))
+  (cease-effects (end-goal   {@self enter ?go_dest})))
 
 (npc-think found_club_dwell
   (short-term-think)

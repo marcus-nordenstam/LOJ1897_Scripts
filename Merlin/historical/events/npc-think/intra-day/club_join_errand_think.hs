@@ -11,12 +11,14 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think join_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self join_club})
   (when (and (articles-building (goal-focus join_club) ?venue)
              (not (in-building ?venue))))
   (utility 40)
-  (cont-fire-effects (go-into ?venue)))
+  (effects       (begin-goal {@self enter ?venue}))
+  (cease-effects (end-goal   {@self enter ?venue})))
 
 (npc-think join_dwell
   (short-term-think)

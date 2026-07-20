@@ -70,12 +70,14 @@
 ; the convey goal as this rule's parent, so the go sub-goal inherits the drive and
 ; auto-links its /cause - no hand-written /cause.
 (npc-think convey_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal    {@self convey ?corpse})
   (role @self (grown @self))
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
   (when    (not (is-a (current-building @self) [k building church])))
-  (cont-fire-effects (go-into ?church)))
+  (effects       (begin-goal {@self enter ?church}))
+  (cease-effects (end-goal   {@self enter ?church})))
 
 ; CASE C - not at a church and knows none: search for one (find_building.hs runs it).
 (npc-think convey_find

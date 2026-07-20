@@ -9,14 +9,16 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think indenture_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self seek_indenture})
   ; articles-building BINDS ?venue (the master's premises) off the goal-focus
   ; articles, threading it to the at-place gate + the (go) effect.
   (when (and (articles-building (goal-focus seek_indenture) ?venue)
              (not (in-building ?venue))))
   (utility 80)
-  (cont-fire-effects (go-into ?venue)))
+  (effects       (begin-goal {@self enter ?venue}))
+  (cease-effects (end-goal   {@self enter ?venue})))
 
 ; AT the premises: re-affirm the standing seek_indenture aim with this think's utility so
 ; it carries a drive. With the go sub-goal spent, the aim is the leaf and promotes to

@@ -20,13 +20,15 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think stow_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self stow ?item})
   (role ?home (believes {@self home ?home}))
   (when (and (is-entity ?item)
              (not (at-home))))
   (utility 90)
-  (cont-fire-effects (go-into ?home)))
+  (effects       (begin-goal {@self enter ?home}))
+  (cease-effects (end-goal   {@self enter ?home})))
 
 (npc-think stow_put
   (short-term-think)

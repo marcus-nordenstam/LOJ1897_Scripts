@@ -20,7 +20,8 @@
 ; for (go) but cannot be used to test arrival (each call could pick a different
 ; bank). Mirrors the drinking lane's (can-drink) at-a-pub gate.
 (npc-think found_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self found})
   ; The bank is role-cast from the banks the NPC KNOWS (naked [k ..] = (believes
   ; {?this isa [k ..]})); the nearest is preferred, weighted so the town spreads.
@@ -29,7 +30,8 @@
   (role ?go_dest [k building bank] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building bank])))
   (utility 85)
-  (cont-fire-effects (go-into ?go_dest)))
+  (effects       (begin-goal {@self enter ?go_dest}))
+  (cease-effects (end-goal   {@self enter ?go_dest})))
 
 (npc-think found_dwell
   (short-term-think)

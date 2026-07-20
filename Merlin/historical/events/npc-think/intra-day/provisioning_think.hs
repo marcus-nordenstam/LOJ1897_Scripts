@@ -111,12 +111,14 @@
 ; goal is the leaf, and provision_act promotes on its when.
 
 (npc-think provision_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self provision})
   (bind (target {@self provisions_shop ?}) ?shop)
   (when (and (is-entity ?shop)
              (not (in-building ?shop))))
-  (cont-fire-effects (go-into ?shop)))
+  (effects       (begin-goal {@self enter ?shop}))
+  (cease-effects (end-goal   {@self enter ?shop})))
 
 (npc-think provision_orient
   (short-term-think)

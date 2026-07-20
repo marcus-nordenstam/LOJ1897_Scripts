@@ -31,13 +31,15 @@
 ; goal (so its go sub-goal inherits the drive) and head there. attend is a
 ; non-leaf while {@self go ?venue} stands, so the go rung promotes.
 (npc-think attend_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self attend ?occ})
-  (when (and (bind {?occ venue ?venue})
+  (when (and (believes {?occ venue ?venue})
              (attend-in-window @self)
              (not (in-building ?venue))))
   (utility (attend-utility @self))
-  (cont-fire-effects (begin-goal {@self attend}) (go-into ?venue)))
+  (effects       (begin-goal {@self attend}) (begin-goal {@self enter ?venue}))
+  (cease-effects (end-goal   {@self enter ?venue})))
 
 ; DWELL desire - at the venue in the window: push the utility so {@self attend},
 ; now the leaf, promotes to attend_act (the attendance dwell).

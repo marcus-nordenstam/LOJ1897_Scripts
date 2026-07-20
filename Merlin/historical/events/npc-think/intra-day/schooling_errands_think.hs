@@ -13,14 +13,16 @@
 
 ; ----- primary -------------------------------------------------------------
 (npc-think primary_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self enrol_primary})
   ; The school is role-cast from the schools the NPC KNOWS; nearest preferred,
   ; weighted. No known school -> no fire (the goal waits). Replaces (venue ...).
   (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building school])))
   (utility 35)
-  (cont-fire-effects (go-into ?go_dest)))
+  (effects       (begin-goal {@self enter ?go_dest}))
+  (cease-effects (end-goal   {@self enter ?go_dest})))
 (npc-think primary_dwell
   (short-term-think)
   (goal {@self enrol_primary})
@@ -30,12 +32,14 @@
 
 ; ----- secondary -----------------------------------------------------------
 (npc-think secondary_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self enrol_secondary})
   (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building school])))
   (utility 35)
-  (cont-fire-effects (go-into ?go_dest)))
+  (effects       (begin-goal {@self enter ?go_dest}))
+  (cease-effects (end-goal   {@self enter ?go_dest})))
 (npc-think secondary_dwell
   (short-term-think)
   (goal {@self enrol_secondary})
@@ -45,12 +49,14 @@
 
 ; ----- university ----------------------------------------------------------
 (npc-think university_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self enrol_university})
   (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building school])))
   (utility 35)
-  (cont-fire-effects (go-into ?go_dest)))
+  (effects       (begin-goal {@self enter ?go_dest}))
+  (cease-effects (end-goal   {@self enter ?go_dest})))
 (npc-think university_dwell
   (short-term-think)
   (goal {@self enrol_university})

@@ -5,12 +5,14 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think invest_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self back ?org})
-  (when (and (bind {?org workplace ?wp})
+  (when (and (believes {?org workplace ?wp})
              (not (at-workplace ?wp))))
   (utility 60)
-  (cont-fire-effects (go-into ?wp)))
+  (effects       (begin-goal {@self enter ?wp}))
+  (cease-effects (end-goal   {@self enter ?wp})))
 
 ; AT the firm: re-affirm the standing back aim with this think's drive so it promotes
 ; (the go sub-goal spent, the aim is the leaf). begin-goal, not excl-goal - the aim is a

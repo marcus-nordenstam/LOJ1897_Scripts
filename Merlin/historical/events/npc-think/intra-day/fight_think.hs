@@ -51,16 +51,18 @@
 ; ~13 min, after which the killer abandons THIS attempt and leaves. (fight-elapsed)
 ; is wall-clock minutes since the first blow, reset each month.
 (npc-think kill_seek
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self fight ?victim})
 
-  (when (and (bind {?victim home ?victim_home})
+  (when (and (believes {?victim home ?victim_home})
              (not (co-present @self ?victim))))
   (utility (if (< (fight-elapsed) 10) 150
                (max 0 (- 150 (* 30 (- (fight-elapsed) 10))))))
-  (cont-fire-effects
+  (effects
     (debug-print "TRACE_KILLSEEK @self stalks victim=?victim to ?victim_home")
-    (go-into ?victim_home)))
+    (begin-goal {@self enter ?victim_home}))
+  (cease-effects (end-goal {@self enter ?victim_home})))
 
 ; The killer at the victim strikes - a committed murderer prioritises the blow
 ; (utility 200 dominates work 80 / sleep 100) UNTIL the exposure clock drags it
@@ -89,7 +91,10 @@
   (when (and (goal? {@self fight})
              (not (at-home))))
   (utility (* 30 (max 0 (- (fight-elapsed) 10))))
-  (cont-fire-effects (bind (target {@self home ?}) ?go_dest) (go-into ?go_dest)))
+  ; NON-goal-gated standalone (goal? query, so no on-commit trigger) - stays level-
+  ; triggered for now; go-into -> the enter chain. The cont-fire purge here waits for
+  ; the apparatus teardown (the enter-home goal is inert once home).
+  (cont-fire-effects (bind (target {@self home ?}) ?go_dest) (excl-goal {@self enter ?go_dest})))
 
 ; THE VICTIM FIGHTS BACK. A struck victim holds {@self under_attack <foe>} (set by
 ; the blow that landed) and was woken THIS instant. If the foe is still co-present

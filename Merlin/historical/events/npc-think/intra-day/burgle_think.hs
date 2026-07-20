@@ -19,17 +19,23 @@
 ; there. Pushes the steal utility so the go sub-goal it maintains promotes; steal
 ; is a non-leaf while {@self go ?scene} stands. No scene qualifies -> nothing.
 (npc-think burgle_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self steal})
   (rng-stream theft)
+  ; Bind the scene at the EVENT level (not inside (effects)) so ?scene is in scope for
+  ; BOTH (effects) and (cease-effects) - a fire-time stash restores it at cease.
+  (bind (burgle-target @self) ?scene)
   (when (and (not (at-burgle-residence))
              (not (at-own-workplace))))
   (utility 85)
-  (cont-fire-effects
+  (effects
     (begin-goal {@self steal})
-    (bind (burgle-target @self) ?scene)
     (if ?scene
-        (go-into ?scene))))
+        (begin-goal {@self enter ?scene})))
+  (cease-effects
+    (if ?scene
+        (end-goal {@self enter ?scene}))))
 
 ; AT a strikeable scene: push the steal utility so {@self steal}, now the leaf,
 ; promotes to steal_act. One desire for both scenes; steal_act's completion picks

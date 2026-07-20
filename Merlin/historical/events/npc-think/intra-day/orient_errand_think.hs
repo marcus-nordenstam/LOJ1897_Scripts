@@ -5,14 +5,16 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think orient_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self orient})
   ; The church is role-cast from the churches the NPC KNOWS; nearest preferred,
   ; weighted. No known church -> no fire (the goal waits). Replaces (venue ...).
   (role ?go_dest [k building church] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building church])))
   (utility 28)
-  (cont-fire-effects (go-into ?go_dest)))
+  (effects       (begin-goal {@self enter ?go_dest}))
+  (cease-effects (end-goal   {@self enter ?go_dest})))
 
 (npc-think orient_dwell
   (short-term-think)

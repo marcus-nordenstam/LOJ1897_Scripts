@@ -56,4 +56,7 @@
   (goal {@self hold_meet})
   (when (articles-building (goal-focus hold_meet) ?clubhouse))
   (utility 35)
-  (cont-fire-effects (route-to-venue-then-act ?clubhouse hold_meet_run)))
+  (cont-fire-effects
+    (if (in-building ?clubhouse)
+        (begin-goal {@self hold_meet_run})
+        (excl-goal {@self enter ?clubhouse}))))

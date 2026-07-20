@@ -5,12 +5,14 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think partner_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self partner})
   (when (and (articles-building (goal-focus partner) ?venue)
              (not (in-building ?venue))))
   (utility 85)
-  (cont-fire-effects (go-into ?venue)))
+  (effects       (begin-goal {@self enter ?venue}))
+  (cease-effects (end-goal   {@self enter ?venue})))
 
 (npc-think partner_dwell
   (short-term-think)

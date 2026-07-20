@@ -65,4 +65,4 @@
     (if (co-present @self ?corpse)
         (excl-goal {@self bury ?corpse})
         (if (is-entity ?church)
-            (go-into ?church)))))
+            (excl-goal {@self enter ?church})))))

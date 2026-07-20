@@ -8,12 +8,14 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think borrow_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self take_loan ?creditor})
-  (when (and (bind {?creditor home ?cred_home})
+  (when (and (believes {?creditor home ?cred_home})
              (not (in-building ?cred_home))))
   (utility 60)
-  (cont-fire-effects (go-into ?cred_home)))
+  (effects       (begin-goal {@self enter ?cred_home}))
+  (cease-effects (end-goal   {@self enter ?cred_home})))
 
 (npc-think borrow_dwell
   (short-term-think)

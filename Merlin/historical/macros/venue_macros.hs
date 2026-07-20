@@ -1,24 +1,9 @@
 ; ----------------------------------------------------------------------------
-; venue_macros.hs - the shared "go to a venue and do an act there" proposal.
+; venue_macros.hs - the venue-proximity weight for role selectors.
 ;
-; (propose-venue-act ?venue ?act): the effect every venue-lane THINK shares. ?venue
-; is a KNOWN building the THINK already settled on by role-casting (a role filtered
-; to the venue kind with (select (score (distance @self ?venue)) (policy argmin)) -> the
-; nearest one the NPC knows). If already AT ?venue, propose the ?act act-goal there;
-; otherwise propose a `go` sub-act-goal to it. Knowledge-honest by construction - the
-; role never binds a venue the NPC has not learned, so no omniscient venue pick. Two
-; thinks that settle on the SAME (?venue, ?act) stack their utility on the one
-; act-goal (additive source aggregation).
-;
-;   worship:  (propose-venue-act ?venue worship)   with a (role ?venue [k building church] ...)
-;   (reused by any go-there-and-do-it lane: drink/pub, gamble/pub, alms/church...)
+; (The old (propose-venue-act ...) routing macro is RETIRED - venue routing now mints
+; {@self enter ?venue} into the generic enter chain, §5.11.)
 ; ----------------------------------------------------------------------------
-
-(define-macro propose-venue-act (?venue ?act)
-  (if (in-building ?venue)
-      (begin-goal {@self ?act ?venue})
-      (if (is-entity ?venue)
-          (begin-goal {@self go ?venue}))))
 
 ; (near ?a ?b): a PROXIMITY weight (higher = closer) for a role's
 ; (select (score (near @self ?venue)) (policy roulette)) selector. Mirrors the old

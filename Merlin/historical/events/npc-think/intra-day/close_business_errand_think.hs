@@ -14,12 +14,14 @@
 ; (the firm's premises building) off the goal-focus articles, threading it to the
 ; at-place gate + the (go) effect.
 (npc-think close_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self close_business})
   (when (and (articles-building (goal-focus close_business) ?wp)
              (not (at-workplace ?wp))))
   (utility 85)
-  (cont-fire-effects (go-into ?wp)))
+  (effects       (begin-goal {@self enter ?wp}))
+  (cease-effects (end-goal   {@self enter ?wp})))
 
 ; AT the premises: re-affirm the standing aim with this think's utility so, the go
 ; sub-goal spent, the aim is the leaf and promotes to close_business_act.

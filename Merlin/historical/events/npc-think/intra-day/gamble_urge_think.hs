@@ -23,4 +23,7 @@
   (utility (* (- 1 (attr @self industriousness))                    ; susceptibility (0 = disciplined)
               (+ 2 (* 22 (attr @self gambling_addiction)))          ; onset 2 -> morbid 24 (below leisure)
               (min (* (days-since-last @self play_game) 0.04) 1.0))) ; slow craving modulator [0,1]
-  (cont-fire-effects (propose-venue-act ?venue play_game)))
+  (cont-fire-effects
+    (if (in-building ?venue)
+        (begin-goal {@self play_game ?venue})
+        (excl-goal {@self enter ?venue}))))

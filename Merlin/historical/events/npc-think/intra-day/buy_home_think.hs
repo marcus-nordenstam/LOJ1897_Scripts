@@ -67,7 +67,8 @@
 ; CASE B - knows a house agency, register unread, not at its office: travel there.
 ; Its articles name the office (articles-building). Inherits the acquire drive.
 (npc-think buy_home_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self acquire})
   (role @self (not (believes {@self for_sale ?})))   ; register unread - cached
   (role ?agency (believes {?agency isa [k org house_agency]})
@@ -75,7 +76,8 @@
   (when (and (articles-building ?art ?venue)
              (not (in-building ?venue))))
   (utility 35)
-  (cont-fire-effects (go-into ?venue)))
+  (effects       (begin-goal {@self enter ?venue}))
+  (cease-effects (end-goal   {@self enter ?venue})))
 
 ; CASE A - AT a known agency, register still unread: promote the read act (the
 ; knowledge channel).

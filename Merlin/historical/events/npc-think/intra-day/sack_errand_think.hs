@@ -13,13 +13,15 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think sack_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self sack})
   (role ?org (believes {@self employer ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (not (at-workplace ?wp))))
   (utility 82)
-  (cont-fire-effects (go-into ?wp)))
+  (effects       (begin-goal {@self enter ?wp}))
+  (cease-effects (end-goal   {@self enter ?wp})))
 
 (npc-think sack_dwell
   (short-term-think)
