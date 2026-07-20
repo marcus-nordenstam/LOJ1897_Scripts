@@ -23,7 +23,7 @@
 ;
 ; The CLASS GATE is the `breeding` lineage anchor (0..1, birth-seeded, stable
 ; across the 15+ class_situation re-derivation; in-sim children inherit it from
-; their family - run_effect_birth_human). A breeding-graded chance routes upper
+; their family - deliver_child). A breeding-graded chance routes upper
 ; children into school and working-class children toward apprenticeship - no hard
 ; class read needed (breeding IS the heritable class signal). The pattern mirrors
 ; apprenticeship_start, which gates childhood eligibility on the same anchor.

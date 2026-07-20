@@ -1091,6 +1091,11 @@ concept
     item                (obs) (tar object)
     view                (obs) (sub human)  (tar @excl object)
 
+    # Gestation: {?woman pregnant ?father}. Private physiological state (no
+    # disclosure - not gossiped), ended at delivery by the update_physiology
+    # gestation timer; gates re-conception while carried.
+    pregnant            (tar @excl)
+
     # Kinship and social bonds - subject and target are both human. //noun
     # makes every role explicitly a noun, so the bond decorations below
     # (relation flags) do not trip define()'s noun-vs-relation inference.

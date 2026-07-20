@@ -75,13 +75,16 @@
        (adult-age ?x)
        (not (believes {?x spouse ?}))))
 
-;; Adult woman in fertile age range, currently married. Shape-2 spouse read (the
-;; deliberating mind's own belief), so it stays object-cacheable like unmarried_woman.
+;; Married woman of fertile age who can conceive NOW - not already carrying a
+;; pregnancy ({?x pregnant ?} is set at conception, cleared at delivery by the
+;; update_physiology gestation timer). Shape-2 spouse read (the deliberating mind's
+;; own belief), so it stays object-cacheable like unmarried_woman.
 (define-macro fertile_wife (?x)
   (and (known_alive ?x)
        (believes {?x gender [k female]})
        (working-age ?x)                  ; 16-49 childbearing band
-       (believes {?x spouse ?})))
+       (believes {?x spouse ?})
+       (not (believes {?x pregnant ?}))))
 
 ;; Adult of working / migration age. Used by emigration.
 (define-macro young_adult (?x)

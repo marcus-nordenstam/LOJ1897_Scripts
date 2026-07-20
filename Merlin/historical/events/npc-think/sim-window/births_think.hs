@@ -1,31 +1,35 @@
 ; ----------------------------------------------------------------------------
-; Births. PER-NPC: a birth happens to a specific woman, not to the world. So it
-; runs in the (sim-window-think) window-start pass with @self bound to each living
-; NPC; the fertile_wife template gates @self down to a married woman of fertile
-; age, and a per-month (chance) rolls the conception. No role casting.
+; Conception. PER-NPC: a married, fertile-age woman who is not already carrying a
+; pregnancy rolls a monthly conception (chance). On success she records the
+; pregnancy the isim way - the pregnant_when / pregnant_by physiological attrs
+; (the same attrs HAVE_SEX_WITH sets) - plus a {@self pregnant ?husband}
+; self-belief that gates her out of re-conceiving until she delivers.
+;
+; DELIVERY is NOT here: update_physiology (hse_engine.cc) runs the ~9-month
+; gestation timer off pregnant_when, births the child of her + pregnant_by, and
+; clears the pregnancy. So this file is the conception half; the physiology sim
+; owns the birth half.
 ;
 ; The husband is recovered from @self's OWN spouse belief (no second role): the
 ; free ?husband in (believes {@self spouse ?husband}) binds to her spouse.
-;
-; (birth-human ...) wraps mx_make_entity + mx_make_human: it creates the child,
-; samples traits Mendelian from mother + father, and asserts bio_parent_of in
-; both parents' minds. The new child is appended to the env, not to this pass's
-; pre-collected agent list, so it is not iterated mid-pass (safe).
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
 
-(npc-think birth
+(npc-think conceive
   (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream births)
 
+  ; a married, fertile-age woman not already carrying a pregnancy (fertile_wife
+  ; folds in the not-pregnant gate)
   (role @self (fertile_wife @self))
 
   ; chance first (cheap, short-circuits), then bind the husband from her spouse
-  ; belief - ~0.40 per couple-year over 12 monthly rolls.
-  (when (and (chance 0.033)
+  (when (and (chance 0.05)
              (believes {@self spouse ?husband})))
 
   (cont-fire-effects
-    (birth-human /mother @self /father ?husband)
-    ))
+    (set-attr @self pregnant_when (date_now))
+    (set-attr @self pregnant_by ?husband)
+    (begin-belief {@self pregnant ?husband})))
