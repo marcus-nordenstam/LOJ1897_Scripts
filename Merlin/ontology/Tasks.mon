@@ -115,6 +115,11 @@ relation
             # <place>}, the begin-act unification): "heading to <place>", its
             # interval the travel time, the completion relocating the actor.
             go                                      (tar ?)
+            # go_to_threshold - the counterpart TRAVEL act that arrives at a
+            # structure's threshold (front-park, OUTSIDE), not inside a space.
+            # The enter chain (enter.hs) mints it to reach a venue's face; the
+            # completion front-parks the actor where at-threshold reads true.
+            go_to_threshold                         (tar ?)
             # provision - the cook's keep-the-larder-stocked errand (buy
             # food at the grocer, carry it home, stow it in the kitchen).
             # The goal the plan_provisioning think event mints and the

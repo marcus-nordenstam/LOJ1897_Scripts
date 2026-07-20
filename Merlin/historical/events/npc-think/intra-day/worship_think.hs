@@ -39,14 +39,22 @@
   (utility (* (attr @self politeness) 80))
   (effects (begin-goal {@self worship})))
 
-; CASE B - not at a church, but knows one: head to it. Inherits the worship drive.
+; CASE B - not at a church, but knows one: head to it. Inherits the worship drive. A
+; MAINTENANCE rung (§5.11): roulette a church ONCE, hold {@self enter ?church} (the
+; generic enter chain routes the actual travel), and cease it on arrival (in-building
+; ?church). on-commit re-schedules it when the worship goal is minted; if-blocked hold so
+; it holds until a church is known and the roulette lands. The rouletted ?church is stashed
+; at fire, so the hold + cease operate on the SAME church (no re-roulette while walking).
 (npc-think worship_go
   (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal    {@self worship})
   (role @self (grown @self))
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
-  (when    (not (is-a (current-building @self) [k building church])))
-  (cont-fire-effects (go-into ?church)))
+  (when    (not (in-building ?church)))
+  (cont-fire-effects (begin-goal {@self enter ?church}))
+  (cease-effects     (end-goal   {@self enter ?church})))
 
 ; CASE C - not at a church and knows none: search for one (find_building.hs runs it).
 (npc-think worship_find

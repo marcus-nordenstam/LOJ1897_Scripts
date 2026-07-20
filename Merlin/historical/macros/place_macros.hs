@@ -78,3 +78,11 @@
 ; building_of_location(current_location) is-a pub.
 (define-macro can-drink (?actor)
   (is-a (current-building ?actor) [k building pub]))
+
+; (open ?s): is structure ?s accessible to enter right now? A PERCEIVED-belief check -
+; struct_status is perceived on sight ({?s struct_status [k closed]} minted at the door),
+; so "not believed closed" = open, and an unobserved / never-shuttered structure (a
+; church) defaults open. The access gate of the enter chain (enter_step_in): a shuttered
+; venue is not stepped into. Locked-door / key rungs are a later addition (§5.11 deferred).
+(define-macro open (?s)
+  (not (believes {?s struct_status [k closed]})))

@@ -38,3 +38,22 @@
     ; retracted it; the routing rung is now a scheduled maintenance event that holds its
     ; rouletted destination, so the arrival act ends the concrete go-goal it fulfilled.
     (end-goal {@self go ?dest})))
+
+; go_to_threshold - the counterpart DUMB travel primitive: reach a structure's THRESHOLD
+; (front-park ~1m OUTSIDE its face), never a room center. The enter chain (enter.hs) mints
+; {@self go_to_threshold ?s} to bring the actor to a venue's door, where at-threshold reads
+; true and perception teaches the entrance; enter_step_in then steps inside. relocate only
+; drops an actor at a target's CENTER (inside), so front-park is the ONLY op that yields an
+; outside point - hence a separate act, not a branch inside go_act. The completion pass
+; force-ends the act-belief; the minter (enter_go_to_threshold) ends the go_to_threshold GOAL
+; on its falling edge, so this act carries no end-act / end-goal.
+(npc-act go_to_threshold_act
+  (when (believes {@self go_to_threshold ?s}))
+  (duration (max (go_travel_floor_min) (travel-minutes @self ?s)))
+  (act-effects
+    (front-park @self ?s)
+    ; Cross-subsidy (§5.11): a front-park while a find_building search stands ALSO surveys
+    ; ?s - its exterior is perceived from the threshold - keeping the search frontier fed,
+    ; the coverage the old two-arm go_act gave on a building arrival.
+    (if (goal? {@self find_building ?})
+        (bb-mark ?s surveyed (survey_marker_ttl_cycles)))))
