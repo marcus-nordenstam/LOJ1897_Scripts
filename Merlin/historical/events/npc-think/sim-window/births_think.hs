@@ -17,7 +17,6 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think conceive
-  (sim-window-think)
   (schedule cooldown 1 m)
   (rng-stream births)
 
@@ -29,7 +28,7 @@
   (when (and (chance 0.05)
              (believes {@self spouse ?husband})))
 
-  (cont-fire-effects
+  (effects
     (set-attr @self pregnant_when (date_now))
     (set-attr @self pregnant_by ?husband)
     (begin-belief {@self pregnant ?husband})))

@@ -15,7 +15,7 @@
 (npc-think mortality_old_age
   ; PER-NPC: fires once per month-window for each living NPC (self_actor = @self).
   ; The per-age (when (chance ?per_month)) IS the rate; the window pass is the cadence.
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream deaths)
 
   (role @self )
@@ -27,7 +27,7 @@
   (when (and (>= (years-old @self) 15)
              (chance ?per_month)))
 
-  (cont-fire-effects
+  (effects
     ; propagate-death MUST precede die - die marks @self dead, and propagation
     ; reads @self's still-living kin/social ties to spread the death belief.
     (propagate-death @self)

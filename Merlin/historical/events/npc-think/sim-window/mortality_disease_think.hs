@@ -15,7 +15,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think mortality_disease
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream deaths)
 
   (role @self )
@@ -24,7 +24,7 @@
   (when (and (>= (years-old @self) 1)
              (chance 0.0008)))   ; ~1% per year background disease rate
 
-  (cont-fire-effects
+  (effects
     (propagate-death @self)
     (record-corpse-death @self [k death_cause disease])
     ))
