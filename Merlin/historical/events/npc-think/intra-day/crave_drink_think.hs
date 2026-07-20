@@ -22,14 +22,18 @@
 
 (include "../../../definitions/roles.hs")
 
-; The DESIRE. The ONLY place the pressure is computed.
+; The DESIRE. The ONLY place the pressure is computed. A 3-day cooldown re-checks the urge;
+; the (days-since) fire-gate mints the standing drink desire only when genuinely due (also
+; catching a cross-source drink via the relapse lane); the drink-drive utility competes it;
+; and drink_act drains the goal on completion (there is no excl_goal_sweep to retract it).
 (npc-think want_drink
-  (short-term-think)
- (role @self (grown @self)
+  (schedule cooldown 3 d)
+  (if-blocked hold)
+  (role @self (grown @self)
               (not (believes {@self craving [k alcohol]})))   ; dependents use the relapse lane
   (when    (>= (days-since-last @self drink) 3))
   (utility (drink-drive @self))
-  (cont-fire-effects (excl-goal {@self drink})))
+  (effects (begin-goal {@self drink})))
 
 ; CASE B - not at a pub, but knows one: head to it. The (goal ...) clause pins the drink
 ; goal as this rule's parent, so the go sub-goal inherits the drink drive and auto-links
