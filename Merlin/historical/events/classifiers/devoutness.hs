@@ -27,11 +27,15 @@
       [k piety_band devout] 0.55 [k piety_band observant] 0.15 [k piety_band secular] -1)))
 
 (npc-think classify_others_devoutness
-  (sim-window-think)
+  ; Monthly cooldown (like the self side): (evidence ...) decays continuously between the ?other's
+  ; witnessed worship episodes, so no belief edge marks the band change - a periodic recompute
+  ; re-bands every tracked ?other from what @self currently holds of their observance.
+  (schedule cooldown 1 m)
+  (if-blocked hold)
   (rng-stream behaviour)
 
   (role ?other (believes {?other class_situation ?}))
 
-  (cont-fire-effects
+  (effects
     (mint-band-about {?other devoutness} (evidence ?other worship 6 6)
       [k piety_band devout] 0.55 [k piety_band observant] 0.15 [k piety_band secular] -1)))

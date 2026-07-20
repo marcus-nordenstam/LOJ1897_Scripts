@@ -16,7 +16,13 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_others_conduct
-  (sim-window-think)
+  ; Reactive per-observer: re-band a tracked ?other the instant an impression of them commits or
+  ; is forgotten. Triggers are DERIVED from the role's own belief filters (seems / the held-lax
+  ; bands) - the subject-agnostic seam re-schedules on the {?other seems ?} write in @self's pool.
+  ; The event mints {?other honesty/generosity/sobriety} which are its OWN trigger labels; that
+  ; self-write hits the do_reschedule k_firing bail + the mint-band hysteresis, so it never loops.
+  (schedule on-changed)
+  (if-blocked hold)
   (rng-stream behaviour)
 
   (role ?other (or (believes {?other seems ?})
@@ -24,7 +30,7 @@
                    (believes {?other generosity [k conduct_level lax]})
                    (believes {?other sobriety   [k conduct_level lax]})))
 
-  (cont-fire-effects
+  (effects
     (mint-band-about {?other honesty}
       (clamp (+ (believes {?other seems [k impression callous]})
                 (believes {?other seems [k impression selfish]})) 0 1)

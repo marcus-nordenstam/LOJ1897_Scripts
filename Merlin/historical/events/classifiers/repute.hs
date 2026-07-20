@@ -37,12 +37,19 @@
       [k respectability_situation scandalous]   -1)))
 
 (npc-think classify_others_repute
-  (sim-window-think)
+  ; Reactive per-observer fuse: re-band ?other's repute when any conduct band / devoutness /
+  ; decorum / lover belief ABOUT them changes. Same explicit trigger LABELS as the self side -
+  ; the subject-agnostic seam routes the about-?other write (a {?other honesty} commit from
+  ; classify_others_conduct) to this event. class_situation is both the gate and the annual edge.
+  (schedule on-changed {@self honesty ?} {@self diligence ?} {@self generosity ?}
+                       {@self sobriety ?} {@self devoutness ?} {@self decorum ?}
+                       {@self lover ?} {@self class_situation ?})
+  (if-blocked hold)
   (rng-stream behaviour)
 
   (role ?other (believes {?other class_situation ?}))
 
-  (cont-fire-effects
+  (effects
     (mint-band-about {?other repute} (repute-fold ?other)
       [k respectability_situation exemplary]    0.80
       [k respectability_situation respectable]  0.60

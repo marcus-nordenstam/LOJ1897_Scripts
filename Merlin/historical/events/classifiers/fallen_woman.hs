@@ -16,7 +16,13 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_others_fallen_woman
-  (sim-window-think)
+  ; Reactive per-observer: mark / un-mark the instant a liaison belief about ?other commits or is
+  ; forgotten (per-observer rehab). Triggers derived from the role filters (gender / spouse / lover
+  ; / prototype); the subject-agnostic seam re-schedules on the {?other lover ?} write in @self's
+  ; pool. The minted {?other prototype fallen_woman} is a trigger label of its own -> self-write
+  ; hits the k_firing bail + mint-band hysteresis, no loop.
+  (schedule on-changed)
+  (if-blocked hold)
   (rng-stream behaviour)
 
   (role ?other (believes {?other gender [k female]})
@@ -24,6 +30,6 @@
                (or (believes {?other lover ? /ever})
                    (believes {?other prototype [k fallen_woman]})))
 
-  (cont-fire-effects
+  (effects
     (mint-band-about {?other prototype} (believes {?other lover ? /ever})
       [k fallen_woman] 0.5)))
