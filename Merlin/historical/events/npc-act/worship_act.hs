@@ -25,5 +25,8 @@
     ; devoutness folds and abduction read. The record is identical for the
     ; devout and the appearances-keeping pretender, by design. Witnessing is now
     ; engine-side (auto-witness on this obs act at completion), not hand-authored.
-    (end-act {@self worship})))
+    (end-act {@self worship})
+    ; Drain the desire the cooldown drive minted (worshipping reset the pressure). The drive
+    ; fires once per cooldown now, so the act ends the goal (formerly excl_goal_sweep did).
+    (end-goal {@self worship})))
 ; go_act (the shared travel act) lives in npc-act/go.hs.

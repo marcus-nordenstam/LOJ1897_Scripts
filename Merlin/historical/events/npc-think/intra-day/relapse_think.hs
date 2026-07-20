@@ -14,7 +14,11 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think relapse
-  (short-term-think)
+  ; The dependent's short-fuse drink drive - a 1-day cooldown; shares the {@self drink} goal
+  ; with want_drink (drained by drink_act), and drink_go/find route to a pub. The inline go-into
+  ; is dropped: the routing lane handles movement, and this desire just holds the drink goal.
+  (schedule cooldown 1 d)
+  (if-blocked hold)
   (role @self (grown @self)
               (believes {@self craving [k alcohol]}))   ; the dependency - cached
   ; The nearest pub the NPC KNOWS (role-cast; no known pub -> no fire).
@@ -29,8 +33,4 @@
                       (- 1.3 (* 0.6 (piety)))
                       (- 1.3 (* 0.6 (belonging)))) 1.6)
               (min (* (days-since-last @self drink) 5) 45)))
-  (cont-fire-effects
-    (if (can-drink @self)
-        (begin-goal {@self drink})
-        (if (is-entity ?pub)
-            (go-into ?pub)))))
+  (effects (begin-goal {@self drink})))

@@ -28,12 +28,16 @@
 ; churchgoing wins the representative day's motor when the NPC is off work and reliably
 ; routes them to a church, instead of losing the pure pressure-vs-routine competition.
 (npc-think want_worship
-  (short-term-think)
- (role @self (grown @self))
+  ; Rhythmic drive: a 3-day cooldown re-checks the urge; the (days-since) + politeness
+  ; fire-gate mints the standing worship desire only when due; worship_act drains it on
+  ; completion (begin-goal, since the cooldown fires once and there is no excl_goal_sweep).
+  (schedule cooldown 3 d)
+  (if-blocked hold)
+  (role @self (grown @self))
   (when    (and (>= (days-since-last @self worship) 3)
                 (>= (attr @self politeness) 0.3)))
   (utility (* (attr @self politeness) 80))
-  (cont-fire-effects (excl-goal {@self worship})))
+  (effects (begin-goal {@self worship})))
 
 ; CASE B - not at a church, but knows one: head to it. Inherits the worship drive.
 (npc-think worship_go
