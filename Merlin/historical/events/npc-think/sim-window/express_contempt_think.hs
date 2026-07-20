@@ -19,7 +19,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think express_contempt
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream incidents)
 
   ; Open contempt is a considered, adult act - minors do not deliver it.
@@ -36,6 +36,6 @@
   ; firing, so it lives in (when) - not as a role criterion (would not be cacheable).
   (when (chance (* (crime-scale) 0.04 (- 1.0 (attr @self compassion)))))
 
-  (cont-fire-effects
+  (effects
     (insult-anchor ?victim cold_contempt)
     ))

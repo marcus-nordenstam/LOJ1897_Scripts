@@ -31,7 +31,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think friendship_fraying
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream friendships)
 
   ;; SELF-POV: @self reads only his OWN mind - his soured warmth toward ?b and his
@@ -51,7 +51,7 @@
   ;; of the old annual 0.5) - a non-belief gate, so it lives in (when), not the role.
   (when (chance 0.04))
 
-  (cont-fire-effects
+  (effects
     ; Sever the mutual friend tie - the bond is structural, so both drop it.
     (end-belief @self friend ?b)
     (end-belief ?b friend @self)

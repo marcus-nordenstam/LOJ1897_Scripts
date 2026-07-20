@@ -24,7 +24,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think birthday_party
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream friendships)
 
   ;; @self is the host. PR-A-8 substrate gate: the canonical host motivation is a
@@ -45,7 +45,7 @@
   ;; cadence, rolled once per host per window.
   (when (chance (* 0.0667 (attr @self enthusiasm))))
 
-  (cont-fire-effects
+  (effects
     ; Tell ?guest ONE piece of the host's own news they have not heard. for-each-belief
     ; binds each matched belief as ?belief; the dedup is PER-GUEST - the SAY's aux is
     ; the listener, so {@self SAY <msg> ?guest} is "have I told THIS guest this".

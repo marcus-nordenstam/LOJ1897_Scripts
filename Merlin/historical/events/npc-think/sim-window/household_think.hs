@@ -23,13 +23,13 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think household_day
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   (role @self 
               (believes {@self home ?}))
 
-  (cont-fire-effects
+  (effects
     (record-dwelling @self)
     ))
 
@@ -49,7 +49,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think set_mealtimes
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   ; The COOK is the woman of the house - self-identified from @self's OWN gender
@@ -62,7 +62,7 @@
   (role ?home (believes {@self home ?home})
               (not (believes {?home supper_hour ?})))
 
-  (cont-fire-effects
+  (effects
     ; The per-cook offset: -1 / 0 / +1 on the whole day (breakfast 5-7,
     ; lunch 11-13, supper 17-19; each window is 2h from the hour).
     (bind (if (chance 0.33) -1 (if (chance 0.5) 0 1)) ?o)
@@ -90,7 +90,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think ask_mealtimes
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   (role @self )
@@ -108,12 +108,12 @@
 
   (when (>= (years-old @self) 3))
 
-  (cont-fire-effects
+  (effects
     (ask-to ?cook {?home supper_hour ?})
     ))
 
 (npc-think answer_mealtimes
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   (role @self (grown @self)
@@ -129,7 +129,7 @@
               (believes {?home supper_hour ?s}))     ; tell-to below
   (when (is-entity ?asker))
 
-  (cont-fire-effects
+  (effects
     (tell-to ?asker {?home breakfast_hour ?b}
                     {?home lunch_hour ?l}
                     {?home supper_hour ?s})

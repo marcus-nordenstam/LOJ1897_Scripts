@@ -37,7 +37,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think affair_fallout
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream incidents)
 
   (role @self )
@@ -53,7 +53,7 @@
   ; was both a telepathy cheat and redundant with it.
   (when (chance 0.12))
 
-  (cont-fire-effects
+  (effects
     ; Resolve the interloper in @self's own beliefs; @fail = no known affair.
     (bind (interloper-of ?partner) ?interloper)
     (if (and (is-entity ?interloper)

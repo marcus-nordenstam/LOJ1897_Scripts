@@ -18,7 +18,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think engagement_party
-  (sim-window-think)
+  (schedule cooldown 1 m)
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY. The (belief-age ?bride fiancee) == 0 gate (whole years) holds while
   ; the betrothal is under a year old, but the wedding occasion (emergent) marries
@@ -42,7 +42,7 @@
   ;; fiancee belief must be in its first year (the once-per-betrothal re-fire guard).
   (when (= (belief-age @self fiancee) 0))
 
-  (cont-fire-effects
+  (effects
     ; Announce the fresh engagement to whoever is co-present (the SAY they hear and
     ; adopt); the wider circle learns via gossip (fiancee is a gossip label).
     (tell {@self fiancee ?bride})

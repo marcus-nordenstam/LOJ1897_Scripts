@@ -19,7 +19,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think advantageous_match
-  (sim-window-think)
+  (schedule cooldown 1 m)
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY; the per-bride (chance) is scaled by /12 (the *0.0833 wrapper) to hold
   ; the old annual rate.
@@ -74,7 +74,7 @@
                       (* 0.4 (attr @self enthusiasm))
                       (* 0.4 (attr @self openness))))))
 
-  (cont-fire-effects
+  (effects
     (begin-belief {@self fiancee ?bride})
     ; The bride's own engagement belief lands in HER mind (wedding recovers the
     ; groom from the bride's fiancee belief, either side initiating).

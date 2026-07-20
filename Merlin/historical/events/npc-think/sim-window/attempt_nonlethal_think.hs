@@ -19,7 +19,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think attempt_nonlethal
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream perpetration)
 
   (role @self )
@@ -39,5 +39,5 @@
     (score (if (= ?action ?row_action) 1 0))
     (policy roulette))
 
-  (cont-fire-effects
+  (effects
     (resolve-perpetration-terminal ?terminal ?victim ?action ?goal)))

@@ -24,7 +24,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think new_job_orientation
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream employment)
 
   ;; Only the JOBLESS consult the register - this is a JOB SEARCH. A man already in
@@ -36,5 +36,5 @@
   (when (and (>= (years-old @self) 12)
              (chance 0.3)))
 
-  (cont-fire-effects
+  (effects
     (begin-goal {@self orient})))

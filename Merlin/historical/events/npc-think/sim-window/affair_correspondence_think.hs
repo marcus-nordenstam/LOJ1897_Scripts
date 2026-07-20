@@ -25,7 +25,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think affair_correspondence
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream incidents)
 
   (role @self (adult @self)
@@ -41,7 +41,7 @@
   ; the monthly rate.
   (when (chance 0.5))
 
-  (cont-fire-effects
+  (effects
     (send-covert-letter ?paramour
                          (written-msg {@self lover ?paramour} signed)
                          [k love_letter])))

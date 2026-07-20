@@ -28,7 +28,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think cohabitant_cache_discovery
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream incidents)
 
   (role @self )
@@ -36,7 +36,7 @@
   ; Only home-holders can stumble about their own home - the CACHED home role.
   (role ?home (believes {@self home ?home}))
 
-  (cont-fire-effects
+  (effects
     (for-each ?room (attr-values ?home parts [k interior_space room])
       (for-each ?cache (attr-values ?room parts [k interior_space hiding_spot])
         (if (and (not (believes {@self hiding_spot ?cache}))

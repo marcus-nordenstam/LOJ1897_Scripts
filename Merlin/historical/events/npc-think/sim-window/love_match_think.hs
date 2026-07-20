@@ -25,7 +25,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think love_match
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream marriages)
 
   ; @self the suitor: an unmarried, un-betrothed adult who is not socially shut
@@ -92,7 +92,7 @@
   ;; short-circuits cheaply. It is the per-suitor courtship-duration knob.
   (when (chance 0.3))
 
-  (cont-fire-effects
+  (effects
     ; Symmetric fiancee bond + mutual profile sync - identical to betrothal, so
     ; the existing wedding event consumes the couple (it recovers the groom from
     ; the bride's fiancee belief regardless of which side initiated).

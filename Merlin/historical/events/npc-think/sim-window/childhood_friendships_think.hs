@@ -19,7 +19,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think childhood_friendship
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream friendships)
 
   ;; SELF-POV (telepathy purge CAT-3): @self the child befriends a peer he KNOWS -
@@ -49,7 +49,7 @@
   ; mean-1.0 multiplier - friendship volume is unchanged.
   (when (chance (* 0.0125 (+ 0.5 (attr @self enthusiasm)))))
 
-  (cont-fire-effects
+  (effects
     ; befriend mints the mutual tie (friend, or acquaintance if either side is
     ; already at friend-capacity) AND the matching-tier profile sync.
     (befriend @self ?b)

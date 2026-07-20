@@ -25,7 +25,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think crush_forms
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream incidents)
 
   ;; @self - a romantically-open single, not already deep in a crush. The trait
@@ -57,7 +57,7 @@
                    (attr @self enthusiasm)
                    (attr @self compassion))))
 
-  (cont-fire-effects
+  (effects
     ; Feed the one-sided attraction scalar: a crush is a strong directed pull.
     ; 0.5 crosses the `fancy` band (0.20) in one fire and sustains ~a year against
     ; the sleep decay (0.938); repeated fires deepen toward `desire` (0.60). The

@@ -25,7 +25,7 @@
 
 ; --- club_founding: an established adult founds a club with two members ------
 (npc-think club_founding
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   ; Clubs are founded by a settled adult of some standing - an employed man
@@ -43,7 +43,7 @@
   ; goal {@self found_club}}; the npc-act (club_found_errand.hs) takes the founder
   ; out to found it (found-club-seq acquires the clubhouse + enrols him). A new club
   ; starts with just its founder; members trickle in via club_joining.
-  (cont-fire-effects
+  (effects
     (begin-goal {@self found_club})))
 
 ; --- club_joining: an adult joins an existing club --------------------------
@@ -53,7 +53,7 @@
 ;; cached belief is missing - a new adult appraised before december still
 ;; reads @fail and is not excluded by the (not (= ...)) form.
 (npc-think club_joining
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   ; An adult who belongs to fewer than two clubs takes up another. SELF-POV
@@ -88,7 +88,7 @@
   ; replaced each fire (per-target idempotency would stack a distinct goal per
   ; club's articles; a blocking gate would deadlock on an unreachable club).
   ; Focus = the club's articles, recovered from @self's {?club_org record ?art} belief.
-  (cont-fire-effects
+  (effects
     (end-goal {@self join_club})
     (begin-goal {@self join_club (target {?club_org record})})))
 
@@ -101,7 +101,7 @@
 
 ; --- club_resignation: an adult resigns from a club -------------------------
 (npc-think club_resignation
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   ; The resigning member is the sole deliberator (@self); chance -> (when).
@@ -113,5 +113,5 @@
   ; SPLIT (Item 5): the npc-think - the decision to resign. Mints {@self goal
   ; {@self resign_club}}; the npc-act (club_resign_errand.hs) sends the member to
   ; a clubhouse and unregisters him there (unregister-member resolves his own club).
-  (cont-fire-effects
+  (effects
     (begin-goal {@self resign_club})))

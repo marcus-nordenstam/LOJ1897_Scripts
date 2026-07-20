@@ -23,7 +23,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think attempt_kill
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (goal {@self kill ?victim})
 
   (role @self )
@@ -37,6 +37,6 @@
              (not (believes {?victim condition [k dead]}))
              (no-goal {@self fight ?victim})))
 
-  (cont-fire-effects
+  (effects
     (debug-print "TRACE_ATKILL_MINT @self -> fight victim=?victim")
     (begin-goal {@self fight ?victim})))

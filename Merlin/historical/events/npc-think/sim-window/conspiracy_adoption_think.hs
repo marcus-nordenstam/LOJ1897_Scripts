@@ -29,7 +29,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think conspiracy_adoption
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream perpetration)
 
   (role @self )
@@ -47,7 +47,7 @@
              (>= (stance-band ?instigator attraction) 2)
              (chance (attr @self psychopathy))))
 
-  (cont-fire-effects
+  (effects
     (bind (clause-target ?plot) ?victim)
     ; My own side of the conspiracy: the bond embeds the plot as its AUX
     ; clause, and the goal is pinned to the bond.

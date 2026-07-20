@@ -11,13 +11,13 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think plan_stocktake
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   (role @self (grown @self)
               (believes {@self employer ?})
               (believes {@self job [k job shop_clerk]}))
 
-  (cont-fire-effects
+  (effects
     (begin-goal {@self stocktake})
     ))

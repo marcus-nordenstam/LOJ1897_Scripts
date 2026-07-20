@@ -39,7 +39,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think bonded_incident_urge
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream incidents)
 
   (role @self  (any_human @self))
@@ -67,7 +67,7 @@
              (chance (* 0.80
                         (+ 0.2 (value-rift @self ?victim))))))
 
-  (cont-fire-effects
+  (effects
     ; Success = persuasiveness x deference x rift-term (the urged party's
     ; compassion defers, half again for one's own parent, capped; a value
     ; rift makes the demand land harder). The verb mints the urge clause in

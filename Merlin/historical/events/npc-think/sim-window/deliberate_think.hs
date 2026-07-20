@@ -18,7 +18,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think deliberate
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream deliberation)
 
   ; Only pressured NPCs run the (expensive) joint reduction.
@@ -43,6 +43,6 @@
   ; (?action). Acting mints the winner's goal; inaction does nothing.
   (branches
     (branch (weight ?total)
-      (cont-fire-effects (resolve-deliberation ?action ?focus ?pressure)))
+      (effects (resolve-deliberation ?action ?focus ?pressure)))
     (branch (weight (deliberation_inaction_floor))
-      (cont-fire-effects))))
+      (effects))))

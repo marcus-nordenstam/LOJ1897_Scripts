@@ -36,7 +36,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think jilt
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream marriages)
 
   ; The jilter: holds BOTH a lover bond and a betrothal (to someone else -
@@ -56,7 +56,7 @@
   ;; jilter's lover bond (one jilt per jilter per tick).
   (when (chance (* (crime-scale) 0.6)))
 
-  (cont-fire-effects
+  (effects
     ; One-sided ending - ONLY the jilter's belief (see header).
     (end-belief @self lover ?jilted)
     ; The act-record in both minds + the appraisal cascade in each.
@@ -80,7 +80,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think jilt_for_station
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream marriages)
 
   ; An un-betrothed, unmarried lover-holder of marriageable standing - the
@@ -107,7 +107,7 @@
   ;; event alive for the un-derived.
   (when (chance (* (crime-scale) 0.15 (+ 0.3 (target {@self decorum})))))
 
-  (cont-fire-effects
+  (effects
     (end-belief @self lover ?jilted)
     (incident-anchor @self jilt ?jilted)
     (nudge-stance ?jilted @self warmth -0.4)

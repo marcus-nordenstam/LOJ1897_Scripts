@@ -28,7 +28,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think rid_of_spouse
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream perpetration)
 
   (role @self 
@@ -58,7 +58,7 @@
                                  (if (is-married ?lover) 1.5 1.0))))))))))
 
   ; /cause: the held detest belief, else dislike, else the spouse-wealth belief.
-  (cont-fire-effects
+  (effects
     (if (believes {@self detest ?spouse})
         (begin-goal {@self kill ?spouse} /cause {@self detest ?spouse})
         (if (believes {@self dislike ?spouse})

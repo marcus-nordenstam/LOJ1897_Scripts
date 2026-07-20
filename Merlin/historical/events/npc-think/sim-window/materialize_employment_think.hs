@@ -30,7 +30,7 @@
 
 ; --- emergent: workers the world lane enrols during the sim (monthly per-NPC) ---
 (npc-think materialize_employment
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream employment)
 
   ; Jobless gate as a CACHED self-gate filter - empties the instant the NPC gains
@@ -38,7 +38,7 @@
   (role @self (old_human @self)
               (not (believes {@self employer ?})))
 
-  (cont-fire-effects
+  (effects
     (find-my-enrollment (bind ?art))
     (if ?art
       (do

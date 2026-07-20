@@ -12,7 +12,7 @@
 ; (relational: debtor + a non-self creditor, no co-presence), MONTHLY now, so the
 ; debtor (chance) base is /12 (0.06 -> 0.005) to hold the annual borrowing volume.
 (npc-think borrowing
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   (role @self   (old_human @self))
@@ -28,5 +28,5 @@
   ; {@self borrow ?creditor}}; the npc-act (borrow_errand.hs) sends the debtor to
   ; the creditor's home and the completion records the {owe} there. (goal) is
   ; idempotent, so re-rolling while the goal stands is a no-op.
-  (cont-fire-effects
+  (effects
     (begin-goal {@self take_loan ?creditor})))

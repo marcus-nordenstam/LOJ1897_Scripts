@@ -24,12 +24,12 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think emigration
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream migrations)
 
   (role @self (young_adult @self))
 
   (when (chance (* 0.00125 (+ 0.5 (attr @self openness)) (population-pressure))))
 
-  (cont-fire-effects
+  (effects
     (begin-goal {@self depart})))

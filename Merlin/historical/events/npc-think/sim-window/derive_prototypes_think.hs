@@ -12,7 +12,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think derive_prototypes
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   (role @self )
@@ -21,5 +21,5 @@
   (when (and (in-month december)
              (>= (years-old @self) 15)))
 
-  (cont-fire-effects
+  (effects
     (derive-prototypes @self)))

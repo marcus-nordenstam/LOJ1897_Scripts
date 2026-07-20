@@ -25,7 +25,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think plan_wedding
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream marriages)
   ; @self GATE: unmarried adult man (the template's male / 18+ / not-spouse filters
   ; apply to @self; its kind/alive existence checks are no-ops for @self and are
@@ -34,7 +34,7 @@
   (role @self (unmarried_man @self)
               (believes {@self fiancee ?fiancee}))   ; existence cached, ?fiancee binds at fire
   (when (not (organizing-occasion [k wedding])))
-  (cont-fire-effects
+  (effects
     ; The venue is the groom's same-town church; ~3 months' banns lead, an
     ; 11-14h ceremony. plan-wedding stages the occasion (both principals
     ; forced-attend, both circles invited).

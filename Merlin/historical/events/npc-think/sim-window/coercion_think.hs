@@ -24,7 +24,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think coercion
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream perpetration)
 
   (role @self )
@@ -32,7 +32,7 @@
   (role ?victim (any_human ?victim)
     (believes {@self extort ?victim}))
 
-  (cont-fire-effects
+  (effects
     (if (believes {?victim condition [k dead]})
         (end-belief @self extort ?victim)
         (do

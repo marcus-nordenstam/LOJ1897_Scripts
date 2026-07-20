@@ -36,7 +36,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think affair_rendezvous
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream incidents)
 
   (role @self (adult @self)
@@ -58,7 +58,7 @@
                        (is-married @self)
                        (not (believes {@self class_situation [k class_situation lower]})))
                   0.30 0))
-      (cont-fire-effects
+      (effects
         (bind (find-building [k commercial_building hotel]) ?hotel)
         (bind (spouse-of @self) ?spouse)
         ; The couple stays regardless; the register records them.
@@ -86,7 +86,7 @@
     ; --- houseguest silent hours --------------------------------------------
     (branch
       (weight (if (is-entity (home-of @self)) 0.40 0))
-      (cont-fire-effects
+      (effects
         (bind (home-of @self) ?home)
         (register-occupant ?home @self 0)
         (register-occupant ?home ?paramour 0)
@@ -120,7 +120,7 @@
       (weight (if (or (is-entity (find-building [k commercial_building theatre]))
                       (is-entity (find-building [k commercial_building pub])))
                   0.30 0))
-      (cont-fire-effects
+      (effects
         (bind (find-building [k commercial_building theatre]) ?theatre)
         (bind (if (is-entity ?theatre) ?theatre
                   (find-building [k commercial_building pub])) ?venue)

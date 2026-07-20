@@ -39,7 +39,7 @@
 (define-macro immigrant_admit_scale () 0.5)
 
 (npc-think admit_immigrant
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream migrations)
 
   ;; The gatekeeper: an adult holding a senior public post ([k job official],
@@ -56,6 +56,6 @@
                         (- (homeostat_immigration_pressure) (population-pressure))))))
 
   ;; Admit exactly ONE arrival - the full authored immigrant model, no C++ defaults.
-  (cont-fire-effects
+  (effects
     (spawn-immigrant-wave 1)
     ))

@@ -34,11 +34,11 @@
 ; The host's planning decision (npc-think). ~2% of grown NPCs per simulated
 ; window decide to host; the occasion is set ~3 months ahead, an evening affair.
 (npc-think plan_gathering
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
   (role @self (grown @self))
   (when (chance 0.02))
-  (cont-fire-effects
+  (effects
     (plan-occasion @self [k dinner_party] (target {@self home ?}) 3 19 23 formal)))
 
 ; An IMPROMPTU supper (the INFORMAL channel): unlike the planned dinner party, this
@@ -46,17 +46,17 @@
 ; his current location (invite_copresent), nobody from the wider circle. Set for the
 ; same window (0 months ahead), an evening affair at home.
 (npc-think plan_impromptu_supper
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
   (role @self (grown @self))
   (when (chance 0.015))
-  (cont-fire-effects
+  (effects
     (plan-occasion @self [k dinner_party] (target {@self home ?}) 0 18 22 informal)))
 
 ; The per-window appointment review (npc-think): expire past appointments + emit
 ; an attend goal for any occasion due this window. Runs for every grown NPC.
 (npc-think review_appointments
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (role @self (grown @self))
-  (cont-fire-effects
+  (effects
     (review-appointments @self attend)))

@@ -21,7 +21,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think adult_friendship
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream friendships)
 
   ; @self is the deliberating NPC (bound O(1)); ?b is enumerated underneath.
@@ -56,7 +56,7 @@
   ; the enthusiasm-scaled (chance), rolled ONCE per @self per window.
   (when (chance (* 0.004 (+ 0.5 (attr @self enthusiasm)))))
 
-  (cont-fire-effects
+  (effects
     ; befriend mints the mutual tie (friend, or acquaintance if either side is
     ; already at friend-capacity) AND the matching-tier profile sync.
     (befriend @self ?b)

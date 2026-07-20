@@ -29,7 +29,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think ambition
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream perpetration)
 
   (role @self 
@@ -46,7 +46,7 @@
   ; hierarchy (the one irreducible computation, exposed as a verb). /cause pins
   ; @self's employer belief - the instrumental stake - so the rap sheet reads
   ; "kill <head> <- {@self employer <org>}".
-  (cont-fire-effects
+  (effects
     (debug-print "TRACE_AMBITION_FIRES @self")
     (bind (ambition-target @self) ?victim)
     (if (not (believes {?victim condition [k dead]}))

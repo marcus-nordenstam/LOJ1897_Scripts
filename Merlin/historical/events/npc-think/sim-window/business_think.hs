@@ -33,7 +33,7 @@
 
 ; --- investment: a worthy clerk secures his employer's backing -------------
 (npc-think investment
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream business)
 
   ; SELF-POV (reframe 2026-06-23): the worthy CLERK is the deliberator and seeks his
@@ -69,7 +69,7 @@
   ; sends him to the firm and the completion records {@self backed_by ?org} there.
   ; (goal) is idempotent. (`back` label reused as the clerk's pursue-backing goal.)
   ; Focus = the employer firm, read inline from @self's own employer belief.
-  (cont-fire-effects
+  (effects
     (begin-goal {@self back (target {@self employer})})))
 
 ; --- business_partnership: an established proprietor takes on a co-owner ----
@@ -77,7 +77,7 @@
 ; his OWN standing (diligence / repute / wealth, all self-beliefs) and resolves to
 ; buy into a firm. @self, no counterpart mind is read.
 (npc-think business_partnership
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream business)
 
   ; A merit-and-character man who cannot self-fund and is not backed - the
@@ -122,7 +122,7 @@
   ; attention set (13 standing goals by 1707); a blocking goal gate instead
   ; deadlocks the search on an unreachable first target. (end-goal) no-ops when
   ; no goal stands. Focus = the firm's articles ({?org record ?art}).
-  (cont-fire-effects
+  (effects
     (end-goal {@self partner})
     (begin-goal {@self partner (target {?principal_org record})})))
 
@@ -134,7 +134,7 @@
 ; bank, by the man himself, leaving the founding documents (the clue trail) and the
 ; co-presence a witness would see, instead of a faceless world-lane edit.
 (npc-think business_founding
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream business)
 
   ; Merit, character, and means - either enough wealth to self-fund, or a
@@ -160,7 +160,7 @@
              (or (>= (target {@self wealth}) 0.5)
                  (believes {@self backed_by ?}))))
 
-  (cont-fire-effects
+  (effects
     (begin-goal {@self found})))
 
 ; --- business_homeostat: the org-supply floor, founder-by-founder --------------
@@ -179,7 +179,7 @@
 ; the town is at floor; a small (chance) throttles the per-month volume so the
 ; goal->commit lag cannot overshoot far. Premises availability self-limits it too.
 (npc-think business_homeostat
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream business)
 
   ; Any alive adult - the belief-pure part is just the template. NO merit gate
@@ -200,5 +200,5 @@
              (no-goal {@self found})
              (orgs-below-population-floor [k org business] 12)))
 
-  (cont-fire-effects
+  (effects
     (begin-goal {@self found})))

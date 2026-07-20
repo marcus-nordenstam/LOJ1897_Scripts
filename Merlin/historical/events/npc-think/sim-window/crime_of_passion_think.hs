@@ -33,7 +33,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think crime_of_passion
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream perpetration)
 
   (role @self )
@@ -56,7 +56,7 @@
 
   ; crave-rival resolves the rival for the beloved (read in @self's own mind), else
   ; the beloved. /cause pins the crave belief - the obsessive signature.
-  (cont-fire-effects
+  (effects
     (debug-print "TRACE_PASSION_FIRES @self beloved=?beloved")
     (bind (crave-rival ?beloved) ?victim)
     (if (not (believes {?victim condition [k dead]}))

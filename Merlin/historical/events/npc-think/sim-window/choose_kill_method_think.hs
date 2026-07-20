@@ -16,7 +16,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think choose_kill_method
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream perpetration)
 
   (role @self 
@@ -39,7 +39,7 @@
                0))
     (policy roulette))
 
-  (cont-fire-effects
+  (effects
     (debug-print "TRACE_METHOD @self method=?method means=?means victim=?victim")
     (if (= ?method commission_killing)
         (if (commission-killing ?victim)

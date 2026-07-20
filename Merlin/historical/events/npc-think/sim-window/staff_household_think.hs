@@ -33,7 +33,7 @@
 ; skip the event without any belief scan; only the non-belief date / age / goal
 ; gates stay live in (when).
 (npc-think consider_household_staffing
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream employment)
 
   (role @self )
@@ -45,7 +45,7 @@
              (or (in-month 12) (in-month 1) (in-month 2)) ; winter, once a year
              (no-goal {@self staff_household})))        ; mint once, then skip
 
-  (cont-fire-effects (begin-goal {@self staff_household})))
+  (effects (begin-goal {@self staff_household})))
 
 ; --- FOUND: the head constitutes the household org at his home study -----------
 ; A separate window-start pass (not season-gated, so it catches the standing duty
@@ -62,7 +62,7 @@
 ; role as the THINK above. Servant hiring stays in the monthly ACT below (it
 ; no-ops until the articles exist).
 (npc-think found_household
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (goal {@self staff_household})
   (rng-stream employment)
 
@@ -73,11 +73,11 @@
 
   (when (>= (years-old @self) 21))                      ; non-belief age gate -> (when)
 
-  (cont-fire-effects (found-org-seq [k org household] [k job head_of_household])))
+  (effects (found-org-seq [k org household] [k job head_of_household])))
 
 ; --- ACT: the head fulfils the duty - hires what the founded household lacks ---
 (npc-think staff_household
-  ; PER-NPC (sim-window-think): the household head fulfils his standing staffing
+  ; PER-NPC (schedule cooldown 1 m): the household head fulfils his standing staffing
   ; duty once a month-window. PURE .hs: the gate is the duty the think minted
   ; plus ownership of the home (a co-resident spouse / tenant staffs nothing).
   ; `?h` is a CACHED role - home + own tested against the SAME candidate, and the
@@ -85,7 +85,7 @@
   ; (hsim::staff_household hires the shortfall once found_household has
   ; constituted the org; no-ops while no articles exist and once full -
   ; self-throttles).
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (goal {@self staff_household})
   (rng-stream employment)
 
@@ -95,7 +95,7 @@
 
   (when (>= (years-old @self) 21))                      ; non-belief age gate -> (when)
 
-  (cont-fire-effects (staff-household ?h
+  (effects (staff-household ?h
              /slots   household_staff_slots
              /age-min (staff_hire_age_min)
              /age-max (staff_hire_age_max))))

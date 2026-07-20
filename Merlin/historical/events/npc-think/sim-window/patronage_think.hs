@@ -24,7 +24,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think patronage
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream business)
 
   ;; @self the patron, a man of standing: exemplary character (belief-pure here).
@@ -65,7 +65,7 @@
   ;; same-window double-back by two patrons is left for a future public-blackboard
   ;; claim (the sanctioned synchronized-group mechanism), never a mind peek.
 
-  (cont-fire-effects
+  (effects
     ; The protege learns of the backing in THEIR own mind ({me backed_by patron}).
     (begin-belief ?protege {?protege backed_by @self})
     ))

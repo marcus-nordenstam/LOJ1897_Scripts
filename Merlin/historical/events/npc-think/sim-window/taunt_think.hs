@@ -26,7 +26,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think taunt
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream perpetration)
 
   (role @self 
@@ -36,7 +36,7 @@
   (when (and (>= (attr @self narcissism) 0.7)
              (chance 0.04)))
 
-  (cont-fire-effects
+  (effects
     ; The actor's own recent overt-method kill, corpse still pre-burial;
     ; @fail (no letter) when there is none - the taunt needs a live mystery.
     (bind (covert-kill-corpse) ?victim)

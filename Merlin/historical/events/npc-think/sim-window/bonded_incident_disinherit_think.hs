@@ -47,7 +47,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think bonded_incident_disinherit
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream incidents)
 
   (role @self  (any_human @self))
@@ -69,6 +69,6 @@
                         (* 0.3 (+ (believes {@self detest  ?victim})
                                   (believes {@self despise ?victim})))))))
 
-  (cont-fire-effects
+  (effects
     (incident-anchor @self disinherit ?victim)
     ))

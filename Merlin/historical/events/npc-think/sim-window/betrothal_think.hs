@@ -15,7 +15,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think betrothal
-  (sim-window-think)
+  (schedule cooldown 1 m)
   ; EMERGENT (Section 4.11): no (schedule) - fired by the per-NPC emergent pass
   ; MONTHLY, so the per-bride (chance) is /12 of the old annual 0.25 (-> 0.0208)
   ; to hold the annual betrothal rate. Betrothals spread year-round now (the
@@ -75,7 +75,7 @@
                        (= (target {(target {@self lover}) class_situation})
                           (target {@self class_situation}))))))
 
-  (cont-fire-effects
+  (effects
     (begin-belief {@self fiancee ?bride})
     ; The bride's own engagement belief lands in HER mind (the wedding event
     ; recovers the groom from the bride's fiancee belief, either side initiating).

@@ -21,7 +21,7 @@
 
 ; --- hiring: a jobless working-age adult is taken on by some org -------------
 (npc-think hiring
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream employment)
 
   ;; The jobless adult (@self) is the deliberator: he looks for work this month.
@@ -61,7 +61,7 @@
   ; a chronically ineligible seeker otherwise stacks a distinct goal per firm's
   ; articles (30+ by 1706, the attention-set overflow), while a blocking has-goal
   ; gate would freeze the search on whichever firm was sampled first.
-  (cont-fire-effects
+  (effects
     (end-goal {@self engage_staff})
     (begin-goal {@self engage_staff (target {?org record})})))
 
@@ -83,7 +83,7 @@
 ; the old worker-first promotion enumeration (every human x an O(all-articles)
 ; boss_of scan to reach the boss-side assessment), which dominated the world lane.
 (npc-think job_loss
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream employment)
 
   (role @self 
@@ -97,7 +97,7 @@
   (when (and (bind {@self employer ?org})
              (bind {?org record ?art})))
 
-  (cont-fire-effects
+  (effects
     ; Read the register off the articles and walk its rows. Per living worker
     ; (a register row may name a destroyed entity - (alive ?w) guards), the
     ; boss's own decision policy: below 0.4 work_standing risks the sack at
@@ -123,7 +123,7 @@
 ; completion fires the actual (fire) commit - so a retirement happens AT the
 ; workplace, by the man himself, generating the co-presence a witness would see.
 (npc-think retirement
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream employment)
 
   ;; The worker (@self) decides to retire; age + chance -> (when).
@@ -135,6 +135,6 @@
   (when (and (>= (years-old @self) 65)
              (chance 0.033)))   ; /12 of the old annual 0.4 (now monthly)
 
-  (cont-fire-effects
+  (effects
     (begin-goal {@self quit_work})
     ))

@@ -23,7 +23,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think senior_appointment
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream employment)
 
   ;; The candidate IS the deliberating NPC (@self self-role, the standard
@@ -59,7 +59,7 @@
              (<= (years-old @self) 65)
              (>= (target {@self prestige}) 0.65)))
 
-  (cont-fire-effects
+  (effects
     ;; The org's articles (hire-seq's ?var arg - a macro arg used in a pattern must
     ;; be a ?var, not an expr) is recovered from @self's {?org record ?art} belief.
     (bind (target {?org record}) ?articles)

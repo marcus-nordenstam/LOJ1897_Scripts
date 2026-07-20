@@ -42,7 +42,7 @@
 
 ; --- enroll_primary: a young child starts primary school ---------------------
 (npc-think enroll_primary
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   ; The child (@self) is the subject, not yet schooled. The two (not ...) belief
@@ -62,12 +62,12 @@
   ; SPLIT (Item 5): the npc-think - the decision to school the child. Mints
   ; {@self goal {@self enrol_primary}}; the npc-act (schooling_errands.hs) walks
   ; the child to a school and enrols him there.
-  (cont-fire-effects
+  (effects
     (begin-goal {@self enrol_primary})))
 
 ; --- enroll_secondary: a middle+ youth goes on to secondary ------------------
 (npc-think enroll_secondary
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   ; @self completed primary (holds the credential), not currently enrolled, not
@@ -86,12 +86,12 @@
 
   ; SPLIT (Item 5): npc-think -> {@self goal {@self enrol_secondary}}; the act
   ; (schooling_errands.hs) walks the youth to school and enrols him.
-  (cont-fire-effects
+  (effects
     (begin-goal {@self enrol_secondary})))
 
 ; --- enroll_university: an upper / wealthy youth goes up to university --------
 (npc-think enroll_university
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   ; @self is secondary-educated, not enrolled, not employed. age + the steep
@@ -108,12 +108,12 @@
 
   ; SPLIT (Item 5): npc-think -> {@self goal {@self enrol_university}}; the act
   ; (schooling_errands.hs) takes the youth up to university and matriculates him.
-  (cont-fire-effects
+  (effects
     (begin-goal {@self enrol_university})))
 
 ; --- leave_primary: every primary pupil finishes at ~11 ----------------------
 (npc-think leave_primary
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   ; Deterministic: @self, a primary pupil who has reached the leaving age, takes
@@ -126,13 +126,13 @@
 
   (when (>= (years-old @self) 11))
 
-  (cont-fire-effects
+  (effects
     (graduate-from-study)
     ))
 
 ; --- leave_secondary: a secondary pupil finishes at ~17 ----------------------
 (npc-think leave_secondary
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   (role @self 
@@ -140,13 +140,13 @@
 
   (when (>= (years-old @self) 17))
 
-  (cont-fire-effects
+  (effects
     (graduate-from-study)
     ))
 
 ; --- graduate_university: a degree is taken at ~22 ---------------------------
 (npc-think graduate_university
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   ; Any ongoing study at 22+ is a university degree (primary / secondary pupils
@@ -158,6 +158,6 @@
 
   (when (>= (years-old @self) 22))
 
-  (cont-fire-effects
+  (effects
     (graduate-from-study)
     ))

@@ -28,7 +28,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think affair
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream incidents)
 
   ;; @self - a married adult, not already mid-affair. The disposition-to-stray
@@ -62,7 +62,7 @@
                    (attr @self enthusiasm)
                    (- 1 (target {@self decorum})))))
 
-  (cont-fire-effects
+  (effects
     ; Reciprocal lover bond + mutual profile sync (mirrors lovers.hs's shape so
     ; downstream consumers - betrayal detection, the romantic-rival derive - see a
     ; fully-wired pair). @self's spouse will read {@self lover ?lover} in the

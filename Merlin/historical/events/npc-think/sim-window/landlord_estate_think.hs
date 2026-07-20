@@ -29,7 +29,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think landlord_estate
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream business)
 
   ; Self-throttle as a CACHED self-gate filter: already running an estate = the
@@ -41,6 +41,6 @@
                 (or (believes {?rental availability [k for_rent]})
                     (believes {?rental tenant ?})))
 
-  (cont-fire-effects
+  (effects
     (found-org-seq [k org estate] [k job landlord])
     (reassign-rentals-to-estate @self)))

@@ -27,7 +27,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think lovers
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream marriages)
 
   ; @self is the BELIEVER - the outer role for the cross-pair fancy gate on ?b
@@ -69,7 +69,7 @@
   ;; short-circuits cheaply.
   (when (chance 0.2))
 
-  (cont-fire-effects
+  (effects
     ; Reciprocal lover bond + mutual profile sync (mirrors betrothal's shape so
     ; downstream consumers see a fully-wired pair).
     (begin-belief {@self lover ?b})

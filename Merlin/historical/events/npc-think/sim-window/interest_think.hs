@@ -43,7 +43,7 @@
 
 ; --- parental_seeding: a child adopts one of a parent's interests ------------
 (npc-think interest_parental_seeding
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   ; The child (@self) is the subject; a known mother gates it (births always seed
@@ -57,7 +57,7 @@
              (<= (years-old @self) 14)
              (chance (* 0.015 (+ 0.3 (attr @self politeness))))))
 
-  (cont-fire-effects
+  (effects
     ; One novel domain copied off a parent's interests (a 50/50 pick when both
     ; parents offer one) - the hobbies the child grows up around.
     (bind (random-unheld-kind-target (target {@self mother}) interest interest) ?dm)
@@ -71,7 +71,7 @@
 
 ; --- peer_propagation: a friend's enthusiasm rubs off -----------------------
 (npc-think interest_peer_propagation
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   ; @self is the subject; a known friend gates it and the effect reads each
@@ -87,7 +87,7 @@
   (when (and (>= (years-old @self) 8)
              (chance (* 0.0167 (attr @self openness) (+ 0.5 (attr @self enthusiasm))))))
 
-  (cont-fire-effects
+  (effects
     (bind (random-unheld-kind-target ?friend interest interest) ?d)
     (if (is-kind ?d)
         (begin-belief {@self interest ?d}))
@@ -95,7 +95,7 @@
 
 ; --- mentor_inspired: an apprentice catches the master's craft --------------
 (npc-think interest_mentor_inspired
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   ; @self (the apprentice) holds a standing master bond (minted by
@@ -106,7 +106,7 @@
 
   (when (chance (* 0.025 (+ 0.3 (attr @self openness)))))
 
-  (cont-fire-effects
+  (effects
     ; The master's craft becomes the apprentice's casual interest (which
     ; interest_deepens can later raise to a skill of its own).
     (bind (random-unheld-kind-target (target {@self master}) interest skilled_in calling) ?d)
@@ -116,7 +116,7 @@
 
 ; --- temperament_drift: the residual openness-driven catch-all --------------
 (npc-think interest_temperament_drift
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   ; The only non-relational path: @self drifts into a brand-new interest with no
@@ -128,7 +128,7 @@
   (when (and (>= (years-old @self) 10)
              (chance (* 0.0083 (attr @self openness) (attr @self openness)))))
 
-  (cont-fire-effects
+  (effects
     ; A brand-new interest sampled off the whole domain axis (leaf-only, so a
     ; category node is never picked); idempotent per domain at commit.
     (bind (random-subkind [k domain]) ?d)
@@ -138,7 +138,7 @@
 
 ; --- interest_lapses: an unskilled interest fades --------------------------
 (npc-think interest_lapses
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   ; @self holds at least one interest; low rate. The effect ends one interest whose
@@ -149,7 +149,7 @@
 
   (when (chance 0.0025))
 
-  (cont-fire-effects
+  (effects
     ; Drop one interest never built into a skill (an overlapping skilled_in
     ; domain is settled identity - exempt). Unforgettable: "I used to be keen
     ; on botany" survives the sleep sweep as history.

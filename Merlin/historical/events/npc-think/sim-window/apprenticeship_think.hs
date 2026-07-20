@@ -16,7 +16,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think apprenticeship_start
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream apprenticeship)
 
   ;; ?youth is enumerated and per-youth chance-gated; ?articles is then
@@ -73,12 +73,12 @@
   ;; distinct goal per org's articles and overflow the attention set; a blocking
   ;; gate would deadlock the search on an unreachable first master).
   ;; Focus = the org's articles, recovered from @self's {?org record ?art} belief.
-  (cont-fire-effects
+  (effects
     (end-goal {@self seek_indenture})
     (begin-goal {@self seek_indenture (target {?org record})})))
 
 (npc-think apprenticeship_completion
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream apprenticeship)
 
   ;; The trainee is the sole deliberator (@self). job-level (live op) / job-tenure
@@ -91,7 +91,7 @@
              (>= (job-tenure @self) 3)
              (chance 0.033)))
 
-  (cont-fire-effects
+  (effects
     ;; Recover the master so the master bond can be ended on completion.
     (bind (belief-target @self master) ?master)
     (promote     /worker @self)

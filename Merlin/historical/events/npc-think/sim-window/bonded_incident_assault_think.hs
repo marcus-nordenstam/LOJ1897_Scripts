@@ -21,7 +21,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think bonded_incident_assault
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream incidents)
 
   ; @self is any human; the dark-tetrad assault disposition that rolls once
@@ -43,7 +43,7 @@
                    (- 1.0 (attr @self politeness))
                    (+ 0.3 (* 0.7 (attr @self intoxication))))))
 
-  (cont-fire-effects
+  (effects
     ; incident-anchor records the principals AND (engine-side auto-witness) the
     ; co-present bystanders, since assault is externally observable.
     (incident-anchor @self assault ?victim)

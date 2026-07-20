@@ -29,7 +29,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think covet_inheritance
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream perpetration)
 
   (role @self )
@@ -66,7 +66,7 @@
   ; benefactor's kin graph (the one irreducible computation, exposed as a verb).
   ; /cause pins @self's belief in the benefactor's wealth - the appetitive motive -
   ; so the rap sheet reads "kill <victim> <- {<benefactor> wealth ..}".
-  (cont-fire-effects
+  (effects
     (if (= ?heir @self)
         (begin-goal {@self kill ?benefactor} /cause {?benefactor wealth})
         (begin-goal {@self kill ?heir} /cause {?benefactor wealth}))))

@@ -26,7 +26,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think betrayal_kill
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream perpetration)
 
   (role @self )
@@ -41,7 +41,7 @@
   (when (chance (* (crime-scale) 0.02
                    (dark-propensity (rage-disposition @self)))))
 
-  (cont-fire-effects
+  (effects
     ; Resolve the interloper (the partner's third-party lover, in @self's own
     ; beliefs); @fail when no affair is known - then nothing fires.
     (bind (interloper-of ?partner) ?interloper)
