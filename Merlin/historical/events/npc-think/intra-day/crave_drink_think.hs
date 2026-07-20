@@ -35,20 +35,21 @@
   (utility (drink-drive @self))
   (effects (begin-goal {@self drink})))
 
-; CASE B - not at a pub, but knows one: head to it. A MAINTENANCE event: the arrival test
-; (can-drink = at a pub BUILDING) lives in the role-cast as an edge-maintained location.building
-; filter; on the FIRST fire it roulettes a pub and mints the go sub-goal, then settles into
-; k_holding so it STICKS with that pub (no re-roulette while walking); on arrival the negated
-; location gate drops and cease-effects end the go-goal. go_act also drains it (?dest bound).
+; CASE B - not at a pub, but knows one: head to it via the generic enter chain (§5.11). A
+; MAINTENANCE event: on the FIRST fire it roulettes a pub and mints {@self enter ?pub}, then
+; settles into k_holding so it STICKS with that pub (no re-roulette while walking); on arrival
+; (in-building ?pub) the (when) drops and cease-effects end the enter-goal. The enter chain steps
+; the drinker INSIDE the pub, so can-drink (current-building is-a pub) then holds and drink_act
+; promotes.
 (npc-think drink_go
-  (schedule on-changed {@self location ?})
+  (schedule on-commit)
   (if-blocked hold)
   (goal    {@self drink})
-  (role @self (grown @self)
-              (not (believes {@self location.building [k building pub]})))   ; not at a pub
+  (role @self (grown @self))
   (role ?pub [k building pub] (select (score (near @self ?pub)) (policy roulette)))
-  (effects      (begin-goal {@self go ?pub}))
-  (cease-effects (end-goal {@self go ?pub})))
+  (when    (not (in-building ?pub)))
+  (effects       (begin-goal {@self enter ?pub}))
+  (cease-effects (end-goal   {@self enter ?pub})))
 
 ; CASE C - not at a pub and knows none: search for one (find_building.hs runs it).
 (npc-think drink_find

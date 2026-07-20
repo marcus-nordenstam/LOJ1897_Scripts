@@ -1,14 +1,13 @@
 ; ----------------------------------------------------------------------------
-; go - the shared TRAVEL act body. Any lane that needs the actor somewhere it is not
-; maintains {@self go <dest>} (as a sub-goal of the thing it is really after - drink /
-; worship / an errand); that goal, being the live leaf, promotes to go_act, which spends
-; the travel time and relocates the actor on completion. Not owned by any one lane.
-;
-; While a find_building search stands, go_act ALSO marks its arrival building surveyed.
-; The search's own hop lives in npc-act/find_building.hs (find_building_act walks and
-; marks directly); this arrival-marking covers the ERRAND case: any building the searcher
-; reaches for another reason counts - it has been there and exterior-perceived its
-; neighbours, so it drops out of the frontier.
+; go - the shared DUMB TRAVEL act body: relocate the actor INTO a space (room /
+; exterior). Any lane that needs the actor somewhere it is not maintains {@self go
+; <space>} (a sub-goal of the thing it is really after - drink / worship / an errand);
+; that goal, the live leaf, promotes to go_act, which spends the travel time and
+; relocates on completion. `go` now ONLY ever targets a SPACE - reaching a building's
+; THRESHOLD is go_to_threshold_act (front-park, below), and the generic enter chain
+; (enter.hs) composes the two. The completion pass force-ends the act-belief; the
+; minter's cease-effects end the go GOAL (§5.11 principle 2 - the act is dumb, it does
+; not branch on its destination, teach, mark, or set outcomes).
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -18,26 +17,7 @@
   (when (believes {@self go ?dest}))
   (duration (max (go_travel_floor_min) (travel-minutes @self ?dest)))
   (act-effects
-    ; TWO-ARM ARRIVAL (Stage 5), entirely in this ONE act. A BUILDING is ALWAYS FRONT-
-    ; PARKED ~1m outside - never entered directly - so the arrival exterior-perception
-    ; (perceive_here's outdoor branch) RE-OBSERVES the building every visit: its perceptible
-    ; state (struct_status open|closed, and future changes) and, via the entrance seam, a
-    ; room to step into. Front-parking marks a per-trip `approached` private-bb flag on the
-    ; building; the routing macro (route-to-venue-then-act / go-into) reads it to fire the
-    ; SECOND arm - (go ?room) - which ENTERS a room and clears the flag (so the next visit
-    ; re-front-parks and re-observes). A ROOM / space dest is entered.
-    (if (is-a ?dest [k building])
-        (do (front-park @self ?dest)
-            (bb-mark ?dest approached))
-        (do (relocate @self ?dest)
-            (bb-clear (current-building @self) approached)))
-    (if (goal? {@self find_building ?})
-        (bb-mark ?dest surveyed (survey_marker_ttl_cycles)))
-    (end-act {@self go ?dest})
-    ; Drain the go SUB-GOAL on arrival (?dest is bound here). Formerly excl_goal_sweep
-    ; retracted it; the routing rung is now a scheduled maintenance event that holds its
-    ; rouletted destination, so the arrival act ends the concrete go-goal it fulfilled.
-    (end-goal {@self go ?dest})))
+    (relocate @self ?dest)))
 
 ; go_to_threshold - the counterpart DUMB travel primitive: reach a structure's THRESHOLD
 ; (front-park ~1m OUTSIDE its face), never a room center. The enter chain (enter.hs) mints
