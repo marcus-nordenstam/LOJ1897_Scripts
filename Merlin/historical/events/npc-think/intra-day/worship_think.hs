@@ -46,15 +46,14 @@
 ; it holds until a church is known and the roulette lands. The rouletted ?church is stashed
 ; at fire, so the hold + cease operate on the SAME church (no re-roulette while walking).
 (npc-think worship_go
-  (short-term-think)
   (schedule on-commit)
   (if-blocked hold)
   (goal    {@self worship})
   (role @self (grown @self))
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
   (when    (not (in-building ?church)))
-  (cont-fire-effects (begin-goal {@self enter ?church}))
-  (cease-effects     (end-goal   {@self enter ?church})))
+  (effects       (begin-goal {@self enter ?church}))
+  (cease-effects (end-goal   {@self enter ?church})))
 
 ; CASE C - not at a church and knows none: search for one (find_building.hs runs it).
 (npc-think worship_find

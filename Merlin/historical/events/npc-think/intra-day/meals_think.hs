@@ -172,15 +172,29 @@
 
 ; ---- the shared approach: the <place> drives a leaf-first go sub-goal --------
 
-; Not yet at the eat place -> head there (go-into, like drink/worship). At the
-; place, eat_go stops firing, its go sub-goal is swept, and the eat goal becomes
-; the live leaf and promotes to eat_act. For breakfast / home-lunch / work-lunch
-; the diner is already at the place, so eat_go never fires.
+; Not yet at the eat place -> head there via the generic enter chain (enter.hs),
+; like worship. A MAINTENANCE rung (§5.11/§5.12): hold {@self enter ?place} while
+; not at the place, cease it on arrival (at-place). The enter chain's sub-goals are
+; the live leaves while routing; on arrival they collapse and the eat goal becomes
+; the leaf and promotes to eat_act. ?place is bound from the eat goal (fixed, not
+; rouletted). For breakfast / home-lunch / work-lunch the diner is already at the
+; place, so eat_go is SELECTED but its (when) is false, mints nothing, and stays
+; re-schedulable (never a spurious enter goal) - the eat goal promotes directly.
 (npc-think eat_go
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal    {@self eat ?meal ?place})
-  (when    (not (at-place ?place)))
-  (cont-fire-effects (go-into ?place)))
+  ; at-place, but BIND-FREE: (at-place)/(in-room) expand to (bind {@self location
+  ; ?loc}) which hard-errors when holding_when_holds re-evaluates this maintenance
+  ; (when) with the fire-time stash restored (?loc already bound). (believes {@self
+  ; location ?place}) is the same "standing in ?place" test as an existence check.
+  ; ?place is a BUILDING for every routine routing (home / pub / restaurant), or the
+  ; gentry study ROOM - the OR covers both, in-building for the former, believes-
+  ; location for the latter.
+  (when    (not (or (in-building ?place)
+                    (believes {@self location ?place}))))
+  (effects       (begin-goal {@self enter ?place}))
+  (cease-effects (end-goal   {@self enter ?place})))
 
 ; (PROVISIONING - the cook keeping the kitchen larder stocked - lives in
 ; npc-think/provisioning_think.hs; the general carry-to-a-place chain in

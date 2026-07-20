@@ -26,26 +26,24 @@
 ; Reach the OUTSIDE threshold. Held while NOT inside ?s AND not yet at its door; the
 ; falling edge (at-threshold flips true) ends the go_to_threshold goal.
 (npc-think enter_go_to_threshold
-  (short-term-think)
   (schedule on-commit)
   (if-blocked hold)
   (goal {@self enter ?s})
   (when (and (not (in-building ?s))
              (not (at-threshold @self ?s))))
-  (cont-fire-effects (begin-goal {@self go_to_threshold ?s}))
-  (cease-effects     (end-goal   {@self go_to_threshold ?s})))
+  (effects       (begin-goal {@self go_to_threshold ?s}))
+  (cease-effects (end-goal   {@self go_to_threshold ?s})))
 
 ; Step inside. Held once AT the threshold, the entrance {?s room ?entry} is known, and
 ; ?s is open; the falling edge (inside, so at-threshold false) ends the go goal. ?entry
 ; is bound off the perceived entrance belief and stashed at fire so the cease ends the
 ; SAME go goal.
 (npc-think enter_step_in
-  (short-term-think)
   (schedule on-commit)
   (if-blocked hold)
   (goal {@self enter ?s})
   (when (and (at-threshold @self ?s)
              (believes {?s room ?entry})
              (open ?s)))
-  (cont-fire-effects (begin-goal {@self go ?entry}))
-  (cease-effects     (end-goal   {@self go ?entry})))
+  (effects       (begin-goal {@self go ?entry}))
+  (cease-effects (end-goal   {@self go ?entry})))
