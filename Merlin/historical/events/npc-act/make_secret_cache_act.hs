@@ -32,7 +32,7 @@
 (include "../../definitions/roles.hs")
 
 (npc-think make_secret_cache
-  (sim-window-think)
+  (schedule cooldown 1 m)
 
   ; No-cache-yet is a CACHED self-gate filter - every NPC who owns a cache
   ; empty-set-skips the whole think permanently.
@@ -50,7 +50,7 @@
                  (goal? {@self stow}))
              (bind {?building room [k bedroom]:?bedroom})))
 
-  (act-effects
+  (effects
     ; Tier 1 - claim the home's built-in secret chamber (a hidden sub-space
     ; world-gen seeded; you live here, you know the house's secret).
     (for-each ?room (attr-values ?building parts [k interior_space room])

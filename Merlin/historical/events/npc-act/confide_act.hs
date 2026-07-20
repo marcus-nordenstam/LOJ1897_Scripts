@@ -24,7 +24,7 @@
 (include "../../definitions/roles.hs")
 
 (npc-think confide
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   ;; @self the discloser: old enough to hold a calling (grown >= 16), actually
@@ -37,7 +37,7 @@
   ;; Roll the disclosure - once per discloser per window, weighted by extraversion.
   (when (chance (* 0.08 (+ 0.5 (attr @self enthusiasm)))))
 
-  (act-effects
+  (effects
     ;; Say the calling ALOUD. The tell-act makes a speech sound at @self's
     ;; location; the post-effects auditory pass delivers + adopts {@self calling
     ;; ?domain} into ?confidant (and anyone else co-present), sourced to the

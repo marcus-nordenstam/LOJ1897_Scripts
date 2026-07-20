@@ -20,7 +20,7 @@
 (include "../../definitions/roles.hs")
 
 (npc-think gossip
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   (role @self (believes {@self friend ?}))
@@ -41,7 +41,7 @@
                         (+ 0.5 (attr @self assertiveness))))
              (>= (years-old @self) 12)))
 
-  (act-effects
+  (effects
     ; Label order IS priority: scandal acts, then the death-story, then relationship
     ; news. ?news is the matched fact; ?tgt its target (the shame-seal check).
     (for-each-belief ?news {?x assault|disinherit|insult|outdo|discredit|public_humiliation|seduce|expose|spread_rumour|confront_publicly|divorce|prototype|condition|circumstances_of_death|spouse|fiancee|lover|child ?tgt}

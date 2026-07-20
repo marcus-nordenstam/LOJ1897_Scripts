@@ -25,7 +25,7 @@
 (include "../../definitions/roles.hs")
 
 (npc-think confess_fancy
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream marriages)
 
   ; @self fancies someone and is free to court (cheap @self pre-gate; the
@@ -42,6 +42,6 @@
                 (is-attracted-to @self ?target)
                 (co-present @self))
 
-  (act-effects
+  (effects
     ; Say it to ?target's face: she/he now KNOWS @self fancies them.
     (tell-to ?target {@self fancy ?target})))

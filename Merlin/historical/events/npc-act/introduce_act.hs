@@ -15,7 +15,7 @@
 (include "../../definitions/roles.hs")
 
 (npc-think introduce
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   (role @self )
@@ -27,7 +27,7 @@
   ; Sociability gate: an extraverted NPC strikes up an introduction more readily.
   (when (chance (* 0.5 (+ 0.4 (attr @self enthusiasm)))))
 
-  (act-effects
+  (effects
     ; Walk @self's OWN stranger-tier self-beliefs (the ontology (disclosure stranger)
     ; band: name / job / nationality / class / ...) and tell each to the stranger.
     ; An unheld fact (an unemployed NPC has no job belief) simply is not walked.

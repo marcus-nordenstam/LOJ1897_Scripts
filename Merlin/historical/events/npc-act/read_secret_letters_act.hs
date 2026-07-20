@@ -20,11 +20,11 @@
 (include "../../definitions/roles.hs")
 
 (npc-think read_secret_letters
-  (sim-window-think)
+  (schedule cooldown 1 m)
 
   (role @self )
   ; Each hiding-spot @self made and knows.
   (role ?cache (believes {@self hiding_spot ?cache}))
 
-  (act-effects
+  (effects
     (read-cache ?cache)))

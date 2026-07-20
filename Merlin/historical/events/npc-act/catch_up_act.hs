@@ -16,7 +16,7 @@
 (include "../../definitions/roles.hs")
 
 (npc-think catch_up
-  (sim-window-think)
+  (schedule cooldown 1 m)
   (rng-stream behaviour)
 
   ; ?guest is anyone CO-PRESENT: sourced OBJECTIVELY from @self's current room (env
@@ -29,7 +29,7 @@
   (when (and (chance (* 0.25 (+ 0.5 (attr @self enthusiasm))))
              (>= (years-old @self) 12)))
 
-  (act-effects
+  (effects
     ; Tell ?guest ONE piece of my OWN news they have not heard. for-each-belief walks my
     ; {@self <label> ?} beliefs across the relationship labels, binding the matched label
     ; (the :?label capture) + its target; the dedup is PER-GUEST - the SAY's aux is the
