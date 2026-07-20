@@ -27,11 +27,9 @@
 ; bind, and the (bind {...}) provably threads to the lifecycle block (same eval
 ; env; the retire / sack routing thinks rely on the identical threading).
 ;
-; LANE: (year-think december) - runs IN the intra-day cascade but is month-gated
-; to December, so it is a fresh not-firing -> firing transition once a year and
-; (first-fire-effects ...) mints the LATCHED goal exactly once. The derived means /
-; merit dims are (target ...) reads, cached each December by derive_prototypes -
-; the same reads the January founding events use.
+; LANE: a yearly timer ((schedule cooldown 1 y)) fires the failure roll once a year and
+; mints the LATCHED winding-up goal. The derived means / merit dims are (target ...)
+; reads, cached annually by derive_prototypes - the same reads the founding events use.
 ;
 ; The routing (go / dwell) and the winding-up ACT live in the mirror errand file
 ; npc-act/close_business_errand.hs.
@@ -57,7 +55,10 @@
 
 ; --- the decision -------------------------------------------------------------
 (npc-think close_business
-  (year-think december)
+  ; ANNUAL: a yearly timer runs the failure roll once per year. No cadence marker - the
+  ; (schedule ...) is the cadence.
+  (schedule cooldown 1 y)
+  (if-blocked hold)
   (rng-stream business)
 
   ; Light @self gate; the owner + business-kind identification is the cached
@@ -67,18 +68,12 @@
              (believes {?org founder @self})
              (believes {?org record ?art}))
 
-  ; DETERMINISTIC (no chance): the gate must hold stably across every December
-  ; intra-day cycle so the not-firing -> firing transition (hence first-fire)
-  ; happens exactly ONCE. The stochastic failure roll lives in
-  ; first-fire-effects, where it fires once per year - a chance IN the per-cycle
-  ; gate would re-roll every cycle and inflate the annual rate toward certainty.
-
   ; The once-a-year failure roll (base x climate x means-penalty x merit-penalty;
   ; wealth / diligence are his OWN derived dims, read as the founding events do),
   ; guarding the LATCHED winding-up goal focused on his OWN articles (the errand
-  ; routes to their premises and dissolves the firm there). first-fire runs once
-  ; on the December transition, so the chance is rolled exactly once per year.
-  (first-fire-effects
+  ; routes to their premises and dissolves the firm there). The yearly timer fires the
+  ; event once per year, so the chance is rolled exactly once per year.
+  (effects
     (if (chance (* (* (business_failure_base) (business_failure_climate_mult))
                    (* (+ 1.0 (* (business_failure_means_weight) (- 1.0 (target {@self wealth}))))
                       (+ 1.0 (* (business_failure_merit_weight)  (- 1.0 (diligence)))))))

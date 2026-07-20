@@ -7,7 +7,7 @@
 ; organiser is a real deliberating NPC who reasons from HIS OWN club beliefs and
 ; acts at HIS OWN clubhouse.
 ;
-;   hold_meet (year-think june): the club's founder/head resolves ONCE a year to
+;   hold_meet (yearly timer): the club's founder/head resolves ONCE a year to
 ;     hold his club's meet. He role-casts his OWN club from the founder / record
 ;     beliefs he minted at found-club-seq (no scan) and latches a standing
 ;     {@self hold_meet <club-articles>} goal.
@@ -24,7 +24,10 @@
 
 ; --- the annual decision to hold a meet (fires once, in June) ----------------
 (npc-think hold_meet
-  (year-think june)
+  ; ANNUAL: a yearly timer latches the standing meet goal once per year. No cadence marker -
+  ; the (schedule ...) is the cadence.
+  (schedule cooldown 1 y)
+  (if-blocked hold)
   (rng-stream behaviour)
 
   ; The organiser is the club's founder/head (an established adult). @self reads
@@ -38,9 +41,9 @@
 
   ; Latch the standing meet goal, focused on the club's articles (recovered from
   ; @self's {?club record ?art} belief, exactly as club_joining / apprenticeship
-  ; recover an org's articles). (year-think) first-fire mints it once this June;
+  ; recover an org's articles). The yearly timer mints it once a year;
   ; (begin-goal) is idempotent, so an enumerated re-fire is a harmless no-op.
-  (first-fire-effects
+  (effects
     (begin-goal {@self hold_meet (target {?club record})})))
 
 ; --- routing: get the organiser to his clubhouse, then latch the on-site act ---
