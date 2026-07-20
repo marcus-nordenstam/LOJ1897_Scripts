@@ -33,4 +33,8 @@
             (bb-clear (current-building @self) approached)))
     (if (goal? {@self find_building ?})
         (bb-mark ?dest surveyed (survey_marker_ttl_cycles)))
-    (end-act {@self go ?dest})))
+    (end-act {@self go ?dest})
+    ; Drain the go SUB-GOAL on arrival (?dest is bound here). Formerly excl_goal_sweep
+    ; retracted it; the routing rung is now a scheduled maintenance event that holds its
+    ; rouletted destination, so the arrival act ends the concrete go-goal it fulfilled.
+    (end-goal {@self go ?dest})))
