@@ -19,5 +19,4 @@
           (if (is-a ?item ?ware)
               (do
                 (put-item ?item (attr @self location))))))
-    (end-act {@self bring ?ware ?dest})
-    (end-goal {@self bring ?ware ?dest})))
+    (end-act {@self bring ?ware ?dest})))

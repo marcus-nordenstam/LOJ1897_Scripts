@@ -28,23 +28,27 @@
   (schedule cooldown 1 m)
   (rng-stream behaviour)
 
-  ; Clubs are founded by a settled adult of some standing - an employed man
-  ; over thirty, not already in a club. (The class-floor the plan names is carried
-  ; by the `employer` gate: a man with a post is a man of standing.) The founder
-  ; is the sole deliberator (@self); age + chance are non-belief ops -> (when).
+  ; Clubs are founded by a settled adult of some standing - an employed man over
+  ; thirty. (The class-floor the plan names is carried by the `employer` gate: a man
+  ; with a post is a man of standing.) The founder is the sole deliberator (@self).
   (role @self (old_human @self)
-              (believes {@self employer ?})
-              (not (believes {@self member_of ?})))
+              (believes {@self employer ?}))
 
+  ; MAINTENANCE: the decision OWNS the found_club goal end to end. The (chance) is an
+  ; ONSET roll - (eval-until-hold) rolls it at the fire and LOCKS it once holding, so the
+  ; held re-check never re-rolls it (it re-rolls each month until it lands). (not member_of)
+  ; is the CONTINUOUS gate: while he is still clubless the goal stands; the moment
+  ; found-club-seq enrols him ({@self member_of}) it falls and the goal ends. The act never
+  ; ends the goal.
   (when (and (>= (years-old @self) 30)
-             (chance 0.0033)))
+             (not (believes {@self member_of ?}))
+             (eval-until-hold (chance 0.0033))))
 
-  ; SPLIT (Item 5): the npc-think - the decision to found a club. Mints {@self
-  ; goal {@self found_club}}; the npc-act (club_found_errand.hs) takes the founder
-  ; out to found it (found-club-seq acquires the clubhouse + enrols him). A new club
-  ; starts with just its founder; members trickle in via club_joining.
-  (effects
-    (begin-goal {@self found_club})))
+  ; SPLIT (Item 5): the npc-act (club_found_errand.hs) takes the founder out to found it
+  ; (found-club-seq acquires the clubhouse + enrols him). found_club_go routes; there is no
+  ; dwell - the goal is minted here and leaf-promotes to the act once he is at the pub.
+  (effects       (begin-goal {@self found_club}))
+  (cease-effects (end-goal   {@self found_club})))
 
 ; --- club_joining: an adult joins an existing club --------------------------
 ;; Clubs gate on character and class: a scandalous or disreputable member is

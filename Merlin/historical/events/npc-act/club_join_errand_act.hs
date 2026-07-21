@@ -12,5 +12,4 @@
   (duration 60)
   (act-effects
     (register-member /articles (goal-focus join_club) /member @self)
-    (end-act {@self join_club})
-    (end-goal {@self join_club})))
+    (end-act {@self join_club})))

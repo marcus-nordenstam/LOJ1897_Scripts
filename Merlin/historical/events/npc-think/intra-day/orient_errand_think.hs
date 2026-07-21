@@ -17,8 +17,10 @@
   (cease-effects (end-goal   {@self enter ?go_dest})))
 
 (npc-think orient_dwell
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self orient})
   (when (at-place-kind [k building church]))
   (utility 28)
-  (cont-fire-effects (begin-goal {@self orient})))
+  (effects       (begin-goal {@self orient}))
+  (cease-effects (end-goal   {@self orient})))

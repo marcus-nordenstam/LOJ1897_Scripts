@@ -38,16 +38,18 @@
              (attend-in-window @self)
              (not (in-building ?venue))))
   (utility (attend-utility @self))
-  (effects       (begin-goal {@self attend}) (begin-goal {@self enter ?venue}))
+  (effects       (begin-goal {@self enter ?venue}))
   (cease-effects (end-goal   {@self enter ?venue})))
 
 ; DWELL desire - at the venue in the window: push the utility so {@self attend},
 ; now the leaf, promotes to attend_act (the attendance dwell).
 (npc-think attend_dwell
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self attend ?occ})
-  (when (and (bind {?occ venue ?venue})
+  (when (and (believes {?occ venue ?venue})
              (attend-in-window @self)
              (in-building ?venue)))
   (utility (attend-utility @self))
-  (cont-fire-effects (begin-goal {@self attend})))
+  (effects       (begin-goal {@self attend}))
+  (cease-effects (end-goal   {@self attend})))

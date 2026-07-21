@@ -47,18 +47,18 @@
 ; late-hired cook does not usurp a sitting family cook (first claim sticks).
 
 (npc-think claim_cook_hired
-  (short-term-think)
+  (schedule always)
   (role @self (grown @self)
                            (believes {@self job [k job cook]})
               (not (believes {@self household_cook ?})))
   (role ?home (believes {@self home ?home}))
   (when (pub-bb-none ?home cook))
-  (cont-fire-effects
+  (effects
     (pub-bb-post ?home cook (cook_marker_ttl_cycles))
     (begin-belief {@self household_cook ?home})))
 
 (npc-think claim_cook_woman
-  (short-term-think)
+  (schedule always)
   (role @self (grown @self)
                            (believes {@self gender [k female]})
               (not (believes {@self household_cook ?}))
@@ -67,12 +67,12 @@
   (when (and (pub-bb-none ?home cook)
              (not (and (bind {@self mother ?mum})
                        (believes {?mum home ?home})))))
-  (cont-fire-effects
+  (effects
     (pub-bb-post ?home cook (cook_marker_ttl_cycles))
     (begin-belief {@self household_cook ?home})))
 
 (npc-think claim_cook_man
-  (short-term-think)
+  (schedule always)
   (role @self (grown @self)
                            (believes {@self gender [k male]})
               (not (believes {@self household_cook ?}))
@@ -83,27 +83,27 @@
              (not (and (bind {@self child ?c})
                        (believes {?c gender [k female]})
                        (believes {?c home ?home})))))
-  (cont-fire-effects
+  (effects
     (pub-bb-post ?home cook (cook_marker_ttl_cycles))
     (begin-belief {@self household_cook ?home})))
 
 (npc-think renew_cook
-  (short-term-think)
+  (schedule always)
   (role ?home (believes {@self household_cook ?home}))
-  (cont-fire-effects (pub-bb-post ?home cook (cook_marker_ttl_cycles))))
+  (effects (pub-bb-post ?home cook (cook_marker_ttl_cycles))))
 
 ; ---- the pressure: the kitchen larder is low --------------------------------
 
 (npc-think want_provisions
-  (short-term-think)
+  (schedule always)
   (role ?home (believes {@self household_cook ?home}))
   ; The kitchen resolves from the cook's OWN room knowledge (the home pre-teach
   ; mints {home room <r>}): the kind-cast bind picks the is-a kitchen target.
   (when (and (bind {?home room [k kitchen]:?kitchen})
              (< (count-believed-located [k food] ?kitchen) (larder_low_water))))
   (utility 77)
-  (cont-fire-effects
-    (excl-goal {@self provision})))
+  (effects       (begin-goal {@self provision}))
+  (cease-effects (end-goal   {@self provision})))
 
 ; ---- the errand: go to THE provisions shop (never a generic one) ------------
 ; The go sub-goal INHERITS the provision goal's drive through /cause (the
@@ -138,9 +138,10 @@
 ; still holding the shopping.
 
 (npc-think provision_rearm
-  (short-term-think)
+  (schedule always)
   (role ?home (believes {@self home ?home}))
   (when (and (bind {?home room [k kitchen]:?kitchen})
              (control [k food])))
   (utility (if (at-place ?kitchen) 250 90))
-  (cont-fire-effects (begin-goal {@self bring [k food] ?kitchen})))
+  (effects       (begin-goal {@self bring [k food] ?kitchen}))
+  (cease-effects (end-goal   {@self bring [k food] ?kitchen})))

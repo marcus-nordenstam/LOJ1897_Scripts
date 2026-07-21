@@ -24,8 +24,4 @@
     ; visible-vice evidence observer estimates read. The home drinker generates
     ; no witnesses; concealment is emergent, not simulated. Witnessing is now
     ; engine-side (auto-witness on this obs act at completion), not hand-authored.
-    (end-act {@self drink})
-    ; Drain the desire the drive minted (drinking reset its pressure). Formerly the
-    ; excl_goal_sweep retracted it when the drive stopped re-firing; the drive is now a
-    ; cooldown that fires once, so the act ends the goal it fulfilled.
-    (end-goal {@self drink})))
+    (end-act {@self drink})))

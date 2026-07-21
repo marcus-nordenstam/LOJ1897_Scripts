@@ -25,4 +25,5 @@
               (believes {@self repute [k disreputable]}))   ; derive-maintained band - cached
   (when    (>= (days-since-last @self worship) 15))
   (utility (min (* (days-since-last @self worship) 2) 40))
-  (effects (begin-goal {@self worship})))
+  (effects       (begin-goal {@self worship}))
+  (cease-effects (end-goal   {@self worship})))

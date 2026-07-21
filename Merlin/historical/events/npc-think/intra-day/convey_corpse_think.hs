@@ -45,10 +45,11 @@
 ; The DESIRE - the ONLY place the errand pressure is computed. Casts the most-
 ; overdue death this NPC knows AND has not yet delivered; argmax keeps the target
 ; stable while routing. Utility x politeness, capped modest (an errand, not a
-; life-goal). cont-fire re-asserts the convey goal each cycle (an excl-goal is
-; swept the moment a cycle stops re-stamping it).
+; life-goal). A MAINTENANCE minter: on the death-belief edge it mints the standing
+; convey goal and holds it; once the deposit marks {@self conveyed ?corpse} the role
+; stops casting the corpse, the gate drops, and the falling edge ends the convey goal.
 (npc-think want_convey
-  (short-term-think)
+  (schedule on-changed)
   (role @self (grown @self))
   (role ?corpse (believes {?corpse condition [k dead]})
                 (not (believes {?corpse condition [k buried]}))
@@ -64,7 +65,8 @@
   ; service, so at the church the deposit wins the first slot and the service
   ; follows (at x80 the two tied and the deposit lost the tie for years).
   (utility (* (attr @self politeness) 85))
-  (cont-fire-effects (excl-goal {@self convey ?corpse})))
+  (effects       (begin-goal {@self convey ?corpse}))
+  (cease-effects (end-goal   {@self convey ?corpse})))
 
 ; CASE B - not at a church, but knows one: head to it. The (goal ...) clause pins
 ; the convey goal as this rule's parent, so the go sub-goal inherits the drive and
@@ -81,10 +83,11 @@
 
 ; CASE C - not at a church and knows none: search for one (find_building.hs runs it).
 (npc-think convey_find
-  (short-term-think)
+  (schedule on-commit)
   (goal    {@self convey ?corpse})
   (fatigue-timeout 90)                                 ; ~90 min of searching a day, then rest
   (role @self (grown @self))
   (no-role [k building church])
   (when    (not (is-a (current-building @self) [k building church])))
-  (cont-fire-effects (excl-goal {@self find_building [k building church]})))
+  (effects       (begin-goal {@self find_building [k building church]}))
+  (cease-effects (end-goal   {@self find_building [k building church]})))

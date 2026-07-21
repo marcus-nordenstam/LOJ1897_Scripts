@@ -28,10 +28,11 @@
   (cease-effects (end-goal   {@self enter ?wp})))
 
 (npc-think retire_dwell
-  (short-term-think)
+  (schedule on-commit)
   (goal {@self quit_work})
   (role ?org (believes {@self employer ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (at-workplace ?wp)))
   (utility 85)
-  (cont-fire-effects (begin-goal {@self quit_work})))
+  (effects       (begin-goal {@self quit_work}))
+  (cease-effects (end-goal   {@self quit_work})))

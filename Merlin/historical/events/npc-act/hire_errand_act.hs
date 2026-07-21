@@ -44,5 +44,4 @@
     (if (and (is-kind ?jk)
              (chance (min 0.95 (job-match-score ?t1 ?w1 ?t2 ?w2))))
       (hire-seq ?art ?jk [k apprentice]))
-    (end-act {@self engage_staff})
-    (end-goal {@self engage_staff})))
+    (end-act {@self engage_staff})))

@@ -13,8 +13,7 @@
   (duration 60)
   (act-effects
     (begin-belief {@self study [k primary_school_curriculum]})
-    (end-act {@self enrol_primary})
-    (end-goal {@self enrol_primary})))
+    (end-act {@self enrol_primary})))
 
 ; ----- secondary -----------------------------------------------------------
 (npc-act enrol_secondary_act
@@ -22,8 +21,7 @@
   (duration 60)
   (act-effects
     (begin-belief {@self study [k secondary_school_curriculum]})
-    (end-act {@self enrol_secondary})
-    (end-goal {@self enrol_secondary})))
+    (end-act {@self enrol_secondary})))
 
 ; ----- university ----------------------------------------------------------
 (npc-act enrol_university_act
@@ -44,5 +42,4 @@
                                 [k secondary_school_curriculum]) ?subject)
           (if (is-kind ?subject)
               (begin-belief {@self study ?subject}))))
-    (end-act {@self enrol_university})
-    (end-goal {@self enrol_university})))
+    (end-act {@self enrol_university})))

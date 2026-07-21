@@ -41,9 +41,9 @@
 ; promotes to steal_act. One desire for both scenes; steal_act's completion picks
 ; the crime method (embezzle at the thief's own workplace, else opportunist_theft).
 (npc-think burgle_strike
-  (short-term-think)
+  (schedule on-changed)
   (goal {@self steal})
   (when (or (at-burgle-residence)
             (at-own-workplace)))
   (utility 86)
-  (cont-fire-effects (begin-goal {@self steal})))
+  (effects (begin-goal {@self steal})))

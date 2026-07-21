@@ -22,18 +22,20 @@
 
 (include "../../../definitions/roles.hs")
 
-; The DESIRE. The ONLY place the pressure is computed. A 3-day cooldown re-checks the urge;
-; the (days-since) fire-gate mints the standing drink desire only when genuinely due (also
-; catching a cross-source drink via the relapse lane); the drink-drive utility competes it;
-; and drink_act drains the goal on completion (there is no excl_goal_sweep to retract it).
+; The DESIRE, and the MAINTENANCE event that owns the drink goal end to end. A 3-day cooldown
+; re-checks the urge; the (days-since) gate holds the standing drink desire while genuinely due
+; (also catching a cross-source drink via the relapse lane); the drink-drive utility competes it.
+; The MINTER owns un-minting: once drink_act completes, days-since-last resets, the (when) drops,
+; and the falling edge ends {@self drink}. The act itself never ends the goal.
 (npc-think want_drink
   (schedule cooldown 3 d)
   (if-blocked hold)
   (role @self (grown @self)
               (not (believes {@self craving [k alcohol]})))   ; dependents use the relapse lane
-  (when    (>= (days-since-last @self drink) 3))
-  (utility (drink-drive @self))
-  (effects (begin-goal {@self drink})))
+  (when          (>= (days-since-last @self drink) 3))
+  (utility       (drink-drive @self))
+  (effects       (begin-goal {@self drink}))
+  (cease-effects (end-goal   {@self drink})))
 
 ; CASE B - not at a pub, but knows one: head to it via the generic enter chain (§5.11). A
 ; MAINTENANCE event: on the FIRST fire it roulettes a pub and mints {@self enter ?pub}, then
@@ -51,12 +53,16 @@
   (effects       (begin-goal {@self enter ?pub}))
   (cease-effects (end-goal   {@self enter ?pub})))
 
-; CASE C - not at a pub and knows none: search for one (find_building.hs runs it).
+; CASE C - not at a pub and knows none: search for one (find_building.hs runs it). A MAINTENANCE
+; event: on the drink-goal commit it mints the standing find goal and holds it while the search
+; runs; the moment a pub is learned the (no-role) gate flips (or arrival makes can-drink hold),
+; the falling edge ends the find goal, and the go rung takes over.
 (npc-think drink_find
-  (short-term-think)
+  (schedule on-commit)
   (goal    {@self drink})
   (fatigue-timeout 90)                                 ; ~90 min of searching a day, then rest
   (role @self (grown @self))
   (no-role [k building pub])
   (when    (not (can-drink @self)))
-  (cont-fire-effects (excl-goal {@self find_building [k building pub]})))
+  (effects       (begin-goal {@self find_building [k building pub]}))
+  (cease-effects (end-goal   {@self find_building [k building pub]})))

@@ -5,8 +5,9 @@
 ; The founder goes out (to a pub - the period's clubs grew out of tavern society)
 ; and founds the club there (npc-act/club_found_errand.hs).
 ;
-;   found_club_go     : hold the goal, not at a pub -> travel act to one.
-;   found_club_dwell  : hold the goal, AT a pub -> a dwell (the founding meeting).
+;   found_club_go : hold the goal, not at a pub -> travel act to one. AT a pub the
+;                   goal is the leaf and promotes to found_club_act - no dwell rung
+;                   (the decision, clubs.hs club_founding, owns the goal's whole life).
 ; ----------------------------------------------------------------------------
 
 (npc-think found_club_go
@@ -20,10 +21,3 @@
   (utility 45)
   (effects       (begin-goal {@self enter ?go_dest}))
   (cease-effects (end-goal   {@self enter ?go_dest})))
-
-(npc-think found_club_dwell
-  (short-term-think)
-  (goal {@self found_club})
-  (when (at-place-kind [k building pub]))
-  (utility 45)
-  (cont-fire-effects (begin-goal {@self found_club})))

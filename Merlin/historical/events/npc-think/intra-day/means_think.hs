@@ -10,12 +10,14 @@
 ; The DESIRE: a killer who holds a method_means it does not yet control resolves to
 ; obtain it. Binds the required tool kind off its own belief and pushes utility 90
 ; onto the standing {@self acquire [k <means>]} goal (the killer's memory of setting
-; out to arm), which - the leaf - promotes to acquire_act. Stops firing the moment
-; the killer controls the tool (real-possession termination). NO (log) here - this
+; out to arm), which - the leaf - promotes to acquire_act. A maintenance event: it
+; ceases (ends the acquire goal) the moment the killer controls the tool
+; (real-possession termination), the falling edge of (not (control ?means)). NO (log) here - this
 ; fires in the deliberation pass; the acquisition is narrated at completion.
 (npc-think means_plan_acquire
-  (schedule on-changed {@self method_means ?})   ; fires when the killer forms a method_means
-  (when (and (bind {@self method_means ?means})
-             (not (control ?means))))
+  (schedule on-changed {@self method_means ?})           ; fires when the killer forms a method_means
+  (role @self (believes {@self method_means ?means}))    ; binds the required tool kind, cached
+  (when (not (control ?means)))
   (utility 90)
-  (effects (begin-goal {@self acquire ?means})))
+  (effects       (begin-goal {@self acquire ?means}))
+  (cease-effects (end-goal   {@self acquire ?means})))

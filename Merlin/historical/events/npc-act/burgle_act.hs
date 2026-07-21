@@ -22,8 +22,9 @@
 ;                    then the residents' chance to stir (burglary-confrontation).
 ;                    The task leaf is the context: embezzle at the thief's OWN
 ;                    workplace, opportunist_theft anywhere else. An ownerless /
-;                    self-owned / dead-owner premises ends the goal (nothing
-;                    there worth wronging) - the old commit-bail parity.
+;                    self-owned / dead-owner premises is left untouched (nothing
+;                    there worth wronging); the steal goal's teardown belongs to
+;                    its minter, not this act.
 ;
 ; Rate control is upstream: the deliberation's steal affinity weight x
 ; disinhibition x the master crime scalar decide who ever holds the goal.
@@ -58,6 +59,5 @@
           (if (and (is-entity ?owner) (not (= ?owner @self)) (alive ?owner))
               (if (at-own-workplace)
                   (terminal-steal ?scene embezzle ?owner ?goal)
-                  (terminal-steal ?scene opportunist_theft ?owner ?goal))
-              (end-goal {@self steal}))))
+                  (terminal-steal ?scene opportunist_theft ?owner ?goal)))))
     (end-act {@self steal})))

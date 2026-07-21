@@ -34,5 +34,4 @@
         (if (and (is-a ?ok [k org grocer]) (is-entity ?b))
             (do
               (begin-belief {@self provisions_shop ?b})))))
-    (end-act {@self orient})
-    (end-goal {@self orient})))
+    (end-act {@self orient})))

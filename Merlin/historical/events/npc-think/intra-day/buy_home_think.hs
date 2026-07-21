@@ -62,7 +62,8 @@
   (role ?h (believes {@self home ?h})
            (not (believes {@self own ?h}))
            (not (believes {?h tenant @self})))
-  (effects (begin-goal {@self acquire})))
+  (effects       (begin-goal {@self acquire}))
+  (cease-effects (end-goal   {@self acquire})))
 
 ; CASE B - knows a house agency, register unread, not at its office: travel there.
 ; Its articles name the office (articles-building). Inherits the acquire drive.
@@ -82,7 +83,7 @@
 ; CASE A - AT a known agency, register still unread: promote the read act (the
 ; knowledge channel).
 (npc-think buy_home_read
-  (short-term-think)
+  (schedule on-commit)
   (goal {@self acquire})
   (role @self (not (believes {@self for_sale ?})))   ; register unread - cached
   (role ?agency (believes {?agency isa [k org house_agency]})
@@ -90,7 +91,8 @@
   (when (and (articles-building ?art ?venue)
              (in-building ?venue)))
   (utility 35)
-  (cont-fire-effects (begin-goal {@self read_listings})))
+  (effects       (begin-goal {@self read_listings}))
+  (cease-effects (end-goal   {@self read_listings})))
 
 ; CASE C - register unread and @self knows NO house agency at all: consult the
 ; parish incorporations register (the orient lane, orient_errand.hs), which mints
@@ -101,12 +103,13 @@
 ; takes over. (no-role [k org house_agency]) reads the SAME per-mind object cache
 ; buy_home_go's positive role populates ([k <kind>] is sugar for {isa [k <kind>]}).
 (npc-think buy_home_find
-  (short-term-think)
+  (schedule on-commit)
   (goal {@self acquire})
   (no-role [k org house_agency])
   (role @self (not (believes {@self for_sale ?})))   ; register unread - cached
   (utility 30)
-  (cont-fire-effects (excl-goal {@self orient})))
+  (effects       (begin-goal {@self orient}))
+  (cease-effects (end-goal   {@self orient})))
 
 ; Listings learned: cast the nicest dwelling he can AFFORD and that no rival has
 ; CLAIMED, by a value-weighted roulette (per-NPC choice), and promote the purchase.
@@ -117,7 +120,7 @@
 ; The affordability gate is his OWN wealth vs the tier cost (0.15 per tier - the
 ; C++ k_buy_wealth_per_value).
 (npc-think choose_home
-  (short-term-think)
+  (schedule on-changed {@self for_sale ?})
   (goal {@self acquire})
   (role ?dwell (believes {@self for_sale ?dwell})
                (select (score (* (dwelling-value ?dwell)
@@ -126,6 +129,7 @@
   (when (and (>= (target {@self wealth}) (* (dwelling-value ?dwell) 0.15))
              (pub-bb-none ?dwell claimed)))
   (utility 45)
-  (cont-fire-effects
+  (effects
     (pub-bb-post ?dwell claimed (claim_marker_ttl_cycles))
-    (excl-goal {@self buy_home ?dwell})))
+    (begin-goal {@self buy_home ?dwell}))
+  (cease-effects (end-goal {@self buy_home ?dwell})))

@@ -24,8 +24,10 @@
   (cease-effects (end-goal   {@self enter ?go_dest})))
 
 (npc-think resign_dwell
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self resign_club})
   (when (at-place-kind [k building social_clubhouse]))
   (utility 40)
-  (cont-fire-effects (begin-goal {@self resign_club})))
+  (effects       (begin-goal {@self resign_club}))
+  (cease-effects (end-goal   {@self resign_club})))

@@ -29,15 +29,17 @@
 ; routes them to a church, instead of losing the pure pressure-vs-routine competition.
 (npc-think want_worship
   ; Rhythmic drive: a 3-day cooldown re-checks the urge; the (days-since) + politeness
-  ; fire-gate mints the standing worship desire only when due; worship_act drains it on
-  ; completion (begin-goal, since the cooldown fires once and there is no excl_goal_sweep).
+  ; fire-gate holds the standing worship desire while due. The MINTER owns un-minting:
+  ; once worship_act resets days-since-last the (when) drops and the falling edge ends
+  ; {@self worship}. The act never ends the goal.
   (schedule cooldown 3 d)
   (if-blocked hold)
   (role @self (grown @self))
   (when    (and (>= (days-since-last @self worship) 3)
                 (>= (attr @self politeness) 0.3)))
   (utility (* (attr @self politeness) 80))
-  (effects (begin-goal {@self worship})))
+  (effects       (begin-goal {@self worship}))
+  (cease-effects (end-goal   {@self worship})))
 
 ; CASE B - not at a church, but knows one: head to it. Inherits the worship drive. A
 ; MAINTENANCE rung (§5.11): roulette a church ONCE, hold {@self enter ?church} (the
@@ -57,10 +59,11 @@
 
 ; CASE C - not at a church and knows none: search for one (find_building.hs runs it).
 (npc-think worship_find
-  (short-term-think)
+  (schedule on-commit)
   (goal    {@self worship})
   (fatigue-timeout 90)                                 ; ~90 min of searching a day, then rest
   (role @self (grown @self))
   (no-role [k building church])
   (when    (not (is-a (current-building @self) [k building church])))
-  (cont-fire-effects (excl-goal {@self find_building [k building church]})))
+  (effects       (begin-goal {@self find_building [k building church]}))
+  (cease-effects (end-goal   {@self find_building [k building church]})))

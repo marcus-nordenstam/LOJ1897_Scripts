@@ -57,5 +57,4 @@
               (end-belief @self for_sale ?dwell)
               (destroy-entity ?listing)
               (break)))))
-    (end-act {@self buy_home ?dwell})
-    (end-goal {@self acquire})))
+    (end-act {@self buy_home ?dwell})))

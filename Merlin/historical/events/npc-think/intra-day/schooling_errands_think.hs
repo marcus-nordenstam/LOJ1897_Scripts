@@ -24,11 +24,13 @@
   (effects       (begin-goal {@self enter ?go_dest}))
   (cease-effects (end-goal   {@self enter ?go_dest})))
 (npc-think primary_dwell
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self enrol_primary})
   (when (at-place-kind [k building school]))
   (utility 35)
-  (cont-fire-effects (begin-goal {@self enrol_primary})))
+  (effects       (begin-goal {@self enrol_primary}))
+  (cease-effects (end-goal   {@self enrol_primary})))
 
 ; ----- secondary -----------------------------------------------------------
 (npc-think secondary_go
@@ -41,11 +43,13 @@
   (effects       (begin-goal {@self enter ?go_dest}))
   (cease-effects (end-goal   {@self enter ?go_dest})))
 (npc-think secondary_dwell
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self enrol_secondary})
   (when (at-place-kind [k building school]))
   (utility 35)
-  (cont-fire-effects (begin-goal {@self enrol_secondary})))
+  (effects       (begin-goal {@self enrol_secondary}))
+  (cease-effects (end-goal   {@self enrol_secondary})))
 
 ; ----- university ----------------------------------------------------------
 (npc-think university_go
@@ -58,8 +62,10 @@
   (effects       (begin-goal {@self enter ?go_dest}))
   (cease-effects (end-goal   {@self enter ?go_dest})))
 (npc-think university_dwell
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self enrol_university})
   (when (at-place-kind [k building school]))
   (utility 35)
-  (cont-fire-effects (begin-goal {@self enrol_university})))
+  (effects       (begin-goal {@self enrol_university}))
+  (cease-effects (end-goal   {@self enrol_university})))

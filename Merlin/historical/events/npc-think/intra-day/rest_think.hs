@@ -29,7 +29,8 @@
   (when (and (not (at-home))
              (> (attr @self sleepiness) 0.7)))
   (utility (if (> (attr @self sleepiness) 1.0) 10000 (* 90 (attr @self sleepiness))))
-  (effects (bind (target {@self home ?}) ?go_dest) (excl-goal {@self enter ?go_dest})))
+  (effects       (bind (target {@self home ?}) ?go_dest) (begin-goal {@self enter ?go_dest}))
+  (cease-effects (end-goal   {@self enter ?go_dest})))
 
 ; at home and at all tired (or it is night): sleep until the morning alarm. The
 ; sleep act records a {@self sleep} memory ((does sleep)); its completion resets
@@ -59,11 +60,13 @@
   ; sentinels when nothing is pending.
   ; mint the SLEEP act-goal; at home (the leaf) it promotes to sleep_act, which carries
   ; the duration + ends the belief. Fatigue recovery keys on the SLEEP label at completion.
-  (effects (excl-goal {@self SLEEP})))
+  (effects       (begin-goal {@self SLEEP}))
+  (cease-effects (end-goal   {@self SLEEP})))
 
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.
 (npc-think idle_go_home
   (schedule always)   ; gates on the sleepiness ATTR - no belief edge to trigger on
   (when (not (at-home)))
   (utility 1)
-  (effects (bind (target {@self home ?}) ?go_dest) (excl-goal {@self enter ?go_dest})))
+  (effects       (bind (target {@self home ?}) ?go_dest) (begin-goal {@self enter ?go_dest}))
+  (cease-effects (end-goal   {@self enter ?go_dest})))

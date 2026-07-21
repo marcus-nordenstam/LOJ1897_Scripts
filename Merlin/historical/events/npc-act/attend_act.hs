@@ -47,5 +47,4 @@
     ; fight goal from the melee routing, and kill_strike (fight.hs) outweighs
     ; every attend act the moment he is co-present with his rival.)
     (end-act {@self attend})
-    (end-goal {@self attend})
     ))

@@ -20,14 +20,15 @@
   (effects       (begin-goal {@self enter ?venue}))
   (cease-effects (end-goal   {@self enter ?venue})))
 
-; AT the premises: re-affirm the standing seek_indenture aim with this think's utility so
-; it carries a drive. With the go sub-goal spent, the aim is the leaf and promotes to
-; indenture_act. begin-goal (not excl-goal) - the aim is a latched goal, not this node's
-; to auto-retract; the utility source is what makes it win the motor here.
+; AT the premises: a MAINTENANCE minter for the standing seek_indenture aim. begin-goal
+; registers this think's utility source so the aim (its go sub-goal spent, now the leaf) wins
+; the motor and promotes to indenture_act; the cease-effects end the aim when @self leaves the
+; premises (the (in-building ?venue) gate drops).
 (npc-think indenture_dwell
-  (short-term-think)
+  (schedule on-commit)
   (goal {@self seek_indenture})
   (when (and (articles-building (goal-focus seek_indenture) ?venue)
              (in-building ?venue)))
   (utility 80)
-  (cont-fire-effects (begin-goal {@self seek_indenture})))
+  (effects       (begin-goal {@self seek_indenture}))
+  (cease-effects (end-goal   {@self seek_indenture})))

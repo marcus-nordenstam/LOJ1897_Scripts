@@ -115,5 +115,4 @@
     ; not re-arm the >1.3 gate and loop). Reduce unconditionally, like the old
     ; starving episodes did.
     (set-attr @self hunger (max 0 (- (attr @self hunger) 0.5)))
-    (end-act {@self forage})
-    (end-goal {@self forage})))
+    (end-act {@self forage})))

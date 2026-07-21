@@ -16,5 +16,4 @@
     (roll-org-kind (bind ?clubkind) 0
                    [k org race_club] [k org athletic_club])
     (if ?clubkind (found-club-seq ?clubkind))
-    (end-act {@self found_club})
-    (end-goal {@self found_club})))
+    (end-act {@self found_club})))

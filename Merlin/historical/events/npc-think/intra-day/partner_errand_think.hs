@@ -15,9 +15,11 @@
   (cease-effects (end-goal   {@self enter ?venue})))
 
 (npc-think partner_dwell
-  (short-term-think)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self partner})
   (when (and (articles-building (goal-focus partner) ?venue)
              (in-building ?venue)))
   (utility 85)
-  (cont-fire-effects (begin-goal {@self partner})))
+  (effects       (begin-goal {@self partner}))
+  (cease-effects (end-goal   {@self partner})))

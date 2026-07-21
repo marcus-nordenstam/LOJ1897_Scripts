@@ -76,5 +76,4 @@
                  (not (= ?bested ?victor))
                  (chance (+ 0.15 (* 0.85 (attr ?bested narcissism) (attr ?bested assertiveness)))))
             (incident-anchor ?victor outdo ?bested))))
-    (end-act {@self hold_meet_run})
-    (end-goal {@self hold_meet})))
+    (end-act {@self hold_meet_run})))

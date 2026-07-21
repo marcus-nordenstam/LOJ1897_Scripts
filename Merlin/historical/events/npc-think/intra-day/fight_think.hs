@@ -17,10 +17,11 @@
 ; THE VICTIM's side (defend_strike, below): when a blow lands non-fatally, the
 ; strike-blow primitive mints {@self under_attack <foe>} on the victim and WAKES
 ; it (re-deliberate this very minute, interrupting sleep / work). The victim's
-; (short-term-think) then decides - by combat resolve - to turn and fight, minting
-; its OWN per-round {@self fight <foe>} excl-goal: the SAME kill_strike / fight_act
+; under_attack-reactive rung then decides - by combat resolve - to turn and fight,
+; holding its OWN {@self fight <foe>} goal: the SAME kill_strike / fight_act
 ; then fire for it too, so the fight is TWO-SIDED and trades blows until one dies.
-; The excl-goal is auto-swept the round the resolve roll fails, so a wavering
+; That fight goal is a maintenance hold ceased when the attack ends (under_attack
+; drops), and the under_attack edge re-rolls the resolve each blow, so a wavering
 ; victim trades some rounds and falters others (flee / scream instead), versus the
 ; committed aggressor whose standing kill goal (attempt_kill.hs) never wavers.
 ;
@@ -69,12 +70,12 @@
 ; down. Pushes the utility onto {@self fight ?victim}, which - the leaf while
 ; co-present - promotes to fight_act (the 1-minute blow).
 (npc-think kill_strike
-  (short-term-think)
+  (schedule on-changed)
   (goal {@self fight ?victim})
   (when (co-present @self ?victim))
   (utility (if (< (fight-elapsed) 10) 200
                (max 0 (- 200 (* 30 (- (fight-elapsed) 10))))))
-  (cont-fire-effects
+  (effects
     (debug-print "TRACE_KILLSTRIKE @self strikes victim=?victim")
     (begin-goal {@self fight ?victim})))
 
@@ -98,20 +99,21 @@
 
 ; THE VICTIM FIGHTS BACK. A struck victim holds {@self under_attack <foe>} (set by
 ; the blow that landed) and was woken THIS instant. If the foe is still co-present
-; and the victim's combat resolve (volatility + sadism + low compassion) carries it
-; THIS round, it maintains a per-round {@self fight <foe>} excl-goal - and kill_strike
-; / fight_act above then drive its blow, the two-sided exchange. The excl-goal is
-; swept the round the roll fails (a wavering victim), so it re-decides every round;
-; a lost roll leaves no fight goal and flee / scream take over.
+; and the victim's combat resolve (volatility + sadism + low compassion) carries it,
+; it holds {@self fight <foe>} - and kill_strike / fight_act above then drive its blow,
+; the two-sided exchange. A maintenance goal: the under_attack edge re-fires the resolve
+; roll each blow and the fight goal ceases when the attack ends, so it re-decides each
+; round; a lost roll leaves no fight goal and flee / scream take over.
 (npc-think defend_strike
-  (short-term-think)
+  (schedule on-changed {@self under_attack ?})
   (bind (threat-focus) ?foe)
   (when (chance (clamp (+ (attr @self volatility)
                           (attr @self sadism)
                           (- 1.0 (attr @self compassion)))
                           0.05 0.95)))
   (utility 20000)
-  (cont-fire-effects (excl-goal {@self fight ?foe})))
+  (effects       (begin-goal {@self fight ?foe}))
+  (cease-effects (end-goal   {@self fight ?foe})))
 
 ; THE VICTIM TRIES TO FLEE (end-condition b). A struck victim that does NOT turn to
 ; fight makes a one-round bid to break away. Lower utility than fighting (200), so a
@@ -120,18 +122,20 @@
 ; SUCCESS the melee is OVER - the victim is whisked to a public place this instant
 ; and co-presence breaks; on FAILURE it is still pinned and re-deliberates next round.
 (npc-think flee_attack
-  (short-term-think)
+  (schedule on-changed {@self under_attack ?})
   (role ?foe (believes {@self under_attack ?foe}))
   (when (no-goal {@self fight}))
   (utility 15000)
-  (cont-fire-effects (excl-goal {@self flee ?foe})))
+  (effects       (begin-goal {@self flee ?foe}))
+  (cease-effects (end-goal   {@self flee ?foe})))
 
 ; THE VICTIM SCREAMS FOR HELP - the last resort when it can neither fight (failed the
 ; resolve roll) nor flee (nowhere to run). Lowest utility, so it only wins when the
 ; other two produce no act. A one-minute cry that keeps the victim ACTIVE (never
 ; falling back to sleep / idle while under attack) and re-deliberating each round.
 (npc-think scream_for_help
-  (short-term-think)
+  (schedule on-changed {@self under_attack ?})
   (role ?foe (believes {@self under_attack ?foe}))
   (utility 12000)
-  (cont-fire-effects (excl-goal {@self cry_out})))
+  (effects       (begin-goal {@self cry_out}))
+  (cease-effects (end-goal   {@self cry_out})))

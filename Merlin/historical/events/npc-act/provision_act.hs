@@ -37,5 +37,4 @@
                 (take-item ?item)
                 (begin-belief {@self provisions_shop ?shop}))))
           (begin-goal {@self bring [k food] ?kitchen})))
-    (end-act {@self provision})
-    (end-goal {@self provision})))
+    (end-act {@self provision})))

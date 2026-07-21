@@ -22,5 +22,4 @@
     (fire /worker @self)
     (add-co-owner /articles ?art /owner @self)
     (hire-seq ?art [k job proprietor] [k org_head])
-    (end-act {@self partner})
-    (end-goal {@self partner})))
+    (end-act {@self partner})))

@@ -24,10 +24,11 @@
   (cease-effects (end-goal   {@self enter ?wp})))
 
 (npc-think sack_dwell
-  (short-term-think)
+  (schedule on-commit)
   (goal {@self sack})
   (role ?org (believes {@self employer ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (at-workplace ?wp)))
   (utility 82)
-  (cont-fire-effects (begin-goal {@self sack})))
+  (effects       (begin-goal {@self sack}))
+  (cease-effects (end-goal   {@self sack})))

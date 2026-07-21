@@ -37,8 +37,7 @@
   (act-effects
     (if (goal? {@self kill})
         (acquire-control @self ?m))
-    (end-act {@self acquire ?m})
-    (end-goal {@self acquire ?m})))
+    (end-act {@self acquire ?m})))
 
 ; NB: the kill STRIKE terminal (means_strike) was moved to
 ; historical/_unported_events/means_strike.hs when the place-lane crime passes were

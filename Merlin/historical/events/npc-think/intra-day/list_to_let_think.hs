@@ -40,7 +40,8 @@
               (not (believes {@self home ?prop}))            ; not where he lives
               (not (believes {?prop tenant ?}))              ; no sitting tenant
               (not (believes {?prop availability [k for_rent]})))  ; not already listed
-  (effects (begin-goal {@self let ?prop})))
+  (effects       (begin-goal {@self let ?prop}))
+  (cease-effects (end-goal   {@self let ?prop})))
 
 ; CASE B - knows a house agency, not at its office: travel there. Its incorporation
 ; articles name the office he calls at (articles-building).
@@ -78,8 +79,9 @@
 ; reads the SAME per-mind object cache the positive role populates ([k <kind>] is
 ; sugar for {isa [k <kind>]}).
 (npc-think list_to_let_find
-  (short-term-think)
+  (schedule on-commit)
   (goal {@self let})
   (no-role [k org house_agency])
   (utility 30)
-  (cont-fire-effects (excl-goal {@self orient})))
+  (effects       (begin-goal {@self orient}))
+  (cease-effects (end-goal   {@self orient})))

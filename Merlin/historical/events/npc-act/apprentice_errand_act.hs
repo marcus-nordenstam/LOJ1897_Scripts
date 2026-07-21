@@ -27,5 +27,4 @@
   (act-effects
     (hire-seq ?art [k job clerk] [k trainee])
     (begin-belief {@self master ?master})
-    (end-act {@self seek_indenture})
-    (end-goal {@self seek_indenture})))
+    (end-act {@self seek_indenture})))

@@ -7,16 +7,18 @@
 ;
 ; crave_drink excludes the dependent and relapse casts only him, so the two are
 ; disjoint drivers of the ONE {@self drink} act-goal (one executor, two desires).
-; Dependence ONSET is still rolled by drink_act (drink.hs). No aim, no end-goal:
-; drinking resets the days-since pressure and relapse quiets until it rebuilds.
+; Dependence ONSET is still rolled by drink_act (drink.hs). A maintenance drive: it
+; holds {@self drink} while due and ends its OWN source (cease-effects) when drinking
+; resets the days-since pressure - want_drink owns its source symmetrically, so under
+; multi-rule support each of the two co-minters withdraws only its own hold.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
 
 (npc-think relapse
-  ; The dependent's short-fuse drink drive - a 1-day cooldown; shares the {@self drink} goal
-  ; with want_drink (drained by drink_act), and drink_go/find route to a pub. The inline go-into
-  ; is dropped: the routing lane handles movement, and this desire just holds the drink goal.
+  ; The dependent's short-fuse drink drive - a 1-day cooldown; co-mints the {@self drink} goal
+  ; with want_drink (each source ceases its own hold when its pressure lapses), and drink_go/find
+  ; route to a pub. The routing lane handles movement, and this desire just holds the drink goal.
   (schedule cooldown 1 d)
   (if-blocked hold)
   (role @self (grown @self)
@@ -33,4 +35,5 @@
                       (- 1.3 (* 0.6 (piety)))
                       (- 1.3 (* 0.6 (belonging)))) 1.6)
               (min (* (days-since-last @self drink) 5) 45)))
-  (effects (begin-goal {@self drink})))
+  (effects       (begin-goal {@self drink}))
+  (cease-effects (end-goal   {@self drink})))

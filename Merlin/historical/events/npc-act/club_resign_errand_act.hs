@@ -12,5 +12,4 @@
   (duration 45)
   (act-effects
     (unregister-member /member @self)
-    (end-act {@self resign_club})
-    (end-goal {@self resign_club})))
+    (end-act {@self resign_club})))
