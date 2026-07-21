@@ -16,8 +16,9 @@
 ; The service (case A): AT a church {@self worship} is the leaf and promotes here. The
 ; act-belief IS the service memory; ending it closes its interval to the ~90-min service.
 (npc-act worship_act
-  (when (and (believes {@self worship})
-             (is-a (current-building @self) [k building church])))
+  ; No precondition here: worship_at_church already guards the (propose) on being in a church, so
+  ; the act body only matches the promoted belief (act_body_purification - precondition on the propose).
+  (when (believes {@self worship}))
   (duration 90)
   (act-effects
     ; The congregation SEES the service: co-present others mint {her worship her}
