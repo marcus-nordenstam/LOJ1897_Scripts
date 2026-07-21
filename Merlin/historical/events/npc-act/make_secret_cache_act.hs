@@ -56,32 +56,32 @@
     (for-each ?room (attr-values ?building parts [k interior_space room])
       (for-each ?chamber (attr-values ?room parts [k secret_chamber])
         (if (not (believes {@self hiding_spot ?}))
-            (do
+            (then
               (set-attr ?chamber owner @self)
               (begin-belief {@self hiding_spot ?chamber})))))
     ; Tier 2 - a cavity behind a painting.
     (for-each ?room (attr-values ?building parts [k interior_space room])
       (for-each ?painting (attr-values ?room contents [k painting])
         (if (not (believes {@self hiding_spot ?}))
-            (do
+            (then
               (create-entity [k painting_cache] (qual parent ?painting) (bind ?cache))
               (begin-belief {@self hiding_spot ?cache})))))
     ; Tier 3 - a false lining in a jewelry box.
     (for-each ?room (attr-values ?building parts [k interior_space room])
       (for-each ?box (attr-values ?room contents [k jewelry_box])
         (if (not (believes {@self hiding_spot ?}))
-            (do
+            (then
               (create-entity [k jewelry_box_lining] (qual parent ?box) (bind ?cache))
               (begin-belief {@self hiding_spot ?cache})))))
     ; Tier 4 - a hollowed-out book.
     (for-each ?room (attr-values ?building parts [k interior_space room])
       (for-each ?book (attr-values ?room contents [k book])
         (if (not (believes {@self hiding_spot ?}))
-            (do
+            (then
               (create-entity [k book_cache] (qual parent ?book) (bind ?cache))
               (begin-belief {@self hiding_spot ?cache})))))
     ; Tier 5 - the always-available loose floorboard in the bedroom.
     (if (not (believes {@self hiding_spot ?}))
-        (do
+        (then
           (create-entity [k floorboard_cache] (qual parent ?bedroom) (bind ?cache))
           (begin-belief {@self hiding_spot ?cache})))))

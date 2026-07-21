@@ -40,13 +40,13 @@
       (do
         (read-doc-record [k for_sale_listing] ?listing (building ?lb))
         (if (= ?lb ?dwell)
-            (do
+            (then
               ; Rewrite the deed to name @self - the authoritative record transfer.
               (for-each ?deed (documents [k title_deed])
                 (do
                   (read-doc-record [k title_deed] ?deed (building ?db))
                   (if (= ?db ?dwell)
-                      (do
+                      (then
                         (update-doc-record [k title_deed] ?deed (owner @self))
                         (break)))))
               ; @self takes ownership, moves in (home is @excl - leaves the natal

@@ -36,7 +36,7 @@
     ; error. Founding paths roll only housable kinds, so this is the race / belt path.
     (acquire-org-premises ?org-kind @self (bind ?wp))
     (if ?wp
-      (do
+      (then
         ; --- the org's documents (abs-native): articles + an empty register -------
         (create-entity [k articles_of_incorporation] (qual location ?wp) (bind ?art))
         (create-entity [k employee_register]          (qual location ?wp) (bind ?reg))
@@ -92,7 +92,7 @@
   (do
     (acquire-org-premises ?club-kind @self (bind ?wp))
     (if ?wp
-      (do
+      (then
         ; --- the club's documents (abs-native): articles + an empty register -----
         (create-entity [k articles_of_incorporation] (qual location ?wp) (bind ?art))
         (create-entity [k employee_register]          (qual location ?wp) (bind ?reg))

@@ -62,28 +62,28 @@
     ; the "does he hold this belief" gate.
     (bind (target {@self employer}) ?org)
     (if (is-entity ?org)
-      (do
+      (then
         (bind (target {?org record}) ?art)
         (if (is-entity ?art)
-          (do
+          (then
             (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
             (remove-doc-record [k employee_register] ?reg (find worker @self))))
         (end-belief {@self employer ?org})
         (bind (target {@self job}) ?job)
-        (if (is-entity ?job) (end-belief {@self job ?job}))))
+        (if (is-entity ?job) (then (end-belief {@self job ?job})))))
 
     ; --- release his home: OWN -> list for sale; LEASE -> vacate (self-beliefs only)
     (bind (target {@self home}) ?home)
     (if (is-entity ?home)
-      (if (believes {@self own ?home})
-        (do
+      (then (if (believes {@self own ?home})
+        (then
           (create-entity [k for_sale_listing] (qual location ?home) (bind ?listing))
           (write-doc-record [k for_sale_listing] ?listing (building ?home))
           (end-belief {@self own ?home})
           (end-belief {@self home ?home}))
-        (do
-          (if (believes {?home tenant @self}) (end-belief {?home tenant @self}))
-          (end-belief {@self home ?home}))))
+        (else
+          (if (believes {?home tenant @self}) (then (end-belief {?home tenant @self})))
+          (end-belief {@self home ?home})))))
 
     (end-belief @self spouse)
     (end-act {@self depart})

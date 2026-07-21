@@ -107,14 +107,14 @@
     (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
     (for-each-doc-record [k employee_register] ?reg (worker ?w)
       (if (and (alive ?w) (not (= ?w @self)))
-          (do
+          (then
             (bind (target-or ?w work_standing 0.5) ?ws)
             (if (> 0.4 ?ws)
-                (if (chance (* 0.08 (- 0.4 ?ws)))
-                    (begin-goal {@self sack ?w}))
-                (if (> ?ws 0.7)
-                    (if (chance (* 0.12 (- ?ws 0.7)))
-                        (begin-goal {@self promote_staff ?w})))))))))
+                (then (if (chance (* 0.08 (- 0.4 ?ws)))
+                    (then (begin-goal {@self sack ?w}))))
+                (else (if (> ?ws 0.7)
+                    (then (if (chance (* 0.12 (- ?ws 0.7)))
+                        (then (begin-goal {@self promote_staff ?w}))))))))))))
 
 ; --- retirement: an employed worker of 65+ leaves working life --------------
 ; SPLIT (Item 5, the great split): this event is now the npc-THINK - the decision

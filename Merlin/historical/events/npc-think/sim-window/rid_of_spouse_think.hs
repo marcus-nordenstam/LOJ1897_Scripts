@@ -49,18 +49,18 @@
                  (believes {?spouse assault @self}))
              (chance
                (* (crime-scale) 0.02
-                  (* (+ (if (detests ?spouse) 1 0)
-                        (if (believes {?spouse assault @self}) 1 0))
+                  (* (+ (if (detests ?spouse) (then 1) (else 0))
+                        (if (believes {?spouse assault @self}) (then 1) (else 0)))
                      (* (+ 0.5 (attr @self psychopathy))
                         (* (disinhibition)
                            (* (callousness @self)
                               (* (+ 1 (target {?spouse wealth}))
-                                 (if (is-married ?lover) 1.5 1.0))))))))))
+                                 (if (is-married ?lover) (then 1.5) (else 1.0)))))))))))
 
   ; /cause: the held detest belief, else dislike, else the spouse-wealth belief.
   (effects
     (if (believes {@self detest ?spouse})
-        (begin-goal {@self kill ?spouse} /cause {@self detest ?spouse})
-        (if (believes {@self dislike ?spouse})
-            (begin-goal {@self kill ?spouse} /cause {@self dislike ?spouse})
-            (begin-goal {@self kill ?spouse} /cause {?spouse wealth})))))
+        (then (begin-goal {@self kill ?spouse} /cause {@self detest ?spouse}))
+        (else (if (believes {@self dislike ?spouse})
+            (then (begin-goal {@self kill ?spouse} /cause {@self dislike ?spouse}))
+            (else (begin-goal {@self kill ?spouse} /cause {?spouse wealth})))))))

@@ -63,10 +63,10 @@
     (bind (random-unheld-kind-target (target {@self mother}) interest interest) ?dm)
     (bind (random-unheld-kind-target (target {@self father}) interest interest) ?df)
     (bind (if (is-kind ?dm)
-              (if (and (is-kind ?df) (chance 0.5)) ?df ?dm)
-              ?df) ?d)
+              (then (if (and (is-kind ?df) (chance 0.5)) (then ?df) (else ?dm)))
+              (else ?df)) ?d)
     (if (is-kind ?d)
-        (begin-belief {@self interest ?d}))
+        (then (begin-belief {@self interest ?d})))
     ))
 
 ; --- peer_propagation: a friend's enthusiasm rubs off -----------------------
@@ -90,7 +90,7 @@
   (effects
     (bind (random-unheld-kind-target ?friend interest interest) ?d)
     (if (is-kind ?d)
-        (begin-belief {@self interest ?d}))
+        (then (begin-belief {@self interest ?d})))
     ))
 
 ; --- mentor_inspired: an apprentice catches the master's craft --------------
@@ -111,7 +111,7 @@
     ; interest_deepens can later raise to a skill of its own).
     (bind (random-unheld-kind-target (target {@self master}) interest skilled_in calling) ?d)
     (if (is-kind ?d)
-        (begin-belief {@self interest ?d}))
+        (then (begin-belief {@self interest ?d})))
     ))
 
 ; --- temperament_drift: the residual openness-driven catch-all --------------
@@ -133,7 +133,7 @@
     ; category node is never picked); idempotent per domain at commit.
     (bind (random-subkind [k domain]) ?d)
     (if (is-kind ?d)
-        (begin-belief {@self interest ?d}))
+        (then (begin-belief {@self interest ?d})))
     ))
 
 ; --- interest_lapses: an unskilled interest fades --------------------------
@@ -155,5 +155,5 @@
     ; on botany" survives the sleep sweep as history.
     (bind (random-unbacked-kind-target interest skilled_in) ?d)
     (if (is-kind ?d)
-        (end-belief @self interest ?d unforgettable))
+        (then (end-belief @self interest ?d unforgettable)))
     ))

@@ -57,7 +57,7 @@
     ; 3. list the premises for sale IF he owns it (a leased / home-seated premises has
     ;    no {@self own ?wp} belief, so he does not list it - he just vacates / keeps home).
     (if (believes {@self own ?wp})
-        (do
+        (then
           (create-entity [k for_sale_listing] (qual location ?wp) (bind ?listing))
           (write-doc-record [k for_sale_listing] ?listing (building ?wp))
           (begin-belief {?wp availability [k for_sale]})))

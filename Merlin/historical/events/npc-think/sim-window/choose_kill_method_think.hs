@@ -31,24 +31,24 @@
     (bind weight ?weight)
     (bind strength_demand ?demand)
     (score (if (= ?action kill)
-               (* ?weight
-                  (if (>= (attr @self strength) ?demand) 1 0.3)
+               (then (* ?weight
+                  (if (>= (attr @self strength) ?demand) (then 1) (else 0.3))
                   (if (= ?method commission_killing)
-                      (if (>= (target-or @self bank_balance 0) 80) 1 0)
-                      1))
-               0))
+                      (then (if (>= (target-or @self bank_balance 0) 80) (then 1) (else 0)))
+                      (else 1))))
+               (else 0)))
     (policy roulette))
 
   (effects
     (debug-print "TRACE_METHOD @self method=?method means=?means victim=?victim")
     (if (= ?method commission_killing)
-        (if (commission-killing ?victim)
-            (do (begin-belief {@self method ?method} /cause ?goal)
+        (then (if (commission-killing ?victim)
+            (then (begin-belief {@self method ?method} /cause ?goal)
                 (end-goal {@self kill ?victim}))
             ; No connected killer / no reach / no money: fall back to the
             ; bare-handed default so the campaign does not stall.
-            (begin-belief {@self method strangle} /cause ?goal))
-        (do
+            (else (begin-belief {@self method strangle} /cause ?goal))))
+        (else
           (begin-belief {@self method ?method} /cause ?goal)
           (if (is-kind ?means)
-              (begin-belief {@self method_means ?means}))))))
+              (then (begin-belief {@self method_means ?means})))))))

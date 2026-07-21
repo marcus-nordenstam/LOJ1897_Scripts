@@ -33,15 +33,15 @@
     (nudge-stance ?paramour @self attraction 0.10)
     ; Consummation: not every affair is sexual.
     (if (chance 0.60)
-        (do
+        (then
           (begin-ended-belief {@self HAVE_SEX_WITH ?paramour})
           (begin-ended-belief ?paramour {?paramour HAVE_SEX_WITH @self})))
     ; The hand-to-hand note naming the place (the aux is the 4th positional
     ; pattern field: {@self meet <paramour> <location>}).
     (if (and (chance 0.30) (is-entity (home-of ?paramour)))
-        (spawn-letter [k tryst_note]
+        (then (spawn-letter [k tryst_note]
                       (written-msg {@self meet ?paramour ?location} signed)
-                      (home-of ?paramour)))
+                      (home-of ?paramour))))
     ; Unexplained absence: the paramour's spouse grows a little more suspicious.
     (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)))
 

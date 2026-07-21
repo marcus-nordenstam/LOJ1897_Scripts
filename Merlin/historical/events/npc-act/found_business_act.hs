@@ -22,7 +22,7 @@
                    [k org restaurant] [k org pawnbroker] [k org apothecary]
                    [k org antiques_shop] [k org hotel])
     (if ?bizkind
-      (do
+      (then
         (fire /worker @self)
         ; mint the founding via the atomic-op sequence (proprietor head).
         (found-org-seq ?bizkind [k job proprietor])))

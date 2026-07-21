@@ -35,11 +35,11 @@
                                    [k primary_school_curriculum]
                                    [k secondary_school_curriculum]) ?led)
     (if (is-kind ?led)
-        (begin-belief {@self study ?led})
-        (do
+        (then (begin-belief {@self study ?led}))
+        (else
           (bind (random-subkind [k academic_field]
                                 [k primary_school_curriculum]
                                 [k secondary_school_curriculum]) ?subject)
           (if (is-kind ?subject)
-              (begin-belief {@self study ?subject}))))
+              (then (begin-belief {@self study ?subject})))))
     (end-act {@self enrol_university})))

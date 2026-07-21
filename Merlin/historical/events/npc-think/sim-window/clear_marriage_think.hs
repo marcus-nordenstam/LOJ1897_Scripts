@@ -63,7 +63,7 @@
         ; INSTIGATED: the cheater recruits the lover. The accomplice bond carries the
         ; embedded plot as its AUX clause (4th positional field): {@self accomplice
         ; <lover> {<lover> kill <spouse>}} - target = the lover, aux = the kill plot.
-        (do
+        (then
           (begin-belief {@self accomplice ?paramour {?paramour kill ?spouse}})
           ; The murder proposal rides the covert letter channel - the cheater urges
           ; the lover to kill the spouse. Composed here (.hs content); an intercepted
@@ -75,4 +75,4 @@
           ; never learns of the plot at all.
           (send-covert-letter ?paramour (written-msg {@self urge {?paramour kill ?spouse}} signed) [k letter]))
         ; DIRECT: the cheater acts alone.
-        (begin-goal {@self kill ?spouse} /cause {@self lover ?paramour}))))
+        (else (begin-goal {@self kill ?spouse} /cause {@self lover ?paramour})))))

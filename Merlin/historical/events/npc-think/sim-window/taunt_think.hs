@@ -41,10 +41,10 @@
     ; @fail (no letter) when there is none - the taunt needs a live mystery.
     (bind (covert-kill-corpse) ?victim)
     (if (is-entity ?victim)
-        (do
+        (then
           (bind (random-alive-human @self ?victim) ?innocent)
           (bind (target {@self home}) ?home)
           (if (and (is-entity ?innocent) (is-entity ?home))
-              (spawn-letter [k forged_letter]
+              (then (spawn-letter [k forged_letter]
                             (written-msg {?innocent kill ?victim})
-                            ?home))))))
+                            ?home)))))))

@@ -21,10 +21,10 @@
   ; ?victim}, a different subject). If she is already known-unchaste to him, threatening
   ; to expose their affair no longer bites.
   (if (>= (count-beliefs-about ?victim lover) 1)
-      (end-belief @self extort ?victim)
-      (do
+      (then (end-belief @self extort ?victim))
+      (else
         (deliver-coercion-threat ?victim)
         (if (chance 0.5)
-            (send-covert-letter ?victim
+            (then (send-covert-letter ?victim
                                  (written-msg {@self coerce ?victim {?victim lover @self}})
-                                 [k blackmail_note])))))
+                                 [k blackmail_note]))))))

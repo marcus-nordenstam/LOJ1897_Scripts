@@ -30,7 +30,7 @@
              (believes {@self organize ?wedding})
              (not (is-married @self))
              (is-entity (target {@self fiancee})))
-        (do
+        (then
           ; Bind the betrothed BEFORE formalize-marriage ends the fiancee belief.
           (bind {@self fiancee ?betrothed})
           (formalize-marriage ?betrothed)

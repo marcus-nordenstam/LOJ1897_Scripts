@@ -37,12 +37,12 @@
 ; macro. is-a resolves the dwelling's kind (mental object, else the env entity),
 ; so a listing read off a [building]-only document still ranks. 0 = not a dwelling.
 (define-macro dwelling-value (?b)
-  (if (is-a ?b [k manor])     5
-  (if (is-a ?b [k townhouse]) 4
-  (if (is-a ?b [k farmhouse]) 3
-  (if (is-a ?b [k chapel])    2
-  (if (is-a ?b [k rowhouse])  1
-      0))))))
+  (if (is-a ?b [k manor])     (then 5)
+  (else (if (is-a ?b [k townhouse]) (then 4)
+  (else (if (is-a ?b [k farmhouse]) (then 3)
+  (else (if (is-a ?b [k chapel])    (then 2)
+  (else (if (is-a ?b [k rowhouse])  (then 1)
+      (else 0)))))))))))
 
 (npc-think buy_home
   ; ANNUAL: a yearly timer mints the standing acquire desire once per year (the market
@@ -124,7 +124,7 @@
   (goal {@self acquire})
   (role ?dwell (believes {@self for_sale ?dwell})
                (select (score (* (dwelling-value ?dwell)
-                                 (if (pub-bb-none ?dwell claimed) 1 0)))
+                                 (if (pub-bb-none ?dwell claimed) (then 1) (else 0))))
                        (policy roulette)))
   (when (and (>= (target {@self wealth}) (* (dwelling-value ?dwell) 0.15))
              (pub-bb-none ?dwell claimed)))

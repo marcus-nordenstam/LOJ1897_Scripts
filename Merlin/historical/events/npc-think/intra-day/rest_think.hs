@@ -28,7 +28,7 @@
   (schedule always)   ; gates on the sleepiness ATTR - no belief edge to trigger on
   (when (and (not (at-home))
              (> (attr @self sleepiness) 0.7)))
-  (utility (if (> (attr @self sleepiness) 1.0) 10000 (* 90 (attr @self sleepiness))))
+  (utility (if (> (attr @self sleepiness) 1.0) (then 10000) (else (* 90 (attr @self sleepiness)))))
   (effects       (bind (target {@self home ?}) ?go_dest) (begin-goal {@self enter ?go_dest}))
   (cease-effects (end-goal   {@self enter ?go_dest})))
 
@@ -46,9 +46,9 @@
                  (>= (now-hour) 22)
                  (< (now-hour) 6))))
   (utility (if (> (attr @self sleepiness) 1.0)
-               10000
-               (max (* 90 (attr @self sleepiness))
-                    (if (or (>= (now-hour) 22) (< (now-hour) 6)) 100 0))))
+               (then 10000)
+               (else (max (* 90 (attr @self sleepiness))
+                    (if (or (>= (now-hour) 22) (< (now-hour) 6)) (then 100) (else 0))))))
   ; Duration is a FUNCTION: sleep until the morning alarm, but no longer than
   ; until a pending obligation - a tired NPC with a gathering tonight wakes in
   ; time to get ready instead of napping straight through it, and an evening

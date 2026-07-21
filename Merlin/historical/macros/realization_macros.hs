@@ -25,8 +25,8 @@
 ; (date_now) and the stored belief start, so the month diff needs no alignment.
 (define-macro months-since-death (?c)
   (if (believes {?c condition [k dead]})
-      (max 0 (+ (* 12 (- (year (date_now))
+      (then (max 0 (+ (* 12 (- (year (date_now))
                          (year (belief-start {?c condition [k dead]}))))
                 (- (month (date_now))
-                   (month (belief-start {?c condition [k dead]})))))
-      0))
+                   (month (belief-start {?c condition [k dead]}))))))
+      (else 0)))

@@ -39,7 +39,7 @@
   (act-effects
     (bind (current-building @self) ?shop)
     (if (is-entity ?shop)
-        (do
+        (then
           ; Validate the shelves against belief - every room of the shop.
           (for-each ?room (attr-values ?shop parts [k interior_space room])
             (take-stock-of ?room [k food]))

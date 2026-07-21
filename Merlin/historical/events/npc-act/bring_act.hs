@@ -15,8 +15,8 @@
   (act-effects
     (bind (attr @self right_hand) ?hand)
     (if (is-entity ?hand)
-        (for-each ?item (attr-values ?hand control)
+        (then (for-each ?item (attr-values ?hand control)
           (if (is-a ?item ?ware)
-              (do
-                (put-item ?item (attr @self location))))))
+              (then
+                (put-item ?item (attr @self location)))))))
     (end-act {@self bring ?ware ?dest})))

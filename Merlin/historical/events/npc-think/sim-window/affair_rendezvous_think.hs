@@ -57,7 +57,7 @@
       (weight (if (and (is-entity (find-building [k commercial_building hotel]))
                        (is-married @self)
                        (not (believes {@self class_situation [k class_situation lower]})))
-                  0.30 0))
+                  (then 0.30) (else 0)))
       (effects
         (bind (find-building [k commercial_building hotel]) ?hotel)
         (bind (spouse-of @self) ?spouse)
@@ -69,7 +69,7 @@
         ; lover_shadows: gated on the paramour's OWN attraction + boldness.
         (if (and (>= (stance-band ?paramour @self attraction) 1)
                  (chance (+ 0.40 (* 0.60 (attr ?paramour assertiveness)))))
-            (do
+            (then
               (register-occupant ?hotel ?paramour 0)
               (record-hotel-guest ?hotel ?paramour)
               ; The cover IS the threat: the spouse is in the next room, and a
@@ -85,7 +85,7 @@
 
     ; --- houseguest silent hours --------------------------------------------
     (branch
-      (weight (if (is-entity (home-of @self)) 0.40 0))
+      (weight (if (is-entity (home-of @self)) (then 0.40) (else 0)))
       (effects
         (bind (home-of @self) ?home)
         (register-occupant ?home @self 0)
@@ -93,10 +93,10 @@
         ; The staff are the keyhole.
         (bind (prying-staff ?home) ?witness)
         (if (is-entity ?witness)
-            (if (chance (min 0.5 (* 0.08
+            (then (if (chance (min 0.5 (* 0.08
                                     (+ 1 (* 1.5 (hostility-of ?witness @self)))
                                     (+ 1 (suspicion-of ?witness @self)))))
-                (do
+                (then
                   ; (Keyhole lover-bond witnessing dropped with witness-copresence:
                   ; `lover` is not an observable ACT, so the observability-gated
                   ; auto-witness does not cover it. The gossip/told relay below
@@ -105,13 +105,13 @@
                   ; spouse first, else the paramour's (the gossip relay - a
                   ; TOLD fact, kept explicit).
                   (bind (if (is-entity (spouse-of @self))
-                            (spouse-of @self) (spouse-of ?paramour)) ?ally)
+                            (then (spouse-of @self)) (else (spouse-of ?paramour))) ?ally)
                   (if (and (is-entity ?ally)
                            (not (= ?ally @self)) (not (= ?ally ?paramour)))
-                      (do (begin-belief ?ally {@self lover ?paramour})
+                      (then (begin-belief ?ally {@self lover ?paramour})
                           (begin-belief ?ally {?paramour lover @self}))))
                 ; Even unseen at the door, the visitor was noticed.
-                (bump-suspicion ?witness @self 0.08)))
+                (else (bump-suspicion ?witness @self 0.08)))))
         (tryst-tail ?paramour ?home)
         (bump-suspicion (spouse-of @self) @self 0.05)))
 
@@ -119,17 +119,17 @@
     (branch
       (weight (if (or (is-entity (find-building [k commercial_building theatre]))
                       (is-entity (find-building [k commercial_building pub])))
-                  0.30 0))
+                  (then 0.30) (else 0)))
       (effects
         (bind (find-building [k commercial_building theatre]) ?theatre)
-        (bind (if (is-entity ?theatre) ?theatre
-                  (find-building [k commercial_building pub])) ?venue)
+        (bind (if (is-entity ?theatre) (then ?theatre)
+                  (else (find-building [k commercial_building pub]))) ?venue)
         (register-occupant ?venue @self 1)
         (register-occupant ?venue ?paramour 1)
         ; An indiscretion plays out before whoever is ACTUALLY there this date
         ; (the opportunity-set rule); whispers reach the spouses regardless.
         (if (chance (* 0.10 (carelessness-of @self ?paramour)))
-            (do
+            (then
               ; (lover-bond witnessing dropped with witness-copresence: `lover`
               ; is not an observable ACT. Discovery keeps the suspicion path.)
               (bump-suspicion (spouse-of @self) @self 0.20)

@@ -50,4 +50,4 @@
     (for-each-belief ?belief {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life_aim ?}
       (do
         (if (not (believes {@self SAY (utterable-msg ?belief) ?diner}))
-            (do (tell-to ?diner ?belief) (break)))))))
+            (then (tell-to ?diner ?belief) (break)))))))

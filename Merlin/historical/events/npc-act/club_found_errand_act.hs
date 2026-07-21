@@ -15,5 +15,5 @@
     ; a dry pool just no-ops the founding macro via its (if ?wp) guard.
     (roll-org-kind (bind ?clubkind) 0
                    [k org race_club] [k org athletic_club])
-    (if ?clubkind (found-club-seq ?clubkind))
+    (if ?clubkind (then (found-club-seq ?clubkind)))
     (end-act {@self found_club})))

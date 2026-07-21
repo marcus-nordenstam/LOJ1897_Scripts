@@ -32,10 +32,10 @@
   (effects
     (begin-goal {@self steal})
     (if ?scene
-        (begin-goal {@self enter ?scene})))
+        (then (begin-goal {@self enter ?scene}))))
   (cease-effects
     (if ?scene
-        (end-goal {@self enter ?scene}))))
+        (then (end-goal {@self enter ?scene})))))
 
 ; AT a strikeable scene: push the steal utility so {@self steal}, now the leaf,
 ; promotes to steal_act. One desire for both scenes; steal_act's completion picks

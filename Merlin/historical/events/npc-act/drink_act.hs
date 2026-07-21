@@ -19,7 +19,7 @@
              (chance (* 0.06
                         (+ 0.4 (* 1.6 (- 1 (attr @self industriousness))))
                         (+ 0.6 (* 0.8 (attr @self withdrawal))))))
-        (begin-belief {@self craving [k alcohol]}))
+        (then (begin-belief {@self craving [k alcohol]})))
     ; Public drinking is SEEN: co-present others mint {him drink him} - the
     ; visible-vice evidence observer estimates read. The home drinker generates
     ; no witnesses; concealment is emergent, not simulated. Witnessing is now

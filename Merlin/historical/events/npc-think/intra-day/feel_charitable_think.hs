@@ -31,5 +31,5 @@
               (min (* (days-since-last @self give_alms) 0.8) 25)))
   (effects
     (if (in-building ?venue)
-        (begin-goal {@self give_alms ?venue})
-        (begin-goal {@self enter ?venue}))))
+        (then (begin-goal {@self give_alms ?venue}))
+        (else (begin-goal {@self enter ?venue})))))

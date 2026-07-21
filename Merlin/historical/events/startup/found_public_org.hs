@@ -37,5 +37,5 @@
     (for-each-table-record public_orgs
         (kind ?k) (head_pos ?hp) (class_floor ?cf)
       (if (and (not (any-org-of-kind ?k)) (class-at-least @self ?cf))
-          (do (found-org-seq ?k ?hp)
+          (then (found-org-seq ?k ?hp)
               (break))))))

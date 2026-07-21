@@ -46,18 +46,18 @@
     ; beliefs); @fail when no affair is known - then nothing fires.
     (bind (interloper-of ?partner) ?interloper)
     (if (not (believes {?interloper condition [k dead]}))
-      (do
+      (then
         ; Mint the affair appraisal (anger / contempt / humiliation) in @self's mind.
         (debug-print "TRACE_BETRAYAL_FIRES @self partner=?partner interloper=?interloper")
         (appraise-betrayal ?partner ?interloper)
         ; Dual (kill BOTH) when the outrage clears the bar and both live.
         (if (>= (dual-outrage-score) 2.5)
-            (do (begin-goal {@self kill ?partner}    /cause {@self emotion [k anger]})
+            (then (begin-goal {@self kill ?partner}    /cause {@self emotion [k anger]})
                 (begin-goal {@self kill ?interloper} /cause {@self emotion [k contempt]}))
             ; Else single-blame: the partner when blaming HER outweighs blaming the
             ; interloper (score_macros.hs spells out both scales), else the interloper.
-            (if (>= (blame-partner-score ?partner)
+            (else (if (>= (blame-partner-score ?partner)
                     (blame-interloper-score ?partner ?interloper))
-                (begin-goal {@self kill ?partner} /cause {@self emotion [k anger]})
-                (if (not (believes {?interloper condition [k dead]}))
-                    (begin-goal {@self kill ?interloper} /cause {@self emotion [k contempt]}))))))))
+                (then (begin-goal {@self kill ?partner} /cause {@self emotion [k anger]}))
+                (else (if (not (believes {?interloper condition [k dead]}))
+                    (then (begin-goal {@self kill ?interloper} /cause {@self emotion [k contempt]})))))))))))

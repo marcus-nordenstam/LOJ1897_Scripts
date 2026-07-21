@@ -59,7 +59,7 @@
   (when (and (>= (lethal-disposition @self) 0.65)
              (chance (* (crime-scale) 0.005
                         (* (dark-propensity (lethal-disposition @self))
-                           (if (believes {@self life_aim [k power_aim]}) 2.0 1.0))))))
+                           (if (believes {@self life_aim [k power_aim]}) (then 2.0) (else 1.0)))))))
 
   ; predation-target seeds the victim-type profile on the first hunt, then resolves
   ; the invisible victim (the irreducible scan, exposed as a verb). /cause pins the
@@ -68,8 +68,8 @@
   (effects
     (bind (predation-target @self) ?victim)
     (if (is-entity ?victim)
-        (do
+        (then
           (if (believes {@self fixation})
-              (begin-goal {@self kill ?victim} /cause {@self fixation})
-              (begin-goal {@self kill ?victim} /cause {@self life_aim [k power_aim]}))
+              (then (begin-goal {@self kill ?victim} /cause {@self fixation}))
+              (else (begin-goal {@self kill ?victim} /cause {@self life_aim [k power_aim]})))
           (mark @self [k stalk_target] ?victim 30)))))

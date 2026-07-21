@@ -53,5 +53,5 @@
     ; the dispositional put-down (status barbs) - mirroring the two additive
     ; impulse sources in (when).
     (insult-anchor ?victim
-      (if (> (emotion-load @self [k anger]) 0.5) displaced_anger dispositional))
+      (if (> (emotion-load @self [k anger]) 0.5) (then displaced_anger) (else dispositional)))
     ))

@@ -16,10 +16,10 @@
 (define-macro resolve-suicide (?who)
   (do
     (bind (pick-confidant ?who) ?conf)
-    (if (is-entity ?conf) (begin-belief ?conf {@self mention [k death_cause suicide]}))
+    (if (is-entity ?conf) (then (begin-belief ?conf {@self mention [k death_cause suicide]})))
     (if (and (>= (despair ?who) (suicide_despair_min))
              (>= (attr ?who withdrawal) (suicide_withdrawal_min)))
-        (do (propagate-death ?who)
+        (then (propagate-death ?who)
             (record-corpse-death ?who [k death_cause suicide])))))
 
 ; The strive outlet (benign envy): train for the rematch - stamp the practice marker
@@ -35,15 +35,15 @@
 ; hurt, never a premeditated bystander kill); every other action mints its goal with
 ; the driving pressure pinned as /cause.
 (define-macro resolve-deliberation (?action ?focus ?pressure)
-  (if (= ?action suicide) (resolve-suicide @self)
-  (if (= ?action strive)  (resolve-strive @self ?pressure)
-  (if (= ?action kill)
-      (do
+  (if (= ?action suicide) (then (resolve-suicide @self))
+  (else (if (= ?action strive)  (then (resolve-strive @self ?pressure))
+  (else (if (= ?action kill)
+      (then
         (bind (displace-victim @self ?focus (- 1 (inhibition))) ?sub)
         (if (is-entity ?sub)
-            (begin-goal {@self hurt ?sub}   /cause ?pressure)
-            (begin-goal {@self kill ?focus} /cause ?pressure)))
-      (begin-goal {@self ?action ?focus} /cause ?pressure)))))
+            (then (begin-goal {@self hurt ?sub}   /cause ?pressure))
+            (else (begin-goal {@self kill ?focus} /cause ?pressure))))
+      (else (begin-goal {@self ?action ?focus} /cause ?pressure))))))))
 
 ; (has-pressure ?actor): does ?actor hold ANY ongoing pressure belief? Folds the
 ; old C++ (has-pressure) op - its body was a first-ongoing {?actor pressure ?}

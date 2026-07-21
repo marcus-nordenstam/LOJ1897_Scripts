@@ -68,5 +68,5 @@
   ; so the rap sheet reads "kill <victim> <- {<benefactor> wealth ..}".
   (effects
     (if (= ?heir @self)
-        (begin-goal {@self kill ?benefactor} /cause {?benefactor wealth})
-        (begin-goal {@self kill ?heir} /cause {?benefactor wealth}))))
+        (then (begin-goal {@self kill ?benefactor} /cause {?benefactor wealth}))
+        (else (begin-goal {@self kill ?heir} /cause {?benefactor wealth})))))

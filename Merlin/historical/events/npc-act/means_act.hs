@@ -36,7 +36,7 @@
   (duration (travel-minutes @self ?m))
   (act-effects
     (if (goal? {@self kill})
-        (acquire-control @self ?m))
+        (then (acquire-control @self ?m)))
     (end-act {@self acquire ?m})))
 
 ; NB: the kill STRIKE terminal (means_strike) was moved to

@@ -41,6 +41,6 @@
       (for-each ?cache (attr-values ?room parts [k interior_space hiding_spot])
         (if (and (not (believes {@self hiding_spot ?cache}))
                  (chance (* 0.006 (+ 1.0 (attr @self openness)))))
-            (do
+            (then
               (begin-belief {@self hiding_spot ?cache})
               (read-cache ?cache)))))))

@@ -49,15 +49,15 @@
 ; theft terminal at the current premises.
 (npc-act steal_act
   (when (believes {@self steal}))
-  (duration (if (at-burgle-residence) 15 10))
+  (duration (if (at-burgle-residence) (then 15) (else 10)))
   (act-effects
     (bind (current-building @self) ?scene)
     (if (is-entity ?scene)
-        (do
+        (then
           (bind (owner-of ?scene) ?owner)
           (bind (goal-belief steal) ?goal)
           (if (and (is-entity ?owner) (not (= ?owner @self)) (alive ?owner))
-              (if (at-own-workplace)
-                  (terminal-steal ?scene embezzle ?owner ?goal)
-                  (terminal-steal ?scene opportunist_theft ?owner ?goal)))))
+              (then (if (at-own-workplace)
+                  (then (terminal-steal ?scene embezzle ?owner ?goal))
+                  (else (terminal-steal ?scene opportunist_theft ?owner ?goal)))))))
     (end-act {@self steal})))

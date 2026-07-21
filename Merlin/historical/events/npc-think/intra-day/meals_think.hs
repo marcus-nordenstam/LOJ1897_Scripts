@@ -307,12 +307,12 @@
   (utility 135)
   (effects
     (if (is-entity ?shop)
-        (begin-goal {@self enter ?shop})
-        (begin-goal {@self enter ?go_dest})))
+        (then (begin-goal {@self enter ?shop}))
+        (else (begin-goal {@self enter ?go_dest}))))
   (cease-effects
     (if (is-entity ?shop)
-        (end-goal {@self enter ?shop})
-        (end-goal {@self enter ?go_dest}))))
+        (then (end-goal {@self enter ?shop}))
+        (else (end-goal {@self enter ?go_dest})))))
 
 ; Steal: the pauper's act - at a shop with no wealth, the mouthful goes on the
 ; ledger (the shop owner is the victim). The row lands only when something was
@@ -340,9 +340,9 @@
   (utility 130)
   (effects
     (if (is-entity ?shop)
-        (begin-goal {@self enter ?shop})
-        (begin-goal {@self enter ?go_dest})))
+        (then (begin-goal {@self enter ?shop}))
+        (else (begin-goal {@self enter ?go_dest}))))
   (cease-effects
     (if (is-entity ?shop)
-        (end-goal {@self enter ?shop})
-        (end-goal {@self enter ?go_dest}))))
+        (then (end-goal {@self enter ?shop}))
+        (else (end-goal {@self enter ?go_dest})))))

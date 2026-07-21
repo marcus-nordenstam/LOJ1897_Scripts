@@ -26,7 +26,7 @@
   (act-effects
     (record-verdict ?corpse)
     (tombstone ?corpse)
-    (if (violent-corpse ?corpse) (propagate-murder-awareness ?corpse))
+    (if (violent-corpse ?corpse) (then (propagate-murder-awareness ?corpse)))
     (realize-destroyed ?corpse [k condition buried])
     (tell {?corpse condition [k buried]})
     (propagate-burial ?corpse)

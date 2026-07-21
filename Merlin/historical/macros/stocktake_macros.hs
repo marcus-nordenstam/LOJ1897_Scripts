@@ -27,4 +27,4 @@
 (define-macro take-stock-of (?room ?kind)
   (for-each-belief {[k ?kind]:?item location ?room}
     (if (not (= (attr ?item location) ?room))
-        (end-belief {?item location ?room}))))
+        (then (end-belief {?item location ?room})))))

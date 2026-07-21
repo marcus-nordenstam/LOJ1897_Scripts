@@ -18,8 +18,8 @@
 ; shift wraps midnight (the disjunctive branch).
 (define-macro in-work-hours (?start ?end)
   (if (<= ?start ?end)
-      (and (>= (now-hour) ?start) (< (now-hour) ?end))
-      (or  (>= (now-hour) ?start) (< (now-hour) ?end))))
+      (then (and (>= (now-hour) ?start) (< (now-hour) ?end)))
+      (else (or  (>= (now-hour) ?start) (< (now-hour) ?end)))))
 
 ; (work-starts-soon ?start ?end): NOT on shift now, and the shift's next start is
 ; within the 120-minute lead. delta = start*60 - now-min, wrapped into [0,1440)
@@ -27,18 +27,18 @@
 (define-macro work-starts-soon (?start ?end)
   (and (not (in-work-hours ?start ?end))
        (> (if (< (- (* ?start 60) (now-min)) 0)
-              (+ (- (* ?start 60) (now-min)) 1440)
-              (- (* ?start 60) (now-min))) 0)
+              (then (+ (- (* ?start 60) (now-min)) 1440))
+              (else (- (* ?start 60) (now-min)))) 0)
        (<= (if (< (- (* ?start 60) (now-min)) 0)
-               (+ (- (* ?start 60) (now-min)) 1440)
-               (- (* ?start 60) (now-min))) 120)))
+               (then (+ (- (* ?start 60) (now-min)) 1440))
+               (else (- (* ?start 60) (now-min)))) 120)))
 
 ; (minutes-until-shift-end ?end): minutes from now until the shift END hour,
 ; wrapped to tomorrow when end is already past (a stay duration through the shift).
 (define-macro minutes-until-shift-end (?end)
   (if (<= (- (* ?end 60) (now-min)) 0)
-      (+ (- (* ?end 60) (now-min)) 1440)
-      (- (* ?end 60) (now-min))))
+      (then (+ (- (* ?end 60) (now-min)) 1440))
+      (else (- (* ?end 60) (now-min)))))
 
 ; (work-hours-today-label): the {job <label> start end} shift-belief label for
 ; today's weekday. Folds the old C++ 7-entry map into a (lookup) over the
@@ -67,7 +67,7 @@
 ; perceived age_band predicates (age_macros.hs) instead.
 (define-macro years-old (?who)
   (- (- (year (date_now)) (year (target {?who birth_date})))
-     (if (birthday-passed (target {?who birth_date})) 0 1)))
+     (if (birthday-passed (target {?who birth_date})) (then 0) (else 1))))
 
 ; (job-tenure ?who): whole years since ?who's current job RANK began - the
 ; interval-start of the {<job> level <grade>} belief on the job mental object

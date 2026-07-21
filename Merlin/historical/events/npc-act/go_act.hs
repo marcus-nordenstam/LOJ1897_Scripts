@@ -36,4 +36,4 @@
     ; ?s - its exterior is perceived from the threshold - keeping the search frontier fed,
     ; the coverage the old two-arm go_act gave on a building arrival.
     (if (goal? {@self find_building ?})
-        (bb-mark ?s surveyed (survey_marker_ttl_cycles)))))
+        (then (bb-mark ?s surveyed (survey_marker_ttl_cycles))))))

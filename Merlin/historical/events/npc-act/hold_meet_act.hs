@@ -58,16 +58,16 @@
     (read-doc-record [k articles_of_incorporation] ?art (kind ?club_kind) (register ?reg))
     (bind (lookup club_sports org_kind ?club_kind sport) ?sport)
     (if ?sport
-      (do
+      (then
         ; PARTICIPATION: every co-present, living roster member keeps the memory
         ; of competing. co-present gates it so a member who did not attend gets
         ; nothing; (alive ?m) guards the cross-mind mint against a stale roster row.
         (for-each-doc-record [k employee_register] ?reg (worker ?m)
           (if (and (alive ?m) (co-present @self ?m))
-              (begin-belief ?m {?m participated_in ?sport})))
+              (then (begin-belief ?m {?m participated_in ?sport}))))
         ; THE VICTOR takes the honours (skip the degenerate self-only draw).
         (if (not (= ?victor @self))
-            (begin-belief ?victor {?victor won ?sport}))
+            (then (begin-belief ?victor {?victor won ?sport})))
         ; THE BESTED RIVAL resents the win with the narcissism x assertiveness roll
         ; (floor 0.15, trait scale 0.85). The self / victor exclusions live HERE in
         ; the effect (a cross-role equality is not object-cacheable in a role), so a
@@ -75,5 +75,5 @@
         (if (and (not (= ?bested @self))
                  (not (= ?bested ?victor))
                  (chance (+ 0.15 (* 0.85 (attr ?bested narcissism) (attr ?bested assertiveness)))))
-            (incident-anchor ?victor outdo ?bested))))
+            (then (incident-anchor ?victor outdo ?bested)))))
     (end-act {@self hold_meet_run})))

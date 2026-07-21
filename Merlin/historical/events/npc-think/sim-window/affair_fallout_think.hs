@@ -59,7 +59,7 @@
     (if (and (is-entity ?interloper)
              (no-goal {@self kill ?partner})
              (no-goal {@self kill ?interloper}))
-        (do
+        (then
           ; The betrayal appraisal: anger / contempt / humiliation pressure -
           ; deliberation turns it into the non-lethal release set later.
           (appraise-betrayal ?partner ?interloper)
@@ -68,7 +68,7 @@
           (if (and (believes {@self spouse ?partner})
                    (believes {@self gender [k male]})
                    (chance (* 0.35 (target-or @self decorum 0.5))))
-              (do
+              (then
                 (end-belief @self spouse ?partner)
                 (begin-belief {@self divorce ?partner})
                 ; Mutual: end her reciprocal bond and land the repudiation
@@ -78,7 +78,7 @@
                 ; The fallen woman: marked in her mind AND his, expelled from
                 ; the marital roof, dismissed from reputable service.
                 (if (believes {?partner gender [k female]})
-                    (do
+                    (then
                       (begin-belief ?partner {?partner prototype [k fallen_woman]})
                       (begin-belief {?partner prototype [k fallen_woman]})
                       (expel-divorced-wife ?partner)

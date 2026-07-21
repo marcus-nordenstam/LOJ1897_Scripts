@@ -36,8 +36,8 @@
 (npc-act eat_act
   (when (bind {@self eat ?meal ?place}))
   ; supper is the hour-long family meal; lunch 40; breakfast 30.
-  (duration (if (is-a ?meal [k supper]) 60
-             (if (is-a ?meal [k lunch]) 40 30)))
+  (duration (if (is-a ?meal [k supper]) (then 60)
+             (else (if (is-a ?meal [k lunch]) (then 40) (else 30)))))
   (act-effects
     (bind {@self home ?home})
     ; ONLY a home supper consumes: one PERSON-DAY food prop per diner. Breakfast
@@ -45,16 +45,16 @@
     ; / restaurant supper is abstract (the venue kitchen is not modelled). A
     ; belief gone stale (a loaf a sibling already ate) fails the bind harmlessly.
     (if (and (is-a ?meal [k supper]) (= ?place ?home))
-        (do
+        (then
           (bind (believed-located [k food] ?home) ?loaf)
           (if (is-entity ?loaf)
-              (do
+              (then
                 (realize-destroyed ?loaf [k condition consumed])
                 (destroy-entity ?loaf)))))
     ; HUNGER: a full supper resets; a lighter meal takes the edge off.
     (if (is-a ?meal [k supper])
-        (set-attr @self hunger 0)
-        (set-attr @self hunger (max 0 (- (attr @self hunger) 0.35))))
+        (then (set-attr @self hunger 0))
+        (else (set-attr @self hunger (max 0 (- (attr @self hunger) 0.35)))))
     ; TABLE TALK (self-disclosure + circle news) is its own role-bearing event now
     ; (npc-think/intra-day/table_talk_think.hs) - it binds the listener it speaks to.
     ; THE TABLE ANNOUNCEMENT (home meals): now and then re-air the house's hours
@@ -65,9 +65,9 @@
              (bind {?home breakfast_hour ?b})
              (bind {?home lunch_hour ?l})
              (bind {?home supper_hour ?s}))
-        (tell {?home breakfast_hour ?b}
+        (then (tell {?home breakfast_hour ?b}
               {?home lunch_hour ?l}
-              {?home supper_hour ?s}))
+              {?home supper_hour ?s})))
     (end-act {@self eat ?meal ?place})))
 
 ; (provision_act - the counter stop - lives in npc-act/provision_act.hs;
@@ -86,30 +86,30 @@
     (if (> ?ncarried 0)
         ; 1. carried food - the HAND decides, not a goal (a laden walker eats
         ;   from the basket whether or not the delivery intention survived).
-        (for-each ?item (attr-values @self control [k food]) /limit 1
+        (then (for-each ?item (attr-values @self control [k food]) /limit 1
           (do
             (realize-destroyed ?item [k condition consumed])
-            (destroy-entity ?item)))
-        (do
+            (destroy-entity ?item))))
+        (else
           (bind (believed-located [k food] ?home) ?pantry)
           (if (and (at-home) (is-entity ?pantry))
               ; 2. the home pantry.
-              (do
+              (then
                 (realize-destroyed ?pantry [k condition consumed])
                 (destroy-entity ?pantry))
-              (if (at-place-kind [k building shop])
+              (else (if (at-place-kind [k building shop])
                   ; 3. at a shop: eat one item; buy if wealth, else STEAL (ledger).
-                  (do
+                  (then
                     (bind (current-building @self) ?shop)
                     (if (is-entity ?shop)
-                        (for-each ?room (attr-values ?shop parts [k interior_space room])
+                        (then (for-each ?room (attr-values ?shop parts [k interior_space room])
                           (for-each ?item (attr-values ?room contents [k food]) /limit 1
                             (do
                               (realize-destroyed ?item [k condition consumed])
                               (destroy-entity ?item)
                               (begin-belief {@self provisions_shop ?shop})
                               (if (not (> (target {@self wealth}) 0.2))
-                                  (crime-ledger-append @self (owner-of ?shop) steal steal _ _)))))))))))
+                                  (then (crime-ledger-append @self (owner-of ?shop) steal steal _ _))))))))))))))
     ; The forage sitting IS a meal's hunger relief, whether or not the specific
     ; believed item still resolved (a stale belief - a sibling ate the loaf - must
     ; not re-arm the >1.3 gate and loop). Reduce unconditionally, like the old

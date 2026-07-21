@@ -48,10 +48,10 @@
 ; an expansion sustains them. (economic-climate) is an ambient scalar read
 ; (decision #1 - allowed in a think). Atom-valued, so compared, not scaled.
 (define-macro business_failure_climate_mult ()
-  (if (= (economic-climate) panic)     4.0
-    (if (= (economic-climate) downturn)  2.0
-      (if (= (economic-climate) expansion) 0.5
-        1.0))))                              ; stable
+  (if (= (economic-climate) panic)     (then 4.0)
+    (else (if (= (economic-climate) downturn)  (then 2.0)
+      (else (if (= (economic-climate) expansion) (then 0.5)
+        (else 1.0)))))))                              ; stable
 
 ; --- the decision -------------------------------------------------------------
 (npc-think close_business

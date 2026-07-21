@@ -52,5 +52,5 @@
     (for-each-belief ?belief {@self spouse|fiancee|lover|child ?}
       (do
         (if (not (believes {@self SAY (utterable-msg ?belief) ?guest}))
-            (do (tell-to ?guest ?belief) (break)))))
+            (then (tell-to ?guest ?belief) (break)))))
     ))

@@ -32,6 +32,6 @@
         ; org's premises, so the reader now knows WHERE the grocer trades -
         ; the venue the provisioning / starving lanes (meals.hs) route on.
         (if (and (is-a ?ok [k org grocer]) (is-entity ?b))
-            (do
+            (then
               (begin-belief {@self provisions_shop ?b})))))
     (end-act {@self orient})))

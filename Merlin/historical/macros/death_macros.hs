@@ -36,7 +36,7 @@
         (bind (believes ?svr {?svr heir_of ?dead}) ?was_heir)
         (end-beliefs-about ?svr ?dead /salience unforgettable)
         (begin-belief-in ?svr {?dead condition [k dead]})
-        (if ?was_heir (begin-belief-in ?svr {?svr inherit _ ?dead}))))
+        (if ?was_heir (then (begin-belief-in ?svr {?svr inherit _ ?dead})))))
     (end-goals-nesting ?dead)
     (promote-on-vacancy ?dead)
     (fire /worker ?dead)

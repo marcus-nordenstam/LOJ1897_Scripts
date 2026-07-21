@@ -50,5 +50,5 @@
     (debug-print "TRACE_AMBITION_FIRES @self")
     (bind (ambition-target @self) ?victim)
     (if (not (believes {?victim condition [k dead]}))
-        (do (debug-print "TRACE_KILLGOAL ambition @self -> ?victim")
+        (then (debug-print "TRACE_KILLGOAL ambition @self -> ?victim")
             (begin-goal {@self kill ?victim} /cause {@self employer})))))

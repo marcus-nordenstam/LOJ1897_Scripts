@@ -20,8 +20,8 @@
   (act-effects
     (set-attr @self adrenaline 1)
     (strike-blow ?foe kill)
-    (if (not (alive ?foe)) (debug-print "DTH_FIGHT foe=?foe"))
-    (if (not (alive ?foe)) (propagate-death ?foe))
+    (if (not (alive ?foe)) (then (debug-print "DTH_FIGHT foe=?foe")))
+    (if (not (alive ?foe)) (then (propagate-death ?foe)))
     (end-act {@self fight ?foe})))
 
 (npc-act flee_act

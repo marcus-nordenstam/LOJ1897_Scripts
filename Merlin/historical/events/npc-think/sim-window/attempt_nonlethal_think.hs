@@ -36,7 +36,7 @@
     (table perpetration_terminals)
     (bind action ?row_action)
     (bind terminal ?terminal)
-    (score (if (= ?action ?row_action) 1 0))
+    (score (if (= ?action ?row_action) (then 1) (else 0)))
     (policy roulette))
 
   (effects

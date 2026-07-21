@@ -41,7 +41,7 @@
   (effects
     (find-my-enrollment (bind ?art))
     (if ?art
-      (do
+      (then
         (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
         (read-doc-record [k employee_register] ?reg
             (find worker @self) (job ?job) (level ?lvl))

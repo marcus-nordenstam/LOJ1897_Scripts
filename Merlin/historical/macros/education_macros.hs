@@ -17,23 +17,23 @@
   (do
     (bind (target {@self study}) ?curriculum)
     (if (is-kind ?curriculum)
-        (do
+        (then
           (bind (competence-rank (auxiliary {@self skilled_in ?curriculum})) ?cur_rank)
-          (bind (if (is-a ?curriculum [k primary_school_curriculum]) 1 0) ?is_primary)
+          (bind (if (is-a ?curriculum [k primary_school_curriculum]) (then 1) (else 0)) ?is_primary)
           (end-belief @self study ?curriculum unforgettable)
           ; Monotonic credential (novice 0 / trained 1 / expert 2).
           (if (< ?cur_rank (- 1 ?is_primary))
-              (do
+              (then
                 (if (>= ?cur_rank 0)
-                    (end-belief @self skilled_in ?curriculum unforgettable))
+                    (then (end-belief @self skilled_in ?curriculum unforgettable)))
                 (begin-belief {@self skilled_in ?curriculum
                                (if (>= ?is_primary 1)
-                                   [k competence_level novice]
-                                   [k competence_level trained])})))
+                                   (then [k competence_level novice])
+                                   (else [k competence_level trained]))})))
           ; A university discipline kindles the standing interest.
           (if (not (or (is-a ?curriculum [k primary_school_curriculum])
                        (is-a ?curriculum [k secondary_school_curriculum])))
-              (begin-belief {@self interest ?curriculum}))))))
+              (then (begin-belief {@self interest ?curriculum})))))))
 
 ; (competence-rank ?band): the monotonic rank of a competence band (novice 0 /
 ; trained 1 / expert 2), -1 when unheld. Folds the old C++ op into a (lookup)

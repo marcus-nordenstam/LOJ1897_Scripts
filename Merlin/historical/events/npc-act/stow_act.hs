@@ -16,7 +16,7 @@
   (act-effects
     (bind (goal-focus stow) ?item)
     (if (is-entity ?item)
-        (do
+        (then
           ; (target {..}) op-binds (@fail when no cache exists) - a plain
           ; pattern-bind would leave ?cache unbound on a miss and error.
           ; Only VALUABLES go into the hiding spot (the thief's loot, the
@@ -24,7 +24,7 @@
           ; are put away openly in the room the NPC stands in.
           (bind (target {@self hiding_spot ?}) ?cache)
           (if (and (is-entity ?cache) (has-facet ?item valuable))
-              (put-item ?item ?cache)
-              (put-item ?item (attr @self location)))))
+              (then (put-item ?item ?cache))
+              (else (put-item ?item (attr @self location))))))
     (end-act {@self stow})
     (end-goal {@self stow})))

@@ -24,7 +24,7 @@
 ; ?who's ?label belief target, else ?default when the belief is absent
 ; (the "unknown reads as X" parity idiom).
 (define-macro target-or (?who ?label ?default)
-  (if (believes {?who ?label}) (target {?who ?label}) ?default))
+  (if (believes {?who ?label}) (then (target {?who ?label})) (else ?default)))
 
 ; --- Layer 1: single-quantity readings ---------------------------------------
 
@@ -39,11 +39,11 @@
 ; Does the deliberating self hold a grudge toward ?t (any negative warmth)?
 ; 1 / 0 - a score TERM, not a predicate.
 (define-macro is-hostile-toward (?t)
-  (if (< (stance-band ?t warmth) 0) 1 0))
+  (if (< (stance-band ?t warmth) 0) (then 1) (else 0)))
 
 ; The MAGNITUDE of the self's hostility toward ?t (0 when warmth is positive).
 (define-macro hostility-toward (?t)
-  (if (< (stance-band ?t warmth) 0) (- 0 (stance-band ?t warmth)) 0))
+  (if (< (stance-band ?t warmth) 0) (then (- 0 (stance-band ?t warmth))) (else 0)))
 
 ; How attached the self is to ?t: kept warmth plus half the attraction.
 (define-macro attachment-toward (?t)
@@ -57,7 +57,7 @@
 ; hostility-toward; 0 when their warmth is positive).
 (define-macro hostility-of (?holder ?t)
   (if (< (stance-band ?holder ?t warmth) 0)
-      (- 0 (stance-band ?holder ?t warmth)) 0))
+      (then (- 0 (stance-band ?holder ?t warmth))) (else 0)))
 
 ; The pair's joint carelessness: low decorum on BOTH sides makes an
 ; indiscretion likely; one careful partner keeps the affair tight. Read from

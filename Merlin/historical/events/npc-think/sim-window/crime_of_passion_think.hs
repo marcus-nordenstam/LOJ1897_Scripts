@@ -60,5 +60,5 @@
     (debug-print "TRACE_PASSION_FIRES @self beloved=?beloved")
     (bind (crave-rival ?beloved) ?victim)
     (if (not (believes {?victim condition [k dead]}))
-        (do (debug-print "TRACE_KILLGOAL passion @self -> ?victim")
+        (then (debug-print "TRACE_KILLGOAL passion @self -> ?victim")
             (begin-goal {@self kill ?victim} /cause {@self crave ?beloved})))))

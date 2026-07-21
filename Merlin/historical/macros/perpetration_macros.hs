@@ -69,7 +69,7 @@
     (bind (driving-pressure-of-goal ?goal) ?pressure)
     (discharge-pressure ?pressure 0.75)
     (end-goal {@self coerce})
-    (if (not (believes {@self extort ?victim})) (begin-belief {@self extort ?victim}))
+    (if (not (believes {@self extort ?victim})) (then (begin-belief {@self extort ?victim})))
     (deliver-coercion-threat ?victim blackmail)
     (crime-ledger-append @self ?victim blackmail coerce @fail @fail)))
 
@@ -79,14 +79,14 @@
     (bind (driving-pressure-of-goal ?goal) ?pressure)
     (discharge-pressure ?pressure 0.75)
     (end-goal {@self coerce})
-    (if (not (believes {@self extort ?victim})) (begin-belief {@self extort ?victim}))
+    (if (not (believes {@self extort ?victim})) (then (begin-belief {@self extort ?victim})))
     (deliver-coercion-threat ?victim threaten_violence)
     (crime-ledger-append @self ?victim threaten_violence coerce @fail @fail)))
 
 (define-macro terminal-silence-coerce (?victim ?goal)
   (if (holds-coercion-material ?victim)
-      (if (chance 0.42) (coerce-blackmail ?victim ?goal) (coerce-threaten ?victim ?goal))
-      (coerce-threaten ?victim ?goal)))
+      (then (if (chance 0.42) (then (coerce-blackmail ?victim ?goal)) (else (coerce-threaten ?victim ?goal))))
+      (else (coerce-threaten ?victim ?goal))))
 
 ; publish_secret terminal (expose goal): the secret MOVES from private to reputed. Gated
 ; on @self knowing a non-spousal liaison of the victim (nothing to denounce otherwise -
@@ -104,7 +104,7 @@
     (bind (driving-pressure-of-goal ?goal) ?pressure)
     (discharge-pressure ?pressure 0.75)
     (end-goal {@self expose})
-    (if (believes {@self extort ?victim}) (end-belief @self extort ?victim))
+    (if (believes {@self extort ?victim}) (then (end-belief @self extort ?victim)))
     (publish-secret-about @self ?victim)
     (crime-ledger-append @self ?victim confront_publicly expose @fail @fail)))
 
@@ -114,7 +114,7 @@
     (bind (driving-pressure-of-goal ?goal) ?pressure)
     (discharge-pressure ?pressure 0.75)
     (end-goal {@self expose})
-    (if (believes {@self extort ?victim}) (end-belief @self extort ?victim))
+    (if (believes {@self extort ?victim}) (then (end-belief @self extort ?victim)))
     (publish-secret-about @self ?victim)
     (crime-ledger-append @self ?victim anonymous_letter expose @fail @fail)))
 
@@ -122,9 +122,9 @@
   (do
     (bind (known-nonspousal-liaison ?victim) ?partner)
     (if (is-entity ?partner)
-        (if (and (can-write @self) (chance 0.4))
-            (expose-anon ?victim ?goal)
-            (expose-confront ?victim ?goal)))))
+        (then (if (and (can-write @self) (chance 0.4))
+            (then (expose-anon ?victim ?goal))
+            (else (expose-confront ?victim ?goal)))))))
 
 ; consummate terminal (seduce goal): the deliberated seduction lands. Period-norm
 ; gates first (opposite-sex + non-kin, mirroring every romance genesis - a seduce goal
@@ -138,7 +138,7 @@
 (define-macro terminal-consummate (?victim ?goal)
   (if (and (not (= (attr @self gender) (attr ?victim gender)))
            (not (blood-kin @self ?victim)))
-      (do
+      (then
         (begin-belief {@self seduction ?victim})
         (bind (driving-pressure-of-goal ?goal) ?pressure)
         (discharge-pressure ?pressure 0.75)
@@ -149,9 +149,9 @@
         (begin-ended-belief ?victim {?victim HAVE_SEX_WITH @self})
         (if (and (= (attr ?victim gender) [k female])
                  (not (believes {?victim spouse ?})))
-            (begin-belief ?victim {?victim prototype [k fallen_woman]}))
+            (then (begin-belief ?victim {?victim prototype [k fallen_woman]})))
         (crime-ledger-append @self ?victim seduction seduce @fail @fail))
-      (end-goal {@self seduce})))
+      (else (end-goal {@self seduce}))))
 
 ; transfer_property terminal (steal goal): the thief is AT the scene (burgle.hs
 ; walked them there; ?task = opportunist_theft at a residence, embezzle at their
@@ -177,12 +177,12 @@
       (for-each ?item (attr-values ?room contents)
         (if (and (no-goal {@self stow})
                  (has-facet ?item valuable))
-            (do
+            (then
               (take-item ?item)
               (begin-goal {@self stow ?item})
               (crime-ledger-append @self ?owner ?task steal (kind ?item) @fail)))))
     (if (no-goal {@self stow})
-        (crime-ledger-append @self ?owner ?task steal @fail @fail))
+        (then (crime-ledger-append @self ?owner ?task steal @fail @fail)))
     (burglary-confrontation @self ?scene)))
 
 ; confess_secret terminal (confess_letter goal): the actor reveals their OWN
@@ -205,13 +205,13 @@
     (bind (target {@self father|mother|fiancee|spouse|sibling ?}) ?kin)
     (if (and (is-entity ?partner) (is-entity ?kin)
              (alive ?kin) (not (= ?kin ?partner)))
-        (do
+        (then
           (begin-belief {@self confession_letter ?kin})
           (bind (home-of ?kin) ?kin_home)
           (if (is-entity ?kin_home)
-              (spawn-letter [k confession_letter]
+              (then (spawn-letter [k confession_letter]
                             (written-msg {@self lover ?partner})
-                            ?kin_home))))
+                            ?kin_home)))))
     (end-goal {@self confess_letter})))
 
 ; public_slight terminal (humiliate goal): the deliberated public put-down. The
@@ -229,7 +229,7 @@
 (define-macro terminal-humiliate (?victim ?goal)
   (do
     (if (and (is-entity ?victim) (alive ?victim))
-        (do
+        (then
           (begin-belief {@self public_humiliation ?victim})
           (begin-belief ?victim {@self public_humiliation ?victim})
           (bind (driving-pressure-of-goal ?goal) ?pressure)
@@ -257,19 +257,19 @@
     (for-each-belief {?loot stolen_from @self}
       (do
         (if (and (can-write @self)
-                 (not (believes {@self report_to_police (if (is-entity ?victim) ?victim ?loot)})))
-            (do
-              (begin-belief {@self report_to_police (if (is-entity ?victim) ?victim ?loot)})
+                 (not (believes {@self report_to_police (if (is-entity ?victim) (then ?victim) (else ?loot))})))
+            (then
+              (begin-belief {@self report_to_police (if (is-entity ?victim) (then ?victim) (else ?loot))})
               (bind (find-building [k police_station]) ?station)
               (if (alive ?victim)
-                  (do
+                  (then
                     (begin-belief {@self suspect ?victim})
                     (if (is-entity ?station)
-                        (spawn-letter [k crime_report_letter]
-                                      (written-msg {@self suspect ?victim}) ?station)))
-                  (if (is-entity ?station)
-                      (spawn-letter [k crime_report_letter]
-                                    (written-msg {?loot stolen_from @self}) ?station)))))
+                        (then (spawn-letter [k crime_report_letter]
+                                      (written-msg {@self suspect ?victim}) ?station))))
+                  (else (if (is-entity ?station)
+                      (then (spawn-letter [k crime_report_letter]
+                                    (written-msg {?loot stolen_from @self}) ?station)))))))
         (break)))
     (end-goal {@self report_crime})))
 
@@ -277,15 +277,15 @@
 ; to its terminal body. ONE arm per event-ized terminal. Every terminal is .hs
 ; now - the C++ generative loop is retired (step 6).
 (define-macro resolve-perpetration-terminal (?terminal ?victim ?action ?goal)
-  (if (= ?terminal pay_off)         (terminal-pay-off ?victim ?goal)
-  (if (= ?terminal harm_non_lethal) (terminal-harm-non-lethal ?victim ?goal)
-  (if (= ?terminal plant_evidence)  (terminal-plant-evidence ?victim ?goal)
-  (if (= ?terminal silence_coerce)  (terminal-silence-coerce ?victim ?goal)
-  (if (= ?terminal publish_secret)  (terminal-publish-secret ?victim ?goal)
-  (if (= ?terminal consummate)      (terminal-consummate ?victim ?goal)
-  (if (= ?terminal confess_secret)  (terminal-confess ?goal)
-  (if (= ?terminal public_slight)   (terminal-humiliate ?victim ?goal)
-  (if (= ?terminal file_report)     (terminal-report ?victim ?goal)))))))))))
+  (if (= ?terminal pay_off)         (then (terminal-pay-off ?victim ?goal))
+  (else (if (= ?terminal harm_non_lethal) (then (terminal-harm-non-lethal ?victim ?goal))
+  (else (if (= ?terminal plant_evidence)  (then (terminal-plant-evidence ?victim ?goal))
+  (else (if (= ?terminal silence_coerce)  (then (terminal-silence-coerce ?victim ?goal))
+  (else (if (= ?terminal publish_secret)  (then (terminal-publish-secret ?victim ?goal))
+  (else (if (= ?terminal consummate)      (then (terminal-consummate ?victim ?goal))
+  (else (if (= ?terminal confess_secret)  (then (terminal-confess ?goal))
+  (else (if (= ?terminal public_slight)   (then (terminal-humiliate ?victim ?goal))
+  (else (if (= ?terminal file_report)     (then (terminal-report ?victim ?goal))))))))))))))))))))
 
 ; The foe of the deliberator's first {@self under_attack <foe>} state (@fail
 ; when none) - the threat mirror of goal-focus. Minted by strike-blow on a
@@ -299,10 +299,10 @@
 ; must exclude @self (a beloved married to the deliberator names @self here).
 (define-macro crave-rival (?beloved)
   (if (is-entity (target {?beloved spouse ?}))
-      (target {?beloved spouse ?})
-      (if (is-entity (target {?beloved lover ?}))
-          (target {?beloved lover ?})
-          ?beloved)))
+      (then (target {?beloved spouse ?}))
+      (else (if (is-entity (target {?beloved lover ?}))
+          (then (target {?beloved lover ?}))
+          (else ?beloved)))))
 
 ; The actor's own recent OVERT-method murder victim whose corpse is still in
 ; its pre-burial window (@fail when none) - the taunt substrate. The label

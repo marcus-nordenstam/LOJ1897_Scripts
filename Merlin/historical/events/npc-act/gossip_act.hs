@@ -48,4 +48,4 @@
       (do
         (if (and (not (= ?tgt @self))
                  (not (believes {@self SAY (utterable-msg ?news) ?ear})))
-            (do (tell-to ?ear ?news) (break)))))))
+            (then (tell-to ?ear ?news) (break)))))))

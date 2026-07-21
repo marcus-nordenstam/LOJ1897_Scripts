@@ -27,7 +27,7 @@
     ; the SAME object want_provisions counts and provision_rearm re-drives.
     (bind {?home room [k kitchen]:?kitchen})
     (if (is-entity ?kitchen)
-        (do
+        (then
           (bind (count-believed-located [k food] ?kitchen) ?blv)
           (bind (count-controlled @self [k food]) ?inh)
           (for-each ?room (attr-values ?shop parts [k interior_space room])

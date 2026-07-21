@@ -144,6 +144,6 @@
   (role ?home (believes {@self home ?home}))
   (when (and (bind {?home room [k kitchen]:?kitchen})
              (control [k food])))
-  (utility (if (at-place ?kitchen) 250 90))
+  (utility (if (at-place ?kitchen) (then 250) (else 90)))
   (effects       (begin-goal {@self bring [k food] ?kitchen}))
   (cease-effects (end-goal   {@self bring [k food] ?kitchen})))
