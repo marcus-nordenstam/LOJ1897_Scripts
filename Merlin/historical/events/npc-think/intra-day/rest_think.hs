@@ -58,10 +58,10 @@
   ; bed, the fatigue knee wins the 18:00 re-deliberation). (min ...) of the
   ; alarm and every constraint; minutes-until-attend / -until-hour are huge
   ; sentinels when nothing is pending.
-  ; mint the SLEEP act-goal; at home (the leaf) it promotes to sleep_act, which carries
-  ; the duration + ends the belief. Fatigue recovery keys on the SLEEP label at completion.
-  (effects       (begin-goal {@self SLEEP}))
-  (cease-effects (end-goal   {@self SLEEP})))
+  ; PROPOSE the SLEEP act (act_body_purification): sleep's own (when) - at home + sleepy/night - IS
+  ; the precondition, so this reactive propose is the whole terminal. sleep_act carries the duration
+  ; + ends the belief; fatigue recovery keys on the SLEEP label at completion.
+  (effects       (propose {@self SLEEP})))
 
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.
 (npc-think idle_go_home

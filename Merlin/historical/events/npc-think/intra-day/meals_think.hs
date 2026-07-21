@@ -199,6 +199,18 @@
   (effects       (begin-goal {@self enter ?place}))
   (cease-effects (end-goal   {@self enter ?place})))
 
+; TERMINAL step (act_body_purification): the meal is now PROPOSED, guarded by being AT its place.
+; Because `eat` is a proposed label every {@self eat [k <meal>] <place>} desire drops out of the
+; auction (it still persists + drives eat_go); the meal promotes ONLY here, ONLY once the diner is
+; at the place - closing the "eat where there is no food" off-place fall-through. The proposal
+; inherits the meal's own utility from the eat goal it /causes (via the (goal ...) gate).
+(npc-think eat_at_place
+  (schedule always)
+  (goal    {@self eat ?meal ?place})
+  (when    (or (in-building ?place)
+               (believes {@self location ?place})))
+  (effects (propose {@self eat ?meal ?place})))
+
 ; (PROVISIONING - the cook keeping the kitchen larder stocked - lives in
 ; npc-think/provisioning_think.hs; the general carry-to-a-place chain in
 ; npc-think/bring_think.hs. Meals only EAT here.)

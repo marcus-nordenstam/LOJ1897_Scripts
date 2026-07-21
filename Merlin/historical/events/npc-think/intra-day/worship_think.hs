@@ -41,6 +41,18 @@
   (effects       (begin-goal {@self worship}))
   (cease-effects (end-goal   {@self worship})))
 
+; TERMINAL step (act_body_purification): the service is now PROPOSED, guarded by being IN a church.
+; Because `worship` is a proposed label the {@self worship} desire drops out of the auction (it
+; still persists + drives worship_go/find), so worship promotes ONLY here, ONLY at a church - no
+; off-church fall-through. Reactive: re-proposes each decision point while due + in a church.
+(npc-think worship_at_church
+  (schedule always)
+  (goal    {@self worship})
+  (role @self (grown @self))
+  (when    (is-a (current-building @self) [k building church]))
+  (utility (* (attr @self politeness) 80))
+  (effects (propose {@self worship})))
+
 ; CASE B - not at a church, but knows one: head to it. Inherits the worship drive. A
 ; MAINTENANCE rung (§5.11): roulette a church ONCE, hold {@self enter ?church} (the
 ; generic enter chain routes the actual travel), and cease it on arrival (in-building

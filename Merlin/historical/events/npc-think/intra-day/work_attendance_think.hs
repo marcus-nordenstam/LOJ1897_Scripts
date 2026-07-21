@@ -46,12 +46,10 @@
         (at-workplace ?wp)
         (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
   (utility (* 80 (factors (attr @self industriousness) 0.75 0.5)))
-  ; The stay YIELDS at the workplace lunch band (12-14): eligibility is only
-  ; sampled at act completions, so an uncapped shift-long stay would leap
-  ; clean over work_lunch's window. After lunch the next 12:00 is tomorrow
-  ; (a huge cap), so the stay runs to shift end.
-  (effects       (begin-goal {@self work ?wp}))
-  (cease-effects (end-goal   {@self work ?wp})))
+  ; PROPOSE the work-stay (act_body_purification): day_work's (when) - at the workplace + in/near
+  ; the shift - IS the precondition, so this reactive propose is the whole terminal. Each completion
+  ; re-deliberates -> re-proposes while still on shift, so the stay resumes to shift end.
+  (effects       (propose {@self work ?wp})))
 
 (npc-think day_go_to_work
   ; Shift on or imminent and not yet at the workplace: mint {@self enter ?wp} and the
