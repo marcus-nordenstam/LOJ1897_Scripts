@@ -18,13 +18,17 @@
 ; matches the promoted {@self seek_indenture} belief + binds the master off the articles
 ; (dropping cleanly if unreadable). Ends both the running act and the aim on completion.
 (npc-act indenture_act
-  ; bind the master's articles to a plain ?var (a macro arg used as a {pattern}
-  ; subject inside hire-seq must be a ?var, not an expr).
+  (act {@self seek_indenture})
+  ; the master's articles (a plain ?var - a macro arg used as a {pattern} subject
+  ; inside hire-seq must be a ?var, not an expr).
   (bind (goal-focus seek_indenture) ?art)
-  (when (and (believes {@self seek_indenture})
-             (org-founder ?art ?master)))
   (duration 90)
   (act-effects
-    (hire-seq ?art [k job clerk] [k trainee])
-    (begin-belief {@self master ?master})
+    ; read the master off the articles (org-founder = a doc-read binding ?master); a
+    ; pure re-derivation, not a gate - the is-entity guard drops cleanly if unreadable.
+    (org-founder ?art ?master)
+    (if (is-entity ?master)
+      (then
+        (hire-seq ?art [k job clerk] [k trainee])
+        (begin-belief {@self master ?master})))
     (end-act {@self seek_indenture})))

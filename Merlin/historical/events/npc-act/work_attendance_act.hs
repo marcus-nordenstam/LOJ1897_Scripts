@@ -11,11 +11,11 @@
 ; ----------------------------------------------------------------------------
 
 (npc-act work_act
-  ; the job is a CACHED role (binds ?job for the shift-hours read); the work
-  ; act-desire stays live (act-lifecycle label), as does the dynamic-label
-  ; hours bind (filter-illegal, reads the role-bound ?job).
-  (role ?job (believes {@self job ?job}))
-  (when (and (believes {@self work ?wp})
-             (bind {?job (work-hours-today-label) ?start ?end})))
+  (act {@self work ?wp})
+  ; re-derive the job + today's shift END off @self's own beliefs (pure value-ops, not
+  ; gates): day_work only PROPOSES the stay while in-shift, so the shift belief - hence
+  ; its aux end-hour - always resolves when this promotes.
+  (bind (target {@self job}) ?job)
+  (bind (auxiliary {?job (work-hours-today-label)}) ?end)
   (duration (min (minutes-until-shift-end ?end) (minutes-until-hour 12)))
   (act-effects (end-act {@self work ?wp})))
