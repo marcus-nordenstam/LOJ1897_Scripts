@@ -68,6 +68,19 @@
   (effects       (begin-goal {@self convey ?corpse}))
   (cease-effects (end-goal   {@self convey ?corpse})))
 
+; TERMINAL step (act_body_purification): the deposit is PROPOSED, guarded by being IN a church -
+; the same precondition convey_act's (when) used to carry. Because `convey` is a proposed label the
+; {@self convey ?corpse} desire drops out of the auction (it still persists + drives convey_go/find),
+; so convey promotes ONLY here, ONLY at a church - no off-church fall-through that would file the body
+; wherever the bearer stood. Reactive: re-proposes each decision point while the goal stands + in a church.
+(npc-think convey_at_church
+  (schedule always)
+  (goal    {@self convey ?corpse})
+  (role @self (grown @self))
+  (when    (is-a (current-building @self) [k building church]))
+  (utility (* (attr @self politeness) 85))
+  (effects (propose {@self convey ?corpse})))
+
 ; CASE B - not at a church, but knows one: head to it. The (goal ...) clause pins
 ; the convey goal as this rule's parent, so the go sub-goal inherits the drive and
 ; auto-links its /cause - no hand-written /cause.

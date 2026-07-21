@@ -18,8 +18,7 @@
 ; whatever building the bearer stood in. The act-label lives in the cached
 ; self-role gate, so the promotion scan rejects O(1) before any mind-entry.
 (npc-act convey_act
-  (role @self (believes {@self convey ?corpse}))
-  (when (is-a (current-building @self) [k building church]))
+  (act {@self convey ?corpse})
   (duration 15)
   (act-effects
     ; PLACEMENT (not travel): deposit the carried body into a room of this church.
