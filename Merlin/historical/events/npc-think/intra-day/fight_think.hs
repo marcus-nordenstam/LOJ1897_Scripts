@@ -58,8 +58,8 @@
 
   (when (and (believes {?victim home ?victim_home})
              (not (co-present @self ?victim))))
-  (utility (if (< (fight-elapsed) 10) 150
-               (max 0 (- 150 (* 30 (- (fight-elapsed) 10))))))
+  (utility (if (< (fight-elapsed) 10) (then 150)
+               (else (max 0 (- 150 (* 30 (- (fight-elapsed) 10)))))))
   (effects
     (debug-print "TRACE_KILLSEEK @self stalks victim=?victim to ?victim_home")
     (begin-goal {@self enter ?victim_home}))
@@ -73,8 +73,8 @@
   (schedule on-changed)
   (goal {@self fight ?victim})
   (when (co-present @self ?victim))
-  (utility (if (< (fight-elapsed) 10) 200
-               (max 0 (- 200 (* 30 (- (fight-elapsed) 10))))))
+  (utility (if (< (fight-elapsed) 10) (then 200)
+               (else (max 0 (- 200 (* 30 (- (fight-elapsed) 10)))))))
   (effects
     (debug-print "TRACE_KILLSTRIKE @self strikes victim=?victim")
     (begin-goal {@self fight ?victim})))
@@ -88,14 +88,14 @@
 ; (a sub-goal would leaf-block the strike). The kill+fight goals PERSIST - cold-start
 ; clears the exposure clock and it tries again next month.
 (npc-think break_off_fight
-  (short-term-think)
+  (schedule always)   ; gates on a (goal? ...) query - no belief edge to trigger on
   (when (and (goal? {@self fight})
              (not (at-home))))
   (utility (* 30 (max 0 (- (fight-elapsed) 10))))
-  ; NON-goal-gated standalone (goal? query, so no on-commit trigger) - stays level-
-  ; triggered for now; go-into -> the enter chain. The cont-fire purge here waits for
-  ; the apparatus teardown (the enter-home goal is inert once home).
-  (effects (bind (target {@self home ?}) ?go_dest) (excl-goal {@self enter ?go_dest})))
+  ; Maintenance: mint the flee-home goal while fighting away from home; the enter chain
+  ; routes there, and reaching home (or the fight ending) drops the gate -> cease.
+  (effects       (bind (target {@self home ?}) ?go_dest) (begin-goal {@self enter ?go_dest}))
+  (cease-effects (end-goal   {@self enter ?go_dest})))
 
 ; THE VICTIM FIGHTS BACK. A struck victim holds {@self under_attack <foe>} (set by
 ; the blow that landed) and was woken THIS instant. If the foe is still co-present
