@@ -14,7 +14,7 @@
 (include "../../macros/tunables.hs")
 
 (npc-act go_act
-  (when (believes {@self go ?dest}))
+  (act {@self go ?dest})
   (duration (max (go_travel_floor_min) (travel-minutes @self ?dest)))
   (act-effects
     (relocate @self ?dest)))
@@ -28,7 +28,7 @@
 ; force-ends the act-belief; the minter (enter_go_to_threshold) ends the go_to_threshold GOAL
 ; on its falling edge, so this act carries no end-act / end-goal.
 (npc-act go_to_threshold_act
-  (when (believes {@self go_to_threshold ?s}))
+  (act {@self go_to_threshold ?s})
   (duration (max (go_travel_floor_min) (travel-minutes @self ?s)))
   (act-effects
     (front-park @self ?s)

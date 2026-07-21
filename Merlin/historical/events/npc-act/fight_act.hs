@@ -15,7 +15,7 @@
 ; non-fatal one leaves a wound and the next deliberation strikes again (while
 ; the foe lives and is still co-present).
 (npc-act fight_act
-  (when (bind {@self fight ?foe}))
+  (act {@self fight ?foe})
   (duration 1)
   (act-effects
     (set-attr @self adrenaline 1)
@@ -25,7 +25,7 @@
     (end-act {@self fight ?foe})))
 
 (npc-act flee_act
-  (when (bind {@self flee ?foe}))
+  (act {@self flee ?foe})
   (duration 1)
   (act-effects
     (set-attr @self adrenaline 1)
@@ -33,7 +33,7 @@
     (end-act {@self flee ?foe})))
 
 (npc-act cry_out_act
-  (when (believes {@self cry_out}))
+  (act {@self cry_out})
   (duration 1)
   (act-effects
     (set-attr @self adrenaline 1)

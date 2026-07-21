@@ -5,7 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-act sack_act
-  (when (believes {@self sack}))
+  (act {@self sack})
   (duration 45)
   (act-effects
     (fire /worker (goal-focus sack))

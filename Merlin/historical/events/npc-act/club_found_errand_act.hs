@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-act found_club_act
-  (when (believes {@self found_club}))
+  (act {@self found_club})
   (duration 90)
   (act-effects
     ; The foundable-club catalog, ungated (0): clubs are not premises-gated -

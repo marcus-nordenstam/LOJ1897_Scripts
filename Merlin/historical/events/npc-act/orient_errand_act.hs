@@ -15,7 +15,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-act orient_act
-  (when (believes {@self orient}))
+  (act {@self orient})
   (duration 30)
   (act-effects
     ; Read the public register: per articles document, form / recall its org object

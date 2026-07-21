@@ -5,7 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-act quit_work_act
-  (when (believes {@self quit_work}))
+  (act {@self quit_work})
   (duration 60)
   (act-effects
     (fire /worker @self)

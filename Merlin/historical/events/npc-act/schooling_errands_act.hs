@@ -9,7 +9,7 @@
 
 ; ----- primary -------------------------------------------------------------
 (npc-act enrol_primary_act
-  (when (believes {@self enrol_primary}))
+  (act {@self enrol_primary})
   (duration 60)
   (act-effects
     (begin-belief {@self study [k primary_school_curriculum]})
@@ -17,7 +17,7 @@
 
 ; ----- secondary -----------------------------------------------------------
 (npc-act enrol_secondary_act
-  (when (believes {@self enrol_secondary}))
+  (act {@self enrol_secondary})
   (duration 60)
   (act-effects
     (begin-belief {@self study [k secondary_school_curriculum]})
@@ -25,7 +25,7 @@
 
 ; ----- university ----------------------------------------------------------
 (npc-act enrol_university_act
-  (when (believes {@self enrol_university}))
+  (act {@self enrol_university})
   (duration 60)
   (act-effects
     ; The SUBJECT is interest-led (the class gate decided WHETHER you attend;

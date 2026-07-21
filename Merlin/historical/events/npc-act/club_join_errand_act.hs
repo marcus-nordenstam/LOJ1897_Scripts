@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-act join_club_act
-  (when (believes {@self join_club}))
+  (act {@self join_club})
   (duration 60)
   (act-effects
     (register-member /articles (goal-focus join_club) /member @self)

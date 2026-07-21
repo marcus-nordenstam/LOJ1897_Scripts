@@ -32,7 +32,7 @@
 ; intends - re-check (goal? {@self kill}) at completion, so a kill that lapsed
 ; while the actor travelled (the victim died, the grudge faded) does NOT arm.
 (npc-act acquire_act
-  (when (bind {@self acquire ?m}))
+  (act {@self acquire ?m})
   (duration (travel-minutes @self ?m))
   (act-effects
     (if (goal? {@self kill})

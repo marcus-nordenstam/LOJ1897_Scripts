@@ -53,7 +53,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-act depart_act
-  (when (believes {@self depart}))
+  (act {@self depart})
   (duration 480)                     ; ~a day spent packing up and settling affairs
   (act-effects
     ; --- quit his post: end his OWN employment beliefs; scrub his OWN roster row --

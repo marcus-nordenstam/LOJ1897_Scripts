@@ -18,7 +18,7 @@
 ; detective trail reads). Its completion makes a wedding, appraises no-shows,
 ; and clears the goal.
 (npc-act attend_act
-  (when (believes {@self attend}))
+  (act {@self attend})
   (duration (attend-minutes-left @self))
   (act-effects
     ; If this was a WEDDING and the attendee is one of its principals, the

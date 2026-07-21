@@ -59,6 +59,6 @@
 ; neighbour re-opened the frontier). Ends the act-belief so the seek goal it
 ; serves stays live for the next attempt.
 (npc-act find_building_exhausted
-  (when (believes {@self find_building ?sought}))
+  (act {@self find_building ?sought})
   (duration 60)
   (act-effects (end-act {@self find_building ?sought})))

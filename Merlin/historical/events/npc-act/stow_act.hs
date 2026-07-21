@@ -11,7 +11,7 @@
 (include "../../definitions/roles.hs")
 
 (npc-act stow_act
-  (when (believes {@self stow}))
+  (act {@self stow})
   (duration 5)
   (act-effects
     (bind (goal-focus stow) ?item)

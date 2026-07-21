@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-act resign_club_act
-  (when (believes {@self resign_club}))
+  (act {@self resign_club})
   (duration 45)
   (act-effects
     (unregister-member /member @self)

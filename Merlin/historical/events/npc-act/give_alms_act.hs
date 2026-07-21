@@ -4,7 +4,7 @@
 ; days-since-last reads. No aim, no end-goal.
 
 (npc-act give_alms_act
-  (when (believes {@self give_alms ?church}))
+  (act {@self give_alms ?church})
   (duration 60)
   (act-effects
     ; A punctual {@self give <sum>} act-record (born ended - a begin would leave

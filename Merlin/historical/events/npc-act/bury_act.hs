@@ -21,7 +21,7 @@
 ; exactly once - the engine does not auto-end it). The act-label lives in the
 ; cached self-role gate: the promotion scan rejects O(1) before any mind-entry.
 (npc-act bury_act
-  (role @self (believes {@self bury ?corpse}))
+  (act {@self bury ?corpse})
   (duration 60)
   (act-effects
     (record-verdict ?corpse)

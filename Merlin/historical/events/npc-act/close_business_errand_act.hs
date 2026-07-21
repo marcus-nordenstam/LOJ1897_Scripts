@@ -47,7 +47,7 @@
 ; reconcile_closed when they find the premises shut.
 (npc-act close_business_act
   (bind (goal-focus close_business) ?art)
-  (when (believes {@self close_business}))
+  (act {@self close_business})
   (duration 90)
   (act-effects
     ; his own articles carry the premises building + the register document.

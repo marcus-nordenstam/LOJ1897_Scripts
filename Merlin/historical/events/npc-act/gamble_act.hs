@@ -5,7 +5,7 @@
 ; accrues the addiction disposition and ends its OWN act-belief, never the goal, like drink_act.
 
 (npc-act gamble_act
-  (when (believes {@self play_game}))
+  (act {@self play_game})
   (duration 90)
   (act-effects
     ; gambling_addiction is the standing DISPOSITION (a state) - and the amplifier

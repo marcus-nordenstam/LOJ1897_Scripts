@@ -17,7 +17,7 @@
 ; The 45-min proposal, promoted from the back aim at the firm; matched by its (when) on
 ; the promoted {@self back} belief.
 (npc-act invest_act
-  (when (believes {@self back}))
+  (act {@self back})
   (duration 45)
   (act-effects
     (begin-belief {@self backed_by (goal-focus back)})

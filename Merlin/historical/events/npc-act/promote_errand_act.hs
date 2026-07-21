@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-act promote_staff_act
-  (when (believes {@self promote_staff}))
+  (act {@self promote_staff})
   (duration 45)
   (act-effects
     (promote /worker (goal-focus promote_staff))

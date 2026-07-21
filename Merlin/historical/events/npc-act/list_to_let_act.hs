@@ -18,7 +18,7 @@
   ; ?prop = the vacant dwelling this let intent points at, read off the latched
   ; {@self let ?prop} goal (a plain ?var for the {pattern} subjects below).
   (bind (goal-focus let) ?prop)
-  (when (believes {@self let}))
+  (act {@self let})
   (duration 60)
   (act-effects
     (create-entity [k for_lease_listing] (qual location (current-building @self)) (bind ?listing))

@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-act found_act
-  (when (believes {@self found}))
+  (act {@self found})
   (duration 90)
   (act-effects
     ; Roll a HOUSABLE business kind first (premises-aware: only kinds with a free

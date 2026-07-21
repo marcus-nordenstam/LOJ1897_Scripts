@@ -25,14 +25,14 @@
 ; ----------------------------------------------------------------------------
 
 (npc-act read_listings_act
-  (when (believes {@self read_listings}))
+  (act {@self read_listings})
   (duration 30)
   (act-effects
     (read-public-register [k for_sale_listing] for_sale)
     (end-act {@self read_listings})))
 
 (npc-act buy_home_act
-  (when (believes {@self buy_home ?dwell}))
+  (act {@self buy_home ?dwell})
   (duration 60)
   (act-effects
     ; Re-validate: ?dwell must still be on the for-sale register.

@@ -34,7 +34,7 @@
 ; The stocktake round itself: the goal, at the counter, is the leaf and promotes
 ; here. The begun-then-ended {@self stocktake} act-belief IS the round (30 min).
 (npc-act stocktake_act
-  (when (believes {@self stocktake}))
+  (act {@self stocktake})
   (duration 30)
   (act-effects
     (bind (current-building @self) ?shop)

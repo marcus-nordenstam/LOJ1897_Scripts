@@ -48,7 +48,7 @@
 ; (15 min a break-in, 10 min an embezzlement). The completion is the PURE .hs
 ; theft terminal at the current premises.
 (npc-act steal_act
-  (when (believes {@self steal}))
+  (act {@self steal})
   (duration (if (at-burgle-residence) (then 15) (else 10)))
   (act-effects
     (bind (current-building @self) ?scene)

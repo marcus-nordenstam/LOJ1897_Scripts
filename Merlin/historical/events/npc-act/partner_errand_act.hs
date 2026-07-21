@@ -14,7 +14,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-act partner_act
-  (when (believes {@self partner}))
+  (act {@self partner})
   (duration 90)
   (act-effects
     ; bind the firm's articles to a plain ?var (hire-seq needs it as a {pattern} subject).

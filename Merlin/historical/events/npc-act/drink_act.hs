@@ -6,7 +6,7 @@
 ; its pressure.
 
 (npc-act drink_act
-  (when (believes {@self drink}))
+  (act {@self drink})
   (duration 90)
   (act-effects
     ; Intoxication accumulates as a lifetime-drinking proxy (v1 - no decay); the
