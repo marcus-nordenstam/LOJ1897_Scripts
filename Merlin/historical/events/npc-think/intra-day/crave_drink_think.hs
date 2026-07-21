@@ -37,6 +37,19 @@
   (effects       (begin-goal {@self drink}))
   (cease-effects (end-goal   {@self drink})))
 
+; TERMINAL step (act_body_purification): the drink act is now PROPOSED, precondition-guarded, not
+; promoted by the bare {@self drink} goal. Because `drink` is a proposed label, that goal no longer
+; competes (it still persists + drives the routing sub-goals below) - so the drink act promotes
+; ONLY here, ONLY at a pub (can-drink). The off-pub "street-drink" hole is closed by construction.
+; Reactive (schedule always): re-proposes each decision point while thirsty + at a pub.
+(npc-think drink_at_pub
+  (schedule always)
+  (goal    {@self drink})
+  (role @self (grown @self))
+  (when    (can-drink @self))
+  (utility (drink-drive @self))
+  (effects (propose {@self drink})))
+
 ; CASE B - not at a pub, but knows one: head to it via the generic enter chain (§5.11). A
 ; MAINTENANCE event: on the FIRST fire it roulettes a pub and mints {@self enter ?pub}, then
 ; settles into k_holding so it STICKS with that pub (no re-roulette while walking); on arrival
