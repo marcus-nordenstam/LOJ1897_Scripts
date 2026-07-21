@@ -35,12 +35,17 @@
 ; compete for the motor).
 ; ----------------------------------------------------------------------------
 
+; always: the firing condition is perceiving {?wp struct_status closed} at the
+; premises. The trigger belief is about ?wp (the workplace), not @self, and lives in
+; the (when), so neither the explicit @self trigger form nor the implicit role-filter
+; derivation captures it cleanly - so it polls (cheap: gated to employed workers, ends
+; its own gate on first fire). REFINEMENT: role-ify struct_status onto ?wp for on-changed.
 (npc-think reconcile_closed
-  (short-term-think)
+  (schedule always)
   (role ?org (believes {@self employer ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (role ?job (believes {@self job ?job}))
   (when (and (believes {?wp struct_status [k closed]})))
-  (cont-fire-effects
+  (effects
     (end-belief {@self employer ?org})
     (end-belief {@self job ?job})))

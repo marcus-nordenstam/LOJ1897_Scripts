@@ -25,17 +25,17 @@
 ; tired and away from home: go home to rest. Utility climbs with fatigue but
 ; stays below the work shift (80) until exhaustion, then overrides.
 (npc-think seek_rest
-  (short-term-think)
+  (schedule always)   ; gates on the sleepiness ATTR - no belief edge to trigger on
   (when (and (not (at-home))
              (> (attr @self sleepiness) 0.7)))
   (utility (if (> (attr @self sleepiness) 1.0) 10000 (* 90 (attr @self sleepiness))))
-  (cont-fire-effects (bind (target {@self home ?}) ?go_dest) (excl-goal {@self enter ?go_dest})))
+  (effects (bind (target {@self home ?}) ?go_dest) (excl-goal {@self enter ?go_dest})))
 
 ; at home and at all tired (or it is night): sleep until the morning alarm. The
 ; sleep act records a {@self sleep} memory ((does sleep)); its completion resets
 ; fatigue. Utility skyrockets past full fatigue so sleep dominates work / leisure.
 (npc-think sleep
-  (short-term-think)
+  (schedule always)   ; gates on the sleepiness ATTR - no belief edge to trigger on
   (fatigue-timeout 0)              ; sleep is a bodily need, not a fruitless search - never fatigue-capped
   (role ?home (believes {@self home ?home}))
   ; You cannot sleep through an assault - being under attack gates the whole rest
@@ -59,11 +59,11 @@
   ; sentinels when nothing is pending.
   ; mint the SLEEP act-goal; at home (the leaf) it promotes to sleep_act, which carries
   ; the duration + ends the belief. Fatigue recovery keys on the SLEEP label at completion.
-  (cont-fire-effects (excl-goal {@self SLEEP})))
+  (effects (excl-goal {@self SLEEP})))
 
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.
 (npc-think idle_go_home
-  (short-term-think)
+  (schedule always)   ; gates on the sleepiness ATTR - no belief edge to trigger on
   (when (not (at-home)))
   (utility 1)
-  (cont-fire-effects (bind (target {@self home ?}) ?go_dest) (excl-goal {@self enter ?go_dest})))
+  (effects (bind (target {@self home ?}) ?go_dest) (excl-goal {@self enter ?go_dest})))

@@ -1,44 +1,28 @@
 ; ----------------------------------------------------------------------------
 ; rehabilitation (Phase 9.3, B4 pressure model). A DISREPUTABLE NPC feels a
 ; second, distinct pull toward church - not piety but the wish to restore
-; standing. It is a SECOND utility source on the very same {@self worship
-; <church>} act-goal that feel_devout (worship.hs) proposes: the two sources
-; SUM, so a disreputable devout man is drawn hardest of all, and BOTH pressures
-; are relieved by one act because both ramp with `days-since-last worship`, which
-; the worship act resets. No per-pressure bookkeeping, no reset the act must know.
+; standing. A SECOND worship DRIVE: it mints the same abstract {@self worship}
+; drive goal want_worship (worship_think.hs) proposes, on a shorter 15-day itch;
+; the two utility sources SUM on that one goal, so a disreputable devout man is
+; drawn hardest, and BOTH pressures relieve on one act (both ramp with
+; days-since-last worship, which the worship act resets). The shared worship_go
+; (route) + worship_act (perform) rungs do the routing / performing - none here.
 ;
-; The rehabilitation PAYOFF needs no wiring here: the worship acts feed
-; classify_piety (any-tense count) -> piety -> classify_respectability, so the
-; more a disreputable man attends, the more pious, the more respectable - the
-; slow multi-year climb, driven by this pull.
+; The rehabilitation PAYOFF needs no wiring: the worship acts feed classify_piety
+; -> piety -> classify_respectability, so the more a disreputable man attends, the
+; more respectable - the slow multi-year climb, driven by this pull.
 ;
-; Why disreputable not scandalous: the scandalous is already ostracised; a
-; church visit cannot lift them in one pass. The disreputable can rehabilitate.
+; Why disreputable not scandalous: the scandalous is already ostracised; a church
+; visit cannot lift them in one pass. The disreputable can rehabilitate.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
 
 (npc-think rehabilitation
-  (short-term-think)
-
+  (schedule cooldown 15 d)
+  (if-blocked hold)
   (role @self (old_human @self)
               (believes {@self repute [k disreputable]}))   ; derive-maintained band - cached
-  ; The nearest church the NPC KNOWS (role-cast; no known church -> no fire).
-  (role ?venue [k building church] (select (score (near @self ?venue)) (policy roulette)))
-
-  ;; A disreputable adult, once a service is ~due. Shares feel_devout's
-  ;; days-since-worship gate/ramp so worshipping resets this pressure too.
-  (when (>= (days-since-last @self worship) 15))
-
-  ;; Disrepute-driven pull: ramps with days-since-worship, capped as a leisure-
-  ;; level source (well below work / meals / sleep). It STACKS on feel_devout's
-  ;; source (utility summed at act-selection); on its own it draws even a secular
-  ;; disreputable man to church.
+  (when    (>= (days-since-last @self worship) 15))
   (utility (min (* (days-since-last @self worship) 2) 40))
-
-  ;; The same churchgoing proposal feel_devout makes (shared macro) - both thinks
-  ;; stack their utility on the one {@self worship <church>} act-goal.
-  (cont-fire-effects
-    (if (in-building ?venue)
-        (begin-goal {@self worship ?venue})
-        (excl-goal {@self enter ?venue}))))
+  (effects (begin-goal {@self worship})))

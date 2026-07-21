@@ -14,8 +14,8 @@
 ; the killer controls the tool (real-possession termination). NO (log) here - this
 ; fires in the deliberation pass; the acquisition is narrated at completion.
 (npc-think means_plan_acquire
-  (short-term-think)
+  (schedule on-changed {@self method_means ?})   ; fires when the killer forms a method_means
   (when (and (bind {@self method_means ?means})
              (not (control ?means))))
   (utility 90)
-  (cont-fire-effects (begin-goal {@self acquire ?means})))
+  (effects (begin-goal {@self acquire ?means})))
