@@ -10,14 +10,12 @@
 (include "../../definitions/roles.hs")
 (include "../../macros/tunables.hs")
 
-; The act gates on the PLACE KIND, not shop identity: an act-when's pattern-bind
-; resolves ABS while current-building is mental, so an identity (=) across them
-; can never hold (the worship_act precedent - kind gates only). Identity is
-; already enforced by the ROUTING: provision_go walks only to the cook's known
-; provisions_shop, so the shop she stands in with the goal is that shop.
+; A pure act (act_body_purification): the "at a shop" precondition moved to the
+; provision_at_shop guarded (propose) - provision is a proposed label, so it promotes
+; ONLY at a shop the cook has routed to (provision_go walks only to the known
+; provisions_shop). The current shop is re-derived from (current-building @self) below.
 (npc-act provision_act
-  (when (and (believes {@self provision})
-             (at-place-kind [k building shop])))
+  (act {@self provision})
   (duration 15)
   (act-effects
     (bind (current-building @self) ?shop)

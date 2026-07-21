@@ -9,8 +9,7 @@
 (include "../../definitions/roles.hs")
 
 (npc-act bring_act
-  (when (and (bind {@self bring ?ware ?dest})
-             (at-place ?dest)))
+  (act {@self bring ?ware ?dest})
   (duration 5)
   (act-effects
     (bind (attr @self right_hand) ?hand)
