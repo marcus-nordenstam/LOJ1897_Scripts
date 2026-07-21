@@ -27,8 +27,20 @@
 ; dominated for everyone.
 ; ----------------------------------------------------------------------------
 
+; Both rungs stay LEVEL (schedule always), not the on-changed begin-goal + cease
+; maintenance form. Each (when) binds TWO free vars off ONE shift belief -
+; {?job <today's-shift-label> ?start ?end} - and (believes) binds only the target,
+; never the aux, so ?end forces a (bind). That (bind) has nowhere re-eval-safe to go:
+; a (role ?job ...) filter rejects it (its dynamic label AND aux field are both
+; non-cacheable, so the role-object cache aborts the load), and a (bind) left in a
+; maintenance (when) hard-errors once the rung holds - the hold restores the fire-time
+; bindings, so the re-evaluated (bind) sees an already-bound pattern. With no
+; re-eval-safe multi-var bind available, the faithful cadence is (schedule always) +
+; (excl-goal ...): the per-cycle intra-day sweep ends the goal the cycle a gate drops
+; (shift end, the lunch band, or arrival at the workplace).
+
 (npc-think day_work
-  (short-term-think)
+  (schedule always)
   (fatigue-timeout 0)              ; a work shift is not a fruitless search - never fatigue-capped
   (role ?org (believes {@self employer ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
@@ -41,14 +53,13 @@
   ; sampled at act completions, so an uncapped shift-long stay would leap
   ; clean over work_lunch's window. After lunch the next 12:00 is tomorrow
   ; (a huge cap), so the stay runs to shift end.
-  (cont-fire-effects (excl-goal {@self work ?wp})))
+  (effects (excl-goal {@self work ?wp})))
 
 (npc-think day_go_to_work
-  ; The (when) binds TWO free vars (?start ?end) via one belief - believes binds only the
-  ; target, not the aux, so this needs (bind ...), which errors when a maintenance (when) is
-  ; re-evaluated. So this rung stays LEVEL-triggered for now; go-into -> the enter chain. The
-  ; target-form conversion here waits for a multi-var re-eval-safe bind (§5.8 vicinity).
-  (short-term-think)
+  ; Shift on or imminent and not yet at the workplace: mint {@self enter ?wp} and the
+  ; generic enter chain (enter.hs) routes the travel. Level for the shared shift-hours
+  ; bind blocker documented above.
+  (schedule always)
   (fatigue-timeout 0)              ; commuting to work is not a fruitless search - never fatigue-capped
   (role ?org (believes {@self employer ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
@@ -57,4 +68,4 @@
              (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))
              (not (at-workplace ?wp))))
   (utility (* 80 (factors (attr @self industriousness) 0.75 0.5)))
-  (cont-fire-effects (excl-goal {@self enter ?wp})))
+  (effects (excl-goal {@self enter ?wp})))

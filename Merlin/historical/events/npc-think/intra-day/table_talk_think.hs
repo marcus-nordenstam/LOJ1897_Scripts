@@ -23,7 +23,7 @@
 (include "../../../definitions/roles.hs")
 
 (npc-think table_talk
-  (short-term-think)
+  (schedule on-changed)
   (rng-stream behaviour)
 
   ; DINING GATE (cached self-gate, so it rejects the non-dining O(1) BEFORE the
@@ -43,7 +43,7 @@
   (when (and (bind {@self eat ? ?place})
              (at-place ?place)))
 
-  (act-effects
+  (effects
     ; SELF-DISCLOSURE: one untold piece of my own profile. for-each-belief walks my
     ; {@self <label> ?} beliefs across the labels, binding each as ?belief; (break)
     ; stops at the first the diner has not heard.

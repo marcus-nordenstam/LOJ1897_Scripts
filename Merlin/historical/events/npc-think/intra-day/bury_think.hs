@@ -1,11 +1,11 @@
 ; ----------------------------------------------------------------------------
-; bury (think lane) - the priest's burial planning think (plan_burial). The rite
-; act (bury_act) lives in npc-act/bury.hs.
+; bury (think lane) - the priest's burial planning think. The rite act
+; (bury_act) lives in npc-act/bury_act.hs.
 ;
-; Burial is no longer a zero-role world sweep over every condition=dead corpse.
-; A PRIEST (a real job-holder - the church org's head_pos, public_orgs.hs)
-; buries the dead whose bodies are brought to his church. Knowledge reaches him
-; by PERCEPTION, not telepathy: a bereaved NPC CARRIES the corpse into the church
+; Burial is not a zero-role world sweep over every condition=dead corpse. A
+; PRIEST (a real job-holder - the church org's head_pos, public_orgs.hs) buries
+; the dead whose bodies are brought to his church. Knowledge reaches him by
+; PERCEPTION, not telepathy: a bereaved NPC CARRIES the corpse into the church
 ; (convey_corpse.hs relocates the body into the church's room), and the priest,
 ; co-present in that room, PERCEIVES {<corpse> condition dead} on it directly
 ; (condition is a (per obs)(hsim-percept) attr, so mx_observe_interior_space
@@ -13,12 +13,30 @@
 ; run (or a body nobody carries to a church) -> that corpse is simply never
 ; buried (accepted per the emergent-death-knowledge decision).
 ;
-;   plan_burial (think): the priest casts the most-overdue dead person he knows
-;     (a corpse he has perceived) whose coroner window (>= 1 month, so a
-;     physician could examine the body - EXAMINE.act) has elapsed. When he is
-;     CO-PRESENT with the body (it is in his room now) he holds the on-site
-;     {@self bury <corpse>} act-goal; otherwise he routes to a church he knows
-;     (the graveyard) to stand with it again.
+; TWO maintenance rungs, mutually exclusive on the co-present spatial gate (the
+; enter.hs OUTSIDE-vs-INSIDE pattern), so the route->rite handoff is EMERGENT -
+; no excl-goal, no per-trip arm flag. Both cast the priest (his OWN job belief,
+; the CACHED self-gate, so every non-priest empty-set-skips the rung before the
+; corpse/church pools materialize) and the most-overdue dead person he knows
+; whose coroner window (>= 1 month, so a physician could examine the body -
+; EXAMINE.act) has elapsed:
+;
+;   bury_route: while NOT co-present with the body, hold {@self enter ?church}
+;     (the generic enter chain routes him into a church he knows - the graveyard
+;     room the convey deposit files bodies into). CEASES the instant co-present
+;     flips true (he has reached the body).
+;   bury_onsite: while CO-PRESENT with the body, hold {@self bury ?corpse}, which
+;     promotes to bury_act (the rite). CEASES when the corpse-condition gate
+;     drops: bury_act tells {?corpse condition buried} and DESTROYS the corpse,
+;     so the (not (believes ... buried)) / condition-dead filter unmatches, the
+;     ?corpse role empties, and the falling edge ends the goal.
+;
+; on-changed is the belief-driven wake (the priest perceiving {?corpse condition
+; dead}); the co-present spatial gate is the movement-reactive wake (5.10) - the
+; priest's own arrival re-selects the next rung at his post-completion decision
+; point, so the held route rung advances to the rite the moment co-present flips.
+; Utility 85 on both - a solemn office duty that out-competes the priest's own
+; day_work (80), else a deposited corpse lies unburied in the church for months.
 ;
 ; The corpse is cast off the ONGOING {?corpse condition dead} belief alone: a
 ; corpse's {isa human} belief is end-dated at death (propagate_death), so a
@@ -32,37 +50,41 @@
 ; keeps the stale dead-belief until it fades (peripheral-object decay).
 ; ----------------------------------------------------------------------------
 
-; The priest's standing duty. Casts a stale corpse he has perceived; when the
-; body is with him he holds the on-site bury goal, else routes to his church.
-; Utility = a work obligation (a solemn office duty that out-competes routine
-; work). cont-fire re-asserts the routing/act excl-goal each cycle; when the
-; corpse is buried (destroyed) the coroner-window gate falls false and co-present
-; goes false, so the goal is swept.
-(npc-think plan_burial
-  (short-term-think)
-  ; A priest (his OWN job belief) - the CACHED self-gate, so every non-priest
-  ; empty-set-skips the whole think before the corpse/church pools materialize.
+; ROUTE rung. Held while the priest is NOT yet co-present with the overdue body:
+; roulette the nearest church he knows ONCE, hold {@self enter ?church} (the
+; enter chain does the actual travel), and cease it on arrival (co-present flips
+; true). No known church -> the rung never selects; a co-present body still
+; buries via bury_onsite. The rouletted ?church is stashed at fire, so the hold
+; and the cease operate on the SAME church (no re-roulette while walking).
+(npc-think bury_route
+  (schedule on-changed)
+  (if-blocked hold)
   (role @self (believes {@self job [k job priest]}))
-  ; The most-overdue dead person the priest knows (perceived in his church).
   (role ?corpse (believes {?corpse condition [k dead]})
                 (not (believes {?corpse condition [k buried]}))
                 (select (score (months-since-death ?corpse)) (policy argmax)))
-  ; The nearest church he KNOWS (his own workplace / graveyard). No known church
-  ; -> the routing branch no-ops; a co-present body still buries where he stands.
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
-  ; The coroner window has passed.
-  (when (>= (months-since-death ?corpse) 1))
-  ; 85: must out-compete the priest's own day_work (80) - the stated intent
-  ; ("a solemn office duty that out-competes routine work"); at 55 the bury act
-  ; almost never won the motor and deposited corpses lay in the church for months.
+  (when (and (>= (months-since-death ?corpse) 1)
+             (not (co-present @self ?corpse))))
   (utility 85)
-  (cont-fire-effects
-    ; CO-PRESENT with the body (it is in his room now) -> perform the rite. Else
-    ; route INTO a church he knows ((go-into): front-park, then ENTER its entry
-    ; room - the same room the convey deposit files bodies into). A bare
-    ; (go ?church) only FRONT-PARKS a building post-Stage-5, leaving the priest
-    ; at the door where room-level co-presence with the corpse can never hold.
-    (if (co-present @self ?corpse)
-        (excl-goal {@self bury ?corpse})
-        (if (is-entity ?church)
-            (excl-goal {@self enter ?church})))))
+  (effects       (begin-goal {@self enter ?church}))
+  (cease-effects (end-goal   {@self enter ?church})))
+
+; ONSITE rung. Held while the priest is CO-PRESENT with the overdue body: hold
+; {@self bury ?corpse}, which promotes to bury_act (the rite). The falling edge
+; is bury_act's own doing - it tells {?corpse condition buried} and destroys the
+; corpse, dropping the ?corpse role, so this rung's cease ends the goal on the
+; stashed (now interred) corpse symbol: a mental goal-retract, safe with no role
+; re-bind onto the destroyed corpse.
+(npc-think bury_onsite
+  (schedule on-changed)
+  (if-blocked hold)
+  (role @self (believes {@self job [k job priest]}))
+  (role ?corpse (believes {?corpse condition [k dead]})
+                (not (believes {?corpse condition [k buried]}))
+                (select (score (months-since-death ?corpse)) (policy argmax)))
+  (when (and (>= (months-since-death ?corpse) 1)
+             (co-present @self ?corpse)))
+  (utility 85)
+  (effects       (begin-goal {@self bury ?corpse}))
+  (cease-effects (end-goal   {@self bury ?corpse})))

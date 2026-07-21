@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
-; bury (act lane) - the priest's burial rite act (bury_act). The planning think
-; (plan_burial) lives in npc-think/bury.hs.
+; bury (act lane) - the priest's burial rite act (bury_act). The planning thinks
+; (bury_route / bury_onsite) live in npc-think/intra-day/bury_think.hs.
 ;
 ;   bury_act (act): perform the rites via the blessed rite ops - the verdict
 ;     ledger row, the tombstone (the dead mind's rendered memory timeline), and
