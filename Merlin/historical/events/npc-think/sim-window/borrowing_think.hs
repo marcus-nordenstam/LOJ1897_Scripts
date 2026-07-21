@@ -19,14 +19,15 @@
   (role ?creditor (old_human ?creditor)
                   (not (believes {@self owe ?creditor})))
 
-  ; The borrow roll - moved out of the @self role (a (chance)/(attr) gate is
-  ; non-belief, so it lives in (when), not the role). Low industriousness (less
-  ; self-supporting) takes on debt more often.
-  (when (chance (* 0.005 (- 1.5 (attr @self industriousness)))))
+  ; The borrow roll - an ONSET. (eval-until-hold) rolls it at the fire and LOCKS it
+  ; once the goal holds, so the held re-check never re-rolls (it re-rolls each month
+  ; until it lands). Low industriousness (less self-supporting) takes on debt more often.
+  (when (eval-until-hold (chance (* 0.005 (- 1.5 (attr @self industriousness))))))
 
-  ; SPLIT (Item 5): the npc-think - the decision to borrow. It mints {@self goal
-  ; {@self borrow ?creditor}}; the npc-act (borrow_errand.hs) sends the debtor to
-  ; the creditor's home and the completion records the {owe} there. (goal) is
-  ; idempotent, so re-rolling while the goal stands is a no-op.
-  (effects
-    (begin-goal {@self take_loan ?creditor})))
+  ; MAINTENANCE: the decision OWNS the take_loan goal end to end. The ?creditor role's
+  ; (not owe) filter is the CONTINUOUS completion gate - while @self owes this creditor
+  ; nothing the goal stands; the moment take_loan_act records {@self owe ?creditor} the
+  ; role drops and the cease-effects end the goal. The npc-act (borrow_errand.hs) sends
+  ; the debtor to the creditor's home and records the {owe} there.
+  (effects       (begin-goal {@self take_loan ?creditor}))
+  (cease-effects (end-goal   {@self take_loan ?creditor})))

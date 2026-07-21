@@ -1,18 +1,17 @@
 ; ----------------------------------------------------------------------------
 ; found_business (npc-think lane) - the THINK half of the business-founding split.
 ;
-; The decision (events/work/business.hs `business_founding`) minted {@self goal
-; {@self found}}. These intra-day events drain it: the would-be proprietor
-; goes to the bank to arrange his capital + file, and the business is FOUNDED there
-; as the act's completion (npc-act/found_business.hs).
-;
-;   found_go     : hold the goal, not at a bank -> travel act to a same-town bank.
-;   found_dwell  : hold the goal, AT the bank -> a dwell (arranging the founding).
+; The decision (business_think.hs `business_founding`) minted {@self goal {@self
+; found}} and OWNS its whole life (it ceases when found_business_act seats him as a
+; proprietor/org_head). found_go routes the would-be proprietor to a same-town bank;
+; AT the bank found_go ceases and the goal is the leaf and promotes to
+; found_business_act, which arranges his capital, files, and FOUNDS the business there
+; - no dwell rung.
 ;
 ; Utility 85 beats the work lane (80) so a man set on founding pursues it rather
 ; than putting in another shift; it loses to night sleep (100) so he goes by day.
 ; A bank-less town yields k_fail -> found_go emits nothing and the goal waits; the
-; town's business floor is held regardless by the (unsplit) business_homeostat.
+; town's business floor is held regardless by business_homeostat.
 ; ----------------------------------------------------------------------------
 
 ; Arrival is gated on the KIND (at ANY bank), not a specific (venue ...) instance:
@@ -32,10 +31,3 @@
   (utility 85)
   (effects       (begin-goal {@self enter ?go_dest}))
   (cease-effects (end-goal   {@self enter ?go_dest})))
-
-(npc-think found_dwell
-  (short-term-think)
-  (goal {@self found})
-  (when (at-place-kind [k building bank]))
-  (utility 85)
-  (cont-fire-effects (begin-goal {@self found})))

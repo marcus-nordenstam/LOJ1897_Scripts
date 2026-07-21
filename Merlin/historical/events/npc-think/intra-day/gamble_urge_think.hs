@@ -8,8 +8,9 @@
 ;     deep-idle ONSET draw - and SPIRALS with gambling_addiction, x a days-since-last
 ;     craving modulator clamped to [0,1] (so a never-gambler's sentinel days-since
 ;     never blows the pressure up, and gambling paces the recurrence). The disciplined
-;     never gamble; the addicted are pulled in deep. The drive holds the ABSTRACT
-;     {@self play_game} goal; gamble_act drains it on completion.
+;     never gamble; the addicted are pulled in deep. The drive OWNS the ABSTRACT
+;     {@self play_game} goal: once gamble_act resets days-since-last the (when) drops
+;     and the falling edge ends it - the act only accrues the addiction, never the goal.
 ;   gamble_go (maintenance): not at a pub, but knows one - roulette the nearest known
 ;     pub and head to it via the generic enter chain (§5.11). On the FIRST fire it
 ;     mints {@self enter ?venue} and settles into k_holding so it STICKS with that pub
@@ -22,27 +23,31 @@
 
 (include "../../../definitions/roles.hs")
 
-; The DRIVE. The ONLY place the pressure is computed. A 10-day cooldown re-checks the
-; urge; the (days-since-last) fire-gate mints the standing {@self play_game} desire only
-; when genuinely due; the addiction-amplified utility competes it; and gamble_act drains
-; the goal on completion (there is no excl_goal_sweep to retract it).
+; The DRIVE, and the MAINTENANCE event that owns the play_game goal end to end. A 10-day
+; cooldown re-checks the urge; the (days-since-last) gate holds the standing {@self play_game}
+; desire while genuinely due; the addiction-amplified utility competes it. The MINTER owns
+; un-minting: once gamble_act completes, days-since-last resets, the (when) drops, and the
+; falling edge ends {@self play_game}. The act itself only accrues the addiction and ends
+; its OWN act-belief, never the goal (like drink_act).
 (npc-think gamble_urge
   (schedule cooldown 10 d)
   (if-blocked hold)
   (role @self (grown @self))
   ; ONSET is rare and susceptibility-scaled: the disciplined seldom take a first flutter
   ; (low industriousness -> higher onset), but once any gambling_addiction has taken hold
-  ; the pull is ALWAYS felt (the spiral pulls the addicted back every window). This gate is
-  ; load-bearing: the {@self play_game} goal is persistent and gets fulfilled even at low
-  ; utility during idle time, so WITHOUT rate-limiting onset here every adult would take a
-  ; first gamble and the whole town would spiral into addiction.
+  ; the pull is ALWAYS felt (the spiral pulls the addicted back every window). (eval-until-hold)
+  ; rolls the onset (chance) at the fire and LOCKS it once holding, so the held re-check never
+  ; re-rolls it (it re-rolls each window until it lands). This gate is load-bearing: WITHOUT
+  ; rate-limiting the first flutter here every adult would take a first gamble and the whole
+  ; town would spiral into addiction.
   (when (and (>= (days-since-last @self play_game) 10)
              (or (> (attr @self gambling_addiction) 0)
-                 (chance (* 0.02 (- 1 (attr @self industriousness)))))))
+                 (eval-until-hold (chance (* 0.02 (- 1 (attr @self industriousness))))))))
   (utility (* (- 1 (attr @self industriousness))                    ; susceptibility (0 = disciplined)
               (+ 2 (* 22 (attr @self gambling_addiction)))          ; onset 2 -> morbid 24 (below leisure)
               (min (* (days-since-last @self play_game) 0.04) 1.0))) ; slow craving modulator [0,1]
-  (effects (begin-goal {@self play_game})))
+  (effects       (begin-goal {@self play_game}))
+  (cease-effects (end-goal   {@self play_game})))
 
 ; MAINTENANCE - not at a pub, but knows one: head to it via the generic enter chain
 ; (§5.11). On the FIRST fire it roulettes a pub and mints {@self enter ?venue}, then

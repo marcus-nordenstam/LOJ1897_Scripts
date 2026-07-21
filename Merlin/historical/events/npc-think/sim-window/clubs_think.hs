@@ -79,22 +79,25 @@
   ; actually knows (an unfamiliar founder's class @fails the match). Binds ?founder
   ; off @self's {?club_org founder ?founder} belief (minted at orientation).
   ; chance + age + club-count moved here from the @self role (non-belief gates).
-  (when (and (chance 0.005)
-             (>= (years-old @self) 18)
+  ; MAINTENANCE: the decision OWNS the join_club goal end to end. (chance) is the ONSET
+  ; roll - (eval-until-hold) rolls it at the fire and LOCKS it once holding (it re-rolls
+  ; each month until it lands). (not member_of ?club_org) is the CONTINUOUS completion
+  ; gate: while he is not yet on THIS club's roster the goal stands; the moment
+  ; join_club_act enrols him (register-member mints {@self member_of ?club_org}) it falls
+  ; and the goal ends. The act never ends the goal.
+  (when (and (>= (years-old @self) 18)
              (< (count-beliefs @self member_of) 2)
+             (not (believes {@self member_of ?club_org}))
              (believes {?club_org founder ?founder})
              (= (target {?founder class_situation})
-                (target {@self class_situation}))))
+                (target {@self class_situation}))
+             (eval-until-hold (chance 0.005))))
 
-  ; SPLIT (Item 5): the npc-think - the decision to join. Mints {@self goal
-  ; {@self join_club <articles>}}; the npc-act (club_join_errand.hs) sends the member
-  ; to the clubhouse and registers him there. RE-TARGET: one standing join goal,
-  ; replaced each fire (per-target idempotency would stack a distinct goal per
-  ; club's articles; a blocking gate would deadlock on an unreachable club).
-  ; Focus = the club's articles, recovered from @self's {?club_org record ?art} belief.
-  (effects
-    (end-goal {@self join_club})
-    (begin-goal {@self join_club (target {?club_org record})})))
+  ; SPLIT (Item 5): the npc-think - the decision to join. Mints {@self goal {@self
+  ; join_club <articles>}} (focus = the club's articles, {?club_org record}); the npc-act
+  ; (club_join_errand.hs) sends the member to the clubhouse and registers him there.
+  (effects       (begin-goal {@self join_club (target {?club_org record})}))
+  (cease-effects (end-goal   {@self join_club})))
 
 ; club_gathering RETIRED (place-and-time reframe, Section 4.8 P2b): club members
 ; are now drawn to the clubhouse by the band itinerary's SOCIAL lane (members
@@ -108,14 +111,19 @@
   (schedule cooldown 1 m)
   (rng-stream behaviour)
 
-  ; The resigning member is the sole deliberator (@self); chance -> (when).
-  (role @self (old_human @self)
-              (believes {@self member_of ?}))
+  ; The resigning member is the sole deliberator (@self).
+  (role @self (old_human @self))
 
-  (when (chance 0.004))
+  ; MAINTENANCE: the decision OWNS the resign_club goal end to end. (chance) is the ONSET
+  ; roll - (eval-until-hold) locks it once holding. (believes member_of) is the CONTINUOUS
+  ; completion gate: while he still holds a membership the goal stands; the moment
+  ; resign_club_act unregisters him (unregister-member ENDS {@self member_of}) it falls and
+  ; the goal ends. The act never ends the goal.
+  (when (and (believes {@self member_of ?})
+             (eval-until-hold (chance 0.004))))
 
-  ; SPLIT (Item 5): the npc-think - the decision to resign. Mints {@self goal
-  ; {@self resign_club}}; the npc-act (club_resign_errand.hs) sends the member to
-  ; a clubhouse and unregisters him there (unregister-member resolves his own club).
-  (effects
-    (begin-goal {@self resign_club})))
+  ; SPLIT (Item 5): the npc-think - the decision to resign. Mints {@self goal {@self
+  ; resign_club}}; the npc-act (club_resign_errand.hs) sends the member to a clubhouse and
+  ; unregisters him there (unregister-member resolves his own club).
+  (effects       (begin-goal {@self resign_club}))
+  (cease-effects (end-goal   {@self resign_club})))

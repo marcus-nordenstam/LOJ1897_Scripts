@@ -12,17 +12,19 @@
 ;
 ; Routing then walks him to a house agency, where list_to_let_act (npc-act) files
 ; the for_lease_listing and mints {?prop availability for_rent} - the durable "to
-; let" signal landlord_estate.hs already reads. It mirrors the worship lane's
-; three-case structure so the supply never goes dormant merely because @self has
-; not yet learned which orgs are house agencies:
+; let" signal landlord_estate.hs already reads, AND the completion that retracts the
+; intent: the same {?prop availability for_rent} drops the ?prop role, so the decision's
+; cease-effects end {@self let ?prop}. It mirrors the worship lane's routing so the
+; supply never goes dormant merely because @self has not yet learned which orgs are
+; house agencies:
 ;   KNOWS an agency, not there -> list_to_let_go   (travel to its office).
-;   AT a known agency          -> list_to_let_dwell (re-affirm -> the listing act).
 ;   KNOWS no agency at all      -> list_to_let_find  (orient to learn one).
+; AT a known agency the go sub-goal is spent, the let goal is the leaf and promotes to
+; list_to_let_act - no dwell rung (list_to_let owns the goal's whole life).
 ;
-;   list_to_let       : yearly timer - mint the standing {@self let ?prop} intent.
+;   list_to_let       : yearly timer - mint the standing {@self let ?prop} intent;
+;                       cease it when the dwelling's availability flips to for_rent.
 ;   list_to_let_go    : hold the intent, knows an agency, not there -> travel there.
-;   list_to_let_dwell : hold the intent, AT a known agency -> re-affirm the leaf so
-;                       it promotes to the listing act.
 ;   list_to_let_find  : hold the intent, knows NO agency -> orient (learn one).
 ; ----------------------------------------------------------------------------
 
@@ -56,20 +58,6 @@
   (utility 40)
   (effects       (begin-goal {@self enter ?venue}))
   (cease-effects (end-goal   {@self enter ?venue})))
-
-; CASE A - AT a known agency: re-affirm the standing intent with this think's
-; utility so, with the go sub-goal spent, the let goal is the leaf and promotes to
-; the act (the latched {@self let ?prop} carries the target; the act reads it via
-; goal-focus).
-(npc-think list_to_let_dwell
-  (short-term-think)
-  (goal {@self let})
-  (role ?agency (believes {?agency isa [k org house_agency]})
-                (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
-  (when (and (articles-building ?art ?venue)
-             (in-building ?venue)))
-  (utility 40)
-  (cont-fire-effects (begin-goal {@self let})))
 
 ; CASE C - @self knows NO house agency at all: consult the parish incorporations
 ; register (the orient lane, orient_errand.hs), which mints a mental org object +

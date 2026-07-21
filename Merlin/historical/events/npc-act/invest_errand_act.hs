@@ -21,5 +21,4 @@
   (duration 45)
   (act-effects
     (begin-belief {@self backed_by (goal-focus back)})
-    (end-act {@self back})
-    (end-goal {@self back})))
+    (end-act {@self back})))

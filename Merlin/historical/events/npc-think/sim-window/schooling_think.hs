@@ -45,71 +45,76 @@
   (schedule cooldown 1 m)
   (rng-stream behaviour)
 
-  ; The child (@self) is the subject, not yet schooled. The two (not ...) belief
-  ; guards keep a once-schooled child from re-enrolling on a later month of the
-  ; 5-7 window. age + the breeding-squared class-gate chance are non-belief ops ->
-  ; (when); the chance carries the /12 annual->monthly factor (now per-month). The
-  ; breeding-squared gate routes an upper child (breeding ~0.85) into school almost
-  ; always, a working-class child (~0.25) only rarely.
-  (role @self 
-              (not (believes {@self study ?}))
+  ; MAINTENANCE: the decision OWNS the enrol_primary goal end to end. @self is a child
+  ; who does not yet hold the basic-schooling credential; the (not skilled_in) guard
+  ; keeps a once-schooled child from re-enrolling on a later month of the 5-7 window.
+  (role @self
               (not (believes {@self skilled_in [k primary_school_curriculum]})))
 
+  ; ONSET: the breeding-squared class-gate (chance) is rolled at the fire and LOCKED once
+  ; holding (it re-rolls each month until it lands), routing an upper child (breeding
+  ; ~0.85) into school almost always, a working-class child (~0.25) only rarely.
+  ; CONTINUOUS completion gate: while the child is not yet studying primary the goal
+  ; stands; the moment enrol_primary_act matriculates him ({@self study [k
+  ; primary_school_curriculum]}) it falls and the goal ends. The act never ends the goal.
   (when (and (>= (years-old @self) 5)
              (<= (years-old @self) 7)
-             (chance (* 0.0833 (situation @self breeding) (situation @self breeding)))))
+             (not (believes {@self study [k primary_school_curriculum]}))
+             (eval-until-hold (chance (* 0.0833 (situation @self breeding) (situation @self breeding))))))
 
-  ; SPLIT (Item 5): the npc-think - the decision to school the child. Mints
-  ; {@self goal {@self enrol_primary}}; the npc-act (schooling_errands.hs) walks
-  ; the child to a school and enrols him there.
-  (effects
-    (begin-goal {@self enrol_primary})))
+  (effects       (begin-goal {@self enrol_primary}))
+  (cease-effects (end-goal   {@self enrol_primary})))
 
 ; --- enroll_secondary: a middle+ youth goes on to secondary ------------------
 (npc-think enroll_secondary
   (schedule cooldown 1 m)
   (rng-stream behaviour)
 
-  ; @self completed primary (holds the credential), not currently enrolled, not
-  ; yet in work / apprenticeship. age + the middle+ breeding-squared gate -> (when)
-  ; (with /12 monthly factor). The working-class child who finished primary has a
-  ; low chance and instead falls to apprenticeship_start (which excludes pupils).
-  (role @self 
+  ; MAINTENANCE: the decision OWNS the enrol_secondary goal end to end. @self holds the
+  ; primary credential, is not yet secondary-credentialed, and is not in work /
+  ; apprenticeship (the working-class child who finished primary has a low chance and
+  ; instead falls to apprenticeship_start, which excludes pupils).
+  (role @self
               (believes {@self skilled_in [k primary_school_curriculum]})
-              (not (believes {@self study ?}))
               (not (believes {@self skilled_in [k secondary_school_curriculum]}))
               (not (believes {@self employer ?})))
 
+  ; ONSET: the middle+ breeding-squared (chance) is rolled at the fire and LOCKED once
+  ; holding. CONTINUOUS completion gate: the goal ends when enrol_secondary_act
+  ; matriculates him ({@self study [k secondary_school_curriculum]}).
   (when (and (>= (years-old @self) 12)
              (<= (years-old @self) 14)
-             (chance (* 0.0833 (situation @self breeding) (situation @self breeding)))))
+             (not (believes {@self study [k secondary_school_curriculum]}))
+             (eval-until-hold (chance (* 0.0833 (situation @self breeding) (situation @self breeding))))))
 
-  ; SPLIT (Item 5): npc-think -> {@self goal {@self enrol_secondary}}; the act
-  ; (schooling_errands.hs) walks the youth to school and enrols him.
-  (effects
-    (begin-goal {@self enrol_secondary})))
+  (effects       (begin-goal {@self enrol_secondary}))
+  (cease-effects (end-goal   {@self enrol_secondary})))
 
 ; --- enroll_university: an upper / wealthy youth goes up to university --------
 (npc-think enroll_university
   (schedule cooldown 1 m)
   (rng-stream behaviour)
 
-  ; @self is secondary-educated, not enrolled, not employed. age + the steep
-  ; upper / wealthy-middle breeding-cubed gate (the professions' gateway) -> (when)
-  ; (with /12 monthly factor). The subject is interest-led, chosen inside the act.
-  (role @self 
+  ; MAINTENANCE: the decision OWNS the enrol_university goal end to end. @self is
+  ; secondary-educated and not employed. The subject is interest-led, chosen inside the
+  ; act - enrol_university_act mints {@self study <academic_field>} (medicine / law /
+  ; ...), NOT a fixed university curriculum, so the completion gate is the generic (not
+  ; (believes {@self study ?})): at 18-20 the youth holds no prior study, so it falls
+  ; exactly when he matriculates.
+  (role @self
               (believes {@self skilled_in [k secondary_school_curriculum]})
-              (not (believes {@self study ?}))
               (not (believes {@self employer ?})))
 
+  ; ONSET: the steep upper / wealthy-middle breeding-cubed (chance) - the professions'
+  ; gateway - rolled at the fire and LOCKED once holding. CONTINUOUS completion gate:
+  ; the goal ends when enrol_university_act matriculates him ({@self study <subject>}).
   (when (and (>= (years-old @self) 18)
              (<= (years-old @self) 20)
-             (chance (* 0.0833 (situation @self breeding) (* (situation @self breeding) (situation @self breeding))))))
+             (not (believes {@self study ?}))
+             (eval-until-hold (chance (* 0.0833 (situation @self breeding) (* (situation @self breeding) (situation @self breeding)))))))
 
-  ; SPLIT (Item 5): npc-think -> {@self goal {@self enrol_university}}; the act
-  ; (schooling_errands.hs) takes the youth up to university and matriculates him.
-  (effects
-    (begin-goal {@self enrol_university})))
+  (effects       (begin-goal {@self enrol_university}))
+  (cease-effects (end-goal   {@self enrol_university})))
 
 ; --- leave_primary: every primary pupil finishes at ~11 ----------------------
 (npc-think leave_primary

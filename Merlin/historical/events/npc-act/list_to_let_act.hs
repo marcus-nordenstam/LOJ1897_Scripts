@@ -24,5 +24,4 @@
     (create-entity [k for_lease_listing] (qual location (current-building @self)) (bind ?listing))
     (write-doc-record [k for_lease_listing] ?listing (building ?prop))
     (begin-belief {?prop availability [k for_rent]})
-    (end-act {@self let ?prop})
-    (end-goal {@self let ?prop})))
+    (end-act {@self let ?prop})))

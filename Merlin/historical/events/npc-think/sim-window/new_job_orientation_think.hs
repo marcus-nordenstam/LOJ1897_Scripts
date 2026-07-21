@@ -30,11 +30,17 @@
   ;; Only the JOBLESS consult the register - this is a JOB SEARCH. A man already in
   ;; a post does not go reading the vacancies. The jobless filter is a belief-pure
   ;; self-role criterion, so the @self enumeration itself caches.
-  (role @self 
+  (role @self
               (not (believes {@self employer ?})))
 
+  ; MAINTENANCE (blessed days-since-last pattern, like want_drink): mint the shared orient goal;
+  ; the (chance) is the ONSET roll (eval-until-hold locks it once holding); (days-since-last orient)
+  ; is the CONTINUOUS completion gate - orient_act ends its {@self orient} act-belief at the read,
+  ; so days-since resets to 0, the (when) drops, and the goal ends after one read (no re-read
+  ; storm). The cooldown + chance re-arm the periodic re-read, so new orgs are still picked up.
   (when (and (>= (years-old @self) 12)
-             (chance 0.3)))
+             (>= (days-since-last @self orient) 1)
+             (eval-until-hold (chance 0.3))))
 
-  (effects
-    (begin-goal {@self orient})))
+  (effects       (begin-goal {@self orient}))
+  (cease-effects (end-goal   {@self orient})))

@@ -13,7 +13,7 @@ rule bartending-serve-customer-proposal
 {@self perform [k bartending] ?pub}
 {?pub part [k bar_counter]:?bar_counter}
 # deal with one patron at a time:
-(none {@self proposal {@self serve_customer}}) # no code after this should be reached WHILE serving a customer
+(none (proposed {@self serve_customer})) # no code after this should be reached WHILE serving a customer
 (env_cell_occupier [k human]
                    (des right_in_front_of ?bar_counter)
                    '(and (bb_public_read @o wants_drink)

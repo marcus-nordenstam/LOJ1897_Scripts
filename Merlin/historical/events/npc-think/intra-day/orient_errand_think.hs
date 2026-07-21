@@ -1,7 +1,9 @@
 ; ----------------------------------------------------------------------------
-; orient_errand - the npc-THINK half of new_job_orientation (approach a church).
-; The worker holds {@self orient}: route to the parish church, then dwell there
-; (the register read happens in orient_act).
+; orient_errand - the npc-THINK half of orientation (approach the parish church to
+; read its register). {@self orient} is a SHARED search goal owned by its minters
+; (new_job_orientation, provision_orient, buy_home_find, list_to_let_find - each
+; ceases when the org kind IT wants is learned). orient_go routes; at the church
+; {@self orient} is the leaf and promotes to orient_act - no dwell rung.
 ; ----------------------------------------------------------------------------
 
 (npc-think orient_go
@@ -15,12 +17,3 @@
   (utility 28)
   (effects       (begin-goal {@self enter ?go_dest}))
   (cease-effects (end-goal   {@self enter ?go_dest})))
-
-(npc-think orient_dwell
-  (schedule on-commit)
-  (if-blocked hold)
-  (goal {@self orient})
-  (when (at-place-kind [k building church]))
-  (utility 28)
-  (effects       (begin-goal {@self orient}))
-  (cease-effects (end-goal   {@self orient})))

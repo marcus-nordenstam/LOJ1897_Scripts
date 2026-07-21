@@ -1,7 +1,11 @@
 ; ----------------------------------------------------------------------------
 ; partner_errand - the npc-THINK half of the business-partnership split (approach).
-; The clerk holds {@self partner <articles>}: travel to the firm's premises, then
-; dwell there to settle the terms.
+;
+; The decision (business_think.hs `business_partnership`) minted {@self goal {@self
+; partner <articles>}} and OWNS its whole life (it ceases when partner_act seats the
+; clerk as proprietor/org_head). partner_go routes him to the firm's premises; AT the
+; premises partner_go ceases and the goal is the leaf and promotes to partner_act -
+; no dwell rung.
 ; ----------------------------------------------------------------------------
 
 (npc-think partner_go
@@ -13,13 +17,3 @@
   (utility 85)
   (effects       (begin-goal {@self enter ?venue}))
   (cease-effects (end-goal   {@self enter ?venue})))
-
-(npc-think partner_dwell
-  (schedule on-commit)
-  (if-blocked hold)
-  (goal {@self partner})
-  (when (and (articles-building (goal-focus partner) ?venue)
-             (in-building ?venue)))
-  (utility 85)
-  (effects       (begin-goal {@self partner}))
-  (cease-effects (end-goal   {@self partner})))

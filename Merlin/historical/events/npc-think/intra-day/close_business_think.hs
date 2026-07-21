@@ -69,12 +69,17 @@
              (believes {?org record ?art}))
 
   ; The once-a-year failure roll (base x climate x means-penalty x merit-penalty;
-  ; wealth / diligence are his OWN derived dims, read as the founding events do),
-  ; guarding the LATCHED winding-up goal focused on his OWN articles (the errand
-  ; routes to their premises and dissolves the firm there). The yearly timer fires the
-  ; event once per year, so the chance is rolled exactly once per year.
-  (effects
-    (if (chance (* (* (business_failure_base) (business_failure_climate_mult))
-                   (* (+ 1.0 (* (business_failure_means_weight) (- 1.0 (target {@self wealth}))))
-                      (+ 1.0 (* (business_failure_merit_weight)  (- 1.0 (diligence)))))))
-        (begin-goal {@self close_business ?art}))))
+  ; wealth / diligence are his OWN derived dims, read as the founding events do), an
+  ; ONSET: (eval-until-hold) rolls it at the fire and LOCKS it once the goal holds (it
+  ; re-rolls each year until it lands). MAINTENANCE - the decision OWNS the winding-up
+  ; goal focused on his OWN articles end to end. The ?org role's {@self employer [k org
+  ; business]:?org} filter is the CONTINUOUS completion gate: while he is still the seated
+  ; proprietor the goal stands; once close_business_act shutters the premises and
+  ; reconcile_closed (perceiving the closed doors) ends his {@self employer ?org}, the
+  ; role drops and the cease-effects retract the goal.
+  (when (eval-until-hold
+          (chance (* (* (business_failure_base) (business_failure_climate_mult))
+                     (* (+ 1.0 (* (business_failure_means_weight) (- 1.0 (target {@self wealth}))))
+                        (+ 1.0 (* (business_failure_merit_weight)  (- 1.0 (diligence)))))))))
+  (effects       (begin-goal {@self close_business ?art}))
+  (cease-effects (end-goal   {@self close_business ?art})))

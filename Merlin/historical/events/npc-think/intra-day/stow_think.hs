@@ -8,13 +8,14 @@
 ;
 ;   stow_go     : holding the goal, not at home -> travel home. The loot / the
 ;                 bloody knife is physically CARRIED (controlled_by rides the
-;                 hand), so the world sees a laden walker, not a teleport.
-;   stow_put    : at home -> the short put-away act.
+;                 hand), so the world sees a laden walker, not a teleport. AT home the
+;                 go sub-goal is spent, the stow goal is the leaf and promotes to
+;                 stow_act (npc-act/stow.hs) - no dwell rung.
 ;
 ; A homeless NPC never fires stow_go; the item simply stays in hand (it rides
 ; them) and the goal stands - the same degenerate case the old C++ kept.
-; Utilities sit just above the burgle chain (85/86) so a laden thief carries
-; the loot home before hunting the next mark.
+; Utility sits just above the burgle chain so a laden thief carries the loot home
+; before hunting the next mark.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
@@ -29,11 +30,3 @@
   (utility 90)
   (effects       (begin-goal {@self enter ?home}))
   (cease-effects (end-goal   {@self enter ?home})))
-
-(npc-think stow_put
-  (short-term-think)
-  (goal {@self stow ?item})
-  (when (and (is-entity ?item)
-             (at-home)))
-  (utility 91)
-  (cont-fire-effects (begin-goal {@self stow})))

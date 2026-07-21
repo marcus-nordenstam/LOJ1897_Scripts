@@ -11,9 +11,10 @@
 ;     hold his club's meet. He role-casts his OWN club from the founder / record
 ;     beliefs he minted at found-club-seq (no scan) and latches a standing
 ;     {@self hold_meet <club-articles>} goal.
-;   hold_meet_route (short-think): while the goal stands, walk him to his
-;     clubhouse (articles-building) and, once there, latch the on-site
-;     {@self hold_meet_run} act-goal that hold_meet.hs drains.
+;   hold_meet_go / hold_meet_dwell: while the goal stands, hold_meet_go walks him to
+;     his clubhouse (articles-building; the generic enter chain does the travel) and
+;     cedes on arrival; hold_meet_dwell, once he is inside, latches the on-site
+;     {@self hold_meet_run} act-goal that hold_meet_act drains.
 ;
 ; The SPORT is authored content read per club kind from tables/club_sports.hs;
 ; the roster is the employee_register the organiser legitimately holds - both
@@ -39,24 +40,46 @@
               [k org club]
               (believes {?club founder @self}))
 
-  ; Latch the standing meet goal, focused on the club's articles (recovered from
-  ; @self's {?club record ?art} belief, exactly as club_joining / apprenticeship
-  ; recover an org's articles). The yearly timer mints it once a year;
-  ; (begin-goal) is idempotent, so an enumerated re-fire is a harmless no-op.
-  (effects
-    (begin-goal {@self hold_meet (target {?club record})})))
+  ; MAINTENANCE: the annual decision OWNS the meet goal end to end. hold_meet_act mints no
+  ; durable done-belief on @self (it records participated_in / won on the co-present MEMBERS),
+  ; so the completion gate reads the organiser's OWN episodic meet memory: the {@self
+  ; hold_meet_run} act-belief begun-at-commit / ended-at-completion (like gamble's play_game).
+  ; While it has been a while since his last meet the standing goal holds; once hold_meet_act
+  ; ends {@self hold_meet_run} days-since-last resets, the (when) drops, and the falling edge
+  ; ends the goal. The yearly timer owns the annual cadence, so the day-threshold need only
+  ; distinguish "just held" (0) from "a year on" (~365); 1 is the minimal such gate.
+  (when (>= (days-since-last @self hold_meet_run) 1))
+
+  ; Latch the standing meet goal, focused on the club's articles (recovered from @self's
+  ; {?club record ?art} belief, exactly as club_joining / apprenticeship recover an org's
+  ; articles).
+  (effects       (begin-goal {@self hold_meet (target {?club record})}))
+  (cease-effects (end-goal   {@self hold_meet (target {?club record})})))
 
 ; --- routing: get the organiser to his clubhouse, then latch the on-site act ---
-; The clubhouse is the goal focus's premises (articles-building), so the venue is
-; role-free (recovered from the standing goal, never a scan). route-to-venue-then-act
-; (macros/errand_macros.hs) holds a {@self go ?clubhouse} sub-goal until he is
-; there, then latches {@self hold_meet_run} - the act-goal hold_meet.hs drains.
-(npc-think hold_meet_route
-  (short-term-think)
+; The clubhouse is the goal focus's premises (articles-building), role-free (recovered from
+; the standing goal, never a scan). Two maintenance rungs, both gated on the standing
+; {@self hold_meet}: hold_meet_go holds {@self enter ?clubhouse} while he is not yet inside
+; (the generic enter chain does the travel) and ceases it on arrival; hold_meet_dwell, once
+; he is inside, holds {@self hold_meet_run} - the act-goal hold_meet_act drains. It is NOT
+; self-affirming: it mints hold_meet_run, distinct from the hold_meet goal it gates on. When
+; hold_meet ceases the standing goal, both rungs lose their parent and retract cleanly.
+(npc-think hold_meet_go
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self hold_meet})
-  (when (articles-building (goal-focus hold_meet) ?clubhouse))
+  (when (and (articles-building (goal-focus hold_meet) ?clubhouse)
+             (not (in-building ?clubhouse))))
   (utility 35)
-  (cont-fire-effects
-    (if (in-building ?clubhouse)
-        (begin-goal {@self hold_meet_run})
-        (excl-goal {@self enter ?clubhouse}))))
+  (effects       (begin-goal {@self enter ?clubhouse}))
+  (cease-effects (end-goal   {@self enter ?clubhouse})))
+
+(npc-think hold_meet_dwell
+  (schedule on-commit)
+  (if-blocked hold)
+  (goal {@self hold_meet})
+  (when (and (articles-building (goal-focus hold_meet) ?clubhouse)
+             (in-building ?clubhouse)))
+  (utility 35)
+  (effects       (begin-goal {@self hold_meet_run}))
+  (cease-effects (end-goal   {@self hold_meet_run})))

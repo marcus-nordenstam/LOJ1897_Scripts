@@ -45,32 +45,36 @@
   ; 450ms+ per-run perf hog. @self weighs his OWN merit + means here, exactly like
   ; business_partnership (which fires healthily). A backed clerk then founds his own
   ; business via business_founding's `backed_by` means-branch.
-  ; A merit-and-character clerk who cannot self-fund and is not yet backed (the
-  ; belief-pure part). The backing firm is his employer, resolved in the effect via
+  ; A merit-and-character clerk who can weigh his own standing (the belief-pure
+  ; part). The backing firm is his employer, resolved in the effect via
   ; (target {@self employer}). The working-age band, not-already-an-owner, merit and
-  ; means dims, and the monthly chance are all non-belief and live in (when ...) below.
+  ; means dims, the completion gate and the onset chance live in (when ...) below.
   (role @self (old_human @self)
               (believes {@self employer ?})
               (or (believes {@self repute [k respectable]})
-                  (believes {@self repute [k exemplary]}))
-              (not (believes {@self backed_by ?})))
+                  (believes {@self repute [k exemplary]})))
 
-  ; Moved from the @self role (non-belief gates): the monthly chance (/12 of the old
-  ; annual 0.40), working-age band, not-already-an-owner, and the merit + means dims.
-  (when (and (chance (* 0.033 (+ 0.5 (attr @self assertiveness))))
+  ; MAINTENANCE: the decision OWNS the back goal end to end. (not backed_by) is the
+  ; CONTINUOUS completion gate - while he is still unbacked the goal stands; the moment
+  ; invest_act seals it ({@self backed_by ?}) the gate falls and the goal ends. The
+  ; (chance) is an ONSET roll - (eval-until-hold) rolls it at the fire and LOCKS it once
+  ; holding (re-rolling each month until it lands). The working-age band, not-already-an-
+  ; owner and the merit + means dims stay live gates.
+  (when (and (not (believes {@self backed_by ?}))
              (>= (years-old @self) 25)
              (<= (years-old @self) 55)
              (not (= (job-level @self) [k org_head]))
              (>= (diligence) 0.55)
-             (< (target {@self wealth}) 0.5)))
+             (< (target {@self wealth}) 0.5)
+             (eval-until-hold (chance (* 0.033 (+ 0.5 (attr @self assertiveness)))))))
 
   ; npc-think: the clerk resolves to secure his employer's backing. Mints {@self goal
   ; {@self back ?org}} (focus = the employer firm); the npc-act (invest_errand.hs)
-  ; sends him to the firm and the completion records {@self backed_by ?org} there.
-  ; (goal) is idempotent. (`back` label reused as the clerk's pursue-backing goal.)
-  ; Focus = the employer firm, read inline from @self's own employer belief.
-  (effects
-    (begin-goal {@self back (target {@self employer})})))
+  ; sends him to the firm and the completion records {@self backed_by ?org} there -
+  ; which trips the completion gate above. Focus = the employer firm, read inline from
+  ; @self's own employer belief. cease-effects end the goal on that falling edge.
+  (effects       (begin-goal {@self back (target {@self employer})}))
+  (cease-effects (end-goal   {@self back})))
 
 ; --- business_partnership: an established proprietor takes on a co-owner ----
 ; SELF-POV (telepathy purge CAT-2): the clerk is the sole deliberator - he weighs
@@ -104,14 +108,17 @@
   ;; dozen firms. The when_gate is evaluated live per firing; once the candidate
   ;; has been made an org_head this tick, the re-check fails and the sampler
   ;; backtracks to another candidate.
-  ;; Also hosts the non-belief @self gates moved out of the role: the monthly chance
-  ;; (/12 of the old annual 0.12), the working-age band, and the merit + means dims.
-  (when (and (chance (* 0.01 (+ 0.5 (attr @self assertiveness))))
-             (not (= (job-level @self) [k org_head]))
+  ;; MAINTENANCE: that same "not org_head" test is ALSO the CONTINUOUS completion
+  ;; gate - the hold re-checks the (when) each pass, so the moment partner_act seats
+  ;; him as proprietor (org_head) it falls and the goal ceases. The (chance) is the
+  ;; ONSET roll: (eval-until-hold) rolls it at the fire and LOCKS it once holding. The
+  ;; working-age band and the merit + means dims stay live gates.
+  (when (and (not (= (job-level @self) [k org_head]))
              (>= (years-old @self) 25)
              (<= (years-old @self) 55)
              (>= (diligence) 0.55)
-             (< (target {@self wealth}) 0.5)))
+             (< (target {@self wealth}) 0.5)
+             (eval-until-hold (chance (* 0.01 (+ 0.5 (attr @self assertiveness)))))))
 
   ; SPLIT (Item 5): the npc-think - the clerk decides to buy in. Mints {@self
   ; goal {@self partner <articles>}}; the npc-act (partner_errand.hs) sends him to
@@ -124,7 +131,8 @@
   ; no goal stands. Focus = the firm's articles ({?org record ?art}).
   (effects
     (end-goal {@self partner})
-    (begin-goal {@self partner (target {?principal_org record})})))
+    (begin-goal {@self partner (target {?principal_org record})}))
+  (cease-effects (end-goal {@self partner})))
 
 ; --- business_founding: a man of means sets up on his own account ----------
 ; SPLIT (Item 5, the great split): this is now the npc-THINK - the decision to
@@ -147,21 +155,22 @@
               (or (believes {@self repute [k respectable]})
                   (believes {@self repute [k exemplary]})))
 
-  ; Moved from the @self role (non-belief gates): the monthly chance (/12 of the old
-  ; annual 0.30), working-age band, not-already-an-owner, the merit dim, and the means
-  ; branch (enough wealth OR a backer) - a mixed numeric/belief OR, so it lives here.
-  ; Re-firing is harmless: (goal) is idempotent, so re-rolling the chance while the
-  ; founder still holds an unacted found goal just re-mints the same goal (no-op).
-  (when (and (chance (* 0.025 (+ 0.5 (attr @self assertiveness))))
+  ; MAINTENANCE: the decision OWNS the found goal end to end. (not org_head) is the
+  ; CONTINUOUS completion gate - while he is not yet a proprietor the goal stands; the
+  ; hold re-checks the (when) each pass, so the moment found_business_act seats him as
+  ; org_head it falls and the goal ceases. The (chance) is an ONSET roll - (eval-until-
+  ; hold) rolls it at the fire and LOCKS it once holding. The working-age band, merit
+  ; dim and the means branch (enough wealth OR a backer) stay live gates.
+  (when (and (not (= (job-level @self) [k org_head]))
              (>= (years-old @self) 25)
              (<= (years-old @self) 55)
-             (not (= (job-level @self) [k org_head]))
              (>= (diligence) 0.55)
              (or (>= (target {@self wealth}) 0.5)
-                 (believes {@self backed_by ?}))))
+                 (believes {@self backed_by ?}))
+             (eval-until-hold (chance (* 0.025 (+ 0.5 (attr @self assertiveness)))))))
 
-  (effects
-    (begin-goal {@self found})))
+  (effects       (begin-goal {@self found}))
+  (cease-effects (end-goal   {@self found})))
 
 ; --- business_homeostat: the org-supply floor, founder-by-founder --------------
 ; The safety net that sustains EMPLOYMENT across generations. The MERIT founding
@@ -188,17 +197,17 @@
   ; all non-belief and live in (when ...) below.
   (role @self (old_human @self))
 
-  ; Moved from the @self role (all non-belief): a modest monthly chance (enough
-  ; eligible adults resolve to found to refill the floor as businesses fail, without a
-  ; goal-storm - the goal->bank->commit lag is premises-capped regardless), the
-  ; founding-age band, not-already-an-owner, not-already-pursuing-a-founding, and the
-  ; LIVE business-floor gate.
-  (when (and (chance 0.05)
-             (>= (years-old @self) 25)
+  ; MAINTENANCE floor-net (co-minter of {@self found} alongside business_founding). The
+  ; CONTINUOUS completion gate is org_head (falls when he founds -> cease). The ONSET group
+  ; (eval-until-hold) is rolled at the fire and locked once holding: the monthly chance, the
+  ; not-already-pursuing self-dedup (would self-defeat if re-checked - it minted the goal), and
+  ; the LIVE business-floor gate (do not abort a founding-in-flight if the floor recovers).
+  (when (and (>= (years-old @self) 25)
              (<= (years-old @self) 55)
              (not (= (job-level @self) [k org_head]))
-             (no-goal {@self found})
-             (orgs-below-population-floor [k org business] 12)))
+             (eval-until-hold (chance 0.05)
+                              (no-goal {@self found})
+                              (orgs-below-population-floor [k org business] 12))))
 
-  (effects
-    (begin-goal {@self found})))
+  (effects       (begin-goal {@self found}))
+  (cease-effects (end-goal   {@self found})))

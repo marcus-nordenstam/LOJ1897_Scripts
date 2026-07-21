@@ -7,8 +7,9 @@
 ; the destination is any same-town clubhouse (by KIND, since (venue ...)
 ; random-picks per call).
 ;
-;   resign_go     : hold the goal, not at a clubhouse -> travel act to one.
-;   resign_dwell  : hold the goal, AT a clubhouse -> a short dwell.
+;   resign_go : hold the goal, not at a clubhouse -> travel act to one. AT a clubhouse the
+;               goal is the leaf and promotes to resign_club_act - no dwell rung (the
+;               decision, clubs_think.hs club_resignation, owns the goal's whole life).
 ; ----------------------------------------------------------------------------
 
 (npc-think resign_go
@@ -22,12 +23,3 @@
   (utility 40)
   (effects       (begin-goal {@self enter ?go_dest}))
   (cease-effects (end-goal   {@self enter ?go_dest})))
-
-(npc-think resign_dwell
-  (schedule on-commit)
-  (if-blocked hold)
-  (goal {@self resign_club})
-  (when (at-place-kind [k building social_clubhouse]))
-  (utility 40)
-  (effects       (begin-goal {@self resign_club}))
-  (cease-effects (end-goal   {@self resign_club})))

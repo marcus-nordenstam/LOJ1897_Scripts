@@ -22,5 +22,4 @@
   (duration 45)
   (act-effects
     (begin-belief {@self owe (goal-focus take_loan)})
-    (end-act {@self take_loan})
-    (end-goal {@self take_loan})))
+    (end-act {@self take_loan})))

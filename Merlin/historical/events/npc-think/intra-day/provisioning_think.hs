@@ -120,14 +120,16 @@
   (effects       (begin-goal {@self enter ?shop}))
   (cease-effects (end-goal   {@self enter ?shop})))
 
+; MAINTENANCE co-minter of the shared {@self orient} search: while the provisioner knows no
+; provisions shop, mint the orient goal; cease the moment orient_act learns one ({@self
+; provisions_shop}). No (no-goal) dedup - under multi-rule support each lane co-mints its own
+; source on {@self orient} and withdraws it independently; the goal lives until the last withdraws.
 (npc-think provision_orient
-  (short-term-think)
+  (schedule on-commit)
   (goal {@self provision})
-  (bind (target {@self provisions_shop ?}) ?shop)
-  (when (and (not (is-entity ?shop))
-             (no-goal {@self orient})))
-  (cont-fire-effects
-    (begin-goal {@self orient})))
+  (when (not (believes {@self provisions_shop ?})))
+  (effects       (begin-goal {@self orient}))
+  (cease-effects (end-goal   {@self orient})))
 
 ; ---- the delivery drive ------------------------------------------------------
 ; Laden with food = the standing pressure to deliver it, re-stamped per
