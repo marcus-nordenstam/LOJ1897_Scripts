@@ -24,7 +24,7 @@
 
   (role @self (believes {@self respectability_situation ?}))
 
-  (cont-fire-effects
+  (effects
     (mint-band {@self identity}
       (clamp (+ (* (< (attr @self assertiveness) (coward-assert-max))
                    (> (attr @self withdrawal)    (coward-withdraw-min)))

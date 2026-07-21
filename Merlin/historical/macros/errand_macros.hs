@@ -8,8 +8,8 @@
 ; goal label, the venue var, the listing kind, and the minted belief label are all
 ; the caller's arguments.
 ;
-; Macros expand in-place, so these are used INSIDE an event's (cont-fire-effects
-; ...) / (act-effects ...) block. The VENUE ROLE itself is still cast inline in the
+; Macros expand in-place, so these are used INSIDE an event's (effects ...) /
+; (act-effects ...) block. The VENUE ROLE itself is still cast inline in the
 ; event (a role clause cannot be macro-generated), filtered to the venue kind and
 ; scored by proximity - the macros take the resulting KNOWN ?venue var (never a
 ; world scan; knowledge-honest by construction).

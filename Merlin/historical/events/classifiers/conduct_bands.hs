@@ -26,7 +26,7 @@
 
   (role @self (believes {@self class_situation ?}))
 
-  (cont-fire-effects
+  (effects
     (mint-band {@self honesty}    (honesty)
       [k conduct_level good] 0.66 [k conduct_level fair] 0.33 [k conduct_level lax] -1)
     (mint-band {@self diligence}  (diligence)

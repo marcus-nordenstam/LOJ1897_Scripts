@@ -95,7 +95,7 @@
   ; NON-goal-gated standalone (goal? query, so no on-commit trigger) - stays level-
   ; triggered for now; go-into -> the enter chain. The cont-fire purge here waits for
   ; the apparatus teardown (the enter-home goal is inert once home).
-  (cont-fire-effects (bind (target {@self home ?}) ?go_dest) (excl-goal {@self enter ?go_dest})))
+  (effects (bind (target {@self home ?}) ?go_dest) (excl-goal {@self enter ?go_dest})))
 
 ; THE VICTIM FIGHTS BACK. A struck victim holds {@self under_attack <foe>} (set by
 ; the blow that landed) and was woken THIS instant. If the foe is still co-present

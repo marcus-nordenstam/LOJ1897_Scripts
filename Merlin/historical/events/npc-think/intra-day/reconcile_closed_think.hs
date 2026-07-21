@@ -27,12 +27,11 @@
 ; minimal rule over the perceivable fact. Only the employer/closed-workplace
 ; reconciliation is built here; the rest are left to their own teardown lanes.
 ;
-; LANE: (short-term-think) - re-evaluated each intra-day deliberation, so it fires
-; the cycle he is at the shuttered premises. (cont-fire-effects ...): ending the
-; employer belief makes the (bind {@self employer ?org}) conjunct fail next cycle,
-; so the gate self-extinguishes after one firing (no first-fire latch needed). No
-; goal / utility: the effects just end beliefs when the gate holds (they do not
-; compete for the motor).
+; LANE: (schedule always) - re-evaluated each intra-day deliberation, so it fires
+; the cycle he is at the shuttered premises. Ending the employer belief makes the
+; (role ?org (believes {@self employer ?org})) gate fail next cycle, so the rule
+; self-extinguishes after one firing. No goal / utility: the effects just end
+; beliefs when the gate holds (they do not compete for the motor).
 ; ----------------------------------------------------------------------------
 
 ; always: the firing condition is perceiving {?wp struct_status closed} at the

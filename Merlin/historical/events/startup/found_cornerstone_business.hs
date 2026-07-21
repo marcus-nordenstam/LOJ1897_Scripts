@@ -30,7 +30,7 @@
   ; age gate stays live (non-belief op read).
   (when (>= (years-old @self) 25))
 
-  (cont-fire-effects
+  (effects
     ; Found the business with its HEAD only (the proprietor); the emergent labour
     ; market staffs it from the unemployed over subsequent ticks.
     (for-each-table-record cornerstone_businesses

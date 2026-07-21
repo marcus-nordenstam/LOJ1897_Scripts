@@ -27,17 +27,14 @@
 ; dominated for everyone.
 ; ----------------------------------------------------------------------------
 
-; Both rungs stay LEVEL (schedule always), not the on-changed begin-goal + cease
-; maintenance form. Each (when) binds TWO free vars off ONE shift belief -
-; {?job <today's-shift-label> ?start ?end} - and (believes) binds only the target,
-; never the aux, so ?end forces a (bind). That (bind) has nowhere re-eval-safe to go:
-; a (role ?job ...) filter rejects it (its dynamic label AND aux field are both
-; non-cacheable, so the role-object cache aborts the load), and a (bind) left in a
-; maintenance (when) hard-errors once the rung holds - the hold restores the fire-time
-; bindings, so the re-evaluated (bind) sees an already-bound pattern. With no
-; re-eval-safe multi-var bind available, the faithful cadence is (schedule always) +
-; (excl-goal ...): the per-cycle intra-day sweep ends the goal the cycle a gate drops
-; (shift end, the lunch band, or arrival at the workplace).
+; Both rungs are LEVEL (schedule always) MAINTENANCE. Each (when) binds TWO free vars off ONE
+; shift belief - {?job <today's-shift-label> ?start ?end} - and (believes) binds only the target,
+; never the aux, so ?end forces a (bind). That (bind) is an ONSET step: it derives today's shift
+; hours at the fire. Wrapped in (eval-until-hold ...) it runs at the fire (binding ?start/?end into
+; the stash) and is SKIPPED on the held re-check (which restores the fire-time bindings), so it
+; never re-errors on an already-bound pattern. The CONTINUOUS gates (at-workplace + in-work-hours,
+; re-read live against the stashed shift) then own the cease: the always-level re-check ends the
+; goal the cycle a gate drops (shift end, or leaving the workplace).
 
 (npc-think day_work
   (schedule always)
@@ -45,27 +42,28 @@
   (role ?org (believes {@self employer ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (role ?job (believes {@self job ?job}))
-  (when (and (bind {?job (work-hours-today-label) ?start ?end})
-             (at-workplace ?wp)
-             (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
+  (when (eval-until-hold (bind {?job (work-hours-today-label) ?start ?end}))  ; onset: derive the shift, bind ?start/?end
+        (at-workplace ?wp)
+        (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
   (utility (* 80 (factors (attr @self industriousness) 0.75 0.5)))
   ; The stay YIELDS at the workplace lunch band (12-14): eligibility is only
   ; sampled at act completions, so an uncapped shift-long stay would leap
   ; clean over work_lunch's window. After lunch the next 12:00 is tomorrow
   ; (a huge cap), so the stay runs to shift end.
-  (effects (excl-goal {@self work ?wp})))
+  (effects       (begin-goal {@self work ?wp}))
+  (cease-effects (end-goal   {@self work ?wp})))
 
 (npc-think day_go_to_work
   ; Shift on or imminent and not yet at the workplace: mint {@self enter ?wp} and the
-  ; generic enter chain (enter.hs) routes the travel. Level for the shared shift-hours
-  ; bind blocker documented above.
+  ; generic enter chain (enter.hs) routes the travel. Ceases on arrival (at-workplace) or shift end.
   (schedule always)
   (fatigue-timeout 0)              ; commuting to work is not a fruitless search - never fatigue-capped
   (role ?org (believes {@self employer ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (role ?job (believes {@self job ?job}))
-  (when (and (bind {?job (work-hours-today-label) ?start ?end})
-             (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))
-             (not (at-workplace ?wp))))
+  (when (eval-until-hold (bind {?job (work-hours-today-label) ?start ?end}))  ; onset: derive the shift, bind ?start/?end
+        (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))
+        (not (at-workplace ?wp)))
   (utility (* 80 (factors (attr @self industriousness) 0.75 0.5)))
-  (effects (excl-goal {@self enter ?wp})))
+  (effects       (begin-goal {@self enter ?wp}))
+  (cease-effects (end-goal   {@self enter ?wp})))

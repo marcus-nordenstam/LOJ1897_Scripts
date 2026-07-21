@@ -30,7 +30,7 @@
   ; age gate stays live (non-belief op read).
   (when (>= (years-old @self) 25))
 
-  (cont-fire-effects
+  (effects
     ; Found the org with its HEAD only; the emergent labour market (employment.hs
     ; `hiring` -> hire_errand -> hire-matched) staffs it from the unemployed over
     ; subsequent ticks. employee_count / employee_role are no longer read here.

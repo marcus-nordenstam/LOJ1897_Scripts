@@ -18,7 +18,7 @@
               (believes {@self prestige ?})
               (believes {@self wealth ?}))
 
-  (cont-fire-effects
+  (effects
     (mint-band {@self class_situation}
       (+ (* 0.5 (target {@self breeding}))
          (* 0.3 (target {@self prestige}))

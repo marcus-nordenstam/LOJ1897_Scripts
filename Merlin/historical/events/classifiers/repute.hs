@@ -27,7 +27,7 @@
 
   (role @self (believes {@self class_situation ?}))
 
-  (cont-fire-effects
+  (effects
     (mint-band {@self repute} (repute-fold @self)
       [k respectability_situation exemplary]    0.80
       [k respectability_situation respectable]  0.60

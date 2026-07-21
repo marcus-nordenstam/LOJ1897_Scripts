@@ -27,7 +27,7 @@
 
   (role @self (believes {@self wealth ?}))
 
-  (cont-fire-effects
+  (effects
     (begin-belief {@self contentment
       (clamp (+ (contentment-neutral)
                 (* (- (attr @self enthusiasm) 0.5) (contentment-affect-weight))

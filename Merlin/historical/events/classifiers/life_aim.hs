@@ -25,7 +25,7 @@
   (role @self (believes {@self wealth ?})
               (believes {@self decorum ?}))
 
-  (cont-fire-effects
+  (effects
     (mint-argmax {@self life_aim} 0.01 [k life_aim belonging_aim]
       [k life_aim legacy_aim]
         (* (/ (+ (attr @self compassion) (attr @self politeness)) 2)

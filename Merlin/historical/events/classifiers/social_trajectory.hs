@@ -14,7 +14,7 @@
               (believes {@self prestige ?})
               (believes {@self wealth ?}))
 
-  (cont-fire-effects
+  (effects
     (mint-band {@self social_trajectory}
       (+ (* 0.5 (target {@self prestige}))
          (* 0.5 (target {@self wealth}))

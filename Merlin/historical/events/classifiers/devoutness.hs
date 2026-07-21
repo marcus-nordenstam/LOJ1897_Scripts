@@ -21,7 +21,7 @@
 
   (role @self (believes {@self class_situation ?}))
 
-  (cont-fire-effects
+  (effects
     (mint-band {@self devoutness} (evidence @self worship 6 6)
       [k piety_band devout] 0.55 [k piety_band observant] 0.15 [k piety_band secular] -1)))
 

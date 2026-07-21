@@ -21,14 +21,11 @@
 ; defaults). No count, no wave, no iteration. Ambient scalar reads
 ; ((population-pressure), decision #1) are allowed in the gate.
 ;
-; cont-fire-effects (not first-fire, not the banned (effects ...)): a (sim-window-think)
-; runs in the window-start pass, OUTSIDE the intra-day cascade, where the first-fire
-; lifecycle latch never arms - so a sim-window-think authors its effects in cont-fire,
-; which the window-start pass runs once per monthly window per NPC. That once-per-window
-; cadence, gated by the sparseness (chance), IS the "one admission per cycle while sparse"
-; valve. Creating an entity mid per-NPC pass is safe - the arrival is appended to the env,
-; not to this pass's pre-collected agent list (cf. births.hs); only DESTROYING an entity
-; would corrupt the walk.
+; (schedule cooldown 1 m): the admission fires at most once per calendar month per
+; eligible official. That once-per-month cadence, gated by the sparseness (chance), IS
+; the "one admission per cycle while sparse" valve. Creating an entity mid per-NPC pass
+; is safe - the arrival is appended to the env, not to this pass's pre-collected agent
+; list (cf. births.hs); only DESTROYING an entity would corrupt the walk.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")

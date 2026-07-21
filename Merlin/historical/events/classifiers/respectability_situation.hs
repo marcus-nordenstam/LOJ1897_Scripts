@@ -23,7 +23,7 @@
   (role @self (believes {@self chastity ?})
               (believes {@self decorum ?}))
 
-  (cont-fire-effects
+  (effects
     (mint-band {@self respectability_situation}
       (/ (+ (honesty)
             (sobriety)

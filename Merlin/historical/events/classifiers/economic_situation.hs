@@ -23,7 +23,7 @@
 
   (role @self (believes {@self wealth ?}))
 
-  (cont-fire-effects
+  (effects
     (mint-band {@self economic_situation} (target {@self wealth})
       [k economic_situation wealthy]     0.90
       [k economic_situation prosperous]  0.75

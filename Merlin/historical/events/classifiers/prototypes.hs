@@ -19,7 +19,7 @@
   (rng-stream behaviour)
   (role @self (or (believes {@self craving ?})
                   (believes {@self prototype [k prototype drunkard]})))
-  (cont-fire-effects
+  (effects
     (mint-band {@self prototype} (believes {@self craving ?})
       [k prototype drunkard] 0.5)))
 
@@ -31,7 +31,7 @@
   (if-blocked hold)
   (rng-stream behaviour)
   (role @self (believes {@self wealth ?}))
-  (cont-fire-effects
+  (effects
     (mint-band {@self prototype}
       (* (>= (target {@self wealth}) 0.60)
          (<= (target {@self breeding}) 0.35))
@@ -46,7 +46,7 @@
   (if-blocked hold)
   (rng-stream behaviour)
   (role @self (believes {@self class_situation ?}))
-  (cont-fire-effects
+  (effects
     (mint-band {@self prototype}
       (* (believes {@self social_trajectory [k social_trajectory rising]})
          (clamp (+ (believes {@self class_situation [k class_situation middle]})
@@ -62,7 +62,7 @@
   (if-blocked hold)
   (rng-stream behaviour)
   (role @self (believes {@self economic_situation ?}))
-  (cont-fire-effects
+  (effects
     (mint-band {@self prototype}
       (* (clamp (+ (believes {@self economic_situation [k economic_situation poor]})
                    (believes {@self economic_situation [k economic_situation destitute]})) 0 1)
@@ -76,7 +76,7 @@
   (if-blocked hold)
   (rng-stream behaviour)
   (role @self (believes {@self economic_situation ?}))
-  (cont-fire-effects
+  (effects
     (mint-band {@self prototype}
       (* (clamp (+ (believes {@self economic_situation [k economic_situation poor]})
                    (believes {@self economic_situation [k economic_situation destitute]})) 0 1)
