@@ -69,6 +69,8 @@
 ; act-belief IS the meal memory (target = the meal occasion, aux = the place);
 ; there is no separate dine record.
 
+(include "../../../macros/intensity_macros.hs")
+
 ; ---- notice the larder -----------------------------------------------------
 ; A home, hungry resident who believes there is NO food OBSERVES their own
 ; kitchen (the larder room), surfacing its contents into belief. Without this
@@ -231,15 +233,17 @@
 ; want_eat_out_restaurant mint {@self eat [k supper] <venue>}, eat_go walks
 ; there, and eat_act runs the meal - no venue prop consumed.)
 
-; THE STARVATION TAIL (ruling 15) - past famished (hunger > 1.3) food-seeking
-; overrides schedule and window. Utility band 130-141: above every routine
-; lane (work maxes at 100), below the fight lane (150-200) - a starving man
-; still defends himself first (and under-attack gates these out anyway).
-; Ladder inside the band: eat what you carry (141) > eat the pantry (140) >
-; go home to a stocked pantry (138) > buy at a shop if wealth permits (135)
-; > STEAL food and eat it (130) - the pauper's arc: a real ledger crime.
-; Venue knowledge rides the same provisions_shop belief the provisioning
-; errand builds; a starving stranger to the town tries any shop.
+; THE STARVATION TAIL (ruling 15) - past famished (appetite > 1.3) food-seeking
+; overrides schedule and window. Every food-source lane carries the SAME convex
+; (homeostatic appetite 2.0 70) drive: ~130 at the famished threshold (above every
+; routine lane, work maxes at 100) and DIVERGING as appetite climbs toward the limit,
+; so the closer to collapse the more decisively food-seeking dominates - the convex
+; tail the old flat 130-141 band only approximated. The source PREFERENCE emerges, not
+; from magic gaps: eat-at-source (carried / pantry, R=0) beats a go-leg (travel, -rhoR)
+; automatically; forage_act's branch order picks among co-located sources; and buy vs
+; steal never compete (mutually exclusive on the wealth guard). Venue knowledge rides
+; the same provisions_shop belief the provisioning errand builds; a starving stranger
+; to the town tries any shop.
 
 ; THE STARVING WATCH - the physiology->belief seam. Hunger is an ATTR (no belief
 ; seam, so no cached gate can key on it directly); this pair maintains the
@@ -263,10 +267,10 @@
   (effects
     (end-belief {@self starving})))
 
-; The four food-source DESIRES all push utility onto one {@self forage} goal (the
-; ladder is by branch ORDER in forage_act, not by competing goals): eat what you
-; carry (141) > eat the pantry (140) > buy at a shop (135) > STEAL and eat (130).
-; The GO lanes (already goal-based) route to home / a shop when not there.
+; The four food-source DESIRES all push the same convex drive onto one {@self forage}
+; goal (the source is chosen by branch ORDER in forage_act, not by competing utility):
+; eat what you carry > eat the pantry > buy at a shop > STEAL and eat. The GO lanes
+; (already goal-based) route to home / a shop when not there.
 
 ; Eat what you carry: the laden cook (or laden thief) whose FIRST standing stow
 ; goal is a food item.
@@ -276,7 +280,7 @@
   (role @self (believes {@self starving}))
   (when (and (> (attr @self appetite) 1.3)
              (control [k food])))
-  (utility 141)
+  (utility (homeostatic appetite 2.0 70))
   (effects       (begin-goal {@self forage}))
   (cease-effects (end-goal   {@self forage})))
 
@@ -288,7 +292,7 @@
   (when (and (> (attr @self appetite) 1.3)
              (at-home)
              (> (count-believed-located [k food] ?home) 0)))
-  (utility 140)
+  (utility (homeostatic appetite 2.0 70))
   (effects       (begin-goal {@self forage}))
   (cease-effects (end-goal   {@self forage})))
 
@@ -300,7 +304,7 @@
   (when (and (> (attr @self appetite) 1.3)
              (not (at-home))
              (> (count-believed-located [k food] ?home) 0)))
-  (utility 138)
+  (utility (homeostatic appetite 2.0 70))
   (effects       (begin-goal {@self enter ?home}))
   (cease-effects (end-goal   {@self enter ?home})))
 
@@ -313,7 +317,7 @@
   (when (and (> (attr @self appetite) 1.3)
              (> (target {@self wealth}) 0.2)
              (at-place-kind [k building shop])))
-  (utility 135)
+  (utility (homeostatic appetite 2.0 70))
   (effects       (begin-goal {@self forage}))
   (cease-effects (end-goal   {@self forage})))
 
@@ -328,7 +332,7 @@
   (when (and (> (attr @self appetite) 1.3)
              (> (target {@self wealth}) 0.2)
              (not (at-place-kind [k building shop]))))
-  (utility 135)
+  (utility (homeostatic appetite 2.0 70))
   (effects
     (if (is-entity ?shop)
         (then (begin-goal {@self enter ?shop}))
@@ -348,7 +352,7 @@
   (when (and (> (attr @self appetite) 1.3)
              (not (> (target {@self wealth}) 0.2))
              (at-place-kind [k building shop])))
-  (utility 130)
+  (utility (homeostatic appetite 2.0 70))
   (effects       (begin-goal {@self forage}))
   (cease-effects (end-goal   {@self forage})))
 
@@ -361,7 +365,7 @@
   (when (and (> (attr @self appetite) 1.3)
              (not (> (target {@self wealth}) 0.2))
              (not (at-place-kind [k building shop]))))
-  (utility 130)
+  (utility (homeostatic appetite 2.0 70))
   (effects
     (if (is-entity ?shop)
         (then (begin-goal {@self enter ?shop}))
