@@ -24,4 +24,4 @@
              (believes {?building room [k bedroom]})))
 
   (utility 20)
-  (effects (propose {@self make_cache ?building})))
+  (effects (maintain-proposal {@self make_cache ?building})))

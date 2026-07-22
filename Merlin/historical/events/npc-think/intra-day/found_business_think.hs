@@ -39,4 +39,4 @@
   (goal    {@self found})
   (when    (at-place-kind [k building bank]))
   (utility 85)
-  (effects (propose {@self found})))
+  (effects (maintain-proposal {@self found})))

@@ -48,7 +48,7 @@
   (role @self (grown @self))
   (when    (can-drink @self))
   (utility (drink-drive @self))
-  (effects (propose {@self drink})))
+  (effects (maintain-proposal {@self drink})))
 
 ; CASE B - not at a pub, but knows one: head to it via the generic enter chain (§5.11). A
 ; MAINTENANCE event: on the FIRST fire it roulettes a pub and mints {@self enter ?pub}, then

@@ -58,18 +58,18 @@
   (goal {@self enrol_primary})
   (when (at-place-kind [k building school]))
   (utility 35)
-  (effects (propose {@self enrol_primary})))
+  (effects (maintain-proposal {@self enrol_primary})))
 
 (npc-think secondary_at_school
   (schedule always)
   (goal {@self enrol_secondary})
   (when (at-place-kind [k building school]))
   (utility 35)
-  (effects (propose {@self enrol_secondary})))
+  (effects (maintain-proposal {@self enrol_secondary})))
 
 (npc-think university_at_school
   (schedule always)
   (goal {@self enrol_university})
   (when (at-place-kind [k building school]))
   (utility 35)
-  (effects (propose {@self enrol_university})))
+  (effects (maintain-proposal {@self enrol_university})))

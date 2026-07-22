@@ -45,7 +45,7 @@
 ; his own documents, lists the premises for sale if he owns it, and clears the act on
 ; completion (close_business.hs owns the goal's teardown). No cross-mind write: workers
 ; reconcile themselves via reconcile_closed when they find the premises shut.
-(npc-act close_business_act
+(npc-action close_business_act
   (bind (goal-focus close_business) ?art)
   (act {@self close_business})
   (duration 90)

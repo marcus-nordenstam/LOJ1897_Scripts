@@ -10,7 +10,7 @@
 ; listed. Inheritance deeds him the dwelling ({@self own}); a tenant's death /
 ; emigration ends his {?prop tenant}, so the vacancy surfaces without a scan.
 ;
-; Routing then walks him to a house agency, where list_to_let_act (npc-act) files
+; Routing then walks him to a house agency, where list_to_let_act (npc-action) files
 ; the for_lease_listing and mints {?prop availability for_rent} - the durable "to
 ; let" signal landlord_estate.hs already reads, AND the completion that retracts the
 ; intent: the same {?prop availability for_rent} drops the ?prop role, so the decision's
@@ -61,7 +61,7 @@
   (when (and (articles-building ?art ?venue)
              (in-building ?venue)))
   (utility 40)
-  (effects (propose {@self let})))
+  (effects (maintain-proposal {@self let})))
 
 ; CASE B - knows a house agency, not at its office: travel there. Its incorporation
 ; articles name the office he calls at (articles-building).

@@ -29,4 +29,4 @@
   (when (and (articles-building (goal-focus join_club) ?venue)
              (in-building ?venue)))
   (utility 40)
-  (effects (propose {@self join_club})))
+  (effects (maintain-proposal {@self join_club})))

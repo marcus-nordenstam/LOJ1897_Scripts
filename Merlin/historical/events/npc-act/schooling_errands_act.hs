@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; schooling_errands (npc-act) - the ACT halves of the schooling-enrolment splits.
+; schooling_errands (npc-action) - the ACT halves of the schooling-enrolment splits.
 ;
 ; Each enrolment decision (schooling.hs enroll_primary / _secondary / _university)
 ; minted {@self goal {@self enrol_<level>}}. The go/dwell think half lives in
@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 ; ----- primary -------------------------------------------------------------
-(npc-act enrol_primary_act
+(npc-action enrol_primary_act
   (act {@self enrol_primary})
   (duration 60)
   (act-effects
@@ -16,7 +16,7 @@
     (end-act {@self enrol_primary})))
 
 ; ----- secondary -----------------------------------------------------------
-(npc-act enrol_secondary_act
+(npc-action enrol_secondary_act
   (act {@self enrol_secondary})
   (duration 60)
   (act-effects
@@ -24,7 +24,7 @@
     (end-act {@self enrol_secondary})))
 
 ; ----- university ----------------------------------------------------------
-(npc-act enrol_university_act
+(npc-action enrol_university_act
   (act {@self enrol_university})
   (duration 60)
   (act-effects

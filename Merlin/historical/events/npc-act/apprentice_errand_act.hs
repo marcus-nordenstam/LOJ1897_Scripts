@@ -18,7 +18,7 @@
 ; The 90-min articling. Proposed at the premises; binds the master off the articles
 ; (dropping cleanly if unreadable). Ends the running act on completion; the aim is ended
 ; by its minter's falling-edge cease, not here.
-(npc-act indenture_act
+(npc-action indenture_act
   (act {@self seek_indenture})
   ; the master's articles (a plain ?var - a macro arg used as a {pattern} subject
   ; inside hire-seq must be a ?var, not an expr).

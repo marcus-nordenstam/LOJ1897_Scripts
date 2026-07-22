@@ -38,4 +38,4 @@
              (in-building ?venue)
              (not (= (job-level @self) [k trainee]))))
   (utility 80)
-  (effects (propose {@self seek_indenture})))
+  (effects (maintain-proposal {@self seek_indenture})))

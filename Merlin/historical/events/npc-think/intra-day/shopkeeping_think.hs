@@ -21,4 +21,4 @@
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when  (at-workplace ?wp))
   (utility 82)
-  (effects (propose {@self stocktake})))
+  (effects (maintain-proposal {@self stocktake})))

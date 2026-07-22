@@ -26,4 +26,4 @@
   (goal {@self orient})
   (when (at-place-kind [k building church]))
   (utility 28)
-  (effects (propose {@self orient})))
+  (effects (maintain-proposal {@self orient})))

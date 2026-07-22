@@ -41,4 +41,4 @@
   (utility 22)
 
   (effects
-    (propose {@self confess_fancy ?target})))
+    (maintain-proposal {@self confess_fancy ?target})))

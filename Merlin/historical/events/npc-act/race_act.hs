@@ -13,7 +13,7 @@
 
 (include "../../definitions/roles.hs")
 
-(npc-act race_act
+(npc-action race_act
   (act {@self race_run})
   (duration 30)
   (act-effects

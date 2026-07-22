@@ -13,7 +13,7 @@
 ;                    as co-owner + installed as proprietor (org_head), clears goal.
 ; ----------------------------------------------------------------------------
 
-(npc-act partner_act
+(npc-action partner_act
   (act {@self partner})
   (duration 90)
   (act-effects

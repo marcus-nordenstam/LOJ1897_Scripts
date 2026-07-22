@@ -76,4 +76,4 @@
   (schedule always)
   (goal    {@self play_game})
   (when    (at-place-kind [k building pub]))
-  (effects (propose {@self play_game})))
+  (effects (maintain-proposal {@self play_game})))

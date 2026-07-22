@@ -51,4 +51,4 @@
       (do
         (if (and (not (= ?tgt @self))
                  (not (believes {@self SAY (utterable-msg ?news) ?ear})))
-            (then (propose {@self gossip ?ear ?news}) (break)))))))
+            (then (maintain-proposal {@self gossip ?ear ?news}) (break)))))))

@@ -67,7 +67,7 @@
              (<= (years-old @self) 16)))
 
   ;; SPLIT (Item 5): the npc-think - the youth chooses a trade. Mints {@self goal
-  ;; {@self seek_indenture <articles>}}; the npc-act (apprentice_errand.hs) sends him
+  ;; {@self seek_indenture <articles>}}; the npc-action (apprentice_errand.hs) sends him
   ;; to the master's premises and the indenture is sealed there. RE-TARGET: one
   ;; standing search goal, replaced each fire (per-target idempotency would stack a
   ;; distinct goal per org's articles and overflow the attention set; a blocking

@@ -9,7 +9,7 @@
 ; just commits that hire off its act-belief and ends the errand.
 ; ----------------------------------------------------------------------------
 
-(npc-act engage_staff_act
+(npc-action engage_staff_act
   (act {@self engage_staff ?art ?jk})
   (duration 45)
   (act-effects

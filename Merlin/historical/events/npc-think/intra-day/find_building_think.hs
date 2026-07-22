@@ -19,10 +19,10 @@
         (bb-none ?next surveyed)
         (select (score (distance @self ?next)) (policy argmin)))
   (utility 0)
-  (effects (propose {@self find_building ?sought ?next})))
+  (effects (maintain-proposal {@self find_building ?sought ?next})))
 
 (npc-think find_stall
   (schedule always)
   (goal {@self find_building ?sought})
   (utility -1)
-  (effects (propose {@self find_stall ?sought})))
+  (effects (maintain-proposal {@self find_stall ?sought})))

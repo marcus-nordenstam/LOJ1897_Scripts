@@ -69,7 +69,7 @@
              (eval-until-hold (chance (* 0.033 (+ 0.5 (attr @self assertiveness)))))))
 
   ; npc-think: the clerk resolves to secure his employer's backing. Mints {@self goal
-  ; {@self back ?org}} (focus = the employer firm); the npc-act (invest_errand.hs)
+  ; {@self back ?org}} (focus = the employer firm); the npc-action (invest_errand.hs)
   ; sends him to the firm and the completion records {@self backed_by ?org} there -
   ; which trips the completion gate above. Focus = the employer firm, read inline from
   ; @self's own employer belief. cease-effects end the goal on that falling edge.
@@ -121,7 +121,7 @@
              (eval-until-hold (chance (* 0.01 (+ 0.5 (attr @self assertiveness)))))))
 
   ; SPLIT (Item 5): the npc-think - the clerk decides to buy in. Mints {@self
-  ; goal {@self partner <articles>}}; the npc-act (partner_errand.hs) sends him to
+  ; goal {@self partner <articles>}}; the npc-action (partner_errand.hs) sends him to
   ; the firm's premises and the completion buys him in there. RE-TARGET pattern:
   ; a search-type pursuit holds ONE standing goal, replaced (not stacked) each
   ; fire - begin-goal is idempotent only per identical target and each firm's
@@ -136,7 +136,7 @@
 
 ; --- business_founding: a man of means sets up on his own account ----------
 ; SPLIT (Item 5, the great split): this is now the npc-THINK - the decision to
-; set up in business. It mints {?founder goal {?founder found}}; the npc-act
+; set up in business. It mints {?founder goal {?founder found}}; the npc-action
 ; (events/work/found_business.hs) routes the founder to the bank and the
 ; completion does the real (found-org) commit - so the business is founded at the
 ; bank, by the man himself, leaving the founding documents (the clue trail) and the

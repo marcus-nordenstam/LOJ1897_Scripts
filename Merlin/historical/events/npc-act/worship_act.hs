@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; worship (npc-act lane) - the service act of the churchgoing lane. The desire +
+; worship (npc-action lane) - the service act of the churchgoing lane. The desire +
 ; case sub-goal thinks live in npc-think/worship.hs.
 ;
 ; The {@self worship} act-belief - begun at commit, ended by (end-act) at completion - IS
@@ -15,9 +15,9 @@
 
 ; The service (case A): AT a church {@self worship} is the leaf and promotes here. The
 ; act-belief IS the service memory; ending it closes its interval to the ~90-min service.
-(npc-act worship_act
-  ; Pure act: worship_at_church guards the (propose) on being in a church, so the body only
-  ; extracts its fields off the promoted belief (act_body_purification - precondition on the propose).
+(npc-action worship_act
+  ; Pure act: worship_at_church guards the (maintain-proposal) on being in a church, so the body only
+  ; extracts its fields off the promoted belief (act_body_purification - precondition on the proposal).
   (act {@self worship})
   (duration 90)
   (act-effects

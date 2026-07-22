@@ -51,7 +51,7 @@
   (role @self (grown @self))
   (when    (is-a (current-building @self) [k building church]))
   (utility (* (attr @self politeness) 80))
-  (effects (propose {@self worship})))
+  (effects (maintain-proposal {@self worship})))
 
 ; CASE B - not at a church, but knows one: head to it. Inherits the worship drive. A
 ; MAINTENANCE rung (§5.11): roulette a church ONCE, hold {@self enter ?church} (the

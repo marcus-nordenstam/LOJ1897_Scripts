@@ -39,4 +39,4 @@
   (when (and (is-entity ?item)
              (at-home)))
   (utility 90)
-  (effects (propose {@self stow})))
+  (effects (maintain-proposal {@self stow})))

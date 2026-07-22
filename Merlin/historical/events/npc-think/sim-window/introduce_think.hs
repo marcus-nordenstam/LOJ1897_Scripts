@@ -34,4 +34,4 @@
     ; band: name / job / nationality / class / ...) and propose telling each to the
     ; stranger. An unheld fact (an unemployed NPC has no job belief) is not walked.
     (for-each-belief ?fact {@self (disclosure-tier-labels stranger) ?}
-      (propose {@self introduce ?stranger ?fact}))))
+      (maintain-proposal {@self introduce ?stranger ?fact}))))

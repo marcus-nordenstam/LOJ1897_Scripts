@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; find_building (npc-act lane) - the GENERIC building-discovery search, and the ACT
+; find_building (npc-action lane) - the GENERIC building-discovery search, and the ACT
 ; that walks it. A seek rule (drink_find / worship_find / convey_find / ...) maintains
 ; {@self goal {@self find_building [k building <kind>]}} while it wants a venue of a
 ; kind it knows NONE of. The goal IS the walking leaf.
@@ -26,7 +26,7 @@
 (include "../../definitions/roles.hs")
 (include "../../macros/tunables.hs")
 
-(npc-act find_building_act
+(npc-action find_building_act
   (act {@self find_building ?sought ?next})
   (duration (max (go_travel_floor_min) (travel-minutes @self ?next)))
   (act-effects
@@ -37,7 +37,7 @@
 
 ; TERMINAL - no unsurveyed building known (find_survey cast no ?next): idle briefly,
 ; then re-deliberate. Ends its own act-belief so the find goal it serves stays live.
-(npc-act find_stall_act
+(npc-action find_stall_act
   (act {@self find_stall ?sought})
   (duration 60)
   (act-effects (end-act {@self find_stall ?sought})))

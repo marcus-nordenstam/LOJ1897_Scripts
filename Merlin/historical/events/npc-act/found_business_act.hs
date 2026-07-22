@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; found_business (npc-act lane) - the ACT half of the business-founding split.
+; found_business (npc-action lane) - the ACT half of the business-founding split.
 ;
 ; The decision (events/work/business.hs `business_founding`) minted {@self goal
 ; {@self found}}. The would-be proprietor goes to the bank (npc-think lane) and the
@@ -7,7 +7,7 @@
 ; (the detective clue trail) and the co-presence a witness would see.
 ; ----------------------------------------------------------------------------
 
-(npc-act found_act
+(npc-action found_act
   (act {@self found})
   (duration 90)
   (act-effects

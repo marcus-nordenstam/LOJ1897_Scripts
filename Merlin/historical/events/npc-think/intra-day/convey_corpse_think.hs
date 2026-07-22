@@ -79,7 +79,7 @@
   (role @self (grown @self))
   (when    (is-a (current-building @self) [k building church]))
   (utility (* (attr @self politeness) 85))
-  (effects (propose {@self convey ?corpse})))
+  (effects (maintain-proposal {@self convey ?corpse})))
 
 ; CASE B - not at a church, but knows one: head to it. The (goal ...) clause pins
 ; the convey goal as this rule's parent, so the go sub-goal inherits the drive and

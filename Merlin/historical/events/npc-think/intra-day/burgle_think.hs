@@ -48,4 +48,4 @@
   (when (or (at-burgle-residence)
             (at-own-workplace)))
   (utility 86)
-  (effects (propose {@self steal})))
+  (effects (maintain-proposal {@self steal})))

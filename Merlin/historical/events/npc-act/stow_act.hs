@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; stow (npc-act lane) - the completion act of the CARRY-IT-HOME-AND-PUT-IT-AWAY
+; stow (npc-action lane) - the completion act of the CARRY-IT-HOME-AND-PUT-IT-AWAY
 ; chain. The thinks that drive it live in npc-think/stow.hs.
 ;
 ;   stow_act    : completion - put the item into the hiding spot when one
@@ -10,7 +10,7 @@
 
 (include "../../definitions/roles.hs")
 
-(npc-act stow_act
+(npc-action stow_act
   (act {@self stow})
   (duration 5)
   (act-effects

@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; wedding - the marriage SPLIT into npc-think + npc-act (occasion_ceremony_plan.md
+; wedding - the marriage SPLIT into npc-think + npc-action (occasion_ceremony_plan.md
 ; Item 4B / Item 5). The old single wedding event (which both decided AND made the
 ; marriage in one step) is replaced:
 ;

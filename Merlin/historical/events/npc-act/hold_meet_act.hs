@@ -25,7 +25,7 @@
 ; The organiser opens the meet: summon the co-present field and record the sport (the
 ; want_judge think holds the judge goal off it). The victor/grudge deliberation is GONE -
 ; this act reads no trait.
-(npc-act open_meet_act
+(npc-action open_meet_act
   (act {@self hold_meet_run})
   (duration 30)
   (act-effects
@@ -51,7 +51,7 @@
 ; him and proposes {@self judge_declare ?winner}; this body just performs the declaration off
 ; the ?winner carried on its act-belief. No trait read - the winner is the highest OBSERVED
 ; performance, chosen in the think.
-(npc-act judge_declare_act
+(npc-action judge_declare_act
   (act {@self judge_declare ?winner})
   (duration 30)
   (act-effects

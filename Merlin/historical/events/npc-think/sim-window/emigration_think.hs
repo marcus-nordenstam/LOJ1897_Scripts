@@ -44,4 +44,4 @@
   (schedule always)
   (goal {@self depart})
   (utility 82)
-  (effects (propose {@self depart})))
+  (effects (maintain-proposal {@self depart})))

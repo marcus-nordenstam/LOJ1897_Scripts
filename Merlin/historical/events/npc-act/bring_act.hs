@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; bring (npc-act) - the put-down completion of the general bring lane
+; bring (npc-action) - the put-down completion of the general bring lane
 ; (npc-think/bring_think.hs). Fires ONLY at the destination (the same at-place
 ; gate the promotion think used): every carried item of the ware's kind is put
 ; down in the space @self stands in. Held items live on the HAND entity
@@ -8,7 +8,7 @@
 
 (include "../../definitions/roles.hs")
 
-(npc-act bring_act
+(npc-action bring_act
   (act {@self bring ?ware ?dest})
   (duration 5)
   (act-effects

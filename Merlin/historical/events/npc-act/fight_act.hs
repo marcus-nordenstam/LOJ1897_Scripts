@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; fight (npc-act lane) - the shared ACT bodies of the EMERGENT confrontation
+; fight (npc-action lane) - the shared ACT bodies of the EMERGENT confrontation
 ; (unified think/act model, future_work.md). The think half
 ; (npc-think/fight.hs) decides; here the 1-minute strike / flee / scream acts run.
 ; Every strike / flee / scream is a goal that PROMOTES to a shared act body
@@ -14,7 +14,7 @@
 ; death sweep is content - (propagate-death ?foe) right after the fatal blow. A
 ; non-fatal one leaves a wound and the next deliberation strikes again (while
 ; the foe lives and is still co-present).
-(npc-act fight_act
+(npc-action fight_act
   (act {@self fight ?foe})
   (duration 1)
   (act-effects
@@ -24,7 +24,7 @@
     (if (not (alive ?foe)) (then (propagate-death ?foe)))
     (end-act {@self fight ?foe})))
 
-(npc-act flee_act
+(npc-action flee_act
   (act {@self flee ?foe})
   (duration 1)
   (act-effects
@@ -32,7 +32,7 @@
     (attempt-flee)
     (end-act {@self flee ?foe})))
 
-(npc-act cry_out_act
+(npc-action cry_out_act
   (act {@self cry_out})
   (duration 1)
   (act-effects

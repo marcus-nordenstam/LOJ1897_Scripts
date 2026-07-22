@@ -97,4 +97,4 @@
   (when (and (articles-building (goal-focus close_business) ?wp)
              (at-workplace ?wp)))
   (utility 85)
-  (effects (propose {@self close_business})))
+  (effects (maintain-proposal {@self close_business})))

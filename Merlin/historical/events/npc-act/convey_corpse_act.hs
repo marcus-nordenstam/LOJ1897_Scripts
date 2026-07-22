@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; convey_corpse (npc-act lane) - the deposit ACT of the bereaved-kin lane that
+; convey_corpse (npc-action lane) - the deposit ACT of the bereaved-kin lane that
 ; CARRIES a dead relative's body to a church. The think half
 ; (npc-think/convey_corpse.hs) routes the bearer; here the body is filed into the
 ; church's room where a co-present priest PERCEIVES it (bury.hs) - no telepathy.
@@ -17,7 +17,7 @@
 ; search sub-goal fatigued out promoted here off-site and filed the body into
 ; whatever building the bearer stood in. The act-label lives in the cached
 ; self-role gate, so the promotion scan rejects O(1) before any mind-entry.
-(npc-act convey_act
+(npc-action convey_act
   (act {@self convey ?corpse})
   (duration 15)
   (act-effects

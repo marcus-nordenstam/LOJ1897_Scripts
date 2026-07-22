@@ -29,4 +29,4 @@
   (goal {@self found_club})
   (when (at-place-kind [k building pub]))
   (utility 45)
-  (effects (propose {@self found_club})))
+  (effects (maintain-proposal {@self found_club})))

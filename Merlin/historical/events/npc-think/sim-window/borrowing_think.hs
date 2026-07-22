@@ -27,7 +27,7 @@
   ; MAINTENANCE: the decision OWNS the take_loan goal end to end. The ?creditor role's
   ; (not owe) filter is the CONTINUOUS completion gate - while @self owes this creditor
   ; nothing the goal stands; the moment take_loan_act records {@self owe ?creditor} the
-  ; role drops and the cease-effects end the goal. The npc-act (borrow_errand.hs) sends
+  ; role drops and the cease-effects end the goal. The npc-action (borrow_errand.hs) sends
   ; the debtor to the creditor's home and records the {owe} there.
   (effects       (begin-goal {@self take_loan ?creditor}))
   (cease-effects (end-goal   {@self take_loan ?creditor})))

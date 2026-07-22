@@ -38,4 +38,4 @@
   (utility 15)
 
   (effects
-    (propose {@self confide ?domain})))
+    (maintain-proposal {@self confide ?domain})))

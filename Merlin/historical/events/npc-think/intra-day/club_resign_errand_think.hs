@@ -31,4 +31,4 @@
   (goal {@self resign_club})
   (when (at-place-kind [k building social_clubhouse]))
   (utility 40)
-  (effects (propose {@self resign_club})))
+  (effects (maintain-proposal {@self resign_club})))

@@ -87,4 +87,4 @@
   (when (and (>= (months-since-death ?corpse) 1)
              (co-present @self ?corpse)))
   (utility 85)
-  (effects (propose {@self bury ?corpse})))
+  (effects (maintain-proposal {@self bury ?corpse})))

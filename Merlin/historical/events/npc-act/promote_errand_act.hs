@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; promote_errand (npc-act) - the ACT half of the employer-side promotion split.
+; promote_errand (npc-action) - the ACT half of the employer-side promotion split.
 ;
 ; The decision (employment.hs `promotion`) minted {@self goal {@self promote_staff
 ; <worker>}} on the BOSS. He goes to the workplace and advances the worker's grade
@@ -7,7 +7,7 @@
 ; npc-think/promote_errand.hs; this file holds the completion commit.
 ; ----------------------------------------------------------------------------
 
-(npc-act promote_staff_act
+(npc-action promote_staff_act
   (act {@self promote_staff})
   (duration 45)
   (act-effects

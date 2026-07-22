@@ -95,7 +95,7 @@
   (when (and (articles-building ?art ?venue)
              (in-building ?venue)))
   (utility 35)
-  (effects (propose {@self read_listings})))
+  (effects (maintain-proposal {@self read_listings})))
 
 ; CASE C - register unread and @self knows NO house agency at all: consult the
 ; parish incorporations register (the orient lane, orient_errand.hs), which mints
@@ -150,4 +150,4 @@
   (schedule always)
   (goal {@self buy_home ?dwell})
   (utility 45)
-  (effects (propose {@self buy_home ?dwell})))
+  (effects (maintain-proposal {@self buy_home ?dwell})))

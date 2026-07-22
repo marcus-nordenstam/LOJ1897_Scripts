@@ -24,14 +24,14 @@
 ;     by (break), so the live documents walk is not corrupted by the removal.
 ; ----------------------------------------------------------------------------
 
-(npc-act read_listings_act
+(npc-action read_listings_act
   (act {@self read_listings})
   (duration 30)
   (act-effects
     (read-public-register [k for_sale_listing] for_sale)
     (end-act {@self read_listings})))
 
-(npc-act buy_home_act
+(npc-action buy_home_act
   (act {@self buy_home ?dwell})
   (duration 60)
   (act-effects

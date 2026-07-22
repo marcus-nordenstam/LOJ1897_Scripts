@@ -14,7 +14,7 @@
 ;   orient_read  : completion - read the register + clear the goal.
 ; ----------------------------------------------------------------------------
 
-(npc-act orient_act
+(npc-action orient_act
   (act {@self orient})
   (duration 30)
   (act-effects

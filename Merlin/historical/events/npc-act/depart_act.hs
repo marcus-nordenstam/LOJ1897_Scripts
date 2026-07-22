@@ -52,7 +52,7 @@
 ; is close_business.hs's job, not depart's.
 ; ----------------------------------------------------------------------------
 
-(npc-act depart_act
+(npc-action depart_act
   (act {@self depart})
   (duration 480)                     ; ~a day spent packing up and settling affairs
   (act-effects

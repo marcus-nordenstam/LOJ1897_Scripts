@@ -15,7 +15,7 @@
 ;   2. acquire_act dwells the round-trip travel time, then (at completion) acquires
 ;      a REAL item of that kind into the killer's hand (acquire-control ->
 ;      acquire_weapon sets controlled_by) and ends the acquire goal. The errand only
-;      set out while the kill stood (the means_acquire propose guard); the tool KIND
+;      set out while the kill stood (the means_acquire maintain-proposal guard); the tool KIND
 ;      flows via the act-belief target, so it survives to the completion pass.
 ; Once armed the desire stops firing (real-possession termination); the existing
 ; kill path consumes the held tool via its (control_any ...) requirement.
@@ -29,9 +29,9 @@
 ; The obtain act: the acquire goal, the leaf, promotes here. A DURATIVE dwell of the
 ; round-trip travel time to fetch the tool; the world-write lands at COMPLETION. A pure
 ; act (act_body_purification): the "kill still intended" precondition moved to the
-; means_acquire (propose) guard, so the errand only sets out while the kill stands; the
+; means_acquire (maintain-proposal) guard, so the errand only sets out while the kill stands; the
 ; act itself unconditionally arms and ends.
-(npc-act acquire_act
+(npc-action acquire_act
   (act {@self acquire ?m})
   (duration (travel-minutes @self ?m))
   (act-effects

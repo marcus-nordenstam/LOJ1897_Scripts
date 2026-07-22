@@ -89,7 +89,7 @@
   (schedule always)
   (goal {@self fight ?victim})
   (when (co-present @self ?victim))
-  (effects (propose {@self fight ?victim})))
+  (effects (maintain-proposal {@self fight ?victim})))
 
 ; BREAK OFF (end-condition c): a killer whose attempt has dragged on without a kill
 ; gives up for now and leaves - exposure outweighs the deed. Utility is 0 for the
@@ -151,7 +151,7 @@
   (goal {@self flee ?foe})
   (when (believes {@self under_attack ?foe}))
   (utility 15000)
-  (effects (propose {@self flee ?foe})))
+  (effects (maintain-proposal {@self flee ?foe})))
 
 ; THE VICTIM SCREAMS FOR HELP - the last resort when it can neither fight (failed the
 ; resolve roll) nor flee (nowhere to run). Lowest utility, so it only wins when the
@@ -173,4 +173,4 @@
   (goal {@self cry_out})
   (role ?foe (believes {@self under_attack ?foe}))
   (utility 12000)
-  (effects (propose {@self cry_out})))
+  (effects (maintain-proposal {@self cry_out})))

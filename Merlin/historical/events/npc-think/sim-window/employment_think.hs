@@ -51,7 +51,7 @@
              (not (= (job-level @self) [k apprentice]))))
 
   ; SPLIT (Item 5, EMPLOYEE-side job-search): the WORKER seeks work at the org. Mints
-  ; {@self goal {@self engage_staff ?articles}}; the npc-act (hire_errand.hs)
+  ; {@self goal {@self engage_staff ?articles}}; the npc-action (hire_errand.hs)
   ; takes him to the firm and the eligibility-match hire commits there. Worker-driven
   ; (not the boss) so goals stay bounded - a boss-driven hire would pile EVERY jobless
   ; applicant's goal on one org-head and overflow the memory-fusion gather.

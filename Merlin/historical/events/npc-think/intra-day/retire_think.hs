@@ -38,4 +38,4 @@
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (at-workplace ?wp)))
   (utility 85)
-  (effects (propose {@self quit_work})))
+  (effects (maintain-proposal {@self quit_work})))

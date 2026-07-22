@@ -56,9 +56,9 @@
 (npc-think go_step
   (schedule always)
   (goal {@self go ?dest})
-  (effects (propose {@self go ?dest})))
+  (effects (maintain-proposal {@self go ?dest})))
 
 (npc-think go_to_threshold_step
   (schedule always)
   (goal {@self go_to_threshold ?s})
-  (effects (propose {@self go_to_threshold ?s})))
+  (effects (maintain-proposal {@self go_to_threshold ?s})))

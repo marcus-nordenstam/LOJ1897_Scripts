@@ -57,4 +57,4 @@
   (effects
     (if (and (is-kind ?jk)
              (chance (min 0.95 (job-match-score ?t1 ?w1 ?t2 ?w2))))
-      (then (propose {@self engage_staff ?art ?jk})))))
+      (then (maintain-proposal {@self engage_staff ?art ?jk})))))

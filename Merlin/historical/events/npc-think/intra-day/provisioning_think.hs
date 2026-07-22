@@ -116,7 +116,7 @@
   (goal    {@self provision})
   (when    (at-place-kind [k building shop]))
   (utility 77)
-  (effects (propose {@self provision})))
+  (effects (maintain-proposal {@self provision})))
 
 ; ---- the errand: go to THE provisions shop (never a generic one) ------------
 ; The go sub-goal INHERITS the provision goal's drive through /cause (the

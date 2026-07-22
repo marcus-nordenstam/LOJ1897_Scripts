@@ -13,7 +13,7 @@
 (include "../../definitions/roles.hs")
 (include "../../macros/tunables.hs")
 
-(npc-act go_act
+(npc-action go_act
   (act {@self go ?dest})
   (duration (max (go_travel_floor_min) (travel-minutes @self ?dest)))
   (act-effects
@@ -27,7 +27,7 @@
 ; outside point - hence a separate act, not a branch inside go_act. The completion pass
 ; force-ends the act-belief; the minter (enter_go_to_threshold) ends the go_to_threshold GOAL
 ; on its falling edge, so this act carries no end-act / end-goal.
-(npc-act go_to_threshold_act
+(npc-action go_to_threshold_act
   (act {@self go_to_threshold ?s})
   (duration (max (go_travel_floor_min) (travel-minutes @self ?s)))
   (act-effects

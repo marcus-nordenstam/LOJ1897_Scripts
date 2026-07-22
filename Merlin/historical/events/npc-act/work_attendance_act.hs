@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; work_attendance (npc-act lane) - the shift-stay act of the daily WORK-
+; work_attendance (npc-action lane) - the shift-stay act of the daily WORK-
 ; ATTENDANCE lane. The thinks that promote into it live in
 ; npc-think/work_attendance.hs.
 ;
@@ -10,7 +10,7 @@
 ; eligibility is only sampled at completions.
 ; ----------------------------------------------------------------------------
 
-(npc-act work_act
+(npc-action work_act
   (act {@self work ?wp})
   ; re-derive the job + today's shift END off @self's own beliefs (pure value-ops, not
   ; gates): day_work only PROPOSES the stay while in-shift, so the shift belief - hence

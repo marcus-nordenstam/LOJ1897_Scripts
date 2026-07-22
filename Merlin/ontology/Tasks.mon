@@ -194,7 +194,7 @@ relation
             seek_answers
             marry
             # Great-split (Item 5) goal-action labels - the npc-think mints
-            # {@self goal {@self <verb> <focus>}}, the npc-act routes to the located
+            # {@self goal {@self <verb> <focus>}}, the npc-action routes to the located
             # venue and the completion does the world-commit. Distinct from the
             # existing state/kind terms (retire/borrow/apprentice are already defined
             # elsewhere, so these are fresh verbs): quit_work -> the retirement act;
@@ -273,22 +273,28 @@ relation
             # relationship_description). See Docs/dialogue_nlg_plan.md.
             tell_beliefs                            (sub @msgAuthor human)   (tar @S)  (aux @msgAudience human)
 
-            order                       (motor legs)
+            order
             serve_beer                  (motor mind)    (tar human)    (obs)  (belief_timeout 1800)
 
             # ----------------------------------------------------------------------------------
-            # physical tasks - motors are involved
+            # physical tasks - motors are DERIVED, not declared. The closure pass
+            # (resolve_task_motors_from_rule_closure) unions the motor bits of every
+            # action a task's .ms2 rules reach, so these carry no (motor ...).
+            # A manual (motor ...) remains ONLY on tasks whose motors no .ms2 rule
+            # can derive - no action-proposing rule under {@self <task>} (approach,
+            # explore, locate, drop, give_birth), or a closure that routes its real
+            # motors through a goal the pass cannot follow (serve_customer, serve_beer).
             # ----------------------------------------------------------------------------------
             #tell                /motor mouth            /sub @msgAuthor human   /tar @msg @excl @S     /aux @msgAudience human
             #ask                 /motor mouth            /sub @msgAuthor human   /tar @qs @excl @S      /aux @msgAudience human
 
             approach                (motor legs)              (tar @excl)
-            enter                   (motor legs)              (tar @excl)
-            go_entity               (motor legs)              (tar @excl)
-            go_env_cell             (motor legs)              (tar @excl)
-            keep_near_and_facing    (motor legs)              (tar @excl)
-            keep_looking_at_part       (motor head)              (tar @excl)   (aux @excl)
-            keep_looking_at_whole      (motor head)              (tar @excl)
+            enter                   (tar @excl)
+            go_entity               (tar @excl)
+            go_env_cell             (tar @excl)
+            keep_near_and_facing    (tar @excl)
+            keep_looking_at_part       (tar @excl)   (aux @excl)
+            keep_looking_at_whole      (tar @excl)
 
             explore             (motor legs)              (tar @excl)
             locate              (motor legs)              (tar @excl)
@@ -296,34 +302,34 @@ relation
             drop                (motor right_hand)             (tar @excl object)
             # /tar ? : give targets a physical object (the motor task) or a
             # money amount (the Phase 8 charity act-record - a number symbol).
-            give                (motor right_hand)             (tar @excl ?)
-            receive             (motor right_hand)             (tar @excl object)
+            give                (tar @excl ?)
+            receive             (tar @excl object)
 
-            get                 (motor legs right_hand)         (tar @excl object)
-            take                (motor left_hand right_hand)    (tar @excl object)
-            put                 (motor left_hand right_hand)    (tar @excl object)
+            get                 (tar @excl object)
+            take                (tar @excl object)
+            put                 (tar @excl object)
 
-            read                (motor eyes right_hand)         (tar @excl document)   (obs)  (belief_timeout 600)
-            write               (motor eyes right_hand legs)     (tar @excl document)   (obs)  (belief_timeout 600)
+            read                (tar @excl document)   (obs)  (belief_timeout 600)
+            write               (tar @excl document)   (obs)  (belief_timeout 600)
 
-            stack_get            (motor legs right_hand)         (tar object)  (aux stack)
-            stack_put            (motor legs right_hand)         (tar object)  (aux stack)
-            stack_browse         (motor legs right_hand)         (tar stack)
-            stack_read           (motor legs right_hand)         (tar stack)
+            stack_get            (tar object)  (aux stack)
+            stack_put            (tar object)  (aux stack)
+            stack_browse         (tar stack)
+            stack_read           (tar stack)
 
             # mourn - the action-plan task that drives the visible
             # grieving behaviour (head-burial, hands-to-face, hanging
             # head, crying). The cognitive / affective side of
             # mourning lives in the affect cascade as the `grief`
             # emotion, not here.
-            mourn               (motor right_hand left_hand head)
+            mourn
 
             give_birth           (motor eyes right_hand legs)
-            perceive_attr        (motor eyes)              (tar ?)
+            perceive_attr        (tar ?)
 
-            drink               (motor mouth right_hand left_hand)     (tar object)  (obs)
+            drink               (tar object)  (obs)
 
-            use_umbrella        (motor right_hand left_hand)
+            use_umbrella
             serve_customer      (motor right_hand left_hand legs)   (obs)  (belief_timeout 1800)
 
             # ----------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; make_cache (npc-act) - EXECUTION half: carve the actual hiding spot. The
+; make_cache (npc-action) - EXECUTION half: carve the actual hiding spot. The
 ; deliberation that proposes it lives in make_secret_cache_think.hs; env writes
 ; (a think must not mutate the world) live here. The act walks the host-quality
 ; ladder and claims/creates the FIRST available host's cache - the belief-guard
@@ -19,7 +19,7 @@
 
 (include "../../definitions/roles.hs")
 
-(npc-act make_cache_act
+(npc-action make_cache_act
   (act {@self make_cache ?building})
   (duration 0)
   (act-effects

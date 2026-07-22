@@ -59,7 +59,7 @@
   (schedule always)
   (goal    {@self dwell ?home})
   (when    (at-home))
-  (effects (propose {@self dwell ?home})))
+  (effects (maintain-proposal {@self dwell ?home})))
 
 ; ============================ the unified eat lane ==========================
 ; Every routine meal is ONE act-goal {@self eat [k <meal>] <place>}: a desire
@@ -219,7 +219,7 @@
   (goal    {@self eat ?meal ?place})
   (when    (or (in-building ?place)
                (believes {@self location ?place})))
-  (effects (propose {@self eat ?meal ?place})))
+  (effects (maintain-proposal {@self eat ?meal ?place})))
 
 ; (PROVISIONING - the cook keeping the kitchen larder stocked - lives in
 ; npc-think/provisioning_think.hs; the general carry-to-a-place chain in
@@ -382,4 +382,4 @@
   (when    (or (control [k food])
                (at-home)
                (at-place-kind [k building shop])))
-  (effects (propose {@self forage})))
+  (effects (maintain-proposal {@self forage})))

@@ -49,7 +49,7 @@
   ; PROPOSE the work-stay (act_body_purification): day_work's (when) - at the workplace + in/near
   ; the shift - IS the precondition, so this reactive propose is the whole terminal. Each completion
   ; re-deliberates -> re-proposes while still on shift, so the stay resumes to shift end.
-  (effects       (propose {@self work ?wp})))
+  (effects       (maintain-proposal {@self work ?wp})))
 
 (npc-think day_go_to_work
   ; Shift on or imminent and not yet at the workplace: mint {@self enter ?wp} and the

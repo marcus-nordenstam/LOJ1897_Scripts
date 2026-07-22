@@ -14,7 +14,7 @@
 ; intent, so it lists each vacant dwelling exactly once.
 ; ----------------------------------------------------------------------------
 
-(npc-act list_to_let_act
+(npc-action list_to_let_act
   ; ?prop = the vacant dwelling this let intent points at, read off the latched
   ; {@self let ?prop} goal (a plain ?var for the {pattern} subjects below).
   (bind (goal-focus let) ?prop)

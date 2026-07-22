@@ -23,4 +23,4 @@
                 (believes {?winner race_result ?})
                 (select (score (target {?winner race_result})) (policy argmax)))
   (utility 40)
-  (effects (propose {@self judge_declare ?winner})))
+  (effects (maintain-proposal {@self judge_declare ?winner})))

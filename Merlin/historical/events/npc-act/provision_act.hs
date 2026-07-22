@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; provision (npc-act) - the counter stop of the provisioning errand
+; provision (npc-action) - the counter stop of the provisioning errand
 ; (npc-think/provisioning_think.hs). Fires ONLY at the shop the cook KNOWS
 ; sells provisions. She grabs up to a basket (carry_cap), never more than the
 ; kitchen larder is short of its target. A laden hand is then a live pressure:
@@ -11,10 +11,10 @@
 (include "../../macros/tunables.hs")
 
 ; A pure act (act_body_purification): the "at a shop" precondition moved to the
-; provision_at_shop guarded (propose) - provision is a proposed label, so it promotes
+; provision_at_shop guarded (maintain-proposal) - provision is a proposed label, so it promotes
 ; ONLY at a shop the cook has routed to (provision_go walks only to the known
 ; provisions_shop). The current shop is re-derived from (current-building @self) below.
-(npc-act provision_act
+(npc-action provision_act
   (act {@self provision})
   (duration 15)
   (act-effects

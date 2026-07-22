@@ -28,4 +28,4 @@
   (when (and (believes {?creditor home ?cred_home})
              (in-building ?cred_home)))
   (utility 60)
-  (effects (propose {@self take_loan})))
+  (effects (maintain-proposal {@self take_loan})))

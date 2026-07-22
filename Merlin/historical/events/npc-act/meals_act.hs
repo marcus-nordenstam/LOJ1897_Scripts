@@ -21,7 +21,7 @@
 ; The at-home idle dwell: the leaf when nothing else pulls, CAPPED to yield at the
 ; next mealtime (so a multi-hour idle never leaps clean over a 2h meal window). Its
 ; completion re-deliberates, giving the meal lanes their instant.
-(npc-act dwell_act
+(npc-action dwell_act
   (act {@self dwell ?home})
   (duration (min 180
                  (minutes-until-hour (target {?home breakfast_hour}))
@@ -33,7 +33,7 @@
 
 ; The eat goal, at its place, is the leaf and promotes here. The begun-then-ended
 ; {@self eat [k <meal>] <place>} act-belief IS the meal memory.
-(npc-act eat_act
+(npc-action eat_act
   (act {@self eat ?meal ?place})
   ; supper is the hour-long family meal; lunch 40; breakfast 30.
   (duration (if (is-a ?meal [k supper]) (then 60)
@@ -77,7 +77,7 @@
 ; consumes ONE food item from the highest-priority source available and reduces
 ; hunger. Branch order IS the ladder: carried > pantry > shop (buy if wealth, else
 ; steal, the mouthful on the crime ledger).
-(npc-act forage_act
+(npc-action forage_act
   (act {@self forage})
   (duration 10)
   (act-effects

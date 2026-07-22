@@ -83,7 +83,7 @@
   (when (and (articles-building (goal-focus hold_meet) ?clubhouse)
              (in-building ?clubhouse)))
   (utility 35)
-  (effects (propose {@self hold_meet_run})))
+  (effects (maintain-proposal {@self hold_meet_run})))
 
 ; --- the organiser OWNS the judge goal off his own meet_sport state ---------------
 ; open_meet_act (hold_meet_act.hs) records {@self meet_sport <sport>} when the meet
@@ -107,4 +107,4 @@
   (schedule always)
   (role @self (believes {@self summoned_to_meet ?}))
   (utility 45)
-  (effects (propose {@self race_run})))
+  (effects (maintain-proposal {@self race_run})))

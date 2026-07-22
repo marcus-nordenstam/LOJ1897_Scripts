@@ -17,7 +17,7 @@
 
 ; The 45-min call, promoted from the take_loan aim at the lender's home; matched by its
 ; (when) on the promoted {@self take_loan} belief. Records the debt, ends act + aim.
-(npc-act take_loan_act
+(npc-action take_loan_act
   (act {@self take_loan})
   (duration 45)
   (act-effects

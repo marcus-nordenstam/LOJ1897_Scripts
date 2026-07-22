@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; club_found_errand (npc-act lane) - the ACT half of the club-founding split.
+; club_found_errand (npc-action lane) - the ACT half of the club-founding split.
 ;
 ; The decision (clubs.hs `club_founding`) minted {@self goal {@self found_club}}.
 ; The founder goes out (npc-think lane) and founds the club at a pub;
@@ -7,7 +7,7 @@
 ; first member. Members join afterwards via club_joining.
 ; ----------------------------------------------------------------------------
 
-(npc-act found_club_act
+(npc-action found_club_act
   (act {@self found_club})
   (duration 90)
   (act-effects

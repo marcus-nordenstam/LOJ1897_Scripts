@@ -17,7 +17,7 @@
 ; attendance (co-presence at the venue is what every other attendee + the
 ; detective trail reads). Its completion makes a wedding, appraises no-shows,
 ; and clears the goal.
-(npc-act attend_act
+(npc-action attend_act
   (act {@self attend})
   (duration (attend-minutes-left @self))
   (act-effects

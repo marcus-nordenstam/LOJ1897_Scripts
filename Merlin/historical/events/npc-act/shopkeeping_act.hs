@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; shopkeeping (npc-act) - the stocktake round + the morning re-stock.
+; shopkeeping (npc-action) - the stocktake round + the morning re-stock.
 ;
 ; The clerk, at his counter with the standing stocktake goal, walks the
 ; premises for half an hour validating what he believes is on the shelves
@@ -33,7 +33,7 @@
 
 ; The stocktake round itself: the goal, at the counter, is the leaf and promotes
 ; here. The begun-then-ended {@self stocktake} act-belief IS the round (30 min).
-(npc-act stocktake_act
+(npc-action stocktake_act
   (act {@self stocktake})
   (duration 30)
   (act-effects

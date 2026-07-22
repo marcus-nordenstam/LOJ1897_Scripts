@@ -53,4 +53,4 @@
              (attend-in-window @self)
              (in-building ?venue)))
   (utility (attend-utility @self))
-  (effects (propose {@self attend})))
+  (effects (maintain-proposal {@self attend})))

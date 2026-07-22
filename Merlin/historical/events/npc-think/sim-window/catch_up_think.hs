@@ -40,5 +40,5 @@
     (for-each-belief ?belief {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality ?}
       (do
         (if (not (believes {@self SAY (utterable-msg ?belief) ?guest}))
-            (then (propose {@self catch_up ?guest ?belief}) (break)))))
+            (then (maintain-proposal {@self catch_up ?guest ?belief}) (break)))))
     ))

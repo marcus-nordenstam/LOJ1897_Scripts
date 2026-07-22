@@ -20,7 +20,7 @@
 ; Then the corpse is destroyed and the act-belief ended (so the act fires
 ; exactly once - the engine does not auto-end it). The act-label lives in the
 ; cached self-role gate: the promotion scan rejects O(1) before any mind-entry.
-(npc-act bury_act
+(npc-action bury_act
   (act {@self bury ?corpse})
   (duration 60)
   (act-effects

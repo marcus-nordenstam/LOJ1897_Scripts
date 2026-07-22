@@ -33,4 +33,4 @@
   (schedule always)
   (goal {@self bring ?ware ?dest})
   (when (at-place ?dest))
-  (effects (propose {@self bring ?ware ?dest})))
+  (effects (maintain-proposal {@self bring ?ware ?dest})))

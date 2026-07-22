@@ -25,4 +25,4 @@
   (when (and (believes {?org workplace ?wp})
              (at-workplace ?wp)))
   (utility 60)
-  (effects (propose {@self back})))
+  (effects (maintain-proposal {@self back})))

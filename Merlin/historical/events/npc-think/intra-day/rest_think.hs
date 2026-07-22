@@ -61,7 +61,7 @@
   ; PROPOSE the SLEEP act (act_body_purification): sleep's own (when) - at home + sleepy/night - IS
   ; the precondition, so this reactive propose is the whole terminal. sleep_act carries the duration
   ; + ends the belief; fatigue recovery keys on the SLEEP label at completion.
-  (effects       (propose {@self SLEEP})))
+  (effects       (maintain-proposal {@self SLEEP})))
 
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.
 (npc-think idle_go_home

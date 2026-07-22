@@ -5,7 +5,7 @@
 ;     rare leisure act (charity is occasional, not a fixture). The uncompassionate
 ;     never clear a routine act. At a church -> the give_alms act-goal there; else
 ;     -> a `go` sub-act-goal to a church (the Victorian charity venue).
-;   give_alms_act (npc-act, give_alms.hs): the durative almsgiving - mints the
+;   give_alms_act (npc-action, give_alms.hs): the durative almsgiving - mints the
 ;     punctual {@self give <sum>} record the generosity classifier reads, ends the
 ;     act. The {@self give_alms <church>} act-belief IS the episodic memory
 ;     days-since-last reads. No aim, no end-goal.
@@ -43,4 +43,4 @@
   (schedule always)
   (goal    {@self give_alms ?church})
   (when    (in-building ?church))
-  (effects (propose {@self give_alms ?church})))
+  (effects (maintain-proposal {@self give_alms ?church})))

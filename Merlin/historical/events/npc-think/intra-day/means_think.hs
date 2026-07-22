@@ -33,4 +33,4 @@
   (when (and (not (control ?means))
              (goal? {@self kill})))
   (utility 90)
-  (effects (propose {@self acquire ?means})))
+  (effects (maintain-proposal {@self acquire ?means})))

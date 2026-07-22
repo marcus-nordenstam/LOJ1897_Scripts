@@ -26,4 +26,4 @@
   (when (and (articles-building (goal-focus partner) ?venue)
              (in-building ?venue)))
   (utility 85)
-  (effects (propose {@self partner})))
+  (effects (maintain-proposal {@self partner})))

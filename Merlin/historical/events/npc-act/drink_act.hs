@@ -1,11 +1,11 @@
-; drink - the drink ACT-BODY (npc-act). The pressure think that proposes it is
+; drink - the drink ACT-BODY (npc-action). The pressure think that proposes it is
 ; npc-think/crave_drink.hs (+ relapse.hs for dependents). The {@self drink}
 ; act-belief - begun at commit, ended by (end-act) at completion - IS the episodic
 ; drinking memory days-since-last / the sobriety classifier read. No aim, no
 ; end-goal: the act just does the act; crave_drink ceases because drinking reset
 ; its pressure.
 
-(npc-act drink_act
+(npc-action drink_act
   (act {@self drink})
   (duration 90)
   (act-effects
