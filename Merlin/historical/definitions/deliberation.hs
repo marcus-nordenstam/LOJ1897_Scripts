@@ -174,6 +174,12 @@
 (category replace           passive)
 (category expose_first      passive)
 
+; DRIVE categories - the routine intra-day lanes. Not crime buckets: these key the
+; personality tilt best_proposal applies to a drive act''s utility (never the
+; pressure-driven deliberation branches).
+(category worship devotional)
+(category work    labour)
+
 ; ---- trait biases: disposition tilts a category ----------------------------
 ; (trait-bias <category> <dimension> self|attr <sign>): `self` reads the
 ; {@self <dimension>} self-belief (Big Five aspects), `attr` the env attr
@@ -197,6 +203,11 @@
 (trait-bias passive    assertiveness    self -1)
 (trait-bias passive    withdrawal       self  1)
 
+; DRIVE tilts (best_proposal): the devout attend more, the industrious work harder.
+; The env attr is the ground-truth trait the lanes formerly multiplied in directly.
+(trait-bias devotional politeness      attr  1)
+(trait-bias labour     industriousness attr  1)
+
 ; ---- mood biases: the transient in-the-moment overlay -----------------------
 (mood-bias aggressive stress      self  1)
 (mood-bias aggressive agitation   self  1)
@@ -205,6 +216,9 @@
 (mood-bias prosocial  agitation   self -1)
 (mood-bias prosocial  contentment self  1)
 (mood-bias passive    stress      self  1)
+
+; DRIVE mood overlay: the stressed shirk - stress damps the labour drive.
+(mood-bias labour stress self -1)
 
 ; ---- the master crime-scalar set --------------------------------------------
 ; Every aggressive-category action is throttled by (crime-scale) implicitly;

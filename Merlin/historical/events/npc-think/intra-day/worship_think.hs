@@ -38,7 +38,7 @@
   (role @self (grown @self))
   (when    (and (>= (days-since-last @self worship) 3)
                 (>= (attr @self politeness) 0.3)))
-  (utility (* (attr @self politeness) (recency-ramp worship 3 21 80)))
+  (utility (recency-ramp worship 3 21 50))
   (effects       (begin-goal {@self worship}))
   (cease-effects (end-goal   {@self worship})))
 

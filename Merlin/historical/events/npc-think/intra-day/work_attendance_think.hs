@@ -45,7 +45,7 @@
   (when (eval-until-hold (bind {?job (work-hours-today-label) ?start ?end}))  ; onset: derive the shift, bind ?start/?end
         (at-workplace ?wp)
         (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
-  (utility (* 80 (factors (attr @self industriousness) 0.75 0.5)))
+  (utility 80)
   ; PROPOSE the work-stay (act_body_purification): day_work's (when) - at the workplace + in/near
   ; the shift - IS the precondition, so this reactive propose is the whole terminal. Each completion
   ; re-deliberates -> re-proposes while still on shift, so the stay resumes to shift end.
@@ -62,6 +62,6 @@
   (when (eval-until-hold (bind {?job (work-hours-today-label) ?start ?end}))  ; onset: derive the shift, bind ?start/?end
         (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))
         (not (at-workplace ?wp)))
-  (utility (* 80 (factors (attr @self industriousness) 0.75 0.5)))
+  (utility 80)
   (effects       (begin-goal {@self enter ?wp}))
   (cease-effects (end-goal   {@self enter ?wp})))
