@@ -25,6 +25,8 @@
           (bind (target {@self hiding_spot ?}) ?cache)
           (if (and (is-entity ?cache) (has-facet ?item valuable))
               (then (put-item ?item ?cache))
-              (else (put-item ?item (attr @self location))))))
-    (end-act {@self stow})
-    (end-goal {@self stow})))
+              (else (put-item ?item (attr @self location))))
+          ; The put-away un-flags the loot: ending carrying_loot (own state) drops
+          ; want_stow's self-gate, whose falling edge retires the {@self stow} goal.
+          (end-belief {@self carrying_loot ?item})))
+    (end-act {@self stow})))

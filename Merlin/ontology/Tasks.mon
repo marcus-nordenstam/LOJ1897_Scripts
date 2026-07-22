@@ -120,6 +120,10 @@ relation
             # The enter chain (enter.hs) mints it to reach a venue's face; the
             # completion front-parks the actor where at-threshold reads true.
             go_to_threshold                         (tar ?)
+            # depart - the emigrant's LEAVE-TOWN act (depart_act.hs): the standing
+            # {@self depart} goal emigration.hs mints; the act quits the job,
+            # releases the home and exits the town permanently. Focusless.
+            depart
             # provision - the cook's keep-the-larder-stocked errand (buy
             # food at the grocer, carry it home, stow it in the kitchen).
             # The goal the plan_provisioning think event mints and the

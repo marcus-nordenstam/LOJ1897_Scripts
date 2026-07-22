@@ -20,6 +20,18 @@
 
 (include "../../../definitions/roles.hs")
 
+; want_stow (npc-think) - OWNS the stow goal end to end. The theft act records the take
+; as {@self carrying_loot ?item} (own state); this self-gate binds that item and holds the
+; standing {@self stow ?item} goal while the loot is in hand. Its falling edge is stow_act
+; putting the loot away and ending carrying_loot, which retires the goal. The acts never
+; mint or end the goal - they only write the possession state the minter reads.
+(npc-think want_stow
+  (schedule always)
+  (role @self (believes {@self carrying_loot ?item}))
+  (utility 90)
+  (effects       (begin-goal {@self stow ?item}))
+  (cease-effects (end-goal   {@self stow ?item})))
+
 (npc-think stow_go
   (schedule on-commit)
   (if-blocked hold)

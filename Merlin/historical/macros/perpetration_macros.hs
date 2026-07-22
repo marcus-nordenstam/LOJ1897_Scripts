@@ -173,15 +173,18 @@
     ; No hidden test on the loot: items are never hidden - a cached valuable
     ; sits in a hidden SUB-SPACE whose own contents index this rooms-only
     ; walk never reads.
+    ; carrying_loot is OWN STATE (a belief), not a goal: it is the take-once flag AND
+    ; the trigger want_stow (stow.hs) reads to MINT + OWN the {@self stow ?item} goal.
+    ; The act only records what it took - it never mints or ends the stow goal.
     (for-each ?room (attr-values ?scene parts [k interior_space room])
       (for-each ?item (attr-values ?room contents)
-        (if (and (no-goal {@self stow})
+        (if (and (not (believes {@self carrying_loot ?}))
                  (has-facet ?item valuable))
             (then
               (take-item ?item)
-              (begin-goal {@self stow ?item})
+              (begin-belief {@self carrying_loot ?item})
               (crime-ledger-append @self ?owner ?task steal (kind ?item) @fail)))))
-    (if (no-goal {@self stow})
+    (if (not (believes {@self carrying_loot ?}))
         (then (crime-ledger-append @self ?owner ?task steal @fail @fail)))
     (burglary-confrontation @self ?scene)))
 
