@@ -41,15 +41,16 @@
   (effects       (begin-goal {@self enter ?venue}))
   (cease-effects (end-goal   {@self enter ?venue})))
 
-; DWELL desire - at the venue in the window: push the utility so {@self attend},
-; now the leaf, promotes to attend_act (the attendance dwell).
+; TERMINAL step (act_body_purification): at the venue in the window, the attendance act is now
+; PROPOSED ({@self attend}), not auto-promoted by a self-begun leaf goal. The proposal carries
+; the attend desirability (attend-utility) and inherits its endeavour from the {@self attend ?occ}
+; goal it /causes (via the (goal ...) gate). Reactive (schedule always): re-proposes each decision
+; point while the actor stands at the venue in the window.
 (npc-think attend_dwell
-  (schedule on-commit)
-  (if-blocked hold)
+  (schedule always)
   (goal {@self attend ?occ})
   (when (and (believes {?occ venue ?venue})
              (attend-in-window @self)
              (in-building ?venue)))
   (utility (attend-utility @self))
-  (effects       (begin-goal {@self attend}))
-  (cease-effects (end-goal   {@self attend})))
+  (effects (propose {@self attend})))

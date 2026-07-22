@@ -51,6 +51,16 @@
   (effects       (begin-goal {@self dwell ?home}))
   (cease-effects (end-goal   {@self dwell ?home})))
 
+; TERMINAL step (act_body_purification): the at-home dwell is now PROPOSED, guarded by being at
+; home, not auto-promoted by the bare {@self dwell ?home} goal. idle_at_home holds the goal (util
+; 2, the at-home nothing-to-do slot); the dwell promotes ONLY here, ONLY at home. The proposal
+; inherits the idle utility from the {@self dwell ?home} goal it /causes (via the (goal ...) gate).
+(npc-think dwell_at_home
+  (schedule always)
+  (goal    {@self dwell ?home})
+  (when    (at-home))
+  (effects (propose {@self dwell ?home})))
+
 ; ============================ the unified eat lane ==========================
 ; Every routine meal is ONE act-goal {@self eat [k <meal>] <place>}: a desire
 ; mints it in its window, the <place> drives a leaf-first approach (eat_go), and
@@ -358,3 +368,18 @@
     (if (is-entity ?shop)
         (then (end-goal {@self enter ?shop}))
         (else (end-goal {@self enter ?go_dest})))))
+
+; TERMINAL step (act_body_purification): the forage act is now PROPOSED, guarded by being AT a
+; food source, not auto-promoted by the bare {@self forage} goal. The four food-source desires
+; above hold {@self forage} only while a source is reachable (carried / home pantry / shop); the
+; forage act promotes ONLY here. The readiness is the union of the arrived conditions the go rungs
+; negate (carried anywhere / at home / at a shop); forage_act's branch ORDER picks the source. The
+; proposal inherits the starving-band utility (141/140/135/130) from the {@self forage} goal it
+; /causes (via the (goal ...) gate).
+(npc-think forage_at_source
+  (schedule always)
+  (goal    {@self forage})
+  (when    (or (control [k food])
+               (at-home)
+               (at-place-kind [k building shop])))
+  (effects (propose {@self forage})))

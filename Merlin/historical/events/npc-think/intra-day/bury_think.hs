@@ -25,16 +25,18 @@
 ;     (the generic enter chain routes him into a church he knows - the graveyard
 ;     room the convey deposit files bodies into). CEASES the instant co-present
 ;     flips true (he has reached the body).
-;   bury_onsite: while CO-PRESENT with the body, hold {@self bury ?corpse}, which
-;     promotes to bury_act (the rite). CEASES when the corpse-condition gate
-;     drops: bury_act tells {?corpse condition buried} and DESTROYS the corpse,
-;     so the (not (believes ... buried)) / condition-dead filter unmatches, the
-;     ?corpse role empties, and the falling edge ends the goal.
+;   bury_onsite: while CO-PRESENT with the body, PROPOSE {@self bury ?corpse}, whose
+;     winning proposal promotes bury_act (the rite). The propose STOPS when the
+;     corpse-condition gate drops: bury_act tells {?corpse condition buried} and
+;     DESTROYS the corpse, so the (not (believes ... buried)) / condition-dead filter
+;     unmatches and the ?corpse role empties (bury_act ends its own act-belief).
 ;
-; on-changed is the belief-driven wake (the priest perceiving {?corpse condition
-; dead}); the co-present spatial gate is the movement-reactive wake (5.10) - the
-; priest's own arrival re-selects the next rung at his post-completion decision
-; point, so the held route rung advances to the rite the moment co-present flips.
+; on-changed drives the ROUTE rung's belief-driven wake (the priest perceiving
+; {?corpse condition dead}); the co-present spatial gate is the movement-reactive
+; wake (5.10) - the priest's own arrival re-selects the next rung at his
+; post-completion decision point, so the held route rung advances to the rite the
+; moment co-present flips. The ONSITE rung re-proposes each decision point (schedule
+; always) while co-present, so the rite promotes the moment he reaches the body.
 ; Utility 85 on both - a solemn office duty that out-competes the priest's own
 ; day_work (80), else a deposited corpse lies unburied in the church for months.
 ;
@@ -70,14 +72,13 @@
   (effects       (begin-goal {@self enter ?church}))
   (cease-effects (end-goal   {@self enter ?church})))
 
-; ONSITE rung. Held while the priest is CO-PRESENT with the overdue body: hold
-; {@self bury ?corpse}, which promotes to bury_act (the rite). The falling edge
-; is bury_act's own doing - it tells {?corpse condition buried} and destroys the
-; corpse, dropping the ?corpse role, so this rung's cease ends the goal on the
-; stashed (now interred) corpse symbol: a mental goal-retract, safe with no role
-; re-bind onto the destroyed corpse.
+; ONSITE rung. While the priest is CO-PRESENT with the overdue body, PROPOSE
+; {@self bury ?corpse} each decision point - the winning proposal promotes bury_act
+; (the rite). bury_act ends its OWN {@self bury ?corpse} act-belief and destroys the
+; corpse (telling {?corpse condition buried}), so the ?corpse role empties on the next
+; cycle and the rung simply stops proposing - no goal to retract, no cease needed.
 (npc-think bury_onsite
-  (schedule on-changed)
+  (schedule always)
   (if-blocked hold)
   (role @self (believes {@self job [k job priest]}))
   (role ?corpse (believes {?corpse condition [k dead]})
@@ -86,5 +87,4 @@
   (when (and (>= (months-since-death ?corpse) 1)
              (co-present @self ?corpse)))
   (utility 85)
-  (effects       (begin-goal {@self bury ?corpse}))
-  (cease-effects (end-goal   {@self bury ?corpse})))
+  (effects (propose {@self bury ?corpse})))

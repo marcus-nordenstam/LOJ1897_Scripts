@@ -49,3 +49,27 @@
   (utility 35)
   (effects       (begin-goal {@self enter ?go_dest}))
   (cease-effects (end-goal   {@self enter ?go_dest})))
+
+; ----- matriculation proposes (AT a school, goals never propose themselves) ------------------
+; Each enrol_<level>_act reads its school off the standing {@self enrol_<level>} goal, so the
+; proposes are label-only.
+(npc-think primary_at_school
+  (schedule always)
+  (goal {@self enrol_primary})
+  (when (at-place-kind [k building school]))
+  (utility 35)
+  (effects (propose {@self enrol_primary})))
+
+(npc-think secondary_at_school
+  (schedule always)
+  (goal {@self enrol_secondary})
+  (when (at-place-kind [k building school]))
+  (utility 35)
+  (effects (propose {@self enrol_secondary})))
+
+(npc-think university_at_school
+  (schedule always)
+  (goal {@self enrol_university})
+  (when (at-place-kind [k building school]))
+  (utility 35)
+  (effects (propose {@self enrol_university})))

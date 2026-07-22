@@ -119,7 +119,7 @@
 ; cannot re-deliberate every simulated minute - defense-in-depth against destination
 ; thrash. Small enough not to distort real travel; the real fix for "why re-go at all"
 ; is the arriving lane firing its purpose act (see at-place-kind).
-(define-macro go_travel_floor_min      () 5)
+(define-macro go_travel_floor_min      () 1)
 
 ; The household cook's public-bb claim lifetime, in hsim cycles (= months). The
 ; sitting cook RE-POSTS it every cycle (renew_cook), so the ttl only bounds how

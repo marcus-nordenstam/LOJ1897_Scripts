@@ -1,79 +1,73 @@
 ; ----------------------------------------------------------------------------
-; hold_meet - the npc-ACT half of the club meet (the contest itself).
+; hold_meet (npc-ACT lane) - the organiser's two acts of the club meet, decomposed
+; into a TRUE npc-POV contest (act_body_purification + telepathy purge). The old
+; single act picked the victor by (attr ?victor assertiveness) and the grudge by
+; (attr ?bested narcissism) - reading OTHER people's hidden traits. Now nobody reads
+; a trait off anyone else: each competitor SELF-simulates his run (race_act.hs) and
+; the outcome is OBSERVABLE (a race_result belief minted into the co-present
+; organiser), which the organiser reads from his OWN mind to declare the winner.
 ;
-; The routing think (npc-think/sporting_event.hs) walked the organiser to his
-; clubhouse and latched {@self hold_meet_run}; that act-goal promotes THIS body.
-; The organiser reads his club's SPORT (tables/club_sports.hs, by the club kind
-; on the articles he holds) and its ROSTER (the employee_register the articles
-; name - a document he legitimately holds, not a world scan), then:
-;   - every co-present, living roster member remembers competing
-;     ({?m participated_in <sport>}, minted in the competitor's own mind - the
-;     canonical mint-on-a-co-present-other, cf. affair.hs / advantageous_match.hs);
-;   - the VICTOR (a co-present competitor, weighted by observable vigour) takes
-;     the honours ({?victor won <sport>});
-;   - ONE bested rival may resent the win and record the {victor outdo bested}
-;     contest anchor (the sporting_rivalry seed the rivalrous-act cascade reads).
-;
-; ROBUSTNESS: @self is the FIRST role so the completion path presets it; ?victor
-; and ?bested are co-present-only (their score zeroes out anyone not in the room),
-; and neither excludes the other at the ROLE level - the self / victor exclusions
-; live in the effect guards. So the act fires whenever >=1 competitor is present
-; and always ends both act-belief and goal; a meet no member attends simply holds
-; no contest (the participated walk is empty) and still clears the goal on a later
-; cycle when someone is there. No omniscient roster/jockey scan and no hidden
-; `practice` marker (that was telepathy): the victor is read from OBSERVABLE
-; assertiveness + the roulette draw.
+;   open_meet_act (organiser): reads his club's SPORT + ROSTER (own documents) and
+;     SUMMONS each co-present, living roster member - a told fact ({?m summoned_to_meet
+;     <sport> <organiser>}), honest. Records his own {@self meet_sport <sport>} and
+;     latches the judge goal.
+;   race_act (each competitor): runs from his OWN attrs, mints the result into the
+;     organiser (race_act.hs).
+;   judge_meet_act (organiser): argmaxes the winner from the race_result beliefs he
+;     holds, mints {winner won <sport>}, and anchors {winner outdo <loser>} for every
+;     other racer (a real positional outcome). The GRUDGE is appraisal-native: the
+;     rivalrous_act ms1 reaction folds each loser's OWN narcissism, so the proud loser
+;     nurses it and the placid one shrugs - computed in the loser's mind, not here.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
 
-(npc-act hold_meet_act
-  ; @self first (the completion path presets role-0 to the actor). The act-belief
-  ; sits IN the cached self-gate (not (when)): the gate rejects O(1) BEFORE the
-  ; ?victor/?bested pools materialize; (when) would only run after them.
-  (role @self (believes {@self hold_meet_run})
-              (grown @self))
-
-  ; The VICTOR: a co-present competitor, drawn weighted by observable vigour
-  ; (assertiveness + a base so anyone present can win). co-present rides the SCORE
-  ; (not a role filter - positional co-presence is not object-cacheable), so a
-  ; town-known human who is NOT in the room scores 0 and is never drawn.
-  (role ?victor [k human]
-                (select (score (* (co-present @self ?victor)
-                                  (+ 0.15 (attr ?victor assertiveness))))
-                        (policy roulette)))
-
-  ; ONE bested rival: a co-present competitor, drawn uniformly among those present
-  ; (score = co-presence). Whether he actually resents is the trait roll below.
-  (role ?bested [k human]
-                (select (score (co-present @self ?bested))
-                        (policy roulette)))
-
-  (duration 60)
-
+; The organiser opens the meet: summon the co-present field, record the sport, latch
+; the judge goal. The victor/grudge deliberation is GONE - this act reads no trait.
+(npc-act open_meet_act
+  (act {@self hold_meet_run})
+  (duration 30)
   (act-effects
-    ; The club's articles (goal focus) -> its kind + employee_register; then the
-    ; sport, an EXACT lookup on the club kind (a kindless club holds no contest).
+    ; The club's articles (goal focus) -> its kind + roster; then the sport, an EXACT
+    ; lookup on the club kind (a kindless club holds no contest).
     (bind (goal-focus hold_meet) ?art)
     (read-doc-record [k articles_of_incorporation] ?art (kind ?club_kind) (register ?reg))
     (bind (lookup club_sports org_kind ?club_kind sport) ?sport)
-    (if ?sport
+    (if (is-kind ?sport)
       (then
-        ; PARTICIPATION: every co-present, living roster member keeps the memory
-        ; of competing. co-present gates it so a member who did not attend gets
-        ; nothing; (alive ?m) guards the cross-mind mint against a stale roster row.
+        ; The organiser's OWN record that a meet is on (the judge think's self-gate).
+        (begin-belief {@self meet_sport ?sport})
+        ; Summon every co-present, living roster member: tell them the sport AND who
+        ; runs it (aux = @self), so each racer knows whom to report his result to.
         (for-each-doc-record [k employee_register] ?reg (worker ?m)
           (if (and (alive ?m) (co-present @self ?m))
-              (then (begin-belief ?m {?m participated_in ?sport}))))
-        ; THE VICTOR takes the honours (skip the degenerate self-only draw).
-        (if (not (= ?victor @self))
-            (then (begin-belief ?victor {?victor won ?sport})))
-        ; THE BESTED RIVAL resents the win with the narcissism x assertiveness roll
-        ; (floor 0.15, trait scale 0.85). The self / victor exclusions live HERE in
-        ; the effect (a cross-role equality is not object-cacheable in a role), so a
-        ; one-competitor meet mints no grudge.
-        (if (and (not (= ?bested @self))
-                 (not (= ?bested ?victor))
-                 (chance (+ 0.15 (* 0.85 (attr ?bested narcissism) (attr ?bested assertiveness)))))
-            (then (incident-anchor ?victor outdo ?bested)))))
+              (then (begin-belief ?m {?m summoned_to_meet ?sport @self}))))
+        ; Now wait, then judge.
+        (begin-goal {@self judge_meet})))
     (end-act {@self hold_meet_run})))
+
+; The organiser declares the winner (act_body_purification: the DUMB act). The winner
+; SELECTION is deliberation and lives in the sporting_judge think (sporting_judge_think.hs),
+; which argmaxes the current top scorer from the race_result beliefs the racers minted into
+; him and proposes {@self judge_declare ?winner}; this body just performs the declaration off
+; the ?winner carried on its act-belief. No trait read - the winner is the highest OBSERVED
+; performance, chosen in the think.
+(npc-act judge_declare_act
+  (act {@self judge_declare ?winner})
+  (duration 30)
+  (act-effects
+    (bind (target {@self meet_sport}) ?sport)
+    ; The victor takes the honours (minted into HIS mind - he was there, he is told).
+    (begin-belief ?winner {?winner won ?sport})
+    ; Every OTHER racer was positionally outcompeted -> the observable rivalrous anchor
+    ; (auto-witnessed). The loser's own narcissism scales whether it stings, in ms1.
+    ; The same pass clears the scoreboard so next year's meet starts clean.
+    (for-each-belief {?r race_result ?}
+      (do
+        (bind (target {?r race_result}) ?p)
+        (if (not (= ?r ?winner))
+            (then (incident-anchor ?winner outdo ?r)))
+        (end-belief {?r race_result ?p})))
+    (end-belief {@self meet_sport ?sport})
+    (end-act {@self judge_declare})
+    (end-goal {@self judge_meet})))

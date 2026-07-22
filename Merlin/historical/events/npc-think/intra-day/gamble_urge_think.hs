@@ -16,8 +16,9 @@
 ;     mints {@self enter ?venue} and settles into k_holding so it STICKS with that pub
 ;     (no re-roulette while walking); on arrival (in-building ?venue) the (when) drops
 ;     and cease-effects end the enter-goal. The enter chain steps the gambler INSIDE.
-;   AT a pub: {@self play_game} has no active sub-goal, so it is the leaf and promotes
-;     straight to gamble_act (npc-act/gamble_act.hs). No rule needed.
+;   gamble_at_pub (terminal): AT a pub, the standing {@self play_game} drive is PROPOSED
+;     ({@self play_game}), promoting to gamble_act (npc-act/gamble_act.hs). The proposed
+;     label no longer auto-promotes, so this is the only place the act runs.
 ; No known pub -> no gamble_go role -> no gambling.
 ; ----------------------------------------------------------------------------
 
@@ -53,8 +54,8 @@
 ; (§5.11). On the FIRST fire it roulettes a pub and mints {@self enter ?venue}, then
 ; settles into k_holding so it STICKS with that pub (no re-roulette while walking); on
 ; arrival (in-building ?venue) the (when) drops and cease-effects end the enter-goal. The
-; enter chain steps the gambler INSIDE the pub, so {@self play_game} then holds as the
-; leaf and gamble_act promotes.
+; enter chain steps the gambler INSIDE the pub, so at-place-kind then holds and gamble_at_pub
+; proposes {@self play_game}.
 (npc-think gamble_go
   (schedule on-commit)
   (if-blocked hold)
@@ -64,3 +65,15 @@
   (when (not (in-building ?venue)))
   (effects       (begin-goal {@self enter ?venue}))
   (cease-effects (end-goal   {@self enter ?venue})))
+
+; TERMINAL step (act_body_purification): the gamble act is now PROPOSED, guarded by being AT a
+; pub, not promoted by the bare {@self play_game} goal. Because `play_game` is a proposed label
+; that goal no longer competes (it still persists + drives gamble_go) - so the gamble act promotes
+; ONLY here, ONLY at a pub. The proposal inherits the addiction-amplified drive from the
+; {@self play_game} goal it /causes (via the (goal ...) gate). Reactive (schedule always):
+; re-proposes each decision point while the urge stands + at a pub.
+(npc-think gamble_at_pub
+  (schedule always)
+  (goal    {@self play_game})
+  (when    (at-place-kind [k building pub]))
+  (effects (propose {@self play_game})))

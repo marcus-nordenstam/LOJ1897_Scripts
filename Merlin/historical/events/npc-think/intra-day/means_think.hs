@@ -21,3 +21,15 @@
   (utility 90)
   (effects       (begin-goal {@self acquire ?means}))
   (cease-effects (end-goal   {@self acquire ?means})))
+
+; TERMINAL step (act_body_purification): the obtain is now PROPOSED, guarded by not yet controlling the
+; means - the same gate the desire above uses (acquire_act absorbs the round-trip travel, so there is no
+; separate arrival condition). Utility 90 mirrors the desire's drive. Reactive: re-proposes each decision
+; point while the killer still lacks the tool; once controlled the desire's cease ends the goal and this
+; stops firing.
+(npc-think means_acquire
+  (schedule always)
+  (goal {@self acquire ?means})
+  (when (not (control ?means)))
+  (utility 90)
+  (effects (propose {@self acquire ?means})))

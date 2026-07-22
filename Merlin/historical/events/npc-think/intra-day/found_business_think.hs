@@ -31,3 +31,12 @@
   (utility 85)
   (effects       (begin-goal {@self enter ?go_dest}))
   (cease-effects (end-goal   {@self enter ?go_dest})))
+
+; AT a bank: PROPOSE the founding act (goals never propose themselves). found_business_act reads
+; its capital / articles off the standing {@self found} goal focus, so the propose is label-only.
+(npc-think found_at_bank
+  (schedule always)
+  (goal    {@self found})
+  (when    (at-place-kind [k building bank]))
+  (utility 85)
+  (effects (propose {@self found})))

@@ -429,6 +429,16 @@ relation
         (achievement)           (+ sub human)
             participated_in     (tar ?)
             won                 (tar ?)
+            # Club-meet mechanics (sporting_event / hold_meet POV lane).
+            # summoned_to_meet: a member the organiser called to compete (tar = the
+            # sport; aux = the organiser who runs it, so the racer knows who to
+            # report to). meet_sport: the organiser's OWN record that he opened a meet
+            # in <sport> (the judge think's self-gate). race_result: a competitor's
+            # self-simulated performance (tar = a 0..1 score), minted into the
+            # co-present organiser, who argmaxes the winner from the ones he holds.
+            summoned_to_meet    (tar ?)  (aux human)
+            meet_sport          (tar ?)
+            race_result         (tar ?)
 
         # Zero-sum outcome records. NOT tasks - act-RECORDS minted by
         # classifiers from base substrate facts (`{actor hired_at ?org}`,

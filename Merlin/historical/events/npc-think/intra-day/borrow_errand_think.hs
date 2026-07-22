@@ -18,3 +18,14 @@
   (utility 60)
   (effects       (begin-goal {@self enter ?cred_home}))
   (cease-effects (end-goal   {@self enter ?cred_home})))
+
+; AT the lender's home: PROPOSE the loan-taking act (goals never propose themselves).
+; take_loan_act reads the creditor off the standing {@self take_loan} goal focus, so the propose
+; is label-only.
+(npc-think borrow_at_home
+  (schedule always)
+  (goal {@self take_loan ?creditor})
+  (when (and (believes {?creditor home ?cred_home})
+             (in-building ?cred_home)))
+  (utility 60)
+  (effects (propose {@self take_loan})))

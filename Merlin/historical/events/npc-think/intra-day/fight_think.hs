@@ -79,6 +79,18 @@
     (debug-print "TRACE_KILLSTRIKE @self strikes victim=?victim")
     (begin-goal {@self fight ?victim})))
 
+; TERMINAL step (act_body_purification): the blow itself is now PROPOSED, guarded by co-presence -
+; the same precondition kill_strike keys on. No (utility): the proposal inherits the fight goal's drive
+; up the /cause chain, so the aggressor strikes at kill_strike's exposure-decayed weight (~200) and a
+; struck victim who turned to fight (defend_strike) strikes at its 20000 override - ONE shared terminal,
+; each actor's own drive. Reactive: re-proposes each round while co-present so the exchange trades blows
+; until one dies (a fatal blow breaks co-presence and the strikes stop).
+(npc-think strike_foe
+  (schedule always)
+  (goal {@self fight ?victim})
+  (when (co-present @self ?victim))
+  (effects (propose {@self fight ?victim})))
+
 ; BREAK OFF (end-condition c): a killer whose attempt has dragged on without a kill
 ; gives up for now and leaves - exposure outweighs the deed. Utility is 0 for the
 ; first ~10 minutes then rises (+30/min), overtaking the decaying kill_strike around
@@ -129,6 +141,18 @@
   (effects       (begin-goal {@self flee ?foe}))
   (cease-effects (end-goal   {@self flee ?foe})))
 
+; TERMINAL step (act_body_purification): the getaway bid is PROPOSED while the flee goal stands and
+; the victim is still under attack by ?foe (flee_attack's own gate). Utility 15000 sits below a fight
+; goal (20000) and above a scream (12000), so a bold victim fights and a timid one runs. Reactive:
+; re-proposes each round until the flee succeeds (whisked to a public place, co-presence breaks) or the
+; attack ends.
+(npc-think flee_foe
+  (schedule always)
+  (goal {@self flee ?foe})
+  (when (believes {@self under_attack ?foe}))
+  (utility 15000)
+  (effects (propose {@self flee ?foe})))
+
 ; THE VICTIM SCREAMS FOR HELP - the last resort when it can neither fight (failed the
 ; resolve roll) nor flee (nowhere to run). Lowest utility, so it only wins when the
 ; other two produce no act. A one-minute cry that keeps the victim ACTIVE (never
@@ -139,3 +163,14 @@
   (utility 12000)
   (effects       (begin-goal {@self cry_out}))
   (cease-effects (end-goal   {@self cry_out})))
+
+; TERMINAL step (act_body_purification): the scream is PROPOSED while the cry_out goal stands and the
+; victim is under attack (scream_for_help's own gate). Utility 12000 is the lowest of the three, so it
+; only wins when neither fight nor flee produced an act. Reactive: re-proposes each round, keeping the
+; victim active (never lapsing to sleep / idle) while under attack.
+(npc-think cry_out_alarm
+  (schedule always)
+  (goal {@self cry_out})
+  (role ?foe (believes {@self under_attack ?foe}))
+  (utility 12000)
+  (effects (propose {@self cry_out})))

@@ -37,13 +37,15 @@
     (if ?scene
         (then (end-goal {@self enter ?scene})))))
 
-; AT a strikeable scene: push the steal utility so {@self steal}, now the leaf,
-; promotes to steal_act. One desire for both scenes; steal_act's completion picks
-; the crime method (embezzle at the thief's own workplace, else opportunist_theft).
+; TERMINAL step (act_body_purification): AT a strikeable scene the theft is now PROPOSED (was a
+; self-affirming re-begin that used to auto-promote). Utility 86 outbids the travel rung (85) by a
+; point, so arrival flips routing into the strike. One terminal for both scenes; steal_act's completion
+; picks the crime method (embezzle at the thief's own workplace, else opportunist_theft). Reactive:
+; re-proposes each decision point while standing at the scene.
 (npc-think burgle_strike
-  (schedule on-changed)
+  (schedule always)
   (goal {@self steal})
   (when (or (at-burgle-residence)
             (at-own-workplace)))
   (utility 86)
-  (effects (begin-goal {@self steal})))
+  (effects (propose {@self steal})))

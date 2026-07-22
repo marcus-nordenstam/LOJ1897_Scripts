@@ -13,12 +13,14 @@
 ;     {@self hold_meet <club-articles>} goal.
 ;   hold_meet_go / hold_meet_dwell: while the goal stands, hold_meet_go walks him to
 ;     his clubhouse (articles-building; the generic enter chain does the travel) and
-;     cedes on arrival; hold_meet_dwell, once he is inside, latches the on-site
-;     {@self hold_meet_run} act-goal that hold_meet_act drains.
+;     cedes on arrival; hold_meet_dwell, once he is inside, proposes the on-site
+;     {@self hold_meet_run} act that open_meet_act drains (it summons the field).
+;   compete: the COMPETITOR's half - a member the organiser summoned proposes his own
+;     {@self race_run} act (race_act runs his leg from his own attributes).
 ;
 ; The SPORT is authored content read per club kind from tables/club_sports.hs;
 ; the roster is the employee_register the organiser legitimately holds - both
-; read inside the act (hold_meet.hs), never here.
+; read inside open_meet_act (hold_meet_act.hs), never here.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
@@ -56,14 +58,14 @@
   (effects       (begin-goal {@self hold_meet (target {?club record})}))
   (cease-effects (end-goal   {@self hold_meet (target {?club record})})))
 
-; --- routing: get the organiser to his clubhouse, then latch the on-site act ---
+; --- routing: get the organiser to his clubhouse, then propose the on-site act ---
 ; The clubhouse is the goal focus's premises (articles-building), role-free (recovered from
-; the standing goal, never a scan). Two maintenance rungs, both gated on the standing
-; {@self hold_meet}: hold_meet_go holds {@self enter ?clubhouse} while he is not yet inside
-; (the generic enter chain does the travel) and ceases it on arrival; hold_meet_dwell, once
-; he is inside, holds {@self hold_meet_run} - the act-goal hold_meet_act drains. It is NOT
-; self-affirming: it mints hold_meet_run, distinct from the hold_meet goal it gates on. When
-; hold_meet ceases the standing goal, both rungs lose their parent and retract cleanly.
+; the standing goal, never a scan). Two rungs, both gated on the standing {@self hold_meet}:
+; hold_meet_go (maintenance) holds {@self enter ?clubhouse} while he is not yet inside (the
+; generic enter chain does the travel) and ceases it on arrival; hold_meet_dwell (terminal),
+; once he is inside, proposes {@self hold_meet_run} each decision point - the act open_meet_act
+; drains and ends its own act-belief. When hold_meet ceases the standing goal, hold_meet_go
+; loses its parent and retracts, and the dwell rung stops proposing.
 (npc-think hold_meet_go
   (schedule on-commit)
   (if-blocked hold)
@@ -75,11 +77,21 @@
   (cease-effects (end-goal   {@self enter ?clubhouse})))
 
 (npc-think hold_meet_dwell
-  (schedule on-commit)
+  (schedule always)
   (if-blocked hold)
   (goal {@self hold_meet})
   (when (and (articles-building (goal-focus hold_meet) ?clubhouse)
              (in-building ?clubhouse)))
   (utility 35)
-  (effects       (begin-goal {@self hold_meet_run}))
-  (cease-effects (end-goal   {@self hold_meet_run})))
+  (effects (propose {@self hold_meet_run})))
+
+; --- the COMPETITOR's terminal: a summoned member proposes his own race act --------
+; open_meet_act told this member {@self summoned_to_meet <sport> <organiser>}; while
+; that summons stands he PROPOSES the {@self race_run} act each decision point (race_act
+; drains it and ends the summons, so the propose stops once his leg is run). Utility above
+; routine so the obligation to compete pulls him off idler errands for the one run.
+(npc-think compete
+  (schedule always)
+  (role @self (believes {@self summoned_to_meet ?}))
+  (utility 45)
+  (effects (propose {@self race_run})))

@@ -83,3 +83,18 @@
                         (+ 1.0 (* (business_failure_merit_weight)  (- 1.0 (diligence)))))))))
   (effects       (begin-goal {@self close_business ?art}))
   (cease-effects (end-goal   {@self close_business ?art})))
+
+; TERMINAL (act_body_purification): AT his own premises, PROPOSE the winding-up. close_business is
+; a proposed label, so the bare {@self close_business} goal no longer promotes on its own - the act
+; runs ONLY here, ONLY once the owner has reached the premises (at-workplace). articles-building
+; binds ?wp (the firm's premises) off the goal-focus - the same read the close_go routing rung uses
+; (npc-think/close_business_errand.hs), whose (not (at-workplace ?wp)) gate this arrived condition
+; negates. The (goal ...) gate supplies the /cause. Reactive (schedule always): re-proposes each
+; decision point while the winding-up goal stands + he is at the premises.
+(npc-think close_at_premises
+  (schedule always)
+  (goal {@self close_business})
+  (when (and (articles-building (goal-focus close_business) ?wp)
+             (at-workplace ?wp)))
+  (utility 85)
+  (effects (propose {@self close_business})))

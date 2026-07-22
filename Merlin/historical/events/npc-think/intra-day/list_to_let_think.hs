@@ -45,6 +45,24 @@
   (effects       (begin-goal {@self let ?prop}))
   (cease-effects (end-goal   {@self let ?prop})))
 
+; TERMINAL step (act_body_purification): AT a known house agency office the letting
+; is PROPOSED. list_to_let_act files the for_lease_listing + mints {?prop
+; availability for_rent}, which then ceases the {@self let ?prop} intent. The
+; readiness is the negation of list_to_let_go's travel gate - standing IN the
+; agency office (articles-building of a known house_agency). The act reads ?prop off
+; the latched {@self let ?prop} goal (goal-focus), so the propose is label-only to
+; match the (act {@self let}) body. Reactive (schedule always): re-proposes each
+; decision point while at the office until the listing files and the intent ceases.
+(npc-think list_to_let_at_agency
+  (schedule always)
+  (goal {@self let})
+  (role ?agency (believes {?agency isa [k org house_agency]})
+                (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
+  (when (and (articles-building ?art ?venue)
+             (in-building ?venue)))
+  (utility 40)
+  (effects (propose {@self let})))
+
 ; CASE B - knows a house agency, not at its office: travel there. Its incorporation
 ; articles name the office he calls at (articles-building).
 (npc-think list_to_let_go

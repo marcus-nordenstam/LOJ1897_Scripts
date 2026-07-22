@@ -17,3 +17,13 @@
   (utility 28)
   (effects       (begin-goal {@self enter ?go_dest}))
   (cease-effects (end-goal   {@self enter ?go_dest})))
+
+; AT a church: PROPOSE the orient act (goals never propose themselves). orient_act reads the
+; register off the standing {@self orient} search goal, so the propose is label-only. One shared
+; terminal for all four minting lanes (the marker is minter-agnostic).
+(npc-think orient_at_church
+  (schedule always)
+  (goal {@self orient})
+  (when (at-place-kind [k building church]))
+  (utility 28)
+  (effects (propose {@self orient})))

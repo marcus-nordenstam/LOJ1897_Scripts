@@ -17,3 +17,13 @@
   (utility 85)
   (effects       (begin-goal {@self enter ?venue}))
   (cease-effects (end-goal   {@self enter ?venue})))
+
+; AT the premises: PROPOSE the partnership act (goals never propose themselves). partner_act reads
+; the firm articles off the standing {@self partner} goal focus, so the propose is label-only.
+(npc-think partner_at_firm
+  (schedule always)
+  (goal {@self partner})
+  (when (and (articles-building (goal-focus partner) ?venue)
+             (in-building ?venue)))
+  (utility 85)
+  (effects (propose {@self partner})))

@@ -47,3 +47,18 @@
              (open ?s)))
   (effects       (begin-goal {@self go ?entry}))
   (cease-effects (end-goal   {@self go ?entry})))
+
+; The two movement PRIMITIVES are proposed here (goals never propose themselves): while a
+; {@self go ?dest} / {@self go_to_threshold ?s} goal stands (minted by the rungs above, or by
+; any lane that routes), re-propose the leg each decision point until the actor arrives and the
+; minting rung's cease ends the goal. No (utility): the proposal inherits its drive up the /cause
+; chain (go -> enter -> the desire that wanted to be inside), so the go for the keenest desire wins.
+(npc-think go_step
+  (schedule always)
+  (goal {@self go ?dest})
+  (effects (propose {@self go ?dest})))
+
+(npc-think go_to_threshold_step
+  (schedule always)
+  (goal {@self go_to_threshold ?s})
+  (effects (propose {@self go_to_threshold ?s})))

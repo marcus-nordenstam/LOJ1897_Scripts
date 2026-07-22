@@ -33,3 +33,14 @@
     (if (in-building ?venue)
         (then (begin-goal {@self give_alms ?venue}))
         (else (begin-goal {@self enter ?venue})))))
+
+; TERMINAL step (act_body_purification): the almsgiving act is now PROPOSED, guarded by being AT
+; the church, not auto-promoted by the bare {@self give_alms <church>} goal. feel_charitable holds
+; that goal at the church (or routes there via enter); the act promotes ONLY here, ONLY in-building.
+; The proposal inherits the compassion-ramp drive from the {@self give_alms ?church} goal it
+; /causes (via the (goal ...) gate). Reactive (schedule always): re-proposes while at the church.
+(npc-think give_alms_at_church
+  (schedule always)
+  (goal    {@self give_alms ?church})
+  (when    (in-building ?church))
+  (effects (propose {@self give_alms ?church})))

@@ -4,8 +4,7 @@
 ; promote the articling act (npc-act/apprentice_errand.hs).
 ;
 ;   indenture_go     : hold the aim, not at the premises -> travel sub-goal.
-;   indenture_dwell  : hold the aim, AT the premises -> feed the aim this think's drive
-;                      so it PROMOTES (the go sub-goal done, the aim is the leaf).
+;   indenture_dwell  : hold the aim, AT the premises -> propose the articling (indenture_act).
 ; ----------------------------------------------------------------------------
 
 (npc-think indenture_go
@@ -20,15 +19,15 @@
   (effects       (begin-goal {@self enter ?venue}))
   (cease-effects (end-goal   {@self enter ?venue})))
 
-; AT the premises: a MAINTENANCE minter for the standing seek_indenture aim. begin-goal
-; registers this think's utility source so the aim (its go sub-goal spent, now the leaf) wins
-; the motor and promotes to indenture_act; the cease-effects end the aim when @self leaves the
-; premises (the (in-building ?venue) gate drops).
+; TERMINAL (act_body_purification): AT the premises, PROPOSE the articling act - it no longer
+; promotes off the bare {@self seek_indenture} aim (a proposed label drops out of goal
+; competition). articles-building binds ?venue (the master's premises) off the goal-focus and the
+; (in-building ?venue) gate is the arrived condition; the (goal ...) gate supplies the /cause +
+; drive. Reactive (schedule always): re-proposes each decision point while the aim stands + inside.
 (npc-think indenture_dwell
-  (schedule on-commit)
+  (schedule always)
   (goal {@self seek_indenture})
   (when (and (articles-building (goal-focus seek_indenture) ?venue)
              (in-building ?venue)))
   (utility 80)
-  (effects       (begin-goal {@self seek_indenture}))
-  (cease-effects (end-goal   {@self seek_indenture})))
+  (effects (propose {@self seek_indenture})))

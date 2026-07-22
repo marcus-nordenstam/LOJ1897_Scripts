@@ -80,10 +80,14 @@
   (effects       (begin-goal {@self enter ?venue}))
   (cease-effects (end-goal   {@self enter ?venue})))
 
-; CASE A - AT a known agency, register still unread: promote the read act (the
-; knowledge channel).
+; CASE A - AT a known agency, register still unread: PROPOSE the read act (the
+; knowledge channel). act_body_purification: this rung already gates on the
+; readiness (at the agency, register unread), so it IS the terminal - it proposes
+; the read directly (its /cause is the {@self acquire} desire it gates on). Reactive
+; (schedule always): re-proposes each decision point until the read forms the
+; {@self for_sale ?} beliefs, which empties the unread self-gate and stops it.
 (npc-think buy_home_read
-  (schedule on-commit)
+  (schedule always)
   (goal {@self acquire})
   (role @self (not (believes {@self for_sale ?})))   ; register unread - cached
   (role ?agency (believes {?agency isa [k org house_agency]})
@@ -91,8 +95,7 @@
   (when (and (articles-building ?art ?venue)
              (in-building ?venue)))
   (utility 35)
-  (effects       (begin-goal {@self read_listings}))
-  (cease-effects (end-goal   {@self read_listings})))
+  (effects (propose {@self read_listings})))
 
 ; CASE C - register unread and @self knows NO house agency at all: consult the
 ; parish incorporations register (the orient lane, orient_errand.hs), which mints
@@ -133,3 +136,18 @@
     (pub-bb-post ?dwell claimed (claim_marker_ttl_cycles))
     (begin-goal {@self buy_home ?dwell}))
   (cease-effects (end-goal {@self buy_home ?dwell})))
+
+; TERMINAL step (act_body_purification): the buy is PROPOSED off the latched
+; {@self buy_home ?dwell} goal choose_home minted (the chosen dwelling). Kept
+; separate from choose_home because that rung roulettes + posts the claim on the
+; for_sale edge (on-changed) and must NOT re-roll each cycle; this reactive
+; (schedule always) rung re-proposes the already-chosen dwelling until the sale
+; commits (buy_home_act drops {@self for_sale ?dwell}, ending the goal). The
+; purchase is a register-document transaction (listings found by kind, no
+; co-location), so the standing goal is the whole readiness - no venue gate; and
+; buy_home_act re-validates the listing, so a stale propose is a safe no-op.
+(npc-think buy_home_do
+  (schedule always)
+  (goal {@self buy_home ?dwell})
+  (utility 45)
+  (effects (propose {@self buy_home ?dwell})))

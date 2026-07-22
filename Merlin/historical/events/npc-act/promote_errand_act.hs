@@ -12,4 +12,5 @@
   (duration 45)
   (act-effects
     (promote /worker (goal-focus promote_staff))
-    (end-act {@self promote_staff})))
+    (end-act  {@self promote_staff})
+    (end-goal {@self promote_staff})))

@@ -1,52 +1,33 @@
 ; ----------------------------------------------------------------------------
-; find_building (npc-act lane) - the GENERIC building-discovery search: the
-; deepest rung of the "get to a venue of kind K" cascade, and the ACT that
-; walks it. A seek rule (e.g. crave_drink's drink_find, worship's worship_find)
-; maintains {@self goal {@self find_building [k building <kind>]}} while it
-; wants a venue of a kind it knows NONE of. The goal IS the walking leaf -
-; there is no go sub-goal rung. Whichever find goal wins the motor promotes
-; HERE and spends its slot on ONE survey hop:
+; find_building (npc-act lane) - the GENERIC building-discovery search, and the ACT
+; that walks it. A seek rule (drink_find / worship_find / convey_find / ...) maintains
+; {@self goal {@self find_building [k building <kind>]}} while it wants a venue of a
+; kind it knows NONE of. The goal IS the walking leaf.
 ;
-;   find_building_act casts ?next = the NEAREST known building this mind has
-;   not yet surveyed (policy argmin), travels there and front-parks; the
-;   arrival exterior-perception (perceive_here's outdoor branch) surveys the
-;   vantage and mints the UNKNOWN buildings around it, and the hop marks ?next
-;   surveyed. Preferring the nearest unsurveyed vantage crawls outward through
-;   REACHABLE territory one hop at a time. Repeat until a building of the
-;   sought kind is learned; the instant it is, the seek rule's (no-role ...)
-;   fills, it stops firing, its excl-goal drops the find goal, and the seek
-;   lane's go rung takes over.
+; PURE acts (act_body_purification): the deliberation - which vantage to survey next -
+; lives in find_building_think.hs. find_survey casts the NEAREST unsurveyed known
+; building (policy argmin) and PROPOSES {@self find_building ?sought ?next}, so ?next
+; arrives on the act-belief AUX; this body spends the won slot walking there, surveying,
+; and marking the vantage spent. find_stall is the idle terminal find_stall proposes
+; when NO unsurveyed building is known.
 ;
-;   The ACT (not a think-minted go sub-goal) owns the hop because SEVERAL find
-;   goals can stand at once (a pub search and a church search): each competes
-;   with its own inherited drive, and WHICHEVER wins walks - one survey hop
-;   advances every standing search, since the surveyed marker is kind-agnostic.
-;   (A single shared go sub-goal could only /cause-inherit ONE goal's drive;
-;   the other goal, a childless leaf, promoted to the idle terminal below and
-;   burned its whole motor slot standing still.)
-;
-; The `surveyed` marker is a PRIVATE-BB entry on each building's mental object
-; (not a belief): bookkeeping - which vantages this search has spent -
-; invisible to other minds, dirtying the object cache so the ?next role
-; re-materializes on mark/expiry. It is TTL'd (survey_marker_ttl_cycles
-; months): a marker outlives one coverage sweep but self-reclaims once the
-; search ends, so only ACTIVE searchers hold markers and the bb pool stays
-; bounded. When it expires the building becomes re-explorable - a town's
-; layout is not learned once. go_act ALSO marks its arrival surveyed while a
-; find goal stands (an errand arrival is a survey too).
+; The ?next carried on the act-belief aux is an ABS handle (the act-belief externalises
+; so co-present minds can perceive the walk); (bb-mark ?next surveyed) resolves it back
+; to the SAME mental object find_survey's (bb-none ?next surveyed) role reads (resolve_bb_
+; host reuses the abs->mental LUT link), so the marker excludes the vantage from the next
+; pick and the search crawls outward through REACHABLE territory one hop at a time. The
+; arrival exterior-perception (perceive_here's outdoor branch) surveys the vantage and
+; mints the UNKNOWN buildings around it. Several find goals can stand at once; whichever
+; wins walks, and one survey hop advances every standing search (the marker is
+; kind-agnostic). The marker is TTL'd (survey_marker_ttl_cycles months) so only ACTIVE
+; searchers hold markers. go_act ALSO marks its arrival surveyed while a find goal stands.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
 (include "../../macros/tunables.hs")
 
-; ONE survey hop: walk to the nearest unsurveyed known building, front-park,
-; survey. Ends the act-belief; the find GOAL persists (the seek rule maintains
-; it), so the next won slot hops again.
 (npc-act find_building_act
-  (role @self (believes {@self find_building ?sought}))
-  (role ?next [k building]
-        (bb-none ?next surveyed)
-        (select (score (distance @self ?next)) (policy argmin)))
+  (act {@self find_building ?sought ?next})
   (duration (max (go_travel_floor_min) (travel-minutes @self ?next)))
   (act-effects
     (front-park @self ?next)
@@ -54,11 +35,9 @@
     (bb-mark ?next surveyed (survey_marker_ttl_cycles))
     (end-act {@self find_building ?sought})))
 
-; TERMINAL - no unsurveyed building known (the hop's role cast no ?next): idle
-; briefly, then re-deliberate (a marker may have expired, or a perceived
-; neighbour re-opened the frontier). Ends the act-belief so the seek goal it
-; serves stays live for the next attempt.
-(npc-act find_building_exhausted
-  (act {@self find_building ?sought})
+; TERMINAL - no unsurveyed building known (find_survey cast no ?next): idle briefly,
+; then re-deliberate. Ends its own act-belief so the find goal it serves stays live.
+(npc-act find_stall_act
+  (act {@self find_stall ?sought})
   (duration 60)
-  (act-effects (end-act {@self find_building ?sought})))
+  (act-effects (end-act {@self find_stall ?sought})))

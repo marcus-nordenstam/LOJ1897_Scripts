@@ -33,3 +33,15 @@
 
   (effects
     (begin-goal {@self depart})))
+
+; TERMINAL step (act_body_purification): the depart act is now PROPOSED, not promoted by
+; the bare {@self depart} goal - goals never propose themselves, so the latched goal above
+; only DRIVES this terminal. depart is a self-act with no venue, so the standing goal IS the
+; whole readiness: re-propose it each decision point (schedule always) until depart_act runs.
+; depart_act ends its own act-belief and destroys @self, so the propose stops when the
+; emigrant is gone. Utility above routine work so a resolved departure actually executes.
+(npc-think depart_now
+  (schedule always)
+  (goal {@self depart})
+  (utility 82)
+  (effects (propose {@self depart})))

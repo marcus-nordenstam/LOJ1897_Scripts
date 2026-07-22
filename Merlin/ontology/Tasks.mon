@@ -202,7 +202,18 @@ relation
             enroll_child                            (tar human)
             engage_staff                            (tar human)
 
+            # hold_meet_run  -> the organiser's on-site marker; promotes open_meet_act
+            #                  (summon the field).
+            # race_run       -> a summoned competitor's marker; promotes race_act
+            #                  (self-simulate performance from OWN attrs).
+            # judge_meet     -> the organiser's standing GOAL to declare the winner from
+            #                  the race_result beliefs the competitors minted into him.
+            # judge_declare  -> the dumb ACT the sporting_judge think proposes once a top
+            #                  scorer is cast; its target is that winner.
             hold_meet_run                           (sub human)
+            race_run                                (sub human)
+            judge_meet                              (tar ?)
+            judge_declare                           (tar human)
 
             # find_building -> the venue-discovery search GOAL (find_building.hs). A seek
             # rule maintains {@self goal {@self find_building [k building <kind>]}} while it
@@ -211,8 +222,11 @@ relation
             # unsurveyed known building, front-park, mark surveyed) until one of the sought
             # kind is learned. Several find goals can stand at once; whichever wins walks,
             # and one hop advances every standing search (the surveyed marker is
-            # kind-agnostic). Target = the sought KIND spec, so (tar ?).
-            find_building                           (tar ?)
+            # kind-agnostic). Target = the sought KIND spec (tar ?); the deliberating
+            # find_survey think casts the nearest unsurveyed vantage and carries it on
+            # the act-belief AUX. find_stall is the idle terminal when none is known.
+            find_building                           (tar ?)  (aux ?)
+            find_stall                              (tar ?)
             # staff_household -> the head's STANDING duty to keep their domestic
             # establishment staffed (the window-start think mints it; the emergent
             # act fulfils it). No target: the duty itself, not a specific hire.

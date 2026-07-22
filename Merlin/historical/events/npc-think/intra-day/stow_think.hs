@@ -30,3 +30,13 @@
   (utility 90)
   (effects       (begin-goal {@self enter ?home}))
   (cease-effects (end-goal   {@self enter ?home})))
+
+; AT home: PROPOSE the put-away act (goals never propose themselves). stow_act reads the carried
+; item off the standing {@self stow} goal and ends it, so the propose is label-only.
+(npc-think stow_at_home
+  (schedule always)
+  (goal {@self stow ?item})
+  (when (and (is-entity ?item)
+             (at-home)))
+  (utility 90)
+  (effects (propose {@self stow})))

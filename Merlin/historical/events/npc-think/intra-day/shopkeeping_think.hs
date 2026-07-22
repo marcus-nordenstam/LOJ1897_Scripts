@@ -1,27 +1,24 @@
 ; ----------------------------------------------------------------------------
-; shopkeeping (npc-think, intra-day) - the stocktake counter rung.
+; shopkeeping (npc-think, intra-day) - the stocktake terminal-propose rung.
 ;
 ; The standing stocktake goal is seeded once per window by the sim-window
-; plan_stocktake (npc-think/sim-window/shopkeeping.hs). This rung pushes utility
-; 82 onto that goal while the clerk stands at his counter so it promotes to
-; stocktake_act. A scheduled on-changed rung: it re-selects when the goal is
-; (re)committed and, via the movement edge, when the clerk reaches his
-; workplace, then re-asserts the goal at 82.
+; plan_stocktake (npc-think/sim-window/shopkeeping.hs). A dumb {@self stocktake}
+; act only runs when a think proposes it; this rung is that think. It PROPOSES
+; the stocktake act at drive 82 while the clerk stands at his counter
+; (at-workplace), so it competes for his next act and promotes to stocktake_act.
+; (schedule always): re-proposes each decision point while he is at the counter.
 ;
-; It does NOT own the goal-end. There is no (cease-effects), so the rung is a
-; plain scheduled event, not a maintenance hold: it fires the utility bump on an
-; edge and deactivates. The {@self stocktake} lifecycle is owned by its minter,
-; the sim-window plan_stocktake (npc-think/sim-window/shopkeeping.hs), which
-; re-seeds the goal each window; this rung only re-asserts the utility while the
-; clerk stands at his counter, so it has nothing of its own to cease.
+; It does NOT own the goal-end. There is no (cease-effects): the {@self stocktake}
+; lifecycle is owned by its minter, the sim-window plan_stocktake, which re-seeds
+; the goal each window and ends it once stocktake_act resets days-since-last; this
+; rung only re-proposes the act while the clerk stands at his counter.
 ; ----------------------------------------------------------------------------
 
 (npc-think stocktake_round
-  (schedule on-changed)
-  (if-blocked hold)
+  (schedule always)
   (goal {@self stocktake})
   (role ?org (believes {@self employer ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when  (at-workplace ?wp))
   (utility 82)
-  (effects (begin-goal {@self stocktake})))
+  (effects (propose {@self stocktake})))

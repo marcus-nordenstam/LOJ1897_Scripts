@@ -136,7 +136,7 @@
 ; courtship). Blocked (same-sex / kin): the goal just ends, the impulse spent. NOT a
 ; crime with a victim in the moral sense, but a crime-ledger row records the act.
 (define-macro terminal-consummate (?victim ?goal)
-  (if (and (not (= (attr @self gender) (attr ?victim gender)))
+  (if (and (not (believes {?victim gender (target {@self gender})}))
            (not (blood-kin @self ?victim)))
       (then
         (begin-belief {@self seduction ?victim})
@@ -147,7 +147,7 @@
         (begin-ended-belief {@self HAVE_SEX_WITH ?victim})
         (begin-belief ?victim {?victim lover @self})
         (begin-ended-belief ?victim {?victim HAVE_SEX_WITH @self})
-        (if (and (= (attr ?victim gender) [k female])
+        (if (and (believes {?victim gender [k female]})
                  (not (believes {?victim spouse ?})))
             (then (begin-belief ?victim {?victim prototype [k fallen_woman]})))
         (crime-ledger-append @self ?victim seduction seduce @fail @fail))

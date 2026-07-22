@@ -9,7 +9,7 @@
 ; (sack_act) lives in npc-act/sack_errand.hs.
 ;
 ;   sack_go     : hold the goal, not at the workplace -> travel act to it.
-;   sack_dwell  : hold the goal, AT the workplace -> a short dwell (the dismissal).
+;   sack_dwell  : hold the goal, AT the workplace -> propose the dismissal (sack_act).
 ; ----------------------------------------------------------------------------
 
 (npc-think sack_go
@@ -23,12 +23,15 @@
   (effects       (begin-goal {@self enter ?wp}))
   (cease-effects (end-goal   {@self enter ?wp})))
 
+; TERMINAL (act_body_purification): AT the workplace, PROPOSE the sack act - it no longer
+; promotes off the bare {@self sack} goal (a proposed label drops out of goal competition).
+; Reactive (schedule always): re-proposes each decision point while the goal stands + the boss
+; is at his workplace. The ?org role binds ?wp (the workplace) for the arrived gate.
 (npc-think sack_dwell
-  (schedule on-commit)
+  (schedule always)
   (goal {@self sack})
   (role ?org (believes {@self employer ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (at-workplace ?wp)))
   (utility 82)
-  (effects       (begin-goal {@self sack}))
-  (cease-effects (end-goal   {@self sack})))
+  (effects (propose {@self sack})))
