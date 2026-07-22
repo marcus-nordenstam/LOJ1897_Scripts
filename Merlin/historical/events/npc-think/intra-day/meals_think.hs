@@ -212,18 +212,32 @@
   (effects       (begin-goal {@self enter ?place}))
   (cease-effects (end-goal   {@self enter ?place})))
 
+; A paid EATERY (pub / restaurant) - a supper bought out, as opposed to the free
+; family table / workplace lunch. Keys the per-means intrinsics on eat_at_place.
+(define-macro dining-out? (?p)
+  (or (is-a ?p [k building pub]) (is-a ?p [k building restaurant])))
+
 ; TERMINAL step (act_body_purification): the meal is now PROPOSED, guarded by being AT its place.
 ; Because `eat` is a proposed label every {@self eat [k <meal>] <place>} desire drops out of the
 ; auction (it still persists + drives eat_go); the meal promotes ONLY here, ONLY once the diner is
 ; at the place - closing the "eat where there is no food" off-place fall-through. The proposal
 ; inherits the meal's own utility from the eat goal it /causes (via the (goal ...) gate).
+;
+; PER-MEANS intrinsics (act_body_purification 4.3): a supper BOUGHT OUT differs from the free
+; table not in the shared hunger it serves but in its own means-profile - it costs coin (/cost),
+; the sociable relish it (/affect off enthusiasm), and a purse too light cannot buy it
+; (/feasible). A home / workplace meal is dining-out? false, so all three fold to nothing and it
+; competes exactly as before.
 (npc-think eat_at_place
   (schedule on-commit)
   (if-blocked hold)
   (goal    {@self eat ?meal ?place})
   (when    (or (in-building ?place)
                (believes {@self location ?place})))
-  (effects (maintain-proposal {@self eat ?meal ?place})))
+  (effects (maintain-proposal {@self eat ?meal ?place}
+             /affect   (if (dining-out? ?place) (then (* (attr @self enthusiasm) 20)) (else 0))
+             /cost     (if (dining-out? ?place) (then 12) (else 0))
+             /feasible (or (not (dining-out? ?place)) (> (target {@self wealth}) 0.2)))))
 
 ; (PROVISIONING - the cook keeping the kitchen larder stocked - lives in
 ; npc-think/provisioning_think.hs; the general carry-to-a-place chain in
