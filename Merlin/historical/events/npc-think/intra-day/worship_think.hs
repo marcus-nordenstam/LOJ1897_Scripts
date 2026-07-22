@@ -18,6 +18,7 @@
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
+(include "../../../macros/intensity_macros.hs")
 
 ; The DESIRE. A churchgoer (some politeness) who has not been to a service since the
 ; last representative day wants to attend. hsim simulates ONE representative day per
@@ -37,7 +38,7 @@
   (role @self (grown @self))
   (when    (and (>= (days-since-last @self worship) 3)
                 (>= (attr @self politeness) 0.3)))
-  (utility (* (attr @self politeness) 80))
+  (utility (* (attr @self politeness) (recency-ramp worship 3 21 80)))
   (effects       (begin-goal {@self worship}))
   (cease-effects (end-goal   {@self worship})))
 
@@ -51,7 +52,6 @@
   (goal    {@self worship})
   (role @self (grown @self))
   (when    (is-a (current-building @self) [k building church]))
-  (utility (* (attr @self politeness) 80))
   (effects (maintain-proposal {@self worship})))
 
 ; CASE B - not at a church, but knows one: head to it. Inherits the worship drive. A

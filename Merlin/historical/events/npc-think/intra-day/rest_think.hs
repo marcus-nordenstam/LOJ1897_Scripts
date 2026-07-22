@@ -22,13 +22,16 @@
 ; The durative sleep act itself (sleep_act) lives in npc-act/rest.hs.
 ; ----------------------------------------------------------------------------
 
-; tired and away from home: go home to rest. Utility climbs with fatigue but
-; stays below the work shift (80) until exhaustion, then overrides.
+(include "../../../macros/intensity_macros.hs")
+
+; tired and away from home: go home to rest. The homeostatic drive climbs with fatigue -
+; a soft pull below the work shift (80) when merely tired, diverging past it toward the
+; sleepiness danger limit (2.0), so an exhausted NPC abandons everything and heads home.
 (npc-think seek_rest
   (schedule always)   ; gates on the sleepiness ATTR - no belief edge to trigger on
   (when (and (not (at-home))
              (> (attr @self sleepiness) 0.7)))
-  (utility (if (> (attr @self sleepiness) 1.0) (then 10000) (else (* 90 (attr @self sleepiness)))))
+  (utility (homeostatic sleepiness 2.0 90))
   (effects       (bind (target {@self home ?}) ?go_dest) (begin-goal {@self enter ?go_dest}))
   (cease-effects (end-goal   {@self enter ?go_dest})))
 
@@ -45,10 +48,10 @@
              (or (> (attr @self sleepiness) 0.5)
                  (>= (now-hour) 22)
                  (< (now-hour) 6))))
-  (utility (if (> (attr @self sleepiness) 1.0)
-               (then 10000)
-               (else (max (* 90 (attr @self sleepiness))
-                    (if (or (>= (now-hour) 22) (< (now-hour) 6)) (then 100) (else 0))))))
+  ; Convex fatigue drive (diverges toward the sleepiness danger limit), floored at
+  ; night so an NPC beds down on schedule even when not yet tired.
+  (utility (max (homeostatic sleepiness 2.0 90)
+                (if (or (>= (now-hour) 22) (< (now-hour) 6)) (then 100) (else 0))))
   ; Duration is a FUNCTION: sleep until the morning alarm, but no longer than
   ; until a pending obligation - a tired NPC with a gathering tonight wakes in
   ; time to get ready instead of napping straight through it, and an evening
