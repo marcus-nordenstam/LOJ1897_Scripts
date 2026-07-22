@@ -14,6 +14,7 @@
   (schedule on-commit)
   (if-blocked hold)
   (goal {@self engage_staff ?art})
+  (role @self (not (believes {@self employer ?})))   ; once hired, stop; a lingering goal must not re-run the errand
   (when (and (articles-building ?art ?venue)
              (not (in-building ?venue))))
   (utility 82)
@@ -23,10 +24,12 @@
 ; AT the firm: run the eligibility MATCH over the occupations table (the old C++/act-body
 ; job-match) and, if a post fits and the interview lands, PROPOSE the hire. ?art is the org
 ; articles (bound off the goal target); ?ok its org kind. Re-proposed each decision point
-; while dwelling (schedule always); a successful hire ends the goal, so this stops.
+; while dwelling (schedule always); once hired the (role @self (not (believes {@self employer
+; ?}))) gate drops this rule (and the hiring minter's cease-effects ends the goal), so it stops.
 (npc-think hire_dwell
   (schedule always)
   (goal {@self engage_staff ?art})
+  (role @self (not (believes {@self employer ?})))   ; once hired, stop re-proposing (a lingering goal must not re-hire)
   (when (and (articles-building ?art ?venue)
              (in-building ?venue)
              (read-doc-record [k articles_of_incorporation] ?art (kind ?ok))))

@@ -63,58 +63,43 @@
   ; gate would freeze the search on whichever firm was sampled first.
   (effects
     (end-goal {@self engage_staff})
-    (begin-goal {@self engage_staff (target {?org record})})))
+    (begin-goal {@self engage_staff (target {?org record})}))
+  ; The minter owns the ending: once @self is hired, the (role @self (not (believes
+  ; {@self employer ?}))) falling edge ends the standing job-search goal. The act never does.
+  (cease-effects (end-goal {@self engage_staff})))
 
-; --- staff review: a boss reviews their own staff and promotes / dismisses -----
-; BOSS-DRIVEN THINK (perf inversion). Both performance outcomes are the EMPLOYER's
-; decision, made from the employer's OWN assessment of their OWN staff - so @self is
-; the BOSS, not the workforce. A window-start think gated to the employed;
-; review-own-staff then confirms @self heads their org and walks only that
-; establishment's register, reading its OWN work_standing beliefs (no worker-mind
-; read) and, per worker, minting in ONE pass either {@self goal {@self sack <w>}}
-; for an underperformer (standing below the 0.4 keep-threshold, likelier the lower)
-; or {@self goal {@self promote_staff <w>}} for an excellent one (above the 0.7
-; promote floor). The two bands cannot overlap, and work_standing is a slow monthly
-; accumulator starting at the neutral 0.5, so a promotion is implicitly tenure-gated
-; (the old explicit job-tenure / job-skilled-at-or-above gates are subsumed).
-; The intra-day acts execute the decision AT the workplace: sack_errand.hs fires the
-; man (and seeds his grudge toward the boss); promote_errand.hs advances his grade
-; (promote() caps the rise at senior - headship is succession-only). This replaces
-; the old worker-first promotion enumeration (every human x an O(all-articles)
-; boss_of scan to reach the boss-side assessment), which dominated the world lane.
-(npc-think job_loss
+; --- staff review: per-worker maintenance minters (dismiss / promote) ----------
+; The employer OWNS each staffing intent end to end. @self is the BOSS: career conduct
+; writes his own {?w work_standing <0..1>} assessment of each worker (boss-side via
+; boss_of, no worker-mind read), so (role ?w (believes {?w work_standing ?ws}))
+; enumerates exactly his assessed staff and fire-binds the score. A worker below the 0.4
+; keep-line risks the sack; one above 0.7 earns a promotion; (eval-until-hold (chance ..))
+; is the ONSET roll, locking once it lands. THE FALLING EDGE that ends the SPECIFIC goal is
+; the worker leaving the role set: fire()/promote() clear the boss's {?w work_standing}
+; assessment (hsim_org_lifecycle), so the acted-on worker drops out and (cease-effects
+; (end-goal {@self sack|promote_staff ?w})) retires just his goal (target-specific). The
+; intra-day sack/promote acts run pure effects - they never end the goal.
+(npc-think sack_review
   (schedule cooldown 1 m)
   (rng-stream employment)
+  (role @self (believes {@self employer ?}))
+  (role ?w    (believes {?w work_standing ?ws}))
+  (when (and (not (= ?w @self))
+             (> 0.4 ?ws)
+             (eval-until-hold (chance (* 0.08 (- 0.4 ?ws))))))
+  (effects       (begin-goal {@self sack ?w}))
+  (cease-effects (end-goal   {@self sack ?w})))
 
-  (role @self 
-              (believes {@self employer ?}))
-
-  ; PURE .hs (the old C++ review-own-staff verb is gone). Navigate the boss's
-  ; OWN forward links {@self employer ?org} -> {?org record ?art}: the record
-  ; belief exists only in the FOUNDER's mind, so a mere employee fails the
-  ; second bind and the event never fires - the when-gate IS the head check,
-  ; and its spine binds thread into the effects.
-  (when (and (bind {@self employer ?org})
-             (bind {?org record ?art})))
-
-  (effects
-    ; Read the register off the articles and walk its rows. Per living worker
-    ; (a register row may name a destroyed entity - (alive ?w) guards), the
-    ; boss's own decision policy: below 0.4 work_standing risks the sack at
-    ; 0.08/month per unit of gap; above 0.7 earns promotion consideration at
-    ; 0.12/month per unit (unassessed reads as the neutral 0.5 - implicitly
-    ; tenure-gating both bands). The goals feed sack_errand / promote_errand.
-    (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
-    (for-each-doc-record [k employee_register] ?reg (worker ?w)
-      (if (and (alive ?w) (not (= ?w @self)))
-          (then
-            (bind (target-or ?w work_standing 0.5) ?ws)
-            (if (> 0.4 ?ws)
-                (then (if (chance (* 0.08 (- 0.4 ?ws)))
-                    (then (begin-goal {@self sack ?w}))))
-                (else (if (> ?ws 0.7)
-                    (then (if (chance (* 0.12 (- ?ws 0.7)))
-                        (then (begin-goal {@self promote_staff ?w}))))))))))))
+(npc-think promote_review
+  (schedule cooldown 1 m)
+  (rng-stream employment)
+  (role @self (believes {@self employer ?}))
+  (role ?w    (believes {?w work_standing ?ws}))
+  (when (and (not (= ?w @self))
+             (> ?ws 0.7)
+             (eval-until-hold (chance (* 0.12 (- ?ws 0.7))))))
+  (effects       (begin-goal {@self promote_staff ?w}))
+  (cease-effects (end-goal   {@self promote_staff ?w})))
 
 ; --- retirement: an employed worker of 65+ leaves working life --------------
 ; SPLIT (Item 5, the great split): this event is now the npc-THINK - the decision
@@ -136,5 +121,7 @@
              (chance 0.033)))   ; /12 of the old annual 0.4 (now monthly)
 
   (effects
-    (begin-goal {@self quit_work})
-    ))
+    (begin-goal {@self quit_work}))
+  ; The minter owns the ending: once quit_work_act fires @self, the (role @self (believes
+  ; {@self employer ?})) drops and this falling edge ends the goal. The act never does.
+  (cease-effects (end-goal {@self quit_work})))

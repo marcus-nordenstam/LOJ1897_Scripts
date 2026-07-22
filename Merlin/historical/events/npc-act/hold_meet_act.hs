@@ -9,8 +9,8 @@
 ;
 ;   open_meet_act (organiser): reads his club's SPORT + ROSTER (own documents) and
 ;     SUMMONS each co-present, living roster member - a told fact ({?m summoned_to_meet
-;     <sport> <organiser>}), honest. Records his own {@self meet_sport <sport>} and
-;     latches the judge goal.
+;     <sport> <organiser>}), honest. Records his own {@self meet_sport <sport>}, which the
+;     want_judge think reads to hold the judge goal (sporting_event_think.hs).
 ;   race_act (each competitor): runs from his OWN attrs, mints the result into the
 ;     organiser (race_act.hs).
 ;   judge_meet_act (organiser): argmaxes the winner from the race_result beliefs he
@@ -22,8 +22,9 @@
 
 (include "../../definitions/roles.hs")
 
-; The organiser opens the meet: summon the co-present field, record the sport, latch
-; the judge goal. The victor/grudge deliberation is GONE - this act reads no trait.
+; The organiser opens the meet: summon the co-present field and record the sport (the
+; want_judge think holds the judge goal off it). The victor/grudge deliberation is GONE -
+; this act reads no trait.
 (npc-act open_meet_act
   (act {@self hold_meet_run})
   (duration 30)
@@ -41,9 +42,7 @@
         ; runs it (aux = @self), so each racer knows whom to report his result to.
         (for-each-doc-record [k employee_register] ?reg (worker ?m)
           (if (and (alive ?m) (co-present @self ?m))
-              (then (begin-belief ?m {?m summoned_to_meet ?sport @self}))))
-        ; Now wait, then judge.
-        (begin-goal {@self judge_meet})))
+              (then (begin-belief ?m {?m summoned_to_meet ?sport @self}))))))
     (end-act {@self hold_meet_run})))
 
 ; The organiser declares the winner (act_body_purification: the DUMB act). The winner
@@ -69,5 +68,4 @@
             (then (incident-anchor ?winner outdo ?r)))
         (end-belief {?r race_result ?p})))
     (end-belief {@self meet_sport ?sport})
-    (end-act {@self judge_declare})
-    (end-goal {@self judge_meet})))
+    (end-act {@self judge_declare})))

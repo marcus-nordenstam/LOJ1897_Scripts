@@ -75,7 +75,13 @@
   ;; Focus = the org's articles, recovered from @self's {?org record ?art} belief.
   (effects
     (end-goal {@self seek_indenture})
-    (begin-goal {@self seek_indenture (target {?org record})})))
+    (begin-goal {@self seek_indenture (target {?org record})}))
+  ;; MINTER owns ending: once the youth is indentured (gains an employer / reads
+  ;; trainee), this rule's (role @self (not (believes {@self employer ?}))) + (when
+  ;; (not (= (job-level @self) [k trainee]))) gate stops holding, and this falling
+  ;; edge ends the aim. A youth seeks ONE indenture at a time, so label-only keying
+  ;; is fine. The act (apprentice_errand_act.hs) never ends the aim.
+  (cease-effects (end-goal {@self seek_indenture})))
 
 (npc-think apprenticeship_completion
   (schedule cooldown 1 m)

@@ -43,11 +43,14 @@
   (when (and (bind {@self eat ? ?place})
              (at-place ?place)))
 
+  (utility 20)
+
   (effects
     ; SELF-DISCLOSURE: one untold piece of my own profile. for-each-belief walks my
     ; {@self <label> ?} beliefs across the labels, binding each as ?belief; (break)
-    ; stops at the first the diner has not heard.
+    ; stops at the first the diner has not heard and proposes telling it (table_talk_act
+    ; says it aloud).
     (for-each-belief ?belief {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life_aim ?}
       (do
         (if (not (believes {@self SAY (utterable-msg ?belief) ?diner}))
-            (then (tell-to ?diner ?belief) (break)))))))
+            (then (propose {@self table_talk ?diner ?belief}) (break)))))))

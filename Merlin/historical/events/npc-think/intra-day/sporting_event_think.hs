@@ -85,6 +85,19 @@
   (utility 35)
   (effects (propose {@self hold_meet_run})))
 
+; --- the organiser OWNS the judge goal off his own meet_sport state ---------------
+; open_meet_act (hold_meet_act.hs) records {@self meet_sport <sport>} when the meet
+; opens and clears it when judge_declare_act declares the winner. While that record
+; stands this MAINTENANCE think holds the standing {@self judge_meet} goal that
+; sporting_judge reads (sporting_judge_think.hs) to pick + propose the winner; the
+; falling edge - judge_declare_act ending meet_sport - retracts the goal. The act no
+; longer mints or ends judge_meet (act_body_purification: acts run effects only).
+(npc-think want_judge
+  (schedule always)
+  (role @self (believes {@self meet_sport ?}))
+  (effects       (begin-goal {@self judge_meet}))
+  (cease-effects (end-goal   {@self judge_meet})))
+
 ; --- the COMPETITOR's terminal: a summoned member proposes his own race act --------
 ; open_meet_act told this member {@self summoned_to_meet <sport> <organiser>}; while
 ; that summons stands he PROPOSES the {@self race_run} act each decision point (race_act

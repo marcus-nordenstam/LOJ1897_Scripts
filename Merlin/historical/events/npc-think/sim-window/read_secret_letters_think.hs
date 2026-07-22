@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; read_secret_letters.hs - the routine of checking one's own hiding-spots.
 ;
-; An NPC with something to hide keeps private caches (see make_secret_cache.hs).
+; An NPC with something to hide keeps private caches (see make_secret_cache_think.hs).
 ; Each window they SEARCH the caches they own and read whatever has been stashed
 ; there - covert letters dropped for them (a conspiracy proposal, a love note).
 ; The words become their own beliefs, exactly as a spoken message would: a
@@ -17,7 +17,7 @@
 ;     read) and is idempotent, so re-searching each window re-learns nothing.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.hs")
+(include "../../../definitions/roles.hs")
 
 (npc-think read_secret_letters
   (schedule cooldown 1 m)

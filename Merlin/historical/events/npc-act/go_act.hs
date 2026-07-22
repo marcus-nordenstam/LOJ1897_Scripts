@@ -31,9 +31,4 @@
   (act {@self go_to_threshold ?s})
   (duration (max (go_travel_floor_min) (travel-minutes @self ?s)))
   (act-effects
-    (front-park @self ?s)
-    ; Cross-subsidy (§5.11): a front-park while a find_building search stands ALSO surveys
-    ; ?s - its exterior is perceived from the threshold - keeping the search frontier fed,
-    ; the coverage the old two-arm go_act gave on a building arrival.
-    (if (goal? {@self find_building ?})
-        (then (bb-mark ?s surveyed (survey_marker_ttl_cycles))))))
+    (front-park @self ?s)))

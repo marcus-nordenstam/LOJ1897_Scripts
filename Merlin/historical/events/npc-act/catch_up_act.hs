@@ -1,42 +1,11 @@
-; ----------------------------------------------------------------------------
-; catch_up (npc-think). Away from the table, @self SAYS ALOUD their OWN recent news
-; (a new spouse / fiancee / child / friendship) to whoever is CO-PRESENT. The
-; listener ?guest is bound by the location JOIN ({@self location ?loc} + {?guest
-; location ?loc}, cf. introduce.hs - the guest perceived sharing @self's room), and
-; @self tells each ONE fact they have not heard. Hearing it, a guest files @self as
-; the source and can pass "did you hear, X had a child" along - self-news cascades
-; onward as ordinary gossip.
-;
-; Fired per NPC per window; the gates (extraversion-weighted chance + a minimum
-; age) live in (when). Dedup is PER-LISTENER (the SAY's aux is the guest), so a
-; guest hears each fact only once. Telling nothing (all heard, or nobody
-; co-present) is a safe no-op. Meal-table chatter is table_talk_think.hs.
-; ----------------------------------------------------------------------------
+; catch_up - the self-news ACT-BODY (npc-act). The listener cast + the untold-fact
+; pick live in npc-think/sim-window/catch_up_think.hs; this pure act says the chosen
+; piece of @self's own news to the co-present guest. The {@self SAY ...} record the
+; tell mints IS the per-guest dedup the think reads.
 
-(include "../../definitions/roles.hs")
-
-(npc-think catch_up
-  (schedule cooldown 1 m)
-  (rng-stream behaviour)
-
-  ; ?guest is anyone CO-PRESENT: sourced OBJECTIVELY from @self's current room (env
-  ; contents), each guest passively perceived - enumerated, so each co-present listener
-  ; hears their own untold slice of @self's news.
-  (role ?guest (any_human ?guest)
-               (co-present @self))
-
-  ; Non-belief gates (out of the role): extraversion-weighted chance + minimum age.
-  (when (and (chance (* 0.25 (+ 0.5 (attr @self enthusiasm))))
-             (>= (years-old @self) 12)))
-
-  (effects
-    ; Tell ?guest ONE piece of my OWN news they have not heard. for-each-belief walks my
-    ; {@self <label> ?} beliefs across the relationship labels, binding the matched label
-    ; (the :?label capture) + its target; the dedup is PER-GUEST - the SAY's aux is the
-    ; listener, so {@self SAY <msg> ?guest} is "have I told THIS guest this". (break)
-    ; stops at the first untold fact. Telling nothing is a safe no-op.
-    (for-each-belief ?belief {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality ?}
-      (do
-        (if (not (believes {@self SAY (utterable-msg ?belief) ?guest}))
-            (then (tell-to ?guest ?belief) (break)))))
-    ))
+(npc-act catch_up_act
+  (act {@self catch_up ?guest ?belief})
+  (duration 0)
+  (act-effects
+    (tell-to ?guest ?belief)
+    (end-act {@self catch_up})))

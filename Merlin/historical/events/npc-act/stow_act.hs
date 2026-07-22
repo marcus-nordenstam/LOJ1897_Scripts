@@ -3,7 +3,7 @@
 ; chain. The thinks that drive it live in npc-think/stow.hs.
 ;
 ;   stow_act    : completion - put the item into the hiding spot when one
-;                 exists ({@self hiding_spot ?cache}, make_secret_cache.hs
+;                 exists ({@self hiding_spot ?cache}, make_secret_cache_think.hs
 ;                 fashions one for anyone with something to hide), else openly
 ;                 into the room the NPC stands in. Goal ends.
 ; ----------------------------------------------------------------------------

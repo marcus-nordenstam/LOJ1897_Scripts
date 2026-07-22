@@ -9,14 +9,15 @@
 ; (articles-building (goal-focus seek_indenture)) and the master is
 ; (org-founder (goal-focus seek_indenture)).
 ;
-;   indenture_act    : the promoted act - the 90-min articling; matched by its (when)
-;                      on the promoted {@self seek_indenture} belief. Hires the youth,
-;                      mints the master bond, ends the act + the aim.
+;   indenture_act    : the promoted act - the 90-min articling; proposed by
+;                      indenture_dwell at the premises. Hires the youth, mints the
+;                      master bond, ends the act. The seek_indenture aim is ended by
+;                      its minter (apprenticeship_start) on the falling edge.
 ; ----------------------------------------------------------------------------
 
-; The 90-min articling. Promoted from the seek_indenture aim at the premises; its (when)
-; matches the promoted {@self seek_indenture} belief + binds the master off the articles
-; (dropping cleanly if unreadable). Ends both the running act and the aim on completion.
+; The 90-min articling. Proposed at the premises; binds the master off the articles
+; (dropping cleanly if unreadable). Ends the running act on completion; the aim is ended
+; by its minter's falling-edge cease, not here.
 (npc-act indenture_act
   (act {@self seek_indenture})
   ; the master's articles (a plain ?var - a macro arg used as a {pattern} subject
@@ -31,5 +32,4 @@
       (then
         (hire-seq ?art [k job clerk] [k trainee])
         (begin-belief {@self master ?master})))
-    (end-act  {@self seek_indenture})
-    (end-goal {@self seek_indenture})))
+    (end-act  {@self seek_indenture})))

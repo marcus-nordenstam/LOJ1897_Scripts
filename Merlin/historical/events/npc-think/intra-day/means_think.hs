@@ -23,13 +23,14 @@
   (cease-effects (end-goal   {@self acquire ?means})))
 
 ; TERMINAL step (act_body_purification): the obtain is now PROPOSED, guarded by not yet controlling the
-; means - the same gate the desire above uses (acquire_act absorbs the round-trip travel, so there is no
-; separate arrival condition). Utility 90 mirrors the desire's drive. Reactive: re-proposes each decision
-; point while the killer still lacks the tool; once controlled the desire's cease ends the goal and this
-; stops firing.
+; means AND the kill still being intended (goal? {@self kill}) - the completion-time re-check acquire_act
+; used to carry moved here to the propose, so the errand only sets out while the kill stands. Utility 90
+; mirrors the desire's drive. Reactive: re-proposes each decision point while the killer lacks the tool and
+; still means to kill; once controlled the desire's cease ends the goal and this stops firing.
 (npc-think means_acquire
   (schedule always)
   (goal {@self acquire ?means})
-  (when (not (control ?means)))
+  (when (and (not (control ?means))
+             (goal? {@self kill})))
   (utility 90)
   (effects (propose {@self acquire ?means})))

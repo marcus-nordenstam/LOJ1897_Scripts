@@ -14,9 +14,9 @@
 ;      memory of setting out to arm) so it promotes to acquire_act;
 ;   2. acquire_act dwells the round-trip travel time, then (at completion) acquires
 ;      a REAL item of that kind into the killer's hand (acquire-control ->
-;      acquire_weapon sets controlled_by) - IF the kill is still intended - and
-;      ends the acquire goal. The tool KIND flows via the act-belief target, so it
-;      survives to the completion pass (unlike a per-deliberation global would).
+;      acquire_weapon sets controlled_by) and ends the acquire goal. The errand only
+;      set out while the kill stood (the means_acquire propose guard); the tool KIND
+;      flows via the act-belief target, so it survives to the completion pass.
 ; Once armed the desire stops firing (real-possession termination); the existing
 ; kill path consumes the held tool via its (control_any ...) requirement.
 ;
@@ -27,16 +27,15 @@
 (include "../../definitions/roles.hs")
 
 ; The obtain act: the acquire goal, the leaf, promotes here. A DURATIVE dwell of the
-; round-trip travel time to fetch the tool; the world-write lands at COMPLETION.
-; DEMAND RE-VALIDATION: the obtain is a sub-act serving a kill the actor still
-; intends - re-check (goal? {@self kill}) at completion, so a kill that lapsed
-; while the actor travelled (the victim died, the grudge faded) does NOT arm.
+; round-trip travel time to fetch the tool; the world-write lands at COMPLETION. A pure
+; act (act_body_purification): the "kill still intended" precondition moved to the
+; means_acquire (propose) guard, so the errand only sets out while the kill stands; the
+; act itself unconditionally arms and ends.
 (npc-act acquire_act
   (act {@self acquire ?m})
   (duration (travel-minutes @self ?m))
   (act-effects
-    (if (goal? {@self kill})
-        (then (acquire-control @self ?m)))
+    (acquire-control @self ?m)
     (end-act {@self acquire ?m})))
 
 ; NB: the kill STRIKE terminal (means_strike) was moved to

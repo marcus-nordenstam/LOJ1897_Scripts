@@ -142,6 +142,12 @@ relation
             # putting a carried item away (burgle / provisioning tail); give_alms -
             # the charity act. (scream is already a defined relation-term.)
             stow                                    (tar ?)
+            # make_cache - carve a private hiding spot at home (secret letters,
+            # stowed loot). The act (make_cache_act.hs) walks the host-quality
+            # ladder and claims/creates the best cache; the deliberation that
+            # proposes it is make_secret_cache_think.hs. Target is the home.
+            # No (obs): a hiding spot is fashioned unseen (concealment is the point).
+            make_cache                              (tar ?)
             # bring - carry what you hold of a KIND to a destination and put it
             # away there ({@self bring [k food] <kitchen>}); decomposes to a put
             # once at the destination. The provisioning carry-home leg. The dest is
@@ -171,8 +177,12 @@ relation
             #                      you).
             #  debate <topic>    - participants come to know each other's STANCE
             #                      on the topic (politics / religion / suffrage).
-            gossip                                  (tar human)
-            confide                                 (tar human)
+            gossip                                  (tar human)    (aux ?)
+            confide                                 (tar ?)
+            catch_up                                (tar human)    (aux ?)
+            introduce                               (tar human)    (aux ?)
+            confess_fancy                           (tar human)
+            table_talk                              (tar human)    (aux ?)
             debate                                  (tar ?)
 
             acquire                                 (tar object)

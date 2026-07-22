@@ -14,5 +14,4 @@
   (duration 45)
   (act-effects
     (hire-seq ?art ?jk [k apprentice])
-    (end-act  {@self engage_staff})
-    (end-goal {@self engage_staff})))
+    (end-act  {@self engage_staff})))

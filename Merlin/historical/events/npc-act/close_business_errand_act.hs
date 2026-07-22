@@ -11,7 +11,7 @@
 ; (goal-focus close_business)) - mirrors apprentice_errand.
 ;
 ;   close_business_act : the promoted act - the winding-up, entirely over the owner's
-;                  OWN state (no cross-mind write), then ends the act + the goal.
+;                  OWN state (no cross-mind write), then ends the act.
 ;
 ; THE TEARDOWN - NO TELEPATHY. The owner touches ONLY his own state + true env
 ; primitives. He does NOT reach into any worker's mind (the old (dissolve-org)
@@ -27,7 +27,7 @@
 ;      are single, known entities he holds, destroyed at his OWN act-completion -
 ;      not a role-enumeration sweep - so the destroys are safe (buy_home_act
 ;      destroys a single bound listing the same way). The articles' fields are read
-;      BEFORE the destroy; end-act / end-goal match by label, independent of the
+;      BEFORE the destroy; end-act matches by label, independent of the
 ;      now-gone documents.
 ;   3. He LISTS his OWN premises for sale IF he owns it - gated on his own {@self
 ;      own ?wp} belief (register_ownership mints it for pooled premises; a
@@ -42,9 +42,9 @@
 
 ; The winding-up - the owner's own act on his own state. Binds his articles to a
 ; plain ?var, reads the premises + register off it, shutters the doors, destroys
-; his own documents, lists the premises for sale if he owns it, and clears the act
-; + goal on completion. No cross-mind write: workers reconcile themselves via
-; reconcile_closed when they find the premises shut.
+; his own documents, lists the premises for sale if he owns it, and clears the act on
+; completion (close_business.hs owns the goal's teardown). No cross-mind write: workers
+; reconcile themselves via reconcile_closed when they find the premises shut.
 (npc-act close_business_act
   (bind (goal-focus close_business) ?art)
   (act {@self close_business})
@@ -64,6 +64,5 @@
     ; 2. destroy his OWN incorporation documents (single bound entities at completion).
     (destroy-entity ?reg)
     (destroy-entity ?art)
-    ; 4. clear the act + the goal (match by label, independent of the gone documents).
-    (end-act {@self close_business})
-    (end-goal {@self close_business})))
+    ; 4. clear the act (close_business.hs's cease-effects end the goal on the falling edge).
+    (end-act {@self close_business})))
