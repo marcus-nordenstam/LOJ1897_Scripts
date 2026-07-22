@@ -22,7 +22,8 @@
 ; register off the standing {@self orient} search goal, so the propose is label-only. One shared
 ; terminal for all four minting lanes (the marker is minter-agnostic).
 (npc-think orient_at_church
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self orient})
   (when (at-place-kind [k building church]))
   (utility 28)

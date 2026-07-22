@@ -27,7 +27,8 @@
 ; AT a clubhouse: PROPOSE the resignation act (goals never propose themselves). resign_club_act
 ; resigns @self's own club, so the propose is label-only.
 (npc-think resign_at_clubhouse
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self resign_club})
   (when (at-place-kind [k building social_clubhouse]))
   (utility 40)

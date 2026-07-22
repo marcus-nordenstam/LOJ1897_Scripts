@@ -15,7 +15,8 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think stocktake_round
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self stocktake})
   (role ?org (believes {@self employer ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire

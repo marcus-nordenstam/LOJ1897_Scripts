@@ -54,7 +54,8 @@
 ; match the (act {@self let}) body. Reactive (schedule always): re-proposes each
 ; decision point while at the office until the listing files and the intent ceases.
 (npc-think list_to_let_at_agency
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self let})
   (role ?agency (believes {?agency isa [k org house_agency]})
                 (believes {?agency record ?art}))   ; existence cached, ?art binds at fire

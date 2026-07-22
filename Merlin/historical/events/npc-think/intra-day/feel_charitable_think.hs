@@ -40,7 +40,8 @@
 ; The proposal inherits the compassion-ramp drive from the {@self give_alms ?church} goal it
 ; /causes (via the (goal ...) gate). Reactive (schedule always): re-proposes while at the church.
 (npc-think give_alms_at_church
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal    {@self give_alms ?church})
   (when    (in-building ?church))
   (effects (maintain-proposal {@self give_alms ?church})))

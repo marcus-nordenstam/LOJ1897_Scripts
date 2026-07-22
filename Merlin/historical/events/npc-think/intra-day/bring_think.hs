@@ -30,7 +30,8 @@
 ; AT the destination: PROPOSE the put-down act (goals never propose themselves). No (utility):
 ; the proposal inherits the minting lane's drive up the /cause chain (like bring_go).
 (npc-think bring_at_dest
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self bring ?ware ?dest})
   (when (at-place ?dest))
   (effects (maintain-proposal {@self bring ?ware ?dest})))

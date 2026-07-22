@@ -74,7 +74,8 @@
 ; so convey promotes ONLY here, ONLY at a church - no off-church fall-through that would file the body
 ; wherever the bearer stood. Reactive: re-proposes each decision point while the goal stands + in a church.
 (npc-think convey_at_church
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal    {@self convey ?corpse})
   (role @self (grown @self))
   (when    (is-a (current-building @self) [k building church]))

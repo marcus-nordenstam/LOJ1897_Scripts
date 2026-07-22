@@ -25,7 +25,8 @@
 ; AT a pub: PROPOSE the founding act (goals never propose themselves). found_club_act reads its
 ; club details off the standing {@self found_club} goal, so the propose is label-only.
 (npc-think found_club_at_pub
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self found_club})
   (when (at-place-kind [k building pub]))
   (utility 45)

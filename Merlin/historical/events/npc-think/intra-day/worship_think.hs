@@ -46,7 +46,8 @@
 ; still persists + drives worship_go/find), so worship promotes ONLY here, ONLY at a church - no
 ; off-church fall-through. Reactive: re-proposes each decision point while due + in a church.
 (npc-think worship_at_church
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal    {@self worship})
   (role @self (grown @self))
   (when    (is-a (current-building @self) [k building church]))

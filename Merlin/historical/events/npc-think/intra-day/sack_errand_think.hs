@@ -28,7 +28,8 @@
 ; Reactive (schedule always): re-proposes each decision point while the goal stands + the boss
 ; is at his workplace. The ?org role binds ?wp (the workplace) for the arrived gate.
 (npc-think sack_dwell
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self sack})
   (role ?org (believes {@self employer ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire

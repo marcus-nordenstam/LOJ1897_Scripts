@@ -35,7 +35,8 @@
 ; AT a bank: PROPOSE the founding act (goals never propose themselves). found_business_act reads
 ; its capital / articles off the standing {@self found} goal focus, so the propose is label-only.
 (npc-think found_at_bank
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal    {@self found})
   (when    (at-place-kind [k building bank]))
   (utility 85)

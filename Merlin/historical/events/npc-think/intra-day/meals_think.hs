@@ -56,7 +56,8 @@
 ; 2, the at-home nothing-to-do slot); the dwell promotes ONLY here, ONLY at home. The proposal
 ; inherits the idle utility from the {@self dwell ?home} goal it /causes (via the (goal ...) gate).
 (npc-think dwell_at_home
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal    {@self dwell ?home})
   (when    (at-home))
   (effects (maintain-proposal {@self dwell ?home})))
@@ -215,7 +216,8 @@
 ; at the place - closing the "eat where there is no food" off-place fall-through. The proposal
 ; inherits the meal's own utility from the eat goal it /causes (via the (goal ...) gate).
 (npc-think eat_at_place
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal    {@self eat ?meal ?place})
   (when    (or (in-building ?place)
                (believes {@self location ?place})))
@@ -377,7 +379,8 @@
 ; proposal inherits the starving-band utility (141/140/135/130) from the {@self forage} goal it
 ; /causes (via the (goal ...) gate).
 (npc-think forage_at_source
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal    {@self forage})
   (when    (or (control [k food])
                (at-home)

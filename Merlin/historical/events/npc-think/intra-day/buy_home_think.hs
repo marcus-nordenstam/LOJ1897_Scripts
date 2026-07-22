@@ -87,7 +87,8 @@
 ; (schedule always): re-proposes each decision point until the read forms the
 ; {@self for_sale ?} beliefs, which empties the unread self-gate and stops it.
 (npc-think buy_home_read
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self acquire})
   (role @self (not (believes {@self for_sale ?})))   ; register unread - cached
   (role ?agency (believes {?agency isa [k org house_agency]})

@@ -73,7 +73,8 @@
 ; {@self play_game} goal it /causes (via the (goal ...) gate). Reactive (schedule always):
 ; re-proposes each decision point while the urge stands + at a pub.
 (npc-think gamble_at_pub
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal    {@self play_game})
   (when    (at-place-kind [k building pub]))
   (effects (maintain-proposal {@self play_game})))

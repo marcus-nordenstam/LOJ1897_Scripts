@@ -92,7 +92,8 @@
 ; negates. The (goal ...) gate supplies the /cause. Reactive (schedule always): re-proposes each
 ; decision point while the winding-up goal stands + he is at the premises.
 (npc-think close_at_premises
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self close_business})
   (when (and (articles-building (goal-focus close_business) ?wp)
              (at-workplace ?wp)))

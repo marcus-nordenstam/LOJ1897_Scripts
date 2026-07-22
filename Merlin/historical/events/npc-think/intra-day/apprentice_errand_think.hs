@@ -29,7 +29,8 @@
 ; (in-building ?venue) gate is the arrived condition; the (goal ...) gate supplies the /cause +
 ; drive. Reactive (schedule always): re-proposes each decision point while the aim stands + inside.
 (npc-think indenture_dwell
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self seek_indenture})
   ; The trainee gate blocks re-proposing (and so re-running) indenture_act during the
   ; gap between the hire and the minter's monthly falling-edge cease of the aim: once

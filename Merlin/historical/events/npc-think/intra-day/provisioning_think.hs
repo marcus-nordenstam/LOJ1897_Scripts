@@ -112,7 +112,8 @@
 ; provision_go/orient), so the buy promotes ONLY here, ONLY at a shop - closing the off-shop
 ; spurious-promotion hole a bare pure act would open. Reactive re-propose each cycle at the shop.
 (npc-think provision_at_shop
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal    {@self provision})
   (when    (at-place-kind [k building shop]))
   (utility 77)

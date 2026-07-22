@@ -34,7 +34,8 @@
 ; AT home: PROPOSE the put-away act (goals never propose themselves). stow_act reads the carried
 ; item off the standing {@self stow} goal and ends it, so the propose is label-only.
 (npc-think stow_at_home
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self stow ?item})
   (when (and (is-entity ?item)
              (at-home)))

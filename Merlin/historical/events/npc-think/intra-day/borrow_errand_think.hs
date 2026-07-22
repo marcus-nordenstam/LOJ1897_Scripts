@@ -23,7 +23,8 @@
 ; take_loan_act reads the creditor off the standing {@self take_loan} goal focus, so the propose
 ; is label-only.
 (npc-think borrow_at_home
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self take_loan ?creditor})
   (when (and (believes {?creditor home ?cred_home})
              (in-building ?cred_home)))

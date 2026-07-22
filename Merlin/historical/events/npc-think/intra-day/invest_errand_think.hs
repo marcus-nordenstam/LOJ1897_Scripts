@@ -20,7 +20,8 @@
 ; AT the firm: PROPOSE the backing act (goals never propose themselves). invest_act reads the
 ; backed org off the standing {@self back} goal focus, so the propose is label-only.
 (npc-think invest_at_firm
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self back ?org})
   (when (and (believes {?org workplace ?wp})
              (at-workplace ?wp)))

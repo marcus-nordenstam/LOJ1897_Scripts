@@ -77,7 +77,7 @@
   (cease-effects (end-goal   {@self enter ?clubhouse})))
 
 (npc-think hold_meet_dwell
-  (schedule always)
+  (schedule on-commit)
   (if-blocked hold)
   (goal {@self hold_meet})
   (when (and (articles-building (goal-focus hold_meet) ?clubhouse)

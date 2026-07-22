@@ -27,7 +27,8 @@
 ; while dwelling (schedule always); once hired the (role @self (not (believes {@self employer
 ; ?}))) gate drops this rule (and the hiring minter's cease-effects ends the goal), so it stops.
 (npc-think hire_dwell
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self engage_staff ?art})
   (role @self (not (believes {@self employer ?})))   ; once hired, stop re-proposing (a lingering goal must not re-hire)
   (when (and (articles-building ?art ?venue)

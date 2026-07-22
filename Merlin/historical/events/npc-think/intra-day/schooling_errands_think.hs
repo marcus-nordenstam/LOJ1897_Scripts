@@ -54,21 +54,24 @@
 ; Each enrol_<level>_act reads its school off the standing {@self enrol_<level>} goal, so the
 ; proposes are label-only.
 (npc-think primary_at_school
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self enrol_primary})
   (when (at-place-kind [k building school]))
   (utility 35)
   (effects (maintain-proposal {@self enrol_primary})))
 
 (npc-think secondary_at_school
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self enrol_secondary})
   (when (at-place-kind [k building school]))
   (utility 35)
   (effects (maintain-proposal {@self enrol_secondary})))
 
 (npc-think university_at_school
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self enrol_university})
   (when (at-place-kind [k building school]))
   (utility 35)

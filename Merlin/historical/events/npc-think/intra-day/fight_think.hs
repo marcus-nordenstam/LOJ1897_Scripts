@@ -86,7 +86,8 @@
 ; each actor's own drive. Reactive: re-proposes each round while co-present so the exchange trades blows
 ; until one dies (a fatal blow breaks co-presence and the strikes stop).
 (npc-think strike_foe
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self fight ?victim})
   (when (co-present @self ?victim))
   (effects (maintain-proposal {@self fight ?victim})))

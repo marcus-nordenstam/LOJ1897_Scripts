@@ -47,7 +47,8 @@
 ; goal it /causes (via the (goal ...) gate). Reactive (schedule always): re-proposes each decision
 ; point while the actor stands at the venue in the window.
 (npc-think attend_dwell
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self attend ?occ})
   (when (and (believes {?occ venue ?venue})
              (attend-in-window @self)

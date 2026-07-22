@@ -24,7 +24,8 @@
 ; AT the clubhouse: PROPOSE the join act (goals never propose themselves). join_club_act reads the
 ; club articles off the standing {@self join_club} goal focus, so the propose is label-only.
 (npc-think join_at_clubhouse
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self join_club})
   (when (and (articles-building (goal-focus join_club) ?venue)
              (in-building ?venue)))

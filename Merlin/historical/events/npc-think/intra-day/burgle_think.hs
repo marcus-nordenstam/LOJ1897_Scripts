@@ -43,7 +43,8 @@
 ; picks the crime method (embezzle at the thief's own workplace, else opportunist_theft). Reactive:
 ; re-proposes each decision point while standing at the scene.
 (npc-think burgle_strike
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal {@self steal})
   (when (or (at-burgle-residence)
             (at-own-workplace)))

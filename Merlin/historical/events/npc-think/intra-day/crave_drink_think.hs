@@ -43,7 +43,8 @@
 ; ONLY here, ONLY at a pub (can-drink). The off-pub "street-drink" hole is closed by construction.
 ; Reactive (schedule always): re-proposes each decision point while thirsty + at a pub.
 (npc-think drink_at_pub
-  (schedule always)
+  (schedule on-commit)
+  (if-blocked hold)
   (goal    {@self drink})
   (role @self (grown @self))
   (when    (can-drink @self))
