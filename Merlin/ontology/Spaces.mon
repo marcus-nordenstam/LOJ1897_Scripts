@@ -51,6 +51,7 @@ space (+ obs)
                     country
             area
                 neighborhood
+        town
         # Occupiable exterior spaces with OBBs (Section 4.12). Each is a `space`
         # entity (so it reuses the OBB co-presence machinery) and may carry
         # name / address (-> road) / address_number. (street_space deleted: the
