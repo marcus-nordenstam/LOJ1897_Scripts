@@ -11,31 +11,31 @@
 ;   step_in: AT the threshold, the entrance {?s room ?entry} known (taught by perception at the
 ;     door) and the venue open -> step into the entrance room.
 ;
-; The mutually-exclusive spatial gates (OUTSIDE vs AT-THRESHOLD) make the threshold->interior
-; handoff EMERGENT. The spatial predicates are movement-reactive (§5.10): the actor's own
-; arrival re-selects the next rung at its post-completion decision point. Reaching the interior
-; drops the minting lane's gate (in-building), which ceases the enter proposal; the shared
-; pipeline then tears the promoted enter task down.
+; The running enter task is matched with a CACHED self-gate (role @self (believes {@self enter
+; ?s})): an NPC with no enter task fails the gate at zero cost (empty object-cache set), so only
+; those actually routing pay; the free ?s binds off the task belief at fire (t_role fire-bind).
+; The spatial predicates (in-building / at-threshold) stay in (when) - they are movement-reactive
+; (§5.10), so on-commit re-selects the next rung at the actor's post-completion decision point;
+; the mutually-exclusive OUTSIDE vs AT-THRESHOLD gates make the threshold->interior handoff
+; emergent. Reaching the interior drops the minting lane's gate, ceasing the enter proposal; the
+; shared pipeline then tears the promoted enter task down.
 ;
-; The running enter task is matched with (believes {@self enter ?s}), which binds ?s off the task
-; belief on the first eval and existence-tests it on the maintenance re-check (a `bind` would trip
-; the fully-bound-field guard once ?s is restored from the fire-time stash).
-;
-; Locked-door / key / break-and-enter rungs plug into this same chain later (§5.11 deferred) -
-; they touch zero minting lanes.
+; Locked-door / key / break-and-enter rungs plug into this same chain later (§5.11 deferred).
 ; ----------------------------------------------------------------------------
 
 (npc-think enter_go_to_threshold
-  (schedule always)
-  (when (and (believes {@self enter ?s})
-             (not (in-building ?s))
+  (schedule on-commit)
+  (if-blocked hold)
+  (role @self (believes {@self enter ?s}))
+  (when (and (not (in-building ?s))
              (not (at-threshold @self ?s))))
   (effects (maintain-proposal {@self go_to_threshold ?s} /cause {@self enter ?s})))
 
 (npc-think enter_step_in
-  (schedule always)
-  (when (and (believes {@self enter ?s})
-             (at-threshold @self ?s)
+  (schedule on-commit)
+  (if-blocked hold)
+  (role @self (believes {@self enter ?s}))
+  (when (and (at-threshold @self ?s)
              (believes {?s room ?entry})
              (open ?s)))
   (effects (maintain-proposal {@self go ?entry} /cause {@self enter ?s})))
