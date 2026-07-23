@@ -1,5 +1,5 @@
 # Immobile parts of structures (walls, counters, windows, etc.) that occupy the env-grid
-archetype "structure_part" (cap 2048) (per obs) (always-visible) (occupies-env-grid) (children-occupy-env-grid)
+archetype "structure_part" (cap 4096) (per obs) (always-visible) (occupies-env-grid) (children-occupy-env-grid)
 {
     "birth_date"
     # Structure-part name is observable (engraving / placard).  ext-mech

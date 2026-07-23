@@ -73,9 +73,10 @@
 (npc-think drink_find
   (schedule on-commit)
   (goal    {@self drink})
-  (fatigue-timeout 90)                                 ; ~90 min of searching a day, then rest
   (role @self (grown @self))
   (no-role [k building pub])
-  (when    (not (can-drink @self)))
-  (effects       (begin-goal {@self find_building [k building pub]}))
-  (cease-effects (end-goal   {@self find_building [k building pub]})))
+  ; Search while no pub is known and the region is not yet proven publess (find_building's /fail
+  ; fires only once the whole region is covered without finding one).
+  (when    (and (not (can-drink @self))
+                (not (did-fail {@self find_building [k building pub] /past}))))
+  (effects (maintain-proposal {@self find_building [k building pub] (current-region @self)})))

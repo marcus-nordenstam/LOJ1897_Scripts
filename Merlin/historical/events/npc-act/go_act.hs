@@ -31,4 +31,6 @@
   (act {@self go_to_threshold ?s})
   (duration (max (go_travel_floor_min) (travel-minutes @self ?s)))
   (act-effects
-    (front-park @self ?s)))
+    (front-park @self ?s)
+    (bind (at-threshold @self ?s) ?at)
+    (debug-print "ARRIVED @self s=?s at=?at")))

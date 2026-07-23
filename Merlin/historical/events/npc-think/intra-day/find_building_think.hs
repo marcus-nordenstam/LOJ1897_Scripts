@@ -1,28 +1,39 @@
 ; ----------------------------------------------------------------------------
-; find_building (npc-think lane) - the deliberation half of the venue-discovery
-; search (act_body_purification). The seek rules maintain the standing
-; {@self find_building [k building <kind>]} goal; these two generic thinks turn a
-; won slot into a survey hop or an idle.
+; find_building (npc-think lane) - the venue-discovery search. A seek rule maintains
+; {@self find_building [k building <kind>] ?region} as a bodyless TASK (promoted + run); these two
+; thinks decompose the running search: cover the region one hop at a time, or conclude it failed.
 ;
-; UTILITY-NEUTRAL: find_survey proposes at (utility 0), so - /causing the find goal -
-; it competes at EXACTLY the goal's inherited drive, the same weight the old
-; auto-proposed find goal carried. find_stall carries (utility -1) so it strictly
-; LOSES to find_survey whenever a vantage remains, yet stands in for the find lane's
-; idle when the frontier is exhausted (find_survey casts no ?next). Both /cause the
-; standing find goal.
+; The running search is matched with a CACHED self-gate (role @self (believes {@self find_building
+; ?sought ?region})) - binds ?sought (the sought kind) + ?region (the region to cover) off the task
+; belief; a seeker not searching pays nothing.
+;
+; find_survey hops to the CLOSEST unobserved structure in the region. (eval-until-hold (bind
+; (closest-unobserved [k structure] ?region) ?dest)) LOCKS ?dest at the fire and holds it while the
+; go act walks (no re-roll mid-route); the sibling (not (at-threshold @self ?dest)) re-evaluates and
+; falls on ARRIVAL, ceasing the think so it re-fires and re-rolls the next unobserved structure. When
+; closest-unobserved yields @fail (region covered) the value-bind fails the onset, so find_survey
+; drops and find_exhausted takes over. go_to_threshold front-parks at ?dest's face, where perception
+; teaches the building AND its kind - so if it is the sought venue the seeker's own (no-role [k
+; building <kind>]) flips and the search ends naturally (success is not stamped here). The hop
+; /causes the find task, so it competes at the task's inherited drive. Searching STRUCTURES, not the
+; sought kind, keeps it non-telepathic: perception reveals which structure is a church, never the op.
+;
+; find_exhausted fires once every structure in the region is observed (closest-unobserved fails):
+; the sought kind was not found, so conclude the task /fail (the seeker gives up - no such venue).
 ; ----------------------------------------------------------------------------
 
 (npc-think find_survey
-  (schedule always)
-  (goal {@self find_building ?sought})
-  (role ?next [k building]
-        (bb-none ?next surveyed)
-        (select (score (distance @self ?next)) (policy argmin)))
-  (utility 0)
-  (effects (maintain-proposal {@self find_building ?sought ?next})))
+  (schedule on-commit)
+  (if-blocked hold)
+  (role @self (believes {@self find_building ?sought ?region}))
+  (when (and (eval-until-hold (bind (closest-unobserved [k structure] ?region) ?dest))
+             (not (at-threshold @self ?dest))))
+  (effects (debug-print "SURVEY @self sought=?sought region=?region dest=?dest")
+           (maintain-proposal {@self go_to_threshold ?dest} /cause {@self find_building ?sought ?region})))
 
-(npc-think find_stall
-  (schedule always)
-  (goal {@self find_building ?sought})
-  (utility -1)
-  (effects (maintain-proposal {@self find_stall ?sought})))
+(npc-think find_exhausted
+  (schedule on-commit)
+  (role @self (believes {@self find_building ?sought ?region}))
+  (when (not (is-entity (closest-unobserved [k structure] ?region))))
+  (effects (debug-print "EXHAUSTED @self sought=?sought region=?region")
+           (set-outcome {@self find_building ?sought ?region} fail)))

@@ -98,9 +98,10 @@
 (npc-think convey_find
   (schedule on-commit)
   (goal    {@self convey ?corpse})
-  (fatigue-timeout 90)                                 ; ~90 min of searching a day, then rest
   (role @self (grown @self))
   (no-role [k building church])
-  (when    (not (is-a (current-building @self) [k building church])))
-  (effects       (begin-goal {@self find_building [k building church]}))
-  (cease-effects (end-goal   {@self find_building [k building church]})))
+  ; Search while no church is known and the region is not yet proven churchless (find_building's
+  ; /fail fires only once the whole region is covered without finding one).
+  (when    (and (not (is-a (current-building @self) [k building church]))
+                (not (did-fail {@self find_building [k building church] /past}))))
+  (effects (maintain-proposal {@self find_building [k building church] (current-region @self)})))

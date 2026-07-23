@@ -39,7 +39,8 @@
   (when    (and (>= (days-since-last @self worship) 3)
                 (>= (attr @self politeness) 0.3)))
   (utility (recency-ramp worship 3 21 50))
-  (effects       (begin-goal {@self worship}))
+  (effects       (debug-print "WANTWORSHIP @self")
+                 (begin-goal {@self worship}))
   (cease-effects (end-goal   {@self worship})))
 
 ; TERMINAL step (act_body_purification): the service is now PROPOSED, guarded by being IN a church.
@@ -73,9 +74,11 @@
 (npc-think worship_find
   (schedule on-commit)
   (goal    {@self worship})
-  (fatigue-timeout 90)                                 ; ~90 min of searching a day, then rest
   (role @self (grown @self))
   (no-role [k building church])
-  (when    (not (is-a (current-building @self) [k building church])))
-  (effects       (begin-goal {@self find_building [k building church]}))
-  (cease-effects (end-goal   {@self find_building [k building church]})))
+  ; Search while no church is known and the region is not yet proven churchless (find_building's
+  ; /fail fires only once the whole region is covered without finding one).
+  (when    (and (not (is-a (current-building @self) [k building church]))
+                (not (did-fail {@self find_building [k building church] /past}))))
+  (effects (debug-print "WSEEK @self")
+           (maintain-proposal {@self find_building [k building church] (current-region @self)})))

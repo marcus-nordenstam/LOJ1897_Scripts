@@ -21,6 +21,7 @@
   (act {@self worship})
   (duration 90)
   (act-effects
+    (debug-print "WORSHIPPED @self")
     ; The congregation SEES the service: co-present others mint {her worship her}
     ; (capped fan-out) - the observable-practice evidence observer-side
     ; devoutness folds and abduction read. The record is identical for the

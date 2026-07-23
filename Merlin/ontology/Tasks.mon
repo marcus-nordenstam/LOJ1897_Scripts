@@ -229,18 +229,14 @@ relation
             judge_meet                              (tar ?)
             judge_declare                           (tar human)
 
-            # find_building -> the venue-discovery search GOAL (find_building.hs). A seek
-            # rule maintains {@self goal {@self find_building [k building <kind>]}} while it
-            # wants a venue of a kind it knows none of; the goal is the walking leaf -
-            # find_building_act spends each won motor slot on one survey hop (nearest
-            # unsurveyed known building, front-park, mark surveyed) until one of the sought
-            # kind is learned. Several find goals can stand at once; whichever wins walks,
-            # and one hop advances every standing search (the surveyed marker is
-            # kind-agnostic). Target = the sought KIND spec (tar ?); the deliberating
-            # find_survey think casts the nearest unsurveyed vantage and carries it on
-            # the act-belief AUX. find_stall is the idle terminal when none is known.
+            # find_building -> the venue-discovery search TASK (find_building.hs). A seek rule
+            # maintains {@self find_building [k building <kind>] ?region} while it wants a venue of a
+            # kind it knows none of: target = the sought kind, aux = the region to cover. It
+            # decomposes STRAIGHT into go_to_threshold hops (front-park at the closest unobserved
+            # structure so perception teaches it and its kind); its OUTCOME is /fail once the whole
+            # region is covered without finding the kind (find_exhausted). Success is the seeker's
+            # own (no-role [k building <kind>]) flipping the moment perception reveals a match.
             find_building                           (tar ?)  (aux ?)
-            find_stall                              (tar ?)
             # staff_household -> the head's STANDING duty to keep their domestic
             # establishment staffed (the window-start think mints it; the emergent
             # act fulfils it). No target: the duty itself, not a specific hire.
