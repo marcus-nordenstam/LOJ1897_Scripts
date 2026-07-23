@@ -29,4 +29,4 @@
           ; The put-away un-flags the loot: ending carrying_loot (own state) drops
           ; want_stow's self-gate, whose falling edge retires the {@self stow} goal.
           (end-belief {@self carrying_loot ?item})))
-    (end-act {@self stow})))
+    (set-outcome {@self stow} succ)))

@@ -9,4 +9,4 @@
   (duration 0)
   (act-effects
     (tell-to ?ear ?news)
-    (end-act {@self gossip})))
+    (set-outcome {@self gossip} succ)))

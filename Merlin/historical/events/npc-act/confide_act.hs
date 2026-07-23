@@ -9,4 +9,4 @@
   (duration 0)
   (act-effects
     (tell {@self calling ?domain})
-    (end-act {@self confide})))
+    (set-outcome {@self confide} succ)))

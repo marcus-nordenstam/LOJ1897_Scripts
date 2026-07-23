@@ -9,4 +9,4 @@
   (duration 0)
   (act-effects
     (tell-to ?target {@self fancy ?target})
-    (end-act {@self confess_fancy})))
+    (set-outcome {@self confess_fancy} succ)))

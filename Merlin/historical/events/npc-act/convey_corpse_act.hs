@@ -24,5 +24,5 @@
     ; PLACEMENT (not travel): deposit the carried body into a room of this church.
     (place-occupant ?corpse (current-building @self))
     (begin-belief {@self conveyed ?corpse})
-    (end-act {@self convey ?corpse})))
+    (set-outcome {@self convey ?corpse} succ)))
 ; go_act (the shared travel act) lives in npc-act/go.hs.

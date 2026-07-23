@@ -9,4 +9,4 @@
   (duration 60)
   (act-effects
     (fire /worker @self)
-    (end-act  {@self quit_work})))
+    (set-outcome {@self quit_work} succ)))

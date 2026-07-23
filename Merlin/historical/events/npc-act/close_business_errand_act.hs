@@ -27,7 +27,7 @@
 ;      are single, known entities he holds, destroyed at his OWN act-completion -
 ;      not a role-enumeration sweep - so the destroys are safe (buy_home_act
 ;      destroys a single bound listing the same way). The articles' fields are read
-;      BEFORE the destroy; end-act matches by label, independent of the
+;      BEFORE the destroy; set-outcome matches by label, independent of the
 ;      now-gone documents.
 ;   3. He LISTS his OWN premises for sale IF he owns it - gated on his own {@self
 ;      own ?wp} belief (register_ownership mints it for pooled premises; a
@@ -65,4 +65,4 @@
     (destroy-entity ?reg)
     (destroy-entity ?art)
     ; 4. clear the act (close_business.hs's cease-effects end the goal on the falling edge).
-    (end-act {@self close_business})))
+    (set-outcome {@self close_business} succ)))

@@ -36,7 +36,7 @@
   (duration (travel-minutes @self ?m))
   (act-effects
     (acquire-control @self ?m)
-    (end-act {@self acquire ?m})))
+    (set-outcome {@self acquire ?m} succ)))
 
 ; NB: the kill STRIKE terminal (means_strike) was moved to
 ; historical/_unported_events/means_strike.hs when the place-lane crime passes were

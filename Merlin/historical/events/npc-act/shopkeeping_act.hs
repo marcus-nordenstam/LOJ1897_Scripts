@@ -49,4 +49,4 @@
           (for-each ?room (attr-values ?shop parts [k interior_space room]) /limit 1
             (repeat (- (grocer_shelf_stock) (count-entities [k food] ?room))
               (create-entity [k food] (qual location ?room) (bind ?item))))))
-    (end-act {@self stocktake})))
+    (set-outcome {@self stocktake} succ)))

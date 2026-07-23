@@ -22,4 +22,4 @@
   (duration 45)
   (act-effects
     (begin-belief {@self owe (goal-focus take_loan)})
-    (end-act {@self take_loan})))
+    (set-outcome {@self take_loan} succ)))

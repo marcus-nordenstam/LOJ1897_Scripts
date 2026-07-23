@@ -16,4 +16,4 @@
   (duration (min (minutes-until-alarm @self)
                  (minutes-until-attend @self)
                  (minutes-until-hour (target {?home supper_hour}))))
-  (act-effects (end-act {@self SLEEP})))
+  (act-effects (set-outcome {@self SLEEP} succ)))

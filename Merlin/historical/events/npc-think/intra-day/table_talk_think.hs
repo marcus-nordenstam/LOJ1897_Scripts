@@ -17,7 +17,7 @@
 ;
 ; ONLY WHILE DINING: the {@self eat ...} goal is live from the desire's mint through
 ; eat_act's completion, so this fires the once, at the table - the at-place gate
-; keeps it off the approach walk, and the goal ending (end-act) closes the window.
+; keeps it off the approach walk, and the goal ending (set-outcome {..} succ) closes the window.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")

@@ -1094,7 +1094,7 @@ concept
     # Gestation: {?woman pregnant ?father}. Private physiological state (no
     # disclosure - not gossiped), ended at delivery by the update_physiology
     # gestation timer; gates re-conception while carried.
-    pregnant            (tar @excl)
+    pregnant            (sub human) (tar human @excl)
 
     # Kinship and social bonds - subject and target are both human. //noun
     # makes every role explicitly a noun, so the bond decorations below

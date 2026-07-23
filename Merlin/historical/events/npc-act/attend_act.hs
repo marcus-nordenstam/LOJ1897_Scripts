@@ -46,5 +46,5 @@
     ; (The wedding MURDER needs no hook here: a crasher with a kill goal holds a
     ; fight goal from the melee routing, and kill_strike (fight.hs) outweighs
     ; every attend act the moment he is co-present with his rival.)
-    (end-act {@self attend})
+    (set-outcome {@self attend} succ)
     ))

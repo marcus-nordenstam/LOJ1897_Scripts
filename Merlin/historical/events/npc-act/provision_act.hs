@@ -35,4 +35,4 @@
               (do
                 (take-item ?item)
                 (begin-belief {@self provisions_shop ?shop}))))))
-    (end-act {@self provision})))
+    (set-outcome {@self provision} succ)))

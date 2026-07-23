@@ -22,7 +22,7 @@
     (strike-blow ?foe kill)
     (if (not (alive ?foe)) (then (debug-print "DTH_FIGHT foe=?foe")))
     (if (not (alive ?foe)) (then (propagate-death ?foe)))
-    (end-act {@self fight ?foe})))
+    (set-outcome {@self fight ?foe} succ)))
 
 (npc-action flee_act
   (act {@self flee ?foe})
@@ -30,11 +30,11 @@
   (act-effects
     (set-attr @self adrenaline 1)
     (attempt-flee)
-    (end-act {@self flee ?foe})))
+    (set-outcome {@self flee ?foe} succ)))
 
 (npc-action cry_out_act
   (act {@self cry_out})
   (duration 1)
   (act-effects
     (set-attr @self adrenaline 1)
-    (end-act {@self cry_out})))
+    (set-outcome {@self cry_out} succ)))

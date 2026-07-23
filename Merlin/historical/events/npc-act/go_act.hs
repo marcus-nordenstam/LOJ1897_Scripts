@@ -26,7 +26,7 @@
 ; drops an actor at a target's CENTER (inside), so front-park is the ONLY op that yields an
 ; outside point - hence a separate act, not a branch inside go_act. The completion pass
 ; force-ends the act-belief; the minter (enter_go_to_threshold) ends the go_to_threshold GOAL
-; on its falling edge, so this act carries no end-act / end-goal.
+; on its falling edge, so this act carries no set-outcome / end-goal.
 (npc-action go_to_threshold_act
   (act {@self go_to_threshold ?s})
   (duration (max (go_travel_floor_min) (travel-minutes @self ?s)))

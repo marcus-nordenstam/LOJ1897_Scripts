@@ -2,7 +2,7 @@
 ; worship (npc-action lane) - the service act of the churchgoing lane. The desire +
 ; case sub-goal thinks live in npc-think/worship.hs.
 ;
-; The {@self worship} act-belief - begun at commit, ended by (end-act) at completion - IS
+; The {@self worship} act-belief - begun at commit, ended by (set-outcome {..} succ) at completion - IS
 ; the episodic service memory (interval = the service). days-since-last reads it for the
 ; pressure; classify_piety reads it (any-tense) for the gist. The when-gate REQUIRES being
 ; INSIDE a church: the service can only fire on arrival, so the cascade (worship_go /
@@ -27,5 +27,5 @@
     ; devoutness folds and abduction read. The record is identical for the
     ; devout and the appearances-keeping pretender, by design. Witnessing is now
     ; engine-side (auto-witness on this obs act at completion), not hand-authored.
-    (end-act {@self worship})))
+    (set-outcome {@self worship} succ)))
 ; go_act (the shared travel act) lives in npc-act/go.hs.

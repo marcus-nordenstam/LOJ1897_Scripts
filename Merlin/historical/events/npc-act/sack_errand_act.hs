@@ -11,4 +11,4 @@
     (fire /worker (goal-focus sack))
     ; the grudge: the dismissed man resents the boss who let him go (a named motive)
     (nudge-stance (goal-focus sack) @self warmth -0.5)
-    (end-act  {@self sack})))
+    (set-outcome {@self sack} succ)))

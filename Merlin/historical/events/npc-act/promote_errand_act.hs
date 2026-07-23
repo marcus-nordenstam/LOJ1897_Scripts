@@ -12,4 +12,4 @@
   (duration 45)
   (act-effects
     (promote /worker (goal-focus promote_staff))
-    (end-act  {@self promote_staff})))
+    (set-outcome {@self promote_staff} succ)))

@@ -8,4 +8,4 @@
   (duration 0)
   (act-effects
     (tell-to ?diner ?belief)
-    (end-act {@self table_talk})))
+    (set-outcome {@self table_talk} succ)))

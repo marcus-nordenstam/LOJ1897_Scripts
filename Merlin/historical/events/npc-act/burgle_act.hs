@@ -60,4 +60,4 @@
               (then (if (at-own-workplace)
                   (then (terminal-steal ?scene embezzle ?owner ?goal))
                   (else (terminal-steal ?scene opportunist_theft ?owner ?goal)))))))
-    (end-act {@self steal})))
+    (set-outcome {@self steal} succ)))

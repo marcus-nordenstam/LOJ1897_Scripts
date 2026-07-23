@@ -8,4 +8,4 @@
   (duration 0)
   (act-effects
     (tell-to ?guest ?belief)
-    (end-act {@self catch_up})))
+    (set-outcome {@self catch_up} succ)))

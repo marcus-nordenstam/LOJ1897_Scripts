@@ -18,4 +18,4 @@
   (bind (target {@self job}) ?job)
   (bind (auxiliary {?job (work-hours-today-label)}) ?end)
   (duration (min (minutes-until-shift-end ?end) (minutes-until-hour 12)))
-  (act-effects (end-act {@self work ?wp})))
+  (act-effects (set-outcome {@self work ?wp} succ)))

@@ -31,5 +31,5 @@
     (tell {?corpse condition [k buried]})
     (propagate-burial ?corpse)
     (destroy-entity ?corpse)
-    (end-act {@self bury ?corpse})))
+    (set-outcome {@self bury ?corpse} succ)))
 ; go_act (the shared travel act) lives in npc-act/go.hs.

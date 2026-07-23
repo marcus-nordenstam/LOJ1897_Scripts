@@ -29,7 +29,7 @@
   (duration 30)
   (act-effects
     (read-public-register [k for_sale_listing] for_sale)
-    (end-act {@self read_listings})))
+    (set-outcome {@self read_listings} succ)))
 
 (npc-action buy_home_act
   (act {@self buy_home ?dwell})
@@ -57,4 +57,4 @@
               (end-belief @self for_sale ?dwell)
               (destroy-entity ?listing)
               (break)))))
-    (end-act {@self buy_home ?dwell})))
+    (set-outcome {@self buy_home ?dwell} succ)))

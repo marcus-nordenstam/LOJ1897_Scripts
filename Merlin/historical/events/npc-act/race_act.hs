@@ -31,4 +31,4 @@
     (if (co-present @self ?judge)
         (then (begin-belief ?judge {@self race_result ?perf})))
     (end-belief {@self summoned_to_meet ?sport})
-    (end-act {@self race_run})))
+    (set-outcome {@self race_run} succ)))

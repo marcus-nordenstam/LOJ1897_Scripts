@@ -27,7 +27,7 @@
                  (minutes-until-hour (target {?home breakfast_hour}))
                  (minutes-until-hour (target {?home lunch_hour}))
                  (minutes-until-hour (target {?home supper_hour}))))
-  (act-effects (end-act {@self dwell ?home})))
+  (act-effects (set-outcome {@self dwell ?home} succ)))
 
 ; ---- the act: one body for every meal, differentiated by the meal-kind -------
 
@@ -68,7 +68,7 @@
         (then (tell {?home breakfast_hour ?b}
               {?home lunch_hour ?l}
               {?home supper_hour ?s})))
-    (end-act {@self eat ?meal ?place})))
+    (set-outcome {@self eat ?meal ?place} succ)))
 
 ; (provision_act - the counter stop - lives in npc-act/provision_act.hs;
 ; the general put-down completion in npc-act/bring_act.hs.)
@@ -115,4 +115,4 @@
     ; not re-arm the >1.3 gate and loop). Reduce unconditionally, like the old
     ; starving episodes did.
     (set-attr @self hunger (max 0 (- (attr @self hunger) 0.5)))
-    (end-act {@self forage})))
+    (set-outcome {@self forage} succ)))

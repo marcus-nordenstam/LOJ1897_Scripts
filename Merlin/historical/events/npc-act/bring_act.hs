@@ -18,4 +18,4 @@
           (if (is-a ?item ?ware)
               (then
                 (put-item ?item (attr @self location)))))))
-    (end-act {@self bring ?ware ?dest})))
+    (set-outcome {@self bring ?ware ?dest} succ)))

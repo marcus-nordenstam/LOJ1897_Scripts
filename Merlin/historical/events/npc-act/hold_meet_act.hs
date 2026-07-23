@@ -43,7 +43,7 @@
         (for-each-doc-record [k employee_register] ?reg (worker ?m)
           (if (and (alive ?m) (co-present @self ?m))
               (then (begin-belief ?m {?m summoned_to_meet ?sport @self}))))))
-    (end-act {@self hold_meet_run})))
+    (set-outcome {@self hold_meet_run} succ)))
 
 ; The organiser declares the winner (act_body_purification: the DUMB act). The winner
 ; SELECTION is deliberation and lives in the sporting_judge think (sporting_judge_think.hs),
@@ -68,4 +68,4 @@
             (then (incident-anchor ?winner outdo ?r)))
         (end-belief {?r race_result ?p})))
     (end-belief {@self meet_sport ?sport})
-    (end-act {@self judge_declare})))
+    (set-outcome {@self judge_declare} succ)))

@@ -76,8 +76,6 @@
   (goal    {@self worship})
   (role @self (grown @self))
   (no-role [k building church])
-  ; Search while no church is known and the region is not yet proven churchless (find_building's
-  ; /fail fires only once the whole region is covered without finding one).
   (when    (and (not (is-a (current-building @self) [k building church]))
                 (not (did-fail {@self find_building [k building church] /past}))))
   (effects (debug-print "WSEEK @self")

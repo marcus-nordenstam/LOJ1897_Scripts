@@ -8,4 +8,4 @@
   (duration 0)
   (act-effects
     (tell-to ?stranger ?fact)
-    (end-act {@self introduce})))
+    (set-outcome {@self introduce} succ)))
