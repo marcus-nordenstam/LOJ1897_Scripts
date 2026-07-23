@@ -24,8 +24,7 @@
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (not (at-workplace ?wp))))
   (utility 85)
-  (effects       (begin-goal {@self enter ?wp}))
-  (cease-effects (end-goal   {@self enter ?wp})))
+  (effects (maintain-proposal {@self enter ?wp})))
 
 ; TERMINAL (act_body_purification): AT the workplace, PROPOSE giving notice - the quit_work act no
 ; longer promotes off the bare {@self quit_work} goal (a proposed label drops out of goal

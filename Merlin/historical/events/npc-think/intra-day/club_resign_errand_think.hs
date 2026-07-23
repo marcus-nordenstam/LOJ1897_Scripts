@@ -21,8 +21,7 @@
   (role ?go_dest [k building social_clubhouse] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building social_clubhouse])))
   (utility 40)
-  (effects       (begin-goal {@self enter ?go_dest}))
-  (cease-effects (end-goal   {@self enter ?go_dest})))
+  (effects (maintain-proposal {@self enter ?go_dest})))
 
 ; AT a clubhouse: PROPOSE the resignation act (goals never propose themselves). resign_club_act
 ; resigns @self's own club, so the propose is label-only.

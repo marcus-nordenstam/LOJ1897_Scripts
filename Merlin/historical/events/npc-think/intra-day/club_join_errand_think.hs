@@ -18,8 +18,7 @@
   (when (and (articles-building (goal-focus join_club) ?venue)
              (not (in-building ?venue))))
   (utility 40)
-  (effects       (begin-goal {@self enter ?venue}))
-  (cease-effects (end-goal   {@self enter ?venue})))
+  (effects (maintain-proposal {@self enter ?venue})))
 
 ; AT the clubhouse: PROPOSE the join act (goals never propose themselves). join_club_act reads the
 ; club articles off the standing {@self join_club} goal focus, so the propose is label-only.

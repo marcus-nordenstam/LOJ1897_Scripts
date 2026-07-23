@@ -25,8 +25,7 @@
   (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building school])))
   (utility 35)
-  (effects       (begin-goal {@self enter ?go_dest}))
-  (cease-effects (end-goal   {@self enter ?go_dest})))
+  (effects (maintain-proposal {@self enter ?go_dest})))
 
 ; ----- secondary -----------------------------------------------------------
 (npc-think secondary_go
@@ -36,8 +35,7 @@
   (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building school])))
   (utility 35)
-  (effects       (begin-goal {@self enter ?go_dest}))
-  (cease-effects (end-goal   {@self enter ?go_dest})))
+  (effects (maintain-proposal {@self enter ?go_dest})))
 
 ; ----- university ----------------------------------------------------------
 (npc-think university_go
@@ -47,8 +45,7 @@
   (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building school])))
   (utility 35)
-  (effects       (begin-goal {@self enter ?go_dest}))
-  (cease-effects (end-goal   {@self enter ?go_dest})))
+  (effects (maintain-proposal {@self enter ?go_dest})))
 
 ; ----- matriculation proposes (AT a school, goals never propose themselves) ------------------
 ; Each enrol_<level>_act reads its school off the standing {@self enrol_<level>} goal, so the

@@ -38,8 +38,7 @@
              (attend-in-window @self)
              (not (in-building ?venue))))
   (utility (attend-utility @self))
-  (effects       (begin-goal {@self enter ?venue}))
-  (cease-effects (end-goal   {@self enter ?venue})))
+  (effects (maintain-proposal {@self enter ?venue})))
 
 ; TERMINAL step (act_body_purification): at the venue in the window, the attendance act is now
 ; PROPOSED ({@self attend}), not auto-promoted by a self-begun leaf goal. The proposal carries

@@ -14,8 +14,7 @@
   (when (and (believes {?org workplace ?wp})
              (not (at-workplace ?wp))))
   (utility 60)
-  (effects       (begin-goal {@self enter ?wp}))
-  (cease-effects (end-goal   {@self enter ?wp})))
+  (effects (maintain-proposal {@self enter ?wp})))
 
 ; AT the firm: PROPOSE the backing act (goals never propose themselves). invest_act reads the
 ; backed org off the standing {@self back} goal focus, so the propose is label-only.

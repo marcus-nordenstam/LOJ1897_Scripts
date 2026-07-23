@@ -77,8 +77,7 @@
   (when (and (articles-building ?art ?venue)
              (not (in-building ?venue))))
   (utility 35)
-  (effects       (begin-goal {@self enter ?venue}))
-  (cease-effects (end-goal   {@self enter ?venue})))
+  (effects (maintain-proposal {@self enter ?venue})))
 
 ; CASE A - AT a known agency, register still unread: PROPOSE the read act (the
 ; knowledge channel). act_body_purification: this rung already gates on the

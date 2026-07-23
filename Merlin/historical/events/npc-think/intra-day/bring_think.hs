@@ -24,8 +24,7 @@
   (if-blocked hold)
   (goal {@self bring ?ware ?dest})
   (when (not (at-place ?dest)))
-  (effects       (begin-goal {@self enter ?dest}))
-  (cease-effects (end-goal   {@self enter ?dest})))
+  (effects (maintain-proposal {@self enter ?dest})))
 
 ; AT the destination: PROPOSE the put-down act (goals never propose themselves). No (utility):
 ; the proposal inherits the minting lane's drive up the /cause chain (like bring_go).

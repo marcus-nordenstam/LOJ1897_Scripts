@@ -22,5 +22,4 @@
   (when (and (articles-building (goal-focus close_business) ?wp)
              (not (at-workplace ?wp))))
   (utility 85)
-  (effects       (begin-goal {@self enter ?wp}))
-  (cease-effects (end-goal   {@self enter ?wp})))
+  (effects (maintain-proposal {@self enter ?wp})))

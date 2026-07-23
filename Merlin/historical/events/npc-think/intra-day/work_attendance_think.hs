@@ -63,5 +63,4 @@
         (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))
         (not (at-workplace ?wp)))
   (utility 80)
-  (effects       (begin-goal {@self enter ?wp}))
-  (cease-effects (end-goal   {@self enter ?wp})))
+  (effects       (maintain-proposal {@self enter ?wp})))

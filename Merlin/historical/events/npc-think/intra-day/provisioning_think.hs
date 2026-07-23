@@ -131,8 +131,7 @@
   (bind (target {@self provisions_shop ?}) ?shop)
   (when (and (is-entity ?shop)
              (not (in-building ?shop))))
-  (effects       (begin-goal {@self enter ?shop}))
-  (cease-effects (end-goal   {@self enter ?shop})))
+  (effects (maintain-proposal {@self enter ?shop})))
 
 ; MAINTENANCE co-minter of the shared {@self orient} search: while the provisioner knows no
 ; provisions shop, mint the orient goal; cease the moment orient_act learns one ({@self

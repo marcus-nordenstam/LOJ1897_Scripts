@@ -16,8 +16,7 @@
   (when (and (believes {?creditor home ?cred_home})
              (not (in-building ?cred_home))))
   (utility 60)
-  (effects       (begin-goal {@self enter ?cred_home}))
-  (cease-effects (end-goal   {@self enter ?cred_home})))
+  (effects (maintain-proposal {@self enter ?cred_home})))
 
 ; AT the lender's home: PROPOSE the loan-taking act (goals never propose themselves).
 ; take_loan_act reads the creditor off the standing {@self take_loan} goal focus, so the propose

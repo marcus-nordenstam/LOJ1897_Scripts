@@ -64,8 +64,7 @@
   (role @self (grown @self))
   (role ?pub [k building pub] (select (score (near @self ?pub)) (policy roulette)))
   (when    (not (in-building ?pub)))
-  (effects       (begin-goal {@self enter ?pub}))
-  (cease-effects (end-goal   {@self enter ?pub})))
+  (effects (maintain-proposal {@self enter ?pub})))
 
 ; CASE C - not at a pub and knows none: search for one (find_building.hs runs it). A MAINTENANCE
 ; event: on the drink-goal commit it mints the standing find goal and holds it while the search

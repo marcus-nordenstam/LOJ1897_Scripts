@@ -19,8 +19,7 @@
   (role ?go_dest [k building pub] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building pub])))
   (utility 45)
-  (effects       (begin-goal {@self enter ?go_dest}))
-  (cease-effects (end-goal   {@self enter ?go_dest})))
+  (effects (maintain-proposal {@self enter ?go_dest})))
 
 ; AT a pub: PROPOSE the founding act (goals never propose themselves). found_club_act reads its
 ; club details off the standing {@self found_club} goal, so the propose is label-only.

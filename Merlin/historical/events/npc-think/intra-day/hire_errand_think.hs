@@ -18,8 +18,7 @@
   (when (and (articles-building ?art ?venue)
              (not (in-building ?venue))))
   (utility 82)
-  (effects       (begin-goal {@self enter ?venue}))
-  (cease-effects (end-goal   {@self enter ?venue})))
+  (effects (maintain-proposal {@self enter ?venue})))
 
 ; AT the firm: run the eligibility MATCH over the occupations table (the old C++/act-body
 ; job-match) and, if a post fits and the interview lands, PROPOSE the hire. ?art is the org

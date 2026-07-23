@@ -92,8 +92,7 @@
   (role @self (grown @self))
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
   (when    (not (is-a (current-building @self) [k building church])))
-  (effects       (begin-goal {@self enter ?church}))
-  (cease-effects (end-goal   {@self enter ?church})))
+  (effects (maintain-proposal {@self enter ?church})))
 
 ; CASE C - not at a church and knows none: search for one (find_building.hs runs it).
 (npc-think convey_find

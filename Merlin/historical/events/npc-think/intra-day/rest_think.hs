@@ -32,8 +32,7 @@
   (when (and (not (at-home))
              (> (attr @self sleepiness) 0.7)))
   (utility (homeostatic sleepiness 2.0 90))
-  (effects       (bind (target {@self home ?}) ?go_dest) (begin-goal {@self enter ?go_dest}))
-  (cease-effects (end-goal   {@self enter ?go_dest})))
+  (effects       (bind (target {@self home ?}) ?go_dest) (maintain-proposal {@self enter ?go_dest})))
 
 ; at home and at all tired (or it is night): sleep until the morning alarm. The
 ; sleep act records a {@self sleep} memory ((does sleep)); its completion resets
@@ -71,5 +70,4 @@
   (schedule always)   ; gates on the sleepiness ATTR - no belief edge to trigger on
   (when (not (at-home)))
   (utility 1)
-  (effects       (bind (target {@self home ?}) ?go_dest) (begin-goal {@self enter ?go_dest}))
-  (cease-effects (end-goal   {@self enter ?go_dest})))
+  (effects       (bind (target {@self home ?}) ?go_dest) (maintain-proposal {@self enter ?go_dest})))

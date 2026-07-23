@@ -63,8 +63,7 @@
   (role @self (grown @self))
   (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette)))
   (when (not (in-building ?venue)))
-  (effects       (begin-goal {@self enter ?venue}))
-  (cease-effects (end-goal   {@self enter ?venue})))
+  (effects (maintain-proposal {@self enter ?venue})))
 
 ; TERMINAL step (act_body_purification): the gamble act is now PROPOSED, guarded by being AT a
 ; pub, not promoted by the bare {@self play_game} goal. Because `play_game` is a proposed label

@@ -209,8 +209,7 @@
   ; location for the latter.
   (when    (not (or (in-building ?place)
                     (believes {@self location ?place}))))
-  (effects       (begin-goal {@self enter ?place}))
-  (cease-effects (end-goal   {@self enter ?place})))
+  (effects (maintain-proposal {@self enter ?place})))
 
 ; A paid EATERY (pub / restaurant) - a supper bought out, as opposed to the free
 ; family table / workplace lunch. Keys the per-means intrinsics on eat_at_place.
@@ -324,8 +323,7 @@
              (not (at-home))
              (> (count-believed-located [k food] ?home) 0)))
   (utility (homeostatic appetite 2.0 70))
-  (effects       (begin-goal {@self enter ?home}))
-  (cease-effects (end-goal   {@self enter ?home})))
+  (effects (maintain-proposal {@self enter ?home})))
 
 ; Buy: at a shop with wealth, one item eaten on the spot (paid-for in the v1
 ; no-coin sense as provisioning).
@@ -354,12 +352,8 @@
   (utility (homeostatic appetite 2.0 70))
   (effects
     (if (is-entity ?shop)
-        (then (begin-goal {@self enter ?shop}))
-        (else (begin-goal {@self enter ?go_dest}))))
-  (cease-effects
-    (if (is-entity ?shop)
-        (then (end-goal {@self enter ?shop}))
-        (else (end-goal {@self enter ?go_dest})))))
+        (then (maintain-proposal {@self enter ?shop}))
+        (else (maintain-proposal {@self enter ?go_dest})))))
 
 ; Steal: the pauper's act - at a shop with no wealth, the mouthful goes on the
 ; ledger (the shop owner is the victim). The row lands only when something was
@@ -387,12 +381,8 @@
   (utility (homeostatic appetite 2.0 70))
   (effects
     (if (is-entity ?shop)
-        (then (begin-goal {@self enter ?shop}))
-        (else (begin-goal {@self enter ?go_dest}))))
-  (cease-effects
-    (if (is-entity ?shop)
-        (then (end-goal {@self enter ?shop}))
-        (else (end-goal {@self enter ?go_dest})))))
+        (then (maintain-proposal {@self enter ?shop}))
+        (else (maintain-proposal {@self enter ?go_dest})))))
 
 ; TERMINAL step (act_body_purification): the forage act is now PROPOSED, guarded by being AT a
 ; food source, not auto-promoted by the bare {@self forage} goal. The four food-source desires

@@ -32,10 +32,7 @@
   (effects
     (begin-goal {@self steal})
     (if ?scene
-        (then (begin-goal {@self enter ?scene}))))
-  (cease-effects
-    (if ?scene
-        (then (end-goal {@self enter ?scene})))))
+        (then (maintain-proposal {@self enter ?scene})))))
 
 ; TERMINAL step (act_body_purification): AT a strikeable scene the theft is now PROPOSED (was a
 ; self-affirming re-begin that used to auto-promote). Utility 86 outbids the travel rung (85) by a

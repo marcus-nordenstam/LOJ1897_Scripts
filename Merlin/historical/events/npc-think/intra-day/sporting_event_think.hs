@@ -73,8 +73,7 @@
   (when (and (articles-building (goal-focus hold_meet) ?clubhouse)
              (not (in-building ?clubhouse))))
   (utility 35)
-  (effects       (begin-goal {@self enter ?clubhouse}))
-  (cease-effects (end-goal   {@self enter ?clubhouse})))
+  (effects (maintain-proposal {@self enter ?clubhouse})))
 
 (npc-think hold_meet_dwell
   (schedule on-commit)

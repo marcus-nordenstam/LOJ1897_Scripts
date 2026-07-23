@@ -32,7 +32,7 @@
   (effects
     (if (in-building ?venue)
         (then (begin-goal {@self give_alms ?venue}))
-        (else (begin-goal {@self enter ?venue})))))
+        (else (maintain-proposal {@self enter ?venue})))))
 
 ; TERMINAL step (act_body_purification): the almsgiving act is now PROPOSED, guarded by being AT
 ; the church, not auto-promoted by the bare {@self give_alms <church>} goal. feel_charitable holds

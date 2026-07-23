@@ -15,8 +15,7 @@
   (when (and (articles-building (goal-focus partner) ?venue)
              (not (in-building ?venue))))
   (utility 85)
-  (effects       (begin-goal {@self enter ?venue}))
-  (cease-effects (end-goal   {@self enter ?venue})))
+  (effects (maintain-proposal {@self enter ?venue})))
 
 ; AT the premises: PROPOSE the partnership act (goals never propose themselves). partner_act reads
 ; the firm articles off the standing {@self partner} goal focus, so the propose is label-only.

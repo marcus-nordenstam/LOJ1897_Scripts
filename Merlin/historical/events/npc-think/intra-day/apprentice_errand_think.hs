@@ -20,8 +20,7 @@
              (not (in-building ?venue))
              (not (= (job-level @self) [k trainee]))))
   (utility 80)
-  (effects       (begin-goal {@self enter ?venue}))
-  (cease-effects (end-goal   {@self enter ?venue})))
+  (effects (maintain-proposal {@self enter ?venue})))
 
 ; TERMINAL (act_body_purification): AT the premises, PROPOSE the articling act - it no longer
 ; promotes off the bare {@self seek_indenture} aim (a proposed label drops out of goal

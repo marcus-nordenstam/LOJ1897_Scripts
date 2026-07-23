@@ -16,8 +16,7 @@
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (not (at-workplace ?wp))))
   (utility 82)
-  (effects       (begin-goal {@self enter ?wp}))
-  (cease-effects (end-goal   {@self enter ?wp})))
+  (effects (maintain-proposal {@self enter ?wp})))
 
 ; TERMINAL (act_body_purification): AT the workplace, PROPOSE the promotion act - it no longer
 ; promotes off the bare {@self promote_staff} goal (a proposed label drops out of goal

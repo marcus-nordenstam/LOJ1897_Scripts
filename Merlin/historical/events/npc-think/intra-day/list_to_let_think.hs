@@ -75,8 +75,7 @@
   (when (and (articles-building ?art ?venue)
              (not (in-building ?venue))))
   (utility 40)
-  (effects       (begin-goal {@self enter ?venue}))
-  (cease-effects (end-goal   {@self enter ?venue})))
+  (effects (maintain-proposal {@self enter ?venue})))
 
 ; CASE C - @self knows NO house agency at all: consult the parish incorporations
 ; register (the orient lane, orient_errand.hs), which mints a mental org object +

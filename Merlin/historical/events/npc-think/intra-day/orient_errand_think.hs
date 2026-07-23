@@ -15,8 +15,7 @@
   (role ?go_dest [k building church] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building church])))
   (utility 28)
-  (effects       (begin-goal {@self enter ?go_dest}))
-  (cease-effects (end-goal   {@self enter ?go_dest})))
+  (effects (maintain-proposal {@self enter ?go_dest})))
 
 ; AT a church: PROPOSE the orient act (goals never propose themselves). orient_act reads the
 ; register off the standing {@self orient} search goal, so the propose is label-only. One shared

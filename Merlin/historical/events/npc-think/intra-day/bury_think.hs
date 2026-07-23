@@ -69,8 +69,7 @@
   (when (and (>= (months-since-death ?corpse) 1)
              (not (co-present @self ?corpse))))
   (utility 85)
-  (effects       (begin-goal {@self enter ?church}))
-  (cease-effects (end-goal   {@self enter ?church})))
+  (effects (maintain-proposal {@self enter ?church})))
 
 ; ONSITE rung. While the priest is CO-PRESENT with the overdue body, PROPOSE
 ; {@self bury ?corpse} each decision point - the winning proposal promotes bury_act

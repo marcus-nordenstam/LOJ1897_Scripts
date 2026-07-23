@@ -40,8 +40,7 @@
   (when (and (is-entity ?item)
              (not (at-home))))
   (utility 90)
-  (effects       (begin-goal {@self enter ?home}))
-  (cease-effects (end-goal   {@self enter ?home})))
+  (effects (maintain-proposal {@self enter ?home})))
 
 ; AT home: PROPOSE the put-away act (goals never propose themselves). stow_act reads the carried
 ; item off the standing {@self stow} goal and ends it, so the propose is label-only.

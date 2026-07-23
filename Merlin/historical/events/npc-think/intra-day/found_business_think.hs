@@ -29,8 +29,7 @@
   (role ?go_dest [k building bank] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (at-place-kind [k building bank])))
   (utility 85)
-  (effects       (begin-goal {@self enter ?go_dest}))
-  (cease-effects (end-goal   {@self enter ?go_dest})))
+  (effects (maintain-proposal {@self enter ?go_dest})))
 
 ; AT a bank: PROPOSE the founding act (goals never propose themselves). found_business_act reads
 ; its capital / articles off the standing {@self found} goal focus, so the propose is label-only.
