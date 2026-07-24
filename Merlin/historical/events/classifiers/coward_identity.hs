@@ -18,8 +18,6 @@
 (define-macro coward-inhibition-min () 0.70)   ; cautious: inhibition above this (0..1)
 
 (npc-think classify_coward_identity
-  (schedule on-commit)
-  (if-blocked hold)
   (rng-stream behaviour)
 
   (role @self (believes {@self respectability_situation ?}))

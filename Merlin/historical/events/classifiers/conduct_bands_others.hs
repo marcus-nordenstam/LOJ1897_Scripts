@@ -12,17 +12,12 @@
 ; hot_tempered (volatility) -> lax sobriety. diligence has no abduced impression, so it
 ; is never banded down for others (always reads fair). The self side (conduct_bands.hs)
 ; bands @self's OWN four dims from their real values. The (or ... held-lax) role input
-; keeps the event on-agenda to toggle a band back OFF if the impression is forgotten.
+; keeps the event eligible so a band can toggle back OFF if the impression is forgotten.
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_others_conduct
-  ; Reactive per-observer: re-band a tracked ?other the instant an impression of them commits or
-  ; is forgotten. Triggers are DERIVED from the role's own belief filters (seems / the held-lax
-  ; bands) - the subject-agnostic seam re-schedules on the {?other seems ?} write in @self's pool.
-  ; The event mints {?other honesty/generosity/sobriety} which are its OWN trigger labels; that
-  ; self-write hits the do_reschedule k_firing bail + the mint-band hysteresis, so it never loops.
-  (schedule on-changed)
-  (if-blocked hold)
+  ; Per-observer: re-bands a tracked ?other from the impressions @self holds of them (seems /
+  ; the held-lax bands). The mint-band hysteresis makes a same-band value a no-op.
   (rng-stream behaviour)
 
   (role ?other (or (believes {?other seems ?})

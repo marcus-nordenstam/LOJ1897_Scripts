@@ -5,13 +5,11 @@
 ; low-breeding man up a band (the self-made climb); idle high breeding slides
 ; down.
 ;
-; Gated on all three input dimensions being derived (the intra-day agenda's
+; Gated on all three input dimensions being derived (the role's self-belief
 ; conjuncts) - a subject the cascade has not derived yet keeps its seeded band.
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_class_situation
-  (schedule on-commit)
-  (if-blocked hold)
   (rng-stream behaviour)
 
   (role @self (believes {@self breeding ?})

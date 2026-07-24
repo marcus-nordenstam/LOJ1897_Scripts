@@ -19,10 +19,8 @@
 (npc-think classify_contentment
   ; Monthly cooldown: contentment folds the continuously-drifting (sobriety) (intoxication attr)
   ; and (belonging) reads alongside wealth and the kin/employ beliefs, so a periodic recompute
-  ; tracks the drift the belief edges miss. Once-per-window (gated on wealth being derived) keeps
-  ; the baseline as fresh as the legacy monthly fire; self-primed by cold_start_window.
-  (schedule cooldown 1 m)
-  (if-blocked hold)
+  ; tracks that drift. Gated on wealth being derived; self-primed by cold_start_window.
+  (cooldown 1 m)
   (rng-stream behaviour)
 
   (role @self (believes {@self wealth ?}))

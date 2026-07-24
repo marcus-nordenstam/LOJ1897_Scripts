@@ -4,18 +4,16 @@
 ; begins the kind, < 0.5 ends it), and mint-band's held-scan only matches the ONE
 ; declared kind, so a toggle never disturbs the other (non-@excl) prototype beliefs.
 ; Booleans compose as products of (believes)/(>=)/(<=) 0-or-1 terms; OR =
-; (clamp (+ ...) 0 1). Gated on a PERSISTENT input band so the event stays
-; on-agenda to toggle OFF when the condition lapses; drunkard's input (craving) can
-; end, so it also stays on-agenda while the prototype itself is held.
+; (clamp (+ ...) 0 1). Gated on a PERSISTENT input band (plus the held prototype
+; itself, for inputs like craving that can end) so the toggle can flip OFF when the
+; condition lapses.
 ; ----------------------------------------------------------------------------
 
 ; drunkard: a standing craving for drink IS the dependency.
 (npc-think classify_drunkard
-  ; on-changed on craving: the drunkard toggle mints when a craving forms and REMOVES when it
-  ; is forgotten (rehabilitation) - the forget edge is what on-commit would miss. The gate's
-  ; prototype disjunct keeps the event eligible across the removing fire.
-  (schedule on-changed {@self craving ?})
-  (if-blocked hold)
+  ; The drunkard toggle mints when a craving is present and REMOVES when it is forgotten
+  ; (rehabilitation). The gate's prototype disjunct keeps the event eligible across the
+  ; removing fire.
   (rng-stream behaviour)
   (role @self (or (believes {@self craving ?})
                   (believes {@self prototype [k prototype drunkard]})))
@@ -25,10 +23,8 @@
 
 ; nouveau_riche: high wealth (>= 0.60) carried by low breeding (<= 0.35).
 (npc-think classify_nouveau_riche
-  ; wealth re-derives annually (the toggle flip); breeding is birth-seeded (inert trigger,
-  ; kept to document the input). on-changed so the toggle also drops if wealth is retracted.
-  (schedule on-changed {@self wealth ?} {@self breeding ?})
-  (if-blocked hold)
+  ; wealth re-derives annually; breeding is birth-seeded (an inert input, kept to document it).
+  ; The toggle drops if wealth is retracted.
   (rng-stream behaviour)
   (role @self (believes {@self wealth ?}))
   (effects
@@ -40,10 +36,7 @@
 ; self_made_man: rising trajectory + arrived class + low breeding + reputable.
 (npc-think classify_self_made_man
   ; Toggle over the situation bands + respectability_situation (a Tier-2 sibling this reads);
-  ; breeding is birth-seeded (inert). on-changed so it drops when any band toggles off.
-  (schedule on-changed {@self social_trajectory ?} {@self class_situation ?}
-                       {@self breeding ?} {@self respectability_situation ?})
-  (if-blocked hold)
+  ; breeding is birth-seeded (inert). It drops when any input band toggles off.
   (rng-stream behaviour)
   (role @self (believes {@self class_situation ?}))
   (effects
@@ -58,8 +51,6 @@
 
 ; deserving_poor: poor/destitute + reputable.
 (npc-think classify_deserving_poor
-  (schedule on-changed {@self economic_situation ?} {@self respectability_situation ?})
-  (if-blocked hold)
   (rng-stream behaviour)
   (role @self (believes {@self economic_situation ?}))
   (effects
@@ -72,8 +63,6 @@
 
 ; undeserving_poor: poor/destitute + disreputable.
 (npc-think classify_undeserving_poor
-  (schedule on-changed {@self economic_situation ?} {@self respectability_situation ?})
-  (if-blocked hold)
   (rng-stream behaviour)
   (role @self (believes {@self economic_situation ?}))
   (effects

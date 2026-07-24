@@ -15,11 +15,9 @@
 (npc-think classify_life_aim
   ; Monthly cooldown: the argmax folds (piety) (decaying worship evidence) and (criminality) /
   ; (rootedness) tallies alongside the wealth/decorum floats and situation bands; the decaying
-  ; reads never edge the seam, so a periodic recompute is needed to track them. Once-per-window
-  ; (gated on wealth+decorum being derived) matches the legacy monthly cadence; self-primed by
-  ; cold_start_window.
-  (schedule cooldown 1 m)
-  (if-blocked hold)
+  ; reads need a periodic recompute to track. Gated on wealth+decorum being derived; self-primed
+  ; by cold_start_window.
+  (cooldown 1 m)
   (rng-stream behaviour)
 
   (role @self (believes {@self wealth ?})

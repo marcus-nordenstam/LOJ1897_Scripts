@@ -11,12 +11,9 @@
 (npc-think classify_self_devoutness
   ; Monthly cooldown: (evidence ...) is a recency-weighted fold that DECAYS continuously between
   ; worship episodes (a lapsing churchgoer slides devout->observant->secular purely by the clock),
-  ; so no belief edge marks the band change - only a periodic recompute catches it. Once-per-window
-  ; keeps it as fresh as the legacy monthly fire, self-primed by cold_start_window. (The
-  ; about-others classifier below stays on legacy cont-fire: per-observer re-classification needs
-  ; a subject-aware trigger seam - deferred.)
-  (schedule cooldown 1 m)
-  (if-blocked hold)
+  ; so no belief edge marks the band change - only a periodic recompute catches it. Self-primed
+  ; by cold_start_window.
+  (cooldown 1 m)
   (rng-stream behaviour)
 
   (role @self (believes {@self class_situation ?}))
@@ -29,8 +26,7 @@
   ; Monthly cooldown (like the self side): (evidence ...) decays continuously between the ?other's
   ; witnessed worship episodes, so no belief edge marks the band change - a periodic recompute
   ; re-bands every tracked ?other from what @self currently holds of their observance.
-  (schedule cooldown 1 m)
-  (if-blocked hold)
+  (cooldown 1 m)
   (rng-stream behaviour)
 
   (role ?other (believes {?other class_situation ?}))

@@ -291,7 +291,7 @@
   (else (if (= ?terminal file_report)     (then (terminal-report ?victim ?goal))))))))))))))))))))
 
 ; The foe of the deliberator's first {@self under_attack <foe>} state (@fail
-; when none) - the threat mirror of goal-focus. Minted by strike-blow on a
+; when none) - the threat mirror of the focus bound off an {@self <action>} goal. Minted by strike-blow on a
 ; non-fatal blow; ended when the fight resolves.
 (define-macro threat-focus ()
   (target {@self under_attack ?}))

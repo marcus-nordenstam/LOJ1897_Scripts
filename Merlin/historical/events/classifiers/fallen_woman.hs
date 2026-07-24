@@ -11,18 +11,13 @@
 ; parties who learned of the liaison ({?her lover <partner>}) do. The divorce path
 ; (affair_fallout.hs) still marks + dismisses her directly, and the widow / unmarried
 ; cases (no ongoing spouse) are left to that path - this catches the "still married,
-; the town has heard" fall. The (or ... held-fallen) input keeps the event on-agenda
-; to toggle the mark OFF if the observer forgets the liaison (per-observer rehab).
+; the town has heard" fall. The (or ... held-fallen) input keeps the event eligible so
+; the mark can toggle OFF if the observer forgets the liaison (per-observer rehab).
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_others_fallen_woman
-  ; Reactive per-observer: mark / un-mark the instant a liaison belief about ?other commits or is
-  ; forgotten (per-observer rehab). Triggers derived from the role filters (gender / spouse / lover
-  ; / prototype); the subject-agnostic seam re-schedules on the {?other lover ?} write in @self's
-  ; pool. The minted {?other prototype fallen_woman} is a trigger label of its own -> self-write
-  ; hits the k_firing bail + mint-band hysteresis, no loop.
-  (schedule on-changed)
-  (if-blocked hold)
+  ; Per-observer: marks / un-marks ?other from the liaison beliefs @self holds (gender / spouse /
+  ; lover / prototype role filters). The mint-band hysteresis makes a same-band value a no-op.
   (rng-stream behaviour)
 
   (role ?other (believes {?other gender [k female]})

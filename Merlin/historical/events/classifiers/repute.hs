@@ -15,14 +15,9 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_self_repute
-  ; on-changed: the fully-banded fuse recomputes when any conduct band toggles (a band drops
-  ; when its evidence is forgotten). Triggers = the four conduct bands + devoutness + decorum
-  ; + lover (chastity-scalar) + class_situation (gate). These are the exact repute-fold inputs.
-  ; (classify_others_repute below stays on legacy cont-fire - about-others reschedule deferred.)
-  (schedule on-changed {@self honesty ?} {@self diligence ?} {@self generosity ?}
-                       {@self sobriety ?} {@self devoutness ?} {@self decorum ?}
-                       {@self lover ?} {@self class_situation ?})
-  (if-blocked hold)
+  ; The fully-banded fuse over the four conduct bands + devoutness + decorum + lover
+  ; (chastity-scalar) + class_situation (the exact repute-fold inputs); a band drops when
+  ; its evidence is forgotten.
   (rng-stream behaviour)
 
   (role @self (believes {@self class_situation ?}))
@@ -36,14 +31,8 @@
       [k respectability_situation scandalous]   -1)))
 
 (npc-think classify_others_repute
-  ; Reactive per-observer fuse: re-band ?other's repute when any conduct band / devoutness /
-  ; decorum / lover belief ABOUT them changes. Same explicit trigger LABELS as the self side -
-  ; the subject-agnostic seam routes the about-?other write (a {?other honesty} commit from
-  ; classify_others_conduct) to this event. class_situation is both the gate and the annual edge.
-  (schedule on-changed {@self honesty ?} {@self diligence ?} {@self generosity ?}
-                       {@self sobriety ?} {@self devoutness ?} {@self decorum ?}
-                       {@self lover ?} {@self class_situation ?})
-  (if-blocked hold)
+  ; Per-observer fuse: re-bands ?other's repute from the conduct band / devoutness / decorum /
+  ; lover beliefs @self holds ABOUT them. class_situation is the gate.
   (rng-stream behaviour)
 
   (role ?other (believes {?other class_situation ?}))

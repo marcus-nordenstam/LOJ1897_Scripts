@@ -7,12 +7,13 @@ already holds.
 
 Two shapes:
 
-- **Band / toggle / argmax classifiers** -> `(sim-window-think)` (monthly) or
-  `(year-think <month>)` (annual) events whose effect is `(mint-band ...)`
-  (hysteresis + end-old/begin-new). Inputs are declared as `(role @self
-  (believes {@self <input>}))` self-belief conjuncts, so the conjunction-driven
-  intra-day agenda gates eligibility reactively - a classifier only runs for
-  minds whose inputs are present, and re-bands on the event's cadence.
+- **Band / toggle / argmax classifiers** -> `(npc-think)` events whose effect is
+  `(mint-band ...)` (hysteresis + end-old/begin-new). Inputs are declared as
+  `(role @self (believes {@self <input>}))` self-belief conjuncts, so a
+  classifier is gated reactively - it only runs for minds whose inputs are
+  present, and re-bands when they change. A `(cooldown 1 m)` paces the re-band
+  where the inputs drift continuously (respectability, devoutness, conduct,
+  contentment, life-aim); the rest re-band whenever an input belief changes.
 
 - **Value dims** (the magnitudes a fusion or utility reads, never minted as a
   belief) stay `(def ...)` expressions, inlined by consumers - not events.
