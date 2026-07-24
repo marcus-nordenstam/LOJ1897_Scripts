@@ -16,10 +16,10 @@
 (npc-think classify_economic_situation
   (rng-stream behaviour)
 
-  (role @self (believes {@self wealth ?}))
+  (role @self (believes {@self wealth ?wealth}))
 
   (effects
-    (mint-band {@self economic_situation} (target {@self wealth})
+    (mint-band {@self economic_situation} ?wealth
       [k economic_situation wealthy]     0.90
       [k economic_situation prosperous]  0.75
       [k economic_situation comfortable] 0.60

@@ -31,7 +31,8 @@
   ;; appropriate, gender-normed), never as generic clerks here. Belief-pure +
   ;; cached: the old (kind ...) / org-kind-is-a omniscient doc ops are gone.
   (role ?org (known_org ?org)
-             (not (believes {?org isa [k org household]})))
+             (not (believes {?org isa [k org household]}))
+             (believes {?org record ?org_record}))
 
   ;; The (chance) is just how often @self SEEKS - the real gate is the eligibility
   ;; MATCH in the `engage_staff` act (Section 4.11 career model): per org, it reads
@@ -59,7 +60,7 @@
   ; gate would freeze the search on whichever firm was sampled first.
   (effects
     (end-goal {@self engage_staff})
-    (begin-goal {@self engage_staff (target {?org record})}))
+    (begin-goal {@self engage_staff ?org_record}))
   ; The minter owns the ending: once @self is hired, the (role @self (not (believes
   ; {@self employer ?}))) falling edge ends the standing job-search goal. The act never does.
   (cease-effects (end-goal {@self engage_staff})))

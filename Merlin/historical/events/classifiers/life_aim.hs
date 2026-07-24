@@ -20,8 +20,8 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self (believes {@self wealth ?})
-              (believes {@self decorum ?}))
+  (role @self (believes {@self wealth ?wealth})
+              (believes {@self decorum ?decorum}))
 
   (effects
     (mint-argmax {@self life_aim} 0.01 [k life_aim belonging_aim]
@@ -33,7 +33,7 @@
       [k life_aim wealth_aim]
         (* (attr @self industriousness)
            (- 1 (piety))
-           (max (- 1 (target {@self wealth}))
+           (max (- 1 ?wealth)
                 (believes {@self social_trajectory [k social_trajectory rising]})))
       [k life_aim piety_aim]
         (* (piety)
@@ -43,7 +43,7 @@
         (* (attr @self politeness)
            (piety)
            (+ 0.2 (* (believes {@self class_situation [k class_situation middle]}) 0.8))
-           (target {@self decorum}))
+           ?decorum)
       [k life_aim autonomy_aim]
         (* (attr @self assertiveness) (- 1 (rootedness)))
       [k life_aim power_aim]

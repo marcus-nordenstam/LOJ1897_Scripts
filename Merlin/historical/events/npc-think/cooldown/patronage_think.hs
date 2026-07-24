@@ -31,7 +31,7 @@
   ;; The age / prestige floors and the per-patron (chance) roll are non-belief
   ;; gates and now live in the (when ...) clause below.
   (role @self (old_human @self)
-              (believes {@self repute [k exemplary]}))
+              (believes {@self repute [k exemplary], prestige ?prestige}))
   ;; A protege one or more class steps below the patron, of sound character
   ;; (not scandalous), without an existing backer. The patron judges the
   ;; protege from his OWN view (3-arg (situation ?protege <dim> @self), banded
@@ -57,7 +57,7 @@
   ;; (first, cheap, short-circuits) and the patron's age / prestige floors.
   (when (and (chance 0.005)
              (>= (years-old @self) 35)
-             (>= (target {@self prestige}) 0.65)))
+             (>= ?prestige 0.65)))
 
   ;; The old live exclusivity re-check read the protege's OWN backed_by belief
   ;; (telepathy) to catch a same-window double-back. Removed: the patron now gates

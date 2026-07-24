@@ -147,14 +147,15 @@
 ; (whose stock gate already failed if this is eligible), over leisure.
 (npc-think want_eat_out_pub
   ; class gate = CACHED self-gate filter (the belief form, not the live conjunct).
-  (role @self (not (believes {@self class_situation [k upper]})))
+  (role @self (believes {@self wealth ?wealth}) 
+              (not (believes {@self class_situation [k upper]})))
   (role ?home (believes {@self home ?home})
               (believes {?home supper_hour ?h}))   ; existence cached, ?h binds at fire
   (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette)))
   (when (and (> (attr @self appetite) 0.25)
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
-             (> (target {@self wealth}) 0.2)
+             (> ?wealth 0.2)
              (= (count-believed-located [k food] ?home) 0)))
   (utility 70)
   (effects       (begin-goal {@self eat [k supper] ?venue}))
@@ -163,14 +164,14 @@
 (npc-think want_eat_out_restaurant
   ; upper-class only - the CACHED self-gate skips the majority (and the
   ; larder belief-fold below) with zero eval.
-  (role @self (believes {@self class_situation [k upper]}))
+  (role @self (believes {@self class_situation [k upper], wealth ?wealth}))
   (role ?home (believes {@self home ?home})
               (believes {?home supper_hour ?h}))   ; existence cached, ?h binds at fire
   (role ?venue [k building restaurant] (select (score (near @self ?venue)) (policy roulette)))
   (when (and (> (attr @self appetite) 0.25)
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
-             (> (target {@self wealth}) 0.2)
+             (> ?wealth 0.2)
              (= (count-believed-located [k food] ?home) 0)))
   (utility 70)
   (effects       (begin-goal {@self eat [k supper] ?venue}))
@@ -306,22 +307,22 @@
 ; Buy: at a shop with wealth, one item eaten on the spot (paid-for in the v1
 ; no-coin sense as provisioning).
 (npc-think starving_buy
-  (role @self (believes {@self starving}))
+  (role @self (believes {@self starving ?, wealth ?wealth}))
   (when (and (> (attr @self appetite) 1.3)
-             (> (target {@self wealth}) 0.2)
+             (> ?wealth 0.2)
              (at-place-kind [k building shop])))
   (utility (homeostatic appetite 2.0 70))
   (effects       (begin-goal {@self forage}))
   (cease-effects (end-goal   {@self forage})))
 
 (npc-think starving_buy_go
-  (role @self (believes {@self starving}))
+  (role @self (believes {@self starving ?, wealth ?wealth}))
   ; The known provisions_shop is preferred; else a role-cast shop the NPC KNOWS
   ; (nearest, weighted). Replaces the (venue ...) fallback.
   (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
   (bind (target {@self provisions_shop ?}) ?shop)
   (when (and (> (attr @self appetite) 1.3)
-             (> (target {@self wealth}) 0.2)
+             (> ?wealth 0.2)
              (not (at-place-kind [k building shop]))))
   (utility (homeostatic appetite 2.0 70))
   (effects
@@ -333,20 +334,20 @@
 ; ledger (the shop owner is the victim). The row lands only when something was
 ; actually eaten - forage_act appends it inside its shop branch.
 (npc-think starving_steal
-  (role @self (believes {@self starving}))
+  (role @self (believes {@self starving ?, wealth ?wealth}))
   (when (and (> (attr @self appetite) 1.3)
-             (not (> (target {@self wealth}) 0.2))
+             (not (> ?wealth 0.2))
              (at-place-kind [k building shop])))
   (utility (homeostatic appetite 2.0 70))
   (effects       (begin-goal {@self forage}))
   (cease-effects (end-goal   {@self forage})))
 
 (npc-think starving_steal_go
-  (role @self (believes {@self starving}))
+  (role @self (believes {@self starving ?, wealth ?wealth}))
   (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
   (bind (target {@self provisions_shop ?}) ?shop)
   (when (and (> (attr @self appetite) 1.3)
-             (not (> (target {@self wealth}) 0.2))
+             (not (> ?wealth 0.2))
              (not (at-place-kind [k building shop]))))
   (utility (homeostatic appetite 2.0 70))
   (effects

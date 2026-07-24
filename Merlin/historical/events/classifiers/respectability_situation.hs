@@ -17,8 +17,8 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self (believes {@self chastity ?})
-              (believes {@self decorum ?}))
+  (role @self (believes {@self chastity ?chastity})
+              (believes {@self decorum ?decorum}))
 
   (effects
     (mint-band {@self respectability_situation}
@@ -26,8 +26,8 @@
             (sobriety)
             (piety)
             (diligence)
-            (target {@self chastity})
-            (target {@self decorum})
+            ?chastity
+            ?decorum
             (generosity)) 7)
       [k respectability_situation exemplary]    0.80
       [k respectability_situation respectable]  0.60

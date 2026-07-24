@@ -8,15 +8,15 @@
 (npc-think classify_social_trajectory
   (rng-stream behaviour)
 
-  (role @self (believes {@self breeding ?})
-              (believes {@self prestige ?})
-              (believes {@self wealth ?}))
+  (role @self (believes {@self breeding ?breeding})
+              (believes {@self prestige ?prestige})
+              (believes {@self wealth ?wealth}))
 
   (effects
     (mint-band {@self social_trajectory}
-      (+ (* 0.5 (target {@self prestige}))
-         (* 0.5 (target {@self wealth}))
-         (* -1  (target {@self breeding})))
+      (+ (* 0.5 ?prestige)
+         (* 0.5 ?wealth)
+         (* -1  ?breeding))
       [k social_trajectory rising]    0.15
       [k social_trajectory stable]    -0.15
       [k social_trajectory declining] -2)))

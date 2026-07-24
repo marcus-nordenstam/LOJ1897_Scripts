@@ -26,11 +26,11 @@
   ; wealth re-derives annually; breeding is birth-seeded (an inert input, kept to document it).
   ; The toggle drops if wealth is retracted.
   (rng-stream behaviour)
-  (role @self (believes {@self wealth ?}))
+  (role @self (believes {@self wealth ?wealth, breeding ?breeding}))
   (effects
     (mint-band {@self prototype}
-      (* (>= (target {@self wealth}) 0.60)
-         (<= (target {@self breeding}) 0.35))
+      (* (>= ?wealth 0.60)
+         (<= ?breeding 0.35))
       [k prototype nouveau_riche] 0.5)))
 
 ; self_made_man: rising trajectory + arrived class + low breeding + reputable.
@@ -38,13 +38,13 @@
   ; Toggle over the situation bands + respectability_situation (a Tier-2 sibling this reads);
   ; breeding is birth-seeded (inert). It drops when any input band toggles off.
   (rng-stream behaviour)
-  (role @self (believes {@self class_situation ?}))
+  (role @self (believes {@self class_situation ?, breeding ?breeding}))
   (effects
     (mint-band {@self prototype}
       (* (believes {@self social_trajectory [k social_trajectory rising]})
          (clamp (+ (believes {@self class_situation [k class_situation middle]})
                    (believes {@self class_situation [k class_situation upper]})) 0 1)
-         (<= (target {@self breeding}) 0.40)
+         (<= ?breeding 0.40)
          (clamp (+ (believes {@self respectability_situation [k respectability_situation exemplary]})
                    (believes {@self respectability_situation [k respectability_situation respectable]})) 0 1))
       [k prototype self_made_man] 0.5)))

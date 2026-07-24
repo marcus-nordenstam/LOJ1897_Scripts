@@ -50,7 +50,7 @@
   ; (target {@self employer}). The working-age band, not-already-an-owner, merit and
   ; means dims, the completion gate and the onset chance live in (when ...) below.
   (role @self (old_human @self)
-              (believes {@self employer ?})
+              (believes {@self employer ?, wealth ?wealth})
               (or (believes {@self repute [k respectable]})
                   (believes {@self repute [k exemplary]})))
 
@@ -65,7 +65,7 @@
              (<= (years-old @self) 55)
              (not (= (job-level @self) [k org_head]))
              (>= (diligence) 0.55)
-             (< (target {@self wealth}) 0.5)
+             (< ?wealth 0.5)
              (latch-eval (chance (* 0.033 (+ 0.5 (attr @self assertiveness)))))))
 
   ; npc-think: the clerk resolves to secure his employer's backing. Mints {@self goal
@@ -89,7 +89,7 @@
   ; owner, merit + means dims and the monthly chance are non-belief and live in
   ; (when ...) below.
   (role @self (old_human @self)
-              (believes {@self employer ?})
+              (believes {@self employer ?, wealth ?wealth})
               (or (believes {@self repute [k respectable]})
                   (believes {@self repute [k exemplary]}))
               (not (believes {@self backed_by ?})))
@@ -117,7 +117,7 @@
              (>= (years-old @self) 25)
              (<= (years-old @self) 55)
              (>= (diligence) 0.55)
-             (< (target {@self wealth}) 0.5)
+             (< ?wealth 0.5)
              (latch-eval (chance (* 0.01 (+ 0.5 (attr @self assertiveness)))))))
 
   ; SPLIT (Item 5): the npc-think - the clerk decides to buy in. Mints {@self
@@ -151,7 +151,7 @@
   ; mind is read. Belief-pure part only; the age band, not-already-an-owner, merit
   ; dim, means branch and the monthly chance are non-belief and live in (when ...).
   (role @self (old_human @self)
-              (believes {@self employer ?})
+              (believes {@self employer ?, wealth ?wealth})
               (or (believes {@self repute [k respectable]})
                   (believes {@self repute [k exemplary]})))
 
@@ -165,7 +165,7 @@
              (>= (years-old @self) 25)
              (<= (years-old @self) 55)
              (>= (diligence) 0.55)
-             (or (>= (target {@self wealth}) 0.5)
+             (or (>= ?wealth 0.5)
                  (believes {@self backed_by ?}))
              (latch-eval (chance (* 0.025 (+ 0.5 (attr @self assertiveness)))))))
 

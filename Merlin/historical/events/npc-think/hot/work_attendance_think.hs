@@ -37,7 +37,7 @@
 ; goal the cycle a gate drops (shift end, or leaving the workplace).
 
 (npc-think day_work
-  (fatigue-timeout 0)              ; a work shift is not a fruitless search - never fatigue-capped
+  (fatigue 0)                      ; a work shift is not a fruitless search - never fatigue-capped
   (role ?org (believes {@self employer ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (role ?job (believes {@self job ?job}))
@@ -53,7 +53,7 @@
 (npc-think day_go_to_work
   ; Shift on or imminent and not yet at the workplace: mint {@self enter ?wp} and the
   ; generic enter chain (enter.hs) routes the travel. Ceases on arrival (at-workplace) or shift end.
-  (fatigue-timeout 0)              ; commuting to work is not a fruitless search - never fatigue-capped
+  (fatigue 0)                      ; commuting to work is not a fruitless search - never fatigue-capped
   (role ?org (believes {@self employer ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (role ?job (believes {@self job ?job}))

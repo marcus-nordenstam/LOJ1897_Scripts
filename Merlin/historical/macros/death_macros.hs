@@ -34,7 +34,7 @@
     (for-each-belief {?dead mother|father|parent|sibling|half_sibling|brother|sister|child|grandmother|grandfather|grandparent|grandchild|aunt|uncle|niece|nephew|cousin|mother_in_law|father_in_law|parent_in_law|sister_in_law|brother_in_law|sibling_in_law|daughter_in_law|son_in_law|child_in_law|stepmother|stepfather|stepchild|spouse|fiancee|friend|lover|acquaintance|neighbour|enemy ?svr /their-mind}
       (do
         (bind (believes ?svr {?svr heir_of ?dead}) ?was_heir)
-        (end-beliefs-about ?svr ?dead /salience unforgettable)
+        (end-beliefs-about ?svr ?dead /salience unforgettable /reason died)
         (begin-belief-in ?svr {?dead condition [k dead]})
         (if ?was_heir (then (begin-belief-in ?svr {?svr inherit _ ?dead})))))
     (end-goals-nesting ?dead)

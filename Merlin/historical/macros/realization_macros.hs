@@ -15,7 +15,7 @@
 ; perception / a propagation event closes them. Run BEFORE (destroy-entity ...).
 (define-macro realize-destroyed (?item ?cond)
   (do
-    (end-beliefs-about ?item (exclude condition))
+    (end-beliefs-about ?item (exclude condition) /reason destroyed)
     (begin-belief {?item condition ?cond})))
 
 ; (months-since-death ?c): whole months since THIS mind learned of ?c's death -

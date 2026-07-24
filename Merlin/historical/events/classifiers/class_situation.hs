@@ -12,15 +12,15 @@
 (npc-think classify_class_situation
   (rng-stream behaviour)
 
-  (role @self (believes {@self breeding ?})
-              (believes {@self prestige ?})
-              (believes {@self wealth ?}))
+  (role @self (believes {@self breeding ?breeding})
+              (believes {@self prestige ?prestige})
+              (believes {@self wealth ?wealth}))
 
   (effects
     (mint-band {@self class_situation}
-      (+ (* 0.5 (target {@self breeding}))
-         (* 0.3 (target {@self prestige}))
-         (* 0.2 (target {@self wealth})))
+      (+ (* 0.5 ?breeding)
+         (* 0.3 ?prestige)
+         (* 0.2 ?wealth))
       [k class_situation upper]  0.70
       [k class_situation middle] 0.40
       [k class_situation lower]  -1)))

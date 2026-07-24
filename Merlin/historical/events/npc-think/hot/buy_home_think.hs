@@ -98,11 +98,12 @@
 ; C++ k_buy_wealth_per_value).
 (npc-think choose_home
   (goal {@self acquire})
+  (role @self (believes {@self wealth ?wealth}))
   (role ?dwell (believes {@self for_sale ?dwell})
                (select (score (* (dwelling-value ?dwell)
                                  (if (pub-bb-none ?dwell claimed) (then 1) (else 0))))
                        (policy roulette)))
-  (when (and (>= (target {@self wealth}) (* (dwelling-value ?dwell) 0.15))
+  (when (and (>= ?wealth (* (dwelling-value ?dwell) 0.15))
              (pub-bb-none ?dwell claimed)))
   (utility 45)
   (effects

@@ -62,7 +62,7 @@
   ; Light @self gate; the owner + business-kind identification is the cached
   ; ?org role; the articles filter caches as EXISTENCE and binds ?art at fire.
   (role @self (grown @self))
-  (role ?org (believes {@self employer [k org business]:?org})
+  (role ?org (believes {@self employer [k org business]:?org, wealth ?wealth})
              (believes {?org founder @self})
              (believes {?org record ?art}))
 
@@ -77,7 +77,7 @@
   ; role drops and the cease-effects retract the goal.
   (when (latch-eval
           (chance (* (* (business_failure_base) (business_failure_climate_mult))
-                     (* (+ 1.0 (* (business_failure_means_weight) (- 1.0 (target {@self wealth}))))
+                     (* (+ 1.0 (* (business_failure_means_weight) (- 1.0 ?wealth)))
                         (+ 1.0 (* (business_failure_merit_weight)  (- 1.0 (diligence)))))))))
   (effects       (begin-goal {@self close_business ?art}))
   (cease-effects (end-goal   {@self close_business ?art})))

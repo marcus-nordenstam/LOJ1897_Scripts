@@ -23,14 +23,14 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self (believes {@self wealth ?}))
+  (role @self (believes {@self wealth ?wealth}))
 
   (effects
     (begin-belief {@self contentment
       (clamp (+ (contentment-neutral)
                 (* (- (attr @self enthusiasm) 0.5) (contentment-affect-weight))
                 (* (- 0.5 (attr @self withdrawal)) (contentment-affect-weight))
-                (/ (- (target {@self wealth}) 0.5) (contentment-wealth-div))
+                (/ (- ?wealth 0.5) (contentment-wealth-div))
                 (/ (- (belonging) 0.5) (contentment-belonging-div))
                 (* (max (- 0.5 (sobriety)) 0) (contentment-drink-weight))
                 (* (believes {@self craving ?}) (contentment-craving-penalty))

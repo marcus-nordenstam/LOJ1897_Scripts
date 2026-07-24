@@ -27,7 +27,7 @@
   ;; @self reads, so they gate the fire in (when), not role selection.
   ;; SELF-POV (telepathy purge CAT-2): the youth is the sole deliberator,
   ;; reading his OWN employment / marital / schooling state.
-  (role @self 
+  (role @self (believes {@self breeding ?breeding})
               (not (believes {@self employer ?}))
               (not (believes {@self spouse ?}))
               ;; A youth still in school (PR-education) is not on the labour
@@ -41,7 +41,8 @@
   ;; which the per-candidate cache cannot, so it lives in (when), evaluated live.
   (role ?org (known_org ?org)
              (not (believes {?org isa [k org household]}))
-             (believes {?org founder ?master}))   ; existence cached, ?master binds at fire
+             (believes {?org founder ?master})
+             (believes {?org record ?org_record}))
 
   ;; Live exclusivity re-check (see employment.hs): the youth's "unemployed"
   ;; filter is alpha-indexed, so within one tick several masters sample the same
@@ -56,7 +57,7 @@
   ;; the population mean of 55, are rarely taken on) and the 12-16 age window are
   ;; non-belief @self reads, so they moved here from the @self role; (chance) leads
   ;; the (and ...) to short-circuit cheaply.
-  (when (and (chance (* 0.0125 (+ 0.5 (target {@self breeding}))))
+  (when (and (chance (* 0.0125 (+ 0.5 ?breeding)))
              (not (= (job-level @self) [k trainee]))
              (not (believes {?master repute [k scandalous]}))
              (>= (years-old @self) 12)
@@ -71,7 +72,7 @@
   ;; Focus = the org's articles, recovered from @self's {?org record ?art} belief.
   (effects
     (end-goal {@self seek_indenture})
-    (begin-goal {@self seek_indenture (target {?org record})}))
+    (begin-goal {@self seek_indenture ?org_record}))
   ;; MINTER owns ending: once the youth is indentured (gains an employer / reads
   ;; trainee), this rule's (role @self (not (believes {@self employer ?}))) + (when
   ;; (not (= (job-level @self) [k trainee]))) gate stops holding, and this falling
