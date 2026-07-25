@@ -12,7 +12,7 @@
 
 (npc-think hire_go
   (goal {@self engage_staff ?art})
-  (role @self (not (believes {@self employer ?})))   ; once hired, stop; a lingering goal must not re-run the errand
+  (role @self (not (believes {@self job.salary ?})))   ; once hired, stop; a lingering goal must not re-run the errand
   (when (and (articles-building ?art ?venue)
              (not (in-building ?venue))))
   (utility 82)
@@ -21,11 +21,11 @@
 ; AT the firm: run the eligibility MATCH over the occupations table (the old C++/act-body
 ; job-match) and, if a post fits and the interview lands, PROPOSE the hire. ?art is the org
 ; articles (bound off the goal target); ?ok its org kind. Once hired the (role @self (not
-; (believes {@self employer ?}))) gate drops this rule (and the hiring minter's cease-effects
+; (believes {@self job.salary ?}))) gate drops this rule (and the hiring minter's cease-effects
 ; ends the goal), so it stops.
 (npc-think hire_dwell
   (goal {@self engage_staff ?art})
-  (role @self (not (believes {@self employer ?})))   ; once hired, stop re-proposing (a lingering goal must not re-hire)
+  (role @self (not (believes {@self job.salary ?})))   ; once hired, stop re-proposing (a lingering goal must not re-hire)
   (when (and (articles-building ?art ?venue)
              (in-building ?venue)
              (read-doc-record [k articles_of_incorporation] ?art (kind ?ok))))

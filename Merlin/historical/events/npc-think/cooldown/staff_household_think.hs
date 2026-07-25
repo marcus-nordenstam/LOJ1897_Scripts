@@ -54,11 +54,11 @@
 ; `org household` via the shared found-org-seq macro. household is residence-seated
 ; (businesses.hs), so acquire-org-premises returns the home study - the same seat
 ; the old C++ found_org used. The self-throttle is the CACHED self-gate filter
-; (not (believes {@self employer [k org household]})): the kind criterion matches
-; the employer target's org-object kind by is-a (the symbolic matcher's
+; (not (believes {@self job.org [k org household]})): the kind criterion matches
+; the job.org target's org-object kind by is-a (the symbolic matcher's
 ; object-vs-kind, permanent - never the decaying {?org isa ...} belief), so it
 ; flips false once founded and this self-throttles to exactly one household per
-; head, reconciled on employer writes. `?h` is the same cached owned-quality-home
+; head, reconciled on job.org writes. `?h` is the same cached owned-quality-home
 ; role as the THINK above. Servant hiring stays in the monthly ACT below (it
 ; no-ops until the articles exist).
 (npc-think found_household
@@ -66,7 +66,7 @@
   (goal {@self staff_household})
   (rng-stream employment)
 
-  (role @self (not (believes {@self employer [k org household]})))
+  (role @self (not (believes {@self job.org [k org household]})))
   (role ?h (believes {@self home ?h})
            (or (believes {@self own [k manor]:?h})
                (believes {@self own [k townhouse]:?h})))

@@ -286,11 +286,15 @@ relation
             # rule-functions live in shared_functions/possession.
             #
             # own: legal ownership. Subject is the owner; target is the
-            # owned thing (movable prop, building, space). Authored by
-            # `.hse` transactions (BuyBuilding, inheritance) and by
-            # reading documents (title_deed) whose writings encode the
-            # legal fact.
-            own                 (tar object|space|structure)
+            # owned thing (movable prop, building, space, OR an org - you can
+            # legally own a business/household yet hold no job in it, a state
+            # distinct from heading it ({@self job [k org_head]}) or being
+            # employed by it ({@self job ?j} + {?j salary ?})). Authored by
+            # `.hse` transactions (BuyBuilding, founding, inheritance) and by
+            # reading documents (title_deed) whose writings encode the legal fact.
+            # object subsumes structure (a building is-a object), so object|space|org
+            # covers props, buildings, spaces AND orgs within the 3-kind field cap.
+            own                 (tar object|space|org)
             # hold: physical control - what the actor currently has in
             # hand / on body / in carried containers (via body-part
             # chain). Dual purpose: goal-target verb-state

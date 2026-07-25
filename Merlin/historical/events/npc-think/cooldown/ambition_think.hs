@@ -15,8 +15,8 @@
 ;     irreducible org-hierarchy computation, exposed as a verb (sibling of
 ;     (heir-apparent ...)),
 ;   - (effects ...) mints {actor goal {actor kill <head>}}, /cause-pinned to the
-;     actor's `employer` belief (their stake in the org), so the rap sheet reads
-;     "kill <head> <- {@self employer <org>}".
+;     actor's `job.org` belief (their stake in the org), so the rap sheet reads
+;     "kill <head> <- {@self job.org <org>}".
 ; attempt_harm then consumes the goal and executes a kill method as usual. The
 ; payoff is real: promote_on_vacancy (propagate_death) lifts the actor into the
 ; vacated org_head rank, so the murder pays off.
@@ -44,11 +44,11 @@
 
   ; Mint the kill goal toward the resolved obstacle. ambition-target reads the org
   ; hierarchy (the one irreducible computation, exposed as a verb). /cause pins
-  ; @self's employer belief - the instrumental stake - so the rap sheet reads
-  ; "kill <head> <- {@self employer <org>}".
+  ; @self's job.org belief - the instrumental stake - so the rap sheet reads
+  ; "kill <head> <- {@self job.org <org>}".
   (effects
     (debug-print "TRACE_AMBITION_FIRES @self")
     (bind (ambition-target @self) ?victim)
     (if (not (believes {?victim condition [k dead]}))
         (then (debug-print "TRACE_KILLGOAL ambition @self -> ?victim")
-            (begin-goal {@self kill ?victim} /cause {@self employer})))))
+            (begin-goal {@self kill ?victim} /cause {@self job.org})))))

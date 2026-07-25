@@ -2,13 +2,13 @@
 ; Employment life-cycle (Phase 7): hiring, the boss's staff review (which both
 ; promotes and dismisses), retirement.
 ; All operate through the hsim_org_lifecycle verbs; "employed" is the presence
-; of an ongoing {@self employer ?} belief, "rank" is the level belief on the
+; of an ongoing {@self job ?} belief, "rank" is the level belief on the
 ; worker's job object (read via job-level).
 ;
 ; hiring is an eligibility MATCH (the (select-record ...) in hire_errand_act binds
 ; the job kind, hire-seq mints the beliefs); retirement is an age-gated chance.
 ; PERFORMANCE outcomes (phase 3) - promotion AND dismissal - are decided in ONE
-; boss-side pass (job_loss -> review-own-staff): the employer reads HIS OWN
+; boss-side pass (job_loss -> review-own-staff): the boss reads HIS OWN
 ; work_standing assessment of each worker (phase 2) and rises the excellent / lets
 ; go those below the keep-threshold (mass economic layoffs remain business_failure's job).
 ; ----------------------------------------------------------------------------
@@ -23,11 +23,11 @@
   ;; The jobless adult (@self) is the deliberator: he looks for work this month.
   ;; The org is the inner role. age / situation / chance are non-belief ops, so
   ;; they gate the fire in (when), not role selection.
-  (role @self 
-              (not (believes {@self employer ?})))
+  (role @self
+              (not (believes {@self job.salary ?})))
   ;; A known org (@self learned it at new_job_orientation - a mental org object
   ;; carrying its isa belief), excluding households: an org but NOT a labour-market
-  ;; employer - its servants are taken on by the staff_household pass (role-
+  ;; firm - its servants are taken on by the staff_household pass (role-
   ;; appropriate, gender-normed), never as generic clerks here. Belief-pure +
   ;; cached: the old (kind ...) / org-kind-is-a omniscient doc ops are gone.
   (role ?org (known_org ?org)
@@ -62,11 +62,11 @@
     (end-goal {@self engage_staff})
     (begin-goal {@self engage_staff ?org_record}))
   ; The minter owns the ending: once @self is hired, the (role @self (not (believes
-  ; {@self employer ?}))) falling edge ends the standing job-search goal. The act never does.
+  ; {@self job.salary ?}))) falling edge ends the standing job-search goal. The act never does.
   (cease-effects (end-goal {@self engage_staff})))
 
 ; --- staff review: per-worker maintenance minters (dismiss / promote) ----------
-; The employer OWNS each staffing intent end to end. @self is the BOSS: career conduct
+; The boss OWNS each staffing intent end to end. @self is the BOSS: career conduct
 ; writes his own {?w work_standing <0..1>} assessment of each worker (boss-side via
 ; boss_of, no worker-mind read), so (role ?w (believes {?w work_standing ?ws}))
 ; enumerates exactly his assessed staff and fire-binds the score. A worker below the 0.4
@@ -79,7 +79,7 @@
 (npc-think sack_review
   (cooldown 1 m)
   (rng-stream employment)
-  (role @self (believes {@self employer ?}))
+  (role @self (believes {@self job [k org_head]}))  ; TODO(duty): gate on {@self duty_to ?org [k sack]}
   (role ?w    (believes {?w work_standing ?ws}))
   (when (and (not (= ?w @self))
              (> 0.4 ?ws)
@@ -90,7 +90,7 @@
 (npc-think promote_review
   (cooldown 1 m)
   (rng-stream employment)
-  (role @self (believes {@self employer ?}))
+  (role @self (believes {@self job [k org_head]}))  ; TODO(duty): gate on {@self duty_to ?org [k promote]}
   (role ?w    (believes {?w work_standing ?ws}))
   (when (and (not (= ?w @self))
              (> ?ws 0.7)
@@ -109,8 +109,8 @@
   (rng-stream employment)
 
   ;; The worker (@self) decides to retire; age + chance -> (when).
-  (role @self 
-              (believes {@self employer ?}))
+  (role @self
+              (believes {@self job ?}))
 
   ; Re-firing is harmless: (goal) is idempotent, so re-rolling the chance while the
   ; worker still holds an unacted retire goal just re-mints the same goal (no-op).
@@ -120,5 +120,5 @@
   (effects
     (begin-goal {@self quit_work}))
   ; The minter owns the ending: once quit_work_act fires @self, the (role @self (believes
-  ; {@self employer ?})) drops and this falling edge ends the goal. The act never does.
+  ; {@self job ?})) drops and this falling edge ends the goal. The act never does.
   (cease-effects (end-goal {@self quit_work})))

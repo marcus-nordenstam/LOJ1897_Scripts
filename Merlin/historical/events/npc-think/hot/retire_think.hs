@@ -18,7 +18,7 @@
 
 (npc-think retire_go
   (goal {@self quit_work})
-  (role ?org (believes {@self employer ?org})
+  (role ?org (believes {@self job.org ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (not (at-workplace ?wp))))
   (utility 85)
@@ -29,7 +29,7 @@
 ; competition). The ?org role binds ?wp (the workplace) for the arrived gate.
 (npc-think retire_dwell
   (goal {@self quit_work})
-  (role ?org (believes {@self employer ?org})
+  (role ?org (believes {@self job.org ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (at-workplace ?wp)))
   (utility 85)

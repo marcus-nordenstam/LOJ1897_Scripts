@@ -77,7 +77,7 @@
   (role @self
               (believes {@self skilled_in [k primary_school_curriculum]})
               (not (believes {@self skilled_in [k secondary_school_curriculum]}))
-              (not (believes {@self employer ?})))
+              (not (believes {@self job.salary ?})))
 
   ; ONSET: the middle+ breeding-squared (chance) is rolled at the fire and LOCKED once
   ; holding. CONTINUOUS completion gate: the goal ends when enrol_secondary_act
@@ -103,7 +103,7 @@
   ; exactly when he matriculates.
   (role @self
               (believes {@self skilled_in [k secondary_school_curriculum]})
-              (not (believes {@self employer ?})))
+              (not (believes {@self job.salary ?})))
 
   ; ONSET: the steep upper / wealthy-middle breeding-cubed (chance) - the professions'
   ; gateway - rolled at the fire and LOCKED once holding. CONTINUOUS completion gate:

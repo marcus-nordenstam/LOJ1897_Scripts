@@ -27,10 +27,10 @@
   (rng-stream behaviour)
 
   ; Clubs are founded by a settled adult of some standing - an employed man over
-  ; thirty. (The class-floor the plan names is carried by the `employer` gate: a man
-  ; with a post is a man of standing.) The founder is the sole deliberator (@self).
+  ; thirty. (The class-floor the plan names is carried by the `job.salary` gate: a man
+  ; with a paid post is a man of standing.) The founder is the sole deliberator (@self).
   (role @self (old_human @self)
-              (believes {@self employer ?}))
+              (believes {@self job.salary ?}))
 
   ; MAINTENANCE: the decision OWNS the found_club goal end to end. The (chance) is an
   ; ONSET roll - (latch-eval) rolls it at the fire and LOCKS it once holding, so the

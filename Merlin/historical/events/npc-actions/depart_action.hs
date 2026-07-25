@@ -6,10 +6,10 @@
 ; step below is the atomic-op decomposition of the old (fire ...) / release-home
 ; teardown, none of which reach into another NPC's mind:
 ;
-;   QUIT HIS POST - he ends his OWN employment beliefs ({@self employer ?org},
-;       {@self job ?job}) and scrubs his OWN row off the firm's employee_register
+;   QUIT HIS POST - he ends his OWN job belief ({@self job ?job}; its org / salary /
+;       level decorations go with it) and scrubs his OWN row off the firm's employee_register
 ;       (a public doc), keyed on (find worker @self). Reaching the register is a
-;       pure forward belief walk he already holds: {@self employer ?org} ->
+;       pure forward belief walk he already holds: {@self job.org ?org} ->
 ;       {?org record ?art} (the founder always holds `record`; an oriented worker
 ;       acquires it at orient_errand) -> the articles' `register` field. If he never
 ;       oriented and holds no `record`, the row is LEFT stale: every register reader
@@ -59,7 +59,7 @@
     ; STANDALONE value-binds (scope forward through the effects, unlike a bind INSIDE an
     ; (if ...) condition, which does not reach the branch); is-entity guards stand in for
     ; the "does he hold this belief" gate.
-    (bind (target {@self employer}) ?org)
+    (bind {@self job.org ?org})
     (if (is-entity ?org)
       (then
         (bind (target {?org record}) ?art)
@@ -67,7 +67,6 @@
           (then
             (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
             (remove-doc-record [k employee_register] ?reg (find worker @self))))
-        (end-belief {@self employer ?org})
         (bind (target {@self job}) ?job)
         (if (is-entity ?job) (then (end-belief {@self job ?job})))))
 

@@ -28,7 +28,7 @@
   ;; SELF-POV (telepathy purge CAT-2): the youth is the sole deliberator,
   ;; reading his OWN employment / marital / schooling state.
   (role @self (believes {@self breeding ?breeding})
-              (not (believes {@self employer ?}))
+              (not (believes {@self job.salary ?}))
               (not (believes {@self spouse ?}))
               ;; A youth still in school (PR-education) is not on the labour
               ;; market - the working-class on-ramp is for those who left after
@@ -73,8 +73,8 @@
   (effects
     (end-goal {@self seek_indenture})
     (begin-goal {@self seek_indenture ?org_record}))
-  ;; MINTER owns ending: once the youth is indentured (gains an employer / reads
-  ;; trainee), this rule's (role @self (not (believes {@self employer ?}))) + (when
+  ;; MINTER owns ending: once the youth is indentured (gains a paid job / reads
+  ;; trainee), this rule's (role @self (not (believes {@self job.salary ?}))) + (when
   ;; (not (= (job-level @self) [k trainee]))) gate stops holding, and this falling
   ;; edge ends the aim. A youth seeks ONE indenture at a time, so label-only keying
   ;; is fine. The act (apprentice_errand_act.hs) never ends the aim.

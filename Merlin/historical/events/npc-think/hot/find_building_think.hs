@@ -24,9 +24,7 @@
 (npc-think find_survey
   (role @self (believes {@self find_building ?sought ?region}))
   (when (and (latch-eval (bind (closest-unobserved [k structure] ?region) ?dest))
-             (debug-print "FSDEST @self dest=?dest")
              (bind (observed ?dest) ?observed)
-             (debug-print "OBSERVED ?dest ? = ?observed")
              (not (observed ?dest))))
   (effects (debug-print "SURVEY @self dest=?dest")
            (maintain-proposal {@self go_to_threshold ?dest} /cause {@self find_building ?sought ?region})))

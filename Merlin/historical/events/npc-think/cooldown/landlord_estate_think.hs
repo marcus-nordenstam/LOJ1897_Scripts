@@ -18,10 +18,10 @@
 ; listed OR leased = the DURABLE rental signal across the listed<->leased cycle;
 ; an owner-occupied home matches neither. The (when) re-checks per candidate, so
 ; a multi-rental owner founds ONE estate on the first candidate (which vests ALL
-; rentals) and the remaining candidates gate out on the employer-belief throttle.
+; rentals) and the remaining candidates gate out on the job.org-belief throttle.
 ;
 ;   when : @self runs no estate yet (runs-org; self-terminating - founding mints
-;          the {@self employer <estate>} belief runs-org reads).
+;          the {@self job.org <estate>} belief runs-org reads).
 ;   then : found-org-seq [k org estate] [k job landlord] (the landlord is its head)
 ;          + reassign-rentals-to-estate (vest the rentals into it).
 ; ----------------------------------------------------------------------------
@@ -33,10 +33,10 @@
   (rng-stream business)
 
   ; Self-throttle as a CACHED self-gate filter: already running an estate = the
-  ; actor's own ongoing {@self employer <org>} belief whose org object is-a
+  ; actor's own ongoing {@self job.org <org>} belief whose org object is-a
   ; estate (permanent-kind match, decay-proof - the found_household shape).
   (role @self (old_human @self)
-              (not (believes {@self employer [k org estate]})))
+              (not (believes {@self job.org [k org estate]})))
   (role ?rental (believes {@self own ?rental})
                 (or (believes {?rental availability [k for_rent]})
                     (believes {?rental tenant ?})))

@@ -11,7 +11,7 @@
 ;
 ; ACTOR = the proprietor, identified from his OWN beliefs, NO world scan. ?org is
 ; a CACHED role (both filters test the SAME candidate):
-;   {@self employer [k org business]:?org} - he is seated at ?org AND ?org is-a
+;   {@self job.org [k org business]:?org} - he is seated at ?org AND ?org is-a
 ;                            trading firm, so churches / clubs / hospitals (public
 ;                            orgs, never "fail" this way) are excluded. The
 ;                            kind-cast matches the org OBJECT's permanent kind -

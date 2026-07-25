@@ -105,7 +105,7 @@
 
 ; LUNCH at the workplace - the CO-WORKER channel (eat where you stand at midday).
 (npc-think want_lunch_work
-  (role ?org (believes {@self employer ?org})
+  (role ?org (believes {@self job.org ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (> (attr @self appetite) 0.25)
              (at-workplace ?wp)

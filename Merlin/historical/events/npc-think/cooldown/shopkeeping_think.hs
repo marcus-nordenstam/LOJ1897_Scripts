@@ -15,7 +15,6 @@
   (rng-stream behaviour)
 
   (role @self (grown @self)
-              (believes {@self employer ?})
               (believes {@self job [k job shop_clerk]}))
 
   ; MAINTENANCE: the decision OWNS the stocktake goal end to end. stocktake_act mints no

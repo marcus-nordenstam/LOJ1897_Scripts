@@ -14,7 +14,7 @@
 (define-macro contentment-belonging-div ()    5)      ; (belonging - 0.5) / this
 (define-macro contentment-drink-weight ()    -0.5)    ; x the sobriety shortfall below 0.5
 (define-macro contentment-craving-penalty () -0.12)   ; standing addiction depressor
-(define-macro contentment-jobless-penalty () -0.08)   ; no employer and no job
+(define-macro contentment-jobless-penalty () -0.08)   ; no job
 
 (npc-think classify_contentment
   ; Monthly cooldown: contentment folds the continuously-drifting (sobriety) (intoxication attr)
@@ -34,6 +34,6 @@
                 (/ (- (belonging) 0.5) (contentment-belonging-div))
                 (* (max (- 0.5 (sobriety)) 0) (contentment-drink-weight))
                 (* (believes {@self craving ?}) (contentment-craving-penalty))
-                (* (* (- 1 (believes {@self employer ?})) (- 1 (believes {@self job ?})))
+                (* (- 1 (believes {@self job ?}))
                    (contentment-jobless-penalty)))
              0 1)})))

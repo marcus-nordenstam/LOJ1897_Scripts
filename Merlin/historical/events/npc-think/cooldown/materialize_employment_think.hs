@@ -10,18 +10,18 @@
 ; then reconstructs the employment beliefs from the roster row, in @self's OWN mind
 ; (no telepathy - @self IS the worker).
 ;
-;   when : @self holds no `employer` belief yet AND is rostered on some (non-club)
+;   when : @self holds no `job.salary` belief yet AND is rostered on some (non-club)
 ;          org's register (find-my-enrollment binds that org's ?articles).
 ;   then : read the matched job + level off @self's roster row and mint the
 ;          employment beliefs (hire-beliefs).
 ;
-; Self-terminating: once the beliefs exist the `employer` gate is false, so a
+; Self-terminating: once the beliefs exist the `job.salary` gate is false, so a
 ; worker materializes exactly once. Two agendas share the body: STARTUP covers the
 ; cold-start bootstrap workers; the EMERGENT (monthly per-NPC) form covers workers
 ; the world lane enrols later (servants, jockeys, the landlord's estate seat).
 ;
 ; NOTE: while the C++ hire() still mints the employment beliefs itself (the steps
-; before the critical flip), this event is a pure NO-OP - the `employer` gate is
+; before the critical flip), this event is a pure NO-OP - the `job.salary` gate is
 ; already true for every enrolled worker by the time it runs. It becomes load-
 ; bearing only once hire() is thinned to register-only.
 ; ----------------------------------------------------------------------------
@@ -34,9 +34,9 @@
   (rng-stream employment)
 
   ; Jobless gate as a CACHED self-gate filter - empties the instant the NPC gains
-  ; an employer, so the employed majority skips the enrollment scan at zero cost.
+  ; a paid job, so the employed majority skips the enrollment scan at zero cost.
   (role @self (old_human @self)
-              (not (believes {@self employer ?})))
+              (not (believes {@self job.salary ?})))
 
   (effects
     (find-my-enrollment (bind ?art))

@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; promote_errand (npc-think) - the go/dwell half of the employer-side promotion
+; promote_errand (npc-think) - the go/dwell half of the boss-side promotion
 ; split. The boss holds {@self goal {@self promote_staff <worker>}}; these route
 ; him to the workplace and dwell to promote the worker. The completion commit
 ; (promote_staff_act) lives in npc-act/promote_errand.hs.
@@ -10,7 +10,7 @@
 
 (npc-think promote_go
   (goal {@self promote_staff})
-  (role ?org (believes {@self employer ?org})
+  (role ?org (believes {@self job.org ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (not (at-workplace ?wp))))
   (utility 82)
@@ -21,7 +21,7 @@
 ; competition). The ?org role binds ?wp (the workplace) for the arrived gate.
 (npc-think promote_dwell
   (goal {@self promote_staff})
-  (role ?org (believes {@self employer ?org})
+  (role ?org (believes {@self job.org ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (at-workplace ?wp)))
   (utility 82)

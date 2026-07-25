@@ -15,7 +15,7 @@
 
 (npc-think stocktake_round
   (goal {@self stocktake})
-  (role ?org (believes {@self employer ?org})
+  (role ?org (believes {@self job.org ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when  (at-workplace ?wp))
   (utility 82)

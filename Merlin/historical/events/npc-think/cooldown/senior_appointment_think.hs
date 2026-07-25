@@ -6,7 +6,7 @@
 ; character + high prestige + a public (gov-subkind) org.
 ;
 ; The candidate leaves their current post first (the (fire ...) is a no-op
-; for the jobless), so their `employer` (@excl) is free for the gov hire to
+; for the jobless), so their `job` (@excl) is free for the gov hire to
 ; take. The (hire /level senior ...) - rather than /org_head - leaves the
 ; founder's head slot intact; the head is the position established by
 ; whoever founded the org. The senior level is the rung that still lifts
@@ -63,7 +63,7 @@
     ;; Leave the current post (no-op for the jobless), then take up the senior
     ;; public post. hire-seq mints the employment beliefs in @self's own mind
     ;; (no telepathy - @self IS the appointee). fire-first frees the @excl
-    ;; employer slot so the gov hire takes cleanly.
+    ;; job slot so the gov hire takes cleanly.
     (fire /worker @self)
     (hire-seq ?articles [k job official] [k senior])
     ))

@@ -58,7 +58,8 @@
   ; motivates the errand (someone has surely dealt with it) - the belt-and-braces
   ; bound on the standing-corpse scan where the burial propagation missed a
   ; knower (an emigrant, a returnee).
-  (when    (and (>= (attr @self politeness) 0.3)
+  (when    (and (observed ?corpse)
+                (>= (attr @self politeness) 0.3)
                 (< (months-since-death ?corpse) 6)))
   ; x85, a shade OVER want_worship's x80: burying your dead outranks attending a
   ; service, so at the church the deposit wins the first slot and the service

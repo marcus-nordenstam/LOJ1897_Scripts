@@ -49,7 +49,7 @@
       [k life_aim power_aim]
         (* (attr @self machiavellianism)
            (attr @self narcissism)
-           (+ 0.3 (* (believes {@self employer ?}) 0.7)))
+           (+ 0.3 (* (believes {@self job.salary ?}) 0.7)))
       [k life_aim belonging_aim]
         (* (attr @self enthusiasm)
            (- 1 (rootedness))

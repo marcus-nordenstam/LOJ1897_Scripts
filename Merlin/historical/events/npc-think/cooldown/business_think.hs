@@ -31,13 +31,13 @@
 
 (include "../../../definitions/roles.hs")
 
-; --- investment: a worthy clerk secures his employer's backing -------------
+; --- investment: a worthy clerk secures his firm's backing -----------------
 (npc-think investment
   (cooldown 1 m)
   (rng-stream business)
 
   ; SELF-POV (reframe 2026-06-23): the worthy CLERK is the deliberator and seeks his
-  ; own EMPLOYER's backing to set up on his own account. The employer-employee bond is
+  ; own FIRM's backing to set up on his own account. The worker-firm bond is
   ; the KNOWN connection (both already know each other), so there is no blind candidate
   ; scan and no telepathy. This replaces the old backer-scans-all-candidates form, which
   ; never connected - a backer almost never KNEW an eligible clerk, so the candidate's
@@ -46,11 +46,12 @@
   ; business_partnership (which fires healthily). A backed clerk then founds his own
   ; business via business_founding's `backed_by` means-branch.
   ; A merit-and-character clerk who can weigh his own standing (the belief-pure
-  ; part). The backing firm is his employer, resolved in the effect via
-  ; (target {@self employer}). The working-age band, not-already-an-owner, merit and
+  ; part). The backing firm is his job's org, bound as ?org in the role via
+  ; {@self job.org ?org}. The working-age band, not-already-an-owner, merit and
   ; means dims, the completion gate and the onset chance live in (when ...) below.
   (role @self (old_human @self)
-              (believes {@self employer ?, wealth ?wealth})
+              (believes {@self job.org ?org})
+              (believes {@self wealth ?wealth})
               (or (believes {@self repute [k respectable]})
                   (believes {@self repute [k exemplary]})))
 
@@ -63,18 +64,17 @@
   (when (and (not (believes {@self backed_by ?}))
              (>= (years-old @self) 25)
              (<= (years-old @self) 55)
-             (not (= (job-level @self) [k org_head]))
+             (not (believes {@self job [k org_head]}))
              (>= (diligence) 0.55)
              (< ?wealth 0.5)
              (latch-eval (chance (* 0.033 (+ 0.5 (attr @self assertiveness)))))))
 
-  ; npc-think: the clerk resolves to secure his employer's backing. Mints {@self goal
-  ; {@self back ?org}} (focus = the employer firm); the npc-action (invest_errand.hs)
+  ; npc-think: the clerk resolves to secure his firm's backing. Mints {@self goal
+  ; {@self back ?org}} (focus = the firm); the npc-action (invest_errand.hs)
   ; sends him to the firm and the completion records {@self backed_by ?org} there -
-  ; which trips the completion gate above. Focus = the employer firm, read inline from
-  ; @self's own employer belief. cease-effects end the goal on that falling edge.
-  (effects       (begin-goal {@self back (target {@self employer})}))
-  (cease-effects (end-goal   {@self back})))
+  ; which trips the completion gate above. Focus = the firm ?org, bound in the role
+  ; from @self's own job.org belief. cease-effects end the goal on that falling edge.
+  (effects (maintain-proposal {@self back ?org})))
 
 ; --- business_partnership: an established proprietor takes on a co-owner ----
 ; SELF-POV (telepathy purge CAT-2): the clerk is the sole deliberator - he weighs
@@ -89,13 +89,14 @@
   ; owner, merit + means dims and the monthly chance are non-belief and live in
   ; (when ...) below.
   (role @self (old_human @self)
-              (believes {@self employer ?, wealth ?wealth})
+              (believes {@self job.org ?})
+              (believes {@self wealth ?wealth})
               (or (believes {@self repute [k respectable]})
                   (believes {@self repute [k exemplary]}))
               (not (believes {@self backed_by ?})))
   ; An existing business he is taken into - a KNOWN org of business kind (@self
   ; learned it at new_job_orientation). Belief-pure + cached. (The plan links
-  ; principal and candidate by a prior bond - friend / former employer / club
+  ; principal and candidate by a prior bond - friend / former master / club
   ; co-member; v1 gates on the candidate's merit alone, as the relationship layer
   ; is not yet rich enough to gate on without starving the event.)
   (role ?principal_org (known_org ?principal_org)
@@ -113,7 +114,7 @@
   ;; him as proprietor (org_head) it falls and the goal ceases. The (chance) is the
   ;; ONSET roll: (latch-eval) rolls it at the fire and LOCKS it once holding. The
   ;; working-age band and the merit + means dims stay live gates.
-  (when (and (not (= (job-level @self) [k org_head]))
+  (when (and (not (believes {@self job [k org_head]}))
              (>= (years-old @self) 25)
              (<= (years-old @self) 55)
              (>= (diligence) 0.55)
@@ -151,7 +152,8 @@
   ; mind is read. Belief-pure part only; the age band, not-already-an-owner, merit
   ; dim, means branch and the monthly chance are non-belief and live in (when ...).
   (role @self (old_human @self)
-              (believes {@self employer ?, wealth ?wealth})
+              (believes {@self job.org ?})
+              (believes {@self wealth ?wealth})
               (or (believes {@self repute [k respectable]})
                   (believes {@self repute [k exemplary]})))
 
@@ -161,7 +163,7 @@
   ; org_head it falls and the goal ceases. The (chance) is an ONSET roll - (eval-until-
   ; hold) rolls it at the fire and LOCKS it once holding. The working-age band, merit
   ; dim and the means branch (enough wealth OR a backer) stay live gates.
-  (when (and (not (= (job-level @self) [k org_head]))
+  (when (and (not (believes {@self job [k org_head]}))
              (>= (years-old @self) 25)
              (<= (years-old @self) 55)
              (>= (diligence) 0.55)
@@ -204,7 +206,7 @@
   ; the LIVE business-floor gate (do not abort a founding-in-flight if the floor recovers).
   (when (and (>= (years-old @self) 25)
              (<= (years-old @self) 55)
-             (not (= (job-level @self) [k org_head]))
+             (not (believes {@self job [k org_head]}))
              (latch-eval (chance 0.05)
                               (no-goal {@self found})
                               (orgs-below-population-floor [k org business] 12))))

@@ -3,12 +3,12 @@
 ; shift-stay act lives in npc-act/work_attendance.hs.
 ;
 ; The labour market (employment.hs / business.hs / apprenticeship.hs) mints the
-; employer/job beliefs but never moves anyone; THIS lane is what physically gets
+; job beliefs but never moves anyone; THIS lane is what physically gets
 ; an employed NPC to their workplace during their shift and holds them there.
 ; Gated on the beliefs the labour market mints, all resolved live as composable
-; belief reads: (bind {@self employer ?org}) (bind {?org workplace ?wp}) for the
+; belief reads: (bind {@self job.org ?org}) (bind {?org workplace ?wp}) for the
 ; destination, and (bind {@self job ?job}) (bind {?job (work-hours-today-label)
-; ?start ?end}) for today's shift hours. A missing employer / workplace / shift fails
+; ?start ?end}) for today's shift hours. A missing job / workplace / shift fails
 ; the gate (no job, or a day off -> no commute). The shift clock-math ops then test
 ; the bound ?start / ?end against the env clock.
 ;
@@ -38,7 +38,7 @@
 
 (npc-think day_work
   (fatigue 0)                      ; a work shift is not a fruitless search - never fatigue-capped
-  (role ?org (believes {@self employer ?org})
+  (role ?org (believes {@self job.org ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (role ?job (believes {@self job ?job}))
   (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))  ; onset: derive the shift, bind ?start/?end
@@ -54,7 +54,7 @@
   ; Shift on or imminent and not yet at the workplace: mint {@self enter ?wp} and the
   ; generic enter chain (enter.hs) routes the travel. Ceases on arrival (at-workplace) or shift end.
   (fatigue 0)                      ; commuting to work is not a fruitless search - never fatigue-capped
-  (role ?org (believes {@self employer ?org})
+  (role ?org (believes {@self job.org ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (role ?job (believes {@self job ?job}))
   (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))  ; onset: derive the shift, bind ?start/?end

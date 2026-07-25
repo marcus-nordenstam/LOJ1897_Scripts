@@ -15,7 +15,7 @@
 ; shop, same day): after validating the shelves he tops the shopfront back
 ; up to the daily cap. No world scan of the incorporation register - the
 ; grocer already bound his own premises via (current-building @self) off his
-; {@self employer ?org}->{?org workplace ?wp} presence; the count-then-spawn
+; {@self job.org ?org}->{?org workplace ?wp} presence; the count-then-spawn
 ; is idempotent (a full shelf is a no-op), so only the day's shortfall (sold
 ; / stolen / eaten down) is re-seeded. Replaces world-act/grocer_restock.hs.
 ; ----------------------------------------------------------------------------

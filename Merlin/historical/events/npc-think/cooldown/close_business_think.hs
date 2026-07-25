@@ -11,7 +11,7 @@
 ;
 ; ACTOR = the proprietor, identified from his OWN beliefs, NO world scan. ?org is
 ; a CACHED role (both filters test the SAME candidate):
-;   {@self employer [k org business]:?org} - he is seated at ?org AND ?org is-a
+;   {@self job.org [k org business]:?org} - he is seated at ?org AND ?org is-a
 ;                            trading firm, so churches / clubs / hospitals (public
 ;                            orgs, never "fail" this way) are excluded. The
 ;                            kind-cast matches the org OBJECT's permanent kind -
@@ -62,7 +62,8 @@
   ; Light @self gate; the owner + business-kind identification is the cached
   ; ?org role; the articles filter caches as EXISTENCE and binds ?art at fire.
   (role @self (grown @self))
-  (role ?org (believes {@self employer [k org business]:?org, wealth ?wealth})
+  (role ?org (believes {@self job.org [k org business]:?org})
+             (believes {@self wealth ?wealth})
              (believes {?org founder @self})
              (believes {?org record ?art}))
 
@@ -70,10 +71,11 @@
   ; wealth / diligence are his OWN derived dims, read as the founding events do), an
   ; ONSET: (latch-eval) rolls it at the fire and LOCKS it once the goal holds (it
   ; re-rolls each year until it lands). MAINTENANCE - the decision OWNS the winding-up
-  ; goal focused on his OWN articles end to end. The ?org role's {@self employer [k org
+  ; goal focused on his OWN articles end to end. The ?org role's {@self job.org [k org
   ; business]:?org} filter is the CONTINUOUS completion gate: while he is still the seated
   ; proprietor the goal stands; once close_business_act shutters the premises and
-  ; reconcile_closed (perceiving the closed doors) ends his {@self employer ?org}, the
+  ; reconcile_closed (perceiving the closed doors) ends his {@self job ?job} (with its
+  ; job.org decoration), the
   ; role drops and the cease-effects retract the goal.
   (when (latch-eval
           (chance (* (* (business_failure_base) (business_failure_climate_mult))

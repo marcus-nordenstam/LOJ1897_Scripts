@@ -15,7 +15,7 @@
 (define-document articles_of_incorporation (fields kind founder building year register))
 
 ; The org roster: a list-of-records doc, one (worker job level) record per
-; employee. `level` is the starting rank kind ([k org_head] / [k apprentice] /
+; employee. `level` is the starting rank kind ([k senior] / [k apprentice] /
 ; ...), written alongside worker + job so the materialize_employment event can
 ; reconstruct the employment beliefs from the roster alone (the beliefs live in
 ; .hs; the roster, objective, is written by the thin C++ enrol verb / hire-seq).

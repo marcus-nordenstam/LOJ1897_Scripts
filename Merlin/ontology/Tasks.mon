@@ -287,6 +287,8 @@ relation
             # ----------------------------------------------------------------------------------
             #tell                /motor mouth            /sub @msgAuthor human   /tar @msg @excl @S     /aux @msgAudience human
             #ask                 /motor mouth            /sub @msgAuthor human   /tar @qs @excl @S      /aux @msgAudience human
+            
+            say_to              (motor mouth) (sub @msgAuthor human)   (tar @msg @excl @S) (aux @msgAudience human)
 
             approach                (motor legs)              (tar @excl)
             enter                   (tar @excl)

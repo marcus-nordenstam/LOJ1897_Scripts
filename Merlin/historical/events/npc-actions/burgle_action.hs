@@ -40,7 +40,7 @@
   (and (not (at-home))
        (at-place-kind [k building residential_building])))
 (define-macro at-own-workplace ()
-  (and (bind {@self employer ?emp})
+  (and (bind {@self job.org ?emp})
        (bind {?emp workplace ?work})
        (at-workplace ?work)))
 

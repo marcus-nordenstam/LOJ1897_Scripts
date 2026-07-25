@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think invest_go
-  (goal {@self back ?org})
+  (role @self (believes {@self back ?org}))
   (when (and (believes {?org workplace ?wp})
              (not (at-workplace ?wp))))
   (utility 60)
@@ -17,8 +17,10 @@
 ; AT the firm: PROPOSE the backing act (goals never propose themselves). invest_act reads the
 ; backed org off the standing {@self back} goal focus, so the propose is label-only.
 (npc-think invest_at_firm
-  (goal {@self back ?org})
+  (role @self (believes {@self back ?org}))
   (when (and (believes {?org workplace ?wp})
              (at-workplace ?wp)))
   (utility 60)
-  (effects (maintain-proposal {@self back})))
+  (effects
+    (begin-belief {@self backed_by ?org})
+    (set-outcome {@self back ?org} succ)))

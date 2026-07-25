@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; sack_errand (npc-think) - the go/dwell half of the employer-side job-loss split.
+; sack_errand (npc-think) - the go/dwell half of the boss-side job-loss split.
 ;
 ; The decision (employment.hs `job_loss`) minted {@self goal {@self sack
 ; <worker>}} on the BOSS (the org-head). The boss goes to the workplace and lets
@@ -14,7 +14,7 @@
 
 (npc-think sack_go
   (goal {@self sack})
-  (role ?org (believes {@self employer ?org})
+  (role ?org (believes {@self job.org ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (not (at-workplace ?wp))))
   (utility 82)
@@ -25,7 +25,7 @@
 ; The ?org role binds ?wp (the workplace) for the arrived gate.
 (npc-think sack_dwell
   (goal {@self sack})
-  (role ?org (believes {@self employer ?org})
+  (role ?org (believes {@self job.org ?org})
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (at-workplace ?wp)))
   (utility 82)

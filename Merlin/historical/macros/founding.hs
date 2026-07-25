@@ -58,19 +58,22 @@
         (begin-belief {?org workplace ?wp})
         (begin-belief {?org record ?art})
 
-        ; --- seat the founder as HEAD (org_head): roster + employment beliefs -----
+        ; --- seat the founder as HEAD: roster + head-job beliefs -------------------
+        ; ?head-role is a job KIND that is-a org_head (so {@self job [k org_head]}
+        ; matches). Heading an org is NOT employment - the head job carries NO salary.
         (write-doc-record [k employee_register] ?reg
-            (worker @self) (job ?head-role) (level [k org_head]))
-        (begin-belief {@self employer ?org})
+            (worker @self) (job ?head-role) (level [k senior]))
         (begin-belief {?wp occupant @self})
         ; the head LEARNS the workplace's rooms (the building's `parts` that are rooms):
         ; {building room <room>} + the reverse {room building <building>}.
         (for-each ?room (attr-values ?wp parts [k interior_space room])
             (begin-belief {?wp room ?room})
             (begin-belief {?room building ?wp}))
-        ; the job mental object carrying the org_head rank, plus its work-hours.
+        ; the head job object: org (job.org), seniority, work-hours. No salary (unpaid).
         (imagine-or-recall ?head-role {@self job ?job})
-        (begin-belief {?job level [k org_head]})
+        (begin-belief {?job org ?org})
+        (begin-belief {?job level [k senior]})
+        (begin-belief {?job since (year)})
         (stamp-work-hours ?job ?head-role)))))
 
 ; ----------------------------------------------------------------------------
@@ -136,7 +139,6 @@
     ; --- @self's mind: the org object + the employment beliefs ------------------
     (imagine-or-recall ?org-kind {?art declares_org ?org})
     (begin-belief {?org isa ?org-kind})    ; queryable kind belief - see found-org-seq
-    (begin-belief {@self employer ?org})
     (begin-belief {?wp occupant @self})
     (begin-belief {?org workplace ?wp})
     ; @self LEARNS the workplace's rooms (the building's `parts` that are rooms):
@@ -144,9 +146,15 @@
     (for-each ?room (attr-values ?wp parts [k interior_space room])
         (begin-belief {?wp room ?room})
         (begin-belief {?room building ?wp}))
-    ; --- the job mental object carrying the rank, plus its work-hours -----------
+    ; --- the job mental object: org (job.org), rank (level), salary, work-hours ---
+    ; This is a HIRED (paid) post, so the job carries a salary decoration; heads
+    ; seated by found-org-seq mint NO salary (heading != being employed). The org
+    ; lives ON the job object, so {@self job.org ?} chains (no separate employer).
     (imagine-or-recall ?job-kind {@self job ?job})
+    (begin-belief {?job org ?org})
     (begin-belief {?job level ?level})
+    (begin-belief {?job salary 1})
+    (begin-belief {?job since (year)})
     (stamp-work-hours ?job ?job-kind)))
 
 ; ----------------------------------------------------------------------------
