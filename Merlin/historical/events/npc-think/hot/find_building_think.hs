@@ -26,7 +26,7 @@
   (when (and (latch-eval (bind (closest-unobserved [k structure] ?region) ?dest))
              (bind (observed ?dest) ?observed)
              (not (observed ?dest))))
-  (effects (debug-print "SURVEY @self dest=?dest")
+  (effects ;(debug-print "SURVEY @self dest=?dest")
            (maintain-proposal {@self go_to_threshold ?dest} /cause {@self find_building ?sought ?region})))
 
 (npc-think find_exhausted
