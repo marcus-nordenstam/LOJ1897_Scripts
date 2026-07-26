@@ -79,7 +79,9 @@
 (npc-think sack_review
   (cooldown 1 m)
   (rng-stream employment)
-  (role @self (believes {@self job [k org_head]}))  ; TODO(duty): gate on {@self duty_to ?org [k sack]}
+  ; Duty dispatch: whoever HOLDS the org's dismiss_staff duty reviews (assignment:
+  ; duties_think.hs) - never a job-kind or rank test. Fire-binds ?org O(1).
+  (role @self (believes {@self duty_to ?org [k dismiss_staff]}))
   (role ?w    (believes {?w work_standing ?ws}))
   (when (and (not (= ?w @self))
              (> 0.4 ?ws)
@@ -90,7 +92,9 @@
 (npc-think promote_review
   (cooldown 1 m)
   (rng-stream employment)
-  (role @self (believes {@self job [k org_head]}))  ; TODO(duty): gate on {@self duty_to ?org [k promote]}
+  ; Duty dispatch: whoever HOLDS the org's review_staff duty promotes (assignment:
+  ; duties_think.hs) - never a job-kind or rank test. Fire-binds ?org O(1).
+  (role @self (believes {@self duty_to ?org [k review_staff]}))
   (role ?w    (believes {?w work_standing ?ws}))
   (when (and (not (= ?w @self))
              (> ?ws 0.7)
