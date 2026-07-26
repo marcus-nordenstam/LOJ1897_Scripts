@@ -603,12 +603,15 @@ concept
                     landlord
                     # public-institution heads - one per org, distinct from their
                     # staff (priest=church, physician=hospital, principal=school,
-                    # librarian=library, curator=museum)
+                    # librarian=library, curator=museum, superintendent=the civic
+                    # facilities: agency / registries / theatre / meeting_hall /
+                    # sports_ground)
                     priest
                     physician
                     principal
                     librarian
                     curator
+                    superintendent
             # --- staff / standalone occupations (NOT org heads) ---
             printer
             journalist

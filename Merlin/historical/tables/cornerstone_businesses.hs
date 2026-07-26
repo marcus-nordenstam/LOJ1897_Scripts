@@ -21,5 +21,9 @@
   (record [k org bank]           [k job banker]     [k middle])
   (record [k org solicitor_firm] [k job solicitor]  [k middle])
   (record [k org apothecary]     [k job apothecary] [k middle])
-  (record [k org pub]            [k job bartender]  [k lower])
-  (record [k org grocer]         [k job shop_clerk] [k lower]))
+  ; The head seat is a HEAD kind (is-a head_of_non_household_org) - the one-org
+  ; founding cap and the duty argmax both read head-ness off the job kind, so a
+  ; staff kind here would make the founder invisible to both. Staff (bartender /
+  ; shop_clerk) are hired by the labour market, never seated as the head.
+  (record [k org pub]            [k job proprietor] [k lower])
+  (record [k org grocer]         [k job proprietor] [k lower]))

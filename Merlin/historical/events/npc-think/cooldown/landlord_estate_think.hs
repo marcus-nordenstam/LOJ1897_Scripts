@@ -32,11 +32,12 @@
   (cooldown 1 m)
   (rng-stream business)
 
-  ; Self-throttle as a CACHED self-gate filter: already running an estate = the
-  ; actor's own ongoing {@self job.org <org>} belief whose org object is-a
-  ; estate (permanent-kind match, decay-proof - the found_household shape).
+  ; THE FOUNDING CAP as a CACHED self-gate filter: an NPC heads at most ONE
+  ; non-household org, and an estate IS one - so a man already heading ANY
+  ; business / public org / estate founds no estate (subsumes the old
+  ; estate-only throttle; permanent-kind match, decay-proof).
   (role @self (old_human @self)
-              (not (believes {@self job.org [k org estate]})))
+              (not (believes {@self job [k head_of_non_household_org]})))
   (role ?rental (believes {@self own ?rental})
                 (or (believes {?rental availability [k for_rent]})
                     (believes {?rental tenant ?})))
