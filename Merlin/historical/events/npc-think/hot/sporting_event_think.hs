@@ -30,7 +30,7 @@
 ; the standing goal, never a scan). Two rungs, both gated on the standing {@self hold_meet}:
 ; hold_meet_go (maintenance) holds {@self enter ?clubhouse} while he is not yet inside (the
 ; generic enter chain does the travel) and ceases it on arrival; hold_meet_dwell (terminal),
-; once he is inside, proposes {@self hold_meet_run} each decision point - the act open_meet_act
+; once he is inside, proposes {@self hold_meet_run} each env-cycle - the act open_meet_act
 ; drains and ends its own act-belief. When hold_meet ceases the standing goal, hold_meet_go
 ; loses its parent and retracts, and the dwell rung stops proposing.
 (npc-think hold_meet_go
@@ -61,7 +61,7 @@
 
 ; --- the COMPETITOR's terminal: a summoned member proposes his own race act --------
 ; open_meet_act told this member {@self summoned_to_meet <sport> <organiser>}; while
-; that summons stands he PROPOSES the {@self race_run} act each decision point (race_act
+; that summons stands he PROPOSES the {@self race_run} act each env-cycle (race_act
 ; drains it and ends the summons, so the propose stops once his leg is run). Utility above
 ; routine so the obligation to compete pulls him off idler errands for the one run.
 (npc-think compete
