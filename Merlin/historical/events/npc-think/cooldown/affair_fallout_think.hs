@@ -54,10 +54,10 @@
   (when (chance 0.12))
 
   (effects
-    ; Resolve the interloper in @self's own beliefs; @fail = no known affair.
+    ; Resolve the interloper in @self's own beliefs; with no known affair the
+    ; bind produces nothing and the run ends here.
     (bind (interloper-of ?partner) ?interloper)
-    (if (and (is-entity ?interloper)
-             (no-goal {@self kill ?partner})
+    (if (and (no-goal {@self kill ?partner})
              (no-goal {@self kill ?interloper}))
         (then
           ; The betrayal appraisal: anger / contempt / humiliation pressure -

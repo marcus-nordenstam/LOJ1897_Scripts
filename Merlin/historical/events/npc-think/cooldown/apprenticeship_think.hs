@@ -95,8 +95,7 @@
              (chance 0.033)))
 
   (effects
-    ;; Recover the master so the master bond can be ended on completion.
-    (bind (belief-target @self master) ?master)
-    (promote     /worker @self)
-    (end-belief  @self master ?master)
+    (promote /worker @self)
+    (for-each-belief {@self master ?master}
+        (end-belief @self master ?master))
     ))

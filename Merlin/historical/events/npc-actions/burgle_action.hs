@@ -39,9 +39,11 @@
 (define-macro at-burgle-residence ()
   (and (not (at-home))
        (at-place-kind [k building residential_building])))
+; believes (not bind) so the effect-position call site below treats a jobless
+; miss as plain false, never an effects abort.
 (define-macro at-own-workplace ()
-  (and (bind {@self job.org ?emp})
-       (bind {?emp workplace ?work})
+  (and (believes {@self job.org ?emp})
+       (believes {?emp workplace ?work})
        (at-workplace ?work)))
 
 ; The theft act: the begun-then-ended {@self steal} act-belief IS the theft
@@ -50,13 +52,18 @@
 (npc-action {@self steal}
   (duration (if (at-burgle-residence) (then 15) (else 10)))
   (effects
-    (bind (current-building @self) ?scene)
-    (if (is-entity ?scene)
+    ; Each bind runs only after its op is proven substantial, so a sceneless /
+    ; ownerless premises skips the theft body instead of aborting the run.
+    (if (is-entity (current-building @self))
         (then
-          (bind (owner-of ?scene) ?owner)
-          (bind (goal-belief steal) ?goal)
-          (if (and (is-entity ?owner) (not (= ?owner @self)) (alive ?owner))
-              (then (if (at-own-workplace)
-                  (then (terminal-steal ?scene embezzle ?owner ?goal))
-                  (else (terminal-steal ?scene opportunist_theft ?owner ?goal)))))))
+          (bind (current-building @self) ?scene)
+          (if (is-entity (owner-of ?scene))
+              (then
+                (bind (owner-of ?scene) ?owner)
+                (if (and (not (= ?owner @self)) (alive ?owner))
+                    (then
+                      (bind (goal-belief steal) ?goal)
+                      (if (at-own-workplace)
+                          (then (terminal-steal ?scene embezzle ?owner ?goal))
+                          (else (terminal-steal ?scene opportunist_theft ?owner ?goal)))))))))
     (set-outcome {@self steal} succ)))

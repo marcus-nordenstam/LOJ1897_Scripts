@@ -22,7 +22,6 @@
 (npc-action {@self make_cache ?building}
   (duration 0)
   (effects
-    (bind {?building room [k bedroom]:?bedroom})
     ; Tier 1 - claim the home's built-in secret chamber.
     (for-each ?room (attr-values ?building parts [k interior_space room])
       (for-each ?chamber (attr-values ?room parts [k secret_chamber])
@@ -51,9 +50,11 @@
             (then
               (create-entity [k book_cache] (qual parent ?book) (bind ?cache))
               (begin-belief {@self hiding_spot ?cache})))))
-    ; Tier 5 - the always-available loose floorboard in the bedroom.
-    (if (not (believes {@self hiding_spot ?}))
-        (then
-          (create-entity [k floorboard_cache] (qual parent ?bedroom) (bind ?cache))
-          (begin-belief {@self hiding_spot ?cache})))
+    ; Tier 5 - the always-available loose floorboard in the bedroom. The bedroom
+    ; walk plus the hiding_spot guard carves exactly one, same as the tiers above.
+    (for-each-belief {?building room [k bedroom]:?bedroom}
+        (if (not (believes {@self hiding_spot ?}))
+            (then
+              (create-entity [k floorboard_cache] (qual parent ?bedroom) (bind ?cache))
+              (begin-belief {@self hiding_spot ?cache}))))
     (set-outcome {@self make_cache} succ)))

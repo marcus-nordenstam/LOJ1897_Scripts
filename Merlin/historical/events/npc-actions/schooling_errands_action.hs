@@ -28,15 +28,24 @@
     ; The SUBJECT is interest-led (the class gate decided WHETHER you attend;
     ; interest decides WHAT you read), falling back to a random discipline.
     ; The primary / secondary curricula are tiers, not disciplines - excluded.
-    (bind (random-held-kind-target interest [k academic_field]
-                                   [k primary_school_curriculum]
-                                   [k secondary_school_curriculum]) ?led)
-    (if (is-kind ?led)
-        (then (begin-belief {@self study ?led}))
+    ; Each draw is optional, so it is guard-tested inline BEFORE its must-produce
+    ; (bind ...); the guard proves the draw-set non-empty, and the bound draw is a
+    ; second independent pick from that same set (any member is a valid subject).
+    (if (is-kind (random-held-kind-target interest [k academic_field]
+                                          [k primary_school_curriculum]
+                                          [k secondary_school_curriculum]))
+        (then
+          (bind (random-held-kind-target interest [k academic_field]
+                                         [k primary_school_curriculum]
+                                         [k secondary_school_curriculum]) ?led)
+          (begin-belief {@self study ?led}))
         (else
-          (bind (random-subkind [k academic_field]
-                                [k primary_school_curriculum]
-                                [k secondary_school_curriculum]) ?subject)
-          (if (is-kind ?subject)
-              (then (begin-belief {@self study ?subject})))))
+          (if (is-kind (random-subkind [k academic_field]
+                                       [k primary_school_curriculum]
+                                       [k secondary_school_curriculum]))
+              (then
+                (bind (random-subkind [k academic_field]
+                                      [k primary_school_curriculum]
+                                      [k secondary_school_curriculum]) ?subject)
+                (begin-belief {@self study ?subject})))))
     (set-outcome {@self enrol_university} succ)))

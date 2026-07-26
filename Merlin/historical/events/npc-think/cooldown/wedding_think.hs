@@ -8,13 +8,14 @@
 ;       it (each holds {@self organize <occ>}), so both are forced-attend (the
 ;       couple ALWAYS shows up); both guest circles are invited. No marriage yet.
 ;
-;   attend_* (the attendance act, attend.hs): the couple + guests route to the
-;       church and gather there on the day.
+;   attend_* (the attendance TASK, attend_think.hs): the couple + guests route to
+;       the church (enter) and gather there through the window (dwell).
 ;
-;   formalize-wedding (the attend COMPLETION, attend.hs): the marriage is MADE AT
-;       THE CHURCH by whoever shows up - the first principal to arrive ends the
-;       betrothal, begins the {spouse} bond on both sides, and propagates the
-;       in-laws / family / guest-circle announcement (the old wedding's effects).
+;   attend_vow / vow_realized / spouse_reciprocate (attend_think.hs): the marriage
+;       is MADE AT THE CHURCH by whoever shows up - the vow is a say_to ("you are
+;       my spouse"); hearers adopt it, the speaker's own beliefs are think
+;       effects, reciprocation marries the bride back, and (formalize-marriage)
+;       runs the kin residue (rivalry settle + in-laws + family).
 ;
 ; Gated to fire ONCE per betrothal: a man who holds a fiancee, is not yet married,
 ; and is not already organizing a wedding. (organizing-occasion [k wedding]) is the

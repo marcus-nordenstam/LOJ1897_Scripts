@@ -15,14 +15,13 @@
   (effects
     (if (is-entity ?item)
         (then
-          ; (target {..}) op-binds (@fail when no cache exists) - a plain
-          ; pattern-bind would leave ?cache unbound on a miss and error.
           ; Only VALUABLES go into the hiding spot (the thief's loot, the
-          ; heirloom); ordinary carry-home items (the cook's provisions)
-          ; are put away openly in the room the NPC stands in.
-          (bind (target {@self hiding_spot ?}) ?cache)
-          (if (and (is-entity ?cache) (has-facet ?item valuable))
-              (then (put-item ?item ?cache))
+          ; heirloom); ordinary carry-home items (the cook's provisions) -
+          ; and anything held with no hiding spot fashioned - are put away
+          ; openly in the room the NPC stands in.
+          (if (and (believes {@self hiding_spot ?}) (has-facet ?item valuable))
+              (then (for-each-belief {@self hiding_spot ?cache}
+                        (put-item ?item ?cache)))
               (else (put-item ?item (attr @self location))))
           ; The put-away un-flags the loot: ending carrying_loot (own state) drops
           ; want_stow's self-gate, whose falling edge retires the {@self stow} goal.

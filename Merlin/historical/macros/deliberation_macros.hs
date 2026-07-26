@@ -15,8 +15,12 @@
 ; the despair + withdrawal gate.
 (define-macro resolve-suicide (?who)
   (do
-    (bind (pick-confidant ?who) ?conf)
-    (if (is-entity ?conf) (then (begin-belief ?conf {@self mention [k death_cause suicide]})))
+    ; A confidant is optional (the truly alone die unwitnessed): guard inline, then
+    ; the must-produce bind re-reads the same deterministic spouse/friend/valet ladder.
+    (if (is-entity (pick-confidant ?who))
+        (then
+          (bind (pick-confidant ?who) ?conf)
+          (begin-belief ?conf {@self mention [k death_cause suicide]})))
     (if (and (>= (despair ?who) (suicide_despair_min))
              (>= (attr ?who withdrawal) (suicide_withdrawal_min)))
         (then (propagate-death ?who)
@@ -39,10 +43,14 @@
   (else (if (= ?action strive)  (then (resolve-strive @self ?pressure))
   (else (if (= ?action kill)
       (then
+        ; displace-victim consumes a random draw, so it cannot be guard-tested and
+        ; re-bound. Mint the default kill goal first; the must-produce bind then
+        ; either stops here (no displacement - the kill goal stands, and this arm
+        ; is the effects tail) or swaps it for the displaced hurt goal.
+        (begin-goal {@self kill ?focus} /cause ?pressure)
         (bind (displace-victim @self ?focus (- 1 (inhibition))) ?sub)
-        (if (is-entity ?sub)
-            (then (begin-goal {@self hurt ?sub}   /cause ?pressure))
-            (else (begin-goal {@self kill ?focus} /cause ?pressure))))
+        (end-goal {@self kill ?focus})
+        (begin-goal {@self hurt ?sub} /cause ?pressure))
       (else (begin-goal {@self ?action ?focus} /cause ?pressure))))))))
 
 ; (has-pressure ?actor): does ?actor hold ANY ongoing pressure belief? Folds the

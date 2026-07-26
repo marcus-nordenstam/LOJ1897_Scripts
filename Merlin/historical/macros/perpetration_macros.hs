@@ -19,8 +19,7 @@
 (define-macro terminal-pay-off (?victim ?goal)
   (do
     (begin-belief {@self offer_bribe ?victim})
-    (bind (driving-pressure-of-goal ?goal) ?pressure)
-    (discharge-pressure ?pressure 0.75)
+    (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self bribe})
     (crime-ledger-append @self ?victim offer_bribe bribe @fail @fail)))
 
@@ -34,8 +33,7 @@
   (do
     (begin-belief {@self beating ?victim})
     (yield-evidence @self ?victim torso bruise)
-    (bind (driving-pressure-of-goal ?goal) ?pressure)
-    (discharge-pressure ?pressure 0.75)
+    (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self hurt})
     (crime-ledger-append @self ?victim beating hurt @fail @fail)))
 
@@ -48,8 +46,7 @@
   (do
     (begin-belief {@self plant_evidence ?victim})
     (yield-evidence @self ?victim torso blood_stain)
-    (bind (driving-pressure-of-goal ?goal) ?pressure)
-    (discharge-pressure ?pressure 0.75)
+    (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self frame})
     (crime-ledger-append @self ?victim plant_evidence frame @fail @fail)))
 
@@ -66,8 +63,7 @@
 (define-macro coerce-blackmail (?victim ?goal)
   (do
     (begin-belief {@self blackmail ?victim})
-    (bind (driving-pressure-of-goal ?goal) ?pressure)
-    (discharge-pressure ?pressure 0.75)
+    (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self coerce})
     (if (not (believes {@self extort ?victim})) (then (begin-belief {@self extort ?victim})))
     (deliver-coercion-threat ?victim blackmail)
@@ -76,8 +72,7 @@
 (define-macro coerce-threaten (?victim ?goal)
   (do
     (begin-belief {@self threaten_violence ?victim})
-    (bind (driving-pressure-of-goal ?goal) ?pressure)
-    (discharge-pressure ?pressure 0.75)
+    (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self coerce})
     (if (not (believes {@self extort ?victim})) (then (begin-belief {@self extort ?victim})))
     (deliver-coercion-threat ?victim threaten_violence)
@@ -101,8 +96,7 @@
 (define-macro expose-confront (?victim ?goal)
   (do
     (begin-belief {@self confront_publicly ?victim})
-    (bind (driving-pressure-of-goal ?goal) ?pressure)
-    (discharge-pressure ?pressure 0.75)
+    (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self expose})
     (if (believes {@self extort ?victim}) (then (end-belief @self extort ?victim)))
     (publish-secret-about @self ?victim)
@@ -111,20 +105,17 @@
 (define-macro expose-anon (?victim ?goal)
   (do
     (begin-belief {@self anonymous_letter ?victim})
-    (bind (driving-pressure-of-goal ?goal) ?pressure)
-    (discharge-pressure ?pressure 0.75)
+    (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self expose})
     (if (believes {@self extort ?victim}) (then (end-belief @self extort ?victim)))
     (publish-secret-about @self ?victim)
     (crime-ledger-append @self ?victim anonymous_letter expose @fail @fail)))
 
 (define-macro terminal-publish-secret (?victim ?goal)
-  (do
-    (bind (known-nonspousal-liaison ?victim) ?partner)
-    (if (is-entity ?partner)
-        (then (if (and (can-write @self) (chance 0.4))
-            (then (expose-anon ?victim ?goal))
-            (else (expose-confront ?victim ?goal)))))))
+  (if (is-entity (known-nonspousal-liaison ?victim))
+      (then (if (and (can-write @self) (chance 0.4))
+          (then (expose-anon ?victim ?goal))
+          (else (expose-confront ?victim ?goal))))))
 
 ; consummate terminal (seduce goal): the deliberated seduction lands. Period-norm
 ; gates first (opposite-sex + non-kin, mirroring every romance genesis - a seduce goal
@@ -140,8 +131,7 @@
            (not (blood-kin @self ?victim)))
       (then
         (begin-belief {@self seduction ?victim})
-        (bind (driving-pressure-of-goal ?goal) ?pressure)
-        (discharge-pressure ?pressure 0.75)
+        (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
         (end-goal {@self seduce})
         (begin-belief {@self lover ?victim})
         (begin-ended-belief {@self HAVE_SEX_WITH ?victim})
@@ -167,8 +157,7 @@
 (define-macro terminal-steal (?scene ?task ?owner ?goal)
   (do
     (begin-belief {@self ?task ?owner})
-    (bind (driving-pressure-of-goal ?goal) ?pressure)
-    (discharge-pressure ?pressure 0.75)
+    (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self steal})
     ; No hidden test on the loot: items are never hidden - a cached valuable
     ; sits in a hidden SUB-SPACE whose own contents index this rooms-only
@@ -201,20 +190,23 @@
 ; (the impulse passed).
 (define-macro terminal-confess (?goal)
   (do
-    (bind (known-nonspousal-liaison @self) ?partner)
-    ; The kin ladder in ONE ground-alt read; (target {..}) op-binds (@fail when
-    ; the actor has no living close kin) - a plain pattern-bind would leave the
-    ; var unbound on a miss and error downstream.
-    (bind (target {@self father|mother|fiancee|spouse|sibling ?}) ?kin)
-    (if (and (is-entity ?partner) (is-entity ?kin)
-             (alive ?kin) (not (= ?kin ?partner)))
+    ; The kin ladder is ONE ground-alt read. Both reads are optional, so they are
+    ; guarded inline BEFORE the must-produce (bind ...)s: the ops are deterministic,
+    ; so each guarded re-bind reads the value the guard just proved.
+    (if (and (is-entity (known-nonspousal-liaison @self))
+             (is-entity (target {@self father|mother|fiancee|spouse|sibling ?})))
         (then
-          (begin-belief {@self confession_letter ?kin})
-          (bind (home-of ?kin) ?kin_home)
-          (if (is-entity ?kin_home)
-              (then (spawn-letter [k confession_letter]
-                            (written-msg {@self lover ?partner})
-                            ?kin_home)))))
+          (bind (known-nonspousal-liaison @self) ?partner)
+          (bind (target {@self father|mother|fiancee|spouse|sibling ?}) ?kin)
+          (if (and (alive ?kin) (not (= ?kin ?partner)))
+              (then
+                (begin-belief {@self confession_letter ?kin})
+                (if (is-entity (home-of ?kin))
+                    (then
+                      (bind (home-of ?kin) ?kin_home)
+                      (spawn-letter [k confession_letter]
+                                    (written-msg {@self lover ?partner})
+                                    ?kin_home)))))))
     (end-goal {@self confess_letter})))
 
 ; public_slight terminal (humiliate goal): the deliberated public put-down. The
@@ -235,8 +227,7 @@
         (then
           (begin-belief {@self public_humiliation ?victim})
           (begin-belief ?victim {@self public_humiliation ?victim})
-          (bind (driving-pressure-of-goal ?goal) ?pressure)
-          (discharge-pressure ?pressure 0.75)
+          (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
           (crime-ledger-append @self ?victim public_humiliation humiliate @fail @fail)))
     (end-goal {@self humiliate})))
 
@@ -252,8 +243,6 @@
 ; loss itself. The goal ends regardless (the impulse passed).
 (define-macro terminal-report (?victim ?goal)
   (do
-    ; the discovered loss is minted {?loot stolen_from @self} (prop=subject,
-    ; @self=the wronged discoverer), so bind the loot off the FREE subject.
     ; The discovered loss lives as {?loot stolen_from @self} (loot=subject); the
     ; subject-enumeration (for-each-belief) binds ?loot off the FREE subject (a
     ; plain free-subject (bind) does not thread into scope). One report per party.
@@ -263,16 +252,19 @@
                  (not (believes {@self report_to_police (if (is-entity ?victim) (then ?victim) (else ?loot))})))
             (then
               (begin-belief {@self report_to_police (if (is-entity ?victim) (then ?victim) (else ?loot))})
-              (bind (find-building [k police_station]) ?station)
               (if (alive ?victim)
+                  (then (begin-belief {@self suspect ?victim})))
+              ; The station is optional (a town without one still remembers the
+              ; report): guard inline, then the must-produce bind re-reads the
+              ; same first-scan building.
+              (if (is-entity (find-building [k police_station]))
                   (then
-                    (begin-belief {@self suspect ?victim})
-                    (if (is-entity ?station)
+                    (bind (find-building [k police_station]) ?station)
+                    (if (alive ?victim)
                         (then (spawn-letter [k crime_report_letter]
-                                      (written-msg {@self suspect ?victim}) ?station))))
-                  (else (if (is-entity ?station)
-                      (then (spawn-letter [k crime_report_letter]
-                                    (written-msg {?loot stolen_from @self}) ?station)))))))
+                                      (written-msg {@self suspect ?victim}) ?station))
+                        (else (spawn-letter [k crime_report_letter]
+                                      (written-msg {?loot stolen_from @self}) ?station)))))))
         (break)))
     (end-goal {@self report_crime})))
 

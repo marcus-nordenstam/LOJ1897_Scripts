@@ -55,33 +55,30 @@
 (npc-action {@self depart}
   (duration 480)                     ; ~a day spent packing up and settling affairs
   (effects
-    ; --- quit his post: end his OWN employment beliefs; scrub his OWN roster row --
-    ; STANDALONE value-binds (scope forward through the effects, unlike a bind INSIDE an
-    ; (if ...) condition, which does not reach the branch); is-entity guards stand in for
-    ; the "does he hold this belief" gate.
-    (bind {@self job.org ?org})
-    (if (is-entity ?org)
-      (then
-        (bind (target {?org record}) ?art)
-        (if (is-entity ?art)
-          (then
-            (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
-            (remove-doc-record [k employee_register] ?reg (find worker @self))))
-        (bind (target {@self job}) ?job)
-        (if (is-entity ?job) (then (end-belief {@self job ?job})))))
+    ; --- quit his posts: end his OWN job beliefs; scrub his OWN roster rows --------
+    ; OPTIONAL teardown reads are (for-each-belief ...) walks - zero matches simply
+    ; skip the body (a jobless / orgless / unoriented emigrant), and the binder scopes
+    ; ?job/?org/?art into the body. A (bind ...) here would be a MUST-produce: its
+    ; failure aborts the remaining effects, which is wrong for optional steps. Jobs are
+    ; non-exclusive, so each held post is quit and its org's register scrubbed.
+    (for-each-belief {@self job ?job}
+        (for-each-belief {?job org ?org}
+            (for-each-belief {?org record ?art}
+                (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
+                (remove-doc-record [k employee_register] ?reg (find worker @self))))
+        (end-belief {@self job ?job}))
 
     ; --- release his home: OWN -> list for sale; LEASE -> vacate (self-beliefs only)
-    (bind (target {@self home}) ?home)
-    (if (is-entity ?home)
-      (then (if (believes {@self own ?home})
-        (then
-          (create-entity [k for_sale_listing] (qual location ?home) (bind ?listing))
-          (write-doc-record [k for_sale_listing] ?listing (building ?home))
-          (end-belief {@self own ?home})
-          (end-belief {@self home ?home}))
-        (else
-          (if (believes {?home tenant @self}) (then (end-belief {?home tenant @self})))
-          (end-belief {@self home ?home})))))
+    (for-each-belief {@self home ?home}
+        (if (believes {@self own ?home})
+          (then
+            (create-entity [k for_sale_listing] (qual location ?home) (bind ?listing))
+            (write-doc-record [k for_sale_listing] ?listing (building ?home))
+            (end-belief {@self own ?home})
+            (end-belief {@self home ?home}))
+          (else
+            (if (believes {?home tenant @self}) (then (end-belief {?home tenant @self})))
+            (end-belief {@self home ?home}))))
 
     (end-belief @self spouse)
     (set-outcome {@self depart} succ)

@@ -82,13 +82,14 @@ relation
             #play_game                               (tar game)    (kind_fold)
             play_game                                              (kind_fold)
             
-            # attend: routing to + dwelling at an OCCASION (the occasion/ceremony
-            # model). {@self attend <occ>} where <occ> is a per-mind occasion
-            # Mental Object (Concepts.mon `occasion`), NOT a venue - the venue is
-            # the occasion's own {<occ> venue <building>} belief. The window-start
+            # attend: a TASK, never an action - attending changes nothing in the
+            # env by itself; the task's rungs (attend_think.hs) propose the SHARED
+            # physical acts (enter the venue, dwell there, say_to for the vow).
+            # {@self attend <occ>} where <occ> is a per-mind occasion Mental
+            # Object (Concepts.mon `occasion`), NOT a venue - the venue is the
+            # occasion's own {<occ> venue <building>} belief. The window-start
             # appointment review emits {@self goal {@self attend <occ>}} for an
-            # occasion whose date lands in the current window; the attendance act
-            # ((does ATTEND)) routes to the venue + drains the goal on arrival.
+            # occasion whose date lands in the current window.
             attend                                  (tar occasion)
             # Solitary leisure activities at a venue (activity-lanes L8), the
             # amenity-gated successors to the general `dwell`: what one actually

@@ -31,9 +31,9 @@
     ; The club's articles (carried on the act-belief) -> its kind + roster; then the
     ; sport, an EXACT lookup on the club kind (a kindless club holds no contest).
     (read-doc-record [k articles_of_incorporation] ?art (kind ?club_kind) (register ?reg))
-    (bind (lookup club_sports org_kind ?club_kind sport) ?sport)
-    (if (is-kind ?sport)
+    (if (is-kind (lookup club_sports org_kind ?club_kind sport))
       (then
+        (bind (lookup club_sports org_kind ?club_kind sport) ?sport)
         ; The organiser's OWN record that a meet is on (the judge think's self-gate).
         (begin-belief {@self meet_sport ?sport})
         ; Summon every co-present, living roster member: tell them the sport AND who

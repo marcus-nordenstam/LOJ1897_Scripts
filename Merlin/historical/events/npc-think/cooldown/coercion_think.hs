@@ -38,8 +38,7 @@
         (else
           ; The anchor's demand rides its AUX clause; no clause = a silence
           ; coercion.
-          (bind (auxiliary {@self extort ?victim}) ?demand)
-          (if (is-clause ?demand)
+          (if (is-clause (auxiliary {@self extort ?victim}))
               ; Either bond satisfies a relationship demand.
               (then (if (or (believes ?victim {?victim lover @self})
                       (believes ?victim {?victim fiancee @self}))

@@ -65,15 +65,17 @@
 
 ; rootedness - how established the NPC is in the community. Local lineage
 ; (mother / father), a spouse, children (each +0.06, capped at 4 = +0.24), a
-; steady paid job, owned property and club membership each add a partial score;
-; the sum clamps to 1. A recently-arrived immigrant with just a paid job reads
-; low (~0.20); a settled local family reads high.
+; steady occupation, owned property and club membership each add a partial
+; score; the sum clamps to 1. ANY held post roots (a proprietor, priest or
+; household head is more rooted, not less - the paid/unpaid split is the
+; money-seeking gates' concern, never rootedness). A recently-arrived
+; immigrant with just a job reads low (~0.20); a settled local family high.
 (define-macro rootedness ()
   (clamp (+ (* 0.15 (believes {@self mother ?}))
             (* 0.15 (believes {@self father ?}))
             (* 0.20 (believes {@self spouse ?}))
             (* 0.06 (min (count-beliefs @self child) 4))
-            (* 0.20 (believes {@self job.salary ?}))
+            (* 0.20 (believes {@self job ?}))
             (* 0.15 (>= (count-beliefs @self building) 1))
             (* 0.10 (>= (count-beliefs @self member_of) 1))) 0 1))
 

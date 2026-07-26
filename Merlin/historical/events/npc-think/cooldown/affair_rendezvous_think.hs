@@ -90,10 +90,11 @@
         (bind (home-of @self) ?home)
         (register-occupant ?home @self 0)
         (register-occupant ?home ?paramour 0)
-        ; The staff are the keyhole.
-        (bind (prying-staff ?home) ?witness)
-        (if (is-entity ?witness)
-            (then (if (chance (min 0.5 (* 0.08
+        ; The staff are the keyhole; a staffless home keeps no watch.
+        (if (is-entity (prying-staff ?home))
+            (then
+              (bind (prying-staff ?home) ?witness)
+              (if (chance (min 0.5 (* 0.08
                                     (+ 1 (* 1.5 (hostility-of ?witness @self)))
                                     (+ 1 (suspicion-of ?witness @self)))))
                 (then
@@ -104,12 +105,15 @@
                   ; Word carried to the wronged principal: the actor's own
                   ; spouse first, else the paramour's (the gossip relay - a
                   ; TOLD fact, kept explicit).
-                  (bind (if (is-entity (spouse-of @self))
-                            (then (spouse-of @self)) (else (spouse-of ?paramour))) ?ally)
-                  (if (and (is-entity ?ally)
-                           (not (= ?ally @self)) (not (= ?ally ?paramour)))
-                      (then (begin-belief ?ally {@self lover ?paramour})
-                          (begin-belief ?ally {?paramour lover @self}))))
+                  (if (is-married @self)
+                      (then (for-each-belief {@self spouse ?ally}
+                              (if (and (not (= ?ally @self)) (not (= ?ally ?paramour)))
+                                  (then (begin-belief ?ally {@self lover ?paramour})
+                                        (begin-belief ?ally {?paramour lover @self})))))
+                      (else (for-each-belief {?paramour spouse ?ally}
+                              (if (and (not (= ?ally @self)) (not (= ?ally ?paramour)))
+                                  (then (begin-belief ?ally {@self lover ?paramour})
+                                        (begin-belief ?ally {?paramour lover @self})))))))
                 ; Even unseen at the door, the visitor was noticed.
                 (else (bump-suspicion ?witness @self 0.08)))))
         (tryst-tail ?paramour ?home)
@@ -121,8 +125,8 @@
                       (is-entity (find-building [k commercial_building pub])))
                   (then 0.30) (else 0)))
       (effects
-        (bind (find-building [k commercial_building theatre]) ?theatre)
-        (bind (if (is-entity ?theatre) (then ?theatre)
+        (bind (if (is-entity (find-building [k commercial_building theatre]))
+                  (then (find-building [k commercial_building theatre]))
                   (else (find-building [k commercial_building pub]))) ?venue)
         (register-occupant ?venue @self 1)
         (register-occupant ?venue ?paramour 1)

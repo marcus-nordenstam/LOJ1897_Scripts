@@ -18,20 +18,19 @@
   (duration 15)
   (effects
     (bind (current-building @self) ?shop)
-    (bind {@self household_cook ?home})
     ; The KITCHEN is the mind's OWN mental kitchen object (the home-rooms
     ; pre-teach mints {home room <r>}); it bounds the buy to the larder's
     ; shortfall - the SAME object want_provisions counts and provision_rearm
-    ; targets when it re-drives the bring goal from a laden hand.
-    (bind {?home room [k kitchen]:?kitchen})
-    (if (is-entity ?kitchen)
-        (then
-          (bind (count-believed-located [k food] ?kitchen) ?blv)
-          (bind (count-controlled @self [k food]) ?inh)
-          (for-each ?room (attr-values ?shop parts [k interior_space room])
-            (for-each ?item (attr-values ?room contents [k food])
-                      /limit (- (min (carry_cap) (- (larder_target) ?blv)) ?inh)
-              (do
-                (take-item ?item)
-                (begin-belief {@self provisions_shop ?shop}))))))
+    ; targets when it re-drives the bring goal from a laden hand. The nested
+    ; walks skip a cook with no household or no known kitchen.
+    (for-each-belief {@self household_cook ?home}
+        (for-each-belief {?home room [k kitchen]:?kitchen}
+            (bind (count-believed-located [k food] ?kitchen) ?blv)
+            (bind (count-controlled @self [k food]) ?inh)
+            (for-each ?room (attr-values ?shop parts [k interior_space room])
+              (for-each ?item (attr-values ?room contents [k food])
+                        /limit (- (min (carry_cap) (- (larder_target) ?blv)) ?inh)
+                (do
+                  (take-item ?item)
+                  (begin-belief {@self provisions_shop ?shop}))))))
     (set-outcome {@self provision} succ)))

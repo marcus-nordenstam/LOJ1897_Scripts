@@ -54,14 +54,23 @@
 
   (effects
     ; One novel domain copied off a parent's interests (a 50/50 pick when both
-    ; parents offer one) - the hobbies the child grows up around.
-    (bind (random-unheld-kind-target (target {@self mother}) interest interest) ?dm)
-    (bind (random-unheld-kind-target (target {@self father}) interest interest) ?df)
-    (bind (if (is-kind ?dm)
-              (then (if (and (is-kind ?df) (chance 0.5)) (then ?df) (else ?dm)))
-              (else ?df)) ?d)
-    (if (is-kind ?d)
-        (then (begin-belief {@self interest ?d})))
+    ; parents offer one) - the hobbies the child grows up around. Each lane
+    ; guards its pick so a parent with nothing novel just drops out.
+    (if (is-kind (random-unheld-kind-target (target {@self mother}) interest interest))
+        (then
+          (if (and (is-kind (random-unheld-kind-target (target {@self father}) interest interest))
+                   (chance 0.5))
+              (then
+                (bind (random-unheld-kind-target (target {@self father}) interest interest) ?df)
+                (begin-belief {@self interest ?df}))
+              (else
+                (bind (random-unheld-kind-target (target {@self mother}) interest interest) ?dm)
+                (begin-belief {@self interest ?dm}))))
+        (else
+          (if (is-kind (random-unheld-kind-target (target {@self father}) interest interest))
+              (then
+                (bind (random-unheld-kind-target (target {@self father}) interest interest) ?df)
+                (begin-belief {@self interest ?df})))))
     ))
 
 ; --- peer_propagation: a friend's enthusiasm rubs off -----------------------
