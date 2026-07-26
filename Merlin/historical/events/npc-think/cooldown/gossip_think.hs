@@ -2,7 +2,7 @@
 ; gossip (npc-think). @self picks ONE co-present listener and the single most
 ; gossip-worthy thing @self knows about a THIRD PARTY - a witnessed scandal
 ; preferred over mere relationship news, and not already aired to that listener -
-; and PROPOSES the telling. The observable speech is the pure gossip_act.hs.
+; and PROPOSES the telling. the shared say_to act says it aloud.
 ;
 ; ?x (gossiped ABOUT) is drawn by roulette from the people @self knows of; ?ear (the
 ; listener) from whoever shares @self's room (the location JOIN, cf. introduce.hs).
@@ -49,6 +49,7 @@
     ; news. ?news is the matched fact; ?tgt its target (the shame-seal check).
     (for-each-belief ?news {?x assault|disinherit|insult|outdo|discredit|public_humiliation|seduce|expose|spread_rumour|confront_publicly|divorce|prototype|condition|circumstances_of_death|spouse|fiancee|lover|child ?tgt}
       (do
+        (bind (utterable-msg ?news) ?msg)
         (if (and (not (= ?tgt @self))
-                 (not (believes {@self SAY (utterable-msg ?news) ?ear})))
-            (then (maintain-proposal {@self gossip ?ear ?news}) (break)))))))
+                 (not (believes {@self SAY ?msg ?ear})))
+            (then (maintain-proposal {@self say_to ?msg ?ear}) (break)))))))

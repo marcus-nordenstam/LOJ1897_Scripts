@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; confide (npc-think). An NPC decides to share a private self-fact - their calling,
 ; the life passion they would not broadcast to strangers - with a trusted friend,
-; and PROPOSES saying it aloud; the pure confide_act.hs emits the speech sound so
+; and PROPOSES saying it aloud; the shared say_to act emits the speech sound so
 ; perception delivers the fact to every co-present NPC and the friend hears it like
 ; anyone else in the room. Overhearing by another person present is the natural,
 ; emergent consequence of speaking aloud - the same model isim uses for the player
@@ -16,7 +16,7 @@
 ;
 ; `calling` is kind-valued ({@self calling [k medicine]}); the free ?domain in
 ; (believes {@self calling ?domain}) binds that kind, carried on the proposal so the
-; confide_act can name it.
+; say_to msg can carry it.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
@@ -38,4 +38,5 @@
   (utility 15)
 
   (effects
-    (maintain-proposal {@self confide ?domain})))
+    (bind (utterable-msg {@self calling ?domain}) ?msg)
+    (maintain-proposal {@self say_to ?msg _})))

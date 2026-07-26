@@ -4,9 +4,9 @@
 ;
 ; THE PROBLEM: a love match needs MUTUAL fancy, but a suitor cannot read his
 ; beloved's heart. THE FIX: whoever fancies someone TELLS THEM - when they are
-; together. This think casts the pair and PROPOSES the confession; the pure
-; confess_fancy_act.hs does (tell-to ?target {@self fancy ?target}), saying it
-; directly to ?target, and perception delivers {@self fancy ?target} into ?target's
+; together. This think casts the pair, composes the (to ?target) message and
+; PROPOSES the confession; the shared say_to act says it directly to ?target,
+; and perception delivers {@self fancy ?target} into ?target's
 ; mind, sourced to the spoken {@self SAY ...}. Now each suitor reads the OTHER
 ; side's fancy from his OWN belief (love_match / court / lovers gate on (believes
 ; {?beloved fancy @self})) - never a cross-mind read.
@@ -41,4 +41,5 @@
   (utility 22)
 
   (effects
-    (maintain-proposal {@self confess_fancy ?target})))
+    (bind (utterable-msg (to ?target) {@self fancy ?target}) ?msg)
+    (maintain-proposal {@self say_to ?msg ?target})))

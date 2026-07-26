@@ -70,9 +70,9 @@
     (begin-belief {?home lunch_hour (+ 12 ?o)})
     (begin-belief {?home supper_hour (+ 18 ?o)})
     ; Say the house's hours aloud - the household hears and adopts.
-    (tell {?home breakfast_hour (+ 6 ?o)}
-          {?home lunch_hour (+ 12 ?o)}
-          {?home supper_hour (+ 18 ?o)})
+    (tell (utterable-msg {?home breakfast_hour (+ 6 ?o)}
+                         {?home lunch_hour (+ 12 ?o)}
+                         {?home supper_hour (+ 18 ?o)}))
     ))
 
 ; ----------------------------------------------------------------------------
@@ -108,9 +108,11 @@
 
   (when (>= (years-old @self) 3))
 
+  (utility 16)
+
   (effects
-    (ask-to ?cook {?home supper_hour ?})
-    ))
+    (bind (utterable-qs (to ?cook) {?home supper_hour ?}) ?qs)
+    (maintain-proposal {@self say_to ?qs ?cook})))
 
 (npc-think answer_mealtimes
   (cooldown 1 m)
@@ -130,9 +132,10 @@
   (when (is-entity ?asker))
 
   (effects
-    (tell-to ?asker {?home breakfast_hour ?b}
-                    {?home lunch_hour ?l}
-                    {?home supper_hour ?s})
+    (tell-to ?asker (utterable-msg (to ?asker)
+                                   {?home breakfast_hour ?b}
+                                   {?home lunch_hour ?l}
+                                   {?home supper_hour ?s}))
     ))
 
 ; (plan_provisioning / set_shop_schedule are GONE: provisioning is the

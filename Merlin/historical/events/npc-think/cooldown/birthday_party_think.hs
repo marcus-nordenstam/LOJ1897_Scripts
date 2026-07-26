@@ -51,6 +51,7 @@
     ; the listener, so {@self SAY <msg> ?guest} is "have I told THIS guest this".
     (for-each-belief ?belief {@self spouse|fiancee|lover|child ?}
       (do
-        (if (not (believes {@self SAY (utterable-msg ?belief) ?guest}))
-            (then (tell-to ?guest ?belief) (break)))))
+        (bind (utterable-msg ?belief) ?msg)
+        (if (not (believes {@self SAY ?msg ?guest}))
+            (then (tell-to ?guest ?msg) (break)))))
     ))

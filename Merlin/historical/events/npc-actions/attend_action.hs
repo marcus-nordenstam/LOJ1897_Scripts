@@ -36,7 +36,7 @@
           ; Announce the marriage to the co-present wedding party (the SAY they hear
           ; and adopt). Replaces announce_couple_to_guests' fiat spouse-writes; the
           ; wider circle learns via gossip (spouse is a gossip label).
-          (tell {@self spouse ?betrothed})))
+          (tell (utterable-msg {@self spouse ?betrothed}))))
     ; If the attendee is the HOST, appraise who came vs who was invited: a
     ; no-show's standing with the host degrades - snub -0.15 base, deepened
     ; +0.35 x prior warmth (a close friend's absence wounds more) - and the

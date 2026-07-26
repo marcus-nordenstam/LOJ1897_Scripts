@@ -35,5 +35,5 @@
   (effects
     ; Announce the fresh engagement to whoever is co-present (the SAY they hear and
     ; adopt); the wider circle learns via gossip (fiancee is a gossip label).
-    (tell {@self fiancee ?bride})
+    (tell (utterable-msg {@self fiancee ?bride}))
     ))

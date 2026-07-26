@@ -63,9 +63,9 @@
              (bind {?home breakfast_hour ?b})
              (bind {?home lunch_hour ?l})
              (bind {?home supper_hour ?s}))
-        (then (tell {?home breakfast_hour ?b}
-              {?home lunch_hour ?l}
-              {?home supper_hour ?s})))
+        (then (tell (utterable-msg {?home breakfast_hour ?b}
+                                   {?home lunch_hour ?l}
+                                   {?home supper_hour ?s}))))
     (set-outcome {@self eat ?meal ?place} succ)))
 
 ; (provision_action - the counter stop - lives in npc-actions/provision_action.hs;

@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; catch_up (npc-think). Away from the table, @self proposes SAYING their OWN recent
 ; news (a new spouse / fiancee / child / friendship) to whoever is CO-PRESENT; the
-; pure catch_up_act.hs says it aloud. The listener ?guest is bound by the location
+; shared say_to act says it aloud. The listener ?guest is bound by the location
 ; JOIN ({@self location ?loc} + {?guest location ?loc}, cf. introduce.hs - the guest
 ; perceived sharing @self's room), and @self proposes ONE fact they have not heard.
 ; Hearing it, a guest files @self as the source and can pass "did you hear, X had a
@@ -39,7 +39,7 @@
     ; fact. Proposing nothing is a safe no-op.
     (for-each-belief ?belief {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality ?}
       (do
-        (bind (utterable-msg ?belief) ?utterable-belief)
-        (if (not (believes {@self SAY ?utterable-belief ?guest}))
-            (then (maintain-proposal {@self catch_up ?guest ?utterable-belief}) (break)))))
+        (bind (utterable-msg ?belief) ?msg)
+        (if (not (believes {@self SAY ?msg ?guest}))
+            (then (maintain-proposal {@self say_to ?msg ?guest}) (break)))))
     ))

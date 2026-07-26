@@ -85,5 +85,5 @@
     ; @self's knowledge of ?b pre-exists. Friend-tier keeps @self's other lovers
     ; (intimate-tier) unspoken.
     (for-each-belief ?fact {@self (disclosure-tier-labels friend) ?}
-      (tell-to ?b ?fact))
+      (tell-to ?b (utterable-msg (to ?b) ?fact)))
     ))

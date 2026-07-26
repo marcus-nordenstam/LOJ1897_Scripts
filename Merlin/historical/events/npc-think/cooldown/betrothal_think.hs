@@ -75,5 +75,5 @@
     ; hears and adopts) - the honest replacement for the believe_about profile-copy,
     ; delivered by co-presence. His own knowledge of her pre-exists from courtship.
     (for-each-belief ?fact {@self (disclosure-tier-labels friend) ?}
-      (tell-to ?bride ?fact))
+      (tell-to ?bride (utterable-msg (to ?bride) ?fact)))
     ))

@@ -172,23 +172,10 @@ relation
             convey                                  (tar ?)
             conveyed                                (tar ?)
             bury                                    (tar ?)
-            # Conversational activities (activity-lanes L8) - SPECIFIC, each with
-            # a propagation EFFECT among the co-present, not a vague `converse`:
-            #  gossip <subject>  - spread a belief you hold about a THIRD party
-            #                      to your listeners (they learn what you know).
-            #  confide <listener>- share a private self-belief you have NOT yet
-            #                      told that listener (deepens what they know of
-            #                      you).
-            #  debate <topic>    - participants come to know each other's STANCE
-            #                      on the topic (politics / religion / suffrage).
-            gossip                                  (tar human)    (aux ?)
-            confide                                 (tar ?)
-            catch_up                                (tar human)    (aux ?)
-            introduce                               (tar human)    (aux ?)
-            confess_fancy                           (tar human)
-            table_talk                              (tar human)    (aux ?)
-            debate                                  (tar ?)
-
+            # Conversational activities (gossip / catch_up / confide / introduce /
+            # confess_fancy / table_talk / mealtime asks) carry no acts of their own:
+            # each think composes its wire message ((utterable-msg ...) /
+            # (utterable-qs ...)) and proposes the ONE say_to act below.
             acquire                                 (tar object)
             buy                                     (tar ?)
             grant                                   (tar object)               (aux human)

@@ -27,7 +27,7 @@
     (tombstone ?corpse)
     (if (violent-corpse ?corpse) (then (propagate-murder-awareness ?corpse)))
     (realize-destroyed ?corpse [k condition buried])
-    (tell {?corpse condition [k buried]})
+    (tell (utterable-msg {?corpse condition [k buried]}))
     (propagate-burial ?corpse)
     (destroy-entity ?corpse)
     (set-outcome {@self bury ?corpse} succ)))

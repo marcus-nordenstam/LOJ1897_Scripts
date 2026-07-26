@@ -47,9 +47,10 @@
   (effects
     ; SELF-DISCLOSURE: one untold piece of my own profile. for-each-belief walks my
     ; {@self <label> ?} beliefs across the labels, binding each as ?belief; (break)
-    ; stops at the first the diner has not heard and proposes telling it (table_talk_act
+    ; stops at the first the diner has not heard and proposes telling it (the shared say_to act
     ; says it aloud).
     (for-each-belief ?belief {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life_aim ?}
       (do
-        (if (not (believes {@self SAY (utterable-msg ?belief) ?diner}))
-            (then (maintain-proposal {@self table_talk ?diner ?belief}) (break)))))))
+        (bind (utterable-msg ?belief) ?msg)
+        (if (not (believes {@self SAY ?msg ?diner}))
+            (then (maintain-proposal {@self say_to ?msg ?diner}) (break)))))))
