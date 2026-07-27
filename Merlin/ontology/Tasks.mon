@@ -300,17 +300,19 @@ relation
             # eat / provision precedent). The writings themselves are COMPOSED in
             # .hs (write-doc-record fields / written-msg letters); the ops only
             # encode them.
-            # Actions are PHYSICAL: an org is a mental-only object (no env entity), so
-            # no clerical act may carry one - the actor re-derives the org inside the
-            # act from his own running task beliefs.
-            # post_advert: the job advert onto the parish board (target = the board building).
+            # Actions are PURE PHYSICAL EFFECT: paper and people only (an org is a
+            # mental-only object and never an act participant); all recruiter
+            # bookkeeping is minted by the *_done think rules off the act outcome.
+            # post_advert: write the advert paper (target = the org's articles).
             # record_applicant: an applicants-doc row (target = the applicant).
             # send_letters: the offer + rejection letters (target = the applicants book).
-            # enrol: the wage-book row + advert removal (target = the new hire).
-            post_advert         (motor right_hand)  (tar @excl building)  (aux ?)
+            # enrol: the wage-book row (target = the new hire, aux = the wage book).
+            # take_down: remove a filled posting from the board.
+            post_advert         (motor right_hand)  (tar @excl articles_of_incorporation)  (aux ?)
             record_applicant    (motor right_hand)  (tar @excl human)
             send_letters        (motor right_hand)  (tar @excl job_application)  (aux human)
-            enrol               (motor right_hand)  (tar @excl human)
+            enrol               (motor right_hand)  (tar @excl human)  (aux ?)
+            take_down           (motor right_hand)  (tar @excl job_description)
 
             approach                (motor legs)              (tar @excl)
             enter                   (tar @excl)

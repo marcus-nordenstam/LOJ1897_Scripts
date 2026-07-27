@@ -62,6 +62,25 @@
   (utility 72)
   (effects (maintain-proposal {@self read ?ad})))
 
+; POST-ACT: the advert was read (eyes on paper) -> its record fields become the
+; seeker's advert_* beliefs ON the advert object (what choose_application and
+; the apply/take-up rungs need). The read act itself learns nothing.
+(npc-think advert_learn
+  (role @self (believes {@self seek_work}))
+  (role ?ad [k job_description]
+            (not (believes {?ad advert_job ?})))
+  (when (and (believes {@self read ?ad /succ})
+             (read-doc-record [k job_description] ?ad
+                 (org_record ?art) (job ?jk) (level ?lvl) (salary ?sal)
+                 (class_floor ?cf) (workplace ?wp))))
+  (effects
+    (begin-belief {?ad advert_org ?art})
+    (begin-belief {?ad advert_job ?jk})
+    (begin-belief {?ad advert_level ?lvl})
+    (begin-belief {?ad advert_pay ?sal})
+    (begin-belief {?ad advert_floor ?cf})
+    (begin-belief {?ad advert_workplace ?wp})))
+
 ; --- decision: choose the best known advert not yet applied to -----------------
 ; The (select) argmax picks ONE (best pay); the applied dedup rotates the choice
 ; on the next pass, so the seeker holds at most one application in flight.
@@ -170,6 +189,17 @@
   (when (co-present @self ?reg))
   (utility 79)
   (effects (maintain-proposal {@self read ?reg})))
+
+; POST-ACT: the wage book was read -> the reader's OWN row (if any) becomes
+; {@self enrolled <job> <level>}, the employment_realized trigger.
+(npc-think register_learn
+  (role @self (believes {@self take_up_post ?ad})
+              (believes {@self accept_of ?}))
+  (role ?reg [k employee_register] (select (policy first-match)))
+  (when (and (believes {@self read ?reg /succ})
+             (read-doc-record [k employee_register] ?reg
+                 (find worker @self) (job ?myjk) (level ?mylvl))))
+  (effects (begin-belief {@self enrolled ?myjk ?mylvl})))
 
 ; Employment REALIZED: his own wage-book row read back -> the full job object
 ; (org / salary / level / since / shifts) via the shared hire-beliefs macro.
