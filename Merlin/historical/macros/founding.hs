@@ -14,10 +14,11 @@
 ;                              (define-table) rows for the job kind.
 ;
 ; STAFFING is NOT done here. A new org is founded with its HEAD only; the emergent
-; labour market staffs it over subsequent ticks from the unemployed pool - the
-; role-enumerated `hiring` event (employment.hs) mints an engage_staff goal on a
-; jobless adult, hire_errand walks him to the firm, and its (select-record ...) match
-; + (hire-seq) commit the eligibility-matched hire. No bulk scan, no catalog headcount.
+; labour market staffs it over subsequent ticks: the recruit_staff duty-holder posts
+; a parish-board advert (recruit_think.hs), jobless seekers read the board and apply
+; in person (job_search_think.hs), the recruiter decides over his applicants book,
+; letters go out, and the accepted hire is enrolled on the wage book - which the
+; new employee READS to realize his employment. No bulk scan, no telepathy.
 ;
 ; The head's job is passed as a SCOPED job kind ([k job <role>]) so it serves three
 ; roles unchanged: the head's job mental-object kind, the roster `job` field, and

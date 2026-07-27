@@ -35,3 +35,12 @@
 (define-document title_deed        (fields building owner))
 ; A dwelling offered to let: [building]
 (define-document for_lease_listing (fields building))
+
+; ----- labour-market schemas -------------------------------------------------
+; The job advert on the parish board (posted by the recruit_staff duty-holder,
+; read by seekers - the read internalizes every field a seeker needs to choose
+; and apply): [org_record job level salary class_floor workplace]
+(define-document job_description   (fields org_record job level salary class_floor workplace))
+; The recruiter's applicants book, one (worker job merit) row per application
+; heard and recorded; the 2-monthly hire decision argmaxes over it.
+(define-document job_application   (fields worker job merit))

@@ -16,7 +16,7 @@
   (record (kind [k org])           (duty [k dismiss_staff]))
   (record (kind [k org])           (duty [k review_staff]))
   (record (kind [k org])           (duty [k keep_records]))
-  (record (kind [k org household]) (duty [k recruit_staff]))
+  (record (kind [k org])           (duty [k recruit_staff]))
   (record (kind [k org household]) (duty [k provide_for]))
   (record (kind [k org household]) (duty [k protect]))
   (record (kind [k org church])    (duty [k officiate]))

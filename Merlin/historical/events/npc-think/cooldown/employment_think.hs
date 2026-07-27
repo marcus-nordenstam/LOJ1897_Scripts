@@ -15,55 +15,9 @@
 
 (include "../../../definitions/roles.hs")
 
-; --- hiring: a jobless working-age adult is taken on by some org -------------
-(npc-think hiring
-  (cooldown 1 m)
-  (rng-stream employment)
-
-  ;; The jobless adult (@self) is the deliberator: he looks for work this month.
-  ;; The org is the inner role. age / situation / chance are non-belief ops, so
-  ;; they gate the fire in (when), not role selection.
-  (role @self
-              (not (believes {@self job.salary ?})))
-  ;; A known org (@self learned it at new_job_orientation - a mental org object
-  ;; carrying its isa belief), excluding households: an org but NOT a labour-market
-  ;; firm - its servants are taken on by the staff_household pass (role-
-  ;; appropriate, gender-normed), never as generic clerks here. Belief-pure +
-  ;; cached: the old (kind ...) / org-kind-is-a omniscient doc ops are gone.
-  (role ?org (known_org ?org)
-             (not (believes {?org isa [k org household]}))
-             (believes {?org record ?org_record}))
-
-  ;; The (chance) is just how often @self SEEKS - the real gate is the eligibility
-  ;; MATCH in the `engage_staff` act (Section 4.11 career model): per org, it reads
-  ;; the org's needed job and the candidate's class / reputation / skills, hiring
-  ;; into THAT job only if eligible. So scandalous / under-skilled / wrong-class
-  ;; applicants are filtered per JOB by the data; the scandalous test here is a
-  ;; coarse pre-filter. Live exclusivity re-check via (job-level ...) - a computed
-  ;; op reads live, so once hired this tick @self reads apprentice and backtracks.
-  (when (and (>= (years-old @self) 16)
-             (<= (years-old @self) 55)
-             (not (= (situation @self repute) [k scandalous]))
-             (chance 0.3)
-             (not (= (job-level @self) [k apprentice]))))
-
-  ; SPLIT (Item 5, EMPLOYEE-side job-search): the WORKER seeks work at the org. Mints
-  ; {@self goal {@self engage_staff ?articles}}; the npc-action (hire_errand.hs)
-  ; takes him to the firm and the eligibility-match hire commits there. Worker-driven
-  ; (not the boss) so goals stay bounded - a boss-driven hire would pile EVERY jobless
-  ; applicant's goal on one org-head and overflow the memory-fusion gather.
-  ; the org's articles (the goal focus the hire_errand reads) is recovered from
-  ; @self's own {?org record ?art} belief, externalized to the env doc by (goal).
-  ; RE-TARGET: one standing job-search goal, replaced each fire - at (chance 0.3)
-  ; a chronically ineligible seeker otherwise stacks a distinct goal per firm's
-  ; articles (30+ by 1706, the attention-set overflow), while a blocking has-goal
-  ; gate would freeze the search on whichever firm was sampled first.
-  (effects
-    (end-goal {@self engage_staff})
-    (begin-goal {@self engage_staff ?org_record}))
-  ; The minter owns the ending: once @self is hired, the (role @self (not (believes
-  ; {@self job.salary ?}))) falling edge ends the standing job-search goal. The act never does.
-  (cease-effects (end-goal {@self engage_staff})))
+; --- hiring: the labour market (advert -> application -> offer -> enrolment) --
+; Lives in job_search_think.hs (worker side) + recruit_think.hs (recruiter side,
+; driven by the recruit_staff duty) + recruit_actions.hs (the clerical writes).
 
 ; --- staff review: per-worker maintenance minters (dismiss / promote) ----------
 ; The boss OWNS each staffing intent end to end. @self is the BOSS: career conduct

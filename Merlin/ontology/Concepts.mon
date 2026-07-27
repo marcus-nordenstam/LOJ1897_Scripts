@@ -1251,6 +1251,34 @@ concept
         # list; behaviour NEVER dispatches on job kind or rank - only on the held duty.
         duty_to             (sub human)      (tar human|org)  (aux duty)
         duty_holder         (sub human|org)  (tar human)      (aux duty)
+        # The LABOUR MARKET (advert -> application -> offer letter -> acceptance ->
+        # enrolment; job_search_think.hs / recruit_think.hs). employed is the
+        # job-seeker's STATE-goal name ({@self goal {@self employed}}) - satisfied by
+        # holding a paid job, so the belief itself is never minted. apply_for /
+        # accept_of are the SPOKEN facts (the application and acceptance utterances -
+        # saying is believing, so the speaker's own copy marks his progress);
+        # offered / rejected arrive by reading the recruiter's letter; applied is
+        # the seeker's own per-advert dedup; posted / recorded are the recruiter's
+        # own bookkeeping of his advert and his applicant rows; enrolled is what
+        # reading one's own wage-book row yields (the hire-beliefs trigger).
+        employed            (tar ?)
+        apply_for           (tar ?)
+        accept_of           (tar ?)
+        offered             (tar ?)
+        rejected            (tar ?)
+        applied             (tar ?)
+        posted              (tar ? @excl)  (aux org)
+        recorded            (tar human)
+        enrolled            (tar ?)        (aux ?)
+        # The advert object's read-out fields (reading the board internalizes the
+        # advert doc's record into these beliefs ON the advert object - distinct
+        # labels because job / level / salary are org_pos-subject relations).
+        advert_org          (tar ? @excl)
+        advert_job          (tar ? @excl)
+        advert_level        (tar ? @excl)
+        advert_pay          (tar ? @excl)
+        advert_floor        (tar ? @excl)
+        advert_workplace    (tar ? @excl)
         # Education life-cycle. study names the field a pupil reads and the
         # school they read it at; schooling is the schooling-level outcome
         # left behind when the pupil leaves. A graduate's credential is the
