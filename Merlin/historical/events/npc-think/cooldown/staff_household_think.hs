@@ -93,7 +93,11 @@
   (role ?h (believes {@self home ?h})
            (believes {@self own ?h}))
 
-  (when (>= (years-old @self) 21))                      ; non-belief age gate -> (when)
+  ; Winter-only so the bout CEASES each spring and re-arms: a think-act whose (when)
+  ; stays true holds forever and fires exactly once (never refilling). Pulsing the
+  ; gate makes it re-attempt every winter as servants die or the labour pool refills.
+  (when (and (>= (years-old @self) 21)
+             (or (in-month 12) (in-month 1) (in-month 2))))
 
   (effects (staff-household ?h
              /slots   household_staff_slots

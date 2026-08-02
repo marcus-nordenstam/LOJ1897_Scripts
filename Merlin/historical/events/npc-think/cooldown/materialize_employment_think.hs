@@ -38,6 +38,12 @@
   (role @self (old_human @self)
               (not (believes {@self job.salary ?})))
 
+  ; Quarterly pulse so the bout CEASES and re-arms: a worker enrolled AFTER this
+  ; event's one prior firing (the roster write is objective, in the abs mind, and
+  ; does not wake the worker) would otherwise never re-scan and stay a beliefless
+  ; phantom employee. The pulse re-attempts the enrollment scan until it mints.
+  (when (or (in-month 3) (in-month 6) (in-month 9) (in-month 12)))
+
   (effects
     (find-my-enrollment (bind ?art))
     (if ?art
