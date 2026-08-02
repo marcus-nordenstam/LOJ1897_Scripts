@@ -31,11 +31,12 @@
   ;; @self - a romantically-open single, not already deep in a crush. The trait
   ;; chance (openness x enthusiasm x compassion) gates the receptive crush; it now
   ;; lives in (when ...) below (non-belief filters do not belong in a role).
-  (role @self 
+  (role @self
               (working-age @self)
               (not (believes {@self desire ?}))
               (not (believes {@self lover ?}))
-              (not (believes {@self spouse ?})))
+              (not (believes {@self spouse ?}))
+              (believes {@self age_band ?peer_band}))
   (role ?victim (any_human ?victim)
                 (marriageable-age ?victim)
                 ; the crush forms on someone @self has actually met.
@@ -45,9 +46,11 @@
                 ; Opposite-sex: @self's belief that ?victim's PERCEIVED gender
                 ; differs from his own (visible-on-sight -> cacheable).
                 (not (believes {?victim gender (target {@self gender})}))
-                ; Similar age: same or adjacent perceived age-band (the belief-pure
-                ; replacement for the old +/-10 year window).
-                (age-peers @self ?victim))
+                ; Similar age: @self's band is within ?victim's perceived age_span
+                ; (+/-1 band). @self's band is bound in the @self role above - an
+                ; inline (target {@self age_band}) does NOT resolve against the
+                ; plural age_span belief, so the band must be a bound variable.
+                (believes {?victim age_span ?peer_band}))
 
   ; Moved from the @self role: the trait chance (openness x enthusiasm x
   ; compassion) is a non-belief filter, so it is rolled once per NPC per month

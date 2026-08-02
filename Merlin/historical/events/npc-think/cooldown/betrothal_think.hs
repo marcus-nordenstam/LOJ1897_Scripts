@@ -28,7 +28,8 @@
               (not (believes {@self spouse ?}))
               (not (believes {@self fiancee ?}))
               (not (believes {@self repute [k scandalous]}))
-              (not (believes {@self repute [k disreputable]})))
+              (not (believes {@self repute [k disreputable]}))
+              (believes {@self age_band ?peer_band}))
   (role ?bride (unmarried_woman ?bride)
                ;; Not already spoken-for (he avoids a woman he KNOWS is engaged or
                ;; attached; a secret he has not heard does not stop the match).
@@ -47,8 +48,10 @@
                (believes {?bride class_situation (target {@self class_situation})})
                ;; Belief-pure perceived predicates - the near-age window and the
                ;; blood-kin exclusion - stay role filters (cacheable), gating the
-               ;; bride candidate set directly.
-               (age-peers @self ?bride)
+               ;; bride candidate set directly. @self's band is bound in the @self
+               ;; role: an inline (target {@self age_band}) does not resolve against
+               ;; the plural age_span belief.
+               (believes {?bride age_span ?peer_band})
                (not (blood-kin @self ?bride)))
 
   ;; Only the non-cacheable gates stay live: the per-groom (chance) pacing and

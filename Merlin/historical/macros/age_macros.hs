@@ -45,18 +45,16 @@
 (define-macro working-age (?o)
   (believes {?o age_band [k youth|young_adult|middle_aged]}))
 
-; (age-peers ?who ?other): are ?who and ?other in the SAME or an ADJACENT band -
-; the belief-only replacement for the numeric age-diff windows. Tests whether
-; ?other's age_span (its band +/- 1) covers ?who's own single band, i.e.
-; |band(who) - band(other)| <= 1. Because the ladder is narrow when young and wide
-; when old, that is ~a few years among children and ~a generation among adults -
-; exactly the graduated peer window the diffs encoded. ?who is normally @self (the
-; deliberating mind reads its own band, no telepathy).
+; AGE-PEER CHECK (no macro - the check is inlined by each caller). "Are @self and
+; ?other in the SAME or an ADJACENT band?" = is @self's age_band within ?other's
+; perceived age_span (its band +/- 1). The ladder is narrow when young and wide when
+; old, so that is ~a few years among children and ~a generation among adults.
 ;
-; ?who's band is read INLINE via (target {?who age_band}) - NOT bound into a var.
-; A (bind {?who age_band ?v}) re-binds the same invariant per candidate, and the
-; engine errors + fails the match on every candidate after the first (the var is
-; already bound), so age-peers must stay a pure (believes) existence test - exactly
-; how the cluster reads @self's class via (target {@self class_situation}).
-(define-macro age-peers (?who ?other)
-  (believes {?other age_span (target {?who age_band})}))
+; This CANNOT be a one-call (believes ...) macro. age_span is a PLURAL belief, and an
+; inline (target {@self age_band}) in its target slot does NOT resolve against it (it
+; matches only SINGLE @excl beliefs, e.g. gender / class_situation). The band must be
+; a BOUND variable, and the bind must live in the @self role (evaluated once for the
+; deliberating self) - binding in the ?other role re-binds per candidate. Each caller
+; uses:
+;   (role @self  ... (believes {@self  age_band ?peer_band}))
+;   (role ?other ... (believes {?other age_span ?peer_band}))

@@ -34,17 +34,21 @@
   ;; @self - a married adult, not already mid-affair. The disposition-to-stray
   ;; gate (the chance product over openness x enthusiasm x impropriety) is a
   ;; non-belief filter and lives in the (when ...) clause below.
-  (role @self 
+  (role @self
               (adult-age @self)
               (believes {@self spouse ?})
-              (not (believes {@self lover ?})))
+              (not (believes {@self lover ?}))
+              (believes {@self age_band ?peer_band}))
   (role ?lover (any_human ?lover)
                (adult-age ?lover)
                ; the paramour must NOT be @self's own spouse (a third party).
                (not (believes {@self spouse ?lover}))
                ; the affair ignites with a known third party (social tie).
                (personally-knows @self ?lover)
-               (age-peers @self ?lover)
+               ; @self's band within ?lover's perceived age_span (+/-1). Bound in
+               ; the @self role: an inline (target {@self age_band}) does not
+               ; resolve against the plural age_span belief.
+               (believes {?lover age_span ?peer_band})
                ; opposite-sex: @self's belief that ?lover's PERCEIVED gender differs
                ; from his own (visible-on-sight -> cacheable), and non-kin.
                (not (believes {?lover gender (target {@self gender})}))

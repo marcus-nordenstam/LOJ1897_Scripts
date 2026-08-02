@@ -30,8 +30,9 @@
 
   ; @self the suitor: an unmarried, un-betrothed adult who is not socially shut
   ; out. The per-suitor (chance) gate has moved to (when ...) (role-belief purity).
-  (role @self 
+  (role @self
               (adult-age @self)
+              (believes {@self age_band ?peer_band})
               (not (believes {@self fiancee ?}))
               (not (believes {@self spouse ?}))
               (not (believes {@self repute [k scandalous]}))
@@ -82,7 +83,7 @@
                 ; gender differs from his own (gender is visible-on-sight, so this
                 ; dynamic-target belief is object-cacheable; drops same-sex passes).
                 (not (believes {?beloved gender (target {@self gender})}))
-                (age-peers @self ?beloved))
+                (believes {?beloved age_span ?peer_band}))
 
   ;; Live un-betrothed re-check: the role filters are alpha-indexed and go stale
   ;; within the window, so re-check at firing - now from @self's OWN beliefs
