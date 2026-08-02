@@ -34,24 +34,15 @@
     (mark ?who [k practice] (pressure-prize ?pressure) (skill_practice_window_days))
     (discharge-pressure ?pressure 0.5)))
 
-; Turn the deliberation winner into its effect. suicide / strive resolve inline; a KILL
-; whose wrongdoer-focus is unreachable displaces onto a weaker innocent (re-routed to
-; hurt, never a premeditated bystander kill); every other action mints its goal with
-; the driving pressure pinned as /cause.
+; Turn the deliberation winner into its effect. suicide / strive resolve inline; every
+; other action mints its goal with the driving pressure pinned as /cause. A reactive KILL
+; whose wrongdoer-focus is unreachable is displaced onto a weaker innocent by the separate
+; displace_kill event (a role-cast + roulette over the actor's orbit) - it reacts to this
+; freshly-minted pressure-caused kill goal and re-routes it to a beating.
 (define-macro resolve-deliberation (?action ?focus ?pressure)
   (if (= ?action suicide) (then (resolve-suicide @self))
   (else (if (= ?action strive)  (then (resolve-strive @self ?pressure))
-  (else (if (= ?action kill)
-      (then
-        ; displace-victim consumes a random draw, so it cannot be guard-tested and
-        ; re-bound. Mint the default kill goal first; the must-produce bind then
-        ; either stops here (no displacement - the kill goal stands, and this arm
-        ; is the effects tail) or swaps it for the displaced hurt goal.
-        (begin-goal {@self kill ?focus} /cause ?pressure)
-        (bind (displace-victim @self ?focus (- 1 (inhibition))) ?sub)
-        (end-goal {@self kill ?focus})
-        (begin-goal {@self hurt ?sub} /cause ?pressure))
-      (else (begin-goal {@self ?action ?focus} /cause ?pressure))))))))
+  (else (begin-goal {@self ?action ?focus} /cause ?pressure))))))
 
 ; (has-pressure ?actor): does ?actor hold ANY ongoing pressure belief? Folds the
 ; old C++ (has-pressure) op - its body was a first-ongoing {?actor pressure ?}
