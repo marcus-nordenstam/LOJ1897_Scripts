@@ -1,33 +1,20 @@
 ; ----------------------------------------------------------------------------
 ; displace_kill (npc-think). Displaced rage: a reactive KILL whose wrongdoer-focus
-; is UNREACHABLE - dead, or far out-ranking the actor in standing (you cannot strike
-; the powerful) - is discharged onto a weaker innocent in the actor's own social
-; orbit, re-routed to a beating (hurt), never a premeditated bystander kill.
-;
-; The old C++ (displace-victim) verb, event-ized. It ran INSIDE resolve-deliberation
-; the moment the reactive kill goal was minted; a stance-weighted RESERVOIR SAMPLE is
-; a role-cast + (select (policy roulette)), so the selection is now an event header,
-; not an effect call. This is the sibling of bonded_incident_insult (the same
-; displaced-anger shape): the disliked are preferentially - never exclusively - hit,
-; a floor lets the rage land on any acquaintance.
+; is UNREACHABLE - dead, or far out-ranking the actor in standing - is discharged
+; onto a weaker innocent in the actor's own social orbit, re-routed to a beating
+; (hurt), never a premeditated bystander kill. The disliked are preferentially -
+; never exclusively - hit; a floor lets the rage land on any known acquaintance.
 ;
 ; SCOPE. Only the reactive-deliberation kill displaces: its goal carries a
 ; {@self pressure ..} /cause (the grievance), which (driving-pressure-of-goal ...)
-; returns and every APPETITIVE / instrumental kill lacks (predation pins {@self
+; returns and every appetitive / instrumental kill lacks (predation pins {@self
 ; fixation}, covet {?b wealth}, ambition {@self job.org}, passion {@self crave ..},
-; betrayal {@self emotion ..}, rid_of_spouse {@self detest ..}) - so those never
-; re-route. The window is pre-fight: once attempt_kill has minted the fight goal the
-; stalk has begun and the decision has passed ((no-goal {@self fight ?focus})).
+; betrayal {@self emotion ..}, rid_of_spouse {@self detest ..}). The window is
+; pre-fight: (no-goal {@self fight ?focus}) closes it once the stalk begins.
 ;
-; HONEST READS (per-mind, no telepathy). The C++ read every candidate's and the
-; focus's true prestige by ENTERING their mind. Here standing is @self's OWN belief
-; ({?x prestige}, absent -> readily dominated / not out-ranking), and the dislike
-; weight is the warmth band beliefs @self personally holds ({@self dislike/detest}) -
-; the reservoir sampler's substrate. Standing-about-others rarely propagates yet, so
-; the too-powerful arm and any weakness narrowing stay latent until it does (the
-; per-mind believed-standing refinement is deferred to the signals program); the
-; live trigger is the dead-focus grievance, and the pool is the known orbit - exactly
-; bonded_incident_insult's pool.
+; Per-mind reads, no telepathy: standing is @self's OWN belief ({?x prestige}, absent
+; -> readily dominated), and the dislike weight is the warmth band beliefs @self
+; personally holds ({@self dislike/detest}).
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
@@ -41,10 +28,9 @@
   (role @self )
 
   ; The substitute: any alive acquaintance, stance-weighted so the disliked land the
-  ; blow most. floor 0.10 = displaced rage can hit anyone known; a warmth band of
-  ; dislike adds one bonus rung, detest two (mirrors the C++ 0.10 + 0.30*(-warmth)).
-  ; The (select roulette) IS the reservoir sample. A role binds before (when), so an
-  ; actor with no acquaintance no-fires (matches the C++ empty-pool -> no displacement).
+  ; blow most. floor 0.10 lets displaced rage hit anyone known; a warmth band of
+  ; dislike adds one bonus rung, detest two. A role binds before (when), so an actor
+  ; with no acquaintance no-fires.
   (role ?sub (any_human ?sub)
              (personally-knows @self ?sub)
              (select (score (+ 0.10

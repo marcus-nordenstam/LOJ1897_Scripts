@@ -13,11 +13,9 @@
 ;                  OWN attraction band + boldness. Risk = the spouse in the
 ;                  next room, watching closer the more she already suspects;
 ;                  residue = hotel_register entries for all three.
-;   houseguest    (0.40) - silent hours at the actor's own home. Risk = the
-;                  household staff at the keyhole (dislike-scaled, the same
-;                  lever as letter interception; the Alice Yapp pattern) -
-;                  a witness tells the wronged principal; even an unseen
-;                  visitor is noticed.
+;   houseguest    (0.40) - silent hours at the actor's own home. Risk = a
+;                  co-present onlooker (pry_think) noticing the private visit and
+;                  warning the wronged spouse.
 ;   public crowd  (0.30) - co-presence at a public venue (theatre, else pub);
 ;                  an indiscretion plays out before whoever is ACTUALLY
 ;                  co-present this date (witness-copresence - the
@@ -26,11 +24,11 @@
 ; Every tryst runs the shared (tryst-tail ...) (affair_macros.hs): mutual
 ; attraction nudge, the consummation roll's punctual HAVE_SEX_WITH records,
 ; the optional hand-delivered tryst_note, the paramour-spouse absence tick.
-; Discovery stays evidence-mediated: every leak is a witnessed EPISODE
-; (witness-copresence act records); the witness's ongoing {cheater lover
-; paramour} bonds are ABDUCED from the episode (Docs/hsim/hsim_abduction.md).
-; The one explicit cross-mind mint left is the houseguest ally relay - a TOLD
-; gossip fact. Gossip + discover_affair carry it to the betrayed spouse.
+; Discovery is evidence-mediated: every leak is a witnessed EPISODE (witness-
+; copresence act records); the witness's ongoing {cheater lover paramour} bonds are
+; ABDUCED from the episode (Docs/hsim/hsim_abduction.md). A co-present onlooker who
+; grows suspicious (pry_think) warns the wronged spouse - a told fact carried by
+; gossip + discover_affair.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
@@ -66,8 +64,10 @@
         (register-occupant ?hotel ?spouse 0)
         (record-hotel-guest ?hotel @self)
         (record-hotel-guest ?hotel ?spouse)
-        ; lover_shadows: gated on the paramour's OWN attraction + boldness.
-        (if (and (>= (stance-band ?paramour @self attraction) 1)
+        ; lover_shadows: gated on @self's belief the paramour is drawn to @self + boldness.
+        (if (and (or (believes {?paramour fancy @self})
+                     (believes {?paramour desire @self})
+                     (believes {?paramour crave @self}))
                  (chance (+ 0.40 (* 0.60 (attr ?paramour assertiveness)))))
             (then
               (register-occupant ?hotel ?paramour 0)
@@ -88,34 +88,10 @@
       (weight (if (is-entity (home-of @self)) (then 0.40) (else 0)))
       (effects
         (bind (home-of @self) ?home)
+        ; The tryst puts @self and the paramour in the home; co-present onlookers
+        ; (pry_think) may notice the private visit and warn the wronged spouse.
         (register-occupant ?home @self 0)
         (register-occupant ?home ?paramour 0)
-        ; The staff are the keyhole; a staffless home keeps no watch.
-        (if (is-entity (prying-staff ?home))
-            (then
-              (bind (prying-staff ?home) ?witness)
-              (if (chance (min 0.5 (* 0.08
-                                    (+ 1 (* 1.5 (hostility-of ?witness @self)))
-                                    (+ 1 (suspicion-of ?witness @self)))))
-                (then
-                  ; (Keyhole lover-bond witnessing dropped with witness-copresence:
-                  ; `lover` is not an observable ACT, so the observability-gated
-                  ; auto-witness does not cover it. The gossip/told relay below
-                  ; still carries the affair to the wronged principal.)
-                  ; Word carried to the wronged principal: the actor's own
-                  ; spouse first, else the paramour's (the gossip relay - a
-                  ; TOLD fact, kept explicit).
-                  (if (is-married @self)
-                      (then (for-each-belief {@self spouse ?ally}
-                              (if (and (not (= ?ally @self)) (not (= ?ally ?paramour)))
-                                  (then (begin-belief ?ally {@self lover ?paramour})
-                                        (begin-belief ?ally {?paramour lover @self})))))
-                      (else (for-each-belief {?paramour spouse ?ally}
-                              (if (and (not (= ?ally @self)) (not (= ?ally ?paramour)))
-                                  (then (begin-belief ?ally {@self lover ?paramour})
-                                        (begin-belief ?ally {?paramour lover @self})))))))
-                ; Even unseen at the door, the visitor was noticed.
-                (else (bump-suspicion ?witness @self 0.08)))))
         (tryst-tail ?paramour ?home)
         (bump-suspicion (spouse-of @self) @self 0.05)))
 

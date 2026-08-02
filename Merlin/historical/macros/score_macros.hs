@@ -53,11 +53,6 @@
 (define-macro detests (?t)
   (<= (stance-band ?t warmth) -2))
 
-; ?holder's hostility MAGNITUDE toward ?t (the cross-holder sibling of
-; hostility-toward; 0 when their warmth is positive).
-(define-macro hostility-of (?holder ?t)
-  (if (< (stance-band ?holder ?t warmth) 0)
-      (then (- 0 (stance-band ?holder ?t warmth))) (else 0)))
 
 ; The pair's joint carelessness: low decorum on BOTH sides makes an
 ; indiscretion likely; one careful partner keeps the affair tight. Read from

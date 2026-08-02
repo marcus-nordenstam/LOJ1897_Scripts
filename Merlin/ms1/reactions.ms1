@@ -219,9 +219,8 @@
 ; who holds this warmth verb-state (any tense) toward a WRONGED party mobilises a
 ; pressure to act on their behalf. The scale is kin-mult x this-weight x justice-
 ; disposition. Declared strongest-warmth first: the first held verb wins, so an
-; NPC who once disliked but now adores the victim mobilises as an adorer. A
-; stranger (no verb held) down-weights to the C++ neutral default (0.30). These
-; replace the former hardcoded C++ warmth table in third_party_mobilisation_scale.
+; NPC who both dislikes and adores the victim (any tense) mobilises as an adorer. A
+; stranger (no verb held) down-weights to the neutral default (0.30).
 (mobilisation adore   1.00)
 (mobilisation like     0.70)
 (mobilisation dislike  0.12)
