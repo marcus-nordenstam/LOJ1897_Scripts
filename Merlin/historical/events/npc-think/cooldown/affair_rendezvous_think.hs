@@ -47,7 +47,7 @@
     (select (policy first-match)))
 
   ; Adult floor, live paramour, the concealment motive, the monthly rate.
-  (when (chance 0.35))
+  (when (and (chance 0.35) (debug-print "RENDEZ_FIRE @self para=?paramour")))
 
   (branches
     ; --- shared-hotel family excursion --------------------------------------
@@ -57,6 +57,7 @@
                        (not (believes {@self class_situation [k class_situation lower]})))
                   (then 0.30) (else 0)))
       (effects
+        (debug-print "RENDEZ_HOTEL @self para=?paramour")
         (bind (find-building [k commercial_building hotel]) ?hotel)
         (bind (spouse-of @self) ?spouse)
         ; The couple stays regardless; the register records them.
@@ -87,6 +88,7 @@
     (branch
       (weight (if (is-entity (home-of @self)) (then 0.40) (else 0)))
       (effects
+        (debug-print "RENDEZ_HOUSE @self para=?paramour")
         (bind (home-of @self) ?home)
         ; The tryst puts @self and the paramour in the home; co-present onlookers
         ; (pry_think) may notice the private visit and warn the wronged spouse.
@@ -104,6 +106,7 @@
         (bind (if (is-entity (find-building [k commercial_building theatre]))
                   (then (find-building [k commercial_building theatre]))
                   (else (find-building [k commercial_building pub]))) ?venue)
+        (debug-print "RENDEZ_PUBLIC @self para=?paramour")
         (register-occupant ?venue @self 1)
         (register-occupant ?venue ?paramour 1)
         ; An indiscretion plays out before whoever is ACTUALLY there this date

@@ -28,14 +28,12 @@
 
 (define-macro tryst-tail (?paramour ?location)
   (do
-    ; The meeting advances the affair on both sides.
+    ; The meeting advances the affair on both sides. The CONSUMMATION itself is no
+    ; longer a fiat write here - being co-present (register-occupant, above) lets the
+    ; durative HAVE_SEX_WITH act (affair_consummate.hs + consummate_action.hs) run and
+    ; hold the lovers together long enough to land, and to be caught.
     (nudge-stance @self ?paramour attraction 0.10)
     (nudge-stance ?paramour @self attraction 0.10)
-    ; Consummation: not every affair is sexual.
-    (if (chance 0.60)
-        (then
-          (begin-ended-belief {@self HAVE_SEX_WITH ?paramour})
-          (begin-ended-belief ?paramour {?paramour HAVE_SEX_WITH @self})))
     ; The hand-to-hand note naming the place (the aux is the 4th positional
     ; pattern field: {@self meet <paramour> <location>}).
     (if (and (chance 0.30) (is-entity (home-of ?paramour)))
