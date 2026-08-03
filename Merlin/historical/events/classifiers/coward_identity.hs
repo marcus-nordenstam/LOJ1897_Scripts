@@ -20,12 +20,12 @@
 (npc-think classify_coward_identity
   (rng-stream behaviour)
 
-  (role @self (believes {@self respectability_situation ?}))
+  (role @self (believes {@self repute ?}))
 
   (effects
     (mint-band {@self identity}
       (clamp (+ (* (< (attr @self assertiveness) (coward-assert-max))
                    (> (attr @self withdrawal)    (coward-withdraw-min)))
                 (* (> (inhibition) (coward-inhibition-min))
-                   (- 1 (believes {@self respectability_situation [k respectability_situation exemplary]})))) 0 1)
+                   (- 1 (believes {@self repute [k repute exemplary]})))) 0 1)
       [k role coward_role] 0.5)))

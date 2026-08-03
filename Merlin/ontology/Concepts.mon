@@ -810,7 +810,12 @@ concept
         comfortable
         prosperous
         wealthy
-    respectability_situation (sub human)  (tar @excl)
+    # repute - PUBLIC respectability, banded per (observer, subject) by repute.hs
+    # from the conduct bands + devoutness + decorum + chastity the observer holds
+    # of the subject. Per-observer and non-telepathic: self reads complete inputs
+    # (so self-repute IS the truth), a tracked other reads only what leaked, a
+    # stranger reads middling. One belief, one classifier - no separate truth label.
+    repute                   (sub human)  (tar @excl)
         exemplary
         respectable
         questionable

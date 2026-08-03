@@ -35,7 +35,7 @@
 
 ; self_made_man: rising trajectory + arrived class + low breeding + reputable.
 (npc-think classify_self_made_man
-  ; Toggle over the situation bands + respectability_situation (a Tier-2 sibling this reads);
+  ; Toggle over the situation bands + repute (a Tier-2 sibling this reads);
   ; breeding is birth-seeded (inert). It drops when any input band toggles off.
   (rng-stream behaviour)
   (role @self (believes {@self class_situation ?, breeding ?breeding}))
@@ -45,8 +45,8 @@
          (clamp (+ (believes {@self class_situation [k class_situation middle]})
                    (believes {@self class_situation [k class_situation upper]})) 0 1)
          (<= ?breeding 0.40)
-         (clamp (+ (believes {@self respectability_situation [k respectability_situation exemplary]})
-                   (believes {@self respectability_situation [k respectability_situation respectable]})) 0 1))
+         (clamp (+ (believes {@self repute [k repute exemplary]})
+                   (believes {@self repute [k repute respectable]})) 0 1))
       [k prototype self_made_man] 0.5)))
 
 ; deserving_poor: poor/destitute + reputable.
@@ -57,8 +57,8 @@
     (mint-band {@self prototype}
       (* (clamp (+ (believes {@self economic_situation [k economic_situation poor]})
                    (believes {@self economic_situation [k economic_situation destitute]})) 0 1)
-         (clamp (+ (believes {@self respectability_situation [k respectability_situation exemplary]})
-                   (believes {@self respectability_situation [k respectability_situation respectable]})) 0 1))
+         (clamp (+ (believes {@self repute [k repute exemplary]})
+                   (believes {@self repute [k repute respectable]})) 0 1))
       [k prototype deserving_poor] 0.5)))
 
 ; undeserving_poor: poor/destitute + disreputable.
@@ -69,6 +69,6 @@
     (mint-band {@self prototype}
       (* (clamp (+ (believes {@self economic_situation [k economic_situation poor]})
                    (believes {@self economic_situation [k economic_situation destitute]})) 0 1)
-         (clamp (+ (believes {@self respectability_situation [k respectability_situation disreputable]})
-                   (believes {@self respectability_situation [k respectability_situation scandalous]})) 0 1))
+         (clamp (+ (believes {@self repute [k repute disreputable]})
+                   (believes {@self repute [k repute scandalous]})) 0 1))
       [k prototype undeserving_poor] 0.5)))

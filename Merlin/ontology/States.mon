@@ -611,17 +611,6 @@ relation
             # autonomy_loss pressure when a child strikes out on their own.
             family_alignment    (tar ? @excl) (range 0 1)
 
-        # repute - the PUBLIC respectability: a per-observer fuse of the conduct
-        # bands + devoutness + decorum + chastity the observer holds of the subject
-        # (repute.hs / dimensions.hs). What a given parish member CAN know, vs
-        # respectability_situation = what is true; the gap is the blackmail stake
-        # (see Docs/hsim/hsim_social.md "Reputation"). Each mind holds its own
-        # {X repute} beliefs (self via mint-band, others via mint-band-about).
-        # Consumed by every observer-facing filter (marriage market, employment,
-        # clubs, patronage, ostracism) and the family-taint pass; self-appraisal
-        # keeps reading respectability_situation.
-        repute                  (sub human)           (tar respectability_situation @excl)
-
         # starving - the physiology-to-belief seam marker. Minted/ended by the
         # meals starving_watch pair at the hunger threshold crossing, so the
         # starvation-tail lanes gate on a CACHED self-belief instead of

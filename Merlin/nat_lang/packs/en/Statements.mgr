@@ -918,11 +918,11 @@ $form(FORM)
 " $sub_np(NP) served as a $kind(KIND|/isa|military_rank) "
 { $sub_np(NP) /past served $kind(KIND|/isa|military_rank) } .
 
-# --- REPUTE (respectability_situation; distinct surface from class/isa) ------
-" $sub_np(NP) ++'s reputation is $kind(KIND|/isa|respectability_situation) "
-{ $sub_np(NP) /ever repute $kind(KIND|/isa|respectability_situation) } .
-" $sub_np(NP) $verb(VERB|be) considered $kind(KIND|/isa|respectability_situation) "
-{ $sub_np(NP) /ever repute $kind(KIND|/isa|respectability_situation) }
+# --- REPUTE (repute band; distinct surface from class/isa) -------------------
+" $sub_np(NP) ++'s reputation is $kind(KIND|/isa|repute) "
+{ $sub_np(NP) /ever repute $kind(KIND|/isa|repute) } .
+" $sub_np(NP) $verb(VERB|be) considered $kind(KIND|/isa|repute) "
+{ $sub_np(NP) /ever repute $kind(KIND|/isa|repute) }
 :: elaborated
 .
 
