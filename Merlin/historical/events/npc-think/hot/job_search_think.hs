@@ -33,7 +33,8 @@
              (<= (years-old @self) 55)
              (not (= (situation @self repute) [k scandalous]))
              (latch-eval (chance 0.3))))
-  (effects       (begin-goal {@self employed}))
+  (effects       (debug-print "TRACE-WANTWORK begin-employed-goal")
+                 (begin-goal {@self employed}))
   ; The minter owns the end: once employed the jobless gate falls and the goal ends.
   (cease-effects (end-goal {@self employed})))
 
@@ -50,7 +51,8 @@
   (when (and (bind (find-building [k building church]) ?board)
              (not (in-building ?board))))
   (utility 71)
-  (effects (maintain-proposal {@self enter ?board})))
+  (effects (debug-print "TRACE-BOARDVISIT board=?board")
+           (maintain-proposal {@self enter ?board})))
 
 ; --- rung: read every unread advert at the board -------------------------------
 (npc-think seek_read_advert
@@ -108,7 +110,8 @@
              (believes {?ad advert_workplace ?wp})
              (not (in-building ?wp))))
   (utility 74)
-  (effects (maintain-proposal {@self enter ?wp})))
+  (effects (debug-print "TRACE-APPLYGO wp=?wp ad=?ad")
+           (maintain-proposal {@self enter ?wp})))
 
 ; SAY the application to whoever is at the counter - the speech sound reaches
 ; every co-present ear, so the recruiter hears it when on shift. The utterance
@@ -126,7 +129,8 @@
   (utility 75)
   ; `signed`: the applicant STATES THEIR NAME - a stranger recruiter must be able
   ; to write the applicant into his book and address the decision letter.
-  (effects (maintain-proposal
+  (effects (debug-print "TRACE-APPLYSPEAK to=?p jk=?jk wp=?wp")
+           (maintain-proposal
              {@self say_to (utterable-msg (to ?p)
                              {@self apply_for ?jk}
                              (every-ongoing-belief {@self skilled_in ?})
@@ -142,6 +146,7 @@
   (when (and (believes {?ad advert_job ?jk})
              (believes {@self apply_for ?jk})))
   (effects
+    (debug-print "TRACE-APPLYDONE ad=?ad jk=?jk")
     (begin-belief {@self applied ?ad})
     (end-belief {@self apply_for ?jk})))
 
@@ -155,7 +160,8 @@
             (select (policy first-match)))
   (when (= ?adjk ?jk))
   (utility 76)
-  (effects (maintain-proposal {@self take_up_post ?ad})))
+  (effects (debug-print "TRACE-OFFERPICKUP jk=?jk ad=?ad")
+           (maintain-proposal {@self take_up_post ?ad})))
 
 (npc-think tup_go
   (role @self (believes {@self take_up_post ?ad}))

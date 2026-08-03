@@ -31,7 +31,7 @@
   (when (and (not (at-home))
              (> (attr @self sleepiness) 0.7)))
   (utility (homeostatic sleepiness 2.0 90))
-  (effects       (bind (target {@self home ?}) ?go_dest) (maintain-proposal {@self enter ?go_dest})))
+  (effects       (bind (target {@self home ?}) ?go_dest) (debug-print "TRACE-SEEKREST home=?go_dest") (maintain-proposal {@self enter ?go_dest})))
 
 ; at home and at all tired (or it is night): sleep until the morning alarm. The
 ; sleep act records a {@self sleep} memory ((does sleep)); its completion resets
@@ -67,4 +67,4 @@
 (npc-think idle_go_home
   (when (not (at-home)))
   (utility 1)
-  (effects       (bind (target {@self home ?}) ?go_dest) (maintain-proposal {@self enter ?go_dest})))
+  (effects       (bind (target {@self home ?}) ?go_dest) (debug-print "TRACE-IDLEHOME home=?go_dest") (maintain-proposal {@self enter ?go_dest})))

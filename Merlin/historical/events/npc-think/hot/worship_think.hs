@@ -40,7 +40,8 @@
   (role @self (grown @self))
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
   (when    (not (in-building ?church)))
-  (effects (maintain-proposal {@self enter ?church})))
+  (effects (debug-print "TRACE-WORSHIPGO church=?church")
+           (maintain-proposal {@self enter ?church})))
 
 ; CASE C - not at a church and knows none: search for one (find_building.hs runs it).
 (npc-think worship_find

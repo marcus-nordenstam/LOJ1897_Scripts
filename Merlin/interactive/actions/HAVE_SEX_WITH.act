@@ -4,6 +4,7 @@ transmission = obs
 sub = human
 tar = human
 nature = intimacy_act
+abduct = true
 
 preroll = 0.0
 in      = 0.5

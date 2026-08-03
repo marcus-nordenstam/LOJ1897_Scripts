@@ -416,7 +416,7 @@ relation
             # so the act-label is cry_out.)
             cry_out             (motor mouth)                   (tar ?)
             seduce              (motor mouth legs body)         (tar human)              (construed_act intimacy_act)  (facets blackmailable)
-            assault             (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
+            assault             (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (obs)  (abduct)
             # fight - the EMERGENT-COMBAT goal (the unified think/act model): a melee
             # killer's standing {actor goal {actor fight victim}}, minted by the
             # perpetration melee branch in place of committing the kill. The fight
@@ -460,14 +460,14 @@ relation
             embezzle                                            (tar human|org)          (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)  (facets reportable_crime blackmailable)
             # disinherit - testamentary act; effect ends the target's
             # heir_of belief. The dropped heir feels abandonment.
-            disinherit          (motor eyes right_hand)         (tar human)              (construed_act abandonment_act wrong_act)
+            disinherit          (motor eyes right_hand)         (tar human)              (construed_act abandonment_act wrong_act)  (abduct)
             # jilt - the chosen ending of a lover bond (the jilter breaks
             # with the jilted, typically for a class-suitable betrothal).
             # Patient cascade: abandonment_act -> grief + attachment_loss +
             # status_loss; wrong_act -> anger + humiliation + injustice -
             # the obsessive-ex pressure stack the coerce deliberation
             # affinity reads.
-            jilt                (motor mouth)                   (tar human)              (construed_act abandonment_act wrong_act)
+            jilt                (motor mouth)                   (tar human)              (construed_act abandonment_act wrong_act)  (abduct)
             # silence_witness - composite task. Implementations may
             # bubble down through kill / bribe / coerce chains depending
             # on substrate; the anchor records the composite plan that
@@ -595,7 +595,7 @@ relation
             # group.
             # ----------------------------------------------------------------------------------
             speech_act
-                insult              (motor mouth)                   (tar human)              (construed_act slight_act)  (theme rude_to)
+                insult              (motor mouth)                   (tar human)              (construed_act slight_act)  (theme rude_to)  (abduct)
                 confront_privately  (motor legs mouth)              (tar human)
                 confront_publicly   (motor mouth)                   (tar human)              (construed_act expose_act)
                 threaten_violence   (motor mouth)                   (tar human)  (aux ?)     (construed_act coercion_act threaten_act wrong_act)
