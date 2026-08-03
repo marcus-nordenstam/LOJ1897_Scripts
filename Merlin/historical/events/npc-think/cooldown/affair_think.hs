@@ -1,28 +1,26 @@
 ; ----------------------------------------------------------------------------
-; affair (npc-think) - the betrayal-starvation lever.
+; affair (npc-think) - CHARACTER-driven infidelity (the serial-cheater pathway).
 ;
-; The piece the betrayal-homicide path was missing. run_generative_obsession
-; (crime_of_passion.hs) detects a jealous spouse whose own spouse holds a
-; THIRD-PARTY `lover`, and routes blame -> kill. But nothing else gives a MARRIED
-; person a third-party lover (crush_forms gates out the attached; lovers pairs
-; only the unmarried; the seduce rebound fires off a LOST bond). So this event
-; supplies the missing genesis: a married NPC with an infidelity-prone
-; disposition takes up with a known third party. The affair is the
-; betrayal-detector's input - it is NOT itself a crime.
+; A married NPC takes up with a known third party. The straying is a DISPOSITION,
+; not a response to an unhappy marriage: narcissistic supply-hunger + psychopathic
+; thrill / low empathy + volatile impulsivity (infidelity-disposition), released by
+; callousness (the empathy brake off). Satisfaction-INDEPENDENT - no read of the
+; marriage - so a "chaos is baseline" cheater strays whatever their home life, and
+; the low-empathy brake makes them a SERIAL offender. The covert secrecy is the
+; draw, not a deterrent.
+;
+; The affair is the betrayal-detector's INPUT, not itself a crime:
+; run_generative_obsession (crime_of_passion.hs) reads a jealous spouse whose partner
+; holds a third-party `lover` and routes blame -> kill; it is also the surveillance /
+; discovery surface (pry_think, affair_rendezvous).
 ;
 ; A mental change (a reciprocal lover bond), so npc-think. RELATIONAL: gated on
 ; marriage + personally-knows, no physical co-presence - the paramour is a known
-; third party (a colleague, the boss, a fellow club-goer), bound by the social
-; tie, not whoever shares a room. Fired by the per-NPC emergent pass MONTHLY, so
-; the actor (chance) is /12 (0.5 -> 0.04) to hold the annual trickle. A trickle
-; is enough: crime_of_passion re-checks the standing affair MONTHLY, so a small
-; stock of unfaithful spouses is read for years until a jealous partner snaps.
-;
-; The straying spouse (?actor) gates on a marriage AND a propensity product
-; (openness x enthusiasm x impropriety = decorum inverted). The paramour (?lover)
-; is a known, age-appropriate, opposite-sex non-relative who is NOT the actor's
-; own spouse. `lover` is an inclusive_bond, so minting it on a married person is
-; well-formed (no @excl collision, no exclusive-bond betray cascade).
+; third party (a colleague, the boss, a fellow club-goer), bound by the social tie.
+; Per-NPC emergent MONTHLY. The paramour (?lover) is a known, age-appropriate,
+; opposite-sex non-relative who is NOT the actor's own spouse. `lover` is an
+; inclusive_bond, so minting it on a married person is well-formed (no @excl
+; collision, no exclusive-bond betray cascade).
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
@@ -54,17 +52,16 @@
                (not (believes {?lover gender (target {@self gender})}))
                (not (blood-kin @self ?lover)))
 
-  ;; Moved here from the @self role (non-belief filter): the disposition-to-stray
-  ;; chance - openness x enthusiasm x impropriety (decorum INVERTED; an un-derived
-  ;; decorum reads 0, so the not-yet-appraised stray freely). The 0.04 is /12 of the
-  ;; annual 0.5, rolled once per NPC per month.
+  ;; The disposition-to-stray, rolled once per NPC per month: the character tail
+  ;; (infidelity-disposition) released by callousness (the empathy brake off),
+  ;; scaled by the master antisocial throttle. NO marital / decorum read - a serial
+  ;; cheater strays from character, not deficit.
   ; No @self-lover re-check: the engine re-consults the cached self-gate PER
   ; CANDIDATE fire (write-reconciled), so the first paramour minted this tick
   ; empties the gate and stops the rest - one new affair per spouse per tick.
-  (when (chance (* (crime-scale) 0.04
-                   (attr @self openness)
-                   (attr @self enthusiasm)
-                   (- 1 (target {@self decorum})))))
+  (when (chance (* (crime-scale) 0.2
+                   (infidelity-disposition @self)
+                   (callousness @self))))
 
   (effects
     ; Reciprocal lover bond + mutual profile sync (mirrors lovers.hs's shape so

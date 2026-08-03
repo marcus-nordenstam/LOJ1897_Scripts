@@ -17,6 +17,10 @@
 (define-macro mean2 (?a ?b)
   (* 0.5 (+ ?a ?b)))
 
+; Mean of three scores.
+(define-macro mean3 (?a ?b ?c)
+  (* 0.3333 (+ ?a (+ ?b ?c))))
+
 ; Mean of two env trait attrs of ?who.
 (define-macro trait-mean (?who ?trait_a ?trait_b)
   (mean2 (attr ?who ?trait_a) (attr ?who ?trait_b)))
@@ -72,6 +76,15 @@
 (define-macro rage-disposition (?who)        (trait-mean ?who volatility psychopathy))
 (define-macro ambitious-disposition (?who)   (trait-mean ?who machiavellianism narcissism))
 (define-macro acquisitive-disposition (?who) (trait-mean ?who machiavellianism psychopathy))
+
+; The CHARACTER-cheater's straying tail (affair.hs Pathway B): narcissistic
+; supply-hunger + psychopathic thrill / low empathy + volatile impulsivity. A pure
+; per-NPC personality read (dark tetrad via env attr, never self-mirrored) - no
+; family, marital or decorum term - so a "chaos is baseline" serial cheater strays
+; whatever their home life. Paired with (callousness ...) as the empathy-brake-off
+; release, NOT (disinhibition), whose inhibition input folds in the family decorum.
+(define-macro infidelity-disposition (?who)
+  (mean3 (attr ?who narcissism) (attr ?who psychopathy) (attr ?who volatility)))
 
 ; --- Layer 2: the propensity product -----------------------------------------
 
