@@ -17,25 +17,26 @@
 ; repute reads BANDED conduct beliefs {X <dim> <conduct_level>} + {X devoutness},
 ; the {X decorum} float, and per-observer chastity - all keyed on ?who, so ONE fold
 ; serves self-repute (?who = @self) and other-repute (?who = a tracked person). An
-; absent band reads `fair` (unknown -> benefit of the doubt), so reputation sharpens
-; only with evidence and an unknown other reads middling, never scandalous.
+; absent band reads `fair` (unknown -> benefit of the doubt, 0.65), so an unknown
+; other reads RESPECTABLE and only accumulated negative evidence drags them down;
+; reputation sharpens only with evidence.
 
-; conduct-scalar - a conduct_level band -> 0..1 (good 0.85, lax 0.25, fair/absent 0.5).
+; conduct-scalar - a conduct_level band -> 0..1 (good 0.85, lax 0.25, fair/absent 0.65).
 (define-macro conduct-scalar (?who ?dim)
   (if (believes {?who ?dim [k conduct_level good]}) (then 0.85)
   (else (if (believes {?who ?dim [k conduct_level lax]})  (then 0.25)
-      (else 0.5)))))
+      (else 0.65)))))
 
-; devoutness-scalar - the piety_band -> 0..1 (devout 0.85, secular 0.25, else 0.5).
+; devoutness-scalar - the piety_band -> 0..1 (devout 0.85, secular 0.25, else 0.65).
 (define-macro devoutness-scalar (?who)
   (if (believes {?who devoutness [k piety_band devout]})  (then 0.85)
   (else (if (believes {?who devoutness [k piety_band secular]}) (then 0.25)
-      (else 0.5)))))
+      (else 0.65)))))
 
 ; decorum-scalar - the decorum float (@self's own C++-derived value, or a tracked
-; other's mirrored value), reading 0.5 when unknown.
+; other's mirrored value), reading 0.65 when unknown.
 (define-macro decorum-scalar (?who)
-  (if (believes {?who decorum ?}) (then (target {?who decorum})) (else 0.5)))
+  (if (believes {?who decorum ?}) (then (target {?who decorum})) (else 0.65)))
 
 ; chastity-scalar - 0.85 minus a rung per extra-marital liaison THIS mind knows of
 ; ?who (uniform: @self's own affairs for @self, the observer's knowledge for others).
