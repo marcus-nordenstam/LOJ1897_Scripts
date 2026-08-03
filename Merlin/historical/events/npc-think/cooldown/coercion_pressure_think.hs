@@ -14,20 +14,21 @@
 ; belief and mints only in his OWN mind. When the coercer gives up, the anchor
 ; stops refreshing and decays out - the role stops binding, the dread fades.
 ;
-; The (when (chance ...)) is the RE-ARM: a permanent-role cooldown event needs a
-; (when) that FALLS to cease the bout and re-arm the monthly cooldown (this branch
-; predates (cease-after-fire)); most months the dread re-surfaces and compounds.
+; (cease-after-fire) makes it a clean monthly PULSE: (adult @self) never falls, so
+; the bout would otherwise hold after the first fire and never re-mint; ceasing on
+; fire lets the 1-month cooldown re-arm it, so the exposure_risk pressure compounds
+; every month the extort anchor still stands.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
 
 (npc-think coercion_pressure
   (cooldown 1 m)
+  (cease-after-fire)
   (rng-stream perpetration)
   (role @self (adult @self))
   (role ?blackmailer (any_human ?blackmailer)
                      (believes {?blackmailer extort @self}))
-  (when (chance 0.5))
   (effects
     (begin-belief {@self pressure [k exposure_risk] ?blackmailer}
                   /cause {?blackmailer extort @self}
