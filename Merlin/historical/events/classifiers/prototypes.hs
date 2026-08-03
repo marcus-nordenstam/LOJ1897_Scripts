@@ -94,3 +94,48 @@
                    (attr @self volatility)) 3)
              0.50))
       [k prototype go_between] 0.5)))
+
+; for_hire (migrated from hsim_derive.cc is_for_hire): CAPABILITY (a lethal skill
+; OR raw brute strength) AND REASON (economic desperation OR a callous, disinhibited
+; bad-seed). Split into a skilled path (role binds a martial / garrotting skill) and
+; a MUTUALLY-EXCLUSIVE brute path (role excludes such a skill), so the two never
+; clobber the shared for_hire toggle and a skill-loss hands the subject cleanly to
+; the brute path. derive_prototypes reads the band for the contract-killing pool.
+; "disinhibition" is the externalizing fold, as in classify_go_between.
+
+; skilled path: a martial or garrotting skill IS the capability; mint on reason.
+(npc-think classify_for_hire_skilled
+  (rng-stream behaviour)
+  (role @self (believes {@self economic_situation ?})
+              (or (believes {@self skilled_in [k martial]})
+                  (believes {@self skilled_in [k garrotting]})))
+  (effects
+    (mint-band {@self prototype}
+      ; REASON: economic desperation OR the callous + disinhibited bad seed.
+      (clamp (+ (clamp (+ (believes {@self economic_situation [k economic_situation poor]})
+                          (believes {@self economic_situation [k economic_situation destitute]})) 0 1)
+                (* (<= (attr @self compassion) 0.40)
+                   (>= (/ (+ (- 1 (attr @self industriousness))
+                             (- 1 (attr @self politeness))
+                             (attr @self volatility)) 3)
+                       0.55))) 0 1)
+      [k prototype for_hire] 0.5)))
+
+; brute path: the lower-class strong man with NO lethal skill (footpad / cosh thug).
+(npc-think classify_for_hire_brute
+  (rng-stream behaviour)
+  (role @self (believes {@self economic_situation ?, class_situation ?})
+              (not (believes {@self skilled_in [k martial]}))
+              (not (believes {@self skilled_in [k garrotting]})))
+  (effects
+    (mint-band {@self prototype}
+      (* (>= (attr @self strength) 0.65)
+         (believes {@self class_situation [k class_situation lower]})
+         (clamp (+ (clamp (+ (believes {@self economic_situation [k economic_situation poor]})
+                             (believes {@self economic_situation [k economic_situation destitute]})) 0 1)
+                   (* (<= (attr @self compassion) 0.40)
+                      (>= (/ (+ (- 1 (attr @self industriousness))
+                                (- 1 (attr @self politeness))
+                                (attr @self volatility)) 3)
+                          0.55))) 0 1))
+      [k prototype for_hire] 0.5)))
