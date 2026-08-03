@@ -453,7 +453,7 @@ relation
             # outdo: actor positionally outcompetes patient (won a post
             # the patient applied for; outbid them at auction; married
             # the partner they courted).
-            outdo               (tar human)  (aux ?)  (construed_act rivalrous_act)
+            outdo               (tar human)  (aux ?)  (construed_act rivalrous_act)  (abduct)
 
         # Loss-outcome records. NOT tasks - act-RECORDS minted by the
         # absence-discovery classifier (the hse arrival sweep) when an
