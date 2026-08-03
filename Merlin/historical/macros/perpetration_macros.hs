@@ -54,8 +54,9 @@
 ; <method> <victim>} (the method is the leaf recorded), the pressure discharged, the
 ; goal ended, the ACTOR-side standing {@self extort <victim>} anchor established (the
 ; existing coercion refresh press-coercion re-presses + composes the demand note off
-; it), the TARGET-side threat delivered (deliver-coercion-threat mints the victim's
-; threat record + {actor extort @self} + exposure_risk pressure), and the ledger row.
+; it), and the TARGET-side threat LANDED in the victim's mind (the {@self extort
+; <victim>} anchor + the punctual threat act-record - his own coercion_pressure event
+; then mints the exposure_risk pressure off the anchor), and the ledger row.
 ; TWO methods share this terminal: blackmail needs LEVERAGE (a known liaison / a
 ; blackmailable act) - threaten_violence needs none, so a material-less coercer threatens.
 ; DEFERRED: the jilted-lover demand clause on the actor-side extort /aux (press-coercion
@@ -66,7 +67,11 @@
     (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self coerce})
     (if (not (believes {@self extort ?victim})) (then (begin-belief {@self extort ?victim})))
-    (deliver-coercion-threat ?victim blackmail)
+    ; Land the threat in the victim's mind (his act, perceived): the standing extort
+    ; anchor + the punctual threat act-record. The victim's OWN coercion_pressure event
+    ; mints the exposure_risk pressure off that anchor - no C++ generator.
+    (begin-belief ?victim {@self extort ?victim})
+    (begin-ended-belief ?victim {@self blackmail ?victim})
     (crime-ledger-append @self ?victim blackmail coerce @fail @fail)))
 
 (define-macro coerce-threaten (?victim ?goal)
@@ -75,7 +80,8 @@
     (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self coerce})
     (if (not (believes {@self extort ?victim})) (then (begin-belief {@self extort ?victim})))
-    (deliver-coercion-threat ?victim threaten_violence)
+    (begin-belief ?victim {@self extort ?victim})
+    (begin-ended-belief ?victim {@self threaten_violence ?victim})
     (crime-ledger-append @self ?victim threaten_violence coerce @fail @fail)))
 
 (define-macro terminal-silence-coerce (?victim ?goal)

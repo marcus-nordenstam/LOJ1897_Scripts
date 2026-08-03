@@ -23,8 +23,21 @@
   (if (>= (count-beliefs-about ?victim lover) 1)
       (then (end-belief @self extort ?victim))
       (else
-        (deliver-coercion-threat ?victim)
+        ; Refresh the standing extort anchor in the victim's mind (his renewed demand,
+        ; perceived); the victim's coercion_pressure event compounds the pressure off
+        ; it. No act-record on a mere refresh - the anchor carries the demand.
+        (begin-belief ?victim {@self extort ?victim})
         (if (chance 0.5)
             (then (send-covert-letter ?victim
                                  (written-msg {@self coerce ?victim {?victim lover @self}})
                                  [k blackmail_note]))))))
+
+; (coercion-stake): the exposure_risk pressure delta a victim mints per month, as
+; HE reckons it - the base window scaled by what publication would cost HIS OWN
+; standing (class, self-known). begin-belief /salience compounds it across months,
+; walking him from bribe / confess toward the kill tail (deliberation_affinity).
+(define-macro coercion-stake ()
+  (* 1440
+     (if (is-a (target {@self class_situation}) [k class_situation upper]) (then 1.5)
+       (else (if (is-a (target {@self class_situation}) [k class_situation middle]) (then 1.2)
+                (else 1.0))))))
