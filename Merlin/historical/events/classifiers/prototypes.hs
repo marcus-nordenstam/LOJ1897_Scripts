@@ -72,3 +72,25 @@
          (clamp (+ (believes {@self repute [k repute disreputable]})
                    (believes {@self repute [k repute scandalous]})) 0 1))
       [k prototype undeserving_poor] 0.5)))
+
+; go_between (the underworld fixer) - migrated from hsim_derive.cc is_go_between.
+; NOT-reputable (neither exemplary nor respectable) + lower/middle class + the
+; externalizing temperament to broker violence (the corrupt publican / fence /
+; flash sporting-man). derive_prototypes READS this band to feed the C++
+; contract-killing fixer pool. NB "disinhibition" here is the externalizing trait
+; fold (low industriousness + low politeness + high volatility), the quantity the
+; C++ used - NOT the (disinhibition) = 1 - inhibition macro.
+(npc-think classify_go_between
+  (rng-stream behaviour)
+  (role @self (believes {@self repute ?, class_situation ?}))
+  (effects
+    (mint-band {@self prototype}
+      (* (* (- 1 (believes {@self repute [k repute exemplary]}))
+            (- 1 (believes {@self repute [k repute respectable]})))
+         (clamp (+ (believes {@self class_situation [k class_situation lower]})
+                   (believes {@self class_situation [k class_situation middle]})) 0 1)
+         (>= (/ (+ (- 1 (attr @self industriousness))
+                   (- 1 (attr @self politeness))
+                   (attr @self volatility)) 3)
+             0.50))
+      [k prototype go_between] 0.5)))
