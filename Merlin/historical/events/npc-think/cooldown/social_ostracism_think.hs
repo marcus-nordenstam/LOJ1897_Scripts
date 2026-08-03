@@ -1,37 +1,39 @@
 ; ----------------------------------------------------------------------------
-; social_ostracism (Phase 9.3). An NPC whose respectability_situation has
-; fallen to `scandalous` is cut off: every warmth bond (friend / close_to) is
-; ended bidirectionally and every club membership is resigned. relied_on_by /
-; respected_by survive (utility bonds outlast the social door closing - a man
-; widely consulted in business is still consulted while shunned at parties),
-; employer / family bonds survive (ostracism is social, not vocational or
-; filial). The Victorian "social death" - distinct from a clean rupture.
+; social_ostracism (per-observer). The Victorian "social death", modelled the
+; way it actually happens: each townsman severs his OWN warmth ties to a person
+; HE has come to repute `scandalous`. There is no self-repute-driven mass
+; severing and no cross-mind read - a scandalous man loses a given friend only
+; if and when that friend's OWN repute of him falls to scandalous (through
+; witnessed acts, gossip, or reading). The bond is structural and mutual, so
+; dropping it ends both sides, exactly as befriend mints both (cf.
+; friendship_fraying, which severs on sustained detest the same way).
 ;
-; The verb itself is unconditional; the event gates on the situation. Idempotent:
-; an already-ostracised NPC has no warmth bonds left and the verb is a no-op
-; after the first firing. A held-friend gate would short-circuit subsequent
-; passes but adds engine work to test - the no-op cost is bounded by the
-; small per-NPC bond count, so we skip the gate.
+; Warmth bonds only (friend / close_to). relied_on_by / respected_by (utility),
+; job and family bonds are untouched - ostracism is social, not vocational or
+; filial.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
 
 (npc-think social_ostracism
-  ; Per-NPC, MONTHLY. social-ostracism is idempotent (re-ending
-  ; already-ended warmth bonds / club memberships is a no-op); the (chance 0.0833)
-  ; ~= an annual cadence so a scandalous NPC is ostracised ~once a year (and
-  ; re-ostracised if they form new warmth ties). The scandal gate reads the
-  ; {@self repute <band>} self-belief the derive pass maintains alongside the
-  ; situation op (hsim_derive mints it each window) - a CACHED self-gate filter,
-  ; so the non-scandalous town empty-set-skips. chance stays in (when).
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self (old_human @self)
-              (believes {@self repute [k scandalous]}))
+  ; SELF-POV: @self shuns a warmth-tie he reputes scandalous. ?b is a current
+  ; friend / close_to whom @self's OWN repute belief bands scandalous - his belief
+  ; about ?b, never a read of ?b's mind.
+  (role @self (adult-age @self))
+  (role ?b (any_human ?b)
+           (believes {?b repute [k scandalous]})
+           (or (believes {@self friend ?b})
+               (believes {@self close_to ?b})))
 
+  ; ~annual cadence per soured tie; a non-belief gate, so it lives in (when).
   (when (chance 0.0833))
 
   (effects
-    (social-ostracism @self)
+    (end-belief @self friend ?b)
+    (end-belief ?b friend @self)
+    (end-belief @self close_to ?b)
+    (end-belief ?b close_to @self)
     ))
