@@ -55,8 +55,12 @@
 
 ; The monthly appointment review (npc-think): expire past appointments + emit
 ; an attend goal for any occasion currently due. Runs for every grown NPC.
+; (cease-after-fire) makes it a clean monthly PULSE: (grown @self) never falls, so
+; without it the bout would hold after the first fire and the scan would never run
+; again; ceasing on fire lets the 1-month cooldown re-arm it every month.
 (npc-think review_appointments
   (cooldown 1 m)
+  (cease-after-fire)
   (role @self (grown @self))
   (effects
     (review-appointments @self attend)))
