@@ -229,23 +229,6 @@
   ; population, not single repro runs.)
   /weight         1.5)
 
-; ---- Fixation axes (serial_predation generalized victim-type) --------------
-; The trait axes a serial predator can fixate on. A predator's profile is
-; seeded by copying 1-2 of these axes' values off a random "type prototype"
-; person; the victim scan then HARD-filters candidates to those matching the
-; full profile. Each axis is read generically (attr / derived belief / job
-; kind), so adding an axis here needs no C++ - only that the trait exists on
-; humans. Order is irrelevant; the seeder samples uniformly.
-(fixation-axis gender)
-(fixation-axis height)
-(fixation-axis girth)
-(fixation-axis appearance)
-(fixation-axis hair_color)
-(fixation-axis eye_color)
-(fixation-axis nationality)
-(fixation-axis class_situation)
-(fixation-axis job)
-
 ; ---- Skill-affinity map (serial_predation 4c / 4f(i)) ----------------------
 ; An actor skilled_in <domain> picks the mapped methods more readily
 ; (x k_skill_affinity_mult at the weight site), and committing a mapped

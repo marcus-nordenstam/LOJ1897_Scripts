@@ -1,75 +1,99 @@
 ; ----------------------------------------------------------------------------
 ; predation.hs - appetitive homicide genesis (serial_predation).
 ;
-; The first APPETITIVE generative kill motive: the reward is the killing
-; itself (sadism / power), not inheritance, passion, a seat, or silencing a
-; witness. Victims are chosen for SOCIAL INVISIBILITY - low prestige,
-; destitute / disreputable, small social circle - and the scan is the whole
-; population, NOT the actor's orbit (predators hunt outside it).
+; The first APPETITIVE generative kill motive: the reward is the killing itself
+; (sadism / power), not inheritance, passion, a seat, or silencing a witness.
+; Victims are chosen for a stable victim-TYPE (the predator's fixation) AND for
+; SOCIAL INVISIBILITY (low class, stained repute = few defenders = mechanically
+; safer). PURE .hs: no C++ generator, no C++ fixation op - the whole scan is
+; role-casting over the predator's own acquaintance beliefs + belief-matching.
 ;
-; PURE .hs (no C++ generator). Sibling of covet_inheritance.hs / ambition.hs.
-; The selection that the old (generative-predation) flag dispatched to
-; run_generative_predation is expressed here with the engine's scored
-; select-one primitive, exposed as the (predation-target @self) verb:
-;   - (when ...) is the disposition pre-gate (the HARD trait tail: only the
-;     top lethal-disposition tail - mean(psychopathy, sadism) >= 0.65 - EVER
-;     qualifies, stable per-NPC, so seriality emerges from re-passing it month
-;     after month) + the adult floor + the rate (0.005 * disinhibition-scaled
-;     propensity, DOUBLED for {@self life_aim power_aim} holders);
-;   - (predation-target @self) seeds the per-predator victim-type PROFILE once
-;     on the first hunt (repeated {@self fixation <trait-value>} beliefs, 1-2
-;     trait axes copied off a random living-adult "type prototype" - so
-;     victim-type consistency EMERGES, "tall blond men", "disreputable working
-;     girls", and the profile is achievable), then HARD-filters every eligible
-;     non-kin adult to the full profile and weighted-samples ONE by
-;     invisibility. Small circle = few mourners = small violent-verdict
-;     fan-out, so invisible victims are MECHANICALLY safer (the Cream-case
-;     loop). The one irreducible computation, exposed as a verb (sibling of
-;     (heir-apparent ...) / (ambition-target ...)). @fail when the profile
-;     matches nobody this tick - the predator stays latent until a victim of
-;     his type exists;
-;   - (effects ...) mints the kill goal toward the resolved victim and arms the
-;     stalk_target marker (mark-stalk - the ~30-day surprise modifier
-;     attempt_harm reads as a weight multiplier). /cause pins the first
-;     {@self fixation} belief - the legible appetitive signature - so the
-;     rap-sheet reads "kill <victim> <- {@self fixation blonde}"; it falls back
-;     to the power_aim life_aim belief when no profile was seedable.
-; attempt_harm then consumes the goal and executes a method as usual - the MO
-; is whatever the method affinity favours (a skilled apothecary poisons, a
-; soldier strangles or stabs); nothing here is poison-bound.
+; hair_color / eye_color are (hsim-percept) attrs (common.arc), so ANYONE who
+; observes a person mirrors {?them hair_color X} / {?them eye_color Y} into their
+; OWN beliefs - the physical look is knowable non-telepathically, exactly like
+; the predator perceives it. No C++ attr backdoor.
 ;
-; Kept a tail by design (trait floor + base rate): the target is 1-3 predators
-; per few generations. To A/B the motive, rename / remove this file
-; (runtime-loaded; no rebuild).
+; Two events:
+;   - seed_predation_profile: a latent predator (top lethal-disposition tail) with
+;     no victim-type yet copies the PERCEIVED look (hair_color + eye_color) of a
+;     random adult he knows into {@self fixation <trait-value>} beliefs, so
+;     victim-type consistency emerges ("blond, blue-eyed"). One-shot.
+;   - predation: role-casts a victim from the predator's OWN non-kin acquaintance
+;     ties, HARD-filtered to his type via (overlapping-target {?victim hair_color}
+;     {@self fixation}) (the non-@excl overlap op - the victim's hair OR eye colour
+;     is one of the predator's fixations), then weighted-samples by SOCIAL
+;     INVISIBILITY in the score (low class / stained repute = safer). (when ...)
+;     gates the disposition floor + rate. Mints the kill goal + arms stalk_target.
+;
+; The type-match uses (overlapping-target ...) because fixation is non-@excl (a
+; predator holds several fixation values); it is cacheable (see the classifier +
+; cache_filter_match in hse_parser.cc / hse_engine.cc). The invisibility read lives
+; in the (score ...), which is evaluated live per candidate (not cache-classified),
+; so (target {?victim ...}) is fine there.
+; Kept a tail by design (trait floor + base rate): 1-3 predators per few gens.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
 
+; --- profile seeding (one-shot, precedes the first hunt) --------------------
+(npc-think seed_predation_profile
+  (cooldown 1 m)
+  (rng-stream perpetration)
+  (role @self (adult @self)
+              (not (believes {@self fixation ?})))
+  ; A random adult the predator KNOWS the look of (has both perceived colour
+  ; beliefs about), sampled by roulette - the victim-type prototype.
+  (role ?proto (any_human ?proto)
+               (adult ?proto)
+               (not (= ?proto @self))
+               (believes {?proto hair_color ?})
+               (believes {?proto eye_color ?})
+               (select (score 1) (policy roulette)))
+  ; Only the hard lethal-disposition tail ever seeds (same floor as the hunt).
+  (when (>= (lethal-disposition @self) 0.65))
+  (effects
+    ; Copy the perceived look as the type signature (effect, so (target ...) is fine).
+    (begin-belief {@self fixation (target {?proto hair_color})})
+    (begin-belief {@self fixation (target {?proto eye_color})})))
+
+; --- the hunt ---------------------------------------------------------------
 (npc-think predation
   (cooldown 1 m)
   (rng-stream perpetration)
 
-  (role @self 
-              (adult @self))
+  (role @self (adult @self)
+              (believes {@self fixation ?}))
 
-  ; Disposition pre-gate + adult floor + rate. lethal = mean(psychopathy, sadism);
-  ; the >= 0.65 floor is the hard trait tail (only the top tail EVER qualifies).
-  ; propensity = (1 - inhibition) * lethal; fire at 0.005 * propensity, doubled for
-  ; {@self life_aim power_aim} holders.
+  ; The victim: cast from the predator's OWN non-kin acquaintance ties (his
+  ; acquaintance graph, role-cast - no world scan), HARD-filtered to his type (the
+  ; victim's hair OR eye colour is one of his fixations), then weighted-sampled by
+  ; social invisibility (low class / stained repute = fewer defenders = safer).
+  (role ?victim (any_human ?victim)
+                (believes {@self spouse|fiancee|friend|lover|acquaintance|neighbour|enemy ?victim})
+                (adult ?victim)
+                (not (blood-kin @self ?victim))
+                ; TYPE FLOOR (cacheable non-@excl overlap): the victim carries one of
+                ; the predator's fixation values on hair_color OR eye_color.
+                (or (overlapping-target {?victim hair_color} {@self fixation})
+                    (overlapping-target {?victim eye_color} {@self fixation}))
+                ; Invisibility score (live per-candidate; + a floor so a bare
+                ; type-match is pickable). Low class / stained repute = safer.
+                (select (score (+ 0.1
+                                  (is-a (target {?victim class_situation}) [k class_situation lower])
+                                  (is-a (target {?victim repute}) [k repute disreputable])
+                                  (is-a (target {?victim repute}) [k repute scandalous])))
+                        (policy roulette)))
+
+  ; AFTER the select: disposition floor + rate. lethal = mean(psychopathy, sadism);
+  ; propensity = (1 - inhibition) * lethal, DOUBLED for {@self life_aim power_aim}.
   (when (and (>= (lethal-disposition @self) 0.65)
              (chance (* (crime-scale) 0.005
                         (* (dark-propensity (lethal-disposition @self))
                            (if (believes {@self life_aim [k power_aim]}) (then 2.0) (else 1.0)))))))
 
-  ; predation-target seeds the victim-type profile on the first hunt, then resolves
-  ; the invisible victim (the irreducible scan, exposed as a verb). /cause pins the
-  ; first fixation belief (the appetitive signature), else the power_aim life_aim
-  ; belief. mark-stalk arms the surprise weight modifier attempt_harm reads.
+  ; Mint the kill goal toward the resolved victim. /cause pins the first fixation
+  ; belief (the appetitive signature the rap-sheet reads). mark-stalk arms the
+  ; ~30-day surprise weight modifier attempt_harm reads.
   (effects
-    (bind (predation-target @self) ?victim)
-    (if (is-entity ?victim)
-        (then
-          (if (believes {@self fixation})
-              (then (begin-goal {@self kill ?victim} /cause {@self fixation}))
-              (else (begin-goal {@self kill ?victim} /cause {@self life_aim [k power_aim]})))
-          (mark @self [k stalk_target] ?victim 30)))))
+    (begin-goal {@self kill ?victim} /cause {@self fixation})
+    (mark @self [k stalk_target] ?victim 30)))
