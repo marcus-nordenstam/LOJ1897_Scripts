@@ -26,11 +26,13 @@
   (role @self (believes {@self enter ?s}))
   (when (and (not (in-building ?s))
              (not (at-threshold @self ?s))))
-  (effects (maintain-proposal {@self go_to_threshold ?s} /cause {@self enter ?s})))
+  (effects (debug-print "TRACE-ENTERTASK dest=?s")
+           (maintain-proposal {@self go_to_threshold ?s} /cause {@self enter ?s})))
 
 (npc-think enter_step_in
   (role @self (believes {@self enter ?s}))
   (when (and (at-threshold @self ?s)
              (believes {?s room ?entry})
              (open ?s)))
-  (effects (maintain-proposal {@self go ?entry} /cause {@self enter ?s})))
+  (effects (debug-print "TRACE-STEPIN bld=?s room=?entry")
+           (maintain-proposal {@self go ?entry} /cause {@self enter ?s})))

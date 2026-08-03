@@ -341,6 +341,18 @@ object (+ obs)
                 # Nobody staffs the station, so reports accumulate unread:
                 # the PLAYER's case feed.
                 crime_report_letter
+                # An exposure sent OPENLY to someone a secret wounds (not the
+                # covert channel): the writing carries the exposed fact - e.g. a
+                # spurned paramour naming an affair to the wronged spouse
+                # ({cheater lover author}). Delivered to the target's home mail
+                # pile, read in the morning post, and left there as evidence.
+                denunciation_letter
+                # A courtship declaration (billet-doux): the writing carries the
+                # author's own regard ({author fancy recipient}). A suitor and a
+                # SPECIFIC beloved rarely share a room, so the confession that
+                # grounds reciprocal courtship travels by post - the beloved reads
+                # it in the morning mail and comes to know she is fancied.
+                courtship_letter
             pamphlet
             book
             newspaper

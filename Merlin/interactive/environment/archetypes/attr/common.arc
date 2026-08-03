@@ -106,8 +106,8 @@ attr "girth" (type kind) (per obs) (auto-percept) (hsim-percept)
 # Hair / eye colour - observable physical traits (serial_predation
 # generalized fixation). Kind-typed; seeded at creation from the
 # hereditary trait tables (hair_color.txt / eye_color.txt).
-attr "hair_color" (type kind) (per obs) (auto-percept)
-attr "eye_color" (type kind) (per obs) (auto-percept)
+attr "hair_color" (type kind) (per obs) (auto-percept) (hsim-percept)
+attr "eye_color" (type kind) (per obs) (auto-percept) (hsim-percept)
 # nationality and social standing are not physical environment state - they
 # exist solely as beliefs (nationality / class_situation labels in States.mon).
 

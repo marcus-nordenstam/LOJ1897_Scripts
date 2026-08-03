@@ -198,7 +198,8 @@
   ; location for the latter.
   (when    (not (or (in-building ?place)
                     (believes {@self location ?place}))))
-  (effects (maintain-proposal {@self enter ?place})))
+  (effects (debug-print "TRACE-EATGO place=?place meal=?meal")
+           (maintain-proposal {@self enter ?place})))
 
 ; A paid EATERY (pub / restaurant) - a supper bought out, as opposed to the free
 ; family table / workplace lunch. Keys the per-means intrinsics on eat_at_place.

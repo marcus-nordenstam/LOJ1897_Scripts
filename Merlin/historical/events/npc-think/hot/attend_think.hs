@@ -36,7 +36,8 @@
              (attend-in-window ?occ)
              (not (in-building ?venue))))
   (utility (attend-utility ?occ))
-  (effects (maintain-proposal {@self enter ?venue})))
+  (effects (debug-print "TRACE-ATTENDGO venue=?venue occ=?occ")
+           (maintain-proposal {@self enter ?venue})))
 
 (npc-think attend_stay
   (goal {@self attend ?occ})
@@ -44,7 +45,9 @@
              (attend-in-window ?occ)
              (in-building ?venue)))
   (utility (attend-utility ?occ))
-  (effects (maintain-proposal {@self dwell ?venue})))
+  (effects
+    (debug-print "ATTEND_STAY @self occ=?occ venue=?venue")
+    (maintain-proposal {@self dwell ?venue})))
 
 ; The marriage is made at the church by whoever shows up: the VOW is a say_to
 ; (speech is the one physical act here). The goal's [k wedding]:?occ kind-cast

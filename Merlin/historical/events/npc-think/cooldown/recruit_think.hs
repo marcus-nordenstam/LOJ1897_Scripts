@@ -71,6 +71,7 @@
     (else fail))
   (utility 81)
   (effects
+    (debug-print "TRACE-ADVERTISE org=?org jk=?jk ok=?ok")
     (if (is-kind ?jk)
         (then (maintain-proposal {@self post_advert ?art ?jk})))))
 
@@ -96,7 +97,8 @@
   (when (and (believes {?org workplace ?wp})
              (in-building ?wp)))
   (utility 82)
-  (effects (maintain-proposal {@self record_applicant ?cand})))
+  (effects (debug-print "TRACE-APPHEARD cand=?cand wp=?wp")
+           (maintain-proposal {@self record_applicant ?cand})))
 
 ; POST-ACT: the row is on paper -> book-keep the applicant as recorded and close
 ; the heard apply_for copy, so a later re-application is heard fresh.
@@ -109,6 +111,7 @@
   (when (and (believes {?cand apply_for ?jk})
              (believes {@self record_applicant ?cand /succ})))
   (effects
+    (debug-print "TRACE-RECORDED cand=?cand jk=?jk")
     (begin-belief {@self recorded ?cand})
     (end-belief {?cand apply_for ?jk})))
 
@@ -131,6 +134,7 @@
     (else fail))
   (utility 82)
   (effects
+    (debug-print "TRACE-HIREDECIDE win=?win merit=?m")
     (if (is-entity ?win)
         (then (maintain-proposal {@self send_letters ?appdoc ?win})))))
 
