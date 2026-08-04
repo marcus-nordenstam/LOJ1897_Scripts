@@ -907,8 +907,6 @@ $form(FORM)
 { ?_I /pres suspect $value(NP) } .
 " I met $obj_np(NP) at $loc(NP) "
 { ?_I /past meet $obj_np(NP) $loc(NP) } .
-" I urged $obj_np(NP) to kill $victim(NP) "
-{ ?_I /past urge { $obj_np(NP) /pres kill $victim(NP) } } .
 " I coerced $obj_np(NP) into becoming my lover "
 { ?_I /past coerce $obj_np(NP) { $obj_np(NP) /pres lover ?_I } } .
 " breakfast at $sub_np(NP) is at $hour(NP) "
