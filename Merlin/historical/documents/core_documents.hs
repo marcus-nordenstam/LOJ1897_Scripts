@@ -41,6 +41,8 @@
 ; read by seekers - the read internalizes every field a seeker needs to choose
 ; and apply): [org_record job level salary class_floor workplace]
 (define-document job_description   (fields org_record job level salary class_floor workplace))
-; The recruiter's applicants book, one (worker job merit) row per application
-; heard and recorded; the 2-monthly hire decision argmaxes over it.
-(define-document job_application   (fields worker job merit))
+; A job application: the physical paper a seeker writes and leaves at the
+; workplace. Its `status` field is the whole hiring lifecycle (applied -> offered |
+; rejected -> accepted); the recruiter reads the pile and drives one status per
+; paper: [applicant job org_record workplace status]
+(define-document application       (fields applicant job org_record workplace status))

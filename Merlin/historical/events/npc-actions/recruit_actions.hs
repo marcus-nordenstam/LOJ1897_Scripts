@@ -1,19 +1,17 @@
 ; ----------------------------------------------------------------------------
 ; recruit_actions - the clerical WRITE family of the labour market (the thinks
-; live in recruit_think.hs). Every act here is PURE PHYSICAL EFFECT: pen changes
-; paper (a document appears, a row is appended, letters land in mail piles, a
-; posting comes off the board) and the outcome is stamped - NOTHING ELSE. All
-; recruiter bookkeeping (posted / recorded / heard-copy ends) lives in the
-; npc-think rules, gated on (did-succeed {act /past}) or on reading the paper
-; the act produced. An org is a mental-only object and never an act participant;
-; every participant below is paper or people. Writing CONTENT is composed from
-; the writer's own beliefs (the letter-codec rule); the ops only encode.
+; live in recruit_think.hs / job_search_think.hs). Every act here is PURE PHYSICAL
+; EFFECT: pen changes paper (a document appears, a field is stamped, a letter
+; lands in a mail pile, a posting comes off the board) and the outcome is stamped -
+; NOTHING ELSE. All bookkeeping (post / submit / offering / hire-beliefs) lives in
+; the npc-think rules, gated on (did-succeed {act /past}) or on the paper the act
+; produced. An org is a mental-only object and never an act participant; every
+; participant below is paper or people.
 ; ----------------------------------------------------------------------------
 
-; Write the job advert onto the parish board. The org's articles (?art - paper)
-; are the act's target: the advert copies the workplace off them and records
-; them as its org_record backlink; the post (?jk) rides the aux from
-; advertise_post's occupations select.
+; RECRUITER: write the job advert onto the parish board. The org's articles (?art)
+; are the act's target; the advert copies the workplace off them and backlinks
+; them as its org_record. The post (?jk) rides the aux from advertise_post.
 (npc-action {@self post_advert ?art ?jk}
   (duration 20)
   (effects
@@ -26,54 +24,62 @@
         (workplace ?wp))
     (set-outcome {@self post_advert ?art ?jk} succ)))
 
-; Write one heard application into the applicants book (created at the desk on
-; first use). The row content comes from the recruiter's own heard belief.
-(npc-action {@self record_applicant ?cand}
+; SEEKER: write an application and leave it at the workplace. It copies the post /
+; org / workplace off the advert (?ad) and opens at status applied - the physical
+; paper on the recruiter's desk IS the application.
+(npc-action {@self submit_application ?ad}
+  (duration 20)
+  (effects
+    (read-doc-record [k job_description] ?ad (job ?jk) (org_record ?art) (workplace ?wp))
+    (create-entity [k application]
+        (qual location (current-building @self)) (bind ?app))
+    (write-doc-record [k application] ?app
+        (applicant @self) (job ?jk) (org_record ?art) (workplace ?wp) (status [k applied]))
+    ; The author holds his OWN paper's handle - {@self submit ?app} is his one
+    ; dedup (closes apply_pick) and the anchor his verdict letters resolve onto.
+    (begin-belief {@self submit ?app})
+    (set-outcome {@self submit_application ?ad} succ)))
+
+; RECRUITER: offer the post - stamp the application offered and post the reply
+; letter to the applicant's home (the letter carries the paper's new status; the
+; reader resolves the application he himself submitted).
+(npc-action {@self make_offer ?app}
+  (duration 15)
+  (effects
+    (read-doc-record [k application] ?app (applicant ?w))
+    (update-doc-record [k application] ?app (status [k offered]))
+    (spawn-letter [k letter]
+        (written-msg {?app status [k offered]} signed) (home-of ?w))
+    (set-outcome {@self make_offer ?app} succ)))
+
+; RECRUITER: reject - stamp the application rejected and post the reply letter.
+(npc-action {@self send_rejection ?app}
+  (duration 15)
+  (effects
+    (read-doc-record [k application] ?app (applicant ?w))
+    (update-doc-record [k application] ?app (status [k rejected]))
+    (spawn-letter [k letter]
+        (written-msg {?app status [k rejected]} signed) (home-of ?w))
+    (set-outcome {@self send_rejection ?app} succ)))
+
+; SEEKER: accept the offer - sign the application accepted at the workplace.
+(npc-action {@self accept_post ?app}
   (duration 10)
   (effects
-    (bind {?cand apply_for ?jk})
-    ; Branch-scoped binds do not escape an (if), so each arm writes its own row
-    ; (the book is found at the desk, or opened fresh on the first application).
-    (if (is-entity (believed-located [k job_application] (current-building @self)))
-        (then
-          (bind (believed-located [k job_application] (current-building @self)) ?appdoc)
-          (write-doc-record [k job_application] ?appdoc
-              (worker ?cand) (job ?jk) (merit 1)))
-        (else
-          (create-entity [k job_application]
-              (qual location (current-building @self)) (bind ?newdoc))
-          (write-doc-record [k job_application] ?newdoc
-              (worker ?cand) (job ?jk) (merit 1))))
-    (set-outcome {@self record_applicant ?cand} succ)))
+    (update-doc-record [k application] ?app (status [k accepted]))
+    (set-outcome {@self accept_post ?app} succ)))
 
-; The morning of correspondence: an offer letter to the chosen applicant and a
-; rejection to every other, each into their home mail pile (the letters carry
-; NAMED facts through the shared letter codec - the reader resolves himself).
-; The act's target is the applicants book itself (?appdoc); it closes with the
-; round (destroyed - a fresh book next time).
-(npc-action {@self send_letters ?appdoc ?win}
-  (duration 30)
-  (effects
-    (for-each-doc-record [k job_application] ?appdoc (worker ?w) (job ?jk)
-      (if (= ?w ?win)
-          (then (spawn-letter [k letter]
-                    (written-msg {?w offered ?jk} signed) (home-of ?w)))
-          (else (spawn-letter [k letter]
-                    (written-msg {?w rejected ?jk} signed) (home-of ?w)))))
-    (destroy-entity ?appdoc)
-    (set-outcome {@self send_letters ?appdoc ?win} succ)))
-
-; Enrol the accepted hire on the wage book (?reg - paper, derived by the
-; proposing think). The row content comes from the recruiter's own heard belief.
-(npc-action {@self enrol ?cand ?reg}
+; RECRUITER: enrol the accepted hire on the wage book (?reg). The row content
+; comes off the accepted application (applicant + post).
+(npc-action {@self enrol ?app ?reg}
   (duration 10)
   (effects
-    (bind {?cand accept_of ?jk})
+    (read-doc-record [k application] ?app (applicant ?cand) (job ?jk))
     (write-doc-record [k employee_register] ?reg
         (worker ?cand) (job ?jk) (level [k trainee]))
-    (set-outcome {@self enrol ?cand ?reg} succ)))
+    (set-outcome {@self enrol ?app ?reg} succ)))
 
-; Take a filled posting off the board: the paper is removed, nothing more.
+; RECRUITER: take a filled posting off the board - the paper is removed.
 (npc-action {@self take_down ?ad}
   (duration 5)
   (effects

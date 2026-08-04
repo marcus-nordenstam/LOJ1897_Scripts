@@ -5,21 +5,17 @@
 ;
 ;   TASK recruit ?org      standing while the duty is held AND the wage book is
 ;                          short of the org's authored headcount. Rungs: post an
-;                          advert (advertise subtask), record heard applications,
-;                          decide after ~2 months (DOC argmax over the applicants
-;                          book), send offer + rejection letters, enrol on the
-;                          heard acceptance, take the filled posting down.
+;                          advert (advertise subtask), read the applications left
+;                          at the workplace, make ONE offer + reject the rest,
+;                          enrol the accepted hire, take the filled posting down.
 ;
-; The ACTS are pure paper effects; ALL recruiter bookkeeping (posted / recorded /
-; heard-copy ends) is minted HERE, in *_done think rules gated on the act's
-; outcome ({act /succ} - conclusive outcome implies /past) or on the paper the
-; act produced - the isim get/give post-action pattern. Every *_done rung NESTS
-; inside its still-running parent task (advertise / recruiting / posted), so a
-; concluded act never accumulates standing activations: when the task ends, its
-; post-act rungs go with it. The org object stays strictly in the think realm:
-; acts carry only paper and people.
-; Every input is a heard say, a letter or a public document - no mind reads.
-; Households are excluded: their staffing is the bespoke staff_household lane.
+; The applicants are physical `application` documents the seekers leave at the
+; workplace; the recruiter READS the pile and drives ONE `status` field per paper
+; (offered | rejected), plus a reply letter. All recruiter bookkeeping (post /
+; offering) is minted HERE, in *_done think rules gated on the act outcome ({act
+; /succ}) or on the paper the act produced. The org object stays strictly mental:
+; acts carry only paper and people. Households are excluded (their staffing is the
+; bespoke staff_household lane).
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
@@ -40,7 +36,7 @@
 ; --- advertise: no live advert of mine for this org -> post one -----------------
 (npc-think advertise_pick
   (role ?org (believes {@self recruiting ?org})
-             (not (believes {@self posted ? ?org})))
+             (not (believes {@self post ? ?org})))
   (utility 79)
   (effects (maintain-proposal {@self advertise ?org})))
 
@@ -51,128 +47,120 @@
   (utility 81)
   (effects (maintain-proposal {@self enter ?board})))
 
-; The post to advertise is picked HERE (select-record is an event-level clause):
-; the first staff occupation the org's kind hosts, carried to the act as the
-; proposal's aux. The act's target is the org's ARTICLES (paper - an org can
-; never ride an act).
+; The post to advertise is the org's DISCLOSED staff role (org_staffing) - the
+; occupation it needs, and only that. The act's target is the org's ARTICLES
+; (paper - an org can never ride an act); the role rides the aux.
 (npc-think advertise_post
   (role ?org (believes {@self advertise ?org})
              (believes {?org record ?art}))
   (when (and (bind (find-building [k building church]) ?board)
              (in-building ?board)
-             (read-doc-record [k articles_of_incorporation] ?art (kind ?ok))))
-  (select-record (table occupations)
-    (bind job ?jk)
-    (bind business_type ?bt)
-    (bind may_own ?mo)
-    (when (and (not (= ?mo true)) (hosted-by ?bt ?ok)))
-    (score 1)
-    (policy argmax)
-    (else fail))
+             (read-doc-record [k articles_of_incorporation] ?art (kind ?ok))
+             (bind (lookup org_staffing org_kind ?ok staff_role none) ?jk)
+             (is-kind ?jk)))
   (utility 81)
   (effects
     (debug-print "TRACE-ADVERTISE org=?org jk=?jk ok=?ok")
-    (if (is-kind ?jk)
-        (then (maintain-proposal {@self post_advert ?art ?jk})))))
+    (maintain-proposal {@self post_advert ?art ?jk})))
 
-; POST-ACT: the advert paper exists (perceived at the board) and its org_record
-; backlink names my org's articles -> book-keep {@self posted ?ad ?org}, which
-; closes advertise_pick's dedup and ends the advertise subtask.
+; POST-ACT: the advert paper exists (its org_record backlinks my articles) ->
+; book-keep {@self post ?ad ?org}, closing advertise_pick's dedup and ending the
+; advertise subtask.
 (npc-think advertise_done
   (role ?org (believes {@self advertise ?org})
              (believes {?org record ?art}))
   (role ?ad [k job_description]
-            (not (believes {@self posted ?ad ?})))
+            (not (believes {@self post ?ad ?}))
+            (select (policy first-match)))
   (when (and (believes {@self post_advert ?art /succ})
              (read-doc-record [k job_description] ?ad (find org_record ?art))))
-  (effects (begin-belief {@self posted ?ad ?org})))
+  (effects (begin-belief {@self post ?ad ?org})))
 
-; --- record a heard application at the counter ----------------------------------
-(npc-think application_heard
+; --- read the applications left at the workplace --------------------------------
+; A submitted application paper, perceived at my desk and not yet read -> read its
+; record into my mind (status + workplace scope the decision rungs).
+(npc-think application_read
   (role ?org (believes {@self recruiting ?org}))
-  (role ?cand (any_human ?cand)
-              (believes {?cand apply_for ?})
-              (not (believes {@self recorded ?cand}))
-              (select (policy first-match)))
+  (role ?app [k application]
+            (not (believes {?app status ?}))
+            (select (policy first-match)))
   (when (and (believes {?org workplace ?wp})
-             (in-building ?wp)))
-  (utility 82)
-  (effects (debug-print "TRACE-APPHEARD cand=?cand wp=?wp")
-           (maintain-proposal {@self record_applicant ?cand})))
-
-; POST-ACT: the row is on paper -> book-keep the applicant as recorded and close
-; the heard apply_for copy, so a later re-application is heard fresh.
-(npc-think record_done
-  (role ?org (believes {@self recruiting ?org}))
-  (role ?cand (any_human ?cand)
-              (believes {?cand apply_for ?})
-              (not (believes {@self recorded ?cand}))
-              (select (policy first-match)))
-  (when (and (believes {?cand apply_for ?jk})
-             (believes {@self record_applicant ?cand /succ})))
+             (co-present @self ?app)
+             (read-doc-record [k application] ?app (status ?st) (workplace ?awp))))
   (effects
-    (debug-print "TRACE-RECORDED cand=?cand jk=?jk")
-    (begin-belief {@self recorded ?cand})
-    (end-belief {?cand apply_for ?jk})))
+    (debug-print "TRACE-APPREAD app=?app st=?st")
+    (begin-belief {?app workplace ?awp})
+    (begin-belief {?app status ?st})))
 
-; --- the decision, after ~2 months: best applicant per the book -----------------
-; The DOC argmax over the applicants book (merit; the book's append order = the
-; application order breaks ties). Proposes the letters act carrying the winner.
+; --- the decision: offer ONE applied candidate, no offer already outstanding ----
+; The choice IS the recruiter's mental act, so `offered` + `offering` are minted
+; here (like begin-goal in a decision think); the make_offer ACT is the physical
+; consequence - it stamps the paper and posts the reply letter that reaches the
+; seeker. `offering` blocks a second offer for the same seat until the hire enrols.
 (npc-think hire_decide
   (cooldown 2 m)
   (rng-stream employment)
-  (role ?org (believes {@self recruiting ?org}))
-  (when (and (believes {?org workplace ?wp})
-             (bind (believed-located [k job_application] ?wp) ?appdoc)
-             (> (count-doc-records [k job_application] ?appdoc) 0)))
-  (select-record (doc [k job_application] ?appdoc)
-    (bind worker ?win)
-    (bind merit ?m)
-    (when (alive ?win))
-    (score ?m)
-    (policy argmax)
-    (else fail))
+  (role ?org (believes {@self recruiting ?org})
+             (not (believes {@self offering ? ?org})))
+  (role ?app [k application]
+            (believes {?app status [k applied]})
+            (believes {?app workplace ?wp})
+            (select (policy first-match)))
+  (when (believes {?org workplace ?wp}))
   (utility 82)
   (effects
-    (debug-print "TRACE-HIREDECIDE win=?win merit=?m")
-    (if (is-entity ?win)
-        (then (maintain-proposal {@self send_letters ?appdoc ?win})))))
+    (debug-print "TRACE-HIREDECIDE app=?app")
+    (begin-belief {?app status [k offered]})
+    (begin-belief {@self offering ?app ?org})
+    (maintain-proposal {@self make_offer ?app})))
 
-; --- enrol the accepted hire: the wage book (?reg) is derived HERE, in the think -
-(npc-think acceptance_heard
+; --- reject the also-rans: every still-applied paper once an offer is out --------
+(npc-think reject_loser
+  (role ?org (believes {@self recruiting ?org})
+             (believes {@self offering ? ?org}))
+  (role ?app [k application]
+            (believes {?app status [k applied]})
+            (believes {?app workplace ?wp})
+            (select (policy first-match)))
+  (when (believes {?org workplace ?wp}))
+  (utility 82)
+  (effects
+    (debug-print "TRACE-REJECT app=?app")
+    (begin-belief {?app status [k rejected]})
+    (maintain-proposal {@self send_rejection ?app})))
+
+; --- enrol the accepted hire: the paper reads accepted (the seeker signed) -------
+(npc-think enrol_hire
   (role ?org (believes {@self recruiting ?org})
              (believes {?org record ?art}))
-  (role ?cand (any_human ?cand)
-              (believes {?cand accept_of ?})
-              (select (policy first-match)))
+  (role ?app [k application]
+            (believes {?app status [k offered]})
+            (select (policy first-match)))
   (when (and (believes {?org workplace ?wp})
-             (in-building ?wp)
+             (co-present @self ?app)
+             (read-doc-record [k application] ?app (find status [k accepted]) (applicant ?w))
              (read-doc-record [k articles_of_incorporation] ?art (register ?reg))))
   (utility 82)
-  (effects (maintain-proposal {@self enrol ?cand ?reg})))
-
-; POST-ACT: the hire is on the wage book -> close the heard acceptance copy and
-; the recorded mark (the man is staff now, not an applicant). NESTED in the
-; recruiter's own {@self recorded ?cand} round-context, NOT the recruiting task:
-; the enrol act is what FILLS the roster, so recruiting's falling edge races this
-; cleanup - recorded is the context this rung itself closes.
-(npc-think enrol_done
-  (role ?cand (any_human ?cand)
-              (believes {?cand accept_of ?})
-              (believes {@self recorded ?cand})
-              (select (policy first-match)))
-  (when (and (believes {?cand accept_of ?jk})
-             (believes {@self enrol ?cand /succ})))
   (effects
-    (end-belief {?cand accept_of ?jk})
-    (end-belief {@self recorded ?cand})))
+    (debug-print "TRACE-ENROL app=?app w=?w")
+    (maintain-proposal {@self enrol ?app ?reg})))
 
-; --- the filled posting comes off the board --------------------------------------
-; Standing while my advert is up AND the wage book shows the org at strength:
-; the position is filled, so take the paper down (recruit_root's vacancy test,
-; inverted).
+; POST-ACT: the hire is on the wage book -> the seat is filled; clear my offer.
+(npc-think enrol_done
+  (role ?org (believes {@self recruiting ?org}))
+  (role ?app [k application]
+            (believes {?app status [k offered]})
+            (believes {@self offering ?app ?org})
+            (select (policy first-match)))
+  (when (and (read-doc-record [k application] ?app (find status [k accepted]))
+             (believes {@self enrol ?app /succ})))
+  (effects
+    (begin-belief {?app status [k accepted]})
+    (end-belief {@self offering ?app ?org})))
+
+; --- the filled posting comes off the board -------------------------------------
 (npc-think take_down_filled
-  (role @self (believes {@self posted ?ad ?org}))
+  (role @self (believes {@self post ?ad ?org}))
   (when (and (believes {?org record ?art})
              (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
              (>= (count-doc-records [k employee_register] ?reg)
@@ -180,9 +168,7 @@
   (utility 81)
   (effects (maintain-proposal {@self take_down ?ad})))
 
-; POST-ACT: the paper is gone -> close the posted book-keeping (which also ends
-; take_down_filled's own guard).
 (npc-think take_down_done
-  (role @self (believes {@self posted ?ad ?org}))
+  (role @self (believes {@self post ?ad ?org}))
   (when (believes {@self take_down ?ad /succ}))
-  (effects (end-belief {@self posted ?ad ?org})))
+  (effects (end-belief {@self post ?ad ?org})))

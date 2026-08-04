@@ -95,16 +95,19 @@ relation
             # all bodyless (no motor): the running-task belief is the CONTEXT the
             # decomposition rules key on; the physical work routes through the
             # shared actions (enter / read / say_to) + the clerical write family.
-            # seek_work: the job hunt (proposed off the {@self employed} goal).
-            # apply: one application to one advert (target = the advert doc).
-            # take_up_post: acceptance visit + wage-book read (target = the advert).
+            # seek_work: the job hunt, itself the standing goal want_work mints while
+            #   the seeker holds no salaried job.
+            # apply: pursue one advert (target = the advert doc): go to its workplace
+            #   and leave an application there.
+            # take_up_post: the offered seeker returns, accepts, reads the wage book
+            #   (target = his application).
             # recruiting: the recruit_staff duty-holder's standing recruitment
             # (target = the org; `recruit` is the accomplice-recruitment act);
             # advertise is its board-posting subtask. (Mail reading needs no
             # task - unread letters at home directly propose the read action.)
             seek_work
-            apply                                   (tar ?)
-            take_up_post                            (tar ?)
+            apply                                   (tar job_description)
+            take_up_post                            (tar application)
             recruiting                              (tar org)
             advertise                               (tar org)
             # Solitary leisure activities at a venue (activity-lanes L8), the
@@ -304,14 +307,19 @@ relation
             # mental-only object and never an act participant); all recruiter
             # bookkeeping is minted by the *_done think rules off the act outcome.
             # post_advert: write the advert paper (target = the org's articles).
-            # record_applicant: an applicants-doc row (target = the applicant).
-            # send_letters: the offer + rejection letters (target = the applicants book).
+            # submit_application: the seeker writes his application document and leaves
+            #   it at the workplace (target = the advert he answers).
+            # make_offer / send_rejection: the recruiter stamps ONE application's status
+            #   and posts the reply letter (target = that application).
+            # accept_post: the seeker stamps his offered application `accepted`.
             # enrol: the wage-book row (target = the new hire, aux = the wage book).
             # take_down: remove a filled posting from the board.
             post_advert         (motor right_hand)  (tar @excl articles_of_incorporation)  (aux ?)
-            record_applicant    (motor right_hand)  (tar @excl human)
-            send_letters        (motor right_hand)  (tar @excl job_application)  (aux human)
-            enrol               (motor right_hand)  (tar @excl human)  (aux ?)
+            submit_application  (motor right_hand)  (tar @excl job_description)
+            make_offer          (motor right_hand)  (tar @excl application)
+            send_rejection      (motor right_hand)  (tar @excl application)
+            accept_post         (motor right_hand)  (tar @excl application)
+            enrol               (motor right_hand)  (tar @excl application)  (aux ?)
             take_down           (motor right_hand)  (tar @excl job_description)
 
             approach                (motor legs)              (tar @excl)

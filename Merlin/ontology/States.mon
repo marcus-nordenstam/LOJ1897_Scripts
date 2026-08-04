@@ -104,6 +104,19 @@ relation
         # asked party's mind.
         sought_introduction     (sub human)           (tar human)  (aux ?)
 
+        # submit: the labour-market link - {seeker submit <application>}, the seeker's
+        # own record of an application he authored and handed to an org. The whole
+        # hiring lifecycle then rides the application document's `status` (Concepts.mon):
+        # applied -> offered | rejected -> accepted. One belief per application in flight.
+        submit                  (sub human)           (tar application)
+        # post: the recruiter's live board advert - {recruiter post <advert> /aux <org>},
+        # the worker-side `submit`'s twin. Dedups advertising; gates the take-down.
+        post                    (sub human)           (tar job_description)  (aux org)
+        # offering: the recruiter's outstanding offer - {recruiter offering <application>
+        # /aux <org>}. One per vacancy in flight, so a second candidate is not offered
+        # the same seat; cleared when the hire enrols.
+        offering                (sub human)           (tar application)      (aux org)
+
         # Household mealtimes - the COOK's authority (tell-only comms plan,
         # ruling 11): {<home> breakfast_hour 6} / {<home> lunch_hour 12} /
         # {<home> supper_hour 18}, held per-mind. The cook DECIDES them
