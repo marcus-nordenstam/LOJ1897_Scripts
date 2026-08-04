@@ -1,7 +1,6 @@
 
 :SPECIAL_ACTION
-"offers $obj_np(NP) to $rec_np(NP)"                 /pres OFFER $obj_np(NP) $rec_np(NP)     .
-"offered $obj_np(NP) to $rec_np(NP)"                /past OFFER $obj_np(NP) $rec_np(NP)     .
+# OFFER struck (labour-market `offered` is a status; giving is expressed via `give`).
 "takes $obj_np(NP) with $gripper_np(NP)"            /pres TAKE $obj_np(NP) $gripper_np(NP)  .
 "took $obj_np(NP) with $gripper_np(NP)"             /past TAKE $obj_np(NP) $obj_np(NP)      .
 "puts $obj_np(NP) on their $bodypart_np(NP)"        /pres WEAR $obj_np(NP) $bodypart_np(NP) .
@@ -9,6 +8,8 @@
 
 
 :TRANS_ACTION
+"kills"                             /pres kill                 .
+"killed"                            /past kill                 .
 "walks to"                          /pres WALK_TO               .
 "walked to"                         /past WALK_TO               .
 "has sex with"                      /pres HAVE_SEX_WITH         .

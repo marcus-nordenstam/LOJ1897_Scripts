@@ -77,6 +77,14 @@ _
 ( o { $pname(PNAME) /pres $rel(REL) @o } )
 .
 
+# The reified job application, identified by who submitted it + the post + org -
+# "the application you submitted for the clerk position at Lloyd's Bank".
+# submit is episodic (/past). The reader resolves it against his own submitted
+# application (@you -> the reader).
+"the application you submitted for the $job(NP) position at $org(NP)"
+( o [k application ] { ?_you submit /past @o } { @o job $job(NP) } { @o org $org(NP) } )
+.
+
 "$thing(INDEF_KIND) at $np(NP)"
 $thing(INDEF_KIND)  { @o /pres obb $np(NP) }
 .

@@ -878,6 +878,42 @@ $form(FORM)
 # match-wins by file order never lets these outsort an earlier template.
 # =============================================================================
 
+# --- APPLICATION STATUS (the labour-market reply-letter lifecycle) -----------
+# "<application-NP> has been offered / rejected / accepted". The status kinds
+# (applied/offered/rejected/accepted) resolve via /isa status.
+" $sub_np(NP) has been $status(KIND|/isa|status) "
+{ $sub_np(NP) /pres status $status(KIND|/isa|status) }
+.
+
+# --- AUTHORED-LETTER STATEMENTS (first-person @self POV; distinct surfaces so
+#     they don't collide with the 3rd-person descriptive templates below) ------
+" I have taken $value(NP) as a lover "
+{ ?_I /pres lover $value(NP) } .
+" $sub_np(NP) has taken me as a lover "
+{ $sub_np(NP) /pres lover ?_I } .
+" I fancy $value(NP) "
+{ ?_I /pres fancy $value(NP) } .
+" I am called to $value(NP) "
+{ ?_I /pres calling $value(NP) } .
+" $sub_np(NP) has been buried "
+{ $sub_np(NP) /pres condition [k buried ] } .
+" $sub_np(NP) was stolen from $value(NP) "
+{ $sub_np(NP) /past stolen_from $value(NP) } .
+" I am married to $value(NP) "
+{ ?_I /pres spouse $value(NP) } .
+" I am engaged to $value(NP) "
+{ ?_I /pres fiancee $value(NP) } .
+" I suspect $value(NP) "
+{ ?_I /pres suspect $value(NP) } .
+" I met $obj_np(NP) at $loc(NP) "
+{ ?_I /past meet $obj_np(NP) $loc(NP) } .
+" I urged $obj_np(NP) to kill $victim(NP) "
+{ ?_I /past urge { $obj_np(NP) /pres kill $victim(NP) } } .
+" I coerced $obj_np(NP) into becoming my lover "
+{ ?_I /past coerce $obj_np(NP) { $obj_np(NP) /pres lover ?_I } } .
+" breakfast at $sub_np(NP) is at $hour(NP) "
+{ $sub_np(NP) /pres breakfast_hour $hour(NP) } .
+
 # --- EMPLOYER (org-valued; distinct from the job-kind templates above) -------
 " $sub_np(NP) $verb(VERB|work) for $value(NP) "
 { $sub_np(NP) /ever employer $value(NP) } .
