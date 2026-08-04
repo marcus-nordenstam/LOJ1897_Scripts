@@ -48,6 +48,6 @@
 
   (effects
     ; Sever the mutual friend tie - the bond is structural, so both drop it.
-    (end-belief @self friend ?b)
-    (end-belief ?b friend @self)
+    (end-belief {@self friend ?b})
+    (end-belief ?b {?b friend @self})
     ))

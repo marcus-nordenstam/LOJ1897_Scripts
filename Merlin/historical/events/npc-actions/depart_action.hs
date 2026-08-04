@@ -80,6 +80,6 @@
             (if (believes {?home tenant @self}) (then (end-belief {?home tenant @self})))
             (end-belief {@self home ?home}))))
 
-    (end-belief @self spouse)
+    (end-belief {@self spouse})
     (set-outcome {@self depart} succ)
     (destroy-entity @self)))

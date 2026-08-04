@@ -21,12 +21,12 @@
         (then
           (bind (competence-rank (auxiliary {@self skilled_in ?curriculum})) ?cur_rank)
           (bind (if (is-a ?curriculum [k primary_school_curriculum]) (then 1) (else 0)) ?is_primary)
-          (end-belief @self study ?curriculum unforgettable)
+          (end-belief {@self study ?curriculum} /salience unforgettable)
           ; Monotonic credential (novice 0 / trained 1 / expert 2).
           (if (< ?cur_rank (- 1 ?is_primary))
               (then
                 (if (>= ?cur_rank 0)
-                    (then (end-belief @self skilled_in ?curriculum unforgettable)))
+                    (then (end-belief {@self skilled_in ?curriculum} /salience unforgettable)))
                 (begin-belief {@self skilled_in ?curriculum
                                (if (>= ?is_primary 1)
                                    (then [k competence_level novice])

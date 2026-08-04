@@ -104,7 +104,7 @@
     (begin-belief {@self confront_publicly ?victim})
     (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self expose})
-    (if (believes {@self extort ?victim}) (then (end-belief @self extort ?victim)))
+    (if (believes {@self extort ?victim}) (then (end-belief {@self extort ?victim})))
     (publish-secret-about @self ?victim)
     (crime-ledger-append @self ?victim confront_publicly expose @fail @fail)))
 
@@ -113,7 +113,7 @@
     (begin-belief {@self anonymous_letter ?victim})
     (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self expose})
-    (if (believes {@self extort ?victim}) (then (end-belief @self extort ?victim)))
+    (if (believes {@self extort ?victim}) (then (end-belief {@self extort ?victim})))
     (publish-secret-about @self ?victim)
     (crime-ledger-append @self ?victim anonymous_letter expose @fail @fail)))
 

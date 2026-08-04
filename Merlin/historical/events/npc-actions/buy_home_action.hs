@@ -52,7 +52,7 @@
               (begin-belief {@self own ?dwell})
               (begin-belief {@self home ?dwell})
               (begin-belief {?dwell occupant @self})
-              (end-belief @self for_sale ?dwell)
+              (end-belief {@self for_sale ?dwell})
               (destroy-entity ?listing)
               (break)))))
     (set-outcome {@self buy_home ?dwell} succ)))

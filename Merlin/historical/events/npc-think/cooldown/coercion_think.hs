@@ -34,7 +34,7 @@
 
   (effects
     (if (believes {?victim condition [k dead]})
-        (then (end-belief @self extort ?victim))
+        (then (end-belief {@self extort ?victim}))
         (else
           ; The anchor's demand rides its AUX clause; no clause = a silence
           ; coercion.
@@ -42,8 +42,8 @@
               ; Either bond satisfies a relationship demand.
               (then (if (or (believes ?victim {?victim lover @self})
                       (believes ?victim {?victim fiancee @self}))
-                  (then (end-belief @self extort ?victim))
+                  (then (end-belief {@self extort ?victim}))
                   (else (press-coercion ?victim))))
               (else (if (chance 0.10)
-                  (then (end-belief @self extort ?victim))
+                  (then (end-belief {@self extort ?victim}))
                   (else (press-coercion ?victim)))))))))

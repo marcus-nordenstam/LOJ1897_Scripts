@@ -53,7 +53,7 @@
 
   (effects
     ; One-sided ending - ONLY the jilter's belief (see header).
-    (end-belief @self lover ?jilted)
+    (end-belief {@self lover ?jilted})
     ; The act-record in both minds + the appraisal cascade in each.
     (incident-anchor @self jilt ?jilted)
     ; Warmth curdles; attraction is NOT touched (longing persists).
@@ -103,7 +103,7 @@
   (when (chance (* (crime-scale) 0.15 (+ 0.3 (target {@self decorum})))))
 
   (effects
-    (end-belief @self lover ?jilted)
+    (end-belief {@self lover ?jilted})
     (incident-anchor @self jilt ?jilted)
     (nudge-stance ?jilted @self warmth -0.4)
     ))

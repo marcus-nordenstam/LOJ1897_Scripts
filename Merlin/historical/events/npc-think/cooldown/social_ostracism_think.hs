@@ -32,8 +32,8 @@
   (when (chance 0.0833))
 
   (effects
-    (end-belief @self friend ?b)
-    (end-belief ?b friend @self)
-    (end-belief @self close_to ?b)
-    (end-belief ?b close_to @self)
+    (end-belief {@self friend ?b})
+    (end-belief ?b {?b friend @self})
+    (end-belief {@self close_to ?b})
+    (end-belief ?b {?b close_to @self})
     ))

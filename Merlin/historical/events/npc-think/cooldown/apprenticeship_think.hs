@@ -97,5 +97,5 @@
   (effects
     (promote /worker @self)
     (for-each-belief {@self master ?master}
-        (end-belief @self master ?master))
+        (end-belief {@self master ?master}))
     ))

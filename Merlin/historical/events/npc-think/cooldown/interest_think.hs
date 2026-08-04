@@ -159,5 +159,5 @@
     ; on botany" survives the sleep sweep as history.
     (bind (random-unbacked-kind-target interest skilled_in) ?d)
     (if (is-kind ?d)
-        (then (end-belief @self interest ?d unforgettable)))
+        (then (end-belief {@self interest ?d} /salience unforgettable)))
     ))

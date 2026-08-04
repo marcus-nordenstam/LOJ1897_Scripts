@@ -21,7 +21,7 @@
   ; ?victim}, a different subject). If she is already known-unchaste to him, threatening
   ; to expose their affair no longer bites.
   (if (>= (count-beliefs-about ?victim lover) 1)
-      (then (end-belief @self extort ?victim))
+      (then (end-belief {@self extort ?victim}))
       (else
         ; Refresh the standing extort anchor in the victim's mind (his renewed demand,
         ; perceived); the victim's coercion_pressure event compounds the pressure off
