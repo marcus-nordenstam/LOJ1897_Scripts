@@ -38,11 +38,11 @@
 
 (npc-think day_work
   (fatigue 0)                      ; a work shift is not a fruitless search - never fatigue-capped
-  (role ?org (believes {@self job.org ?org})
-             (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (role ?job (believes {@self job ?job}))
+  (role ?org (believes {?job org ?org})           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
+             (believes {?org workplace ?wp})       ; ?wp binds at fire
+             (at-workplace ?wp))                    ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
   (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))  ; onset: derive the shift, bind ?start/?end
-        (at-workplace ?wp)
         (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
   (utility 80)
   ; PROPOSE the work-stay (act_body_purification): day_work's (when) - at the workplace + in/near
@@ -54,11 +54,11 @@
   ; Shift on or imminent and not yet at the workplace: mint {@self enter ?wp} and the
   ; generic enter chain (enter.hs) routes the travel. Ceases on arrival (at-workplace) or shift end.
   (fatigue 0)                      ; commuting to work is not a fruitless search - never fatigue-capped
-  (role ?org (believes {@self job.org ?org})
-             (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (role ?job (believes {@self job ?job}))
+  (role ?org (believes {?job org ?org})           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
+             (believes {?org workplace ?wp})       ; ?wp binds at fire
+             (not (at-workplace ?wp)))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
   (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))  ; onset: derive the shift, bind ?start/?end
-        (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))
-        (not (at-workplace ?wp)))
+        (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
   (utility 80)
   (effects       (maintain-proposal {@self enter ?wp})))
