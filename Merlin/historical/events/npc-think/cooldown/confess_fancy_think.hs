@@ -41,5 +41,5 @@
   (utility 22)
 
   (effects
-    (bind (utterable-msg (to ?target) {@self fancy ?target}) ?msg)
+    (bind (nl_utterable_msg "I fancy you") ?msg)
     (maintain-proposal {@self say_to ?msg ?target})))

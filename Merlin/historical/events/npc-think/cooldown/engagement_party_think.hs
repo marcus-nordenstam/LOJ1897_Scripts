@@ -27,7 +27,8 @@
               (not (believes {@self spouse ?}))
               (believes {@self fiancee ?}))
   (role ?bride (unmarried_woman ?bride)
-               (believes {@self fiancee ?bride}))
+               (believes {@self fiancee ?bride})
+               (believes {?bride name ?bride_name}))
 
   ;; The fiancee belief must be in its first year - the once-per-betrothal re-fire
   ;; guard, a non-belief op, so it gates the fire here rather than filtering the role.
@@ -36,5 +37,5 @@
   (effects
     ; Announce the fresh engagement to whoever is co-present (the SAY they hear and
     ; adopt); the wider circle learns via gossip (fiancee is a gossip label).
-    (tell (utterable-msg {@self fiancee ?bride}))
+    (tell (nl_utterable_msg "I am engaged to ?bride_name"))
     ))
