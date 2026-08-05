@@ -46,14 +46,16 @@
   ; business_partnership (which fires healthily). A backed clerk then founds his own
   ; business via business_founding's `backed_by` means-branch.
   ; A merit-and-character clerk who can weigh his own standing (the belief-pure
-  ; part). The backing firm is his job's org, bound as ?org in the role via
-  ; {@self job.org ?org}. The working-age band, not-already-an-owner, merit and
-  ; means dims, the completion gate and the onset chance live in (when ...) below.
+  ; part). The backing firm is his job's org, bound as ?org via the ?job role's
+  ; {?job org ?org} (threaded off {@self job ?job}). The working-age band, not-
+  ; already-an-owner, merit and means dims, the completion gate and the onset
+  ; chance live in (when ...) below.
   (role @self (old_human @self)
-              (believes {@self job.org ?org})
               (believes {@self wealth ?wealth})
               (or (believes {@self repute [k respectable]})
                   (believes {@self repute [k exemplary]})))
+  (role ?job (believes {@self job ?job}))
+  (role ?org (believes {?job org ?org}))          ; produced-restricted: ?org threaded off ?job
 
   ; MAINTENANCE: the decision OWNS the back goal end to end. (not backed_by) is the
   ; CONTINUOUS completion gate - while he is still unbacked the goal stands; the moment
@@ -89,11 +91,12 @@
   ; owner, merit + means dims and the monthly chance are non-belief and live in
   ; (when ...) below.
   (role @self (old_human @self)
-              (believes {@self job.org ?})
               (believes {@self wealth ?wealth})
               (or (believes {@self repute [k respectable]})
                   (believes {@self repute [k exemplary]}))
               (not (believes {@self backed_by ?})))
+  (role ?job (believes {@self job ?job})
+             (believes {?job org ?}))             ; threaded job.org existence
   ; An existing business he is taken into - a KNOWN org of business kind (@self
   ; learned it at new_job_orientation). Belief-pure + cached. (The plan links
   ; principal and candidate by a prior bond - friend / former master / club
@@ -152,10 +155,11 @@
   ; mind is read. Belief-pure part only; the age band, not-already-an-owner, merit
   ; dim, means branch and the monthly chance are non-belief and live in (when ...).
   (role @self (old_human @self)
-              (believes {@self job.org ?})
               (believes {@self wealth ?wealth})
               (or (believes {@self repute [k respectable]})
                   (believes {@self repute [k exemplary]})))
+  (role ?job (believes {@self job ?job})
+             (believes {?job org ?}))             ; threaded job.org existence
 
   ; MAINTENANCE: the decision OWNS the found goal end to end. (not org_head) is the
   ; CONTINUOUS completion gate - while he is not yet a proprietor the goal stands; the

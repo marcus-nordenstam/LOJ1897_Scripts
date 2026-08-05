@@ -37,9 +37,9 @@
 ; belief is about ?wp (the workplace), not @self, and lives in the (when). Cheap: gated
 ; to employed workers, and ends its own gate on first fire.
 (npc-think reconcile_closed
-  (role ?org (believes {@self job.org ?org})
-             (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (role ?job (believes {@self job ?job}))
+  (role ?org (believes {?job org ?org})           ; produced-restricted: ?org threaded off ?job
+             (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (believes {?wp struct_status [k closed]})))
   (effects
     (end-belief {@self job ?job})))

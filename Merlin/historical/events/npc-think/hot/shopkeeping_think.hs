@@ -15,7 +15,8 @@
 
 (npc-think stocktake_round
   (goal {@self stocktake})
-  (role ?org (believes {@self job.org ?org})
+  (role ?job (believes {@self job ?job}))
+  (role ?org (believes {?job org ?org})           ; produced-restricted: ?org threaded off ?job
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when  (at-workplace ?wp))
   (utility 82)

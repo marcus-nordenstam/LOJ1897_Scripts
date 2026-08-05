@@ -37,11 +37,12 @@
   ;; A KNOWN org (the youth learned it at new_job_orientation), not a household:
   ;; a household is an org but NOT a trade - no master, no apprenticeship. Belief-
   ;; pure + cached. The master gate (the org's founder, whom the youth avoids if
-  ;; KNOWN to be scandalous - permissive on the unknown) binds a secondary var,
-  ;; which the per-candidate cache cannot, so it lives in (when), evaluated live.
+  ;; KNOWN to be scandalous - permissive on the unknown) is a residual filter on
+  ;; ?master, produced off {?org founder ?master} and re-checked in the role.
   (role ?org (known_org ?org)
              (not (believes {?org isa [k org household]}))
              (believes {?org founder ?master})
+             (not (believes {?master repute [k scandalous]}))
              (believes {?org record ?org_record}))
 
   ;; Live exclusivity re-check (see employment.hs): the youth's "unemployed"
@@ -50,16 +51,12 @@
   ;; ...) - a computed op reads live, unlike a belief-pattern (which routes
   ;; through the stale alpha-discriminator). (hire ... /level trainee) sets it
   ;; live, so once apprenticed this tick the youth reads trainee + backtracks.
-  ;; The master gate also lives here (secondary-var bind, not cacheable): bind the
-  ;; org's founder ?master and exclude one the youth KNOWS to be scandalous
-  ;; (permissive on the unknown - (not (believes ...)) is true when unheard-of).
   ;; Role-belief-purity: the per-youth (chance) gate (low-breeding youths, below
   ;; the population mean of 55, are rarely taken on) and the 12-16 age window are
   ;; non-belief @self reads, so they moved here from the @self role; (chance) leads
   ;; the (and ...) to short-circuit cheaply.
   (when (and (chance (* 0.0125 (+ 0.5 ?breeding)))
              (not (= (job-level @self) [k trainee]))
-             (not (believes {?master repute [k scandalous]}))
              (>= (years-old @self) 12)
              (<= (years-old @self) 16)))
 

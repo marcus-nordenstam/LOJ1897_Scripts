@@ -10,8 +10,8 @@
 ; years, instead of striking uniformly at random.
 ;
 ; ACTOR = the proprietor, identified from his OWN beliefs, NO world scan. ?org is
-; a CACHED role (both filters test the SAME candidate):
-;   {@self job.org [k org business]:?org} - he is seated at ?org AND ?org is-a
+; a produced-restricted role threaded off ?job ({@self job ?job}):
+;   {?job org [k org business]:?org} - he is seated at ?org AND ?org is-a
 ;                            trading firm, so churches / clubs / hospitals (public
 ;                            orgs, never "fail" this way) are excluded. The
 ;                            kind-cast matches the org OBJECT's permanent kind -
@@ -62,7 +62,8 @@
   ; Light @self gate; the owner + business-kind identification is the cached
   ; ?org role; the articles filter caches as EXISTENCE and binds ?art at fire.
   (role @self (grown @self))
-  (role ?org (believes {@self job.org [k org business]:?org})
+  (role ?job (believes {@self job ?job}))
+  (role ?org (believes {?job org [k org business]:?org})    ; produced-restricted: ?org threaded off ?job
              (believes {@self wealth ?wealth})
              (believes {?org founder @self})
              (believes {?org record ?art}))
@@ -71,12 +72,11 @@
   ; wealth / diligence are his OWN derived dims, read as the founding events do), an
   ; ONSET: (latch-eval) rolls it at the fire and LOCKS it once the goal holds (it
   ; re-rolls each year until it lands). MAINTENANCE - the decision OWNS the winding-up
-  ; goal focused on his OWN articles end to end. The ?org role's {@self job.org [k org
+  ; goal focused on his OWN articles end to end. The ?org role's {?job org [k org
   ; business]:?org} filter is the CONTINUOUS completion gate: while he is still the seated
   ; proprietor the goal stands; once close_business_act shutters the premises and
-  ; reconcile_closed (perceiving the closed doors) ends his {@self job ?job} (with its
-  ; job.org decoration), the
-  ; role drops and the cease-effects retract the goal.
+  ; reconcile_closed (perceiving the closed doors) ends his {@self job ?job}, the
+  ; ?job role drops (and ?org with it) and the cease-effects retract the goal.
   (when (latch-eval
           (chance (* (* (business_failure_base) (business_failure_climate_mult))
                      (* (+ 1.0 (* (business_failure_means_weight) (- 1.0 ?wealth)))

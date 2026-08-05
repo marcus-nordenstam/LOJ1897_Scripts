@@ -24,7 +24,8 @@
   (cooldown 1 m)
   (rng-stream employment)
 
-  (role ?org (believes {@self job.org ?org})
+  (role ?job (believes {@self job ?job}))
+  (role ?org (believes {?job org ?org})
              (believes {?org record ?art}))
 
   (when (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg)))

@@ -29,8 +29,9 @@
   ; Clubs are founded by a settled adult of some standing - an employed man over
   ; thirty. (The class-floor the plan names is carried by the `job.salary` gate: a man
   ; with a paid post is a man of standing.) The founder is the sole deliberator (@self).
-  (role @self (old_human @self)
-              (believes {@self job.salary ?}))
+  (role @self (old_human @self))
+  (role ?job (believes {@self job ?job})
+             (believes {?job salary ?}))          ; threaded job.salary existence
 
   ; MAINTENANCE: the decision OWNS the found_club goal end to end. The (chance) is an
   ; ONSET roll - (latch-eval) rolls it at the fire and LOCKS it once holding, so the
@@ -65,18 +66,19 @@
               (not (believes {@self repute [k scandalous]}))
               (not (believes {@self repute [k disreputable]})))
   ; A KNOWN club (@self learned it at new_job_orientation). Belief-pure + cached:
-  ; the omniscient org-kind-is-a doc read is gone. The own-class match (below)
-  ; binds the founder - a secondary var the per-candidate cache cannot - so it
-  ; lives in (when), evaluated live per firing.
+  ; the omniscient org-kind-is-a doc read is gone. The founder is produced-restricted
+  ; off {?club_org founder ?founder} in the role; the own-class match (below) reads
+  ; it live in (when).
   (role ?club_org (known_org ?club_org)
-                  [k org club])
+                  [k org club]
+                  (believes {?club_org founder ?founder}))   ; produced-restricted: ?founder off the club
 
   ; A man joins a club of his OWN class band. The club's tier is read as @self's
   ; view of the founder's class (3-arg (situation ... @self), banded in via
   ; believe_about) - a positive match, so @self only joins a club whose founder he
-  ; actually knows (an unfamiliar founder's class @fails the match). Binds ?founder
-  ; off @self's {?club_org founder ?founder} belief (minted at orientation).
-  ; chance + age + club-count moved here from the @self role (non-belief gates).
+  ; actually knows (an unfamiliar founder's class @fails the match). ?founder is
+  ; produced off @self's {?club_org founder ?founder} belief (minted at orientation)
+  ; in the ?club_org role. chance + age + club-count are non-belief gates in (when).
   ; MAINTENANCE: the decision OWNS the join_club goal end to end. (chance) is the ONSET
   ; roll - (latch-eval) rolls it at the fire and LOCKS it once holding (it re-rolls
   ; each month until it lands). (not member_of ?club_org) is the CONTINUOUS completion
@@ -86,7 +88,6 @@
   (when (and (>= (years-old @self) 18)
              (< (count-beliefs @self member_of) 2)
              (not (believes {@self member_of ?club_org}))
-             (believes {?club_org founder ?founder})
              (= (target {?founder class_situation})
                 (target {@self class_situation}))
              (latch-eval (chance 0.005))))

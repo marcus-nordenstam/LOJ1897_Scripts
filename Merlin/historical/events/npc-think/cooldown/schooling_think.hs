@@ -48,18 +48,18 @@
   ; MAINTENANCE: the decision OWNS the enrol_primary goal end to end. @self is a child
   ; who does not yet hold the basic-schooling credential; the (not skilled_in) guard
   ; keeps a once-schooled child from re-enrolling on a later month of the 5-7 window.
+  ; CONTINUOUS completion gate as a CACHED role filter: while the child is not yet studying
+  ; primary the goal stands; the moment enrol_primary_act matriculates him ({@self study [k
+  ; primary_school_curriculum]}) the role drops and the goal ends. The act never ends the goal.
   (role @self
-              (not (believes {@self skilled_in [k primary_school_curriculum]})))
+              (not (believes {@self skilled_in [k primary_school_curriculum]}))
+              (not (believes {@self study [k primary_school_curriculum]})))
 
   ; ONSET: the breeding-squared class-gate (chance) is rolled at the fire and LOCKED once
   ; holding (it re-rolls each month until it lands), routing an upper child (breeding
   ; ~0.85) into school almost always, a working-class child (~0.25) only rarely.
-  ; CONTINUOUS completion gate: while the child is not yet studying primary the goal
-  ; stands; the moment enrol_primary_act matriculates him ({@self study [k
-  ; primary_school_curriculum]}) it falls and the goal ends. The act never ends the goal.
   (when (and (>= (years-old @self) 5)
              (<= (years-old @self) 7)
-             (not (believes {@self study [k primary_school_curriculum]}))
              (latch-eval (chance (* 0.0833 (situation @self breeding) (situation @self breeding))))))
 
   (effects       (begin-goal {@self enrol_primary}))
@@ -74,17 +74,17 @@
   ; primary credential, is not yet secondary-credentialed, and is not in work /
   ; apprenticeship (the working-class child who finished primary has a low chance and
   ; instead falls to apprenticeship_start, which excludes pupils).
+  ; CONTINUOUS completion gate as a CACHED role filter: the role drops (and the goal ends) when
+  ; enrol_secondary_act matriculates him ({@self study [k secondary_school_curriculum]}).
   (role @self
               (believes {@self skilled_in [k primary_school_curriculum]})
               (not (believes {@self skilled_in [k secondary_school_curriculum]}))
+              (not (believes {@self study [k secondary_school_curriculum]}))
               (not (believes {@self job.salary ?})))
 
-  ; ONSET: the middle+ breeding-squared (chance) is rolled at the fire and LOCKED once
-  ; holding. CONTINUOUS completion gate: the goal ends when enrol_secondary_act
-  ; matriculates him ({@self study [k secondary_school_curriculum]}).
+  ; ONSET: the middle+ breeding-squared (chance) is rolled at the fire and LOCKED once holding.
   (when (and (>= (years-old @self) 12)
              (<= (years-old @self) 14)
-             (not (believes {@self study [k secondary_school_curriculum]}))
              (latch-eval (chance (* 0.0833 (situation @self breeding) (situation @self breeding))))))
 
   (effects       (begin-goal {@self enrol_secondary}))
@@ -99,18 +99,17 @@
   ; secondary-educated and not employed. The subject is interest-led, chosen inside the
   ; act - enrol_university_act mints {@self study <academic_field>} (medicine / law /
   ; ...), NOT a fixed university curriculum, so the completion gate is the generic (not
-  ; (believes {@self study ?})): at 18-20 the youth holds no prior study, so it falls
-  ; exactly when he matriculates.
+  ; (believes {@self study ?})) CACHED role filter: at 18-20 the youth holds no prior
+  ; study, so the role drops (and the goal ends) exactly when he matriculates.
   (role @self
               (believes {@self skilled_in [k secondary_school_curriculum]})
+              (not (believes {@self study ?}))
               (not (believes {@self job.salary ?})))
 
   ; ONSET: the steep upper / wealthy-middle breeding-cubed (chance) - the professions'
-  ; gateway - rolled at the fire and LOCKED once holding. CONTINUOUS completion gate:
-  ; the goal ends when enrol_university_act matriculates him ({@self study <subject>}).
+  ; gateway - rolled at the fire and LOCKED once holding.
   (when (and (>= (years-old @self) 18)
              (<= (years-old @self) 20)
-             (not (believes {@self study ?}))
              (latch-eval (chance (* 0.0833 (situation @self breeding) (* (situation @self breeding) (situation @self breeding)))))))
 
   (effects       (begin-goal {@self enrol_university}))

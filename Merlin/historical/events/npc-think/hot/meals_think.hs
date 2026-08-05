@@ -105,10 +105,11 @@
 
 ; LUNCH at the workplace - the CO-WORKER channel (eat where you stand at midday).
 (npc-think want_lunch_work
-  (role ?org (believes {@self job.org ?org})
-             (believes {?org workplace ?wp}))   ; ?wp binds at fire
+  (role ?job (believes {@self job ?job}))
+  (role ?org (believes {?job org ?org})           ; produced-restricted: ?org threaded off ?job
+             (believes {?org workplace ?wp})       ; ?wp binds at fire
+             (at-workplace ?wp))                    ; residual gate, re-checked at the when-seam
   (when (and (> (attr @self appetite) 0.25)
-             (at-workplace ?wp)
              (>= (now-hour) 12)
              (< (now-hour) 14)))
   (utility 85)
