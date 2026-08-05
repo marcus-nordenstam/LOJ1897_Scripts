@@ -46,5 +46,5 @@
           (bind (target {@self home}) ?home)
           (if (and (is-entity ?innocent) (is-entity ?home))
               (then (spawn-letter [k forged_letter]
-                            (written-msg {?innocent kill ?victim})
+                            (nl_written_msg "?innocent killed ?victim")
                             ?home)))))))

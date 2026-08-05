@@ -911,6 +911,10 @@ $form(FORM)
 { ?_I /past coerce $obj_np(NP) { $obj_np(NP) /pres lover ?_I } } .
 " breakfast at $sub_np(NP) is at $hour(NP) "
 { $sub_np(NP) /pres breakfast_hour $hour(NP) } .
+" $sub_np(NP) killed $value(NP) "
+{ $sub_np(NP) /past kill $value(NP) } .
+" I urge $obj_np(NP) to kill $value(NP) "
+{ ?_I /pres urge $obj_np(NP) { $obj_np(NP) /pres kill $value(NP) } } .
 
 # --- EMPLOYER (org-valued; distinct from the job-kind templates above) -------
 " $sub_np(NP) $verb(VERB|work) for $value(NP) "
