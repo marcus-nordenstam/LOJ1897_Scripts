@@ -6,24 +6,25 @@
 ; below the org_head - murders the incumbent to take the seat. The victim is an
 ; OBSTACLE (an innocent who holds the post), not a wrongdoer.
 ;
-; PURE .hs (no C++ generator). The selection that the old (generative-ambition)
-; flag dispatched to run_generative_ambition is expressed here:
+; PURE .hs, per-mind honest (the old (ambition-target ...) C++ verb entered every
+; colleague's mind + scanned the register). The selection is now a role-cast JOIN
+; over what @self KNOWS, exactly like covet's:
+;   - @self must be seated at an org, SENIOR grade, and NOT the head - the honest
+;     clear-deputy proxy: senior is the top rung below the head, so removing the head
+;     lifts @self (promote_on_vacancy). All self-reads of my own job object.
+;   - ?victim is the incumbent head: a colleague I LEARNED from the staff register
+;     (read_roster) whose job at MY org is-a org_head. The JOIN {?victim job.org ?org}
+;     shares my own org object - a read of my own beliefs, no telepathy.
 ;   - (when ...) is the disposition pre-gate (ambition = mean(machiavellianism,
-;     narcissism), scaled by disinhibition, at the 0.03 base rate) plus the adult floor,
-;   - (ambition-target @self) resolves the obstacle - the org_head the actor is the
-;     clear deputy behind (@fail otherwise, so non-deputies no-fire). The one
-;     irreducible org-hierarchy computation, exposed as a verb (sibling of
-;     (heir-apparent ...)),
+;     narcissism), scaled by disinhibition, at the 0.03 base rate).
 ;   - (effects ...) mints {actor goal {actor kill <head>}}, /cause-pinned to the
-;     actor's `job.org` belief (their stake in the org), so the rap sheet reads
+;     actor's job.org belief (their stake), so the rap sheet reads
 ;     "kill <head> <- {@self job.org <org>}".
-; attempt_harm then consumes the goal and executes a kill method as usual. The
-; payoff is real: promote_on_vacancy (propagate_death) lifts the actor into the
-; vacated org_head rank, so the murder pays off.
+; attempt_harm then consumes the goal and executes a kill method. The payoff is real:
+; promote_on_vacancy (propagate_death) lifts the actor into the vacated head rank.
 ;
-; Kept rare by design (the 0.03 base rate + the clear-deputy requirement, so only a
-; handful of NPCs qualify at any time). To A/B the motive, rename / remove this file
-; (runtime-loaded; no rebuild).
+; Kept rare by design (0.03 base rate + a senior non-head is uncommon). To A/B the
+; motive, rename / remove this file (runtime-loaded; no rebuild).
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
@@ -32,24 +33,29 @@
   (cooldown 1 m)
   (rng-stream perpetration)
 
-  (role @self 
-              (adult @self))
+  ; @self: a credible successor - seated (binds my org), senior grade, not the head.
+  (role @self (adult @self)
+              (believes {@self job.org ?org})
+              (believes {@self job.level [k senior]})
+              (not (believes {@self job [k org_head]})))
 
-  ; Disposition pre-gate + adult floor. ambition = mean(machiavellianism, narcissism);
+  ; The incumbent head I stand behind - a known colleague (learned from the staff
+  ; register by read_roster) whose job is-a org_head. read_roster only mints coworkers
+  ; from MY own register, so a known org-head IS my org's head; the (when) below pins it
+  ; to my current ?org with a LIVE chain read (a cross-role JOIN on the job.org chain in
+  ; a cached role filter is unsupported, so the org match lives in the gate, not the role).
+  (role ?victim (known_alive ?victim)
+                (believes {?victim job [k org_head]})
+                (select (policy first-match)))
+
+  ; Same-org pin + disposition pre-gate. ambition = mean(machiavellianism, narcissism);
   ; propensity = (1 - inhibition) * ambition; fire at 0.03 * propensity.
-  (when (chance (* (crime-scale) 0.03
+  (when (believes {?victim job.org ?org})
+        (chance (* (crime-scale) 0.03
                    (* (- 1 (inhibition))
                       (* 0.5 (+ (attr @self machiavellianism)
                                 (attr @self narcissism)))))))
 
-  ; Mint the kill goal toward the resolved obstacle. ambition-target reads the org
-  ; hierarchy (the one irreducible computation, exposed as a verb). /cause pins
-  ; @self's job.org belief - the instrumental stake - so the rap sheet reads
-  ; "kill <head> <- {@self job.org <org>}".
   (effects
-    (debug-print "TRACE_AMBITION_FIRES @self")
-    (bind (ambition-target @self) ?victim)
-    (if (and (is-entity ?victim)
-             (not (believes {?victim condition [k dead]})))
-        (then (debug-print "TRACE_KILLGOAL ambition @self -> ?victim")
-            (begin-goal {@self kill ?victim} /cause {@self job.org})))))
+    (debug-print "TRACE_AMBITION @self -> ?victim head at ?org")
+    (begin-goal {@self kill ?victim} /cause {@self job.org})))
