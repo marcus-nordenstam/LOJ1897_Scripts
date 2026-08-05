@@ -22,7 +22,9 @@
   (role @self (grown @self)
               (not (believes {@self spouse ?}))
               (not (believes {@self fiancee ?}))
-              (believes {@self fancy ?}))
+              (believes {@self fancy ?})
+              ; @self signs the letter - bind his OWN name for the "Signed, .." line.
+              (believes {@self name ?author_name}))
   ; The one @self is most drawn to, still single. @self declares whether or not he
   ; already knows she cares - the one who has LEARNED she is fancied is exactly who
   ; should now declare back, so this must NOT gate on {?target fancy @self}. Writing
@@ -31,6 +33,9 @@
                 (marriageable-age ?target)
                 (not (believes {?target spouse ?}))
                 (is-attracted-to @self ?target)
+                ; @self must KNOW her name to write to her - bind it for the body's
+                ; name value (no live object on the wire).
+                (believes {?target name ?target_name})
                 (select (score (stance-band ?target attraction)) (policy argmax)))
 
   ; Post it when they are APART (a co-present suitor uses the spoken confess_fancy)
@@ -40,6 +45,10 @@
              (chance 0.4)))
 
   (effects
+    ; The confession + signature, authored in natlang: the body names her by the
+    ; name @self believes ("I fancy ?target_name") and the "Signed, .." line becomes
+    ; a (formulaic author ..) the reader resolves @i from (no C++ compose, no baked
+    ; signature). Her morning post read (read_pending_mail) adopts it.
     (spawn-letter [k courtship_letter]
-                  (written-msg {@self fancy ?target} signed)
+                  (nl_written_msg "I fancy ?target_name. Signed, ?author_name")
                   (home-of ?target))))

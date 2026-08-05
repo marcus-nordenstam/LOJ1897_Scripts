@@ -4,9 +4,13 @@
   (cooldown 1 m)
   (rng-stream incidents)
 
-  (role @self (adult @self) (believes {@self lover ?}))
+  (role @self (adult @self) (believes {@self lover ?})
+              ; @self signs the denunciation - bind his OWN name for "Signed, ..".
+              (believes {@self name ?author_name}))
   (role ?cheater (any_human ?cheater)
     (believes {@self lover ?cheater})
+    ; @self names the cheater in the letter body (a name value, not the object).
+    (believes {?cheater name ?cheater_name})
     (select (policy first-match)))
 
   (when (chance (* 0.3 (infidelity-disposition @self))))
@@ -19,5 +23,5 @@
         (then
           (debug-print "EXPOSE_SENT @self cheater=?cheater")
           (spawn-letter [k denunciation_letter]
-                        (written-msg {?cheater lover @self} signed)
+                        (nl_written_msg "?cheater_name has taken me as a lover. Signed, ?author_name")
                         (home-of ?cheater))))))

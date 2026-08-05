@@ -29,12 +29,16 @@
   (rng-stream incidents)
 
   (role @self (adult @self)
-              (believes {@self lover ?}))
+              (believes {@self lover ?})
+              ; @self signs the love letter - bind his OWN name for "Signed, ..".
+              (believes {@self name ?author_name}))
   ; The paramour: a lover who is not also a spouse (the covert third party).
   (role ?paramour (any_human ?paramour)
     (believes {@self lover ?paramour})
     (not (believes {@self spouse ?paramour}))
     (covert-affair-motive ?paramour)   ; belief-pure macro - cached
+    ; @self names her in the letter body (a name value, not the live object).
+    (believes {?paramour name ?paramour_name})
     (select (policy first-match)))
 
   ; (when) is the monthly writer rate; the adult floor, live paramour and
@@ -42,6 +46,8 @@
   (when (chance 0.5))
 
   (effects
+    ; The love letter IS the affair fact, authored in natlang: her name in the
+    ; body, "Signed, .." -> the (formulaic author ..) the reader resolves @i from.
     (send-covert-letter ?paramour
-                         (written-msg {@self lover ?paramour} signed)
+                         (nl_written_msg "I have taken ?paramour_name as a lover. Signed, ?author_name")
                          [k love_letter])))

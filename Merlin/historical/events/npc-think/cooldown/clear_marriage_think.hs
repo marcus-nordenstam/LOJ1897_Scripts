@@ -35,8 +35,12 @@
   (cooldown 1 m)
   (rng-stream perpetration)
 
-  (role @self )
-  (role ?spouse (any_human ?spouse) (believes {@self spouse ?spouse}) (select (policy first-match)))
+  ; @self signs the covert murder-proposal letter - bind his OWN name.
+  (role @self (believes {@self name ?author_name}))
+  (role ?spouse (any_human ?spouse) (believes {@self spouse ?spouse})
+                ; @self names the spouse-victim in the plot (a name value).
+                (believes {?spouse name ?spouse_name})
+                (select (policy first-match)))
   ; A covert lover (belief-query role filter: a lover who is not the spouse,
   ; and not KNOWN married - is-married is a pure belief macro, cached here).
   (role ?paramour (any_human ?paramour)
@@ -73,6 +77,8 @@
           ; into their mind), and conspiracy_adoption.hs decides whether they take
           ; up the deed - no telepathy, and an intercepted letter means the lover
           ; never learns of the plot at all.
-          (send-covert-letter ?paramour (written-msg {@self urge {?paramour kill ?spouse}} signed) [k letter]))
+          ; @you = ?paramour (the covert letter's recipient); the plot's doer
+          ; resolves to the reader, so conspiracy_adoption sees {@self kill <spouse>}.
+          (send-covert-letter ?paramour (nl_written_msg "I urge you to kill ?spouse_name. Signed, ?author_name") [k letter]))
         ; DIRECT: the cheater acts alone.
         (else (begin-goal {@self kill ?spouse} /cause {@self lover ?paramour})))))

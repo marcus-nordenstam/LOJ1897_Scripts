@@ -32,21 +32,21 @@
   (rng-stream perpetration)
 
   (role @self )
-  ; Anyone @self believes has urged something - the belief arrives only by
-  ; reading the letter (or hearing the words), never by telepathy.
+  ; Anyone @self believes has urged HIM something - the belief arrives only by
+  ; reading the letter (or hearing the words), never by telepathy. A role filter
+  ; may not carry a nested clause, so the plot shape is matched in (when) below.
   (role ?instigator (any_human ?instigator)
-        (believes {?instigator urge ?}))
+                    (believes {?instigator urge @self ?}))
 
-  ; The plot must ask ME to kill someone, and I must be willing: desire for
-  ; the instigator (attraction band >= 2) plus the dark roll.
-  (when (and (bind {?instigator urge ?plot})
-             (= (clause-label ?plot) kill)
-             (= (clause-subject ?plot) @self)
+  ; The plot must ask ME to kill someone, and I must be willing: desire for the
+  ; instigator (attraction band >= 2) plus the dark roll. The urge belief is
+  ; {<instigator> urge <me> {<me> kill <victim>}} (Statements.mgr "I urge <you>
+  ; to kill <x>"); the {..}:?plot capture binds the whole kill plot and ?victim.
+  (when (and (bind {?instigator urge @self {@self kill ?victim}:?plot})
              (>= (stance-band ?instigator attraction) 2)
              (chance (attr @self psychopathy))))
 
   (effects
-    (bind (clause-target ?plot) ?victim)
     ; My own side of the conspiracy: the bond embeds the plot as its AUX
     ; clause, and the goal is pinned to the bond.
     (begin-belief {@self accomplice ?instigator ?plot})

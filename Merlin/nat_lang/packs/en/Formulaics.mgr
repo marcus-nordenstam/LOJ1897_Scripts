@@ -17,6 +17,13 @@
 #"A moment, if you please; I am engaged in conversation"                        ( formulaic refusal conv busy ) .
 "I can't talk right now because $st(ST)"                                        ( formulaic refusal $st(ST) ) .
 
+# Letter envelope lines. "Signed, <name>" carries the AUTHOR, "To <name>" the
+# ADDRESSEE - decode (message_codec) resolves @i / @you from these and never
+# adopts them as beliefs. $name(PNAME) takes a proper name ([n ...]) or a
+# ?var bound to a name-symbol. Case-insensitive via the lowercasing preprocess.
+"Signed, $name(PNAME)"                                                          ( formulaic author $name(PNAME) ) .
+"To $name(PNAME)"                                                               ( formulaic addressee $name(PNAME) ) .
+
 "No, I don't know"                                                              ( formulaic no_dont_know ) .
 "Yes, it's $answer(NP)"                                                         ( formulaic yes_its $answer(NP) ) .
 "Yes, this is my $rel(REL) $name(PNAME)"                                        ( formulaic yes_this_is $rel(REL) $name(PNAME) ) .
