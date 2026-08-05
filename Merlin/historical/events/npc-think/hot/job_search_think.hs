@@ -53,7 +53,7 @@
            (maintain-proposal {@self enter ?board})))
 
 ; --- decision: at the board, answer an eligible advert I can fill --------------
-; ONE application in flight at a time ((not (believes {@self submit ?}))): the
+; ONE application in flight at a time ((not (believes {@self submit ? /ever}))): the
 ; seeker commits to a post and waits for its verdict before answering another.
 ; The advert doc carries its own workplace / floor / job - re-read on demand, so
 ; the seeker keeps no advert-specific beliefs.
@@ -67,12 +67,17 @@
   (role ?ad [k job_description] (select (score 1) (policy roulette)))
   (when (and (co-present @self ?ad)
              (not (believes {@self apply ?}))
-             (not (believes {@self submit ?}))
+             (not (believes {@self submit ? /ever}))
              (read-doc-record [k job_description] ?ad (class_floor ?cf))
              (class-at-least @self ?cf)))
   (utility 73)
+  ; LATCH the roulette-picked advert: apply is a commitment marker (like submit),
+  ; not a competing motor - a maintain-proposal over a fresh roulette pick each
+  ; deliberation never stabilizes to commit. The pick is frozen here; the motor
+  ; rungs below (enter workplace, submit_application) ride this belief. Ends when
+  ; the paper is written (submit_application), so a rejection frees a fresh pick.
   (effects (debug-print "TRACE-APPLYPICK ad=?ad")
-           (maintain-proposal {@self apply ?ad})))
+           (begin-belief {@self apply ?ad})))
 
 ; --- the application task: go to the workplace named on the advert -------------
 (npc-think apply_go
@@ -97,16 +102,18 @@
 ; --- the verdict arrives by letter (read at home, morning post) ----------------
 ; A rejection: tear up the paper and free the seeker to answer another advert.
 (npc-think reject_reset
-  (role @self (believes {@self submit ?app}))
-  (when (believes {?app status [k rejected]}))
+  (goal {@self seek_work})
+  (when (and (believes {@self submit ?app /ever})
+             (believes {?app status [k rejected]})))
   (effects
     (debug-print "TRACE-REJECTED app=?app")
     (end-belief {@self submit ?app})))
 
 ; An offer: take up the post.
 (npc-think offer_pickup
-  (role @self (believes {@self submit ?app}))
-  (when (believes {?app status [k offered]}))
+  (goal {@self seek_work})
+  (when (and (believes {@self submit ?app /ever})
+             (believes {?app status [k offered]})))
   (utility 76)
   (effects (debug-print "TRACE-OFFERPICKUP app=?app")
            (maintain-proposal {@self take_up_post ?app})))

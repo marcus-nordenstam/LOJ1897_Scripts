@@ -31,13 +31,22 @@
   (duration 20)
   (effects
     (read-doc-record [k job_description] ?ad (job ?jk) (org_record ?art) (workplace ?wp))
+    (read-doc-record [k articles_of_incorporation] ?art (name ?on))
     (create-entity [k application]
         (qual location (current-building @self)) (bind ?app))
     (write-doc-record [k application] ?app
         (applicant @self) (job ?jk) (org_record ?art) (workplace ?wp) (status [k applied]))
     ; The author holds his OWN paper's handle - {@self submit ?app} is his one
     ; dedup (closes apply_pick) and the anchor his verdict letters resolve onto.
-    (begin-belief {@self submit ?app})
+    ; Submitting is punctual: record it ENDED (a /past fact "I submitted @app"), so the
+    ; recruiter's descriptor ("the application you SUBMITTED ...") resolves onto it. The
+    ; job + org(-kind) beliefs give the descriptor's other clauses their anchor.
+    (begin-ended-belief {@self submit ?app})
+    (begin-belief {?app job ?jk})
+    (begin-belief {?app org ?on})
+    ; The apply task culminates in this paper - drop its latch so the seeker waits
+    ; on the submit handle alone (a rejection reopens apply_pick for a fresh advert).
+    (end-belief {@self apply ?ad})
     (set-outcome {@self submit_application ?ad} succ)))
 
 ; RECRUITER: offer the post - stamp the application offered and post the reply
@@ -46,20 +55,24 @@
 (npc-action {@self make_offer ?app}
   (duration 15)
   (effects
-    (read-doc-record [k application] ?app (applicant ?w))
+    (read-doc-record [k application] ?app (applicant ?w) (job ?jk) (org_record ?art))
+    (read-doc-record [k articles_of_incorporation] ?art (name ?on))
     (update-doc-record [k application] ?app (status [k offered]))
     (spawn-letter [k letter]
-        (written-msg {?app status [k offered]} signed) (home-of ?w))
+        (nl_written_msg "the application you submitted for the ?jk position at ?on has been offered")
+        (home-of ?w))
     (set-outcome {@self make_offer ?app} succ)))
 
 ; RECRUITER: reject - stamp the application rejected and post the reply letter.
 (npc-action {@self send_rejection ?app}
   (duration 15)
   (effects
-    (read-doc-record [k application] ?app (applicant ?w))
+    (read-doc-record [k application] ?app (applicant ?w) (job ?jk) (org_record ?art))
+    (read-doc-record [k articles_of_incorporation] ?art (name ?on))
     (update-doc-record [k application] ?app (status [k rejected]))
     (spawn-letter [k letter]
-        (written-msg {?app status [k rejected]} signed) (home-of ?w))
+        (nl_written_msg "the application you submitted for the ?jk position at ?on has been rejected")
+        (home-of ?w))
     (set-outcome {@self send_rejection ?app} succ)))
 
 ; SEEKER: accept the offer - sign the application accepted at the workplace.

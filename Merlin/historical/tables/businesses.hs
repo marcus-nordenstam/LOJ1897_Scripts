@@ -25,52 +25,52 @@
 ; ----------------------------------------------------------------------------
 
 (define-table businesses
-  (fields org_kind building back_office_room premises)
+  (fields name org_kind building back_office_room premises)
 
   ;; --- Industrial / financial: each needs its own building ---
-  (record [k org factory]         [k building factory]            back_office  on_site)
-  (record [k org bank]            [k building bank]               back_office  on_site)
-  (record [k org newspaper]       [k building newspaper]          back_office  on_site)
+  (record [n st-revier-mill]      [k org factory]         [k building factory]            back_office  on_site)
+  (record [n meridian-bank]       [k org bank]            [k building bank]               back_office  on_site)
+  (record [n the-christie-herald] [k org newspaper]       [k building newspaper]          back_office  on_site)
 
   ;; --- Retail ORGS (a customer-facing shop with a counter); records in the back office.
   ;;     Each is a real org kind; all seat in a `shop` building (there is no `shop` org). ---
-  (record [k org grocer]          [k building shop]               back_office  on_site)
-  (record [k org apothecary]      [k building shop]               back_office  on_site)
-  (record [k org bookseller]      [k building shop]               back_office  on_site)
-  (record [k org pawnbroker]      [k building shop]               back_office  on_site)
-  (record [k org antiques_shop]   [k building shop]               back_office  on_site)
-  (record [k org barbershop]      [k building barbershop]         back_office  on_site)
+  (record [n hallidays-grocery]   [k org grocer]          [k building shop]               back_office  on_site)
+  (record [n quills-apothecary]   [k org apothecary]      [k building shop]               back_office  on_site)
+  (record [n thornes-books]       [k org bookseller]      [k building shop]               back_office  on_site)
+  (record [n goldmans-pledges]    [k org pawnbroker]      [k building shop]               back_office  on_site)
+  (record [n the-curiosity-house] [k org antiques_shop]   [k building shop]               back_office  on_site)
+  (record [n figaros]             [k org barbershop]      [k building barbershop]         back_office  on_site)
 
   ;; --- Hospitality / leisure: their own premises ---
-  (record [k org hotel]           [k building hotel]              back_office  on_site)
-  (record [k org restaurant]      [k building restaurant]         back_office  on_site)
-  (record [k org pub]             [k building pub]                back_office  on_site)
-  (record [k org theatre]         [k building theatre]            back_office  on_site)
+  (record [n the-esplanade-hotel] [k org hotel]           [k building hotel]              back_office  on_site)
+  (record [n the-copper-kettle]   [k org restaurant]      [k building restaurant]         back_office  on_site)
+  (record [n the-anchor]          [k org pub]             [k building pub]                back_office  on_site)
+  (record [n the-royal-theatre]   [k org theatre]         [k building theatre]            back_office  on_site)
 
   ;; --- Professional / agency: a general office building where clients call ---
-  (record [k org solicitor_firm]  [k building office]             back_office  on_site)
-  (record [k org house_agency]    [k building office]             back_office  on_site)
-  (record [k org insurance_co]    [k building office]             back_office  on_site)
-  (record [k org shipping_agent]  [k building office]             back_office  on_site)
+  (record [n whitfield-and-crane] [k org solicitor_firm]  [k building office]             back_office  on_site)
+  (record [n saltcombe-estates]   [k org house_agency]    [k building office]             back_office  on_site)
+  (record [n albion-assurance]    [k org insurance_co]    [k building office]             back_office  on_site)
+  (record [n mariner-shipping]    [k org shipping_agent]  [k building office]             back_office  on_site)
 
   ;; --- Clubs convene in their own clubhouse ---
-  (record [k org race_club]       [k building athletic_clubhouse] back_office  on_site)
-  (record [k org athletic_club]   [k building athletic_clubhouse] back_office  on_site)
-  (record [k org social_club]     [k building social_clubhouse]   back_office  on_site)
+  (record [n the-turf-club]       [k org race_club]       [k building athletic_clubhouse] back_office  on_site)
+  (record [n the-corinthian-club] [k org athletic_club]   [k building athletic_clubhouse] back_office  on_site)
+  (record [n the-albion-club]     [k org social_club]     [k building social_clubhouse]   back_office  on_site)
 
   ;; --- Public (gov / edu): premises kind declared for completeness ---
-  (record [k org church]          [k building church]             back_office  on_site)
-  (record [k org hospital]        [k building hospital]           back_office  on_site)
-  (record [k org state_school]    [k building school]             back_office  on_site)
-  (record [k org private_school]  [k building school]             back_office  on_site)
-  (record [k org university]      [k building school]             back_office  on_site)
+  (record [n st-clements-church]  [k org church]          [k building church]             back_office  on_site)
+  (record [n st-marys-hospital]   [k org hospital]        [k building hospital]           back_office  on_site)
+  (record [n christie-board-school] [k org state_school]  [k building school]             back_office  on_site)
+  (record [n greyfriars-academy]  [k org private_school]  [k building school]             back_office  on_site)
+  (record [n port-christie-college] [k org university]    [k building school]             back_office  on_site)
 
   ;; --- Public civic / cultural venues ---
-  (record [k org library]         [k building library]            back_office  on_site)
-  (record [k org museum]          [k building museum]             back_office  on_site)
-  (record [k org meeting_hall]    [k building theatre]            back_office  on_site)
-  (record [k org sports_ground]   [k building sports_ground]      back_office  on_site)
+  (record [n the-carnegie-library] [k org library]        [k building library]            back_office  on_site)
+  (record [n the-christie-museum] [k org museum]          [k building museum]             back_office  on_site)
+  (record [n the-assembly-rooms]  [k org meeting_hall]    [k building theatre]            back_office  on_site)
+  (record [n victoria-park]       [k org sports_ground]   [k building sports_ground]      back_office  on_site)
 
   ;; --- Residence-seated orgs: run from the proprietor's home study ---
-  (record [k org estate]          [k building office]             study        residence)
-  (record [k org household]       [k building office]             study        residence))
+  (record [n the-estate]          [k org estate]          [k building office]             study        residence)
+  (record [n the-household]       [k org household]       [k building office]             study        residence))

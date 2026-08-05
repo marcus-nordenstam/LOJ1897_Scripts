@@ -10,9 +10,11 @@
 ; a contract the C++ write side still owns until the write ops land (Phase 2+).
 ; ----------------------------------------------------------------------------
 
-; The org anchor: [kind founder building year register]
+; The org anchor: [kind founder building year register name]
 ;   (hsim_org_lifecycle.h k_articles_kind/founder/building/.../register_slot = 0/1/2/3/4)
-(define-document articles_of_incorporation (fields kind founder building year register))
+;   `name` (slot 5) is the org's proper NAME ([n the-anchor]) - the wire-safe identity a
+;   verdict letter's descriptor resolves on (an org KIND cannot tell two pubs apart).
+(define-document articles_of_incorporation (fields kind founder building year register name))
 
 ; The org roster: a list-of-records doc, one (worker job level) record per
 ; employee. `level` is the starting rank kind ([k senior] / [k apprentice] /
