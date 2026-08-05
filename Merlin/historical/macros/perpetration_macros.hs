@@ -211,7 +211,7 @@
                     (then
                       (bind (home-of ?kin) ?kin_home)
                       (spawn-letter [k confession_letter]
-                                    (written-msg {@self lover ?partner})
+                                    (nl_written_msg "I have taken ?partner as a lover")
                                     ?kin_home)))))))
     (end-goal {@self confess_letter})))
 
@@ -268,9 +268,9 @@
                     (bind (find-building [k police_station]) ?station)
                     (if (alive ?victim)
                         (then (spawn-letter [k crime_report_letter]
-                                      (written-msg {@self suspect ?victim}) ?station))
+                                      (nl_written_msg "I suspect ?victim") ?station))
                         (else (spawn-letter [k crime_report_letter]
-                                      (written-msg {?loot stolen_from @self}) ?station)))))))
+                                      (nl_written_msg "?loot was stolen from me") ?station)))))))
         (break)))
     (end-goal {@self report_crime})))
 
