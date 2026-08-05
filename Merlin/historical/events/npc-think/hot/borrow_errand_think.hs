@@ -3,10 +3,10 @@
 ; The go/dwell rungs that route the debtor to the lender's home and promote the
 ; loan-taking act (npc-act/borrow_errand.hs).
 ;
-;   borrow_go     : hold the goal, not at the lender's home -> travel act to it. AT
-;                   the lender's home the go sub-goal is spent, the take_loan goal is
-;                   the leaf and promotes to take_loan_act - no dwell rung (the decision,
-;                   borrowing.hs, owns the goal's whole life).
+;   borrow_go       : hold the goal, not at the lender's home -> travel sub-goal to it.
+;   borrow_at_home  : AT the lender's home -> propose the loan-taking act (take_loan_act
+;                     reads the creditor off the standing goal focus). The decision
+;                     (borrowing.hs) owns the goal's whole life.
 ; ----------------------------------------------------------------------------
 
 (npc-think borrow_go

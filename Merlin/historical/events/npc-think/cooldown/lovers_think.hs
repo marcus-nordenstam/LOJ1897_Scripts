@@ -32,7 +32,7 @@
 
   ; @self is the BELIEVER - the outer role for the cross-pair fancy gate on ?b
   ; to resolve. An available adult who fancies someone and is not already
-  ; attached. (The per-NPC (chance) that paces pairing now lives in (when).)
+  ; attached. (The per-NPC (chance) that paces pairing lives in (when).)
   (role @self 
               (adult-age @self)
               (not (believes {@self spouse ?}))
@@ -64,9 +64,8 @@
   ;; Live re-check: within the window the un-attached role filters go stale as
   ;; earlier firings mint lover bonds; re-confirm both are still free - from @self's
   ;; OWN beliefs (his own bond, and what he knows of ?b's). The per-NPC (chance) -
-  ;; the pacing knob, rolled once per NPC per month - moved here from the @self
-  ;; role (non-belief filters are not role-cacheable); it leads the (and) so it
-  ;; short-circuits cheaply.
+  ;; the pacing knob, rolled once per NPC per month - is a non-belief filter, so
+  ;; it lives in (when), not a role.
   (when (chance 0.2))
 
   (effects

@@ -8,10 +8,9 @@
 ; what @self knows OF SOMEONE ELSE - is the town-wide gossip event's job (co-present).
 ;
 ; THE LISTENER is a ROULETTE over the co-present set (presumably the family at a
-; home supper; tablemates / co-workers / pub company elsewhere). Co-presence is the
-; location JOIN {@self location ?loc} + {?diner location ?loc} (the introduce.hs
-; pattern - the (co-present) op is NOT a role filter), and (select ... roulette)
-; draws one. DEDUP IS PER-LISTENER: the SAY's aux is the diner, so {@self SAY <msg>
+; home supper; tablemates / co-workers / pub company elsewhere). Co-presence is @self
+; and ?diner sharing a location, expressed as the (co-present @self) role filter, and
+; (select ... roulette) draws one. DEDUP IS PER-LISTENER: the SAY's aux is the diner, so {@self SAY <msg>
 ; ?diner} reads "have I already told THIS diner this fact"; (break) stops at the
 ; first untold one. Telling nothing (all heard, or dining alone) is a safe no-op.
 ;

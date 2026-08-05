@@ -2,10 +2,8 @@
 ; sporting_event - the club ORGANISER's annual meet, the think + routing half.
 ; (The act half - the contest itself - lives in events/npc-act/hold_meet.hs.)
 ;
-; Replaces the old zero-role world sweep (world-act/sports.hs + the C++
-; run_effect_hold_sporting_events). No omniscient club/roster/jockey scan: the
-; organiser is a real deliberating NPC who reasons from HIS OWN club beliefs and
-; acts at HIS OWN clubhouse.
+; No omniscient club/roster/jockey scan: the organiser is a real deliberating NPC
+; who reasons from HIS OWN club beliefs and acts at HIS OWN clubhouse.
 ;
 ;   hold_meet (yearly timer): the club's founder/head resolves ONCE a year to
 ;     hold his club's meet. He role-casts his OWN club from the founder / record

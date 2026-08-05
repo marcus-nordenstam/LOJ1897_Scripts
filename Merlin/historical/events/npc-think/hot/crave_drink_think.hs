@@ -7,8 +7,8 @@
 ;
 ;   want_drink  (desire): pressure-gated (drink-due), utility = drink-drive. Holds
 ;                {@self drink} while thirsty; auto-retracts when the pressure lapses.
-;   AT a pub   (case A):  {@self drink} has no active sub-goal, so it is the leaf and
-;                promotes straight to drink_act (drink.hs). No rule needed.
+;   AT a pub   (case A):  drink_at_pub proposes {@self drink} - the leaf label promotes
+;                to drink_act (drink.hs); the bare goal never self-promotes.
 ;   know a pub (case B):  drink_go holds {@self go ?pub} /cause the drink goal.
 ;   know none  (case C):  drink_find holds {@self find_building [k pub]} /cause it.
 ;

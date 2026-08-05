@@ -1,7 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; wedding - the marriage SPLIT into npc-think + npc-action (occasion_ceremony_plan.md
-; Item 4B / Item 5). The old single wedding event (which both decided AND made the
-; marriage in one step) is replaced:
+; Item 4B / Item 5), authored across two lanes:
 ;
 ;   plan_wedding (HERE, npc-think): a betrothed man stages a WEDDING OCCASION at a
 ;       same-town church ~3 months out. Both bride and groom become principals of

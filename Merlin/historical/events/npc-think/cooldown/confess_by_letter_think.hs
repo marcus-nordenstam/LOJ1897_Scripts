@@ -8,9 +8,9 @@
 ; she is fancied - exactly the belief the spoken confession would have planted,
 ; through the same read path every letter uses. No telepathy, no co-presence.
 ;
-; Throttled on @self's OWN belief: he writes while he does not yet know she
-; reciprocates ({?target fancy @self}) - once her own letter (or spoken word)
-; tells him she cares, the declaration is made and he stops.
+; Throttled on @self's OWN status: he writes while unwed and still fancying
+; someone (the @self role gates); once he betroths or weds he stops. He
+; declares whether or not he yet knows she reciprocates.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")

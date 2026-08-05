@@ -6,9 +6,10 @@
 ; there (npc-act/club_join_errand.hs). The club's articles are the goal focus (?art,
 ; bound off the {@self join_club} goal), so the clubhouse is (articles-building ?art).
 ;
-;   join_go : hold the goal, not at the clubhouse -> travel act to it. AT the clubhouse
-;             the goal is the leaf and promotes to join_club_act - no dwell rung (the
-;             decision, clubs_think.hs club_joining, owns the goal's whole life).
+;   join_go            : hold the goal, not at the clubhouse -> travel act to it.
+;   join_at_clubhouse  : AT the clubhouse -> propose the join act (join_club_act reads the
+;                        club articles off the standing goal). The decision (clubs.hs
+;                        club_joining) owns the goal's whole life.
 ; ----------------------------------------------------------------------------
 
 (npc-think join_go

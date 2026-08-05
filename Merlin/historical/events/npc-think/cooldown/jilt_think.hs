@@ -46,7 +46,7 @@
                 (not (believes {@self fiancee ?jilted}))
                 (select (policy first-match)))
 
-  ;; (chance 0.6) moved here from the @self role (non-belief gate).
+  ;; (chance 0.6) is a non-belief gate, so it lives in (when).
   ;; Live re-check: an earlier firing this tick may already have ended the
   ;; jilter's lover bond (one jilt per jilter per tick).
   (when (chance (* (crime-scale) 0.6)))
@@ -96,7 +96,7 @@
                          (believes {?jilted class_situation [k lower]})))
                 (select (policy first-match)))
 
-  ;; chance gate moved here from the @self role (non-belief gate). decorum is a
+  ;; The chance gate is a non-belief gate, so it lives in (when). decorum is a
   ;; DERIVED conduct dimension (belief) read from @self's own mind via
   ;; (target {...}). An unread dimension contributes 0; the +0.3 base keeps the
   ;; event alive for the un-derived.

@@ -14,14 +14,14 @@
 
   ; No cache yet - a CACHED self-gate; an owner of one skips the think forever.
   (role @self (not (believes {@self hiding_spot ?})))
-  ; The home is a CACHED role and the proposal's target.
-  (role ?building (believes {@self home ?building}))
+  ; The home is a CACHED role and the proposal's target; a bedroom must exist so
+  ; make_cache's guaranteed floorboard fallback lands.
+  (role ?building (believes {@self home ?building})
+                  (believes {?building room [k bedroom]}))
 
-  ; Something to hide (a covert lover or a standing stow goal), and a bedroom
-  ; must exist so make_cache's guaranteed floorboard fallback lands.
-  (when (and (or (believes {@self lover ?})
-                 (goal? {@self stow}))
-             (believes {?building room [k bedroom]})))
+  ; Something to hide: a covert lover or a standing stow goal.
+  (when (or (believes {@self lover ?})
+            (goal? {@self stow})))
 
   (utility 20)
   (effects (maintain-proposal {@self make_cache ?building})))

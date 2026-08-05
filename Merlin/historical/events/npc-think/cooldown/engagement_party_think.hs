@@ -19,8 +19,9 @@
 
   ;; SELF-POV (telepathy purge CAT-3): @self the GROOM (belief-pure @self role)
   ;; announces HIS OWN fresh engagement; ?bride is recovered from his OWN fiancee
-  ;; belief (no mind peek). The male-gender gate and the first-year belief-age
-  ;; re-fire guard are non-belief filters - moved to (when ...) below.
+  ;; belief (no mind peek). The male-gender / spouse / fiancee gates are belief
+  ;; filters here; the first-year belief-age re-fire guard is a non-belief op that
+  ;; gates the fire in (when ...) below.
   (role @self (adult @self)
               (believes {@self gender [k male]})
               (not (believes {@self spouse ?}))
@@ -28,8 +29,8 @@
   (role ?bride (unmarried_woman ?bride)
                (believes {@self fiancee ?bride}))
 
-  ;; Moved from the @self role (non-belief filters): groom must be male, and the
-  ;; fiancee belief must be in its first year (the once-per-betrothal re-fire guard).
+  ;; The fiancee belief must be in its first year - the once-per-betrothal re-fire
+  ;; guard, a non-belief op, so it gates the fire here rather than filtering the role.
   (when (= (belief-age @self fiancee) 0))
 
   (effects

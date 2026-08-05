@@ -101,7 +101,7 @@
   (cease-effects (end-goal   {@self provision})))
 
 ; TERMINAL step (act_body_purification): the buy is PROPOSED, guarded by being at a shop - the
-; same at-place-kind precondition provision_act's (when) used to carry (identity is enforced by
+; at-place-kind precondition (identity is enforced by
 ; the routing: provision_go walks only to the KNOWN provisions shop). Because `provision` is a
 ; proposed label, auto_propose skips the {@self provision} goal (it still persists + drives
 ; provision_go/orient), so the buy promotes ONLY here, ONLY at a shop - closing the off-shop

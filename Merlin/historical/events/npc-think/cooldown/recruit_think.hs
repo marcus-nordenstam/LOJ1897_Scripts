@@ -80,12 +80,12 @@
 ; A submitted application paper, perceived at my desk and not yet read -> read its
 ; record into my mind (status + workplace scope the decision rungs).
 (npc-think application_read
-  (role ?org (believes {@self recruiting ?org}))
+  (role ?org (believes {@self recruiting ?org})
+             (believes {?org workplace ?wp}))
   (role ?app [k application]
             (not (believes {?app status ?}))
             (select (policy first-match)))
-  (when (and (believes {?org workplace ?wp})
-             (co-present @self ?app)
+  (when (and (co-present @self ?app)
              (read-doc-record [k application] ?app (status ?st) (workplace ?awp))))
   (effects
     (debug-print "TRACE-APPREAD app=?app st=?st")
@@ -132,12 +132,12 @@
 ; --- enrol the accepted hire: the paper reads accepted (the seeker signed) -------
 (npc-think enrol_hire
   (role ?org (believes {@self recruiting ?org})
-             (believes {?org record ?art}))
+             (believes {?org record ?art})
+             (believes {?org workplace ?wp}))
   (role ?app [k application]
             (believes {?app status [k offered]})
             (select (policy first-match)))
-  (when (and (believes {?org workplace ?wp})
-             (co-present @self ?app)
+  (when (and (co-present @self ?app)
              (read-doc-record [k application] ?app (find status [k accepted]) (applicant ?w))
              (read-doc-record [k articles_of_incorporation] ?art (register ?reg))))
   (utility 82)

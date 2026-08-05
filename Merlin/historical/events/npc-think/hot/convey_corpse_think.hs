@@ -17,8 +17,8 @@
 ;   want_convey  (desire): a grown, decent NPC who holds a not-yet-delivered
 ;     death belief holds {@self convey ?corpse}. Utility x politeness (respect
 ;     for the observances), capped as an errand.
-;   AT a church (case A): {@self convey ?corpse} has no live sub-goal, so it is
-;     the leaf and promotes straight to convey_act (the deposit). No rule needed.
+;   AT a church (case A): convey_at_church proposes {@self convey ?corpse} - the leaf
+;     label promotes to convey_act (the deposit); the bare goal never self-promotes.
 ;   know a church (case B): convey_go holds {@self go ?church} /cause the goal.
 ;   know none  (case C): convey_find holds {@self find_building [k church]}.
 ;

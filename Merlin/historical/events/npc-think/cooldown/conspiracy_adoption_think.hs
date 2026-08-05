@@ -17,8 +17,7 @@
 ;   - (bind {?instigator urge ?plot}) binds the plot clause; the clause-field
 ;     ops ((clause-subject/label/target ?plot)) decompose it: the plot must
 ;     name @self as the doer and carry a kill;
-;   - the compliance gate mirrors the shape clear_marriage previously applied
-;     telepathically: attraction band toward the instigator >= 2 plus a
+;   - the compliance gate: attraction band toward the instigator >= 2 plus a
 ;     psychopathy roll;
 ;   - effects mirror the struck cross-mind block, minted in @self's own mind:
 ;     the accomplice bond carries the plot clause as its AUX, and the kill
@@ -39,8 +38,7 @@
         (believes {?instigator urge ?}))
 
   ; The plot must ask ME to kill someone, and I must be willing: desire for
-  ; the instigator (attraction band >= 2) plus the dark roll - the same
-  ; compliance shape clear_marriage previously applied cross-mind.
+  ; the instigator (attraction band >= 2) plus the dark roll.
   (when (and (bind {?instigator urge ?plot})
              (= (clause-label ?plot) kill)
              (= (clause-subject ?plot) @self)

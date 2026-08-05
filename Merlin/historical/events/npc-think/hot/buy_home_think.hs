@@ -2,8 +2,7 @@
 ; buy_home - the DEMAND side of the property market (per-NPC replacement for the
 ; omniscient world-act/housing_market.hs buy stage). A seeker LEARNS what is for
 ; sale by reading the agent's register, then buys the nicest dwelling he can
-; afford by a per-NPC roulette. This REPLACES the old global "the wealthiest
-; claim the nicest" optimiser - no seeker knows a listing he has not read, and
+; afford by a per-NPC roulette: no seeker knows a listing he has not read, and
 ; the winner is drawn (value-weighted), not sorted.
 ;
 ; A seeker is an adult who lives in a home he neither owns nor leases (an adult

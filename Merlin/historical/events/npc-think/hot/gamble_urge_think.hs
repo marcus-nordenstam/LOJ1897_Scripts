@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; The GAMBLING lane (B4 pressure model). Two thinks:
+; The GAMBLING lane (B4 pressure model). Three thinks:
 ;   gamble_urge (drive): gambling is a VICE, so its pressure is ADDICTION-driven,
 ;     not "overdue"-driven (a man who never gambled feels no pull). A 10-day cooldown
 ;     re-checks the urge; the (days-since-last @self play_game) fire-gate mints the

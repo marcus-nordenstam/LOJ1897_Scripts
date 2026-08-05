@@ -46,8 +46,8 @@
   ;; (chance) FIRST (cheap, short-circuits), then the live exclusivity re-check
   ;; (see betrothal.hs): without it, every gov org enumerated this tick can appoint
   ;; @self before the first appointment commits; once @self is senior this tick it
-  ;; fails and the sampler backtracks. The age / repute / prestige gates and the
-  ;; trait-product chance were moved here verbatim from the @self role.
+  ;; fails and the sampler backtracks. The (when) also carries the age / repute /
+  ;; prestige floors and the trait-product chance.
   (when (and (chance (* 0.0083
                          (attr @self assertiveness)
                          ?prestige))

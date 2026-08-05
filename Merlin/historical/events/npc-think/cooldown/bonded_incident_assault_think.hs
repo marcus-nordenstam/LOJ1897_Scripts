@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; bonded_incident_assault (npc-think). An organic source of harm_act + wrong_act
 ; anchors: @self turns violent on a known acquaintance. The assault disposition is
-; rolled ONCE per NPC (on the @self role) - the dark-tetrad product (volatility x
+; rolled ONCE per NPC - the dark-tetrad product (volatility x
 ; psychopathy x sadism x low-politeness) with intoxication amplifying. The product
 ; is structurally tiny in a modal population (0.5^4 ~ 0.06), so the modal NPC
 ; almost never assaults; only the high-tetrad, intoxicated minority does.
@@ -9,8 +9,8 @@
 ; A mental change (the harm anchor + witness copies land), so npc-think, per
 ; NPC. RELATIONAL: the victim is a personally-known
 ; acquaintance (a co-present "brawl at a venue" form awaits the venue lane - see
-; public_incident_assault for the stranger case). The dark-tetrad chance on the
-; @self role rolls ONCE per NPC (the old C++ dispatcher rolled it per-actor for
+; public_incident_assault for the stranger case). The dark-tetrad chance rolls
+; ONCE per NPC (the old C++ dispatcher rolled it per-actor for
 ; exactly this reason: a per-victim re-roll inflated the rate by the pool size).
 ;
 ; NOTE: the exact base rate / intoxication-amplifier shape is RECONSTRUCTED from

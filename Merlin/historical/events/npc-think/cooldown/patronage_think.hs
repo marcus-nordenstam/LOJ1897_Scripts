@@ -53,17 +53,16 @@
                      (and (believes {@self    class_situation [k middle]})
                           (believes {?protege class_situation [k lower]}))))
 
-  ;; Non-belief gates moved out of the @self role: the per-patron (chance) roll
-  ;; (first, cheap, short-circuits) and the patron's age / prestige floors.
+  ;; Non-belief gates: the per-patron (chance) roll (first, cheap, short-circuits)
+  ;; and the patron's age / prestige floors.
   (when (and (chance 0.005)
              (>= (years-old @self) 35)
              (>= ?prestige 0.65)))
 
-  ;; The old live exclusivity re-check read the protege's OWN backed_by belief
-  ;; (telepathy) to catch a same-window double-back. Removed: the patron now gates
-  ;; only on his OWN knowledge of who is backed (the role filter above). A rare
-  ;; same-window double-back by two patrons is left for a future public-blackboard
-  ;; claim (the sanctioned synchronized-group mechanism), never a mind peek.
+  ;; The patron gates only on his OWN knowledge of who is backed (the {backed_by}
+  ;; role filter above), never a peek at the protege's mind. A rare same-window
+  ;; double-back by two patrons is left for a future public-blackboard claim (the
+  ;; sanctioned synchronized-group mechanism).
 
   (effects
     ; The protege learns of the backing in THEIR own mind ({me backed_by patron}).

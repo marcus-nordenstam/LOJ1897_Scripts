@@ -3,11 +3,11 @@
 ; wants goods moved mints {@self bring <ware-kind> <dest>} (the acquisition
 ; already put the items in @self's hand); this lane drains it:
 ;
-;   bring_go  : holding the goal, not at <dest> -> travel there (the same
-;               destination-first shape as worship_go / drink_go).
-; At <dest> the go sub-goal retires, the bring goal is the leaf, and the
-; put-down act (npc-act/bring_act.hs) promotes on its own at-place when -
-; never anywhere else, exactly like worship never happens outside the church.
+;   bring_go       : holding the goal, not at <dest> -> travel there (the same
+;                    destination-first shape as worship_go / drink_go).
+;   bring_at_dest  : AT <dest> -> propose the put-down act (npc-act/bring_act.hs);
+;                    goals never propose themselves. Off <dest> nothing fires,
+;                    exactly like worship never happens outside the church.
 ; The MINTING desire owns the utility and boosts it at the destination.
 ;
 ; Content-free w.r.t. the ware: what is carried, where it goes, and when the

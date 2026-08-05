@@ -40,10 +40,11 @@
            ; ... and the two are currently friends.
            (believes {@self friend ?b}))
 
-  ;; Live re-check: within the tick the role filters are alpha-indexed and go stale,
-  ;; and a fray could have already severed this pair from the other direction. Re-
-  ;; confirm the friend tie still holds, AND roll the per-pair fray chance here (/12
-  ;; of the old annual 0.5) - a non-belief gate, so it lives in (when), not the role.
+  ;; The role's believes filters (detest, friend) are re-checked live at the
+  ;; when-gate seam within the tick - the alpha index goes stale and a fray could
+  ;; already have severed this pair from the other direction, so the live re-check
+  ;; preserves the hold. (when) carries only the per-pair fray (chance) - /12 of the
+  ;; annual 0.5 - a non-belief gate, so it never sits in the role.
   (when (chance 0.04))
 
   (effects

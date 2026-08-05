@@ -46,7 +46,8 @@
     (covert-affair-motive ?paramour)   ; belief-pure macro - cached
     (select (policy first-match)))
 
-  ; Adult floor, live paramour, the concealment motive, the monthly rate.
+  ; (when) is the monthly rate (plus a trace); the adult floor, live paramour and
+  ; concealment motive are role filters above.
   (when (and (chance 0.35) (debug-print "RENDEZ_FIRE @self para=?paramour")))
 
   (branches

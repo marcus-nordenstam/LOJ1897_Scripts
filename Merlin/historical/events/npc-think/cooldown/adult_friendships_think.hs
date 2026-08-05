@@ -42,7 +42,7 @@
            (believes {?b age_span ?peer_band})
            (not (believes {?b repute [k scandalous]}))
            ; Same class: @self's belief that ?b's class matches his own (dynamic-
-           ; target shape-2, cacheable - replaces the (= (target..)(target..)) pair).
+           ; target shape-2, cacheable).
            (believes {?b class_situation (target {@self class_situation})})
            (not (believes {@self friend ?b}))
            ; Warmth-gated: you do not befriend someone you actively dislike. The
@@ -53,7 +53,7 @@
            (not (believes {@self dislike ?b}))
            (not (believes {@self detest ?b})))
 
-  ; Non-belief gate moved out of the @self role (role-belief-purity invariant):
+  ; Non-belief gate kept out of the @self role (roles hold belief-pure filters):
   ; the enthusiasm-scaled (chance), rolled ONCE per @self per month.
   (when (chance (* 0.004 (+ 0.5 (attr @self enthusiasm)))))
 

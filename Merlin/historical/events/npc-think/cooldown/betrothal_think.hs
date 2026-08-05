@@ -39,9 +39,9 @@
                (not (believes {?bride prototype [k fallen_woman]}))
                (not (believes {?bride repute [k scandalous]}))
                (not (believes {?bride repute [k disreputable]}))
-               ;; (The chastity gate moved to (when) - per-observer, a count of the
-               ;; liaisons the groom himself has heard of; line 45 already bars a known
-               ;; ONGOING lover.)
+               ;; (The chastity gate lives in (when) - per-observer, a count of the
+               ;; liaisons the groom himself has heard of; the (not (believes
+               ;; {?bride lover ?})) filter above already bars a known ONGOING lover.)
                ;; Same class as the groom: the deliberating mind's belief that
                ;; the bride's class_situation equals @self's own (dynamic-target
                ;; shape-2, cacheable - like age-peers; NOT a cross-(target =)).

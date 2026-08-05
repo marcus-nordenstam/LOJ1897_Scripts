@@ -62,8 +62,8 @@
                 ; specific crush", so the fan-out reduces to the strongest attraction.
                 (select (score (stance-band ?beloved attraction)) (policy argmax)))
 
-  ; Non-belief gate moved out of the @self role: the per-suitor (chance) that
-  ; paces repeated courting is not a belief query, so it lives here.
+  ; The per-suitor (chance) that paces repeated courting is not a belief query,
+  ; so it gates the fire here rather than filtering the role.
   (when (chance 0.5))
 
   (effects

@@ -29,7 +29,7 @@
   (rng-stream marriages)
 
   ; @self the suitor: an unmarried, un-betrothed adult who is not socially shut
-  ; out. The per-suitor (chance) gate has moved to (when ...) (role-belief purity).
+  ; out. The per-suitor (chance) gate lives in (when ...) (role-belief purity).
   (role @self
               (adult-age @self)
               (believes {@self age_band ?peer_band})
@@ -89,8 +89,8 @@
   ;; within the window, so re-check at firing - now from @self's OWN beliefs
   ;; (his own engagement, and what he knows of hers). A same-window double-betroth
   ;; race is left to a future public-blackboard claim, never a mind peek.
-  ;; (chance 0.3) moved here from the @self role (role-belief purity); FIRST so it
-  ;; short-circuits cheaply. It is the per-suitor courtship-duration knob.
+  ;; (chance 0.3) is the per-suitor courtship-duration knob; a non-role gate
+  ;; (role-belief purity keeps it out of the roles).
   (when (chance 0.3))
 
   (effects

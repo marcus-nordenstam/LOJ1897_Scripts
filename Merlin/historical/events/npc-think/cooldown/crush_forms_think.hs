@@ -29,8 +29,8 @@
   (rng-stream incidents)
 
   ;; @self - a romantically-open single, not already deep in a crush. The trait
-  ;; chance (openness x enthusiasm x compassion) gates the receptive crush; it now
-  ;; lives in (when ...) below (non-belief filters do not belong in a role).
+  ;; chance (openness x enthusiasm x compassion) gates the receptive crush in
+  ;; (when ...) below - a non-belief filter, so it never sits in the role.
   (role @self
               (working-age @self)
               (not (believes {@self desire ?}))
@@ -52,9 +52,8 @@
                 ; plural age_span belief, so the band must be a bound variable.
                 (believes {?victim age_span ?peer_band}))
 
-  ; Moved from the @self role: the trait chance (openness x enthusiasm x
-  ; compassion) is a non-belief filter, so it is rolled once per NPC per month
-  ; here rather than inside the role.
+  ; The trait chance (openness x enthusiasm x compassion) is a non-belief filter,
+  ; rolled once per NPC per month in (when) rather than as a role criterion.
   (when (chance (* 0.30
                    (attr @self openness)
                    (attr @self enthusiasm)

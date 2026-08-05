@@ -30,7 +30,7 @@
   ;; @self is the host. PR-A-8 substrate gate: the canonical host motivation is a
   ;; social life_aim (belonging / respectability - the aims that prize community
   ;; visibility) OR being a parent (parties for one's child). The enthusiasm-scaled
-  ;; chance gate moved to (when) below (non-belief filter).
+  ;; chance gate lives in (when) below (non-belief filter).
   (role @self (or (believes {@self life_aim belonging_aim})
                   (believes {@self life_aim respectability_aim})
                   (believes {@self identity parent_role})))
@@ -40,7 +40,7 @@
                (believes {@self friend ?guest})
                (co-present @self))
 
-  ;; Moved from the @self role (non-belief): enthusiasm-scaled chance, multiplicative
+  ;; Non-belief gate kept out of the @self role: enthusiasm-scaled chance, multiplicative
   ;; so outgoing hosts engage more than withdrawn ones, /12'd to the monthly
   ;; cadence, rolled once per host per month.
   (when (chance (* 0.0667 (attr @self enthusiasm))))

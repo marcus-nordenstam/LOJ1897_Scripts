@@ -49,8 +49,7 @@
 
   ; The affair surfaces some months, not every one (probabilistic discovery).
   ; No liveness re-check: (any_human ?partner) IS the belief-pure liveness
-  ; filter (believed-alive AND not-known-dead); the omniscient (alive ...) op
-  ; was both a telepathy cheat and redundant with it.
+  ; filter (believed-alive AND not-known-dead).
   (when (chance 0.12))
 
   (effects
