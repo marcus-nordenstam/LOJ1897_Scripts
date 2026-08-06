@@ -89,12 +89,12 @@
   (effects (maintain-proposal {@self submit_application ?app})))
 
 ; === the verdict (read, held, in the morning post) ==================================
-; An OFFER: take up the post (a sub-task at the org's articles).
+; An OFFER: take up the post (a sub-task carrying the same job + articles as apply_for).
 (npc-think af_take_up
   (task {@self apply_for ?jk ?art})
   (role ?ltr [k offer_letter] (believes {@self read ?ltr}))
   (utility 77)
-  (effects (maintain-proposal {@self take_up_post ?art})))
+  (effects (maintain-proposal {@self take_up_post ?jk ?art})))
 
 ; A REJECTION: conclude the apply_for /fail - the /fail conclusion IS the re-application
 ; memory (the pick excludes this job+org forever after).
@@ -105,17 +105,16 @@
 
 ; === take_up_post sub-task: go to the workplace and take the post ===================
 (npc-think tup_go
-  (task {@self take_up_post ?art})
+  (task {@self take_up_post ?jk ?art})
   (when (and (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (not (in-building ?wp))))
   (utility 78)
   (effects (maintain-proposal {@self enter ?wp})))
 
 ; at the workplace: enrol himself on the wage book (the hire is realized by taking it up).
-; ?jk rides in from the still-running apply_for (take_up_post carries only the articles).
+; ?jk rides straight off the take_up_post task gate.
 (npc-think tup_take
-  (task {@self take_up_post ?art})
-  (role @self (believes {@self apply_for ?jk ?art}))
+  (task {@self take_up_post ?jk ?art})
   (when (and (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (in-building ?wp)
              (>= (now-hour) 9)
@@ -124,12 +123,12 @@
   (utility 79)
   (effects (maintain-proposal {@self take_post ?art ?jk})))
 
-; POST-ACT: read his own wage-book row -> the full job object (hire-beliefs).
+; POST-ACT: read his own wage-book row (level) -> the full job object (hire-beliefs).
 (npc-think tup_read_book
-  (task {@self take_up_post ?art})
+  (task {@self take_up_post ?jk ?art})
   (role ?reg [k employee_register] (select (policy first-match)))
   (when (and (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
-             (read-doc-record [k employee_register] ?reg (find worker @self) (job ?jk) (level ?lvl))))
+             (read-doc-record [k employee_register] ?reg (find worker @self) (level ?lvl))))
   (effects (hire-beliefs ?art ?jk ?lvl)))
 
 ; === apply_for OUTCOME: employed -> succ (own the whole lifecycle) ==================
@@ -137,8 +136,7 @@
   (task {@self apply_for ?jk ?art}:?af)
   (role @self (believes {@self job.salary ?}))
   (effects
-    (for-each-belief {@self take_up_post ?a}
-      (set-outcome {@self take_up_post ?a} succ))
+    (set-outcome {@self take_up_post ?jk ?art} succ)
     (set-outcome ?af succ)))
 
 ; === the morning post: pick up + read (held) each unread letter at home =============

@@ -110,10 +110,12 @@ relation
             #   OUTCOME is the whole lifecycle: running = applied, succ = took the job,
             #   fail = rejected. A /fail conclusion is the re-application memory (the pick
             #   excludes any job+org already failed). Sub-tasks prepare/submit the paper.
-            # take_up_post: the offered seeker goes and takes the post (target = the org's
-            #   articles); its success drives apply_for succ.
+            # take_up_post: the offered seeker goes and takes the post (target = the
+            #   occupation, aux = the org's articles - same shape as apply_for, so every
+            #   tup_* rung reads the job-kind straight off the task gate); success drives
+            #   apply_for succ.
             apply_for                               (tar job) (aux articles_of_incorporation)
-            take_up_post                            (tar articles_of_incorporation)
+            take_up_post                            (tar job) (aux articles_of_incorporation)
             recruiting                              (tar org)
             advertise                               (tar org)
             # Solitary leisure activities at a venue (activity-lanes L8), the

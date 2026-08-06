@@ -6,8 +6,10 @@ Run the events/ dir alone against the 1yr cfg:
 Expected: PROBE_MINT, PROBE_WHEN_EXISTS, PROBE_TENSE_OK, PROBE_BIND, PROBE_ROLE,
 PROBE_RESIDUAL, PROBE_JOIN, PROBE_GOAL_CAP each fire once per NPC (49 at 50-pop);
 PROBE_CAUSE fires with bond=<a real belief symbol> ((bind (begin-belief ..) ?b) +
-/caused_by ?b); PROBE_GOAL_CAP prints goal=<the matched goal-belief symbol> (the
-whole-pattern {..}:?var capture on the (goal ...) gate). Zero ERROR lines.
+/caused_by ?b); PROBE_GOAL_CAP fires TWICE per NPC (98) - probe_mint2 mints a
+second concurrent probe_hunt goal and the goal gate FANS OUT one activation per
+matching goal, each printing its own goal=<goal-belief symbol> / prey. Zero
+ERROR lines.
 
 parse_errors/ holds one-event files that must each ABORT the load with a named
 message (run each file alone as its own --events dir): inner /their-mind, inner
