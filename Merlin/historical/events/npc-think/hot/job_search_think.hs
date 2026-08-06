@@ -33,7 +33,7 @@
              (not (in-building ?board))
              (latch-eval (chance 0.3))))
   (utility 71)
-  (effects (maintain-proposal {@self enter ?board})))
+  (effects (debug-print "JS_BOARDGO") (maintain-proposal {@self enter ?board})))
 
 ; --- pre-commit: at the board, pick an eligible advert never failed -> begin apply_for
 ; The advert doc carries job / org / class-floor; the running apply_for keeps only the
@@ -44,12 +44,14 @@
   (role @self (not (believes {@self job.salary ?}))
               (not (believes {@self apply_for ? ? /pres})))
   (role ?ad [k job_description] (select (score 1) (policy roulette)))
-  (when (and (co-present @self ?ad)
+  (when (and (not (has-proposal {@self apply_for ? ?}))
+             (co-present @self ?ad)
              (read-doc-record [k job_description] ?ad (job ?jk) (org_record ?art) (class_floor ?cf))
              (class-at-least @self ?cf)
              (not (believes {@self apply_for ?jk ?art /fail}))))
   (utility 73)
-  (effects (begin-belief {@self apply_for ?jk ?art})))
+  (effects (debug-print "JS_PICK jk=?jk")
+           (begin-proposal {@self apply_for ?jk ?art})))
 
 ; === apply_for sub-tasks: write + mail the application =============================
 ; The "already prepared" signal is the prepare_application ACT's own /succ outcome, keyed
@@ -86,7 +88,8 @@
   (when (and (co-present @self ?app)
              (read-doc-record [k application] ?app (find applicant @self))))
   (utility 76)
-  (effects (maintain-proposal {@self submit_application ?app})))
+  (effects (debug-print "JS_SEND")
+           (maintain-proposal {@self submit_application ?app})))
 
 ; === the verdict (read, held, in the morning post) ==================================
 ; An OFFER: take up the post (a sub-task carrying the same job + articles as apply_for).
@@ -94,7 +97,8 @@
   (task {@self apply_for ?jk ?art})
   (role ?ltr [k offer_letter] (believes {@self read ?ltr}))
   (utility 77)
-  (effects (maintain-proposal {@self take_up_post ?jk ?art})))
+  (effects (debug-print "JS_TAKEUP")
+           (maintain-proposal {@self take_up_post ?jk ?art})))
 
 ; A REJECTION: conclude the apply_for /fail - the /fail conclusion IS the re-application
 ; memory (the pick excludes this job+org forever after).
@@ -131,13 +135,21 @@
              (read-doc-record [k employee_register] ?reg (find worker @self) (level ?lvl))))
   (effects (hire-beliefs ?art ?jk ?lvl)))
 
-; === apply_for OUTCOME: employed -> succ (own the whole lifecycle) ==================
+; === take_up_post OUTCOME: enrolled -> succ. Each task concludes ONLY itself (the
+; conventions' twin-outcome rule), and the chain concludes BOTTOM-UP: the child
+; stamps off the world signal (job.salary), and the child's /succ IS the parent's
+; conclusive signal below - no race with the parent's gate-fall withdrawal.
+(npc-think tup_succeeded
+  (task {@self take_up_post ?jk ?art}:?tup)
+  (role @self (believes {@self job.salary ?}))
+  (effects (debug-print "TUP_SUCC art=?art")
+           (set-outcome ?tup succ)))
+
+; === apply_for OUTCOME: the take-up concluded /succ -> employed -> succ =============
 (npc-think af_succeeded
   (task {@self apply_for ?jk ?art}:?af)
-  (role @self (believes {@self job.salary ?}))
-  (effects
-    (set-outcome {@self take_up_post ?jk ?art} succ)
-    (set-outcome ?af succ)))
+  (role @self (believes {@self take_up_post ?jk ?art /succ}))
+  (effects (set-outcome ?af succ)))
 
 ; === the morning post: pick up + read (held) each unread letter at home =============
 (npc-think read_post
@@ -147,6 +159,7 @@
   (effects
     (for-each ?ltr (attr-values (mail-pile (mail-space (home-of @self))) items [k letter])
       (if (not (believes {@self read ?ltr}))
-          (then (take-from-stack ?ltr)
+          (then (debug-print "JS_READ ltr=?ltr")
+                (take-from-stack ?ltr)
                 (read-document ?ltr)
                 (file-in-stack ?ltr (mail-space (home-of @self))))))))

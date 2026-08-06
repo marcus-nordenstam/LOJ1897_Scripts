@@ -53,6 +53,15 @@
 
 ;; LIGHT @self-only gates - no redundant isa / condition (the deliberating NPC is
 ;; always a living human). Age-band-only, for (role @self ...).
+; Goal reads through the unified belief path (a goal IS a belief
+; {@self goal {@self <action> <focus>}} with a nested-clause target; see
+; macros/goal_macros.hs). Bound pattern vars constrain; free vars bind off the match.
+(define-macro has-goal (?g)
+  (believes {@self goal ?g}))
+
+(define-macro no-goal (?g)
+  (not (believes {@self goal ?g})))
+
 (define-macro grown (?x)
   (marriageable-age ?x))                 ; >=16, old enough to act as an agent
 

@@ -1,37 +1,64 @@
 ; ----------------------------------------------------------------------------
-; household_day (npc-think). Records @self's day-at-home as an EPISODIC dwelling
-; memory: an amenity-gated {@self rest <home>} by default, {@self dine <home>} if
-; the home has a dining_room, {@self read_at <home>} if it has a study - so a
-; manor yields a richer home-leisure record than a rowhouse (record-dwelling /
-; pick_home_activity). The decay pass consolidates repeated identical episodes
-; into a cumulative belief whose count is the frequency.
+; household_day (npc-think) - the home-leisure DRIVER. Proposes @self's
+; day-at-home as a real task through the action pipeline: an amenity-gated
+; {@self rest <home>} by default, {@self read_at <home>} if the home is known
+; to have a study (scholarly temperaments favour it - the read weight scales
+; with intellect) - so a manor yields a richer home-leisure record than a
+; rowhouse. The room gate reads @self's OWN {?home room [k study]} beliefs
+; (seeded at home acquisition by the rooms pre-teach) - no world search.
+; home_leisure_done concludes the promoted task on the spot, so the ended task
+; belief IS the episodic memory; the decay pass consolidates repeated
+; identical episodes into a cumulative belief whose count is the frequency.
 ;
-; A mental change (a dwelling-episode memory), recorded monthly per NPC, so
-; npc-think. Home CO-PRESENCE is no longer registered here - the
-; physical rest lane (rest.hs) puts the NPC at home and the routine itinerary
-; provides co-presence; this event only records the activity episode. Gated on
-; having a home (the homeless do not dwell).
+; Monthly per homed NPC (the homeless do not dwell), at a LOW utility: leisure
+; fills an idle day and never displaces real work - a busy month simply
+; records no home-leisure episode. Home CO-PRESENCE is not registered here -
+; the physical rest lane (rest.hs) puts the NPC at home and the routine
+; itinerary provides co-presence.
 ;
-; NOTE: the dine episode is now owned by the SUPPER lane (npc-act/meals.hs,
-; a real daily at-home act with table talk), so record-dwelling no longer
-; picks dine - it records rest / read_at only. The read_at episode is still
-; not reproduced by any other lane; a future home-leisure lane may subsume
-; it. See the future_work "rest habit vs episodic collision" note re: the
-; {@self rest <home>} record sharing the rest-habit shape.
+; NOTE: the dine episode is owned by the SUPPER lane (npc-act/meals.hs,
+; a real daily at-home act with table talk), so the pick here is rest /
+; read_at only.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
+
+(define-macro home-leisure-utility ()        5)
+(define-macro rest-weight ()                 100)
+(define-macro read-weight-base ()            40)
+(define-macro read-weight-intellect-scale () 120)
 
 (npc-think household_day
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self 
-              (believes {@self home ?}))
+  (role @self (believes {@self home ?home}))
+  (utility (home-leisure-utility))
 
   (effects
-    (record-dwelling @self)
-    ))
+    (bind (if (believes {?home room [k interior_space study]})
+              (then (+ (read-weight-base)
+                       (* (read-weight-intellect-scale) (attr @self intellect))))
+              (else 0))
+          ?read_w)
+    (if (chance (/ ?read_w (+ (rest-weight) ?read_w)))
+        (then (begin-proposal {@self read_at ?home}))
+        (else (begin-proposal {@self rest ?home})))))
+
+; The performer/outcome twin: a home-leisure day has no sub-steps - the
+; promoted task concludes immediately, leaving the ended task belief as the
+; episodic record.
+(npc-think rest_done
+  (role @self )
+  (task {@self rest ?venue}:?t)
+  (effects
+    (set-outcome ?t succ)))
+
+(npc-think read_at_done
+  (role @self )
+  (task {@self read_at ?venue}:?t)
+  (effects
+    (set-outcome ?t succ)))
 
 ; ----------------------------------------------------------------------------
 ; set_mealtimes (npc-think) - the COOK decides the household mealtimes
@@ -119,16 +146,14 @@
   (rng-stream behaviour)
 
   (role @self (grown @self)
-              (believes {@self home ?}))
+              (believes {@self home ?home})
+              (believes {?home breakfast_hour ?b})   ; existence cached; the three
+              (believes {?home lunch_hour ?l})       ; hours bind at fire for the
+              (believes {?home supper_hour ?s}))
 
   ; The cheap per-mind gate first: (asked-me-about) walks only @self's own
   ; heard-SAY records and fails fast when nobody asked.
   (bind (asked-me-about supper_hour) ?asker)
-
-  (role ?home (believes {@self home ?home})
-              (believes {?home breakfast_hour ?b})   ; existence cached; the three
-              (believes {?home lunch_hour ?l})       ; hours bind at fire for the
-              (believes {?home supper_hour ?s}))     ; tell-to below
   (when (is-entity ?asker))
 
   (effects

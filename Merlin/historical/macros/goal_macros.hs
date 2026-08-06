@@ -7,11 +7,15 @@
 ; reads like any other belief. The read runs in @self's OWN mind (goals are self-
 ; authored; no telepathy).
 ;
-; The goal REQUIREMENT / read forms are engine primitives now, not macros:
-;   (goal  {@self <action> [<target>]}) - a first-position event CLAUSE: requires the
-;       goal, binds a free clause-target ?var off it, and pins it as the auto-/caused_by
-;       of sub-goals the rule mints.
-;   (goal? {@self <action> [<target>]}) - boolean read (use in when/if/and/or/effects).
-;   (no-goal {@self <action> [<target>]}) - boolean negative (symmetric with no-role).
-; The old (has-goal ...) / (has-goal-on ...) macros are retired in favour of these.
+; The goal read forms:
+;   (goal  {@self <action> [<target>]}) - engine primitive, a first-position event
+;       CLAUSE: requires the goal, binds a free clause-target ?var off it, and pins it
+;       as the auto-/caused_by of sub-goals the rule mints.
+;   (has-goal {@self <action> [<target>]}) - boolean read (use in when/if/and/or/effects).
+;       A macro over (believes {@self goal {..}}) - defined in definitions/roles.hs.
+;   (no-goal {@self <action> [<target>]}) - boolean negative, the (not ...) twin -
+;       also a roles.hs macro.
+;   (has-proposal {@self <action> [<target>]}) - engine primitive: reads a PENDING
+;       (un-promoted) proposal - a pipeline node, NOT a belief, so no believes read
+;       can see it.
 ; ----------------------------------------------------------------------------

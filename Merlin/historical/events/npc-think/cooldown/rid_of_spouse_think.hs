@@ -46,11 +46,11 @@
   ; (0.5 + psychopathy) * (1 - inhibition) * (1 - compassion) *
   ; (1 + spouse-wealth) * (1.5 if an unmarriageable lover waits else 1.0).
   (when (and (or (detests ?spouse)
-                 (believes {?spouse assault @self}))
+                 (believes {?spouse assault @self /ever}))
              (chance
                (* (crime-scale) 0.02
                   (* (+ (if (detests ?spouse) (then 1) (else 0))
-                        (if (believes {?spouse assault @self}) (then 1) (else 0)))
+                        (if (believes {?spouse assault @self /ever}) (then 1) (else 0)))
                      (* (+ 0.5 (attr @self psychopathy))
                         (* (disinhibition)
                            (* (callousness @self)

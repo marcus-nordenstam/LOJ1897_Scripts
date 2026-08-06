@@ -50,6 +50,7 @@
 (npc-action {@self gather_applications ?art}
   (duration 30)
   (effects
+    (debug-print "RC_SWEPT")
     (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
     (bind (room-of ?wp [k back_office]) ?office)
     (bind (attr (mail-pile ?office) top) ?top)
@@ -58,6 +59,7 @@
         (read-doc-record [k application] ?app (applicant ?w))
         (if (= ?app ?top)
             (then
+              (debug-print "RC_OFFER")
               (create-entity [k offer_letter]
                   (qual location (mail-space (home-of ?w))) (bind ?ol))
               (file-in-stack ?ol (mail-space (home-of ?w))))

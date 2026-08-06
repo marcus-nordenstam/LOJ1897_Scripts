@@ -29,7 +29,7 @@
 ; act body (fight_act / flee_act / scream_act) - no begin-act. The strike-vs-
 ; retreat choice is a UTILITY RACE between peer goals ({@self fight} vs
 ; {@self go home}), NOT a leaf relationship, so break_off reads the fight goal
-; with (goal? ...) - which does not pin the auto-/caused_by - keeping its
+; with (has-goal ...) - which does not pin the auto-/caused_by - keeping its
 ; {@self go home} a standalone competitor rather than a fight sub-goal.
 ; ----------------------------------------------------------------------------
 
@@ -90,13 +90,13 @@
 ; gives up for now and leaves - exposure outweighs the deed. Utility is 0 for the
 ; first ~10 minutes then rises (+30/min), overtaking the decaying kill_strike around
 ; ~13 min, so the retreat wins the utility race and the killer heads home (breaking
-; co-presence). Reads the fight with (goal? ...) - NOT the (goal) requirement - so
+; co-presence). Reads the fight with (has-goal ...) - NOT the (goal) requirement - so
 ; its {@self go home} stays a STANDALONE competitor of {@self fight}, not a sub-goal
 ; (a sub-goal would leaf-block the strike). The kill+fight goals PERSIST - cold-start
 ; clears the exposure clock and it tries again next month.
 (npc-think break_off_fight
-  (when (and (goal? {@self fight})
-             (not (at-home))))
+  (goal {@self fight})
+  (when (not (at-home)))
   (utility (* 30 (max 0 (- (fight-elapsed) 10))))
   ; Maintenance: mint the flee-home goal while fighting away from home; the enter chain
   ; routes there, and reaching home (or the fight ending) drops the gate -> cease.

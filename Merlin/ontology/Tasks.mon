@@ -27,10 +27,10 @@ relation
             # dwell / work: episodic activity-lane tasks (hsim_activity_lanes_
             # plan.md L2). {@self dwell <home>} = "spending the day at home";
             # {@self work <org>} = "working at the workplace" (regardless of the
-            # job or which org). Minted begin+end per visit by the household /
-            # work lanes (record-dwelling / record-work); the decay pass folds
-            # repeated days into a cumulative belief whose count is the
-            # attendance frequency.
+            # job or which org). Proposed per visit by the .hs activity-lane
+            # drivers and concluded on promotion; the decay pass folds repeated
+            # days into a cumulative belief whose count is the attendance
+            # frequency.
             dwell                                   (tar structure|org|space)
             work                                    (tar structure|org|space)
             # socialize_at: episodic ad-hoc social-outing memory (activity-lanes

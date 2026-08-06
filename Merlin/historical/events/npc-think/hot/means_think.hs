@@ -22,12 +22,12 @@
   (cease-effects (end-goal   {@self acquire ?means})))
 
 ; TERMINAL step (act_body_purification): the obtain is PROPOSED, guarded by not yet controlling the
-; means AND the kill still being intended (goal? {@self kill}), so the errand only sets out while the
+; means AND the kill still being intended (has-goal {@self kill}), so the errand only sets out while the
 ; kill stands. Utility 90 mirrors the desire's drive. While the killer lacks the tool and still means
 ; to kill it proposes the obtain; once controlled the desire's cease ends the goal and this stops.
 (npc-think means_acquire
   (goal {@self acquire ?means})
   (when (and (not (control ?means))
-             (goal? {@self kill})))
+             (has-goal {@self kill})))
   (utility 90)
   (effects (maintain-proposal {@self acquire ?means})))

@@ -28,14 +28,15 @@
              (< (count-doc-records [k employee_register] ?reg)
                 (lookup public_orgs kind ?ok employee_count 2))))
   (utility 76)
-  (effects (maintain-proposal {@self recruiting ?org})))
+  (effects (debug-print "RC_ROOT")
+           (maintain-proposal {@self recruiting ?org})))
 
 ; --- advertise: no live advert of mine for this org -> post one -----------------
 (npc-think advertise_pick
   (role ?org (believes {@self recruiting ?org})
              (not (believes {@self post ? ?org})))
   (utility 79)
-  (effects (maintain-proposal {@self advertise ?org})))
+  (effects (debug-print "RC_ADPICK") (maintain-proposal {@self advertise ?org})))
 
 (npc-think advertise_go
   (role ?org (believes {@self advertise ?org}))
@@ -55,7 +56,7 @@
              (bind (lookup org_staffing org_kind ?ok staff_role none) ?jk)
              (is-kind ?jk)))
   (utility 81)
-  (effects (maintain-proposal {@self post_advert ?art ?jk})))
+  (effects (debug-print "RC_ADPOST") (maintain-proposal {@self post_advert ?art ?jk})))
 
 ; POST-ACT: the advert paper exists -> book-keep {@self post ?ad ?org}, closing
 ; advertise_pick's dedup and ending the advertise subtask.
@@ -78,7 +79,8 @@
              (not (in-building ?wp))
              (is-entity (mail-pile (room-of ?wp [k back_office])))))
   (utility 80)
-  (effects (maintain-proposal {@self enter ?wp})))
+  (effects (debug-print "RC_GATHERGO")
+           (maintain-proposal {@self enter ?wp})))
 
 ; --- sweep the inbox: at the workplace, resolve the whole batch ---
 ; ONE act reads the back-office pile and offers the top applicant, rejects the rest, and
@@ -92,7 +94,8 @@
              (in-building ?wp)
              (is-entity (mail-pile (room-of ?wp [k back_office])))))
   (utility 82)
-  (effects (maintain-proposal {@self gather_applications ?art})))
+  (effects (debug-print "RC_SWEEP")
+           (maintain-proposal {@self gather_applications ?art})))
 
 ; --- the filled posting comes off the board -------------------------------------
 (npc-think take_down_filled
