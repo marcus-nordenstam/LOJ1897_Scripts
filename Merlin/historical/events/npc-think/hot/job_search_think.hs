@@ -40,12 +40,15 @@
 ; job-kind + the org's articles (the durable anchors), and every sub-task re-derives the
 ; rest from ?art on demand.
 (npc-think seek_apply_pick
+  ; ONE application at a time: the lock admits a single activation; it releases when
+  ; the activation retires (the /pres role filter falls at promotion), and the /pres
+  ; gate then bars re-admission until the apply_for concludes.
+  (lock-rule)
   (rng-stream employment)
   (role @self (not (believes {@self job.salary ?}))
               (not (believes {@self apply_for ? ? /pres})))
   (role ?ad [k job_description] (select (score 1) (policy roulette)))
-  (when (and (not (has-proposal {@self apply_for ? ?}))
-             (co-present @self ?ad)
+  (when (and (co-present @self ?ad)
              (read-doc-record [k job_description] ?ad (job ?jk) (org_record ?art) (class_floor ?cf))
              (class-at-least @self ?cf)
              (not (believes {@self apply_for ?jk ?art /fail}))))
