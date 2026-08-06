@@ -2,7 +2,7 @@
 /*
 rule 
 {@self report ?infos ?audience}: ?reportInfos
-(unknowns {@self /succ SAY @litem ?audience /causes ~?reportInfos} ?infos): ?unreportedInfos
+(unknowns {@self /succ SAY @litem ?audience /caused_by ~?reportInfos} ?infos): ?unreportedInfos
     ->
 (if (empty ?unreportedInfos)
     (set_outcome ?reportInfos /succ)

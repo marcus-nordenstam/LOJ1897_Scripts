@@ -20,7 +20,7 @@
 ;     psychopathy roll;
 ;   - effects mirror the struck cross-mind block, minted in @self's own mind:
 ;     the accomplice bond carries the plot clause as its AUX, and the kill
-;     goal is /cause-pinned to the accomplice bond so rap sheets stay legible.
+;     goal is /caused_by-pinned to the accomplice bond so rap sheets stay legible.
 ; begin-belief / begin-goal idempotency keeps re-reads from double-minting.
 ; ----------------------------------------------------------------------------
 
@@ -47,5 +47,5 @@
   (effects
     ; My own side of the conspiracy: the bond embeds the plot as its AUX
     ; clause, and the goal is pinned to the bond.
-    (begin-belief {@self accomplice ?instigator ?plot})
-    (begin-goal {@self kill ?victim} /cause {@self accomplice ?instigator})))
+    (bind (begin-belief {@self accomplice ?instigator ?plot}) ?accomplice)
+    (begin-goal {@self kill ?victim} /caused_by ?accomplice)))

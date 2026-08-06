@@ -28,7 +28,7 @@
   ; ?diner pool materializes): a live eat act-goal. The aux (?place) is not object-
   ; cacheable in a role filter, so the existence caches here and the place binds
   ; in (when) below.
-  (role @self (believes {@self eat ?}))
+  (task {@self eat ?})
 
   ; THE LISTENER: one co-present diner, drawn by roulette. Sourced OBJECTIVELY from
   ; @self's current room (env contents), each diner passively perceived.

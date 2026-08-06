@@ -72,8 +72,8 @@ rule
 # From the giver's pov
 rule give-outcome-giver
 {@self /ever give ?thing ?recipient}: ?give
-{@self /succ OFFER ?thing ?recipient /causes ~?give}: ?offer
-#{?recipient /succ TAKE ?thing /causes ~?offer}
+{@self /succ OFFER ?thing ?recipient /caused_by ~?give}: ?offer
+#{?recipient /succ TAKE ?thing /caused_by ~?offer}
     ->
 (set_outcome ?give /succ)
 (fire_and_forget).
@@ -81,7 +81,7 @@ rule give-outcome-giver
 # From the observer's pov
 rule give-outcome-observer
 {!@self:?giver /succ OFFER ?thing ?recipient}: ?offer
-{?recipient /succ take ?thing /causes ~?offer}
+{?recipient /succ take ?thing /caused_by ~?offer}
     ->
 (begin_belief {?giver give ?thing ?recipient /momentary}): ?give
 (set_outcome ?give /succ)

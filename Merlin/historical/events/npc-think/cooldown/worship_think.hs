@@ -4,7 +4,7 @@
 ; npc-act/worship.hs.
 ;
 ; ONE desire computes the pressure ONCE; the case rules read the worship goal and
-; maintain the appropriate sub-goal, which INHERITS the worship drive (auto-/cause off
+; maintain the appropriate sub-goal, which INHERITS the worship drive (auto-/caused_by off
 ; the (goal ...) clause) and, as the live leaf, out-competes its parent (leaf-only):
 ;
 ;   want_worship (desire): PRESSURE = days since the last service, x politeness (respect

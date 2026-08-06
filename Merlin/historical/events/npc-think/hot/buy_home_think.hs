@@ -58,7 +58,7 @@
 ; CASE A - AT a known agency, register still unread: PROPOSE the read act (the
 ; knowledge channel). act_body_purification: this rung already gates on the
 ; readiness (at the agency, register unread), so it IS the terminal - it proposes
-; the read directly (its /cause is the {@self acquire} desire it gates on). Once the
+; the read directly (its /caused_by is the {@self acquire} desire it gates on). Once the
 ; read forms the {@self for_sale ?} beliefs, the unread self-gate empties and the
 ; rung stops.
 (npc-think buy_home_read

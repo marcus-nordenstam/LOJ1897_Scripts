@@ -19,7 +19,7 @@
 ;     for the observances), capped as an errand.
 ;   AT a church (case A): convey_at_church proposes {@self convey ?corpse} - the leaf
 ;     label promotes to convey_act (the deposit); the bare goal never self-promotes.
-;   know a church (case B): convey_go holds {@self go ?church} /cause the goal.
+;   know a church (case B): convey_go holds {@self go ?church} /caused_by the goal.
 ;   know none  (case C): convey_find holds {@self find_building [k church]}.
 ;
 ; The go / find sub-goals fire only while NOT at a church; at a church neither is
@@ -82,7 +82,7 @@
 
 ; CASE B - not at a church, but knows one: head to it. The (goal ...) clause pins
 ; the convey goal as this rule's parent, so the go sub-goal inherits the drive and
-; auto-links its /cause - no hand-written /cause.
+; auto-links its /caused_by - no hand-written /caused_by.
 (npc-think convey_go
   (goal    {@self convey ?corpse})
   (role @self (grown @self))

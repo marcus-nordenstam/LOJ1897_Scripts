@@ -789,7 +789,7 @@
 
 # # FLAG: "why are you upset / why were you angry / why did you fear him" needs
 # WH-why parsing (discourse_planner: why-questions are unsupported) normalised
-# onto a cause predicate. Truly-new work; the cause chain exists (/causes).
+# onto a cause predicate. Truly-new work; the cause chain exists (/caused_by).
 
 
 # --- 10. ALIBI (extends the crime-night set already above) -------------------

@@ -76,7 +76,7 @@ relation
         # commits as a point-interval act-record (the threat as an act),
         # while THIS is the ongoing relation the repeat-demand coercion
         # pass walks monthly and the victim's exposure_risk pressure hangs
-        # its /cause on. Ends when the demand is met, the secret leaks, or
+        # its /caused_by on. Ends when the demand is met, the secret leaks, or
         # a party dies.
         extort                  (sub human)           (tar human)  (aux ?)  (facets blackmailable)
 

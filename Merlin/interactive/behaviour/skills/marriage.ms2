@@ -23,7 +23,7 @@ rule marry-acquire-home-proposal
 rule marry-acquire-home-outcome
 {@self goal {@self home ?irrHome}}: ?goal
 {?irrHome isa [k building]:?bldgKind}
-{@self /succ ACQUIRE ?bldgKind /causes ~?goal}
+{@self /succ ACQUIRE ?bldgKind /caused_by ~?goal}
     ->
 (set_outcome /succ ?goal).
 

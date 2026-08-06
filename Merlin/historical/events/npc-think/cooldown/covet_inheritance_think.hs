@@ -64,9 +64,11 @@
 
   ; Mint the kill goal toward the resolved victim. heir-apparent reads the
   ; benefactor's kin graph (the one irreducible computation, exposed as a verb).
-  ; /cause pins @self's belief in the benefactor's wealth - the appetitive motive -
+  ; /caused_by pins @self's belief in the benefactor's wealth - the appetitive motive -
   ; so the rap sheet reads "kill <victim> <- {<benefactor> wealth ..}".
   (effects
+    (bind {?benefactor wealth ?benefactor_wealth})
+    (bind (begin-belief {?benefactor wealth ?benefactor_wealth}) ?wealth_bond)
     (if (= ?heir @self)
-        (then (begin-goal {@self kill ?benefactor} /cause {?benefactor wealth}))
-        (else (begin-goal {@self kill ?heir} /cause {?benefactor wealth})))))
+        (then (begin-goal {@self kill ?benefactor} /caused_by ?wealth_bond))
+        (else (begin-goal {@self kill ?heir} /caused_by ?wealth_bond)))))

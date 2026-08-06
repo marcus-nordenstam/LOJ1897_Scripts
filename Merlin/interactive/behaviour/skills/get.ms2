@@ -18,7 +18,7 @@ rule get-take-proposal
 # Base the activity's outcome on the corresponding take task's outcome
 rule get-outcome
 {@self /ever get ?thing /no_out}: ?get
-{@self /past take ?thing /causes ~?get}: ?take
+{@self /past take ?thing /caused_by ~?get}: ?take
     ->
 (set_outcome ?get (outcome ?take)).
 

@@ -16,7 +16,7 @@
 ;     OR the spouse's assault record against the actor) plus the propensity roll
 ;     (misery * (0.5+psychopathy) * disinhibition * (1-compassion) *
 ;     (1 + spouse-wealth) * unmarriageable-lover-mult, at the 0.02 base rate);
-;   - (effects ...) mints {@self kill <spouse>} /cause-pinned to the held detest /
+;   - (effects ...) mints {@self kill <spouse>} /caused_by-pinned to the held detest /
 ;     dislike belief, else the spouse-wealth belief ("kill <spouse> <- {@self detest
 ;     <spouse>}" or "... <- {<spouse> wealth 0.8}").
 ; attempt_harm then consumes the goal and executes a method as usual.
@@ -57,10 +57,14 @@
                               (* (+ 1 (target {?spouse wealth}))
                                  (if (is-married ?lover) (then 1.5) (else 1.0)))))))))))
 
-  ; /cause: the held detest belief, else dislike, else the spouse-wealth belief.
+  ; /caused_by: the held detest belief, else dislike, else the spouse-wealth belief.
   (effects
     (if (believes {@self detest ?spouse})
-        (then (begin-goal {@self kill ?spouse} /cause {@self detest ?spouse}))
+        (then (bind (begin-belief {@self detest ?spouse}) ?detest_bond)
+              (begin-goal {@self kill ?spouse} /caused_by ?detest_bond))
         (else (if (believes {@self dislike ?spouse})
-            (then (begin-goal {@self kill ?spouse} /cause {@self dislike ?spouse}))
-            (else (begin-goal {@self kill ?spouse} /cause {?spouse wealth})))))))
+            (then (bind (begin-belief {@self dislike ?spouse}) ?dislike_bond)
+                  (begin-goal {@self kill ?spouse} /caused_by ?dislike_bond))
+            (else (bind {?spouse wealth ?spouse_wealth})
+                  (bind (begin-belief {?spouse wealth ?spouse_wealth}) ?wealth_bond)
+                  (begin-goal {@self kill ?spouse} /caused_by ?wealth_bond)))))))

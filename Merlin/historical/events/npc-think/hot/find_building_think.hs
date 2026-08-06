@@ -3,9 +3,10 @@
 ; {@self find_building [k building <kind>] ?region} as a bodyless TASK (promoted + run); these two
 ; thinks decompose the running search: cover the region one hop at a time, or conclude it failed.
 ;
-; The running search is matched with a CACHED self-gate (role @self (believes {@self find_building
-; ?sought ?region})) - binds ?sought (the sought kind) + ?region (the region to cover) off the task
-; belief; a seeker not searching pays nothing.
+; The running search is the (task {@self find_building ?sought ?region}) gate - PUSH-armed by
+; the task belief's write, barring activation before any role work, binding ?sought (the sought
+; kind) + ?region (the region to cover) off the matched task, and auto-/caused_by-pinning it on
+; every proposal; a seeker not searching pays nothing.
 ;
 ; find_survey hops to the CLOSEST unobserved structure in the region. (latch-eval (bind
 ; (closest-unobserved [k structure] ?region) ?dest)) LATCHES ?dest when it first binds and holds it
@@ -22,14 +23,13 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think find_survey
-  (role @self (believes {@self find_building ?sought ?region}))
+  (task {@self find_building ?sought ?region})
   (when (and (latch-eval (bind (closest-unobserved [k structure] ?region) ?dest))
              (bind (observed ?dest) ?observed)
              (not (observed ?dest))))
-  (effects ;(debug-print "SURVEY @self dest=?dest")
-           (maintain-proposal {@self go_to_threshold ?dest} /cause {@self find_building ?sought ?region})))
+  (effects (maintain-proposal {@self go_to_threshold ?dest})))
 
 (npc-think find_exhausted
-  (role @self (believes {@self find_building ?sought ?region}))
+  (task {@self find_building ?sought ?region}:?find_task)
   (when (not (is-entity (closest-unobserved [k structure] ?region))))
-  (effects (set-outcome {@self find_building ?sought ?region} fail)))
+  (effects (set-outcome ?find_task fail)))

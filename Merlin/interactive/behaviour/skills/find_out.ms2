@@ -6,7 +6,7 @@
 # Base Rule: If I want to learn some general aspect about a person, I could ask the person.
 #rule /cat learnTarget /rank 0
 rule find-out-target-about-person-general
-{@self goal {@self know (any {[k human]:?person ? ?}).target:?what} /causes ?causes}
+{@self goal {@self know (any {[k human]:?person ? ?}).target:?what} /caused_by ?causes}
    ->
 (maintain_goal {@self SAY (qs ?what) ?person}): ?ask_goal
 (add_causes ?ask_goal ?causes).
@@ -23,7 +23,7 @@ rule find-out-target-about-person-general
 # Base Rule: If I want to learn if something is true about a person, I could ask the person.
 #rule /cat learnProb /rank 0
 rule find-out-prob-about-person-general
-{@self goal {@self know (prob {[k human]:?person ? ?}):?what} /causes ?causes}
+{@self goal {@self know (prob {[k human]:?person ? ?}):?what} /caused_by ?causes}
     ->
 (maintain_goal {@self SAY (qs ?what) ?person}): ?ask_goal
 (add_causes ?ask_goal ?causes).

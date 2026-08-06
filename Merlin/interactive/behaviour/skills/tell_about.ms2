@@ -19,7 +19,7 @@
 
 rule tell-about
 {@self tell_about ?subject ?asker}: ?tell
-(none {@self /succ SAY ? ?asker /causes ~?tell})
+(none {@self /succ SAY ? ?asker /caused_by ~?tell})
    ->
 # abs_util 1 prioritises answering the request over posing your own questions.
 (maintain_goal {@self SAY (utterable_beliefs_about_msg ?subject ?asker) ?asker} (des abs_util 1)): ?response
@@ -31,6 +31,6 @@ rule tell-about
 
 rule tell-about-outcome
 {@self tell_about ?subject ?asker}: ?tell
-{@self /succ SAY ? ?asker /causes ~?tell}: ?SAY
+{@self /succ SAY ? ?asker /caused_by ~?tell}: ?SAY
     ->
 (set_outcome ?tell (outcome ?SAY)).

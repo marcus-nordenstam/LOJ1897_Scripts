@@ -28,7 +28,7 @@
 # arity-agnostically (a (msg ... (reg_des ...)) instance still passes;
 # formulaics carry no adoptable content and are excluded).
 rule hear-tell
-{!@self:?person /succ SAY ?msg ? /causes []}
+{!@self:?person /succ SAY ?msg ? /caused_by []}
 (eq_func_name ?msg msg)
     ->
 (begin_belief (eval_msg ?msg ?person))
@@ -38,11 +38,11 @@ rule hear-tell
 rule someone_want_self_action
 {!@self:?someone goal {/action @self ? ?}:?action}: ?someones_goal
     ->
-(maintain_proposal ?action /cause ?someones_goal).
+(maintain_proposal ?action /caused_by ?someones_goal).
 
 rule someone_want_self_action_outcome
 {!@self:?someone goal {/action @self ?lab ?sub ?aux}}: ?someones_goal
-{/action @self /past ?lab ?sub ?aux /causes ~?someones_goal}
+{/action @self /past ?lab ?sub ?aux /caused_by ~?someones_goal}
     ->
 (end_belief ?someones_goal).
 
@@ -50,11 +50,11 @@ rule someone_want_self_action_outcome
 rule someone_want_self_task
 {!@self:?someone goal {/task @self ? ?}:?task}: ?someones_goal
     ->
-(maintain_proposal ?task /cause ?someones_goal).
+(maintain_proposal ?task /caused_by ?someones_goal).
 
 rule someone_want_self_task_outcome
 {!@self:?someone goal {/task @self ?lab ?sub ?aux}}: ?someones_goal
-{/task @self /past ?lab ?sub ?aux /causes ~?someones_goal}
+{/task @self /past ?lab ?sub ?aux /caused_by ~?someones_goal}
     ->
 (end_belief ?someones_goal).
 

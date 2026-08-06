@@ -14,7 +14,7 @@
 ; pressure); the blame decision reads over the layered score macros
 ; (score_macros.hs): kill BOTH when (dual-outrage-score) >= 2.5 (rare); else
 ; the partner when (blame-partner-score) >= (blame-interloper-score); else the
-; interloper. /cause-pinned to the minted emotion ("kill <partner> <- {@self
+; interloper. /caused_by-pinned to the minted emotion ("kill <partner> <- {@self
 ; emotion anger}"). The rage pre-gate (dark-propensity over rage-disposition)
 ; keeps it the lethal tail.
 ; attempt_harm then consumes the goal(s) and executes a method as usual.
@@ -52,12 +52,16 @@
         (appraise-betrayal ?partner ?interloper)
         ; Dual (kill BOTH) when the outrage clears the bar and both live.
         (if (>= (dual-outrage-score) 2.5)
-            (then (begin-goal {@self kill ?partner}    /cause {@self emotion [k anger]})
-                (begin-goal {@self kill ?interloper} /cause {@self emotion [k contempt]}))
+            (then (bind (begin-belief {@self emotion [k anger] ?partner}) ?anger_bond)
+                (begin-goal {@self kill ?partner} /caused_by ?anger_bond)
+                (bind (begin-belief {@self emotion [k contempt] ?interloper}) ?contempt_bond)
+                (begin-goal {@self kill ?interloper} /caused_by ?contempt_bond))
             ; Else single-blame: the partner when blaming HER outweighs blaming the
             ; interloper (score_macros.hs spells out both scales), else the interloper.
             (else (if (>= (blame-partner-score ?partner)
                     (blame-interloper-score ?partner ?interloper))
-                (then (begin-goal {@self kill ?partner} /cause {@self emotion [k anger]}))
+                (then (bind (begin-belief {@self emotion [k anger] ?partner}) ?anger_bond)
+                      (begin-goal {@self kill ?partner} /caused_by ?anger_bond))
                 (else (if (not (believes {?interloper condition [k dead]}))
-                    (then (begin-goal {@self kill ?interloper} /cause {@self emotion [k contempt]})))))))))))
+                    (then (bind (begin-belief {@self emotion [k contempt] ?interloper}) ?contempt_bond)
+                          (begin-goal {@self kill ?interloper} /caused_by ?contempt_bond)))))))))))

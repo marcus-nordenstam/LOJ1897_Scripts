@@ -113,7 +113,7 @@
   (effects (maintain-proposal {@self provision})))
 
 ; ---- the errand: go to THE provisions shop (never a generic one) ------------
-; The go sub-goal INHERITS the provision goal's drive through /cause (the
+; The go sub-goal INHERITS the provision goal's drive through /caused_by (the
 ; worship_go shape - no own utility); at the shop the go retires, the standing
 ; goal is the leaf, and provision_act promotes on its when.
 
@@ -138,7 +138,7 @@
 ; Laden with food = the standing pressure to deliver it, re-stamped per
 ; deliberation (so the intention survives the window gap). ONE desire owns the
 ; bring goal's whole utility: 90 on the road (outbids the 77 provision pull the
-; moment the basket is in hand; bring_go inherits it via /cause), MAXIMUM once
+; moment the basket is in hand; bring_go inherits it via /caused_by), MAXIMUM once
 ; standing at the kitchen - the put-down takes a minute and nobody beds down
 ; still holding the shopping.
 

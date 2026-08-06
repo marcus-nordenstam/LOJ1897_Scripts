@@ -60,7 +60,7 @@
 
 ; go to the org's workplace to write + mail
 (npc-think af_go
-  (role @self (believes {@self apply_for ?jk ?art}))
+  (task {@self apply_for ?jk ?art})
   (when (and (not (believes {@self prepare_application ?art ?jk /succ}))
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (not (in-building ?wp))))
@@ -69,7 +69,7 @@
 
 ; at the workplace in business hours: write the application (created on the grid)
 (npc-think af_write
-  (role @self (believes {@self apply_for ?jk ?art}))
+  (task {@self apply_for ?jk ?art})
   (when (and (not (believes {@self prepare_application ?art ?jk /succ}))
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (in-building ?wp)
@@ -81,7 +81,7 @@
 ; the finished paper is co-present (on the workplace grid): mail it into the inbox. Once
 ; filed it de-grids into the pile, so it is no longer co-present and this rung falls.
 (npc-think af_send
-  (role @self (believes {@self apply_for ?jk ?art}))
+  (task {@self apply_for ?jk ?art})
   (role ?app [k application] (select (policy first-match)))
   (when (and (co-present @self ?app)
              (read-doc-record [k application] ?app (find applicant @self))))
@@ -91,7 +91,7 @@
 ; === the verdict (read, held, in the morning post) ==================================
 ; An OFFER: take up the post (a sub-task at the org's articles).
 (npc-think af_take_up
-  (role @self (believes {@self apply_for ?jk ?art}))
+  (task {@self apply_for ?jk ?art})
   (role ?ltr [k offer_letter] (believes {@self read ?ltr}))
   (utility 77)
   (effects (maintain-proposal {@self take_up_post ?art})))
@@ -99,13 +99,13 @@
 ; A REJECTION: conclude the apply_for /fail - the /fail conclusion IS the re-application
 ; memory (the pick excludes this job+org forever after).
 (npc-think af_rejected
-  (role @self (believes {@self apply_for ?jk ?art}))
+  (task {@self apply_for ?jk ?art}:?af)
   (role ?ltr [k rejection_letter] (believes {@self read ?ltr}))
-  (effects (set-outcome {@self apply_for ?jk ?art} fail)))
+  (effects (set-outcome ?af fail)))
 
 ; === take_up_post sub-task: go to the workplace and take the post ===================
 (npc-think tup_go
-  (role @self (believes {@self take_up_post ?art}))
+  (task {@self take_up_post ?art})
   (when (and (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (not (in-building ?wp))))
   (utility 78)
@@ -114,8 +114,8 @@
 ; at the workplace: enrol himself on the wage book (the hire is realized by taking it up).
 ; ?jk rides in from the still-running apply_for (take_up_post carries only the articles).
 (npc-think tup_take
-  (role @self (believes {@self take_up_post ?art})
-              (believes {@self apply_for ?jk ?art}))
+  (task {@self take_up_post ?art})
+  (role @self (believes {@self apply_for ?jk ?art}))
   (when (and (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (in-building ?wp)
              (>= (now-hour) 9)
@@ -126,7 +126,7 @@
 
 ; POST-ACT: read his own wage-book row -> the full job object (hire-beliefs).
 (npc-think tup_read_book
-  (role @self (believes {@self take_up_post ?art}))
+  (task {@self take_up_post ?art})
   (role ?reg [k employee_register] (select (policy first-match)))
   (when (and (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
              (read-doc-record [k employee_register] ?reg (find worker @self) (job ?jk) (level ?lvl))))
@@ -134,12 +134,12 @@
 
 ; === apply_for OUTCOME: employed -> succ (own the whole lifecycle) ==================
 (npc-think af_succeeded
-  (role @self (believes {@self apply_for ?jk ?art})
-              (believes {@self job.salary ?}))
+  (task {@self apply_for ?jk ?art}:?af)
+  (role @self (believes {@self job.salary ?}))
   (effects
     (for-each-belief {@self take_up_post ?a}
       (set-outcome {@self take_up_post ?a} succ))
-    (set-outcome {@self apply_for ?jk ?art} succ)))
+    (set-outcome ?af succ)))
 
 ; === the morning post: pick up + read (held) each unread letter at home =============
 (npc-think read_post

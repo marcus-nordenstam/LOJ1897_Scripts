@@ -7,7 +7,7 @@ rule house-agent-clerk-process-title-deed-for-buyer
 (realis ?bldg)
     ->
 # We have to explicitly include ?buyerWantsToBuy as a cause, because it is NOT a self-act
-(maintain_proposal {@self process_title_deed ?buyer ?bldg /causes ?buyerWantsToBuy}).
+(maintain_proposal {@self process_title_deed ?buyer ?bldg /caused_by ?buyerWantsToBuy}).
 
 rule house-agent-clerk-ask-buyer-name
 {@self process_title_deed ?buyer ?bldg}
@@ -33,7 +33,7 @@ rule house-agent-clerk-write-title-deed
 # Give the doc to buyer
 rule house-agent-clerk-give-title-deed-to-buyer
 {@self process_title_deed ?buyer ?bldg}: ?process_title_deed
-{@self /succ write [k title_deed]:?doc /causes ~?process_title_deed}
+{@self /succ write [k title_deed]:?doc /caused_by ~?process_title_deed}
 {?buyer hand ?hand}
 (realis ?doc)
 (none {?hand /ever control ?doc})

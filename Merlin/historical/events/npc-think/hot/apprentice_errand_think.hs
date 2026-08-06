@@ -23,7 +23,7 @@
 ; TERMINAL (act_body_purification): AT the premises, PROPOSE the articling act (a proposed label
 ; drops out of goal competition, so it does not auto-promote off the bare {@self seek_indenture}
 ; aim). articles-building binds ?venue (the master's premises) off the ?art focus bound off the {@self seek_indenture} goal and the
-; (in-building ?venue) gate is the arrived condition; the (goal ...) gate supplies the /cause +
+; (in-building ?venue) gate is the arrived condition; the (goal ...) gate supplies the /caused_by +
 ; drive.
 (npc-think indenture_dwell
   (goal {@self seek_indenture ?art})

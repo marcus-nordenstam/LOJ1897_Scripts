@@ -42,7 +42,7 @@
 ; runs ONLY here, ONLY once the owner has reached the premises (at-workplace). articles-building
 ; binds ?wp (the firm's premises) off ?art, the focus bound off the {@self close_business} goal - the same read the close_go routing rung uses
 ; (npc-think/close_business_errand.hs), whose (not (at-workplace ?wp)) gate this arrived condition
-; negates. The (goal ...) gate supplies the /cause.
+; negates. The (goal ...) gate supplies the /caused_by.
 (npc-think close_at_premises
   (goal {@self close_business ?art})
   (when (and (articles-building ?art ?wp)

@@ -21,6 +21,6 @@ rule perceive-attr-action-proposal
 
 rule perceive-attr-outcome
 {@self /ever perceive_attr ? ? /no_out}: ?perceive_attr
-{@self /past PERCEIVE_ATTR ? ? /causes ~?perceive_attr}: ?PERCEIVE_ATTR
+{@self /past PERCEIVE_ATTR ? ? /caused_by ~?perceive_attr}: ?PERCEIVE_ATTR
     ->
 (set_outcome ?perceive_attr (outcome ?PERCEIVE_ATTR)).

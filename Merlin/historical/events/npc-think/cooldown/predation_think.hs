@@ -87,13 +87,16 @@
   ; AFTER the select: disposition floor + rate. lethal = mean(psychopathy, sadism);
   ; propensity = (1 - inhibition) * lethal, DOUBLED for {@self life_aim power_aim}.
   (when (and (>= (lethal-disposition @self) 0.65)
+             (believes {@self fixation ?fix})
              (chance (* (crime-scale) 0.005
                         (* (dark-propensity (lethal-disposition @self))
                            (if (believes {@self life_aim [k power_aim]}) (then 2.0) (else 1.0)))))))
 
-  ; Mint the kill goal toward the resolved victim. /cause pins the first fixation
-  ; belief (the appetitive signature the rap-sheet reads). mark-stalk arms the
-  ; ~30-day surprise weight modifier attempt_harm reads.
+  ; Mint the kill goal toward the resolved victim. /caused_by pins the first fixation
+  ; belief (the gate's believes binds ?fix - a kind-valued feature - and the
+  ; find-or-create reuses that exact belief; the appetitive signature the rap-sheet
+  ; reads). mark-stalk arms the ~30-day surprise weight modifier attempt_harm reads.
   (effects
-    (begin-goal {@self kill ?victim} /cause {@self fixation})
+    (bind (begin-belief {@self fixation ?fix}) ?fixation_bond)
+    (begin-goal {@self kill ?victim} /caused_by ?fixation_bond)
     (mark @self [k stalk_target] ?victim 30)))

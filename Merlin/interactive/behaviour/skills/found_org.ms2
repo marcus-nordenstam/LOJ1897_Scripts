@@ -181,15 +181,15 @@ rule
 # The target of the Ask relation is always a function.
 
 {?person Ask ?question @me}: ?personAsk
-(none {@i SAY ?question ?person /causes ?personAsk})
+(none {@i SAY ?question ?person /caused_by ?personAsk})
     ->
 (maintain_belief ?question): ?truth
 (maintain_belief /distort ?question): ?lie
 (util ?person learn ?truth): ?truthUtil
 (util ?person learn ?lie): ?lieUtil
 (if (ge ?truthUtil ?lieUtil)
-    (maintain_goal {@i SAY ?truth ?person /causes ?personAsk})
-    (maintain_goal {@i SAY ?lie ?person /causes ?personAsk})).
+    (maintain_goal {@i SAY ?truth ?person /caused_by ?personAsk})
+    (maintain_goal {@i SAY ?lie ?person /caused_by ?personAsk})).
 
 # Event-form is either sentence (/st) or clause (/cl).
 # Arguments are always clauses no matter what.

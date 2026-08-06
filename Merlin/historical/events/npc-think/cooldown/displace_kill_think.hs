@@ -6,7 +6,7 @@
 ; never exclusively - hit; a floor lets the rage land on any known acquaintance.
 ;
 ; SCOPE. Only the reactive-deliberation kill displaces: its goal carries a
-; {@self pressure ..} /cause (the grievance), which (driving-pressure-of-goal ...)
+; {@self pressure ..} /caused_by (the grievance), which (driving-pressure-of-goal ...)
 ; returns and every appetitive / instrumental kill lacks (predation pins {@self
 ; fixation}, covet {?b wealth}, ambition {@self job.org}, passion {@self crave ..},
 ; betrayal {@self emotion ..}, rid_of_spouse {@self detest ..}). The window is
@@ -52,9 +52,9 @@
                         (+ (attr @self volatility) (callousness @self))))))
 
   ; Re-route: drop the kill, discharge the grievance as a beating on the substitute,
-  ; carrying the ORIGINAL pressure as /cause so terminal-harm-non-lethal discharges
+  ; carrying the ORIGINAL pressure as /caused_by so terminal-harm-non-lethal discharges
   ; the right grievance (else the actor re-deliberates it next month).
   (effects
     (bind (driving-pressure-of-goal (goal-belief kill)) ?pressure)
     (end-goal {@self kill ?focus})
-    (begin-goal {@self hurt ?sub} /cause ?pressure)))
+    (begin-goal {@self hurt ?sub} /caused_by ?pressure)))

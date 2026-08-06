@@ -107,8 +107,8 @@ rule introduce-siblings-tell-each-other
 
 rule introduce-siblings-outcome
 {@self /ever introduce_siblings ?person1 ?person2 /no_out}: ?intro
-{@self /succ SAY ? ?person1 /causes ~?intro}
-{@self /succ SAY ? ?person2 /causes ~?intro}
+{@self /succ SAY ? ?person1 /caused_by ~?intro}
+{@self /succ SAY ? ?person2 /caused_by ~?intro}
     ->
 (set_outcome ?intro /succ).
 

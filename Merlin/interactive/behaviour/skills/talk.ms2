@@ -146,7 +146,7 @@ rule talk-release-cell
 # Track SAY outcome (statements and questions alike)
 rule goal-SAY-outcome
 {@self goal {@self SAY ?msg ?audience}}: ?goal
-{@self /past SAY ?msg ?audience /causes ~?goal /out?}: ?SAY
+{@self /past SAY ?msg ?audience /caused_by ~?goal /out?}: ?SAY
     ->
 (set_outcome ?goal (outcome ?SAY)).
 
@@ -155,7 +155,7 @@ rule goal-SAY-outcome
 # is arity-agnostic (a (qs ... (reg_des ...)) instance still passes).
 rule goal-SAY-question-expect-answer
 {@self goal {@self SAY ?question ?person}}: ?goal
-{@self /past SAY ?question ?person /causes ~?goal /out?}: ?SAY
+{@self /past SAY ?question ?person /caused_by ~?goal /out?}: ?SAY
 (eq_func_name ?question qs)
     ->
-(begin_belief {@self expect_answer ?person /causes ?SAY}).
+(begin_belief {@self expect_answer ?person /caused_by ?SAY}).

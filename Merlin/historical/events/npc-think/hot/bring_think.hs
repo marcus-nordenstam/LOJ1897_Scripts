@@ -17,7 +17,7 @@
 
 (include "../../../definitions/roles.hs")
 
-; The go sub-goal INHERITS the bring goal's drive through /cause (worship_go
+; The go sub-goal INHERITS the bring goal's drive through /caused_by (worship_go
 ; shape) - the MINTING lane owns the utility (provisioning: provision_rearm 90).
 (npc-think bring_go
   (goal {@self bring ?ware ?dest})
@@ -25,7 +25,7 @@
   (effects (maintain-proposal {@self enter ?dest})))
 
 ; AT the destination: PROPOSE the put-down act (goals never propose themselves). No (utility):
-; the proposal inherits the minting lane's drive up the /cause chain (like bring_go).
+; the proposal inherits the minting lane's drive up the /caused_by chain (like bring_go).
 (npc-think bring_at_dest
   (goal {@self bring ?ware ?dest})
   (when (at-place ?dest))

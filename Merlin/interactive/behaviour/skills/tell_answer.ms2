@@ -20,7 +20,7 @@ rule compute-answer
 {!@self:?person /ever SAY ?question @self}: ?person_asked
 (eq_func_name ?question qs)
 (bb_private_none ?question answer)
-(none {@self /succ SAY ? ?person /causes ~?person_asked})
+(none {@self /succ SAY ? ?person /caused_by ~?person_asked})
 (eval_msg /output_unknown_on_fail ?question ?person): ?answer
     ->
 (bb_private_write ?question answer ?answer).
@@ -31,7 +31,7 @@ rule compute-answer
 rule tell-answer-do-you-know-this
 {!@self:?person /ever SAY (qs /do_you_know /this (any {/b ?entity /ever name}).target):?question @self}: ?person_asked
 (bb_private_read ?question answer): ?answer
-(none {@self /succ SAY ? ?person /causes ~?person_asked})
+(none {@self /succ SAY ? ?person /caused_by ~?person_asked})
 (lock_rule tell_answer 1) # higher priority than the general answer-question below
     ->
 (any {@self /ever ? ?entity}).label: ?relation
@@ -50,7 +50,7 @@ rule tell-answer-do-you-know-this
 rule tell-answer
 {!@self:?person /ever SAY ?question @self}: ?person_asked
 (bb_private_read ?question answer): ?answer
-(none {@self /succ SAY ? ?person /causes ~?person_asked})
+(none {@self /succ SAY ? ?person /caused_by ~?person_asked})
 (lock_rule tell_answer 0) # defer to higher-priority specialized rules above
     ->
 # abs_util 1 prioritises answering over posing your own questions.
@@ -84,13 +84,13 @@ rule answer-question-infer-desire-from-question
 
 /*
 {?person SAY (qs ?q):?question @me}: ?personAsk
-(none {@i SAY ? ?person /causes ~?personAsk})
+(none {@i SAY ? ?person /caused_by ~?personAsk})
     ->
 (e ?question): ?truth
 (e /distort ?question): ?lie
 (util ?person learn ?truth): ?truthUtil
 (util ?person learn ?lie): ?lieUtil
 (if (ge ?truthUtil ?lieUtil)
-    (maintain_goal {@i SAY ?truth ?person /causes ~?personAsk})
-    (maintain_goal {@i SAY ?lie ?person /causes ~?personAsk})).
+    (maintain_goal {@i SAY ?truth ?person /caused_by ~?personAsk})
+    (maintain_goal {@i SAY ?lie ?person /caused_by ~?personAsk})).
 */

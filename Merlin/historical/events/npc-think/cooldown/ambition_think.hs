@@ -17,9 +17,10 @@
 ;     shares my own org object - a read of my own beliefs, no telepathy.
 ;   - (when ...) is the disposition pre-gate (ambition = mean(machiavellianism,
 ;     narcissism), scaled by disinhibition, at the 0.03 base rate).
-;   - (effects ...) mints {actor goal {actor kill <head>}}, /cause-pinned to the
-;     actor's job.org belief (their stake), so the rap sheet reads
-;     "kill <head> <- {@self job.org <org>}".
+;   - (effects ...) mints {actor goal {actor kill <head>}} UNCAUSED: the ambition is
+;     a root desire (the old /caused_by {@self job.org} pin was a chain-label pattern
+;     no recall could ever resolve, so it silently pinned nothing - and "my employer
+;     made me do it" was never a motive; the succession stake lives in the role gates).
 ; attempt_harm then consumes the goal and executes a kill method. The payoff is real:
 ; promote_on_vacancy (propagate_death) lifts the actor into the vacated head rank.
 ;
@@ -58,4 +59,4 @@
 
   (effects
     (debug-print "TRACE_AMBITION @self -> ?victim head at ?org")
-    (begin-goal {@self kill ?victim} /cause {@self job.org})))
+    (begin-goal {@self kill ?victim})))

@@ -41,6 +41,6 @@ rule use_umbrella-STOW
 
 rule use_umbrella-outcome
 {@self use_umbrella ?umbrella}: ?use_umbrella
-{@self /ever STOW ?umbrella /causes ~?use_umbrella}
+{@self /ever STOW ?umbrella /caused_by ~?use_umbrella}
     ->
 (set_outcome /succ ?use_umbrella).

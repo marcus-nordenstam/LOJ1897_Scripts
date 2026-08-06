@@ -15,7 +15,7 @@ rule goal-know-answer-to-marriage-proposal
 
 rule reasoning-marriage-proposal-accepted
 {?proposer /succ SAY (qs (prob {?proposee goal {?proposee marry ?proposer}})) ?proposee}: ?marriageProposal
-{?proposee /succ SAY (msg @true) ?proposer /causes ~?marriageProposal}
+{?proposee /succ SAY (msg @true) ?proposer /caused_by ~?marriageProposal}
     ->
 (begin_belief {?proposer fiancee ?proposee})
 (begin_belief {?proposee fiancee ?proposer})
@@ -24,7 +24,7 @@ rule reasoning-marriage-proposal-accepted
 
 rule reasoning-marriage-proposal-rejected
 {?proposer /succ SAY (qs (prob {!@self:?proposee goal {?proposee marry ?proposer}})) ?proposee}: ?marriageProposal
-{?proposee /succ SAY (msg @unknown%) ?proposer /causes ~?marriageProposal}
+{?proposee /succ SAY (msg @unknown%) ?proposer /caused_by ~?marriageProposal}
     ->
 (begin_belief {?proposee goal {?proposee marry ?proposer} /p @unknown%})
 (if (eq ?proposer @self) 

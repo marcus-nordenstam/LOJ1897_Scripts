@@ -77,7 +77,7 @@ rule bartending-serve-customer-outcome
 {@self perform [k bartending] ?pub}
 {@self serve_customer ?patron}: ?serve
 {?patron order ?drink_kind @self}: ?order
-{@self /succ POUR ?drink_kind ? /causes ~?serve}
+{@self /succ POUR ?drink_kind ? /caused_by ~?serve}
     ->
 (end_belief ?order)
 (set_outcome /succ ?serve).

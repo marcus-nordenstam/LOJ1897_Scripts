@@ -4,7 +4,7 @@
 ; The victim holds the standing {?blackmailer extort @self} anchor his coercer's
 ; press keeps refreshing (perpetration_macros coerce-* land it, coercion.hs
 ; press-coercion refreshes it). Each month he mints + COMPOUNDS his OWN
-; exposure_risk pressure toward the blackmailer: begin-belief /cause the anchor
+; exposure_risk pressure toward the blackmailer: begin-belief /caused_by the anchor
 ; (so a live cause keeps it off the orphan-sweep) and /salience the class-scaled
 ; stake (accumulate-on-reuse escalates it in place, walking him from bribe /
 ; confess toward the kill tail - deliberate_think turns the standing pressure into
@@ -30,6 +30,7 @@
   (role ?blackmailer (any_human ?blackmailer)
                      (believes {?blackmailer extort @self}))
   (effects
+    (bind (begin-belief {?blackmailer extort @self}) ?extort_anchor)
     (begin-belief {@self pressure [k exposure_risk] ?blackmailer}
-                  /cause {?blackmailer extort @self}
+                  /caused_by ?extort_anchor
                   /salience (coercion-stake))))

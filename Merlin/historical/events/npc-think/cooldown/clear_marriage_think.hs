@@ -17,7 +17,7 @@
 ;     the propensity roll (psycho * mach * disinhibition * (1-compassion) * drive at
 ;     the 0.03 base rate);
 ;   - (effects ...) forks on machiavellianism (P = 0.7 * mach): DIRECT mints
-;     {@self kill <spouse>} /cause {@self lover <paramour>}; INSTIGATED mints the
+;     {@self kill <spouse>} /caused_by {@self lover <paramour>}; INSTIGATED mints the
 ;     cheater's accomplice bond {@self accomplice <lover> /aux {<lover> kill <spouse>}}
 ;     and routes the murder proposal as a covert letter; the lover's side of the
 ;     conspiracy lives in conspiracy_adoption.hs, fired by READING that letter.
@@ -80,5 +80,7 @@
           ; @you = ?paramour (the covert letter's recipient); the plot's doer
           ; resolves to the reader, so conspiracy_adoption sees {@self kill <spouse>}.
           (send-covert-letter ?paramour (nl_written_msg "I urge you to kill ?spouse_name. Signed, ?author_name") [k letter]))
-        ; DIRECT: the cheater acts alone.
-        (else (begin-goal {@self kill ?spouse} /cause {@self lover ?paramour})))))
+        ; DIRECT: the cheater acts alone. The lover bond (find-or-create reuses the
+        ; gating belief) is the motive pin.
+        (else (bind (begin-belief {@self lover ?paramour}) ?lover_bond)
+              (begin-goal {@self kill ?spouse} /caused_by ?lover_bond)))))

@@ -22,7 +22,7 @@
 ;   - (crave-rival ?beloved) resolves the victim - the beloved's spouse / lover read
 ;     in the ACTOR'S own mind, else the beloved (the one irreducible computation,
 ;     exposed as a verb);
-;   - (effects ...) mints {actor goal {actor kill <victim>}} /cause-pinned to the
+;   - (effects ...) mints {actor goal {actor kill <victim>}} /caused_by-pinned to the
 ;     crave belief, so the rap-sheet reads "kill <victim> <- {@self crave <beloved>}".
 ; attempt_harm then consumes the goal and executes a kill method as usual.
 ;
@@ -55,10 +55,11 @@
                         (dark-propensity (rage-disposition @self))))))
 
   ; crave-rival resolves the rival for the beloved (read in @self's own mind), else
-  ; the beloved. /cause pins the crave belief - the obsessive signature.
+  ; the beloved. /caused_by pins the crave belief - the obsessive signature.
   (effects
     (debug-print "TRACE_PASSION_FIRES @self beloved=?beloved")
     (bind (crave-rival ?beloved) ?victim)
     (if (not (believes {?victim condition [k dead]}))
         (then (debug-print "TRACE_KILLGOAL passion @self -> ?victim")
-            (begin-goal {@self kill ?victim} /cause {@self crave ?beloved})))))
+            (bind (begin-belief {@self crave ?beloved}) ?crave_bond)
+            (begin-goal {@self kill ?victim} /caused_by ?crave_bond)))))

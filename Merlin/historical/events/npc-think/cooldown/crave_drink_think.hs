@@ -2,15 +2,15 @@
 ; The DRINKING lane - B4 desire + case sub-goals (hierarchical goals).
 ;
 ; ONE desire computes the pressure ONCE; the case rules just read the drink goal and
-; maintain the appropriate sub-goal, which INHERITS the drink drive (mint_goal /cause
+; maintain the appropriate sub-goal, which INHERITS the drink drive (mint_goal /caused_by
 ; inheritance) and, as the live leaf, out-competes its parent (leaf-only promotion):
 ;
 ;   want_drink  (desire): pressure-gated (drink-due), utility = drink-drive. Holds
 ;                {@self drink} while thirsty; auto-retracts when the pressure lapses.
 ;   AT a pub   (case A):  {@self drink} has no active sub-goal, so it is the leaf and
 ;                promotes straight to drink_act (drink.hs). No rule needed.
-;   know a pub (case B):  drink_go holds {@self go ?pub} /cause the drink goal.
-;   know none  (case C):  drink_find holds {@self find_building [k pub]} /cause it.
+;   know a pub (case B):  drink_go holds {@self go ?pub} /caused_by the drink goal.
+;   know none  (case C):  drink_find holds {@self find_building [k pub]} /caused_by it.
 ;
 ; The go / find sub-goals carry the inherited drive and, being the live leaves, win the
 ; motor; the drink goal itself only promotes once no sub-goal is active (i.e. at a pub).

@@ -93,7 +93,7 @@ rule pubbing-order-beer-unclaim-spot-at-bar
 {@self pubbing}
 {?bartender perform [k bartending] ?pub}
 {@self order [k beer] ?bartender}: ?order
-{@self /succ take ?beer /causes ~?order}
+{@self /succ take ?beer /caused_by ~?order}
 (bb_public_read @self drinking_glass_cell): ?spawn_cell
     ->
 (unclaim_env_cell ?spawn_cell)

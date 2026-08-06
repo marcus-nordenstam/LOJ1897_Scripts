@@ -12,7 +12,7 @@ rule stack-read-browse-proposal
 # If we are viewing a doc but have not read it, then read it
 rule stack-read-read-viewed-doc-proposal
 {@self stack_read ?stack}: ?stack_read
-{@self stack_browse ?stack /causes ~?stack_read}
+{@self stack_browse ?stack /caused_by ~?stack_read}
 # I have NOT read the doc I am currently viewing
 {@self view ?doc}
     ->
@@ -25,7 +25,7 @@ rule stack-read-read-viewed-doc-proposal
 # (The stack_browse activity creates this stack for us).
 rule stack-read-put-done-doc-proposal
 {@self stack_read ?stack}: ?stack_read
-{@self stack_browse ?stack /causes ~?stack_read}
+{@self stack_browse ?stack /caused_by ~?stack_read}
 # I have read the doc I am currently viewing
 {@self view ?doc}
 {@self /succ read ?doc}

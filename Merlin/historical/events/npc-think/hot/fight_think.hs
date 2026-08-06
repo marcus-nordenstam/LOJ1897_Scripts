@@ -29,7 +29,7 @@
 ; act body (fight_act / flee_act / scream_act) - no begin-act. The strike-vs-
 ; retreat choice is a UTILITY RACE between peer goals ({@self fight} vs
 ; {@self go home}), NOT a leaf relationship, so break_off reads the fight goal
-; with (goal? ...) - which does not pin the auto-/cause - keeping its
+; with (goal? ...) - which does not pin the auto-/caused_by - keeping its
 ; {@self go home} a standalone competitor rather than a fight sub-goal.
 ; ----------------------------------------------------------------------------
 
@@ -77,7 +77,7 @@
 
 ; TERMINAL step (act_body_purification): the blow itself is PROPOSED, guarded by co-presence -
 ; the same precondition kill_strike keys on. No (utility): the proposal inherits the fight goal's drive
-; up the /cause chain, so the aggressor strikes at kill_strike's exposure-decayed weight (~200) and a
+; up the /caused_by chain, so the aggressor strikes at kill_strike's exposure-decayed weight (~200) and a
 ; struck victim who turned to fight (defend_strike) strikes at its 20000 override - ONE shared terminal,
 ; each actor's own drive. The exchange trades blows until one dies (a fatal blow breaks co-presence
 ; and the strikes stop).

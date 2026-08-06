@@ -39,11 +39,11 @@ rule take-left-reach-for-proposal
 # (which holds the side kind that was used) and pass it straight through to the
 # GRASP proposal -- avoids needing (side ?hand) in a condition position, which
 # the parser turns into a placeholder-binding function call that never indexes
-# into the alpha network. /causes ~?take ensures we only match the REACH_FOR
+# into the alpha network. /caused_by ~?take ensures we only match the REACH_FOR
 # spawned by this take task.
 rule take-grasp-proposal
 {@self take ?thing}: ?take
-{@self REACH_FOR ?thing ?reach_side /succ /causes ~?take}
+{@self REACH_FOR ?thing ?reach_side /succ /caused_by ~?take}
     ->
 (begin_proposal {@self GRASP ?thing ?reach_side} (des abs_util 2000)).
 
@@ -51,7 +51,7 @@ rule take-grasp-proposal
 # completed the grasp; the task is satisfied once any GRASP of ?thing succeeded.
 rule take-outcome
 {@self /ever take ?thing /no_out}: ?take
-{@self /past GRASP ?thing ? /causes ~?take /out?}: ?GRASP
+{@self /past GRASP ?thing ? /caused_by ~?take /out?}: ?GRASP
     ->
 (set_outcome ?take (outcome ?GRASP)).
 

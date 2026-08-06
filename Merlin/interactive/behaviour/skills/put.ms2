@@ -50,7 +50,7 @@ rule put-reach-for-proposal
 # bound to that wrong target.
 rule put-ungrasp-proposal
 {@self put ?thing ?surface}: ?put
-{@self REACH_FOR ?put_cell /succ /causes ~?put}
+{@self REACH_FOR ?put_cell /succ /caused_by ~?put}
 {@self hand ?hand}
 {?hand control ?thing}
 (eq (bb_private_read ?put put_cell) ?put_cell)
@@ -62,7 +62,7 @@ rule put-ungrasp-proposal
 # the release - it cares that the right thing went to the right cell.
 rule put-outcome
 {@self /ever put ?thing ?surface /no_out}: ?put
-{@self /past UNGRASP ? ? /causes ~?put /out?}: ?UNGRASP
+{@self /past UNGRASP ? ? /caused_by ~?put /out?}: ?UNGRASP
     ->
 (unclaim_env_cell (bb_private_read ?put put_cell))
 (bb_private_clear ?put put_cell)

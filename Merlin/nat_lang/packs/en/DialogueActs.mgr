@@ -98,7 +98,7 @@
 # what the listener hears.
 #
 # Instead, inject_pressure_discharge_beliefs (rule_functions/discourse_
-# functions.h) walks each pressure's /causes link, finds the originating
+# functions.h) walks each pressure's /caused_by link, finds the originating
 # ACT belief, applies a topical-relevance gate (the act must touch the
 # asked-about subject), and injects THE ACT BELIEF into the (msg ...) list.
 # The act renders via standard description templates - "Beatrice spoke
@@ -119,7 +119,7 @@
 
 # === PAST WRONG-ACTS ========================================================
 # Cause-belief templates for the acts that pressure-discharge surfaces.
-# When the speaker volunteers a pressure with /causes pointing at a wrong-
+# When the speaker volunteers a pressure with /caused_by pointing at a wrong-
 # act involving the asked-about subject (topical-relevance gate in
 # inject_pressure_discharge_beliefs), the act itself is what we voice -
 # never the pressure-kind label.

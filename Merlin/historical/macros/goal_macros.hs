@@ -9,7 +9,7 @@
 ;
 ; The goal REQUIREMENT / read forms are engine primitives now, not macros:
 ;   (goal  {@self <action> [<target>]}) - a first-position event CLAUSE: requires the
-;       goal, binds a free clause-target ?var off it, and pins it as the auto-/cause
+;       goal, binds a free clause-target ?var off it, and pins it as the auto-/caused_by
 ;       of sub-goals the rule mints.
 ;   (goal? {@self <action> [<target>]}) - boolean read (use in when/if/and/or/effects).
 ;   (no-goal {@self <action> [<target>]}) - boolean negative (symmetric with no-role).

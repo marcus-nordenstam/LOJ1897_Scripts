@@ -59,7 +59,7 @@
 ; Cover-up / murder-to-silence: kill the witness (the exposure_risk focus is the
 ; patient who could expose the actor - they need not have wronged the actor).
 ; A tail weight so it stays rare; Part A pins the exposure_risk pressure as the
-; goal's /cause, so the rap-sheet reads "kill <witness> <- exposure_risk".
+; goal's /caused_by, so the rap-sheet reads "kill <witness> <- exposure_risk".
 (affinity exposure_risk       kill                 0.05)
 
 ; ---- attachment_loss: loss of a bonded other ---------------------------------

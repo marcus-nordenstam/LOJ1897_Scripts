@@ -35,14 +35,14 @@
     (discharge-pressure ?pressure 0.5)))
 
 ; Turn the deliberation winner into its effect. suicide / strive resolve inline; every
-; other action mints its goal with the driving pressure pinned as /cause. A reactive KILL
+; other action mints its goal with the driving pressure pinned as /caused_by. A reactive KILL
 ; whose wrongdoer-focus is unreachable is displaced onto a weaker innocent by the separate
 ; displace_kill event (a role-cast + roulette over the actor's orbit) - it reacts to this
 ; freshly-minted pressure-caused kill goal and re-routes it to a beating.
 (define-macro resolve-deliberation (?action ?focus ?pressure)
   (if (= ?action suicide) (then (resolve-suicide @self))
   (else (if (= ?action strive)  (then (resolve-strive @self ?pressure))
-  (else (begin-goal {@self ?action ?focus} /cause ?pressure))))))
+  (else (begin-goal {@self ?action ?focus} /caused_by ?pressure))))))
 
 ; (has-pressure ?actor): does ?actor hold ANY ongoing pressure belief? Folds the
 ; old C++ (has-pressure) op - its body was a first-ongoing {?actor pressure ?}

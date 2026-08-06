@@ -43,12 +43,12 @@
     (debug-print "TRACE_METHOD @self method=?method means=?means victim=?victim")
     (if (= ?method commission_killing)
         (then (if (commission-killing ?victim)
-            (then (begin-belief {@self method ?method} /cause ?goal)
+            (then (begin-belief {@self method ?method} /caused_by ?goal)
                 (end-goal {@self kill ?victim}))
             ; No connected killer / no reach / no money: fall back to the
             ; bare-handed default so the campaign does not stall.
-            (else (begin-belief {@self method strangle} /cause ?goal))))
+            (else (begin-belief {@self method strangle} /caused_by ?goal))))
         (else
-          (begin-belief {@self method ?method} /cause ?goal)
+          (begin-belief {@self method ?method} /caused_by ?goal)
           (if (is-kind ?means)
               (then (begin-belief {@self method_means ?means})))))))
