@@ -12,11 +12,10 @@
 ; event never fires: the lover simply never learned of the plot.
 ;
 ; PURE .hs over composable ops:
-;   - (role ?instigator (believes {?instigator urge ?})) - anyone this mind
-;     holds an urge belief FROM (candidate-subject belief filter);
-;   - (bind {?instigator urge ?plot}) binds the plot clause; the clause-field
-;     ops ((clause-subject/label/target ?plot)) decompose it: the plot must
-;     name @self as the doer and carry a kill;
+;   - (role ?instigator (believes {?instigator urge @self {@self kill ?victim}:?plot}))
+;     - anyone this mind holds a kill-me-plot urge FROM, matched structurally by
+;     the role cache's clause descent: membership wakes on the urge-belief write,
+;     and ?victim + the whole ?plot clause bind at the when-gate;
 ;   - the compliance gate: attraction band toward the instigator >= 2 plus a
 ;     psychopathy roll;
 ;   - effects mirror the struck cross-mind block, minted in @self's own mind:
@@ -32,18 +31,17 @@
   (rng-stream perpetration)
 
   (role @self )
-  ; Anyone @self believes has urged HIM something - the belief arrives only by
-  ; reading the letter (or hearing the words), never by telepathy. A role filter
-  ; may not carry a nested clause, so the plot shape is matched in (when) below.
+  ; Anyone @self believes has urged HIM the kill-me plot - the belief arrives only
+  ; by reading the letter (or hearing the words), never by telepathy. The urge
+  ; belief is {<instigator> urge <me> {<me> kill <victim>}} (Statements.mgr "I urge
+  ; <you> to kill <x>"); the nested clause is the role's own membership criterion,
+  ; and the {..}:?plot capture + free ?victim bind at the when-gate.
   (role ?instigator (any_human ?instigator)
-                    (believes {?instigator urge @self ?}))
+                    (believes {?instigator urge @self {@self kill ?victim}:?plot}))
 
-  ; The plot must ask ME to kill someone, and I must be willing: desire for the
-  ; instigator (attraction band >= 2) plus the dark roll. The urge belief is
-  ; {<instigator> urge <me> {<me> kill <victim>}} (Statements.mgr "I urge <you>
-  ; to kill <x>"); the {..}:?plot capture binds the whole kill plot and ?victim.
-  (when (and (bind {?instigator urge @self {@self kill ?victim}:?plot})
-             (>= (stance-band ?instigator attraction) 2)
+  ; I must be willing: desire for the instigator (attraction band >= 2) plus the
+  ; dark roll.
+  (when (and (>= (stance-band ?instigator attraction) 2)
              (chance (attr @self psychopathy))))
 
   (effects
