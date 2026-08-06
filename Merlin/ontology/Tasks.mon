@@ -105,9 +105,15 @@ relation
             # (target = the org; `recruit` is the accomplice-recruitment act);
             # advertise is its board-posting subtask. (Mail reading needs no
             # task - unread letters at home directly propose the read action.)
-            seek_work
-            apply                                   (tar job_description)
-            take_up_post                            (tar application)
+            # apply_for: the MAIN worker task - one attempt at a specific job at a
+            #   specific org (target = the occupation, aux = the org's articles). Its
+            #   OUTCOME is the whole lifecycle: running = applied, succ = took the job,
+            #   fail = rejected. A /fail conclusion is the re-application memory (the pick
+            #   excludes any job+org already failed). Sub-tasks prepare/submit the paper.
+            # take_up_post: the offered seeker goes and takes the post (target = the org's
+            #   articles); its success drives apply_for succ.
+            apply_for                               (tar job) (aux articles_of_incorporation)
+            take_up_post                            (tar articles_of_incorporation)
             recruiting                              (tar org)
             advertise                               (tar org)
             # Solitary leisure activities at a venue (activity-lanes L8), the
@@ -314,12 +320,19 @@ relation
             # accept_post: the seeker stamps his offered application `accepted`.
             # enrol: the wage-book row (target = the new hire, aux = the wage book).
             # take_down: remove a filled posting from the board.
+            # prepare_application: the seeker writes the application paper from the org's
+            #   articles + the job (target = articles, aux = job); it stays on the grid at
+            #   the workplace. submit_application: mail the paper into the back-office inbox
+            #   (target = the application). gather_applications: the hiring officer's ONE
+            #   sweep of the inbox - offer the top applicant, reject the rest, destroy every
+            #   application, composing the verdict letters inline (target = the org's
+            #   articles). take_post: the offered seeker enrols himself on the register
+            #   (target = articles, aux = the job).
             post_advert         (motor right_hand)  (tar @excl articles_of_incorporation)  (aux ?)
-            submit_application  (motor right_hand)  (tar @excl job_description)
-            make_offer          (motor right_hand)  (tar @excl application)
-            send_rejection      (motor right_hand)  (tar @excl application)
-            accept_post         (motor right_hand)  (tar @excl application)
-            enrol               (motor right_hand)  (tar @excl application)  (aux ?)
+            prepare_application (motor right_hand)  (tar @excl articles_of_incorporation)  (aux job)
+            submit_application  (motor right_hand)  (tar @excl application)
+            gather_applications (motor right_hand)  (tar @excl articles_of_incorporation)
+            take_post           (motor right_hand)  (tar @excl articles_of_incorporation)  (aux job)
             take_down           (motor right_hand)  (tar @excl job_description)
 
             approach                (motor legs)              (tar @excl)

@@ -353,6 +353,13 @@ object (+ obs)
                 # grounds reciprocal courtship travels by post - the beloved reads
                 # it in the morning mail and comes to know she is fancied.
                 courtship_letter
+                # The labour-market verdict letters (recruit_actions.hs). A TYPED signal:
+                # the seeker has one apply_for task in flight, so the letter's KIND alone
+                # tells him the verdict - offer_letter -> take the post (apply_for succ),
+                # rejection_letter -> apply_for fail. Delivered to his home mail pile, read
+                # (held) in the morning post.
+                offer_letter
+                rejection_letter
             pamphlet
             book
             newspaper

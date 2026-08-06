@@ -43,8 +43,9 @@
 ; read by seekers - the read internalizes every field a seeker needs to choose
 ; and apply): [org_record job level salary class_floor workplace]
 (define-document job_description   (fields org_record job level salary class_floor workplace))
-; A job application: the physical paper a seeker writes and leaves at the
-; workplace. Its `status` field is the whole hiring lifecycle (applied -> offered |
-; rejected -> accepted); the recruiter reads the pile and drives one status per
-; paper: [applicant job org_record workplace status]
-(define-document application       (fields applicant job org_record workplace status))
+; A job application: the physical paper a seeker writes and mails into the org's
+; back-office inbox. It is EPHEMERAL - the hiring officer reads it and DESTROYS it
+; when the verdict letter is sent, so applications never accumulate. The hiring
+; lifecycle rides the seeker's `apply_for` TASK outcome, not a status field:
+; [applicant job org_record workplace]
+(define-document application       (fields applicant job org_record workplace))

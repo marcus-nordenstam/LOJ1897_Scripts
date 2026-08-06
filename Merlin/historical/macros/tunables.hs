@@ -35,6 +35,12 @@
 ; homeostat_emigration "emigrate the oldest N by fiat" world valve.
 (define-macro population-pressure () (/ (living-npc-count) (homeostat_target_population)))
 
+; Labour market: the wealth ceiling above which an NPC does NOT seek waged work (the
+; independently wealthy). Wealth is the {@self wealth ?w} belief (~0..1.25, balance/120);
+; only the genuinely rich clear this bar. A seeker with no wealth belief yet is treated
+; as needing work (the gate defaults them in).
+(define-macro seek_job_wealth_ceiling () 1.0)
+
 ; Deliberation inaction floor: the fixed weight of "forgive / do nothing" in the
 ; act-vs-floor pick that follows the (select-joint ...) deliberation. The winner's
 ; pressure-driven action score competes against this ONCE per fire, so a weak
