@@ -15,16 +15,15 @@
 ;                    presence, no break-in. The place-lane's embezzle method
 ;                    (has_authority_over) or shop-floor opportunist_theft
 ;                    commits there; the work itinerary supplies the presence.
-;   burgle_commit  : completion - the PURE .hs theft terminal (terminal-steal,
-;                    perpetration_macros.hs) at the CURRENT premises: anchor +
-;                    discharge + end-goal, take the first visible valuable, a
-;                    stow goal to carry it home (stow.hs), the crime-ledger row,
+;   burgle_commit  : completion - the theft body at the CURRENT premises: the
+;                    method anchor (embezzle at the thief's OWN workplace,
+;                    opportunist_theft anywhere else - keyed on the place kind),
+;                    take the first visible valuable, a stow goal to carry it
+;                    home (stow.hs via carrying_loot), the crime-ledger row,
 ;                    then the residents' chance to stir (burglary-confrontation).
-;                    The task leaf is the context: embezzle at the thief's OWN
-;                    workplace, opportunist_theft anywhere else. An ownerless /
-;                    self-owned / dead-owner premises is left untouched (nothing
-;                    there worth wronging); the steal goal's teardown belongs to
-;                    its minter, not this act.
+;                    An ownerless / self-owned / dead-owner premises never
+;                    strikes (burgle_strike vets the owner); the steal goal's
+;                    conclusion is steal_done's (burgle_think.hs).
 ;
 ; Rate control is upstream: the deliberation's steal affinity weight x
 ; disinhibition x the master crime scalar decide who ever holds the goal.
@@ -46,24 +45,40 @@
        (believes {?emp workplace ?work})
        (at-workplace ?work)))
 
-; The theft act: the begun-then-ended {@self steal} act-belief IS the theft
-; (15 min a break-in, 10 min an embezzlement). The completion is the PURE .hs
-; theft terminal at the current premises.
-(npc-action {@self steal}
-  (duration (if (at-burgle-residence) (then 15) (else 10)))
+; The theft action: PURE effects over what the pattern provides (?owner - the
+; wronged party, resolved and vetted by burgle_strike) plus the physical scene
+; (env reads only, no beliefs): the crime method keys on the PLACE (a residence
+; is a break-in, anywhere else the authorized-presence embezzlement), the thief
+; works the rooms and TAKES the first loose visible valuable (?took is the
+; eval-local take-once flag), the ledger rows record it, and the residents get
+; their chance to stir. The steal goal's conclusion (discharge + end-goal)
+; belongs to steal_done (burgle_think.hs) - actions do no reasoning.
+(npc-action {@self steal ?owner}
+  (duration (if (at-place-kind [k building residential_building]) (then 15) (else 10)))
   (effects
-    ; Each bind runs only after its op is proven substantial, so a sceneless /
-    ; ownerless premises skips the theft body instead of aborting the run.
+    (bind (if (at-place-kind [k building residential_building])
+              (then opportunist_theft)
+              (else embezzle))
+          ?method)
+    (begin-ended-belief {@self ?method ?owner})
+    (bind 0 ?took)
     (if (is-entity (current-building @self))
         (then
           (bind (current-building @self) ?scene)
-          (if (is-entity (owner-of ?scene))
-              (then
-                (bind (owner-of ?scene) ?owner)
-                (if (and (not (= ?owner @self)) (alive ?owner))
-                    (then
-                      (bind (goal-belief steal) ?goal)
-                      (if (at-own-workplace)
-                          (then (terminal-steal ?scene embezzle ?owner ?goal))
-                          (else (terminal-steal ?scene opportunist_theft ?owner ?goal)))))))))
-    (set-outcome {@self steal} succ)))
+          ; No hidden test on the loot: items are never hidden - a cached valuable
+          ; sits in a hidden SUB-SPACE whose own contents index this rooms-only
+          ; walk never reads.
+          (for-each ?room (attr-values ?scene parts [k interior_space room])
+            (for-each ?item (attr-values ?room contents)
+              (if (and (= ?took 0) (has-facet ?item valuable))
+                  (then
+                    (take-item ?item)
+                    ; carrying_loot is the trigger want_stow (stow.hs) reads to
+                    ; MINT + OWN the {@self stow ?item} goal.
+                    (begin-belief {@self carrying_loot ?item})
+                    (crime-ledger-append @self ?owner ?method steal (kind ?item) @fail)
+                    (bind 1 ?took)))))
+          (if (= ?took 0)
+              (then (crime-ledger-append @self ?owner ?method steal @fail @fail)))
+          (burglary-confrontation @self ?scene)))
+    (set-outcome {@self steal ?owner} succ)))

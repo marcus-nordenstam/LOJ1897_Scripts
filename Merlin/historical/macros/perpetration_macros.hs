@@ -19,7 +19,7 @@
 (define-macro terminal-pay-off (?victim ?goal)
   (do
     (begin-ended-belief {@self offer_bribe ?victim})
-    (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
+    (discharge-pressure (caused-by ?goal {@self pressure ?}) 0.75)
     (end-goal {@self bribe})
     (crime-ledger-append @self ?victim offer_bribe bribe @fail @fail)))
 
@@ -33,7 +33,7 @@
   (do
     (begin-ended-belief {@self beating ?victim})
     (yield-evidence @self ?victim torso bruise)
-    (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
+    (discharge-pressure (caused-by ?goal {@self pressure ?}) 0.75)
     (end-goal {@self hurt})
     (crime-ledger-append @self ?victim beating hurt @fail @fail)))
 
@@ -46,7 +46,7 @@
   (do
     (begin-ended-belief {@self plant_evidence ?victim})
     (yield-evidence @self ?victim torso blood_stain)
-    (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
+    (discharge-pressure (caused-by ?goal {@self pressure ?}) 0.75)
     (end-goal {@self frame})
     (crime-ledger-append @self ?victim plant_evidence frame @fail @fail)))
 
@@ -64,7 +64,7 @@
 (define-macro coerce-blackmail (?victim ?goal)
   (do
     (begin-ended-belief {@self blackmail ?victim})
-    (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
+    (discharge-pressure (caused-by ?goal {@self pressure ?}) 0.75)
     (end-goal {@self coerce})
     (if (not (believes {@self extort ?victim})) (then (begin-belief {@self extort ?victim})))
     ; Land the threat in the victim's mind (his act, perceived): the standing extort
@@ -77,7 +77,7 @@
 (define-macro coerce-threaten (?victim ?goal)
   (do
     (begin-ended-belief {@self threaten_violence ?victim})
-    (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
+    (discharge-pressure (caused-by ?goal {@self pressure ?}) 0.75)
     (end-goal {@self coerce})
     (if (not (believes {@self extort ?victim})) (then (begin-belief {@self extort ?victim})))
     (begin-belief ?victim {@self extort ?victim})
@@ -102,7 +102,7 @@
 (define-macro expose-confront (?victim ?goal)
   (do
     (begin-ended-belief {@self confront_publicly ?victim})
-    (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
+    (discharge-pressure (caused-by ?goal {@self pressure ?}) 0.75)
     (end-goal {@self expose})
     (if (believes {@self extort ?victim}) (then (end-belief {@self extort ?victim})))
     (publish-secret-about @self ?victim)
@@ -111,7 +111,7 @@
 (define-macro expose-anon (?victim ?goal)
   (do
     (begin-ended-belief {@self anonymous_letter ?victim})
-    (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
+    (discharge-pressure (caused-by ?goal {@self pressure ?}) 0.75)
     (end-goal {@self expose})
     (if (believes {@self extort ?victim}) (then (end-belief {@self extort ?victim})))
     (publish-secret-about @self ?victim)
@@ -137,7 +137,7 @@
            (not (blood-kin @self ?victim)))
       (then
         (begin-ended-belief {@self seduction ?victim})
-        (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
+        (discharge-pressure (caused-by ?goal {@self pressure ?}) 0.75)
         (end-goal {@self seduce})
         (begin-belief {@self lover ?victim})
         (begin-ended-belief {@self HAVE_SEX_WITH ?victim})
@@ -148,40 +148,6 @@
             (then (begin-belief ?victim {?victim prototype [k fallen_woman]})))
         (crime-ledger-append @self ?victim seduction seduce @fail @fail))
       (else (end-goal {@self seduce}))))
-
-; transfer_property terminal (steal goal): the thief is AT the scene (burgle.hs
-; walked them there; ?task = opportunist_theft at a residence, embezzle at their
-; own workplace). The wronged party is the premises' titled owner (whose house
-; this is = village-public knowledge). The act anchor + discharge + end-goal,
-; then the thief works the rooms and TAKES the first loose, visible valuable -
-; possession flips (the owner's standing {loot location <room>} belief is now
-; provably stale, which the attended-whereabouts verify discovers) - and a stow
-; goal carries it home to the cache (stow.hs, the generic put lane). The loot's
-; leaf kind rides the ledger anchor ("stole: jewelry_box"); an empty-handed
-; break-in still ledgers (the intrusion happened). Ends with the defenders'
-; chance to stir (burglary-confrontation).
-(define-macro terminal-steal (?scene ?task ?owner ?goal)
-  (do
-    (begin-ended-belief {@self ?task ?owner})
-    (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
-    (end-goal {@self steal})
-    ; No hidden test on the loot: items are never hidden - a cached valuable
-    ; sits in a hidden SUB-SPACE whose own contents index this rooms-only
-    ; walk never reads.
-    ; carrying_loot is OWN STATE (a belief), not a goal: it is the take-once flag AND
-    ; the trigger want_stow (stow.hs) reads to MINT + OWN the {@self stow ?item} goal.
-    ; The act only records what it took - it never mints or ends the stow goal.
-    (for-each ?room (attr-values ?scene parts [k interior_space room])
-      (for-each ?item (attr-values ?room contents)
-        (if (and (not (believes {@self carrying_loot ?}))
-                 (has-facet ?item valuable))
-            (then
-              (take-item ?item)
-              (begin-belief {@self carrying_loot ?item})
-              (crime-ledger-append @self ?owner ?task steal (kind ?item) @fail)))))
-    (if (not (believes {@self carrying_loot ?}))
-        (then (crime-ledger-append @self ?owner ?task steal @fail @fail)))
-    (burglary-confrontation @self ?scene)))
 
 ; confess_secret terminal (confess_letter goal): the actor reveals their OWN
 ; liaison to their nearest kin - scandal without murder; the leak also kills any
@@ -233,7 +199,7 @@
         (then
           (begin-ended-belief {@self public_humiliation ?victim})
           (begin-ended-belief ?victim {@self public_humiliation ?victim})
-          (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
+          (discharge-pressure (caused-by ?goal {@self pressure ?}) 0.75)
           (crime-ledger-append @self ?victim public_humiliation humiliate @fail @fail)))
     (end-goal {@self humiliate})))
 

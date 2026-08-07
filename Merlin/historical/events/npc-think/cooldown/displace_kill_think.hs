@@ -6,7 +6,7 @@
 ; never exclusively - hit; a floor lets the rage land on any known acquaintance.
 ;
 ; SCOPE. Only the reactive-deliberation kill displaces: its goal carries a
-; {@self pressure ..} /caused_by (the grievance), which (driving-pressure-of-goal ...)
+; {@self pressure ..} /caused_by (the grievance), which (caused-by ?kgoal ...)
 ; returns and every appetitive / instrumental kill lacks (predation pins {@self
 ; fixation}, covet {?b wealth}, ambition {@self job.org}, passion {@self crave ..},
 ; betrayal {@self emotion ..}, rid_of_spouse {@self detest ..}). The window is
@@ -23,8 +23,10 @@
   (cooldown 1 m)
   (rng-stream incidents)
 
-  ; ?focus = the unreachable wrongdoer, bound off the standing kill goal.
-  (goal {@self kill ?focus})
+  ; ?focus = the unreachable wrongdoer, bound off the standing kill goal;
+  ; ?kgoal = THIS activation's goal belief (the fan-out identity), so the
+  ; pressure read below chases the right goal's /caused_by.
+  (goal {@self kill ?focus}:?kgoal)
   (role @self )
 
   ; The substitute: any alive acquaintance, stance-weighted so the disliked land the
@@ -45,7 +47,7 @@
   ; (chance = 0.5 * disinhibition * 0.5 * (volatility + callousness)).
   (when (and (is-entity ?focus)
              (no-goal {@self fight ?focus})
-             (is-belief (driving-pressure-of-goal (goal-belief kill)))
+             (is-belief (caused-by ?kgoal {@self pressure ?}))
              (or (believes {?focus condition [k dead]})
                  (>= (- (target-or ?focus prestige 0) (target-or @self prestige 0)) 0.25))
              (chance (* 0.5 (disinhibition) 0.5
@@ -55,6 +57,6 @@
   ; carrying the ORIGINAL pressure as /caused_by so terminal-harm-non-lethal discharges
   ; the right grievance (else the actor re-deliberates it next month).
   (effects
-    (bind (driving-pressure-of-goal (goal-belief kill)) ?pressure)
+    (bind (caused-by ?kgoal {@self pressure ?}) ?pressure)
     (end-goal {@self kill ?focus})
     (begin-goal {@self hurt ?sub} /caused_by ?pressure)))

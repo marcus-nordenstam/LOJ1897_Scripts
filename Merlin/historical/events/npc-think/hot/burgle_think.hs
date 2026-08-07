@@ -38,8 +38,31 @@
 ; steal_act's completion picks the crime method (embezzle at the thief's own workplace, else
 ; opportunist_theft).
 (npc-think burgle_strike
-  (goal {@self steal})
-  (when (or (at-burgle-residence)
-            (at-own-workplace)))
+  (goal {@self steal}:?sgoal)
+  ; The wronged party is resolved and vetted HERE (whose premises this is =
+  ; village-public knowledge): an ownerless / self-owned / dead-owner scene
+  ; never strikes. The action receives ?owner off its own pattern and does no
+  ; reasoning of its own.
+  (bind (current-building @self) ?scene)
+  (when (and (or (at-burgle-residence)
+                 (at-own-workplace))
+             (is-entity ?scene)
+             (is-entity (owner-of ?scene))
+             (bind (owner-of ?scene) ?owner)
+             (alive ?owner)
+             (not (= ?owner @self))))
   (utility 86)
-  (effects (maintain-proposal {@self steal})))
+  (effects (maintain-proposal {@self steal ?owner})))
+
+; Outcome twin: THIS pursuit's theft concluded - the /succ record's own
+; /caused_by names the gated goal, so a stale record from an earlier theft
+; never concludes a fresh pursuit. Discharge the driving grievance (absent for
+; an appetitive steal - discharge no-ops on @fail) and end the goal.
+(npc-think steal_done
+  (goal {@self steal}:?sgoal)
+  (role @self (believes {@self steal ? /succ}:?rec))
+  (when (caused-by ?rec ?sgoal))
+  (effects
+    (bind (caused-by ?sgoal {@self pressure ?}) ?p)
+    (discharge-pressure ?p 0.75)
+    (end-goal {@self steal})))
