@@ -134,13 +134,18 @@ relation
             # layer's consume record reads "dined at <venue>, at <supper>";
             # an absent aux is just "dined at <venue>".
             dine                                    (tar structure|space)    (aux meal)
-            # eat - the UNIFIED meal act (meals.hs), one lane for breakfast /
+            # eat - the UNIFIED meal TASK (meals_think.hs), one lane for breakfast /
             # lunch / supper (incl. eating out). The act-belief
             # {@self eat [k <meal>] <place>} IS the episodic meal memory (begun at
             # commit, ended at completion): target = the meal-kind occasion, aux =
-            # the place eaten at. Supersedes the old per-meal `dine` begin-act lanes
-            # + their separate punctual dine records.
+            # the place eaten at. Its performance rungs (take_meal / table_hours /
+            # table_talk) propose the ingest motor + air the table talk; ingest does
+            # the physical eating. Supersedes the old per-meal `dine` begin-act lanes.
             eat                                     (tar meal)         (aux structure|space)
+            # ingest - the physical-eating ACTION (meals_action.hs), the eat task's
+            # motor. target = the meal-kind (its duration + hunger profile); aux =
+            # the food prop to destroy (a home-supper loaf) or 0 (an abstract meal).
+            ingest                                  (tar meal)         (aux ?)
             read_at                                 (tar structure|space)
             rest                                    (tar structure|space)
             # go - the TRAVEL act as a first-class ongoing belief ({@self go
@@ -161,9 +166,10 @@ relation
             # The goal the plan_provisioning think event mints and the
             # meals.hs provisioning acts drain.
             provision                               (tar ?)
-            # forage - the STARVATION-tail eat act (meals.hs): a famished NPC
-            # consumes one food item from the highest-priority source it can reach
-            # (carried > pantry > shop buy/steal). Focusless.
+            # forage - the STARVATION-tail eat GOAL (meals_think.hs): a famished
+            # NPC's drive to eat NOW. forage_at_source picks the source (carried >
+            # pantry > shop buy/steal) and promotes it to the generic consume act;
+            # forage itself mints no act. Focusless.
             forage                                  (tar ?)
             # stocktake - the shopkeeper's morning inventory round: walk the
             # premises and validate the believed stock against the shelves

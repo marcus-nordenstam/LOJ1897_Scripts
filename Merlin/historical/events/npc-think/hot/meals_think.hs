@@ -373,16 +373,90 @@
         (then (maintain-proposal {@self enter ?shop}))
         (else (maintain-proposal {@self enter ?go_dest})))))
 
-; TERMINAL step (act_body_purification): the forage act is now PROPOSED, guarded by being AT a
-; food source, not auto-promoted by the bare {@self forage} goal. The four food-source desires
-; above hold {@self forage} only while a source is reachable (carried / home pantry / shop); the
-; forage act promotes ONLY here. The readiness is the union of the arrived conditions the go rungs
-; negate (carried anywhere / at home / at a shop); forage_act's branch ORDER picks the source. The
-; proposal inherits the starving-band utility (141/140/135/130) from the {@self forage} goal it
-; /causes (via the (goal ...) gate).
+; TERMINAL step: the {@self forage} goal, at a food source, promotes to the generic
+; consume act. The four food-source desires above hold {@self forage} only while a
+; source is reachable (carried / home pantry / shop); the promotion happens ONLY
+; here. The readiness is the union of the arrived conditions the go rungs negate
+; (carried anywhere / at home / at a shop). The SOURCE LADDER the old forage_act
+; hardcoded is now the reasoning it belongs to - picked here by branch ORDER
+; (carried > home pantry > shop) and handed to the act as ?item + ?owner. The
+; proposal inherits the starving-band utility (141/140/135/130) from the
+; {@self forage} goal it /causes (via the (goal ...) gate).
 (npc-think forage_at_source
   (goal    {@self forage})
   (when    (or (control [k food])
                (at-home)
                (at-place-kind [k building shop])))
-  (effects (maintain-proposal {@self forage})))
+  ; ?owner stays 0 unless the mouthful is STOLEN (at a shop, no wealth) - then the
+  ; shop owner is the wronged party the consume act ledgers. An empty scene
+  ; (?found 0 - a stale belief a sibling already ate) proposes nothing and lets
+  ; the >1.3 gate re-drive.
+  (effects
+    (bind 0 ?found)
+    (bind 0 ?owner)
+    (for-each ?it (attr-values @self control [k food]) /limit 1
+      (do (bind ?it ?item) (bind 1 ?found)))
+    (if (and (= ?found 0)
+             (at-home)
+             (is-entity (believed-located [k food] (target {@self home}))))
+        (then (bind (believed-located [k food] (target {@self home})) ?item)
+              (bind 1 ?found)))
+    (if (and (= ?found 0)
+             (at-place-kind [k building shop])
+             (is-entity (current-building @self)))
+        (then
+          (bind (current-building @self) ?shop)
+          (for-each ?room (attr-values ?shop parts [k interior_space room])
+            (for-each ?it (attr-values ?room contents [k food]) /limit 1
+              (do (bind ?it ?item)
+                  (bind 1 ?found)
+                  (begin-belief {@self provisions_shop ?shop})
+                  (if (not (> (target {@self wealth}) 0.2))
+                      (then (bind (owner-of ?shop) ?owner))))))))
+    (if (= ?found 1)
+        (then (maintain-proposal {@self consume ?item ?owner})))))
+
+; ---- the eat TASK's PERFORMANCE rungs ----------------------------------------
+; eat is a TASK (Tasks.mon): its desires promote it AT the place (eat_at_place),
+; and these rungs PERFORM it. The physical eating is the ingest ACTION (duration +
+; hunger, meals_action.hs) - a pure motor; the food to consume is the REASONING
+; (which loaf, is it a home supper) decided HERE and handed to ingest on its
+; pattern. The task self-limits: ingest relieves hunger, the desire's window /
+; appetite gate ceases the eat goal, eat_at_place withdraws its maintainer, the
+; running task retires. table_talk (its own event) is the third rung.
+
+; TAKE THE MEAL: pick the food, propose ingest. Only a home supper consumes a
+; PERSON-DAY food prop (?food = a believed loaf); breakfast / lunch / a bought-out
+; supper eat abstractly (?food = 0, ingest destroys nothing). A stale belief (a loaf
+; a sibling already ate) fails the is-entity guard and the supper stays abstract.
+(npc-think take_meal
+  (task {@self eat ?})
+  (when (bind {@self eat ?meal ?place}))   ; the running task's meal-kind + place bind here (the aux place is not role-cacheable in the gate)
+  ; the ingest inherits the running task's drive through the /caused_by pin; this band is
+  ; the motor's OWN bid on top of it, so the work lunch's ingest (85 + task) outbids the
+  ; work post-stay (78 + work task) instead of dying at the desk.
+  (utility (if (is-a ?meal [k breakfast]) (then 82)
+            (else (if (is-a ?meal [k lunch]) (then 85) (else 78)))))
+  (effects
+    (bind 0 ?food)
+    (if (and (is-a ?meal [k supper])
+             (believes {@self home ?place})
+             (is-entity (believed-located [k food] ?place)))
+        (then (bind (believed-located [k food] ?place) ?food)))
+    (maintain-proposal {@self ingest ?meal ?food})))
+
+; THE TABLE ANNOUNCEMENT (any home meal): now and then re-air the house's hours
+; ("supper at six, as always"), adopted by everyone at table onto their own home
+; object. Idempotent; the chance keeps the say-record volume low. The nested walks
+; only speak when all three hour beliefs are held.
+(npc-think table_hours
+  (task {@self eat ?})
+  (role ?home (believes {@self home ?home}))
+  (when (and (bind {@self eat ? ?place}) (= ?place ?home) (chance 0.25)))
+  (effects
+    (for-each-belief {?home breakfast_hour ?b}
+        (for-each-belief {?home lunch_hour ?l}
+            (for-each-belief {?home supper_hour ?s}
+                (tell (utterable-msg {?home breakfast_hour ?b}
+                                     {?home lunch_hour ?l}
+                                     {?home supper_hour ?s})))))))
