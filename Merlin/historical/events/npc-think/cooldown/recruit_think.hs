@@ -3,10 +3,14 @@
 ; clerical acts: recruit_actions.hs). Driven by the recruit_staff DUTY (duties_think.hs
 ; assigns it) - never by job kind or rank.
 ;
-;   TASK recruiting ?org   standing while the duty is held AND the wage book is short of
-;                          the org's authored headcount. Rungs: post an advert; each work
-;                          morning SWEEP the back-office inbox - offer the top applicant,
-;                          reject the rest, destroy every application (gather_applications);
+;   TASK recruit_staff ?org   the PERFORMANCE of the held recruit_staff duty
+;                          ({@self duty_to ?org [k recruit_staff]} is the obligation;
+;                          the running task is doing it). SPAWNED by the running work
+;                          task (recruit_root) while the wage book is short of the
+;                          org's authored headcount; CONCLUDED by recruit_done when
+;                          the book fills. Rungs: post an advert; SWEEP the
+;                          back-office inbox - offer the top applicant, reject the
+;                          rest, destroy every application (gather_applications);
 ;                          take the filled posting off the board.
 ;
 ; The seeker's whole lifecycle rides HIS apply_for task outcome (offer_letter -> succ,
@@ -17,23 +21,38 @@
 
 (include "../../../definitions/roles.hs")
 
-; --- the standing recruitment task: duty + vacancy ------------------------------
+; --- the duty spawner: the running WORK task fans into the held duty ------------
+; The /pres + has-proposal gates cover the spawn-to-promotion window; the duty
+; task then owns itself (begin-proposal - it survives the work task's excursions
+; to the board and its evening end), and recruit_done concludes it.
 (npc-think recruit_root
-  (cooldown 1 m)
+  (task {@self work ?})
   (rng-stream employment)
   (role ?org (believes {@self duty_to ?org [k recruit_staff]})
              (not (believes {?org isa [k org household]}))
+             (not (believes {@self recruit_staff ?org /pres}))
              (believes {?org record ?art}))
-  (when (and (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
+  (when (and (not (has-proposal {@self recruit_staff ?org}))
+             (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
              (< (count-doc-records [k employee_register] ?reg)
                 (lookup public_orgs kind ?ok employee_count 2))))
   (utility 76)
   (effects (debug-print "RC_ROOT")
-           (maintain-proposal {@self recruiting ?org})))
+           (begin-proposal {@self recruit_staff ?org})))
+
+; Outcome twin: the wage book reached the org's authored headcount - the duty
+; performance concluded (the standing OBLIGATION {@self duty_to ..} remains).
+(npc-think recruit_done
+  (task {@self recruit_staff ?org}:?rec)
+  (when (and (believes {?org record ?art})
+             (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
+             (>= (count-doc-records [k employee_register] ?reg)
+                 (lookup public_orgs kind ?ok employee_count 2))))
+  (effects (set-outcome ?rec succ)))
 
 ; --- advertise: no live advert of mine for this org -> post one -----------------
 (npc-think advertise_pick
-  (task {@self recruiting ?org})
+  (task {@self recruit_staff ?org})
   (when (not (believes {@self post ? ?org})))
   (utility 79)
   (effects (debug-print "RC_ADPICK") (maintain-proposal {@self advertise ?org})))
@@ -73,7 +92,7 @@
 ; --- go to the workplace to process the inbox (the officer is not routed there by
 ; work_attendance - org heads hold no shift), then sweep it -------------------------
 (npc-think gather_go
-  (task {@self recruiting ?org})
+  (task {@self recruit_staff ?org})
   (when (and (believes {?org record ?art})
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (not (in-building ?wp))
@@ -86,13 +105,19 @@
 ; ONE act reads the back-office pile and offers the top applicant, rejects the rest, and
 ; destroys every application (recruit_actions.hs). No per-application state: the seeker's
 ; apply_for task outcome carries his side.
+; No cooldown: the one task-gate push arms it for the task's whole life (the
+; activation persists and re-attempts per deliberation); the PILE is the gate -
+; the sweep act destroys every application, the top read falls empty, the bout
+; ceases and re-arms for the next batch. A cooldown here is the window-boundary
+; sampling trap: its no-fire round (the officer home at midnight) re-cools
+; forever.
 (npc-think gather_applications
-  (cooldown 1 m)
-  (task {@self recruiting ?org})
+  (task {@self recruit_staff ?org})
   (when (and (believes {?org record ?art})
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (in-building ?wp)
-             (is-entity (mail-pile (room-of ?wp [k back_office])))))
+             (is-entity (mail-pile (room-of ?wp [k back_office])))
+             (is-entity (attr (mail-pile (room-of ?wp [k back_office])) top))))
   (utility 82)
   (effects (debug-print "RC_SWEEP")
            (maintain-proposal {@self gather_applications ?art})))

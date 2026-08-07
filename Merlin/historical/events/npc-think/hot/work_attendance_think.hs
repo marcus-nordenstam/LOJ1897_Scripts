@@ -43,14 +43,34 @@
              (believes {?org workplace ?wp})       ; ?wp binds at fire
              (at-workplace ?wp))                    ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
   (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))  ; onset: derive the shift, bind ?start/?end
-        (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
+        (and (not (believes {@self work ?wp /pres}))
+             (not (has-proposal {@self work ?wp}))
+             (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
   (utility 80)
-  ; PROPOSE the work-stay (act_body_purification): day_work's (when) - at the workplace + in/near
-  ; the shift - IS the precondition, so this propose is the whole terminal. The stay's end
-  ; boundary is DECIDED here (the next of lunch / shift end) and rides the action pattern -
-  ; the action itself reads no schedule. Each completion re-proposes while still on shift.
-  (effects       (bind (if (< (now-hour) 12) (then (min 12 ?end)) (else ?end)) ?until)
-                 (maintain-proposal {@self work ?wp ?until})))
+  ; SPAWN the day's WORK TASK (a bodyless umbrella, never an action): its performance
+  ; rungs fan the shift into the held duties' tasks (recruit_think recruit_root) and
+  ; the between-duties post-stay (at_post below); shift_over concludes it. begin (not
+  ; maintain): the task survives lunch, errands to the board and every excursion -
+  ; interrupted tasks resume; the /pres + has-proposal gates cover the spawn window.
+  (effects       (begin-proposal {@self work ?wp})))
+
+; Between duties: BE at the post - the shared stay-put primitive, one quantum per
+; promotion (the maintained proposal survives completions, so the presence resumes
+; until a duty errand, a meal or the shift's end outbids the next quantum).
+(npc-think at_post
+  (task {@self work ?wp})
+  (when (in-building ?wp))
+  (utility 78)
+  (effects (maintain-proposal {@self dwell ?wp (dwell-quantum-min)})))
+
+; Outcome twin: the shift is over (outside both the working window and the
+; starts-soon spawn band) - the day's work concluded.
+(npc-think shift_over
+  (task {@self work ?wp}:?w)
+  (role ?job (believes {@self job ?job}))
+  (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))
+        (not (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
+  (effects (set-outcome ?w succ)))
 
 (npc-think day_go_to_work
   ; Shift on or imminent and not yet at the workplace: mint {@self enter ?wp} and the

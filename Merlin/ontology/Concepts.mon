@@ -702,23 +702,11 @@ concept
     # A money-seeker gates on (not (believes {@self job.salary})). Stamped at hire from
     # the occupation's authored wage (occupations.hs); heads/unpaid roles mint no salary.
     salary              (sub org_pos)  (tar ? @excl)
-    # duty kinds - the aux of duty_to / duty_holder. ORG duties are the tasks an org must
-    # keep filled or it cannot function (a job's rules dispatch on these, not on job kind);
-    # SOCIAL duties are personal obligations. The org's `duties` table column lists which
-    # org-duties each org-type requires; .hs assignment maps them to job-holders.
+    # duty - the aux family of duty_to / duty_holder. The duty TERMS themselves are
+    # TASKS (Tasks.mon duty-task group): one term per duty, so an NPC reasons
+    # separately about HOLDING the obligation ({@self duty_to ?org [k review_staff]})
+    # and PERFORMING it (the running {@self review_staff ?org} task).
     duty
-        # org duties
-        recruit_staff
-        dismiss_staff
-        review_staff
-        keep_records
-        dissolve_org
-        admit_member
-        officiate
-        # social duties
-        honor
-        provide_for
-        protect
     unit
         social
             family          (sub human)  (tar @excl)

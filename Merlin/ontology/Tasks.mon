@@ -32,7 +32,7 @@ relation
             # days into a cumulative belief whose count is the attendance
             # frequency.
             dwell                                   (tar structure|org|space)    (aux ?)
-            work                                    (tar structure|org|space)    (aux ?)
+            work                                    (tar structure|org|space)
             # socialize_at: episodic ad-hoc social-outing memory (activity-lanes
             # L3). {@self socialize_at <venue> /aux <organizer>} = "went out with
             # the company <organizer> assembled, at <venue>". One general label
@@ -116,7 +116,22 @@ relation
             #   apply_for succ.
             apply_for                               (tar job) (aux articles_of_incorporation)
             take_up_post                            (tar job) (aux articles_of_incorporation)
-            recruiting                              (tar org)
+            # DUTY TASKS - one per duty kind (Concepts.mon `duty`), SAME name, so an
+            # NPC reasons separately about HOLDING the obligation ({@self duty_to
+            # ?org [k review_staff]}) and PERFORMING it ({@self review_staff ?org}).
+            # The work task's performance rungs spawn the held duties' tasks
+            # (recruit_staff is the first with a performing lane - recruit_think);
+            # the rest are matchable now, producers land lane by lane.
+            recruit_staff                           (tar org)
+            dismiss_staff                           (tar org)
+            review_staff                            (tar org)
+            keep_records                            (tar org)
+            dissolve_org                            (tar org)
+            admit_member                            (tar org)
+            officiate                               (tar org)
+            honor                                   (tar human)
+            provide_for                             (tar human)
+            protect                                 (tar human)
             advertise                               (tar org)
             # Solitary leisure activities at a venue (activity-lanes L8), the
             # amenity-gated successors to the general `dwell`: what one actually
