@@ -430,8 +430,7 @@
 ; supper eat abstractly (?food = 0, ingest destroys nothing). A stale belief (a loaf
 ; a sibling already ate) fails the is-entity guard and the supper stays abstract.
 (npc-think take_meal
-  (task {@self eat ?}:?e)
-  (when (bind {@self eat ?meal ?place}))   ; the running task's meal-kind + place bind here (the aux place is not role-cacheable in the gate)
+  (task {@self eat ?meal ?place}:?e)
   ; the ingest inherits the running task's drive through the /caused_by pin; this band is
   ; the motor's OWN bid on top of it, so the work lunch's ingest (85 + task) outbids the
   ; work post-stay (78 + work task) instead of dying at the desk.
@@ -453,18 +452,16 @@
   ; overwrites the ended task belief in place.
   (cease-effects
     (bind (caused-by {@self ingest ?meal /past} ?e) ?rec)
-    (bind (outcome ?rec) ?out)
-    (if (> ?out 0)
-        (then (set-outcome ?e ?out)))))
+    (if ?rec (then (set-outcome ?e (outcome ?rec))))))
 
 ; THE TABLE ANNOUNCEMENT (any home meal): now and then re-air the house's hours
 ; ("supper at six, as always"), adopted by everyone at table onto their own home
 ; object. Idempotent; the chance keeps the say-record volume low. The nested walks
 ; only speak when all three hour beliefs are held.
 (npc-think table_hours
-  (task {@self eat ?})
+  (task {@self eat ? ?place})
   (role ?home (believes {@self home ?home}))
-  (when (and (bind {@self eat ? ?place}) (= ?place ?home) (chance 0.25)))
+  (when (and (= ?place ?home) (chance 0.25)))
   (effects
     (for-each-belief {?home breakfast_hour ?b}
         (for-each-belief {?home lunch_hour ?l}
