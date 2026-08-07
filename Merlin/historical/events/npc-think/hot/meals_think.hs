@@ -54,18 +54,26 @@
 ; home, not auto-promoted by the bare {@self dwell ?home} goal. idle_at_home holds the goal (util
 ; 2, the at-home nothing-to-do slot); the dwell promotes ONLY here, ONLY at home. The proposal
 ; inherits the idle utility from the {@self dwell ?home} goal it /causes (via the (goal ...) gate).
-(npc-think dwell_at_home
+; The idle blocks, one per canonical meal window, each aimed at its ABSOLUTE
+; boundary hour (the eat lanes decide the actual eating at those completions;
+; a household's own +-1h mealtime shift just moves who wins the boundary).
+; Per-window (when)s fell each bout at its boundary, so a resumed dwell never
+; carries a stale ?until across windows; post-supper the block runs to
+; midnight and the sleep lane takes over long before.
+(npc-think dwell_at_home_morning
   (goal    {@self dwell ?home})
-  (when    (at-home))
-  ; ONE idle block to the next MEANINGFUL boundary - the nearest household
-  ; mealtime, capped so an unset-mealtimes household still yields - decided
-  ; HERE and passed as the duration (the meal lanes win at the completion).
-  (effects
-    (bind (min 180
-               (minutes-until-hour (target {?home breakfast_hour}))
-               (minutes-until-hour (target {?home lunch_hour}))
-               (minutes-until-hour (target {?home supper_hour}))) ?dur)
-    (maintain-proposal {@self dwell ?home ?dur})))
+  (when    (and (at-home) (< (now-hour) 12)))
+  (effects (maintain-proposal {@self dwell ?home 12})))
+
+(npc-think dwell_at_home_afternoon
+  (goal    {@self dwell ?home})
+  (when    (and (at-home) (>= (now-hour) 12) (< (now-hour) 18)))
+  (effects (maintain-proposal {@self dwell ?home 18})))
+
+(npc-think dwell_at_home_evening
+  (goal    {@self dwell ?home})
+  (when    (and (at-home) (>= (now-hour) 18)))
+  (effects (maintain-proposal {@self dwell ?home 24})))
 
 ; ============================ the unified eat lane ==========================
 ; Every routine meal is ONE act-goal {@self eat [k <meal>] <place>}: a desire

@@ -1,14 +1,14 @@
 ; ----------------------------------------------------------------------------
-; dwell (npc-action) - THE shared stay-put primitive: be at ?place for ?dur
-; minutes, for whatever reason the proposing think holds (an occasion window,
-; idling at home, manning a post between duties, waiting on a meal). The
-; duration is the PROPOSER's decision and rides the aux - the action reads
-; nothing. A maintaining think keeps the proposal alive across completions
-; (retire_running_node), so the stay resumes quantum-to-quantum until the
-; think's gate falls - and every completion is a preemption point where a
-; higher bid takes over.
+; dwell (npc-action) - THE shared stay-put primitive: be at ?place UNTIL the
+; hour ?until, for whatever reason the proposing think holds (an occasion
+; window, idling at home, manning a post between duties, waiting on a meal).
+; The aux is an ABSOLUTE boundary hour, never a duration: an interrupted
+; dwell's surviving proposal re-aims at the SAME boundary on resumption (the
+; action recomputes the minutes at each promotion - the stay's physics). The
+; proposer's (when) window must fell the bout at its own boundary, so a stale
+; ?until never survives into the next block.
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self dwell ?place ?dur}
-  (duration ?dur)
-  (effects (set-outcome {@self dwell ?place ?dur} succ)))
+(npc-action {@self dwell ?place ?until}
+  (duration (minutes-until-hour ?until))
+  (effects (set-outcome {@self dwell ?place ?until} succ)))

@@ -56,11 +56,6 @@
 ; Goal reads through the unified belief path (a goal IS a belief
 ; {@self goal {@self <action> <focus>}} with a nested-clause target; see
 ; macros/goal_macros.hs). Bound pattern vars constrain; free vars bind off the match.
-; The shared stay-put quantum: how long ONE dwell promotion holds before the
-; competition re-samples (dwell_action.hs - the maintained proposal survives
-; completions, so a stay is as long as its think's gate).
-(define-macro dwell-quantum-min () 60)
-
 (define-macro has-goal (?g)
   (believes {@self goal ?g}))
 

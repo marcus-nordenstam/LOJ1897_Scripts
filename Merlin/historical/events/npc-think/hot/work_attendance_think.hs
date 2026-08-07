@@ -54,19 +54,27 @@
   ; interrupted tasks resume; the /pres + has-proposal gates cover the spawn window.
   (effects       (begin-proposal {@self work ?wp})))
 
-; Between duties: BE at the post - ONE dwell block to the next MEANINGFUL
-; boundary (lunch when morning, else shift end), decided HERE and passed as the
-; duration. A duty errand outbids the stay at promotion; the maintained proposal
-; survives the lunch break's interruption and resumes for the afternoon block.
-(npc-think at_post
+; Between duties: BE at the post - the PRE-LUNCH and POST-LUNCH dwell blocks,
+; each aimed at its ABSOLUTE boundary (the aux is an until-hour, so a dwell
+; interrupted by a duty errand resumes toward the SAME boundary). The lowest
+; job utility: any duty task outbids it. Each rung's (when) window fells its
+; bout at the boundary, so the afternoon block always re-fires with a fresh
+; ?until.
+(npc-think at_post_morning
   (task {@self work ?wp})
   (role ?job (believes {@self job ?job}))
   (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))
-        (in-building ?wp))
+        (and (in-building ?wp) (< (now-hour) 12)))
   (utility 78)
-  (effects
-    (bind (minutes-until-hour (if (< (now-hour) 12) (then (min 12 ?end)) (else ?end))) ?dur)
-    (maintain-proposal {@self dwell ?wp ?dur})))
+  (effects (maintain-proposal {@self dwell ?wp (min 12 ?end)})))
+
+(npc-think at_post_afternoon
+  (task {@self work ?wp})
+  (role ?job (believes {@self job ?job}))
+  (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))
+        (and (in-building ?wp) (>= (now-hour) 12)))
+  (utility 78)
+  (effects (maintain-proposal {@self dwell ?wp ?end})))
 
 ; Outcome twin: the shift is over (outside both the working window and the
 ; starts-soon spawn band) - the day's work concluded.
