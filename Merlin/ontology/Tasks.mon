@@ -31,7 +31,7 @@ relation
             # drivers and concluded on promotion; the decay pass folds repeated
             # days into a cumulative belief whose count is the attendance
             # frequency.
-            dwell                                   (tar structure|org|space)
+            dwell                                   (tar structure|org|space)    (aux ?)
             work                                    (tar structure|org|space)    (aux ?)
             # socialize_at: episodic ad-hoc social-outing memory (activity-lanes
             # L3). {@self socialize_at <venue> /aux <organizer>} = "went out with

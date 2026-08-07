@@ -18,16 +18,6 @@
 ; attack gates every lane out (the fight lane owns the moment).
 ; ----------------------------------------------------------------------------
 
-; The at-home idle dwell: the leaf when nothing else pulls, CAPPED to yield at the
-; next mealtime (so a multi-hour idle never leaps clean over a 2h meal window). Its
-; completion re-deliberates, giving the meal lanes their instant.
-(npc-action {@self dwell ?home}
-  (duration (min 180
-                 (minutes-until-hour (target {?home breakfast_hour}))
-                 (minutes-until-hour (target {?home lunch_hour}))
-                 (minutes-until-hour (target {?home supper_hour}))))
-  (effects (set-outcome {@self dwell ?home} succ)))
-
 ; ---- the act: one body for every meal, differentiated by the meal-kind -------
 
 ; The eat goal, at its place, is the leaf and promotes here. The begun-then-ended

@@ -57,7 +57,9 @@
 (npc-think dwell_at_home
   (goal    {@self dwell ?home})
   (when    (at-home))
-  (effects (maintain-proposal {@self dwell ?home})))
+  ; One idle quantum per promotion; the maintained proposal survives each
+  ; completion (the stay resumes) and every boundary lets a meal / errand win.
+  (effects (maintain-proposal {@self dwell ?home (dwell-quantum-min)})))
 
 ; ============================ the unified eat lane ==========================
 ; Every routine meal is ONE act-goal {@self eat [k <meal>] <place>}: a desire

@@ -47,7 +47,7 @@
   (utility (attend-utility ?occ))
   (effects
     (debug-print "ATTEND_STAY @self occ=?occ venue=?venue")
-    (maintain-proposal {@self dwell ?venue})))
+    (maintain-proposal {@self dwell ?venue (dwell-quantum-min)})))
 
 ; The marriage is made at the church by whoever shows up: the VOW is a say_to
 ; (speech is the one physical act here). The goal's [k wedding]:?occ kind-cast
