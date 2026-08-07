@@ -6,7 +6,7 @@
 ;
 ; ?x (gossiped ABOUT) is drawn by roulette from the people @self knows of; ?ear (the
 ; listener) from whoever shares @self's room (the location JOIN, cf. introduce.hs).
-; for-each-belief walks @self's OWN beliefs about ?x (the DEFAULT subject-anchored
+; for-each-present-tense-belief walks @self's OWN beliefs about ?x (the DEFAULT subject-anchored
 ; read - @self's own mind, never telepathy) in label-PRIORITY order (scandal labels
 ; first, so a scandal outranks relationship news), skips any already in a {@self SAY
 ; ... ?ear} memory (per-listener dedup), and applies the shame-seal - @self does not
@@ -47,7 +47,7 @@
   (effects
     ; Label order IS priority: scandal acts, then the death-story, then relationship
     ; news. ?news is the matched fact; ?tgt its target (the shame-seal check).
-    (for-each-belief ?news {?x assault|disinherit|insult|outdo|discredit|public_humiliation|seduce|expose|spread_rumour|confront_publicly|divorce|prototype|condition|circumstances_of_death|spouse|fiancee|lover|child ?tgt}
+    (for-each-present-tense-belief ?news {?x assault|disinherit|insult|outdo|discredit|public_humiliation|seduce|expose|spread_rumour|confront_publicly|divorce|prototype|condition|circumstances_of_death|spouse|fiancee|lover|child ?tgt}
       (do
         (bind (utterable-msg ?news) ?msg)
         (if (and (not (= ?tgt @self))

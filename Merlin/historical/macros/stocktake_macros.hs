@@ -7,7 +7,7 @@
 ; goes and LOOKS. That act is the stocktake: stand at the premises, walk what
 ; you believe is here, and end the whereabouts of whatever is not where you
 ; left it. The whole algorithm is authored here from the general composable
-; ops - (for-each-belief {[k ?kind]:?item location ?room} ..) iterates my
+; ops - (for-each-present-tense-belief {[k ?kind]:?item location ?room} ..) iterates my
 ; own believed-in-?room items of the kind (the subject slot IS the field
 ; binding, kind-cast inline; the macro's ?kind splices into the [k ...]
 ; payload), (attr ?item location) reads where each actually is (a destroyed
@@ -25,6 +25,6 @@
 ; ----------------------------------------------------------------------------
 
 (define-macro take-stock-of (?room ?kind)
-  (for-each-belief {[k ?kind]:?item location ?room}
+  (for-each-present-tense-belief {[k ?kind]:?item location ?room}
     (if (not (= (attr ?item location) ?room))
         (then (end-belief {?item location ?room})))))

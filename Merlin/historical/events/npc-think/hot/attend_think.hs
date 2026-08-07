@@ -100,5 +100,5 @@
   (effects
     ; Bound-aux constraint: only THIS occasion's invited rows walk (bound =
     ; constraint, free = producer).
-    (for-each-belief ?belief {@self invited ?guest ?occ}
+    (for-each-present-tense-belief ?belief {@self invited ?guest ?occ}
         (end-belief ?belief))))

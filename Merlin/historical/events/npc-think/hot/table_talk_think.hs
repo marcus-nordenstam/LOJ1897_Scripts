@@ -14,9 +14,9 @@
 ; ?diner} reads "have I already told THIS diner this fact"; (break) stops at the
 ; first untold one. Telling nothing (all heard, or dining alone) is a safe no-op.
 ;
-; ONLY WHILE DINING: the {@self eat ...} goal is live from the desire's mint through
-; eat_act's completion, so this fires the once, at the table - the at-place gate
-; keeps it off the approach walk, and the goal ending (set-outcome {..} succ) closes the window.
+; ONLY WHILE DINING: gated on the RUNNING {@self eat ...} task, so this fires at
+; the table - the at-place gate keeps it off the approach walk, and the task's
+; end closes the window.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
@@ -24,11 +24,10 @@
 (npc-think table_talk
   (rng-stream behaviour)
 
-  ; DINING GATE (cached self-gate, so it rejects the non-dining O(1) BEFORE the
-  ; ?diner pool materializes): a live eat act-goal. The aux (?place) is not object-
-  ; cacheable in a role filter, so the existence caches here and the place binds
-  ; in (when) below.
-  (task {@self eat ?})
+  ; DINING GATE (barred BEFORE any role work, so the non-dining reject never
+  ; materializes the ?diner pool): the running eat task, its place bound off
+  ; the gate's aux.
+  (task {@self eat ? ?place})
 
   ; THE LISTENER: one co-present diner, drawn by roulette. Sourced OBJECTIVELY from
   ; @self's current room (env contents), each diner passively perceived.
@@ -36,19 +35,18 @@
                (co-present @self)
                (select (score 1) (policy roulette)))
 
-  ; Bind the meal place, then require @self to be AT it - seated, not still walking
-  ; there (the eat goal is live throughout the approach too).
-  (when (and (bind {@self eat ? ?place})
-             (at-place ?place)))
+  ; AT the place - seated, not still walking there (the task can outlive a
+  ; mid-meal excursion).
+  (when (at-place ?place))
 
   (utility 20)
 
   (effects
-    ; SELF-DISCLOSURE: one untold piece of my own profile. for-each-belief walks my
+    ; SELF-DISCLOSURE: one untold piece of my own profile. for-each-present-tense-belief walks my
     ; {@self <label> ?} beliefs across the labels, binding each as ?belief; (break)
     ; stops at the first the diner has not heard and proposes telling it (the shared say_to act
     ; says it aloud).
-    (for-each-belief ?belief {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life_aim ?}
+    (for-each-present-tense-belief ?belief {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life_aim ?}
       (do
         (bind (utterable-msg ?belief) ?msg)
         (if (not (believes {@self SAY ?msg ?diner}))

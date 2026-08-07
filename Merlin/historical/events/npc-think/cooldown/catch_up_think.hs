@@ -32,12 +32,12 @@
   (utility 18)
 
   (effects
-    ; Propose telling ?guest ONE piece of my OWN news they have not heard. for-each-belief
+    ; Propose telling ?guest ONE piece of my OWN news they have not heard. for-each-present-tense-belief
     ; walks my {@self <label> ?} beliefs across the relationship labels, binding the matched
     ; label + its target; the dedup is PER-GUEST - the SAY's aux is the listener, so {@self
     ; SAY <msg> ?guest} is "have I told THIS guest this". (break) stops at the first untold
     ; fact. Proposing nothing is a safe no-op.
-    (for-each-belief ?belief {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality ?}
+    (for-each-present-tense-belief ?belief {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality ?}
       (do
         (bind (utterable-msg ?belief) ?msg)
         (if (not (believes {@self SAY ?msg ?guest}))

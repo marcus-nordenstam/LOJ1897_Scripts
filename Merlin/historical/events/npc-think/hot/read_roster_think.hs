@@ -50,9 +50,9 @@
         ; (2) RECONCILE - forget colleagues no longer listed: walk the job objects I
         ; believe belong to ?org, bind each one's holder, and drop the tie for any holder
         ; (not me) who no longer appears as a worker row. Two single-?var walks (job
-        ; object at ?org -> its holder), since for-each-belief binds one var each.
-        (for-each-belief {?ojob org ?org}
-          (for-each-belief {?other job ?ojob}
+        ; object at ?org -> its holder), since for-each-present-tense-belief binds one var each.
+        (for-each-present-tense-belief {?ojob org ?org}
+          (for-each-present-tense-belief {?other job ?ojob}
             (if (and (not (= ?other @self))
                      (not (read-doc-record [k employee_register] ?reg (find worker ?other))))
                 (then (end-belief {?other job ?ojob})))))))))

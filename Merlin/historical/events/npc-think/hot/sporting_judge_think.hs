@@ -32,7 +32,7 @@
   (role @self (believes {@self judge_declare ?winner ? /succ})
               (believes {@self meet_sport ?sport}))
   (effects
-    (for-each-belief {?r race_result ?}
+    (for-each-present-tense-belief {?r race_result ?}
       (do
         (bind (target {?r race_result}) ?p)
         (if (not (= ?r ?winner))

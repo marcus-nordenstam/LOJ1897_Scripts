@@ -46,10 +46,10 @@
   (when (chance (* 0.0667 (attr @self enthusiasm))))
 
   (effects
-    ; Tell ?guest ONE piece of the host's own news they have not heard. for-each-belief
+    ; Tell ?guest ONE piece of the host's own news they have not heard. for-each-present-tense-belief
     ; binds each matched belief as ?belief; the dedup is PER-GUEST - the SAY's aux is
     ; the listener, so {@self SAY <msg> ?guest} is "have I told THIS guest this".
-    (for-each-belief ?belief {@self spouse|fiancee|lover|child ?}
+    (for-each-present-tense-belief ?belief {@self spouse|fiancee|lover|child ?}
       (do
         (bind (utterable-msg ?belief) ?msg)
         (if (not (believes {@self SAY ?msg ?guest}))

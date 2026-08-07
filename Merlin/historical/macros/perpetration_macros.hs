@@ -216,9 +216,9 @@
 (define-macro terminal-report (?victim ?goal)
   (do
     ; The discovered loss lives as {?loot stolen_from @self} (loot=subject); the
-    ; subject-enumeration (for-each-belief) binds ?loot off the FREE subject (a
+    ; subject-enumeration (for-each-present-tense-belief) binds ?loot off the FREE subject (a
     ; plain free-subject (bind) does not thread into scope). One report per party.
-    (for-each-belief {?loot stolen_from @self}
+    (for-each-present-tense-belief {?loot stolen_from @self}
       (do
         (if (and (can-write @self)
                  (not (believes {@self report_to_police (if (is-entity ?victim) (then ?victim) (else ?loot)) /ever})))

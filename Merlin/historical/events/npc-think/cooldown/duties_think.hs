@@ -57,7 +57,7 @@
                             (then (end-belief {@self duty_to ?org ?duty})
                                   (debug-print "DUTY-drop ?duty ?org")))))
                   ; The mirror: retire stale holders, record the current one.
-                  (for-each-belief {?org duty_holder ?p ?duty}
+                  (for-each-present-tense-belief {?org duty_holder ?p ?duty}
                       (if (not (= ?p ?senior))
                           (then (end-belief {?org duty_holder ?p ?duty}))))
                   (if (not (believes {?org duty_holder ?senior ?duty}))
