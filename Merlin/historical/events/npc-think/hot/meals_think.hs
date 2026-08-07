@@ -430,7 +430,7 @@
 ; supper eat abstractly (?food = 0, ingest destroys nothing). A stale belief (a loaf
 ; a sibling already ate) fails the is-entity guard and the supper stays abstract.
 (npc-think take_meal
-  (task {@self eat ?})
+  (task {@self eat ?}:?e)
   (when (bind {@self eat ?meal ?place}))   ; the running task's meal-kind + place bind here (the aux place is not role-cacheable in the gate)
   ; the ingest inherits the running task's drive through the /caused_by pin; this band is
   ; the motor's OWN bid on top of it, so the work lunch's ingest (85 + task) outbids the
@@ -443,7 +443,19 @@
              (believes {@self home ?place})
              (is-entity (believed-located [k food] ?place)))
         (then (bind (believed-located [k food] ?place) ?food)))
-    (maintain-proposal {@self ingest ?meal ?food})))
+    (maintain-proposal {@self ingest ?meal ?food}))
+  ; The eat task's OUTCOME, judged at the cease: the task ends AS its motor ended -
+  ; find the ended ingest THIS task drove and copy its outcome verbatim (the isim
+  ; stack-put-outcome shape). The inverse (caused-by {pattern} ?e) anchors on the
+  ; gated task, so a stale record from an earlier meal never concludes a fresh one;
+  ; no ended ingest (window closed mid-walk, food gone) leaves the withdraw's honest
+  ; interrupted. The withdraw cascade runs before this cease drains - set-outcome
+  ; overwrites the ended task belief in place.
+  (cease-effects
+    (bind (caused-by {@self ingest ?meal /past} ?e) ?rec)
+    (bind (outcome ?rec) ?out)
+    (if (> ?out 0)
+        (then (set-outcome ?e ?out)))))
 
 ; THE TABLE ANNOUNCEMENT (any home meal): now and then re-air the house's hours
 ; ("supper at six, as always"), adopted by everyone at table onto their own home
