@@ -33,13 +33,13 @@
 
 ; --- advertise: no live advert of mine for this org -> post one -----------------
 (npc-think advertise_pick
-  (role ?org (believes {@self recruiting ?org})
-             (not (believes {@self post ? ?org})))
+  (task {@self recruiting ?org})
+  (when (not (believes {@self post ? ?org})))
   (utility 79)
   (effects (debug-print "RC_ADPICK") (maintain-proposal {@self advertise ?org})))
 
 (npc-think advertise_go
-  (role ?org (believes {@self advertise ?org}))
+  (task {@self advertise ?org})
   (when (and (bind (find-building [k building church]) ?board)
              (not (in-building ?board))))
   (utility 81)
@@ -48,9 +48,9 @@
 ; The post to advertise is the org's DISCLOSED staff role (org_staffing). The act's target
 ; is the org's ARTICLES (paper - an org can never ride an act); the role rides the aux.
 (npc-think advertise_post
-  (role ?org (believes {@self advertise ?org})
-             (believes {?org record ?art}))
-  (when (and (bind (find-building [k building church]) ?board)
+  (task {@self advertise ?org})
+  (when (and (believes {?org record ?art})
+             (bind (find-building [k building church]) ?board)
              (in-building ?board)
              (read-doc-record [k articles_of_incorporation] ?art (kind ?ok))
              (bind (lookup org_staffing org_kind ?ok staff_role none) ?jk)
@@ -61,21 +61,21 @@
 ; POST-ACT: the advert paper exists -> book-keep {@self post ?ad ?org}, closing
 ; advertise_pick's dedup and ending the advertise subtask.
 (npc-think advertise_done
-  (role ?org (believes {@self advertise ?org})
-             (believes {?org record ?art}))
+  (task {@self advertise ?org})
   (role ?ad [k job_description]
             (not (believes {@self post ?ad ?}))
             (select (policy first-match)))
-  (when (and (believes {@self post_advert ?art /succ})
+  (when (and (believes {?org record ?art})
+             (believes {@self post_advert ?art /succ})
              (read-doc-record [k job_description] ?ad (find org_record ?art))))
   (effects (begin-belief {@self post ?ad ?org})))
 
 ; --- go to the workplace to process the inbox (the officer is not routed there by
 ; work_attendance - org heads hold no shift), then sweep it -------------------------
 (npc-think gather_go
-  (role ?org (believes {@self recruiting ?org})
-             (believes {?org record ?art}))
-  (when (and (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
+  (task {@self recruiting ?org})
+  (when (and (believes {?org record ?art})
+             (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (not (in-building ?wp))
              (is-entity (mail-pile (room-of ?wp [k back_office])))))
   (utility 80)
@@ -88,9 +88,9 @@
 ; apply_for task outcome carries his side.
 (npc-think gather_applications
   (cooldown 1 m)
-  (role ?org (believes {@self recruiting ?org})
-             (believes {?org record ?art}))
-  (when (and (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
+  (task {@self recruiting ?org})
+  (when (and (believes {?org record ?art})
+             (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (in-building ?wp)
              (is-entity (mail-pile (room-of ?wp [k back_office])))))
   (utility 82)

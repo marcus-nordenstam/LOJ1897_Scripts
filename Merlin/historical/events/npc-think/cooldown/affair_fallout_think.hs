@@ -69,11 +69,11 @@
                    (chance (* 0.35 (target-or @self decorum 0.5))))
               (then
                 (end-belief {@self spouse ?partner})
-                (begin-belief {@self divorce ?partner})
+                (begin-ended-belief {@self divorce ?partner})
                 ; Mutual: end her reciprocal bond and land the repudiation
                 ; act-record in her mind too.
                 (end-belief ?partner {?partner spouse @self})
-                (begin-belief ?partner {@self divorce ?partner})
+                (begin-ended-belief ?partner {@self divorce ?partner})
                 ; The fallen woman: marked in her mind AND his, expelled from
                 ; the marital roof, dismissed from reputable service.
                 (if (believes {?partner gender [k female]})

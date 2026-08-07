@@ -18,7 +18,7 @@
 ; instrument, no cross-mind effect - a bribe is a private cash transfer.
 (define-macro terminal-pay-off (?victim ?goal)
   (do
-    (begin-belief {@self offer_bribe ?victim})
+    (begin-ended-belief {@self offer_bribe ?victim})
     (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self bribe})
     (crime-ledger-append @self ?victim offer_bribe bribe @fail @fail)))
@@ -31,7 +31,7 @@
 ; (resolve-deliberation), so the driving pressure is the original grievance.
 (define-macro terminal-harm-non-lethal (?victim ?goal)
   (do
-    (begin-belief {@self beating ?victim})
+    (begin-ended-belief {@self beating ?victim})
     (yield-evidence @self ?victim torso bruise)
     (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self hurt})
@@ -44,7 +44,7 @@
 ; plant_evidence, goal frame).
 (define-macro terminal-plant-evidence (?victim ?goal)
   (do
-    (begin-belief {@self plant_evidence ?victim})
+    (begin-ended-belief {@self plant_evidence ?victim})
     (yield-evidence @self ?victim torso blood_stain)
     (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self frame})
@@ -63,7 +63,7 @@
 ; composes its own demand note, so the terminal need not).
 (define-macro coerce-blackmail (?victim ?goal)
   (do
-    (begin-belief {@self blackmail ?victim})
+    (begin-ended-belief {@self blackmail ?victim})
     (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self coerce})
     (if (not (believes {@self extort ?victim})) (then (begin-belief {@self extort ?victim})))
@@ -76,7 +76,7 @@
 
 (define-macro coerce-threaten (?victim ?goal)
   (do
-    (begin-belief {@self threaten_violence ?victim})
+    (begin-ended-belief {@self threaten_violence ?victim})
     (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self coerce})
     (if (not (believes {@self extort ?victim})) (then (begin-belief {@self extort ?victim})))
@@ -101,7 +101,7 @@
 ; learning they were exposed - the essential publication (gossip + ledger) is here.
 (define-macro expose-confront (?victim ?goal)
   (do
-    (begin-belief {@self confront_publicly ?victim})
+    (begin-ended-belief {@self confront_publicly ?victim})
     (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self expose})
     (if (believes {@self extort ?victim}) (then (end-belief {@self extort ?victim})))
@@ -110,7 +110,7 @@
 
 (define-macro expose-anon (?victim ?goal)
   (do
-    (begin-belief {@self anonymous_letter ?victim})
+    (begin-ended-belief {@self anonymous_letter ?victim})
     (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self expose})
     (if (believes {@self extort ?victim}) (then (end-belief {@self extort ?victim})))
@@ -136,7 +136,7 @@
   (if (and (not (believes {?victim gender (target {@self gender})}))
            (not (blood-kin @self ?victim)))
       (then
-        (begin-belief {@self seduction ?victim})
+        (begin-ended-belief {@self seduction ?victim})
         (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
         (end-goal {@self seduce})
         (begin-belief {@self lover ?victim})
@@ -162,7 +162,7 @@
 ; chance to stir (burglary-confrontation).
 (define-macro terminal-steal (?scene ?task ?owner ?goal)
   (do
-    (begin-belief {@self ?task ?owner})
+    (begin-ended-belief {@self ?task ?owner})
     (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
     (end-goal {@self steal})
     ; No hidden test on the loot: items are never hidden - a cached valuable
@@ -231,8 +231,8 @@
   (do
     (if (and (is-entity ?victim) (alive ?victim))
         (then
-          (begin-belief {@self public_humiliation ?victim})
-          (begin-belief ?victim {@self public_humiliation ?victim})
+          (begin-ended-belief {@self public_humiliation ?victim})
+          (begin-ended-belief ?victim {@self public_humiliation ?victim})
           (discharge-pressure (driving-pressure-of-goal ?goal) 0.75)
           (crime-ledger-append @self ?victim public_humiliation humiliate @fail @fail)))
     (end-goal {@self humiliate})))
@@ -255,9 +255,9 @@
     (for-each-belief {?loot stolen_from @self}
       (do
         (if (and (can-write @self)
-                 (not (believes {@self report_to_police (if (is-entity ?victim) (then ?victim) (else ?loot))})))
+                 (not (believes {@self report_to_police (if (is-entity ?victim) (then ?victim) (else ?loot)) /ever})))
             (then
-              (begin-belief {@self report_to_police (if (is-entity ?victim) (then ?victim) (else ?loot))})
+              (begin-ended-belief {@self report_to_police (if (is-entity ?victim) (then ?victim) (else ?loot))})
               (if (alive ?victim)
                   (then (begin-belief {@self suspect ?victim})))
               ; The station is optional (a town without one still remembers the

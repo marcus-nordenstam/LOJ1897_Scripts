@@ -1,14 +1,14 @@
 ; ----------------------------------------------------------------------------
 ; invest_errand - the npc-THINK half of the investment split (approach the firm).
 ;
-; The decision (business_think.hs `investment`) minted {@self goal {@self back <org>}}
-; and OWNS its whole life (it ceases when invest_act seals {@self backed_by <org>}).
-; invest_go routes the clerk to the org's workplace; AT the firm invest_go ceases and
-; the goal is the leaf and promotes to invest_act - no dwell rung.
+; The decision (business_think.hs `investment`) minted {@self goal {@self back <org>}};
+; promotion makes the `back` task RUN, and these rungs gate on it. invest_go routes
+; the clerk to the org's workplace; AT the firm invest_at_firm seals {@self backed_by
+; <org>} and concludes the task - the decision's maintenance then retires the goal.
 ; ----------------------------------------------------------------------------
 
 (npc-think invest_go
-  (role @self (believes {@self back ?org}))
+  (task {@self back ?org})
   (when (and (believes {?org workplace ?wp})
              (not (at-workplace ?wp))))
   (utility 60)
@@ -17,7 +17,7 @@
 ; AT the firm: PROPOSE the backing act (goals never propose themselves). invest_act reads the
 ; backed org off the standing {@self back} goal focus, so the propose is label-only.
 (npc-think invest_at_firm
-  (role @self (believes {@self back ?org}))
+  (task {@self back ?org})
   (when (and (believes {?org workplace ?wp})
              (at-workplace ?wp)))
   (utility 60)

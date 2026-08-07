@@ -98,7 +98,7 @@
 ; An OFFER: take up the post (a sub-task carrying the same job + articles as apply_for).
 (npc-think af_take_up
   (task {@self apply_for ?jk ?art})
-  (role ?ltr [k offer_letter] (believes {@self read ?ltr}))
+  (role ?ltr [k offer_letter] (believes {@self read ?ltr /ever}))
   (utility 77)
   (effects (debug-print "JS_TAKEUP")
            (maintain-proposal {@self take_up_post ?jk ?art})))
@@ -107,7 +107,7 @@
 ; memory (the pick excludes this job+org forever after).
 (npc-think af_rejected
   (task {@self apply_for ?jk ?art}:?af)
-  (role ?ltr [k rejection_letter] (believes {@self read ?ltr}))
+  (role ?ltr [k rejection_letter] (believes {@self read ?ltr /ever}))
   (effects (set-outcome ?af fail)))
 
 ; === take_up_post sub-task: go to the workplace and take the post ===================
