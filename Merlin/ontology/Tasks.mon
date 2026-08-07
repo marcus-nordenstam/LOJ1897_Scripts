@@ -32,7 +32,7 @@ relation
             # days into a cumulative belief whose count is the attendance
             # frequency.
             dwell                                   (tar structure|org|space)
-            work                                    (tar structure|org|space)
+            work                                    (tar structure|org|space)    (aux ?)
             # socialize_at: episodic ad-hoc social-outing memory (activity-lanes
             # L3). {@self socialize_at <venue> /aux <organizer>} = "went out with
             # the company <organizer> assembled, at <venue>". One general label
@@ -240,7 +240,7 @@ relation
             # judge_declare  -> the dumb ACT the sporting_judge think proposes once a top
             #                  scorer is cast; its target is that winner.
             hold_meet_run                           (sub human)
-            race_run                                (sub human)
+            race_run                                (sub human)     (tar ?)  (aux human)
             judge_meet                              (tar ?)
             judge_declare                           (tar human)
 

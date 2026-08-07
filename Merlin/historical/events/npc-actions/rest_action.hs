@@ -4,15 +4,19 @@
 ; this file holds the durative sleep act promoted from the SLEEP desire.
 ; ----------------------------------------------------------------------------
 
-; The sleep act, promoted from the SLEEP desire at home. Duration = until the morning
-; alarm, capped by any pending obligation (attend / supper); minutes-until-attend /
-; -until-hour are huge sentinels when nothing is pending. The engine resets fatigue on
-; completion (keyed on the SLEEP label); the body just ends the act-belief.
+; Sleep physics: recovery clears fatigue at 1/6 per hour (the engine's
+; completion physiology), so the natural sleep length is fatigue x 6h. The
+; floor is sleep inertia (even a barely-tired sleeper stays down a while).
+(define-macro sleep-min-per-fatigue () 360)
+(define-macro sleep-inertia-floor-min () 120)
+
+; The sleep act, promoted from the SLEEP desire at home: the action computes
+; its NATURAL duration from the sleeper's own physiology - no calendar, no
+; schedule, no beliefs; sleeping is simulated, not reasoned. The actor wakes
+; when the debt is slept off. A scream, an alarm or a physical attack should
+; PREEMPT the running sleep (the engine preemption seam is future work); the
+; old alarm-clock / obligation caps were schedule reasoning and are gone.
 (npc-action {@self SLEEP}
-  ; re-derive the home off @self's own belief for the supper-hour duration cap (a pure
-  ; value-op bind, not a gate - the SLEEP desire only promotes at home).
-  (bind (target {@self home}) ?home)
-  (duration (min (minutes-until-alarm @self)
-                 (minutes-until-attend @self)
-                 (minutes-until-hour (target {?home supper_hour}))))
+  (duration (max (sleep-inertia-floor-min)
+                 (* (sleep-min-per-fatigue) (attr @self fatigue))))
   (effects (set-outcome {@self SLEEP} succ)))

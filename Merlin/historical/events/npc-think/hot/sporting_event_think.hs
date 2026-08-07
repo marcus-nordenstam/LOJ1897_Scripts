@@ -65,6 +65,6 @@
 ; drains it and ends the summons, so the propose stops once his leg is run). Utility above
 ; routine so the obligation to compete pulls him off idler errands for the one run.
 (npc-think compete
-  (role @self (believes {@self summoned_to_meet ?}))
+  (role @self (believes {@self summoned_to_meet ?sport ?judge}))
   (utility 45)
-  (effects (maintain-proposal {@self race_run})))
+  (effects (maintain-proposal {@self race_run ?sport ?judge})))

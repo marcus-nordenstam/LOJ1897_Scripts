@@ -13,11 +13,12 @@
 
 (include "../../definitions/roles.hs")
 
-(npc-action {@self race_run}
+; The run: the sport + the judging organiser arrive ON the action pattern
+; (compete reads the summons and passes them); the body reads only its own
+; physiology - the physics of the run - and writes the records.
+(npc-action {@self race_run ?sport ?judge}
   (duration 30)
   (effects
-    ; The sport + who runs it, off my own summons.
-    (bind {@self summoned_to_meet ?sport ?judge})
     ; My run: own vigour + a draw, all self-reads. Clamped to a 0..1 score.
     (bind (clamp (+ 0.10
                     (* 0.35 (attr @self strength))
@@ -30,4 +31,4 @@
     (if (co-present @self ?judge)
         (then (begin-belief ?judge {@self race_result ?perf})))
     (end-belief {@self summoned_to_meet ?sport})
-    (set-outcome {@self race_run} succ)))
+    (set-outcome {@self race_run ?sport ?judge} succ)))
