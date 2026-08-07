@@ -54,14 +54,19 @@
   ; interrupted tasks resume; the /pres + has-proposal gates cover the spawn window.
   (effects       (begin-proposal {@self work ?wp})))
 
-; Between duties: BE at the post - the shared stay-put primitive, one quantum per
-; promotion (the maintained proposal survives completions, so the presence resumes
-; until a duty errand, a meal or the shift's end outbids the next quantum).
+; Between duties: BE at the post - ONE dwell block to the next MEANINGFUL
+; boundary (lunch when morning, else shift end), decided HERE and passed as the
+; duration. A duty errand outbids the stay at promotion; the maintained proposal
+; survives the lunch break's interruption and resumes for the afternoon block.
 (npc-think at_post
   (task {@self work ?wp})
-  (when (in-building ?wp))
+  (role ?job (believes {@self job ?job}))
+  (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))
+        (in-building ?wp))
   (utility 78)
-  (effects (maintain-proposal {@self dwell ?wp (dwell-quantum-min)})))
+  (effects
+    (bind (minutes-until-hour (if (< (now-hour) 12) (then (min 12 ?end)) (else ?end))) ?dur)
+    (maintain-proposal {@self dwell ?wp ?dur})))
 
 ; Outcome twin: the shift is over (outside both the working window and the
 ; starts-soon spawn band) - the day's work concluded.
