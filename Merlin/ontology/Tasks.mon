@@ -139,12 +139,12 @@ relation
             # {@self eat [k <meal>] <place>} IS the episodic meal memory (begun at
             # commit, ended at completion): target = the meal-kind occasion, aux =
             # the place eaten at. Its performance rungs (take_meal / table_hours /
-            # table_talk) propose the ingest motor + air the table talk; ingest does
+            # table_talk) propose the ingest action + air the table talk; ingest does
             # the physical eating. Supersedes the old per-meal `dine` begin-act lanes.
             eat                                     (tar meal)         (aux structure|space)
-            # ingest - the physical-eating ACTION (meals_action.hs), the eat task's
-            # motor. target = the meal-kind (its duration + hunger profile); aux =
-            # the food prop to destroy (a home-supper loaf) or 0 (an abstract meal).
+            # ingest - the physical-eating ACTION (meals_action.hs) the eat task's
+            # rungs propose. target = the meal-kind (its duration + hunger profile);
+            # aux = the food prop to destroy (a home-supper loaf) or 0 (abstract).
             ingest                                  (tar meal)         (aux ?)
             read_at                                 (tar structure|space)
             rest                                    (tar structure|space)

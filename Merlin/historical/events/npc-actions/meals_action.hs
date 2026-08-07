@@ -22,11 +22,11 @@
 
 ; The eat goal, at its place, is the leaf and promotes here. The begun-then-ended
 ; {@self eat [k <meal>] <place>} act-belief IS the meal memory.
-; INGEST - the physical eating motor. A pure ACTION: it reads only its own pattern
+; INGEST - the physical eating. A pure ACTION: it reads only its own pattern
 ; (?meal for the duration + hunger profile, ?food for what to destroy) and the
 ; hunger ATTR it updates. All the reasoning (which food, whose table) happened in
 ; the eat task's take_meal rung, which hands ?food (a believed loaf, or 0 for an
-; abstract meal). ONE motor serves every meal - the eat TASK differentiates them.
+; abstract meal). ONE action serves every meal - the eat TASK differentiates them.
 (npc-action {@self ingest ?meal ?food}
   ; supper is the hour-long family meal; lunch 40; breakfast 30.
   (duration (if (is-a ?meal [k supper]) (then 60)

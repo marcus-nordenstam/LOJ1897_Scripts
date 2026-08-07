@@ -419,7 +419,7 @@
 ; ---- the eat TASK's PERFORMANCE rungs ----------------------------------------
 ; eat is a TASK (Tasks.mon): its desires promote it AT the place (eat_at_place),
 ; and these rungs PERFORM it. The physical eating is the ingest ACTION (duration +
-; hunger, meals_action.hs) - a pure motor; the food to consume is the REASONING
+; hunger, meals_action.hs); the food to consume is the REASONING
 ; (which loaf, is it a home supper) decided HERE and handed to ingest on its
 ; pattern. The task self-limits: ingest relieves hunger, the desire's window /
 ; appetite gate ceases the eat goal, eat_at_place withdraws its maintainer, the
@@ -432,7 +432,7 @@
 (npc-think take_meal
   (task {@self eat ?meal ?place}:?e)
   ; the ingest inherits the running task's drive through the /caused_by pin; this band is
-  ; the motor's OWN bid on top of it, so the work lunch's ingest (85 + task) outbids the
+  ; the action's OWN bid on top of it, so the work lunch's ingest (85 + task) outbids the
   ; work post-stay (78 + work task) instead of dying at the desk.
   (utility (if (is-a ?meal [k breakfast]) (then 82)
             (else (if (is-a ?meal [k lunch]) (then 85) (else 78)))))
@@ -443,7 +443,7 @@
              (is-entity (believed-located [k food] ?place)))
         (then (bind (believed-located [k food] ?place) ?food)))
     (maintain-proposal {@self ingest ?meal ?food}))
-  ; The eat task's OUTCOME, judged at the cease: the task ends AS its motor ended -
+  ; The eat task's OUTCOME, judged at the cease: the task ends AS its action ended -
   ; find the ended ingest THIS task drove and copy its outcome verbatim (the isim
   ; stack-put-outcome shape). The inverse (caused-by {pattern} ?e) anchors on the
   ; gated task, so a stale record from an earlier meal never concludes a fresh one;
