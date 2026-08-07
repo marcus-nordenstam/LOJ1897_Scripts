@@ -118,9 +118,28 @@
              (in-building ?wp)
              (is-entity (mail-pile (room-of ?wp [k back_office])))
              (is-entity (attr (mail-pile (room-of ?wp [k back_office])) top))))
-  (utility 82)
-  (effects (debug-print "RC_SWEEP")
-           (maintain-proposal {@self gather_applications ?art})))
+  ; The VERDICTS are decided here (the top applicant is offered, the rest
+  ; rejected) and the letters written as this think's own effects - there is
+  ; no clerical act body; the officer's desk presence is the work task's
+  ; at_post dwell.
+  (effects
+    (debug-print "RC_SWEEP")
+    (bind (room-of ?wp [k back_office]) ?office)
+    (bind (attr (mail-pile ?office) top) ?top)
+    (for-each ?app (attr-values (mail-pile ?office) items [k application])
+      (do
+        (read-doc-record [k application] ?app (applicant ?w))
+        (if (= ?app ?top)
+            (then
+              (debug-print "RC_OFFER")
+              (create-entity [k offer_letter]
+                  (qual location (mail-space (home-of ?w))) (bind ?ol))
+              (file-in-stack ?ol (mail-space (home-of ?w))))
+            (else
+              (create-entity [k rejection_letter]
+                  (qual location (mail-space (home-of ?w))) (bind ?rl))
+              (file-in-stack ?rl (mail-space (home-of ?w)))))
+        (destroy-entity ?app)))))
 
 ; --- the filled posting comes off the board -------------------------------------
 (npc-think take_down_filled

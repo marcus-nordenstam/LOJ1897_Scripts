@@ -108,9 +108,17 @@
 ; spurious-promotion hole a bare pure act would open.
 (npc-think provision_at_shop
   (goal    {@self provision})
-  (when    (at-place-kind [k building shop]))
+  ; The buy cap is DECIDED here (basket, larder shortfall, what is in hand)
+  ; and rides the act pattern - the counter-stop body does no counting.
+  (role ?home (believes {@self household_cook ?home}))
+  (when    (and (at-place-kind [k building shop])
+                (bind {?home room [k kitchen]:?kitchen})
+                (bind (count-believed-located [k food] ?kitchen) ?blv)
+                (bind (count-controlled @self [k food]) ?inh)
+                (bind (- (min (carry_cap) (- (larder_target) ?blv)) ?inh) ?cap)
+                (> ?cap 0)))
   (utility 77)
-  (effects (maintain-proposal {@self provision})))
+  (effects (maintain-proposal {@self provision ?cap})))
 
 ; ---- the errand: go to THE provisions shop (never a generic one) ------------
 ; The go sub-goal INHERITS the provision goal's drive through /caused_by (the

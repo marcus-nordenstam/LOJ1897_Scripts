@@ -45,20 +45,15 @@
 ; his own documents, lists the premises for sale if he owns it, and clears the act on
 ; completion (close_business.hs owns the goal's teardown). No cross-mind write: workers
 ; reconcile themselves via reconcile_closed when they find the premises shut.
-(npc-action {@self close_business ?art}
+(npc-action {@self close_business ?art ?wp}
   (duration 90)
   (effects
-    ; his own articles carry the premises building + the register document.
-    (read-doc-record [k articles_of_incorporation] ?art (building ?wp) (register ?reg))
+    ; the register rides his own articles (transcription off the pattern doc).
+    (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
     ; 1. shutter the doors - a perceivable `closed` fact; staff reconcile by seeing it.
     (shutter-building ?wp)
-    ; 3. list the premises for sale IF he owns it (a leased / home-seated premises has
-    ;    no {@self own ?wp} belief, so he does not list it - he just vacates / keeps home).
-    (if (believes {@self own ?wp})
-        (then
-          (create-entity [k for_sale_listing] (qual location ?wp) (bind ?listing))
-          (write-doc-record [k for_sale_listing] ?listing (building ?wp))
-          (begin-belief {?wp availability [k for_sale]})))
+    ; (the owned-premises FOR-SALE listing is the list_failed_premises twin's
+    ;  decision - close_business_think.hs - off this act's /succ record.)
     ; 2. destroy his OWN incorporation documents (single bound entities at completion).
     (destroy-entity ?reg)
     (destroy-entity ?art)

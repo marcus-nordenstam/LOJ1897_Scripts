@@ -10,18 +10,15 @@
 
 (include "../../definitions/roles.hs")
 
-(npc-action {@self stow ?item}
+(npc-action {@self stow ?item ?place}
   (duration 5)
   (effects
     (if (is-entity ?item)
         (then
-          ; Only VALUABLES go into the hiding spot (the thief's loot, the
-          ; heirloom); ordinary carry-home items (the cook's provisions) -
-          ; and anything held with no hiding spot fashioned - are put away
-          ; openly in the room the NPC stands in.
-          (if (and (believes {@self hiding_spot ?}) (has-facet ?item valuable))
-              (then (for-each-belief {@self hiding_spot ?cache}
-                        (put-item ?item ?cache)))
+          ; The put-away place is the proposing think's choice (the hiding spot
+          ; for a valuable, else 0 = openly here); the body only places.
+          (if (is-entity ?place)
+              (then (put-item ?item ?place))
               (else (put-item ?item (attr @self location))))
           ; The put-away un-flags the loot: ending carrying_loot (own state) drops
           ; want_stow's self-gate, whose falling edge retires the {@self stow} goal.

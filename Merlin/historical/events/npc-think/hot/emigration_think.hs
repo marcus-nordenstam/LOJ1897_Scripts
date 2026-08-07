@@ -33,3 +33,29 @@
   (goal {@self depart})
   (utility 82)
   (effects (maintain-proposal {@self depart})))
+
+; The teardown twin: the packing day concluded - quit his posts, release his
+; home, and leave. All reads are his OWN beliefs (think-side); the walks skip
+; whatever a jobless / homeless emigrant lacks. destroy-entity ends the mind,
+; which closes this twin's own gate.
+(npc-think departed
+  (role @self (believes {@self depart /succ}))
+  (effects
+    (for-each-belief {@self job ?job}
+        (for-each-belief {?job org ?org}
+            (for-each-belief {?org record ?art}
+                (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
+                (remove-doc-record [k employee_register] ?reg (find worker @self))))
+        (end-belief {@self job ?job}))
+    (for-each-belief {@self home ?home}
+        (if (believes {@self own ?home})
+          (then
+            (create-entity [k for_sale_listing] (qual location ?home) (bind ?listing))
+            (write-doc-record [k for_sale_listing] ?listing (building ?home))
+            (end-belief {@self own ?home})
+            (end-belief {@self home ?home}))
+          (else
+            (if (believes {?home tenant @self}) (then (end-belief {?home tenant @self})))
+            (end-belief {@self home ?home}))))
+    (end-belief {@self spouse})
+    (destroy-entity @self)))

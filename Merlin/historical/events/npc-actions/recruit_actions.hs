@@ -43,33 +43,6 @@
     (file-in-stack ?app (room-of ?wp [k back_office]))
     (set-outcome {@self submit_application ?app} succ)))
 
-; RECRUITER: ONE sweep of the back-office inbox. Offer the TOP applicant (an offer_letter
-; to his home), reject every other (a rejection_letter to theirs), and DESTROY every
-; application so none accumulate. The seeker's side rides HIS apply_for task outcome - the
-; letter's KIND is the whole verdict.
-(npc-action {@self gather_applications ?art}
-  (duration 30)
-  (effects
-    (debug-print "RC_SWEPT")
-    (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
-    (bind (room-of ?wp [k back_office]) ?office)
-    (bind (attr (mail-pile ?office) top) ?top)
-    (for-each ?app (attr-values (mail-pile ?office) items [k application])
-      (do
-        (read-doc-record [k application] ?app (applicant ?w))
-        (if (= ?app ?top)
-            (then
-              (debug-print "RC_OFFER")
-              (create-entity [k offer_letter]
-                  (qual location (mail-space (home-of ?w))) (bind ?ol))
-              (file-in-stack ?ol (mail-space (home-of ?w))))
-            (else
-              (create-entity [k rejection_letter]
-                  (qual location (mail-space (home-of ?w))) (bind ?rl))
-              (file-in-stack ?rl (mail-space (home-of ?w)))))
-        (destroy-entity ?app)))
-    (set-outcome {@self gather_applications ?art} succ)))
-
 ; SEEKER: take up the offered post - write his own row onto the wage book (?jk from the
 ; still-running apply_for). Reading his row back (tup_read_book) realizes employment.
 (npc-action {@self take_post ?art ?jk}

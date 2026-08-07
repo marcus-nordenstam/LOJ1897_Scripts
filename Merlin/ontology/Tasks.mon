@@ -177,7 +177,15 @@ relation
             # state/action/task (goal-clause labels alone are not enough). stow -
             # putting a carried item away (burgle / provisioning tail); give_alms -
             # the charity act. (scream is already a defined relation-term.)
-            stow                                    (tar ?)
+            stow                                    (tar ?)  (aux ?)
+            # take_item / consume: the two generic hand-to-thing primitives.
+            # take_item picks the pattern-given item up (the thinking - WHICH
+            # item, whose it is - happened in the proposing think; the aux
+            # carries the wronged owner for provenance); consume destroys the
+            # pattern-given food item into a meal (aux = the wronged shopkeeper
+            # when the mouthful is stolen, else absent).
+            take_item                               (tar ?)  (aux human)
+            consume                                 (tar ?)  (aux human)
             # make_cache - carve a private hiding spot at home (secret letters,
             # stowed loot). The act (make_cache_act.hs) walks the host-quality
             # ladder and claims/creates the best cache; the deliberation that
@@ -246,7 +254,7 @@ relation
             hold_meet_run                           (sub human)
             race_run                                (sub human)     (tar ?)  (aux human)
             judge_meet                              (tar ?)
-            judge_declare                           (tar human)
+            judge_declare                           (tar human)  (aux ?)
 
             # find_building -> the venue-discovery search TASK (find_building.hs). A seek rule
             # maintains {@self find_building [k building <kind>] ?region} while it wants a venue of a

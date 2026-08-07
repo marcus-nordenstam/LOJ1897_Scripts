@@ -52,17 +52,44 @@
              (alive ?owner)
              (not (= ?owner @self))))
   (utility 86)
-  (effects (maintain-proposal {@self steal ?owner})))
+  ; The LOOT is picked HERE (the first loose visible valuable - the walk is the
+  ; same env truth (venue)/(burgle-target) read); an empty-handed scene still
+  ; ledgers the intrusion, discharges and ends the goal (nothing to take).
+  (effects
+    (bind (if (at-own-workplace) (then embezzle) (else opportunist_theft)) ?method)
+    (bind 0 ?found)
+    (for-each ?room (attr-values ?scene parts [k interior_space room])
+      (for-each ?item (attr-values ?room contents)
+        (if (and (= ?found 0) (has-facet ?item valuable))
+            (then (bind ?item ?loot) (bind 1 ?found)))))
+    (if (= ?found 1)
+        (then (maintain-proposal {@self take_item ?loot ?owner}))
+        (else
+          (begin-ended-belief {@self ?method ?owner})
+          (begin-ended-belief {@self steal ?owner})
+          (crime-ledger-append @self ?owner ?method steal @fail @fail)
+          (burglary-confrontation @self ?scene)
+          (bind (caused-by ?sgoal {@self pressure ?}) ?p)
+          (discharge-pressure ?p 0.75)
+          (end-goal {@self steal})))))
 
-; Outcome twin: THIS pursuit's theft concluded - the /succ record's own
+; Outcome twin: THIS pursuit's take concluded - the /succ record's own
 ; /caused_by names the gated goal, so a stale record from an earlier theft
-; never concludes a fresh pursuit. Discharge the driving grievance (absent for
-; an appetitive steal - discharge no-ops on @fail) and end the goal.
+; never concludes a fresh pursuit. The twin INTERPRETS the take as the theft:
+; the method + steal anchors (born-ended act records - count-ever reads them),
+; the ledger row with the loot kind, the residents' chance to stir, the
+; grievance discharged (no-op on @fail for an appetitive steal), the goal ends.
 (npc-think steal_done
   (goal {@self steal}:?sgoal)
-  (role @self (believes {@self steal ? /succ}:?rec))
+  (role @self (believes {@self take_item ?loot ?owner /succ}:?rec))
   (when (caused-by ?rec ?sgoal))
   (effects
+    (bind (if (at-own-workplace) (then embezzle) (else opportunist_theft)) ?method)
+    (begin-ended-belief {@self ?method ?owner})
+    (begin-ended-belief {@self steal ?owner})
+    (crime-ledger-append @self ?owner ?method steal (kind ?loot) @fail)
+    (if (is-entity (current-building @self))
+        (then (burglary-confrontation @self (current-building @self))))
     (bind (caused-by ?sgoal {@self pressure ?}) ?p)
     (discharge-pressure ?p 0.75)
     (end-goal {@self steal})))

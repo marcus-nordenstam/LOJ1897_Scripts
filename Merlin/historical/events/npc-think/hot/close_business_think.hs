@@ -48,4 +48,16 @@
   (when (and (articles-building ?art ?wp)
              (at-workplace ?wp)))
   (utility 85)
-  (effects (maintain-proposal {@self close_business})))
+  (effects (maintain-proposal {@self close_business ?art ?wp})))
+
+; Outcome twin of the winding-up: he LISTS his OWN premises for sale IF he owns
+; it (a leased / home-seated premises has no {@self own ?wp} belief - he just
+; vacates). The availability belief is the fired-once latch.
+(npc-think list_failed_premises
+  (role @self (believes {@self close_business ? ?wp /succ})
+              (believes {@self own ?wp})
+              (not (believes {?wp availability ?})))
+  (effects
+    (create-entity [k for_sale_listing] (qual location ?wp) (bind ?listing))
+    (write-doc-record [k for_sale_listing] ?listing (building ?wp))
+    (begin-belief {?wp availability [k for_sale]})))

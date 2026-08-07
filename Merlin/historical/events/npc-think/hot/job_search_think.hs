@@ -155,14 +155,15 @@
   (effects (set-outcome ?af succ)))
 
 ; === the morning post: pick up + read (held) each unread letter at home =============
+; The home is bound MENTAL ({@self home ?home}) - a think must stay mental-only, so the
+; abs `home-of` op cannot be used here; ?home externalizes only inside the effect ops.
 (npc-think read_post
   (cooldown 1 m)
-  (role @self)
-  (when (in-building (home-of @self)))
+  (role ?home (believes {@self home ?home}))
+  (when (in-building ?home))
   (effects
-    (for-each ?ltr (attr-values (mail-pile (mail-space (home-of @self))) items [k letter])
+    (for-each ?ltr (attr-values (mail-pile (mail-space ?home)) items [k letter])
       (if (not (believes {@self read ?ltr}))
-          (then (debug-print "JS_READ ltr=?ltr")
-                (take-from-stack ?ltr)
+          (then (take-from-stack ?ltr)
                 (read-document ?ltr)
-                (file-in-stack ?ltr (mail-space (home-of @self))))))))
+                (file-in-stack ?ltr (mail-space ?home)))))))

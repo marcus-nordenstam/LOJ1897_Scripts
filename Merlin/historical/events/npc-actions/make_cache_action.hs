@@ -22,39 +22,45 @@
 (npc-action {@self make_cache ?building}
   (duration 0)
   (effects
+    (bind 0 ?made)
     ; Tier 1 - claim the home's built-in secret chamber.
     (for-each ?room (attr-values ?building parts [k interior_space room])
       (for-each ?chamber (attr-values ?room parts [k secret_chamber])
-        (if (not (believes {@self hiding_spot ?}))
+        (if (= ?made 0)
             (then
               (set-attr ?chamber owner @self)
-              (begin-belief {@self hiding_spot ?chamber})))))
+              (begin-belief {@self hiding_spot ?chamber})
+              (bind 1 ?made)))))
     ; Tier 2 - a cavity behind a painting.
     (for-each ?room (attr-values ?building parts [k interior_space room])
       (for-each ?painting (attr-values ?room contents [k painting])
-        (if (not (believes {@self hiding_spot ?}))
+        (if (= ?made 0)
             (then
               (create-entity [k painting_cache] (qual parent ?painting) (bind ?cache))
-              (begin-belief {@self hiding_spot ?cache})))))
+              (begin-belief {@self hiding_spot ?cache})
+              (bind 1 ?made)))))
     ; Tier 3 - a false lining in a jewelry box.
     (for-each ?room (attr-values ?building parts [k interior_space room])
       (for-each ?box (attr-values ?room contents [k jewelry_box])
-        (if (not (believes {@self hiding_spot ?}))
+        (if (= ?made 0)
             (then
               (create-entity [k jewelry_box_lining] (qual parent ?box) (bind ?cache))
-              (begin-belief {@self hiding_spot ?cache})))))
+              (begin-belief {@self hiding_spot ?cache})
+              (bind 1 ?made)))))
     ; Tier 4 - a hollowed-out book.
     (for-each ?room (attr-values ?building parts [k interior_space room])
       (for-each ?book (attr-values ?room contents [k book])
-        (if (not (believes {@self hiding_spot ?}))
+        (if (= ?made 0)
             (then
               (create-entity [k book_cache] (qual parent ?book) (bind ?cache))
-              (begin-belief {@self hiding_spot ?cache})))))
+              (begin-belief {@self hiding_spot ?cache})
+              (bind 1 ?made)))))
     ; Tier 5 - the always-available loose floorboard in the bedroom. The bedroom
     ; walk plus the hiding_spot guard carves exactly one, same as the tiers above.
-    (for-each-belief {?building room [k bedroom]:?bedroom}
-        (if (not (believes {@self hiding_spot ?}))
+    (for-each ?bedroom (attr-values ?building parts [k interior_space bedroom])
+        (if (= ?made 0)
             (then
               (create-entity [k floorboard_cache] (qual parent ?bedroom) (bind ?cache))
-              (begin-belief {@self hiding_spot ?cache}))))
+              (begin-belief {@self hiding_spot ?cache})
+              (bind 1 ?made))))
     (set-outcome {@self make_cache} succ)))

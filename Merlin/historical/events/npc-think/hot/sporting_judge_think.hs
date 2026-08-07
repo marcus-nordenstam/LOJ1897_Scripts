@@ -22,4 +22,20 @@
                 (believes {?winner race_result ?})
                 (select (score (target {?winner race_result})) (policy argmax)))
   (utility 40)
-  (effects (maintain-proposal {@self judge_declare ?winner})))
+  (effects (maintain-proposal {@self judge_declare ?winner (target {@self meet_sport})})))
+
+; Outcome twin of the declaration: every OTHER racer was positionally
+; outcompeted -> the observable rivalrous outdo anchor (the loser's own
+; narcissism scales the sting, in ms1); the scoreboard clears so next year's
+; meet starts clean, and ending meet_sport closes this twin's own gate.
+(npc-think meet_judged
+  (role @self (believes {@self judge_declare ?winner ? /succ})
+              (believes {@self meet_sport ?sport}))
+  (effects
+    (for-each-belief {?r race_result ?}
+      (do
+        (bind (target {?r race_result}) ?p)
+        (if (not (= ?r ?winner))
+            (then (incident-anchor ?winner outdo ?r)))
+        (end-belief {?r race_result ?p})))
+    (end-belief {@self meet_sport ?sport})))

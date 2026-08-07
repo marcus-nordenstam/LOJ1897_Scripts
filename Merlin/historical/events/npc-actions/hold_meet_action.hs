@@ -49,20 +49,11 @@
 ; him and proposes {@self judge_declare ?winner}; this body just performs the declaration off
 ; the ?winner carried on its act-belief. No trait read - the winner is the highest OBSERVED
 ; performance, chosen in the think.
-(npc-action {@self judge_declare ?winner}
+(npc-action {@self judge_declare ?winner ?sport}
   (duration 30)
   (effects
-    (bind (target {@self meet_sport}) ?sport)
     ; The victor takes the honours (minted into HIS mind - he was there, he is told).
     (begin-belief ?winner {?winner won ?sport})
-    ; Every OTHER racer was positionally outcompeted -> the observable rivalrous anchor
-    ; (auto-witnessed). The loser's own narcissism scales whether it stings, in ms1.
-    ; The same pass clears the scoreboard so next year's meet starts clean.
-    (for-each-belief {?r race_result ?}
-      (do
-        (bind (target {?r race_result}) ?p)
-        (if (not (= ?r ?winner))
-            (then (incident-anchor ?winner outdo ?r)))
-        (end-belief {?r race_result ?p})))
-    (end-belief {@self meet_sport ?sport})
+    ; (the outdo anchors + scoreboard clearing are the meet_judged twin's -
+    ;  sporting_judge_think.hs - off this declaration's /succ record.)
     (set-outcome {@self judge_declare} succ)))

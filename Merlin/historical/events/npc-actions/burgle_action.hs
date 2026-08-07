@@ -45,40 +45,16 @@
        (believes {?emp workplace ?work})
        (at-workplace ?work)))
 
-; The theft action: PURE effects over what the pattern provides (?owner - the
-; wronged party, resolved and vetted by burgle_strike) plus the physical scene
-; (env reads only, no beliefs): the crime method keys on the PLACE (a residence
-; is a break-in, anywhere else the authorized-presence embezzlement), the thief
-; works the rooms and TAKES the first loose visible valuable (?took is the
-; eval-local take-once flag), the ledger rows record it, and the residents get
-; their chance to stir. The steal goal's conclusion (discharge + end-goal)
-; belongs to steal_done (burgle_think.hs) - actions do no reasoning.
-(npc-action {@self steal ?owner}
-  (duration (if (at-place-kind [k building residential_building]) (then 15) (else 10)))
+; The theft is now the GENERIC take primitive: burgle_strike picks the loot
+; and the wronged owner THINK-side and proposes {@self take_item ?loot ?owner};
+; steal_done (burgle_think.hs) interprets the completed take as the theft
+; (anchors, ledger, confrontation, discharge, goal end). The take body reads
+; nothing beyond its pattern.
+(npc-action {@self take_item ?loot ?owner}
+  (duration 10)
   (effects
-    (bind (if (at-place-kind [k building residential_building])
-              (then opportunist_theft)
-              (else embezzle))
-          ?method)
-    (begin-ended-belief {@self ?method ?owner})
-    (bind 0 ?took)
-    (if (is-entity (current-building @self))
-        (then
-          (bind (current-building @self) ?scene)
-          ; No hidden test on the loot: items are never hidden - a cached valuable
-          ; sits in a hidden SUB-SPACE whose own contents index this rooms-only
-          ; walk never reads.
-          (for-each ?room (attr-values ?scene parts [k interior_space room])
-            (for-each ?item (attr-values ?room contents)
-              (if (and (= ?took 0) (has-facet ?item valuable))
-                  (then
-                    (take-item ?item)
-                    ; carrying_loot is the trigger want_stow (stow.hs) reads to
-                    ; MINT + OWN the {@self stow ?item} goal.
-                    (begin-belief {@self carrying_loot ?item})
-                    (crime-ledger-append @self ?owner ?method steal (kind ?item) @fail)
-                    (bind 1 ?took)))))
-          (if (= ?took 0)
-              (then (crime-ledger-append @self ?owner ?method steal @fail @fail)))
-          (burglary-confrontation @self ?scene)))
-    (set-outcome {@self steal ?owner} succ)))
+    (take-item ?loot)
+    ; carrying_loot is the trigger want_stow (stow.hs) reads to MINT + OWN
+    ; the {@self stow ?item} goal.
+    (begin-belief {@self carrying_loot ?loot})
+    (set-outcome {@self take_item ?loot ?owner} succ)))
