@@ -209,14 +209,13 @@ relation
             # perception, no telepathy: a bereaved NPC CARRIES the body to a
             # church; the co-present priest PERCEIVES the corpse in his church
             # and buries it. convey - the bereaved kin's deposit goal {@self
-            # convey <corpse>} (route to a church, relocate the body in).
-            # conveyed - the bearer's one-shot "already delivered" marker (bars
-            # re-carting the same corpse). bury - the priest's burial-rite
+            # convey <corpse>} (route to a church, relocate the body in); the
+            # ended act-belief IS the delivered record (bars re-carting the
+            # same corpse). bury - the priest's burial-rite
             # act-belief {@self bury <corpse>} (verdict + tombstone + destroy).
             # All (tar ?): a corpse's {isa human} belief is end-dated at death,
             # so the target is not kind-constrainable.
             convey                                  (tar ?)
-            conveyed                                (tar ?)
             bury                                    (tar ?)
             # Conversational activities (gossip / catch_up / confide / introduce /
             # confess_fancy / table_talk / mealtime asks) carry no acts of their own:
@@ -613,7 +612,6 @@ relation
             beat                (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
             offer_bribe         (motor right_hand mouth)        (tar human)  (aux ?)     (facets blackmailable)
             plant_evidence      (motor right_hand)              (tar human)  (aux ?)     (construed_act harm_act betray_act wrong_act)  (facets reportable_crime blackmailable)
-            seduction           (motor mouth legs body)         (tar human)              (construed_act intimacy_act)
 
             # ----------------------------------------------------------------------------------
             # Speech acts - the verbal-method vocabulary. These labels are

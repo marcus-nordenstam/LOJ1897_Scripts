@@ -127,7 +127,7 @@
 ; gates first (opposite-sex + non-kin, mirroring every romance genesis - a seduce goal
 ; targets a pressure focus, which could be anyone; without the gates the consummation
 ; minted same-sex / sibling `lover` bonds the marriage pipeline then consumed). On a
-; pass: the seduction act anchor, the pressure discharged, the goal ended, reciprocal
+; pass: the seduce act anchor, the pressure discharged, the goal ended, reciprocal
 ; `lover` + punctual HAVE_SEX_WITH records on both minds, and - for a seduced UNMARRIED
 ; woman - the lifelong {@self prototype fallen_woman} ruin (shuts her out of respectable
 ; courtship). Blocked (same-sex / kin): the goal just ends, the impulse spent. NOT a
@@ -136,7 +136,7 @@
   (if (and (not (believes {?victim gender (target {@self gender})}))
            (not (blood-kin @self ?victim)))
       (then
-        (begin-ended-belief {@self seduction ?victim})
+        (begin-ended-belief {@self seduce ?victim})
         (discharge-pressure (caused-by ?goal {@self pressure ?}) 0.75)
         (end-goal {@self seduce})
         (begin-belief {@self lover ?victim})
@@ -146,7 +146,7 @@
         (if (and (believes {?victim gender [k female]})
                  (not (believes {?victim spouse ?})))
             (then (begin-belief ?victim {?victim prototype [k fallen_woman]})))
-        (crime-ledger-append @self ?victim seduction seduce @fail @fail))
+        (crime-ledger-append @self ?victim seduce seduce @fail @fail))
       (else (end-goal {@self seduce}))))
 
 ; confess_secret terminal (confess_letter goal): the actor reveals their OWN

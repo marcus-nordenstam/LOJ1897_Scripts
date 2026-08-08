@@ -30,8 +30,8 @@
 ; [k human] positional kind: that would compile to a (believes {?corpse isa
 ; [k human]}) filter, and propagate_death has end-dated that belief - only the
 ; condition-dead belief is still ongoing on a corpse). Only humans ever carry
-; condition dead, so the filter is exact. The one-shot {@self conveyed ?corpse}
-; marker bars re-carting the SAME body (the role's (not (believes ...)) drops
+; condition dead, so the filter is exact. The ended {@self convey ?corpse}
+; act-belief bars re-carting the SAME body (the role's (not (believes ...)) drops
 ; it): one church-trip per known death, not a standing pilgrimage. A corpse
 ; already buried elsewhere is excluded belief-side for everyone who attended or
 ; was told of the rite (bury_act's (tell {?corpse condition [k buried]}) drops
@@ -46,13 +46,13 @@
 ; overdue death this NPC knows AND has not yet delivered; argmax keeps the target
 ; stable while routing. Utility x politeness, capped modest (an errand, not a
 ; life-goal). A maintenance minter: it mints the standing convey goal and holds it;
-; once the deposit marks {@self conveyed ?corpse} the role stops casting the corpse,
+; once the deposit ends {@self convey ?corpse} /succ the role stops casting the corpse,
 ; the gate drops, and the convey goal ends.
 (npc-think want_convey
   (role @self (grown @self))
   (role ?corpse (believes {?corpse condition [k dead]})
                 (not (believes {?corpse condition [k buried]}))
-                (not (believes {@self conveyed ?corpse /ever}))
+                (not (believes {@self convey ?corpse /past}))
                 (select (score (months-since-death ?corpse)) (policy argmax)))
   ; FRESHNESS cap beside the politeness gate: a death known for months no longer
   ; motivates the errand (someone has surely dealt with it) - the belt-and-braces

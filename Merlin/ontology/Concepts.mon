@@ -245,7 +245,7 @@ concept
             garrotting
         # Physical recreation (the `sports` interest). NOT the standalone
         # `sport` competition-discipline enum below (cricket / rowing / ...),
-        # which is the achievement target of participated_in / won.
+        # which is the achievement target of the won achievement belief.
         athletics
             sports
         # Topical interests one holds without practising a skill.
@@ -499,8 +499,8 @@ concept
     # avocation, suffrage -> civic. Still seeded as hereditary self-beliefs in
     # mx_make_human and grown / shed by interest_acquired / interest_lost.
 
-    # Competitive sports - the target of the participated_in / won achievement
-    # beliefs (States.mon), written by the sporting_event hsim event. A `sport`
+    # Competitive sports - the target of the won achievement
+    # belief (States.mon), written by the sporting_event hsim event. A `sport`
     # is the competition discipline; distinct from the `sports` interest above.
     sport
         cricket

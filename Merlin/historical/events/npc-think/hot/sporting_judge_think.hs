@@ -5,13 +5,14 @@
 ; that is deliberation, so it lives here; the observable declaration (honours + rivalrous
 ; anchors + scoreboard clear) is the dumb judge_declare_act (hold_meet_act.hs).
 ;
-; open_meet_act recorded {@self meet_sport <sport>} and summoned the field; the want_judge
-; think holds the standing {@self judge_meet} goal off that record (sporting_event_think.hs).
-; Each racer's race_act mints {?racer race_result <score>} into the organiser as he finishes.
-; This think casts the current top scorer and proposes {@self judge_declare ?winner}, so
-; the proposal tracks the leader as stragglers report; once
-; it wins the auction judge_declare_act declares that racer and clears meet_sport, which
-; (via want_judge) retracts the judge_meet goal.
+; open_meet_act summoned the field; the want_judge think holds the standing
+; {@self judge_meet} goal while any race_result stands unjudged (sporting_event_think.hs).
+; Each racer's race_act mints {?racer race_result <score> <sport>} into the organiser as
+; he finishes (aux = the sport, so the declaration knows which contest it crowns).
+; This think casts the current top scorer and proposes {@self judge_declare ?winner ?sport},
+; so the proposal tracks the leader as stragglers report; once
+; it wins the auction judge_declare_act declares that racer, and meet_judged clears the
+; scoreboard, which (via want_judge) retracts the judge_meet goal.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
@@ -19,23 +20,26 @@
 (npc-think sporting_judge
   (goal {@self judge_meet})
   (role ?winner [k human]
-                (believes {?winner race_result ?})
+                (believes {?winner race_result ? ?sport})
                 (select (score (target {?winner race_result})) (policy argmax)))
   (utility 40)
-  (effects (maintain-proposal {@self judge_declare ?winner (target {@self meet_sport})})))
+  (effects (maintain-proposal {@self judge_declare ?winner ?sport})))
 
 ; Outcome twin of the declaration: every OTHER racer was positionally
 ; outcompeted -> the observable rivalrous outdo anchor (the loser's own
 ; narcissism scales the sting, in ms1); the scoreboard clears so next year's
-; meet starts clean, and ending meet_sport closes this twin's own gate.
+; meet starts clean, which also closes this twin's own ?r2 gate. The days-since
+; guard scopes the gate to the declaration's own day (an ended /succ declare
+; persists as a memory - without the guard last year's declaration plus this
+; year's first score would fire the twin before this year's winner is declared).
 (npc-think meet_judged
-  (role @self (believes {@self judge_declare ?winner ? /succ})
-              (believes {@self meet_sport ?sport}))
+  (role @self (believes {@self judge_declare ?winner ? /succ}))
+  (role ?r2 (believes {?r2 race_result ?}))
+  (when (< (days-since-last @self judge_declare) 1))
   (effects
     (for-each-present-tense-belief {?r race_result ?}
       (do
         (bind (target {?r race_result}) ?p)
         (if (not (= ?r ?winner))
             (then (incident-anchor ?winner outdo ?r)))
-        (end-belief {?r race_result ?p})))
-    (end-belief {@self meet_sport ?sport})))
+        (end-belief {?r race_result ?p})))))

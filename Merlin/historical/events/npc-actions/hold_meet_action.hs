@@ -9,8 +9,8 @@
 ;
 ;   open_meet_action (organiser): reads his club's SPORT + ROSTER (own documents) and
 ;     SUMMONS each co-present, living roster member - a told fact ({?m summoned_to_meet
-;     <sport> <organiser>}), honest. Records his own {@self meet_sport <sport>}, which the
-;     want_judge think reads to hold the judge goal (sporting_event_think.hs).
+;     <sport> <organiser>}), honest. The ended {@self hold_meet_run} act-belief is the
+;     organiser's own record of the meet (want_judge reads it, sporting_event_think.hs).
 ;   race_action (each competitor): runs from his OWN attrs, mints the result into the
 ;     organiser (race_action.hs).
 ;   judge_meet_action (organiser): argmaxes the winner from the race_result beliefs he
@@ -34,8 +34,6 @@
     (if (is-kind (lookup club_sports org_kind ?club_kind sport))
       (then
         (bind (lookup club_sports org_kind ?club_kind sport) ?sport)
-        ; The organiser's OWN record that a meet is on (the judge think's self-gate).
-        (begin-belief {@self meet_sport ?sport})
         ; Summon every co-present, living roster member: tell them the sport AND who
         ; runs it (aux = @self), so each racer knows whom to report his result to.
         (for-each-doc-record [k employee_register] ?reg (worker ?m)

@@ -473,7 +473,7 @@
   /weight         1.0)
 
 ; seduce goal -> consummate terminal (reciprocal lover beliefs)
-(method seduction
+(method seduce
   /goal-fit       seduce
   /method-aux     _
   /terminal       consummate

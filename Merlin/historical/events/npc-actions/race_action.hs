@@ -26,9 +26,10 @@
                     (* 0.30 (attr @self assertiveness))
                     (* 0.30 (rng-unit)))
                  0 1) ?perf)
-    ; The memory of competing (my own), and the OBSERVABLE result to the organiser.
-    (begin-belief {@self participated_in ?sport})
+    ; The OBSERVABLE result to the organiser (the ended race_run act-belief is
+    ; my own memory of competing); aux carries the sport so the judge's
+    ; declaration knows which contest the score belongs to.
     (if (co-present @self ?judge)
-        (then (begin-belief ?judge {@self race_result ?perf})))
+        (then (begin-belief ?judge {@self race_result ?perf ?sport})))
     (end-belief {@self summoned_to_meet ?sport})
     (set-outcome {@self race_run ?sport ?judge} succ)))

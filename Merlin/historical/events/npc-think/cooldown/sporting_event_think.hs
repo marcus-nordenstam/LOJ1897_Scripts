@@ -39,7 +39,7 @@
               (believes {?club founder @self}))
 
   ; MAINTENANCE: the annual decision OWNS the meet goal end to end. hold_meet_act mints no
-  ; durable done-belief on @self (it records participated_in / won on the co-present MEMBERS),
+  ; durable done-belief on @self (it records won on the co-present winner only),
   ; so the completion gate reads the organiser's OWN episodic meet memory: the {@self
   ; hold_meet_run} act-belief begun-at-commit / ended-at-completion (like gamble's play_game).
   ; While it has been a while since his last meet the standing goal holds; once hold_meet_act
