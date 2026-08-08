@@ -248,6 +248,11 @@ relation
             enroll_child                            (tar human)
             engage_staff                            (tar human)
 
+            # summon         -> the organiser's call to compete: {@self summon <member>
+            #                  /aux <sport>}, told into the member at open_meet (the
+            #                  member's copy is his ticket, read as {?judge summon @self
+            #                  /aux ?sport} and ended when his leg is run).
+            summon                                  (tar human)  (aux ?)
             # hold_meet_run  -> the organiser's on-site marker; promotes open_meet_act
             #                  (summon the field).
             # race_run       -> a summoned competitor's marker; promotes race_act

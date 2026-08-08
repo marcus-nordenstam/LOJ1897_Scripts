@@ -20,7 +20,7 @@
 ;                   ?p marries back in their own mind - the bride at the altar
 ;                   (she heard the vow), or later by gossip.
 ;   attend_host_review : the host, late in his own occasion, closes his
-;                   {@self invited} records. Who came he has SEEN (perception
+;                   {@self invite <guest>} records. Who came he has SEEN (perception
 ;                   covers attendance); a no-show grievance construal off the
 ;                   un-seen invitees is future work (docs/future_work.md).
 ;
@@ -98,7 +98,7 @@
              (attend-in-window ?occ)
              (<= (attend-minutes-left ?occ) 45)))
   (effects
-    ; Bound-aux constraint: only THIS occasion's invited rows walk (bound =
+    ; Bound-aux constraint: only THIS occasion's invite rows walk (bound =
     ; constraint, free = producer).
-    (for-each-present-tense-belief ?belief {@self invited ?guest ?occ}
+    (for-each-present-tense-belief ?belief {@self invite ?guest ?occ}
         (end-belief ?belief))))

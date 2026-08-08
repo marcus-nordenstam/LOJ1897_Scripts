@@ -392,10 +392,10 @@ relation
         #      local occasion object refer to the same gathering.
         #  (b) the per-holder APPOINTMENT beliefs (human subject) the window-start
         #      review scans: {@self organize <occ>} = I am throwing it (host);
-        #      {@self invite <occ> /aux <organizer>} = I was invited (guest), the
-        #      organizer kept in aux for invitation provenance + the no-show
-        #      reaction. Their intervals close when the date passes (the expiry
-        #      sweep) or when something blocks attendance.
+        #      {<host> invite @self /aux <occ>} = I was invited (guest) - ONE
+        #      host-subject relation, two holders. Their intervals close when
+        #      the date passes (the expiry sweep) or when something blocks
+        #      attendance.
         (occasion_agenda)       (+ sub human)
             host                (sub occasion)  (tar human)
             venue               (sub occasion)  (tar building|space)
@@ -405,11 +405,12 @@ relation
             held_on             (sub occasion)  (tar ?)
             hours               (sub occasion)  (tar ?)  (aux ?)
             organize            (tar occasion)
-            invite              (tar occasion)  (aux human)
-            # invited: the HOST-side record of whom they invited - {@self invited
-            # <guest> /aux <occ>}. The no-show reaction (Item 6) reads it to find
-            # who held an invitation but never appeared.
-            invited             (tar human)  (aux occasion)
+            # invite: {<host> invite <guest> /aux <occ>}. The host records it as
+            # he posts the letters (attend_host_review / the no-show walk read
+            # his own rows); the guest is TOLD the same host-subject belief at
+            # delivery and reads his appointments as {?host invite @self /aux
+            # ?occ} (review_appointments).
+            invite              (tar human)  (aux occasion)
 
         # Competence - the domains an NPC is practically skilled in. Targets a
         # `domain` kind (Concepts.mon): the academic_field disciplines (classics,
@@ -443,14 +444,12 @@ relation
             # Club-meet mechanics (sporting_event / hold_meet POV lane). The
             # competitor's participation memory is his own ended race_run
             # act-belief; the organiser's meet record is his ended
-            # hold_meet_run act-belief - neither needs a state here.
-            # summoned_to_meet: a member the organiser called to compete (tar = the
-            # sport; aux = the organiser who runs it, so the racer knows who to
-            # report to). race_result: a competitor's self-simulated performance
+            # hold_meet_run act-belief; the call to compete is the told
+            # organiser-subject `summon` act (Tasks.mon) - none needs a state
+            # here. race_result: a competitor's self-simulated performance
             # (tar = a 0..1 score; aux = the sport it was scored in), minted into
             # the co-present organiser, who argmaxes the winner from the ones he
             # holds.
-            summoned_to_meet    (tar ?)  (aux human)
             race_result         (tar ?)  (aux ?)
 
         # Zero-sum outcome records. NOT tasks - act-RECORDS minted by

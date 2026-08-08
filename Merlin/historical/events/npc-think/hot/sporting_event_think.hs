@@ -62,11 +62,12 @@
   (cease-effects (end-goal   {@self judge_meet})))
 
 ; --- the COMPETITOR's terminal: a summoned member proposes his own race act --------
-; open_meet_act told this member {@self summoned_to_meet <sport> <organiser>}; while
-; that summons stands he PROPOSES the {@self race_run} act each env-cycle (race_act
-; drains it and ends the summons, so the propose stops once his leg is run). Utility above
-; routine so the obligation to compete pulls him off idler errands for the one run.
+; open_meet_act told this member {?judge summon @self /aux ?sport}; while that
+; ticket stands he PROPOSES the {@self race_run} act each env-cycle (race_act
+; drains it and ends his copy of the summons, so the propose stops once his leg
+; is run). Utility above routine so the obligation to compete pulls him off
+; idler errands for the one run.
 (npc-think compete
-  (role @self (believes {@self summoned_to_meet ?sport ?judge}))
+  (role ?judge (believes {?judge summon @self ?sport}))
   (utility 45)
   (effects (maintain-proposal {@self race_run ?sport ?judge})))

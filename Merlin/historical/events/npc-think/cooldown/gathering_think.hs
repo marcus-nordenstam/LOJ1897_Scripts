@@ -14,7 +14,7 @@
 ;                           every guest in the host's circle (Item 3). Each guest
 ;                           reads it at their next think (read_pending_invitations),
 ;                           reconstructs their OWN local occasion object, and holds
-;                           {@self invite <occ> /aux <host>}.
+;                           the told copy of the host's own {<host> invite @self /aux <occ>}.
 ;
 ;   review_appointments   : the monthly appointment scan EVERY grown NPC runs.
 ;                           It closes appointments whose date has passed and emits

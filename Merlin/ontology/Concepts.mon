@@ -535,8 +535,8 @@ concept
     # with {<occ> host <human>} / {<occ> venue <building>} / {<occ> date <date>} /
     # {<occ> hours <start> /aux <end>} (States.mon). The constitutive identity pair
     # is {host, date} (a host throws at most one thing per date). The appointment
-    # beliefs that carry it are {@self organize <occ>} (host) and {@self invite
-    # <occ> /aux <organizer>} (guest).
+    # beliefs that carry it are {@self organize <occ>} (host) and the told copy
+    # of the host's own {<host> invite @self /aux <occ>} (guest).
     occasion
         dinner_party
         wedding

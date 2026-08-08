@@ -8,8 +8,8 @@
 ; organiser), which the organiser reads from his OWN mind to declare the winner.
 ;
 ;   open_meet_action (organiser): reads his club's SPORT + ROSTER (own documents) and
-;     SUMMONS each co-present, living roster member - a told fact ({?m summoned_to_meet
-;     <sport> <organiser>}), honest. The ended {@self hold_meet_run} act-belief is the
+;     SUMMONS each co-present, living roster member - the organiser-subject told fact
+;     ({@self summon <member> /aux <sport>}, held by both). The ended {@self hold_meet_run} act-belief is the
 ;     organiser's own record of the meet (want_judge reads it, sporting_event_think.hs).
 ;   race_action (each competitor): runs from his OWN attrs, mints the result into the
 ;     organiser (race_action.hs).
@@ -34,11 +34,14 @@
     (if (is-kind (lookup club_sports org_kind ?club_kind sport))
       (then
         (bind (lookup club_sports org_kind ?club_kind sport) ?sport)
-        ; Summon every co-present, living roster member: tell them the sport AND who
-        ; runs it (aux = @self), so each racer knows whom to report his result to.
+        ; Summon every co-present, living roster member: the organiser-subject
+        ; summon act carries the sport in aux, told into the member (his ticket,
+        ; naming whom to report to) and kept by the organiser (his own record of
+        ; whom he called).
         (for-each-doc-record [k employee_register] ?reg (worker ?m)
           (if (and (alive ?m) (co-present @self ?m))
-              (then (begin-belief ?m {?m summoned_to_meet ?sport @self}))))))
+              (then (begin-belief ?m {@self summon ?m ?sport})
+                    (begin-belief {@self summon ?m ?sport}))))))
     (set-outcome {@self hold_meet_run} succ)))
 
 ; The organiser declares the winner (act_body_purification: the DUMB act). The winner

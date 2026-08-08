@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; race (npc-ACT lane) - a summoned competitor's leg of the club meet. The routing
 ; think (sporting_event_think.hs `compete`) latched {@self race_run} off the
-; {@self summoned_to_meet <sport> <organiser>} the organiser told him; this body runs
+; {<organiser> summon @self /aux <sport>} ticket the organiser told him; this body runs
 ; the contest FROM HIS OWN attributes and reports the outcome.
 ;
 ; PERFORMANCE is a pure self-read: his own strength / endurance / assertiveness plus
@@ -31,5 +31,5 @@
     ; declaration knows which contest the score belongs to.
     (if (co-present @self ?judge)
         (then (begin-belief ?judge {@self race_result ?perf ?sport})))
-    (end-belief {@self summoned_to_meet ?sport})
+    (end-belief {?judge summon @self ?sport})
     (set-outcome {@self race_run ?sport ?judge} succ)))
