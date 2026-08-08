@@ -14,7 +14,7 @@
 ;   race_action (each competitor): runs from his OWN attrs, mints the result into the
 ;     organiser (race_action.hs).
 ;   judge_meet_action (organiser): argmaxes the winner from the race_result beliefs he
-;     holds, mints {winner won <sport>}, and anchors {winner outdo <loser>} for every
+;     holds, mints {winner win <sport>}, and anchors {winner outdo <loser>} for every
 ;     other racer (a real positional outcome). The GRUDGE is appraisal-native: the
 ;     rivalrous_act ms1 reaction folds each loser's OWN narcissism, so the proud loser
 ;     nurses it and the placid one shrugs - computed in the loser's mind, not here.
@@ -54,7 +54,7 @@
   (duration 30)
   (effects
     ; The victor takes the honours (minted into HIS mind - he was there, he is told).
-    (begin-belief ?winner {?winner won ?sport})
+    (begin-belief ?winner {?winner win ?sport})
     ; (the outdo anchors + scoreboard clearing are the meet_judged twin's -
     ;  sporting_judge_think.hs - off this declaration's /succ record.)
     (set-outcome {@self judge_declare} succ)))

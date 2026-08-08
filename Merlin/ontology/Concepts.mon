@@ -245,7 +245,7 @@ concept
             garrotting
         # Physical recreation (the `sports` interest). NOT the standalone
         # `sport` competition-discipline enum below (cricket / rowing / ...),
-        # which is the achievement target of the won achievement belief.
+        # which is the achievement target of the win achievement belief.
         athletics
             sports
         # Topical interests one holds without practising a skill.
@@ -499,7 +499,7 @@ concept
     # avocation, suffrage -> civic. Still seeded as hereditary self-beliefs in
     # mx_make_human and grown / shed by interest_acquired / interest_lost.
 
-    # Competitive sports - the target of the won achievement
+    # Competitive sports - the target of the win achievement
     # belief (States.mon), written by the sporting_event hsim event. A `sport`
     # is the competition discipline; distinct from the `sports` interest above.
     sport
@@ -562,18 +562,6 @@ concept
         home_tenure     (tar human|org @excl)
         houseguest
         renting
-
-    # An application's review status. The labour market (job_search_think.hs /
-    # recruit_think.hs) rides ENTIRELY on this one state, held on the physical
-    # `application` document (Objects.mon): applied (the seeker submits) -> offered |
-    # rejected (the recruiter's reply letter) -> accepted (the seeker returns). @excl:
-    # each outcome supersedes the last. `examined` is the generic inspection status.
-    status              (tar @excl)
-        examined
-        applied
-        offered
-        rejected
-        accepted
 
     capacity            (tar ? @excl)
         pub_patron
@@ -1137,11 +1125,6 @@ concept
     item                (obs) (tar object)
     view                (obs) (sub human)  (tar @excl object)
 
-    # Gestation: {?woman pregnant ?father}. Private physiological state (no
-    # disclosure - not gossiped), ended at delivery by the update_physiology
-    # gestation timer; gates re-conception while carried.
-    pregnant            (sub human) (tar human @excl)
-
     # Kinship and social bonds - subject and target are both human. //noun
     # makes every role explicitly a noun, so the bond decorations below
     # (relation flags) do not trip define()'s noun-vs-relation inference.
@@ -1186,9 +1169,6 @@ concept
         friend          (inclusive_bond)  (disclosure acquaintance)
         acquaintance    (inclusive_bond)  (disclosure acquaintance)
         neighbour       (inclusive_bond)  (disclosure acquaintance)
-        close_to  (disclosure close_friend)
-        relied_on_by
-        respected_by
         enemy           (inclusive_bond)
         # The per-mind handle for "whoever killed X": {?dead killer ?o},
         # where ?o is each mind's own imagined unknown-culprit object
@@ -1223,9 +1203,10 @@ concept
 
     birthplace          (sub human)  (tar structure @excl)  (disclosure acquaintance)
 
-    # Vocational / educational / societal states (subject is a human).
+    # Residential / venue knowledge and the apprenticeship bond (subject is a
+    # human). The verb-shaped vocational relations (retire / carrying_loot /
+    # since / duty_to / duty_holder / study / schooling) live in States.mon.
     vocational_state    (+ sub human)
-        retire              (tar ? @excl)
         home                (tar structure @excl)  (disclosure acquaintance)
         # WHERE the NPC believes provisions are sold - the shop they buy food
         # at. Per-mind venue knowledge, learned honestly (the public register
@@ -1241,42 +1222,12 @@ concept
         # disambiguate with the full path `[k interior_space hiding_spot]` /
         # mx_resolve_kind_id("interior_space hiding_spot"). Inclusive.
         hiding_spot         (tar interior_space)
-        # carrying_loot: the thief's transient "I hold stolen ?item, to stow it"
-        # self-state. Minted by the theft act (steal), read by want_stow which OWNS
-        # the {@self stow ?item} goal, ended by stow_act when the loot is put away.
-        # DEFINED so it PERSISTS the carry-home journey (an undefined /obs label is
-        # disproved by self-perception every cycle).
-        carrying_loot       (tar ?)
         # Work life-cycle. The position is the job OBJECT ({@self job ?j}); its org,
         # wage, seniority and start-date are decorations ON that object ({?j org ?},
         # {?j salary ?}, {?j level ?}, {?j since <year>}) - there is no separate `employer`
         # relation. master is the person a youth apprentices under - a mentorship bond
         # held on the apprentice ({@self master <person>}), not a job-object decoration.
         master              (sub human)  (noun) (tar human @excl)
-        # since: the year the job was taken up, held on the job object ({?j since <year>}).
-        # Drives tenure for the duty-assignment seniority comparison. Stamped at hire.
-        since               (sub org_pos)  (tar ? @excl)
-        # DUTIES (capability-based org dispatch). A duty is an obligation TO a party of a
-        # given kind. duty_to is the FULFILLMENT belief (behaviour role-casts on it and
-        # fire-binds the party): (role @self (believes {@self duty_to ?org [k <duty>]})).
-        # duty_holder is the org-side MIRROR (the assigner's ledger-derived knowledge of
-        # who holds each duty). Both non-exclusive. Assignment (which job-holder gets which
-        # duty) is authored in .hs over the org's employee-register document + its `duties`
-        # list; behaviour NEVER dispatches on job kind or rank - only on the held duty.
-        duty_to             (sub human)      (tar human|org)  (aux duty)
-        duty_holder         (sub human|org)  (tar human)      (aux duty)
-        # The LABOUR MARKET is modeled on the physical `application` document and its
-        # single `status` state (Concepts.mon status; the `submit` verb, States.mon).
-        # A seeker submits an application (status applied); the recruiter's reply letter
-        # sets offered | rejected; acceptance sets accepted. "Employed" is not a state -
-        # it is the presence of an ongoing {@self job ?} carrying a salary.
-        # Education life-cycle. study names the field a pupil reads and the
-        # school they read it at; schooling is the schooling-level outcome
-        # left behind when the pupil leaves. A graduate's credential is the
-        # `diploma` document noun (Objects.mon) - already a state, so no
-        # diploma relation is declared here.
-        study               (tar @excl academic_field)    (aux org)
-        schooling           (tar ? @excl)
 
     # Property holdings: a holder's owned buildings and land are recorded as
     # repeated singular {holder building <building>} / {holder land <land>}
@@ -1294,12 +1245,6 @@ concept
         employee            (tar human)
         vacancy             (tar job)
         record              (tar document @excl)
-
-    # Document -> org back-link: the inverse of org_state's `record`. Lets any
-    # mind reconstruct its own per-mind org object from the stable
-    # articles_of_incorporation env anchor, via
-    # mx_imagine_or_recall(orgkind, mx_observe(articles), "declares_org").
-    declares_org        (sub document)  (tar org @excl)
 
     # Building -> tenant link: the queryable form of a lease, whose contract
     # records are the private lease_agreement documents kept at both parties'

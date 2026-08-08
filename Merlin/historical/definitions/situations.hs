@@ -16,14 +16,14 @@
 ; ---- dimension tuning ------------------------------------------------------
 ; Scalars feeding the wealth / prestige / breeding classifiers.
 ; unemployed-* are the no-job floors; creditor-wealth-penalty is the wealth
-; lost per outstanding `owe`; won-prestige-* the capped bonus per sporting
+; lost per outstanding `owe`; win-prestige-* the capped bonus per sporting
 ; victory. breeding is a seeded belief with no derived fallback.
 (dimension-tuning
   /unemployed-wealth        30
   /creditor-wealth-penalty  15
   /unemployed-prestige      15
-  /won-prestige-bonus        4
-  /won-prestige-cap         20)
+  /win-prestige-bonus        4
+  /win-prestige-cap         20)
 
 ; ---- rank curves -----------------------------------------------------------
 ; Six values each, indexed by job rank 0..5 (trainee apprentice junior

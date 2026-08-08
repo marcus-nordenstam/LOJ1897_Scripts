@@ -55,19 +55,11 @@ relation
 
         expect_answer           (sub human)           (tar ?)
         expect_question         (sub human)           (tar ?)
-        talk_to                 (sub human)
 
         # meet: an arranged meeting between two people; the aux carries the
         # venue. A tryst_note's writing quotes it ({author meet recipient
         # /aux <hotel>}) - the paper that names the place.
         meet                    (sub human)           (tar human)  (aux ?)
-
-        # mention: the subject has SPOKEN OF the target concept - a
-        # witnessed remark, not an enacted state. {<despairing> mention
-        # [k death_cause suicide]} held in a confidant's mind is the
-        # suicidal-ideation testimony minted when the suicide branch is
-        # deliberated (the valet-testimony half of the Not-Proven engine).
-        mention                 (sub human)           (tar ?)
 
         # extort: the STANDING coercion - the subject presses an unmet
         # demand on the target; aux carries the demand clause ({target
@@ -277,6 +269,15 @@ relation
             violent_to          (tar human)
             thief_to            (tar human)
             coercive_to         (tar human)
+            # mention: the spoken-of-topic gist - the subject has SPOKEN OF the
+            # target concept, a witnessed remark distilled to its topic (not an
+            # enacted state). {<despairing> mention [k death_cause suicide]}
+            # held in a confidant's mind is the suicidal-ideation testimony
+            # minted when the suicide branch is deliberated (the
+            # valet-testimony half of the Not-Proven engine). A real
+            # confide/say replaces it when hsim deliberation composes
+            # utterances.
+            mention             (tar ?)
 
         # Social predicate states. The noun-form social roles (mother,
         # friend, spouse, ...) are noun-states declared in Concepts.mon.
@@ -360,9 +361,11 @@ relation
             # Tasks.mon ({@self dwell <home>} / {@self work <org>}).
             # backed_by: an investor who has put up founding capital for this
             # NPC's venture (the investment event). Subject is the backed
-            # party, target the investor. Non-exclusive - a venture may have
-            # several backers.
-            backed_by           (tar human)  (disclosure acquaintance)
+            # party, target the investor - a patron (human) or an investment
+            # firm (org): invest_errand seals an org target, patronage a
+            # human one. Non-exclusive - a venture may have several backers.
+            # A non-passive rename is an open ruling.
+            backed_by           (tar human|org)  (disclosure acquaintance)
             # captor_of: {captor captor_of victim} - kidnap-in-progress
             # relationship. Ended by release / escape / mortality.
             captor_of           (tar human)
@@ -435,11 +438,58 @@ relation
             # desperation gate is for_hire) and the soldier identity.
             serve               (tar military_rank)
 
+        # Non-kin social bonds (relocated from the concept tree - they are
+        # relations, not nouns, and nothing queried their old is-a
+        # `relationship` position). close_to is the confidant tie the
+        # disclosure bands / voice disposition read; relied_on_by /
+        # respected_by are dormant utility bonds (matchable vocabulary, no
+        # current producer); renaming the passive forms is an open ruling.
+        (bond)                  (+ sub human)
+            close_to            (tar human)  (disclosure close_friend)
+            relied_on_by        (tar human)
+            respected_by        (tar human)
+
+        # Vocational / educational states (relocated from the concept tree -
+        # relations, not nouns).
+        (vocational)            (+ sub human)
+            retire              (tar ? @excl)
+            # carrying_loot: the thief's transient "I hold stolen ?item, to stow it"
+            # self-state. Minted by the theft act (steal), read by want_stow which OWNS
+            # the {@self stow ?item} goal, ended by stow_act when the loot is put away.
+            # DEFINED so it PERSISTS the carry-home journey (an undefined /obs label is
+            # disproved by self-perception every cycle).
+            carrying_loot       (tar ?)
+            # since: the year the job was taken up, held on the job object ({?j since <year>}).
+            # Drives tenure for the duty-assignment seniority comparison. Stamped at hire.
+            since               (sub org_pos)  (tar ? @excl)
+            # DUTIES (capability-based org dispatch). A duty is an obligation TO a party of a
+            # given kind. duty_to is the FULFILLMENT belief (behaviour role-casts on it and
+            # fire-binds the party): (role @self (believes {@self duty_to ?org [k <duty>]})).
+            # duty_holder is the org-side MIRROR (the assigner's ledger-derived knowledge of
+            # who holds each duty). Both non-exclusive. Assignment (which job-holder gets which
+            # duty) is authored in .hs over the org's employee-register document + its `duties`
+            # list; behaviour NEVER dispatches on job kind or rank - only on the held duty.
+            duty_to             (sub human)      (tar human|org)  (aux duty)
+            duty_holder         (sub human|org)  (tar human)      (aux duty)
+            # Education life-cycle. study names the field a pupil reads and the
+            # school they read it at ({@self study <field> /aux <school>});
+            # schooling is the schooling-level outcome left behind when the
+            # pupil leaves. A graduate's credential is the `diploma` document
+            # noun (Objects.mon) - already a state, so no diploma relation is
+            # declared here. `study` shares its NAME with the `study` room
+            # kind (Spaces.mon); kind references disambiguate with the full
+            # path (the hiding_spot precedent, Concepts.mon).
+            study               (tar @excl academic_field)    (aux org)
+            schooling           (tar ? @excl)
+
         # Achievements - sporting / competitive participation and victories.
         # Targets stay unconstrained until the Phase 6 sports events pin the
         # event / trophy kinds. Non-exclusive: a life accumulates many.
         (achievement)           (+ sub human)
-            won                 (tar ?)
+            # win: an achievement you HAVE (conferred by the judge's
+            # declaration, not performed) - hence a state, not an act; the
+            # past victory reads through the interval tense.
+            win                 (tar ?)
             # Club-meet mechanics (sporting_event / hold_meet POV lane). The
             # competitor's participation memory is his own ended race_run
             # act-belief; the organiser's meet record is his ended
@@ -623,6 +673,17 @@ relation
         # starvation-tail lanes gate on a CACHED self-belief instead of
         # re-reading the hunger attr per deliberation. Label-only self state.
         starve                  (sub human)
+
+        # Gestation: {?woman pregnant ?father}. Private physiological state (no
+        # disclosure - not gossiped), ended at delivery by the update_physiology
+        # gestation timer; gates re-conception while carried.
+        pregnant                (sub human)  (tar human @excl)
+
+        # Document -> org back-link: the inverse of org_state's `record`
+        # (Concepts.mon). Lets any mind reconstruct its own per-mind org
+        # object from the stable articles_of_incorporation env anchor, via
+        # mx_imagine_or_recall(orgkind, mx_observe(articles), "declares_org").
+        declares_org            (sub document)  (tar org @excl)
 
         # household_cook - @self is THE cook of <home> (one per household,
         # elected via the home's public-bb `cook` marker; provisioning_think).

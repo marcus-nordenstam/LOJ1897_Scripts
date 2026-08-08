@@ -97,10 +97,6 @@ relation
             # shared actions (enter / read / say_to) + the clerical write family.
             # seek_work: the job hunt, itself the standing goal want_work mints while
             #   the seeker holds no salaried job.
-            # apply: pursue one advert (target = the advert doc): go to its workplace
-            #   and leave an application there.
-            # take_up_post: the offered seeker returns, accepts, reads the wage book
-            #   (target = his application).
             # recruiting: the recruit_staff duty-holder's standing recruitment
             # (target = the org; `recruit` is the accomplice-recruitment act);
             # advertise is its board-posting subtask. (Mail reading needs no
@@ -227,6 +223,10 @@ relation
 
             identify                                (tar object)
             get_acquainted_with                       (tar human)
+            # talk_to - the conversation task (isim: talk.ms2 / pubbing.ms2 /
+            # bartending.ms2 implement it). hsim reads the ended acts as the
+            # contact bond (social_macros).
+            talk_to                                 (tar human)
             seek_answers
             marry
             # Great-split (Item 5) goal-action labels - the npc-think mints
