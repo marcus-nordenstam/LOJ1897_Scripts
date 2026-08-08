@@ -35,13 +35,14 @@
       (then
         (bind (lookup club_sports org_kind ?club_kind sport) ?sport)
         ; Summon every co-present, living roster member: the organiser-subject
-        ; summon act carries the sport in aux, told into the member (his ticket,
-        ; naming whom to report to) and kept by the organiser (his own record of
-        ; whom he called).
+        ; summon act carries the sport in aux, told into the member (his
+        ; standing ticket, naming whom to report to; race_act ends his copy)
+        ; and recorded born-ended by the organiser (the call is an instant
+        ; act - the ended belief is his own record of whom he called).
         (for-each-doc-record [k employee_register] ?reg (worker ?m)
           (if (and (alive ?m) (co-present @self ?m))
               (then (begin-belief ?m {@self summon ?m ?sport})
-                    (begin-belief {@self summon ?m ?sport}))))))
+                    (begin-ended-belief {@self summon ?m ?sport}))))))
     (set-outcome {@self hold_meet_run} succ)))
 
 ; The organiser declares the winner (act_body_purification: the DUMB act). The winner
