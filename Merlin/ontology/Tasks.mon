@@ -503,8 +503,10 @@ relation
             bribe               (motor right_hand mouth)        (tar human)  (aux ?)     (facets reportable_crime)
             defraud                                             (tar human)              (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)  (facets reportable_crime blackmailable)
             embezzle                                            (tar human|org)          (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)  (facets reportable_crime blackmailable)
-            # disinherit - testamentary act; effect ends the target's
-            # heir_of belief. The dropped heir feels abandonment.
+            # disinherit - testamentary act; ruled effect: end the target's
+            # future-tense `inherit` prospect for the named thing (or all,
+            # for total disinheritance) once engine future-interval support
+            # lands. The dropped heir feels abandonment.
             disinherit          (motor eyes right_hand)         (tar human)              (construed_act abandonment_act wrong_act)  (abduct)
             # jilt - the chosen ending of a lover bond (the jilter breaks
             # with the jilted, typically for a class-suitable betrothal).

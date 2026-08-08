@@ -7,14 +7,11 @@
 ; alts below, one deduped pass, via the /their-mind for-each - the sanctioned
 ; director read of the SUBJECT's own mind, not @self's beliefs about them) and,
 ; for each survivor:
-;   - checks the heir prospect FIRST ({?svr heir_of ?dead}, read before the
-;     end-all wipes it),
 ;   - interval-ends EVERY belief the survivor holds about the deceased at
 ;     UNFORGETTABLE salience ("X WAS my spouse" survives for life; the default
 ;     salience would wipe the memory on the next sleep sweep),
 ;   - asserts the fresh ongoing {?dead condition [k dead]} belief (its
-;     interval-start IS the death time; "alive" is its absence),
-;   - converts a held heir prospect to the realised {?svr inherit _ ?dead}.
+;     interval-start IS the death time; "alive" is its absence).
 ; Then the engine atomics settle the world: goals nesting the deceased retire
 ; across all minds, a vacated leadership post backfills, the roster entry drops,
 ; the estate passes, and (die) marks the corpse (condition attr + mind status).
@@ -33,10 +30,8 @@
   (do
     (for-each-present-tense-belief {?dead mother|father|parent|sibling|half_sibling|brother|sister|child|grandmother|grandfather|grandparent|grandchild|aunt|uncle|niece|nephew|cousin|mother_in_law|father_in_law|parent_in_law|sister_in_law|brother_in_law|sibling_in_law|daughter_in_law|son_in_law|child_in_law|stepmother|stepfather|stepchild|spouse|fiancee|friend|lover|acquaintance|neighbour|enemy ?svr /their-mind}
       (do
-        (bind (believes ?svr {?svr heir_of ?dead}) ?was_heir)
         (end-beliefs-about ?svr ?dead /salience unforgettable /reason died)
-        (begin-belief-in ?svr {?dead condition [k dead]})
-        (if ?was_heir (then (begin-belief-in ?svr {?svr inherit _ ?dead})))))
+        (begin-belief-in ?svr {?dead condition [k dead]})))
     (end-goals-nesting ?dead)
     (promote-on-vacancy ?dead)
     (fire /worker ?dead)

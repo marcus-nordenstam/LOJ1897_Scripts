@@ -388,7 +388,10 @@ object (+ obs)
             lease_agreement
             # Testamentary document; writing encodes the testator's
             # goal beliefs about disinheritance / inheritance / expose.
-            # Death-trigger reads it to convert heir_of -> inherit.
+            # Ruled model: writings encode the heirs' bequest prospects
+            # (future-tense `inherit` per object, States.mon) once engine
+            # future-interval support lands; the death-trigger estate
+            # settlement then realises them per thing.
             will
     # consumable (the drink leaves below + the food taxonomy): knowledge
     # about a consumable is EPISODIC even while ongoing - a mind does not
