@@ -21,8 +21,11 @@
 ; tie label in BOTH places.
 ; ----------------------------------------------------------------------------
 
+; /ever: "has ever met / related to" - an ended tie still means you KNOW the
+; person (an ex-lover, a dead parent), and talk_to is a TASK (Tasks.mon), so
+; the contact evidence is the ENDED talk acts, not a running conversation.
 (define-macro personally-knows (?who ?other)
-  (believes {?who friend|acquaintance|spouse|lover|mother|father|sibling|child|talk_to ?other}))
+  (believes {?who friend|acquaintance|spouse|lover|mother|father|sibling|child|talk_to ?other /ever}))
 
 ; (spouse-of ?p): who @self believes ?p is married to. The old C++ op read ?p's
 ; OWN mind (telepathy - you cannot see another's private spouse belief); this
