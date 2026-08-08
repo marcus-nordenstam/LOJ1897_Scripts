@@ -109,7 +109,7 @@ relation
         # a state here. Dedups advertising; gates the take-down. The hiring officer needs no
         # `offering` state: gather_applications resolves the whole inbox in ONE sweep act
         # (offer the top applicant, reject the rest, destroy every application).
-        post                    (sub human)           (tar job_description)  (aux org)
+        post                    (sub human)           (tar job_description)  (aux org @excl)
 
         # Household mealtimes - the COOK's authority (tell-only comms plan,
         # ruling 11): {<home> breakfast_hour 6} / {<home> lunch_hour 12} /

@@ -143,7 +143,10 @@
 
 ; --- the filled posting comes off the board -------------------------------------
 (npc-think take_down_filled
-  (role @self (believes {@self post ?ad ?org}))
+  ; ?ad ENUMERATED: an officer can hold several posted adverts at once, and a
+  ; single @self bind would take the first post found and only ever test THAT
+  ; ad's org - a filled org behind the second ad would never come down.
+  (role ?ad (believes {@self post ?ad ?org}))
   (when (and (believes {?org record ?art})
              (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
              (>= (count-doc-records [k employee_register] ?reg)
@@ -152,6 +155,8 @@
   (effects (maintain-proposal {@self take_down ?ad})))
 
 (npc-think take_down_done
-  (role @self (believes {@self post ?ad ?org}))
+  ; ?ad ENUMERATED for the same reason as take_down_filled: the concluded
+  ; take_down must clear ITS OWN post, not whichever post binds first.
+  (role ?ad (believes {@self post ?ad ?org}))
   (when (believes {@self take_down ?ad /succ}))
   (effects (end-belief {@self post ?ad ?org})))
