@@ -24,18 +24,18 @@
     (crime-ledger-append @self ?victim offer_bribe bribe @fail @fail)))
 
 ; harm_non_lethal terminal (hurt goal): the mint-only shape PLUS a non-lethal wound.
-; The band-5 act anchor {@self beating <victim>} (beating is the hurt method), a
+; The band-5 act anchor {@self beat <victim>} (beat is the hurt method), a
 ; bruise on the victim's torso (the eyewitnessable injury), the pressure discharged,
-; the goal ended, the crime-ledger row (task beating, goal hurt). Bare-handed, so no
+; the goal ended, the crime-ledger row (task beat, goal hurt). Bare-handed, so no
 ; instrument / stain. A hurt goal is a reactive-kill DISPLACED onto a weaker innocent
 ; (resolve-deliberation), so the driving pressure is the original grievance.
 (define-macro terminal-harm-non-lethal (?victim ?goal)
   (do
-    (begin-ended-belief {@self beating ?victim})
+    (begin-ended-belief {@self beat ?victim})
     (yield-evidence @self ?victim torso bruise)
     (discharge-pressure (caused-by ?goal {@self pressure ?}) 0.75)
     (end-goal {@self hurt})
-    (crime-ledger-append @self ?victim beating hurt @fail @fail)))
+    (crime-ledger-append @self ?victim beat hurt @fail @fail)))
 
 ; plant_evidence terminal (frame goal): mint-only PLUS the fabricated evidence
 ; planted ON the framed (innocent) party. The act anchor {@self plant_evidence

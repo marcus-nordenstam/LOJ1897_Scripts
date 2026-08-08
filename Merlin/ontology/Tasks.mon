@@ -610,7 +610,7 @@ relation
             # report_to_police: the report_crime goal's leaf - writing and
             # delivering a crime_report letter to the police station.
             report_to_police    (motor eyes right_hand legs)    (tar ?)  (aux ?)         (construed_act honour_act)
-            beating             (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+            beat                (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
             offer_bribe         (motor right_hand mouth)        (tar human)  (aux ?)     (facets blackmailable)
             plant_evidence      (motor right_hand)              (tar human)  (aux ?)     (construed_act harm_act betray_act wrong_act)  (facets reportable_crime blackmailable)
             seduction           (motor mouth legs body)         (tar human)              (construed_act intimacy_act)

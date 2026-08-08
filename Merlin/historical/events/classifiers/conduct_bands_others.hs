@@ -16,24 +16,24 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_others_conduct
-  ; Per-observer: re-bands a tracked ?other from the impressions @self holds of them (seems /
+  ; Per-observer: re-bands a tracked ?other from the impressions @self holds of them (seem /
   ; the held-lax bands). The mint-band hysteresis makes a same-band value a no-op.
   (rng-stream behaviour)
 
-  (role ?other (or (believes {?other seems ?})
+  (role ?other (or (believes {?other seem ?})
                    (believes {?other honesty    [k conduct_level lax]})
                    (believes {?other generosity [k conduct_level lax]})
                    (believes {?other sobriety   [k conduct_level lax]})))
 
   (effects
     (mint-band-about {?other honesty}
-      (clamp (+ (believes {?other seems [k impression callous]})
-                (believes {?other seems [k impression selfish]})) 0 1)
+      (clamp (+ (believes {?other seem [k impression callous]})
+                (believes {?other seem [k impression selfish]})) 0 1)
       [k conduct_level lax] 0.5)
     (mint-band-about {?other generosity}
-      (clamp (+ (believes {?other seems [k impression callous]})
-                (believes {?other seems [k impression selfish]})) 0 1)
+      (clamp (+ (believes {?other seem [k impression callous]})
+                (believes {?other seem [k impression selfish]})) 0 1)
       [k conduct_level lax] 0.5)
     (mint-band-about {?other sobriety}
-      (believes {?other seems [k impression hot_tempered]})
+      (believes {?other seem [k impression hot_tempered]})
       [k conduct_level lax] 0.5)))

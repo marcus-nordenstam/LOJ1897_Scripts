@@ -270,23 +270,23 @@
 
 ; THE STARVING WATCH - the physiology->belief seam. Hunger is an ATTR (no belief
 ; seam, so no cached gate can key on it directly); this pair maintains the
-; {@self starving} marker belief AT the crossing, so every tail lane below keys
+; {@self starve} marker belief AT the crossing, so every tail lane below keys
 ; on the CACHED self-gate instead of re-reading the attr per deliberation. The
 ; watch itself is the only per-deliberation hunger read left (one attr read,
 ; gated to the not-yet-starving); the marker ends at the same threshold once
 ; a meal brings hunger back under. The tails keep the live hunger conjunct as
 ; the freshness check - it now only ever runs for the starving few.
 (npc-think starving_watch
-  (role @self (not (believes {@self starving})))
+  (role @self (not (believes {@self starve})))
   (when (> (attr @self appetite) 1.3))
   (effects
-    (begin-belief {@self starving})))
+    (begin-belief {@self starve})))
 
 (npc-think starving_watch_end
-  (role @self (believes {@self starving}))
+  (role @self (believes {@self starve}))
   (when (not (> (attr @self appetite) 1.3)))
   (effects
-    (end-belief {@self starving})))
+    (end-belief {@self starve})))
 
 ; The four food-source DESIRES all push the same convex drive onto one {@self forage}
 ; goal (the source is chosen by branch ORDER in forage_act, not by competing utility):
@@ -296,7 +296,7 @@
 ; Eat what you carry: the laden cook (or laden thief) whose FIRST standing stow
 ; goal is a food item.
 (npc-think starving_eat_carried
-  (role @self (believes {@self starving}))
+  (role @self (believes {@self starve}))
   (when (and (> (attr @self appetite) 1.3)
              (control [k food])))
   (utility (homeostatic appetite 2.0 70))
@@ -304,7 +304,7 @@
   (cease-effects (end-goal   {@self forage})))
 
 (npc-think starving_pantry
-  (role @self (believes {@self starving}))
+  (role @self (believes {@self starve}))
   (role ?home (believes {@self home ?home}))
   (when (and (> (attr @self appetite) 1.3)
              (at-home)
@@ -314,7 +314,7 @@
   (cease-effects (end-goal   {@self forage})))
 
 (npc-think starving_go_home
-  (role @self (believes {@self starving}))
+  (role @self (believes {@self starve}))
   (role ?home (believes {@self home ?home}))
   (when (and (> (attr @self appetite) 1.3)
              (not (at-home))
@@ -325,7 +325,7 @@
 ; Buy: at a shop with wealth, one item eaten on the spot (paid-for in the v1
 ; no-coin sense as provisioning).
 (npc-think starving_buy
-  (role @self (believes {@self starving ?, wealth ?wealth}))
+  (role @self (believes {@self starve ?, wealth ?wealth}))
   (when (and (> (attr @self appetite) 1.3)
              (> ?wealth 0.2)
              (at-place-kind [k building shop])))
@@ -334,7 +334,7 @@
   (cease-effects (end-goal   {@self forage})))
 
 (npc-think starving_buy_go
-  (role @self (believes {@self starving ?, wealth ?wealth}))
+  (role @self (believes {@self starve ?, wealth ?wealth}))
   ; The known provisions_shop is preferred; else a role-cast shop the NPC KNOWS
   ; (nearest, weighted). Replaces the (venue ...) fallback.
   (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
@@ -352,7 +352,7 @@
 ; ledger (the shop owner is the victim). The row lands only when something was
 ; actually eaten - forage_act appends it inside its shop branch.
 (npc-think starving_steal
-  (role @self (believes {@self starving ?, wealth ?wealth}))
+  (role @self (believes {@self starve ?, wealth ?wealth}))
   (when (and (> (attr @self appetite) 1.3)
              (not (> ?wealth 0.2))
              (at-place-kind [k building shop])))
@@ -361,7 +361,7 @@
   (cease-effects (end-goal   {@self forage})))
 
 (npc-think starving_steal_go
-  (role @self (believes {@self starving ?, wealth ?wealth}))
+  (role @self (believes {@self starve ?, wealth ?wealth}))
   (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
   (bind (target {@self provisions_shop ?}) ?shop)
   (when (and (> (attr @self appetite) 1.3)

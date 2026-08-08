@@ -423,7 +423,7 @@
   /weight         1.0)
 
 ; ---- hurt (1) -------------------------------------------------------------
-(method beating
+(method beat
   /goal-fit       hurt
   /yields         bruise
   /method-aux     _

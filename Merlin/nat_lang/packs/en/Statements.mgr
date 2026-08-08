@@ -952,9 +952,9 @@ $form(FORM)
 " $sub_np(NP) $verb(VERB|be) skilled in $kind(KIND|/isa|domain) "
 { $sub_np(NP) /ever skilled_in $kind(KIND|/isa|domain) } .
 
-# --- SERVED (military_rank) --------------------------------------------------
+# --- SERVE (military_rank) ---------------------------------------------------
 " $sub_np(NP) served as a $kind(KIND|/isa|military_rank) "
-{ $sub_np(NP) /past served $kind(KIND|/isa|military_rank) } .
+{ $sub_np(NP) /past serve $kind(KIND|/isa|military_rank) } .
 
 # --- REPUTE (repute band; distinct surface from class/isa) -------------------
 " $sub_np(NP) ++'s reputation is $kind(KIND|/isa|repute) "

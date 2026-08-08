@@ -298,7 +298,7 @@ concept
         # The covert kill: no violent mechanism in the body, so a burial
         # verdict (serial_predation Phase 1) reads the corpse as natural.
         # Written by the poison kill terminal; the divergence between this
-        # body-truth and the village's circumstances_of_death story is the
+        # body-truth and the village's circumstance_of_death story is the
         # detective's case. Named `poisoning` (the manner of death), not
         # `poison`: the bare term is already the kill TASK relation and a
         # noun-state would collide with it.
@@ -339,7 +339,7 @@ concept
 
     # Cause-of-death narrative witnesses form when
     # perceiving a death scene (vs death_cause, the objective cause). Used
-    # in `circumstances_of_death` beliefs that F2 gossip carries
+    # in `circumstance_of_death` beliefs that F2 gossip carries
     # village-wide; the "staged story" emerges from observers agreeing on
     # a particular incident kind. Extensible as new staging shapes are
     # authored.

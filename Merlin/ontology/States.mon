@@ -246,7 +246,7 @@ relation
             dread               (tar human)
             terror              (tar human)
 
-        # seems - the abduced-IMPRESSION relation (abduction v2): an
+        # seem - the abduced-IMPRESSION relation (abduction v2): an
         # observer's perceived-character conclusion about another person,
         # minted by abduce_witnessed_episode when a witnessed episode's
         # emitting gate reads a trait attr mapped by an
@@ -254,7 +254,7 @@ relation
         # definitions/signals.hs. The target is an impression KIND leaf
         # (Concepts.mon). Non-@excl: a person can seem hot_tempered AND
         # cruel - each leaf is an independent conclusion.
-        seems                   (sub human)           (tar impression)
+        seem                    (sub human)           (tar impression)
 
         # Construals are tags, not beliefs. Each construal is one of
         # the construed_act sub-kinds in Concepts.mon (wrong_act,
@@ -367,12 +367,12 @@ relation
             # captor_of: {captor captor_of victim} - kidnap-in-progress
             # relationship. Ended by release / escape / mortality.
             captor_of           (tar human)
-            # circumstances_of_death: {victim circumstances_of_death
+            # circumstance_of_death: {victim circumstance_of_death
             # <incident>} - the cause-of-death narrative witnesses
             # form when perceiving a death scene. F2 gossip carries it
             # village-wide so the staged story crystallizes. @excl -
             # one held narrative per observer per victim.
-            circumstances_of_death  (tar incident @excl)
+            circumstance_of_death  (tar incident @excl)
             # suspect: {victim suspect culprit /aux <act-clause>} - whom
             # the holder believes wronged them, the aux quoting the act
             # suspected of. Minted when filing a crime report whose
@@ -422,17 +422,18 @@ relation
         # own belief.
         (competence)            (+ sub human)
             skilled_in          (tar domain)  (aux ?)
-            # served: military / naval service, a seeded biographical
-            # self-belief ({@self served <rank>}). Tense lives in the
-            # interval: ONGOING = still serving, ENDED = discharged
-            # veteran. The rank is the target (a military_rank kind,
-            # Concepts.mon). Seeded by seed_military_service (alongside the
-            # martial skill the service conferred); the NPC KNOWS it, so
-            # the interrogation / background-query path can answer "were you
-            # in the army?" with the rank. Drives the contract-killing
-            # pool (a discharged or serving soldier with the bad-seed or
+            # serve: military / naval service, a seeded biographical
+            # self-belief ({@self serve <rank>}). Tense lives in the
+            # interval (the interval-tense doctrine): ONGOING = still
+            # serving, ENDED = discharged veteran. The rank is the target
+            # (a military_rank kind, Concepts.mon). Seeded by
+            # seed_military_service (alongside the martial skill the
+            # service conferred); the NPC KNOWS it, so the interrogation /
+            # background-query path can answer "were you in the army?"
+            # with the rank. Drives the contract-killing pool (a
+            # discharged or serving soldier with the bad-seed or
             # desperation gate is for_hire) and the soldier identity.
-            served              (tar military_rank)
+            serve               (tar military_rank)
 
         # Achievements - sporting / competitive participation and victories.
         # Targets stay unconstrained until the Phase 6 sports events pin the
@@ -618,11 +619,11 @@ relation
             # autonomy_loss pressure when a child strikes out on their own.
             family_alignment    (tar ? @excl) (range 0 1)
 
-        # starving - the physiology-to-belief seam marker. Minted/ended by the
+        # starve - the physiology-to-belief seam marker. Minted/ended by the
         # meals starving_watch pair at the hunger threshold crossing, so the
         # starvation-tail lanes gate on a CACHED self-belief instead of
         # re-reading the hunger attr per deliberation. Label-only self state.
-        starving                (sub human)
+        starve                  (sub human)
 
         # household_cook - @self is THE cook of <home> (one per household,
         # elected via the home's public-bb `cook` marker; provisioning_think).

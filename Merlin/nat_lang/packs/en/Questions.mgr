@@ -465,13 +465,13 @@
 .
 
 "did you serve in the army"
-( prob { ?_you /ever served ? } )
+( prob { ?_you /ever serve ? } )
 .
 "have you a military record"
-( prob { ?_you /ever served ? } )
+( prob { ?_you /ever serve ? } )
 .
 "what rank did you hold"
-( any { ?_you /ever served ? } ).target
+( any { ?_you /ever serve ? } ).target
 .
 
 # # FLAG: literacy ("can you read") has no dedicated belief; education is a
