@@ -45,8 +45,10 @@
   (effects (end-goal {@self take_loan ?creditor})))
 
 ; Outcome twin: the creditor is KNOWN dead - withdraw the pursuit. POSITIVE death
-; knowledge only: a merely-decayed alive belief must not abandon the errand.
+; knowledge only: a merely-decayed alive belief must not abandon the errand. The
+; gate binds ?creditor, so the death test rides a (role @self ...) filter over that
+; gate var (symmetric with borrowing_done's own-belief role above).
 (npc-think borrowing_abandoned
   (goal {@self take_loan ?creditor})
-  (when (believes {?creditor condition [k dead]}))
+  (role @self (believes {?creditor condition [k dead]}))
   (effects (end-goal {@self take_loan ?creditor})))

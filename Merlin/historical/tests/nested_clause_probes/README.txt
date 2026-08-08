@@ -4,12 +4,17 @@ Run the events/ dir alone against the 1yr cfg:
   hsim.exe --cfg .../definitions/historical_1yr.hs --events .../tests/nested_clause_probes/events --out probes.msb
 
 Expected: PROBE_MINT, PROBE_WHEN_EXISTS, PROBE_TENSE_OK, PROBE_BIND, PROBE_ROLE,
-PROBE_RESIDUAL, PROBE_JOIN, PROBE_GOAL_CAP each fire once per NPC (49 at 50-pop);
+PROBE_RESIDUAL, PROBE_JOIN each fire once per NPC (49 at 50-pop);
 PROBE_CAUSE fires with bond=<a real belief symbol> ((bind (begin-belief ..) ?b) +
-/caused_by ?b); PROBE_GOAL_CAP fires TWICE per NPC (98) - probe_mint2 mints a
-second concurrent probe_hunt goal and the goal gate FANS OUT one activation per
-matching goal, each printing its own goal=<goal-belief symbol> / prey. Zero
-ERROR lines.
+/caused_by ?b); PROBE_GOAL_CAP and PROBE_GATEVAR fire TWICE per NPC (98) - probe_mint2
+mints a second concurrent probe_hunt goal and the goal gate FANS OUT one activation
+per matching goal, each printing its own bindings. Zero ERROR lines.
+
+PROBE_GATEVAR is the gate-var-subject probe: the (goal ...) gate binds ?prey and a
+(role @self ...) residual tests {?prey accomplice ?acc} - a belief whose SUBJECT is
+that gate var. Residual placement seeds the (goal ...)/(task ...) gate vars, so the
+subject is placeable (threaded live at the when-gate seam) instead of a hard load
+error. acc binds to a real object (== prey, per the minted {?prey accomplice ?prey}).
 
 parse_errors/ holds one-event files that must each ABORT the load with a named
 message (run each file alone as its own --events dir): inner /their-mind, inner
