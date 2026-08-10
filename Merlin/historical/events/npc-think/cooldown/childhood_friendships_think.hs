@@ -28,7 +28,7 @@
            (schoolchild-age ?b)
            ; Same class: @self's belief that ?b's class matches his own (dynamic-
            ; target shape-2, cacheable - replaces the (= (target..)(target..)) pair).
-           {?b class_situation (target {@self class_situation})}
+           {?b class_situation (any {@self class_situation}).target}
            (believes {?b age_span ?peer_band})
            (not {@self friend ?b})
            ; Warmth-gated: see adult_friendships.hs. The two negative warmth

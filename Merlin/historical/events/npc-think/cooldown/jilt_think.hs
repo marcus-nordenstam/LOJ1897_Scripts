@@ -100,7 +100,7 @@
   ;; DERIVED conduct dimension (belief) read from @self's own mind via
   ;; (target {...}). An unread dimension contributes 0; the +0.3 base keeps the
   ;; event alive for the un-derived.
-  (when (chance (* (crime-scale) 0.15 (+ 0.3 (target {@self decorum})))))
+  (when (chance (* (crime-scale) 0.15 (+ 0.3 (any {@self decorum}).target))))
 
   (effects
     (end-belief {@self lover ?jilted})

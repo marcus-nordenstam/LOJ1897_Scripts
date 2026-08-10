@@ -35,7 +35,7 @@
 ; must hold at >= the required band (unheld = -1 = fail).
 (define-macro skill-ok (?w ?d ?b)
   (or (= ?d none)
-      (>= (competence-rank (auxiliary {?w skilled_in ?d}))
+      (>= (competence-rank (any {?w skilled_in ?d}).auxiliary)
           (competence-rank ?b))))
 
 ; (job-match-score ?t1 ?w1 ?t2 ?w2): the soft match score - a base so any

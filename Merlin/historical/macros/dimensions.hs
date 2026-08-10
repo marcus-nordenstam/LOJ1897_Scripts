@@ -36,7 +36,7 @@
 ; decorum-scalar - the decorum float (@self's own C++-derived value, or a tracked
 ; other's mirrored value), reading 0.65 when unknown.
 (define-macro decorum-scalar (?who)
-  (if (believes {?who decorum ?}) (then (target {?who decorum})) (else 0.65)))
+  (if (believes {?who decorum ?}) (then (any {?who decorum}).target) (else 0.65)))
 
 ; chastity-scalar - 0.85 minus a rung per extra-marital liaison THIS mind knows of
 ; ?who (uniform: @self's own affairs for @self, the observer's knowledge for others).
@@ -133,10 +133,10 @@
                (* (attr @self industriousness) 0.30)
                (* (attr @self compassion)      0.15)
                (* (piety)                       0.20)
-               (* (if (believes {@self decorum ?}) (then (target {@self decorum})) (else 0)) 0.10)
+               (* (if (believes {@self decorum ?}) (then (any {@self decorum}).target) (else 0)) 0.10)
                (* (/ (+ (- 1 (attr @self industriousness)) (- 1 (attr @self politeness))
                         (attr @self volatility)) 3) -0.20)
-               (* (if (believes {@self stress ?})  (then (target {@self stress}))  (else 0)) -0.30))
+               (* (if (believes {@self stress ?})  (then (any {@self stress}).target)  (else 0)) -0.30))
             (+ (* (clamp (+ (attr @self narcissism)       -0.5) 0 1) -0.10)
                (* (clamp (+ (attr @self machiavellianism) -0.5) 0 1) -0.15)
                (* (clamp (+ (attr @self psychopathy)      -0.5) 0 1) -0.20)

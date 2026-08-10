@@ -45,7 +45,7 @@
                 (not (blood-kin @self ?victim))
                 ; Opposite-sex: @self's belief that ?victim's PERCEIVED gender
                 ; differs from his own (visible-on-sight -> cacheable).
-                (not {?victim gender (target {@self gender})})
+                (not {?victim gender (any {@self gender}).target})
                 ; Similar age: @self's band is within ?victim's perceived age_span
                 ; (+/-1 band). @self's band is bound in the @self role above - an
                 ; inline (target {@self age_band}) does NOT resolve against the

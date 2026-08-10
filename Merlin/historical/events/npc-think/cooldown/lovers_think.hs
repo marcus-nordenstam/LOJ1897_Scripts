@@ -58,7 +58,7 @@
            ; opposite-sex (fancy is opposite-sex via crush_forms; belt-and-braces):
            ; @self's belief that ?b's PERCEIVED gender differs from his own (visible-
            ; on-sight, so cacheable as a dynamic-target belief). And not kin.
-           (not {?b gender (target {@self gender})})
+           (not {?b gender (any {@self gender}).target})
            (not (blood-kin @self ?b)))
 
   ;; Live re-check: within the window the un-attached role filters go stale as

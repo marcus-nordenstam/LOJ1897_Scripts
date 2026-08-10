@@ -51,5 +51,5 @@
   ; Latch the standing meet goal, focused on the club's articles (recovered from @self's
   ; {?club record ?art} belief, exactly as club_joining / apprenticeship recover an org's
   ; articles).
-  (effects       (begin-goal {@self hold_meet (target {?club record})}))
-  (cease-effects (end-goal   {@self hold_meet (target {?club record})})))
+  (effects       (begin-goal {@self hold_meet (any {?club record}).target}))
+  (cease-effects (end-goal   {@self hold_meet (any {?club record}).target})))

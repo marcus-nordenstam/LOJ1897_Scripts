@@ -50,6 +50,6 @@
   ; valuable, else 0 (the body puts it openly in the room it stands in).
   (effects
     (if (and (has-facet ?item valuable) (any {@self hiding_spot ?} (out int)))
-              (then (target {@self hiding_spot ?}))
+              (then (any {@self hiding_spot ?}).target)
               (else 0)): ?place
     (maintain-proposal {@self stow ?item ?place})))

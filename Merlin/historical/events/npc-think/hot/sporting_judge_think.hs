@@ -21,7 +21,7 @@
   (goal {@self judge_meet})
   (role ?winner [k human]
                 (believes {?winner race_result ? ?sport})
-                (select (score (target {?winner race_result})) (policy argmax)))
+                (select (score (any {?winner race_result}).target) (policy argmax)))
   (utility 40)
   (effects (maintain-proposal {@self judge_declare ?winner ?sport})))
 
@@ -39,7 +39,7 @@
   (effects
     (for-each-present-tense-belief {?r race_result ?}
       (do
-        (target {?r race_result}): ?p
+        (any {?r race_result}).target: ?p
         (if (not (= ?r ?winner))
             (then (incident-anchor ?winner outdo ?r)))
         (end-belief {?r race_result ?p})))))

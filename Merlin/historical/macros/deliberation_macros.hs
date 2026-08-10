@@ -8,7 +8,7 @@
 
 ; despair = stress x (1 - contentment) - the self-belief reading behind the suicide gate.
 (define-macro despair (?who)
-  (* (target {?who stress}) (- 1 (target {?who contentment}))))
+  (* (any {?who stress}).target (- 1 (any {?who contentment}).target)))
 
 ; The suicide outlet: the witnessed ideation is minted in a confidant's mind ALWAYS
 ; (the testimony trail); the act (death + the death_cause-suicide body-truth) only past

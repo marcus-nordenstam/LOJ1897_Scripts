@@ -56,7 +56,7 @@
                     (not {?beloved fancy ?}))
                 ; opposite-sex: @self's belief that the beloved's PERCEIVED gender
                 ; differs from his own (visible-on-sight -> cacheable). And not kin.
-                (not {?beloved gender (target {@self gender})})
+                (not {?beloved gender (any {@self gender}).target})
                 (not (blood-kin @self ?beloved))
                 ; Court the ONE the suitor is most drawn to - "the directed pursuit of a
                 ; specific crush", so the fan-out reduces to the strongest attraction.

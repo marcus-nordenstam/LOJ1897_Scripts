@@ -56,20 +56,20 @@
     ; One novel domain copied off a parent's interests (a 50/50 pick when both
     ; parents offer one) - the hobbies the child grows up around. Each lane
     ; guards its pick so a parent with nothing novel just drops out.
-    (if (is-kind (random-unheld-kind-target (target {@self mother}) interest interest))
+    (if (is-kind (random-unheld-kind-target (any {@self mother}).target interest interest))
         (then
-          (if (and (is-kind (random-unheld-kind-target (target {@self father}) interest interest))
+          (if (and (is-kind (random-unheld-kind-target (any {@self father}).target interest interest))
                    (chance 0.5))
               (then
-                (random-unheld-kind-target (target {@self father}) interest interest): ?df
+                (random-unheld-kind-target (any {@self father}).target interest interest): ?df
                 (begin-belief {@self interest ?df}))
               (else
-                (random-unheld-kind-target (target {@self mother}) interest interest): ?dm
+                (random-unheld-kind-target (any {@self mother}).target interest interest): ?dm
                 (begin-belief {@self interest ?dm}))))
         (else
-          (if (is-kind (random-unheld-kind-target (target {@self father}) interest interest))
+          (if (is-kind (random-unheld-kind-target (any {@self father}).target interest interest))
               (then
-                (random-unheld-kind-target (target {@self father}) interest interest): ?df
+                (random-unheld-kind-target (any {@self father}).target interest interest): ?df
                 (begin-belief {@self interest ?df})))))
     ))
 
@@ -113,7 +113,7 @@
   (effects
     ; The master's craft becomes the apprentice's casual interest (which
     ; interest_deepens can later raise to a skill of its own).
-    (random-unheld-kind-target (target {@self master}) interest skilled_in calling): ?d
+    (random-unheld-kind-target (any {@self master}).target interest skilled_in calling): ?d
     (if (is-kind ?d)
         (then (begin-belief {@self interest ?d})))
     ))

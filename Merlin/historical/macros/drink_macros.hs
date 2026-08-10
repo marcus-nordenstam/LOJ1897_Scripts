@@ -7,7 +7,7 @@
 ; last drink) AND the actor is not already dependent (dependents are the relapse.hs
 ; lane). Perf: most passes skip on the days-since test.
 (define-macro drink-due (?actor)
-  (and (not (= (target {?actor craving}) [k alcohol]))
+  (and (not (= (any {?actor craving}).target [k alcohol]))
        (>= (days-since-last ?actor drink) 3)))
 
 ; (drink-drive ?actor): the drink UTILITY - a drinking PROPENSITY (low industriousness =

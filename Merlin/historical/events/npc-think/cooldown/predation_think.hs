@@ -53,8 +53,8 @@
   (when (>= (lethal-disposition @self) 0.65))
   (effects
     ; Copy the perceived look as the type signature (effect, so (target ...) is fine).
-    (begin-belief {@self fixation (target {?proto hair_color})})
-    (begin-belief {@self fixation (target {?proto eye_color})})))
+    (begin-belief {@self fixation (any {?proto hair_color}).target})
+    (begin-belief {@self fixation (any {?proto eye_color}).target})))
 
 ; --- the hunt ---------------------------------------------------------------
 (npc-think predation
@@ -79,9 +79,9 @@
                 ; Invisibility score (live per-candidate; + a floor so a bare
                 ; type-match is pickable). Low class / stained repute = safer.
                 (select (score (+ 0.1
-                                  (is-a (target {?victim class_situation}) [k class_situation lower])
-                                  (is-a (target {?victim repute}) [k repute disreputable])
-                                  (is-a (target {?victim repute}) [k repute scandalous])))
+                                  (is-a (any {?victim class_situation}).target [k class_situation lower])
+                                  (is-a (any {?victim repute}).target [k repute disreputable])
+                                  (is-a (any {?victim repute}).target [k repute scandalous])))
                         (policy roulette)))
 
   ; AFTER the select: disposition floor + rate. lethal = mean(psychopathy, sadism);

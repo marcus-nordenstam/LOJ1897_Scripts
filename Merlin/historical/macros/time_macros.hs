@@ -66,8 +66,8 @@
 ; whose birth_date the mind has learned (friends-and-closer); for strangers use the
 ; perceived age_band predicates (age_macros.hs) instead.
 (define-macro years-old (?who)
-  (- (- (year (date_now)) (year (target {?who birth_date})))
-     (if (birthday-passed (target {?who birth_date})) (then 0) (else 1))))
+  (- (- (year (date_now)) (year (any {?who birth_date}).target))
+     (if (birthday-passed (any {?who birth_date}).target) (then 0) (else 1))))
 
 ; (job-tenure ?who): whole years since ?who's current job RANK began - the
 ; interval-start of the {<job> level <grade>} belief on the job mental object
@@ -78,4 +78,4 @@
 ; own job object).
 (define-macro job-tenure (?who)
   (- (year (date_now))
-     (year (belief-start {(target {?who job}) level}))))
+     (year (belief-start {(any {?who job}).target level}))))

@@ -49,7 +49,7 @@
                (believes {?lover age_span ?peer_band})
                ; opposite-sex: @self's belief that ?lover's PERCEIVED gender differs
                ; from his own (visible-on-sight -> cacheable), and non-kin.
-               (not {?lover gender (target {@self gender})})
+               (not {?lover gender (any {@self gender}).target})
                (not (blood-kin @self ?lover)))
 
   ;; The disposition-to-stray, rolled once per NPC per month: the character tail

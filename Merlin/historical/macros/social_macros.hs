@@ -34,7 +34,7 @@
 ; married), so the knowledge is present. present-tense, so a widow(er) reads
 ; @fail (propagate-death ends the spouse belief everywhere it propagated).
 (define-macro spouse-of (?p)
-  (target {?p spouse ?}))
+  (any {?p spouse ?}).target)
 
 ; (is-married ?p): does @self believe ?p has a spouse? Composes spouse-of.
 (define-macro is-married (?p)
@@ -79,7 +79,7 @@
 ; `education` belief (a 0..1 float) vs the 0.30 literacy floor (the threshold is
 ; now authored here, not a C++ constant).
 (define-macro can-write (?actor)
-  (>= (target {?actor education}) 0.30))
+  (>= (any {?actor education}).target 0.30))
 
 ; (organizing-occasion [k <kind>]): is @self hosting an occasion of that kind? An
 ; occasion is a MENTAL OBJECT (its kind is wedding / birthday_party / ...); a [k <kind>]
@@ -93,8 +93,8 @@
 ; Evidence-mediated: the belief arrives by witnessing, gossip or abduction,
 ; never by reading the partner's mind.
 (define-macro knows-affair ()
-  (or (is-entity (interloper-of (target {@self spouse ?})))
-      (is-entity (interloper-of (target {@self lover ?})))))
+  (or (is-entity (interloper-of (any {@self spouse ?}).target))
+      (is-entity (interloper-of (any {@self lover ?}).target))))
 
 ; An insult incident WITH its spoken barb: the anchor carries the authored
 ; barb model (tables/barbs.hs) and the context that picks the ladder. The

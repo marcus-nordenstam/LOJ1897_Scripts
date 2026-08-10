@@ -338,7 +338,7 @@
   ; The known provisions_shop is preferred; else a role-cast shop the NPC KNOWS
   ; (nearest, weighted). Replaces the (venue ...) fallback.
   (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
-  (bind (target {@self provisions_shop ?}) ?shop)
+  (bind (any {@self provisions_shop ?}).target ?shop)
   (when (and (> (attr @self appetite) 1.3)
              (> ?wealth 0.2)
              (not (at-place-kind [k building shop]))))
@@ -363,7 +363,7 @@
 (npc-think starving_steal_go
   (role @self (believes {@self starve ?, wealth ?wealth}))
   (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
-  (bind (target {@self provisions_shop ?}) ?shop)
+  (bind (any {@self provisions_shop ?}).target ?shop)
   (when (and (> (attr @self appetite) 1.3)
              (not (> ?wealth 0.2))
              (not (at-place-kind [k building shop]))))
@@ -398,8 +398,8 @@
       (do (bind ?it ?item) (bind 1 ?found)))
     (if (and (= ?found 0)
              (at-home)
-             (is-entity (believed-located [k food] (target {@self home}))))
-        (then (believed-located [k food] (target {@self home})): ?item
+             (is-entity (believed-located [k food] (any {@self home}).target)))
+        (then (believed-located [k food] (any {@self home}).target): ?item
               (bind 1 ?found)))
     (if (and (= ?found 0)
              (at-place-kind [k building shop])
@@ -411,7 +411,7 @@
               (do (bind ?it ?item)
                   (bind 1 ?found)
                   (begin-belief {@self provisions_shop ?shop})
-                  (if (not (> (target {@self wealth}) 0.2))
+                  (if (not (> (any {@self wealth}).target 0.2))
                       (then (owner-of ?shop): ?owner)))))))
     (if (= ?found 1)
         (then (maintain-proposal {@self consume ?item ?owner})))))

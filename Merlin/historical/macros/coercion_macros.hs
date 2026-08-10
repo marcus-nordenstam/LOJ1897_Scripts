@@ -38,6 +38,6 @@
 ; walking him from bribe / confess toward the kill tail (deliberation_affinity).
 (define-macro coercion-stake ()
   (* 1440
-     (if (is-a (target {@self class_situation}) [k class_situation upper]) (then 1.5)
-       (else (if (is-a (target {@self class_situation}) [k class_situation middle]) (then 1.2)
+     (if (is-a (any {@self class_situation}).target [k class_situation upper]) (then 1.5)
+       (else (if (is-a (any {@self class_situation}).target [k class_situation middle]) (then 1.2)
                 (else 1.0))))))

@@ -82,7 +82,7 @@
                 ; ... opposite-sex: @self's belief that the beloved's PERCEIVED
                 ; gender differs from his own (gender is visible-on-sight, so this
                 ; dynamic-target belief is object-cacheable; drops same-sex passes).
-                (not {?beloved gender (target {@self gender})})
+                (not {?beloved gender (any {@self gender}).target})
                 (believes {?beloved age_span ?peer_band}))
 
   ;; Live un-betrothed re-check: the role filters are alpha-indexed and go stale

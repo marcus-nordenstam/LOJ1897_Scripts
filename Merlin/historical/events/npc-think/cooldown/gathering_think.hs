@@ -39,7 +39,7 @@
   (role @self (grown @self))
   (when (chance 0.02))
   (effects
-    (plan-occasion @self [k dinner_party] (target {@self home ?}) 3 19 23 formal)))
+    (plan-occasion @self [k dinner_party] (any {@self home ?}).target 3 19 23 formal)))
 
 ; An IMPROMPTU supper (the INFORMAL channel): unlike the planned dinner party, this
 ; reaches only whoever the host is physically WITH right now - the co-present set at
@@ -51,7 +51,7 @@
   (role @self (grown @self))
   (when (chance 0.015))
   (effects
-    (plan-occasion @self [k dinner_party] (target {@self home ?}) 0 18 22 informal)))
+    (plan-occasion @self [k dinner_party] (any {@self home ?}).target 0 18 22 informal)))
 
 ; The monthly appointment review (npc-think): expire past appointments + emit
 ; an attend goal for any occasion currently due. Runs for every grown NPC.

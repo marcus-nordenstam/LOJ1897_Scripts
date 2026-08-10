@@ -133,7 +133,7 @@
 ; courtship). Blocked (same-sex / kin): the goal just ends, the impulse spent. NOT a
 ; crime with a victim in the moral sense, but a crime-ledger row records the act.
 (define-macro terminal-consummate (?victim ?goal)
-  (if (and (none {?victim gender (target {@self gender})})
+  (if (and (none {?victim gender (any {@self gender}).target})
            (not (blood-kin @self ?victim)))
       (then
         (begin-ended-belief {@self seduce ?victim})
@@ -258,17 +258,17 @@
 ; when none) - the threat mirror of the focus bound off an {@self <action>} goal. Minted by strike-blow on a
 ; non-fatal blow; ended when the fight resolves.
 (define-macro threat-focus ()
-  (target {@self under_attack ?}))
+  (any {@self under_attack ?}).target)
 
 ; The rival for ?beloved AS THE DELIBERATOR KNOWS IT: the beloved's spouse,
 ; else their lover, else the beloved themselves - every read from the
 ; deliberator's own beliefs (evidence-mediated, no mind-entering). The caller
 ; must exclude @self (a beloved married to the deliberator names @self here).
 (define-macro crave-rival (?beloved)
-  (if (is-entity (target {?beloved spouse ?}))
-      (then (target {?beloved spouse ?}))
-      (else (if (is-entity (target {?beloved lover ?}))
-          (then (target {?beloved lover ?}))
+  (if (is-entity (any {?beloved spouse ?}).target)
+      (then (any {?beloved spouse ?}).target)
+      (else (if (is-entity (any {?beloved lover ?}).target)
+          (then (any {?beloved lover ?}).target)
           (else ?beloved)))))
 
 ; The actor's own recent OVERT-method murder victim whose corpse is still in

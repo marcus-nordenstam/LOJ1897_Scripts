@@ -88,14 +88,14 @@
   (when (and (>= (years-old @self) 18)
              (< (count-beliefs @self member_of) 2)
              (none {@self member_of ?club_org})
-             (= (target {?founder class_situation})
-                (target {@self class_situation}))
+             (= (any {?founder class_situation}).target
+                (any {@self class_situation}).target)
              (latch-eval (chance 0.005))))
 
   ; SPLIT (Item 5): the npc-think - the decision to join. Mints {@self goal {@self
   ; join_club <articles>}} (focus = the club's articles, {?club_org record}); the npc-action
   ; (club_join_errand.hs) sends the member to the clubhouse and registers him there.
-  (effects       (begin-goal {@self join_club (target {?club_org record})}))
+  (effects       (begin-goal {@self join_club (any {?club_org record}).target}))
   (cease-effects (end-goal   {@self join_club})))
 
 ; club_gathering RETIRED (place-and-time reframe, Section 4.8 P2b): club members

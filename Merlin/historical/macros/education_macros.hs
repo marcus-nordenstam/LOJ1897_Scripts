@@ -19,7 +19,7 @@
   (for-each-present-tense-belief {@self study ?curriculum}
     (if (is-kind ?curriculum)
         (then
-          (competence-rank (auxiliary {@self skilled_in ?curriculum})): ?cur_rank
+          (competence-rank (any {@self skilled_in ?curriculum}).auxiliary): ?cur_rank
           (if (is-a ?curriculum [k primary_school_curriculum]) (then 1) (else 0)): ?is_primary
           (end-belief {@self study ?curriculum} /salience unforgettable)
           ; Monotonic credential (novice 0 / trained 1 / expert 2).

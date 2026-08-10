@@ -39,7 +39,7 @@
   ; floor is enforced in (when) on the winner.
   (role ?benefactor (any_human ?benefactor)
     {@self mother|father|parent|spouse|sibling ?benefactor}
-    (select (score (target {?benefactor wealth}))))
+    (select (score (any {?benefactor wealth}).target)))
   ; The benefactor's HEIR, role-cast via the object-cache JOIN: the cross-role filter
   ; {?heir <kin> ?benefactor} makes ?heir's cache depend on ?benefactor's - the engine
   ; materializes, per benefactor, the heirs the actor KNOWS (a candidate's own kin
@@ -56,7 +56,7 @@
 
   ; Disposition pre-gate + wealth floor. greed = mean(machiavellianism, psychopathy);
   ; propensity = (1 - inhibition) * greed; fire at k_covet_base_rate * propensity.
-  (when (and (>= (target {?benefactor wealth}) 0.5)
+  (when (and (>= (any {?benefactor wealth}).target 0.5)
              (chance (* (crime-scale) 0.02
                         (* (- 1 (inhibition))
                            (* 0.5 (+ (attr @self machiavellianism)

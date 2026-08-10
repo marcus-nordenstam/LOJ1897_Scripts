@@ -45,7 +45,7 @@
                ;; Same class as the groom: the deliberating mind's belief that
                ;; the bride's class_situation equals @self's own (dynamic-target
                ;; shape-2, cacheable - like age-peers; NOT a cross-(target =)).
-               {?bride class_situation (target {@self class_situation})}
+               {?bride class_situation (any {@self class_situation}).target}
                ;; Belief-pure perceived predicates - the near-age window and the
                ;; blood-kin exclusion - stay role filters (cacheable), gating the
                ;; bride candidate set directly. @self's band is bound in the @self
@@ -66,8 +66,8 @@
              ;; has not heard passes - the market gives the benefit of the doubt.
              (< (count-beliefs-about ?bride lover) 2)
              (not (and (any {@self lover ?} (out int))
-                       (= (target {(target {@self lover}) class_situation})
-                          (target {@self class_situation}))))))
+                       (= (target {(any {@self lover}).target class_situation})
+                          (any {@self class_situation}).target)))))
 
   (effects
     (begin-belief {@self fiancee ?bride})

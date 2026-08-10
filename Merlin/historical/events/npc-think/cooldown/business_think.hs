@@ -135,7 +135,7 @@
   ; no goal stands. Focus = the firm's articles ({?org record ?art}).
   (effects
     (end-goal {@self partner})
-    (begin-goal {@self partner (target {?principal_org record})}))
+    (begin-goal {@self partner (any {?principal_org record}).target}))
   (cease-effects (end-goal {@self partner})))
 
 ; --- business_founding: a man of means sets up on his own account ----------

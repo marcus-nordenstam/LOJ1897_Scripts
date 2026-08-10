@@ -28,7 +28,7 @@
 ; ?who's ?label belief target, else ?default when the belief is absent
 ; (the "unknown reads as X" parity idiom).
 (define-macro target-or (?who ?label ?default)
-  (if (believes {?who ?label}) (then (target {?who ?label})) (else ?default)))
+  (if (believes {?who ?label}) (then (any {?who ?label}).target) (else ?default)))
 
 ; --- Layer 1: single-quantity readings ---------------------------------------
 
@@ -38,7 +38,7 @@
 
 ; How cold ?who is (inverse compassion).
 (define-macro callousness (?who)
-  (- 1 (target {?who compassion})))
+  (- 1 (any {?who compassion}).target))
 
 ; Does the deliberating self hold a grudge toward ?t (any negative warmth)?
 ; 1 / 0 - a score TERM, not a predicate.
@@ -98,7 +98,7 @@
 ; Blame-the-partner terms, innermost out: the self's sense of propriety plus
 ; any standing grudge toward the partner ...
 (define-macro propriety-affront (?t)
-  (+ (target {@self decorum}) (is-hostile-toward ?t)))
+  (+ (any {@self decorum}).target (is-hostile-toward ?t)))
 
 ; ... hardened by coldness ...
 (define-macro cold-affront (?t)
@@ -114,13 +114,13 @@
 ; held toward the interloper.
 (define-macro blame-interloper-score (?partner ?interloper)
   (+ (attachment-toward ?partner)
-     (+ (target {@self compassion})
+     (+ (any {@self compassion}).target
         (hostility-toward ?interloper))))
 
 ; The dual-kill outrage: enough anger + propriety + scheming to kill BOTH.
 (define-macro dual-outrage-score ()
   (+ (emotion-load @self [k anger])
-     (+ (target {@self decorum}) (attr @self machiavellianism))))
+     (+ (any {@self decorum}).target (attr @self machiavellianism))))
 
 ; Value dissonance between ?a and ?b AS THE DELIBERATOR KNOWS IT: the share of
 ; declared moral values (chastity / piety / sobriety) the two hold differently,

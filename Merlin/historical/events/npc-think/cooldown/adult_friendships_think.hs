@@ -43,7 +43,7 @@
            (not {?b repute [k scandalous]})
            ; Same class: @self's belief that ?b's class matches his own (dynamic-
            ; target shape-2, cacheable).
-           {?b class_situation (target {@self class_situation})}
+           {?b class_situation (any {@self class_situation}).target}
            (not {@self friend ?b})
            ; Warmth-gated: you do not befriend someone you actively dislike. The
            ; two negative warmth bands are EXPLICIT verb-state beliefs (core
