@@ -145,14 +145,11 @@
 (npc-think take_down_filled
   ; ?ad ENUMERATED: an officer can hold several posted adverts at once, and a
   ; single @self bind would take the first post found and only ever test THAT
-  ; ad's org - a filled org behind the second ad would never come down.
-  ; ?org is read off the enumerated ad's own post belief in the (when) - an aux
-  ; free var does not fire-bind on this filter shape (candidate in the TARGET of
-  ; a self-subject believes), and the post aux is @excl, so (auxiliary ...) is
-  ; the one org that ad advertises.
-  (role ?ad (believes {@self post ?ad}))
-  (when (and (bind (auxiliary {@self post ?ad}) ?org)
-             (believes {?org record ?art})
+  ; ad's org - a filled org behind the second ad would never come down. The free
+  ; ?org aux PRODUCES off the enumerated ad's own post belief (the uniform field
+  ; rule; deterministic - the post aux is @excl).
+  (role ?ad (believes {@self post ?ad ?org}))
+  (when (and (believes {?org record ?art})
              (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
              (>= (count-doc-records [k employee_register] ?reg)
                  (lookup public_orgs kind ?ok employee_count 2))))
@@ -161,9 +158,7 @@
 
 (npc-think take_down_done
   ; ?ad ENUMERATED for the same reason as take_down_filled: the concluded
-  ; take_down must clear ITS OWN post, not whichever post binds first. The
-  ; {@self post ?ad} triple already names exactly one belief, so the end
-  ; needs no aux.
-  (role ?ad (believes {@self post ?ad}))
+  ; take_down must clear ITS OWN post, not whichever post binds first.
+  (role ?ad (believes {@self post ?ad ?org}))
   (when (believes {@self take_down ?ad /succ}))
-  (effects (end-belief {@self post ?ad})))
+  (effects (end-belief {@self post ?ad ?org})))
