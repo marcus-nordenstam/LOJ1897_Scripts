@@ -94,7 +94,7 @@
   (role ?home {@self household_cook ?home})
   ; The kitchen resolves from the cook's OWN room knowledge (the home pre-teach
   ; mints {home room <r>}): the kind-cast bind picks the is-a kitchen target.
-  (when (and (bind {?home room [k kitchen]:?kitchen})
+  (when (and (any {?home room [k kitchen]}).target: ?kitchen
              (< (count-believed-located [k food] ?kitchen) (larder_low_water))))
   (utility 77)
   (effects       (begin-goal {@self provision}))
@@ -112,7 +112,7 @@
   ; and rides the act pattern - the counter-stop body does no counting.
   (role ?home {@self household_cook ?home})
   (when    (and (at-place-kind [k building shop])
-                (bind {?home room [k kitchen]:?kitchen})
+                (any {?home room [k kitchen]}).target: ?kitchen
                 (count-believed-located [k food] ?kitchen): ?blv
                 (count-controlled @self [k food]): ?inh
                 (- (min (carry_cap) (- (larder_target) ?blv)) ?inh): ?cap
@@ -152,7 +152,7 @@
 
 (npc-think provision_rearm
   (role ?home {@self home ?home})
-  (when (and (bind {?home room [k kitchen]:?kitchen})
+  (when (and (any {?home room [k kitchen]}).target: ?kitchen
              (control [k food])))
   (utility (if (at-place ?kitchen) (then 250) (else 90)))
   (effects       (begin-goal {@self bring [k food] ?kitchen}))
