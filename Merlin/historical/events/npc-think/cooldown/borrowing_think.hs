@@ -27,8 +27,8 @@
   ; creditor at home, and there is no directory - an unknown address would
   ; strand the goal forever behind the no-goal gate.
   (role ?creditor (old_human ?creditor)
-                  (believes {?creditor home ?})
-                  (not (believes {@self owe ?creditor})))
+                  {?creditor home ?}
+                  (not {@self owe ?creditor}))
 
   ; The borrow roll: low industriousness (less self-supporting) takes on debt
   ; more often. One evaluation round per cooldown period; the no-goal gate caps

@@ -23,11 +23,11 @@
   ;; filters here; the first-year belief-age re-fire guard is a non-belief op that
   ;; gates the fire in (when ...) below.
   (role @self (adult @self)
-              (believes {@self gender [k male]})
-              (not (believes {@self spouse ?}))
-              (believes {@self fiancee ?}))
+              {@self gender [k male]}
+              (not {@self spouse ?})
+              {@self fiancee ?})
   (role ?bride (unmarried_woman ?bride)
-               (believes {@self fiancee ?bride})
+               {@self fiancee ?bride}
                (believes {?bride name ?bride_name}))
 
   ;; The fiancee belief must be in its first year - the once-per-betrothal re-fire

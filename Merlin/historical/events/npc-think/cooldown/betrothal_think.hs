@@ -24,28 +24,28 @@
   ;; omniscient public reading), her availability as his own belief
   ;; ((believes {?bride <label> ?}), permissive on the unknown).
   (role @self (adult @self)
-              (believes {@self gender [k male]})
-              (not (believes {@self spouse ?}))
-              (not (believes {@self fiancee ?}))
-              (not (believes {@self repute [k scandalous]}))
-              (not (believes {@self repute [k disreputable]}))
+              {@self gender [k male]}
+              (not {@self spouse ?})
+              (not {@self fiancee ?})
+              (not {@self repute [k scandalous]})
+              (not {@self repute [k disreputable]})
               (believes {@self age_band ?peer_band}))
   (role ?bride (unmarried_woman ?bride)
                ;; Not already spoken-for (he avoids a woman he KNOWS is engaged or
                ;; attached; a secret he has not heard does not stop the match).
-               (not (believes {?bride fiancee ?}))
-               (not (believes {?bride lover ?}))
+               (not {?bride fiancee ?})
+               (not {?bride lover ?})
                ;; A fallen woman (divorced for adultery) is shut out absolutely.
-               (not (believes {?bride prototype [k fallen_woman]}))
-               (not (believes {?bride repute [k scandalous]}))
-               (not (believes {?bride repute [k disreputable]}))
+               (not {?bride prototype [k fallen_woman]})
+               (not {?bride repute [k scandalous]})
+               (not {?bride repute [k disreputable]})
                ;; (The chastity gate lives in (when) - per-observer, a count of the
                ;; liaisons the groom himself has heard of; the (not (believes
                ;; {?bride lover ?})) filter above already bars a known ONGOING lover.)
                ;; Same class as the groom: the deliberating mind's belief that
                ;; the bride's class_situation equals @self's own (dynamic-target
                ;; shape-2, cacheable - like age-peers; NOT a cross-(target =)).
-               (believes {?bride class_situation (target {@self class_situation})})
+               {?bride class_situation (target {@self class_situation})}
                ;; Belief-pure perceived predicates - the near-age window and the
                ;; blood-kin exclusion - stay role filters (cacheable), gating the
                ;; bride candidate set directly. @self's band is bound in the @self

@@ -30,8 +30,8 @@
   ; thirty. (The class-floor the plan names is carried by the `job.salary` gate: a man
   ; with a paid post is a man of standing.) The founder is the sole deliberator (@self).
   (role @self (old_human @self))
-  (role ?job (believes {@self job ?job})
-             (believes {?job salary ?}))          ; threaded job.salary existence
+  (role ?job {@self job ?job}
+             {?job salary ?})          ; threaded job.salary existence
 
   ; MAINTENANCE: the decision OWNS the found_club goal end to end. The (chance) is an
   ; ONSET roll - (latch-eval) rolls it at the fire and LOCKS it once holding, so the
@@ -63,8 +63,8 @@
   ; (telepathy purge CAT-2): @self reads his OWN repute (belief-pure). The
   ; age + club-count + chance gates are non-belief ops -> (when).
   (role @self (old_human @self)
-              (not (believes {@self repute [k scandalous]}))
-              (not (believes {@self repute [k disreputable]})))
+              (not {@self repute [k scandalous]})
+              (not {@self repute [k disreputable]}))
   ; A KNOWN club (@self learned it at new_job_orientation). Belief-pure + cached:
   ; the omniscient org-kind-is-a doc read is gone. The founder is produced-restricted
   ; off {?club_org founder ?founder} in the role; the own-class match (below) reads

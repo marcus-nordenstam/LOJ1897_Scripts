@@ -29,13 +29,13 @@
   (rng-stream incidents)
 
   (role @self (adult @self)
-              (believes {@self lover ?})
+              {@self lover ?}
               ; @self signs the love letter - bind his OWN name for "Signed, ..".
               (believes {@self name ?author_name}))
   ; The paramour: a lover who is not also a spouse (the covert third party).
   (role ?paramour (any_human ?paramour)
-    (believes {@self lover ?paramour})
-    (not (believes {@self spouse ?paramour}))
+    {@self lover ?paramour}
+    (not {@self spouse ?paramour})
     (covert-affair-motive ?paramour)   ; belief-pure macro - cached
     ; @self names her in the letter body (a name value, not the live object).
     (believes {?paramour name ?paramour_name})

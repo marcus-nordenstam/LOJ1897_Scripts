@@ -28,9 +28,9 @@
 (npc-think recruit_root
   (task {@self work ?})
   (rng-stream employment)
-  (role ?org (believes {@self duty_to ?org [k recruit_staff]})
-             (not (believes {?org isa [k org household]}))
-             (not (believes {@self recruit_staff ?org /pres}))
+  (role ?org {@self duty_to ?org [k recruit_staff]}
+             (not {?org isa [k org household]})
+             (not {@self recruit_staff ?org /pres})
              (believes {?org record ?art}))
   (when (and (not (has-proposal {@self recruit_staff ?org}))
              (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
@@ -82,7 +82,7 @@
 (npc-think advertise_done
   (task {@self advertise ?org})
   (role ?ad [k job_description]
-            (not (believes {@self post ?ad ?}))
+            (not {@self post ?ad ?})
             (select (policy first-match)))
   (when (and (believes {?org record ?art})
              (believes {@self post_advert ?art /succ})

@@ -38,8 +38,8 @@
 
 (npc-think day_work
   (fatigue 0)                      ; a work shift is not a fruitless search - never fatigue-capped
-  (role ?job (believes {@self job ?job}))
-  (role ?org (believes {?job org ?org})           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
+  (role ?job {@self job ?job})
+  (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
              (believes {?org workplace ?wp})       ; ?wp binds at fire
              (at-workplace ?wp))                    ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
   (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))  ; onset: derive the shift, bind ?start/?end
@@ -62,7 +62,7 @@
 ; ?until.
 (npc-think at_post_morning
   (task {@self work ?wp})
-  (role ?job (believes {@self job ?job}))
+  (role ?job {@self job ?job})
   (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))
         (and (in-building ?wp) (< (now-hour) 12)))
   (utility 78)
@@ -70,7 +70,7 @@
 
 (npc-think at_post_afternoon
   (task {@self work ?wp})
-  (role ?job (believes {@self job ?job}))
+  (role ?job {@self job ?job})
   (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))
         (and (in-building ?wp) (>= (now-hour) 12)))
   (utility 78)
@@ -80,7 +80,7 @@
 ; starts-soon spawn band) - the day's work concluded.
 (npc-think shift_over
   (task {@self work ?wp}:?w)
-  (role ?job (believes {@self job ?job}))
+  (role ?job {@self job ?job})
   (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))
         (not (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
   (effects (set-outcome ?w succ)))
@@ -89,8 +89,8 @@
   ; Shift on or imminent and not yet at the workplace: mint {@self enter ?wp} and the
   ; generic enter chain (enter.hs) routes the travel. Ceases on arrival (at-workplace) or shift end.
   (fatigue 0)                      ; commuting to work is not a fruitless search - never fatigue-capped
-  (role ?job (believes {@self job ?job}))
-  (role ?org (believes {?job org ?org})           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
+  (role ?job {@self job ?job})
+  (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
              (believes {?org workplace ?wp})       ; ?wp binds at fire
              (not (at-workplace ?wp)))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
   (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))  ; onset: derive the shift, bind ?start/?end

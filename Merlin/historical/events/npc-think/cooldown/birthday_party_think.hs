@@ -31,13 +31,13 @@
   ;; social life_aim (belonging / respectability - the aims that prize community
   ;; visibility) OR being a parent (parties for one's child). The enthusiasm-scaled
   ;; chance gate lives in (when) below (non-belief filter).
-  (role @self (or (believes {@self life_aim belonging_aim})
-                  (believes {@self life_aim respectability_aim})
-                  (believes {@self identity parent_role})))
+  (role @self (or {@self life_aim belonging_aim}
+                  {@self life_aim respectability_aim}
+                  {@self identity parent_role}))
   ; A CO-PRESENT friend (the party guest actually in the room): the friend tie is the
   ; guest list; co-presence (objective room occupancy) is who is here to be told.
   (role ?guest (any_human ?guest)
-               (believes {@self friend ?guest})
+               {@self friend ?guest}
                (co-present @self))
 
   ;; Non-belief gate kept out of the @self role: enthusiasm-scaled chance, multiplicative

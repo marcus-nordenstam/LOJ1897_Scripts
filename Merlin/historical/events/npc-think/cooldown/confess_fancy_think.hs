@@ -29,8 +29,8 @@
   ; grown = marriageable-age; @self's own isa/condition (from any_human) are
   ; no-ops for the deliberating self, so drop them from the cached self-gate.
   (role @self (grown @self)
-              (not (believes {@self spouse ?}))
-              (believes {@self fancy ?}))
+              (not {@self spouse ?})
+              {@self fancy ?})
   ; ?target is the specific person @self is attracted to (attraction at least
   ; the `fancy` band - the same gate court / love_match read).
   (role ?target (any_human ?target)

@@ -36,7 +36,7 @@
   (role @self (old_human @self))
   (role ?club (known_org ?club)
               [k org club]
-              (believes {?club founder @self}))
+              {?club founder @self})
 
   ; MAINTENANCE: the annual decision OWNS the meet goal end to end. hold_meet_act mints no
   ; durable done-belief on @self (it records win on the co-present winner only),

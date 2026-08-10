@@ -37,10 +37,10 @@
   ; business / public org / estate founds no estate (subsumes the old
   ; estate-only throttle; permanent-kind match, decay-proof).
   (role @self (old_human @self)
-              (not (believes {@self job [k head_of_non_household_org]})))
-  (role ?rental (believes {@self own ?rental})
-                (or (believes {?rental availability [k for_rent]})
-                    (believes {?rental tenant ?})))
+              (not {@self job [k head_of_non_household_org]}))
+  (role ?rental {@self own ?rental}
+                (or {?rental availability [k for_rent]}
+                    {?rental tenant ?}))
 
   (effects
     (found-org-seq [k org estate] [k job landlord])

@@ -10,8 +10,8 @@
 
 (npc-think promote_go
   (goal {@self promote_staff})
-  (role ?job (believes {@self job ?job}))
-  (role ?org (believes {?job org ?org})           ; produced-restricted: ?org threaded off ?job
+  (role ?job {@self job ?job})
+  (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (not (at-workplace ?wp))))
   (utility 82)
@@ -22,8 +22,8 @@
 ; competition). The ?org role binds ?wp (the workplace) for the arrived gate.
 (npc-think promote_dwell
   (goal {@self promote_staff})
-  (role ?job (believes {@self job ?job}))
-  (role ?org (believes {?job org ?org})           ; produced-restricted: ?org threaded off ?job
+  (role ?job {@self job ?job})
+  (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (at-workplace ?wp)))
   (utility 82)

@@ -50,9 +50,9 @@
 ; the gate drops, and the convey goal ends.
 (npc-think want_convey
   (role @self (grown @self))
-  (role ?corpse (believes {?corpse condition [k dead]})
-                (not (believes {?corpse condition [k buried]}))
-                (not (believes {@self convey ?corpse /past}))
+  (role ?corpse {?corpse condition [k dead]}
+                (not {?corpse condition [k buried]})
+                (not {@self convey ?corpse /past})
                 (select (score (months-since-death ?corpse)) (policy argmax)))
   ; FRESHNESS cap beside the politeness gate: a death known for months no longer
   ; motivates the errand (someone has surely dealt with it) - the belt-and-braces

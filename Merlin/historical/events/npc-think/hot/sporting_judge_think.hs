@@ -34,7 +34,7 @@
 ; year's first score would fire the twin before this year's winner is declared).
 (npc-think meet_judged
   (role @self (believes {@self judge_declare ?winner ? /succ}))
-  (role ?r2 (believes {?r2 race_result ?}))
+  (role ?r2 {?r2 race_result ?})
   (when (< (days-since-last @self judge_declare) 1))
   (effects
     (for-each-present-tense-belief {?r race_result ?}

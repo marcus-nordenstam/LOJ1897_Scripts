@@ -25,13 +25,13 @@
   (rng-stream incidents)
 
   (role @self (adult @self)
-              (believes {@self lover ?})
+              {@self lover ?}
               (is-married @self)
-              (not (believes {@self class_situation [k class_situation lower]}))
+              (not {@self class_situation [k class_situation lower]})
               (believes {@self name ?author_name}))
   (role ?paramour (any_human ?paramour)
-    (believes {@self lover ?paramour})
-    (not (believes {@self spouse ?paramour}))
+    {@self lover ?paramour}
+    (not {@self spouse ?paramour})
     (covert-affair-motive ?paramour)
     (select (policy first-match)))
 
@@ -72,11 +72,11 @@
   (rng-stream incidents)
 
   (role @self (adult @self)
-              (believes {@self lover ?})
+              {@self lover ?}
               (believes {@self name ?author_name}))
   (role ?paramour (any_human ?paramour)
-    (believes {@self lover ?paramour})
-    (not (believes {@self spouse ?paramour}))
+    {@self lover ?paramour}
+    (not {@self spouse ?paramour})
     (covert-affair-motive ?paramour)
     (select (policy first-match)))
 
@@ -108,11 +108,11 @@
   (rng-stream incidents)
 
   (role @self (adult @self)
-              (believes {@self lover ?})
+              {@self lover ?}
               (believes {@self name ?author_name}))
   (role ?paramour (any_human ?paramour)
-    (believes {@self lover ?paramour})
-    (not (believes {@self spouse ?paramour}))
+    {@self lover ?paramour}
+    (not {@self spouse ?paramour})
     (covert-affair-motive ?paramour)
     (select (policy first-match)))
 

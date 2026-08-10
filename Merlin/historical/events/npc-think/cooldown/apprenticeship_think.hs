@@ -28,19 +28,19 @@
   ;; SELF-POV (telepathy purge CAT-2): the youth is the sole deliberator,
   ;; reading his OWN employment / marital / schooling state.
   (role @self (believes {@self breeding ?breeding})
-              (not (believes {@self job.salary ?}))
-              (not (believes {@self spouse ?}))
+              (not {@self job.salary ?})
+              (not {@self spouse ?})
               ;; A youth still in school (PR-education) is not on the labour
               ;; market - the working-class on-ramp is for those who left after
               ;; primary (or never enrolled), not secondary pupils.
-              (not (believes {@self study ?})))
+              (not {@self study ?}))
   ;; A KNOWN org (the youth learned it at new_job_orientation), not a household:
   ;; a household is an org but NOT a trade - no master, no apprenticeship. Belief-
   ;; pure + cached. The master gate (the org's founder, whom the youth avoids if
   ;; KNOWN to be scandalous - permissive on the unknown) is a residual filter on
   ;; ?master, produced off {?org founder ?master} and re-checked in the role.
   (role ?org (known_org ?org)
-             (not (believes {?org isa [k org household]}))
+             (not {?org isa [k org household]})
              (believes {?org founder ?master})
              (not (believes {?master repute [k scandalous]}))
              (believes {?org record ?org_record}))
@@ -71,7 +71,7 @@
     (end-goal {@self seek_indenture})
     (begin-goal {@self seek_indenture ?org_record}))
   ;; MINTER owns ending: once the youth is indentured (gains a paid job / reads
-  ;; trainee), this rule's (role @self (not (believes {@self job.salary ?}))) + (when
+  ;; trainee), this rule's (role @self (not {@self job.salary ?})) + (when
   ;; (not (= (job-level @self) [k trainee]))) gate stops holding, and this falling
   ;; edge ends the aim. A youth seeks ONE indenture at a time, so label-only keying
   ;; is fine. The act (apprentice_errand_act.hs) never ends the aim.

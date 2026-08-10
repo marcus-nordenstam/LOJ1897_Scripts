@@ -20,9 +20,9 @@
   (rng-stream marriages)
 
   (role @self (grown @self)
-              (not (believes {@self spouse ?}))
-              (not (believes {@self fiancee ?}))
-              (believes {@self fancy ?})
+              (not {@self spouse ?})
+              (not {@self fiancee ?})
+              {@self fancy ?}
               ; @self signs the letter - bind his OWN name for the "Signed, .." line.
               (believes {@self name ?author_name}))
   ; The one @self is most drawn to, still single. @self declares whether or not he
@@ -31,7 +31,7 @@
   ; stops when @self betroths / weds (the @self role gates above).
   (role ?target (any_human ?target)
                 (marriageable-age ?target)
-                (not (believes {?target spouse ?}))
+                (not {?target spouse ?})
                 (is-attracted-to @self ?target)
                 ; @self must KNOW her name to write to her - bind it for the body's
                 ; name value (no live object on the wire).

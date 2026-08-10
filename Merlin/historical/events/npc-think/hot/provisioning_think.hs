@@ -48,9 +48,9 @@
 
 (npc-think claim_cook_hired
   (role @self (grown @self)
-                           (believes {@self job [k job cook]})
-              (not (believes {@self household_cook ?})))
-  (role ?home (believes {@self home ?home}))
+                           {@self job [k job cook]}
+              (not {@self household_cook ?}))
+  (role ?home {@self home ?home})
   (when (pub-bb-none ?home cook))
   (effects
     (pub-bb-post ?home cook (cook_marker_ttl_cycles))
@@ -58,10 +58,10 @@
 
 (npc-think claim_cook_woman
   (role @self (grown @self)
-                           (believes {@self gender [k female]})
-              (not (believes {@self household_cook ?}))
-              (not (believes {@self class_situation [k upper]})))
-  (role ?home (believes {@self home ?home}))
+                           {@self gender [k female]}
+              (not {@self household_cook ?})
+              (not {@self class_situation [k upper]}))
+  (role ?home {@self home ?home})
   (when (and (pub-bb-none ?home cook)
              (not (and (bind {@self mother ?mum})
                        (believes {?mum home ?home})))))
@@ -71,11 +71,11 @@
 
 (npc-think claim_cook_man
   (role @self (grown @self)
-                           (believes {@self gender [k male]})
-              (not (believes {@self household_cook ?}))
-              (not (believes {@self spouse ?}))
-              (not (believes {@self class_situation [k upper]})))
-  (role ?home (believes {@self home ?home}))
+                           {@self gender [k male]}
+              (not {@self household_cook ?})
+              (not {@self spouse ?})
+              (not {@self class_situation [k upper]}))
+  (role ?home {@self home ?home})
   (when (and (pub-bb-none ?home cook)
              (not (and (bind {@self child ?c})
                        (believes {?c gender [k female]})
@@ -85,13 +85,13 @@
     (begin-belief {@self household_cook ?home})))
 
 (npc-think renew_cook
-  (role ?home (believes {@self household_cook ?home}))
+  (role ?home {@self household_cook ?home})
   (effects (pub-bb-post ?home cook (cook_marker_ttl_cycles))))
 
 ; ---- the pressure: the kitchen larder is low --------------------------------
 
 (npc-think want_provisions
-  (role ?home (believes {@self household_cook ?home}))
+  (role ?home {@self household_cook ?home})
   ; The kitchen resolves from the cook's OWN room knowledge (the home pre-teach
   ; mints {home room <r>}): the kind-cast bind picks the is-a kitchen target.
   (when (and (bind {?home room [k kitchen]:?kitchen})
@@ -110,7 +110,7 @@
   (goal    {@self provision})
   ; The buy cap is DECIDED here (basket, larder shortfall, what is in hand)
   ; and rides the act pattern - the counter-stop body does no counting.
-  (role ?home (believes {@self household_cook ?home}))
+  (role ?home {@self household_cook ?home})
   (when    (and (at-place-kind [k building shop])
                 (bind {?home room [k kitchen]:?kitchen})
                 (bind (count-believed-located [k food] ?kitchen) ?blv)
@@ -151,7 +151,7 @@
 ; still holding the shopping.
 
 (npc-think provision_rearm
-  (role ?home (believes {@self home ?home}))
+  (role ?home {@self home ?home})
   (when (and (bind {?home room [k kitchen]:?kitchen})
              (control [k food])))
   (utility (if (at-place ?kitchen) (then 250) (else 90)))

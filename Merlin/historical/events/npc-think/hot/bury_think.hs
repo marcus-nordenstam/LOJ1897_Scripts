@@ -56,9 +56,9 @@
 ; buries via bury_onsite. The rouletted ?church is stashed at fire, so the hold
 ; and the cease operate on the SAME church (no re-roulette while walking).
 (npc-think bury_route
-  (role @self (believes {@self job [k job priest]}))
-  (role ?corpse (believes {?corpse condition [k dead]})
-                (not (believes {?corpse condition [k buried]}))
+  (role @self {@self job [k job priest]})
+  (role ?corpse {?corpse condition [k dead]}
+                (not {?corpse condition [k buried]})
                 (select (score (months-since-death ?corpse)) (policy argmax)))
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
   (when (and (>= (months-since-death ?corpse) 1)
@@ -72,9 +72,9 @@
 ; corpse (telling {?corpse condition buried}), so the ?corpse role empties on the next
 ; cycle and the rung simply stops proposing - no goal to retract, no cease needed.
 (npc-think bury_onsite
-  (role @self (believes {@self job [k job priest]}))
-  (role ?corpse (believes {?corpse condition [k dead]})
-                (not (believes {?corpse condition [k buried]}))
+  (role @self {@self job [k job priest]})
+  (role ?corpse {?corpse condition [k dead]}
+                (not {?corpse condition [k buried]})
                 (select (score (months-since-death ?corpse)) (policy argmax)))
   (when (and (>= (months-since-death ?corpse) 1)
              (co-present @self ?corpse)))

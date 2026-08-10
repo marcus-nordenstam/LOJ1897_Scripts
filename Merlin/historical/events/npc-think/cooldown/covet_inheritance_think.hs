@@ -38,7 +38,7 @@
   ; cached set by believed wealth and binds the single richest. The wealth
   ; floor is enforced in (when) on the winner.
   (role ?benefactor (any_human ?benefactor)
-    (believes {@self mother|father|parent|spouse|sibling ?benefactor})
+    {@self mother|father|parent|spouse|sibling ?benefactor}
     (select (score (target {?benefactor wealth}))))
   ; The benefactor's HEIR, role-cast via the object-cache JOIN: the cross-role filter
   ; {?heir <kin> ?benefactor} makes ?heir's cache depend on ?benefactor's - the engine
@@ -51,7 +51,7 @@
   ; co-heirs by exact age, so first-match binds one perceived co-heir obstacle rather
   ; than the strict eldest. No omniscient (heir-apparent ...) kin-graph read.
   (role ?heir (old_human ?heir)
-    (believes {?heir mother|father|parent|spouse|sibling ?benefactor})
+    {?heir mother|father|parent|spouse|sibling ?benefactor}
     (select (policy first-match)))
 
   ; Disposition pre-gate + wealth floor. greed = mean(machiavellianism, psychopathy);

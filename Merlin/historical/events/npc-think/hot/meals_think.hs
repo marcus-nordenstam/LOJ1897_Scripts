@@ -44,7 +44,7 @@
 ; An unknown mealtime contributes a huge sentinel (minutes-until-hour) and
 ; drops out of the (min ...).
 (npc-think idle_at_home
-  (role ?home (believes {@self home ?home}))
+  (role ?home {@self home ?home})
   (when (at-home))
   (utility 2)
   (effects       (begin-goal {@self dwell ?home}))
@@ -95,7 +95,7 @@
 ; stops firing until the larder is eaten down again; a truly empty kitchen keeps
 ; reading 0 and the resident falls through to the meal-less lanes, as it should.
 (npc-think notice_larder
-  (role ?home (believes {@self home ?home}))
+  (role ?home {@self home ?home})
   (when (and (at-home)
              (> (attr @self appetite) 0.25)
              (= (count-believed-located [k food] ?home) 0)
@@ -108,7 +108,7 @@
 ; BREAKFAST - at home, come-as-you-wake (3h window, the one exception to the 2h
 ; rule): you breakfast in the house you woke in or not at all.
 (npc-think want_breakfast
-  (role ?home (believes {@self home ?home})
+  (role ?home {@self home ?home}
               (believes {?home breakfast_hour ?h}))   ; existence cached, ?h binds at fire
   (when (and (at-home)
              (> (attr @self appetite) 0.25)
@@ -121,8 +121,8 @@
 
 ; LUNCH at the workplace - the CO-WORKER channel (eat where you stand at midday).
 (npc-think want_lunch_work
-  (role ?job (believes {@self job ?job}))
-  (role ?org (believes {?job org ?org})           ; produced-restricted: ?org threaded off ?job
+  (role ?job {@self job ?job})
+  (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              (believes {?org workplace ?wp})       ; ?wp binds at fire
              (at-workplace ?wp))                    ; residual gate, re-checked at the when-seam
   (when (and (> (attr @self appetite) 0.25)
@@ -134,7 +134,7 @@
 
 ; LUNCH at home - the jobless / housewife / child midday meal, per lunch_hour.
 (npc-think want_lunch_home
-  (role ?home (believes {@self home ?home})
+  (role ?home {@self home ?home}
               (believes {?home lunch_hour ?h}))   ; existence cached, ?h binds at fire
   (when (and (at-home)
              (> (attr @self appetite) 0.25)
@@ -148,7 +148,7 @@
 ; SUPPER at home - the FAMILY table. The window opens an hour early so eat_go's
 ; travel (30 min) lands the household home by the cook's hour.
 (npc-think want_supper
-  (role ?home (believes {@self home ?home})
+  (role ?home {@self home ?home}
               (believes {?home supper_hour ?h}))   ; existence cached, ?h binds at fire
   (when (and (> (attr @self appetite) 0.25)
              (>= (now-hour) (- ?h 1))
@@ -165,8 +165,8 @@
 (npc-think want_eat_out_pub
   ; class gate = CACHED self-gate filter (the belief form, not the live conjunct).
   (role @self (believes {@self wealth ?wealth}) 
-              (not (believes {@self class_situation [k upper]})))
-  (role ?home (believes {@self home ?home})
+              (not {@self class_situation [k upper]}))
+  (role ?home {@self home ?home}
               (believes {?home supper_hour ?h}))   ; existence cached, ?h binds at fire
   (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette)))
   (when (and (> (attr @self appetite) 0.25)
@@ -182,7 +182,7 @@
   ; upper-class only - the CACHED self-gate skips the majority (and the
   ; larder belief-fold below) with zero eval.
   (role @self (believes {@self class_situation [k upper], wealth ?wealth}))
-  (role ?home (believes {@self home ?home})
+  (role ?home {@self home ?home}
               (believes {?home supper_hour ?h}))   ; existence cached, ?h binds at fire
   (role ?venue [k building restaurant] (select (score (near @self ?venue)) (policy roulette)))
   (when (and (> (attr @self appetite) 0.25)
@@ -277,13 +277,13 @@
 ; a meal brings hunger back under. The tails keep the live hunger conjunct as
 ; the freshness check - it now only ever runs for the starving few.
 (npc-think starving_watch
-  (role @self (not (believes {@self starve})))
+  (role @self (not {@self starve}))
   (when (> (attr @self appetite) 1.3))
   (effects
     (begin-belief {@self starve})))
 
 (npc-think starving_watch_end
-  (role @self (believes {@self starve}))
+  (role @self {@self starve})
   (when (not (> (attr @self appetite) 1.3)))
   (effects
     (end-belief {@self starve})))
@@ -296,7 +296,7 @@
 ; Eat what you carry: the laden cook (or laden thief) whose FIRST standing stow
 ; goal is a food item.
 (npc-think starving_eat_carried
-  (role @self (believes {@self starve}))
+  (role @self {@self starve})
   (when (and (> (attr @self appetite) 1.3)
              (control [k food])))
   (utility (homeostatic appetite 2.0 70))
@@ -304,8 +304,8 @@
   (cease-effects (end-goal   {@self forage})))
 
 (npc-think starving_pantry
-  (role @self (believes {@self starve}))
-  (role ?home (believes {@self home ?home}))
+  (role @self {@self starve})
+  (role ?home {@self home ?home})
   (when (and (> (attr @self appetite) 1.3)
              (at-home)
              (> (count-believed-located [k food] ?home) 0)))
@@ -314,8 +314,8 @@
   (cease-effects (end-goal   {@self forage})))
 
 (npc-think starving_go_home
-  (role @self (believes {@self starve}))
-  (role ?home (believes {@self home ?home}))
+  (role @self {@self starve})
+  (role ?home {@self home ?home})
   (when (and (> (attr @self appetite) 1.3)
              (not (at-home))
              (> (count-believed-located [k food] ?home) 0)))
@@ -460,7 +460,7 @@
 ; only speak when all three hour beliefs are held.
 (npc-think table_hours
   (task {@self eat ? ?place})
-  (role ?home (believes {@self home ?home}))
+  (role ?home {@self home ?home})
   (when (and (= ?place ?home) (chance 0.25)))
   (effects
     (for-each-present-tense-belief {?home breakfast_hour ?b}

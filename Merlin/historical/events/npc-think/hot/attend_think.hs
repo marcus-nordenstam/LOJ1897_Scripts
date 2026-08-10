@@ -72,8 +72,8 @@
 ; the betrothal ends, and the director-channel kin residue runs (rivalry
 ; settle + in-laws + family - the propagate-death class).
 (npc-think vow_realized
-  (role ?betrothed (believes {@self fiancee ?betrothed})
-                   (believes {@self spouse ?betrothed}))
+  (role ?betrothed {@self fiancee ?betrothed}
+                   {@self spouse ?betrothed})
   (effects
     (end-belief {@self fiancee ?betrothed})
     (formalize-marriage ?betrothed)))
@@ -83,9 +83,9 @@
 ; bride learns by gossip and marries then. (The heard fact's subject is ?p, so
 ; her OWN {@self spouse ?p} is an inference of hers, not a copy of the say.)
 (npc-think spouse_reciprocate
-  (role @self (not (believes {@self spouse ?})))
-  (role ?p (believes {@self fiancee ?p})
-           (believes {?p spouse @self}))
+  (role @self (not {@self spouse ?}))
+  (role ?p {@self fiancee ?p}
+           {?p spouse @self})
   (effects
     (end-belief {@self fiancee ?p})
     (begin-belief {@self spouse ?p})))

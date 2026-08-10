@@ -47,8 +47,8 @@
 ; Its articles name the office (articles-building). Inherits the acquire drive.
 (npc-think buy_home_go
   (goal {@self acquire})
-  (role @self (not (believes {@self for_sale ?})))   ; register unread - cached
-  (role ?agency (believes {?agency isa [k org house_agency]})
+  (role @self (not {@self for_sale ?}))   ; register unread - cached
+  (role ?agency {?agency isa [k org house_agency]}
                 (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
              (not (in-building ?venue))))
@@ -63,8 +63,8 @@
 ; rung stops.
 (npc-think buy_home_read
   (goal {@self acquire})
-  (role @self (not (believes {@self for_sale ?})))   ; register unread - cached
-  (role ?agency (believes {?agency isa [k org house_agency]})
+  (role @self (not {@self for_sale ?}))   ; register unread - cached
+  (role ?agency {?agency isa [k org house_agency]}
                 (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
              (in-building ?venue)))
@@ -82,7 +82,7 @@
 (npc-think buy_home_find
   (goal {@self acquire})
   (no-role [k org house_agency])
-  (role @self (not (believes {@self for_sale ?})))   ; register unread - cached
+  (role @self (not {@self for_sale ?}))   ; register unread - cached
   (utility 30)
   (effects       (begin-goal {@self orient}))
   (cease-effects (end-goal   {@self orient})))
@@ -98,7 +98,7 @@
 (npc-think choose_home
   (goal {@self acquire})
   (role @self (believes {@self wealth ?wealth}))
-  (role ?dwell (believes {@self for_sale ?dwell})
+  (role ?dwell {@self for_sale ?dwell}
                (select (score (* (dwelling-value ?dwell)
                                  (if (pub-bb-none ?dwell claimed) (then 1) (else 0))))
                        (policy roulette)))

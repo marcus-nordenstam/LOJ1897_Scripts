@@ -29,7 +29,7 @@
   ; belief-pure perceived age-band predicates (adult-age / age-peers, which expand
   ; to age_band believes). Only the enthusiasm-scaled (chance) roll is non-belief
   ; and lives in the (when ...) clause below.
-  (role @self (not (believes {@self repute [k scandalous]}))
+  (role @self (not {@self repute [k scandalous]})
               (adult-age @self)
               (believes {@self age_band ?peer_band}))
   ;; SELF-POV (telepathy purge CAT-3): @self sizes up ?b from what HE knows -
@@ -40,18 +40,18 @@
   (role ?b (any_human ?b)
            (adult-age ?b)
            (believes {?b age_span ?peer_band})
-           (not (believes {?b repute [k scandalous]}))
+           (not {?b repute [k scandalous]})
            ; Same class: @self's belief that ?b's class matches his own (dynamic-
            ; target shape-2, cacheable).
-           (believes {?b class_situation (target {@self class_situation})})
-           (not (believes {@self friend ?b}))
+           {?b class_situation (target {@self class_situation})}
+           (not {@self friend ?b})
            ; Warmth-gated: you do not befriend someone you actively dislike. The
            ; two negative warmth bands are EXPLICIT verb-state beliefs (core
            ; appraisal projects the warmth scalar onto them). Neutral same-class
            ; peers still pair (mere-exposure); only the two negative bands block.
            ; The pair excludes BOTH bands, since each `believes` is exact-band.
-           (not (believes {@self dislike ?b}))
-           (not (believes {@self detest ?b})))
+           (not {@self dislike ?b})
+           (not {@self detest ?b}))
 
   ; Non-belief gate kept out of the @self role (roles hold belief-pure filters):
   ; the enthusiasm-scaled (chance), rolled ONCE per @self per month.

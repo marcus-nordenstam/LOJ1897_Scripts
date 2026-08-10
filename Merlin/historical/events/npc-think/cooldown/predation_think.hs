@@ -40,14 +40,14 @@
   (cooldown 1 m)
   (rng-stream perpetration)
   (role @self (adult @self)
-              (not (believes {@self fixation ?})))
+              (not {@self fixation ?}))
   ; A random adult the predator KNOWS the look of (has both perceived colour
   ; beliefs about), sampled by roulette - the victim-type prototype.
   (role ?proto (any_human ?proto)
                (adult ?proto)
                (not (= ?proto @self))
-               (believes {?proto hair_color ?})
-               (believes {?proto eye_color ?})
+               {?proto hair_color ?}
+               {?proto eye_color ?}
                (select (score 1) (policy roulette)))
   ; Only the hard lethal-disposition tail ever seeds (same floor as the hunt).
   (when (>= (lethal-disposition @self) 0.65))
@@ -62,14 +62,14 @@
   (rng-stream perpetration)
 
   (role @self (adult @self)
-              (believes {@self fixation ?}))
+              {@self fixation ?})
 
   ; The victim: cast from the predator's OWN non-kin acquaintance ties (his
   ; acquaintance graph, role-cast - no world scan), HARD-filtered to his type (the
   ; victim's hair OR eye colour is one of his fixations), then weighted-sampled by
   ; social invisibility (low class / stained repute = fewer defenders = safer).
   (role ?victim (any_human ?victim)
-                (believes {@self spouse|fiancee|friend|lover|acquaintance|neighbour|enemy ?victim})
+                {@self spouse|fiancee|friend|lover|acquaintance|neighbour|enemy ?victim}
                 (adult ?victim)
                 (not (blood-kin @self ?victim))
                 ; TYPE FLOOR (cacheable non-@excl overlap): the victim carries one of

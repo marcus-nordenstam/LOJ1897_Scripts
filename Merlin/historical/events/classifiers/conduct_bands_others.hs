@@ -20,10 +20,10 @@
   ; the held-lax bands). The mint-band hysteresis makes a same-band value a no-op.
   (rng-stream behaviour)
 
-  (role ?other (or (believes {?other seem ?})
-                   (believes {?other honesty    [k conduct_level lax]})
-                   (believes {?other generosity [k conduct_level lax]})
-                   (believes {?other sobriety   [k conduct_level lax]})))
+  (role ?other (or {?other seem ?}
+                   {?other honesty    [k conduct_level lax]}
+                   {?other generosity [k conduct_level lax]}
+                   {?other sobriety   [k conduct_level lax]}))
 
   (effects
     (mint-band-about {?other honesty}

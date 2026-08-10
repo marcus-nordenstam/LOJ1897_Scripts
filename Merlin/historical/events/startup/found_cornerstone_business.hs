@@ -25,8 +25,8 @@
   ; this same startup pass) holds a head_of_non_household_org job and drops out of
   ; the set the instant he founds. A salaried worker does not found either. (The
   ; household is separately capped by found_household's own throttle.)
-  (role @self (not (believes {@self job.salary ?}))
-              (not (believes {@self job [k head_of_non_household_org]})))
+  (role @self (not {@self job.salary ?})
+              (not {@self job [k head_of_non_household_org]}))
 
   ; age gate stays live (non-belief op read).
   (when (>= (years-old @self) 25))

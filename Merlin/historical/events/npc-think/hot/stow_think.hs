@@ -33,7 +33,7 @@
 
 (npc-think stow_go
   (goal {@self stow ?item})
-  (role ?home (believes {@self home ?home}))
+  (role ?home {@self home ?home})
   (when (and (is-entity ?item)
              (not (at-home))))
   (utility 90)

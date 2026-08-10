@@ -9,7 +9,7 @@
        (any_human ?stranger) 
        (co-present @self) 
        (not (personally-knows @self ?stranger))
-       (not (believes {@self SAY ? ?stranger})))
+       (not {@self SAY ? ?stranger}))
 
   ; Sociability gate: an extraverted NPC strikes up an introduction more readily.
   (when (chance (* 0.5 (+ 0.4 (attr @self enthusiasm)))))

@@ -27,23 +27,23 @@
   ; courtship is the directed pursuit of a specific crush, not a random advance.
   (role @self 
               (marriageable-age @self)
-              (not (believes {@self spouse ?}))
-              (not (believes {@self fiancee ?}))
-              (believes {@self fancy ?}))
+              (not {@self spouse ?})
+              (not {@self fiancee ?})
+              {@self fancy ?})
   ;; SELF-POV (telepathy purge CAT-3): the suitor reads the beloved from his OWN
   ;; knowledge - her marital state / lover / fallen mark as HE knows them
   ;; (permissive on the unknown), and her receptivity as SHE has signalled it to
   ;; him (confess_fancy). No cross-mind read.
   (role ?beloved (any_human ?beloved)
                 (marriageable-age ?beloved)
-                (not (believes {?beloved spouse ?}))
-                (not (believes {?beloved fiancee ?}))
+                (not {?beloved spouse ?})
+                (not {?beloved fiancee ?})
                 ; You do not court a TAKEN or FALLEN woman: a lover bond means
                 ; she is spoken-for or compromised, and the fallen-woman mark is
                 ; the ruined maiden a respectable suitor abandons. (As @self knows
                 ; them - he courts on; a secret he has not heard does not stop him.)
-                (not (believes {?beloved lover ?}))
-                (not (believes {?beloved prototype fallen_woman}))
+                (not {?beloved lover ?})
+                (not {?beloved prototype fallen_woman})
                 ; the specific person @self is attracted to (the attraction
                 ; stance has reached at least the `fancy` band, read as the
                 ; explicit band-ladder verb-state belief) ...
@@ -52,11 +52,11 @@
                 ; TOLD HIM she fancies him (deepening), or - as far as HE knows -
                 ; she fancies NO ONE yet (winnable). A girl HE KNOWS to fancy
                 ; another is not courted - that rival suitor has been heard of.
-                (or (believes {?beloved fancy @self})
-                    (not (believes {?beloved fancy ?})))
+                (or {?beloved fancy @self}
+                    (not {?beloved fancy ?}))
                 ; opposite-sex: @self's belief that the beloved's PERCEIVED gender
                 ; differs from his own (visible-on-sight -> cacheable). And not kin.
-                (not (believes {?beloved gender (target {@self gender})}))
+                (not {?beloved gender (target {@self gender})})
                 (not (blood-kin @self ?beloved))
                 ; Court the ONE the suitor is most drawn to - "the directed pursuit of a
                 ; specific crush", so the fan-out reduces to the strongest attraction.

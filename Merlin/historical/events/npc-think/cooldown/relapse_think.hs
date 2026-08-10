@@ -21,7 +21,7 @@
   ; route to a pub. The routing lane handles movement, and this desire just holds the drink goal.
   (cooldown 1 d)
   (role @self (grown @self)
-              (believes {@self craving [k alcohol]}))   ; the dependency - cached
+              {@self craving [k alcohol]})   ; the dependency - cached
   ; The nearest pub the NPC KNOWS (role-cast; no known pub -> no fire).
   (role ?pub [k building pub] (select (score (near @self ?pub)) (policy roulette)))
   ; A dependent, a drink already ~due (short fuse - he relapses fast).

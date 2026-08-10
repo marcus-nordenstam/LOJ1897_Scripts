@@ -4,11 +4,11 @@
   (cooldown 1 m)
   (rng-stream incidents)
 
-  (role @self (adult @self) (believes {@self lover ?})
+  (role @self (adult @self) {@self lover ?}
               ; @self signs the denunciation - bind his OWN name for "Signed, ..".
               (believes {@self name ?author_name}))
   (role ?cheater (any_human ?cheater)
-    (believes {@self lover ?cheater})
+    {@self lover ?cheater}
     ; @self names the cheater in the letter body (a name value, not the object).
     (believes {?cheater name ?cheater_name})
     (select (policy first-match)))

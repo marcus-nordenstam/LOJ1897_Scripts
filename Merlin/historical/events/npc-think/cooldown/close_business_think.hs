@@ -62,10 +62,10 @@
   ; Light @self gate; the owner + business-kind identification is the cached
   ; ?org role; the articles filter caches as EXISTENCE and binds ?art at fire.
   (role @self (grown @self))
-  (role ?job (believes {@self job ?job}))
+  (role ?job {@self job ?job})
   (role ?org (believes {?job org [k org business]:?org})    ; produced-restricted: ?org threaded off ?job
              (believes {@self wealth ?wealth})
-             (believes {?org founder @self})
+             {?org founder @self}
              (believes {?org record ?art}))
 
   ; The once-a-year failure roll (base x climate x means-penalty x merit-penalty;

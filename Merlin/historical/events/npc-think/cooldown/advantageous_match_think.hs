@@ -37,11 +37,11 @@
   ;; keeps the belief-pure availability / repute / gender filters plus the
   ;; perceived age-peer + blood-kin predicates (belief macros).
   (role @self (adult @self)
-              (believes {@self gender [k male]})
-              (not (believes {@self spouse ?}))
-              (not (believes {@self fiancee ?}))
-              (not (believes {@self repute [k scandalous]}))
-              (not (believes {@self repute [k disreputable]}))
+              {@self gender [k male]}
+              (not {@self spouse ?})
+              (not {@self fiancee ?})
+              (not {@self repute [k scandalous]})
+              (not {@self repute [k disreputable]})
               (believes {@self age_band ?peer_band}))
   ;; An exemplary bride one class BELOW the groom (spotless reputation lifts her).
   ;; class_situation values are upper / middle / lower; the explicit kind literals
@@ -51,12 +51,12 @@
   (role ?bride (unmarried_woman ?bride)
                (believes {?bride age_span ?peer_band})
                (not (blood-kin @self ?bride))
-               (not (believes {?bride fiancee ?}))
-               (believes {?bride repute [k exemplary]})
-               (or (and (believes {@self class_situation [k middle]})
-                        (believes {?bride class_situation [k lower]}))
-                   (and (believes {@self class_situation [k upper]})
-                        (believes {?bride class_situation [k middle]}))))
+               (not {?bride fiancee ?})
+               {?bride repute [k exemplary]}
+               (or (and {@self class_situation [k middle]}
+                        {?bride class_situation [k lower]})
+                   (and {@self class_situation [k upper]}
+                        {?bride class_situation [k middle]})))
 
   ;; Only the trait-graded pacing stays live: the exclusivity conditions ARE the
   ;; role/self-gate filters (the cache reconciles at belief-write, so a live

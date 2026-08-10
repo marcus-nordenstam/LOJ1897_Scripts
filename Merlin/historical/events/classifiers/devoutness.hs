@@ -16,7 +16,7 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self (believes {@self class_situation ?}))
+  (role @self {@self class_situation ?})
 
   (effects
     (mint-band {@self devoutness} (evidence @self worship 6 6)
@@ -29,7 +29,7 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role ?other (believes {?other class_situation ?}))
+  (role ?other {?other class_situation ?})
 
   (effects
     (mint-band-about {?other devoutness} (evidence ?other worship 6 6)

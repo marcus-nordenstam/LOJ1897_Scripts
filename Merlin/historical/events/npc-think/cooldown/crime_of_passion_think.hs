@@ -41,7 +41,7 @@
   ; (policy first-match) binds ONE, so a multi-crave actor strikes a
   ; single victim per tick (parity with the old first-viable walk).
   (role ?beloved (any_human ?beloved)
-    (believes {@self crave ?beloved})
+    {@self crave ?beloved}
     (select (policy first-match)))
 
   ; Jealous-rage pre-gate + the fallback guard. rage = mean(volatility, psychopathy);

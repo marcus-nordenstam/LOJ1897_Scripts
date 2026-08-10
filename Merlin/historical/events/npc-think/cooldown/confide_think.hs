@@ -30,7 +30,7 @@
   ; and has a friend to confide in.
   (role @self (grown @self)
               (believes {@self calling ?domain})
-              (believes {@self friend ?}))
+              {@self friend ?})
 
   ; Roll the disclosure - once per discloser per month, weighted by extraversion.
   (when (chance (* 0.08 (+ 0.5 (attr @self enthusiasm)))))

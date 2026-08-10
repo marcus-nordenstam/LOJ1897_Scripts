@@ -44,14 +44,14 @@
                  ;; A working-age adult, elevatable into a trade - a belief-pure
                  ;; perceived age-band predicate, so it stays a role filter.
                  (working-age ?protege)
-                 (not (believes {?protege repute [k scandalous]}))
-                 (not (believes {?protege backed_by ?}))
-                 (or (and (believes {@self    class_situation [k upper]})
-                          (believes {?protege class_situation [k middle]}))
-                     (and (believes {@self    class_situation [k upper]})
-                          (believes {?protege class_situation [k lower]}))
-                     (and (believes {@self    class_situation [k middle]})
-                          (believes {?protege class_situation [k lower]}))))
+                 (not {?protege repute [k scandalous]})
+                 (not {?protege backed_by ?})
+                 (or (and {@self    class_situation [k upper]}
+                          {?protege class_situation [k middle]})
+                     (and {@self    class_situation [k upper]}
+                          {?protege class_situation [k lower]})
+                     (and {@self    class_situation [k middle]}
+                          {?protege class_situation [k lower]})))
 
   ;; Non-belief gates: the per-patron (chance) roll (first, cheap, short-circuits)
   ;; and the patron's age / prestige floors.

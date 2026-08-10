@@ -28,7 +28,7 @@
 ; reconciliation is built here; the rest are left to their own teardown lanes.
 ;
 ; This rule fires the cycle he is at the shuttered premises. Ending the job belief makes
-; the (role ?org (believes {@self job.org ?org})) gate fail next cycle, so the rule
+; the (role ?org {@self job.org ?org}) gate fail next cycle, so the rule
 ; self-extinguishes after one firing. No goal / utility: the effects just end
 ; beliefs when the gate holds (they do not compete for the motor).
 ; ----------------------------------------------------------------------------
@@ -37,8 +37,8 @@
 ; belief is about ?wp (the workplace), not @self, and lives in the (when). Cheap: gated
 ; to employed workers, and ends its own gate on first fire.
 (npc-think reconcile_closed
-  (role ?job (believes {@self job ?job}))
-  (role ?org (believes {?job org ?org})           ; produced-restricted: ?org threaded off ?job
+  (role ?job {@self job ?job})
+  (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (believes {?wp struct_status [k closed]})))
   (effects

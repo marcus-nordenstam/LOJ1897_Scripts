@@ -26,8 +26,8 @@
   (cooldown 1 m)
   (rng-stream employment)
 
-  (role ?job (believes {@self job ?job}))
-  (role ?org (believes {?job org ?org}))
+  (role ?job {@self job ?job})
+  (role ?org {?job org ?org})
   (when (or (in-month 3) (in-month 6) (in-month 9) (in-month 12)))
 
   (effects

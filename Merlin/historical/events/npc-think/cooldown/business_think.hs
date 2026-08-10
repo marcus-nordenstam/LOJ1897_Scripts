@@ -52,10 +52,10 @@
   ; chance live in (when ...) below.
   (role @self (old_human @self)
               (believes {@self wealth ?wealth})
-              (or (believes {@self repute [k respectable]})
-                  (believes {@self repute [k exemplary]})))
-  (role ?job (believes {@self job ?job}))
-  (role ?org (believes {?job org ?org}))          ; produced-restricted: ?org threaded off ?job
+              (or {@self repute [k respectable]}
+                  {@self repute [k exemplary]}))
+  (role ?job {@self job ?job})
+  (role ?org {?job org ?org})          ; produced-restricted: ?org threaded off ?job
 
   ; MAINTENANCE: the decision OWNS the back goal end to end. (not backed_by) is the
   ; CONTINUOUS completion gate - while he is still unbacked the goal stands; the moment
@@ -92,11 +92,11 @@
   ; (when ...) below.
   (role @self (old_human @self)
               (believes {@self wealth ?wealth})
-              (or (believes {@self repute [k respectable]})
-                  (believes {@self repute [k exemplary]}))
-              (not (believes {@self backed_by ?})))
-  (role ?job (believes {@self job ?job})
-             (believes {?job org ?}))             ; threaded job.org existence
+              (or {@self repute [k respectable]}
+                  {@self repute [k exemplary]})
+              (not {@self backed_by ?}))
+  (role ?job {@self job ?job}
+             {?job org ?})             ; threaded job.org existence
   ; An existing business he is taken into - a KNOWN org of business kind (@self
   ; learned it at new_job_orientation). Belief-pure + cached. (The plan links
   ; principal and candidate by a prior bond - friend / former master / club
@@ -156,10 +156,10 @@
   ; dim, means branch and the monthly chance are non-belief and live in (when ...).
   (role @self (old_human @self)
               (believes {@self wealth ?wealth})
-              (or (believes {@self repute [k respectable]})
-                  (believes {@self repute [k exemplary]})))
-  (role ?job (believes {@self job ?job})
-             (believes {?job org ?}))             ; threaded job.org existence
+              (or {@self repute [k respectable]}
+                  {@self repute [k exemplary]}))
+  (role ?job {@self job ?job}
+             {?job org ?})             ; threaded job.org existence
 
   ; MAINTENANCE: the decision OWNS the found goal end to end. (not org_head) is the
   ; CONTINUOUS completion gate - while he is not yet a proprietor the goal stands; the

@@ -21,7 +21,7 @@
 (npc-think rehabilitation
   (cooldown 15 d)
   (role @self (old_human @self)
-              (believes {@self repute [k disreputable]}))   ; derive-maintained band - cached
+              {@self repute [k disreputable]})   ; derive-maintained band - cached
   (when    (>= (days-since-last @self worship) 15))
   (utility (min (* (days-since-last @self worship) 2) 40))
   (effects       (begin-goal {@self worship}))

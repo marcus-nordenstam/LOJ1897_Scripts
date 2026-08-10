@@ -30,7 +30,7 @@
 (npc-think want_drink
   (cooldown 3 d)
   (role @self (grown @self)
-              (not (believes {@self craving [k alcohol]})))   ; dependents use the relapse lane
+              (not {@self craving [k alcohol]}))   ; dependents use the relapse lane
   (when          (>= (days-since-last @self drink) 3))
   (utility       (drink-drive @self))
   (effects       (begin-goal {@self drink}))

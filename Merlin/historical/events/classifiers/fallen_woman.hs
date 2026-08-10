@@ -20,10 +20,10 @@
   ; lover / prototype role filters). The mint-band hysteresis makes a same-band value a no-op.
   (rng-stream behaviour)
 
-  (role ?other (believes {?other gender [k female]})
-               (believes {?other spouse ?})
-               (or (believes {?other lover ? /ever})
-                   (believes {?other prototype [k fallen_woman]})))
+  (role ?other {?other gender [k female]}
+               {?other spouse ?}
+               (or {?other lover ? /ever}
+                   {?other prototype [k fallen_woman]}))
 
   (effects
     (mint-band-about {?other prototype} (believes {?other lover ? /ever})

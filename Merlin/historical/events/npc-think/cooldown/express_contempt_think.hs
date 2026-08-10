@@ -29,7 +29,7 @@
                 ; @self holds ?victim in deep contempt (esteem `despise`, the
                 ; floor esteem band - so the exact-band belief IS "esteem at
                 ; least despise"), read as an EXPLICIT verb-state belief.
-                (believes {@self despise ?victim}))
+                {@self despise ?victim})
 
   ; How readily the contempt surfaces: the callous (low compassion) cut openly; the
   ; compassionate restrain it. A non-belief (chance) gate, rolled per victim at

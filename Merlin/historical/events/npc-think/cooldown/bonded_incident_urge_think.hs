@@ -41,7 +41,7 @@
 
   (role @self  (any_human @self))
   (role ?victim (any_human ?victim)
-                (believes {@self child ?victim}))
+                {@self child ?victim})
 
   ; Non-belief gates (moved out of the roles - none are cacheable belief queries):
   ;  - actor (chance): the plan's `+legacy, +respectability` for urge is a

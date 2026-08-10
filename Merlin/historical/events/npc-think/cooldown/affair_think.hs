@@ -34,13 +34,13 @@
   ;; non-belief filter and lives in the (when ...) clause below.
   (role @self
               (adult-age @self)
-              (believes {@self spouse ?})
-              (not (believes {@self lover ?}))
+              {@self spouse ?}
+              (not {@self lover ?})
               (believes {@self age_band ?peer_band}))
   (role ?lover (any_human ?lover)
                (adult-age ?lover)
                ; the paramour must NOT be @self's own spouse (a third party).
-               (not (believes {@self spouse ?lover}))
+               (not {@self spouse ?lover})
                ; the affair ignites with a known third party (social tie).
                (personally-knows @self ?lover)
                ; @self's band within ?lover's perceived age_span (+/-1). Bound in
@@ -49,7 +49,7 @@
                (believes {?lover age_span ?peer_band})
                ; opposite-sex: @self's belief that ?lover's PERCEIVED gender differs
                ; from his own (visible-on-sight -> cacheable), and non-kin.
-               (not (believes {?lover gender (target {@self gender})}))
+               (not {?lover gender (target {@self gender})})
                (not (blood-kin @self ?lover)))
 
   ;; The disposition-to-stray, rolled once per NPC per month: the character tail

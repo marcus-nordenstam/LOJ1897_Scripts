@@ -21,8 +21,8 @@
 (npc-think seek_board_visit
   (cooldown 1 m)
   (rng-stream employment)
-  (role @self (not (believes {@self job.salary ?}))
-              (not (believes {@self apply_for ? ? /pres})))
+  (role @self (not {@self job.salary ?})
+              (not {@self apply_for ? ? /pres}))
   (when (and (>= (years-old @self) 16)
              (<= (years-old @self) 55)
              (not (= (situation @self repute) [k scandalous]))
@@ -45,8 +45,8 @@
   ; gate then bars re-admission until the apply_for concludes.
   (lock-rule)
   (rng-stream employment)
-  (role @self (not (believes {@self job.salary ?}))
-              (not (believes {@self apply_for ? ? /pres})))
+  (role @self (not {@self job.salary ?})
+              (not {@self apply_for ? ? /pres}))
   (role ?ad [k job_description] (select (score 1) (policy roulette)))
   (when (and (co-present @self ?ad)
              (read-doc-record [k job_description] ?ad (job ?jk) (org_record ?art) (class_floor ?cf))
@@ -98,7 +98,7 @@
 ; An OFFER: take up the post (a sub-task carrying the same job + articles as apply_for).
 (npc-think af_take_up
   (task {@self apply_for ?jk ?art})
-  (role ?ltr [k offer_letter] (believes {@self read ?ltr /ever}))
+  (role ?ltr [k offer_letter] {@self read ?ltr /ever})
   (utility 77)
   (effects (debug-print "JS_TAKEUP")
            (maintain-proposal {@self take_up_post ?jk ?art})))
@@ -107,7 +107,7 @@
 ; memory (the pick excludes this job+org forever after).
 (npc-think af_rejected
   (task {@self apply_for ?jk ?art}:?af)
-  (role ?ltr [k rejection_letter] (believes {@self read ?ltr /ever}))
+  (role ?ltr [k rejection_letter] {@self read ?ltr /ever})
   (effects (set-outcome ?af fail)))
 
 ; === take_up_post sub-task: go to the workplace and take the post ===================
@@ -144,7 +144,7 @@
 ; conclusive signal below - no race with the parent's gate-fall withdrawal.
 (npc-think tup_succeeded
   (task {@self take_up_post ?jk ?art}:?tup)
-  (role @self (believes {@self job.salary ?}))
+  (role @self {@self job.salary ?})
   (effects (debug-print "TUP_SUCC art=?art")
            (set-outcome ?tup succ)))
 
@@ -159,7 +159,7 @@
 ; abs `home-of` op cannot be used here; ?home externalizes only inside the effect ops.
 (npc-think read_post
   (cooldown 1 m)
-  (role ?home (believes {@self home ?home}))
+  (role ?home {@self home ?home})
   (when (in-building ?home))
   (effects
     (for-each ?ltr (attr-values (mail-pile (mail-space ?home)) items [k letter])

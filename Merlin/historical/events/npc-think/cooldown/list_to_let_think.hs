@@ -36,10 +36,10 @@
   (cooldown 1 y)
   (role @self (adult @self))
   ; His OWN vacant residential holdings (object-cache role over his beliefs).
-  (role ?prop (believes {@self own ?prop})
-              (believes {?prop isa [k residential_building]})
-              (not (believes {@self home ?prop}))            ; not where he lives
-              (not (believes {?prop tenant ?}))              ; no sitting tenant
-              (not (believes {?prop availability [k for_rent]})))  ; not already listed
+  (role ?prop {@self own ?prop}
+              {?prop isa [k residential_building]}
+              (not {@self home ?prop})            ; not where he lives
+              (not {?prop tenant ?})              ; no sitting tenant
+              (not {?prop availability [k for_rent]}))  ; not already listed
   (effects       (begin-goal {@self let ?prop}))
   (cease-effects (end-goal   {@self let ?prop})))

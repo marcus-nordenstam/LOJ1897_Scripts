@@ -49,7 +49,7 @@
 
   (role @self  (any_human @self))
   (role ?victim (any_human ?victim)
-                (believes {@self child ?victim}))
+                {@self child ?victim})
 
   ; Grounds, not a floor: mild standing disregard (dislike / disdain) admits the cut
   ; at 0.2 each, deep disregard (detest / despise) at 0.3 each; a child the father

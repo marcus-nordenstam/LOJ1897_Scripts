@@ -15,8 +15,8 @@
   ; (rehabilitation). The gate's prototype disjunct keeps the event eligible across the
   ; removing fire.
   (rng-stream behaviour)
-  (role @self (or (believes {@self craving ?})
-                  (believes {@self prototype [k prototype drunkard]})))
+  (role @self (or {@self craving ?}
+                  {@self prototype [k prototype drunkard]}))
   (effects
     (mint-band {@self prototype} (believes {@self craving ?})
       [k prototype drunkard] 0.5)))
@@ -52,7 +52,7 @@
 ; deserving_poor: poor/destitute + reputable.
 (npc-think classify_deserving_poor
   (rng-stream behaviour)
-  (role @self (believes {@self economic_situation ?}))
+  (role @self {@self economic_situation ?})
   (effects
     (mint-band {@self prototype}
       (* (clamp (+ (believes {@self economic_situation [k economic_situation poor]})
@@ -64,7 +64,7 @@
 ; undeserving_poor: poor/destitute + disreputable.
 (npc-think classify_undeserving_poor
   (rng-stream behaviour)
-  (role @self (believes {@self economic_situation ?}))
+  (role @self {@self economic_situation ?})
   (effects
     (mint-band {@self prototype}
       (* (clamp (+ (believes {@self economic_situation [k economic_situation poor]})
@@ -82,7 +82,7 @@
 ; C++ used - NOT the (disinhibition) = 1 - inhibition macro.
 (npc-think classify_go_between
   (rng-stream behaviour)
-  (role @self (believes {@self repute ?, class_situation ?}))
+  (role @self {@self repute ?, class_situation ?})
   (effects
     (mint-band {@self prototype}
       (* (* (- 1 (believes {@self repute [k repute exemplary]}))
@@ -106,9 +106,9 @@
 ; skilled path: a martial or garrotting skill IS the capability; mint on reason.
 (npc-think classify_for_hire_skilled
   (rng-stream behaviour)
-  (role @self (believes {@self economic_situation ?})
-              (or (believes {@self skilled_in [k martial]})
-                  (believes {@self skilled_in [k garrotting]})))
+  (role @self {@self economic_situation ?}
+              (or {@self skilled_in [k martial]}
+                  {@self skilled_in [k garrotting]}))
   (effects
     (mint-band {@self prototype}
       ; REASON: economic desperation OR the callous + disinhibited bad seed.
@@ -124,9 +124,9 @@
 ; brute path: the lower-class strong man with NO lethal skill (footpad / cosh thug).
 (npc-think classify_for_hire_brute
   (rng-stream behaviour)
-  (role @self (believes {@self economic_situation ?, class_situation ?})
-              (not (believes {@self skilled_in [k martial]}))
-              (not (believes {@self skilled_in [k garrotting]})))
+  (role @self {@self economic_situation ?, class_situation ?}
+              (not {@self skilled_in [k martial]})
+              (not {@self skilled_in [k garrotting]}))
   (effects
     (mint-band {@self prototype}
       (* (>= (attr @self strength) 0.65)

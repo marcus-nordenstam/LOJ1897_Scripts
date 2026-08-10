@@ -126,7 +126,7 @@
 ; SUCCESS the melee is OVER - the victim is whisked to a public place this instant
 ; and co-presence breaks; on FAILURE it is still pinned and re-deliberates next round.
 (npc-think flee_attack
-  (role ?foe (believes {@self under_attack ?foe}))
+  (role ?foe {@self under_attack ?foe})
   (when (no-goal {@self fight}))
   (utility 15000)
   (effects       (begin-goal {@self flee ?foe}))
@@ -147,7 +147,7 @@
 ; other two produce no act. A one-minute cry that keeps the victim ACTIVE (never
 ; falling back to sleep / idle while under attack) and re-deliberating each round.
 (npc-think scream_for_help
-  (role ?foe (believes {@self under_attack ?foe}))
+  (role ?foe {@self under_attack ?foe})
   (utility 12000)
   (effects       (begin-goal {@self cry_out}))
   (cease-effects (end-goal   {@self cry_out})))
@@ -158,6 +158,6 @@
 ; victim active (never lapsing to sleep / idle) while under attack.
 (npc-think cry_out_alarm
   (goal {@self cry_out})
-  (role ?foe (believes {@self under_attack ?foe}))
+  (role ?foe {@self under_attack ?foe})
   (utility 12000)
   (effects (maintain-proposal {@self cry_out})))

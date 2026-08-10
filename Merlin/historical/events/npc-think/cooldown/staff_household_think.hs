@@ -37,7 +37,7 @@
   (rng-stream employment)
 
   (role @self )
-  (role ?h (believes {@self home ?h})
+  (role ?h {@self home ?h}
            (or (believes {@self own [k manor]:?h})
                (believes {@self own [k townhouse]:?h})))
 
@@ -66,8 +66,8 @@
   (goal {@self staff_household})
   (rng-stream employment)
 
-  (role @self (not (believes {@self job.org [k org household]})))
-  (role ?h (believes {@self home ?h})
+  (role @self (not {@self job.org [k org household]}))
+  (role ?h {@self home ?h}
            (or (believes {@self own [k manor]:?h})
                (believes {@self own [k townhouse]:?h})))
 
@@ -90,8 +90,8 @@
   (rng-stream employment)
 
   (role @self )
-  (role ?h (believes {@self home ?h})
-           (believes {@self own ?h}))
+  (role ?h {@self home ?h}
+           {@self own ?h})
 
   ; Winter-only so the bout CEASES each spring and re-arms: a think-act whose (when)
   ; stays true holds forever and fires exactly once (never refilling). Pulsing the

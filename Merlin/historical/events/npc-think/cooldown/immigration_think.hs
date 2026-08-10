@@ -43,7 +43,7 @@
   ;; installed by senior_appointment). His job belief is his own - a CACHED
   ;; self-gate filter, so every non-official empty-set-skips the event.
   (role @self (grown @self)
-              (believes {@self job [k job official]}))
+              {@self job [k job official]})
 
   ;; Fire only while sparse, and then with a sparseness-scaled monthly chance. The
   ;; (< ...) guard fires the (and ...) only below the threshold, so the (chance ...)

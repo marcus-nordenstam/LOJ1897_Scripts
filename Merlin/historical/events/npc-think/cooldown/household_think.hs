@@ -85,9 +85,9 @@
   ; the role BINDS ?home for the effects. Whichever adult woman fires first sets
   ; the hours; the (not supper_hour) filter then empties for the whole household.
   (role @self (grown @self)
-              (believes {@self gender [k female]}))
-  (role ?home (believes {@self home ?home})
-              (not (believes {?home supper_hour ?})))
+              {@self gender [k female]})
+  (role ?home {@self home ?home}
+              (not {?home supper_hour ?}))
 
   (effects
     ; The per-cook offset: -1 / 0 / +1 on the whole day (breakfast 5-7,
@@ -126,12 +126,12 @@
   ; wife). Same {@self <kin> ?cand} cacheable shape covet uses. The woman
   ; herself (no female parent/spouse at home) casts nothing here - she already
   ; knows the hours, so she never needs to ask.
-  (role ?cook (believes {@self mother|parent|spouse ?cook})
-              (believes {?cook gender [k female]}))
+  (role ?cook {@self mother|parent|spouse ?cook}
+              {?cook gender [k female]})
   ; The unknown-hours gate as a CACHED role (binds ?home for the ask): empties
   ; the instant the supper hour is learned, closing the window for good.
-  (role ?home (believes {@self home ?home})
-              (not (believes {?home supper_hour ?})))
+  (role ?home {@self home ?home}
+              (not {?home supper_hour ?}))
 
   (when (>= (years-old @self) 3))
 

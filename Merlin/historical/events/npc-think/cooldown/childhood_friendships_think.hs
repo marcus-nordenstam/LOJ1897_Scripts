@@ -28,17 +28,17 @@
            (schoolchild-age ?b)
            ; Same class: @self's belief that ?b's class matches his own (dynamic-
            ; target shape-2, cacheable - replaces the (= (target..)(target..)) pair).
-           (believes {?b class_situation (target {@self class_situation})})
+           {?b class_situation (target {@self class_situation})}
            (believes {?b age_span ?peer_band})
-           (not (believes {@self friend ?b}))
+           (not {@self friend ?b})
            ; Warmth-gated: see adult_friendships.hs. The two negative warmth
            ; bands (dislike, detest) are read as EXPLICIT verb-state beliefs
            ; (core appraisal projects the warmth scalar onto them) - kids rarely
            ; hold either yet, so volume is ~unchanged; the gate just prevents
            ; befriending an already-disliked peer. The pair excludes BOTH bands
            ; (= "warmth not below neutral"), since each `believes` is exact-band.
-           (not (believes {@self dislike ?b}))
-           (not (believes {@self detest ?b})))
+           (not {@self dislike ?b})
+           (not {@self detest ?b}))
 
   ; Non-belief gate moved out of the @self role: the enthusiasm-scaled chance.
   ; High enthusiasm (the sociable Extraversion aspect) makes friends more readily;

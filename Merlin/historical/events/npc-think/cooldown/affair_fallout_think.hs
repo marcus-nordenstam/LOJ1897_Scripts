@@ -44,7 +44,7 @@
   ; The unfaithful partner: a spouse or lover of the actor's (the interloper
   ; is resolved in (effects) - a cross-role read, not a role filter).
   (role ?partner (any_human ?partner)
-    (believes {@self spouse|lover ?partner})
+    {@self spouse|lover ?partner}
     (select (policy first-match)))
 
   ; The affair surfaces some months, not every one (probabilistic discovery).

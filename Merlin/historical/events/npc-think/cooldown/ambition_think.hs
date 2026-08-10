@@ -37,8 +37,8 @@
   ; @self: a credible successor - seated (binds my org), senior grade, not the head.
   (role @self (adult @self)
               (believes {@self job.org ?org})
-              (believes {@self job.level [k senior]})
-              (not (believes {@self job [k org_head]})))
+              {@self job.level [k senior]}
+              (not {@self job [k org_head]}))
 
   ; The incumbent head I stand behind - a known colleague (learned from the staff
   ; register by read_roster) whose job is-a org_head. read_roster only mints coworkers
@@ -46,7 +46,7 @@
   ; to my current ?org with a LIVE chain read (a cross-role JOIN on the job.org chain in
   ; a cached role filter is unsupported, so the org match lives in the gate, not the role).
   (role ?victim (known_alive ?victim)
-                (believes {?victim job [k org_head]})
+                {?victim job [k org_head]}
                 (select (policy first-match)))
 
   ; Same-org pin + disposition pre-gate. ambition = mean(machiavellianism, narcissism);

@@ -9,7 +9,7 @@
 ; being urged to do BECAUSE they read it, not by telepathy.
 ;
 ; PURE .hs over a cacheable role + one atomic op:
-;   - (role ?cache (believes {@self hiding_spot ?cache})) binds each hiding-spot
+;   - (role ?cache {@self hiding_spot ?cache}) binds each hiding-spot
 ;     @self made - a cacheable self-belief role (the persistent {@self hiding_spot
 ;     ?cache} relation seeds the candidate pool; no template, no cross-role join);
 ;   - (read-cache ?cache) reads every readable item stashed inside it. The op
@@ -24,7 +24,7 @@
 
   (role @self )
   ; Each hiding-spot @self made and knows.
-  (role ?cache (believes {@self hiding_spot ?cache}))
+  (role ?cache {@self hiding_spot ?cache})
 
   (effects
     (read-cache ?cache)))

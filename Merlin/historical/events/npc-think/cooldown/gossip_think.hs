@@ -24,7 +24,7 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self (believes {@self friend ?}))
+  (role @self {@self friend ?})
   ; The person gossiped ABOUT: someone @self knows of, drawn by roulette.
   (role ?x (any_human ?x)
            (select (score 1) (policy roulette)))

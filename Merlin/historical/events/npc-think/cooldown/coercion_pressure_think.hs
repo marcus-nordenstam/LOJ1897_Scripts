@@ -28,7 +28,7 @@
   (rng-stream perpetration)
   (role @self (adult @self))
   (role ?blackmailer (any_human ?blackmailer)
-                     (believes {?blackmailer extort @self}))
+                     {?blackmailer extort @self})
   (effects
     (bind (begin-belief {?blackmailer extort @self}) ?extort_anchor)
     (begin-belief {@self pressure [k exposure_risk] ?blackmailer}

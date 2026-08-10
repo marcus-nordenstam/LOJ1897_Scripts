@@ -33,7 +33,7 @@
 
   (role @self 
               (adult @self))
-  (role ?spouse (any_human ?spouse) (believes {@self spouse ?spouse}) (select (policy first-match)))
+  (role ?spouse (any_human ?spouse) {@self spouse ?spouse} (select (policy first-match)))
 
   ; The actor's lover, bound once (an unmarriageable - already-married - lover
   ; waiting raises the propensity). Bound at top-level so (is-married ?lover)

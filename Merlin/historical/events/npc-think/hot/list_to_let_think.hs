@@ -39,7 +39,7 @@
 ; match the (act {@self let}) body.
 (npc-think list_to_let_at_agency
   (goal {@self let})
-  (role ?agency (believes {?agency isa [k org house_agency]})
+  (role ?agency {?agency isa [k org house_agency]}
                 (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
              (in-building ?venue)))
@@ -50,7 +50,7 @@
 ; articles name the office he calls at (articles-building).
 (npc-think list_to_let_go
   (goal {@self let})
-  (role ?agency (believes {?agency isa [k org house_agency]})
+  (role ?agency {?agency isa [k org house_agency]}
                 (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
              (not (in-building ?venue))))

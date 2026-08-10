@@ -36,9 +36,9 @@
   (role ?b (any_human ?b)
            ; @self now detests ?b (sustained strong-negative warmth, the floor
            ; warmth band - so the exact-band belief IS "warmth at least detest") ...
-           (believes {@self detest ?b})
+           {@self detest ?b}
            ; ... and the two are currently friends.
-           (believes {@self friend ?b}))
+           {@self friend ?b})
 
   ;; The role's believes filters (detest, friend) are re-checked live at the
   ;; when-gate seam within the tick - the alpha index goes stale and a fray could

@@ -24,9 +24,9 @@
   ; about ?b, never a read of ?b's mind.
   (role @self (adult-age @self))
   (role ?b (any_human ?b)
-           (believes {?b repute [k scandalous]})
-           (or (believes {@self friend ?b})
-               (believes {@self close_to ?b})))
+           {?b repute [k scandalous]}
+           (or {@self friend ?b}
+               {@self close_to ?b}))
 
   ; ~annual cadence per soured tie; a non-belief gate, so it lives in (when).
   (when (chance 0.0833))

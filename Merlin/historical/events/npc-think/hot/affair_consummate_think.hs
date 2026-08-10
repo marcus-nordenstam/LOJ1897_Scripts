@@ -28,11 +28,11 @@
 (npc-think tryst_slip
   (cooldown 1 d)
   (role @self (adult @self)
-              (believes {@self lover ?}))
+              {@self lover ?})
   (role ?paramour (building-co-present @self)
                   (any_human ?paramour)
-                  (believes {@self lover ?paramour})
-                  (not (believes {@self spouse ?paramour})))
+                  {@self lover ?paramour}
+                  (not {@self spouse ?paramour}))
   (when (and (is-entity (vacant-room @self ?paramour))
              (or (not (co-present @self ?paramour))
                  (co-present @self (spouse-of @self)))))
@@ -47,11 +47,11 @@
 (npc-think affair_consummate
   (cooldown 1 d)
   (role @self (adult @self)
-              (believes {@self lover ?}))
+              {@self lover ?})
   (role ?paramour (co-present @self)
                   (any_human ?paramour)
-                  (believes {@self lover ?paramour})
-                  (not (believes {@self spouse ?paramour})))
+                  {@self lover ?paramour}
+                  (not {@self spouse ?paramour}))
   ; Discretion: not in the same ROOM as the wronged spouse. (spouse-of @self) is fail
   ; for an unmarried cheater, so the gate passes them through.
   (when (not (co-present @self (spouse-of @self))))

@@ -33,9 +33,9 @@
   ;; (when ...) below - a non-belief filter, so it never sits in the role.
   (role @self
               (working-age @self)
-              (not (believes {@self desire ?}))
-              (not (believes {@self lover ?}))
-              (not (believes {@self spouse ?}))
+              (not {@self desire ?})
+              (not {@self lover ?})
+              (not {@self spouse ?})
               (believes {@self age_band ?peer_band}))
   (role ?victim (any_human ?victim)
                 (marriageable-age ?victim)
@@ -45,7 +45,7 @@
                 (not (blood-kin @self ?victim))
                 ; Opposite-sex: @self's belief that ?victim's PERCEIVED gender
                 ; differs from his own (visible-on-sight -> cacheable).
-                (not (believes {?victim gender (target {@self gender})}))
+                (not {?victim gender (target {@self gender})})
                 ; Similar age: @self's band is within ?victim's perceived age_span
                 ; (+/-1 band). @self's band is bound in the @self role above - an
                 ; inline (target {@self age_band}) does NOT resolve against the

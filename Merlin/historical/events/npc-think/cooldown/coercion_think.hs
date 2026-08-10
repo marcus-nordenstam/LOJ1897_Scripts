@@ -30,7 +30,7 @@
   (role @self )
   ; One firing per standing anchor: no (select ...) / (select (policy first-match)).
   (role ?victim (any_human ?victim)
-    (believes {@self extort ?victim}))
+    {@self extort ?victim})
 
   (effects
     (if (believes {?victim condition [k dead]})

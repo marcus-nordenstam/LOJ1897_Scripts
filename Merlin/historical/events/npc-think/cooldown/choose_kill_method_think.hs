@@ -20,7 +20,7 @@
   (rng-stream perpetration)
 
   (role @self 
-              (not (believes {@self method ?})))
+              (not {@self method ?}))
   (when (> (count-beliefs @self goal) 0))
 
   (select-joint

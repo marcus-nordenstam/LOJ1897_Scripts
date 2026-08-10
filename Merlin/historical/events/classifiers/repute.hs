@@ -26,7 +26,7 @@
   ; not a fold input.
   (rng-stream behaviour)
 
-  (role @self (believes {@self class_situation ?}))
+  (role @self {@self class_situation ?})
 
   (effects
     (mint-band {@self repute} (repute-fold @self)
@@ -41,7 +41,7 @@
   ; decorum / lover beliefs @self holds ABOUT them. class_situation is the gate.
   (rng-stream behaviour)
 
-  (role ?other (believes {?other class_situation ?}))
+  (role ?other {?other class_situation ?})
 
   (effects
     (mint-band-about {?other repute} (repute-fold ?other)

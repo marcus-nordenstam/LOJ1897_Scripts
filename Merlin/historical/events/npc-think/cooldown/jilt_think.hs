@@ -37,13 +37,13 @@
   ; The jilter: holds BOTH a lover bond and a betrothal (to someone else -
   ; the ?jilted filters enforce the third party).
   (role @self 
-                (believes {@self lover ?})
-                (believes {@self fiancee ?}))
+                {@self lover ?}
+                {@self fiancee ?})
   ; The jilted: the jilter's lover who is NOT the jilter's fiancee (the
   ; two-bound believes shape wedding.hs uses to recover the groom).
   (role ?jilted (any_human ?jilted)
-                (believes {@self lover ?jilted})
-                (not (believes {@self fiancee ?jilted}))
+                {@self lover ?jilted}
+                (not {@self fiancee ?jilted})
                 (select (policy first-match)))
 
   ;; (chance 0.6) is a non-belief gate, so it lives in (when).
@@ -82,18 +82,18 @@
   ; market is open to them the moment the affair ends. decorum-weighted:
   ; the proper feel the impropriety of the mismatch most keenly.
   (role @self 
-                (believes {@self lover ?})
-                (not (believes {@self fiancee ?}))
-                (not (believes {@self spouse ?})))
+                {@self lover ?}
+                (not {@self fiancee ?})
+                (not {@self spouse ?}))
   ; The lover beneath the jilter's station (at least one class below).
   (role ?jilted (any_human ?jilted)
-                (believes {@self lover ?jilted})
+                {@self lover ?jilted}
                 ;; @self reads the jilted lover's class from his OWN belief about him
                 ;; (he knows his lover intimately, so it is banded in).
-                (or (and (believes {@self class_situation [k upper]})
-                         (not (believes {?jilted class_situation [k upper]})))
-                    (and (believes {@self class_situation [k middle]})
-                         (believes {?jilted class_situation [k lower]})))
+                (or (and {@self class_situation [k upper]}
+                         (not {?jilted class_situation [k upper]}))
+                    (and {@self class_situation [k middle]}
+                         {?jilted class_situation [k lower]}))
                 (select (policy first-match)))
 
   ;; The chance gate is a non-belief gate, so it lives in (when). decorum is a
