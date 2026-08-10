@@ -168,14 +168,14 @@
     (if (and (is-entity (known-nonspousal-liaison @self))
              (is-entity (target {@self father|mother|fiancee|spouse|sibling ?})))
         (then
-          (bind (known-nonspousal-liaison @self) ?partner)
-          (bind (target {@self father|mother|fiancee|spouse|sibling ?}) ?kin)
+          (known-nonspousal-liaison @self): ?partner
+          (target {@self father|mother|fiancee|spouse|sibling ?}): ?kin
           (if (and (alive ?kin) (not (= ?kin ?partner)))
               (then
                 (begin-belief {@self confession_letter ?kin})
                 (if (is-entity (home-of ?kin))
                     (then
-                      (bind (home-of ?kin) ?kin_home)
+                      (home-of ?kin): ?kin_home
                       (spawn-letter [k confession_letter]
                                     (nl_written_msg "I have taken ?partner as a lover")
                                     ?kin_home)))))))
@@ -231,7 +231,7 @@
               ; same first-scan building.
               (if (is-entity (find-building [k police_station]))
                   (then
-                    (bind (find-building [k police_station]) ?station)
+                    (find-building [k police_station]): ?station
                     (if (alive ?victim)
                         (then (spawn-letter [k crime_report_letter]
                                       (nl_written_msg "I suspect ?victim") ?station))

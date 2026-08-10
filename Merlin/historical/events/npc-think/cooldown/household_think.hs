@@ -36,11 +36,10 @@
   (utility (home-leisure-utility))
 
   (effects
-    (bind (if (believes {?home room [k interior_space study]})
+    (if (believes {?home room [k interior_space study]})
               (then (+ (read-weight-base)
                        (* (read-weight-intellect-scale) (attr @self intellect))))
-              (else 0))
-          ?read_w)
+              (else 0)): ?read_w
     (if (chance (/ ?read_w (+ (rest-weight) ?read_w)))
         (then (begin-proposal {@self read_at ?home}))
         (else (begin-proposal {@self rest ?home})))))
@@ -92,7 +91,7 @@
   (effects
     ; The per-cook offset: -1 / 0 / +1 on the whole day (breakfast 5-7,
     ; lunch 11-13, supper 17-19; each window is 2h from the hour).
-    (bind (if (chance 0.33) (then -1) (else (if (chance 0.5) (then 0) (else 1)))) ?o)
+    (if (chance 0.33) (then -1) (else (if (chance 0.5) (then 0) (else 1)))): ?o
     (begin-belief {?home breakfast_hour (+ 6 ?o)})
     (begin-belief {?home lunch_hour (+ 12 ?o)})
     (begin-belief {?home supper_hour (+ 18 ?o)})
@@ -138,7 +137,7 @@
   (utility 16)
 
   (effects
-    (bind (utterable-qs (to ?cook) {?home supper_hour ?}) ?qs)
+    (utterable-qs (to ?cook) {?home supper_hour ?}): ?qs
     (maintain-proposal {@self say_to ?qs ?cook})))
 
 (npc-think answer_mealtimes

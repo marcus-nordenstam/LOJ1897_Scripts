@@ -43,8 +43,8 @@
              (chance (+ 0.40 (* 0.60 (attr ?paramour assertiveness))))))
 
   (effects
-    (bind (find-building [k commercial_building hotel]) ?venue)
-    (bind (spouse-of @self) ?spouse)
+    (find-building [k commercial_building hotel]): ?venue
+    (spouse-of @self): ?spouse
     (register-occupant ?venue @self 0)
     (register-occupant ?venue ?spouse 0)
     (register-occupant ?venue ?paramour 0)
@@ -83,7 +83,7 @@
   (when (and (chance 0.14) (is-entity (home-of @self))))
 
   (effects
-    (bind (home-of @self) ?venue)
+    (home-of @self): ?venue
     (register-occupant ?venue @self 0)
     (register-occupant ?venue ?paramour 0)
     (nudge-stance @self ?paramour attraction 0.10)
@@ -121,9 +121,9 @@
                  (is-entity (find-building [k commercial_building pub])))))
 
   (effects
-    (bind (if (is-entity (find-building [k commercial_building theatre]))
+    (if (is-entity (find-building [k commercial_building theatre]))
               (then (find-building [k commercial_building theatre]))
-              (else (find-building [k commercial_building pub]))) ?venue)
+              (else (find-building [k commercial_building pub]))): ?venue
     (register-occupant ?venue @self 1)
     (register-occupant ?venue ?paramour 1)
     ; an indiscretion before whoever is there this date; whispers reach the spouses.

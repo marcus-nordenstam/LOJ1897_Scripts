@@ -57,6 +57,6 @@
   ; carrying the ORIGINAL pressure as /caused_by so terminal-harm-non-lethal discharges
   ; the right grievance (else the actor re-deliberates it next month).
   (effects
-    (bind (caused-by ?kgoal {@self pressure ?}) ?pressure)
+    (caused-by ?kgoal {@self pressure ?}): ?pressure
     (end-goal {@self kill ?focus})
     (begin-goal {@self hurt ?sub} /caused_by ?pressure)))

@@ -19,7 +19,7 @@
     ; the must-produce bind re-reads the same deterministic spouse/friend/valet ladder.
     (if (is-entity (pick-confidant ?who))
         (then
-          (bind (pick-confidant ?who) ?conf)
+          (pick-confidant ?who): ?conf
           (begin-belief ?conf {@self mention [k death_cause suicide]})))
     (if (and (>= (despair ?who) (suicide_despair_min))
              (>= (attr ?who withdrawal) (suicide_withdrawal_min)))

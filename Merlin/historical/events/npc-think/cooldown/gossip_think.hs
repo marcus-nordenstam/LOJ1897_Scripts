@@ -49,7 +49,7 @@
     ; news. ?news is the matched fact; ?tgt its target (the shame-seal check).
     (for-each-present-tense-belief ?news {?x assault|disinherit|insult|outdo|discredit|public_humiliation|seduce|expose|spread_rumour|confront_publicly|divorce|prototype|condition|circumstance_of_death|spouse|fiancee|lover|child ?tgt}
       (do
-        (bind (utterable-msg ?news) ?msg)
+        (utterable-msg ?news): ?msg
         (if (and (not (= ?tgt @self))
                  (not (believes {@self SAY ?msg ?ear})))
             (then (maintain-proposal {@self say_to ?msg ?ear}) (break)))))))

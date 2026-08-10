@@ -59,7 +59,7 @@
   (effects
     ;; The org's articles (hire-seq's ?var arg - a macro arg used in a pattern must
     ;; be a ?var, not an expr) is recovered from @self's {?org record ?art} belief.
-    (bind (target {?org record}) ?articles)
+    (target {?org record}): ?articles
     ;; Leave the current post (no-op for the jobless), then take up the senior
     ;; public post. hire-seq mints the employment beliefs in @self's own mind
     ;; (no telepathy - @self IS the appointee). fire-first frees the @excl

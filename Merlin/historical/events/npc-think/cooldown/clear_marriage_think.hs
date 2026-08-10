@@ -82,5 +82,5 @@
           (send-covert-letter ?paramour (nl_written_msg "I urge you to kill ?spouse_name. Signed, ?author_name") [k letter]))
         ; DIRECT: the cheater acts alone. The lover bond (find-or-create reuses the
         ; gating belief) is the motive pin.
-        (else (bind (begin-belief {@self lover ?paramour}) ?lover_bond)
+        (else (begin-belief {@self lover ?paramour}): ?lover_bond
               (begin-goal {@self kill ?spouse} /caused_by ?lover_bond)))))

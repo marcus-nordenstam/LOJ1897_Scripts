@@ -68,7 +68,7 @@
   ; so the rap sheet reads "kill <victim> <- {<benefactor> wealth ..}".
   (effects
     (bind {?benefactor wealth ?benefactor_wealth})
-    (bind (begin-belief {?benefactor wealth ?benefactor_wealth}) ?wealth_bond)
+    (begin-belief {?benefactor wealth ?benefactor_wealth}): ?wealth_bond
     (if (= ?heir @self)
         (then (begin-goal {@self kill ?benefactor} /caused_by ?wealth_bond))
         (else (begin-goal {@self kill ?heir} /caused_by ?wealth_bond)))))

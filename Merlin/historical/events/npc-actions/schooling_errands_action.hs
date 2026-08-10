@@ -35,17 +35,17 @@
                                           [k primary_school_curriculum]
                                           [k secondary_school_curriculum]))
         (then
-          (bind (random-held-kind-target interest [k academic_field]
+          (random-held-kind-target interest [k academic_field]
                                          [k primary_school_curriculum]
-                                         [k secondary_school_curriculum]) ?led)
+                                         [k secondary_school_curriculum]): ?led
           (begin-belief {@self study ?led}))
         (else
           (if (is-kind (random-subkind [k academic_field]
                                        [k primary_school_curriculum]
                                        [k secondary_school_curriculum]))
               (then
-                (bind (random-subkind [k academic_field]
+                (random-subkind [k academic_field]
                                       [k primary_school_curriculum]
-                                      [k secondary_school_curriculum]) ?subject)
+                                      [k secondary_school_curriculum]): ?subject
                 (begin-belief {@self study ?subject})))))
     (set-outcome {@self enrol_university} succ)))

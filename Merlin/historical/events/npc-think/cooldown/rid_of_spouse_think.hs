@@ -60,11 +60,11 @@
   ; /caused_by: the held detest belief, else dislike, else the spouse-wealth belief.
   (effects
     (if (believes {@self detest ?spouse})
-        (then (bind (begin-belief {@self detest ?spouse}) ?detest_bond)
+        (then (begin-belief {@self detest ?spouse}): ?detest_bond
               (begin-goal {@self kill ?spouse} /caused_by ?detest_bond))
         (else (if (believes {@self dislike ?spouse})
-            (then (bind (begin-belief {@self dislike ?spouse}) ?dislike_bond)
+            (then (begin-belief {@self dislike ?spouse}): ?dislike_bond
                   (begin-goal {@self kill ?spouse} /caused_by ?dislike_bond))
             (else (bind {?spouse wealth ?spouse_wealth})
-                  (bind (begin-belief {?spouse wealth ?spouse_wealth}) ?wealth_bond)
+                  (begin-belief {?spouse wealth ?spouse_wealth}): ?wealth_bond
                   (begin-goal {@self kill ?spouse} /caused_by ?wealth_bond)))))))

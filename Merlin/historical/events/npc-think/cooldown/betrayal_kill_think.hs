@@ -44,7 +44,7 @@
   (effects
     ; Resolve the interloper (the partner's third-party lover, in @self's own
     ; beliefs); @fail when no affair is known - then nothing fires.
-    (bind (interloper-of ?partner) ?interloper)
+    (interloper-of ?partner): ?interloper
     (if (not (believes {?interloper condition [k dead]}))
       (then
         ; Mint the affair appraisal (anger / contempt / humiliation) in @self's mind.
@@ -52,16 +52,16 @@
         (appraise-betrayal ?partner ?interloper)
         ; Dual (kill BOTH) when the outrage clears the bar and both live.
         (if (>= (dual-outrage-score) 2.5)
-            (then (bind (begin-belief {@self emotion [k anger] ?partner}) ?anger_bond)
+            (then (begin-belief {@self emotion [k anger] ?partner}): ?anger_bond
                 (begin-goal {@self kill ?partner} /caused_by ?anger_bond)
-                (bind (begin-belief {@self emotion [k contempt] ?interloper}) ?contempt_bond)
+                (begin-belief {@self emotion [k contempt] ?interloper}): ?contempt_bond
                 (begin-goal {@self kill ?interloper} /caused_by ?contempt_bond))
             ; Else single-blame: the partner when blaming HER outweighs blaming the
             ; interloper (score_macros.hs spells out both scales), else the interloper.
             (else (if (>= (blame-partner-score ?partner)
                     (blame-interloper-score ?partner ?interloper))
-                (then (bind (begin-belief {@self emotion [k anger] ?partner}) ?anger_bond)
+                (then (begin-belief {@self emotion [k anger] ?partner}): ?anger_bond
                       (begin-goal {@self kill ?partner} /caused_by ?anger_bond))
                 (else (if (not (believes {?interloper condition [k dead]}))
-                    (then (bind (begin-belief {@self emotion [k contempt] ?interloper}) ?contempt_bond)
+                    (then (begin-belief {@self emotion [k contempt] ?interloper}): ?contempt_bond
                           (begin-goal {@self kill ?interloper} /caused_by ?contempt_bond)))))))))))

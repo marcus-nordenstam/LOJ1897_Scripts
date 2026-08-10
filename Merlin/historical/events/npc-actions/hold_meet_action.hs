@@ -33,7 +33,7 @@
     (read-doc-record [k articles_of_incorporation] ?art (kind ?club_kind) (register ?reg))
     (if (is-kind (lookup club_sports org_kind ?club_kind sport))
       (then
-        (bind (lookup club_sports org_kind ?club_kind sport) ?sport)
+        (lookup club_sports org_kind ?club_kind sport): ?sport
         ; Summon every co-present, living roster member: the organiser-subject
         ; summon act carries the sport in aux, told into the member (his
         ; standing ticket, naming whom to report to; race_act ends his copy)

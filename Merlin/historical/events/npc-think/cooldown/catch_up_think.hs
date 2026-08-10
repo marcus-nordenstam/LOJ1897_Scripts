@@ -39,7 +39,7 @@
     ; fact. Proposing nothing is a safe no-op.
     (for-each-present-tense-belief ?belief {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality ?}
       (do
-        (bind (utterable-msg ?belief) ?msg)
+        (utterable-msg ?belief): ?msg
         (if (not (believes {@self SAY ?msg ?guest}))
             (then (maintain-proposal {@self say_to ?msg ?guest}) (break)))))
     ))

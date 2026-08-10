@@ -100,7 +100,7 @@
   (utility (* 30 (max 0 (- (fight-elapsed) 10))))
   ; Maintenance: mint the flee-home goal while fighting away from home; the enter chain
   ; routes there, and reaching home (or the fight ending) drops the gate -> cease.
-  (effects       (bind (target {@self home ?}) ?go_dest) (maintain-proposal {@self enter ?go_dest})))
+  (effects       (target {@self home ?}): ?go_dest (maintain-proposal {@self enter ?go_dest})))
 
 ; THE VICTIM FIGHTS BACK. A struck victim holds {@self under_attack <foe>} (set by
 ; the blow that landed) and was woken THIS instant. If the foe is still co-present

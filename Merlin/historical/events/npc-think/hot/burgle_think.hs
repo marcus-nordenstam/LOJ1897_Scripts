@@ -48,7 +48,7 @@
                  (at-own-workplace))
              (is-entity ?scene)
              (is-entity (owner-of ?scene))
-             (bind (owner-of ?scene) ?owner)
+             (owner-of ?scene): ?owner
              (alive ?owner)
              (not (= ?owner @self))))
   (utility 86)
@@ -56,7 +56,7 @@
   ; same env truth (venue)/(burgle-target) read); an empty-handed scene still
   ; ledgers the intrusion, discharges and ends the goal (nothing to take).
   (effects
-    (bind (if (at-own-workplace) (then embezzle) (else opportunist_theft)) ?method)
+    (if (at-own-workplace) (then embezzle) (else opportunist_theft)): ?method
     (bind 0 ?found)
     (for-each ?room (attr-values ?scene parts [k interior_space room])
       (for-each ?item (attr-values ?room contents)
@@ -69,7 +69,7 @@
           (begin-ended-belief {@self steal ?owner})
           (crime-ledger-append @self ?owner ?method steal @fail @fail)
           (burglary-confrontation @self ?scene)
-          (bind (caused-by ?sgoal {@self pressure ?}) ?p)
+          (caused-by ?sgoal {@self pressure ?}): ?p
           (discharge-pressure ?p 0.75)
           (end-goal {@self steal})))))
 
@@ -84,12 +84,12 @@
   (role @self (believes {@self take_item ?loot ?owner /succ}:?rec))
   (when (caused-by ?rec ?sgoal))
   (effects
-    (bind (if (at-own-workplace) (then embezzle) (else opportunist_theft)) ?method)
+    (if (at-own-workplace) (then embezzle) (else opportunist_theft)): ?method
     (begin-ended-belief {@self ?method ?owner})
     (begin-ended-belief {@self steal ?owner})
     (crime-ledger-append @self ?owner ?method steal (kind ?loot) @fail)
     (if (is-entity (current-building @self))
         (then (burglary-confrontation @self (current-building @self))))
-    (bind (caused-by ?sgoal {@self pressure ?}) ?p)
+    (caused-by ?sgoal {@self pressure ?}): ?p
     (discharge-pressure ?p 0.75)
     (end-goal {@self steal})))

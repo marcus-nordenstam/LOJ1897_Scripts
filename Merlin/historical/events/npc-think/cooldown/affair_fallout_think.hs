@@ -55,7 +55,7 @@
   (effects
     ; Resolve the interloper in @self's own beliefs; with no known affair the
     ; bind produces nothing and the run ends here.
-    (bind (interloper-of ?partner) ?interloper)
+    (interloper-of ?partner): ?interloper
     (if (and (no-goal {@self kill ?partner})
              (no-goal {@self kill ?interloper}))
         (then

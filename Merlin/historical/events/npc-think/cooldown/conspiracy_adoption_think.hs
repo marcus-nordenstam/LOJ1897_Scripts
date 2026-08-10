@@ -47,5 +47,5 @@
   (effects
     ; My own side of the conspiracy: the bond embeds the plot as its AUX
     ; clause, and the goal is pinned to the bond.
-    (bind (begin-belief {@self accomplice ?instigator ?plot}) ?accomplice)
+    (begin-belief {@self accomplice ?instigator ?plot}): ?accomplice
     (begin-goal {@self kill ?victim} /caused_by ?accomplice)))

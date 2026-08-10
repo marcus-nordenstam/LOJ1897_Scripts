@@ -49,8 +49,7 @@
   ; The put-away place is DECIDED here: a fashioned hiding spot for a
   ; valuable, else 0 (the body puts it openly in the room it stands in).
   (effects
-    (bind (if (and (has-facet ?item valuable) (believes {@self hiding_spot ?}))
+    (if (and (has-facet ?item valuable) (believes {@self hiding_spot ?}))
               (then (target {@self hiding_spot ?}))
-              (else 0))
-          ?place)
+              (else 0)): ?place
     (maintain-proposal {@self stow ?item ?place})))

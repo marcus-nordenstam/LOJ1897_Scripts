@@ -16,7 +16,7 @@
 (npc-action {@self provision ?cap}
   (duration 15)
   (effects
-    (bind (current-building @self) ?shop)
+    (current-building @self): ?shop
     (for-each ?room (attr-values ?shop parts [k interior_space room])
       (for-each ?item (attr-values ?room contents [k food]) /limit ?cap
         (do

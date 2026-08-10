@@ -39,11 +39,11 @@
   (effects
     ; The actor's own recent overt-method kill, corpse still pre-burial;
     ; @fail (no letter) when there is none - the taunt needs a live mystery.
-    (bind (covert-kill-corpse) ?victim)
+    (covert-kill-corpse): ?victim
     (if (is-entity ?victim)
         (then
-          (bind (random-alive-human @self ?victim) ?innocent)
-          (bind (target {@self home}) ?home)
+          (random-alive-human @self ?victim): ?innocent
+          (target {@self home}): ?home
           (if (and (is-entity ?innocent) (is-entity ?home))
               (then (spawn-letter [k forged_letter]
                             (nl_written_msg "?innocent killed ?victim")

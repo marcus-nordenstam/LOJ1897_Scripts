@@ -61,15 +61,15 @@
           (if (and (is-kind (random-unheld-kind-target (target {@self father}) interest interest))
                    (chance 0.5))
               (then
-                (bind (random-unheld-kind-target (target {@self father}) interest interest) ?df)
+                (random-unheld-kind-target (target {@self father}) interest interest): ?df
                 (begin-belief {@self interest ?df}))
               (else
-                (bind (random-unheld-kind-target (target {@self mother}) interest interest) ?dm)
+                (random-unheld-kind-target (target {@self mother}) interest interest): ?dm
                 (begin-belief {@self interest ?dm}))))
         (else
           (if (is-kind (random-unheld-kind-target (target {@self father}) interest interest))
               (then
-                (bind (random-unheld-kind-target (target {@self father}) interest interest) ?df)
+                (random-unheld-kind-target (target {@self father}) interest interest): ?df
                 (begin-belief {@self interest ?df})))))
     ))
 
@@ -92,7 +92,7 @@
              (chance (* 0.0167 (attr @self openness) (+ 0.5 (attr @self enthusiasm))))))
 
   (effects
-    (bind (random-unheld-kind-target ?friend interest interest) ?d)
+    (random-unheld-kind-target ?friend interest interest): ?d
     (if (is-kind ?d)
         (then (begin-belief {@self interest ?d})))
     ))
@@ -113,7 +113,7 @@
   (effects
     ; The master's craft becomes the apprentice's casual interest (which
     ; interest_deepens can later raise to a skill of its own).
-    (bind (random-unheld-kind-target (target {@self master}) interest skilled_in calling) ?d)
+    (random-unheld-kind-target (target {@self master}) interest skilled_in calling): ?d
     (if (is-kind ?d)
         (then (begin-belief {@self interest ?d})))
     ))
@@ -135,7 +135,7 @@
   (effects
     ; A brand-new interest sampled off the whole domain axis (leaf-only, so a
     ; category node is never picked); idempotent per domain at commit.
-    (bind (random-subkind [k domain]) ?d)
+    (random-subkind [k domain]): ?d
     (if (is-kind ?d)
         (then (begin-belief {@self interest ?d})))
     ))
@@ -157,7 +157,7 @@
     ; Drop one interest never built into a skill (an overlapping skilled_in
     ; domain is settled identity - exempt). Unforgettable: "I used to be keen
     ; on botany" survives the sleep sweep as history.
-    (bind (random-unbacked-kind-target interest skilled_in) ?d)
+    (random-unbacked-kind-target interest skilled_in): ?d
     (if (is-kind ?d)
         (then (end-belief {@self interest ?d} /salience unforgettable)))
     ))

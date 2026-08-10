@@ -24,8 +24,8 @@
 
 (npc-think find_survey
   (task {@self find_building ?sought ?region})
-  (when (and (latch-eval (bind (closest-unobserved [k structure] ?region) ?dest))
-             (bind (observed ?dest) ?observed)
+  (when (and (latch-eval (closest-unobserved [k structure] ?region): ?dest)
+             (observed ?dest): ?observed
              (not (observed ?dest))))
   (effects (maintain-proposal {@self go_to_threshold ?dest})))
 

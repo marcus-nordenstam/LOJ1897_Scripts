@@ -48,6 +48,6 @@
     ; says it aloud).
     (for-each-present-tense-belief ?belief {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life_aim ?}
       (do
-        (bind (utterable-msg ?belief) ?msg)
+        (utterable-msg ?belief): ?msg
         (if (not (believes {@self SAY ?msg ?diner}))
             (then (maintain-proposal {@self say_to ?msg ?diner}) (break)))))))

@@ -39,7 +39,7 @@
   (effects
     (for-each-present-tense-belief {?r race_result ?}
       (do
-        (bind (target {?r race_result}) ?p)
+        (target {?r race_result}): ?p
         (if (not (= ?r ?winner))
             (then (incident-anchor ?winner outdo ?r)))
         (end-belief {?r race_result ?p})))))

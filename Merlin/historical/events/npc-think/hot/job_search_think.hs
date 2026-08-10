@@ -29,7 +29,7 @@
              ; wealth gate: the independently rich do not seek waged work; a seeker with
              ; no wealth belief yet is treated as needing work (the (and ..) is false).
              (not (and (believes {@self wealth ?w}) (>= ?w (seek_job_wealth_ceiling))))
-             (bind (find-building [k building church]) ?board)
+             (find-building [k building church]): ?board
              (not (in-building ?board))
              (latch-eval (chance 0.3))))
   (utility 71)

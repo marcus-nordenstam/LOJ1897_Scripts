@@ -399,20 +399,20 @@
     (if (and (= ?found 0)
              (at-home)
              (is-entity (believed-located [k food] (target {@self home}))))
-        (then (bind (believed-located [k food] (target {@self home})) ?item)
+        (then (believed-located [k food] (target {@self home})): ?item
               (bind 1 ?found)))
     (if (and (= ?found 0)
              (at-place-kind [k building shop])
              (is-entity (current-building @self)))
         (then
-          (bind (current-building @self) ?shop)
+          (current-building @self): ?shop
           (for-each ?room (attr-values ?shop parts [k interior_space room])
             (for-each ?it (attr-values ?room contents [k food]) /limit 1
               (do (bind ?it ?item)
                   (bind 1 ?found)
                   (begin-belief {@self provisions_shop ?shop})
                   (if (not (> (target {@self wealth}) 0.2))
-                      (then (bind (owner-of ?shop) ?owner))))))))
+                      (then (owner-of ?shop): ?owner)))))))
     (if (= ?found 1)
         (then (maintain-proposal {@self consume ?item ?owner})))))
 
@@ -441,7 +441,7 @@
     (if (and (is-a ?meal [k supper])
              (believes {@self home ?place})
              (is-entity (believed-located [k food] ?place)))
-        (then (bind (believed-located [k food] ?place) ?food)))
+        (then (believed-located [k food] ?place): ?food))
     (maintain-proposal {@self ingest ?meal ?food}))
   ; The eat task's OUTCOME, judged at the cease: the task ends AS its action ended -
   ; find the ended ingest THIS task drove and copy its outcome verbatim (the isim
@@ -451,7 +451,7 @@
   ; interrupted. The withdraw cascade runs before this cease drains - set-outcome
   ; overwrites the ended task belief in place.
   (cease-effects
-    (bind (caused-by {@self ingest ?meal /past} ?e) ?rec)
+    (caused-by {@self ingest ?meal /past} ?e): ?rec
     (if ?rec (then (set-outcome ?e (outcome ?rec))))))
 
 ; THE TABLE ANNOUNCEMENT (any home meal): now and then re-air the house's hours

@@ -59,7 +59,7 @@
 
 (npc-think advertise_go
   (task {@self advertise ?org})
-  (when (and (bind (find-building [k building church]) ?board)
+  (when (and (find-building [k building church]): ?board
              (not (in-building ?board))))
   (utility 81)
   (effects (maintain-proposal {@self enter ?board})))
@@ -69,10 +69,10 @@
 (npc-think advertise_post
   (task {@self advertise ?org})
   (when (and (believes {?org record ?art})
-             (bind (find-building [k building church]) ?board)
+             (find-building [k building church]): ?board
              (in-building ?board)
              (read-doc-record [k articles_of_incorporation] ?art (kind ?ok))
-             (bind (lookup org_staffing org_kind ?ok staff_role none) ?jk)
+             (lookup org_staffing org_kind ?ok staff_role none): ?jk
              (is-kind ?jk)))
   (utility 81)
   (effects (debug-print "RC_ADPOST") (maintain-proposal {@self post_advert ?art ?jk})))
@@ -124,8 +124,8 @@
   ; at_post dwell.
   (effects
     (debug-print "RC_SWEEP")
-    (bind (room-of ?wp [k back_office]) ?office)
-    (bind (attr (mail-pile ?office) top) ?top)
+    (room-of ?wp [k back_office]): ?office
+    (attr (mail-pile ?office) top): ?top
     (for-each ?app (attr-values (mail-pile ?office) items [k application])
       (do
         (read-doc-record [k application] ?app (applicant ?w))

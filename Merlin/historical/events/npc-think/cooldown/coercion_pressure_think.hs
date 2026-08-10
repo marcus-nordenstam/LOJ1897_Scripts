@@ -30,7 +30,7 @@
   (role ?blackmailer (any_human ?blackmailer)
                      {?blackmailer extort @self})
   (effects
-    (bind (begin-belief {?blackmailer extort @self}) ?extort_anchor)
+    (begin-belief {?blackmailer extort @self}): ?extort_anchor
     (begin-belief {@self pressure [k exposure_risk] ?blackmailer}
                   /caused_by ?extort_anchor
                   /salience (coercion-stake))))

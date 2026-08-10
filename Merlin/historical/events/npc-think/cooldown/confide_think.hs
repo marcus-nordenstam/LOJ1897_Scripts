@@ -38,5 +38,5 @@
   (utility 15)
 
   (effects
-    (bind (nl_utterable_msg "I am called to ?domain") ?msg)
+    (nl_utterable_msg "I am called to ?domain"): ?msg
     (maintain-proposal {@self say_to ?msg _})))

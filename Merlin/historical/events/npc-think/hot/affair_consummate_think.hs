@@ -38,7 +38,7 @@
                  (co-present @self (spouse-of @self)))))
   (utility 95.0)
   (effects
-    (bind (vacant-room @self ?paramour) ?room)
+    (vacant-room @self ?paramour): ?room
     (debug-print "TRYST_SLIP @self para=?paramour")
     (maintain-proposal {@self go ?room})))
 

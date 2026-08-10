@@ -113,9 +113,9 @@
   (role ?home {@self household_cook ?home})
   (when    (and (at-place-kind [k building shop])
                 (bind {?home room [k kitchen]:?kitchen})
-                (bind (count-believed-located [k food] ?kitchen) ?blv)
-                (bind (count-controlled @self [k food]) ?inh)
-                (bind (- (min (carry_cap) (- (larder_target) ?blv)) ?inh) ?cap)
+                (count-believed-located [k food] ?kitchen): ?blv
+                (count-controlled @self [k food]): ?inh
+                (- (min (carry_cap) (- (larder_target) ?blv)) ?inh): ?cap
                 (> ?cap 0)))
   (utility 77)
   (effects (maintain-proposal {@self provision ?cap})))
