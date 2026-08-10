@@ -3,9 +3,10 @@
 ; couple to both their social circles - the announcement a Victorian community
 ; made of an engagement.
 ;
-; Re-fire guard: (= (belief-age ?bride fiancee) 0) - the fiancee belief is in
-; its first year, so the party fires at most once per betrothal. The say's
-; per-listener dedup makes any re-announce harmless regardless.
+; Re-fire guard: the fiancee belief started THIS calendar year (a zero
+; (year ..)-diff, the job-tenure composition), so the party fires at most once
+; per betrothal. The say's per-listener dedup makes any re-announce harmless
+; regardless.
 ;
 ; Topology: ?bride is enumerated; ?groom is recovered from her fiancee belief.
 ; Restricting ?bride to women makes each couple enumerate exactly once.
@@ -20,8 +21,8 @@
   ;; SELF-POV (telepathy purge CAT-3): @self the GROOM (belief-pure @self role)
   ;; announces HIS OWN fresh engagement; ?bride is recovered from his OWN fiancee
   ;; belief (no mind peek). The male-gender / spouse / fiancee gates are belief
-  ;; filters here; the first-year belief-age re-fire guard is a non-belief op that
-  ;; gates the fire in (when ...) below.
+  ;; filters here; the first-year re-fire guard is a date read that gates the
+  ;; fire in (when ...) below.
   (role @self (adult @self)
               {@self gender [k male]}
               (not {@self spouse ?})
@@ -30,9 +31,9 @@
                {@self fiancee ?bride}
                (believes {?bride name ?bride_name}))
 
-  ;; The fiancee belief must be in its first year - the once-per-betrothal re-fire
-  ;; guard, a non-belief op, so it gates the fire here rather than filtering the role.
-  (when (= (belief-age @self fiancee) 0))
+  ;; The fiancee belief must be in its first calendar year - the once-per-betrothal
+  ;; re-fire guard; it gates the fire here rather than filtering the role.
+  (when (= (- (year (date_now)) (year (any {@self fiancee ?}).start)) 0))
 
   (effects
     ; Announce the fresh engagement to whoever is co-present (the SAY they hear and
