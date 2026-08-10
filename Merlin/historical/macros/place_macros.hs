@@ -39,7 +39,7 @@
 ; stash restored (a (bind {@self location ?loc}) there hard-errors on the already-bound var).
 ; A front-parked NPC outside all spaces holds no location belief, so this is correctly false.
 (define-macro in-room (?r)
-  (believes {@self location ?r}))
+  (any {@self location ?r} (out int)))
 
 ; (at-workplace ?wp): the NPC is at their workplace. A workplace target is granularity-
 ; MIXED by domain: a trade/profession seats it at the premises BUILDING (shop / office /
@@ -51,12 +51,11 @@
   (or (in-building ?wp)
       (in-room ?wp)))
 
-; (at-home): the NPC is at their own home BUILDING. (believes {@self home ?home}) PRODUCES
-; the free ?home (my home building) - same as (bind ...) but BIND-FREE (existence-tests when
-; ?home is already bound, so it is safe in a re-evaluated maintenance (when)); then it is
-; exactly (in-building ?home).
+; (at-home): the NPC is at their own home BUILDING. The suffix bind produces
+; ?home (my home building); a re-evaluated maintenance (when) simply re-binds
+; the same value, so it stays safe there; then it is exactly (in-building ?home).
 (define-macro at-home ()
-  (and (believes {@self home ?home})
+  (and (any {@self home ?}).target: ?home
        (in-building ?home)))
 
 ; (at-place ?p): the NPC is at ?p, whose granularity is MIXED - a home / venue is a

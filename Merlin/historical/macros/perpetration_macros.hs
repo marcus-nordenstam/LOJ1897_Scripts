@@ -104,7 +104,7 @@
     (begin-ended-belief {@self confront_publicly ?victim})
     (discharge-pressure (caused-by ?goal {@self pressure ?}) 0.75)
     (end-goal {@self expose})
-    (if (believes {@self extort ?victim}) (then (end-belief {@self extort ?victim})))
+    (if (any {@self extort ?victim} (out int)) (then (end-belief {@self extort ?victim})))
     (publish-secret-about @self ?victim)
     (crime-ledger-append @self ?victim confront_publicly expose @fail @fail)))
 
@@ -113,7 +113,7 @@
     (begin-ended-belief {@self anonymous_letter ?victim})
     (discharge-pressure (caused-by ?goal {@self pressure ?}) 0.75)
     (end-goal {@self expose})
-    (if (believes {@self extort ?victim}) (then (end-belief {@self extort ?victim})))
+    (if (any {@self extort ?victim} (out int)) (then (end-belief {@self extort ?victim})))
     (publish-secret-about @self ?victim)
     (crime-ledger-append @self ?victim anonymous_letter expose @fail @fail)))
 
@@ -143,7 +143,7 @@
         (begin-ended-belief {@self HAVE_SEX_WITH ?victim})
         (begin-belief ?victim {?victim lover @self})
         (begin-ended-belief ?victim {?victim HAVE_SEX_WITH @self})
-        (if (and (believes {?victim gender [k female]})
+        (if (and (any {?victim gender [k female]} (out int))
                  (none {?victim spouse ?}))
             (then (begin-belief ?victim {?victim prototype [k fallen_woman]})))
         (crime-ledger-append @self ?victim seduce seduce @fail @fail))

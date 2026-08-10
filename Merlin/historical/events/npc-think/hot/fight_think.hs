@@ -110,7 +110,7 @@
 ; and the fight goal ceases when the attack ends, so it re-decides each round; a lost
 ; roll leaves no fight goal and flee / scream take over.
 (npc-think defend_strike
-  (bind (threat-focus) ?foe)
+  (threat-focus):?foe
   (when (chance (clamp (+ (attr @self volatility)
                           (attr @self sadism)
                           (- 1.0 (attr @self compassion)))

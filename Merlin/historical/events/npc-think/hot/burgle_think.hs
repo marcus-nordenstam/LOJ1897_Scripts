@@ -23,7 +23,7 @@
   (rng-stream theft)
   ; Bind the scene at the EVENT level (not inside (effects)) so ?scene is in scope for
   ; BOTH (effects) and (cease-effects) - a fire-time stash restores it at cease.
-  (bind (burgle-target @self) ?scene)
+  (burgle-target @self):?scene
   (when (and (not (at-burgle-residence))
              (not (at-own-workplace))))
   (utility 85)
@@ -43,7 +43,7 @@
   ; village-public knowledge): an ownerless / self-owned / dead-owner scene
   ; never strikes. The action receives ?owner off its own pattern and does no
   ; reasoning of its own.
-  (bind (current-building @self) ?scene)
+  (current-building @self):?scene
   (when (and (or (at-burgle-residence)
                  (at-own-workplace))
              (is-entity ?scene)

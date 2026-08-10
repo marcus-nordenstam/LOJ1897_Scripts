@@ -338,7 +338,7 @@
   ; The known provisions_shop is preferred; else a role-cast shop the NPC KNOWS
   ; (nearest, weighted). Replaces the (venue ...) fallback.
   (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
-  (bind (any {@self provisions_shop ?}).target ?shop)
+  (any {@self provisions_shop ?}).target:?shop
   (when (and (> (attr @self appetite) 1.3)
              (> ?wealth 0.2)
              (not (at-place-kind [k building shop]))))
@@ -363,7 +363,7 @@
 (npc-think starving_steal_go
   (role @self (believes {@self starve ?, wealth ?wealth}))
   (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
-  (bind (any {@self provisions_shop ?}).target ?shop)
+  (any {@self provisions_shop ?}).target:?shop
   (when (and (> (attr @self appetite) 1.3)
              (not (> ?wealth 0.2))
              (not (at-place-kind [k building shop]))))

@@ -21,8 +21,8 @@
   (role @self )
 
   ; years-old is a non-belief op, so the age gate lives in (when), not the role.
-  (bind (mortality_by_age (years-old @self)) ?per_year)
-  (bind (/ ?per_year 12.0)                   ?per_month)
+  (mortality_by_age (years-old @self)):?per_year
+  (/ ?per_year 12.0):?per_month
 
   (when (and (>= (years-old @self) 15)
              (chance ?per_month)))

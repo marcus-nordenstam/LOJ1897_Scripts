@@ -152,7 +152,7 @@
 
   ; The cheap per-mind gate first: (asked-me-about) walks only @self's own
   ; heard-SAY records and fails fast when nobody asked.
-  (bind (asked-me-about supper_hour) ?asker)
+  (asked-me-about supper_hour):?asker
   (when (is-entity ?asker))
 
   (effects

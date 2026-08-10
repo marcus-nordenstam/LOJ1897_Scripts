@@ -38,7 +38,7 @@
   ; The actor's lover, bound once (an unmarriageable - already-married - lover
   ; waiting raises the propensity). Bound at top-level so (is-married ?lover)
   ; below takes a plain ?var (a macro arg cannot carry an op-expr into a pattern).
-  (bind (any {@self lover}).target ?lover)
+  (any {@self lover}).target:?lover
 
   ; Misery gate (deep hatred OR abuse) + propensity. misery counts the two:
   ; hated = warmth band toward the spouse <= -2 (the detest band); abused = the

@@ -16,4 +16,4 @@
 ; (control ?thing): does @self hold ?thing - a specific object, or any item of the
 ; kind ?thing (e.g. (control ?means) is "am I holding the required tool")?
 (define-macro control (?thing)
-  (believes {@self hand.control ?thing}))
+  (any {@self hand.control ?thing} (out int)))

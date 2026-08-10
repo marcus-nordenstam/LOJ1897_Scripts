@@ -21,20 +21,20 @@
 
 ; >= 18 (the boundary sits at young_adult). "A grown adult."
 (define-macro adult-age (?o)
-  (believes {?o age_band [k young_adult|middle_aged|mature|elderly]}))
+  (any {?o age_band [k young_adult|middle_aged|mature|elderly]} (out int)))
 
 ; >= 16 (the boundary sits at youth). "Old enough to court / marry."
 (define-macro marriageable-age (?o)
-  (believes {?o age_band [k youth|young_adult|middle_aged|mature|elderly]}))
+  (any {?o age_band [k youth|young_adult|middle_aged|mature|elderly]} (out int)))
 
 ; 3-15: a school-age child (covers the old 8-16 childhood-friendship intent; the
 ; band boundaries are the perceptible granularity, so it is juvenile OR adolescent).
 (define-macro schoolchild-age (?o)
-  (believes {?o age_band [k juvenile|adolescent]}))
+  (any {?o age_band [k juvenile|adolescent]} (out int)))
 
 ; >= 70.
 (define-macro elderly-age (?o)
-  (believes {?o age_band [k elderly]}))
+  (any {?o age_band [k elderly]} (out int)))
 
 ; 16-49 (youth + young_adult + middle_aged). "Working / migration age", and also
 ; the childbearing window for fertile_wife. NOTE: the band granularity puts the
@@ -43,7 +43,7 @@
 ; cap is acceptable; tighten to [k youth|young_adult] for a hard <30 cut if the
 ; demographics drift.
 (define-macro working-age (?o)
-  (believes {?o age_band [k youth|young_adult|middle_aged]}))
+  (any {?o age_band [k youth|young_adult|middle_aged]} (out int)))
 
 ; AGE-PEER CHECK (no macro - the check is inlined by each caller). "Are @self and
 ; ?other in the SAME or an ADJACENT band?" = is @self's age_band within ?other's

@@ -14,7 +14,7 @@
       (is-betrothed @self) (is-betrothed ?paramour)
       ; cross-class as @self KNOWS it: @self holds a class belief about ?paramour and
       ; it is not @self's own class (telepathy-pure - no read of ?paramour's own mind).
-      (and (believes {?paramour class_situation ?})
+      (and (any {?paramour class_situation ?} (out int))
            (none {?paramour class_situation (any {@self class_situation}).target}))))
 
 ; Route one covert letter with the authored channel model (tunables.hs). The

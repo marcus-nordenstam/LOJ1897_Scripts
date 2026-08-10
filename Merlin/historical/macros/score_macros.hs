@@ -28,7 +28,7 @@
 ; ?who's ?label belief target, else ?default when the belief is absent
 ; (the "unknown reads as X" parity idiom).
 (define-macro target-or (?who ?label ?default)
-  (if (believes {?who ?label}) (then (any {?who ?label}).target) (else ?default)))
+  (if (any {?who ?label} (out int)) (then (any {?who ?label}).target) (else ?default)))
 
 ; --- Layer 1: single-quantity readings ---------------------------------------
 
@@ -129,8 +129,8 @@
 ; absent). Replaces the old C++ value-rift op - the value list is content and
 ; lives here now. believes folds to 0/1 in arithmetic, so a gap is |a - b|.
 (define-macro value-gap (?a ?b ?vk)
-  (max (- (believes {?a value ?vk}) (believes {?b value ?vk}))
-       (- (believes {?b value ?vk}) (believes {?a value ?vk}))))
+  (max (- (any {?a value ?vk} (out int)) (any {?b value ?vk} (out int)))
+       (- (any {?b value ?vk} (out int)) (any {?a value ?vk} (out int)))))
 
 (define-macro value-rift (?a ?b)
   (/ (+ (value-gap ?a ?b [k chastity])
