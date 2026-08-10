@@ -15,7 +15,7 @@
   (when (and (not (= ?visitor ?host))
              (not (= ?visitor @self))
              (not (= ?visitor ?host_spouse))
-             (not (believes {?visitor gender ?host_gender}))
+             (none {?visitor gender ?host_gender})
              (not (building-co-present @self ?host_spouse))))
   (effects
     (bump-suspicion @self ?host (* 0.08 (+ 1 (hostility-toward ?host))))))

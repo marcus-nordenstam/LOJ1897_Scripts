@@ -46,11 +46,11 @@
   ; (0.5 + psychopathy) * (1 - inhibition) * (1 - compassion) *
   ; (1 + spouse-wealth) * (1.5 if an unmarriageable lover waits else 1.0).
   (when (and (or (detests ?spouse)
-                 (believes {?spouse assault @self /ever}))
+                 (any {?spouse assault @self /ever} (out int)))
              (chance
                (* (crime-scale) 0.02
                   (* (+ (if (detests ?spouse) (then 1) (else 0))
-                        (if (believes {?spouse assault @self /ever}) (then 1) (else 0)))
+                        (if (any {?spouse assault @self /ever} (out int)) (then 1) (else 0)))
                      (* (+ 0.5 (attr @self psychopathy))
                         (* (disinhibition)
                            (* (callousness @self)
@@ -59,10 +59,10 @@
 
   ; /caused_by: the held detest belief, else dislike, else the spouse-wealth belief.
   (effects
-    (if (believes {@self detest ?spouse})
+    (if (any {@self detest ?spouse} (out int))
         (then (begin-belief {@self detest ?spouse}): ?detest_bond
               (begin-goal {@self kill ?spouse} /caused_by ?detest_bond))
-        (else (if (believes {@self dislike ?spouse})
+        (else (if (any {@self dislike ?spouse} (out int))
             (then (begin-belief {@self dislike ?spouse}): ?dislike_bond
                   (begin-goal {@self kill ?spouse} /caused_by ?dislike_bond))
             (else (bind {?spouse wealth ?spouse_wealth})

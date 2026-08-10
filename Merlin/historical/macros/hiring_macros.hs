@@ -21,7 +21,7 @@
 ; (class-ok ?w ?cf): the class floor. An UNAPPRAISED class passes (matching the
 ; old match's "unappraised passes" rule); a known class must meet the floor.
 (define-macro class-ok (?w ?cf)
-  (or (not (believes {?w class_situation ?}))
+  (or (none {?w class_situation ?})
       (class-at-least ?w ?cf)))
 
 ; (repute-ok ?w ?rr): the reputation gate. `none` = no requirement; otherwise

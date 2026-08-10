@@ -7,7 +7,7 @@
 ; ?other's mind.
 ;
 ; The lover himself does NOT mark her (he holds {@self lover ?her}, subject @self -
-; a different subject - so (believes {?her lover ?}) is false for him); only THIRD
+; a different subject - so (any {?her lover ?} (out int)) is false for him); only THIRD
 ; parties who learned of the liaison ({?her lover <partner>}) do. The divorce path
 ; (affair_fallout.hs) still marks + dismisses her directly, and the widow / unmarried
 ; cases (no ongoing spouse) are left to that path - this catches the "still married,
@@ -26,5 +26,5 @@
                    {?other prototype [k fallen_woman]}))
 
   (effects
-    (mint-band-about {?other prototype} (believes {?other lover ? /ever})
+    (mint-band-about {?other prototype} (any {?other lover ? /ever} (out int))
       [k fallen_woman] 0.5)))

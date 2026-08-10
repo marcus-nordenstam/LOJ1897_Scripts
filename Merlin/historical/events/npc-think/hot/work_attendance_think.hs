@@ -43,7 +43,7 @@
              (believes {?org workplace ?wp})       ; ?wp binds at fire
              (at-workplace ?wp))                    ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
   (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))  ; onset: derive the shift, bind ?start/?end
-        (and (not (believes {@self work ?wp /pres}))
+        (and (none {@self work ?wp /pres})
              (not (has-proposal {@self work ?wp}))
              (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
   (utility 80)

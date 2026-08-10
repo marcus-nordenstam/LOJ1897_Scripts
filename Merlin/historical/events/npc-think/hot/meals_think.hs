@@ -214,7 +214,7 @@
   ; gentry study ROOM - the OR covers both, in-building for the former, believes-
   ; location for the latter.
   (when    (not (or (in-building ?place)
-                    (believes {@self location ?place}))))
+                    (any {@self location ?place} (out int)))))
   (effects (debug-print "TRACE-EATGO place=?place meal=?meal")
            (maintain-proposal {@self enter ?place})))
 
@@ -242,7 +242,7 @@
 (npc-think eat_at_place
   (goal    {@self eat ?meal ?place})
   (when    (or (in-building ?place)
-               (believes {@self location ?place})))
+               (any {@self location ?place} (out int))))
   (effects (maintain-proposal {@self eat ?meal ?place}
              (affect   (if (dining-out? ?place) (then (* (attr @self enthusiasm) 20)) (else 0)))
              (cost     money (price ?place))
@@ -439,7 +439,7 @@
   (effects
     (bind 0 ?food)
     (if (and (is-a ?meal [k supper])
-             (believes {@self home ?place})
+             (any {@self home ?place} (out int))
              (is-entity (believed-located [k food] ?place)))
         (then (believed-located [k food] ?place): ?food))
     (maintain-proposal {@self ingest ?meal ?food}))

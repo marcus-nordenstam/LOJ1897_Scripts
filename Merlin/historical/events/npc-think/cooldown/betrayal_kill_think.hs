@@ -45,7 +45,7 @@
     ; Resolve the interloper (the partner's third-party lover, in @self's own
     ; beliefs); @fail when no affair is known - then nothing fires.
     (interloper-of ?partner): ?interloper
-    (if (not (believes {?interloper condition [k dead]}))
+    (if (none {?interloper condition [k dead]})
       (then
         ; Mint the affair appraisal (anger / contempt / humiliation) in @self's mind.
         (debug-print "TRACE_BETRAYAL_FIRES @self partner=?partner interloper=?interloper")
@@ -62,6 +62,6 @@
                     (blame-interloper-score ?partner ?interloper))
                 (then (begin-belief {@self emotion [k anger] ?partner}): ?anger_bond
                       (begin-goal {@self kill ?partner} /caused_by ?anger_bond))
-                (else (if (not (believes {?interloper condition [k dead]}))
+                (else (if (none {?interloper condition [k dead]})
                     (then (begin-belief {@self emotion [k contempt] ?interloper}): ?contempt_bond
                           (begin-goal {@self kill ?interloper} /caused_by ?contempt_bond)))))))))))

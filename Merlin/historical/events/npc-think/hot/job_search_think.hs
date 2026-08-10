@@ -51,7 +51,7 @@
   (when (and (co-present @self ?ad)
              (read-doc-record [k job_description] ?ad (job ?jk) (org_record ?art) (class_floor ?cf))
              (class-at-least @self ?cf)
-             (not (believes {@self apply_for ?jk ?art /fail}))))
+             (none {@self apply_for ?jk ?art /fail})))
   (utility 73)
   (effects (debug-print "JS_PICK jk=?jk")
            (begin-proposal {@self apply_for ?jk ?art})))
@@ -66,7 +66,7 @@
 ; go to the org's workplace to write + mail
 (npc-think af_go
   (task {@self apply_for ?jk ?art})
-  (when (and (not (believes {@self prepare_application ?art ?jk /succ}))
+  (when (and (none {@self prepare_application ?art ?jk /succ})
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (not (in-building ?wp))))
   (utility 74)
@@ -75,7 +75,7 @@
 ; at the workplace in business hours: write the application (created on the grid)
 (npc-think af_write
   (task {@self apply_for ?jk ?art})
-  (when (and (not (believes {@self prepare_application ?art ?jk /succ}))
+  (when (and (none {@self prepare_application ?art ?jk /succ})
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (in-building ?wp)
              (>= (now-hour) 9)
@@ -126,7 +126,7 @@
              (in-building ?wp)
              (>= (now-hour) 9)
              (<= (now-hour) 16)
-             (not (believes {@self job.salary ?}))))
+             (none {@self job.salary ?})))
   (utility 79)
   (effects (maintain-proposal {@self take_post ?art ?jk})))
 
@@ -163,7 +163,7 @@
   (when (in-building ?home))
   (effects
     (for-each ?ltr (attr-values (mail-pile (mail-space ?home)) items [k letter])
-      (if (not (believes {@self read ?ltr}))
+      (if (none {@self read ?ltr})
           (then (take-from-stack ?ltr)
                 (read-document ?ltr)
                 (file-in-stack ?ltr (mail-space ?home)))))))

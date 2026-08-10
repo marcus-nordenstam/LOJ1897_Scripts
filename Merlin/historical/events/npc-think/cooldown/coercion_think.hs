@@ -33,7 +33,7 @@
     {@self extort ?victim})
 
   (effects
-    (if (believes {?victim condition [k dead]})
+    (if (any {?victim condition [k dead]} (out int))
         (then (end-belief {@self extort ?victim}))
         (else
           ; The anchor's demand rides its AUX clause; no clause = a silence

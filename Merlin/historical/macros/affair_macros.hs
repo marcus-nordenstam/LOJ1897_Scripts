@@ -15,7 +15,7 @@
       ; cross-class as @self KNOWS it: @self holds a class belief about ?paramour and
       ; it is not @self's own class (telepathy-pure - no read of ?paramour's own mind).
       (and (believes {?paramour class_situation ?})
-           (not (believes {?paramour class_situation (target {@self class_situation})})))))
+           (none {?paramour class_situation (target {@self class_situation})}))))
 
 ; Route one covert letter with the authored channel model (tunables.hs). The
 ; ONE way content should call the routing verb - the C++ carries no defaults.

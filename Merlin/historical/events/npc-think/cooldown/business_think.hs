@@ -63,10 +63,10 @@
   ; (chance) is an ONSET roll - (latch-eval) rolls it at the fire and LOCKS it once
   ; holding (re-rolling each month until it lands). The working-age band, not-already-an-
   ; owner and the merit + means dims stay live gates.
-  (when (and (not (believes {@self backed_by ?}))
+  (when (and (none {@self backed_by ?})
              (>= (years-old @self) 25)
              (<= (years-old @self) 55)
-             (not (believes {@self job [k head_of_non_household_org]}))
+             (none {@self job [k head_of_non_household_org]})
              (>= (diligence) 0.55)
              (< ?wealth 0.5)
              (latch-eval (chance (* 0.033 (+ 0.5 (attr @self assertiveness)))))))
@@ -117,7 +117,7 @@
   ;; him as proprietor (org_head) it falls and the goal ceases. The (chance) is the
   ;; ONSET roll: (latch-eval) rolls it at the fire and LOCKS it once holding. The
   ;; working-age band and the merit + means dims stay live gates.
-  (when (and (not (believes {@self job [k head_of_non_household_org]}))
+  (when (and (none {@self job [k head_of_non_household_org]})
              (>= (years-old @self) 25)
              (<= (years-old @self) 55)
              (>= (diligence) 0.55)
@@ -167,12 +167,12 @@
   ; org_head it falls and the goal ceases. The (chance) is an ONSET roll - (eval-until-
   ; hold) rolls it at the fire and LOCKS it once holding. The working-age band, merit
   ; dim and the means branch (enough wealth OR a backer) stay live gates.
-  (when (and (not (believes {@self job [k head_of_non_household_org]}))
+  (when (and (none {@self job [k head_of_non_household_org]})
              (>= (years-old @self) 25)
              (<= (years-old @self) 55)
              (>= (diligence) 0.55)
              (or (>= ?wealth 0.5)
-                 (believes {@self backed_by ?}))
+                 (any {@self backed_by ?} (out int)))
              (latch-eval (chance (* 0.025 (+ 0.5 (attr @self assertiveness)))))))
 
   (effects       (begin-goal {@self found}))
@@ -210,7 +210,7 @@
   ; the LIVE business-floor gate (do not abort a founding-in-flight if the floor recovers).
   (when (and (>= (years-old @self) 25)
              (<= (years-old @self) 55)
-             (not (believes {@self job [k head_of_non_household_org]}))
+             (none {@self job [k head_of_non_household_org]})
              (latch-eval (chance 0.05)
                               (no-goal {@self found})
                               (orgs-below-population-floor [k org business] 12))))

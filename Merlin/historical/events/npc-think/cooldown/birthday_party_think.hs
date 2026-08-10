@@ -52,6 +52,6 @@
     (for-each-present-tense-belief ?belief {@self spouse|fiancee|lover|child ?}
       (do
         (utterable-msg ?belief): ?msg
-        (if (not (believes {@self SAY ?msg ?guest}))
+        (if (none {@self SAY ?msg ?guest})
             (then (tell-to ?guest ?msg) (break)))))
     ))

@@ -10,7 +10,7 @@
 ; during his shift (work_attendance.hs). THIS rule is what he learns on turning up:
 ; standing AT the shuttered building he reads its `closed` state and drops his own
 ; employment beliefs - freeing him to re-seek work via the existing hiring lane
-; (employment.hs gates on (not (believes {@self job.salary ?}))).
+; (employment.hs gates on (none {@self job.salary ?})).
 ;
 ; KNOWLEDGE-HONEST BY PERCEPTION. The worker's daily commute (work_attendance.hs) now
 ; FRONT-PARKS his workplace building (the Stage-5 two-arm always front-parks a building on
@@ -40,6 +40,6 @@
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
-  (when (and (believes {?wp struct_status [k closed]})))
+  (when (and (any {?wp struct_status [k closed]} (out int))))
   (effects
     (end-belief {@self job ?job})))

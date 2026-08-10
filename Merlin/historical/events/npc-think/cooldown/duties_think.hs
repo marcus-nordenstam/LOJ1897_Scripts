@@ -49,16 +49,16 @@
                 (then
                   (if (= ?senior @self)
                       (then
-                        (if (not (believes {@self duty_to ?org ?duty}))
+                        (if (none {@self duty_to ?org ?duty})
                             (then (begin-belief {@self duty_to ?org ?duty})
                                   (debug-print "DUTY-take ?duty ?org"))))
                       (else
-                        (if (believes {@self duty_to ?org ?duty})
+                        (if (any {@self duty_to ?org ?duty} (out int))
                             (then (end-belief {@self duty_to ?org ?duty})
                                   (debug-print "DUTY-drop ?duty ?org")))))
                   ; The mirror: retire stale holders, record the current one.
                   (for-each-present-tense-belief {?org duty_holder ?p ?duty}
                       (if (not (= ?p ?senior))
                           (then (end-belief {?org duty_holder ?p ?duty}))))
-                  (if (not (believes {?org duty_holder ?senior ?duty}))
+                  (if (none {?org duty_holder ?senior ?duty})
                       (then (begin-belief {?org duty_holder ?senior ?duty}))))))))))

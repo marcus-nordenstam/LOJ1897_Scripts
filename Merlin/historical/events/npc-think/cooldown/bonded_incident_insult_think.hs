@@ -42,10 +42,10 @@
                            (attr @self narcissism))
                         (* (crime-scale) 0.08 (emotion-load @self [k anger]))))
              (chance (+ 0.10
-                        (* 0.15 (+ (believes {@self dislike ?victim})
-                                   (believes {@self disdain ?victim})))
-                        (* 0.30 (+ (believes {@self detest  ?victim})
-                                   (believes {@self despise ?victim})))))))
+                        (* 0.15 (+ (any {@self dislike ?victim} (out int))
+                                   (any {@self disdain ?victim} (out int))))
+                        (* 0.30 (+ (any {@self detest  ?victim} (out int))
+                                   (any {@self despise ?victim} (out int))))))))
 
   (effects
     ; Context picks the barb ladder: a high standing anger load marks the

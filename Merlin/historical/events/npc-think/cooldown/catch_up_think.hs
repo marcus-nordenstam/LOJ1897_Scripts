@@ -40,6 +40,6 @@
     (for-each-present-tense-belief ?belief {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality ?}
       (do
         (utterable-msg ?belief): ?msg
-        (if (not (believes {@self SAY ?msg ?guest}))
+        (if (none {@self SAY ?msg ?guest})
             (then (maintain-proposal {@self say_to ?msg ?guest}) (break)))))
     ))

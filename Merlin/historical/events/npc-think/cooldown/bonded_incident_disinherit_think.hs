@@ -61,10 +61,10 @@
   (when (and (chance (* (crime-scale) 0.025
                         (- 1.0 (attr @self compassion))
                         (attr @self narcissism)))
-             (chance (+ (* 0.2 (+ (believes {@self dislike ?victim})
-                                  (believes {@self disdain ?victim})))
-                        (* 0.3 (+ (believes {@self detest  ?victim})
-                                  (believes {@self despise ?victim})))))))
+             (chance (+ (* 0.2 (+ (any {@self dislike ?victim} (out int))
+                                  (any {@self disdain ?victim} (out int))))
+                        (* 0.3 (+ (any {@self detest  ?victim} (out int))
+                                  (any {@self despise ?victim} (out int))))))))
 
   (effects
     (incident-anchor @self disinherit ?victim)

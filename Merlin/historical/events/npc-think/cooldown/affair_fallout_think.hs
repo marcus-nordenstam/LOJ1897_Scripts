@@ -64,8 +64,8 @@
           (appraise-betrayal ?partner ?interloper)
           ; Divorce: the husband's remedy alone; the proper / high-decorum are
           ; likeliest to cut the tie.
-          (if (and (believes {@self spouse ?partner})
-                   (believes {@self gender [k male]})
+          (if (and (any {@self spouse ?partner} (out int))
+                   (any {@self gender [k male]} (out int))
                    (chance (* 0.35 (target-or @self decorum 0.5))))
               (then
                 (end-belief {@self spouse ?partner})
@@ -76,7 +76,7 @@
                 (begin-ended-belief ?partner {@self divorce ?partner})
                 ; The fallen woman: marked in her mind AND his, expelled from
                 ; the marital roof, dismissed from reputable service.
-                (if (believes {?partner gender [k female]})
+                (if (any {?partner gender [k female]} (out int))
                     (then
                       (begin-belief ?partner {?partner prototype [k fallen_woman]})
                       (begin-belief {?partner prototype [k fallen_woman]})

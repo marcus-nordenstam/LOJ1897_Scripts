@@ -22,7 +22,7 @@
   ;; banded in via the venue acquaintance channel, her chastity from the liaisons
   ;; HE has heard of ((count-beliefs-about ?bride lover) - per-observer, never an
   ;; omniscient public reading), her availability as his own belief
-  ;; ((believes {?bride <label> ?}), permissive on the unknown).
+  ;; ((any {?bride <label> ?} (out int)), permissive on the unknown).
   (role @self (adult @self)
               {@self gender [k male]}
               (not {@self spouse ?})
@@ -65,7 +65,7 @@
              ;; has heard of (per-observer chastity, any tense). A bride whose past he
              ;; has not heard passes - the market gives the benefit of the doubt.
              (< (count-beliefs-about ?bride lover) 2)
-             (not (and (believes {@self lover ?})
+             (not (and (any {@self lover ?} (out int))
                        (= (target {(target {@self lover}) class_situation})
                           (target {@self class_situation}))))))
 

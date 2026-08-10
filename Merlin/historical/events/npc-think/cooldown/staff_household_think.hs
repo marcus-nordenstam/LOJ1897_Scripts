@@ -54,7 +54,7 @@
 ; `org household` via the shared found-org-seq macro. household is residence-seated
 ; (businesses.hs), so acquire-org-premises returns the home study - the same seat
 ; the old C++ found_org used. The self-throttle is the CACHED self-gate filter
-; (not (believes {@self job.org [k org household]})): the kind criterion matches
+; (none {@self job.org [k org household]}): the kind criterion matches
 ; the job.org target's org-object kind by is-a (the symbolic matcher's
 ; object-vs-kind, permanent - never the decaying {?org isa ...} belief), so it
 ; flips false once founded and this self-throttles to exactly one household per

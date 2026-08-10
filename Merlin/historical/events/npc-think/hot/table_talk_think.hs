@@ -49,5 +49,5 @@
     (for-each-present-tense-belief ?belief {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life_aim ?}
       (do
         (utterable-msg ?belief): ?msg
-        (if (not (believes {@self SAY ?msg ?diner}))
+        (if (none {@self SAY ?msg ?diner})
             (then (maintain-proposal {@self say_to ?msg ?diner}) (break)))))))

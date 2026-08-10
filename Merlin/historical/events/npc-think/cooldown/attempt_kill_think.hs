@@ -34,7 +34,7 @@
 
   (when (and (debug-print "TRACE_ATKILL_GATE @self victim=?victim")
              (is-entity ?victim)
-             (not (believes {?victim condition [k dead]}))
+             (none {?victim condition [k dead]})
              (no-goal {@self fight ?victim})))
 
   (effects

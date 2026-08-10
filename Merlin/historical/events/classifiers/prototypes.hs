@@ -18,7 +18,7 @@
   (role @self (or {@self craving ?}
                   {@self prototype [k prototype drunkard]}))
   (effects
-    (mint-band {@self prototype} (believes {@self craving ?})
+    (mint-band {@self prototype} (any {@self craving ?} (out int))
       [k prototype drunkard] 0.5)))
 
 ; nouveau_riche: high wealth (>= 0.60) carried by low breeding (<= 0.35).
@@ -41,12 +41,12 @@
   (role @self (believes {@self class_situation ?, breeding ?breeding}))
   (effects
     (mint-band {@self prototype}
-      (* (believes {@self social_trajectory [k social_trajectory rising]})
-         (clamp (+ (believes {@self class_situation [k class_situation middle]})
-                   (believes {@self class_situation [k class_situation upper]})) 0 1)
+      (* (any {@self social_trajectory [k social_trajectory rising]} (out int))
+         (clamp (+ (any {@self class_situation [k class_situation middle]} (out int))
+                   (any {@self class_situation [k class_situation upper]} (out int))) 0 1)
          (<= ?breeding 0.40)
-         (clamp (+ (believes {@self repute [k repute exemplary]})
-                   (believes {@self repute [k repute respectable]})) 0 1))
+         (clamp (+ (any {@self repute [k repute exemplary]} (out int))
+                   (any {@self repute [k repute respectable]} (out int))) 0 1))
       [k prototype self_made_man] 0.5)))
 
 ; deserving_poor: poor/destitute + reputable.
@@ -55,10 +55,10 @@
   (role @self {@self economic_situation ?})
   (effects
     (mint-band {@self prototype}
-      (* (clamp (+ (believes {@self economic_situation [k economic_situation poor]})
-                   (believes {@self economic_situation [k economic_situation destitute]})) 0 1)
-         (clamp (+ (believes {@self repute [k repute exemplary]})
-                   (believes {@self repute [k repute respectable]})) 0 1))
+      (* (clamp (+ (any {@self economic_situation [k economic_situation poor]} (out int))
+                   (any {@self economic_situation [k economic_situation destitute]} (out int))) 0 1)
+         (clamp (+ (any {@self repute [k repute exemplary]} (out int))
+                   (any {@self repute [k repute respectable]} (out int))) 0 1))
       [k prototype deserving_poor] 0.5)))
 
 ; undeserving_poor: poor/destitute + disreputable.
@@ -67,10 +67,10 @@
   (role @self {@self economic_situation ?})
   (effects
     (mint-band {@self prototype}
-      (* (clamp (+ (believes {@self economic_situation [k economic_situation poor]})
-                   (believes {@self economic_situation [k economic_situation destitute]})) 0 1)
-         (clamp (+ (believes {@self repute [k repute disreputable]})
-                   (believes {@self repute [k repute scandalous]})) 0 1))
+      (* (clamp (+ (any {@self economic_situation [k economic_situation poor]} (out int))
+                   (any {@self economic_situation [k economic_situation destitute]} (out int))) 0 1)
+         (clamp (+ (any {@self repute [k repute disreputable]} (out int))
+                   (any {@self repute [k repute scandalous]} (out int))) 0 1))
       [k prototype undeserving_poor] 0.5)))
 
 ; go_between (the underworld fixer) - migrated from hsim_derive.cc is_go_between.
@@ -85,10 +85,10 @@
   (role @self {@self repute ?, class_situation ?})
   (effects
     (mint-band {@self prototype}
-      (* (* (- 1 (believes {@self repute [k repute exemplary]}))
-            (- 1 (believes {@self repute [k repute respectable]})))
-         (clamp (+ (believes {@self class_situation [k class_situation lower]})
-                   (believes {@self class_situation [k class_situation middle]})) 0 1)
+      (* (* (- 1 (any {@self repute [k repute exemplary]} (out int)))
+            (- 1 (any {@self repute [k repute respectable]} (out int))))
+         (clamp (+ (any {@self class_situation [k class_situation lower]} (out int))
+                   (any {@self class_situation [k class_situation middle]} (out int))) 0 1)
          (>= (/ (+ (- 1 (attr @self industriousness))
                    (- 1 (attr @self politeness))
                    (attr @self volatility)) 3)
@@ -112,8 +112,8 @@
   (effects
     (mint-band {@self prototype}
       ; REASON: economic desperation OR the callous + disinhibited bad seed.
-      (clamp (+ (clamp (+ (believes {@self economic_situation [k economic_situation poor]})
-                          (believes {@self economic_situation [k economic_situation destitute]})) 0 1)
+      (clamp (+ (clamp (+ (any {@self economic_situation [k economic_situation poor]} (out int))
+                          (any {@self economic_situation [k economic_situation destitute]} (out int))) 0 1)
                 (* (<= (attr @self compassion) 0.40)
                    (>= (/ (+ (- 1 (attr @self industriousness))
                              (- 1 (attr @self politeness))
@@ -130,9 +130,9 @@
   (effects
     (mint-band {@self prototype}
       (* (>= (attr @self strength) 0.65)
-         (believes {@self class_situation [k class_situation lower]})
-         (clamp (+ (clamp (+ (believes {@self economic_situation [k economic_situation poor]})
-                             (believes {@self economic_situation [k economic_situation destitute]})) 0 1)
+         (any {@self class_situation [k class_situation lower]} (out int))
+         (clamp (+ (clamp (+ (any {@self economic_situation [k economic_situation poor]} (out int))
+                             (any {@self economic_situation [k economic_situation destitute]} (out int))) 0 1)
                    (* (<= (attr @self compassion) 0.40)
                       (>= (/ (+ (- 1 (attr @self industriousness))
                                 (- 1 (attr @self politeness))

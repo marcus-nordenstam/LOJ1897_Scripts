@@ -138,7 +138,7 @@
 ; until the flee succeeds (whisked to a public place, co-presence breaks) or the attack ends.
 (npc-think flee_foe
   (goal {@self flee ?foe})
-  (when (believes {@self under_attack ?foe}))
+  (when (any {@self under_attack ?foe} (out int)))
   (utility 15000)
   (effects (maintain-proposal {@self flee ?foe})))
 

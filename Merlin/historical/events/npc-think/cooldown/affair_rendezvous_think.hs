@@ -37,9 +37,9 @@
 
   (when (and (chance 0.10)
              (is-entity (find-building [k commercial_building hotel]))
-             (or (believes {?paramour fancy @self})
-                 (believes {?paramour desire @self})
-                 (believes {?paramour crave @self}))
+             (or (any {?paramour fancy @self} (out int))
+                 (any {?paramour desire @self} (out int))
+                 (any {?paramour crave @self} (out int)))
              (chance (+ 0.40 (* 0.60 (attr ?paramour assertiveness))))))
 
   (effects
@@ -90,7 +90,7 @@
     (nudge-stance ?paramour @self attraction 0.10)
     ; @self's own home: a named residence carries a name; a plain house has only
     ; an address (not expressible in a note yet), so unnamed homes write no note.
-    (if (and (chance 0.30) (is-entity (home-of ?paramour)) (believes {?venue name ?}))
+    (if (and (chance 0.30) (is-entity (home-of ?paramour)) (any {?venue name ?} (out int)))
         (then
           (bind {?venue name ?venue_name})
           (spawn-letter [k tryst_note]

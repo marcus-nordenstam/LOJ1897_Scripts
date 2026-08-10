@@ -12,7 +12,7 @@
 ; clear-marriage / rid-of-spouse branches are betrayal_kill.hs / clear_marriage.hs
 ; / rid_of_spouse.hs). The selection that run_generative_obsession dispatched is
 ; expressed here:
-;   - (role ?beloved ... (believes {@self crave ?beloved})
+;   - (role ?beloved ... (any {@self crave ?beloved} (out int))
 ;     (select (policy first-match))) binds ONE craved beloved, so a multi-crave
 ;     obsessive strikes a single victim per tick;
 ;   - (when ...) is the jealous-rage pre-gate (volatility + psychopathy, scaled by
@@ -59,7 +59,7 @@
   (effects
     (debug-print "TRACE_PASSION_FIRES @self beloved=?beloved")
     (crave-rival ?beloved): ?victim
-    (if (not (believes {?victim condition [k dead]}))
+    (if (none {?victim condition [k dead]})
         (then (debug-print "TRACE_KILLGOAL passion @self -> ?victim")
             (begin-belief {@self crave ?beloved}): ?crave_bond
             (begin-goal {@self kill ?victim} /caused_by ?crave_bond)))))

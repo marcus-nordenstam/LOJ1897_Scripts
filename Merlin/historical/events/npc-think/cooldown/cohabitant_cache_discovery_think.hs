@@ -14,7 +14,7 @@
 ;   - the home binds from @self's own {@self home ?} belief; its rooms and
 ;     their hiding-spot children walk via the `parts` child hierarchy
 ;     ((attr-values .. parts [k ..]) - the spaces-as-hierarchy rule);
-;   - (not (believes {@self hiding_spot ?cache})) skips caches @self already
+;   - (none {@self hiding_spot ?cache}) skips caches @self already
 ;     knows - their own, and any they found before;
 ;   - the monthly find chance is small and scales with openness (the curious
 ;     poke about); a household of two or three searchers finds a cache in a
@@ -39,7 +39,7 @@
   (effects
     (for-each ?room (attr-values ?home parts [k interior_space room])
       (for-each ?cache (attr-values ?room parts [k interior_space hiding_spot])
-        (if (and (not (believes {@self hiding_spot ?cache}))
+        (if (and (none {@self hiding_spot ?cache})
                  (chance (* 0.006 (+ 1.0 (attr @self openness)))))
             (then
               (begin-belief {@self hiding_spot ?cache})

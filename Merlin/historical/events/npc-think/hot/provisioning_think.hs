@@ -64,7 +64,7 @@
   (role ?home {@self home ?home})
   (when (and (pub-bb-none ?home cook)
              (not (and (bind {@self mother ?mum})
-                       (believes {?mum home ?home})))))
+                       (any {?mum home ?home} (out int))))))
   (effects
     (pub-bb-post ?home cook (cook_marker_ttl_cycles))
     (begin-belief {@self household_cook ?home})))
@@ -78,8 +78,8 @@
   (role ?home {@self home ?home})
   (when (and (pub-bb-none ?home cook)
              (not (and (bind {@self child ?c})
-                       (believes {?c gender [k female]})
-                       (believes {?c home ?home})))))
+                       (any {?c gender [k female]} (out int))
+                       (any {?c home ?home} (out int))))))
   (effects
     (pub-bb-post ?home cook (cook_marker_ttl_cycles))
     (begin-belief {@self household_cook ?home})))
@@ -138,7 +138,7 @@
 ; source on {@self orient} and withdraws it independently; the goal lives until the last withdraws.
 (npc-think provision_orient
   (goal {@self provision})
-  (when (not (believes {@self provisions_shop ?})))
+  (when (none {@self provisions_shop ?}))
   (effects       (begin-goal {@self orient}))
   (cease-effects (end-goal   {@self orient})))
 

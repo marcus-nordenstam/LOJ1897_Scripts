@@ -51,5 +51,5 @@
       (do
         (utterable-msg ?news): ?msg
         (if (and (not (= ?tgt @self))
-                 (not (believes {@self SAY ?msg ?ear})))
+                 (none {@self SAY ?msg ?ear}))
             (then (maintain-proposal {@self say_to ?msg ?ear}) (break)))))))

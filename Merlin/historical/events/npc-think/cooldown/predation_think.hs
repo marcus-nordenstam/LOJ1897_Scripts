@@ -90,7 +90,7 @@
              (believes {@self fixation ?fix})
              (chance (* (crime-scale) 0.005
                         (* (dark-propensity (lethal-disposition @self))
-                           (if (believes {@self life_aim [k power_aim]}) (then 2.0) (else 1.0)))))))
+                           (if (any {@self life_aim [k power_aim]} (out int)) (then 2.0) (else 1.0)))))))
 
   ; Mint the kill goal toward the resolved victim. /caused_by pins the first fixation
   ; belief (the gate's believes binds ?fix - a kind-valued feature - and the

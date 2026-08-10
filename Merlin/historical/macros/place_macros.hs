@@ -88,4 +88,4 @@
 ; church) defaults open. The access gate of the enter chain (enter_step_in): a shuttered
 ; venue is not stepped into. Locked-door / key rungs are a later addition (§5.11 deferred).
 (define-macro open (?s)
-  (not (believes {?s struct_status [k closed]})))
+  (none {?s struct_status [k closed]}))

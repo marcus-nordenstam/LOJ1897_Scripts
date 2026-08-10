@@ -57,9 +57,9 @@
 (npc-think attend_vow
   (goal {@self attend [k wedding]:?occ})
   (role @self (believes {@self fiancee ?betrothed}))
-  (when (and (believes {@self organize ?occ})
+  (when (and (any {@self organize ?occ} (out int))
              (not (is-married @self))
-             (not (believes {@self SAY (msg {@self spouse ?betrothed}) ?betrothed}))
+             (none {@self SAY (msg {@self spouse ?betrothed}) ?betrothed})
              (believes {?occ venue ?venue})
              (attend-in-window ?occ)
              (in-building ?venue)))
@@ -92,7 +92,7 @@
 
 (npc-think attend_host_review
   (goal {@self attend ?occ})
-  (when (and (believes {@self organize ?occ})
+  (when (and (any {@self organize ?occ} (out int))
              (believes {?occ venue ?venue})
              (in-building ?venue)
              (attend-in-window ?occ)

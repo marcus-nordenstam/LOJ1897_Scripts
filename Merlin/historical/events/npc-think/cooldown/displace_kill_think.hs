@@ -48,7 +48,7 @@
   (when (and (is-entity ?focus)
              (no-goal {@self fight ?focus})
              (is-belief (caused-by ?kgoal {@self pressure ?}))
-             (or (believes {?focus condition [k dead]})
+             (or (any {?focus condition [k dead]} (out int))
                  (>= (- (target-or ?focus prestige 0) (target-or @self prestige 0)) 0.25))
              (chance (* 0.5 (disinhibition) 0.5
                         (+ (attr @self volatility) (callousness @self))))))

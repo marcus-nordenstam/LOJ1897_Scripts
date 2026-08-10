@@ -36,7 +36,7 @@
   (utility (home-leisure-utility))
 
   (effects
-    (if (believes {?home room [k interior_space study]})
+    (if (any {?home room [k interior_space study]} (out int))
               (then (+ (read-weight-base)
                        (* (read-weight-intellect-scale) (attr @self intellect))))
               (else 0)): ?read_w

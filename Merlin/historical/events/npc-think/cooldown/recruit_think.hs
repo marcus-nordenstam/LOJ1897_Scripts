@@ -53,7 +53,7 @@
 ; --- advertise: no live advert of mine for this org -> post one -----------------
 (npc-think advertise_pick
   (task {@self recruit_staff ?org})
-  (when (not (believes {@self post ? ?org})))
+  (when (none {@self post ? ?org}))
   (utility 79)
   (effects (debug-print "RC_ADPICK") (maintain-proposal {@self advertise ?org})))
 
@@ -85,7 +85,7 @@
             (not {@self post ?ad ?})
             (select (policy first-match)))
   (when (and (believes {?org record ?art})
-             (believes {@self post_advert ?art /succ})
+             (any {@self post_advert ?art /succ} (out int))
              (read-doc-record [k job_description] ?ad (find org_record ?art))))
   (effects (begin-belief {@self post ?ad ?org})))
 
@@ -160,5 +160,5 @@
   ; ?ad ENUMERATED for the same reason as take_down_filled: the concluded
   ; take_down must clear ITS OWN post, not whichever post binds first.
   (role ?ad (believes {@self post ?ad ?org}))
-  (when (believes {@self take_down ?ad /succ}))
+  (when (any {@self take_down ?ad /succ} (out int)))
   (effects (end-belief {@self post ?ad ?org})))

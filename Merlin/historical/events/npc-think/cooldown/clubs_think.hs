@@ -40,7 +40,7 @@
   ; found-club-seq enrols him ({@self member_of}) it falls and the goal ends. The act never
   ; ends the goal.
   (when (and (>= (years-old @self) 30)
-             (not (believes {@self member_of ?}))
+             (none {@self member_of ?})
              (latch-eval (chance 0.0033))))
 
   ; SPLIT (Item 5): the npc-action (club_found_errand.hs) takes the founder out to found it
@@ -87,7 +87,7 @@
   ; and the goal ends. The act never ends the goal.
   (when (and (>= (years-old @self) 18)
              (< (count-beliefs @self member_of) 2)
-             (not (believes {@self member_of ?club_org}))
+             (none {@self member_of ?club_org})
              (= (target {?founder class_situation})
                 (target {@self class_situation}))
              (latch-eval (chance 0.005))))
@@ -118,7 +118,7 @@
   ; completion gate: while he still holds a membership the goal stands; the moment
   ; resign_club_act unregisters him (unregister-member ENDS {@self member_of}) it falls and
   ; the goal ends. The act never ends the goal.
-  (when (and (believes {@self member_of ?})
+  (when (and (any {@self member_of ?} (out int))
              (latch-eval (chance 0.004))))
 
   ; SPLIT (Item 5): the npc-think - the decision to resign. Mints {@self goal {@self

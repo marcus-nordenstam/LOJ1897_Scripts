@@ -66,7 +66,7 @@
     (begin-ended-belief {@self blackmail ?victim})
     (discharge-pressure (caused-by ?goal {@self pressure ?}) 0.75)
     (end-goal {@self coerce})
-    (if (not (believes {@self extort ?victim})) (then (begin-belief {@self extort ?victim})))
+    (if (none {@self extort ?victim}) (then (begin-belief {@self extort ?victim})))
     ; Land the threat in the victim's mind (his act, perceived): the standing extort
     ; anchor + the punctual threat act-record. The victim's OWN coercion_pressure event
     ; mints the exposure_risk pressure off that anchor - no C++ generator.
@@ -79,7 +79,7 @@
     (begin-ended-belief {@self threaten_violence ?victim})
     (discharge-pressure (caused-by ?goal {@self pressure ?}) 0.75)
     (end-goal {@self coerce})
-    (if (not (believes {@self extort ?victim})) (then (begin-belief {@self extort ?victim})))
+    (if (none {@self extort ?victim}) (then (begin-belief {@self extort ?victim})))
     (begin-belief ?victim {@self extort ?victim})
     (begin-ended-belief ?victim {@self threaten_violence ?victim})
     (crime-ledger-append @self ?victim threaten_violence coerce @fail @fail)))
@@ -133,7 +133,7 @@
 ; courtship). Blocked (same-sex / kin): the goal just ends, the impulse spent. NOT a
 ; crime with a victim in the moral sense, but a crime-ledger row records the act.
 (define-macro terminal-consummate (?victim ?goal)
-  (if (and (not (believes {?victim gender (target {@self gender})}))
+  (if (and (none {?victim gender (target {@self gender})})
            (not (blood-kin @self ?victim)))
       (then
         (begin-ended-belief {@self seduce ?victim})
@@ -144,7 +144,7 @@
         (begin-belief ?victim {?victim lover @self})
         (begin-ended-belief ?victim {?victim HAVE_SEX_WITH @self})
         (if (and (believes {?victim gender [k female]})
-                 (not (believes {?victim spouse ?})))
+                 (none {?victim spouse ?}))
             (then (begin-belief ?victim {?victim prototype [k fallen_woman]})))
         (crime-ledger-append @self ?victim seduce seduce @fail @fail))
       (else (end-goal {@self seduce}))))
@@ -221,7 +221,7 @@
     (for-each-present-tense-belief {?loot stolen_from @self}
       (do
         (if (and (can-write @self)
-                 (not (believes {@self report_to_police (if (is-entity ?victim) (then ?victim) (else ?loot)) /ever})))
+                 (none {@self report_to_police (if (is-entity ?victim) (then ?victim) (else ?loot)) /ever}))
             (then
               (begin-ended-belief {@self report_to_police (if (is-entity ?victim) (then ?victim) (else ?loot))})
               (if (alive ?victim)
