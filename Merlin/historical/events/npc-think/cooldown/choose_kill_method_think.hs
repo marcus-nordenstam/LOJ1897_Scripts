@@ -21,7 +21,7 @@
 
   (role @self 
               (not {@self method ?}))
-  (when (> (count-beliefs @self goal) 0))
+  (when (> (count (every {@self goal ?})) 0))
 
   (select-joint
     (over-goals ?action ?victim ?goal)

@@ -86,7 +86,7 @@
   ; join_club_act enrols him (register-member mints {@self member_of ?club_org}) it falls
   ; and the goal ends. The act never ends the goal.
   (when (and (>= (years-old @self) 18)
-             (< (count-beliefs @self member_of) 2)
+             (< (count (every {@self member_of ?})) 2)
              (none {@self member_of ?club_org})
              (= (any {?founder class_situation}).target
                 (any {@self class_situation}).target)

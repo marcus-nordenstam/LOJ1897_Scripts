@@ -25,7 +25,7 @@
   (role @self )
 
   ; Cheap early-out: only goal-holders run the (joint) reduction.
-  (when (> (count-beliefs @self goal) 0))
+  (when (> (count (every {@self goal ?})) 0))
 
   ; Pick ONE standing goal whose terminal has moved to .hs. ?action = the goal's
   ; inner action label, ?victim = its target, ?goal = the outer goal belief (the

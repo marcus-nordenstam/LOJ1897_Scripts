@@ -6,9 +6,9 @@
 ; compression.
 ;
 ; Reads value dims via the dimensions.hs macros ((piety) / (criminality) /
-; (rootedness)), the C++ wealth/decorum floats via (target ...), the situation bands
+; (rootedness)), the C++ wealth/decorum floats via (any ..).target, the situation bands
 ; + (present ...) via (believes ...), the any-tense worship-at-church act-record via
-; a kind-cast /ever believes, and the friend count via (count-beliefs ...). Gated on
+; a kind-cast /ever believes, and the friend count via (count (every ..)). Gated on
 ; wealth+decorum being derived.
 ; ----------------------------------------------------------------------------
 
@@ -53,4 +53,4 @@
       [k life_aim belonging_aim]
         (* (attr @self enthusiasm)
            (- 1 (rootedness))
-           (clamp (* (count-beliefs @self friend) 0.2) 0 1)))))
+           (clamp (* (count (every {@self friend ?})) 0.2) 0 1)))))

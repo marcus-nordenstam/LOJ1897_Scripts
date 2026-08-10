@@ -5,10 +5,10 @@
 ; there is ONE encoding and no classifier catalog to evaluate it.
 ;
 ; The macro bodies are ordinary .hs read/fold expressions (attr / believes /
-; count-beliefs / count-ever / evidence + the + - * / min max clamp >= <=
+; (count (every ..)) / evidence + the + - * / min max clamp >= <=
 ; combinators). (believes {@self L ?}) is the boolean "holds an ongoing L"
-; (0-or-1 in arithmetic); (count-beliefs @self L) the ongoing tally;
-; (count-ever @self L) the any-tense tally (ended act-records count); the
+; (0-or-1 in arithmetic); (count (every {@self L ?})) the ongoing tally;
+; (count (every {@self L ? /ever})) the any-tense tally (ended act-records count); the
 ; per-attr default is 0 when absent (traits are always present on generated
 ; humans).
 ; ----------------------------------------------------------------------------
@@ -60,9 +60,9 @@
 ; offender saturates.
 (define-macro criminality ()
   (clamp (+ 0.05
-            (* (+ (count-ever @self assault) (count-ever @self steal)
-                  (count-ever @self defraud) (count-ever @self embezzle)
-                  (count-ever @self kill)    (count-ever @self kidnap)) 0.25)) 0 1))
+            (* (+ (count (every {@self assault ? /ever})) (count (every {@self steal ? /ever}))
+                  (count (every {@self defraud ? /ever})) (count (every {@self embezzle ? /ever}))
+                  (count (every {@self kill ? /ever}))    (count (every {@self kidnap ? /ever}))) 0.25)) 0 1))
 
 ; rootedness - how established the NPC is in the community. Local lineage
 ; (mother / father), a spouse, children (each +0.06, capped at 4 = +0.24), a
@@ -75,10 +75,10 @@
   (clamp (+ (* 0.15 (believes {@self mother ?}))
             (* 0.15 (believes {@self father ?}))
             (* 0.20 (believes {@self spouse ?}))
-            (* 0.06 (min (count-beliefs @self child) 4))
+            (* 0.06 (min (count (every {@self child ?})) 4))
             (* 0.20 (believes {@self job ?}))
-            (* 0.15 (>= (count-beliefs @self building) 1))
-            (* 0.10 (>= (count-beliefs @self member_of) 1))) 0 1))
+            (* 0.15 (>= (count (every {@self building ?})) 1))
+            (* 0.10 (>= (count (every {@self member_of ?})) 1))) 0 1))
 
 ; diligence - the industriousness aspect.
 (define-macro diligence () (attr @self industriousness))
@@ -90,7 +90,7 @@
 ; generosity - the compassion prior, lifted 0.20 by any recorded act of charity (an
 ; ended {@self give <alms>} act-record still counts - a lifetime tally).
 (define-macro generosity ()
-  (clamp (+ (attr @self compassion) (* (>= (count-ever @self give) 1) 0.20)) 0 1))
+  (clamp (+ (attr @self compassion) (* (>= (count (every {@self give ? /ever})) 1) 0.20)) 0 1))
 
 ; sobriety - inverse of accumulated intoxication (absent intoxication = 0 = fully
 ; sober), hard-capped at 0.15 once a standing craving for drink has formed, and
@@ -106,11 +106,11 @@
 ; of enthusiasm + assertiveness); belonging falls 0.18 per unit of unmet need.
 (define-macro belonging ()
   (clamp (- 1 (* (max (- (+ 1 (* (* (+ (attr @self enthusiasm) (attr @self assertiveness)) 0.5) 5))
-                         (+ (count-beliefs @self close_to) (count-beliefs @self friend)
+                         (+ (count (every {@self close_to ?})) (count (every {@self friend ?}))
                             (* 2 (believes {@self spouse ?}))
-                            (min (count-beliefs @self child) 5)
-                            (min (+ (count-beliefs @self mother) (count-beliefs @self father)) 2)
-                            (min (+ (count-beliefs @self sibling) (count-beliefs @self half_sibling)) 4)))
+                            (min (count (every {@self child ?})) 5)
+                            (min (+ (count (every {@self mother ?})) (count (every {@self father ?}))) 2)
+                            (min (+ (count (every {@self sibling ?})) (count (every {@self half_sibling ?}))) 4)))
                      0) 0.18)) 0 1))
 
 ; piety - worship-episode observance mapped onto the historical piety anchors:
@@ -141,5 +141,5 @@
                (* (clamp (+ (attr @self machiavellianism) -0.5) 0 1) -0.15)
                (* (clamp (+ (attr @self psychopathy)      -0.5) 0 1) -0.20)
                (* (clamp (+ (attr @self sadism)           -0.5) 0 1) -0.25)
-               (* (count-beliefs @self value)    0.05)
-               (* (count-beliefs @self justify) -0.08))) 0 1))
+               (* (count (every {@self value ?}))    0.05)
+               (* (count (every {@self justify ?})) -0.08))) 0 1))
