@@ -44,7 +44,7 @@
 ; performance concluded (the standing OBLIGATION {@self duty_to ..} remains).
 (npc-think recruit_done
   (task {@self recruit_staff ?org}:?rec)
-  (when (and (believes {?org record ?art})
+  (when (and (any {?org record ?}).target: ?art
              (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
              (>= (count-doc-records [k employee_register] ?reg)
                  (lookup public_orgs kind ?ok employee_count 2))))
@@ -68,7 +68,7 @@
 ; is the org's ARTICLES (paper - an org can never ride an act); the role rides the aux.
 (npc-think advertise_post
   (task {@self advertise ?org})
-  (when (and (believes {?org record ?art})
+  (when (and (any {?org record ?}).target: ?art
              (find-building [k building church]): ?board
              (in-building ?board)
              (read-doc-record [k articles_of_incorporation] ?art (kind ?ok))
@@ -84,7 +84,7 @@
   (role ?ad [k job_description]
             (not {@self post ?ad ?})
             (select (policy first-match)))
-  (when (and (believes {?org record ?art})
+  (when (and (any {?org record ?}).target: ?art
              (any {@self post_advert ?art /succ} (out int))
              (read-doc-record [k job_description] ?ad (find org_record ?art))))
   (effects (begin-belief {@self post ?ad ?org})))
@@ -93,7 +93,7 @@
 ; work_attendance - org heads hold no shift), then sweep it -------------------------
 (npc-think gather_go
   (task {@self recruit_staff ?org})
-  (when (and (believes {?org record ?art})
+  (when (and (any {?org record ?}).target: ?art
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (not (in-building ?wp))
              (is-entity (mail-pile (room-of ?wp [k back_office])))))
@@ -113,7 +113,7 @@
 ; forever.
 (npc-think gather_applications
   (task {@self recruit_staff ?org})
-  (when (and (believes {?org record ?art})
+  (when (and (any {?org record ?}).target: ?art
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (in-building ?wp)
              (is-entity (mail-pile (room-of ?wp [k back_office])))
@@ -149,7 +149,7 @@
   ; ?org aux PRODUCES off the enumerated ad's own post belief (the uniform field
   ; rule; deterministic - the post aux is @excl).
   (role ?ad (believes {@self post ?ad ?org}))
-  (when (and (believes {?org record ?art})
+  (when (and (any {?org record ?}).target: ?art
              (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
              (>= (count-doc-records [k employee_register] ?reg)
                  (lookup public_orgs kind ?ok employee_count 2))))

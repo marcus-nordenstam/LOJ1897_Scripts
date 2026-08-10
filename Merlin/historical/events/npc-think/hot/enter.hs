@@ -33,7 +33,7 @@
 (npc-think enter_step_in
   (task {@self enter ?s})
   (when (and (at-threshold @self ?s)
-             (believes {?s room ?entry})
+             (any {?s room ?}).target: ?entry
              (open ?s)))
   (effects (debug-print "TRACE-STEPIN bld=?s room=?entry")
            (maintain-proposal {@self go ?entry})))

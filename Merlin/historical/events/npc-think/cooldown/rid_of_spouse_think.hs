@@ -65,6 +65,6 @@
         (else (if (any {@self dislike ?spouse} (out int))
             (then (begin-belief {@self dislike ?spouse}): ?dislike_bond
                   (begin-goal {@self kill ?spouse} /caused_by ?dislike_bond))
-            (else (bind {?spouse wealth ?spouse_wealth})
+            (else (any {?spouse wealth ?}).target: ?spouse_wealth
                   (begin-belief {?spouse wealth ?spouse_wealth}): ?wealth_bond
                   (begin-goal {@self kill ?spouse} /caused_by ?wealth_bond)))))))

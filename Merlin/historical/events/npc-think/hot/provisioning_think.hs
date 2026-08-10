@@ -63,7 +63,7 @@
               (not {@self class_situation [k upper]}))
   (role ?home {@self home ?home})
   (when (and (pub-bb-none ?home cook)
-             (not (and (bind {@self mother ?mum})
+             (not (and (any {@self mother ?}).target: ?mum
                        (any {?mum home ?home} (out int))))))
   (effects
     (pub-bb-post ?home cook (cook_marker_ttl_cycles))
@@ -77,7 +77,7 @@
               (not {@self class_situation [k upper]}))
   (role ?home {@self home ?home})
   (when (and (pub-bb-none ?home cook)
-             (not (and (bind {@self child ?c})
+             (not (and (any {@self child ?}).target: ?c
                        (any {?c gender [k female]} (out int))
                        (any {?c home ?home} (out int))))))
   (effects

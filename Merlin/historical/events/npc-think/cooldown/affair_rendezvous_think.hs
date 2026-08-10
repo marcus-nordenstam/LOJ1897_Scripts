@@ -92,7 +92,7 @@
     ; an address (not expressible in a note yet), so unnamed homes write no note.
     (if (and (chance 0.30) (is-entity (home-of ?paramour)) (any {?venue name ?} (out int)))
         (then
-          (bind {?venue name ?venue_name})
+          (any {?venue name ?}).target: ?venue_name
           (spawn-letter [k tryst_note]
                 (nl_written_msg "I met you at ?venue_name. Signed, ?author_name")
                 (home-of ?paramour))))

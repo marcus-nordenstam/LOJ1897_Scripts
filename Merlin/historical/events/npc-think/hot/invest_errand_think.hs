@@ -9,7 +9,7 @@
 
 (npc-think invest_go
   (task {@self back ?org})
-  (when (and (believes {?org workplace ?wp})
+  (when (and (any {?org workplace ?}).target: ?wp
              (not (at-workplace ?wp))))
   (utility 60)
   (effects (maintain-proposal {@self enter ?wp})))
@@ -18,7 +18,7 @@
 ; backed org off the standing {@self back} goal focus, so the propose is label-only.
 (npc-think invest_at_firm
   (task {@self back ?org})
-  (when (and (believes {?org workplace ?wp})
+  (when (and (any {?org workplace ?}).target: ?wp
              (at-workplace ?wp)))
   (utility 60)
   (effects

@@ -54,7 +54,7 @@
 (npc-think kill_seek
   (goal {@self fight ?victim})
 
-  (when (and (believes {?victim home ?victim_home})
+  (when (and (any {?victim home ?}).target: ?victim_home
              (not (co-present @self ?victim))))
   (utility (if (< (fight-elapsed) 10) (then 150)
                (else (max 0 (- 150 (* 30 (- (fight-elapsed) 10)))))))

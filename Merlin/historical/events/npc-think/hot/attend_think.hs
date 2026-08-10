@@ -32,7 +32,7 @@
 
 (npc-think attend_go
   (goal {@self attend ?occ})
-  (when (and (believes {?occ venue ?venue})
+  (when (and (any {?occ venue ?}).target: ?venue
              (attend-in-window ?occ)
              (not (in-building ?venue))))
   (utility (attend-utility ?occ))
@@ -41,7 +41,7 @@
 
 (npc-think attend_stay
   (goal {@self attend ?occ})
-  (when (and (believes {?occ venue ?venue})
+  (when (and (any {?occ venue ?}).target: ?venue
              (attend-in-window ?occ)
              (in-building ?venue)))
   (utility (attend-utility ?occ))
@@ -60,7 +60,7 @@
   (when (and (any {@self organize ?occ} (out int))
              (not (is-married @self))
              (none {@self SAY (msg {@self spouse ?betrothed}) ?betrothed})
-             (believes {?occ venue ?venue})
+             (any {?occ venue ?}).target: ?venue
              (attend-in-window ?occ)
              (in-building ?venue)))
   (utility (+ (attend-utility ?occ) 10))
@@ -93,7 +93,7 @@
 (npc-think attend_host_review
   (goal {@self attend ?occ})
   (when (and (any {@self organize ?occ} (out int))
-             (believes {?occ venue ?venue})
+             (any {?occ venue ?}).target: ?venue
              (in-building ?venue)
              (attend-in-window ?occ)
              (<= (attend-minutes-left ?occ) 45)))

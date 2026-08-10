@@ -28,7 +28,7 @@
              (not (= (situation @self repute) [k scandalous]))
              ; wealth gate: the independently rich do not seek waged work; a seeker with
              ; no wealth belief yet is treated as needing work (the (and ..) is false).
-             (not (and (believes {@self wealth ?w}) (>= ?w (seek_job_wealth_ceiling))))
+             (not (and (any {@self wealth ?}).target: ?w (>= ?w (seek_job_wealth_ceiling))))
              (find-building [k building church]): ?board
              (not (in-building ?board))
              (latch-eval (chance 0.3))))

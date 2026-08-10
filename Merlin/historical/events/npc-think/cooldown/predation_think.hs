@@ -87,7 +87,7 @@
   ; AFTER the select: disposition floor + rate. lethal = mean(psychopathy, sadism);
   ; propensity = (1 - inhibition) * lethal, DOUBLED for {@self life_aim power_aim}.
   (when (and (>= (lethal-disposition @self) 0.65)
-             (believes {@self fixation ?fix})
+             (any {@self fixation ?}).target: ?fix
              (chance (* (crime-scale) 0.005
                         (* (dark-propensity (lethal-disposition @self))
                            (if (any {@self life_aim [k power_aim]} (out int)) (then 2.0) (else 1.0)))))))
