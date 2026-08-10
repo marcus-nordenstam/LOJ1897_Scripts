@@ -74,6 +74,6 @@
     (begin-belief ?bride {?bride fiancee @self})
     ; @self (the groom) discloses his friend-tier profile to the bride (the SAY she
     ; hears and adopts); his own knowledge of her pre-exists from courtship.
-    (for-each-present-tense-belief ?fact {@self (disclosure-tier-labels friend) ?}
+    (for-each ?fact (every {@self (disclosure-tier-labels friend) ?})
       (tell-to ?bride (utterable-msg (to ?bride) ?fact)))
     ))

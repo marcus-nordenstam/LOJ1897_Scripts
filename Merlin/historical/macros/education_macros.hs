@@ -16,7 +16,8 @@
 (define-macro graduate-from-study ()
   ; The enrolment is optional (No-op when not enrolled): the walk binds ?curriculum
   ; and zero matches skip the body.
-  (for-each-present-tense-belief {@self study ?curriculum}
+  (for-each ?stb (every {@self study ?})
+    ?stb.target: ?curriculum
     (if (is-kind ?curriculum)
         (then
           (competence-rank (any {@self skilled_in ?curriculum}).auxiliary): ?cur_rank

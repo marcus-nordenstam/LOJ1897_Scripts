@@ -49,7 +49,7 @@
     ; Tell ?guest ONE piece of the host's own news they have not heard. for-each-present-tense-belief
     ; binds each matched belief as ?belief; the dedup is PER-GUEST - the SAY's aux is
     ; the listener, so {@self SAY <msg> ?guest} is "have I told THIS guest this".
-    (for-each-present-tense-belief ?belief {@self spouse|fiancee|lover|child ?}
+    (for-each ?belief (every {@self spouse|fiancee|lover|child ?})
       (do
         (utterable-msg ?belief): ?msg
         (if (none {@self SAY ?msg ?guest})

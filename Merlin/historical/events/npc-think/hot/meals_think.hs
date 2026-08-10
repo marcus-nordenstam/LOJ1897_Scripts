@@ -463,9 +463,12 @@
   (role ?home {@self home ?home})
   (when (and (= ?place ?home) (chance 0.25)))
   (effects
-    (for-each-present-tense-belief {?home breakfast_hour ?b}
-        (for-each-present-tense-belief {?home lunch_hour ?l}
-            (for-each-present-tense-belief {?home supper_hour ?s}
+    (for-each ?bb (every {?home breakfast_hour ?})
+        ?bb.target: ?b
+        (for-each ?lb (every {?home lunch_hour ?})
+            ?lb.target: ?l
+            (for-each ?sb (every {?home supper_hour ?})
+                ?sb.target: ?s
                 (tell (utterable-msg {?home breakfast_hour ?b}
                                      {?home lunch_hour ?l}
                                      {?home supper_hour ?s})))))))

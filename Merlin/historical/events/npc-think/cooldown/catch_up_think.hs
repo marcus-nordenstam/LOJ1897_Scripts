@@ -37,7 +37,7 @@
     ; label + its target; the dedup is PER-GUEST - the SAY's aux is the listener, so {@self
     ; SAY <msg> ?guest} is "have I told THIS guest this". (break) stops at the first untold
     ; fact. Proposing nothing is a safe no-op.
-    (for-each-present-tense-belief ?belief {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality ?}
+    (for-each ?belief (every {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality ?})
       (do
         (utterable-msg ?belief): ?msg
         (if (none {@self SAY ?msg ?guest})

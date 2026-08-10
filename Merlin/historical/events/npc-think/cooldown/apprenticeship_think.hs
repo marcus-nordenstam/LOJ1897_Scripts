@@ -93,6 +93,6 @@
 
   (effects
     (promote /worker @self)
-    (for-each-present-tense-belief {@self master ?master}
-        (end-belief {@self master ?master}))
+    (for-each ?mb (every {@self master ?})
+        (end-belief ?mb))
     ))

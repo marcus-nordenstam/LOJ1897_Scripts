@@ -46,7 +46,7 @@
     ; {@self <label> ?} beliefs across the labels, binding each as ?belief; (break)
     ; stops at the first the diner has not heard and proposes telling it (the shared say_to act
     ; says it aloud).
-    (for-each-present-tense-belief ?belief {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life_aim ?}
+    (for-each ?belief (every {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life_aim ?})
       (do
         (utterable-msg ?belief): ?msg
         (if (none {@self SAY ?msg ?diner})

@@ -83,6 +83,6 @@
     ; @self discloses their friend-tier profile to ?b (the SAY they hear and adopt);
     ; @self's knowledge of ?b pre-exists. Friend-tier keeps @self's other lovers
     ; (intimate-tier) unspoken.
-    (for-each-present-tense-belief ?fact {@self (disclosure-tier-labels friend) ?}
+    (for-each ?fact (every {@self (disclosure-tier-labels friend) ?})
       (tell-to ?b (utterable-msg (to ?b) ?fact)))
     ))
