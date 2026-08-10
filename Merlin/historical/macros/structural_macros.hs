@@ -24,7 +24,7 @@
 ; Walks ?whole's `part` tree downward; true iff ?x is reached. ?x may be a bound
 ; entity, or a [k <kind>] (does ?whole contain any such thing).
 (define-macro is-part-of (?x ?whole)
-  (recursive-believes {?whole part ?x}))
+  (any /recurse {?whole part ?x} (out int)))
 
 ; (is-struct-parent-of ?ancestor ?descendant): is ?ancestor a structural parent of
 ; ?descendant at ANY depth - its direct struct_parent, or a parent-of-a-parent (a
@@ -32,4 +32,4 @@
 ; struct_parent chain UPWARD; true iff ?ancestor is reached. The reverse-direction
 ; dual of is-part-of, over the @excl `struct_parent` label.
 (define-macro is-struct-parent-of (?ancestor ?descendant)
-  (recursive-believes {?descendant struct_parent ?ancestor}))
+  (any /recurse {?descendant struct_parent ?ancestor} (out int)))
