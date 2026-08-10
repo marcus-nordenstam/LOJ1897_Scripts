@@ -51,7 +51,7 @@
 ; old, so that is ~a few years among children and ~a generation among adults.
 ;
 ; This CANNOT be a one-call (believes ...) macro. age_span is a PLURAL belief, and an
-; inline (target {@self age_band}) in its target slot does NOT resolve against it (it
+; inline (any {@self age_band}).target in its target slot does NOT resolve against it (it
 ; matches only SINGLE @excl beliefs, e.g. gender / class_situation). The band must be
 ; a BOUND variable, and the bind must live in the @self role (evaluated once for the
 ; deliberating self) - binding in the ?other role re-binds per candidate. Each caller

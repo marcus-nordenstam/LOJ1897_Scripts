@@ -166,10 +166,10 @@
     ; guarded inline BEFORE the must-produce (bind ...)s: the ops are deterministic,
     ; so each guarded re-bind reads the value the guard just proved.
     (if (and (is-entity (known-nonspousal-liaison @self))
-             (is-entity (target {@self father|mother|fiancee|spouse|sibling ?})))
+             (is-entity (any {@self father|mother|fiancee|spouse|sibling ?}).target))
         (then
           (known-nonspousal-liaison @self): ?partner
-          (target {@self father|mother|fiancee|spouse|sibling ?}): ?kin
+          (any {@self father|mother|fiancee|spouse|sibling ?}).target: ?kin
           (if (and (alive ?kin) (not (= ?kin ?partner)))
               (then
                 (begin-belief {@self confession_letter ?kin})

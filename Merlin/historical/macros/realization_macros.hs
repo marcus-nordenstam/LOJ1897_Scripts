@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; realization_macros.hs - the destruction-realization contract + its date reads,
 ; as pure .hs over the generic primitives (end-beliefs-about / begin-belief /
-; belief-start / date math). See docs/memory/memory_system.md section 13.
+; (any ..).start / date math). See docs/memory/memory_system.md section 13.
 ; ----------------------------------------------------------------------------
 
 ; (realize-destroyed ?item [k condition <kind>]): the deliberating self REALIZES
@@ -26,7 +26,7 @@
 (define-macro months-since-death (?c)
   (if (believes {?c condition [k dead]})
       (then (max 0 (+ (* 12 (- (year (date_now))
-                         (year (belief-start {?c condition [k dead]}))))
+                         (year (any {?c condition [k dead]}).start)))
                 (- (month (date_now))
-                   (month (belief-start {?c condition [k dead]}))))))
+                   (month (any {?c condition [k dead]}).start)))))
       (else 0)))

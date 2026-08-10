@@ -29,7 +29,7 @@
 ; predator holds several fixation values); it is cacheable (see the classifier +
 ; cache_filter_match in hse_parser.cc / hse_engine.cc). The invisibility read lives
 ; in the (score ...), which is evaluated live per candidate (not cache-classified),
-; so (target {?victim ...}) is fine there.
+; so (any {?victim ..}).target is fine there.
 ; Kept a tail by design (trait floor + base rate): 1-3 predators per few gens.
 ; ----------------------------------------------------------------------------
 

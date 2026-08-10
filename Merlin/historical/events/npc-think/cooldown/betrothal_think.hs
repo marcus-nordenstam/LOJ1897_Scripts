@@ -49,7 +49,7 @@
                ;; Belief-pure perceived predicates - the near-age window and the
                ;; blood-kin exclusion - stay role filters (cacheable), gating the
                ;; bride candidate set directly. @self's band is bound in the @self
-               ;; role: an inline (target {@self age_band}) does not resolve against
+               ;; role: an inline (any {@self age_band}).target does not resolve against
                ;; the plural age_span belief.
                (believes {?bride age_span ?peer_band})
                (not (blood-kin @self ?bride)))
@@ -66,7 +66,7 @@
              ;; has not heard passes - the market gives the benefit of the doubt.
              (< (count-beliefs-about ?bride lover) 2)
              (not (and (any {@self lover ?} (out int))
-                       (= (target {(any {@self lover}).target class_situation})
+                       (= (any {(any {@self lover}).target class_situation}).target
                           (any {@self class_situation}).target)))))
 
   (effects

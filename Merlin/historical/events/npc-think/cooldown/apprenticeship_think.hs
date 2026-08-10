@@ -82,7 +82,7 @@
   (rng-stream apprenticeship)
 
   ;; The trainee is the sole deliberator (@self). job-level (live op) / job-tenure
-  ;; (belief-start macro) / chance gate the fire in (when), not role selection.
+  ;; (.start macro) / chance gate the fire in (when), not role selection.
   (role @self )
 
   ;; A trainee who has held the trainee rank at least three years; the chance

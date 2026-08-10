@@ -48,7 +48,7 @@
                 (not {?victim gender (any {@self gender}).target})
                 ; Similar age: @self's band is within ?victim's perceived age_span
                 ; (+/-1 band). @self's band is bound in the @self role above - an
-                ; inline (target {@self age_band}) does NOT resolve against the
+                ; inline (any {@self age_band}).target does NOT resolve against the
                 ; plural age_span belief, so the band must be a bound variable.
                 (believes {?victim age_span ?peer_band}))
 

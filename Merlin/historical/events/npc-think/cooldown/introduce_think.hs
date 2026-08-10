@@ -17,6 +17,6 @@
   (utility 18)
 
   (effects
-    (every-ongoing-belief {@self (disclosure-tier-labels stranger) ?}): ?facts
-    (maintain-proposal {@self say_to (utterable-msg ?facts) ?stranger})))
+    (every {@self (disclosure-tier-labels stranger) ?}): ?facts
+    (if ?facts (then (maintain-proposal {@self say_to (utterable-msg ?facts) ?stranger})))))
     

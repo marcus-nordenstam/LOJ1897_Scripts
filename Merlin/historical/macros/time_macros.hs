@@ -72,10 +72,10 @@
 ; (job-tenure ?who): whole years since ?who's current job RANK began - the
 ; interval-start of the {<job> level <grade>} belief on the job mental object
 ; (level is @excl: one ongoing rank belief). Replaces the C++ (job-tenure) op with
-; the same composition every date macro uses: (belief-start ...) + (year ...). A
-; jobless / rankless ?who reads 0 ((belief-start) fails -> (year) falls back to the
+; the same composition every date macro uses: (any ..).start + (year ...). A
+; jobless / rankless ?who reads 0 ((any ..).start fails -> (year) falls back to the
 ; current year -> zero diff). Use with ?who = @self (reads the deliberating mind's
 ; own job object).
 (define-macro job-tenure (?who)
   (- (year (date_now))
-     (year (belief-start {(any {?who job}).target level}))))
+     (year (any {(any {?who job}).target level}).start)))

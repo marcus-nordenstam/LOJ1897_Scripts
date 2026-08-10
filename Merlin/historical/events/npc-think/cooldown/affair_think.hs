@@ -44,7 +44,7 @@
                ; the affair ignites with a known third party (social tie).
                (personally-knows @self ?lover)
                ; @self's band within ?lover's perceived age_span (+/-1). Bound in
-               ; the @self role: an inline (target {@self age_band}) does not
+               ; the @self role: an inline (any {@self age_band}).target does not
                ; resolve against the plural age_span belief.
                (believes {?lover age_span ?peer_band})
                ; opposite-sex: @self's belief that ?lover's PERCEIVED gender differs
