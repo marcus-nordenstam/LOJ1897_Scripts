@@ -42,7 +42,7 @@
   (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
              (believes {?org workplace ?wp})       ; ?wp binds at fire
              (at-workplace ?wp))                    ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
-  (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))  ; onset: derive the shift, bind ?start/?end
+  (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)  ; onset: derive the shift, bind ?start/?end
         (and (none {@self work ?wp /pres})
              (not (has-proposal {@self work ?wp}))
              (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
@@ -63,7 +63,7 @@
 (npc-think at_post_morning
   (task {@self work ?wp})
   (role ?job {@self job ?job})
-  (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))
+  (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
         (and (in-building ?wp) (< (now-hour) 12)))
   (utility 78)
   (effects (maintain-proposal {@self dwell ?wp (min 12 ?end)})))
@@ -71,7 +71,7 @@
 (npc-think at_post_afternoon
   (task {@self work ?wp})
   (role ?job {@self job ?job})
-  (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))
+  (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
         (and (in-building ?wp) (>= (now-hour) 12)))
   (utility 78)
   (effects (maintain-proposal {@self dwell ?wp ?end})))
@@ -81,7 +81,7 @@
 (npc-think shift_over
   (task {@self work ?wp}:?w)
   (role ?job {@self job ?job})
-  (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))
+  (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
         (not (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
   (effects (set-outcome ?w succ)))
 
@@ -93,7 +93,7 @@
   (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
              (believes {?org workplace ?wp})       ; ?wp binds at fire
              (not (at-workplace ?wp)))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
-  (when (latch-eval (bind {?job (work-hours-today-label) ?start ?end}))  ; onset: derive the shift, bind ?start/?end
+  (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)  ; onset: derive the shift, bind ?start/?end
         (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
   (utility 80)
   (effects       (maintain-proposal {@self enter ?wp})))

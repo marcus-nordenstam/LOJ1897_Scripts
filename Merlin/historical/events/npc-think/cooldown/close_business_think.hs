@@ -23,9 +23,9 @@
 ;                            owner-exclusive: orient_errand mints {?org record ?art}
 ;                            for ANY worker who reads the articles at church - so a
 ;                            mere employee would falsely pass a record-only gate.)
-; The articles bind {?org record ?art} stays in (when ...) - a role filter cannot
-; bind, and the (bind {...}) provably threads to the lifecycle block (same eval
-; env; the retire / sack routing thinks rely on the identical threading).
+; The articles read (any {?org record ?}).target: ?art stays in (when ...) - a
+; role filter cannot bind, and the suffix bind provably threads to the lifecycle
+; block (same eval env; the retire / sack routing thinks rely on it).
 ;
 ; LANE: a yearly timer ((cooldown 1 y)) runs the failure roll once a year and
 ; mints the LATCHED winding-up goal. The derived means / merit dims are (target ...)

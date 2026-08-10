@@ -55,10 +55,10 @@
     (nudge-stance ?paramour @self attraction 0.10)
     ; the hotel is an org premises - the note names it by the org's name.
     (if (and (chance 0.30) (is-entity (home-of ?paramour))
-             (believes {?org workplace ?venue}) (believes {?org name ?}))
+             (any {? workplace ?venue}): ?wob
+             ?wob.subject: ?org
+             (any {?org name ?}).target: ?venue_name)
         (then
-          (bind {?org workplace ?venue})
-          (bind {?org name ?venue_name})
           (spawn-letter [k tryst_note]
                 (nl_written_msg "I met you at ?venue_name. Signed, ?author_name")
                 (home-of ?paramour))))
@@ -135,10 +135,10 @@
     (nudge-stance ?paramour @self attraction 0.10)
     ; the theatre / pub is an org premises - the note names it by the org's name.
     (if (and (chance 0.30) (is-entity (home-of ?paramour))
-             (believes {?org workplace ?venue}) (believes {?org name ?}))
+             (any {? workplace ?venue}): ?wob
+             ?wob.subject: ?org
+             (any {?org name ?}).target: ?venue_name)
         (then
-          (bind {?org workplace ?venue})
-          (bind {?org name ?venue_name})
           (spawn-letter [k tryst_note]
                 (nl_written_msg "I met you at ?venue_name. Signed, ?author_name")
                 (home-of ?paramour))))

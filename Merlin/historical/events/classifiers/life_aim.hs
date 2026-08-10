@@ -38,7 +38,7 @@
       [k life_aim piety_aim]
         (* (piety)
            (- 1 (criminality))
-           (+ 0.4 (* (believes {@self worship [k building church]:?w /ever}) 0.6)))
+           (+ 0.4 (* (any {@self worship [k building church] /ever} (out int)) 0.6)))
       [k life_aim respectability_aim]
         (* (attr @self politeness)
            (piety)
