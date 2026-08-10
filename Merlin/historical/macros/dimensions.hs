@@ -41,8 +41,8 @@
 ; chastity-scalar - 0.85 minus a rung per extra-marital liaison THIS mind knows of
 ; ?who (uniform: @self's own affairs for @self, the observer's knowledge for others).
 (define-macro chastity-scalar (?who)
-  (- 0.85 (* (>= (count-beliefs-about ?who lover) 1) 0.30)
-          (* (>= (count-beliefs-about ?who lover) 2) 0.30)))
+  (- 0.85 (* (>= (count (every {?who lover ? /ever})) 1) 0.30)
+          (* (>= (count (every {?who lover ? /ever})) 2) 0.30)))
 
 ; repute-fold - the seven-term mean the repute band-cut reads, for @self or ?other.
 (define-macro repute-fold (?who)

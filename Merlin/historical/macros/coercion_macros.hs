@@ -3,7 +3,7 @@
 ;
 ; (press-coercion ?victim): one month's turn of the repeat-demand screw. If
 ; the leverage is spent - AS THE BLACKMAILER KNOWS IT: he already holds beliefs
-; of the victim's OTHER liaisons (count-beliefs-about ?victim lover), so her name
+; of the victim's OTHER liaisons (count (every {?victim lover ? /ever})), so her name
 ; is stained to him and a secret everyone knows coerces nobody - the anchor ends.
 ; Otherwise the demand is pressed - the victim's threatened
 ; SAY record + exposure_risk pressure refresh (compounding salience walks
@@ -16,11 +16,11 @@
 
 (define-macro press-coercion (?victim)
   ; Leverage is spent once the blackmailer already knows of the victim's OTHER
-  ; liaisons (per-observer chastity: (count-beliefs-about ?victim lover) counts the
+  ; liaisons (per-observer chastity: (count (every {?victim lover ? /ever})) counts the
   ; victim's affairs THIS mind holds - excluding its own dyad, which is {@self lover
   ; ?victim}, a different subject). If she is already known-unchaste to him, threatening
   ; to expose their affair no longer bites.
-  (if (>= (count-beliefs-about ?victim lover) 1)
+  (if (>= (count (every {?victim lover ? /ever})) 1)
       (then (end-belief {@self extort ?victim}))
       (else
         ; Refresh the standing extort anchor in the victim's mind (his renewed demand,

@@ -20,7 +20,7 @@
   ;; the heavy unmarried_man template is for BINDING roles). He proposes to a bride
   ;; he KNOWS, judging her ONLY from his own knowledge: her repute / class as
   ;; banded in via the venue acquaintance channel, her chastity from the liaisons
-  ;; HE has heard of ((count-beliefs-about ?bride lover) - per-observer, never an
+  ;; HE has heard of ((count (every {?bride lover ? /ever})) - per-observer, never an
   ;; omniscient public reading), her availability as his own belief
   ;; ((any {?bride <label> ?} (out int)), permissive on the unknown).
   (role @self (adult @self)
@@ -64,7 +64,7 @@
              ;; Not KNOWN to be disgraced: fewer than two liaisons the groom himself
              ;; has heard of (per-observer chastity, any tense). A bride whose past he
              ;; has not heard passes - the market gives the benefit of the doubt.
-             (< (count-beliefs-about ?bride lover) 2)
+             (< (count (every {?bride lover ? /ever})) 2)
              (not (and (any {@self lover ?} (out int))
                        (= (any {(any {@self lover}).target class_situation}).target
                           (any {@self class_situation}).target)))))
