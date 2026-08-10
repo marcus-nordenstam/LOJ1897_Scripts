@@ -51,8 +51,10 @@
         ; believe belong to ?org, bind each one's holder, and drop the tie for any holder
         ; (not me) who no longer appears as a worker row. Two single-?var walks (job
         ; object at ?org -> its holder), since for-each-present-tense-belief binds one var each.
-        (for-each-present-tense-belief {?ojob org ?org}
-          (for-each-present-tense-belief {?other job ?ojob}
+        (for-each ?ojb (every {? org ?org})
+          ?ojb.subject: ?ojob
+          (for-each ?jb (every {? job ?ojob})
+            ?jb.subject: ?other
             (if (and (not (= ?other @self))
                      (not (read-doc-record [k employee_register] ?reg (find worker ?other))))
-                (then (end-belief {?other job ?ojob})))))))))
+                (then (end-belief ?jb)))))))))

@@ -25,6 +25,8 @@
 ; ----------------------------------------------------------------------------
 
 (define-macro take-stock-of (?room ?kind)
-  (for-each-present-tense-belief {[k ?kind]:?item location ?room}
-    (if (not (= (attr ?item location) ?room))
-        (then (end-belief {?item location ?room})))))
+  (for-each ?ib (every {? location ?room})
+    ?ib.subject: ?item
+    (if (and (is-a ?item [k ?kind])
+             (not (= (attr ?item location) ?room)))
+        (then (end-belief ?ib)))))

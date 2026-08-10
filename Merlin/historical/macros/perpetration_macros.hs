@@ -218,8 +218,9 @@
     ; The discovered loss lives as {?loot stolen_from @self} (loot=subject); the
     ; subject-enumeration (for-each-present-tense-belief) binds ?loot off the FREE subject (a
     ; plain free-subject (bind) does not thread into scope). One report per party.
-    (for-each-present-tense-belief {?loot stolen_from @self}
+    (for-each ?lb (every {? stolen_from @self})
       (do
+        ?lb.subject: ?loot
         (if (and (can-write @self)
                  (none {@self report_to_police (if (is-entity ?victim) (then ?victim) (else ?loot)) /ever}))
             (then

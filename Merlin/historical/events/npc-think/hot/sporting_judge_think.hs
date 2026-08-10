@@ -37,9 +37,10 @@
   (role ?r2 {?r2 race_result ?})
   (when (< (days-since-last @self judge_declare) 1))
   (effects
-    (for-each-present-tense-belief {?r race_result ?}
+    (for-each ?rb (every {? race_result ?})
       (do
-        (any {?r race_result}).target: ?p
+        ?rb.subject: ?r
+        ?rb.target: ?p
         (if (not (= ?r ?winner))
             (then (incident-anchor ?winner outdo ?r)))
-        (end-belief {?r race_result ?p})))))
+        (end-belief ?rb)))))
