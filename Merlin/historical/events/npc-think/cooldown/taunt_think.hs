@@ -45,6 +45,6 @@
           (random-alive-human @self ?victim): ?innocent
           (any {@self home}).target: ?home
           (if (and (is-entity ?innocent) (is-entity ?home))
-              (then (spawn-letter [k forged_letter]
+              (then (plant-letter [k forged_letter]
                             (nl_written_msg "?innocent killed ?victim")
                             ?home)))))))

@@ -133,11 +133,13 @@
             (then
               (debug-print "RC_OFFER")
               (create-entity [k offer_letter]
-                  (qual location (mail-space (home-of ?w))) (bind ?ol))
+                  (qual location (mail-space (home-of ?w)))): ?ol
+              (set-attr ?ol addressee ?w)
               (file-in-stack ?ol (mail-space (home-of ?w))))
             (else
               (create-entity [k rejection_letter]
-                  (qual location (mail-space (home-of ?w))) (bind ?rl))
+                  (qual location (mail-space (home-of ?w)))): ?rl
+              (set-attr ?rl addressee ?w)
               (file-in-stack ?rl (mail-space (home-of ?w)))))
         (destroy-entity ?app)))))
 

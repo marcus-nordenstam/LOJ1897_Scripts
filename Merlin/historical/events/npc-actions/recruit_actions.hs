@@ -15,7 +15,7 @@
   (effects
     (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
     (create-entity [k job_description]
-        (qual location (current-building @self)) (bind ?ad))
+        (qual location (current-building @self))): ?ad
     (write-doc-record [k job_description] ?ad
         (org_record ?art) (job ?jk) (level [k trainee]) (salary 1)
         (class_floor (lookup occupations job ?jk class_floor [k lower]))
@@ -29,7 +29,7 @@
   (effects
     (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
     (create-entity [k application]
-        (qual location (current-building @self)) (bind ?app))
+        (qual location (current-building @self))): ?app
     (write-doc-record [k application] ?app
         (applicant @self) (job ?jk) (org_record ?art) (workplace ?wp))
     (set-outcome {@self prepare_application ?art ?jk} succ)))

@@ -35,12 +35,12 @@
     ; A dry pool binds ?wp to a fail value (no abort); every step below is gated on
     ; (if ?wp ...) so a premises-less founding mints NOTHING - no malformed org, no
     ; error. Founding paths roll only housable kinds, so this is the race / belt path.
-    (acquire-org-premises ?org-kind @self (bind ?wp))
+    (tolerate (acquire-org-premises ?org-kind @self):?wp)
     (if ?wp
       (then
         ; --- the org's documents (abs-native): articles + an empty register -------
-        (create-entity [k articles_of_incorporation] (qual location ?wp) (bind ?art))
-        (create-entity [k employee_register]          (qual location ?wp) (bind ?reg))
+        (create-entity [k articles_of_incorporation] (qual location ?wp)): ?art
+        (create-entity [k employee_register]          (qual location ?wp)): ?reg
         (write-doc-record [k articles_of_incorporation] ?art
             (kind ?org-kind) (founder @self) (building ?wp) (year (year)) (register ?reg)
             (name (lookup businesses org_kind ?org-kind name [n unknown])))
@@ -95,12 +95,12 @@
 
 (define-macro found-club-seq (?club-kind)
   (do
-    (acquire-org-premises ?club-kind @self (bind ?wp))
+    (tolerate (acquire-org-premises ?club-kind @self):?wp)
     (if ?wp
       (then
         ; --- the club's documents (abs-native): articles + an empty register -----
-        (create-entity [k articles_of_incorporation] (qual location ?wp) (bind ?art))
-        (create-entity [k employee_register]          (qual location ?wp) (bind ?reg))
+        (create-entity [k articles_of_incorporation] (qual location ?wp)): ?art
+        (create-entity [k employee_register]          (qual location ?wp)): ?reg
         (write-doc-record [k articles_of_incorporation] ?art
             (kind ?club-kind) (founder @self) (building ?wp) (year (year)) (register ?reg))
 

@@ -48,7 +48,7 @@
     ; The confession + signature, authored in natlang: the body names her by the
     ; name @self believes ("I fancy ?target_name") and the "Signed, .." line becomes
     ; a (formulaic author ..) the reader resolves @i from (no C++ compose, no baked
-    ; signature). Her morning post read (read_pending_mail) adopts it.
-    (spawn-letter [k courtship_letter]
-                  (nl_written_msg "I fancy ?target_name. Signed, ?author_name")
-                  (home-of ?target))))
+    ; signature). Addressed to her, so her morning post read (read_post) adopts it.
+    (post-letter [k courtship_letter]
+                 (nl_written_msg "I fancy ?target_name. Signed, ?author_name")
+                 (home-of ?target) ?target)))

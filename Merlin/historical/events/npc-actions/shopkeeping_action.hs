@@ -47,5 +47,5 @@
           ; (cap - what is already there), so a full shelf spawns nothing.
           (for-each ?room (attr-values ?shop parts [k interior_space room]) /limit 1
             (repeat (- (grocer_shelf_stock) (count-entities [k food] ?room))
-              (create-entity [k food] (qual location ?room) (bind ?item))))))
+              (create-entity [k food] (qual location ?room)): ?item))))
     (set-outcome {@self stocktake} succ)))

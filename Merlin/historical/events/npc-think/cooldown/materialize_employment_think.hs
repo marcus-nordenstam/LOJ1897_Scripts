@@ -45,7 +45,7 @@
   (when (or (in-month 3) (in-month 6) (in-month 9) (in-month 12)))
 
   (effects
-    (find-my-enrollment (bind ?art))
+    (tolerate (find-my-enrollment):?art)
     (if ?art
       (then
         (read-doc-record [k articles_of_incorporation] ?art (register ?reg))

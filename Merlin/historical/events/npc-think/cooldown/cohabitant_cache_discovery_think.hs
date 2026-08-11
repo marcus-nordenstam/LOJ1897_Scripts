@@ -42,5 +42,5 @@
         (if (and (none {@self hiding_spot ?cache})
                  (chance (* 0.006 (+ 1.0 (attr @self openness)))))
             (then
-              (begin-belief {@self hiding_spot ?cache})
+              (begin-belief {@self hiding_spot (internalize ?cache)})
               (read-cache ?cache)))))))

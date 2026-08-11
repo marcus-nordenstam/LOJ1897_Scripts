@@ -54,7 +54,7 @@
         ?hb.target: ?home
         (if (any {@self own ?home} (out int))
           (then
-            (create-entity [k for_sale_listing] (qual location ?home) (bind ?listing))
+            (create-entity [k for_sale_listing] (qual location ?home)): ?listing
             (write-doc-record [k for_sale_listing] ?listing (building ?home))
             (end-belief {@self own ?home})
             (end-belief {@self home ?home}))

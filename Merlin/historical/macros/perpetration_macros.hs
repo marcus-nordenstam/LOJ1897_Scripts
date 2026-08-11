@@ -178,9 +178,9 @@
                 (if (is-entity (home-of ?kin))
                     (then
                       (home-of ?kin): ?kin_home
-                      (spawn-letter [k confession_letter]
-                                    (nl_written_msg "I have taken ?partner as a lover")
-                                    ?kin_home)))))))
+                      (post-letter [k confession_letter]
+                                   (nl_written_msg "I have taken ?partner as a lover")
+                                   ?kin_home ?kin)))))))
     (end-goal {@self confess_letter})))
 
 ; public_slight terminal (humiliate goal): the deliberated public put-down. The
@@ -236,9 +236,9 @@
                   (then
                     (find-building [k police_station]): ?station
                     (if (alive ?victim)
-                        (then (spawn-letter [k crime_report_letter]
+                        (then (plant-letter [k crime_report_letter]
                                       (nl_written_msg "I suspect ?victim") ?station))
-                        (else (spawn-letter [k crime_report_letter]
+                        (else (plant-letter [k crime_report_letter]
                                       (nl_written_msg "?loot was stolen from me") ?station)))))))
         (break)))
     (end-goal {@self report_crime})))

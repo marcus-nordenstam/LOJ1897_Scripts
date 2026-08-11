@@ -17,11 +17,13 @@
 
   (effects
     (debug-print "EXPOSE_FIRE @self cheater=?cheater")
-    (if (is-entity (spouse-of ?cheater)) (then (debug-print "EXP_SP @self")))
-    (if (is-entity (home-of ?cheater)) (then (debug-print "EXP_HOME @self")))
-    (if (is-entity (home-of ?cheater))
+    ; The denunciation exposes the affair to the cheater's WRONGED SPOUSE - the one
+    ; party it is meant to reach (they cohabit, so it lands in their shared home pile
+    ; and only the spouse reads it). No spouse = no betrayal to expose, so nothing sent.
+    (spouse-of ?cheater): ?betrayed
+    (if (and (is-entity ?betrayed) (is-entity (home-of ?cheater)))
         (then
           (debug-print "EXPOSE_SENT @self cheater=?cheater")
-          (spawn-letter [k denunciation_letter]
-                        (nl_written_msg "?cheater_name has taken me as a lover. Signed, ?author_name")
-                        (home-of ?cheater))))))
+          (post-letter [k denunciation_letter]
+                       (nl_written_msg "?cheater_name has taken me as a lover. Signed, ?author_name")
+                       (home-of ?cheater) ?betrayed)))))

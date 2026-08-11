@@ -59,9 +59,9 @@
              ?wob.subject: ?org
              (any {?org name ?}).target: ?venue_name)
         (then
-          (spawn-letter [k tryst_note]
+          (post-letter [k tryst_note]
                 (nl_written_msg "I met you at ?venue_name. Signed, ?author_name")
-                (home-of ?paramour))))
+                (home-of ?paramour) ?paramour)))
     (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)))
 
 ; --- houseguest silent hours ------------------------------------------------
@@ -93,9 +93,9 @@
     (if (and (chance 0.30) (is-entity (home-of ?paramour)) (any {?venue name ?} (out int)))
         (then
           (any {?venue name ?}).target: ?venue_name
-          (spawn-letter [k tryst_note]
+          (post-letter [k tryst_note]
                 (nl_written_msg "I met you at ?venue_name. Signed, ?author_name")
-                (home-of ?paramour))))
+                (home-of ?paramour) ?paramour)))
     (bump-suspicion (spouse-of @self) @self 0.05)
     (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)))
 
@@ -139,8 +139,8 @@
              ?wob.subject: ?org
              (any {?org name ?}).target: ?venue_name)
         (then
-          (spawn-letter [k tryst_note]
+          (post-letter [k tryst_note]
                 (nl_written_msg "I met you at ?venue_name. Signed, ?author_name")
-                (home-of ?paramour))))
+                (home-of ?paramour) ?paramour)))
     (bump-suspicion (spouse-of @self) @self 0.05)
     (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)))

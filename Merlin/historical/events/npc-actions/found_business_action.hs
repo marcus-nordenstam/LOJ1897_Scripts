@@ -16,10 +16,10 @@
     ; The foundable-business catalog, premises-gated (1): only a kind a free
     ; building of its declared premises kind can house right now is rolled -
     ; supply self-limits to what the authored level provides.
-    (roll-org-kind (bind ?bizkind) 1
+    (tolerate (roll-org-kind 1
                    [k org grocer] [k org bookseller] [k org barbershop]
                    [k org restaurant] [k org pawnbroker] [k org apothecary]
-                   [k org antiques_shop] [k org hotel])
+                   [k org antiques_shop] [k org hotel]):?bizkind)
     (if ?bizkind
       (then
         (fire /worker @self)

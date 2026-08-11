@@ -17,7 +17,7 @@
 (npc-action {@self let ?prop}
   (duration 60)
   (effects
-    (create-entity [k for_lease_listing] (qual location (current-building @self)) (bind ?listing))
+    (create-entity [k for_lease_listing] (qual location (current-building @self))): ?listing
     (write-doc-record [k for_lease_listing] ?listing (building ?prop))
     (begin-belief {?prop availability [k for_rent]})
     (set-outcome {@self let ?prop} succ)))

@@ -33,7 +33,7 @@
   (effects
     ; Reach my firm's register off my enrolment; ?org (my job.org object, above) is
     ; where colleague beliefs hang so they JOIN my own {@self job.org ?org}.
-    (find-my-enrollment (bind ?art))
+    (tolerate (find-my-enrollment):?art)
     (if ?art
       (then
         (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
