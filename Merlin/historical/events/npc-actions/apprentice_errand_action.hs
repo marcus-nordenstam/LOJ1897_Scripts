@@ -21,9 +21,9 @@
   (duration 90)
   (effects
     ; read the master off the articles (org-founder = a doc-read binding ?master); a
-    ; pure re-derivation, not a gate - the is-entity guard drops cleanly if unreadable.
+    ; pure re-derivation, not a gate - the truthy guard drops cleanly if unreadable.
     (org-founder ?art ?master)
-    (if (is-entity ?master)
+    (if ?master
       (then
         (hire-seq ?art [k job clerk] [k trainee])
         (begin-belief {@self master ?master})))

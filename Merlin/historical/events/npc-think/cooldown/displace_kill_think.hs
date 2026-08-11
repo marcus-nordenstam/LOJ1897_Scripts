@@ -45,9 +45,9 @@
   ; the reactive-grievance kill (a real driving pressure). Then the propensity roll -
   ; a disinhibited, volatile, callous impulse, base-rate 0.5 keeping it a tail
   ; (chance = 0.5 * disinhibition * 0.5 * (volatility + callousness)).
-  (when (and (is-entity ?focus)
+  (when (and ?focus
              (no-goal {@self fight ?focus})
-             (is-belief (caused-by ?kgoal {@self pressure ?}))
+             (caused-by ?kgoal {@self pressure ?})
              (or (any {?focus condition [k dead]} (out int))
                  (>= (- (target-or ?focus prestige 0) (target-or @self prestige 0)) 0.25))
              (chance (* 0.5 (disinhibition) 0.5

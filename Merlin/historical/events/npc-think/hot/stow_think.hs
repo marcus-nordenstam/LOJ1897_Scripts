@@ -34,7 +34,7 @@
 (npc-think stow_go
   (goal {@self stow ?item})
   (role ?home {@self home ?home})
-  (when (and (is-entity ?item)
+  (when (and ?item
              (not (at-home))))
   (utility 90)
   (effects (maintain-proposal {@self enter ?home})))
@@ -43,7 +43,7 @@
 ; item off the standing {@self stow} goal and ends it, so the propose is label-only.
 (npc-think stow_at_home
   (goal {@self stow ?item})
-  (when (and (is-entity ?item)
+  (when (and ?item
              (at-home)))
   (utility 90)
   ; The put-away place is DECIDED here: a fashioned hiding spot for a

@@ -33,7 +33,7 @@
   ; per-victim fight-goal test keeps the mint idempotent across months.
 
   (when (and (debug-print "TRACE_ATKILL_GATE @self victim=?victim")
-             (is-entity ?victim)
+             ?victim
              (none {?victim condition [k dead]})
              (no-goal {@self fight ?victim})))
 

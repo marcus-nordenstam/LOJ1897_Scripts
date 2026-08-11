@@ -33,7 +33,7 @@
                   (any_human ?paramour)
                   {@self lover ?paramour}
                   (not {@self spouse ?paramour}))
-  (when (and (is-entity (vacant-room @self ?paramour))
+  (when (and (vacant-room @self ?paramour)
              (or (not (co-present @self ?paramour))
                  (co-present @self (spouse-of @self)))))
   (utility 95.0)

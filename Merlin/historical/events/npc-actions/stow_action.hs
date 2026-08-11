@@ -13,11 +13,11 @@
 (npc-action {@self stow ?item ?place}
   (duration 5)
   (effects
-    (if (is-entity ?item)
+    (if ?item
         (then
           ; The put-away place is the proposing think's choice (the hiding spot
           ; for a valuable, else 0 = openly here); the body only places.
-          (if (is-entity ?place)
+          (if ?place
               (then (put-item ?item ?place))
               (else (put-item ?item (attr @self location))))
           ; The put-away un-flags the loot: ending carrying_loot (own state) drops

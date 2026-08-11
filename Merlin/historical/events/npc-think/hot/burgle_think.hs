@@ -46,8 +46,8 @@
   (current-building @self):?scene
   (when (and (or (at-burgle-residence)
                  (at-own-workplace))
-             (is-entity ?scene)
-             (is-entity (owner-of ?scene))
+             ?scene
+             (owner-of ?scene)
              (owner-of ?scene): ?owner
              (alive ?owner)
              (not (= ?owner @self))))
@@ -88,7 +88,7 @@
     (begin-ended-belief {@self ?method ?owner})
     (begin-ended-belief {@self steal ?owner})
     (crime-ledger-append @self ?owner ?method steal (kind ?loot) @fail)
-    (if (is-entity (current-building @self))
+    (if (current-building @self)
         (then (burglary-confrontation @self (current-building @self))))
     (caused-by ?sgoal {@self pressure ?}): ?p
     (discharge-pressure ?p 0.75)

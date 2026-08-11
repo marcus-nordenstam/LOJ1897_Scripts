@@ -8,7 +8,7 @@
 (npc-action {@self say_to ?msg ?audience}
   (duration 0)
   (effects
-    (if (is-entity ?audience)
+    (if ?audience
         (then (tell-to ?audience ?msg))
         (else (tell ?msg)))
     (set-outcome {@self say_to ?msg ?audience} succ)))

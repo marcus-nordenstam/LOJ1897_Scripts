@@ -36,7 +36,7 @@
     (select (policy first-match)))
 
   (when (and (chance 0.10)
-             (is-entity (find-building [k commercial_building hotel]))
+             (find-building [k commercial_building hotel])
              (or (any {?paramour fancy @self} (out int))
                  (any {?paramour desire @self} (out int))
                  (any {?paramour crave @self} (out int)))
@@ -54,7 +54,7 @@
     (nudge-stance @self ?paramour attraction 0.10)
     (nudge-stance ?paramour @self attraction 0.10)
     ; the hotel is an org premises - the note names it by the org's name.
-    (if (and (chance 0.30) (is-entity (home-of ?paramour))
+    (if (and (chance 0.30) (home-of ?paramour)
              (any {? workplace ?venue}): ?wob
              ?wob.subject: ?org
              (any {?org name ?}).target: ?venue_name)
@@ -80,7 +80,7 @@
     (covert-affair-motive ?paramour)
     (select (policy first-match)))
 
-  (when (and (chance 0.14) (is-entity (home-of @self))))
+  (when (and (chance 0.14) (home-of @self)))
 
   (effects
     (home-of @self): ?venue
@@ -90,7 +90,7 @@
     (nudge-stance ?paramour @self attraction 0.10)
     ; @self's own home: a named residence carries a name; a plain house has only
     ; an address (not expressible in a note yet), so unnamed homes write no note.
-    (if (and (chance 0.30) (is-entity (home-of ?paramour)) (any {?venue name ?} (out int)))
+    (if (and (chance 0.30) (home-of ?paramour) (any {?venue name ?} (out int)))
         (then
           (any {?venue name ?}).target: ?venue_name
           (post-letter [k tryst_note]
@@ -117,11 +117,11 @@
     (select (policy first-match)))
 
   (when (and (chance 0.11)
-             (or (is-entity (find-building [k commercial_building theatre]))
-                 (is-entity (find-building [k commercial_building pub])))))
+             (or (find-building [k commercial_building theatre])
+                 (find-building [k commercial_building pub]))))
 
   (effects
-    (if (is-entity (find-building [k commercial_building theatre]))
+    (if (find-building [k commercial_building theatre])
               (then (find-building [k commercial_building theatre]))
               (else (find-building [k commercial_building pub]))): ?venue
     (register-occupant ?venue @self 1)
@@ -134,7 +134,7 @@
     (nudge-stance @self ?paramour attraction 0.10)
     (nudge-stance ?paramour @self attraction 0.10)
     ; the theatre / pub is an org premises - the note names it by the org's name.
-    (if (and (chance 0.30) (is-entity (home-of ?paramour))
+    (if (and (chance 0.30) (home-of ?paramour)
              (any {? workplace ?venue}): ?wob
              ?wob.subject: ?org
              (any {?org name ?}).target: ?venue_name)

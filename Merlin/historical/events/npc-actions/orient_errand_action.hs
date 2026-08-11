@@ -30,7 +30,7 @@
         ; Practical town knowledge off the same page: the register names each
         ; org's premises, so the reader now knows WHERE the grocer trades -
         ; the venue the provisioning / starving lanes (meals.hs) route on.
-        (if (and (is-a ?ok [k org grocer]) (is-entity ?b))
+        (if (and (is-a ?ok [k org grocer]) ?b)
             (then
               (begin-belief {@self provisions_shop ?b})))))
     (set-outcome {@self orient} succ)))

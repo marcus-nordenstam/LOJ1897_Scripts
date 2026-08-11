@@ -128,7 +128,7 @@
 (npc-think provision_go
   (goal {@self provision})
   (any {@self provisions_shop ?}).target:?shop
-  (when (and (is-entity ?shop)
+  (when (and ?shop
              (not (in-building ?shop))))
   (effects (maintain-proposal {@self enter ?shop})))
 

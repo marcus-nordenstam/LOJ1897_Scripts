@@ -31,10 +31,18 @@
 
   (role @self )
   ; The unfaithful partner: a spouse or lover the actor believes keeps a
-  ; third-party lover (the belief-query role filter). The interloper is resolved
-  ; in (effects) via (interloper-of ?partner) - a cross-role read, not a role filter.
+  ; third-party lover (the belief-query role filter).
   (role ?partner (any_human ?partner)
     {@self spouse|lover ?partner} (select (policy first-match)))
+  ; The interloper: the third-party lover the actor believes ?partner keeps -
+  ; a JOIN role over the actor's OWN beliefs (evidence-mediated discovery, no
+  ; mind peek). Excludes ?partner's known spouse (a spouse is no interloper;
+  ; the role machinery never casts @self), and any_human keeps it to the
+  ; believed-alive. No interloper known -> the event never activates.
+  (role ?interloper (any_human ?interloper)
+    {?partner lover ?interloper}
+    (none {?partner spouse ?interloper})
+    (select (policy first-match)))
 
   ; Jealous-rage pre-gate: the rage tail released by disinhibition, at the
   ; 0.02 base rate (score_macros.hs).
@@ -42,9 +50,6 @@
                    (dark-propensity (rage-disposition @self)))))
 
   (effects
-    ; Resolve the interloper (the partner's third-party lover, in @self's own
-    ; beliefs); @fail when no affair is known - then nothing fires.
-    (interloper-of ?partner): ?interloper
     (if (none {?interloper condition [k dead]})
       (then
         ; Mint the affair appraisal (anger / contempt / humiliation) in @self's mind.

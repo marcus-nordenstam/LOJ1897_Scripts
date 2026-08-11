@@ -42,7 +42,7 @@
     (else fail))
 
   (effects
-    (if (is-entity ?senior)
+    (if ?senior
         (then
           (for-each-table-record org_duties (kind ?dk) (duty ?duty)
             (if (is-a ?ok ?dk)

@@ -96,7 +96,7 @@
   (when (and (any {?org record ?}).target: ?art
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (not (in-building ?wp))
-             (is-entity (mail-pile (room-of ?wp [k back_office])))))
+             (mail-pile (room-of ?wp [k back_office]))))
   (utility 80)
   (effects (debug-print "RC_GATHERGO")
            (maintain-proposal {@self enter ?wp})))
@@ -116,8 +116,8 @@
   (when (and (any {?org record ?}).target: ?art
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (in-building ?wp)
-             (is-entity (mail-pile (room-of ?wp [k back_office])))
-             (is-entity (attr (mail-pile (room-of ?wp [k back_office])) top))))
+             (mail-pile (room-of ?wp [k back_office]))
+             (attr (mail-pile (room-of ?wp [k back_office])) top)))
   ; The VERDICTS are decided here (the top applicant is offered, the rest
   ; rejected) and the letters written as this think's own effects - there is
   ; no clerical act body; the officer's desk presence is the work task's

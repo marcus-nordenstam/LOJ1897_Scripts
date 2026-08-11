@@ -41,7 +41,7 @@
   ; Post it when they are APART (a co-present suitor uses the spoken confess_fancy)
   ; and @self knows where she lives.
   (when (and (not (co-present @self ?target))
-             (is-entity (home-of ?target))
+             (home-of ?target)
              (chance 0.4)))
 
   (effects

@@ -87,14 +87,23 @@
 (define-macro organizing-occasion (?kind)
   {@self organize ?kind})
 
+; Does the deliberator believe ?p keeps a THIRD-PARTY lover: more known lover
+; bonds than the benign ones (@self, and ?p's own spouse - stale courtship
+; gossip can name either) - the surplus IS an interloper. Pure belief
+; arithmetic over the deliberator's own mind; a partner-less anchor reads
+; {@fail lover ?} and counts zero, harmlessly.
+(define-macro partner-keeps-interloper (?p)
+  (> (count (every {?p lover ?}))
+     (+ (any {?p lover @self} (out int))
+        (any {?p lover (any {?p spouse ?}).target} (out int)))))
+
 ; Does the deliberator KNOW of an affair among their own partners: an
-; interloper they believe their spouse or a lover keeps (interloper-of reads
-; the deliberator's own beliefs; a partner-less read @fails harmlessly).
-; Evidence-mediated: the belief arrives by witnessing, gossip or abduction,
-; never by reading the partner's mind.
+; interloper they believe their spouse or a lover keeps. Evidence-mediated:
+; the beliefs arrive by witnessing, gossip or abduction, never by reading the
+; partner's mind.
 (define-macro knows-affair ()
-  (or (is-entity (interloper-of (any {@self spouse ?}).target))
-      (is-entity (interloper-of (any {@self lover ?}).target))))
+  (or (partner-keeps-interloper (any {@self spouse ?}).target)
+      (partner-keeps-interloper (any {@self lover ?}).target)))
 
 ; An insult incident WITH its spoken barb: the anchor carries the authored
 ; barb model (tables/barbs.hs) and the context that picks the ladder. The

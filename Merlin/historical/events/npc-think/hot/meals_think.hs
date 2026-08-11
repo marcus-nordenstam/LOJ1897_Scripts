@@ -344,7 +344,7 @@
              (not (at-place-kind [k building shop]))))
   (utility (homeostatic appetite 2.0 70))
   (effects
-    (if (is-entity ?shop)
+    (if ?shop
         (then (maintain-proposal {@self enter ?shop}))
         (else (maintain-proposal {@self enter ?go_dest})))))
 
@@ -369,7 +369,7 @@
              (not (at-place-kind [k building shop]))))
   (utility (homeostatic appetite 2.0 70))
   (effects
-    (if (is-entity ?shop)
+    (if ?shop
         (then (maintain-proposal {@self enter ?shop}))
         (else (maintain-proposal {@self enter ?go_dest})))))
 
@@ -398,12 +398,12 @@
       (do (bind ?it ?item) (bind 1 ?found)))
     (if (and (= ?found 0)
              (at-home)
-             (is-entity (believed-located [k food] (any {@self home}).target)))
+             (believed-located [k food] (any {@self home}).target))
         (then (believed-located [k food] (any {@self home}).target): ?item
               (bind 1 ?found)))
     (if (and (= ?found 0)
              (at-place-kind [k building shop])
-             (is-entity (current-building @self)))
+             (current-building @self))
         (then
           (current-building @self): ?shop
           (for-each ?room (attr-values ?shop parts [k interior_space room])
@@ -428,7 +428,7 @@
 ; TAKE THE MEAL: pick the food, propose ingest. Only a home supper consumes a
 ; PERSON-DAY food prop (?food = a believed loaf); breakfast / lunch / a bought-out
 ; supper eat abstractly (?food = 0, ingest destroys nothing). A stale belief (a loaf
-; a sibling already ate) fails the is-entity guard and the supper stays abstract.
+; a sibling already ate) reads @fail (falsy) and the supper stays abstract.
 (npc-think take_meal
   (task {@self eat ?meal ?place}:?e)
   ; the ingest inherits the running task's drive through the /caused_by pin; this band is
@@ -440,7 +440,7 @@
     (bind 0 ?food)
     (if (and (is-a ?meal [k supper])
              (any {@self home ?place} (out int))
-             (is-entity (believed-located [k food] ?place)))
+             (believed-located [k food] ?place))
         (then (believed-located [k food] ?place): ?food))
     (maintain-proposal {@self ingest ?meal ?food}))
   ; The eat task's OUTCOME, judged at the cease: the task ends AS its action ended -

@@ -36,7 +36,7 @@
 (npc-action {@self stocktake}
   (duration 30)
   (effects
-    (if (is-entity (current-building @self))
+    (if (current-building @self)
         (then
           (current-building @self): ?shop
           ; Validate the shelves against belief - every room of the shop.

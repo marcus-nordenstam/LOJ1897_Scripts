@@ -31,5 +31,5 @@
 
 (npc-think find_exhausted
   (task {@self find_building ?sought ?region}:?find_task)
-  (when (not (is-entity (closest-unobserved [k structure] ?region))))
+  (when (not (closest-unobserved [k structure] ?region)))
   (effects (set-outcome ?find_task fail)))

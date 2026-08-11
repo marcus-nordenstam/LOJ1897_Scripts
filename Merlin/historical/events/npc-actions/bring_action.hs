@@ -11,7 +11,7 @@
 (npc-action {@self bring ?ware ?dest}
   (duration 5)
   (effects
-    (if (is-entity (attr @self right_hand))
+    (if (attr @self right_hand)
         (then (for-each ?item (attr-values (attr @self right_hand) control)
           (if (is-a ?item ?ware)
               (then

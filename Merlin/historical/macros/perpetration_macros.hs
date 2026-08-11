@@ -118,7 +118,7 @@
     (crime-ledger-append @self ?victim anonymous_letter expose @fail @fail)))
 
 (define-macro terminal-publish-secret (?victim ?goal)
-  (if (is-entity (known-nonspousal-liaison ?victim))
+  (if (known-nonspousal-liaison ?victim)
       (then (if (and (can-write @self) (chance 0.4))
           (then (expose-anon ?victim ?goal))
           (else (expose-confront ?victim ?goal))))))
@@ -165,8 +165,8 @@
     ; The kin ladder is ONE ground-alt read. Both reads are optional, so they are
     ; guarded inline BEFORE the must-produce (bind ...)s: the ops are deterministic,
     ; so each guarded re-bind reads the value the guard just proved.
-    (if (and (is-entity (known-nonspousal-liaison @self))
-             (is-entity (any {@self father|mother|fiancee|spouse|sibling ?}).target))
+    (if (and (known-nonspousal-liaison @self)
+             (any {@self father|mother|fiancee|spouse|sibling ?}).target)
         (then
           (known-nonspousal-liaison @self): ?partner
           (any {@self father|mother|fiancee|spouse|sibling ?}).target: ?kin
@@ -175,7 +175,7 @@
           ; put a human in the label's doc-kind target slot (ontology reject).
           (if (and (alive ?kin) (not (= ?kin ?partner)))
               (then
-                (if (is-entity (home-of ?kin))
+                (if (home-of ?kin)
                     (then
                       (home-of ?kin): ?kin_home
                       (post-letter [k confession_letter]
@@ -197,7 +197,7 @@
 ; the words (as a (tell-to ?victim <barb fact>)).
 (define-macro terminal-humiliate (?victim ?goal)
   (do
-    (if (and (is-entity ?victim) (alive ?victim))
+    (if (and ?victim (alive ?victim))
         (then
           (begin-ended-belief {@self public_humiliation ?victim})
           (begin-ended-belief ?victim {@self public_humiliation ?victim})
@@ -224,15 +224,15 @@
       (do
         ?lb.subject: ?loot
         (if (and (can-write @self)
-                 (none {@self report_to_police (if (is-entity ?victim) (then ?victim) (else ?loot)) /ever}))
+                 (none {@self report_to_police (if ?victim (then ?victim) (else ?loot)) /ever}))
             (then
-              (begin-ended-belief {@self report_to_police (if (is-entity ?victim) (then ?victim) (else ?loot))})
+              (begin-ended-belief {@self report_to_police (if ?victim (then ?victim) (else ?loot))})
               (if (alive ?victim)
                   (then (begin-belief {@self suspect ?victim})))
               ; The station is optional (a town without one still remembers the
               ; report): guard inline, then the must-produce bind re-reads the
               ; same first-scan building.
-              (if (is-entity (find-building [k police_station]))
+              (if (find-building [k police_station])
                   (then
                     (find-building [k police_station]): ?station
                     (if (alive ?victim)
@@ -268,9 +268,9 @@
 ; deliberator's own beliefs (evidence-mediated, no mind-entering). The caller
 ; must exclude @self (a beloved married to the deliberator names @self here).
 (define-macro crave-rival (?beloved)
-  (if (is-entity (any {?beloved spouse ?}).target)
+  (if (any {?beloved spouse ?}).target
       (then (any {?beloved spouse ?}).target)
-      (else (if (is-entity (any {?beloved lover ?}).target)
+      (else (if (any {?beloved lover ?}).target
           (then (any {?beloved lover ?}).target)
           (else ?beloved)))))
 

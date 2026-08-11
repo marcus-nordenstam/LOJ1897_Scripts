@@ -7,7 +7,7 @@
 ; PURE .hs (no C++ generator):
 ;   - ?partner is a spouse or lover the actor believes keeps a third-party
 ;     lover (the same discovery shape as betrayal_kill.hs - the actor's OWN
-;     beliefs, no mind peek); (interloper-of ?partner) resolves the interloper;
+;     beliefs, no mind peek); ?interloper is the JOIN role over those beliefs;
 ;   - the monthly discovery chance (0.12) surfaces a standing affair over
 ;     time, not instantly;
 ;   - SUPPRESS-EXPOSE-ON-KILL: an actor who already holds a kill goal on
@@ -41,10 +41,17 @@
   (rng-stream incidents)
 
   (role @self )
-  ; The unfaithful partner: a spouse or lover of the actor's (the interloper
-  ; is resolved in (effects) - a cross-role read, not a role filter).
+  ; The unfaithful partner: a spouse or lover of the actor's.
   (role ?partner (any_human ?partner)
     {@self spouse|lover ?partner}
+    (select (policy first-match)))
+  ; The interloper: the third-party lover the actor believes ?partner keeps -
+  ; a JOIN role over the actor's OWN beliefs (no mind peek). Excludes
+  ; ?partner's known spouse; the role machinery never casts @self. No known
+  ; affair -> no activation, and the fallout never rolls.
+  (role ?interloper (any_human ?interloper)
+    {?partner lover ?interloper}
+    (none {?partner spouse ?interloper})
     (select (policy first-match)))
 
   ; The affair surfaces some months, not every one (probabilistic discovery).
@@ -53,9 +60,6 @@
   (when (chance 0.12))
 
   (effects
-    ; Resolve the interloper in @self's own beliefs; with no known affair the
-    ; bind produces nothing and the run ends here.
-    (interloper-of ?partner): ?interloper
     (if (and (no-goal {@self kill ?partner})
              (no-goal {@self kill ?interloper}))
         (then

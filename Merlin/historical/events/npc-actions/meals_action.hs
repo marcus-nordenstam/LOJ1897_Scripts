@@ -33,7 +33,7 @@
              (else (if (is-a ?meal [k lunch]) (then 40) (else 30)))))
   (effects
     ; consume the passed loaf (a home supper); 0 for an abstract meal.
-    (if (is-entity ?food)
+    (if ?food
         (then (realize-destroyed ?food [k condition consumed])
               (destroy-entity ?food)))
     ; HUNGER: a full supper resets; a lighter meal takes the edge off.
@@ -56,6 +56,6 @@
     (realize-destroyed ?item [k condition consumed])
     (destroy-entity ?item)
     (set-attr @self hunger (max 0 (- (attr @self hunger) 0.5)))
-    (if (is-entity ?owner)
+    (if ?owner
         (then (crime-ledger-append @self ?owner steal steal _ _)))
     (set-outcome {@self consume ?item ?owner} succ)))

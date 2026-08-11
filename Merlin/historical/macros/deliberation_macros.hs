@@ -17,7 +17,7 @@
   (do
     ; A confidant is optional (the truly alone die unwitnessed): guard inline, then
     ; the must-produce bind re-reads the same deterministic spouse/friend/valet ladder.
-    (if (is-entity (pick-confidant ?who))
+    (if (pick-confidant ?who)
         (then
           (pick-confidant ?who): ?conf
           (begin-belief ?conf {@self mention [k death_cause suicide]})))
