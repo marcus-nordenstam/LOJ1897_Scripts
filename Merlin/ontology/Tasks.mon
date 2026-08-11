@@ -234,14 +234,15 @@ relation
             # venue and the completion does the world-commit. Distinct from the
             # existing state/kind terms (retire/borrow/apprentice are already defined
             # elsewhere, so these are fresh verbs): quit_work -> the retirement act;
-            # take_loan -> a lender (the creditor focus); back -> a backed man;
-            # partner -> a firm one buys into; join_club / resign_club -> a club;
+            # take_loan -> a lender (the creditor focus); back -> the backed firm;
+            # partner -> the articles of the firm one buys into; join_club /
+            # resign_club -> a club;
             # seek_indenture -> a master; enroll_child -> a school for the child;
             # engage_staff -> the boss's hire.
             quit_work                               (tar ?)
             take_loan                               (tar human)
-            back                                    (tar human)
-            partner                                 (tar human)
+            back                                    (tar org)
+            partner                                 (tar articles_of_incorporation)
             join_club                               (tar org)
             resign_club                             (tar org)
             seek_indenture                          (tar human)

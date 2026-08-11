@@ -170,9 +170,11 @@
         (then
           (known-nonspousal-liaison @self): ?partner
           (any {@self father|mother|fiancee|spouse|sibling ?}).target: ?kin
+          ; No separate confession-record belief: the ended confess_letter goal IS the
+          ; actor-side record (act/state doctrine), and {@self confession_letter <kin>}
+          ; put a human in the label's doc-kind target slot (ontology reject).
           (if (and (alive ?kin) (not (= ?kin ?partner)))
               (then
-                (begin-belief {@self confession_letter ?kin})
                 (if (is-entity (home-of ?kin))
                     (then
                       (home-of ?kin): ?kin_home
