@@ -25,7 +25,7 @@
 ; person (an ex-lover, a dead parent), and talk_to is a TASK (Tasks.mon), so
 ; the contact evidence is the ENDED talk acts, not a running conversation.
 (define-macro personally-knows (?who ?other)
-  (any {?who friend|acquaintance|spouse|lover|mother|father|sibling|child|talk_to ?other /ever} (out int)))
+  {?who friend|acquaintance|spouse|lover|mother|father|sibling|child|talk_to ?other /ever})
 
 ; (spouse-of ?p): who @self believes ?p is married to. The old C++ op read ?p's
 ; OWN mind (telepathy - you cannot see another's private spouse belief); this
@@ -38,12 +38,12 @@
 
 ; (is-married ?p): does @self believe ?p has a spouse? Composes spouse-of.
 (define-macro is-married (?p)
-  (any {?p spouse @something} (out int)))
+  {?p spouse @something})
 
 ; (is-betrothed ?p): does @self believe ?p holds a fiancee bond? Asker's-own-
 ; knowledge, same anti-telepathy fix as spouse-of (the old op read ?p's mind).
 (define-macro is-betrothed (?p)
-  (any {?p fiancee @something} (out int)))
+  {?p fiancee @something})
 
 
 ; (blood-kin ?who ?other): does ?who hold ANY consanguinity bond to ?other - the
@@ -57,7 +57,7 @@
 ; per-holder kin set + the consanguinity triangulation derivations). Add a kin
 ; label in BOTH places.
 (define-macro blood-kin (?who ?other)
-  (any {?who mother|father|parent|sibling|half_sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?other} (out int)))
+  {?who mother|father|parent|sibling|half_sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?other})
 
 ; (is-attracted-to ?who ?other): does ?who hold an attraction stance of AT LEAST
 ; the `fancy` band toward ?other? Attraction is a continuous scalar (relational
@@ -73,7 +73,7 @@
 ; CANONICAL LADDER: the alts MUST stay in lockstep with the attraction band verbs
 ; in stance_verb_label() (src/lib/mental/reasoning/shared_functions/appraisal.cc).
 (define-macro is-attracted-to (?who ?other)
-  (any {?who fancy|desire|crave ?other} (out int)))
+  {?who fancy|desire|crave ?other})
 
 ; (can-write ?actor): is ?actor literate? Folds the old C++ op - the actor's own
 ; `education` belief (a 0..1 float) vs the 0.30 literacy floor (the threshold is
@@ -85,7 +85,7 @@
 ; occasion is a MENTAL OBJECT (its kind is wedding / birthday_party / ...); a [k <kind>]
 ; target matches an object of that kind by is-a (the belief matcher's object-vs-kind rule).
 (define-macro organizing-occasion (?kind)
-  (any {@self organize ?kind} (out int)))
+  {@self organize ?kind})
 
 ; Does the deliberator KNOW of an affair among their own partners: an
 ; interloper they believe their spouse or a lover keeps (interloper-of reads

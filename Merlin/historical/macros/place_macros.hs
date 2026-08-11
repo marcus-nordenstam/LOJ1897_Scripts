@@ -39,7 +39,7 @@
 ; stash restored (a (bind {@self location ?loc}) there hard-errors on the already-bound var).
 ; A front-parked NPC outside all spaces holds no location belief, so this is correctly false.
 (define-macro in-room (?r)
-  (any {@self location ?r} (out int)))
+  {@self location ?r})
 
 ; (at-workplace ?wp): the NPC is at their workplace. A workplace target is granularity-
 ; MIXED by domain: a trade/profession seats it at the premises BUILDING (shop / office /

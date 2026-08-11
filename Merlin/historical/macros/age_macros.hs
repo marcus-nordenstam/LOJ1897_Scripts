@@ -14,27 +14,28 @@
 ; Narrow under 30, wide at 30+ - so "same / adjacent band" (age-peers) stands in
 ; for the old numeric age-diff windows: tight among the young, loose among adults.
 ;
-; THRESHOLD predicates expand to a single believes with a ground KIND-ALT target
-; (`[k a|b|c]`): the believes holds iff @self perceives ?o in ANY of those bands.
-; The alt-list MUST stay in lockstep with the ladder above.
+; THRESHOLD predicates expand to a BARE pattern with a ground KIND-ALT target
+; (`[k a|b|c]`): true iff @self perceives ?o in ANY of those bands. In a role the
+; pattern IS the cached role grammar; in (when)/(and) frames it coerces to the
+; belief-existence test. The alt-list MUST stay in lockstep with the ladder above.
 ; ----------------------------------------------------------------------------
 
 ; >= 18 (the boundary sits at young_adult). "A grown adult."
 (define-macro adult-age (?o)
-  (any {?o age_band [k young_adult|middle_aged|mature|elderly]} (out int)))
+  {?o age_band [k young_adult|middle_aged|mature|elderly]})
 
 ; >= 16 (the boundary sits at youth). "Old enough to court / marry."
 (define-macro marriageable-age (?o)
-  (any {?o age_band [k youth|young_adult|middle_aged|mature|elderly]} (out int)))
+  {?o age_band [k youth|young_adult|middle_aged|mature|elderly]})
 
 ; 3-15: a school-age child (covers the old 8-16 childhood-friendship intent; the
 ; band boundaries are the perceptible granularity, so it is juvenile OR adolescent).
 (define-macro schoolchild-age (?o)
-  (any {?o age_band [k juvenile|adolescent]} (out int)))
+  {?o age_band [k juvenile|adolescent]})
 
 ; >= 70.
 (define-macro elderly-age (?o)
-  (any {?o age_band [k elderly]} (out int)))
+  {?o age_band [k elderly]})
 
 ; 16-49 (youth + young_adult + middle_aged). "Working / migration age", and also
 ; the childbearing window for fertile_wife. NOTE: the band granularity puts the
@@ -43,7 +44,7 @@
 ; cap is acceptable; tighten to [k youth|young_adult] for a hard <30 cut if the
 ; demographics drift.
 (define-macro working-age (?o)
-  (any {?o age_band [k youth|young_adult|middle_aged]} (out int)))
+  {?o age_band [k youth|young_adult|middle_aged]})
 
 ; AGE-PEER CHECK (no macro - the check is inlined by each caller). "Are @self and
 ; ?other in the SAME or an ADJACENT band?" = is @self's age_band within ?other's
