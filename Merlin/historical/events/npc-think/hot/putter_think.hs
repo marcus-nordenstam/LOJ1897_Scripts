@@ -37,9 +37,11 @@
 ; this round -> scan it (the action lifts every letter addressed to @self into hand).
 (npc-think putter_scan
   (task {@self putter ?home}:?putter)
-  (role ?stack [k mail_stack] {?stack location ?room})
-  (when (and (in-room ?room)
-             (none {@self scan_mail ?stack /past /caused_by ?putter})))
+  ; CO-LOCATED stacks only: the value-indexed comparison shape ({?stack location
+  ; (any {@self location}).target}) is the LAZY co-location signature - location
+  ; churns on every step, so the set materializes on read, never per move.
+  (role ?stack [k mail_stack] {?stack location (any {@self location}).target})
+  (when (none {@self scan_mail ?stack /past /caused_by ?putter}))
   (utility 42)
   (effects (maintain-proposal {@self scan_mail ?stack})))
 
@@ -53,8 +55,10 @@
 ; caches @self is not standing at (folds cohabitant_cache_discovery + read_secret_letters).
 (npc-think putter_cache
   (task {@self putter ?home})
-  (role ?room {?home room ?room})
-  (when (in-room ?room))
+  ; ?room = the room @self stands in NOW, gated to the home's rooms: a seam
+  ; value-bind (memoized, no per-move cache rebuild), consumed by the room test.
+  (when (and (any {@self location}).target: ?room
+             {?home room ?room}))
   (effects
     (for-each ?cache (attr-values ?room parts [k interior_space hiding_spot])
       (if (none {@self hiding_spot ?cache})

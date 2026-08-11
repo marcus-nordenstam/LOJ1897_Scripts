@@ -18,8 +18,9 @@
 ;     perceiving a building's parts mints the FORWARD {building room} alone, tripping the
 ;     seam's already-knows-a-room early-return so the reverse never lands - which used to
 ;     strand a worker physically inside his workplace unable to prove he was there.
-;   - (in-room ?r): I am standing in the SPACE ?r exactly (my location IS ?r). The
-;     room-granularity test - for a target that is a room, not a building.
+;   - {@self location ?r}: I am standing in the SPACE ?r exactly (my location IS
+;     ?r) - the bare location pattern, no macro (the room-granularity test for a
+;     target that is a room, not a building).
 ;
 ; SPATIAL MODEL (the address-on-the-premise model): `home` targets the BUILDING directly
 ; (the address lives ON the premise); `location` is the perceptible CURRENT ROOM/space,
@@ -33,14 +34,6 @@
 (define-macro in-building (?b)
   (= (current-building @self) ?b))
 
-; (in-room ?r): the NPC is standing in the space ?r exactly. (believes {@self location ?r})
-; is the same "my location IS ?r" test (location is single-valued) but BIND-FREE, so it is
-; safe inside a maintenance (when) that holding_when_holds re-evaluates with the fire-time
-; stash restored (a (bind {@self location ?loc}) there hard-errors on the already-bound var).
-; A front-parked NPC outside all spaces holds no location belief, so this is correctly false.
-(define-macro in-room (?r)
-  {@self location ?r})
-
 ; (at-workplace ?wp): the NPC is at their workplace. A workplace target is granularity-
 ; MIXED by domain: a trade/profession seats it at the premises BUILDING (shop / office /
 ; factory - reached by entering a room, so in-building), while a gentleman's household
@@ -49,7 +42,7 @@
 ; a vague "place".
 (define-macro at-workplace (?wp)
   (or (in-building ?wp)
-      (in-room ?wp)))
+      {@self location ?wp}))
 
 ; (at-home): the NPC is at their own home BUILDING. The suffix bind produces
 ; ?home (my home building); a re-evaluated maintenance (when) simply re-binds
@@ -64,7 +57,7 @@
 ; lane's <place>: home building | workplace building-or-study | pub / restaurant).
 (define-macro at-place (?p)
   (or (in-building ?p)
-      (in-room ?p)))
+      {@self location ?p}))
 
 ; (at-place-kind [k building <leaf>]): the NPC is currently in a building of the given
 ; kind (pub / church / bank / shop / school / social_clubhouse / ...). Uses the actor's
