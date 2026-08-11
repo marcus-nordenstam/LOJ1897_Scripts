@@ -284,14 +284,13 @@ relation
         (social)                (+ sub human)
             # The three independent axes of "having a thing":
             # (a) Legal - own / lease / rent / borrow (verb-states below).
-            # (b) Physical control - env attrs on body-parts and
-            #     containers (controlled_by / wear / in_stack); the
-            #     derived (hold ?actor ?thing) rule-function walks the
-            #     body-part chain to the actor.
-            # (c) Physical access - the derived (access ?actor ?thing)
-            #     = hold OR (recent position-belief AND nav-path-exists).
-            # Welcome is a separate axis (may_use / welcome_at). Derived
-            # rule-functions live in shared_functions/possession.
+            # (b) Physical control - the {<hand> control <item>} perceived
+            #     belief the take/put primitives mint; read in .hs as the
+            #     (control ?thing) macro ({@self hand.control ?thing}), the
+            #     hand-holds-item reasoning done in .hs, not C++.
+            # (c) Access / welcome - physical reach and social permission are
+            #     .hs reasoning too (co-presence, (public)-space checks, own /
+            #     lease / rent / borrow), authored in the events that need them.
             #
             # own: legal ownership. Subject is the owner; target is the
             # owned thing (movable prop, building, space, OR an org - you can

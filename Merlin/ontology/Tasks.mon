@@ -99,8 +99,8 @@ relation
             #   the seeker holds no salaried job.
             # recruiting: the recruit_staff duty-holder's standing recruitment
             # (target = the org; `recruit` is the accomplice-recruitment act);
-            # advertise is its board-posting subtask. (Mail reading needs no
-            # task - unread letters at home directly propose the read action.)
+            # advertise is its board-posting subtask. (Mail reading is the
+            # read_mail task - read_mail_think.hs - go/scan/read the home stack.)
             # apply_for: the MAIN worker task - one attempt at a specific job at a
             #   specific org (target = the occupation, aux = the org's articles). Its
             #   OUTCOME is the whole lifecycle: running = applied, succ = took the job,
@@ -383,6 +383,22 @@ relation
 
             read                (motor eyes)  (tar @excl document)   (obs)  (belief_timeout 600)
             write               (tar @excl document)   (obs)  (belief_timeout 600)
+
+            # read_mail - THE mail-reading TASK (read_mail_think.hs). A think never
+            # touches the world: the task DRIVES (go to the stack, scan, read each
+            # held letter); the ACTIONS scan_mail / read are the only env mutators.
+            # target = the mail stack being worked. scan_mail - the dumb hands act
+            # that lifts every letter addressed to @self out of the stack into hand.
+            # scan_mail - the dumb hands act putter proposes when it putters into a
+            # room whose mail stack holds letters addressed to @self: lift them into hand.
+            scan_mail           (motor right_hand)  (tar @excl stack)   (obs)
+
+            # putter - the monthly home ROUND (putter_think.hs): re-check the rooms
+            # you already KNOW ({home room room} beliefs), so perception catches
+            # anything new inside them (a delivered mail stack). The belief-driven
+            # complement of `explore`, which DISCOVERS unperceived rooms off env attrs.
+            putter              (tar structure)
+
 
             stack_get            (tar object)  (aux stack)
             stack_put            (tar object)  (aux stack)

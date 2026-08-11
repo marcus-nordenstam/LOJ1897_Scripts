@@ -154,20 +154,7 @@
   (role @self (believes {@self take_up_post ?jk ?art /succ}))
   (effects (set-outcome ?af succ)))
 
-; === the morning post: pick up + read (held) each unread letter ADDRESSED TO @self ===
-; The general household mail read (replaced the C++ read_pending_mail window pass). @self
-; is home, sorts the pile, and reads ONLY the letters whose `addressee` envelope tag is
-; @self - a housemate's post stays sealed. (attr-is reads the abs tag without internalizing
-; the addressee, so sorting a housemate's letter mints no belief about its recipient.)
-; The home is bound MENTAL ({@self home ?home}) - a think must stay mental-only, so the
-; abs `home-of` op cannot be used here; ?home externalizes only inside the effect ops.
-(npc-think read_post
-  (cooldown 1 m)
-  (role ?home {@self home ?home})
-  (when (in-building ?home))
-  (effects
-    (for-each ?ltr (attr-values (mail-pile (mail-space ?home)) items [k letter])
-      (if (and (none {@self read ?ltr}) (attr-is ?ltr addressee @self))
-          (then (take-from-stack ?ltr)
-                (read-document ?ltr)
-                (file-in-stack ?ltr (mail-space ?home)))))))
+; === the verdict letter is read by the putter round (putter_think.hs) ===
+; The morning post is no longer read inline here: puttering into the home mail room
+; scans @self's addressed letters into hand and reads each held one (a folded chore).
+; The verdict rungs above just consume the resulting {@self read ?ltr /ever} act-memory.

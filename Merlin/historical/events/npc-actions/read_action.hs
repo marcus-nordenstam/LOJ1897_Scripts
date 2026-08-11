@@ -12,5 +12,9 @@
   (duration 10)
   (effects
     (if (is-a ?doc [k letter])
-        (then (read-writing ?doc)))
+        (then (read-writing ?doc)
+              ; done with it: set the letter down where @self stands, emptying the
+              ; hand so the read_mail task can conclude. read-writing dedups an
+              ; already-read letter, so a re-proposed read is just this put-down.
+              (put-item ?doc (attr @self location))))
     (set-outcome {@self read ?doc} succ)))
