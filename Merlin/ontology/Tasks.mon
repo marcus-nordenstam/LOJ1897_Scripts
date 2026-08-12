@@ -315,12 +315,15 @@ relation
             serve_beer                  (motor mind)    (tar human)    (obs)  (belief_timeout 1800)
 
             # ----------------------------------------------------------------------------------
-            # physical tasks - motors are DERIVED, not declared. The closure pass
+            # physical tasks - motors are DERIVED, not declared. The isim closure
             # (resolve_task_motors_from_rule_closure) unions the motor bits of every
-            # action a task's .ms2 rules reach, so these carry no (motor ...).
-            # A manual (motor ...) remains ONLY on tasks whose motors no .ms2 rule
-            # can derive - no action-proposing rule under {@self <task>} (approach,
-            # explore, locate, drop, give_birth), or a closure that routes its real
+            # action a task's .ms2 rules reach. In hsim ALL acts run on the body motor:
+            # the hsim closure (resolve_hsim_task_motors) sets the body motor on every
+            # task whose (task ..)-gated .hs events reach a proposed action, overriding
+            # any (motor ...) here - a declaration only feeds the ISIM column. A manual
+            # (motor ...) remains ONLY where isim runs the task but no .ms2 rule closure
+            # can derive it - no live action-proposing rule under {@self <task>}
+            # (approach, explore, drop, give_birth), or a closure that routes its real
             # motors through a goal the pass cannot follow (serve_customer, serve_beer).
             # ----------------------------------------------------------------------------------
             #tell                /motor mouth            /sub @msgAuthor human   /tar @msg @excl @S     /aux @msgAudience human
@@ -369,7 +372,7 @@ relation
             keep_looking_at_whole      (tar @excl)
 
             explore             (motor legs)              (tar @excl)
-            locate              (motor legs)              (tar @excl)
+            locate                                        (tar @excl)
             
             drop                (motor right_hand)             (tar @excl object)
             # /tar ? : give targets a physical object (the motor task) or a
