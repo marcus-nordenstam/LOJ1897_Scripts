@@ -11,7 +11,7 @@
 (npc-think partner_go
   (goal {@self partner ?art})
   (when (and (articles-building ?art ?venue)
-             (not (in-building ?venue))))
+             (not (in-building @self ?venue))))
   (utility 85)
   (effects (maintain-proposal {@self enter ?venue})))
 
@@ -20,6 +20,6 @@
 (npc-think partner_at_firm
   (goal {@self partner ?art})
   (when (and (articles-building ?art ?venue)
-             (in-building ?venue)))
+             (in-building @self ?venue)))
   (utility 85)
   (effects (maintain-proposal {@self partner})))

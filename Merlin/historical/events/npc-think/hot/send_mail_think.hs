@@ -17,7 +17,7 @@
 (npc-think send_mail_home
   (task {@self send_mail ?doc})
   (role ?home {@self home ?home})
-  (when (not (in-building ?home)))
+  (when (not (in-building @self ?home)))
   (utility 73)
   (effects (maintain-proposal {@self enter ?home})))
 
@@ -27,7 +27,7 @@
   (lock-rule)
   (task {@self send_mail ?doc})
   (role ?home {@self home ?home})
-  (when (and (in-building ?home)
+  (when (and (in-building @self ?home)
              (none {@self locate [k outgoing_mail_stack] ?home /ever})))
   (utility 74)
   (effects (begin-proposal {@self locate [k outgoing_mail_stack] ?home})))
@@ -35,10 +35,9 @@
 (npc-think send_mail_go
   (task {@self send_mail ?doc})
   (role ?home {@self home ?home})
-  (role ?out [k outgoing_mail_stack])
-  (when (and (believes {?out location.building ?home})
-             (none {?out location (any {@self location}).target})
-             (any {?out location}).target: ?room))
+  (role ?out [k outgoing_mail_stack] (not (co-present ?out @self)))
+  (when (and (in-building ?out ?home)
+             (location ?out): ?room))
   (utility 75)
   (effects (maintain-proposal {@self go ?room})))
 
@@ -47,7 +46,7 @@
 ; already-posted letter.
 (npc-think send_mail_put
   (task {@self send_mail ?doc})
-  (role ?out [k outgoing_mail_stack] {?out location (any {@self location}).target})
+  (role ?out [k outgoing_mail_stack] (co-present ?out @self))
   (when (none {@self post_mail ?doc ? /succ}))
   (utility 76)
   (effects (maintain-proposal {@self post_mail ?doc ?out})))

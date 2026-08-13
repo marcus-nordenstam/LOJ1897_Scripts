@@ -39,7 +39,7 @@
   (goal    {@self worship})
   (role @self (grown @self))
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
-  (when    (not (in-building ?church)))
+  (when    (not (in-building @self ?church)))
   (effects (debug-print "TRACE-WORSHIPGO church=?church")
            (maintain-proposal {@self enter ?church})))
 

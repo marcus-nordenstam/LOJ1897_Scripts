@@ -59,10 +59,10 @@
   (role @self {@self job [k job priest]})
   (role ?corpse {?corpse condition [k dead]}
                 (not {?corpse condition [k buried]})
+                (not (co-present ?corpse @self))
                 (select (score (months-since-death ?corpse)) (policy argmax)))
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
-  (when (and (>= (months-since-death ?corpse) 1)
-             (none {?corpse location (any {@self location}).target})))
+  (when (>= (months-since-death ?corpse) 1))
   (utility 85)
   (effects (maintain-proposal {@self enter ?church})))
 
@@ -75,8 +75,8 @@
   (role @self {@self job [k job priest]})
   (role ?corpse {?corpse condition [k dead]}
                 (not {?corpse condition [k buried]})
+                (co-present ?corpse @self)
                 (select (score (months-since-death ?corpse)) (policy argmax)))
-  (when (and (>= (months-since-death ?corpse) 1)
-             (believes {?corpse location (any {@self location}).target})))
+  (when (>= (months-since-death ?corpse) 1))
   (utility 85)
   (effects (maintain-proposal {@self bury ?corpse})))

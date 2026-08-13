@@ -213,8 +213,8 @@
   ; ?place is a BUILDING for every routine routing (home / pub / restaurant), or the
   ; gentry study ROOM - the OR covers both, in-building for the former, believes-
   ; location for the latter.
-  (when    (not (or (in-building ?place)
-                    (any {@self location ?place} (out int)))))
+  (when    (not (or (in-building @self ?place)
+                    (at_location @self ?place))))
   (effects (debug-print "TRACE-EATGO place=?place meal=?meal")
            (maintain-proposal {@self enter ?place})))
 
@@ -241,8 +241,8 @@
 ; (kind absent from the table), so cost + feasibility fold to nothing there with no special-casing.
 (npc-think eat_at_place
   (goal    {@self eat ?meal ?place})
-  (when    (or (in-building ?place)
-               (any {@self location ?place} (out int))))
+  (when    (or (in-building @self ?place)
+               (at_location @self ?place)))
   (effects (maintain-proposal {@self eat ?meal ?place}
              (affect   (if (dining-out? ?place) (then (* (attr @self enthusiasm) 20)) (else 0)))
              (cost     money (price ?place))

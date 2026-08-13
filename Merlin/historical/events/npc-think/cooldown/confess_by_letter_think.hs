@@ -33,15 +33,16 @@
                 (marriageable-age ?target)
                 (not {?target spouse ?})
                 (is-attracted-to @self ?target)
+                ; APART: a co-present suitor uses the spoken confess_fancy. Role-side so a
+                ; location write re-tests membership and the argmax ranks only apart targets.
+                (not (co-present ?target @self))
                 ; @self must KNOW her name to write to her - bind it for the body's
                 ; name value (no live object on the wire).
                 (believes {?target name ?target_name})
                 (select (score (stance-band ?target attraction)) (policy argmax)))
 
-  ; Post it when they are APART (a co-present suitor uses the spoken confess_fancy)
-  ; and @self knows where she lives.
-  (when (and (none {?target location (any {@self location}).target})
-             (home-of ?target)
+  ; @self knows where she lives.
+  (when (and (home-of ?target)
              (chance 0.4)))
 
   (effects

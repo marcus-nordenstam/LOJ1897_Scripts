@@ -20,7 +20,7 @@
   (role ?room (attr-values ?home parts [k interior_space room])
         (not (observed ?room))
         (select (policy first-match)))
-  (when (in-building ?home))
+  (when (in-building @self ?home))
   (utility 70)
   (effects (maintain-proposal {@self explore ?home})))
 

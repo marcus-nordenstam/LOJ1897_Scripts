@@ -64,7 +64,7 @@
   (task {@self work ?wp})
   (role ?job {@self job ?job})
   (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
-        (and (in-building ?wp) (< (now-hour) 12)))
+        (and (in-building @self ?wp) (< (now-hour) 12)))
   (utility 78)
   (effects (maintain-proposal {@self dwell ?wp (min 12 ?end)})))
 
@@ -72,7 +72,7 @@
   (task {@self work ?wp})
   (role ?job {@self job ?job})
   (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
-        (and (in-building ?wp) (>= (now-hour) 12)))
+        (and (in-building @self ?wp) (>= (now-hour) 12)))
   (utility 78)
   (effects (maintain-proposal {@self dwell ?wp ?end})))
 

@@ -129,7 +129,7 @@
   (goal {@self provision})
   (any {@self provisions_shop ?}).target:?shop
   (when (and ?shop
-             (not (in-building ?shop))))
+             (not (in-building @self ?shop))))
   (effects (maintain-proposal {@self enter ?shop})))
 
 ; MAINTENANCE co-minter of the shared {@self orient} search: while the provisioner knows no

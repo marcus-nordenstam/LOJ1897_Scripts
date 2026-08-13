@@ -36,14 +36,14 @@
 (npc-think hold_meet_go
   (goal {@self hold_meet ?art})
   (when (and (articles-building ?art ?clubhouse)
-             (not (in-building ?clubhouse))))
+             (not (in-building @self ?clubhouse))))
   (utility 35)
   (effects (maintain-proposal {@self enter ?clubhouse})))
 
 (npc-think hold_meet_dwell
   (goal {@self hold_meet ?art})
   (when (and (articles-building ?art ?clubhouse)
-             (in-building ?clubhouse)))
+             (in-building @self ?clubhouse)))
   (utility 35)
   (effects (maintain-proposal {@self hold_meet_run ?art})))
 

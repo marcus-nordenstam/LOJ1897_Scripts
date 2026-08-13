@@ -9,7 +9,7 @@
 ; TWO CRISP PRIMITIVES, split from the old vague (at-place ?place) - "place" conflated
 ; "a building I am inside" with "a room I am standing in", forcing every gate to carry
 ; both tests and go wrong whenever a target's granularity was ambiguous:
-;   - (in-building ?b): I am physically inside building ?b. Resolved by current-building
+;   - (in-building @self ?b): I am physically inside building ?b. Resolved by current-building
 ;     (my location -> its enclosing building via the env parent walk - the honest "which
 ;     building am I standing in", the same self-read at-place-kind / can-drink use). True
 ;     whether I stand in one of ?b's rooms OR directly at ?b (a room-less shell). This is
@@ -27,12 +27,9 @@
 ; self-perceived on arrival.
 ; ----------------------------------------------------------------------------
 
-; (in-building ?b): the NPC is physically inside building ?b (standing in any of its
-; rooms, or directly at it when it is a room-less shell). current-building is fail when
-; the NPC is outside all spaces (front-parked at a building's door counts as OUTSIDE, so
-; is-inside is correctly false until a room is entered).
-(define-macro in-building (?b)
-  (= (current-building @self) ?b))
+; (in-building ?entity ?b) is now a NATIVE per-mind index op (is_at at building
+; granularity): true iff @self believes ?entity is inside building ?b. O(1), belief-
+; honest (fail if @self has not perceived ?entity), wakes on a `location` write.
 
 ; (at-workplace ?wp): the NPC is at their workplace. A workplace target is granularity-
 ; MIXED by domain: a trade/profession seats it at the premises BUILDING (shop / office /
@@ -41,22 +38,22 @@
 ; over the two crisp primitives, named so the mixed target is explicit, not smuggled into
 ; a vague "place".
 (define-macro at-workplace (?wp)
-  (or (in-building ?wp)
+  (or (in-building @self ?wp)
       {@self location ?wp}))
 
 ; (at-home): the NPC is at their own home BUILDING. The suffix bind produces
 ; ?home (my home building); a re-evaluated maintenance (when) simply re-binds
-; the same value, so it stays safe there; then it is exactly (in-building ?home).
+; the same value, so it stays safe there; then it is exactly (in-building @self ?home).
 (define-macro at-home ()
   (and (any {@self home ?}).target: ?home
-       (in-building ?home)))
+       (in-building @self ?home)))
 
 ; (at-place ?p): the NPC is at ?p, whose granularity is MIXED - a home / venue is a
 ; BUILDING (in-building), a gentleman's workplace is a ROOM / study (in-room). The
 ; honest OR over the two crisp primitives, for a target that may be either (the eat
 ; lane's <place>: home building | workplace building-or-study | pub / restaurant).
 (define-macro at-place (?p)
-  (or (in-building ?p)
+  (or (in-building @self ?p)
       {@self location ?p}))
 
 ; (at-place-kind [k building <leaf>]): the NPC is currently in a building of the given

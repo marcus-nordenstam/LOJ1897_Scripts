@@ -32,7 +32,7 @@
   ; THE LISTENER: one co-present diner, drawn by roulette. Sourced OBJECTIVELY from
   ; @self's current room (env contents), each diner passively perceived.
   (role ?diner (any_human ?diner)
-               {?diner location (any {@self location}).target}
+               (co-present ?diner @self)
                (select (score 1) (policy roulette)))
 
   ; AT the place - seated, not still walking there (the task can outlive a

@@ -38,18 +38,18 @@
 ; (2) known -> go stand in the room the stack is in.
 (npc-think read_mail_go
   (task {@self read_mail ?prem})
-  (role ?stk [k mail_stack] {?stk location.building ?prem})
-  (when (and (none {?stk location (any {@self location}).target})
-             (any {?stk location}).target: ?room))
+  (role ?stk [k mail_stack] (in-building ?stk ?prem)
+                            (not (co-present ?stk @self)))
+  (when (location ?stk): ?room)
   (utility 86)
   (effects (maintain-proposal {@self go ?room})))
 
 ; (3) co-located, not yet swept this read -> lift the letters that are mine.
 (npc-think read_mail_take
   (task {@self read_mail ?prem}:?rm)
-  (role ?stk [k mail_stack] {?stk location.building ?prem})
-  (when (and (believes {?stk location (any {@self location}).target})
-             (none {@self take_my_letters ?stk /caused_by ?rm /ever})))
+  (role ?stk [k mail_stack] (in-building ?stk ?prem)
+                            (co-present ?stk @self))
+  (when (none {@self take_my_letters ?stk /caused_by ?rm /ever}))
   (utility 87)
   (effects (debug-print "RM_TAKE") (begin-proposal {@self take_my_letters ?stk})))
 
@@ -67,7 +67,7 @@
 ; lane's work items, released by resolve_applications, not reading material.
 (npc-think read_mail_done
   (task {@self read_mail ?prem}:?rm)
-  (role ?stk [k mail_stack] {?stk location.building ?prem})
+  (role ?stk [k mail_stack] (in-building ?stk ?prem))
   (when (and (believes {@self take_my_letters ?stk /succ /caused_by ?rm})
              (none {@self hand.control [k letter]})))
   (effects (debug-print "RM_DONE") (set-outcome ?rm succ)))
@@ -78,7 +78,7 @@
 ; rather than deduping against a stuck instance.
 (npc-think read_mail_give_up
   (task {@self read_mail ?prem}:?rm)
-  (when (not (in-building ?prem)))
+  (when (not (in-building @self ?prem)))
   (effects (debug-print "RM_GIVEUP") (set-outcome ?rm interrupt)))
 
 (npc-think read_mail_tmp_probe
@@ -87,7 +87,7 @@
 
 (npc-think rm_sat_probe
   (role ?home {@self home ?home})
-  (when (and (in-building ?home) (>= (now-hour) 6) (<= (now-hour) 11)))
+  (when (and (in-building @self ?home) (>= (now-hour) 6) (<= (now-hour) 11)))
   (effects
     (tolerate (now-abs-seconds): ?n)
     (tolerate (abs-seconds (highest /end {@self read_mail ?home /succ}).end): ?e)

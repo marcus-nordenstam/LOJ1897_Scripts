@@ -7,7 +7,7 @@
 
   (role ?stranger 
        (any_human ?stranger)
-       {?stranger location (any {@self location}).target}
+       (co-present ?stranger @self)
        (not (personally-knows @self ?stranger))
        (not {@self SAY ? ?stranger}))
 

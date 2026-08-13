@@ -29,7 +29,7 @@
     ; The OBSERVABLE result to the organiser (the ended race_run act-belief is
     ; my own memory of competing); aux carries the sport so the judge's
     ; declaration knows which contest the score belongs to.
-    (if (believes {?judge location (any {@self location}).target})
+    (if (co-present ?judge @self)
         (then (begin-belief ?judge {@self race_result ?perf ?sport})))
     (end-belief {?judge summon @self ?sport})
     (set-outcome {@self race_run ?sport ?judge} succ)))

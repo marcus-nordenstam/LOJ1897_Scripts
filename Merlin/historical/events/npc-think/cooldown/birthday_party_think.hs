@@ -38,7 +38,7 @@
   ; guest list; co-presence (objective room occupancy) is who is here to be told.
   (role ?guest (any_human ?guest)
                {@self friend ?guest}
-               {?guest location (any {@self location}).target})
+               (co-present ?guest @self))
 
   ;; Non-belief gate kept out of the @self role: enthusiasm-scaled chance, multiplicative
   ;; so outgoing hosts engage more than withdrawn ones, /12'd to the monthly

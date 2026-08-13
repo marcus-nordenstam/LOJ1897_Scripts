@@ -34,7 +34,7 @@
   (goal {@self attend ?occ})
   (when (and (any {?occ venue ?}).target: ?venue
              (attend-in-window ?occ)
-             (not (in-building ?venue))))
+             (not (in-building @self ?venue))))
   (utility (attend-utility ?occ))
   (effects (debug-print "TRACE-ATTENDGO venue=?venue occ=?occ")
            (maintain-proposal {@self enter ?venue})))
@@ -43,7 +43,7 @@
   (goal {@self attend ?occ})
   (when (and (any {?occ venue ?}).target: ?venue
              (attend-in-window ?occ)
-             (in-building ?venue)))
+             (in-building @self ?venue)))
   (utility (attend-utility ?occ))
   (effects
     (debug-print "ATTEND_STAY @self occ=?occ venue=?venue")
@@ -62,7 +62,7 @@
              (none {@self SAY (msg {@self spouse ?betrothed}) ?betrothed})
              (any {?occ venue ?}).target: ?venue
              (attend-in-window ?occ)
-             (in-building ?venue)))
+             (in-building @self ?venue)))
   (utility (+ (attend-utility ?occ) 10))
   (effects (maintain-proposal {@self say_to (utterable-msg {@self spouse ?betrothed}) ?betrothed})))
 
@@ -94,7 +94,7 @@
   (goal {@self attend ?occ})
   (when (and (any {@self organize ?occ} (out int))
              (any {?occ venue ?}).target: ?venue
-             (in-building ?venue)
+             (in-building @self ?venue)
              (attend-in-window ?occ)
              (<= (attend-minutes-left ?occ) 45)))
   (effects

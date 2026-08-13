@@ -29,32 +29,32 @@
   (cooldown 1 d)
   (role @self (adult @self)
               {@self lover ?})
-  (role ?paramour {?paramour location.building (any {@self location.building}).target}
+  (role ?paramour (building-co-present ?paramour @self)
                   (any_human ?paramour)
                   {@self lover ?paramour}
                   (not {@self spouse ?paramour}))
   (when (and (vacant-room @self ?paramour)
-             (or (none {?paramour location (any {@self location}).target})
-                 (believes {(spouse-of @self) location (any {@self location}).target}))))
+             (or (not (co-present ?paramour @self))
+                 (co-present (spouse-of @self) @self))))
   (utility 95.0)
   (effects
     (vacant-room @self ?paramour): ?room
     (debug-print "TRYST_SLIP @self para=?paramour")
     (maintain-proposal {@self go ?room})))
 
-; ACT: alone in a room with the lover -> consummate. ?paramour is sourced from the
-; OTHERS objectively in @self's room (Form A), narrowed to a live third-party lover.
+; ACT: alone in a room with the lover -> consummate. ?paramour is a live third-party
+; lover @self BELIEVES shares his room (the location co-location role filter).
 (npc-think affair_consummate
   (cooldown 1 d)
   (role @self (adult @self)
               {@self lover ?})
-  (role ?paramour {?paramour location (any {@self location}).target}
+  (role ?paramour (co-present ?paramour @self)
                   (any_human ?paramour)
                   {@self lover ?paramour}
                   (not {@self spouse ?paramour}))
   ; Discretion: not in the same ROOM as the wronged spouse. (spouse-of @self) is fail
   ; for an unmarried cheater, so the gate passes them through.
-  (when (none {(spouse-of @self) location (any {@self location}).target}))
+  (when (not (co-present (spouse-of @self) @self)))
   (utility 95.0)
   (effects
     (debug-print "CONSUMMATE_HOT @self para=?paramour")

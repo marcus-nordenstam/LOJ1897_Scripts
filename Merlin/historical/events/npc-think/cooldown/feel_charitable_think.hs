@@ -28,6 +28,6 @@
               (min (* (days-since-last {@self give_alms /ever}) 0.8) 25)))
   (effects
     (debug-print "TRACE-CHARITABLE venue=?venue")
-    (if (in-building ?venue)
+    (if (in-building @self ?venue)
         (then (begin-goal {@self give_alms ?venue}))
         (else (maintain-proposal {@self enter ?venue})))))

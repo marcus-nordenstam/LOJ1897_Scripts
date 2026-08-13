@@ -51,7 +51,7 @@
   (role ?agency {?agency isa [k org house_agency]}
                 (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
-             (not (in-building ?venue))))
+             (not (in-building @self ?venue))))
   (utility 35)
   (effects (maintain-proposal {@self enter ?venue})))
 
@@ -67,7 +67,7 @@
   (role ?agency {?agency isa [k org house_agency]}
                 (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
-             (in-building ?venue)))
+             (in-building @self ?venue)))
   (utility 35)
   (effects (maintain-proposal {@self read_listings})))
 

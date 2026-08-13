@@ -17,7 +17,7 @@
   (lock-rule)
   (cooldown 1 m)
   (role ?home {@self home ?home})
-  (when (in-building ?home))
+  (when (in-building @self ?home))
   (utility 40)
   (effects (begin-proposal {@self putter ?home})))
 
@@ -31,7 +31,7 @@
 ; either DISCOVER it (if @self does not know it) or RE-CHECK it (if @self does).
 (npc-think putter_cache
   (task {@self putter ?home})
-  (when (and (any {@self location}).target: ?room
+  (when (and (location @self): ?room
              {?home room ?room}))
   (effects
     (for-each ?cache (attr-values ?room parts [k interior_space hiding_spot])

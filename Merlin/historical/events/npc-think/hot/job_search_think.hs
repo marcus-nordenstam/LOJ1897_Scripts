@@ -30,7 +30,7 @@
              ; no wealth belief yet is treated as needing work (the (and ..) is false).
              (not (and (any {@self wealth ?}).target: ?w (>= ?w (seek_job_wealth_ceiling))))
              (find-building [k building church]): ?board
-             (not (in-building ?board))
+             (not (in-building @self ?board))
              (latch-eval (chance 0.3))))
   (utility 71)
   (effects (debug-print "JS_BOARDGO") (maintain-proposal {@self enter ?board})))
@@ -47,9 +47,9 @@
   (rng-stream employment)
   (role @self (not {@self job.salary ?})
               (not {@self apply_for ? ? /pres}))
-  (role ?ad [k job_description] (select (score 1) (policy roulette)))
-  (when (and (believes {?ad location (any {@self location}).target})
-             (read-doc-record [k job_description] ?ad (job ?jk) (org_record ?art) (class_floor ?cf))
+  (role ?ad [k job_description] (co-present ?ad @self)
+                                (select (score 1) (policy roulette)))
+  (when (and (read-doc-record [k job_description] ?ad (job ?jk) (org_record ?art) (class_floor ?cf))
              (class-at-least @self ?cf)
              (none {@self apply_for ?jk ?art /fail})))
   (utility 73)
@@ -68,7 +68,7 @@
   (task {@self apply_for ?jk ?art})
   (role ?home {@self home ?home})
   (when (and (none {@self prepare_application ?art ?jk /succ})
-             (not (in-building ?home))))
+             (not (in-building @self ?home))))
   (utility 74)
   (effects (maintain-proposal {@self enter ?home})))
 
@@ -78,7 +78,7 @@
   (task {@self apply_for ?jk ?art})
   (role ?home {@self home ?home})
   (when (and (none {@self prepare_application ?art ?jk /succ})
-             (in-building ?home)))
+             (in-building @self ?home)))
   (utility 75)
   (effects (maintain-proposal {@self prepare_application ?art ?jk})))
 
@@ -116,7 +116,7 @@
 (npc-think take_up_post_go
   (task {@self take_up_post ?jk ?art})
   (when (and (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
-             (not (in-building ?wp))))
+             (not (in-building @self ?wp))))
   (utility 78)
   (effects (maintain-proposal {@self enter ?wp})))
 
@@ -125,7 +125,7 @@
 (npc-think take_up_post_take
   (task {@self take_up_post ?jk ?art})
   (when (and (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
-             (in-building ?wp)
+             (in-building @self ?wp)
              (>= (now-hour) 9)
              (<= (now-hour) 16)
              (none {@self job.salary ?})))

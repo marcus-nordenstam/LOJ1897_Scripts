@@ -55,7 +55,7 @@
   (goal {@self fight ?victim})
 
   (when (and (any {?victim home ?}).target: ?victim_home
-             (none {?victim location (any {@self location}).target})))
+             (not (co-present ?victim @self))))
   (utility (if (< (fight-elapsed) 10) (then 150)
                (else (max 0 (- 150 (* 30 (- (fight-elapsed) 10)))))))
   (effects
@@ -68,7 +68,7 @@
 ; co-present - promotes to fight_act (the 1-minute blow).
 (npc-think kill_strike
   (goal {@self fight ?victim})
-  (when (believes {?victim location (any {@self location}).target}))
+  (when (co-present ?victim @self))
   (utility (if (< (fight-elapsed) 10) (then 200)
                (else (max 0 (- 200 (* 30 (- (fight-elapsed) 10)))))))
   (effects
@@ -83,7 +83,7 @@
 ; and the strikes stop).
 (npc-think strike_foe
   (goal {@self fight ?victim})
-  (when (believes {?victim location (any {@self location}).target}))
+  (when (co-present ?victim @self))
   (effects (maintain-proposal {@self fight ?victim})))
 
 ; BREAK OFF (end-condition c): a killer whose attempt has dragged on without a kill

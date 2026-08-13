@@ -36,7 +36,7 @@
   (role ?target (any_human ?target)
                 (marriageable-age ?target)
                 (is-attracted-to @self ?target)
-                {?target location (any {@self location}).target})
+                (co-present ?target @self))
 
   (utility 22)
 

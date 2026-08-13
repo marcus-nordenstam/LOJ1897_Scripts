@@ -15,7 +15,7 @@
 ; The (task {@self enter ?s}) gate is PUSH-armed by the enter task belief's write and bars
 ; activation before any role work: an NPC with no running enter task never even attempts
 ; these rungs; the free ?s binds off the matched task belief. The spatial predicates
-; (in-building / at-threshold) stay in (when); the mutually-exclusive OUTSIDE vs
+; (in-building @self / at-threshold) stay in (when); the mutually-exclusive OUTSIDE vs
 ; AT-THRESHOLD gates make the threshold->interior handoff emergent. Reaching the interior
 ; drops the minting lane's gate, ceasing the enter proposal; the shared pipeline then tears
 ; the promoted enter task down.
@@ -25,7 +25,7 @@
 
 (npc-think enter_go_to_threshold
   (task {@self enter ?s})
-  (when (and (not (in-building ?s))
+  (when (and (not (in-building @self ?s))
              (not (at-threshold @self ?s))))
   (effects (debug-print "TRACE-ENTERTASK dest=?s")
            (maintain-proposal {@self go_to_threshold ?s})))

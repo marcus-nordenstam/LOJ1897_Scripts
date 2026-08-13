@@ -15,7 +15,7 @@
 (npc-think join_go
   (goal {@self join_club ?art})
   (when (and (articles-building ?art ?venue)
-             (not (in-building ?venue))))
+             (not (in-building @self ?venue))))
   (utility 40)
   (effects (maintain-proposal {@self enter ?venue})))
 
@@ -24,6 +24,6 @@
 (npc-think join_at_clubhouse
   (goal {@self join_club ?art})
   (when (and (articles-building ?art ?venue)
-             (in-building ?venue)))
+             (in-building @self ?venue)))
   (utility 40)
   (effects (maintain-proposal {@self join_club})))

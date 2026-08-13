@@ -62,7 +62,7 @@
 (npc-think advertise_go
   (task {@self advertise ?org})
   (when (and (find-building [k building church]): ?board
-             (not (in-building ?board))))
+             (not (in-building @self ?board))))
   (utility 81)
   (effects (maintain-proposal {@self enter ?board})))
 
@@ -72,7 +72,7 @@
   (task {@self advertise ?org})
   (when (and (any {?org record ?}).target: ?art
              (find-building [k building church]): ?board
-             (in-building ?board)
+             (in-building @self ?board)
              (read-doc-record [k articles_of_incorporation] ?art (kind ?ok))
              (lookup org_staffing org_kind ?ok staff_role none): ?jk
              (is-kind ?jk)))
@@ -102,7 +102,7 @@
   (task {@self recruit_staff ?org})
   (when (and (any {?org record ?}).target: ?art
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
-             (not (in-building ?wp))
+             (not (in-building @self ?wp))
              (attr (mail-pile (mail-space ?wp)) top)))
   (utility 80)
   (effects (debug-print "RC_GOOFC") (maintain-proposal {@self enter ?wp})))
@@ -112,7 +112,7 @@
   (task {@self recruit_staff ?org})
   (when (and (any {?org record ?}).target: ?art
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
-             (in-building ?wp)
+             (in-building @self ?wp)
              (attr (mail-pile (mail-space ?wp)) top)))
   (utility 79)
   (effects (debug-print "RC_RDMAIL") (begin-proposal {@self read_mail ?wp})))
@@ -123,13 +123,12 @@
 (npc-think recruit_staff_resolve_go
   (task {@self recruit_staff ?org})
   (role ?home {@self home ?home})
-  (role ?out [k outgoing_mail_stack])
+  (role ?out [k outgoing_mail_stack] (not (co-present ?out @self)))
   (role ?h {@self hand ?h})
   (role ?app [k application] {?h control ?app}
         (select (policy first-match)))
-  (when (and (believes {?out location.building ?home})
-             (none {?out location (any {@self location}).target})
-             (any {?out location}).target: ?room))
+  (when (and (in-building ?out ?home)
+             (location ?out): ?room))
   (utility 80)
   (effects (debug-print "RC_RESGO") (maintain-proposal {@self go ?room})))
 
@@ -140,7 +139,7 @@
 ; magic mail service routes each verdict by its written address.
 (npc-think recruit_staff_resolve
   (task {@self recruit_staff ?org})
-  (role ?out [k outgoing_mail_stack] {?out location (any {@self location}).target})
+  (role ?out [k outgoing_mail_stack] (co-present ?out @self))
   (role ?h {@self hand ?h})
   (role ?app [k application] {?h control ?app}
         (select (policy first-match)))
@@ -178,14 +177,14 @@
 
 (npc-think recruit_staff_tmp_p2
   (task {@self recruit_staff ?org})
-  (role ?out [k outgoing_mail_stack] {?out location (any {@self location}).target})
+  (role ?out [k outgoing_mail_stack] (co-present ?out @self))
   (effects (debug-print "RCP_OUT out=?out")))
 
 (npc-think recruit_staff_tmp_p3
   (task {@self recruit_staff ?org})
   (role ?h {@self hand ?h})
   (role ?app [k application] {?h control ?app})
-  (role ?out [k outgoing_mail_stack] {?out location (any {@self location}).target})
+  (role ?out [k outgoing_mail_stack] (co-present ?out @self))
   (effects (debug-print "RCP_BOTH")))
 
 (npc-think recruit_staff_tmp_p4
@@ -250,7 +249,7 @@
   (role ?out [k outgoing_mail_stack])
   (role ?h {@self hand ?h})
   (role ?app [k application] {?h control ?app})
-  (when (believes {?out location.building ?home}))
+  (when (in-building ?out ?home))
   (effects (debug-print "RCP_P12")))
 
 (npc-think recruit_staff_tmp_p13
@@ -259,14 +258,13 @@
   (role ?out [k outgoing_mail_stack])
   (role ?h {@self hand ?h})
   (role ?app [k application] {?h control ?app})
-  (when (any {?out location}).target: ?room)
+  (when (location ?out): ?room)
   (effects (debug-print "RCP_P13 room=?room")))
 
 (npc-think recruit_staff_tmp_p14
   (task {@self recruit_staff ?org})
   (role ?home {@self home ?home})
-  (role ?out [k outgoing_mail_stack])
+  (role ?out [k outgoing_mail_stack] (not (co-present ?out @self)))
   (role ?h {@self hand ?h})
   (role ?app [k application] {?h control ?app})
-  (when (none {?out location (any {@self location}).target}))
   (effects (debug-print "RCP_P14")))
