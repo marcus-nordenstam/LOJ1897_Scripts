@@ -24,10 +24,17 @@
   (utility 70)
   (effects (maintain-proposal {@self explore ?home})))
 
+; PERFORM: while INSIDE ?bldg, look into its next unseen room. The room OBBs of many
+; buildings overlap (no distinct interior layout), so a physical (go ?room) cannot move
+; the actor between them - but standing in the building you CAN see into the next room.
+; (observe ?room) perceives it (its {room building} containment + contents), one room per
+; firing, so the drive walks the layout and ceases once every room is seen - bounded, no
+; frenzy, and interruption just pauses it (each observation is persistent progress).
 (npc-think explore_go
   (task {@self explore ?bldg})
   (role ?room (attr-values ?bldg parts [k interior_space room])
         (not (observed ?room))
         (select (policy first-match)))
+  (when (in-building @self ?bldg))
   (utility 71)
-  (effects (maintain-proposal {@self go ?room})))
+  (effects (observe ?room)))
