@@ -11,7 +11,7 @@
 ; side's fancy from his OWN belief (love_match / court / lovers gate on (believes
 ; {?beloved fancy @self})) - never a cross-mind read.
 ;
-; PRIVATE by co-presence: gated on (co-present @self ?target) - a confession needs
+; PRIVATE by co-presence: ?target shares @self's location (the co-location role filter) - a confession needs
 ; the two together (and only carries to them and whoever else is in the room).
 ;
 ; `fancy` only forms opposite-sex (the crush_forms gate), so no gender filter is
@@ -36,7 +36,7 @@
   (role ?target (any_human ?target)
                 (marriageable-age ?target)
                 (is-attracted-to @self ?target)
-                (co-present @self))
+                {?target location (any {@self location}).target})
 
   (utility 22)
 

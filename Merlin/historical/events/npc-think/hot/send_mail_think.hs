@@ -37,7 +37,7 @@
   (role ?home {@self home ?home})
   (role ?out [k outgoing_mail_stack])
   (when (and (believes {?out location.building ?home})
-             (not (co-present @self ?out))
+             (none {?out location (any {@self location}).target})
              (any {?out location}).target: ?room))
   (utility 75)
   (effects (maintain-proposal {@self go ?room})))

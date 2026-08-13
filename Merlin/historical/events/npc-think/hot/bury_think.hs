@@ -62,7 +62,7 @@
                 (select (score (months-since-death ?corpse)) (policy argmax)))
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
   (when (and (>= (months-since-death ?corpse) 1)
-             (not (co-present @self ?corpse))))
+             (none {?corpse location (any {@self location}).target})))
   (utility 85)
   (effects (maintain-proposal {@self enter ?church})))
 
@@ -77,6 +77,6 @@
                 (not {?corpse condition [k buried]})
                 (select (score (months-since-death ?corpse)) (policy argmax)))
   (when (and (>= (months-since-death ?corpse) 1)
-             (co-present @self ?corpse)))
+             (believes {?corpse location (any {@self location}).target})))
   (utility 85)
   (effects (maintain-proposal {@self bury ?corpse})))

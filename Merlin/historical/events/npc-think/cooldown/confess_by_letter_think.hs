@@ -40,7 +40,7 @@
 
   ; Post it when they are APART (a co-present suitor uses the spoken confess_fancy)
   ; and @self knows where she lives.
-  (when (and (not (co-present @self ?target))
+  (when (and (none {?target location (any {@self location}).target})
              (home-of ?target)
              (chance 0.4)))
 

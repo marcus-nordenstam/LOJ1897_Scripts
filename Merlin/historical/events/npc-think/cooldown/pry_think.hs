@@ -9,13 +9,13 @@
   (cooldown 1 m)
   (rng-stream incidents)
   (role @self (adult @self))
-  (role ?host (any_human ?host) (building-co-present @self)
+  (role ?host (any_human ?host) {?host location.building (any {@self location.building}).target}
               (believes {?host spouse ?host_spouse, gender ?host_gender}))
-  (role ?visitor (any_human ?visitor) (building-co-present @self))
+  (role ?visitor (any_human ?visitor) {?visitor location.building (any {@self location.building}).target})
   (when (and (not (= ?visitor ?host))
              (not (= ?visitor @self))
              (not (= ?visitor ?host_spouse))
              (none {?visitor gender ?host_gender})
-             (not (building-co-present @self ?host_spouse))))
+             (none {?host_spouse location.building (any {@self location.building}).target})))
   (effects
     (bump-suspicion @self ?host (* 0.08 (+ 1 (hostility-toward ?host))))))

@@ -9,7 +9,7 @@
 ;
 ; THE LISTENER is a ROULETTE over the co-present set (presumably the family at a
 ; home supper; tablemates / co-workers / pub company elsewhere). Co-presence is @self
-; and ?diner sharing a location, expressed as the (co-present @self) role filter, and
+; and ?diner sharing a location, expressed as the location co-location role filter, and
 ; (select ... roulette) draws one. DEDUP IS PER-LISTENER: the SAY's aux is the diner, so {@self SAY <msg>
 ; ?diner} reads "have I already told THIS diner this fact"; (break) stops at the
 ; first untold one. Telling nothing (all heard, or dining alone) is a safe no-op.
@@ -32,7 +32,7 @@
   ; THE LISTENER: one co-present diner, drawn by roulette. Sourced OBJECTIVELY from
   ; @self's current room (env contents), each diner passively perceived.
   (role ?diner (any_human ?diner)
-               (co-present @self)
+               {?diner location (any {@self location}).target}
                (select (score 1) (policy roulette)))
 
   ; AT the place - seated, not still walking there (the task can outlive a

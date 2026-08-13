@@ -128,7 +128,7 @@
   (role ?app [k application] {?h control ?app}
         (select (policy first-match)))
   (when (and (believes {?out location.building ?home})
-             (not (co-present @self ?out))
+             (none {?out location (any {@self location}).target})
              (any {?out location}).target: ?room))
   (utility 80)
   (effects (debug-print "RC_RESGO") (maintain-proposal {@self go ?room})))
@@ -268,5 +268,5 @@
   (role ?out [k outgoing_mail_stack])
   (role ?h {@self hand ?h})
   (role ?app [k application] {?h control ?app})
-  (when (not (co-present @self ?out)))
+  (when (none {?out location (any {@self location}).target}))
   (effects (debug-print "RCP_P14")))

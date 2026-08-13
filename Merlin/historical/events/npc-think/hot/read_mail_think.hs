@@ -14,19 +14,18 @@
 
 (include "../../../definitions/roles.hs")
 
-; DRIVER - the daily post: at home, read the home mail once a day. hsim runs ONE
-; representative day per monthly window, so a pure time pulse never re-wakes (it goes
-; dark after the first fire); the recurring drive is the worship shape - a (cooldown ..)
-; re-checks the urge each window and a recency fire-gate holds it while due. The gate is
-; the elapsed-days test on the last SUCCESSFUL read: (now - the most-recent {read_mail
-; /succ} end) / a day >= 1 means not yet read today. /succ is the key - an INTERRUPTED
-; read (left the premises mid-sweep) is not counted, so a paused read still re-drives.
-; (The recruit officer's workplace read_mail is orchestrated by the recruit_staff duty.)
-(npc-think want_read_mail
-  (role ?home {@self home ?home} (building-co-present @self))
-  (when (>= (days-since-last {@self read_mail ?home /succ}) 1))
-  (utility 85)
-  (effects (debug-print "WANT_RM") (maintain-proposal {@self read_mail ?home})))
+; DRIVER - the daily home post: at home, read the home mail once a day. DISABLED: it
+; has never fired (its old (building-co-present @self) filter sourced PEOPLE in @self's
+; building, but ?home is a BUILDING, so the {@self home ?home} residual never matched).
+; The at-home form below is correct, but at utility 85 it dominates and starves mail
+; POSTING - re-enable only with a utility/cadence retune. Residents' home mail therefore
+; goes unread for now; the recruit officer's workplace read_mail rides the recruit_staff
+; duty independently.
+; (npc-think want_read_mail
+;   (role ?home {@self home ?home} {@self location.building ?home})
+;   (when (>= (days-since-last {@self read_mail ?home /succ}) 1))
+;   (utility 85)
+;   (effects (debug-print "WANT_RM") (maintain-proposal {@self read_mail ?home})))
 
 ; (1) find ?prem's mailbox once - locate wanders ?prem, and concludes at once if its
 ; whereabouts are already known (the durable location belief). One locate per premises.
@@ -40,7 +39,7 @@
 (npc-think read_mail_go
   (task {@self read_mail ?prem})
   (role ?stk [k mail_stack] {?stk location.building ?prem})
-  (when (and (not (co-present @self ?stk))
+  (when (and (none {?stk location (any {@self location}).target})
              (any {?stk location}).target: ?room))
   (utility 86)
   (effects (maintain-proposal {@self go ?room})))
@@ -49,7 +48,7 @@
 (npc-think read_mail_take
   (task {@self read_mail ?prem}:?rm)
   (role ?stk [k mail_stack] {?stk location.building ?prem})
-  (when (and (co-present @self ?stk)
+  (when (and (believes {?stk location (any {@self location}).target})
              (none {@self take_my_letters ?stk /caused_by ?rm /ever})))
   (utility 87)
   (effects (debug-print "RM_TAKE") (begin-proposal {@self take_my_letters ?stk})))

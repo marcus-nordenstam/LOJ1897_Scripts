@@ -6,8 +6,8 @@
   (rng-stream behaviour)
 
   (role ?stranger 
-       (any_human ?stranger) 
-       (co-present @self) 
+       (any_human ?stranger)
+       {?stranger location (any {@self location}).target}
        (not (personally-knows @self ?stranger))
        (not {@self SAY ? ?stranger}))
 

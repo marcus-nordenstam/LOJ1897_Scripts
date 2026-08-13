@@ -30,7 +30,7 @@
            (select (score 1) (policy roulette)))
   ; The LISTENER: a co-present person (objective room occupancy), drawn by roulette.
   (role ?ear (any_human ?ear)
-             (co-present @self)
+             {?ear location (any {@self location}).target}
              (select (score 1) (policy roulette)))
 
   ; Non-belief gates (out of the roles): don't gossip to ?x about themselves (a cross-

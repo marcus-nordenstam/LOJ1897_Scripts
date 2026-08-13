@@ -48,7 +48,7 @@
   (role @self (not {@self job.salary ?})
               (not {@self apply_for ? ? /pres}))
   (role ?ad [k job_description] (select (score 1) (policy roulette)))
-  (when (and (co-present @self ?ad)
+  (when (and (believes {?ad location (any {@self location}).target})
              (read-doc-record [k job_description] ?ad (job ?jk) (org_record ?art) (class_floor ?cf))
              (class-at-least @self ?cf)
              (none {@self apply_for ?jk ?art /fail})))
