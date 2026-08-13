@@ -63,13 +63,13 @@
 ; telepathy. Mirrors can-drink; robust to room-less venues where location IS the building
 ; (the room -> building bind form alone missed those, stranding the buy/dine lanes there).
 (define-macro at-place-kind (?kind)
-  (is-a (current-building @self) ?kind))
+  (is-a (building @self) ?kind))
 
 ; (can-drink ?actor): is ?actor AT a pub? (drinking to excess is a pub activity;
 ; the craver elsewhere must first travel to one). Folds the old C++ op -
 ; building_of_location(current_location) is-a pub.
 (define-macro can-drink (?actor)
-  (is-a (current-building ?actor) [k building pub]))
+  (is-a (building ?actor) [k building pub]))
 
 ; (open ?s): is structure ?s accessible to enter right now? A PERCEIVED-belief check -
 ; struct_status is perceived on sight ({?s struct_status [k closed]} minted at the door),

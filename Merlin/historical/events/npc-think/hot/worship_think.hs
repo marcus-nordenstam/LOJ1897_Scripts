@@ -27,7 +27,7 @@
 (npc-think worship_at_church
   (goal    {@self worship})
   (role @self (grown @self))
-  (when    (is-a (current-building @self) [k building church]))
+  (when    (is-a (building @self) [k building church]))
   (effects (maintain-proposal {@self worship})))
 
 ; CASE B - not at a church, but knows one: head to it. Inherits the worship drive. A
@@ -48,7 +48,7 @@
   (goal    {@self worship})
   (role @self (grown @self))
   (no-role [k building church])
-  (when    (and (not (is-a (current-building @self) [k building church]))
+  (when    (and (not (is-a (building @self) [k building church]))
                 (not (did-fail {@self find_building [k building church] /past}))))
   (effects (debug-print "WSEEK @self")
            (maintain-proposal {@self find_building [k building church] (current-region @self)})))

@@ -15,7 +15,7 @@
   (effects
     (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
     (create-entity [k job_description]
-        (qual location (current-building @self))): ?ad
+        (qual location (building @self))): ?ad
     (write-doc-record [k job_description] ?ad
         (org_record ?art) (job ?jk) (level [k trainee]) (salary 1)
         (class_floor (lookup occupations job ?jk class_floor [k lower]))
@@ -32,7 +32,7 @@
   (effects
     (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
     (create-entity [k application]
-        (qual location (current-building @self))): ?app
+        (qual location (building @self))): ?app
     (write-doc-record [k application] ?app
         (applicant @self) (job ?jk) (org_record ?art) (workplace ?wp))
     (set-attr ?app addressee_duty [k recruit_staff])
@@ -50,7 +50,7 @@
     (for-each ?app (held-items @self [k application]) /limit 1
       (do
         (read-doc-record [k application] ?app (applicant ?w))
-        (create-entity [k offer_letter] (qual location (current-building @self))): ?ol
+        (create-entity [k offer_letter] (qual location (building @self))): ?ol
         (set-attr ?ol addressee (attr ?w name))
         (set-attr ?ol address (home-of ?w))
         (file-in-stack ?ol ?out)
@@ -58,7 +58,7 @@
     (for-each ?app (held-items @self [k application])
       (do
         (read-doc-record [k application] ?app (applicant ?w))
-        (create-entity [k rejection_letter] (qual location (current-building @self))): ?rl
+        (create-entity [k rejection_letter] (qual location (building @self))): ?rl
         (set-attr ?rl addressee (attr ?w name))
         (set-attr ?rl address (home-of ?w))
         (file-in-stack ?rl ?out)

@@ -29,7 +29,7 @@
 ; to a post pile.
 (define-macro post-letter (?kind ?msg ?dest ?addressee)
   (do
-    (create-entity ?kind (qual location (current-building @self))): ?ltr
+    (create-entity ?kind (qual location (building @self))): ?ltr
     (set-writing ?ltr ?msg)
     (set-attr ?ltr addressee (attr ?addressee name))
     (set-attr ?ltr address ?dest)
@@ -40,7 +40,7 @@
 ; not body). Composed, addressed with ?dest's street address, and handed to the mail lane.
 (define-macro post-blank-letter (?kind ?dest ?addressee)
   (do
-    (create-entity ?kind (qual location (current-building @self))): ?ltr
+    (create-entity ?kind (qual location (building @self))): ?ltr
     (set-attr ?ltr addressee (attr ?addressee name))
     (set-attr ?ltr address ?dest)
     (begin-proposal {@self send_mail ?ltr})))

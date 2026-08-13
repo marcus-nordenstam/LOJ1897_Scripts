@@ -403,9 +403,9 @@
               (bind 1 ?found)))
     (if (and (= ?found 0)
              (at-place-kind [k building shop])
-             (current-building @self))
+             (building @self))
         (then
-          (current-building @self): ?shop
+          (building @self): ?shop
           (for-each ?room (attr-values ?shop parts [k interior_space room])
             (for-each ?it (attr-values ?room contents [k food]) /limit 1
               (do (bind ?it ?item)

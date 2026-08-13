@@ -14,7 +14,7 @@
 ; morning. It folds into the SAME stocktake completion (same grocer, same
 ; shop, same day): after validating the shelves he tops the shopfront back
 ; up to the daily cap. No world scan of the incorporation register - the
-; grocer already bound his own premises via (current-building @self) off his
+; grocer already bound his own premises via (building @self) off his
 ; {@self job.org ?org}->{?org workplace ?wp} presence; the count-then-spawn
 ; is idempotent (a full shelf is a no-op), so only the day's shortfall (sold
 ; / stolen / eaten down) is re-seeded. Replaces world-act/grocer_restock.hs.
@@ -36,9 +36,9 @@
 (npc-action {@self stocktake}
   (duration 30)
   (effects
-    (if (current-building @self)
+    (if (building @self)
         (then
-          (current-building @self): ?shop
+          (building @self): ?shop
           ; Validate the shelves against belief - every room of the shop.
           (for-each ?room (attr-values ?shop parts [k interior_space room])
             (take-stock-of ?room [k food]))

@@ -43,7 +43,7 @@
   ; village-public knowledge): an ownerless / self-owned / dead-owner scene
   ; never strikes. The action receives ?owner off its own pattern and does no
   ; reasoning of its own.
-  (current-building @self):?scene
+  (building @self):?scene
   (when (and (or (at-burgle-residence)
                  (at-own-workplace))
              ?scene
@@ -88,8 +88,8 @@
     (begin-ended-belief {@self ?method ?owner})
     (begin-ended-belief {@self steal ?owner})
     (crime-ledger-append @self ?owner ?method steal (kind ?loot) @fail)
-    (if (current-building @self)
-        (then (burglary-confrontation @self (current-building @self))))
+    (if (building @self)
+        (then (burglary-confrontation @self (building @self))))
     (caused-by ?sgoal {@self pressure ?}): ?p
     (discharge-pressure ?p 0.75)
     (end-goal {@self steal})))
