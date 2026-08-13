@@ -46,7 +46,7 @@
   ; ends {@self hold_meet_run} days-since-last resets, the (when) drops, and the goal ends.
   ; The yearly timer owns the annual cadence, so the day-threshold need only
   ; distinguish "just held" (0) from "a year on" (~365); 1 is the minimal such gate.
-  (when (>= (days-since-last @self hold_meet_run) 1))
+  (when (>= (days-since-last {@self hold_meet_run /ever}) 1))
 
   ; Latch the standing meet goal, focused on the club's articles (recovered from @self's
   ; {?club record ?art} belief, exactly as club_joining / apprenticeship recover an org's

@@ -35,7 +35,7 @@
   ; {@self worship}. The act never ends the goal.
   (cooldown 3 d)
   (role @self (grown @self))
-  (when    (and (>= (days-since-last @self worship) 3)
+  (when    (and (>= (days-since-last {@self worship /ever}) 3)
                 (>= (attr @self politeness) 0.3)))
   (utility (recency-ramp worship 3 21 50))
   (effects       (debug-print "WANTWORSHIP @self")

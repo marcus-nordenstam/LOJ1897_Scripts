@@ -341,25 +341,25 @@ relation
             # mental-only object and never an act participant); all recruiter
             # bookkeeping is minted by the *_done think rules off the act outcome.
             # post_advert: write the advert paper (target = the org's articles).
-            # submit_application: the seeker writes his application document and leaves
-            #   it at the workplace (target = the advert he answers).
             # make_offer / send_rejection: the recruiter stamps ONE application's status
             #   and posts the reply letter (target = that application).
             # accept_post: the seeker stamps his offered application `accepted`.
             # enrol: the wage-book row (target = the new hire, aux = the wage book).
             # take_down: remove a filled posting from the board.
             # prepare_application: the seeker writes the application paper from the org's
-            #   articles + the job (target = articles, aux = job); it stays on the grid at
-            #   the workplace. submit_application: mail the paper into the back-office inbox
-            #   (target = the application). gather_applications: the hiring officer's ONE
-            #   sweep of the inbox - offer the top applicant, reject the rest, destroy every
-            #   application, composing the verdict letters inline (target = the org's
-            #   articles). take_post: the offered seeker enrols himself on the register
-            #   (target = articles, aux = the job).
+            #   articles + the job (target = articles, aux = job), addressed to the org's
+            #   articles with the org's WRITTEN street address; the send_mail lane posts it
+            #   and the magic mail service delivers it to the workplace inbox (no trip to
+            #   the workplace to apply). resolve_applications: the hiring officer's ONE
+            #   resolution of the applications he LIFTED from the inbox (take_my_letters'
+            #   duty scan): offer the first, reject the rest, file each verdict letter into
+            #   the outgoing pile at hand, destroy every application (target = the org's
+            #   articles, aux = the outgoing pile).
+            #   take_post: the offered seeker enrols himself on the register (target =
+            #   articles, aux = the job).
             post_advert         (motor right_hand)  (tar @excl articles_of_incorporation)  (aux ?)
             prepare_application (motor right_hand)  (tar @excl articles_of_incorporation)  (aux job)
-            submit_application  (motor right_hand)  (tar @excl application)
-            gather_applications (motor right_hand)  (tar @excl articles_of_incorporation)
+            resolve_applications (motor right_hand)  (tar @excl articles_of_incorporation)  (aux stack)
             take_post           (motor right_hand)  (tar @excl articles_of_incorporation)  (aux job)
             take_down           (motor right_hand)  (tar @excl job_description)
 
@@ -372,7 +372,8 @@ relation
             keep_looking_at_whole      (tar @excl)
 
             explore             (motor legs)              (tar @excl)
-            locate                                        (tar @excl)
+            locate                                        (tar @excl)  (aux structure)
+            wander                                        (tar @excl structure)
             
             drop                (motor right_hand)             (tar @excl object)
             # /tar ? : give targets a physical object (the motor task) or a
@@ -387,14 +388,32 @@ relation
             read                (motor eyes)  (tar @excl document)   (obs)  (belief_timeout 600)
             write               (tar @excl document)   (obs)  (belief_timeout 600)
 
-            # read_mail - THE mail-reading TASK (read_mail_think.hs). A think never
-            # touches the world: the task DRIVES (go to the stack, scan, read each
-            # held letter); the ACTIONS scan_mail / read are the only env mutators.
-            # target = the mail stack being worked. scan_mail - the dumb hands act
-            # that lifts every letter addressed to @self out of the stack into hand.
-            # scan_mail - the dumb hands act putter proposes when it putters into a
-            # room whose mail stack holds letters addressed to @self: lift them into hand.
-            scan_mail           (motor right_hand)  (tar @excl stack)   (obs)
+            # read_mail - THE mail-reading TASK (read_mail_think.hs): locate the
+            # premises' mail stack, go to it, take what is mine, read each held
+            # letter. take_my_letters - the top-of-stack sorting TASK
+            # (take_my_letters_think.hs): reason about the TOP doc's addressee
+            # (my name, or a duty I hold) and propose the dumb stack acts below,
+            # one doc at a time - stack-top uniqueness is the iterator.
+            # stack_take lifts the top doc into hand; stack_bury re-files it at
+            # the BOTTOM (attr-rotate + top re-point), exposing the next doc.
+            read_mail           (tar @excl structure)
+            take_my_letters     (tar @excl stack)
+            stack_take          (motor right_hand)  (tar @excl document)  (aux stack)  (obs)
+            stack_bury          (motor right_hand)  (tar @excl document)  (aux stack)  (obs)
+
+            # post_mail - the dumb hands act the send_mail task proposes: deposit
+            # the outgoing document ?doc into the outgoing_mail_stack @self is standing
+            # at (the act binds it by co-presence). Filing a doc INTO a pile is env
+            # mutation, so only an ACTION may do it. target = the document deposited.
+            post_mail           (motor right_hand)  (tar @excl document)  (aux stack)  (obs)
+
+            # send_mail - THE mail-POSTING task (send_mail_think.hs). A think never
+            # touches the world: the task DRIVES (locate the home's outgoing pile,
+            # go to its room, deposit ?doc via post_mail); the magic mail service
+            # then teleports the posted doc to the incoming mail_stack of the building
+            # at ?doc's written address. Non-@excl: @self may have several docs in
+            # flight. target = the document being posted.
+            send_mail           (tar document)
 
             # putter - the monthly home ROUND (putter_think.hs): re-check the rooms
             # you already KNOW ({home room room} beliefs), so perception catches

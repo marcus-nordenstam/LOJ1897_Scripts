@@ -22,8 +22,11 @@
         (workplace ?wp))
     (set-outcome {@self post_advert ?art ?jk} succ)))
 
-; SEEKER: write the application paper (left on the workplace grid; af_send mails it). It
-; copies the post / org / workplace off the org's articles (?art) + the picked job (?jk).
+; SEEKER: write the application paper (born wherever @self stands), envelope-addressed
+; to the RECRUITING DUTY (the officer's take_my_letters duty check collects by it)
+; with the org's WRITTEN street address, so the magic mail service delivers it to the
+; workplace inbox once af_send hands it to the send_mail lane. Copies post / org /
+; workplace off ?art + ?jk.
 (npc-action {@self prepare_application ?art ?jk}
   (duration 20)
   (effects
@@ -32,16 +35,35 @@
         (qual location (current-building @self))): ?app
     (write-doc-record [k application] ?app
         (applicant @self) (job ?jk) (org_record ?art) (workplace ?wp))
+    (set-attr ?app addressee_duty [k recruit_staff])
+    (set-attr ?app address ?wp)
     (set-outcome {@self prepare_application ?art ?jk} succ)))
 
-; SEEKER: mail the finished application into the org's back-office inbox (de-grids it into
-; the mail pile). The paper's own workplace field names the premises.
-(npc-action {@self submit_application ?app}
-  (duration 10)
+; RECRUITER: resolve the held application batch (lifted from the office inbox by the
+; take_my_letters duty scan). The FIRST held application gets the offer, the rest
+; rejections; each verdict letter is a typed blank signal addressed to the applicant
+; with his home as the written destination, filed into the outgoing pile ?out at
+; hand; every application is destroyed so nothing accumulates.
+(npc-action {@self resolve_applications ?art ?out}
+  (duration 30)
   (effects
-    (read-doc-record [k application] ?app (workplace ?wp))
-    (file-in-stack ?app (room-of ?wp [k back_office]))
-    (set-outcome {@self submit_application ?app} succ)))
+    (for-each ?app (held-items @self [k application]) /limit 1
+      (do
+        (read-doc-record [k application] ?app (applicant ?w))
+        (create-entity [k offer_letter] (qual location (current-building @self))): ?ol
+        (set-attr ?ol addressee (attr ?w name))
+        (set-attr ?ol address (home-of ?w))
+        (file-in-stack ?ol ?out)
+        (destroy-entity ?app)))
+    (for-each ?app (held-items @self [k application])
+      (do
+        (read-doc-record [k application] ?app (applicant ?w))
+        (create-entity [k rejection_letter] (qual location (current-building @self))): ?rl
+        (set-attr ?rl addressee (attr ?w name))
+        (set-attr ?rl address (home-of ?w))
+        (file-in-stack ?rl ?out)
+        (destroy-entity ?app)))
+    (set-outcome {@self resolve_applications ?art ?out} succ)))
 
 ; SEEKER: take up the offered post - write his own row onto the wage book (?jk from the
 ; still-running apply_for). Reading his row back (tup_read_book) realizes employment.

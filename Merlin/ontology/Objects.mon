@@ -283,12 +283,18 @@ object (+ obs)
                 for_sale_listing_stack
                 for_lease_listing_stack
                 title_deed_stack
-                # Per-premises mail pile (ONE in each home's mail room, one
-                # inside each hiding-spot cache): letters file in on delivery
-                # and stay put - the pile IS the correspondence record.
+                # Per-premises INCOMING mail pile (ONE in each home's mail room,
+                # one inside each hiding-spot cache): letters land here on
+                # delivery and stay put - the pile IS the correspondence record.
                 # Read-state is each reader's own {@self read <letter>}
                 # act-memory, not a spatial move.
                 mail_stack
+                # Per-building OUTGOING mail pile (ONE per building, seeded at
+                # world setup). A resident/officer posts a letter by depositing
+                # it here (post_mail); the magic mail service drains every
+                # outgoing pile each morning and teleports each letter to the
+                # incoming mail_stack of the building at its written address.
+                outgoing_mail_stack
             row
         sporting_gear
             ball

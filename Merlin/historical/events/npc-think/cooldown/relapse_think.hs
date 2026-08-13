@@ -25,7 +25,7 @@
   ; The nearest pub the NPC KNOWS (role-cast; no known pub -> no fire).
   (role ?pub [k building pub] (select (score (near @self ?pub)) (policy roulette)))
   ; A dependent, a drink already ~due (short fuse - he relapses fast).
-  (when (>= (days-since-last @self drink) 1))
+  (when (>= (days-since-last {@self drink /ever}) 1))
   ; High pull: distress + weak restraint drive, piety/belonging resist (bounded,
   ; never to zero). Ramps fast, capped high enough to be a near-daily draw but
   ; still short of work / sleep.
@@ -33,6 +33,6 @@
                       (+ 0.6 (* 0.6 (- 1 (attr @self industriousness))))
                       (- 1.3 (* 0.6 (piety)))
                       (- 1.3 (* 0.6 (belonging)))) 1.6)
-              (min (* (days-since-last @self drink) 5) 45)))
+              (min (* (days-since-last {@self drink /ever}) 5) 45)))
   (effects       (begin-goal {@self drink}))
   (cease-effects (end-goal   {@self drink})))

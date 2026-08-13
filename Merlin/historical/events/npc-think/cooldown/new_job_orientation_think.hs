@@ -39,7 +39,7 @@
   ; so days-since resets to 0, the (when) drops, and the goal ends after one read (no re-read
   ; storm). The cooldown + chance re-arm the periodic re-read, so new orgs are still picked up.
   (when (and (>= (years-old @self) 12)
-             (>= (days-since-last @self orient) 1)
+             (>= (days-since-last {@self orient /ever}) 1)
              (latch-eval (chance 0.3))))
 
   (effects       (begin-goal {@self orient}))

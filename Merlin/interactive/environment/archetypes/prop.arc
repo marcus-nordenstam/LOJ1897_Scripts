@@ -34,6 +34,13 @@ archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
     # the letter learns {letter addressee <person>} on sight (the envelope), but
     # NOT the message - reading it is a separate act.
     "addressee"
+    "addressee_duty"
+    # The written destination street address on a letter (the envelope): the road
+    # it fronts plus the house number. The sender copies these from the addressee's
+    # building; the magic mail service reverse-maps (road, number) -> building to
+    # route the letter to that building's incoming mail_stack.
+    "address"
+    "address_number"
     "in_stack"
     # If prop is in a stack, obb is set to _
     "obb"

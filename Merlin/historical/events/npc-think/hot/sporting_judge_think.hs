@@ -35,7 +35,7 @@
 (npc-think meet_judged
   (role @self (believes {@self judge_declare ?winner ? /succ}))
   (role ?r2 {?r2 race_result ?})
-  (when (< (days-since-last @self judge_declare) 1))
+  (when (< (days-since-last {@self judge_declare /ever}) 1))
   (effects
     (for-each ?rb (every {? race_result ?})
       (do

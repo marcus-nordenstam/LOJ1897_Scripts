@@ -58,45 +58,47 @@
 
 ; === apply_for sub-tasks: write + mail the application =============================
 ; The "already prepared" signal is the prepare_application ACT's own /succ outcome, keyed
-; on THIS apply_for's (articles, job) - so it gates the go/write rungs off after one paper,
-; and being per-(art,jk) it never leaks to a later apply_for. The finished paper sits on
-; the grid at the workplace (writing needs no hand; only READING needs holding) until
-; af_send mails it into the inbox.
+; on THIS apply_for's (articles, job) - so it gates the write rung off after one paper, and
+; being per-(art,jk) it never leaks to a later apply_for. The seeker writes the paper
+; wherever he stands, stamps it with the org's WRITTEN address, and hands it to the mail
+; lane; the magic mail service delivers it to the workplace inbox. No trip to the workplace.
 
-; go to the org's workplace to write + mail
-(npc-think af_go
+; go HOME to write + post the application (picked at the board, written + mailed at home).
+(npc-think apply_for_gohome
   (task {@self apply_for ?jk ?art})
+  (role ?home {@self home ?home})
   (when (and (none {@self prepare_application ?art ?jk /succ})
-             (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
-             (not (in-building ?wp))))
+             (not (in-building ?home))))
   (utility 74)
-  (effects (maintain-proposal {@self enter ?wp})))
+  (effects (maintain-proposal {@self enter ?home})))
 
-; at the workplace in business hours: write the application (created on the grid)
-(npc-think af_write
+; write the application at HOME (where @self also posts it). prepare_application stamps
+; it with the org's building as the destination; the mail lane then delivers it there.
+(npc-think apply_for_write
   (task {@self apply_for ?jk ?art})
+  (role ?home {@self home ?home})
   (when (and (none {@self prepare_application ?art ?jk /succ})
-             (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
-             (in-building ?wp)
-             (>= (now-hour) 9)
-             (<= (now-hour) 16)))
+             (in-building ?home)))
   (utility 75)
   (effects (maintain-proposal {@self prepare_application ?art ?jk})))
 
-; the finished paper is co-present (on the workplace grid): mail it into the inbox. Once
-; filed it de-grids into the pile, so it is no longer co-present and this rung falls.
-(npc-think af_send
+; the finished application -> hand it to the mail lane (send_mail_think posts it from
+; @self's home outgoing pile; the magic service delivers it to the org's building by
+; address). ONE posting at a time via the lock; the post_mail act's /succ bars a
+; posted paper from ever being re-mailed.
+(npc-think apply_for_send
+  (lock-rule)
   (task {@self apply_for ?jk ?art})
   (role ?app [k application] (select (policy first-match)))
-  (when (and (co-present @self ?app)
-             (read-doc-record [k application] ?app (find applicant @self))))
+  (when (and (read-doc-record [k application] ?app (find applicant @self))
+             (none {@self post_mail ?app ? /succ})))
   (utility 76)
   (effects (debug-print "JS_SEND")
-           (maintain-proposal {@self submit_application ?app})))
+           (begin-proposal {@self send_mail ?app})))
 
 ; === the verdict (read, held, in the morning post) ==================================
 ; An OFFER: take up the post (a sub-task carrying the same job + articles as apply_for).
-(npc-think af_take_up
+(npc-think apply_for_take_up
   (task {@self apply_for ?jk ?art})
   (role ?ltr [k offer_letter] {@self read ?ltr /ever})
   (utility 77)
@@ -105,13 +107,13 @@
 
 ; A REJECTION: conclude the apply_for /fail - the /fail conclusion IS the re-application
 ; memory (the pick excludes this job+org forever after).
-(npc-think af_rejected
+(npc-think apply_for_rejected
   (task {@self apply_for ?jk ?art}:?af)
   (role ?ltr [k rejection_letter] {@self read ?ltr /ever})
   (effects (set-outcome ?af fail)))
 
 ; === take_up_post sub-task: go to the workplace and take the post ===================
-(npc-think tup_go
+(npc-think take_up_post_go
   (task {@self take_up_post ?jk ?art})
   (when (and (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (not (in-building ?wp))))
@@ -120,7 +122,7 @@
 
 ; at the workplace: enrol himself on the wage book (the hire is realized by taking it up).
 ; ?jk rides straight off the take_up_post task gate.
-(npc-think tup_take
+(npc-think take_up_post_take
   (task {@self take_up_post ?jk ?art})
   (when (and (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (in-building ?wp)
@@ -131,7 +133,7 @@
   (effects (maintain-proposal {@self take_post ?art ?jk})))
 
 ; POST-ACT: read his own wage-book row (level) -> the full job object (hire-beliefs).
-(npc-think tup_read_book
+(npc-think take_up_post_read_book
   (task {@self take_up_post ?jk ?art})
   (role ?reg [k employee_register] (select (policy first-match)))
   (when (and (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
@@ -142,19 +144,20 @@
 ; conventions' twin-outcome rule), and the chain concludes BOTTOM-UP: the child
 ; stamps off the world signal (job.salary), and the child's /succ IS the parent's
 ; conclusive signal below - no race with the parent's gate-fall withdrawal.
-(npc-think tup_succeeded
+(npc-think take_up_post_succeeded
   (task {@self take_up_post ?jk ?art}:?tup)
   (role @self {@self job.salary ?})
   (effects (debug-print "TUP_SUCC art=?art")
            (set-outcome ?tup succ)))
 
 ; === apply_for OUTCOME: the take-up concluded /succ -> employed -> succ =============
-(npc-think af_succeeded
+(npc-think apply_for_succeeded
   (task {@self apply_for ?jk ?art}:?af)
   (role @self (believes {@self take_up_post ?jk ?art /succ}))
   (effects (set-outcome ?af succ)))
 
-; === the verdict letter is read by the putter round (putter_think.hs) ===
-; The morning post is no longer read inline here: puttering into the home mail room
-; scans @self's addressed letters into hand and reads each held one (a folded chore).
-; The verdict rungs above just consume the resulting {@self read ?ltr /ever} act-memory.
+; === the verdict letter is read by the daily read_mail round (read_mail_think.hs) ===
+; The morning post is not read inline here: want_read_mail walks @self to the home
+; mail stack, take_my_letters lifts the addressed letters into hand, and each held
+; one is read. The verdict rungs above just consume the resulting
+; {@self read ?ltr /ever} act-memory.

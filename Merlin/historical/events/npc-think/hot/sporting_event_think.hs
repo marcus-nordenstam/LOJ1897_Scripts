@@ -57,7 +57,7 @@
 ; the judging the same day.
 (npc-think want_judge
   (role ?racer {?racer race_result ?})
-  (when (>= (days-since-last @self judge_declare) 1))
+  (when (>= (days-since-last {@self judge_declare /ever}) 1))
   (effects       (begin-goal {@self judge_meet}))
   (cease-effects (end-goal   {@self judge_meet})))
 

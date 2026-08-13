@@ -8,7 +8,7 @@
 ; lane). Perf: most passes skip on the days-since test.
 (define-macro drink-due (?actor)
   (and (not (= (any {?actor craving}).target [k alcohol]))
-       (>= (days-since-last ?actor drink) 3)))
+       (>= (days-since-last {?actor drink /ever}) 3)))
 
 ; (drink-drive ?actor): the drink UTILITY - a drinking PROPENSITY (low industriousness =
 ; disinhibition, high withdrawal = self-medication, capped) times a days-since ramp
@@ -20,4 +20,4 @@
   (* (min (+ 0.35
              (* 0.9 (- 1 (attr ?actor industriousness)))
              (* 0.8 (attr ?actor withdrawal))) 1.5)
-     (min (* (days-since-last ?actor drink) 2) 30)))
+     (min (* (days-since-last {?actor drink /ever}) 2) 30)))

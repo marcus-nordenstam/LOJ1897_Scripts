@@ -1,42 +1,56 @@
 ; ----------------------------------------------------------------------------
-; mail_macros.hs - letter delivery + the mail-room resolver, as define-macros.
+; mail_macros.hs - composing + POSTING outgoing mail, as define-macros.
 ;
-; These replace the C++ mail-delivery content (spawn-letter / mail-space ops and
-; the read_pending_mail window pass). Delivery is now composed in .hs from the
-; atomic, content-free ops (create-entity / set-writing / set-attr / file-in-stack /
-; room-of); the room-kind preference lives HERE, not baked into the engine.
+; The mail model: a sender COMPOSES an addressed letter and hands it to the
+; send_mail posting lane (send_mail_think.hs), which walks @self to a room
+; holding an outgoing_mail_stack and deposits it. The magic mail service
+; (deliver_posted_mail, engine) then drains every building's outgoing pile each
+; morning and teleports each letter to the incoming mail_stack of the building at
+; its WRITTEN address (address road + address_number). The addressee reads it at
+; their next home round. No instant materialize-at-destination.
 ;
-; SPATIAL MODEL: `home` targets the BUILDING directly (place_macros.hs); a premises'
-; mail pile lives in its mail room (hallway preferred, else living_room, else kitchen).
-; The pile is created + sized on demand by the stack-filing seam (push-driven geometry).
+; The covert INTERCEPTION path (send-covert-letter / route_covert_letter) is a
+; separate model (couriers, prying staff) and does NOT ride this service.
 ; ----------------------------------------------------------------------------
 
-; (mail-space ?premises): the mail room of ?premises where its mail pile lives -
-; the first present of hallway / living_room / kitchen (else the premises' first
-; room, else the premises itself). The .hs-authored room-kind preference the old
-; C++ (mail-space) op hardcoded.
+; (mail-space ?premises): the INCOMING mail room of ?premises - where the magic mail
+; service lands delivered letters and where a resident/officer READS them. The first
+; present of hallway / living_room / kitchen (else the premises' first room, else the
+; premises itself) - the same resolution the engine's mail_space_of uses to deliver, so
+; a reader querying (mail-pile (mail-space ?p)) finds exactly what the service dropped.
 (define-macro mail-space (?premises)
   (room-of ?premises [k hallway] [k living_room] [k kitchen]))
 
-; (post-letter [k <kind>] <msg> ?premises ?addressee): materialize a <kind> letter
-; carrying <msg> in ?premises' mail pile, addressed to ?addressee. The addressee is
-; the observable envelope tag the morning-post read gates on, so ONLY ?addressee
-; reads it (the household's other residents leave it alone). The .hs delivery
-; primitive that replaced the C++ spawn-letter op.
-(define-macro post-letter (?kind ?msg ?premises ?addressee)
+; (post-letter [k <kind>] <msg> ?dest ?addressee): compose a <kind> letter carrying
+; <msg>, addressed to ?addressee's NAME (the envelope tag the reader compares), its destination
+; stamped as ?dest (the DESTINATION building - e.g. (home-of ?target)); then hand it to
+; the send_mail posting lane (send_mail_think.hs). The magic mail service routes it to ?dest's mail room by
+; that written destination. The letter is born where @self stands, so @self can carry it
+; to a post pile.
+(define-macro post-letter (?kind ?msg ?dest ?addressee)
   (do
-    (create-entity ?kind (qual location (mail-space ?premises))): ?ltr
+    (create-entity ?kind (qual location (current-building @self))): ?ltr
     (set-writing ?ltr ?msg)
-    (set-attr ?ltr addressee ?addressee)
-    (file-in-stack ?ltr (mail-space ?premises))))
+    (set-attr ?ltr addressee (attr ?addressee name))
+    (set-attr ?ltr address ?dest)
+    (begin-proposal {@self send_mail ?ltr})))
 
-; (plant-letter [k <kind>] <msg> ?premises): the UNADDRESSED sibling of post-letter -
-; a letter left in ?premises' pile with no addressee, so the morning-post read skips
-; it (nobody is meant to receive it automatically). For a killer's kept forged draft
-; planted as discoverable evidence in his own home, or an institutional filing (a
-; crime report at a police station) no resident reads.
+; (post-blank-letter [k <kind>] ?dest ?addressee): like post-letter but with NO written
+; body - a letter whose verdict IS its KIND (offer_letter / rejection_letter, read by kind
+; not body). Composed, addressed with ?dest's street address, and handed to the mail lane.
+(define-macro post-blank-letter (?kind ?dest ?addressee)
+  (do
+    (create-entity ?kind (qual location (current-building @self))): ?ltr
+    (set-attr ?ltr addressee (attr ?addressee name))
+    (set-attr ?ltr address ?dest)
+    (begin-proposal {@self send_mail ?ltr})))
+
+; (plant-letter [k <kind>] <msg> ?premises): leave an UNADDRESSED <kind> letter
+; carrying <msg> at ?premises - a killer's kept forged draft as discoverable evidence
+; in his own home, or an institutional filing (a crime report at a police station) no
+; resident reads. NOT mailed: no address is written, so the magic service never routes
+; it; it simply sits at ?premises for a later search / detective to find.
 (define-macro plant-letter (?kind ?msg ?premises)
   (do
-    (create-entity ?kind (qual location (mail-space ?premises))): ?ltr
-    (set-writing ?ltr ?msg)
-    (file-in-stack ?ltr (mail-space ?premises))))
+    (create-entity ?kind (qual location ?premises)): ?ltr
+    (set-writing ?ltr ?msg)))

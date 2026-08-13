@@ -21,11 +21,11 @@
   (role @self (grown @self))
   ; The nearest church the NPC KNOWS (role-cast; no known church -> no fire).
   (role ?venue [k building church] (select (score (near @self ?venue)) (policy roulette)))
-  (when (>= (days-since-last @self give_alms) 20))
+  (when (>= (days-since-last {@self give_alms /ever}) 20))
   ; compassion x a slow days-since ramp, capped low (rare deep-idle draw); the
   ; uncompassionate stay below every routine act, so they never give.
   (utility (* (attr @self compassion)
-              (min (* (days-since-last @self give_alms) 0.8) 25)))
+              (min (* (days-since-last {@self give_alms /ever}) 0.8) 25)))
   (effects
     (debug-print "TRACE-CHARITABLE venue=?venue")
     (if (in-building ?venue)

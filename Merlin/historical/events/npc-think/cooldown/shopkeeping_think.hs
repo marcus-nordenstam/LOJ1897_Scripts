@@ -24,7 +24,7 @@
   ; drops and the falling edge ends the goal. The monthly timer owns the cadence
   ; (one representative day per month), so the day-threshold need only distinguish "done this
   ; month" (0) from "a month on"; 1 is the minimal such gate. The act never ends the goal.
-  (when (>= (days-since-last @self stocktake) 1))
+  (when (>= (days-since-last {@self stocktake /ever}) 1))
 
   (effects       (begin-goal {@self stocktake}))
   (cease-effects (end-goal   {@self stocktake})))

@@ -22,7 +22,7 @@
   (cooldown 15 d)
   (role @self (old_human @self)
               {@self repute [k disreputable]})   ; derive-maintained band - cached
-  (when    (>= (days-since-last @self worship) 15))
-  (utility (min (* (days-since-last @self worship) 2) 40))
+  (when    (>= (days-since-last {@self worship /ever}) 15))
+  (utility (min (* (days-since-last {@self worship /ever}) 2) 40))
   (effects       (begin-goal {@self worship}))
   (cease-effects (end-goal   {@self worship})))

@@ -2,7 +2,7 @@
 ; The GAMBLING lane (B4 pressure model). Two thinks:
 ;   gamble_urge (drive): gambling is a VICE, so its pressure is ADDICTION-driven,
 ;     not "overdue"-driven (a man who never gambled feels no pull). A 10-day cooldown
-;     re-checks the urge; the (days-since-last @self play_game) fire-gate mints the
+;     re-checks the urge; the (days-since-last {@self play_game /ever}) fire-gate mints the
 ;     standing {@self play_game} drive only when genuinely due; the utility is
 ;     susceptibility (low industriousness) x an amplifier that starts tiny - a rare
 ;     deep-idle ONSET draw - and SPIRALS with gambling_addiction, x a days-since-last
@@ -40,11 +40,11 @@
   ; re-rolls it (it re-rolls each window until it lands). This gate is load-bearing: WITHOUT
   ; rate-limiting the first flutter here every adult would take a first gamble and the whole
   ; town would spiral into addiction.
-  (when (and (>= (days-since-last @self play_game) 10)
+  (when (and (>= (days-since-last {@self play_game /ever}) 10)
              (or (> (attr @self gambling_addiction) 0)
                  (latch-eval (chance (* 0.02 (- 1 (attr @self industriousness))))))))
   (utility (* (- 1 (attr @self industriousness))                    ; susceptibility (0 = disciplined)
               (+ 2 (* 22 (attr @self gambling_addiction)))          ; onset 2 -> morbid 24 (below leisure)
-              (min (* (days-since-last @self play_game) 0.04) 1.0))) ; slow craving modulator [0,1]
+              (min (* (days-since-last {@self play_game /ever}) 0.04) 1.0))) ; slow craving modulator [0,1]
   (effects       (begin-goal {@self play_game}))
   (cease-effects (end-goal   {@self play_game})))

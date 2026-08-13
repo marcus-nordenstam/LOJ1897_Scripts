@@ -52,7 +52,10 @@ attr "in_stack" (type entity) (entity "stack") (spec-attr in-stack) (per obs)
 # addressee is visible on sight, so a mind that observes the letter internalizes
 # {letter addressee <person>} - WITHOUT learning the message (that needs reading).
 # The role-based mail-reading binds a letter via this belief.
-attr "addressee" (type entity) (per obs) (auto-percept) (hsim-percept)
+attr "addressee" (type name) (per obs) (auto-percept) (hsim-percept)
+# The DUTY a document is addressed to ("To the Recruiting Officer") - the office
+# envelope line, matched against the reader's own duty_to aux by take_my_letters.
+attr "addressee_duty" (type kind) (per obs) (auto-percept) (hsim-percept)
 
 # Conditions & properties. Conceptual: kind-typed; @excl lives on the concept.
 # condition is hsim-perceptible: liveness (alive/dead) is visible on sight, so a
@@ -256,7 +259,7 @@ attr "stack_label" (type str) (per obs) (auto-percept) (state-flags-tar @excl)
 # whole correspondence history, and the police station's report archive holds
 # every crime report ever filed (128 filled by sim-year 12 of a 20yr run).
 attr "items" (type entity array 512) (per obs)
-attr "top" (type entity) (per obs) (state-flags-tar @excl)
+attr "top" (type entity) (per obs) (auto-percept) (hsim-percept) (state-flags-tar @excl)
 
 # Weather (region)
 attr "rain" (type kind heavy) (per obs) (auto-percept)

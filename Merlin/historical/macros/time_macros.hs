@@ -40,6 +40,15 @@
       (then (+ (- (* ?end 60) (now-min)) 1440))
       (else (- (* ?end 60) (now-min)))))
 
+; Elapsed days since the most recent ?what ended: ONE recall (highest by interval end),
+; its .end captured and reused - both it and now on the absolute-seconds scale, over a
+; day. No match -> the capture is @fail and it reads as 36500 (never done). The condition
+; capture is nameable in the else because the if threads its binds into the branches.
+(define-macro days-since-last (?what)
+  (if (= @fail (highest /end ?what).end:?last_end)
+    (then 36500) ; 100 years in days - never done
+    (else (/ (- (now-abs-seconds) (abs-seconds ?last_end)) 86400))))
+
 ; (work-hours-today-label): the {job <label> start end} shift-belief label for
 ; today's weekday. Folds the old C++ 7-entry map into a (lookup) over the
 ; weekday_hours_label table (lookup_tables.hs).
@@ -79,3 +88,4 @@
 (define-macro job-tenure (?who)
   (- (year (date_now))
      (year (any {(any {?who job}).target level}).start)))
+
