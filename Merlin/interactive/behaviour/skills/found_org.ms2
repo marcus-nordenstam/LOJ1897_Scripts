@@ -81,19 +81,19 @@ rule
 # "John Smith's property includes the building at '14 Victoria Ave'"
 #
 # Which can be written compactly as follows, taking full advantage of the ontology, which tells us:
-# (1) the target of the 'building' relation is expected to be a building
+# (1) the target of the 'owns_building' relation is expected to be a building
 # (2) the subject of the 'property' relation is expected to be a person or organisation, and
-#     the hstr-list [John Smith] contains no terms used to name an organisation, so it must be a person. 
-{(property [n John Smith]) building ~[n 14 Victoria Ave]}
+#     the hstr-list [John Smith] contains no terms used to name an organisation, so it must be a person.
+{(property [n John Smith]) owns_building ~[n 14 Victoria Ave]}
 
 # Rephrased as: the property of John Smith, born on Apr-18-1897, includes the building at "14 Victoria Ave"
-{(property (o [n John Smith] [date Apr-18-1897])) building ~[14 Victoria Ave]}
+{(property (o [n John Smith] [date Apr-18-1897])) owns_building ~[14 Victoria Ave]}
 
 # Expressing the same information as two separate sentences:
 [
-    (property (o [n John Smith] [date Apr-18-1897]))  # John Smith, born on April 18, 1897, has/owns property. 
-    {@it building ~[14 Victoria Ave]}              # It includes "14 Victoria Ave".
-] 
+    (property (o [n John Smith] [date Apr-18-1897]))  # John Smith, born on April 18, 1897, has/owns property.
+    {@it owns_building ~[14 Victoria Ave]}              # It includes "14 Victoria Ave".
+]
 
 # The own/owner functions can work as follows:
 # If it is known that someone owns something, we are done (check if a matching event exists)

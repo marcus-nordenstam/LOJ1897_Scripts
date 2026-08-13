@@ -77,7 +77,7 @@
             (* 0.20 (any {@self spouse ?} (out int)))
             (* 0.06 (min (count (every {@self child ?})) 4))
             (* 0.20 (any {@self job ?} (out int)))
-            (* 0.15 (>= (count (every {@self building ?})) 1))
+            (* 0.15 (>= (count (every {@self owns_building ?})) 1))
             (* 0.10 (>= (count (every {@self member_of ?})) 1))) 0 1))
 
 ; diligence - the industriousness aspect.

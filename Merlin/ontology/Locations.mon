@@ -11,7 +11,16 @@
 # comings-and-goings compress into the semantic gist while flashbulb-buffed
 # whereabouts (intensity-stamped by a co-occurring high-emotion event) survive
 # as the peak exemplar - the detective-relevant "I remember where I was".
-location (+ obs) (tar ? @excl) (theme frequent)
+location (+ obs) (state) (tar ? @excl) (theme frequent) (whereabouts)
+
+# `building` used as a belief label is spatial CONTAINMENT: {<space> building
+# <building>} = the space is enclosed by that building (the reverse of the
+# {<building> room <space>} skeleton link). The spatial index maps space ->
+# building off it. `building` is also a noun kind (Objects.mon); this explicit
+# (state) entry overrides the auto-generated noun-state placeholder in place to
+# attach the (containment) flag - the noun kind is untouched. Ownership was split
+# off to `owns_building` (Concepts.mon) so this label carries only the spatial sense.
+building (state) (tar building @excl) (containment)
 
 # `frequent` is location's semantic-summary label: the themed fuse folds a
 # subject's ended {X location <place>} episodes into an ongoing

@@ -1230,9 +1230,12 @@ concept
         master              (sub human)  (noun) (tar human @excl)
 
     # Property holdings: a holder's owned buildings and land are recorded as
-    # repeated singular {holder building <building>} / {holder land <land>}
-    # beliefs. `building` (Objects.mon) and `land` (Spaces.mon) are nouns and
-    # so are already states, so no relation is declared here.
+    # repeated singular {holder owns_building <building>} / {holder land <land>}
+    # beliefs. `land` (Spaces.mon) is a noun and so is already a state; owned
+    # buildings need an explicit relation because the `building` label is reserved
+    # for whereabouts ({X building <bldg>} = X is located in the building, for any
+    # subject) - so ownership is a distinct `owns_building` label declared here.
+    owns_building       (sub human|org)  (tar building)
 
     # States describing an organisation (subject is the org mental object).
     # employee is repeated once per worker; record points at the org's
