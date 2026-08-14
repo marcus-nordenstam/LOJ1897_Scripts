@@ -379,6 +379,14 @@ attr "contents" (type entity array 256) (imperceptible)
 # Instance
 attr "prototype" (type entity) (spec-attr prototype) (imperceptible)
 
+# /variant - the entity's kind-variation identity: WHICH registered variation
+# of its kind this entity is (see the kind-variation registry in t_ontology).
+# An engine underpinning, never conscious content: stamped by SPAWN / .mwo
+# apply, read by the GRYM presenter to pick the presentation asset. NPCs
+# reason about kinds, never variants, so it must never transmit into observer
+# minds. Absent = the kind's default variation.
+attr "variant" (type str) (imperceptible)
+
 # Navigation v2 (see Merlin/Docs/nav_v2_plan.md)
 # /is_nav_passage - runtime gate: 1 = passable, 0 = dormant. Action handlers
 #   flip this on the opening entity (door/gate/large_window). nav_graph

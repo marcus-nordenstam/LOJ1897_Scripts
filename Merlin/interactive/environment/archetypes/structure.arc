@@ -3,6 +3,8 @@
 # archetype instead - that one carries a container_id.
 archetype "structure" (cap 256) (per obs) (always-visible) (children-occupy-env-grid)
 {
+    # Kind-variation identity (see attr/common.arc).
+    "variant"
     "birth_date"
     # Name is auto-perceived so NPCs know what they're at.  The ext-mech
     # override re-enables visual perception of the structure's name (common.arc

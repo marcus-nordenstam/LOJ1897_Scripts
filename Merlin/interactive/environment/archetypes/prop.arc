@@ -8,6 +8,8 @@
 # furnished, so the reservation is sized for the furnished world.
 archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
 {
+    # Kind-variation identity (see attr/common.arc).
+    "variant"
     "birth_date"
     "color"
     # Some props are broken, some are whole, etc.

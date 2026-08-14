@@ -3,6 +3,8 @@
 # (PR-evi-C 2026-05-25, migrated from the retired `tainted_with` attr).
 archetype "food" (cap 8192) (per obs) (occupies-env-grid) (non-occluder)
 {
+    # Kind-variation identity (see attr/common.arc).
+    "variant"
     "controlled_by"
     # Where the morsel sits - seam-derived from the OBB like every prop.
     # Perceptible: the room walk mints the {<morsel> location <room>}

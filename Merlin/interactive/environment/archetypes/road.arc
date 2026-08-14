@@ -4,6 +4,8 @@
 # interactive sim - NPCs may navigate by road name.
 archetype "road" (cap 128) (per obs) (always-visible) (non-occluder)
 {
+    # Kind-variation identity (see attr/common.arc).
+    "variant"
     # Roads are spline-shaped, not OBB-shaped: their spatial geometry is the
     # CV polyline in /spline_geometry, not a single bounding box. The
     # archetype-parse-time mutex (PopulationStorage::_activateAttrs) forbids

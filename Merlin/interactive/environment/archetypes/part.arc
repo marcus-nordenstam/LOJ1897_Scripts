@@ -1,6 +1,8 @@
 # This can be a part of a structure OR a prop
 archetype "part" (cap 2048) (per obs)
 {
+    # Kind-variation identity (see attr/common.arc).
+    "variant"
     "birth_date"
     # Part name observable (e.g. a part of a structure or labeled prop-part).
     # ext-mech override - common.arc leaves name imperceptible for the human model.

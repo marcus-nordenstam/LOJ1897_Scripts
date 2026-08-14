@@ -2,6 +2,8 @@
 # Distinguished from `structure` (pier, bridge) by having a container_id (auto-injected in code, not listed here).
 archetype "container_structure" (cap 2048) (per obs) (always-visible) (children-occupy-env-grid)
 {
+    # Kind-variation identity (see attr/common.arc).
+    "variant"
     "birth_date"
     # Name is auto-perceived so NPCs know what building they're in.  The
     # ext-mech override (common.arc names default to imperceptible for humans)

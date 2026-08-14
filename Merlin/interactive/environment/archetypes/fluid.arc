@@ -8,6 +8,8 @@
 # what-the-drink-contains (env ground truth).
 archetype "fluid" (cap 256) (per obs) (occupies-env-grid) (non-occluder)
 {
+    # Kind-variation identity (see attr/common.arc).
+    "variant"
     "controlled_by"
     "fluid_amount"
     # Poison lacing this drink (imperceptible ground truth - see common.arc).

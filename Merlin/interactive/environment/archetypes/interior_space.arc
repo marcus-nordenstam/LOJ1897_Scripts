@@ -8,6 +8,8 @@
 # runtime spawns; the proven room-era value was 4096.
 archetype "interior_space" (cap 4096) (per obs) (always-visible) (non-occluder) (sector-coverage)
 {
+    # Kind-variation identity (see attr/common.arc).
+    "variant"
     "birth_date"
     # Name is auto-perceived so NPCs know what space they're in.  The ext-mech
     # override (was inherited as imperceptible from common.arc, where names are

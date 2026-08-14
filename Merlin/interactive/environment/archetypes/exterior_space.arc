@@ -9,6 +9,8 @@
 # P4 amenity/wild spaces + a century of runtime spawns.
 archetype "exterior_space" (cap 4096) (per obs) (always-visible) (non-occluder) (sector-coverage)
 {
+    # Kind-variation identity (see attr/common.arc).
+    "variant"
     "birth_date"
     # Name is auto-perceived so NPCs know what space they're in (e.g. "the moors",
     # "Julie's Meadow"). The ext-mech override lands perceived name beliefs in the

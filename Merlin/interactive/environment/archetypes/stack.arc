@@ -7,6 +7,8 @@
 # for decades - plus the registry stacks (a 20yr run hit 512).
 archetype "stack" (cap 2048) (per obs) (non-occluder) (occupies-env-grid)
 {
+    # Kind-variation identity (see attr/common.arc).
+    "variant"
     "birth_date"
     "stack_label"
     "items"
