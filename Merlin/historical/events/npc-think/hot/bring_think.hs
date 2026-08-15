@@ -23,12 +23,12 @@
 ; generic go task (go.hs) reaches either - enter the structure, walk into the room.
 (npc-think bring_go
   (goal {@self bring ?ware ?dest})
-  (when (not {@self location ?dest}))
+  (when (not (at_location @self ?dest)))
   (effects (maintain-proposal {@self go ?dest})))
 
 ; AT the destination: PROPOSE the put-down act (goals never propose themselves). No (utility):
 ; the proposal inherits the minting lane's drive up the /caused_by chain (like bring_go).
 (npc-think bring_at_dest
   (goal {@self bring ?ware ?dest})
-  (when {@self location ?dest})
+  (when (at_location @self ?dest))
   (effects (maintain-proposal {@self bring ?ware ?dest})))

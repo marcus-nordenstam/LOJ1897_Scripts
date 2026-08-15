@@ -154,6 +154,6 @@
   (role ?home {@self home ?home})
   (when (and (any {?home room [k kitchen]}).target: ?kitchen
              (control [k food])))
-  (utility (if {@self location ?kitchen} (then 250) (else 90)))
+  (utility (if (at_location @self ?kitchen) (then 250) (else 90)))
   (effects       (begin-goal {@self bring [k food] ?kitchen}))
   (cease-effects (end-goal   {@self bring [k food] ?kitchen})))

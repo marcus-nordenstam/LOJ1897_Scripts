@@ -29,17 +29,15 @@
 ; ROOM dest, not yet in its building -> enter the building first.
 (npc-think go_enter_room_building
   (task {@self go ?dest})
-  (role ?bldg (believes {?dest building ?bldg}))
   (when (and (is-a ?dest [k interior_space])
-             (not (in-building @self ?bldg))))
-  (effects (maintain-proposal {@self enter ?bldg})))
+             (not (in-building @self (building ?dest)))))
+  (effects (maintain-proposal {@self enter (building ?dest)})))
 
 ; ROOM dest, in its building but not standing in it -> walk to the room.
 (npc-think go_walk_room
   (task {@self go ?dest})
-  (role ?bldg (believes {?dest building ?bldg}))
   (when (and (is-a ?dest [k interior_space])
-             (in-building @self ?bldg)
+             (in-building @self (building ?dest))
              (not (at_location @self ?dest))))
   (effects (maintain-proposal {@self walk ?dest})))
 
