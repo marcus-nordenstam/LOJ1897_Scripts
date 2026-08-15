@@ -18,6 +18,6 @@
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
-  (when  (at-workplace ?wp))
+  (when  (in-building @self ?wp))
   (utility 82)
   (effects (maintain-proposal {@self stocktake})))

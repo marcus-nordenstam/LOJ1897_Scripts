@@ -32,7 +32,7 @@
         (select (policy first-match)))
   (when (none {@self explore ?bldg /pres}))
   (utility 44)
-  (effects (maintain-proposal {@self go ?room})))
+  (effects (maintain-proposal {@self walk ?room})))
 
 ; walked every known room this wander -> concluded.
 (npc-think wander_done

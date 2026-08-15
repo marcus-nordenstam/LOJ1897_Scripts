@@ -32,7 +32,7 @@
 ; never the aux, so ?end forces a (bind). That (bind) is an ONSET step: it derives today's shift
 ; hours at the fire. Wrapped in (latch-eval ...) it runs at the fire (binding ?start/?end into
 ; the stash) and is SKIPPED on the held re-check (which restores the fire-time bindings), so it
-; never re-errors on an already-bound pattern. The CONTINUOUS gates (at-workplace + in-work-hours,
+; never re-errors on an already-bound pattern. The CONTINUOUS gates (in-building @self + in-work-hours,
 ; re-read live against the stashed shift) then own the cease: the held re-check ends the
 ; goal the cycle a gate drops (shift end, or leaving the workplace).
 
@@ -41,7 +41,7 @@
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
              (believes {?org workplace ?wp})       ; ?wp binds at fire
-             (at-workplace ?wp))                    ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
+             (in-building @self ?wp))                    ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
   (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)  ; onset: derive the shift, bind ?start/?end
         (and (none {@self work ?wp /pres})
              (not (has-proposal {@self work ?wp}))
@@ -86,14 +86,15 @@
   (effects (set-outcome ?w succ)))
 
 (npc-think day_go_to_work
-  ; Shift on or imminent and not yet at the workplace: mint {@self enter ?wp} and the
-  ; generic enter chain (enter.hs) routes the travel. Ceases on arrival (at-workplace) or shift end.
+  ; Shift on or imminent and not yet at the workplace: go there. The workplace ?wp may be a
+  ; premises BUILDING (shop / office) or a ROOM (a gentleman's home study / back-office); the
+  ; generic go task (go.hs) reaches either - enter the structure, walk into the room.
   (fatigue 0)                      ; commuting to work is not a fruitless search - never fatigue-capped
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
              (believes {?org workplace ?wp})       ; ?wp binds at fire
-             (not (at-workplace ?wp)))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
+             (not (in-building @self ?wp)))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
   (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)  ; onset: derive the shift, bind ?start/?end
         (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
   (utility 80)
-  (effects       (maintain-proposal {@self enter ?wp})))
+  (effects       (maintain-proposal {@self go ?wp})))

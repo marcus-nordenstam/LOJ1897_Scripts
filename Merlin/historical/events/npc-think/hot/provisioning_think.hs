@@ -111,7 +111,7 @@
   ; The buy cap is DECIDED here (basket, larder shortfall, what is in hand)
   ; and rides the act pattern - the counter-stop body does no counting.
   (role ?home {@self household_cook ?home})
-  (when    (and (at-place-kind [k building shop])
+  (when    (and (is-a (building @self) [k building shop])
                 (any {?home room [k kitchen]}).target: ?kitchen
                 (count-believed-located [k food] ?kitchen): ?blv
                 (count-controlled @self [k food]): ?inh
@@ -154,6 +154,6 @@
   (role ?home {@self home ?home})
   (when (and (any {?home room [k kitchen]}).target: ?kitchen
              (control [k food])))
-  (utility (if (at-place ?kitchen) (then 250) (else 90)))
+  (utility (if {@self location ?kitchen} (then 250) (else 90)))
   (effects       (begin-goal {@self bring [k food] ?kitchen}))
   (cease-effects (end-goal   {@self bring [k food] ?kitchen})))

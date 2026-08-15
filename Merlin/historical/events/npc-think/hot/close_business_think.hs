@@ -41,12 +41,12 @@
 ; a proposed label, so the bare {@self close_business} goal does not promote on its own - the act
 ; runs ONLY here, ONLY once the owner has reached the premises (at-workplace). articles-building
 ; binds ?wp (the firm's premises) off ?art, the focus bound off the {@self close_business} goal - the same read the close_go routing rung uses
-; (npc-think/close_business_errand.hs), whose (not (at-workplace ?wp)) gate this arrived condition
+; (npc-think/close_business_errand.hs), whose (not (in-building @self ?wp)) gate this arrived condition
 ; negates. The (goal ...) gate supplies the /caused_by.
 (npc-think close_at_premises
   (goal {@self close_business ?art})
   (when (and (articles-building ?art ?wp)
-             (at-workplace ?wp)))
+             (in-building @self ?wp)))
   (utility 85)
   (effects (maintain-proposal {@self close_business ?art ?wp})))
 

@@ -30,4 +30,4 @@
         (not (observed ?room))
         (select (policy first-match)))
   (utility 71)
-  (effects (maintain-proposal {@self go ?room})))
+  (effects (maintain-proposal {@self walk ?room})))

@@ -124,7 +124,7 @@
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              (believes {?org workplace ?wp})       ; ?wp binds at fire
-             (at-workplace ?wp))                    ; residual gate, re-checked at the when-seam
+             (in-building @self ?wp))                    ; residual gate, re-checked at the when-seam
   (when (and (> (attr @self appetite) 0.25)
              (>= (now-hour) 12)
              (< (now-hour) 14)))
@@ -328,7 +328,7 @@
   (role @self (believes {@self starve ?, wealth ?wealth}))
   (when (and (> (attr @self appetite) 1.3)
              (> ?wealth 0.2)
-             (at-place-kind [k building shop])))
+             (is-a (building @self) [k building shop])))
   (utility (homeostatic appetite 2.0 70))
   (effects       (begin-goal {@self forage}))
   (cease-effects (end-goal   {@self forage})))
@@ -341,7 +341,7 @@
   (any {@self provisions_shop ?}).target:?shop
   (when (and (> (attr @self appetite) 1.3)
              (> ?wealth 0.2)
-             (not (at-place-kind [k building shop]))))
+             (not (is-a (building @self) [k building shop]))))
   (utility (homeostatic appetite 2.0 70))
   (effects
     (if ?shop
@@ -355,7 +355,7 @@
   (role @self (believes {@self starve ?, wealth ?wealth}))
   (when (and (> (attr @self appetite) 1.3)
              (not (> ?wealth 0.2))
-             (at-place-kind [k building shop])))
+             (is-a (building @self) [k building shop])))
   (utility (homeostatic appetite 2.0 70))
   (effects       (begin-goal {@self forage}))
   (cease-effects (end-goal   {@self forage})))
@@ -366,7 +366,7 @@
   (any {@self provisions_shop ?}).target:?shop
   (when (and (> (attr @self appetite) 1.3)
              (not (> ?wealth 0.2))
-             (not (at-place-kind [k building shop]))))
+             (not (is-a (building @self) [k building shop]))))
   (utility (homeostatic appetite 2.0 70))
   (effects
     (if ?shop
@@ -386,7 +386,7 @@
   (goal    {@self forage})
   (when    (or (control [k food])
                (at-home)
-               (at-place-kind [k building shop])))
+               (is-a (building @self) [k building shop])))
   ; ?owner stays 0 unless the mouthful is STOLEN (at a shop, no wealth) - then the
   ; shop owner is the wronged party the consume act ledgers. An empty scene
   ; (?found 0 - a stale belief a sibling already ate) proposes nothing and lets
@@ -402,7 +402,7 @@
         (then (believed-located [k food] (any {@self home}).target): ?item
               (bind 1 ?found)))
     (if (and (= ?found 0)
-             (at-place-kind [k building shop])
+             (is-a (building @self) [k building shop])
              (building @self))
         (then
           (building @self): ?shop

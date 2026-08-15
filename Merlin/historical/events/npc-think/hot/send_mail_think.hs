@@ -39,7 +39,7 @@
   (when (and (in-building ?out ?home)
              (location ?out): ?room))
   (utility 75)
-  (effects (maintain-proposal {@self go ?room})))
+  (effects (maintain-proposal {@self walk ?room})))
 
 ; standing at the pile -> deposit. The (none .. post_mail /succ) guard drops the rung
 ; the instant the paper is filed, so the maintain never re-proposes onto an

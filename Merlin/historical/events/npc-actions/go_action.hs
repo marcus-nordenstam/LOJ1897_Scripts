@@ -1,19 +1,17 @@
 ; ----------------------------------------------------------------------------
-; go - the shared DUMB TRAVEL act body: relocate the actor INTO a space (room /
-; exterior). Any lane that needs the actor somewhere it is not maintains {@self go
-; <space>} (a sub-goal of the thing it is really after - drink / worship / an errand);
-; that goal, the live leaf, promotes to go_action, which spends the travel time and
-; relocates on completion. `go` now ONLY ever targets a SPACE - reaching a building's
-; THRESHOLD is go_to_threshold_action (front-park, below), and the generic enter chain
-; (enter.hs) composes the two. The completion pass force-ends the act-belief; the
-; minter's cease-effects end the go GOAL (§5.11 principle 2 - the act is dumb, it does
-; not branch on its destination, teach, mark, or set outcomes).
+; walk - the shared DUMB TRAVEL act body: relocate the actor INTO a space (room /
+; exterior). The `go` TASK (go.hs) drives it - go reasons about the destination
+; (enter a structure, walk into a room), walk just spends the travel time and
+; relocates on completion. walk ONLY ever targets a SPACE - reaching a building's
+; THRESHOLD is go_to_threshold_action (front-park, below). The completion pass
+; force-ends the act-belief (§5.11 principle 2 - the act is dumb, it does not branch
+; on its destination, teach, mark, or set outcomes).
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
 (include "../../macros/tunables.hs")
 
-(npc-action {@self go ?dest}
+(npc-action {@self walk ?dest}
   (duration (max (go_travel_floor_min) (travel-minutes @self ?dest)))
   (effects
     (relocate @self ?dest)))

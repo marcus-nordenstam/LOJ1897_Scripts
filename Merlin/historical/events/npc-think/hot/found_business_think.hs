@@ -25,7 +25,7 @@
   ; No known bank -> the role binds nothing and found_go does not fire (the goal
   ; waits). Replaces the omniscient (venue ...) pick.
   (role ?go_dest [k building bank] (select (score (near @self ?go_dest)) (policy roulette)))
-  (when (not (at-place-kind [k building bank])))
+  (when (not (is-a (building @self) [k building bank])))
   (utility 85)
   (effects (maintain-proposal {@self enter ?go_dest})))
 
@@ -33,6 +33,6 @@
 ; its capital / articles off the standing {@self found} goal focus, so the propose is label-only.
 (npc-think found_at_bank
   (goal    {@self found})
-  (when    (at-place-kind [k building bank]))
+  (when    (is-a (building @self) [k building bank]))
   (utility 85)
   (effects (maintain-proposal {@self found})))

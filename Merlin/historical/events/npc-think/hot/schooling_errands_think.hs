@@ -21,7 +21,7 @@
   ; The school is role-cast from the schools the NPC KNOWS; nearest preferred,
   ; weighted. No known school -> no fire (the goal waits). Replaces (venue ...).
   (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
-  (when (not (at-place-kind [k building school])))
+  (when (not (is-a (building @self) [k building school])))
   (utility 35)
   (effects (maintain-proposal {@self enter ?go_dest})))
 
@@ -29,7 +29,7 @@
 (npc-think secondary_go
   (goal {@self enrol_secondary})
   (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
-  (when (not (at-place-kind [k building school])))
+  (when (not (is-a (building @self) [k building school])))
   (utility 35)
   (effects (maintain-proposal {@self enter ?go_dest})))
 
@@ -37,7 +37,7 @@
 (npc-think university_go
   (goal {@self enrol_university})
   (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
-  (when (not (at-place-kind [k building school])))
+  (when (not (is-a (building @self) [k building school])))
   (utility 35)
   (effects (maintain-proposal {@self enter ?go_dest})))
 
@@ -46,18 +46,18 @@
 ; proposes are label-only.
 (npc-think primary_at_school
   (goal {@self enrol_primary})
-  (when (at-place-kind [k building school]))
+  (when (is-a (building @self) [k building school]))
   (utility 35)
   (effects (maintain-proposal {@self enrol_primary})))
 
 (npc-think secondary_at_school
   (goal {@self enrol_secondary})
-  (when (at-place-kind [k building school]))
+  (when (is-a (building @self) [k building school]))
   (utility 35)
   (effects (maintain-proposal {@self enrol_secondary})))
 
 (npc-think university_at_school
   (goal {@self enrol_university})
-  (when (at-place-kind [k building school]))
+  (when (is-a (building @self) [k building school]))
   (utility 35)
   (effects (maintain-proposal {@self enrol_university})))

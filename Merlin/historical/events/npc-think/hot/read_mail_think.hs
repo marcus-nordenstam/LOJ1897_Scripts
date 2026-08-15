@@ -42,7 +42,7 @@
                             (not (co-present ?stk @self)))
   (when (location ?stk): ?room)
   (utility 86)
-  (effects (maintain-proposal {@self go ?room})))
+  (effects (maintain-proposal {@self walk ?room})))
 
 ; (3) co-located, not yet swept this read -> lift the letters that are mine.
 (npc-think read_mail_take

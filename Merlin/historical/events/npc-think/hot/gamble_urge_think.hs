@@ -43,5 +43,5 @@
 ; {@self play_game} goal it /causes (via the (goal ...) gate).
 (npc-think gamble_at_pub
   (goal    {@self play_game})
-  (when    (at-place-kind [k building pub]))
+  (when    (is-a (building @self) [k building pub]))
   (effects (maintain-proposal {@self play_game})))

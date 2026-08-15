@@ -38,9 +38,18 @@
     (tolerate (acquire-org-premises ?org-kind @self):?wp)
     (if ?wp
       (then
+        ; ?wp is the workplace BUILDING. The head LEARNS its rooms up front (the building
+        ; parts that are rooms): {building room <room>} + the reverse {room building}. The
+        ; founder owns the premises, so this stands in for having explored it.
+        (for-each ?room (attr-values ?wp parts [k interior_space room])
+            (begin-belief {?wp room ?room})
+            (begin-belief {?room building ?wp}))
         ; --- the org's documents (abs-native): articles + an empty register -------
-        (create-entity [k articles_of_incorporation] (qual location ?wp)): ?art
-        (create-entity [k employee_register]          (qual location ?wp)): ?reg
+        ; A document must live in a SPACE, never at the building - so seed them in one of
+        ; the workplace's rooms, which the head now knows.
+        (any {?wp room ?}).target: ?back
+        (create-entity [k articles_of_incorporation] (qual location ?back)): ?art
+        (create-entity [k employee_register]          (qual location ?back)): ?reg
         (write-doc-record [k articles_of_incorporation] ?art
             (kind ?org-kind) (founder @self) (building ?wp) (year (year)) (register ?reg)
             (name (lookup businesses org_kind ?org-kind name [n unknown])))
@@ -66,11 +75,6 @@
         (write-doc-record [k employee_register] ?reg
             (worker @self) (job ?head-role) (level [k senior]))
         (begin-belief {?wp occupant @self})
-        ; the head LEARNS the workplace's rooms (the building's `parts` that are rooms):
-        ; {building room <room>} + the reverse {room building <building>}.
-        (for-each ?room (attr-values ?wp parts [k interior_space room])
-            (begin-belief {?wp room ?room})
-            (begin-belief {?room building ?wp}))
         ; the head job object: org (job.org), seniority, work-hours. No salary (unpaid).
         (imagine-or-recall ?head-role {@self job ?job})
         (begin-belief {?job org ?org})
@@ -98,9 +102,16 @@
     (tolerate (acquire-org-premises ?club-kind @self):?wp)
     (if ?wp
       (then
+        ; ?wp is the clubhouse BUILDING. The founder LEARNS its rooms up front (owning the
+        ; premises stands in for exploring it): {building room} + the reverse {room building}.
+        (for-each ?room (attr-values ?wp parts [k interior_space room])
+            (begin-belief {?wp room ?room})
+            (begin-belief {?room building ?wp}))
         ; --- the club's documents (abs-native): articles + an empty register -----
-        (create-entity [k articles_of_incorporation] (qual location ?wp)): ?art
-        (create-entity [k employee_register]          (qual location ?wp)): ?reg
+        ; A document lives in a SPACE, never at the building - seed them in a clubhouse room.
+        (any {?wp room ?}).target: ?back
+        (create-entity [k articles_of_incorporation] (qual location ?back)): ?art
+        (create-entity [k employee_register]          (qual location ?back)): ?reg
         (write-doc-record [k articles_of_incorporation] ?art
             (kind ?club-kind) (founder @self) (building ?wp) (year (year)) (register ?reg))
 

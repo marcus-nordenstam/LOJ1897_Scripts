@@ -30,7 +30,7 @@
 (npc-think drink_at_pub
   (goal    {@self drink})
   (role @self (grown @self))
-  (when    (can-drink @self))
+  (when    (is-a (building @self) [k building pub]))
   (utility (drink-drive @self))
   (effects (maintain-proposal {@self drink})))
 
@@ -57,6 +57,6 @@
   (no-role [k building pub])
   ; Search while no pub is known and the region is not yet proven publess (find_building's /fail
   ; fires only once the whole region is covered without finding one).
-  (when    (and (not (can-drink @self))
+  (when    (and (not (is-a (building @self) [k building pub]))
                 (not (did-fail {@self find_building [k building pub] /past}))))
   (effects (maintain-proposal {@self find_building [k building pub] (current-region @self)})))

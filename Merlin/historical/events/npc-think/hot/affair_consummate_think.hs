@@ -40,7 +40,7 @@
   (effects
     (vacant-room @self ?paramour): ?room
     (debug-print "TRYST_SLIP @self para=?paramour")
-    (maintain-proposal {@self go ?room})))
+    (maintain-proposal {@self walk ?room})))
 
 ; ACT: alone in a room with the lover -> consummate. ?paramour is a live third-party
 ; lover @self BELIEVES shares his room (the location co-location role filter).

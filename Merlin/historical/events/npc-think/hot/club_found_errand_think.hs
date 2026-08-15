@@ -16,7 +16,7 @@
   ; The pub is role-cast from the pubs the NPC KNOWS; nearest preferred, weighted.
   ; No known pub -> no fire (the goal waits).
   (role ?go_dest [k building pub] (select (score (near @self ?go_dest)) (policy roulette)))
-  (when (not (at-place-kind [k building pub])))
+  (when (not (is-a (building @self) [k building pub])))
   (utility 45)
   (effects (maintain-proposal {@self enter ?go_dest})))
 
@@ -24,6 +24,6 @@
 ; club details off the standing {@self found_club} goal, so the propose is label-only.
 (npc-think found_club_at_pub
   (goal {@self found_club})
-  (when (at-place-kind [k building pub]))
+  (when (is-a (building @self) [k building pub]))
   (utility 45)
   (effects (maintain-proposal {@self found_club})))

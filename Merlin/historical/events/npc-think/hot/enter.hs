@@ -34,6 +34,6 @@
   (task {@self enter ?s})
   (when (and (at-threshold @self ?s)
              (any {?s room ?}).target: ?entry
-             (open ?s)))
+             (none {?s struct_status [k closed]})))
   (effects (debug-print "TRACE-STEPIN bld=?s room=?entry")
-           (maintain-proposal {@self go ?entry})))
+           (maintain-proposal {@self walk ?entry})))

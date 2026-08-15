@@ -37,13 +37,13 @@
 ; the steal goal is the leaf and promotes to steal_action.
 (define-macro at-burgle-residence ()
   (and (not (at-home))
-       (at-place-kind [k building residential_building])))
+       (is-a (building @self) [k building residential_building])))
 ; believes (not bind) so the effect-position call site below treats a jobless
 ; miss as plain false, never an effects abort.
 (define-macro at-own-workplace ()
   (and (believes {@self job.org ?emp})
        (believes {?emp workplace ?work})
-       (at-workplace ?work)))
+       (in-building @self ?work)))
 
 ; The theft is now the GENERIC take primitive: burgle_strike picks the loot
 ; and the wronged owner THINK-side and proposes {@self take_item ?loot ?owner};

@@ -17,7 +17,7 @@
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
-  (when (and (not (at-workplace ?wp))))
+  (when (and (not (in-building @self ?wp))))
   (utility 82)
   (effects (maintain-proposal {@self enter ?wp})))
 
@@ -29,6 +29,6 @@
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
-  (when (and (at-workplace ?wp)))
+  (when (and (in-building @self ?wp)))
   (utility 82)
   (effects (maintain-proposal {@self sack})))

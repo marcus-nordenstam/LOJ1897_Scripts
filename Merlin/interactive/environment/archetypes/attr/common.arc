@@ -357,23 +357,10 @@ attr "wounds"  (type kind array 4) (state "wound") (per obs) (auto-percept)
 attr "stains"  (type kind array 4) (state "stain") (per obs) (auto-percept)
 attr "marks"   (type kind array 4) (state "mark")  (per obs) (auto-percept)
 
-# Whereabouts - the place (building / room / space) an entity is located in.
-# The universal location label: props use it for "the building this prop sits
-# in" (evidence trails) and people use the matching belief for dated
-# where-were-you memories. Replaces the retired `at` label.
-attr "location" (type entity) (entity "structure" "container_structure" "interior_space" "exterior_space") (spec-attr location) (per obs) (auto-percept) (hsim-percept)
+# the space an entity is in
+attr "location" (type entity) (entity "interior_space" "exterior_space") (spec-attr location) (per obs) (auto-percept) (hsim-percept)
 
-# Per-building loose-item index: the inverse of `location`. The set of loose
-# props (weapons, tools, vessels, merchandise) whose `location` points at this
-# building, maintained incrementally as items move (hsim set_prop_location).
-# Lets "what is in this building" - store inventory, weapons to grab, loot to
-# case - be a direct O(1) read instead of an O(world) entity scan. Imperceptible:
-# this is env-side bookkeeping, NOT a perception source (prop knowledge is
-# delta-driven via the relocation dirty-space pass on arrival/departure plus
-# perceive_here's absence pass on return). Items remain loose entities - this is
-# a reverse lookup, not containment/hierarchy.
-# Cap 256: a whole-town gathering (church service, ~200+ souls) files every
-# attendee into ONE room's contents alongside the room's furnishings.
+# the list of "loose/mobile" entities (not parts) inside a space
 attr "contents" (type entity array 256) (imperceptible)
 
 # Instance

@@ -11,7 +11,7 @@
   ; The church is role-cast from the churches the NPC KNOWS; nearest preferred,
   ; weighted. No known church -> no fire (the goal waits). Replaces (venue ...).
   (role ?go_dest [k building church] (select (score (near @self ?go_dest)) (policy roulette)))
-  (when (not (at-place-kind [k building church])))
+  (when (not (is-a (building @self) [k building church])))
   (utility 28)
   (effects (maintain-proposal {@self enter ?go_dest})))
 
@@ -20,6 +20,6 @@
 ; terminal for all four minting lanes (the marker is minter-agnostic).
 (npc-think orient_at_church
   (goal {@self orient})
-  (when (at-place-kind [k building church]))
+  (when (is-a (building @self) [k building church]))
   (utility 28)
   (effects (maintain-proposal {@self orient})))

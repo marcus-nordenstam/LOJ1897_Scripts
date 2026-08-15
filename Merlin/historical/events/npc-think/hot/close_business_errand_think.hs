@@ -18,6 +18,6 @@
 (npc-think close_go
   (goal {@self close_business ?art})
   (when (and (articles-building ?art ?wp)
-             (not (at-workplace ?wp))))
+             (not (in-building @self ?wp))))
   (utility 85)
   (effects (maintain-proposal {@self enter ?wp})))

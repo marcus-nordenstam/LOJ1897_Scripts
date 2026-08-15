@@ -144,15 +144,20 @@ relation
             ingest                                  (tar meal)         (aux ?)
             read_at                                 (tar structure|space)
             rest                                    (tar structure|space)
-            # go - the TRAVEL act as a first-class ongoing belief ({@self go
-            # <place>}, the begin-act unification): "heading to <place>", its
-            # interval the travel time, the completion relocating the actor.
+            # go - the smart TRAVEL TASK: reach ANY destination (a structure, a
+            # room, an exterior space). Its rungs (go.hs) dispatch to enter (for a
+            # structure / a room's building) and walk (the dumb relocate). Lanes
+            # issue {@self go <dest>} for any dest and never reason about the kind.
             go                                      (tar ?)
+            # walk - the dumb relocate ACTION the go task drives: relocate the actor
+            # INTO a space (room / exterior space). Never a structure - reaching a
+            # building is enter's job, so walk carries a space target only.
+            walk                                    (tar space)
             # go_to_threshold - the counterpart TRAVEL act that arrives at a
             # structure's threshold (front-park, OUTSIDE), not inside a space.
             # The enter chain (enter.hs) mints it to reach a venue's face; the
             # completion front-parks the actor where at-threshold reads true.
-            go_to_threshold                         (tar ?)
+            go_to_threshold                         (tar structure)
             # depart - the emigrant's LEAVE-TOWN act (depart_act.hs): the standing
             # {@self depart} goal emigration.hs mints; the act quits the job,
             # releases the home and exits the town permanently. Focusless.
@@ -364,7 +369,7 @@ relation
             take_down           (motor right_hand)  (tar @excl job_description)
 
             approach                (motor legs)              (tar @excl)
-            enter                   (tar @excl)
+            enter                   (tar @excl structure)
             go_entity               (tar @excl)
             go_env_cell             (tar @excl)
             keep_near_and_facing    (tar @excl)

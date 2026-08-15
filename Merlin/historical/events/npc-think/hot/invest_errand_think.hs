@@ -10,7 +10,7 @@
 (npc-think invest_go
   (task {@self back ?org})
   (when (and (any {?org workplace ?}).target: ?wp
-             (not (at-workplace ?wp))))
+             (not (in-building @self ?wp))))
   (utility 60)
   (effects (maintain-proposal {@self enter ?wp})))
 
@@ -19,7 +19,7 @@
 (npc-think invest_at_firm
   (task {@self back ?org})
   (when (and (any {?org workplace ?}).target: ?wp
-             (at-workplace ?wp)))
+             (in-building @self ?wp)))
   (utility 60)
   (effects
     (begin-belief {@self backed_by ?org})

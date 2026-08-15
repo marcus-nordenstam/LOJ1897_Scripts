@@ -37,7 +37,7 @@
 
   ; AT the place - seated, not still walking there (the task can outlive a
   ; mid-meal excursion).
-  (when (at-place ?place))
+  (when (or (in-building @self ?place) {@self location ?place}))
 
   (utility 20)
 
