@@ -99,7 +99,7 @@
   (when (and (at-home)
              (> (attr @self appetite) 0.25)
              (= (count-believed-located [k food] ?home) 0)
-             (any {?home room [k kitchen]}).target: ?kitchen))   ; a resident who does not know their kitchen just skips
+             (room [k kitchen] ?home): ?kitchen))   ; a resident who does not know their kitchen just skips
   (effects
     (observe ?kitchen)))
 

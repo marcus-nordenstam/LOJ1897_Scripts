@@ -17,7 +17,7 @@
   ; The home is a CACHED role and the proposal's target; a bedroom must exist so
   ; make_cache's guaranteed floorboard fallback lands.
   (role ?building {@self home ?building}
-                  {?building room [k bedroom]})
+                  (room [k bedroom] ?building))
 
   ; Something to hide: a covert lover or a standing stow goal.
   (when (or (any {@self lover ?} (out int))

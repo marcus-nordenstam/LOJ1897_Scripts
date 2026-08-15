@@ -42,8 +42,7 @@
         ; parts that are rooms): {building room <room>} + the reverse {room building}. The
         ; founder owns the premises, so this stands in for having explored it.
         (for-each ?room (attr-values ?wp parts [k interior_space room])
-            (begin-belief {?wp room ?room})
-            (begin-belief {?room building ?wp}))
+            (learn-containment ?room ?wp))
         ; --- the org's documents (abs-native): articles + an empty register -------
         ; A document must live in a SPACE, never at the building - so seed them in one of
         ; the workplace's rooms, which the head now knows.
@@ -105,8 +104,7 @@
         ; ?wp is the clubhouse BUILDING. The founder LEARNS its rooms up front (owning the
         ; premises stands in for exploring it): {building room} + the reverse {room building}.
         (for-each ?room (attr-values ?wp parts [k interior_space room])
-            (begin-belief {?wp room ?room})
-            (begin-belief {?room building ?wp}))
+            (learn-containment ?room ?wp))
         ; --- the club's documents (abs-native): articles + an empty register -----
         ; A document lives in a SPACE, never at the building - seed them in a clubhouse room.
         (any {?wp room ?}).target: ?back
@@ -157,8 +155,7 @@
     ; @self LEARNS the workplace's rooms (the building's `parts` that are rooms):
     ; {building room <room>} + the reverse {room building <building>}.
     (for-each ?room (attr-values ?wp parts [k interior_space room])
-        (begin-belief {?wp room ?room})
-        (begin-belief {?room building ?wp}))
+        (learn-containment ?room ?wp))
     ; --- the job mental object: org (job.org), rank (level), salary, work-hours ---
     ; This is a HIRED (paid) post, so the job carries a salary decoration; heads
     ; seated by found-org-seq mint NO salary (heading != being employed). The org
