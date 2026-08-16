@@ -46,7 +46,7 @@
         (and (none {@self work ?wp /pres})
              (not (has-proposal {@self work ?wp}))
              (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
-  (utility 80)
+  (utility duty 800)
   ; SPAWN the day's WORK TASK (a bodyless umbrella, never an action): its performance
   ; rungs fan the shift into the held duties' tasks (recruit_think recruit_root) and
   ; the between-duties post-stay (at_post below); shift_over concludes it. begin (not
@@ -65,7 +65,7 @@
   (role ?job {@self job ?job})
   (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
         (and (in-building @self ?wp) (< (now-hour) 12)))
-  (utility 78)
+  (utility 780)
   (effects (maintain-proposal {@self DWELL ?wp (min 12 ?end)})))
 
 (npc-think at_post_afternoon
@@ -73,7 +73,7 @@
   (role ?job {@self job ?job})
   (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
         (and (in-building @self ?wp) (>= (now-hour) 12)))
-  (utility 78)
+  (utility 780)
   (effects (maintain-proposal {@self DWELL ?wp ?end})))
 
 ; Outcome twin: the shift is over (outside both the working window and the
@@ -96,5 +96,5 @@
              (not (in-building @self ?wp)))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
   (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)  ; onset: derive the shift, bind ?start/?end
         (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
-  (utility 80)
+  (utility duty 800)
   (effects       (maintain-proposal {@self go ?wp})))

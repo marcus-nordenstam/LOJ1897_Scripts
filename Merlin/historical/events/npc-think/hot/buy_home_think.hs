@@ -52,7 +52,7 @@
                 (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
              (not (in-building @self ?venue))))
-  (utility 35)
+  (utility 350)
   (effects (maintain-proposal {@self enter ?venue})))
 
 ; CASE A - AT a known agency, register still unread: PROPOSE the read act (the
@@ -68,7 +68,7 @@
                 (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
              (in-building @self ?venue)))
-  (utility 35)
+  (utility 350)
   (effects (maintain-proposal {@self READ_LISTINGS})))
 
 ; CASE C - register unread and @self knows NO house agency at all: consult the
@@ -83,7 +83,7 @@
   (goal {@self ACQUIRE})
   (no-role [k org house_agency])
   (role @self (not {@self for_sale ?}))   ; register unread - cached
-  (utility 30)
+  (utility 300)
   (effects       (begin-goal {@self ORIENT}))
   (cease-effects (end-goal   {@self ORIENT})))
 
@@ -104,7 +104,7 @@
                        (policy roulette)))
   (when (and (>= ?wealth (* (dwelling-value ?dwell) 0.15))
              (pub-bb-none ?dwell claimed)))
-  (utility 45)
+  (utility 450)
   (effects
     (pub-bb-post ?dwell claimed (claim_marker_ttl_cycles))
     (begin-goal {@self BUY_HOME ?dwell}))
@@ -120,5 +120,5 @@
 ; buy_home_act re-validates the listing, so a stale propose is a safe no-op.
 (npc-think buy_home_do
   (goal {@self BUY_HOME ?dwell})
-  (utility 45)
+  (utility 450)
   (effects (maintain-proposal {@self BUY_HOME ?dwell})))

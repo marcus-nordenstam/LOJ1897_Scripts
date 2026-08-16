@@ -32,6 +32,6 @@
   (role @self (grown @self)
               (not {@self craving [k alcohol]}))   ; dependents use the relapse lane
   (when          (>= (days-since-last {@self DRINK /ever}) 3))
-  (utility       (drink-drive @self))
+  (utility want (* 10 (drink-drive @self)))
   (effects       (begin-goal {@self DRINK}))
   (cease-effects (end-goal   {@self DRINK})))

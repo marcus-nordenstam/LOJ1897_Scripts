@@ -40,7 +40,7 @@
   (burgle-target @self):?scene
   (when (and (not (at-burgle-residence))
              (not (at-own-workplace))))
-  (utility 85)
+  (utility 850)
   (effects
     (begin-goal {@self steal})
     (if ?scene
@@ -65,7 +65,7 @@
              (owner-of ?scene): ?owner
              (alive ?owner)
              (not (= ?owner @self))))
-  (utility 86)
+  (utility 860)
   ; The LOOT is picked HERE (the first loose visible valuable - the walk is the
   ; same env truth (venue)/(burgle-target) read); an empty-handed scene still
   ; ledgers the intrusion, discharges and ends the goal (nothing to take).

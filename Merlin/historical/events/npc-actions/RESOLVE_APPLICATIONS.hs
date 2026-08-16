@@ -16,12 +16,18 @@
 (npc-action {@self RESOLVE_APPLICATIONS ?art ?out}
   (duration 30)
   (effects
+    ; PRECONDITION: this act only runs because the recruiter LIFTED applications from
+    ; the inbox. If it holds none, the resolve is a silent no-op and no offer is ever
+    ; cut - the break is upstream (application never reached the recruiter's hand).
+    (check (held-items @self [k application]))
     (for-each ?app (held-items @self [k application]) /limit 1
       (do
         (read-doc-record [k application] ?app (applicant ?w))
         (create-entity [k offer_letter] (qual location (building @self))): ?ol
         (set-attr ?ol addressee (attr ?w name))
         (set-attr ?ol address (home-of ?w))
+        (check (attr ?ol address))
+        (debug-print "RESOLVE_OFFER w=?w ol=?ol")
         (file-in-stack ?ol ?out)
         (destroy-entity ?app)))
     (for-each ?app (held-items @self [k application])

@@ -62,6 +62,7 @@
              (<= (years-old @self) 7)
              (latch-eval (chance (* 0.0833 (situation @self breeding) (situation @self breeding))))))
 
+  (utility errand 100)
   (effects       (begin-goal {@self ENROL_PRIMARY}))
   (cease-effects (end-goal   {@self ENROL_PRIMARY})))
 
@@ -87,6 +88,7 @@
              (<= (years-old @self) 14)
              (latch-eval (chance (* 0.0833 (situation @self breeding) (situation @self breeding))))))
 
+  (utility errand 100)
   (effects       (begin-goal {@self ENROL_SECONDARY}))
   (cease-effects (end-goal   {@self ENROL_SECONDARY})))
 
@@ -112,6 +114,7 @@
              (<= (years-old @self) 20)
              (latch-eval (chance (* 0.0833 (situation @self breeding) (* (situation @self breeding) (situation @self breeding)))))))
 
+  (utility errand 100)
   (effects       (begin-goal {@self ENROL_UNIVERSITY}))
   (cease-effects (end-goal   {@self ENROL_UNIVERSITY})))
 

@@ -38,7 +38,7 @@
   (when (and (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
              (< (count-doc-records [k employee_register] ?reg)
                 (lookup public_orgs kind ?ok employee_count 2))))
-  (utility 76)
+  (utility 760)
   (effects (debug-print "RC_ROOT")
            (begin-proposal {@self recruit_staff ?org})))
 
@@ -56,14 +56,14 @@
 (npc-think recruit_staff_advertise
   (task {@self recruit_staff ?org})
   (when (none {@self post ? ?org}))
-  (utility 79)
+  (utility 790)
   (effects (debug-print "RC_ADPICK") (maintain-proposal {@self advertise ?org})))
 
 (npc-think advertise_go
   (task {@self advertise ?org})
   (when (and (find-building [k building church]): ?board
              (not (in-building @self ?board))))
-  (utility 81)
+  (utility 810)
   (effects (maintain-proposal {@self enter ?board})))
 
 ; The post to advertise is the org's DISCLOSED staff role (org_staffing). The act's target
@@ -76,7 +76,7 @@
              (read-doc-record [k articles_of_incorporation] ?art (kind ?ok))
              (lookup org_staffing org_kind ?ok staff_role none): ?jk
              (is-kind ?jk)))
-  (utility 81)
+  (utility 810)
   (effects (debug-print "RC_ADPOST") (maintain-proposal {@self POST_ADVERT ?art ?jk})))
 
 ; POST-ACT: the advert paper exists -> book-keep {@self post ?ad ?org}, closing
@@ -104,7 +104,7 @@
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (not (in-building @self ?wp))
              (attr (mail-pile (mail-space ?wp)) top)))
-  (utility 80)
+  (utility 800)
   (effects (debug-print "RC_GOOFC") (maintain-proposal {@self enter ?wp})))
 
 (npc-think recruit_staff_read_mail
@@ -114,7 +114,7 @@
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (in-building @self ?wp)
              (attr (mail-pile (mail-space ?wp)) top)))
-  (utility 79)
+  (utility 790)
   (effects (debug-print "RC_RDMAIL") (begin-proposal {@self read_mail ?wp})))
 
 ; --- holding gathered applications -> carry them to a known outgoing pile (the
@@ -129,7 +129,7 @@
         (select (policy first-match)))
   (when (and (in-building ?out ?home)
              (location ?out): ?room))
-  (utility 80)
+  (utility 800)
   (effects (debug-print "RC_RESGO") (maintain-proposal {@self WALK ?room})))
 
 ; --- holding gathered applications, standing at an outgoing pile -> resolve the
@@ -144,7 +144,7 @@
   (role ?app [k application] {?h control ?app}
         (select (policy first-match)))
   (when (any {?org record ?}).target: ?art)
-  (utility 81)
+  (utility 810)
   (effects (debug-print "RC_RESOLVE") (maintain-proposal {@self RESOLVE_APPLICATIONS ?art ?out})))
 
 ; --- the filled posting comes off the board -------------------------------------
@@ -159,7 +159,7 @@
              (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
              (>= (count-doc-records [k employee_register] ?reg)
                  (lookup public_orgs kind ?ok employee_count 2))))
-  (utility 81)
+  (utility duty 810)
   (effects (maintain-proposal {@self TAKE_DOWN ?ad})))
 
 (npc-think take_down_done
@@ -221,6 +221,20 @@
   (role ?h {@self hand ?h})
   (role ?home {@self home ?home})
   (effects (debug-print "RCP_P8")))
+
+(npc-think recruit_staff_tmp_p15
+  (task {@self recruit_staff ?org})
+  (when (and (any {?org record ?}).target: ?art
+             (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
+             (in-building @self ?wp)))
+  (effects (debug-print "RCP_P15_INSIDE")))
+
+(npc-think recruit_staff_tmp_p16
+  (task {@self recruit_staff ?org})
+  (when (and (any {?org record ?}).target: ?art
+             (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
+             (attr (mail-pile (mail-space ?wp)) top)))
+  (effects (debug-print "RCP_P16_MAIL")))
 
 (npc-think recruit_staff_tmp_p9
   (task {@self recruit_staff ?org})

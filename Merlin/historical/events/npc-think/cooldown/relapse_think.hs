@@ -29,10 +29,14 @@
   ; High pull: distress + weak restraint drive, piety/belonging resist (bounded,
   ; never to zero). Ramps fast, capped high enough to be a near-daily draw but
   ; still short of work / sleep.
-  (utility (* (min (* (+ 0.5 (* 0.8 (attr @self withdrawal)))
+  ; BAND = the identity/drive escalation: the dependent's baseline relapse rides NEED (a
+  ; physiological drive at ordinary strength), escalating to CRISIS at the withdrawal redline
+  ; (withdrawal is a DRIVE, not a trait, so the inline threshold is a legitimate escalation).
+  (utility (if (>= (attr @self withdrawal) 0.7) (then crisis) (else need))
+           (* 10 (* (min (* (+ 0.5 (* 0.8 (attr @self withdrawal)))
                       (+ 0.6 (* 0.6 (- 1 (attr @self industriousness))))
                       (- 1.3 (* 0.6 (piety)))
                       (- 1.3 (* 0.6 (belonging)))) 1.6)
-              (min (* (days-since-last {@self DRINK /ever}) 5) 45)))
+              (min (* (days-since-last {@self DRINK /ever}) 5) 45))))
   (effects       (begin-goal {@self DRINK}))
   (cease-effects (end-goal   {@self DRINK})))

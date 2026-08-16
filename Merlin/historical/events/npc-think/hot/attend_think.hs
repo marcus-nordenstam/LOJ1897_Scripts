@@ -35,7 +35,7 @@
   (when (and (any {?occ venue ?}).target: ?venue
              (attend-in-window ?occ)
              (not (in-building @self ?venue))))
-  (utility (attend-utility ?occ))
+  (utility (* 10 (attend-utility ?occ)))
   (effects (debug-print "TRACE-ATTENDGO venue=?venue occ=?occ")
            (maintain-proposal {@self enter ?venue})))
 
@@ -44,7 +44,7 @@
   (when (and (any {?occ venue ?}).target: ?venue
              (attend-in-window ?occ)
              (in-building @self ?venue)))
-  (utility (attend-utility ?occ))
+  (utility (* 10 (attend-utility ?occ)))
   (effects
     (debug-print "ATTEND_STAY @self occ=?occ venue=?venue")
     (maintain-proposal {@self DWELL ?venue (+ (now-hour) 1)})))
@@ -63,7 +63,7 @@
              (any {?occ venue ?}).target: ?venue
              (attend-in-window ?occ)
              (in-building @self ?venue)))
-  (utility (+ (attend-utility ?occ) 10))
+  (utility (* 10 (+ (attend-utility ?occ) 10)))
   (effects (maintain-proposal {@self SAY (utterable-msg {@self spouse ?betrothed}) ?betrothed})))
 
 ; The vow was SPOKEN. Saying it IS believing it - the say channel mints the

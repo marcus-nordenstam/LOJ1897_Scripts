@@ -32,7 +32,7 @@
 (npc-think read_mail_locate
   (task {@self read_mail ?prem})
   (when (none {@self locate [k mail_stack] ?prem /ever}))
-  (utility 86)
+  (utility 860)
   (effects (debug-print "RM_LOC") (begin-proposal {@self locate [k mail_stack] ?prem})))
 
 ; (2) known -> go stand in the room the stack is in.
@@ -41,7 +41,7 @@
   (role ?stk [k mail_stack] (in-building ?stk ?prem)
                             (not (co-present ?stk @self)))
   (when (location ?stk): ?room)
-  (utility 86)
+  (utility 860)
   (effects (maintain-proposal {@self WALK ?room})))
 
 ; (3) co-located, not yet swept this read -> lift the letters that are mine.
@@ -50,7 +50,7 @@
   (role ?stk [k mail_stack] (in-building ?stk ?prem)
                             (co-present ?stk @self))
   (when (none {@self take_my_letters ?stk /caused_by ?rm /ever}))
-  (utility 87)
+  (utility 870)
   (effects (debug-print "RM_TAKE") (begin-proposal {@self take_my_letters ?stk})))
 
 ; (4) holding a letter -> read it (the read act ingests the writing and sets it down).
@@ -58,7 +58,7 @@
   (task {@self read_mail ?prem})
   (role ?h {@self hand ?h})
   (role ?ltr [k letter] {?h control ?ltr})
-  (utility 88)
+  (utility 880)
   (effects (maintain-proposal {@self READ ?ltr})))
 
 ; Swept this read AND nothing left to READ -> concluded. LETTERS only, by design:

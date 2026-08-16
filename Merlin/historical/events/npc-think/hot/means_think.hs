@@ -17,7 +17,7 @@
 (npc-think means_plan_acquire
   (role @self (believes {@self method_means ?means}))    ; binds the required tool kind, cached
   (when (not (control ?means)))
-  (utility 90)
+  (utility errand 900)
   (effects       (begin-goal {@self ACQUIRE ?means}))
   (cease-effects (end-goal   {@self ACQUIRE ?means})))
 
@@ -29,5 +29,5 @@
   (goal {@self ACQUIRE ?means})
   (when (and (not (control ?means))
              (has-goal {@self kill})))
-  (utility 90)
+  (utility 900)
   (effects (maintain-proposal {@self ACQUIRE ?means})))

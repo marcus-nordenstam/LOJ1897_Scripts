@@ -64,7 +64,7 @@
   ; x85, a shade OVER want_worship's x80: burying your dead outranks attending a
   ; service, so at the church the deposit wins the first slot and the service
   ; follows (at x80 the two tied and the deposit lost the tie for years).
-  (utility (* (attr @self politeness) 85))
+  (utility want (* 10 (attr @self politeness) 85))
   (effects       (begin-goal {@self CONVEY ?corpse}))
   (cease-effects (end-goal   {@self CONVEY ?corpse})))
 
@@ -77,7 +77,7 @@
   (goal    {@self CONVEY ?corpse})
   (role @self (grown @self))
   (when    (is-a (building @self) [k building church]))
-  (utility (* (attr @self politeness) 85))
+  (utility (* 10 (* (attr @self politeness) 85)))
   (effects (maintain-proposal {@self CONVEY ?corpse})))
 
 ; CASE B - not at a church, but knows one: head to it. The (goal ...) clause pins

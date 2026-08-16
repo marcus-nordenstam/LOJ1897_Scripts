@@ -63,7 +63,7 @@
                 (select (score (months-since-death ?corpse)) (policy argmax)))
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
   (when (>= (months-since-death ?corpse) 1))
-  (utility 85)
+  (utility obligation 850)
   (effects (maintain-proposal {@self enter ?church})))
 
 ; ONSITE rung. While the priest is CO-PRESENT with the overdue body, PROPOSE
@@ -78,5 +78,5 @@
                 (co-present ?corpse @self)
                 (select (score (months-since-death ?corpse)) (policy argmax)))
   (when (>= (months-since-death ?corpse) 1))
-  (utility 85)
+  (utility obligation 850)
   (effects (maintain-proposal {@self BURY ?corpse})))

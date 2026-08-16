@@ -47,7 +47,7 @@
   (goal {@self CLOSE_BUSINESS ?art})
   (when (and (articles-building ?art ?wp)
              (in-building @self ?wp)))
-  (utility 85)
+  (utility 850)
   (effects (maintain-proposal {@self CLOSE_BUSINESS ?art ?wp})))
 
 ; Outcome twin of the winding-up: he LISTS his OWN premises for sale IF he owns

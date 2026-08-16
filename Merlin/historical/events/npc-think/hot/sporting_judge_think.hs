@@ -22,7 +22,7 @@
   (role ?winner [k human]
                 (believes {?winner race_result ? ?sport})
                 (select (score (any {?winner race_result}).target) (policy argmax)))
-  (utility 40)
+  (utility 400)
   (effects (maintain-proposal {@self JUDGE_DECLARE ?winner ?sport})))
 
 ; Outcome twin of the declaration: every OTHER racer was positionally

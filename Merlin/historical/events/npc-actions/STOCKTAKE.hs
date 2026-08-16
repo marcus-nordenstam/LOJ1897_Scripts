@@ -31,6 +31,12 @@
 ; of 200-per-room.
 (define-macro grocer_shelf_stock () 200)
 
+; The weapons shelf cap. Any shop carries a small stock (a firearm + a knife) -
+; the ONLY way a weapon reaches a home is BUYING or STEALING one off a shop
+; shelf; nothing is pre-seeded into buildings. Firearms count by the FAMILY kind
+; (any firearm), spawned as a canonical pistol; knives count/spawn as knife.
+(define-macro shop_weapon_stock () 3)
+
 ; The stocktake round itself: the goal, at the counter, is the leaf and promotes
 ; here. The begun-then-ended {@self STOCKTAKE} act-belief IS the round (30 min).
 (npc-action {@self STOCKTAKE}
@@ -48,5 +54,11 @@
           ; (cap - what is already there), so a full shelf spawns nothing.
           (for-each ?room ?rooms /limit 1
             (repeat (- (grocer_shelf_stock) (count-entities [k food] ?room))
-              (create-entity [k food] (qual location ?room)): ?item))))
+              (create-entity [k food] (qual location ?room)): ?item))
+          ; Restock the weapons shelf the same way (one room carries the stock).
+          (for-each ?room ?rooms /limit 1
+            (repeat (- (shop_weapon_stock) (count-entities [k firearm] ?room))
+              (create-entity [k pistol] (qual location ?room)): ?gun)
+            (repeat (- (shop_weapon_stock) (count-entities [k knife] ?room))
+              (create-entity [k knife] (qual location ?room)): ?blade))))
     (set-outcome {@self STOCKTAKE} succ)))

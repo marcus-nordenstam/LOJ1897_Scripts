@@ -24,13 +24,22 @@
 
 (include "../../../macros/intensity_macros.hs")
 
-; tired and away from home: go home to rest. The homeostatic drive climbs with fatigue -
-; a soft pull below the work shift (80) when merely tired, diverging past it toward the
-; sleepiness danger limit (2.0), so an exhausted NPC abandons everything and heads home.
+; THE SLEEP DRIVE - the banded fatigue escalation. Ordinary tiredness sits in NEED
+; (physiology at ordinary drive, above the working duty), and CRISIS once fatigue
+; passes the collapse knee (sleepiness > 1.0), so an exhausted NPC abandons everything
+; and beds down. Value climbs convex toward the sleepiness danger limit.
+(define-macro sleep-drive ()
+  (homeostatic-banded sleepiness 2.0
+    (need   0.0  300 900)
+    (crisis 1.0  700 1000)))
+
+; tired and away from home: go home to rest. The drive climbs with fatigue - NEED band
+; when merely tired, escalating to CRISIS past the collapse knee, so an exhausted NPC
+; abandons everything and heads home.
 (npc-think seek_rest
   (when (and (not (at-home))
              (> (attr @self sleepiness) 0.7)))
-  (utility (homeostatic sleepiness 2.0 90))
+  (utility (sleep-drive))
   (effects       (any {@self home ?}).target: ?go_dest (debug-print "TRACE-SEEKREST home=?go_dest") (maintain-proposal {@self enter ?go_dest})))
 
 ; at home and at all tired (or it is night): sleep until the morning alarm. The
@@ -45,10 +54,10 @@
              (or (> (attr @self sleepiness) 0.5)
                  (>= (now-hour) 22)
                  (< (now-hour) 6))))
-  ; Convex fatigue drive (diverges toward the sleepiness danger limit), floored at
-  ; night so an NPC beds down on time even when not yet tired.
-  (utility (max (homeostatic sleepiness 2.0 90)
-                (if (or (>= (now-hour) 22) (< (now-hour) 6)) (then 100) (else 0))))
+  ; Banded fatigue drive (NEED normally, CRISIS past collapse). The night gate lives in
+  ; the (when) above; NEED band already outranks the leisure/work lanes, so an NPC beds
+  ; down on time at night even when not yet tired - no separate floor needed.
+  (utility (sleep-drive))
   ; Duration is a FUNCTION: sleep until the morning alarm, but no longer than
   ; until a pending obligation - a tired NPC with a gathering tonight wakes in
   ; time to get ready instead of napping straight through it, and an evening
@@ -66,5 +75,5 @@
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.
 (npc-think idle_go_home
   (when (not (at-home)))
-  (utility 1)
+  (utility idle 10)
   (effects       (any {@self home ?}).target: ?go_dest (debug-print "TRACE-IDLEHOME home=?go_dest") (maintain-proposal {@self enter ?go_dest})))

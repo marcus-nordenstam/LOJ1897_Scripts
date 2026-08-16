@@ -46,7 +46,7 @@
 (npc-think idle_at_home
   (role ?home {@self home ?home})
   (when (at-home))
-  (utility 2)
+  (utility idle 20)
   (effects       (begin-goal {@self DWELL ?home}))
   (cease-effects (end-goal   {@self DWELL ?home})))
 
@@ -84,6 +84,16 @@
 
 (include "../../../macros/intensity_macros.hs")
 
+; THE STARVATION DRIVE - the banded escalation ladder for hunger past its window.
+; The starving tail (below) all gate on appetite > 1.3, so this always sits in the
+; CRISIS band (starving is an acute emergency, above every routine need); the ladder
+; keeps the sub-need shape for any future re-gating. Value climbs convex toward collapse.
+(define-macro starve-drive ()
+  (homeostatic-banded appetite 2.0
+    (want   0.0  0   500)
+    (need   0.45 300 900)
+    (crisis 0.9  600 1000)))
+
 ; ---- notice the larder -----------------------------------------------------
 ; A home, hungry resident who believes there is NO food OBSERVES their own
 ; kitchen (the larder room), surfacing its contents into belief. Without this
@@ -115,7 +125,7 @@
              (>= (now-hour) ?h)
              (< (now-hour) (+ ?h 3))
              (> (count-believed-located [k food] ?home) 0)))
-  (utility 82)
+  (utility need 820)
   (effects       (begin-goal {@self eat [k breakfast] ?home}))
   (cease-effects (end-goal   {@self eat [k breakfast] ?home})))
 
@@ -128,7 +138,7 @@
   (when (and (> (attr @self appetite) 0.25)
              (>= (now-hour) 12)
              (< (now-hour) 14)))
-  (utility 85)
+  (utility need 850)
   (effects       (begin-goal {@self eat [k lunch] ?wp}))
   (cease-effects (end-goal   {@self eat [k lunch] ?wp})))
 
@@ -141,7 +151,7 @@
              (>= (now-hour) ?h)
              (< (now-hour) (+ ?h 2))
              (> (count-believed-located [k food] ?home) 0)))
-  (utility 76)
+  (utility need 760)
   (effects       (begin-goal {@self eat [k lunch] ?home}))
   (cease-effects (end-goal   {@self eat [k lunch] ?home})))
 
@@ -154,7 +164,7 @@
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
              (> (count-believed-located [k food] ?home) 0)))
-  (utility 78)
+  (utility need 780)
   (effects       (begin-goal {@self eat [k supper] ?home}))
   (cease-effects (end-goal   {@self eat [k supper] ?home})))
 
@@ -174,7 +184,7 @@
              (< (now-hour) (+ ?h 2))
              (> ?wealth 0.2)
              (= (count-believed-located [k food] ?home) 0)))
-  (utility 70)
+  (utility need 700)
   (effects       (begin-goal {@self eat [k supper] ?venue}))
   (cease-effects (end-goal   {@self eat [k supper] ?venue})))
 
@@ -190,7 +200,7 @@
              (< (now-hour) (+ ?h 2))
              (> ?wealth 0.2)
              (= (count-believed-located [k food] ?home) 0)))
-  (utility 70)
+  (utility need 700)
   (effects       (begin-goal {@self eat [k supper] ?venue}))
   (cease-effects (end-goal   {@self eat [k supper] ?venue})))
 
@@ -299,7 +309,7 @@
   (role @self {@self starve})
   (when (and (> (attr @self appetite) 1.3)
              (control [k food])))
-  (utility (homeostatic appetite 2.0 70))
+  (utility (starve-drive))
   (effects       (begin-goal {@self forage}))
   (cease-effects (end-goal   {@self forage})))
 
@@ -309,7 +319,7 @@
   (when (and (> (attr @self appetite) 1.3)
              (at-home)
              (> (count-believed-located [k food] ?home) 0)))
-  (utility (homeostatic appetite 2.0 70))
+  (utility (starve-drive))
   (effects       (begin-goal {@self forage}))
   (cease-effects (end-goal   {@self forage})))
 
@@ -319,7 +329,7 @@
   (when (and (> (attr @self appetite) 1.3)
              (not (at-home))
              (> (count-believed-located [k food] ?home) 0)))
-  (utility (homeostatic appetite 2.0 70))
+  (utility (starve-drive))
   (effects (maintain-proposal {@self enter ?home})))
 
 ; Buy: at a shop with wealth, one item eaten on the spot (paid-for in the v1
@@ -329,7 +339,7 @@
   (when (and (> (attr @self appetite) 1.3)
              (> ?wealth 0.2)
              (is-a (building @self) [k building shop])))
-  (utility (homeostatic appetite 2.0 70))
+  (utility (starve-drive))
   (effects       (begin-goal {@self forage}))
   (cease-effects (end-goal   {@self forage})))
 
@@ -342,7 +352,7 @@
   (when (and (> (attr @self appetite) 1.3)
              (> ?wealth 0.2)
              (not (is-a (building @self) [k building shop]))))
-  (utility (homeostatic appetite 2.0 70))
+  (utility (starve-drive))
   (effects
     (if ?shop
         (then (maintain-proposal {@self enter ?shop}))
@@ -356,7 +366,7 @@
   (when (and (> (attr @self appetite) 1.3)
              (not (> ?wealth 0.2))
              (is-a (building @self) [k building shop])))
-  (utility (homeostatic appetite 2.0 70))
+  (utility (starve-drive))
   (effects       (begin-goal {@self forage}))
   (cease-effects (end-goal   {@self forage})))
 
@@ -367,7 +377,7 @@
   (when (and (> (attr @self appetite) 1.3)
              (not (> ?wealth 0.2))
              (not (is-a (building @self) [k building shop]))))
-  (utility (homeostatic appetite 2.0 70))
+  (utility (starve-drive))
   (effects
     (if ?shop
         (then (maintain-proposal {@self enter ?shop}))
@@ -434,8 +444,8 @@
   ; the ingest inherits the running task's drive through the /caused_by pin; this band is
   ; the action's OWN bid on top of it, so the work lunch's ingest (85 + task) outbids the
   ; work post-stay (78 + work task) instead of dying at the desk.
-  (utility (if (is-a ?meal [k breakfast]) (then 82)
-            (else (if (is-a ?meal [k lunch]) (then 85) (else 78)))))
+  (utility (if (is-a ?meal [k breakfast]) (then 820)
+            (else (if (is-a ?meal [k lunch]) (then 850) (else 780)))))
   (effects
     (bind 0 ?food)
     (if (and (is-a ?meal [k supper])

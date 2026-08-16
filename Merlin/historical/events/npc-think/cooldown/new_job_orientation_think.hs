@@ -42,5 +42,6 @@
              (>= (days-since-last {@self ORIENT /ever}) 1)
              (latch-eval (chance 0.3))))
 
+  (utility errand 100)
   (effects       (begin-goal {@self ORIENT}))
   (cease-effects (end-goal   {@self ORIENT})))

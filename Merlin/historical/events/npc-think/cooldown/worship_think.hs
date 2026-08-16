@@ -37,7 +37,23 @@
   (role @self (grown @self))
   (when    (and (>= (days-since-last {@self WORSHIP /ever}) 3)
                 (>= (attr @self politeness) 0.3)))
-  (utility (recency-ramp WORSHIP 3 21 50))
+  (utility want (recency-ramp WORSHIP 3 21 500))
   (effects       (debug-print "WANTWORSHIP @self")
                  (begin-goal {@self WORSHIP}))
+  (cease-effects (end-goal   {@self WORSHIP})))
+
+; THE DEVOUT'S SUNDAY OBSERVANCE - the classifier-cast band split (ruling 8a). The SAME
+; worship drive, but role-cast on the identity-grade `devoutness` classifier belief
+; ({@self devoutness [k piety_band devout]}, minted + decayed by devoutness.hs): a devout
+; NPC's churchgoing is an OBLIGATION (socially mandatory), not a passing want, so it outranks
+; ordinary errands and leisure. The atheist is never cast; the lapsed churchgoer decays out of
+; the classifier; the pretender fools observers exactly as before. Co-drives the ONE
+; {@self WORSHIP} goal with want_worship - each rung ceases only its OWN source.
+(npc-think sunday_observance
+  (cooldown 3 d)
+  (role @self (grown @self)
+              {@self devoutness [k piety_band devout]})
+  (when    (>= (days-since-last {@self WORSHIP /ever}) 3))
+  (utility obligation 300)
+  (effects       (begin-goal {@self WORSHIP}))
   (cease-effects (end-goal   {@self WORSHIP})))

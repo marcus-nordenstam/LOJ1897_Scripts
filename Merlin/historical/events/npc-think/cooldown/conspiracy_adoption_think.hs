@@ -44,6 +44,7 @@
   (when (and (>= (stance-band ?instigator attraction) 2)
              (chance (attr @self psychopathy))))
 
+  (utility want 100)
   (effects
     ; My own side of the conspiracy: the bond embeds the plot as its AUX
     ; clause, and the goal is pinned to the bond.

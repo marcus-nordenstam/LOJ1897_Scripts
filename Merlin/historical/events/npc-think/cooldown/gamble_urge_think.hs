@@ -43,8 +43,8 @@
   (when (and (>= (days-since-last {@self PLAY_GAME /ever}) 10)
              (or (> (attr @self gambling_addiction) 0)
                  (latch-eval (chance (* 0.02 (- 1 (attr @self industriousness))))))))
-  (utility (* (- 1 (attr @self industriousness))                    ; susceptibility (0 = disciplined)
+  (utility want (* 10 (* (- 1 (attr @self industriousness))                    ; susceptibility (0 = disciplined)
               (+ 2 (* 22 (attr @self gambling_addiction)))          ; onset 2 -> morbid 24 (below leisure)
-              (min (* (days-since-last {@self PLAY_GAME /ever}) 0.04) 1.0))) ; slow craving modulator [0,1]
+              (min (* (days-since-last {@self PLAY_GAME /ever}) 0.04) 1.0)))) ; slow craving modulator [0,1]
   (effects       (begin-goal {@self PLAY_GAME}))
   (cease-effects (end-goal   {@self PLAY_GAME})))

@@ -24,8 +24,8 @@
   (when (>= (days-since-last {@self GIVE_ALMS /ever}) 20))
   ; compassion x a slow days-since ramp, capped low (rare deep-idle draw); the
   ; uncompassionate stay below every routine act, so they never give.
-  (utility (* (attr @self compassion)
-              (min (* (days-since-last {@self GIVE_ALMS /ever}) 0.8) 25)))
+  (utility want (* 10 (* (attr @self compassion)
+              (min (* (days-since-last {@self GIVE_ALMS /ever}) 0.8) 25))))
   (effects
     (debug-print "TRACE-CHARITABLE venue=?venue")
     (if (in-building @self ?venue)

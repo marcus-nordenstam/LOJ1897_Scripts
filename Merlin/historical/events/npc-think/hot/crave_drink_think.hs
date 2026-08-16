@@ -31,7 +31,7 @@
   (goal    {@self DRINK})
   (role @self (grown @self))
   (when    (is-a (building @self) [k building pub]))
-  (utility (drink-drive @self))
+  (utility (* 10 (drink-drive @self)))
   (effects (maintain-proposal {@self DRINK})))
 
 ; CASE B - not at a pub, but knows one: head to it via the generic enter chain (§5.11). A

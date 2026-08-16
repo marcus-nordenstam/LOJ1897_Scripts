@@ -20,7 +20,7 @@
   (role ?room (env-parts ?bldg [k interior_space room])
         (not (observed ?room))
         (select (policy first-match)))
-  (utility 45)
+  (utility 450)
   (effects (maintain-proposal {@self explore ?bldg})))
 
 ; all rooms known (no explore still running) -> walk each known room not yet walked
@@ -31,7 +31,7 @@
         (none {@self go ?room /past /caused_by ?w})
         (select (policy first-match)))
   (when (none {@self explore ?bldg /pres}))
-  (utility 44)
+  (utility 440)
   (effects (maintain-proposal {@self WALK ?room})))
 
 ; walked every known room this wander -> concluded.

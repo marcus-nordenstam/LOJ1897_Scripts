@@ -14,7 +14,7 @@
   ; Sociability gate: an extraverted NPC strikes up an introduction more readily.
   (when (chance (* 0.5 (+ 0.4 (attr @self enthusiasm)))))
 
-  (utility 18)
+  (utility want 180)
 
   (effects
     (every {@self (disclosure-tier-labels stranger) ?}): ?facts

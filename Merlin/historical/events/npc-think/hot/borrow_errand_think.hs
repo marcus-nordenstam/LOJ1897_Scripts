@@ -15,7 +15,7 @@
   (goal {@self TAKE_LOAN ?creditor})
   (when (and (any {?creditor home ?}).target: ?cred_home
              (not (in-building @self ?cred_home))))
-  (utility 60)
+  (utility 600)
   (effects (maintain-proposal {@self enter ?cred_home})))
 
 ; AT the lender's home: PROPOSE the loan-taking act (goals never propose themselves).
@@ -26,5 +26,5 @@
   (goal {@self TAKE_LOAN ?creditor})
   (when (and (any {?creditor home ?}).target: ?cred_home
              (in-building @self ?cred_home)))
-  (utility 60)
+  (utility 600)
   (effects (maintain-proposal {@self TAKE_LOAN ?creditor})))

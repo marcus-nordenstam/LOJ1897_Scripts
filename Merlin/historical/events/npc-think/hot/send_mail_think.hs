@@ -18,7 +18,7 @@
   (task {@self send_mail ?doc})
   (role ?home {@self home ?home})
   (when (not (in-building @self ?home)))
-  (utility 73)
+  (utility 730)
   (effects (maintain-proposal {@self enter ?home})))
 
 ; find the home's outgoing pile once - locate wanders home, and concludes at once if
@@ -29,7 +29,7 @@
   (role ?home {@self home ?home})
   (when (and (in-building @self ?home)
              (none {@self locate [k outgoing_mail_stack] ?home /ever})))
-  (utility 74)
+  (utility 740)
   (effects (begin-proposal {@self locate [k outgoing_mail_stack] ?home})))
 
 (npc-think send_mail_go
@@ -38,7 +38,7 @@
   (role ?out [k outgoing_mail_stack] (not (co-present ?out @self)))
   (when (and (in-building ?out ?home)
              (location ?out): ?room))
-  (utility 75)
+  (utility 750)
   (effects (maintain-proposal {@self WALK ?room})))
 
 ; standing at the pile -> deposit. The (none .. post_mail /succ) guard drops the rung
@@ -48,7 +48,7 @@
   (task {@self send_mail ?doc})
   (role ?out [k outgoing_mail_stack] (co-present ?out @self))
   (when (none {@self POST_MAIL ?doc ? /succ}))
-  (utility 76)
+  (utility 760)
   (effects (maintain-proposal {@self POST_MAIL ?doc ?out})))
 
 (npc-think send_mail_done

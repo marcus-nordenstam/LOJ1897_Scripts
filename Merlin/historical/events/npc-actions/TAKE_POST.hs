@@ -13,7 +13,12 @@
 (npc-action {@self TAKE_POST ?art ?jk}
   (duration 15)
   (effects
+    ; The offered job kind must ride the still-running apply_for onto the roster row.
+    (check ?jk)
     (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
+    ; The articles MUST name an employee_register, else the roster write below is a
+    ; silent no-op and the worker never enrolls (0 rostered).
+    (check ?reg)
     (write-doc-record [k employee_register] ?reg
         (worker @self) (job ?jk) (level [k trainee]))
     (set-outcome {@self TAKE_POST ?art ?jk} succ)))

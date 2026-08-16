@@ -45,6 +45,7 @@
              (or (in-month 12) (in-month 1) (in-month 2)) ; winter, once a year
              (no-goal {@self staff_household})))        ; mint once, then skip
 
+  (utility errand 100)
   (effects (begin-goal {@self staff_household})))
 
 ; --- FOUND: the head constitutes the household org at his home study -----------

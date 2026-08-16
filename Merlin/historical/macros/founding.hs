@@ -45,8 +45,10 @@
             (learn-containment ?room ?wp))
         ; --- the org's documents (abs-native): articles + an empty register -------
         ; A document must live in a SPACE, never at the building - so seed them in one of
-        ; the workplace's rooms, which the head now knows.
-        (any {?wp room ?}).target: ?back
+        ; the workplace's rooms, which the head now knows. Containment is engine-written
+        ; (the spatial index) - read it via the (room) op, never a {?wp room ?} belief.
+        (room ?wp): ?back
+        (check ?back)
         (create-entity [k articles_of_incorporation] (qual location ?back)): ?art
         (create-entity [k employee_register]          (qual location ?back)): ?reg
         (write-doc-record [k articles_of_incorporation] ?art
@@ -106,8 +108,10 @@
         (for-each ?room (env-parts ?wp [k interior_space room])
             (learn-containment ?room ?wp))
         ; --- the club's documents (abs-native): articles + an empty register -----
-        ; A document lives in a SPACE, never at the building - seed them in a clubhouse room.
-        (any {?wp room ?}).target: ?back
+        ; A document lives in a SPACE, never at the building - seed them in a clubhouse
+        ; room, read off the engine-written spatial index (never a {?wp room ?} belief).
+        (room ?wp): ?back
+        (check ?back)
         (create-entity [k articles_of_incorporation] (qual location ?back)): ?art
         (create-entity [k employee_register]          (qual location ?back)): ?reg
         (write-doc-record [k articles_of_incorporation] ?art

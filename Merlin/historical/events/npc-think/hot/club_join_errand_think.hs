@@ -16,7 +16,7 @@
   (goal {@self JOIN_CLUB ?art})
   (when (and (articles-building ?art ?venue)
              (not (in-building @self ?venue))))
-  (utility 40)
+  (utility 400)
   (effects (maintain-proposal {@self enter ?venue})))
 
 ; AT the clubhouse: PROPOSE the join act (goals never propose themselves). join_club_act reads the
@@ -25,5 +25,5 @@
   (goal {@self JOIN_CLUB ?art})
   (when (and (articles-building ?art ?venue)
              (in-building @self ?venue)))
-  (utility 40)
+  (utility 400)
   (effects (maintain-proposal {@self JOIN_CLUB})))

@@ -22,7 +22,7 @@
   (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (not (in-building @self ?wp))))
-  (utility 85)
+  (utility 850)
   (effects (maintain-proposal {@self enter ?wp})))
 
 ; TERMINAL (act_body_purification): AT the workplace, PROPOSE giving notice - the quit_work act no
@@ -34,5 +34,5 @@
   (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (in-building @self ?wp)))
-  (utility 85)
+  (utility 850)
   (effects (maintain-proposal {@self QUIT_WORK})))

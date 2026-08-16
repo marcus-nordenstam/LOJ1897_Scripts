@@ -19,5 +19,5 @@
   (goal {@self CLOSE_BUSINESS ?art})
   (when (and (articles-building ?art ?wp)
              (not (in-building @self ?wp))))
-  (utility 85)
+  (utility 850)
   (effects (maintain-proposal {@self enter ?wp})))

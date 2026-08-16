@@ -32,7 +32,7 @@
              (find-building [k building church]): ?board
              (not (in-building @self ?board))
              (latch-eval (chance 0.3))))
-  (utility 71)
+  (utility errand 90)
   (effects (debug-print "JS_BOARDGO") (maintain-proposal {@self enter ?board})))
 
 ; --- pre-commit: at the board, pick an eligible advert never failed -> begin apply_for
@@ -52,7 +52,7 @@
   (when (and (read-doc-record [k job_description] ?ad (job ?jk) (org_record ?art) (class_floor ?cf))
              (class-at-least @self ?cf)
              (none {@self apply_for ?jk ?art /fail})))
-  (utility 73)
+  (utility errand 100)
   (effects (debug-print "JS_PICK jk=?jk")
            (begin-proposal {@self apply_for ?jk ?art})))
 
@@ -69,7 +69,7 @@
   (role ?home {@self home ?home})
   (when (and (none {@self PREPARE_APPLICATION ?art ?jk /succ})
              (not (in-building @self ?home))))
-  (utility 74)
+  (utility 740)
   (effects (maintain-proposal {@self enter ?home})))
 
 ; write the application at HOME (where @self also posts it). prepare_application stamps
@@ -79,7 +79,7 @@
   (role ?home {@self home ?home})
   (when (and (none {@self PREPARE_APPLICATION ?art ?jk /succ})
              (in-building @self ?home)))
-  (utility 75)
+  (utility 750)
   (effects (maintain-proposal {@self PREPARE_APPLICATION ?art ?jk})))
 
 ; the finished application -> hand it to the mail lane (send_mail_think posts it from
@@ -92,16 +92,37 @@
   (role ?app [k application] (select (policy first-match)))
   (when (and (read-doc-record [k application] ?app (find applicant @self))
              (none {@self POST_MAIL ?app ? /succ})))
-  (utility 76)
+  ; 85: above await_verdict (84) - an UNPOSTED application always outbids the daily
+  ; verdict read, else the read starves the posting forever; the POST_MAIL /succ
+  ; gate closes this rung the moment the paper is filed, and 84 rules again.
+  (utility 850)
   (effects (debug-print "JS_SEND")
            (begin-proposal {@self send_mail ?app})))
+
+; awaiting the verdict: the applicant NEEDS the verdict letter's knowledge to conclude,
+; so the apply_for task itself drives reading the home post (the conventions' "a task
+; that needs knowledge proposes the behaviour that produces it" - the general home-mail
+; driver stays disabled). Once daily, at home, below send(85) so an unposted paper is
+; posted first; the verdict read fells apply_for (take-up or rejection), dropping this
+; rung's task gate with it.
+(npc-think apply_for_await_verdict
+  (task {@self apply_for ?jk ?art})
+  (role ?home {@self home ?home})
+  (when (and (any {@self PREPARE_APPLICATION ?art ?jk /succ} (out int))
+             (in-building @self ?home)
+             (>= (days-since-last {@self read_mail ?home /succ}) 1)))
+  ; 84: the waited-on verdict outbids the meal band (~77) for one morning sweep -
+  ; read_mail concludes in a round, so posting (76) is delayed one sweep at most.
+  (utility 840)
+  (effects (debug-print "JS_AWAIT")
+           (maintain-proposal {@self read_mail ?home})))
 
 ; === the verdict (read, held, in the morning post) ==================================
 ; An OFFER: take up the post (a sub-task carrying the same job + articles as apply_for).
 (npc-think apply_for_take_up
   (task {@self apply_for ?jk ?art})
   (role ?ltr [k offer_letter] {@self READ ?ltr /ever})
-  (utility 77)
+  (utility 770)
   (effects (debug-print "JS_TAKEUP")
            (maintain-proposal {@self take_up_post ?jk ?art})))
 
@@ -117,7 +138,7 @@
   (task {@self take_up_post ?jk ?art})
   (when (and (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (not (in-building @self ?wp))))
-  (utility 78)
+  (utility 780)
   (effects (maintain-proposal {@self enter ?wp})))
 
 ; at the workplace: enrol himself on the wage book (the hire is realized by taking it up).
@@ -129,7 +150,7 @@
              (>= (now-hour) 9)
              (<= (now-hour) 16)
              (none {@self job.salary ?})))
-  (utility 79)
+  (utility 790)
   (effects (maintain-proposal {@self TAKE_POST ?art ?jk})))
 
 ; POST-ACT: read his own wage-book row (level) -> the full job object (hire-beliefs).

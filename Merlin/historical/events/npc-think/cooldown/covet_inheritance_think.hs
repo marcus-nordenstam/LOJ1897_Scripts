@@ -66,6 +66,7 @@
   ; benefactor's kin graph (the one irreducible computation, exposed as a verb).
   ; /caused_by pins @self's belief in the benefactor's wealth - the appetitive motive -
   ; so the rap sheet reads "kill <victim> <- {<benefactor> wealth ..}".
+  (utility want 100)
   (effects
     (any {?benefactor wealth ?}).target: ?benefactor_wealth
     (begin-belief {?benefactor wealth ?benefactor_wealth}): ?wealth_bond

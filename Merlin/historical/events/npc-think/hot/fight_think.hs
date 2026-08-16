@@ -56,7 +56,7 @@
 
   (when (and (any {?victim home ?}).target: ?victim_home
              (not (co-present ?victim @self))))
-  (utility (if (< (fight-elapsed) 10) (then 150)
+  (utility survival (if (< (fight-elapsed) 10) (then 150)
                (else (max 0 (- 150 (* 30 (- (fight-elapsed) 10)))))))
   (effects
     (debug-print "TRACE_KILLSEEK @self stalks victim=?victim to ?victim_home")
@@ -69,7 +69,7 @@
 (npc-think kill_strike
   (goal {@self FIGHT ?victim})
   (when (co-present ?victim @self))
-  (utility (if (< (fight-elapsed) 10) (then 200)
+  (utility survival (if (< (fight-elapsed) 10) (then 200)
                (else (max 0 (- 200 (* 30 (- (fight-elapsed) 10)))))))
   (effects
     (debug-print "TRACE_KILLSTRIKE @self strikes victim=?victim")
@@ -97,7 +97,7 @@
 (npc-think break_off_fight
   (goal {@self FIGHT})
   (when (not (at-home)))
-  (utility (* 30 (max 0 (- (fight-elapsed) 10))))
+  (utility survival (* 30 (max 0 (- (fight-elapsed) 10))))
   ; Maintenance: mint the flee-home goal while fighting away from home; the enter chain
   ; routes there, and reaching home (or the fight ending) drops the gate -> cease.
   (effects       (any {@self home ?}).target: ?go_dest (maintain-proposal {@self enter ?go_dest})))
@@ -115,7 +115,7 @@
                           (attr @self sadism)
                           (- 1.0 (attr @self compassion)))
                           0.05 0.95)))
-  (utility 20000)
+  (utility survival 1000)
   (effects       (begin-goal {@self FIGHT ?foe}))
   (cease-effects (end-goal   {@self FIGHT ?foe})))
 
@@ -128,7 +128,7 @@
 (npc-think flee_attack
   (role ?foe {@self under_attack ?foe})
   (when (no-goal {@self FIGHT}))
-  (utility 15000)
+  (utility survival 700)
   (effects       (begin-goal {@self FLEE ?foe}))
   (cease-effects (end-goal   {@self FLEE ?foe})))
 
@@ -139,7 +139,7 @@
 (npc-think flee_foe
   (goal {@self FLEE ?foe})
   (when (any {@self under_attack ?foe} (out int)))
-  (utility 15000)
+  (utility survival 700)
   (effects (maintain-proposal {@self FLEE ?foe})))
 
 ; THE VICTIM SCREAMS FOR HELP - the last resort when it can neither fight (failed the
@@ -148,7 +148,7 @@
 ; falling back to sleep / idle while under attack) and re-deliberating each round.
 (npc-think scream_for_help
   (role ?foe {@self under_attack ?foe})
-  (utility 12000)
+  (utility survival 500)
   (effects       (begin-goal {@self CRY_OUT}))
   (cease-effects (end-goal   {@self CRY_OUT})))
 
@@ -159,5 +159,5 @@
 (npc-think cry_out_alarm
   (goal {@self CRY_OUT})
   (role ?foe {@self under_attack ?foe})
-  (utility 12000)
+  (utility survival 500)
   (effects (maintain-proposal {@self CRY_OUT})))

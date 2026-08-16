@@ -49,6 +49,7 @@
   (when (chance (* (crime-scale) 0.02
                    (dark-propensity (rage-disposition @self)))))
 
+  (utility want 100)
   (effects
     (if (none {?interloper condition [k dead]})
       (then

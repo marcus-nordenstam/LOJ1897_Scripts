@@ -33,7 +33,7 @@
   (rng-stream behaviour)
 
   (role @self (believes {@self home ?home}))
-  (utility (home-leisure-utility))
+  (utility idle (* 10 (home-leisure-utility)))
 
   (effects
     (if (room [k interior_space study] ?home)
@@ -134,7 +134,7 @@
 
   (when (>= (years-old @self) 3))
 
-  (utility 16)
+  (utility idle 160)
 
   (effects
     (utterable-qs (to ?cook) {?home supper_hour ?}): ?qs

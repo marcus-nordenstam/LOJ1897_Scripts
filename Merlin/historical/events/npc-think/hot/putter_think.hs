@@ -18,13 +18,13 @@
   (cooldown 1 m)
   (role ?home {@self home ?home})
   (when (in-building @self ?home))
-  (utility 40)
+  (utility idle 400)
   (effects (begin-proposal {@self putter ?home})))
 
 (npc-think putter_wander
   (task {@self putter ?home}:?p)
   (when (none {@self wander ?home /caused_by ?p /ever}))
-  (utility 41)
+  (utility 410)
   (effects (begin-proposal {@self wander ?home})))
 
 ; CHORE - hiding-spot caches: for each cache in the room @self is puttering in,

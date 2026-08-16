@@ -23,6 +23,6 @@
   (role @self (old_human @self)
               {@self repute [k disreputable]})   ; derive-maintained band - cached
   (when    (>= (days-since-last {@self WORSHIP /ever}) 15))
-  (utility (min (* (days-since-last {@self WORSHIP /ever}) 2) 40))
+  (utility idle (* 10 (min (* (days-since-last {@self WORSHIP /ever}) 2) 40)))
   (effects       (begin-goal {@self WORSHIP}))
   (cease-effects (end-goal   {@self WORSHIP})))

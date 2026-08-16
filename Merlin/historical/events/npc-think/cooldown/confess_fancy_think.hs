@@ -38,7 +38,7 @@
                 (is-attracted-to @self ?target)
                 (co-present ?target @self))
 
-  (utility 22)
+  (utility want 220)
 
   (effects
     (nl_utterable_msg "I fancy you"): ?msg

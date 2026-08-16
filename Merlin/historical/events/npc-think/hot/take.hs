@@ -16,7 +16,7 @@
 (npc-think right_take
   (task {@self take ?item})
   (when (attr-has-capacity @self right_hand))
-  (utility 1) ; for now assume all NPCs are right-handed; later this should be driven by a handedness check
+  (utility 10) ; for now assume all NPCs are right-handed; later this should be driven by a handedness check
   (effects 
       (check (co-present ?item @self))
       (begin-proposal {@self RIGHT_TAKE ?item})))

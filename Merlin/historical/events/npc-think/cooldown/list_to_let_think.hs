@@ -41,5 +41,6 @@
               (not {@self home ?prop})            ; not where he lives
               (not {?prop tenant ?})              ; no sitting tenant
               (not {?prop availability [k for_rent]}))  ; not already listed
+  (utility errand 100)
   (effects       (begin-goal {@self LET ?prop}))
   (cease-effects (end-goal   {@self LET ?prop})))

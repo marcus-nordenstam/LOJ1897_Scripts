@@ -26,5 +26,6 @@
   ; month" (0) from "a month on"; 1 is the minimal such gate. The act never ends the goal.
   (when (>= (days-since-last {@self STOCKTAKE /ever}) 1))
 
+  (utility duty 100)
   (effects       (begin-goal {@self STOCKTAKE}))
   (cease-effects (end-goal   {@self STOCKTAKE})))

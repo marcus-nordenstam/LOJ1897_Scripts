@@ -12,7 +12,7 @@
   (goal {@self PARTNER ?art})
   (when (and (articles-building ?art ?venue)
              (not (in-building @self ?venue))))
-  (utility 85)
+  (utility 850)
   (effects (maintain-proposal {@self enter ?venue})))
 
 ; AT the premises: PROPOSE the partnership act (goals never propose themselves). partner_act reads
@@ -21,5 +21,5 @@
   (goal {@self PARTNER ?art})
   (when (and (articles-building ?art ?venue)
              (in-building @self ?venue)))
-  (utility 85)
+  (utility 850)
   (effects (maintain-proposal {@self PARTNER})))

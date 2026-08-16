@@ -49,5 +49,6 @@
   (role ?h {@self home ?h}
            (not {@self own ?h})
            (not {?h tenant @self}))
+  (utility errand 100)
   (effects       (begin-goal {@self ACQUIRE}))
   (cease-effects (end-goal   {@self ACQUIRE})))

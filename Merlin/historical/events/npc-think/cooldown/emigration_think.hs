@@ -31,5 +31,6 @@
 
   (when (chance (* 0.00125 (+ 0.5 (attr @self openness)) (population-pressure))))
 
+  (utility errand 100)
   (effects
     (begin-goal {@self DEPART})))
