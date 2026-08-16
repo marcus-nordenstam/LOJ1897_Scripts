@@ -690,25 +690,6 @@ concept
     # A money-seeker gates on (not (believes {@self job.salary})). Stamped at hire from
     # the occupation's authored wage (occupations.hs); heads/unpaid roles mint no salary.
     salary              (sub org_pos)  (tar ? @excl)
-    # duty - the aux family of duty_to / duty_holder. Each duty TERM is decorated
-    # (task): the term sits here in the duty subtree (so [k review_staff] is-a duty
-    # for the aux typing) and its relation def is a TASK, not the noun auto-state -
-    # one term per duty, so an NPC reasons separately about HOLDING the obligation
-    # ({@self duty_to ?org [k review_staff]}) and PERFORMING it (the running
-    # {@self review_staff ?org} task, spawned by the work task's performance rungs).
-    duty
-        # org duties
-        recruit_staff   (task)  (sub human)  (tar org)
-        dismiss_staff   (task)  (sub human)  (tar org)
-        review_staff    (task)  (sub human)  (tar org)
-        keep_records    (task)  (sub human)  (tar org)
-        dissolve_org    (task)  (sub human)  (tar org)
-        admit_member    (task)  (sub human)  (tar org)
-        officiate       (task)  (sub human)  (tar org)
-        # social duties
-        honor           (task)  (sub human)  (tar human)
-        provide_for     (task)  (sub human)  (tar human)
-        protect         (task)  (sub human)  (tar human)
     unit
         social
             family          (sub human)  (tar @excl)

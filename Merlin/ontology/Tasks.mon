@@ -88,11 +88,25 @@ relation
             #   apply_for succ.
             apply_for                               (tar job) (aux articles_of_incorporation)
             take_up_post                            (tar job) (aux articles_of_incorporation)
-            # The DUTY TASKS (recruit_staff / review_staff / ...) live in
-            # Concepts.mon under the `duty` subtree, decorated (task) - the term
-            # is-a duty for the duty_to aux typing AND a task relation.
+            # The DUTY TASKS - the aux family of duty_to / duty_holder (States.mon,
+            # aux-typed `task`): an NPC reasons separately about HOLDING the
+            # obligation ({@self duty_to ?org [k review_staff]}) and PERFORMING it
+            # (the running {@self review_staff ?org} task, spawned by the work
+            # task's performance rungs). Which org kind requires which duties is
+            # authored data (tables/duty_tables.hs org_duties).
             # recruit_staff is the first with a performing lane (recruit_think);
             # the rest are matchable now, producers land lane by lane.
+            recruit_staff                           (tar org)
+            dismiss_staff                           (tar org)
+            review_staff                            (tar org)
+            keep_records                            (tar org)
+            dissolve_org                            (tar org)
+            admit_member                            (tar org)
+            officiate                               (tar org)
+            # social duties
+            honor                                   (tar human)
+            provide_for                             (tar human)
+            protect                                 (tar human)
             advertise                               (tar org)
             # hold_meet - the sporting club head's yearly resolve to hold his club's
             # meet (sporting_event_think.hs). Leafs on-site into the {@self

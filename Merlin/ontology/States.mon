@@ -462,14 +462,16 @@ relation
             # Drives tenure for the duty-assignment seniority comparison. Stamped at hire.
             since               (sub org_pos)  (tar ? @excl)
             # DUTIES (capability-based org dispatch). A duty is an obligation TO a party of a
-            # given kind. duty_to is the FULFILLMENT belief (behaviour role-casts on it and
-            # fire-binds the party): (role @self (believes {@self duty_to ?org [k <duty>]})).
-            # duty_holder is the org-side MIRROR (the assigner's ledger-derived knowledge of
-            # who holds each duty). Both non-exclusive. Assignment (which job-holder gets which
-            # duty) is authored in .hs over the org's employee-register document + its `duties`
-            # list; behaviour NEVER dispatches on job kind or rank - only on the held duty.
-            duty_to             (sub human)      (tar human|org)  (aux duty)
-            duty_holder         (sub human|org)  (tar human)      (aux duty)
+            # given kind; its aux is the TASK the holder is obliged to perform (the duty tasks
+            # live in Tasks.mon like every task). duty_to is the FULFILLMENT belief (behaviour
+            # role-casts on it and fire-binds the party): (role @self (believes {@self duty_to
+            # ?org [k <duty-task>]})). duty_holder is the org-side MIRROR (the assigner's
+            # ledger-derived knowledge of who holds each duty). Both non-exclusive. Assignment
+            # (which job-holder gets which duty) is authored in .hs over the org's
+            # employee-register document + its `duties` list; behaviour NEVER dispatches on job
+            # kind or rank - only on the held duty.
+            duty_to             (sub human)      (tar human|org)  (aux task)
+            duty_holder         (sub human|org)  (tar human)      (aux task)
             # Education life-cycle. study names the field a pupil reads and the
             # school they read it at ({@self study <field> /aux <school>});
             # schooling is the schooling-level outcome left behind when the
