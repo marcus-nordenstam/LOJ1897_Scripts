@@ -136,6 +136,11 @@ relation
             # pantry > shop buy/steal) and promotes it to the generic consume act;
             # forage itself mints no act. Focusless.
             forage                                  (tar ?)
+            # acquire - the OBTAIN goal: come to control a thing of the target kind
+            # (a killer's means kind - means_think.hs) or, targetless, a home
+            # (buy_home_think.hs). Its rungs route to a SHOP and take the item off
+            # the shelf - shops are the only item source (STOCKTAKE stocks them).
+            acquire                                 (tar ?)
             # as in stow an umbrella!
             stow                                    (tar ?)  (aux ?)
 

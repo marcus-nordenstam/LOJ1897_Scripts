@@ -21,7 +21,7 @@
 (npc-think seek_board_visit
   (cooldown 1 m)
   (rng-stream employment)
-  (role @self (not {@self job.salary ?})
+  (role @self (not {@self job ?})
               (not {@self apply_for ? ? /pres}))
   (when (and (>= (years-old @self) 16)
              (<= (years-old @self) 55)
@@ -45,7 +45,7 @@
   ; gate then bars re-admission until the apply_for concludes.
   (lock-rule)
   (rng-stream employment)
-  (role @self (not {@self job.salary ?})
+  (role @self (not {@self job ?})
               (not {@self apply_for ? ? /pres}))
   (role ?ad [k job_description] (co-present ?ad @self)
                                 (select (score 1) (policy roulette)))
@@ -95,7 +95,7 @@
   ; 85: above await_verdict (84) - an UNPOSTED application always outbids the daily
   ; verdict read, else the read starves the posting forever; the POST_MAIL /succ
   ; gate closes this rung the moment the paper is filed, and 84 rules again.
-  (utility 850)
+  (utility errand 850)
   (effects (debug-print "JS_SEND")
            (begin-proposal {@self send_mail ?app})))
 

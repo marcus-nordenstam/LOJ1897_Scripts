@@ -60,19 +60,28 @@
 ; job utility: any duty task outbids it. Each rung's (when) window fells its
 ; bout at the boundary, so the afternoon block always re-fires with a fresh
 ; ?until.
+; The ?job role in every work-gated rung is CONSTRAINED to the job whose org's
+; workplace IS the task's ?wp: an actor holds PLURAL jobs by design (an org head
+; also holds the head_of_household job), and a free first-match ?job reads the
+; WRONG job's shift for this workplace - day_work spawning off one job's window
+; while shift_over concludes off the other's is a same-minute spawn/conclude melt.
 (npc-think at_post_morning
   (task {@self work ?wp})
   (role ?job {@self job ?job})
+  (role ?org {?job org ?org}
+             (believes {?org workplace ?wp}))
   (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
-        (and (in-building @self ?wp) (< (now-hour) 12)))
+        (and (check ?org) (in-building @self ?wp) (< (now-hour) 12)))
   (utility 780)
   (effects (maintain-proposal {@self DWELL ?wp (min 12 ?end)})))
 
 (npc-think at_post_afternoon
   (task {@self work ?wp})
   (role ?job {@self job ?job})
+  (role ?org {?job org ?org}
+             (believes {?org workplace ?wp}))
   (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
-        (and (in-building @self ?wp) (>= (now-hour) 12)))
+        (and (check ?org) (in-building @self ?wp) (>= (now-hour) 12)))
   (utility 780)
   (effects (maintain-proposal {@self DWELL ?wp ?end})))
 
@@ -81,6 +90,8 @@
 (npc-think shift_over
   (task {@self work ?wp}:?w)
   (role ?job {@self job ?job})
+  (role ?org {?job org ?org}
+             (believes {?org workplace ?wp}))
   (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
         (not (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
   (effects (set-outcome ?w succ)))

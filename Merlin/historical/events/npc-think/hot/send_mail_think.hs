@@ -29,7 +29,7 @@
   (role ?home {@self home ?home})
   (when (and (in-building @self ?home)
              (none {@self locate [k outgoing_mail_stack] ?home /ever})))
-  (utility 740)
+  (utility errand 740)
   (effects (begin-proposal {@self locate [k outgoing_mail_stack] ?home})))
 
 (npc-think send_mail_go

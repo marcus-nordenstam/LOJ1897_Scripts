@@ -38,7 +38,7 @@
   (when (and (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
              (< (count-doc-records [k employee_register] ?reg)
                 (lookup public_orgs kind ?ok employee_count 2))))
-  (utility 760)
+  (utility duty 760)
   (effects (debug-print "RC_ROOT")
            (begin-proposal {@self recruit_staff ?org})))
 
@@ -104,7 +104,11 @@
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (not (in-building @self ?wp))
              (attr (mail-pile (mail-space ?wp)) top)))
-  (utility 800)
+  ; obligation: the office round is EPISODIC (exists only while the inbox holds mail)
+  ; and must override the daily need churn (meals preempt duty -> the maintain gate
+  ; falls -> the trip resets forever; the bands-plan table files episodic overriding
+  ; work under obligation).
+  (utility obligation 800)
   (effects (debug-print "RC_GOOFC") (maintain-proposal {@self enter ?wp})))
 
 (npc-think recruit_staff_read_mail
@@ -114,7 +118,7 @@
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (in-building @self ?wp)
              (attr (mail-pile (mail-space ?wp)) top)))
-  (utility 790)
+  (utility obligation 790)
   (effects (debug-print "RC_RDMAIL") (begin-proposal {@self read_mail ?wp})))
 
 ; --- holding gathered applications -> carry them to a known outgoing pile (the
@@ -129,7 +133,7 @@
         (select (policy first-match)))
   (when (and (in-building ?out ?home)
              (location ?out): ?room))
-  (utility 800)
+  (utility obligation 800)
   (effects (debug-print "RC_RESGO") (maintain-proposal {@self WALK ?room})))
 
 ; --- holding gathered applications, standing at an outgoing pile -> resolve the
@@ -144,7 +148,7 @@
   (role ?app [k application] {?h control ?app}
         (select (policy first-match)))
   (when (any {?org record ?}).target: ?art)
-  (utility 810)
+  (utility obligation 810)
   (effects (debug-print "RC_RESOLVE") (maintain-proposal {@self RESOLVE_APPLICATIONS ?art ?out})))
 
 ; --- the filled posting comes off the board -------------------------------------

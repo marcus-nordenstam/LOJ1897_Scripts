@@ -24,18 +24,23 @@
 
 (include "../../../macros/intensity_macros.hs")
 
-; THE SLEEP DRIVE - the banded fatigue escalation. Ordinary tiredness sits in NEED
-; (physiology at ordinary drive, above the working duty), and CRISIS once fatigue
-; passes the collapse knee (sleepiness > 1.0), so an exhausted NPC abandons everything
-; and beds down. Value climbs convex toward the sleepiness danger limit.
+; THE SLEEP DRIVE - the banded fatigue escalation, aligned with the engine's alertness
+; thresholds (update_physiology: < 0.5 alert, < 1.0 tired, else sleepy; accrual 1/16 per
+; waking hour, so 0.8 ~ 19:00 and 1.0 ~ 22:00). Ordinary drowsiness is WANT-tier (it
+; loses to work / meals / errands, as the old 90*s^2 value did); NEED engages only when
+; genuinely tired late evening (bedtime outranks leisure and duty); CRISIS past the
+; collapse knee, so an exhausted NPC abandons everything and beds down. The
+; night-onset case (hour >= 22 with low sleepiness) rides the sleep rung's (when)
+; hour gate at want-tier, where midnight has no real competitors.
 (define-macro sleep-drive ()
   (homeostatic-banded sleepiness 2.0
-    (need   0.0  300 900)
-    (crisis 1.0  700 1000)))
+    (want   0.0  0   400)
+    (need   0.8  400 900)
+    (crisis 1.0  800 1000)))
 
-; tired and away from home: go home to rest. The drive climbs with fatigue - NEED band
-; when merely tired, escalating to CRISIS past the collapse knee, so an exhausted NPC
-; abandons everything and heads home.
+; tired and away from home: go home to rest. The drive climbs with fatigue - WANT band
+; while merely tired, NEED late evening, CRISIS past the collapse knee, so an exhausted
+; NPC abandons everything and heads home.
 (npc-think seek_rest
   (when (and (not (at-home))
              (> (attr @self sleepiness) 0.7)))
@@ -54,9 +59,9 @@
              (or (> (attr @self sleepiness) 0.5)
                  (>= (now-hour) 22)
                  (< (now-hour) 6))))
-  ; Banded fatigue drive (NEED normally, CRISIS past collapse). The night gate lives in
-  ; the (when) above; NEED band already outranks the leisure/work lanes, so an NPC beds
-  ; down on time at night even when not yet tired - no separate floor needed.
+  ; Banded fatigue drive (WANT while merely drowsy, NEED late evening, CRISIS past
+  ; collapse). The night gate lives in the (when) above: past 22h even a low drive
+  ; proposes, and want-tier suffices - midnight has no real competitors.
   (utility (sleep-drive))
   ; Duration is a FUNCTION: sleep until the morning alarm, but no longer than
   ; until a pending obligation - a tired NPC with a gathering tonight wakes in

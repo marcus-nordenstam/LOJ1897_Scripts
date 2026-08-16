@@ -36,6 +36,16 @@
     (bb-clear ? tml-status)
     (set-outcome ?take-letters succ)))
 
+; Walked away from the stack mid-round -> conclude /fail (the same conclusive-not-
+; interrupt rule as read_mail_give_up: a resumable standalone node would re-promote
+; and stack-sort from afar). The next read_mail instance re-proposes a fresh round.
+(npc-think take_my_letters_away
+  (task {@self take_my_letters ?stack}:?take-letters)
+  (when (not (co-present ?stack @self)))
+  (effects
+    (bb-clear ? tml-status)
+    (set-outcome ?take-letters fail)))
+
 (npc-think take_my_letters_tmp_p1
   (task {@self take_my_letters ?stack})
   (effects (debug-print "TML_P_TASK stk=?stack")))

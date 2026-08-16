@@ -15,9 +15,14 @@
 (npc-action {@self GO_TO_THRESHOLD ?s}
   (duration (max (go_travel_floor_min) (travel-minutes @self ?s)))
   (effects
-    (front-park @self ?s)
-    ; POSTCONDITION: front-park's whole purpose is that at-threshold now reads true
-    ; (enter_step_in gates on it). A false read here = the park landed somewhere the
-    ; threshold test does not accept (geometry / face mismatch) - the enter chain
-    ; would silently approach-loop forever.
-    (check (at-threshold @self ?s))))
+    ; The destination can vanish from the walker's MIND mid-travel (an unreinforced
+    ; building object decays) - the completion then reads a null ?s. Park only on a
+    ; live target; a decayed one just ends the walk (the force-end owns the belief).
+    (if ?s
+        (then
+          (front-park @self ?s)
+          ; POSTCONDITION: front-park's whole purpose is that at-threshold now reads
+          ; true (enter_step_in gates on it). A false read here = the park landed
+          ; somewhere the threshold test does not accept (geometry / face mismatch) -
+          ; the enter chain would silently approach-loop forever.
+          (check (at-threshold @self ?s))))))

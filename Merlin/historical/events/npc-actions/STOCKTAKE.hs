@@ -55,10 +55,14 @@
           (for-each ?room ?rooms /limit 1
             (repeat (- (grocer_shelf_stock) (count-entities [k food] ?room))
               (create-entity [k food] (qual location ?room)): ?item))
-          ; Restock the weapons shelf the same way (one room carries the stock).
+          ; Restock the weapons + household-chemicals shelf the same way (one room
+          ; carries the stock). Poison counts by the toxin FAMILY, spawns the
+          ; household staple (white_arsenic) - just another provision the shop carries.
           (for-each ?room ?rooms /limit 1
             (repeat (- (shop_weapon_stock) (count-entities [k firearm] ?room))
               (create-entity [k pistol] (qual location ?room)): ?gun)
             (repeat (- (shop_weapon_stock) (count-entities [k knife] ?room))
-              (create-entity [k knife] (qual location ?room)): ?blade))))
+              (create-entity [k knife] (qual location ?room)): ?blade)
+            (repeat (- (shop_weapon_stock) (count-entities [k toxin] ?room))
+              (create-entity [k white_arsenic] (qual location ?room)): ?tox))))
     (set-outcome {@self STOCKTAKE} succ)))

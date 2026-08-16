@@ -7,7 +7,7 @@
 ;
 ; A seeker is an adult who lives in a home he neither owns nor leases (an adult
 ; child still in the natal / inherited home). A yearly timer mints the standing
-; {@self ACQUIRE} desire once a year; the routing
+; {@self acquire} desire once a year; the routing
 ; thinks walk him to a house agency and read the FOR-SALE register - the KNOWLEDGE
 ; CHANNEL that mints his {@self for_sale ?b} beliefs (reuse of the foundation
 ; read-public-register macro). Only once he KNOWS listings does choose_home cast a
@@ -21,7 +21,7 @@
 ;     register via the orient lane; reading it mints his {?agency isa [k org
 ;     house_agency]} beliefs so buy_home_go can then fire).
 ;
-;   buy_home        : yearly timer - seeker gate -> mint the {@self ACQUIRE} desire.
+;   buy_home        : yearly timer - seeker gate -> mint the {@self acquire} desire.
 ;   buy_home_go     : hold the desire, register unread, knows an agency, not there -> travel.
 ;   buy_home_read   : hold the desire, register unread, AT a known agency -> read it.
 ;   buy_home_find   : hold the desire, register unread, knows NO agency -> orient (learn one).
@@ -46,7 +46,7 @@
 ; CASE B - knows a house agency, register unread, not at its office: travel there.
 ; Its articles name the office (articles-building). Inherits the acquire drive.
 (npc-think buy_home_go
-  (goal {@self ACQUIRE})
+  (goal {@self acquire})
   (role @self (not {@self for_sale ?}))   ; register unread - cached
   (role ?agency {?agency isa [k org house_agency]}
                 (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
@@ -58,11 +58,11 @@
 ; CASE A - AT a known agency, register still unread: PROPOSE the read act (the
 ; knowledge channel). act_body_purification: this rung already gates on the
 ; readiness (at the agency, register unread), so it IS the terminal - it proposes
-; the read directly (its /caused_by is the {@self ACQUIRE} desire it gates on). Once the
+; the read directly (its /caused_by is the {@self acquire} desire it gates on). Once the
 ; read forms the {@self for_sale ?} beliefs, the unread self-gate empties and the
 ; rung stops.
 (npc-think buy_home_read
-  (goal {@self ACQUIRE})
+  (goal {@self acquire})
   (role @self (not {@self for_sale ?}))   ; register unread - cached
   (role ?agency {?agency isa [k org house_agency]}
                 (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
@@ -80,7 +80,7 @@
 ; takes over. (no-role [k org house_agency]) reads the SAME per-mind object cache
 ; buy_home_go's positive role populates ([k <kind>] is sugar for {isa [k <kind>]}).
 (npc-think buy_home_find
-  (goal {@self ACQUIRE})
+  (goal {@self acquire})
   (no-role [k org house_agency])
   (role @self (not {@self for_sale ?}))   ; register unread - cached
   (utility 300)
@@ -96,7 +96,7 @@
 ; The affordability gate is his OWN wealth vs the tier cost (0.15 per tier - the
 ; C++ k_buy_wealth_per_value).
 (npc-think choose_home
-  (goal {@self ACQUIRE})
+  (goal {@self acquire})
   (role @self (believes {@self wealth ?wealth}))
   (role ?dwell {@self for_sale ?dwell}
                (select (score (* (dwelling-value ?dwell)

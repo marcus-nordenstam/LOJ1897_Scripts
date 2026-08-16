@@ -32,7 +32,7 @@
 (npc-think read_mail_locate
   (task {@self read_mail ?prem})
   (when (none {@self locate [k mail_stack] ?prem /ever}))
-  (utility 860)
+  (utility errand 860)
   (effects (debug-print "RM_LOC") (begin-proposal {@self locate [k mail_stack] ?prem})))
 
 ; (2) known -> go stand in the room the stack is in.
@@ -50,7 +50,7 @@
   (role ?stk [k mail_stack] (in-building ?stk ?prem)
                             (co-present ?stk @self))
   (when (none {@self take_my_letters ?stk /caused_by ?rm /ever}))
-  (utility 870)
+  (utility errand 870)
   (effects (debug-print "RM_TAKE") (begin-proposal {@self take_my_letters ?stk})))
 
 ; (4) holding a letter -> read it (the read act ingests the writing and sets it down).
@@ -72,14 +72,16 @@
              (none {@self hand.control [k letter]})))
   (effects (debug-print "RM_DONE") (set-outcome ?rm succ)))
 
-; Left the premises before finishing -> INTERRUPT (not fail): the read paused, to
-; resume when @self is next at ?prem. The interrupt keeps the proposal node but
-; stops the running task, so the @excl slot frees and the next drive re-promotes it
-; rather than deduping against a stuck instance.
+; Left the premises before finishing -> conclude /fail. CONCLUSIVE by necessity: an
+; interrupted begun task keeps its resumable node, and a standalone banded proposal
+; re-promotes the same instant while @self is still away - give_up would interrupt it
+; again, a same-instant livelock. The /fail frees the node; the minting drivers
+; (recruit_staff_read_mail / apply_for_await_verdict) re-propose a FRESH read on the
+; next premises visit, which is the intended resume.
 (npc-think read_mail_give_up
   (task {@self read_mail ?prem}:?rm)
   (when (not (in-building @self ?prem)))
-  (effects (debug-print "RM_GIVEUP") (set-outcome ?rm interrupt)))
+  (effects (debug-print "RM_GIVEUP") (set-outcome ?rm fail)))
 
 (npc-think read_mail_tmp_probe
   (task {@self read_mail ?prem})

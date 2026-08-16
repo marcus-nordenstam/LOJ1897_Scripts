@@ -21,7 +21,7 @@
         (not (observed ?room))
         (select (policy first-match)))
   (when (in-building @self ?home))
-  (utility errand 700)
+  (utility idle 700)
   (effects (maintain-proposal {@self explore ?home})))
 
 (npc-think explore_walk
