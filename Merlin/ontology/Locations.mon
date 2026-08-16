@@ -22,6 +22,13 @@ location (+ obs) (state) (tar ? @excl) (theme frequent) (location)
 # off to `owns_building` (Concepts.mon) so this label carries only the spatial sense.
 building (state) (tar building @excl) (building)
 
+# `room` used as a belief label is the FORWARD containment ({<building> room
+# <space>}). Containment is engine-written (the struct skeleton + spatial index),
+# so a present-tense `room` belief pattern reads a belief that no longer exists -
+# the (building) flag routes it into the spatial-legacy-surface lint (use the
+# (room)/(env-parts) ops instead). Same noun-state override shape as `building`.
+room (state) (tar space) (building)
+
 # `frequent` is location's semantic-summary label: the themed fuse folds a
 # subject's ended {X location <place>} episodes into an ongoing
 # {X frequent <place>} gist. It MUST be a different label from `location`

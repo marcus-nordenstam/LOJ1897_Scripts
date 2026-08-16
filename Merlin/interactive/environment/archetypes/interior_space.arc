@@ -17,8 +17,6 @@ archetype "interior_space" (cap 4096) (per obs) (always-visible) (non-occluder) 
     # as OBS, landing them in the OBS pool where confirm/disprove iterates.
     # This is a stopgap until address signs become observable entities.
     "name" (auto-percept) (ext-per obs)
-    "struct_parent"
-    "parts" (auto-percept)
     # The NPC who MADE this space owns it - a hiding_spot cache belongs to its
     # maker. Imperceptible (a concealed cache's ownership is not on show); it gates
     # who searches it (only the owner, via the search_secret_caches act).
@@ -35,5 +33,4 @@ archetype "interior_space" (cap 4096) (per obs) (always-visible) (non-occluder) 
     # space model) so weapon / loot / vessel lookups and the confrontation grab
     # are room-scoped (a thief reaches only the room he is in; a defender the
     # whole house). Maintained by hsim set_prop_location.
-    "contents"
 }

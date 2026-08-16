@@ -21,5 +21,4 @@ archetype "stack" (cap 2048) (per obs) (non-occluder) (occupies-env-grid)
     # child walk resolves it regardless of where the placement seam files its
     # contents entry. Without this attr, set_parent silently no-ops and every
     # delivery minted a duplicate pile (the 2048-cap stack-pool exhaustion).
-    "struct_parent"
 }

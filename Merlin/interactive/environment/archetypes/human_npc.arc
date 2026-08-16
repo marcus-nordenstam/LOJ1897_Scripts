@@ -70,7 +70,6 @@ archetype "human_npc" (cap 4096) (per obs) (raycast-visible) (sentient) (non-occ
     "endurance"
     "region"
     # Parts are not auto-perceived - we perceive specific body-parts below instead
-    "parts"
     "left_hand"
     "right_hand"
     "head"

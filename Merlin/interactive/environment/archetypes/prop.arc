@@ -19,7 +19,6 @@ archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
     # visible label / engraving / sign need observable names.
     "name" (auto-percept) (ext-per obs)
     "writing"
-    "parts" (auto-percept)
     "controlled_by"
     "control_force"
     "control"

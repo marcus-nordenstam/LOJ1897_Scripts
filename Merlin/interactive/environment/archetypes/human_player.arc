@@ -48,7 +48,6 @@ archetype "human_player" (cap 256) (per obs) (raycast-visible) (player) (non-occ
     "endurance"
     "region"
     # Parts are not auto-perceived - we perceive specific body-parts below instead
-    "parts"
     "left_hand"
     "right_hand"
     "head"

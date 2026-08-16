@@ -16,8 +16,6 @@ archetype "exterior_space" (cap 4096) (per obs) (always-visible) (non-occluder) 
     # "Julie's Meadow"). The ext-mech override lands perceived name beliefs in the
     # OBS pool. Stopgap until address signs become observable entities.
     "name" (auto-percept) (ext-per obs)
-    "struct_parent"
-    "parts" (auto-percept)
     "obb"
     # Nav v2: spaces can host openings whose /is_nav_passage gates a macro-graph edge.
     "is_nav_passage"

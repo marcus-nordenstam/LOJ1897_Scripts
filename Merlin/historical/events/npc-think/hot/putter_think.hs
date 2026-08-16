@@ -31,8 +31,10 @@
 ; either DISCOVER it (if @self does not know it) or RE-CHECK it (if @self does).
 (npc-think putter_cache
   (task {@self putter ?home})
+  ; "the room I putter in belongs to my home" - containment is engine-written, so
+  ; the gate is the in-building op, never a {room} belief.
   (when (and (location @self): ?room
-             {?home room ?room}))
+             (in-building @self ?home)))
   (effects
     (for-each ?cache (env-parts ?room [k interior_space hiding_spot])
       (if (none {@self hiding_spot ?cache})

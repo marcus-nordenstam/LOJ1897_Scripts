@@ -11,7 +11,6 @@ archetype "structure" (cap 256) (per obs) (always-visible) (children-occupy-env-
     # leaves it imperceptible because human names aren't seen).  Stopgap until
     # address signs become observable entities in their own right.
     "name" (auto-percept) (ext-per obs)
-    "parts" (auto-percept)
     "obb"
     "era_min"
     "era_max"

@@ -33,9 +33,9 @@ attr "name" (type name) (spec-attr name) (int-per reason) (ext-per imperceptible
 
 # Spatial
 attr "obb" (type obb) (spec-attr spatial-bounds) (per obs) (auto-percept) (state-flags-tar @excl)
-# Parent relationships are kept in the ECS for efficiency (technically redundant with parts)
-attr "struct_parent" (type entity) (entity "structure" "container_structure" "structure_part" "part" "interior_space" "exterior_space" "hand" "human_player" "human_npc") (per obs) (hsim-percept) (spec-attr parent) (state-flags-tar @excl)
-attr "parts" (type entity array 128) (int-per feel) (ext-per obs) (hsim-percept) (spec-attr children) (state "part")
+# Structural topology (parent/parts) lives in the struct skeleton (engine substrate),
+# not in attrs - see spatial_mind_index_plan.md; the skeleton is fed by set_parent at
+# creation and read via the (env-parts)/(parts) ops + the C++ struct_children_of helpers.
 
 # Ownership & control
 # The entity currently controlling the position of this entity (if any)
@@ -360,8 +360,8 @@ attr "marks"   (type kind array 4) (state "mark")  (per obs) (auto-percept)
 # the space an entity is in
 attr "location" (type entity) (entity "interior_space" "exterior_space") (spec-attr location) (per obs) (auto-percept) (hsim-percept)
 
-# the list of "loose/mobile" entities (not parts) inside a space
-attr "contents" (type entity array 256) (imperceptible)
+# Loose/mobile content lives in the whereabouts occupants pool (engine substrate),
+# not in an attr - read via (env-content)/(content) + for_each_occupant.
 
 # Instance
 attr "prototype" (type entity) (spec-attr prototype) (imperceptible)

@@ -27,7 +27,9 @@
 ; this wander, one at a time.
 (npc-think wander_go
   (task {@self wander ?bldg}:?w)
-  (role ?room {?bldg room ?room}
+  ; KNOWN rooms come from the belief-honest (parts) op (env structure filtered to
+  ; what @self has observed) - room beliefs are engine-written, never pattern-read.
+  (role ?room (parts ?bldg [k interior_space room])
         (none {@self go ?room /past /caused_by ?w})
         (select (policy first-match)))
   (when (none {@self explore ?bldg /pres}))
@@ -38,5 +40,5 @@
 (npc-think wander_done
   (task {@self wander ?bldg}:?w)
   (when (>= (count (every {@self go ? /past /caused_by ?w}))
-            (count (every {?bldg room ?}))))
+            (count (parts ?bldg [k interior_space room]))))
   (effects (set-outcome ?w succ)))

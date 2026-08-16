@@ -4,5 +4,4 @@
 archetype "env_point" (cap 256) (per obs) (always-visible) (non-occluder) (sector-coverage)
 {
     "obb"
-    "struct_parent"
 }
