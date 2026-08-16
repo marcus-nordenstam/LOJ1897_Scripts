@@ -118,7 +118,7 @@
 ; is the recency-weighted mass of the subject's OWN worship memories (forgetting
 ; them honestly degrades it; the church-going pretender fools it by design).
 (define-macro piety ()
-  (clamp (+ 0.25 (* (evidence @self worship 6 6) 0.60)) 0 1))
+  (clamp (+ 0.25 (* (evidence @self WORSHIP 6 6) 0.60)) 0 1))
 
 ; inhibition - the moral / conscientious brake on pressure-driven impulse. A
 ; weighted fold of politeness / industriousness / compassion / piety / decorum

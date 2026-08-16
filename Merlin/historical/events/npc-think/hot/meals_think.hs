@@ -47,13 +47,13 @@
   (role ?home {@self home ?home})
   (when (at-home))
   (utility 2)
-  (effects       (begin-goal {@self dwell ?home}))
-  (cease-effects (end-goal   {@self dwell ?home})))
+  (effects       (begin-goal {@self DWELL ?home}))
+  (cease-effects (end-goal   {@self DWELL ?home})))
 
 ; TERMINAL step (act_body_purification): the at-home dwell is now PROPOSED, guarded by being at
-; home, not auto-promoted by the bare {@self dwell ?home} goal. idle_at_home holds the goal (util
+; home, not auto-promoted by the bare {@self DWELL ?home} goal. idle_at_home holds the goal (util
 ; 2, the at-home nothing-to-do slot); the dwell promotes ONLY here, ONLY at home. The proposal
-; inherits the idle utility from the {@self dwell ?home} goal it /causes (via the (goal ...) gate).
+; inherits the idle utility from the {@self DWELL ?home} goal it /causes (via the (goal ...) gate).
 ; The idle blocks, one per canonical meal window, each aimed at its ABSOLUTE
 ; boundary hour (the eat lanes decide the actual eating at those completions;
 ; a household's own +-1h mealtime shift just moves who wins the boundary).
@@ -61,19 +61,19 @@
 ; carries a stale ?until across windows; post-supper the block runs to
 ; midnight and the sleep lane takes over long before.
 (npc-think dwell_at_home_morning
-  (goal    {@self dwell ?home})
+  (goal    {@self DWELL ?home})
   (when    (and (at-home) (< (now-hour) 12)))
-  (effects (maintain-proposal {@self dwell ?home 12})))
+  (effects (maintain-proposal {@self DWELL ?home 12})))
 
 (npc-think dwell_at_home_afternoon
-  (goal    {@self dwell ?home})
+  (goal    {@self DWELL ?home})
   (when    (and (at-home) (>= (now-hour) 12) (< (now-hour) 18)))
-  (effects (maintain-proposal {@self dwell ?home 18})))
+  (effects (maintain-proposal {@self DWELL ?home 18})))
 
 (npc-think dwell_at_home_evening
-  (goal    {@self dwell ?home})
+  (goal    {@self DWELL ?home})
   (when    (and (at-home) (>= (now-hour) 18)))
-  (effects (maintain-proposal {@self dwell ?home 24})))
+  (effects (maintain-proposal {@self DWELL ?home 24})))
 
 ; ============================ the unified eat lane ==========================
 ; Every routine meal is ONE act-goal {@self eat [k <meal>] <place>}: a desire
@@ -414,7 +414,7 @@
                   (if (not (> (any {@self wealth}).target 0.2))
                       (then (owner-of ?shop): ?owner)))))))
     (if (= ?found 1)
-        (then (maintain-proposal {@self consume ?item ?owner})))))
+        (then (maintain-proposal {@self CONSUME ?item ?owner})))))
 
 ; ---- the eat TASK's PERFORMANCE rungs ----------------------------------------
 ; eat is a TASK (Tasks.mon): its desires promote it AT the place (eat_at_place),
@@ -442,7 +442,7 @@
              (any {@self home ?place} (out int))
              (believed-located [k food] ?place))
         (then (believed-located [k food] ?place): ?food))
-    (maintain-proposal {@self ingest ?meal ?food}))
+    (maintain-proposal {@self INGEST ?meal ?food}))
   ; The eat task's OUTCOME, judged at the cease: the task ends AS its action ended -
   ; find the ended ingest THIS task drove and copy its outcome verbatim (the isim
   ; stack-put-outcome shape). The inverse (caused-by {pattern} ?e) anchors on the
@@ -451,7 +451,7 @@
   ; interrupted. The withdraw cascade runs before this cease drains - set-outcome
   ; overwrites the ended task belief in place.
   (cease-effects
-    (caused-by {@self ingest ?meal /past} ?e): ?rec
+    (caused-by {@self INGEST ?meal /past} ?e): ?rec
     (if ?rec (then (set-outcome ?e (outcome ?rec))))))
 
 ; THE TABLE ANNOUNCEMENT (any home meal): now and then re-air the house's hours

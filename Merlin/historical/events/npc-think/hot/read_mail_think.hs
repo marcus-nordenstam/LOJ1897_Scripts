@@ -59,7 +59,7 @@
   (role ?h {@self hand ?h})
   (role ?ltr [k letter] {?h control ?ltr})
   (utility 88)
-  (effects (maintain-proposal {@self read ?ltr})))
+  (effects (maintain-proposal {@self READ ?ltr})))
 
 ; Swept this read AND nothing left to READ -> concluded. LETTERS only, by design:
 ; the read act is this task's release (it sets each read letter down), while the

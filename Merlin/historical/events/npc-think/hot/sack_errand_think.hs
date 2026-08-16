@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; sack_errand (npc-think) - the go/dwell half of the boss-side job-loss split.
 ;
-; The decision (employment.hs `job_loss`) minted {@self goal {@self sack
+; The decision (employment.hs `job_loss`) minted {@self goal {@self SACK
 ; <worker>}} on the BOSS (the org-head). The boss goes to the workplace and lets
 ; the man go in person - and the sacked man's grudge toward the NAMED boss is
 ; seeded there (a motive the detective layer can read), instead of a faceless
@@ -13,7 +13,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think sack_go
-  (goal {@self sack})
+  (goal {@self SACK})
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
@@ -22,13 +22,13 @@
   (effects (maintain-proposal {@self enter ?wp})))
 
 ; TERMINAL (act_body_purification): AT the workplace, PROPOSE the sack act - it no longer
-; promotes off the bare {@self sack} goal (a proposed label drops out of goal competition).
+; promotes off the bare {@self SACK} goal (a proposed label drops out of goal competition).
 ; The ?org role binds ?wp (the workplace) for the arrived gate.
 (npc-think sack_dwell
-  (goal {@self sack})
+  (goal {@self SACK})
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when (and (in-building @self ?wp)))
   (utility 82)
-  (effects (maintain-proposal {@self sack})))
+  (effects (maintain-proposal {@self SACK})))

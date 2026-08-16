@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; bring (npc-think lane) - the GENERAL carry-it-to-a-place chain. A think that
-; wants goods moved mints {@self bring <ware-kind> <dest>} (the acquisition
+; wants goods moved mints {@self BRING <ware-kind> <dest>} (the acquisition
 ; already put the items in @self's hand); this lane drains it:
 ;
 ;   bring_go       : holding the goal, not at <dest> -> travel there (the same
@@ -22,13 +22,13 @@
 ; <dest> may be a premises BUILDING or a ROOM (provisioning aims the kitchen); the
 ; generic go task (go.hs) reaches either - enter the structure, walk into the room.
 (npc-think bring_go
-  (goal {@self bring ?ware ?dest})
+  (goal {@self BRING ?ware ?dest})
   (when (not (at_location @self ?dest)))
   (effects (maintain-proposal {@self go ?dest})))
 
 ; AT the destination: PROPOSE the put-down act (goals never propose themselves). No (utility):
 ; the proposal inherits the minting lane's drive up the /caused_by chain (like bring_go).
 (npc-think bring_at_dest
-  (goal {@self bring ?ware ?dest})
+  (goal {@self BRING ?ware ?dest})
   (when (at_location @self ?dest))
-  (effects (maintain-proposal {@self bring ?ware ?dest})))
+  (effects (maintain-proposal {@self BRING ?ware ?dest})))

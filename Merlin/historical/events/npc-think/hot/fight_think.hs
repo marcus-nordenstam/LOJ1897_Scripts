@@ -17,7 +17,7 @@
 ; THE VICTIM's side (defend_strike, below): when a blow lands non-fatally, the
 ; strike-blow primitive mints {@self under_attack <foe>} on the victim, who reacts
 ; at once (even mid-sleep or mid-work). The victim's under_attack rung then decides
-; - by combat resolve - to turn and fight, holding its OWN {@self fight <foe>} goal:
+; - by combat resolve - to turn and fight, holding its OWN {@self FIGHT <foe>} goal:
 ; the SAME kill_strike / fight_act then fire for it too, so the fight is TWO-SIDED
 ; and trades blows until one dies.
 ; That fight goal is a maintenance hold ceased when the attack ends (under_attack
@@ -27,7 +27,7 @@
 ;
 ; ACT MODEL: every strike / flee / scream is a goal that PROMOTES to a shared
 ; act body (fight_act / flee_act / scream_act) - no begin-act. The strike-vs-
-; retreat choice is a UTILITY RACE between peer goals ({@self fight} vs
+; retreat choice is a UTILITY RACE between peer goals ({@self FIGHT} vs
 ; {@self go home}), NOT a leaf relationship, so break_off reads the fight goal
 ; with (has-goal ...) - which does not pin the auto-/caused_by - keeping its
 ; {@self go home} a standalone competitor rather than a fight sub-goal.
@@ -52,7 +52,7 @@
 ; ~13 min, after which the killer abandons THIS attempt and leaves. (fight-elapsed)
 ; is wall-clock minutes since the first blow, reset each month.
 (npc-think kill_seek
-  (goal {@self fight ?victim})
+  (goal {@self FIGHT ?victim})
 
   (when (and (any {?victim home ?}).target: ?victim_home
              (not (co-present ?victim @self))))
@@ -64,16 +64,16 @@
 
 ; The killer at the victim strikes - a committed murderer prioritises the blow
 ; (utility 200 dominates work 80 / sleep 100) UNTIL the exposure clock drags it
-; down. Pushes the utility onto {@self fight ?victim}, which - the leaf while
+; down. Pushes the utility onto {@self FIGHT ?victim}, which - the leaf while
 ; co-present - promotes to fight_act (the 1-minute blow).
 (npc-think kill_strike
-  (goal {@self fight ?victim})
+  (goal {@self FIGHT ?victim})
   (when (co-present ?victim @self))
   (utility (if (< (fight-elapsed) 10) (then 200)
                (else (max 0 (- 200 (* 30 (- (fight-elapsed) 10)))))))
   (effects
     (debug-print "TRACE_KILLSTRIKE @self strikes victim=?victim")
-    (begin-goal {@self fight ?victim})))
+    (begin-goal {@self FIGHT ?victim})))
 
 ; TERMINAL step (act_body_purification): the blow itself is PROPOSED, guarded by co-presence -
 ; the same precondition kill_strike keys on. No (utility): the proposal inherits the fight goal's drive
@@ -82,20 +82,20 @@
 ; each actor's own drive. The exchange trades blows until one dies (a fatal blow breaks co-presence
 ; and the strikes stop).
 (npc-think strike_foe
-  (goal {@self fight ?victim})
+  (goal {@self FIGHT ?victim})
   (when (co-present ?victim @self))
-  (effects (maintain-proposal {@self fight ?victim})))
+  (effects (maintain-proposal {@self FIGHT ?victim})))
 
 ; BREAK OFF (end-condition c): a killer whose attempt has dragged on without a kill
 ; gives up for now and leaves - exposure outweighs the deed. Utility is 0 for the
 ; first ~10 minutes then rises (+30/min), overtaking the decaying kill_strike around
 ; ~13 min, so the retreat wins the utility race and the killer heads home (breaking
 ; co-presence). Reads the fight with (has-goal ...) - NOT the (goal) requirement - so
-; its {@self go home} stays a STANDALONE competitor of {@self fight}, not a sub-goal
+; its {@self go home} stays a STANDALONE competitor of {@self FIGHT}, not a sub-goal
 ; (a sub-goal would leaf-block the strike). The kill+fight goals PERSIST - cold-start
 ; clears the exposure clock and it tries again next month.
 (npc-think break_off_fight
-  (goal {@self fight})
+  (goal {@self FIGHT})
   (when (not (at-home)))
   (utility (* 30 (max 0 (- (fight-elapsed) 10))))
   ; Maintenance: mint the flee-home goal while fighting away from home; the enter chain
@@ -105,7 +105,7 @@
 ; THE VICTIM FIGHTS BACK. A struck victim holds {@self under_attack <foe>} (set by
 ; the blow that landed) and was woken THIS instant. If the foe is still co-present
 ; and the victim's combat resolve (volatility + sadism + low compassion) carries it,
-; it holds {@self fight <foe>} - and kill_strike / fight_act above then drive its blow,
+; it holds {@self FIGHT <foe>} - and kill_strike / fight_act above then drive its blow,
 ; the two-sided exchange. A maintenance goal: the resolve roll is re-rolled each blow
 ; and the fight goal ceases when the attack ends, so it re-decides each round; a lost
 ; roll leaves no fight goal and flee / scream take over.
@@ -116,8 +116,8 @@
                           (- 1.0 (attr @self compassion)))
                           0.05 0.95)))
   (utility 20000)
-  (effects       (begin-goal {@self fight ?foe}))
-  (cease-effects (end-goal   {@self fight ?foe})))
+  (effects       (begin-goal {@self FIGHT ?foe}))
+  (cease-effects (end-goal   {@self FIGHT ?foe})))
 
 ; THE VICTIM TRIES TO FLEE (end-condition b). A struck victim that does NOT turn to
 ; fight makes a one-round bid to break away. Lower utility than fighting (200), so a
@@ -127,20 +127,20 @@
 ; and co-presence breaks; on FAILURE it is still pinned and re-deliberates next round.
 (npc-think flee_attack
   (role ?foe {@self under_attack ?foe})
-  (when (no-goal {@self fight}))
+  (when (no-goal {@self FIGHT}))
   (utility 15000)
-  (effects       (begin-goal {@self flee ?foe}))
-  (cease-effects (end-goal   {@self flee ?foe})))
+  (effects       (begin-goal {@self FLEE ?foe}))
+  (cease-effects (end-goal   {@self FLEE ?foe})))
 
 ; TERMINAL step (act_body_purification): the getaway bid is PROPOSED while the flee goal stands and
 ; the victim is still under attack by ?foe (flee_attack's own gate). Utility 15000 sits below a fight
 ; goal (20000) and above a scream (12000), so a bold victim fights and a timid one runs. The bid holds
 ; until the flee succeeds (whisked to a public place, co-presence breaks) or the attack ends.
 (npc-think flee_foe
-  (goal {@self flee ?foe})
+  (goal {@self FLEE ?foe})
   (when (any {@self under_attack ?foe} (out int)))
   (utility 15000)
-  (effects (maintain-proposal {@self flee ?foe})))
+  (effects (maintain-proposal {@self FLEE ?foe})))
 
 ; THE VICTIM SCREAMS FOR HELP - the last resort when it can neither fight (failed the
 ; resolve roll) nor flee (nowhere to run). Lowest utility, so it only wins when the
@@ -149,15 +149,15 @@
 (npc-think scream_for_help
   (role ?foe {@self under_attack ?foe})
   (utility 12000)
-  (effects       (begin-goal {@self cry_out}))
-  (cease-effects (end-goal   {@self cry_out})))
+  (effects       (begin-goal {@self CRY_OUT}))
+  (cease-effects (end-goal   {@self CRY_OUT})))
 
 ; TERMINAL step (act_body_purification): the scream is PROPOSED while the cry_out goal stands and the
 ; victim is under attack (scream_for_help's own gate). Utility 12000 is the lowest of the three, so it
 ; only wins when neither fight nor flee produced an act. It keeps the
 ; victim active (never lapsing to sleep / idle) while under attack.
 (npc-think cry_out_alarm
-  (goal {@self cry_out})
+  (goal {@self CRY_OUT})
   (role ?foe {@self under_attack ?foe})
   (utility 12000)
-  (effects (maintain-proposal {@self cry_out})))
+  (effects (maintain-proposal {@self CRY_OUT})))

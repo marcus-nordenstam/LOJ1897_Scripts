@@ -62,8 +62,8 @@
              (<= (years-old @self) 7)
              (latch-eval (chance (* 0.0833 (situation @self breeding) (situation @self breeding))))))
 
-  (effects       (begin-goal {@self enrol_primary}))
-  (cease-effects (end-goal   {@self enrol_primary})))
+  (effects       (begin-goal {@self ENROL_PRIMARY}))
+  (cease-effects (end-goal   {@self ENROL_PRIMARY})))
 
 ; --- enroll_secondary: a middle+ youth goes on to secondary ------------------
 (npc-think enroll_secondary
@@ -87,8 +87,8 @@
              (<= (years-old @self) 14)
              (latch-eval (chance (* 0.0833 (situation @self breeding) (situation @self breeding))))))
 
-  (effects       (begin-goal {@self enrol_secondary}))
-  (cease-effects (end-goal   {@self enrol_secondary})))
+  (effects       (begin-goal {@self ENROL_SECONDARY}))
+  (cease-effects (end-goal   {@self ENROL_SECONDARY})))
 
 ; --- enroll_university: an upper / wealthy youth goes up to university --------
 (npc-think enroll_university
@@ -112,8 +112,8 @@
              (<= (years-old @self) 20)
              (latch-eval (chance (* 0.0833 (situation @self breeding) (* (situation @self breeding) (situation @self breeding)))))))
 
-  (effects       (begin-goal {@self enrol_university}))
-  (cease-effects (end-goal   {@self enrol_university})))
+  (effects       (begin-goal {@self ENROL_UNIVERSITY}))
+  (cease-effects (end-goal   {@self ENROL_UNIVERSITY})))
 
 ; --- leave_primary: every primary pupil finishes at ~11 ----------------------
 (npc-think leave_primary

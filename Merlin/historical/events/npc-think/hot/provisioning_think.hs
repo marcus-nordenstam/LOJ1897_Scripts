@@ -11,7 +11,7 @@
 ;
 ; THE ERRAND (the worship/drink shape - a pressure, a go, a do-at-the-place):
 ;   want_provisions : cook + the believed kitchen larder is low -> the standing
-;                     {@self provision} goal (the pressure).
+;                     {@self PROVISION} goal (the pressure).
 ;   provision_go    : knows the provisions shop -> travel there. Provisioning
 ;                     NEVER wanders generic shops: the ONLY venue is the shop
 ;                     the cook KNOWS sells provisions ({@self provisions_shop}).
@@ -20,7 +20,7 @@
 ;                     teaches where the grocer trades.
 ;   provision_act   : AT the known shop the standing goal is the leaf and
 ;                     (npc-act/provision_act.hs) promotes on its own when: buy a
-;                     basket and mint {@self bring [k food] <kitchen>} - the
+;                     basket and mint {@self BRING [k food] <kitchen>} - the
 ;                     general bring lane carries it home and puts it down IN the
 ;                     kitchen.
 ;   provision_rearm : laden with food = the standing pressure to deliver it, so
@@ -97,17 +97,17 @@
   (when (and (room [k kitchen] ?home): ?kitchen
              (< (count-believed-located [k food] ?kitchen) (larder_low_water))))
   (utility 77)
-  (effects       (begin-goal {@self provision}))
-  (cease-effects (end-goal   {@self provision})))
+  (effects       (begin-goal {@self PROVISION}))
+  (cease-effects (end-goal   {@self PROVISION})))
 
 ; TERMINAL step (act_body_purification): the buy is PROPOSED, guarded by being at a shop - the
 ; at-place-kind precondition (identity is enforced by
 ; the routing: provision_go walks only to the KNOWN provisions shop). Because `provision` is a
-; proposed label, auto_propose skips the {@self provision} goal (it still persists + drives
+; proposed label, auto_propose skips the {@self PROVISION} goal (it still persists + drives
 ; provision_go/orient), so the buy promotes ONLY here, ONLY at a shop - closing the off-shop
 ; spurious-promotion hole a bare pure act would open.
 (npc-think provision_at_shop
-  (goal    {@self provision})
+  (goal    {@self PROVISION})
   ; The buy cap is DECIDED here (basket, larder shortfall, what is in hand)
   ; and rides the act pattern - the counter-stop body does no counting.
   (role ?home {@self household_cook ?home})
@@ -118,7 +118,7 @@
                 (- (min (carry_cap) (- (larder_target) ?blv)) ?inh): ?cap
                 (> ?cap 0)))
   (utility 77)
-  (effects (maintain-proposal {@self provision ?cap})))
+  (effects (maintain-proposal {@self PROVISION ?cap})))
 
 ; ---- the errand: go to THE provisions shop (never a generic one) ------------
 ; The go sub-goal INHERITS the provision goal's drive through /caused_by (the
@@ -126,21 +126,21 @@
 ; goal is the leaf, and provision_act promotes on its when.
 
 (npc-think provision_go
-  (goal {@self provision})
+  (goal {@self PROVISION})
   (any {@self provisions_shop ?}).target:?shop
   (when (and ?shop
              (not (in-building @self ?shop))))
   (effects (maintain-proposal {@self enter ?shop})))
 
-; MAINTENANCE co-minter of the shared {@self orient} search: while the provisioner knows no
+; MAINTENANCE co-minter of the shared {@self ORIENT} search: while the provisioner knows no
 ; provisions shop, mint the orient goal; cease the moment orient_act learns one ({@self
 ; provisions_shop}). No (no-goal) dedup - under multi-rule support each lane co-mints its own
-; source on {@self orient} and withdraws it independently; the goal lives until the last withdraws.
+; source on {@self ORIENT} and withdraws it independently; the goal lives until the last withdraws.
 (npc-think provision_orient
-  (goal {@self provision})
+  (goal {@self PROVISION})
   (when (none {@self provisions_shop ?}))
-  (effects       (begin-goal {@self orient}))
-  (cease-effects (end-goal   {@self orient})))
+  (effects       (begin-goal {@self ORIENT}))
+  (cease-effects (end-goal   {@self ORIENT})))
 
 ; ---- the delivery drive ------------------------------------------------------
 ; Laden with food = the standing pressure to deliver it, re-stamped per
@@ -155,5 +155,5 @@
   (when (and (room [k kitchen] ?home): ?kitchen
              (control [k food])))
   (utility (if (at_location @self ?kitchen) (then 250) (else 90)))
-  (effects       (begin-goal {@self bring [k food] ?kitchen}))
-  (cease-effects (end-goal   {@self bring [k food] ?kitchen})))
+  (effects       (begin-goal {@self BRING [k food] ?kitchen}))
+  (cease-effects (end-goal   {@self BRING [k food] ?kitchen})))

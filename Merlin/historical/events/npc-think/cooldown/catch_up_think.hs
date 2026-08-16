@@ -41,5 +41,5 @@
       (do
         (utterable-msg ?belief): ?msg
         (if (none {@self SAY ?msg ?guest})
-            (then (maintain-proposal {@self say_to ?msg ?guest}) (break)))))
+            (then (maintain-proposal {@self SAY ?msg ?guest}) (break)))))
     ))

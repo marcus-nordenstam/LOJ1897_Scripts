@@ -22,9 +22,9 @@
     (if (or (= ?addressee ?name)
             (believes {@self duty_to ? ?duty}))
         (then (debug-print "TML_LIFT doc=?doc")
-              (maintain-proposal {@self stack_take ?doc ?stack}))
+              (maintain-proposal {@self STACK_TAKE ?doc ?stack}))
         (else (debug-print "TML_BURY doc=?doc adr=?addressee duty=?duty")
-              (maintain-proposal {@self stack_bury ?doc ?stack}
+              (maintain-proposal {@self STACK_BURY ?doc ?stack}
                   (postlude (bb-write ?doc tml-status handled)))))))
 
 (npc-think take_my_letters_done

@@ -6,8 +6,8 @@
 ; inheritance) and, as the live leaf, out-competes its parent (leaf-only promotion):
 ;
 ;   want_drink  (desire): pressure-gated (drink-due), utility = drink-drive. Holds
-;                {@self drink} while thirsty; auto-retracts when the pressure lapses.
-;   AT a pub   (case A):  {@self drink} has no active sub-goal, so it is the leaf and
+;                {@self DRINK} while thirsty; auto-retracts when the pressure lapses.
+;   AT a pub   (case A):  {@self DRINK} has no active sub-goal, so it is the leaf and
 ;                promotes straight to drink_act (drink.hs). No rule needed.
 ;   know a pub (case B):  drink_go holds {@self go ?pub} /caused_by the drink goal.
 ;   know none  (case C):  drink_find holds {@self find_building [k pub]} /caused_by it.
@@ -26,12 +26,12 @@
 ; re-checks the urge; the (days-since) gate holds the standing drink desire while genuinely due
 ; (also catching a cross-source drink via the relapse lane); the drink-drive utility competes it.
 ; The MINTER owns un-minting: once drink_act completes, days-since-last resets, the (when) drops,
-; and the falling edge ends {@self drink}. The act itself never ends the goal.
+; and the falling edge ends {@self DRINK}. The act itself never ends the goal.
 (npc-think want_drink
   (cooldown 3 d)
   (role @self (grown @self)
               (not {@self craving [k alcohol]}))   ; dependents use the relapse lane
-  (when          (>= (days-since-last {@self drink /ever}) 3))
+  (when          (>= (days-since-last {@self DRINK /ever}) 3))
   (utility       (drink-drive @self))
-  (effects       (begin-goal {@self drink}))
-  (cease-effects (end-goal   {@self drink})))
+  (effects       (begin-goal {@self DRINK}))
+  (cease-effects (end-goal   {@self DRINK})))

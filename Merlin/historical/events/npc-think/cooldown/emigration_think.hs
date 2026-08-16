@@ -7,7 +7,7 @@
 ; own openness - rolls the departure. @self is bound O(1); there is no role cast.
 ;
 ; This is a pure DECISION think (mirrors clubs.hs club_resignation): it only mints
-; the standing act-goal {@self depart}. The teardown - quitting the job, releasing
+; the standing act-goal {@self DEPART}. The teardown - quitting the job, releasing
 ; the home, and leaving the world - is @self's OWN act (npc-act/depart.hs), which
 ; acts entirely on @self and @self's own beliefs. No mark, no sweep: a departing
 ; person removes THEMSELVES.
@@ -32,4 +32,4 @@
   (when (chance (* 0.00125 (+ 0.5 (attr @self openness)) (population-pressure))))
 
   (effects
-    (begin-goal {@self depart})))
+    (begin-goal {@self DEPART})))

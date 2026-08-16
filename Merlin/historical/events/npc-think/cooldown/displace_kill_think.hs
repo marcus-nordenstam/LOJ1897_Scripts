@@ -10,7 +10,7 @@
 ; returns and every appetitive / instrumental kill lacks (predation pins {@self
 ; fixation}, covet {?b wealth}, ambition {@self job.org}, passion {@self crave ..},
 ; betrayal {@self emotion ..}, rid_of_spouse {@self detest ..}). The window is
-; pre-fight: (no-goal {@self fight ?focus}) closes it once the stalk begins.
+; pre-fight: (no-goal {@self FIGHT ?focus}) closes it once the stalk begins.
 ;
 ; Per-mind reads, no telepathy: standing is @self's OWN belief ({?x prestige}, absent
 ; -> readily dominated), and the dislike weight is the warmth band beliefs @self
@@ -46,7 +46,7 @@
   ; a disinhibited, volatile, callous impulse, base-rate 0.5 keeping it a tail
   ; (chance = 0.5 * disinhibition * 0.5 * (volatility + callousness)).
   (when (and ?focus
-             (no-goal {@self fight ?focus})
+             (no-goal {@self FIGHT ?focus})
              (caused-by ?kgoal {@self pressure ?})
              (or (any {?focus condition [k dead]} (out int))
                  (>= (- (target-or ?focus prestige 0) (target-or @self prestige 0)) 0.25))

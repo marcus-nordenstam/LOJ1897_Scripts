@@ -19,7 +19,7 @@
 ; for (go) but cannot be used to test arrival (each call could pick a different
 ; bank). Mirrors the drinking lane's (can-drink) at-a-pub gate.
 (npc-think found_go
-  (goal {@self found})
+  (goal {@self FOUND})
   ; The bank is role-cast from the banks the NPC KNOWS (naked [k ..] = (believes
   ; {?this isa [k ..]})); the nearest is preferred, weighted so the town spreads.
   ; No known bank -> the role binds nothing and found_go does not fire (the goal
@@ -30,9 +30,9 @@
   (effects (maintain-proposal {@self enter ?go_dest})))
 
 ; AT a bank: PROPOSE the founding act (goals never propose themselves). found_business_act reads
-; its capital / articles off the standing {@self found} goal focus, so the propose is label-only.
+; its capital / articles off the standing {@self FOUND} goal focus, so the propose is label-only.
 (npc-think found_at_bank
-  (goal    {@self found})
+  (goal    {@self FOUND})
   (when    (is-a (building @self) [k building bank]))
   (utility 85)
-  (effects (maintain-proposal {@self found})))
+  (effects (maintain-proposal {@self FOUND})))

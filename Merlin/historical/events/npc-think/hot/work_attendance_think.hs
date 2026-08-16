@@ -66,7 +66,7 @@
   (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
         (and (in-building @self ?wp) (< (now-hour) 12)))
   (utility 78)
-  (effects (maintain-proposal {@self dwell ?wp (min 12 ?end)})))
+  (effects (maintain-proposal {@self DWELL ?wp (min 12 ?end)})))
 
 (npc-think at_post_afternoon
   (task {@self work ?wp})
@@ -74,7 +74,7 @@
   (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
         (and (in-building @self ?wp) (>= (now-hour) 12)))
   (utility 78)
-  (effects (maintain-proposal {@self dwell ?wp ?end})))
+  (effects (maintain-proposal {@self DWELL ?wp ?end})))
 
 ; Outcome twin: the shift is over (outside both the working window and the
 ; starts-soon spawn band) - the day's work concluded.

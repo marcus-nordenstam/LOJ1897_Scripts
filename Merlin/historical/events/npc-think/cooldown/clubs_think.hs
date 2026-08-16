@@ -46,8 +46,8 @@
   ; SPLIT (Item 5): the npc-action (club_found_errand.hs) takes the founder out to found it
   ; (found-club-seq acquires the clubhouse + enrols him). found_club_go routes; there is no
   ; dwell - the goal is minted here and leaf-promotes to the act once he is at the pub.
-  (effects       (begin-goal {@self found_club}))
-  (cease-effects (end-goal   {@self found_club})))
+  (effects       (begin-goal {@self FOUND_CLUB}))
+  (cease-effects (end-goal   {@self FOUND_CLUB})))
 
 ; --- club_joining: an adult joins an existing club --------------------------
 ;; Clubs gate on character and class: a scandalous or disreputable member is
@@ -95,8 +95,8 @@
   ; SPLIT (Item 5): the npc-think - the decision to join. Mints {@self goal {@self
   ; join_club <articles>}} (focus = the club's articles, {?club_org record}); the npc-action
   ; (club_join_errand.hs) sends the member to the clubhouse and registers him there.
-  (effects       (begin-goal {@self join_club (any {?club_org record}).target}))
-  (cease-effects (end-goal   {@self join_club})))
+  (effects       (begin-goal {@self JOIN_CLUB (any {?club_org record}).target}))
+  (cease-effects (end-goal   {@self JOIN_CLUB})))
 
 ; club_gathering RETIRED (place-and-time reframe, Section 4.8 P2b): club members
 ; are now drawn to the clubhouse by the band itinerary's SOCIAL lane (members
@@ -124,5 +124,5 @@
   ; SPLIT (Item 5): the npc-think - the decision to resign. Mints {@self goal {@self
   ; resign_club}}; the npc-action (club_resign_errand.hs) sends the member to a clubhouse and
   ; unregisters him there (unregister-member resolves his own club).
-  (effects       (begin-goal {@self resign_club}))
-  (cease-effects (end-goal   {@self resign_club})))
+  (effects       (begin-goal {@self RESIGN_CLUB}))
+  (cease-effects (end-goal   {@self RESIGN_CLUB})))

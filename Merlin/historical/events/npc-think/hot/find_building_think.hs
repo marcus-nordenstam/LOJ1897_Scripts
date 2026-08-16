@@ -27,7 +27,7 @@
   (when (and (latch-eval (closest-unobserved [k structure] ?region): ?dest)
              (observed ?dest): ?observed
              (not (observed ?dest))))
-  (effects (maintain-proposal {@self go_to_threshold ?dest})))
+  (effects (maintain-proposal {@self GO_TO_THRESHOLD ?dest})))
 
 (npc-think find_exhausted
   (task {@self find_building ?sought ?region}:?find_task)

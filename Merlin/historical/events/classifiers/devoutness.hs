@@ -19,7 +19,7 @@
   (role @self {@self class_situation ?})
 
   (effects
-    (mint-band {@self devoutness} (evidence @self worship 6 6)
+    (mint-band {@self devoutness} (evidence @self WORSHIP 6 6)
       [k piety_band devout] 0.55 [k piety_band observant] 0.15 [k piety_band secular] -1)))
 
 (npc-think classify_others_devoutness
@@ -32,5 +32,5 @@
   (role ?other {?other class_situation ?})
 
   (effects
-    (mint-band-about {?other devoutness} (evidence ?other worship 6 6)
+    (mint-band-about {?other devoutness} (evidence ?other WORSHIP 6 6)
       [k piety_band devout] 0.55 [k piety_band observant] 0.15 [k piety_band secular] -1)))

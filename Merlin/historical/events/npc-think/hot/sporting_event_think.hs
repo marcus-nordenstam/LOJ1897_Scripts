@@ -14,9 +14,9 @@
 ;   hold_meet_go / hold_meet_dwell: while the goal stands, hold_meet_go walks him to
 ;     his clubhouse (articles-building; the generic enter chain does the travel) and
 ;     cedes on arrival; hold_meet_dwell, once he is inside, proposes the on-site
-;     {@self hold_meet_run} act that open_meet_act drains (it summons the field).
+;     {@self HOLD_MEET_RUN} act that open_meet_act drains (it summons the field).
 ;   compete: the COMPETITOR's half - a member the organiser summoned proposes his own
-;     {@self race_run} act (race_act runs his leg from his own attributes).
+;     {@self RACE_RUN} act (race_act runs his leg from his own attributes).
 ;
 ; The SPORT is authored content read per club kind from tables/club_sports.hs;
 ; the roster is the employee_register the organiser legitimately holds - both
@@ -30,7 +30,7 @@
 ; the standing goal, never a scan). Two rungs, both gated on the standing {@self hold_meet}:
 ; hold_meet_go (maintenance) holds {@self enter ?clubhouse} while he is not yet inside (the
 ; generic enter chain does the travel) and ceases it on arrival; hold_meet_dwell (terminal),
-; once he is inside, proposes {@self hold_meet_run} each env-cycle - the act open_meet_act
+; once he is inside, proposes {@self HOLD_MEET_RUN} each env-cycle - the act open_meet_act
 ; drains and ends its own act-belief. When hold_meet ceases the standing goal, hold_meet_go
 ; loses its parent and retracts, and the dwell rung stops proposing.
 (npc-think hold_meet_go
@@ -45,7 +45,7 @@
   (when (and (articles-building ?art ?clubhouse)
              (in-building @self ?clubhouse)))
   (utility 35)
-  (effects (maintain-proposal {@self hold_meet_run ?art})))
+  (effects (maintain-proposal {@self HOLD_MEET_RUN ?art})))
 
 ; --- the organiser OWNS the judge goal off the scoreboard he holds ----------------
 ; Each racer's race_act mints {?racer race_result <score> <sport>} into the
@@ -57,17 +57,17 @@
 ; the judging the same day.
 (npc-think want_judge
   (role ?racer {?racer race_result ?})
-  (when (>= (days-since-last {@self judge_declare /ever}) 1))
+  (when (>= (days-since-last {@self JUDGE_DECLARE /ever}) 1))
   (effects       (begin-goal {@self judge_meet}))
   (cease-effects (end-goal   {@self judge_meet})))
 
 ; --- the COMPETITOR's terminal: a summoned member proposes his own race act --------
 ; open_meet_act told this member {?judge summon @self /aux ?sport}; while that
-; ticket stands he PROPOSES the {@self race_run} act each env-cycle (race_act
+; ticket stands he PROPOSES the {@self RACE_RUN} act each env-cycle (race_act
 ; drains it and ends his copy of the summons, so the propose stops once his leg
 ; is run). Utility above routine so the obligation to compete pulls him off
 ; idler errands for the one run.
 (npc-think compete
   (role ?judge (believes {?judge summon @self ?sport}))
   (utility 45)
-  (effects (maintain-proposal {@self race_run ?sport ?judge})))
+  (effects (maintain-proposal {@self RACE_RUN ?sport ?judge})))

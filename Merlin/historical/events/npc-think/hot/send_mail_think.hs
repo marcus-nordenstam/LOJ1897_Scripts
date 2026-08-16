@@ -47,11 +47,11 @@
 (npc-think send_mail_put
   (task {@self send_mail ?doc})
   (role ?out [k outgoing_mail_stack] (co-present ?out @self))
-  (when (none {@self post_mail ?doc ? /succ}))
+  (when (none {@self POST_MAIL ?doc ? /succ}))
   (utility 76)
-  (effects (maintain-proposal {@self post_mail ?doc ?out})))
+  (effects (maintain-proposal {@self POST_MAIL ?doc ?out})))
 
 (npc-think send_mail_done
   (task {@self send_mail ?doc}:?sm)
-  (when (any {@self post_mail ?doc ? /succ} (out int)))
+  (when (any {@self POST_MAIL ?doc ? /succ} (out int)))
   (effects (set-outcome ?sm succ)))

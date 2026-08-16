@@ -94,6 +94,12 @@ relation
             # recruit_staff is the first with a performing lane (recruit_think);
             # the rest are matchable now, producers land lane by lane.
             advertise                               (tar org)
+            # hold_meet - the sporting club head's yearly resolve to hold his club's
+            # meet (sporting_event_think.hs). Leafs on-site into the {@self
+            # HOLD_MEET_RUN} act that summons the field; target = the club's
+            # incorporation articles (recovered from the head's own {?club record}
+            # belief, the same handle apply_for/recruit_staff key on).
+            hold_meet                               (tar articles_of_incorporation)
             # Solitary leisure activities at a venue (activity-lanes L8), the
             # amenity-gated successors to the general `dwell`: what one actually
             # DID there, gated by the venue's rooms. Episodic {@self <act>
@@ -335,7 +341,7 @@ relation
 
             seduce              (motor mouth legs body)         (tar human)              (construed_act intimacy_act)  (facets blackmailable)
             assault             (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (obs)  (abduct)
-            
+
             # kill - ABSTRACT goal task. No method aux: the method is a
             # separate, more-specific leaf task (strangle / shoot / poison
             # / push_from_height / etc.) declared further down. A goal

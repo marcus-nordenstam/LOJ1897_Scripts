@@ -42,4 +42,4 @@
 
   (effects
     (nl_utterable_msg "I fancy you"): ?msg
-    (maintain-proposal {@self say_to ?msg ?target})))
+    (maintain-proposal {@self SAY ?msg ?target})))

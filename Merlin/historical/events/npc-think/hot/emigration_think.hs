@@ -7,7 +7,7 @@
 ; own openness - rolls the departure. @self is bound O(1); there is no role cast.
 ;
 ; This is a pure DECISION think (mirrors clubs.hs club_resignation): it only mints
-; the standing act-goal {@self depart}. The teardown - quitting the job, releasing
+; the standing act-goal {@self DEPART}. The teardown - quitting the job, releasing
 ; the home, and leaving the world - is @self's OWN act (npc-act/depart.hs), which
 ; acts entirely on @self and @self's own beliefs. No mark, no sweep: a departing
 ; person removes THEMSELVES.
@@ -24,22 +24,22 @@
 (include "../../../definitions/roles.hs")
 
 ; TERMINAL step (act_body_purification): the depart act is PROPOSED, not promoted by
-; the bare {@self depart} goal - goals never propose themselves, so the latched goal above
+; the bare {@self DEPART} goal - goals never propose themselves, so the latched goal above
 ; only DRIVES this terminal. depart is a self-act with no venue, so the standing goal IS the
-; whole readiness: it re-proposes {@self depart} each env-cycle until depart_act runs.
+; whole readiness: it re-proposes {@self DEPART} each env-cycle until depart_act runs.
 ; depart_act ends its own act-belief and destroys @self, so the propose stops when the
 ; emigrant is gone. Utility above routine work so a resolved departure actually executes.
 (npc-think depart_now
-  (goal {@self depart})
+  (goal {@self DEPART})
   (utility 82)
-  (effects (maintain-proposal {@self depart})))
+  (effects (maintain-proposal {@self DEPART})))
 
 ; The teardown twin: the packing day concluded - quit his posts, release his
 ; home, and leave. All reads are his OWN beliefs (think-side); the walks skip
 ; whatever a jobless / homeless emigrant lacks. destroy-entity ends the mind,
 ; which closes this twin's own gate.
 (npc-think departed
-  (role @self {@self depart /succ})
+  (role @self {@self DEPART /succ})
   (effects
     (for-each ?jb (every {@self job ?})
         ?jb.target: ?job

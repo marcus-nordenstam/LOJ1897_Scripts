@@ -125,7 +125,7 @@
              (latch-eval (chance (* 0.01 (+ 0.5 (attr @self assertiveness)))))))
 
   ; SPLIT (Item 5): the npc-think - the clerk decides to buy in. Mints {@self
-  ; goal {@self partner <articles>}}; the npc-action (partner_errand.hs) sends him to
+  ; goal {@self PARTNER <articles>}}; the npc-action (partner_errand.hs) sends him to
   ; the firm's premises and the completion buys him in there. RE-TARGET pattern:
   ; a search-type pursuit holds ONE standing goal, replaced (not stacked) each
   ; fire - begin-goal is idempotent only per identical target and each firm's
@@ -134,13 +134,13 @@
   ; deadlocks the search on an unreachable first target. (end-goal) no-ops when
   ; no goal stands. Focus = the firm's articles ({?org record ?art}).
   (effects
-    (end-goal {@self partner})
-    (begin-goal {@self partner (any {?principal_org record}).target}))
-  (cease-effects (end-goal {@self partner})))
+    (end-goal {@self PARTNER})
+    (begin-goal {@self PARTNER (any {?principal_org record}).target}))
+  (cease-effects (end-goal {@self PARTNER})))
 
 ; --- business_founding: a man of means sets up on his own account ----------
 ; SPLIT (Item 5, the great split): this is now the npc-THINK - the decision to
-; set up in business. It mints {?founder goal {?founder found}}; the npc-action
+; set up in business. It mints {?founder goal {?founder FOUND}}; the npc-action
 ; (events/work/found_business.hs) routes the founder to the bank and the
 ; completion does the real (found-org) commit - so the business is founded at the
 ; bank, by the man himself, leaving the founding documents (the clue trail) and the
@@ -175,8 +175,8 @@
                  (any {@self backed_by ?} (out int)))
              (latch-eval (chance (* 0.025 (+ 0.5 (attr @self assertiveness)))))))
 
-  (effects       (begin-goal {@self found}))
-  (cease-effects (end-goal   {@self found})))
+  (effects       (begin-goal {@self FOUND}))
+  (cease-effects (end-goal   {@self FOUND})))
 
 ; --- business_homeostat: the org-supply floor, founder-by-founder --------------
 ; The safety net that sustains EMPLOYMENT across generations. The MERIT founding
@@ -185,7 +185,7 @@
 ; founding ends ~cycle 42, employment by ~cycle 208). This event founds from ANY
 ; alive adult of founding age - breaking that chicken-and-egg - but ONLY while the
 ; town sits below its business floor (one per dozen souls). It mints the SAME
-; {@self goal {@self found}} the merit path does, so the found_business errand
+; {@self goal {@self FOUND}} the merit path does, so the found_business errand
 ; (roll a housable kind -> leave the old post -> found-org-seq) does the founding,
 ; at a bank, with the clue trail - no faceless world edit, no C++ hire().
 ;
@@ -203,7 +203,7 @@
   ; all non-belief and live in (when ...) below.
   (role @self (old_human @self))
 
-  ; MAINTENANCE floor-net (co-minter of {@self found} alongside business_founding). The
+  ; MAINTENANCE floor-net (co-minter of {@self FOUND} alongside business_founding). The
   ; CONTINUOUS completion gate is org_head (falls when he founds -> cease). The ONSET group
   ; (latch-eval) is rolled at the fire and locked once holding: the monthly chance, the
   ; not-already-pursuing self-dedup (would self-defeat if re-checked - it minted the goal), and
@@ -212,8 +212,8 @@
              (<= (years-old @self) 55)
              (none {@self job [k head_of_non_household_org]})
              (latch-eval (chance 0.05)
-                              (no-goal {@self found})
+                              (no-goal {@self FOUND})
                               (orgs-below-population-floor [k org business] 12))))
 
-  (effects       (begin-goal {@self found}))
-  (cease-effects (end-goal   {@self found})))
+  (effects       (begin-goal {@self FOUND}))
+  (cease-effects (end-goal   {@self FOUND})))

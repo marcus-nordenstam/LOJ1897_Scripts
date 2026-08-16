@@ -6,8 +6,8 @@
 ; inheritance) and, as the live leaf, out-competes its parent (leaf-only promotion):
 ;
 ;   want_drink  (desire): pressure-gated (drink-due), utility = drink-drive. Holds
-;                {@self drink} while thirsty; auto-retracts when the pressure lapses.
-;   AT a pub   (case A):  drink_at_pub proposes {@self drink} - the leaf label promotes
+;                {@self DRINK} while thirsty; auto-retracts when the pressure lapses.
+;   AT a pub   (case A):  drink_at_pub proposes {@self DRINK} - the leaf label promotes
 ;                to drink_act (drink.hs); the bare goal never self-promotes.
 ;   know a pub (case B):  drink_go holds {@self go ?pub} /caused_by the drink goal.
 ;   know none  (case C):  drink_find holds {@self find_building [k pub]} /caused_by it.
@@ -23,16 +23,16 @@
 (include "../../../definitions/roles.hs")
 
 ; TERMINAL step (act_body_purification): the drink act is PROPOSED, precondition-guarded, not
-; promoted by the bare {@self drink} goal. Because `drink` is a proposed label, that goal drops out
+; promoted by the bare {@self DRINK} goal. Because `drink` is a proposed label, that goal drops out
 ; of the competition (it still persists + drives the routing sub-goals below) - so the drink act
 ; promotes ONLY here, ONLY at a pub (can-drink). The off-pub "street-drink" hole is closed by
 ; construction.
 (npc-think drink_at_pub
-  (goal    {@self drink})
+  (goal    {@self DRINK})
   (role @self (grown @self))
   (when    (is-a (building @self) [k building pub]))
   (utility (drink-drive @self))
-  (effects (maintain-proposal {@self drink})))
+  (effects (maintain-proposal {@self DRINK})))
 
 ; CASE B - not at a pub, but knows one: head to it via the generic enter chain (§5.11). A
 ; maintenance event: it roulettes a pub ONCE and mints {@self enter ?pub}, then STICKS with that
@@ -41,7 +41,7 @@
 ; the drinker INSIDE the pub, so can-drink (current-building is-a pub) then holds and drink_act
 ; promotes.
 (npc-think drink_go
-  (goal    {@self drink})
+  (goal    {@self DRINK})
   (role @self (grown @self))
   (role ?pub [k building pub] (select (score (near @self ?pub)) (policy roulette)))
   (when    (not (in-building @self ?pub)))
@@ -52,7 +52,7 @@
 ; learned the (no-role) gate flips (or arrival makes can-drink hold), the find goal ends, and the
 ; go rung takes over.
 (npc-think drink_find
-  (goal    {@self drink})
+  (goal    {@self DRINK})
   (role @self (grown @self))
   (no-role [k building pub])
   ; Search while no pub is known and the region is not yet proven publess (find_building's /fail

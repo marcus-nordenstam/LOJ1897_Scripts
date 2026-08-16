@@ -9,7 +9,7 @@
 ; {@self judge_meet} goal while any race_result stands unjudged (sporting_event_think.hs).
 ; Each racer's race_act mints {?racer race_result <score> <sport>} into the organiser as
 ; he finishes (aux = the sport, so the declaration knows which contest it crowns).
-; This think casts the current top scorer and proposes {@self judge_declare ?winner ?sport},
+; This think casts the current top scorer and proposes {@self JUDGE_DECLARE ?winner ?sport},
 ; so the proposal tracks the leader as stragglers report; once
 ; it wins the auction judge_declare_act declares that racer, and meet_judged clears the
 ; scoreboard, which (via want_judge) retracts the judge_meet goal.
@@ -23,7 +23,7 @@
                 (believes {?winner race_result ? ?sport})
                 (select (score (any {?winner race_result}).target) (policy argmax)))
   (utility 40)
-  (effects (maintain-proposal {@self judge_declare ?winner ?sport})))
+  (effects (maintain-proposal {@self JUDGE_DECLARE ?winner ?sport})))
 
 ; Outcome twin of the declaration: every OTHER racer was positionally
 ; outcompeted -> the observable rivalrous outdo anchor (the loser's own
@@ -33,9 +33,9 @@
 ; persists as a memory - without the guard last year's declaration plus this
 ; year's first score would fire the twin before this year's winner is declared).
 (npc-think meet_judged
-  (role @self (believes {@self judge_declare ?winner ? /succ}))
+  (role @self (believes {@self JUDGE_DECLARE ?winner ? /succ}))
   (role ?r2 {?r2 race_result ?})
-  (when (< (days-since-last {@self judge_declare /ever}) 1))
+  (when (< (days-since-last {@self JUDGE_DECLARE /ever}) 1))
   (effects
     (for-each ?rb (every {? race_result ?})
       (do

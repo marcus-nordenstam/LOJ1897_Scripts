@@ -25,7 +25,7 @@
 ;     (the generic enter chain routes him into a church he knows - the graveyard
 ;     room the convey deposit files bodies into). CEASES the instant co-present
 ;     flips true (he has reached the body).
-;   bury_onsite: while CO-PRESENT with the body, PROPOSE {@self bury ?corpse}, whose
+;   bury_onsite: while CO-PRESENT with the body, PROPOSE {@self BURY ?corpse}, whose
 ;     winning proposal promotes bury_act (the rite). The propose STOPS when the
 ;     corpse-condition gate drops: bury_act tells {?corpse condition buried} and
 ;     DESTROYS the corpse, so the (not (believes ... buried)) / condition-dead filter
@@ -67,8 +67,8 @@
   (effects (maintain-proposal {@self enter ?church})))
 
 ; ONSITE rung. While the priest is CO-PRESENT with the overdue body, PROPOSE
-; {@self bury ?corpse} - the winning proposal promotes bury_act
-; (the rite). bury_act ends its OWN {@self bury ?corpse} act-belief and destroys the
+; {@self BURY ?corpse} - the winning proposal promotes bury_act
+; (the rite). bury_act ends its OWN {@self BURY ?corpse} act-belief and destroys the
 ; corpse (telling {?corpse condition buried}), so the ?corpse role empties on the next
 ; cycle and the rung simply stops proposing - no goal to retract, no cease needed.
 (npc-think bury_onsite
@@ -79,4 +79,4 @@
                 (select (score (months-since-death ?corpse)) (policy argmax)))
   (when (>= (months-since-death ?corpse) 1))
   (utility 85)
-  (effects (maintain-proposal {@self bury ?corpse})))
+  (effects (maintain-proposal {@self BURY ?corpse})))

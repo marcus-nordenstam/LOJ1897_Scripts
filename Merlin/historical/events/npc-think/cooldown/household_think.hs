@@ -138,7 +138,7 @@
 
   (effects
     (utterable-qs (to ?cook) {?home supper_hour ?}): ?qs
-    (maintain-proposal {@self say_to ?qs ?cook})))
+    (maintain-proposal {@self SAY ?qs ?cook})))
 
 (npc-think answer_mealtimes
   (cooldown 1 m)

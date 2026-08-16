@@ -77,7 +77,7 @@
              (lookup org_staffing org_kind ?ok staff_role none): ?jk
              (is-kind ?jk)))
   (utility 81)
-  (effects (debug-print "RC_ADPOST") (maintain-proposal {@self post_advert ?art ?jk})))
+  (effects (debug-print "RC_ADPOST") (maintain-proposal {@self POST_ADVERT ?art ?jk})))
 
 ; POST-ACT: the advert paper exists -> book-keep {@self post ?ad ?org}, closing
 ; advertise_pick's dedup and ending the advertise subtask.
@@ -87,7 +87,7 @@
             (not {@self post ?ad ?})
             (select (policy first-match)))
   (when (and (any {?org record ?}).target: ?art
-             (any {@self post_advert ?art /succ} (out int))
+             (any {@self POST_ADVERT ?art /succ} (out int))
              (read-doc-record [k job_description] ?ad (find org_record ?art))))
   (effects (begin-belief {@self post ?ad ?org})))
 
@@ -145,7 +145,7 @@
         (select (policy first-match)))
   (when (any {?org record ?}).target: ?art)
   (utility 81)
-  (effects (debug-print "RC_RESOLVE") (maintain-proposal {@self resolve_applications ?art ?out})))
+  (effects (debug-print "RC_RESOLVE") (maintain-proposal {@self RESOLVE_APPLICATIONS ?art ?out})))
 
 ; --- the filled posting comes off the board -------------------------------------
 (npc-think take_down_filled
@@ -160,13 +160,13 @@
              (>= (count-doc-records [k employee_register] ?reg)
                  (lookup public_orgs kind ?ok employee_count 2))))
   (utility 81)
-  (effects (maintain-proposal {@self take_down ?ad})))
+  (effects (maintain-proposal {@self TAKE_DOWN ?ad})))
 
 (npc-think take_down_done
   ; ?ad ENUMERATED for the same reason as take_down_filled: the concluded
   ; take_down must clear ITS OWN post, not whichever post binds first.
   (role ?ad (believes {@self post ?ad ?org}))
-  (when (any {@self take_down ?ad /succ} (out int)))
+  (when (any {@self TAKE_DOWN ?ad /succ} (out int)))
   (effects (end-belief {@self post ?ad ?org})))
 
 (npc-think recruit_staff_tmp_p1

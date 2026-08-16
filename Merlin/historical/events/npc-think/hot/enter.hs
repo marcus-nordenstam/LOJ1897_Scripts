@@ -28,7 +28,7 @@
   (when (and (not (in-building @self ?s))
              (not (at-threshold @self ?s))))
   (effects (debug-print "TRACE-ENTERTASK dest=?s")
-           (maintain-proposal {@self go_to_threshold ?s})))
+           (maintain-proposal {@self GO_TO_THRESHOLD ?s})))
 
 (npc-think enter_step_in
   (task {@self enter ?s})

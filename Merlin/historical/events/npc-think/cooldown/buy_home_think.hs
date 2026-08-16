@@ -8,7 +8,7 @@
 ;
 ; A seeker is an adult who lives in a home he neither owns nor leases (an adult
 ; child still in the natal / inherited home). A yearly timer mints the standing
-; {@self acquire} desire once a year; the routing
+; {@self ACQUIRE} desire once a year; the routing
 ; thinks walk him to a house agency and read the FOR-SALE register - the KNOWLEDGE
 ; CHANNEL that mints his {@self for_sale ?b} beliefs (reuse of the foundation
 ; read-public-register macro). Only once he KNOWS listings does choose_home cast a
@@ -22,7 +22,7 @@
 ;     register via the orient lane; reading it mints his {?agency isa [k org
 ;     house_agency]} beliefs so buy_home_go can then fire).
 ;
-;   buy_home        : yearly timer - seeker gate -> mint the {@self acquire} desire.
+;   buy_home        : yearly timer - seeker gate -> mint the {@self ACQUIRE} desire.
 ;   buy_home_go     : hold the desire, register unread, knows an agency, not there -> travel.
 ;   buy_home_read   : hold the desire, register unread, AT a known agency -> read it.
 ;   buy_home_find   : hold the desire, register unread, knows NO agency -> orient (learn one).
@@ -49,5 +49,5 @@
   (role ?h {@self home ?h}
            (not {@self own ?h})
            (not {?h tenant @self}))
-  (effects       (begin-goal {@self acquire}))
-  (cease-effects (end-goal   {@self acquire})))
+  (effects       (begin-goal {@self ACQUIRE}))
+  (cease-effects (end-goal   {@self ACQUIRE})))

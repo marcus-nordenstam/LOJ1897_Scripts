@@ -18,13 +18,13 @@
               {@self job [k job shop_clerk]})
 
   ; MAINTENANCE: the decision OWNS the stocktake goal end to end. stocktake_act mints no
-  ; durable done-belief - it ends the {@self stocktake} act-belief (begun-at-commit /
+  ; durable done-belief - it ends the {@self STOCKTAKE} act-belief (begun-at-commit /
   ; ended-at-completion), so the completion gate reads that episodic memory: the standing
   ; goal holds until he takes stock, and once stocktake_act resets days-since-last the (when)
   ; drops and the falling edge ends the goal. The monthly timer owns the cadence
   ; (one representative day per month), so the day-threshold need only distinguish "done this
   ; month" (0) from "a month on"; 1 is the minimal such gate. The act never ends the goal.
-  (when (>= (days-since-last {@self stocktake /ever}) 1))
+  (when (>= (days-since-last {@self STOCKTAKE /ever}) 1))
 
-  (effects       (begin-goal {@self stocktake}))
-  (cease-effects (end-goal   {@self stocktake})))
+  (effects       (begin-goal {@self STOCKTAKE}))
+  (cease-effects (end-goal   {@self STOCKTAKE})))

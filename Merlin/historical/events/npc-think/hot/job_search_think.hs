@@ -67,7 +67,7 @@
 (npc-think apply_for_gohome
   (task {@self apply_for ?jk ?art})
   (role ?home {@self home ?home})
-  (when (and (none {@self prepare_application ?art ?jk /succ})
+  (when (and (none {@self PREPARE_APPLICATION ?art ?jk /succ})
              (not (in-building @self ?home))))
   (utility 74)
   (effects (maintain-proposal {@self enter ?home})))
@@ -77,10 +77,10 @@
 (npc-think apply_for_write
   (task {@self apply_for ?jk ?art})
   (role ?home {@self home ?home})
-  (when (and (none {@self prepare_application ?art ?jk /succ})
+  (when (and (none {@self PREPARE_APPLICATION ?art ?jk /succ})
              (in-building @self ?home)))
   (utility 75)
-  (effects (maintain-proposal {@self prepare_application ?art ?jk})))
+  (effects (maintain-proposal {@self PREPARE_APPLICATION ?art ?jk})))
 
 ; the finished application -> hand it to the mail lane (send_mail_think posts it from
 ; @self's home outgoing pile; the magic service delivers it to the org's building by
@@ -91,7 +91,7 @@
   (task {@self apply_for ?jk ?art})
   (role ?app [k application] (select (policy first-match)))
   (when (and (read-doc-record [k application] ?app (find applicant @self))
-             (none {@self post_mail ?app ? /succ})))
+             (none {@self POST_MAIL ?app ? /succ})))
   (utility 76)
   (effects (debug-print "JS_SEND")
            (begin-proposal {@self send_mail ?app})))
@@ -100,7 +100,7 @@
 ; An OFFER: take up the post (a sub-task carrying the same job + articles as apply_for).
 (npc-think apply_for_take_up
   (task {@self apply_for ?jk ?art})
-  (role ?ltr [k offer_letter] {@self read ?ltr /ever})
+  (role ?ltr [k offer_letter] {@self READ ?ltr /ever})
   (utility 77)
   (effects (debug-print "JS_TAKEUP")
            (maintain-proposal {@self take_up_post ?jk ?art})))
@@ -109,7 +109,7 @@
 ; memory (the pick excludes this job+org forever after).
 (npc-think apply_for_rejected
   (task {@self apply_for ?jk ?art}:?af)
-  (role ?ltr [k rejection_letter] {@self read ?ltr /ever})
+  (role ?ltr [k rejection_letter] {@self READ ?ltr /ever})
   (effects (set-outcome ?af fail)))
 
 ; === take_up_post sub-task: go to the workplace and take the post ===================
@@ -130,7 +130,7 @@
              (<= (now-hour) 16)
              (none {@self job.salary ?})))
   (utility 79)
-  (effects (maintain-proposal {@self take_post ?art ?jk})))
+  (effects (maintain-proposal {@self TAKE_POST ?art ?jk})))
 
 ; POST-ACT: read his own wage-book row (level) -> the full job object (hire-beliefs).
 (npc-think take_up_post_read_book
@@ -160,4 +160,4 @@
 ; The morning post is not read inline here: want_read_mail walks @self to the home
 ; mail stack, take_my_letters lifts the addressed letters into hand, and each held
 ; one is read. The verdict rungs above just consume the resulting
-; {@self read ?ltr /ever} act-memory.
+; {@self READ ?ltr /ever} act-memory.

@@ -13,7 +13,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think resign_go
-  (goal {@self resign_club})
+  (goal {@self RESIGN_CLUB})
   ; The clubhouse is role-cast from the clubhouses the NPC KNOWS; nearest preferred,
   ; weighted. No known clubhouse -> no fire (the goal waits).
   (role ?go_dest [k building social_clubhouse] (select (score (near @self ?go_dest)) (policy roulette)))
@@ -24,7 +24,7 @@
 ; AT a clubhouse: PROPOSE the resignation act (goals never propose themselves). resign_club_act
 ; resigns @self's own club, so the propose is label-only.
 (npc-think resign_at_clubhouse
-  (goal {@self resign_club})
+  (goal {@self RESIGN_CLUB})
   (when (is-a (building @self) [k building social_clubhouse]))
   (utility 40)
-  (effects (maintain-proposal {@self resign_club})))
+  (effects (maintain-proposal {@self RESIGN_CLUB})))

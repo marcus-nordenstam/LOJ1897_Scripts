@@ -14,7 +14,7 @@
 ; Three intra-day rules, competing by (utility):
 ;   - seek_rest    : tired and not home -> head home (rises with fatigue).
 ;   - sleep        : at home -> the durative sleep act ((does sleep) records the
-;                    {@self sleep} memory; its completion resets fatigue). Utility
+;                    {@self SLEEP} memory; its completion resets fatigue). Utility
 ;                    climbs with fatigue and SKYROCKETS once fatigue > 1.0, so an
 ;                    over-tired NPC abandons everything else and goes to bed.
 ;   - idle_go_home : the mild fallback - when nothing pulls you,
@@ -34,7 +34,7 @@
   (effects       (any {@self home ?}).target: ?go_dest (debug-print "TRACE-SEEKREST home=?go_dest") (maintain-proposal {@self enter ?go_dest})))
 
 ; at home and at all tired (or it is night): sleep until the morning alarm. The
-; sleep act records a {@self sleep} memory ((does sleep)); its completion resets
+; sleep act records a {@self SLEEP} memory ((does sleep)); its completion resets
 ; fatigue. Utility skyrockets past full fatigue so sleep dominates work / leisure.
 (npc-think sleep
   (fatigue 0)                      ; sleep is a bodily need, not a fruitless search - never fatigue-capped

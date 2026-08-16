@@ -39,4 +39,4 @@
 
   (effects
     (nl_utterable_msg "I am called to ?domain"): ?msg
-    (maintain-proposal {@self say_to ?msg _})))
+    (maintain-proposal {@self SAY ?msg _})))

@@ -50,4 +50,4 @@
       (do
         (utterable-msg ?belief): ?msg
         (if (none {@self SAY ?msg ?diner})
-            (then (maintain-proposal {@self say_to ?msg ?diner}) (break)))))))
+            (then (maintain-proposal {@self SAY ?msg ?diner}) (break)))))))

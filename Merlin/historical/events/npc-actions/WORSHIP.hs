@@ -13,7 +13,7 @@
 
 (include "../../definitions/roles.hs")
 
-; The service (case A): AT a church {@self worship} is the leaf and promotes here. The
+; The service (case A): AT a church {@self WORSHIP} is the leaf and promotes here. The
 ; act-belief IS the service memory; ending it closes its interval to the ~90-min service.
 (npc-action {@self WORSHIP}
   ; Pure act: worship_at_church guards the (maintain-proposal) on being in a church, so the body only

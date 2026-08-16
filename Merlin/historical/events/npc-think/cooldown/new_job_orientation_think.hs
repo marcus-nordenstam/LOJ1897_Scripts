@@ -35,12 +35,12 @@
 
   ; MAINTENANCE (blessed days-since-last pattern, like want_drink): mint the shared orient goal;
   ; the (chance) is the ONSET roll (latch-eval locks it once holding); (days-since-last orient)
-  ; is the CONTINUOUS completion gate - orient_act ends its {@self orient} act-belief at the read,
+  ; is the CONTINUOUS completion gate - orient_act ends its {@self ORIENT} act-belief at the read,
   ; so days-since resets to 0, the (when) drops, and the goal ends after one read (no re-read
   ; storm). The cooldown + chance re-arm the periodic re-read, so new orgs are still picked up.
   (when (and (>= (years-old @self) 12)
-             (>= (days-since-last {@self orient /ever}) 1)
+             (>= (days-since-last {@self ORIENT /ever}) 1)
              (latch-eval (chance 0.3))))
 
-  (effects       (begin-goal {@self orient}))
-  (cease-effects (end-goal   {@self orient})))
+  (effects       (begin-goal {@self ORIENT}))
+  (cease-effects (end-goal   {@self ORIENT})))

@@ -47,7 +47,7 @@
   (utility (attend-utility ?occ))
   (effects
     (debug-print "ATTEND_STAY @self occ=?occ venue=?venue")
-    (maintain-proposal {@self dwell ?venue (+ (now-hour) 1)})))
+    (maintain-proposal {@self DWELL ?venue (+ (now-hour) 1)})))
 
 ; The marriage is made at the church by whoever shows up: the VOW is a say_to
 ; (speech is the one physical act here). The goal's [k wedding]:?occ kind-cast
@@ -64,7 +64,7 @@
              (attend-in-window ?occ)
              (in-building @self ?venue)))
   (utility (+ (attend-utility ?occ) 10))
-  (effects (maintain-proposal {@self say_to (utterable-msg {@self spouse ?betrothed}) ?betrothed})))
+  (effects (maintain-proposal {@self SAY (utterable-msg {@self spouse ?betrothed}) ?betrothed})))
 
 ; The vow was SPOKEN. Saying it IS believing it - the say channel mints the
 ; spoken {@self spouse ?betrothed} in the speaker's own mind and in every

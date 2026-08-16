@@ -24,4 +24,4 @@
             (has-goal {@self stow})))
 
   (utility 20)
-  (effects (maintain-proposal {@self make_cache ?building})))
+  (effects (maintain-proposal {@self MAKE_CACHE ?building})))

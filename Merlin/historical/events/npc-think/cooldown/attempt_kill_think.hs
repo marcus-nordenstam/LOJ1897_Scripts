@@ -2,7 +2,7 @@
 ; attempt_kill.hs - the kill goal's execution routing (pure .hs).
 ;
 ; A standing {@self goal {@self kill V}} resolves through the EMERGENT FIGHT:
-; this think mints the combat goal {@self goal {@self fight V}} (idempotent
+; this think mints the combat goal {@self goal {@self FIGHT V}} (idempotent
 ; per victim), and fight.hs plays it out blow by blow wherever killer and
 ; victim meet - kill_seek stalks to V's home; an occasion that puts them
 ; co-present (a crashed wedding) works identically, since kill_strike keys on
@@ -35,8 +35,8 @@
   (when (and (debug-print "TRACE_ATKILL_GATE @self victim=?victim")
              ?victim
              (none {?victim condition [k dead]})
-             (no-goal {@self fight ?victim})))
+             (no-goal {@self FIGHT ?victim})))
 
   (effects
     (debug-print "TRACE_ATKILL_MINT @self -> fight victim=?victim")
-    (begin-goal {@self fight ?victim})))
+    (begin-goal {@self FIGHT ?victim})))

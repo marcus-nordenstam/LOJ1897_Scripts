@@ -12,9 +12,9 @@
 ;   hold_meet_go / hold_meet_dwell: while the goal stands, hold_meet_go walks him to
 ;     his clubhouse (articles-building; the generic enter chain does the travel) and
 ;     cedes on arrival; hold_meet_dwell, once he is inside, proposes the on-site
-;     {@self hold_meet_run} act that open_meet_act drains (it summons the field).
+;     {@self HOLD_MEET_RUN} act that open_meet_act drains (it summons the field).
 ;   compete: the COMPETITOR's half - a member the organiser summoned proposes his own
-;     {@self race_run} act (race_act runs his leg from his own attributes).
+;     {@self RACE_RUN} act (race_act runs his leg from his own attributes).
 ;
 ; The SPORT is authored content read per club kind from tables/club_sports.hs;
 ; the roster is the employee_register the organiser legitimately holds - both
@@ -43,10 +43,10 @@
   ; so the completion gate reads the organiser's OWN episodic meet memory: the {@self
   ; hold_meet_run} act-belief begun-at-commit / ended-at-completion (like gamble's play_game).
   ; While it has been a while since his last meet the standing goal holds; once hold_meet_act
-  ; ends {@self hold_meet_run} days-since-last resets, the (when) drops, and the goal ends.
+  ; ends {@self HOLD_MEET_RUN} days-since-last resets, the (when) drops, and the goal ends.
   ; The yearly timer owns the annual cadence, so the day-threshold need only
   ; distinguish "just held" (0) from "a year on" (~365); 1 is the minimal such gate.
-  (when (>= (days-since-last {@self hold_meet_run /ever}) 1))
+  (when (>= (days-since-last {@self HOLD_MEET_RUN /ever}) 1))
 
   ; Latch the standing meet goal, focused on the club's articles (recovered from @self's
   ; {?club record ?art} belief, exactly as club_joining / apprenticeship recover an org's
