@@ -406,8 +406,8 @@
              (building @self))
         (then
           (building @self): ?shop
-          (for-each ?room (attr-values ?shop parts [k interior_space room])
-            (for-each ?it (attr-values ?room contents [k food]) /limit 1
+          (for-each ?room (env-parts ?shop [k interior_space room])
+            (for-each ?it (env-content ?room [k food]) /limit 1
               (do (bind ?it ?item)
                   (bind 1 ?found)
                   (begin-belief {@self provisions_shop ?shop})

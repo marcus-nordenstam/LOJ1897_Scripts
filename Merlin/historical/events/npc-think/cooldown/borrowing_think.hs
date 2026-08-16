@@ -5,7 +5,7 @@
 ; exactly the population the deserving / undeserving_poor vertical classifies.
 ;
 ; ONE loan pursuit at a time: the decision is a monthly PULSE (cooldown +
-; cease-after-fire) gated on holding NO take_loan goal, so a landed roll mints
+; cease-after-fire) gated on holding NO TAKE_LOAN goal, so a landed roll mints
 ; exactly one goal and the next decision waits for its conclusion. The (not owe)
 ; filter keeps it one debt per creditor pair. The goal's END is owned by the
 ; twin outcome rules below (conventions): borrowing_done concludes it when the
@@ -33,22 +33,22 @@
   ; The borrow roll: low industriousness (less self-supporting) takes on debt
   ; more often. One evaluation round per cooldown period; the no-goal gate caps
   ; the round at one landed pursuit.
-  (when (and (no-goal {@self take_loan ?})
+  (when (and (no-goal {@self TAKE_LOAN ?})
              (chance (* 0.005 (- 1.5 (attr @self industriousness))))))
 
-  (effects (begin-goal {@self take_loan ?creditor})))
+  (effects (begin-goal {@self TAKE_LOAN ?creditor})))
 
 ; Outcome twin: the loan-call recorded the debt - the pursuit succeeded.
 (npc-think borrowing_done
-  (goal {@self take_loan ?creditor})
+  (goal {@self TAKE_LOAN ?creditor})
   (role @self (believes {@self owe ?creditor}))
-  (effects (end-goal {@self take_loan ?creditor})))
+  (effects (end-goal {@self TAKE_LOAN ?creditor})))
 
 ; Outcome twin: the creditor is KNOWN dead - withdraw the pursuit. POSITIVE death
 ; knowledge only: a merely-decayed alive belief must not abandon the errand. The
 ; gate binds ?creditor, so the death test rides a (role @self ...) filter over that
 ; gate var (symmetric with borrowing_done's own-belief role above).
 (npc-think borrowing_abandoned
-  (goal {@self take_loan ?creditor})
+  (goal {@self TAKE_LOAN ?creditor})
   (role @self (believes {?creditor condition [k dead]}))
-  (effects (end-goal {@self take_loan ?creditor})))
+  (effects (end-goal {@self TAKE_LOAN ?creditor})))

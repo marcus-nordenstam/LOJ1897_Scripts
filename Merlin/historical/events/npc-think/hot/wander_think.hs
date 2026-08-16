@@ -17,7 +17,7 @@
 ; room of ?bldg remains, driving the maintain; it evaporates once all are observed.
 (npc-think wander_explore
   (task {@self wander ?bldg})
-  (role ?room (attr-values ?bldg parts [k interior_space room])
+  (role ?room (env-parts ?bldg [k interior_space room])
         (not (observed ?room))
         (select (policy first-match)))
   (utility 45)
@@ -32,7 +32,7 @@
         (select (policy first-match)))
   (when (none {@self explore ?bldg /pres}))
   (utility 44)
-  (effects (maintain-proposal {@self walk ?room})))
+  (effects (maintain-proposal {@self WALK ?room})))
 
 ; walked every known room this wander -> concluded.
 (npc-think wander_done

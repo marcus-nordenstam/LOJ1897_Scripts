@@ -36,4 +36,4 @@
              (room ?s): ?entry
              (none {?s struct_status [k closed]})))
   (effects (debug-print "TRACE-STEPIN bld=?s room=?entry")
-           (maintain-proposal {@self walk ?entry})))
+           (maintain-proposal {@self WALK ?entry})))

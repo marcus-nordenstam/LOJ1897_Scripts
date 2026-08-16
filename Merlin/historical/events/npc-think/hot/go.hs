@@ -39,11 +39,11 @@
   (when (and (is-a ?dest [k interior_space])
              (in-building @self (building ?dest))
              (not (at_location @self ?dest))))
-  (effects (maintain-proposal {@self walk ?dest})))
+  (effects (maintain-proposal {@self WALK ?dest})))
 
 ; EXTERIOR-SPACE dest -> walk straight to it (no structure to enter).
 (npc-think go_walk_exterior
   (task {@self go ?dest})
   (when (and (is-a ?dest [k exterior_space])
              (not (at_location @self ?dest))))
-  (effects (maintain-proposal {@self walk ?dest})))
+  (effects (maintain-proposal {@self WALK ?dest})))

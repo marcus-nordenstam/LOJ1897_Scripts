@@ -7,7 +7,7 @@
 ; goes and LOOKS. That act is the stocktake: stand at the premises, walk what
 ; you believe is here, and end the whereabouts of whatever is not where you
 ; left it. The whole algorithm is authored here from the general composable
-; ops - (location-content ?room) lists the items my spatial index believes are in
+; ops - (content ?room) lists the items my spatial index believes are in
 ; ?room, (attr ?item location) reads where each actually is (a destroyed item reads
 ; as nothing, and an item squirreled into a hidden cache reads the CACHE sub-space,
 ; not this room - either way the miss IS the discovery), (retire-whereabouts ?item)
@@ -18,12 +18,12 @@
 ; the room's actual contents. The CALLER gates the physical plausibility
 ; (@self must BE at the premises - walking the building's rooms during the
 ; stocktake act is the act's own granularity) and walks the rooms:
-;   (for-each ?room (attr-values <building> parts [k interior_space room])
+;   (for-each ?room (env-parts <building> [k interior_space room])
 ;     (take-stock-of ?room [k food]))
 ; ----------------------------------------------------------------------------
 
 (define-macro take-stock-of (?room ?kind)
-  (for-each ?item (location-content ?room)
+  (for-each ?item (content ?room)
     (if (and (is-a ?item [k ?kind])
              (not (= (attr ?item location) ?room)))
         (then (retire-whereabouts ?item)))))

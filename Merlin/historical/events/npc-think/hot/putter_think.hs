@@ -34,7 +34,7 @@
   (when (and (location @self): ?room
              {?home room ?room}))
   (effects
-    (for-each ?cache (attr-values ?room parts [k interior_space hiding_spot])
+    (for-each ?cache (env-parts ?room [k interior_space hiding_spot])
       (if (none {@self hiding_spot ?cache})
           (then
             (if (chance (* 0.006 (+ 1.0 (attr @self openness))))

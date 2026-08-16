@@ -14,6 +14,20 @@
 
 (include "../../../definitions/roles.hs")
 
+; The two STRIKEABLE scenes for the steal goal: an occupied residence that is not
+; the thief's own home (a break-in), or the thief's OWN workplace (embezzlement -
+; authorized presence). burgle_go heads to a residence when at neither; at either,
+; the steal goal is the leaf and promotes to steal_action.
+(define-macro at-burgle-residence ()
+  (and (not (at-home))
+       (is-a (building @self) [k building residential_building])))
+; believes (not bind) so the effect-position call site below treats a jobless
+; miss as plain false, never an effects abort.
+(define-macro at-own-workplace ()
+  (and (believes {@self job.org ?emp})
+       (believes {?emp workplace ?work})
+       (in-building @self ?work)))
+
 ; APPROACH - hold the steal goal but not yet at a strikeable scene: pick an
 ; occupied non-home same-town residence ((burgle-target), env-truth) and travel
 ; there. Pushes the steal utility so the go sub-goal it maintains promotes; steal
@@ -58,12 +72,12 @@
   (effects
     (if (at-own-workplace) (then embezzle) (else opportunist_theft)): ?method
     (bind 0 ?found)
-    (for-each ?room (attr-values ?scene parts [k interior_space room])
-      (for-each ?item (attr-values ?room contents)
+    (for-each ?room (env-parts ?scene [k interior_space room])
+      (for-each ?item (env-content ?room)
         (if (and (= ?found 0) (has-facet ?item valuable))
             (then (bind ?item ?loot) (bind 1 ?found)))))
     (if (= ?found 1)
-        (then (maintain-proposal {@self take_item ?loot ?owner}))
+        (then (maintain-proposal {@self take ?loot}))
         (else
           (begin-ended-belief {@self ?method ?owner})
           (begin-ended-belief {@self steal ?owner})
@@ -73,23 +87,39 @@
           (discharge-pressure ?p 0.75)
           (end-goal {@self steal})))))
 
-; Outcome twin: THIS pursuit's take concluded - the /succ record's own
-; /caused_by names the gated goal, so a stale record from an earlier theft
-; never concludes a fresh pursuit. The twin INTERPRETS the take as the theft:
-; the method + steal anchors (born-ended act records - count-ever reads them),
-; the ledger row with the loot kind, the residents' chance to stir, the
-; grievance discharged (no-op on @fail for an appetitive steal), the goal ends.
+; Outcome twin: THIS pursuit's take concluded - the /succ record's own /caused_by
+; names the gated goal, so a stale record from an earlier theft never concludes a
+; fresh pursuit. steal_done just CONCLUDES the burglary: the residents get their
+; chance to stir, the grievance is discharged, the goal ends. Interpreting the take
+; AS a theft (the wronged owner, the method, the ledger row) is a separate concern -
+; classify_take_as_theft below - keyed on OWNERSHIP of the scene, not on the taking.
 (npc-think steal_done
   (goal {@self steal}:?sgoal)
-  (role @self (believes {@self take_item ?loot ?owner /succ}:?rec))
+  (role @self (believes {@self take ? /succ}:?rec))
   (when (caused-by ?rec ?sgoal))
   (effects
-    (if (at-own-workplace) (then embezzle) (else opportunist_theft)): ?method
-    (begin-ended-belief {@self ?method ?owner})
-    (begin-ended-belief {@self steal ?owner})
-    (crime-ledger-append @self ?owner ?method steal (kind ?loot) @fail)
     (if (building @self)
         (then (burglary-confrontation @self (building @self))))
     (caused-by ?sgoal {@self pressure ?}): ?p
     (discharge-pressure ?p 0.75)
     (end-goal {@self steal})))
+
+; Classify a completed take AS THEFT - but ONLY when @self does not own the premises
+; it took from (a break-in residence, or the org whose workplace it embezzles). The
+; wronged party is the scene's deed owner (owner-of ?scene); an ownerless / self-owned
+; / dead-owner scene is no theft (the take still concludes via steal_done, nothing is
+; recorded). Taking is just taking - the method + the {@self steal ?owner} anchor +
+; the ledger row live HERE, off the scene's ownership, never off the take itself.
+(npc-think classify_take_as_theft
+  (goal {@self steal}:?sgoal)
+  (role @self (believes {@self take ?loot /succ}:?rec))
+  (when (and (caused-by ?rec ?sgoal)
+             (building @self): ?scene
+             (owner-of ?scene): ?owner
+             (alive ?owner)
+             (not (= ?owner @self))))
+  (effects
+    (if (at-own-workplace) (then embezzle) (else opportunist_theft)): ?method
+    (begin-ended-belief {@self ?method ?owner})
+    (begin-ended-belief {@self steal ?owner})
+    (crime-ledger-append @self ?owner ?method steal (kind ?loot) @fail)))

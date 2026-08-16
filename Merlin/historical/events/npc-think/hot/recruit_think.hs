@@ -130,7 +130,7 @@
   (when (and (in-building ?out ?home)
              (location ?out): ?room))
   (utility 80)
-  (effects (debug-print "RC_RESGO") (maintain-proposal {@self walk ?room})))
+  (effects (debug-print "RC_RESGO") (maintain-proposal {@self WALK ?room})))
 
 ; --- holding gathered applications, standing at an outgoing pile -> resolve the
 ; batch (the act offers the first held application, rejects the rest, files each

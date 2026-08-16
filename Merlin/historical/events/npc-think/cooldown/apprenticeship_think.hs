@@ -61,21 +61,21 @@
              (<= (years-old @self) 16)))
 
   ;; SPLIT (Item 5): the npc-think - the youth chooses a trade. Mints {@self goal
-  ;; {@self seek_indenture <articles>}}; the npc-action (apprentice_errand.hs) sends him
+  ;; {@self SEEK_INDENTURE <articles>}}; the npc-action (apprentice_errand.hs) sends him
   ;; to the master's premises and the indenture is sealed there. RE-TARGET: one
   ;; standing search goal, replaced each fire (per-target idempotency would stack a
   ;; distinct goal per org's articles and overflow the attention set; a blocking
   ;; gate would deadlock the search on an unreachable first master).
   ;; Focus = the org's articles, recovered from @self's {?org record ?art} belief.
   (effects
-    (end-goal {@self seek_indenture})
-    (begin-goal {@self seek_indenture ?org_record}))
+    (end-goal {@self SEEK_INDENTURE})
+    (begin-goal {@self SEEK_INDENTURE ?org_record}))
   ;; MINTER owns ending: once the youth is indentured (gains a paid job / reads
   ;; trainee), this rule's (role @self (not {@self job.salary ?})) + (when
   ;; (not (= (job-level @self) [k trainee]))) gate stops holding, and this falling
   ;; edge ends the aim. A youth seeks ONE indenture at a time, so label-only keying
   ;; is fine. The act (apprentice_errand_act.hs) never ends the aim.
-  (cease-effects (end-goal {@self seek_indenture})))
+  (cease-effects (end-goal {@self SEEK_INDENTURE})))
 
 (npc-think apprenticeship_completion
   (cooldown 1 m)

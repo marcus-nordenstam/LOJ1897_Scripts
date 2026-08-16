@@ -12,7 +12,7 @@
 
 (npc-think borrow_go
   (lock-rule)
-  (goal {@self take_loan ?creditor})
+  (goal {@self TAKE_LOAN ?creditor})
   (when (and (any {?creditor home ?}).target: ?cred_home
              (not (in-building @self ?cred_home))))
   (utility 60)
@@ -20,11 +20,11 @@
 
 ; AT the lender's home: PROPOSE the loan-taking act (goals never propose themselves).
 ; The creditor rides the act target - the act body binds ?lender off the promoted
-; {@self take_loan <creditor>} belief to record the debt against the right person.
+; {@self TAKE_LOAN <creditor>} belief to record the debt against the right person.
 (npc-think borrow_at_home
   (lock-rule)
-  (goal {@self take_loan ?creditor})
+  (goal {@self TAKE_LOAN ?creditor})
   (when (and (any {?creditor home ?}).target: ?cred_home
              (in-building @self ?cred_home)))
   (utility 60)
-  (effects (maintain-proposal {@self take_loan ?creditor})))
+  (effects (maintain-proposal {@self TAKE_LOAN ?creditor})))

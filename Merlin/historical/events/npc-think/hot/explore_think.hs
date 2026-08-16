@@ -6,7 +6,7 @@
 ; behaviour) binds. General over ?bldg: wander proposes it for the workplace as well
 ; as home; want_explore below is the standing HOME bootstrap driver.
 ;
-; The room source is ENV-TRUTH: (attr-values ?bldg parts [k interior_space room])
+; The room source is ENV-TRUTH: (env-parts ?bldg [k interior_space room])
 ; enumerates the building's ACTUAL rooms - most UNOBSERVED, which is the point - as
 ; role candidates (the sanctioned frontier carve-out). (not (observed ?room)) filters
 ; to the unseen; (select (policy first-match)) walks them one at a time, no thrash.
@@ -17,17 +17,17 @@
 (npc-think want_explore
   (cooldown 1 m)
   (role ?home {@self home ?home})
-  (role ?room (attr-values ?home parts [k interior_space room])
+  (role ?room (env-parts ?home [k interior_space room])
         (not (observed ?room))
         (select (policy first-match)))
   (when (in-building @self ?home))
   (utility 70)
   (effects (maintain-proposal {@self explore ?home})))
 
-(npc-think explore_go
+(npc-think explore_walk
   (task {@self explore ?bldg})
-  (role ?room (attr-values ?bldg parts [k interior_space room])
+  (role ?room (env-parts ?bldg [k interior_space room])
         (not (observed ?room))
         (select (policy first-match)))
   (utility 71)
-  (effects (maintain-proposal {@self walk ?room})))
+  (effects (maintain-proposal {@self WALK ?room})))

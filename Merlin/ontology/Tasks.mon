@@ -24,14 +24,6 @@ relation
 
             pubbing
 
-            # dwell / work: episodic activity-lane tasks (hsim_activity_lanes_
-            # plan.md L2). {@self dwell <home>} = "spending the day at home";
-            # {@self work <org>} = "working at the workplace" (regardless of the
-            # job or which org). Proposed per visit by the .hs activity-lane
-            # drivers and concluded on promotion; the decay pass folds repeated
-            # days into a cumulative belief whose count is the attendance
-            # frequency.
-            dwell                                   (tar structure|org|space)    (aux ?)
             work                                    (tar structure|org|space)
             # socialize_at: episodic ad-hoc social-outing memory (activity-lanes
             # L3). {@self socialize_at <venue> /aux <organizer>} = "went out with
@@ -48,12 +40,6 @@ relation
             # interest lane (pursue-interest); the decay pass folds repeats into
             # a cumulative belief whose count is the pursuit frequency.
             pursue                                  (tar structure)    (aux ?)
-            # worship: churchgoing memory. {@self worship <church>} = "worships
-            # at <church>". classify_piety reads it (a worshipper is pious) -
-            # the specific label replaces the old vague `attend`. The activity-
-            # lanes worship lane (L8) will mint it begin+end per service; the
-            # current churchgoing seed mints one ongoing belief (binary piety).
-            worship                                 (tar structure)    (obs)
             # indulge: episodic vice-lane memory (activity-lanes L8).
             # {@self indulge <pub> /aux alcohol|gambling} = "indulged in
             # <vice> at <pub>". One general label for the pub vices; the vice
@@ -71,16 +57,6 @@ relation
             # co-present membership the incident pass can read. The standing
             # membership stays {@self member_of <club-org>} (the roster).
             gather                                  (tar structure)
-            # play_game: a game-playing episode (activity-lanes L8). The target
-            # is a per-mind game OBJECT (of a game kind), not a venue - {@self
-            # play_game <game>} where <game> isa poker / billiards / ...; the
-            # co-players ride on the game object as {<game> participant <person>}
-            # (States.mon), the venue as the game's own belief or its aux. The
-            # target is baked into the label (vs `play_instrument` for music -
-            # genuinely different activities). The disposition to gamble is the
-            # `gambling_addiction` ATTR (common.arc), NOT this episode.
-            #play_game                               (tar game)    (kind_fold)
-            play_game                                              (kind_fold)
             
             # attend: a TASK, never an action - attending changes nothing in the
             # env by itself; the task's rungs (attend_think.hs) propose the SHARED
@@ -144,85 +120,23 @@ relation
             ingest                                  (tar meal)         (aux ?)
             read_at                                 (tar structure|space)
             rest                                    (tar structure|space)
-            # go - the smart TRAVEL TASK: reach ANY destination (a structure, a
+            # go - the smart TRFAVEL TASK: reach ANY destination (a structure, a
             # room, an exterior space). Its rungs (go.hs) dispatch to enter (for a
-            # structure / a room's building) and walk (the dumb relocate). Lanes
-            # issue {@self go <dest>} for any dest and never reason about the kind.
+            # structure / a room's building) and the WALK action (the dumb relocate).
+            # Lanes issue {@self go <dest>} for any dest and never reason about the kind.
             go                                      (tar ?)
-            # walk - the dumb relocate ACTION the go task drives: relocate the actor
-            # INTO a space (room / exterior space). Never a structure - reaching a
-            # building is enter's job, so walk carries a space target only.
-            walk                                    (tar space)
-            # go_to_threshold - the counterpart TRAVEL act that arrives at a
-            # structure's threshold (front-park, OUTSIDE), not inside a space.
-            # The enter chain (enter.hs) mints it to reach a venue's face; the
-            # completion front-parks the actor where at-threshold reads true.
-            go_to_threshold                         (tar structure)
-            # depart - the emigrant's LEAVE-TOWN act (depart_act.hs): the standing
-            # {@self depart} goal emigration.hs mints; the act quits the job,
-            # releases the home and exits the town permanently. Focusless.
-            depart
-            # provision - the cook's keep-the-larder-stocked errand (buy
-            # food at the grocer, carry it home, stow it in the kitchen).
-            # The goal the plan_provisioning think event mints and the
-            # meals.hs provisioning acts drain.
-            provision                               (tar ?)
             # forage - the STARVATION-tail eat GOAL (meals_think.hs): a famished
             # NPC's drive to eat NOW. forage_at_source picks the source (carried >
             # pantry > shop buy/steal) and promotes it to the generic consume act;
             # forage itself mints no act. Focusless.
             forage                                  (tar ?)
-            # stocktake - the shopkeeper's morning inventory round: walk the
-            # premises and validate the believed stock against the shelves
-            # (take-stock-of-room, stocktake_macros.hs). The act whose whole
-            # PURPOSE is confirming / disproving whereabouts beliefs -
-            # deliberate attention, the only sanctioned absence-disproof
-            # beyond the goal-attended reach-for-it verify.
-            stocktake                               (tar ?)
-            # Act-belief labels for the begin-act unification: an act IS an ongoing
-            # {@self <label> <target>} belief, so its label must be a defined
-            # state/action/task (goal-clause labels alone are not enough). stow -
-            # putting a carried item away (burgle / provisioning tail); give_alms -
-            # the charity act. (scream is already a defined relation-term.)
+            # as in stow an umbrella!
             stow                                    (tar ?)  (aux ?)
-            # take_item / consume: the two generic hand-to-thing primitives.
-            # take_item picks the pattern-given item up (the thinking - WHICH
-            # item, whose it is - happened in the proposing think; the aux
-            # carries the wronged owner for provenance); consume destroys the
-            # pattern-given food item into a meal (aux = the wronged shopkeeper
-            # when the mouthful is stolen, else absent).
-            take_item                               (tar ?)  (aux human)
-            consume                                 (tar ?)  (aux human)
-            # make_cache - carve a private hiding spot at home (secret letters,
-            # stowed loot). The act (make_cache_act.hs) walks the host-quality
-            # ladder and claims/creates the best cache; the deliberation that
-            # proposes it is make_secret_cache_think.hs. Target is the home.
-            # No (obs): a hiding spot is fashioned unseen (concealment is the point).
-            make_cache                              (tar ?)
-            # bring - carry what you hold of a KIND to a destination and put it
-            # away there ({@self bring [k food] <kitchen>}); decomposes to a put
-            # once at the destination. The provisioning carry-home leg. The dest is
-            # unconstrained: the act just walks to it and puts down at @self's room,
-            # so a room (kitchen) or a structure (home) both work.
-            bring                                   (tar ?)  (aux ?)
-            give_alms                               (tar ?)
-            # burial lane (events/npc-act/convey_corpse.hs + bury.hs). Pure
-            # perception, no telepathy: a bereaved NPC CARRIES the body to a
-            # church; the co-present priest PERCEIVES the corpse in his church
-            # and buries it. convey - the bereaved kin's deposit goal {@self
-            # convey <corpse>} (route to a church, relocate the body in); the
-            # ended act-belief IS the delivered record (bars re-carting the
-            # same corpse). bury - the priest's burial-rite
-            # act-belief {@self bury <corpse>} (verdict + tombstone + destroy).
-            # All (tar ?): a corpse's {isa human} belief is end-dated at death,
-            # so the target is not kind-constrainable.
-            convey                                  (tar ?)
-            bury                                    (tar ?)
+
             # Conversational activities (gossip / catch_up / confide / introduce /
             # confess_fancy / table_talk / mealtime asks) carry no acts of their own:
             # each think composes its wire message ((utterable-msg ...) /
             # (utterable-qs ...)) and proposes the ONE say_to act below.
-            acquire                                 (tar object)
             buy                                     (tar ?)
             grant                                   (tar object)               (aux human)
 
@@ -234,23 +148,8 @@ relation
             talk_to                                 (tar human)
             seek_answers
             marry
-            # Great-split (Item 5) goal-action labels - the npc-think mints
-            # {@self goal {@self <verb> <focus>}}, the npc-action routes to the located
-            # venue and the completion does the world-commit. Distinct from the
-            # existing state/kind terms (retire/borrow/apprentice are already defined
-            # elsewhere, so these are fresh verbs): quit_work -> the retirement act;
-            # take_loan -> a lender (the creditor focus); back -> the backed firm;
-            # partner -> the articles of the firm one buys into; join_club /
-            # resign_club -> a club;
-            # seek_indenture -> a master; enroll_child -> a school for the child;
-            # engage_staff -> the boss's hire.
-            quit_work                               (tar ?)
-            take_loan                               (tar human)
+
             back                                    (tar org)
-            partner                                 (tar articles_of_incorporation)
-            join_club                               (tar org)
-            resign_club                             (tar org)
-            seek_indenture                          (tar human)
             enroll_child                            (tar human)
             engage_staff                            (tar human)
 
@@ -259,18 +158,8 @@ relation
             #                  member's copy is his ticket, read as {?judge summon @self
             #                  /aux ?sport} and ended when his leg is run).
             summon                                  (tar human)  (aux ?)
-            # hold_meet_run  -> the organiser's on-site marker; promotes open_meet_act
-            #                  (summon the field).
-            # race_run       -> a summoned competitor's marker; promotes race_act
-            #                  (self-simulate performance from OWN attrs).
-            # judge_meet     -> the organiser's standing GOAL to declare the winner from
-            #                  the race_result beliefs the competitors minted into him.
-            # judge_declare  -> the dumb ACT the sporting_judge think proposes once a top
-            #                  scorer is cast; its target is that winner.
-            hold_meet_run                           (sub human)
-            race_run                                (sub human)     (tar ?)  (aux human)
+            
             judge_meet                              (tar ?)
-            judge_declare                           (tar human)  (aux ?)
 
             # find_building -> the venue-discovery search TASK (find_building.hs). A seek rule
             # maintains {@self find_building [k building <kind>] ?region} while it wants a venue of a
@@ -284,20 +173,7 @@ relation
             # establishment staffed (the window-start think mints it; the emergent
             # act fulfils it). No target: the duty itself, not a specific hire.
             staff_household                         (tar ?)
-            sack                                    (tar human)
-            promote_staff                           (tar human)
-            found_club                              (tar ?)
-            # orient -> new_job_orientation: @self goes to the parish and reads the
-            # public incorporation register, forming a mental org object (+ isa /
-            # founder / record beliefs) per org so the belief-pure casting events
-            # (hiring / club_joining / apprenticeship / partnership / appointment)
-            # can role over orgs @self KNOWS. No focus - the church is resolved in
-            # the act via (venue [k building church]).
-            orient                                  (tar ?)
-            enrol_primary                           (tar ?)
-            enrol_secondary                         (tar ?)
-            enrol_university                        (tar ?)
-
+            
             # Domain-specific tasks
             found                                    (tar org)
             process_title_deed                       (aux structure|space)
@@ -334,40 +210,6 @@ relation
             #tell                /motor mouth            /sub @msgAuthor human   /tar @msg @excl @S     /aux @msgAudience human
             #ask                 /motor mouth            /sub @msgAuthor human   /tar @qs @excl @S      /aux @msgAudience human
             
-            say_to              (motor mouth) (sub @msgAuthor human)   (tar @msg @excl @S) (aux @msgAudience human)
-
-            # The clerical WRITE family (recruit_actions.hs) - pen-changes-paper
-            # actions, each producing a DIFFERENT document (an act's args ride its
-            # belief, so one generic write cannot carry the varying content; the
-            # eat / provision precedent). The writings themselves are COMPOSED in
-            # .hs (write-doc-record fields / written-msg letters); the ops only
-            # encode them.
-            # Actions are PURE PHYSICAL EFFECT: paper and people only (an org is a
-            # mental-only object and never an act participant); all recruiter
-            # bookkeeping is minted by the *_done think rules off the act outcome.
-            # post_advert: write the advert paper (target = the org's articles).
-            # make_offer / send_rejection: the recruiter stamps ONE application's status
-            #   and posts the reply letter (target = that application).
-            # accept_post: the seeker stamps his offered application `accepted`.
-            # enrol: the wage-book row (target = the new hire, aux = the wage book).
-            # take_down: remove a filled posting from the board.
-            # prepare_application: the seeker writes the application paper from the org's
-            #   articles + the job (target = articles, aux = job), addressed to the org's
-            #   articles with the org's WRITTEN street address; the send_mail lane posts it
-            #   and the magic mail service delivers it to the workplace inbox (no trip to
-            #   the workplace to apply). resolve_applications: the hiring officer's ONE
-            #   resolution of the applications he LIFTED from the inbox (take_my_letters'
-            #   duty scan): offer the first, reject the rest, file each verdict letter into
-            #   the outgoing pile at hand, destroy every application (target = the org's
-            #   articles, aux = the outgoing pile).
-            #   take_post: the offered seeker enrols himself on the register (target =
-            #   articles, aux = the job).
-            post_advert         (motor right_hand)  (tar @excl articles_of_incorporation)  (aux ?)
-            prepare_application (motor right_hand)  (tar @excl articles_of_incorporation)  (aux job)
-            resolve_applications (motor right_hand)  (tar @excl articles_of_incorporation)  (aux stack)
-            take_post           (motor right_hand)  (tar @excl articles_of_incorporation)  (aux job)
-            take_down           (motor right_hand)  (tar @excl job_description)
-
             approach                (motor legs)              (tar @excl)
             enter                   (tar @excl structure)
             go_entity               (tar @excl)
@@ -403,9 +245,7 @@ relation
             # the BOTTOM (attr-rotate + top re-point), exposing the next doc.
             read_mail           (tar @excl structure)
             take_my_letters     (tar @excl stack)
-            stack_take          (motor right_hand)  (tar @excl document)  (aux stack)  (obs)
-            stack_bury          (motor right_hand)  (tar @excl document)  (aux stack)  (obs)
-
+          
             # post_mail - the dumb hands act the send_mail task proposes: deposit
             # the outgoing document ?doc into the outgoing_mail_stack @self is standing
             # at (the act binds it by co-presence). Filing a doc INTO a pile is env
@@ -442,7 +282,6 @@ relation
             give_birth           (motor eyes right_hand legs)
             perceive_attr        (tar ?)
 
-            drink               (tar object)  (obs)
 
             use_umbrella
             serve_customer      (motor right_hand left_hand legs)   (obs)  (belief_timeout 1800)
@@ -494,24 +333,9 @@ relation
             report_crime        (motor mouth eyes right_hand)   (tar ?)
             recruit             (motor mouth)                   (tar human)  (aux ?)
 
-            # Physical / multi-motor sub-block - tasks that compose motor
-            # ACTIONs. Motors marked are the typical mix; the
-            # implementing isim task may add or substitute depending on
-            # method.
-            flee                (motor legs)                    (tar human)
-            # cry_out - the under-attack victim's scream for help (fight.hs): a
-            # focusless 1-minute act that keeps the victim active (not sleeping)
-            # while it can neither fight nor flee. (`scream` names a Sounds kind,
-            # so the act-label is cry_out.)
-            cry_out             (motor mouth)                   (tar ?)
             seduce              (motor mouth legs body)         (tar human)              (construed_act intimacy_act)  (facets blackmailable)
             assault             (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (obs)  (abduct)
-            # fight - the EMERGENT-COMBAT goal (the unified think/act model): a melee
-            # killer's standing {actor goal {actor fight victim}}, minted by the
-            # perpetration melee branch in place of committing the kill. The fight
-            # cascade (fight.hs) reaches the victim and strikes 1-minute blows until
-            # someone dies (the victim can resist / flee - follow-up).
-            fight               (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
+            
             # kill - ABSTRACT goal task. No method aux: the method is a
             # separate, more-specific leaf task (strangle / shoot / poison
             # / push_from_height / etc.) declared further down. A goal
