@@ -41,11 +41,6 @@
 ; as needing work (the gate defaults them in).
 (define-macro seek_job_wealth_ceiling () 1.0)
 
-; The idle-dwell re-deliberation quantum (minutes). A dwell caps its stay at this
-; so the mind re-deliberates at least this often and any non-idle task preempts
-; the fallback body. Smaller = snappier task uptake, more idle deliberations.
-(define-macro dwell_quantum_minutes () 60)
-
 ; Deliberation inaction floor: the fixed weight of "forgive / do nothing" in the
 ; act-vs-floor pick that follows the (select-joint ...) deliberation. The winner's
 ; pressure-driven action score competes against this ONCE per fire, so a weak

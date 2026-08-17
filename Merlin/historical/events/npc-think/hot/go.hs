@@ -14,7 +14,7 @@
 ;
 ; Reaching a KNOWN room needs {?dest building ?bldg} in belief (learned by visiting): a
 ; room whose building the actor does not yet know simply does not route here - the caller
-; is responsible for producing that knowledge (explore), never go.
+; is responsible for producing that knowledge (wander), never go.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")

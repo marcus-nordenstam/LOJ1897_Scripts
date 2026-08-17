@@ -8,24 +8,23 @@
 ; empty. Drives homebody, applicant and recruiter receipt alike - the driver just
 ; names the premises (home for residents, the workplace for the recruit officer).
 ;
-; The stack is bound SCOPED to ?prem via the location.building chain, so a recruiter
+; The stack is bound SCOPED to ?prem via (in-building ?stk ?prem), so a recruiter
 ; who knows his home mailbox never confuses it with the workplace inbox.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
 
-; DRIVER - the daily home post: at home, read the home mail once a day. DISABLED: it
-; has never fired (its old (building-co-present @self) filter sourced PEOPLE in @self's
-; building, but ?home is a BUILDING, so the {@self home ?home} residual never matched).
-; The at-home form below is correct, but at utility 85 it dominates and starves mail
-; POSTING - re-enable only with a utility/cadence retune. Residents' home mail therefore
-; goes unread for now; the recruit officer's workplace read_mail rides the recruit_staff
-; duty independently.
-; (npc-think want_read_mail
-;   (role ?home {@self home ?home} {@self location.building ?home})
-;   (when (>= (days-since-last {@self read_mail ?home /succ}) 1))
-;   (utility 85)
-;   (effects (debug-print "WANT_RM") (maintain-proposal {@self read_mail ?home})))
+; DRIVER - the daily home post: at home, sweep the home mail on a 24h refractory
+; (days-since-last the last /succ sweep). Errand band: it rides the ordinary
+; errand competition against posting, meals and the rest - never a flat number.
+; The recruit officer's workplace read_mail rides the recruit_staff duty
+; independently.
+(npc-think want_read_mail
+  (role ?home {@self home ?home})
+  (when (and (in-building @self ?home)
+             (>= (days-since-last {@self read_mail ?home /succ}) 1)))
+  (utility errand)
+  (effects (debug-print "WANT_RM") (maintain-proposal {@self read_mail ?home})))
 
 ; (1) find ?prem's mailbox once - locate wanders ?prem, and concludes at once if its
 ; whereabouts are already known (the durable location belief). One locate per premises.

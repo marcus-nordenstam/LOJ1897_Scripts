@@ -296,7 +296,8 @@ relation
             # putter - the monthly home ROUND (putter_think.hs): re-check the rooms
             # you already KNOW ({home room room} beliefs), so perception catches
             # anything new inside them (a delivered mail stack). The belief-driven
-            # complement of `explore`, which DISCOVERS unperceived rooms off env attrs.
+            # complement of `wander`, whose composition walk also covers rooms
+            # never stood in.
             putter              (tar structure)
 
 
