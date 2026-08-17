@@ -78,13 +78,6 @@ archetype "human_npc" (cap 4096) (per obs) (raycast-visible) (sentient) (non-occ
     (struct child "eyes" [k eye] (offset 0 1.6 0))
     (struct child "mouth" [k mouth] (offset 0 1.55 0.03))
     (struct child "torso" [k torso] (offset 0 1.2 0))
-    # Parts are not auto-perceived - we perceive specific body-parts below instead
-    "left_hand"
-    "right_hand"
-    "head"
-    "eyes"
-    "mouth"
-    "torso"
     "pregnant_by"
     "control"
     # The NPC's current SPACE (room / exterior_space). Perceptible + auto-percept

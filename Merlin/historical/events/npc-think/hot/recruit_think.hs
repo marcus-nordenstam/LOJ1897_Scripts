@@ -220,7 +220,7 @@
 
 (npc-think recruit_staff_tmp_p8
   (task {@self recruit_staff ?org})
-  (role ?h {@self hand ?h})
+  (role ?h [k hand] (struct @self hand))
   (role ?home {@self home ?home})
   (effects (debug-print "RCP_P8")))
 

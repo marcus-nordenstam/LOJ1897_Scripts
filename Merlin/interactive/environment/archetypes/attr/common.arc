@@ -71,13 +71,6 @@ attr "physical_motors" (type physical-motors)
 # Hands are integral to reasoning - they get their own attrs even though they also appear in parts.
 # Body parts are FELT internally (the NPC always knows their own body) AND observed externally
 # (others see your hands when they look at you). Same int-feel-ext-obs split as `name`.
-attr "left_hand" (type entity) (entity "hand") (state "hand") (int-per feel) (ext-per obs) (auto-percept) (hsim-percept)
-attr "right_hand" (type entity) (entity "hand") (state "hand") (int-per feel) (ext-per obs) (auto-percept) (hsim-percept)
-attr "head" (type entity) (entity "head") (state "head") (int-per feel) (ext-per obs) (auto-percept)
-attr "eyes" (type entity) (entity "eye") (state "eyes") (int-per feel) (ext-per obs) (auto-percept)
-attr "mouth" (type entity) (entity "mouth") (state "mouth") (int-per feel) (ext-per obs) (auto-percept)
-attr "ring_finger" (type entity) (entity "finger") (state "finger") (int-per feel) (ext-per obs) (auto-percept)
-attr "torso" (type entity) (entity "torso") (state "torso") (int-per feel) (ext-per obs) (auto-percept)
 attr "wear" (type entity) (per obs) (auto-percept)
 
 # Demographics
