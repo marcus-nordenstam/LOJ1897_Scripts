@@ -21,7 +21,7 @@ archetype "interior_space" (cap 4096) (per obs) (always-visible) (non-occluder) 
     # maker. Imperceptible (a concealed cache's ownership is not on show); it gates
     # who searches it (only the owner, via the search_secret_caches act).
     (attr "owner")
-    (attr "obb")
+    (spatial bounds)
     # Nav v2: spaces can host openings whose /is_nav_passage gates a
     # macro-graph edge (e.g. an archway between rooms).
     (attr "is_nav_passage")

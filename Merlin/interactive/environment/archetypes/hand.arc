@@ -8,7 +8,7 @@ archetype "hand" (cap 8192) (per obs) (non-occluder)
     # is created.
     (struct child "ring_finger" [k ring_finger] (offset 0 0 0))
     (attr "wear")
-    (attr "obb")
+    (spatial bounds)
     # PR-evi-A 2026-05-25 - per-body-part evidence attrs. Wounds,
     # blood-stains on hand, scratch-marks etc. The transmitter plural-
     # expands these into repeated singular `{?hand wound|stain|mark

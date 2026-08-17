@@ -45,8 +45,7 @@ archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
     # route the letter to that building's incoming mail_stack.
     (attr "address")
     (attr "address_number")
-    # If prop is in a stack, obb is set to _
-    (attr "obb")
+    (spatial bounds)
     # PR-evi-A 2026-05-25 - per-object evidence attrs. A blood-stained
     # weapon, gunpowder-residue on a coat, scratch-marks on a lock-pick.
     # Wounds are body-only (no `wounds` attr on props).

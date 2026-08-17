@@ -11,7 +11,7 @@ archetype "container_structure" (cap 2048) (per obs) (always-visible) (children-
     # they live in the OBS pool.  Stopgap until address signs become
     # observable entities.
     (attr "name" (auto-percept) (ext-per obs))
-    (attr "obb")
+    (spatial bounds)
     # Building physical / structural properties (historical sim writes
     # these; crime templates and behaviour rules may match on them).
     (attr "isolated")

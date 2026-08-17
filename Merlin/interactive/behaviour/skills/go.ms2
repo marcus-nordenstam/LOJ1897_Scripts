@@ -90,20 +90,20 @@ such as an entrance space, or some openings).
 
 rule go-entity-locate-proposal
 {@self go_entity ?dest} 
-{?dest obb @unknown}
+{?dest bounds @unknown}
     ->
 (maintain_proposal {@self locate ?dest}).
 
 rule go-entity-walk-to-proposal
 {@self go_entity ?dest}: ?go
-{?dest obb !@unknown:?obb}
+{?dest bounds !@unknown:?obb}
     ->
 (bb_private_write ?go attempt 1)
 (maintain_proposal {@self WALK_TO ?obb}).
 
 rule go-entity-walk-to-retry
 {@self go_entity ?dest}: ?go
-{?dest obb !@unknown:?obb}
+{?dest bounds !@unknown:?obb}
 {@self WALK_TO ?obb /fail /caused_by ~?go}
 (wait /cycles 120)
     ->

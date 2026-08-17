@@ -13,5 +13,5 @@ archetype "food" (cap 8192) (per obs) (occupies-env-grid) (non-occluder)
     # Perceptible: the room walk mints the {<morsel> location <room>}
     # whereabouts beliefs the meal economy's stock gates read
     # ((count-believed-located [k food] ...) - per-mind, never a world scan).
-    (attr "obb")
+    (spatial bounds)
 }

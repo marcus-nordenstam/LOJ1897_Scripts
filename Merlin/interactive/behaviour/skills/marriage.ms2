@@ -37,13 +37,13 @@ rule marry-proposal
 {?parent condition alive}
 {?parent home ?parentHome}
 {@self home !?parentHome:?myHome}
-{?myHome obb ?myHomeObb}
+{?myHome bounds ?myHomeObb}
 (lock_rule)
     ->
 (begin_proposal {@self marry ?fiancee})
 (begin_proposal {@self SPAWN [[k wedding_band] @self]})
 (begin_goal {@self SAY (msg {@self home ?myHome}) ?fiancee})
-(begin_goal {@self SAY (msg {?myHome obb ?myHomeObb}) ?fiancee}).
+(begin_goal {@self SAY (msg {?myHome bounds ?myHomeObb}) ?fiancee}).
 
 
 rule marry-attention

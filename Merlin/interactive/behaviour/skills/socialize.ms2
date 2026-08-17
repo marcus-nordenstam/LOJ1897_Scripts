@@ -6,7 +6,7 @@ rule socialize-go-theatre
 {@self alertness alert}
 {@self spouse _}
 #{@self age_group >1}
-{[k building theatre]:?theatre obb ?obb}
+{[k building theatre]:?theatre bounds ?obb}
 (in @self ?theatre /not)
 #(none {@self child})
     ->

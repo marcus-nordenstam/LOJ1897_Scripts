@@ -7,7 +7,7 @@
 # is true exactly until that stack has been made.
 rule make-done-stack-propose
 {@self stack_browse ?stack}
-{?stack obb ?obb}
+{?stack bounds ?obb}
 (observed ?stack)   # We must have observed the stack to make a done-stack for it.
 (bb_private_none ?stack done_stack)
     ->

@@ -44,9 +44,9 @@ rule parenting-tell-child-theatre-obb
 {?child gender ?gender}
 {?child age_group 1}
 {?theatre isa [k building theatre]:?theatreKind}
-{?theatre obb ?obb}
+{?theatre bounds ?obb}
     ->
-(maintain_goal {@self SAY (msg (o ?theatreKind {@o obb ?obb})) ?child}).
+(maintain_goal {@self SAY (msg (o ?theatreKind {@o bounds ?obb})) ?child}).
 
 # comeWith task:
 #   If someone tells you comeWith, they are the leader and I am the follower

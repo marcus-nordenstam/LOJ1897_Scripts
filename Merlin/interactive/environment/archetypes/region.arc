@@ -4,7 +4,7 @@
 archetype "region" (cap 16) (per obs) (non-occluder) (no-sector-coverage)
 {
     # Region bounds exist for containment tests but are not auto-perceived
-    (attr "obb" (no-auto-percept))
+    (spatial bounds)
     (attr "rain")
     (attr "snow")
     (attr "fog")

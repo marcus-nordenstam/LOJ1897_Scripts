@@ -32,7 +32,9 @@ attr "parentless" (type int) (range 0 1) (imperceptible)
 attr "name" (type name) (spec-attr name) (int-per reason) (ext-per imperceptible) (disclosure stranger)
 
 # Spatial
-attr "obb" (type obb) (spec-attr spatial-bounds) (per obs) (auto-percept) (state-flags-tar @excl)
+# Bounds are DECLARED per-archetype via (spatial bounds) and live in the env's
+# t_bounds_store - there is no obb attr. The generated `bounds` state label
+# (@excl|@spatialBounds, obs) is registered by the engine for belief/message use.
 # Structural topology (parent/parts) lives in the struct skeleton (engine substrate),
 # not in attrs - see spatial_mind_index_plan.md; the skeleton is fed by set_parent at
 # creation and read via the (env-parts)/(parts) ops + the C++ struct_children_of helpers.
@@ -382,13 +384,8 @@ attr "nav_mesh" (type str) (nav-mesh) (imperceptible)
 # = 1 still allows path entry through its baked-passage doorway.
 attr "blocks_nav_terrain" (type int) (range 0 1) (blocks-nav-terrain) (imperceptible)
 
-# Navigation v2 Phase 3 - road spline geometry.
-# Per-entity authored road geometry: up to 16 centripetal Catmull-Rom CVs,
-# width in metres, auto-junction radius (default 1.0m), and flags. The CVs
-# come from the GrymEngine SplineComponent + RoadComponent the artist
-# placed; Game.cc's LoadScene bridge reads them and calls
-# mx_write_spline_attr per road entity. Junctions are auto-derived at
-# scene load by Environment::resolve_road_network clustering endpoints;
-# no junction archetype, no /junction attr.
+# Road spline geometry is DECLARED per-archetype via (spatial spline) - there
+# is no spline attr. Per-entity CVs are written by Game.cc's LoadScene bridge
+# via mx_write_spline_attr; junctions auto-derive at scene load by
+# Environment::resolve_road_network clustering endpoints.
 # See Merlin/Docs/road_network_plan.md.
-attr "spline_geometry" (type spline) (spline-geometry) (imperceptible)

@@ -3,5 +3,5 @@
 # `location` whereabouts belief-label.
 archetype "env_point" (cap 256) (per obs) (always-visible) (non-occluder) (sector-coverage)
 {
-    (attr "obb")
+    (spatial bounds)
 }

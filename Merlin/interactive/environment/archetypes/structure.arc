@@ -11,7 +11,7 @@ archetype "structure" (cap 256) (per obs) (always-visible) (children-occupy-env-
     # leaves it imperceptible because human names aren't seen).  Stopgap until
     # address signs become observable entities in their own right.
     (attr "name" (auto-percept) (ext-per obs))
-    (attr "obb")
+    (spatial bounds)
     (attr "era_min")
     (attr "era_max")
     # Address - road the structure is on (piers/bridges sit on a road).

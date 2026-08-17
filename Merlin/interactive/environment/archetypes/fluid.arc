@@ -16,5 +16,5 @@ archetype "fluid" (cap 256) (per obs) (occupies-env-grid) (non-occluder)
     (attr "fluid_amount")
     # Poison lacing this drink (imperceptible ground truth - see common.arc).
     (attr "taint")
-    (attr "obb")
+    (spatial bounds)
 }

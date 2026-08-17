@@ -5,7 +5,7 @@ archetype "finger" (cap 8192) (per obs) (non-occluder)
     # archetype takes part in - the write seams validate both ends.
     (spatial grip)
     (attr "wear")
-    (attr "obb")
+    (spatial bounds)
     # PR-evi-A 2026-05-25 - per-body-part evidence attrs.
     (attr "wounds")
     (attr "stains")

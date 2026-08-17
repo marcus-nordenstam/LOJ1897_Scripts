@@ -87,5 +87,5 @@ archetype "human_npc" (cap 4096) (per obs) (raycast-visible) (sentient) (non-occ
     # (the universal `location` attr): relocate writes it on every move, the NPC
     # self-perceives it, and co-presence is read straight off it - no belief dig.
     # (4.13 movement substrate.)
-    (attr "obb")
+    (spatial bounds)
 }

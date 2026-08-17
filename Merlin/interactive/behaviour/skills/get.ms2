@@ -7,7 +7,7 @@ rule get-maintain-within_reach_of-proposal
 
 rule get-take-proposal
 {@self get ?thing}
-{?thing obb !@unknown}
+{?thing bounds !@unknown}
 {@self within_reach_of ?thing}
 {@self facing ?thing}
 (realis ?thing)

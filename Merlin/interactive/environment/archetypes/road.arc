@@ -7,10 +7,10 @@ archetype "road" (cap 128) (per obs) (always-visible) (non-occluder)
     # Kind-variation identity (see attr/common.arc).
     (attr "variant")
     # Roads are spline-shaped, not OBB-shaped: their spatial geometry is the
-    # CV polyline in /spline_geometry, not a single bounding box. The
-    # archetype-parse-time mutex (PopulationStorage::_activateAttrs) forbids
-    # declaring both /spatial_bounds and /spline_geometry on the same
-    # archetype, so "obb" is intentionally absent here.
+    # (spatial spline) CV polyline, not a single bounding box. The archetype-
+    # parse-time mutex forbids declaring both (spatial bounds) and
+    # (spatial spline) on the same archetype, so bounds are intentionally
+    # absent here.
     # Road name is observable (street signs).  ext-mech override - common.arc
     # leaves name imperceptible for the human model.
     (attr "name" (auto-percept) (ext-per obs))
@@ -20,9 +20,9 @@ archetype "road" (cap 128) (per obs) (always-visible) (non-occluder)
     # SplineComponent + t_road_component CVs. Consumed by
     # Environment::resolve_road_network to build the t_road_network_index
     # that nav_graph's spline-islands plug into.
-    (attr "spline_geometry")
+    (spatial spline)
     # Legacy Phase 1 nav-mesh path - kept for the "street plate" test
-    # scaffold; new authored roads use /spline_geometry instead.
+    # scaffold; new authored roads use (spatial spline) instead.
     (attr "nav_mesh")
     # Address-numbering policy (declared in attr/common.arc). Pushed by the
     # Player from the GrymEngine t_road_component at scene load and consumed by

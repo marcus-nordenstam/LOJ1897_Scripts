@@ -3,5 +3,5 @@
 archetype "instance" (cap 1) (per obs) (occupies-env-grid)
 {
     (attr "prototype")
-    (attr "obb")
+    (spatial bounds)
 }

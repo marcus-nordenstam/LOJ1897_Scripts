@@ -7,7 +7,7 @@ archetype "structure_part" (cap 4096) (per obs) (always-visible) (occupies-env-g
     # Structure-part name is observable (engraving / placard).  ext-mech
     # override - common.arc leaves name imperceptible for the human model.
     (attr "name" (auto-percept) (ext-per obs))
-    (attr "obb")
+    (spatial bounds)
     # Nav v2: openings (doors, gates, archways, large_windows) ride this
     # archetype as kind-distinguished children. /is_nav_passage gates the
     # macro-graph passage edge. The throat OBB and opening identity are
