@@ -39,7 +39,6 @@ attr "obb" (type obb) (spec-attr spatial-bounds) (per obs) (auto-percept) (state
 
 # Ownership & control
 # The entity currently controlling the position of this entity (if any)
-attr "controlled_by" (type entity) (spec-attr controlled-by) (imperceptible)
 # Durable OWNER of this entity: whoever created it (general rule - you make it,
 # you own it). IMPERCEPTIBLE: ownership of a SECRET cache is not visible to
 # others (the whole point), and the owner drives "observe your OWN cache".

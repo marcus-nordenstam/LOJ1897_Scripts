@@ -9,7 +9,6 @@ archetype "food" (cap 8192) (per obs) (occupies-env-grid) (non-occluder)
     (spatial location)
     # Kind-variation identity (see attr/common.arc).
     (attr "variant")
-    (attr "controlled_by")
     # Where the morsel sits - seam-derived from the OBB like every prop.
     # Perceptible: the room walk mints the {<morsel> location <room>}
     # whereabouts beliefs the meal economy's stock gates read

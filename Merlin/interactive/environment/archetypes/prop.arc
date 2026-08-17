@@ -25,7 +25,6 @@ archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
     # visible label / engraving / sign need observable names.
     (attr "name" (auto-percept) (ext-per obs))
     (attr "writing")
-    (attr "controlled_by")
     (attr "control_force")
     # The building a loose prop currently sits in. Written by the hsim
     # evidence trails (receipt / sales_record, letters, hiding caches) and
