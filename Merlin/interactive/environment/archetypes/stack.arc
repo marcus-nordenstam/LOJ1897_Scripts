@@ -7,14 +7,18 @@
 # for decades - plus the registry stacks (a 20yr run hit 512).
 archetype "stack" (cap 2048) (per obs) (non-occluder) (occupies-env-grid)
 {
+    # Placement participation (plan section 18): which spatial relations this
+    # archetype takes part in - the write seams validate both ends.
+    (spatial location)
+    (spatial items)
     # Kind-variation identity (see attr/common.arc).
-    "variant"
-    "birth_date"
-    "stack_label"
-    "obb"
+    (attr "variant")
+    (attr "birth_date")
+    (attr "stack_label")
+    (attr "obb")
     # A stack sits IN a space (a mail pile in the hallway, letter piles inside
     # a hiding-spot cache) - seam-derived from the OBB like any located prop.
-    "location"
+    (attr "location")
     # A pile is created as a CHILD of its mail space so find_mail_stack's
     # child walk resolves it regardless of where the placement seam files its
     # contents entry. Without this attr, set_parent silently no-ops and every

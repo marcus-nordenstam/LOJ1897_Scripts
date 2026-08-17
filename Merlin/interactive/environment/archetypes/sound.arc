@@ -1,8 +1,8 @@
 # Any sound - including speech
 archetype "sound" (cap 512) (non-occluder) (per hear)
 {
-    "create_action"
-    "speaker"
-    "preroll"
-    "obb"
+    (attr "create_action")
+    (attr "speaker")
+    (attr "preroll")
+    (attr "obb")
 }

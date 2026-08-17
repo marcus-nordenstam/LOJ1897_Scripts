@@ -10,21 +10,21 @@
 archetype "exterior_space" (cap 4096) (per obs) (always-visible) (non-occluder) (sector-coverage)
 {
     # Kind-variation identity (see attr/common.arc).
-    "variant"
-    "birth_date"
+    (attr "variant")
+    (attr "birth_date")
     # Name is auto-perceived so NPCs know what space they're in (e.g. "the moors",
     # "Julie's Meadow"). The ext-mech override lands perceived name beliefs in the
     # OBS pool. Stopgap until address signs become observable entities.
-    "name" (auto-percept) (ext-per obs)
-    "obb"
+    (attr "name" (auto-percept) (ext-per obs))
+    (attr "obb")
     # Nav v2: spaces can host openings whose /is_nav_passage gates a macro-graph edge.
-    "is_nav_passage"
+    (attr "is_nav_passage")
     # The address lives ON the premise: the road this exterior space fronts +
     # its street number. (Both a building and an addressed exterior_space carry
     # their own `address` -> road; there is no street_space frontage box.) Unset
     # for remote wilds.
-    "address"
-    "address_number"
+    (attr "address")
+    (attr "address_number")
     # NO `contents` index: exterior spaces are unbounded, so they keep no
     # loose-item inverse. They remain valid `location` targets (the env seam
     # still sets an outdoor entity's location to the smallest exterior space

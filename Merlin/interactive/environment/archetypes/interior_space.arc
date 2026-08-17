@@ -9,25 +9,25 @@
 archetype "interior_space" (cap 4096) (per obs) (always-visible) (non-occluder) (sector-coverage)
 {
     # Kind-variation identity (see attr/common.arc).
-    "variant"
-    "birth_date"
+    (attr "variant")
+    (attr "birth_date")
     # Name is auto-perceived so NPCs know what space they're in.  The ext-mech
     # override (was inherited as imperceptible from common.arc, where names are
     # the human model) lets the visual sensor tag perceived space-name beliefs
     # as OBS, landing them in the OBS pool where confirm/disprove iterates.
     # This is a stopgap until address signs become observable entities.
-    "name" (auto-percept) (ext-per obs)
+    (attr "name" (auto-percept) (ext-per obs))
     # The NPC who MADE this space owns it - a hiding_spot cache belongs to its
     # maker. Imperceptible (a concealed cache's ownership is not on show); it gates
     # who searches it (only the owner, via the search_secret_caches act).
-    "owner"
-    "obb"
+    (attr "owner")
+    (attr "obb")
     # Nav v2: spaces can host openings whose /is_nav_passage gates a
     # macro-graph edge (e.g. an archway between rooms).
-    "is_nav_passage"
+    (attr "is_nav_passage")
     # An interior space's apartment number, when its building subdivides into
     # numbered apartments (rooms inherit it via their apartment struct_parent).
-    "apartment_number"
+    (attr "apartment_number")
     # Per-room loose-item index (inverse of each prop's `location`): the props
     # physically in THIS room. Moved here from the building (Section 4.12 per-
     # space model) so weapon / loot / vessel lookups and the confrontation grab

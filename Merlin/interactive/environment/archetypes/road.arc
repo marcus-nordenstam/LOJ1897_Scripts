@@ -5,7 +5,7 @@
 archetype "road" (cap 128) (per obs) (always-visible) (non-occluder)
 {
     # Kind-variation identity (see attr/common.arc).
-    "variant"
+    (attr "variant")
     # Roads are spline-shaped, not OBB-shaped: their spatial geometry is the
     # CV polyline in /spline_geometry, not a single bounding box. The
     # archetype-parse-time mutex (PopulationStorage::_activateAttrs) forbids
@@ -13,23 +13,23 @@ archetype "road" (cap 128) (per obs) (always-visible) (non-occluder)
     # archetype, so "obb" is intentionally absent here.
     # Road name is observable (street signs).  ext-mech override - common.arc
     # leaves name imperceptible for the human model.
-    "name" (auto-percept) (ext-per obs)
-    "region"
+    (attr "name" (auto-percept) (ext-per obs))
+    (attr "region")
     # Nav v2 Phase 3 spline geometry. Written inline by Game.cc's LoadScene
     # entity-creation dispatch (k_spline branch) from the GRYM
     # SplineComponent + t_road_component CVs. Consumed by
     # Environment::resolve_road_network to build the t_road_network_index
     # that nav_graph's spline-islands plug into.
-    "spline_geometry"
+    (attr "spline_geometry")
     # Legacy Phase 1 nav-mesh path - kept for the "street plate" test
     # scaffold; new authored roads use /spline_geometry instead.
-    "nav_mesh"
+    (attr "nav_mesh")
     # Address-numbering policy (declared in attr/common.arc). Pushed by the
     # Player from the GrymEngine t_road_component at scene load and consumed by
     # merlin::assign_street_addresses_all to number the street_spaces fronting
     # this road. Imperceptible: generation policy, not an NPC-observable property.
-    "address_even_side"
-    "address_start"
-    "address_step"
-    "address_ascends_forward"
+    (attr "address_even_side")
+    (attr "address_start")
+    (attr "address_step")
+    (attr "address_ascends_forward")
 }

@@ -3,8 +3,8 @@
 # :wound-site slot is omitted (stab / shoot / beating land on the torso).
 archetype "torso" (cap 4096) (per obs) (non-occluder)
 {
-    "obb"
-    "wounds"
-    "stains"
-    "marks"
+    (attr "obb")
+    (attr "wounds")
+    (attr "stains")
+    (attr "marks")
 }
