@@ -80,5 +80,5 @@
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.
 (npc-think idle_go_home
   (when (not (at-home)))
-  (utility idle 10)
+  (utility idle fallback)
   (effects       (any {@self home ?}).target: ?go_dest (debug-print "TRACE-IDLEHOME home=?go_dest") (maintain-proposal {@self enter ?go_dest})))

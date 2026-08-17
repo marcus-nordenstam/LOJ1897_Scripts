@@ -24,6 +24,8 @@
   ; Only pressured NPCs run the (expensive) joint reduction.
   (when (> (has-pressure @self) 0.0))
 
+  (utility want)
+
   ; Sample ONE (pressure, action) pair, weighted by the full deliberation score.
   ; ?pressure is the driving pressure belief (the goal's /caused_by); ?winscore is the
   ; chosen pair's score, for the act-vs-inaction pick below.

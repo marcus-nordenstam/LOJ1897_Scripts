@@ -29,7 +29,7 @@
   (when (and (chance (* 0.25 (+ 0.5 (attr @self enthusiasm))))
              (>= (years-old @self) 12)))
 
-  (utility want 180)
+  (utility want)
 
   (effects
     ; Propose telling ?guest ONE piece of my OWN news they have not heard. for-each-present-tense-belief

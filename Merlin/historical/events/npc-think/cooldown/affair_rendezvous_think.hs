@@ -42,6 +42,8 @@
                  (any {?paramour crave @self} (out int)))
              (chance (+ 0.40 (* 0.60 (attr ?paramour assertiveness))))))
 
+  (utility want)
+
   (effects
     (find-building [k commercial_building hotel]): ?venue
     (spouse-of @self): ?spouse
@@ -82,6 +84,8 @@
 
   (when (and (chance 0.14) (home-of @self)))
 
+  (utility want)
+
   (effects
     (home-of @self): ?venue
     (register-occupant ?venue @self 0)
@@ -119,6 +123,8 @@
   (when (and (chance 0.11)
              (or (find-building [k commercial_building theatre])
                  (find-building [k commercial_building pub]))))
+
+  (utility want)
 
   (effects
     (if (find-building [k commercial_building theatre])

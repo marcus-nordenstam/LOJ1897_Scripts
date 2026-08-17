@@ -17,7 +17,6 @@
   ; No known pub -> no fire (the goal waits).
   (role ?go_dest [k building pub] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (is-a (building @self) [k building pub])))
-  (utility 450)
   (effects (maintain-proposal {@self enter ?go_dest})))
 
 ; AT a pub: PROPOSE the founding act (goals never propose themselves). found_club_act reads its
@@ -25,5 +24,4 @@
 (npc-think found_club_at_pub
   (goal {@self FOUND_CLUB})
   (when (is-a (building @self) [k building pub]))
-  (utility 450)
   (effects (maintain-proposal {@self FOUND_CLUB})))

@@ -16,5 +16,5 @@
     (destroy-entity ?item)
     (set-attr @self hunger (max 0 (- (attr @self hunger) 0.5)))
     (if ?owner
-        (then (crime-ledger-append @self ?owner steal steal _ _)))
+        (then (crime-ledger-append @self ?owner steal steal @u @u)))
     (set-outcome {@self CONSUME ?item ?owner} succ)))

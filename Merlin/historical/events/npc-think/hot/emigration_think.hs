@@ -31,7 +31,6 @@
 ; emigrant is gone. Utility above routine work so a resolved departure actually executes.
 (npc-think depart_now
   (goal {@self DEPART})
-  (utility 820)
   (effects (maintain-proposal {@self DEPART})))
 
 ; The teardown twin: the packing day concluded - quit his posts, release his

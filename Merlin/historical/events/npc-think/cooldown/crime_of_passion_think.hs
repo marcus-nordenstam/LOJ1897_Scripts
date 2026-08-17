@@ -56,7 +56,7 @@
 
   ; crave-rival resolves the rival for the beloved (read in @self's own mind), else
   ; the beloved. /caused_by pins the crave belief - the obsessive signature.
-  (utility want 100)
+  (utility want)
   (effects
     (debug-print "TRACE_PASSION_FIRES @self beloved=?beloved")
     (crave-rival ?beloved): ?victim

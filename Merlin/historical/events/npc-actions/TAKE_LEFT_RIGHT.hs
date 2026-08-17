@@ -3,7 +3,7 @@
 (define-macro take-effects (?hand ?item ?take-action)
   (do
     ; these will fire in non-shipping builds, indicating badly designed rules that propose this action
-    (check (not (= (env-spatial ?item controlled_by) ?hand)))
+    (check (not (= (spatial ?item controlled_by /env) ?hand)))
     (check (co-present @self ?item))
     (spatial-write ?item controlled_by ?hand)
     (set-outcome ?take-action succ)))

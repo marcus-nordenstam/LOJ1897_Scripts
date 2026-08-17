@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
-; stack_take - the dumb hands act of the top-of-stack iteration
-; (take_my_letters_think.hs). Lifts ?doc OUT of ?stack into @self's hand - a
-; NEW doc surfaces as the top, and the observing NPC's mirrored {?stack top ..}
-; belief follows through ordinary perception.
+; stack_take - the dumb hands act of stack iteration (stack_browse_think.hs).
+; Pops ?stack's top into @self's hand. ?doc names the doc the proposing think
+; believed exposed - the pop itself takes whatever the top IS (stacks have no
+; random access).
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -10,5 +10,5 @@
 (npc-action {@self STACK_TAKE ?doc ?stack}
   (duration 1)
   (effects
-    (take-from-stack ?doc)
+    (pop ?stack)
     (set-outcome {@self STACK_TAKE ?doc ?stack} succ)))

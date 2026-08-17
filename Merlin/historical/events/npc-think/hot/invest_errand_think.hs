@@ -11,7 +11,6 @@
   (task {@self back ?org})
   (when (and (any {?org workplace ?}).target: ?wp
              (not (in-building @self ?wp))))
-  (utility 600)
   (effects (maintain-proposal {@self enter ?wp})))
 
 ; AT the firm: PROPOSE the backing act (goals never propose themselves). invest_act reads the
@@ -20,7 +19,6 @@
   (task {@self back ?org})
   (when (and (any {?org workplace ?}).target: ?wp
              (in-building @self ?wp)))
-  (utility 600)
   (effects
     (begin-belief {@self backed_by ?org})
     (set-outcome {@self back ?org} succ)))

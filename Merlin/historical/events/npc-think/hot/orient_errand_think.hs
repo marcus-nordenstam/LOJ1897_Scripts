@@ -12,7 +12,6 @@
   ; weighted. No known church -> no fire (the goal waits). Replaces (venue ...).
   (role ?go_dest [k building church] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (is-a (building @self) [k building church])))
-  (utility 280)
   (effects (maintain-proposal {@self enter ?go_dest})))
 
 ; AT a church: PROPOSE the orient act (goals never propose themselves). orient_act reads the
@@ -21,5 +20,4 @@
 (npc-think orient_at_church
   (goal {@self ORIENT})
   (when (is-a (building @self) [k building church]))
-  (utility 280)
   (effects (maintain-proposal {@self ORIENT})))

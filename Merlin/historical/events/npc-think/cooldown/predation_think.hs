@@ -96,7 +96,7 @@
   ; belief (the gate's believes binds ?fix - a kind-valued feature - and the
   ; find-or-create reuses that exact belief; the appetitive signature the rap-sheet
   ; reads). mark-stalk arms the ~30-day surprise weight modifier attempt_harm reads.
-  (utility want 100)
+  (utility want)
   (effects
     (begin-belief {@self fixation ?fix}): ?fixation_bond
     (begin-goal {@self kill ?victim} /caused_by ?fixation_bond)

@@ -43,7 +43,6 @@
                 (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
              (in-building @self ?venue)))
-  (utility 400)
   (effects (maintain-proposal {@self LET})))
 
 ; CASE B - knows a house agency, not at its office: travel there. Its incorporation
@@ -54,7 +53,6 @@
                 (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
              (not (in-building @self ?venue))))
-  (utility 400)
   (effects (maintain-proposal {@self enter ?venue})))
 
 ; CASE C - @self knows NO house agency at all: consult the parish incorporations
@@ -67,6 +65,6 @@
 (npc-think list_to_let_find
   (goal {@self LET})
   (no-role [k org house_agency])
-  (utility 300)
+  (utility errand)
   (effects       (begin-goal {@self ORIENT}))
   (cease-effects (end-goal   {@self ORIENT})))

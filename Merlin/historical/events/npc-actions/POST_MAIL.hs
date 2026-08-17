@@ -11,5 +11,5 @@
 (npc-action {@self POST_MAIL ?doc ?out}
   (duration 5)
   (effects
-    (file-in-stack ?doc ?out)
+    (push ?doc ?out)
     (set-outcome {@self POST_MAIL ?doc ?out} succ)))

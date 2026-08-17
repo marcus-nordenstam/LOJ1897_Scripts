@@ -262,14 +262,22 @@ relation
 
             # read_mail - THE mail-reading TASK (read_mail_think.hs): locate the
             # premises' mail stack, go to it, take what is mine, read each held
-            # letter. take_my_letters - the top-of-stack sorting TASK
-            # (take_my_letters_think.hs): reason about the TOP doc's addressee
-            # (my name, or a duty I hold) and propose the dumb stack acts below,
-            # one doc at a time - stack-top uniqueness is the iterator.
-            # stack_take lifts the top doc into hand; stack_bury re-files it at
-            # the BOTTOM (attr-rotate + top re-point), exposing the next doc.
+            # letter. stack_browse - the GENERIC one-doc-at-a-time stack
+            # iteration TASK (stack_browse_think.hs): surface the top into the
+            # hand (pending), re-file consumer-handled docs at the bottom,
+            # conclude when the pile is empty or has cycled once.
+            # take_my_letters - a browse CONSUMER (take_my_letters_think.hs):
+            # keep each surfaced doc addressed to me (name or held duty), mark
+            # the rest handled.
             read_mail           (tar @excl structure)
             take_my_letters     (tar @excl stack)
+            # resolve_applications - the recruit officer's verdict TASK
+            # (resolve_applications_think.hs): iterate the held applications ONE
+            # at a time - the FIRST drafts an offer, every later one a rejection
+            # (the drafting acts are the dumb primitives; the iteration and the
+            # offer-vs-reject decision live in the think rungs). target = the
+            # outgoing pile the verdict letters are filed into.
+            resolve_applications (tar @excl stack)
           
             # post_mail - the dumb hands act the send_mail task proposes: deposit
             # the outgoing document ?doc into the outgoing_mail_stack @self is standing
@@ -294,6 +302,10 @@ relation
 
             stack_get            (tar object)  (aux stack)
             stack_put            (tar object)  (aux stack)
+            # stack_browse - the GENERIC one-doc-at-a-time stack iteration TASK,
+            # shared by both sims (hsim: stack_browse_think.hs; isim:
+            # stack_browse.ms2). See the think file headers for the consumer
+            # contract (browse-status on the private bb).
             stack_browse         (tar stack)
             stack_read           (tar stack)
 

@@ -46,7 +46,7 @@
   ; SPLIT (Item 5): the npc-action (club_found_errand.hs) takes the founder out to found it
   ; (found-club-seq acquires the clubhouse + enrols him). found_club_go routes; there is no
   ; dwell - the goal is minted here and leaf-promotes to the act once he is at the pub.
-  (utility errand 100)
+  (utility errand)
   (effects       (begin-goal {@self FOUND_CLUB}))
   (cease-effects (end-goal   {@self FOUND_CLUB})))
 
@@ -96,7 +96,7 @@
   ; SPLIT (Item 5): the npc-think - the decision to join. Mints {@self goal {@self
   ; join_club <articles>}} (focus = the club's articles, {?club_org record}); the npc-action
   ; (club_join_errand.hs) sends the member to the clubhouse and registers him there.
-  (utility errand 100)
+  (utility errand)
   (effects       (begin-goal {@self JOIN_CLUB (any {?club_org record}).target}))
   (cease-effects (end-goal   {@self JOIN_CLUB})))
 
@@ -126,6 +126,6 @@
   ; SPLIT (Item 5): the npc-think - the decision to resign. Mints {@self goal {@self
   ; resign_club}}; the npc-action (club_resign_errand.hs) sends the member to a clubhouse and
   ; unregisters him there (unregister-member resolves his own club).
-  (utility errand 100)
+  (utility errand)
   (effects       (begin-goal {@self RESIGN_CLUB}))
   (cease-effects (end-goal   {@self RESIGN_CLUB})))

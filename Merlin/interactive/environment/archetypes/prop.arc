@@ -42,7 +42,6 @@ archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
     # route the letter to that building's incoming mail_stack.
     "address"
     "address_number"
-    "in_stack"
     # If prop is in a stack, obb is set to _
     "obb"
     # PR-evi-A 2026-05-25 - per-object evidence attrs. A blood-stained

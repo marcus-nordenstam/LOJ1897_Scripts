@@ -19,5 +19,4 @@
   (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              (believes {?org workplace ?wp}))   ; ?wp binds at fire
   (when  (in-building @self ?wp))
-  (utility 820)
   (effects (maintain-proposal {@self STOCKTAKE})))

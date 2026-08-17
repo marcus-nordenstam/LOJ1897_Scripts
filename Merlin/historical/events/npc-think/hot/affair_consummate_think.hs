@@ -36,7 +36,7 @@
   (when (and (vacant-room @self ?paramour)
              (or (not (co-present ?paramour @self))
                  (co-present (spouse-of @self) @self))))
-  (utility want 950)
+  (utility want always-pick)
   (effects
     (vacant-room @self ?paramour): ?room
     (debug-print "TRYST_SLIP @self para=?paramour")
@@ -55,7 +55,7 @@
   ; Discretion: not in the same ROOM as the wronged spouse. (spouse-of @self) is fail
   ; for an unmarried cheater, so the gate passes them through.
   (when (not (co-present (spouse-of @self) @self)))
-  (utility want 950)
+  (utility want always-pick)
   (effects
     (debug-print "CONSUMMATE_HOT @self para=?paramour")
     (maintain-proposal {@self HAVE_SEX_WITH ?paramour})))

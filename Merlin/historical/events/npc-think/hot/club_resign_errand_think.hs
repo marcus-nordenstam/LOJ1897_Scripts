@@ -18,7 +18,6 @@
   ; weighted. No known clubhouse -> no fire (the goal waits).
   (role ?go_dest [k building social_clubhouse] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (is-a (building @self) [k building social_clubhouse])))
-  (utility 400)
   (effects (maintain-proposal {@self enter ?go_dest})))
 
 ; AT a clubhouse: PROPOSE the resignation act (goals never propose themselves). resign_club_act
@@ -26,5 +25,4 @@
 (npc-think resign_at_clubhouse
   (goal {@self RESIGN_CLUB})
   (when (is-a (building @self) [k building social_clubhouse]))
-  (utility 400)
   (effects (maintain-proposal {@self RESIGN_CLUB})))

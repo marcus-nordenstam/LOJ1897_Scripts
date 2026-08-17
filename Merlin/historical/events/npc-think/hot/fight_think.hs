@@ -115,7 +115,7 @@
                           (attr @self sadism)
                           (- 1.0 (attr @self compassion)))
                           0.05 0.95)))
-  (utility survival 1000)
+  (utility survival always-pick)
   (effects       (begin-goal {@self FIGHT ?foe}))
   (cease-effects (end-goal   {@self FIGHT ?foe})))
 
@@ -128,7 +128,7 @@
 (npc-think flee_attack
   (role ?foe {@self under_attack ?foe})
   (when (no-goal {@self FIGHT}))
-  (utility survival 700)
+  (utility survival (above CRY_OUT))
   (effects       (begin-goal {@self FLEE ?foe}))
   (cease-effects (end-goal   {@self FLEE ?foe})))
 
@@ -139,7 +139,6 @@
 (npc-think flee_foe
   (goal {@self FLEE ?foe})
   (when (any {@self under_attack ?foe} (out int)))
-  (utility survival 700)
   (effects (maintain-proposal {@self FLEE ?foe})))
 
 ; THE VICTIM SCREAMS FOR HELP - the last resort when it can neither fight (failed the
@@ -148,7 +147,7 @@
 ; falling back to sleep / idle while under attack) and re-deliberating each round.
 (npc-think scream_for_help
   (role ?foe {@self under_attack ?foe})
-  (utility survival 500)
+  (utility survival)
   (effects       (begin-goal {@self CRY_OUT}))
   (cease-effects (end-goal   {@self CRY_OUT})))
 
@@ -159,5 +158,4 @@
 (npc-think cry_out_alarm
   (goal {@self CRY_OUT})
   (role ?foe {@self under_attack ?foe})
-  (utility survival 500)
   (effects (maintain-proposal {@self CRY_OUT})))

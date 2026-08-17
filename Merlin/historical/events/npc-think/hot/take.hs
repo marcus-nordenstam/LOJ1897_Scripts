@@ -8,7 +8,7 @@
 (npc-think left_take
   (task {@self take ?item})
   (when (empty (spatial (attr @self left_hand) control)))
-  (utility 0)
+  (utility fallback)
   (effects
       (check (co-present ?item @self))
       (begin-proposal {@self LEFT_TAKE ?item})))
@@ -16,7 +16,7 @@
 (npc-think right_take
   (task {@self take ?item})
   (when (empty (spatial (attr @self right_hand) control)))
-  (utility 10) ; for now assume all NPCs are right-handed; later this should be driven by a handedness check
+  (utility (above LEFT_TAKE)) ; for now assume all NPCs are right-handed; later this should be driven by a handedness check
   (effects
       (check (co-present ?item @self))
       (begin-proposal {@self RIGHT_TAKE ?item})))

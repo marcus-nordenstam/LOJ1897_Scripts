@@ -76,7 +76,7 @@
   ; sends him to the firm and the completion records {@self backed_by ?org} there -
   ; which trips the completion gate above. Focus = the firm ?org, bound in the role
   ; from @self's own job.org belief. cease-effects end the goal on that falling edge.
-  (utility errand 100)
+  (utility errand)
   (effects (maintain-proposal {@self back ?org})))
 
 ; --- business_partnership: an established proprietor takes on a co-owner ----
@@ -134,7 +134,7 @@
   ; attention set (13 standing goals by 1707); a blocking goal gate instead
   ; deadlocks the search on an unreachable first target. (end-goal) no-ops when
   ; no goal stands. Focus = the firm's articles ({?org record ?art}).
-  (utility errand 100)
+  (utility errand)
   (effects
     (end-goal {@self PARTNER})
     (begin-goal {@self PARTNER (any {?principal_org record}).target}))
@@ -177,7 +177,7 @@
                  (any {@self backed_by ?} (out int)))
              (latch-eval (chance (* 0.025 (+ 0.5 (attr @self assertiveness)))))))
 
-  (utility errand 100)
+  (utility errand)
   (effects       (begin-goal {@self FOUND}))
   (cease-effects (end-goal   {@self FOUND})))
 
@@ -218,6 +218,6 @@
                               (no-goal {@self FOUND})
                               (orgs-below-population-floor [k org business] 12))))
 
-  (utility errand 100)
+  (utility errand)
   (effects       (begin-goal {@self FOUND}))
   (cease-effects (end-goal   {@self FOUND})))

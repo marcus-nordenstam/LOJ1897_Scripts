@@ -67,7 +67,7 @@
   ;; distinct goal per org's articles and overflow the attention set; a blocking
   ;; gate would deadlock the search on an unreachable first master).
   ;; Focus = the org's articles, recovered from @self's {?org record ?art} belief.
-  (utility errand 100)
+  (utility errand)
   (effects
     (end-goal {@self SEEK_INDENTURE})
     (begin-goal {@self SEEK_INDENTURE ?org_record}))

@@ -40,7 +40,7 @@
   (when (and (not (= ?w @self))
              (> 0.4 ?ws)
              (latch-eval (chance (* 0.08 (- 0.4 ?ws))))))
-  (utility errand 100)
+  (utility errand)
   (effects       (begin-goal {@self SACK ?w}))
   (cease-effects (end-goal   {@self SACK ?w})))
 
@@ -54,7 +54,7 @@
   (when (and (not (= ?w @self))
              (> ?ws 0.7)
              (latch-eval (chance (* 0.12 (- ?ws 0.7))))))
-  (utility errand 100)
+  (utility errand)
   (effects       (begin-goal {@self PROMOTE_STAFF ?w}))
   (cease-effects (end-goal   {@self PROMOTE_STAFF ?w})))
 
@@ -77,7 +77,7 @@
   (when (and (>= (years-old @self) 65)
              (chance 0.033)))   ; /12 of the old annual 0.4 (now monthly)
 
-  (utility errand 100)
+  (utility errand)
   (effects
     (begin-goal {@self QUIT_WORK}))
   ; The minter owns the ending: once quit_work_act fires @self, the (role @self (believes

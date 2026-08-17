@@ -26,7 +26,6 @@
   ; waits). Replaces the omniscient (venue ...) pick.
   (role ?go_dest [k building bank] (select (score (near @self ?go_dest)) (policy roulette)))
   (when (not (is-a (building @self) [k building bank])))
-  (utility 850)
   (effects (maintain-proposal {@self enter ?go_dest})))
 
 ; AT a bank: PROPOSE the founding act (goals never propose themselves). found_business_act reads
@@ -34,5 +33,4 @@
 (npc-think found_at_bank
   (goal    {@self FOUND})
   (when    (is-a (building @self) [k building bank]))
-  (utility 850)
   (effects (maintain-proposal {@self FOUND})))

@@ -15,8 +15,8 @@
 ; fires in the deliberation pass; the acquisition is narrated at completion.
 (npc-think means_plan_acquire
   (role @self (believes {@self method_means ?means}))    ; binds the required tool kind, cached
-  (when (empty (spatial @self control ?means)))
-  (utility errand 900)
+  (when (empty (spatial @self hold ?means)))
+  (utility errand always-pick)
   (effects       (begin-goal {@self acquire ?means}))
   (cease-effects (end-goal   {@self acquire ?means})))
 
@@ -30,11 +30,10 @@
 (npc-think acquire_go
   (goal {@self acquire ?means})
   (when (and (is-kind ?means)
-             (empty (spatial @self control ?means))
+             (empty (spatial @self hold ?means))
              (has-goal {@self kill})
              (find-building [k building shop]): ?shop
              (not (in-building @self ?shop))))
-  (utility 900)
   (effects (maintain-proposal {@self enter ?shop})))
 
 ; at a shop: find a shelf item of the means kind and take it (the burgle_strike
@@ -42,10 +41,9 @@
 (npc-think acquire_take
   (goal {@self acquire ?means})
   (when (and (is-kind ?means)
-             (empty (spatial @self control ?means))
+             (empty (spatial @self hold ?means))
              (has-goal {@self kill})
              (is-a (building @self) [k building shop])))
-  (utility 900)
   (effects
     (building @self): ?shop
     (bind 0 ?found)

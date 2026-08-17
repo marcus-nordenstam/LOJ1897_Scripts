@@ -32,7 +32,7 @@
 (npc-think read_mail_locate
   (task {@self read_mail ?prem})
   (when (none {@self locate [k mail_stack] ?prem /ever}))
-  (utility errand 860)
+  (utility errand)
   (effects (debug-print "RM_LOC") (begin-proposal {@self locate [k mail_stack] ?prem})))
 
 ; (2) known -> go stand in the room the stack is in.
@@ -41,23 +41,23 @@
   (role ?stk [k mail_stack] (in-building ?stk ?prem)
                             (not (co-present ?stk @self)))
   (when (location ?stk): ?room)
-  (utility 860)
   (effects (maintain-proposal {@self WALK ?room})))
 
-; (3) co-located, not yet swept this read -> lift the letters that are mine.
+; (3) co-located, not yet swept this read -> sort the pile (take_my_letters
+; rides the generic stack_browse; the looking lives there).
 (npc-think read_mail_take
   (task {@self read_mail ?prem}:?rm)
   (role ?stk [k mail_stack] (in-building ?stk ?prem)
                             (co-present ?stk @self))
   (when (none {@self take_my_letters ?stk /caused_by ?rm /ever}))
-  (utility errand 870)
-  (effects (debug-print "RM_TAKE") (begin-proposal {@self take_my_letters ?stk})))
+  (utility errand)
+  (effects (debug-print "RM_TAKE")
+           (begin-proposal {@self take_my_letters ?stk})))
 
 ; (4) holding a letter -> read it (the read act ingests the writing and sets it down).
 (npc-think read_mail_read
   (task {@self read_mail ?prem})
-  (role ?ltr [k letter] (spatial @self control))
-  (utility 880)
+  (role ?ltr [k letter] (spatial @self hold))
   (effects (maintain-proposal {@self READ ?ltr})))
 
 ; Swept this read AND nothing left to READ -> concluded. LETTERS only, by design:
@@ -68,7 +68,7 @@
   (task {@self read_mail ?prem}:?rm)
   (role ?stk [k mail_stack] (in-building ?stk ?prem))
   (when (and (believes {@self take_my_letters ?stk /succ /caused_by ?rm})
-             (empty (spatial @self control [k letter]))))
+             (empty (spatial @self hold [k letter]))))
   (effects (debug-print "RM_DONE") (set-outcome ?rm succ)))
 
 ; Left the premises before finishing -> conclude /fail. CONCLUSIVE by necessity: an

@@ -33,6 +33,6 @@
              (is-a ?wp [k building shop])
              (>= (days-since-last {@self STOCKTAKE /ever}) 1)))
 
-  (utility duty 100)
+  (utility duty)
   (effects       (begin-goal {@self STOCKTAKE}))
   (cease-effects (end-goal   {@self STOCKTAKE})))

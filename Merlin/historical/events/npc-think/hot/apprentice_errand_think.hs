@@ -17,7 +17,6 @@
   (when (and (articles-building ?art ?venue)
              (not (in-building @self ?venue))
              (not (= (job-level @self) [k trainee]))))
-  (utility 800)
   (effects (maintain-proposal {@self enter ?venue})))
 
 ; TERMINAL (act_body_purification): AT the premises, PROPOSE the articling act (a proposed label
@@ -33,5 +32,4 @@
   (when (and (articles-building ?art ?venue)
              (in-building @self ?venue)
              (not (= (job-level @self) [k trainee]))))
-  (utility 800)
   (effects (maintain-proposal {@self SEEK_INDENTURE})))

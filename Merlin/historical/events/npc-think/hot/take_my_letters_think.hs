@@ -1,39 +1,43 @@
 ; ----------------------------------------------------------------------------
-; take_my_letters ?stack - sort the stack's TOP doc, one doc at a time: a doc
-; addressed to ME (my name, or a duty I hold) is LIFTED into hand (stack_take);
-; anything else is BURIED to the bottom (stack_bury), exposing the next doc -
-; stack-top uniqueness is what serializes the iteration. A buried doc is marked
-; handled on the private bb by the bury act's POSTLUDE (so the mark lands only
-; once the burial really happened), and the round concludes when the stack is
-; empty or an already-handled doc resurfaces as top - the full cycle has been
-; seen. The reasoning lives HERE; the acts are dumb stack moves.
+; take_my_letters ?stack - sort ?stack's docs via the GENERIC stack_browse
+; (stack_browse_think.hs): browse surfaces each doc into the hand marked
+; pending; this consumer KEEPS the ones addressed to ME (my name, or a duty I
+; hold) and marks everything else handled, which browse re-files at the
+; bottom. Concludes when the browse round concludes.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
 
-(npc-think take_my_letters_scan
+(npc-think take_my_letters_browse
+  (task {@self take_my_letters ?stack}:?take-letters)
+  (when (none {@self stack_browse ?stack /caused_by ?take-letters /ever}))
+  (utility errand)
+  (effects
+    (debug-print "TML_BROWSE")
+    (begin-proposal {@self stack_browse ?stack})))
+
+; The per-doc decision: mine -> kept (stays in hand); not mine -> handled
+; (browse buries it back).
+(npc-think take_my_letters_decide
   (task {@self take_my_letters ?stack}:?take-letters)
   (role @self {@self name ?name})
-  (role ?doc [k document] {?stack top ?doc}
-             (not (= (bb-read ?doc tml-status) handled)))
+  (role ?doc [k document] (spatial @self hold)
+        (= (bb-read ?doc browse-status) pending))
   (effects
     (tolerate (attr ?doc addressee): ?addressee)
     (tolerate (attr ?doc addressee_duty): ?duty)
     (if (or (= ?addressee ?name)
             (believes {@self duty_to ? ?duty}))
-        (then (debug-print "TML_LIFT doc=?doc")
-              (maintain-proposal {@self STACK_TAKE ?doc ?stack}))
-        (else (debug-print "TML_BURY doc=?doc adr=?addressee duty=?duty")
-              (maintain-proposal {@self STACK_BURY ?doc ?stack}
-                  (postlude (bb-write ?doc tml-status handled)))))))
+        (then (debug-print "TML_KEEP doc=?doc")
+              (bb-write ?doc browse-status kept))
+        (else (debug-print "TML_HANDLE doc=?doc")
+              (bb-write ?doc browse-status handled)))))
 
 (npc-think take_my_letters_done
   (task {@self take_my_letters ?stack}:?take-letters)
-  (when (or (none {?stack top @something})
-            (and (any {?stack top @something}).target: ?top
-                 (= (bb-read ?top tml-status) handled))))
+  (when (any {@self stack_browse ?stack /succ /caused_by ?take-letters}))
   (effects
-    (bb-clear ? tml-status)
+    (debug-print "TML_DONE")
     (set-outcome ?take-letters succ)))
 
 ; Walked away from the stack mid-round -> conclude /fail (the same conclusive-not-
@@ -43,19 +47,10 @@
   (task {@self take_my_letters ?stack}:?take-letters)
   (when (not (co-present ?stack @self)))
   (effects
-    (bb-clear ? tml-status)
+    (bb-clear ?stack browse-cycle-end)
+    (bb-clear ?stack browse-inflight)
     (set-outcome ?take-letters fail)))
 
 (npc-think take_my_letters_tmp_p1
   (task {@self take_my_letters ?stack})
   (effects (debug-print "TML_P_TASK stk=?stack")))
-
-(npc-think take_my_letters_tmp_p2
-  (task {@self take_my_letters ?stack})
-  (role @self {@self name ?name})
-  (effects (debug-print "TML_P_NAME")))
-
-(npc-think take_my_letters_tmp_p3
-  (task {@self take_my_letters ?stack})
-  (role ?doc [k document] {?stack top ?doc})
-  (effects (debug-print "TML_P_TOP doc=?doc")))

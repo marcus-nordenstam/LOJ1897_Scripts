@@ -46,8 +46,6 @@ attr "controlled_by" (type entity) (spec-attr controlled-by) (imperceptible)
 attr "owner" (type entity) (imperceptible)
 # What this entity controls (stowed or held items)
 attr "control" (type entity array 12) (spec-attr control) (per obs) (auto-percept) (hsim-percept)
-# Which stack this entity is in, if any. If not in a stack, set to _.
-attr "in_stack" (type entity) (entity "stack") (spec-attr in-stack) (per obs)
 # The person a document (letter) is addressed to. hsim-perceptible: the envelope
 # addressee is visible on sight, so a mind that observes the letter internalizes
 # {letter addressee <person>} - WITHOUT learning the message (that needs reading).
@@ -255,11 +253,9 @@ attr "control_force" (type int) (range 0 1) (imperceptible)
 
 # Stack
 attr "stack_label" (type str) (per obs) (auto-percept) (state-flags-tar @excl)
-# Cap sized for the mail model: a read-mail stack accumulates a household's
-# whole correspondence history, and the police station's report archive holds
-# every crime report ever filed (128 filled by sim-year 12 of a 20yr run).
-attr "items" (type entity array 512) (per obs)
-attr "top" (type entity) (per obs) (auto-percept) (hsim-percept) (state-flags-tar @excl)
+# Filing membership + order live in the placement index (whereabouts_chains
+# stack edges: the list head is the exposed item, bury re-links to the tail) -
+# there are no items/top/in_stack attrs.
 
 # Weather (region)
 attr "rain" (type kind heavy) (per obs) (auto-percept)

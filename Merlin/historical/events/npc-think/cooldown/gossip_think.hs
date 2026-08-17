@@ -42,7 +42,7 @@
                         (+ 0.5 (attr @self assertiveness))))
              (>= (years-old @self) 12)))
 
-  (utility want 200)
+  (utility want)
 
   (effects
     ; Label order IS priority: scandal acts, then the death-story, then relationship

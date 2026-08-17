@@ -23,7 +23,6 @@
 
 (include "../../../definitions/roles.hs")
 
-(define-macro home-leisure-utility ()        5)
 (define-macro rest-weight ()                 100)
 (define-macro read-weight-base ()            40)
 (define-macro read-weight-intellect-scale () 120)
@@ -33,7 +32,7 @@
   (rng-stream behaviour)
 
   (role @self (believes {@self home ?home}))
-  (utility idle (* 10 (home-leisure-utility)))
+  (utility idle)
 
   (effects
     (if (room [k interior_space study] ?home)
@@ -134,7 +133,8 @@
 
   (when (>= (years-old @self) 3))
 
-  (utility idle 160)
+  ; Learning the house's hours beats settling into a leisure day.
+  (utility idle (above rest))
 
   (effects
     (utterable-qs (to ?cook) {?home supper_hour ?}): ?qs

@@ -57,7 +57,7 @@
                       (* 0.5 (+ (attr @self machiavellianism)
                                 (attr @self narcissism)))))))
 
-  (utility want 100)
+  (utility want)
   (effects
     (debug-print "TRACE_AMBITION @self -> ?victim head at ?org")
     (begin-goal {@self kill ?victim})))

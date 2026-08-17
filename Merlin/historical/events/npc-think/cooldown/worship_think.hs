@@ -54,6 +54,6 @@
   (role @self (grown @self)
               {@self devoutness [k piety_band devout]})
   (when    (>= (days-since-last {@self WORSHIP /ever}) 3))
-  (utility obligation 300)
+  (utility obligation)
   (effects       (begin-goal {@self WORSHIP}))
   (cease-effects (end-goal   {@self WORSHIP})))

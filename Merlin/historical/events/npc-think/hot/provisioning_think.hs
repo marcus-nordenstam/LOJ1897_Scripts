@@ -95,7 +95,7 @@
   ; mints {home room <r>}): the kind-cast bind picks the is-a kitchen target.
   (when (and (room [k kitchen] ?home): ?kitchen
              (< (count-believed-located [k food] ?kitchen) (larder_low_water))))
-  (utility duty 770)
+  (utility duty)
   (effects       (begin-goal {@self PROVISION}))
   (cease-effects (end-goal   {@self PROVISION})))
 
@@ -113,10 +113,9 @@
   (when    (and (is-a (building @self) [k building shop])
                 (room [k kitchen] ?home): ?kitchen
                 (count-believed-located [k food] ?kitchen): ?blv
-                (count-controlled @self [k food]): ?inh
+                (count (spatial @self hold [k food])): ?inh
                 (- (min (carry_cap) (- (larder_target) ?blv)) ?inh): ?cap
                 (> ?cap 0)))
-  (utility 770)
   (effects (maintain-proposal {@self PROVISION ?cap})))
 
 ; ---- the errand: go to THE provisions shop (never a generic one) ------------
@@ -152,7 +151,7 @@
 (npc-think provision_rearm
   (role ?home {@self home ?home})
   (when (and (room [k kitchen] ?home): ?kitchen
-             (not (empty (spatial @self control [k food])))))
+             (not (empty (spatial @self hold [k food])))))
   (utility duty (if (at_location @self ?kitchen) (then 1000) (else 900)))
   (effects       (begin-goal {@self BRING [k food] ?kitchen}))
   (cease-effects (end-goal   {@self BRING [k food] ?kitchen})))

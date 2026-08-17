@@ -18,8 +18,7 @@
   (task {@self send_mail ?doc})
   (role ?home {@self home ?home})
   (when (not (in-building @self ?home)))
-  (utility 730)
-  (effects (maintain-proposal {@self enter ?home})))
+  (effects (debug-print "SM_HOME") (maintain-proposal {@self enter ?home})))
 
 ; find the home's outgoing pile once - locate wanders home, and concludes at once if
 ; its whereabouts are already known (the durable location belief).
@@ -29,8 +28,8 @@
   (role ?home {@self home ?home})
   (when (and (in-building @self ?home)
              (none {@self locate [k outgoing_mail_stack] ?home /ever})))
-  (utility errand 740)
-  (effects (begin-proposal {@self locate [k outgoing_mail_stack] ?home})))
+  (utility errand)
+  (effects (debug-print "SM_LOC") (begin-proposal {@self locate [k outgoing_mail_stack] ?home})))
 
 (npc-think send_mail_go
   (task {@self send_mail ?doc})
@@ -38,8 +37,7 @@
   (role ?out [k outgoing_mail_stack] (not (co-present ?out @self)))
   (when (and (in-building ?out ?home)
              (location ?out): ?room))
-  (utility 750)
-  (effects (maintain-proposal {@self WALK ?room})))
+  (effects (debug-print "SM_GO") (maintain-proposal {@self WALK ?room})))
 
 ; standing at the pile -> deposit. The (none .. post_mail /succ) guard drops the rung
 ; the instant the paper is filed, so the maintain never re-proposes onto an
@@ -48,10 +46,9 @@
   (task {@self send_mail ?doc})
   (role ?out [k outgoing_mail_stack] (co-present ?out @self))
   (when (none {@self POST_MAIL ?doc ? /succ}))
-  (utility 760)
-  (effects (maintain-proposal {@self POST_MAIL ?doc ?out})))
+  (effects (debug-print "SM_PUT") (maintain-proposal {@self POST_MAIL ?doc ?out})))
 
 (npc-think send_mail_done
   (task {@self send_mail ?doc}:?sm)
   (when (any {@self POST_MAIL ?doc ? /succ} (out int)))
-  (effects (set-outcome ?sm succ)))
+  (effects (debug-print "SM_DONE") (set-outcome ?sm succ)))

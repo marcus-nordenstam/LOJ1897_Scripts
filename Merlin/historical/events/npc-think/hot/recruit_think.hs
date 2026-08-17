@@ -38,7 +38,7 @@
   (when (and (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
              (< (count-doc-records [k employee_register] ?reg)
                 (lookup public_orgs kind ?ok employee_count 2))))
-  (utility duty 760)
+  (utility duty)
   (effects (debug-print "RC_ROOT")
            (begin-proposal {@self recruit_staff ?org})))
 
@@ -56,14 +56,12 @@
 (npc-think recruit_staff_advertise
   (task {@self recruit_staff ?org})
   (when (none {@self post ? ?org}))
-  (utility 790)
   (effects (debug-print "RC_ADPICK") (maintain-proposal {@self advertise ?org})))
 
 (npc-think advertise_go
   (task {@self advertise ?org})
   (when (and (find-building [k building church]): ?board
              (not (in-building @self ?board))))
-  (utility 810)
   (effects (maintain-proposal {@self enter ?board})))
 
 ; The post to advertise is the org's DISCLOSED staff role (org_staffing). The act's target
@@ -76,7 +74,6 @@
              (read-doc-record [k articles_of_incorporation] ?art (kind ?ok))
              (lookup org_staffing org_kind ?ok staff_role none): ?jk
              (is-kind ?jk)))
-  (utility 810)
   (effects (debug-print "RC_ADPOST") (maintain-proposal {@self POST_ADVERT ?art ?jk})))
 
 ; POST-ACT: the advert paper exists -> book-keep {@self post ?ad ?org}, closing
@@ -96,19 +93,22 @@
 ; he goes himself and READS it - read_mail locates the mail room (wandering the
 ; premises if he does not yet know it), and its take_my_letters round lifts BOTH
 ; his personal mail and every application addressed to the recruiting duty he
-; holds. The inbox is the gate throughout: swept empty, the rungs fall silent
-; until new mail delivers.
+; holds. The gate is the MORNING OFFICE ROUND: the officer cannot sense a full
+; inbox from afar (stack contents are behaviour-revealed knowledge), so he
+; checks it because it is his duty hour - an empty pile just concludes the
+; round at the first look.
 (npc-think recruit_staff_go_office
   (task {@self recruit_staff ?org})
   (when (and (any {?org record ?}).target: ?art
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (not (in-building @self ?wp))
-             (attr (mail-pile (mail-space ?wp)) top)))
-  ; obligation: the office round is EPISODIC (exists only while the inbox holds mail)
-  ; and must override the daily need churn (meals preempt duty -> the maintain gate
-  ; falls -> the trip resets forever; the bands-plan table files episodic overriding
-  ; work under obligation).
-  (utility obligation 800)
+             (>= (now-hour) 9)
+             (< (now-hour) 11)))
+  ; obligation: the office round is EPISODIC (the daily duty window) and must
+  ; override the daily need churn (meals preempt duty -> the maintain gate
+  ; falls -> the trip resets forever; the bands-plan table files episodic
+  ; overriding work under obligation).
+  (utility obligation)
   (effects (debug-print "RC_GOOFC") (maintain-proposal {@self enter ?wp})))
 
 (npc-think recruit_staff_read_mail
@@ -117,8 +117,13 @@
   (when (and (any {?org record ?}).target: ?art
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (in-building @self ?wp)
-             (attr (mail-pile (mail-space ?wp)) top)))
-  (utility obligation 790)
+             (>= (now-hour) 9)
+             (< (now-hour) 11)))
+  ; 805: ABOVE go_office (800) - arrival establishes this rung's precondition,
+  ; so the chain's bid must step UP or any lane bidding between steals the
+  ; body and the office round never reaches the inbox (the post_mail
+  ; home < walk < deposit invariant).
+  (utility obligation)
   (effects (debug-print "RC_RDMAIL") (begin-proposal {@self read_mail ?wp})))
 
 ; --- holding gathered applications -> carry them to a known outgoing pile (the
@@ -128,26 +133,27 @@
   (task {@self recruit_staff ?org})
   (role ?home {@self home ?home})
   (role ?out [k outgoing_mail_stack] (not (co-present ?out @self)))
-  (role ?app [k application] (spatial @self control)
+  (role ?app [k application] (spatial @self hold)
         (select (policy first-match)))
   (when (and (in-building ?out ?home)
              (location ?out): ?room))
-  (utility obligation 800)
+  (utility obligation)
   (effects (debug-print "RC_RESGO") (maintain-proposal {@self WALK ?room})))
 
-; --- holding gathered applications, standing at an outgoing pile -> resolve the
-; batch (the act offers the first held application, rejects the rest, files each
-; verdict letter into ?out, destroys every application). The held-application role
-; is the gate: emptied, the maintain withdraws. Any outgoing pile serves - the
-; magic mail service routes each verdict by its written address.
+; --- holding gathered applications, standing at an outgoing pile -> run the
+; verdict ROUND (resolve_applications_think.hs): iterate the held applications
+; one drafting act at a time - offer the first, reject the rest - until the
+; hands are empty. Any outgoing pile serves - the magic mail service routes
+; each verdict by its written address.
 (npc-think recruit_staff_resolve
+  (lock-rule)
   (task {@self recruit_staff ?org})
   (role ?out [k outgoing_mail_stack] (co-present ?out @self))
-  (role ?app [k application] (spatial @self control)
+  (role ?app [k application] (spatial @self hold)
         (select (policy first-match)))
-  (when (any {?org record ?}).target: ?art)
-  (utility obligation 810)
-  (effects (debug-print "RC_RESOLVE") (maintain-proposal {@self RESOLVE_APPLICATIONS ?art ?out})))
+  (when (none {@self resolve_applications ?out /pres}))
+  (utility obligation)
+  (effects (debug-print "RC_RESOLVE") (begin-proposal {@self resolve_applications ?out})))
 
 ; --- the filled posting comes off the board -------------------------------------
 (npc-think take_down_filled
@@ -161,7 +167,7 @@
              (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
              (>= (count-doc-records [k employee_register] ?reg)
                  (lookup public_orgs kind ?ok employee_count 2))))
-  (utility duty 810)
+  (utility duty)
   (effects (maintain-proposal {@self TAKE_DOWN ?ad})))
 
 (npc-think take_down_done
@@ -173,7 +179,7 @@
 
 (npc-think recruit_staff_tmp_p1
   (task {@self recruit_staff ?org})
-  (role ?app [k application] (spatial @self control))
+  (role ?app [k application] (spatial @self hold))
   (effects (debug-print "RCP_APP app=?app")))
 
 (npc-think recruit_staff_tmp_p2
@@ -183,25 +189,25 @@
 
 (npc-think recruit_staff_tmp_p3
   (task {@self recruit_staff ?org})
-  (role ?app [k application] (spatial @self control))
+  (role ?app [k application] (spatial @self hold))
   (role ?out [k outgoing_mail_stack] (co-present ?out @self))
   (effects (debug-print "RCP_BOTH")))
 
 (npc-think recruit_staff_tmp_p4
   (task {@self recruit_staff ?org})
-  (role ?app [k application] (spatial @self control))
+  (role ?app [k application] (spatial @self hold))
   (when (any {?org record ?}).target: ?art)
   (effects (debug-print "RCP_ART art=?art")))
 
 (npc-think recruit_staff_tmp_p5
   (task {@self recruit_staff ?org})
-  (role ?app [k application] (spatial @self control))
+  (role ?app [k application] (spatial @self hold))
   (role ?home {@self home ?home})
   (effects (debug-print "RCP_P5")))
 
 (npc-think recruit_staff_tmp_p6
   (task {@self recruit_staff ?org})
-  (role ?app [k application] (spatial @self control))
+  (role ?app [k application] (spatial @self hold))
   (role ?home {@self home ?home})
   (role ?out [k outgoing_mail_stack])
   (effects (debug-print "RCP_P6")))
@@ -209,7 +215,7 @@
 (npc-think recruit_staff_tmp_p7
   (task {@self recruit_staff ?org})
   (role ?home {@self home ?home})
-  (role ?app [k application] (spatial @self control))
+  (role ?app [k application] (spatial @self hold))
   (effects (debug-print "RCP_P7")))
 
 (npc-think recruit_staff_tmp_p8
@@ -229,14 +235,15 @@
   (task {@self recruit_staff ?org})
   (when (and (any {?org record ?}).target: ?art
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
-             (attr (mail-pile (mail-space ?wp)) top)))
+             (>= (now-hour) 9)
+             (< (now-hour) 11)))
   (effects (debug-print "RCP_P16_MAIL")))
 
 (npc-think recruit_staff_tmp_p9
   (task {@self recruit_staff ?org})
   (role ?home {@self home ?home})
   (role ?out [k outgoing_mail_stack])
-  (role ?app [k application] (spatial @self control))
+  (role ?app [k application] (spatial @self hold))
   (effects (debug-print "RCP_P9")))
 
 (npc-think recruit_staff_tmp_p10
@@ -248,14 +255,14 @@
 (npc-think recruit_staff_tmp_p11
   (task {@self recruit_staff ?org})
   (role ?out [k outgoing_mail_stack])
-  (role ?app [k application] (spatial @self control))
+  (role ?app [k application] (spatial @self hold))
   (effects (debug-print "RCP_P11")))
 
 (npc-think recruit_staff_tmp_p12
   (task {@self recruit_staff ?org})
   (role ?home {@self home ?home})
   (role ?out [k outgoing_mail_stack])
-  (role ?app [k application] (spatial @self control))
+  (role ?app [k application] (spatial @self hold))
   (when (in-building ?out ?home))
   (effects (debug-print "RCP_P12")))
 
@@ -263,7 +270,7 @@
   (task {@self recruit_staff ?org})
   (role ?home {@self home ?home})
   (role ?out [k outgoing_mail_stack])
-  (role ?app [k application] (spatial @self control))
+  (role ?app [k application] (spatial @self hold))
   (when (location ?out): ?room)
   (effects (debug-print "RCP_P13 room=?room")))
 
@@ -271,5 +278,5 @@
   (task {@self recruit_staff ?org})
   (role ?home {@self home ?home})
   (role ?out [k outgoing_mail_stack] (not (co-present ?out @self)))
-  (role ?app [k application] (spatial @self control))
+  (role ?app [k application] (spatial @self hold))
   (effects (debug-print "RCP_P14")))

@@ -37,14 +37,12 @@
   (goal {@self hold_meet ?art})
   (when (and (articles-building ?art ?clubhouse)
              (not (in-building @self ?clubhouse))))
-  (utility 350)
   (effects (maintain-proposal {@self enter ?clubhouse})))
 
 (npc-think hold_meet_dwell
   (goal {@self hold_meet ?art})
   (when (and (articles-building ?art ?clubhouse)
              (in-building @self ?clubhouse)))
-  (utility 350)
   (effects (maintain-proposal {@self HOLD_MEET_RUN ?art})))
 
 ; --- the organiser OWNS the judge goal off the scoreboard he holds ----------------
@@ -58,7 +56,7 @@
 (npc-think want_judge
   (role ?racer {?racer race_result ?})
   (when (>= (days-since-last {@self JUDGE_DECLARE /ever}) 1))
-  (utility want 300)
+  (utility want)
   (effects       (begin-goal {@self judge_meet}))
   (cease-effects (end-goal   {@self judge_meet})))
 
@@ -70,5 +68,5 @@
 ; idler errands for the one run.
 (npc-think compete
   (role ?judge (believes {?judge summon @self ?sport}))
-  (utility want 450)
+  (utility want)
   (effects (maintain-proposal {@self RACE_RUN ?sport ?judge})))

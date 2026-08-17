@@ -39,7 +39,6 @@
   ; mid-meal excursion).
   (when (or (in-building @self ?place) (at_location @self ?place)))
 
-  (utility 200)
 
   (effects
     ; SELF-DISCLOSURE: one untold piece of my own profile. for-each-present-tense-belief walks my

@@ -23,5 +23,5 @@
   (when (or (any {@self lover ?} (out int))
             (has-goal {@self stow})))
 
-  (utility want 200)
+  (utility want)
   (effects (maintain-proposal {@self MAKE_CACHE ?building})))

@@ -58,7 +58,7 @@
                                  (if (is-married ?lover) (then 1.5) (else 1.0)))))))))))
 
   ; /caused_by: the held detest belief, else dislike, else the spouse-wealth belief.
-  (utility want 100)
+  (utility want)
   (effects
     (if (any {@self detest ?spouse} (out int))
         (then (begin-belief {@self detest ?spouse}): ?detest_bond

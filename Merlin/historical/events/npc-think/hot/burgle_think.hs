@@ -40,7 +40,7 @@
   (burgle-target @self):?scene
   (when (and (not (at-burgle-residence))
              (not (at-own-workplace))))
-  (utility 850)
+  (utility want)
   (effects
     (begin-goal {@self steal})
     (if ?scene
@@ -65,7 +65,6 @@
              (owner-of ?scene): ?owner
              (alive ?owner)
              (not (= ?owner @self))))
-  (utility 860)
   ; The LOOT is picked HERE (the first loose visible valuable - the walk is the
   ; same env truth (venue)/(burgle-target) read); an empty-handed scene still
   ; ledgers the intrusion, discharges and ends the goal (nothing to take).
@@ -81,7 +80,7 @@
         (else
           (begin-ended-belief {@self ?method ?owner})
           (begin-ended-belief {@self steal ?owner})
-          (crime-ledger-append @self ?owner ?method steal @fail @fail)
+          (crime-ledger-append @self ?owner ?method steal @u @u)
           (burglary-confrontation @self ?scene)
           (caused-by ?sgoal {@self pressure ?}): ?p
           (discharge-pressure ?p 0.75)
@@ -122,4 +121,4 @@
     (if (at-own-workplace) (then embezzle) (else opportunist_theft)): ?method
     (begin-ended-belief {@self ?method ?owner})
     (begin-ended-belief {@self steal ?owner})
-    (crime-ledger-append @self ?owner ?method steal (kind ?loot) @fail)))
+    (crime-ledger-append @self ?owner ?method steal (kind ?loot) @u)))

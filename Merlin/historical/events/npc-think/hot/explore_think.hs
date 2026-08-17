@@ -21,7 +21,7 @@
         (not (observed ?room))
         (select (policy first-match)))
   (when (in-building @self ?home))
-  (utility idle 700)
+  (utility idle (above wander))
   (effects (maintain-proposal {@self explore ?home})))
 
 (npc-think explore_walk
@@ -29,5 +29,4 @@
   (role ?room (env-parts ?bldg [k interior_space room])
         (not (observed ?room))
         (select (policy first-match)))
-  (utility 710)
   (effects (maintain-proposal {@self WALK ?room})))

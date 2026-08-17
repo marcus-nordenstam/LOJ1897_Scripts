@@ -46,7 +46,7 @@
 (npc-think idle_at_home
   (role ?home {@self home ?home})
   (when (at-home))
-  (utility idle 20)
+  (utility idle fallback)
   (effects       (begin-goal {@self DWELL ?home}))
   (cease-effects (end-goal   {@self DWELL ?home})))
 
@@ -125,7 +125,7 @@
              (>= (now-hour) ?h)
              (< (now-hour) (+ ?h 3))
              (> (count-believed-located [k food] ?home) 0)))
-  (utility need 820)
+  (utility need)
   (effects       (begin-goal {@self eat [k breakfast] ?home}))
   (cease-effects (end-goal   {@self eat [k breakfast] ?home})))
 
@@ -138,7 +138,7 @@
   (when (and (> (attr @self appetite) 0.25)
              (>= (now-hour) 12)
              (< (now-hour) 14)))
-  (utility need 850)
+  (utility need)
   (effects       (begin-goal {@self eat [k lunch] ?wp}))
   (cease-effects (end-goal   {@self eat [k lunch] ?wp})))
 
@@ -151,7 +151,7 @@
              (>= (now-hour) ?h)
              (< (now-hour) (+ ?h 2))
              (> (count-believed-located [k food] ?home) 0)))
-  (utility need 760)
+  (utility need)
   (effects       (begin-goal {@self eat [k lunch] ?home}))
   (cease-effects (end-goal   {@self eat [k lunch] ?home})))
 
@@ -164,7 +164,7 @@
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
              (> (count-believed-located [k food] ?home) 0)))
-  (utility need 780)
+  (utility need)
   (effects       (begin-goal {@self eat [k supper] ?home}))
   (cease-effects (end-goal   {@self eat [k supper] ?home})))
 
@@ -184,7 +184,7 @@
              (< (now-hour) (+ ?h 2))
              (> ?wealth 0.2)
              (= (count-believed-located [k food] ?home) 0)))
-  (utility need 700)
+  (utility need (below eat))
   (effects       (begin-goal {@self eat [k supper] ?venue}))
   (cease-effects (end-goal   {@self eat [k supper] ?venue})))
 
@@ -200,7 +200,7 @@
              (< (now-hour) (+ ?h 2))
              (> ?wealth 0.2)
              (= (count-believed-located [k food] ?home) 0)))
-  (utility need 700)
+  (utility need (below eat))
   (effects       (begin-goal {@self eat [k supper] ?venue}))
   (cease-effects (end-goal   {@self eat [k supper] ?venue})))
 
@@ -308,7 +308,7 @@
 (npc-think starving_eat_carried
   (role @self {@self starve})
   (when (and (> (attr @self appetite) 1.3)
-             (not (empty (spatial @self control [k food])))))
+             (not (empty (spatial @self hold [k food])))))
   (utility (starve-drive))
   (effects       (begin-goal {@self forage}))
   (cease-effects (end-goal   {@self forage})))
@@ -394,7 +394,7 @@
 ; {@self forage} goal it /causes (via the (goal ...) gate).
 (npc-think forage_at_source
   (goal    {@self forage})
-  (when    (or (not (empty (spatial @self control [k food])))
+  (when    (or (not (empty (spatial @self hold [k food])))
                (at-home)
                (is-a (building @self) [k building shop])))
   ; ?owner stays 0 unless the mouthful is STOLEN (at a shop, no wealth) - then the
@@ -404,7 +404,7 @@
   (effects
     (bind 0 ?found)
     (bind 0 ?owner)
-    (for-each ?it (spatial @self control [k food]) /limit 1
+    (for-each ?it (spatial @self hold [k food]) /limit 1
       (do (bind ?it ?item) (bind 1 ?found)))
     (if (and (= ?found 0)
              (at-home)

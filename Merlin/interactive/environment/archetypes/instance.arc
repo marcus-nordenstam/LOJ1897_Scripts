@@ -3,6 +3,5 @@
 archetype "instance" (cap 1) (per obs) (occupies-env-grid)
 {
     "prototype"
-    "in_stack"
     "obb"
 }

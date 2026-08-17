@@ -27,7 +27,7 @@
 ; mint or end the goal - they only write the possession state the minter reads.
 (npc-think want_stow
   (role @self (believes {@self carrying_loot ?item}))
-  (utility errand 900)
+  (utility errand always-pick)
   (effects       (begin-goal {@self stow ?item}))
   (cease-effects (end-goal   {@self stow ?item})))
 
@@ -36,7 +36,6 @@
   (role ?home {@self home ?home})
   (when (and ?item
              (not (at-home))))
-  (utility 900)
   (effects (maintain-proposal {@self enter ?home})))
 
 ; AT home: PROPOSE the put-away act (goals never propose themselves). stow_act reads the carried
@@ -45,7 +44,6 @@
   (goal {@self stow ?item})
   (when (and ?item
              (at-home)))
-  (utility 900)
   ; The put-away place is DECIDED here: a fashioned hiding spot for a
   ; valuable, else 0 (the body puts it openly in the room it stands in).
   (effects

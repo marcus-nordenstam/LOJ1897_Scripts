@@ -45,6 +45,8 @@
   (when (and (home-of ?target)
              (chance 0.4)))
 
+  (utility want)
+
   (effects
     ; The confession + signature, authored in natlang: the body names her by the
     ; name @self believes ("I fancy ?target_name") and the "Signed, .." line becomes

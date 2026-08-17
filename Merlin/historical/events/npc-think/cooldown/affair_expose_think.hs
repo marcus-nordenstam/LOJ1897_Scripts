@@ -15,6 +15,8 @@
 
   (when (chance (* 0.3 (infidelity-disposition @self))))
 
+  (utility want)
+
   (effects
     (debug-print "EXPOSE_FIRE @self cheater=?cheater")
     ; The denunciation exposes the affair to the cheater's WRONGED SPOUSE - the one

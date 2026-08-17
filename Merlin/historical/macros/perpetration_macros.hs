@@ -21,7 +21,7 @@
     (begin-ended-belief {@self offer_bribe ?victim})
     (discharge-pressure (caused-by ?goal {@self pressure ?}) 0.75)
     (end-goal {@self bribe})
-    (crime-ledger-append @self ?victim offer_bribe bribe @fail @fail)))
+    (crime-ledger-append @self ?victim offer_bribe bribe @u @u)))
 
 ; harm_non_lethal terminal (hurt goal): the mint-only shape PLUS a non-lethal wound.
 ; The band-5 act anchor {@self beat <victim>} (beat is the hurt method), a
@@ -35,7 +35,7 @@
     (yield-evidence @self ?victim torso bruise)
     (discharge-pressure (caused-by ?goal {@self pressure ?}) 0.75)
     (end-goal {@self hurt})
-    (crime-ledger-append @self ?victim beat hurt @fail @fail)))
+    (crime-ledger-append @self ?victim beat hurt @u @u)))
 
 ; plant_evidence terminal (frame goal): mint-only PLUS the fabricated evidence
 ; planted ON the framed (innocent) party. The act anchor {@self plant_evidence
@@ -48,7 +48,7 @@
     (yield-evidence @self ?victim torso blood_stain)
     (discharge-pressure (caused-by ?goal {@self pressure ?}) 0.75)
     (end-goal {@self frame})
-    (crime-ledger-append @self ?victim plant_evidence frame @fail @fail)))
+    (crime-ledger-append @self ?victim plant_evidence frame @u @u)))
 
 ; silence_coerce terminal (coerce goal): the threat is EXECUTED. The act anchor {@self
 ; <method> <victim>} (the method is the leaf recorded), the pressure discharged, the
@@ -72,7 +72,7 @@
     ; mints the exposure_risk pressure off that anchor - no C++ generator.
     (begin-belief ?victim {@self extort ?victim})
     (begin-ended-belief ?victim {@self blackmail ?victim})
-    (crime-ledger-append @self ?victim blackmail coerce @fail @fail)))
+    (crime-ledger-append @self ?victim blackmail coerce @u @u)))
 
 (define-macro coerce-threaten (?victim ?goal)
   (do
@@ -82,7 +82,7 @@
     (if (none {@self extort ?victim}) (then (begin-belief {@self extort ?victim})))
     (begin-belief ?victim {@self extort ?victim})
     (begin-ended-belief ?victim {@self threaten_violence ?victim})
-    (crime-ledger-append @self ?victim threaten_violence coerce @fail @fail)))
+    (crime-ledger-append @self ?victim threaten_violence coerce @u @u)))
 
 (define-macro terminal-silence-coerce (?victim ?goal)
   (if (holds-coercion-material ?victim)
@@ -106,7 +106,7 @@
     (end-goal {@self expose})
     (if (any {@self extort ?victim} (out int)) (then (end-belief {@self extort ?victim})))
     (publish-secret-about @self ?victim)
-    (crime-ledger-append @self ?victim confront_publicly expose @fail @fail)))
+    (crime-ledger-append @self ?victim confront_publicly expose @u @u)))
 
 (define-macro expose-anon (?victim ?goal)
   (do
@@ -115,7 +115,7 @@
     (end-goal {@self expose})
     (if (any {@self extort ?victim} (out int)) (then (end-belief {@self extort ?victim})))
     (publish-secret-about @self ?victim)
-    (crime-ledger-append @self ?victim anonymous_letter expose @fail @fail)))
+    (crime-ledger-append @self ?victim anonymous_letter expose @u @u)))
 
 (define-macro terminal-publish-secret (?victim ?goal)
   (if (known-nonspousal-liaison ?victim)
@@ -146,7 +146,7 @@
         (if (and (any {?victim gender [k female]} (out int))
                  (none {?victim spouse ?}))
             (then (begin-belief ?victim {?victim prototype [k fallen_woman]})))
-        (crime-ledger-append @self ?victim seduce seduce @fail @fail))
+        (crime-ledger-append @self ?victim seduce seduce @u @u))
       (else (end-goal {@self seduce}))))
 
 ; confess_secret terminal (confess_letter goal): the actor reveals their OWN
@@ -202,7 +202,7 @@
           (begin-ended-belief {@self public_humiliation ?victim})
           (begin-ended-belief ?victim {@self public_humiliation ?victim})
           (discharge-pressure (caused-by ?goal {@self pressure ?}) 0.75)
-          (crime-ledger-append @self ?victim public_humiliation humiliate @fail @fail)))
+          (crime-ledger-append @self ?victim public_humiliation humiliate @u @u)))
     (end-goal {@self humiliate})))
 
 ; file_report terminal (report_crime goal): the lawful channel - NOT a crime,
