@@ -2,8 +2,8 @@
 ; bring (npc-action) - the put-down completion of the general bring lane
 ; (npc-think/bring_think.hs). Fires ONLY at the destination (the same at-place
 ; gate the promotion think used): every carried item of the ware's kind is put
-; down in the space @self stands in. Held items live on the HAND entity
-; (hand.control), not on @self.
+; down in the space @self stands in. The held set is the env-truth hold view
+; (both hands, kind-filtered).
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -11,9 +11,6 @@
 (npc-action {@self BRING ?ware ?dest}
   (duration 5)
   (effects
-    (if (attr @self right_hand)
-        (then (for-each ?item (attr-values (attr @self right_hand) control)
-          (if (is-a ?item ?ware)
-              (then
-                (put-item ?item (attr @self location)))))))
+    (for-each ?item (spatial @self hold ?ware /env)
+        (put-item ?item (spatial @self location /env)))
     (set-outcome {@self BRING ?ware ?dest} succ)))

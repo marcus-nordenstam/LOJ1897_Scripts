@@ -4,14 +4,14 @@
 archetype "region" (cap 16) (per obs) (non-occluder) (no-sector-coverage)
 {
     # Region bounds exist for containment tests but are not auto-perceived
-    "obb" (no-auto-percept)
-    "rain"
-    "snow"
-    "fog"
-    "wind"
-    "sky"
+    (attr "obb" (no-auto-percept))
+    (attr "rain")
+    (attr "snow")
+    (attr "fog")
+    (attr "wind")
+    (attr "sky")
     # Region atmosphere - non-sentient archetype keeps mood as attrs (Q4).
-    "mood_kinds"
-    "mood_intensities"
-    "mood_set_dates"
+    (attr "mood_kinds")
+    (attr "mood_intensities")
+    (attr "mood_set_dates")
 }

@@ -8,7 +8,7 @@
 ; you believe is here, and end the whereabouts of whatever is not where you
 ; left it. The whole algorithm is authored here from the general composable
 ; ops - (content ?room) lists the items my spatial index believes are in
-; ?room, (attr ?item location) reads where each actually is (a destroyed item reads
+; ?room, (spatial ?item location /env) reads where each actually is (a destroyed item reads
 ; as nothing, and an item squirreled into a hidden cache reads the CACHE sub-space,
 ; not this room - either way the miss IS the discovery), (retire-whereabouts ?item)
 ; evicts the miss from the index (releasing its reality-chain peg). The now-closed
@@ -25,5 +25,5 @@
 (define-macro take-stock-of (?room ?kind)
   (for-each ?item (content ?room)
     (if (and (is-a ?item [k ?kind])
-             (not (= (attr ?item location) ?room)))
+             (not (= (spatial ?item location /env) ?room)))
         (then (retire-whereabouts ?item)))))

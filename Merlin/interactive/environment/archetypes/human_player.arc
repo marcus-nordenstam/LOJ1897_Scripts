@@ -1,60 +1,62 @@
 # Any human PLAYER
 archetype "human_player" (cap 256) (per obs) (raycast-visible) (player) (non-occluder) (occupies-env-grid) (infer-kind-override human player)
 {
-    "physical_motors"
-    "game_role"
+    # Placement participation (plan section 18): which spatial relations this
+    # archetype takes part in - the write seams validate both ends.
+    (spatial control)
+    (attr "physical_motors")
+    (attr "game_role")
     # Lifecycle dates - written by historical sim, surface into interactive.
-    "birth_date"
-    "death_date"
-    "death_cause"
-    "age_group"
-    "gender"
-    "appearance"
-    "height"
-    "girth"
-    "hair_color"
-    "eye_color"
-    "attractiveness"
-    "bank_balance"
-    "name"
-    "condition"
-    "pregnant_when"
-    "fatigue"
-    "hunger"
-    "adrenaline"
-    "sleepiness"
-    "appetite"
-    "sexual_orient"
+    (attr "birth_date")
+    (attr "death_date")
+    (attr "death_cause")
+    (attr "age_group")
+    (attr "gender")
+    (attr "appearance")
+    (attr "height")
+    (attr "girth")
+    (attr "hair_color")
+    (attr "eye_color")
+    (attr "attractiveness")
+    (attr "bank_balance")
+    (attr "name")
+    (attr "condition")
+    (attr "pregnant_when")
+    (attr "fatigue")
+    (attr "hunger")
+    (attr "adrenaline")
+    (attr "sleepiness")
+    (attr "appetite")
+    (attr "sexual_orient")
     # Big Five personality - the ten Big Five Aspect Scale aspects.
-    "openness"
-    "intellect"
-    "industriousness"
-    "orderliness"
-    "enthusiasm"
-    "assertiveness"
-    "compassion"
-    "politeness"
-    "volatility"
-    "withdrawal"
+    (attr "openness")
+    (attr "intellect")
+    (attr "industriousness")
+    (attr "orderliness")
+    (attr "enthusiasm")
+    (attr "assertiveness")
+    (attr "compassion")
+    (attr "politeness")
+    (attr "volatility")
+    (attr "withdrawal")
     # Dark-tetrad traits - genetic, drive crime motives.
-    "narcissism"
-    "machiavellianism"
-    "psychopathy"
-    "sadism"
+    (attr "narcissism")
+    (attr "machiavellianism")
+    (attr "psychopathy")
+    (attr "sadism")
     # Physical traits (PR-3b 2026-05-25) - genetic, drive method viability.
-    "strength"
-    "dexterity"
-    "agility"
-    "endurance"
-    "region"
-    # Parts are not auto-perceived - we perceive specific body-parts below instead
-    "left_hand"
-    "right_hand"
-    "head"
-    "eyes"
-    "mouth"
-    "torso"
-    "pregnant_by"
-    "control"
-    "obb"
+    (attr "strength")
+    (attr "dexterity")
+    (attr "agility")
+    (attr "endurance")
+    (attr "region")
+    # The body plan (plan section 18) - same slots as human_npc.
+    (struct child "left_hand" [k left_hand] (offset 0 -0.04 0))
+    (struct child "right_hand" [k right_hand] (offset 0 0.04 0))
+    (struct child "head" [k head] (offset 0 1.6 0))
+    (struct child "eyes" [k eye] (offset 0 1.6 0))
+    (struct child "mouth" [k mouth] (offset 0 1.55 0.03))
+    (struct child "torso" [k torso] (offset 0 1.2 0))
+    (attr "pregnant_by")
+    (attr "obb")
 }

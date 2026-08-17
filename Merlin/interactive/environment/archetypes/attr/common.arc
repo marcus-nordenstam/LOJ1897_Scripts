@@ -39,13 +39,11 @@ attr "obb" (type obb) (spec-attr spatial-bounds) (per obs) (auto-percept) (state
 
 # Ownership & control
 # The entity currently controlling the position of this entity (if any)
-attr "controlled_by" (type entity) (spec-attr controlled-by) (imperceptible)
 # Durable OWNER of this entity: whoever created it (general rule - you make it,
 # you own it). IMPERCEPTIBLE: ownership of a SECRET cache is not visible to
 # others (the whole point), and the owner drives "observe your OWN cache".
 attr "owner" (type entity) (imperceptible)
 # What this entity controls (stowed or held items)
-attr "control" (type entity array 12) (spec-attr control) (per obs) (auto-percept) (hsim-percept)
 # The person a document (letter) is addressed to. hsim-perceptible: the envelope
 # addressee is visible on sight, so a mind that observes the letter internalizes
 # {letter addressee <person>} - WITHOUT learning the message (that needs reading).
@@ -71,13 +69,6 @@ attr "physical_motors" (type physical-motors)
 # Hands are integral to reasoning - they get their own attrs even though they also appear in parts.
 # Body parts are FELT internally (the NPC always knows their own body) AND observed externally
 # (others see your hands when they look at you). Same int-feel-ext-obs split as `name`.
-attr "left_hand" (type entity) (entity "hand") (state "hand") (int-per feel) (ext-per obs) (auto-percept) (hsim-percept)
-attr "right_hand" (type entity) (entity "hand") (state "hand") (int-per feel) (ext-per obs) (auto-percept) (hsim-percept)
-attr "head" (type entity) (entity "head") (state "head") (int-per feel) (ext-per obs) (auto-percept)
-attr "eyes" (type entity) (entity "eye") (state "eyes") (int-per feel) (ext-per obs) (auto-percept)
-attr "mouth" (type entity) (entity "mouth") (state "mouth") (int-per feel) (ext-per obs) (auto-percept)
-attr "ring_finger" (type entity) (entity "finger") (state "finger") (int-per feel) (ext-per obs) (auto-percept)
-attr "torso" (type entity) (entity "torso") (state "torso") (int-per feel) (ext-per obs) (auto-percept)
 attr "wear" (type entity) (per obs) (auto-percept)
 
 # Demographics
@@ -354,7 +345,6 @@ attr "stains"  (type kind array 4) (state "stain") (per obs) (auto-percept)
 attr "marks"   (type kind array 4) (state "mark")  (per obs) (auto-percept)
 
 # the space an entity is in
-attr "location" (type entity) (entity "interior_space" "exterior_space") (spec-attr location) (per obs) (auto-percept) (hsim-percept)
 
 # Loose/mobile content lives in the whereabouts occupants pool (engine substrate),
 # not in an attr - read via (env-content)/(content) + for_each_occupant.
