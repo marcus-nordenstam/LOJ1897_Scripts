@@ -15,6 +15,22 @@ relation
         within_reach_of         (tar object|space)
         facing                  (tar object|space)
 
+        # PLACEMENT EDGES beyond location (spatial_mind_index_plan.md section 17).
+        # `controlled_by` is the writable grip up-edge: {<item> controlled_by
+        # <hand>} = the hand grips the item, at most one item per controller.
+        # Target unconstrained (hands, grippers). The (control) flag routes it
+        # into the placement node pool + the spatial ops.
+        controlled_by           (tar ? @excl)         (control)
+        # `control` is the read-only DOWN view of the grip family ({<hand>
+        # control <item>} - what the hand holds; the env attr of the same name
+        # is its physical realization). The (inverse) decoration bars it from
+        # spatial-write (no second writable side).
+        control                 (tar ?)               (control) (inverse)
+        # `in_stack` is the writable stack up-edge: {<item> in_stack <stack>} =
+        # the item is filed in the stack/bag (bag IS-A stack). Stack order lives
+        # on the stack's `items` attr, not on the edge.
+        in_stack                (tar stack @excl)     (stack)
+
         # to believe that someone ELSE knows something; theory-of-knowledge
         know                    (sub human)           (tar @S)
 
