@@ -58,6 +58,5 @@ archetype "human_player" (cap 256) (per obs) (raycast-visible) (player) (non-occ
     (struct child "mouth" [k mouth] (offset 0 1.55 0.03))
     (struct child "torso" [k torso] (offset 0 1.2 0))
     (attr "pregnant_by")
-    (attr "control")
     (attr "obb")
 }

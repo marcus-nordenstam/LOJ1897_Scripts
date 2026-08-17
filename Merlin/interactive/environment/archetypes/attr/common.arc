@@ -45,7 +45,6 @@ attr "controlled_by" (type entity) (spec-attr controlled-by) (imperceptible)
 # others (the whole point), and the owner drives "observe your OWN cache".
 attr "owner" (type entity) (imperceptible)
 # What this entity controls (stowed or held items)
-attr "control" (type entity array 12) (spec-attr control) (per obs) (auto-percept) (hsim-percept)
 # The person a document (letter) is addressed to. hsim-perceptible: the envelope
 # addressee is visible on sight, so a mind that observes the letter internalizes
 # {letter addressee <person>} - WITHOUT learning the message (that needs reading).

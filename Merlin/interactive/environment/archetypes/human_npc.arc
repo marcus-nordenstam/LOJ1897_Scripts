@@ -83,7 +83,6 @@ archetype "human_npc" (cap 4096) (per obs) (raycast-visible) (sentient) (non-occ
     (struct child "mouth" [k mouth] (offset 0 1.55 0.03))
     (struct child "torso" [k torso] (offset 0 1.2 0))
     (attr "pregnant_by")
-    (attr "control")
     # The NPC's current SPACE (room / exterior_space). Perceptible + auto-percept
     # (the universal `location` attr): relocate writes it on every move, the NPC
     # self-perceives it, and co-presence is read straight off it - no belief dig.

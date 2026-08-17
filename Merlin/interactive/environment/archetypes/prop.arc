@@ -27,7 +27,6 @@ archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
     (attr "writing")
     (attr "controlled_by")
     (attr "control_force")
-    (attr "control")
     # The building a loose prop currently sits in. Written by the hsim
     # evidence trails (receipt / sales_record, letters, hiding caches) and
     # read back by their location scans; without it those `location` writes
