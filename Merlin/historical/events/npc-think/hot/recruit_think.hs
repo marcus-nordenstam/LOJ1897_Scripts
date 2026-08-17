@@ -99,12 +99,16 @@
 ; round at the first look.
 (npc-think recruit_staff_go_office
   (task {@self recruit_staff ?org})
+  ; CADENCE, not clock: once since the last successful sweep (days-since-last,
+  ; elapsed time - not a 9-11 time-of-day window, which the interruptible-dwell
+  ; rhythm now slides the officer clean past). An empty pile concludes the round
+  ; at the first look, so a wasted trip is cheap; the /succ read closes this for
+  ; a day.
   (when (and (any {?org record ?}).target: ?art
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (not (in-building @self ?wp))
-             (>= (now-hour) 9)
-             (< (now-hour) 11)))
-  ; obligation: the office round is EPISODIC (the daily duty window) and must
+             (>= (days-since-last {@self read_mail ?wp /succ}) 1)))
+  ; obligation: the office round is EPISODIC (the daily duty round) and must
   ; override the daily need churn (meals preempt duty -> the maintain gate
   ; falls -> the trip resets forever; the bands-plan table files episodic
   ; overriding work under obligation).
@@ -117,12 +121,10 @@
   (when (and (any {?org record ?}).target: ?art
              (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
              (in-building @self ?wp)
-             (>= (now-hour) 9)
-             (< (now-hour) 11)))
-  ; 805: ABOVE go_office (800) - arrival establishes this rung's precondition,
-  ; so the chain's bid must step UP or any lane bidding between steals the
-  ; body and the office round never reaches the inbox (the post_mail
-  ; home < walk < deposit invariant).
+             (>= (days-since-last {@self read_mail ?wp /succ}) 1)))
+  ; go_office (not-in-building) and this (in-building) are mutually exclusive - they
+  ; never compete - and the begun read_mail task inherits obligation and holds the
+  ; chain, so a bare band is enough; no ordinal step-up needed.
   (utility obligation)
   (effects (debug-print "RC_RDMAIL") (begin-proposal {@self read_mail ?wp})))
 

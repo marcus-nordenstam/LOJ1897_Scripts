@@ -106,6 +106,10 @@
 (npc-think apply_for_await_verdict
   (task {@self apply_for ?jk ?art})
   (role ?home {@self home ?home})
+  ; NO clock window: the seeker's active day is schedule-chaotic (the month-day
+  ; catch-up starts at midnight and sleep drifts to mid-morning), so the round
+  ; runs whenever @self is home and awake - interrupted rounds resume, and the
+  ; retryable locate (/succ guard) finishes in whatever stretch is free.
   (when (and (any {@self PREPARE_APPLICATION ?art ?jk /succ} (out int))
              (in-building @self ?home)
              (>= (days-since-last {@self read_mail ?home /succ}) 1)))

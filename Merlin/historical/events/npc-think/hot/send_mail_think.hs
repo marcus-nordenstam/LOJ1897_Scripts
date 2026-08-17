@@ -26,8 +26,9 @@
   (lock-rule)
   (task {@self send_mail ?doc})
   (role ?home {@self home ?home})
+  ; /succ, not /ever - the same interrupted-attempt trap as read_mail_locate.
   (when (and (in-building @self ?home)
-             (none {@self locate [k outgoing_mail_stack] ?home /ever})))
+             (none {@self locate [k outgoing_mail_stack] ?home /succ})))
   (utility errand)
   (effects (debug-print "SM_LOC") (begin-proposal {@self locate [k outgoing_mail_stack] ?home})))
 

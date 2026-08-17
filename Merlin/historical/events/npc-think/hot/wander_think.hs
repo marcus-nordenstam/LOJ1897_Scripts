@@ -22,21 +22,46 @@
         (select (policy first-match)))
   (effects (maintain-proposal {@self explore ?bldg})))
 
-; all rooms known (no explore still running) -> walk each known room not yet walked
-; this wander, one at a time.
+; COVERAGE is private-bb scratch VALUED with the wander instance ?w: a mark from
+; an older instance mismatches ?w and reads unvisited automatically - no clears,
+; no record scoping, and an interrupted-and-resumed round keeps its progress
+; (the /caused_by-scoped go-record design lost ALL coverage on every re-instance
+; and a busy mind never finished a pass). Standing in a room marks it - the
+; start room included - and the first mark of a round seeds the pending count.
+(npc-think wander_mark
+  (task {@self wander ?bldg}:?w)
+  (role ?room (parts ?bldg [k interior_space room])
+        (at_location @self ?room)
+        (not (= (bb-read ?room wander-visited) ?w)))
+  (effects
+    ; pending seeds from ENV-PARTS (ALL rooms), not parts (observed) - else the
+    ; round concludes as soon as the ALREADY-KNOWN rooms are marked and never
+    ; drives explore to the UNOBSERVED ones, so a resident who has stood in only
+    ; his kitchen never reaches the hallway where his mail pile sits.
+    (if (not (= (bb-read ?bldg wander-round) ?w))
+        (then (bb-write ?bldg wander-round ?w)
+              (bb-write ?bldg wander-pending
+                        (count (env-parts ?bldg [k interior_space room])))))
+    (bb-write ?room wander-visited ?w)
+    (bb-write ?bldg wander-pending (- (bb-read ?bldg wander-pending) 1))))
+
+; all rooms known (no explore still running) -> walk to each room not yet
+; visited THIS round, one at a time (arrival marks it via wander_mark).
 (npc-think wander_go
   (task {@self wander ?bldg}:?w)
   ; KNOWN rooms come from the belief-honest (parts) op (env structure filtered to
   ; what @self has observed) - room beliefs are engine-written, never pattern-read.
   (role ?room (parts ?bldg [k interior_space room])
-        (none {@self go ?room /past /caused_by ?w})
+        (not (= (bb-read ?room wander-visited) ?w))
+        (not (at_location @self ?room))
         (select (policy first-match)))
   (when (none {@self explore ?bldg /pres}))
-  (effects (maintain-proposal {@self WALK ?room})))
+  (effects (debug-print "WANDER_GO room=?room")
+           (maintain-proposal {@self WALK ?room})))
 
-; walked every known room this wander -> concluded.
+; every known room visited this round -> concluded.
 (npc-think wander_done
   (task {@self wander ?bldg}:?w)
-  (when (>= (count (every {@self go ? /past /caused_by ?w}))
-            (count (parts ?bldg [k interior_space room]))))
-  (effects (set-outcome ?w succ)))
+  (when (and (= (bb-read ?bldg wander-round) ?w)
+             (= (bb-read ?bldg wander-pending) 0)))
+  (effects (debug-print "WANDER_DONE") (set-outcome ?w succ)))

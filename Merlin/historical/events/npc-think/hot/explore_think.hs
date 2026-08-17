@@ -3,8 +3,13 @@
 ; unobserved room of ?bldg, perception teaching it on arrival, until every room is
 ; observed and the drive ceases. This bootstraps the {building part room} /
 ; {mail_stack location room} knowledge wander / read_mail (and any home-room
-; behaviour) binds. General over ?bldg: wander proposes it for the workplace as well
-; as home; want_explore below is the standing HOME bootstrap driver.
+; behaviour) binds.
+;
+; DEMAND-DRIVEN, never speculative: exploration is a MEANS, proposed only by a task
+; that needs to know where something is (read_mail -> locate -> wander -> explore),
+; so it inherits that task's band and never starves as a standing idle bootstrap
+; would. There is no want_explore driver - a mind explores its home exactly when a
+; running task requires a room it has not yet seen.
 ;
 ; The room source is ENV-TRUTH: (env-parts ?bldg [k interior_space room])
 ; enumerates the building's ACTUAL rooms - most UNOBSERVED, which is the point - as
@@ -13,16 +18,6 @@
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
-
-(npc-think want_explore
-  (cooldown 1 m)
-  (role ?home {@self home ?home})
-  (role ?room (env-parts ?home [k interior_space room])
-        (not (observed ?room))
-        (select (policy first-match)))
-  (when (in-building @self ?home))
-  (utility idle (above wander))
-  (effects (maintain-proposal {@self explore ?home})))
 
 (npc-think explore_walk
   (task {@self explore ?bldg})

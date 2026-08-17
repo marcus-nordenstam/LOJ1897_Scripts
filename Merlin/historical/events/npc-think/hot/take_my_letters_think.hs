@@ -40,16 +40,11 @@
     (debug-print "TML_DONE")
     (set-outcome ?take-letters succ)))
 
-; Walked away from the stack mid-round -> conclude /fail (the same conclusive-not-
-; interrupt rule as read_mail_give_up: a resumable standalone node would re-promote
-; and stack-sort from afar). The next read_mail instance re-proposes a fresh round.
-(npc-think take_my_letters_away
-  (task {@self take_my_letters ?stack}:?take-letters)
-  (when (not (co-present ?stack @self)))
-  (effects
-    (bb-clear ?stack browse-cycle-end)
-    (bb-clear ?stack browse-inflight)
-    (set-outcome ?take-letters fail)))
+; NO away rung: the round RESUMES when @self is back at the stack (the browse
+; rungs' gates fail from afar and the task idles running; bb scratch keeps the
+; round's progress). A conclusive /fail here would bar the re-sweep forever -
+; read_mail_take's per-instance /ever guard counts it - now that read_mail
+; itself no longer concludes on an excursion.
 
 (npc-think take_my_letters_tmp_p1
   (task {@self take_my_letters ?stack})

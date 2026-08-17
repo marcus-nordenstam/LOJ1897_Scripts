@@ -31,7 +31,10 @@
 ; whereabouts are already known (the durable location belief). One locate per premises.
 (npc-think read_mail_locate
   (task {@self read_mail ?prem})
-  (when (none {@self locate [k mail_stack] ?prem /ever}))
+  ; /succ, not /ever: an INTERRUPTED locate must retry - an /ever guard lets a
+  ; night-owl's one starved attempt close the gate forever and the round stalls
+  ; bodiless at go (the stack is never learned).
+  (when (none {@self locate [k mail_stack] ?prem /succ}))
   (utility errand)
   (effects (debug-print "RM_LOC") (begin-proposal {@self locate [k mail_stack] ?prem})))
 
@@ -71,16 +74,13 @@
              (empty (spatial @self hold [k letter]))))
   (effects (debug-print "RM_DONE") (set-outcome ?rm succ)))
 
-; Left the premises before finishing -> conclude /fail. CONCLUSIVE by necessity: an
-; interrupted begun task keeps its resumable node, and a standalone banded proposal
-; re-promotes the same instant while @self is still away - give_up would interrupt it
-; again, a same-instant livelock. The /fail frees the node; the minting drivers
-; (recruit_staff_read_mail / apply_for_await_verdict) re-propose a FRESH read on the
-; next premises visit, which is the intended resume.
-(npc-think read_mail_give_up
-  (task {@self read_mail ?prem}:?rm)
-  (when (not (in-building @self ?prem)))
-  (effects (debug-print "RM_GIVEUP") (set-outcome ?rm fail)))
+; NO give-up rung: an interrupted round keeps its resumable node and RESUMES on
+; the next premises visit - away from ?prem the rungs simply propose nothing
+; (their in-building/co-present gates fail) and the task idles running. The old
+; conclusive /fail existed to break a re-promotion livelock that the engine
+; fixes (fire-time producer-pool re-verify + the /caused_by matcher routing)
+; have since killed at the root; concluding here threw away the round's
+; progress on every excursion and a night-owl seeker never finished a sweep.
 
 (npc-think read_mail_tmp_probe
   (task {@self read_mail ?prem})
