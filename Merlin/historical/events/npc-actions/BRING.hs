@@ -12,5 +12,5 @@
   (duration 5)
   (effects
     (for-each ?item (spatial @self hold ?ware /env)
-        (put-item ?item (attr @self location)))
+        (put-item ?item (spatial @self location /env)))
     (set-outcome {@self BRING ?ware ?dest} succ)))

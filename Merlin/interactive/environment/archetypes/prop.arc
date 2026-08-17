@@ -30,7 +30,6 @@ archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
     # evidence trails (receipt / sales_record, letters, hiding caches) and
     # read back by their location scans; without it those `location` writes
     # were silent no-ops and the scans could never find anything.
-    (attr "location")
     # The NPC who MADE this prop owns it (a secret cache belongs to its maker).
     # Imperceptible - a hidden cache's ownership is not on show; it gates who may
     # observe the cache's contents (only the owner).

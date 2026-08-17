@@ -18,7 +18,6 @@ archetype "stack" (cap 2048) (per obs) (non-occluder) (occupies-env-grid)
     (attr "obb")
     # A stack sits IN a space (a mail pile in the hallway, letter piles inside
     # a hiding-spot cache) - seam-derived from the OBB like any located prop.
-    (attr "location")
     # A pile is created as a CHILD of its mail space so find_mail_stack's
     # child walk resolves it regardless of where the placement seam files its
     # contents entry. Without this attr, set_parent silently no-ops and every

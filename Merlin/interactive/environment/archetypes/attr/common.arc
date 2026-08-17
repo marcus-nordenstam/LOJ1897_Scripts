@@ -345,7 +345,6 @@ attr "stains"  (type kind array 4) (state "stain") (per obs) (auto-percept)
 attr "marks"   (type kind array 4) (state "mark")  (per obs) (auto-percept)
 
 # the space an entity is in
-attr "location" (type entity) (entity "interior_space" "exterior_space") (spec-attr location) (per obs) (auto-percept) (hsim-percept)
 
 # Loose/mobile content lives in the whereabouts occupants pool (engine substrate),
 # not in an attr - read via (env-content)/(content) + for_each_occupant.
