@@ -69,6 +69,15 @@ archetype "human_npc" (cap 4096) (per obs) (raycast-visible) (sentient) (non-occ
     "agility"
     "endurance"
     "region"
+    # The body plan (plan section 18): named singleton slots, builder-created at
+    # the declared local offsets (decl order = creation order). A hand's own
+    # archetype declares its ring_finger, so it rides along.
+    (struct child "left_hand" [k left_hand] (offset 0 -0.04 0))
+    (struct child "right_hand" [k right_hand] (offset 0 0.04 0))
+    (struct child "head" [k head] (offset 0 1.6 0))
+    (struct child "eyes" [k eye] (offset 0 1.6 0))
+    (struct child "mouth" [k mouth] (offset 0 1.55 0.03))
+    (struct child "torso" [k torso] (offset 0 1.2 0))
     # Parts are not auto-perceived - we perceive specific body-parts below instead
     "left_hand"
     "right_hand"

@@ -47,6 +47,13 @@ archetype "human_player" (cap 256) (per obs) (raycast-visible) (player) (non-occ
     "agility"
     "endurance"
     "region"
+    # The body plan (plan section 18) - same slots as human_npc.
+    (struct child "left_hand" [k left_hand] (offset 0 -0.04 0))
+    (struct child "right_hand" [k right_hand] (offset 0 0.04 0))
+    (struct child "head" [k head] (offset 0 1.6 0))
+    (struct child "eyes" [k eye] (offset 0 1.6 0))
+    (struct child "mouth" [k mouth] (offset 0 1.55 0.03))
+    (struct child "torso" [k torso] (offset 0 1.2 0))
     # Parts are not auto-perceived - we perceive specific body-parts below instead
     "left_hand"
     "right_hand"
