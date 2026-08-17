@@ -7,7 +7,7 @@
 ; put it there), and this chain drains it:
 ;
 ;   stow_go     : holding the goal, not at home -> travel home. The loot / the
-;                 bloody knife is physically CARRIED (controlled_by rides the
+;                 bloody knife is physically CARRIED (gripped_by rides the
 ;                 hand), so the world sees a laden walker, not a teleport. AT home the
 ;                 go sub-goal is spent, the stow goal is the leaf and promotes to
 ;                 stow_act (npc-act/stow.hs) - no dwell rung.

@@ -3,7 +3,7 @@ archetype "hand" (cap 8192) (per obs) (non-occluder)
 {
     # Placement participation (plan section 18): which spatial relations this
     # archetype takes part in - the write seams validate both ends.
-    (spatial control)
+    (spatial grip)
     # The hand's own sub-structure (plan section 18): rides along wherever a hand
     # is created.
     (struct child "ring_finger" [k ring_finger] (offset 0 0 0))

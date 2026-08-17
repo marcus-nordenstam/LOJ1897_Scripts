@@ -56,7 +56,7 @@
 #     actually did.
 #
 # Means (weapon kind, substance kind, blade) are NOT task fields. They
-# live in the substrate: env attr `controlled_by` names what's in the
+# live in the substrate: the grip edge (spatial ?item gripped_by) names what's in the
 # actor's hand at the act timestamp; prior `add_substance` beliefs
 # record what was added to which vessel. Walk those at appraisal time
 # to recover the means; do not duplicate them on the leaf-task anchor.

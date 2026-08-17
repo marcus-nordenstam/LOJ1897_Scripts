@@ -3,7 +3,7 @@ archetype "human_player" (cap 256) (per obs) (raycast-visible) (player) (non-occ
 {
     # Placement participation (plan section 18): which spatial relations this
     # archetype takes part in - the write seams validate both ends.
-    (spatial control)
+    (spatial grip)
     (attr "physical_motors")
     (attr "game_role")
     # Lifecycle dates - written by historical sim, surface into interactive.

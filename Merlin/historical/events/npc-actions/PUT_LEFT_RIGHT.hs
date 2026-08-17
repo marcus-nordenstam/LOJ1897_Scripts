@@ -3,7 +3,7 @@
 (define-macro put-effects (?hand ?item ?location ?put-action)
   (do
     ; these will fire in non-shipping builds, indicating badly designed rules that propose this action
-    (check (= (spatial ?item controlled_by /env) ?hand))
+    (check (= (spatial ?item gripped_by /env) ?hand))
     (check (= (location @self) ?location)) ; you must be in the dest-location to put something there
     (spatial-write ?item location ?location)
     (set-outcome ?put-action succ)))

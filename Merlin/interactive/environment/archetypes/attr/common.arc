@@ -240,7 +240,7 @@ attr "preroll" (type float) (range 0 10) (spec-attr preroll) (imperceptible)
 # reader's mind, where the sentences are evaluated into beliefs.
 attr "writing" (type pattern) (per read) (state-flags-tar @msg @S)
 # How hard the entity is being gripped. 0=loose, 1=hard
-attr "control_force" (type int) (range 0 1) (imperceptible)
+attr "grip_force" (type int) (range 0 1) (imperceptible)
 
 # Stack
 attr "stack_label" (type str) (per obs) (auto-percept) (state-flags-tar @excl)

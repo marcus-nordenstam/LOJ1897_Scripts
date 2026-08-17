@@ -10,7 +10,7 @@ archetype "fluid" (cap 256) (per obs) (occupies-env-grid) (non-occluder)
 {
     # Placement participation (plan section 18): which spatial relations this
     # archetype takes part in - the write seams validate both ends.
-    (spatial controlled_by)
+    (spatial gripped_by)
     # Kind-variation identity (see attr/common.arc).
     (attr "variant")
     (attr "fluid_amount")

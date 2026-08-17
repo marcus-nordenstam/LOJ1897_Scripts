@@ -287,10 +287,10 @@ relation
         (social)                (+ sub human)
             # The three independent axes of "having a thing":
             # (a) Legal - own / lease / rent / borrow (verb-states below).
-            # (b) Physical control - the {<hand> control <item>} perceived
-            #     belief the take/put primitives mint; read in .hs as the
-            #     (control ?thing) macro ({@self hand.control ?thing}), the
-            #     hand-holds-item reasoning done in .hs, not C++.
+            # (b) Physical grip - the placement index's grip edge (the hand
+            #     grips the item), read in .hs as (spatial ?hand grip) /
+            #     (spatial ?item gripped_by) / the composed (spatial ?actor
+            #     hold); the hand-holds-item reasoning is done in .hs, not C++.
             # (c) Access / welcome - physical reach and social permission are
             #     .hs reasoning too (co-presence, (public)-space checks, own /
             #     lease / rent / borrow), authored in the events that need them.
@@ -305,15 +305,13 @@ relation
             # object subsumes structure (a building is-a object), so object|space|org
             # covers props, buildings, spaces AND orgs within the 3-kind field cap.
             own                 (tar object|space|org)
-            # hold: physical control - what the actor currently has in
-            # hand / on body / in carried containers (via body-part
-            # chain). Dual purpose: goal-target verb-state
-            # ({@self goal {@self hold ?t}}) AND name of the derived
-            # predicate `(hold ?actor ?thing)`. When the predicate
-            # matches a standing goal, the engine ends the satisfied
-            # belief. Distinct from the body-part env attr `control`
-            # (common.arc), which is the ground-truth primitive the
-            # hold predicate walks.
+            # hold: physical grip - what the actor currently has in
+            # hand / on body / in carried containers. Dual purpose:
+            # goal-target verb-state ({@self goal {@self hold ?t}}) AND
+            # name of the composed placement view (spatial ?actor hold)
+            # (struct-descent to the hands, then their grip edges). When
+            # the predicate matches a standing goal, the engine ends the
+            # satisfied belief.
             hold                (tar object)
             # lease: premises rental. Subject is the lessee, target is
             # the leased premises (building / space), aux is the lessor.

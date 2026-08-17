@@ -145,5 +145,5 @@
 (define-macro larder_target    () 16)
 (define-macro larder_low_water () 8)
 ; One basket: what the cook carries home in one trip. MUST stay under the
-; hand's control cap (common.arc control array = 12).
+; hand's grip capacity (single-valued once bag-as-stack lands).
 (define-macro carry_cap () 8)

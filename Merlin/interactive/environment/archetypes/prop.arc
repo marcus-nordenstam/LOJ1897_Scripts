@@ -10,8 +10,8 @@ archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
 {
     # Placement participation (plan section 18): which spatial relations this
     # archetype takes part in - the write seams validate both ends.
-    (spatial controlled_by)
-    (spatial control)
+    (spatial gripped_by)
+    (spatial grip)
     (spatial location)
     (spatial in_stack)
     # Kind-variation identity (see attr/common.arc).
@@ -25,7 +25,7 @@ archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
     # visible label / engraving / sign need observable names.
     (attr "name" (auto-percept) (ext-per obs))
     (attr "writing")
-    (attr "control_force")
+    (attr "grip_force")
     # The building a loose prop currently sits in. Written by the hsim
     # evidence trails (receipt / sales_record, letters, hiding caches) and
     # read back by their location scans; without it those `location` writes
