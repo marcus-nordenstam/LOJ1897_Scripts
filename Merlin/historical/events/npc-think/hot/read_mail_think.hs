@@ -56,8 +56,7 @@
 ; (4) holding a letter -> read it (the read act ingests the writing and sets it down).
 (npc-think read_mail_read
   (task {@self read_mail ?prem})
-  (role ?h {@self hand ?h})
-  (role ?ltr [k letter] {?h control ?ltr})
+  (role ?ltr [k letter] (spatial @self control))
   (utility 880)
   (effects (maintain-proposal {@self READ ?ltr})))
 
@@ -69,7 +68,7 @@
   (task {@self read_mail ?prem}:?rm)
   (role ?stk [k mail_stack] (in-building ?stk ?prem))
   (when (and (believes {@self take_my_letters ?stk /succ /caused_by ?rm})
-             (none {@self hand.control [k letter]})))
+             (empty (spatial @self control [k letter]))))
   (effects (debug-print "RM_DONE") (set-outcome ?rm succ)))
 
 ; Left the premises before finishing -> conclude /fail. CONCLUSIVE by necessity: an

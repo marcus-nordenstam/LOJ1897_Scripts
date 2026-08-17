@@ -2,22 +2,22 @@
   ; if someone proposes taking when hands are full, that's a rule authoring error
 (npc-think take_sanity_check
   (task {@self take ?item})
-  (check (or (attr-has-capacity @self left_hand)) 
-             (attr-has-capacity @self right_hand)))
+  (check (or (empty (spatial (attr @self left_hand) control))
+             (empty (spatial (attr @self right_hand) control)))))
 
 (npc-think left_take
   (task {@self take ?item})
-  (when (attr-has-capacity @self left_hand))
+  (when (empty (spatial (attr @self left_hand) control)))
   (utility 0)
-  (effects 
+  (effects
       (check (co-present ?item @self))
       (begin-proposal {@self LEFT_TAKE ?item})))
 
 (npc-think right_take
   (task {@self take ?item})
-  (when (attr-has-capacity @self right_hand))
+  (when (empty (spatial (attr @self right_hand) control)))
   (utility 10) ; for now assume all NPCs are right-handed; later this should be driven by a handedness check
-  (effects 
+  (effects
       (check (co-present ?item @self))
       (begin-proposal {@self RIGHT_TAKE ?item})))
 

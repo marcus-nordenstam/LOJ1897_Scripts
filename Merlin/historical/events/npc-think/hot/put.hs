@@ -1,12 +1,12 @@
 
 (npc-think left_put
   (task {@self put ?item ?location})
-  (role @self {@self left_hand.control ?item})
+  (when (= (spatial ?item controlled_by) (attr @self left_hand)))
   (effects (begin-proposal {@self LEFT_PUT ?item ?location})))
 
 (npc-think right_put
   (task {@self put ?item ?location})
-  (role @self {@self right_hand.control ?item})
+  (when (= (spatial ?item controlled_by) (attr @self right_hand)))
   (effects (begin-proposal {@self RIGHT_PUT ?item ?location})))
 
 (npc-think put_outcome

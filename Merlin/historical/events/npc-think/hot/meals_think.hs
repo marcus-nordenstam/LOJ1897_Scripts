@@ -308,7 +308,7 @@
 (npc-think starving_eat_carried
   (role @self {@self starve})
   (when (and (> (attr @self appetite) 1.3)
-             (control [k food])))
+             (not (empty (spatial @self control [k food])))))
   (utility (starve-drive))
   (effects       (begin-goal {@self forage}))
   (cease-effects (end-goal   {@self forage})))
@@ -394,7 +394,7 @@
 ; {@self forage} goal it /causes (via the (goal ...) gate).
 (npc-think forage_at_source
   (goal    {@self forage})
-  (when    (or (control [k food])
+  (when    (or (not (empty (spatial @self control [k food])))
                (at-home)
                (is-a (building @self) [k building shop])))
   ; ?owner stays 0 unless the mouthful is STOLEN (at a shop, no wealth) - then the
@@ -404,7 +404,7 @@
   (effects
     (bind 0 ?found)
     (bind 0 ?owner)
-    (for-each ?it (attr-values @self control [k food]) /limit 1
+    (for-each ?it (spatial @self control [k food]) /limit 1
       (do (bind ?it ?item) (bind 1 ?found)))
     (if (and (= ?found 0)
              (at-home)

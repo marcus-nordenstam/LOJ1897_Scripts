@@ -30,7 +30,6 @@
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
-(include "../../../macros/possession_macros.hs")
 (include "../../../macros/tunables.hs")
 
 ; ---- the cook election (public-bb synchronized, one per household) ----------
@@ -153,7 +152,7 @@
 (npc-think provision_rearm
   (role ?home {@self home ?home})
   (when (and (room [k kitchen] ?home): ?kitchen
-             (control [k food])))
+             (not (empty (spatial @self control [k food])))))
   (utility duty (if (at_location @self ?kitchen) (then 1000) (else 900)))
   (effects       (begin-goal {@self BRING [k food] ?kitchen}))
   (cease-effects (end-goal   {@self BRING [k food] ?kitchen})))

@@ -128,8 +128,7 @@
   (task {@self recruit_staff ?org})
   (role ?home {@self home ?home})
   (role ?out [k outgoing_mail_stack] (not (co-present ?out @self)))
-  (role ?h {@self hand ?h})
-  (role ?app [k application] {?h control ?app}
+  (role ?app [k application] (spatial @self control)
         (select (policy first-match)))
   (when (and (in-building ?out ?home)
              (location ?out): ?room))
@@ -144,8 +143,7 @@
 (npc-think recruit_staff_resolve
   (task {@self recruit_staff ?org})
   (role ?out [k outgoing_mail_stack] (co-present ?out @self))
-  (role ?h {@self hand ?h})
-  (role ?app [k application] {?h control ?app}
+  (role ?app [k application] (spatial @self control)
         (select (policy first-match)))
   (when (any {?org record ?}).target: ?art)
   (utility obligation 810)
@@ -175,8 +173,7 @@
 
 (npc-think recruit_staff_tmp_p1
   (task {@self recruit_staff ?org})
-  (role ?h {@self hand ?h})
-  (role ?app [k application] {?h control ?app})
+  (role ?app [k application] (spatial @self control))
   (effects (debug-print "RCP_APP app=?app")))
 
 (npc-think recruit_staff_tmp_p2
@@ -186,29 +183,25 @@
 
 (npc-think recruit_staff_tmp_p3
   (task {@self recruit_staff ?org})
-  (role ?h {@self hand ?h})
-  (role ?app [k application] {?h control ?app})
+  (role ?app [k application] (spatial @self control))
   (role ?out [k outgoing_mail_stack] (co-present ?out @self))
   (effects (debug-print "RCP_BOTH")))
 
 (npc-think recruit_staff_tmp_p4
   (task {@self recruit_staff ?org})
-  (role ?h {@self hand ?h})
-  (role ?app [k application] {?h control ?app})
+  (role ?app [k application] (spatial @self control))
   (when (any {?org record ?}).target: ?art)
   (effects (debug-print "RCP_ART art=?art")))
 
 (npc-think recruit_staff_tmp_p5
   (task {@self recruit_staff ?org})
-  (role ?h {@self hand ?h})
-  (role ?app [k application] {?h control ?app})
+  (role ?app [k application] (spatial @self control))
   (role ?home {@self home ?home})
   (effects (debug-print "RCP_P5")))
 
 (npc-think recruit_staff_tmp_p6
   (task {@self recruit_staff ?org})
-  (role ?h {@self hand ?h})
-  (role ?app [k application] {?h control ?app})
+  (role ?app [k application] (spatial @self control))
   (role ?home {@self home ?home})
   (role ?out [k outgoing_mail_stack])
   (effects (debug-print "RCP_P6")))
@@ -216,8 +209,7 @@
 (npc-think recruit_staff_tmp_p7
   (task {@self recruit_staff ?org})
   (role ?home {@self home ?home})
-  (role ?h {@self hand ?h})
-  (role ?app [k application] {?h control ?app})
+  (role ?app [k application] (spatial @self control))
   (effects (debug-print "RCP_P7")))
 
 (npc-think recruit_staff_tmp_p8
@@ -244,8 +236,7 @@
   (task {@self recruit_staff ?org})
   (role ?home {@self home ?home})
   (role ?out [k outgoing_mail_stack])
-  (role ?h {@self hand ?h})
-  (role ?app [k application] {?h control ?app})
+  (role ?app [k application] (spatial @self control))
   (effects (debug-print "RCP_P9")))
 
 (npc-think recruit_staff_tmp_p10
@@ -257,16 +248,14 @@
 (npc-think recruit_staff_tmp_p11
   (task {@self recruit_staff ?org})
   (role ?out [k outgoing_mail_stack])
-  (role ?h {@self hand ?h})
-  (role ?app [k application] {?h control ?app})
+  (role ?app [k application] (spatial @self control))
   (effects (debug-print "RCP_P11")))
 
 (npc-think recruit_staff_tmp_p12
   (task {@self recruit_staff ?org})
   (role ?home {@self home ?home})
   (role ?out [k outgoing_mail_stack])
-  (role ?h {@self hand ?h})
-  (role ?app [k application] {?h control ?app})
+  (role ?app [k application] (spatial @self control))
   (when (in-building ?out ?home))
   (effects (debug-print "RCP_P12")))
 
@@ -274,8 +263,7 @@
   (task {@self recruit_staff ?org})
   (role ?home {@self home ?home})
   (role ?out [k outgoing_mail_stack])
-  (role ?h {@self hand ?h})
-  (role ?app [k application] {?h control ?app})
+  (role ?app [k application] (spatial @self control))
   (when (location ?out): ?room)
   (effects (debug-print "RCP_P13 room=?room")))
 
@@ -283,6 +271,5 @@
   (task {@self recruit_staff ?org})
   (role ?home {@self home ?home})
   (role ?out [k outgoing_mail_stack] (not (co-present ?out @self)))
-  (role ?h {@self hand ?h})
-  (role ?app [k application] {?h control ?app})
+  (role ?app [k application] (spatial @self control))
   (effects (debug-print "RCP_P14")))

@@ -30,6 +30,10 @@ relation
         # the item is filed in the stack/bag (bag IS-A stack). Stack order lives
         # on the stack's `items` attr, not on the edge.
         in_stack                (tar stack @excl)     (stack)
+        # `held_by` is the COMPOSED grip view: controlled_by then the hand's
+        # struct-parent - the PERSON carrying the item. Read-only (composed
+        # views are never written; the write is the controlled_by up-edge).
+        held_by                 (tar ?)               (control) (struct_up)
 
         # to believe that someone ELSE knows something; theory-of-knowledge
         know                    (sub human)           (tar @S)
