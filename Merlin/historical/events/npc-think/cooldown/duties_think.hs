@@ -1,7 +1,8 @@
 ; ----------------------------------------------------------------------------
 ; duties - duty ASSIGNMENT (the capability side of the duty model; the duties an
 ; org requires live in tables/duty_tables.hs, and behaviour dispatches on the
-; HELD duty - {@self duty_to ?org [k <duty>]} - never on job kind or rank).
+; HELD duty - {@self duty_to ?org <duty>}, the duty a TASK-LABEL symbol - never on job
+; kind or rank).
 ;
 ; Every org member reviews his own org's duty allocation monthly. ALL inputs are
 ; PUBLIC documents (the articles + the wage book) plus his own beliefs - reading

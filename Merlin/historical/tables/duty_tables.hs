@@ -11,16 +11,20 @@
 ; head-ness is a job KIND, weighted separately in the argmax score).
 ; ----------------------------------------------------------------------------
 
+; A duty is identified by the TASK it entails - a plain label symbol, NEVER a kind
+; ([k <duty>] would force the task to be a noun-kind and load before this table). The
+; held-duty belief {@self duty_to ?org <duty>} carries that symbol; behaviour dispatches
+; on it by symbol equality (duties are flat - no sub-duty hierarchy to need is-a).
 (define-table org_duties
   (fields kind duty)
-  (record (kind [k org])           (duty [k dismiss_staff]))
-  (record (kind [k org])           (duty [k review_staff]))
-  (record (kind [k org])           (duty [k keep_records]))
-  (record (kind [k org])           (duty [k recruit_staff]))
-  (record (kind [k org household]) (duty [k provide_for]))
-  (record (kind [k org household]) (duty [k protect]))
-  (record (kind [k org church])    (duty [k officiate]))
-  (record (kind [k org club])      (duty [k admit_member])))
+  (record (kind [k org])           (duty dismiss_staff))
+  (record (kind [k org])           (duty review_staff))
+  (record (kind [k org])           (duty keep_records))
+  (record (kind [k org])           (duty recruit_staff))
+  (record (kind [k org household]) (duty provide_for))
+  (record (kind [k org household]) (duty protect))
+  (record (kind [k org church])    (duty officiate))
+  (record (kind [k org club])      (duty admit_member)))
 
 (define-table level_rank
   (fields level rank)

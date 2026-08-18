@@ -17,7 +17,7 @@
     (try
       (lock-rule)
       (rng-stream employment)
-      (role ?org {@self duty_to ?org [k recruit_staff]}
+      (role ?org {@self duty_to ?org recruit_staff}
                  (not {?org isa [k org household]})
                  (believes {?org record ?art}))
       (when (and (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))

@@ -21,6 +21,6 @@
         (qual location (building @self))): ?app
     (write-doc-record [k application] ?app
         (applicant @self) (job ?jk) (org_record ?art) (workplace ?wp))
-    (set-attr ?app addressee_duty [k recruit_staff])
+    (set-attr ?app addressee_duty recruit_staff)
     (set-attr ?app address ?wp)
     (set-outcome {@self PREPARE_APPLICATION ?art ?jk} succ)))

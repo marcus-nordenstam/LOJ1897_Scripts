@@ -93,7 +93,6 @@ relation
             # authored data (tables/duty_tables.hs org_duties).
             # recruit_staff is the first with a performing lane (recruit_think);
             # the rest are matchable now, producers land lane by lane.
-            recruit_staff                           (tar org)
             dismiss_staff                           (tar org)
             review_staff                            (tar org)
             keep_records                            (tar org)
