@@ -339,7 +339,6 @@ relation
             divorce             (motor mouth)                   (tar human)              (construed_act repudiation_act)
             recruit             (motor mouth)                   (tar human)  (aux ?)
 
-            seduce              (motor mouth legs body)         (tar human)              (construed_act intimacy_act)  (facets blackmailable)
             assault             (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (obs)  (abduct)
 
             # kill - ABSTRACT goal task. No method aux: the method is a

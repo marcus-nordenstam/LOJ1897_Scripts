@@ -74,3 +74,12 @@
   (effects
     (caused-by ?rec {@self pressure ?}): ?p
     (discharge-pressure ?p 0.75)))
+
+(npc-think discharge_seduce
+  (cooldown 1 m)
+  (role @self (believes {@self seduce ? /succ}:?rec))
+  (when (and (caused-by ?rec {@self pressure ?})
+             (< (days-since-last {@self seduce ? /succ}) 40)))
+  (effects
+    (caused-by ?rec {@self pressure ?}): ?p
+    (discharge-pressure ?p 0.75)))
