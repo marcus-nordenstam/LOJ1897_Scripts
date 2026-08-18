@@ -3,63 +3,23 @@
 # Merlin ontology - top-level index. The `using` lines below pull in the
 # kind taxonomy + relation taxonomy that make up the entire ontology.
 #
-# Design framework - read before adding kinds / states / tasks. The rest
-# of this file is just `using` lines; the rules live here so any agent
-# editing the ontology sees them first.
-#
 # ----------------------------------------------------------------------------
-# Acts: tasks and ACTIONs (and nothing else)
+# Brief overview
 # ----------------------------------------------------------------------------
-# Every "act" - everything a human does that the system models - is one of:
+# States represents something you HAVE or that you ARE.  Unless already 
+# declared in spatial or attr declarations, they must be declared in states.mon
+# or the inferred via the state-from-noun mechanism (see below).
 #
-#   * a TASK (declared in Tasks.mon under `act/task`). A task is a mini-
-#     plan that bubbles down to an ACTION sequence at isim time and to its
-#     hsim event's effect verb at hsim time. Tasks may carry motors
-#     (the typical motor mix they need), construed_act tags (how appraisal
-#     categorises them), theme tags (which semantic-summary they feed),
-#     and may be referenced as goal-clause inner labels.
+# Nouns are objects or concepts.
+# Any ontological noun/object/concept is also always declared as a state.
+# A noun-as-a-state idea is an implied 'I have'.  For example, if ball is 
+# declared as a noun, then {@self ball <ball>} could be written indicating that
+# I have the ball <ball>.
 #
-#   * an ACTION (declared in interactive/actions/*.act). An ACTION is the
-#     lowest-level motor primitive - WALK_TO, GRASP, SAY, INGEST, POUR.
-#     ACTIONs directly affect the shared Merlin env; tasks do not. ACTIONs
-#     auto-register as kinds under `act` from the `.act` files; the
-#     construed_act analogue for ACTIONs is the `nature = <tag>` line in
-#     the `.act` file.
-#
-# Goal / task / state composition. A `goal` belief targets a TASK
-# (`{actor goal {actor kill victim}}` = wants to do the kill task), a
-# STATE (`{actor goal {victim condition dead}}` = wants victim dead),
-# or a sub-task-or-state pattern via meta-tasks like `urge`
-# (`{mother urge {son avoid {son marry girl}}}`). These compose - they
-# do not compete. An NPC may hold an ongoing-task belief AND a goal
-# targeting the same task simultaneously: both wants to AND is doing it.
-#
-# ----------------------------------------------------------------------------
-# Abstract goal-tasks vs leaf method-tasks
-# ----------------------------------------------------------------------------
-# Tasks come in two grain sizes:
-#
-#   * Abstract goal-tasks (kill / coerce / steal / expose / hurt / punish
-#     / humiliate / discredit / bribe / frame / seduce / silence_witness)
-#     are what deliberation mints as goal-clause inner labels. They name
-#     a CLASS of outcome - "actor wants this victim dead" - without
-#     committing to method. Abstract goal-tasks carry NO method aux.
-#
-#   * Leaf method-tasks (strangle / shoot / poison / spread_rumour /
-#     plant_evidence / etc.) are the specific tasks an actor performs to
-#     satisfy a goal-task. The perpetration selector picks a leaf task
-#     from those whose `:requires` substrate predicates match. The
-#     anchor minted at task completion is the leaf-task belief itself
-#     (`{actor strangle victim}`), NOT a goal-task belief with a method
-#     aux. The crime ledger records both axes independently: goal_label
-#     names what the actor wanted to achieve, task names what they
-#     actually did.
-#
-# Means (weapon kind, substance kind, blade) are NOT task fields. They
-# live in the substrate: the grip edge (spatial ?item gripped_by) names what's in the
-# actor's hand at the act timestamp; prior `add_substance` beliefs
-# record what was added to which vessel. Walk those at appraisal time
-# to recover the means; do not duplicate them on the leaf-task anchor.
+# Acts (tasks and actions) are things an NPC DOES.  They are NOT declared
+# in .mon files; instead they are declared in rules:
+# * npc-action rules implicitly declares the action-label as an ontological action.
+# * npc-task rules implicitly declares the task-label as an ontological task.
 #
 # ----------------------------------------------------------------------------
 # Construals are tags, not beliefs
@@ -77,30 +37,6 @@
 # same whether the victim died or lived. Survivor cascades differ
 # because more living perceivers run the standard reaction rows, not
 # because the anchor's tags changed.
-#
-# ----------------------------------------------------------------------------
-# A noun is automatically a state
-# ----------------------------------------------------------------------------
-# Every noun declared in Concepts.mon / Objects.mon / Spaces.mon / etc.
-# is automatically usable as a state, and any env attr with that name
-# contributes the physical realisation. States.mon holds only the
-# verb / predicate states (know, owe, like, hate, avoid, ...) that are
-# NOT nouns.
-#
-# Avoid is a state, not a task. `{son avoid {son marry girl}}` reads
-# "son is in the avoid-state of the marry-girl task". Composes with
-# meta-tasks (`urge` targets an avoid-state) and with goal beliefs
-# (a goal can target an avoid-state). The silenced-witness state is
-# `{witness avoid {witness tell secret}}`.
-#
-# ----------------------------------------------------------------------------
-# Plural-kind attrs: blemish unifies wound / stain / mark
-# ----------------------------------------------------------------------------
-# Forensic traces (body wounds, surface stains, surface marks) share
-# the `(type kind array 4) (per obs) (auto-percept)` shape. The
-# `blemish` parent kind in Objects.mon unifies them so the `blemishes`
-# attr (common.arc) can hold any mix; new writers should target
-# `blemishes` directly.
 #
 # ============================================================================
 

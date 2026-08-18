@@ -37,7 +37,8 @@ attr "name" (type name) (spec-attr name) (int-per reason) (ext-per imperceptible
 # (@excl|@spatialBounds, obs) is registered by the engine for belief/message use.
 # Structural topology (parent/parts) lives in the struct skeleton (engine substrate),
 # not in attrs - see spatial_mind_index_plan.md; the skeleton is fed by set_parent at
-# creation and read via the (env-parts)/(parts) ops + the C++ struct_children_of helpers.
+# creation and read via the fused (spatial ?ent parts [k K]? /env?) op + the C++
+# struct_children_of helpers.
 
 # Ownership & control
 # The entity currently controlling the position of this entity (if any)
