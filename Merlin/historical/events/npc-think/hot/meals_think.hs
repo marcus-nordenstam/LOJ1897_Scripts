@@ -439,46 +439,4 @@
 ; PERSON-DAY food prop (?food = a believed loaf); breakfast / lunch / a bought-out
 ; supper eat abstractly (?food = 0, ingest destroys nothing). A stale belief (a loaf
 ; a sibling already ate) reads @fail (falsy) and the supper stays abstract.
-(npc-think take_meal
-  (task {@self eat ?meal ?place}:?e)
-  ; the ingest inherits the running task's drive through the /caused_by pin; this band is
-  ; the action's OWN bid on top of it, so the work lunch's ingest (85 + task) outbids the
-  ; work post-stay (78 + work task) instead of dying at the desk.
-  (utility (if (is-a ?meal [k breakfast]) (then 820)
-            (else (if (is-a ?meal [k lunch]) (then 850) (else 780)))))
-  (effects
-    (bind 0 ?food)
-    (if (and (is-a ?meal [k supper])
-             (any {@self home ?place} (out int))
-             (believed-located [k food] ?place))
-        (then (believed-located [k food] ?place): ?food))
-    (maintain-proposal {@self INGEST ?meal ?food}))
-  ; The eat task's OUTCOME, judged at the cease: the task ends AS its action ended -
-  ; find the ended ingest THIS task drove and copy its outcome verbatim (the isim
-  ; stack-put-outcome shape). The inverse (caused-by {pattern} ?e) anchors on the
-  ; gated task, so a stale record from an earlier meal never concludes a fresh one;
-  ; no ended ingest (window closed mid-walk, food gone) leaves the withdraw's honest
-  ; interrupted. The withdraw cascade runs before this cease drains - set-outcome
-  ; overwrites the ended task belief in place.
-  (cease-effects
-    (caused-by {@self INGEST ?meal /past} ?e): ?rec
-    (if ?rec (then (set-outcome ?e (outcome ?rec))))))
-
-; THE TABLE ANNOUNCEMENT (any home meal): now and then re-air the house's hours
-; ("supper at six, as always"), adopted by everyone at table onto their own home
-; object. Idempotent; the chance keeps the say-record volume low. The nested walks
-; only speak when all three hour beliefs are held.
-(npc-think table_hours
-  (task {@self eat ? ?place})
-  (role ?home {@self home ?home})
-  (when (and (= ?place ?home) (chance 0.25)))
-  (effects
-    (for-each ?bb (every {?home breakfast_hour ?})
-        ?bb.target: ?b
-        (for-each ?lb (every {?home lunch_hour ?})
-            ?lb.target: ?l
-            (for-each ?sb (every {?home supper_hour ?})
-                ?sb.target: ?s
-                (tell (utterable-msg {?home breakfast_hour ?b}
-                                     {?home lunch_hour ?l}
-                                     {?home supper_hour ?s})))))))
+; The eat TASK (take_meal / table_hours / table_talk) lives in npc-tasks/eat-task.hs.

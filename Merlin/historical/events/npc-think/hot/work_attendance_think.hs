@@ -47,52 +47,13 @@
              (not (has-proposal {@self work ?wp}))
              (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
   (utility duty)
-  ; SPAWN the day's WORK TASK (a bodyless umbrella, never an action): its performance
-  ; rungs fan the shift into the held duties' tasks (recruit_think recruit_root) and
-  ; the between-duties post-stay (at_post below); shift_over concludes it. begin (not
-  ; maintain): the task survives lunch, errands to the board and every excursion -
-  ; interrupted tasks resume; the /pres + has-proposal gates cover the spawn window.
+  ; SPAWN the day's WORK TASK (npc-tasks/work-task.hs): its performance tries fan the shift
+  ; into the held duties' tasks and the between-duties post-stay; shift_over concludes it.
+  ; begin (not maintain): the task survives lunch, errands and every excursion.
   (effects       (begin-proposal {@self work ?wp})))
 
-; Between duties: BE at the post - the PRE-LUNCH and POST-LUNCH dwell blocks,
-; each aimed at its ABSOLUTE boundary (the aux is an until-hour, so a dwell
-; interrupted by a duty errand resumes toward the SAME boundary). The lowest
-; job utility: any duty task outbids it. Each rung's (when) window fells its
-; bout at the boundary, so the afternoon block always re-fires with a fresh
-; ?until.
-; The ?job role in every work-gated rung is CONSTRAINED to the job whose org's
-; workplace IS the task's ?wp: an actor holds PLURAL jobs by design (an org head
-; also holds the head_of_household job), and a free first-match ?job reads the
-; WRONG job's shift for this workplace - day_work spawning off one job's window
-; while shift_over concludes off the other's is a same-minute spawn/conclude melt.
-(npc-think at_post_morning
-  (task {@self work ?wp})
-  (role ?job {@self job ?job})
-  (role ?org {?job org ?org}
-             (believes {?org workplace ?wp}))
-  (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
-        (and (check ?org) (in-building @self ?wp) (< (now-hour) 12)))
-  (effects (maintain-proposal {@self DWELL ?wp (min 12 ?end)})))
-
-(npc-think at_post_afternoon
-  (task {@self work ?wp})
-  (role ?job {@self job ?job})
-  (role ?org {?job org ?org}
-             (believes {?org workplace ?wp}))
-  (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
-        (and (check ?org) (in-building @self ?wp) (>= (now-hour) 12)))
-  (effects (maintain-proposal {@self DWELL ?wp ?end})))
-
-; Outcome twin: the shift is over (outside both the working window and the
-; starts-soon spawn band) - the day's work concluded.
-(npc-think shift_over
-  (task {@self work ?wp}:?w)
-  (role ?job {@self job ?job})
-  (role ?org {?job org ?org}
-             (believes {?org workplace ?wp}))
-  (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
-        (not (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
-  (effects (set-outcome ?w succ)))
+; The work TASK's performance tries (at_post_morning / at_post_afternoon / shift_over) live
+; in npc-tasks/work-task.hs. day_go_to_work below stays a DRIVER (no task gate).
 
 (npc-think day_go_to_work
   ; Shift on or imminent and not yet at the workplace: go there. The workplace ?wp may be a

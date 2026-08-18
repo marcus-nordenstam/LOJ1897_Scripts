@@ -24,7 +24,6 @@ relation
 
             pubbing
 
-            work                                    (tar structure|org|space)
             # socialize_at: episodic ad-hoc social-outing memory (activity-lanes
             # L3). {@self socialize_at <venue> /aux <organizer>} = "went out with
             # the company <organizer> assembled, at <venue>". One general label
@@ -86,8 +85,6 @@ relation
             #   occupation, aux = the org's articles - same shape as apply_for, so every
             #   tup_* rung reads the job-kind straight off the task gate); success drives
             #   apply_for succ.
-            apply_for                               (tar job) (aux articles_of_incorporation)
-            take_up_post                            (tar job) (aux articles_of_incorporation)
             # The DUTY TASKS - the aux family of duty_to / duty_holder (States.mon,
             # aux-typed `task`): an NPC reasons separately about HOLDING the
             # obligation ({@self duty_to ?org [k review_staff]}) and PERFORMING it
@@ -107,7 +104,6 @@ relation
             honor                                   (tar human)
             provide_for                             (tar human)
             protect                                 (tar human)
-            advertise                               (tar org)
             # hold_meet - the sporting club head's yearly resolve to hold his club's
             # meet (sporting_event_think.hs). Leafs on-site into the {@self
             # HOLD_MEET_RUN} act that summons the field; target = the club's
@@ -133,18 +129,14 @@ relation
             # the place eaten at. Its performance rungs (take_meal / table_hours /
             # table_talk) propose the ingest action + air the table talk; ingest does
             # the physical eating. Supersedes the old per-meal `dine` begin-act lanes.
-            eat                                     (tar meal)         (aux structure|space)
             # ingest - the physical-eating ACTION (meals_action.hs) the eat task's
             # rungs propose. target = the meal-kind (its duration + hunger profile);
             # aux = the food prop to destroy (a home-supper loaf) or 0 (abstract).
             ingest                                  (tar meal)         (aux ?)
-            read_at                                 (tar structure|space)
-            rest                                    (tar structure|space)
             # go - the smart TRFAVEL TASK: reach ANY destination (a structure, a
             # room, an exterior space). Its rungs (go.hs) dispatch to enter (for a
             # structure / a room's building) and the WALK action (the dumb relocate).
             # Lanes issue {@self go <dest>} for any dest and never reason about the kind.
-            go                                      (tar ?)
             # forage - the STARVATION-tail eat GOAL (meals_think.hs): a famished
             # NPC's drive to eat NOW. forage_at_source picks the source (carried >
             # pantry > shop buy/steal) and promotes it to the generic consume act;
@@ -174,7 +166,6 @@ relation
             seek_answers
             marry
 
-            back                                    (tar org)
             enroll_child                            (tar human)
             engage_staff                            (tar human)
 
@@ -193,7 +184,6 @@ relation
             # structure so perception teaches it and its kind); its OUTCOME is /fail once the whole
             # region is covered without finding the kind (find_exhausted). Success is the seeker's
             # own (no-role [k building <kind>]) flipping the moment perception reveals a match.
-            find_building                           (tar ?)  (aux ?)
             # staff_household -> the head's STANDING duty to keep their domestic
             # establishment staffed (the window-start think mints it; the emergent
             # act fulfils it). No target: the duty itself, not a specific hire.
@@ -236,7 +226,6 @@ relation
             #ask                 /motor mouth            /sub @msgAuthor human   /tar @qs @excl @S      /aux @msgAudience human
             
             approach                (motor legs)              (tar @excl)
-            enter                   (tar @excl structure)
             go_entity               (tar @excl)
             go_env_cell             (tar @excl)
             keep_near_and_facing    (tar @excl)
@@ -244,8 +233,6 @@ relation
             keep_looking_at_whole      (tar @excl)
 
             explore             (motor legs)              (tar @excl)
-            locate                                        (tar @excl)  (aux structure)
-            wander                                        (tar @excl structure)
             
             drop                (motor right_hand)             (tar @excl object)
             # /tar ? : give targets a physical object (the motor task) or a
@@ -254,8 +241,6 @@ relation
             receive             (tar @excl object)
 
             get                 (tar @excl object)
-            take                (tar @excl object)
-            put                 (tar @excl object)
 
             read                (motor eyes)  (tar @excl document)   (obs)  (belief_timeout 600)
             write               (tar @excl document)   (obs)  (belief_timeout 600)
@@ -269,15 +254,12 @@ relation
             # take_my_letters - a browse CONSUMER (take_my_letters_think.hs):
             # keep each surfaced doc addressed to me (name or held duty), mark
             # the rest handled.
-            read_mail           (tar @excl structure)
-            take_my_letters     (tar @excl stack)
             # resolve_applications - the recruit officer's verdict TASK
             # (resolve_applications_think.hs): iterate the held applications ONE
             # at a time - the FIRST drafts an offer, every later one a rejection
             # (the drafting acts are the dumb primitives; the iteration and the
             # offer-vs-reject decision live in the think rungs). target = the
             # outgoing pile the verdict letters are filed into.
-            resolve_applications (tar @excl stack)
           
             # post_mail - the dumb hands act the send_mail task proposes: deposit
             # the outgoing document ?doc into the outgoing_mail_stack @self is standing
@@ -291,14 +273,12 @@ relation
             # then teleports the posted doc to the incoming mail_stack of the building
             # at ?doc's written address. Non-@excl: @self may have several docs in
             # flight. target = the document being posted.
-            send_mail           (tar document)
 
             # putter - the monthly home ROUND (putter_think.hs): re-check the rooms
             # you already KNOW ({home room room} beliefs), so perception catches
             # anything new inside them (a delivered mail stack). The belief-driven
             # complement of `wander`, whose composition walk also covers rooms
             # never stood in.
-            putter              (tar structure)
 
 
             stack_get            (tar object)  (aux stack)
@@ -307,7 +287,6 @@ relation
             # shared by both sims (hsim: stack_browse_think.hs; isim:
             # stack_browse.ms2). See the think file headers for the consumer
             # contract (browse-status on the private bb).
-            stack_browse         (tar stack)
             stack_read           (tar stack)
 
             # mourn - the action-plan task that drives the visible

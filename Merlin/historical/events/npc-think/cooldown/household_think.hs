@@ -43,20 +43,8 @@
         (then (begin-proposal {@self read_at ?home}))
         (else (begin-proposal {@self rest ?home})))))
 
-; The performer/outcome twin: a home-leisure day has no sub-steps - the
-; promoted task concludes immediately, leaving the ended task belief as the
-; episodic record.
-(npc-think rest_done
-  (role @self )
-  (task {@self rest ?venue}:?t)
-  (effects
-    (set-outcome ?t succ)))
-
-(npc-think read_at_done
-  (role @self )
-  (task {@self read_at ?venue}:?t)
-  (effects
-    (set-outcome ?t succ)))
+; The rest / read_at TASKS (the immediate-conclude outcome rungs) live in
+; npc-tasks/rest-task.hs and npc-tasks/read_at-task.hs.
 
 ; ----------------------------------------------------------------------------
 ; set_mealtimes (npc-think) - the COOK decides the household mealtimes
