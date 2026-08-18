@@ -328,9 +328,7 @@ relation
             # the deleted (behaviour) block.
             # insult / confront_privately moved into the `speech_act`
             # group at the end of this block.
-            humiliate           (motor mouth)                   (tar human)              (construed_act degrade_act wrong_act)
             discredit           (motor mouth)                   (tar human)              (construed_act expose_act betray_act wrong_act)
-            expose              (motor mouth)                   (tar @S)                 (construed_act expose_act betray_act wrong_act)
             expose_first        (motor mouth)                   (tar human)              (construed_act expose_act)
             confess_in_person   (motor legs mouth)              (tar human)              (construed_act honour_act)
             # divorce: a husband formally puts away an adulterous wife
@@ -362,7 +360,6 @@ relation
             # as goal-clause inner labels. Their leaf method-tasks
             # (declared below) are what actually get performed and
             # recorded as anchors at perpetration time.
-            coerce                                              (tar human)  (aux ?)       (construed_act coercion_act wrong_act)  (facets reportable_crime)
             punish                                              (tar human)                (construed_act harm_act)
             hurt                                                (tar human)                (construed_act harm_act)
             # tamper - PREPARATION for a perpetration; the trap-fire event
@@ -372,11 +369,9 @@ relation
             # add_substance - perpetrator subject; substance target;
             # vessel in aux. Preparation - no tag.
             add_substance       (motor right_hand)              (tar object)  (aux object)
-            frame                                               (tar human)  (aux ?)     (construed_act harm_act betray_act wrong_act)  (facets reportable_crime)
             # bribe - functional inverse of coerce. Means-of-pressure;
             # the appraisable harm is whatever gets done with the bought
             # compliance, so no construed_act tag here.
-            bribe               (motor right_hand mouth)        (tar human)  (aux ?)     (facets reportable_crime)
             defraud                                             (tar human)              (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)  (facets reportable_crime blackmailable)
             embezzle                                            (tar human|org)          (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)  (facets reportable_crime blackmailable)
             # disinherit - testamentary act; ruled effect: end the target's

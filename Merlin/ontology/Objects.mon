@@ -87,6 +87,11 @@ object (+ obs)
             cup
             decanter
             jewelry_box         (facets valuable)
+        # Currency - a single coin: the buildable unit of cash (a plain gripped
+        # prop). A bribe / gift hands over ONE via give -> OFFER. Not a wealth
+        # model - the coin entity IS the cash: a real, transferable, discoverable
+        # object, never a fictional sum.
+        coin                    (facets valuable)
         accessory
             cufflink
             ring

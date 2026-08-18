@@ -29,3 +29,48 @@
   (effects
     (caused-by ?rec {@self pressure ?}): ?p
     (discharge-pressure ?p 0.75)))
+
+(npc-think discharge_coerce
+  (cooldown 1 m)
+  (role @self (believes {@self coerce ? /succ}:?rec))
+  (when (and (caused-by ?rec {@self pressure ?})
+             (< (days-since-last {@self coerce ? /succ}) 40)))
+  (effects
+    (caused-by ?rec {@self pressure ?}): ?p
+    (discharge-pressure ?p 0.75)))
+
+(npc-think discharge_expose
+  (cooldown 1 m)
+  (role @self (believes {@self expose ? /succ}:?rec))
+  (when (and (caused-by ?rec {@self pressure ?})
+             (< (days-since-last {@self expose ? /succ}) 40)))
+  (effects
+    (caused-by ?rec {@self pressure ?}): ?p
+    (discharge-pressure ?p 0.75)))
+
+(npc-think discharge_humiliate
+  (cooldown 1 m)
+  (role @self (believes {@self humiliate ? /succ}:?rec))
+  (when (and (caused-by ?rec {@self pressure ?})
+             (< (days-since-last {@self humiliate ? /succ}) 40)))
+  (effects
+    (caused-by ?rec {@self pressure ?}): ?p
+    (discharge-pressure ?p 0.75)))
+
+(npc-think discharge_frame
+  (cooldown 1 m)
+  (role @self (believes {@self frame ? /succ}:?rec))
+  (when (and (caused-by ?rec {@self pressure ?})
+             (< (days-since-last {@self frame ? /succ}) 40)))
+  (effects
+    (caused-by ?rec {@self pressure ?}): ?p
+    (discharge-pressure ?p 0.75)))
+
+(npc-think discharge_bribe
+  (cooldown 1 m)
+  (role @self (believes {@self bribe ? /succ}:?rec))
+  (when (and (caused-by ?rec {@self pressure ?})
+             (< (days-since-last {@self bribe ? /succ}) 40)))
+  (effects
+    (caused-by ?rec {@self pressure ?}): ?p
+    (discharge-pressure ?p 0.75)))

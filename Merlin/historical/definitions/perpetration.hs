@@ -384,32 +384,6 @@
   /terminal       transfer_property
   /weight         0.4)
 
-; ---- expose (2) -----------------------------------------------------------
-(method confront_publicly
-  /goal-fit       expose
-  /method-aux     _
-  /terminal       publish_secret
-  /weight         0.6)
-
-(method anonymous_letter
-  /goal-fit       expose
-  /method-aux     _
-  /terminal       publish_secret
-  /weight         0.4)
-
-; ---- coerce (2) -----------------------------------------------------------
-(method threaten_violence
-  /goal-fit       coerce
-  /method-aux     _
-  /terminal       silence_coerce
-  /weight         0.7)
-
-(method blackmail
-  /goal-fit       coerce
-  /method-aux     _
-  /terminal       silence_coerce
-  /weight         0.5)
-
 ; ---- hurt (1) -------------------------------------------------------------
 (method beat
   /goal-fit       hurt
@@ -422,31 +396,6 @@
 ; ============================================================================
 ; PR-3d new goal-label family (5 methods, one per new goal)
 ; ============================================================================
-
-; humiliate goal -> public_slight terminal (witness-propagated humiliation)
-(method public_humiliation
-  /goal-fit       humiliate
-  /method-aux     _
-  /terminal       public_slight
-  /pressure-floor humiliation 0.6
-  /weight         1.0)
-
-
-; bribe goal -> pay_off terminal (cash transfer; PR-3d ships as mint-only stub)
-(method offer_bribe
-  /goal-fit       bribe
-  /method-aux     _
-  /terminal       pay_off
-  /weight         1.0)
-
-; frame goal -> plant_evidence terminal (yields planted on framed party)
-(method plant_evidence
-  /goal-fit       frame
-  /yields         blood_stain
-  /method-aux     _
-  /terminal       plant_evidence
-  /wound-site     torso
-  /weight         1.0)
 
 ; seduce goal -> consummate terminal (reciprocal lover beliefs)
 (method seduce

@@ -40,7 +40,12 @@
 ; migration_plan P2/P3); an action still on the goal/terminal path must NOT appear here.
 (define-macro is-migrated-crime (?action)
   (or (= ?action confess_letter)
-      (= ?action report_crime)))
+      (= ?action report_crime)
+      (= ?action coerce)
+      (= ?action expose)
+      (= ?action humiliate)
+      (= ?action frame)
+      (= ?action bribe)))
 
 ; Turn the deliberation winner into its effect. suicide / strive resolve inline; a MIGRATED
 ; crime is PROPOSED as its self-gated task (it then competes globally and rides (crime-band));
