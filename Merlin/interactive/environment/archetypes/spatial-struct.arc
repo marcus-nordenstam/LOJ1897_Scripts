@@ -12,9 +12,15 @@
 #   (containment)                the building sense (space-of-entity, then ascend)
 #   (head)                       peek the ordered head (ordered store only)
 #
-# STAGE-2 NOTE: the three store names still bind to the placement enum in
-# spatial_views.cc; stage 3 retires the enum for a runtime store id, at which point
-# the (spatial-struct "...") store decls with mobility flags land here too.
+# STORES: the physical edge types + their behavior. The store id is declaration
+# ORDER (location=0, grip=1, stack=2), which the engine addresses by name through
+# the registry - no placement enum survives in C++. Flags: (mobile) edges move at
+# runtime; (excl) a child has one parent; (ordered) the store maintains head order
+# (stack top); (subjective) a mind's value can diverge from env truth. Stores MUST
+# precede the views that reference them.
+(spatial-struct location (mobile) (excl) (subjective))
+(spatial-struct grip     (mobile) (excl))
+(spatial-struct stack    (mobile) (excl) (ordered))
 
 (view location   (store location))
 (view building   (store location) (containment))
