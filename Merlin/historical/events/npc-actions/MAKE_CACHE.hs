@@ -23,10 +23,10 @@
   (duration 0)
   (effects
     (bind 0 ?made)
-    (env-parts ?building [k interior_space room]): ?rooms
+    (spatial ?building parts [k interior_space room] /env): ?rooms
     ; Tier 1 - claim the home's built-in secret chamber.
     (for-each ?room ?rooms
-      (for-each ?chamber (env-parts ?room [k secret_chamber])
+      (for-each ?chamber (spatial ?room parts [k secret_chamber] /env)
         (if (= ?made 0)
             (then
               (set-attr ?chamber owner @self)
@@ -58,7 +58,7 @@
               (bind 1 ?made)))))
     ; Tier 5 - the always-available loose floorboard in the bedroom. The bedroom
     ; walk plus the hiding_spot guard carves exactly one, same as the tiers above.
-    (for-each ?bedroom (env-parts ?building [k interior_space bedroom])
+    (for-each ?bedroom (spatial ?building parts [k interior_space bedroom] /env)
         (if (= ?made 0)
             (then
               (create-entity [k floorboard_cache] (qual parent ?bedroom)): ?cache

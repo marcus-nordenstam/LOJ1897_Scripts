@@ -15,17 +15,17 @@
   (tar @excl structure)
   (and
     (try
-      (role ?room (env-parts ?bldg [k interior_space room])
+      (role ?room (spatial ?bldg parts [k interior_space room] /env)
                   (not (at_location @self ?room))
                   (not (= (bb-read ?room wander-visited) ?w)))
       (effects (debug-print "WANDER_GO room=?room")
                (maintain-proposal {@self WALK ?room})))
     (try
-      (role ?room (env-parts ?bldg [k interior_space room])
+      (role ?room (spatial ?bldg parts [k interior_space room] /env)
                   (at_location @self ?room))
       (effects (bb-write ?room wander-visited ?w)))
     (try
       (when (>= (count (every {@self WALK ? /caused_by ?w /succ /ever}))
-                (- (count (env-parts ?bldg [k interior_space room])) 1)))
+                (- (count (spatial ?bldg parts [k interior_space room] /env)) 1)))
       (effects (debug-print "WANDER_DONE")
                (set-outcome ?w succ)))))

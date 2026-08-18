@@ -416,7 +416,7 @@
              (building @self))
         (then
           (building @self): ?shop
-          (for-each ?room (env-parts ?shop [k interior_space room])
+          (for-each ?room (spatial ?shop parts [k interior_space room] /env)
             (for-each ?it (env-content ?room [k food]) /limit 1
               (do (bind ?it ?item)
                   (bind 1 ?found)

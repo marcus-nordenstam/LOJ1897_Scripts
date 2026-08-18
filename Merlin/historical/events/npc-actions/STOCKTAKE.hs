@@ -45,7 +45,7 @@
     (if (building @self)
         (then
           (building @self): ?shop
-          (env-parts ?shop [k interior_space room]): ?rooms
+          (spatial ?shop parts [k interior_space room] /env): ?rooms
           ; Validate the shelves against belief - every room of the shop.
           (for-each ?room ?rooms
             (take-stock-of ?room [k food]))

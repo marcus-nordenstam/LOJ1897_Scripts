@@ -21,6 +21,14 @@
 (spatial-struct location (mobile) (excl) (subjective))
 (spatial-struct grip     (mobile) (excl))
 (spatial-struct stack    (mobile) (excl) (ordered))
+(spatial-struct part     (immutable) (excl))
+
+# The immutable structural topology (the old struct_skeleton), read through the
+# same fused (spatial ?ent <view> /env?) op: `parts` = a whole's children (down),
+# `struct_parent` = a part's enclosing whole (up). Default plane = belief-honest
+# (perceived); /env = every edge in the environment (all rooms of a building, etc.).
+(view parts         (store part) (down))
+(view struct_parent (store part))
 
 (view location   (store location))
 (view building   (store location) (containment))

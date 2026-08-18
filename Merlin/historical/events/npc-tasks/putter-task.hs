@@ -21,7 +21,7 @@
       (when (and (location @self): ?room
                  (in-building @self ?home)))
       (effects
-        (for-each ?cache (env-parts ?room [k interior_space hiding_spot])
+        (for-each ?cache (spatial ?room parts [k interior_space hiding_spot] /env)
           (if (none {@self hiding_spot ?cache})
               (then
                 (if (chance (* 0.006 (+ 1.0 (attr @self openness))))

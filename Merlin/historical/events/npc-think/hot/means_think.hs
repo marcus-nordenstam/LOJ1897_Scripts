@@ -47,7 +47,7 @@
   (effects
     (building @self): ?shop
     (bind 0 ?found)
-    (for-each ?room (env-parts ?shop [k interior_space room])
+    (for-each ?room (spatial ?shop parts [k interior_space room] /env)
       (for-each ?item (env-content ?room ?means) /limit 1
         (if (= ?found 0)
             (then (bind ?item ?loot) (bind 1 ?found)))))

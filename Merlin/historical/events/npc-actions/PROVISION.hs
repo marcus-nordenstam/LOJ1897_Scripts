@@ -17,7 +17,7 @@
   (duration 15)
   (effects
     (building @self): ?shop
-    (for-each ?room (env-parts ?shop [k interior_space room])
+    (for-each ?room (spatial ?shop parts [k interior_space room] /env)
       (for-each ?item (env-content ?room [k food]) /limit ?cap
         (do
           (take-item ?item)
