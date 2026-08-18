@@ -234,9 +234,6 @@ relation
             explore             (motor legs)              (tar @excl)
             
             drop                (motor right_hand)             (tar @excl object)
-            # /tar ? : give targets a physical object (the motor task) or a
-            # money amount (the Phase 8 charity act-record - a number symbol).
-            give                (tar @excl ?)
             receive             (tar @excl object)
 
             get                 (tar @excl object)
