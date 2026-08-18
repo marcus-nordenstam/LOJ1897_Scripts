@@ -8,10 +8,10 @@
   (tar @excl object)
   (and
     (try
-      (when (= (spatial ?item gripped_by) (struct @self left_hand)))
+      (when (= (spatial ?item gripped_by) (spatial @self left_hand)))
       (effects (begin-proposal {@self LEFT_PUT ?item ?location})))
     (try
-      (when (= (spatial ?item gripped_by) (struct @self right_hand)))
+      (when (= (spatial ?item gripped_by) (spatial @self right_hand)))
       (effects (begin-proposal {@self RIGHT_PUT ?item ?location})))
     (try
       (when (any {@self /succ LEFT_PUT|RIGHT_PUT ?item ?location /caused_by ?put}))

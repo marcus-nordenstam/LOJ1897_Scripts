@@ -72,7 +72,7 @@
     (if (at-own-workplace) (then embezzle) (else opportunist_theft)): ?method
     (bind 0 ?found)
     (for-each ?room (spatial ?scene parts [k interior_space room] /env)
-      (for-each ?item (env-content ?room)
+      (for-each ?item (spatial ?room contents /env)
         (if (and (= ?found 0) (has-facet ?item valuable))
             (then (bind ?item ?loot) (bind 1 ?found)))))
     (if (= ?found 1)

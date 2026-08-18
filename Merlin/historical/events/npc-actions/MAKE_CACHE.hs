@@ -34,7 +34,7 @@
               (bind 1 ?made)))))
     ; Tier 2 - a cavity behind a painting.
     (for-each ?room ?rooms
-      (for-each ?painting (env-content ?room [k painting])
+      (for-each ?painting (spatial ?room contents [k painting] /env)
         (if (= ?made 0)
             (then
               (create-entity [k painting_cache] (qual parent ?painting)): ?cache
@@ -42,7 +42,7 @@
               (bind 1 ?made)))))
     ; Tier 3 - a false lining in a jewelry box.
     (for-each ?room ?rooms
-      (for-each ?box (env-content ?room [k jewelry_box])
+      (for-each ?box (spatial ?room contents [k jewelry_box] /env)
         (if (= ?made 0)
             (then
               (create-entity [k jewelry_box_lining] (qual parent ?box)): ?cache
@@ -50,7 +50,7 @@
               (bind 1 ?made)))))
     ; Tier 4 - a hollowed-out book.
     (for-each ?room ?rooms
-      (for-each ?book (env-content ?room [k book])
+      (for-each ?book (spatial ?room contents [k book] /env)
         (if (= ?made 0)
             (then
               (create-entity [k book_cache] (qual parent ?book)): ?cache

@@ -18,7 +18,7 @@
   (effects
     (building @self): ?shop
     (for-each ?room (spatial ?shop parts [k interior_space room] /env)
-      (for-each ?item (env-content ?room [k food]) /limit ?cap
+      (for-each ?item (spatial ?room contents [k food] /env) /limit ?cap
         (do
           (take-item ?item)
           (begin-belief {@self provisions_shop ?shop}))))

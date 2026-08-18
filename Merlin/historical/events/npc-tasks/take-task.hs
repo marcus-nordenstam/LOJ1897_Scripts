@@ -9,15 +9,15 @@
   (tar @excl object)
   (and
     (try
-      (effects (check (or (empty (spatial (struct @self left_hand) grip))
-                          (empty (spatial (struct @self right_hand) grip))))))
+      (effects (check (or (empty (spatial (spatial @self left_hand) grip))
+                          (empty (spatial (spatial @self right_hand) grip))))))
     (try
-      (when (empty (spatial (struct @self left_hand) grip)))
+      (when (empty (spatial (spatial @self left_hand) grip)))
       (utility fallback)
       (effects (check (co-present ?item @self))
                (begin-proposal {@self LEFT_TAKE ?item})))
     (try
-      (when (empty (spatial (struct @self right_hand) grip)))
+      (when (empty (spatial (spatial @self right_hand) grip)))
       (utility (above LEFT_TAKE))
       (effects (check (co-present ?item @self))
                (begin-proposal {@self RIGHT_TAKE ?item})))

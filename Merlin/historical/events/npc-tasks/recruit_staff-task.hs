@@ -81,7 +81,7 @@
       (role ?app [k application] (spatial @self hold))
       (effects (debug-print "RCP_P7")))
     (try
-      (role ?h [k hand] (struct @self hand))
+      (role ?h [k hand] (spatial @self hand))
       (role ?home {@self home ?home})
       (effects (debug-print "RCP_P8")))
     (try
