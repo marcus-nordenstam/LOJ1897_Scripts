@@ -1,7 +1,7 @@
 # This can be a part of a structure OR a prop
 archetype "part" (cap 2048) (per obs)
 {
-    # Kind-variation identity (see attr/common.arc).
+    # Kind-variation identity (see shared/attrs.arc).
     (attr "variant")
     (attr "birth_date")
     # Part name observable (e.g. a part of a structure or labeled prop-part).

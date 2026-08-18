@@ -4,7 +4,7 @@
 # interactive sim - NPCs may navigate by road name.
 archetype "road" (cap 128) (per obs) (always-visible) (non-occluder)
 {
-    # Kind-variation identity (see attr/common.arc).
+    # Kind-variation identity (see shared/attrs.arc).
     (attr "variant")
     # Roads are spline-shaped, not OBB-shaped: their spatial geometry is the
     # (spatial spline) CV polyline, not a single bounding box. The archetype-
@@ -24,7 +24,7 @@ archetype "road" (cap 128) (per obs) (always-visible) (non-occluder)
     # Legacy Phase 1 nav-mesh path - kept for the "street plate" test
     # scaffold; new authored roads use (spatial spline) instead.
     (attr "nav_mesh")
-    # Address-numbering policy (declared in attr/common.arc). Pushed by the
+    # Address-numbering policy (declared in shared/attrs.arc). Pushed by the
     # Player from the GrymEngine t_road_component at scene load and consumed by
     # merlin::assign_street_addresses_all to number the street_spaces fronting
     # this road. Imperceptible: generation policy, not an NPC-observable property.

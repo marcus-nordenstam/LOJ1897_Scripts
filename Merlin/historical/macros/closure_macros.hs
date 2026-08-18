@@ -8,7 +8,7 @@
 ; coordination channel (perception at co-presence), not a mind edit.
 ;
 ; (shutter-building ?wp): shutter the premises ?wp by writing its struct_status = [k closed]
-; (a perceivable physical fact on the BUILDING, attr/common.arc). Since NPCs always front-
+; (a perceivable physical fact on the BUILDING, shared/attrs.arc). Since NPCs always front-
 ; park a building on arrival, a worker RE-OBSERVES it every commute and INTERNALIZES
 ; {?wp struct_status [k closed]} fresh, and reconcile_closed drops his own stale employment
 ; beliefs off that PERCEIVED belief - no mind but his own is written. MARK, not destroy:

@@ -9,7 +9,7 @@
 # P4 amenity/wild spaces + a century of runtime spawns.
 archetype "exterior_space" (cap 4096) (per obs) (always-visible) (non-occluder) (sector-coverage)
 {
-    # Kind-variation identity (see attr/common.arc).
+    # Kind-variation identity (see shared/attrs.arc).
     (attr "variant")
     (attr "birth_date")
     # Name is auto-perceived so NPCs know what space they're in (e.g. "the moors",

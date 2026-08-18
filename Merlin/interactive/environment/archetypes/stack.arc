@@ -11,7 +11,7 @@ archetype "stack" (cap 2048) (per obs) (non-occluder) (occupies-env-grid)
     # archetype takes part in - the write seams validate both ends.
     (spatial location)
     (spatial items)
-    # Kind-variation identity (see attr/common.arc).
+    # Kind-variation identity (see shared/attrs.arc).
     (attr "variant")
     (attr "birth_date")
     (attr "stack_label")

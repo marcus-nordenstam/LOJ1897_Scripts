@@ -14,7 +14,7 @@ archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
     (spatial grip)
     (spatial location)
     (spatial in_stack)
-    # Kind-variation identity (see attr/common.arc).
+    # Kind-variation identity (see shared/attrs.arc).
     (attr "variant")
     (attr "birth_date")
     (attr "color")
