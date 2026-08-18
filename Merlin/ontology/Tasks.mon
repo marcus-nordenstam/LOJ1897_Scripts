@@ -333,17 +333,12 @@ relation
             expose              (motor mouth)                   (tar @S)                 (construed_act expose_act betray_act wrong_act)
             expose_first        (motor mouth)                   (tar human)              (construed_act expose_act)
             confess_in_person   (motor legs mouth)              (tar human)              (construed_act honour_act)
-            confess_letter      (motor eyes right_hand legs)    (tar human)              (construed_act honour_act)
             # divorce: a husband formally puts away an adulterous wife
             # (husband-initiated ONLY - a betrayed wife of the period has
             # no such recourse and releases through confront / expose /
             # humiliate / withdraw instead). Point act-record; the
             # repudiation_act reactions put the disgrace on the PATIENT.
             divorce             (motor mouth)                   (tar human)              (construed_act repudiation_act)
-            # report_crime: the lawful-channel deliberation goal. Target is
-            # the known wrongdoer, or the wronged PROP when the culprit is
-            # unknown (a theft discovered by absence).
-            report_crime        (motor mouth eyes right_hand)   (tar ?)
             recruit             (motor mouth)                   (tar human)  (aux ?)
 
             seduce              (motor mouth legs body)         (tar human)              (construed_act intimacy_act)  (facets blackmailable)

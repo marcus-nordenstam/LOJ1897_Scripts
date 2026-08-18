@@ -410,18 +410,6 @@
   /terminal       silence_coerce
   /weight         0.5)
 
-; ---- confess (1) ------------------------------------------------------------
-; The exposure_risk confess_letter affinity gains its terminal:
-; the actor reveals their
-; OWN secret to their nearest kin - the secret reaches the father from
-; HER. Scandal without murder; the leak also kills any standing blackmail
-; leverage (the coercion refresh pass sees the secret is out).
-(method confess_letter
-  /goal-fit       confess_letter
-  /method-aux     _
-  /terminal       confess_secret
-  /weight         1.0)
-
 ; ---- hurt (1) -------------------------------------------------------------
 (method beat
   /goal-fit       hurt
@@ -443,18 +431,6 @@
   /pressure-floor humiliation 0.6
   /weight         1.0)
 
-; report_crime goal -> file_report terminal. NOT a crime - the lawful
-; channel: the terminal files a crime_report letter at the police station
-; (the victimhood sentence + a {victim suspect culprit} sentence when the
-; grievance names its wrongdoer) and appends NO ledger row. The station is
-; unstaffed by design - the letters are the PLAYER's case feed.
-; (The old discredit goal / spread_rumour method is gone: reputation damage
-; is emergent via witnesses + gossip, never a deliberated "start a rumour".)
-(method report_to_police
-  /goal-fit       report_crime
-  /method-aux     _
-  /terminal       file_report
-  /weight         1.0)
 
 ; bribe goal -> pay_off terminal (cash transfer; PR-3d ships as mint-only stub)
 (method offer_bribe

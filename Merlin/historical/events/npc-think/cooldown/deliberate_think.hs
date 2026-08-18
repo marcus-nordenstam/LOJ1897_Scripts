@@ -24,7 +24,14 @@
   ; Only pressured NPCs run the (expensive) joint reduction.
   (when (> (has-pressure @self) 0.0))
 
-  (utility want)
+  ; Deliberated responses ride (crime-band): the want tier while crime runs, the prohibited
+  ; floor (a hard reject) when crime is switched off, so the whole deliberation outlet -
+  ; proposed crimes AND the kill campaign - shuts off cleanly. The value is @self's
+  ; disinhibition (0..1 -> the want axis): a disinhibited actor's response competes high in
+  ; the tier, an inhibited one's rides low and loses to ordinary wants. (select-joint binds -
+  ; ?action / ?winscore / ?pressure - are NOT in scope for the utility clause, so the value
+  ; is an actor-global read, and the migrated-crime split lives in resolve-deliberation.)
+  (utility (crime-band) (* (disinhibition) 1000))
 
   ; Sample ONE (pressure, action) pair, weighted by the full deliberation score.
   ; ?pressure is the driving pressure belief (the goal's /caused_by); ?winscore is the
