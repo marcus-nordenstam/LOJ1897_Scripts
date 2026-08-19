@@ -11,10 +11,14 @@
 (include "../../definitions/roles.hs")
 
 (npc-action {@self JUDGE_DECLARE ?winner ?sport}
-  (duration 30)
+  ; (obs): the declaration is made to the assembled - co-present racers WITNESS
+  ; {@self JUDGE_DECLARE ?winner ?sport}, which is how a losing racer learns the
+  ; victor and construes the outdo (outdone_at_meet, sporting_judge_think.hs).
+  (obs) (duration 30)
   (effects
-    ; The victor takes the honours (minted into HIS mind - he was there, he is told).
+    ; The victor takes the honours (minted into HIS mind - he is the act's target,
+    ; excluded from the bystander auto-witness, so he is told explicitly here).
     (begin-belief ?winner {?winner win ?sport})
-    ; (the outdo anchors + scoreboard clearing are the meet_judged twin's -
-    ;  sporting_judge_think.hs - off this declaration's /succ record.)
+    ; (the scoreboard clearing is the meet_judged twin's - sporting_judge_think.hs
+    ;  - off this declaration's /succ record.)
     (set-outcome {@self JUDGE_DECLARE} succ)))

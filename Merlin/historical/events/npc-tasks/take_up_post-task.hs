@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; take_up_post - the offered seeker goes to the workplace and takes the post (apply_for's
 ; success sub-task, proposed by apply_for_take_up in job_search_think.hs). The head binds
-; ?jk (job kind) + ?art (org articles) and captures :?tup for the outcome try.
+; ?jk (job kind) + ?art (org articles) and captures :?tup-rel for the outcome try.
 ;
 ; and (not stable-or): the tries are a PROGRESSION gated by distinct phase conditions
 ; (outside->go, at-post-in-hours->take, enrolled->read book, salaried->conclude), never in
@@ -10,7 +10,7 @@
 ; outcome try's conclusive signal.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self take_up_post ?jk ?art}:?tup
+(npc-task {@self take_up_post ?jk ?art}:?tup-rel
   (tar job)
   (aux articles_of_incorporation)
   (and
@@ -33,4 +33,4 @@
     (try
       (role @self {@self job.salary ?})
       (effects (debug-print "TUP_SUCC art=?art")
-               (set-outcome ?tup succ)))))
+               (set-outcome ?tup-rel succ)))))

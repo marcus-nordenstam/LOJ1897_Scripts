@@ -43,8 +43,10 @@
                    (- 1.0 (attr @self politeness))
                    (+ 0.3 (* 0.7 (attr @self intoxication))))))
 
+  (utility want)
   (effects
-    ; incident-anchor records the principals AND (engine-side auto-witness) the
-    ; co-present bystanders, since assault is externally observable.
-    (incident-anchor @self assault ?victim)
-    ))
+    ; A DRIVER (no incident-anchor): propose the hurt task, which reaches the victim and
+    ; PUNCHes them. The PUNCH is an (obs) violent action - co-present bystanders perceive it
+    ; and their appraisal/classifiers fire naturally (the record IS the ended act-belief;
+    ; blame is runtime, since the blow traces to no violence against @self).
+    (begin-proposal {@self hurt ?victim})))

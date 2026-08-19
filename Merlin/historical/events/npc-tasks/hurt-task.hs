@@ -10,7 +10,7 @@
 
 (include "../../definitions/roles.hs")
 
-(npc-task {@self hurt ?victim}:?hurt
+(npc-task {@self hurt ?victim}:?hurt-rel
   (tar human)
   (and
     ; REACH: route to the victim's known location, else their home.
@@ -42,4 +42,4 @@
                 (believes {?victim condition [k dead]})))
       (effects
         (crime-ledger-append @self ?victim PUNCH hurt @u @u)
-        (set-outcome ?hurt succ)))))
+        (set-outcome ?hurt-rel succ)))))

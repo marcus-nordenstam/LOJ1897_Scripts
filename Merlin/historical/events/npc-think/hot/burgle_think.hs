@@ -52,7 +52,7 @@
 ; steal_act's completion picks the crime method (embezzle at the thief's own workplace, else
 ; opportunist_theft).
 (npc-think burgle_strike
-  (goal {@self steal}:?sgoal)
+  (goal {@self steal}:?sgoal-rel)
   ; The wronged party is resolved and vetted HERE (whose premises this is =
   ; village-public knowledge): an ownerless / self-owned / dead-owner scene
   ; never strikes. The action receives ?owner off its own pattern and does no
@@ -82,8 +82,8 @@
           (begin-ended-belief {@self steal ?owner})
           (crime-ledger-append @self ?owner ?method steal @u @u)
           (burglary-confrontation @self ?scene)
-          (caused-by ?sgoal {@self pressure ?}): ?p
-          (discharge-pressure ?p 0.75)
+          (caused-by ?sgoal-rel {@self pressure ?}): ?p-rel
+          (discharge-pressure ?p-rel 0.75)
           (end-goal {@self steal})))))
 
 ; Outcome twin: THIS pursuit's take concluded - the /succ record's own /caused_by
@@ -93,14 +93,14 @@
 ; AS a theft (the wronged owner, the method, the ledger row) is a separate concern -
 ; classify_take_as_theft below - keyed on OWNERSHIP of the scene, not on the taking.
 (npc-think steal_done
-  (goal {@self steal}:?sgoal)
-  (role @self (believes {@self take ? /succ}:?rec))
-  (when (caused-by ?rec ?sgoal))
+  (goal {@self steal}:?sgoal-rel)
+  (role @self (believes {@self take ? /succ}:?rec-rel))
+  (when (caused-by ?rec-rel ?sgoal-rel))
   (effects
     (if (building @self)
         (then (burglary-confrontation @self (building @self))))
-    (caused-by ?sgoal {@self pressure ?}): ?p
-    (discharge-pressure ?p 0.75)
+    (caused-by ?sgoal-rel {@self pressure ?}): ?p-rel
+    (discharge-pressure ?p-rel 0.75)
     (end-goal {@self steal})))
 
 ; Classify a completed take AS THEFT - but ONLY when @self does not own the premises
@@ -110,9 +110,9 @@
 ; recorded). Taking is just taking - the method + the {@self steal ?owner} anchor +
 ; the ledger row live HERE, off the scene's ownership, never off the take itself.
 (npc-think classify_take_as_theft
-  (goal {@self steal}:?sgoal)
-  (role @self (believes {@self take ?loot /succ}:?rec))
-  (when (and (caused-by ?rec ?sgoal)
+  (goal {@self steal}:?sgoal-rel)
+  (role @self (believes {@self take ?loot /succ}:?rec-rel))
+  (when (and (caused-by ?rec-rel ?sgoal-rel)
              (building @self): ?scene
              (owner-of ?scene): ?owner
              (alive ?owner)

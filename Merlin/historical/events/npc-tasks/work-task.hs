@@ -11,7 +11,7 @@
 ;   shift_over : outside the working + starts-soon window -> the day's work concluded.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self work ?wp}:?w
+(npc-task {@self work ?wp}:?w-rel
   (tar structure|org|space)
   (and
     (try
@@ -30,20 +30,20 @@
       (role ?job {@self job ?job})
       (role ?org {?job org ?org}
                  (believes {?org workplace ?wp}))
-      (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
+      (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh-rel ?sh-rel.target: ?start ?sh-rel.auxiliary: ?end)
             (and (check ?org) (in-building @self ?wp) (< (now-hour) 12)))
       (effects (maintain-proposal {@self DWELL ?wp (min 12 ?end)})))
     (try
       (role ?job {@self job ?job})
       (role ?org {?job org ?org}
                  (believes {?org workplace ?wp}))
-      (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
+      (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh-rel ?sh-rel.target: ?start ?sh-rel.auxiliary: ?end)
             (and (check ?org) (in-building @self ?wp) (>= (now-hour) 12)))
       (effects (maintain-proposal {@self DWELL ?wp ?end})))
     (try
       (role ?job {@self job ?job})
       (role ?org {?job org ?org}
                  (believes {?org workplace ?wp}))
-      (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
+      (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh-rel ?sh-rel.target: ?start ?sh-rel.auxiliary: ?end)
             (not (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
-      (effects (set-outcome ?w succ)))))
+      (effects (set-outcome ?w-rel succ)))))

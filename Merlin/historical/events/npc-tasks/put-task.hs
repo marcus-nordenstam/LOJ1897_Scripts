@@ -4,7 +4,7 @@
 ; /caused_by this task.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self put ?item ?location}:?put
+(npc-task {@self put ?item ?location}:?put-rel
   (tar @excl object)
   (and
     (try
@@ -14,5 +14,5 @@
       (when (= (spatial ?item gripped_by) (spatial @self right_hand)))
       (effects (begin-proposal {@self RIGHT_PUT ?item ?location})))
     (try
-      (when (any {@self /succ LEFT_PUT|RIGHT_PUT ?item ?location /caused_by ?put}))
-      (effects (set-outcome ?put succ)))))
+      (when (any {@self /succ LEFT_PUT|RIGHT_PUT ?item ?location /caused_by ?put-rel}))
+      (effects (set-outcome ?put-rel succ)))))

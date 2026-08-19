@@ -934,6 +934,7 @@ concept
     msg_class
         insult          (construed_act slight_act)
         jilt            (construed_act abandonment_act wrong_act)
+        urge            (construed_act coercion_act)
 
     # Reified act-categories - the context-free "what kind of act" tags
     # that the appraisal pipeline reads off any anchor belief

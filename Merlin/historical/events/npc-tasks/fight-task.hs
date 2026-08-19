@@ -14,7 +14,7 @@
 
 (include "../../definitions/roles.hs")
 
-(npc-task {@self fight ?foe}:?fight
+(npc-task {@self fight ?foe}:?fight-rel
   (tar human)
   (and
     ; THE COUNTER-BLOW: co-present with a conscious, living foe - PUNCH them.
@@ -31,4 +31,4 @@
       (when (or (believes {?foe condition [k dead]})
                 (attr-is ?foe awareness unconscious)
                 (not (co-present ?foe @self))))
-      (effects (set-outcome ?fight succ)))))
+      (effects (set-outcome ?fight-rel succ)))))

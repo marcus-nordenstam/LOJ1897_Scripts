@@ -9,7 +9,7 @@
 ; debug probes over the held-application / outbox state.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self recruit_staff ?org}:?rec
+(npc-task {@self recruit_staff ?org}:?rec-rel
   (tar org)
   (and
     (try
@@ -17,7 +17,7 @@
                  (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
                  (>= (count-doc-records [k employee_register] ?reg)
                      (lookup public_orgs kind ?ok employee_count 2))))
-      (effects (set-outcome ?rec succ)))
+      (effects (set-outcome ?rec-rel succ)))
     (try
       (when (none {@self post ? ?org}))
       (effects (debug-print "RC_ADPICK") (maintain-proposal {@self advertise ?org})))

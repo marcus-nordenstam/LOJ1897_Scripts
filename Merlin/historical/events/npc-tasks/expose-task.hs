@@ -12,7 +12,7 @@
 ; land later. publish-secret-about is a legitimate gossip cascade, not a fiat write.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self expose ?victim}:?expose
+(npc-task {@self expose ?victim}:?expose-rel
   (tar @S)
   (construed_act expose_act betray_act wrong_act)
   (and
@@ -30,17 +30,17 @@
     (try
       (when (and (known-nonspousal-liaison ?victim): ?partner
                  (co-present ?victim @self)
-                 (none {@self SAY ? /succ /caused_by ?expose})))
+                 (none {@self SAY ? /succ /caused_by ?expose-rel})))
       (utility errand always-pick)
       (effects (maintain-proposal {@self SAY (utterable-msg {?victim lover ?partner}) _})))
     (try
-      (when (any {@self SAY ? /succ /caused_by ?expose}))
+      (when (any {@self SAY ? /succ /caused_by ?expose-rel}))
       (effects
         (publish-secret-about @self ?victim)
         (if (any {@self extort ?victim} (out int)) (then (end-belief {@self extort ?victim})))
         (crime-ledger-append @self ?victim confront_publicly expose @u @u)
-        (set-outcome ?expose succ)))
+        (set-outcome ?expose-rel succ)))
     (try
       (when (or (not (known-nonspousal-liaison ?victim))
                 (not (alive ?victim))))
-      (effects (set-outcome ?expose fail)))))
+      (effects (set-outcome ?expose-rel fail)))))

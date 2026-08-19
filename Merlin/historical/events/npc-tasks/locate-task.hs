@@ -7,7 +7,7 @@
 ; and: the two tries are complementary on (in-building ?thing ?bldg).
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self locate ?thing ?bldg}:?loc
+(npc-task {@self locate ?thing ?bldg}:?loc-rel
   (tar @excl)
   (aux structure)
   (and
@@ -16,4 +16,4 @@
       (effects (maintain-proposal {@self wander ?bldg})))
     (try
       (when (in-building ?thing ?bldg))
-      (effects (set-outcome ?loc succ)))))
+      (effects (set-outcome ?loc-rel succ)))))

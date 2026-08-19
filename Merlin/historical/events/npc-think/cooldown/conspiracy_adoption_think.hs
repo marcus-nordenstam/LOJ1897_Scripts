@@ -12,10 +12,10 @@
 ; event never fires: the lover simply never learned of the plot.
 ;
 ; PURE .hs over composable ops:
-;   - (role ?instigator (believes {?instigator urge @self {@self kill ?victim}:?plot}))
+;   - (role ?instigator (believes {?instigator urge @self {@self kill ?victim}:?plot-rel}))
 ;     - anyone this mind holds a kill-me-plot urge FROM, matched structurally by
 ;     the role cache's clause descent: membership wakes on the urge-belief write,
-;     and ?victim + the whole ?plot clause bind at the when-gate;
+;     and ?victim + the whole ?plot-rel clause bind at the when-gate;
 ;   - the compliance gate: attraction band toward the instigator >= 2 plus a
 ;     psychopathy roll;
 ;   - effects mirror the struck cross-mind block, minted in @self's own mind:
@@ -31,22 +31,23 @@
   (rng-stream perpetration)
 
   (role @self )
-  ; Anyone @self believes has urged HIM the kill-me plot - the belief arrives only
-  ; by reading the letter (or hearing the words), never by telepathy. The urge
-  ; belief is {<instigator> urge <me> {<me> kill <victim>}} (Statements.mgr "I urge
-  ; <you> to kill <x>"); the nested clause is the role's own membership criterion,
-  ; and the {..}:?plot capture + free ?victim bind at the when-gate.
+  ; Anyone @self believes WANTS him to do the kill - the goal arrives only by reading
+  ; the (msg_class urge) letter (its content is the instigator's goal clause), never
+  ; by telepathy. The adopted belief is {<instigator> goal {<me> kill <victim>}}; the
+  ; nested kill clause is the role's own membership criterion, and the {..}:?plot-rel
+  ; capture + free ?victim bind at the when-gate.
   (role ?instigator (any_human ?instigator)
-                    (believes {?instigator urge @self {@self kill ?victim}:?plot}))
+                    (believes {?instigator goal {@self kill ?victim}:?plot-rel}))
 
-  ; I must be willing: desire for the instigator (attraction band >= 2) plus the
-  ; dark roll.
-  (when (and (>= (stance-band ?instigator attraction) 2)
+  ; It must be ANOTHER's goal (not my own kill goal), I must be willing: desire for the
+  ; instigator (attraction band >= 2) plus the dark roll.
+  (when (and (not (= ?instigator @self))
+             (>= (stance-band ?instigator attraction) 2)
              (chance (attr @self psychopathy))))
 
   (utility want)
   (effects
     ; My own side of the conspiracy: the bond embeds the plot as its AUX
     ; clause, and the goal is pinned to the bond.
-    (begin-belief {@self accomplice ?instigator ?plot}): ?accomplice
-    (begin-goal {@self kill ?victim} /caused_by ?accomplice)))
+    (begin-belief {@self accomplice ?instigator ?plot-rel}): ?accomplice-rel
+    (begin-goal {@self kill ?victim} /caused_by ?accomplice-rel)))

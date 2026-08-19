@@ -10,11 +10,11 @@
 ;   done   : the wander concluded -> end.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self putter ?home}:?p
+(npc-task {@self putter ?home}:?p-rel
   (tar structure)
   (and
     (try
-      (when (none {@self wander ?home /caused_by ?p /ever}))
+      (when (none {@self wander ?home /caused_by ?p-rel /ever}))
       (utility idle)
       (effects (begin-proposal {@self wander ?home})))
     (try
@@ -30,5 +30,5 @@
                       (read-cache ?cache))))
               (else (read-cache ?cache))))))
     (try
-      (when (believes {@self wander ?home /succ /caused_by ?p}))
-      (effects (set-outcome ?p succ)))))
+      (when (believes {@self wander ?home /succ /caused_by ?p-rel}))
+      (effects (set-outcome ?p-rel succ)))))

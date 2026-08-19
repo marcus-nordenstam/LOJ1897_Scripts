@@ -13,7 +13,7 @@
 ; / accept-kept / bury-handled), each gated by a distinct stack + hand state.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self stack_browse ?stack}:?browse
+(npc-task {@self stack_browse ?stack}:?browse-rel
   (tar stack)
   (and
     (try
@@ -23,7 +23,7 @@
             (then (debug-print "SBR_EMPTY")
                   (bb-clear ?stack browse-cycle-end)
                   (bb-clear ?stack browse-inflight)
-                  (set-outcome ?browse succ)))))
+                  (set-outcome ?browse-rel succ)))))
     (try
       (when (and (unknown (spatial ?stack top))
                  (not (bb-has (bb-read ?stack browse-inflight) browse-status))))
@@ -33,7 +33,7 @@
             (then (debug-print "SBR_EMPTY")
                   (bb-clear ?stack browse-cycle-end)
                   (bb-clear ?stack browse-inflight)
-                  (set-outcome ?browse succ)))))
+                  (set-outcome ?browse-rel succ)))))
     (try
       (role ?top (spatial ?stack top)
             (not (= ?top (bb-read ?stack browse-cycle-end)))
@@ -51,7 +51,7 @@
         (debug-print "SBR_CYCLED")
         (bb-clear ?stack browse-cycle-end)
         (bb-clear ?stack browse-inflight)
-        (set-outcome ?browse succ)))
+        (set-outcome ?browse-rel succ)))
     (try
       (role ?doc [k document] (spatial @self hold)
             (= (bb-read ?doc browse-status) kept))

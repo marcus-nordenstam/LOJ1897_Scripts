@@ -47,10 +47,10 @@
   (effects
     ; Label order IS priority: scandal acts, then the death-story, then relationship
     ; news. ?news is the matched fact; ?tgt its target (the shame-seal check).
-    (for-each ?news (every {? assault|disinherit|insult|outdo|discredit|public_humiliation|seduce|expose|spread_rumour|confront_publicly|divorce|prototype|condition|circumstance_of_death|spouse|fiancee|lover|child ?})
+    (for-each ?news-rel (every {? disinherit|insult|outdo|discredit|public_humiliation|seduce|expose|spread_rumour|confront_publicly|divorce|prototype|condition|circumstance_of_death|spouse|fiancee|lover|child ?})
       (do
-        ?news.target: ?tgt
-        (utterable-msg ?news): ?msg
+        ?news-rel.target: ?tgt
+        (utterable-msg ?news-rel): ?msg
         (if (and (not (= ?tgt @self))
                  (none {@self SAY ?msg ?ear}))
             (then (maintain-proposal {@self SAY ?msg ?ear}) (break)))))))

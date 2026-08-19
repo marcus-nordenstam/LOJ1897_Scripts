@@ -7,7 +7,7 @@
 ; recipient. Abandon: no live recipient to give to.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self give ?thing ?recipient}:?give
+(npc-task {@self give ?thing ?recipient}:?give-rel
   (tar @excl object)
   (aux human)
   (and
@@ -39,8 +39,8 @@
       (utility (above go))
       (effects (maintain-proposal {@self OFFER_LEFT ?thing ?recipient})))
     (try
-      (when (any {@self /succ OFFER_LEFT|OFFER_RIGHT ?thing ?recipient /caused_by ?give}))
-      (effects (set-outcome ?give succ)))
+      (when (any {@self /succ OFFER_LEFT|OFFER_RIGHT ?thing ?recipient /caused_by ?give-rel}))
+      (effects (set-outcome ?give-rel succ)))
     (try
       (when (not (alive ?recipient)))
-      (effects (set-outcome ?give fail)))))
+      (effects (set-outcome ?give-rel fail)))))

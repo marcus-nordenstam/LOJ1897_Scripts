@@ -7,7 +7,7 @@
 ; A dead victim -> abandon.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self bribe ?victim}:?bribe
+(npc-task {@self bribe ?victim}:?bribe-rel
   (tar human)
   (aux ?)
   (facets reportable_crime)
@@ -24,10 +24,10 @@
                  (not (has-proposal {@self give ? ?victim}))))
       (effects (create-entity [k coin] (qual location (location @self)))))
     (try
-      (when (any {@self give ? ?victim /succ /caused_by ?bribe}))
+      (when (any {@self give ? ?victim /succ /caused_by ?bribe-rel}))
       (effects
         (crime-ledger-append @self ?victim offer_bribe bribe @u @u)
-        (set-outcome ?bribe succ)))
+        (set-outcome ?bribe-rel succ)))
     (try
       (when (not (alive ?victim)))
-      (effects (set-outcome ?bribe fail)))))
+      (effects (set-outcome ?bribe-rel fail)))))

@@ -19,7 +19,7 @@
 
 (include "../../definitions/roles.hs")
 
-(npc-task {@self disinherit ?victim}:?disinherit
+(npc-task {@self disinherit ?victim}:?disinherit-rel
   (tar human)
   (construed_act abandonment_act wrong_act)
   (and
@@ -45,10 +45,10 @@
 
     ; OUTCOME: the disinheritance was announced (the SAY landed).
     (try
-      (when (any {@self SAY ? ?victim /succ /caused_by ?disinherit}))
-      (effects (set-outcome ?disinherit succ)))
+      (when (any {@self SAY ? ?victim /succ /caused_by ?disinherit-rel}))
+      (effects (set-outcome ?disinherit-rel succ)))
 
     ; ABANDON: the victim died before it could be announced.
     (try
       (when (not (alive ?victim)))
-      (effects (set-outcome ?disinherit fail)))))
+      (effects (set-outcome ?disinherit-rel fail)))))

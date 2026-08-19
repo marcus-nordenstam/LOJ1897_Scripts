@@ -10,7 +10,7 @@
 ; way, mirroring the old terminal). Nothing confessable / no kin at all -> abandon.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self confess_letter ?focus}:?confess
+(npc-task {@self confess_letter ?focus}:?confess-rel
   (tar human)
   (construed_act honour_act)
   (and
@@ -23,8 +23,8 @@
             (then (post-letter [k confession_letter]
                                (nl_written_msg "I have taken ?partner as a lover")
                                (home-of ?kin) ?kin)))
-        (set-outcome ?confess succ)))
+        (set-outcome ?confess-rel succ)))
     (try
       (when (or (not (known-nonspousal-liaison @self))
                 (not (any {@self father|mother|fiancee|spouse|sibling ?} (out int)))))
-      (effects (set-outcome ?confess fail)))))
+      (effects (set-outcome ?confess-rel fail)))))

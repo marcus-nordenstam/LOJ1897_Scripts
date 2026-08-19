@@ -83,6 +83,6 @@
     ; @self discloses their friend-tier profile to the lover (the SAY they hear and
     ; adopt); @self's knowledge of the lover pre-exists. Friend-tier, so @self does
     ; not reveal their OTHER lovers (that is intimate-tier, above this band).
-    (for-each ?fact (every {@self (disclosure-tier-labels friend) ?})
-      (tell-to ?lover (utterable-msg (to ?lover) ?fact)))
+    (for-each ?fact-rel (every {@self (disclosure-tier-labels friend) ?})
+      (tell-to ?lover (utterable-msg (to ?lover) ?fact-rel)))
     ))

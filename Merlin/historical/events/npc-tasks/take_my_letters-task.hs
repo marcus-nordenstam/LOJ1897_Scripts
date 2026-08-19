@@ -6,11 +6,11 @@
 ; back at the stack (browse gates fail from afar and the task idles running).
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self take_my_letters ?stack}:?take-letters
+(npc-task {@self take_my_letters ?stack}:?take-letters-rel
   (tar @excl stack)
   (and
     (try
-      (when (none {@self stack_browse ?stack /caused_by ?take-letters /ever}))
+      (when (none {@self stack_browse ?stack /caused_by ?take-letters-rel /ever}))
       (utility errand)
       (effects (debug-print "TML_BROWSE")
                (begin-proposal {@self stack_browse ?stack})))
@@ -28,8 +28,8 @@
             (else (debug-print "TML_HANDLE doc=?doc")
                   (bb-write ?doc browse-status handled)))))
     (try
-      (when (any {@self stack_browse ?stack /succ /caused_by ?take-letters}))
+      (when (any {@self stack_browse ?stack /succ /caused_by ?take-letters-rel}))
       (effects (debug-print "TML_DONE")
-               (set-outcome ?take-letters succ)))
+               (set-outcome ?take-letters-rel succ)))
     (try
       (effects (debug-print "TML_P_TASK stk=?stack")))))

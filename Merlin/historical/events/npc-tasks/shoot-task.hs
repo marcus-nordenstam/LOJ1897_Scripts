@@ -9,7 +9,7 @@
 
 (include "../../definitions/roles.hs")
 
-(npc-task {@self shoot ?victim}:?shoot
+(npc-task {@self shoot ?victim}:?shoot-rel
   (tar human)
   (and
     ; REACH (armed only): route to the victim's known location, else their home.
@@ -39,4 +39,4 @@
     ; CONCLUDE: the victim is dead - the method is spent.
     (try
       (when (believes {?victim condition [k dead]}))
-      (effects (set-outcome ?shoot succ)))))
+      (effects (set-outcome ?shoot-rel succ)))))

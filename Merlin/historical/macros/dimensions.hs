@@ -54,15 +54,15 @@
         (decorum-scalar ?who)
         (chastity-scalar ?who)) 7))
 
-; criminality - a low base (0.05), raised 0.25 per recorded crime of ANY tense
-; (assault / theft / fraud / embezzlement / homicide / kidnap - the act-records
-; the crime pipeline writes). A single conviction reads middling; a habitual
-; offender saturates.
+; criminality - a low base (0.05), raised 0.25 per recorded crime of ANY tense. Violence
+; (every (theme violent_to) act - the fight-lane blows, the organic-brawl PUNCH, and kill)
+; is counted through the theme expansion, since there is no `assault` term any more; theft /
+; fraud / embezzlement / kidnap are the remaining crime act-records. Habitual offenders saturate.
 (define-macro criminality ()
   (clamp (+ 0.05
-            (* (+ (count (every {@self assault ? /ever})) (count (every {@self steal ? /ever}))
+            (* (+ (count (every {@self (theme-labels violent_to) ? /ever})) (count (every {@self steal ? /ever}))
                   (count (every {@self defraud ? /ever})) (count (every {@self embezzle ? /ever}))
-                  (count (every {@self kill ? /ever}))    (count (every {@self kidnap ? /ever}))) 0.25)) 0 1))
+                  (count (every {@self kidnap ? /ever}))) 0.25)) 0 1))
 
 ; rootedness - how established the NPC is in the community. Local lineage
 ; (mother / father), a spouse, children (each +0.06, capped at 4 = +0.24), a

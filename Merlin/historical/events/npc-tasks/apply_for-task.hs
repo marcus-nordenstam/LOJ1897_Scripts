@@ -15,7 +15,7 @@
 ;   succeeded : the take-up concluded /succ -> employed -> conclude /succ.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self apply_for ?jk ?art}:?af
+(npc-task {@self apply_for ?jk ?art}:?af-rel
   (tar job)
   (aux articles_of_incorporation)
   (and
@@ -51,7 +51,7 @@
                (maintain-proposal {@self take_up_post ?jk ?art})))
     (try
       (role ?ltr [k rejection_letter] {@self READ ?ltr /ever})
-      (effects (set-outcome ?af fail)))
+      (effects (set-outcome ?af-rel fail)))
     (try
       (role @self (believes {@self take_up_post ?jk ?art /succ}))
-      (effects (set-outcome ?af succ)))))
+      (effects (set-outcome ?af-rel succ)))))

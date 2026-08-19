@@ -1,57 +1,93 @@
 ; ----------------------------------------------------------------------------
-; bonded_incident_insult (npc-think). The impulsive insult: @self lashes out at a
-; known acquaintance. The actor's impulse is gated in (when): a dispositional
-; base (low-politeness x narcissism) plus displaced anger
-; (a high current ANGER load from ANY source raises the urge, discharged on
-; whatever the victim pool offers). The victim is stance-weighted - the disliked
-; and despised are preferentially hit, but a 0.10 floor lets displaced anger land
-; on any acquaintance (the anger need not be AT the victim).
+; bonded_incident_insult (npc-think). The impulsive SPOKEN insult: @self lashes
+; out at a co-present acquaintance, uttering a barb the victim (and any bystander)
+; hears - blame and hurt-feelings ride the witnessed SAY, not a minted anchor.
+; The actor's impulse is gated in (when): a dispositional base
+; (low-politeness x narcissism) plus displaced anger (a high current ANGER load
+; from ANY source), the victim stance-weighted so the disliked and despised are
+; hit most (a 0.10 floor lets displaced anger land on any acquaintance).
 ;
-; A mental change (the insult anchor lands in both minds), so npc-think, per
-; NPC. RELATIONAL: the victim is a personally-known
-; acquaintance (the social tie), not gated on physical co-presence - the retired
-; place-lane provided the venue; the established reversion keys incidents on the
-; tie, not co-presence (a co-present "insult at the venue" form awaits the venue
-; lane). The actor impulse and the victim-stance gate are both non-belief (chance)
-; tests, so they live in (when); the @self role carries only its template.
+; The (do ...) block runs per ?victim (after the role binds) and tolerantly
+; captures the mockable material @self holds about the victim (each `-rel` var is
+; the whole belief handle, or @fail with no abort) - only what @self knows or can
+; see, so the insult is grounded. low_aspect-rel is the single worst of the four
+; amiable traits; vol-rel the hot-head extreme. The barb_ladder cells read those
+; handles by context: a high anger load -> the displaced-anger lash-out (perceptual
+; barbs, what is at hand); otherwise the dispositional put-down (status barbs). A
+; context with no material scores every row 0, the select binds nothing, and
+; nothing is said (finding a barb is a condition). rank is the roulette weight.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
+
+(define-table barb_ladder
+  (capture ?girth-rel ?height-rel ?sob-rel ?low_aspect-rel ?vol-rel ?low_class-rel ?pre-rel)
+  (fields context          rank  barb_eval)
+
+  ; displaced_anger: lashing out grabs what is visible at hand.
+  (record displaced_anger  3    (if (matches ?girth-rel.target [k girth fat|thin]) (then ?girth-rel)
+                                  (else (if (= ?height-rel.target [k height short]) (then ?height-rel)))))
+  (record displaced_anger  2    (if (<= ?sob-rel.target 0.35) (then ?sob-rel)))
+  (record displaced_anger  1    (if (<= ?low_aspect-rel.target 0.30) (then ?low_aspect-rel)
+                                  (else (if (>= ?vol-rel.target 0.70) (then ?vol-rel)))))
+
+  ; dispositional: the narcissist's put-down is status elevation.
+  (record dispositional    4    ?low_class-rel)
+  (record dispositional    3    (if (<= ?pre-rel.target 0.35) (then ?pre-rel)))
+  (record dispositional    2    (if (<= ?low_aspect-rel.target 0.30) (then ?low_aspect-rel)
+                                  (else (if (>= ?vol-rel.target 0.70) (then ?vol-rel)))))
+  (record dispositional    1    (if (matches ?girth-rel.target [k girth fat|thin]) (then ?girth-rel)
+                                  (else (if (= ?height-rel.target [k height short]) (then ?height-rel))))))
 
 (npc-think bonded_incident_insult
   (cooldown 1 m)
   (rng-stream incidents)
 
-  ; The actor's impulse to lash out: dispositional base (low-politeness x
-  ; narcissism) + displaced anger (emotion-load). The (chance) gate is non-belief
-  ; (not role-cacheable), so it lives in (when) below, not on this role.
   (role @self )
   (role ?victim (any_human ?victim)
-                (personally-knows @self ?victim))
+                (personally-knows @self ?victim)
+                (co-present ?victim @self))
 
-  ; Stance-weighted victim selection. Floor 0.10 is the displaced-anger path (any
-  ; acquaintance can be hit); negative warmth (dislike/detest) and esteem (disdain/
-  ; despise) add on top - mild +0.15, strong +0.30 - so the despised are hit most.
-  ; believes folds to 0/1, so the sums are graded counts; static max = 1.0. A non-
-  ; belief (chance) gate reading per-victim stance, rolled per victim at firing, so
-  ; it lives in (when), not as a role criterion (would not be cacheable).
-  ; MOVED from the @self role (non-belief, not role-cacheable): the actor's impulse
-  ; chance (dispositional base + displaced anger). Both gates are (chance), kept first.
+  ; Anger load is @self-only and (emotion-load) is not cheap - compute it ONCE and
+  ; derive the ladder context from it, so neither the (when) nor the per-row
+  ; select-record (when) re-evaluates it.
+  (bind (emotion-load @self [k anger]) ?emo_load)
+  (bind (if (> ?emo_load 0.5) (then displaced_anger) (else dispositional)) ?emo_ctx)
+
+  ; The actor's impulse (dispositional base + displaced anger) and the victim-
+  ; stance gate are both non-belief (chance) tests, so they live in (when).
   (when (and (chance (+ (* (crime-scale) 0.06
                            (- 1.0 (attr @self politeness))
                            (attr @self narcissism))
-                        (* (crime-scale) 0.08 (emotion-load @self [k anger]))))
+                        (* (crime-scale) 0.08 ?emo_load)))
              (chance (+ 0.10
                         (* 0.15 (+ (any {@self dislike ?victim} (out int))
                                    (any {@self disdain ?victim} (out int))))
                         (* 0.30 (+ (any {@self detest  ?victim} (out int))
                                    (any {@self despise ?victim} (out int))))))))
 
+  ; The mockable material, read per victim - each tolerant, so a missing lane is
+  ; just @fail (no abort). Each `-rel` var holds the whole belief.
+  (do
+    (tolerate (any {?victim girth ?}):?girth-rel)
+    (tolerate (any {?victim height ?}):?height-rel)
+    (tolerate (any {?victim sobriety ?}):?sob-rel)
+    (tolerate (lowest /target {?victim politeness|industriousness|orderliness|compassion ?}):?low_aspect-rel)
+    (tolerate (any {?victim volatility ?}):?vol-rel)
+    (tolerate (any {?victim class_situation [k class_situation lower]}):?low_class-rel)
+    (tolerate (any {?victim prestige ?}):?pre-rel))
+
+  ; Compose the barb: context is the anger-driven ladder choice; ?barb-rel the
+  ; belief @self voices. No material in that context -> nothing binds -> silence.
+  (select-record (table barb_ladder)
+    (bind context ?ctx)
+    (bind rank ?rank)
+    (bind barb_eval ?barb-rel)
+    (when (= ?ctx ?emo_ctx))
+    (score (if (is-belief ?barb-rel) (then ?rank) (else 0)))
+    (policy roulette))
+
+  (utility want)
+
   (effects
-    ; Context picks the barb ladder: a high standing anger load marks the
-    ; displaced-anger lash-out (perceptual barbs, what's at hand); otherwise
-    ; the dispositional put-down (status barbs) - mirroring the two additive
-    ; impulse sources in (when).
-    (insult-anchor ?victim
-      (if (> (emotion-load @self [k anger]) 0.5) (then displaced_anger) (else dispositional)))
-    ))
+    (maintain-proposal {@self SAY (utterable-msg (to ?victim) ?barb-rel (msg_class insult)) ?victim})))
