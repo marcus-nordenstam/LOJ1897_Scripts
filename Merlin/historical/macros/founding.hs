@@ -52,7 +52,7 @@
         (create-entity [k articles_of_incorporation] (qual location ?back)): ?art
         (create-entity [k employee_register]          (qual location ?back)): ?reg
         (write-doc-record [k articles_of_incorporation] ?art
-            (kind ?org-kind) (founder @self) (spatial ?wp building) (year (year)) (register ?reg)
+            (kind ?org-kind) (founder @self) (building ?wp) (year (year)) (register ?reg)
             (name (lookup businesses org_kind ?org-kind name [n unknown])))
 
         ; --- founder's mind: the org object + its constitutive beliefs ------------
@@ -115,7 +115,7 @@
         (create-entity [k articles_of_incorporation] (qual location ?back)): ?art
         (create-entity [k employee_register]          (qual location ?back)): ?reg
         (write-doc-record [k articles_of_incorporation] ?art
-            (kind ?club-kind) (founder @self) (spatial ?wp building) (year (year)) (register ?reg))
+            (kind ?club-kind) (founder @self) (building ?wp) (year (year)) (register ?reg))
 
         ; --- founder's mind: the org object + its constitutive beliefs -----------
         (imagine-or-recall ?club-kind {?art declares_org ?org})
@@ -150,7 +150,7 @@
   (do
     ; --- read the org's kind + premises off the existing articles --------------
     (read-doc-record [k articles_of_incorporation] ?art
-        (kind ?org-kind) (spatial ?wp building))
+        (kind ?org-kind) (building ?wp))
     ; --- @self's mind: the org object + the employment beliefs ------------------
     (imagine-or-recall ?org-kind {?art declares_org ?org})
     (begin-belief {?org isa ?org-kind})    ; queryable kind belief - see found-org-seq

@@ -58,5 +58,5 @@
               (not (believes {?wp availability ?})))
   (effects
     (create-entity [k for_sale_listing] (qual location ?wp)): ?listing
-    (write-doc-record [k for_sale_listing] ?listing (spatial ?wp building))
+    (write-doc-record [k for_sale_listing] ?listing (building ?wp))
     (begin-belief {?wp availability [k for_sale]})))

@@ -13,7 +13,7 @@
 (npc-action {@self POST_ADVERT ?art ?jk}
   (duration 20)
   (effects
-    (read-doc-record [k articles_of_incorporation] ?art (spatial ?wp building))
+    (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
     (create-entity [k job_description]
         (qual location (spatial @self building))): ?ad
     (write-doc-record [k job_description] ?ad

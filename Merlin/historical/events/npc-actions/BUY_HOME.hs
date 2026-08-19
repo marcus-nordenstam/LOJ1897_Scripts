@@ -24,13 +24,13 @@
     ; Re-validate: ?dwell must still be on the for-sale register.
     (for-each ?listing (documents [k for_sale_listing])
       (do
-        (read-doc-record [k for_sale_listing] ?listing (spatial ?lb building))
+        (read-doc-record [k for_sale_listing] ?listing (building ?lb))
         (if (= ?lb ?dwell)
             (then
               ; Rewrite the deed to name @self - the authoritative record transfer.
               (for-each ?deed (documents [k title_deed])
                 (do
-                  (read-doc-record [k title_deed] ?deed (spatial ?db building))
+                  (read-doc-record [k title_deed] ?deed (building ?db))
                   (if (= ?db ?dwell)
                       (then
                         (update-doc-record [k title_deed] ?deed (owner @self))

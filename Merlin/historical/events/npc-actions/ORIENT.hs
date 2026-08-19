@@ -22,7 +22,7 @@
     ; ?f = founder (both off the articles writing); ?org = the formed mental object.
     (for-each ?art (documents [k articles_of_incorporation])
       (do
-        (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (founder ?f) (spatial ?b building))
+        (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (founder ?f) (building ?b))
         (imagine-or-recall ?ok {?art declares_org ?org})
         (begin-belief {?org isa ?ok})
         (begin-belief {?org record ?art})

@@ -15,4 +15,4 @@
   (read-doc-record [k articles_of_incorporation] ?doc (founder ?f)))
 
 (define-macro articles-building (?doc ?b)
-  (read-doc-record [k articles_of_incorporation] ?doc (spatial ?b building)))
+  (read-doc-record [k articles_of_incorporation] ?doc (building ?b)))

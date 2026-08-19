@@ -23,7 +23,7 @@
       (effects (debug-print "RC_ADPICK") (maintain-proposal {@self advertise ?org})))
     (try
       (when (and (any {?org record ?}).target: ?art
-                 (read-doc-record [k articles_of_incorporation] ?art (spatial ?wp building))
+                 (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
                  (not (spatial @self building ?wp))
                  (>= (days-since-last {@self read_mail ?wp /succ}) 1)))
       (utility obligation)
@@ -31,7 +31,7 @@
     (try
       (lock-rule)
       (when (and (any {?org record ?}).target: ?art
-                 (read-doc-record [k articles_of_incorporation] ?art (spatial ?wp building))
+                 (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
                  (spatial @self building ?wp)
                  (>= (days-since-last {@self read_mail ?wp /succ}) 1)))
       (utility obligation)
@@ -86,12 +86,12 @@
       (effects (debug-print "RCP_P8")))
     (try
       (when (and (any {?org record ?}).target: ?art
-                 (read-doc-record [k articles_of_incorporation] ?art (spatial ?wp building))
+                 (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
                  (spatial @self building ?wp)))
       (effects (debug-print "RCP_P15_INSIDE")))
     (try
       (when (and (any {?org record ?}).target: ?art
-                 (read-doc-record [k articles_of_incorporation] ?art (spatial ?wp building))
+                 (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
                  (>= (now-hour) 9)
                  (< (now-hour) 11)))
       (effects (debug-print "RCP_P16_MAIL")))

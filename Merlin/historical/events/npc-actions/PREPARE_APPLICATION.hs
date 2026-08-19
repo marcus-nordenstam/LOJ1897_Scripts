@@ -16,7 +16,7 @@
 (npc-action {@self PREPARE_APPLICATION ?art ?jk}
   (duration 20)
   (effects
-    (read-doc-record [k articles_of_incorporation] ?art (spatial ?wp building))
+    (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
     (if (substantial ?wp)
       (then
         (create-entity [k application]

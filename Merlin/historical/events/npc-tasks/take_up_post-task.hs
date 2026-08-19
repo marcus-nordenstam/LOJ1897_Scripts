@@ -15,11 +15,11 @@
   (aux articles_of_incorporation)
   (and
     (try
-      (when (and (read-doc-record [k articles_of_incorporation] ?art (spatial ?wp building))
+      (when (and (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
                  (not (spatial @self building ?wp))))
       (effects (maintain-proposal {@self enter ?wp})))
     (try
-      (when (and (read-doc-record [k articles_of_incorporation] ?art (spatial ?wp building))
+      (when (and (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
                  (spatial @self building ?wp)
                  (>= (now-hour) 9)
                  (<= (now-hour) 16)
