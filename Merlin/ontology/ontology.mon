@@ -6,11 +6,12 @@
 # ----------------------------------------------------------------------------
 # Brief overview
 # ----------------------------------------------------------------------------
+# Nouns are objects or concepts.
+#
 # States represents something you HAVE or that you ARE.  Unless already 
 # declared in spatial or attr declarations, they must be declared in states.mon
 # or the inferred via the state-from-noun mechanism (see below).
 #
-# Nouns are objects or concepts.
 # Any ontological noun/object/concept is also always declared as a state.
 # A noun-as-a-state idea is an implied 'I have'.  For example, if ball is 
 # declared as a noun, then {@self ball <ball>} could be written indicating that

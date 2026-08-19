@@ -25,6 +25,14 @@
 
 (include "../../../definitions/roles.hs")
 
+; The actor's own recent OVERT-method murder victim whose corpse is still in its pre-burial
+; window (@fail when none) - the taunt substrate. The overt kill methods are the fight
+; lane's strangle / shoot (their blows leave an unmistakable violent corpse); a killer KNOWS
+; his method was overt, so no waiting for the inquest. Relocated here from the deleted
+; perpetration_macros.hs (its only consumer). Keep in step with the kill_method_table rows.
+(define-macro covert-kill-corpse ()
+  (own-act-corpse @self strangle shoot))
+
 (npc-think taunt
   (cooldown 1 m)
   (rng-stream perpetration)

@@ -1,24 +1,23 @@
 ; ----------------------------------------------------------------------------
-; means - the npc-THINK half: the DESIRE that arms a weapon-gated killer.
-; A killer holding a method_means it does not yet control pushes utility onto the
-; standing {@self acquire [k <means>]} goal so it promotes to acquire_act.
+; means - the npc-THINK half: the DESIRE that arms a shooter.
+; A killer running the shoot task who holds no firearm pushes utility onto a standing
+; {@self acquire [k firearm]} goal so it promotes to the shop errand.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
 
-; The DESIRE: a killer who holds a method_means it does not yet control resolves to
-; obtain it. Binds the required tool kind off its own belief and pushes utility 90
-; onto the standing {@self acquire [k <means>]} goal (the killer's memory of setting
-; out to arm), which - the leaf - promotes to acquire_act. A maintenance event: it
-; ceases (ends the acquire goal) the moment the killer controls the tool
-; (real-possession termination), the falling edge of the empty-grip test. NO (log) here - this
-; fires in the deliberation pass; the acquisition is narrated at completion.
-(npc-think means_plan_acquire
-  (role @self (believes {@self method_means ?means}))    ; binds the required tool kind, cached
-  (when (empty (spatial @self hold ?means)))
+; The DESIRE: a shooter running the shoot task who holds no firearm resolves to obtain
+; one. It pushes utility onto a standing {@self acquire [k firearm]} goal (the killer's
+; memory of setting out to arm), which promotes to the shop errand below. A maintenance
+; event: it ceases (ends the acquire goal) the moment the killer controls a firearm, the
+; falling edge of the empty-grip test. NO (log) here - the acquisition narrates at completion.
+(npc-think shoot_arm
+  (task {@self shoot ?})
+  (role @self )
+  (when (empty (spatial @self hold [k firearm])))
   (utility errand always-pick)
-  (effects       (begin-goal {@self acquire ?means}))
-  (cease-effects (end-goal   {@self acquire ?means})))
+  (effects       (begin-goal {@self acquire [k firearm]}))
+  (cease-effects (end-goal   {@self acquire [k firearm]})))
 
 ; THE ERRAND - obtaining is a real trip, never conjuring: shops are the only item
 ; source (STOCKTAKE stocks every shop with weapons + chemicals), so the killer walks

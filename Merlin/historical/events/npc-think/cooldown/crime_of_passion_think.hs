@@ -32,6 +32,17 @@
 
 (include "../../../definitions/roles.hs")
 
+; The rival for ?beloved AS THE DELIBERATOR KNOWS IT: the beloved's spouse, else their
+; lover, else the beloved themselves - every read from the deliberator's own beliefs (no
+; mind-entering). The caller must exclude @self (a beloved married to the deliberator names
+; @self here). Relocated here from the deleted perpetration_macros.hs (its only consumer).
+(define-macro crave-rival (?beloved)
+  (if (any {?beloved spouse ?}).target
+      (then (any {?beloved spouse ?}).target)
+      (else (if (any {?beloved lover ?}).target
+          (then (any {?beloved lover ?}).target)
+          (else ?beloved)))))
+
 (npc-think crime_of_passion
   (cooldown 1 m)
   (rng-stream perpetration)

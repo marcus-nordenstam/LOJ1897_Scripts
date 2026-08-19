@@ -83,3 +83,13 @@
   (effects
     (caused-by ?rec {@self pressure ?}): ?p
     (discharge-pressure ?p 0.75)))
+
+; hurt: a displaced-rage beating (displace_kill) spends the original grievance once done.
+(npc-think discharge_hurt
+  (cooldown 1 m)
+  (role @self (believes {@self hurt ? /succ}:?rec))
+  (when (and (caused-by ?rec {@self pressure ?})
+             (< (days-since-last {@self hurt ? /succ}) 40)))
+  (effects
+    (caused-by ?rec {@self pressure ?}): ?p
+    (discharge-pressure ?p 0.75)))

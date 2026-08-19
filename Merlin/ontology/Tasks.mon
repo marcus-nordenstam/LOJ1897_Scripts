@@ -339,9 +339,13 @@ relation
             divorce             (motor mouth)                   (tar human)              (construed_act repudiation_act)
 #            recruit             (motor mouth)                   (tar human)  (aux ?)
 
-            # assault - the perpetrator's blame-bearing attack task. Self-declared by
-            # its (npc-task ...) head in npc-tasks/assault-task.hs (tasks live in .hs,
-            # not here); (obs) makes it witnessed via the observable-task channel.
+            # assault - a witnessed VIOLENT-ACT record (not a task with rungs): the organic-
+            # violence incidents (bonded_incident_assault / public_incident_assault) mint
+            # {actor assault victim} via (incident-anchor ...), and criminality / barbs / gossip
+            # / rid_of_spouse read it. (obs) + (theme violent_to) + harm_act/wrong_act make it a
+            # witnessed, appraisable blow; blame is RUNTIME (appraisal suppresses wrong_act only
+            # for a violent act that traces to an assault on its own actor).
+            assault             (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
 
             # kill - ABSTRACT goal task. No method aux: the method is a
             # separate, more-specific leaf task (strangle / shoot / poison
@@ -362,7 +366,9 @@ relation
             # (declared below) are what actually get performed and
             # recorded as anchors at perpetration time.
 #            punish                                              (tar human)                (construed_act harm_act)
-            hurt                                                (tar human)                (construed_act harm_act)
+            # hurt - a NON-LETHAL beating. Self-declared by its (npc-task ...) head in
+            # npc-tasks/hurt-task.hs (tasks live in .hs); the (obs) PUNCH blows it proposes
+            # carry the blame, so hurt itself needs no construed_act here.
             # tamper - PREPARATION for a perpetration; the trap-fire event
             # mints the appraisable kill / harm record when the trap
             # fires. No construed_act tag at the task level.
@@ -488,7 +494,6 @@ relation
             # report_to_police: the report_crime goal's leaf - writing and
             # delivering a crime_report letter to the police station.
             report_to_police    (motor eyes right_hand legs)    (tar ?)  (aux ?)         (construed_act honour_act)
-            beat                (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
             offer_bribe         (motor right_hand mouth)        (tar human)  (aux ?)     (facets blackmailable)
             plant_evidence      (motor right_hand)              (tar human)  (aux ?)     (construed_act harm_act betray_act wrong_act)  (facets reportable_crime blackmailable)
 

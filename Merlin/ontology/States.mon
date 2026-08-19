@@ -141,16 +141,9 @@ relation
         # time per watched person.
         under_suspicion         (sub human)           (tar ? @excl)
 
-        # under_attack: the victim's THREAT-PERCEPTION state in the emergent
-        # fight (the unified think/act model). {<victim> under_attack <attacker>}
-        # is minted in the victim's mind by the strike-blow primitive when a
-        # non-fatal blow lands, and the victim is woken to re-deliberate the same
-        # minute. The (under-attack) / (threat-focus) ops read it so the victim's
-        # short-term-think (fight_back) can turn on the attacker - minting its own
-        # {victim goal {victim fight attacker}} and making the fight two-sided.
-        # Held in the VICTIM's mind about the attacker; NOT @excl (a brawl may
-        # set more than one upon you). Cleared by the winner on a fatal blow.
-        under_attack            (sub human)           (tar human)
+        # (under_attack RETIRED: the victim's threat perception is no longer a minted
+        # state - fight_defence reads the WITNESSED violent act directly, matched by the
+        # (theme-labels violent_to) comptime expansion, and latches its counter-fight off it.)
 
         # Attitudes - persistent dispositions toward a person, object or
         # fact. These are the DRIVERS of emotion, not emotions themselves:

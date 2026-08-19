@@ -176,14 +176,9 @@ concept
     # (and the profile is guaranteed achievable). Renders in the rap-sheet.
     fixation            (sub human)  (tar ?)
 
-    # A killer's chosen MO (choose_kill_method.hs crosses standing kill goals
-    # with the kill_method_choice rows): {@self method <method-atom>} is the
-    # rap-sheet / attribution MO; {@self method_means [k <control-kind>]} is
-    # the tool requirement the means seam (intra_day_means_kind_for) reads to
-    # arm the means_cascade acquisition. @excl: one campaign, one method (a
-    # re-choice replaces).
-    method              (sub human)  (tar ? @excl)
-    method_means        (sub human)  (tar ? @excl)
+    # (method / method_means RETIRED: choose_kill_method no longer mints a chosen-MO
+    # belief - it PROPOSES the killing task directly from kill_method_table each cycle,
+    # so the method is re-picked on the fly rather than latched into a belief.)
 
     # Unified domain axis (PR-skill-life). ONE hierarchical taxonomy that
     # `interest`, `skilled_in`, and `calling` (States.mon) all target as three

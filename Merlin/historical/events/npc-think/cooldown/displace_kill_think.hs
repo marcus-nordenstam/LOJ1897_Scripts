@@ -9,8 +9,8 @@
 ; {@self pressure ..} /caused_by (the grievance), which (caused-by ?kgoal ...)
 ; returns and every appetitive / instrumental kill lacks (predation pins {@self
 ; fixation}, covet {?b wealth}, ambition {@self job.org}, passion {@self crave ..},
-; betrayal {@self emotion ..}, rid_of_spouse {@self detest ..}). The window is
-; pre-fight: (no-goal {@self FIGHT ?focus}) closes it once the stalk begins.
+; betrayal {@self emotion ..}, rid_of_spouse {@self detest ..}). It fires only while the
+; focus is UNREACHABLE (believed dead, or out-ranking the actor), re-routing to a beating.
 ;
 ; Per-mind reads, no telepathy: standing is @self's OWN belief ({?x prestige}, absent
 ; -> readily dominated), and the dislike weight is the warmth band beliefs @self
@@ -46,17 +46,19 @@
   ; a disinhibited, volatile, callous impulse, base-rate 0.5 keeping it a tail
   ; (chance = 0.5 * disinhibition * 0.5 * (volatility + callousness)).
   (when (and ?focus
-             (no-goal {@self assault ?focus})
              (caused-by ?kgoal {@self pressure ?})
              (or (any {?focus condition [k dead]} (out int))
                  (>= (- (target-or ?focus prestige 0) (target-or @self prestige 0)) 0.25))
              (chance (* 0.5 (disinhibition) 0.5
                         (+ (attr @self volatility) (callousness @self))))))
 
-  ; Re-route: drop the kill, discharge the grievance as a beating on the substitute,
-  ; carrying the ORIGINAL pressure as /caused_by so terminal-harm-non-lethal discharges
-  ; the right grievance (else the actor re-deliberates it next month).
+  ; Re-route: drop the kill, PROPOSE a beating on the substitute (the hurt task competes
+  ; + concludes like any migrated crime), carrying the ORIGINAL pressure as /caused_by so
+  ; discharge_hurt releases the right grievance on a concluded beating.
+  ; A full band: the begin-proposed hurt task outlives this gate, so it must carry its own
+  ; band (not ride the ending kill goal's, which would orphan it to idle).
+  (utility want)
   (effects
     (caused-by ?kgoal {@self pressure ?}): ?pressure
     (end-goal {@self kill ?focus})
-    (begin-goal {@self hurt ?sub} /caused_by ?pressure)))
+    (begin-proposal {@self hurt ?sub} /caused_by ?pressure)))

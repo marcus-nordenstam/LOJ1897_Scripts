@@ -1,55 +1,29 @@
-; ----------------------------------------------------------------------------
-; choose_kill_method (npc-think). A killer with a standing kill goal and no
-; chosen method picks HOW (the kill_method_choice rows): strength-gated,
-; weight-scored, money-gated for the commission. The choice mints:
-;   {@self method <ACTION>}          - the chosen strike ACTION the fight lane
-;                                      dispatches per blow ({@self ?method ?foe})
-;   {@self method_means [k <kind>]}  - the tool requirement; the means seam
-;     (intra_day_means_kind_for) reads THIS belief, arming the means
-;     acquisition (travel + purchase/steal), which in turn arms the fight
-;     lane with the tool.
-; commission_killing executes IMMEDIATELY through the (commission-killing)
-; conspiracy seam: on a struck contract the instigator's own kill goal ends
-; (the hired killer owns it now - his own method, his own hands); a failed
-; brokering falls back to bare hands.
-; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
+
+; the idea is that if you're too weak to strangle, then shooting or commission are the only options
+(define-table kill_method_table
+  (fields method              score_weight  score_eval)
+  ; strangle task bubbles down to the CHOKE action when copresent with victim
+  (record strangle            1             (if (>= (attr @self strength) 0.45) (then 1) (else 0.3)))
+  ; shoot task requires getting access to a firearm, then PULL_TRIGGER action when copresent with victim
+  (record shoot               0.9           (if (spatial [k firearm] space) (then 1) (else 0.4)))
+  ; hire-assassin task requires hiring a killer; the killer will then choose their own killing method
+  (record hire-assassin       0.5           (if (>= (target-or @self bank_balance 0) 80) (then 1) (else 0))))
 
 (npc-think choose_kill_method
   (cooldown 1 m)
   (rng-stream perpetration)
-
-  (role @self 
-              (not {@self method ?}))
-  (when (> (count (every {@self goal ?})) 0))
-
+  (goal {@self kill ?victim})
   (select-joint
-    (over-goals ?action ?victim ?goal)
-    (table kill_method_choice)
+    (table kill_method_table)
     (bind method ?method)
-    (bind means ?means)
-    (bind weight ?weight)
-    (bind strength_demand ?demand)
-    (score (if (= ?action kill)
-               (then (* ?weight
-                  (if (>= (attr @self strength) ?demand) (then 1) (else 0.3))
-                  (if (= ?method commission_killing)
-                      (then (if (>= (target-or @self bank_balance 0) 80) (then 1) (else 0)))
-                      (else 1))))
-               (else 0)))
+    (bind score_weight ?weight)
+    (bind score_eval ?eval)
+    (score (* ?weight (eval ?eval)))
     (policy roulette))
 
+  (utility survival)
   (effects
-    (debug-print "TRACE_METHOD @self method=?method means=?means victim=?victim")
-    (if (= ?method commission_killing)
-        (then (if (commission-killing ?victim)
-            (then (begin-belief {@self method ?method} /caused_by ?goal)
-                (end-goal {@self kill ?victim}))
-            ; No connected killer / no reach / no money: fall back to the
-            ; bare-handed default so the campaign does not stall.
-            (else (begin-belief {@self method STRANGLE} /caused_by ?goal))))
-        (else
-          (begin-belief {@self method ?method} /caused_by ?goal)
-          (if (is-kind ?means)
-              (then (begin-belief {@self method_means ?means})))))))
+    (debug-print "TRACE_METHOD @self method=?method victim=?victim")
+    (maintain-proposal {@self ?method ?victim})))

@@ -46,7 +46,8 @@
       (= ?action humiliate)
       (= ?action frame)
       (= ?action bribe)
-      (= ?action seduce)))
+      (= ?action seduce)
+      (= ?action hurt)))
 
 ; Turn the deliberation winner into its effect. suicide / strive resolve inline; a MIGRATED
 ; crime is PROPOSED as its self-gated task (it then competes globally and rides (crime-band));
