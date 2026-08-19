@@ -51,7 +51,7 @@
   (role ?agency {?agency isa [k org house_agency]}
                 (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
-             (not (in-building @self ?venue))))
+             (not (spatial @self building ?venue))))
   (effects (maintain-proposal {@self enter ?venue})))
 
 ; CASE A - AT a known agency, register still unread: PROPOSE the read act (the
@@ -66,7 +66,7 @@
   (role ?agency {?agency isa [k org house_agency]}
                 (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
-             (in-building @self ?venue)))
+             (spatial @self building ?venue)))
   (effects (maintain-proposal {@self READ_LISTINGS})))
 
 ; CASE C - register unread and @self knows NO house agency at all: consult the

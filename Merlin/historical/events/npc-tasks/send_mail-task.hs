@@ -12,24 +12,24 @@
   (and
     (try
       (role ?home {@self home ?home})
-      (when (not (in-building @self ?home)))
+      (when (not (spatial @self building ?home)))
       (effects (debug-print "SM_HOME") (maintain-proposal {@self enter ?home})))
     (try
       (lock-rule)
       (role ?home {@self home ?home})
-      (when (and (in-building @self ?home)
+      (when (and (spatial @self building ?home)
                  (none {@self locate [k outgoing_mail_stack] ?home /succ})))
       (utility errand)
       (effects (debug-print "SM_LOC")
                (begin-proposal {@self locate [k outgoing_mail_stack] ?home})))
     (try
       (role ?home {@self home ?home})
-      (role ?out [k outgoing_mail_stack] (not (co-present ?out @self)))
-      (when (and (in-building ?out ?home)
-                 (location ?out): ?room))
+      (role ?out [k outgoing_mail_stack] (not (spatial ?out co-located @self)))
+      (when (and (spatial ?out building ?home)
+                 (spatial ?out space): ?room))
       (effects (debug-print "SM_GO") (maintain-proposal {@self WALK ?room})))
     (try
-      (role ?out [k outgoing_mail_stack] (co-present ?out @self))
+      (role ?out [k outgoing_mail_stack] (spatial ?out co-located @self))
       (when (none {@self POST_MAIL ?doc ? /succ}))
       (effects (debug-print "SM_PUT") (maintain-proposal {@self POST_MAIL ?doc ?out})))
     (try

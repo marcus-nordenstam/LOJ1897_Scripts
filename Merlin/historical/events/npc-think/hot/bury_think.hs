@@ -52,7 +52,7 @@
 
 ; ROUTE rung. Held while the priest is NOT yet co-present with the overdue body:
 ; roulette the nearest church he knows ONCE, hold {@self enter ?church} (the
-; enter chain does the actual travel), and cease it on arrival (co-present flips
+; enter chain does the actual travel), and cease it on arrival (co-located flips
 ; true). No known church -> the rung never selects; a co-present body still
 ; buries via bury_onsite. The rouletted ?church is stashed at fire, so the hold
 ; and the cease operate on the SAME church (no re-roulette while walking).
@@ -60,7 +60,7 @@
   (role @self {@self job [k job priest]})
   (role ?corpse {?corpse condition [k dead]}
                 {?corpse internment [k unburied]}
-                (not (co-present ?corpse @self))
+                (not (spatial ?corpse co-located @self))
                 (select (score (months-since-death ?corpse)) (policy argmax)))
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
   (when (>= (months-since-death ?corpse) 1))
@@ -76,7 +76,7 @@
   (role @self {@self job [k job priest]})
   (role ?corpse {?corpse condition [k dead]}
                 {?corpse internment [k unburied]}
-                (co-present ?corpse @self)
+                (spatial ?corpse co-located @self)
                 (select (score (months-since-death ?corpse)) (policy argmax)))
   (when (>= (months-since-death ?corpse) 1))
   (utility obligation (above WORSHIP))

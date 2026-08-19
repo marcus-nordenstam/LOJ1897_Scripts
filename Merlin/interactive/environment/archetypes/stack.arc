@@ -9,7 +9,7 @@ archetype "stack" (cap 2048) (per obs) (non-occluder) (occupies-env-grid)
 {
     # Placement participation (plan section 18): which spatial relations this
     # archetype takes part in - the write seams validate both ends.
-    (spatial location)
+    (spatial space)
     (spatial items)
     # Kind-variation identity (see shared/attrs.arc).
     (attr "variant")

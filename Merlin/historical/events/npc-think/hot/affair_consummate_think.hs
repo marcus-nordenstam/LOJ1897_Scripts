@@ -29,13 +29,13 @@
   (cooldown 1 d)
   (role @self (adult @self)
               {@self lover ?})
-  (role ?paramour (building-co-present ?paramour @self)
+  (role ?paramour (spatial ?paramour co-located @self /building)
                   (any_human ?paramour)
                   {@self lover ?paramour}
                   (not {@self spouse ?paramour}))
   (when (and (vacant-room @self ?paramour)
-             (or (not (co-present ?paramour @self))
-                 (co-present (spouse-of @self) @self))))
+             (or (not (spatial ?paramour co-located @self))
+                 (spatial (spouse-of @self) co-located @self))))
   (utility want always-pick)
   (effects
     (vacant-room @self ?paramour): ?room
@@ -48,13 +48,13 @@
   (cooldown 1 d)
   (role @self (adult @self)
               {@self lover ?})
-  (role ?paramour (co-present ?paramour @self)
+  (role ?paramour (spatial ?paramour co-located @self)
                   (any_human ?paramour)
                   {@self lover ?paramour}
                   (not {@self spouse ?paramour}))
   ; Discretion: not in the same ROOM as the wronged spouse. (spouse-of @self) is fail
   ; for an unmarried cheater, so the gate passes them through.
-  (when (not (co-present (spouse-of @self) @self)))
+  (when (not (spatial (spouse-of @self) co-located @self)))
   (utility want always-pick)
   (effects
     (debug-print "CONSUMMATE_HOT @self para=?paramour")

@@ -14,23 +14,23 @@
   (and
     ; REACH (armed only): route to the victim's known location, else their home.
     (try
-      (when (and (not (co-present ?victim @self))
+      (when (and (not (spatial ?victim co-located @self))
                  (not (empty (spatial @self hold [k firearm])))
                  (not (believes {?victim condition [k dead]}))
-                 (location ?victim): ?loc))
+                 (spatial ?victim space): ?loc))
       (utility survival)
       (effects (maintain-proposal {@self go ?loc})))
     (try
-      (when (and (not (co-present ?victim @self))
+      (when (and (not (spatial ?victim co-located @self))
                  (not (empty (spatial @self hold [k firearm])))
                  (not (believes {?victim condition [k dead]}))
-                 (unknown (location ?victim))))
+                 (unknown (spatial ?victim space))))
       (utility survival)
       (effects (maintain-proposal {@self go (home-of ?victim)})))
 
     ; THE SHOT: armed, co-present with a living victim - fire.
     (try
-      (when (and (co-present ?victim @self)
+      (when (and (spatial ?victim co-located @self)
                  (not (empty (spatial @self hold [k firearm])))
                  (not (believes {?victim condition [k dead]}))))
       (utility survival always-pick)

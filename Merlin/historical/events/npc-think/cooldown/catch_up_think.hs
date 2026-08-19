@@ -23,7 +23,7 @@
   ; contents), each guest passively perceived - enumerated, so each co-present listener
   ; hears their own untold slice of @self's news.
   (role ?guest (any_human ?guest)
-               (co-present ?guest @self))
+               (spatial ?guest co-located @self))
 
   ; Non-belief gates (out of the role): extraversion-weighted chance + minimum age.
   (when (and (chance (* 0.25 (+ 0.5 (attr @self enthusiasm))))

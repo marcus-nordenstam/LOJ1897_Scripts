@@ -16,11 +16,11 @@
 (npc-action {@self PREPARE_APPLICATION ?art ?jk}
   (duration 20)
   (effects
-    (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
+    (read-doc-record [k articles_of_incorporation] ?art (spatial ?wp building))
     (if (substantial ?wp)
       (then
         (create-entity [k application]
-            (qual location (building @self))): ?app
+            (qual location (spatial @self building))): ?app
         (write-doc-record [k application] ?app
             (applicant @self) (job ?jk) (org_record ?art) (workplace ?wp))
         (set-attr ?app addressee_duty recruit_staff)

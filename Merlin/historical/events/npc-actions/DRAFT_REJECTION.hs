@@ -12,7 +12,7 @@
     (read-doc-record [k application] ?app (applicant ?w))
     (if (substantial (home-of ?w))
       (then
-        (create-entity [k rejection_letter] (qual location (building @self))): ?rl
+        (create-entity [k rejection_letter] (qual location (spatial @self building))): ?rl
         (set-attr ?rl addressee (attr ?w name))
         (set-attr ?rl address (home-of ?w))
         (push ?rl ?out)))

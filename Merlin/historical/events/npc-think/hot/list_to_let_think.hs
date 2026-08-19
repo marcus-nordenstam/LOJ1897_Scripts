@@ -42,7 +42,7 @@
   (role ?agency {?agency isa [k org house_agency]}
                 (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
-             (in-building @self ?venue)))
+             (spatial @self building ?venue)))
   (effects (maintain-proposal {@self LET})))
 
 ; CASE B - knows a house agency, not at its office: travel there. Its incorporation
@@ -52,7 +52,7 @@
   (role ?agency {?agency isa [k org house_agency]}
                 (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
-             (not (in-building @self ?venue))))
+             (not (spatial @self building ?venue))))
   (effects (maintain-proposal {@self enter ?venue})))
 
 ; CASE C - @self knows NO house agency at all: consult the parish incorporations

@@ -13,7 +13,7 @@
     (read-doc-record [k application] ?app (applicant ?w))
     (if (substantial (home-of ?w))
       (then
-        (create-entity [k offer_letter] (qual location (building @self))): ?ol
+        (create-entity [k offer_letter] (qual location (spatial @self building))): ?ol
         (set-attr ?ol addressee (attr ?w name))
         (set-attr ?ol address (home-of ?w))
         (check (attr ?ol address))

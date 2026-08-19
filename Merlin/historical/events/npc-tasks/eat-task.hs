@@ -42,9 +42,9 @@
     (try
       (rng-stream behaviour)
       (role ?diner (any_human ?diner)
-                   (co-present ?diner @self)
+                   (spatial ?diner co-located @self)
                    (select (score 1) (policy roulette)))
-      (when (or (in-building @self ?place) (at_location @self ?place)))
+      (when (or (spatial @self building ?place) (spatial @self space ?place)))
       (effects
         (for-each ?belief (every {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life_aim ?})
           (do

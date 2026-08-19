@@ -41,12 +41,12 @@
 ; a proposed label, so the bare {@self CLOSE_BUSINESS} goal does not promote on its own - the act
 ; runs ONLY here, ONLY once the owner has reached the premises (at-workplace). articles-building
 ; binds ?wp (the firm's premises) off ?art, the focus bound off the {@self CLOSE_BUSINESS} goal - the same read the close_go routing rung uses
-; (npc-think/close_business_errand.hs), whose (not (in-building @self ?wp)) gate this arrived condition
+; (npc-think/close_business_errand.hs), whose (not (spatial @self building ?wp)) gate this arrived condition
 ; negates. The (goal ...) gate supplies the /caused_by.
 (npc-think close_at_premises
   (goal {@self CLOSE_BUSINESS ?art})
   (when (and (articles-building ?art ?wp)
-             (in-building @self ?wp)))
+             (spatial @self building ?wp)))
   (effects (maintain-proposal {@self CLOSE_BUSINESS ?art ?wp})))
 
 ; Outcome twin of the winding-up: he LISTS his OWN premises for sale IF he owns
@@ -58,5 +58,5 @@
               (not (believes {?wp availability ?})))
   (effects
     (create-entity [k for_sale_listing] (qual location ?wp)): ?listing
-    (write-doc-record [k for_sale_listing] ?listing (building ?wp))
+    (write-doc-record [k for_sale_listing] ?listing (spatial ?wp building))
     (begin-belief {?wp availability [k for_sale]})))

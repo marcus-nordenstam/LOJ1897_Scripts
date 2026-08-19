@@ -15,21 +15,21 @@
   (and
     ; REACH: route to the victim's known location, else their home.
     (try
-      (when (and (not (co-present ?victim @self))
+      (when (and (not (spatial ?victim co-located @self))
                  (not (attr-is ?victim awareness unconscious))
-                 (location ?victim): ?loc))
+                 (spatial ?victim space): ?loc))
       (utility survival)
       (effects (maintain-proposal {@self go ?loc})))
     (try
-      (when (and (not (co-present ?victim @self))
+      (when (and (not (spatial ?victim co-located @self))
                  (not (attr-is ?victim awareness unconscious))
-                 (unknown (location ?victim))))
+                 (unknown (spatial ?victim space))))
       (utility survival)
       (effects (maintain-proposal {@self go (home-of ?victim)})))
 
     ; THE BEATING: PUNCH a co-present, conscious victim.
     (try
-      (when (and (co-present ?victim @self)
+      (when (and (spatial ?victim co-located @self)
                  (not (believes {?victim condition [k dead]}))
                  (not (attr-is ?victim awareness unconscious))))
       (utility survival always-pick)

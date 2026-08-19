@@ -16,5 +16,5 @@
               ; done with it: set the letter down where @self stands, emptying the
               ; hand so the read_mail task can conclude. read-writing dedups an
               ; already-read letter, so a re-proposed read is just this put-down.
-              (put-item ?doc (spatial @self location /env))))
+              (put-item ?doc (spatial @self space /env))))
     (set-outcome {@self READ ?doc} succ)))

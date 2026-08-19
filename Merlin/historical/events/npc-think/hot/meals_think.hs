@@ -109,7 +109,7 @@
   (when (and (at-home)
              (> (attr @self appetite) 0.25)
              (= (count-believed-located [k food] ?home) 0)
-             (room [k kitchen] ?home): ?kitchen))   ; a resident who does not know their kitchen just skips
+             (spatial ?home room [k kitchen]): ?kitchen))   ; a resident who does not know their kitchen just skips
   (effects
     (observe ?kitchen)))
 
@@ -134,7 +134,7 @@
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              (believes {?org workplace ?wp})       ; ?wp binds at fire
-             (in-building @self ?wp))                    ; residual gate, re-checked at the when-seam
+             (spatial @self building ?wp))                    ; residual gate, re-checked at the when-seam
   (when (and (> (attr @self appetite) 0.25)
              (>= (now-hour) 12)
              (< (now-hour) 14)))
@@ -223,8 +223,8 @@
   ; ?place is a BUILDING for every routine routing (home / pub / restaurant), or the
   ; gentry study ROOM - the OR covers both, in-building for the former, believes-
   ; location for the latter.
-  (when    (not (or (in-building @self ?place)
-                    (at_location @self ?place))))
+  (when    (not (or (spatial @self building ?place)
+                    (spatial @self space ?place))))
   (effects (debug-print "TRACE-EATGO place=?place meal=?meal")
            (maintain-proposal {@self enter ?place})))
 
@@ -251,8 +251,8 @@
 ; (kind absent from the table), so cost + feasibility fold to nothing there with no special-casing.
 (npc-think eat_at_place
   (goal    {@self eat ?meal ?place})
-  (when    (or (in-building @self ?place)
-               (at_location @self ?place)))
+  (when    (or (spatial @self building ?place)
+               (spatial @self space ?place)))
   (effects (maintain-proposal {@self eat ?meal ?place}
              (affect   (if (dining-out? ?place) (then (* (attr @self enthusiasm) 20)) (else 0)))
              (cost     money (price ?place))
@@ -338,7 +338,7 @@
   (role @self (believes {@self starve ?, wealth ?wealth}))
   (when (and (> (attr @self appetite) 1.3)
              (> ?wealth 0.2)
-             (is-a (building @self) [k building shop])))
+             (is-a (spatial @self building) [k building shop])))
   (utility (starve-drive))
   (effects       (begin-goal {@self forage}))
   (cease-effects (end-goal   {@self forage})))
@@ -351,7 +351,7 @@
   (any {@self provisions_shop ?}).target:?shop
   (when (and (> (attr @self appetite) 1.3)
              (> ?wealth 0.2)
-             (not (is-a (building @self) [k building shop]))))
+             (not (is-a (spatial @self building) [k building shop]))))
   (utility (starve-drive))
   (effects
     (if ?shop
@@ -365,7 +365,7 @@
   (role @self (believes {@self starve ?, wealth ?wealth}))
   (when (and (> (attr @self appetite) 1.3)
              (not (> ?wealth 0.2))
-             (is-a (building @self) [k building shop])))
+             (is-a (spatial @self building) [k building shop])))
   (utility (starve-drive))
   (effects       (begin-goal {@self forage}))
   (cease-effects (end-goal   {@self forage})))
@@ -376,7 +376,7 @@
   (any {@self provisions_shop ?}).target:?shop
   (when (and (> (attr @self appetite) 1.3)
              (not (> ?wealth 0.2))
-             (not (is-a (building @self) [k building shop]))))
+             (not (is-a (spatial @self building) [k building shop]))))
   (utility (starve-drive))
   (effects
     (if ?shop
@@ -396,7 +396,7 @@
   (goal    {@self forage})
   (when    (or (not (empty (spatial @self hold [k food])))
                (at-home)
-               (is-a (building @self) [k building shop])))
+               (is-a (spatial @self building) [k building shop])))
   ; ?owner stays 0 unless the mouthful is STOLEN (at a shop, no wealth) - then the
   ; shop owner is the wronged party the consume act ledgers. An empty scene
   ; (?found 0 - a stale belief a sibling already ate) proposes nothing and lets
@@ -412,10 +412,10 @@
         (then (believed-located [k food] (any {@self home}).target): ?item
               (bind 1 ?found)))
     (if (and (= ?found 0)
-             (is-a (building @self) [k building shop])
-             (building @self))
+             (is-a (spatial @self building) [k building shop])
+             (spatial @self building))
         (then
-          (building @self): ?shop
+          (spatial @self building): ?shop
           (for-each ?room (spatial ?shop parts [k interior_space room] /env)
             (for-each ?it (spatial ?room contents [k food] /env) /limit 1
               (do (bind ?it ?item)

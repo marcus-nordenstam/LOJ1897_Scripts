@@ -19,7 +19,7 @@
   (and
     ; THE COUNTER-BLOW: co-present with a conscious, living foe - PUNCH them.
     (try
-      (when (and (co-present ?foe @self)
+      (when (and (spatial ?foe co-located @self)
                  (not (believes {?foe condition [k dead]}))
                  (not (attr-is ?foe awareness unconscious))))
       (utility survival always-pick)
@@ -30,5 +30,5 @@
     (try
       (when (or (believes {?foe condition [k dead]})
                 (attr-is ?foe awareness unconscious)
-                (not (co-present ?foe @self))))
+                (not (spatial ?foe co-located @self))))
       (effects (set-outcome ?fight succ)))))

@@ -30,7 +30,7 @@
              ; no wealth belief yet is treated as needing work (the (and ..) is false).
              (not (and (any {@self wealth ?}).target: ?w (>= ?w (seek_job_wealth_ceiling))))
              (find-building [k building church]): ?board
-             (not (in-building @self ?board))
+             (not (spatial @self building ?board))
              (latch-eval (chance 0.3))))
   (utility errand)
   (effects (debug-print "JS_BOARDGO") (maintain-proposal {@self enter ?board})))
@@ -47,7 +47,7 @@
   (rng-stream employment)
   (role @self (not {@self job ?})
               (not {@self apply_for ? ? /pres}))
-  (role ?ad [k job_description] (co-present ?ad @self)
+  (role ?ad [k job_description] (spatial ?ad co-located @self)
                                 (select (score 1) (policy roulette)))
   (when (and (read-doc-record [k job_description] ?ad (job ?jk) (org_record ?art) (class_floor ?cf))
              (class-at-least @self ?cf)

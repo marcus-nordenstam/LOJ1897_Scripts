@@ -15,14 +15,14 @@
   ; the SEEK_INDENTURE goal lingers until the minter's monthly falling edge, so
   ; without it a freshly-hired trainee would keep walking back to re-present at the door.
   (when (and (articles-building ?art ?venue)
-             (not (in-building @self ?venue))
+             (not (spatial @self building ?venue))
              (not (= (job-level @self) [k trainee]))))
   (effects (maintain-proposal {@self enter ?venue})))
 
 ; TERMINAL (act_body_purification): AT the premises, PROPOSE the articling act (a proposed label
 ; drops out of goal competition, so it does not auto-promote off the bare {@self SEEK_INDENTURE}
 ; aim). articles-building binds ?venue (the master's premises) off the ?art focus bound off the {@self SEEK_INDENTURE} goal and the
-; (in-building @self ?venue) gate is the arrived condition; the (goal ...) gate supplies the /caused_by +
+; (spatial @self building ?venue) gate is the arrived condition; the (goal ...) gate supplies the /caused_by +
 ; drive.
 (npc-think indenture_dwell
   (goal {@self SEEK_INDENTURE ?art})
@@ -30,6 +30,6 @@
   ; gap between the hire and the minter's monthly falling-edge cease of the aim: once
   ; hire-seq sets the youth's live job-level to trainee, this stops proposing.
   (when (and (articles-building ?art ?venue)
-             (in-building @self ?venue)
+             (spatial @self building ?venue)
              (not (= (job-level @self) [k trainee]))))
   (effects (maintain-proposal {@self SEEK_INDENTURE})))

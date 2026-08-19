@@ -18,18 +18,18 @@
   (and
     (try
       (when (and (known-nonspousal-liaison ?victim)
-                 (not (co-present ?victim @self))
-                 (location ?victim): ?loc))
+                 (not (spatial ?victim co-located @self))
+                 (spatial ?victim space): ?loc))
       (utility errand)
       (effects (maintain-proposal {@self go ?loc})))
     (try
       (when (and (known-nonspousal-liaison ?victim)
-                 (not (co-present ?victim @self))
-                 (unknown (location ?victim))))
+                 (not (spatial ?victim co-located @self))
+                 (unknown (spatial ?victim space))))
       (effects (maintain-proposal {@self go (home-of ?victim)})))
     (try
       (when (and (known-nonspousal-liaison ?victim): ?partner
-                 (co-present ?victim @self)
+                 (spatial ?victim co-located @self)
                  (none {@self SAY ? /succ /caused_by ?expose})))
       (utility errand always-pick)
       (effects (maintain-proposal {@self SAY (utterable-msg {?victim lover ?partner}) _})))

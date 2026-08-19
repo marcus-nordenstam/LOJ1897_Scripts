@@ -11,7 +11,7 @@
 (npc-think partner_go
   (goal {@self PARTNER ?art})
   (when (and (articles-building ?art ?venue)
-             (not (in-building @self ?venue))))
+             (not (spatial @self building ?venue))))
   (effects (maintain-proposal {@self enter ?venue})))
 
 ; AT the premises: PROPOSE the partnership act (goals never propose themselves). partner_act reads
@@ -19,5 +19,5 @@
 (npc-think partner_at_firm
   (goal {@self PARTNER ?art})
   (when (and (articles-building ?art ?venue)
-             (in-building @self ?venue)))
+             (spatial @self building ?venue)))
   (effects (maintain-proposal {@self PARTNER})))

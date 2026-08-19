@@ -35,7 +35,7 @@
   (utility idle)
 
   (effects
-    (if (room [k interior_space study] ?home)
+    (if (spatial ?home room [k interior_space study])
               (then (+ (read-weight-base)
                        (* (read-weight-intellect-scale) (attr @self intellect))))
               (else 0)): ?read_w

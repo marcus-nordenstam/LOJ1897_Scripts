@@ -31,14 +31,14 @@
       (role ?org {?job org ?org}
                  (believes {?org workplace ?wp}))
       (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
-            (and (check ?org) (in-building @self ?wp) (< (now-hour) 12)))
+            (and (check ?org) (spatial @self building ?wp) (< (now-hour) 12)))
       (effects (maintain-proposal {@self DWELL ?wp (min 12 ?end)})))
     (try
       (role ?job {@self job ?job})
       (role ?org {?job org ?org}
                  (believes {?org workplace ?wp}))
       (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)
-            (and (check ?org) (in-building @self ?wp) (>= (now-hour) 12)))
+            (and (check ?org) (spatial @self building ?wp) (>= (now-hour) 12)))
       (effects (maintain-proposal {@self DWELL ?wp ?end})))
     (try
       (role ?job {@self job ?job})

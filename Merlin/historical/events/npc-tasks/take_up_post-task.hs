@@ -15,12 +15,12 @@
   (aux articles_of_incorporation)
   (and
     (try
-      (when (and (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
-                 (not (in-building @self ?wp))))
+      (when (and (read-doc-record [k articles_of_incorporation] ?art (spatial ?wp building))
+                 (not (spatial @self building ?wp))))
       (effects (maintain-proposal {@self enter ?wp})))
     (try
-      (when (and (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
-                 (in-building @self ?wp)
+      (when (and (read-doc-record [k articles_of_incorporation] ?art (spatial ?wp building))
+                 (spatial @self building ?wp)
                  (>= (now-hour) 9)
                  (<= (now-hour) 16)
                  (none {@self job.salary ?})))

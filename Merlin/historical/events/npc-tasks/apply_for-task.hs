@@ -22,12 +22,12 @@
     (try
       (role ?home {@self home ?home})
       (when (and (none {@self PREPARE_APPLICATION ?art ?jk /succ})
-                 (not (in-building @self ?home))))
+                 (not (spatial @self building ?home))))
       (effects (maintain-proposal {@self enter ?home})))
     (try
       (role ?home {@self home ?home})
       (when (and (none {@self PREPARE_APPLICATION ?art ?jk /succ})
-                 (in-building @self ?home)))
+                 (spatial @self building ?home)))
       (effects (maintain-proposal {@self PREPARE_APPLICATION ?art ?jk})))
     (try
       (lock-rule)
@@ -40,7 +40,7 @@
     (try
       (role ?home {@self home ?home})
       (when (and (any {@self PREPARE_APPLICATION ?art ?jk /succ} (out int))
-                 (in-building @self ?home)
+                 (spatial @self building ?home)
                  (>= (days-since-last {@self read_mail ?home /succ}) 1)))
       (utility errand)
       (effects (debug-print "JS_AWAIT")

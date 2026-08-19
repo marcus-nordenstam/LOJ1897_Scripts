@@ -14,7 +14,7 @@
 ;   gamble_go (maintenance): not at a pub, but knows one - roulette the nearest known
 ;     pub and head to it via the generic enter chain (§5.11). It roulettes a pub once and
 ;     holds {@self enter ?venue} so it STICKS with that pub (no re-roulette while walking);
-;     on arrival (in-building @self ?venue) the (when) drops and cease-effects end the enter-goal.
+;     on arrival (spatial @self building ?venue) the (when) drops and cease-effects end the enter-goal.
 ;     The enter chain steps the gambler INSIDE.
 ;   gamble_at_pub (terminal): AT a pub, the standing {@self PLAY_GAME} drive is PROPOSED
 ;     ({@self PLAY_GAME}), promoting to gamble_act (npc-act/gamble_act.hs). The proposed
@@ -26,14 +26,14 @@
 
 ; MAINTENANCE - not at a pub, but knows one: head to it via the generic enter chain
 ; (§5.11). It roulettes a pub once and holds {@self enter ?venue} so it STICKS with that
-; pub (no re-roulette while walking); on arrival (in-building @self ?venue) the (when) drops and
+; pub (no re-roulette while walking); on arrival (spatial @self building ?venue) the (when) drops and
 ; cease-effects end the enter-goal. The enter chain steps the gambler INSIDE the pub, so
 ; at-place-kind then holds and gamble_at_pub proposes {@self PLAY_GAME}.
 (npc-think gamble_go
   (goal {@self PLAY_GAME})
   (role @self (grown @self))
   (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette)))
-  (when (not (in-building @self ?venue)))
+  (when (not (spatial @self building ?venue)))
   (effects (maintain-proposal {@self enter ?venue})))
 
 ; TERMINAL step (act_body_purification): the gamble act is now PROPOSED, guarded by being AT a
@@ -43,5 +43,5 @@
 ; {@self PLAY_GAME} goal it /causes (via the (goal ...) gate).
 (npc-think gamble_at_pub
   (goal    {@self PLAY_GAME})
-  (when    (is-a (building @self) [k building pub]))
+  (when    (is-a (spatial @self building) [k building pub]))
   (effects (maintain-proposal {@self PLAY_GAME})))

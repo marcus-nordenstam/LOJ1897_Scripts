@@ -3,7 +3,7 @@
 ; where ?prem's incoming mail_stack is, LOCATE it (wandering ?prem); once known, go to its
 ; room, lift the letters addressed to @self via take_my_letters, and read each held one.
 ; Concluded once the stack is swept this round and @self's hands are empty of letters. The
-; stack binds SCOPED to ?prem via (in-building ?stk ?prem). NO give-up try: an interrupted
+; stack binds SCOPED to ?prem via (spatial ?stk building ?prem). NO give-up try: an interrupted
 ; round RESUMES on the next premises visit (the rungs propose nothing from afar).
 ; Driver + saturation probe stay in read_mail_think.hs.
 ; ----------------------------------------------------------------------------
@@ -16,13 +16,13 @@
       (utility errand)
       (effects (debug-print "RM_LOC") (begin-proposal {@self locate [k mail_stack] ?prem})))
     (try
-      (role ?stk [k mail_stack] (in-building ?stk ?prem)
-                                (not (co-present ?stk @self)))
-      (when (location ?stk): ?room)
+      (role ?stk [k mail_stack] (spatial ?stk building ?prem)
+                                (not (spatial ?stk co-located @self)))
+      (when (spatial ?stk space): ?room)
       (effects (maintain-proposal {@self WALK ?room})))
     (try
-      (role ?stk [k mail_stack] (in-building ?stk ?prem)
-                                (co-present ?stk @self))
+      (role ?stk [k mail_stack] (spatial ?stk building ?prem)
+                                (spatial ?stk co-located @self))
       (when (none {@self take_my_letters ?stk /caused_by ?rm /ever}))
       (utility errand)
       (effects (debug-print "RM_TAKE")
@@ -31,7 +31,7 @@
       (role ?ltr [k letter] (spatial @self hold))
       (effects (maintain-proposal {@self READ ?ltr})))
     (try
-      (role ?stk [k mail_stack] (in-building ?stk ?prem))
+      (role ?stk [k mail_stack] (spatial ?stk building ?prem))
       (when (and (believes {@self take_my_letters ?stk /succ /caused_by ?rm})
                  (empty (spatial @self hold [k letter]))))
       (effects (debug-print "RM_DONE") (set-outcome ?rm succ)))

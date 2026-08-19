@@ -16,18 +16,18 @@
     (try
       (when (and (alive ?victim)
                  (home-of ?victim): ?home
-                 (not (in-building @self ?home))))
+                 (not (spatial @self building ?home))))
       (utility errand)
       (effects (maintain-proposal {@self go ?home})))
     (try
       (when (and (alive ?victim)
                  (home-of ?victim): ?home
-                 (in-building @self ?home)
+                 (spatial @self building ?home)
                  (none {@self frame ?victim /succ /ever})))
       (utility errand always-pick)
       (effects
         (plant-letter [k forged_letter]
-                      (nl_written_msg "?victim killed me") (location @self))
+                      (nl_written_msg "?victim killed me") (spatial @self space))
         (crime-ledger-append @self ?victim plant_evidence frame @u @u)
         (set-outcome ?frame succ)))
     (try

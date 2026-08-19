@@ -4,7 +4,7 @@ archetype "human_npc" (cap 4096) (per obs) (raycast-visible) (sentient) (non-occ
     # Placement participation (plan section 18): which spatial relations this
     # archetype takes part in - the write seams validate both ends.
     (spatial grip)
-    (spatial location)
+    (spatial space)
     (attr "visual_sensor")
     (attr "sound_sensor")
     (attr "physical_motors")

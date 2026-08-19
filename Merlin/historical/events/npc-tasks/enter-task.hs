@@ -28,13 +28,13 @@
   (tar @excl structure)
   (and
     (try
-      (when (and (not (in-building @self ?s))
+      (when (and (not (spatial @self building ?s))
                  (not (at-threshold @self ?s))))
       (effects (debug-print "TRACE-ENTERTASK dest=?s")
                (maintain-proposal {@self GO_TO_THRESHOLD ?s})))
     (try
       (when (and (at-threshold @self ?s)
-                 (room ?s): ?entry
+                 (spatial ?s room): ?entry
                  (none {?s struct_status [k closed]})))
       (effects (debug-print "TRACE-STEPIN bld=?s room=?entry")
                (maintain-proposal {@self WALK ?entry})))))

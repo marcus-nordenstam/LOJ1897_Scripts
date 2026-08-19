@@ -13,9 +13,9 @@
 (npc-action {@self POST_ADVERT ?art ?jk}
   (duration 20)
   (effects
-    (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
+    (read-doc-record [k articles_of_incorporation] ?art (spatial ?wp building))
     (create-entity [k job_description]
-        (qual location (building @self))): ?ad
+        (qual location (spatial @self building))): ?ad
     (write-doc-record [k job_description] ?ad
         (org_record ?art) (job ?jk) (level [k trainee]) (salary 1)
         (class_floor (lookup occupations job ?jk class_floor [k lower]))

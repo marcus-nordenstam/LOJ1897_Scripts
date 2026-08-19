@@ -16,16 +16,16 @@
   (facets reportable_crime)
   (and
     (try
-      (when (and (not (co-present ?victim @self))
-                 (location ?victim): ?loc))
+      (when (and (not (spatial ?victim co-located @self))
+                 (spatial ?victim space): ?loc))
       (utility errand)
       (effects (maintain-proposal {@self go ?loc})))
     (try
-      (when (and (not (co-present ?victim @self))
-                 (unknown (location ?victim))))
+      (when (and (not (spatial ?victim co-located @self))
+                 (unknown (spatial ?victim space))))
       (effects (maintain-proposal {@self go (home-of ?victim)})))
     (try
-      (when (and (co-present ?victim @self)
+      (when (and (spatial ?victim co-located @self)
                  (none {@self extort ?victim})))
       (utility errand always-pick)
       (effects (maintain-proposal

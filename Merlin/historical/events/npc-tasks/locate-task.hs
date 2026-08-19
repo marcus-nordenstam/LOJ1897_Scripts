@@ -4,7 +4,7 @@
 ; perceives each room's contents, teaching {?thing location} on arrival); the moment the
 ; location is known the wander maintain evaporates and locate concludes.
 ;
-; and: the two tries are complementary on (in-building ?thing ?bldg).
+; and: the two tries are complementary on (spatial ?thing building ?bldg).
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self locate ?thing ?bldg}:?loc
@@ -12,8 +12,8 @@
   (aux structure)
   (and
     (try
-      (when (not (in-building ?thing ?bldg)))
+      (when (not (spatial ?thing building ?bldg)))
       (effects (maintain-proposal {@self wander ?bldg})))
     (try
-      (when (in-building ?thing ?bldg))
+      (when (spatial ?thing building ?bldg))
       (effects (set-outcome ?loc succ)))))

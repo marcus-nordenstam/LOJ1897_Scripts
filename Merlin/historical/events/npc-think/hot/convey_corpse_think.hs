@@ -76,7 +76,7 @@
 (npc-think convey_at_church
   (goal    {@self CONVEY ?corpse})
   (role @self (grown @self))
-  (when    (is-a (building @self) [k building church]))
+  (when    (is-a (spatial @self building) [k building church]))
   (utility (* 10 (* (attr @self politeness) 85)))
   (effects (maintain-proposal {@self CONVEY ?corpse})))
 
@@ -87,7 +87,7 @@
   (goal    {@self CONVEY ?corpse})
   (role @self (grown @self))
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
-  (when    (not (is-a (building @self) [k building church])))
+  (when    (not (is-a (spatial @self building) [k building church])))
   (effects (maintain-proposal {@self enter ?church})))
 
 ; CASE C - not at a church and knows none: search for one (find_building.hs runs it).
@@ -97,6 +97,6 @@
   (no-role [k building church])
   ; Search while no church is known and the region is not yet proven churchless (find_building's
   ; /fail fires only once the whole region is covered without finding one).
-  (when    (and (not (is-a (building @self) [k building church]))
+  (when    (and (not (is-a (spatial @self building) [k building church]))
                 (not (did-fail {@self find_building [k building church] /past}))))
   (effects (maintain-proposal {@self find_building [k building church] (current-region @self)})))

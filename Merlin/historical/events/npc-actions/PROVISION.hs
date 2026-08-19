@@ -16,7 +16,7 @@
 (npc-action {@self PROVISION ?cap}
   (duration 15)
   (effects
-    (building @self): ?shop
+    (spatial @self building): ?shop
     (for-each ?room (spatial ?shop parts [k interior_space room] /env)
       (for-each ?item (spatial ?room contents [k food] /env) /limit ?cap
         (do

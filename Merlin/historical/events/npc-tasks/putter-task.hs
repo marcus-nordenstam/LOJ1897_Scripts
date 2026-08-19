@@ -18,8 +18,8 @@
       (utility idle)
       (effects (begin-proposal {@self wander ?home})))
     (try
-      (when (and (location @self): ?room
-                 (in-building @self ?home)))
+      (when (and (spatial @self space): ?room
+                 (spatial @self building ?home)))
       (effects
         (for-each ?cache (spatial ?room parts [k interior_space hiding_spot] /env)
           (if (none {@self hiding_spot ?cache})

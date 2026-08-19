@@ -35,7 +35,7 @@
                 (is-attracted-to @self ?target)
                 ; APART: a co-present suitor uses the spoken confess_fancy. Role-side so a
                 ; location write re-tests membership and the argmax ranks only apart targets.
-                (not (co-present ?target @self))
+                (not (spatial ?target co-located @self))
                 ; @self must KNOW her name to write to her - bind it for the body's
                 ; name value (no live object on the wire).
                 (believes {?target name ?target_name})

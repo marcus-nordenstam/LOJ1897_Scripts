@@ -15,7 +15,7 @@
 (npc-think join_go
   (goal {@self JOIN_CLUB ?art})
   (when (and (articles-building ?art ?venue)
-             (not (in-building @self ?venue))))
+             (not (spatial @self building ?venue))))
   (effects (maintain-proposal {@self enter ?venue})))
 
 ; AT the clubhouse: PROPOSE the join act (goals never propose themselves). join_club_act reads the
@@ -23,5 +23,5 @@
 (npc-think join_at_clubhouse
   (goal {@self JOIN_CLUB ?art})
   (when (and (articles-building ?art ?venue)
-             (in-building @self ?venue)))
+             (spatial @self building ?venue)))
   (effects (maintain-proposal {@self JOIN_CLUB})))

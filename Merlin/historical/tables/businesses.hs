@@ -19,7 +19,7 @@
 ;   premises          - on_site (spawn/acquire a building) or residence (run from the
 ;                       proprietor's home; the back_office_room is a room of his residence).
 ;
-; An org kind NOT listed here defaults to (building office) (back_office_room
+; An org kind NOT listed here defaults to (spatial office building) (back_office_room
 ; back_office) (premises on_site) - see building_kind_for_org / back_office_room_for /
 ; org_is_residence_seated.
 ; ----------------------------------------------------------------------------

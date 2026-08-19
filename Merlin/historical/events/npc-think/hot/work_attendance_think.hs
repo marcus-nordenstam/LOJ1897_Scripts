@@ -32,7 +32,7 @@
 ; never the aux, so ?end forces a (bind). That (bind) is an ONSET step: it derives today's shift
 ; hours at the fire. Wrapped in (latch-eval ...) it runs at the fire (binding ?start/?end into
 ; the stash) and is SKIPPED on the held re-check (which restores the fire-time bindings), so it
-; never re-errors on an already-bound pattern. The CONTINUOUS gates (in-building @self + in-work-hours,
+; never re-errors on an already-bound pattern. The CONTINUOUS gates (spatial @self building + in-work-hours,
 ; re-read live against the stashed shift) then own the cease: the held re-check ends the
 ; goal the cycle a gate drops (shift end, or leaving the workplace).
 
@@ -41,7 +41,7 @@
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
              (believes {?org workplace ?wp})       ; ?wp binds at fire
-             (in-building @self ?wp))                    ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
+             (spatial @self building ?wp))                    ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
   (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)  ; onset: derive the shift, bind ?start/?end
         (and (none {@self work ?wp /pres})
              (not (has-proposal {@self work ?wp}))
@@ -63,7 +63,7 @@
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
              (believes {?org workplace ?wp})       ; ?wp binds at fire
-             (not (in-building @self ?wp)))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
+             (not (spatial @self building ?wp)))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
   (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)  ; onset: derive the shift, bind ?start/?end
         (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
   (utility duty)

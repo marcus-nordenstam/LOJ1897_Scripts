@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; UNPORTED (object-cache model). The victim binder is `(co-present @self ?victim)`
+; UNPORTED (object-cache model). The victim binder is `(spatial @self co-located ?victim)`
 ; - a POSITIONAL gate, not a belief, so the ?victim role cannot be object-cacheable
 ; (the per-mind cache enumerates belief-pools, never physical co-presence). Re-port
 ; under the place-lane / venue co-presence arm (per_mind plan Phase 6): the venue
@@ -45,7 +45,7 @@
                          (+ 0.3 (* 0.7 (attr @self intoxication))))))
   (role ?victim (any_human ?victim)
                 ; the victim is co-present (physically THERE) and a STRANGER.
-                (co-present @self ?victim)
+                (spatial @self co-located ?victim)
                 (not (personally-knows @self ?victim)))
 
   (effects

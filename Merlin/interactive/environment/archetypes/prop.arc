@@ -12,7 +12,7 @@ archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
     # archetype takes part in - the write seams validate both ends.
     (spatial gripped_by)
     (spatial grip)
-    (spatial location)
+    (spatial space)
     (spatial in_stack)
     # Kind-variation identity (see shared/attrs.arc).
     (attr "variant")

@@ -93,7 +93,7 @@
   (role ?home {@self household_cook ?home})
   ; The kitchen resolves from the cook's OWN room knowledge (the home pre-teach
   ; mints {home room <r>}): the kind-cast bind picks the is-a kitchen target.
-  (when (and (room [k kitchen] ?home): ?kitchen
+  (when (and (spatial ?home room [k kitchen]): ?kitchen
              (< (count-believed-located [k food] ?kitchen) (larder_low_water))))
   (utility duty)
   (effects       (begin-goal {@self PROVISION}))
@@ -110,8 +110,8 @@
   ; The buy cap is DECIDED here (basket, larder shortfall, what is in hand)
   ; and rides the act pattern - the counter-stop body does no counting.
   (role ?home {@self household_cook ?home})
-  (when    (and (is-a (building @self) [k building shop])
-                (room [k kitchen] ?home): ?kitchen
+  (when    (and (is-a (spatial @self building) [k building shop])
+                (spatial ?home room [k kitchen]): ?kitchen
                 (count-believed-located [k food] ?kitchen): ?blv
                 (count (spatial @self hold [k food])): ?inh
                 (- (min (carry_cap) (- (larder_target) ?blv)) ?inh): ?cap
@@ -127,7 +127,7 @@
   (goal {@self PROVISION})
   (any {@self provisions_shop ?}).target:?shop
   (when (and ?shop
-             (not (in-building @self ?shop))))
+             (not (spatial @self building ?shop))))
   (effects (maintain-proposal {@self enter ?shop})))
 
 ; MAINTENANCE co-minter of the shared {@self ORIENT} search: while the provisioner knows no
@@ -150,8 +150,8 @@
 
 (npc-think provision_rearm
   (role ?home {@self home ?home})
-  (when (and (room [k kitchen] ?home): ?kitchen
+  (when (and (spatial ?home room [k kitchen]): ?kitchen
              (not (empty (spatial @self hold [k food])))))
-  (utility duty (if (at_location @self ?kitchen) (then 1000) (else 900)))
+  (utility duty (if (spatial @self space ?kitchen) (then 1000) (else 900)))
   (effects       (begin-goal {@self BRING [k food] ?kitchen}))
   (cease-effects (end-goal   {@self BRING [k food] ?kitchen})))

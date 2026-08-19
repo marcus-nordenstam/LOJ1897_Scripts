@@ -17,14 +17,14 @@
   (and
     ; REACH the prospective killer.
     (try
-      (when (and (not (co-present ?killer @self))
-                 (location ?killer): ?loc))
+      (when (and (not (spatial ?killer co-located @self))
+                 (spatial ?killer space): ?loc))
       (utility survival)
       (effects (maintain-proposal {@self go ?loc})))
 
     ; SOLICIT: co-present, put the contract to them (a SAY - the words are the deed).
     (try
-      (when (co-present ?killer @self))
+      (when (spatial ?killer co-located @self))
       (utility survival always-pick)
       (effects (maintain-proposal {@self SAY (utterable-msg (to ?killer) {?killer kill ?victim}) ?killer})))
 

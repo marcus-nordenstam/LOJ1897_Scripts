@@ -20,13 +20,13 @@
 ; the steal goal is the leaf and promotes to steal_action.
 (define-macro at-burgle-residence ()
   (and (not (at-home))
-       (is-a (building @self) [k building residential_building])))
+       (is-a (spatial @self building) [k building residential_building])))
 ; believes (not bind) so the effect-position call site below treats a jobless
 ; miss as plain false, never an effects abort.
 (define-macro at-own-workplace ()
   (and (believes {@self job.org ?emp})
        (believes {?emp workplace ?work})
-       (in-building @self ?work)))
+       (spatial @self building ?work)))
 
 ; APPROACH - hold the steal goal but not yet at a strikeable scene: pick an
 ; occupied non-home same-town residence ((burgle-target), env-truth) and travel
@@ -57,7 +57,7 @@
   ; village-public knowledge): an ownerless / self-owned / dead-owner scene
   ; never strikes. The action receives ?owner off its own pattern and does no
   ; reasoning of its own.
-  (building @self):?scene
+  (spatial @self building):?scene
   (when (and (or (at-burgle-residence)
                  (at-own-workplace))
              ?scene
@@ -97,8 +97,8 @@
   (role @self (believes {@self take ? /succ}:?rec))
   (when (caused-by ?rec ?sgoal))
   (effects
-    (if (building @self)
-        (then (burglary-confrontation @self (building @self))))
+    (if (spatial @self building)
+        (then (burglary-confrontation @self (spatial @self building))))
     (caused-by ?sgoal {@self pressure ?}): ?p
     (discharge-pressure ?p 0.75)
     (end-goal {@self steal})))
@@ -113,7 +113,7 @@
   (goal {@self steal}:?sgoal)
   (role @self (believes {@self take ?loot /succ}:?rec))
   (when (and (caused-by ?rec ?sgoal)
-             (building @self): ?scene
+             (spatial @self building): ?scene
              (owner-of ?scene): ?owner
              (alive ?owner)
              (not (= ?owner @self))))

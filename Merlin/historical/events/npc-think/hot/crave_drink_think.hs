@@ -30,13 +30,13 @@
 (npc-think drink_at_pub
   (goal    {@self DRINK})
   (role @self (grown @self))
-  (when    (is-a (building @self) [k building pub]))
+  (when    (is-a (spatial @self building) [k building pub]))
   (utility (* 10 (drink-drive @self)))
   (effects (maintain-proposal {@self DRINK})))
 
 ; CASE B - not at a pub, but knows one: head to it via the generic enter chain (§5.11). A
 ; maintenance event: it roulettes a pub ONCE and mints {@self enter ?pub}, then STICKS with that
-; pub (no re-roulette while walking); on arrival (in-building @self ?pub) the (when) drops and
+; pub (no re-roulette while walking); on arrival (spatial @self building ?pub) the (when) drops and
 ; cease-effects end the enter-goal. The enter chain steps
 ; the drinker INSIDE the pub, so can-drink (current-building is-a pub) then holds and drink_act
 ; promotes.
@@ -44,7 +44,7 @@
   (goal    {@self DRINK})
   (role @self (grown @self))
   (role ?pub [k building pub] (select (score (near @self ?pub)) (policy roulette)))
-  (when    (not (in-building @self ?pub)))
+  (when    (not (spatial @self building ?pub)))
   (effects (maintain-proposal {@self enter ?pub})))
 
 ; CASE C - not at a pub and knows none: search for one (find_building.hs runs it). A maintenance
@@ -57,6 +57,6 @@
   (no-role [k building pub])
   ; Search while no pub is known and the region is not yet proven publess (find_building's /fail
   ; fires only once the whole region is covered without finding one).
-  (when    (and (not (is-a (building @self) [k building pub]))
+  (when    (and (not (is-a (spatial @self building) [k building pub]))
                 (not (did-fail {@self find_building [k building pub] /past}))))
   (effects (maintain-proposal {@self find_building [k building pub] (current-region @self)})))

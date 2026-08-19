@@ -54,7 +54,7 @@
         (if (any {@self own ?home} (out int))
           (then
             (create-entity [k for_sale_listing] (qual location ?home)): ?listing
-            (write-doc-record [k for_sale_listing] ?listing (building ?home))
+            (write-doc-record [k for_sale_listing] ?listing (spatial ?home building))
             (end-belief {@self own ?home})
             (end-belief {@self home ?home}))
           (else

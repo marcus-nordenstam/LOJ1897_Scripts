@@ -27,19 +27,18 @@
 (npc-think worship_at_church
   (goal    {@self WORSHIP})
   (role @self (grown @self))
-  (when    (is-a (building @self) [k building church]))
+  (when    (is-a (spatial @self building) [k building church]))
   (effects (maintain-proposal {@self WORSHIP})))
 
 ; CASE B - not at a church, but knows one: head to it. Inherits the worship drive. A
 ; MAINTENANCE rung (§5.11): roulette a church ONCE, hold {@self enter ?church} (the
-; generic enter chain routes the actual travel), and cease it on arrival (in-building
-; ?church). The rouletted ?church is stashed at fire, so the hold + cease operate on the
+; generic enter chain routes the actual travel), and cease it on arrival (spatial ; building ?church). The rouletted ?church is stashed at fire, so the hold + cease operate on the
 ; SAME church (no re-roulette while walking).
 (npc-think worship_go
   (goal    {@self WORSHIP})
   (role @self (grown @self))
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
-  (when    (not (in-building @self ?church)))
+  (when    (not (spatial @self building ?church)))
   (effects (debug-print "TRACE-WORSHIPGO church=?church")
            (maintain-proposal {@self enter ?church})))
 
@@ -48,7 +47,7 @@
   (goal    {@self WORSHIP})
   (role @self (grown @self))
   (no-role [k building church])
-  (when    (and (not (is-a (building @self) [k building church]))
+  (when    (and (not (is-a (spatial @self building) [k building church]))
                 (not (did-fail {@self find_building [k building church] /past}))))
   (effects (debug-print "WSEEK @self")
            (maintain-proposal {@self find_building [k building church] (current-region @self)})))

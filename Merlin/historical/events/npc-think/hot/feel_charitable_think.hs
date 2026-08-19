@@ -23,5 +23,5 @@
 ; /causes (via the (goal ...) gate).
 (npc-think give_alms_at_church
   (goal    {@self GIVE_ALMS ?church})
-  (when    (in-building @self ?church))
+  (when    (spatial @self building ?church))
   (effects (maintain-proposal {@self GIVE_ALMS ?church})))

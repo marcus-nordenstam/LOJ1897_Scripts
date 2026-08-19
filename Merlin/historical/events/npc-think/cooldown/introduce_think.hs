@@ -7,7 +7,7 @@
 
   (role ?stranger 
        (any_human ?stranger)
-       (co-present ?stranger @self)
+       (spatial ?stranger co-located @self)
        (not (personally-knows @self ?stranger))
        (not {@self SAY ? ?stranger}))
 

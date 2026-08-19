@@ -32,7 +32,7 @@
              (empty (spatial @self hold ?means))
              (has-goal {@self kill})
              (find-building [k building shop]): ?shop
-             (not (in-building @self ?shop))))
+             (not (spatial @self building ?shop))))
   (effects (maintain-proposal {@self enter ?shop})))
 
 ; at a shop: find a shelf item of the means kind and take it (the burgle_strike
@@ -42,9 +42,9 @@
   (when (and (is-kind ?means)
              (empty (spatial @self hold ?means))
              (has-goal {@self kill})
-             (is-a (building @self) [k building shop])))
+             (is-a (spatial @self building) [k building shop])))
   (effects
-    (building @self): ?shop
+    (spatial @self building): ?shop
     (bind 0 ?found)
     (for-each ?room (spatial ?shop parts [k interior_space room] /env)
       (for-each ?item (spatial ?room contents ?means /env) /limit 1

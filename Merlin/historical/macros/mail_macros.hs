@@ -30,7 +30,7 @@
 (define-macro post-letter (?kind ?msg ?dest ?addressee)
   (if (substantial ?dest)
     (then
-      (create-entity ?kind (qual location (building @self))): ?ltr
+      (create-entity ?kind (qual location (spatial @self building))): ?ltr
       (set-writing ?ltr ?msg)
       (set-attr ?ltr addressee (attr ?addressee name))
       (set-attr ?ltr address ?dest)
@@ -42,7 +42,7 @@
 (define-macro post-blank-letter (?kind ?dest ?addressee)
   (if (substantial ?dest)
     (then
-      (create-entity ?kind (qual location (building @self))): ?ltr
+      (create-entity ?kind (qual location (spatial @self building))): ?ltr
       (set-attr ?ltr addressee (attr ?addressee name))
       (set-attr ?ltr address ?dest)
       (begin-proposal {@self send_mail ?ltr}))))

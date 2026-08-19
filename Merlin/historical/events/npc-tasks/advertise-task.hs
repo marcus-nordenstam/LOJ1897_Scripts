@@ -11,12 +11,12 @@
   (and
     (try
       (when (and (find-building [k building church]): ?board
-                 (not (in-building @self ?board))))
+                 (not (spatial @self building ?board))))
       (effects (maintain-proposal {@self enter ?board})))
     (try
       (when (and (any {?org record ?}).target: ?art
                  (find-building [k building church]): ?board
-                 (in-building @self ?board)
+                 (spatial @self building ?board)
                  (read-doc-record [k articles_of_incorporation] ?art (kind ?ok))
                  (lookup org_staffing org_kind ?ok staff_role none): ?jk
                  (is-kind ?jk)))

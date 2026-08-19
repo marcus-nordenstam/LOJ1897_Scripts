@@ -18,5 +18,5 @@
 (npc-think close_go
   (goal {@self CLOSE_BUSINESS ?art})
   (when (and (articles-building ?art ?wp)
-             (not (in-building @self ?wp))))
+             (not (spatial @self building ?wp))))
   (effects (maintain-proposal {@self enter ?wp})))

@@ -14,18 +14,18 @@
   (and
     (try
       (when (and (is-a ?dest [k structure])
-                 (not (in-building @self ?dest))))
+                 (not (spatial @self building ?dest))))
       (effects (maintain-proposal {@self enter ?dest})))
     (try
       (when (and (is-a ?dest [k interior_space])
-                 (not (in-building @self (building ?dest)))))
-      (effects (maintain-proposal {@self enter (building ?dest)})))
+                 (not (spatial @self building (spatial ?dest building)))))
+      (effects (maintain-proposal {@self enter (spatial ?dest building)})))
     (try
       (when (and (is-a ?dest [k interior_space])
-                 (in-building @self (building ?dest))
-                 (not (at_location @self ?dest))))
+                 (spatial @self building (spatial ?dest building))
+                 (not (spatial @self space ?dest))))
       (effects (maintain-proposal {@self WALK ?dest})))
     (try
       (when (and (is-a ?dest [k exterior_space])
-                 (not (at_location @self ?dest))))
+                 (not (spatial @self space ?dest))))
       (effects (maintain-proposal {@self WALK ?dest})))))

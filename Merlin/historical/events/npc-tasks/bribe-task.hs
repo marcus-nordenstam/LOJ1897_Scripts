@@ -13,7 +13,7 @@
   (facets reportable_crime)
   (and
     (try
-      (role ?coin [k coin] (co-present ?coin @self))
+      (role ?coin [k coin] (spatial ?coin co-located @self))
       (when (and (alive ?victim)
                  (none {@self bribe ?victim /succ /ever})))
       (utility errand)
@@ -22,7 +22,7 @@
       (when (and (alive ?victim)
                  (none {@self bribe ?victim /succ /ever})
                  (not (has-proposal {@self give ? ?victim}))))
-      (effects (create-entity [k coin] (qual location (location @self)))))
+      (effects (create-entity [k coin] (qual location (spatial @self space)))))
     (try
       (when (any {@self give ? ?victim /succ /caused_by ?bribe}))
       (effects

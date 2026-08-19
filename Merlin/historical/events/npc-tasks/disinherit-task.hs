@@ -25,20 +25,20 @@
   (and
     ; REACH the victim - route to them, or their home if their location is unknown.
     (try
-      (when (and (not (co-present ?victim @self))
-                 (location ?victim): ?loc))
+      (when (and (not (spatial ?victim co-located @self))
+                 (spatial ?victim space): ?loc))
       (utility errand)
       (effects (maintain-proposal {@self go ?loc})))
     (try
-      (when (and (not (co-present ?victim @self))
-                 (unknown (location ?victim))))
+      (when (and (not (spatial ?victim co-located @self))
+                 (unknown (spatial ?victim space))))
       (effects (maintain-proposal {@self go (home-of ?victim)})))
 
     ; CO-PRESENT: SAY the disinheritance. The co-present victim ADOPTS {benefactor
     ; disinherit victim} from the utterance - real told-knowledge, no fiat cross-mind
     ; write.
     (try
-      (when (co-present ?victim @self))
+      (when (spatial ?victim co-located @self))
       (utility errand always-pick)
       (effects
         (maintain-proposal {@self SAY (utterable-msg (to ?victim) {@self disinherit ?victim}) ?victim})))

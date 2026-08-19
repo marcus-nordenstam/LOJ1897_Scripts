@@ -14,10 +14,10 @@
   (role ?wp {?org workplace ?wp})
   (and
     (try
-      (when (not (in-building @self ?wp)))
+      (when (not (spatial @self building ?wp)))
       (effects (maintain-proposal {@self enter ?wp})))
     (try
-      (when (in-building @self ?wp))
+      (when (spatial @self building ?wp))
       (effects
         (begin-belief {@self backed_by ?org})
         (set-outcome {@self back ?org} succ)))))

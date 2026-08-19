@@ -34,5 +34,5 @@
 (define-macro read-public-register (?kind ?label)
   (for-each ?rec (documents ?kind)
     (do
-      (read-doc-record ?kind ?rec (building ?b))
+      (read-doc-record ?kind ?rec (spatial ?b building))
       (begin-belief {@self ?label ?b}))))

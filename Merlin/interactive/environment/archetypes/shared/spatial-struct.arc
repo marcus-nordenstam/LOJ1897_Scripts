@@ -11,6 +11,12 @@
 #   (descend)                    struct-parts hop before a down-view
 #   (containment)                the building sense (space-of-entity, then ascend)
 #   (head)                       peek the ordered head (ordered store only)
+#   (co)                         same-parent PREDICATE: (spatial ?a co-located ?b)
+#                                is true when parent(a) == parent(b) (a shares b's space;
+#                                add /building to compare buildings). Kind arg0 tests any
+#                                occupant of b's space/building
+#   (first)                      single first-known child match: (spatial ?whole room [k K])
+#                                yields one perceived room of ?whole (is-a K when given)
 #
 # STORES: the physical edge types + their behavior. The store id is declaration
 # ORDER (space=0, grip=1, stack=2), which the engine addresses by name through
@@ -30,9 +36,11 @@
 # `parent` term, resolved per-archetype by the op's struct fallback.
 (view parts (store part) (down))
 
-(view location   (store space))
+(view space      (store space))
 (view building   (store space) (containment))
 (view contents   (store space) (down))
+(view co-located (store space) (co))
+(view room       (store space) (first))
 (view gripped_by (store grip))
 (view grip       (store grip) (down))
 (view hold       (store grip) (down) (descend))

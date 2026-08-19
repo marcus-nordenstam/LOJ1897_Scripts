@@ -7,7 +7,7 @@
 (define-macro offer-effects (?recipient-hand ?thing ?recipient ?offer-action)
   (do
     (check (= (spatial ?thing held_by /env) @self))
-    (check (co-present @self ?recipient))
+    (check (spatial @self co-located ?recipient))
     (check (empty (spatial ?recipient-hand grip /env)))
     (spatial-write ?thing gripped_by ?recipient-hand)
     (set-outcome ?offer-action succ)))

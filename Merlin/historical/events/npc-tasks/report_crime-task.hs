@@ -17,7 +17,7 @@
                  (can-write @self)
                  (none {@self report_crime ?focus /succ /ever})
                  (find-building [k police_station]): ?station
-                 (not (in-building @self ?station))))
+                 (not (spatial @self building ?station))))
       (utility errand)
       (effects (maintain-proposal {@self enter ?station})))
     (try
@@ -25,7 +25,7 @@
                  (can-write @self)
                  (none {@self report_crime ?focus /succ /ever})
                  (find-building [k police_station]): ?station
-                 (in-building @self ?station)))
+                 (spatial @self building ?station)))
       (utility errand)
       (effects
         (if (alive ?focus) (then (begin-belief {@self suspect ?focus})))
@@ -36,7 +36,7 @@
                           (if (alive ?focus)
                               (then (nl_written_msg "I suspect ?focus"))
                               (else (nl_written_msg "?loot was stolen from me")))
-                          (location @self))
+                          (spatial @self space))
             (break)))
         (set-outcome ?report succ)))
     (try

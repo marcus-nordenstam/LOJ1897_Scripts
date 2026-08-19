@@ -46,13 +46,13 @@
         ; --- the org's documents (abs-native): articles + an empty register -------
         ; A document must live in a SPACE, never at the building - so seed them in one of
         ; the workplace's rooms, which the head now knows. Containment is engine-written
-        ; (the spatial index) - read it via the (room) op, never a {?wp room ?} belief.
-        (room ?wp): ?back
+        ; (the spatial index) - read it via (spatial ?wp room), never a {?wp room ?} belief.
+        (spatial ?wp room): ?back
         (check ?back)
         (create-entity [k articles_of_incorporation] (qual location ?back)): ?art
         (create-entity [k employee_register]          (qual location ?back)): ?reg
         (write-doc-record [k articles_of_incorporation] ?art
-            (kind ?org-kind) (founder @self) (building ?wp) (year (year)) (register ?reg)
+            (kind ?org-kind) (founder @self) (spatial ?wp building) (year (year)) (register ?reg)
             (name (lookup businesses org_kind ?org-kind name [n unknown])))
 
         ; --- founder's mind: the org object + its constitutive beliefs ------------
@@ -110,12 +110,12 @@
         ; --- the club's documents (abs-native): articles + an empty register -----
         ; A document lives in a SPACE, never at the building - seed them in a clubhouse
         ; room, read off the engine-written spatial index (never a {?wp room ?} belief).
-        (room ?wp): ?back
+        (spatial ?wp room): ?back
         (check ?back)
         (create-entity [k articles_of_incorporation] (qual location ?back)): ?art
         (create-entity [k employee_register]          (qual location ?back)): ?reg
         (write-doc-record [k articles_of_incorporation] ?art
-            (kind ?club-kind) (founder @self) (building ?wp) (year (year)) (register ?reg))
+            (kind ?club-kind) (founder @self) (spatial ?wp building) (year (year)) (register ?reg))
 
         ; --- founder's mind: the org object + its constitutive beliefs -----------
         (imagine-or-recall ?club-kind {?art declares_org ?org})
@@ -150,7 +150,7 @@
   (do
     ; --- read the org's kind + premises off the existing articles --------------
     (read-doc-record [k articles_of_incorporation] ?art
-        (kind ?org-kind) (building ?wp))
+        (kind ?org-kind) (spatial ?wp building))
     ; --- @self's mind: the org object + the employment beliefs ------------------
     (imagine-or-recall ?org-kind {?art declares_org ?org})
     (begin-belief {?org isa ?org-kind})    ; queryable kind belief - see found-org-seq

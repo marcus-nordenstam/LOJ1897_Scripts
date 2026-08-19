@@ -23,31 +23,31 @@
       (effects (debug-print "RC_ADPICK") (maintain-proposal {@self advertise ?org})))
     (try
       (when (and (any {?org record ?}).target: ?art
-                 (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
-                 (not (in-building @self ?wp))
+                 (read-doc-record [k articles_of_incorporation] ?art (spatial ?wp building))
+                 (not (spatial @self building ?wp))
                  (>= (days-since-last {@self read_mail ?wp /succ}) 1)))
       (utility obligation)
       (effects (debug-print "RC_GOOFC") (maintain-proposal {@self enter ?wp})))
     (try
       (lock-rule)
       (when (and (any {?org record ?}).target: ?art
-                 (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
-                 (in-building @self ?wp)
+                 (read-doc-record [k articles_of_incorporation] ?art (spatial ?wp building))
+                 (spatial @self building ?wp)
                  (>= (days-since-last {@self read_mail ?wp /succ}) 1)))
       (utility obligation)
       (effects (debug-print "RC_RDMAIL") (begin-proposal {@self read_mail ?wp})))
     (try
       (role ?home {@self home ?home})
-      (role ?out [k outgoing_mail_stack] (not (co-present ?out @self)))
+      (role ?out [k outgoing_mail_stack] (not (spatial ?out co-located @self)))
       (role ?app [k application] (spatial @self hold)
             (select (policy first-match)))
-      (when (and (in-building ?out ?home)
-                 (location ?out): ?room))
+      (when (and (spatial ?out building ?home)
+                 (spatial ?out space): ?room))
       (utility obligation)
       (effects (debug-print "RC_RESGO") (maintain-proposal {@self WALK ?room})))
     (try
       (lock-rule)
-      (role ?out [k outgoing_mail_stack] (co-present ?out @self))
+      (role ?out [k outgoing_mail_stack] (spatial ?out co-located @self))
       (role ?app [k application] (spatial @self hold)
             (select (policy first-match)))
       (when (none {@self resolve_applications ?out /pres}))
@@ -57,11 +57,11 @@
       (role ?app [k application] (spatial @self hold))
       (effects (debug-print "RCP_APP app=?app")))
     (try
-      (role ?out [k outgoing_mail_stack] (co-present ?out @self))
+      (role ?out [k outgoing_mail_stack] (spatial ?out co-located @self))
       (effects (debug-print "RCP_OUT out=?out")))
     (try
       (role ?app [k application] (spatial @self hold))
-      (role ?out [k outgoing_mail_stack] (co-present ?out @self))
+      (role ?out [k outgoing_mail_stack] (spatial ?out co-located @self))
       (effects (debug-print "RCP_BOTH")))
     (try
       (role ?app [k application] (spatial @self hold))
@@ -86,12 +86,12 @@
       (effects (debug-print "RCP_P8")))
     (try
       (when (and (any {?org record ?}).target: ?art
-                 (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
-                 (in-building @self ?wp)))
+                 (read-doc-record [k articles_of_incorporation] ?art (spatial ?wp building))
+                 (spatial @self building ?wp)))
       (effects (debug-print "RCP_P15_INSIDE")))
     (try
       (when (and (any {?org record ?}).target: ?art
-                 (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
+                 (read-doc-record [k articles_of_incorporation] ?art (spatial ?wp building))
                  (>= (now-hour) 9)
                  (< (now-hour) 11)))
       (effects (debug-print "RCP_P16_MAIL")))
@@ -112,16 +112,16 @@
       (role ?home {@self home ?home})
       (role ?out [k outgoing_mail_stack])
       (role ?app [k application] (spatial @self hold))
-      (when (in-building ?out ?home))
+      (when (spatial ?out building ?home))
       (effects (debug-print "RCP_P12")))
     (try
       (role ?home {@self home ?home})
       (role ?out [k outgoing_mail_stack])
       (role ?app [k application] (spatial @self hold))
-      (when (location ?out): ?room)
+      (when (spatial ?out space): ?room)
       (effects (debug-print "RCP_P13 room=?room")))
     (try
       (role ?home {@self home ?home})
-      (role ?out [k outgoing_mail_stack] (not (co-present ?out @self)))
+      (role ?out [k outgoing_mail_stack] (not (spatial ?out co-located @self)))
       (role ?app [k application] (spatial @self hold))
       (effects (debug-print "RCP_P14")))))

@@ -21,21 +21,21 @@
   ; The school is role-cast from the schools the NPC KNOWS; nearest preferred,
   ; weighted. No known school -> no fire (the goal waits). Replaces (venue ...).
   (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
-  (when (not (is-a (building @self) [k building school])))
+  (when (not (is-a (spatial @self building) [k building school])))
   (effects (maintain-proposal {@self enter ?go_dest})))
 
 ; ----- secondary -----------------------------------------------------------
 (npc-think secondary_go
   (goal {@self ENROL_SECONDARY})
   (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
-  (when (not (is-a (building @self) [k building school])))
+  (when (not (is-a (spatial @self building) [k building school])))
   (effects (maintain-proposal {@self enter ?go_dest})))
 
 ; ----- university ----------------------------------------------------------
 (npc-think university_go
   (goal {@self ENROL_UNIVERSITY})
   (role ?go_dest [k building school] (select (score (near @self ?go_dest)) (policy roulette)))
-  (when (not (is-a (building @self) [k building school])))
+  (when (not (is-a (spatial @self building) [k building school])))
   (effects (maintain-proposal {@self enter ?go_dest})))
 
 ; ----- matriculation proposes (AT a school, goals never propose themselves) ------------------
@@ -43,15 +43,15 @@
 ; proposes are label-only.
 (npc-think primary_at_school
   (goal {@self ENROL_PRIMARY})
-  (when (is-a (building @self) [k building school]))
+  (when (is-a (spatial @self building) [k building school]))
   (effects (maintain-proposal {@self ENROL_PRIMARY})))
 
 (npc-think secondary_at_school
   (goal {@self ENROL_SECONDARY})
-  (when (is-a (building @self) [k building school]))
+  (when (is-a (spatial @self building) [k building school]))
   (effects (maintain-proposal {@self ENROL_SECONDARY})))
 
 (npc-think university_at_school
   (goal {@self ENROL_UNIVERSITY})
-  (when (is-a (building @self) [k building school]))
+  (when (is-a (spatial @self building) [k building school]))
   (effects (maintain-proposal {@self ENROL_UNIVERSITY})))

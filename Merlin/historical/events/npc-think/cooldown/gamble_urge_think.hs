@@ -14,7 +14,7 @@
 ;   gamble_go (maintenance): not at a pub, but knows one - roulette the nearest known
 ;     pub and head to it via the generic enter chain (§5.11). It roulettes a pub once and
 ;     holds {@self enter ?venue} so it STICKS with that pub (no re-roulette while walking);
-;     on arrival (in-building @self @self ?venue) the (when) drops and cease-effects end the enter-goal.
+;     on arrival (spatial @self building ?venue) the (when) drops and cease-effects end the enter-goal.
 ;     The enter chain steps the gambler INSIDE.
 ;   gamble_at_pub (terminal): AT a pub, the standing {@self PLAY_GAME} drive is PROPOSED
 ;     ({@self PLAY_GAME}), promoting to gamble_act (npc-act/gamble_act.hs). The proposed

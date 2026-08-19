@@ -16,12 +16,12 @@
   ; The pub is role-cast from the pubs the NPC KNOWS; nearest preferred, weighted.
   ; No known pub -> no fire (the goal waits).
   (role ?go_dest [k building pub] (select (score (near @self ?go_dest)) (policy roulette)))
-  (when (not (is-a (building @self) [k building pub])))
+  (when (not (is-a (spatial @self building) [k building pub])))
   (effects (maintain-proposal {@self enter ?go_dest})))
 
 ; AT a pub: PROPOSE the founding act (goals never propose themselves). found_club_act reads its
 ; club details off the standing {@self FOUND_CLUB} goal, so the propose is label-only.
 (npc-think found_club_at_pub
   (goal {@self FOUND_CLUB})
-  (when (is-a (building @self) [k building pub]))
+  (when (is-a (spatial @self building) [k building pub]))
   (effects (maintain-proposal {@self FOUND_CLUB})))

@@ -34,7 +34,7 @@
         ; and recorded born-ended by the organiser (the call is an instant
         ; act - the ended belief is his own record of whom he called).
         (for-each-doc-record [k employee_register] ?reg (worker ?m)
-          (if (and (alive ?m) (co-present ?m @self))
+          (if (and (alive ?m) (spatial ?m co-located @self))
               (then (begin-belief ?m {@self summon ?m ?sport})
                     (begin-ended-belief {@self summon ?m ?sport}))))))
     (set-outcome {@self HOLD_MEET_RUN} succ)))

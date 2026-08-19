@@ -17,18 +17,18 @@
   (and
     (try
       (when (and (alive ?victim)
-                 (not (co-present ?victim @self))
-                 (location ?victim): ?loc))
+                 (not (spatial ?victim co-located @self))
+                 (spatial ?victim space): ?loc))
       (utility errand)
       (effects (maintain-proposal {@self go ?loc})))
     (try
       (when (and (alive ?victim)
-                 (not (co-present ?victim @self))
-                 (unknown (location ?victim))))
+                 (not (spatial ?victim co-located @self))
+                 (unknown (spatial ?victim space))))
       (effects (maintain-proposal {@self go (home-of ?victim)})))
     (try
       (when (and (alive ?victim)
-                 (co-present ?victim @self)
+                 (spatial ?victim co-located @self)
                  (none {@self SAY ? /succ /caused_by ?humiliate})))
       (utility errand always-pick)
       (effects (maintain-proposal
