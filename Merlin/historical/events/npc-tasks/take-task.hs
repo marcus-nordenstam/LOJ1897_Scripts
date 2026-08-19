@@ -5,7 +5,7 @@
 ; concludes once either hand's take succeeded /caused_by this task.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self take ?item}:?take
+(npc-task {@self take ?item}:?take-rel
   (tar @excl object)
   (and
     (try
@@ -22,5 +22,5 @@
       (effects (check (spatial ?item co-located @self))
                (begin-proposal {@self RIGHT_TAKE ?item})))
     (try
-      (when (any {@self /succ LEFT_TAKE|RIGHT_TAKE ?item /caused_by ?take}))
-      (effects (set-outcome ?take succ)))))
+      (when (any {@self /succ LEFT_TAKE|RIGHT_TAKE ?item /caused_by ?take-rel}))
+      (effects (set-outcome ?take-rel succ)))))

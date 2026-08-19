@@ -7,7 +7,7 @@
 ; errand's priority.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self send_mail ?doc}:?sm
+(npc-task {@self send_mail ?doc}:?sm-rel
   (tar document)
   (and
     (try
@@ -34,4 +34,4 @@
       (effects (debug-print "SM_PUT") (maintain-proposal {@self POST_MAIL ?doc ?out})))
     (try
       (when (any {@self POST_MAIL ?doc ? /succ} (out int)))
-      (effects (debug-print "SM_DONE") (set-outcome ?sm succ)))))
+      (effects (debug-print "SM_DONE") (set-outcome ?sm-rel succ)))))

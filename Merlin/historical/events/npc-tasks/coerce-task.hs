@@ -9,7 +9,7 @@
 ; memory. No live victim -> abandon.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self coerce ?victim}:?coerce
+(npc-task {@self coerce ?victim}:?coerce-rel
   (tar human)
   (aux ?)
   (construed_act coercion_act wrong_act)
@@ -31,13 +31,13 @@
       (effects (maintain-proposal
                  {@self SAY (utterable-msg (to ?victim) {@self extort ?victim}) ?victim})))
     (try
-      (when (any {@self SAY ? ?victim /succ /caused_by ?coerce}))
+      (when (any {@self SAY ? ?victim /succ /caused_by ?coerce-rel}))
       (effects
         (if (none {@self extort ?victim}) (then (begin-belief {@self extort ?victim})))
         (if (holds-coercion-material ?victim)
             (then (crime-ledger-append @self ?victim blackmail coerce @u @u))
             (else (crime-ledger-append @self ?victim threaten_violence coerce @u @u)))
-        (set-outcome ?coerce succ)))
+        (set-outcome ?coerce-rel succ)))
     (try
       (when (not (alive ?victim)))
-      (effects (set-outcome ?coerce fail)))))
+      (effects (set-outcome ?coerce-rel fail)))))

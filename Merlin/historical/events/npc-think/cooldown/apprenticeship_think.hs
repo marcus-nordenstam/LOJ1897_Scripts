@@ -94,6 +94,6 @@
 
   (effects
     (promote /worker @self)
-    (for-each ?mb (every {@self master ?})
-        (end-belief ?mb))
+    (for-each ?mb-rel (every {@self master ?})
+        (end-belief ?mb-rel))
     ))

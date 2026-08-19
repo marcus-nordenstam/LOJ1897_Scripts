@@ -7,7 +7,7 @@
 ; A dead victim, or one whose home @self cannot place, -> abandon.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self frame ?victim}:?frame
+(npc-task {@self frame ?victim}:?frame-rel
   (tar human)
   (aux ?)
   (construed_act harm_act betray_act wrong_act)
@@ -29,8 +29,8 @@
         (plant-letter [k forged_letter]
                       (nl_written_msg "?victim killed me") (spatial @self space))
         (crime-ledger-append @self ?victim plant_evidence frame @u @u)
-        (set-outcome ?frame succ)))
+        (set-outcome ?frame-rel succ)))
     (try
       (when (or (not (alive ?victim))
                 (not (home-of ?victim))))
-      (effects (set-outcome ?frame fail)))))
+      (effects (set-outcome ?frame-rel fail)))))

@@ -16,7 +16,7 @@
 (npc-think flee_foe
   (cooldown 1 m)
 
-  (role ?foe {?foe (theme-labels violent_to) @self}:?witnessed
+  (role ?foe {?foe (theme-labels violent_to) @self}:?witnessed-rel
              (not (believes {?foe condition [k dead]})))
 
   ; The fearful flight: timidity = high volatility + low sadism + high compassion, the

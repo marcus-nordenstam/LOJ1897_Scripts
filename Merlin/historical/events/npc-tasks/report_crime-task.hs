@@ -9,7 +9,7 @@
 ; Already reported this target, nothing stolen, illiterate, or no known station -> abandon.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self report_crime ?focus}:?report
+(npc-task {@self report_crime ?focus}:?report-rel
   (tar ?)
   (and
     (try
@@ -29,19 +29,19 @@
       (utility errand)
       (effects
         (if (alive ?focus) (then (begin-belief {@self suspect ?focus})))
-        (for-each ?lb (every {? stolen_from @self})
+        (for-each ?lb-rel (every {? stolen_from @self})
           (do
-            ?lb.subject: ?loot
+            ?lb-rel.subject: ?loot
             (plant-letter [k crime_report_letter]
                           (if (alive ?focus)
                               (then (nl_written_msg "I suspect ?focus"))
                               (else (nl_written_msg "?loot was stolen from me")))
                           (spatial @self space))
             (break)))
-        (set-outcome ?report succ)))
+        (set-outcome ?report-rel succ)))
     (try
       (when (or (not (any {? stolen_from @self} (out int)))
                 (not (can-write @self))
                 (not (find-building [k police_station]))
                 (any {@self report_crime ?focus /succ /ever} (out int))))
-      (effects (set-outcome ?report fail)))))
+      (effects (set-outcome ?report-rel fail)))))

@@ -40,17 +40,17 @@
 (npc-think departed
   (role @self {@self DEPART /succ})
   (effects
-    (for-each ?jb (every {@self job ?})
-        ?jb.target: ?job
-        (for-each ?ob (every {?job org ?})
-            ?ob.target: ?org
-            (for-each ?ab (every {?org record ?})
-                ?ab.target: ?art
+    (for-each ?jb-rel (every {@self job ?})
+        ?jb-rel.target: ?job
+        (for-each ?ob-rel (every {?job org ?})
+            ?ob-rel.target: ?org
+            (for-each ?ab-rel (every {?org record ?})
+                ?ab-rel.target: ?art
                 (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
                 (remove-doc-record [k employee_register] ?reg (find worker @self))))
-        (end-belief ?jb))
-    (for-each ?hb (every {@self home ?})
-        ?hb.target: ?home
+        (end-belief ?jb-rel))
+    (for-each ?hb-rel (every {@self home ?})
+        ?hb-rel.target: ?home
         (if (any {@self own ?home} (out int))
           (then
             (create-entity [k for_sale_listing] (qual location ?home)): ?listing

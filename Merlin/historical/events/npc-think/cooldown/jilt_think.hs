@@ -51,11 +51,14 @@
   ;; jilter's lover bond (one jilt per jilter per tick).
   (when (chance (* (crime-scale) 0.6)))
 
+  (utility want)
   (effects
     ; One-sided ending - ONLY the jilter's belief (see header).
     (end-belief {@self lover ?jilted})
-    ; The act-record in both minds + the appraisal cascade in each.
-    (incident-anchor @self jilt ?jilted)
+    ; Jilting IS a SAY (msg-class jilt): the jilter tells the jilted it is over. The jilted
+    ; HEARS it and their own appraisal reprojects jilt's construed_act (abandonment_act +
+    ; wrong_act) into the grief / attachment_loss stack. No incident-anchor, no cross-mind mint.
+    (begin-proposal {@self SAY (utterable-msg (to ?jilted) {@self jilt ?jilted}) ?jilted})
     ; Warmth curdles; attraction is NOT touched (longing persists).
     (nudge-stance ?jilted @self warmth -0.4)
     ))
@@ -102,8 +105,9 @@
   ;; event alive for the un-derived.
   (when (chance (* (crime-scale) 0.15 (+ 0.3 (any {@self decorum}).target))))
 
+  (utility want)
   (effects
     (end-belief {@self lover ?jilted})
-    (incident-anchor @self jilt ?jilted)
+    (begin-proposal {@self SAY (utterable-msg (to ?jilted) {@self jilt ?jilted}) ?jilted})
     (nudge-stance ?jilted @self warmth -0.4)
     ))

@@ -100,5 +100,5 @@
   (effects
     ; Bound-aux constraint: only THIS occasion's invite rows walk (bound =
     ; constraint, free = producer).
-    (for-each ?belief (every {@self invite ? ?occ})
-        (end-belief ?belief))))
+    (for-each ?belief-rel (every {@self invite ? ?occ})
+        (end-belief ?belief-rel))))

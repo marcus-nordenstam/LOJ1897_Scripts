@@ -9,7 +9,7 @@
 ;   table_talk  - turn to one co-present diner and air one untold piece of my own news.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self eat ?meal ?place}:?e
+(npc-task {@self eat ?meal ?place}:?e-rel
   (tar meal)
   (aux structure|space)
   (and
@@ -24,18 +24,18 @@
             (then (believed-located [k food] ?place): ?food))
         (maintain-proposal {@self INGEST ?meal ?food}))
       (cease-effects
-        (caused-by {@self INGEST ?meal /past} ?e): ?rec
-        (if ?rec (then (set-outcome ?e (outcome ?rec))))))
+        (caused-by {@self INGEST ?meal /past} ?e-rel): ?rec-rel
+        (if ?rec-rel (then (set-outcome ?e-rel (outcome ?rec-rel))))))
     (try
       (role ?home {@self home ?home})
       (when (and (= ?place ?home) (chance 0.25)))
       (effects
-        (for-each ?bb (every {?home breakfast_hour ?})
-            ?bb.target: ?b
-            (for-each ?lb (every {?home lunch_hour ?})
-                ?lb.target: ?l
-                (for-each ?sb (every {?home supper_hour ?})
-                    ?sb.target: ?s
+        (for-each ?bb-rel (every {?home breakfast_hour ?})
+            ?bb-rel.target: ?b
+            (for-each ?lb-rel (every {?home lunch_hour ?})
+                ?lb-rel.target: ?l
+                (for-each ?sb-rel (every {?home supper_hour ?})
+                    ?sb-rel.target: ?s
                     (tell (utterable-msg {?home breakfast_hour ?b}
                                          {?home lunch_hour ?l}
                                          {?home supper_hour ?s})))))))
@@ -46,8 +46,8 @@
                    (select (score 1) (policy roulette)))
       (when (or (spatial @self building ?place) (spatial @self space ?place)))
       (effects
-        (for-each ?belief (every {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life_aim ?})
+        (for-each ?belief-rel (every {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life_aim ?})
           (do
-            (utterable-msg ?belief): ?msg
+            (utterable-msg ?belief-rel): ?msg
             (if (none {@self SAY ?msg ?diner})
                 (then (maintain-proposal {@self SAY ?msg ?diner}) (break)))))))))

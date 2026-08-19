@@ -105,11 +105,3 @@
   (or (partner-keeps-interloper (any {@self spouse ?}).target)
       (partner-keeps-interloper (any {@self lover ?}).target)))
 
-; An insult incident WITH its spoken barb: the anchor carries the authored
-; barb model (tables/barbs.hs) and the context that picks the ladder. The
-; ONE way an insult should be minted - a barbless call mints wordlessly.
-(define-macro insult-anchor (?victim ?ctx)
-  (incident-anchor @self insult ?victim
-    /context        ?ctx
-    /barb-ladders   barb_ladders
-    /barb-materials barb_materials))

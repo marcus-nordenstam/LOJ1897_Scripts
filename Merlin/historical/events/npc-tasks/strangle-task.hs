@@ -8,7 +8,7 @@
 
 (include "../../definitions/roles.hs")
 
-(npc-task {@self strangle ?victim}:?strangle
+(npc-task {@self strangle ?victim}:?strangle-rel
   (tar human)
   (and
     ; REACH: route to the victim's known location, else their home.
@@ -35,4 +35,4 @@
     ; CONCLUDE: the victim is dead - the method is spent.
     (try
       (when (believes {?victim condition [k dead]}))
-      (effects (set-outcome ?strangle succ)))))
+      (effects (set-outcome ?strangle-rel succ)))))

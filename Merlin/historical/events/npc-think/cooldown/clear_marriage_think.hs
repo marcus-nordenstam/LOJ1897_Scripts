@@ -78,9 +78,12 @@
           ; into their mind), and conspiracy_adoption.hs decides whether they take
           ; up the deed - no telepathy, and an intercepted letter means the lover
           ; never learns of the plot at all.
-          ; @you = ?paramour (the covert letter's recipient); the plot's doer
-          ; resolves to the reader, so conspiracy_adoption sees {@self kill <spouse>}.
-          (send-covert-letter ?paramour (nl_written_msg "I urge you to kill ?spouse_name. Signed, ?author_name") [k letter]))
+          ; Urging is WANTING the target to act, so the letter's CONTENT is a goal
+          ; clause ({@self goal {?paramour kill ?spouse}}) classified (msg_class urge);
+          ; on read the reader adopts the goal clause (the (msg_class ..) rider is dropped
+          ; by the codec, so the goal is what survives) - @you = ?paramour resolves to the
+          ; reader, so conspiracy_adoption sees {?instigator goal {@self kill <spouse>}}.
+          (send-covert-letter ?paramour (written-msg {@self goal {?paramour kill ?spouse}} (msg_class urge) signed) [k letter]))
         ; DIRECT: the cheater acts alone. The lover bond (find-or-create reuses the
         ; gating belief) is the motive pin.
         (else (begin-belief {@self lover ?paramour}): ?lover_bond

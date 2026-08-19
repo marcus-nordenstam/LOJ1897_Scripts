@@ -3,7 +3,7 @@
 ; {@self find_building [k building <kind>] ?region} as a bodyless TASK; these two tries
 ; decompose the running search: cover the region one hop at a time, or conclude it failed.
 ; The head binds ?sought (the sought kind) + ?region (the region) off the matched task,
-; and captures the task belief :?find_task so the outcome try can conclude it.
+; and captures the task belief :?find_task-rel so the outcome try can conclude it.
 ;
 ;   find_survey hops to the CLOSEST unobserved structure. (latch-eval (closest-unobserved
 ;     ...): ?dest) LATCHES ?dest while the go act walks; the sibling (not (observed ?dest))
@@ -18,7 +18,7 @@
 ; exactly one try is ever live - exclusivity is inherent in the gates.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self find_building ?sought ?region}:?find_task
+(npc-task {@self find_building ?sought ?region}:?find_task-rel
   (tar ?)
   (aux ?)
   (and
@@ -29,4 +29,4 @@
       (effects (maintain-proposal {@self GO_TO_THRESHOLD ?dest})))
     (try
       (when (not (closest-unobserved [k structure] ?region)))
-      (effects (set-outcome ?find_task fail)))))
+      (effects (set-outcome ?find_task-rel fail)))))

@@ -7,7 +7,7 @@
 ; and: the two tries are complementary on (spatial ?thing building ?bldg).
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self locate ?thing ?bldg}:?loc
+(npc-task {@self locate ?thing ?bldg}:?loc-rel
   (tar @excl)
   (aux structure)
   (and
@@ -16,4 +16,4 @@
       (effects (maintain-proposal {@self wander ?bldg})))
     (try
       (when (spatial ?thing building ?bldg))
-      (effects (set-outcome ?loc succ)))))
+      (effects (set-outcome ?loc-rel succ)))))

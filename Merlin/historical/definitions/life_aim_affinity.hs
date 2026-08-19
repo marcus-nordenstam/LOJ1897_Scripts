@@ -65,7 +65,6 @@
 (life-aim-affinity respectability_aim  silence_witness 0.3)
 (life-aim-affinity respectability_aim  insult        -0.3)
 (life-aim-affinity respectability_aim  threaten      -0.3)
-(life-aim-affinity respectability_aim  assault       -0.4)
 (life-aim-affinity respectability_aim  defraud       -0.4)
 (life-aim-affinity respectability_aim  frame         -0.3)
 (life-aim-affinity respectability_aim  kill          -0.4)

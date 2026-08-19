@@ -314,14 +314,11 @@ relation
 #            surrender                                           (tar human)
 #            replace                                             (tar human)
 
-            # urge - influence a target into a sub-task or state. The
-            # inner clause is what's being urged, e.g.
-            # {mother urge {son avoid {son marry girl}}} composes with
-            # the `avoid` state (States.mon). NOT subsumed by `tell`:
-            # urging may include non-verbal pressure (withheld
-            # affection, threats, ultimatum-via-conduct); the
-            # implementing task picks the appropriate ACTION mix.
-            urge                                                (tar @S)
+            # urge moved to the `msg_class` group (Concepts.mon): urging is
+            # wanting a target to do something, said as a SAY/written-msg whose
+            # CONTENT is a goal clause ({@self goal {?target <act>}}) and whose
+            # (msg_class urge) rider classifies the utterance. The reader adopts
+            # the goal clause (conspiracy_adoption reads it).
 
             # Social / communication sub-block - tasks that bubble down to
             # SAY / WRITE_DOC ACTION chains. Tags carried over from
@@ -345,7 +342,10 @@ relation
             # / rid_of_spouse read it. (obs) + (theme violent_to) + harm_act/wrong_act make it a
             # witnessed, appraisable blow; blame is RUNTIME (appraisal suppresses wrong_act only
             # for a violent act that traces to an assault on its own actor).
-            assault             (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+            # assault - PURGED (the fight redesign): there is no assault task, action, or
+            # record. Violence is the (obs) violent ACTIONS (CHOKE / PUNCH / TRIGGER_FIREARM);
+            # blame is runtime (appraisal, via cause-links); readers count violence through
+            # (theme-labels violent_to). Nothing declares or reads `assault` any more.
 
             # kill - ABSTRACT goal task. No method aux: the method is a
             # separate, more-specific leaf task (strangle / shoot / poison

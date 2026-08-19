@@ -9,7 +9,7 @@
 
 (include "../../definitions/roles.hs")
 
-(npc-task {@self hire-assassin ?victim}:?hire
+(npc-task {@self hire-assassin ?victim}:?hire-rel
   (tar human)
   (role ?killer (any_human ?killer)
                 (personally-knows @self ?killer)
@@ -30,5 +30,5 @@
 
     ; CONCLUDE once the solicitation has been spoken.
     (try
-      (when (any {@self SAY ? /succ /caused_by ?hire}))
-      (effects (set-outcome ?hire succ)))))
+      (when (any {@self SAY ? /succ /caused_by ?hire-rel}))
+      (effects (set-outcome ?hire-rel succ)))))

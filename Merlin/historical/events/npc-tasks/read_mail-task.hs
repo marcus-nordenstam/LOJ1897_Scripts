@@ -8,7 +8,7 @@
 ; Driver + saturation probe stay in read_mail_think.hs.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self read_mail ?prem}:?rm
+(npc-task {@self read_mail ?prem}:?rm-rel
   (tar @excl structure)
   (and
     (try
@@ -23,7 +23,7 @@
     (try
       (role ?stk [k mail_stack] (spatial ?stk building ?prem)
                                 (spatial ?stk co-located @self))
-      (when (none {@self take_my_letters ?stk /caused_by ?rm /ever}))
+      (when (none {@self take_my_letters ?stk /caused_by ?rm-rel /ever}))
       (utility errand)
       (effects (debug-print "RM_TAKE")
                (begin-proposal {@self take_my_letters ?stk})))
@@ -32,8 +32,8 @@
       (effects (maintain-proposal {@self READ ?ltr})))
     (try
       (role ?stk [k mail_stack] (spatial ?stk building ?prem))
-      (when (and (believes {@self take_my_letters ?stk /succ /caused_by ?rm})
+      (when (and (believes {@self take_my_letters ?stk /succ /caused_by ?rm-rel})
                  (empty (spatial @self hold [k letter]))))
-      (effects (debug-print "RM_DONE") (set-outcome ?rm succ)))
+      (effects (debug-print "RM_DONE") (set-outcome ?rm-rel succ)))
     (try
       (effects (debug-print "RM_P_TASK prem=?prem")))))

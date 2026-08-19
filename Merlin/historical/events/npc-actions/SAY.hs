@@ -5,7 +5,7 @@
 ; per-listener untold dedup); an absent audience (_) is an open BROADCAST.
 ; Delivery is by co-presence either way.
 
-(npc-action {@self SAY ?msg ?audience}:?say
+(npc-action {@self SAY ?msg ?audience}:?say-rel
   (sub @msgAuthor human)   
   (tar @msg @excl @S) 
   (aux @msgAudience human)
@@ -14,4 +14,4 @@
     (if ?audience
         (then (tell-to ?audience ?msg))
         (else (tell ?msg)))
-    (set-outcome ?say succ)))
+    (set-outcome ?say-rel succ)))

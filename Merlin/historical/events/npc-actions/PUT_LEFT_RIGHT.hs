@@ -8,10 +8,10 @@
     (spatial-write ?item space ?location)
     (set-outcome ?put-action succ)))
 
-(npc-action {@self LEFT_PUT ?item ?location}:?put-action
+(npc-action {@self LEFT_PUT ?item ?location}:?put-action-rel
   (duration 1)
-  (effects (put-effects (spatial @self left_hand) ?item ?location ?put-action)))
+  (effects (put-effects (spatial @self left_hand) ?item ?location ?put-action-rel)))
 
-(npc-action {@self RIGHT_PUT ?item ?location}:?put-action
+(npc-action {@self RIGHT_PUT ?item ?location}:?put-action-rel
   (duration 1)
-  (effects (put-effects (spatial @self right_hand) ?item ?location ?put-action)))
+  (effects (put-effects (spatial @self right_hand) ?item ?location ?put-action-rel)))
