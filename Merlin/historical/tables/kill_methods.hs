@@ -16,6 +16,6 @@
 
 (define-table kill_method_choice
   (fields method means weight strength_demand)
-  (record strangle           none        1.0 0.45)
-  (record shoot              [k firearm] 0.8 0.10)
+  (record STRANGLE           none        1.0 0.45)
+  (record SHOOT              [k firearm] 0.8 0.10)
   (record commission_killing none        0.5 0.00))

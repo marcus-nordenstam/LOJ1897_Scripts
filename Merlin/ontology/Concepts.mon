@@ -44,32 +44,32 @@ concept
     legal_right
         property        (sub being)
 
-    # NOT exclusive: conditions COEXIST as ongoing beliefs - a buried corpse is
-    # {?c condition dead} AND {?c condition buried}, both ongoing. Transitions that
-    # genuinely supersede (alive -> dead) run through the explicit end-then-assert
-    # seams (propagate_death's end-all + assert_condition_dead), never through
-    # contradiction resolution; role filters that must exclude a later condition
-    # say so explicitly ((not (believes {?c condition [k buried]}))).
-    condition
+    # Life-state axis (@excl - one value at a time per subject). alive is the
+    # universal default (the condition attr's default value); a dead-mint
+    # supersedes it via @excl contradiction resolution at every channel (percept
+    # mirror, told, read, begin-belief) with no explicit end. consumed is the
+    # prop twin of dead - an eaten / drunk / used-up consumable - minted ongoing
+    # and never ended, superseding the prop's default alive.
+    condition           (tar @excl)
         alive
         dead
-        # Physical incapacity distinct from sleep (alertness sleepy) and
-        # from death. Bedridden / drugged / knocked-out NPCs read
-        # `unconscious` until they recover or die. Distinct from the
-        # `physical_mobility` derived belief which captures observable
-        # locomotion level over time.
-        unconscious
-        # A consumable prop that was eaten / drunk / used up, as far as the
-        # holder knows (the consumer's own act; a witness's percept). The
-        # prop twin of `dead`: minted ONGOING and never ended (the condition
-        # persists), while every other belief about the prop is ENDED at the
-        # same realization seam. Still forgotten eventually - prop-subject
-        # knowledge follows the episodic forgetting rules even while ongoing.
         consumed
-        # The corpse was interred, as far as the holder knows (the burying
-        # priest's own realization; burial-awareness propagation for everyone
-        # who knew of the death). COEXISTS with the ongoing `dead`; the bury /
-        # convey lanes self-throttle on dead-and-not-buried filters.
+
+    # Consciousness axis (@excl), HUMAN-NPC only - the awareness attr is listed
+    # on human_npc alone, so props never carry it. Default conscious; a subdue
+    # blow writes unconscious, recovery / re-observation writes conscious back.
+    # The physical_mobility classifier reads the awareness attr for bedridden.
+    awareness           (tar @excl)
+        conscious
+        unconscious
+
+    # Interment axis (@excl), HUMAN-NPC only. Default unburied; the burial rite
+    # mints buried (belief-only - the rite destroys the entity), which supersedes
+    # the unburied percept in every witness. The bury / convey lanes cast off the
+    # positive unburied belief; the standing dead + unburied pair is the body-state
+    # that drives those duty lanes.
+    internment          (tar @excl)
+        unburied
         buried
 
     # The discrete de-quantization of the continuous `fatigue` attr, minted as a
@@ -94,9 +94,9 @@ concept
     # Observable locomotion level - the physical-mobility state, mirrored
     # directly as a belief (like `condition` / `alertness`; no separate
     # relation). Derived in hsim_derive::classify_physical_mobility from
-    # condition + leg-wound state + age. Distinct from `alertness` (sleep /
-    # wake) and from `condition` (alive / dead / unconscious):
-    # physical_mobility captures what an NPC can DO physically when
+    # condition + awareness + age. Distinct from `alertness` (sleep / wake),
+    # from `condition` (alive / dead) and from `awareness` (conscious /
+    # unconscious): physical_mobility captures what an NPC can DO physically when
     # conscious. The bedridden value covers both genuine incapacity
     # (severe injury) and the social state of staying-in-bed;
     # physical_mobility being derived means the same symbol can mean both
@@ -931,6 +931,14 @@ concept
     payment
         wage
         annual_wage
+
+    # Message classes - the verbal-method vocabulary, a property of the MESSAGE not
+    # a task. A verbal act's memory is a SAY belief whose msg carries a (msg_class
+    # <leaf>) arg; is_msg_class_label routes it to that SAY-memory form and categorize()
+    # reads the leaf's (construed_act ...) off the msg_class. These are NOT tasks.
+    msg_class
+        insult          (construed_act slight_act)
+        jilt            (construed_act abandonment_act wrong_act)
 
     # Reified act-categories - the context-free "what kind of act" tags
     # that the appraisal pipeline reads off any anchor belief

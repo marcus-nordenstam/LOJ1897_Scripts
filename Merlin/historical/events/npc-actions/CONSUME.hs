@@ -12,7 +12,7 @@
 (npc-action {@self CONSUME ?item ?owner}
   (duration 10)
   (effects
-    (realize-destroyed ?item [k condition consumed])
+    (realize-destroyed ?item condition [k condition consumed])
     (destroy-entity ?item)
     (set-attr @self hunger (max 0 (- (attr @self hunger) 0.5)))
     (if ?owner

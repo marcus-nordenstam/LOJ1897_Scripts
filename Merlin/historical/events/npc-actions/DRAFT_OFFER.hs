@@ -11,11 +11,13 @@
   (duration 15)
   (effects
     (read-doc-record [k application] ?app (applicant ?w))
-    (create-entity [k offer_letter] (qual location (building @self))): ?ol
-    (set-attr ?ol addressee (attr ?w name))
-    (set-attr ?ol address (home-of ?w))
-    (check (attr ?ol address))
-    (debug-print "DRAFT_OFFER w=?w")
-    (push ?ol ?out)
+    (if (substantial (home-of ?w))
+      (then
+        (create-entity [k offer_letter] (qual location (building @self))): ?ol
+        (set-attr ?ol addressee (attr ?w name))
+        (set-attr ?ol address (home-of ?w))
+        (check (attr ?ol address))
+        (debug-print "DRAFT_OFFER w=?w")
+        (push ?ol ?out)))
     (destroy-entity ?app)
     (set-outcome {@self DRAFT_OFFER ?app ?out} succ)))

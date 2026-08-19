@@ -34,8 +34,8 @@
 ; act-belief bars re-carting the SAME body (the role's (not (believes ...)) drops
 ; it): one church-trip per known death, not a standing pilgrimage. A corpse
 ; already buried elsewhere is excluded belief-side for everyone who attended or
-; was told of the rite (bury_act's (tell {?corpse condition [k buried]}) drops
-; it from the dead-and-not-buried cast); an absent knower's stale dead-belief
+; was told of the rite (bury_act's (tell {?corpse internment [k buried]}) drops
+; it from the dead-and-unburied cast); an absent knower's stale unburied percept
 ; fades on the normal decay curve, and the relocate stays a safe no-op on a
 ; dead abs link meanwhile.
 ; ----------------------------------------------------------------------------
@@ -51,7 +51,7 @@
 (npc-think want_convey
   (role @self (grown @self))
   (role ?corpse {?corpse condition [k dead]}
-                (not {?corpse condition [k buried]})
+                {?corpse internment [k unburied]}
                 (not {@self CONVEY ?corpse /past})
                 (select (score (months-since-death ?corpse)) (policy argmax)))
   ; FRESHNESS cap beside the politeness gate: a death known for months no longer

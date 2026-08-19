@@ -46,7 +46,7 @@
   ; a disinhibited, volatile, callous impulse, base-rate 0.5 keeping it a tail
   ; (chance = 0.5 * disinhibition * 0.5 * (volatility + callousness)).
   (when (and ?focus
-             (no-goal {@self FIGHT ?focus})
+             (no-goal {@self assault ?focus})
              (caused-by ?kgoal {@self pressure ?})
              (or (any {?focus condition [k dead]} (out int))
                  (>= (- (target-or ?focus prestige 0) (target-or @self prestige 0)) 0.25))

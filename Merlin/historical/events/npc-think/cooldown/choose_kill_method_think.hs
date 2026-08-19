@@ -2,7 +2,8 @@
 ; choose_kill_method (npc-think). A killer with a standing kill goal and no
 ; chosen method picks HOW (the kill_method_choice rows): strength-gated,
 ; weight-scored, money-gated for the commission. The choice mints:
-;   {@self method <atom>}            - the MO (rap-sheet / attribution)
+;   {@self method <ACTION>}          - the chosen strike ACTION the fight lane
+;                                      dispatches per blow ({@self ?method ?foe})
 ;   {@self method_means [k <kind>]}  - the tool requirement; the means seam
 ;     (intra_day_means_kind_for) reads THIS belief, arming the means
 ;     acquisition (travel + purchase/steal), which in turn arms the fight
@@ -47,7 +48,7 @@
                 (end-goal {@self kill ?victim}))
             ; No connected killer / no reach / no money: fall back to the
             ; bare-handed default so the campaign does not stall.
-            (else (begin-belief {@self method strangle} /caused_by ?goal))))
+            (else (begin-belief {@self method STRANGLE} /caused_by ?goal))))
         (else
           (begin-belief {@self method ?method} /caused_by ?goal)
           (if (is-kind ?means)

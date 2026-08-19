@@ -10,8 +10,8 @@
 
 (npc-action {@self LEFT_TAKE ?item}:?take-action
   (duration 1)
-  (effects (take-effects (attr left_hand) ?item ?take-action)))
+  (effects (take-effects (spatial @self left_hand) ?item ?take-action)))
 
 (npc-action {@self RIGHT_TAKE ?item}:?take-action
   (duration 1)
-  (effects (take-effects (attr right_hand) ?item ?take-action)))
+  (effects (take-effects (spatial @self right_hand) ?item ?take-action)))

@@ -32,6 +32,8 @@ archetype "human_npc" (cap 4096) (per obs) (raycast-visible) (sentient) (non-occ
     # NPCs learn their own name through self-awareness, not passive perception
     (attr "name")
     (attr "condition")
+    (attr "awareness")
+    (attr "internment")
     (attr "pregnant_when")
     (attr "sexual_orient")
     # Continuous physical tiredness (0..2) - the rest lane reads it; the sleep

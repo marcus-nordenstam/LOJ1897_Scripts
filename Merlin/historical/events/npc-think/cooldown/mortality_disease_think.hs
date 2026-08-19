@@ -25,6 +25,6 @@
              (chance 0.0008)))   ; ~1% per year background disease rate
 
   (effects
-    (propagate-death @self)
+    (settle-death @self)
     (record-corpse-death @self [k death_cause disease])
     ))

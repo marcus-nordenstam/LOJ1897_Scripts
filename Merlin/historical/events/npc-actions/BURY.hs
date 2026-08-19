@@ -11,8 +11,8 @@
 
 ; The rite. Reads (verdict / tombstone / violence) BEFORE the destroy while the
 ; corpse still resolves, then realizes the interment: the priest's own ongoing
-; {?corpse condition buried} (realize-destroyed keeps the `dead` condition beside
-; it - condition is non-exclusive), TOLD to everyone co-present at the rite (the
+; {?corpse internment buried} (a separate @excl axis from `condition`, so `dead`
+; stands beside it), TOLD to everyone co-present at the rite (the
 ; conveyer, the mourners), AND propagated to the deceased's whole social circle
 ; ((propagate-burial) - the funeral / parish register is public knowledge, the
 ; same channel the death itself travelled), so every knower's dead-and-not-
@@ -26,8 +26,8 @@
     (record-verdict ?corpse)
     (tombstone ?corpse)
     (if (violent-corpse ?corpse) (then (propagate-murder-awareness ?corpse)))
-    (realize-destroyed ?corpse [k condition buried])
-    (tell (utterable-msg {?corpse condition [k buried]}))
+    (realize-destroyed ?corpse internment [k internment buried])
+    (tell (utterable-msg {?corpse internment [k buried]}))
     (propagate-burial ?corpse)
     (destroy-entity ?corpse)
     (set-outcome {@self BURY ?corpse} succ)))

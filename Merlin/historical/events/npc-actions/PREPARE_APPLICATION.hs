@@ -17,10 +17,12 @@
   (duration 20)
   (effects
     (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
-    (create-entity [k application]
-        (qual location (building @self))): ?app
-    (write-doc-record [k application] ?app
-        (applicant @self) (job ?jk) (org_record ?art) (workplace ?wp))
-    (set-attr ?app addressee_duty recruit_staff)
-    (set-attr ?app address ?wp)
+    (if (substantial ?wp)
+      (then
+        (create-entity [k application]
+            (qual location (building @self))): ?app
+        (write-doc-record [k application] ?app
+            (applicant @self) (job ?jk) (org_record ?art) (workplace ?wp))
+        (set-attr ?app addressee_duty recruit_staff)
+        (set-attr ?app address ?wp)))
     (set-outcome {@self PREPARE_APPLICATION ?art ?jk} succ)))

@@ -23,7 +23,7 @@
           (begin-belief ?conf {@self mention [k death_cause suicide]})))
     (if (and (>= (despair ?who) (suicide_despair_min))
              (>= (attr ?who withdrawal) (suicide_withdrawal_min)))
-        (then (propagate-death ?who)
+        (then (settle-death ?who)
             (record-corpse-death ?who [k death_cause suicide])))))
 
 ; The strive outlet (benign envy): train for the rematch - stamp the practice marker

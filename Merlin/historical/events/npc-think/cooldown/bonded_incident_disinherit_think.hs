@@ -66,6 +66,11 @@
                         (* 0.3 (+ (any {@self detest  ?victim} (out int))
                                   (any {@self despise ?victim} (out int))))))))
 
+  (utility want)
+
+  ; Propose the disinherit TASK (disinherit-task.hs): the benefactor performs the
+  ; disinheritance - not a fabricated omniscient record. (Interim: the task SAYs it to
+  ; the victim, planting the knowledge; the proper will-writing + heir-realization lands
+  ; when will-documents do.)
   (effects
-    (incident-anchor @self disinherit ?victim)
-    ))
+    (begin-proposal {@self disinherit ?victim})))

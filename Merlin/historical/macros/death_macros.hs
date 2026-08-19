@@ -1,38 +1,28 @@
 ; ----------------------------------------------------------------------------
-; death_macros.hs - death + burial propagation, expressed over atomic ops.
+; death_macros.hs - death world-settlement + burial propagation.
 ;
-; (propagate-death ?dead) is the ONE sanctioned director-channel sweep that runs
-; when a person dies (natural death, suicide, kill - every terminal calls it).
-; It walks the deceased's OWN social-tie beliefs (the kin / bond / loose label
-; alts below, one deduped pass, via the /their-mind for-each - the sanctioned
-; director read of the SUBJECT's own mind, not @self's beliefs about them) and,
-; for each survivor:
-;   - interval-ends EVERY belief the survivor holds about the deceased at
-;     UNFORGETTABLE salience ("X WAS my spouse" survives for life; the default
-;     salience would wipe the memory on the next sleep sweep),
-;   - asserts the fresh ongoing {?dead condition [k dead]} belief (its
-;     interval-start IS the death time; "alive" is its absence).
-; Then the engine atomics settle the world: goals nesting the deceased retire
-; across all minds, a vacated leadership post backfills, the roster entry drops,
-; the estate passes, and (die) marks the corpse (condition attr + mind status).
-; The corpse is NOT destroyed here - burial's sweep does that.
+; (settle-death ?dead) settles the WORLD when a person dies (natural death,
+; suicide, kill - every terminal calls it): a vacated leadership post backfills,
+; the roster entry drops, the estate + orgs + money pass to heirs, and (die)
+; marks the corpse (condition attr + mind status). It does NOT propagate
+; death KNOWLEDGE - that is pulled, never pushed: the learn_of_death keystone
+; (npc-think) ends each mind's stale beliefs about the deceased the moment that
+; mind LEARNS of the death by a real channel (perceiving the corpse, being told,
+; reading it). Goal retirement is likewise distributed - each person-targeted
+; lane owns a dead-twin gated on its own dead-belief (fight_concluded /
+; kill_concluded / ...), never a central all-minds sweep. (die) runs LAST: the
+; settlement ops read the dying person's own ties, and die ends the mind. The
+; corpse is NOT destroyed here - burial's rite does that.
 ;
-; (propagate-burial ?corpse) closes the death loop at the graveside: every tie
-; of the corpse learns {?corpse condition [k buried]} - the funeral / parish
-; register is public knowledge, the same channel the death itself travelled.
-; This is what releases the town's convey / bury filters: without it every
-; absent knower kept an unforgettable dead-and-unburied belief forever and
-; re-scanned it at every deliberation. Must run BEFORE (destroy-entity ?corpse)
-; - the walk reads the corpse's own tie beliefs (never ended by the death sweep).
+; (propagate-burial ?corpse): the graveside notification of the whole social
+; circle that the corpse is interred, releasing their dead-and-unburied convey /
+; bury filters. Must run BEFORE (destroy-entity ?corpse) - the walk reads the
+; corpse's own tie beliefs. (A pull-model burial-knowledge lane is later work;
+; kept here for now, scoped to the propagate-death purge.)
 ; ----------------------------------------------------------------------------
 
-(define-macro propagate-death (?dead)
+(define-macro settle-death (?dead)
   (do
-    (for-each-present-tense-belief {?dead mother|father|parent|sibling|half_sibling|brother|sister|child|grandmother|grandfather|grandparent|grandchild|aunt|uncle|niece|nephew|cousin|mother_in_law|father_in_law|parent_in_law|sister_in_law|brother_in_law|sibling_in_law|daughter_in_law|son_in_law|child_in_law|stepmother|stepfather|stepchild|spouse|fiancee|friend|lover|acquaintance|neighbour|enemy ?svr /their-mind}
-      (do
-        (end-beliefs-about ?svr ?dead /salience unforgettable /reason died)
-        (begin-belief-in ?svr {?dead condition [k dead]})))
-    (end-goals-nesting ?dead)
     (promote-on-vacancy ?dead)
     (fire /worker ?dead)
     (inherit-orgs ?dead)
@@ -42,4 +32,4 @@
 
 (define-macro propagate-burial (?corpse)
   (for-each-present-tense-belief {?corpse mother|father|parent|sibling|half_sibling|brother|sister|child|grandmother|grandfather|grandparent|grandchild|aunt|uncle|niece|nephew|cousin|mother_in_law|father_in_law|parent_in_law|sister_in_law|brother_in_law|sibling_in_law|daughter_in_law|son_in_law|child_in_law|stepmother|stepfather|stepchild|spouse|fiancee|friend|lover|acquaintance|neighbour|enemy ?svr /their-mind}
-    (begin-belief-in ?svr {?corpse condition [k buried]})))
+    (begin-belief-in ?svr {?corpse internment [k buried]})))

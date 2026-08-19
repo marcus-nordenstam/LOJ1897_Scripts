@@ -308,11 +308,11 @@ relation
 
             # Abstract / cognitive sub-block - no motors. These tasks
             # consume cycle time but emit no env-mutating ACTION sequence.
-            withdraw                                            (tar human)
-            plead                                               (tar human)
-            atone                                               (tar human)              (construed_act honour_act)
-            surrender                                           (tar human)
-            replace                                             (tar human)
+#            withdraw                                            (tar human)
+#            plead                                               (tar human)
+#            atone                                               (tar human)              (construed_act honour_act)
+#            surrender                                           (tar human)
+#            replace                                             (tar human)
 
             # urge - influence a target into a sub-task or state. The
             # inner clause is what's being urged, e.g.
@@ -328,18 +328,20 @@ relation
             # the deleted (behaviour) block.
             # insult / confront_privately moved into the `speech_act`
             # group at the end of this block.
-            discredit           (motor mouth)                   (tar human)              (construed_act expose_act betray_act wrong_act)
-            expose_first        (motor mouth)                   (tar human)              (construed_act expose_act)
-            confess_in_person   (motor legs mouth)              (tar human)              (construed_act honour_act)
+#            discredit           (motor mouth)                   (tar human)              (construed_act expose_act betray_act wrong_act)
+#            expose_first        (motor mouth)                   (tar human)              (construed_act expose_act)
+#            confess_in_person   (motor legs mouth)              (tar human)              (construed_act honour_act)
             # divorce: a husband formally puts away an adulterous wife
             # (husband-initiated ONLY - a betrayed wife of the period has
             # no such recourse and releases through confront / expose /
             # humiliate / withdraw instead). Point act-record; the
             # repudiation_act reactions put the disgrace on the PATIENT.
             divorce             (motor mouth)                   (tar human)              (construed_act repudiation_act)
-            recruit             (motor mouth)                   (tar human)  (aux ?)
+#            recruit             (motor mouth)                   (tar human)  (aux ?)
 
-            assault             (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (obs)  (abduct)
+            # assault - the perpetrator's blame-bearing attack task. Self-declared by
+            # its (npc-task ...) head in npc-tasks/assault-task.hs (tasks live in .hs,
+            # not here); (obs) makes it witnessed via the observable-task channel.
 
             # kill - ABSTRACT goal task. No method aux: the method is a
             # separate, more-specific leaf task (strangle / shoot / poison
@@ -359,15 +361,15 @@ relation
             # as goal-clause inner labels. Their leaf method-tasks
             # (declared below) are what actually get performed and
             # recorded as anchors at perpetration time.
-            punish                                              (tar human)                (construed_act harm_act)
+#            punish                                              (tar human)                (construed_act harm_act)
             hurt                                                (tar human)                (construed_act harm_act)
             # tamper - PREPARATION for a perpetration; the trap-fire event
             # mints the appraisable kill / harm record when the trap
             # fires. No construed_act tag at the task level.
-            tamper              (motor right_hand)              (tar object)  (aux ?)
+#            tamper              (motor right_hand)              (tar object)  (aux ?)
             # add_substance - perpetrator subject; substance target;
             # vessel in aux. Preparation - no tag.
-            add_substance       (motor right_hand)              (tar object)  (aux object)
+#            add_substance       (motor right_hand)              (tar object)  (aux object)
             # bribe - functional inverse of coerce. Means-of-pressure;
             # the appraisable harm is whatever gets done with the bought
             # compliance, so no construed_act tag here.
@@ -377,14 +379,14 @@ relation
             # future-tense `inherit` prospect for the named thing (or all,
             # for total disinheritance) once engine future-interval support
             # lands. The dropped heir feels abandonment.
-            disinherit          (motor eyes right_hand)         (tar human)              (construed_act abandonment_act wrong_act)  (abduct)
+#            disinherit          (motor eyes right_hand)         (tar human)              (construed_act abandonment_act wrong_act)  (abduct)
             # jilt - the chosen ending of a lover bond (the jilter breaks
             # with the jilted, typically for a class-suitable betrothal).
             # Patient cascade: abandonment_act -> grief + attachment_loss +
             # status_loss; wrong_act -> anger + humiliation + injustice -
             # the obsessive-ex pressure stack the coerce deliberation
             # affinity reads.
-            jilt                (motor mouth)                   (tar human)              (construed_act abandonment_act wrong_act)  (abduct)
+#            jilt                (motor mouth)                   (tar human)              (construed_act abandonment_act wrong_act)  (abduct)
             # silence_witness - composite task. Implementations may
             # bubble down through kill / bribe / coerce chains depending
             # on substrate; the anchor records the composite plan that
@@ -393,7 +395,7 @@ relation
             # actor's substrate-driven perpetration selector picks. The
             # silenced state itself is expressed as
             # {witness avoid {witness tell secret}}.
-            silence_witness                                     (tar human)
+#            silence_witness                                     (tar human)
 
             # ----------------------------------------------------------------------------------
             # Leaf method-tasks - the SPECIFIC tasks an actor performs to
@@ -421,27 +423,27 @@ relation
 
             # Sharp-implement leaf kill-tasks. Each requires a blade /
             # pointed-blade controlled by an actor's hand.
-            stab                (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
-            slash               (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
-            decapitate          (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+#            stab                (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+#            slash               (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+#            decapitate          (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
 
             # Blunt-implement leaf kill-tasks.
-            beat_to_death       (motor right_hand left_hand legs)  (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
-            bludgeon            (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
-            push_from_height    (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+#            beat_to_death       (motor right_hand left_hand legs)  (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+#            bludgeon            (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+#            push_from_height    (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
 
             # Asphyxiation leaf kill-tasks. strangle is bare-handed;
             # garrotte uses cord_or_wire in hand; smother uses a soft
             # implement; hang and neck_snap are mechanical.
-            strangle            (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
-            garrotte            (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
-            smother             (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
-            hang                (motor right_hand left_hand legs)  (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
-            neck_snap           (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
+#            strangle            (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+#            garrotte            (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+#            smother             (motor right_hand left_hand)    (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+#            hang                (motor right_hand left_hand legs)  (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime)  (obs)
+#            neck_snap           (motor right_hand left_hand)    (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
 
             # Projectile / explosive leaf kill-tasks.
-            shoot               (motor right_hand eyes)         (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
-            bomb                (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
+#            shoot               (motor right_hand eyes)         (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
+#            bomb                (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
 
             # Chemical leaf kill-task. The /aux is the VESSEL entity the
             # dose was served in; the poison itself is a concentrated
@@ -449,19 +451,19 @@ relation
             # victim's drink (the drink fluid's `taint` attr names the
             # poison kind). poison is the chronic / acute administering task
             # whose completion is the victim's death.
-            poison                                              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (facets reportable_crime blackmailable)
+#            poison                                              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (facets reportable_crime blackmailable)
 
             # Hydraulic / thermal / electrical leaf kill-tasks.
-            drown               (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
-            freeze              (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)
-            immolate            (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
-            arson               (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)
-            cook_alive          (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
-            electrocute         (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
+#            drown               (motor right_hand left_hand legs)  (tar human)           (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
+#            freeze              (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)
+#            immolate            (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
+#            arson               (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act)
+#            cook_alive          (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
+#            electrocute         (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)  (theme violent_to)  (obs)
 
             # Animal-mediated leaf kill-tasks.
-            unleash_animal      (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)
-            unleash_insect      (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)
+#            unleash_animal      (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)
+#            unleash_insect      (motor right_hand)              (tar human)              (construed_act harm_act wrong_act)
 
             # Trap / indirect leaf kill-tasks. death_trap is a delayed
             # mechanical trap (the actor isn't present at trigger).
@@ -469,9 +471,9 @@ relation
             # false pretense (Bible: David's order to put Uriah in the
             # front line). commission_killing delegates the act to a hired
             # killer (the murder-for-hire conspiracy - contract_killing.cc).
-            death_trap          (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act betray_act)  (facets reportable_crime)
-            uriah_gambit                                        (tar human)              (construed_act harm_act wrong_act betray_act)
-            commission_killing                                  (tar human)  (aux human)  (construed_act harm_act wrong_act)
+#            death_trap          (motor right_hand)              (tar human)  (aux object)  (construed_act harm_act wrong_act betray_act)  (facets reportable_crime)
+#            uriah_gambit                                        (tar human)              (construed_act harm_act wrong_act betray_act)
+#            commission_killing                                  (tar human)  (aux human)  (construed_act harm_act wrong_act)
 
             # Leaf non-kill-tasks - specific methods for achieving the
             # non-kill abstract goals (steal / expose / coerce / bribe /
@@ -481,7 +483,7 @@ relation
             # specific enough (e.g. `insult`, `discredit`) the
             # perpetration row uses the parent task directly as its
             # leaf.
-            opportunist_theft   (motor legs right_hand)         (tar human)              (construed_act appropriation_act wrong_act)  (theme thief_to)  (facets reportable_crime blackmailable)
+#            opportunist_theft   (motor legs right_hand)         (tar human)              (construed_act appropriation_act wrong_act)  (theme thief_to)  (facets reportable_crime blackmailable)
             anonymous_letter    (motor eyes right_hand legs)    (tar human)  (aux ?)     (construed_act expose_act betray_act)  (facets blackmailable)
             # report_to_police: the report_crime goal's leaf - writing and
             # delivering a crime_report letter to the police station.
@@ -510,11 +512,11 @@ relation
             # `task`), so no flat task sibling may follow this nested
             # group.
             # ----------------------------------------------------------------------------------
-            speech_act
-                insult              (motor mouth)                   (tar human)              (construed_act slight_act)  (theme rude_to)  (abduct)
-                confront_privately  (motor legs mouth)              (tar human)
+#            speech_act
+#                insult              (motor mouth)                   (tar human)              (construed_act slight_act)  (theme rude_to)  (abduct)
+#                confront_privately  (motor legs mouth)              (tar human)
                 confront_publicly   (motor mouth)                   (tar human)              (construed_act expose_act)
                 threaten_violence   (motor mouth)                   (tar human)  (aux ?)     (construed_act coercion_act threaten_act wrong_act)
                 blackmail           (motor mouth)                   (tar human)  (aux ?)     (construed_act coercion_act wrong_act betray_act)
                 public_humiliation  (motor mouth)                   (tar human)              (construed_act degrade_act wrong_act)
-                spread_rumour       (motor mouth)                   (tar human)  (aux ?)     (construed_act expose_act betray_act wrong_act)
+#                spread_rumour       (motor mouth)                   (tar human)  (aux ?)     (construed_act expose_act betray_act wrong_act)

@@ -27,9 +27,9 @@
 ;     flips true (he has reached the body).
 ;   bury_onsite: while CO-PRESENT with the body, PROPOSE {@self BURY ?corpse}, whose
 ;     winning proposal promotes bury_act (the rite). The propose STOPS when the
-;     corpse-condition gate drops: bury_act tells {?corpse condition buried} and
-;     DESTROYS the corpse, so the (not (believes ... buried)) / condition-dead filter
-;     unmatches and the ?corpse role empties (bury_act ends its own act-belief).
+;     corpse gate drops: bury_act tells {?corpse internment buried}, which @excl-
+;     supersedes the priest's unburied percept, so the positive internment-unburied
+;     filter unmatches and the ?corpse role empties (bury_act ends its own act-belief).
 ;
 ; The route->rite handoff is emergent from the co-present spatial gate: the held
 ; route rung advances to the rite the moment co-present flips, so the rite promotes
@@ -41,12 +41,13 @@
 ; corpse's {isa human} belief is end-dated at death (propagate_death), so a
 ; [k human] positional kind - which compiles to a (believes {?corpse isa
 ; [k human]}) ongoing-belief filter - would never match. Only humans carry
-; condition dead, so the filter is exact. An already-buried corpse is excluded
-; belief-side: bury_act mints {?corpse condition buried} (kept ONGOING beside
-; `dead` - condition is non-exclusive) in the burying priest's mind and TELLS
-; the rite's co-present witnesses, so the (not (believes ... buried)) filter
-; drops it - no re-bury, no env-existence probe. A knower absent from the rite
-; keeps the stale dead-belief until it fades (peripheral-object decay).
+; condition dead, so the filter is exact. The corpse is cast off the POSITIVE
+; internment-unburied percept (every observer of a person holds it by default);
+; bury_act mints {?corpse internment buried} in the burying priest's mind and
+; TELLS the rite's co-present witnesses, and internment is @excl, so buried
+; supersedes unburied and the positive filter drops it - no re-bury, no
+; env-existence probe. A knower absent from the rite keeps the stale unburied
+; percept until it fades (peripheral-object decay).
 ; ----------------------------------------------------------------------------
 
 ; ROUTE rung. Held while the priest is NOT yet co-present with the overdue body:
@@ -58,7 +59,7 @@
 (npc-think bury_route
   (role @self {@self job [k job priest]})
   (role ?corpse {?corpse condition [k dead]}
-                (not {?corpse condition [k buried]})
+                {?corpse internment [k unburied]}
                 (not (co-present ?corpse @self))
                 (select (score (months-since-death ?corpse)) (policy argmax)))
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
@@ -69,12 +70,12 @@
 ; ONSITE rung. While the priest is CO-PRESENT with the overdue body, PROPOSE
 ; {@self BURY ?corpse} - the winning proposal promotes bury_act
 ; (the rite). bury_act ends its OWN {@self BURY ?corpse} act-belief and destroys the
-; corpse (telling {?corpse condition buried}), so the ?corpse role empties on the next
+; corpse (telling {?corpse internment buried}), so the ?corpse role empties on the next
 ; cycle and the rung simply stops proposing - no goal to retract, no cease needed.
 (npc-think bury_onsite
   (role @self {@self job [k job priest]})
   (role ?corpse {?corpse condition [k dead]}
-                (not {?corpse condition [k buried]})
+                {?corpse internment [k unburied]}
                 (co-present ?corpse @self)
                 (select (score (months-since-death ?corpse)) (policy argmax)))
   (when (>= (months-since-death ?corpse) 1))

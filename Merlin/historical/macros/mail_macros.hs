@@ -28,22 +28,24 @@
 ; that written destination. The letter is born where @self stands, so @self can carry it
 ; to a post pile.
 (define-macro post-letter (?kind ?msg ?dest ?addressee)
-  (do
-    (create-entity ?kind (qual location (building @self))): ?ltr
-    (set-writing ?ltr ?msg)
-    (set-attr ?ltr addressee (attr ?addressee name))
-    (set-attr ?ltr address ?dest)
-    (begin-proposal {@self send_mail ?ltr})))
+  (if (substantial ?dest)
+    (then
+      (create-entity ?kind (qual location (building @self))): ?ltr
+      (set-writing ?ltr ?msg)
+      (set-attr ?ltr addressee (attr ?addressee name))
+      (set-attr ?ltr address ?dest)
+      (begin-proposal {@self send_mail ?ltr}))))
 
 ; (post-blank-letter [k <kind>] ?dest ?addressee): like post-letter but with NO written
 ; body - a letter whose verdict IS its KIND (offer_letter / rejection_letter, read by kind
 ; not body). Composed, addressed with ?dest's street address, and handed to the mail lane.
 (define-macro post-blank-letter (?kind ?dest ?addressee)
-  (do
-    (create-entity ?kind (qual location (building @self))): ?ltr
-    (set-attr ?ltr addressee (attr ?addressee name))
-    (set-attr ?ltr address ?dest)
-    (begin-proposal {@self send_mail ?ltr})))
+  (if (substantial ?dest)
+    (then
+      (create-entity ?kind (qual location (building @self))): ?ltr
+      (set-attr ?ltr addressee (attr ?addressee name))
+      (set-attr ?ltr address ?dest)
+      (begin-proposal {@self send_mail ?ltr}))))
 
 ; (plant-letter [k <kind>] <msg> ?premises): leave an UNADDRESSED <kind> letter
 ; carrying <msg> at ?premises - a killer's kept forged draft as discoverable evidence

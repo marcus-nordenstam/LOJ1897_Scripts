@@ -30,7 +30,7 @@
   (effects
     ; consume the passed loaf (a home supper); 0 for an abstract meal.
     (if ?food
-        (then (realize-destroyed ?food [k condition consumed])
+        (then (realize-destroyed ?food condition [k condition consumed])
               (destroy-entity ?food)))
     ; HUNGER: a full supper resets; a lighter meal takes the edge off.
     (if (is-a ?meal [k supper])

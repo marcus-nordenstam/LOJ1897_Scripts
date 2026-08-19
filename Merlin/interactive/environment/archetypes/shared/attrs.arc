@@ -61,6 +61,15 @@
 # hsim mind that observes someone internalizes {them condition alive|dead} - the
 # perception-native replacement for an explicit liveness mint.
 (attr "condition" (type kind alive) (per obs) (auto-percept) (hsim-percept))
+# Consciousness axis - human_npc only (props never carry it). Default conscious;
+# a subdue blow writes unconscious, recovery writes it back. Mirrors like
+# condition, so a witness who observes the struck body internalizes {them
+# awareness unconscious}; @excl (concept-side) supersedes the prior value.
+(attr "awareness" (type kind conscious) (per obs) (auto-percept) (hsim-percept))
+# Interment axis - human_npc only. Default unburied, so anyone who observes a
+# person holds {them internment unburied}; the burial rite mints buried
+# belief-side, which @excl-supersedes the unburied percept in every witness.
+(attr "internment" (type kind unburied) (per obs) (auto-percept) (hsim-percept))
 (attr "color" (type kind) (per obs) (auto-percept))
 
 # Sensors & motors

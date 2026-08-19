@@ -35,12 +35,11 @@
 ; non-belief ops, dynamic-label binds and act-desire gates stay in (when).
 ; ----------------------------------------------------------------------------
 
-;; `condition` is NOT exclusive (a stale {?x condition alive} percept-mirror can
-;; coexist ongoing beside a later-learned {?x condition dead} in minds outside the
-;; death-propagation circle), so every liveness gate is alive-AND-not-known-dead.
+;; `condition` is @excl, so a learned {?x condition dead} supersedes the earlier
+;; {?x condition alive} percept-mirror in that mind - the positive liveness leg
+;; alone suffices; no separate not-dead leg.
 (define-macro known_alive (?x)
-  (and (believes {?x isa [k human], condition [k alive]})
-       (not (believes {?x condition [k dead]}))))
+  (believes {?x isa [k human], condition [k alive]}))
 
 (define-macro old_human (?x)
   (and (known_alive ?x)

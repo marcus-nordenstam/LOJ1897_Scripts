@@ -1,42 +1,42 @@
 ; ----------------------------------------------------------------------------
-; attempt_kill.hs - the kill goal's execution routing (pure .hs).
+; attempt_kill (npc-think) - the kill goal's execution routing (batch-3 Lane 1).
 ;
-; A standing {@self goal {@self kill V}} resolves through the EMERGENT FIGHT:
-; this think mints the combat goal {@self goal {@self FIGHT V}} (idempotent
-; per victim), and fight.hs plays it out blow by blow wherever killer and
-; victim meet - kill_seek stalks to V's home; an occasion that puts them
-; co-present (a crashed wedding) works identically, since kill_strike keys on
-; co-presence alone. (strike-blow) lands the wounds, the ledger row and
-; propagate-death; the goal alive-gate prunes both goals once V is dead.
+; A standing {@self goal {@self kill V}} runs through the ASSAULT -> FIGHT
+; decomposition: this rung PROPOSES the blame-bearing {@self assault V} task
+; (assault-task.hs), which reaches V and begins the neutral {@self fight V}
+; episode; the fight proposes the chosen strike action blow by blow until V dies.
+; The assault carries the moral blame (it is (obs), witnessed); the blows do not.
 ;
-; Replaces the C++ generative loop's melee branch (run_generative_perpetration
-; minted this same fight goal after a method sample whose winner it then
-; DISCARDED - the fight strikes with whatever is in hand, so the sample only
-; gated the mint month). The loop now skips kill goals entirely.
-;
-; The killer arms BEFOREHAND or not at all: possession is their own state
-; ((control ?means)), acquisition is the means errand - never a
-; world scan. An unarmed killer fights bare-handed (strangle / beat), exactly
-; what (strike-blow)'s weapon-class resolution models.
+; kill_concluded is the goal's dead-twin: goal retirement is distributed now (the
+; central propagate-death goal-sweep is purged), so the standing kill goal ends
+; itself the moment @self believes V dead (his own fatal blow minted the
+; dead-percept; or another hand felled V and he learned by a real channel).
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
 
 (npc-think attempt_kill
   (cooldown 1 m)
-  (goal {@self kill ?victim})
+  (goal {@self kill ?victim}:?kgoal)
 
   (role @self )
 
-  ; ?victim = the first standing kill goal focus, bound by the goal clause. A kind-valued target (a
-  ; profile goal not yet bound to a person) or a dead victim gates out; the
-  ; per-victim fight-goal test keeps the mint idempotent across months.
+  ; ?victim = the standing kill-goal focus. A kind-valued profile goal or a dead
+  ; victim gates out; begin-proposal dedups a matching live assault proposal (no
+  ; self-felling no-goal gate needed).
+  (when (and ?victim
+             (none {?victim condition [k dead]})))
 
-  (when (and (debug-print "TRACE_ATKILL_GATE @self victim=?victim")
-             ?victim
-             (none {?victim condition [k dead]})
-             (no-goal {@self FIGHT ?victim})))
+  (utility survival)
 
   (effects
-    (debug-print "TRACE_ATKILL_MINT @self -> fight victim=?victim")
-    (begin-goal {@self FIGHT ?victim})))
+    (begin-proposal {@self assault ?victim})))
+
+; The dead-twin: end the standing kill goal once V is believed dead - satisfied
+; (his own kill) or moot (another's). Owns only ITS goal's conclusion.
+(npc-think kill_concluded
+  (cooldown 1 m)
+  (goal {@self kill ?victim})
+  (when (believes {?victim condition [k dead]}))
+  (effects
+    (end-goal {@self kill ?victim})))
