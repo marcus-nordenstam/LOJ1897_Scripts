@@ -1,7 +1,9 @@
-# Stacks can hold items (e.g. props). When they do, the items in the stack all share
-# the same spatial bounds - that of the stack. Membership + order live in the
-# placement index (whereabouts_chains stack edges; head = exposed item), written
-# only by the filing seam (t_environment::file_in_stack / unfile_from_stack).
+# Stacks can hold items (e.g. props). A filed item is de-gridded and keeps its
+# own frozen bounds; the stack grows its own bounds to encompass what it holds
+# (file_in_stack), so the stack's box - not the items' - is what sizes the pile.
+# Membership + order live in the placement index (whereabouts_chains stack edges;
+# head = exposed item), written only by the filing seam
+# (t_environment::file_in_stack / unfile_from_stack).
 # Cap sized for the mail model over a long run: two piles per premises (~400)
 # plus two per hiding-spot cache - caches accrue one per new affair pairing
 # for decades - plus the registry stacks (a 20yr run hit 512).

@@ -260,6 +260,11 @@
 # stack edges: the list head is the exposed item, bury re-links to the tail) -
 # there are no items/top/in_stack attrs.
 
+# Pile (fungible-item collection). A co-present observer mints exactly two
+# beliefs regardless of count: {pile content_kind [k <kind>]} + {pile count N}.
+(attr "content_kind" (type kind) (per obs) (auto-percept) (hsim-percept))
+(attr "count" (type int) (range 0 1000000) (per obs) (auto-percept) (hsim-percept))
+
 # Weather (region)
 (attr "rain" (type kind heavy) (per obs) (auto-percept))
 (attr "snow" (type kind none) (per obs) (auto-percept))

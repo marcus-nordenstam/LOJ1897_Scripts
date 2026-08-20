@@ -301,6 +301,13 @@ object (+ obs)
                 # incoming mail_stack of the building at its written address.
                 outgoing_mail_stack
             row
+            # A pile of N identical FUNGIBLE items (shop-shelf bread, a coin
+            # heap, a larder's stock): ONE entity + ONE mental object standing
+            # for the whole, storing the item KIND (content_kind) and a COUNT,
+            # never per-item entities. increment/decrement change the count;
+            # subsume folds a real item in; extract spawns one out. A
+            # memory-compression device - its bounds are the pile SHAPE.
+            pile
         sporting_gear
             ball
                 football
