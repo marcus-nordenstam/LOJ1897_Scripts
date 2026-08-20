@@ -9,6 +9,7 @@
 
 (include "../../definitions/roles.hs")
 (include "../../macros/tunables.hs")
+(include "../../macros/collection_macros.hs")
 
 ; A pure act: the BUY CAP (basket vs larder shortfall vs what is already in
 ; hand) is the proposing think's arithmetic and rides the pattern; the body
@@ -16,10 +17,26 @@
 (npc-action {@self PROVISION ?cap}
   (duration 15)
   (effects
+    ; The shelf is ONE food pile; the basket is ONE food pile in hand. Buying
+    ; is a pile-to-pile transfer: decrement the shelf, top up the basket - never
+    ; more than one bread-loaf explicitly represented, shop to hand to home.
     (spatial @self building): ?shop
     (for-each ?room (spatial ?shop parts [k interior_space room] /env)
-      (for-each ?item (spatial ?room contents [k food] /env) /limit ?cap
-        (do
-          (take-item ?item)
-          (begin-belief {@self provisions_shop ?shop}))))
+      (do
+        (bind 0 ?shop_pile)
+        (pile-at-into ?room [k food] ?shop_pile)
+        (if (and ?shop_pile (> (attr ?shop_pile count) 0))
+            (then
+              (min ?cap (attr ?shop_pile count)): ?grab
+              (pile-take ?shop_pile ?grab)
+              (bind 0 ?hand_pile)
+              (held-pile-into @self [k food] ?hand_pile)
+              (if (not ?hand_pile)
+                  (then (create-entity [k pile] (qual location ?room)): ?new_basket
+                        (set-attr ?new_basket content_kind [k food])
+                        (set-attr ?new_basket count 0)
+                        (take-item ?new_basket)
+                        (bind ?new_basket ?hand_pile)))
+              (pile-add ?hand_pile ?grab)
+              (begin-belief {@self provisions_shop ?shop})))))
     (set-outcome {@self PROVISION ?cap} succ)))

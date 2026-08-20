@@ -23,15 +23,20 @@
 ; hunger ATTR it updates. All the reasoning (which food, whose table) happened in
 ; the eat task's take_meal rung, which hands ?food (a believed loaf, or 0 for an
 ; abstract meal). ONE action serves every meal - the eat TASK differentiates them.
+(include "../../macros/collection_macros.hs")
+
 (npc-action {@self INGEST ?meal ?food}
   ; supper is the hour-long family meal; lunch 40; breakfast 30.
   (duration (if (is-a ?meal [k supper]) (then 60)
              (else (if (is-a ?meal [k lunch]) (then 40) (else 30)))))
   (effects
-    ; consume the passed loaf (a home supper); 0 for an abstract meal.
+    ; consume one loaf (a home supper); 0 for an abstract meal. The larder is a
+    ; PILE - eat one off its count; a loose loaf (legacy) is destroyed.
     (if ?food
-        (then (realize-destroyed ?food condition [k condition consumed])
-              (destroy-entity ?food)))
+        (then (if (is-a ?food [k pile])
+                  (then (pile-take ?food 1))
+                  (else (realize-destroyed ?food condition [k condition consumed])
+                        (destroy-entity ?food)))))
     ; HUNGER: a full supper resets; a lighter meal takes the edge off.
     (if (is-a ?meal [k supper])
         (then (set-attr @self hunger 0))

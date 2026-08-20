@@ -20,15 +20,13 @@
 ; / stolen / eaten down) is re-seeded. Replaces world-act/grocer_restock.hs.
 ; ----------------------------------------------------------------------------
 
+(include "../../macros/collection_macros.hs")
+
 ; The daily shelf cap - one town-day of provisions (a food prop is a
-; person-day, so the shelf carries roughly the parish between restocks).
-; Matches the founding-time seed (k_grocer_food_stock=200). Stocked into a
-; SINGLE room (/limit 1 below): 200 sits well under the 256 `contents`
-; plural cap even with the shopfront's furnishings + household-chemical
-; shelf, so - unlike the old whole-shop total spread round-robin across
-; rooms purely to dodge that cap - one room needs no round-robin, and the
-; whole-shop total stays ~200 (the validated food-economy tuning) instead
-; of 200-per-room.
+; person-day, so the shelf carries roughly the parish between restocks). The
+; shelf is ONE food pile (Objects.mon `pile`): the count IS the stock, so a
+; restock is a single top-up write, not ~200 entity spawns, and a co-present
+; shopper sees one {pile count N} belief instead of 200 loaf beliefs.
 (define-macro grocer_shelf_stock () 200)
 
 ; The weapons shelf cap. Any shop carries a small stock (a firearm + a knife) -
@@ -49,12 +47,17 @@
           ; Validate the shelves against belief - every room of the shop.
           (for-each ?room ?rooms
             (take-stock-of ?room [k food]))
-          ; Re-seed the shopfront to the daily cap (the morning delivery).
-          ; ONE room carries the whole town-day (/limit 1); the shortfall is
-          ; (cap - what is already there), so a full shelf spawns nothing.
+          ; Re-seed the shopfront to the daily cap (the morning delivery): top
+          ; the ONE food pile (/limit 1 room) back up to the cap. Idempotent -
+          ; a full shelf writes the same count it already holds.
           (for-each ?room ?rooms /limit 1
-            (repeat (- (grocer_shelf_stock) (count-entities [k food] ?room))
-              (create-entity [k food] (qual location ?room)): ?item))
+            (do
+              (bind 0 ?food_pile)
+              (pile-at-into ?room [k food] ?food_pile)
+              (if (not ?food_pile)
+                  (then (create-entity [k pile] (qual location ?room)): ?food_pile
+                        (set-attr ?food_pile content_kind [k food])))
+              (set-attr ?food_pile count (grocer_shelf_stock))))
           ; Restock the weapons + household-chemicals shelf the same way (one room
           ; carries the stock). Poison counts by the toxin FAMILY, spawns the
           ; household staple (white_arsenic) - just another provision the shop carries.

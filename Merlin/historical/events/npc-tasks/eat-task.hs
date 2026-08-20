@@ -9,6 +9,8 @@
 ;   table_talk  - turn to one co-present diner and air one untold piece of my own news.
 ; ----------------------------------------------------------------------------
 
+(include "../../macros/collection_macros.hs")
+
 (npc-task {@self eat ?meal ?place}:?e-rel
   (tar meal)
   (aux structure|space)
@@ -18,10 +20,20 @@
                 (else (if (is-a ?meal [k lunch]) (then 850) (else 780)))))
       (effects
         (bind 0 ?food)
+        ; A home supper eats one loaf off the kitchen larder PILE (the diner
+        ; stands in the home); ?food = that pile, handed to INGEST which
+        ; decrements it. Breakfast / lunch / a bought-out supper stay abstract.
         (if (and (is-a ?meal [k supper])
-                 (any {@self home ?place} (out int))
-                 (believed-located [k food] ?place))
-            (then (believed-located [k food] ?place): ?food))
+                 (any {@self home ?place} (out int)))
+            (then
+              (bind 0 ?et_kitchen)
+              (spatial ?place room [k kitchen]): ?et_kitchen
+              (if ?et_kitchen
+                  (then
+                    (bind 0 ?et_pile)
+                    (pile-at-into ?et_kitchen [k food] ?et_pile)
+                    (if (and ?et_pile (> (attr ?et_pile count) 0))
+                        (then (bind ?et_pile ?food)))))))
         (maintain-proposal {@self INGEST ?meal ?food}))
       (cease-effects
         (caused-by {@self INGEST ?meal /past} ?e-rel): ?rec-rel

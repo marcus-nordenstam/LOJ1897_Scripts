@@ -15,10 +15,10 @@
 ; (> hunger 0.25): just-fed NPCs skip the next window (the once-per-window dedup).
 ;
 ; FOOD KNOWLEDGE IS PER-MIND (the no-omniscience rule): every stock gate reads
-; the asker's OWN whereabouts beliefs via (count-believed-located [k food]
-; <place>) - what this NPC has actually SEEN lying about the house - and the
-; supper consume acts on a specific believed item. Keep the count op LAST in
-; each (when) so the belief fold only runs on otherwise-eligible NPCs.
+; the asker's OWN belief about the home larder PILE via (believed-home-food-count
+; <home>) - the count it has perceived on the kitchen food pile, never a world
+; scan - and the supper consume decrements that pile. Keep the count read LAST in
+; each (when) so the belief walk only runs on otherwise-eligible NPCs.
 ;
 ; THREE MEALS (ruling 13):
 ;   breakfast  - at home, 30 min, come-as-you-wake (3h window). Utility 82 - a
@@ -83,6 +83,7 @@
 ; there is no separate dine record.
 
 (include "../../../macros/intensity_macros.hs")
+(include "../../../macros/collection_macros.hs")
 
 ; THE STARVATION DRIVE - the banded escalation ladder for hunger past its window.
 ; The starving tail (below) all gate on appetite > 1.3, so this always sits in the
@@ -108,7 +109,7 @@
   (role ?home {@self home ?home})
   (when (and (at-home)
              (> (attr @self appetite) 0.25)
-             (= (count-believed-located [k food] ?home) 0)
+             (= (believed-home-food-count ?home) 0)
              (spatial ?home room [k kitchen]): ?kitchen))   ; a resident who does not know their kitchen just skips
   (effects
     (observe ?kitchen)))
@@ -124,7 +125,7 @@
              (> (attr @self appetite) 0.25)
              (>= (now-hour) ?h)
              (< (now-hour) (+ ?h 3))
-             (> (count-believed-located [k food] ?home) 0)))
+             (> (believed-home-food-count ?home) 0)))
   (utility need)
   (effects       (begin-goal {@self eat [k breakfast] ?home}))
   (cease-effects (end-goal   {@self eat [k breakfast] ?home})))
@@ -150,7 +151,7 @@
              (> (attr @self appetite) 0.25)
              (>= (now-hour) ?h)
              (< (now-hour) (+ ?h 2))
-             (> (count-believed-located [k food] ?home) 0)))
+             (> (believed-home-food-count ?home) 0)))
   (utility need)
   (effects       (begin-goal {@self eat [k lunch] ?home}))
   (cease-effects (end-goal   {@self eat [k lunch] ?home})))
@@ -163,7 +164,7 @@
   (when (and (> (attr @self appetite) 0.25)
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
-             (> (count-believed-located [k food] ?home) 0)))
+             (> (believed-home-food-count ?home) 0)))
   (utility need)
   (effects       (begin-goal {@self eat [k supper] ?home}))
   (cease-effects (end-goal   {@self eat [k supper] ?home})))
@@ -183,7 +184,7 @@
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
              (> ?wealth 0.2)
-             (= (count-believed-located [k food] ?home) 0)))
+             (= (believed-home-food-count ?home) 0)))
   (utility need (below eat))
   (effects       (begin-goal {@self eat [k supper] ?venue}))
   (cease-effects (end-goal   {@self eat [k supper] ?venue})))
@@ -199,7 +200,7 @@
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
              (> ?wealth 0.2)
-             (= (count-believed-located [k food] ?home) 0)))
+             (= (believed-home-food-count ?home) 0)))
   (utility need (below eat))
   (effects       (begin-goal {@self eat [k supper] ?venue}))
   (cease-effects (end-goal   {@self eat [k supper] ?venue})))
@@ -309,7 +310,7 @@
 (npc-think starving_eat_carried
   (role @self {@self starve})
   (when (and (> (attr @self appetite) 1.3)
-             (not (empty (spatial @self hold [k food])))))
+             (> (held-pile-count @self [k food]) 0)))
   (utility (starve-drive))
   (effects       (begin-goal {@self forage}))
   (cease-effects (end-goal   {@self forage})))
@@ -319,7 +320,7 @@
   (role ?home {@self home ?home})
   (when (and (> (attr @self appetite) 1.3)
              (at-home)
-             (> (count-believed-located [k food] ?home) 0)))
+             (> (believed-home-food-count ?home) 0)))
   (utility (starve-drive))
   (effects       (begin-goal {@self forage}))
   (cease-effects (end-goal   {@self forage})))
@@ -329,7 +330,7 @@
   (role ?home {@self home ?home})
   (when (and (> (attr @self appetite) 1.3)
              (not (at-home))
-             (> (count-believed-located [k food] ?home) 0)))
+             (> (believed-home-food-count ?home) 0)))
   (utility (starve-drive))
   (effects (maintain-proposal {@self enter ?home})))
 
@@ -395,35 +396,50 @@
 ; {@self forage} goal it /causes (via the (goal ...) gate).
 (npc-think forage_at_source
   (goal    {@self forage})
-  (when    (or (not (empty (spatial @self hold [k food])))
+  (when    (or (> (held-pile-count @self [k food]) 0)
                (at-home)
                (is-a (spatial @self building) [k building shop])))
-  ; ?owner stays 0 unless the mouthful is STOLEN (at a shop, no wealth) - then the
-  ; shop owner is the wronged party the consume act ledgers. An empty scene
-  ; (?found 0 - a stale belief a sibling already ate) proposes nothing and lets
-  ; the >1.3 gate re-drive.
+  ; Every food source is a PILE (basket / larder / shelf); ?item is bound to the
+  ; pile and CONSUME eats one off its count (never destroys it). ?owner stays 0
+  ; unless the mouthful is STOLEN (at a shop, no wealth) - then the shop owner is
+  ; the wronged party the consume act ledgers. An empty scene (?found 0 - a stale
+  ; belief a sibling already ate) proposes nothing and lets the >1.3 gate re-drive.
   (effects
     (bind 0 ?found)
     (bind 0 ?owner)
-    (for-each ?it (spatial @self hold [k food]) /limit 1
-      (do (bind ?it ?item) (bind 1 ?found)))
-    (if (and (= ?found 0)
-             (at-home)
-             (believed-located [k food] (any {@self home}).target))
-        (then (believed-located [k food] (any {@self home}).target): ?item
-              (bind 1 ?found)))
+    (bind 0 ?item)
+    ; carried basket
+    (bind 0 ?carried_pile)
+    (held-pile-into @self [k food] ?carried_pile)
+    (if (and (= ?found 0) ?carried_pile (> (attr ?carried_pile count) 0))
+        (then (bind ?carried_pile ?item) (bind 1 ?found)))
+    ; home larder (the kitchen pile - the diner stands in the home)
+    (if (and (= ?found 0) (at-home))
+        (then
+          (bind 0 ?home_kitchen)
+          (spatial (any {@self home}).target room [k kitchen]): ?home_kitchen
+          (if ?home_kitchen
+              (then
+                (bind 0 ?larder_pile)
+                (pile-at-into ?home_kitchen [k food] ?larder_pile)
+                (if (and ?larder_pile (> (attr ?larder_pile count) 0))
+                    (then (bind ?larder_pile ?item) (bind 1 ?found)))))))
+    ; shop shelf
     (if (and (= ?found 0)
              (is-a (spatial @self building) [k building shop])
              (spatial @self building))
         (then
           (spatial @self building): ?shop
           (for-each ?room (spatial ?shop parts [k interior_space room] /env)
-            (for-each ?it (spatial ?room contents [k food] /env) /limit 1
-              (do (bind ?it ?item)
-                  (bind 1 ?found)
-                  (begin-belief {@self provisions_shop ?shop})
-                  (if (not (> (any {@self wealth}).target 0.2))
-                      (then (owner-of ?shop): ?owner)))))))
+            (do
+              (bind 0 ?shelf_pile)
+              (pile-at-into ?room [k food] ?shelf_pile)
+              (if (and (= ?found 0) ?shelf_pile (> (attr ?shelf_pile count) 0))
+                  (then (bind ?shelf_pile ?item)
+                        (bind 1 ?found)
+                        (begin-belief {@self provisions_shop ?shop})
+                        (if (not (> (any {@self wealth}).target 0.2))
+                            (then (owner-of ?shop): ?owner))))))))
     (if (= ?found 1)
         (then (maintain-proposal {@self CONSUME ?item ?owner})))))
 

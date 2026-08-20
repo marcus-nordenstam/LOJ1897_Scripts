@@ -5,9 +5,11 @@
 # prop, and its bounds are the pile SHAPE.
 archetype "pile" (cap 4096) (per obs) (non-occluder) (occupies-env-grid)
 {
-    # Placement participation (plan section 18): a pile takes part in the
-    # space relation only - it has no items edge (nothing is filed into it).
+    # Placement participation (plan section 18): a pile sits in a space and can
+    # be carried in a hand (the provisioner's basket) - it has no items edge
+    # (nothing is filed INTO it; the count IS its contents).
     (spatial space)
+    (spatial gripped_by)
     (spatial bounds)
     # Kind-variation identity (see shared/attrs.arc).
     (attr "variant")

@@ -9,11 +9,17 @@
 ; lands on the crime ledger.
 ; ----------------------------------------------------------------------------
 
+(include "../../macros/collection_macros.hs")
+
 (npc-action {@self CONSUME ?item ?owner}
   (duration 10)
   (effects
-    (realize-destroyed ?item condition [k condition consumed])
-    (destroy-entity ?item)
+    ; ?item is a food PILE (basket / larder / shelf) - eat one off the count, the
+    ; pile stands - OR a loose loaf (legacy) - destroy it.
+    (if (is-a ?item [k pile])
+        (then (pile-take ?item 1))
+        (else (realize-destroyed ?item condition [k condition consumed])
+              (destroy-entity ?item)))
     (set-attr @self hunger (max 0 (- (attr @self hunger) 0.5)))
     (if ?owner
         (then (crime-ledger-append @self ?owner steal steal @u @u)))

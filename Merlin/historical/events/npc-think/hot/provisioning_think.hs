@@ -31,6 +31,7 @@
 
 (include "../../../definitions/roles.hs")
 (include "../../../macros/tunables.hs")
+(include "../../../macros/collection_macros.hs")
 
 ; ---- the cook election (public-bb synchronized, one per household) ----------
 ; Priority ladder: hired cook > wife > (oldest) daughter > husband/father >
@@ -94,7 +95,7 @@
   ; The kitchen resolves from the cook's OWN room knowledge (the home pre-teach
   ; mints {home room <r>}): the kind-cast bind picks the is-a kitchen target.
   (when (and (spatial ?home room [k kitchen]): ?kitchen
-             (< (count-believed-located [k food] ?kitchen) (larder_low_water))))
+             (< (believed-pile-count ?kitchen [k food]) (larder_low_water))))
   (utility duty)
   (effects       (begin-goal {@self PROVISION}))
   (cease-effects (end-goal   {@self PROVISION})))
@@ -112,8 +113,8 @@
   (role ?home {@self household_cook ?home})
   (when    (and (is-a (spatial @self building) [k building shop])
                 (spatial ?home room [k kitchen]): ?kitchen
-                (count-believed-located [k food] ?kitchen): ?blv
-                (count (spatial @self hold [k food])): ?inh
+                (believed-pile-count ?kitchen [k food]): ?blv
+                (held-pile-count @self [k food]): ?inh
                 (- (min (carry_cap) (- (larder_target) ?blv)) ?inh): ?cap
                 (> ?cap 0)))
   (effects (maintain-proposal {@self PROVISION ?cap})))
@@ -151,7 +152,7 @@
 (npc-think provision_rearm
   (role ?home {@self home ?home})
   (when (and (spatial ?home room [k kitchen]): ?kitchen
-             (not (empty (spatial @self hold [k food])))))
+             (not (empty (spatial @self hold [k pile])))))
   (utility duty (if (spatial @self space ?kitchen) (then 1000) (else 900)))
-  (effects       (begin-goal {@self BRING [k food] ?kitchen}))
-  (cease-effects (end-goal   {@self BRING [k food] ?kitchen})))
+  (effects       (begin-goal {@self BRING [k pile] ?kitchen}))
+  (cease-effects (end-goal   {@self BRING [k pile] ?kitchen})))
