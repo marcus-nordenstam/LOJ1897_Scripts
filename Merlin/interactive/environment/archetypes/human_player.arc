@@ -18,7 +18,6 @@ archetype "human_player" (cap 256) (per obs) (raycast-visible) (player) (non-occ
     (attr "hair_color")
     (attr "eye_color")
     (attr "attractiveness")
-    (attr "bank_balance")
     (attr "name")
     (attr "condition")
     (attr "pregnant_when")

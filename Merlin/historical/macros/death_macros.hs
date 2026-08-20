@@ -27,7 +27,6 @@
     (fire /worker ?dead)
     (inherit-orgs ?dead)
     (inherit-estate ?dead)
-    (inherit-money ?dead)
     (die ?dead)))
 
 (define-macro propagate-burial (?corpse)

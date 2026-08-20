@@ -221,13 +221,6 @@
 # (believe_about band1); (int-per feel) gives self-awareness of it. Feeds the
 # attraction stance scalar.
 (attr "attractiveness" (type float) (range 0 1) (int-per feel) (ext-per obs) (state-flags-tar @excl))
-# Liquid savings ("money in the bank"). SIGNED - can go negative (debt) when
-# gambling losses outrun income. Accrues
-# yearly in derive_prototypes (savings from job rank, taxed by gambling), feeds
-# classify_wealth, and transfers to the heir on death (propagate_death ->
-# inherit_money). Not a rolled genetic trait - starts at 0 and accumulates.
-(attr "bank_balance" (type float) (range -100000 1000000) (per feel) (state-flags-tar @excl))
-
 # Relationships
 (attr "pregnant_when" (type date) (per obs) (auto-percept))
 # Only used to pass on appropriate DNA from the father

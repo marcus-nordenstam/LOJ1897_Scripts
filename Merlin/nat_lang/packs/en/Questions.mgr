@@ -564,9 +564,9 @@
 ( prob { $person(Q_NP) /pres owe ?_you } )
 .
 
-# # FLAG: absolute wealth ("how much money do you possess") renders as a raw
-# bank_balance number; inheritance / gambling-losses / large-recent-spend are
-# the planned gambling-and-debt substrate (future_work, not started).
+# # FLAG: absolute wealth ("how much money do you possess") would sum the counts
+# of the coin piles you own; a debt substrate (inheritance / large-recent-spend)
+# is planned future_work, not started.
 
 
 # --- 6. DAILY ROUTINE & HABITS -----------------------------------------------

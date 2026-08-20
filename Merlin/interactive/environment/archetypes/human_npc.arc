@@ -27,8 +27,6 @@ archetype "human_npc" (cap 4096) (per obs) (raycast-visible) (sentient) (non-occ
     (attr "hair_color")
     (attr "eye_color")
     (attr "attractiveness")
-    # Liquid savings; signed (gambling debt). Accrues yearly, transfers to heir.
-    (attr "bank_balance")
     # NPCs learn their own name through self-awareness, not passive perception
     (attr "name")
     (attr "condition")

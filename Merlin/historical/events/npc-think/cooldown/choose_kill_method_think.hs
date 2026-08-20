@@ -1,5 +1,6 @@
 
 (include "../../../definitions/roles.hs")
+(include "../../../macros/money_macros.hs")
 
 ; the idea is that if you're too weak to strangle, then shooting or commission are the only options
 (define-table kill_method_table
@@ -9,7 +10,7 @@
   ; shoot task requires getting access to a firearm, then PULL_TRIGGER action when copresent with victim
   (record shoot               0.9           (if (spatial [k firearm] space) (then 1) (else 0.4)))
   ; hire-assassin task requires hiring a killer; the killer will then choose their own killing method
-  (record hire-assassin       0.5           (if (>= (target-or @self bank_balance 0) 80) (then 1) (else 0))))
+  (record hire-assassin       0.5           (if (>= (coin-balance @self) 80) (then 1) (else 0))))
 
 (npc-think choose_kill_method
   (cooldown 1 m)
