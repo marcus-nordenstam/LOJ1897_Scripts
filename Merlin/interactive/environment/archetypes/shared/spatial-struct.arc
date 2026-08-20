@@ -9,7 +9,14 @@
 #   (down)                       list read (the store's inverse / occupants side)
 #   (ascend)                     one struct-parent hop after an up-view
 #   (descend)                    struct-parts hop before a down-view
-#   (containment)                the building sense (space-of-entity, then ascend)
+#   (rung <kind>)                a LADDER rung: the subject's known container at (or
+#                                above) the granularity of <kind> - ascend the known
+#                                containment chain to the first node is-a <kind>. @unknown
+#                                when <kind> is finer than what the mind knows. Kept
+#                                content-supplied (space=interior_space, building=building,
+#                                town=town) so the engine never names a level.
+#   (containment)                LEGACY building sense (space-of-entity, then ascend);
+#                                superseded by (rung building)
 #   (head)                       peek the ordered head (ordered store only)
 #   (co)                         same-parent PREDICATE: (spatial ?a co-located ?b)
 #                                is true when parent(a) == parent(b) (a shares b's space;
@@ -36,8 +43,9 @@
 # `parent` term, resolved per-archetype by the op's struct fallback.
 (spatial-label parts (spatial-struct part) (down))
 
-(spatial-label space      (spatial-struct space))
-(spatial-label building   (spatial-struct space) (containment))
+(spatial-label space      (spatial-struct space) (rung interior_space))
+(spatial-label building   (spatial-struct space) (rung building))
+(spatial-label town       (spatial-struct space) (rung town))
 (spatial-label contents   (spatial-struct space) (down))
 (spatial-label co-located (spatial-struct space) (co))
 (spatial-label room       (spatial-struct space) (first))
