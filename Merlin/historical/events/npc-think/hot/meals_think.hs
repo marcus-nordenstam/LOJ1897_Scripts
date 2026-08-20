@@ -243,10 +243,10 @@
 ;
 ; PER-MEANS intrinsics: a supper BOUGHT OUT differs from the free table not in the shared hunger
 ; it serves but in its own means-profile - it costs COIN, the sociable relish it (enthusiasm, the
-; affiliative aspect of Extraversion), and a purse too light cannot buy it. The (cost money ...)
-; is the meal's ontological buy-price marked up by the venue ((price ?meal ?place) = the meal's cost
-; scaled by the venue markup), converted to felt utility by the actor's marginal value of money (dear
-; to a pauper, nothing to a lord). Only a BOUGHT-OUT meal is charged; a home / workplace meal is eaten
+; affiliative aspect of Extraversion), and a purse too light cannot buy it. The (cost ...) is the
+; meal's ontological buy-price marked up by the venue ((price ?meal ?place) = the meal's cost scaled
+; by the venue markup), run through (money-cost-util) to the felt utility of the actor's marginal value
+; of money (dear to a pauper, nothing to a lord). Only a BOUGHT-OUT meal is charged; a home / workplace meal is eaten
 ; from one's own larder, so its cost + feasibility fold to nothing (the dining-out? gates below).
 (npc-think eat_at_place
   (goal    {@self eat ?meal ?place})
