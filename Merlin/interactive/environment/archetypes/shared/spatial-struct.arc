@@ -1,10 +1,10 @@
-# Spatial-struct view declarations (spatial_struct_unification_plan.md sections 3-4).
+# Spatial-struct + spatial-label declarations (spatial_struct_unification_plan.md sections 3-4).
 #
-# A VIEW is a named lens over a physical edge store; the (spatial ?ent <view>) read
-# op and the (spatial-write ...) op resolve their relation argument to one of these
-# records, never a hardcoded C++ name compare. Each view names its store and its
-# read decorations:
-#   (store space|grip|stack)     which physical edge store this view reads
+# A SPATIAL-STRUCT is a physical edge store (the storage). A SPATIAL-LABEL is a named
+# lens / belief-label over one struct; the (spatial ?ent <label>) read op and the
+# (spatial-write ...) op resolve their relation argument to a label record, never a
+# hardcoded C++ name compare. Each label names the struct it reads and its decorations:
+#   (spatial-struct space|grip|stack)     which physical edge store this label reads
 #   (up)                         single-target read (default; explicit for clarity)
 #   (down)                       list read (the store's inverse / occupants side)
 #   (ascend)                     one struct-parent hop after an up-view
@@ -34,16 +34,16 @@
 # Default plane = belief-honest (perceived); /env = every edge in the environment
 # (all rooms of a building, etc.). A part's enclosing whole (the up-read) is the
 # `parent` term, resolved per-archetype by the op's struct fallback.
-(view parts (store part) (down))
+(spatial-label parts (spatial-struct part) (down))
 
-(view space      (store space))
-(view building   (store space) (containment))
-(view contents   (store space) (down))
-(view co-located (store space) (co))
-(view room       (store space) (first))
-(view gripped_by (store grip))
-(view grip       (store grip) (down))
-(view hold       (store grip) (down) (descend))
-(view held_by    (store grip) (up) (ascend))
-(view in_stack   (store stack))
-(view top        (store stack) (head))
+(spatial-label space      (spatial-struct space))
+(spatial-label building   (spatial-struct space) (containment))
+(spatial-label contents   (spatial-struct space) (down))
+(spatial-label co-located (spatial-struct space) (co))
+(spatial-label room       (spatial-struct space) (first))
+(spatial-label gripped_by (spatial-struct grip))
+(spatial-label grip       (spatial-struct grip) (down))
+(spatial-label hold       (spatial-struct grip) (down) (descend))
+(spatial-label held_by    (spatial-struct grip) (up) (ascend))
+(spatial-label in_stack   (spatial-struct stack))
+(spatial-label top        (spatial-struct stack) (head))
