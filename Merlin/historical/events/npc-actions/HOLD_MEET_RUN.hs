@@ -9,9 +9,10 @@
 ; (JUDGE_DECLARE.hs).
 ;
 ;   HOLD_MEET_RUN (organiser): reads his club's SPORT + ROSTER (own documents) and
-;     SUMMONS each co-present, living roster member - the organiser-subject told fact
-;     ({@self summon <member> /aux <sport>}, held by both). The ended {@self HOLD_MEET_RUN} act-belief is the
-;     organiser's own record of the meet (want_judge reads it, sporting_event_think.hs).
+;     SUMMONS each co-present, living roster member by SPEAKING the call - a directed
+;     utterance each member hears and adopts as his own standing summons
+;     ({<organiser> summon <him> /aux <sport>}, his ticket to report). The ended
+;     {@self HOLD_MEET_RUN} act-belief is the organiser's own record of the meet.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
@@ -28,13 +29,11 @@
     (if (is-kind (lookup club_sports org_kind ?club_kind sport))
       (then
         (lookup club_sports org_kind ?club_kind sport): ?sport
-        ; Summon every co-present, living roster member: the organiser-subject
-        ; summon act carries the sport in aux, told into the member (his
-        ; standing ticket, naming whom to report to; race_act ends his copy)
-        ; and recorded born-ended by the organiser (the call is an instant
-        ; act - the ended belief is his own record of whom he called).
+        ; Summon every co-present, living roster member by SPEAKING the call: a
+        ; directed utterance the member hears and adopts as his own standing summons
+        ; ({<organiser> summon <him> /aux <sport>}, his ticket to report; race_act ends
+        ; his copy). Nothing is written into his mind - awareness is by earshot.
         (for-each-doc-record [k employee_register] ?reg (worker ?m)
           (if (and (alive ?m) (spatial ?m co-located @self))
-              (then (begin-belief ?m {@self summon ?m ?sport})
-                    (begin-ended-belief {@self summon ?m ?sport}))))))
+              (then (tell-to ?m (utterable-msg (to ?m) {@self summon ?m ?sport})))))))
     (set-outcome {@self HOLD_MEET_RUN} succ)))

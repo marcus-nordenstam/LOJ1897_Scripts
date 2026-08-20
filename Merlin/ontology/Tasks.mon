@@ -172,7 +172,7 @@ relation
             #                  /aux <sport>}, told into the member at open_meet (the
             #                  member's copy is his ticket, read as {?judge summon @self
             #                  /aux ?sport} and ended when his leg is run).
-            summon                                  (tar human)  (aux ?)
+            # summon                                  (tar human)  (aux ?)
             
             judge_meet                              (tar ?)
 
@@ -359,8 +359,8 @@ relation
             # directly: {actor goal {victim condition dead}} - then the
             # actor doesn't even need to do the killing themselves.
             kill                                                (tar human)                (construed_act harm_act wrong_act)  (theme violent_to)  (facets reportable_crime blackmailable)
-            kidnap              (motor legs right_hand left_hand)  (tar human)             (construed_act coercion_act threaten_act wrong_act)  (theme coercive_to)  (facets reportable_crime)  (obs)
-            steal               (motor legs right_hand)         (tar human)                (construed_act appropriation_act wrong_act)  (theme thief_to)  (facets reportable_crime blackmailable)
+            # kidnap              (motor legs right_hand left_hand)  (tar human)             (construed_act coercion_act threaten_act wrong_act)  (theme coercive_to)  (facets reportable_crime)  (obs)
+            # steal               (motor legs right_hand)         (tar human)                (construed_act appropriation_act wrong_act)  (theme thief_to)  (facets reportable_crime blackmailable)
             # Goal-level umbrella tasks that the deliberate event mints
             # as goal-clause inner labels. Their leaf method-tasks
             # (declared below) are what actually get performed and
@@ -379,8 +379,8 @@ relation
             # bribe - functional inverse of coerce. Means-of-pressure;
             # the appraisable harm is whatever gets done with the bought
             # compliance, so no construed_act tag here.
-            defraud                                             (tar human)              (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)  (facets reportable_crime blackmailable)
-            embezzle                                            (tar human|org)          (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)  (facets reportable_crime blackmailable)
+            # defraud                                             (tar human)              (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)  (facets reportable_crime blackmailable)
+            # embezzle                                            (tar human|org)          (construed_act appropriation_act wrong_act betray_act)  (theme thief_to)  (facets reportable_crime blackmailable)
             # disinherit - testamentary act; ruled effect: end the target's
             # future-tense `inherit` prospect for the named thing (or all,
             # for total disinheritance) once engine future-interval support

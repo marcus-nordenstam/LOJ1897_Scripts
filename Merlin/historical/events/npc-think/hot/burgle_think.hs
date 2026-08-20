@@ -14,6 +14,54 @@
 
 (include "../../../definitions/roles.hs")
 
+# ownership transfer: buy, make, receive as gift
+
+# acquiring is locating an item to take
+#   if 
+# can I take the item?
+#   am I copresent?
+# may I take the item?
+#   do I own it?
+
+
+
+acquire item task:
+have the money and don't need to cover your tracks? maintain-proposal buy item
+don't have the money or want to cover your tracks? maintain-proposal steal item
+
+
+  don't know where item is? -> locate item
+steal item
+  don't know where item is? -> locate item
+  know where it is? -> get item
+
+get task:
+  if co-present, then take item
+  else go to item
+
+legal ways of entering a building (visiting a friend, entering a shop, etc.)
+illegal ways of entering a building (breaking+entering, sneaking in unannoucned)
+
+legal ways of getting something you own
+illegal ways of getting something you own 
+
+legal ways of getting something you don't own (buying, making)
+illegal ways of getting something you don't own (stealing)
+
+if you do not own the item and item is not in your home
+if item is not in your home 
+
+# steal item from ANYHWHERE (I don't know the item's space)
+{@self steal [k item-kind]}
+  -> {@self locate [k item-kind]}
+
+# steal THE item from SOMEWHERE I have seen it before
+#   
+{@self steal [k item-kind]}
+
+# steal AN item from SOMEONE whom I know owns one (but I have not seen where it is)
+
+
 ; The two STRIKEABLE scenes for the steal goal: an occupied residence that is not
 ; the thief's own home (a break-in), or the thief's OWN workplace (embezzlement -
 ; authorized presence). burgle_go heads to a residence when at neither; at either,
