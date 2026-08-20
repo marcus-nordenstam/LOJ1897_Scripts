@@ -68,7 +68,7 @@ object (+ obs)
     # consistently with the victim's habit beliefs. Victorian table:
     # breakfast / luncheon / tea / supper alongside the plain lunch /
     # dinner.
-    meal
+    meal                        (price 5)
         breakfast
         lunch
         luncheon
@@ -86,12 +86,12 @@ object (+ obs)
             # fluid inside it is the forensic proof.
             cup
             decanter
-            jewelry_box         (facets valuable)
+            jewelry_box         (price 25)
         # Currency - a single coin: the buildable unit of cash (a plain gripped
         # prop). A bribe / gift hands over ONE via give -> OFFER. Not a wealth
         # model - the coin entity IS the cash: a real, transferable, discoverable
         # object, never a fictional sum.
-        coin                    (facets valuable)
+        coin                    (price 1)
         accessory
             cufflink
             ring
@@ -157,21 +157,21 @@ object (+ obs)
             # sales_record); the acquisition calculus has careful buyers
             # prefer a safe theft over the paper trail. Per-leaf - facets
             # do not cascade.
-            firearm
+            firearm             (price 60)
                 pistol          (facets conspicuous)
                 duelling_pistol (facets conspicuous)
                 musket          (facets conspicuous)
                 revolver        (facets conspicuous)
                 shotgun         (facets conspicuous)
                 hunting_rifle   (facets conspicuous)
-            explosive
+            explosive           (price 40)
                 gunpowder_keg   (facets conspicuous)
                 dynamite_stick  (facets conspicuous)
         # Kitchen / table-service blades. Knife is the canonical sub-kind;
         # cleaver is the heavy-bladed chopping variant.
         cutlery
-            knife               (facets pierce slash)
-            cleaver             (facets slash chop bludgeon)
+            knife               (facets pierce slash) (price 2)
+            cleaver             (facets slash chop bludgeon) (price 3)
         # Decorative sculpture (the canonical Victorian crime-novel
         # improvised bludgeon).
         sculpture
@@ -179,7 +179,7 @@ object (+ obs)
         # Cordage. Natural taxonomic parent for rope-like materials. The
         # strangle facet covers garrotte / hang use.
         cordage
-            rope                (facets strangle)
+            rope                (facets strangle) (price 1)
             twine               (facets strangle)
             garrotte_wire       (facets strangle)
         # Household textiles. Bedding / linen. The smother facet covers
@@ -194,8 +194,8 @@ object (+ obs)
         # being an ignition source.
         lighting
             candle              (facets ignite)
-            candlestick         (facets bludgeon ignite)
-            oil_lamp            (facets ignite burn_fuel)
+            candlestick         (facets bludgeon ignite) (price 12)
+            oil_lamp            (facets ignite burn_fuel) (price 4)
             lantern             (facets ignite)
             gas_lamp            (facets ignite)
             chandelier          (facets ignite)
@@ -205,12 +205,12 @@ object (+ obs)
             tinderbox           (facets ignite)
         # Tools - purpose-built craft / labour implements.
         tools
-            hammer              (facets bludgeon)
+            hammer              (facets bludgeon) (price 2)
             awl                 (facets pierce)
             chisel
             scissors            (facets pierce)
             saw
-            axe                 (facets chop slash bludgeon)
+            axe                 (facets chop slash bludgeon) (price 3)
             fire_poker          (facets bludgeon)
         # Surgical instruments - a hospital / surgeon's sharps. They pierce
         # and slash like any blade, so they satisfy the same perpetration
@@ -234,11 +234,11 @@ object (+ obs)
         # mantel / grandfather clock is the classic time-of-death clue.
         timepiece
             wall_clock
-            mantel_clock        (facets valuable)
+            mantel_clock        (price 12)
             grandfather_clock
         # Decorative ornaments - inert scene dressing the detective searches.
         ornament
-            figurine            (facets valuable)
+            figurine            (price 8)
             painting
             mirror
             taxidermy
@@ -274,9 +274,9 @@ object (+ obs)
         # Tea / dinner services - class-signalling tableware (a silver service
         # marks an upper-class home).
         tableware
-            tea_set             (facets valuable)
-            silver_tea_service  (facets valuable)
-            china_service       (facets valuable)
+            tea_set             (price 10)
+            silver_tea_service  (price 30)
+            china_service       (price 20)
         # Parlour games. (`game` proper is a Concepts.mon activity object; these
         # are the physical play sets.)
         parlour_game
@@ -404,15 +404,8 @@ object (+ obs)
             # future-interval support lands; the death-trigger estate
             # settlement then realises them per thing.
             will
-    # consumable (the drink leaves below + the food taxonomy): knowledge
-    # about a consumable is EPISODIC even while ongoing - a mind does not
-    # remember every loaf and every glass forever; the decay sweep runs
-    # their standing beliefs on the same forgetting curve as episodes.
-    # Deliberately NOT on the toxins / accelerants (a poison bottle's
-    # whereabouts is detective evidence and keeps standing permanence),
-    # and facets don't cascade - tag leaves, not `fluid`.
     fluid
-        beer            (facets consumable)
+        beer
         # Drink fluids - what sits in a table-service vessel. A poisoning
         # TAINTS the victim's drink: the chosen drink fluid's `taint` attr
         # (common.arc) names the concentrated poison kind it was laced with
@@ -420,9 +413,9 @@ object (+ obs)
         # from the perpetrator's `add_substance` act-record belief). The
         # occasion picks the drink: supper / luncheon -> wine, tea ->
         # tea, breakfast -> water.
-        wine            (facets consumable)
-        tea             (facets consumable)
-        water           (facets consumable)
+        wine
+        tea
+        water
         # Concentrated poison substances - the contents of a poison bottle,
         # the trade good behind the perpetration row's (control_any toxin)
         # gate. (`toxin`, not `poison`: `poison` is already the leaf kill
@@ -437,7 +430,7 @@ object (+ obs)
         # crystals (oxalic acid) dissolved into food / drink - the dose
         # mechanics are identical. Availability per venue lives in
         # weapon_seed.cc, not the ontology.
-        toxin
+        toxin                   (price 8)
             # Medicinal extracts / draughts - apothecary & hospital
             # dispensary (purchase / authorized). The line between medicine
             # and poison was the dose. laudanum=opium tincture,
@@ -477,12 +470,11 @@ object (+ obs)
     # Food taxonomy for trap-set / trap-fire arcs. Parallel to fluid;
     # poisoning a food vessel uses the same `add_substance` task as
     # fluids. Sub-kinds are starter content; extend as authored arcs
-    # demand more variants. consumable: see the fluid note above - every
-    # new food leaf MUST carry it (facets don't cascade).
-    food            (facets consumable)
-        bread       (facets consumable)
-        cheese      (facets consumable)
-        soup        (facets consumable)
+    # demand more variants.
+    food
+        bread
+        cheese
+        soup
 
     # Man-made structures
     structure
@@ -517,8 +509,8 @@ object (+ obs)
                     newspaper   (facets public_space)
                     shop        (facets public_space)
                     barbershop  (facets public_space)
-                    restaurant  (facets public_space)
-                    pub         (facets public_space)
+                    restaurant  (facets public_space) (markup 3)
+                    pub         (facets public_space) (markup 2)
                     factory
                         warehouse
                     hotel

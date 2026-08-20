@@ -246,17 +246,18 @@
 ; PER-MEANS intrinsics: a supper BOUGHT OUT differs from the free table not in the shared hunger
 ; it serves but in its own means-profile - it costs COIN, the sociable relish it (enthusiasm, the
 ; affiliative aspect of Extraversion), and a purse too light cannot buy it. The (cost money ...)
-; is a real price from the prices table, converted to felt utility by the actor's marginal value
-; of money (dear to a pauper, nothing to a lord); (price ?place) is 0 for a home / workplace venue
-; (kind absent from the table), so cost + feasibility fold to nothing there with no special-casing.
+; is the meal's ontological buy-price marked up by the venue ((price ?meal ?place) = the meal's cost
+; scaled by the venue markup), converted to felt utility by the actor's marginal value of money (dear
+; to a pauper, nothing to a lord). Only a BOUGHT-OUT meal is charged; a home / workplace meal is eaten
+; from one's own larder, so its cost + feasibility fold to nothing (the dining-out? gates below).
 (npc-think eat_at_place
   (goal    {@self eat ?meal ?place})
   (when    (or (spatial @self building ?place)
                (spatial @self space ?place)))
   (effects (maintain-proposal {@self eat ?meal ?place}
              (affect   (if (dining-out? ?place) (then (* (attr @self enthusiasm) 20)) (else 0)))
-             (cost     money (price ?place))
-             (feasible (or (not (dining-out? ?place)) (>= (purse @self) (price ?place)))))))
+             (cost     money (if (dining-out? ?place) (then (price ?meal ?place)) (else 0)))
+             (feasible (or (not (dining-out? ?place)) (>= (purse @self) (price ?meal ?place)))))))
 
 ; (PROVISIONING - the cook keeping the kitchen larder stocked - lives in
 ; npc-think/provisioning_think.hs; the general carry-to-a-place chain in

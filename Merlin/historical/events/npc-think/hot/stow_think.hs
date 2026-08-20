@@ -19,6 +19,7 @@
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
+(include "../../../macros/tunables.hs")
 
 ; want_stow (npc-think) - OWNS the stow goal end to end. The theft act records the take
 ; as {@self carrying_loot ?item} (own state); this self-gate binds that item and holds the
@@ -45,9 +46,10 @@
   (when (and ?item
              (at-home)))
   ; The put-away place is DECIDED here: a fashioned hiding spot for a
-  ; valuable, else 0 (the body puts it openly in the room it stands in).
+  ; worth-hiding item (priced above the loot floor), else 0 (the body puts
+  ; it openly in the room it stands in).
   (effects
-    (if (and (has-facet ?item valuable) (any {@self hiding_spot ?} (out int)))
+    (if (and (> (price ?item) (valuable_loot_price_min)) (any {@self hiding_spot ?} (out int)))
               (then (any {@self hiding_spot ?}).target)
               (else 0)): ?place
     (maintain-proposal {@self stow ?item ?place})))

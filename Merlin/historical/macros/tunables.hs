@@ -52,6 +52,11 @@
 ; and withdrawal both clear these floors; the witnessed ideation is minted regardless.
 (define-macro suicide_despair_min    () 0.40)
 (define-macro suicide_withdrawal_min () 0.55)
+; The loot-worth floor (coin price, ontology (price N)): burgle picks, and stow hides in a
+; fashioned spot, only items priced ABOVE this. Replaces the old boolean `valuable` facet -
+; behaviour keys on a real price now, not a vague tag.
+(define-macro valuable_loot_price_min () 5)
+
 ; The practice-marker window (days) the strive outlet stamps; read by skill atrophy.
 (define-macro skill_practice_window_days () 548)
 ; find_building's `surveyed` private-bb marker lifetime, in hsim cycles (= months).
