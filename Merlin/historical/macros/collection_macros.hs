@@ -40,8 +40,7 @@
   (set-attr ?pile count (max 0 (- (attr ?pile count) ?n))))
 
 ; (believed-home-food-count ?home): the loaf-count this mind believes is in its
-; home LARDER (the kitchen pile) - the drop-in for the meal lanes'
-; (count-believed-located [k food] ?home). The larder lives in the kitchen room,
+; home LARDER (the kitchen pile). The larder lives in the kitchen room,
 ; so it resolves the believed kitchen first (0 if the mind knows no kitchen).
 (define-macro believed-home-food-count (?home)
   (do
@@ -61,9 +60,8 @@
     (if ?hpc_pile (then (any {?hpc_pile count ?} (out int))) (else 0))))
 
 ; (believed-pile-count ?place ?kind): the loaf-count this MIND believes the
-; ?kind pile at ?place holds (0 if it believes there is none) - the per-mind,
-; no-telepathy replacement for (count-believed-located [k <kind>] ?place). Reads
-; the believed contents (never /env) + the perceived {pile count N}.
+; ?kind pile at ?place holds (0 if it believes there is none) - per-mind and
+; no-telepathy. Reads the believed contents (never /env) + the perceived {pile count N}.
 (define-macro believed-pile-count (?place ?kind)
   (do
     (bind 0 ?bpc_pile)
