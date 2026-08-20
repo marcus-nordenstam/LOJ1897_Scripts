@@ -17,6 +17,9 @@
 #                                town=town) so the engine never names a level.
 #   (containment)                LEGACY building sense (space-of-entity, then ascend);
 #                                superseded by (rung building)
+#   (payload)                    the finest rung: (spatial ?x bounds) yields the exact box
+#                                via the live perceiving-pointer (live-only; @unknown when
+#                                not perceiving). /env reads env ground truth.
 #   (head)                       peek the ordered head (ordered store only)
 #   (co)                         same-parent PREDICATE: (spatial ?a co-located ?b)
 #                                is true when parent(a) == parent(b) (a shares b's space;
@@ -43,6 +46,7 @@
 # `parent` term, resolved per-archetype by the op's struct fallback.
 (spatial-label parts (spatial-struct part) (down))
 
+(spatial-label bounds     (spatial-struct space) (payload))
 (spatial-label space      (spatial-struct space) (rung interior_space))
 (spatial-label building   (spatial-struct space) (rung building))
 (spatial-label town       (spatial-struct space) (rung town))
