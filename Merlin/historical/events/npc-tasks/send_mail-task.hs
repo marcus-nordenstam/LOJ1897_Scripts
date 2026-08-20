@@ -33,5 +33,5 @@
       (when (none {@self POST_MAIL ?doc ? /succ}))
       (effects (debug-print "SM_PUT") (maintain-proposal {@self POST_MAIL ?doc ?out})))
     (try
-      (when (any {@self POST_MAIL ?doc ? /succ} (out int)))
+      (when (any {@self POST_MAIL ?doc ? /succ} (out exists-bool)))
       (effects (debug-print "SM_DONE") (set-outcome ?sm-rel succ)))))

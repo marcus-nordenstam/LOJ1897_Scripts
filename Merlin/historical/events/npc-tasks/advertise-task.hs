@@ -26,6 +26,6 @@
                 (not {@self post ?ad ?})
                 (select (policy first-match)))
       (when (and (any {?org record ?}).target: ?art
-                 (any {@self POST_ADVERT ?art /succ} (out int))
+                 (any {@self POST_ADVERT ?art /succ} (out exists-bool))
                  (read-doc-record [k job_description] ?ad (find org_record ?art))))
       (effects (begin-belief {@self post ?ad ?org})))))

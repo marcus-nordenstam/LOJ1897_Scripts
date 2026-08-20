@@ -164,10 +164,11 @@
     ; This is a HIRED (paid) post, so the job carries a salary decoration; heads
     ; seated by found-org-seq mint NO salary (heading != being employed). The org
     ; lives ON the job object, so {@self job.org ?} chains (no separate employer).
+    ; salary IS the yearly income (0 = unsalaried), read from income_by_level.
     (imagine-or-recall ?job-kind {@self job ?job})
     (begin-belief {?job org ?org})
     (begin-belief {?job level ?level})
-    (begin-belief {?job salary 1})
+    (begin-belief {?job salary (lookup income_by_level level ?level income 0)})
     (begin-belief {?job since (year)})
     (stamp-work-hours ?job ?job-kind)))
 

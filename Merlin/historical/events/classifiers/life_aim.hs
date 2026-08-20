@@ -27,29 +27,29 @@
     (mint-argmax {@self life_aim} 0.01 [k life_aim belonging_aim]
       [k life_aim legacy_aim]
         (* (/ (+ (attr @self compassion) (attr @self politeness)) 2)
-           (+ 0.3 (* (any {@self child ?} (out int)) 0.7))
-           (+ 0.3 (* (clamp (+ (any {@self class_situation [k class_situation upper]} (out int))
-                               (any {@self class_situation [k class_situation middle]} (out int))) 0 1) 0.7)))
+           (+ 0.3 (* (any {@self child ?} (out exists-bool)) 0.7))
+           (+ 0.3 (* (clamp (+ (any {@self class_situation [k class_situation upper]} (out exists-bool))
+                               (any {@self class_situation [k class_situation middle]} (out exists-bool))) 0 1) 0.7)))
       [k life_aim wealth_aim]
         (* (attr @self industriousness)
            (- 1 (piety))
            (max (- 1 ?wealth)
-                (any {@self social_trajectory [k social_trajectory rising]} (out int))))
+                (any {@self social_trajectory [k social_trajectory rising]} (out exists-bool))))
       [k life_aim piety_aim]
         (* (piety)
            (- 1 (criminality))
-           (+ 0.4 (* (any {@self WORSHIP [k building church] /ever} (out int)) 0.6)))
+           (+ 0.4 (* (any {@self WORSHIP [k building church] /ever} (out exists-bool)) 0.6)))
       [k life_aim respectability_aim]
         (* (attr @self politeness)
            (piety)
-           (+ 0.2 (* (any {@self class_situation [k class_situation middle]} (out int)) 0.8))
+           (+ 0.2 (* (any {@self class_situation [k class_situation middle]} (out exists-bool)) 0.8))
            ?decorum)
       [k life_aim autonomy_aim]
         (* (attr @self assertiveness) (- 1 (rootedness)))
       [k life_aim power_aim]
         (* (attr @self machiavellianism)
            (attr @self narcissism)
-           (+ 0.3 (* (any {@self job.salary ?} (out int)) 0.7)))
+           (+ 0.3 (* (>= (any {@self job.salary ?} (out exists-bool)) 1) 0.7)))
       [k life_aim belonging_aim]
         (* (attr @self enthusiasm)
            (- 1 (rootedness))

@@ -54,7 +54,7 @@
                             (then (begin-belief {@self duty_to ?org ?duty})
                                   (debug-print "DUTY-take ?duty ?org"))))
                       (else
-                        (if (any {@self duty_to ?org ?duty} (out int))
+                        (if (any {@self duty_to ?org ?duty} (out exists-bool))
                             (then (end-belief {@self duty_to ?org ?duty})
                                   (debug-print "DUTY-drop ?duty ?org")))))
                   ; The mirror: retire stale holders, record the current one.

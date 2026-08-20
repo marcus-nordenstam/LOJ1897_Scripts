@@ -47,7 +47,7 @@
   ; (chance = 0.5 * disinhibition * 0.5 * (volatility + callousness)).
   (when (and ?focus
              (caused-by ?kgoal-rel {@self pressure ?})
-             (or (any {?focus condition [k dead]} (out int))
+             (or (any {?focus condition [k dead]} (out exists-bool))
                  (>= (- (target-or ?focus prestige 0) (target-or @self prestige 0)) 0.25))
              (chance (* 0.5 (disinhibition) 0.5
                         (+ (attr @self volatility) (callousness @self))))))

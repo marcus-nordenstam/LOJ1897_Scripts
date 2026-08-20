@@ -26,5 +26,5 @@
         (set-outcome ?confess-rel succ)))
     (try
       (when (or (not (known-nonspousal-liaison @self))
-                (not (any {@self father|mother|fiancee|spouse|sibling ?} (out int)))))
+                (not (any {@self father|mother|fiancee|spouse|sibling ?} (out exists-bool)))))
       (effects (set-outcome ?confess-rel fail)))))

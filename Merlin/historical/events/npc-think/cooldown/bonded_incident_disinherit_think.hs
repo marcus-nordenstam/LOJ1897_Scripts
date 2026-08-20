@@ -61,10 +61,10 @@
   (when (and (chance (* (crime-scale) 0.025
                         (- 1.0 (attr @self compassion))
                         (attr @self narcissism)))
-             (chance (+ (* 0.2 (+ (any {@self dislike ?victim} (out int))
-                                  (any {@self disdain ?victim} (out int))))
-                        (* 0.3 (+ (any {@self detest  ?victim} (out int))
-                                  (any {@self despise ?victim} (out int))))))))
+             (chance (+ (* 0.2 (+ (any {@self dislike ?victim} (out exists-bool))
+                                  (any {@self disdain ?victim} (out exists-bool))))
+                        (* 0.3 (+ (any {@self detest  ?victim} (out exists-bool))
+                                  (any {@self despise ?victim} (out exists-bool))))))))
 
   (utility want)
 

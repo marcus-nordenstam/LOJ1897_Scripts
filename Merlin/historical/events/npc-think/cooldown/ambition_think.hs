@@ -51,7 +51,7 @@
 
   ; Same-org pin + disposition pre-gate. ambition = mean(machiavellianism, narcissism);
   ; propensity = (1 - inhibition) * ambition; fire at 0.03 * propensity.
-  (when (any {?victim job.org ?org} (out int))
+  (when (any {?victim job.org ?org} (out exists-bool))
         (chance (* (crime-scale) 0.03
                    (* (- 1 (inhibition))
                       (* 0.5 (+ (attr @self machiavellianism)

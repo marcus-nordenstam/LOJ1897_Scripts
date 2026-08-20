@@ -27,5 +27,5 @@
       (clamp (+ (* (< (attr @self assertiveness) (coward-assert-max))
                    (> (attr @self withdrawal)    (coward-withdraw-min)))
                 (* (> (inhibition) (coward-inhibition-min))
-                   (- 1 (any {@self repute [k repute exemplary]} (out int))))) 0 1)
+                   (- 1 (any {@self repute [k repute exemplary]} (out exists-bool))))) 0 1)
       [k role coward_role] 0.5)))

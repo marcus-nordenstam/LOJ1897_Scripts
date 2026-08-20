@@ -120,7 +120,7 @@
   ; completion gate: while he still holds a membership the goal stands; the moment
   ; resign_club_act unregisters him (unregister-member ENDS {@self member_of}) it falls and
   ; the goal ends. The act never ends the goal.
-  (when (and (any {@self member_of ?} (out int))
+  (when (and (any {@self member_of ?} (out exists-bool))
              (latch-eval (chance 0.004))))
 
   ; SPLIT (Item 5): the npc-think - the decision to resign. Mints {@self goal {@self

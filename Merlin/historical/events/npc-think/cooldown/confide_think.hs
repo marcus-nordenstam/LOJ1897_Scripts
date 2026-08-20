@@ -15,7 +15,7 @@
 ; TOLD them.
 ;
 ; `calling` is kind-valued ({@self calling [k medicine]}); the free ?domain in
-; (any {@self calling ?domain} (out int)) binds that kind, carried on the proposal so the
+; (any {@self calling ?domain} (out exists-bool)) binds that kind, carried on the proposal so the
 ; say_to msg can carry it.
 ; ----------------------------------------------------------------------------
 

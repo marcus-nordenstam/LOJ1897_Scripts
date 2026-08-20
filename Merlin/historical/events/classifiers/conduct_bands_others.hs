@@ -27,13 +27,13 @@
 
   (effects
     (mint-band-about {?other honesty}
-      (clamp (+ (any {?other seem [k impression callous]} (out int))
-                (any {?other seem [k impression selfish]} (out int))) 0 1)
+      (clamp (+ (any {?other seem [k impression callous]} (out exists-bool))
+                (any {?other seem [k impression selfish]} (out exists-bool))) 0 1)
       [k conduct_level lax] 0.5)
     (mint-band-about {?other generosity}
-      (clamp (+ (any {?other seem [k impression callous]} (out int))
-                (any {?other seem [k impression selfish]} (out int))) 0 1)
+      (clamp (+ (any {?other seem [k impression callous]} (out exists-bool))
+                (any {?other seem [k impression selfish]} (out exists-bool))) 0 1)
       [k conduct_level lax] 0.5)
     (mint-band-about {?other sobriety}
-      (any {?other seem [k impression hot_tempered]} (out int))
+      (any {?other seem [k impression hot_tempered]} (out exists-bool))
       [k conduct_level lax] 0.5)))

@@ -64,7 +64,7 @@
   (role ?home {@self home ?home})
   (when (and (pub-bb-none ?home cook)
              (not (and (any {@self mother ?}).target: ?mum
-                       (any {?mum home ?home} (out int))))))
+                       (any {?mum home ?home} (out exists-bool))))))
   (effects
     (pub-bb-post ?home cook (cook_marker_ttl_cycles))
     (begin-belief {@self household_cook ?home})))
@@ -78,8 +78,8 @@
   (role ?home {@self home ?home})
   (when (and (pub-bb-none ?home cook)
              (not (and (any {@self child ?}).target: ?c
-                       (any {?c gender [k female]} (out int))
-                       (any {?c home ?home} (out int))))))
+                       (any {?c gender [k female]} (out exists-bool))
+                       (any {?c home ?home} (out exists-bool))))))
   (effects
     (pub-bb-post ?home cook (cook_marker_ttl_cycles))
     (begin-belief {@self household_cook ?home})))

@@ -23,5 +23,5 @@
 
 (npc-think take_down_done
   (role ?ad (believes {@self post ?ad ?org}))
-  (when (any {@self TAKE_DOWN ?ad /succ} (out int)))
+  (when (any {@self TAKE_DOWN ?ad /succ} (out exists-bool)))
   (effects (end-belief {@self post ?ad ?org})))

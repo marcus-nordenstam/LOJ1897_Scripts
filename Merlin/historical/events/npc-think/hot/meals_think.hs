@@ -84,6 +84,7 @@
 
 (include "../../../macros/intensity_macros.hs")
 (include "../../../macros/collection_macros.hs")
+(include "../../../macros/money_macros.hs")
 
 ; THE STARVATION DRIVE - the banded escalation ladder for hunger past its window.
 ; The starving tail (below) all gate on appetite > 1.3, so this always sits in the
@@ -234,10 +235,6 @@
 (define-macro dining-out? (?p)
   (or (is-a ?p [k building pub]) (is-a ?p [k building restaurant])))
 
-; The liquid purse: what ?who can actually spend right now (bank_balance, ~0..150;
-; distinct from the wealth STANDING dimension). Missing balance reads 0.
-(define-macro purse (?who) (target-or ?who bank_balance 0))
-
 ; TERMINAL step (act_body_purification): the meal is now PROPOSED, guarded by being AT its place.
 ; Because `eat` is a proposed label every {@self eat [k <meal>] <place>} desire drops out of the
 ; auction (it still persists + drives eat_go); the meal promotes ONLY here, ONLY once the diner is
@@ -257,8 +254,9 @@
                (spatial @self space ?place)))
   (effects (maintain-proposal {@self eat ?meal ?place}
              (affect   (if (dining-out? ?place) (then (* (attr @self enthusiasm) 20)) (else 0)))
-             (cost     money (if (dining-out? ?place) (then (price ?meal ?place)) (else 0)))
-             (feasible (or (not (dining-out? ?place)) (>= (purse @self) (price ?meal ?place)))))))
+             (cost     (money-cost-util (coin-balance @self)
+                         (if (dining-out? ?place) (then (price ?meal ?place)) (else 0))))
+             (feasible (or (not (dining-out? ?place)) (>= (coin-balance @self) (price ?meal ?place)))))))
 
 ; (PROVISIONING - the cook keeping the kitchen larder stocked - lives in
 ; npc-think/provisioning_think.hs; the general carry-to-a-place chain in

@@ -174,7 +174,7 @@
              (<= (years-old @self) 55)
              (>= (diligence) 0.55)
              (or (>= ?wealth 0.5)
-                 (any {@self backed_by ?} (out int)))
+                 (any {@self backed_by ?} (out exists-bool)))
              (latch-eval (chance (* 0.025 (+ 0.5 (attr @self assertiveness)))))))
 
   (utility errand)

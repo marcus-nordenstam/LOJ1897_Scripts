@@ -39,7 +39,7 @@
                (begin-proposal {@self send_mail ?app})))
     (try
       (role ?home {@self home ?home})
-      (when (and (any {@self PREPARE_APPLICATION ?art ?jk /succ} (out int))
+      (when (and (any {@self PREPARE_APPLICATION ?art ?jk /succ} (out exists-bool))
                  (spatial @self building ?home)
                  (>= (days-since-last {@self read_mail ?home /succ}) 1)))
       (utility errand)

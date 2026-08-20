@@ -37,7 +37,7 @@
       (when (any {@self SAY ? /succ /caused_by ?expose-rel}))
       (effects
         (publish-secret-about @self ?victim)
-        (if (any {@self extort ?victim} (out int)) (then (end-belief {@self extort ?victim})))
+        (if (any {@self extort ?victim} (out exists-bool)) (then (end-belief {@self extort ?victim})))
         (crime-ledger-append @self ?victim confront_publicly expose @u @u)
         (set-outcome ?expose-rel succ)))
     (try

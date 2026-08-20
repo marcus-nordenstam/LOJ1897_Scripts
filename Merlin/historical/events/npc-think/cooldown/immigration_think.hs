@@ -6,7 +6,7 @@
 ; an act of a SPECIFIC official - the town's senior civic gatekeeper (the [k job
 ; official] a senior_appointment installs at a public gov org). So @self is
 ; bound to each living NPC; the
-; (grown @self) template + the (any {@self job [k job official]} (out int)) gate cast
+; (grown @self) template + the (any {@self job [k job official]} (out exists-bool)) gate cast
 ; @self down to a holder of a senior public post, reading his OWN job belief (no
 ; scan, no telepathy). While the parish is sparse he quietly admits arrivals;
 ; each admission raises (living-npc-count), so (population-pressure) climbs toward the

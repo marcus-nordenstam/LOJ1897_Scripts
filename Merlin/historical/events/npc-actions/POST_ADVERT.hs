@@ -17,7 +17,8 @@
     (create-entity [k job_description]
         (qual location (spatial @self building))): ?ad
     (write-doc-record [k job_description] ?ad
-        (org_record ?art) (job ?jk) (level [k trainee]) (salary 1)
+        (org_record ?art) (job ?jk) (level [k trainee])
+        (salary (lookup income_by_level level [k trainee] income 0))
         (class_floor (lookup occupations job ?jk class_floor [k lower]))
         (workplace ?wp))
     (set-outcome {@self POST_ADVERT ?art ?jk} succ)))

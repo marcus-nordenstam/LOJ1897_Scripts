@@ -61,10 +61,10 @@
                            (attr @self narcissism))
                         (* (crime-scale) 0.08 ?emo_load)))
              (chance (+ 0.10
-                        (* 0.15 (+ (any {@self dislike ?victim} (out int))
-                                   (any {@self disdain ?victim} (out int))))
-                        (* 0.30 (+ (any {@self detest  ?victim} (out int))
-                                   (any {@self despise ?victim} (out int))))))))
+                        (* 0.15 (+ (any {@self dislike ?victim} (out exists-bool))
+                                   (any {@self disdain ?victim} (out exists-bool))))
+                        (* 0.30 (+ (any {@self detest  ?victim} (out exists-bool))
+                                   (any {@self despise ?victim} (out exists-bool))))))))
 
   ; The mockable material, read per victim - each tolerant, so a missing lane is
   ; just @fail (no abort). Each `-rel` var holds the whole belief.
