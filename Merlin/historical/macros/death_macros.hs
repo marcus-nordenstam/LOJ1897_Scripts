@@ -30,6 +30,7 @@
     (fire /worker ?dead)
     (inherit-orgs ?dead)
     (inherit-estate ?dead)
+    (set-attr ?dead condition [k dead])
     (die ?dead)))
 
 (define-macro propagate-burial (?corpse)
