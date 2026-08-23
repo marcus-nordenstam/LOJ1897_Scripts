@@ -2,5 +2,5 @@
 (npc-think probe_when
   (cooldown 1 m)
   (role @self )
-  (when (believes {@self goal {@self probe_hunt ?}}))
+  (when (any {@self goal {@self probe_hunt ?}}))
   (effects (debug-print "PROBE_WHEN_EXISTS")))

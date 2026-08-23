@@ -39,7 +39,7 @@
 ;; {?x condition alive} percept-mirror in that mind - the positive liveness leg
 ;; alone suffices; no separate not-dead leg.
 (define-macro known_alive (?x)
-  (believes {?x isa [k human], condition [k alive]}))
+  {?x isa [k human], condition [k alive]})
 
 (define-macro old_human (?x)
   (and (known_alive ?x)
@@ -56,10 +56,10 @@
 ; {@self goal {@self <action> <focus>}} with a nested-clause target; see
 ; macros/goal_macros.hs). Bound pattern vars constrain; free vars bind off the match.
 (define-macro has-goal (?g)
-  (believes {@self goal ?g}))
+  {@self goal ?g})
 
 (define-macro no-goal (?g)
-  (not (believes {@self goal ?g})))
+  (not {@self goal ?g}))
 
 (define-macro grown (?x)
   (marriageable-age ?x))                 ; >=16, old enough to act as an agent
@@ -73,15 +73,15 @@
 ;; it stays object-cacheable and telepathy-pure: you only skip women YOU know married.
 (define-macro unmarried_woman (?x)
   (and (known_alive ?x)
-       (believes {?x gender [k female]})
+       {?x gender [k female]}
        (adult-age ?x)
-       (not (believes {?x spouse ?}))))
+       (not {?x spouse ?})))
 
 (define-macro unmarried_man (?x)
   (and (known_alive ?x)
-       (believes {?x gender [k male]})
+       {?x gender [k male]}
        (adult-age ?x)
-       (not (believes {?x spouse ?}))))
+       (not {?x spouse ?})))
 
 ;; Married woman of fertile age who can conceive NOW - not already carrying a
 ;; pregnancy ({?x pregnant ?} is set at conception, cleared at delivery by the
@@ -89,10 +89,10 @@
 ;; own belief), so it stays object-cacheable like unmarried_woman.
 (define-macro fertile_wife (?x)
   (and (known_alive ?x)
-       (believes {?x gender [k female]})
+       {?x gender [k female]}
        (working-age ?x)                  ; 16-49 childbearing band
-       (believes {?x spouse ?})
-       (not (believes {?x pregnant ?}))))
+       {?x spouse ?}
+       (not {?x pregnant ?})))
 
 ;; Adult of working / migration age. Used by emigration.
 (define-macro young_adult (?x)
@@ -104,10 +104,10 @@
 ;; articles). isa [k org] matches any org kind (is-a); each casting event narrows to
 ;; its category ([k org club] / business / gov) or excludes household.
 (define-macro known_org (?x)
-  (believes {?x isa [k org]}))
+  {?x isa [k org]})
 
 ;; A letter / document the deliberating mind has SEEN - perception minted
 ;; {?x isa [k letter]} (and observable attrs, e.g. {?x addressee ..}) when @self
 ;; observed it. is-a [k letter] matches every letter subkind (love_letter, tryst_note).
 (define-macro any_letter (?x)
-  (believes {?x isa [k letter]}))
+  {?x isa [k letter]})

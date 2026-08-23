@@ -56,7 +56,7 @@
                 (none {?winner outdo @self}))
   (when (and (!= ?winner @self)
              ; @self competed at a meet (his own ended RACE_RUN memory).
-             (believes {@self RACE_RUN ? ? /succ /ever})
+             (any {@self RACE_RUN ? ? /succ /ever})
              (chance (+ 0.15 (* 0.85 (attr @self narcissism) (attr @self assertiveness))))))
   (effects
     (begin-belief {?winner outdo @self})))

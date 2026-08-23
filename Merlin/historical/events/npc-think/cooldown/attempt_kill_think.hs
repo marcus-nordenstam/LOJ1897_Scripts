@@ -13,6 +13,6 @@
 (npc-think kill_concluded
   (cooldown 1 m)
   (goal {@self kill ?victim})
-  (when (believes {?victim condition [k dead]}))
+  (when (any {?victim condition [k dead]}))
   (effects
     (end-goal {@self kill ?victim})))

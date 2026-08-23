@@ -5,8 +5,8 @@
   (cooldown 1 m)
   (role @self )
   (role ?prey9 [k human] (select (policy first-match)))
-  (when (and (believes {@self goal {@self probe_hunt ?}})
-             (not (believes {@self accomplice ?prey9}))))
+  (when (and (any {@self goal {@self probe_hunt ?}})
+             (not (any {@self accomplice ?prey9}))))
   (effects
     (bind (begin-belief {@self accomplice ?prey9}) ?bond)
     (begin-goal {@self kill ?prey9} /caused_by ?bond)

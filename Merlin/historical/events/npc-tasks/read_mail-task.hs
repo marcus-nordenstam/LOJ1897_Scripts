@@ -32,7 +32,7 @@
       (effects (maintain-proposal {@self READ ?ltr})))
     (try
       (role ?stk [k mail_stack] (spatial ?stk building ?prem))
-      (when (and (believes {@self take_my_letters ?stk /succ /caused_by ?rm-rel})
+      (when (and (any {@self take_my_letters ?stk /succ /caused_by ?rm-rel})
                  (empty (spatial @self hold [k letter]))))
       (effects (debug-print "RM_DONE") (set-outcome ?rm-rel succ)))
     (try

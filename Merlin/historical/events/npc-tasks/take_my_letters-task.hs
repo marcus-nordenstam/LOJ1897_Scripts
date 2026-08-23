@@ -22,7 +22,7 @@
         (tolerate (attr ?doc addressee): ?addressee)
         (tolerate (attr ?doc addressee_duty): ?duty)
         (if (or (= ?addressee ?name)
-                (believes {@self duty_to ? ?duty}))
+                (any {@self duty_to ? ?duty}))
             (then (debug-print "TML_KEEP doc=?doc")
                   (bb-write ?doc browse-status kept))
             (else (debug-print "TML_HANDLE doc=?doc")

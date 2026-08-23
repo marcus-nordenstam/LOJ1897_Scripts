@@ -22,11 +22,11 @@
 (define-macro at-burgle-residence ()
   (and (not (at-home))
        (is-a (spatial @self building) [k building residential_building])))
-; believes (not bind) so the effect-position call site below treats a jobless
-; miss as plain false, never an effects abort.
+; existence reads that bind the projected field: a jobless miss yields @fail, so the
+; enclosing (and ..) reads plain false (never an effects abort).
 (define-macro at-own-workplace ()
-  (and (believes {@self job.org ?emp})
-       (believes {?emp workplace ?work})
+  (and (any {@self job.org}).target: ?emp
+       (any {?emp workplace}).target: ?work
        (spatial @self building ?work)))
 
 ; APPROACH - hold the steal goal but not yet at a strikeable scene: pick an

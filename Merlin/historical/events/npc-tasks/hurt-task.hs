@@ -30,7 +30,7 @@
     ; THE BEATING: PUNCH a co-present, conscious victim.
     (try
       (when (and (spatial ?victim co-located @self)
-                 (not (believes {?victim condition [k dead]}))
+                 (not (any {?victim condition [k dead]}))
                  (not (attr-is ?victim awareness unconscious))))
       (utility survival always-pick)
       (effects (maintain-proposal {@self PUNCH ?victim})))
@@ -39,7 +39,7 @@
     ; (method PUNCH, goal hurt) and end the episode.
     (try
       (when (or (attr-is ?victim awareness unconscious)
-                (believes {?victim condition [k dead]})))
+                (any {?victim condition [k dead]})))
       (effects
         (crime-ledger-append @self ?victim PUNCH hurt @u @u)
         (set-outcome ?hurt-rel succ)))))

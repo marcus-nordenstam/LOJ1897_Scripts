@@ -16,14 +16,14 @@
     (try
       (when (and (not (spatial ?victim co-located @self))
                  (not (empty (spatial @self hold [k firearm])))
-                 (not (believes {?victim condition [k dead]}))
+                 (not (any {?victim condition [k dead]}))
                  (spatial ?victim space): ?loc))
       (utility survival)
       (effects (maintain-proposal {@self go ?loc})))
     (try
       (when (and (not (spatial ?victim co-located @self))
                  (not (empty (spatial @self hold [k firearm])))
-                 (not (believes {?victim condition [k dead]}))
+                 (not (any {?victim condition [k dead]}))
                  (unknown (spatial ?victim space))))
       (utility survival)
       (effects (maintain-proposal {@self go (home-of ?victim)})))
@@ -32,11 +32,11 @@
     (try
       (when (and (spatial ?victim co-located @self)
                  (not (empty (spatial @self hold [k firearm])))
-                 (not (believes {?victim condition [k dead]}))))
+                 (not (any {?victim condition [k dead]}))))
       (utility survival always-pick)
       (effects (maintain-proposal {@self TRIGGER_FIREARM ?victim})))
 
     ; CONCLUDE: the victim is dead - the method is spent.
     (try
-      (when (believes {?victim condition [k dead]}))
+      (when (any {?victim condition [k dead]}))
       (effects (set-outcome ?shoot-rel succ)))))
