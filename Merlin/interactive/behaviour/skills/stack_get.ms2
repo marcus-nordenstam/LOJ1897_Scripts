@@ -21,4 +21,4 @@ rule stack-get-outcome
 {@self /ever stack_get ?thing ?stack /no_out}: ?get
 {@self /past STACK_TAKE ?thing ? /caused_by ~?get}: ?TAKE
     ->
-(set_outcome ?get (outcome ?TAKE)).
+(set-outcome ?get (outcome ?TAKE)).

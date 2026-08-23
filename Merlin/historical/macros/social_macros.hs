@@ -94,8 +94,8 @@
 ; {@fail lover ?} and counts zero, harmlessly.
 (define-macro partner-keeps-interloper (?p)
   (> (count (every {?p lover ?}))
-     (+ (any {?p lover @self} (out exists-bool))
-        (any {?p lover (any {?p spouse ?}).target} (out exists-bool)))))
+     (+ (prob {?p lover @self})
+        (prob {?p lover (any {?p spouse ?}).target}))))
 
 ; Does the deliberator KNOW of an affair among their own partners: an
 ; interloper they believe their spouse or a lover keeps. Evidence-mediated:

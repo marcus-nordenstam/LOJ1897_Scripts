@@ -23,13 +23,13 @@
   ;; unknown child's class @fails). No cross-mind read.
   (role @self
            (schoolchild-age @self)
-           (believes {@self age_band ?peer_band}))
+           {@self age_band ?peer_band})
   (role ?b (any_human ?b)
            (schoolchild-age ?b)
            ; Same class: @self's belief that ?b's class matches his own (dynamic-
            ; target shape-2, cacheable - replaces the (= (target..)(target..)) pair).
            {?b class_situation (any {@self class_situation}).target}
-           (believes {?b age_span ?peer_band})
+           {?b age_span ?peer_band}
            (not {@self friend ?b})
            ; Warmth-gated: see adult_friendships.hs. The two negative warmth
            ; bands (dislike, detest) are read as EXPLICIT verb-state beliefs

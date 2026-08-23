@@ -31,7 +31,7 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self (believes {@self home ?home}))
+  (role @self {@self home ?home})
   (utility idle)
 
   (effects
@@ -133,10 +133,10 @@
   (rng-stream behaviour)
 
   (role @self (grown @self)
-              (believes {@self home ?home})
-              (believes {?home breakfast_hour ?b})   ; existence cached; the three
-              (believes {?home lunch_hour ?l})       ; hours bind at fire for the
-              (believes {?home supper_hour ?s}))
+              {@self home ?home}
+              {?home breakfast_hour ?b}   ; existence cached; the three
+              {?home lunch_hour ?l}       ; hours bind at fire for the
+              {?home supper_hour ?s})
 
   ; The cheap per-mind gate first: (asked-me-about) walks only @self's own
   ; heard-SAY records and fails fast when nobody asked.

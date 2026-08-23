@@ -6,5 +6,5 @@
   (cooldown 1 m)
   (role @self )
   (role ?plotter [k human]
-        (believes {?plotter urge @self {@self probe_hunt ?prey3}:?plot3}))
+        {?plotter urge @self {@self probe_hunt ?prey3}:?plot3})
   (effects (debug-print "PROBE_ROLE plotter=?plotter prey=?prey3 plot=?plot3")))

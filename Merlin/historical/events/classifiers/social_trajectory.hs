@@ -8,9 +8,9 @@
 (npc-think classify_social_trajectory
   (rng-stream behaviour)
 
-  (role @self (believes {@self breeding ?breeding})
-              (believes {@self prestige ?prestige})
-              (believes {@self wealth ?wealth}))
+  (role @self {@self breeding ?breeding}
+              {@self prestige ?prestige}
+              {@self wealth ?wealth})
 
   (effects
     (mint-band {@self social_trajectory}

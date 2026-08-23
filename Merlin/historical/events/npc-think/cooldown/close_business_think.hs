@@ -63,10 +63,10 @@
   ; ?org role; the articles filter caches as EXISTENCE and binds ?art at fire.
   (role @self (grown @self))
   (role ?job {@self job ?job})
-  (role ?org (believes {?job org [k org business]:?org})    ; produced-restricted: ?org threaded off ?job
-             (believes {@self wealth ?wealth})
+  (role ?org {?job org [k org business]:?org}    ; produced-restricted: ?org threaded off ?job
+             {@self wealth ?wealth}
              {?org founder @self}
-             (believes {?org record ?art}))
+             {?org record ?art})
 
   ; The once-a-year failure roll (base x climate x means-penalty x merit-penalty;
   ; wealth / diligence are his OWN derived dims, read as the founding events do), an

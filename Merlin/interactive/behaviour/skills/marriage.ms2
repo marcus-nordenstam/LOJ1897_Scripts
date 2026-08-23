@@ -25,7 +25,7 @@ rule marry-acquire-home-outcome
 {?irrHome isa [k building]:?bldgKind}
 {@self /succ ACQUIRE ?bldgKind /caused_by ~?goal}
     ->
-(set_outcome /succ ?goal).
+(set-outcome /succ ?goal).
 
 
 
@@ -122,7 +122,7 @@ rule marry-outcome-succ
 {?myLeftHand finger [k ring_finger]:?myRingFinger}
 {?myRingFinger wear [k wedding_band]}
     ->
-(set_outcome /succ ?marry)
+(set-outcome /succ ?marry)
 (end_belief {@self fiancee ?fiancee})
 (begin_belief {@self spouse ?fiancee}).
 

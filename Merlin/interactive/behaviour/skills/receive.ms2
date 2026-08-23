@@ -24,5 +24,5 @@ rule receive-outcome
 {@self /ever receive ?thing /no_out}: ?receive
 {@self /past take ?thing /caused_by ~?receive}: ?take
     ->
-(set_outcome ?receive (outcome ?take)).
+(set-outcome ?receive (outcome ?take)).
 

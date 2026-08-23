@@ -31,7 +31,7 @@
   ; and lives in the (when ...) clause below.
   (role @self (not {@self repute [k scandalous]})
               (adult-age @self)
-              (believes {@self age_band ?peer_band}))
+              {@self age_band ?peer_band})
   ;; SELF-POV (telepathy purge CAT-3): @self sizes up ?b from what HE knows -
   ;; ?b's repute / class as banded in via gossip / believe_about (3-arg
   ;; situation). The class match is positive, so @self only befriends a
@@ -39,7 +39,7 @@
   ;; the repute gate is permissive on the unknown. No cross-mind read.
   (role ?b (any_human ?b)
            (adult-age ?b)
-           (believes {?b age_span ?peer_band})
+           {?b age_span ?peer_band}
            (not {?b repute [k scandalous]})
            ; Same class: @self's belief that ?b's class matches his own (dynamic-
            ; target shape-2, cacheable).

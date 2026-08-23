@@ -17,7 +17,7 @@
   (cooldown 1 m)
 
   (role ?foe {?foe (theme-labels violent_to) @self}:?witnessed-rel
-             (not (believes {?foe condition [k dead]})))
+             (not {?foe condition [k dead]}))
 
   ; The fearful flight: timidity = high volatility + low sadism + high compassion, the
   ; mirror of fight_defence's combat resolve, so most victims lean one way or the other.

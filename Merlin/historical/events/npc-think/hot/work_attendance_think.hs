@@ -40,7 +40,7 @@
   (fatigue 0)                      ; a work shift is not a fruitless search - never fatigue-capped
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
-             (believes {?org workplace ?wp})       ; ?wp binds at fire
+             {?org workplace ?wp}       ; ?wp binds at fire
              (spatial @self building ?wp))                    ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
   (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)  ; onset: derive the shift, bind ?start/?end
         (and (none {@self work ?wp /pres})
@@ -62,7 +62,7 @@
   (fatigue 0)                      ; commuting to work is not a fruitless search - never fatigue-capped
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
-             (believes {?org workplace ?wp})       ; ?wp binds at fire
+             {?org workplace ?wp}       ; ?wp binds at fire
              (not (spatial @self building ?wp)))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
   (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)  ; onset: derive the shift, bind ?start/?end
         (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))

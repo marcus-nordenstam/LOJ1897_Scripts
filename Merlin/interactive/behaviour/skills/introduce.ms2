@@ -110,7 +110,7 @@ rule introduce-siblings-outcome
 {@self /succ SAY ? ?person1 /caused_by ~?intro}
 {@self /succ SAY ? ?person2 /caused_by ~?intro}
     ->
-(set_outcome ?intro /succ).
+(set-outcome ?intro /succ).
 
 # Tell/ask no longer make @msg
 # Instead msg state makes @msg, which is used to decorate msg-objects

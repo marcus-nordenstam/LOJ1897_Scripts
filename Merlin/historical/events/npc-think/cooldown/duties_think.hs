@@ -27,7 +27,7 @@
 
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}
-             (believes {?org record ?art}))
+             {?org record ?art})
 
   (when (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg)))
 
@@ -54,13 +54,13 @@
                             (then (begin-belief {@self duty_to ?org ?duty})
                                   (debug-print "DUTY-take ?duty ?org"))))
                       (else
-                        (if (any {@self duty_to ?org ?duty} (out exists-bool))
+                        (if (any {@self duty_to ?org ?duty})
                             (then (end-belief {@self duty_to ?org ?duty})
                                   (debug-print "DUTY-drop ?duty ?org")))))
                   ; The mirror: retire stale holders, record the current one.
                   (for-each ?dhb-rel (every {?org duty_holder ? ?duty})
                       ?dhb-rel.target: ?p
-                      (if (not (= ?p ?senior))
+                      (if (!= ?p ?senior)
                           (then (end-belief {?org duty_holder ?p ?duty}))))
                   (if (none {?org duty_holder ?senior ?duty})
                       (then (begin-belief {?org duty_holder ?senior ?duty}))))))))))

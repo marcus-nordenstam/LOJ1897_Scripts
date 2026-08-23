@@ -41,4 +41,4 @@ rule tell-beliefs-outcome
 {@self tell_beliefs ?pattern ?asker}: ?tell
 {@self /succ SAY ? ?asker /caused_by ~?tell}: ?SAY
     ->
-(set_outcome ?tell (outcome ?SAY)).
+(set-outcome ?tell (outcome ?SAY)).

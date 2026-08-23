@@ -41,7 +41,7 @@
         ; (1) REFRESH - one colleague job object per roster row (skip my own row),
         ; mirroring my own job object so {?cw job.org ?org} / rank / head-ness read uniformly.
         (for-each-doc-record [k employee_register] ?reg (worker ?cw) (job ?jk) (level ?lvl)
-          (if (not (= ?cw @self))
+          (if (!= ?cw @self)
               (then
                 (imagine-or-recall ?jk {?cw job ?cojob})
                 (begin-belief {?cojob org ?org})
@@ -55,6 +55,6 @@
           ?ojb-rel.subject: ?ojob
           (for-each ?jb-rel (every {? job ?ojob})
             ?jb-rel.subject: ?other
-            (if (and (not (= ?other @self))
+            (if (and (!= ?other @self)
                      (not (read-doc-record [k employee_register] ?reg (find worker ?other))))
                 (then (end-belief ?jb-rel)))))))))

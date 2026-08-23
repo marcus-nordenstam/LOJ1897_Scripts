@@ -20,7 +20,7 @@
   (goal {@self QUIT_WORK})
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
-             (believes {?org workplace ?wp}))   ; ?wp binds at fire
+             {?org workplace ?wp})   ; ?wp binds at fire
   (when (and (not (spatial @self building ?wp))))
   (effects (maintain-proposal {@self enter ?wp})))
 
@@ -31,6 +31,6 @@
   (goal {@self QUIT_WORK})
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
-             (believes {?org workplace ?wp}))   ; ?wp binds at fire
+             {?org workplace ?wp})   ; ?wp binds at fire
   (when (and (spatial @self building ?wp)))
   (effects (maintain-proposal {@self QUIT_WORK})))

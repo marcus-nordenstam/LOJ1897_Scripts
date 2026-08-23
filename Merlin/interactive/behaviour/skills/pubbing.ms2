@@ -55,7 +55,7 @@ rule pubbing-order-beer-claim-rendezvous
 {?bartender perform [k bartending] ?pub}
 {@self order [k beer] ?bartender}
 {?pub part [k bar_counter]:?bar_counter}
-(bb_public_none @self talk_cell)
+(bb-public-none @self talk_cell)
     ->
 (claim_rendezvous (des focus_counter ?bar_counter) (des party [@self ?bartender])).
 
@@ -81,7 +81,7 @@ rule pubbing-order-beer-take-beer
 (bb_public_read @self drinking_glass_cell): ?beer_cell
 (env_cell_occupier [k drinking_glass] ?beer_cell): ?beer_glass
     ->
-(set_outcome /succ {@self goal {@self talk_to ?bartender}})
+(set-outcome /succ {@self goal {@self talk_to ?bartender}})
 (begin_proposal {@self take ?beer_glass}).
 
 
@@ -97,8 +97,8 @@ rule pubbing-order-beer-unclaim-spot-at-bar
 (bb_public_read @self drinking_glass_cell): ?spawn_cell
     ->
 (unclaim_env_cell ?spawn_cell)
-(bb_public_clear @self drinking_glass_cell)
-(bb_public_clear @self wants_drink)
-(set_outcome ?order /succ).
+(bb-public-clear @self drinking_glass_cell)
+(bb-public-clear @self wants_drink)
+(set-outcome ?order /succ).
 
 

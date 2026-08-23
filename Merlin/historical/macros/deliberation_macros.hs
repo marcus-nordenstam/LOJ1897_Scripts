@@ -70,4 +70,4 @@
 ; old C++ (has-pressure) op - its body was a first-ongoing {?actor pressure ?}
 ; bucket walk (has_any_ongoing_pressure), i.e. exactly this pattern existence.
 (define-macro has-pressure (?actor)
-  (any {?actor pressure ?} (out exists-bool)))
+  (prob {?actor pressure ?}))

@@ -31,14 +31,14 @@
   (role @self (adult @self)
               {@self lover ?}
               ; @self signs the love letter - bind his OWN name for "Signed, ..".
-              (believes {@self name ?author_name}))
+              {@self name ?author_name})
   ; The paramour: a lover who is not also a spouse (the covert third party).
   (role ?paramour (any_human ?paramour)
     {@self lover ?paramour}
     (not {@self spouse ?paramour})
     (covert-affair-motive ?paramour)   ; belief-pure macro - cached
     ; @self names her in the letter body (a name value, not the live object).
-    (believes {?paramour name ?paramour_name})
+    {?paramour name ?paramour_name}
     (select (policy first-match)))
 
   ; (when) is the monthly writer rate; the adult floor, live paramour and

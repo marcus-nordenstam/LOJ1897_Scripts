@@ -16,7 +16,7 @@
 (npc-think classify_economic_situation
   (rng-stream behaviour)
 
-  (role @self (believes {@self wealth ?wealth}))
+  (role @self {@self wealth ?wealth})
 
   (effects
     (mint-band {@self economic_situation} ?wealth

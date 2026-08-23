@@ -19,4 +19,4 @@ rule drink-outcome
 {@self drink ?glass}: ?drink
 (gt (time_since /seconds ?drink) 3)
     ->
-(set_outcome /succ ?drink).
+(set-outcome /succ ?drink).

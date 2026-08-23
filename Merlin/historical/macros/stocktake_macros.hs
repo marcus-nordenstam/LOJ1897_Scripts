@@ -25,5 +25,5 @@
 (define-macro take-stock-of (?room ?kind)
   (for-each ?item (spatial ?room contents)
     (if (and (is-a ?item [k ?kind])
-             (not (= (spatial ?item space /env) ?room)))
+             (!= (spatial ?item space /env) ?room))
         (then (retire-whereabouts ?item)))))

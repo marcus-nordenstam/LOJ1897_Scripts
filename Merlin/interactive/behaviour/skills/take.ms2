@@ -53,7 +53,7 @@ rule take-outcome
 {@self /ever take ?thing /no_out}: ?take
 {@self /past GRASP ?thing ? /caused_by ~?take /out?}: ?GRASP
     ->
-(set_outcome ?take (outcome ?GRASP)).
+(set-outcome ?take (outcome ?GRASP)).
 
 
 # While a hand controls something, keep the corresponding arm out. ARM_OUT is

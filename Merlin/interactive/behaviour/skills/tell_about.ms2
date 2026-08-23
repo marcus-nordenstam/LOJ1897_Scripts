@@ -33,4 +33,4 @@ rule tell-about-outcome
 {@self tell_about ?subject ?asker}: ?tell
 {@self /succ SAY ? ?asker /caused_by ~?tell}: ?SAY
     ->
-(set_outcome ?tell (outcome ?SAY)).
+(set-outcome ?tell (outcome ?SAY)).

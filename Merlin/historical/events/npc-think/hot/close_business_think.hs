@@ -53,9 +53,9 @@
 ; it (a leased / home-seated premises has no {@self own ?wp} belief - he just
 ; vacates). The availability belief is the fired-once latch.
 (npc-think list_failed_premises
-  (role @self (believes {@self CLOSE_BUSINESS ? ?wp /succ})
-              (believes {@self own ?wp})
-              (not (believes {?wp availability ?})))
+  (role @self {@self CLOSE_BUSINESS ? ?wp /succ}
+              {@self own ?wp}
+              (not {?wp availability ?}))
   (effects
     (create-entity [k for_sale_listing] (qual location ?wp)): ?listing
     (write-doc-record [k for_sale_listing] ?listing (building ?wp))

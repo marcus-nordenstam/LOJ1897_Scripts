@@ -28,7 +28,7 @@
               {@self lover ?}
               (is-married @self)
               (not {@self class_situation [k class_situation lower]})
-              (believes {@self name ?author_name}))
+              {@self name ?author_name})
   (role ?paramour (any_human ?paramour)
     {@self lover ?paramour}
     (not {@self spouse ?paramour})
@@ -37,9 +37,9 @@
 
   (when (and (chance 0.10)
              (find-building [k commercial_building hotel])
-             (or (any {?paramour fancy @self} (out exists-bool))
-                 (any {?paramour desire @self} (out exists-bool))
-                 (any {?paramour crave @self} (out exists-bool)))
+             (or (any {?paramour fancy @self})
+                 (any {?paramour desire @self})
+                 (any {?paramour crave @self}))
              (chance (+ 0.40 (* 0.60 (attr ?paramour assertiveness))))))
 
   (utility want)
@@ -75,7 +75,7 @@
 
   (role @self (adult @self)
               {@self lover ?}
-              (believes {@self name ?author_name}))
+              {@self name ?author_name})
   (role ?paramour (any_human ?paramour)
     {@self lover ?paramour}
     (not {@self spouse ?paramour})
@@ -94,7 +94,7 @@
     (nudge-stance ?paramour @self attraction 0.10)
     ; @self's own home: a named residence carries a name; a plain house has only
     ; an address (not expressible in a note yet), so unnamed homes write no note.
-    (if (and (chance 0.30) (home-of ?paramour) (any {?venue name ?} (out exists-bool)))
+    (if (and (chance 0.30) (home-of ?paramour) (any {?venue name ?}))
         (then
           (any {?venue name ?}).target: ?venue_name
           (post-letter [k tryst_note]
@@ -113,7 +113,7 @@
 
   (role @self (adult @self)
               {@self lover ?}
-              (believes {@self name ?author_name}))
+              {@self name ?author_name})
   (role ?paramour (any_human ?paramour)
     {@self lover ?paramour}
     (not {@self spouse ?paramour})

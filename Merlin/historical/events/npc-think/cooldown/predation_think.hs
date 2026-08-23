@@ -45,7 +45,7 @@
   ; beliefs about), sampled by roulette - the victim-type prototype.
   (role ?proto (any_human ?proto)
                (adult ?proto)
-               (not (= ?proto @self))
+               (!= ?proto @self)
                {?proto hair_color ?}
                {?proto eye_color ?}
                (select (score 1) (policy roulette)))
@@ -90,7 +90,7 @@
              (any {@self fixation ?}).target: ?fix
              (chance (* (crime-scale) 0.005
                         (* (dark-propensity (lethal-disposition @self))
-                           (if (any {@self life_aim [k power_aim]} (out exists-bool)) (then 2.0) (else 1.0)))))))
+                           (if (any {@self life_aim [k power_aim]}) (then 2.0) (else 1.0)))))))
 
   ; Mint the kill goal toward the resolved victim. /caused_by pins the first fixation
   ; belief (the gate's believes binds ?fix - a kind-valued feature - and the

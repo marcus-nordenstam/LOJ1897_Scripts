@@ -51,7 +51,7 @@
                            {@self job [k job cook]}
               (not {@self household_cook ?}))
   (role ?home {@self home ?home})
-  (when (pub-bb-none ?home cook))
+  (when (bb-public-none ?home cook))
   (effects
     (pub-bb-post ?home cook (cook_marker_ttl_cycles))
     (begin-belief {@self household_cook ?home})))
@@ -62,9 +62,9 @@
               (not {@self household_cook ?})
               (not {@self class_situation [k upper]}))
   (role ?home {@self home ?home})
-  (when (and (pub-bb-none ?home cook)
+  (when (and (bb-public-none ?home cook)
              (not (and (any {@self mother ?}).target: ?mum
-                       (any {?mum home ?home} (out exists-bool))))))
+                       (any {?mum home ?home})))))
   (effects
     (pub-bb-post ?home cook (cook_marker_ttl_cycles))
     (begin-belief {@self household_cook ?home})))
@@ -76,10 +76,10 @@
               (not {@self spouse ?})
               (not {@self class_situation [k upper]}))
   (role ?home {@self home ?home})
-  (when (and (pub-bb-none ?home cook)
+  (when (and (bb-public-none ?home cook)
              (not (and (any {@self child ?}).target: ?c
-                       (any {?c gender [k female]} (out exists-bool))
-                       (any {?c home ?home} (out exists-bool))))))
+                       (any {?c gender [k female]})
+                       (any {?c home ?home})))))
   (effects
     (pub-bb-post ?home cook (cook_marker_ttl_cycles))
     (begin-belief {@self household_cook ?home})))

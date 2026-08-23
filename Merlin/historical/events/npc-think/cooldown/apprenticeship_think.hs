@@ -27,7 +27,7 @@
   ;; @self reads, so they gate the fire in (when), not role selection.
   ;; SELF-POV (telepathy purge CAT-2): the youth is the sole deliberator,
   ;; reading his OWN employment / marital / schooling state.
-  (role @self (believes {@self breeding ?breeding})
+  (role @self {@self breeding ?breeding}
               (not {@self job.salary ?})
               (not {@self spouse ?})
               ;; A youth still in school (PR-education) is not on the labour
@@ -41,9 +41,9 @@
   ;; ?master, produced off {?org founder ?master} and re-checked in the role.
   (role ?org (known_org ?org)
              (not {?org isa [k org household]})
-             (believes {?org founder ?master})
-             (not (believes {?master repute [k scandalous]}))
-             (believes {?org record ?org_record}))
+             {?org founder ?master}
+             (not {?master repute [k scandalous]})
+             {?org record ?org_record})
 
   ;; Live exclusivity re-check (see employment.hs): the youth's "unemployed"
   ;; filter is alpha-indexed, so within one tick several masters sample the same
@@ -56,7 +56,7 @@
   ;; non-belief @self reads, so they moved here from the @self role; (chance) leads
   ;; the (and ...) to short-circuit cheaply.
   (when (and (chance (* 0.0125 (+ 0.5 ?breeding)))
-             (not (= (job-level @self) [k trainee]))
+             (!= (job-level @self) [k trainee])
              (>= (years-old @self) 12)
              (<= (years-old @self) 16)))
 

@@ -11,7 +11,7 @@
 ; owns the birth half.
 ;
 ; The husband is recovered from @self's OWN spouse belief (no second role): the
-; free ?husband in (any {@self spouse ?husband} (out exists-bool)) binds to her spouse.
+; free ?husband in (any {@self spouse ?husband}) binds to her spouse.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")

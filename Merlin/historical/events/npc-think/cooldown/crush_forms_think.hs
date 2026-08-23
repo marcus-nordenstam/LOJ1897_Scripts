@@ -36,7 +36,7 @@
               (not {@self desire ?})
               (not {@self lover ?})
               (not {@self spouse ?})
-              (believes {@self age_band ?peer_band}))
+              {@self age_band ?peer_band})
   (role ?victim (any_human ?victim)
                 (marriageable-age ?victim)
                 ; the crush forms on someone @self has actually met.
@@ -50,7 +50,7 @@
                 ; (+/-1 band). @self's band is bound in the @self role above - an
                 ; inline (any {@self age_band}).target does NOT resolve against the
                 ; plural age_span belief, so the band must be a bound variable.
-                (believes {?victim age_span ?peer_band}))
+                {?victim age_span ?peer_band})
 
   ; The trait chance (openness x enthusiasm x compassion) is a non-belief filter,
   ; rolled once per NPC per month in (when) rather than as a role criterion.

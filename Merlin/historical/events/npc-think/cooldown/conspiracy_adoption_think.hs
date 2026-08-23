@@ -37,11 +37,11 @@
   ; nested kill clause is the role's own membership criterion, and the {..}:?plot-rel
   ; capture + free ?victim bind at the when-gate.
   (role ?instigator (any_human ?instigator)
-                    (believes {?instigator goal {@self kill ?victim}:?plot-rel}))
+                    {?instigator goal {@self kill ?victim}:?plot-rel})
 
   ; It must be ANOTHER's goal (not my own kill goal), I must be willing: desire for the
   ; instigator (attraction band >= 2) plus the dark roll.
-  (when (and (not (= ?instigator @self))
+  (when (and (!= ?instigator @self)
              (>= (stance-band ?instigator attraction) 2)
              (chance (attr @self psychopathy))))
 

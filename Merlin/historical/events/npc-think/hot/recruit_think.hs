@@ -13,7 +13,7 @@
 (npc-think take_down_filled
   ; ?ad ENUMERATED: an officer can hold several posted adverts at once, and a single @self
   ; bind would take the first post found and only ever test THAT ad's org.
-  (role ?ad (believes {@self post ?ad ?org}))
+  (role ?ad {@self post ?ad ?org})
   (when (and (any {?org record ?}).target: ?art
              (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
              (>= (count-doc-records [k employee_register] ?reg)
@@ -22,6 +22,6 @@
   (effects (maintain-proposal {@self TAKE_DOWN ?ad})))
 
 (npc-think take_down_done
-  (role ?ad (believes {@self post ?ad ?org}))
-  (when (any {@self TAKE_DOWN ?ad /succ} (out exists-bool)))
+  (role ?ad {@self post ?ad ?org})
+  (when (any {@self TAKE_DOWN ?ad /succ}))
   (effects (end-belief {@self post ?ad ?org})))

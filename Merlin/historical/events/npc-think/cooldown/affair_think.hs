@@ -36,7 +36,7 @@
               (adult-age @self)
               {@self spouse ?}
               (not {@self lover ?})
-              (believes {@self age_band ?peer_band}))
+              {@self age_band ?peer_band})
   (role ?lover (any_human ?lover)
                (adult-age ?lover)
                ; the paramour must NOT be @self's own spouse (a third party).
@@ -46,7 +46,7 @@
                ; @self's band within ?lover's perceived age_span (+/-1). Bound in
                ; the @self role: an inline (any {@self age_band}).target does not
                ; resolve against the plural age_span belief.
-               (believes {?lover age_span ?peer_band})
+               {?lover age_span ?peer_band}
                ; opposite-sex: @self's belief that ?lover's PERCEIVED gender differs
                ; from his own (visible-on-sight -> cacheable), and non-kin.
                (not {?lover gender (any {@self gender}).target})

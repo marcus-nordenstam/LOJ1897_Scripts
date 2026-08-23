@@ -46,11 +46,11 @@
   ; (0.5 + psychopathy) * (1 - inhibition) * (1 - compassion) *
   ; (1 + spouse-wealth) * (1.5 if an unmarriageable lover waits else 1.0).
   (when (and (or (detests ?spouse)
-                 (any {?spouse (theme-labels violent_to) @self /ever} (out exists-bool)))
+                 (any {?spouse (theme-labels violent_to) @self /ever}))
              (chance
                (* (crime-scale) 0.02
                   (* (+ (if (detests ?spouse) (then 1) (else 0))
-                        (if (any {?spouse (theme-labels violent_to) @self /ever} (out exists-bool)) (then 1) (else 0)))
+                        (if (any {?spouse (theme-labels violent_to) @self /ever}) (then 1) (else 0)))
                      (* (+ 0.5 (attr @self psychopathy))
                         (* (disinhibition)
                            (* (callousness @self)
@@ -60,10 +60,10 @@
   ; /caused_by: the held detest belief, else dislike, else the spouse-wealth belief.
   (utility want)
   (effects
-    (if (any {@self detest ?spouse} (out exists-bool))
+    (if (any {@self detest ?spouse})
         (then (begin-belief {@self detest ?spouse}): ?detest_bond-rel
               (begin-goal {@self kill ?spouse} /caused_by ?detest_bond-rel))
-        (else (if (any {@self dislike ?spouse} (out exists-bool))
+        (else (if (any {@self dislike ?spouse})
             (then (begin-belief {@self dislike ?spouse}): ?dislike_bond-rel
                   (begin-goal {@self kill ?spouse} /caused_by ?dislike_bond-rel))
             (else (any {?spouse wealth ?}).target: ?spouse_wealth

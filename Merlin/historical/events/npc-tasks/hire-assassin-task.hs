@@ -13,7 +13,7 @@
   (tar human)
   (role ?killer (any_human ?killer)
                 (personally-knows @self ?killer)
-                (not (= ?killer ?victim)))
+                (!= ?killer ?victim))
   (and
     ; REACH the prospective killer.
     (try

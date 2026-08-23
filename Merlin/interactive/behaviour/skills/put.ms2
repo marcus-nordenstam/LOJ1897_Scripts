@@ -66,4 +66,4 @@ rule put-outcome
     ->
 (unclaim_env_cell (bb_private_read ?put put_cell))
 (bb_private_clear ?put put_cell)
-(set_outcome ?put (outcome ?UNGRASP)).
+(set-outcome ?put (outcome ?UNGRASP)).

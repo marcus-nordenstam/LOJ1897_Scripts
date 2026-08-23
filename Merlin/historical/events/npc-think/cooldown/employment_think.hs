@@ -35,9 +35,9 @@
   (rng-stream employment)
   ; Duty dispatch: whoever HOLDS the org's dismiss_staff duty reviews (assignment:
   ; duties_think.hs) - never a job-kind or rank test. Fire-binds ?org O(1).
-  (role @self (believes {@self duty_to ?org dismiss_staff}))
-  (role ?w    (believes {?w work_standing ?ws}))
-  (when (and (not (= ?w @self))
+  (role @self {@self duty_to ?org dismiss_staff})
+  (role ?w    {?w work_standing ?ws})
+  (when (and (!= ?w @self)
              (> 0.4 ?ws)
              (latch-eval (chance (* 0.08 (- 0.4 ?ws))))))
   (utility errand)
@@ -49,9 +49,9 @@
   (rng-stream employment)
   ; Duty dispatch: whoever HOLDS the org's review_staff duty promotes (assignment:
   ; duties_think.hs) - never a job-kind or rank test. Fire-binds ?org O(1).
-  (role @self (believes {@self duty_to ?org review_staff}))
-  (role ?w    (believes {?w work_standing ?ws}))
-  (when (and (not (= ?w @self))
+  (role @self {@self duty_to ?org review_staff})
+  (role ?w    {?w work_standing ?ws})
+  (when (and (!= ?w @self)
              (> ?ws 0.7)
              (latch-eval (chance (* 0.12 (- ?ws 0.7))))))
   (utility errand)

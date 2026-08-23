@@ -36,8 +36,8 @@
   (role ?sub (any_human ?sub)
              (personally-knows @self ?sub)
              (select (score (+ 0.10
-                               (* 0.30 (+ (believes {@self dislike ?sub})
-                                          (* 2 (believes {@self detest ?sub}))))))
+                               (* 0.30 (+ (prob {@self dislike ?sub})
+                                          (* 2 (prob {@self detest ?sub}))))))
                      (policy roulette)))
 
   ; Trigger: a SPECIFIC wrongdoer the actor cannot strike (believed dead, or out-
@@ -47,7 +47,7 @@
   ; (chance = 0.5 * disinhibition * 0.5 * (volatility + callousness)).
   (when (and ?focus
              (caused-by ?kgoal-rel {@self pressure ?})
-             (or (any {?focus condition [k dead]} (out exists-bool))
+             (or (any {?focus condition [k dead]})
                  (>= (- (target-or ?focus prestige 0) (target-or @self prestige 0)) 0.25))
              (chance (* 0.5 (disinhibition) 0.5
                         (+ (attr @self volatility) (callousness @self))))))

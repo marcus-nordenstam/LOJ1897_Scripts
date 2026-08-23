@@ -9,9 +9,9 @@
 ; (class-band ?who): the class rank the deliberator believes ?who holds -
 ; upper=2, middle=1, lower=0; unknown=-1 (an unknown class fails any positive floor).
 (define-macro class-band (?who)
-  (if (any {?who class_situation [k class_situation upper]} (out exists-bool))  (then 2)
-  (else (if (any {?who class_situation [k class_situation middle]} (out exists-bool)) (then 1)
-      (else (if (any {?who class_situation [k class_situation lower]} (out exists-bool)) (then 0)
+  (if (any {?who class_situation [k class_situation upper]})  (then 2)
+  (else (if (any {?who class_situation [k class_situation middle]}) (then 1)
+      (else (if (any {?who class_situation [k class_situation lower]}) (then 0)
           (else -1)))))))
 
 ; (class-rank-of ?floor): the rank of a class floor kind (the occupations / public_orgs

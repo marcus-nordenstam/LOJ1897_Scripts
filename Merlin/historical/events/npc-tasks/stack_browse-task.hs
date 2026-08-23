@@ -36,7 +36,7 @@
                   (set-outcome ?browse-rel succ)))))
     (try
       (role ?top (spatial ?stack top)
-            (not (= ?top (bb-read ?stack browse-cycle-end)))
+            (!= ?top (bb-read ?stack browse-cycle-end))
             (not (bb-has (bb-read ?stack browse-inflight) browse-status)))
       (effects
         (debug-print "SBR_TAKE doc=?top")

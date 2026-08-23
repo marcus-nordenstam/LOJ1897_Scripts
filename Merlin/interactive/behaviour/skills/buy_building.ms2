@@ -81,7 +81,7 @@ rule buy-outcome /break_on_fire
 (realis ?bldg)
 (realis ?title_deed)
     ->
-(set_outcome ?buy /succ).
+(set-outcome ?buy /succ).
 
 
 # PR-poss-A 2026-05-25 - migrated from `possess` to `hold`. The
@@ -98,7 +98,7 @@ rule goal-outcome-hold
 {@self hand ?hand}
 {?hand control ?thing}
     ->
-(set_outcome ?goal /succ)
+(set-outcome ?goal /succ)
 (begin_belief {@self hold ?thing}).
 
 

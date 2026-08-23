@@ -23,7 +23,7 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self (believes {@self wealth ?wealth}))
+  (role @self {@self wealth ?wealth})
 
   (effects
     (begin-belief {@self contentment
@@ -33,7 +33,7 @@
                 (/ (- ?wealth 0.5) (contentment-wealth-div))
                 (/ (- (belonging) 0.5) (contentment-belonging-div))
                 (* (max (- 0.5 (sobriety)) 0) (contentment-drink-weight))
-                (* (any {@self craving ?} (out exists-bool)) (contentment-craving-penalty))
-                (* (- 1 (any {@self job ?} (out exists-bool)))
+                (* (prob {@self craving ?}) (contentment-craving-penalty))
+                (* (- 1 (prob {@self job ?}))
                    (contentment-jobless-penalty)))
              0 1)})))

@@ -24,7 +24,7 @@
         ; stands in the home); ?food = that pile, handed to INGEST which
         ; decrements it. Breakfast / lunch / a bought-out supper stay abstract.
         (if (and (is-a ?meal [k supper])
-                 (any {@self home ?place} (out exists-bool)))
+                 (any {@self home ?place}))
             (then
               (bind 0 ?et_kitchen)
               (spatial ?place room [k kitchen]): ?et_kitchen

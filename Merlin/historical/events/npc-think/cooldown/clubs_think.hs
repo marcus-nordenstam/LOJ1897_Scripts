@@ -72,7 +72,7 @@
   ; it live in (when).
   (role ?club_org (known_org ?club_org)
                   [k org club]
-                  (believes {?club_org founder ?founder}))   ; produced-restricted: ?founder off the club
+                  {?club_org founder ?founder})   ; produced-restricted: ?founder off the club
 
   ; A man joins a club of his OWN class band. The club's tier is read as @self's
   ; view of the founder's class (3-arg (situation ... @self), banded in via
@@ -120,7 +120,7 @@
   ; completion gate: while he still holds a membership the goal stands; the moment
   ; resign_club_act unregisters him (unregister-member ENDS {@self member_of}) it falls and
   ; the goal ends. The act never ends the goal.
-  (when (and (any {@self member_of ?} (out exists-bool))
+  (when (and (any {@self member_of ?})
              (latch-eval (chance 0.004))))
 
   ; SPLIT (Item 5): the npc-think - the decision to resign. Mints {@self goal {@self

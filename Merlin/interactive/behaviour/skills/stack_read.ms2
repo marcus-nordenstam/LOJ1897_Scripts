@@ -44,7 +44,7 @@ rule stack-read-outcome-empty-succ
 {?stack top _}
 (none {@self view ?})
     ->
-(set_outcome ?stack_read /succ).
+(set-outcome ?stack_read /succ).
 
 
 rule stack-read-cleanup-read-doc-to-done-stack

@@ -39,7 +39,7 @@
                (begin-proposal {@self send_mail ?app})))
     (try
       (role ?home {@self home ?home})
-      (when (and (any {@self PREPARE_APPLICATION ?art ?jk /succ} (out exists-bool))
+      (when (and (any {@self PREPARE_APPLICATION ?art ?jk /succ})
                  (spatial @self building ?home)
                  (>= (days-since-last {@self read_mail ?home /succ}) 1)))
       (utility errand)
@@ -53,5 +53,5 @@
       (role ?ltr [k rejection_letter] {@self READ ?ltr /ever})
       (effects (set-outcome ?af-rel fail)))
     (try
-      (role @self (believes {@self take_up_post ?jk ?art /succ}))
+      (role @self {@self take_up_post ?jk ?art /succ})
       (effects (set-outcome ?af-rel succ)))))

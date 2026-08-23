@@ -18,7 +18,7 @@
 #    (if (neq ?old_cell ?preempted_talk_cell) (unclaim_env_cell ?old_cell))
 #    (bb_public_maintain @self try_to_talk_to ?person 30)
 #    (bb_public_write @self talk_cell ?preempted_talk_cell)
-#    (bb_public_clear @self preempted_talk_cell)
+#    (bb-public-clear @self preempted_talk_cell)
 #    (maintain_attention ?person).
 
 # ------------------------------------------------------------------------------------------------
@@ -48,12 +48,12 @@ rule talk-force-revaluate-talk-cell-rules
 (bb_public_read @self talk_cell): ?old_cell # but don't do this unless we have an old talk-cell to clear...
     ->
 (unclaim_env_cell ?old_cell)
-(bb_public_clear @self talk_cell).
+(bb-public-clear @self talk_cell).
 
 # If someone wants to talk to me and I am unprepared to talk to (e.g. I don't have a talk-cell for them)
 # then claim a talk cell near their talk cell so we can talk
 rule talk-recipient-claim-talk-cell
-(bb_public_none @self talk_cell)
+(bb-public-none @self talk_cell)
 (bb_public_any ? try_to_talk_to @self /output_subject): ?person
 # I could gate the rest of this rule on NOT being in talk-range..
 (bb_public_read ?person talk_cell): ?their_talk_cell
@@ -73,7 +73,7 @@ rule talk-recipient-claim-talk-cell
 # set the talk-cell, but if not, this is the general catch-call
 rule talk-claim-talk-cell
 {@self goal {@self talk_to ?person}}
-(bb_public_none @self talk_cell)
+(bb-public-none @self talk_cell)
 # using = so condition succeeds regardless if bb_private_read returns @fail
 (bb_private_read @self talk_cell_constraint) = ?constraint_des
 (if ?constraint_des
@@ -132,10 +132,10 @@ rule talk-say-proposal
 rule talk-release-cell
 (bb_public_read @self talk_cell): ?talk_cell
 (none {@self goal {@self talk_to}})
-(bb_public_none ? try_to_talk_to @self)
+(bb-public-none ? try_to_talk_to @self)
     ->
 (unclaim_env_cell ?talk_cell)
-(bb_public_clear @self talk_cell).
+(bb-public-clear @self talk_cell).
 # This also frees a rendezvous seat: the reserved cell IS the talk_cell, so
 # unclaim_env_cell here releases it.
 
@@ -148,7 +148,7 @@ rule goal-SAY-outcome
 {@self goal {@self SAY ?msg ?audience}}: ?goal
 {@self /past SAY ?msg ?audience /caused_by ~?goal /out?}: ?SAY
     ->
-(set_outcome ?goal (outcome ?SAY)).
+(set-outcome ?goal (outcome ?SAY)).
 
 # When asking a question (a qs payload), expect an answer. The label no
 # longer discriminates mood, so gate on the payload func name - eq_func_name

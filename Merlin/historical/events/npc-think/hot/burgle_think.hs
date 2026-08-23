@@ -65,7 +65,7 @@
              (owner-of ?scene)
              (owner-of ?scene): ?owner
              (alive ?owner)
-             (not (= ?owner @self))))
+             (!= ?owner @self)))
   ; The LOOT is picked HERE (the first loose visible item priced worth taking - the
   ; walk is the same env truth (venue)/(burgle-target) read); an empty-handed scene still
   ; ledgers the intrusion, discharges and ends the goal (nothing to take).
@@ -95,7 +95,7 @@
 ; classify_take_as_theft below - keyed on OWNERSHIP of the scene, not on the taking.
 (npc-think steal_done
   (goal {@self steal}:?sgoal-rel)
-  (role @self (believes {@self take ? /succ}:?rec-rel))
+  (role @self {@self take ? /succ}:?rec-rel)
   (when (caused-by ?rec-rel ?sgoal-rel))
   (effects
     (if (spatial @self building)
@@ -112,12 +112,12 @@
 ; the ledger row live HERE, off the scene's ownership, never off the take itself.
 (npc-think classify_take_as_theft
   (goal {@self steal}:?sgoal-rel)
-  (role @self (believes {@self take ?loot /succ}:?rec-rel))
+  (role @self {@self take ?loot /succ}:?rec-rel)
   (when (and (caused-by ?rec-rel ?sgoal-rel)
              (spatial @self building): ?scene
              (owner-of ?scene): ?owner
              (alive ?owner)
-             (not (= ?owner @self))))
+             (!= ?owner @self)))
   (effects
     (if (at-own-workplace) (then embezzle) (else opportunist_theft)): ?method
     (begin-ended-belief {@self ?method ?owner})

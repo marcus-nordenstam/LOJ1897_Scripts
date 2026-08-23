@@ -26,5 +26,5 @@
                    {?other prototype [k fallen_woman]}))
 
   (effects
-    (mint-band-about {?other prototype} (any {?other lover ? /ever} (out exists-bool))
+    (mint-band-about {?other prototype} (prob {?other lover ? /ever})
       [k fallen_woman] 0.5)))

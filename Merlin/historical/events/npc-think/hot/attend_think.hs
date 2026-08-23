@@ -56,8 +56,8 @@
 ; reciprocation lands, and the dedup covers the same-window gap before it.
 (npc-think attend_vow
   (goal {@self attend [k wedding]:?occ})
-  (role @self (believes {@self fiancee ?betrothed}))
-  (when (and (any {@self organize ?occ} (out exists-bool))
+  (role @self {@self fiancee ?betrothed})
+  (when (and (any {@self organize ?occ})
              (not (is-married @self))
              (none {@self SAY (msg {@self spouse ?betrothed}) ?betrothed})
              (any {?occ venue ?}).target: ?venue
@@ -92,7 +92,7 @@
 
 (npc-think attend_host_review
   (goal {@self attend ?occ})
-  (when (and (any {@self organize ?occ} (out exists-bool))
+  (when (and (any {@self organize ?occ})
              (any {?occ venue ?}).target: ?venue
              (spatial @self building ?venue)
              (attend-in-window ?occ)

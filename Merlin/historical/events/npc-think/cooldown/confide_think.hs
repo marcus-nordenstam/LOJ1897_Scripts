@@ -15,7 +15,7 @@
 ; TOLD them.
 ;
 ; `calling` is kind-valued ({@self calling [k medicine]}); the free ?domain in
-; (any {@self calling ?domain} (out exists-bool)) binds that kind, carried on the proposal so the
+; (any {@self calling ?domain}) binds that kind, carried on the proposal so the
 ; say_to msg can carry it.
 ; ----------------------------------------------------------------------------
 
@@ -29,7 +29,7 @@
   ; has one (the filter fire-binds the calling KIND into ?domain for the tell),
   ; and has a friend to confide in.
   (role @self (grown @self)
-              (believes {@self calling ?domain})
+              {@self calling ?domain}
               {@self friend ?})
 
   ; Roll the disclosure - once per discloser per month, weighted by extraversion.

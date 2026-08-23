@@ -20,7 +20,7 @@
                   (spatial ?building room [k bedroom]))
 
   ; Something to hide: a covert lover or a standing stow goal.
-  (when (or (any {@self lover ?} (out exists-bool))
+  (when (or (any {@self lover ?})
             (has-goal {@self stow})))
 
   (utility want)

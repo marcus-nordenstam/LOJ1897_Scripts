@@ -17,7 +17,7 @@ rule bartending-serve-customer-proposal
 (env_cell_occupier [k human]
                    (des right_in_front_of ?bar_counter)
                    '(and (bb_public_read @o wants_drink)
-                         (bb_public_none @o drinking_glass_cell)) /debug): ?patron
+                         (bb-public-none @o drinking_glass_cell)) /debug): ?patron
     ->
 (begin_proposal {@self serve_customer ?patron} (des abs_util 1000)).
 # Positioning is patron-driven: the patron's claim_rendezvous reserved a cell
@@ -51,7 +51,7 @@ rule bartending-serve-customer-SPAWN-glass-proposal
 {@self serve_customer ?patron}: ?serve
 {?patron order ?drink_kind @self}
 {?pub part [k bar_counter]:?bar_counter}
-(bb_public_none ?patron drinking_glass_cell)
+(bb-public-none ?patron drinking_glass_cell)
 (claim_env_cell (env_cell_size [k drinking_glass]) 
                 (des on_top_of ?bar_counter) 
                 (des near ?patron) /debug): ?cell
@@ -80,4 +80,4 @@ rule bartending-serve-customer-outcome
 {@self /succ POUR ?drink_kind ? /caused_by ~?serve}
     ->
 (end_belief ?order)
-(set_outcome /succ ?serve).
+(set-outcome /succ ?serve).

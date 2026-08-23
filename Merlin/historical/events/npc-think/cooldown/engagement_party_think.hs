@@ -29,7 +29,7 @@
               {@self fiancee ?})
   (role ?bride (unmarried_woman ?bride)
                {@self fiancee ?bride}
-               (believes {?bride name ?bride_name}))
+               {?bride name ?bride_name})
 
   ;; The fiancee belief must be in its first calendar year - the once-per-betrothal
   ;; re-fire guard; it gates the fire here rather than filtering the role.

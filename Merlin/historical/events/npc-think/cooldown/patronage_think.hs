@@ -31,7 +31,7 @@
   ;; The age / prestige floors and the per-patron (chance) roll are non-belief
   ;; gates and now live in the (when ...) clause below.
   (role @self (old_human @self)
-              (believes {@self repute [k exemplary], prestige ?prestige}))
+              {@self repute [k exemplary], prestige ?prestige})
   ;; A protege one or more class steps below the patron, of sound character
   ;; (not scandalous), without an existing backer. The patron judges the
   ;; protege from his OWN view (3-arg (situation ?protege <dim> @self), banded

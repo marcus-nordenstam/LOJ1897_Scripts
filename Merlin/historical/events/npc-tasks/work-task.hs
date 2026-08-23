@@ -19,7 +19,7 @@
       (rng-stream employment)
       (role ?org {@self duty_to ?org recruit_staff}
                  (not {?org isa [k org household]})
-                 (believes {?org record ?art}))
+                 {?org record ?art})
       (when (and (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
                  (< (count-doc-records [k employee_register] ?reg)
                     (lookup public_orgs kind ?ok employee_count 2))))
@@ -29,21 +29,21 @@
     (try
       (role ?job {@self job ?job})
       (role ?org {?job org ?org}
-                 (believes {?org workplace ?wp}))
+                 {?org workplace ?wp})
       (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh-rel ?sh-rel.target: ?start ?sh-rel.auxiliary: ?end)
             (and (check ?org) (spatial @self building ?wp) (< (now-hour) 12)))
       (effects (maintain-proposal {@self DWELL ?wp (min 12 ?end)})))
     (try
       (role ?job {@self job ?job})
       (role ?org {?job org ?org}
-                 (believes {?org workplace ?wp}))
+                 {?org workplace ?wp})
       (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh-rel ?sh-rel.target: ?start ?sh-rel.auxiliary: ?end)
             (and (check ?org) (spatial @self building ?wp) (>= (now-hour) 12)))
       (effects (maintain-proposal {@self DWELL ?wp ?end})))
     (try
       (role ?job {@self job ?job})
       (role ?org {?job org ?org}
-                 (believes {?org workplace ?wp}))
+                 {?org workplace ?wp})
       (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh-rel ?sh-rel.target: ?start ?sh-rel.auxiliary: ?end)
             (not (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
       (effects (set-outcome ?w-rel succ)))))

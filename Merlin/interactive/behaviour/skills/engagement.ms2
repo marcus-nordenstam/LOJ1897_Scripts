@@ -28,7 +28,7 @@ rule reasoning-marriage-proposal-rejected
     ->
 (begin_belief {?proposee goal {?proposee marry ?proposer} /p @unknown%})
 (if (eq ?proposer @self) 
-    [(set_outcome {@self goal {@self marry ?proposee}} /fail)
+    [(set-outcome {@self goal {@self marry ?proposee}} /fail)
      (any {?proposee marriage_desirability}): ?desirabilityEvent
      (sub ?desirabilityEvent.target 0.1): ?newDesirability
      (begin_belief {?proposee marriage_desirability ?newDesirability})])

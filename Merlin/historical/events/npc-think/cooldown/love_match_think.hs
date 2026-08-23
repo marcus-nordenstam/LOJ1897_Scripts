@@ -32,7 +32,7 @@
   ; out. The per-suitor (chance) gate lives in (when ...) (role-belief purity).
   (role @self
               (adult-age @self)
-              (believes {@self age_band ?peer_band})
+              {@self age_band ?peer_band}
               (not {@self fiancee ?})
               (not {@self spouse ?})
               (not {@self repute [k scandalous]})
@@ -83,7 +83,7 @@
                 ; gender differs from his own (gender is visible-on-sight, so this
                 ; dynamic-target belief is object-cacheable; drops same-sex passes).
                 (not {?beloved gender (any {@self gender}).target})
-                (believes {?beloved age_span ?peer_band}))
+                {?beloved age_span ?peer_band})
 
   ;; Live un-betrothed re-check: the role filters are alpha-indexed and go stale
   ;; within the window, so re-check at firing - now from @self's OWN beliefs

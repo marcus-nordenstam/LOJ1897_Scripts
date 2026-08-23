@@ -111,19 +111,19 @@ rule go-entity-walk-to-retry
 (bb_private_write ?go attempt (add ?go_count 1))
 (if (lt ?go_count 10)
     (maintain_proposal {@self WALK_TO ?obb})
-    (set_outcome ?go /fail)).
+    (set-outcome ?go /fail)).
 
 rule go-entity-outcome-success
 {@self /ever go_entity ?dest /no_out}: ?go
 {@self /succ WALK_TO ? /caused_by ~?go}
     ->
-(set_outcome ?go /succ).
+(set-outcome ?go /succ).
 
 rule go-entity-outcome-interrupted
 {@self /ever go_entity ?dest /no_out}: ?go
 {@self /interrupt WALK_TO ? /caused_by ~?go}
     ->
-(set_outcome ?go /interrupt).
+(set-outcome ?go /interrupt).
 
 
 # These are general go-to-env-cell rules
@@ -143,16 +143,16 @@ rule go-env-cell-walk-to-retry
 (bb_private_write ?go attempt (add ?go_count 1))
 (if (lt ?go_count 10)
     (maintain_proposal {@self WALK_TO ?env_cell})
-    (set_outcome ?go /fail)).
+    (set-outcome ?go /fail)).
 
 rule go-env-cell-interrupt
 {@self /ever go_env_cell ?env_cell /no_out}: ?go
 {@self /interrupt WALK_TO ?env_cell /caused_by ~?go}
     ->
-(set_outcome ?go /interrupt).
+(set-outcome ?go /interrupt).
 
 rule go-env-cell-success
 {@self /ever go_env_cell ?env_cell /no_out}: ?go
 {@self /succ WALK_TO ?env_cell /caused_by ~?go}
     ->
-(set_outcome ?go /succ).
+(set-outcome ?go /succ).

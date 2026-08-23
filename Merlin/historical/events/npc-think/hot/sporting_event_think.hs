@@ -67,6 +67,6 @@
 ; is run). Utility above routine so the obligation to compete pulls him off
 ; idler errands for the one run.
 (npc-think compete
-  (role ?judge (believes {?judge summon @self ?sport}))
+  (role ?judge {?judge summon @self ?sport})
   (utility want)
   (effects (maintain-proposal {@self RACE_RUN ?sport ?judge})))

@@ -38,8 +38,8 @@
 
   (role @self )
   (role ?h {@self home ?h}
-           (or (believes {@self own [k manor]:?h})
-               (believes {@self own [k townhouse]:?h})))
+           (or {@self own [k manor]:?h}
+               {@self own [k townhouse]:?h}))
 
   (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
              (or (in-month 12) (in-month 1) (in-month 2)) ; winter, once a year
@@ -69,8 +69,8 @@
 
   (role @self (not {@self job.org [k org household]}))
   (role ?h {@self home ?h}
-           (or (believes {@self own [k manor]:?h})
-               (believes {@self own [k townhouse]:?h})))
+           (or {@self own [k manor]:?h}
+               {@self own [k townhouse]:?h}))
 
   (when (>= (years-old @self) 21))                      ; non-belief age gate -> (when)
 

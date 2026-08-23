@@ -42,7 +42,7 @@
 ; Outcome twin: the loan-call recorded the debt - the pursuit succeeded.
 (npc-think borrowing_done
   (goal {@self TAKE_LOAN ?creditor})
-  (role @self (believes {@self owe ?creditor}))
+  (role @self {@self owe ?creditor})
   (effects (end-goal {@self TAKE_LOAN ?creditor})))
 
 ; Outcome twin: the creditor is KNOWN dead - withdraw the pursuit. POSITIVE death
@@ -51,5 +51,5 @@
 ; gate var (symmetric with borrowing_done's own-belief role above).
 (npc-think borrowing_abandoned
   (goal {@self TAKE_LOAN ?creditor})
-  (role @self (believes {?creditor condition [k dead]}))
+  (role @self {?creditor condition [k dead]})
   (effects (end-goal {@self TAKE_LOAN ?creditor})))

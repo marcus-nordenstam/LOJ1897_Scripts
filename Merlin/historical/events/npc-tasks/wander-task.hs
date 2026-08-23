@@ -17,7 +17,7 @@
     (try
       (role ?room (spatial ?bldg parts [k interior_space room] /env)
                   (not (spatial @self space ?room))
-                  (not (= (bb-read ?room wander-visited) ?w-rel)))
+                  (!= (bb-read ?room wander-visited) ?w-rel))
       (effects (debug-print "WANDER_GO room=?room")
                (maintain-proposal {@self WALK ?room})))
     (try

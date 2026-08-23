@@ -21,7 +21,7 @@
     (try
       (role ?app [k application] (spatial @self hold)
             (select (policy first-match)))
-      (when (any {@self DRAFT_OFFER ? ? /succ /caused_by ?rt-rel} (out exists-bool)))
+      (when (any {@self DRAFT_OFFER ? ? /succ /caused_by ?rt-rel}))
       (utility (above DRAFT_OFFER))
       (effects (debug-print "RSV_REJECT") (maintain-proposal {@self DRAFT_REJECTION ?app ?out})))
     (try

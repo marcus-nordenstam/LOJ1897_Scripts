@@ -15,7 +15,7 @@ rule write-doc-outcome
 #(o /only /known (des caused_by ?WRITE_DOC)): ?defDoc
 (o /known (des caused_by ?WRITE_DOC)): ?defDoc
     ->
-(set_outcome ?writeHypDoc (outcome ?WRITE_DOC))
+(set-outcome ?writeHypDoc (outcome ?WRITE_DOC))
 # Replace "I wrote the hypothetical doc" with "I wrote the definite doc".
 # NOTE that we are allowed to do this using (edit...) because the task we are 
 # editing happened in the PAST, so does not need to be proposed.

@@ -20,7 +20,7 @@ rule get-outcome
 {@self /ever get ?thing /no_out}: ?get
 {@self /past take ?thing /caused_by ~?get}: ?take
     ->
-(set_outcome ?get (outcome ?take)).
+(set-outcome ?get (outcome ?take)).
 
 /*
 rule 

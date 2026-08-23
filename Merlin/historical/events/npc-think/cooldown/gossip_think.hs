@@ -36,7 +36,7 @@
   ; Non-belief gates (out of the roles): don't gossip to ?x about themselves (a cross-
   ; role equality, so it lives in (when), not a cacheable role filter), extraversion +
   ; assertiveness weighted chance, and the minimum-age check.
-  (when (and (not (= ?ear ?x))
+  (when (and (!= ?ear ?x)
              (chance (* 0.3
                         (+ 0.5 (attr @self enthusiasm))
                         (+ 0.5 (attr @self assertiveness))))
@@ -51,6 +51,6 @@
       (do
         ?news-rel.target: ?tgt
         (utterable-msg ?news-rel): ?msg
-        (if (and (not (= ?tgt @self))
+        (if (and (!= ?tgt @self)
                  (none {@self SAY ?msg ?ear}))
             (then (maintain-proposal {@self SAY ?msg ?ear}) (break)))))))

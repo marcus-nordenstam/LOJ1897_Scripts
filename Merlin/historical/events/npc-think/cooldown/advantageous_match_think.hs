@@ -42,14 +42,14 @@
               (not {@self fiancee ?})
               (not {@self repute [k scandalous]})
               (not {@self repute [k disreputable]})
-              (believes {@self age_band ?peer_band}))
+              {@self age_band ?peer_band})
   ;; An exemplary bride one class BELOW the groom (spotless reputation lifts her).
   ;; class_situation values are upper / middle / lower; the explicit kind literals
   ;; dodge the ambiguous bare-atom path. The (or ...) encodes the two valid lifts.
   ;; age-peers / blood-kin are belief-pure perceived predicates, so they stay role
   ;; filters (cacheable), gating the bride candidate set directly.
   (role ?bride (unmarried_woman ?bride)
-               (believes {?bride age_span ?peer_band})
+               {?bride age_span ?peer_band}
                (not (blood-kin @self ?bride))
                (not {?bride fiancee ?})
                {?bride repute [k exemplary]}

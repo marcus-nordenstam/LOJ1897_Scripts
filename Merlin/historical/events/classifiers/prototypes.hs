@@ -18,7 +18,7 @@
   (role @self (or {@self craving ?}
                   {@self prototype [k prototype drunkard]}))
   (effects
-    (mint-band {@self prototype} (any {@self craving ?} (out exists-bool))
+    (mint-band {@self prototype} (prob {@self craving ?})
       [k prototype drunkard] 0.5)))
 
 ; nouveau_riche: high wealth (>= 0.60) carried by low breeding (<= 0.35).
@@ -26,7 +26,7 @@
   ; wealth re-derives annually; breeding is birth-seeded (an inert input, kept to document it).
   ; The toggle drops if wealth is retracted.
   (rng-stream behaviour)
-  (role @self (believes {@self wealth ?wealth, breeding ?breeding}))
+  (role @self {@self wealth ?wealth, breeding ?breeding})
   (effects
     (mint-band {@self prototype}
       (* (>= ?wealth 0.60)
@@ -38,15 +38,15 @@
   ; Toggle over the situation bands + repute (a Tier-2 sibling this reads);
   ; breeding is birth-seeded (inert). It drops when any input band toggles off.
   (rng-stream behaviour)
-  (role @self (believes {@self class_situation ?, breeding ?breeding}))
+  (role @self {@self class_situation ?, breeding ?breeding})
   (effects
     (mint-band {@self prototype}
-      (* (any {@self social_trajectory [k social_trajectory rising]} (out exists-bool))
-         (clamp (+ (any {@self class_situation [k class_situation middle]} (out exists-bool))
-                   (any {@self class_situation [k class_situation upper]} (out exists-bool))) 0 1)
+      (* (prob {@self social_trajectory [k social_trajectory rising]})
+         (clamp (+ (prob {@self class_situation [k class_situation middle]})
+                   (prob {@self class_situation [k class_situation upper]})) 0 1)
          (<= ?breeding 0.40)
-         (clamp (+ (any {@self repute [k repute exemplary]} (out exists-bool))
-                   (any {@self repute [k repute respectable]} (out exists-bool))) 0 1))
+         (clamp (+ (prob {@self repute [k repute exemplary]})
+                   (prob {@self repute [k repute respectable]})) 0 1))
       [k prototype self_made_man] 0.5)))
 
 ; deserving_poor: poor/destitute + reputable.
@@ -55,10 +55,10 @@
   (role @self {@self economic_situation ?})
   (effects
     (mint-band {@self prototype}
-      (* (clamp (+ (any {@self economic_situation [k economic_situation poor]} (out exists-bool))
-                   (any {@self economic_situation [k economic_situation destitute]} (out exists-bool))) 0 1)
-         (clamp (+ (any {@self repute [k repute exemplary]} (out exists-bool))
-                   (any {@self repute [k repute respectable]} (out exists-bool))) 0 1))
+      (* (clamp (+ (prob {@self economic_situation [k economic_situation poor]})
+                   (prob {@self economic_situation [k economic_situation destitute]})) 0 1)
+         (clamp (+ (prob {@self repute [k repute exemplary]})
+                   (prob {@self repute [k repute respectable]})) 0 1))
       [k prototype deserving_poor] 0.5)))
 
 ; undeserving_poor: poor/destitute + disreputable.
@@ -67,10 +67,10 @@
   (role @self {@self economic_situation ?})
   (effects
     (mint-band {@self prototype}
-      (* (clamp (+ (any {@self economic_situation [k economic_situation poor]} (out exists-bool))
-                   (any {@self economic_situation [k economic_situation destitute]} (out exists-bool))) 0 1)
-         (clamp (+ (any {@self repute [k repute disreputable]} (out exists-bool))
-                   (any {@self repute [k repute scandalous]} (out exists-bool))) 0 1))
+      (* (clamp (+ (prob {@self economic_situation [k economic_situation poor]})
+                   (prob {@self economic_situation [k economic_situation destitute]})) 0 1)
+         (clamp (+ (prob {@self repute [k repute disreputable]})
+                   (prob {@self repute [k repute scandalous]})) 0 1))
       [k prototype undeserving_poor] 0.5)))
 
 ; go_between (the underworld fixer) - migrated from hsim_derive.cc is_go_between.
@@ -85,10 +85,10 @@
   (role @self {@self repute ?, class_situation ?})
   (effects
     (mint-band {@self prototype}
-      (* (* (- 1 (any {@self repute [k repute exemplary]} (out exists-bool)))
-            (- 1 (any {@self repute [k repute respectable]} (out exists-bool))))
-         (clamp (+ (any {@self class_situation [k class_situation lower]} (out exists-bool))
-                   (any {@self class_situation [k class_situation middle]} (out exists-bool))) 0 1)
+      (* (* (- 1 (prob {@self repute [k repute exemplary]}))
+            (- 1 (prob {@self repute [k repute respectable]})))
+         (clamp (+ (prob {@self class_situation [k class_situation lower]})
+                   (prob {@self class_situation [k class_situation middle]})) 0 1)
          (>= (/ (+ (- 1 (attr @self industriousness))
                    (- 1 (attr @self politeness))
                    (attr @self volatility)) 3)
@@ -112,8 +112,8 @@
   (effects
     (mint-band {@self prototype}
       ; REASON: economic desperation OR the callous + disinhibited bad seed.
-      (clamp (+ (clamp (+ (any {@self economic_situation [k economic_situation poor]} (out exists-bool))
-                          (any {@self economic_situation [k economic_situation destitute]} (out exists-bool))) 0 1)
+      (clamp (+ (clamp (+ (prob {@self economic_situation [k economic_situation poor]})
+                          (prob {@self economic_situation [k economic_situation destitute]})) 0 1)
                 (* (<= (attr @self compassion) 0.40)
                    (>= (/ (+ (- 1 (attr @self industriousness))
                              (- 1 (attr @self politeness))
@@ -130,9 +130,9 @@
   (effects
     (mint-band {@self prototype}
       (* (>= (attr @self strength) 0.65)
-         (any {@self class_situation [k class_situation lower]} (out exists-bool))
-         (clamp (+ (clamp (+ (any {@self economic_situation [k economic_situation poor]} (out exists-bool))
-                             (any {@self economic_situation [k economic_situation destitute]} (out exists-bool))) 0 1)
+         (prob {@self class_situation [k class_situation lower]})
+         (clamp (+ (clamp (+ (prob {@self economic_situation [k economic_situation poor]})
+                             (prob {@self economic_situation [k economic_situation destitute]})) 0 1)
                    (* (<= (attr @self compassion) 0.40)
                       (>= (/ (+ (- 1 (attr @self industriousness))
                                 (- 1 (attr @self politeness))

@@ -51,7 +51,7 @@
   ; already-an-owner, merit and means dims, the completion gate and the onset
   ; chance live in (when ...) below.
   (role @self (old_human @self)
-              (believes {@self wealth ?wealth})
+              {@self wealth ?wealth}
               (or {@self repute [k respectable]}
                   {@self repute [k exemplary]}))
   (role ?job {@self job ?job})
@@ -92,7 +92,7 @@
   ; owner, merit + means dims and the monthly chance are non-belief and live in
   ; (when ...) below.
   (role @self (old_human @self)
-              (believes {@self wealth ?wealth})
+              {@self wealth ?wealth}
               (or {@self repute [k respectable]}
                   {@self repute [k exemplary]})
               (not {@self backed_by ?}))
@@ -157,7 +157,7 @@
   ; mind is read. Belief-pure part only; the age band, not-already-an-owner, merit
   ; dim, means branch and the monthly chance are non-belief and live in (when ...).
   (role @self (old_human @self)
-              (believes {@self wealth ?wealth})
+              {@self wealth ?wealth}
               (or {@self repute [k respectable]}
                   {@self repute [k exemplary]}))
   (role ?job {@self job ?job}
@@ -174,7 +174,7 @@
              (<= (years-old @self) 55)
              (>= (diligence) 0.55)
              (or (>= ?wealth 0.5)
-                 (any {@self backed_by ?} (out exists-bool)))
+                 (any {@self backed_by ?}))
              (latch-eval (chance (* 0.025 (+ 0.5 (attr @self assertiveness)))))))
 
   (utility errand)

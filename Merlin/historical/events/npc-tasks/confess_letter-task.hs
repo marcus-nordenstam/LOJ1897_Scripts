@@ -19,12 +19,12 @@
                  (any {@self father|mother|fiancee|spouse|sibling ?}).target: ?kin))
       (utility errand)
       (effects
-        (if (and (alive ?kin) (not (= ?kin ?partner)) (home-of ?kin))
+        (if (and (alive ?kin) (!= ?kin ?partner) (home-of ?kin))
             (then (post-letter [k confession_letter]
                                (nl_written_msg "I have taken ?partner as a lover")
                                (home-of ?kin) ?kin)))
         (set-outcome ?confess-rel succ)))
     (try
       (when (or (not (known-nonspousal-liaison @self))
-                (not (any {@self father|mother|fiancee|spouse|sibling ?} (out exists-bool)))))
+                (not (any {@self father|mother|fiancee|spouse|sibling ?}))))
       (effects (set-outcome ?confess-rel fail)))))

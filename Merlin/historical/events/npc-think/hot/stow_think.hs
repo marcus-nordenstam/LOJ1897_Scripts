@@ -27,7 +27,7 @@
 ; putting the loot away and ending carrying_loot, which retires the goal. The acts never
 ; mint or end the goal - they only write the possession state the minter reads.
 (npc-think want_stow
-  (role @self (believes {@self carrying_loot ?item}))
+  (role @self {@self carrying_loot ?item})
   (utility errand always-pick)
   (effects       (begin-goal {@self stow ?item}))
   (cease-effects (end-goal   {@self stow ?item})))
@@ -49,7 +49,7 @@
   ; worth-hiding item (priced above the loot floor), else 0 (the body puts
   ; it openly in the room it stands in).
   (effects
-    (if (and (> (price ?item) (valuable_loot_price_min)) (any {@self hiding_spot ?} (out exists-bool)))
+    (if (and (> (price ?item) (valuable_loot_price_min)) (any {@self hiding_spot ?}))
               (then (any {@self hiding_spot ?}).target)
               (else 0)): ?place
     (maintain-proposal {@self stow ?item ?place})))

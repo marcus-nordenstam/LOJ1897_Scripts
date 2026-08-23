@@ -20,7 +20,7 @@
 (npc-think sporting_judge
   (goal {@self judge_meet})
   (role ?winner [k human]
-                (believes {?winner race_result ? ?sport})
+                {?winner race_result ? ?sport}
                 (select (score (any {?winner race_result}).target) (policy argmax)))
   (effects (maintain-proposal {@self JUDGE_DECLARE ?winner ?sport})))
 
@@ -32,7 +32,7 @@
 ; ended /succ declare persists as a memory - without it last year's declaration
 ; plus this year's first score would clear the board before this year's winner).
 (npc-think meet_judged
-  (role @self (believes {@self JUDGE_DECLARE ? /succ}))
+  (role @self {@self JUDGE_DECLARE ? /succ})
   (role ?r2 {?r2 race_result ?})
   (when (< (days-since-last {@self JUDGE_DECLARE /ever}) 1))
   (effects
@@ -52,9 +52,9 @@
   ; declarations from meets he attended (the auto-witness drops the sport aux, so it
   ; is not bound here); pairing that with his own RACE_RUN memory means he competed
   ; at a meet where another was crowned.
-  (role ?winner (believes {? JUDGE_DECLARE ?winner})
+  (role ?winner {? JUDGE_DECLARE ?winner}
                 (none {?winner outdo @self}))
-  (when (and (not (= ?winner @self))
+  (when (and (!= ?winner @self)
              ; @self competed at a meet (his own ended RACE_RUN memory).
              (believes {@self RACE_RUN ? ? /succ /ever})
              (chance (+ 0.15 (* 0.85 (attr @self narcissism) (attr @self assertiveness))))))

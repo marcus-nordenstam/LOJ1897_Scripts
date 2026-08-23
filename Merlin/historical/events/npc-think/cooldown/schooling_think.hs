@@ -101,7 +101,7 @@
   ; secondary-educated and not employed. The subject is interest-led, chosen inside the
   ; act - enrol_university_act mints {@self study <academic_field>} (medicine / law /
   ; ...), NOT a fixed university curriculum, so the completion gate is the generic (not
-  ; (any {@self study ?} (out exists-bool))) CACHED role filter: at 18-20 the youth holds no prior
+  ; (any {@self study ?})) CACHED role filter: at 18-20 the youth holds no prior
   ; study, so the role drops (and the goal ends) exactly when he matriculates.
   (role @self
               {@self skilled_in [k secondary_school_curriculum]}

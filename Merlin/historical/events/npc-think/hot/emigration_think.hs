@@ -51,14 +51,14 @@
         (end-belief ?jb-rel))
     (for-each ?hb-rel (every {@self home ?})
         ?hb-rel.target: ?home
-        (if (any {@self own ?home} (out exists-bool))
+        (if (any {@self own ?home})
           (then
             (create-entity [k for_sale_listing] (qual location ?home)): ?listing
             (write-doc-record [k for_sale_listing] ?listing (building ?home))
             (end-belief {@self own ?home})
             (end-belief {@self home ?home}))
           (else
-            (if (any {?home tenant @self} (out exists-bool)) (then (end-belief {?home tenant @self})))
+            (if (any {?home tenant @self}) (then (end-belief {?home tenant @self})))
             (end-belief {@self home ?home}))))
     (end-belief {@self spouse})
     (destroy-entity @self)))

@@ -6,11 +6,11 @@
 
   (role @self (adult @self) {@self lover ?}
               ; @self signs the denunciation - bind his OWN name for "Signed, ..".
-              (believes {@self name ?author_name}))
+              {@self name ?author_name})
   (role ?cheater (any_human ?cheater)
     {@self lover ?cheater}
     ; @self names the cheater in the letter body (a name value, not the object).
-    (believes {?cheater name ?cheater_name})
+    {?cheater name ?cheater_name}
     (select (policy first-match)))
 
   (when (chance (* 0.3 (infidelity-disposition @self))))

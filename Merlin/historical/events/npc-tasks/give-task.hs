@@ -12,7 +12,7 @@
   (aux human)
   (and
     (try
-      (when (not (= (spatial ?thing held_by) @self)))
+      (when (!= (spatial ?thing held_by) @self))
       (utility fallback)
       (effects (maintain-proposal {@self take ?thing})))
     (try

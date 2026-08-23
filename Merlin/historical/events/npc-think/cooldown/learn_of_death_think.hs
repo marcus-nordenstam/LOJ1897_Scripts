@@ -32,7 +32,7 @@
   (cooldown 1 m)
 
   ; Enumerating role: every person @self believes dead, however @self learned it.
-  (role ?x (believes {?x condition [k dead]}))
+  (role ?x {?x condition [k dead]})
 
   (effects
     (end-beliefs-about ?x (exclude condition internment) /reason died)))

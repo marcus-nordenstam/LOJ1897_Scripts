@@ -17,6 +17,6 @@
   (goal {@self STOCKTAKE})
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
-             (believes {?org workplace ?wp}))   ; ?wp binds at fire
+             {?org workplace ?wp})   ; ?wp binds at fire
   (when  (spatial @self building ?wp))
   (effects (maintain-proposal {@self STOCKTAKE})))

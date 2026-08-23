@@ -55,9 +55,9 @@
   (do
     (bind 0 ?hpc_pile)
     (for-each ?hpc_cand (spatial ?who hold [k pile])
-      (if (any {?hpc_cand content_kind ?kind} (out exists-bool))
+      (if (any {?hpc_cand content_kind ?kind})
           (then (bind ?hpc_cand ?hpc_pile))))
-    (if ?hpc_pile (then (any {?hpc_pile count ?} (out exists-bool))) (else 0))))
+    (if ?hpc_pile (then (prob {?hpc_pile count ?})) (else 0))))
 
 ; (believed-pile-count ?place ?kind): the loaf-count this MIND believes the
 ; ?kind pile at ?place holds (0 if it believes there is none) - per-mind and
@@ -66,6 +66,6 @@
   (do
     (bind 0 ?bpc_pile)
     (for-each ?bpc_cand (spatial ?place contents [k pile])
-      (if (any {?bpc_cand content_kind ?kind} (out exists-bool))
+      (if (any {?bpc_cand content_kind ?kind})
           (then (bind ?bpc_cand ?bpc_pile))))
-    (if ?bpc_pile (then (any {?bpc_pile count ?} (out exists-bool))) (else 0))))
+    (if ?bpc_pile (then (prob {?bpc_pile count ?})) (else 0))))

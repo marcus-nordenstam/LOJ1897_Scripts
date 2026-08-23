@@ -32,7 +32,7 @@
   ; skipped by the gate-builder). Only the groom plans; the bride is wired in as
   ; co-principal by plan-wedding.
   (role @self (unmarried_man @self)
-              (believes {@self fiancee ?fiancee}))   ; existence cached, ?fiancee binds at fire
+              {@self fiancee ?fiancee})   ; existence cached, ?fiancee binds at fire
   (when (not (organizing-occasion [k wedding])))
   (effects
     ; The venue is the groom's same-town church; ~3 months' banns lead, an

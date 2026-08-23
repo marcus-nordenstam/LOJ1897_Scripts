@@ -49,7 +49,7 @@
   (goal {@self acquire})
   (role @self (not {@self for_sale ?}))   ; register unread - cached
   (role ?agency {?agency isa [k org house_agency]}
-                (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
+                {?agency record ?art})   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
              (not (spatial @self building ?venue))))
   (effects (maintain-proposal {@self enter ?venue})))
@@ -64,7 +64,7 @@
   (goal {@self acquire})
   (role @self (not {@self for_sale ?}))   ; register unread - cached
   (role ?agency {?agency isa [k org house_agency]}
-                (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
+                {?agency record ?art})   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
              (spatial @self building ?venue)))
   (effects (maintain-proposal {@self READ_LISTINGS})))
@@ -95,13 +95,13 @@
 ; C++ k_buy_wealth_per_value).
 (npc-think choose_home
   (goal {@self acquire})
-  (role @self (believes {@self wealth ?wealth}))
+  (role @self {@self wealth ?wealth})
   (role ?dwell {@self for_sale ?dwell}
                (select (score (* (dwelling-value ?dwell)
-                                 (if (pub-bb-none ?dwell claimed) (then 1) (else 0))))
+                                 (if (bb-public-none ?dwell claimed) (then 1) (else 0))))
                        (policy roulette)))
   (when (and (>= ?wealth (* (dwelling-value ?dwell) 0.15))
-             (pub-bb-none ?dwell claimed)))
+             (bb-public-none ?dwell claimed)))
   (utility errand)
   (effects
     (pub-bb-post ?dwell claimed (claim_marker_ttl_cycles))

@@ -36,7 +36,7 @@
 
   ; @self: a credible successor - seated (binds my org), senior grade, not the head.
   (role @self (adult @self)
-              (believes {@self job.org ?org})
+              {@self job.org ?org}
               {@self job.level [k senior]}
               (not {@self job [k org_head]}))
 
@@ -51,7 +51,7 @@
 
   ; Same-org pin + disposition pre-gate. ambition = mean(machiavellianism, narcissism);
   ; propensity = (1 - inhibition) * ambition; fire at 0.03 * propensity.
-  (when (any {?victim job.org ?org} (out exists-bool))
+  (when (any {?victim job.org ?org})
         (chance (* (crime-scale) 0.03
                    (* (- 1 (inhibition))
                       (* 0.5 (+ (attr @self machiavellianism)

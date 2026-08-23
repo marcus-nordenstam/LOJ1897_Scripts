@@ -23,20 +23,20 @@
 
 ; conduct-scalar - a conduct_level band -> 0..1 (good 0.85, lax 0.25, fair/absent 0.65).
 (define-macro conduct-scalar (?who ?dim)
-  (if (any {?who ?dim [k conduct_level good]} (out exists-bool)) (then 0.85)
-  (else (if (any {?who ?dim [k conduct_level lax]} (out exists-bool))  (then 0.25)
+  (if (any {?who ?dim [k conduct_level good]}) (then 0.85)
+  (else (if (any {?who ?dim [k conduct_level lax]})  (then 0.25)
       (else 0.65)))))
 
 ; devoutness-scalar - the piety_band -> 0..1 (devout 0.85, secular 0.25, else 0.65).
 (define-macro devoutness-scalar (?who)
-  (if (any {?who devoutness [k piety_band devout]} (out exists-bool))  (then 0.85)
-  (else (if (any {?who devoutness [k piety_band secular]} (out exists-bool)) (then 0.25)
+  (if (any {?who devoutness [k piety_band devout]})  (then 0.85)
+  (else (if (any {?who devoutness [k piety_band secular]}) (then 0.25)
       (else 0.65)))))
 
 ; decorum-scalar - the decorum float (@self's own C++-derived value, or a tracked
 ; other's mirrored value), reading 0.65 when unknown.
 (define-macro decorum-scalar (?who)
-  (if (any {?who decorum ?} (out exists-bool)) (then (any {?who decorum}).target) (else 0.65)))
+  (if (any {?who decorum ?}) (then (any {?who decorum}).target) (else 0.65)))
 
 ; chastity-scalar - 0.85 minus a rung per extra-marital liaison THIS mind knows of
 ; ?who (uniform: @self's own affairs for @self, the observer's knowledge for others).
@@ -72,11 +72,11 @@
 ; money-seeking gates' concern, never rootedness). A recently-arrived
 ; immigrant with just a job reads low (~0.20); a settled local family high.
 (define-macro rootedness ()
-  (clamp (+ (* 0.15 (any {@self mother ?} (out exists-bool)))
-            (* 0.15 (any {@self father ?} (out exists-bool)))
-            (* 0.20 (any {@self spouse ?} (out exists-bool)))
+  (clamp (+ (* 0.15 (prob {@self mother ?}))
+            (* 0.15 (prob {@self father ?}))
+            (* 0.20 (prob {@self spouse ?}))
             (* 0.06 (min (count (every {@self child ?})) 4))
-            (* 0.20 (any {@self job ?} (out exists-bool)))
+            (* 0.20 (prob {@self job ?}))
             (* 0.15 (>= (count (every {@self owns_building ?})) 1))
             (* 0.10 (>= (count (every {@self member_of ?})) 1))) 0 1))
 
@@ -96,8 +96,8 @@
 ; sober), hard-capped at 0.15 once a standing craving for drink has formed, and
 ; docked 0.25 x the gambling-addiction severity.
 (define-macro sobriety ()
-  (clamp (+ (* (- 1 (any {@self craving ?} (out exists-bool))) (- 1 (attr @self intoxication)))
-            (* (any {@self craving ?} (out exists-bool))       (min (- 1 (attr @self intoxication)) 0.15))
+  (clamp (+ (* (- 1 (prob {@self craving ?})) (- 1 (attr @self intoxication)))
+            (* (prob {@self craving ?})       (min (- 1 (attr @self intoxication)) 0.15))
             (* (attr @self gambling_addiction) -0.25)) 0 1))
 
 ; belonging - how well warmth bonds + immediate kin meet the sociability need.
@@ -107,7 +107,7 @@
 (define-macro belonging ()
   (clamp (- 1 (* (max (- (+ 1 (* (* (+ (attr @self enthusiasm) (attr @self assertiveness)) 0.5) 5))
                          (+ (count (every {@self close_to ?})) (count (every {@self friend ?}))
-                            (* 2 (any {@self spouse ?} (out exists-bool)))
+                            (* 2 (prob {@self spouse ?}))
                             (min (count (every {@self child ?})) 5)
                             (min (+ (count (every {@self mother ?})) (count (every {@self father ?}))) 2)
                             (min (+ (count (every {@self sibling ?})) (count (every {@self half_sibling ?}))) 4)))
@@ -133,10 +133,10 @@
                (* (attr @self industriousness) 0.30)
                (* (attr @self compassion)      0.15)
                (* (piety)                       0.20)
-               (* (if (any {@self decorum ?} (out exists-bool)) (then (any {@self decorum}).target) (else 0)) 0.10)
+               (* (if (any {@self decorum ?}) (then (any {@self decorum}).target) (else 0)) 0.10)
                (* (/ (+ (- 1 (attr @self industriousness)) (- 1 (attr @self politeness))
                         (attr @self volatility)) 3) -0.20)
-               (* (if (any {@self stress ?} (out exists-bool))  (then (any {@self stress}).target)  (else 0)) -0.30))
+               (* (if (any {@self stress ?})  (then (any {@self stress}).target)  (else 0)) -0.30))
             (+ (* (clamp (+ (attr @self narcissism)       -0.5) 0 1) -0.10)
                (* (clamp (+ (attr @self machiavellianism) -0.5) 0 1) -0.15)
                (* (clamp (+ (attr @self psychopathy)      -0.5) 0 1) -0.20)

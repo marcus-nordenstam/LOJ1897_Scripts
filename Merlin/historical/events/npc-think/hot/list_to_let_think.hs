@@ -40,7 +40,7 @@
 (npc-think list_to_let_at_agency
   (goal {@self LET})
   (role ?agency {?agency isa [k org house_agency]}
-                (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
+                {?agency record ?art})   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
              (spatial @self building ?venue)))
   (effects (maintain-proposal {@self LET})))
@@ -50,7 +50,7 @@
 (npc-think list_to_let_go
   (goal {@self LET})
   (role ?agency {?agency isa [k org house_agency]}
-                (believes {?agency record ?art}))   ; existence cached, ?art binds at fire
+                {?agency record ?art})   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
              (not (spatial @self building ?venue))))
   (effects (maintain-proposal {@self enter ?venue})))

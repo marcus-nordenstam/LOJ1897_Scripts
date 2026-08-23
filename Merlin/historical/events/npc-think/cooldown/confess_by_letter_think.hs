@@ -24,7 +24,7 @@
               (not {@self fiancee ?})
               {@self fancy ?}
               ; @self signs the letter - bind his OWN name for the "Signed, .." line.
-              (believes {@self name ?author_name}))
+              {@self name ?author_name})
   ; The one @self is most drawn to, still single. @self declares whether or not he
   ; already knows she cares - the one who has LEARNED she is fancied is exactly who
   ; should now declare back, so this must NOT gate on {?target fancy @self}. Writing
@@ -38,7 +38,7 @@
                 (not (spatial ?target co-located @self))
                 ; @self must KNOW her name to write to her - bind it for the body's
                 ; name value (no live object on the wire).
-                (believes {?target name ?target_name})
+                {?target name ?target_name}
                 (select (score (stance-band ?target attraction)) (policy argmax)))
 
   ; @self knows where she lives.

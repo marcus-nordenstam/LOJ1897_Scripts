@@ -75,7 +75,7 @@ rule give-outcome-giver
 {@self /succ OFFER ?thing ?recipient /caused_by ~?give}: ?offer
 #{?recipient /succ TAKE ?thing /caused_by ~?offer}
     ->
-(set_outcome ?give /succ)
+(set-outcome ?give /succ)
 (fire_and_forget).
 
 # From the observer's pov
@@ -84,7 +84,7 @@ rule give-outcome-observer
 {?recipient /succ take ?thing /caused_by ~?offer}
     ->
 (begin_belief {?giver give ?thing ?recipient /momentary}): ?give
-(set_outcome ?give /succ)
+(set-outcome ?give /succ)
 (fire_and_forget).
 
 
