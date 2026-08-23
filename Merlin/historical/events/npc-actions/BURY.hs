@@ -13,10 +13,10 @@
 ; corpse still resolves, then realizes the interment: the priest's own ongoing
 ; {?corpse internment buried} (a separate @excl axis from `condition`, so `dead`
 ; stands beside it), TOLD to everyone co-present at the rite (the
-; conveyer, the mourners), AND propagated to the deceased's whole social circle
-; ((propagate-burial) - the funeral / parish register is public knowledge, the
-; same channel the death itself travelled), so every knower's dead-and-not-
-; buried bury / convey filters unmatch and the standing-corpse pools drain.
+; conveyer, the mourners), AND propagated to the circle members the priest
+; himself knows of ((propagate-burial) - the funeral / parish register channel),
+; so every knower's dead-and-not-buried bury / convey filters unmatch and the
+; standing-corpse pools drain.
 ; Then the corpse is destroyed and the act-belief ended (so the act fires
 ; exactly once - the engine does not auto-end it). The act-label lives in the
 ; cached self-role gate: the promotion scan rejects O(1) before any mind-entry.

@@ -46,7 +46,7 @@ rule goal-hold-engagement-ring
 {?hand control [k engagement_ring]:?ring}
     ->
 (maintain_goal {@self hold ?ring})
-(print [@self wants to hold ?ring]).
+(debug-print [@self wants to hold ?ring]).
 
 
 rule proposal-give-engagement-ring
