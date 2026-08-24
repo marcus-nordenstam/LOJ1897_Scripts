@@ -62,10 +62,10 @@
           ; carries the stock). Poison counts by the toxin FAMILY, spawns the
           ; household staple (white_arsenic) - just another provision the shop carries.
           (for-each ?room ?rooms /limit 1
-            (repeat (- (shop_weapon_stock) (count-entities [k firearm] ?room))
+            (repeat (- (shop_weapon_stock) (count (spatial ?room contents [k firearm] /env)))
               (create-entity [k pistol] (qual location ?room)): ?gun)
-            (repeat (- (shop_weapon_stock) (count-entities [k knife] ?room))
+            (repeat (- (shop_weapon_stock) (count (spatial ?room contents [k knife] /env)))
               (create-entity [k knife] (qual location ?room)): ?blade)
-            (repeat (- (shop_weapon_stock) (count-entities [k toxin] ?room))
+            (repeat (- (shop_weapon_stock) (count (spatial ?room contents [k toxin] /env)))
               (create-entity [k white_arsenic] (qual location ?room)): ?tox))))
     (set-outcome {@self STOCKTAKE} succ)))

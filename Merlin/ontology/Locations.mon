@@ -1,12 +1,4 @@
 
-# location / building / room state labels PURGED: `location` is now `space`, and
-# space / building / room are all declared as (spatial-label ...) decls in
-# spatial-struct.arc, which auto-register as belief-state labels (observe + @excl
-# set automatically; `space` carries (theme frequent)). Current-space reasoning is
-# the spatial index; there is no location/space attr or hand-written state entry.
-# The `frequent` whereabouts-habit belief moved to States.mon (it is behavioural,
-# not spatial).
-
 # env_point: nav waypoints / spawnpoints (the env_point.arc archetype). Dormant in
 # hsim - GrymEngine runtime nav/spawn instantiates these.
 env_point (+ obs)
