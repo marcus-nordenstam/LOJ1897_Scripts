@@ -3,8 +3,11 @@
 ;
 ; (settle-death ?dead) settles the WORLD when a person dies (natural death,
 ; suicide, kill - every terminal calls it): a vacated leadership post backfills,
-; the roster entry drops, the estate + orgs + money pass to heirs, and (die)
-; marks the corpse (condition attr + mind status). It does NOT propagate
+; the roster entry drops, and (die) marks the corpse (condition attr + mind
+; status). The ESTATE is NOT settled here - a dead person effects nothing;
+; inheritance is the LIVING heir's own act (the will-based lane: deliberate_will
+; names the heir in life, settle_inheritance / INHERIT lets the named heir claim
+; the deeds + founded orgs after they learn of the death). It does NOT propagate
 ; death KNOWLEDGE - that is pulled, never pushed: the learn_of_death keystone
 ; (npc-think) ends each mind's stale beliefs about the deceased the moment that
 ; mind LEARNS of the death by a real channel (perceiving the corpse, being told,
@@ -28,8 +31,6 @@
   (do
     (promote-on-vacancy ?dead)
     (fire /worker ?dead)
-    (inherit-orgs ?dead)
-    (inherit-estate ?dead)
     (set-attr ?dead condition [k dead])
     (die ?dead)))
 
