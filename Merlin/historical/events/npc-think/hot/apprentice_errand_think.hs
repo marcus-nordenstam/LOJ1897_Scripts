@@ -16,7 +16,7 @@
   ; without it a freshly-hired trainee would keep walking back to re-present at the door.
   (when (and (articles-building ?art ?venue)
              (not (spatial @self building ?venue))
-             (!= (job-level @self) [k trainee])))
+             (!= (any {(any {@self job ?}).target level ?}).target [k trainee])))
   (effects (maintain-proposal {@self enter ?venue})))
 
 ; TERMINAL (act_body_purification): AT the premises, PROPOSE the articling act (a proposed label
@@ -31,5 +31,5 @@
   ; hire-seq sets the youth's live job-level to trainee, this stops proposing.
   (when (and (articles-building ?art ?venue)
              (spatial @self building ?venue)
-             (!= (job-level @self) [k trainee])))
+             (!= (any {(any {@self job ?}).target level ?}).target [k trainee])))
   (effects (maintain-proposal {@self SEEK_INDENTURE})))

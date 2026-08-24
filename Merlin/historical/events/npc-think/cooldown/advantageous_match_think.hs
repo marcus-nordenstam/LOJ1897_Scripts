@@ -32,7 +32,7 @@
   ;; SELF-POV (telepathy purge CAT-3): @self the GROOM is the deliberator (light
   ;; @self template + inline gates; the man proposes). He marries DOWN one class to
   ;; an exemplary woman he KNOWS - her exemplary repute / class read from his own
-  ;; view ((situation ?bride <dim> @self)), her availability his own belief. The
+  ;; view ({?bride <dim> ?} own-belief filters), her availability his own belief. The
   ;; non-belief gate (the (chance) trait-graded pacing) lives in (when); the role
   ;; keeps the belief-pure availability / repute / gender filters plus the
   ;; perceived age-peer + blood-kin predicates (belief macros).

@@ -24,8 +24,9 @@
     (try
       (when (and (= (spatial ?thing held_by) @self)
                  (not (spatial ?recipient co-located @self))
-                 (unknown (spatial ?recipient space))))
-      (effects (maintain-proposal {@self go (home-of ?recipient)})))
+                 (unknown (spatial ?recipient space))
+                 (any {?recipient home ?}).target: ?rhome))
+      (effects (maintain-proposal {@self go ?rhome})))
     (try
       (when (and (= (spatial ?thing held_by) @self)
                  (spatial ?recipient co-located @self)

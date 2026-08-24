@@ -22,8 +22,9 @@
       (effects (maintain-proposal {@self go ?loc})))
     (try
       (when (and (not (spatial ?victim co-located @self))
-                 (unknown (spatial ?victim space))))
-      (effects (maintain-proposal {@self go (home-of ?victim)})))
+                 (unknown (spatial ?victim space))
+                 (any {?victim home ?vhome})))
+      (effects (maintain-proposal {@self go ?vhome})))
     (try
       (when (and (spatial ?victim co-located @self)
                  (none {@self extort ?victim})))

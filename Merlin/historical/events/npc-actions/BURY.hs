@@ -25,7 +25,10 @@
   (effects
     (record-verdict ?corpse)
     (tombstone ?corpse)
-    (if (violent-corpse ?corpse) (then (propagate-murder-awareness ?corpse)))
+    (for-each ?part (spatial ?corpse parts [k body_part] /env)
+      (for-each ?wound (attr-values ?part wounds [k wound])
+        (if (not (is-a ?wound [k bruise]))
+            (then (propagate-murder-awareness ?corpse)))))
     (realize-destroyed ?corpse internment [k internment buried])
     (tell (utterable-msg {?corpse internment [k buried]}))
     (propagate-burial ?corpse)

@@ -24,16 +24,48 @@
 ;                   covers attendance); a no-show grievance construal off the
 ;                   un-seen invitees is future work (docs/future_work.md).
 ;
-; SEPARATION OF CONCERNS: (when ...) gates TIMING - (attend-in-window ?occ)
-; reads the occasion's own `hours` belief, so the day's work / rest / leisure
+; SEPARATION OF CONCERNS: (when ...) gates TIMING - the {?occ hours ?start ?end}
+; capture feeds (attend-in-window ?start ?end), so the day's work / rest / leisure
 ; lanes own the rest of the day. (utility ...) decides DESIRABILITY - MAX for a
 ; principal, warmth-scaled for a guest, 0 for the bedridden.
 ; ----------------------------------------------------------------------------
 
+; Attendance timing + desirability, folded out of the retired C++ attend-* ops into
+; .hs over the general shift-window macros (time_macros.hs) + the occasion's own
+; {?occ hours <start> <end>} belief. All content-free: prep-lead / utility tiers
+; are authored HERE, the window arithmetic is the same in-work-hours work shifts use.
+(define-macro attend-prep-lead     () 3)       ; hours before start an attendee sets out
+(define-macro attend-host-utility  () 10000)   ; a principal always attends his own occasion
+(define-macro attend-crasher-utility () 5000)  ; a kill-driven crasher: above work, below host
+(define-macro attend-guest-base    () 85)      ; beats the work lane (80) for the willing guest
+
+; In the occasion's window once the prep-lead has opened (start - lead .. end).
+(define-macro attend-in-window (?start ?end)
+  (in-work-hours (- ?start (attend-prep-lead)) ?end))
+
+; Minutes from now until the occasion's end hour (wraps to tomorrow if already past).
+(define-macro attend-minutes-left (?end)
+  (minutes-until-shift-end ?end))
+
+; A guest's base willingness scaled by warmth toward the host: hostile 0.6x .. warm 1.4x.
+(define-macro attend-guest-scaled (?occ)
+  (* (attend-guest-base)
+     (+ 1.0 (* 0.2 (stance-band (any {?occ host ?}).target warmth)))))
+
+; Attendance desirability: 0 bedridden, MAX for the host, a floor for a kill-driven
+; crasher, else the warmth-scaled guest base.
+(define-macro attend-utility (?occ)
+  (if (any {@self physical_mobility [k bedridden]}) (then 0)
+    (else (if (any {@self organize ?occ}) (then (attend-host-utility))
+      (else (if (any {@self goal {@self kill ?}})
+          (then (max (attend-crasher-utility) (attend-guest-scaled ?occ)))
+        (else (attend-guest-scaled ?occ))))))))
+
 (npc-think attend_go
   (goal {@self attend ?occ})
   (when (and (any {?occ venue ?}).target: ?venue
-             (attend-in-window ?occ)
+             (any {?occ hours ?start ?end})
+             (attend-in-window ?start ?end)
              (not (spatial @self building ?venue))))
   (utility (* 10 (attend-utility ?occ)))
   (effects (debug-print "TRACE-ATTENDGO venue=?venue occ=?occ")
@@ -42,7 +74,8 @@
 (npc-think attend_stay
   (goal {@self attend ?occ})
   (when (and (any {?occ venue ?}).target: ?venue
-             (attend-in-window ?occ)
+             (any {?occ hours ?start ?end})
+             (attend-in-window ?start ?end)
              (spatial @self building ?venue)))
   (utility (* 10 (attend-utility ?occ)))
   (effects
@@ -61,7 +94,8 @@
              (not (is-married @self))
              (none {@self SAY (msg {@self spouse ?betrothed}) ?betrothed})
              (any {?occ venue ?}).target: ?venue
-             (attend-in-window ?occ)
+             (any {?occ hours ?start ?end})
+             (attend-in-window ?start ?end)
              (spatial @self building ?venue)))
   (utility (* 10 (+ (attend-utility ?occ) 10)))
   (effects (maintain-proposal {@self SAY (utterable-msg {@self spouse ?betrothed}) ?betrothed})))
@@ -95,8 +129,9 @@
   (when (and (any {@self organize ?occ})
              (any {?occ venue ?}).target: ?venue
              (spatial @self building ?venue)
-             (attend-in-window ?occ)
-             (<= (attend-minutes-left ?occ) 45)))
+             (any {?occ hours ?start ?end})
+             (attend-in-window ?start ?end)
+             (<= (attend-minutes-left ?end) 45)))
   (effects
     ; Bound-aux constraint: only THIS occasion's invite rows walk (bound =
     ; constraint, free = producer).

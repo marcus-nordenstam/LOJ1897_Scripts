@@ -11,11 +11,11 @@
   (duration 15)
   (effects
     (read-doc-record [k application] ?app (applicant ?w))
-    (if (substantial (home-of ?w))
+    (if (any {?w home ?}).target: ?whome
       (then
         (create-entity [k offer_letter] (qual location (spatial @self building))): ?ol
         (set-attr ?ol addressee (attr ?w name))
-        (set-attr ?ol address (home-of ?w))
+        (set-attr ?ol address ?whome)
         (check (attr ?ol address))
         (debug-print "DRAFT_OFFER w=?w")
         (push ?ol ?out)))

@@ -23,9 +23,9 @@
     ; party it is meant to reach (they cohabit, so it lands in their shared home pile
     ; and only the spouse reads it). No spouse = no betrayal to expose, so nothing sent.
     (spouse-of ?cheater): ?betrayed
-    (if (and (alive ?betrayed) (home-of ?cheater))
+    (if (and (alive ?betrayed) (any {?cheater home ?}).target: ?cheater_home)
         (then
           (debug-print "EXPOSE_SENT @self cheater=?cheater")
           (post-letter [k denunciation_letter]
                        (nl_written_msg "?cheater_name has taken me as a lover. Signed, ?author_name")
-                       (home-of ?cheater) ?betrayed)))))
+                       ?cheater_home ?betrayed)))))

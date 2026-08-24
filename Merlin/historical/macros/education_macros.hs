@@ -41,4 +41,4 @@
 ; trained 1 / expert 2), -1 when unheld. Folds the old C++ op into a (lookup)
 ; over the band_rank table (lookup_tables.hs).
 (define-macro competence-rank (?band)
-  (lookup band_rank band ?band rank -1))
+  (table-lookup band_rank band ?band rank -1))

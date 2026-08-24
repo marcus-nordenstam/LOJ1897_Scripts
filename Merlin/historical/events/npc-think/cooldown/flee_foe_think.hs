@@ -30,5 +30,5 @@
 
   (effects
     ; Run for home - a known refuge; if @self has none, no flight (they stand and take it).
-    (if (substantial (home-of @self))
-        (then (maintain-proposal {@self go (home-of @self)})))))
+    (if (any {@self home ?}).target: ?myhome
+        (then (maintain-proposal {@self go ?myhome})))))

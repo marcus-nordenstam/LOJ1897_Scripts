@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; tunables.hs - shared curves + tunable constants, as macros.
 ;
-; These were formerly (define-table ...) + (lookup ...) named expressions; they
+; These were formerly (define-table ...) + (table-lookup ...) named expressions; they
 ; are just named formulas / constants, so they are macros now. A curve takes its
 ; input as a real parameter; a constant takes none. Edit once, re-tunes every
 ; event that calls it.
@@ -34,6 +34,17 @@
 ; parish (immigration territory) sheds almost no one. Replaces the old
 ; homeostat_emigration "emigrate the oldest N by fiat" world valve.
 (define-macro population-pressure () (/ (living-npc-count) (homeostat_target_population)))
+
+; Org-count homeostats (replace the retired C++ articles-doc scan). An org is a known
+; entity is-a its kind; both read @self's own {?o isa ?k} beliefs of the org register.
+; (any-org-of-kind ?k): does @self know of any org is-a ?k? (the founding-sparsity gate).
+(define-macro any-org-of-kind (?k)
+  (any {?o isa ?k}))
+
+; (orgs-below-population-floor ?k ?divisor): fewer known orgs is-a ?k than one per
+; ?divisor living NPCs - the business-scarcity floor that stops over-minting.
+(define-macro orgs-below-population-floor (?k ?divisor)
+  (< (count (every {?o isa ?k})) (/ (living-npc-count) ?divisor)))
 
 ; Labour market: the wealth ceiling above which an NPC does NOT seek waged work (the
 ; independently wealthy). Wealth is the {@self wealth ?w} belief (~0..1.25, balance/120);

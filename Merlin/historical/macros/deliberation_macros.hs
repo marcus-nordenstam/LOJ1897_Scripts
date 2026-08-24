@@ -10,6 +10,14 @@
 (define-macro despair (?who)
   (* (any {?who stress}).target (- 1 (any {?who contentment}).target)))
 
+; (pick-confidant ?who): a confidant to witness ?who's ideation - his living spouse,
+; else the first friend he knows (read from ?who's OWN spouse / friend relations). The
+; rare servant-only confidant is not modelled; the truly alone die unwitnessed.
+(define-macro pick-confidant (?who)
+  (if (alive (spouse-of ?who))
+      (then (spouse-of ?who))
+    (else (any {?who friend ?}).target)))
+
 ; The suicide outlet: the witnessed ideation is minted in a confidant's mind ALWAYS
 ; (the testimony trail); the act (death + the death_cause-suicide body-truth) only past
 ; the despair + withdrawal gate.
@@ -50,7 +58,8 @@
       (= ?action hurt)))
 
 ; Turn the deliberation winner into its effect. suicide / strive resolve inline; a MIGRATED
-; crime is PROPOSED as its self-gated task (it then competes globally and rides (crime-band));
+; crime is PROPOSED as its self-gated task (it then competes globally on the want tier,
+; gated by (> (crime-scale) 0));
 ; every other action still mints its goal with the driving pressure pinned as /caused_by. A
 ; reactive KILL whose wrongdoer-focus is unreachable is displaced onto a weaker innocent by the
 ; separate displace_kill event (a role-cast + roulette over the actor's orbit) - it reacts to

@@ -21,9 +21,10 @@
     (try
       (when (and (not (spatial ?victim co-located @self))
                  (not (any {?victim condition [k dead]}))
-                 (unknown (spatial ?victim space))))
+                 (unknown (spatial ?victim space))
+                 (any {?victim home ?}).target: ?vhome))
       (utility survival)
-      (effects (maintain-proposal {@self go (home-of ?victim)})))
+      (effects (maintain-proposal {@self go ?vhome})))
 
     ; THE BLOW: co-present with a living victim - CHOKE the life out of them.
     (try

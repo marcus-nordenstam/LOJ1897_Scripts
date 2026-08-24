@@ -34,8 +34,8 @@
               {@self repute [k exemplary], prestige ?prestige})
   ;; A protege one or more class steps below the patron, of sound character
   ;; (not scandalous), without an existing backer. The patron judges the
-  ;; protege from his OWN view (3-arg (situation ?protege <dim> @self), banded
-  ;; in via believe_about) - he can only elevate a connection he actually KNOWS:
+  ;; protege from his OWN view ({?protege <dim> ?} own-belief filters) - he can
+  ;; only elevate a connection he actually KNOWS:
   ;; the class match @fails (no firing) for a stranger, while the repute gate is
   ;; permissive on the unknown (only a KNOWN-scandalous protege is excluded).
   ;; (Not already backed - read from the PATRON's OWN knowledge ({backed_by} is

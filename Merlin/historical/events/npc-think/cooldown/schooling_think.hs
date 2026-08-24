@@ -60,7 +60,7 @@
   ; ~0.85) into school almost always, a working-class child (~0.25) only rarely.
   (when (and (>= (years-old @self) 5)
              (<= (years-old @self) 7)
-             (latch-eval (chance (* 0.0833 (situation @self breeding) (situation @self breeding))))))
+             (latch-eval (chance (* 0.0833 (any {@self breeding ?}).target (any {@self breeding ?}).target)))))
 
   (utility errand)
   (effects       (begin-goal {@self ENROL_PRIMARY}))
@@ -86,7 +86,7 @@
   ; ONSET: the middle+ breeding-squared (chance) is rolled at the fire and LOCKED once holding.
   (when (and (>= (years-old @self) 12)
              (<= (years-old @self) 14)
-             (latch-eval (chance (* 0.0833 (situation @self breeding) (situation @self breeding))))))
+             (latch-eval (chance (* 0.0833 (any {@self breeding ?}).target (any {@self breeding ?}).target)))))
 
   (utility errand)
   (effects       (begin-goal {@self ENROL_SECONDARY}))
@@ -112,7 +112,7 @@
   ; gateway - rolled at the fire and LOCKED once holding.
   (when (and (>= (years-old @self) 18)
              (<= (years-old @self) 20)
-             (latch-eval (chance (* 0.0833 (situation @self breeding) (* (situation @self breeding) (situation @self breeding)))))))
+             (latch-eval (chance (* 0.0833 (any {@self breeding ?}).target (* (any {@self breeding ?}).target (any {@self breeding ?}).target))))))
 
   (utility errand)
   (effects       (begin-goal {@self ENROL_UNIVERSITY}))

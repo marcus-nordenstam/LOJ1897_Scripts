@@ -47,8 +47,9 @@
 
   ;; Live exclusivity re-check (see employment.hs): the youth's "unemployed"
   ;; filter is alpha-indexed, so within one tick several masters sample the same
-  ;; youth before the first apprenticeship commits. We re-check via (job-level
-  ;; ...) - a computed op reads live, unlike a belief-pattern (which routes
+  ;; youth before the first apprenticeship commits. We re-check via a live
+  ;; (any ...) two-hop read of the youth's own job then level - reading it live,
+  ;; unlike a belief-pattern (which routes
   ;; through the stale alpha-discriminator). (hire ... /level trainee) sets it
   ;; live, so once apprenticed this tick the youth reads trainee + backtracks.
   ;; Role-belief-purity: the per-youth (chance) gate (low-breeding youths, below
@@ -56,7 +57,7 @@
   ;; non-belief @self reads, so they moved here from the @self role; (chance) leads
   ;; the (and ...) to short-circuit cheaply.
   (when (and (chance (* 0.0125 (+ 0.5 ?breeding)))
-             (!= (job-level @self) [k trainee])
+             (!= (any {(any {@self job ?}).target level ?}).target [k trainee])
              (>= (years-old @self) 12)
              (<= (years-old @self) 16)))
 
@@ -72,8 +73,8 @@
     (end-goal {@self SEEK_INDENTURE})
     (begin-goal {@self SEEK_INDENTURE ?org_record}))
   ;; MINTER owns ending: once the youth is indentured (gains a paid job / reads
-  ;; trainee), this rule's (role @self (not {@self job.salary ?})) + (when
-  ;; (not (= (job-level @self) [k trainee]))) gate stops holding, and this falling
+  ;; trainee), this rule's (role @self (not {@self job.salary ?})) + the (when)
+  ;; live job-level-vs-trainee gate stops holding, and this falling
   ;; edge ends the aim. A youth seeks ONE indenture at a time, so label-only keying
   ;; is fine. The act (apprentice_errand_act.hs) never ends the aim.
   (cease-effects (end-goal {@self SEEK_INDENTURE})))
@@ -88,7 +89,7 @@
 
   ;; A trainee who has held the trainee rank at least three years; the chance
   ;; spreads completion over the following years (0.033/mo ~= the old 0.4/yr).
-  (when (and (= (job-level @self) [k trainee])
+  (when (and (= (any {(any {@self job ?}).target level ?}).target [k trainee])
              (>= (job-tenure @self) 3)
              (chance 0.033)))
 

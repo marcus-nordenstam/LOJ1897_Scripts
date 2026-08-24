@@ -16,7 +16,7 @@
       (when (and (any {?org record ?}).target: ?art
                  (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
                  (>= (count-doc-records [k employee_register] ?reg)
-                     (lookup public_orgs kind ?ok employee_count 2))))
+                     (table-lookup public_orgs kind ?ok employee_count 2))))
       (effects (set-outcome ?rec-rel succ)))
     (try
       (when (none {@self post ? ?org}))

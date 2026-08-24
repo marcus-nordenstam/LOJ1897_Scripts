@@ -25,7 +25,7 @@
               (not {@self apply_for ? ? /pres}))
   (when (and (>= (years-old @self) 16)
              (<= (years-old @self) 55)
-             (!= (situation @self repute) [k scandalous])
+             (!= (any {@self repute ?}).target [k scandalous])
              ; wealth gate: the independently rich do not seek waged work; a seeker with
              ; no wealth belief yet is treated as needing work (the (and ..) is false).
              (not (and (any {@self wealth ?}).target: ?w (>= ?w (seek_job_wealth_ceiling))))

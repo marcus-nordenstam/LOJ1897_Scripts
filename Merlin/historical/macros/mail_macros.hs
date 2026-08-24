@@ -17,13 +17,13 @@
 ; service lands delivered letters and where a resident/officer READS them. The first
 ; present of hallway / living_room / kitchen (else the premises' first room, else the
 ; premises itself) - the same resolution the engine's mail_space_of uses to deliver, so
-; a reader querying (mail-pile (mail-space ?p)) finds exactly what the service dropped.
+; a reader querying (spatial (mail-space ?p) contents [k mail_stack] /env) finds exactly what the service dropped.
 (define-macro mail-space (?premises)
   (room-of ?premises [k hallway] [k living_room] [k kitchen]))
 
 ; (post-letter [k <kind>] <msg> ?dest ?addressee): compose a <kind> letter carrying
 ; <msg>, addressed to ?addressee's NAME (the envelope tag the reader compares), its destination
-; stamped as ?dest (the DESTINATION building - e.g. (home-of ?target)); then hand it to
+; stamped as ?dest (the DESTINATION building - e.g. (any {?target home ?}).target); then hand it to
 ; the send_mail posting lane (send_mail_think.hs). The magic mail service routes it to ?dest's mail room by
 ; that written destination. The letter is born where @self stands, so @self can carry it
 ; to a post pile.

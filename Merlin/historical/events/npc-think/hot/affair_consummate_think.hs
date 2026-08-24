@@ -33,12 +33,15 @@
                   (any_human ?paramour)
                   {@self lover ?paramour}
                   (not {@self spouse ?paramour}))
-  (when (and (vacant-room @self ?paramour)
-             (or (not (spatial ?paramour co-located @self))
-                 (spatial (spouse-of @self) co-located @self))))
+  ; A room in @self's building with no third party present - only @self and the paramour
+  ; may be there. No private room -> no slip (the roomless-premises case is dropped).
+  (role ?room (spatial (spatial @self building) parts [k interior_space room] /env)
+              (not (spatial ?room contents [k human] /env @self ?paramour))
+              (select (policy first-match)))
+  (when (or (not (spatial ?paramour co-located @self))
+            (spatial (spouse-of @self) co-located @self)))
   (utility want always-pick)
   (effects
-    (vacant-room @self ?paramour): ?room
     (debug-print "TRYST_SLIP @self para=?paramour")
     (maintain-proposal {@self WALK ?room})))
 

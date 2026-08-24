@@ -75,8 +75,8 @@
                   {?club_org founder ?founder})   ; produced-restricted: ?founder off the club
 
   ; A man joins a club of his OWN class band. The club's tier is read as @self's
-  ; view of the founder's class (3-arg (situation ... @self), banded in via
-  ; believe_about) - a positive match, so @self only joins a club whose founder he
+  ; OWN belief of the founder's class ((any {?founder class_situation}).target) - a
+  ; positive match, so @self only joins a club whose founder he
   ; actually knows (an unfamiliar founder's class @fails the match). ?founder is
   ; produced off @self's {?club_org founder ?founder} belief (minted at orientation)
   ; in the ?club_org role. chance + age + club-count are non-belief gates in (when).

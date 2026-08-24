@@ -33,11 +33,11 @@
   ; co-principal by plan-wedding.
   (role @self (unmarried_man @self)
               {@self fiancee ?fiancee})   ; existence cached, ?fiancee binds at fire
+  ; The venue is a same-town church the groom KNOWS; nearest preferred, weighted.
+  ; No known church -> no fire (the goal waits). Replaces the omniscient (pick-location ...).
+  (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
   (when (not (organizing-occasion [k wedding])))
   (effects
-    ; The venue is the groom's same-town church; ~3 months' banns lead, an
-    ; 11-14h ceremony. plan-wedding stages the occasion (both principals
-    ; forced-attend, both circles invited).
-    (plan-wedding @self ?fiancee
-                  (pick-location @self [k building church]) 3 11 14)
-    ))
+    ; ~3 months' banns lead, an 11-14h ceremony. plan-wedding stages the occasion
+    ; (both principals forced-attend, both circles invited).
+    (plan-wedding @self ?fiancee ?church 3 11 14)))

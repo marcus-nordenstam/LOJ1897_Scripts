@@ -42,7 +42,7 @@
                 (select (score (stance-band ?target attraction)) (policy argmax)))
 
   ; @self knows where she lives.
-  (when (and (home-of ?target)
+  (when (and (any {?target home ?}).target: ?target_home
              (chance 0.4)))
 
   (utility want)
@@ -54,4 +54,4 @@
     ; signature). Addressed to her, so her morning post read (read_post) adopts it.
     (post-letter [k courtship_letter]
                  (nl_written_msg "I fancy ?target_name. Signed, ?author_name")
-                 (home-of ?target) ?target)))
+                 ?target_home ?target)))

@@ -35,7 +35,7 @@
 # (stack top); (subjective) a mind's value can diverge from env truth. Stores MUST
 # precede the views that reference them.
 (spatial-struct space    (mobile) (excl) (subjective))
-(spatial-struct grip     (mobile) (excl))
+(spatial-struct grip     (mobile) (excl) (recurse-on-obs))
 (spatial-struct stack    (mobile) (excl) (ordered))
 (spatial-struct part     (immutable) (excl))
 

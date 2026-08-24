@@ -18,7 +18,7 @@
                  (find-building [k building church]): ?board
                  (spatial @self building ?board)
                  (read-doc-record [k articles_of_incorporation] ?art (kind ?ok))
-                 (lookup org_staffing org_kind ?ok staff_role none): ?jk
+                 (table-lookup org_staffing org_kind ?ok staff_role none): ?jk
                  (is-kind ?jk)))
       (effects (debug-print "RC_ADPOST") (maintain-proposal {@self POST_ADVERT ?art ?jk})))
     (try

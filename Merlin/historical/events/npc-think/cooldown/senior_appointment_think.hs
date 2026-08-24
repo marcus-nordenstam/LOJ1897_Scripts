@@ -34,7 +34,7 @@
   ;; gate (PR-A-8 audit) is V2 work - the substrate has the member_of relation
   ;; but the gov-org subset filter would need a cross-role join the .hse layer
   ;; doesn't express cleanly today. V1 routes the chance through a trait
-  ;; product: assertiveness + (situation prestige) above the floor amplifies
+  ;; product: assertiveness + ?prestige above the floor amplifies
   ;; the rate, so a high-prestige assertive candidate fires far more often.
   (role @self (old_human @self)
               {@self repute [k exemplary], prestige ?prestige})
@@ -51,7 +51,7 @@
   (when (and (chance (* 0.0083
                          (attr @self assertiveness)
                          ?prestige))
-             (!= (job-level @self) [k senior])
+             (!= (any {(any {@self job ?}).target level ?}).target [k senior])
              (>= (years-old @self) 30)
              (<= (years-old @self) 65)
              (>= ?prestige 0.65)))

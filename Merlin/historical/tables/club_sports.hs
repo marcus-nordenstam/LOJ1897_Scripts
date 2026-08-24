@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; club_sports.hs - which sport a club competes in, per org kind. Read by the
 ; club organiser's annual meet (events/npc-act/hold_meet.hs) via
-;   (lookup club_sports org_kind ?club_kind sport)
+;   (table-lookup club_sports org_kind ?club_kind sport)
 ; an EXACT key match on the club's org kind (the kind it was founded with,
 ; read off its articles). Author one row per foundable club kind - the club
 ; founding lane (events/npc-act/club_found_errand.hs) rolls race_club /

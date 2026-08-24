@@ -53,7 +53,7 @@
         (create-entity [k employee_register]          (qual location ?back)): ?reg
         (write-doc-record [k articles_of_incorporation] ?art
             (kind ?org-kind) (founder @self) (building ?wp) (year (year)) (register ?reg)
-            (name (lookup businesses org_kind ?org-kind name [n unknown])))
+            (name (table-lookup businesses org_kind ?org-kind name [n unknown])))
 
         ; --- founder's mind: the org object + its constitutive beliefs ------------
         (imagine-or-recall ?org-kind {?art declares_org ?org})
@@ -168,7 +168,7 @@
     (imagine-or-recall ?job-kind {@self job ?job})
     (begin-belief {?job org ?org})
     (begin-belief {?job level ?level})
-    (begin-belief {?job salary (lookup income_by_level level ?level income 0)})
+    (begin-belief {?job salary (table-lookup income_by_level level ?level income 0)})
     (begin-belief {?job since (year)})
     (stamp-work-hours ?job ?job-kind)))
 

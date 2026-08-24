@@ -38,7 +38,7 @@
     (bind level ?slvl)
     (when (alive ?senior))
     (score (+ 1 (* 100 (is-a ?sjk [k org_head]))
-                (* 10 (lookup level_rank level ?slvl rank 0))))
+                (* 10 (table-lookup level_rank level ?slvl rank 0))))
     (policy argmax)
     (else fail))
 

@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; money_tables - authored economic config (was the C++ hsim_derive.cc income
 ; curve). Directory-scanned from historical/tables/ into the catalog; read by
-; the money macros (money_macros.hs) via (lookup ...).
+; the money macros (money_macros.hs) via (table-lookup ...).
 ; ----------------------------------------------------------------------------
 
 ; Yearly income by job rank (the `level` rung). Funds savings accrual (accrual-net).

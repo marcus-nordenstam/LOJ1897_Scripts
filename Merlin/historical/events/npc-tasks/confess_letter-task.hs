@@ -15,16 +15,18 @@
   (construed_act honour_act)
   (and
     (try
-      (when (and (known-nonspousal-liaison @self): ?partner
+      (when (and (any {@self lover|HAVE_SEX_WITH ? /ever}).target: ?partner
+                 (not {@self spouse ?partner /ever})
                  (any {@self father|mother|fiancee|spouse|sibling ?}).target: ?kin))
       (utility errand)
       (effects
-        (if (and (alive ?kin) (!= ?kin ?partner) (home-of ?kin))
+        (if (and (alive ?kin) (!= ?kin ?partner) (any {?kin home ?}).target: ?kinhome)
             (then (post-letter [k confession_letter]
                                (nl_written_msg "I have taken ?partner as a lover")
-                               (home-of ?kin) ?kin)))
+                               ?kinhome ?kin)))
         (set-outcome ?confess-rel succ)))
     (try
-      (when (or (not (known-nonspousal-liaison @self))
+      (when (or (not (and (any {@self lover|HAVE_SEX_WITH ? /ever}).target: ?partner
+                          (not {@self spouse ?partner /ever})))
                 (not (any {@self father|mother|fiancee|spouse|sibling ?}))))
       (effects (set-outcome ?confess-rel fail)))))

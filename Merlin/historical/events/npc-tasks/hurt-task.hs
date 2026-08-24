@@ -23,9 +23,10 @@
     (try
       (when (and (not (spatial ?victim co-located @self))
                  (not (attr-is ?victim awareness unconscious))
-                 (unknown (spatial ?victim space))))
+                 (unknown (spatial ?victim space))
+                 (any {?victim home ?}).target: ?vhome))
       (utility survival)
-      (effects (maintain-proposal {@self go (home-of ?victim)})))
+      (effects (maintain-proposal {@self go ?vhome})))
 
     ; THE BEATING: PUNCH a co-present, conscious victim.
     (try

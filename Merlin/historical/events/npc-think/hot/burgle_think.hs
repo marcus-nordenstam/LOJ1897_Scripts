@@ -36,16 +36,18 @@
 (npc-think burgle_go
   (goal {@self steal})
   (rng-stream theft)
-  ; Bind the scene at the EVENT level (not inside (effects)) so ?scene is in scope for
-  ; BOTH (effects) and (cease-effects) - a fire-time stash restores it at cease.
-  (burgle-target @self):?scene
+  ; A residence the thief KNOWS that isn't his own home, picked at random. Bound at the
+  ; EVENT level so ?scene is in scope for BOTH (effects) and (cease-effects). No known
+  ; target -> no fire (replaces the omniscient (burgle-target @self) env pick).
+  (role ?scene [k residential_building]
+        (not {@self home ?scene})
+        (select (score (rng-unit)) (policy roulette)))
   (when (and (not (at-burgle-residence))
              (not (at-own-workplace))))
   (utility want)
   (effects
     (begin-goal {@self steal})
-    (if ?scene
-        (then (maintain-proposal {@self enter ?scene})))))
+    (maintain-proposal {@self enter ?scene})))
 
 ; TERMINAL step (act_body_purification): AT a strikeable scene the theft is PROPOSED (a proposed
 ; label drops out of goal competition, so it does not auto-promote). Utility 86 outbids the travel

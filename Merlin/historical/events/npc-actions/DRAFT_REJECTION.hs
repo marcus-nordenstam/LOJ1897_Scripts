@@ -10,11 +10,11 @@
   (duration 10)
   (effects
     (read-doc-record [k application] ?app (applicant ?w))
-    (if (substantial (home-of ?w))
+    (if (any {?w home ?}).target: ?whome
       (then
         (create-entity [k rejection_letter] (qual location (spatial @self building))): ?rl
         (set-attr ?rl addressee (attr ?w name))
-        (set-attr ?rl address (home-of ?w))
+        (set-attr ?rl address ?whome)
         (push ?rl ?out)))
     (destroy-entity ?app)
     (set-outcome {@self DRAFT_REJECTION ?app ?out} succ)))

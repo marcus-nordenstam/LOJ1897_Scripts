@@ -11,7 +11,7 @@
 ; exemplary 4); -1 when unappraised/@fail - so a req_repute gate FAILS a worker
 ; with no proven band (a trust post needs a proven name).
 (define-macro repute-rank (?band)
-  (lookup repute_rank band ?band rank -1))
+  (table-lookup repute_rank band ?band rank -1))
 
 ; (hosted-by ?bt ?org-kind): does an org of ?org-kind host this post? A `none`
 ; business_type is a generic post (a cook / clerk works anywhere).
@@ -28,7 +28,7 @@
 ; the worker's PROVEN band must rank at or above it (unappraised = -1 = fail).
 (define-macro repute-ok (?w ?rr)
   (or (= ?rr none)
-      (>= (repute-rank (situation ?w repute)) (repute-rank ?rr))))
+      (>= (repute-rank (any {?w repute ?}).target) (repute-rank ?rr))))
 
 ; (skill-ok ?w ?d ?b): the skill/education gate. `none` = no requirement (an
 ; entry rung); otherwise the worker's own {@self skilled_in <domain> /aux <band>}
