@@ -46,24 +46,6 @@ relation
         expect_answer           (sub human)           (tar ?)
         expect_question         (sub human)           (tar ?)
 
-        # transient_marker - generic short-lived self-belief with
-        # per-mint decay. One unified state for scattered prep
-        # patterns: stalk_target prep markers (PR-B perpetration),
-        # administering progress trackers (PR-C drugging / slow
-        # poisoning), and practice tickers (PR-skill-life atrophy
-        # suppression). Sub-kinds declared as
-        # `marker_kind` in Concepts.mon. Non-@excl: an actor may
-        # hold many concurrently - one per (kind, focus) pair, where
-        # the aux slot carries the focus (the other party, the
-        # domain, the substance). Minted via
-        # `shared_functions/markers::mint_transient_marker(actor,
-        # kind, focus, decay_days)`; checked via
-        # `has_recent_marker(actor, kind, focus, max_age_days)`. The
-        # belief interval start is the mint time; the decay rate is
-        # encoded as a salience cap at mint time, so
-        # pattern_decay drops the belief naturally once the window
-        # elapses.
-        transient_marker        (sub human)           (tar marker_kind)  (aux ?)
 
         expect_answer           (sub human)           (tar ?)
         expect_question         (sub human)           (tar ?)
@@ -432,6 +414,19 @@ relation
         # own belief.
         (competence)            (+ sub human)
             skilled_in          (tar domain)  (aux ?)
+            # skill-level: per-ACT competence, emitted by the action pipeline as an
+            # act decorated (track-skill-level) is performed - skill accrues on
+            # completion, decays over time, and thresholds into a rung
+            # (skill_level_pipeline_plan.md). Target is the act performed; /aux is
+            # the earned skill_rung. Exclusive per act (a new rung supersedes the
+            # prior), handled by the pipeline's band-emit. The general successor to
+            # skilled_in: competence keyed by the acts you perform, not a domain.
+            skill-level         (tar ?)  (aux skill-level)
+            # school-grades: the credential earned on graduating a school - target
+            # is the school/curriculum, /aux the letter grade (A..F). Minted by the
+            # graduate act; the successor to skilled_in [k <school>_curriculum],
+            # which conflated a grade with competence.
+            school-grades       (tar ?)  (aux school_grade)
             # serve: military / naval service, a seeded biographical
             # self-belief ({@self serve <rank>}). Tense lives in the
             # interval (the interval-tense doctrine): ONGOING = still

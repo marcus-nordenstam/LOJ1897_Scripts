@@ -284,6 +284,12 @@
 # mind but his own is written. Kind-valued (open|closed under `status`, Concepts.mon), so
 # it mirrors as a clean belief like `condition`. Lives on container_structure (buildings).
 (attr "struct_status" (type kind open) (per obs) (auto-percept) (hsim-percept))
+# A door/window structure_part's opening state (ajar|shut) and lock state
+# (locked|unlocked). Kind-valued @excl, perceived on sight (a thief cases a lock).
+(attr "opening_status" (type kind ajar) (per obs) (auto-percept) (hsim-percept))
+(attr "lock_status" (type kind locked) (per obs) (auto-percept) (hsim-percept))
+# Structural integrity of an opening (intact|broken) - distinct from the condition axis.
+(attr "integrity" (type kind intact) (per obs) (auto-percept) (hsim-percept))
 # Era bounds - the building physically exists from era_min to era_max.
 (attr "era_min" (type date) (imperceptible))
 (attr "era_max" (type date) (imperceptible))

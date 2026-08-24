@@ -34,13 +34,12 @@
         (then (settle-death ?who)
             (record-corpse-death ?who [k death_cause suicide])))))
 
-; The strive outlet (benign envy): train for the rematch - stamp the practice marker
-; (focus = the contested prize off the pressure's act cause) and discharge half the
-; driving rivalry pressure. No goal.
+; The strive outlet (benign envy): discharge half the driving rivalry pressure.
+; No goal. Getting better at the contested domain is not a bespoke act here -
+; competence accrues from performing that domain's real acts (the action pipeline
+; tracks per-act skill), so the strive just bleeds the rivalry.
 (define-macro resolve-strive (?who ?pressure)
-  (do
-    (mark ?who [k practice] (pressure-prize ?pressure) (skill_practice_window_days))
-    (discharge-pressure ?pressure 0.5)))
+  (discharge-pressure ?pressure 0.5))
 
 ; (is-migrated-crime ?action): the deliberation actions that have been re-homed as
 ; self-gated npc-tasks (proposed + globally competed) instead of fait-accompli goal

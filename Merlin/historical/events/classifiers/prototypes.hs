@@ -107,8 +107,8 @@
 (npc-think classify_for_hire_skilled
   (rng-stream behaviour)
   (role @self {@self economic_situation ?}
-              (or {@self skilled_in [k martial]}
-                  {@self skilled_in [k garrotting]}))
+              (or {@self skill-level [k martial]}
+                  {@self skill-level [k garrotting]}))
   (effects
     (mint-band {@self prototype}
       ; REASON: economic desperation OR the callous + disinhibited bad seed.
@@ -125,8 +125,8 @@
 (npc-think classify_for_hire_brute
   (rng-stream behaviour)
   (role @self {@self economic_situation ?, class_situation ?}
-              (not {@self skilled_in [k martial]})
-              (not {@self skilled_in [k garrotting]}))
+              (not {@self skill-level [k martial]})
+              (not {@self skill-level [k garrotting]}))
   (effects
     (mint-band {@self prototype}
       (* (>= (attr @self strength) 0.65)

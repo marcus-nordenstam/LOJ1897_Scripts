@@ -113,7 +113,7 @@
   (effects
     ; The master's craft becomes the apprentice's casual interest (which
     ; interest_deepens can later raise to a skill of its own).
-    (random-unheld-kind-target (any {@self master}).target interest skilled_in calling): ?d
+    (random-unheld-kind-target (any {@self master}).target interest skill-level calling): ?d
     (if (is-kind ?d)
         (then (begin-belief {@self interest ?d})))
     ))
@@ -157,7 +157,7 @@
     ; Drop one interest never built into a skill (an overlapping skilled_in
     ; domain is settled identity - exempt). Unforgettable: "I used to be keen
     ; on botany" survives the sleep sweep as history.
-    (random-unbacked-kind-target interest skilled_in): ?d
+    (random-unbacked-kind-target interest skill-level): ?d
     (if (is-kind ?d)
         (then (end-belief {@self interest ?d} (salience unforgettable))))
     ))

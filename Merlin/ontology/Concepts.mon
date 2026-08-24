@@ -41,6 +41,27 @@ concept
         open
         closed
 
+    # An opening's leaf position (@excl - one at a time): ajar = a passable gap,
+    # shut = the leaf drawn to (still openable if unlocked). The opening_status attr
+    # on a door / window (structure_part.arc), perceived on sight. Unset reads neither.
+    opening_status      (tar @excl)
+        ajar
+        shut
+
+    # An opening's lock state (@excl). The lock_status attr on a door / window.
+    # Default is unset = NOT locked (an openable door); a residence locks up via an
+    # explicit set. Perceived on sight so a thief can case it.
+    lock_status         (tar @excl)
+        locked
+        unlocked
+
+    # Structural integrity of an opening (@excl - distinct from the life-state
+    # `condition` axis). The integrity attr on a door / window: intact until forced
+    # or smashed, then broken (a broken leaf is a permanent passable gap). Perceived.
+    integrity           (tar @excl)
+        intact
+        broken
+
     legal_right
         property        (sub being)
 
@@ -106,41 +127,6 @@ concept
         crutch_assisted
         wheelchair_bound
         bedridden
-
-    # Short-lived self-belief markers. The target of the
-    # `transient_marker` verb-state in States.mon - a single generic
-    # state replacing what would otherwise be four scattered
-    # patterns (recent-incident cooldowns, stalking prep markers,
-    # skill-practice tickers, substance-administering progress).
-    # Minted with a per-kind decay; checked by `has_recent_marker` in
-    # shared_functions/markers. The aux slot carries the focus (the
-    # other party / domain / substance), so an actor may hold many
-    # transient_marker beliefs concurrently - one per (kind, focus)
-    # pair. Extend by adding a sub-kind here and a mint site in the
-    # consuming PR (PR-B's stalk_target, PR-skill-life's practice,
-    # PR-C's administering).
-    marker_kind
-        # PR-B perpetration prep marker; actor has been
-        # observing victim's movements (~30 days). Subsequent
-        # perpetration rolls read this for the surprise modifier.
-        stalk_target
-        # PR-C drugging / poisoning progress marker. Aux carries
-        # the substance kind; cumulative-lethal-dose terminals
-        # decrement against this counter.
-        administering
-        # PR-skill-life: an actor exercised a domain via
-        # perpetration / leisure / profession / apprenticeship /
-        # club / education. Aux carries the domain. Read by
-        # `skill_atrophies.hse` to suppress atrophy (~12 months).
-        practice
-        # Acquisition/use split (interrogation detail plan 3b point 1):
-        # the actor has PROCURED a weapon for a kill and stowed it at
-        # home (hidden if covert, openly displayed if not), but not yet
-        # struck. Aux carries the intended victim. A later perpetration
-        # fire reads it to proceed to the kill instead of re-procuring;
-        # the ~80-day window spans a few monthly ticks before the
-        # premeditation cools.
-        armed
 
     # Existential-frame taxonomy. The target of the `life_aim` drive in
     # States.mon: what an NPC wants their LIFE to amount to. Distinct
@@ -261,6 +247,29 @@ concept
         novice
         trained
         expert
+
+    # skill-level - the /aux of {@self skill-level {act} <rung>} beliefs the action
+    # pipeline emits as an act decorated (track-skill-level) is performed and its
+    # per-act competence crosses a band (skill_level_pipeline_plan.md). The 4-rung
+    # ladder that supersedes competence_level; leaf names avoid competence_level's
+    # (novice/trained/expert) and vocational_state's (master) since kind leaves are
+    # global, and both coexist until the skilled_in retirement (plan P4).
+    skill-level         (tar @excl)
+        beginner
+        competent
+        proficient
+        virtuoso
+
+    # school_grade - the /aux of {@self school-grades <school> <grade>} beliefs,
+    # minted when an NPC graduates a school. The letter-grade credential earned at
+    # a curriculum level; distinct from skill-level (act-earned competence). This is
+    # what skilled_in [k <school>_curriculum] used to stand in for.
+    school_grade        (tar @excl)
+        A
+        B
+        C
+        D
+        F
 
     # Military rank - the /aux of a seeded `served` self-belief (States.mon):
     # {@self served <unit> /aux <rank>}. Scales the martial skill band a

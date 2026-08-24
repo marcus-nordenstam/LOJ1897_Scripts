@@ -37,11 +37,9 @@
 (define-document title_deed        (fields building owner))
 ; A dwelling offered to let: [building]
 (define-document for_lease_listing (fields building))
-; The testament: names the single heir the testator has chosen (step-1 model - a
-; per-object future-tense bequest schema is later work, see Objects.mon `will`).
-; Written/updated in life by WRITE_WILL, read after death by the named heir's
-; settle_inheritance: [testator heir]
-(define-document will               (fields testator heir))
+; NOTE: a `will` is NOT a record doc - its bequest is a WRITTEN MESSAGE composed
+; with (written-msg ...) and attached via (set-writing), read back by the heir with
+; (adopt-msg ...). See events/npc-actions/WRITE_WILL.hs.
 
 ; ----- labour-market schemas -------------------------------------------------
 ; The job advert on the parish board (posted by the recruit_staff duty-holder,

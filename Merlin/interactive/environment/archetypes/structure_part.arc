@@ -14,6 +14,13 @@ archetype "structure_part" (cap 4096) (per obs) (always-visible) (occupies-env-g
     # derived at scene-load from the entity's own TransformComponent and
     # its spatial relationship to nearby nav-meshes.
     (attr "is_nav_passage")
+    # Opening state (doors / windows). Observable on sight so a thief can case a
+    # lock. Non-opening parts (walls, counters) carry them unused. opening_status:
+    # ajar | shut; lock_status: locked | unlocked (unset = not locked); integrity:
+    # intact | broken (set broken when forced/smashed).
+    (attr "opening_status" (auto-percept) (ext-per obs))
+    (attr "lock_status"    (auto-percept) (ext-per obs))
+    (attr "integrity"      (auto-percept) (ext-per obs))
     # PR-evi-A 2026-05-25 - per-object evidence attrs. Blood-stains on
     # a wall, tool-marks on a door-jamb, gunpowder-residue on a counter.
     (attr "stains")

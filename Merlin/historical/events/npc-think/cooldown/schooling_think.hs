@@ -52,7 +52,7 @@
   ; primary the goal stands; the moment enrol_primary_act matriculates him ({@self study [k
   ; primary_school_curriculum]}) the role drops and the goal ends. The act never ends the goal.
   (role @self
-              (not {@self skilled_in [k primary_school_curriculum]})
+              (not {@self school-grades [k primary_school_curriculum] ?})
               (not {@self study [k primary_school_curriculum]}))
 
   ; ONSET: the breeding-squared class-gate (chance) is rolled at the fire and LOCKED once
@@ -78,8 +78,8 @@
   ; CONTINUOUS completion gate as a CACHED role filter: the role drops (and the goal ends) when
   ; enrol_secondary_act matriculates him ({@self study [k secondary_school_curriculum]}).
   (role @self
-              {@self skilled_in [k primary_school_curriculum]}
-              (not {@self skilled_in [k secondary_school_curriculum]})
+              {@self school-grades [k primary_school_curriculum] ?}
+              (not {@self school-grades [k secondary_school_curriculum] ?})
               (not {@self study [k secondary_school_curriculum]})
               (not {@self job.salary ?}))
 
@@ -104,7 +104,7 @@
   ; (any {@self study ?})) CACHED role filter: at 18-20 the youth holds no prior
   ; study, so the role drops (and the goal ends) exactly when he matriculates.
   (role @self
-              {@self skilled_in [k secondary_school_curriculum]}
+              {@self school-grades [k secondary_school_curriculum] ?}
               (not {@self study ?})
               (not {@self job.salary ?}))
 
