@@ -13,8 +13,9 @@
 #                                above) the granularity of <kind> - ascend the known
 #                                containment chain to the first node is-a <kind>. @unknown
 #                                when <kind> is finer than what the mind knows. Kept
-#                                content-supplied (space=interior_space, building=building,
-#                                town=town) so the engine never names a level.
+#                                content-supplied (building=building, town=town) so the
+#                                engine never names a level. NOT used by `space`: a space
+#                                is whatever directly contains the entity (see below).
 #   (containment)                LEGACY building sense (space-of-entity, then ascend);
 #                                superseded by (rung building)
 #   (payload)                    the finest rung: (spatial ?x bounds) yields the exact box
@@ -27,6 +28,21 @@
 #                                occupant of b's space/building
 #   (first)                      single first-known child match: (spatial ?whole room [k K])
 #                                yields one perceived room of ?whole (is-a K when given)
+#
+# A relation's RANGE is fixed by the relation, and a query never returns a kind
+# outside it - that is what keeps a call-site's expectation unambiguous. `space` is
+# the entity's directly-containing space: a room indoors, the smallest enclosing
+# exterior_space outdoors, @unknown when the mind does not know. It is a single up-hop
+# (the whereabouts parent), NOT a ladder ascent - it always lands on a space. `building`
+# and `town` are their OWN relations (a building is-a object, a town is-a region -
+# neither is-a space), so they read the containment chain separately; they are never
+# `space` at a coarser granularity.
+#
+# QUALIFIER (spec, no consumers yet): /ascend [k K] and /descend [k K] walk a relation
+# WITHIN its own range - K MUST be is-a that range or the query is a load error. So
+# (spatial ?x space /ascend [k area]) is legal (area is-a space) and climbs nested
+# exterior spaces neighborhood -> area -> ...; (spatial ?x space /ascend [k building])
+# is rejected (building is not a space). Use `building` / `town` for those levels.
 #
 # STORES: the physical edge types + their behavior. The store id is declaration
 # ORDER (space=0, grip=1, stack=2), which the engine addresses by name through
@@ -47,8 +63,7 @@
 (spatial-label parts (spatial-struct part) (down))
 
 (spatial-label bounds     (spatial-struct space) (payload))
-(spatial-label where      (spatial-struct space))
-(spatial-label space      (spatial-struct space) (rung interior_space) (theme frequent))
+(spatial-label space      (spatial-struct space) (theme frequent))
 (spatial-label building   (spatial-struct space) (rung building))
 (spatial-label town       (spatial-struct space) (rung town))
 (spatial-label contents   (spatial-struct space) (down))

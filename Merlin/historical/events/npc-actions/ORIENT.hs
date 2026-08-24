@@ -23,7 +23,7 @@
     (for-each ?art (documents [k articles_of_incorporation])
       (do
         (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (founder ?f) (building ?b))
-        (imagine-or-recall ?ok {?art declares_org ?org})
+        (o ?ok {?art declares_org @o}): ?org
         (begin-belief {?org isa ?ok})
         (begin-belief {?org record ?art})
         (begin-belief {?org founder ?f})

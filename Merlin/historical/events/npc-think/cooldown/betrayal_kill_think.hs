@@ -59,15 +59,15 @@
         ; Dual (kill BOTH) when the outrage clears the bar and both live.
         (if (>= (dual-outrage-score) 2.5)
             (then (begin-belief {@self emotion [k anger] ?partner}): ?anger_bond
-                (begin-goal {@self kill ?partner} /caused_by ?anger_bond)
+                (begin-goal {@self kill ?partner /caused_by ?anger_bond})
                 (begin-belief {@self emotion [k contempt] ?interloper}): ?contempt_bond
-                (begin-goal {@self kill ?interloper} /caused_by ?contempt_bond))
+                (begin-goal {@self kill ?interloper /caused_by ?contempt_bond}))
             ; Else single-blame: the partner when blaming HER outweighs blaming the
             ; interloper (score_macros.hs spells out both scales), else the interloper.
             (else (if (>= (blame-partner-score ?partner)
                     (blame-interloper-score ?partner ?interloper))
                 (then (begin-belief {@self emotion [k anger] ?partner}): ?anger_bond
-                      (begin-goal {@self kill ?partner} /caused_by ?anger_bond))
+                      (begin-goal {@self kill ?partner /caused_by ?anger_bond}))
                 (else (if (none {?interloper condition [k dead]})
                     (then (begin-belief {@self emotion [k contempt] ?interloper}): ?contempt_bond
-                          (begin-goal {@self kill ?interloper} /caused_by ?contempt_bond)))))))))))
+                          (begin-goal {@self kill ?interloper /caused_by ?contempt_bond})))))))))))

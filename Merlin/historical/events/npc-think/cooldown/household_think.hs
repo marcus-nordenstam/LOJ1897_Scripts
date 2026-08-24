@@ -138,10 +138,10 @@
               {?home lunch_hour ?l}       ; hours bind at fire for the
               {?home supper_hour ?s})
 
-  ; The cheap per-mind gate first: (asked-me-about) walks only @self's own
-  ; heard-SAY records and fails fast when nobody asked.
-  (asked-me-about supper_hour):?asker
-  (when ?asker)
+  ; Someone asked @self about supper_hour: a heard qs about supper_hour with
+  ; @self as the audience. Binds ?asker (the speaker, not @self).
+  (role ?asker (any_human ?asker)
+               {?asker SAY (qs {? supper_hour ?}) @self /past})
 
   (effects
     (tell-to ?asker (utterable-msg (to ?asker)

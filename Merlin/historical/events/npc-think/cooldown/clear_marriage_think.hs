@@ -87,4 +87,4 @@
         ; DIRECT: the cheater acts alone. The lover bond (find-or-create reuses the
         ; gating belief) is the motive pin.
         (else (begin-belief {@self lover ?paramour}): ?lover_bond
-              (begin-goal {@self kill ?spouse} /caused_by ?lover_bond)))))
+              (begin-goal {@self kill ?spouse /caused_by ?lover_bond})))))

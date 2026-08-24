@@ -95,9 +95,9 @@
   ; Mint the kill goal toward the resolved victim. /caused_by pins the first fixation
   ; belief (the gate's believes binds ?fix - a kind-valued feature - and the
   ; find-or-create reuses that exact belief; the appetitive signature the rap-sheet
-  ; reads). mark-stalk arms the ~30-day surprise weight modifier attempt_harm reads.
+  ; reads). The kill goal IS the stalk record: attempt_harm's surprise-weight reads
+  ; how long @self has been pursuing this victim off the goal's age.
   (utility want)
   (effects
     (begin-belief {@self fixation ?fix}): ?fixation_bond
-    (begin-goal {@self kill ?victim} /caused_by ?fixation_bond)
-    (mark @self [k stalk_target] ?victim 30)))
+    (begin-goal {@self kill ?victim /caused_by ?fixation_bond})))

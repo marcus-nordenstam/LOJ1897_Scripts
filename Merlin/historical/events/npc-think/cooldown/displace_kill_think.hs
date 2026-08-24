@@ -61,4 +61,4 @@
   (effects
     (caused-by ?kgoal-rel {@self pressure ?}): ?pressure-rel
     (end-goal {@self kill ?focus})
-    (begin-proposal {@self hurt ?sub} /caused_by ?pressure-rel)))
+    (begin-proposal {@self hurt ?sub /caused_by ?pressure-rel})))

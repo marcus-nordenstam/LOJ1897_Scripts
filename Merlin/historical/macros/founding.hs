@@ -56,7 +56,7 @@
             (name (table-lookup businesses org_kind ?org-kind name [n unknown])))
 
         ; --- founder's mind: the org object + its constitutive beliefs ------------
-        (imagine-or-recall ?org-kind {?art declares_org ?org})
+        (o ?org-kind {?art declares_org @o}): ?org
         ; the org object's KIND as a queryable belief (imagine-or-recall sets the
         ; object kind but mints no isa belief; the belief-pure casting filters read
         ; isa, so every org-object-formation site mints it - keeps the cache matcher
@@ -77,7 +77,7 @@
             (worker @self) (job ?head-role) (level [k senior]))
         (begin-belief {?wp occupant @self})
         ; the head job object: org (job.org), seniority, work-hours. No salary (unpaid).
-        (imagine-or-recall ?head-role {@self job ?job})
+        (o ?head-role {@self job @o}): ?job
         (begin-belief {?job org ?org})
         (begin-belief {?job level [k senior]})
         (begin-belief {?job since (year)})
@@ -118,7 +118,7 @@
             (kind ?club-kind) (founder @self) (building ?wp) (year (year)) (register ?reg))
 
         ; --- founder's mind: the org object + its constitutive beliefs -----------
-        (imagine-or-recall ?club-kind {?art declares_org ?org})
+        (o ?club-kind {?art declares_org @o}): ?org
         ; read the kind back into a let-bound ?ok (macro param ?club-kind is not in
         ; let_names, so it reads free as a begin-belief pattern target - see found-org-seq).
         (read-doc-record [k articles_of_incorporation] ?art (kind ?ok))
@@ -165,7 +165,7 @@
     ; seated by found-org-seq mint NO salary (heading != being employed). The org
     ; lives ON the job object, so {@self job.org ?} chains (no separate employer).
     ; salary IS the yearly income (0 = unsalaried), read from income_by_level.
-    (imagine-or-recall ?job-kind {@self job ?job})
+    (o ?job-kind {@self job @o}): ?job
     (begin-belief {?job org ?org})
     (begin-belief {?job level ?level})
     (begin-belief {?job salary (table-lookup income_by_level level ?level income 0)})

@@ -19,7 +19,10 @@
 ; premises itself) - the same resolution the engine's mail_space_of uses to deliver, so
 ; a reader querying (spatial (mail-space ?p) contents [k mail_stack] /env) finds exactly what the service dropped.
 (define-macro mail-space (?premises)
-  (room-of ?premises [k hallway] [k living_room] [k kitchen]))
+  (first-present (spatial ?premises [k hallway])
+                 (spatial ?premises [k living_room])
+                 (spatial ?premises [k kitchen])
+                 ?premises))
 
 ; (post-letter [k <kind>] <msg> ?dest ?addressee): compose a <kind> letter carrying
 ; <msg>, addressed to ?addressee's NAME (the envelope tag the reader compares), its destination

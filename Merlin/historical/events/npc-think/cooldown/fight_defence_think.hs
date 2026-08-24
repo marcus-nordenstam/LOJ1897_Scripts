@@ -33,4 +33,4 @@
   (utility survival always-pick)
 
   (effects
-    (begin-proposal {@self fight ?foe} /caused_by ?witnessed-rel)))
+    (begin-proposal {@self fight ?foe /caused_by ?witnessed-rel})))

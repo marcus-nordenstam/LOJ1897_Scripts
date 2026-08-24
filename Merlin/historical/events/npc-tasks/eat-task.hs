@@ -56,7 +56,6 @@
       (role ?diner (any_human ?diner)
                    (spatial ?diner co-located @self)
                    (select (score 1) (policy roulette)))
-      (when (or (spatial @self building ?place) (spatial @self space ?place)))
       (effects
         (for-each ?belief-rel (every {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life_aim ?})
           (do

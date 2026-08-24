@@ -12,9 +12,8 @@
   (duration 10)
   (effects
     (if (is-a ?doc [k letter])
-        (then (read-writing ?doc)
+        (then (adopt-msg (attr ?doc writing))
               ; done with it: set the letter down where @self stands, emptying the
-              ; hand so the read_mail task can conclude. read-writing dedups an
-              ; already-read letter, so a re-proposed read is just this put-down.
+              ; hand so the read_mail task can conclude.
               (spatial-write ?doc location (spatial @self space /env))))
     (set-outcome {@self READ ?doc} succ)))

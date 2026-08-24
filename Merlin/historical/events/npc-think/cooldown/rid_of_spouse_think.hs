@@ -62,10 +62,10 @@
   (effects
     (if (any {@self detest ?spouse})
         (then (begin-belief {@self detest ?spouse}): ?detest_bond-rel
-              (begin-goal {@self kill ?spouse} /caused_by ?detest_bond-rel))
+              (begin-goal {@self kill ?spouse /caused_by ?detest_bond-rel}))
         (else (if (any {@self dislike ?spouse})
             (then (begin-belief {@self dislike ?spouse}): ?dislike_bond-rel
-                  (begin-goal {@self kill ?spouse} /caused_by ?dislike_bond-rel))
+                  (begin-goal {@self kill ?spouse /caused_by ?dislike_bond-rel}))
             (else (any {?spouse wealth ?}).target: ?spouse_wealth
                   (begin-belief {?spouse wealth ?spouse_wealth}): ?wealth_bond-rel
-                  (begin-goal {@self kill ?spouse} /caused_by ?wealth_bond-rel)))))))
+                  (begin-goal {@self kill ?spouse /caused_by ?wealth_bond-rel})))))))

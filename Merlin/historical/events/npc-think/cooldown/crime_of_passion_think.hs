@@ -74,4 +74,4 @@
     (if (none {?victim condition [k dead]})
         (then (debug-print "TRACE_KILLGOAL passion @self -> ?victim")
             (begin-belief {@self crave ?beloved}): ?crave_bond
-            (begin-goal {@self kill ?victim} /caused_by ?crave_bond)))))
+            (begin-goal {@self kill ?victim /caused_by ?crave_bond})))))

@@ -43,7 +43,7 @@
         (for-each-doc-record [k employee_register] ?reg (worker ?cw) (job ?jk) (level ?lvl)
           (if (!= ?cw @self)
               (then
-                (imagine-or-recall ?jk {?cw job ?cojob})
+                (o ?jk {?cw job @o}): ?cojob
                 (begin-belief {?cojob org ?org})
                 (begin-belief {?cojob level ?lvl}))))
 

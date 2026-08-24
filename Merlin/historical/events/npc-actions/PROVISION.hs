@@ -35,7 +35,7 @@
                   (then (create-entity [k pile] (qual location ?room)): ?new_basket
                         (set-attr ?new_basket content_kind [k food])
                         (set-attr ?new_basket count 0)
-                        (take-item ?new_basket)
+                        (spatial-write ?new_basket gripped_by (spatial @self left_hand))
                         (bind ?new_basket ?hand_pile)))
               (pile-add ?hand_pile ?grab)
               (begin-belief {@self provisions_shop ?shop})))))

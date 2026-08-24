@@ -71,5 +71,5 @@
     (any {?benefactor wealth ?}).target: ?benefactor_wealth
     (begin-belief {?benefactor wealth ?benefactor_wealth}): ?wealth_bond
     (if (= ?heir @self)
-        (then (begin-goal {@self kill ?benefactor} /caused_by ?wealth_bond))
-        (else (begin-goal {@self kill ?heir} /caused_by ?wealth_bond)))))
+        (then (begin-goal {@self kill ?benefactor /caused_by ?wealth_bond}))
+        (else (begin-goal {@self kill ?heir /caused_by ?wealth_bond})))))
