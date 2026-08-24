@@ -1,49 +1,14 @@
 
-# `location` is the universal whereabouts belief label: {X location Y} reads
-# "X is/was at place Y" for both props (the building/space a prop sits in) and
-# people (the dated where-were-you memory). The explicit (tar ?) keeps the state
-# target UNCONSTRAINED - a location may be a building, a room/space, an exterior
-# address-space, or a mental org object. @excl: a subject is in exactly ONE place
-# at a time, so minting a new whereabouts ENDS the prior one (closing its
-# interval) - without this an NPC accumulates many never-ending {X location Y}
-# beliefs and the comings-and-goings timeline is unreadable. (theme frequent)
-# routes ended whereabouts episodes through the sleep-time themed fuse: routine
-# comings-and-goings compress into the semantic gist while flashbulb-buffed
-# whereabouts (intensity-stamped by a co-occurring high-emotion event) survive
-# as the peak exemplar - the detective-relevant "I remember where I was".
-location (+ obs) (state) (tar ? @excl) (theme frequent) (location)
+# location / building / room state labels PURGED: `location` is now `space`, and
+# space / building / room are all declared as (spatial-label ...) decls in
+# spatial-struct.arc, which auto-register as belief-state labels (observe + @excl
+# set automatically; `space` carries (theme frequent)). Current-space reasoning is
+# the spatial index; there is no location/space attr or hand-written state entry.
+# The `frequent` whereabouts-habit belief moved to States.mon (it is behavioural,
+# not spatial).
 
-# `building` used as a belief label is spatial CONTAINMENT: {<space> building
-# <building>} = the space is enclosed by that building (the reverse of the
-# {<building> room <space>} skeleton link). The spatial index maps space ->
-# building off it. `building` is also a noun kind (Objects.mon); this explicit
-# (state) entry overrides the auto-generated noun-state placeholder in place to
-# attach the (containment) flag - the noun kind is untouched. Ownership was split
-# off to `owns_building` (Concepts.mon) so this label carries only the spatial sense.
-building (state) (tar building @excl) (building)
-
-# `room` used as a belief label is the FORWARD containment ({<building> room
-# <space>}). Containment is engine-written (the struct skeleton + spatial index),
-# so a present-tense `room` belief pattern reads a belief that no longer exists -
-# the (building) flag routes it into the spatial-legacy-surface lint (use the
-# (room)/(env-parts) ops instead). Same noun-state override shape as `building`.
-room (state) (tar space) (building)
-
-# `frequent` is location's semantic-summary label: the themed fuse folds a
-# subject's ended {X location <place>} episodes into an ongoing
-# {X frequent <place>} gist. It MUST be a different label from `location`
-# (episodic vs semantic must never share a label): location is @excl, and a
-# same-label summary would overlap the retained first/last/peak episodes and
-# trip the exclusivity validator. Non-excl on purpose - a subject frequents
-# many places over overlapping spans. Subject unconstrained (props accumulate
-# whereabouts episodes too).
-frequent (tar ?)
-
-# env_point: nav waypoints / spawnpoints (the env_point.arc archetype). Renamed
-# from the old `location` archetype/kind so the `location` name is reserved for
-# the whereabouts belief-label above and the space-as-location model (exterior
-# spaces are `space` entities, not env_points). Dormant in hsim - GrymEngine
-# runtime nav/spawn instantiates these.
+# env_point: nav waypoints / spawnpoints (the env_point.arc archetype). Dormant in
+# hsim - GrymEngine runtime nav/spawn instantiates these.
 env_point (+ obs)
     waypoint
     spawnpoint

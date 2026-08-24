@@ -15,6 +15,15 @@ relation
         within_reach_of         (tar object|space)
         facing                  (tar object|space)
 
+        # `frequent` is the whereabouts-HABIT summary: the sleep-time themed fuse
+        # folds a subject's ended {X space <place>} episodes (the `space` spatial
+        # label carries (theme frequent)) into one ongoing {X frequent <place>}
+        # gist - "X habitually goes to <place>". Behavioural, not a physical state;
+        # unconstrained target, non-excl (many places over overlapping spans; props
+        # accumulate whereabouts episodes too). Must differ from `space` (episodic
+        # vs semantic never share a label; `space` is @excl).
+        frequent                (tar ?)
+
         # to believe that someone ELSE knows something; theory-of-knowledge
         know                    (sub human)           (tar @S)
 

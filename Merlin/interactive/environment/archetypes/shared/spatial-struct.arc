@@ -48,7 +48,7 @@
 
 (spatial-label bounds     (spatial-struct space) (payload))
 (spatial-label where      (spatial-struct space))
-(spatial-label space      (spatial-struct space) (rung interior_space))
+(spatial-label space      (spatial-struct space) (rung interior_space) (theme frequent))
 (spatial-label building   (spatial-struct space) (rung building))
 (spatial-label town       (spatial-struct space) (rung town))
 (spatial-label contents   (spatial-struct space) (down))
