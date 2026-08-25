@@ -38,4 +38,4 @@
   (role ?dead (believes {?dead condition [k dead]}))
   (when {@self spouse|child|sibling ?dead})
   (utility duty)
-  (effects (begin-proposal {@self inherit ?dead})))
+  (effects (begin-proposal {@self receive_inheritance ?dead})))

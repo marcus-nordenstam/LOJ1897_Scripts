@@ -26,7 +26,7 @@
                   (set-outcome ?browse-rel succ)))))
     (try
       (when (and (unknown (spatial ?stack top))
-                 (not (bb-has (bb-read ?stack browse-inflight) browse-status))))
+                 (not (bb-private-any (bb-read ?stack browse-inflight) browse-status))))
       (effects
         (tolerate (observe (spatial ?stack top /env)): ?top)
         (if (nothing ?top)
@@ -37,7 +37,7 @@
     (try
       (role ?top (spatial ?stack top)
             (!= ?top (bb-read ?stack browse-cycle-end))
-            (not (bb-has (bb-read ?stack browse-inflight) browse-status)))
+            (not (bb-private-any (bb-read ?stack browse-inflight) browse-status)))
       (effects
         (debug-print "SBR_TAKE doc=?top")
         (maintain-proposal {@self STACK_TAKE ?top ?stack}
@@ -46,7 +46,7 @@
     (try
       (role ?top (spatial ?stack top)
             (= ?top (bb-read ?stack browse-cycle-end))
-            (not (bb-has (bb-read ?stack browse-inflight) browse-status)))
+            (not (bb-private-any (bb-read ?stack browse-inflight) browse-status)))
       (effects
         (debug-print "SBR_CYCLED")
         (bb-clear ?stack browse-cycle-end)
@@ -64,6 +64,6 @@
       (effects
         (debug-print "SBR_RETURN doc=?doc")
         (maintain-proposal {@self STACK_BURY ?doc ?stack}
-            (postlude (if (not (bb-has ?stack browse-cycle-end))
+            (postlude (if (not (bb-private-any ?stack browse-cycle-end))
                           (then (bb-write ?stack browse-cycle-end ?doc)))
                       (bb-clear ?doc browse-status)))))))

@@ -11,7 +11,7 @@
 
 (include "../../definitions/roles.hs")
 
-(npc-task {@self inherit ?dead}:?inherit-rel
+(npc-task {@self receive_inheritance ?dead}:?inherit-rel
   (tar human)
   (role ?dhome {?dead home ?dhome})
   (role ?will [k will] (spatial ?will building ?dhome))
