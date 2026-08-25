@@ -10,15 +10,14 @@
 ; Background per-year mortality curve: integer years-of-age -> death probability.
 ; Folds in pre-industrial infant + child mortality at the low end.
 (define-macro mortality_by_age (?age)
-  (age-bracket ?age
-    ((<  15)  0.006)
-    ((<  40)  0.005)
-    ((<  55)  0.010)
-    ((<  65)  0.022)
-    ((<  75)  0.050)
-    ((<  85)  0.110)
-    ((<  95)  0.220)
-    (else     1.000)))
+  (if (< ?age 15) (then 0.006)
+  (else (if (< ?age 40) (then 0.005)
+  (else (if (< ?age 55) (then 0.010)
+  (else (if (< ?age 65) (then 0.022)
+  (else (if (< ?age 75) (then 0.050)
+  (else (if (< ?age 85) (then 0.110)
+  (else (if (< ?age 95) (then 0.220)
+  (else 1.000)))))))))))))))
 
 ; Population homeostat tunables (constants). target_population is the carrying
 ; capacity both the per-NPC emigration (population-pressure) and the sparse-side
