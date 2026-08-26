@@ -4,7 +4,7 @@
 ; npc-act/burgle.hs (loaded first, so these rungs may use those macros).
 ;
 ;   burgle_go      : hold the steal goal -> pick an occupied non-home same-town
-;                    residence ((burgle-target), env-truth like (venue)) and
+;                    residence (env-truth, like (venue)) and
 ;                    travel there. No scene qualifies -> no act (try again at a
 ;                    later deliberation).
 ;   burgle_strike  : standing in a residence that is not my own with the goal
@@ -30,7 +30,7 @@
        (spatial @self building ?work)))
 
 ; APPROACH - hold the steal goal but not yet at a strikeable scene: pick an
-; occupied non-home same-town residence ((burgle-target), env-truth) and travel
+; occupied non-home same-town residence (env-truth) and travel
 ; there. Pushes the steal utility so the go sub-goal it maintains promotes; steal
 ; is a non-leaf while {@self go ?scene} stands. No scene qualifies -> nothing.
 (npc-think burgle_go
@@ -38,7 +38,7 @@
   (rng-stream theft)
   ; A residence the thief KNOWS that isn't his own home, picked at random. Bound at the
   ; EVENT level so ?scene is in scope for BOTH (effects) and (cease-effects). No known
-  ; target -> no fire (replaces the omniscient (burgle-target @self) env pick).
+  ; target -> no fire.
   (role ?scene [k residential_building]
         (not {@self home ?scene})
         (select (score (rng-unit)) (policy roulette)))
@@ -69,7 +69,7 @@
              (alive ?owner)
              (!= ?owner @self)))
   ; The LOOT is picked HERE (the first loose visible item priced worth taking - the
-  ; walk is the same env truth (venue)/(burgle-target) read); an empty-handed scene still
+  ; walk is the same env truth (venue) read); an empty-handed scene still
   ; ledgers the intrusion, discharges and ends the goal (nothing to take).
   (effects
     (if (at-own-workplace) (then embezzle) (else opportunist_theft)): ?method

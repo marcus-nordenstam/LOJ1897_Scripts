@@ -7,7 +7,7 @@
 ; Two rungs, the seek -> act shape of a fight:
 ;   tryst_slip     - a lover is in my BUILDING but we are not yet privately together
 ;                    (apart, or together with the spouse in the room). Slip off to a
-;                    vacant room. Both lovers resolve the SAME (vacant-room ...) and
+;                    vacant room. Both lovers resolve the SAME vacant room and
 ;                    converge there without signalling. This is the missing step: the
 ;                    household all clusters in the entrance room, so privacy must be
 ;                    SOUGHT.

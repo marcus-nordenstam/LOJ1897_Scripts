@@ -3,7 +3,7 @@
 ; promotes and dismisses), retirement.
 ; All operate through the hsim_org_lifecycle verbs; "employed" is the presence
 ; of an ongoing {@self job ?} belief, "rank" is the level belief on the
-; worker's job object (read via job-level).
+; worker's job object.
 ;
 ; hiring is an eligibility MATCH (the (select-record ...) in hire_errand_act binds
 ; the job kind, hire-seq mints the beliefs); retirement is an age-gated chance.

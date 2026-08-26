@@ -74,7 +74,7 @@
     (begin-goal {@self SEEK_INDENTURE ?org_record}))
   ;; MINTER owns ending: once the youth is indentured (gains a paid job / reads
   ;; trainee), this rule's (role @self (not {@self job.salary ?})) + the (when)
-  ;; live job-level-vs-trainee gate stops holding, and this falling
+  ;; trainee-rank gate stops holding, and this falling
   ;; edge ends the aim. A youth seeks ONE indenture at a time, so label-only keying
   ;; is fine. The act (apprentice_errand_act.hs) never ends the aim.
   (cease-effects (end-goal {@self SEEK_INDENTURE})))
@@ -83,7 +83,7 @@
   (cooldown 1 m)
   (rng-stream apprenticeship)
 
-  ;; The trainee is the sole deliberator (@self). job-level (live op) / job-tenure
+  ;; The trainee is the sole deliberator (@self). The trainee-rank read / job-tenure
   ;; (.start macro) / chance gate the fire in (when), not role selection.
   (role @self )
 

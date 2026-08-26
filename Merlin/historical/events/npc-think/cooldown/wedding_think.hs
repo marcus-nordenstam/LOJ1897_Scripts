@@ -34,7 +34,7 @@
   (role @self (unmarried_man @self)
               {@self fiancee ?fiancee})   ; existence cached, ?fiancee binds at fire
   ; The venue is a same-town church the groom KNOWS; nearest preferred, weighted.
-  ; No known church -> no fire (the goal waits). Replaces the omniscient (pick-location ...).
+  ; No known church -> no fire (the goal waits).
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
   (when (not (organizing-occasion [k wedding])))
   (effects

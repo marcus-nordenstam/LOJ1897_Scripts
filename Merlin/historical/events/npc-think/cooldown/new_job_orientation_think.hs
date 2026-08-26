@@ -18,7 +18,7 @@
 ; Not org heads (they already know their own org). The per-month (chance) keeps it
 ; periodic so newly-founded orgs are picked up over time (idempotent re-reads -
 ; imagine-or-recall recalls the existing object, begin-belief is idempotent). age /
-; job-level / chance are non-belief ops, so they gate the fire in (when).
+; chance are non-belief ops, so they gate the fire in (when).
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")

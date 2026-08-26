@@ -11,7 +11,7 @@
   (goal {@self SEEK_INDENTURE ?art})
   ; articles-building BINDS ?venue (the master's premises) off the ?art focus bound
   ; off the {@self SEEK_INDENTURE} goal, threading it to the at-place gate + the (go)
-  ; effect. The trainee gate quenches the lane once indentured (live job-level read):
+  ; effect. The trainee gate quenches the lane once indentured (the trainee-rank read):
   ; the SEEK_INDENTURE goal lingers until the minter's monthly falling edge, so
   ; without it a freshly-hired trainee would keep walking back to re-present at the door.
   (when (and (articles-building ?art ?venue)
@@ -28,7 +28,7 @@
   (goal {@self SEEK_INDENTURE ?art})
   ; The trainee gate blocks re-proposing (and so re-running) indenture_act during the
   ; gap between the hire and the minter's monthly falling-edge cease of the aim: once
-  ; hire-seq sets the youth's live job-level to trainee, this stops proposing.
+  ; hire-seq sets the youth's job level to trainee, this stops proposing.
   (when (and (articles-building ?art ?venue)
              (spatial @self building ?venue)
              (!= (any {(any {@self job ?}).target level ?}).target [k trainee])))

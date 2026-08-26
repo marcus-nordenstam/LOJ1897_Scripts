@@ -1,6 +1,5 @@
 ; ----------------------------------------------------------------------------
-; close_business - the per-owner business-FAILURE decision (was the town-level
-; zero-role (fail-businesses 0.02) world-act macro).
+; close_business - the per-owner business-FAILURE decision.
 ;
 ; The flat annual 2% market cull becomes per-proprietor pressure: each December a
 ; business owner weighs his OWN standing (means + merit) against the town's
