@@ -33,13 +33,6 @@
                (then (+ (- (* ?start 60) (now-min)) 1440))
                (else (- (* ?start 60) (now-min)))) 120)))
 
-; (minutes-until-shift-end ?end): minutes from now until the shift END hour,
-; wrapped to tomorrow when end is already past (a stay duration through the shift).
-(define-macro minutes-until-shift-end (?end)
-  (if (<= (- (* ?end 60) (now-min)) 0)
-      (then (+ (- (* ?end 60) (now-min)) 1440))
-      (else (- (* ?end 60) (now-min)))))
-
 ; Elapsed days since the most recent ?what ended. The (none ..) gate answers
 ; "never done" FIRST, so the (highest ..) recall only runs when a record
 ; exists and its .end is always a concrete date - no sentinel reads.

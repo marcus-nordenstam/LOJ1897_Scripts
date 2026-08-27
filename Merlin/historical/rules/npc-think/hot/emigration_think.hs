@@ -40,15 +40,7 @@
 (npc-think departed
   (role @self {@self DEPART /succ})
   (effects
-    (for-each ?jb-rel (every {@self job ?})
-        ?jb-rel.target: ?job
-        (for-each ?ob-rel (every {?job org ?})
-            ?ob-rel.target: ?org
-            (for-each ?ab-rel (every {?org record ?})
-                ?ab-rel.target: ?art
-                (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
-                (remove-doc-record [k employee_register] ?reg (find worker @self))))
-        (end-belief ?jb-rel))
+    (fire-self)
     (for-each ?hb-rel (every {@self home ?})
         ?hb-rel.target: ?home
         (if (any {@self own ?home})

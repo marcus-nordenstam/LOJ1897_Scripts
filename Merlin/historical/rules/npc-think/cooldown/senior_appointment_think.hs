@@ -64,6 +64,6 @@
     ;; public post. hire-seq mints the employment beliefs in @self's own mind
     ;; (no telepathy - @self IS the appointee). fire-first frees the @excl
     ;; job slot so the gov hire takes cleanly.
-    (fire /worker @self)
+    (fire-self)
     (hire-seq ?articles [k job official] [k senior])
     ))

@@ -45,14 +45,19 @@
   (when (or (in-month 3) (in-month 6) (in-month 9) (in-month 12)))
 
   (effects
-    (tolerate (find-my-enrollment):?art)
-    (if ?art
-      (then
-        (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
-        (read-doc-record [k employee_register] ?reg
-            (find worker @self) (job ?job) (level ?lvl))
-        (hire-beliefs ?art ?job ?lvl)
-        ))))
+    ; Scan the public incorporation registry for the NON-CLUB firm whose wage book
+    ; lists @self, and rebuild his employment beliefs from that row. First hit wins
+    ; (a worker holds one post); (break) ends the scan. A regular worker doesn't hold
+    ; {?org record}, so the register is reached by this objective scan, not a belief walk.
+    (for-each ?art (documents [k articles_of_incorporation])
+      (do
+        (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
+        (if (and (not (is-a ?ok [k org club]))
+                 (read-doc-record [k employee_register] ?reg
+                     (find worker @self) (job ?job) (level ?lvl)))
+          (then
+            (hire-beliefs ?art ?job ?lvl)
+            (break)))))))
 
 ; NOTE: there is NO (startup) twin of this rule. At the cold-start (startup) pass the
 ; only enrollments are org HEADS (found-org-seq mints their beliefs inline), so a startup

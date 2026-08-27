@@ -16,17 +16,14 @@
 ;                           reconstructs their OWN local occasion object, and holds
 ;                           the told copy of the host's own {<host> invite @self /aux <occ>}.
 ;
-;   review_appointments   : the monthly appointment scan EVERY grown NPC runs.
-;                           It closes appointments whose date has passed and emits
-;                           an attend goal {@self goal {@self attend <occ>}} for
-;                           any occasion currently due. (The attendance ACT that
-;                           drains that goal arrives with Item 4; for now the goal
-;                           is the queryable proof the pipeline works.)
+; Attendance itself is NOT here: a guest LEARNS the occasion by reading the host's
+; invitation letter (ordinary mail - its two sentences are {<host> invite @self /aux
+; <occ>} + {<occ> held_on <date>}), and the attend_think.hs drivers raise the attend
+; task (and a principal's wed duty) in the month held_on lands. No appointment scan.
 ;
 ; Validation (hsim <msb> mind <First> <Last>): a host shows {@self organize
-; <dinner_party>} with the occasion carrying host/venue/date/hours, then an
-; {@self goal {@self attend <dinner_party>}} in the month the date lands, and the
-; organize/attend memories close once the date has passed.
+; <dinner_party>} with the occasion carrying host/venue/date/hours, then the attend
+; task fires in the month the date lands.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
@@ -53,14 +50,6 @@
   (effects
     (plan-occasion @self [k dinner_party] (any {@self home ?}).target 0 18 22 informal)))
 
-; The monthly appointment review (npc-think): expire past appointments + emit
-; an attend goal for any occasion currently due. Runs for every grown NPC.
-; (cease-after-fire) makes it a clean monthly PULSE: (grown @self) never falls, so
-; without it the bout would hold after the first fire and the scan would never run
-; again; ceasing on fire lets the 1-month cooldown re-arm it every month.
-(npc-think review_appointments
-  (cooldown 1 m)
-  (cease-after-fire)
-  (role @self (grown @self))
-  (effects
-    (review-appointments @self attend)))
+; Attendance is no scan: reading the invitation (ordinary mail) leaves @self holding
+; {<host> invite @self /aux <occ>} + {<occ> held_on <date>}, and the attend_think.hs
+; drivers raise the attend / wed tasks in the month held_on lands. No review pass.

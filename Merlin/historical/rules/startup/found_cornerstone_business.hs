@@ -36,6 +36,7 @@
     ; market staffs it from the unemployed over subsequent ticks.
     (for-each-table-record cornerstone_businesses
         (kind ?k) (head_pos ?hp) (class_floor ?cf)
-      (if (and (not (any-org-of-kind ?k)) (class-at-least @self ?cf))
+      (if (and (= (count-documents [k articles_of_incorporation] (find kind ?k)) 0)
+               (class-at-least @self ?cf))
           (then (found-org-seq ?k ?hp)
               (break))))))

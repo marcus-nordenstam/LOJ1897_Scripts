@@ -94,7 +94,12 @@
              (chance 0.033)))
 
   (effects
-    (promote /worker @self)
+    ;; Advance his own rank one rung (trainee -> apprentice; the (when) gates this
+    ;; lane to trainees). His own job belief only - the master's standing assessment
+    ;; is the master's to re-accrue, never edited from here.
+    (any {@self job ?}).target: ?job
+    (end-belief {?job level [k trainee]})
+    (begin-belief {?job level [k apprentice]})
     (for-each ?mb-rel (every {@self master ?})
         (end-belief ?mb-rel))
     ))

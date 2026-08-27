@@ -34,17 +34,6 @@
 ; homeostat_emigration "emigrate the oldest N by fiat" world valve.
 (define-macro population-pressure () (/ (living-npc-count) (homeostat_target_population)))
 
-; Org-count homeostats (replace the retired C++ articles-doc scan). An org is a known
-; entity is-a its kind; both read @self's own {?o isa ?k} beliefs of the org register.
-; (any-org-of-kind ?k): does @self know of any org is-a ?k? (the founding-sparsity gate).
-(define-macro any-org-of-kind (?k)
-  (any {?o isa ?k}))
-
-; (orgs-below-population-floor ?k ?divisor): fewer known orgs is-a ?k than one per
-; ?divisor living NPCs - the business-scarcity floor that stops over-minting.
-(define-macro orgs-below-population-floor (?k ?divisor)
-  (< (count (every {?o isa ?k})) (/ (living-npc-count) ?divisor)))
-
 ; Labour market: the wealth ceiling above which an NPC does NOT seek waged work (the
 ; independently wealthy). Wealth is the {@self wealth ?w} belief (~0..1.25, balance/120);
 ; only the genuinely rich clear this bar. A seeker with no wealth belief yet is treated

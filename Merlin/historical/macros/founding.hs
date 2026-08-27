@@ -128,7 +128,10 @@
         (begin-belief {?org record ?art})
 
         ; --- the founder is the club's first MEMBER (member_of, not employment) ---
-        (register-member /articles ?art /member @self)))))
+        ; a membership roster row [member membership] (no level - a club membership
+        ; carries no rank) + the member_of belief in his own mind. ?reg / ?org bound above.
+        (write-doc-record [k employee_register] ?reg (worker @self) (job [k membership]))
+        (begin-belief {@self member_of ?org})))))
 
 ; ----------------------------------------------------------------------------
 ; hire-beliefs - the BELIEF-ONLY half of hiring (no roster write).
@@ -205,3 +208,24 @@
         (worker @self) (job ?job-kind) (level ?level))
     ; --- the employment beliefs in @self's mind --------------------------------
     (hire-beliefs ?art ?job-kind ?level)))
+
+; ----------------------------------------------------------------------------
+; fire-self - a worker leaves his OWN post. Scrubs @self's row off the firm's
+; employee_register (a public doc, keyed on him via (find worker @self)) and
+; ends his OWN {@self job} belief (its org / salary / level decorations go with
+; it). The register is reached by @self's own forward belief walk: {@self job.org}
+; -> {org record} -> the articles' `register` field. Every step is @self / a
+; public doc - no cross-mind write. (A boss firing SOMEONE ELSE cannot end their
+; beliefs; the sacked worker reconciles his own stale row.)
+; ----------------------------------------------------------------------------
+
+(define-macro fire-self ()
+  (for-each ?fire-jrel (every {@self job ?})
+      ?fire-jrel.target: ?fire-job
+      (for-each ?fire-orel (every {?fire-job org ?})
+          ?fire-orel.target: ?fire-org
+          (for-each ?fire-arel (every {?fire-org record ?})
+              ?fire-arel.target: ?fire-art
+              (read-doc-record [k articles_of_incorporation] ?fire-art (register ?fire-reg))
+              (remove-doc-record [k employee_register] ?fire-reg (find worker @self))))
+      (end-belief ?fire-jrel)))

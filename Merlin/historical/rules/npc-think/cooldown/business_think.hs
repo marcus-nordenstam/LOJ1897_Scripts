@@ -216,7 +216,9 @@
              (none {@self job [k head_of_non_household_org]})
              (latch-eval (chance 0.05)
                               (no-goal {@self FOUND})
-                              (orgs-below-population-floor [k org business] 12))))
+                              (< (* (count-documents [k articles_of_incorporation]
+                                        (find kind [k org business])) 12)
+                                 (living-npc-count)))))
 
   (utility errand)
   (effects       (begin-goal {@self FOUND}))

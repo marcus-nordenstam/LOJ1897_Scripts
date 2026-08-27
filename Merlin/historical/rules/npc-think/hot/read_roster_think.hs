@@ -31,12 +31,17 @@
   (when (or (in-month 3) (in-month 6) (in-month 9) (in-month 12)))
 
   (effects
-    ; Reach my firm's register off my enrolment; ?org (my job.org object, above) is
-    ; where colleague beliefs hang so they JOIN my own {@self job.org ?org}.
-    (tolerate (find-my-enrollment):?art)
-    (if ?art
-      (then
-        (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
+    ; Reach my firm's register by scanning the public incorporation registry for the
+    ; NON-CLUB firm whose wage book lists @self (a regular worker doesn't hold
+    ; {?org record}, so the register is found by this objective scan, not a belief
+    ; walk). ?org (my job.org object, role above) is where colleague beliefs hang so
+    ; they JOIN my own {@self job.org ?org}. First hit wins; (break) ends the scan.
+    (for-each ?art (documents [k articles_of_incorporation])
+     (do
+      (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
+      (if (and (not (is-a ?ok [k org club]))
+               (read-doc-record [k employee_register] ?reg (find worker @self)))
+       (then
 
         ; (1) REFRESH - one colleague job object per roster row (skip my own row),
         ; mirroring my own job object so {?cw job.org ?org} / rank / head-ness read uniformly.
@@ -57,4 +62,5 @@
             ?jb-rel.subject: ?other
             (if (and (!= ?other @self)
                      (not (read-doc-record [k employee_register] ?reg (find worker ?other))))
-                (then (end-belief ?jb-rel)))))))))
+                (then (end-belief ?jb-rel)))))
+        (break)))))))

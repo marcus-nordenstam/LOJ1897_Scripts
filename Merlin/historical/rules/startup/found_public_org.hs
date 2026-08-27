@@ -38,6 +38,7 @@
     ; subsequent ticks. employee_count / employee_role are no longer read here.
     (for-each-table-record public_orgs
         (kind ?k) (head_pos ?hp) (class_floor ?cf)
-      (if (and (not (any-org-of-kind ?k)) (class-at-least @self ?cf))
+      (if (and (= (count-documents [k articles_of_incorporation] (find kind ?k)) 0)
+               (class-at-least @self ?cf))
           (then (found-org-seq ?k ?hp)
               (break))))))

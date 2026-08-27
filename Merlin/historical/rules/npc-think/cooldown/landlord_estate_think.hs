@@ -44,4 +44,23 @@
 
   (effects
     (found-org-seq [k org estate] [k job landlord])
-    (reassign-rentals-to-estate @self)))
+    ; Vest every rental @self owns into the estate he just founded: re-point the
+    ; deed's owner to the estate's articles and drop his own {own} - the ESTATE owns
+    ; it now (inherited / dissolved with the estate, not lumped with his home). The
+    ; estate is his articles that is-a estate (founder @self); a public-doc scan + his
+    ; own belief drop, no cross-mind write. An owner-occupied home matches neither
+    ; rental signal, so it is left his.
+    (for-each ?ea (documents [k articles_of_incorporation])
+      (do
+        (read-doc-record [k articles_of_incorporation] ?ea (kind ?ok) (founder ?f))
+        (if (and (= ?f @self) (is-a ?ok [k org estate]))
+          (then
+            (for-each ?deed (documents [k title_deed])
+              (do
+                (read-doc-record [k title_deed] ?deed (owner ?o) (building ?b))
+                (if (and (= ?o @self)
+                         (or {?b availability [k for_rent]} {?b tenant ?}))
+                  (then
+                    (update-doc-record [k title_deed] ?deed (owner ?ea))
+                    (end-belief {@self own ?b})))))
+            (break)))))))
