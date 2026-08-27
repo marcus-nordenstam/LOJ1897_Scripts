@@ -8,7 +8,7 @@
 
 (npc-task {@self defraud ?victim}:?defraud-rel
   (tar human)
-  (construed_act appropriation_act wrong_act betray_act) (theme thief_to)
+  (construed_act appropriation_act wrong_act betray_act) (theme thief_to) (contradicts property)
   (facets reportable_crime blackmailable)
   (try
     (role @self)

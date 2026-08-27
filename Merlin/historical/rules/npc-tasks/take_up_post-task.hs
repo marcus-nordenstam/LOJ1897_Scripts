@@ -14,12 +14,14 @@
       (when (not (spatial @self building ?wp)))
       (effects (maintain-proposal {@self enter ?wp})))
     (try
-      (role ?art [k articles_of_incorporation] (spatial ?art building ?wp))
+      ; The wage book, perceived at the workplace; the task resolves it and hands it to
+      ; the dumb ENROL - no org/register resolution inside the act.
+      (role ?reg [k employee_register] (spatial ?reg building ?wp))
       (when (and (spatial @self building ?wp)
                  (>= (now-hour) 9)
                  (<= (now-hour) 16)
                  (none {@self job.salary ?})))
-      (effects (maintain-proposal {@self TAKE_POST ?art ?jk})))
+      (effects (maintain-proposal {@self ENROL ?reg ?jk})))
     (try
       (role ?art [k articles_of_incorporation] (spatial ?art building ?wp))
       (role ?reg [k employee_register] (spatial ?reg building ?wp))

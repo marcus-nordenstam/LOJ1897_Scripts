@@ -9,7 +9,7 @@
 
 (npc-task {@self embezzle ?victim}:?embezzle-rel
   (tar human|org)
-  (construed_act appropriation_act wrong_act betray_act) (theme thief_to)
+  (construed_act appropriation_act wrong_act betray_act) (theme thief_to) (contradicts trust)
   (facets reportable_crime blackmailable)
   (try
     (role @self)

@@ -21,7 +21,7 @@
 
 (npc-task {@self disinherit ?victim}:?disinherit-rel
   (tar human)
-  (construed_act abandonment_act wrong_act)
+  (construed_act abandonment_act wrong_act) (contradicts kin_loyalty)
   (and
     ; REACH the victim - route to them, or their home if their location is unknown.
     (try

@@ -8,7 +8,7 @@
 
 (npc-task {@self kidnap ?victim}:?kidnap-rel
   (tar human)
-  (construed_act coercion_act threaten_act wrong_act) (theme coercive_to)
+  (construed_act coercion_act threaten_act wrong_act) (theme coercive_to) (contradicts liberty)
   (facets reportable_crime) (obs)
   (try
     (role @self)

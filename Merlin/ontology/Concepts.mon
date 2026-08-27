@@ -72,6 +72,18 @@ concept
     legal_right
         property        (sub being)
 
+    # Held-VALUE taxonomy: the virtues a person can be attested to hold via
+    # {person value <kind>} attitude beliefs (States.mon `value`). The wrong_act
+    # reflex gate compares an act's (contradicts <kind>) declaration against
+    # them; `property` reuses the legal_right kind above.
+    held_value
+        life
+        safety
+        trust
+        liberty
+        kin_loyalty
+        privacy
+
     # Life-state axis (@excl - one value at a time per subject). alive is the
     # universal default (the condition attr's default value); a dead-mint
     # supersedes it via @excl contradiction resolution at every channel (percept
@@ -943,15 +955,6 @@ concept
         wage
         annual_wage
 
-    # Message classes - the verbal-method vocabulary, a property of the MESSAGE not
-    # a task. A verbal act's memory is a SAY belief whose msg carries a (msg_class
-    # <leaf>) arg; is_msg_class_label routes it to that SAY-memory form and categorize()
-    # reads the leaf's (construed_act ...) off the msg_class. These are NOT tasks.
-    msg_class
-        insult          (construed_act slight_act)
-        jilt            (construed_act abandonment_act wrong_act)
-        urge            (construed_act coercion_act)
-
     # Reified act-categories - the context-free "what kind of act" tags
     # that the appraisal pipeline reads off any anchor belief
     # (Docs/emotion/emotion_system.md).
@@ -1021,6 +1024,19 @@ concept
         # public_humiliation perpetration leaf. Appended at end to keep
         # kind ids stable.
         degrade_act
+
+    # Message classes - the verbal-method vocabulary, a property of the MESSAGE not
+    # a task. A verbal act's memory is a SAY belief whose msg carries a (msg_class
+    # <leaf>) arg; is_msg_class_label routes it to that SAY-memory form and categorize()
+    # reads the leaf's (construed_act ...) off the msg_class. These are NOT tasks.
+    # (+ noun): the construed_act decorations are relation flags; without the
+    # explicit noun mark they would trip define()'s noun-vs-relation inference
+    # (same convention as the kinship block).
+    msg_class           (+ noun)
+        insult          (construed_act slight_act)
+        jilt            (construed_act abandonment_act wrong_act)
+        urge            (construed_act coercion_act)
+
 
     sky_condition
         clear
@@ -1130,43 +1146,43 @@ concept
     # makes every role explicitly a noun, so the bond decorations below
     # (relation flags) do not trip define()'s noun-vs-relation inference.
     relationship        (+ sub human)  (+ tar human)  (+ noun)
-        parent          (inclusive_bond)  (disclosure acquaintance)
-        mother          (tar @excl)  (inclusive_bond)  (disclosure acquaintance)
-        father          (tar @excl)  (inclusive_bond)  (disclosure acquaintance)
+        parent          (inclusive_bond)  (close_kin)  (disclosure acquaintance)
+        mother          (tar @excl)  (inclusive_bond)  (close_kin)  (disclosure acquaintance)
+        father          (tar @excl)  (inclusive_bond)  (close_kin)  (disclosure acquaintance)
         brother         (inclusive_bond)  (disclosure acquaintance)
         sister          (inclusive_bond)  (disclosure acquaintance)
-        sibling         (inclusive_bond)  (disclosure acquaintance)
-        half_sibling    (inclusive_bond)  (disclosure acquaintance)
-        grandmother     (tar @excl)  (inclusive_bond)  (disclosure acquaintance)
-        grandfather     (tar @excl)  (inclusive_bond)  (disclosure acquaintance)
-        grandparent     (inclusive_bond)  (disclosure acquaintance)
-        grandchild      (inclusive_bond)  (disclosure acquaintance)
-        aunt            (inclusive_bond)  (disclosure acquaintance)
-        uncle           (inclusive_bond)  (disclosure acquaintance)
-        niece           (inclusive_bond)  (disclosure acquaintance)
-        nephew          (inclusive_bond)  (disclosure acquaintance)
-        cousin          (inclusive_bond)  (disclosure acquaintance)
-        mother_in_law   (tar @excl)  (inclusive_bond)
-        father_in_law   (tar @excl)  (inclusive_bond)
+        sibling         (inclusive_bond)  (close_kin)  (disclosure acquaintance)
+        half_sibling    (inclusive_bond)  (close_kin)  (disclosure acquaintance)
+        grandmother     (tar @excl)  (inclusive_bond)  (extended_kin)  (disclosure acquaintance)
+        grandfather     (tar @excl)  (inclusive_bond)  (extended_kin)  (disclosure acquaintance)
+        grandparent     (inclusive_bond)  (extended_kin)  (disclosure acquaintance)
+        grandchild      (inclusive_bond)  (extended_kin)  (disclosure acquaintance)
+        aunt            (inclusive_bond)  (extended_kin)  (disclosure acquaintance)
+        uncle           (inclusive_bond)  (extended_kin)  (disclosure acquaintance)
+        niece           (inclusive_bond)  (extended_kin)  (disclosure acquaintance)
+        nephew          (inclusive_bond)  (extended_kin)  (disclosure acquaintance)
+        cousin          (inclusive_bond)  (extended_kin)  (disclosure acquaintance)
+        mother_in_law   (tar @excl)  (inclusive_bond)  (extended_kin)
+        father_in_law   (tar @excl)  (inclusive_bond)  (extended_kin)
         parent_in_law   (inclusive_bond)
-        sister_in_law   (inclusive_bond)
-        brother_in_law  (inclusive_bond)
+        sister_in_law   (inclusive_bond)  (extended_kin)
+        brother_in_law  (inclusive_bond)  (extended_kin)
         sibling_in_law  (inclusive_bond)
-        daughter_in_law (inclusive_bond)
-        son_in_law      (inclusive_bond)
+        daughter_in_law (inclusive_bond)  (extended_kin)
+        son_in_law      (inclusive_bond)  (extended_kin)
         child_in_law    (inclusive_bond)
         stepmother      (tar @excl)  (inclusive_bond)
         stepfather      (tar @excl)  (inclusive_bond)
         stepchild       (inclusive_bond)
-        child           (inclusive_bond)  (disclosure acquaintance)
+        child           (inclusive_bond)  (close_kin)  (disclosure acquaintance)
         # Guardianship. {?guardian ward ?ward_npc} reads
         # "guardian is the legal guardian of ward". Inclusive bond
         # (multiple wards possible). The case study's Ashcombe/Clara pair
         # uses this for the pre-perpetration relationship.
-        ward            (inclusive_bond)
-        spouse          (tar @excl)  (exclusive_bond)  (disclosure acquaintance)
-        fiancee         (tar @excl)  (exclusive_bond)  (disclosure acquaintance)
-        lover           (inclusive_bond)  (disclosure intimate)
+        ward            (inclusive_bond)  (extended_kin)
+        spouse          (tar @excl)  (exclusive_bond)  (close_kin)  (disclosure acquaintance)
+        fiancee         (tar @excl)  (exclusive_bond)  (close_kin)  (disclosure acquaintance)
+        lover           (inclusive_bond)  (close_kin)  (construed_act intimacy_act)  (disclosure intimate)
         friend          (inclusive_bond)  (disclosure acquaintance)
         acquaintance    (inclusive_bond)  (disclosure acquaintance)
         neighbour       (inclusive_bond)  (disclosure acquaintance)

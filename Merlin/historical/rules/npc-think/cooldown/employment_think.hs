@@ -55,8 +55,7 @@
              (> ?ws 0.7)
              (latch-eval (chance (* 0.12 (- ?ws 0.7))))))
   (utility errand)
-  (effects       (begin-goal {@self PROMOTE_STAFF ?w}))
-  (cease-effects (end-goal   {@self PROMOTE_STAFF ?w})))
+  (effects (maintain-proposal {@self promote_staff ?w})))
 
 ; --- retirement: an employed worker of 65+ leaves working life --------------
 ; SPLIT (Item 5, the great split): this rule is now the npc-THINK - the decision

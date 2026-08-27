@@ -13,7 +13,7 @@
 ;   - SUPPRESS-EXPOSE-ON-KILL: an actor who already holds a kill goal on
 ;     either corner of the triangle keeps the secret - no public fallout, no
 ;     divorce - exposing the affair would advertise the motive;
-;   - (appraise-betrayal) mints anger@partner + contempt@interloper + a
+;   - the betray_act reflex rows mint anger@partner + contempt@interloper + a
 ;     humiliation PRESSURE; the pressure feeds the ordinary deliberation table
 ;     (humiliation -> confront_privately / expose / humiliate / withdraw), so
 ;     the betrayed spouse confronts / exposes / shames the cheat on later
@@ -54,7 +54,7 @@
     (none {?partner spouse ?interloper})
     (select (policy first-match)))
 
-  ; Recourse to an APPRAISED betrayal (betrayal_appraise minted the anger @ partner),
+  ; Recourse to an APPRAISED betrayal (the betray_act reflex rows minted the anger @ partner),
   ; and only while @self is not answering it lethally: a killer keeps the secret,
   ; since exposing the affair would advertise the motive.
   (when (and (any {@self emotion [k anger] ?partner})

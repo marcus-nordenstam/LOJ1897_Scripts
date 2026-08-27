@@ -6,7 +6,7 @@
 ;   (theme violent_to)          - the ontology theme (theme violent_to) that both
 ;                                 the runtime-blame gate (appraisal.cc) and the
 ;                                 defender's (theme-labels violent_to) match read;
-;   (construed_act harm_act wrong_act) - it appraises as harm + blame. The BLAME is
+;   (construed_act harm_act) (contradicts safety) - harm is static; BLAME is
 ;                                 runtime: appraisal SUPPRESSES wrong_act for a blow
 ;                                 that traces (/caused_by) to a violent act on its
 ;                                 own actor (self-defence), so the aggressor is blamed
@@ -21,7 +21,7 @@
 ; grip may still throttle the life out over the exchange (the succumb roll). Ledgered
 ; as the `strangle` method of a `kill`.
 (npc-action {@self CHOKE ?foe}
-  (obs) (theme violent_to) (construed_act harm_act wrong_act) (duration 1) ;(track-skill-level [k garrotting]) 
+  (obs) (theme violent_to) (construed_act harm_act) (contradicts safety) (duration 1) ;(track-skill-level [k garrotting]) 
   (effects
     (strike-body
       (do (yield-evidence @self ?foe head ligature_mark) (kill-blow ?foe strangle))
@@ -32,7 +32,7 @@
 ; TRIGGER_FIREARM - the shoot task's firearm blow. A clean shot kills; a winging shot
 ; may still prove mortal (the succumb roll). Ledgered as the `shoot` method of a `kill`.
 (npc-action {@self TRIGGER_FIREARM ?foe}
-  (obs) (theme violent_to) (construed_act harm_act wrong_act) (duration 1) ;(track-skill-level [k marksmanship]) 
+  (obs) (theme violent_to) (construed_act harm_act) (contradicts safety) (duration 1) ;(track-skill-level [k marksmanship]) 
   (effects
     (strike-body
       (do (yield-evidence @self ?foe head puncture_wound) (kill-blow ?foe shoot))
@@ -45,7 +45,7 @@
 ; the clumsiness marker. NEVER fatal, no succumb roll. Both the fight-back (a victim
 ; repelling their attacker) and the hurt beating use it.
 (npc-action {@self PUNCH ?foe}
-  (obs) (theme violent_to) (construed_act harm_act wrong_act) (duration 1) ; (track-skill-level [k martial])
+  (obs) (theme violent_to) (construed_act harm_act) (contradicts safety) (duration 1) ; (track-skill-level [k martial])
   (effects
     (strike-body
       (do (yield-evidence @self ?foe head bruise) (set-attr ?foe awareness unconscious))

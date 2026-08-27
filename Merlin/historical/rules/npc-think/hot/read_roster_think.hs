@@ -31,38 +31,29 @@
   (when (or (in-month 3) (in-month 6) (in-month 9) (in-month 12)))
 
   (effects
-    ; Reach my firm's register by scanning the public incorporation registry for the
-    ; NON-CLUB firm whose wage book lists @self (a regular worker doesn't hold
-    ; {?org record}, so the register is found by this objective scan, not a belief
-    ; walk). ?org (my job.org object, role above) is where colleague beliefs hang so
-    ; they JOIN my own {@self job.org ?org}. First hit wins; (break) ends the scan.
-    (for-each ?art (documents [k articles_of_incorporation])
-     (do
-      (o {?art declares_org @o}): ?sorg
-      (any {?sorg isa ?}).target: ?ok
-      (any {?sorg employee_register ?}).target: ?reg
-      (if (and (not (is-a ?ok [k org club]))
-               (read-doc-record [k employee_register] ?reg (find worker @self)))
-       (then
+    ; My firm's register hangs off my own {?org employee_register ?reg} belief - learned
+    ; when I read the incorporation page at hire/orient (hire-beliefs adopt-msg). A belief
+    ; walk, no doc scan. ?org (my job.org, role above) is where colleague beliefs hang so
+    ; they JOIN my own {@self job.org ?org}. Any duty-holder reuses this by binding ?org.
+    (any {?org employee_register ?}).target: ?reg
+    (check ?reg)
 
-        ; (1) REFRESH - one colleague job object per roster row (skip my own row),
-        ; mirroring my own job object so {?cw job.org ?org} / rank / head-ness read uniformly.
-        (for-each-doc-record [k employee_register] ?reg (worker ?cw) (job ?jk) (level ?lvl)
-          (if (!= ?cw @self)
-              (then
-                (o ?jk {?cw job @o}): ?cojob
-                (begin-belief {?cojob org ?org})
-                (begin-belief {?cojob level ?lvl}))))
+    ; (1) REFRESH - one colleague job object per roster row (skip my own row), mirroring
+    ; my own job object so {?cw job.org ?org} / rank / head-ness read uniformly.
+    (for-each-doc-record [k employee_register] ?reg (worker ?cw) (job ?jk) (level ?lvl)
+      (if (!= ?cw @self)
+          (then
+            (o ?jk {?cw job @o}): ?cojob
+            (begin-belief {?cojob org ?org})
+            (begin-belief {?cojob level ?lvl}))))
 
-        ; (2) RECONCILE - forget colleagues no longer listed: walk the job objects I
-        ; believe belong to ?org, bind each one's holder, and drop the tie for any holder
-        ; (not me) who no longer appears as a worker row. Two single-?var walks (job
-        ; object at ?org -> its holder), since for-each-present-tense-belief binds one var each.
-        (for-each ?ojb-rel (every {? org ?org})
-          ?ojb-rel.subject: ?ojob
-          (for-each ?jb-rel (every {? job ?ojob})
-            ?jb-rel.subject: ?other
-            (if (and (!= ?other @self)
-                     (not (read-doc-record [k employee_register] ?reg (find worker ?other))))
-                (then (end-belief ?jb-rel)))))
-        (break)))))))
+    ; (2) RECONCILE (negative confirmation) - forget colleagues no longer listed: walk the
+    ; job objects I believe belong to ?org, bind each holder, and drop the tie for any holder
+    ; (not me) no longer on a worker row.
+    (for-each ?ojb-rel (every {? org ?org})
+      ?ojb-rel.subject: ?ojob
+      (for-each ?jb-rel (every {? job ?ojob})
+        ?jb-rel.subject: ?other
+        (if (and (!= ?other @self)
+                 (not (read-doc-record [k employee_register] ?reg (find worker ?other))))
+            (then (end-belief ?jb-rel)))))))

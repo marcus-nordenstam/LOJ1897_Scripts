@@ -11,7 +11,7 @@
 
 (npc-task {@self steal ?kind}:?steal-rel
   (tar ?)
-  (construed_act appropriation_act wrong_act) (theme thief_to)
+  (construed_act appropriation_act wrong_act) (theme thief_to) (contradicts property)
   (facets reportable_crime blackmailable)
   (and
     ; not at a source -> head to a shop that stocks the kind.

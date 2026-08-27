@@ -27,7 +27,7 @@
 
 (npc-task {@self kill ?victim}:?kill-rel
   (tar human)
-  (construed_act harm_act wrong_act) (theme violent_to)
+  (construed_act harm_act) (theme violent_to) (contradicts life)
   (facets reportable_crime blackmailable)
   (try
     (when (none {?victim condition [k dead]}))

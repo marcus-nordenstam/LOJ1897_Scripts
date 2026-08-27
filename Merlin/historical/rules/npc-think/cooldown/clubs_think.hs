@@ -97,8 +97,7 @@
   ; join_club <articles>}} (focus = the club's articles, {?club_org record}); the npc-action
   ; (club_join_errand.hs) sends the member to the clubhouse and registers him there.
   (utility errand)
-  (effects       (begin-goal {@self JOIN_CLUB (any {?club_org record}).target}))
-  (cease-effects (end-goal   {@self JOIN_CLUB})))
+  (effects (maintain-proposal {@self join_club (any {?club_org record}).target})))
 
 ; club_gathering RETIRED (place-and-time reframe, Section 4.8 P2b): club members
 ; are now drawn to the clubhouse by the band itinerary's SOCIAL lane (members
@@ -127,5 +126,4 @@
   ; resign_club}}; the npc-action (club_resign_errand.hs) sends the member to a clubhouse and
   ; unregisters him there (unregister-member resolves his own club).
   (utility errand)
-  (effects       (begin-goal {@self RESIGN_CLUB}))
-  (cease-effects (end-goal   {@self RESIGN_CLUB})))
+  (effects (maintain-proposal {@self resign_club})))

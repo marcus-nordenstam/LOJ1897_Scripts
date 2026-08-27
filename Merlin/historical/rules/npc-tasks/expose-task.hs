@@ -14,7 +14,7 @@
 
 (npc-task {@self expose ?victim}:?expose-rel
   (tar @S)
-  (construed_act expose_act betray_act wrong_act)
+  (construed_act expose_act betray_act wrong_act) (contradicts privacy)
   (and
     (try
       (when (and (not {@self spouse ?victim})
