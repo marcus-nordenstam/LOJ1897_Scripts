@@ -11,8 +11,14 @@
 ;   (articles-building ?articles ?b) -> binds ?b = the org's premises building
 ; ----------------------------------------------------------------------------
 
-(define-macro org-founder (?doc ?f)
-  (read-doc-record [k articles_of_incorporation] ?doc (founder ?f)))
+; Belief reads, NOT doc scans (reasoning is from beliefs). The caller passes the
+; articles doc ?art (a goal focus or a {?org record ?art} bind); these recover the
+; org OBJECT off the reader's own {?org record ?art} belief, then read the org's
+; constitutive founder / workplace belief. Names kept for call-site continuity.
+(define-macro org-founder (?art ?f)
+  (and (any {? record ?art}).subject: ?art_org
+       {?art_org founder ?f}))
 
-(define-macro articles-building (?doc ?b)
-  (read-doc-record [k articles_of_incorporation] ?doc (building ?b)))
+(define-macro articles-building (?art ?wp)
+  (and (any {? record ?art}).subject: ?art_org
+       {?art_org workplace ?wp}))

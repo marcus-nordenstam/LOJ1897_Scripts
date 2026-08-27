@@ -52,7 +52,9 @@
     ; rental signal, so it is left his.
     (for-each ?ea (documents [k articles_of_incorporation])
       (do
-        (read-doc-record [k articles_of_incorporation] ?ea (kind ?ok) (founder ?f))
+        (o {?ea declares_org @o}): ?org
+        (any {?org isa ?}).target: ?ok
+        (any {?org founder ?}).target: ?f
         (if (and (= ?f @self) (is-a ?ok [k org estate]))
           (then
             (for-each ?deed (documents [k title_deed])

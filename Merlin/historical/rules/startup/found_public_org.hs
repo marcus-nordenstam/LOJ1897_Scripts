@@ -19,6 +19,10 @@
 (npc-think found_public_org
   (startup)
   (rng-stream business)
+  ; Serialize founding: one NPC reads the org registry, founds a still-needed
+  ; org and appends its kind before the next reads it, so two founders can never
+  ; both see count 0 for the same kind and double-found it.
+  (lock-rule)
 
   ; CACHED self-gate filters. THE FOUNDING CAP: an NPC heads at most ONE
   ; non-household org - a man who has already founded (here or in
@@ -38,7 +42,7 @@
     ; subsequent ticks. employee_count / employee_role are no longer read here.
     (for-each-table-record public_orgs
         (kind ?k) (head_pos ?hp) (class_floor ?cf)
-      (if (and (= (count-documents [k articles_of_incorporation] (find kind ?k)) 0)
+      (if (and (= (count (attr-values @gm all_org_kinds ?k)) 0)
                (class-at-least @self ?cf))
           (then (found-org-seq ?k ?hp)
               (break))))))

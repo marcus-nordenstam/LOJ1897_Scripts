@@ -402,6 +402,11 @@ relation
             # delivery and reads his appointments as {?host invite @self /aux
             # ?occ} (review_appointments).
             invite              (tar human)  (aux occasion)
+            # Sporting-event goal-drivers (sporting_event / sporting_judge lanes).
+            # hold_meet: the club officer's standing goal to run a meet (tar = the
+            # club's articles). judge_meet: the judge's standing goal to officiate.
+            hold_meet           (tar ?)
+            judge_meet
 
         # Competence - the domains an NPC is practically skilled in. Targets a
         # `domain` kind (Concepts.mon): the academic_field disciplines (classics,
@@ -461,6 +466,12 @@ relation
             # DEFINED so it PERSISTS the carry-home journey (an undefined /obs label is
             # disproved by self-perception every cycle).
             carrying_loot       (tar ?)
+            # stow: the goal to put loot away (want_stow OWNS {@self stow ?item
+            # ?place}, stow_act ends it). tar = the loot item, aux = the cache.
+            stow                (tar ?)  (aux ?)
+            # staff_household: the standing goal a household head holds to fill
+            # its servant posts (staff_household_think mints {@self staff_household}).
+            staff_household
             # since: the year the job was taken up, held on the job object ({?j since <year>}).
             # Drives tenure for the duty-assignment seniority comparison. Stamped at hire.
             since               (sub org_pos)  (tar ? @excl)
@@ -515,6 +526,15 @@ relation
             # the patient applied for; outbid them at auction; married
             # the partner they courted).
             outdo               (tar human)  (aux ?)  (construed_act rivalrous_act)  (abduct)
+            # public_humiliation: the class-tagged status-injury fact a humiliate
+            # act SAYs aloud ({@self public_humiliation ?victim}); the victim
+            # perceives + construes it (degrade_act cascade). INTERIM content - the
+            # construed_act / barb-content wiring is the deferred follow-up.
+            public_humiliation  (tar human)
+            # confront_publicly: the status-injury fact an expose act broadcasts
+            # ({@self confront_publicly ?victim}); the expose-lane crime-ledger + the
+            # gossip news ground-alt read it. Sibling of public_humiliation.
+            confront_publicly   (tar human)
 
         # Loss-outcome records. NOT tasks - act-RECORDS minted by the
         # absence-discovery classifier (the hse arrival sweep) when an
@@ -556,6 +576,10 @@ relation
             interest            (tar domain)  (disclosure acquaintance)
             calling             (tar domain @excl)  (disclosure friend)
             craving             (tar ?)
+            # forage: the transient food-acquisition goal (meals_think mints
+            # {@self forage}, the food-source desires drive it). A goal-driver
+            # label, not a disposition; defined so the goal clause is a valid term.
+            forage
             # life_aim - the existential-frame drive: what the NPC
             # wants their LIFE to amount to. Target is a life_aim kind
             # (legacy_aim / wealth_aim / piety_aim / respectability_aim

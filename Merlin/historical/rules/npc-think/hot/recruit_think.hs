@@ -14,8 +14,8 @@
   ; ?ad ENUMERATED: an officer can hold several posted adverts at once, and a single @self
   ; bind would take the first post found and only ever test THAT ad's org.
   (role ?ad {@self post ?ad ?org})
-  (when (and (any {?org record ?}).target: ?art
-             (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
+  (when (and {?org isa ?ok}
+             {?org employee_register ?reg}
              (>= (count-doc-records [k employee_register] ?reg)
                  (table-lookup public_orgs kind ?ok employee_count 2))))
   (utility duty)

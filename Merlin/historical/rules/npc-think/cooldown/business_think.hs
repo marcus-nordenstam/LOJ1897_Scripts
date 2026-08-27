@@ -199,6 +199,10 @@
 (npc-think business_homeostat
   (cooldown 1 m)
   (rng-stream business)
+  ; Serialize the floor-net decision: one founder reads the org registry, mints
+  ; the FOUND goal and (on founding) appends the kind before the next reads it -
+  ; so parallel deliberation cannot overshoot the floor off one stale count.
+  (lock-rule)
 
   ; Any alive adult - the belief-pure part is just the template. NO merit gate
   ; (that is the whole point of the floor net). The founding-age band, not-already-
@@ -216,8 +220,7 @@
              (none {@self job [k head_of_non_household_org]})
              (latch-eval (chance 0.05)
                               (no-goal {@self FOUND})
-                              (< (* (count-documents [k articles_of_incorporation]
-                                        (find kind [k org business])) 12)
+                              (< (* (count (attr-values @gm all_org_kinds [k org business])) 12)
                                  (living-npc-count)))))
 
   (utility errand)

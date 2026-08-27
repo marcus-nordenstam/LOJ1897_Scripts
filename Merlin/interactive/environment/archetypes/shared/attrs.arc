@@ -258,6 +258,15 @@
 (attr "content_kind" (type kind) (per obs) (auto-percept) (hsim-percept))
 (attr "count" (type int) (range 0 1000000) (per obs) (auto-percept) (hsim-percept))
 
+# Game-director (gm). all_org_kinds is the live org registry: one element per
+# org that currently exists, holding that org's kind. Founding appends the kind
+# (add-attr-item), a closure drops one element of that kind (remove-attr-item),
+# and (count (attr-values @gm all_org_kinds [k K])) is how many orgs is-a K exist
+# - the homeostat gate and the per-kind uniqueness gate both read it. Written
+# under a rule-lock so parallel founders do not race. Imperceptible - director
+# bookkeeping, never a perceivable world fact.
+(attr "all_org_kinds" (type kind array 256) (imperceptible))
+
 # Weather (region)
 (attr "rain" (type kind heavy) (per obs) (auto-percept))
 (attr "snow" (type kind none) (per obs) (auto-percept))

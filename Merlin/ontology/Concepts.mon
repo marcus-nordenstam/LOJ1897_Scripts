@@ -1171,6 +1171,9 @@ concept
         acquaintance    (inclusive_bond)  (disclosure acquaintance)
         neighbour       (inclusive_bond)  (disclosure acquaintance)
         enemy           (inclusive_bond)
+        # talk_to: on-speaking-terms social contact (appears in the relationship
+        # ground-alt alongside friend/acquaintance). A human-human bond.
+        talk_to         (inclusive_bond)  (disclosure acquaintance)
         # The per-mind handle for "whoever killed X": {?dead killer ?o},
         # where ?o is each mind's own imagined unknown-culprit object
         # (mx_imagine_or_recall - per-mind identity by design) until

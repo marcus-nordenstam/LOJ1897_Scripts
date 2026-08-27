@@ -38,7 +38,9 @@
     ; they JOIN my own {@self job.org ?org}. First hit wins; (break) ends the scan.
     (for-each ?art (documents [k articles_of_incorporation])
      (do
-      (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
+      (o {?art declares_org @o}): ?sorg
+      (any {?sorg isa ?}).target: ?ok
+      (any {?sorg employee_register ?}).target: ?reg
       (if (and (not (is-a ?ok [k org club]))
                (read-doc-record [k employee_register] ?reg (find worker @self)))
        (then

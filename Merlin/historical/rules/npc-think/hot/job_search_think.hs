@@ -35,10 +35,21 @@
   (utility errand)
   (effects (debug-print "JS_BOARDGO") (maintain-proposal {@self enter ?board})))
 
-; --- pre-commit: at the board, pick an eligible advert never failed -> begin apply_for
-; The advert doc carries job / org / class-floor; the running apply_for keeps only the
-; job-kind + the org's articles (the durable anchors), and every sub-task re-derives the
-; rest from ?art on demand.
+; --- at the board, READ each advert not yet read: adopt its {?org vacancy ?jk} +
+; {?org workplace ?wp} sentences (the physical knowledge channel - no doc-record pull).
+(npc-think seek_read_board
+  (cooldown 1 m)
+  (rng-stream employment)
+  (role @self (not {@self job ?})
+              (not {@self apply_for ? ? /pres}))
+  (role ?ad [k job_description] (spatial ?ad co-located @self)
+                                (none {@self READ ?ad /succ}))
+  (utility errand)
+  (effects (debug-print "JS_READ") (maintain-proposal {@self READ ?ad})))
+
+; --- a vacancy @self has READ, qualifies for (class-floor derived from the role), and
+; never FAILED -> begin ONE apply_for, keyed on the job-kind + the concrete WORKPLACE
+; the advert named (the shared anchor every sub-task re-derives the rest from).
 (npc-think seek_apply_pick
   ; ONE application at a time: the lock admits a single activation; it releases when
   ; the activation retires (the /pres role filter falls at promotion), and the /pres
@@ -47,14 +58,15 @@
   (rng-stream employment)
   (role @self (not {@self job ?})
               (not {@self apply_for ? ? /pres}))
-  (role ?ad [k job_description] (spatial ?ad co-located @self)
-                                (select (score 1) (policy roulette)))
-  (when (and (read-doc-record [k job_description] ?ad (job ?jk) (org_record ?art) (class_floor ?cf))
+  (role ?org {?org vacancy ?jk}
+             (select (score 1) (policy roulette)))
+  (when (and {?org workplace ?wp}
+             (table-lookup occupations job ?jk class_floor [k lower]): ?cf
              (class-at-least @self ?cf)
-             (none {@self apply_for ?jk ?art /fail})))
+             (none {@self apply_for ?jk ?wp /fail})))
   (utility errand)
   (effects (debug-print "JS_PICK jk=?jk")
-           (begin-proposal {@self apply_for ?jk ?art})))
+           (begin-proposal {@self apply_for ?jk ?wp})))
 
 ; === The apply_for TASK (gohome / write / send / await_verdict / take_up / rejected /
 ; succeeded) lives in npc-tasks/apply_for-task.hs. The take_up_post sub-task lives in

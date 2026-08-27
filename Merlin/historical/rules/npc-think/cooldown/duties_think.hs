@@ -27,9 +27,10 @@
 
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}
-             {?org record ?art})
+             {?org record ?})
 
-  (when (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg)))
+  (when (and {?org isa ?ok}
+             {?org employee_register ?reg}))
 
   ; The most senior LIVING member on the wage book.
   (select-record (doc [k employee_register] ?reg)

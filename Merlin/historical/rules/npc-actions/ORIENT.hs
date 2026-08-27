@@ -17,20 +17,12 @@
 (npc-action {@self ORIENT}
   (duration 30)
   (effects
-    ; Read the public register: per articles document, form / recall its org object
-    ; and mint the queryable beliefs the casting filters read. ?ok = org kind,
-    ; ?f = founder (both off the articles writing); ?org = the formed mental object.
+    ; READ the public register: per articles document, ADOPT its writing - the
+    ; constitutive (written-msg {?org isa..} {?org founder..} {?org workplace..}
+    ; {?org name..}) sentences. Each ?org REG-externalized to its NAME on the page,
+    ; so adopting reconstructs the reader's OWN org object (by name) with the
+    ; queryable beliefs the casting filters read. This is the sanctioned "read a doc
+    ; to learn what you don't know" path - a stranger learning the town's orgs.
     (for-each ?art (documents [k articles_of_incorporation])
-      (do
-        (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (founder ?f) (building ?b))
-        (o ?ok {?art declares_org @o}): ?org
-        (begin-belief {?org isa ?ok})
-        (begin-belief {?org record ?art})
-        (begin-belief {?org founder ?f})
-        ; Practical town knowledge off the same page: the register names each
-        ; org's premises, so the reader now knows WHERE the grocer trades -
-        ; the venue the provisioning / starving lanes (meals.hs) route on.
-        (if (and (is-a ?ok [k org grocer]) ?b)
-            (then
-              (begin-belief {@self provisions_shop ?b})))))
+      (do (adopt-msg (attr ?art writing))))
     (set-outcome {@self ORIENT} succ)))

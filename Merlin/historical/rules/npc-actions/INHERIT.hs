@@ -24,13 +24,12 @@
             (then
               (update-doc-record [k title_deed] ?deed (owner @self))
               (begin-belief {@self own ?b})))))
-    ; Founded orgs: every articles the deceased founded passes to @self.
-    (for-each ?art (documents [k articles_of_incorporation])
-      (do
-        (read-doc-record [k articles_of_incorporation] ?art (founder ?f))
-        (if (= ?f ?dead)
-            (then
-              (update-doc-record [k articles_of_incorporation] ?art (founder @self))))))
+    ; Founded orgs: every org @self KNOWS the deceased founded passes to @self - a
+    ; belief re-point in @self's own mind (founder is @excl, so it supersedes). No
+    ; doc scan: @self walks his OWN {? founder ?dead} beliefs.
+    (for-each ?forel (every {? founder ?dead})
+      ?forel.subject: ?iorg
+      (begin-belief {?iorg founder @self}))
     ; Coins: merge the bequeathed pile into @self's own, then destroy the empty.
     (if (substantial ?pile)
         (then

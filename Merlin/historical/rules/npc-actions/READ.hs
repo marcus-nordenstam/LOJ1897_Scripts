@@ -1,19 +1,15 @@
 ; ----------------------------------------------------------------------------
-; read - THE document-reading action: eyes on paper for the duration, nothing
-; else. What the reader LEARNS is minted in think rules gated on this act's
-; outcome (advert_learn / register_learn in job_search_think.hs - the isim
-; post-action pattern). The one in-act channel is (read-writing ?doc) for a
-; letter: the writing codec adopts the AUTHOR's composed message into the
-; reader - the sanctioned cross-mind write-through-paper, the written twin of
-; hearing speech.
+; read - THE one document-reading action: adopt a document's writing (its composed
+; message) into @self's mind. Works for ANY document - a letter, a will, a listing,
+; a deed, a register. The writing codec's adopt seam is the sanctioned cross-mind
+; write-through-paper (the written twin of hearing speech): @self comes away holding
+; whatever beliefs the page asserts. Dumb and general - it ONLY reads. Getting the
+; document into reach, and putting it down / re-filing it afterwards, are the
+; consuming task's job (via get / DROP / stack_browse), never bundled in here.
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self READ ?doc}
   (duration 10)
   (effects
-    (if (is-a ?doc [k letter])
-        (then (adopt-msg (attr ?doc writing))
-              ; done with it: set the letter down where @self stands, emptying the
-              ; hand so the read_mail task can conclude.
-              (spatial-write ?doc location (spatial @self space /env))))
+    (adopt-msg (attr ?doc writing))
     (set-outcome {@self READ ?doc} succ)))

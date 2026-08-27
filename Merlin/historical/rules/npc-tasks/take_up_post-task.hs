@@ -1,36 +1,31 @@
 ; ----------------------------------------------------------------------------
-; take_up_post - the offered seeker goes to the workplace and takes the post (apply_for's
-; success sub-task, proposed by apply_for_take_up in job_search_think.hs). The head binds
-; ?jk (job kind) + ?art (org articles) and captures :?tup-rel for the outcome try.
-;
-; and (not stable-or): the tries are a PROGRESSION gated by distinct phase conditions
-; (outside->go, at-post-in-hours->take, enrolled->read book, salaried->conclude), never in
-; competition, so an inclusive (and ...) reproduces the original independent rungs. The
-; chain concludes BOTTOM-UP: TAKE_POST stamps the world signal (job.salary), which is the
+; take_up_post ?jk ?wp - the offered seeker goes to the workplace ?wp and takes the
+; post (apply_for's success sub-task). Keyed on the job kind + the WORKPLACE building;
+; the org's articles are the doc found AT the workplace (perceived on arrival). The
+; chain concludes BOTTOM-UP: TAKE_POST stamps the world signal (job.salary), the
 ; outcome try's conclusive signal.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self take_up_post ?jk ?art}:?tup-rel
+(npc-task {@self take_up_post ?jk ?wp}:?tup-rel
   (tar job)
-  (aux articles_of_incorporation)
+  (aux building)
   (and
     (try
-      (when (and (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
-                 (not (spatial @self building ?wp))))
+      (when (not (spatial @self building ?wp)))
       (effects (maintain-proposal {@self enter ?wp})))
     (try
-      (when (and (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
-                 (spatial @self building ?wp)
+      (role ?art [k articles_of_incorporation] (spatial ?art building ?wp))
+      (when (and (spatial @self building ?wp)
                  (>= (now-hour) 9)
                  (<= (now-hour) 16)
                  (none {@self job.salary ?})))
       (effects (maintain-proposal {@self TAKE_POST ?art ?jk})))
     (try
-      (role ?reg [k employee_register] (select (policy first-match)))
-      (when (and (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
-                 (read-doc-record [k employee_register] ?reg (find worker @self) (level ?lvl))))
+      (role ?art [k articles_of_incorporation] (spatial ?art building ?wp))
+      (role ?reg [k employee_register] (spatial ?reg building ?wp))
+      (when (read-doc-record [k employee_register] ?reg (find worker @self) (level ?lvl)))
       (effects (hire-beliefs ?art ?jk ?lvl)))
     (try
       (role @self {@self job.salary ?})
-      (effects (debug-print "TUP_SUCC art=?art")
+      (effects (debug-print "TUP_SUCC")
                (set-outcome ?tup-rel succ)))))

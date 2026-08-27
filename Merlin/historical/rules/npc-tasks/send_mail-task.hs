@@ -30,8 +30,8 @@
       (effects (debug-print "SM_GO") (maintain-proposal {@self WALK ?room})))
     (try
       (role ?out [k outgoing_mail_stack] (spatial ?out co-located @self))
-      (when (none {@self POST_MAIL ?doc ? /succ}))
-      (effects (debug-print "SM_PUT") (maintain-proposal {@self POST_MAIL ?doc ?out})))
+      (when (none {@self STACK_PUT ?doc ? /succ}))
+      (effects (debug-print "SM_PUT") (maintain-proposal {@self STACK_PUT ?doc ?out})))
     (try
-      (when (any {@self POST_MAIL ?doc ? /succ}))
+      (when (any {@self STACK_PUT ?doc ? /succ}))
       (effects (debug-print "SM_DONE") (set-outcome ?sm-rel succ)))))

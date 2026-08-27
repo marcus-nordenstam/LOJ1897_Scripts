@@ -25,7 +25,9 @@
   (effects
     ; The club's articles (carried on the act-belief) -> its kind + roster; then the
     ; sport, an EXACT lookup on the club kind (a kindless club holds no contest).
-    (read-doc-record [k articles_of_incorporation] ?art (kind ?club_kind) (register ?reg))
+    (o {?art declares_org @o}): ?org
+    (any {?org isa ?}).target: ?club_kind
+    (any {?org employee_register ?}).target: ?reg
     (if (is-kind (table-lookup club_sports org_kind ?club_kind sport))
       (then
         (table-lookup club_sports org_kind ?club_kind sport): ?sport

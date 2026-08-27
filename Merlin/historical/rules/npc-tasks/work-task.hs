@@ -19,8 +19,9 @@
       (rng-stream employment)
       (role ?org {@self duty_to ?org recruit_staff}
                  (not {?org isa [k org household]})
-                 {?org record ?art})
-      (when (and (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
+                 {?org record ?})
+      (when (and {?org isa ?ok}
+                 {?org employee_register ?reg}
                  (< (count-doc-records [k employee_register] ?reg)
                     (table-lookup public_orgs kind ?ok employee_count 2))))
       (utility duty)

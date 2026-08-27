@@ -33,20 +33,11 @@
 ;
 ; The registry ownership record: [building owner]
 (define-document title_deed        (fields building owner))
-; A dwelling offered to let: [building]
-(define-document for_lease_listing (fields building))
 ; NOTE: a `will` is NOT a record doc - its bequest is a WRITTEN MESSAGE composed
 ; with (written-msg ...) and attached via (set-writing), read back by the heir with
 ; (adopt-msg ...). See rules/npc-actions/WRITE_WILL.hs.
 
-; ----- labour-market schemas -------------------------------------------------
-; The job advert on the parish board (posted by the recruit_staff duty-holder,
-; read by seekers - the read internalizes every field a seeker needs to choose
-; and apply): [org_record job level salary class_floor workplace]
-(define-document job_description   (fields org_record job level salary class_floor workplace))
-; A job application: the physical paper a seeker writes and mails into the org's
-; back-office inbox. It is EPHEMERAL - the hiring officer reads it and DESTROYS it
-; when the verdict letter is sent, so applications never accumulate. The hiring
-; lifecycle rides the seeker's `apply_for` TASK outcome, not a status field:
-; [applicant job org_record workplace]
-(define-document application       (fields applicant job org_record workplace))
+; NOTE: job_description (the parish-board advert) and application are no longer
+; record docs - their writings are real (msg ..) sentences ({?org vacancy ?jk} /
+; {(o {@o name ..}) apply_for ?jk}), WRITTEN by the advertise / prepare_application
+; tasks and READ (adopted) by seekers / the hiring officer. See those tasks.

@@ -26,9 +26,9 @@
     (try
       (when (and (spatial @self building ?dhome)
                  (none {@self inherit ?})
-                 (none {@self READ_WILL ?will /succ})))
+                 (none {@self READ ?will /succ})))
       (utility duty)
-      (effects (maintain-proposal {@self READ_WILL ?will})))
+      (effects (maintain-proposal {@self READ ?will})))
 
     ; CLAIM: the will named @self - a bequest belief was adopted - so effect it.
     (try
@@ -43,6 +43,6 @@
 
     ; ABANDON: the will was read but named someone else (nothing to inherit).
     (try
-      (when (and (any {@self READ_WILL ?will /succ})
+      (when (and (any {@self READ ?will /succ})
                  (none {@self inherit ?})))
       (effects (set-outcome ?inherit-rel fail)))))

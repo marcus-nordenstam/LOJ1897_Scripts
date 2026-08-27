@@ -1,29 +1,31 @@
 ; ----------------------------------------------------------------------------
-; resolve_applications ?out - the recruit officer's verdict round over the applications he
-; holds, ONE at a time: the first held application gets an offer drafted, every later one a
-; rejection; each drafting act files its verdict letter into ?out and destroys the answered
-; application, so the held set shrinks to empty and the round concludes. The iteration and
-; the offer-vs-reject decision live here; the drafting acts are dumb paperwork.
-;
-; and: the offer / reject tries are complementary on whether an offer was drafted this
-; round (/caused_by ?rt-rel); done fires once no applications remain in hand.
+; resolve_applications - the recruit officer's verdict round over the applicants he
+; has learned of by READing their applications (each READ adopted a {?applicant
+; apply_for ?jk} belief). ONE at a time: the first gets an offer drafted, every later
+; one a rejection; each draft_verdict envelopes + mails its verdict and ENDS that
+; applicant's apply_for belief, so the unanswered set shrinks to empty and the round
+; concludes. The iteration and the offer-vs-reject decision live here; the drafting is
+; the draft_verdict sub-task (composing the lego acts).
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self resolve_applications ?out}:?rt-rel
-  (tar @excl stack)
+(npc-task {@self resolve_applications}:?rt-rel
   (and
     (try
-      (role ?app [k application] (spatial @self hold)
+      (role ?applicant {?applicant apply_for ?}
             (select (policy first-match)))
-      (when (none {@self DRAFT_OFFER ? ? /succ /caused_by ?rt-rel}))
+      (when (and (none {@self draft_verdict ? [k offer_letter] /caused_by ?rt-rel /ever})
+                 (none {@self draft_verdict ?applicant ? /caused_by ?rt-rel /ever})))
       (utility fallback)
-      (effects (debug-print "RSV_OFFER") (maintain-proposal {@self DRAFT_OFFER ?app ?out})))
+      (effects (debug-print "RSV_OFFER")
+               (begin-proposal {@self draft_verdict ?applicant [k offer_letter]})))
     (try
-      (role ?app [k application] (spatial @self hold)
+      (role ?applicant {?applicant apply_for ?}
             (select (policy first-match)))
-      (when (any {@self DRAFT_OFFER ? ? /succ /caused_by ?rt-rel}))
-      (utility (above DRAFT_OFFER))
-      (effects (debug-print "RSV_REJECT") (maintain-proposal {@self DRAFT_REJECTION ?app ?out})))
+      (when (and (any {@self draft_verdict ? [k offer_letter] /caused_by ?rt-rel /ever})
+                 (none {@self draft_verdict ?applicant ? /caused_by ?rt-rel /ever})))
+      (utility (above draft_verdict))
+      (effects (debug-print "RSV_REJECT")
+               (begin-proposal {@self draft_verdict ?applicant [k rejection_letter]})))
     (try
-      (when (empty (spatial @self hold [k application])))
+      (when (none {? apply_for ?}))
       (effects (debug-print "RSV_DONE") (set-outcome ?rt-rel succ)))))

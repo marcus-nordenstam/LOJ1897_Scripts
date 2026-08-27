@@ -38,12 +38,12 @@
 ; the focus bound off the latched {@self LET ?prop} goal, so the propose is label-only to
 ; match the (act {@self LET}) body.
 (npc-think list_to_let_at_agency
-  (goal {@self LET})
+  (goal {@self LET ?prop})
   (role ?agency {?agency isa [k org house_agency]}
                 {?agency record ?art})   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
              (spatial @self building ?venue)))
-  (effects (maintain-proposal {@self LET})))
+  (effects (maintain-proposal {@self LET ?prop})))
 
 ; CASE B - knows a house agency, not at its office: travel there. Its incorporation
 ; articles name the office he calls at (articles-building).

@@ -13,8 +13,8 @@
   (tar org)
   (and
     (try
-      (when (and (any {?org record ?}).target: ?art
-                 (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
+      (when (and {?org isa ?ok}
+                 {?org employee_register ?reg}
                  (>= (count-doc-records [k employee_register] ?reg)
                      (table-lookup public_orgs kind ?ok employee_count 2))))
       (effects (set-outcome ?rec-rel succ)))
@@ -22,16 +22,14 @@
       (when (none {@self post ? ?org}))
       (effects (debug-print "RC_ADPICK") (maintain-proposal {@self advertise ?org})))
     (try
-      (when (and (any {?org record ?}).target: ?art
-                 (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
+      (when (and {?org workplace ?wp}
                  (not (spatial @self building ?wp))
                  (>= (days-since-last {@self read_mail ?wp /succ}) 1)))
       (utility obligation)
       (effects (debug-print "RC_GOOFC") (maintain-proposal {@self enter ?wp})))
     (try
       (lock-rule)
-      (when (and (any {?org record ?}).target: ?art
-                 (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
+      (when (and {?org workplace ?wp}
                  (spatial @self building ?wp)
                  (>= (days-since-last {@self read_mail ?wp /succ}) 1)))
       (utility obligation)
@@ -45,14 +43,24 @@
                  (spatial ?out space): ?room))
       (utility obligation)
       (effects (debug-print "RC_RESGO") (maintain-proposal {@self WALK ?room})))
+    ; READ each held application - adopt its {?applicant apply_for ?jk} - then consume it.
+    (try
+      (role ?app [k application] (spatial @self hold)
+            (none {@self READ ?app /succ}))
+      (utility obligation)
+      (effects (debug-print "RC_READAPP") (maintain-proposal {@self READ ?app})))
+    (try
+      (role ?app [k application] (spatial @self hold)
+            (any {@self READ ?app /succ}))
+      (effects (debug-print "RC_DROPAPP") (maintain-proposal {@self DESTROY_ENTITY ?app})))
+    ; RESOLVE the learned applicants: draft + mail a verdict to each.
     (try
       (lock-rule)
-      (role ?out [k outgoing_mail_stack] (spatial ?out co-located @self))
-      (role ?app [k application] (spatial @self hold)
-            (select (policy first-match)))
-      (when (none {@self resolve_applications ?out /pres}))
+      (when (and (any {? apply_for ?})
+                 (empty (spatial @self hold [k application]))
+                 (none {@self resolve_applications /pres})))
       (utility obligation)
-      (effects (debug-print "RC_RESOLVE") (begin-proposal {@self resolve_applications ?out})))
+      (effects (debug-print "RC_RESOLVE") (begin-proposal {@self resolve_applications})))
     (try
       (role ?app [k application] (spatial @self hold))
       (effects (debug-print "RCP_APP app=?app")))
@@ -85,13 +93,11 @@
       (role ?home {@self home ?home})
       (effects (debug-print "RCP_P8")))
     (try
-      (when (and (any {?org record ?}).target: ?art
-                 (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
+      (when (and {?org workplace ?wp}
                  (spatial @self building ?wp)))
       (effects (debug-print "RCP_P15_INSIDE")))
     (try
-      (when (and (any {?org record ?}).target: ?art
-                 (read-doc-record [k articles_of_incorporation] ?art (building ?wp))
+      (when (and {?org workplace ?wp}
                  (>= (now-hour) 9)
                  (< (now-hour) 11)))
       (effects (debug-print "RCP_P16_MAIL")))

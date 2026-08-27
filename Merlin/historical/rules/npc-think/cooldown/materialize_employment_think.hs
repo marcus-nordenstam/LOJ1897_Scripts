@@ -51,7 +51,9 @@
     ; {?org record}, so the register is reached by this objective scan, not a belief walk.
     (for-each ?art (documents [k articles_of_incorporation])
       (do
-        (read-doc-record [k articles_of_incorporation] ?art (kind ?ok) (register ?reg))
+        (o {?art declares_org @o}): ?org
+        (any {?org isa ?}).target: ?ok
+        (any {?org employee_register ?}).target: ?reg
         (if (and (not (is-a ?ok [k org club]))
                  (read-doc-record [k employee_register] ?reg
                      (find worker @self) (job ?job) (level ?lvl)))

@@ -51,24 +51,26 @@
         (check ?back)
         (create-entity [k articles_of_incorporation] (qual location ?back)): ?art
         (create-entity [k employee_register]          (qual location ?back)): ?reg
-        (write-doc-record [k articles_of_incorporation] ?art
-            (kind ?org-kind) (founder @self) (building ?wp) (year (year)) (register ?reg)
-            (name (table-lookup businesses org_kind ?org-kind name [n unknown])))
 
         ; --- founder's mind: the org object + its constitutive beliefs ------------
         (o ?org-kind {?art declares_org @o}): ?org
-        ; the org object's KIND as a queryable belief (imagine-or-recall sets the
-        ; object kind but mints no isa belief; the belief-pure casting filters read
-        ; isa, so every org-object-formation site mints it - keeps the cache matcher
-        ; and the live (believes) op reading the same fact). Read the kind back into
-        ; a let-bound ?ok: a macro PARAM (?org-kind) is not in let_names, so as a
-        ; begin-belief pattern TARGET it reads as a free ?var (flatten_pattern_field
-        ; resolves targets via var_is_bound only); the doc read binds ?ok properly.
-        (read-doc-record [k articles_of_incorporation] ?art (kind ?ok))
-        (begin-belief {?org isa ?ok})
+        (begin-belief {?org isa ?org-kind})
         (begin-belief {?org founder @self})
         (begin-belief {?org workplace ?wp})
+        (begin-belief {?org name (table-lookup businesses org_kind ?org-kind name [n unknown])})
         (begin-belief {?org record ?art})
+        (begin-belief {?org employee_register ?reg})
+
+        ; --- the articles DOCUMENT: the constitutive sentences a STRANGER reads (via
+        ; orient) to reconstruct the org. Composed with (msg ..), so each ?org / @self
+        ; reference REG-externalizes to its name for any reader. Known-org readers use
+        ; their own beliefs above and never touch this doc.
+        (set-writing ?art (written-msg {?art declares_org ?org}
+                                       {?org isa ?org-kind}
+                                       {?org founder @self}
+                                       {?org workplace ?wp}
+                                       {?org employee_register ?reg}
+                                       {?org name (table-lookup businesses org_kind ?org-kind name [n unknown])}))
 
         ; --- seat the founder as HEAD: roster + head-job beliefs -------------------
         ; ?head-role is a job KIND that is-a org_head (so {@self job [k org_head]}
@@ -81,7 +83,9 @@
         (begin-belief {?job org ?org})
         (begin-belief {?job level [k senior]})
         (begin-belief {?job since (year)})
-        (stamp-work-hours ?job ?head-role)))))
+        (stamp-work-hours ?job ?head-role)
+        ; org registry: record that one more org of this kind now exists.
+        (add-attr-item @gm all_org_kinds ?org-kind)))))
 
 ; ----------------------------------------------------------------------------
 ; found-club-seq - the CLUB analogue of found-org-seq.
@@ -114,24 +118,31 @@
         (check ?back)
         (create-entity [k articles_of_incorporation] (qual location ?back)): ?art
         (create-entity [k employee_register]          (qual location ?back)): ?reg
-        (write-doc-record [k articles_of_incorporation] ?art
-            (kind ?club-kind) (founder @self) (building ?wp) (year (year)) (register ?reg))
 
         ; --- founder's mind: the org object + its constitutive beliefs -----------
         (o ?club-kind {?art declares_org @o}): ?org
-        ; read the kind back into a let-bound ?ok (macro param ?club-kind is not in
-        ; let_names, so it reads free as a begin-belief pattern target - see found-org-seq).
-        (read-doc-record [k articles_of_incorporation] ?art (kind ?ok))
-        (begin-belief {?org isa ?ok})    ; queryable kind belief - see found-org-seq
+        (begin-belief {?org isa ?club-kind})
         (begin-belief {?org founder @self})
         (begin-belief {?org workplace ?wp})
+        (begin-belief {?org name (table-lookup businesses org_kind ?club-kind name [n unknown])})
         (begin-belief {?org record ?art})
+        (begin-belief {?org employee_register ?reg})
+        ; the articles DOCUMENT: constitutive sentences a stranger READs (orient) to
+        ; reconstruct the club (org REG-externalizes to its name via written-msg).
+        (set-writing ?art (written-msg {?art declares_org ?org}
+                                       {?org isa ?club-kind}
+                                       {?org founder @self}
+                                       {?org workplace ?wp}
+                                       {?org employee_register ?reg}
+                                       {?org name (table-lookup businesses org_kind ?club-kind name [n unknown])}))
 
         ; --- the founder is the club's first MEMBER (member_of, not employment) ---
         ; a membership roster row [member membership] (no level - a club membership
         ; carries no rank) + the member_of belief in his own mind. ?reg / ?org bound above.
         (write-doc-record [k employee_register] ?reg (worker @self) (job [k membership]))
-        (begin-belief {@self member_of ?org})))))
+        (begin-belief {@self member_of ?org})
+        ; org registry: record that one more org of this kind now exists.
+        (add-attr-item @gm all_org_kinds ?club-kind)))))
 
 ; ----------------------------------------------------------------------------
 ; hire-beliefs - the BELIEF-ONLY half of hiring (no roster write).
@@ -151,14 +162,15 @@
 
 (define-macro hire-beliefs (?art ?job-kind ?level)
   (do
-    ; --- read the org's kind + premises off the existing articles --------------
-    (read-doc-record [k articles_of_incorporation] ?art
-        (kind ?org-kind) (building ?wp))
-    ; --- @self's mind: the org object + the employment beliefs ------------------
-    (imagine-or-recall ?org-kind {?art declares_org ?org})
-    (begin-belief {?org isa ?org-kind})    ; queryable kind belief - see found-org-seq
+    ; --- learn the org off the articles: a new hire READs the incorporation page.
+    ; adopt-msg reconstructs the org object (by name-REG) + its constitutive beliefs
+    ; ({?art declares_org ?org} / {?org isa} / {?org workplace} / {?org employee_register}).
+    (adopt-msg (attr ?art writing))
+    ; --- @self's mind: recall the org just learned (anchored to the articles) + its
+    ; premises, then mint the employment beliefs.
+    (o {?art declares_org @o}): ?org
+    {?org workplace ?wp}
     (begin-belief {?wp occupant @self})
-    (begin-belief {?org workplace ?wp})
     ; @self LEARNS the workplace's rooms (the building's `parts` that are rooms):
     ; {building room <room>} + the reverse {room building <building>}.
     (for-each ?room (spatial ?wp parts [k interior_space room] /env)
@@ -202,12 +214,14 @@
 
 (define-macro hire-seq (?art ?job-kind ?level)
   (do
-    ; --- env-side roster (abs): record @self under the matched job kind + rank --
-    (read-doc-record [k articles_of_incorporation] ?art (register ?reg))
+    ; --- the employment beliefs in @self's mind (reads the articles, learns the org) --
+    (hire-beliefs ?art ?job-kind ?level)
+    ; --- env-side roster (abs): record @self under the matched job kind + rank. The
+    ; register is learned off the adopted {?org employee_register} belief.
+    (o {?art declares_org @o}): ?org
+    {?org employee_register ?reg}
     (write-doc-record [k employee_register] ?reg
-        (worker @self) (job ?job-kind) (level ?level))
-    ; --- the employment beliefs in @self's mind --------------------------------
-    (hire-beliefs ?art ?job-kind ?level)))
+        (worker @self) (job ?job-kind) (level ?level))))
 
 ; ----------------------------------------------------------------------------
 ; fire-self - a worker leaves his OWN post. Scrubs @self's row off the firm's
@@ -224,8 +238,7 @@
       ?fire-jrel.target: ?fire-job
       (for-each ?fire-orel (every {?fire-job org ?})
           ?fire-orel.target: ?fire-org
-          (for-each ?fire-arel (every {?fire-org record ?})
-              ?fire-arel.target: ?fire-art
-              (read-doc-record [k articles_of_incorporation] ?fire-art (register ?fire-reg))
+          (for-each ?fire-rrel (every {?fire-org employee_register ?})
+              ?fire-rrel.target: ?fire-reg
               (remove-doc-record [k employee_register] ?fire-reg (find worker @self))))
       (end-belief ?fire-jrel)))
