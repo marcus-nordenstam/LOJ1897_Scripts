@@ -19,9 +19,9 @@
              (>= (count-doc-records [k employee_register] ?reg)
                  (table-lookup public_orgs kind ?ok employee_count 2))))
   (utility duty)
-  (effects (maintain-proposal {@self TAKE_DOWN ?ad})))
+  (effects (maintain-proposal {@self DESTROY_ENTITY ?ad})))
 
 (npc-think take_down_done
   (role ?ad {@self post ?ad ?org})
-  (when (any {@self TAKE_DOWN ?ad /succ}))
+  (when (any {@self DESTROY_ENTITY ?ad /succ}))
   (effects (end-belief {@self post ?ad ?org})))

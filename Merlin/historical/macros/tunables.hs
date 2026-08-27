@@ -47,6 +47,19 @@
 ; C++ floor rows + identity anchor.
 (define-macro deliberation_inaction_floor () 0.55)
 
+; Deliberation tilt swings: how far one dimension at 0 or 1 moves its category
+; multiplier off the 1.0 baseline. Trait is dispositional (larger), mood transient
+; (smaller); each held rationalisation adds k-justify-per to the (1 + discount) wrap.
+(define-macro k-trait-swing () 0.2)
+(define-macro k-mood-swing  () 0.15)
+(define-macro k-justify-per () 0.1)
+
+; Routine-drive tilt swings (worship / work). Larger than the crime buckets': a
+; drive lane carries ONE or TWO trait rows, so each needs a wider spread to give
+; the diligent-vs-shirker / devout-vs-lax spread off a single trait.
+(define-macro k-drive-trait-swing () 0.6)
+(define-macro k-drive-mood-swing  () 0.3)
+
 ; Suicide despair gate: the act fires only when despair (= stress x (1 - contentment))
 ; and withdrawal both clear these floors; the witnessed ideation is minted regardless.
 (define-macro suicide_despair_min    () 0.40)

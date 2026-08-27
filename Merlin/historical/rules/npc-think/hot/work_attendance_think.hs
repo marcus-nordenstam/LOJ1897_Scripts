@@ -46,7 +46,7 @@
         (and (none {@self work ?wp /pres})
              (not (has-proposal {@self work ?wp}))
              (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
-  (utility duty)
+  (utility duty (labour-drive-tilt))
   ; SPAWN the day's WORK TASK (npc-tasks/work-task.hs): its performance tries fan the shift
   ; into the held duties' tasks and the between-duties post-stay; shift_over concludes it.
   ; begin (not maintain): the task survives lunch, errands and every excursion.

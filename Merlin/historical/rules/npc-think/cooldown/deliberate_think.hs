@@ -4,8 +4,9 @@
 ; The actor's standing pressure stack x the (pressure-kind, action) affinity table
 ; (deliberation_affinity.hs), reduced to ONE (pressure, action) pair by the joint
 ; kernel op (select-joint (over-pressures ...) (table ...) ...). The per-pair weight
-; is (deliberation-score ...) - the term-free scorer over the loaded trait/mood/
-; lethal/prize/crime-scale data - times disinhibition. The winner's score then
+; is (deliberation-score ...) - the .hs scorer (deliberation_macros.hs) composing
+; intensity x affinity x trait/mood/justify/lethal/prize/crime-scale - times
+; disinhibition, over the (= ?pk ?rpk) kind-matched pairs. The winner's score then
 ; competes ONCE against the inaction floor (forgive / do nothing); if the action
 ; wins, its goal {@self <action> <focus>} is minted with the driving pressure as
 ; /caused_by (the rap-sheet provenance).
@@ -44,8 +45,9 @@
     (bind action ?action)
     (bind weight ?weight)
     (bind-total ?total)
-    (score (* (deliberation-score ?pressure ?rpk ?action ?focus ?weight)
-              (disinhibition)))
+    (when (= ?pk ?rpk))
+    (score (* (disinhibition)
+              (deliberation-score ?pressure ?action ?focus ?weight)))
     (policy roulette))
 
   ; The WHOLE candidate mass (?total) competes against the inaction floor - so the
