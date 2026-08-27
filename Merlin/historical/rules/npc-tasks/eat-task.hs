@@ -2,7 +2,7 @@
 ; eat ?meal ?place - the unified meal task (breakfast / lunch / supper, incl. eating out).
 ; The act-belief {@self eat [k <meal>] <place>} IS the episodic meal memory. Its three
 ; INCLUSIVE tries co-fire at the table:
-;   take_meal   - propose the INGEST action (the physical eating); its ended outcome is
+;   take_meal   - propose the EAT action (the physical eating); its ended outcome is
 ;                 copied onto the eat task at the cease (bottom-up conclusion). A home
 ;                 supper resolves a real food prop to destroy; otherwise abstract (?food 0).
 ;   table_hours - now and then re-air the house's mealtimes to everyone at the home table.
@@ -21,7 +21,7 @@
       (effects
         (bind 0 ?food)
         ; A home supper eats one loaf off the kitchen larder PILE (the diner
-        ; stands in the home); ?food = that pile, handed to INGEST which
+        ; stands in the home); ?food = that pile, handed to EAT which
         ; decrements it. Breakfast / lunch / a bought-out supper stay abstract.
         (if (and (is-a ?meal [k supper])
                  (any {@self home ?place}))
@@ -34,9 +34,9 @@
                     (pile-at-into ?et_kitchen [k food] ?et_pile)
                     (if (and ?et_pile (> (attr ?et_pile count) 0))
                         (then (bind ?et_pile ?food)))))))
-        (maintain-proposal {@self INGEST ?meal ?food}))
+        (maintain-proposal {@self EAT ?food 0}))
       (cease-effects
-        (caused-by {@self INGEST ?meal /past} ?e-rel): ?rec-rel
+        (caused-by {@self EAT ? ? /past} ?e-rel): ?rec-rel
         (if ?rec-rel (then (set-outcome ?e-rel (outcome ?rec-rel))))))
     (try
       (role ?home {@self home ?home})

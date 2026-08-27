@@ -398,9 +398,9 @@
                (at-home)
                (is-a (spatial @self building) [k building shop])))
   ; Every food source is a PILE (basket / larder / shelf); ?item is bound to the
-  ; pile and CONSUME eats one off its count (never destroys it). ?owner stays 0
+  ; pile and EAT eats one off its count (never destroys it). ?owner stays 0
   ; unless the mouthful is STOLEN (at a shop, no wealth) - then the shop owner is
-  ; the wronged party the consume act ledgers. An empty scene (?found 0 - a stale
+  ; the wronged party the EAT act ledgers. An empty scene (?found 0 - a stale
   ; belief a sibling already ate) proposes nothing and lets the >1.3 gate re-drive.
   (effects
     (bind 0 ?found)
@@ -439,19 +439,19 @@
                         (if (not (> (any {@self wealth}).target 0.2))
                             (then (owner-of ?shop): ?owner))))))))
     (if (= ?found 1)
-        (then (maintain-proposal {@self CONSUME ?item ?owner})))))
+        (then (maintain-proposal {@self EAT ?item ?owner})))))
 
 ; ---- the eat TASK's PERFORMANCE rungs ----------------------------------------
 ; eat is a TASK (Tasks.mon): its desires promote it AT the place (eat_at_place),
-; and these rungs PERFORM it. The physical eating is the ingest ACTION (duration +
-; hunger, meals_action.hs); the food to consume is the REASONING
-; (which loaf, is it a home supper) decided HERE and handed to ingest on its
-; pattern. The task self-limits: ingest relieves hunger, the desire's window /
+; and these rungs PERFORM it. The physical eating is the EAT action (duration +
+; hunger); the food to consume is the REASONING
+; (which loaf, is it a home supper) decided HERE and handed to EAT on its
+; pattern. The task self-limits: EAT relieves hunger, the desire's window /
 ; appetite gate ceases the eat goal, eat_at_place withdraws its maintainer, the
 ; running task retires. table_talk (its own rule) is the third rung.
 
-; TAKE THE MEAL: pick the food, propose ingest. Only a home supper consumes a
+; TAKE THE MEAL: pick the food, propose EAT. Only a home supper consumes a
 ; PERSON-DAY food prop (?food = a believed loaf); breakfast / lunch / a bought-out
-; supper eat abstractly (?food = 0, ingest destroys nothing). A stale belief (a loaf
+; supper eat abstractly (?food = 0, EAT destroys nothing). A stale belief (a loaf
 ; a sibling already ate) reads @fail (falsy) and the supper stays abstract.
 ; The eat TASK (take_meal / table_hours / table_talk) lives in npc-tasks/eat-task.hs.
