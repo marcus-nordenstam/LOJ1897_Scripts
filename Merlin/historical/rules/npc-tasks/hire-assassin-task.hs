@@ -1,10 +1,10 @@
 ; ----------------------------------------------------------------------------
-; hire-assassin (npc-task) - a killing method proposed by choose_kill_method off a
-; standing kill goal, chosen when @self can afford it (coin-balance gate). FOR NOW it
+; hire-assassin (npc-task) - a killing method the kill task proposes (argmax over
+; kill_method_table), chosen when @self can afford it (coin-balance gate). FOR NOW it
 ; boils down to a SAY: reach a known third party and solicit them to kill the victim.
 ; The hired killer choosing their own method + actually carrying it out is deferred
 ; (the old commission_killing conspiracy seam) - so today this is the solicitation act,
-; and the instigator re-deliberates (choose_kill_method re-rolls) if no death follows.
+; and the kill task re-picks a method if no death follows.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")

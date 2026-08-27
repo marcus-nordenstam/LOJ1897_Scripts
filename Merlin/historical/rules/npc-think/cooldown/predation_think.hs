@@ -66,8 +66,9 @@
 
   ; The victim: cast from the predator's OWN non-kin acquaintance ties (his
   ; acquaintance graph, role-cast - no world scan), HARD-filtered to his type (the
-  ; victim's hair OR eye colour is one of his fixations), then weighted-sampled by
-  ; social invisibility (low class / stained repute = fewer defenders = safer).
+  ; victim's hair OR eye colour is one of his fixations), then picked by social
+  ; invisibility. ARGMAX (not roulette) so the maintained kill locks onto ONE stable
+  ; target instead of re-rolling the victim every deliberation.
   (role ?victim (any_human ?victim)
                 {@self spouse|fiancee|friend|lover|acquaintance|neighbour|enemy ?victim}
                 (adult ?victim)
@@ -76,28 +77,26 @@
                 ; the predator's fixation values on hair_color OR eye_color.
                 (or (overlapping-target {?victim hair_color} {@self fixation})
                     (overlapping-target {?victim eye_color} {@self fixation}))
-                ; Invisibility score (live per-candidate; + a floor so a bare
-                ; type-match is pickable). Low class / stained repute = safer.
+                ; Invisibility score. Low class / stained repute = safer.
                 (select (score (+ 0.1
                                   (is-a (any {?victim class_situation}).target [k class_situation lower])
                                   (is-a (any {?victim repute}).target [k repute disreputable])
                                   (is-a (any {?victim repute}).target [k repute scandalous])))
-                        (policy roulette)))
+                        (policy argmax)))
 
-  ; AFTER the select: disposition floor + rate. lethal = mean(psychopathy, sadism);
-  ; propensity = (1 - inhibition) * lethal, DOUBLED for {@self life_aim power_aim}.
+  ; The REASON: the fixation (read as the /caused_by anchor, never re-minted - so the
+  ; hunt fades if the fixation lifts). seed_predation_profile is what mints fixations.
+  (any {@self fixation ?}):?fixation_bond
+
+  ; Disposition floor + rate. lethal = mean(psychopathy, sadism); propensity =
+  ; (1 - inhibition) * lethal, DOUBLED for {@self life_aim power_aim}. The lethal tip
+  ; fires ONCE then the running kill proposal latches it.
   (when (and (>= (lethal-disposition @self) 0.65)
-             (any {@self fixation ?}).target: ?fix
-             (chance (* (crime-scale) 0.005
-                        (* (dark-propensity (lethal-disposition @self))
-                           (if (any {@self life_aim [k power_aim]}) (then 2.0) (else 1.0)))))))
-
-  ; Mint the kill goal toward the resolved victim. /caused_by pins the first fixation
-  ; belief (the gate's believes binds ?fix - a kind-valued feature - and the
-  ; find-or-create reuses that exact belief; the appetitive signature the rap-sheet
-  ; reads). The kill goal IS the stalk record: attempt_harm's surprise-weight reads
-  ; how long @self has been pursuing this victim off the goal's age.
+             (none {?victim condition [k dead]})
+             (or (has-proposal {@self kill ?victim})
+                 (chance (* (crime-scale) 0.005
+                            (* (dark-propensity (lethal-disposition @self))
+                               (if (any {@self life_aim [k power_aim]}) (then 2.0) (else 1.0))))))))
   (utility want)
   (effects
-    (begin-belief {@self fixation ?fix}): ?fixation_bond
-    (begin-goal {@self kill ?victim /caused_by ?fixation_bond})))
+    (maintain-proposal {@self kill ?victim /caused_by ?fixation_bond})))

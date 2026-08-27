@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
-; strangle (npc-task) - a killing method proposed by choose_kill_method off a standing
-; kill goal. Bare-handed: reach the victim, then CHOKE until they are dead. The blows
+; strangle (npc-task) - a killing method the kill task proposes (argmax over
+; kill_method_table). Bare-handed: reach the victim, then CHOKE until they are dead. The blows
 ; (CHOKE) are the (obs) witnessed violent acts that carry the blame; this task is the
 ; actor's plan, not a witnessed act, so it needs no decoration of its own. Concludes
 ; bottom-up on the victim's death (this hand's grip, or another's - the goal is moot).

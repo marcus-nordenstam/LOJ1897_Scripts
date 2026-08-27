@@ -16,11 +16,13 @@
 ;   - (when ...) is the disposition pre-gate (callous-acquisitive: machiavellianism
 ;     + psychopathy, scaled by disinhibition, at the covet base rate) plus the
 ;     wealth floor on the chosen benefactor,
-;   - (effects ...) mints {actor goal {actor kill <victim>}}, where the victim is
-;     the benefactor's heir-apparent: if the ACTOR is that heir, the benefactor is
-;     the obstacle (impatient heir); otherwise the front-running heir is (clear the
-;     succession). (goal) is alive-gated, so a dead / absent heir mints nothing.
-; attempt_harm then consumes the goal and executes a kill method as usual.
+;   - (effects ...) MAINTAIN-proposes {@self kill <victim>} /caused_by-pinned to the
+;     benefactor's wealth belief (read, never re-minted, so the drive fades as the
+;     wealth belief does). The victim is the benefactor's heir-apparent: if the ACTOR
+;     is that heir, the benefactor is the obstacle (impatient heir); otherwise the
+;     front-running heir is the obstacle (clear the succession). The (when) drops the
+;     drive when the victim dies, and latches the one-time impulse so it is not re-rolled.
+; attempt_harm then consumes the proposal and executes a kill method as usual.
 ;
 ; Kept rare by design (the 0.02 base rate below). To A/B the motive, rename /
 ; remove this file (runtime-loaded; no rebuild).
@@ -39,7 +41,7 @@
   ; floor is enforced in (when) on the winner.
   (role ?benefactor (any_human ?benefactor)
     {@self mother|father|parent|spouse|sibling ?benefactor}
-    (select (score (any {?benefactor wealth}).target)))
+    (select (score (any {?benefactor wealth}).target) (policy argmax)))
   ; The benefactor's HEIR, role-cast via the object-cache JOIN: the cross-role filter
   ; {?heir <kin> ?benefactor} makes ?heir's cache depend on ?benefactor's - the engine
   ; materializes, per benefactor, the heirs the actor KNOWS (a candidate's own kin
@@ -54,22 +56,25 @@
     {?heir mother|father|parent|spouse|sibling ?benefactor}
     (select (policy first-match)))
 
-  ; Disposition pre-gate + wealth floor. greed = mean(machiavellianism, psychopathy);
-  ; propensity = (1 - inhibition) * greed; fire at k_covet_base_rate * propensity.
-  (when (and (>= (any {?benefactor wealth}).target 0.5)
-             (chance (* (crime-scale) 0.02
-                        (* (- 1 (inhibition))
-                           (* 0.5 (+ (attr @self machiavellianism)
-                                     (attr @self psychopathy))))))))
+  ; The REASON: @self's belief in the benefactor's wealth (the appetitive motive).
+  ; Read as the /caused_by anchor, never re-minted, so the drive fades if the wealth
+  ; belief lifts. The victim is the benefactor's heir-apparent: the benefactor when
+  ; @self IS that heir (impatient heir), else the front-running heir (clear succession).
+  (any {?benefactor wealth}):?wealth_bond
+  (if (= ?heir @self) (then ?benefactor) (else ?heir)): ?victim
 
-  ; Mint the kill goal toward the resolved victim. heir-apparent reads the
-  ; benefactor's kin graph (the one irreducible computation, exposed as a verb).
-  ; /caused_by pins @self's belief in the benefactor's wealth - the appetitive motive -
-  ; so the rap sheet reads "kill <victim> <- {<benefactor> wealth ..}".
+  ; Disposition pre-gate + wealth floor. greed = mean(machiavellianism, psychopathy);
+  ; propensity = (1 - inhibition) * greed; fire at k_covet_base_rate * propensity. The
+  ; tip fires ONCE then the running kill proposal latches it; drop the drive if the
+  ; victim dies.
+  (when (and (>= (any {?benefactor wealth}).target 0.5)
+             (none {?victim condition [k dead]})
+             (or (has-proposal {@self kill ?victim})
+                 (chance (* (crime-scale) 0.02
+                            (* (- 1 (inhibition))
+                               (* 0.5 (+ (attr @self machiavellianism)
+                                         (attr @self psychopathy)))))))))
+
   (utility want)
   (effects
-    (any {?benefactor wealth ?}).target: ?benefactor_wealth
-    (begin-belief {?benefactor wealth ?benefactor_wealth}): ?wealth_bond
-    (if (= ?heir @self)
-        (then (begin-goal {@self kill ?benefactor /caused_by ?wealth_bond}))
-        (else (begin-goal {@self kill ?heir /caused_by ?wealth_bond})))))
+    (maintain-proposal {@self kill ?victim /caused_by ?wealth_bond})))

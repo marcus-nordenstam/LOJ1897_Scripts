@@ -22,9 +22,9 @@
 ;   - (crave-rival ?beloved) resolves the victim - the beloved's spouse / lover read
 ;     in the ACTOR'S own mind, else the beloved (the one irreducible computation,
 ;     exposed as a verb);
-;   - (effects ...) mints {actor goal {actor kill <victim>}} /caused_by-pinned to the
-;     crave belief, so the rap-sheet reads "kill <victim> <- {@self crave <beloved>}".
-; attempt_harm then consumes the goal and executes a kill method as usual.
+;   - (effects ...) MAINTAIN-proposes the {@self kill <victim>} task /caused_by-pinned
+;     to the crave belief; the kill task picks the method and drives the blow, and the
+;     drive fades when the crave does.
 ;
 ; Kept rare by design (the 0.02 base rate + the rage gate). To A/B, rename / remove
 ; this file (runtime-loaded; no rebuild).
@@ -48,30 +48,27 @@
   (rng-stream perpetration)
 
   (role @self )
-  ; The craved beloved. The crave stance is the object-cache filter;
-  ; (policy first-match) binds ONE, so a multi-crave actor strikes a
-  ; single victim per tick (parity with the old first-viable walk).
+  ; The craved beloved - the durable REASON; capture the crave belief as the
+  ; /caused_by anchor (read, never re-minted, so the drive fades when the crave does).
+  ; (policy first-match) binds ONE, so a multi-crave actor pursues a single victim.
   (role ?beloved (any_human ?beloved)
-    {@self crave ?beloved}
+    {@self crave ?beloved}:?crave_bond
     (select (policy first-match)))
 
-  ; Jealous-rage pre-gate + the fallback guard. rage = mean(volatility, psychopathy);
-  ; propensity = (1 - inhibition) * rage; fire at 0.02 * propensity. (knows-affair)
-  ; keeps crave the FALLBACK: a discovered betrayal routes to betrayal_kill.hs.
-  ; The jealous-rage tail released by disinhibition, at the 0.02 base rate
-  ; (score_macros.hs); crave is the FALLBACK, so a known affair routes to
-  ; betrayal_kill.hs instead.
-  (when (and (not (knows-affair))
-             (chance (* (crime-scale) 0.02
-                        (dark-propensity (rage-disposition @self))))))
-
   ; crave-rival resolves the rival for the beloved (read in @self's own mind), else
-  ; the beloved. /caused_by pins the crave belief - the obsessive signature.
+  ; the beloved themselves.
+  (crave-rival ?beloved): ?victim
+
+  ; MAINTAIN the kill while the crave holds and the victim lives. The jealous-rage
+  ; tip fires ONCE (chance = 0.02 * (1-inhibition) * mean(volatility,psychopathy)),
+  ; then the running proposal latches it (has-proposal) so it is not re-rolled; the
+  ; drive drops when the crave fades or the victim dies. (knows-affair) keeps crave the
+  ; FALLBACK - a discovered betrayal routes to betrayal_kill.hs.
+  (when (and (not (knows-affair))
+             (none {?victim condition [k dead]})
+             (or (has-proposal {@self kill ?victim})
+                 (chance (* (crime-scale) 0.02
+                            (dark-propensity (rage-disposition @self)))))))
   (utility want)
   (effects
-    (debug-print "TRACE_PASSION_FIRES @self beloved=?beloved")
-    (crave-rival ?beloved): ?victim
-    (if (none {?victim condition [k dead]})
-        (then (debug-print "TRACE_KILLGOAL passion @self -> ?victim")
-            (begin-belief {@self crave ?beloved}): ?crave_bond
-            (begin-goal {@self kill ?victim /caused_by ?crave_bond})))))
+    (maintain-proposal {@self kill ?victim /caused_by ?crave_bond})))

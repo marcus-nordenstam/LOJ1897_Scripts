@@ -47,7 +47,7 @@
 ; Its articles name the office (articles-building). Inherits the acquire drive.
 (npc-think buy_home_go
   (goal {@self acquire})
-  (role @self (not {@self for_sale ?}))   ; register unread - cached
+  (role @self (not {? availability [k for_sale]}))   ; no listing read yet - cached
   (role ?agency {?agency isa [k org house_agency]}
                 {?agency record ?art})   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
@@ -62,12 +62,13 @@
 ; rung stops.
 (npc-think buy_home_read
   (goal {@self acquire})
-  (role @self (not {@self for_sale ?}))   ; register unread - cached
+  (role @self (not {? availability [k for_sale]}))   ; no listing read yet - cached
   (role ?agency {?agency isa [k org house_agency]}
                 {?agency record ?art})   ; existence cached, ?art binds at fire
+  (role ?stk [k for_sale_listing_stack])
   (when (and (articles-building ?art ?venue)
              (spatial @self building ?venue)))
-  (effects (maintain-proposal {@self READ_LISTINGS})))
+  (effects (maintain-proposal {@self read_listings ?stk})))
 
 ; CASE C - register unread and @self knows NO house agency at all: consult the
 ; parish incorporations register (the orient lane, orient_errand.hs), which mints
@@ -80,7 +81,7 @@
 (npc-think buy_home_find
   (goal {@self acquire})
   (no-role [k org house_agency])
-  (role @self (not {@self for_sale ?}))   ; register unread - cached
+  (role @self (not {? availability [k for_sale]}))   ; no listing read yet - cached
   (utility errand)
   (effects       (begin-goal {@self ORIENT}))
   (cease-effects (end-goal   {@self ORIENT})))
@@ -96,7 +97,7 @@
 (npc-think choose_home
   (goal {@self acquire})
   (role @self {@self wealth ?wealth})
-  (role ?dwell {@self for_sale ?dwell}
+  (role ?dwell {?dwell availability [k for_sale]}
                (select (score (* (dwelling-value ?dwell)
                                  (if (bb-public-none ?dwell claimed) (then 1) (else 0))))
                        (policy roulette)))
@@ -105,17 +106,16 @@
   (utility errand)
   (effects
     (pub-bb-post ?dwell claimed (claim_marker_ttl_cycles))
-    (begin-goal {@self BUY_HOME ?dwell}))
-  (cease-effects (end-goal {@self BUY_HOME ?dwell})))
+    (begin-goal {@self buy_home ?dwell}))
+  (cease-effects (end-goal {@self buy_home ?dwell})))
 
-; TERMINAL step (act_body_purification): the buy is PROPOSED off the latched
-; {@self BUY_HOME ?dwell} goal choose_home minted (the chosen dwelling). Kept
+; TERMINAL step (act_body_purification): PROMOTE the buy_home TASK off the latched
+; {@self buy_home ?dwell} goal choose_home minted (the chosen dwelling). Kept
 ; separate from choose_home because that rung roulettes + posts the claim and must
 ; NOT re-roll the chosen dwelling; this rung proposes the already-chosen dwelling
-; until the sale commits (buy_home_act drops {@self for_sale ?dwell}, ending the
-; goal). The purchase is a register-document transaction (listings found by kind, no
-; co-location), so the standing goal is the whole readiness - no venue gate; and
-; buy_home_act re-validates the listing, so a stale propose is a safe no-op.
+; until the task concludes (its take_up rung drops {?dwell availability for_sale},
+; ending the goal). The buy_home task itself re-validates against @self's read-in
+; availability belief, so a stale propose is a safe no-op.
 (npc-think buy_home_do
-  (goal {@self BUY_HOME ?dwell})
-  (effects (maintain-proposal {@self BUY_HOME ?dwell})))
+  (goal {@self buy_home ?dwell})
+  (effects (maintain-proposal {@self buy_home ?dwell})))

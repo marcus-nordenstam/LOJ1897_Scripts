@@ -54,35 +54,19 @@
     (none {?partner spouse ?interloper})
     (select (policy first-match)))
 
-  ; The affair surfaces some months, not every one (probabilistic discovery).
-  ; No liveness re-check: (any_human ?partner) IS the belief-pure liveness
-  ; filter (believed-alive AND not-known-dead).
-  (when (chance 0.12))
+  ; Recourse to an APPRAISED betrayal (betrayal_appraise minted the anger @ partner),
+  ; and only while @self is not answering it lethally: a killer keeps the secret,
+  ; since exposing the affair would advertise the motive.
+  (when (and (any {@self emotion [k anger] ?partner})
+             (not (has-proposal {@self kill ?partner}))
+             (not (has-proposal {@self kill ?interloper}))))
 
   (effects
-    (if (and (no-goal {@self kill ?partner})
-             (no-goal {@self kill ?interloper}))
-        (then
-          ; The betrayal appraisal: anger / contempt / humiliation pressure -
-          ; deliberation turns it into the non-lethal release set later.
-          (appraise-betrayal ?partner ?interloper)
-          ; Divorce: the husband's remedy alone; the proper / high-decorum are
-          ; likeliest to cut the tie.
-          (if (and (any {@self spouse ?partner})
-                   (any {@self gender [k male]})
-                   (chance (* 0.35 (target-or @self decorum 0.5))))
-              (then
-                (end-belief {@self spouse ?partner})
-                (begin-ended-belief {@self divorce ?partner})
-                ; Mutual: end her reciprocal bond and land the repudiation
-                ; act-record in her mind too.
-                (end-belief ?partner {?partner spouse @self})
-                (begin-ended-belief ?partner {@self divorce ?partner})
-                ; The fallen woman: marked in her mind AND his, expelled from
-                ; the marital roof, dismissed from reputable service.
-                (if (any {?partner gender [k female]})
-                    (then
-                      (begin-belief ?partner {?partner prototype [k fallen_woman]})
-                      (begin-belief {?partner prototype [k fallen_woman]})
-                      (expel-divorced-wife ?partner)
-                      (dismiss-from-service ?partner)))))))))
+    ; Divorce: the husband's remedy alone; the proper / high-decorum are likeliest
+    ; to cut the tie. PROPOSE the divorce task (divorce-task.hs performs the
+    ; repudiation); once put away, the standing divorce record bars a re-propose.
+    (if (and (any {@self spouse ?partner})
+             (any {@self gender [k male]})
+             (none {@self divorce ?partner /ever})
+             (chance (* 0.35 (target-or @self decorum 0.5))))
+        (then (begin-proposal {@self divorce ?partner})))))

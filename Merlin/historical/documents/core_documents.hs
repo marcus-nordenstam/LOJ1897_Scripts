@@ -31,8 +31,6 @@
 ;   register_ownership writes the title_deed record [building owner].
 ; The Phase-1 housing / landlord read rules role / for-each over these by kind.
 ;
-; A dwelling offered for purchase: [building]
-(define-document for_sale_listing  (fields building))
 ; The registry ownership record: [building owner]
 (define-document title_deed        (fields building owner))
 ; A dwelling offered to let: [building]

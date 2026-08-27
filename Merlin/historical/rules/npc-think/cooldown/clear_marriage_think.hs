@@ -16,12 +16,14 @@
 ;     drive (attraction band to the lover minus warmth band to the spouse >= 2), and
 ;     the propensity roll (psycho * mach * disinhibition * (1-compassion) * drive at
 ;     the 0.03 base rate);
-;   - (effects ...) forks on machiavellianism (P = 0.7 * mach): DIRECT mints
-;     {@self kill <spouse>} /caused_by {@self lover <paramour>}; INSTIGATED mints the
+;   - (effects ...) forks on machiavellianism (P = 0.7 * mach): DIRECT MAINTAIN-proposes
+;     {@self kill <spouse>} /caused_by the READ {@self lover <paramour>} attraction bond
+;     (never re-minted, so the drive fades as the attraction does); INSTIGATED mints the
 ;     cheater's accomplice bond {@self accomplice <lover> /aux {<lover> kill <spouse>}}
 ;     and routes the murder proposal as a covert letter; the lover's side of the
 ;     conspiracy lives in conspiracy_adoption.hs, fired by READING that letter.
-; attempt_harm then consumes the goal and executes a method (poison's domestic
+;     The (when) drops the drive when the spouse dies and latches the one-time impulse.
+; attempt_harm then consumes the proposal and executes a method (poison's domestic
 ; deniability fits the co-resident victim). The murder proposal rides the covert
 ; letter channel ((route-covert-letter ... (written-msg {...} signed) ...)) - the conspiracy evidence trail implicating both.
 ;
@@ -44,7 +46,7 @@
   ; A covert lover (belief-query role filter: a lover who is not the spouse,
   ; and not KNOWN married - is-married is a pure belief macro, cached here).
   (role ?paramour (any_human ?paramour)
-    {@self lover ?paramour}
+    {@self lover ?paramour}:?lover_bond
     (not {@self spouse ?paramour})
     (not {?paramour spouse ?})   ; free to marry - cached
     (select (policy first-match)))
@@ -53,38 +55,40 @@
   ; (score_macros.hs: romantic-drive = attraction(lover) - warmth(spouse)).
   (when (and (>= (* (attr @self psychopathy) (attr @self machiavellianism)) 0.36)
              (>= (romantic-drive ?paramour ?spouse) 2)
-             (chance
-               (* (crime-scale) 0.03
-                  (* (attr @self psychopathy)
-                     (* (attr @self machiavellianism)
-                        (* (disinhibition)
-                           (* (callousness @self)
-                              (romantic-drive ?paramour ?spouse)))))))))
+             (none {?spouse condition [k dead]})
+             ; Latch BOTH committed paths so neither the chance nor the agency fork
+             ; re-rolls: a running direct-kill proposal, OR an already-recruited
+             ; accomplice bond, holds the drive; else the propensity roll tips it once.
+             (or (has-proposal {@self kill ?spouse})
+                 (any {@self accomplice ?paramour})
+                 (chance
+                   (* (crime-scale) 0.03
+                      (* (attr @self psychopathy)
+                         (* (attr @self machiavellianism)
+                            (* (disinhibition)
+                               (* (callousness @self)
+                                  (romantic-drive ?paramour ?spouse))))))))))
 
   ; Agency fork (P(instigated) = 0.7 * machiavellianism, a schemer keeps clean hands).
+  ; STAY on the committed path - only roll the fork when neither is committed yet, so
+  ; the cheater never flips direct<->instigated or re-sends the letter.
   (utility want)
   (effects
-    (if (chance (* 0.7 (attr @self machiavellianism)))
-        ; INSTIGATED: the cheater recruits the lover. The accomplice bond carries the
-        ; embedded plot as its AUX clause (4th positional field): {@self accomplice
-        ; <lover> {<lover> kill <spouse>}} - target = the lover, aux = the kill plot.
-        (then
-          (begin-belief {@self accomplice ?paramour {?paramour kill ?spouse}})
-          ; The murder proposal rides the covert letter channel - the cheater urges
-          ; the lover to kill the spouse. Composed here (.hs content); an intercepted
-          ; or cached letter is the conspiracy evidence trail implicating both.
-          ; The lover's side of the conspiracy is NOT minted here: they learn the
-          ; plot by READING the letter (read_secret_letters adopts the urge belief
-          ; into their mind), and conspiracy_adoption.hs decides whether they take
-          ; up the deed - no telepathy, and an intercepted letter means the lover
-          ; never learns of the plot at all.
-          ; Urging is WANTING the target to act, so the letter's CONTENT is a goal
-          ; clause ({@self goal {?paramour kill ?spouse}}) classified (msg_class urge);
-          ; on read the reader adopts the goal clause (the (msg_class ..) rider is dropped
-          ; by the codec, so the goal is what survives) - @you = ?paramour resolves to the
-          ; reader, so conspiracy_adoption sees {?instigator goal {@self kill <spouse>}}.
-          (send-covert-letter ?paramour (written-msg {@self goal {?paramour kill ?spouse}} (msg_class urge) signed) [k letter]))
-        ; DIRECT: the cheater acts alone. The lover bond (find-or-create reuses the
-        ; gating belief) is the motive pin.
-        (else (begin-belief {@self lover ?paramour}): ?lover_bond
-              (begin-goal {@self kill ?spouse /caused_by ?lover_bond})))))
+    (if (has-proposal {@self kill ?spouse})
+        ; Already committed DIRECT: maintain the kill /caused_by the READ lover bond.
+        (then (maintain-proposal {@self kill ?spouse /caused_by ?lover_bond}))
+        (else (if (none {@self accomplice ?paramour})
+            ; Not yet committed - fork ONCE.
+            (then (if (chance (* 0.7 (attr @self machiavellianism)))
+                ; INSTIGATED: recruit the lover. The accomplice bond carries the embedded
+                ; plot as its AUX clause: {@self accomplice <lover> {<lover> kill <spouse>}}.
+                ; The murder proposal rides the covert letter - urging is WANTING the
+                ; target to act, so the CONTENT is a goal clause classified (msg_class urge);
+                ; the lover learns it only by READING (no telepathy), and conspiracy_adoption
+                ; decides whether they take up the deed.
+                (then
+                  (begin-belief {@self accomplice ?paramour {?paramour kill ?spouse}})
+                  (send-covert-letter ?paramour (written-msg {@self goal {?paramour kill ?spouse}} (msg_class urge) signed) [k letter]))
+                ; DIRECT: the cheater acts alone.
+                (else (maintain-proposal {@self kill ?spouse /caused_by ?lover_bond}))))))))
+    )

@@ -39,15 +39,21 @@
   (role ?instigator (any_human ?instigator)
                     {?instigator goal {@self kill ?victim}:?plot-rel})
 
-  ; It must be ANOTHER's goal (not my own kill goal), I must be willing: desire for the
-  ; instigator (attraction band >= 2) plus the dark roll.
+  ; It must be ANOTHER's plot (not my own), I must be willing: desire for the
+  ; instigator (attraction band >= 2, the REASON - read, not minted here) plus the dark
+  ; roll. The roll tips ONCE, then the running kill proposal latches it; the drive fades
+  ; if the attraction lifts or the victim dies.
   (when (and (!= ?instigator @self)
              (>= (stance-band ?instigator attraction) 2)
-             (chance (attr @self psychopathy))))
+             (none {?victim condition [k dead]})
+             (or (has-proposal {@self kill ?victim})
+                 (chance (attr @self psychopathy)))))
 
   (utility want)
   (effects
-    ; My own side of the conspiracy: the bond embeds the plot as its AUX
-    ; clause, and the goal is pinned to the bond.
-    (begin-belief {@self accomplice ?instigator ?plot-rel}): ?accomplice-rel
-    (begin-goal {@self kill ?victim /caused_by ?accomplice-rel})))
+    ; Join ONCE (the accomplice bond embeds the plot as its AUX + anchors the /caused_by);
+    ; then MAINTAIN my own kill of the victim while the attraction to the instigator holds.
+    (if (none {@self accomplice ?instigator})
+        (then (begin-belief {@self accomplice ?instigator ?plot-rel})))
+    (any {@self accomplice ?instigator}):?accomplice-rel
+    (maintain-proposal {@self kill ?victim /caused_by ?accomplice-rel})))

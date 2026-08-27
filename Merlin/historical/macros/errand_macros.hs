@@ -22,17 +22,7 @@
 ; (§5.10/§5.11). The per-trip `approached` bb-flag is gone (whereabouts is the at-threshold
 ; spatial gate, not a flag).
 
-; (read-public-register ?kind ?label): the register-reading loop. For every live
-; document of ?kind in the public register, read its `building` field (slot 0 -
-; the shared listing/deed contract in core_documents.hs) and mint {@self <label>
-; ?b}. A public-register read in an ACT effect (not a role filter), so it stays off
-; the per-candidate object cache; the minted beliefs are mental writes, safe inside
-; the document walk (no entity create / destroy). Housing / landlord / sports
-; roster reads reuse this with their own listing kind + belief label.
-;
-;   (read-public-register [k for_sale_listing] for_sale)   ; mint {@self for_sale ?b}
-(define-macro read-public-register (?kind ?label)
-  (for-each ?rec (documents ?kind)
-    (do
-      (read-doc-record ?kind ?rec (building ?b))
-      (begin-belief {@self ?label ?b}))))
+; Public-register READING is no longer a global scan + slot pull. A register is a
+; physical stack of documents lodged at its venue; a reader walks there and BROWSES
+; it, adopting each document's writing as beliefs - see rules/npc-tasks/read_listings-task.hs
+; and the buy_home_read driver (buy_home_think.hs).

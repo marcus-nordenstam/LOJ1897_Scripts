@@ -1,7 +1,8 @@
 ; ----------------------------------------------------------------------------
-; find_building - the venue-discovery search. A seek rule maintains
-; {@self find_building [k building <kind>] ?region} as a bodyless TASK; these two tries
-; decompose the running search: cover the region one hop at a time, or conclude it failed.
+; find_building - the venue-discovery search. A seek rule PROPOSES (maintain-proposal)
+; the {@self find_building [k building <kind>] ?region} task; these two tries ARE its
+; body, decomposing the running search: cover the region one hop at a time, or conclude
+; it failed.
 ; The head binds ?sought (the sought kind) + ?region (the region) off the matched task,
 ; and captures the task belief :?find_task-rel so the outcome try can conclude it.
 ;

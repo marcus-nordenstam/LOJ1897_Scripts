@@ -1,26 +1,16 @@
 ; ----------------------------------------------------------------------------
-; betrayal_kill.hs - instrumental homicide genesis: jealous betrayal.
+; betrayal_kill.hs - the LETHAL answer to a betrayal. A DRIVER, not an appraisal:
+; betrayal_appraise mints the reaction (anger @ the unfaithful partner, contempt @
+; the interloper); this rule READS those emotions and maintain-proposes the kill,
+; /caused_by-pinned to the emotion it reads. It mints nothing - so the murderous
+; drive fades as the anger / contempt cools.
 ;
-; The MURDEROUS betrayal branch of the affair-homicide family (siblings:
-; crime_of_passion.hs crave, clear_marriage.hs, rid_of_spouse.hs). A betrayed actor
-; discovers a partner's affair from their OWN beliefs and kills the unfaithful
-; partner, the interloper, or BOTH (the high-outrage + premeditation dual case).
-; Distinct from generative-betrayal (the BROAD, non-lethal fallout - confront /
-; expose / divorce); this is the lethal tail.
-;
-; PURE .hs. The discovery is cast as roles (the partner the actor believes has a
-; third-party lover, and that interloper); appraise-betrayal mints the affair
-; appraisal (anger at the partner, contempt at the interloper, a humiliation
-; pressure); the blame decision reads over the layered score macros
-; (score_macros.hs): kill BOTH when (dual-outrage-score) >= 2.5 (rare); else
-; the partner when (blame-partner-score) >= (blame-interloper-score); else the
-; interloper. /caused_by-pinned to the minted emotion ("kill <partner> <- {@self
-; emotion anger}"). The rage pre-gate (dark-propensity over rage-disposition)
-; keeps it the lethal tail.
-; attempt_harm then consumes the goal(s) and executes a method as usual.
-;
-; Kept rare by design (rage gate + a known affair). To A/B, rename / remove this
-; file (runtime-loaded; no rebuild).
+; The blame decision reads the layered score macros (score_macros.hs) over the minted
+; emotions: kill BOTH when (dual-outrage-score) >= 2.5 (rare); else the partner when
+; (blame-partner-score) >= (blame-interloper-score); else the interloper. The rage tip
+; (dark-propensity over rage-disposition) fires ONCE then the running proposal latches,
+; keeping this the lethal tail (siblings: crime_of_passion / clear_marriage /
+; rid_of_spouse; non-lethal fallout: affair_fallout).
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
@@ -30,44 +20,39 @@
   (rng-stream perpetration)
 
   (role @self )
-  ; The unfaithful partner: a spouse or lover the actor believes keeps a
-  ; third-party lover (the belief-query role filter).
+  ; The unfaithful partner + the interloper the actor believes she keeps (a JOIN over
+  ; @self's OWN beliefs; any_human keeps both to the believed-alive, so a dead corner
+  ; drops the drive).
   (role ?partner (any_human ?partner)
     {@self spouse|lover ?partner} (select (policy first-match)))
-  ; The interloper: the third-party lover the actor believes ?partner keeps -
-  ; a JOIN role over the actor's OWN beliefs (evidence-mediated discovery, no
-  ; mind peek). Excludes ?partner's known spouse (a spouse is no interloper;
-  ; the role machinery never casts @self), and any_human keeps it to the
-  ; believed-alive. No interloper known -> the rule never activates.
   (role ?interloper (any_human ?interloper)
     {?partner lover ?interloper}
     (none {?partner spouse ?interloper})
     (select (policy first-match)))
 
-  ; Jealous-rage pre-gate: the rage tail released by disinhibition, at the
-  ; 0.02 base rate (score_macros.hs).
-  (when (chance (* (crime-scale) 0.02
-                   (dark-propensity (rage-disposition @self)))))
+  ; The REASON: the appraised emotions (minted by betrayal_appraise). Read as the
+  ; /caused_by anchors, never re-minted.
+  (any {@self emotion [k anger] ?partner}):?anger_bond
+  (any {@self emotion [k contempt] ?interloper}):?contempt_bond
 
+  ; Fires only once the betrayal is appraised (anger present); the rage tip fires ONCE
+  ; (0.02 base * dark-propensity), then a running kill proposal latches it.
+  (when (and (substantial ?anger_bond)
+             (or (has-proposal {@self kill ?partner})
+                 (has-proposal {@self kill ?interloper})
+                 (chance (* (crime-scale) 0.02
+                            (dark-propensity (rage-disposition @self)))))))
   (utility want)
   (effects
-    (if (none {?interloper condition [k dead]})
-      (then
-        ; Mint the affair appraisal (anger / contempt / humiliation) in @self's mind.
-        (debug-print "TRACE_BETRAYAL_FIRES @self PARTNER=?partner interloper=?interloper")
-        (appraise-betrayal ?partner ?interloper)
-        ; Dual (kill BOTH) when the outrage clears the bar and both live.
-        (if (>= (dual-outrage-score) 2.5)
-            (then (begin-belief {@self emotion [k anger] ?partner}): ?anger_bond
-                (begin-goal {@self kill ?partner /caused_by ?anger_bond})
-                (begin-belief {@self emotion [k contempt] ?interloper}): ?contempt_bond
-                (begin-goal {@self kill ?interloper /caused_by ?contempt_bond}))
-            ; Else single-blame: the partner when blaming HER outweighs blaming the
-            ; interloper (score_macros.hs spells out both scales), else the interloper.
-            (else (if (>= (blame-partner-score ?partner)
-                    (blame-interloper-score ?partner ?interloper))
-                (then (begin-belief {@self emotion [k anger] ?partner}): ?anger_bond
-                      (begin-goal {@self kill ?partner /caused_by ?anger_bond}))
-                (else (if (none {?interloper condition [k dead]})
-                    (then (begin-belief {@self emotion [k contempt] ?interloper}): ?contempt_bond
-                          (begin-goal {@self kill ?interloper /caused_by ?contempt_bond})))))))))))
+    ; Dual (kill BOTH) when the outrage clears the bar; else the more-blamed corner.
+    (if (>= (dual-outrage-score) 2.5)
+        (then (if (none {?partner condition [k dead]})
+                  (then (maintain-proposal {@self kill ?partner /caused_by ?anger_bond})))
+              (if (none {?interloper condition [k dead]})
+                  (then (maintain-proposal {@self kill ?interloper /caused_by ?contempt_bond}))))
+        (else (if (>= (blame-partner-score ?partner)
+                      (blame-interloper-score ?partner ?interloper))
+                  (then (if (none {?partner condition [k dead]})
+                            (then (maintain-proposal {@self kill ?partner /caused_by ?anger_bond}))))
+                  (else (if (none {?interloper condition [k dead]})
+                            (then (maintain-proposal {@self kill ?interloper /caused_by ?contempt_bond})))))))))

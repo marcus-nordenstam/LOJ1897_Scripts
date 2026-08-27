@@ -57,5 +57,7 @@
               (not {?wp availability ?}))
   (effects
     (create-entity [k for_sale_listing] (qual location ?wp)): ?listing
-    (write-doc-record [k for_sale_listing] ?listing (building ?wp))
+    (set-writing ?listing (written-msg {?wp availability [k for_sale]}))
+    (set-attr ?listing address ?wp)
+    (for-each ?stk (documents [k for_sale_listing_stack]) (do (push ?listing ?stk) (break)))
     (begin-belief {?wp availability [k for_sale]})))

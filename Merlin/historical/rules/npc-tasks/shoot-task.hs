@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
-; shoot (npc-task) - a killing method proposed by choose_kill_method off a standing kill
-; goal, chosen when a firearm's whereabouts is known. ARM first (means_plan_acquire drives
+; shoot (npc-task) - a killing method the kill task proposes (argmax over kill_method_table),
+; chosen when a firearm's whereabouts is known. ARM first (means_think drives
 ; the shop errand while this task runs and @self holds no firearm), then reach the victim
 ; and TRIGGER_FIREARM until dead. The reach + shot rungs gate on being ARMED, so an unarmed
 ; shooter does not chase the victim empty-handed - it fetches the gun first. The blows

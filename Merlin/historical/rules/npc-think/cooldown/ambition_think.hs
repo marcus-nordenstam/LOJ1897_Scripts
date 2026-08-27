@@ -17,11 +17,11 @@
 ;     shares my own org object - a read of my own beliefs, no telepathy.
 ;   - (when ...) is the disposition pre-gate (ambition = mean(machiavellianism,
 ;     narcissism), scaled by disinhibition, at the 0.03 base rate).
-;   - (effects ...) mints {actor goal {actor kill <head>}} UNCAUSED: the ambition is
-;     a root desire (the old /caused_by {@self job.org} pin was a chain-label pattern
-;     no recall could ever resolve, so it silently pinned nothing - and "my employer
-;     made me do it" was never a motive; the succession stake lives in the role gates).
-; attempt_harm then consumes the goal and executes a kill method. The payoff is real:
+;   - (effects ...) MAINTAIN-proposes {@self kill <head>} UNCAUSED: the ambition is a
+;     structural root desire (no emotion bond - the succession stake lives in the role
+;     gates, so there is no reason belief to pin). The (when) drops the drive when the
+;     victim dies and latches the one-time impulse so it is not re-rolled.
+; attempt_harm then consumes the proposal and executes a kill method. The payoff is real:
 ; promote_on_vacancy (propagate_death) lifts the actor into the vacated head rank.
 ;
 ; Kept rare by design (0.03 base rate + a senior non-head is uncommon). To A/B the
@@ -50,14 +50,16 @@
                 (select (policy first-match)))
 
   ; Same-org pin + disposition pre-gate. ambition = mean(machiavellianism, narcissism);
-  ; propensity = (1 - inhibition) * ambition; fire at 0.03 * propensity.
-  (when (any {?victim job.org ?org})
-        (chance (* (crime-scale) 0.03
-                   (* (- 1 (inhibition))
-                      (* 0.5 (+ (attr @self machiavellianism)
-                                (attr @self narcissism)))))))
+  ; propensity = (1 - inhibition) * ambition; fire at 0.03 * propensity. The tip fires
+  ; ONCE then the running kill proposal latches it; drop the drive if the victim dies.
+  (when (and (any {?victim job.org ?org})
+             (none {?victim condition [k dead]})
+             (or (has-proposal {@self kill ?victim})
+                 (chance (* (crime-scale) 0.03
+                            (* (- 1 (inhibition))
+                               (* 0.5 (+ (attr @self machiavellianism)
+                                         (attr @self narcissism)))))))))
 
   (utility want)
   (effects
-    (debug-print "TRACE_AMBITION @self -> ?victim head at ?org")
-    (begin-goal {@self kill ?victim})))
+    (maintain-proposal {@self kill ?victim})))

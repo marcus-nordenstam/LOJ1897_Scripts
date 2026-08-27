@@ -46,7 +46,9 @@
         (if (any {@self own ?home})
           (then
             (create-entity [k for_sale_listing] (qual location ?home)): ?listing
-            (write-doc-record [k for_sale_listing] ?listing (building ?home))
+            (set-writing ?listing (written-msg {?home availability [k for_sale]}))
+            (set-attr ?listing address ?home)
+            (for-each ?stk (documents [k for_sale_listing_stack]) (do (push ?listing ?stk) (break)))
             (end-belief {@self own ?home})
             (end-belief {@self home ?home}))
           (else

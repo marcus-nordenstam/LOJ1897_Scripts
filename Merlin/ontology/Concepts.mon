@@ -62,6 +62,13 @@ concept
         intact
         broken
 
+    # Discretion of an acquisition (@excl): covert = leave no trace to me (steal /
+    # hire someone), overt = the ordinary open purchase. Rides the aux of an acquire
+    # task; rules test only [k covert], anything else is overt by default.
+    discretion          (tar @excl)
+        covert
+        overt
+
     legal_right
         property        (sub being)
 
