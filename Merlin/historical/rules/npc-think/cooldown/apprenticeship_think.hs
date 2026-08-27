@@ -61,23 +61,19 @@
              (>= (years-old @self) 12)
              (<= (years-old @self) 16)))
 
-  ;; SPLIT (Item 5): the npc-think - the youth chooses a trade. Mints {@self goal
-  ;; {@self SEEK_INDENTURE <articles>}}; the npc-action (apprentice_errand.hs) sends him
-  ;; to the master's premises and the indenture is sealed there. RE-TARGET: one
-  ;; standing search goal, replaced each fire (per-target idempotency would stack a
-  ;; distinct goal per org's articles and overflow the attention set; a blocking
-  ;; gate would deadlock the search on an unreachable first master).
+  ;; The youth chooses a trade and proposes the seek_indenture task (npc-tasks/
+  ;; seek_indenture-task.hs), which sends him to the master's premises and enrols him
+  ;; there. maintain-proposal keeps ONE standing search, retargeted each fire as the
+  ;; roulette lands on a different master (a per-target begin would stack a distinct
+  ;; proposal per org's articles and overflow the attention set).
   ;; Focus = the org's articles, recovered from @self's {?org record ?art} belief.
+  ;; MAINTENANCE: the decision OWNS the seek_indenture proposal end to end. While the
+  ;; youth is unemployed (role @self (not {@self job.salary ?})) and not yet a trainee
+  ;; (the (when) trainee-rank gate), the proposal stands; the moment seek_indenture's
+  ;; ENROL files his clerk row and hire-beliefs mints {@self job ...}, both gates fall
+  ;; and maintain-proposal withdraws. The task never ends the motivating proposal.
   (utility errand)
-  (effects
-    (end-goal {@self SEEK_INDENTURE})
-    (begin-goal {@self SEEK_INDENTURE ?org_record}))
-  ;; MINTER owns ending: once the youth is indentured (gains a paid job / reads
-  ;; trainee), this rule's (role @self (not {@self job.salary ?})) + the (when)
-  ;; trainee-rank gate stops holding, and this falling
-  ;; edge ends the aim. A youth seeks ONE indenture at a time, so label-only keying
-  ;; is fine. The act (apprentice_errand_act.hs) never ends the aim.
-  (cease-effects (end-goal {@self SEEK_INDENTURE})))
+  (effects (maintain-proposal {@self seek_indenture ?org_record})))
 
 (npc-think apprenticeship_completion
   (cooldown 1 m)
