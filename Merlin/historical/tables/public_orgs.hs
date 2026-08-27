@@ -3,12 +3,12 @@
 ;
 ; A (define-table ...): implementation config with an inline schema, keyed by the
 ; plain name `public_orgs`. NOT a world entity and NOT an ontology kind - no NPC
-; perceives it; it just tells the founding event what is foundable. (Contrast
+; perceives it; it just tells the founding rule what is foundable. (Contrast
 ; (define-document ...), for an actual in-world document.) The `kind` field holds
 ; REAL org kinds (the org founded is a real entity); `class_floor` is the
 ; founder's minimum class.
 ;
-; Read by the (startup) found_public_org event via (for-each-table-record ...):
+; Read by the (startup) found_public_org rule via (for-each-table-record ...):
 ; each eligible NPC founds a still-needed org of their class. Replaces the C++
 ; public_orgs.hsc catalog + the bootstrap founding.
 ; ----------------------------------------------------------------------------

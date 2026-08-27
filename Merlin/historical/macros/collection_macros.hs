@@ -6,7 +6,7 @@
 ; {pile count N} regardless of N - the memory-compression payoff.
 ;
 ; The count is the source of truth; increment/decrement is a single set-attr
-; (one perception event, not N). Extraction spawns a real item OUT of the pile
+; (one perception rule, not N). Extraction spawns a real item OUT of the pile
 ; (dec + create-entity) and is necessarily content-SPECIFIC because create-entity
 ; takes only a syntactic [k <kind>] - so the extract site names the kind
 ; literally; the find/ensure/count/mutate ops below are kind-generic.
@@ -31,7 +31,7 @@
     (if (attr-is ?held_cand content_kind ?kind)
         (then (bind ?held_cand ?out)))))
 
-; (pile-add ?pile ?n): raise a pile's count by ?n (one perception event).
+; (pile-add ?pile ?n): raise a pile's count by ?n (one perception rule).
 (define-macro pile-add (?pile ?n)
   (set-attr ?pile count (+ (attr ?pile count) ?n)))
 

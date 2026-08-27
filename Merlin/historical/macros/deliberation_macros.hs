@@ -61,7 +61,7 @@
 ; gated by (> (crime-scale) 0));
 ; every other action still mints its goal with the driving pressure pinned as /caused_by. A
 ; reactive KILL whose wrongdoer-focus is unreachable is displaced onto a weaker innocent by the
-; separate displace_kill event (a role-cast + roulette over the actor's orbit) - it reacts to
+; separate displace_kill rule (a role-cast + roulette over the actor's orbit) - it reacts to
 ; this freshly-minted pressure-caused kill goal and re-routes it to a beating.
 (define-macro resolve-deliberation (?action ?focus ?pressure)
   (if (= ?action suicide) (then (resolve-suicide @self))

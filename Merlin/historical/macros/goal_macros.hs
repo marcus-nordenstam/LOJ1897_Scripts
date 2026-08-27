@@ -8,7 +8,7 @@
 ; authored; no telepathy).
 ;
 ; The goal read forms:
-;   (goal  {@self <action> [<target>]}) - engine primitive, a first-position event
+;   (goal  {@self <action> [<target>]}) - engine primitive, a first-position rule
 ;       CLAUSE: requires the goal, binds a free clause-target ?var off it, and pins it
 ;       as the auto-/caused_by of sub-goals the rule mints.
 ;   (has-goal {@self <action> [<target>]}) - boolean read (use in when/if/and/or/effects).

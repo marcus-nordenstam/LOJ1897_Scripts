@@ -13,7 +13,7 @@
 ; condition consumed for a prop, internment buried for a corpse. @excl supersedes
 ; any prior value on that axis (buried over unburied), while the OTHER axis
 ; (condition dead) stands. A pure SELF-MIND write - bystanders keep their stale
-; beliefs until their own perception / a propagation event closes them. Run
+; beliefs until their own perception / a propagation rule closes them. Run
 ; BEFORE (destroy-entity ...).
 (define-macro realize-destroyed (?item ?rel ?state)
   (do

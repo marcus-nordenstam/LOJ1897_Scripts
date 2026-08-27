@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; deliberation.hsc - Phase 10 Phase D Pivot A (2026-05-24).
 ;
-; The affinity table for the generative-deliberation event (deliberate.hse).
+; The affinity table for the generative-deliberation rule (deliberate.hse).
 ; One row per (pressure-kind, action) pair plus always-included floor rows.
 ;
 ; Format:

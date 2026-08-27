@@ -4,7 +4,7 @@
 ; These were formerly (define-table ...) + (table-lookup ...) named expressions; they
 ; are just named formulas / constants, so they are macros now. A curve takes its
 ; input as a real parameter; a constant takes none. Edit once, re-tunes every
-; event that calls it.
+; rule that calls it.
 ; ----------------------------------------------------------------------------
 
 ; Background per-year mortality curve: integer years-of-age -> death probability.

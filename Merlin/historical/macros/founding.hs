@@ -138,7 +138,7 @@
 ; rostered separately: hire-seq (below) writes the register itself for an emergent
 ; hire, while the C++ candidate-scan effects (bootstrap / staff_household / jockey)
 ; roster the worker via the thin enrol verb and let the materialize_employment
-; event call THIS to mint the beliefs. So the beliefs live in .hs; the roster
+; rule call THIS to mint the beliefs. So the beliefs live in .hs; the roster
 ; (objective) is owned by whoever enrolled the worker. @self is always the worker
 ; (no telepathy). Only (stamp-work-hours) (the occupation_shifts table stamp)
 ; reaches outside @self's own mind.

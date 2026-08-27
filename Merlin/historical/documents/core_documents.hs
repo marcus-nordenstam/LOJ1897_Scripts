@@ -18,7 +18,7 @@
 
 ; The org roster: a list-of-records doc, one (worker job level) record per
 ; employee. `level` is the starting rank kind ([k senior] / [k apprentice] /
-; ...), written alongside worker + job so the materialize_employment event can
+; ...), written alongside worker + job so the materialize_employment rule can
 ; reconstruct the employment beliefs from the roster alone (the beliefs live in
 ; .hs; the roster, objective, is written by the thin C++ enrol verb / hire-seq).
 ; A club membership entry carries only (member membership) - no level.
@@ -29,7 +29,7 @@
 ; C++ writers in hsim_property.cc (k_building_slot = 0, k_deed_owner_slot = 1):
 ;   list_on_market  writes a listing record of just [building];
 ;   register_ownership writes the title_deed record [building owner].
-; The Phase-1 housing / landlord read events role / for-each over these by kind.
+; The Phase-1 housing / landlord read rules role / for-each over these by kind.
 ;
 ; A dwelling offered for purchase: [building]
 (define-document for_sale_listing  (fields building))
@@ -39,7 +39,7 @@
 (define-document for_lease_listing (fields building))
 ; NOTE: a `will` is NOT a record doc - its bequest is a WRITTEN MESSAGE composed
 ; with (written-msg ...) and attached via (set-writing), read back by the heir with
-; (adopt-msg ...). See events/npc-actions/WRITE_WILL.hs.
+; (adopt-msg ...). See rules/npc-actions/WRITE_WILL.hs.
 
 ; ----- labour-market schemas -------------------------------------------------
 ; The job advert on the parish board (posted by the recruit_staff duty-holder,

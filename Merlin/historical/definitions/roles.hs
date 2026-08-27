@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; Shared role-filter macros for hsim events (formerly (define-role ...) templates).
+; Shared role-filter macros for hsim rules (formerly (define-role ...) templates).
 ;
 ; Each is a (define-macro ...) taking the candidate ?x - or @self at a gate. Drop it
 ; into a (role ...) as a single filter:
@@ -45,7 +45,7 @@
   (and (known_alive ?x)
        (marriageable-age ?x)))          ; >=16
 
-;; Any alive human, no age qualifier. Base for events that gate on situational
+;; Any alive human, no age qualifier. Base for rules that gate on situational
 ;; filters (disease, war, accidents) regardless of age.
 (define-macro any_human (?x)
   (known_alive ?x))
@@ -101,7 +101,7 @@
 
 ;; An org the deliberator already KNOWS - a mental org object carrying its kind belief
 ;; (minted at founding / hire / new_job_orientation when @self reads the org's
-;; articles). isa [k org] matches any org kind (is-a); each casting event narrows to
+;; articles). isa [k org] matches any org kind (is-a); each casting rule narrows to
 ;; its category ([k org club] / business / gov) or excludes household.
 (define-macro known_org (?x)
   {?x isa [k org]})

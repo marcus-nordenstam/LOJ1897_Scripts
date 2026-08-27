@@ -13,7 +13,7 @@
 ;     (when (and (= life_aim (any {@self life_aim ?}).target) (= action ?action)))
 ;     ...)
 ; with the consumer defaulting the bound weight to 0 when no record matches.
-; life_aim itself is a per-NPC belief minted by the classify_life_aim event
+; life_aim itself is a per-NPC belief minted by the classify_life_aim rule
 ; (classifiers/life_aim.hs); it is read @self-only (non-telepathic).
 ;
 ; life_aim sub-kinds (Concepts.mon life_aim): legacy_aim / wealth_aim /

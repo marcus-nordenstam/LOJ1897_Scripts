@@ -24,7 +24,7 @@
       (then (end-belief {@self extort ?victim}))
       (else
         ; Refresh the standing extort anchor in the victim's mind (his renewed demand,
-        ; perceived); the victim's coercion_pressure event compounds the pressure off
+        ; perceived); the victim's coercion_pressure rule compounds the pressure off
         ; it. No act-record on a mere refresh - the anchor carries the demand.
         (begin-belief ?victim {@self extort ?victim})
         (if (chance 0.5)

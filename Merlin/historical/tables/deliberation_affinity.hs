@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; deliberation_affinity.hs - the (pressure-kind, action) affinity table for the
-; generative deliberate event, as authored config.
+; generative deliberate rule, as authored config.
 ;
 ; A (define-table ...): one record per (pressure_kind, action) pair with a base
 ; weight. deliberate.hs crosses the actor's standing pressures with these rows via

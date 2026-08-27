@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
-; score_macros.hs - composable scoring/disposition macros for motive events.
+; score_macros.hs - composable scoring/disposition macros for motive rules.
 ;
 ; Layered by design: small named readings nest into bigger named scores, so an
-; event's (when ...) / blame decision reads as intent, not arithmetic. Macros
+; rule's (when ...) / blame decision reads as intent, not arithmetic. Macros
 ; expand recursively at compile (a macro body may call other macros); every
 ; entity is passed BY ARGUMENT (?who / ?t), so the same reading works for
 ; @self, a role var, or a bound var at any call site.

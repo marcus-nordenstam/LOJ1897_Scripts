@@ -8,16 +8,16 @@
 ; goal label, the venue var, the listing kind, and the minted belief label are all
 ; the caller's arguments.
 ;
-; Macros expand in-place, so these are used INSIDE an event's (effects ...) /
+; Macros expand in-place, so these are used INSIDE a rule's (effects ...) /
 ; (act-effects ...) block. The VENUE ROLE itself is still cast inline in the
-; event (a role clause cannot be macro-generated), filtered to the venue kind and
+; rule (a role clause cannot be macro-generated), filtered to the venue kind and
 ; scored by proximity - the macros take the resulting KNOWN ?venue var (never a
 ; world scan; knowledge-honest by construction).
 ; ----------------------------------------------------------------------------
 
 ; (route-to-venue-then-act ...) and (go-into ...) - the old STAGE-5 two-arm routing
 ; macros - are RETIRED. Errand routing now mints {@self enter ?venue} into the generic
-; enter chain (events/npc-think/intra-day/enter.hs), which front-parks the structure's
+; enter chain (rules/npc-think/intra-day/enter.hs), which front-parks the structure's
 ; threshold then steps into its entrance room, reactive on the actor's own movement
 ; (§5.10/§5.11). The per-trip `approached` bb-flag is gone (whereabouts is the at-threshold
 ; spatial gate, not a flag).
