@@ -34,7 +34,7 @@
                  (not (any {?victim condition [k dead]}))
                  (not (attr-is ?victim awareness unconscious))))
       (utility survival always-pick)
-      (effects (maintain-proposal {@self PUNCH ?victim})))
+      (effects (maintain-proposal {@self STRIKE ?victim punch})))
 
     ; CONCLUDE: the victim is beaten senseless (or already down) - ledger the assault
     ; (method PUNCH, goal hurt) and end the episode.
@@ -42,5 +42,5 @@
       (when (or (attr-is ?victim awareness unconscious)
                 (any {?victim condition [k dead]})))
       (effects
-        (crime-ledger-append @self ?victim PUNCH hurt @u @u)
+        (crime-ledger-append @self ?victim punch hurt @u @u)
         (set-outcome ?hurt-rel succ)))))

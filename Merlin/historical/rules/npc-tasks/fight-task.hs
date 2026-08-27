@@ -23,7 +23,7 @@
                  (not (any {?foe condition [k dead]}))
                  (not (attr-is ?foe awareness unconscious))))
       (utility survival always-pick)
-      (effects (maintain-proposal {@self PUNCH ?foe})))
+      (effects (maintain-proposal {@self STRIKE ?foe punch})))
 
     ; CONCLUDE: the threat is neutralized (foe dead or knocked out) or gone (fled /
     ; no longer co-present) - the brawl is over.

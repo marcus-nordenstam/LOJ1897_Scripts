@@ -31,7 +31,7 @@
       (when (and (spatial ?victim co-located @self)
                  (not (any {?victim condition [k dead]}))))
       (utility survival always-pick)
-      (effects (maintain-proposal {@self CHOKE ?victim})))
+      (effects (maintain-proposal {@self STRIKE ?victim strangle})))
 
     ; CONCLUDE: the victim is dead - the method is spent.
     (try
