@@ -1,37 +1,26 @@
 ; ----------------------------------------------------------------------------
-; bury (act lane) - the priest's burial rite act (bury_action). The planning thinks
-; (bury_route / bury_onsite) live in npc-think/intra-day/bury_think.hs.
+; bury (act lane) - the priest's burial rite act. The planning thinks (bury_route /
+; bury_onsite) live in npc-think/intra-day/bury_think.hs.
 ;
 ;   bury_action (act): perform the rites via the blessed rite ops - the verdict
-;     ledger row, the tombstone (the dead mind's rendered memory timeline), and
-;     (for a violent corpse) public murder-awareness - then destroy the corpse
-;     and end the act. The corpse is a SINGLE known role-cast object destroyed
-;     in the act (safe: no mark, no sweep, no in-flight role walk).
+;     ledger row and the tombstone (the dead mind's rendered memory timeline) -
+;     realize the interment, tell it to everyone co-present at the rite, then destroy
+;     the corpse and end the act. The corpse is a SINGLE known role-cast object
+;     destroyed in the act (safe: no mark, no sweep, no in-flight role walk).
+;
+; Death / burial KNOWLEDGE is PULLED, never pushed. Co-present mourners learn the death
+; by SEEING the corpse and the interment by the (tell) at the rite; an absent mind learns
+; only through a real channel of its own (perceiving the corpse, or reading a death
+; notice). The rite writes into NO other mind.
 ; ----------------------------------------------------------------------------
 
-; The rite. Reads (verdict / tombstone / violence) BEFORE the destroy while the
-; corpse still resolves, then realizes the interment: the priest's own ongoing
-; {?corpse internment buried} (a separate @excl axis from `condition`, so `dead`
-; stands beside it), TOLD to everyone co-present at the rite (the
-; conveyer, the mourners), AND propagated to the circle members the priest
-; himself knows of ((propagate-burial) - the funeral / parish register channel),
-; so every knower's dead-and-not-buried bury / convey filters unmatch and the
-; standing-corpse pools drain.
-; Then the corpse is destroyed and the act-belief ended (so the act fires
-; exactly once - the engine does not auto-end it). The act-label lives in the
-; cached self-role gate: the promotion scan rejects O(1) before any mind-entry.
 (npc-action {@self BURY ?corpse}
   (duration 60)
   (effects
     (record-verdict ?corpse)
     (tombstone ?corpse)
-    (for-each ?part (spatial ?corpse parts [k body_part] /env)
-      (for-each ?wound (attr-values ?part wounds [k wound])
-        (if (not (is-a ?wound [k bruise]))
-            (then (propagate-murder-awareness ?corpse)))))
     (realize-destroyed ?corpse internment [k internment buried])
     (tell (utterable-msg {?corpse internment [k buried]}))
-    (propagate-burial ?corpse)
     (destroy-entity ?corpse)
     (set-outcome {@self BURY ?corpse} succ)))
 ; go_action (the shared travel act) lives in npc-actions/go_action.hs.

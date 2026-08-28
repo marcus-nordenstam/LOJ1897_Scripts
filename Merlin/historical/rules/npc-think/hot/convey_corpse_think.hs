@@ -6,12 +6,12 @@
 ; (bury.hs). The corpse's presence in the church IS the "bury me" marker - no
 ; blackboard, no (tell), no report doc.
 ;
-; When someone dies, propagate_death re-asserts an ongoing {<corpse> condition
-; dead} belief (k_unforgettable) in every mind of the deceased's social circle
-; (kin / friends / adversaries) - and end-dates every OTHER belief about them,
-; incl. {<corpse> isa human}. So a bereaved NPC KNOWS the death (his own genuine
-; knowledge) but the priest does not yet. This lane closes that gap PHYSICALLY:
-; the bearer brings the body to a church, where the priest can see it.
+; A mind holds {<corpse> condition dead} ONLY by a real channel of its own - it
+; PERCEIVED the corpse (the condition attr is an hsim-percept), or read a death
+; notice. On learning, learn_of_death end-dates its other stale beliefs about the
+; deceased (incl. {<corpse> isa human}). So a bereaved NPC who has seen the body
+; KNOWS the death, but the priest does not until he sees it. This lane closes that
+; gap PHYSICALLY: the bearer brings the body to a church, where the priest sees it.
 ;
 ; Structure mirrors the drink / worship B4 lanes (one desire, case sub-goals):
 ;   want_convey  (desire): a grown, decent NPC who holds a not-yet-delivered
@@ -28,8 +28,8 @@
 ;
 ; The corpse is cast off the ONGOING {?corpse condition dead} belief alone (no
 ; [k human] positional kind: that would compile to a (believes {?corpse isa
-; [k human]}) filter, and propagate_death has end-dated that belief - only the
-; condition-dead belief is still ongoing on a corpse). Only humans ever carry
+; [k human]}) filter, and learn_of_death end-dates that belief on the observer's
+; own learning - only the condition-dead belief is still ongoing on a corpse). Only humans ever carry
 ; condition dead, so the filter is exact. The ended {@self CONVEY ?corpse}
 ; act-belief bars re-carting the SAME body (the role's (not (believes ...)) drops
 ; it): one church-trip per known death, not a standing pilgrimage. A corpse

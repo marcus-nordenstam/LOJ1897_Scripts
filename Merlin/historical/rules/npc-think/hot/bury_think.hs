@@ -37,10 +37,11 @@
 ; that out-competes the priest's own day_work (80), else a deposited corpse lies
 ; unburied in the church for months.
 ;
-; The corpse is cast off the ONGOING {?corpse condition dead} belief alone: a
-; corpse's {isa human} belief is end-dated at death (propagate_death), so a
-; [k human] positional kind - which compiles to a (believes {?corpse isa
-; [k human]}) ongoing-belief filter - would never match. Only humans carry
+; The corpse is cast off the ONGOING {?corpse condition dead} belief alone: the
+; priest's {corpse isa human} belief is end-dated when he learns of the death
+; (learn_of_death, on perceiving the corpse), so a [k human] positional kind -
+; which compiles to a (believes {?corpse isa [k human]}) ongoing-belief filter -
+; would never match. Only humans carry
 ; condition dead, so the filter is exact. The corpse is cast off the POSITIVE
 ; internment-unburied percept (every observer of a person holds it by default);
 ; bury_act mints {?corpse internment buried} in the burying priest's mind and
