@@ -144,18 +144,18 @@
 
 # Adrenaline, the fight-or-flight surge (0 calm .. 1 full surge). Pumped to 1 by the
 # fight / flee / scream acts and by being struck; decays back to 0 over ~1h of non-fight
-# acts (the post-fight crash). It MASKS the perceived physiological drives: update_physiology
-# derives sleepiness = fatigue*(1-adrenaline) and appetite = hunger*(1-adrenaline), so a
+# acts (the post-fight crash). It MASKS the perceived physiological drives: the run_physiology
+# func derives sleepiness = fatigue*(1-adrenaline) and appetite = hunger*(1-adrenaline), so a
 # combatant does not feel tired / hungry mid-fight and then crashes once it fades.
 (attr "adrenaline" (type float) (range 0 1) (imperceptible) (state-flags-tar @excl))
 
 # Sleepiness = the ADRENALINE-MASKED fatigue the sleep-pull utility reads (raw fatigue is the
-# untouched debt). Derived by update_physiology; drops to ~0 during a fight, re-emerges at full
-# on the crash.
+# untouched debt). Derived by the run_physiology func; drops to ~0 during a fight, re-emerges at
+# full on the crash.
 (attr "sleepiness" (type float) (range 0 2) (imperceptible) (state-flags-tar @excl))
 
 # Appetite = the ADRENALINE-MASKED hunger the meal-lane eligibility + starvation utilities read
-# (raw hunger is the untouched debt). Derived by update_physiology; suppressed mid-fight.
+# (raw hunger is the untouched debt). Derived by the run_physiology func; suppressed mid-fight.
 (attr "appetite" (type float) (range 0 2) (imperceptible) (state-flags-tar @excl))
 
 # Emigration marker (0 / 1). Set by (mark-emigrating @self) in the per-NPC
