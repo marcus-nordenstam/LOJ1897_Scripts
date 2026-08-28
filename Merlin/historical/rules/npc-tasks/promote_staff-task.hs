@@ -23,7 +23,6 @@
       (when (spatial @self building ?wp))
       (effects
         (any {?worker job.level ?}).target: ?cur
-        (table-lookup level_rank level ?cur rank -1): ?rank
-        (table-lookup level_rank rank (+ ?rank 1) level @fail): ?next
-        (if (is-kind ?next)
-          (then (maintain-proposal {@self SAY (utterable-msg {?worker job.level ?next}) ?worker})))))))
+        (table-match level_rank level ?cur rank ?rank)
+        (table-match level_rank rank (+ ?rank 1) level ?next)
+        (maintain-proposal {@self SAY (utterable-msg {?worker job.level ?next}) ?worker})))))

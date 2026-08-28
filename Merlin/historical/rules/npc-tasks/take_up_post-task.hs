@@ -25,7 +25,7 @@
     (try
       (role ?art [k articles_of_incorporation] (spatial ?art building ?wp))
       (role ?reg [k employee_register] (spatial ?reg building ?wp))
-      (when (read-doc-record [k employee_register] ?reg (find worker @self) (level ?lvl)))
+      (when (table-match (attr ?reg writing) worker @self level ?lvl))
       (effects (hire-beliefs ?art ?jk ?lvl)))
     (try
       (role @self {@self job.salary ?})

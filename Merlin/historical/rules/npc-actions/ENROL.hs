@@ -11,6 +11,5 @@
   (duration 15)
   (effects
     ; New rows start at the entry rank (trainee for a hire; unread for a club member).
-    (write-doc-record [k employee_register] ?reg
-        (worker @self) (job ?job) (level [k trainee]))
+    (table-add ?reg worker @self job ?job level [k trainee])
     (set-outcome ?en-rel succ)))

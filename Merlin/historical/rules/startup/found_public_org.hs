@@ -40,7 +40,7 @@
     ; Found the org with its HEAD only; the emergent labour market (employment.hs
     ; `hiring` -> hire_errand -> hire-matched) staffs it from the unemployed over
     ; subsequent ticks. employee_count / employee_role are no longer read here.
-    (for-each-table-record public_orgs
+    (for-each-row public_orgs
         (kind ?k) (head_pos ?hp) (class_floor ?cf)
       (if (and (= (count (attr-values @gm all_org_kinds ?k)) 0)
                (class-at-least @self ?cf))

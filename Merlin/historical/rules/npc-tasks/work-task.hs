@@ -22,8 +22,8 @@
                  {?org record ?})
       (when (and {?org isa ?ok}
                  {?org employee_register ?reg}
-                 (< (count-doc-records [k employee_register] ?reg)
-                    (table-lookup public_orgs kind ?ok employee_count 2))))
+                 (< (table-count ?reg)
+                    (if (table-match public_orgs kind ?ok employee_count ?ec) (then ?ec) (else 2)))))
       (utility duty)
       (effects (debug-print "RC_ROOT")
                (begin-proposal {@self recruit_staff ?org})))
@@ -31,20 +31,23 @@
       (role ?job {@self job ?job})
       (role ?org {?job org ?org}
                  {?org workplace ?wp})
-      (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh-rel ?sh-rel.target: ?start ?sh-rel.auxiliary: ?end)
+      (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
+            (latch-eval (any {?job ?tl ?}): ?sh-rel ?sh-rel.target: ?start ?sh-rel.auxiliary: ?end)
             (and (check ?org) (spatial @self building ?wp) (< (now-hour) 12)))
       (effects (maintain-proposal {@self DWELL ?wp (min 12 ?end)})))
     (try
       (role ?job {@self job ?job})
       (role ?org {?job org ?org}
                  {?org workplace ?wp})
-      (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh-rel ?sh-rel.target: ?start ?sh-rel.auxiliary: ?end)
+      (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
+            (latch-eval (any {?job ?tl ?}): ?sh-rel ?sh-rel.target: ?start ?sh-rel.auxiliary: ?end)
             (and (check ?org) (spatial @self building ?wp) (>= (now-hour) 12)))
       (effects (maintain-proposal {@self DWELL ?wp ?end})))
     (try
       (role ?job {@self job ?job})
       (role ?org {?job org ?org}
                  {?org workplace ?wp})
-      (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh-rel ?sh-rel.target: ?start ?sh-rel.auxiliary: ?end)
+      (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
+            (latch-eval (any {?job ?tl ?}): ?sh-rel ?sh-rel.target: ?start ?sh-rel.auxiliary: ?end)
             (not (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
       (effects (set-outcome ?w-rel succ)))))

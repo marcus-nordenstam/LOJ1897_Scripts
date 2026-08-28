@@ -6,8 +6,8 @@
 ; mint / raise the {@self skilled_in <curriculum> <band>} credential - primary
 ; graduates novice, everything above trained (the band that trips the
 ; physician / lawyer / scholar identities + the prestige bump). MONOTONIC:
-; never downgrades a skill a job pushed higher (competence-rank compares the
-; held band). A studied UNIVERSITY SUBJECT (a discipline, not the primary /
+; never downgrades a skill a job pushed higher (comparing the held band's rank
+; against the new one). A studied UNIVERSITY SUBJECT (a discipline, not the primary /
 ; secondary tier) also kindles a standing interest - it maintains the skill
 ; against atrophy AND unlocks derive_calling (skilled_in >= trained AND an
 ; interest), the educated-poisoner archetype's root. No-op when not enrolled.
@@ -20,7 +20,8 @@
     ?stb.target: ?curriculum
     (if (is-kind ?curriculum)
         (then
-          (competence-rank (any {@self skilled_in ?curriculum}).auxiliary): ?cur_rank
+          (if (table-match band_rank band (any {@self skilled_in ?curriculum}).auxiliary rank ?held_rank)
+              (then ?held_rank) (else -1)): ?cur_rank
           (if (is-a ?curriculum [k primary_school_curriculum]) (then 1) (else 0)): ?is_primary
           (end-belief {@self study ?curriculum} /salience unforgettable)
           ; Monotonic credential (novice 0 / trained 1 / expert 2).
@@ -36,9 +37,3 @@
           (if (not (or (is-a ?curriculum [k primary_school_curriculum])
                        (is-a ?curriculum [k secondary_school_curriculum])))
               (then (begin-belief {@self interest ?curriculum})))))))
-
-; (competence-rank ?band): the monotonic rank of a competence band (novice 0 /
-; trained 1 / expert 2), -1 when unheld. Folds the old C++ op into a (lookup)
-; over the band_rank table (lookup_tables.hs).
-(define-macro competence-rank (?band)
-  (table-lookup band_rank band ?band rank -1))

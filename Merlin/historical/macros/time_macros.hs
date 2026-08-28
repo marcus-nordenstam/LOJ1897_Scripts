@@ -41,12 +41,6 @@
     (then 36500) ; 100 years in days - never done
     (else (/ (- (now-abs-seconds) (abs-seconds (highest /end ?what).end)) 86400))))
 
-; (work-hours-today-label): the {job <label> start end} shift-belief label for
-; today's weekday. Folds the old C++ 7-entry map into a (lookup) over the
-; weekday_hours_label table (lookup_tables.hs).
-(define-macro work-hours-today-label ()
-  (table-lookup weekday_hours_label weekday (now-weekday) label))
-
 ; ----------------------------------------------------------------------------
 ; Age from a KNOWN birth date (belief-reading; replaces the omniscient C++
 ; (years-old) op that read the env birth_date attr). Composed from the general

@@ -32,5 +32,5 @@
       (effects
         (o {?art declares_org @o}): ?org
         (any {?org employee_register ?}).target: ?reg
-        (if (read-doc-record [k employee_register] ?reg (find worker @self))
+        (if (table-match (attr ?reg writing) worker @self)
             (then (begin-belief {@self member_of ?org})))))))

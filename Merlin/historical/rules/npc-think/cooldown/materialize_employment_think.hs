@@ -55,8 +55,7 @@
         (any {?org isa ?}).target: ?ok
         (any {?org employee_register ?}).target: ?reg
         (if (and (not (is-a ?ok [k org club]))
-                 (read-doc-record [k employee_register] ?reg
-                     (find worker @self) (job ?job) (level ?lvl)))
+                 (table-match (attr ?reg writing) worker @self job ?job level ?lvl))
           (then
             (hire-beliefs ?art ?job ?lvl)
             (break)))))))

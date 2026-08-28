@@ -7,12 +7,6 @@
 ; requirement is unauthored.
 ; ----------------------------------------------------------------------------
 
-; (repute-rank ?band): monotonic rank of a respectability band (scandalous 0 ..
-; exemplary 4); -1 when unappraised/@fail - so a req_repute gate FAILS a worker
-; with no proven band (a trust post needs a proven name).
-(define-macro repute-rank (?band)
-  (table-lookup repute_rank band ?band rank -1))
-
 ; (hosted-by ?bt ?org-kind): does an org of ?org-kind host this post? A `none`
 ; business_type is a generic post (a cook / clerk works anywhere).
 (define-macro hosted-by (?bt ?org-kind)
@@ -28,15 +22,20 @@
 ; the worker's PROVEN band must rank at or above it (unappraised = -1 = fail).
 (define-macro repute-ok (?w ?rr)
   (or (= ?rr none)
-      (>= (repute-rank (any {?w repute ?}).target) (repute-rank ?rr))))
+      (>= (if (table-match repute_rank band (any {?w repute ?}).target rank ?w_rr)
+              (then ?w_rr) (else -1))
+          (if (table-match repute_rank band ?rr rank ?req_rr)
+              (then ?req_rr) (else -1)))))
 
 ; (skill-ok ?w ?d ?b): the skill/education gate. `none` = no requirement (an
 ; entry rung); otherwise the worker's own {@self skilled_in <domain> /aux <band>}
 ; must hold at >= the required band (unheld = -1 = fail).
 (define-macro skill-ok (?w ?d ?b)
   (or (= ?d none)
-      (>= (competence-rank (any {?w skilled_in ?d}).auxiliary)
-          (competence-rank ?b))))
+      (>= (if (table-match band_rank band (any {?w skilled_in ?d}).auxiliary rank ?w_cr)
+              (then ?w_cr) (else -1))
+          (if (table-match band_rank band ?b rank ?req_cr)
+              (then ?req_cr) (else -1)))))
 
 ; (job-match-score ?t1 ?w1 ?t2 ?w2): the soft match score - a base so any
 ; eligible candidate is hirable, plus the weighted preferred-trait reads. Also

@@ -51,13 +51,15 @@
         (check ?back)
         (create-entity [k articles_of_incorporation] (qual location ?back)): ?art
         (create-entity [k employee_register]          (qual location ?back)): ?reg
+        (table-init ?reg worker job level)
 
         ; --- founder's mind: the org object + its constitutive beliefs ------------
         (o ?org-kind {?art declares_org @o}): ?org
+        (table-match businesses org_kind ?org-kind name ?org-name)
         (begin-belief {?org isa ?org-kind})
         (begin-belief {?org founder @self})
         (begin-belief {?org workplace ?wp})
-        (begin-belief {?org name (table-lookup businesses org_kind ?org-kind name [n unknown])})
+        (begin-belief {?org name ?org-name})
         (begin-belief {?org record ?art})
         (begin-belief {?org employee_register ?reg})
 
@@ -70,13 +72,12 @@
                                        {?org founder @self}
                                        {?org workplace ?wp}
                                        {?org employee_register ?reg}
-                                       {?org name (table-lookup businesses org_kind ?org-kind name [n unknown])}))
+                                       {?org name ?org-name}))
 
         ; --- seat the founder as HEAD: roster + head-job beliefs -------------------
         ; ?head-role is a job KIND that is-a org_head (so {@self job [k org_head]}
         ; matches). Heading an org is NOT employment - the head job carries NO salary.
-        (write-doc-record [k employee_register] ?reg
-            (worker @self) (job ?head-role) (level [k senior]))
+        (table-add ?reg worker @self job ?head-role level [k senior])
         (begin-belief {?wp occupant @self})
         ; the head job object: org (job.org), seniority, work-hours. No salary (unpaid).
         (o ?head-role {@self job @o}): ?job
@@ -118,13 +119,15 @@
         (check ?back)
         (create-entity [k articles_of_incorporation] (qual location ?back)): ?art
         (create-entity [k employee_register]          (qual location ?back)): ?reg
+        (table-init ?reg worker job level)
 
         ; --- founder's mind: the org object + its constitutive beliefs -----------
         (o ?club-kind {?art declares_org @o}): ?org
+        (table-match businesses org_kind ?club-kind name ?org-name)
         (begin-belief {?org isa ?club-kind})
         (begin-belief {?org founder @self})
         (begin-belief {?org workplace ?wp})
-        (begin-belief {?org name (table-lookup businesses org_kind ?club-kind name [n unknown])})
+        (begin-belief {?org name ?org-name})
         (begin-belief {?org record ?art})
         (begin-belief {?org employee_register ?reg})
         ; the articles DOCUMENT: constitutive sentences a stranger READs (orient) to
@@ -134,12 +137,12 @@
                                        {?org founder @self}
                                        {?org workplace ?wp}
                                        {?org employee_register ?reg}
-                                       {?org name (table-lookup businesses org_kind ?club-kind name [n unknown])}))
+                                       {?org name ?org-name}))
 
         ; --- the founder is the club's first MEMBER (member_of, not employment) ---
         ; a membership roster row [member membership] (no level - a club membership
         ; carries no rank) + the member_of belief in his own mind. ?reg / ?org bound above.
-        (write-doc-record [k employee_register] ?reg (worker @self) (job [k membership]))
+        (table-add ?reg worker @self job [k membership])
         (begin-belief {@self member_of ?org})
         ; org registry: record that one more org of this kind now exists.
         (add-attr-item @gm all_org_kinds ?club-kind)))))
@@ -180,10 +183,11 @@
     ; seated by found-org-seq mint NO salary (heading != being employed). The org
     ; lives ON the job object, so {@self job.org ?} chains (no separate employer).
     ; salary IS the yearly income (0 = unsalaried), read from income_by_level.
+    (table-match income_by_level level ?level income ?salary)
     (o ?job-kind {@self job @o}): ?job
     (begin-belief {?job org ?org})
     (begin-belief {?job level ?level})
-    (begin-belief {?job salary (table-lookup income_by_level level ?level income 0)})
+    (begin-belief {?job salary ?salary})
     (begin-belief {?job since (year)})
     (stamp-work-hours ?job ?job-kind)))
 
@@ -220,8 +224,7 @@
     ; register is learned off the adopted {?org employee_register} belief.
     (o {?art declares_org @o}): ?org
     {?org employee_register ?reg}
-    (write-doc-record [k employee_register] ?reg
-        (worker @self) (job ?job-kind) (level ?level))))
+    (table-add ?reg worker @self job ?job-kind level ?level)))
 
 ; ----------------------------------------------------------------------------
 ; fire-self - a worker leaves his OWN post. Scrubs @self's row off the firm's
@@ -240,5 +243,5 @@
           ?fire-orel.target: ?fire-org
           (for-each ?fire-rrel (every {?fire-org employee_register ?})
               ?fire-rrel.target: ?fire-reg
-              (remove-doc-record [k employee_register] ?fire-reg (find worker @self))))
+              (table-remove ?fire-reg worker @self)))
       (end-belief ?fire-jrel)))

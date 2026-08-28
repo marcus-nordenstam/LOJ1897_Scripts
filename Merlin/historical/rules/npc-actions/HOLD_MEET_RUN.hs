@@ -28,14 +28,13 @@
     (o {?art declares_org @o}): ?org
     (any {?org isa ?}).target: ?club_kind
     (any {?org employee_register ?}).target: ?reg
-    (if (is-kind (table-lookup club_sports org_kind ?club_kind sport))
+    (if (table-match club_sports org_kind ?club_kind sport ?sport)
       (then
-        (table-lookup club_sports org_kind ?club_kind sport): ?sport
         ; Summon every co-present, living roster member by SPEAKING the call: a
         ; directed utterance the member hears and adopts as his own standing summons
         ; ({<organiser> summon <him> /aux <sport>}, his ticket to report; race_act ends
         ; his copy). Nothing is written into his mind - awareness is by earshot.
-        (for-each-doc-record [k employee_register] ?reg (worker ?m)
+        (for-each-row (attr ?reg writing) (worker ?m)
           (if (and (alive ?m) (spatial ?m co-located @self))
               (then (tell-to ?m (utterable-msg (to ?m) {@self summon ?m ?sport})))))))
     (set-outcome {@self HOLD_MEET_RUN} succ)))

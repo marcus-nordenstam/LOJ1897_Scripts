@@ -7,8 +7,9 @@
 ; an employed NPC to their workplace during their shift and holds them there.
 ; Gated on the beliefs the labour market mints, all resolved live as composable
 ; belief reads: (any {@self job.org ?}).target: ?org (any {?org workplace ?}).target: ?wp for the
-; destination, and (any {@self job ?}).target: ?job (bind {?job (work-hours-today-label)
-; ?start ?end}) for today's shift hours. A missing job / workplace / shift fails
+; destination, and (any {@self job ?}).target: ?job with the day's shift label bound
+; via (table-match weekday_hours_label ...): ?tl then {?job ?tl ?start ?end} for today's
+; shift hours. A missing job / workplace / shift fails
 ; the gate (no job, or a day off -> no commute). The shift clock-math ops then test
 ; the bound ?start / ?end against the env clock.
 ;
@@ -42,7 +43,8 @@
   (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
              {?org workplace ?wp}       ; ?wp binds at fire
              (spatial @self building ?wp))                    ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
-  (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)  ; onset: derive the shift, bind ?start/?end
+  (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
+        (latch-eval (any {?job ?tl ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)  ; onset: derive the shift, bind ?start/?end
         (and (none {@self work ?wp /pres})
              (not (has-proposal {@self work ?wp}))
              (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
@@ -64,7 +66,8 @@
   (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
              {?org workplace ?wp}       ; ?wp binds at fire
              (not (spatial @self building ?wp)))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
-  (when (latch-eval (any {?job (work-hours-today-label) ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)  ; onset: derive the shift, bind ?start/?end
+  (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
+        (latch-eval (any {?job ?tl ?}): ?sh ?sh.target: ?start ?sh.auxiliary: ?end)  ; onset: derive the shift, bind ?start/?end
         (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
   (utility duty)
   (effects       (maintain-proposal {@self go ?wp})))

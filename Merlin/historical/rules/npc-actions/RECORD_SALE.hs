@@ -11,10 +11,10 @@
   (effects
     (for-each ?deed (documents [k title_deed])
       (do
-        (read-doc-record [k title_deed] ?deed (building ?db))
+        (table-match (attr ?deed writing) building ?db)
         (if (= ?db ?dwell)
             (then
-              (update-doc-record [k title_deed] ?deed (owner @self))
+              (table-set ?deed owner @self)
               (break)))))
     (for-each ?listing (documents [k for_sale_listing])
       (do (if (= (attr ?listing address) ?dwell)

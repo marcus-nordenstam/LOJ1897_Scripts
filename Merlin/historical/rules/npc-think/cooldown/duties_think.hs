@@ -39,14 +39,14 @@
     (bind level ?slvl)
     (when (alive ?senior))
     (score (+ 1 (* 100 (is-a ?sjk [k org_head]))
-                (* 10 (table-lookup level_rank level ?slvl rank 0))))
+                (* 10 (if (table-match level_rank level ?slvl rank ?lr) (then ?lr) (else 0)))))
     (policy argmax)
     (else fail))
 
   (effects
     (if ?senior
         (then
-          (for-each-table-record org_duties (kind ?dk) (duty ?duty)
+          (for-each-row org_duties (kind ?dk) (duty ?duty)
             (if (is-a ?ok ?dk)
                 (then
                   (if (= ?senior @self)

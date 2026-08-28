@@ -8,5 +8,5 @@
 (npc-action {@self UNENROL ?reg}:?un-rel
   (duration 15)
   (effects
-    (remove-doc-record [k employee_register] ?reg (find worker @self))
+    (table-remove ?reg worker @self)
     (set-outcome ?un-rel succ)))

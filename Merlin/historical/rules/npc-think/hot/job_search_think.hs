@@ -61,7 +61,7 @@
   (role ?org {?org vacancy ?jk}
              (select (score 1) (policy roulette)))
   (when (and {?org workplace ?wp}
-             (table-lookup occupations job ?jk class_floor [k lower]): ?cf
+             (if (table-match occupations job ?jk class_floor ?cf0) (then ?cf0) (else [k lower])): ?cf
              (class-at-least @self ?cf)
              (none {@self apply_for ?jk ?wp /fail})))
   (utility errand)

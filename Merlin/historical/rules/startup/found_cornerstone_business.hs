@@ -38,7 +38,7 @@
   (effects
     ; Found the business with its HEAD only (the proprietor); the emergent labour
     ; market staffs it from the unemployed over subsequent ticks.
-    (for-each-table-record cornerstone_businesses
+    (for-each-row cornerstone_businesses
         (kind ?k) (head_pos ?hp) (class_floor ?cf)
       (if (and (= (count (attr-values @gm all_org_kinds ?k)) 0)
                (class-at-least @self ?cf))

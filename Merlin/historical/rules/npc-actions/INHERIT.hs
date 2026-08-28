@@ -19,10 +19,10 @@
     ; Buildings: every deed the deceased owned passes to @self.
     (for-each ?deed (documents [k title_deed])
       (do
-        (read-doc-record [k title_deed] ?deed (owner ?o) (building ?b))
+        (table-match (attr ?deed writing) owner ?o building ?b)
         (if (= ?o ?dead)
             (then
-              (update-doc-record [k title_deed] ?deed (owner @self))
+              (table-set ?deed owner @self)
               (begin-belief {@self own ?b})))))
     ; Founded orgs: every org @self KNOWS the deceased founded passes to @self - a
     ; belief re-point in @self's own mind (founder is @excl, so it supersedes). No

@@ -28,7 +28,7 @@
       (role ?ad [k job_description] (spatial ?ad co-located @self)
             (not (substantial (attr ?ad writing))))
       (when (and {?org isa ?ok}
-                 (table-lookup org_staffing org_kind ?ok staff_role none): ?jk
+                 (table-match org_staffing org_kind ?ok staff_role ?jk)
                  (is-kind ?jk)))
       (effects (debug-print "ADV_VACANCY")
                (maintain-proposal {@self WRITE ?ad {?org vacancy ?jk}})))

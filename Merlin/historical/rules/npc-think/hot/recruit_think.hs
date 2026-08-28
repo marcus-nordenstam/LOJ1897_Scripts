@@ -16,8 +16,8 @@
   (role ?ad {@self post ?ad ?org})
   (when (and {?org isa ?ok}
              {?org employee_register ?reg}
-             (>= (count-doc-records [k employee_register] ?reg)
-                 (table-lookup public_orgs kind ?ok employee_count 2))))
+             (>= (table-count ?reg)
+                 (if (table-match public_orgs kind ?ok employee_count ?ec) (then ?ec) (else 2)))))
   (utility duty)
   (effects (maintain-proposal {@self DESTROY_ENTITY ?ad})))
 

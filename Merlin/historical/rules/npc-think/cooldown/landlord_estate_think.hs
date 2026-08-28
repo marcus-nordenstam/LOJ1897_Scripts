@@ -59,10 +59,10 @@
           (then
             (for-each ?deed (documents [k title_deed])
               (do
-                (read-doc-record [k title_deed] ?deed (owner ?o) (building ?b))
+                (table-match (attr ?deed writing) owner ?o building ?b)
                 (if (and (= ?o @self)
                          (or {?b availability [k for_rent]} {?b tenant ?}))
                   (then
-                    (update-doc-record [k title_deed] ?deed (owner ?ea))
+                    (table-set ?deed owner ?ea)
                     (end-belief {@self own ?b})))))
             (break)))))))

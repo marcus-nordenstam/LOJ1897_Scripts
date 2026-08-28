@@ -42,7 +42,7 @@
       (effects
         (o {?art declares_org @o}): ?org
         (any {?org employee_register ?}).target: ?reg
-        (if (read-doc-record [k employee_register] ?reg (find worker @self) (level ?lvl))
+        (if (table-match (attr ?reg writing) worker @self level ?lvl)
             (then
               (hire-beliefs ?art [k job clerk] ?lvl)
               (org-founder ?art ?master)
