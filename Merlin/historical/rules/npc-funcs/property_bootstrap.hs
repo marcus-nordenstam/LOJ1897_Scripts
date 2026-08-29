@@ -56,6 +56,6 @@
             (set-writing ?art (written-msg {?art declares_org ?org}
                                            {?org isa ?kind}
                                            {?org workplace ?bldg}))
-            (first (env-entities [k incorporation_stack])): ?ist
+            (head (env-entities [k incorporation_stack])): ?ist
             (if ?ist (then (push ?art ?ist)))
             (break)))))))
