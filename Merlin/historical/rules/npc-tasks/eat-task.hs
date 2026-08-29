@@ -9,7 +9,7 @@
 ;   table_talk  - turn to one co-present diner and air one untold piece of my own news.
 ; ----------------------------------------------------------------------------
 
-(include "../../macros/collection_macros.hs")
+(include "../../macros/collection-macros.hs")
 
 (npc-task {@self eat ?meal ?place}:?e-rel
   (tar meal)

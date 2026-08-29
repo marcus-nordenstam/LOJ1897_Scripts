@@ -18,7 +18,7 @@
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
-(include "../../../macros/intensity_macros.hs")
+(include "../../../macros/intensity-macros.hs")
 
 ; The DESIRE. A churchgoer (some politeness) who has not been to a service since the
 ; last representative day wants to attend. hsim simulates ONE representative day per

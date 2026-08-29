@@ -41,5 +41,5 @@
   (utility want)
 
   (effects
-    (nl_utterable_msg "I fancy you"): ?msg
+    (nl-utterable-msg "I fancy you"): ?msg
     (maintain-proposal {@self SAY ?msg ?target})))

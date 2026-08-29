@@ -12,8 +12,8 @@
 ; Concludes the moment an instance of ?kind is in hand, however it arrived.
 ; ----------------------------------------------------------------------------
 
-(include "../../macros/money_macros.hs")
-(include "../../macros/acquisition_macros.hs")
+(include "../../macros/money-macros.hs")
+(include "../../macros/acquisition-macros.hs")
 (include "../../definitions/roles.hs")
 
 (npc-task {@self acquire ?kind ?disc}:?acq-rel

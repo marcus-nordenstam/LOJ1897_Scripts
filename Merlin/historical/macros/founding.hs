@@ -24,7 +24,7 @@
 ;     ?head-role - the founder's job, a scoped job kind ([k job priest])
 ; ----------------------------------------------------------------------------
 
-(include "adopt_aoc.hs")
+(include "adopt-aoc.hs")
 
 ; found-org-seq - read the house-agency's for-sale REGISTER for a premises of the org's
 ; building kind (businesses-table `building`, unlisted -> office), claim it, and found the

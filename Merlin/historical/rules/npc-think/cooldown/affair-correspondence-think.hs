@@ -49,5 +49,5 @@
     ; The love letter IS the affair fact, authored in natlang: her name in the
     ; body, "Signed, .." -> the (formulaic author ..) the reader resolves @i from.
     (send-covert-letter ?paramour
-                         (nl_written_msg "I have taken ?paramour_name as a lover. Signed, ?author_name")
+                         (nl-written-msg "I have taken ?paramour_name as a lover. Signed, ?author_name")
                          [k love_letter])))

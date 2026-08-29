@@ -29,6 +29,6 @@
              (any {@self spouse ?}).target: ?husband))
 
   (effects
-    (set-attr @self pregnant_when (date_now))
+    (set-attr @self pregnant_when (date-now))
     (set-attr @self pregnant_by ?husband)
     (begin-belief {@self pregnant ?husband})))

@@ -27,5 +27,5 @@
         (then
           (debug-print "EXPOSE_SENT @self cheater=?cheater")
           (post-letter [k denunciation_letter]
-                       (nl_written_msg "?cheater_name has taken me as a lover. Signed, ?author_name")
+                       (nl-written-msg "?cheater_name has taken me as a lover. Signed, ?author_name")
                        ?cheater_home ?betrayed)))))

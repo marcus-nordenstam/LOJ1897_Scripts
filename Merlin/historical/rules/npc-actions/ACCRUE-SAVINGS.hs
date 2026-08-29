@@ -6,7 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
-(include "../../macros/collection_macros.hs")
+(include "../../macros/collection-macros.hs")
 
 (npc-action {@self ACCRUE_SAVINGS ?pile ?net}
   (duration 0)

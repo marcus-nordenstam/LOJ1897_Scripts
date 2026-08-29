@@ -6,8 +6,8 @@
 ; the (check) here is the release-armed backstop.
 ; ----------------------------------------------------------------------------
 
-(include "../../macros/money_macros.hs")
-(include "../../macros/collection_macros.hs")
+(include "../../macros/money-macros.hs")
+(include "../../macros/collection-macros.hs")
 
 (npc-action {@self BUY ?goods ?vendor}:?buy-act-rel
   (tar object) (aux human) (duration 1)

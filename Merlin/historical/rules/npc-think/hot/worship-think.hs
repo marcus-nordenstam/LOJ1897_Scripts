@@ -18,7 +18,7 @@
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.hs")
-(include "../../../macros/intensity_macros.hs")
+(include "../../../macros/intensity-macros.hs")
 
 ; TERMINAL step (act_body_purification): the service is now PROPOSED, guarded by being IN a church.
 ; Because `worship` is a proposed label the {@self WORSHIP} desire drops out of the auction (it

@@ -7,7 +7,7 @@
 ; deed memory (act/state doctrine) - no fiat record.
 ; ----------------------------------------------------------------------------
 
-(include "../../macros/acquisition_macros.hs")
+(include "../../macros/acquisition-macros.hs")
 
 (npc-task {@self steal ?kind}:?steal-rel
   (tar ?)

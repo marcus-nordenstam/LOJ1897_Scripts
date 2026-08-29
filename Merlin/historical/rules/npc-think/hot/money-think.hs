@@ -17,7 +17,7 @@
 ;                    perceived count change is needed. economic_situation.hs bands it.
 ; ----------------------------------------------------------------------------
 
-(include "../../../macros/money_macros.hs")
+(include "../../../macros/money-macros.hs")
 
 (npc-think seed_coin_pile
   (cooldown 1 m)

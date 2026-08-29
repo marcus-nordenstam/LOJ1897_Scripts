@@ -22,7 +22,7 @@
 ; The durative sleep act itself (sleep_act) lives in npc-act/rest.hs.
 ; ----------------------------------------------------------------------------
 
-(include "../../../macros/intensity_macros.hs")
+(include "../../../macros/intensity-macros.hs")
 
 ; THE SLEEP DRIVE - the banded fatigue escalation, aligned with the engine's alertness
 ; thresholds (update_physiology: < 0.5 alert, < 1.0 tired, else sleepy; accrual 1/16 per

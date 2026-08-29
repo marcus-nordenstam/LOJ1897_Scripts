@@ -9,7 +9,7 @@
 
 (include "../../definitions/roles.hs")
 (include "../../macros/tunables.hs")
-(include "../../macros/collection_macros.hs")
+(include "../../macros/collection-macros.hs")
 
 ; A pure act: the BUY CAP (basket vs larder shortfall vs what is already in
 ; hand) is the proposing think's arithmetic and rides the pattern; the body

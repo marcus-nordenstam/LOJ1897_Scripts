@@ -20,7 +20,7 @@
 ; / stolen / eaten down) is re-seeded. Replaces world-act/grocer_restock.hs.
 ; ----------------------------------------------------------------------------
 
-(include "../../macros/collection_macros.hs")
+(include "../../macros/collection-macros.hs")
 
 ; The daily shelf cap - one town-day of provisions (a food prop is a
 ; person-day, so the shelf carries roughly the parish between restocks). The

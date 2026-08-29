@@ -34,8 +34,8 @@
             ?lb-rel.subject: ?loot
             (plant-letter [k crime_report_letter]
                           (if (alive ?focus)
-                              (then (nl_written_msg "I suspect ?focus"))
-                              (else (nl_written_msg "?loot was stolen from me")))
+                              (then (nl-written-msg "I suspect ?focus"))
+                              (else (nl-written-msg "?loot was stolen from me")))
                           (spatial @self space))
             (break)))
         (set-outcome ?report-rel succ)))

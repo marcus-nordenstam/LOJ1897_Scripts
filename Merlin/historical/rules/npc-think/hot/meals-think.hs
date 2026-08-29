@@ -82,9 +82,9 @@
 ; act-belief IS the meal memory (target = the meal occasion, aux = the place);
 ; there is no separate dine record.
 
-(include "../../../macros/intensity_macros.hs")
-(include "../../../macros/collection_macros.hs")
-(include "../../../macros/money_macros.hs")
+(include "../../../macros/intensity-macros.hs")
+(include "../../../macros/collection-macros.hs")
+(include "../../../macros/money-macros.hs")
 
 ; THE STARVATION DRIVE - the banded escalation ladder for hunger past its window.
 ; The starving tail (below) all gate on appetite > 1.3, so this always sits in the

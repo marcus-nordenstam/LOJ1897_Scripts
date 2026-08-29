@@ -24,11 +24,11 @@
 ; the interval-start of @self's own ongoing {?c condition dead} belief. 0 when
 ; @self holds no such belief. Observer-side and telepathy-honest by construction
 ; (only known deaths count); date fields are 0-indexed consistently across
-; (date_now) and the stored belief start, so the month diff needs no alignment.
+; (date-now) and the stored belief start, so the month diff needs no alignment.
 (define-macro months-since-death (?c)
   (if (any {?c condition [k dead]})
-      (then (max 0 (+ (* 12 (- (year (date_now))
+      (then (max 0 (+ (* 12 (- (year (date-now))
                          (year (any {?c condition [k dead]}).start)))
-                (- (month (date_now))
+                (- (month (date-now))
                    (month (any {?c condition [k dead]}).start)))))
       (else 0)))

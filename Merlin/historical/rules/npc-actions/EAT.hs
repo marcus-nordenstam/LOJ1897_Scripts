@@ -16,7 +16,7 @@
 ;            utility), not the act's.
 ; ----------------------------------------------------------------------------
 
-(include "../../macros/collection_macros.hs")
+(include "../../macros/collection-macros.hs")
 
 (npc-action {@self EAT ?food ?owner}
   (duration 30)

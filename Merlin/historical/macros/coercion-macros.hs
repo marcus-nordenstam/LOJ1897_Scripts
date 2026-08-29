@@ -29,7 +29,7 @@
         (begin-belief ?victim {@self extort ?victim})
         (if (chance 0.5)
             (then (send-covert-letter ?victim
-                                 (nl_written_msg "I coerced ?victim into becoming my lover")
+                                 (nl-written-msg "I coerced ?victim into becoming my lover")
                                  [k blackmail_note]))))))
 
 ; (coercion-stake): the exposure_risk pressure delta a victim mints per month, as

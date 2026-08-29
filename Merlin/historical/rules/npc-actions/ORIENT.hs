@@ -14,7 +14,7 @@
 ;   orient_read  : completion - read the register + clear the goal.
 ; ----------------------------------------------------------------------------
 
-(include "../../macros/adopt_aoc.hs")
+(include "../../macros/adopt-aoc.hs")
 
 (npc-action {@self ORIENT}
   (duration 30)

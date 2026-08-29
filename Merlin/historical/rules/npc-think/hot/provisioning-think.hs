@@ -31,7 +31,7 @@
 
 (include "../../../definitions/roles.hs")
 (include "../../../macros/tunables.hs")
-(include "../../../macros/collection_macros.hs")
+(include "../../../macros/collection-macros.hs")
 
 ; ---- the cook election (public-bb synchronized, one per household) ----------
 ; Priority ladder: hired cook > wife > (oldest) daughter > husband/father >

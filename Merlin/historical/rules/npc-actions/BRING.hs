@@ -7,7 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
-(include "../../macros/collection_macros.hs")
+(include "../../macros/collection-macros.hs")
 
 (npc-action {@self BRING ?ware ?dest}
   (duration 5)

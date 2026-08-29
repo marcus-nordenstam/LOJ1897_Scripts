@@ -23,7 +23,7 @@
 ; hand-in). There is NO C++ for any of this.
 ; ----------------------------------------------------------------------------
 
-(include "../../macros/combat_macros.hs")
+(include "../../macros/combat-macros.hs")
 
 (npc-action {@self STRIKE ?foe ?method}
   (obs) (theme violent_to) (construed_act harm_act) (contradicts safety) (duration 1)

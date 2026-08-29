@@ -33,10 +33,10 @@
 
   ;; The fiancee belief must be in its first calendar year - the once-per-betrothal
   ;; re-fire guard; it gates the fire here rather than filtering the role.
-  (when (= (- (year (date_now)) (year (any {@self fiancee ?}).start)) 0))
+  (when (= (- (year (date-now)) (year (any {@self fiancee ?}).start)) 0))
 
   (effects
     ; Announce the fresh engagement to whoever is co-present (the SAY they hear and
     ; adopt); the wider circle learns via gossip (fiancee is a gossip label).
-    (tell (nl_utterable_msg "I am engaged to ?bride_name"))
+    (tell (nl-utterable-msg "I am engaged to ?bride_name"))
     ))

@@ -53,5 +53,5 @@
     ; a (formulaic author ..) the reader resolves @i from (no C++ compose, no baked
     ; signature). Addressed to her, so her morning post read (read_post) adopts it.
     (post-letter [k courtship_letter]
-                 (nl_written_msg "I fancy ?target_name. Signed, ?author_name")
+                 (nl-written-msg "I fancy ?target_name. Signed, ?author_name")
                  ?target_home ?target)))

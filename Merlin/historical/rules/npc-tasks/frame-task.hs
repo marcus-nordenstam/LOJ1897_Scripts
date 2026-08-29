@@ -27,7 +27,7 @@
       (utility errand always-pick)
       (effects
         (plant-letter [k forged_letter]
-                      (nl_written_msg "?victim killed me") (spatial @self space))
+                      (nl-written-msg "?victim killed me") (spatial @self space))
         (crime-ledger-append @self ?victim plant_evidence frame @u @u)
         (set-outcome ?frame-rel succ)))
     (try

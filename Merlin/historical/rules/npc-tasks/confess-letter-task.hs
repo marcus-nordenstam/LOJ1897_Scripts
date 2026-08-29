@@ -22,7 +22,7 @@
       (effects
         (if (and (alive ?kin) (!= ?kin ?partner) (any {?kin home ?}).target: ?kinhome)
             (then (post-letter [k confession_letter]
-                               (nl_written_msg "I have taken ?partner as a lover")
+                               (nl-written-msg "I have taken ?partner as a lover")
                                ?kinhome ?kin)))
         (set-outcome ?confess-rel succ)))
     (try

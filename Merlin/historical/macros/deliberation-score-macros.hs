@@ -110,7 +110,7 @@
 ; The full per-branch weight (excludes disinhibition + the kind-match, applied
 ; in deliberate_think). A non-positive result drops the pair.
 (define-macro deliberation-score (?pressure ?action ?focus ?weight)
-  (* (pressure_intensity ?pressure)
+  (* (pressure-intensity ?pressure)
      (* ?weight
      (* (trait-tilt ?action)
      (* (mood-tilt ?action)

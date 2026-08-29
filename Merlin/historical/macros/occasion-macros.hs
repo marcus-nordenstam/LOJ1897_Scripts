@@ -32,5 +32,5 @@
 ; The occasion's held_on date lands in the current month (hsim is monthly-resolution,
 ; so month + year is the natural grain for "the day has come").
 (define-macro date-in-current-month (?d)
-  (and (= (year ?d) (year (date_now)))
-       (= (month ?d) (month (date_now)))))
+  (and (= (year ?d) (year (date-now)))
+       (= (month ?d) (month (date-now)))))

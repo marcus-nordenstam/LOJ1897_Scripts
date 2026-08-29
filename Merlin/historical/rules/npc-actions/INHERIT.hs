@@ -11,7 +11,7 @@
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.hs")
-(include "../../macros/collection_macros.hs")
+(include "../../macros/collection-macros.hs")
 
 (npc-action {@self INHERIT ?dead ?pile}
   (duration 240)

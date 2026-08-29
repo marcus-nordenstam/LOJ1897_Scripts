@@ -71,7 +71,7 @@
 ; labels carry NO static wrong_act tag; blame is earned here unless the blow
 ; traces to prior violence against its own actor.
 (npc-reflex {?attacker (theme-labels violent_to) ?victim /ever}:?belief
-  (when (not (has_cause ?belief {? (theme-labels violent_to) ?attacker})))
+  (when (not (has-cause ?belief {? (theme-labels violent_to) ?attacker})))
   (decl-of ?belief contradicts):?v
   (when (or (not (substantial ?v))
             (not {?victim value ?})

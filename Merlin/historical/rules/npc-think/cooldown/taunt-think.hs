@@ -56,5 +56,5 @@
           (any {@self home}).target: ?home
           (if (and ?innocent ?home)
               (then (plant-letter [k forged_letter]
-                            (nl_written_msg "?innocent killed ?victim")
+                            (nl-written-msg "?innocent killed ?victim")
                             ?home)))))))

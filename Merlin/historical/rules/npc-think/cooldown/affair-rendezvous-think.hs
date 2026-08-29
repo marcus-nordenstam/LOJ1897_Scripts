@@ -62,7 +62,7 @@
              (any {?org name ?}).target: ?venue_name)
         (then
           (post-letter [k tryst_note]
-                (nl_written_msg "I met you at ?venue_name. Signed, ?author_name")
+                (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
                 ?paramour_home ?paramour)))
     (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)))
 
@@ -97,7 +97,7 @@
         (then
           (any {?venue name ?}).target: ?venue_name
           (post-letter [k tryst_note]
-                (nl_written_msg "I met you at ?venue_name. Signed, ?author_name")
+                (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
                 ?paramour_home ?paramour)))
     (bump-suspicion (spouse-of @self) @self 0.05)
     (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)))
@@ -145,7 +145,7 @@
              (any {?org name ?}).target: ?venue_name)
         (then
           (post-letter [k tryst_note]
-                (nl_written_msg "I met you at ?venue_name. Signed, ?author_name")
+                (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
                 ?paramour_home ?paramour)))
     (bump-suspicion (spouse-of @self) @self 0.05)
     (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)))
