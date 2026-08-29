@@ -1,17 +1,12 @@
 ; ----------------------------------------------------------------------------
 ; founding.hs - the org-founding belief sequence, as atomic .hse ops.
 ;
-; This is the DECOMPOSITION of the old monolithic C++ (found-org) effect: the
-; documents + every belief the FOUNDER/head holds are minted here, in the .hse DSL,
-; over the atomic ops. Only the irreducibly-C++ primitives remain ops:
-;   (acquire-org-premises ...) - the spatial verb (acquire an existing unoccupied
-;                              building from the pool + the founder's title deed +
-;                              an apothecary's poison stock); a dry pool binds ?wp to
-;                              a fail value (no abort) and the (if ?wp ...) guard
-;                              below skips the founding; see
-;                              hsim_org_lifecycle::acquire_org_premises.
-;   (stamp-work-hours ...)   - the shift stamp, reading the occupation_shifts
-;                              (define-table) rows for the job kind.
+; This is the DECOMPOSITION of the old monolithic C++ (found-org) effect: the documents +
+; every belief the FOUNDER/head holds are minted here, in the .hse DSL. Premises are claimed
+; off the land registry (found-org-seq scans the title_deeds for a vacant one of the org's
+; building kind and stamps @self as its owner), not acquired from a C++ pool. The one op still
+; reaching outside @self's mind is:
+;   (stamp-work-hours ...) - the shift stamp, reading the occupation_shifts table for the job.
 ;
 ; STAFFING is NOT done here. A new org is founded with its HEAD only; the emergent
 ; labour market staffs it over subsequent ticks: the recruit_staff duty-holder posts
@@ -29,75 +24,69 @@
 ;     ?head-role - the founder's job, a scoped job kind ([k job priest])
 ; ----------------------------------------------------------------------------
 
+; found-org-seq - claim vacant PREMISES off the land registry, then found the org on it.
+; The premises kind is the org's businesses-table `building` (unlisted -> office). The
+; registry (every building's title_deed) is scanned for the first VACANT deed (owner
+; @nothing) of that kind; claiming stamps @self as its owner. No free building of the kind
+; -> the for-each finds no match and NOTHING is minted (no malformed org, no error).
 (define-macro found-org-seq (?org-kind ?head-role)
   (do
-    ; --- spatial premises (C++): acquire an existing building + title deed + stock.
-    ; A dry pool binds ?wp to a fail value (no abort); every step below is gated on
-    ; (if ?wp ...) so a premises-less founding mints NOTHING - no malformed org, no
-    ; error. Founding paths roll only housable kinds, so this is the race / belt path.
-    (tolerate (acquire-org-premises ?org-kind @self):?wp)
-    (if ?wp
-      (then
-        ; ?wp is the workplace BUILDING. The head LEARNS its rooms up front (the building
-        ; parts that are rooms): {building room <room>} + the reverse {room building}. The
-        ; founder owns the premises, so this stands in for having explored it.
-        (for-each ?room (spatial ?wp parts [k interior_space room] /env)
-            (learn-containment ?room ?wp))
-        ; --- the org's documents (abs-native): articles + an empty register -------
-        ; A document must live in a SPACE, never at the building - so seed them in one of
-        ; the workplace's rooms, which the head now knows. Containment is engine-written
-        ; (the spatial index) - read it via (spatial ?wp room), never a {?wp room ?} belief.
-        (spatial ?wp room): ?back
-        (check ?back)
-        (create-entity [k articles_of_incorporation] (qual location ?back)): ?art
-        (create-entity [k employee_register]          (qual location ?back)): ?reg
-        (table-init ?reg worker job level)
-
-        ; --- founder's mind: the org object + its constitutive beliefs ------------
-        (o ?org-kind {?art declares_org @o}): ?org
-        (table-match businesses org_kind ?org-kind name ?org-name)
-        (begin-belief {?org isa ?org-kind})
-        (begin-belief {?org founder @self})
-        (begin-belief {?org workplace ?wp})
-        (begin-belief {?org name ?org-name})
-        (begin-belief {?org record ?art})
-        (begin-belief {?org employee_register ?reg})
-
-        ; --- the articles DOCUMENT: the constitutive sentences a STRANGER reads (via
-        ; orient) to reconstruct the org. Composed with (msg ..), so each ?org / @self
-        ; reference REG-externalizes to its name for any reader. Known-org readers use
-        ; their own beliefs above and never touch this doc.
-        (set-writing ?art (written-msg {?art declares_org ?org}
-                                       {?org isa ?org-kind}
-                                       {?org founder @self}
-                                       {?org workplace ?wp}
-                                       {?org employee_register ?reg}
-                                       {?org name ?org-name}))
-
-        ; --- seat the founder as HEAD: roster + head-job beliefs -------------------
-        ; ?head-role is a job KIND that is-a org_head (so {@self job [k org_head]}
-        ; matches). Heading an org is NOT employment - the head job carries NO salary.
-        (table-add ?reg worker @self job ?head-role level [k senior])
-        (begin-belief {?wp occupant @self})
-        ; the head job object: org (job.org), seniority, work-hours. No salary (unpaid).
-        (o ?head-role {@self job @o}): ?job
-        (begin-belief {?job org ?org})
-        (begin-belief {?job level [k senior]})
-        (begin-belief {?job since (year)})
-        (stamp-work-hours ?job ?head-role)
-        ; org registry: record that one more org of this kind now exists.
-        (add-attr-item @gm all_org_kinds ?org-kind)))))
+    (if (table-match businesses org_kind ?org-kind building ?bk)
+        (then ?bk) (else [k building office])): ?want-kind
+    (for-each ?deed (documents [k title_deed])
+      (do
+        (table-match (attr ?deed writing) owner _ building ?wp)
+        (if (is-a ?wp ?want-kind)
+          (then
+            ; CLAIM: stamp @self as the premises' owner, then found the org on ?wp.
+            (table-set ?deed owner @self)
+            ; The head LEARNS the workplace's rooms up front (owning it stands in for
+            ; exploring it): {building room <room>} + the reverse.
+            (for-each ?room (spatial ?wp parts [k interior_space room] /env)
+                (learn-containment ?room ?wp))
+            ; The org's documents (articles + an empty register), seeded in a room (a
+            ; document must live in a SPACE, never at the building).
+            (spatial ?wp room): ?back
+            (check ?back)
+            (create-entity [k articles_of_incorporation] (qual location ?back)): ?art
+            (create-entity [k employee_register]          (qual location ?back)): ?reg
+            (table-init ?reg worker job level)
+            ; Founder's mind: the org object + its constitutive beliefs.
+            (o ?org-kind {?art declares_org @o}): ?org
+            (table-match businesses org_kind ?org-kind name ?org-name)
+            (begin-belief {?org isa ?org-kind})
+            (begin-belief {?org founder @self})
+            (begin-belief {?org workplace ?wp})
+            (begin-belief {?org name ?org-name})
+            (begin-belief {?org record ?art})
+            (begin-belief {?org employee_register ?reg})
+            ; The articles DOCUMENT a stranger READs (orient) to reconstruct the org (each
+            ; ?org / @self REG-externalizes to its name via written-msg).
+            (set-writing ?art (written-msg {?art declares_org ?org}
+                                           {?org isa ?org-kind}
+                                           {?org founder @self}
+                                           {?org workplace ?wp}
+                                           {?org employee_register ?reg}
+                                           {?org name ?org-name}))
+            ; Seat the founder as HEAD: roster row + head-job beliefs (heading is NOT
+            ; employment - no salary). ?head-role is-a org_head.
+            (table-add ?reg worker @self job ?head-role level [k senior])
+            (begin-belief {?wp occupant @self})
+            (o ?head-role {@self job @o}): ?job
+            (begin-belief {?job org ?org})
+            (begin-belief {?job level [k senior]})
+            (begin-belief {?job since (year)})
+            (stamp-work-hours ?job ?head-role)
+            (add-attr-item @gm all_org_kinds ?org-kind)
+            (break)))))))
 
 ; ----------------------------------------------------------------------------
 ; found-club-seq - the CLUB analogue of found-org-seq.
 ;
-; A club has MEMBERS, not employees: no head is seated, no employment beliefs are
-; minted. So this is found-org-seq with the head-enrol block replaced by a single
-; (register-member @self) - the founder is the club's first member (member_of, not
-; employer). Premises are acquired exactly as for any org (acquire-org-premises:
-; same building-kind catalog + pool acquisition + title deed); a dry pool binds ?wp
-; to a fail value and the (if ?wp ...) guard skips the founding (clubs are not
-; premises-gated upstream, so this is the only dry-pool handling).
+; A club has MEMBERS, not employees: no head is seated, no employment beliefs are minted -
+; the founder is enrolled as the first member (member_of, not employer). Premises are claimed
+; off the land registry exactly as found-org-seq does (the clubhouse building kind comes from
+; the businesses table); no free clubhouse -> nothing is minted.
 ;
 ;   (found-club-seq ?club-kind)
 ;     ?club-kind - the rolled club kind value ([k org race_club] / [k org athletic_club])
@@ -105,47 +94,41 @@
 
 (define-macro found-club-seq (?club-kind)
   (do
-    (tolerate (acquire-org-premises ?club-kind @self):?wp)
-    (if ?wp
-      (then
-        ; ?wp is the clubhouse BUILDING. The founder LEARNS its rooms up front (owning the
-        ; premises stands in for exploring it): {building room} + the reverse {room building}.
-        (for-each ?room (spatial ?wp parts [k interior_space room] /env)
-            (learn-containment ?room ?wp))
-        ; --- the club's documents (abs-native): articles + an empty register -----
-        ; A document lives in a SPACE, never at the building - seed them in a clubhouse
-        ; room, read off the engine-written spatial index (never a {?wp room ?} belief).
-        (spatial ?wp room): ?back
-        (check ?back)
-        (create-entity [k articles_of_incorporation] (qual location ?back)): ?art
-        (create-entity [k employee_register]          (qual location ?back)): ?reg
-        (table-init ?reg worker job level)
-
-        ; --- founder's mind: the org object + its constitutive beliefs -----------
-        (o ?club-kind {?art declares_org @o}): ?org
-        (table-match businesses org_kind ?club-kind name ?org-name)
-        (begin-belief {?org isa ?club-kind})
-        (begin-belief {?org founder @self})
-        (begin-belief {?org workplace ?wp})
-        (begin-belief {?org name ?org-name})
-        (begin-belief {?org record ?art})
-        (begin-belief {?org employee_register ?reg})
-        ; the articles DOCUMENT: constitutive sentences a stranger READs (orient) to
-        ; reconstruct the club (org REG-externalizes to its name via written-msg).
-        (set-writing ?art (written-msg {?art declares_org ?org}
-                                       {?org isa ?club-kind}
-                                       {?org founder @self}
-                                       {?org workplace ?wp}
-                                       {?org employee_register ?reg}
-                                       {?org name ?org-name}))
-
-        ; --- the founder is the club's first MEMBER (member_of, not employment) ---
-        ; a membership roster row [member membership] (no level - a club membership
-        ; carries no rank) + the member_of belief in his own mind. ?reg / ?org bound above.
-        (table-add ?reg worker @self job [k membership])
-        (begin-belief {@self member_of ?org})
-        ; org registry: record that one more org of this kind now exists.
-        (add-attr-item @gm all_org_kinds ?club-kind)))))
+    (if (table-match businesses org_kind ?club-kind building ?bk)
+        (then ?bk) (else [k building office])): ?want-kind
+    (for-each ?deed (documents [k title_deed])
+      (do
+        (table-match (attr ?deed writing) owner _ building ?wp)
+        (if (is-a ?wp ?want-kind)
+          (then
+            (table-set ?deed owner @self)
+            (for-each ?room (spatial ?wp parts [k interior_space room] /env)
+                (learn-containment ?room ?wp))
+            (spatial ?wp room): ?back
+            (check ?back)
+            (create-entity [k articles_of_incorporation] (qual location ?back)): ?art
+            (create-entity [k employee_register]          (qual location ?back)): ?reg
+            (table-init ?reg worker job level)
+            (o ?club-kind {?art declares_org @o}): ?org
+            (table-match businesses org_kind ?club-kind name ?org-name)
+            (begin-belief {?org isa ?club-kind})
+            (begin-belief {?org founder @self})
+            (begin-belief {?org workplace ?wp})
+            (begin-belief {?org name ?org-name})
+            (begin-belief {?org record ?art})
+            (begin-belief {?org employee_register ?reg})
+            (set-writing ?art (written-msg {?art declares_org ?org}
+                                           {?org isa ?club-kind}
+                                           {?org founder @self}
+                                           {?org workplace ?wp}
+                                           {?org employee_register ?reg}
+                                           {?org name ?org-name}))
+            ; The founder is the club's first MEMBER ([k membership] roster row, no level)
+            ; + a {@self member_of} belief - not seated as a head.
+            (table-add ?reg worker @self job [k membership])
+            (begin-belief {@self member_of ?org})
+            (add-attr-item @gm all_org_kinds ?club-kind)
+            (break)))))))
 
 ; ----------------------------------------------------------------------------
 ; hire-beliefs - the BELIEF-ONLY half of hiring (no roster write).
