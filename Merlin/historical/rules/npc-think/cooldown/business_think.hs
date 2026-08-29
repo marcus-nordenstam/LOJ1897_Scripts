@@ -220,7 +220,7 @@
              (none {@self job [k head_of_non_household_org]})
              (latch-eval (chance 0.05)
                               (no-goal {@self FOUND})
-                              (< (* (count (attr-values @gm all_org_kinds [k org business])) 12)
+                              (< (* (count-orgs-isa [k org business]) 12)
                                  (living-npc-count)))))
 
   (utility errand)

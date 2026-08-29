@@ -21,7 +21,7 @@
 (define-func seed_property ()
   ; The singleton for-sale register, created once in the first building's room.
   (for-each ?b0 (env-entities [k building])
-    (spatial ?b0 room): ?r0
+    (spatial ?b0 room /env): ?r0
     (if (and ?r0 (none (env-entities [k for_sale_listings])))
       (then
         (create-entity [k for_sale_listings] (qual location ?r0)): ?reg0
@@ -29,7 +29,7 @@
         (break))))
   ; A vacant deed per building; list every one (all vacant at seed) in the register.
   (for-each ?b (env-entities [k building])
-    (spatial ?b room): ?room
+    (spatial ?b room /env): ?room
     (if ?room
       (then
         (create-entity [k title_deed] (qual location ?room)): ?deed
@@ -46,16 +46,16 @@
       (for-each-row (attr ?reg writing) (building ?bldg) (deed ?deed)
         (if (is-a ?bldg [k building office])
           (then
-            (spatial ?bldg room): ?iroom
+            (spatial ?bldg room /env): ?iroom
             (if (none (env-entities [k incorporation_stack]))
               (then (create-entity [k incorporation_stack] (qual location ?iroom))))
             (create-entity [k articles_of_incorporation] (qual location ?iroom)): ?art
             (o ?kind {?art declares_org @o}): ?org
             (table-set ?deed owner ?org)
             (table-remove ?reg building ?bldg)
-            (set-writing ?art (written-msg {?art declares_org ?org}
-                                           {?org isa ?kind}
-                                           {?org workplace ?bldg}))
+            (table-init ?art org_kind org_name founder workplace register)
+            (table-add ?art org_kind ?kind org_name @nothing founder @nothing
+                            workplace ?bldg register @nothing)
             (head (env-entities [k incorporation_stack])): ?ist
             (if ?ist (then (push ?art ?ist)))
             (break)))))))

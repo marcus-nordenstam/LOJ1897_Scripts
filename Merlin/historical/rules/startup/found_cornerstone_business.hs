@@ -40,7 +40,7 @@
     ; market staffs it from the unemployed over subsequent ticks.
     (for-each-row cornerstone_businesses
         (kind ?k) (head_pos ?hp) (class_floor ?cf)
-      (if (and (= (count (attr-values @gm all_org_kinds ?k)) 0)
+      (if (and (= (count-orgs-isa ?k) 0)
                (class-at-least @self ?cf))
           (then (found-org-seq ?k ?hp)
               (break))))))

@@ -24,6 +24,8 @@
 ;     ?head-role - the founder's job, a scoped job kind ([k job priest])
 ; ----------------------------------------------------------------------------
 
+(include "adopt_aoc.hs")
+
 ; found-org-seq - read the house-agency's for-sale REGISTER for a premises of the org's
 ; building kind (businesses-table `building`, unlisted -> office), claim it, and found the
 ; org on it. Scanning the compressed register table (not the whole deed registry) is the
@@ -61,14 +63,11 @@
             (begin-belief {?org name ?org-name})
             (begin-belief {?org record ?art})
             (begin-belief {?org employee_register ?reg})
-            ; The articles DOCUMENT a stranger READs (orient) to reconstruct the org (each
-            ; ?org / @self REG-externalizes to its name via written-msg).
-            (set-writing ?art (written-msg {?art declares_org ?org}
-                                           {?org isa ?org-kind}
-                                           {?org founder @self}
-                                           {?org workplace ?wp}
-                                           {?org employee_register ?reg}
-                                           {?org name ?org-name}))
+            ; The articles DOCUMENT a stranger READs (orient) to reconstruct the org: a one-row
+            ; TABLE of the org's constitutive cells, decoded back into beliefs by (adopt-aoc).
+            (table-init ?art org_kind org_name founder workplace register)
+            (table-add ?art org_kind ?org-kind org_name ?org-name founder @self
+                            workplace ?wp register ?reg)
             ; File the AOC at the companies house (the company registry's incorporation
             ; stack), not the org's own premises - the town's org record lives there.
             (head (env-entities [k incorporation_stack])): ?ist
@@ -82,7 +81,6 @@
             (begin-belief {?job level [k senior]})
             (begin-belief {?job since (year)})
             (stamp-work-hours ?job ?head-role)
-            (add-attr-item @gm all_org_kinds ?org-kind)
             (break)))))))
 
 ; ----------------------------------------------------------------------------
@@ -122,19 +120,15 @@
             (begin-belief {?org name ?org-name})
             (begin-belief {?org record ?art})
             (begin-belief {?org employee_register ?reg})
-            (set-writing ?art (written-msg {?art declares_org ?org}
-                                           {?org isa ?club-kind}
-                                           {?org founder @self}
-                                           {?org workplace ?wp}
-                                           {?org employee_register ?reg}
-                                           {?org name ?org-name}))
+            (table-init ?art org_kind org_name founder workplace register)
+            (table-add ?art org_kind ?club-kind org_name ?org-name founder @self
+                            workplace ?wp register ?reg)
             (head (env-entities [k incorporation_stack])): ?ist
             (if ?ist (then (push ?art ?ist)))
             ; The founder is the club's first MEMBER ([k membership] roster row, no level)
             ; + a {@self member_of} belief - not seated as a head.
             (table-add ?reg worker @self job [k membership])
             (begin-belief {@self member_of ?org})
-            (add-attr-item @gm all_org_kinds ?club-kind)
             (break)))))))
 
 ; ----------------------------------------------------------------------------
@@ -156,9 +150,9 @@
 (define-macro hire-beliefs (?art ?job-kind ?level)
   (do
     ; --- learn the org off the articles: a new hire READs the incorporation page.
-    ; adopt-msg reconstructs the org object (by name-REG) + its constitutive beliefs
+    ; adopt-aoc decodes the AOC table into the org object + its constitutive beliefs
     ; ({?art declares_org ?org} / {?org isa} / {?org workplace} / {?org employee_register}).
-    (adopt-msg (attr ?art writing))
+    (adopt-aoc ?art)
     ; --- @self's mind: recall the org just learned (anchored to the articles) + its
     ; premises, then mint the employment beliefs.
     (o {?art declares_org @o}): ?org

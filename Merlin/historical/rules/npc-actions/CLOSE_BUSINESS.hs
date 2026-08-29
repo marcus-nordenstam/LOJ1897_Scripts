@@ -51,9 +51,6 @@
     ; the register rides his own org beliefs (org recalled off his articles ?art).
     (o {?art declares_org @o}): ?org
     (any {?org employee_register ?}).target: ?reg
-    ; org registry: this org no longer exists - drop one element of its kind.
-    (any {?org isa ?}).target: ?ok
-    (remove-attr-item @gm all_org_kinds ?ok)
     ; 1. shutter the doors - a perceivable `closed` fact; staff reconcile by seeing it.
     (shutter-building ?wp)
     ; (the owned-premises FOR-SALE listing is the list_failed_premises twin's

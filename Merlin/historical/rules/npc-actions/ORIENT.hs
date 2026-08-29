@@ -14,15 +14,16 @@
 ;   orient_read  : completion - read the register + clear the goal.
 ; ----------------------------------------------------------------------------
 
+(include "../../macros/adopt_aoc.hs")
+
 (npc-action {@self ORIENT}
   (duration 30)
   (effects
-    ; READ the public register: per articles document, ADOPT its writing - the
-    ; constitutive (written-msg {?org isa..} {?org founder..} {?org workplace..}
-    ; {?org name..}) sentences. Each ?org REG-externalized to its NAME on the page,
-    ; so adopting reconstructs the reader's OWN org object (by name) with the
-    ; queryable beliefs the casting filters read. This is the sanctioned "read a doc
-    ; to learn what you don't know" path - a stranger learning the town's orgs.
+    ; READ the public register: per articles document, decode its TABLE into beliefs
+    ; via (adopt-aoc) - the org object (anchored to the articles) + its queryable
+    ; {?org isa/name/founder/workplace/register} beliefs the casting filters read. This
+    ; is the sanctioned "read a doc to learn what you don't know" path - a stranger
+    ; learning the town's orgs.
     (for-each ?art (env-entities [k articles_of_incorporation])
-      (do (adopt-msg (attr ?art writing))))
+      (adopt-aoc ?art))
     (set-outcome {@self ORIENT} succ)))

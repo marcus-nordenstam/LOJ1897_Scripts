@@ -42,7 +42,7 @@
     ; subsequent ticks. employee_count / employee_role are no longer read here.
     (for-each-row public_orgs
         (kind ?k) (head_pos ?hp) (class_floor ?cf)
-      (if (and (= (count (attr-values @gm all_org_kinds ?k)) 0)
+      (if (and (= (count-orgs-isa ?k) 0)
                (class-at-least @self ?cf))
           (then (found-org-seq ?k ?hp)
               (break))))))
