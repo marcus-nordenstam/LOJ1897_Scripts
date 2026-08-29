@@ -20,7 +20,7 @@
 ;    mint-band de-quantizes it into {@self satiety sated|hungry|famished}.
 ; ----------------------------------------------------------------------------
 
-(include "../../macros/physiology_macros.hs")
+(include "../macros/physiology_macros.hs")
 
 (define-func run_physiology (?duration ?recovers)
   (/ ?duration 60): ?hours
