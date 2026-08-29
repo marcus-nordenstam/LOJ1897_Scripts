@@ -45,10 +45,14 @@
         ?hb-rel.target: ?home
         (if (any {@self own ?home})
           (then
-            (create-entity [k for_sale_listing] (qual location ?home)): ?listing
-            (set-writing ?listing (written-msg {?home availability [k for_sale]}))
-            (set-attr ?listing address ?home)
-            (for-each ?stk (env-entities [k for_sale_listing_stack]) (do (push ?listing ?stk) (break)))
+            (for-each ?deed (env-entities [k title_deed])
+              (do
+                (table-match (attr ?deed writing) building ?db)
+                (if (= ?db ?home)
+                  (then
+                    (for-each ?listings (env-entities [k for_sale_listings])
+                      (table-add ?listings building ?home deed ?deed))
+                    (break)))))
             (end-belief {@self own ?home})
             (end-belief {@self home ?home}))
           (else

@@ -56,8 +56,13 @@
               {@self own ?wp}
               (not {?wp availability ?}))
   (effects
-    (create-entity [k for_sale_listing] (qual location ?wp)): ?listing
-    (set-writing ?listing (written-msg {?wp availability [k for_sale]}))
-    (set-attr ?listing address ?wp)
-    (for-each ?stk (env-entities [k for_sale_listing_stack]) (do (push ?listing ?stk) (break)))
+    ; list ?wp on the for-sale register (row carries its deed, found by a registry scan).
+    (for-each ?deed (env-entities [k title_deed])
+      (do
+        (table-match (attr ?deed writing) building ?db)
+        (if (= ?db ?wp)
+          (then
+            (for-each ?listings (env-entities [k for_sale_listings])
+              (table-add ?listings building ?wp deed ?deed))
+            (break)))))
     (begin-belief {?wp availability [k for_sale]})))

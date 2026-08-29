@@ -24,22 +24,23 @@
 ;     ?head-role - the founder's job, a scoped job kind ([k job priest])
 ; ----------------------------------------------------------------------------
 
-; found-org-seq - claim vacant PREMISES off the land registry, then found the org on it.
-; The premises kind is the org's businesses-table `building` (unlisted -> office). The
-; registry (every building's title_deed) is scanned for the first VACANT deed (owner
-; @nothing) of that kind; claiming stamps @self as its owner. No free building of the kind
-; -> the for-each finds no match and NOTHING is minted (no malformed org, no error).
+; found-org-seq - read the house-agency's for-sale REGISTER for a premises of the org's
+; building kind (businesses-table `building`, unlisted -> office), claim it, and found the
+; org on it. Scanning the compressed register table (not the whole deed registry) is the
+; knowledge channel: the founder consults the published listings, claims the first row of
+; the right kind (table-set the deed's owner + drop the row), and founds. No such row ->
+; NOTHING is minted (no malformed org, no error).
 (define-macro found-org-seq (?org-kind ?head-role)
   (do
     (if (table-match businesses org_kind ?org-kind building ?bk)
         (then ?bk) (else [k building office])): ?want-kind
-    (for-each ?deed (env-entities [k title_deed])
-      (do
-        (table-match (attr ?deed writing) owner _ building ?wp)
+    (for-each ?listings (env-entities [k for_sale_listings])
+      (for-each-row (attr ?listings writing) (building ?wp) (deed ?deed)
         (if (is-a ?wp ?want-kind)
           (then
-            ; CLAIM: stamp @self as the premises' owner, then found the org on ?wp.
+            ; CLAIM: stamp @self as the premises' owner + pull the row off the register.
             (table-set ?deed owner @self)
+            (table-remove ?listings building ?wp)
             ; The head LEARNS the workplace's rooms up front (owning it stands in for
             ; exploring it): {building room <room>} + the reverse.
             (for-each ?room (spatial ?wp parts [k interior_space room] /env)
@@ -96,12 +97,12 @@
   (do
     (if (table-match businesses org_kind ?club-kind building ?bk)
         (then ?bk) (else [k building office])): ?want-kind
-    (for-each ?deed (env-entities [k title_deed])
-      (do
-        (table-match (attr ?deed writing) owner _ building ?wp)
+    (for-each ?listings (env-entities [k for_sale_listings])
+      (for-each-row (attr ?listings writing) (building ?wp) (deed ?deed)
         (if (is-a ?wp ?want-kind)
           (then
             (table-set ?deed owner @self)
+            (table-remove ?listings building ?wp)
             (for-each ?room (spatial ?wp parts [k interior_space room] /env)
                 (learn-containment ?room ?wp))
             (spatial ?wp room): ?back

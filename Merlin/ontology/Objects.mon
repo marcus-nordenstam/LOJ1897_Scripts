@@ -402,6 +402,11 @@ object (+ obs)
             sales_record
             root_npc_knowledge_doc
             for_sale_listing
+            # The singleton for-sale REGISTER: one compressed table-doc (writing = a
+            # list_form table of the available premises, one [building] row each) the
+            # house-agency holds. Premises-seekers scan it (table-match) for a match, mint
+            # {?b availability for_sale}, then reason via beliefs.
+            for_sale_listings
             for_lease_listing
             lease_agreement
             # Testamentary document; writing encodes the testator's

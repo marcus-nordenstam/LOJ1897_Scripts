@@ -65,10 +65,10 @@
   (role @self (not {? availability [k for_sale]}))   ; no listing read yet - cached
   (role ?agency {?agency isa [k org house_agency]}
                 {?agency record ?art})   ; existence cached, ?art binds at fire
-  (role ?stk [k for_sale_listing_stack])
+  (role ?reg [k for_sale_listings])
   (when (and (articles-building ?art ?venue)
              (spatial @self building ?venue)))
-  (effects (maintain-proposal {@self read_listings ?stk})))
+  (effects (maintain-proposal {@self read_listings ?reg})))
 
 ; CASE C - register unread and @self knows NO house agency at all: consult the
 ; parish incorporations register (the orient lane, orient_errand.hs), which mints
