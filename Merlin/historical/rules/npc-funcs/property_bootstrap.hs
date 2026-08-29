@@ -37,21 +37,22 @@
         (table-add ?deed building ?b)
         (for-each ?reg (env-entities [k for_sale_listings])
           (table-add ?reg building ?b deed ?deed)))))
-  ; The infrastructure orgs: for each kind, claim the first FREE office off the register for
-  ; @gm (the government), mint its AOC, and file it on the incorporation stack (created the
-  ; first time, in the company registry's room - the companies house).
+  ; The infrastructure orgs: for each kind, take the first FREE office off the register, mint
+  ; its AOC + org object, and vest the premises deed in the ORG ITSELF (a government body owns
+  ; its own seat). File the AOC on the incorporation stack (created the first time, in the
+  ; company registry's room - the companies house).
   (for-each ?kind (list infra_org_kinds)
     (for-each ?reg (env-entities [k for_sale_listings])
       (for-each-row (attr ?reg writing) (building ?bldg) (deed ?deed)
         (if (is-a ?bldg [k building office])
           (then
-            (table-set ?deed owner @gm)
-            (table-remove ?reg building ?bldg)
             (spatial ?bldg room): ?iroom
             (if (none (env-entities [k incorporation_stack]))
               (then (create-entity [k incorporation_stack] (qual location ?iroom))))
             (create-entity [k articles_of_incorporation] (qual location ?iroom)): ?art
             (o ?kind {?art declares_org @o}): ?org
+            (table-set ?deed owner ?org)
+            (table-remove ?reg building ?bldg)
             (set-writing ?art (written-msg {?art declares_org ?org}
                                            {?org isa ?kind}
                                            {?org workplace ?bldg}))
