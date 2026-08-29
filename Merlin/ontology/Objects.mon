@@ -288,6 +288,11 @@ object (+ obs)
                 for_sale_listing_stack
                 for_lease_listing_stack
                 title_deed_stack
+                # The company registry's INCORPORATION stack: every org's
+                # articles_of_incorporation doc is filed here (the companies house),
+                # not at the org's own premises. An NPC learns the town's orgs by
+                # browsing it (orient); the founding lane pushes each new AOC on.
+                incorporation_stack
                 # Per-premises INCOMING mail pile (ONE in each home's mail room,
                 # one inside each hiding-spot cache): letters land here on
                 # delivery and stay put - the pile IS the correspondence record.

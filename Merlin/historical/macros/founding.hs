@@ -69,6 +69,10 @@
                                            {?org workplace ?wp}
                                            {?org employee_register ?reg}
                                            {?org name ?org-name}))
+            ; File the AOC at the companies house (the company registry's incorporation
+            ; stack), not the org's own premises - the town's org record lives there.
+            (first (env-entities [k incorporation_stack])): ?ist
+            (if ?ist (then (push ?art ?ist)))
             ; Seat the founder as HEAD: roster row + head-job beliefs (heading is NOT
             ; employment - no salary). ?head-role is-a org_head.
             (table-add ?reg worker @self job ?head-role level [k senior])
@@ -124,6 +128,8 @@
                                            {?org workplace ?wp}
                                            {?org employee_register ?reg}
                                            {?org name ?org-name}))
+            (first (env-entities [k incorporation_stack])): ?ist
+            (if ?ist (then (push ?art ?ist)))
             ; The founder is the club's first MEMBER ([k membership] roster row, no level)
             ; + a {@self member_of} belief - not seated as a head.
             (table-add ?reg worker @self job [k membership])
