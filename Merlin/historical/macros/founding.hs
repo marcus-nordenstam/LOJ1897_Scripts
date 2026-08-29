@@ -33,7 +33,7 @@
   (do
     (if (table-match businesses org_kind ?org-kind building ?bk)
         (then ?bk) (else [k building office])): ?want-kind
-    (for-each ?deed (documents [k title_deed])
+    (for-each ?deed (env-entities [k title_deed])
       (do
         (table-match (attr ?deed writing) owner _ building ?wp)
         (if (is-a ?wp ?want-kind)
@@ -96,7 +96,7 @@
   (do
     (if (table-match businesses org_kind ?club-kind building ?bk)
         (then ?bk) (else [k building office])): ?want-kind
-    (for-each ?deed (documents [k title_deed])
+    (for-each ?deed (env-entities [k title_deed])
       (do
         (table-match (attr ?deed writing) owner _ building ?wp)
         (if (is-a ?wp ?want-kind)

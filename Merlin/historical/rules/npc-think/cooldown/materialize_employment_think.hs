@@ -49,7 +49,7 @@
     ; lists @self, and rebuild his employment beliefs from that row. First hit wins
     ; (a worker holds one post); (break) ends the scan. A regular worker doesn't hold
     ; {?org record}, so the register is reached by this objective scan, not a belief walk.
-    (for-each ?art (documents [k articles_of_incorporation])
+    (for-each ?art (env-entities [k articles_of_incorporation])
       (do
         (o {?art declares_org @o}): ?org
         (any {?org isa ?}).target: ?ok

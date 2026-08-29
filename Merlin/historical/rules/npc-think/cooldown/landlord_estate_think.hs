@@ -50,14 +50,14 @@
     ; estate is his articles that is-a estate (founder @self); a public-doc scan + his
     ; own belief drop, no cross-mind write. An owner-occupied home matches neither
     ; rental signal, so it is left his.
-    (for-each ?ea (documents [k articles_of_incorporation])
+    (for-each ?ea (env-entities [k articles_of_incorporation])
       (do
         (o {?ea declares_org @o}): ?org
         (any {?org isa ?}).target: ?ok
         (any {?org founder ?}).target: ?f
         (if (and (= ?f @self) (is-a ?ok [k org estate]))
           (then
-            (for-each ?deed (documents [k title_deed])
+            (for-each ?deed (env-entities [k title_deed])
               (do
                 (table-match (attr ?deed writing) owner ?o building ?b)
                 (if (and (= ?o @self)

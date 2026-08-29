@@ -59,5 +59,5 @@
     (create-entity [k for_sale_listing] (qual location ?wp)): ?listing
     (set-writing ?listing (written-msg {?wp availability [k for_sale]}))
     (set-attr ?listing address ?wp)
-    (for-each ?stk (documents [k for_sale_listing_stack]) (do (push ?listing ?stk) (break)))
+    (for-each ?stk (env-entities [k for_sale_listing_stack]) (do (push ?listing ?stk) (break)))
     (begin-belief {?wp availability [k for_sale]})))

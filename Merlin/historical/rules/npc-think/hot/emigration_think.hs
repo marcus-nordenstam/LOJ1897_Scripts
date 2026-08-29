@@ -48,7 +48,7 @@
             (create-entity [k for_sale_listing] (qual location ?home)): ?listing
             (set-writing ?listing (written-msg {?home availability [k for_sale]}))
             (set-attr ?listing address ?home)
-            (for-each ?stk (documents [k for_sale_listing_stack]) (do (push ?listing ?stk) (break)))
+            (for-each ?stk (env-entities [k for_sale_listing_stack]) (do (push ?listing ?stk) (break)))
             (end-belief {@self own ?home})
             (end-belief {@self home ?home}))
           (else

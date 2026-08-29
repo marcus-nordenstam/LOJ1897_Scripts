@@ -21,7 +21,7 @@
   (duration 30)
   (effects
     ; Supersede a prior will.
-    (for-each ?old (documents [k will])
+    (for-each ?old (env-entities [k will])
       (do (if (any {@self own ?old})
               (then (destroy-entity ?old) (break)))))
     ; Pen the testament at @self's current building, bequeathing the coin pile

@@ -17,7 +17,7 @@
   (duration 240)
   (effects
     ; Buildings: every deed the deceased owned passes to @self.
-    (for-each ?deed (documents [k title_deed])
+    (for-each ?deed (env-entities [k title_deed])
       (do
         (table-match (attr ?deed writing) owner ?o building ?b)
         (if (= ?o ?dead)
