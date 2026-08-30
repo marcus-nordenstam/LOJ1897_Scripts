@@ -52,8 +52,8 @@
     (for-each ?art (env-entities [k articles_of_incorporation])
       (do
         (o {?art declares_org @o}): ?org
-        (any {?org isa ?}).target: ?ok
-        (any {?org employee_register ?}).target: ?reg
+        (any {?org isa ?ok})
+        (any {?org employee_register ?reg})
         (if (and (not (is-a ?ok [k org club]))
                  (table-match (attr ?reg writing) worker @self job ?job level ?lvl))
           (then

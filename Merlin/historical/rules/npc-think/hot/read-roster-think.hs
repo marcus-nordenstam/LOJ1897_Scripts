@@ -35,7 +35,7 @@
     ; when I read the incorporation page at hire/orient (hire-beliefs adopt-msg). A belief
     ; walk, no doc scan. ?org (my job.org, role above) is where colleague beliefs hang so
     ; they JOIN my own {@self job.org ?org}. Any duty-holder reuses this by binding ?org.
-    (any {?org employee_register ?}).target: ?reg
+    (any {?org employee_register ?reg})
     (check ?reg)
 
     ; (1) REFRESH - one colleague job object per roster row (skip my own row), mirroring

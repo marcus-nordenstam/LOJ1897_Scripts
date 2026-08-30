@@ -63,7 +63,7 @@
               (not {@self class_situation [k upper]}))
   (role ?home {@self home ?home})
   (when (and (bb-public-none ?home cook)
-             (not (and (any {@self mother ?}).target: ?mum
+             (not (and (any {@self mother ?mum})
                        (any {?mum home ?home})))))
   (effects
     (pub-bb-post ?home cook (cook_marker_ttl_cycles))
@@ -77,7 +77,7 @@
               (not {@self class_situation [k upper]}))
   (role ?home {@self home ?home})
   (when (and (bb-public-none ?home cook)
-             (not (and (any {@self child ?}).target: ?c
+             (not (and (any {@self child ?c})
                        (any {?c gender [k female]})
                        (any {?c home ?home})))))
   (effects
@@ -126,7 +126,7 @@
 
 (npc-think provision_go
   (goal {@self PROVISION})
-  (any {@self provisions_shop ?}).target:?shop
+  (any {@self provisions_shop ?shop})
   (when (and ?shop
              (not (spatial @self building ?shop))))
   (effects (maintain-proposal {@self enter ?shop})))

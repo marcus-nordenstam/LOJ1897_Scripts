@@ -22,7 +22,7 @@
                  (spatial @self building ?venue)))
       (effects
         (o {?art declares_org @o}): ?org
-        (any {?org employee_register ?}).target: ?reg
+        (any {?org employee_register ?reg})
         (check ?reg)
         (maintain-proposal {@self ENROL ?reg [k membership]})))
 
@@ -31,6 +31,6 @@
     (try
       (effects
         (o {?art declares_org @o}): ?org
-        (any {?org employee_register ?}).target: ?reg
+        (any {?org employee_register ?reg})
         (if (table-match (attr ?reg writing) worker @self)
             (then (begin-belief {@self member_of ?org})))))))

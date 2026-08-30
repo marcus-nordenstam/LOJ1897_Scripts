@@ -73,7 +73,7 @@
       (effects (debug-print "RCP_BOTH")))
     (try
       (role ?app [k application] (spatial @self hold))
-      (when (any {?org record ?}).target: ?art)
+      (when (any {?org record ?art}))
       (effects (debug-print "RCP_ART art=?art")))
     (try
       (role ?app [k application] (spatial @self hold))

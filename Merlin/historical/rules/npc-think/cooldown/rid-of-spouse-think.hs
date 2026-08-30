@@ -40,7 +40,7 @@
   ; The actor's lover, bound once (an unmarriageable - already-married - lover
   ; waiting raises the propensity). Bound at top-level so (is-married ?lover)
   ; below takes a plain ?var (a macro arg cannot carry an op-expr into a pattern).
-  (any {@self lover}).target:?lover
+  (any {@self lover ?lover})
 
   ; The REASON: the held detest belief, else dislike, else the spouse-wealth belief.
   ; Read as the /caused_by anchor, never re-minted, so the drive fades as the reason

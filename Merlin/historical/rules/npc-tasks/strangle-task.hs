@@ -22,7 +22,7 @@
       (when (and (not (spatial ?victim co-located @self))
                  (not (any {?victim condition [k dead]}))
                  (unknown (spatial ?victim space))
-                 (any {?victim home ?}).target: ?vhome))
+                 (any {?victim home ?vhome})))
       (utility survival)
       (effects (maintain-proposal {@self go ?vhome})))
 

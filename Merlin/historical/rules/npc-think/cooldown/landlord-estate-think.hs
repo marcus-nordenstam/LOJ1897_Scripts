@@ -53,8 +53,8 @@
     (for-each ?ea (env-entities [k articles_of_incorporation])
       (do
         (o {?ea declares_org @o}): ?org
-        (any {?org isa ?}).target: ?ok
-        (any {?org founder ?}).target: ?f
+        (any {?org isa ?ok})
+        (any {?org founder ?f})
         (if (and (= ?f @self) (is-a ?ok [k org estate]))
           (then
             (for-each ?deed (env-entities [k title_deed])

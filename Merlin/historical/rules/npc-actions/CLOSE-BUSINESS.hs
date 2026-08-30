@@ -50,7 +50,7 @@
   (effects
     ; the register rides his own org beliefs (org recalled off his articles ?art).
     (o {?art declares_org @o}): ?org
-    (any {?org employee_register ?}).target: ?reg
+    (any {?org employee_register ?reg})
     ; 1. shutter the doors - a perceivable `closed` fact; staff reconcile by seeing it.
     (shutter-building ?wp)
     ; (the owned-premises FOR-SALE listing is the list_failed_premises twin's

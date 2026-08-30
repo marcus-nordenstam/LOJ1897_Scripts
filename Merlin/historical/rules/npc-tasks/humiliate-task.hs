@@ -25,7 +25,7 @@
       (when (and (alive ?victim)
                  (not (spatial ?victim co-located @self))
                  (unknown (spatial ?victim space))
-                 (any {?victim home ?}).target: ?vhome))
+                 (any {?victim home ?vhome})))
       (effects (maintain-proposal {@self go ?vhome})))
     (try
       (when (and (alive ?victim)

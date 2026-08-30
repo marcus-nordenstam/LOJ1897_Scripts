@@ -15,13 +15,13 @@
   (and
     (try
       (when (and (alive ?victim)
-                 (any {?victim home ?}).target: ?home
+                 (any {?victim home ?home})
                  (not (spatial @self building ?home))))
       (utility errand)
       (effects (maintain-proposal {@self go ?home})))
     (try
       (when (and (alive ?victim)
-                 (any {?victim home ?}).target: ?home
+                 (any {?victim home ?home})
                  (spatial @self building ?home)
                  (none {@self frame ?victim /succ /ever})))
       (utility errand always-pick)

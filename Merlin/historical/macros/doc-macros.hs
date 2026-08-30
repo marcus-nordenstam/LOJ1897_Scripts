@@ -16,9 +16,9 @@
 ; org OBJECT off the reader's own {?org record ?art} belief, then read the org's
 ; constitutive founder / workplace belief. Names kept for call-site continuity.
 (define-macro org-founder (?art ?f)
-  (and (any {? record ?art}).subject: ?art_org
+  (and (any {?art_org record ?art})
        {?art_org founder ?f}))
 
 (define-macro articles-building (?art ?wp)
-  (and (any {? record ?art}).subject: ?art_org
+  (and (any {?art_org record ?art})
        {?art_org workplace ?wp}))

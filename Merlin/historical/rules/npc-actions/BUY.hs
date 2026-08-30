@@ -14,9 +14,9 @@
   (effects
     (check (spatial ?goods co-located @self))
     (check (>= (coin-balance @self) (price ?goods)))
-    (any {@self coin_pile ?}).target: ?src
+    (any {@self coin_pile ?src})
     (pile-take ?src (price ?goods))
-    (any {?vendor coin_pile ?}).target: ?vp
+    (any {?vendor coin_pile ?vp})
     (if ?vp (then (pile-add ?vp (price ?goods))))
     (if (empty (spatial (spatial @self right_hand) grip))
         (then (spatial-write ?goods gripped_by (spatial @self right_hand)))

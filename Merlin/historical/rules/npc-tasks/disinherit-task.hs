@@ -32,7 +32,7 @@
     (try
       (when (and (not (spatial ?victim co-located @self))
                  (unknown (spatial ?victim space))
-                 (any {?victim home ?}).target: ?vhome))
+                 (any {?victim home ?vhome})))
       (effects (maintain-proposal {@self go ?vhome})))
 
     ; CO-PRESENT: SAY the disinheritance. The co-present victim ADOPTS {benefactor

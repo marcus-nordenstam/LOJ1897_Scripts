@@ -25,7 +25,7 @@
                  (not (empty (spatial @self hold [k firearm])))
                  (not (any {?victim condition [k dead]}))
                  (unknown (spatial ?victim space))
-                 (any {?victim home ?}).target: ?vhome))
+                 (any {?victim home ?vhome})))
       (utility survival)
       (effects (maintain-proposal {@self go ?vhome})))
 

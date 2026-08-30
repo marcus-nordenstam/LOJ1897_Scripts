@@ -24,7 +24,7 @@
                  (none {@self lover ?paramour})
                  (not (spatial ?paramour co-located @self))
                  (unknown (spatial ?paramour space))
-                 (any {?paramour home ?}).target: ?phome))
+                 (any {?paramour home ?phome})))
       (effects (maintain-proposal {@self go ?phome})))
     (try
       (when (and (alive ?paramour)

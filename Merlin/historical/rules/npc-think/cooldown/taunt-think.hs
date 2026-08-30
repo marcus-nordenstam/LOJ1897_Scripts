@@ -53,7 +53,7 @@
     (if ?victim
         (then
           (random-alive-human @self ?victim): ?innocent
-          (any {@self home}).target: ?home
+          (any {@self home ?home})
           (if (and ?innocent ?home)
               (then (plant-letter [k forged_letter]
                             (nl-written-msg "?innocent killed ?victim")

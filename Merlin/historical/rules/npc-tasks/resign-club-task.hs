@@ -20,15 +20,15 @@
     (try
       (when (is-a (spatial @self building) [k building social_clubhouse]))
       (effects
-        (any {@self member_of ?}).target: ?org
-        (any {?org employee_register ?}).target: ?reg
+        (any {@self member_of ?org})
+        (any {?org employee_register ?reg})
         (check ?reg)
         (maintain-proposal {@self UNENROL ?reg})))
 
     ; REALIZE: my row is gone -> end my membership belief (trips the decision's completion).
     (try
       (effects
-        (any {@self member_of ?}).target: ?org
-        (any {?org employee_register ?}).target: ?reg
+        (any {@self member_of ?org})
+        (any {?org employee_register ?reg})
         (if (not (table-match (attr ?reg writing) worker @self))
             (then (end-belief {@self member_of ?org})))))))

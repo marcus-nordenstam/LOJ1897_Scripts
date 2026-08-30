@@ -22,7 +22,7 @@
       (role ?org {?job org ?org} {?org workplace ?wp})
       (when (spatial @self building ?wp))
       (effects
-        (any {?worker job.level ?}).target: ?cur
+        (any {?worker job.level ?cur})
         (table-match level_rank level ?cur rank ?rank)
         (table-match level_rank rank (+ ?rank 1) level ?next)
         (maintain-proposal {@self SAY (utterable-msg {?worker job.level ?next}) ?worker})))))

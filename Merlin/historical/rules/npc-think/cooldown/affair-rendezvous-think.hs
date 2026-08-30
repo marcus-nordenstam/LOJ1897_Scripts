@@ -56,10 +56,10 @@
     (nudge-stance @self ?paramour attraction 0.10)
     (nudge-stance ?paramour @self attraction 0.10)
     ; the hotel is an org premises - the note names it by the org's name.
-    (if (and (chance 0.30) (any {?paramour home ?}).target: ?paramour_home
+    (if (and (chance 0.30) (any {?paramour home ?paramour_home})
              (any {? workplace ?venue}): ?wob
              ?wob.subject: ?org
-             (any {?org name ?}).target: ?venue_name)
+             (any {?org name ?venue_name}))
         (then
           (post-letter [k tryst_note]
                 (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
@@ -82,7 +82,7 @@
     (covert-affair-motive ?paramour)
     (select (policy first-match)))
 
-  (when (and (chance 0.14) (any {@self home ?}).target: ?venue))
+  (when (and (chance 0.14) (any {@self home ?venue})))
 
   (utility want)
 
@@ -93,9 +93,9 @@
     (nudge-stance ?paramour @self attraction 0.10)
     ; @self's own home: a named residence carries a name; a plain house has only
     ; an address (not expressible in a note yet), so unnamed homes write no note.
-    (if (and (chance 0.30) (any {?paramour home ?}).target: ?paramour_home (any {?venue name ?}))
+    (if (and (chance 0.30) (any {?paramour home ?paramour_home}) (any {?venue name ?}))
         (then
-          (any {?venue name ?}).target: ?venue_name
+          (any {?venue name ?venue_name})
           (post-letter [k tryst_note]
                 (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
                 ?paramour_home ?paramour)))
@@ -139,10 +139,10 @@
     (nudge-stance @self ?paramour attraction 0.10)
     (nudge-stance ?paramour @self attraction 0.10)
     ; the theatre / pub is an org premises - the note names it by the org's name.
-    (if (and (chance 0.30) (any {?paramour home ?}).target: ?paramour_home
+    (if (and (chance 0.30) (any {?paramour home ?paramour_home})
              (any {? workplace ?venue}): ?wob
              ?wob.subject: ?org
-             (any {?org name ?}).target: ?venue_name)
+             (any {?org name ?venue_name}))
         (then
           (post-letter [k tryst_note]
                 (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")

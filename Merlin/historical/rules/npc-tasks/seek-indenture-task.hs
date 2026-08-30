@@ -29,7 +29,7 @@
                  (none {@self job.salary ?})))
       (effects
         (o {?art declares_org @o}): ?org
-        (any {?org employee_register ?}).target: ?reg
+        (any {?org employee_register ?reg})
         (check ?reg)
         (maintain-proposal {@self ENROL ?reg [k job clerk]})))
 
@@ -41,7 +41,7 @@
                  (spatial @self building ?venue)))
       (effects
         (o {?art declares_org @o}): ?org
-        (any {?org employee_register ?}).target: ?reg
+        (any {?org employee_register ?reg})
         (if (table-match (attr ?reg writing) worker @self level ?lvl)
             (then
               (hire-beliefs ?art [k job clerk] ?lvl)

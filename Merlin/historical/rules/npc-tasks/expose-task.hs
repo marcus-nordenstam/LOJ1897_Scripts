@@ -18,7 +18,7 @@
   (and
     (try
       (when (and (not {@self spouse ?victim})
-                 (any {?victim lover|HAVE_SEX_WITH ? /ever}).target: ?partner
+                 (any {?victim lover|HAVE_SEX_WITH ?partner /ever})
                  (not {?victim spouse ?partner /ever})
                  (not {@self spouse ?partner})
                  (not (spatial ?victim co-located @self))
@@ -27,16 +27,16 @@
       (effects (maintain-proposal {@self go ?loc})))
     (try
       (when (and (not {@self spouse ?victim})
-                 (any {?victim lover|HAVE_SEX_WITH ? /ever}).target: ?partner
+                 (any {?victim lover|HAVE_SEX_WITH ?partner /ever})
                  (not {?victim spouse ?partner /ever})
                  (not {@self spouse ?partner})
                  (not (spatial ?victim co-located @self))
                  (unknown (spatial ?victim space))
-                 (any {?victim home ?}).target: ?vhome))
+                 (any {?victim home ?vhome})))
       (effects (maintain-proposal {@self go ?vhome})))
     (try
       (when (and (not {@self spouse ?victim})
-                 (any {?victim lover|HAVE_SEX_WITH ? /ever}).target: ?partner
+                 (any {?victim lover|HAVE_SEX_WITH ?partner /ever})
                  (not {?victim spouse ?partner /ever})
                  (not {@self spouse ?partner})
                  (spatial ?victim co-located @self)
@@ -52,7 +52,7 @@
         (set-outcome ?expose-rel /succ)))
     (try
       (when (or (not (and (not {@self spouse ?victim})
-                          (any {?victim lover|HAVE_SEX_WITH ? /ever}).target: ?partner
+                          (any {?victim lover|HAVE_SEX_WITH ?partner /ever})
                           (not {?victim spouse ?partner /ever})
                           (not {@self spouse ?partner})))
                 (not (alive ?victim))))

@@ -26,8 +26,8 @@
     ; The club's articles (carried on the act-belief) -> its kind + roster; then the
     ; sport, an EXACT lookup on the club kind (a kindless club holds no contest).
     (o {?art declares_org @o}): ?org
-    (any {?org isa ?}).target: ?club_kind
-    (any {?org employee_register ?}).target: ?reg
+    (any {?org isa ?club_kind})
+    (any {?org employee_register ?reg})
     (if (table-match club_sports org_kind ?club_kind sport ?sport)
       (then
         ; Summon every co-present, living roster member by SPEAKING the call: a

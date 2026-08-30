@@ -42,7 +42,7 @@
                 (select (score (stance-band ?target attraction)) (policy argmax)))
 
   ; @self knows where she lives.
-  (when (and (any {?target home ?}).target: ?target_home
+  (when (and (any {?target home ?target_home})
              (chance 0.4)))
 
   (utility want)

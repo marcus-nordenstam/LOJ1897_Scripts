@@ -22,7 +22,7 @@
 ;                            owner-exclusive: orient_errand mints {?org record ?art}
 ;                            for ANY worker who reads the articles at church - so a
 ;                            mere employee would falsely pass a record-only gate.)
-; The articles read (any {?org record ?}).target: ?art stays in (when ...) - a
+; The articles read (any {?org record ?art}) stays in (when ...) - a
 ; role filter cannot bind, and the suffix bind provably threads to the lifecycle
 ; block (same eval env; the retire / sack routing thinks rely on it).
 ;

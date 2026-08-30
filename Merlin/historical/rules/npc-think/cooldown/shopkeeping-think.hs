@@ -29,7 +29,7 @@
   ; drops and the falling edge ends the goal. The monthly timer owns the cadence
   ; (one representative day per month), so the day-threshold need only distinguish "done this
   ; month" (0) from "a month on"; 1 is the minimal such gate. The act never ends the goal.
-  (when (and (any {?org workplace ?}).target: ?wp
+  (when (and (any {?org workplace ?wp})
              (is-a ?wp [k building shop])
              (>= (days-since-last {@self STOCKTAKE /ever}) 1)))
 

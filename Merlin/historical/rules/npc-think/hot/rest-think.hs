@@ -45,7 +45,7 @@
   (when (and (not (at-home))
              (> (attr @self sleepiness) 0.7)))
   (utility (sleep-drive))
-  (effects       (any {@self home ?}).target: ?go_dest (debug-print "TRACE-SEEKREST home=?go_dest") (maintain-proposal {@self enter ?go_dest})))
+  (effects       (any {@self home ?go_dest}) (debug-print "TRACE-SEEKREST home=?go_dest") (maintain-proposal {@self enter ?go_dest})))
 
 ; at home and at all tired (or it is night): sleep until the morning alarm. The
 ; sleep act records a {@self SLEEP} memory ((does sleep)); its completion resets
@@ -81,4 +81,4 @@
 (npc-think idle_go_home
   (when (not (at-home)))
   (utility idle fallback)
-  (effects       (any {@self home ?}).target: ?go_dest (debug-print "TRACE-IDLEHOME home=?go_dest") (maintain-proposal {@self enter ?go_dest})))
+  (effects       (any {@self home ?go_dest}) (debug-print "TRACE-IDLEHOME home=?go_dest") (maintain-proposal {@self enter ?go_dest})))
