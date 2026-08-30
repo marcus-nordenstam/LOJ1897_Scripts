@@ -35,17 +35,17 @@
   ; attached. (The per-NPC (chance) that paces pairing lives in (when).)
   (role @self 
               (adult-age @self)
-              (not {@self spouse ?})
-              (not {@self fiancee ?})
-              (not {@self lover ?}))
+              (none {@self spouse ?})
+              (none {@self fiancee ?})
+              (none {@self lover ?}))
   ;; SELF-POV (telepathy purge CAT-3): @self reads ?b's free/attached state from
   ;; his OWN knowledge (permissive on the unknown), and ?b's reciprocation as SHE
   ;; signalled it (confess_fancy). No cross-mind read.
   (role ?b (any_human ?b)
            (adult-age ?b)
-           (not {?b spouse ?})
-           (not {?b fiancee ?})
-           (not {?b lover ?})
+           (none {?b spouse ?})
+           (none {?b fiancee ?})
+           (none {?b lover ?})
            ; @self is attracted to ?b (attraction at least the `fancy` band,
            ; the explicit band-ladder verb-state belief) ...
            (is-attracted-to @self ?b)
@@ -58,8 +58,8 @@
            ; opposite-sex (fancy is opposite-sex via crush_forms; belt-and-braces):
            ; @self's belief that ?b's PERCEIVED gender differs from his own (visible-
            ; on-sight, so cacheable as a dynamic-target belief). And not kin.
-           (not {?b gender (any {@self gender}).target})
-           (not (blood-kin @self ?b)))
+           (none {?b gender (any {@self gender}).target})
+           (none (blood-kin @self ?b)))
 
   ;; Live re-check: within the window the un-attached role filters go stale as
   ;; earlier firings mint lover bonds; re-confirm both are still free - from @self's

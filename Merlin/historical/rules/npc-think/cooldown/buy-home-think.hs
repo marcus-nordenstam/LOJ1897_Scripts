@@ -45,10 +45,10 @@
   ; all test the SAME candidate (his home, unowned, unleased) - a non-seeker
   ; carries an empty set and skips without any live belief scan.
   (role @self (adult @self)
-              (not {@self spouse ?}))
+              (none {@self spouse ?}))
   (role ?h {@self home ?h}
-           (not {@self own ?h})
-           (not {?h tenant @self}))
+           (none {@self own ?h})
+           (none {?h tenant @self}))
   (utility errand)
   (effects       (begin-goal {@self acquire}))
   (cease-effects (end-goal   {@self acquire})))

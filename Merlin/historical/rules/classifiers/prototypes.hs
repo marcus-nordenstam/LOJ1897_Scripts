@@ -125,8 +125,8 @@
 (npc-think classify_for_hire_brute
   (rng-stream behaviour)
   (role @self {@self economic_situation ?, class_situation ?}
-              (not {@self skill-level [k martial]})
-              (not {@self skill-level [k garrotting]}))
+              (none {@self skill-level [k martial]})
+              (none {@self skill-level [k garrotting]}))
   (effects
     (mint-band {@self prototype}
       (* (>= (attr @self strength) 0.65)

@@ -16,7 +16,7 @@
   (and
     (try
       (when (and (any {@self lover|HAVE_SEX_WITH ?partner /ever})
-                 (not {@self spouse ?partner /ever})
+                 (none {@self spouse ?partner /ever})
                  (any {@self father|mother|fiancee|spouse|sibling ?kin})))
       (utility errand)
       (effects
@@ -27,6 +27,6 @@
         (set-outcome ?confess-rel /succ)))
     (try
       (when (or (not (and (any {@self lover|HAVE_SEX_WITH ?partner /ever})
-                          (not {@self spouse ?partner /ever})))
+                          (none {@self spouse ?partner /ever})))
                 (not (any {@self father|mother|fiancee|spouse|sibling ?}))))
       (effects (set-outcome ?confess-rel /fail)))))

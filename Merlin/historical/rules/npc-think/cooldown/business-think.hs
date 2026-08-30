@@ -95,7 +95,7 @@
               {@self wealth ?wealth}
               (or {@self repute [k respectable]}
                   {@self repute [k exemplary]})
-              (not {@self backed_by ?}))
+              (none {@self backed_by ?}))
   (role ?job {@self job ?job}
              {?job org ?})             ; threaded job.org existence
   ; An existing business he is taken into - a KNOWN org of business kind (@self

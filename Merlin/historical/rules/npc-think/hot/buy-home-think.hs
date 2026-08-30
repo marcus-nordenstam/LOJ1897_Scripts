@@ -47,7 +47,7 @@
 ; Its articles name the office (articles-building). Inherits the acquire drive.
 (npc-think buy_home_go
   (goal {@self acquire})
-  (role @self (not {? availability [k for_sale]}))   ; no listing read yet - cached
+  (role @self (none {? availability [k for_sale]}))   ; no listing read yet - cached
   (role ?agency {?agency isa [k org house_agency]}
                 {?agency record ?art})   ; existence cached, ?art binds at fire
   (when (and (articles-building ?art ?venue)
@@ -62,7 +62,7 @@
 ; rung stops.
 (npc-think buy_home_read
   (goal {@self acquire})
-  (role @self (not {? availability [k for_sale]}))   ; no listing read yet - cached
+  (role @self (none {? availability [k for_sale]}))   ; no listing read yet - cached
   (role ?agency {?agency isa [k org house_agency]}
                 {?agency record ?art})   ; existence cached, ?art binds at fire
   (role ?reg [k for_sale_listings])
@@ -81,7 +81,7 @@
 (npc-think buy_home_find
   (goal {@self acquire})
   (no-role [k org house_agency])
-  (role @self (not {? availability [k for_sale]}))   ; no listing read yet - cached
+  (role @self (none {? availability [k for_sale]}))   ; no listing read yet - cached
   (utility errand)
   (effects       (begin-goal {@self ORIENT}))
   (cease-effects (end-goal   {@self ORIENT})))

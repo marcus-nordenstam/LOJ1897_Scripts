@@ -67,7 +67,7 @@
   (goal {@self staff_household})
   (rng-stream employment)
 
-  (role @self (not {@self job.org [k org household]}))
+  (role @self (none {@self job.org [k org household]}))
   (role ?h {@self home ?h}
            (or {@self own [k manor]:?h}
                {@self own [k townhouse]:?h}))

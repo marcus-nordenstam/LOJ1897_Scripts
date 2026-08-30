@@ -52,8 +52,8 @@
   ; primary the goal stands; the moment enrol_primary_act matriculates him ({@self study [k
   ; primary_school_curriculum]}) the role drops and the goal ends. The act never ends the goal.
   (role @self
-              (not {@self school-grades [k primary_school_curriculum] ?})
-              (not {@self study [k primary_school_curriculum]}))
+              (none {@self school-grades [k primary_school_curriculum] ?})
+              (none {@self study [k primary_school_curriculum]}))
 
   ; ONSET: the breeding-squared class-gate (chance) is rolled at the fire and LOCKED once
   ; holding (it re-rolls each month until it lands), routing an upper child (breeding
@@ -78,9 +78,9 @@
   ; enrol_secondary_act matriculates him ({@self study [k secondary_school_curriculum]}).
   (role @self
               {@self school-grades [k primary_school_curriculum] ?}
-              (not {@self school-grades [k secondary_school_curriculum] ?})
-              (not {@self study [k secondary_school_curriculum]})
-              (not {@self job.salary ?}))
+              (none {@self school-grades [k secondary_school_curriculum] ?})
+              (none {@self study [k secondary_school_curriculum]})
+              (none {@self job.salary ?}))
 
   ; ONSET: the middle+ breeding-squared (chance) is rolled at the fire and LOCKED once holding.
   (when (and (>= (years-old @self) 12)
@@ -103,8 +103,8 @@
   ; study, so the role drops (and the goal ends) exactly when he matriculates.
   (role @self
               {@self school-grades [k secondary_school_curriculum] ?}
-              (not {@self study ?})
-              (not {@self job.salary ?}))
+              (none {@self study ?})
+              (none {@self job.salary ?}))
 
   ; ONSET: the steep upper / wealthy-middle breeding-cubed (chance) - the professions'
   ; gateway - rolled at the fire and LOCKED once holding.

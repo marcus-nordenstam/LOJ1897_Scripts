@@ -54,7 +54,7 @@
 (npc-think list_failed_premises
   (role @self {@self CLOSE_BUSINESS ? ?wp /succ}
               {@self own ?wp}
-              (not {?wp availability ?}))
+              (none {?wp availability ?}))
   (effects
     ; list ?wp on the for-sale register (row carries its deed, found by a registry scan).
     (for-each ?deed (env-entities [k title_deed])

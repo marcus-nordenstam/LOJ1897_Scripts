@@ -47,7 +47,7 @@
 
 
 ; (blood-kin ?who ?other): does ?who hold ANY consanguinity bond to ?other - the
-; courtship / crush / affair blood-relative exclusion (used as `(not (blood-kin
+; courtship / crush / affair blood-relative exclusion (used as `(none (blood-kin
 ; @self ?o))`). Expands to a single ground-alts `believes` so the belief read is
 ; EXPLICIT (the parser sees every kin label -> the object cache can index it),
 ; replacing the old opaque C++ (kin ...) cross-pair op + its maintained bitset.

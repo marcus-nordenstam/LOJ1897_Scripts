@@ -21,8 +21,8 @@
 (npc-think seek_board_visit
   (cooldown 1 m)
   (rng-stream employment)
-  (role @self (not {@self job ?})
-              (not {@self apply_for ? ? /pres}))
+  (role @self (none {@self job ?})
+              (none {@self apply_for ? ? /pres}))
   (when (and (>= (years-old @self) 16)
              (<= (years-old @self) 55)
              (!= (any {@self repute ?}).target [k scandalous])
@@ -40,8 +40,8 @@
 (npc-think seek_read_board
   (cooldown 1 m)
   (rng-stream employment)
-  (role @self (not {@self job ?})
-              (not {@self apply_for ? ? /pres}))
+  (role @self (none {@self job ?})
+              (none {@self apply_for ? ? /pres}))
   (role ?ad [k job_description] (spatial ?ad co-located @self)
                                 (none {@self READ ?ad /succ}))
   (utility errand)
@@ -56,8 +56,8 @@
   ; gate then bars re-admission until the apply_for concludes.
   (lock-rule)
   (rng-stream employment)
-  (role @self (not {@self job ?})
-              (not {@self apply_for ? ? /pres}))
+  (role @self (none {@self job ?})
+              (none {@self apply_for ? ? /pres}))
   (role ?org {?org vacancy ?jk}
              (select (score 1) (policy roulette)))
   (when (and {?org workplace ?wp}

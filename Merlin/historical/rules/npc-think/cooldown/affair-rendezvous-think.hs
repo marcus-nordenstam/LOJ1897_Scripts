@@ -27,11 +27,11 @@
   (role @self (adult @self)
               {@self lover ?}
               (is-married @self)
-              (not {@self class_situation [k class_situation lower]})
+              (none {@self class_situation [k class_situation lower]})
               {@self name ?author_name})
   (role ?paramour (any_human ?paramour)
     {@self lover ?paramour}
-    (not {@self spouse ?paramour})
+    (none {@self spouse ?paramour})
     (covert-affair-motive ?paramour)
     (select (policy first-match)))
 
@@ -78,7 +78,7 @@
               {@self name ?author_name})
   (role ?paramour (any_human ?paramour)
     {@self lover ?paramour}
-    (not {@self spouse ?paramour})
+    (none {@self spouse ?paramour})
     (covert-affair-motive ?paramour)
     (select (policy first-match)))
 
@@ -115,7 +115,7 @@
               {@self name ?author_name})
   (role ?paramour (any_human ?paramour)
     {@self lover ?paramour}
-    (not {@self spouse ?paramour})
+    (none {@self spouse ?paramour})
     (covert-affair-motive ?paramour)
     (select (policy first-match)))
 

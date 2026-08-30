@@ -52,7 +52,7 @@
   (role @self (grown @self))
   (role ?corpse {?corpse condition [k dead]}
                 {?corpse internment [k unburied]}
-                (not {@self CONVEY ?corpse /past})
+                (none {@self CONVEY ?corpse /past})
                 (select (score (months-since-death ?corpse)) (policy argmax)))
   ; FRESHNESS cap beside the politeness gate: a death known for months no longer
   ; motivates the errand (someone has surely dealt with it) - the belt-and-braces

@@ -33,14 +33,14 @@
   (role @self
               (adult-age @self)
               {@self age_band ?peer_band}
-              (not {@self fiancee ?})
-              (not {@self spouse ?})
-              (not {@self repute [k scandalous]})
+              (none {@self fiancee ?})
+              (none {@self spouse ?})
+              (none {@self repute [k scandalous]})
               ;; Fallen-woman gate, class-modulated (late-Victorian model): the
               ;; respectable classes shut her out of courtship entirely, but
               ;; working-class communities are pragmatic - a lower-class fall may
               ;; still wed (the beloved role completes the pair check).
-              (or (not {@self prototype fallen_woman})
+              (or (none {@self prototype fallen_woman})
                   {@self class_situation [k lower]}))
   ;; SELF-POV (telepathy purge CAT-3): @self judges the beloved from his OWN
   ;; knowledge - her marital state / lover / fallen mark as HE knows them (banded
@@ -49,15 +49,15 @@
   ;; HIM (confess_fancy minted {?beloved fancy @self} in his mind). No mind peek.
   (role ?beloved (any_human ?beloved)
                 (adult-age ?beloved)
-                (not {?beloved fiancee ?})
-                (not {?beloved spouse ?})
-                (not {?beloved repute [k scandalous]})
+                (none {?beloved fiancee ?})
+                (none {?beloved spouse ?})
+                (none {?beloved repute [k scandalous]})
                 ;; Pair half of the fallen-woman gate: a fallen party (either
                 ;; side) weds only when BOTH sides are lower class.
-                (or (not {?beloved prototype fallen_woman})
+                (or (none {?beloved prototype fallen_woman})
                     (and {?beloved class_situation [k lower]}
                          {@self    class_situation [k lower]}))
-                (or (not {@self prototype fallen_woman})
+                (or (none {@self prototype fallen_woman})
                     {?beloved class_situation [k lower]})
                 ; the heart of it: @self is attracted to this person (attraction
                 ; at least the `fancy` band, the explicit band-ladder belief) ...
@@ -73,16 +73,16 @@
                 ; love-matches ONLY that lover (the widowed affair-partners
                 ; finally marrying), never a third party over them. `lover` is
                 ; mutual, so "@self holds ?beloved as lover" answers both sides.
-                (or (not {@self lover ?})
+                (or (none {@self lover ?})
                     {@self lover ?beloved})
-                (or (not {?beloved lover ?})
+                (or (none {?beloved lover ?})
                     {@self lover ?beloved})
                 ; no marrying blood kin (consanguinity backstop) ...
-                (not (blood-kin @self ?beloved))
+                (none (blood-kin @self ?beloved))
                 ; ... opposite-sex: @self's belief that the beloved's PERCEIVED
                 ; gender differs from his own (gender is visible-on-sight, so this
                 ; dynamic-target belief is object-cacheable; drops same-sex passes).
-                (not {?beloved gender (any {@self gender}).target})
+                (none {?beloved gender (any {@self gender}).target})
                 {?beloved age_span ?peer_band})
 
   ;; Live un-betrothed re-check: the role filters are alpha-indexed and go stale

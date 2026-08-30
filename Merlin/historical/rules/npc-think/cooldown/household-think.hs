@@ -73,7 +73,7 @@
   (role @self (grown @self)
               {@self gender [k female]})
   (role ?home {@self home ?home}
-              (not {?home supper_hour ?}))
+              (none {?home supper_hour ?}))
 
   (effects
     ; The per-cook offset: -1 / 0 / +1 on the whole day (breakfast 5-7,
@@ -117,7 +117,7 @@
   ; The unknown-hours gate as a CACHED role (binds ?home for the ask): empties
   ; the instant the supper hour is learned, closing the window for good.
   (role ?home {@self home ?home}
-              (not {?home supper_hour ?}))
+              (none {?home supper_hour ?}))
 
   (when (>= (years-old @self) 3))
 

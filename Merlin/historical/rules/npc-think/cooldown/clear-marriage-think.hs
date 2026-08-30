@@ -47,8 +47,8 @@
   ; and not KNOWN married - is-married is a pure belief macro, cached here).
   (role ?paramour (any_human ?paramour)
     {@self lover ?paramour}:?lover_bond
-    (not {@self spouse ?paramour})
-    (not {?paramour spouse ?})   ; free to marry - cached
+    (none {@self spouse ?paramour})
+    (none {?paramour spouse ?})   ; free to marry - cached
     (select (policy first-match)))
 
   ; Dark floor + the lover must be free to marry + drive + propensity

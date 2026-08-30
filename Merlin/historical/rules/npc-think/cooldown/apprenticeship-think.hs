@@ -28,21 +28,21 @@
   ;; SELF-POV (telepathy purge CAT-2): the youth is the sole deliberator,
   ;; reading his OWN employment / marital / schooling state.
   (role @self {@self breeding ?breeding}
-              (not {@self job.salary ?})
-              (not {@self spouse ?})
+              (none {@self job.salary ?})
+              (none {@self spouse ?})
               ;; A youth still in school (PR-education) is not on the labour
               ;; market - the working-class on-ramp is for those who left after
               ;; primary (or never enrolled), not secondary pupils.
-              (not {@self study ?}))
+              (none {@self study ?}))
   ;; A KNOWN org (the youth learned it at new_job_orientation), not a household:
   ;; a household is an org but NOT a trade - no master, no apprenticeship. Belief-
   ;; pure + cached. The master gate (the org's founder, whom the youth avoids if
   ;; KNOWN to be scandalous - permissive on the unknown) is a residual filter on
   ;; ?master, produced off {?org founder ?master} and re-checked in the role.
   (role ?org (known_org ?org)
-             (not {?org isa [k org household]})
+             (none {?org isa [k org household]})
              {?org founder ?master}
-             (not {?master repute [k scandalous]})
+             (none {?master repute [k scandalous]})
              {?org record ?org_record})
 
   ;; Live exclusivity re-check (see employment.hs): the youth's "unemployed"
@@ -68,7 +68,7 @@
   ;; proposal per org's articles and overflow the attention set).
   ;; Focus = the org's articles, recovered from @self's {?org record ?art} belief.
   ;; MAINTENANCE: the decision OWNS the seek_indenture proposal end to end. While the
-  ;; youth is unemployed (role @self (not {@self job.salary ?})) and not yet a trainee
+  ;; youth is unemployed (role @self (none {@self job.salary ?})) and not yet a trainee
   ;; (the (when) trainee-rank gate), the proposal stands; the moment seek_indenture's
   ;; ENROL files his clerk row and hire-beliefs mints {@self job ...}, both gates fall
   ;; and maintain-proposal withdraws. The task never ends the motivating proposal.

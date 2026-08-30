@@ -40,7 +40,7 @@
   (cooldown 1 m)
   (rng-stream perpetration)
   (role @self (adult @self)
-              (not {@self fixation ?}))
+              (none {@self fixation ?}))
   ; A random adult the predator KNOWS the look of (has both perceived colour
   ; beliefs about), sampled by roulette - the victim-type prototype.
   (role ?proto (any_human ?proto)
@@ -72,7 +72,7 @@
   (role ?victim (any_human ?victim)
                 {@self spouse|fiancee|friend|lover|acquaintance|neighbour|enemy ?victim}
                 (adult ?victim)
-                (not (blood-kin @self ?victim))
+                (none (blood-kin @self ?victim))
                 ; TYPE FLOOR (cacheable non-@excl overlap): the victim carries one of
                 ; the predator's fixation values on hair_color OR eye_color.
                 (or (overlapping-target {?victim hair_color} {@self fixation})

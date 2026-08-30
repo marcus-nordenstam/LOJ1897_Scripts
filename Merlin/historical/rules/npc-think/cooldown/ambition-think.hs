@@ -38,7 +38,7 @@
   (role @self (adult @self)
               {@self job.org ?org}
               {@self job.level [k senior]}
-              (not {@self job [k org_head]}))
+              (none {@self job [k org_head]}))
 
   ; The incumbent head I stand behind - a known colleague (learned from the staff
   ; register by read_roster) whose job is-a org_head. read_roster only mints coworkers

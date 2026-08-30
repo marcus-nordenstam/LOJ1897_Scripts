@@ -64,8 +64,8 @@
   ; (telepathy purge CAT-2): @self reads his OWN repute (belief-pure). The
   ; age + club-count + chance gates are non-belief ops -> (when).
   (role @self (old_human @self)
-              (not {@self repute [k scandalous]})
-              (not {@self repute [k disreputable]}))
+              (none {@self repute [k scandalous]})
+              (none {@self repute [k disreputable]}))
   ; A KNOWN club (@self learned it at new_job_orientation). Belief-pure + cached:
   ; the omniscient org-kind-is-a doc read is gone. The founder is produced-restricted
   ; off {?club_org founder ?founder} in the role; the own-class match (below) reads

@@ -46,7 +46,7 @@
   (role ?victim (any_human ?victim)
                 ; the victim is co-present (physically THERE) and a STRANGER.
                 (spatial @self co-located ?victim)
-                (not (personally-knows @self ?victim)))
+                (none (personally-knows @self ?victim)))
 
   (effects
     ; incident-anchor now also auto-witnesses co-present bystanders (assault is

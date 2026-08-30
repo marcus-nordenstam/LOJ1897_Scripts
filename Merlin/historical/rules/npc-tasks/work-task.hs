@@ -18,7 +18,7 @@
       (lock-rule)
       (rng-stream employment)
       (role ?org {@self duty_to ?org recruit_staff}
-                 (not {?org isa [k org household]})
+                 (none {?org isa [k org household]})
                  {?org record ?})
       (when (and {?org isa ?ok}
                  {?org employee_register ?reg}

@@ -36,7 +36,7 @@
   ; Jobless gate as a CACHED self-gate filter - empties the instant the NPC gains
   ; a paid job, so the employed majority skips the enrollment scan at zero cost.
   (role @self (old_human @self)
-              (not {@self job.salary ?}))
+              (none {@self job.salary ?}))
 
   ; Quarterly pulse so the bout CEASES and re-arms: a worker enrolled AFTER this
   ; rule's one prior firing (the roster write is objective, in the abs mind, and

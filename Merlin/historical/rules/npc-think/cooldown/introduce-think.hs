@@ -8,8 +8,8 @@
   (role ?stranger 
        (any_human ?stranger)
        (spatial ?stranger co-located @self)
-       (not (personally-knows @self ?stranger))
-       (not {@self SAY ? ?stranger}))
+       (none (personally-knows @self ?stranger))
+       (none {@self SAY ? ?stranger}))
 
   ; Sociability gate: an extraverted NPC strikes up an introduction more readily.
   (when (chance (* 0.5 (+ 0.4 (attr @self enthusiasm)))))

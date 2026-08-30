@@ -41,6 +41,6 @@
                (maintain-proposal {@self WRITE ?ad {?org workplace ?wp}})))
     (try
       (role ?ad [k job_description] (spatial ?ad co-located @self)
-            (not {@self post ?ad ?}))
+            (none {@self post ?ad ?}))
       (when (any {@self WRITE ?ad {?org workplace ?} /succ}))
       (effects (debug-print "ADV_BOOK") (begin-belief {@self post ?ad ?org})))))

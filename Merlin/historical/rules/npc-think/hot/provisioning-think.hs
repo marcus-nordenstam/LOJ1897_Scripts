@@ -49,7 +49,7 @@
 (npc-think claim_cook_hired
   (role @self (grown @self)
                            {@self job [k job cook]}
-              (not {@self household_cook ?}))
+              (none {@self household_cook ?}))
   (role ?home {@self home ?home})
   (when (bb-public-none ?home cook))
   (effects
@@ -59,8 +59,8 @@
 (npc-think claim_cook_woman
   (role @self (grown @self)
                            {@self gender [k female]}
-              (not {@self household_cook ?})
-              (not {@self class_situation [k upper]}))
+              (none {@self household_cook ?})
+              (none {@self class_situation [k upper]}))
   (role ?home {@self home ?home})
   (when (and (bb-public-none ?home cook)
              (not (and (any {@self mother ?mum})
@@ -72,9 +72,9 @@
 (npc-think claim_cook_man
   (role @self (grown @self)
                            {@self gender [k male]}
-              (not {@self household_cook ?})
-              (not {@self spouse ?})
-              (not {@self class_situation [k upper]}))
+              (none {@self household_cook ?})
+              (none {@self spouse ?})
+              (none {@self class_situation [k upper]}))
   (role ?home {@self home ?home})
   (when (and (bb-public-none ?home cook)
              (not (and (any {@self child ?c})

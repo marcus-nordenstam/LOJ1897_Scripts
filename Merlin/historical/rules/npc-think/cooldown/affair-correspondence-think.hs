@@ -35,7 +35,7 @@
   ; The paramour: a lover who is not also a spouse (the covert third party).
   (role ?paramour (any_human ?paramour)
     {@self lover ?paramour}
-    (not {@self spouse ?paramour})
+    (none {@self spouse ?paramour})
     (covert-affair-motive ?paramour)   ; belief-pure macro - cached
     ; @self names her in the letter body (a name value, not the live object).
     {?paramour name ?paramour_name}

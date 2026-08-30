@@ -33,19 +33,19 @@
   ;; (when ...) below - a non-belief filter, so it never sits in the role.
   (role @self
               (working-age @self)
-              (not {@self desire ?})
-              (not {@self lover ?})
-              (not {@self spouse ?})
+              (none {@self desire ?})
+              (none {@self lover ?})
+              (none {@self spouse ?})
               {@self age_band ?peer_band})
   (role ?victim (any_human ?victim)
                 (marriageable-age ?victim)
                 ; the crush forms on someone @self has actually met.
                 (personally-knows @self ?victim)
                 ; No incestuous crush (kin cross-pair believes-macro).
-                (not (blood-kin @self ?victim))
+                (none (blood-kin @self ?victim))
                 ; Opposite-sex: @self's belief that ?victim's PERCEIVED gender
                 ; differs from his own (visible-on-sight -> cacheable).
-                (not {?victim gender (any {@self gender}).target})
+                (none {?victim gender (any {@self gender}).target})
                 ; Similar age: @self's band is within ?victim's perceived age_span
                 ; (+/-1 band). @self's band is bound in the @self role above - an
                 ; inline (any {@self age_band}).target does NOT resolve against the
