@@ -33,7 +33,7 @@
              {?org employee_register ?reg}))
 
   ; The most senior LIVING member on the wage book.
-  (select-record (doc [k employee_register] ?reg)
+  (select-row (entity ?reg)
     (bind worker ?senior)
     (bind job ?sjk)
     (bind level ?slvl)

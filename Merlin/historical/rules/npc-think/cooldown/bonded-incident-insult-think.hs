@@ -50,7 +50,7 @@
 
   ; Anger load is @self-only and (emotion-load) is not cheap - compute it ONCE and
   ; derive the ladder context from it, so neither the (when) nor the per-row
-  ; select-record (when) re-evaluates it.
+  ; select-row (when) re-evaluates it.
   (bind (emotion-load @self [k anger]) ?emo_load)
   (bind (if (> ?emo_load 0.5) (then displaced_anger) (else dispositional)) ?emo_ctx)
 
@@ -79,7 +79,7 @@
 
   ; Compose the barb: context is the anger-driven ladder choice; ?barb-rel the
   ; belief @self voices. No material in that context -> nothing binds -> silence.
-  (select-record (table barb_ladder)
+  (select-row (table barb_ladder)
     (bind context ?ctx)
     (bind rank ?rank)
     (bind barb_eval ?barb-rel)

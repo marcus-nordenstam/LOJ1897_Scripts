@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; occupations.hs - the job catalog as authored config (a (define-table ...) with
 ; NAMED records, like businesses / cornerstone_businesses). Loaded from
-; historical/tables/ into the .hse catalog; consumed by the (select-record ...)
+; historical/tables/ into the .hse catalog; consumed by the (select-row ...)
 ; hiring match in hire_errand_act.hs - there is NO bespoke C++ parser, struct,
 ; or catalog (the old hsim_occupations.{h,cc} loader was deleted).
 ;

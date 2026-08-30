@@ -195,7 +195,7 @@
 ;     ?level     - the starting rank ([k apprentice] / [k trainee] / [k senior] / ...)
 ;
 ; STAFFING note: the matched job kind comes from hire_errand_act's
-; (select-record ...) over the occupations table, which binds ?jk =
+; (select-row ...) over the occupations table, which binds ?jk =
 ; [k job <leaf>] or @fail; the caller guards on ?jk. The fixed-role paths
 ; (indenture / partner / senior) pass a literal [k job <role>].
 ; ----------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; hiring_macros.hs - the eligibility gates + match score of the hiring
-; (select-record ...) in hire_errand_act.hs, composing over the occupations
+; (select-row ...) in hire_errand_act.hs, composing over the occupations
 ; table's row fields (the old C++ occupation_match / best_match_job, ported).
 ; Every gate reads @self's OWN beliefs / attrs - telepathy-honest by construction.
 ; `none` is the table's absent-field sentinel; each gate passes when its

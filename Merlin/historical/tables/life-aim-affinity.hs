@@ -11,7 +11,7 @@
 ; life_aim_affinity_lookup) through the generic table API, and available to
 ; rules as a point-read on the actor's OWN life_aim crossed with a candidate
 ; action:
-;   (select-record (table life_aim_affinity)
+;   (select-row (table life_aim_affinity)
 ;     (bind weight ?w)
 ;     (when (and (= life_aim (any {@self life_aim ?}).target) (= action ?action)))
 ;     ...)

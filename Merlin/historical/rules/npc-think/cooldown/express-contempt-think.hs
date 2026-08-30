@@ -55,7 +55,7 @@
     (tolerate (any {?victim lover ?}):?lover-rel)
     (tolerate (any {?victim decorum ?}):?dec-rel))
 
-  (select-record (table contempt_ladder)
+  (select-row (table contempt_ladder)
     (bind context ?ctx)
     (bind rank ?rank)
     (bind barb_eval ?barb-rel)
