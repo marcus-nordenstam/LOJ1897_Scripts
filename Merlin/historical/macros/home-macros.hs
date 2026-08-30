@@ -10,5 +10,5 @@
 ; ----------------------------------------------------------------------------
 
 (define-macro at-home ()
-  (and (any {@self home ?}).target: ?home
+  (and {@self home ?home}
        (spatial @self building ?home)))
