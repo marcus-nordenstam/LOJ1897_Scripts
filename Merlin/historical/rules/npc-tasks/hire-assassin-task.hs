@@ -26,7 +26,7 @@
     (try
       (when (spatial ?killer co-located @self))
       (utility survival always-pick)
-      (effects (maintain-proposal {@self SAY (utterable-msg (to ?killer) {?killer kill ?victim}) ?killer})))
+      (effects (maintain-proposal {@self SAY (utterable-msg {?killer kill ?victim}) ?killer})))
 
     ; CONCLUDE once the solicitation has been spoken.
     (try

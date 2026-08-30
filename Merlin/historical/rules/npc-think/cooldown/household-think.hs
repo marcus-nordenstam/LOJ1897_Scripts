@@ -125,7 +125,7 @@
   (utility idle (above rest))
 
   (effects
-    (utterable-qs (to ?cook) {?home supper_hour ?}): ?qs
+    (utterable-qs {?home supper_hour ?}): ?qs
     (maintain-proposal {@self SAY ?qs ?cook})))
 
 (npc-think answer_mealtimes
@@ -144,8 +144,7 @@
                {?asker SAY (qs {? supper_hour ?}) @self /past})
 
   (effects
-    (tell-to ?asker (utterable-msg (to ?asker)
-                                   {?home breakfast_hour ?b}
+    (tell-to ?asker (utterable-msg {?home breakfast_hour ?b}
                                    {?home lunch_hour ?l}
                                    {?home supper_hour ?s}))
     ))

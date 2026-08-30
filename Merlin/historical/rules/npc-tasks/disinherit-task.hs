@@ -42,7 +42,7 @@
       (when (spatial ?victim co-located @self))
       (utility errand always-pick)
       (effects
-        (maintain-proposal {@self SAY (utterable-msg (to ?victim) {@self disinherit ?victim}) ?victim})))
+        (maintain-proposal {@self SAY (utterable-msg {@self disinherit ?victim}) ?victim})))
 
     ; OUTCOME: the disinheritance was announced (the SAY landed).
     (try

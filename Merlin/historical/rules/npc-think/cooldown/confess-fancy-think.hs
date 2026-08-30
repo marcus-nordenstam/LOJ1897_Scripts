@@ -4,7 +4,7 @@
 ;
 ; THE PROBLEM: a love match needs MUTUAL fancy, but a suitor cannot read his
 ; beloved's heart. THE FIX: whoever fancies someone TELLS THEM - when they are
-; together. This think casts the pair, composes the (to ?target) message and
+; together. This think casts the pair, composes the message and
 ; PROPOSES the confession; the shared say_to act says it directly to ?target,
 ; and perception delivers {@self fancy ?target} into ?target's
 ; mind, sourced to the spoken {@self SAY ...}. Now each suitor reads the OTHER

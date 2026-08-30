@@ -102,5 +102,5 @@
     ; @self discloses their friend-tier profile to the beloved (the SAY they hear
     ; and adopt); @self's knowledge of the beloved pre-exists from courtship.
     (for-each ?fact-rel (every {@self (disclosure-tier-labels friend) ?})
-      (tell-to ?beloved (utterable-msg (to ?beloved) ?fact-rel)))
+      (tell-to ?beloved (utterable-msg ?fact-rel)))
     ))

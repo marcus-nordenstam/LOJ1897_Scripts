@@ -30,7 +30,7 @@
                  (none {@self extort ?victim})))
       (utility errand always-pick)
       (effects (maintain-proposal
-                 {@self SAY (utterable-msg (to ?victim) {@self extort ?victim}) ?victim})))
+                 {@self SAY (utterable-msg {@self extort ?victim}) ?victim})))
     (try
       (when (any {@self SAY ? ?victim /succ /caused_by ?coerce-rel}))
       (effects
