@@ -32,4 +32,4 @@
     (if (spatial ?judge co-located @self)
         (then (begin-belief ?judge {@self race_result ?perf ?sport})))
     (end-belief {?judge summon @self ?sport})
-    (set-outcome {@self RACE_RUN ?sport ?judge} succ)))
+    (set-outcome {@self RACE_RUN ?sport ?judge} /succ)))

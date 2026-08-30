@@ -23,7 +23,7 @@
             (then (debug-print "SBR_EMPTY")
                   (bb-clear ?stack browse-cycle-end)
                   (bb-clear ?stack browse-inflight)
-                  (set-outcome ?browse-rel succ)))))
+                  (set-outcome ?browse-rel /succ)))))
     (try
       (when (and (unknown (spatial ?stack top))
                  (not (bb-private-any (bb-read ?stack browse-inflight) browse-status))))
@@ -33,7 +33,7 @@
             (then (debug-print "SBR_EMPTY")
                   (bb-clear ?stack browse-cycle-end)
                   (bb-clear ?stack browse-inflight)
-                  (set-outcome ?browse-rel succ)))))
+                  (set-outcome ?browse-rel /succ)))))
     (try
       (role ?top (spatial ?stack top)
             (!= ?top (bb-read ?stack browse-cycle-end))
@@ -51,7 +51,7 @@
         (debug-print "SBR_CYCLED")
         (bb-clear ?stack browse-cycle-end)
         (bb-clear ?stack browse-inflight)
-        (set-outcome ?browse-rel succ)))
+        (set-outcome ?browse-rel /succ)))
     (try
       (role ?doc [k document] (spatial @self hold)
             (= (bb-read ?doc browse-status) kept))

@@ -29,8 +29,8 @@
         (plant-letter [k forged_letter]
                       (nl-written-msg "?victim killed me") (spatial @self space))
         (crime-ledger-append @self ?victim plant_evidence frame @u @u)
-        (set-outcome ?frame-rel succ)))
+        (set-outcome ?frame-rel /succ)))
     (try
       (when (or (not (alive ?victim))
                 (not (any {?victim home ?}))))
-      (effects (set-outcome ?frame-rel fail)))))
+      (effects (set-outcome ?frame-rel /fail)))))

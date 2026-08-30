@@ -21,4 +21,4 @@
     (if (empty (spatial (spatial @self right_hand) grip))
         (then (spatial-write ?goods gripped_by (spatial @self right_hand)))
         (else (spatial-write ?goods gripped_by (spatial @self left_hand))))
-    (set-outcome ?buy-act-rel succ)))
+    (set-outcome ?buy-act-rel /succ)))

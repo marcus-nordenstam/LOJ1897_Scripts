@@ -64,4 +64,4 @@
               (create-entity [k floorboard_cache] (qual parent ?bedroom)): ?cache
               (begin-belief {@self hiding_spot ?cache})
               (bind 1 ?made))))
-    (set-outcome {@self MAKE_CACHE} succ)))
+    (set-outcome {@self MAKE_CACHE} /succ)))

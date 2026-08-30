@@ -34,6 +34,6 @@
       (role ?stk [k mail_stack] (spatial ?stk building ?prem))
       (when (and (any {@self take_my_letters ?stk /succ /caused_by ?rm-rel})
                  (empty (spatial @self hold [k letter]))))
-      (effects (debug-print "RM_DONE") (set-outcome ?rm-rel succ)))
+      (effects (debug-print "RM_DONE") (set-outcome ?rm-rel /succ)))
     (try
       (effects (debug-print "RM_P_TASK prem=?prem")))))

@@ -24,9 +24,9 @@
             (then (post-letter [k confession_letter]
                                (nl-written-msg "I have taken ?partner as a lover")
                                ?kinhome ?kin)))
-        (set-outcome ?confess-rel succ)))
+        (set-outcome ?confess-rel /succ)))
     (try
       (when (or (not (and (any {@self lover|HAVE_SEX_WITH ? /ever}).target: ?partner
                           (not {@self spouse ?partner /ever})))
                 (not (any {@self father|mother|fiancee|spouse|sibling ?}))))
-      (effects (set-outcome ?confess-rel fail)))))
+      (effects (set-outcome ?confess-rel /fail)))))

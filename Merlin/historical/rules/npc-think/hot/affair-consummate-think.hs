@@ -29,7 +29,7 @@
   (cooldown 1 d)
   (role @self (adult @self)
               {@self lover ?})
-  (role ?paramour (spatial ?paramour co-located @self /building)
+  (role ?paramour (spatial ?paramour co-located-building @self)
                   (any_human ?paramour)
                   {@self lover ?paramour}
                   (not {@self spouse ?paramour}))

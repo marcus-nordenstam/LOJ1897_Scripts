@@ -22,4 +22,4 @@
             (begin-belief {@self coin_pile ?pile})
             (observe ?pile)
             (bind 1 ?made))))
-    (set-outcome {@self SEED_COINS ?home} succ)))
+    (set-outcome {@self SEED_COINS ?home} /succ)))

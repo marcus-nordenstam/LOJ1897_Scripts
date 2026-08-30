@@ -39,4 +39,4 @@
                         (bind ?new_basket ?hand_pile)))
               (pile-add ?hand_pile ?grab)
               (begin-belief {@self provisions_shop ?shop})))))
-    (set-outcome {@self PROVISION ?cap} succ)))
+    (set-outcome {@self PROVISION ?cap} /succ)))

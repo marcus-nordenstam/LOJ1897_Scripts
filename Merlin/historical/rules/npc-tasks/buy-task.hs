@@ -30,4 +30,4 @@
     ; concluded: an instance of the kind is in hand.
     (try
       (when (not (empty (spatial @self hold ?kind))))
-      (effects (set-outcome ?buy-rel succ)))))
+      (effects (set-outcome ?buy-rel /succ)))))

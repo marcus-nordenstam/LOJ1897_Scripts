@@ -36,4 +36,4 @@
     ; CONCLUDE: the victim is dead - the method is spent.
     (try
       (when (any {?victim condition [k dead]}))
-      (effects (set-outcome ?strangle-rel succ)))))
+      (effects (set-outcome ?strangle-rel /succ)))))

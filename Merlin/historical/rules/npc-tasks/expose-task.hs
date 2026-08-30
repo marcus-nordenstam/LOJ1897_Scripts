@@ -49,11 +49,11 @@
         (publish-secret-about @self ?victim)
         (if (any {@self extort ?victim}) (then (end-belief {@self extort ?victim})))
         (crime-ledger-append @self ?victim confront_publicly expose @u @u)
-        (set-outcome ?expose-rel succ)))
+        (set-outcome ?expose-rel /succ)))
     (try
       (when (or (not (and (not {@self spouse ?victim})
                           (any {?victim lover|HAVE_SEX_WITH ? /ever}).target: ?partner
                           (not {?victim spouse ?partner /ever})
                           (not {@self spouse ?partner})))
                 (not (alive ?victim))))
-      (effects (set-outcome ?expose-rel fail)))))
+      (effects (set-outcome ?expose-rel /fail)))))

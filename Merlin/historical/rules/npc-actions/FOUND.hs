@@ -32,4 +32,4 @@
     ; resolution is re-minted at the proper deliberation cadence instead (annual
     ; business_founding / monthly business_homeostat), so a man whose town has no
     ; free premises simply tries again next window.
-    (set-outcome {@self FOUND} succ)))
+    (set-outcome {@self FOUND} /succ)))

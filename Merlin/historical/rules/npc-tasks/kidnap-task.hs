@@ -13,4 +13,4 @@
   (try
     (role @self)
     (when (chance 0))
-    (effects (set-outcome ?kidnap-rel succ))))
+    (effects (set-outcome ?kidnap-rel /succ))))

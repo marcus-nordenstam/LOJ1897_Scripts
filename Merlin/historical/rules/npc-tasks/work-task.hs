@@ -50,4 +50,4 @@
       (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
             (latch-eval (any {?job ?tl ?}): ?sh-rel ?sh-rel.target: ?start ?sh-rel.auxiliary: ?end)
             (not (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
-      (effects (set-outcome ?w-rel succ)))))
+      (effects (set-outcome ?w-rel /succ)))))

@@ -20,4 +20,4 @@
       (when (spatial @self building ?wp))
       (effects
         (begin-belief {@self backed_by ?org})
-        (set-outcome {@self back ?org} succ)))))
+        (set-outcome {@self back ?org} /succ)))))

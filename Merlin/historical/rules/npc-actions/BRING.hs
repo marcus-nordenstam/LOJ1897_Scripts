@@ -31,4 +31,4 @@
                 (if ?larder
                     (then (pile-add ?larder (attr ?item count))
                           (destroy-entity ?item)))))))
-    (set-outcome {@self BRING ?ware ?dest} succ)))
+    (set-outcome {@self BRING ?ware ?dest} /succ)))

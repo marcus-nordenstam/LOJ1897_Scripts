@@ -11,7 +11,7 @@
 ; goes to the parish board, picks an advert whose job+org he has not already FAILED, and
 ; begins ONE apply_for. Sub-tasks write + mail the application. The verdict arrives as a
 ; TYPED letter read (held) in the morning post: with one apply_for in flight, the letter's
-; KIND alone is the verdict - offer_letter -> take up the post (apply_for succ),
+; KIND alone is the verdict - offer_letter -> take up the post (apply_for /succ),
 ; rejection_letter -> apply_for fail. Reading requires HOLDING the paper.
 ; ----------------------------------------------------------------------------
 

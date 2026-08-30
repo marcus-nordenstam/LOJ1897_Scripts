@@ -30,4 +30,4 @@
     (try
       (role @self {@self job.salary ?})
       (effects (debug-print "TUP_SUCC")
-               (set-outcome ?tup-rel succ)))))
+               (set-outcome ?tup-rel /succ)))))

@@ -23,4 +23,4 @@
       (effects (maintain-proposal {@self SAY (utterable-msg (to ?agent) {?agent acquire ?kind}) ?agent})))
     (try
       (when (any {@self SAY ? /succ /caused_by ?hire-rel}))
-      (effects (set-outcome ?hire-rel succ)))))
+      (effects (set-outcome ?hire-rel /succ)))))

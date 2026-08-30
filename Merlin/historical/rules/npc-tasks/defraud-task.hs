@@ -13,4 +13,4 @@
   (try
     (role @self)
     (when (chance 0))
-    (effects (set-outcome ?defraud-rel succ))))
+    (effects (set-outcome ?defraud-rel /succ))))

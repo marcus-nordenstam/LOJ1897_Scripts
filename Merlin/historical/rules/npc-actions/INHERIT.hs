@@ -35,4 +35,4 @@
         (then
           (pile-add (any {@self coin_pile ?}).target (attr ?pile count))
           (destroy-entity ?pile)))
-    (set-outcome {@self INHERIT ?dead ?pile} succ)))
+    (set-outcome {@self INHERIT ?dead ?pile} /succ)))

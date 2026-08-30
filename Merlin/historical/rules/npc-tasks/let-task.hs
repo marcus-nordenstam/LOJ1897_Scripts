@@ -34,4 +34,4 @@
       (when (any {@self STACK_PUT ? ? /succ /caused_by ?let-rel}))
       (effects (debug-print "LET_DONE")
                (begin-belief {?prop availability [k for_rent]})
-               (set-outcome ?let-rel succ)))))
+               (set-outcome ?let-rel /succ)))))

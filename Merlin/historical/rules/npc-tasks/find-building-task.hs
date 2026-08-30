@@ -30,4 +30,4 @@
       (effects (maintain-proposal {@self GO_TO_THRESHOLD ?dest})))
     (try
       (when (not (closest-unobserved [k structure] ?region)))
-      (effects (set-outcome ?find_task-rel fail)))))
+      (effects (set-outcome ?find_task-rel /fail)))))

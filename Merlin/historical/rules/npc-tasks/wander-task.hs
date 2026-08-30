@@ -28,4 +28,4 @@
       (when (>= (count (every {@self WALK ? /caused_by ?w-rel /succ /ever}))
                 (- (count (spatial ?bldg parts [k interior_space room] /env)) 1)))
       (effects (debug-print "WANDER_DONE")
-               (set-outcome ?w-rel succ)))))
+               (set-outcome ?w-rel /succ)))))

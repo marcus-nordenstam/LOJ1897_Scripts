@@ -26,4 +26,4 @@
     ; The tryst advances the affair on both sides.
     (nudge-stance @self ?paramour attraction 0.10)
     (nudge-stance ?paramour @self attraction 0.10)
-    (set-outcome {@self HAVE_SEX_WITH ?paramour} succ)))
+    (set-outcome {@self HAVE_SEX_WITH ?paramour} /succ)))

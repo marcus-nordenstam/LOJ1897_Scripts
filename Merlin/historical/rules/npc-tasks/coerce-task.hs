@@ -38,7 +38,7 @@
         (if (holds-coercion-material ?victim)
             (then (crime-ledger-append @self ?victim blackmail coerce @u @u))
             (else (crime-ledger-append @self ?victim threaten_violence coerce @u @u)))
-        (set-outcome ?coerce-rel succ)))
+        (set-outcome ?coerce-rel /succ)))
     (try
       (when (not (alive ?victim)))
-      (effects (set-outcome ?coerce-rel fail)))))
+      (effects (set-outcome ?coerce-rel /fail)))))

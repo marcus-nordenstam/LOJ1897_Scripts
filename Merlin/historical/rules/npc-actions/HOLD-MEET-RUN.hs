@@ -37,4 +37,4 @@
         (for-each-row (attr ?reg writing) (worker ?m)
           (if (and (alive ?m) (spatial ?m co-located @self))
               (then (tell-to ?m (utterable-msg (to ?m) {@self summon ?m ?sport})))))))
-    (set-outcome {@self HOLD_MEET_RUN} succ)))
+    (set-outcome {@self HOLD_MEET_RUN} /succ)))

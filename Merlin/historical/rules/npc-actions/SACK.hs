@@ -10,4 +10,4 @@
     (fire /worker ?worker)
     ; the grudge: the dismissed man resents the boss who let him go (a named motive)
     (nudge-stance ?worker @self warmth -0.5)
-    (set-outcome {@self SACK} succ)))
+    (set-outcome {@self SACK} /succ)))

@@ -47,9 +47,9 @@
     ; OUTCOME: the disinheritance was announced (the SAY landed).
     (try
       (when (any {@self SAY ? ?victim /succ /caused_by ?disinherit-rel}))
-      (effects (set-outcome ?disinherit-rel succ)))
+      (effects (set-outcome ?disinherit-rel /succ)))
 
     ; ABANDON: the victim died before it could be announced.
     (try
       (when (not (alive ?victim)))
-      (effects (set-outcome ?disinherit-rel fail)))))
+      (effects (set-outcome ?disinherit-rel /fail)))))

@@ -11,4 +11,4 @@
   (duration 1)
   (effects
     (pop ?stack)
-    (set-outcome {@self STACK_TAKE ?doc ?stack} succ)))
+    (set-outcome {@self STACK_TAKE ?doc ?stack} /succ)))

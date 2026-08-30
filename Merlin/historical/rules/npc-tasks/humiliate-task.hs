@@ -38,7 +38,7 @@
       (when (any {@self SAY ? /succ /caused_by ?humiliate-rel}))
       (effects
         (crime-ledger-append @self ?victim public_humiliation humiliate @u @u)
-        (set-outcome ?humiliate-rel succ)))
+        (set-outcome ?humiliate-rel /succ)))
     (try
       (when (not (alive ?victim)))
-      (effects (set-outcome ?humiliate-rel fail)))))
+      (effects (set-outcome ?humiliate-rel /fail)))))

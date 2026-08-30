@@ -21,4 +21,4 @@
   (duration 45)
   (effects
     (begin-belief {@self owe ?lender})
-    (set-outcome {@self TAKE_LOAN} succ)))
+    (set-outcome {@self TAKE_LOAN} /succ)))

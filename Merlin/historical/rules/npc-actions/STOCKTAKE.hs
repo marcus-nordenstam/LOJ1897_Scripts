@@ -68,4 +68,4 @@
               (create-entity [k knife] (qual location ?room)): ?blade)
             (repeat (- (shop_weapon_stock) (count (spatial ?room contents [k toxin] /env)))
               (create-entity [k white_arsenic] (qual location ?room)): ?tox))))
-    (set-outcome {@self STOCKTAKE} succ)))
+    (set-outcome {@self STOCKTAKE} /succ)))

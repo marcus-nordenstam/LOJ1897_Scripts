@@ -12,4 +12,4 @@
   (try
     (role @self)
     (when (chance 0))
-    (effects (set-outcome ?summon-rel succ))))
+    (effects (set-outcome ?summon-rel /succ))))

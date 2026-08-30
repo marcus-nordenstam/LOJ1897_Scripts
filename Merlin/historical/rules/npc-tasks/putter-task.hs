@@ -31,4 +31,4 @@
               (else (read-cache ?cache))))))
     (try
       (when (any {@self wander ?home /succ /caused_by ?p-rel}))
-      (effects (set-outcome ?p-rel succ)))))
+      (effects (set-outcome ?p-rel /succ)))))

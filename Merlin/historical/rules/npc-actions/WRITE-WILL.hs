@@ -34,4 +34,4 @@
                          (o [k building] {@self home @o})})})}
                    signed))
     (begin-belief {@self own ?will})
-    (set-outcome {@self WRITE_WILL ?heir} succ)))
+    (set-outcome {@self WRITE_WILL ?heir} /succ)))

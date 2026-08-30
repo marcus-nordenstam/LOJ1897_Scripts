@@ -17,7 +17,7 @@
                  {?org employee_register ?reg}
                  (>= (table-count ?reg)
                      (if (table-match public_orgs kind ?ok employee_count ?ec) (then ?ec) (else 2)))))
-      (effects (set-outcome ?rec-rel succ)))
+      (effects (set-outcome ?rec-rel /succ)))
     (try
       (when (none {@self post ? ?org}))
       (effects (debug-print "RC_ADPICK") (maintain-proposal {@self advertise ?org})))

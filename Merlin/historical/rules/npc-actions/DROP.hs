@@ -9,4 +9,4 @@
   (duration 1)
   (effects
     (spatial-write ?thing location (spatial @self space /env))
-    (set-outcome {@self DROP ?thing} succ)))
+    (set-outcome {@self DROP ?thing} /succ)))

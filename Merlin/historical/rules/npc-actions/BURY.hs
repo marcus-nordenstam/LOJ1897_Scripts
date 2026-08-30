@@ -22,5 +22,5 @@
     (realize-destroyed ?corpse internment [k internment buried])
     (tell (utterable-msg {?corpse internment [k buried]}))
     (destroy-entity ?corpse)
-    (set-outcome {@self BURY ?corpse} succ)))
+    (set-outcome {@self BURY ?corpse} /succ)))
 ; go_action (the shared travel act) lives in npc-actions/go_action.hs.

@@ -33,7 +33,7 @@
 ;
 ;   (end-belief @self spouse) - the survivor's marriage reference to someone who has
 ;       gone is dropped (was ended at decision time before the split).
-;   (set-outcome {..} succ)              - close the act-belief (the goal's teardown is its minter's).
+;   (set-outcome {..} /succ)              - close the act-belief (the goal's teardown is its minter's).
 ;   (destroy-entity @self) - the emigrant leaves the world (no corpse, no burial).
 ;
 ; SAFE self-destroy - VERIFIED against the completion path (hse_engine.cc
@@ -58,4 +58,4 @@
 (npc-action {@self DEPART}
   (duration 480)                     ; ~a day spent packing up and settling affairs
   (effects
-    (set-outcome {@self DEPART} succ)))
+    (set-outcome {@self DEPART} /succ)))

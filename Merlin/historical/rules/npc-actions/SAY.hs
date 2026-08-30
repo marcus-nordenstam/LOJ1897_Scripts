@@ -14,4 +14,4 @@
     (if ?audience
         (then (tell-to ?audience ?msg))
         (else (tell ?msg)))
-    (set-outcome ?say-rel succ)))
+    (set-outcome ?say-rel /succ)))

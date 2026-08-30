@@ -10,4 +10,4 @@
   (duration 1)
   (effects
     (bury ?doc ?stack)
-    (set-outcome {@self STACK_BURY ?doc ?stack} succ)))
+    (set-outcome {@self STACK_BURY ?doc ?stack} /succ)))

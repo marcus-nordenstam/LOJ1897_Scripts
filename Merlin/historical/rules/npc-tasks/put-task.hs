@@ -15,4 +15,4 @@
       (effects (begin-proposal {@self RIGHT_PUT ?item ?location})))
     (try
       (when (any {@self /succ LEFT_PUT|RIGHT_PUT ?item ?location /caused_by ?put-rel}))
-      (effects (set-outcome ?put-rel succ)))))
+      (effects (set-outcome ?put-rel /succ)))))

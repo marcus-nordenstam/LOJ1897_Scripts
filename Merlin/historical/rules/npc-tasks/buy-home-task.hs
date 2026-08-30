@@ -32,8 +32,8 @@
         (begin-belief {@self home ?dwell})
         (begin-belief {?dwell occupant @self})
         (end-belief {?dwell availability [k for_sale]})
-        (set-outcome ?bh-rel succ)))
+        (set-outcome ?bh-rel /succ)))
     (try
       (when (and (none {?dwell availability [k for_sale]})
                  (none {@self RECORD_SALE ?dwell /succ})))
-      (effects (debug-print "BH_LOST") (set-outcome ?bh-rel fail)))))
+      (effects (debug-print "BH_LOST") (set-outcome ?bh-rel /fail)))))

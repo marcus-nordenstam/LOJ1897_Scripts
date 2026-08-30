@@ -21,4 +21,4 @@
     (begin-belief ?winner {?winner win ?sport})
     ; (the scoreboard clearing is the meet_judged twin's - sporting_judge_think.hs
     ;  - off this declaration's /succ record.)
-    (set-outcome {@self JUDGE_DECLARE} succ)))
+    (set-outcome {@self JUDGE_DECLARE} /succ)))

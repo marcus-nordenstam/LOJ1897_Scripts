@@ -12,4 +12,4 @@
   (effects
     ; New rows start at the entry rank (trainee for a hire; unread for a club member).
     (table-add ?reg worker @self job ?job level [k trainee])
-    (set-outcome ?en-rel succ)))
+    (set-outcome ?en-rel /succ)))

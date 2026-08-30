@@ -38,10 +38,10 @@
                               (else (nl-written-msg "?loot was stolen from me")))
                           (spatial @self space))
             (break)))
-        (set-outcome ?report-rel succ)))
+        (set-outcome ?report-rel /succ)))
     (try
       (when (or (not (any {? stolen_from @self}))
                 (not (can-write @self))
                 (not (find-building [k police_station]))
                 (any {@self report_crime ?focus /succ /ever})))
-      (effects (set-outcome ?report-rel fail)))))
+      (effects (set-outcome ?report-rel /fail)))))

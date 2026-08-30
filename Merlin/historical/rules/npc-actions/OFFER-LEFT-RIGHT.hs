@@ -10,7 +10,7 @@
     (check (spatial @self co-located ?recipient))
     (check (empty (spatial ?recipient-hand grip /env)))
     (spatial-write ?thing gripped_by ?recipient-hand)
-    (set-outcome ?offer-action succ)))
+    (set-outcome ?offer-action /succ)))
 
 (npc-action {@self OFFER_LEFT ?thing ?recipient}:?offer-action-rel
   (tar object) (aux human) (duration 0)

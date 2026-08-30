@@ -52,4 +52,4 @@
           (else (yield-evidence @self ?foe head bruise)
                 (if (chance (blow_succumb_prob)) (then (kill-blow ?foe strangle))))))))
         (else (pub-bb-post @self whiffed (whiff_ttl_cycles))))))
-    (set-outcome {@self STRIKE ?foe ?method} succ)))
+    (set-outcome {@self STRIKE ?foe ?method} /succ)))

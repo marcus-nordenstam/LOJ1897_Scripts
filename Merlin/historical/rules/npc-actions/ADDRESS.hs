@@ -12,4 +12,4 @@
     (set-attr ?doc addressee (attr ?recipient name))
     (if (any {?recipient home ?}).target: ?rhome
         (then (set-attr ?doc address ?rhome)))
-    (set-outcome {@self ADDRESS ?doc ?recipient} succ)))
+    (set-outcome {@self ADDRESS ?doc ?recipient} /succ)))

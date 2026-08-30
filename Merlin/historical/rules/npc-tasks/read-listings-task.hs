@@ -22,4 +22,4 @@
         (debug-print "RL_READ")
         (for-each-row (attr ?register writing) (building ?b)
           (begin-belief {?b availability [k for_sale]}))
-        (set-outcome ?rl-rel succ)))))
+        (set-outcome ?rl-rel /succ)))))

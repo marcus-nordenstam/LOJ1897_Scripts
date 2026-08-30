@@ -59,4 +59,4 @@
     (destroy-entity ?reg)
     (destroy-entity ?art)
     ; 4. clear the act (close_business.hs's cease-effects end the goal on the falling edge).
-    (set-outcome {@self CLOSE_BUSINESS} succ)))
+    (set-outcome {@self CLOSE_BUSINESS} /succ)))

@@ -41,7 +41,7 @@
       (effects (maintain-proposal {@self OFFER_LEFT ?thing ?recipient})))
     (try
       (when (any {@self /succ OFFER_LEFT|OFFER_RIGHT ?thing ?recipient /caused_by ?give-rel}))
-      (effects (set-outcome ?give-rel succ)))
+      (effects (set-outcome ?give-rel /succ)))
     (try
       (when (not (alive ?recipient)))
-      (effects (set-outcome ?give-rel fail)))))
+      (effects (set-outcome ?give-rel /fail)))))

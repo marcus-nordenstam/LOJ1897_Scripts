@@ -6,7 +6,7 @@
     (check (!= (spatial ?item gripped_by /env) ?hand))
     (check (spatial @self co-located ?item))
     (spatial-write ?item gripped_by ?hand)
-    (set-outcome ?take-action succ)))
+    (set-outcome ?take-action /succ)))
 
 (npc-action {@self LEFT_TAKE ?item}:?take-action-rel
   (duration 1)

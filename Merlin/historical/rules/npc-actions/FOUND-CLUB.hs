@@ -15,4 +15,4 @@
     (tolerate (roll-org-kind 0
                    [k org race_club] [k org athletic_club]):?clubkind)
     (if ?clubkind (then (found-club-seq ?clubkind)))
-    (set-outcome {@self FOUND_CLUB} succ)))
+    (set-outcome {@self FOUND_CLUB} /succ)))

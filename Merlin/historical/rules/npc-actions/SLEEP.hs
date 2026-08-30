@@ -19,4 +19,4 @@
 (npc-action {@self SLEEP}
   (duration (max (sleep-inertia-floor-min)
                  (* (sleep-min-per-fatigue) (attr @self fatigue))))
-  (effects (set-outcome {@self SLEEP} succ)))
+  (effects (set-outcome {@self SLEEP} /succ)))

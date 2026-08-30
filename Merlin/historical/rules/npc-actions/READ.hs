@@ -12,4 +12,4 @@
   (duration 10)
   (effects
     (adopt-msg (attr ?doc writing))
-    (set-outcome {@self READ ?doc} succ)))
+    (set-outcome {@self READ ?doc} /succ)))

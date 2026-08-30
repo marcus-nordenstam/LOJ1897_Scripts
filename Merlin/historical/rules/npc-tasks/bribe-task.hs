@@ -27,7 +27,7 @@
       (when (any {@self give ? ?victim /succ /caused_by ?bribe-rel}))
       (effects
         (crime-ledger-append @self ?victim offer_bribe bribe @u @u)
-        (set-outcome ?bribe-rel succ)))
+        (set-outcome ?bribe-rel /succ)))
     (try
       (when (not (alive ?victim)))
-      (effects (set-outcome ?bribe-rel fail)))))
+      (effects (set-outcome ?bribe-rel /fail)))))

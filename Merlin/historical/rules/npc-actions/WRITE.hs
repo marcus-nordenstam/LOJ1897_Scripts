@@ -14,4 +14,4 @@
     (if (nothing (attr ?doc writing))
         (then (set-writing ?doc (written-msg ?sentence)))
         (else (set-writing ?doc (add-func-arg (attr ?doc writing) ?sentence))))
-    (set-outcome {@self WRITE ?doc ?sentence} succ)))
+    (set-outcome {@self WRITE ?doc ?sentence} /succ)))

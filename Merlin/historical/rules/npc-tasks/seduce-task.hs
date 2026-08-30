@@ -38,9 +38,9 @@
       (effects (maintain-proposal {@self HAVE_SEX_WITH ?paramour})))
     (try
       (when {@self lover ?paramour})
-      (effects (set-outcome ?seduce-rel succ)))
+      (effects (set-outcome ?seduce-rel /succ)))
     (try
       (when (or (not (alive ?paramour))
                 {?paramour gender (any {@self gender}).target}
                 (blood-kin @self ?paramour)))
-      (effects (set-outcome ?seduce-rel fail)))))
+      (effects (set-outcome ?seduce-rel /fail)))))

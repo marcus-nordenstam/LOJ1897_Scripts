@@ -23,4 +23,4 @@
                (begin-proposal {@self RIGHT_TAKE ?item})))
     (try
       (when (any {@self /succ LEFT_TAKE|RIGHT_TAKE ?item /caused_by ?take-rel}))
-      (effects (set-outcome ?take-rel succ)))))
+      (effects (set-outcome ?take-rel /succ)))))

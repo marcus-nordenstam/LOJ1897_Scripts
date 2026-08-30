@@ -31,4 +31,4 @@
     ; CONCLUDE once the solicitation has been spoken.
     (try
       (when (any {@self SAY ? /succ /caused_by ?hire-rel}))
-      (effects (set-outcome ?hire-rel succ)))))
+      (effects (set-outcome ?hire-rel /succ)))))

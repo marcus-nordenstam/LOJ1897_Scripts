@@ -30,4 +30,4 @@
             (not (substantial (attr ?app address))))
       (effects (debug-print "PA_ADDR")
                (set-attr ?app address ?wp)
-               (set-outcome ?pa-rel succ)))))
+               (set-outcome ?pa-rel /succ)))))

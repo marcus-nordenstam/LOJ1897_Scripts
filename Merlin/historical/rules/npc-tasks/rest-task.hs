@@ -9,4 +9,4 @@
   (tar structure|space)
   (try
     (role @self)
-    (effects (set-outcome ?t-rel succ))))
+    (effects (set-outcome ?t-rel /succ))))

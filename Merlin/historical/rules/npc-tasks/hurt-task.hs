@@ -43,4 +43,4 @@
                 (any {?victim condition [k dead]})))
       (effects
         (crime-ledger-append @self ?victim punch hurt @u @u)
-        (set-outcome ?hurt-rel succ)))))
+        (set-outcome ?hurt-rel /succ)))))

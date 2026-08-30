@@ -11,4 +11,4 @@
 
 (npc-action {@self DWELL ?place ?until}
   (duration (minutes-until-hour ?until))
-  (effects (set-outcome {@self DWELL ?place ?until} succ)))
+  (effects (set-outcome {@self DWELL ?place ?until} /succ)))

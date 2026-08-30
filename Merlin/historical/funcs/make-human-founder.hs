@@ -27,6 +27,7 @@
             (begin-belief {@self class_situation [k middle]})
             (begin-belief {@self nationality ?nat})
             (begin-belief {@self breeding 0.55})
+            (begin-belief {@self home ?b})
             (begin-belief {@self interest (random-subkind [k domain])})
             (begin-belief {@self interest (random-subkind [k domain])})
             (begin-belief {@self interest (random-subkind [k domain])})

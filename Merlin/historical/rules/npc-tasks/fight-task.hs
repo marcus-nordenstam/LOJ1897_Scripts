@@ -31,4 +31,4 @@
       (when (or (any {?foe condition [k dead]})
                 (attr-is ?foe awareness unconscious)
                 (not (spatial ?foe co-located @self))))
-      (effects (set-outcome ?fight-rel succ)))))
+      (effects (set-outcome ?fight-rel /succ)))))

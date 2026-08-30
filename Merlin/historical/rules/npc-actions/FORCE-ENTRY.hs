@@ -11,4 +11,4 @@
     (set-attr ?door integrity [k broken])
     (set-attr ?door lock_status [k unlocked])
     (set-attr ?door opening_status [k ajar])
-    (set-outcome ?fe-rel succ)))
+    (set-outcome ?fe-rel /succ)))

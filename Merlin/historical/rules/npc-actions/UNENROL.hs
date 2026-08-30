@@ -9,4 +9,4 @@
   (duration 15)
   (effects
     (table-remove ?reg worker @self)
-    (set-outcome ?un-rel succ)))
+    (set-outcome ?un-rel /succ)))

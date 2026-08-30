@@ -18,4 +18,4 @@
               (break)))))
     (for-each ?listings (env-entities [k for_sale_listings])
       (table-remove ?listings building ?dwell))
-    (set-outcome {@self RECORD_SALE ?dwell} succ)))
+    (set-outcome {@self RECORD_SALE ?dwell} /succ)))

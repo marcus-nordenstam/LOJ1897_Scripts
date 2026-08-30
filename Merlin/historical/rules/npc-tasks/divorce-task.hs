@@ -30,4 +30,4 @@
             (begin-belief {?partner prototype [k fallen_woman]})
             (expel-divorced-wife ?partner)
             (dismiss-from-service ?partner)))
-      (set-outcome ?divorce-rel succ))))
+      (set-outcome ?divorce-rel /succ))))

@@ -39,10 +39,10 @@
     ; CONCLUDE: the estate was claimed.
     (try
       (when (any {@self INHERIT ?dead ? /succ}))
-      (effects (set-outcome ?inherit-rel succ)))
+      (effects (set-outcome ?inherit-rel /succ)))
 
     ; ABANDON: the will was read but named someone else (nothing to inherit).
     (try
       (when (and (any {@self READ ?will /succ})
                  (none {@self inherit ?})))
-      (effects (set-outcome ?inherit-rel fail)))))
+      (effects (set-outcome ?inherit-rel /fail)))))

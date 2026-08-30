@@ -16,4 +16,4 @@
       (effects (maintain-proposal {@self wander ?bldg})))
     (try
       (when (spatial ?thing building ?bldg))
-      (effects (set-outcome ?loc-rel succ)))))
+      (effects (set-outcome ?loc-rel /succ)))))

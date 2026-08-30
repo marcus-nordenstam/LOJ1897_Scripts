@@ -30,4 +30,4 @@
                  (any {?applicant apply_for ?})))
       (effects (debug-print "DV_DONE")
                (end-belief {?applicant apply_for ?})
-               (set-outcome ?dv-rel succ)))))
+               (set-outcome ?dv-rel /succ)))))

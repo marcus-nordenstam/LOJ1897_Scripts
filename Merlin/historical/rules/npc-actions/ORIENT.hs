@@ -26,4 +26,4 @@
     ; learning the town's orgs.
     (for-each ?art (env-entities [k articles_of_incorporation])
       (adopt-aoc ?art))
-    (set-outcome {@self ORIENT} succ)))
+    (set-outcome {@self ORIENT} /succ)))

@@ -30,6 +30,6 @@
     (try
       (when (any {@self stack_browse ?stack /succ /caused_by ?take-letters-rel}))
       (effects (debug-print "TML_DONE")
-               (set-outcome ?take-letters-rel succ)))
+               (set-outcome ?take-letters-rel /succ)))
     (try
       (effects (debug-print "TML_P_TASK stk=?stack")))))

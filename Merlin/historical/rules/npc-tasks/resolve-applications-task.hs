@@ -28,4 +28,4 @@
                (begin-proposal {@self draft_verdict ?applicant [k rejection_letter]})))
     (try
       (when (none {? apply_for ?}))
-      (effects (debug-print "RSV_DONE") (set-outcome ?rt-rel succ)))))
+      (effects (debug-print "RSV_DONE") (set-outcome ?rt-rel /succ)))))

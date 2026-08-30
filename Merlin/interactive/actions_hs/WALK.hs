@@ -6,4 +6,4 @@
   (obs)
   (duration 0)
   (effects
-    (set-outcome {@self WALK ?dest} succ)))
+    (set-outcome {@self WALK ?dest} /succ)))

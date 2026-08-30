@@ -19,4 +19,4 @@
     (fire /worker @self)
     (add-co-owner /articles ?art /owner @self)
     (hire-seq ?art [k job proprietor] [k senior])
-    (set-outcome {@self PARTNER} succ)))
+    (set-outcome {@self PARTNER} /succ)))

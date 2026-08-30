@@ -51,7 +51,7 @@
                (maintain-proposal {@self take_up_post ?jk ?wp})))
     (try
       (role ?ltr [k rejection_letter] {@self READ ?ltr /ever})
-      (effects (set-outcome ?af-rel fail)))
+      (effects (set-outcome ?af-rel /fail)))
     (try
       (role @self {@self take_up_post ?jk ?wp /succ})
-      (effects (set-outcome ?af-rel succ)))))
+      (effects (set-outcome ?af-rel /succ)))))

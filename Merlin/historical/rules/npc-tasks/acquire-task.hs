@@ -48,4 +48,4 @@
     ; DONE - an instance of the kind is in hand, however it arrived.
     (try
       (when (not (empty (spatial @self hold ?kind))))
-      (effects (set-outcome ?acq-rel succ)))))
+      (effects (set-outcome ?acq-rel /succ)))))

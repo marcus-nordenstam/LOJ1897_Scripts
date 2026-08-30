@@ -10,4 +10,4 @@
   (duration 5)
   (effects
     (create-entity ?kind (qual location (spatial @self space)))
-    (set-outcome {@self CREATE_ENTITY ?kind} succ)))
+    (set-outcome {@self CREATE_ENTITY ?kind} /succ)))

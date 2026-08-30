@@ -34,4 +34,4 @@
       (effects (debug-print "SM_PUT") (maintain-proposal {@self STACK_PUT ?doc ?out})))
     (try
       (when (any {@self STACK_PUT ?doc ? /succ}))
-      (effects (debug-print "SM_DONE") (set-outcome ?sm-rel succ)))))
+      (effects (debug-print "SM_DONE") (set-outcome ?sm-rel /succ)))))

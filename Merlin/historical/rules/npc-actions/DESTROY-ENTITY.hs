@@ -8,4 +8,4 @@
   (duration 1)
   (effects
     (destroy-entity ?thing)
-    (set-outcome {@self DESTROY_ENTITY ?thing} succ)))
+    (set-outcome {@self DESTROY_ENTITY ?thing} /succ)))

@@ -13,4 +13,4 @@
   (effects
     (pile-add ?pile ?net)
     (observe ?pile)
-    (set-outcome {@self ACCRUE_SAVINGS ?pile ?net} succ)))
+    (set-outcome {@self ACCRUE_SAVINGS ?pile ?net} /succ)))

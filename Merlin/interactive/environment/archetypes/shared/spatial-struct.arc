@@ -16,18 +16,18 @@
 #                                content-supplied (building=building, town=town) so the
 #                                engine never names a level. NOT used by `space`: a space
 #                                is whatever directly contains the entity (see below).
-#   (containment)                LEGACY building sense (space-of-entity, then ascend);
-#                                superseded by (rung building)
 #   (payload)                    the finest rung: (spatial ?x bounds) yields the exact box
 #                                via the live perceiving-pointer (live-only; @unknown when
 #                                not perceiving). /env reads env ground truth.
 #   (head)                       peek the ordered head (ordered store only)
-#   (co)                         same-parent PREDICATE: (spatial ?a co-located ?b)
-#                                is true when parent(a) == parent(b) (a shares b's space;
-#                                add /building to compare buildings). Kind arg0 tests any
-#                                occupant of b's space/building
+#   (co)                         co-presence PREDICATE: (spatial ?a co-located ?b) is true
+#                                when a shares b's container. BARE = same immediate place;
+#                                add (rung <kind>) to compare at that container level (see
+#                                co-located-building). Kind arg0 tests any occupant of that
+#                                scope
 #   (first)                      single first-known child match: (spatial ?whole room [k K])
-#                                yields one perceived room of ?whole (is-a K when given)
+#                                yields one perceived child of ?whole is-a the label's (rung
+#                                <kind>) range, further narrowed by K when given
 #
 # A relation's RANGE is fixed by the relation, and a query never returns a kind
 # outside it - that is what keeps a call-site's expectation unambiguous. `space` is
@@ -68,7 +68,8 @@
 (spatial-label town       (spatial-struct space) (rung town))
 (spatial-label contents   (spatial-struct space) (down))
 (spatial-label co-located (spatial-struct space) (co))
-(spatial-label room       (spatial-struct space) (first))
+(spatial-label co-located-building (spatial-struct space) (co) (rung building))
+(spatial-label room       (spatial-struct space) (first) (rung interior_space))
 (spatial-label gripped_by (spatial-struct grip))
 (spatial-label grip       (spatial-struct grip) (down))
 (spatial-label hold       (spatial-struct grip) (down) (descend))

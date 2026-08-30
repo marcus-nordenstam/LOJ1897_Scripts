@@ -6,4 +6,4 @@
   (obs)
   (duration 0)
   (effects
-    (set-outcome {@self RUN ?dest} succ)))
+    (set-outcome {@self RUN ?dest} /succ)))

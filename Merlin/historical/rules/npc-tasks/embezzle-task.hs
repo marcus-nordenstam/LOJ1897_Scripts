@@ -14,4 +14,4 @@
   (try
     (role @self)
     (when (chance 0))
-    (effects (set-outcome ?embezzle-rel succ))))
+    (effects (set-outcome ?embezzle-rel /succ))))

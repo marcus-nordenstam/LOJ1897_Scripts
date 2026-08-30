@@ -1,6 +1,6 @@
 ; drink - the drink ACT-BODY (npc-action). The pressure think that proposes it is
 ; npc-think/crave_drink.hs (+ relapse.hs for dependents). The {@self DRINK}
-; act-belief - begun at commit, ended by (set-outcome {..} succ) at completion - IS the episodic
+; act-belief - begun at commit, ended by (set-outcome {..} /succ) at completion - IS the episodic
 ; drinking memory days-since-last / the sobriety classifier read. No aim, no
 ; end-goal: the act just does the act; crave_drink ceases because drinking reset
 ; its pressure.
@@ -23,4 +23,4 @@
     ; visible-vice evidence observer estimates read. The home drinker generates
     ; no witnesses; concealment is emergent, not simulated. Witnessing is now
     ; engine-side (auto-witness on this obs act at completion), not hand-authored.
-    (set-outcome {@self DRINK} succ)))
+    (set-outcome {@self DRINK} /succ)))
