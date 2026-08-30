@@ -1,3 +1,0 @@
-hetero	        10
-bi	            1
-homo	        1

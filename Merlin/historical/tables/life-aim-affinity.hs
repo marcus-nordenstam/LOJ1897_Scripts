@@ -1,20 +1,23 @@
 ; ----------------------------------------------------------------------------
-; life_aim_affinity.hs - the (life_aim, action) affinity table, as authored config.
+; life-aim-affinity.hs - the (life_aim, action) affinity table, as authored config.
 ;
-; A (define-table ...): one record per (life_aim, action) pair with a signed
-; weight - the LIFE_AIM_ALIGN modifier of the unified weight formula.
+; One record per (life_aim, action) pair with a signed weight - the
+; LIFE_AIM_ALIGN modifier of the unified weight formula.
 ;   - Positive  -> the actor's life_aim AMPLIFIES the action (more likely)
 ;   - Negative  -> the life_aim SUPPRESSES the action (less likely)
 ;   - Absent    -> the pair is NEUTRAL; the consuming read defaults to 0
 ;
-; Point-read on the actor's OWN life_aim crossed with a candidate action:
+; Read by the annual structural-pressure derivation (hsim_derive.cc,
+; life_aim_affinity_lookup) through the generic table API, and available to
+; rules as a point-read on the actor's OWN life_aim crossed with a candidate
+; action:
 ;   (select-record (table life_aim_affinity)
 ;     (bind weight ?w)
 ;     (when (and (= life_aim (any {@self life_aim ?}).target) (= action ?action)))
 ;     ...)
 ; with the consumer defaulting the bound weight to 0 when no record matches.
 ; life_aim itself is a per-NPC belief minted by the classify_life_aim rule
-; (classifiers/life_aim.hs); it is read @self-only (non-telepathic).
+; (classifiers/life-aim.hs); it is read @self-only (non-telepathic).
 ;
 ; life_aim sub-kinds (Concepts.mon life_aim): legacy_aim / wealth_aim /
 ; piety_aim / respectability_aim / autonomy_aim / power_aim / belonging_aim.

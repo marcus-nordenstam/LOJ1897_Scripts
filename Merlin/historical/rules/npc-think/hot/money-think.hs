@@ -29,7 +29,7 @@
 (npc-think accrue_savings
   (cooldown 1 m)
   (role ?pile {@self coin_pile ?pile})
-  (when (and (in-month december)
+  (when (and (in-month 12)
              (>= (years-old @self) 15)))
   (utility duty)
   (effects

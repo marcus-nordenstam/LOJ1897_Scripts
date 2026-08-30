@@ -36,3 +36,16 @@
   (record 4 thu_hours)
   (record 5 fri_hours)
   (record 6 sat_hours))
+
+; job rank -> the prestige dimension it confers (0..1). rank is the level_rank
+; rung (0 trainee .. 4 senior), 5 for headship of a non-household org, and -1
+; for an NPC holding no job at all (the unemployed floor).
+(define-table prestige_by_rank
+  (fields rank prestige)
+  (record -1 0.15)
+  (record  0 0.20)
+  (record  1 0.20)
+  (record  2 0.30)
+  (record  3 0.45)
+  (record  4 0.65)
+  (record  5 0.90))

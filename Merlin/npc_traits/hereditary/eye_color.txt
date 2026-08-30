@@ -1,5 +1,0 @@
-brown	        4
-blue	        4
-green	        2
-hazel	        2
-grey	        1

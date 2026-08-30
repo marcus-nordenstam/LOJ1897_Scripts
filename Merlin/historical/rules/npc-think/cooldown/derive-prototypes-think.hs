@@ -18,7 +18,7 @@
   (role @self )
 
   ; years-old + in-month are non-belief ops, so they gate the fire in (when).
-  (when (and (in-month december)
+  (when (and (in-month 12)
              (>= (years-old @self) 15)))
 
   (effects

@@ -27,7 +27,7 @@
     (select (score (+ (* 4 (count (every {@self spouse  ?heir})))
                       (* 2 (count (every {@self child   ?heir})))
                       (count       (every {@self sibling ?heir}))))))
-  (when (in-month december))
+  (when (in-month 12))
   (utility duty)
   (effects (maintain-proposal {@self WRITE_WILL ?heir})))
 

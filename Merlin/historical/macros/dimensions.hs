@@ -143,3 +143,54 @@
                (* (clamp (+ (attr @self sadism)           -0.5) 0 1) -0.25)
                (* (count (every {@self value ?}))    0.05)
                (* (count (every {@self justify ?})) -0.08))) 0 1))
+
+; --- standing dims: prestige + decorum ------------------------------------------
+; Both were C++ folds in the derive cascade; they are authored here so every
+; consumer inlines ONE encoding, and the classifier rules (classifiers/prestige.hs,
+; classifiers/decorum.hs) mint them as the {@self <dim>} floats the situation and
+; life_aim role-gates read.
+
+; job-rank - the economic-rank band of ?who's best current job: 5 for headship of
+; a non-household org (headship trumps any grade), else the level_rung of the job's
+; `level` belief, else -1 for the jobless. Feeds the prestige_by_rank lookup.
+(define-macro job-rank (?who)
+  (if {?who job ?}
+    (then
+      (if (is-a (any {?who job ?}).target [k head_of_non_household_org])
+        (then 5)
+        (else (if (table-match level_rank level
+                    (any {(any {?who job ?}).target level ?}).target rank ?lvl_rank)
+                (then ?lvl_rank)
+                (else 0)))))
+    (else -1)))
+
+; win-prestige - a small capped bonus per recorded sporting victory (the `win`
+; achievement beliefs): 0.04 each, capped at 0.20.
+(define-macro win-prestige (?who)
+  (min (* (count (every {?who win ?})) 0.04) 0.20))
+
+; expert-prestige - the public-recognition bump a renowned expert carries: 0.15 for
+; an `expert` skilled_in band in a publicly-esteemed domain (performance art,
+; academic field, martial), 0 otherwise. The competence band is the belief's 4th
+; field, so the domain and the band are matched together in one clause.
+(define-macro expert-prestige (?who)
+  (* 0.15
+     (min (+ (prob {?who skilled_in [k performance_art] [k competence_level expert]})
+             (prob {?who skilled_in [k academic_field]  [k competence_level expert]})
+             (prob {?who skilled_in [k martial]         [k competence_level expert]}))
+          1)))
+
+; prestige-fold - public standing: the rank curve plus the win and expert bonuses,
+; clamped to the 0..1 dimension scale.
+(define-macro prestige-fold (?who)
+  (clamp (+ (if (table-match prestige_by_rank rank (job-rank ?who) prestige ?rank_prestige)
+              (then ?rank_prestige)
+              (else 0.15))
+            (win-prestige ?who)
+            (expert-prestige ?who))
+         0 1))
+
+; decorum-fold - manners and propriety: the politeness aspect carried onto the
+; dimension scale (the parallel of diligence <- industriousness).
+(define-macro decorum-fold (?who)
+  (clamp (attr ?who politeness) 0 1))

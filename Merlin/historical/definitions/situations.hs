@@ -14,22 +14,19 @@
 ; ----------------------------------------------------------------------------
 
 ; ---- dimension tuning ------------------------------------------------------
-; Scalars feeding the wealth / prestige / breeding classifiers.
-; unemployed-* are the no-job floors; creditor-wealth-penalty is the wealth
-; lost per outstanding `owe`; win-prestige-* the capped bonus per sporting
-; victory. breeding is a seeded belief with no derived fallback.
+; Scalars feeding the wealth / breeding classifiers. unemployed-wealth is the
+; no-job floor; creditor-wealth-penalty is the wealth lost per outstanding `owe`.
+; breeding is a seeded belief with no derived fallback. The prestige curve and its
+; bonuses are authored data now - tables/lookup-tables.hs prestige_by_rank plus the
+; win / expert terms in macros/dimensions.hs.
 (dimension-tuning
   /unemployed-wealth        30
-  /creditor-wealth-penalty  15
-  /unemployed-prestige      15
-  /win-prestige-bonus        4
-  /win-prestige-cap         20)
+  /creditor-wealth-penalty  15)
 
 ; ---- rank curves -----------------------------------------------------------
-; Six values each, indexed by job rank 0..5 (trainee apprentice junior
-; regular senior org_head): wealth income, and public standing.
+; Six values, indexed by job rank 0..5 (trainee apprentice junior regular senior
+; org_head): the wealth income curve.
 (income-by-rank    25 35 50 65 80 95)
-(prestige-by-rank  20 20 30 45 65 90)
 
 ; ---- conduct dimensions (Phase 8) ------------------------------------------
 ; chastity: a high prior (chastity-base), less chastity-adultery-penalty per

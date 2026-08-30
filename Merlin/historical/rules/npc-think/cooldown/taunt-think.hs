@@ -25,36 +25,24 @@
 
 (include "../../../definitions/roles.hs")
 
-; The actor's own recent OVERT-method murder victim whose corpse is still in its pre-burial
-; window (@fail when none) - the taunt substrate. The overt kill methods are the fight
-; lane's strangle / shoot (their blows leave an unmistakable violent corpse); a killer KNOWS
-; his method was overt, so no waiting for the inquest. Relocated here from the deleted
-; perpetration_macros.hs (its only consumer). Keep in step with the kill_method_table rows.
-(define-macro covert-kill-corpse ()
-  (if (and {@self strangle|shoot ?victim}
-           (not (alive ?victim)))
-      (then ?victim)))
-
 (npc-think taunt
   (cooldown 1 m)
   (rng-stream perpetration)
-
-  (role @self 
-              (adult @self))
+  (role @self (adult @self) {@self home ?home})
+  ; The actor's own overt-method kill (the corpse whose mystery he inserts himself into).
+  (role ?victim {@self strangle|shoot ?victim}
+                (not (alive ?victim)))
 
   ; Narcissism tail + adult floor + rate gate.
   (when (and (>= (attr @self narcissism) 0.7)
              (chance 0.04)))
 
   (effects
-    ; The actor's own recent overt-method kill, corpse still pre-burial;
-    ; @fail (no letter) when there is none - the taunt needs a live mystery.
-    (covert-kill-corpse): ?victim
-    (if ?victim
+    ; Frame a RANDOM living human the actor knows of - uniformly, so repeated letters do
+    ; not accuse the same person - excluding the real victim and @self.
+    (random {?innocent isa [k human]})
+    (if (and (substantial ?innocent) (alive ?innocent)
+             (!= ?innocent ?victim) (!= ?innocent @self))
         (then
-          (random-alive-human @self ?victim): ?innocent
-          (any {@self home ?home})
-          (if (and ?innocent ?home)
-              (then (plant-letter [k forged_letter]
-                            (nl-written-msg "?innocent killed ?victim")
-                            ?home)))))))
+          (plant-letter [k forged_letter]
+                        (nl-written-msg "?innocent killed ?victim") ?home)))))
