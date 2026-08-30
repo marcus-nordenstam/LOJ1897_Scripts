@@ -32,7 +32,7 @@
     (try
       (when (and (not (spatial ?victim co-located @self))
                  (unknown (spatial ?victim space))
-                 (any {?victim home ?vhome})))
+                 {?victim home ?vhome}))
       (effects (maintain-proposal {@self go ?vhome})))
 
     ; CO-PRESENT: SAY the disinheritance. The co-present victim ADOPTS {benefactor
@@ -46,7 +46,7 @@
 
     ; OUTCOME: the disinheritance was announced (the SAY landed).
     (try
-      (when (any {@self SAY ? ?victim /succ /caused_by ?disinherit-rel}))
+      (when {@self SAY ? ?victim /succ /caused_by ?disinherit-rel})
       (effects (set-outcome ?disinherit-rel /succ)))
 
     ; ABANDON: the victim died before it could be announced.

@@ -30,7 +30,7 @@
   (construed_act harm_act) (theme violent_to) (contradicts life)
   (facets reportable_crime blackmailable)
   (try
-    (when (none {?victim condition [k dead]}))
+    (when -{?victim condition [k dead]})
     (select-joint
       (table kill_method_table)
       (bind method ?method)

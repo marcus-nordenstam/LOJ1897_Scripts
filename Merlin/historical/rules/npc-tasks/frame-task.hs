@@ -15,15 +15,15 @@
   (and
     (try
       (when (and (alive ?victim)
-                 (any {?victim home ?home})
+                 {?victim home ?home}
                  (not (spatial @self building ?home))))
       (utility errand)
       (effects (maintain-proposal {@self go ?home})))
     (try
       (when (and (alive ?victim)
-                 (any {?victim home ?home})
+                 {?victim home ?home}
                  (spatial @self building ?home)
-                 (none {@self frame ?victim /succ /ever})))
+                 -{@self frame ?victim /succ /ever}))
       (utility errand always-pick)
       (effects
         (plant-letter [k forged_letter]
@@ -32,5 +32,5 @@
         (set-outcome ?frame-rel /succ)))
     (try
       (when (or (not (alive ?victim))
-                (not (any {?victim home ?}))))
+                -{?victim home ?}))
       (effects (set-outcome ?frame-rel /fail)))))

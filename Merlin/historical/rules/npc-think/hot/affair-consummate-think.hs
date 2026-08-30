@@ -32,7 +32,7 @@
   (role ?paramour (spatial ?paramour co-located-building @self)
                   (any_human ?paramour)
                   {@self lover ?paramour}
-                  (none {@self spouse ?paramour}))
+                  -{@self spouse ?paramour})
   ; A room in @self's building with no third party present - only @self and the paramour
   ; may be there. No private room -> no slip (the roomless-premises case is dropped).
   (role ?room (spatial (spatial @self building) parts [k interior_space room] /env)
@@ -54,7 +54,7 @@
   (role ?paramour (spatial ?paramour co-located @self)
                   (any_human ?paramour)
                   {@self lover ?paramour}
-                  (none {@self spouse ?paramour}))
+                  -{@self spouse ?paramour})
   ; Discretion: not in the same ROOM as the wronged spouse. (spouse-of @self) is fail
   ; for an unmarried cheater, so the gate passes them through.
   (when (not (spatial (spouse-of @self) co-located @self)))

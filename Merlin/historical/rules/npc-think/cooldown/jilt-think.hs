@@ -43,7 +43,7 @@
   ; two-bound believes shape wedding.hs uses to recover the groom).
   (role ?jilted (any_human ?jilted)
                 {@self lover ?jilted}
-                (none {@self fiancee ?jilted})
+                -{@self fiancee ?jilted}
                 (select (policy first-match)))
 
   ;; (chance 0.6) is a non-belief gate, so it lives in (when).
@@ -86,15 +86,15 @@
   ; the proper feel the impropriety of the mismatch most keenly.
   (role @self 
                 {@self lover ?}
-                (none {@self fiancee ?})
-                (none {@self spouse ?}))
+                -{@self fiancee ?}
+                -{@self spouse ?})
   ; The lover beneath the jilter's station (at least one class below).
   (role ?jilted (any_human ?jilted)
                 {@self lover ?jilted}
                 ;; @self reads the jilted lover's class from his OWN belief about him
                 ;; (he knows his lover intimately, so it is banded in).
                 (or (and {@self class_situation [k upper]}
-                         (none {?jilted class_situation [k upper]}))
+                         -{?jilted class_situation [k upper]})
                     (and {@self class_situation [k middle]}
                          {?jilted class_situation [k lower]}))
                 (select (policy first-match)))

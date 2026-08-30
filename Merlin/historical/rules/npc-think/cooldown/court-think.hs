@@ -27,8 +27,8 @@
   ; courtship is the directed pursuit of a specific crush, not a random advance.
   (role @self 
               (marriageable-age @self)
-              (none {@self spouse ?})
-              (none {@self fiancee ?})
+              -{@self spouse ?}
+              -{@self fiancee ?}
               {@self fancy ?})
   ;; SELF-POV (telepathy purge CAT-3): the suitor reads the beloved from his OWN
   ;; knowledge - her marital state / lover / fallen mark as HE knows them
@@ -36,14 +36,14 @@
   ;; him (confess_fancy). No cross-mind read.
   (role ?beloved (any_human ?beloved)
                 (marriageable-age ?beloved)
-                (none {?beloved spouse ?})
-                (none {?beloved fiancee ?})
+                -{?beloved spouse ?}
+                -{?beloved fiancee ?}
                 ; You do not court a TAKEN or FALLEN woman: a lover bond means
                 ; she is spoken-for or compromised, and the fallen-woman mark is
                 ; the ruined maiden a respectable suitor abandons. (As @self knows
                 ; them - he courts on; a secret he has not heard does not stop him.)
-                (none {?beloved lover ?})
-                (none {?beloved prototype fallen_woman})
+                -{?beloved lover ?}
+                -{?beloved prototype fallen_woman}
                 ; the specific person @self is attracted to (the attraction
                 ; stance has reached at least the `fancy` band, read as the
                 ; explicit band-ladder verb-state belief) ...
@@ -53,10 +53,10 @@
                 ; she fancies NO ONE yet (winnable). A girl HE KNOWS to fancy
                 ; another is not courted - that rival suitor has been heard of.
                 (or {?beloved fancy @self}
-                    (none {?beloved fancy ?}))
+                    -{?beloved fancy ?})
                 ; opposite-sex: @self's belief that the beloved's PERCEIVED gender
                 ; differs from his own (visible-on-sight -> cacheable). And not kin.
-                (none {?beloved gender (any {@self gender}).target})
+                -{?beloved gender (any {@self gender}).target}
                 (none (blood-kin @self ?beloved))
                 ; Court the ONE the suitor is most drawn to - "the directed pursuit of a
                 ; specific crush", so the fan-out reduces to the strongest attraction.

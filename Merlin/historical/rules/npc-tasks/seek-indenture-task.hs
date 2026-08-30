@@ -26,7 +26,7 @@
     (try
       (when (and (articles-building ?art ?venue)
                  (spatial @self building ?venue)
-                 (none {@self job.salary ?})))
+                 -{@self job.salary ?}))
       (effects
         (o {?art declares_org @o}): ?org
         (any {?org employee_register ?reg})

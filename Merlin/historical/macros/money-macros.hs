@@ -31,7 +31,7 @@
 ; count belief mirrors the entity's real count attr the moment ?who observes the pile
 ; (seed / accrual / spend all observe), so this is belief-honest and legal in a (when).
 (define-macro coin-balance (?who)
-  (if (any {?who coin_pile.count ?})
+  (if {?who coin_pile.count ?}
       (then (any {?who coin_pile.count ?}).target)
       (else 0)))
 
@@ -40,7 +40,7 @@
 ; (job-income ?who): the yearly salary of ?who's job (0 if unsalaried / no job). The
 ; job.salary belief IS the income - set at hire from income_by_level (money_tables.hs).
 (define-macro job-income (?who)
-  (if (any {?who job.salary ?})
+  (if {?who job.salary ?}
       (then (any {?who job.salary ?}).target)
       (else 0)))
 
@@ -58,7 +58,7 @@
 ; via the single-valued {@self home <bldg>} pointer; a rented rowhouse counts 0 by
 ; building-worth-of). Owned business premises are not counted in this pass.
 (define-macro estate-worth (?who)
-  (if (any {?who home ?})
+  (if {?who home ?}
       (then (building-worth-of (any {?who home ?}).target))
       (else 0)))
 

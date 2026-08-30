@@ -13,17 +13,17 @@
   (tar ?)
   (and
     (try
-      (when (and (any {? stolen_from @self})
+      (when (and {? stolen_from @self}
                  (can-write @self)
-                 (none {@self report_crime ?focus /succ /ever})
+                 -{@self report_crime ?focus /succ /ever}
                  (find-building [k police_station]): ?station
                  (not (spatial @self building ?station))))
       (utility errand)
       (effects (maintain-proposal {@self enter ?station})))
     (try
-      (when (and (any {? stolen_from @self})
+      (when (and {? stolen_from @self}
                  (can-write @self)
-                 (none {@self report_crime ?focus /succ /ever})
+                 -{@self report_crime ?focus /succ /ever}
                  (find-building [k police_station]): ?station
                  (spatial @self building ?station)))
       (utility errand)
@@ -40,8 +40,8 @@
             (break)))
         (set-outcome ?report-rel /succ)))
     (try
-      (when (or (not (any {? stolen_from @self}))
+      (when (or -{? stolen_from @self}
                 (not (can-write @self))
                 (not (find-building [k police_station]))
-                (any {@self report_crime ?focus /succ /ever})))
+                {@self report_crime ?focus /succ /ever}))
       (effects (set-outcome ?report-rel /fail)))))

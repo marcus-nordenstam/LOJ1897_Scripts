@@ -25,7 +25,7 @@
       (when (and (= (spatial ?thing held_by) @self)
                  (not (spatial ?recipient co-located @self))
                  (unknown (spatial ?recipient space))
-                 (any {?recipient home ?rhome})))
+                 {?recipient home ?rhome}))
       (effects (maintain-proposal {@self go ?rhome})))
     (try
       (when (and (= (spatial ?thing held_by) @self)
@@ -40,7 +40,7 @@
       (utility (above go))
       (effects (maintain-proposal {@self OFFER_LEFT ?thing ?recipient})))
     (try
-      (when (any {@self /succ OFFER_LEFT|OFFER_RIGHT ?thing ?recipient /caused_by ?give-rel}))
+      (when {@self /succ OFFER_LEFT|OFFER_RIGHT ?thing ?recipient /caused_by ?give-rel})
       (effects (set-outcome ?give-rel /succ)))
     (try
       (when (not (alive ?recipient)))

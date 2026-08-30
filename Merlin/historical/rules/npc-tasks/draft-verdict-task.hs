@@ -13,7 +13,7 @@
   (tar human)
   (and
     (try
-      (when (none {@self CREATE_ENTITY ?kind /succ /caused_by ?dv-rel}))
+      (when -{@self CREATE_ENTITY ?kind /succ /caused_by ?dv-rel})
       (utility fallback)
       (effects (debug-print "DV_PEN") (maintain-proposal {@self CREATE_ENTITY ?kind})))
     (try
@@ -23,11 +23,11 @@
     (try
       (role ?ltr [k letter] (spatial ?ltr co-located @self)
             (substantial (attr ?ltr addressee)))
-      (when (none {@self send_mail ?ltr /caused_by ?dv-rel /ever}))
+      (when -{@self send_mail ?ltr /caused_by ?dv-rel /ever})
       (effects (debug-print "DV_SEND") (begin-proposal {@self send_mail ?ltr})))
     (try
-      (when (and (any {@self send_mail ? /succ /caused_by ?dv-rel})
-                 (any {?applicant apply_for ?})))
+      (when (and {@self send_mail ? /succ /caused_by ?dv-rel}
+                 {?applicant apply_for ?}))
       (effects (debug-print "DV_DONE")
                (end-belief {?applicant apply_for ?})
                (set-outcome ?dv-rel /succ)))))

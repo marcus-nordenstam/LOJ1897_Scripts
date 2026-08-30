@@ -20,7 +20,7 @@
       (when (and (spatial @self building ?wp)
                  (>= (now-hour) 9)
                  (<= (now-hour) 16)
-                 (none {@self job.salary ?})))
+                 -{@self job.salary ?}))
       (effects (maintain-proposal {@self ENROL ?reg ?jk})))
     (try
       (role ?art [k articles_of_incorporation] (spatial ?art building ?wp))

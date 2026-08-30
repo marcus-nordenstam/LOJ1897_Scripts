@@ -17,43 +17,43 @@
   (construed_act expose_act betray_act wrong_act) (contradicts privacy)
   (and
     (try
-      (when (and (none {@self spouse ?victim})
-                 (any {?victim lover|HAVE_SEX_WITH ?partner /ever})
-                 (none {?victim spouse ?partner /ever})
-                 (none {@self spouse ?partner})
+      (when (and -{@self spouse ?victim}
+                 {?victim lover|HAVE_SEX_WITH ?partner /ever}
+                 -{?victim spouse ?partner /ever}
+                 -{@self spouse ?partner}
                  (not (spatial ?victim co-located @self))
                  (spatial ?victim space): ?loc))
       (utility errand)
       (effects (maintain-proposal {@self go ?loc})))
     (try
-      (when (and (none {@self spouse ?victim})
-                 (any {?victim lover|HAVE_SEX_WITH ?partner /ever})
-                 (none {?victim spouse ?partner /ever})
-                 (none {@self spouse ?partner})
+      (when (and -{@self spouse ?victim}
+                 {?victim lover|HAVE_SEX_WITH ?partner /ever}
+                 -{?victim spouse ?partner /ever}
+                 -{@self spouse ?partner}
                  (not (spatial ?victim co-located @self))
                  (unknown (spatial ?victim space))
-                 (any {?victim home ?vhome})))
+                 {?victim home ?vhome}))
       (effects (maintain-proposal {@self go ?vhome})))
     (try
-      (when (and (none {@self spouse ?victim})
-                 (any {?victim lover|HAVE_SEX_WITH ?partner /ever})
-                 (none {?victim spouse ?partner /ever})
-                 (none {@self spouse ?partner})
+      (when (and -{@self spouse ?victim}
+                 {?victim lover|HAVE_SEX_WITH ?partner /ever}
+                 -{?victim spouse ?partner /ever}
+                 -{@self spouse ?partner}
                  (spatial ?victim co-located @self)
-                 (none {@self SAY ? /succ /caused_by ?expose-rel})))
+                 -{@self SAY ? /succ /caused_by ?expose-rel}))
       (utility errand always-pick)
       (effects (maintain-proposal {@self SAY (utterable-msg {?victim lover ?partner}) _})))
     (try
-      (when (any {@self SAY ? /succ /caused_by ?expose-rel}))
+      (when {@self SAY ? /succ /caused_by ?expose-rel})
       (effects
         (publish-secret-about @self ?victim)
-        (if (any {@self extort ?victim}) (then (end-belief {@self extort ?victim})))
+        (if {@self extort ?victim} (then (end-belief {@self extort ?victim})))
         (crime-ledger-append @self ?victim confront_publicly expose @u @u)
         (set-outcome ?expose-rel /succ)))
     (try
-      (when (or (not (and (none {@self spouse ?victim})
-                          (any {?victim lover|HAVE_SEX_WITH ?partner /ever})
-                          (none {?victim spouse ?partner /ever})
-                          (none {@self spouse ?partner})))
+      (when (or (not (and -{@self spouse ?victim}
+                          {?victim lover|HAVE_SEX_WITH ?partner /ever}
+                          -{?victim spouse ?partner /ever}
+                          -{@self spouse ?partner}))
                 (not (alive ?victim))))
       (effects (set-outcome ?expose-rel /fail)))))

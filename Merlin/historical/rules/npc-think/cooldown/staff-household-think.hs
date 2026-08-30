@@ -43,7 +43,7 @@
 
   (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
              (or (in-month 12) (in-month 1) (in-month 2)) ; winter, once a year
-             (no-goal {@self staff_household})))        ; mint once, then skip
+             -{@self goal {@self staff_household}}))        ; mint once, then skip
 
   (utility errand)
   (effects (begin-goal {@self staff_household})))
@@ -67,7 +67,7 @@
   (goal {@self staff_household})
   (rng-stream employment)
 
-  (role @self (none {@self job.org [k org household]}))
+  (role @self -{@self job.org [k org household]})
   (role ?h {@self home ?h}
            (or {@self own [k manor]:?h}
                {@self own [k townhouse]:?h}))

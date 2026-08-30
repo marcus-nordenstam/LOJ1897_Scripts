@@ -18,7 +18,7 @@
   (role @self)
   (role ?paramour (any_human ?paramour)
                   {@self HAVE_SEX_WITH ?paramour /ever}
-                  (none {@self spouse ?paramour})
-                  (none {@self lover ?paramour}))
+                  -{@self spouse ?paramour}
+                  -{@self lover ?paramour})
   (when (< (days-since-last {@self HAVE_SEX_WITH ?paramour /ever}) 365))
   (effects (begin-belief {@self lover ?paramour})))

@@ -26,7 +26,7 @@
 ; (only known deaths count); date fields are 0-indexed consistently across
 ; (date-now) and the stored belief start, so the month diff needs no alignment.
 (define-macro months-since-death (?c)
-  (if (any {?c condition [k dead]})
+  (if {?c condition [k dead]}
       (then (max 0 (+ (* 12 (- (year (date-now))
                          (year (any {?c condition [k dead]}).start)))
                 (- (month (date-now))

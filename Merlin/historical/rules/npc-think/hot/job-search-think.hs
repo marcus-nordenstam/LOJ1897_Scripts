@@ -21,14 +21,14 @@
 (npc-think seek_board_visit
   (cooldown 1 m)
   (rng-stream employment)
-  (role @self (none {@self job ?})
-              (none {@self apply_for ? ? /pres}))
+  (role @self -{@self job ?}
+              -{@self apply_for ? ? /pres})
   (when (and (>= (years-old @self) 16)
              (<= (years-old @self) 55)
              (!= (any {@self repute ?}).target [k scandalous])
              ; wealth gate: the independently rich do not seek waged work; a seeker with
              ; no wealth belief yet is treated as needing work (the (and ..) is false).
-             (not (and (any {@self wealth ?w}) (>= ?w (seek_job_wealth_ceiling))))
+             (not (and {@self wealth ?w} (>= ?w (seek_job_wealth_ceiling))))
              (find-building [k building church]): ?board
              (not (spatial @self building ?board))
              (latch-eval (chance 0.3))))
@@ -40,10 +40,10 @@
 (npc-think seek_read_board
   (cooldown 1 m)
   (rng-stream employment)
-  (role @self (none {@self job ?})
-              (none {@self apply_for ? ? /pres}))
+  (role @self -{@self job ?}
+              -{@self apply_for ? ? /pres})
   (role ?ad [k job_description] (spatial ?ad co-located @self)
-                                (none {@self READ ?ad /succ}))
+                                -{@self READ ?ad /succ})
   (utility errand)
   (effects (debug-print "JS_READ") (maintain-proposal {@self READ ?ad})))
 
@@ -56,14 +56,14 @@
   ; gate then bars re-admission until the apply_for concludes.
   (lock-rule)
   (rng-stream employment)
-  (role @self (none {@self job ?})
-              (none {@self apply_for ? ? /pres}))
+  (role @self -{@self job ?}
+              -{@self apply_for ? ? /pres})
   (role ?org {?org vacancy ?jk}
              (select (score 1) (policy roulette)))
   (when (and {?org workplace ?wp}
              (if (table-match occupations job ?jk class_floor ?cf0) (then ?cf0) (else [k lower])): ?cf
              (class-at-least @self ?cf)
-             (none {@self apply_for ?jk ?wp /fail})))
+             -{@self apply_for ?jk ?wp /fail}))
   (utility errand)
   (effects (debug-print "JS_PICK jk=?jk")
            (begin-proposal {@self apply_for ?jk ?wp})))

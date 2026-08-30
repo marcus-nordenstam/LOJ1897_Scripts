@@ -15,16 +15,16 @@
     (try
       (role ?coin [k coin] (spatial ?coin co-located @self))
       (when (and (alive ?victim)
-                 (none {@self bribe ?victim /succ /ever})))
+                 -{@self bribe ?victim /succ /ever}))
       (utility errand)
       (effects (maintain-proposal {@self give ?coin ?victim})))
     (try
       (when (and (alive ?victim)
-                 (none {@self bribe ?victim /succ /ever})
+                 -{@self bribe ?victim /succ /ever}
                  (not (has-proposal {@self give ? ?victim}))))
       (effects (create-entity [k coin] (qual location (spatial @self space)))))
     (try
-      (when (any {@self give ? ?victim /succ /caused_by ?bribe-rel}))
+      (when {@self give ? ?victim /succ /caused_by ?bribe-rel})
       (effects
         (crime-ledger-append @self ?victim offer_bribe bribe @u @u)
         (set-outcome ?bribe-rel /succ)))

@@ -14,26 +14,26 @@
     ; REACH: route to the victim's known location, else their home.
     (try
       (when (and (not (spatial ?victim co-located @self))
-                 (not (any {?victim condition [k dead]}))
+                 -{?victim condition [k dead]}
                  (spatial ?victim space): ?loc))
       (utility survival)
       (effects (maintain-proposal {@self go ?loc})))
     (try
       (when (and (not (spatial ?victim co-located @self))
-                 (not (any {?victim condition [k dead]}))
+                 -{?victim condition [k dead]}
                  (unknown (spatial ?victim space))
-                 (any {?victim home ?vhome})))
+                 {?victim home ?vhome}))
       (utility survival)
       (effects (maintain-proposal {@self go ?vhome})))
 
     ; THE BLOW: co-present with a living victim - CHOKE the life out of them.
     (try
       (when (and (spatial ?victim co-located @self)
-                 (not (any {?victim condition [k dead]}))))
+                 -{?victim condition [k dead]}))
       (utility survival always-pick)
       (effects (maintain-proposal {@self STRIKE ?victim strangle})))
 
     ; CONCLUDE: the victim is dead - the method is spent.
     (try
-      (when (any {?victim condition [k dead]}))
+      (when {?victim condition [k dead]})
       (effects (set-outcome ?strangle-rel /succ)))))

@@ -25,7 +25,7 @@
   ;; fire in (when ...) below.
   (role @self (adult @self)
               {@self gender [k male]}
-              (none {@self spouse ?})
+              -{@self spouse ?}
               {@self fiancee ?})
   (role ?bride (unmarried_woman ?bride)
                {@self fiancee ?bride}

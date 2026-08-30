@@ -49,7 +49,7 @@
 (npc-think claim_cook_hired
   (role @self (grown @self)
                            {@self job [k job cook]}
-              (none {@self household_cook ?}))
+              -{@self household_cook ?})
   (role ?home {@self home ?home})
   (when (bb-public-none ?home cook))
   (effects
@@ -59,12 +59,12 @@
 (npc-think claim_cook_woman
   (role @self (grown @self)
                            {@self gender [k female]}
-              (none {@self household_cook ?})
-              (none {@self class_situation [k upper]}))
+              -{@self household_cook ?}
+              -{@self class_situation [k upper]})
   (role ?home {@self home ?home})
   (when (and (bb-public-none ?home cook)
-             (not (and (any {@self mother ?mum})
-                       (any {?mum home ?home})))))
+             (not (and {@self mother ?mum}
+                       {?mum home ?home}))))
   (effects
     (pub-bb-post ?home cook (cook_marker_ttl_cycles))
     (begin-belief {@self household_cook ?home})))
@@ -72,14 +72,14 @@
 (npc-think claim_cook_man
   (role @self (grown @self)
                            {@self gender [k male]}
-              (none {@self household_cook ?})
-              (none {@self spouse ?})
-              (none {@self class_situation [k upper]}))
+              -{@self household_cook ?}
+              -{@self spouse ?}
+              -{@self class_situation [k upper]})
   (role ?home {@self home ?home})
   (when (and (bb-public-none ?home cook)
-             (not (and (any {@self child ?c})
-                       (any {?c gender [k female]})
-                       (any {?c home ?home})))))
+             (not (and {@self child ?c}
+                       {?c gender [k female]}
+                       {?c home ?home}))))
   (effects
     (pub-bb-post ?home cook (cook_marker_ttl_cycles))
     (begin-belief {@self household_cook ?home})))
@@ -137,7 +137,7 @@
 ; source on {@self ORIENT} and withdraws it independently; the goal lives until the last withdraws.
 (npc-think provision_orient
   (goal {@self PROVISION})
-  (when (none {@self provisions_shop ?}))
+  (when -{@self provisions_shop ?})
   (effects       (begin-goal {@self ORIENT}))
   (cease-effects (end-goal   {@self ORIENT})))
 

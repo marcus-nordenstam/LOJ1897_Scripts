@@ -18,7 +18,7 @@
     (try
       (role ?venue {?occ venue ?venue})
       (role @self (not (spatial @self building ?venue)))
-      (when (and (any {?occ hours ?start ?end})
+      (when (and {?occ hours ?start ?end}
                  (attend-in-window ?start ?end)))
       (utility (* 10 (attend-utility ?occ)))
       (effects (maintain-proposal {@self enter ?venue})))
@@ -27,7 +27,7 @@
     (try
       (role ?venue {?occ venue ?venue})
       (role @self (spatial @self building ?venue))
-      (when (and (any {?occ hours ?start ?end})
+      (when (and {?occ hours ?start ?end}
                  (attend-in-window ?start ?end)))
       (utility (* 10 (attend-utility ?occ)))
       (effects (maintain-proposal {@self DWELL ?venue (+ (now-hour) 1)})))))

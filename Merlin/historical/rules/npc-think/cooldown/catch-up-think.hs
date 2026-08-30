@@ -40,6 +40,6 @@
     (for-each ?belief-rel (every {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality ?})
       (do
         (utterable-msg ?belief-rel): ?msg
-        (if (none {@self SAY ?msg ?guest})
+        (if -{@self SAY ?msg ?guest}
             (then (maintain-proposal {@self SAY ?msg ?guest}) (break)))))
     ))

@@ -3,7 +3,7 @@
 (npc-think probe_tense
   (cooldown 1 m)
   (role @self )
-  (when (and (any {@self goal {@self probe_hunt ? /ever}})
-             (any {@self goal {@self probe_hunt ? /pres}})
-             (not (any {@self goal {@self probe_hunt ? /past}}))))
+  (when (and {@self goal {@self probe_hunt ? /ever}}
+             {@self goal {@self probe_hunt ? /pres}}
+             -{@self goal {@self probe_hunt ? /past}}))
   (effects (debug-print "PROBE_TENSE_OK")))

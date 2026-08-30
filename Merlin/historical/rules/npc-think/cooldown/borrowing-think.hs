@@ -28,12 +28,12 @@
   ; strand the goal forever behind the no-goal gate.
   (role ?creditor (old_human ?creditor)
                   {?creditor home ?}
-                  (none {@self owe ?creditor}))
+                  -{@self owe ?creditor})
 
   ; The borrow roll: low industriousness (less self-supporting) takes on debt
   ; more often. One evaluation round per cooldown period; the no-goal gate caps
   ; the round at one landed pursuit.
-  (when (and (no-goal {@self TAKE_LOAN ?})
+  (when (and -{@self goal {@self TAKE_LOAN ?}}
              (chance (* 0.005 (- 1.5 (attr @self industriousness))))))
 
   (utility errand)

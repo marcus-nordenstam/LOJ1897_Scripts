@@ -23,9 +23,9 @@
 ; Attendance desirability: 0 bedridden, MAX for the host, a floor for a kill-driven
 ; crasher, else the warmth-scaled guest base. Shared by the attend task's rungs.
 (define-macro attend-utility (?occ)
-  (if (any {@self physical_mobility [k bedridden]}) (then 0)
-    (else (if (any {@self organize ?occ}) (then (attend-host-utility))
-      (else (if (any {@self goal {@self kill ?}})
+  (if {@self physical_mobility [k bedridden]} (then 0)
+    (else (if {@self organize ?occ} (then (attend-host-utility))
+      (else (if {@self goal {@self kill ?}}
           (then (max (attend-crasher-utility) (attend-guest-scaled ?occ)))
         (else (attend-guest-scaled ?occ))))))))
 

@@ -27,7 +27,7 @@
     {@self spouse|lover ?partner} (select (policy first-match)))
   (role ?interloper (any_human ?interloper)
     {?partner lover ?interloper}
-    (none {?partner spouse ?interloper})
+    -{?partner spouse ?interloper}
     (select (policy first-match)))
 
   ; The REASON: the appraised emotions (minted by the betray_act reflex rows). Read as the
@@ -46,13 +46,13 @@
   (effects
     ; Dual (kill BOTH) when the outrage clears the bar; else the more-blamed corner.
     (if (>= (dual-outrage-score) 2.5)
-        (then (if (none {?partner condition [k dead]})
+        (then (if -{?partner condition [k dead]}
                   (then (maintain-proposal {@self kill ?partner /caused_by ?anger_bond})))
-              (if (none {?interloper condition [k dead]})
+              (if -{?interloper condition [k dead]}
                   (then (maintain-proposal {@self kill ?interloper /caused_by ?contempt_bond}))))
         (else (if (>= (blame-partner-score ?partner)
                       (blame-interloper-score ?partner ?interloper))
-                  (then (if (none {?partner condition [k dead]})
+                  (then (if -{?partner condition [k dead]}
                             (then (maintain-proposal {@self kill ?partner /caused_by ?anger_bond}))))
-                  (else (if (none {?interloper condition [k dead]})
+                  (else (if -{?interloper condition [k dead]}
                             (then (maintain-proposal {@self kill ?interloper /caused_by ?contempt_bond})))))))))

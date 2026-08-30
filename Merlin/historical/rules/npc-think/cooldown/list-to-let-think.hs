@@ -38,9 +38,9 @@
   ; His OWN vacant residential holdings (object-cache role over his beliefs).
   (role ?prop {@self own ?prop}
               {?prop isa [k residential_building]}
-              (none {@self home ?prop})            ; not where he lives
-              (none {?prop tenant ?})              ; no sitting tenant
-              (none {?prop availability [k for_rent]}))  ; not already listed
+              -{@self home ?prop}            ; not where he lives
+              -{?prop tenant ?}              ; no sitting tenant
+              -{?prop availability [k for_rent]})  ; not already listed
   (utility errand)
   (effects       (begin-goal {@self LET ?prop}))
   (cease-effects (end-goal   {@self LET ?prop})))

@@ -20,8 +20,8 @@
   (rng-stream marriages)
 
   (role @self (grown @self)
-              (none {@self spouse ?})
-              (none {@self fiancee ?})
+              -{@self spouse ?}
+              -{@self fiancee ?}
               {@self fancy ?}
               ; @self signs the letter - bind his OWN name for the "Signed, .." line.
               {@self name ?author_name})
@@ -31,7 +31,7 @@
   ; stops when @self betroths / weds (the @self role gates above).
   (role ?target (any_human ?target)
                 (marriageable-age ?target)
-                (none {?target spouse ?})
+                -{?target spouse ?}
                 (is-attracted-to @self ?target)
                 ; APART: a co-present suitor uses the spoken confess_fancy. Role-side so a
                 ; location write re-tests membership and the argmax ranks only apart targets.
@@ -42,7 +42,7 @@
                 (select (score (stance-band ?target attraction)) (policy argmax)))
 
   ; @self knows where she lives.
-  (when (and (any {?target home ?target_home})
+  (when (and {?target home ?target_home}
              (chance 0.4)))
 
   (utility want)

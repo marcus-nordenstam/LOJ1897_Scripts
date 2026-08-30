@@ -38,7 +38,7 @@
   (role @self (adult @self)
               {@self job.org ?org}
               {@self job.level [k senior]}
-              (none {@self job [k org_head]}))
+              -{@self job [k org_head]})
 
   ; The incumbent head I stand behind - a known colleague (learned from the staff
   ; register by read_roster) whose job is-a org_head. read_roster only mints coworkers
@@ -52,8 +52,8 @@
   ; Same-org pin + disposition pre-gate. ambition = mean(machiavellianism, narcissism);
   ; propensity = (1 - inhibition) * ambition; fire at 0.03 * propensity. The tip fires
   ; ONCE then the running kill proposal latches it; drop the drive if the victim dies.
-  (when (and (any {?victim job.org ?org})
-             (none {?victim condition [k dead]})
+  (when (and {?victim job.org ?org}
+             -{?victim condition [k dead]}
              (or (has-proposal {@self kill ?victim})
                  (chance (* (crime-scale) 0.03
                             (* (- 1 (inhibition))

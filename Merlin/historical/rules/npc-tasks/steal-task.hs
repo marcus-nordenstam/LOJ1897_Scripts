@@ -37,7 +37,7 @@
     ; concluded: the loot is in hand /caused_by this pursuit -> ledger + succ.
     (try
       (when (and (not (empty (spatial @self hold ?kind)))
-                 (any {@self take ? /succ /caused_by ?steal-rel})
+                 {@self take ? /succ /caused_by ?steal-rel}
                  (is-a (spatial @self building) [k building shop])))
       (effects
         (spatial @self building): ?shop

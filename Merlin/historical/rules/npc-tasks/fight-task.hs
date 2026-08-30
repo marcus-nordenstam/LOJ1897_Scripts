@@ -20,7 +20,7 @@
     ; THE COUNTER-BLOW: co-present with a conscious, living foe - PUNCH them.
     (try
       (when (and (spatial ?foe co-located @self)
-                 (not (any {?foe condition [k dead]}))
+                 -{?foe condition [k dead]}
                  (not (attr-is ?foe awareness unconscious))))
       (utility survival always-pick)
       (effects (maintain-proposal {@self STRIKE ?foe punch})))
@@ -28,7 +28,7 @@
     ; CONCLUDE: the threat is neutralized (foe dead or knocked out) or gone (fled /
     ; no longer co-present) - the brawl is over.
     (try
-      (when (or (any {?foe condition [k dead]})
+      (when (or {?foe condition [k dead]}
                 (attr-is ?foe awareness unconscious)
                 (not (spatial ?foe co-located @self))))
       (effects (set-outcome ?fight-rel /succ)))))

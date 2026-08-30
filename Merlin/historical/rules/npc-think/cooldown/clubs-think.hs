@@ -40,7 +40,7 @@
   ; found-club-seq enrols him ({@self member_of}) it falls and the goal ends. The act never
   ; ends the goal.
   (when (and (>= (years-old @self) 30)
-             (none {@self member_of ?})
+             -{@self member_of ?}
              (latch-eval (chance 0.0033))))
 
   ; SPLIT (Item 5): the npc-action (club_found_errand.hs) takes the founder out to found it
@@ -64,8 +64,8 @@
   ; (telepathy purge CAT-2): @self reads his OWN repute (belief-pure). The
   ; age + club-count + chance gates are non-belief ops -> (when).
   (role @self (old_human @self)
-              (none {@self repute [k scandalous]})
-              (none {@self repute [k disreputable]}))
+              -{@self repute [k scandalous]}
+              -{@self repute [k disreputable]})
   ; A KNOWN club (@self learned it at new_job_orientation). Belief-pure + cached:
   ; the omniscient org-kind-is-a doc read is gone. The founder is produced-restricted
   ; off {?club_org founder ?founder} in the role; the own-class match (below) reads
@@ -88,7 +88,7 @@
   ; and the goal ends. The act never ends the goal.
   (when (and (>= (years-old @self) 18)
              (< (count (every {@self member_of ?})) 2)
-             (none {@self member_of ?club_org})
+             -{@self member_of ?club_org}
              (= (any {?founder class_situation}).target
                 (any {@self class_situation}).target)
              (latch-eval (chance 0.005))))
@@ -119,7 +119,7 @@
   ; completion gate: while he still holds a membership the goal stands; the moment
   ; resign_club_act unregisters him (unregister-member ENDS {@self member_of}) it falls and
   ; the goal ends. The act never ends the goal.
-  (when (and (any {@self member_of ?})
+  (when (and {@self member_of ?}
              (latch-eval (chance 0.004))))
 
   ; SPLIT (Item 5): the npc-think - the decision to resign. Mints {@self goal {@self

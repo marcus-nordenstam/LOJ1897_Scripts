@@ -31,7 +31,7 @@
 ; his method was overt, so no waiting for the inquest. Relocated here from the deleted
 ; perpetration_macros.hs (its only consumer). Keep in step with the kill_method_table rows.
 (define-macro covert-kill-corpse ()
-  (if (and (any {@self strangle|shoot ?victim})
+  (if (and {@self strangle|shoot ?victim}
            (not (alive ?victim)))
       (then ?victim)))
 

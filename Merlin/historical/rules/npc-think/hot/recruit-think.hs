@@ -23,5 +23,5 @@
 
 (npc-think take_down_done
   (role ?ad {@self post ?ad ?org})
-  (when (any {@self DESTROY_ENTITY ?ad /succ}))
+  (when {@self DESTROY_ENTITY ?ad /succ})
   (effects (end-belief {@self post ?ad ?org})))

@@ -40,6 +40,6 @@
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              {?org workplace ?wp})   ; ?wp binds at fire
-  (when (and (any {?wp struct_status [k closed]})))
+  (when (and {?wp struct_status [k closed]}))
   (effects
     (end-belief {@self job ?job})))

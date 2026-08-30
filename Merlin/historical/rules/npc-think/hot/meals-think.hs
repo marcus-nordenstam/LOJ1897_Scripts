@@ -177,7 +177,7 @@
 (npc-think want_eat_out_pub
   ; class gate = CACHED self-gate filter (the belief form, not the live conjunct).
   (role @self {@self wealth ?wealth} 
-              (none {@self class_situation [k upper]}))
+              -{@self class_situation [k upper]})
   (role ?home {@self home ?home}
               {?home supper_hour ?h})   ; existence cached, ?h binds at fire
   (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette)))
@@ -287,7 +287,7 @@
 ; a meal brings hunger back under. The tails keep the live hunger conjunct as
 ; the freshness check - it now only ever runs for the starving few.
 (npc-think starving_watch
-  (role @self (none {@self starve}))
+  (role @self -{@self starve})
   (when (> (attr @self appetite) 1.3))
   (effects
     (begin-belief {@self starve})))

@@ -24,14 +24,14 @@
       (when (and (not (spatial ?victim co-located @self))
                  (not (attr-is ?victim awareness unconscious))
                  (unknown (spatial ?victim space))
-                 (any {?victim home ?vhome})))
+                 {?victim home ?vhome}))
       (utility survival)
       (effects (maintain-proposal {@self go ?vhome})))
 
     ; THE BEATING: PUNCH a co-present, conscious victim.
     (try
       (when (and (spatial ?victim co-located @self)
-                 (not (any {?victim condition [k dead]}))
+                 -{?victim condition [k dead]}
                  (not (attr-is ?victim awareness unconscious))))
       (utility survival always-pick)
       (effects (maintain-proposal {@self STRIKE ?victim punch})))
@@ -40,7 +40,7 @@
     ; (method PUNCH, goal hurt) and end the episode.
     (try
       (when (or (attr-is ?victim awareness unconscious)
-                (any {?victim condition [k dead]})))
+                {?victim condition [k dead]}))
       (effects
         (crime-ledger-append @self ?victim punch hurt @u @u)
         (set-outcome ?hurt-rel /succ)))))

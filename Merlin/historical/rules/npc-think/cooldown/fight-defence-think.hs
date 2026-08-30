@@ -23,7 +23,7 @@
   ; Bind the aggressor + the witnessed violent act (the /caused_by handle); a believed-dead
   ; aggressor filters out.
   (role ?foe {?foe (theme-labels violent_to) @self}:?witnessed-rel
-             (none {?foe condition [k dead]}))
+             -{?foe condition [k dead]})
 
   (when (chance (clamp (+ (attr @self volatility)
                           (attr @self sadism)

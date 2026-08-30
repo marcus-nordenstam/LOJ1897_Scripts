@@ -63,7 +63,7 @@
 (npc-reflex {?agent (construed-labels wrong_act) ?patient /ever}:?b
   (decl-of ?b contradicts):?v
   (when (or (not (substantial ?v))
-            (none {?patient value ?})
+            -{?patient value ?}
             {?patient value ?v}))
   (effects (construe ?b wrong_act ?agent ?patient)))
 
@@ -74,7 +74,7 @@
   (when (not (has-cause ?belief {? (theme-labels violent_to) ?attacker})))
   (decl-of ?belief contradicts):?v
   (when (or (not (substantial ?v))
-            (none {?victim value ?})
+            -{?victim value ?}
             {?victim value ?v}))
   (effects (construe ?belief wrong_act ?attacker ?victim)))
 

@@ -25,24 +25,24 @@
     ; READ the will (co-present with it) - adopt its bequest into @self's mind.
     (try
       (when (and (spatial @self building ?dhome)
-                 (none {@self inherit ?})
-                 (none {@self READ ?will /succ})))
+                 -{@self inherit ?}
+                 -{@self READ ?will /succ}))
       (utility duty)
       (effects (maintain-proposal {@self READ ?will})))
 
     ; CLAIM: the will named @self - a bequest belief was adopted - so effect it.
     (try
-      (when (any {@self inherit ?pile}))
+      (when {@self inherit ?pile})
       (utility duty always-pick)
       (effects (maintain-proposal {@self INHERIT ?dead ?pile})))
 
     ; CONCLUDE: the estate was claimed.
     (try
-      (when (any {@self INHERIT ?dead ? /succ}))
+      (when {@self INHERIT ?dead ? /succ})
       (effects (set-outcome ?inherit-rel /succ)))
 
     ; ABANDON: the will was read but named someone else (nothing to inherit).
     (try
-      (when (and (any {@self READ ?will /succ})
-                 (none {@self inherit ?})))
+      (when (and {@self READ ?will /succ}
+                 -{@self inherit ?}))
       (effects (set-outcome ?inherit-rel /fail)))))

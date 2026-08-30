@@ -65,7 +65,7 @@
   ; drive drops when the crave fades or the victim dies. (knows-affair) keeps crave the
   ; FALLBACK - a discovered betrayal routes to betrayal_kill.hs.
   (when (and (not (knows-affair))
-             (none {?victim condition [k dead]})
+             -{?victim condition [k dead]}
              (or (has-proposal {@self kill ?victim})
                  (chance (* (crime-scale) 0.02
                             (dark-propensity (rage-disposition @self)))))))

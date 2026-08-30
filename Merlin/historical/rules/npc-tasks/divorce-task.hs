@@ -24,7 +24,7 @@
       (begin-ended-belief ?partner {@self divorce ?partner})
       ; The fallen woman: marked in her mind AND his, expelled from the marital roof,
       ; dismissed from reputable service.
-      (if (any {?partner gender [k female]})
+      (if {?partner gender [k female]}
           (then
             (begin-belief ?partner {?partner prototype [k fallen_woman]})
             (begin-belief {?partner prototype [k fallen_woman]})

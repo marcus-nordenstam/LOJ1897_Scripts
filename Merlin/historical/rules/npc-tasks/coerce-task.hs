@@ -23,18 +23,18 @@
     (try
       (when (and (not (spatial ?victim co-located @self))
                  (unknown (spatial ?victim space))
-                 (any {?victim home ?vhome})))
+                 {?victim home ?vhome}))
       (effects (maintain-proposal {@self go ?vhome})))
     (try
       (when (and (spatial ?victim co-located @self)
-                 (none {@self extort ?victim})))
+                 -{@self extort ?victim}))
       (utility errand always-pick)
       (effects (maintain-proposal
                  {@self SAY (utterable-msg {@self extort ?victim}) ?victim})))
     (try
-      (when (any {@self SAY ? ?victim /succ /caused_by ?coerce-rel}))
+      (when {@self SAY ? ?victim /succ /caused_by ?coerce-rel})
       (effects
-        (if (none {@self extort ?victim}) (then (begin-belief {@self extort ?victim})))
+        (if -{@self extort ?victim} (then (begin-belief {@self extort ?victim})))
         (if (holds-coercion-material ?victim)
             (then (crime-ledger-append @self ?victim blackmail coerce @u @u))
             (else (crime-ledger-append @self ?victim threaten_violence coerce @u @u)))

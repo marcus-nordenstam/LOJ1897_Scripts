@@ -22,5 +22,5 @@
       (effects (check (spatial ?item co-located @self))
                (begin-proposal {@self RIGHT_TAKE ?item})))
     (try
-      (when (any {@self /succ LEFT_TAKE|RIGHT_TAKE ?item /caused_by ?take-rel}))
+      (when {@self /succ LEFT_TAKE|RIGHT_TAKE ?item /caused_by ?take-rel})
       (effects (set-outcome ?take-rel /succ)))))

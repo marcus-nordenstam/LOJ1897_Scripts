@@ -53,10 +53,10 @@
   ; is not bound here); pairing that with his own RACE_RUN memory means he competed
   ; at a meet where another was crowned.
   (role ?winner {? JUDGE_DECLARE ?winner}
-                (none {?winner outdo @self}))
+                -{?winner outdo @self})
   (when (and (!= ?winner @self)
              ; @self competed at a meet (his own ended RACE_RUN memory).
-             (any {@self RACE_RUN ? ? /succ /ever})
+             {@self RACE_RUN ? ? /succ /ever}
              (chance (+ 0.15 (* 0.85 (attr @self narcissism) (attr @self assertiveness))))))
   (effects
     (begin-belief {?winner outdo @self})))

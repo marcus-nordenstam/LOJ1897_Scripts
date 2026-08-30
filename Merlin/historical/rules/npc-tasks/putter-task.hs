@@ -14,7 +14,7 @@
   (tar structure)
   (and
     (try
-      (when (none {@self wander ?home /caused_by ?p-rel /ever}))
+      (when -{@self wander ?home /caused_by ?p-rel /ever})
       (utility idle)
       (effects (begin-proposal {@self wander ?home})))
     (try
@@ -22,7 +22,7 @@
                  (spatial @self building ?home)))
       (effects
         (for-each ?cache (spatial ?room parts [k interior_space hiding_spot] /env)
-          (if (none {@self hiding_spot ?cache})
+          (if -{@self hiding_spot ?cache}
               (then
                 (if (chance (* 0.006 (+ 1.0 (attr @self openness))))
                     (then
@@ -30,5 +30,5 @@
                       (read-cache ?cache))))
               (else (read-cache ?cache))))))
     (try
-      (when (any {@self wander ?home /succ /caused_by ?p-rel}))
+      (when {@self wander ?home /succ /caused_by ?p-rel})
       (effects (set-outcome ?p-rel /succ)))))

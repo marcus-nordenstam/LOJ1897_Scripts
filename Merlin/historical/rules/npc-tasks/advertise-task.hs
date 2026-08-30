@@ -21,7 +21,7 @@
     (try
       (when (and (find-building [k building church]): ?board
                  (spatial @self building ?board)
-                 (none {@self CREATE_ENTITY [k job_description] /succ /caused_by ?adv-rel})))
+                 -{@self CREATE_ENTITY [k job_description] /succ /caused_by ?adv-rel}))
       (effects (debug-print "ADV_PEN")
                (maintain-proposal {@self CREATE_ENTITY [k job_description]})))
     (try
@@ -36,11 +36,11 @@
       (role ?ad [k job_description] (spatial ?ad co-located @self)
             (substantial (attr ?ad writing)))
       (when (and {?org workplace ?wp}
-                 (none {@self WRITE ?ad {?org workplace ?wp} /succ})))
+                 -{@self WRITE ?ad {?org workplace ?wp} /succ}))
       (effects (debug-print "ADV_WHERE")
                (maintain-proposal {@self WRITE ?ad {?org workplace ?wp}})))
     (try
       (role ?ad [k job_description] (spatial ?ad co-located @self)
-            (none {@self post ?ad ?}))
-      (when (any {@self WRITE ?ad {?org workplace ?} /succ}))
+            -{@self post ?ad ?})
+      (when {@self WRITE ?ad {?org workplace ?} /succ})
       (effects (debug-print "ADV_BOOK") (begin-belief {@self post ?ad ?org})))))

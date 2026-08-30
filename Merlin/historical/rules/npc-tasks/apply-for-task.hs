@@ -20,26 +20,26 @@
   (and
     (try
       (role ?home {@self home ?home})
-      (when (and (none {@self prepare_application ?wp ?jk /succ})
+      (when (and -{@self prepare_application ?wp ?jk /succ}
                  (not (spatial @self building ?home))))
       (effects (maintain-proposal {@self enter ?home})))
     (try
       (role ?home {@self home ?home})
-      (when (and (none {@self prepare_application ?wp ?jk /succ})
+      (when (and -{@self prepare_application ?wp ?jk /succ}
                  (spatial @self building ?home)))
       (effects (maintain-proposal {@self prepare_application ?wp ?jk})))
     (try
       (lock-rule)
       (role ?app [k application] (spatial ?app co-located @self)
             (select (policy first-match)))
-      (when (and (any {@self prepare_application ?wp ?jk /succ})
-                 (none {@self STACK_PUT ?app ? /succ})))
+      (when (and {@self prepare_application ?wp ?jk /succ}
+                 -{@self STACK_PUT ?app ? /succ}))
       (utility errand (above read_mail))
       (effects (debug-print "JS_SEND")
                (begin-proposal {@self send_mail ?app})))
     (try
       (role ?home {@self home ?home})
-      (when (and (any {@self prepare_application ?wp ?jk /succ})
+      (when (and {@self prepare_application ?wp ?jk /succ}
                  (spatial @self building ?home)
                  (>= (days-since-last {@self read_mail ?home /succ}) 1)))
       (utility errand)

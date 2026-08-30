@@ -40,7 +40,7 @@
   (cooldown 1 m)
   (rng-stream perpetration)
   (role @self (adult @self)
-              (none {@self fixation ?}))
+              -{@self fixation ?})
   ; A random adult the predator KNOWS the look of (has both perceived colour
   ; beliefs about), sampled by roulette - the victim-type prototype.
   (role ?proto (any_human ?proto)
@@ -92,11 +92,11 @@
   ; (1 - inhibition) * lethal, DOUBLED for {@self life_aim power_aim}. The lethal tip
   ; fires ONCE then the running kill proposal latches it.
   (when (and (>= (lethal-disposition @self) 0.65)
-             (none {?victim condition [k dead]})
+             -{?victim condition [k dead]}
              (or (has-proposal {@self kill ?victim})
                  (chance (* (crime-scale) 0.005
                             (* (dark-propensity (lethal-disposition @self))
-                               (if (any {@self life_aim [k power_aim]}) (then 2.0) (else 1.0))))))))
+                               (if {@self life_aim [k power_aim]} (then 2.0) (else 1.0))))))))
   (utility want)
   (effects
     (maintain-proposal {@self kill ?victim /caused_by ?fixation_bond})))

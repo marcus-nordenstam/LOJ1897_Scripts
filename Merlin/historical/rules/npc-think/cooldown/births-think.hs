@@ -26,7 +26,7 @@
 
   ; chance first (cheap, short-circuits), then bind the husband from her spouse
   (when (and (chance 0.05)
-             (any {@self spouse ?husband})))
+             {@self spouse ?husband}))
 
   (effects
     (set-attr @self pregnant_when (date-now))

@@ -13,19 +13,19 @@
     (try
       (role ?applicant {?applicant apply_for ?}
             (select (policy first-match)))
-      (when (and (none {@self draft_verdict ? [k offer_letter] /caused_by ?rt-rel /ever})
-                 (none {@self draft_verdict ?applicant ? /caused_by ?rt-rel /ever})))
+      (when (and -{@self draft_verdict ? [k offer_letter] /caused_by ?rt-rel /ever}
+                 -{@self draft_verdict ?applicant ? /caused_by ?rt-rel /ever}))
       (utility fallback)
       (effects (debug-print "RSV_OFFER")
                (begin-proposal {@self draft_verdict ?applicant [k offer_letter]})))
     (try
       (role ?applicant {?applicant apply_for ?}
             (select (policy first-match)))
-      (when (and (any {@self draft_verdict ? [k offer_letter] /caused_by ?rt-rel /ever})
-                 (none {@self draft_verdict ?applicant ? /caused_by ?rt-rel /ever})))
+      (when (and {@self draft_verdict ? [k offer_letter] /caused_by ?rt-rel /ever}
+                 -{@self draft_verdict ?applicant ? /caused_by ?rt-rel /ever}))
       (utility (above draft_verdict))
       (effects (debug-print "RSV_REJECT")
                (begin-proposal {@self draft_verdict ?applicant [k rejection_letter]})))
     (try
-      (when (none {? apply_for ?}))
+      (when -{? apply_for ?})
       (effects (debug-print "RSV_DONE") (set-outcome ?rt-rel /succ)))))

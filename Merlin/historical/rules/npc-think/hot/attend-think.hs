@@ -60,7 +60,7 @@
 ; back in their own mind - the bride hears the vow at the altar; an absent bride
 ; learns by gossip and marries then.
 (npc-think spouse_reciprocate
-  (role @self (none {@self spouse ?}))
+  (role @self -{@self spouse ?})
   (role ?p {@self fiancee ?p}
            {?p spouse @self})
   (effects

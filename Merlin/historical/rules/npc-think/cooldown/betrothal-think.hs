@@ -25,20 +25,20 @@
   ;; ((any {?bride <label> ?}), permissive on the unknown).
   (role @self (adult @self)
               {@self gender [k male]}
-              (none {@self spouse ?})
-              (none {@self fiancee ?})
-              (none {@self repute [k scandalous]})
-              (none {@self repute [k disreputable]})
+              -{@self spouse ?}
+              -{@self fiancee ?}
+              -{@self repute [k scandalous]}
+              -{@self repute [k disreputable]}
               {@self age_band ?peer_band})
   (role ?bride (unmarried_woman ?bride)
                ;; Not already spoken-for (he avoids a woman he KNOWS is engaged or
                ;; attached; a secret he has not heard does not stop the match).
-               (none {?bride fiancee ?})
-               (none {?bride lover ?})
+               -{?bride fiancee ?}
+               -{?bride lover ?}
                ;; A fallen woman (divorced for adultery) is shut out absolutely.
-               (none {?bride prototype [k fallen_woman]})
-               (none {?bride repute [k scandalous]})
-               (none {?bride repute [k disreputable]})
+               -{?bride prototype [k fallen_woman]}
+               -{?bride repute [k scandalous]}
+               -{?bride repute [k disreputable]}
                ;; (The chastity gate lives in (when) - per-observer, a count of the
                ;; liaisons the groom himself has heard of; the (not (believes
                ;; {?bride lover ?})) filter above already bars a known ONGOING lover.)
@@ -65,7 +65,7 @@
              ;; has heard of (per-observer chastity, any tense). A bride whose past he
              ;; has not heard passes - the market gives the benefit of the doubt.
              (< (count (every {?bride lover ? /ever})) 2)
-             (not (and (any {@self lover ?})
+             (not (and {@self lover ?}
                        (= (any {(any {@self lover}).target class_situation}).target
                           (any {@self class_situation}).target)))))
 

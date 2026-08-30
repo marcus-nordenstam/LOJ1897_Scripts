@@ -24,7 +24,7 @@
         ; stands in the home); ?food = that pile, handed to EAT which
         ; decrements it. Breakfast / lunch / a bought-out supper stay abstract.
         (if (and (is-a ?meal [k supper])
-                 (any {@self home ?place}))
+                 {@self home ?place})
             (then
               (bind 0 ?et_kitchen)
               (spatial ?place room [k kitchen]): ?et_kitchen
@@ -60,5 +60,5 @@
         (for-each ?belief-rel (every {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life_aim ?})
           (do
             (utterable-msg ?belief-rel): ?msg
-            (if (none {@self SAY ?msg ?diner})
+            (if -{@self SAY ?msg ?diner}
                 (then (maintain-proposal {@self SAY ?msg ?diner}) (break)))))))))

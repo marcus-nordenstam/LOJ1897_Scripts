@@ -17,7 +17,7 @@
   (cooldown 1 m)
 
   (role ?foe {?foe (theme-labels violent_to) @self}:?witnessed-rel
-             (none {?foe condition [k dead]}))
+             -{?foe condition [k dead]})
 
   ; The fearful flight: timidity = high volatility + low sadism + high compassion, the
   ; mirror of fight_defence's combat resolve, so most victims lean one way or the other.
@@ -30,5 +30,5 @@
 
   (effects
     ; Run for home - a known refuge; if @self has none, no flight (they stand and take it).
-    (if (any {@self home ?myhome})
+    (if {@self home ?myhome}
         (then (maintain-proposal {@self go ?myhome})))))

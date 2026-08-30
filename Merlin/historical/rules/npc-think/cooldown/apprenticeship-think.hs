@@ -28,21 +28,21 @@
   ;; SELF-POV (telepathy purge CAT-2): the youth is the sole deliberator,
   ;; reading his OWN employment / marital / schooling state.
   (role @self {@self breeding ?breeding}
-              (none {@self job.salary ?})
-              (none {@self spouse ?})
+              -{@self job.salary ?}
+              -{@self spouse ?}
               ;; A youth still in school (PR-education) is not on the labour
               ;; market - the working-class on-ramp is for those who left after
               ;; primary (or never enrolled), not secondary pupils.
-              (none {@self study ?}))
+              -{@self study ?})
   ;; A KNOWN org (the youth learned it at new_job_orientation), not a household:
   ;; a household is an org but NOT a trade - no master, no apprenticeship. Belief-
   ;; pure + cached. The master gate (the org's founder, whom the youth avoids if
   ;; KNOWN to be scandalous - permissive on the unknown) is a residual filter on
   ;; ?master, produced off {?org founder ?master} and re-checked in the role.
   (role ?org (known_org ?org)
-             (none {?org isa [k org household]})
+             -{?org isa [k org household]}
              {?org founder ?master}
-             (none {?master repute [k scandalous]})
+             -{?master repute [k scandalous]}
              {?org record ?org_record})
 
   ;; Live exclusivity re-check (see employment.hs): the youth's "unemployed"

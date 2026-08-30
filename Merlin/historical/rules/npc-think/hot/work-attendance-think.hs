@@ -45,7 +45,7 @@
              (spatial @self building ?wp))                    ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
   (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
         (latch-eval (any {?job ?tl ?}): ?sh (bind ?sh.target ?start) (bind ?sh.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
-        (and (none {@self work ?wp /pres})
+        (and -{@self work ?wp /pres}
              (not (has-proposal {@self work ?wp}))
              (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
   (utility duty (labour-drive-tilt))

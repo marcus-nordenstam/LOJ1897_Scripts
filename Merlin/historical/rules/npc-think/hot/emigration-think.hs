@@ -43,7 +43,7 @@
     (fire-self)
     (for-each ?hb-rel (every {@self home ?})
         (bind ?hb-rel.target ?home)
-        (if (any {@self own ?home})
+        (if {@self own ?home}
           (then
             (for-each ?deed (env-entities [k title_deed])
               (do
@@ -56,7 +56,7 @@
             (end-belief {@self own ?home})
             (end-belief {@self home ?home}))
           (else
-            (if (any {?home tenant @self}) (then (end-belief {?home tenant @self})))
+            (if {?home tenant @self} (then (end-belief {?home tenant @self})))
             (end-belief {@self home ?home}))))
     (end-belief {@self spouse})
     (destroy-entity @self)))

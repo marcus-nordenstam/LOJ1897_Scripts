@@ -19,7 +19,7 @@
                      (if (table-match public_orgs kind ?ok employee_count ?ec) (then ?ec) (else 2)))))
       (effects (set-outcome ?rec-rel /succ)))
     (try
-      (when (none {@self post ? ?org}))
+      (when -{@self post ? ?org})
       (effects (debug-print "RC_ADPICK") (maintain-proposal {@self advertise ?org})))
     (try
       (when (and {?org workplace ?wp}
@@ -46,7 +46,7 @@
     ; READ each held application - adopt its {?applicant apply_for ?jk} - then consume it.
     (try
       (role ?app [k application] (spatial @self hold)
-            (none {@self READ ?app /succ}))
+            -{@self READ ?app /succ})
       (utility obligation)
       (effects (debug-print "RC_READAPP") (maintain-proposal {@self READ ?app})))
     (try
@@ -56,9 +56,9 @@
     ; RESOLVE the learned applicants: draft + mail a verdict to each.
     (try
       (lock-rule)
-      (when (and (any {? apply_for ?})
+      (when (and {? apply_for ?}
                  (empty (spatial @self hold [k application]))
-                 (none {@self resolve_applications /pres})))
+                 -{@self resolve_applications /pres}))
       (utility obligation)
       (effects (debug-print "RC_RESOLVE") (begin-proposal {@self resolve_applications})))
     (try
@@ -73,7 +73,7 @@
       (effects (debug-print "RCP_BOTH")))
     (try
       (role ?app [k application] (spatial @self hold))
-      (when (any {?org record ?art}))
+      (when {?org record ?art})
       (effects (debug-print "RCP_ART art=?art")))
     (try
       (role ?app [k application] (spatial @self hold))

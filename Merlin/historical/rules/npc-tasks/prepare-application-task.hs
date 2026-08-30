@@ -14,7 +14,7 @@
   (aux job)
   (and
     (try
-      (when (none {@self CREATE_ENTITY [k application] /succ /caused_by ?pa-rel}))
+      (when -{@self CREATE_ENTITY [k application] /succ /caused_by ?pa-rel})
       (utility fallback)
       (effects (debug-print "PA_PEN")
                (maintain-proposal {@self CREATE_ENTITY [k application]})))

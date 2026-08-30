@@ -14,26 +14,26 @@
   (and
     (try
       (when (and (alive ?paramour)
-                 (none {@self lover ?paramour})
+                 -{@self lover ?paramour}
                  (not (spatial ?paramour co-located @self))
                  (spatial ?paramour space): ?loc))
       (utility errand)
       (effects (maintain-proposal {@self go ?loc})))
     (try
       (when (and (alive ?paramour)
-                 (none {@self lover ?paramour})
+                 -{@self lover ?paramour}
                  (not (spatial ?paramour co-located @self))
                  (unknown (spatial ?paramour space))
-                 (any {?paramour home ?phome})))
+                 {?paramour home ?phome}))
       (effects (maintain-proposal {@self go ?phome})))
     (try
       (when (and (alive ?paramour)
-                 (none {@self lover ?paramour})
+                 -{@self lover ?paramour}
                  (spatial ?paramour co-located @self)
                  (not (spatial (spouse-of @self) co-located @self))
-                 (none {?paramour gender (any {@self gender}).target})
+                 -{?paramour gender (any {@self gender}).target}
                  (none (blood-kin @self ?paramour))
-                 (none {@self HAVE_SEX_WITH ?paramour /succ /caused_by ?seduce-rel})))
+                 -{@self HAVE_SEX_WITH ?paramour /succ /caused_by ?seduce-rel}))
       (utility errand always-pick)
       (effects (maintain-proposal {@self HAVE_SEX_WITH ?paramour})))
     (try

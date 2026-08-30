@@ -14,7 +14,7 @@
   (tar @excl building)
   (and
     (try
-      (when (none {@self CREATE_ENTITY [k for_lease_listing] /succ /caused_by ?let-rel}))
+      (when -{@self CREATE_ENTITY [k for_lease_listing] /succ /caused_by ?let-rel})
       (utility fallback)
       (effects (debug-print "LET_PEN")
                (maintain-proposal {@self CREATE_ENTITY [k for_lease_listing]})))
@@ -27,11 +27,11 @@
       (role ?listing [k for_lease_listing] (spatial ?listing co-located @self)
             (substantial (attr ?listing writing)))
       (role ?stk [k for_lease_listing_stack])
-      (when (none {@self STACK_PUT ?listing ? /succ /caused_by ?let-rel}))
+      (when -{@self STACK_PUT ?listing ? /succ /caused_by ?let-rel})
       (effects (debug-print "LET_FILE")
                (maintain-proposal {@self STACK_PUT ?listing ?stk})))
     (try
-      (when (any {@self STACK_PUT ? ? /succ /caused_by ?let-rel}))
+      (when {@self STACK_PUT ? ? /succ /caused_by ?let-rel})
       (effects (debug-print "LET_DONE")
                (begin-belief {?prop availability [k for_rent]})
                (set-outcome ?let-rel /succ)))))

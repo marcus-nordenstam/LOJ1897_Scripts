@@ -37,7 +37,7 @@
   ; business / public org / estate founds no estate (subsumes the old
   ; estate-only throttle; permanent-kind match, decay-proof).
   (role @self (old_human @self)
-              (none {@self job [k head_of_non_household_org]}))
+              -{@self job [k head_of_non_household_org]})
   (role ?rental {@self own ?rental}
                 (or {?rental availability [k for_rent]}
                     {?rental tenant ?}))

@@ -19,13 +19,13 @@
   (tar @excl building)
   (and
     (try
-      (when (and (any {?dwell availability [k for_sale]})
-                 (none {@self RECORD_SALE ?dwell /succ})))
+      (when (and {?dwell availability [k for_sale]}
+                 -{@self RECORD_SALE ?dwell /succ}))
       (utility errand)
       (effects (debug-print "BH_SETTLE")
                (maintain-proposal {@self RECORD_SALE ?dwell})))
     (try
-      (when (any {@self RECORD_SALE ?dwell /succ}))
+      (when {@self RECORD_SALE ?dwell /succ})
       (effects
         (debug-print "BH_TAKEUP")
         (begin-belief {@self own ?dwell})
@@ -34,6 +34,6 @@
         (end-belief {?dwell availability [k for_sale]})
         (set-outcome ?bh-rel /succ)))
     (try
-      (when (and (none {?dwell availability [k for_sale]})
-                 (none {@self RECORD_SALE ?dwell /succ})))
+      (when (and -{?dwell availability [k for_sale]}
+                 -{@self RECORD_SALE ?dwell /succ}))
       (effects (debug-print "BH_LOST") (set-outcome ?bh-rel /fail)))))

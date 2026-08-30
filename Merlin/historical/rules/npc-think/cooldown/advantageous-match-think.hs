@@ -38,10 +38,10 @@
   ;; perceived age-peer + blood-kin predicates (belief macros).
   (role @self (adult @self)
               {@self gender [k male]}
-              (none {@self spouse ?})
-              (none {@self fiancee ?})
-              (none {@self repute [k scandalous]})
-              (none {@self repute [k disreputable]})
+              -{@self spouse ?}
+              -{@self fiancee ?}
+              -{@self repute [k scandalous]}
+              -{@self repute [k disreputable]}
               {@self age_band ?peer_band})
   ;; An exemplary bride one class BELOW the groom (spotless reputation lifts her).
   ;; class_situation values are upper / middle / lower; the explicit kind literals
@@ -51,7 +51,7 @@
   (role ?bride (unmarried_woman ?bride)
                {?bride age_span ?peer_band}
                (none (blood-kin @self ?bride))
-               (none {?bride fiancee ?})
+               -{?bride fiancee ?}
                {?bride repute [k exemplary]}
                (or (and {@self class_situation [k middle]}
                         {?bride class_situation [k lower]})

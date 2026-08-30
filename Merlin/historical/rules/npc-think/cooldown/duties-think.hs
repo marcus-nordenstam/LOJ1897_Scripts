@@ -51,11 +51,11 @@
                 (then
                   (if (= ?senior @self)
                       (then
-                        (if (none {@self duty_to ?org ?duty})
+                        (if -{@self duty_to ?org ?duty}
                             (then (begin-belief {@self duty_to ?org ?duty})
                                   (debug-print "DUTY-take ?duty ?org"))))
                       (else
-                        (if (any {@self duty_to ?org ?duty})
+                        (if {@self duty_to ?org ?duty}
                             (then (end-belief {@self duty_to ?org ?duty})
                                   (debug-print "DUTY-drop ?duty ?org")))))
                   ; The mirror: retire stale holders, record the current one.
@@ -63,5 +63,5 @@
                       (bind ?dhb-rel.target ?p)
                       (if (!= ?p ?senior)
                           (then (end-belief {?org duty_holder ?p ?duty}))))
-                  (if (none {?org duty_holder ?senior ?duty})
+                  (if -{?org duty_holder ?senior ?duty}
                       (then (begin-belief {?org duty_holder ?senior ?duty}))))))))))

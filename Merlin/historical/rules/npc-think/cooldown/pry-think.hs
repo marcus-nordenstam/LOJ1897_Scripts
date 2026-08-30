@@ -15,7 +15,7 @@
   (when (and (!= ?visitor ?host)
              (!= ?visitor @self)
              (!= ?visitor ?host_spouse)
-             (none {?visitor gender ?host_gender})
+             -{?visitor gender ?host_gender}
              (not (spatial ?host_spouse co-located-building @self))))
   (effects
     (bump-suspicion @self ?host (* 0.08 (+ 1 (hostility-toward ?host))))))

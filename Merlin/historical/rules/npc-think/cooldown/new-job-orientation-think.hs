@@ -31,7 +31,7 @@
   ;; a post does not go reading the vacancies. The jobless filter is a belief-pure
   ;; self-role criterion, so the @self enumeration itself caches.
   (role @self
-              (none {@self job ?}))
+              -{@self job ?})
 
   ; MAINTENANCE (blessed days-since-last pattern, like want_drink): mint the shared orient goal;
   ; the (chance) is the ONSET roll (latch-eval locks it once holding); (days-since-last orient)

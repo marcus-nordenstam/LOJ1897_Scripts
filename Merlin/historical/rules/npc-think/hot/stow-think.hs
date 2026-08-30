@@ -49,7 +49,7 @@
   ; worth-hiding item (priced above the loot floor), else 0 (the body puts
   ; it openly in the room it stands in).
   (effects
-    (if (and (> (price ?item) (valuable_loot_price_min)) (any {@self hiding_spot ?}))
+    (if (and (> (price ?item) (valuable_loot_price_min)) {@self hiding_spot ?})
               (then (any {@self hiding_spot ?}).target)
               (else 0)): ?place
     (maintain-proposal {@self stow ?item ?place})))

@@ -10,6 +10,6 @@
   (duration 2)
   (effects
     (set-attr ?doc addressee (attr ?recipient name))
-    (if (any {?recipient home ?rhome})
+    (if {?recipient home ?rhome}
         (then (set-attr ?doc address ?rhome)))
     (set-outcome {@self ADDRESS ?doc ?recipient} /succ)))

@@ -9,7 +9,7 @@
        (any_human ?stranger)
        (spatial ?stranger co-located @self)
        (none (personally-knows @self ?stranger))
-       (none {@self SAY ? ?stranger}))
+       -{@self SAY ? ?stranger})
 
   ; Sociability gate: an extraverted NPC strikes up an introduction more readily.
   (when (chance (* 0.5 (+ 0.4 (attr @self enthusiasm)))))

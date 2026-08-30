@@ -58,9 +58,6 @@
 (define-macro has-goal (?g)
   {@self goal ?g})
 
-(define-macro no-goal (?g)
-  (none {@self goal ?g}))
-
 (define-macro grown (?x)
   (marriageable-age ?x))                 ; >=16, old enough to act as an agent
 
@@ -75,13 +72,13 @@
   (and (known_alive ?x)
        {?x gender [k female]}
        (adult-age ?x)
-       (none {?x spouse ?})))
+       -{?x spouse ?}))
 
 (define-macro unmarried_man (?x)
   (and (known_alive ?x)
        {?x gender [k male]}
        (adult-age ?x)
-       (none {?x spouse ?})))
+       -{?x spouse ?}))
 
 ;; Married woman of fertile age who can conceive NOW - not already carrying a
 ;; pregnancy ({?x pregnant ?} is set at conception, cleared at delivery by the
@@ -92,7 +89,7 @@
        {?x gender [k female]}
        (working-age ?x)                  ; 16-49 childbearing band
        {?x spouse ?}
-       (none {?x pregnant ?})))
+       -{?x pregnant ?}))
 
 ;; Adult of working / migration age. Used by emigration.
 (define-macro young_adult (?x)

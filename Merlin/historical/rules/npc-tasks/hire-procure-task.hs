@@ -22,5 +22,5 @@
       (utility errand always-pick)
       (effects (maintain-proposal {@self SAY (utterable-msg {?agent acquire ?kind}) ?agent})))
     (try
-      (when (any {@self SAY ? /succ /caused_by ?hire-rel}))
+      (when {@self SAY ? /succ /caused_by ?hire-rel})
       (effects (set-outcome ?hire-rel /succ)))))

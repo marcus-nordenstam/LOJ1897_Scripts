@@ -52,5 +52,5 @@
         (bind ?news-rel.target ?tgt)
         (utterable-msg ?news-rel): ?msg
         (if (and (!= ?tgt @self)
-                 (none {@self SAY ?msg ?ear}))
+                 -{@self SAY ?msg ?ear})
             (then (maintain-proposal {@self SAY ?msg ?ear}) (break)))))))

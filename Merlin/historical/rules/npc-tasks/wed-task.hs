@@ -17,9 +17,9 @@
       (role @self {@self fiancee ?betrothed} (none (is-married @self)))
       (role ?venue {?occ venue ?venue})
       (role @self (spatial @self building ?venue))
-      (when (and (any {?occ hours ?start ?end})
+      (when (and {?occ hours ?start ?end}
                  (attend-in-window ?start ?end)
-                 (none {@self SAY (msg {@self spouse ?betrothed}) ?betrothed})))
+                 -{@self SAY (msg {@self spouse ?betrothed}) ?betrothed}))
       (utility (* 10 (+ (attend-host-utility) 10)))
       (effects (maintain-proposal {@self SAY (utterable-msg {@self spouse ?betrothed}) ?betrothed})))
 
@@ -28,7 +28,7 @@
       (role @self {@self fiancee ?} (none (is-married @self)))
       (role ?venue {?occ venue ?venue})
       (role @self (not (spatial @self building ?venue)))
-      (when (and (any {?occ hours ?start ?end})
+      (when (and {?occ hours ?start ?end}
                  (attend-in-window ?start ?end)))
       (utility (* 10 (+ (attend-host-utility) 10)))
       (effects (maintain-proposal {@self enter ?venue})))))

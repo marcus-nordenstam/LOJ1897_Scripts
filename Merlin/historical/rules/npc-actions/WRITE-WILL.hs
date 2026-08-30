@@ -22,7 +22,7 @@
   (effects
     ; Supersede a prior will.
     (for-each ?old (env-entities [k will])
-      (do (if (any {@self own ?old})
+      (do (if {@self own ?old}
               (then (destroy-entity ?old) (break)))))
     ; Pen the testament at @self's current building, bequeathing the coin pile
     ; (described by location) to ?heir, and record ownership of the document.

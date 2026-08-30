@@ -18,7 +18,7 @@
       (lock-rule)
       (role ?home {@self home ?home})
       (when (and (spatial @self building ?home)
-                 (none {@self locate [k outgoing_mail_stack] ?home /succ})))
+                 -{@self locate [k outgoing_mail_stack] ?home /succ}))
       (utility errand)
       (effects (debug-print "SM_LOC")
                (begin-proposal {@self locate [k outgoing_mail_stack] ?home})))
@@ -30,8 +30,8 @@
       (effects (debug-print "SM_GO") (maintain-proposal {@self WALK ?room})))
     (try
       (role ?out [k outgoing_mail_stack] (spatial ?out co-located @self))
-      (when (none {@self STACK_PUT ?doc ? /succ}))
+      (when -{@self STACK_PUT ?doc ? /succ})
       (effects (debug-print "SM_PUT") (maintain-proposal {@self STACK_PUT ?doc ?out})))
     (try
-      (when (any {@self STACK_PUT ?doc ? /succ}))
+      (when {@self STACK_PUT ?doc ? /succ})
       (effects (debug-print "SM_DONE") (set-outcome ?sm-rel /succ)))))

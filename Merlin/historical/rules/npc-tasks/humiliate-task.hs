@@ -25,17 +25,17 @@
       (when (and (alive ?victim)
                  (not (spatial ?victim co-located @self))
                  (unknown (spatial ?victim space))
-                 (any {?victim home ?vhome})))
+                 {?victim home ?vhome}))
       (effects (maintain-proposal {@self go ?vhome})))
     (try
       (when (and (alive ?victim)
                  (spatial ?victim co-located @self)
-                 (none {@self SAY ? /succ /caused_by ?humiliate-rel})))
+                 -{@self SAY ? /succ /caused_by ?humiliate-rel}))
       (utility errand always-pick)
       (effects (maintain-proposal
                  {@self SAY (utterable-msg {@self public_humiliation ?victim}) _})))
     (try
-      (when (any {@self SAY ? /succ /caused_by ?humiliate-rel}))
+      (when {@self SAY ? /succ /caused_by ?humiliate-rel})
       (effects
         (crime-ledger-append @self ?victim public_humiliation humiliate @u @u)
         (set-outcome ?humiliate-rel /succ)))

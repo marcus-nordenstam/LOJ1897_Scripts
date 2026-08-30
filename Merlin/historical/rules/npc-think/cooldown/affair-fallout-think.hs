@@ -51,13 +51,13 @@
   ; affair -> no activation, and the fallout never rolls.
   (role ?interloper (any_human ?interloper)
     {?partner lover ?interloper}
-    (none {?partner spouse ?interloper})
+    -{?partner spouse ?interloper}
     (select (policy first-match)))
 
   ; Recourse to an APPRAISED betrayal (the betray_act reflex rows minted the anger @ partner),
   ; and only while @self is not answering it lethally: a killer keeps the secret,
   ; since exposing the affair would advertise the motive.
-  (when (and (any {@self emotion [k anger] ?partner})
+  (when (and {@self emotion [k anger] ?partner}
              (not (has-proposal {@self kill ?partner}))
              (not (has-proposal {@self kill ?interloper}))))
 
@@ -65,8 +65,8 @@
     ; Divorce: the husband's remedy alone; the proper / high-decorum are likeliest
     ; to cut the tie. PROPOSE the divorce task (divorce-task.hs performs the
     ; repudiation); once put away, the standing divorce record bars a re-propose.
-    (if (and (any {@self spouse ?partner})
-             (any {@self gender [k male]})
-             (none {@self divorce ?partner /ever})
+    (if (and {@self spouse ?partner}
+             {@self gender [k male]}
+             -{@self divorce ?partner /ever}
              (chance (* 0.35 (target-or @self decorum 0.5))))
         (then (begin-proposal {@self divorce ?partner})))))

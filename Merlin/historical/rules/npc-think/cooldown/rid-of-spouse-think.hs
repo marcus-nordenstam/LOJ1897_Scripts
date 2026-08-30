@@ -45,9 +45,9 @@
   ; The REASON: the held detest belief, else dislike, else the spouse-wealth belief.
   ; Read as the /caused_by anchor, never re-minted, so the drive fades as the reason
   ; does. The attitude / wealth beliefs are minted elsewhere by the appraisal lanes.
-  (if (any {@self detest ?spouse})
+  (if {@self detest ?spouse}
       (then (any {@self detest ?spouse}))
-      (else (if (any {@self dislike ?spouse})
+      (else (if {@self dislike ?spouse}
           (then (any {@self dislike ?spouse}))
           (else (any {?spouse wealth}))))): ?spouse_bond
 
@@ -57,13 +57,13 @@
   ; (0.5 + psychopathy) * (1 - inhibition) * (1 - compassion) *
   ; (1 + spouse-wealth) * (1.5 if an unmarriageable lover waits else 1.0).
   (when (and (or (detests ?spouse)
-                 (any {?spouse (theme-labels violent_to) @self /ever}))
-             (none {?spouse condition [k dead]})
+                 {?spouse (theme-labels violent_to) @self /ever})
+             -{?spouse condition [k dead]}
              (or (has-proposal {@self kill ?spouse})
                  (chance
                    (* (crime-scale) 0.02
                       (* (+ (if (detests ?spouse) (then 1) (else 0))
-                            (if (any {?spouse (theme-labels violent_to) @self /ever}) (then 1) (else 0)))
+                            (if {?spouse (theme-labels violent_to) @self /ever} (then 1) (else 0)))
                          (* (+ 0.5 (attr @self psychopathy))
                             (* (disinhibition)
                                (* (callousness @self)

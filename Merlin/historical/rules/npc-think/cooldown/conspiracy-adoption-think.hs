@@ -45,7 +45,7 @@
   ; if the attraction lifts or the victim dies.
   (when (and (!= ?instigator @self)
              (>= (stance-band ?instigator attraction) 2)
-             (none {?victim condition [k dead]})
+             -{?victim condition [k dead]}
              (or (has-proposal {@self kill ?victim})
                  (chance (attr @self psychopathy)))))
 
@@ -53,7 +53,7 @@
   (effects
     ; Join ONCE (the accomplice bond embeds the plot as its AUX + anchors the /caused_by);
     ; then MAINTAIN my own kill of the victim while the attraction to the instigator holds.
-    (if (none {@self accomplice ?instigator})
+    (if -{@self accomplice ?instigator}
         (then (begin-belief {@self accomplice ?instigator ?plot-rel})))
     (any {@self accomplice ?instigator}):?accomplice-rel
     (maintain-proposal {@self kill ?victim /caused_by ?accomplice-rel})))

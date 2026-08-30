@@ -47,20 +47,20 @@
   ; and not KNOWN married - is-married is a pure belief macro, cached here).
   (role ?paramour (any_human ?paramour)
     {@self lover ?paramour}:?lover_bond
-    (none {@self spouse ?paramour})
-    (none {?paramour spouse ?})   ; free to marry - cached
+    -{@self spouse ?paramour}
+    -{?paramour spouse ?}   ; free to marry - cached
     (select (policy first-match)))
 
   ; Dark floor + the lover must be free to marry + drive + propensity
   ; (score_macros.hs: romantic-drive = attraction(lover) - warmth(spouse)).
   (when (and (>= (* (attr @self psychopathy) (attr @self machiavellianism)) 0.36)
              (>= (romantic-drive ?paramour ?spouse) 2)
-             (none {?spouse condition [k dead]})
+             -{?spouse condition [k dead]}
              ; Latch BOTH committed paths so neither the chance nor the agency fork
              ; re-rolls: a running direct-kill proposal, OR an already-recruited
              ; accomplice bond, holds the drive; else the propensity roll tips it once.
              (or (has-proposal {@self kill ?spouse})
-                 (any {@self accomplice ?paramour})
+                 {@self accomplice ?paramour}
                  (chance
                    (* (crime-scale) 0.03
                       (* (attr @self psychopathy)
@@ -77,7 +77,7 @@
     (if (has-proposal {@self kill ?spouse})
         ; Already committed DIRECT: maintain the kill /caused_by the READ lover bond.
         (then (maintain-proposal {@self kill ?spouse /caused_by ?lover_bond}))
-        (else (if (none {@self accomplice ?paramour})
+        (else (if -{@self accomplice ?paramour}
             ; Not yet committed - fork ONCE.
             (then (if (chance (* 0.7 (attr @self machiavellianism)))
                 ; INSTIGATED: recruit the lover. The accomplice bond carries the embedded

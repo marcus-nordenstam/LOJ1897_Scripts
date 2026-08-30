@@ -30,15 +30,15 @@
            ; target shape-2, cacheable - replaces the (= (target..)(target..)) pair).
            {?b class_situation (any {@self class_situation}).target}
            {?b age_span ?peer_band}
-           (none {@self friend ?b})
+           -{@self friend ?b}
            ; Warmth-gated: see adult_friendships.hs. The two negative warmth
            ; bands (dislike, detest) are read as EXPLICIT verb-state beliefs
            ; (core appraisal projects the warmth scalar onto them) - kids rarely
            ; hold either yet, so volume is ~unchanged; the gate just prevents
            ; befriending an already-disliked peer. The pair excludes BOTH bands
            ; (= "warmth not below neutral"), since each `believes` is exact-band.
-           (none {@self dislike ?b})
-           (none {@self detest ?b}))
+           -{@self dislike ?b}
+           -{@self detest ?b})
 
   ; Non-belief gate moved out of the @self role: the enthusiasm-scaled chance.
   ; High enthusiasm (the sociable Extraversion aspect) makes friends more readily;

@@ -68,7 +68,7 @@
   ; tip fires ONCE then the running kill proposal latches it; drop the drive if the
   ; victim dies.
   (when (and (>= (any {?benefactor wealth}).target 0.5)
-             (none {?victim condition [k dead]})
+             -{?victim condition [k dead]}
              (or (has-proposal {@self kill ?victim})
                  (chance (* (crime-scale) 0.02
                             (* (- 1 (inhibition))

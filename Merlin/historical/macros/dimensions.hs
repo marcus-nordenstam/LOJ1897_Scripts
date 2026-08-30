@@ -23,20 +23,20 @@
 
 ; conduct-scalar - a conduct_level band -> 0..1 (good 0.85, lax 0.25, fair/absent 0.65).
 (define-macro conduct-scalar (?who ?dim)
-  (if (any {?who ?dim [k conduct_level good]}) (then 0.85)
-  (else (if (any {?who ?dim [k conduct_level lax]})  (then 0.25)
+  (if {?who ?dim [k conduct_level good]} (then 0.85)
+  (else (if {?who ?dim [k conduct_level lax]}  (then 0.25)
       (else 0.65)))))
 
 ; devoutness-scalar - the piety_band -> 0..1 (devout 0.85, secular 0.25, else 0.65).
 (define-macro devoutness-scalar (?who)
-  (if (any {?who devoutness [k piety_band devout]})  (then 0.85)
-  (else (if (any {?who devoutness [k piety_band secular]}) (then 0.25)
+  (if {?who devoutness [k piety_band devout]}  (then 0.85)
+  (else (if {?who devoutness [k piety_band secular]} (then 0.25)
       (else 0.65)))))
 
 ; decorum-scalar - the decorum float (@self's own C++-derived value, or a tracked
 ; other's mirrored value), reading 0.65 when unknown.
 (define-macro decorum-scalar (?who)
-  (if (any {?who decorum ?}) (then (any {?who decorum}).target) (else 0.65)))
+  (if {?who decorum ?} (then (any {?who decorum}).target) (else 0.65)))
 
 ; chastity-scalar - 0.85 minus a rung per extra-marital liaison THIS mind knows of
 ; ?who (uniform: @self's own affairs for @self, the observer's knowledge for others).
@@ -133,10 +133,10 @@
                (* (attr @self industriousness) 0.30)
                (* (attr @self compassion)      0.15)
                (* (piety)                       0.20)
-               (* (if (any {@self decorum ?}) (then (any {@self decorum}).target) (else 0)) 0.10)
+               (* (if {@self decorum ?} (then (any {@self decorum}).target) (else 0)) 0.10)
                (* (/ (+ (- 1 (attr @self industriousness)) (- 1 (attr @self politeness))
                         (attr @self volatility)) 3) -0.20)
-               (* (if (any {@self stress ?})  (then (any {@self stress}).target)  (else 0)) -0.30))
+               (* (if {@self stress ?}  (then (any {@self stress}).target)  (else 0)) -0.30))
             (+ (* (clamp (+ (attr @self narcissism)       -0.5) 0 1) -0.10)
                (* (clamp (+ (attr @self machiavellianism) -0.5) 0 1) -0.15)
                (* (clamp (+ (attr @self psychopathy)      -0.5) 0 1) -0.20)

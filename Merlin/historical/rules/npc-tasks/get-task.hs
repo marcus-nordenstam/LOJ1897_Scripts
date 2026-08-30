@@ -17,5 +17,5 @@
       (utility (above go))
       (effects (maintain-proposal {@self take ?item})))
     (try
-      (when (any {@self take ?item /succ /caused_by ?get-rel}))
+      (when {@self take ?item /succ /caused_by ?get-rel})
       (effects (set-outcome ?get-rel /succ)))))

@@ -55,7 +55,7 @@
   (do
     (bind 0 ?hpc_pile)
     (for-each ?hpc_cand (spatial ?who hold [k pile])
-      (if (any {?hpc_cand content_kind ?kind})
+      (if {?hpc_cand content_kind ?kind}
           (then (bind ?hpc_cand ?hpc_pile))))
     (if ?hpc_pile (then (prob {?hpc_pile count ?})) (else 0))))
 
@@ -66,6 +66,6 @@
   (do
     (bind 0 ?bpc_pile)
     (for-each ?bpc_cand (spatial ?place contents [k pile])
-      (if (any {?bpc_cand content_kind ?kind})
+      (if {?bpc_cand content_kind ?kind}
           (then (bind ?bpc_cand ?bpc_pile))))
     (if ?bpc_pile (then (prob {?bpc_pile count ?})) (else 0))))

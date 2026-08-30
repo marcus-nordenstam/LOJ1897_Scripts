@@ -35,12 +35,12 @@
   (role @self
               (adult-age @self)
               {@self spouse ?}
-              (none {@self lover ?})
+              -{@self lover ?}
               {@self age_band ?peer_band})
   (role ?lover (any_human ?lover)
                (adult-age ?lover)
                ; the paramour must NOT be @self's own spouse (a third party).
-               (none {@self spouse ?lover})
+               -{@self spouse ?lover}
                ; the affair ignites with a known third party (social tie).
                (personally-knows @self ?lover)
                ; @self's band within ?lover's perceived age_span (+/-1). Bound in
@@ -49,7 +49,7 @@
                {?lover age_span ?peer_band}
                ; opposite-sex: @self's belief that ?lover's PERCEIVED gender differs
                ; from his own (visible-on-sight -> cacheable), and non-kin.
-               (none {?lover gender (any {@self gender}).target})
+               -{?lover gender (any {@self gender}).target}
                (none (blood-kin @self ?lover)))
 
   ;; The disposition-to-stray, rolled once per NPC per month: the character tail

@@ -44,8 +44,8 @@
                  ;; A working-age adult, elevatable into a trade - a belief-pure
                  ;; perceived age-band predicate, so it stays a role filter.
                  (working-age ?protege)
-                 (none {?protege repute [k scandalous]})
-                 (none {?protege backed_by ?})
+                 -{?protege repute [k scandalous]}
+                 -{?protege backed_by ?}
                  (or (and {@self    class_situation [k upper]}
                           {?protege class_situation [k middle]})
                      (and {@self    class_situation [k upper]}

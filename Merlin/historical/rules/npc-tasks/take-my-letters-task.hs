@@ -10,7 +10,7 @@
   (tar @excl stack)
   (and
     (try
-      (when (none {@self stack_browse ?stack /caused_by ?take-letters-rel /ever}))
+      (when -{@self stack_browse ?stack /caused_by ?take-letters-rel /ever})
       (utility errand)
       (effects (debug-print "TML_BROWSE")
                (begin-proposal {@self stack_browse ?stack})))
@@ -22,13 +22,13 @@
         (tolerate (attr ?doc addressee): ?addressee)
         (tolerate (attr ?doc addressee_duty): ?duty)
         (if (or (= ?addressee ?name)
-                (any {@self duty_to ? ?duty}))
+                {@self duty_to ? ?duty})
             (then (debug-print "TML_KEEP doc=?doc")
                   (bb-write ?doc browse-status kept))
             (else (debug-print "TML_HANDLE doc=?doc")
                   (bb-write ?doc browse-status handled)))))
     (try
-      (when (any {@self stack_browse ?stack /succ /caused_by ?take-letters-rel}))
+      (when {@self stack_browse ?stack /succ /caused_by ?take-letters-rel})
       (effects (debug-print "TML_DONE")
                (set-outcome ?take-letters-rel /succ)))
     (try
