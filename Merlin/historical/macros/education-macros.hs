@@ -17,7 +17,7 @@
   ; The enrolment is optional (No-op when not enrolled): the walk binds ?curriculum
   ; and zero matches skip the body.
   (for-each ?stb (every {@self study ?})
-    ?stb.target: ?curriculum
+    (bind ?stb.target ?curriculum)
     (if (is-kind ?curriculum)
         (then
           (if (table-match band_rank band (any {@self skilled_in ?curriculum}).auxiliary rank ?held_rank)

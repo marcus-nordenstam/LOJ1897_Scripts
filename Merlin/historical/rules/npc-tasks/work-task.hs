@@ -32,7 +32,7 @@
       (role ?org {?job org ?org}
                  {?org workplace ?wp})
       (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
-            (latch-eval (any {?job ?tl ?}): ?sh-rel ?sh-rel.target: ?start ?sh-rel.auxiliary: ?end)
+            (latch-eval (any {?job ?tl ?}): ?sh-rel (bind ?sh-rel.target ?start) (bind ?sh-rel.auxiliary ?end))
             (and (check ?org) (spatial @self building ?wp) (< (now-hour) 12)))
       (effects (maintain-proposal {@self DWELL ?wp (min 12 ?end)})))
     (try
@@ -40,7 +40,7 @@
       (role ?org {?job org ?org}
                  {?org workplace ?wp})
       (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
-            (latch-eval (any {?job ?tl ?}): ?sh-rel ?sh-rel.target: ?start ?sh-rel.auxiliary: ?end)
+            (latch-eval (any {?job ?tl ?}): ?sh-rel (bind ?sh-rel.target ?start) (bind ?sh-rel.auxiliary ?end))
             (and (check ?org) (spatial @self building ?wp) (>= (now-hour) 12)))
       (effects (maintain-proposal {@self DWELL ?wp ?end})))
     (try
@@ -48,6 +48,6 @@
       (role ?org {?job org ?org}
                  {?org workplace ?wp})
       (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
-            (latch-eval (any {?job ?tl ?}): ?sh-rel ?sh-rel.target: ?start ?sh-rel.auxiliary: ?end)
+            (latch-eval (any {?job ?tl ?}): ?sh-rel (bind ?sh-rel.target ?start) (bind ?sh-rel.auxiliary ?end))
             (not (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
       (effects (set-outcome ?w-rel /succ)))))

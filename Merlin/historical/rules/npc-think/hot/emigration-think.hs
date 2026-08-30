@@ -42,7 +42,7 @@
   (effects
     (fire-self)
     (for-each ?hb-rel (every {@self home ?})
-        ?hb-rel.target: ?home
+        (bind ?hb-rel.target ?home)
         (if (any {@self own ?home})
           (then
             (for-each ?deed (env-entities [k title_deed])

@@ -51,9 +51,9 @@
     ; job objects I believe belong to ?org, bind each holder, and drop the tie for any holder
     ; (not me) no longer on a worker row.
     (for-each ?ojb-rel (every {? org ?org})
-      ?ojb-rel.subject: ?ojob
+      (bind ?ojb-rel.subject ?ojob)
       (for-each ?jb-rel (every {? job ?ojob})
-        ?jb-rel.subject: ?other
+        (bind ?jb-rel.subject ?other)
         (if (and (!= ?other @self)
                  (not (table-match (attr ?reg writing) worker ?other)))
             (then (end-belief ?jb-rel)))))))

@@ -49,7 +49,7 @@
     ; news. ?news is the matched fact; ?tgt its target (the shame-seal check).
     (for-each ?news-rel (every {? disinherit|insult|outdo|public_humiliation|seduce|expose|confront_publicly|divorce|prototype|condition|circumstance_of_death|spouse|fiancee|lover|child ?})
       (do
-        ?news-rel.target: ?tgt
+        (bind ?news-rel.target ?tgt)
         (utterable-msg ?news-rel): ?msg
         (if (and (!= ?tgt @self)
                  (none {@self SAY ?msg ?ear}))

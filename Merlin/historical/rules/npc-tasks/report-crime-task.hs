@@ -31,7 +31,7 @@
         (if (alive ?focus) (then (begin-belief {@self suspect ?focus})))
         (for-each ?lb-rel (every {? stolen_from @self})
           (do
-            ?lb-rel.subject: ?loot
+            (bind ?lb-rel.subject ?loot)
             (plant-letter [k crime_report_letter]
                           (if (alive ?focus)
                               (then (nl-written-msg "I suspect ?focus"))

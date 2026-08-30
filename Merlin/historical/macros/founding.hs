@@ -222,10 +222,10 @@
 
 (define-macro fire-self ()
   (for-each ?fire-jrel (every {@self job ?})
-      ?fire-jrel.target: ?fire-job
+      (bind ?fire-jrel.target ?fire-job)
       (for-each ?fire-orel (every {?fire-job org ?})
-          ?fire-orel.target: ?fire-org
+          (bind ?fire-orel.target ?fire-org)
           (for-each ?fire-rrel (every {?fire-org employee_register ?})
-              ?fire-rrel.target: ?fire-reg
+              (bind ?fire-rrel.target ?fire-reg)
               (table-remove ?fire-reg worker @self)))
       (end-belief ?fire-jrel)))

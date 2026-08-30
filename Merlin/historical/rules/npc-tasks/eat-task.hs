@@ -43,11 +43,11 @@
       (when (and (= ?place ?home) (chance 0.25)))
       (effects
         (for-each ?bb-rel (every {?home breakfast_hour ?})
-            ?bb-rel.target: ?b
+            (bind ?bb-rel.target ?b)
             (for-each ?lb-rel (every {?home lunch_hour ?})
-                ?lb-rel.target: ?l
+                (bind ?lb-rel.target ?l)
                 (for-each ?sb-rel (every {?home supper_hour ?})
-                    ?sb-rel.target: ?s
+                    (bind ?sb-rel.target ?s)
                     (tell (utterable-msg {?home breakfast_hour ?b}
                                          {?home lunch_hour ?l}
                                          {?home supper_hour ?s})))))))

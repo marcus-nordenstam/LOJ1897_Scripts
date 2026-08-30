@@ -58,7 +58,7 @@
     ; the hotel is an org premises - the note names it by the org's name.
     (if (and (chance 0.30) (any {?paramour home ?paramour_home})
              (any {? workplace ?venue}): ?wob
-             ?wob.subject: ?org
+             (bind ?wob.subject ?org)
              (any {?org name ?venue_name}))
         (then
           (post-letter [k tryst_note]
@@ -141,7 +141,7 @@
     ; the theatre / pub is an org premises - the note names it by the org's name.
     (if (and (chance 0.30) (any {?paramour home ?paramour_home})
              (any {? workplace ?venue}): ?wob
-             ?wob.subject: ?org
+             (bind ?wob.subject ?org)
              (any {?org name ?venue_name}))
         (then
           (post-letter [k tryst_note]
