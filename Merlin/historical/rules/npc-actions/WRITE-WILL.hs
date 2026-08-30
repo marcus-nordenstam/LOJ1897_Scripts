@@ -26,7 +26,7 @@
               (then (destroy-entity ?old) (break)))))
     ; Pen the testament at @self's current building, bequeathing the coin pile
     ; (described by location) to ?heir, and record ownership of the document.
-    (create-entity [k will] (qual location (spatial @self building))): ?will
+    (create-entity [k will] (spatial @self space)): ?will
     (set-writing ?will
       (written-msg {?heir inherit
                      (o [k pile] {@o space

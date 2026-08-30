@@ -55,7 +55,7 @@
               (bind 0 ?food_pile)
               (pile-at-into ?room [k food] ?food_pile)
               (if (not ?food_pile)
-                  (then (create-entity [k pile] (qual location ?room)): ?food_pile
+                  (then (create-entity [k pile] ?room): ?food_pile
                         (set-attr ?food_pile content_kind [k food])))
               (set-attr ?food_pile count (grocer_shelf_stock))))
           ; Restock the weapons + household-chemicals shelf the same way (one room
@@ -63,9 +63,9 @@
           ; household staple (white_arsenic) - just another provision the shop carries.
           (for-each ?room ?rooms /limit 1
             (repeat (- (shop_weapon_stock) (count (spatial ?room contents [k firearm] /env)))
-              (create-entity [k pistol] (qual location ?room)): ?gun)
+              (create-entity [k pistol] ?room): ?gun)
             (repeat (- (shop_weapon_stock) (count (spatial ?room contents [k knife] /env)))
-              (create-entity [k knife] (qual location ?room)): ?blade)
+              (create-entity [k knife] ?room): ?blade)
             (repeat (- (shop_weapon_stock) (count (spatial ?room contents [k toxin] /env)))
-              (create-entity [k white_arsenic] (qual location ?room)): ?tox))))
+              (create-entity [k white_arsenic] ?room): ?tox))))
     (set-outcome {@self STOCKTAKE} /succ)))

@@ -33,7 +33,7 @@
 (define-macro post-letter (?kind ?msg ?dest ?addressee)
   (if (substantial ?dest)
     (then
-      (create-entity ?kind (qual location (spatial @self building))): ?ltr
+      (create-entity ?kind (spatial @self building)): ?ltr
       (set-writing ?ltr ?msg)
       (set-attr ?ltr addressee (attr ?addressee name))
       (set-attr ?ltr address ?dest)
@@ -45,7 +45,7 @@
 (define-macro post-blank-letter (?kind ?dest ?addressee)
   (if (substantial ?dest)
     (then
-      (create-entity ?kind (qual location (spatial @self building))): ?ltr
+      (create-entity ?kind (spatial @self space)): ?ltr
       (set-attr ?ltr addressee (attr ?addressee name))
       (set-attr ?ltr address ?dest)
       (begin-proposal {@self send_mail ?ltr}))))
@@ -57,5 +57,5 @@
 ; it; it simply sits at ?premises for a later search / detective to find.
 (define-macro plant-letter (?kind ?msg ?premises)
   (do
-    (create-entity ?kind (qual location ?premises)): ?ltr
+    (create-entity ?kind ?premises): ?ltr
     (set-writing ?ltr ?msg)))

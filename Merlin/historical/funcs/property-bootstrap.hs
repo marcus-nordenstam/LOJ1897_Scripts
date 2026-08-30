@@ -24,7 +24,7 @@
     (spatial ?b0 room /env): ?r0
     (if (and ?r0 (none (env-entities [k for_sale_listings])))
       (then
-        (create-entity [k for_sale_listings] (qual location ?r0)): ?reg0
+        (create-entity [k for_sale_listings] ?r0): ?reg0
         (table-init ?reg0 building deed)
         (break))))
   ; A vacant deed per building; list every one (all vacant at seed) in the register.
@@ -32,7 +32,7 @@
     (spatial ?b room /env): ?room
     (if ?room
       (then
-        (create-entity [k title_deed] (qual location ?room)): ?deed
+        (create-entity [k title_deed] ?room): ?deed
         (table-init ?deed building owner)
         (table-add ?deed building ?b)
         (for-each ?reg (env-entities [k for_sale_listings])
@@ -48,8 +48,8 @@
           (then
             (spatial ?bldg room /env): ?iroom
             (if (none (env-entities [k incorporation_stack]))
-              (then (create-entity [k incorporation_stack] (qual location ?iroom))))
-            (create-entity [k articles_of_incorporation] (qual location ?iroom)): ?art
+              (then (create-entity [k incorporation_stack] ?iroom)))
+            (create-entity [k articles_of_incorporation] ?iroom): ?art
             (o ?kind {?art declares_org @o}): ?org
             (table-set ?deed owner ?org)
             (table-remove ?reg building ?bldg)

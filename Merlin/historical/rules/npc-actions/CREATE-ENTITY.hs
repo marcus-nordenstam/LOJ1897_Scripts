@@ -9,5 +9,5 @@
 (npc-action {@self CREATE_ENTITY ?kind}
   (duration 5)
   (effects
-    (create-entity ?kind (qual location (spatial @self space)))
+    (create-entity ?kind (spatial @self space))
     (set-outcome {@self CREATE_ENTITY ?kind} /succ)))

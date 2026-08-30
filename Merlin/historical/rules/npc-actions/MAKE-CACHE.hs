@@ -37,7 +37,7 @@
       (for-each ?painting (spatial ?room contents [k painting] /env)
         (if (= ?made 0)
             (then
-              (create-entity [k painting_cache] (qual parent ?painting)): ?cache
+              (create-entity [k painting_cache] ?room ?painting): ?cache
               (begin-belief {@self hiding_spot ?cache})
               (bind 1 ?made)))))
     ; Tier 3 - a false lining in a jewelry box.
@@ -45,7 +45,7 @@
       (for-each ?box (spatial ?room contents [k jewelry_box] /env)
         (if (= ?made 0)
             (then
-              (create-entity [k jewelry_box_lining] (qual parent ?box)): ?cache
+              (create-entity [k jewelry_box_lining] ?room ?box): ?cache
               (begin-belief {@self hiding_spot ?cache})
               (bind 1 ?made)))))
     ; Tier 4 - a hollowed-out book.
@@ -53,7 +53,7 @@
       (for-each ?book (spatial ?room contents [k book] /env)
         (if (= ?made 0)
             (then
-              (create-entity [k book_cache] (qual parent ?book)): ?cache
+              (create-entity [k book_cache] ?room ?book): ?cache
               (begin-belief {@self hiding_spot ?cache})
               (bind 1 ?made)))))
     ; Tier 5 - the always-available loose floorboard in the bedroom. The bedroom
@@ -61,7 +61,7 @@
     (for-each ?bedroom (spatial ?building parts [k interior_space bedroom] /env)
         (if (= ?made 0)
             (then
-              (create-entity [k floorboard_cache] (qual parent ?bedroom)): ?cache
+              (create-entity [k floorboard_cache] ?bedroom ?bedroom): ?cache
               (begin-belief {@self hiding_spot ?cache})
               (bind 1 ?made))))
     (set-outcome {@self MAKE_CACHE} /succ)))

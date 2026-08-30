@@ -22,7 +22,7 @@
       (when (and (alive ?victim)
                  -{@self bribe ?victim /succ /ever}
                  (not (has-proposal {@self give ? ?victim}))))
-      (effects (create-entity [k coin] (qual location (spatial @self space)))))
+      (effects (create-entity [k coin] (spatial @self space))))
     (try
       (when {@self give ? ?victim /succ /caused_by ?bribe-rel})
       (effects

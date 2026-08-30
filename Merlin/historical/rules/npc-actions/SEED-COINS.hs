@@ -15,7 +15,7 @@
     (for-each ?room (spatial ?home parts [k interior_space room] /env)
       (if (= ?made 0)
           (then
-            (create-entity [k pile] (qual location ?room)): ?pile
+            (create-entity [k pile] ?room): ?pile
             (set-attr ?pile content_kind [k coin])
             (set-attr ?pile count 0)
             (begin-belief {@self own ?pile})

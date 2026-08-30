@@ -51,8 +51,8 @@
             ; document must live in a SPACE, never at the building).
             (spatial ?wp room): ?back
             (check ?back)
-            (create-entity [k articles_of_incorporation] (qual location ?back)): ?art
-            (create-entity [k employee_register]          (qual location ?back)): ?reg
+            (create-entity [k articles_of_incorporation] ?back): ?art
+            (create-entity [k employee_register]         ?back): ?reg
             (table-init ?reg worker job level)
             ; Founder's mind: the org object + its constitutive beliefs.
             (o ?org-kind {?art declares_org @o}): ?org
@@ -109,8 +109,8 @@
                 (learn-containment ?room ?wp))
             (spatial ?wp room): ?back
             (check ?back)
-            (create-entity [k articles_of_incorporation] (qual location ?back)): ?art
-            (create-entity [k employee_register]          (qual location ?back)): ?reg
+            (create-entity [k articles_of_incorporation] ?back): ?art
+            (create-entity [k employee_register]         ?back): ?reg
             (table-init ?reg worker job level)
             (o ?club-kind {?art declares_org @o}): ?org
             (table-match businesses org_kind ?club-kind name ?org-name)

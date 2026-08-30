@@ -32,7 +32,7 @@
               (bind 0 ?hand_pile)
               (held-pile-into @self [k food] ?hand_pile)
               (if (not ?hand_pile)
-                  (then (create-entity [k pile] (qual location ?room)): ?new_basket
+                  (then (create-entity [k pile] ?room): ?new_basket
                         (set-attr ?new_basket content_kind [k food])
                         (set-attr ?new_basket count 0)
                         (spatial-write ?new_basket gripped_by (spatial @self left_hand))
