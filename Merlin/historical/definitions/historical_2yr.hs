@@ -5,7 +5,4 @@
 ; find_building baseline span so behaviour is directly comparable across the change.
 ; ----------------------------------------------------------------------------
 
-(seed              4242)
-(start_year        1700)
-(end_year          1701)
-(start_population  50)
+(define-list config seed 4242 start_year 1700 end_year 1701 start_population 50)

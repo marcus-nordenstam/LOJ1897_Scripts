@@ -6,7 +6,4 @@
 ; 2-year config for directly comparable trajectories.
 ; ----------------------------------------------------------------------------
 
-(seed              4242)
-(start_year        1700)
-(end_year          1704)
-(start_population  50)
+(define-list config seed 4242 start_year 1700 end_year 1704 start_population 50)

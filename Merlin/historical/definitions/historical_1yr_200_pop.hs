@@ -6,7 +6,4 @@
 ; watchdog.
 ; ----------------------------------------------------------------------------
 
-(seed              4242)
-(start_year        1700)
-(end_year          1700)
-(start_population  200)
+(define-list config seed 4242 start_year 1700 end_year 1700 start_population 200)

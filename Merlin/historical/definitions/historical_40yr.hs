@@ -4,7 +4,4 @@
 ; org-set stability, founder coverage, and per-year sim cost as population grows.
 ; ----------------------------------------------------------------------------
 
-(seed              4242)
-(start_year        1700)
-(end_year          1739)
-(start_population  200)
+(define-list config seed 4242 start_year 1700 end_year 1739 start_population 200)

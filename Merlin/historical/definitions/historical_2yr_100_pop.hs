@@ -5,7 +5,4 @@
 ; that founds orgs and exercises the labour market.
 ; ----------------------------------------------------------------------------
 
-(seed              4242)
-(start_year        1700)
-(end_year          1701)
-(start_population  100)
+(define-list config seed 4242 start_year 1700 end_year 1701 start_population 100)

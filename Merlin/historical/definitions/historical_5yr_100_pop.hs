@@ -5,7 +5,4 @@
 ; smaller founder set; this one exercises pool pressure and crowd dynamics).
 ; ----------------------------------------------------------------------------
 
-(seed              4242)
-(start_year        1700)
-(end_year          1704)
-(start_population  100)
+(define-list config seed 4242 start_year 1700 end_year 1704 start_population 100)
