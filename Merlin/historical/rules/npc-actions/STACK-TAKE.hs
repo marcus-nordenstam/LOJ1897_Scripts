@@ -10,5 +10,10 @@
 (npc-action {@self STACK_TAKE ?doc ?stack}
   (duration 1)
   (effects
-    (pop ?stack)
-    (set-outcome {@self STACK_TAKE ?doc ?stack} /succ)))
+    (if (empty (spatial (spatial @self right_hand) grip))
+        (then (pop ?stack (spatial @self right_hand)))
+        (else (pop ?stack (spatial @self left_hand)))): ?taken
+    (if (substantial ?taken)
+        (then (observe ?taken)
+              (set-outcome {@self STACK_TAKE ?doc ?stack} /succ))
+        (else (set-outcome {@self STACK_TAKE ?doc ?stack} /fail)))))
