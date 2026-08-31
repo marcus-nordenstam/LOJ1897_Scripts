@@ -10,8 +10,8 @@
 
 (npc-action {@self LEFT_PUT ?item ?location}:?put-action-rel
   (duration 1)
-  (effects (put-effects (spatial @self left_hand) ?item ?location ?put-action-rel)))
+  (effects (put-effects (spatial @self left_hand /env) ?item ?location ?put-action-rel)))
 
 (npc-action {@self RIGHT_PUT ?item ?location}:?put-action-rel
   (duration 1)
-  (effects (put-effects (spatial @self right_hand) ?item ?location ?put-action-rel)))
+  (effects (put-effects (spatial @self right_hand /env) ?item ?location ?put-action-rel)))

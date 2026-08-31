@@ -37,21 +37,22 @@
         (table-add ?deed building ?b)
         (for-each ?reg (env-entities [k for_sale_listings])
           (table-add ?reg building ?b deed ?deed)))))
-  ; The infrastructure orgs: for each kind, take the first FREE office off the register, mint
-  ; its AOC + org object, and vest the premises deed in the ORG ITSELF (a government body owns
-  ; its own seat). File the AOC on the incorporation stack (created the first time, in the
-  ; company registry's room - the companies house).
+  ; The infrastructure orgs: for each kind, take the first FREE office off the register and
+  ; FILE ITS ARTICLES there - the incorporation document, its table, and the premises claim.
+  ; ENV ONLY. No org OBJECT is minted here: an org object is a MENTAL thing and a mindless
+  ; bootstrap has no mind to mint it in. Whoever needs to know these orgs exist READS the
+  ; articles (ORIENT -> adopt-aoc) and the reading rule mints the object in their own mind.
+  ; The deed is left UNOWNED - a government body's seat has no proprietor, and pulling the
+  ; row off the for-sale register is what stops anyone else claiming it.
   (for-each ?kind (list infra_org_kinds)
     (for-each ?reg (env-entities [k for_sale_listings])
-      (for-each-row (attr ?reg writing) (building ?bldg) (deed ?deed)
+      (for-each-row (attr ?reg writing) (building ?bldg)
         (if (is-a ?bldg [k building office])
           (then
             (spatial ?bldg room /env): ?iroom
             (if (none (env-entities [k incorporation_stack]))
               (then (create-entity [k incorporation_stack] ?iroom)))
             (create-entity [k articles_of_incorporation] ?iroom): ?art
-            (o ?kind {?art declares_org @o}): ?org
-            (table-set ?deed owner ?org)
             (table-remove ?reg building ?bldg)
             (table-init ?art org_kind org_name founder workplace register)
             (table-add ?art org_kind ?kind org_name @nothing founder @nothing

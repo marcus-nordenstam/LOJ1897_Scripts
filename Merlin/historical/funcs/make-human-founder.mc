@@ -33,6 +33,11 @@
             (create-date (- (year) ?age) (random-int 0 11) (random-int 0 27)))
           (set-attr ?h name (sample-name ?gender ?nat [k middle]))
           (enter-mind ?h)
+          ; SEE the home before believing anything about it. A belief field is passively
+          ; converted into the believer's own realm, so an object the mind has never met
+          ; lands as @fail - you cannot hold a belief about a building you have never laid
+          ; eyes on. Observing is the sanctioned way to meet one.
+          (observe ?building)
           (begin-belief {@self class_situation [k middle]})
           (begin-belief {@self nationality ?nat})
           (begin-belief {@self breeding 0.55})

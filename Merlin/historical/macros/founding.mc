@@ -54,17 +54,10 @@
             (create-entity [k articles_of_incorporation] ?back): ?art
             (create-entity [k employee_register]         ?back): ?reg
             (table-init ?reg worker job level)
-            ; Founder's mind: the org object + its constitutive beliefs.
-            (o ?org-kind {?art declares_org @o}): ?org
+            ; The articles DOCUMENT the org into being: a one-row TABLE of its constitutive
+            ; cells. This is the whole ENVIRONMENT half of founding - the org has no other
+            ; objective existence.
             (table-match businesses org_kind ?org-kind name ?org-name)
-            (begin-belief {?org isa ?org-kind})
-            (begin-belief {?org founder @self})
-            (begin-belief {?org workplace ?wp})
-            (begin-belief {?org name ?org-name})
-            (begin-belief {?org record ?art})
-            (begin-belief {?org employee_register ?reg})
-            ; The articles DOCUMENT a stranger READs (orient) to reconstruct the org: a one-row
-            ; TABLE of the org's constitutive cells, decoded back into beliefs by (adopt-aoc).
             (table-init ?art org_kind org_name founder workplace register)
             (table-add ?art org_kind ?org-kind org_name ?org-name founder @self
                             workplace ?wp register ?reg)
@@ -72,6 +65,16 @@
             ; stack), not the org's own premises - the town's org record lives there.
             (head (env-entities [k incorporation_stack])): ?ist
             (if ?ist (then (push ?art ?ist)))
+            ; --- and now the MENTAL half, which the founder gets the same way anyone else
+            ; does: he LOOKS AT the articles he just filed and READS them. adopt-aoc is the
+            ; one decoder (ORIENT and hire-beliefs call it too), so a founder's org object is
+            ; built by exactly the rule that builds a stranger's - no privileged minting.
+            (observe ?art)
+            (adopt-aoc ?art)
+            ; adopt-aoc anchored the org to these articles ({?art declares_org ?org}), so the
+            ; founder just READS it back - no second object search.
+            (any {?art declares_org ?org})
+            (begin-belief {?org record ?art})
             ; Seat the founder as HEAD: roster row + head-job beliefs (heading is NOT
             ; employment - no salary). ?head-role is-a org_head.
             (table-add ?reg worker @self job ?head-role level [k senior])

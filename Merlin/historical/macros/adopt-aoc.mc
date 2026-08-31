@@ -16,10 +16,10 @@
 (define-macro adopt-aoc (?art)
   (for-each-row (attr ?art writing)
       (org_kind ?ok) (org_name ?onm) (founder ?ofr) (workplace ?owp) (register ?oreg)
-    (o {?art declares_org @o}): ?org
-    (begin-belief {?art declares_org ?org})
-    (begin-belief {?org isa ?ok})
-    (if (substantial ?onm)  (then (begin-belief {?org name ?onm})))
-    (if (substantial ?ofr)  (then (begin-belief {?org founder ?ofr})))
-    (if (substantial ?owp)  (then (begin-belief {?org workplace ?owp})))
-    (if (substantial ?oreg) (then (begin-belief {?org employee_register ?oreg})))))
+      (o {?art declares_org @o}): ?org
+      (begin-belief {?art declares_org ?org})
+      (begin-belief {?org isa ?ok})
+      (if (substantial ?onm)  (then (begin-belief {?org name ?onm})))
+      (if (substantial ?ofr)  (then (begin-belief {?org founder ?ofr})))
+      (if (substantial ?owp)  (then (begin-belief {?org workplace ?owp})))
+      (if (substantial ?oreg) (then (begin-belief {?org employee_register ?oreg})))))
