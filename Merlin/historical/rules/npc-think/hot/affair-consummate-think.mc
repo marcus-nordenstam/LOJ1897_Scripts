@@ -33,10 +33,12 @@
                   (any_human ?paramour)
                   {@self lover ?paramour}
                   -{@self spouse ?paramour})
-  ; A room in @self's building with no third party present - only @self and the paramour
-  ; may be there. No private room -> no slip (the roomless-premises case is dropped).
+  ; A room in @self's building @self BELIEVES holds no third party - only @self and the
+  ; paramour may be there. The room SET is the building's structure (/env: stable ground
+  ; truth), but who is IN one is a belief read: a cheater slips into a room he THINKS is
+  ; empty, and walking in on someone is the story. No private room -> no slip.
   (role ?room (spatial (spatial @self building) parts [k interior_space room] /env)
-              (not (spatial ?room contents [k human] /env @self ?paramour))
+              (not (spatial ?room contents [k human] @self ?paramour))
               (select (policy first-match)))
   (when (or (not (spatial ?paramour co-located @self))
             (spatial (spouse-of @self) co-located @self)))

@@ -5,7 +5,7 @@
     ; these will fire in non-shipping builds, indicating badly designed rules that propose this action
     (check (!= (spatial ?item gripped_by /env) ?hand))
     (check (spatial @self co-located ?item))
-    (spatial-write ?item gripped_by ?hand)
+    (spatial-write ?item gripped_by ?hand /env)
     (set-outcome ?take-action /succ)))
 
 (npc-action {@self LEFT_TAKE ?item}:?take-action-rel

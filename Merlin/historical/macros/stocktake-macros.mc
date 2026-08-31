@@ -10,7 +10,7 @@
 ; ops - (spatial ?room contents) lists the items my spatial index believes are in
 ; ?room, (spatial ?item space /env) reads where each actually is (a destroyed item reads
 ; as nothing, and an item squirreled into a hidden cache reads the CACHE sub-space,
-; not this room - either way the miss IS the discovery), (retire-whereabouts ?item)
+; not this room - either way the miss IS the discovery), (spatial-write ?item space @nothing)
 ; evicts the miss from the index (releasing its reality-chain peg). The now-closed
 ; node remains as "it used to be here" testimony while another mind still pegs it.
 ;
@@ -26,4 +26,4 @@
   (for-each ?item (spatial ?room contents)
     (if (and (is-a ?item [k ?kind])
              (!= (spatial ?item space /env) ?room))
-        (then (retire-whereabouts ?item)))))
+        (then (spatial-write ?item space @nothing)))))

@@ -9,7 +9,7 @@
     (check (= (spatial ?thing held_by /env) @self))
     (check (spatial @self co-located ?recipient))
     (check (empty (spatial ?recipient-hand grip /env)))
-    (spatial-write ?thing gripped_by ?recipient-hand)
+    (spatial-write ?thing gripped_by ?recipient-hand /env)
     (set-outcome ?offer-action /succ)))
 
 (npc-action {@self OFFER_LEFT ?thing ?recipient}:?offer-action-rel

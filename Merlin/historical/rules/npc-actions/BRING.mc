@@ -17,7 +17,7 @@
     ; landing (the larder absorbs it), else it becomes that space's pile.
     (for-each ?item (spatial @self hold ?ware /env)
         (do
-          (spatial-write ?item location (spatial @self space /env))
+          (spatial-write ?item space (spatial @self space /env) /env)
           ; A put-down PILE folds into a co-located same-content pile (the larder
           ; absorbs the basket, basket destroyed); with none, it BECOMES the pile.
           (if (is-a ?item [k pile])

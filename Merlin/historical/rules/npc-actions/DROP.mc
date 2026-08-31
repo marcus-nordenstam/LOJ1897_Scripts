@@ -8,5 +8,5 @@
 (npc-action {@self DROP ?thing}
   (duration 1)
   (effects
-    (spatial-write ?thing location (spatial @self space /env))
+    (spatial-write ?thing space (spatial @self space /env) /env)
     (set-outcome {@self DROP ?thing} /succ)))

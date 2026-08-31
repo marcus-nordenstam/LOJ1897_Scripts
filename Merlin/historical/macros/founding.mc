@@ -46,7 +46,7 @@
             ; The head LEARNS the workplace's rooms up front (owning it stands in for
             ; exploring it): {building room <room>} + the reverse.
             (for-each ?room (spatial ?wp parts [k interior_space room] /env)
-                (learn-containment ?room ?wp))
+                (spatial-write ?room struct_parent ?wp))
             ; The org's documents (articles + an empty register), seeded in a room (a
             ; document must live in a SPACE, never at the building).
             (spatial ?wp room): ?back
@@ -106,7 +106,7 @@
             (table-set ?deed owner @self)
             (table-remove ?listings building ?wp)
             (for-each ?room (spatial ?wp parts [k interior_space room] /env)
-                (learn-containment ?room ?wp))
+                (spatial-write ?room struct_parent ?wp))
             (spatial ?wp room): ?back
             (check ?back)
             (create-entity [k articles_of_incorporation] ?back): ?art
@@ -161,7 +161,7 @@
     ; @self LEARNS the workplace's rooms (the building's `parts` that are rooms):
     ; {building room <room>} + the reverse {room building <building>}.
     (for-each ?room (spatial ?wp parts [k interior_space room] /env)
-        (learn-containment ?room ?wp))
+        (spatial-write ?room struct_parent ?wp))
     ; --- the job mental object: org (job.org), rank (level), salary, work-hours ---
     ; This is a HIRED (paid) post, so the job carries a salary decoration; heads
     ; seated by found-org-seq mint NO salary (heading != being employed). The org
