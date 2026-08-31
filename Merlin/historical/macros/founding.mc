@@ -1,0 +1,231 @@
+; ----------------------------------------------------------------------------
+; founding.hs - the org-founding belief sequence, as atomic .hse ops.
+;
+; This is the DECOMPOSITION of the old monolithic C++ (found-org) effect: the documents +
+; every belief the FOUNDER/head holds are minted here, in the .hse DSL. Premises are claimed
+; off the land registry (found-org-seq scans the title_deeds for a vacant one of the org's
+; building kind and stamps @self as its owner), not acquired from a C++ pool. The one op still
+; reaching outside @self's mind is:
+;   (stamp-work-hours ...) - the shift stamp, reading the occupation_shifts table for the job.
+;
+; STAFFING is NOT done here. A new org is founded with its HEAD only; the emergent
+; labour market staffs it over subsequent ticks: the recruit_staff duty-holder posts
+; a parish-board advert (recruit_think.hs), jobless seekers read the board and apply
+; in person (job_search_think.hs), the recruiter decides over his applicants book,
+; letters go out, and the accepted hire is enrolled on the wage book - which the
+; new employee READS to realize his employment. No bulk scan, no telepathy.
+;
+; The head's job is passed as a SCOPED job kind ([k job <role>]) so it serves three
+; roles unchanged: the head's job mental-object kind, the roster `job` field, and
+; the work-hours catalog key. A plain business passes [k job proprietor].
+;
+;   (found-org-seq ?org-kind ?head-role)
+;     ?org-kind  - the org kind value ([k org church] / a rolled [k org bakery])
+;     ?head-role - the founder's job, a scoped job kind ([k job priest])
+; ----------------------------------------------------------------------------
+
+(include "adopt-aoc.mc")
+
+; found-org-seq - read the house-agency's for-sale REGISTER for a premises of the org's
+; building kind (businesses-table `building`, unlisted -> office), claim it, and found the
+; org on it. Scanning the compressed register table (not the whole deed registry) is the
+; knowledge channel: the founder consults the published listings, claims the first row of
+; the right kind (table-set the deed's owner + drop the row), and founds. No such row ->
+; NOTHING is minted (no malformed org, no error).
+(define-macro found-org-seq (?org-kind ?head-role)
+  (do
+    (if (table-match businesses org_kind ?org-kind building ?bk)
+        (then ?bk) (else [k building office])): ?want-kind
+    (for-each ?listings (env-entities [k for_sale_listings])
+      (for-each-row (attr ?listings writing) (building ?wp) (deed ?deed)
+        (if (is-a ?wp ?want-kind)
+          (then
+            ; CLAIM: stamp @self as the premises' owner + pull the row off the register.
+            (table-set ?deed owner @self)
+            (table-remove ?listings building ?wp)
+            ; The head LEARNS the workplace's rooms up front (owning it stands in for
+            ; exploring it): {building room <room>} + the reverse.
+            (for-each ?room (spatial ?wp parts [k interior_space room] /env)
+                (learn-containment ?room ?wp))
+            ; The org's documents (articles + an empty register), seeded in a room (a
+            ; document must live in a SPACE, never at the building).
+            (spatial ?wp room): ?back
+            (check ?back)
+            (create-entity [k articles_of_incorporation] ?back): ?art
+            (create-entity [k employee_register]         ?back): ?reg
+            (table-init ?reg worker job level)
+            ; Founder's mind: the org object + its constitutive beliefs.
+            (o ?org-kind {?art declares_org @o}): ?org
+            (table-match businesses org_kind ?org-kind name ?org-name)
+            (begin-belief {?org isa ?org-kind})
+            (begin-belief {?org founder @self})
+            (begin-belief {?org workplace ?wp})
+            (begin-belief {?org name ?org-name})
+            (begin-belief {?org record ?art})
+            (begin-belief {?org employee_register ?reg})
+            ; The articles DOCUMENT a stranger READs (orient) to reconstruct the org: a one-row
+            ; TABLE of the org's constitutive cells, decoded back into beliefs by (adopt-aoc).
+            (table-init ?art org_kind org_name founder workplace register)
+            (table-add ?art org_kind ?org-kind org_name ?org-name founder @self
+                            workplace ?wp register ?reg)
+            ; File the AOC at the companies house (the company registry's incorporation
+            ; stack), not the org's own premises - the town's org record lives there.
+            (head (env-entities [k incorporation_stack])): ?ist
+            (if ?ist (then (push ?art ?ist)))
+            ; Seat the founder as HEAD: roster row + head-job beliefs (heading is NOT
+            ; employment - no salary). ?head-role is-a org_head.
+            (table-add ?reg worker @self job ?head-role level [k senior])
+            (begin-belief {?wp occupant @self})
+            (o ?head-role {@self job @o}): ?job
+            (begin-belief {?job org ?org})
+            (begin-belief {?job level [k senior]})
+            (begin-belief {?job since (year)})
+            (stamp-work-hours ?job ?head-role)
+            (break)))))))
+
+; ----------------------------------------------------------------------------
+; found-club-seq - the CLUB analogue of found-org-seq.
+;
+; A club has MEMBERS, not employees: no head is seated, no employment beliefs are minted -
+; the founder is enrolled as the first member (member_of, not employer). Premises are claimed
+; off the land registry exactly as found-org-seq does (the clubhouse building kind comes from
+; the businesses table); no free clubhouse -> nothing is minted.
+;
+;   (found-club-seq ?club-kind)
+;     ?club-kind - the rolled club kind value ([k org race_club] / [k org athletic_club])
+; ----------------------------------------------------------------------------
+
+(define-macro found-club-seq (?club-kind)
+  (do
+    (if (table-match businesses org_kind ?club-kind building ?bk)
+        (then ?bk) (else [k building office])): ?want-kind
+    (for-each ?listings (env-entities [k for_sale_listings])
+      (for-each-row (attr ?listings writing) (building ?wp) (deed ?deed)
+        (if (is-a ?wp ?want-kind)
+          (then
+            (table-set ?deed owner @self)
+            (table-remove ?listings building ?wp)
+            (for-each ?room (spatial ?wp parts [k interior_space room] /env)
+                (learn-containment ?room ?wp))
+            (spatial ?wp room): ?back
+            (check ?back)
+            (create-entity [k articles_of_incorporation] ?back): ?art
+            (create-entity [k employee_register]         ?back): ?reg
+            (table-init ?reg worker job level)
+            (o ?club-kind {?art declares_org @o}): ?org
+            (table-match businesses org_kind ?club-kind name ?org-name)
+            (begin-belief {?org isa ?club-kind})
+            (begin-belief {?org founder @self})
+            (begin-belief {?org workplace ?wp})
+            (begin-belief {?org name ?org-name})
+            (begin-belief {?org record ?art})
+            (begin-belief {?org employee_register ?reg})
+            (table-init ?art org_kind org_name founder workplace register)
+            (table-add ?art org_kind ?club-kind org_name ?org-name founder @self
+                            workplace ?wp register ?reg)
+            (head (env-entities [k incorporation_stack])): ?ist
+            (if ?ist (then (push ?art ?ist)))
+            ; The founder is the club's first MEMBER ([k membership] roster row, no level)
+            ; + a {@self member_of} belief - not seated as a head.
+            (table-add ?reg worker @self job [k membership])
+            (begin-belief {@self member_of ?org})
+            (break)))))))
+
+; ----------------------------------------------------------------------------
+; hire-beliefs - the BELIEF-ONLY half of hiring (no roster write).
+;
+; Reads the org's kind + premises off the existing articles and mints every
+; employment belief in @self's mind. It does NOT touch the roster - the worker is
+; rostered separately: hire-seq (below) writes the register itself for an emergent
+; hire, while the C++ candidate-scan effects (bootstrap / staff_household / jockey)
+; roster the worker via the thin enrol verb and let the materialize_employment
+; rule call THIS to mint the beliefs. So the beliefs live in .hs; the roster
+; (objective) is owned by whoever enrolled the worker. @self is always the worker
+; (no telepathy). Only (stamp-work-hours) (the occupation_shifts table stamp)
+; reaches outside @self's own mind.
+;
+;   (hire-beliefs ?art ?job-kind ?level)  - args as hire-seq below.
+; ----------------------------------------------------------------------------
+
+(define-macro hire-beliefs (?art ?job-kind ?level)
+  (do
+    ; --- learn the org off the articles: a new hire READs the incorporation page.
+    ; adopt-aoc decodes the AOC table into the org object + its constitutive beliefs
+    ; ({?art declares_org ?org} / {?org isa} / {?org workplace} / {?org employee_register}).
+    (adopt-aoc ?art)
+    ; --- @self's mind: recall the org just learned (anchored to the articles) + its
+    ; premises, then mint the employment beliefs.
+    (o {?art declares_org @o}): ?org
+    {?org workplace ?wp}
+    (begin-belief {?wp occupant @self})
+    ; @self LEARNS the workplace's rooms (the building's `parts` that are rooms):
+    ; {building room <room>} + the reverse {room building <building>}.
+    (for-each ?room (spatial ?wp parts [k interior_space room] /env)
+        (learn-containment ?room ?wp))
+    ; --- the job mental object: org (job.org), rank (level), salary, work-hours ---
+    ; This is a HIRED (paid) post, so the job carries a salary decoration; heads
+    ; seated by found-org-seq mint NO salary (heading != being employed). The org
+    ; lives ON the job object, so {@self job.org ?} chains (no separate employer).
+    ; salary IS the yearly income (0 = unsalaried), read from income_by_level.
+    (table-match income_by_level level ?level income ?salary)
+    (o ?job-kind {@self job @o}): ?job
+    (begin-belief {?job org ?org})
+    (begin-belief {?job level ?level})
+    (begin-belief {?job salary ?salary})
+    (begin-belief {?job since (year)})
+    (stamp-work-hours ?job ?job-kind)))
+
+; ----------------------------------------------------------------------------
+; hire-seq - the full WORKER-side hire: roster write + employment beliefs.
+;
+; The decomposition of the old monolithic C++ hire() belief-mint, mirroring
+; found-org-seq: where founding CREATES the org's documents + premises, hiring
+; READS them from the existing articles, ENROLS @self on the register, and mints
+; his beliefs (hire-beliefs). The emergent hire paths use this - the worker is not
+; yet rostered, so it must both enrol him AND mint his beliefs. In every emergent
+; path the worker IS @self (hire_commit / indenture / partner: @self;
+; senior_appointment: @self == the role-0 official), so there is NO telepathy.
+;
+;   (hire-seq ?art ?job-kind ?level)
+;     ?art       - the org's articles document (the goal focus / appointment org)
+;     ?job-kind  - the worker's SCOPED job kind ([k job clerk], a matched (bind ?jk),
+;                  [k job proprietor], ...): the roster `job` field, the job mental
+;                  object kind, AND the work-hours catalog key (same triple role as
+;                  found-org-seq's ?head-role).
+;     ?level     - the starting rank ([k apprentice] / [k trainee] / [k senior] / ...)
+;
+; STAFFING note: the matched job kind comes from hire_errand_act's
+; (select-row ...) over the occupations table, which binds ?jk =
+; [k job <leaf>] or @fail; the caller guards on ?jk. The fixed-role paths
+; (indenture / partner / senior) pass a literal [k job <role>].
+; ----------------------------------------------------------------------------
+
+(define-macro hire-seq (?art ?job-kind ?level)
+  (do
+    ; --- the employment beliefs in @self's mind (reads the articles, learns the org) --
+    (hire-beliefs ?art ?job-kind ?level)
+    ; --- env-side roster (abs): record @self under the matched job kind + rank. The
+    ; register is learned off the adopted {?org employee_register} belief.
+    (o {?art declares_org @o}): ?org
+    {?org employee_register ?reg}
+    (table-add ?reg worker @self job ?job-kind level ?level)))
+
+; ----------------------------------------------------------------------------
+; fire-self - a worker leaves his OWN post. Scrubs @self's row off the firm's
+; employee_register (a public doc, keyed on him via (find worker @self)) and
+; ends his OWN {@self job} belief (its org / salary / level decorations go with
+; it). The register is reached by @self's own forward belief walk: {@self job.org}
+; -> {org record} -> the articles' `register` field. Every step is @self / a
+; public doc - no cross-mind write. (A boss firing SOMEONE ELSE cannot end their
+; beliefs; the sacked worker reconciles his own stale row.)
+; ----------------------------------------------------------------------------
+
+(define-macro fire-self ()
+  (for-each ?fire-jrel (every {@self job ?})
+      (bind ?fire-jrel.target ?fire-job)
+      (for-each ?fire-orel (every {?fire-job org ?})
+          (bind ?fire-orel.target ?fire-org)
+          (for-each ?fire-rrel (every {?fire-org employee_register ?})
+              (bind ?fire-rrel.target ?fire-reg)
+              (table-remove ?fire-reg worker @self)))
+      (end-belief ?fire-jrel)))
