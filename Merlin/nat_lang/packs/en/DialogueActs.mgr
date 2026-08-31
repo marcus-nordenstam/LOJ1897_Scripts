@@ -94,7 +94,7 @@
 # Pressure beliefs themselves NEVER surface as prose. They are appraisal
 # metadata that gate disclosure (which acts to volunteer at which asker
 # tier) and ultimately influence cadence/register, but the pressure-KIND
-# word (humiliation, injustice, moral_violation, ...) never appears in
+# word (humiliation, injustice, moral-violation, ...) never appears in
 # what the listener hears.
 #
 # Instead, inject_pressure_discharge_beliefs (rule_functions/discourse_

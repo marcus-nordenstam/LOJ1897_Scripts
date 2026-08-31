@@ -21,7 +21,7 @@
 irish           irländsk
 english         engelsk
 french          fransk
-st_revieran     st_reviersk
+st-revieran     st_reviersk
 
 # Class
 upper           över
@@ -45,7 +45,7 @@ suffrage        rösträtt
 cricket         cricket
 rowing          rodd
 rugby           rugby
-horse_racing    hästkapplöpning
+horse-racing    hästkapplöpning
 
 # Job
 editor          redaktör
@@ -72,12 +72,12 @@ cook            kock
 farmer          bonde
 nurse           sjuksköterska
 steward         förvaltare
-shop_clerk      butiksbiträde
+shop-clerk      butiksbiträde
 waiter          servitör
 maid            hembiträde
 bartender       bartender
-factory_worker  fabriksarbetare
-house_agent     mäklare
+factory-worker  fabriksarbetare
+house-agent     mäklare
 official        ämbetsman
 hatmaker        hattmakare
 tailor          skräddare

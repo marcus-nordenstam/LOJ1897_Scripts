@@ -2,7 +2,7 @@
 ; flee_foe (npc-think) - the victim's FLIGHT response (runtime-blame model). The
 ; sibling of fight_defence: a victim who witnesses a violent act against themselves
 ; may RUN instead of fighting back. Keyed on the same witnessed violent act (matched by
-; (theme-labels violent_to)), gated on the inverse disposition - a timid, volatile,
+; (theme-labels violent-to)), gated on the inverse disposition - a timid, volatile,
 ; compassionate victim flees where a callous brute swings.
 ;
 ; The flight is a run for home: breaking co-presence interrupts the assault (the current
@@ -16,7 +16,7 @@
 (npc-think flee_foe
   (cooldown 1 m)
 
-  (role ?foe {?foe (theme-labels violent_to) @self}:?witnessed-rel
+  (role ?foe {?foe (theme-labels violent-to) @self}:?witnessed-rel
              -{?foe condition [k dead]})
 
   ; The fearful flight: timidity = high volatility + low sadism + high compassion, the

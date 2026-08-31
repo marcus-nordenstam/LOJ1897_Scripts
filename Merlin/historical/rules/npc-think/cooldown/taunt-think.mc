@@ -13,7 +13,7 @@
 ;     irreducible belief-x-method-table scan, exposed as a verb;
 ;   - (random-alive-human @self ?victim) picks the INNOCENT to accuse -
 ;     uniformly, so repeated letters do not accuse the same early-slot NPC;
-;   - (effects ...) plants the forged_letter {innocent kill victim} in the
+;   - (effects ...) plants the forged-letter {innocent kill victim} in the
 ;     actor's OWN home mail pile (the kept draft - discoverable evidence).
 ;     (written-msg ...) composes it ANONYMOUS through the shared letter codec; the
 ;     claimed knowledge ("who did it") is the player-facing tell.
@@ -44,5 +44,5 @@
     (if (and (substantial ?innocent) (alive ?innocent)
              (!= ?innocent ?victim) (!= ?innocent @self))
         (then
-          (plant-letter [k forged_letter]
+          (plant-letter [k forged-letter]
                         (nl-written-msg "?innocent killed ?victim") ?home)))))

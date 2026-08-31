@@ -6,4 +6,4 @@ preroll = 0.0
 in      = 0.2
 run     = 1.5
 out     = 0.0
-nature = neutral_act
+nature = neutral-act

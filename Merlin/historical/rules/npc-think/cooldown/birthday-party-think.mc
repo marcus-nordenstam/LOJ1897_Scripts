@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; birthday_party (npc-think). The recurring news-exchange that drives long-tail
+; birthday-party (npc-think). The recurring news-exchange that drives long-tail
 ; gossip: once a year a share of NPCs hold a catch-up, and each pair of (host,
 ; friend-of-host) exchanges the news of the past year. Ceremonies (betrothal /
 ; wedding / christening) carry milestones to a bounded guest list; this carries
@@ -11,7 +11,7 @@
 ; and self-news cascades onward as ordinary gossip. (The old telepathic two-way
 ; (exchange-news) is gone; the reciprocal half is each guest's OWN catch_up.)
 ;
-; An ACT (tell), but kept here as an occasion (the host life_aim / parent gate is
+; An ACT (tell), but kept here as an occasion (the host life-aim / parent gate is
 ; the party framing; the friend tie is the guest list). Fired by the per-NPC
 ; emergent pass MONTHLY, so the host (chance) is /12 (the *0.0667 wrapper) to hold
 ; the old annual party volume.
@@ -23,17 +23,17 @@
 
 (include "../../../definitions/roles.mc")
 
-(npc-think birthday_party
+(npc-think birthday-party
   (cooldown 1 m)
   (rng-stream friendships)
 
   ;; @self is the host. PR-A-8 substrate gate: the canonical host motivation is a
-  ;; social life_aim (belonging / respectability - the aims that prize community
+  ;; social life-aim (belonging / respectability - the aims that prize community
   ;; visibility) OR being a parent (parties for one's child). The enthusiasm-scaled
   ;; chance gate lives in (when) below (non-belief filter).
-  (role @self (or {@self life_aim belonging_aim}
-                  {@self life_aim respectability_aim}
-                  {@self identity parent_role}))
+  (role @self (or {@self life-aim belonging-aim}
+                  {@self life-aim respectability-aim}
+                  {@self identity parent-role}))
   ; A CO-PRESENT friend (the party guest actually in the room): the friend tie is the
   ; guest list; co-presence (objective room occupancy) is who is here to be told.
   (role ?guest (any_human ?guest)

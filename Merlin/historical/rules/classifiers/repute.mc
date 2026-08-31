@@ -22,11 +22,11 @@
 (npc-think classify_self_repute
   ; The fully-banded fuse over the seven repute-fold terms: four conduct bands +
   ; devoutness + decorum + chastity-scalar (lover count); a band drops when its
-  ; evidence is forgotten. class_situation being derived is the eligibility gate,
+  ; evidence is forgotten. class-situation being derived is the eligibility gate,
   ; not a fold input.
   (rng-stream behaviour)
 
-  (role @self {@self class_situation ?})
+  (role @self {@self class-situation ?})
 
   (effects
     (mint-band {@self repute} (repute-fold @self)
@@ -38,10 +38,10 @@
 
 (npc-think classify_others_repute
   ; Per-observer fuse: re-bands ?other's repute from the conduct band / devoutness /
-  ; decorum / lover beliefs @self holds ABOUT them. class_situation is the gate.
+  ; decorum / lover beliefs @self holds ABOUT them. class-situation is the gate.
   (rng-stream behaviour)
 
-  (role ?other {?other class_situation ?})
+  (role ?other {?other class-situation ?})
 
   (effects
     (mint-band-about {?other repute} (repute-fold ?other)

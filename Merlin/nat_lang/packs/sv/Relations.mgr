@@ -61,4 +61,4 @@
 "hemort"                home                    .
 "födelseort"            birthplace              .
 "kön"                   gender                  .
-"klass"                 class_situation         .
+"klass"                 class-situation         .

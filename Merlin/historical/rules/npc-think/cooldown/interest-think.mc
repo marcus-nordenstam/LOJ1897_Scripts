@@ -15,22 +15,22 @@
 ;                          openness x enthusiasm - the receptive and sociable
 ;                          catch more interests).
 ;   - mentor_inspired    : an apprentice takes an interest in the master's craft
-;                          (reads the master's skilled_in / calling domains).
+;                          (reads the master's skilled-in / calling domains).
 ;   - temperament_drift  : the residual catch-all - a highly-open NPC drifts into
 ;                          a brand-new interest for curiosity's own sake (still a
 ;                          random sample, but openness-gated, not bare chance).
 ;
 ; and interest_lapses replaces interest_lost: an unskilled interest can be shed,
-; but one the NPC has built into a skill (skilled_in on the same domain, S4) is
+; but one the NPC has built into a skill (skilled-in on the same domain, S4) is
 ; settled identity and never lapses (the C++ effect does that filtering).
 ;
 ; The education-exposure path (a pupil picks up a school-subject interest) is
 ; DEFERRED: there is no student-enrollment substrate yet - children are not
-; `member_of` their school, so the gate has nothing to read. Add it when school
+; `member-of` their school, so the gate has nothing to read. Add it when school
 ; enrollment lands.
 ;
 ; Provenance via the belief's /causes link (which source the interest came from)
-; is deferred to S7 (family_alignment); S3 mints the bare belief, matching the
+; is deferred to S7 (family-alignment); S3 mints the bare belief, matching the
 ; S4 derive_skills precedent.
 ; ----------------------------------------------------------------------------
 
@@ -103,7 +103,7 @@
   (rng-stream behaviour)
 
   ; @self (the apprentice) holds a standing master bond (minted by
-  ; apprenticeship_start); the effect reads the master's skilled_in + calling
+  ; apprenticeship_start); the effect reads the master's skilled-in + calling
   ; domains and copies one @self lacks. The openness-weighted chance -> (when).
   (role @self 
               {@self master ?})
@@ -146,7 +146,7 @@
   (rng-stream behaviour)
 
   ; @self holds at least one interest; low rate. The effect ends one interest whose
-  ; domain @self is NOT skilled_in - a skilled domain is settled identity and is
+  ; domain @self is NOT skilled-in - a skilled domain is settled identity and is
   ; exempt. No-op (fires, mints nothing) if every interest is skill-backed.
   (role @self 
               {@self interest ?})
@@ -154,7 +154,7 @@
   (when (chance 0.0025))
 
   (effects
-    ; Drop one interest never built into a skill (an overlapping skilled_in
+    ; Drop one interest never built into a skill (an overlapping skilled-in
     ; domain is settled identity - exempt). Unforgettable: "I used to be keen
     ; on botany" survives the sleep sweep as history.
     (random-unbacked-kind-target interest skill-level): ?d

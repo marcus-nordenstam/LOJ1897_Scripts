@@ -22,11 +22,11 @@
           ; absorbs the basket, basket destroyed); with none, it BECOMES the pile.
           (if (is-a ?item [k pile])
               (then
-                (attr ?item content_kind): ?deposited_kind
+                (attr ?item content-kind): ?deposited_kind
                 (spatial ?item space /env): ?deposited_space
                 (bind 0 ?larder)
                 (for-each ?other (spatial ?deposited_space contents [k pile] /env)
-                  (if (and (!= ?other ?item) (attr-is ?other content_kind ?deposited_kind))
+                  (if (and (!= ?other ?item) (attr-is ?other content-kind ?deposited_kind))
                       (then (bind ?other ?larder))))
                 (if ?larder
                     (then (pile-add ?larder (attr ?item count))

@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
-; economic_situation (classifier). Bands the wealth dimension into the
-; {@self economic_situation <band>} belief.
+; economic-situation (classifier). Bands the wealth dimension into the
+; {@self economic-situation <band>} belief.
 ;
 ; Per-NPC self-analysis. The (role @self {@self wealth ?}) self-gate
 ; qualifies a mind for banding; a mind without a derived wealth keeps its seeded
@@ -19,11 +19,11 @@
   (role @self {@self wealth ?wealth})
 
   (effects
-    (mint-band {@self economic_situation} ?wealth
-      [k economic_situation wealthy]     0.90
-      [k economic_situation prosperous]  0.75
-      [k economic_situation comfortable] 0.60
-      [k economic_situation stable]      0.45
-      [k economic_situation struggling]  0.30
-      [k economic_situation poor]        0.15
-      [k economic_situation destitute]  -1)))
+    (mint-band {@self economic-situation} ?wealth
+      [k economic-situation wealthy]     0.90
+      [k economic-situation prosperous]  0.75
+      [k economic-situation comfortable] 0.60
+      [k economic-situation stable]      0.45
+      [k economic-situation struggling]  0.30
+      [k economic-situation poor]        0.15
+      [k economic-situation destitute]  -1)))

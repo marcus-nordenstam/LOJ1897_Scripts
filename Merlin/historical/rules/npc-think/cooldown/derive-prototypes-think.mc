@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; derive_prototypes - the F3.5 cascade. PER-NPC: each adult re-appraises ITSELF
-; (wealth/piety/sobriety -> economic / respectability situations -> deserving_poor
-; / undeserving_poor prototypes), caching each as a belief in its OWN mind. Pure
+; (wealth/piety/sobriety -> economic / respectability situations -> deserving-poor
+; / undeserving-poor prototypes), caching each as a belief in its OWN mind. Pure
 ; self-analysis, no cross-NPC, no world mutation - @self is the subject. No role
 ; casting.
 ;

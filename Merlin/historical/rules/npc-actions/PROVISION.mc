@@ -21,7 +21,7 @@
     ; is a pile-to-pile transfer: decrement the shelf, top up the basket - never
     ; more than one bread-loaf explicitly represented, shop to hand to home.
     (spatial @self building): ?shop
-    (for-each ?room (spatial ?shop parts [k interior_space room] /env)
+    (for-each ?room (spatial ?shop parts [k interior-space room] /env)
       (do
         (bind 0 ?shop_pile)
         (pile-at-into ?room [k food] ?shop_pile)
@@ -33,10 +33,10 @@
               (held-pile-into @self [k food] ?hand_pile)
               (if (not ?hand_pile)
                   (then (create-entity [k pile] ?room): ?new_basket
-                        (set-attr ?new_basket content_kind [k food])
+                        (set-attr ?new_basket content-kind [k food])
                         (set-attr ?new_basket count 0)
-                        (spatial-write ?new_basket gripped_by (spatial @self left_hand) /env)
+                        (spatial-write ?new_basket gripped-by (spatial @self left-hand) /env)
                         (bind ?new_basket ?hand_pile)))
               (pile-add ?hand_pile ?grab)
-              (begin-belief {@self provisions_shop ?shop})))))
+              (begin-belief {@self provisions-shop ?shop})))))
     (set-outcome {@self PROVISION ?cap} /succ)))

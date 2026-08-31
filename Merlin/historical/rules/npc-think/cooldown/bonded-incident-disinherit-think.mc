@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; bonded_incident_disinherit (PR-A-7 V2, 2026-05-28, multiplicative).
 ;
-; Organic source of abandonment_act + wrong_act anchors. Replaces
+; Organic source of abandonment-act + wrong-act anchors. Replaces
 ; test_seed_disinheritance's chance-primary scaffold; the latter
 ; retires under PR-A-10 once substrate-rooted coverage is broad enough.
 ;
@@ -30,14 +30,14 @@
 ;
 ; categorize fires:
 ;   victim (pov=patient):
-;     - abandonment_act -> grief + distress + attachment_loss
-;                          pressure + status_loss pressure +
+;     - abandonment-act -> grief + distress + attachment-loss
+;                          pressure + status-loss pressure +
 ;                          end-bonds (love / friend)
-;     - wrong_act -> anger + injustice pressure + humiliation
+;     - wrong-act -> anger + injustice pressure + humiliation
 ;   actor (pov=actor):
-;     - abandonment_act -> guilt + moral_violation pressure
-;     - wrong_act -> guilt + fear + moral_violation +
-;                    exposure_risk pressure
+;     - abandonment-act -> guilt + moral-violation pressure
+;     - wrong-act -> guilt + fear + moral-violation +
+;                    exposure-risk pressure
 ;
 ; ----------------------------------------------------------------------------
 

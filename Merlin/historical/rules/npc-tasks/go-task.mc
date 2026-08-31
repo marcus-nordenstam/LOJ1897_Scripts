@@ -17,15 +17,15 @@
                  (not (spatial @self building ?dest))))
       (effects (maintain-proposal {@self enter ?dest})))
     (try
-      (when (and (is-a ?dest [k interior_space])
+      (when (and (is-a ?dest [k interior-space])
                  (not (spatial @self building (spatial ?dest building)))))
       (effects (maintain-proposal {@self enter (spatial ?dest building)})))
     (try
-      (when (and (is-a ?dest [k interior_space])
+      (when (and (is-a ?dest [k interior-space])
                  (spatial @self building (spatial ?dest building))
                  (not (spatial @self space ?dest))))
       (effects (maintain-proposal {@self WALK ?dest})))
     (try
-      (when (and (is-a ?dest [k exterior_space])
+      (when (and (is-a ?dest [k exterior-space])
                  (not (spatial @self space ?dest))))
       (effects (maintain-proposal {@self WALK ?dest})))))

@@ -4,7 +4,7 @@ object (+ obs)
     label
         applications
         mail
-        out_mail
+        out-mail
     # Natural (non-living) things
     mineral
         rock
@@ -20,47 +20,47 @@ object (+ obs)
             human
             dog
                 whippet
-                german_shepard
+                german-shepard
             cat
                 siamese
     # Forensic-trace families. The `blemish` parent unifies three
     # sub-trees so the `blemishes` plural-kind attr (common.arc) can
     # hold any mix and the forensic-detective layer reasons over the
     # union with one attr walk:
-    #   wound  - body-internal injury (puncture_wound, slash_wound,
-    #            blunt_wound, ligature_mark, burn_wound, bite_wound,
+    #   wound  - body-internal injury (puncture-wound, slash-wound,
+    #            blunt-wound, ligature-mark, burn-wound, bite-wound,
     #            bruise).
     #   stain  - substance deposited on a surface (ink, blood, dirt,
-    #            gunpowder_residue, ash, mud, paint, wine).
+    #            gunpowder-residue, ash, mud, paint, wine).
     #   mark   - physical surface alteration (scratch, dent, crack,
-    #            scuff, tool_mark, tear).
+    #            scuff, tool-mark, tear).
     # Per Rule 4 of knowledge_design_notes.md no leaf restates a
-    # weapon kind: a gunshot entry is a `puncture_wound`, not a
+    # weapon kind: a gunshot entry is a `puncture-wound`, not a
     # `gunshot_wound`.
     blemish
         wound
-            puncture_wound
-            slash_wound
-            blunt_wound
-            ligature_mark
-            burn_wound
-            bite_wound
+            puncture-wound
+            slash-wound
+            blunt-wound
+            ligature-mark
+            burn-wound
+            bite-wound
             bruise
         stain
-            ink_stain
-            blood_stain
-            dirt_stain
-            gunpowder_residue
+            ink-stain
+            blood-stain
+            dirt-stain
+            gunpowder-residue
             ash
-            mud_stain
-            paint_stain
-            wine_stain
+            mud-stain
+            paint-stain
+            wine-stain
         mark
-            scratch_mark
+            scratch-mark
             dent
             crack
             scuff
-            tool_mark
+            tool-mark
             tear
     # Meals & food. The leaves double as the OCCASION vocabulary the
     # evidence layer samples ("the wine, at supper") - a poisoning's
@@ -78,7 +78,7 @@ object (+ obs)
     # Man-made things
     prop
         container
-            drinking_glass
+            drinking-glass
             # Table-service vessels - the poison-delivery layer's concrete
             # props. The victim's drink (a wine / tea fluid) sits in one of
             # these; a poisoning TAINTS that drink fluid (the `taint` attr),
@@ -86,7 +86,7 @@ object (+ obs)
             # fluid inside it is the forensic proof.
             cup
             decanter
-            jewelry_box         (price 25)
+            jewelry-box         (price 25)
         # Currency - a single coin: the buildable unit of cash (a plain gripped
         # prop). A bribe / gift hands over ONE via give -> OFFER. Not a wealth
         # model - the coin entity IS the cash: a real, transferable, discoverable
@@ -95,28 +95,28 @@ object (+ obs)
         accessory
             cufflink
             ring
-                engagement_ring
-                wedding_band
+                engagement-ring
+                wedding-band
             hat
                 bowler
             umbrella
             backpack
         clothing
-            police_uniform
+            police-uniform
             dress
-                summer_dress
+                summer-dress
             # Footwear, the muddy-prints clue class.
             boots
         # Inert household furniture - scene dressing the detective walks
         # through and searches. None carry a weapon facet (a heavy chair is
         # not modelled as an improvised bludgeon - keeping these inert stops
         # furniture from flooding the improvised-weapon pool; the genuine
-        # improvised weapons are the candlestick / fire_poker / cutlery kinds
+        # improvised weapons are the candlestick / fire-poker / cutlery kinds
         # under their own families).
-        loose_furniture
+        loose-furniture
             table
-                kitchen_table
-                dining_table
+                kitchen-table
+                dining-table
             chair
             stool
             armchair
@@ -124,22 +124,22 @@ object (+ obs)
             wardrobe
             chest
             crate
-            writing_desk
-            writing_bureau
+            writing-desk
+            writing-bureau
             bookshelf
             sideboard
-            display_cabinet
-            smoking_cabinet
-            hat_stand
-            umbrella_stand
-            bell_pull
-            sewing_machine
-            drying_rack
+            display-cabinet
+            smoking-cabinet
+            hat-stand
+            umbrella-stand
+            bell-pull
+            sewing-machine
+            drying-rack
             fireplace
             piano
-                upright_piano
-                grand_piano
-            evidence_box
+                upright-piano
+                grand-piano
+            evidence-box
         # Purpose-built instruments of harm. Each leaf is naturally a
         # weapon (designed for combat / violence) - non-weapon items
         # that CAN be used to harm (a bust, a candlestick, a knife) live
@@ -154,19 +154,19 @@ object (+ obs)
             club                (facets bludgeon)
             cudgel              (facets bludgeon)
             # conspicuous: a gun sale is REMEMBERED (the shopkeeper, the
-            # sales_record); the acquisition calculus has careful buyers
+            # sales-record); the acquisition calculus has careful buyers
             # prefer a safe theft over the paper trail. Per-leaf - facets
             # do not cascade.
             firearm             (price 60)
                 pistol          (facets conspicuous)
-                duelling_pistol (facets conspicuous)
+                duelling-pistol (facets conspicuous)
                 musket          (facets conspicuous)
                 revolver        (facets conspicuous)
                 shotgun         (facets conspicuous)
-                hunting_rifle   (facets conspicuous)
+                hunting-rifle   (facets conspicuous)
             explosive           (price 40)
-                gunpowder_keg   (facets conspicuous)
-                dynamite_stick  (facets conspicuous)
+                gunpowder-keg   (facets conspicuous)
+                dynamite-stick  (facets conspicuous)
         # Kitchen / table-service blades. Knife is the canonical sub-kind;
         # cleaver is the heavy-bladed chopping variant.
         cutlery
@@ -181,7 +181,7 @@ object (+ obs)
         cordage
             rope                (facets strangle) (price 1)
             twine               (facets strangle)
-            garrotte_wire       (facets strangle)
+            garrotte-wire       (facets strangle)
         # Household textiles. Bedding / linen. The smother facet covers
         # smother / suffocate use.
         textile
@@ -190,17 +190,17 @@ object (+ obs)
             towel               (facets smother)
             blanket             (facets smother)
         # Lighting fixtures. A candlestick can also be used to bludgeon
-        # (the brass-base variety); an oil_lamp carries fuel as well as
+        # (the brass-base variety); an oil-lamp carries fuel as well as
         # being an ignition source.
         lighting
             candle              (facets ignite)
             candlestick         (facets bludgeon ignite) (price 12)
-            oil_lamp            (facets ignite burn_fuel) (price 4)
+            oil-lamp            (facets ignite burn_fuel) (price 4)
             lantern             (facets ignite)
-            gas_lamp            (facets ignite)
+            gas-lamp            (facets ignite)
             chandelier          (facets ignite)
         # Fire-starting implements that aren't themselves a light fixture.
-        fire_starter
+        fire-starter
             matches             (facets ignite)
             tinderbox           (facets ignite)
         # Tools - purpose-built craft / labour implements.
@@ -211,31 +211,31 @@ object (+ obs)
             scissors            (facets pierce)
             saw
             axe                 (facets chop slash bludgeon) (price 3)
-            fire_poker          (facets bludgeon)
+            fire-poker          (facets bludgeon)
         # Surgical instruments - a hospital / surgeon's sharps. They pierce
         # and slash like any blade, so they satisfy the same perpetration
         # facet gates (a surgeon killing with a scalpel is the in-period case).
-        surgical_instrument
+        surgical-instrument
             scalpel             (facets pierce slash)
             lancet              (facets pierce)
-            bone_saw            (facets slash chop)
+            bone-saw            (facets slash chop)
         # Physician's carry-bag, holds substance bottles.
-        medical_bag
+        medical-bag
         # Stoppered glass containers - the generic carriable vessel. There
         # is NO `poison_bottle` kind: a bottle is just a bottle, and the
         # POISON it holds is a concrete `poison` fluid (Objects.mon `fluid`)
         # with its own fill level. The apothecary / hospital dispensary
         # stocks a `toxin` fluid (the perpetration row gates on
         # (control_any toxin)); purchasing it rides mint_purchase_trail
-        # (receipt + sales_record + shopkeeper memory) - the Victorian
+        # (receipt + sales-record + shopkeeper memory) - the Victorian
         # poison register.
         bottle
         # Clocks and timepieces. Inert household time-keeping props; a stopped
         # mantel / grandfather clock is the classic time-of-death clue.
         timepiece
-            wall_clock
-            mantel_clock        (price 12)
-            grandfather_clock
+            wall-clock
+            mantel-clock        (price 12)
+            grandfather-clock
         # Decorative ornaments - inert scene dressing the detective searches.
         ornament
             figurine            (price 8)
@@ -245,175 +245,175 @@ object (+ obs)
             photograph
             vase
         # Floor coverings - rugs / carpets (the body-under-the-rug clue).
-        floor_covering
+        floor-covering
             rug
-                rag_rug
-                persian_rug
+                rag-rug
+                persian-rug
         # Scientific / observation instruments - a gentleman's study pieces.
-        scientific_instrument
+        scientific-instrument
             globe
             telescope
         # Household / kitchen utility goods. Inert (no weapon facet) so they
         # furnish rooms without flooding the improvised-weapon pool; the
         # cutting goods that ARE weapons live under `cutlery`.
         houseware
-            cooking_pot
+            cooking-pot
             stove
-            coal_scuttle
-            wash_basin
+            coal-scuttle
+            wash-basin
             pitcher
-            chamber_pot
+            chamber-pot
             broom
-            sewing_kit
+            sewing-kit
             flatiron
             washtub
-            tin_cup
-            tin_plate
+            tin-cup
+            tin-plate
             teacup
             inkstand
         # Tea / dinner services - class-signalling tableware (a silver service
         # marks an upper-class home).
         tableware
-            tea_set             (price 10)
-            silver_tea_service  (price 30)
-            china_service       (price 20)
+            tea-set             (price 10)
+            silver-tea-service  (price 30)
+            china-service       (price 20)
         # Parlour games. (`game` proper is a Concepts.mon activity object; these
         # are the physical play sets.)
-        parlour_game
-            chess_set
-            playing_cards
+        parlour-game
+            chess-set
+            playing-cards
         collection
             stack               (sub space|structure)  (tar @excl)
-                root_npc_knowledge_stack
-                for_sale_listing_stack
-                for_lease_listing_stack
-                title_deed_stack
+                root-npc-knowledge-stack
+                for-sale-listing-stack
+                for-lease-listing-stack
+                title-deed-stack
                 # The company registry's INCORPORATION stack: every org's
-                # articles_of_incorporation doc is filed here (the companies house),
+                # articles-of-incorporation doc is filed here (the companies house),
                 # not at the org's own premises. An NPC learns the town's orgs by
                 # browsing it (orient); the founding lane pushes each new AOC on.
-                incorporation_stack
+                incorporation-stack
                 # Per-premises INCOMING mail pile (ONE in each home's mail room,
                 # one inside each hiding-spot cache): letters land here on
                 # delivery and stay put - the pile IS the correspondence record.
                 # Read-state is each reader's own {@self read <letter>}
                 # act-memory, not a spatial move.
-                mail_stack
+                mail-stack
                 # Per-building OUTGOING mail pile (ONE per building, seeded at
                 # world setup). A resident/officer posts a letter by depositing
                 # it here (post_mail); the magic mail service drains every
                 # outgoing pile each morning and teleports each letter to the
-                # incoming mail_stack of the building at its written address.
-                outgoing_mail_stack
+                # incoming mail-stack of the building at its written address.
+                outgoing-mail-stack
             row
             # A pile of N identical FUNGIBLE items (shop-shelf bread, a coin
             # heap, a larder's stock): ONE entity + ONE mental object standing
-            # for the whole, storing the item KIND (content_kind) and a COUNT,
+            # for the whole, storing the item KIND (content-kind) and a COUNT,
             # never per-item entities. increment/decrement change the count;
             # subsume folds a real item in; extract spawns one out. A
             # memory-compression device - its bounds are the pile SHAPE.
             pile
-        sporting_gear
+        sporting-gear
             ball
                 football
-            cricket_bat         (facets bludgeon)
+            cricket-bat         (facets bludgeon)
         # Documents are props - loose, carriable items. As prop subkinds they
-        # inherit the prop archetype (writing + obb + in_stack attrs), so
+        # inherit the prop archetype (writing + obb + in-stack attrs), so
         # mx_make_entity can create them; the org / property documents the
         # historical sim builds depend on that.
         document
             diploma
             letter
-                adverts_letter
+                adverts-letter
                 # Perpetrator's own admission; writing embeds their
                 # band-5 self-beliefs. Discovery internalizes the
                 # crime fact via the standard read path.
-                confession_letter
+                confession-letter
                 # Kidnap-arc artifact; writing embeds
                 # {family goal {family pay perp ?amount}} and a per-mind
                 # "expects-to-see-victim" belief shape (missingness is
                 # what other minds believe about an NPC, not a physical
                 # fact about the body, so it lives in beliefs rather
                 # than as a condition).
-                ransom_note
+                ransom-note
                 # Structurally a letter but claimed_author env attr differs
                 # from the real author; plant-evidence events place these.
-                forged_letter
+                forged-letter
                 # Multi-generational revenge channel: a dying ancestor
                 # writes one embedding {@self enemy ?perp_line} beliefs.
                 # Descendants reading it internalize the grievance
                 # (boundary liveness gate prevents fresh-internalization
                 # of dead ancestors otherwise).
-                family_history_letter
+                family-history-letter
                 # Affair correspondence (see Docs/hsim/hsim_social.md).
-                # A love_letter's writing carries the affair fact itself
+                # A love-letter's writing carries the affair fact itself
                 # ({author lover recipient}) - reading one IS discovering
-                # the affair. A tryst_note's writing carries a concrete
+                # the affair. A tryst-note's writing carries a concrete
                 # meeting ({author meet recipient /at venue}) - the
                 # rendezvous channel.
-                love_letter
-                tryst_note
+                love-letter
+                tryst-note
                 # The repeat-demand coercion pass's physical demand note
                 # ({blackmailer coerce victim /aux <demand>}), routed down
                 # the covert letter channel. Its own kind so the per-kind
                 # cache caps don't share a budget with conspiracy letters.
-                blackmail_note
+                blackmail-note
                 # A victim's report to the police station: sentence 1 the
                 # crime that befell them (the grievance act), sentence 2 -
                 # when the wrongdoer is known - {victim suspect culprit}.
                 # Nobody staffs the station, so reports accumulate unread:
                 # the PLAYER's case feed.
-                crime_report_letter
+                crime-report-letter
                 # An exposure sent OPENLY to someone a secret wounds (not the
                 # covert channel): the writing carries the exposed fact - e.g. a
                 # spurned paramour naming an affair to the wronged spouse
                 # ({cheater lover author}). Delivered to the target's home mail
                 # pile, read in the morning post, and left there as evidence.
-                denunciation_letter
+                denunciation-letter
                 # A courtship declaration (billet-doux): the writing carries the
                 # author's own regard ({author fancy recipient}). A suitor and a
                 # SPECIFIC beloved rarely share a room, so the confession that
                 # grounds reciprocal courtship travels by post - the beloved reads
                 # it in the morning mail and comes to know she is fancied.
-                courtship_letter
+                courtship-letter
                 # The labour-market verdict letters (recruit_actions.hs). A TYPED signal:
                 # the seeker has one apply_for task in flight, so the letter's KIND alone
-                # tells him the verdict - offer_letter -> take the post (apply_for succ),
-                # rejection_letter -> apply_for fail. Delivered to his home mail pile, read
+                # tells him the verdict - offer-letter -> take the post (apply_for succ),
+                # rejection-letter -> apply_for fail. Delivered to his home mail pile, read
                 # (held) in the morning post.
-                offer_letter
-                rejection_letter
+                offer-letter
+                rejection-letter
             pamphlet
             book
             newspaper
             application
-                job_application
-            articles_of_incorporation
-            employee_register
-            job_description
+                job-application
+            articles-of-incorporation
+            employee-register
+            job-description
             # A hotel's guest book: the
             # front desk's record of who stayed when - the paper residue a
             # shared-hotel rendezvous leaves for the detective.
-            hotel_register
-            title_deed
+            hotel-register
+            title-deed
             # Purchase trail (weapon_acquire purchase mode). receipt
-            # spawns at the buyer's home; sales_record spawns at the
+            # spawns at the buyer's home; sales-record spawns at the
             # selling shop. Both serve as physical evidence a detective
             # can find later. The shopkeeper additionally holds a
             # `{shopkeeper sell <item> /aux <buyer>}` belief; that
             # memory is the richest queryable signal until writings
             # patterns on these documents are wired.
             receipt
-            sales_record
-            root_npc_knowledge_doc
-            for_sale_listing
+            sales-record
+            root-npc-knowledge-doc
+            for-sale-listing
             # The singleton for-sale REGISTER: one compressed table-doc (writing = a
             # list_form table of the available premises, one [building] row each) the
             # house-agency holds. Premises-seekers scan it (table-match) for a match, mint
-            # {?b availability for_sale}, then reason via beliefs.
-            for_sale_listings
-            for_lease_listing
-            lease_agreement
+            # {?b availability for-sale}, then reason via beliefs.
+            for-sale-listings
+            for-lease-listing
+            lease-agreement
             # Testamentary document; writing encodes the testator's
             # goal beliefs about disinheritance / inheritance / expose.
             # Ruled model: writings encode the heirs' bequest prospects
@@ -438,7 +438,7 @@ object (+ obs)
         # gate. (`toxin`, not `poison`: `poison` is already the leaf kill
         # TASK in Tasks.mon, and two noun kinds of the same name make the
         # kind-value parser ambiguous.) Each is a real Victorian-era poison;
-        # the `fluid_amount` (fluid.arc) is the bottle's fill level, depleted
+        # the `fluid-amount` (fluid.arc) is the bottle's fill level, depleted
         # one dose at a time by chronic poisoning - an emptied bottle is
         # spent evidence at the killer's home. A dose laces the victim's
         # drink (sets that drink fluid's `taint` to this kind). Modelled
@@ -451,36 +451,36 @@ object (+ obs)
             # Medicinal extracts / draughts - apothecary & hospital
             # dispensary (purchase / authorized). The line between medicine
             # and poison was the dose. laudanum=opium tincture,
-            # opium=raw opiate, digitalis_tincture=foxglove heart stimulant,
-            # prussic_acid=hydrocyanic (rapid neat), chloral_draught=sedative,
+            # opium=raw opiate, digitalis-tincture=foxglove heart stimulant,
+            # prussic-acid=hydrocyanic (rapid neat), chloral-draught=sedative,
             # antimony=tartar emetic, aconite=monkshood, belladonna=deadly
-            # nightshade, chloroform=anaesthetic, corrosive_sublimate=mercuric
+            # nightshade, chloroform=anaesthetic, corrosive-sublimate=mercuric
             # chloride disinfectant.
             # conspicuous: every toxin sale goes in the poison register -
             # the canonical paper trail a careful poisoner avoids.
             laudanum            (facets conspicuous)
             opium               (facets conspicuous)
-            digitalis_tincture  (facets conspicuous)
-            prussic_acid        (facets conspicuous)
-            chloral_draught     (facets conspicuous)
+            digitalis-tincture  (facets conspicuous)
+            prussic-acid        (facets conspicuous)
+            chloral-draught     (facets conspicuous)
             antimony            (facets conspicuous)
             aconite             (facets conspicuous)
             belladonna          (facets conspicuous)
             chloroform          (facets conspicuous)
-            corrosive_sublimate (facets conspicuous)
+            corrosive-sublimate (facets conspicuous)
             # Vermin killers / household chemicals - general shop, grocer,
             # agricultural supplier (purchase, no profession gate). The
-            # classic over-the-counter poisons. white_arsenic=arsenic trioxide
+            # classic over-the-counter poisons. white-arsenic=arsenic trioxide
             # (tasteless rat poison), strychnine=convulsant vermin killer,
-            # oxalic_acid=rust / stain remover mistaken for sugar.
-            white_arsenic       (facets conspicuous)
+            # oxalic-acid=rust / stain remover mistaken for sugar.
+            white-arsenic       (facets conspicuous)
             strychnine          (facets conspicuous)
-            oxalic_acid         (facets conspicuous)
+            oxalic-acid         (facets conspicuous)
         # Combustible accelerants. The (facets burn_fuel) flag is what
         # perpetration's immolate / arson methods key on, not the
         # parent kind.
         whiskey         (facets burn_fuel)
-        lamp_oil        (facets burn_fuel)
+        lamp-oil        (facets burn_fuel)
         kerosene        (facets burn_fuel)
         turpentine      (facets burn_fuel)
 
@@ -498,27 +498,27 @@ object (+ obs)
         path
             road
             trail
-        sporting_grounds
-            racing_grounds
-            cricket_grounds
-        container_structure
+        sporting-grounds
+            racing-grounds
+            cricket-grounds
+        container-structure
             wagon
-            train_car
+            train-car
             ship
             building
-                residential_building
+                residential-building
                     manor
                     townhouse
                     rowhouse
                     farmhouse
                     chapel
-                commercial_building
+                commercial-building
                     office
                     # (facets public_space) flag on open-to-public
                     # leaves: any actor is welcome_at without a personal
                     # invitation. Authored per-leaf so private
                     # commercial spaces (office / factory / warehouse /
-                    # hotel / school / police_station / newspaper /
+                    # hotel / school / police-station / newspaper /
                     # shop) do NOT inherit. bank carries the flag for
                     # the lobby; a future refinement can split bank into
                     # bank_lobby / bank_vault.
@@ -533,7 +533,7 @@ object (+ obs)
                     hotel
                     school
                     hospital    (facets public_space)
-                    police_station
+                    police-station
                     church      (facets public_space)
                     theatre     (facets public_space)
                     # Public civic / cultural venues - founded + minimally
@@ -543,27 +543,27 @@ object (+ obs)
                     # open-to-public, so they carry the public_space facet.
                     library     (facets public_space)
                     museum      (facets public_space)
-                    meeting_hall (facets public_space)
-                    sports_ground (facets public_space)
+                    meeting-hall (facets public_space)
+                    sports-ground (facets public_space)
                     # Private members' club premises (activity-lanes L8). NOT
                     # public_space - a club is members-only, so a non-member is
                     # not welcome_at without invitation. The club lane convenes
                     # the member-register here (clubhouse co-presence). Split by
                     # club type: athletic (sporting) vs social (gentlemen's).
                     clubhouse
-                        athletic_clubhouse
-                        social_clubhouse
+                        athletic-clubhouse
+                        social-clubhouse
         pier
         bridge
-            suspension_bridge
+            suspension-bridge
     part (tar space|part)
-        body_part
+        body-part
             head
             hand
-                left_hand  (side left)
-                right_hand (side right)
+                left-hand  (side left)
+                right-hand (side right)
             finger
-                ring_finger
+                ring-finger
             eye
             mouth
             # Central body. Default wound-site when a method-row's
@@ -572,9 +572,9 @@ object (+ obs)
             # (neck, arm, leg, lungs) land alongside the method rows
             # that need them.
             torso
-        structure_part
+        structure-part
             counter
-                bar_counter
+                bar-counter
             wall
             opening (+ nav_passage)
                 window

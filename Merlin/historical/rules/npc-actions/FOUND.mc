@@ -19,7 +19,7 @@
     (tolerate (roll-org-kind 1
                    [k org grocer] [k org bookseller] [k org barbershop]
                    [k org restaurant] [k org pawnbroker] [k org apothecary]
-                   [k org antiques_shop] [k org hotel]):?bizkind)
+                   [k org antiques-shop] [k org hotel]):?bizkind)
     (if ?bizkind
       (then
         (fire /worker @self)

@@ -7,57 +7,57 @@
 ;
 ;   job       - the job kind [k job <leaf>], or the bare atom `default`: the
 ;               schedule for every job with NO authored rows (Mon-Sat 9-17).
-;   shift_id  - groups a shift's days. A job with rows under MORE than one
-;               shift_id (nurse / factory_worker: day AND night) has the worker
-;               assigned exactly ONE shift_id by rng at hire.
-;   day_label - the weekday_hours belief label (sun_hours .. sat_hours, matching
+;   shift-id  - groups a shift's days. A job with rows under MORE than one
+;               shift-id (nurse / factory-worker: day AND night) has the worker
+;               assigned exactly ONE shift-id by rng at hire.
+;   day-label - the weekday_hours belief label (sun-hours .. sat-hours, matching
 ;               the weekday_hours_label table). A weekday with no row = a day off.
-;   start_h / end_h - 24h clock hours; start > end wraps past midnight (a night
+;   start-h / end-h - 24h clock hours; start > end wraps past midnight (a night
 ;               shift, e.g. 19 -> 7).
 ; ----------------------------------------------------------------------------
 
 (define-table occupation_shifts
-  (fields job shift_id day_label start_h end_h)
+  (fields job shift-id day-label start-h end-h)
 
   ;; the default working week (any job without authored rows): Mon-Sat 9-17
-  (record default 0 mon_hours 9 17)
-  (record default 0 tue_hours 9 17)
-  (record default 0 wed_hours 9 17)
-  (record default 0 thu_hours 9 17)
-  (record default 0 fri_hours 9 17)
-  (record default 0 sat_hours 9 17)
+  (record default 0 mon-hours 9 17)
+  (record default 0 tue-hours 9 17)
+  (record default 0 wed-hours 9 17)
+  (record default 0 thu-hours 9 17)
+  (record default 0 fri-hours 9 17)
+  (record default 0 sat-hours 9 17)
 
   ;; priest: irregular week - Sunday IS the working day; omitted days are off
-  (record [k job priest] 0 sun_hours 8 13)
-  (record [k job priest] 0 wed_hours 10 12)
-  (record [k job priest] 0 sat_hours 16 18)
+  (record [k job priest] 0 sun-hours 8 13)
+  (record [k job priest] 0 wed-hours 10 12)
+  (record [k job priest] 0 sat-hours 16 18)
 
   ;; nurse: the hospital runs round the clock - a day shift and a night shift
-  (record [k job nurse] 0 mon_hours 7 19)
-  (record [k job nurse] 0 tue_hours 7 19)
-  (record [k job nurse] 0 wed_hours 7 19)
-  (record [k job nurse] 0 thu_hours 7 19)
-  (record [k job nurse] 0 fri_hours 7 19)
-  (record [k job nurse] 0 sat_hours 7 19)
-  (record [k job nurse] 0 sun_hours 7 19)
-  (record [k job nurse] 1 mon_hours 19 7)
-  (record [k job nurse] 1 tue_hours 19 7)
-  (record [k job nurse] 1 wed_hours 19 7)
-  (record [k job nurse] 1 thu_hours 19 7)
-  (record [k job nurse] 1 fri_hours 19 7)
-  (record [k job nurse] 1 sat_hours 19 7)
-  (record [k job nurse] 1 sun_hours 19 7)
+  (record [k job nurse] 0 mon-hours 7 19)
+  (record [k job nurse] 0 tue-hours 7 19)
+  (record [k job nurse] 0 wed-hours 7 19)
+  (record [k job nurse] 0 thu-hours 7 19)
+  (record [k job nurse] 0 fri-hours 7 19)
+  (record [k job nurse] 0 sat-hours 7 19)
+  (record [k job nurse] 0 sun-hours 7 19)
+  (record [k job nurse] 1 mon-hours 19 7)
+  (record [k job nurse] 1 tue-hours 19 7)
+  (record [k job nurse] 1 wed-hours 19 7)
+  (record [k job nurse] 1 thu-hours 19 7)
+  (record [k job nurse] 1 fri-hours 19 7)
+  (record [k job nurse] 1 sat-hours 19 7)
+  (record [k job nurse] 1 sun-hours 19 7)
 
-  ;; factory_worker: day AND night shifts; a hand is assigned one at hire
-  (record [k job factory_worker] 0 mon_hours 6 18)
-  (record [k job factory_worker] 0 tue_hours 6 18)
-  (record [k job factory_worker] 0 wed_hours 6 18)
-  (record [k job factory_worker] 0 thu_hours 6 18)
-  (record [k job factory_worker] 0 fri_hours 6 18)
-  (record [k job factory_worker] 0 sat_hours 6 18)
-  (record [k job factory_worker] 1 mon_hours 18 6)
-  (record [k job factory_worker] 1 tue_hours 18 6)
-  (record [k job factory_worker] 1 wed_hours 18 6)
-  (record [k job factory_worker] 1 thu_hours 18 6)
-  (record [k job factory_worker] 1 fri_hours 18 6)
-  (record [k job factory_worker] 1 sat_hours 18 6))
+  ;; factory-worker: day AND night shifts; a hand is assigned one at hire
+  (record [k job factory-worker] 0 mon-hours 6 18)
+  (record [k job factory-worker] 0 tue-hours 6 18)
+  (record [k job factory-worker] 0 wed-hours 6 18)
+  (record [k job factory-worker] 0 thu-hours 6 18)
+  (record [k job factory-worker] 0 fri-hours 6 18)
+  (record [k job factory-worker] 0 sat-hours 6 18)
+  (record [k job factory-worker] 1 mon-hours 18 6)
+  (record [k job factory-worker] 1 tue-hours 18 6)
+  (record [k job factory-worker] 1 wed-hours 18 6)
+  (record [k job factory-worker] 1 thu-hours 18 6)
+  (record [k job factory-worker] 1 fri-hours 18 6)
+  (record [k job factory-worker] 1 sat-hours 18 6))

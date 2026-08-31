@@ -6,14 +6,14 @@
 ; humiliate ?victim} belief IS the deed memory; the crime-ledger row records it. A dead
 ; victim -> abandon.
 ;
-; INTERIM content: the SAY carries the class-tagged {@self public_humiliation ?victim}
+; INTERIM content: the SAY carries the class-tagged {@self public-humiliation ?victim}
 ; fact (what the victim perceives and construes). The quoted barb-content ladder (the
 ; actual words) is the deferred follow-up that replaces this with a (tell-to) barb fact.
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self humiliate ?victim}:?humiliate-rel
   (tar human)
-  (construed_act degrade_act wrong_act)
+  (construed-act degrade-act wrong-act)
   (and
     (try
       (when (and (alive ?victim)
@@ -33,11 +33,11 @@
                  -{@self SAY ? /succ /caused_by ?humiliate-rel}))
       (utility errand always-pick)
       (effects (maintain-proposal
-                 {@self SAY (utterable-msg {@self public_humiliation ?victim}) _})))
+                 {@self SAY (utterable-msg {@self public-humiliation ?victim}) _})))
     (try
       (when {@self SAY ? /succ /caused_by ?humiliate-rel})
       (effects
-        (crime-ledger-append @self ?victim public_humiliation humiliate @u @u)
+        (crime-ledger-append @self ?victim public-humiliation humiliate @u @u)
         (set-outcome ?humiliate-rel /succ)))
     (try
       (when (not (alive ?victim)))

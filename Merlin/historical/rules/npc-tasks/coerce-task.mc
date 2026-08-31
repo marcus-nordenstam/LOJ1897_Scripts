@@ -13,7 +13,7 @@
   (track-skill-level [k illicit])
   (tar human)
   (aux ?)
-  (construed_act coercion_act wrong_act)
+  (construed-act coercion-act wrong-act)
   (facets reportable_crime)
   (and
     (try

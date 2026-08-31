@@ -96,11 +96,11 @@
 
 ; (holds-coercion-material ?victim): does @self know leverage over ?victim - an illicit
 ; liaison @self is aware of, or a blackmailable act ?victim committed? The act set
-; mirrors the ontology's `blackmailable` facet (extort / commission / hired_by / kill);
+; mirrors the ontology's `blackmailable` facet (extort / commission / hired-by / kill);
 ; keep in sync if that facet set changes.
 (define-macro holds-coercion-material (?victim)
   (or (any {?victim lover|HAVE_SEX_WITH ? /ever})
-      (any {?victim extort|commission|hired_by|kill ? /ever})))
+      (any {?victim extort|commission|hired-by|kill ? /ever})))
 
 ; The standard motive-gate product: a disposition released by disinhibition.
 ; Use inside (chance (* (crime-scale) <base-rate> (dark-propensity (..)))).

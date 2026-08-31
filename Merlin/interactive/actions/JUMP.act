@@ -11,4 +11,4 @@ out     = 0.1
 # landing animation. Commit success at the cap regardless of physics outcome -
 # the jump is "done" once the duration completes.
 anim_timeout_mode = success
-nature = neutral_act
+nature = neutral-act

@@ -13,7 +13,7 @@
 ; The colleague job objects mirror @self's own job-object shape (imagine-or-recall
 ; over the roster `job` kind + {?cojob org ?org} + {?cojob level ?lvl}), so
 ; workplace-social rules (ambition, ...) role-cast colleagues off {?cw job.org
-; ?org} and read rank / head-ness ({?cw job [k org_head]}) with no telepathy.
+; ?org} and read rank / head-ness ({?cw job [k org-head]}) with no telepathy.
 ;
 ; hsim deliberates at MONTHLY resolution, so the "read the sign at work" habit
 ; renders as a monthly roster-refresh - the cadence at which hires / departures
@@ -31,11 +31,11 @@
   (when (or (in-month 3) (in-month 6) (in-month 9) (in-month 12)))
 
   (effects
-    ; My firm's register hangs off my own {?org employee_register ?reg} belief - learned
+    ; My firm's register hangs off my own {?org employee-register ?reg} belief - learned
     ; when I read the incorporation page at hire/orient (hire-beliefs adopt-msg). A belief
     ; walk, no doc scan. ?org (my job.org, role above) is where colleague beliefs hang so
     ; they JOIN my own {@self job.org ?org}. Any duty-holder reuses this by binding ?org.
-    (any {?org employee_register ?reg})
+    (any {?org employee-register ?reg})
     (check ?reg)
 
     ; (1) REFRESH - one colleague job object per roster row (skip my own row), mirroring

@@ -14,7 +14,7 @@
 
 (include "../../../definitions/roles.mc")
 
-(npc-think engagement_party
+(npc-think engagement-party
   (cooldown 1 m)
   (rng-stream marriages)
 

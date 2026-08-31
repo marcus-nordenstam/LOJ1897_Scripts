@@ -18,11 +18,11 @@
 ;
 ; Attendance itself is NOT here: a guest LEARNS the occasion by reading the host's
 ; invitation letter (ordinary mail - its two sentences are {<host> invite @self /aux
-; <occ>} + {<occ> held_on <date>}), and the attend_think.hs drivers raise the attend
-; task (and a principal's wed duty) in the month held_on lands. No appointment scan.
+; <occ>} + {<occ> held-on <date>}), and the attend_think.hs drivers raise the attend
+; task (and a principal's wed duty) in the month held-on lands. No appointment scan.
 ;
 ; Validation (hsim <msb> mind <First> <Last>): a host shows {@self organize
-; <dinner_party>} with the occasion carrying host/venue/date/hours, then the attend
+; <dinner-party>} with the occasion carrying host/venue/date/hours, then the attend
 ; task fires in the month the date lands.
 ; ----------------------------------------------------------------------------
 
@@ -36,7 +36,7 @@
   (role @self (grown @self))
   (when (chance 0.02))
   (effects
-    (plan-occasion @self [k dinner_party] (any {@self home ?}).target 3 19 23 formal)))
+    (plan-occasion @self [k dinner-party] (any {@self home ?}).target 3 19 23 formal)))
 
 ; An IMPROMPTU supper (the INFORMAL channel): unlike the planned dinner party, this
 ; reaches only whoever the host is physically WITH right now - the co-present set at
@@ -48,8 +48,8 @@
   (role @self (grown @self))
   (when (chance 0.015))
   (effects
-    (plan-occasion @self [k dinner_party] (any {@self home ?}).target 0 18 22 informal)))
+    (plan-occasion @self [k dinner-party] (any {@self home ?}).target 0 18 22 informal)))
 
 ; Attendance is no scan: reading the invitation (ordinary mail) leaves @self holding
-; {<host> invite @self /aux <occ>} + {<occ> held_on <date>}, and the attend_think.hs
-; drivers raise the attend / wed tasks in the month held_on lands. No review pass.
+; {<host> invite @self /aux <occ>} + {<occ> held-on <date>}, and the attend_think.hs
+; drivers raise the attend / wed tasks in the month held-on lands. No review pass.

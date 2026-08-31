@@ -3,7 +3,7 @@
 ; courtship. confess_fancy declares in person, but a suitor and a SPECIFIC
 ; beloved rarely share a room, so a spoken confession almost never gets its
 ; chance. This is how it travels the rest of the time: @self writes the beloved a
-; courtship_letter carrying his own regard ({@self fancy ?target}); the morning
+; courtship-letter carrying his own regard ({@self fancy ?target}); the morning
 ; post (read_pending_mail) delivers it to her home, she reads it and comes to know
 ; she is fancied - exactly the belief the spoken confession would have planted,
 ; through the same read path every letter uses. No telepathy, no co-presence.
@@ -52,6 +52,6 @@
     ; name @self believes ("I fancy ?target_name") and the "Signed, .." line becomes
     ; a (formulaic author ..) the reader resolves @i from (no C++ compose, no baked
     ; signature). Addressed to her, so her morning post read (read_post) adopts it.
-    (post-letter [k courtship_letter]
+    (post-letter [k courtship-letter]
                  (nl-written-msg "I fancy ?target_name. Signed, ?author_name")
                  ?target_home ?target)))

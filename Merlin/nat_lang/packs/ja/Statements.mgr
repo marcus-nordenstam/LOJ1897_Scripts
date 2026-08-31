@@ -14,7 +14,7 @@
 # (歳 for age, 人 for nationality) to the preceding numeric / kind atom.
 #
 # Known-limitations of v1 (per dialogue_nlg_phase8_design.md section 8.7):
-#  - Kind-typed atoms (nationality / class_situation / job / interest)
+#  - Kind-typed atoms (nationality / class-situation / job / interest)
 #    render as their ontology hstr leaf (English), so a Japanese sentence
 #    about an Irish person reads "マリア は irish 人 です". Documented;
 #    fix is per-pack kind lookup or ontology-side localization.
@@ -114,13 +114,13 @@
 .
 
 # Class - 階級 (kaikyuu) is the class suffix.
-"$sub_np(NP) は $kind(KIND|/isa|class_situation) ++階級です"
-{ $sub_np(NP) /pres class_situation $kind(KIND|/isa|class_situation) }
+"$sub_np(NP) は $kind(KIND|/isa|class-situation) ++階級です"
+{ $sub_np(NP) /pres class-situation $kind(KIND|/isa|class-situation) }
 :: deferential
 .
 
-"$sub_np(NP) は $kind(KIND|/isa|class_situation) ++階級だ"
-{ $sub_np(NP) /pres class_situation $kind(KIND|/isa|class_situation) }
+"$sub_np(NP) は $kind(KIND|/isa|class-situation) ++階級だ"
+{ $sub_np(NP) /pres class-situation $kind(KIND|/isa|class-situation) }
 .
 
 # Occupation - "マリア は hatmaker として 働いています" - として = "as",

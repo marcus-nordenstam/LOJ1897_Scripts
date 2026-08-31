@@ -1,10 +1,10 @@
 ; ----------------------------------------------------------------------------
-; staff_household.hs - domestic-service staffing of quality homes
+; staff-household.hs - domestic-service staffing of quality homes
 ; (see Docs/hsim/hsim_social.md "Households").
 ;
 ; PURE .hs, three passes: THINK (a quality-home owner takes on the standing
 ; staffing duty), FOUND (the head constitutes the `org household` seated AT
-; the home - its employee_register doubles as the servants' wage book), and
+; the home - its employee-register doubles as the servants' wage book), and
 ; ACT (the head fills vacant roster slots via the (staff-household ?h)
 ; construction verb - manor: steward / cook / 2 maids / gardener; townhouse:
 ; cook / maid - from the jobless lower-class adult pool, acquainting each new
@@ -24,7 +24,7 @@
 ; --- THINK: a quality-home OWNER takes on the standing staffing duty -----------
 ; The slow dispositional THINK, per NPC, fully declarative: a 21+
 ; adult who, IN WINTER and not already holding the duty, OWNS the manor / townhouse
-; that is their HOME mints the standing goal {@self goal {@self staff_household}}.
+; that is their HOME mints the standing goal {@self goal {@self staff-household}}.
 ; Tenants and co-resident spouses (home is a manor but they do not OWN it) never
 ; take it on. `?h` is a CACHED role: the object-cache membership test runs every
 ; filter against the SAME candidate, so home + own share one witness, and the
@@ -43,10 +43,10 @@
 
   (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
              (or (in-month 12) (in-month 1) (in-month 2)) ; winter, once a year
-             -{@self goal {@self staff_household}}))        ; mint once, then skip
+             -{@self goal {@self staff-household}}))        ; mint once, then skip
 
   (utility errand)
-  (effects (begin-goal {@self staff_household})))
+  (effects (begin-goal {@self staff-household})))
 
 ; --- FOUND: the head constitutes the household org at his home study -----------
 ; A separate THINK (not season-gated, so it catches the standing duty
@@ -64,7 +64,7 @@
 ; no-ops until the articles exist).
 (npc-think found_household
   (cooldown 1 m)
-  (goal {@self staff_household})
+  (goal {@self staff-household})
   (rng-stream employment)
 
   (role @self -{@self job.org [k org household]})
@@ -74,10 +74,10 @@
 
   (when (>= (years-old @self) 21))                      ; non-belief age gate -> (when)
 
-  (effects (found-org-seq [k org household] [k job head_of_household])))
+  (effects (found-org-seq [k org household] [k job head-of-household])))
 
 ; --- ACT: the head fulfils the duty - hires what the founded household lacks ---
-(npc-think staff_household
+(npc-think staff-household
   ; PER-NPC (cooldown 1 m): the household head fulfils his standing staffing
   ; duty once a month. PURE .hs: the gate is the duty the think minted
   ; plus ownership of the home (a co-resident spouse / tenant staffs nothing).
@@ -87,7 +87,7 @@
   ; constituted the org; no-ops while no articles exist and once full -
   ; self-throttles).
   (cooldown 1 m)
-  (goal {@self staff_household})
+  (goal {@self staff-household})
   (rng-stream employment)
 
   (role @self )

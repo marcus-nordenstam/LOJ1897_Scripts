@@ -7,7 +7,7 @@
 ;
 ; The candidate leaves their current post first (the (fire ...) is a no-op
 ; for the jobless), so their `job` (@excl) is free for the gov hire to
-; take. The (hire /level senior ...) - rather than /org_head - leaves the
+; take. The (hire /level senior ...) - rather than /org-head - leaves the
 ; founder's head slot intact; the head is the position established by
 ; whoever founded the org. The senior level is the rung that still lifts
 ; prestige and reads as a senior post downstream.
@@ -30,8 +30,8 @@
   ;; role itself keeps only the belief-pure template. The prestige floor selects
   ;; already-distinguished candidates, naturally targeting the established class.
   ;;
-  ;; The plan's "member_of of an organisation that hosts the post" tenure
-  ;; gate (PR-A-8 audit) is V2 work - the substrate has the member_of relation
+  ;; The plan's "member-of of an organisation that hosts the post" tenure
+  ;; gate (PR-A-8 audit) is V2 work - the substrate has the member-of relation
   ;; but the gov-org subset filter would need a cross-role join the .hse layer
   ;; doesn't express cleanly today. V1 routes the chance through a trait
   ;; product: assertiveness + ?prestige above the floor amplifies

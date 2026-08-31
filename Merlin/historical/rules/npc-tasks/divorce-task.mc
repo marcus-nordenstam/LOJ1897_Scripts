@@ -3,7 +3,7 @@
 ; no such recourse). Proposed by affair_fallout when a proper / high-decorum husband
 ; puts an unfaithful wife away. Performing it repudiates her: both spouse bonds end,
 ; her memory of being put away is minted (the mutual record), and a put-away wife is
-; marked a fallen_woman in her mind AND his (the gossip channel carries the disgrace;
+; marked a fallen-woman in her mind AND his (the gossip channel carries the disgrace;
 ; betrothal / love_match exclude her), cast out of the marital roof, and turned out of
 ; any reputation-based post.
 ;
@@ -26,8 +26,8 @@
       ; dismissed from reputable service.
       (if {?partner gender [k female]}
           (then
-            (begin-belief ?partner {?partner prototype [k fallen_woman]})
-            (begin-belief {?partner prototype [k fallen_woman]})
+            (begin-belief ?partner {?partner prototype [k fallen-woman]})
+            (begin-belief {?partner prototype [k fallen-woman]})
             (expel-divorced-wife ?partner)
             (dismiss-from-service ?partner)))
       (set-outcome ?divorce-rel /succ))))

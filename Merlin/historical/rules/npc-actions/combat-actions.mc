@@ -3,11 +3,11 @@
 ; fight task propose. STRIKE is ONE blow (duration 1):
 ;   (obs)                       - witnesses SEE the blow (per-motor perception),
 ;                                 so bystanders internalize + appraise it;
-;   (theme violent_to)          - the ontology theme (theme violent_to) that both
+;   (theme violent-to)          - the ontology theme (theme violent-to) that both
 ;                                 the runtime-blame gate (appraisal.cc) and the
-;                                 defender's (theme-labels violent_to) match read;
-;   (construed_act harm_act) (contradicts safety) - harm is static; BLAME is
-;                                 runtime: appraisal SUPPRESSES wrong_act for a blow
+;                                 defender's (theme-labels violent-to) match read;
+;   (construed-act harm-act) (contradicts safety) - harm is static; BLAME is
+;                                 runtime: appraisal SUPPRESSES wrong-act for a blow
 ;                                 that traces (/caused_by) to a violent act on its
 ;                                 own actor (self-defence), so the aggressor is blamed
 ;                                 and the defender who strikes back is not.
@@ -27,7 +27,7 @@
 
 (npc-action {@self STRIKE ?foe ?method}
   (track-skill-level [k martial])
-  (obs) (theme violent_to) (construed_act harm_act) (contradicts safety) (duration 1)
+  (obs) (theme violent-to) (construed-act harm-act) (contradicts safety) (duration 1)
   (effects
     (set-attr @self adrenaline 1)
     (clamp (+ 0.45
@@ -41,14 +41,14 @@
         (if (= ?method punch)
           (then (yield-evidence @self ?foe head bruise) (set-attr ?foe awareness unconscious))
         (else (if (= ?method shoot)
-          (then (yield-evidence @self ?foe head puncture_wound) (kill-blow ?foe shoot))
-        (else (yield-evidence @self ?foe head ligature_mark) (kill-blow ?foe strangle))))))
+          (then (yield-evidence @self ?foe head puncture-wound) (kill-blow ?foe shoot))
+        (else (yield-evidence @self ?foe head ligature-mark) (kill-blow ?foe strangle))))))
       (else (if (< ?u (+ ?p 0.30))
         (then
           (if (= ?method punch)
             (then (yield-evidence @self ?foe torso bruise))
           (else (if (= ?method shoot)
-            (then (yield-evidence @self ?foe right_hand puncture_wound)
+            (then (yield-evidence @self ?foe right-hand puncture-wound)
                   (if (chance (blow_succumb_prob)) (then (kill-blow ?foe shoot))))
           (else (yield-evidence @self ?foe head bruise)
                 (if (chance (blow_succumb_prob)) (then (kill-blow ?foe strangle))))))))

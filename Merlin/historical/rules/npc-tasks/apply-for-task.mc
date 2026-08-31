@@ -46,11 +46,11 @@
       (effects (debug-print "JS_AWAIT")
                (maintain-proposal {@self read_mail ?home})))
     (try
-      (role ?ltr [k offer_letter] {@self READ ?ltr /ever})
+      (role ?ltr [k offer-letter] {@self READ ?ltr /ever})
       (effects (debug-print "JS_TAKEUP")
                (maintain-proposal {@self take_up_post ?jk ?wp})))
     (try
-      (role ?ltr [k rejection_letter] {@self READ ?ltr /ever})
+      (role ?ltr [k rejection-letter] {@self READ ?ltr /ever})
       (effects (set-outcome ?af-rel /fail)))
     (try
       (role @self {@self take_up_post ?jk ?wp /succ})

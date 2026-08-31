@@ -5,7 +5,7 @@
 ;     re-checks the urge; the (days-since-last {@self PLAY_GAME /ever}) fire-gate mints the
 ;     standing {@self PLAY_GAME} drive only when genuinely due; the utility is
 ;     susceptibility (low industriousness) x an amplifier that starts tiny - a rare
-;     deep-idle ONSET draw - and SPIRALS with gambling_addiction, x a days-since-last
+;     deep-idle ONSET draw - and SPIRALS with gambling-addiction, x a days-since-last
 ;     craving modulator clamped to [0,1] (so a never-gambler's sentinel days-since
 ;     never blows the pressure up, and gambling paces the recurrence). The disciplined
 ;     never gamble; the addicted are pulled in deep. The drive OWNS the ABSTRACT
@@ -34,17 +34,17 @@
   (cooldown 10 d)
   (role @self (grown @self))
   ; ONSET is rare and susceptibility-scaled: the disciplined seldom take a first flutter
-  ; (low industriousness -> higher onset), but once any gambling_addiction has taken hold
+  ; (low industriousness -> higher onset), but once any gambling-addiction has taken hold
   ; the pull is ALWAYS felt (the spiral pulls the addicted back every window). (latch-eval)
   ; rolls the onset (chance) at the fire and LOCKS it once holding, so the held re-check never
   ; re-rolls it (it re-rolls each window until it lands). This gate is load-bearing: WITHOUT
   ; rate-limiting the first flutter here every adult would take a first gamble and the whole
   ; town would spiral into addiction.
   (when (and (>= (days-since-last {@self PLAY_GAME /ever}) 10)
-             (or (> (attr @self gambling_addiction) 0)
+             (or (> (attr @self gambling-addiction) 0)
                  (latch-eval (chance (* 0.02 (- 1 (attr @self industriousness))))))))
   (utility want (* 10 (* (- 1 (attr @self industriousness))                    ; susceptibility (0 = disciplined)
-              (+ 2 (* 22 (attr @self gambling_addiction)))          ; onset 2 -> morbid 24 (below leisure)
+              (+ 2 (* 22 (attr @self gambling-addiction)))          ; onset 2 -> morbid 24 (below leisure)
               (min (* (days-since-last {@self PLAY_GAME /ever}) 0.04) 1.0)))) ; slow craving modulator [0,1]
   (effects       (begin-goal {@self PLAY_GAME}))
   (cease-effects (end-goal   {@self PLAY_GAME})))

@@ -26,6 +26,6 @@
     (if (and (alive ?betrayed) {?cheater home ?cheater_home})
         (then
           (debug-print "EXPOSE_SENT @self cheater=?cheater")
-          (post-letter [k denunciation_letter]
+          (post-letter [k denunciation-letter]
                        (nl-written-msg "?cheater_name has taken me as a lover. Signed, ?author_name")
                        ?cheater_home ?betrayed)))))

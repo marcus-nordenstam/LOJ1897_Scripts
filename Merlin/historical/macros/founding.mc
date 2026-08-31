@@ -34,9 +34,9 @@
 ; NOTHING is minted (no malformed org, no error).
 (define-macro found-org-seq (?org-kind ?head-role)
   (do
-    (if (table-match businesses org_kind ?org-kind building ?bk)
+    (if (table-match businesses org-kind ?org-kind building ?bk)
         (then ?bk) (else [k building office])): ?want-kind
-    (for-each ?listings (env-entities [k for_sale_listings])
+    (for-each ?listings (env-entities [k for-sale-listings])
       (for-each-row (attr ?listings writing) (building ?wp) (deed ?deed)
         (if (is-a ?wp ?want-kind)
           (then
@@ -48,19 +48,19 @@
             ; document must live in a SPACE, never at the building).
             (spatial ?wp room): ?back
             (check ?back)
-            (create-entity [k articles_of_incorporation] ?back): ?art
-            (create-entity [k employee_register]         ?back): ?reg
+            (create-entity [k articles-of-incorporation] ?back): ?art
+            (create-entity [k employee-register]         ?back): ?reg
             (table-init ?reg worker job level)
             ; The articles DOCUMENT the org into being: a one-row TABLE of its constitutive
             ; cells. This is the whole ENVIRONMENT half of founding - the org has no other
             ; objective existence.
-            (table-match businesses org_kind ?org-kind name ?org-name)
-            (table-init ?art org_kind org_name founder workplace register)
-            (table-add ?art org_kind ?org-kind org_name ?org-name founder @self
+            (table-match businesses org-kind ?org-kind name ?org-name)
+            (table-init ?art org-kind org_name founder workplace register)
+            (table-add ?art org-kind ?org-kind org_name ?org-name founder @self
                             workplace ?wp register ?reg)
             ; File the AOC at the companies house (the company registry's incorporation
             ; stack), not the org's own premises - the town's org record lives there.
-            (head (env-entities [k incorporation_stack])): ?ist
+            (head (env-entities [k incorporation-stack])): ?ist
             (if ?ist (then (push ?art ?ist)))
             (seat-org-head ?art ?wp ?reg ?head-role)
             (break)))))))
@@ -71,7 +71,7 @@
 (define-macro take-premises (?wp)
   (do
     (observe ?wp)
-    (for-each ?room (spatial ?wp parts [k interior_space room] /env)
+    (for-each ?room (spatial ?wp parts [k interior-space room] /env)
       (observe ?room)
       (spatial-write ?room struct_parent ?wp))))
 
@@ -84,7 +84,7 @@
   (do
     (observe ?art)
     (adopt-aoc ?art)
-    (any {?art declares_org ?org})
+    (any {?art declares-org ?org})
     (begin-belief {?org record ?art})
     (table-add ?reg worker @self job ?head-role level [k senior])
     (begin-belief {?wp occupant @self})
@@ -100,7 +100,7 @@
 ; premises.
 ;
 ;   (take-up-charter ?art ?head-role)
-;     ?art       - a headless articles_of_incorporation (see headless-charter)
+;     ?art       - a headless articles-of-incorporation (see headless-charter)
 ;     ?head-role - the head's job, a scoped job kind ([k job superintendent])
 (define-macro take-up-charter (?art ?head-role)
   (for-each-row (attr ?art writing) (workplace ?wp) (register ?reg)
@@ -112,48 +112,48 @@
 ; found-club-seq - the CLUB analogue of found-org-seq.
 ;
 ; A club has MEMBERS, not employees: no head is seated, no employment beliefs are minted -
-; the founder is enrolled as the first member (member_of, not employer). Premises are claimed
+; the founder is enrolled as the first member (member-of, not employer). Premises are claimed
 ; off the land registry exactly as found-org-seq does (the clubhouse building kind comes from
 ; the businesses table); no free clubhouse -> nothing is minted.
 ;
 ;   (found-club-seq ?club-kind)
-;     ?club-kind - the rolled club kind value ([k org race_club] / [k org athletic_club])
+;     ?club-kind - the rolled club kind value ([k org race-club] / [k org athletic-club])
 ; ----------------------------------------------------------------------------
 
 (define-macro found-club-seq (?club-kind)
   (do
-    (if (table-match businesses org_kind ?club-kind building ?bk)
+    (if (table-match businesses org-kind ?club-kind building ?bk)
         (then ?bk) (else [k building office])): ?want-kind
-    (for-each ?listings (env-entities [k for_sale_listings])
+    (for-each ?listings (env-entities [k for-sale-listings])
       (for-each-row (attr ?listings writing) (building ?wp) (deed ?deed)
         (if (is-a ?wp ?want-kind)
           (then
             (table-set ?deed owner @self)
             (table-remove ?listings building ?wp)
-            (for-each ?room (spatial ?wp parts [k interior_space room] /env)
+            (for-each ?room (spatial ?wp parts [k interior-space room] /env)
                 (spatial-write ?room struct_parent ?wp))
             (spatial ?wp room): ?back
             (check ?back)
-            (create-entity [k articles_of_incorporation] ?back): ?art
-            (create-entity [k employee_register]         ?back): ?reg
+            (create-entity [k articles-of-incorporation] ?back): ?art
+            (create-entity [k employee-register]         ?back): ?reg
             (table-init ?reg worker job level)
-            (o ?club-kind {?art declares_org @o}): ?org
-            (table-match businesses org_kind ?club-kind name ?org-name)
+            (o ?club-kind {?art declares-org @o}): ?org
+            (table-match businesses org-kind ?club-kind name ?org-name)
             (begin-belief {?org isa ?club-kind})
             (begin-belief {?org founder @self})
             (begin-belief {?org workplace ?wp})
             (begin-belief {?org name ?org-name})
             (begin-belief {?org record ?art})
-            (begin-belief {?org employee_register ?reg})
-            (table-init ?art org_kind org_name founder workplace register)
-            (table-add ?art org_kind ?club-kind org_name ?org-name founder @self
+            (begin-belief {?org employee-register ?reg})
+            (table-init ?art org-kind org_name founder workplace register)
+            (table-add ?art org-kind ?club-kind org_name ?org-name founder @self
                             workplace ?wp register ?reg)
-            (head (env-entities [k incorporation_stack])): ?ist
+            (head (env-entities [k incorporation-stack])): ?ist
             (if ?ist (then (push ?art ?ist)))
             ; The founder is the club's first MEMBER ([k membership] roster row, no level)
-            ; + a {@self member_of} belief - not seated as a head.
+            ; + a {@self member-of} belief - not seated as a head.
             (table-add ?reg worker @self job [k membership])
-            (begin-belief {@self member_of ?org})
+            (begin-belief {@self member-of ?org})
             (break)))))))
 
 ; ----------------------------------------------------------------------------
@@ -162,7 +162,7 @@
 ; Reads the org's kind + premises off the existing articles and mints every
 ; employment belief in @self's mind. It does NOT touch the roster - the worker is
 ; rostered separately: hire-seq (below) writes the register itself for an emergent
-; hire, while the C++ candidate-scan effects (bootstrap / staff_household / jockey)
+; hire, while the C++ candidate-scan effects (bootstrap / staff-household / jockey)
 ; roster the worker via the thin enrol verb and let the materialize_employment
 ; rule call THIS to mint the beliefs. So the beliefs live in .hs; the roster
 ; (objective) is owned by whoever enrolled the worker. @self is always the worker
@@ -176,16 +176,16 @@
   (do
     ; --- learn the org off the articles: a new hire READs the incorporation page.
     ; adopt-aoc decodes the AOC table into the org object + its constitutive beliefs
-    ; ({?art declares_org ?org} / {?org isa} / {?org workplace} / {?org employee_register}).
+    ; ({?art declares-org ?org} / {?org isa} / {?org workplace} / {?org employee-register}).
     (adopt-aoc ?art)
     ; --- @self's mind: recall the org just learned (anchored to the articles) + its
     ; premises, then mint the employment beliefs.
-    (o {?art declares_org @o}): ?org
+    (o {?art declares-org @o}): ?org
     {?org workplace ?wp}
     (begin-belief {?wp occupant @self})
     ; @self LEARNS the workplace's rooms (the building's `parts` that are rooms):
     ; {building room <room>} + the reverse {room building <building>}.
-    (for-each ?room (spatial ?wp parts [k interior_space room] /env)
+    (for-each ?room (spatial ?wp parts [k interior-space room] /env)
         (spatial-write ?room struct_parent ?wp))
     ; --- the job mental object: org (job.org), rank (level), salary, work-hours ---
     ; This is a HIRED (paid) post, so the job carries a salary decoration; heads
@@ -230,14 +230,14 @@
     ; --- the employment beliefs in @self's mind (reads the articles, learns the org) --
     (hire-beliefs ?art ?job-kind ?level)
     ; --- env-side roster (abs): record @self under the matched job kind + rank. The
-    ; register is learned off the adopted {?org employee_register} belief.
-    (o {?art declares_org @o}): ?org
-    {?org employee_register ?reg}
+    ; register is learned off the adopted {?org employee-register} belief.
+    (o {?art declares-org @o}): ?org
+    {?org employee-register ?reg}
     (table-add ?reg worker @self job ?job-kind level ?level)))
 
 ; ----------------------------------------------------------------------------
 ; fire-self - a worker leaves his OWN post. Scrubs @self's row off the firm's
-; employee_register (a public doc, keyed on him via (find worker @self)) and
+; employee-register (a public doc, keyed on him via (find worker @self)) and
 ; ends his OWN {@self job} belief (its org / salary / level decorations go with
 ; it). The register is reached by @self's own forward belief walk: {@self job.org}
 ; -> {org record} -> the articles' `register` field. Every step is @self / a
@@ -250,7 +250,7 @@
       (bind ?fire-jrel.target ?fire-job)
       (for-each ?fire-orel (every {?fire-job org ?})
           (bind ?fire-orel.target ?fire-org)
-          (for-each ?fire-rrel (every {?fire-org employee_register ?})
+          (for-each ?fire-rrel (every {?fire-org employee-register ?})
               (bind ?fire-rrel.target ?fire-reg)
               (table-remove ?fire-reg worker @self)))
       (end-belief ?fire-jrel)))

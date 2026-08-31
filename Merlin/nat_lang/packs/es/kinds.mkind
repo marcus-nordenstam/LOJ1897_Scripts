@@ -27,9 +27,9 @@ french             francés
 french.m           francés
 french.f           francesa
 
-st_revieran        streveriano
-st_revieran.m      streveriano
-st_revieran.f      streveriana
+st-revieran        streveriano
+st-revieran.m      streveriano
+st-revieran.f      streveriana
 
 # Class - "es de clase obrera" / "es de clase obrero". v1 description templates
 # wrap class with "de clase X" so the kind word agrees with the class noun
@@ -57,7 +57,7 @@ suffrage           sufragio
 cricket            cricket
 rowing             remo
 rugby              rugby
-horse_racing       carrera de caballos
+horse-racing       carrera de caballos
 
 # Job - gendered occupation nouns. "Maria es sombrerera" / "Marco es sombrerero".
 # Where Spanish has no productive feminine form (-ista, -ente endings invariant
@@ -150,7 +150,7 @@ steward            administrador
 steward.m          administrador
 steward.f          administradora
 
-shop_clerk         dependiente      # invariant -ente
+shop-clerk         dependiente      # invariant -ente
 waiter             camarero
 waiter.m           camarero
 waiter.f           camarera
@@ -158,11 +158,11 @@ waiter.f           camarera
 maid               criada           # feminine-only profession in 1897
 
 bartender          barman           # english loan, invariant
-factory_worker     obrero
-factory_worker.m   obrero
-factory_worker.f   obrera
+factory-worker     obrero
+factory-worker.m   obrero
+factory-worker.f   obrera
 
-house_agent        agente_inmobiliario     # invariant -ente
+house-agent        agente_inmobiliario     # invariant -ente
 official           funcionario
 official.m         funcionario
 official.f         funcionaria

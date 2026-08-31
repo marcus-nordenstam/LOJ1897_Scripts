@@ -92,8 +92,8 @@
 .
 
 # Class - "Maria es de clase obrero" (of working class). Two-word phrasing.
-"$sub_np(NP) es de clase $kind(KIND|/isa|class_situation)"
-{ $sub_np(NP) /pres class_situation $kind(KIND|/isa|class_situation) }
+"$sub_np(NP) es de clase $kind(KIND|/isa|class-situation)"
+{ $sub_np(NP) /pres class-situation $kind(KIND|/isa|class-situation) }
 .
 
 # Occupation - "Maria trabaja como sombrerero" (works as a hatmaker).

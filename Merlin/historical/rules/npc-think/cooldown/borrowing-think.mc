@@ -2,7 +2,7 @@
 ; borrowing - an F3.7 behaviour seed rule. Once in a while an adult takes on a
 ; debt to another adult, gaining an `owe` belief. The F3.5 wealth classifier
 ; counts distinct creditors: debt is the v1 poverty signal, so the debtors are
-; exactly the population the deserving / undeserving_poor vertical classifies.
+; exactly the population the deserving / undeserving-poor vertical classifies.
 ;
 ; ONE loan pursuit at a time: the decision is a monthly PULSE (cooldown +
 ; cease-after-fire) gated on holding NO TAKE_LOAN goal, so a landed roll mints

@@ -83,12 +83,12 @@
                 ; INSTIGATED: recruit the lover. The accomplice bond carries the embedded
                 ; plot as its AUX clause: {@self accomplice <lover> {<lover> kill <spouse>}}.
                 ; The murder proposal rides the covert letter - urging is WANTING the
-                ; target to act, so the CONTENT is a goal clause classified (msg_class urge);
+                ; target to act, so the CONTENT is a goal clause classified (msg-class urge);
                 ; the lover learns it only by READING (no telepathy), and conspiracy_adoption
                 ; decides whether they take up the deed.
                 (then
                   (begin-belief {@self accomplice ?paramour {?paramour kill ?spouse}})
-                  (send-covert-letter ?paramour (written-msg {@self goal {?paramour kill ?spouse}} (msg_class urge) signed) [k letter]))
+                  (send-covert-letter ?paramour (written-msg {@self goal {?paramour kill ?spouse}} (msg-class urge) signed) [k letter]))
                 ; DIRECT: the cheater acts alone.
                 (else (maintain-proposal {@self kill ?spouse /caused_by ?lover_bond}))))))))
     )

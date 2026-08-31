@@ -35,6 +35,6 @@
     (try
       (when (and (at-threshold @self ?s)
                  (spatial ?s room): ?entry
-                 -{?s struct_status [k closed]}))
+                 -{?s struct-status [k closed]}))
       (effects (debug-print "TRACE-STEPIN bld=?s room=?entry")
                (maintain-proposal {@self WALK ?entry})))))

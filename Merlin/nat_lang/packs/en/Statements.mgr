@@ -115,10 +115,10 @@ $form(FORM)
 { $sub_np(NP) /ever nationality $kind(KIND|/isa|nationality) }
 .
 
-# class_situation is a kind-valued state ([k lower] / [k middle] / [k upper]);
+# class-situation is a kind-valued state ([k lower] / [k middle] / [k upper]);
 # the trailing "-class" suffix reads naturally for all three values.
-"$sub_np(NP) $verb(VERB|be) $kind(KIND|/isa|class_situation) ++-class"
-{ $sub_np(NP) /ever class_situation $kind(KIND|/isa|class_situation) }
+"$sub_np(NP) $verb(VERB|be) $kind(KIND|/isa|class-situation) ++-class"
+{ $sub_np(NP) /ever class-situation $kind(KIND|/isa|class-situation) }
 .
 
 # Occupation - several phrasings of the same belief shape. "works as a X" is
@@ -590,7 +590,7 @@ $form(FORM)
 # warm / curt / elaborated voices are a follow-up. An unauthored future kind
 # falls through to the generic "interested in" form.
 
-# academic_field
+# academic-field
 " $sub_np(NP) $verb(VERB|spend) long hours with the Greek and Latin authors "
 { $sub_np(NP) /ever interest [k classics ] } .
 " $sub_np(NP) $verb(VERB|tinker) endlessly with machines and contrivances "
@@ -604,7 +604,7 @@ $form(FORM)
 " $sub_np(NP) $verb(VERB|keep) a close eye on the markets "
 { $sub_np(NP) /ever interest [k commerce ] } .
 " $sub_np(NP) $verb(VERB|collect) specimens of every description "
-{ $sub_np(NP) /ever interest [k natural_science ] } .
+{ $sub_np(NP) /ever interest [k natural-science ] } .
 " $sub_np(NP) $verb(VERB|keep) meticulous ledgers "
 { $sub_np(NP) /ever interest [k accountancy ] } .
 " $sub_np(NP) $verb(VERB|pore) over charts and tide-tables "
@@ -612,15 +612,15 @@ $form(FORM)
 " $sub_np(NP) $verb(VERB|be) happiest among the livestock "
 { $sub_np(NP) /ever interest [k husbandry ] } .
 " $sub_np(NP) $verb(VERB|practise) letters and sums of an evening "
-{ $sub_np(NP) /ever interest [k primary_school_curriculum ] } .
+{ $sub_np(NP) /ever interest [k primary-school-curriculum ] } .
 " $sub_np(NP) $verb(VERB|keep) up with the schoolbooks "
-{ $sub_np(NP) /ever interest [k secondary_school_curriculum ] } .
+{ $sub_np(NP) /ever interest [k secondary-school-curriculum ] } .
 " $sub_np(NP) $verb(VERB|be) a great reader of histories "
 { $sub_np(NP) /ever interest [k history ] } .
 " $sub_np(NP) $verb(VERB|attend) the public lectures "
 { $sub_np(NP) /ever interest [k science ] } .
 
-# performance_art
+# performance-art
 " $sub_np(NP) $verb(VERB|go) to every concert in town "
 { $sub_np(NP) /ever interest [k music ] } .
 " $sub_np(NP) $verb(VERB|go) to the theatre at every opportunity "
@@ -632,7 +632,7 @@ $form(FORM)
 " $sub_np(NP) $verb(VERB|practise) with pistol and rifle "
 { $sub_np(NP) /ever interest [k marksmanship ] } .
 " $sub_np(NP) $verb(VERB|handle) a knife with uncommon familiarity "
-{ $sub_np(NP) /ever interest [k knife_fighting ] } .
+{ $sub_np(NP) /ever interest [k knife-fighting ] } .
 " $sub_np(NP) $verb(VERB|fence) with anyone willing "
 { $sub_np(NP) /ever interest [k swordsmanship ] } .
 " $sub_np(NP) $verb(VERB|follow) the prize-fights "
@@ -646,7 +646,7 @@ $form(FORM)
 
 # illicit
 " $sub_np(NP) $verb(VERB|know) a great deal about poisons "
-{ $sub_np(NP) /ever interest [k poisoning_knowledge ] } .
+{ $sub_np(NP) /ever interest [k poisoning-knowledge ] } .
 " $sub_np(NP) $verb(VERB|have) a suspicious talent for imitating another's hand "
 { $sub_np(NP) /ever interest [k forgery ] } .
 " $sub_np(NP) $verb(VERB|tinker) with locks "
@@ -898,7 +898,7 @@ $form(FORM)
 " $sub_np(NP) has been buried "
 { $sub_np(NP) /pres condition [k buried ] } .
 " $sub_np(NP) was stolen from $value(NP) "
-{ $sub_np(NP) /past stolen_from $value(NP) } .
+{ $sub_np(NP) /past stolen-from $value(NP) } .
 " I am married to $value(NP) "
 { ?_I /pres spouse $value(NP) } .
 " I am engaged to $value(NP) "
@@ -910,7 +910,7 @@ $form(FORM)
 " I coerced $obj_np(NP) into becoming my lover "
 { ?_I /past coerce $obj_np(NP) { $obj_np(NP) /pres lover ?_I } } .
 " breakfast at $sub_np(NP) is at $hour(NP) "
-{ $sub_np(NP) /pres breakfast_hour $hour(NP) } .
+{ $sub_np(NP) /pres breakfast-hour $hour(NP) } .
 " $sub_np(NP) killed $value(NP) "
 { $sub_np(NP) /past kill $value(NP) } .
 " I urge $obj_np(NP) to kill $value(NP) "
@@ -930,17 +930,17 @@ $form(FORM)
 
 # --- MEMBER_OF (clubs / societies) -------------------------------------------
 " $sub_np(NP) belongs to $value(NP) "
-{ $sub_np(NP) /ever member_of $value(NP) } .
+{ $sub_np(NP) /ever member-of $value(NP) } .
 " $sub_np(NP) is a member of $value(NP) "
-{ $sub_np(NP) /pres member_of $value(NP) }
+{ $sub_np(NP) /pres member-of $value(NP) }
 :: elaborated
 .
 
-# --- STUDY (academic_field) --------------------------------------------------
-" $sub_np(NP) studied $kind(KIND|/isa|academic_field) "
-{ $sub_np(NP) /past study $kind(KIND|/isa|academic_field) } .
-" $sub_np(NP) studies $kind(KIND|/isa|academic_field) "
-{ $sub_np(NP) /pres study $kind(KIND|/isa|academic_field) } .
+# --- STUDY (academic-field) --------------------------------------------------
+" $sub_np(NP) studied $kind(KIND|/isa|academic-field) "
+{ $sub_np(NP) /past study $kind(KIND|/isa|academic-field) } .
+" $sub_np(NP) studies $kind(KIND|/isa|academic-field) "
+{ $sub_np(NP) /pres study $kind(KIND|/isa|academic-field) } .
 
 # --- MASTER (apprenticeship) -------------------------------------------------
 " $sub_np(NP) was apprenticed to $value(NP) "
@@ -950,11 +950,11 @@ $form(FORM)
 
 # --- SKILLED_IN (domain) -----------------------------------------------------
 " $sub_np(NP) $verb(VERB|be) skilled in $kind(KIND|/isa|domain) "
-{ $sub_np(NP) /ever skilled_in $kind(KIND|/isa|domain) } .
+{ $sub_np(NP) /ever skilled-in $kind(KIND|/isa|domain) } .
 
-# --- SERVE (military_rank) ---------------------------------------------------
-" $sub_np(NP) served as a $kind(KIND|/isa|military_rank) "
-{ $sub_np(NP) /past serve $kind(KIND|/isa|military_rank) } .
+# --- SERVE (military-rank) ---------------------------------------------------
+" $sub_np(NP) served as a $kind(KIND|/isa|military-rank) "
+{ $sub_np(NP) /past serve $kind(KIND|/isa|military-rank) } .
 
 # --- REPUTE (repute band; distinct surface from class/isa) -------------------
 " $sub_np(NP) ++'s reputation is $kind(KIND|/isa|repute) "

@@ -35,7 +35,7 @@
   (utility idle)
 
   (effects
-    (if (spatial ?home room [k interior_space study])
+    (if (spatial ?home room [k interior-space study])
               (then (+ (read-weight-base)
                        (* (read-weight-intellect-scale) (attr @self intellect))))
               (else 0)): ?read_w
@@ -50,7 +50,7 @@
 ; set_mealtimes (npc-think) - the COOK decides the household mealtimes
 ; (tell-only comms plan, ruling 11). Fires for the ONE person
 ; (household-cook ?home) resolves (hired cook > woman of the house > adult
-; daughter > head) when her OWN mind lacks the home's supper_hour - so it
+; daughter > head) when her OWN mind lacks the home's supper-hour - so it
 ; fires once per cook per home (and again only if the cook changes homes or
 ; the beliefs are somehow lost). The hours are HER decision (genesis, not
 ; communication): base 6/12/18 shifted by a per-cook offset, the whole day
@@ -69,30 +69,30 @@
   ; belief (mental, no household-cook scan) - a CACHED self-gate filter. ?home is
   ; a CACHED role: home + no-supper-hour tested against the SAME candidate, and
   ; the role BINDS ?home for the effects. Whichever adult woman fires first sets
-  ; the hours; the (not supper_hour) filter then empties for the whole household.
+  ; the hours; the (not supper-hour) filter then empties for the whole household.
   (role @self (grown @self)
               {@self gender [k female]})
   (role ?home {@self home ?home}
-              -{?home supper_hour ?})
+              -{?home supper-hour ?})
 
   (effects
     ; The per-cook offset: -1 / 0 / +1 on the whole day (breakfast 5-7,
     ; lunch 11-13, supper 17-19; each window is 2h from the hour).
     (if (chance 0.33) (then -1) (else (if (chance 0.5) (then 0) (else 1)))): ?o
-    (begin-belief {?home breakfast_hour (+ 6 ?o)})
-    (begin-belief {?home lunch_hour (+ 12 ?o)})
-    (begin-belief {?home supper_hour (+ 18 ?o)})
+    (begin-belief {?home breakfast-hour (+ 6 ?o)})
+    (begin-belief {?home lunch-hour (+ 12 ?o)})
+    (begin-belief {?home supper-hour (+ 18 ?o)})
     ; Say the house's hours aloud - the household hears and adopts.
-    (tell (utterable-msg {?home breakfast_hour (+ 6 ?o)}
-                         {?home lunch_hour (+ 12 ?o)}
-                         {?home supper_hour (+ 18 ?o)}))
+    (tell (utterable-msg {?home breakfast-hour (+ 6 ?o)}
+                         {?home lunch-hour (+ 12 ?o)}
+                         {?home supper-hour (+ 18 ?o)}))
     ))
 
 ; ----------------------------------------------------------------------------
 ; ask_mealtimes / answer_mealtimes - the ask-the-cook channel (ruling 12).
 ; A resident who does not know the house's supper hour ASKS the cook (a real
-; question say - {@self SAY (qs {?home supper_hour _}) /aux cook}); the cook,
-; gated on having HEARD such a question ((asked-me-about supper_hour) - the
+; question say - {@self SAY (qs {?home supper-hour _}) /aux cook}); the cook,
+; gated on having HEARD such a question ((asked-me-about supper-hour) - the
 ; cheap per-mind gate comes first), answers with a directed tell of all three
 ; hours. tell-to's per-listener dedup makes re-answers harmless; the asked
 ; record fades on the normal recall curve. Semantic self-healing: mealtime
@@ -117,7 +117,7 @@
   ; The unknown-hours gate as a CACHED role (binds ?home for the ask): empties
   ; the instant the supper hour is learned, closing the window for good.
   (role ?home {@self home ?home}
-              -{?home supper_hour ?})
+              -{?home supper-hour ?})
 
   (when (>= (years-old @self) 3))
 
@@ -125,7 +125,7 @@
   (utility idle (above rest))
 
   (effects
-    (utterable-qs {?home supper_hour ?}): ?qs
+    (utterable-qs {?home supper-hour ?}): ?qs
     (maintain-proposal {@self SAY ?qs ?cook})))
 
 (npc-think answer_mealtimes
@@ -134,19 +134,19 @@
 
   (role @self (grown @self)
               {@self home ?home}
-              {?home breakfast_hour ?b}   ; existence cached; the three
-              {?home lunch_hour ?l}       ; hours bind at fire for the
-              {?home supper_hour ?s})
+              {?home breakfast-hour ?b}   ; existence cached; the three
+              {?home lunch-hour ?l}       ; hours bind at fire for the
+              {?home supper-hour ?s})
 
-  ; Someone asked @self about supper_hour: a heard qs about supper_hour with
+  ; Someone asked @self about supper-hour: a heard qs about supper-hour with
   ; @self as the audience. Binds ?asker (the speaker, not @self).
   (role ?asker (any_human ?asker)
-               {?asker SAY (qs {? supper_hour ?}) @self /past})
+               {?asker SAY (qs {? supper-hour ?}) @self /past})
 
   (effects
-    (tell-to ?asker (utterable-msg {?home breakfast_hour ?b}
-                                   {?home lunch_hour ?l}
-                                   {?home supper_hour ?s}))
+    (tell-to ?asker (utterable-msg {?home breakfast-hour ?b}
+                                   {?home lunch-hour ?l}
+                                   {?home supper-hour ?s}))
     ))
 
 ; (plan_provisioning / set_shop_schedule are GONE: provisioning is the

@@ -4,13 +4,13 @@
 ; for every tier - the decisions (schooling_think enroll_primary / _secondary /
 ; _university) propose it and own its life (the role-completion drops when {@self study}
 ; is minted). A school TIER (primary / secondary curriculum) is recorded as-is; a
-; UNIVERSITY reading (the broad [k academic_field] intent) picks a specific interest-led
+; UNIVERSITY reading (the broad [k academic-field] intent) picks a specific interest-led
 ; discipline at matriculation, falling back to any discipline. Minting the study belief
 ; is the doing; no env write, so no act - a simple thinking task mints the belief.
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self matriculate ?curriculum}:?mt-rel
-  (tar academic_field)
+  (tar academic-field)
   (and
     ; GO: not at a school -> travel to one I know (nearest preferred).
     (try
@@ -24,17 +24,17 @@
     (try
       (when (is-a (spatial @self building) [k building school]))
       (effects
-        (if (is-a ?curriculum [k academic_field])
+        (if (is-a ?curriculum [k academic-field])
           (then
             ; university: an interest-led discipline (the tiers are not disciplines), else any.
-            (if (is-kind (random-held-kind-target interest [k academic_field]
-                                                  [k primary_school_curriculum] [k secondary_school_curriculum]))
-                (then (random-held-kind-target interest [k academic_field]
-                                                [k primary_school_curriculum] [k secondary_school_curriculum]): ?led
+            (if (is-kind (random-held-kind-target interest [k academic-field]
+                                                  [k primary-school-curriculum] [k secondary-school-curriculum]))
+                (then (random-held-kind-target interest [k academic-field]
+                                                [k primary-school-curriculum] [k secondary-school-curriculum]): ?led
                       (begin-belief {@self study ?led}))
-                (else (if (is-kind (random-subkind [k academic_field]
-                                                   [k primary_school_curriculum] [k secondary_school_curriculum]))
-                          (then (random-subkind [k academic_field]
-                                                [k primary_school_curriculum] [k secondary_school_curriculum]): ?sub
+                (else (if (is-kind (random-subkind [k academic-field]
+                                                   [k primary-school-curriculum] [k secondary-school-curriculum]))
+                          (then (random-subkind [k academic-field]
+                                                [k primary-school-curriculum] [k secondary-school-curriculum]): ?sub
                                 (begin-belief {@self study ?sub}))))))
           (else (begin-belief {@self study ?curriculum})))))))

@@ -16,15 +16,15 @@
     (try
       ; The wage book, perceived at the workplace; the task resolves it and hands it to
       ; the dumb ENROL - no org/register resolution inside the act.
-      (role ?reg [k employee_register] (spatial ?reg building ?wp))
+      (role ?reg [k employee-register] (spatial ?reg building ?wp))
       (when (and (spatial @self building ?wp)
                  (>= (now-hour) 9)
                  (<= (now-hour) 16)
                  -{@self job.salary ?}))
       (effects (maintain-proposal {@self ENROL ?reg ?jk})))
     (try
-      (role ?art [k articles_of_incorporation] (spatial ?art building ?wp))
-      (role ?reg [k employee_register] (spatial ?reg building ?wp))
+      (role ?art [k articles-of-incorporation] (spatial ?art building ?wp))
+      (role ?reg [k employee-register] (spatial ?reg building ?wp))
       (when (table-match (attr ?reg writing) worker @self level ?lvl))
       (effects (hire-beliefs ?art ?jk ?lvl)))
     (try

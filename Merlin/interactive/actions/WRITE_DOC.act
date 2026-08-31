@@ -1,5 +1,5 @@
 ﻿action = WRITE_DOC
-motor = right_hand
+motor = right-hand
 transmission = obs
 aux = @msg @excl
 
@@ -7,4 +7,4 @@ preroll = 0.0
 in      = 0.4
 run     = ?
 out     = 0.4
-nature = neutral_act
+nature = neutral-act

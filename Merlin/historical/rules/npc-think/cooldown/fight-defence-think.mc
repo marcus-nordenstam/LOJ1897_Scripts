@@ -1,12 +1,12 @@
 ; ----------------------------------------------------------------------------
 ; fight_defence (npc-think) - the victim fights back (runtime-blame model, assault purged).
 ;
-; A victim who WITNESSES a violent act against themselves - {?foe <any (theme violent_to)
-; act> @self}, matched by the (theme-labels violent_to) comptime expansion, so it catches
+; A victim who WITNESSES a violent act against themselves - {?foe <any (theme violent-to)
+; act> @self}, matched by the (theme-labels violent-to) comptime expansion, so it catches
 ; CHOKE / TRIGGER_FIREARM / any future violent act with no per-label edit - may engage.
 ; Their fight is CAUSED BY that witnessed act: "why were you fighting John? because John
 ; was throttling me." That cause is what exonerates the victim's own blows - appraisal
-; suppresses wrong_act on a violent act that traces to an assault on its own actor, and the
+; suppresses wrong-act on a violent act that traces to an assault on its own actor, and the
 ; cause rides action->action across the perception boundary so bystanders exonerate them too.
 ;
 ; begin-proposal, not maintain: the witnessed blow is a transient act (one exchange), so a
@@ -22,7 +22,7 @@
 
   ; Bind the aggressor + the witnessed violent act (the /caused_by handle); a believed-dead
   ; aggressor filters out.
-  (role ?foe {?foe (theme-labels violent_to) @self}:?witnessed-rel
+  (role ?foe {?foe (theme-labels violent-to) @self}:?witnessed-rel
              -{?foe condition [k dead]})
 
   (when (chance (clamp (+ (attr @self volatility)

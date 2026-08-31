@@ -9,15 +9,15 @@
   (tar @excl object)
   (and
     (try
-      (effects (check (or (empty (spatial (spatial @self left_hand) grip))
-                          (empty (spatial (spatial @self right_hand) grip))))))
+      (effects (check (or (empty (spatial (spatial @self left-hand) grip))
+                          (empty (spatial (spatial @self right-hand) grip))))))
     (try
-      (when (empty (spatial (spatial @self left_hand) grip)))
+      (when (empty (spatial (spatial @self left-hand) grip)))
       (utility fallback)
       (effects (check (spatial ?item co-located @self))
                (begin-proposal {@self LEFT_TAKE ?item})))
     (try
-      (when (empty (spatial (spatial @self right_hand) grip)))
+      (when (empty (spatial (spatial @self right-hand) grip)))
       (utility (above LEFT_TAKE))
       (effects (check (spatial ?item co-located @self))
                (begin-proposal {@self RIGHT_TAKE ?item})))

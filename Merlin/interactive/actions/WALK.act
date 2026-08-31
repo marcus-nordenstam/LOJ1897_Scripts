@@ -14,4 +14,4 @@ preroll = 0
 in      = 0
 run     = ?
 out     = 0.1
-nature = neutral_act
+nature = neutral-act

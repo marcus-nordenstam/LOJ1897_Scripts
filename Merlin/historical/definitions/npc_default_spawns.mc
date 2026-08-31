@@ -3,7 +3,7 @@
 ;
 ; hsim-created NPCs (the murder victim / body, townsfolk, anyone the player
 ; walks up to) carry NO authored presentation. This table picks the default
-; character .spawn each one renders as, by gender + class_situation.
+; character .spawn each one renders as, by gender + class-situation.
 ;
 ; Read PLAYER-side by ProximityPresenter via the shared hsim s-expr parser
 ; (parse_sexpr_file). The .spawn files are GrymEngine content assets, so the
@@ -13,7 +13,7 @@
 ;   (spawn (gender <female|male>) (class <upper|middle|lower>) (file "<name>.spawn"))
 ;
 ;   - gender  matches the NPC's `gender` attr.
-;   - class   matches the NPC's `class_situation` attr (upper / middle / lower).
+;   - class   matches the NPC's `class-situation` attr (upper / middle / lower).
 ;   - Any omitted filter is a WILDCARD.
 ;   - Rules are tried top-to-bottom; the FIRST whose every present filter matches
 ;     wins - so list specific rules before the per-gender catch-alls.

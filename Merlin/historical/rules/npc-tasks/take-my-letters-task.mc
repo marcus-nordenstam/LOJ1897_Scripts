@@ -20,9 +20,9 @@
             (= (bb-read ?doc browse-status) pending))
       (effects
         (tolerate (attr ?doc addressee): ?addressee)
-        (tolerate (attr ?doc addressee_duty): ?duty)
+        (tolerate (attr ?doc addressee-duty): ?duty)
         (if (or (= ?addressee ?name)
-                {@self duty_to ? ?duty})
+                {@self duty-to ? ?duty})
             (then (debug-print "TML_KEEP doc=?doc")
                   (bb-write ?doc browse-status kept))
             (else (debug-print "TML_HANDLE doc=?doc")

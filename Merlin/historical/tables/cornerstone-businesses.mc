@@ -12,18 +12,18 @@
 ; cornerstone loop (retired).
 ;
 ;   kind        - the business org kind ([k org <leaf>], a `business` sub-kind)
-;   head_pos    - the founder's job, a scoped job kind ([k job <role>])
-;   class_floor - the founder's minimum class ([k lower|middle|upper])
+;   head-pos    - the founder's job, a scoped job kind ([k job <role>])
+;   class-floor - the founder's minimum class ([k lower|middle|upper])
 ; ----------------------------------------------------------------------------
 
 (define-table cornerstone_businesses
-  (fields kind head_pos class_floor)
+  (fields kind head-pos class-floor)
   (record [k org bank]           [k job banker]     [k middle])
-  (record [k org solicitor_firm] [k job solicitor]  [k middle])
+  (record [k org solicitor-firm] [k job solicitor]  [k middle])
   (record [k org apothecary]     [k job apothecary] [k middle])
-  ; The head seat is a HEAD kind (is-a head_of_non_household_org) - the one-org
+  ; The head seat is a HEAD kind (is-a head-of-non-household-org) - the one-org
   ; founding cap and the duty argmax both read head-ness off the job kind, so a
   ; staff kind here would make the founder invisible to both. Staff (bartender /
-  ; shop_clerk) are hired by the labour market, never seated as the head.
+  ; shop-clerk) are hired by the labour market, never seated as the head.
   (record [k org pub]            [k job proprietor] [k lower])
   (record [k org grocer]         [k job proprietor] [k lower]))

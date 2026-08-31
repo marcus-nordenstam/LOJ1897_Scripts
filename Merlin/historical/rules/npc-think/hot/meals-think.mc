@@ -24,7 +24,7 @@
 ;   breakfast  - at home, 30 min, come-as-you-wake (3h window). Utility 82 - a
 ;                shade over the work lane so the commuter eats before leaving.
 ;   lunch      - one meal-kind, two places: at the workplace at midday (util 85,
-;                the co-worker channel) OR at home per lunch_hour (util 76).
+;                the co-worker channel) OR at home per lunch-hour (util 76).
 ;   supper     - the FAMILY table, 60 min. Utility 78: under work's 80, over
 ;                leisure. The window opens an hour early so eat_go's travel
 ;                (30 min) lands the household home by the cook's hour. When the
@@ -121,7 +121,7 @@
 ; rule): you breakfast in the house you woke in or not at all.
 (npc-think want_breakfast
   (role ?home {@self home ?home}
-              {?home breakfast_hour ?h})   ; existence cached, ?h binds at fire
+              {?home breakfast-hour ?h})   ; existence cached, ?h binds at fire
   (when (and (at-home)
              (> (attr @self appetite) 0.25)
              (>= (now-hour) ?h)
@@ -144,10 +144,10 @@
   (effects       (begin-goal {@self eat [k lunch] ?wp}))
   (cease-effects (end-goal   {@self eat [k lunch] ?wp})))
 
-; LUNCH at home - the jobless / housewife / child midday meal, per lunch_hour.
+; LUNCH at home - the jobless / housewife / child midday meal, per lunch-hour.
 (npc-think want_lunch_home
   (role ?home {@self home ?home}
-              {?home lunch_hour ?h})   ; existence cached, ?h binds at fire
+              {?home lunch-hour ?h})   ; existence cached, ?h binds at fire
   (when (and (at-home)
              (> (attr @self appetite) 0.25)
              (>= (now-hour) ?h)
@@ -161,7 +161,7 @@
 ; travel (30 min) lands the household home by the cook's hour.
 (npc-think want_supper
   (role ?home {@self home ?home}
-              {?home supper_hour ?h})   ; existence cached, ?h binds at fire
+              {?home supper-hour ?h})   ; existence cached, ?h binds at fire
   (when (and (> (attr @self appetite) 0.25)
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
@@ -177,9 +177,9 @@
 (npc-think want_eat_out_pub
   ; class gate = CACHED self-gate filter (the belief form, not the live conjunct).
   (role @self {@self wealth ?wealth} 
-              -{@self class_situation [k upper]})
+              -{@self class-situation [k upper]})
   (role ?home {@self home ?home}
-              {?home supper_hour ?h})   ; existence cached, ?h binds at fire
+              {?home supper-hour ?h})   ; existence cached, ?h binds at fire
   (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette)))
   (when (and (> (attr @self appetite) 0.25)
              (>= (now-hour) (- ?h 1))
@@ -193,9 +193,9 @@
 (npc-think want_eat_out_restaurant
   ; upper-class only - the CACHED self-gate skips the majority (and the
   ; larder belief-fold below) with zero eval.
-  (role @self {@self class_situation [k upper], wealth ?wealth})
+  (role @self {@self class-situation [k upper], wealth ?wealth})
   (role ?home {@self home ?home}
-              {?home supper_hour ?h})   ; existence cached, ?h binds at fire
+              {?home supper-hour ?h})   ; existence cached, ?h binds at fire
   (role ?venue [k building restaurant] (select (score (near @self ?venue)) (policy roulette)))
   (when (and (> (attr @self appetite) 0.25)
              (>= (now-hour) (- ?h 1))
@@ -275,7 +275,7 @@
 ; from magic gaps: eat-at-source (carried / pantry, R=0) beats a go-leg (travel, -rhoR)
 ; automatically; forage_act's branch order picks among co-located sources; and buy vs
 ; steal never compete (mutually exclusive on the wealth guard). Venue knowledge rides
-; the same provisions_shop belief the provisioning errand builds; a starving stranger
+; the same provisions-shop belief the provisioning errand builds; a starving stranger
 ; to the town tries any shop.
 
 ; THE STARVING WATCH - the physiology->belief seam. Hunger is an ATTR (no belief
@@ -345,10 +345,10 @@
 
 (npc-think starving_buy_go
   (role @self {@self starve ?, wealth ?wealth})
-  ; The known provisions_shop is preferred; else a role-cast shop the NPC KNOWS
+  ; The known provisions-shop is preferred; else a role-cast shop the NPC KNOWS
   ; (nearest, weighted). Replaces the (venue ...) fallback.
   (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
-  (any {@self provisions_shop ?shop})
+  (any {@self provisions-shop ?shop})
   (when (and (> (attr @self appetite) 1.3)
              (> ?wealth 0.2)
              (not (is-a (spatial @self building) [k building shop]))))
@@ -373,7 +373,7 @@
 (npc-think starving_steal_go
   (role @self {@self starve ?, wealth ?wealth})
   (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
-  (any {@self provisions_shop ?shop})
+  (any {@self provisions-shop ?shop})
   (when (and (> (attr @self appetite) 1.3)
              (not (> ?wealth 0.2))
              (not (is-a (spatial @self building) [k building shop]))))
@@ -428,14 +428,14 @@
              (spatial @self building))
         (then
           (spatial @self building): ?shop
-          (for-each ?room (spatial ?shop parts [k interior_space room] /env)
+          (for-each ?room (spatial ?shop parts [k interior-space room] /env)
             (do
               (bind 0 ?shelf_pile)
               (pile-at-into ?room [k food] ?shelf_pile)
               (if (and (= ?found 0) ?shelf_pile (> (attr ?shelf_pile count) 0))
                   (then (bind ?shelf_pile ?item)
                         (bind 1 ?found)
-                        (begin-belief {@self provisions_shop ?shop})
+                        (begin-belief {@self provisions-shop ?shop})
                         (if (not (> (any {@self wealth}).target 0.2))
                             (then (owner-of ?shop): ?owner))))))))
     (if (= ?found 1)

@@ -1,9 +1,9 @@
 ﻿action = WEAR
-motor = right_hand
+motor = right-hand
 transmission = obs
 
 preroll = 0.0
 in      = 0.4
 run     = 0.6
 out     = 0.4
-nature = neutral_act
+nature = neutral-act

@@ -8,7 +8,7 @@
 ; directly - an org premises (hotel / theatre / pub) by the org's name, a named
 ; residence by its name. Same covert-affair cast + concealment gate as the
 ; letter channel. Each rule's tail is the same shape: the mutual attraction
-; nudge, the optional hand-delivered tryst_note, the paramour-spouse absence
+; nudge, the optional hand-delivered tryst-note, the paramour-spouse absence
 ; tick. Discovery stays evidence-mediated (witness-copresence + suspicion +
 ; gossip / discover_affair); `lover` is not an observable ACT, so no auto-witness.
 ; ----------------------------------------------------------------------------
@@ -18,7 +18,7 @@
 ; --- shared-hotel family excursion ------------------------------------------
 ; The married couple stays at the hotel (cover = the co-present spouse; needs
 ; standing - not lower class) and the paramour shadows them, gated on their OWN
-; attraction band + boldness. Residue = hotel_register entries for all three;
+; attraction band + boldness. Residue = hotel-register entries for all three;
 ; risk = the spouse in the next room.
 (npc-think affair_rendezvous_hotel
   (cooldown 1 m)
@@ -27,7 +27,7 @@
   (role @self (adult @self)
               {@self lover ?}
               (is-married @self)
-              -{@self class_situation [k class_situation lower]}
+              -{@self class-situation [k class-situation lower]}
               {@self name ?author_name})
   (role ?paramour (any_human ?paramour)
     {@self lover ?paramour}
@@ -36,7 +36,7 @@
     (select (policy first-match)))
 
   (when (and (chance 0.10)
-             (find-building [k commercial_building hotel])
+             (find-building [k commercial-building hotel])
              (or {?paramour fancy @self}
                  {?paramour desire @self}
                  {?paramour crave @self})
@@ -45,7 +45,7 @@
   (utility want)
 
   (effects
-    (find-building [k commercial_building hotel]): ?venue
+    (find-building [k commercial-building hotel]): ?venue
     (spouse-of @self): ?spouse
     (register-occupant ?venue @self 0)
     (register-occupant ?venue ?spouse 0)
@@ -61,7 +61,7 @@
              (bind ?wob.subject ?org)
              {?org name ?venue_name})
         (then
-          (post-letter [k tryst_note]
+          (post-letter [k tryst-note]
                 (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
                 ?paramour_home ?paramour)))
     (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)))
@@ -96,7 +96,7 @@
     (if (and (chance 0.30) {?paramour home ?paramour_home} {?venue name ?})
         (then
           (any {?venue name ?venue_name})
-          (post-letter [k tryst_note]
+          (post-letter [k tryst-note]
                 (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
                 ?paramour_home ?paramour)))
     (bump-suspicion (spouse-of @self) @self 0.05)
@@ -120,15 +120,15 @@
     (select (policy first-match)))
 
   (when (and (chance 0.11)
-             (or (find-building [k commercial_building theatre])
-                 (find-building [k commercial_building pub]))))
+             (or (find-building [k commercial-building theatre])
+                 (find-building [k commercial-building pub]))))
 
   (utility want)
 
   (effects
-    (if (find-building [k commercial_building theatre])
-              (then (find-building [k commercial_building theatre]))
-              (else (find-building [k commercial_building pub]))): ?venue
+    (if (find-building [k commercial-building theatre])
+              (then (find-building [k commercial-building theatre]))
+              (else (find-building [k commercial-building pub]))): ?venue
     (register-occupant ?venue @self 1)
     (register-occupant ?venue ?paramour 1)
     ; an indiscretion before whoever is there this date; whispers reach the spouses.
@@ -144,7 +144,7 @@
              (bind ?wob.subject ?org)
              {?org name ?venue_name})
         (then
-          (post-letter [k tryst_note]
+          (post-letter [k tryst-note]
                 (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
                 ?paramour_home ?paramour)))
     (bump-suspicion (spouse-of @self) @self 0.05)

@@ -4,7 +4,7 @@
 ; them senseless (knockout), never kills. Like the killing tasks, hurt is the actor's
 ; plan - the PUNCH blows are the (obs) witnessed violent acts that carry the blame, and
 ; because a beater's PUNCH traces (/caused_by) to no assault on THEM, appraisal keeps its
-; wrong_act (the beater is blamed), whereas a defender's identical PUNCH is exonerated.
+; wrong-act (the beater is blamed), whereas a defender's identical PUNCH is exonerated.
 ; The crime is ledgered once the victim is beaten down.
 ; ----------------------------------------------------------------------------
 

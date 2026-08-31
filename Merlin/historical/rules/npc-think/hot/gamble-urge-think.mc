@@ -5,7 +5,7 @@
 ;     re-checks the urge; the (days-since-last @self PLAY_GAME) fire-gate mints the
 ;     standing {@self PLAY_GAME} drive only when genuinely due; the utility is
 ;     susceptibility (low industriousness) x an amplifier that starts tiny - a rare
-;     deep-idle ONSET draw - and SPIRALS with gambling_addiction, x a days-since-last
+;     deep-idle ONSET draw - and SPIRALS with gambling-addiction, x a days-since-last
 ;     craving modulator clamped to [0,1] (so a never-gambler's sentinel days-since
 ;     never blows the pressure up, and gambling paces the recurrence). The disciplined
 ;     never gamble; the addicted are pulled in deep. The drive OWNS the ABSTRACT

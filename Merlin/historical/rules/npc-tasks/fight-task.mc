@@ -3,7 +3,7 @@
 ; attacked (they WITNESS a violent act against themselves) they may fight back; a failed
 ; murder attempt becomes an emergent brawl - the aggressor keeps up their killing task
 ; (CHOKE / TRIGGER_FIREARM), the victim answers with fists (PUNCH). fight carries NO
-; construed_act/theme of its own: the blows are where blame lives, and the victim's PUNCH
+; construed-act/theme of its own: the blows are where blame lives, and the victim's PUNCH
 ; is exonerated at appraisal time because it traces (/caused_by) to the assault on them.
 ;
 ; Latched by fight_defence (begin-proposal off the witnessed violent act); it PERFORMS

@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; frame ?victim - fabricate evidence against the framed party. @self walks to the
-; victim's home and PLANTS a forged_letter there - a real, discoverable/witnessable
+; victim's home and PLANTS a forged-letter there - a real, discoverable/witnessable
 ; object left at the scene (decision 3: a placed object, not a fiat yield-evidence
 ; stain). A later search / detective finds it and reads the victim as implicated. The
 ; ended {@self frame ?victim} belief IS the deed memory; the crime-ledger row records it.
@@ -11,7 +11,7 @@
   (track-skill-level [k illicit])
   (tar human)
   (aux ?)
-  (construed_act harm_act betray_act wrong_act)
+  (construed-act harm-act betray-act wrong-act)
   (facets reportable_crime)
   (and
     (try
@@ -27,7 +27,7 @@
                  -{@self frame ?victim /succ /ever}))
       (utility errand always-pick)
       (effects
-        (plant-letter [k forged_letter]
+        (plant-letter [k forged-letter]
                       (nl-written-msg "?victim killed me") (spatial @self space))
         (crime-ledger-append @self ?victim plant_evidence frame @u @u)
         (set-outcome ?frame-rel /succ)))

@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; materialize_employment - mint the employment BELIEFS for a worker the C++
-; candidate-scan effects (bootstrap / staff_household / jockey / landlord) only
+; candidate-scan effects (bootstrap / staff-household / jockey / landlord) only
 ; ENROLLED on the register.
 ;
 ; The capstone of the hire() retirement (see macros/founding.hs): the objective
@@ -49,11 +49,11 @@
     ; lists @self, and rebuild his employment beliefs from that row. First hit wins
     ; (a worker holds one post); (break) ends the scan. A regular worker doesn't hold
     ; {?org record}, so the register is reached by this objective scan, not a belief walk.
-    (for-each ?art (env-entities [k articles_of_incorporation])
+    (for-each ?art (env-entities [k articles-of-incorporation])
       (do
-        (o {?art declares_org @o}): ?org
+        (o {?art declares-org @o}): ?org
         (any {?org isa ?ok})
-        (any {?org employee_register ?reg})
+        (any {?org employee-register ?reg})
         (if (and (not (is-a ?ok [k org club]))
                  (table-match (attr ?reg writing) worker @self job ?job level ?lvl))
           (then

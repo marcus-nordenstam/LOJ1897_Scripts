@@ -1,4 +1,4 @@
-# One pair of eyes per human; capacity scales with human_npc cap (4096).
+# One pair of eyes per human; capacity scales with human-npc cap (4096).
 archetype "eye" (cap 4096) (per obs) (non-occluder)
 {
     (spatial bounds)

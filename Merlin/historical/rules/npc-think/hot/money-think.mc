@@ -14,7 +14,7 @@
 ;                    The same think mints the derived {@self wealth ?} off the
 ;                    PROJECTED post-credit balance (annual, post-accrual - the shape
 ;                    the old C++ classify_wealth had), so no fragile re-arm on a
-;                    perceived count change is needed. economic_situation.hs bands it.
+;                    perceived count change is needed. economic-situation.hs bands it.
 ; ----------------------------------------------------------------------------
 
 (include "../../../macros/money-macros.mc")
@@ -28,7 +28,7 @@
 
 (npc-think accrue_savings
   (cooldown 1 m)
-  (role ?pile {@self coin_pile ?pile})
+  (role ?pile {@self coin-pile ?pile})
   (when (and (in-month 12)
              (>= (years-old @self) 15)))
   (utility duty)

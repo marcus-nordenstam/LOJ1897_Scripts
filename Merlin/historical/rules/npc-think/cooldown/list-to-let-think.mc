@@ -11,9 +11,9 @@
 ; emigration ends his {?prop tenant}, so the vacancy surfaces without a scan.
 ;
 ; Routing then walks him to a house agency, where list_to_let_act (npc-action) files
-; the for_lease_listing and mints {?prop availability for_rent} - the durable "to
+; the for-lease-listing and mints {?prop availability for-rent} - the durable "to
 ; let" signal landlord_estate.hs already reads, AND the completion that retracts the
-; intent: the same {?prop availability for_rent} drops the ?prop role, so the decision's
+; intent: the same {?prop availability for-rent} drops the ?prop role, so the decision's
 ; cease-effects end {@self LET ?prop}. It mirrors the worship lane's routing so the
 ; supply never goes dormant merely because @self has not yet learned which orgs are
 ; house agencies:
@@ -23,7 +23,7 @@
 ; list_to_let_act - no dwell rung (list_to_let owns the goal's whole life).
 ;
 ;   list_to_let       : yearly timer - mint the standing {@self LET ?prop} intent;
-;                       cease it when the dwelling's availability flips to for_rent.
+;                       cease it when the dwelling's availability flips to for-rent.
 ;   list_to_let_go    : hold the intent, knows an agency, not there -> travel there.
 ;   list_to_let_find  : hold the intent, knows NO agency -> orient (learn one).
 ; ----------------------------------------------------------------------------
@@ -37,10 +37,10 @@
   (role @self (adult @self))
   ; His OWN vacant residential holdings (object-cache role over his beliefs).
   (role ?prop {@self own ?prop}
-              {?prop isa [k residential_building]}
+              {?prop isa [k residential-building]}
               -{@self home ?prop}            ; not where he lives
               -{?prop tenant ?}              ; no sitting tenant
-              -{?prop availability [k for_rent]})  ; not already listed
+              -{?prop availability [k for-rent]})  ; not already listed
   (utility errand)
   (effects       (begin-goal {@self LET ?prop}))
   (cease-effects (end-goal   {@self LET ?prop})))

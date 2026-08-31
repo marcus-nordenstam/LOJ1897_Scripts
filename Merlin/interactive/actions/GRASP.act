@@ -1,8 +1,8 @@
 action = GRASP
 sided = true
 action_side_field = aux
-left_motor  = left_hand
-right_motor = right_hand
+left_motor  = left-hand
+right_motor = right-hand
 transmission = obs
 
 anim.right = right_hand_grip
@@ -12,4 +12,4 @@ preroll = 0.0
 in      = 0.05
 run     = 0
 out     = 0.05
-nature = neutral_act
+nature = neutral-act

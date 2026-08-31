@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; fallen_woman (per-observer). Each mind marks {?other prototype [k fallen_woman]}
+; fallen-woman (per-observer). Each mind marks {?other prototype [k fallen-woman]}
 ; in its OWN pool for a married woman it believes has taken a lover - i.e. an
 ; adulterous liaison THIS observer has heard of. The mark is per-observer: only
 ; those who know of the affair treat her as fallen, and it fades if they forget it.
@@ -23,8 +23,8 @@
   (role ?other {?other gender [k female]}
                {?other spouse ?}
                (or {?other lover ? /ever}
-                   {?other prototype [k fallen_woman]}))
+                   {?other prototype [k fallen-woman]}))
 
   (effects
     (mint-band-about {?other prototype} (prob {?other lover ? /ever})
-      [k fallen_woman] 0.5)))
+      [k fallen-woman] 0.5)))

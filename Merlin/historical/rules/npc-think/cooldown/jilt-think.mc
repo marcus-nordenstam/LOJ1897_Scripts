@@ -16,9 +16,9 @@
 ; axiom 0). No new "obsession" state.
 ;
 ; The incident-anchor mints {@self jilt ?jilted} in BOTH minds; the patient
-; cascade (Tasks.mon: abandonment_act + wrong_act) mints grief +
-; attachment_loss + status_loss + anger + humiliation + injustice in the
-; jilted - the exact pressure stack the new (affinity attachment_loss coerce)
+; cascade (Tasks.mon: abandonment-act + wrong-act) mints grief +
+; attachment-loss + status-loss + anger + humiliation + injustice in the
+; jilted - the exact pressure stack the new (affinity attachment-loss coerce)
 ; deliberation row reads on later ticks. Warmth curdles via nudge-stance;
 ; attraction is deliberately NOT nudged down - longing persists.
 ;
@@ -56,8 +56,8 @@
     ; One-sided ending - ONLY the jilter's belief (see header).
     (end-belief {@self lover ?jilted})
     ; Jilting IS a SAY (msg-class jilt): the jilter tells the jilted it is over. The jilted
-    ; HEARS it and their own appraisal reprojects jilt's construed_act (abandonment_act +
-    ; wrong_act) into the grief / attachment_loss stack. No incident-anchor, no cross-mind mint.
+    ; HEARS it and their own appraisal reprojects jilt's construed-act (abandonment-act +
+    ; wrong-act) into the grief / attachment-loss stack. No incident-anchor, no cross-mind mint.
     (begin-proposal {@self SAY (utterable-msg {@self jilt ?jilted}) ?jilted})
     ; Warmth curdles; attraction is NOT touched (longing persists).
     (nudge-stance ?jilted @self warmth -0.4)
@@ -93,10 +93,10 @@
                 {@self lover ?jilted}
                 ;; @self reads the jilted lover's class from his OWN belief about him
                 ;; (he knows his lover intimately, so it is banded in).
-                (or (and {@self class_situation [k upper]}
-                         -{?jilted class_situation [k upper]})
-                    (and {@self class_situation [k middle]}
-                         {?jilted class_situation [k lower]}))
+                (or (and {@self class-situation [k upper]}
+                         -{?jilted class-situation [k upper]})
+                    (and {@self class-situation [k middle]}
+                         {?jilted class-situation [k lower]}))
                 (select (policy first-match)))
 
   ;; The chance gate is a non-belief gate, so it lives in (when). decorum is a

@@ -2,8 +2,8 @@
 ; inherit - the named heir effects the estate (replaces C++ inherit_estate /
 ; inherit_or_dissolve_orgs). @self reads the public registers - no cross-mind
 ; touch - and re-points every record naming the deceased to @self:
-;   - each title_deed the deceased owned: owner -> @self, and @self mints {own};
-;   - each articles_of_incorporation the deceased founded: founder -> @self;
+;   - each title-deed the deceased owned: owner -> @self, and @self mints {own};
+;   - each articles-of-incorporation the deceased founded: founder -> @self;
 ;   - the coin pile the will bequeathed (?pile, resolved from the will's location
 ;     descriptor): its count is merged into @self's own pile and the empty pile
 ;     destroyed, so @self keeps a single pile the coin-balance pointer reads.
@@ -17,7 +17,7 @@
   (duration 240)
   (effects
     ; Buildings: every deed the deceased owned passes to @self.
-    (for-each ?deed (env-entities [k title_deed])
+    (for-each ?deed (env-entities [k title-deed])
       (do
         (table-match (attr ?deed writing) owner ?o building ?b)
         (if (= ?o ?dead)
@@ -33,6 +33,6 @@
     ; Coins: merge the bequeathed pile into @self's own, then destroy the empty.
     (if (substantial ?pile)
         (then
-          (pile-add (any {@self coin_pile ?}).target (attr ?pile count))
+          (pile-add (any {@self coin-pile ?}).target (attr ?pile count))
           (destroy-entity ?pile)))
     (set-outcome {@self INHERIT ?dead ?pile} /succ)))

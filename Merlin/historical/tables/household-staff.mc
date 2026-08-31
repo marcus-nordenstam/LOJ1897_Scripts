@@ -7,7 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (define-table household_staff_slots
-  (fields home_kind job female)
+  (fields home-kind job female)
   (record [k manor]     [k steward]  0)
   (record [k manor]     [k cook]     1)
   (record [k manor]     [k maid]     1)

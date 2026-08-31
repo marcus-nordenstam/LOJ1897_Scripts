@@ -10,13 +10,13 @@ archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
 {
     # Placement participation (plan section 18): which spatial relations this
     # archetype takes part in - the write seams validate both ends.
-    (spatial gripped_by)
+    (spatial gripped-by)
     (spatial grip)
     (spatial space)
-    (spatial in_stack)
+    (spatial in-stack)
     # Kind-variation identity (see shared/attrs.arc).
     (attr "variant")
-    (attr "birth_date")
+    (attr "birth-date")
     (attr "color")
     # Some props are broken, some are whole, etc.
     (attr "condition")
@@ -25,9 +25,9 @@ archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
     # visible label / engraving / sign need observable names.
     (attr "name" (auto-percept) (ext-per obs))
     (attr "writing")
-    (attr "grip_force")
+    (attr "grip-force")
     # The building a loose prop currently sits in. Written by the hsim
-    # evidence trails (receipt / sales_record, letters, hiding caches) and
+    # evidence trails (receipt / sales-record, letters, hiding caches) and
     # read back by their location scans; without it those `location` writes
     # were silent no-ops and the scans could never find anything.
     # The NPC who MADE this prop owns it (a secret cache belongs to its maker).
@@ -38,13 +38,13 @@ archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
     # the letter learns {letter addressee <person>} on sight (the envelope), but
     # NOT the message - reading it is a separate act.
     (attr "addressee")
-    (attr "addressee_duty")
+    (attr "addressee-duty")
     # The written destination street address on a letter (the envelope): the road
     # it fronts plus the house number. The sender copies these from the addressee's
     # building; the magic mail service reverse-maps (road, number) -> building to
-    # route the letter to that building's incoming mail_stack.
+    # route the letter to that building's incoming mail-stack.
     (attr "address")
-    (attr "address_number")
+    (attr "address-number")
     (spatial bounds)
     # PR-evi-A 2026-05-25 - per-object evidence attrs. A blood-stained
     # weapon, gunpowder-residue on a coat, scratch-marks on a lock-pick.

@@ -12,7 +12,7 @@
 (npc-task {@self steal ?kind}:?steal-rel
   (track-skill-level [k illicit])
   (tar ?)
-  (construed_act appropriation_act wrong_act) (theme thief_to) (contradicts property)
+  (construed-act appropriation-act wrong-act) (theme thief-to) (contradicts property)
   (facets reportable_crime blackmailable)
   (and
     ; not at a source -> head to a shop that stocks the kind.
@@ -30,7 +30,7 @@
       (effects
         (spatial @self building): ?shop
         (bind 0 ?found)
-        (for-each ?room (spatial ?shop parts [k interior_space room] /env)
+        (for-each ?room (spatial ?shop parts [k interior-space room] /env)
           (for-each ?item (spatial ?room contents ?kind /env) /limit 1
             (if (= ?found 0) (then (bind ?item ?loot) (bind 1 ?found)))))
         (if (= ?found 1)

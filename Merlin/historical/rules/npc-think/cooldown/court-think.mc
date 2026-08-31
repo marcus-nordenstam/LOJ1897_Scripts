@@ -43,7 +43,7 @@
                 ; the ruined maiden a respectable suitor abandons. (As @self knows
                 ; them - he courts on; a secret he has not heard does not stop him.)
                 -{?beloved lover ?}
-                -{?beloved prototype fallen_woman}
+                -{?beloved prototype fallen-woman}
                 ; the specific person @self is attracted to (the attraction
                 ; stance has reached at least the `fancy` band, read as the
                 ; explicit band-ladder verb-state belief) ...

@@ -21,7 +21,7 @@
 ; @self holds about ?victim, captured per victim by the (do ...) block below.
 (define-table contempt_ladder
   (capture ?actrec-rel ?sob-rel ?lover-rel ?dec-rel)
-  (fields context        rank  barb_eval)
+  (fields context        rank  barb-eval)
 
   (record cold_contempt  4  ?actrec-rel)
   (record cold_contempt  3  (if (<= ?sob-rel.target 0.35) (then ?sob-rel)))
@@ -58,7 +58,7 @@
   (select-row (table contempt_ladder)
     (bind context ?ctx)
     (bind rank ?rank)
-    (bind barb_eval ?barb-rel)
+    (bind barb-eval ?barb-rel)
     (when (= ?ctx cold_contempt))
     (score (if (is-belief ?barb-rel) (then ?rank) (else 0)))
     (policy roulette))
@@ -66,4 +66,4 @@
   (utility want)
 
   (effects
-    (maintain-proposal {@self SAY (utterable-msg ?barb-rel (msg_class insult)) ?victim})))
+    (maintain-proposal {@self SAY (utterable-msg ?barb-rel (msg-class insult)) ?victim})))

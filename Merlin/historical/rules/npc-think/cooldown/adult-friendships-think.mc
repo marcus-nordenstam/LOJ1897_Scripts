@@ -27,11 +27,11 @@
   ; @self is the deliberating NPC (bound O(1)); ?b is enumerated underneath.
   ; The roles keep belief / template / self-exclusion filters - including the
   ; belief-pure perceived age-band predicates (adult-age / age-peers, which expand
-  ; to age_band believes). Only the enthusiasm-scaled (chance) roll is non-belief
+  ; to age-band believes). Only the enthusiasm-scaled (chance) roll is non-belief
   ; and lives in the (when ...) clause below.
   (role @self -{@self repute [k scandalous]}
               (adult-age @self)
-              {@self age_band ?peer_band})
+              {@self age-band ?peer_band})
   ;; SELF-POV (telepathy purge CAT-3): @self sizes up ?b from what HE knows -
   ;; ?b's repute / class as banded in via gossip / believe_about (3-arg
   ;; situation). The class match is positive, so @self only befriends a
@@ -39,11 +39,11 @@
   ;; the repute gate is permissive on the unknown. No cross-mind read.
   (role ?b (any_human ?b)
            (adult-age ?b)
-           {?b age_span ?peer_band}
+           {?b age-span ?peer_band}
            -{?b repute [k scandalous]}
            ; Same class: @self's belief that ?b's class matches his own (dynamic-
            ; target shape-2, cacheable).
-           {?b class_situation (any {@self class_situation}).target}
+           {?b class-situation (any {@self class-situation}).target}
            -{@self friend ?b}
            ; Warmth-gated: you do not befriend someone you actively dislike. The
            ; two negative warmth bands are EXPLICIT verb-state beliefs (core

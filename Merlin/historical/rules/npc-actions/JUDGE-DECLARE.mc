@@ -2,7 +2,7 @@
 ; judge_declare (npc-ACT) - the organiser's closing act of the club meet
 ; (act_body_purification: the DUMB act). The winner SELECTION is deliberation and
 ; lives in the sporting_judge think (sporting_judge_think.hs), which argmaxes the
-; current top scorer from the race_result beliefs the racers minted into him
+; current top scorer from the race-result beliefs the racers minted into him
 ; (RACE_RUN.hs) and proposes {@self JUDGE_DECLARE ?winner}; this body just performs
 ; the declaration off the ?winner carried on its act-belief. No trait read - the
 ; winner is the highest OBSERVED performance, chosen in the think.

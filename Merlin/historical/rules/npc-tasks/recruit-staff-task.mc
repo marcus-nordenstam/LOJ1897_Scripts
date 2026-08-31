@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; recruit_staff ?org - the PERFORMANCE of the held recruit_staff duty ({@self duty_to ?org
+; recruit_staff ?org - the PERFORMANCE of the held recruit_staff duty ({@self duty-to ?org
 ; recruit_staff} is the obligation; the running task is doing it). Spawned by the running
 ; work task while the wage book is short of the org's authored headcount; concluded by the
 ; done try when the book fills. Tries: post an advert; a daily office round that READS the
@@ -15,9 +15,9 @@
   (and
     (try
       (when (and {?org isa ?ok}
-                 {?org employee_register ?reg}
+                 {?org employee-register ?reg}
                  (>= (table-count ?reg)
-                     (if (table-match public_orgs kind ?ok employee_count ?ec) (then ?ec) (else 2)))))
+                     (if (table-match public_orgs kind ?ok employee-count ?ec) (then ?ec) (else 2)))))
       (effects (set-outcome ?rec-rel /succ)))
     (try
       (when -{@self post ? ?org})
@@ -37,7 +37,7 @@
       (effects (debug-print "RC_RDMAIL") (begin-proposal {@self read_mail ?wp})))
     (try
       (role ?home {@self home ?home})
-      (role ?out [k outgoing_mail_stack] (not (spatial ?out co-located @self)))
+      (role ?out [k outgoing-mail-stack] (not (spatial ?out co-located @self)))
       (role ?app [k application] (spatial @self hold)
             (select (policy first-match)))
       (when (and (spatial ?out building ?home)
@@ -66,11 +66,11 @@
       (role ?app [k application] (spatial @self hold))
       (effects (debug-print "RCP_APP app=?app")))
     (try
-      (role ?out [k outgoing_mail_stack] (spatial ?out co-located @self))
+      (role ?out [k outgoing-mail-stack] (spatial ?out co-located @self))
       (effects (debug-print "RCP_OUT out=?out")))
     (try
       (role ?app [k application] (spatial @self hold))
-      (role ?out [k outgoing_mail_stack] (spatial ?out co-located @self))
+      (role ?out [k outgoing-mail-stack] (spatial ?out co-located @self))
       (effects (debug-print "RCP_BOTH")))
     (try
       (role ?app [k application] (spatial @self hold))
@@ -83,7 +83,7 @@
     (try
       (role ?app [k application] (spatial @self hold))
       (role ?home {@self home ?home})
-      (role ?out [k outgoing_mail_stack])
+      (role ?out [k outgoing-mail-stack])
       (effects (debug-print "RCP_P6")))
     (try
       (role ?home {@self home ?home})
@@ -104,31 +104,31 @@
       (effects (debug-print "RCP_P16_MAIL")))
     (try
       (role ?home {@self home ?home})
-      (role ?out [k outgoing_mail_stack])
+      (role ?out [k outgoing-mail-stack])
       (role ?app [k application] (spatial @self hold))
       (effects (debug-print "RCP_P9")))
     (try
       (role ?home {@self home ?home})
-      (role ?out [k outgoing_mail_stack])
+      (role ?out [k outgoing-mail-stack])
       (effects (debug-print "RCP_P10")))
     (try
-      (role ?out [k outgoing_mail_stack])
+      (role ?out [k outgoing-mail-stack])
       (role ?app [k application] (spatial @self hold))
       (effects (debug-print "RCP_P11")))
     (try
       (role ?home {@self home ?home})
-      (role ?out [k outgoing_mail_stack])
+      (role ?out [k outgoing-mail-stack])
       (role ?app [k application] (spatial @self hold))
       (when (spatial ?out building ?home))
       (effects (debug-print "RCP_P12")))
     (try
       (role ?home {@self home ?home})
-      (role ?out [k outgoing_mail_stack])
+      (role ?out [k outgoing-mail-stack])
       (role ?app [k application] (spatial @self hold))
       (when (spatial ?out space): ?room)
       (effects (debug-print "RCP_P13 room=?room")))
     (try
       (role ?home {@self home ?home})
-      (role ?out [k outgoing_mail_stack] (not (spatial ?out co-located @self)))
+      (role ?out [k outgoing-mail-stack] (not (spatial ?out co-located @self)))
       (role ?app [k application] (spatial @self hold))
       (effects (debug-print "RCP_P14")))))

@@ -12,31 +12,31 @@
   (aux human)
   (and
     (try
-      (when (!= (spatial ?thing held_by) @self))
+      (when (!= (spatial ?thing held-by) @self))
       (utility fallback)
       (effects (maintain-proposal {@self take ?thing})))
     (try
-      (when (and (= (spatial ?thing held_by) @self)
+      (when (and (= (spatial ?thing held-by) @self)
                  (not (spatial ?recipient co-located @self))
                  (spatial ?recipient space): ?loc))
       (utility fallback)
       (effects (maintain-proposal {@self go ?loc})))
     (try
-      (when (and (= (spatial ?thing held_by) @self)
+      (when (and (= (spatial ?thing held-by) @self)
                  (not (spatial ?recipient co-located @self))
                  (unknown (spatial ?recipient space))
                  {?recipient home ?rhome}))
       (effects (maintain-proposal {@self go ?rhome})))
     (try
-      (when (and (= (spatial ?thing held_by) @self)
+      (when (and (= (spatial ?thing held-by) @self)
                  (spatial ?recipient co-located @self)
-                 (empty (spatial (spatial ?recipient right_hand) grip))))
+                 (empty (spatial (spatial ?recipient right-hand) grip))))
       (utility (above go))
       (effects (maintain-proposal {@self OFFER_RIGHT ?thing ?recipient})))
     (try
-      (when (and (= (spatial ?thing held_by) @self)
+      (when (and (= (spatial ?thing held-by) @self)
                  (spatial ?recipient co-located @self)
-                 (not (empty (spatial (spatial ?recipient right_hand) grip)))))
+                 (not (empty (spatial (spatial ?recipient right-hand) grip)))))
       (utility (above go))
       (effects (maintain-proposal {@self OFFER_LEFT ?thing ?recipient})))
     (try

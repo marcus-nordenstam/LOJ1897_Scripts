@@ -1,9 +1,9 @@
 ﻿action = STACK_TAKE
-motor = right_hand
+motor = right-hand
 transmission = obs
 
 preroll = 0.0
 in      = 0.3
 run     = 0.5
 out     = 0.3
-nature = neutral_act
+nature = neutral-act

@@ -20,22 +20,22 @@
 (include "../../definitions/roles.mc")
 
 (define-table kill_method_table
-  (fields method              score_weight  score_eval)
+  (fields method              score-weight  score-eval)
   (record strangle            1             (if (>= (attr @self strength) 0.45) (then 1) (else 0.3)))
   (record shoot               0.9           (if (spatial [k firearm] space) (then 1) (else 0.4)))
   (record hire-assassin       0.5           (if (>= (coin-balance @self) 80) (then 1) (else 0))))
 
 (npc-task {@self kill ?victim}:?kill-rel
   (tar human)
-  (construed_act harm_act) (theme violent_to) (contradicts life)
+  (construed-act harm-act) (theme violent-to) (contradicts life)
   (facets reportable_crime blackmailable)
   (try
     (when -{?victim condition [k dead]})
     (select-joint
       (table kill_method_table)
       (bind method ?method)
-      (bind score_weight ?weight)
-      (bind score_eval ?eval)
+      (bind score-weight ?weight)
+      (bind score-eval ?eval)
       (score (* ?weight (eval ?eval)))
       (policy argmax))
     (utility survival)

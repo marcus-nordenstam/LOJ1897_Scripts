@@ -14,6 +14,6 @@ event "cholera_1832" {
         emotion_delta victim fear 0.5
     }
     on_end {
-        region_mood_delta region_of=victim plague_fear 0.6
+        region_mood_delta region_of=victim plague-fear 0.6
     }
 }

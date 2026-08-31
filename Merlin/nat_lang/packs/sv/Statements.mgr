@@ -90,8 +90,8 @@
 
 # Class - the kind's leaf name (arbetar / medel / över) suffixed with "klass".
 # Same dash-suffix shape English uses; Swedish concatenates without space.
-"$sub_np(NP) är $kind(KIND|/isa|class_situation) ++klass"
-{ $sub_np(NP) /pres class_situation $kind(KIND|/isa|class_situation) }
+"$sub_np(NP) är $kind(KIND|/isa|class-situation) ++klass"
+{ $sub_np(NP) /pres class-situation $kind(KIND|/isa|class-situation) }
 .
 
 # Occupation - "Maria arbetar som hattmakare." (Maria works as a hatmaker).

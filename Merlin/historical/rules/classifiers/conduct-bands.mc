@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; Conduct bands (per-observer repute layer, SELF side). Bands @self's own conduct
-; dimensions into {@self <dim> [k conduct_level ...]} beliefs so the per-observer
+; dimensions into {@self <dim> [k conduct-level ...]} beliefs so the per-observer
 ; repute fuse can read a uniform banded belief for @self AND for a tracked other.
 ; @self reads its OWN dims (honest self-image, no telepathy); the OTHER side
 ; (conduct_bands_others.hs) abduces {?other <dim> <level>} from what it witnessed.
@@ -19,14 +19,14 @@
   ; commits. The timer is desynced across the herd; cold_start_window self-primes it.
   (cooldown 1 m)
 
-  (role @self {@self class_situation ?})
+  (role @self {@self class-situation ?})
 
   (effects
     (mint-band {@self honesty}    (honesty)
-      [k conduct_level good] 0.66 [k conduct_level fair] 0.33 [k conduct_level lax] -1)
+      [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1)
     (mint-band {@self diligence}  (diligence)
-      [k conduct_level good] 0.66 [k conduct_level fair] 0.33 [k conduct_level lax] -1)
+      [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1)
     (mint-band {@self generosity} (generosity)
-      [k conduct_level good] 0.66 [k conduct_level fair] 0.33 [k conduct_level lax] -1)
+      [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1)
     (mint-band {@self sobriety}   (sobriety)
-      [k conduct_level good] 0.66 [k conduct_level fair] 0.33 [k conduct_level lax] -1)))
+      [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1)))

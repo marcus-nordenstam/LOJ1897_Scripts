@@ -17,13 +17,13 @@
     (try
       (lock-rule)
       (rng-stream employment)
-      (role ?org {@self duty_to ?org recruit_staff}
+      (role ?org {@self duty-to ?org recruit_staff}
                  -{?org isa [k org household]}
                  {?org record ?})
       (when (and {?org isa ?ok}
-                 {?org employee_register ?reg}
+                 {?org employee-register ?reg}
                  (< (table-count ?reg)
-                    (if (table-match public_orgs kind ?ok employee_count ?ec) (then ?ec) (else 2)))))
+                    (if (table-match public_orgs kind ?ok employee-count ?ec) (then ?ec) (else 2)))))
       (utility duty)
       (effects (debug-print "RC_ROOT")
                (begin-proposal {@self recruit_staff ?org})))

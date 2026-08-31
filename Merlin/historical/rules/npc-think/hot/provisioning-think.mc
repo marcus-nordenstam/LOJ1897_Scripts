@@ -14,12 +14,12 @@
 ;                     {@self PROVISION} goal (the pressure).
 ;   provision_go    : knows the provisions shop -> travel there. Provisioning
 ;                     NEVER wanders generic shops: the ONLY venue is the shop
-;                     the cook KNOWS sells provisions ({@self provisions_shop}).
+;                     the cook KNOWS sells provisions ({@self provisions-shop}).
 ;   provision_orient: knows NO provisions shop -> read the public register of
 ;                     incorporations at the church (the orient errand), which
 ;                     teaches where the grocer trades.
-;   provision_act   : AT the known shop the standing goal is the leaf and
-;                     (npc-act/provision_act.hs) promotes on its own when: buy a
+;   provision-act   : AT the known shop the standing goal is the leaf and
+;                     (npc-act/provision-act.hs) promotes on its own when: buy a
 ;                     basket and mint {@self BRING [k food] <kitchen>} - the
 ;                     general bring lane carries it home and puts it down IN the
 ;                     kitchen.
@@ -49,32 +49,32 @@
 (npc-think claim_cook_hired
   (role @self (grown @self)
                            {@self job [k job cook]}
-              -{@self household_cook ?})
+              -{@self household-cook ?})
   (role ?home {@self home ?home})
   (when (bb-public-none ?home cook))
   (effects
     (pub-bb-post ?home cook (cook_marker_ttl_cycles))
-    (begin-belief {@self household_cook ?home})))
+    (begin-belief {@self household-cook ?home})))
 
 (npc-think claim_cook_woman
   (role @self (grown @self)
                            {@self gender [k female]}
-              -{@self household_cook ?}
-              -{@self class_situation [k upper]})
+              -{@self household-cook ?}
+              -{@self class-situation [k upper]})
   (role ?home {@self home ?home})
   (when (and (bb-public-none ?home cook)
              (not (and {@self mother ?mum}
                        {?mum home ?home}))))
   (effects
     (pub-bb-post ?home cook (cook_marker_ttl_cycles))
-    (begin-belief {@self household_cook ?home})))
+    (begin-belief {@self household-cook ?home})))
 
 (npc-think claim_cook_man
   (role @self (grown @self)
                            {@self gender [k male]}
-              -{@self household_cook ?}
+              -{@self household-cook ?}
               -{@self spouse ?}
-              -{@self class_situation [k upper]})
+              -{@self class-situation [k upper]})
   (role ?home {@self home ?home})
   (when (and (bb-public-none ?home cook)
              (not (and {@self child ?c}
@@ -82,16 +82,16 @@
                        {?c home ?home}))))
   (effects
     (pub-bb-post ?home cook (cook_marker_ttl_cycles))
-    (begin-belief {@self household_cook ?home})))
+    (begin-belief {@self household-cook ?home})))
 
 (npc-think renew_cook
-  (role ?home {@self household_cook ?home})
+  (role ?home {@self household-cook ?home})
   (effects (pub-bb-post ?home cook (cook_marker_ttl_cycles))))
 
 ; ---- the pressure: the kitchen larder is low --------------------------------
 
 (npc-think want_provisions
-  (role ?home {@self household_cook ?home})
+  (role ?home {@self household-cook ?home})
   ; The kitchen resolves from the cook's OWN room knowledge (the home pre-teach
   ; mints {home room <r>}): the kind-cast bind picks the is-a kitchen target.
   (when (and (spatial ?home room [k kitchen]): ?kitchen
@@ -110,7 +110,7 @@
   (goal    {@self PROVISION})
   ; The buy cap is DECIDED here (basket, larder shortfall, what is in hand)
   ; and rides the act pattern - the counter-stop body does no counting.
-  (role ?home {@self household_cook ?home})
+  (role ?home {@self household-cook ?home})
   (when    (and (is-a (spatial @self building) [k building shop])
                 (spatial ?home room [k kitchen]): ?kitchen
                 (believed-pile-count ?kitchen [k food]): ?blv
@@ -122,22 +122,22 @@
 ; ---- the errand: go to THE provisions shop (never a generic one) ------------
 ; The go sub-goal INHERITS the provision goal's drive through /caused_by (the
 ; worship_go shape - no own utility); at the shop the go retires, the standing
-; goal is the leaf, and provision_act promotes on its when.
+; goal is the leaf, and provision-act promotes on its when.
 
 (npc-think provision_go
   (goal {@self PROVISION})
-  (any {@self provisions_shop ?shop})
+  (any {@self provisions-shop ?shop})
   (when (and ?shop
              (not (spatial @self building ?shop))))
   (effects (maintain-proposal {@self enter ?shop})))
 
 ; MAINTENANCE co-minter of the shared {@self ORIENT} search: while the provisioner knows no
 ; provisions shop, mint the orient goal; cease the moment orient_act learns one ({@self
-; provisions_shop}). No (no-goal) dedup - under multi-rule support each lane co-mints its own
+; provisions-shop}). No (no-goal) dedup - under multi-rule support each lane co-mints its own
 ; source on {@self ORIENT} and withdraws it independently; the goal lives until the last withdraws.
 (npc-think provision_orient
   (goal {@self PROVISION})
-  (when -{@self provisions_shop ?})
+  (when -{@self provisions-shop ?})
   (effects       (begin-goal {@self ORIENT}))
   (cease-effects (end-goal   {@self ORIENT})))
 

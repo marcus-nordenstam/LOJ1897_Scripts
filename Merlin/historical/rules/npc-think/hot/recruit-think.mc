@@ -15,9 +15,9 @@
   ; bind would take the first post found and only ever test THAT ad's org.
   (role ?ad {@self post ?ad ?org})
   (when (and {?org isa ?ok}
-             {?org employee_register ?reg}
+             {?org employee-register ?reg}
              (>= (table-count ?reg)
-                 (if (table-match public_orgs kind ?ok employee_count ?ec) (then ?ec) (else 2)))))
+                 (if (table-match public_orgs kind ?ok employee-count ?ec) (then ?ec) (else 2)))))
   (utility duty)
   (effects (maintain-proposal {@self DESTROY_ENTITY ?ad})))
 

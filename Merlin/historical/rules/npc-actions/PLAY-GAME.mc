@@ -9,9 +9,9 @@
   (duration 90)
   (kind_fold)          
   (effects
-    ; gambling_addiction is the standing DISPOSITION (a state) - and the amplifier
+    ; gambling-addiction is the standing DISPOSITION (a state) - and the amplifier
     ; gamble_urge feeds back into: accumulating ~0.5 per fire (~2 to morbid), it
     ; deepens the pull. The sobriety + wealth classifiers read it graded.
-    (set-attr @self gambling_addiction
-              (min 1 (+ (attr @self gambling_addiction) 0.5)))
+    (set-attr @self gambling-addiction
+              (min 1 (+ (attr @self gambling-addiction) 0.5)))
     (set-outcome {@self PLAY_GAME} /succ)))

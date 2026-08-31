@@ -7,7 +7,7 @@
 ; put it there), and this chain drains it:
 ;
 ;   stow_go     : holding the goal, not at home -> travel home. The loot / the
-;                 bloody knife is physically CARRIED (gripped_by rides the
+;                 bloody knife is physically CARRIED (gripped-by rides the
 ;                 hand), so the world sees a laden walker, not a teleport. AT home the
 ;                 go sub-goal is spent, the stow goal is the leaf and promotes to
 ;                 stow_act (npc-act/stow.hs) - no dwell rung.
@@ -22,12 +22,12 @@
 (include "../../../macros/tunables.mc")
 
 ; want_stow (npc-think) - OWNS the stow goal end to end. The theft act records the take
-; as {@self carrying_loot ?item} (own state); this self-gate binds that item and holds the
+; as {@self carrying-loot ?item} (own state); this self-gate binds that item and holds the
 ; standing {@self stow ?item} goal while the loot is in hand. Its falling edge is stow_act
-; putting the loot away and ending carrying_loot, which retires the goal. The acts never
+; putting the loot away and ending carrying-loot, which retires the goal. The acts never
 ; mint or end the goal - they only write the possession state the minter reads.
 (npc-think want_stow
-  (role @self {@self carrying_loot ?item})
+  (role @self {@self carrying-loot ?item})
   (utility errand always-pick)
   (effects       (begin-goal {@self stow ?item}))
   (cease-effects (end-goal   {@self stow ?item})))
@@ -49,7 +49,7 @@
   ; worth-hiding item (priced above the loot floor), else 0 (the body puts
   ; it openly in the room it stands in).
   (effects
-    (if (and (> (price ?item) (valuable_loot_price_min)) {@self hiding_spot ?})
-              (then (any {@self hiding_spot ?}).target)
+    (if (and (> (price ?item) (valuable_loot_price_min)) {@self hiding-spot ?})
+              (then (any {@self hiding-spot ?}).target)
               (else 0)): ?place
     (maintain-proposal {@self stow ?item ?place})))

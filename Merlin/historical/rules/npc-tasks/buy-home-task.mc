@@ -11,7 +11,7 @@
 ;   settle   : still for sale (per the listing @self READ) and not yet recorded ->
 ;              propose the RECORD_SALE act.
 ;   take_up  : the record transferred -> mint @self's {own} + {home} (@excl, leaves
-;              the natal home) + {occupant}, drop the read-in for_sale belief, conclude.
+;              the natal home) + {occupant}, drop the read-in for-sale belief, conclude.
 ;   lost     : a rival closed first (no longer for sale, never settled) -> abandon.
 ; ----------------------------------------------------------------------------
 
@@ -19,7 +19,7 @@
   (tar @excl building)
   (and
     (try
-      (when (and {?dwell availability [k for_sale]}
+      (when (and {?dwell availability [k for-sale]}
                  -{@self RECORD_SALE ?dwell /succ}))
       (utility errand)
       (effects (debug-print "BH_SETTLE")
@@ -31,9 +31,9 @@
         (begin-belief {@self own ?dwell})
         (begin-belief {@self home ?dwell})
         (begin-belief {?dwell occupant @self})
-        (end-belief {?dwell availability [k for_sale]})
+        (end-belief {?dwell availability [k for-sale]})
         (set-outcome ?bh-rel /succ)))
     (try
-      (when (and -{?dwell availability [k for_sale]}
+      (when (and -{?dwell availability [k for-sale]}
                  -{@self RECORD_SALE ?dwell /succ}))
       (effects (debug-print "BH_LOST") (set-outcome ?bh-rel /fail)))))

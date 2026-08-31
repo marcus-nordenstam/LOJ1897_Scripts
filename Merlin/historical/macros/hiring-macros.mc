@@ -8,14 +8,14 @@
 ; ----------------------------------------------------------------------------
 
 ; (hosted-by ?bt ?org-kind): does an org of ?org-kind host this post? A `none`
-; business_type is a generic post (a cook / clerk works anywhere).
+; business-type is a generic post (a cook / clerk works anywhere).
 (define-macro hosted-by (?bt ?org-kind)
   (or (= ?bt none) (is-a ?org-kind ?bt)))
 
 ; (class-ok ?w ?cf): the class floor. An UNAPPRAISED class passes (matching the
 ; old match's "unappraised passes" rule); a known class must meet the floor.
 (define-macro class-ok (?w ?cf)
-  (or -{?w class_situation ?}
+  (or -{?w class-situation ?}
       (class-at-least ?w ?cf)))
 
 ; (repute-ok ?w ?rr): the reputation gate. `none` = no requirement; otherwise
@@ -28,11 +28,11 @@
               (then ?req_rr) (else -1)))))
 
 ; (skill-ok ?w ?d ?b): the skill/education gate. `none` = no requirement (an
-; entry rung); otherwise the worker's own {@self skilled_in <domain> /aux <band>}
+; entry rung); otherwise the worker's own {@self skilled-in <domain> /aux <band>}
 ; must hold at >= the required band (unheld = -1 = /fail).
 (define-macro skill-ok (?w ?d ?b)
   (or (= ?d none)
-      (>= (if (table-match band_rank band (any {?w skilled_in ?d}).auxiliary rank ?w_cr)
+      (>= (if (table-match band_rank band (any {?w skilled-in ?d}).auxiliary rank ?w_cr)
               (then ?w_cr) (else -1))
           (if (table-match band_rank band ?b rank ?req_cr)
               (then ?req_cr) (else -1)))))

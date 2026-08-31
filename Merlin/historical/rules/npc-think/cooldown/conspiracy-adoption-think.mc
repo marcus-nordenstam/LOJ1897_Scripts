@@ -32,7 +32,7 @@
 
   (role @self )
   ; Anyone @self believes WANTS him to do the kill - the goal arrives only by reading
-  ; the (msg_class urge) letter (its content is the instigator's goal clause), never
+  ; the (msg-class urge) letter (its content is the instigator's goal clause), never
   ; by telepathy. The adopted belief is {<instigator> goal {<me> kill <victim>}}; the
   ; nested kill clause is the role's own membership criterion, and the {..}:?plot-rel
   ; capture + free ?victim bind at the when-gate.

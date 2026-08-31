@@ -18,7 +18,7 @@
 ; the room's actual contents. The CALLER gates the physical plausibility
 ; (@self must BE at the premises - walking the building's rooms during the
 ; stocktake act is the act's own granularity) and walks the rooms:
-;   (for-each ?room (spatial <building> parts [k interior_space room] /env)
+;   (for-each ?room (spatial <building> parts [k interior-space room] /env)
 ;     (take-stock-of ?room [k food]))
 ; ----------------------------------------------------------------------------
 

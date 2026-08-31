@@ -45,20 +45,20 @@
 ; ---- pressure affect (kind stress) -----------------------------------------
 (define-table pressure_affect (fields kind stress)
   (record humiliation        0.8)
-  (record existential_threat 1.0)
-  (record exposure_risk      0.7)
-  (record moral_violation    0.6)
+  (record existential-threat 1.0)
+  (record exposure-risk      0.7)
+  (record moral-violation    0.6)
   (record injustice          0.7)
-  (record status_loss        0.6)
-  (record attachment_loss    0.7)
-  (record autonomy_loss      0.5)
-  (record resource_scarcity  0.6)
-  (record obligation_strain  0.4)
-  (record rivalry_pressure   0.5))
+  (record status-loss        0.6)
+  (record attachment-loss    0.7)
+  (record autonomy-loss      0.5)
+  (record resource-scarcity  0.6)
+  (record obligation-strain  0.4)
+  (record rivalry-pressure   0.5))
 
 ; ---- trait affect (one row per (aspect, kind); grouped by aspect at load) ---
 ; dampens 1 negates the gain (an alias for amplifies-with-negated-gain).
-(define-table trait_affect (fields aspect kind gain one_sided dampens)
+(define-table trait_affect (fields aspect kind gain one-sided dampens)
   (record volatility  anger           0.8 0 0)
   (record volatility  fear            0.8 0 0)
   (record volatility  distress        0.8 0 0)
@@ -80,7 +80,7 @@
   (record narcissism  contempt        1.2 1 0)
   (record psychopathy guilt           0.6 1 1)
   (record psychopathy fear            0.6 1 1)
-  (record psychopathy moral_violation 0.6 1 1))
+  (record psychopathy moral-violation 0.6 1 1))
 
 ; ---- relational-signal dimensions (split: scalars+thresholds, then verbs) ---
 ; The five stance dims MUST be the first five signal rows, in

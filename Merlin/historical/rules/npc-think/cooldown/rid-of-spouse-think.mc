@@ -57,13 +57,13 @@
   ; (0.5 + psychopathy) * (1 - inhibition) * (1 - compassion) *
   ; (1 + spouse-wealth) * (1.5 if an unmarriageable lover waits else 1.0).
   (when (and (or (detests ?spouse)
-                 {?spouse (theme-labels violent_to) @self /ever})
+                 {?spouse (theme-labels violent-to) @self /ever})
              -{?spouse condition [k dead]}
              (or (has-proposal {@self kill ?spouse})
                  (chance
                    (* (crime-scale) 0.02
                       (* (+ (if (detests ?spouse) (then 1) (else 0))
-                            (if {?spouse (theme-labels violent_to) @self /ever} (then 1) (else 0)))
+                            (if {?spouse (theme-labels violent-to) @self /ever} (then 1) (else 0)))
                          (* (+ 0.5 (attr @self psychopathy))
                             (* (disinhibition)
                                (* (callousness @self)

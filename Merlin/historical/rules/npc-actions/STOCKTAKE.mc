@@ -44,7 +44,7 @@
     (if (spatial @self building)
         (then
           (spatial @self building): ?shop
-          (spatial ?shop parts [k interior_space room] /env): ?rooms
+          (spatial ?shop parts [k interior-space room] /env): ?rooms
           ; Validate the shelves against belief - every room of the shop.
           (for-each ?room ?rooms
             (take-stock-of ?room [k food]))
@@ -57,16 +57,16 @@
               (pile-at-into ?room [k food] ?food_pile)
               (if (not ?food_pile)
                   (then (create-entity [k pile] ?room): ?food_pile
-                        (set-attr ?food_pile content_kind [k food])))
+                        (set-attr ?food_pile content-kind [k food])))
               (set-attr ?food_pile count (grocer_shelf_stock))))
           ; Restock the weapons + household-chemicals shelf the same way (one room
           ; carries the stock). Poison counts by the toxin FAMILY, spawns the
-          ; household staple (white_arsenic) - just another provision the shop carries.
+          ; household staple (white-arsenic) - just another provision the shop carries.
           (for-each ?room ?rooms /limit 1
             (repeat (- (shop_weapon_stock) (count (spatial ?room contents [k firearm] /env)))
               (create-entity [k pistol] ?room): ?gun)
             (repeat (- (shop_weapon_stock) (count (spatial ?room contents [k knife] /env)))
               (create-entity [k knife] ?room): ?blade)
             (repeat (- (shop_weapon_stock) (count (spatial ?room contents [k toxin] /env)))
-              (create-entity [k white_arsenic] ?room): ?tox))))
+              (create-entity [k white-arsenic] ?room): ?tox))))
     (set-outcome {@self STOCKTAKE} /succ)))

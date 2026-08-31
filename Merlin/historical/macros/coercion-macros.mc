@@ -6,7 +6,7 @@
 ; of the victim's OTHER liaisons (count (every {?victim lover ? /ever})), so her name
 ; is stained to him and a secret everyone knows coerces nobody - the anchor ends.
 ; Otherwise the demand is pressed - the victim's threatened
-; SAY record + exposure_risk pressure refresh (compounding salience walks
+; SAY record + exposure-risk pressure refresh (compounding salience walks
 ; her from bribe / confess toward the kill tail across ticks, unscripted) -
 ; and half the months a blackmail note rides the covert letter channel: the
 ; anonymous {@self coerce ?victim {?victim lover @self}} demand note, a
@@ -30,14 +30,14 @@
         (if (chance 0.5)
             (then (send-covert-letter ?victim
                                  (nl-written-msg "I coerced ?victim into becoming my lover")
-                                 [k blackmail_note]))))))
+                                 [k blackmail-note]))))))
 
-; (coercion-stake): the exposure_risk pressure delta a victim mints per month, as
+; (coercion-stake): the exposure-risk pressure delta a victim mints per month, as
 ; HE reckons it - the base window scaled by what publication would cost HIS OWN
 ; standing (class, self-known). begin-belief /salience compounds it across months,
 ; walking him from bribe / confess toward the kill tail (deliberation_affinity).
 (define-macro coercion-stake ()
   (* 1440
-     (if (is-a (any {@self class_situation}).target [k class_situation upper]) (then 1.5)
-       (else (if (is-a (any {@self class_situation}).target [k class_situation middle]) (then 1.2)
+     (if (is-a (any {@self class-situation}).target [k class-situation upper]) (then 1.5)
+       (else (if (is-a (any {@self class-situation}).target [k class-situation middle]) (then 1.2)
                 (else 1.0))))))

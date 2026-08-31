@@ -12,7 +12,7 @@
 ; ({?x a, b, c} = a AND b AND c on the shared subject ?x, written once). Every filter
 ; is a belief-query - kind / liveness / gender / age read from PERCEIVED beliefs (the
 ; attrs carry (hsim-percept) in common.arc, so a mind internalizes {?o isa <kind>} /
-; {?o condition alive} / {?o gender <g>} / {?o age_band <band>} on sight, even for
+; {?o condition alive} / {?o gender <g>} / {?o age-band <band>} on sight, even for
 ; strangers; the self mirrors them about @self via update_self_awareness). No
 ; omniscient (kind ...) / (alive) / (attr ...) / (years-old ...) ops. Age is band-only
 ; (see macros/age_macros.hs).
@@ -92,7 +92,7 @@
        -{?x pregnant ?}))
 
 ;; Adult of working / migration age. Used by emigration.
-(define-macro young_adult (?x)
+(define-macro young-adult (?x)
   (and (known_alive ?x)
        (working-age ?x)))                ; 16-49
 
@@ -105,6 +105,6 @@
 
 ;; A letter / document the deliberating mind has SEEN - perception minted
 ;; {?x isa [k letter]} (and observable attrs, e.g. {?x addressee ..}) when @self
-;; observed it. is-a [k letter] matches every letter subkind (love_letter, tryst_note).
+;; observed it. is-a [k letter] matches every letter subkind (love-letter, tryst-note).
 (define-macro any_letter (?x)
   {?x isa [k letter]})

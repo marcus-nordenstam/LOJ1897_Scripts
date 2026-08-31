@@ -57,12 +57,12 @@
               -{?wp availability ?})
   (effects
     ; list ?wp on the for-sale register (row carries its deed, found by a registry scan).
-    (for-each ?deed (env-entities [k title_deed])
+    (for-each ?deed (env-entities [k title-deed])
       (do
         (table-match (attr ?deed writing) building ?db)
         (if (= ?db ?wp)
           (then
-            (for-each ?listings (env-entities [k for_sale_listings])
+            (for-each ?listings (env-entities [k for-sale-listings])
               (table-add ?listings building ?wp deed ?deed))
             (break)))))
-    (begin-belief {?wp availability [k for_sale]})))
+    (begin-belief {?wp availability [k for-sale]})))

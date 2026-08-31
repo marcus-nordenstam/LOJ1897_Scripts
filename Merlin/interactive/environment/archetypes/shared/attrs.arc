@@ -8,9 +8,9 @@
 # NOTE: "isa" (kind attr) is auto-created on every population - no need to declare it.
 
 # Lifecycle dates (used by historical sim; persist into interactive).
-(attr "birth_date" (type date) (spec-attr date) (per feel))
-(attr "death_date" (type date) (state-flags-tar @excl) (imperceptible))
-(attr "death_cause" (type kind) (imperceptible))
+(attr "birth-date" (type date) (spec-attr date) (per feel))
+(attr "death-date" (type date) (state-flags-tar @excl) (imperceptible))
+(attr "death-cause" (type kind) (imperceptible))
 
 # Provenance marker (diagnostics). 1 = this NPC was created WITHOUT parents - a
 # founder, or an immigrant minted from a parent-less spec - so it legitimately
@@ -53,29 +53,29 @@
 # The role-based mail-reading binds a letter via this belief.
 (attr "addressee" (type name) (per obs) (auto-percept) (hsim-percept))
 # The DUTY a document is addressed to ("To the Recruiting Officer") - the office
-# envelope line, matched against the reader's own duty_to aux by take_my_letters.
-(attr "addressee_duty" (type kind) (per obs) (auto-percept) (hsim-percept))
+# envelope line, matched against the reader's own duty-to aux by take_my_letters.
+(attr "addressee-duty" (type kind) (per obs) (auto-percept) (hsim-percept))
 
 # Conditions & properties. Conceptual: kind-typed; @excl lives on the concept.
 # condition is hsim-perceptible: liveness (alive/dead) is visible on sight, so a
 # hsim mind that observes someone internalizes {them condition alive|dead} - the
 # perception-native replacement for an explicit liveness mint.
 (attr "condition" (type kind alive) (per obs) (auto-percept) (hsim-percept))
-# Consciousness axis - human_npc only (props never carry it). Default conscious;
+# Consciousness axis - human-npc only (props never carry it). Default conscious;
 # a subdue blow writes unconscious, recovery writes it back. Mirrors like
 # condition, so a witness who observes the struck body internalizes {them
 # awareness unconscious}; @excl (concept-side) supersedes the prior value.
 (attr "awareness" (type kind conscious) (per obs) (auto-percept) (hsim-percept))
-# Interment axis - human_npc only. Default unburied, so anyone who observes a
+# Interment axis - human-npc only. Default unburied, so anyone who observes a
 # person holds {them internment unburied}; the burial rite mints buried
 # belief-side, which @excl-supersedes the unburied percept in every witness.
 (attr "internment" (type kind unburied) (per obs) (auto-percept) (hsim-percept))
 (attr "color" (type kind) (per obs) (auto-percept))
 
 # Sensors & motors
-(attr "visual_sensor" (type visual-sensor))
-(attr "sound_sensor" (type sound-sensor))
-(attr "physical_motors" (type physical-motors))
+(attr "visual-sensor" (type visual-sensor))
+(attr "sound-sensor" (type sound-sensor))
+(attr "physical-motors" (type physical-motors))
 
 # Body structure
 # Hands are integral to reasoning - they get their own attrs even though they also appear in parts.
@@ -84,23 +84,23 @@
 (attr "wear" (type entity) (per obs) (auto-percept))
 
 # Demographics
-(attr "game_role" (type kind) (per obs) (auto-percept) (unaware))
+(attr "game-role" (type kind) (per obs) (auto-percept) (unaware))
 (attr "age" (type int) (range 0 120) (spec-attr age) (per feel) (state-flags-tar @excl))
-(attr "age_group" (type int) (range 0 8) (spec-attr age-group) (per obs) (auto-percept) (state-flags-tar @excl))
+(attr "age-group" (type int) (range 0 8) (spec-attr age-group) (per obs) (auto-percept) (state-flags-tar @excl))
 # Perceptible life-stage (the @excl concept + its 8 band kinds live in
-# Concepts.mon). age_band is what anyone SEES on sight - kind/gender/age-band are
+# Concepts.mon). age-band is what anyone SEES on sight - kind/gender/age-band are
 # visible even to strangers - so it is (hsim-percept): a hsim mind that observes a
-# person internalizes {them age_band <band>} via mx_observe, with NO explicit mint.
-# OBS-only (like gender): self gets {@self age_band <band>} from the visual
+# person internalizes {them age-band <band>} via mx_observe, with NO explicit mint.
+# OBS-only (like gender): self gets {@self age-band <band>} from the visual
 # self-observe inside update_self_awareness (it mirrors the /hsim_percept set in
 # hsim too). NOT int-feel - a feel+obs split on an @excl attr makes the FEEL and
 # visual passes end each other's belief, churning the self band to /past.
-# Recomputed from birth_date yearly (hsim::refresh_all_age_attrs) + at creation.
-(attr "age_band" (type kind) (per obs) (auto-percept) (hsim-percept))
-# The +/-1 proximity window of age_band (a plural set of band kinds), perceived
+# Recomputed from birth-date yearly (hsim::refresh_all_age_attrs) + at creation.
+(attr "age-band" (type kind) (per obs) (auto-percept) (hsim-percept))
+# The +/-1 proximity window of age-band (a plural set of band kinds), perceived
 # about OTHERS so the age-peers macro can test "same / adjacent band" without
 # arithmetic in the .hs. ext-obs only: a mind never needs its own span.
-(attr "age_span" (type kind array 3) (per obs) (auto-percept) (hsim-percept))
+(attr "age-span" (type kind array 3) (per obs) (auto-percept) (hsim-percept))
 # gender / appearance / height / girth are conceptual: kind-typed, value is an
 # ontology term. @excl now lives on the concept in Concepts.mon (rule 4b / 5).
 (attr "gender" (type kind) (per obs) (auto-percept) (hsim-percept))
@@ -109,18 +109,18 @@
 (attr "girth" (type kind) (per obs) (auto-percept) (hsim-percept))
 # Hair / eye colour - observable physical traits (serial_predation
 # generalized fixation). Kind-typed; seeded at creation from the
-# hereditary trait tables (hair_color.txt / eye_color.txt).
-(attr "hair_color" (type kind) (per obs) (auto-percept) (hsim-percept))
-(attr "eye_color" (type kind) (per obs) (auto-percept) (hsim-percept))
+# hereditary trait tables (hair-color.txt / eye-color.txt).
+(attr "hair-color" (type kind) (per obs) (auto-percept) (hsim-percept))
+(attr "eye-color" (type kind) (per obs) (auto-percept) (hsim-percept))
 # nationality and social standing are not physical environment state - they
-# exist solely as beliefs (nationality / class_situation labels in States.mon).
+# exist solely as beliefs (nationality / class-situation labels in States.mon).
 
-# Personality & internal. sexual_orient is kind-typed; @excl lives on the
+# Personality & internal. sexual-orient is kind-typed; @excl lives on the
 # concept in Concepts.mon. Interests are NOT physical - they are seeded
 # directly as {@self interest <kind>} self-beliefs in mx_make_human (kinds
 # sampled from the `interest` subtree in Concepts.mon) and propagated via the
 # friend-tier belief mirror.
-(attr "sexual_orient" (type kind) (per feel))
+(attr "sexual-orient" (type kind) (per feel))
 
 # Fatigue, the continuous physical tiredness state (0 rested .. 1 ready-for-bed,
 # can exceed 1 when sleep is denied). Imperceptible: the physiological scalar is
@@ -175,7 +175,7 @@
 # The addiction is what makes {@self play_game <game>} for a `gambling`-facet
 # game more likely (realised via event chance / the action pipeline's drive
 # weighting). Supersedes the old `play_game gambling` act-record.
-(attr "gambling_addiction" (type float) (range 0 1) (int-per feel) (ext-per obs) (state-flags-tar @excl))
+(attr "gambling-addiction" (type float) (range 0 1) (int-per feel) (ext-per obs) (state-flags-tar @excl))
 
 # Big Five personality - the ten aspects of the Big Five Aspect Scale
 # (DeYoung/Quilty/Peterson 2007), two per OCEAN domain. Genetic and heritable
@@ -222,9 +222,9 @@
 # attraction stance scalar.
 (attr "attractiveness" (type float) (range 0 1) (int-per feel) (ext-per obs) (state-flags-tar @excl))
 # Relationships
-(attr "pregnant_when" (type date) (per obs) (auto-percept))
+(attr "pregnant-when" (type date) (per obs) (auto-percept))
 # Only used to pass on appropriate DNA from the father
-(attr "pregnant_by" (type entity) (imperceptible))
+(attr "pregnant-by" (type entity) (imperceptible))
 
 # Region - updated by Environment, self-perceived via /feel
 (attr "region" (type entity) (entity "region") (spec-attr region) (per feel) (state-flags-tar @excl))
@@ -235,8 +235,8 @@
 # Sound
 # Holds the specific action that produced this sound (e.g. {john SAY (msg...) sam}).
 # Imperceptible so we perceive the createAction on its own, not embedded in the sound.
-(attr "create_action" (type pattern) (spec-attr create-action) (imperceptible))
-(attr "speaker" (type entity) (entity "human_player" "human_npc") (spec-attr speaker) (imperceptible))
+(attr "create-action" (type pattern) (spec-attr create-action) (imperceptible))
+(attr "speaker" (type entity) (entity "human-player" "human-npc") (spec-attr speaker) (imperceptible))
 (attr "preroll" (type float) (range 0 10) (spec-attr preroll) (imperceptible))
 
 # Prop-specific
@@ -245,17 +245,17 @@
 # reader's mind, where the sentences are evaluated into beliefs.
 (attr "writing" (type pattern) (per read) (state-flags-tar @msg @S))
 # How hard the entity is being gripped. 0=loose, 1=hard
-(attr "grip_force" (type int) (range 0 1) (imperceptible))
+(attr "grip-force" (type int) (range 0 1) (imperceptible))
 
 # Stack
-(attr "stack_label" (type str) (per obs) (auto-percept) (state-flags-tar @excl))
+(attr "stack-label" (type str) (per obs) (auto-percept) (state-flags-tar @excl))
 # Filing membership + order live in the placement index (whereabouts_chains
 # stack edges: the list head is the exposed item, bury re-links to the tail) -
-# there are no items/top/in_stack attrs.
+# there are no items/top/in-stack attrs.
 
 # Pile (fungible-item collection). A co-present observer mints exactly two
-# beliefs regardless of count: {pile content_kind [k <kind>]} + {pile count N}.
-(attr "content_kind" (type kind) (per obs) (auto-percept) (hsim-percept))
+# beliefs regardless of count: {pile content-kind [k <kind>]} + {pile count N}.
+(attr "content-kind" (type kind) (per obs) (auto-percept) (hsim-percept))
 (attr "count" (type int) (range 0 1000000) (per obs) (auto-percept) (hsim-percept))
 
 # Weather (region)
@@ -267,69 +267,69 @@
 
 # Region mood - non-sentient archetype, so per Q4 we keep mood state on the
 # region itself as parallel-array attrs. Updated by run_region_mood_pass.
-(attr "mood_kinds" (type kind array 8) (state "mood") (per obs) (auto-percept))
-(attr "mood_intensities" (type int array 8) (range 0 100) (per obs))
-(attr "mood_set_dates" (type date array 8) (imperceptible))
+(attr "mood-kinds" (type kind array 8) (state "mood") (per obs) (auto-percept))
+(attr "mood-intensities" (type int array 8) (range 0 100) (per obs))
+(attr "mood-set-dates" (type date array 8) (imperceptible))
 
 # Building physical / structural properties.
 (attr "isolated"    (type int) (range 0 1) (per obs))
-(attr "has_crypt"   (type int) (range 0 1) (per obs))
-(attr "locked_wing" (type int) (range 0 1) (per obs))
+(attr "has-crypt"   (type int) (range 0 1) (per obs))
+(attr "locked-wing" (type int) (range 0 1) (per obs))
 # Premises open/closed STATUS (no-telepathy teardown). A perceivable PHYSICAL fact the
 # owner's closure act sets on the BUILDING via (shutter-building ?wp) (closure_macros.hs),
 # writing [k closed] (from [k open]). (hsim-percept): since NPCs ALWAYS front-park a
 # building on arrival (Stage-5 two-arm), a worker RE-OBSERVES his workplace every commute
-# via exterior perception and INTERNALIZES {building struct_status [k closed]} fresh;
+# via exterior perception and INTERNALIZES {building struct-status [k closed]} fresh;
 # reconcile_closed drops his own stale employment beliefs off that PERCEIVED belief - no
 # mind but his own is written. Kind-valued (open|closed under `status`, Concepts.mon), so
-# it mirrors as a clean belief like `condition`. Lives on container_structure (buildings).
-(attr "struct_status" (type kind open) (per obs) (auto-percept) (hsim-percept))
-# A door/window structure_part's opening state (ajar|shut) and lock state
+# it mirrors as a clean belief like `condition`. Lives on container-structure (buildings).
+(attr "struct-status" (type kind open) (per obs) (auto-percept) (hsim-percept))
+# A door/window structure-part's opening state (ajar|shut) and lock state
 # (locked|unlocked). Kind-valued @excl, perceived on sight (a thief cases a lock).
-(attr "opening_status" (type kind ajar) (per obs) (auto-percept) (hsim-percept))
-(attr "lock_status" (type kind locked) (per obs) (auto-percept) (hsim-percept))
+(attr "opening-status" (type kind ajar) (per obs) (auto-percept) (hsim-percept))
+(attr "lock-status" (type kind locked) (per obs) (auto-percept) (hsim-percept))
 # Structural integrity of an opening (intact|broken) - distinct from the condition axis.
 (attr "integrity" (type kind intact) (per obs) (auto-percept) (hsim-percept))
-# Era bounds - the building physically exists from era_min to era_max.
-(attr "era_min" (type date) (imperceptible))
-(attr "era_max" (type date) (imperceptible))
+# Era bounds - the building physically exists from era-min to era-max.
+(attr "era-min" (type date) (imperceptible))
+(attr "era-max" (type date) (imperceptible))
 # Address (Section 4.12 exterior-spaces model). Two levels share this attr:
 #   - a BUILDING's address -> its exterior address-SPACE entity (the location).
-#   - that address-SPACE's address -> the road it fronts (with address_number).
+#   - that address-SPACE's address -> the road it fronts (with address-number).
 # So a building's full street address is read FROM its address-space (the space's
-# `address` road + `address_number`). Estates with no street self-reference.
+# `address` road + `address-number`). Estates with no street self-reference.
 # hsim-perceptible: observing a premise from the street mirrors {premise address
 # <road>} + its number, so the road arrives as a known object through the belief
 # target (roads are spline-only, never in the sector grid, never seen directly -
 # address belief is the ONLY road-knowledge channel). Consumed by the Stage-5
 # fringe policy (fringe-on-my-current-road).
-(attr "address" (type entity) (entity "road" "structure" "container_structure" "exterior_space") (per obs) (auto-percept) (hsim-percept))
-(attr "address_number" (type int) (range 1 9999) (per obs) (auto-percept) (hsim-percept))
+(attr "address" (type entity) (entity "road" "structure" "container-structure" "exterior-space") (per obs) (auto-percept) (hsim-percept))
+(attr "address-number" (type int) (range 1 9999) (per obs) (auto-percept) (hsim-percept))
 # Apartment number (Section 4.12). INTERIOR spaces only: one building at one
-# street address may hold several apartments, each an interior_space with its
+# street address may hold several apartments, each an interior-space with its
 # own number; rooms within carry it via their apartment's struct_parent. Distinct
-# from address_number (the street number on the exterior address-space).
-(attr "apartment_number" (type int) (range 1 9999) (per obs) (auto-percept))
+# from address-number (the street number on the exterior address-space).
+(attr "apartment-number" (type int) (range 1 9999) (per obs) (auto-percept))
 
 # Address-numbering POLICY (lives on the ROAD; see road.arc). Authored in the
 # GrymEngine Spline Tool and pushed by the Player at scene load. These tell the
 # shared sim-time numbering pass (merlin::assign_street_addresses_all) HOW to
 # number the street_spaces fronting this road; the NUMBERS themselves are never
 # authored, only generated. Imperceptible - policy, not an observable property.
-#   address_even_side: 0 = even house numbers on the road's LEFT side, 1 = RIGHT.
-#   address_start:     first house number assigned per side.
-#   address_step:      increment between consecutive same-side numbers (2 = odd/even).
-#   address_ascends_forward: 1 = low numbers at the first CV end, 0 = at the last.
-(attr "address_even_side" (type int) (range 0 1) (imperceptible))
-(attr "address_start" (type int) (range 1 9999) (imperceptible))
-(attr "address_step" (type int) (range 1 16) (imperceptible))
-(attr "address_ascends_forward" (type int) (range 0 1) (imperceptible))
+#   address-even-side: 0 = even house numbers on the road's LEFT side, 1 = RIGHT.
+#   address-start:     first house number assigned per side.
+#   address-step:      increment between consecutive same-side numbers (2 = odd/even).
+#   address-ascends-forward: 1 = low numbers at the first CV end, 0 = at the last.
+(attr "address-even-side" (type int) (range 0 1) (imperceptible))
+(attr "address-start" (type int) (range 1 9999) (imperceptible))
+(attr "address-step" (type int) (range 1 16) (imperceptible))
+(attr "address-ascends-forward" (type int) (range 0 1) (imperceptible))
 
 # Conversation
-(attr "initiator" (type entity) (entity "human_player" "human_npc") (per obs) (auto-percept))
+(attr "initiator" (type entity) (entity "human-player" "human-npc") (per obs) (auto-percept))
 
 # Fluid
-(attr "fluid_amount" (type float) (range 0 1) (per obs) (auto-percept) (state-flags-tar @excl))
+(attr "fluid-amount" (type float) (range 0 1) (per obs) (auto-percept) (state-flags-tar @excl))
 # Poison taint on a drink fluid (interrogation detail plan): the concrete
 # poison kind (Objects.mon `fluid > poison`) a wine / tea / water fluid was
 # laced with. IMPERCEPTIBLE - poison in a drink is not seen by looking; it
@@ -345,12 +345,12 @@
 # State-name override (the bare attr name is plural; the underlying state
 # label is singular). All /obs - perceivable to anyone looking. Wired
 # onto body-part archetypes (wounds + stains + marks), prop and
-# structure_part (stains + marks only - props don't bleed).
+# structure-part (stains + marks only - props don't bleed).
 #
 # Forensic-trace attrs. PR-evi-D 2026-05-27 unifies wound / stain / mark
 # under a single `blemish` parent kind in Objects.mon; the `blemishes`
 # attr below is the unified plural-kind attr that accepts any mix
-# (puncture_wound + blood_stain + tool_mark on the same body-part / prop
+# (puncture-wound + blood-stain + tool-mark on the same body-part / prop
 # is one attr write, not three). The three legacy attrs (wounds /
 # stains / marks) remain in place until shared_functions/yield_evidence
 # is migrated to write to `blemishes` instead; new writers should
@@ -377,26 +377,26 @@
 (attr "variant" (type str) (imperceptible))
 
 # Navigation v2 (see Merlin/Docs/nav_v2_plan.md)
-# /is_nav_passage - runtime gate: 1 = passable, 0 = dormant. Action handlers
+# /is-nav-passage - runtime gate: 1 = passable, 0 = dormant. Action handlers
 #   flip this on the opening entity (door/gate/large_window). nav_graph
 #   subscribes and toggles the corresponding macro-graph passage edge.
-# /nav_mesh - Hstr cache key for the structure's baked nav-mesh data;
+# /nav-mesh - Hstr cache key for the structure's baked nav-mesh data;
 #   written by Player at scene load when an island is registered.
 # Throat geometry, opening identity and binding are all derived at scene-
 # load from the opening Merlin entity's own TransformComponent (position,
 # rotation, scale-as-half-extents per mx_radii_from_world_scale) plus its
 # spatial relationship to nearby nav-meshes. No /opening_name attr; no
 # /passage_throat_obb attr.
-(attr "is_nav_passage" (type int) (range 0 1) (is-nav-passage) (per obs))
-(attr "nav_mesh" (type str) (nav-mesh) (imperceptible))
-# /blocks_nav_terrain - when 1, the entity's OBB footprint rasterises as a
+(attr "is-nav-passage" (type int) (range 0 1) (is-nav-passage) (per obs))
+(attr "nav-mesh" (type str) (nav-mesh) (imperceptible))
+# /blocks-nav-terrain - when 1, the entity's OBB footprint rasterises as a
 # terrain-walkability blocker during t_nav_terrain::build (nav_v2_plan.md §7).
 # Defaults to 0 on plain `structure`; archetypes that physically obstruct the
 # ground (buildings, walls, fences, gates, large rocks, tree trunks) override
 # to 1 in their own .arc file. Connector throat clearing (§7.3) overrides
-# this for cells under a structure's door, so a building with /blocks_nav_terrain
+# this for cells under a structure's door, so a building with /blocks-nav-terrain
 # = 1 still allows path entry through its baked-passage doorway.
-(attr "blocks_nav_terrain" (type int) (range 0 1) (blocks-nav-terrain) (imperceptible))
+(attr "blocks-nav-terrain" (type int) (range 0 1) (blocks-nav-terrain) (imperceptible))
 
 # Road spline geometry is DECLARED per-archetype via (spatial spline) - there
 # is no spline attr. Per-entity CVs are written by Game.cc's LoadScene bridge

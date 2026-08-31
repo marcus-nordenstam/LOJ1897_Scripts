@@ -2,7 +2,7 @@
 ; Emigration - the DECISION to leave the parish. Leaving happens to a SPECIFIC
 ; person, not to the world, so it is a per-NPC decision, with @self bound to
 ; each living NPC. The
-; young_adult template gates @self to a fertile-age adult, and a per-month
+; young-adult template gates @self to a fertile-age adult, and a per-month
 ; (chance) - scaled by the parish's crowding (population-pressure) and by @self's
 ; own openness - rolls the departure. @self is bound O(1); there is no role cast.
 ;
@@ -27,7 +27,7 @@
   (cooldown 1 m)
   (rng-stream migrations)
 
-  (role @self (young_adult @self))
+  (role @self (young-adult @self))
 
   (when (chance (* 0.00125 (+ 0.5 (attr @self openness)) (population-pressure))))
 

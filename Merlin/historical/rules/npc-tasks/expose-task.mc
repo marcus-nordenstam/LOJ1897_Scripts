@@ -14,7 +14,7 @@
 
 (npc-task {@self expose ?victim}:?expose-rel
   (tar @S)
-  (construed_act expose_act betray_act wrong_act) (contradicts privacy)
+  (construed-act expose-act betray-act wrong-act) (contradicts privacy)
   (and
     (try
       (when (and -{@self spouse ?victim}
@@ -48,7 +48,7 @@
       (effects
         (publish-secret-about @self ?victim)
         (if {@self extort ?victim} (then (end-belief {@self extort ?victim})))
-        (crime-ledger-append @self ?victim confront_publicly expose @u @u)
+        (crime-ledger-append @self ?victim confront-publicly expose @u @u)
         (set-outcome ?expose-rel /succ)))
     (try
       (when (or (not (and -{@self spouse ?victim}

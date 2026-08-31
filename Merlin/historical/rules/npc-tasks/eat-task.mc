@@ -42,22 +42,22 @@
       (role ?home {@self home ?home})
       (when (and (= ?place ?home) (chance 0.25)))
       (effects
-        (for-each ?bb-rel (every {?home breakfast_hour ?})
+        (for-each ?bb-rel (every {?home breakfast-hour ?})
             (bind ?bb-rel.target ?b)
-            (for-each ?lb-rel (every {?home lunch_hour ?})
+            (for-each ?lb-rel (every {?home lunch-hour ?})
                 (bind ?lb-rel.target ?l)
-                (for-each ?sb-rel (every {?home supper_hour ?})
+                (for-each ?sb-rel (every {?home supper-hour ?})
                     (bind ?sb-rel.target ?s)
-                    (tell (utterable-msg {?home breakfast_hour ?b}
-                                         {?home lunch_hour ?l}
-                                         {?home supper_hour ?s})))))))
+                    (tell (utterable-msg {?home breakfast-hour ?b}
+                                         {?home lunch-hour ?l}
+                                         {?home supper-hour ?s})))))))
     (try
       (rng-stream behaviour)
       (role ?diner (any_human ?diner)
                    (spatial ?diner co-located @self)
                    (select (score 1) (policy roulette)))
       (effects
-        (for-each ?belief-rel (every {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life_aim ?})
+        (for-each ?belief-rel (every {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life-aim ?})
           (do
             (utterable-msg ?belief-rel): ?msg
             (if -{@self SAY ?msg ?diner}

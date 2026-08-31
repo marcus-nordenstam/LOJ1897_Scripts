@@ -37,7 +37,7 @@
   ; paramour may be there. The room SET is the building's structure (/env: stable ground
   ; truth), but who is IN one is a belief read: a cheater slips into a room he THINKS is
   ; empty, and walking in on someone is the story. No private room -> no slip.
-  (role ?room (spatial (spatial @self building) parts [k interior_space room] /env)
+  (role ?room (spatial (spatial @self building) parts [k interior-space room] /env)
               (not (spatial ?room contents [k human] @self ?paramour))
               (select (policy first-match)))
   (when (or (not (spatial ?paramour co-located @self))

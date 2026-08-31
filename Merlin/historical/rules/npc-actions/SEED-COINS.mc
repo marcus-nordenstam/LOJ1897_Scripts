@@ -12,16 +12,16 @@
   (duration 0)
   (effects
     (bind 0 ?made)
-    (for-each ?room (spatial ?home parts [k interior_space room] /env)
+    (for-each ?room (spatial ?home parts [k interior-space room] /env)
       (if (= ?made 0)
           (then
             (create-entity [k pile] ?room): ?pile
-            (set-attr ?pile content_kind [k coin])
+            (set-attr ?pile content-kind [k coin])
             (set-attr ?pile count 0)
             ; SEE it before believing about it - a belief field lands in the believer's own
             ; realm, so an unobserved object reads @fail.
             (observe ?pile)
             (begin-belief {@self own ?pile})
-            (begin-belief {@self coin_pile ?pile})
+            (begin-belief {@self coin-pile ?pile})
             (bind 1 ?made))))
     (set-outcome {@self SEED_COINS ?home} /succ)))

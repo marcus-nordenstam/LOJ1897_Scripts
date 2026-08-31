@@ -3,7 +3,7 @@
 ; (bury_act) lives in npc-act/bury_act.hs.
 ;
 ; Burial is not a zero-role world sweep over every condition=dead corpse. A
-; PRIEST (a real job-holder - the church org's head_pos, public_orgs.hs) buries
+; PRIEST (a real job-holder - the church org's head-pos, public_orgs.hs) buries
 ; the dead whose bodies are brought to his church. Knowledge reaches him by
 ; PERCEPTION, not telepathy: a bereaved NPC CARRIES the corpse into the church
 ; (convey_corpse.hs relocates the body into the church's room), and the priest,

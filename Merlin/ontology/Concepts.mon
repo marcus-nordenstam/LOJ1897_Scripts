@@ -6,15 +6,15 @@ concept
     something
     someone
 
-    # Weather components. rain/snow/fog/wind carry a strength_measurement;
-    # sky carries a sky_condition.
+    # Weather components. rain/snow/fog/wind carry a strength-measurement;
+    # sky carries a sky-condition.
     weather             (obs) (tar @excl)
-        rain            (tar @excl strength_measurement)
-        snow            (tar @excl strength_measurement)
-        fog             (tar @excl strength_measurement)
-        wind            (tar @excl strength_measurement)
-        sky             (tar @excl sky_condition)
-        thunder         (obs) (tar @excl strength_measurement)
+        rain            (tar @excl strength-measurement)
+        snow            (tar @excl strength-measurement)
+        fog             (tar @excl strength-measurement)
+        wind            (tar @excl strength-measurement)
+        sky             (tar @excl sky-condition)
+        thunder         (obs) (tar @excl strength-measurement)
         temperature     (obs) (tar @excl)
 
     phrase
@@ -29,12 +29,12 @@ concept
         right (side right)
 
     availability        (sub building)  (tar @excl)
-        for_sale
-        for_rent
-        off_the_market
+        for-sale
+        for-rent
+        off-the-market
 
     # A general open/shut STATUS. The value kinds for perceivable open/closed
-    # states - e.g. the struct_status attr on interior_space (common.arc): a room
+    # states - e.g. the struct-status attr on interior-space (common.arc): a room
     # reads `open` while its premises trade and `closed` once shuttered (perceived
     # on sight, so a worker who steps into a closed room learns his firm has folded).
     status
@@ -42,16 +42,16 @@ concept
         closed
 
     # An opening's leaf position (@excl - one at a time): ajar = a passable gap,
-    # shut = the leaf drawn to (still openable if unlocked). The opening_status attr
-    # on a door / window (structure_part.arc), perceived on sight. Unset reads neither.
-    opening_status      (tar @excl)
+    # shut = the leaf drawn to (still openable if unlocked). The opening-status attr
+    # on a door / window (structure-part.arc), perceived on sight. Unset reads neither.
+    opening-status      (tar @excl)
         ajar
         shut
 
-    # An opening's lock state (@excl). The lock_status attr on a door / window.
+    # An opening's lock state (@excl). The lock-status attr on a door / window.
     # Default is unset = NOT locked (an openable door); a residence locks up via an
     # explicit set. Perceived on sight so a thief can case it.
-    lock_status         (tar @excl)
+    lock-status         (tar @excl)
         locked
         unlocked
 
@@ -69,19 +69,19 @@ concept
         covert
         overt
 
-    legal_right
+    legal-right
         property        (sub being)
 
     # Held-VALUE taxonomy: the virtues a person can be attested to hold via
-    # {person value <kind>} attitude beliefs (States.mon `value`). The wrong_act
+    # {person value <kind>} attitude beliefs (States.mon `value`). The wrong-act
     # reflex gate compares an act's (contradicts <kind>) declaration against
-    # them; `property` reuses the legal_right kind above.
-    held_value
+    # them; `property` reuses the legal-right kind above.
+    held-value
         life
         safety
         trust
         liberty
-        kin_loyalty
+        kin-loyalty
         privacy
 
     # Life-state axis (@excl - one value at a time per subject). alive is the
@@ -96,9 +96,9 @@ concept
         consumed
 
     # Consciousness axis (@excl), HUMAN-NPC only - the awareness attr is listed
-    # on human_npc alone, so props never carry it. Default conscious; a subdue
+    # on human-npc alone, so props never carry it. Default conscious; a subdue
     # blow writes unconscious, recovery / re-observation writes conscious back.
-    # The physical_mobility classifier reads the awareness attr for bedridden.
+    # The physical-mobility classifier reads the awareness attr for bedridden.
     awareness           (tar @excl)
         conscious
         unconscious
@@ -136,44 +136,44 @@ concept
     # relation). Derived in hsim_derive::classify_physical_mobility from
     # condition + awareness + age. Distinct from `alertness` (sleep / wake),
     # from `condition` (alive / dead) and from `awareness` (conscious /
-    # unconscious): physical_mobility captures what an NPC can DO physically when
+    # unconscious): physical-mobility captures what an NPC can DO physically when
     # conscious. The bedridden value covers both genuine incapacity
     # (severe injury) and the social state of staying-in-bed;
-    # physical_mobility being derived means the same symbol can mean both
+    # physical-mobility being derived means the same symbol can mean both
     # as the substrate behind it varies.
-    physical_mobility   (tar @excl)
+    physical-mobility   (tar @excl)
         mobile
-        crutch_assisted
-        wheelchair_bound
+        crutch-assisted
+        wheelchair-bound
         bedridden
 
-    # Existential-frame taxonomy. The target of the `life_aim` drive in
+    # Existential-frame taxonomy. The target of the `life-aim` drive in
     # States.mon: what an NPC wants their LIFE to amount to. Distinct
     # from `calling` (the specific DOMAIN one wants to excel in - music,
     # engineering, soldiering): same musician (calling=music) can hold
-    # life_aim=wealth_aim (mercenary success), life_aim=legacy_aim (be
-    # remembered), or life_aim=belonging_aim (just play in the local pub
+    # life-aim=wealth-aim (mercenary success), life-aim=legacy-aim (be
+    # remembered), or life-aim=belonging-aim (just play in the local pub
     # band). Derived annually by hsim_derive::classify_life_aim from
     # substrate (Big Five + Dark Tetrad + class trajectory + bond counts
     # + worship). NOT @excl - the classifier explicitly end-dates the
-    # prior dominant life_aim belief on a qualitative shift (PR-aim-
-    # history), so multi-decade life_aim history is queryable as
-    # repeated {@self life_aim ?} beliefs with non-overlapping intervals.
-    life_aim            (tar)  (disclosure friend)
-        legacy_aim
-        wealth_aim
-        piety_aim
-        respectability_aim
-        autonomy_aim
-        power_aim
-        belonging_aim
+    # prior dominant life-aim belief on a qualitative shift (PR-aim-
+    # history), so multi-decade life-aim history is queryable as
+    # repeated {@self life-aim ?} beliefs with non-overlapping intervals.
+    life-aim            (tar)  (disclosure friend)
+        legacy-aim
+        wealth-aim
+        piety-aim
+        respectability-aim
+        autonomy-aim
+        power-aim
+        belonging-aim
 
     # A predator's stable victim-type FIXATION (serial_predation Phase 2,
     # generalized): repeated {@self fixation <trait-value>} beliefs whose
     # conjunction is the victim-type PROFILE (e.g. {fixation tall} +
     # {fixation blonde} + {fixation male} = "tall blond men"). Each target
     # is any physical / social trait-value kind (a gender / height / girth /
-    # appearance / hair_color / eye_color / nationality / class_situation /
+    # appearance / hair-color / eye-color / nationality / class-situation /
     # job leaf); the value's parent kind IS its axis, so the matcher reads
     # the right attr / belief / job generically. NOT @excl - a profile is
     # several beliefs. Seeded once per predator by copying 1-2 traits off a
@@ -186,7 +186,7 @@ concept
     # so the method is re-picked on the fly rather than latched into a belief.)
 
     # Unified domain axis (PR-skill-life). ONE hierarchical taxonomy that
-    # `interest`, `skilled_in`, and `calling` (States.mon) all target as three
+    # `interest`, `skilled-in`, and `calling` (States.mon) all target as three
     # progressive bands on the same axis: casual pull -> earned competence ->
     # life mission. They COMPOSE (an NPC may hold all three on one domain).
     # Replaces the former separate `interest` / `skill_kind` / `field_of_study`
@@ -194,10 +194,10 @@ concept
     # duplicate that lived in both skill_kind and field_of_study is deduped to
     # one leaf). `t_ontology::is_a` answers "any martial skill?" / "any academic
     # field?" in one query. The semantic categories group the practicable
-    # competences (academic_field / performance_art / martial / illicit /
-    # athletics / pastime / social_craft) and the non-practicable topical
+    # competences (academic-field / performance-art / martial / illicit /
+    # athletics / pastime / social-craft) and the non-practicable topical
     # interests (avocation / devotional / civic) an NPC may hold an `interest`
-    # in without ever being `skilled_in` it.
+    # in without ever being `skilled-in` it.
     #
     # A domain is ALSO what an act's (track-skill-level <domain>) decoration
     # names, so the pipeline accrues competence to it as the act is performed
@@ -207,35 +207,35 @@ concept
     # the level the competence is really earned at.
     domain
         # Studied disciplines (former field_of_study) + scholarly topics.
-        academic_field
+        academic-field
             classics
             engineering
             medicine
             law
             theology
             commerce
-            natural_science
+            natural-science
             accountancy
             navigation
             husbandry
-            primary_school_curriculum
-            secondary_school_curriculum
+            primary-school-curriculum
+            secondary-school-curriculum
             history
             science
             # Reading and writing as ONE earned competence - the literate NPC
             # takes in a document and drafts a clear letter. Distinct from
-            # `literature` (performance_art), which is the literary ART, and
+            # `literature` (performance-art), which is the literary ART, and
             # from the `writing` attr, which is a document's text.
             literacy
         # Expressive / cultural arts.
-        performance_art
+        performance-art
             music
             theatre
             literature
         # Combat / physical skills (former skill_kind combat leaves).
         martial
             marksmanship
-            knife_fighting
+            knife-fighting
             swordsmanship
             pugilism
             wrestling
@@ -243,7 +243,7 @@ concept
             riding
         # Criminal competences (former skill_kind operational leaves).
         illicit
-            poisoning_knowledge
+            poisoning-knowledge
             forgery
             lockpicking
             climbing
@@ -254,7 +254,7 @@ concept
             # ligature. The recidivist's competence, distinct from a
             # one-off desperate labourer's brute strength. skill-affinity
             # maps it to strangle / bludgeon (perpetration.hs). Held by
-            # ticket-of-leave men + career footpads in the for_hire pool.
+            # ticket-of-leave men + career footpads in the for-hire pool.
             garrotting
         # Physical recreation (the `sports` interest). NOT the standalone
         # `sport` competition-discipline enum below (cricket / rowing / ...),
@@ -269,8 +269,8 @@ concept
         pastime
             gaming
         # The social crafts: competences at handling other PEOPLE, as opposed to
-        # a subject (academic_field), a body (martial / athletics) or a tool.
-        social_craft
+        # a subject (academic-field), a body (martial / athletics) or a tool.
+        social-craft
             # Running and adjudicating a proceeding - a club meet, a race, a
             # service. The competence behind the duties an office carries.
             officiating
@@ -290,12 +290,12 @@ concept
         civic
             suffrage
 
-    # Competence-level enum - the /aux of `skilled_in` beliefs. Novice
+    # Competence-level enum - the /aux of `skilled-in` beliefs. Novice
     # is the entry tier; trained takes years of practice; expert is the
     # cap reachable through profession tenure or apprenticeship-to-
     # master. Future tier (master) may land if a 4th band is needed for
     # exceptional NPCs.
-    competence_level    (tar @excl)
+    competence-level    (tar @excl)
         novice
         trained
         expert
@@ -303,20 +303,20 @@ concept
     # skill-level - the /aux of {@self skill-level {act} <rung>} beliefs the action
     # pipeline emits as an act decorated (track-skill-level) is performed and its
     # per-act competence crosses a band (skill_level_pipeline_plan.md). The 4-rung
-    # ladder that supersedes competence_level; leaf names avoid competence_level's
-    # (novice/trained/expert) and vocational_state's (master) since kind leaves are
-    # global, and both coexist until the skilled_in retirement (plan P4).
+    # ladder that supersedes competence-level; leaf names avoid competence-level's
+    # (novice/trained/expert) and vocational-state's (master) since kind leaves are
+    # global, and both coexist until the skilled-in retirement (plan P4).
     skill-level         (tar @excl)
         beginner
         competent
         proficient
         virtuoso
 
-    # school_grade - the /aux of {@self school-grades <school> <grade>} beliefs,
+    # school-grade - the /aux of {@self school-grades <school> <grade>} beliefs,
     # minted when an NPC graduates a school. The letter-grade credential earned at
     # a curriculum level; distinct from skill-level (act-earned competence). This is
-    # what skilled_in [k <school>_curriculum] used to stand in for.
-    school_grade        (tar @excl)
+    # what skilled-in [k <school>_curriculum] used to stand in for.
+    school-grade        (tar @excl)
         A
         B
         C
@@ -329,7 +329,7 @@ concept
     # the contract-killing fee. The officer tier (ensign+) is gentry-born -
     # the fallen-officer killer an upper-class instigator can reach directly
     # (the Sebastian Moran case). Seeded by seed_military_service.
-    military_rank       (tar @excl)
+    military-rank       (tar @excl)
         private
         corporal
         sergeant
@@ -344,24 +344,24 @@ concept
     # verb-state beliefs - like/dislike/admire/... - declared in States.mon's
     # (stance) block. See Docs/social/relational_stance.md.)
 
-    death_cause         (tar @excl)
+    death-cause         (tar @excl)
         disease
         accident
-        old_age
+        old-age
         childbirth
         violence
         suicide
         # The covert kill: no violent mechanism in the body, so a burial
         # verdict (serial_predation Phase 1) reads the corpse as natural.
         # Written by the poison kill terminal; the divergence between this
-        # body-truth and the village's circumstance_of_death story is the
+        # body-truth and the village's circumstance-of-death story is the
         # detective's case. Named `poisoning` (the manner of death), not
         # `poison`: the bare term is already the kill TASK relation and a
         # noun-state would collide with it.
         poisoning
 
     # Specific diseases an NPC can have. Distinct
-    # from `death_cause disease` which is the cause-of-death enum value;
+    # from `death-cause disease` which is the cause-of-death enum value;
     # this taxonomy names the specific pathology (consumption /
     # cholera / etc.). Future env attr `disease` (kind, /reason or
     # /imperceptible per knowledge_design_notes.md - reading it requires
@@ -376,7 +376,7 @@ concept
         typhus
         dysentery
         influenza
-        scarlet_fever
+        scarlet-fever
         pneumonia
 
     # Observable symptoms. Distinct from disease:
@@ -394,26 +394,26 @@ concept
         chills
 
     # Cause-of-death narrative witnesses form when
-    # perceiving a death scene (vs death_cause, the objective cause). Used
-    # in `circumstance_of_death` beliefs that F2 gossip carries
+    # perceiving a death scene (vs death-cause, the objective cause). Used
+    # in `circumstance-of-death` beliefs that F2 gossip carries
     # village-wide; the "staged story" emerges from observers agreeing on
     # a particular incident kind. Extensible as new staging shapes are
     # authored.
     incident
         burglary
-        domestic_violence
+        domestic-violence
         accident
         duel
-        illness_complication
+        illness-complication
 
-    # Region mood components (the mood_kinds attr is plural - a region carries
+    # Region mood components (the mood-kinds attr is plural - a region carries
     # several at once, so no @excl).
     mood
-        anti_aristocratic
-        anti_outsider
-        plague_fear
-        pro_reform
-        war_weariness
+        anti-aristocratic
+        anti-outsider
+        plague-fear
+        pro-reform
+        war-weariness
 
     # Personal emotion - transient affective states, held as the noun-state
     # {subject emotion <kind>}. /sub human, so {?other emotion anger} is a
@@ -439,7 +439,7 @@ concept
         disgust
         contempt
         # admiration: positive esteem - looking UP at competence / honour /
-        # virtue (the sibling of contempt). Minted by honour_act; the Class I
+        # virtue (the sibling of contempt). Minted by honour-act; the Class I
         # stance coupling routes it to esteem+.
         admiration
         # longing: the felt pull of attraction - the transient affective surface
@@ -460,34 +460,34 @@ concept
     # contentment / agitation). Non-@excl: pressures stack - the layered
     # motive a deliberation event reads IS the stacked pressure set.
     pressure            (sub human)
-        status_loss
-        attachment_loss
-        autonomy_loss
-        exposure_risk
-        resource_scarcity
+        status-loss
+        attachment-loss
+        autonomy-loss
+        exposure-risk
+        resource-scarcity
         humiliation
         injustice
-        moral_violation
-        existential_threat
-        obligation_strain
-        rivalry_pressure
+        moral-violation
+        existential-threat
+        obligation-strain
+        rivalry-pressure
 
     # Justifying narratives - the cognitive frames an NPC holds to make a
     # past or planned harmful act acceptable to themselves (plan section
     # 10.3-AFFECT item E). Target of the `justify` attitude
-    # (States.mon): {@self justify they_deserved_it /aux <victim>}. The held
+    # (States.mon): {@self justify they-deserved-it /aux <victim>}. The held
     # narrative discounts inhibition; a guilty NPC's justify beliefs are
     # queryable through interrogation in isim. Different perpetrators hold
     # different narratives; a non-guilty NPC holds none.
     narrative
-        they_deserved_it
-        i_had_no_choice
-        it_was_necessary
-        everyone_does_this
-        i_was_protecting_kin
-        they_are_subhuman
-        the_law_is_unjust
-        self_defense
+        they-deserved-it
+        i-had-no-choice
+        it-was-necessary
+        everyone-does-this
+        i-was-protecting-kin
+        they-are-subhuman
+        the-law-is-unjust
+        self-defense
 
     # Role-identities an NPC self-identifies as. Held as {@self identity
     # <role>} self-beliefs; derived by hsim_derive::classify_identities from
@@ -502,7 +502,7 @@ concept
     # the appraiser's identity-relevant relations (a parent identity makes
     # child-related construals more salient); by the justify pick to bias
     # which narrative an actor reaches for (a parent reaches for
-    # i_was_protecting_kin, a christian-priest for it_was_necessary); and
+    # i-was-protecting-kin, a christian-priest for it-was-necessary); and
     # by perpetration.hsc method rows' :id-dampens / :id-boosts to bias
     # method selection (a gentleman dampens public_confront, a sadist
     # boosts cook_alive).
@@ -510,47 +510,47 @@ concept
     # Atom names are `<X>_role` to avoid colliding with existing kinds of
     # the same bare name (parent / spouse are relationship bonds;
     # merchant / steward are job kinds; etc.). The `_role` suffix reads
-    # naturally when minted: `{@self identity parent_role}` = "I identify
+    # naturally when minted: `{@self identity parent-role}` = "I identify
     # as a parent."
     role
-        parent_role
-        spouse_role
-        worker_role
-        christian_role
-        gentleman_role
-        lady_role
-        merchant_role
-        servant_role
-        soldier_role
-        steward_role
+        parent-role
+        spouse-role
+        worker-role
+        christian-role
+        gentleman-role
+        lady-role
+        merchant-role
+        servant-role
+        soldier-role
+        steward-role
         # Dark Tetrad and trait-composite identities.
         # machiavellian / sadist read the homonymous Dark Tetrad attr
         # against a tunable threshold in situations.hsc; coward fires on
         # EITHER (low assertiveness AND high withdrawal) OR (high
         # inhibition AND not-respectable).
-        machiavellian_role
-        sadist_role
-        coward_role
+        machiavellian-role
+        sadist-role
+        coward-role
         # Skill-driven trade / talent identities (PR-skill-life S8). Derived by
-        # classify_identities from a held {@self skilled_in <domain>} at >=
+        # classify_identities from a held {@self skilled-in <domain>} at >=
         # trained: physician <- medicine, lawyer <- law, scholar <- any other
-        # academic_field, soldier (soldier_role above) <- martial, musician <-
-        # music, artist <- other performance_art (theatre / literature),
+        # academic-field, soldier (soldier-role above) <- martial, musician <-
+        # music, artist <- other performance-art (theatre / literature),
         # sportsman <- athletics. The competence (not the job title) confers the
         # identity, so a trained-in-medicine apothecary still identifies as a
         # physician. Composite (non-@excl): a polymath holds several.
-        physician_role
-        lawyer_role
-        scholar_role
-        musician_role
-        artist_role
-        sportsman_role
+        physician-role
+        lawyer-role
+        scholar-role
+        musician-role
+        artist-role
+        sportsman-role
 
     # Interests are now `{@self interest <domain>}` beliefs (the casual-pull
     # band of the unified `domain` axis above); `interest` is an explicit
     # verb-state in States.mon. The former standalone `interest` topic enum was
     # folded into `domain` (PR-skill-life): music/theatre/literature ->
-    # performance_art, history/science -> academic_field, riding -> martial,
+    # performance-art, history/science -> academic-field, riding -> martial,
     # sports -> athletics, religion/spiritualism -> devotional, antiques ->
     # avocation, suffrage -> civic. Still seeded as hereditary self-beliefs in
     # mx_make_human and grown / shed by interest_acquired / interest_lost.
@@ -562,18 +562,18 @@ concept
         cricket
         rowing
         rugby
-        horse_racing
+        horse-racing
 
     # Games - the thing one plays (a hand of cards, a frame of billiards). A
     # game is a group activity OBJECT: each occasion is a per-mind game object
     # of one of these kinds (a Mental Object per knowledge_design_notes), wired
     # {@self play_game <game>} + {<game> participant <co-player>}. The
     # `(gambling)` FACET (not a kind branch) marks the money games, cross-
-    # cutting the taxonomy - a card_game may or may not be played for stakes.
-    # The standing DISPOSITION to gamble is the `gambling_addiction` attr
+    # cutting the taxonomy - a card-game may or may not be played for stakes.
+    # The standing DISPOSITION to gamble is the `gambling-addiction` attr
     # (common.arc), not a kind here.
     game
-        card_game
+        card-game
             poker     (facets gambling)
             blackjack (facets gambling)
             whist
@@ -594,13 +594,13 @@ concept
     # beliefs that carry it are {@self organize <occ>} (host) and the told copy
     # of the host's own {<host> invite @self /aux <occ>} (guest).
     occasion
-        dinner_party
+        dinner-party
         wedding
-        engagement_party
-        birthday_party
-        sporting_occasion
-        church_service
-        market_day
+        engagement-party
+        birthday-party
+        sporting-occasion
+        church-service
+        market-day
 
     # Intoxicants - the abstract substance an NPC can form a `craving` for
     # (the (drive) block in States.mon) and that the drinking behaviour events
@@ -612,37 +612,37 @@ concept
         # the case study. Concrete bottles are `prop` entities containing it.
         digitalis
 
-    living_arrangement  (sub human)  (tar ? @excl)
-        # home_tenure: the owner-occupier arrangement (renamed from `owner` to free that
+    living-arrangement  (sub human)  (tar ? @excl)
+        # home-tenure: the owner-occupier arrangement (renamed from `owner` to free that
         # word from legal-ownership `own`). Target is the dwelling's owner (self or org).
-        home_tenure     (tar human|org @excl)
+        home-tenure     (tar human|org @excl)
         houseguest
         renting
 
     capacity            (tar ? @excl)
-        pub_patron
+        pub-patron
 
     activity
         bartending
         
-    org_pos
+    org-pos
         apprenticeship
         membership          (sub human)
         job                 (sub human)  (disclosure stranger)
-            # org_head groups every "head of an org" position, so {@self job [k org_head]}
+            # org-head groups every "head of an org" position, so {@self job [k org-head]}
             # matches ANY head via is-a. It is a SOCIAL marker (status / ambition's "take
-            # the seat"); OPERATIONAL behaviour dispatches on duties ({@self duty_to ?org
+            # the seat"); OPERATIONAL behaviour dispatches on duties ({@self duty-to ?org
             # [k <duty>]}), never on job kind. Head-ness is a KIND, not a rank, and a head
             # job carries NO salary (heading an org != being employed - employment = a
             # salaried job; a head who also draws a wage holds a second, staff job too).
-            org_head
+            org-head
                 # The head of a domestic household org (org household).
-                head_of_household
+                head-of-household
                 # The head of any non-household org (business / gov / club). Its sub-kinds
                 # are the specific Victorian head titles, so a bank's banker, a museum's
-                # curator etc. is-a head_of_non_household_org (the social-marker test).
-                head_of_non_household_org
-                    # business owner-heads (may_own in occupations.hs)
+                # curator etc. is-a head-of-non-household-org (the social-marker test).
+                head-of-non-household-org
+                    # business owner-heads (may-own in occupations.hs)
                     proprietor
                     banker
                     industrialist
@@ -650,13 +650,13 @@ concept
                     solicitor
                     apothecary
                     editor
-                    house_agent
+                    house-agent
                     landlord
                     # public-institution heads - one per org, distinct from their
                     # staff (priest=church, physician=hospital, principal=school,
                     # librarian=library, curator=museum, superintendent=the civic
-                    # facilities: agency / registries / theatre / meeting_hall /
-                    # sports_ground)
+                    # facilities: agency / registries / theatre / meeting-hall /
+                    # sports-ground)
                     priest
                     physician
                     principal
@@ -679,17 +679,17 @@ concept
             # Estate manager - day-to-day authority over an estate org, but a senior
             # staff MANAGER, not the estate's owner-head.
             steward
-            shop_clerk
+            shop-clerk
             waiter
             maid
             bartender
-            factory_worker
-            # Professional race rider employed by a race_club - the ONLY
-            # NPCs permitted to ride in the annual horse_racing meet
+            factory-worker
+            # Professional race rider employed by a race-club - the ONLY
+            # NPCs permitted to ride in the annual horse-racing meet
             # (hold-sporting-event). Club members attend; they never ride.
             jockey
             # University don - head + teaching staff of a university. The university head
-            # is duty-assigned, so professor stays a STAFF kind (not an org_head).
+            # is duty-assigned, so professor stays a STAFF kind (not an org-head).
             professor
             # Phase 9 senior_appointment hires public-org appointees under
             # this kind. Distinct from clerk so prestige / pretty-print can
@@ -715,7 +715,7 @@ concept
             # left to the existing destitute / disreputable classifiers.
             prostitute
             vagrant
-            casual_laborer
+            casual-laborer
                 preacher
                 lecturer
 
@@ -725,27 +725,27 @@ concept
     # is the start hour (0..23), aux the end hour; start > end wraps past midnight
     # (a night shift). A weekday with no relation is a day off. Stamped at hire
     # from the occupation's authored shift(s) (occupations.hs).
-    mon_hours           (sub human|org_pos)  (tar ? @excl)  (aux ?)
-    tue_hours           (sub human|org_pos)  (tar ? @excl)  (aux ?)
-    wed_hours           (sub human|org_pos)  (tar ? @excl)  (aux ?)
-    thu_hours           (sub human|org_pos)  (tar ? @excl)  (aux ?)
-    fri_hours           (sub human|org_pos)  (tar ? @excl)  (aux ?)
-    sat_hours           (sub human|org_pos)  (tar ? @excl)  (aux ?)
-    sun_hours           (sub human|org_pos)  (tar ? @excl)  (aux ?)
-    # level grades a human, or a job / org_pos - the seniority WITHIN a position,
+    mon-hours           (sub human|org-pos)  (tar ? @excl)  (aux ?)
+    tue-hours           (sub human|org-pos)  (tar ? @excl)  (aux ?)
+    wed-hours           (sub human|org-pos)  (tar ? @excl)  (aux ?)
+    thu-hours           (sub human|org-pos)  (tar ? @excl)  (aux ?)
+    fri-hours           (sub human|org-pos)  (tar ? @excl)  (aux ?)
+    sat-hours           (sub human|org-pos)  (tar ? @excl)  (aux ?)
+    sun-hours           (sub human|org-pos)  (tar ? @excl)  (aux ?)
+    # level grades a human, or a job / org-pos - the seniority WITHIN a position,
     # orthogonal to the job KIND. A trainee clerk is {@self job ?j} + {?j level trainee}.
-    # (Head-ness is NOT a level; it is the job kind org_head - see the job taxonomy.)
-    level               (sub human|org_pos)  (tar @excl)
+    # (Head-ness is NOT a level; it is the job kind org-head - see the job taxonomy.)
+    level               (sub human|org-pos)  (tar @excl)
             trainee
             apprentice
             junior
             regular
             senior
     # salary decorates a job object with its wage: {?j salary <amount>}. PRESENCE means
-    # the job is PAID; its absence means unpaid (a head_of_household job has no salary).
+    # the job is PAID; its absence means unpaid (a head-of-household job has no salary).
     # A money-seeker gates on (not (believes {@self job.salary})). Stamped at hire from
     # the occupation's authored wage (occupations.hs); heads/unpaid roles mint no salary.
-    salary              (sub org_pos)  (tar ? @excl)
+    salary              (sub org-pos)  (tar ? @excl)
     unit
         social
             family          (sub human)  (tar @excl)
@@ -755,43 +755,43 @@ concept
     org
         edu
             apprenticeship
-            private_school
-            state_school
+            private-school
+            state-school
             university
         gov
             church
             hospital
             agency
-                land_registry
-                company_registry
+                land-registry
+                company-registry
             # Public civic / cultural institutions. Founded + minimally staffed
             # at sim start by the govt-bootstrap pass (public_orgs.hsc), each
             # occupying its own building kind (businesses.hsc). They are the
             # venues the interest activity lane sends enthusiasts to (L5):
             # library <- literature/history/science, museum <- antiques,
-            # meeting_hall <- suffrage + the civic default, sports_ground <-
+            # meeting-hall <- suffrage + the civic default, sports-ground <-
             # sports/riding.
             library
             museum
-            meeting_hall
-            sports_ground
+            meeting-hall
+            sports-ground
         com
             club
                 # Athletic clubs - founded procedurally (k_foundable_club_kinds).
-                athletic_club
-                    race_club
-                    rugby_union
+                athletic-club
+                    race-club
+                    rugby-union
                 # Social/gentlemen's clubs - the named institutions (the Albion,
                 # St-Revi, Mariner's, Meridian House, the Foundry) are specific
                 # pre-placed instances, not procedurally founded.
-                social_club
+                social-club
             business
                 factory
                 bank
-                shipping_agent
-                insurance_co
-                solicitor_firm
-                house_agency
+                shipping-agent
+                insurance-co
+                solicitor-firm
+                house-agency
                 newspaper
                 pawnbroker
                 hotel
@@ -801,7 +801,7 @@ concept
                 pub
                 apothecary
                 barbershop
-                antiques_shop
+                antiques-shop
                 theatre
                 # A property business. Covers both the landed / agricultural
                 # estate and the residential-letting company a landlord runs
@@ -811,32 +811,32 @@ concept
                 # lifecycle - being a landlord is therefore not a special case.
                 estate
         # The staffed domestic establishment of a quality home (manor /
-        # townhouse). Founded by the staff_household pass with the household
+        # townhouse). Founded by the staff-household pass with the household
         # head as founder, seated at the home itself; employs maid / cook /
         # steward / gardener through the ordinary org machinery, so its
-        # employee_register doubles as the servants' wage-book and the
+        # employee-register doubles as the servants' wage-book and the
         # establishment is inherited with the rest of the estate
         # (propagate_death's inherit_or_dissolve_orgs). The staff are the
         # interception / surveillance surface (see Docs/hsim/hsim_social.md).
         household
 
     # Fields of study were folded into the unified `domain` axis:
-    # the former field_of_study leaves now live under `domain > academic_field`.
-    # The `study` / `diploma` relations and `skilled_in` (States.mon) target
-    # `domain` (a field-of-study is an academic_field sub-kind of domain).
+    # the former field_of_study leaves now live under `domain > academic-field`.
+    # The `study` / `diploma` relations and `skilled-in` (States.mon) target
+    # `domain` (a field-of-study is an academic-field sub-kind of domain).
 
     # ----------------------------------------------------------------------
     # Derived situations (F3.3) - a category ("what sort of X"), each an @excl
     # noun-state classified from several dimensions by an F3.5 classifier.
     # Never authored; computed and cached. F3.6 removed the coarse social_class
-    # attr: class_situation is now the sole class concept, a belief seeded by
+    # attr: class-situation is now the sole class concept, a belief seeded by
     # mx_make_human (upper/middle/lower). Turning it into a fully derived
     # belief - the eight-value form, classified from prestige + breeding +
     # wealth - is future work and needs founder-seeded title/lineage/education
     # grounding. (`stable` / `struggling` recur across situations - a
     # deliberate scoped homonym, resolved by the field's /tar, like `medium`.)
     # ----------------------------------------------------------------------
-    economic_situation       (sub human)  (tar @excl)
+    economic-situation       (sub human)  (tar @excl)
         destitute
         poor
         struggling
@@ -855,24 +855,24 @@ concept
         questionable
         disreputable
         scandalous
-    # conduct_level - a shared 3-level band (lax / fair / good) for the per-observer
+    # conduct-level - a shared 3-level band (lax / fair / good) for the per-observer
     # conduct dimensions (honesty / diligence / generosity / sobriety), banded PER-(mind,
     # subject): {@self <dim> <level>} from @self's own dims, {?other <dim> <level>} abduced
     # from what the observer has witnessed (unknown -> fair, the benefit of the doubt).
     # repute fuses these bands (+ devoutness for piety, the decorum float, and per-observer
     # chastity) identically for self and for a tracked other - reputation is genuinely
     # per-observer, sharpening with evidence.
-    conduct_level            (sub human)  (tar @excl)
+    conduct-level            (sub human)  (tar @excl)
         lax
         fair
         good
-    # piety_band - devoutness standing, banded from the continuous piety
+    # piety-band - devoutness standing, banded from the continuous piety
     # SIGNAL by the derived-signals engine (Merlin docs/
     # derived_signals_program.md; declared in definitions/signals.hs). The
     # signal accrues per worship act and leaks monthly, so the band tracks
     # LIVED devoutness: a regular churchgoer reads devout, a lapsed one
     # slides through observant to secular over ~2 years.
-    piety_band               (sub human)  (tar @excl)
+    piety-band               (sub human)  (tar @excl)
         devout
         observant
         secular
@@ -883,35 +883,35 @@ concept
     # authored weight. Targets of the `seems` relation (States.mon), never
     # minted as a band; NOT @excl there - the leaves are independent.
     impression               (sub human)  (tar)
-        hot_tempered
+        hot-tempered
         callous
         cruel
         selfish
-    class_situation          (sub human)  (tar @excl)  (disclosure stranger)
+    class-situation          (sub human)  (tar @excl)  (disclosure stranger)
         upper
         middle
         lower
-    health_situation         (sub human)  (tar @excl)
+    health-situation         (sub human)  (tar @excl)
         robust
         frail
         ailing
         invalid
-    social_trajectory        (sub human)  (tar @excl)
+    social-trajectory        (sub human)  (tar @excl)
         rising
         stable
         declining
-    life_satisfaction        (sub human)  (tar @excl)
+    life-satisfaction        (sub human)  (tar @excl)
         fulfilled
         content
-        secure_but_hollow
+        secure-but-hollow
         struggling
         loner
         adrift
 
-    # Perceptible life-stage. age_band is the single current band (one per
+    # Perceptible life-stage. age-band is the single current band (one per
     # person, @excl - re-minted on a band crossing); a PERCEIVED approximation
     # (you can see roughly how old someone is) minted at acquaintance contact.
-    # Exact age (birth_date) is communicated only to friends-and-closer. The
+    # Exact age (birth-date) is communicated only to friends-and-closer. The
     # ladder is contiguous + ORDERED, deliberately NARROW under 30 and WIDE at
     # 30+, so a "same / adjacent band" peer test stands in for the old numeric
     # age-diff windows (tight among the young, loose among adults). The band
@@ -919,33 +919,33 @@ concept
     # list in lockstep with it.
     # Bands (ranges, in lockstep with age_band_index in hsim_belief_propagation.cc):
     #   infant 0-2  juvenile 3-9  adolescent 10-15  youth 16-17
-    #   young_adult 18-29  middle_aged 30-49  mature 50-69  elderly 70+
+    #   young-adult 18-29  middle-aged 30-49  mature 50-69  elderly 70+
     # (`juvenile` not `child` - `child` is already the kinship bond kind.)
-    age_band                 (sub human)  (tar @excl)
+    age-band                 (sub human)  (tar @excl)
         infant
         juvenile
         adolescent
         youth
-        young_adult
-        middle_aged
+        young-adult
+        middle-aged
         mature
         elderly
     # The proximity window: each person's own band PLUS its immediate neighbours
     # (band +/- 1), so 2-3 values. Non-@excl. Proximity ("are we age peers")
-    # binds @self's single age_band and tests whether the candidate's age_span
+    # binds @self's single age-band and tests whether the candidate's age-span
     # covers it - i.e. |band(self) - band(other)| <= 1 (same or adjacent).
-    age_span                 (sub human)  (tar age_band)
+    age-span                 (sub human)  (tar age-band)
 
     # Derived archetypes (F3.4) - a named conjunction over situations and
     # dimensions; non-@excl, an NPC may match several. Prototype kinds are
     # added with their classifiers - these four are F3.7 / Phase 7 consumers.
     prototype                (sub human)
-        deserving_poor
-        undeserving_poor
-        self_made_man
-        nouveau_riche
+        deserving-poor
+        undeserving-poor
+        self-made-man
+        nouveau-riche
         drunkard
-        # fallen_woman: a woman whose sexual misconduct became PUBLICLY
+        # fallen-woman: a woman whose sexual misconduct became PUBLICLY
         # known - the divorce that answered a discovered affair (hse_engine
         # run_generative_betrayal marks directly) or an adulterous liaison
         # at least one third mind learned of (hsim_derive
@@ -953,13 +953,13 @@ concept
         # betrothal excludes her absolutely, love_match re-admits only a
         # lower-class pair (working-class pragmatism), respectable service
         # (households / schools) turns her out; the gossiped divorce
-        # record's repudiation_act reactions carry the parish scorn. NOT
+        # record's repudiation-act reactions carry the parish scorn. NOT
         # irreversible: a fall lived down quietly for a decade may
         # rehabilitate on a small annual roll.
-        fallen_woman
-        # for_hire: available to be hired as a contract killer (the
+        fallen-woman
+        # for-hire: available to be hired as a contract killer (the
         # contract-killing redesign, classify_hirelings, annual). Derived
-        # when the person is LETHALLY CAPABLE (skilled_in a martial leaf,
+        # when the person is LETHALLY CAPABLE (skilled-in a martial leaf,
         # or illicit garrotting, or raw strength + the street-default
         # methods) AND either a BAD SEED (low compassion x high
         # disinhibition - the remorseless mercenary, reliable, repeat
@@ -970,139 +970,139 @@ concept
         # `served` belief, not a separate label. A self-belief the person
         # holds; the connection gate reads it on the instigator's
         # acquaintances.
-        for_hire
-        # go_between: the underworld FIXER - acquainted both upward (toward
-        # respectable society) and downward (into the for_hire pool). The
+        for-hire
+        # go-between: the underworld FIXER - acquainted both upward (toward
+        # respectable society) and downward (into the for-hire pool). The
         # corrupt publican / fence / flash sporting-man. Derived by
         # classify_fixers (annual). An upper-class instigator can only reach
         # a killer THROUGH one of these; takes a cut of the fee.
-        go_between
+        go-between
 
     message
         declaration
-        property_description
+        property-description
         article
         advert
         chapter
     payment
         wage
-        annual_wage
+        annual-wage
 
     # Reified act-categories - the context-free "what kind of act" tags
     # that the appraisal pipeline reads off any anchor belief
     # (Docs/emotion/emotion_system.md).
     # FLAT vocabulary: no hierarchy among the categories - every leaf state
     # / action enumerates which categories it falls under via a
-    # (construed_act tag1 tag2 ...) sexpr at declaration time. is_a checks
-    # against the construed_act ROOT recognize any of these as appraisal
+    # (construed-act tag1 tag2 ...) sexpr at declaration time. is_a checks
+    # against the construed-act ROOT recognize any of these as appraisal
     # categories; specific dispatch is by direct kind comparison. The set
     # mixes (a) "what was done" categories (wrong, help, honour, intimacy,
     # ...), (b) outcome categories (suffer_loss, achieve), and (c) the
     # cross-cutting umbrellas (wrong over harm/slight/appropriation/...,
     # help over aid/provision, ...) - all flat siblings rather than nested.
-    # Wronging branch  : wrong_act (umbrella) over harm/slight/appropriation/
+    # Wronging branch  : wrong-act (umbrella) over harm/slight/appropriation/
     #                    coercion/abandonment/betray/expose/threaten - all of
     #                    them are flavors of "bad things to someone".
-    # Helping branch   : help_act (umbrella) over aid (direct assistance) and
+    # Helping branch   : help-act (umbrella) over aid (direct assistance) and
     #                    provision (giving alms / gifts / drink).
-    # Honour branch    : honour_act (public recognition) plus commitment_act
+    # Honour branch    : honour-act (public recognition) plus commitment-act
     #                    (keeping a promise IS honouring).
-    # Intimacy         : intimacy_act on its own. Betray-by-diversion mints a
-    #                    separate betray_act construal in observer minds via
+    # Intimacy         : intimacy-act on its own. Betray-by-diversion mints a
+    #                    separate betray-act construal in observer minds via
     #                    categorize()'s structural test.
-    # Outcomes         : suffer_loss_act (patient lost something) and
-    #                    achieve_act (actor succeeded) - outcome-based,
+    # Outcomes         : suffer-loss-act (patient lost something) and
+    #                    achieve-act (actor succeeded) - outcome-based,
     #                    minted directly by hsim events when relevant.
-    # neutral_act      : legacy "do not appraise" tag - kept so .act files
-    #                    declaring `nature = neutral_act` keep parsing.
-    #                    New code: just omit (construed_act ...) entirely.
-    construed_act       (+ sub human)
-        wrong_act
-        harm_act
-        slight_act
-        appropriation_act
-        coercion_act
-        abandonment_act
-        betray_act
-        expose_act
-        threaten_act
-        help_act
-        aid_act
-        provision_act
-        honour_act
-        commitment_act
-        intimacy_act
-        suffer_loss_act
-        achieve_act
-        neutral_act
-        # rivalrous_act: actor competes with patient for a shared scarce
-        # resource (post, partner, inheritance). Distinct from slight_act
+    # neutral-act      : legacy "do not appraise" tag - kept so .act files
+    #                    declaring `nature = neutral-act` keep parsing.
+    #                    New code: just omit (construed-act ...) entirely.
+    construed-act       (+ sub human)
+        wrong-act
+        harm-act
+        slight-act
+        appropriation-act
+        coercion-act
+        abandonment-act
+        betray-act
+        expose-act
+        threaten-act
+        help-act
+        aid-act
+        provision-act
+        honour-act
+        commitment-act
+        intimacy-act
+        suffer-loss-act
+        achieve-act
+        neutral-act
+        # rivalrous-act: actor competes with patient for a shared scarce
+        # resource (post, partner, inheritance). Distinct from slight-act
         # (which is unprovoked affront) - rivalry is positional. Mints
-        # rivalry_pressure on the outcompeted patient via the reaction
+        # rivalry-pressure on the outcompeted patient via the reaction
         # row in appraisal.hsc. Placed at end to keep older taxonomy
         # kind ids stable.
-        rivalrous_act
-        # repudiation_act: actor formally casts the patient off (a husband
+        rivalrous-act
+        # repudiation-act: actor formally casts the patient off (a husband
         # divorcing an adulterous wife). The patient bears the public
-        # disgrace - shame + status_loss on the patient, third-party
+        # disgrace - shame + status-loss on the patient, third-party
         # contempt at the PATIENT (society sides with the wronged
-        # husband), unlike abandonment_act where third parties fault the
+        # husband), unlike abandonment-act where third parties fault the
         # deserter. Appended at end to keep kind ids stable.
-        repudiation_act
-        # degrade_act: a deliberated PUBLIC put-down - humiliation with an
-        # audience. Distinct from slight_act (the dyadic insult sting):
+        repudiation-act
+        # degrade-act: a deliberated PUBLIC put-down - humiliation with an
+        # audience. Distinct from slight-act (the dyadic insult sting):
         # the audience makes the injury a STATUS event, so the patient
-        # feels shame + status_loss (the expose_act-shaped cascade)
+        # feels shame + status-loss (the expose-act-shaped cascade)
         # without any secret being disclosed. Carried by the
-        # public_humiliation perpetration leaf. Appended at end to keep
+        # public-humiliation perpetration leaf. Appended at end to keep
         # kind ids stable.
-        degrade_act
+        degrade-act
 
     # Message classes - the verbal-method vocabulary, a property of the MESSAGE not
-    # a task. A verbal act's memory is a SAY belief whose msg carries a (msg_class
+    # a task. A verbal act's memory is a SAY belief whose msg carries a (msg-class
     # <leaf>) arg; is_msg_class_label routes it to that SAY-memory form and categorize()
-    # reads the leaf's (construed_act ...) off the msg_class. These are NOT tasks.
-    # (+ noun): the construed_act decorations are relation flags; without the
+    # reads the leaf's (construed-act ...) off the msg-class. These are NOT tasks.
+    # (+ noun): the construed-act decorations are relation flags; without the
     # explicit noun mark they would trip define()'s noun-vs-relation inference
     # (same convention as the kinship block).
-    msg_class           (+ noun)
-        insult          (construed_act slight_act)
-        jilt            (construed_act abandonment_act wrong_act)
-        urge            (construed_act coercion_act)
+    msg-class           (+ noun)
+        insult          (construed-act slight-act)
+        jilt            (construed-act abandonment-act wrong-act)
+        urge            (construed-act coercion-act)
 
 
-    sky_condition
+    sky-condition
         clear
         overcast
         cloudy
 
-    strength_measurement
+    strength-measurement
         none
         light
         medium
         heavy
 
-    mass_measurement
+    mass-measurement
         weight
     
     # Sexual orientation - a kind-typed /feel attr (common.arc). Genetic;
     # learned of others only by a spouse / immediate family (believe_about
     # Band 4). The Big Five personality aspects and the dark tetrad are 0..1
     # float attrs, not kinds, so they need no taxonomy here.
-    sexual_orient           (tar @excl)
+    sexual-orient           (tar @excl)
         hetero
         bi
         homo
 
-    cultural_aspect
+    cultural-aspect
         title
         nationality         (sub human)  (tar @excl)  (disclosure stranger)
             english
             irish
-            st_revieran
+            st-revieran
             french
 
-    physical_quality
+    physical-quality
         color               (tar @excl)
             blue
             brown
@@ -1119,7 +1119,7 @@ concept
             female
         appearance          (tar @excl)
             ugly
-            plain_looking
+            plain-looking
             beautiful
         girth               (tar @excl)
             thin
@@ -1131,12 +1131,12 @@ concept
             tall
         # Hair / eye colour (serial_predation generalized fixation): their
         # OWN leaf taxonomies (not the shared `color` palette above) so the
-        # trait loader's scoped value resolution ("hair_color blonde") works
+        # trait loader's scoped value resolution ("hair-color blonde") works
         # and a fixation value's parent kind unambiguously names its axis.
         # Repeated leaves across the two (brown / grey) are fine - scoped
         # resolution keeps them distinct, exactly like girth / height
         # `medium`. Seeded at human creation from the .txt trait tables.
-        hair_color          (tar @excl)
+        hair-color          (tar @excl)
             black
             brown
             auburn
@@ -1144,24 +1144,24 @@ concept
             blonde
             grey
             white
-        eye_color           (tar @excl)
+        eye-color           (tar @excl)
             blue
             brown
             green
             grey
             hazel
 
-    blood_type          (obs) (tar @excl)
+    blood-type          (obs) (tar @excl)
         A
         B
         AB
         O
 
-    # game_role distinguishes the player-vs-NPC dispatch the engine
+    # game-role distinguishes the player-vs-NPC dispatch the engine
     # reads from the social-identity beliefs (the `role` identity
     # taxonomy above: parent / spouse / worker / christian / ...) that
     # the appraisal pipeline reads.
-    game_role           (tar @excl)
+    game-role           (tar @excl)
         player
         nonplayer
 
@@ -1185,7 +1185,7 @@ concept
         brother         (inclusive_bond)  (disclosure acquaintance)
         sister          (inclusive_bond)  (disclosure acquaintance)
         sibling         (inclusive_bond)  (close_kin)  (disclosure acquaintance)
-        half_sibling    (inclusive_bond)  (close_kin)  (disclosure acquaintance)
+        half-sibling    (inclusive_bond)  (close_kin)  (disclosure acquaintance)
         grandmother     (tar @excl)  (inclusive_bond)  (extended_kin)  (disclosure acquaintance)
         grandfather     (tar @excl)  (inclusive_bond)  (extended_kin)  (disclosure acquaintance)
         grandparent     (inclusive_bond)  (extended_kin)  (disclosure acquaintance)
@@ -1195,15 +1195,15 @@ concept
         niece           (inclusive_bond)  (extended_kin)  (disclosure acquaintance)
         nephew          (inclusive_bond)  (extended_kin)  (disclosure acquaintance)
         cousin          (inclusive_bond)  (extended_kin)  (disclosure acquaintance)
-        mother_in_law   (tar @excl)  (inclusive_bond)  (extended_kin)
-        father_in_law   (tar @excl)  (inclusive_bond)  (extended_kin)
-        parent_in_law   (inclusive_bond)
-        sister_in_law   (inclusive_bond)  (extended_kin)
-        brother_in_law  (inclusive_bond)  (extended_kin)
-        sibling_in_law  (inclusive_bond)
-        daughter_in_law (inclusive_bond)  (extended_kin)
-        son_in_law      (inclusive_bond)  (extended_kin)
-        child_in_law    (inclusive_bond)
+        mother-in-law   (tar @excl)  (inclusive_bond)  (extended_kin)
+        father-in-law   (tar @excl)  (inclusive_bond)  (extended_kin)
+        parent-in-law   (inclusive_bond)
+        sister-in-law   (inclusive_bond)  (extended_kin)
+        brother-in-law  (inclusive_bond)  (extended_kin)
+        sibling-in-law  (inclusive_bond)
+        daughter-in-law (inclusive_bond)  (extended_kin)
+        son-in-law      (inclusive_bond)  (extended_kin)
+        child-in-law    (inclusive_bond)
         stepmother      (tar @excl)  (inclusive_bond)
         stepfather      (tar @excl)  (inclusive_bond)
         stepchild       (inclusive_bond)
@@ -1215,14 +1215,14 @@ concept
         ward            (inclusive_bond)  (extended_kin)
         spouse          (tar @excl)  (exclusive_bond)  (close_kin)  (disclosure acquaintance)
         fiancee         (tar @excl)  (exclusive_bond)  (close_kin)  (disclosure acquaintance)
-        lover           (inclusive_bond)  (close_kin)  (construed_act intimacy_act)  (disclosure intimate)
+        lover           (inclusive_bond)  (close_kin)  (construed-act intimacy-act)  (disclosure intimate)
         friend          (inclusive_bond)  (disclosure acquaintance)
         acquaintance    (inclusive_bond)  (disclosure acquaintance)
         neighbour       (inclusive_bond)  (disclosure acquaintance)
         enemy           (inclusive_bond)
-        # talk_to: on-speaking-terms social contact (appears in the relationship
+        # talk-to: on-speaking-terms social contact (appears in the relationship
         # ground-alt alongside friend/acquaintance). A human-human bond.
-        talk_to         (inclusive_bond)  (disclosure acquaintance)
+        talk-to         (inclusive_bond)  (disclosure acquaintance)
         # The per-mind handle for "whoever killed X": {?dead killer ?o},
         # where ?o is each mind's own imagined unknown-culprit object
         # (mx_imagine_or_recall - per-mind identity by design) until
@@ -1235,7 +1235,7 @@ concept
         # asymmetric (A fixates on B; B indifferent). Sourced by
         # rivalry-pressure-driving events (lost-job-to, outbid-by,
         # out-courted-by). Read by deliberation affinity rows and by
-        # appraisal to weight slight_act reactions higher when the
+        # appraisal to weight slight-act reactions higher when the
         # source is a held rival.
         rival                   (inclusive_bond)
         # Conspiracy bond. Subject = principal
@@ -1250,31 +1250,31 @@ concept
         # carries the org. Distinct from `founder` (one-shot
         # constitutive, @excl) and `employer` (subordinate relation).
         # Same org may have many partners.
-        business_partner        (aux org)
+        business-partner        (aux org)
 
-    marriage_desirability   (tar ? @excl)
+    marriage-desirability   (tar ? @excl)
 
     birthplace          (sub human)  (tar structure @excl)  (disclosure acquaintance)
 
     # Residential / venue knowledge and the apprenticeship bond (subject is a
-    # human). The verb-shaped vocational relations (retire / carrying_loot /
-    # since / duty_to / duty_holder / study / schooling) live in States.mon.
-    vocational_state    (+ sub human)
+    # human). The verb-shaped vocational relations (retire / carrying-loot /
+    # since / duty-to / duty-holder / study / schooling) live in States.mon.
+    vocational-state    (+ sub human)
         home                (tar structure @excl)  (disclosure acquaintance)
         # WHERE the NPC believes provisions are sold - the shop they buy food
         # at. Per-mind venue knowledge, learned honestly (the public register
         # read at orientation, or having found food at a shop's counter);
         # meals.hs provisioning / starving lanes route on it. @excl: one
         # habitual shop; a new discovery supersedes.
-        provisions_shop     (tar structure @excl)  (disclosure acquaintance)
+        provisions-shop     (tar structure @excl)  (disclosure acquaintance)
         # A private hiding-spot cache the NPC MADE (an interior sub-space they own).
-        # A DEFINED relation so {@self hiding_spot <cache>} mints reasoned (/rsn) and
+        # A DEFINED relation so {@self hiding-spot <cache>} mints reasoned (/rsn) and
         # PERSISTS - an undefined label mints /obs and self-perception disproves it
         # every cycle, which re-opens the make_secret_cache gate and floods a bedroom's
-        # sub-spaces. Shares its NAME with the `hiding_spot` KIND; kind references
-        # disambiguate with the full path `[k interior_space hiding_spot]` /
-        # mx_resolve_kind_id("interior_space hiding_spot"). Inclusive.
-        hiding_spot         (tar interior_space)
+        # sub-spaces. Shares its NAME with the `hiding-spot` KIND; kind references
+        # disambiguate with the full path `[k interior-space hiding-spot]` /
+        # mx_resolve_kind_id("interior-space hiding-spot"). Inclusive.
+        hiding-spot         (tar interior-space)
         # Work life-cycle. The position is the job OBJECT ({@self job ?j}); its org,
         # wage, seniority and start-date are decorations ON that object ({?j org ?},
         # {?j salary ?}, {?j level ?}, {?j since <year>}) - there is no separate `employer`
@@ -1283,27 +1283,27 @@ concept
         master              (sub human)  (noun) (tar human @excl)
 
     # Property holdings: a holder's owned buildings and land are recorded as
-    # repeated singular {holder owns_building <building>} / {holder land <land>}
+    # repeated singular {holder owns-building <building>} / {holder land <land>}
     # beliefs. `land` (Spaces.mon) is a noun and so is already a state; owned
     # buildings need an explicit relation because the `building` label is reserved
     # for whereabouts ({X building <bldg>} = X is located in the building, for any
-    # subject) - so ownership is a distinct `owns_building` label declared here.
-    owns_building       (sub human|org)  (tar building)
+    # subject) - so ownership is a distinct `owns-building` label declared here.
+    owns-building       (sub human|org)  (tar building)
 
     # States describing an organisation (subject is the org mental object).
     # employee is repeated once per worker; record points at the org's
-    # articles_of_incorporation document.
-    org_state           (+ sub org)
-        informal_name       (tar ? @excl)
+    # articles-of-incorporation document.
+    org-state           (+ sub org)
+        informal-name       (tar ? @excl)
         founder             (tar human @excl)
-        head_job            (tar org_pos @excl)
+        head-job            (tar org-pos @excl)
         workplace           (tar space|structure @excl)
         employee            (tar human)
         vacancy             (tar job)
         record              (tar document @excl)
 
     # Building -> tenant link: the queryable form of a lease, whose contract
-    # records are the private lease_agreement documents kept at both parties'
+    # records are the private lease-agreement documents kept at both parties'
     # premises. @excl - one ongoing tenant at a time (a re-lease opens a fresh
     # interval after the prior one ends).
     tenant              (sub building|space)  (tar human|org @excl)
@@ -1316,6 +1316,6 @@ concept
     occupant            (sub building|space)  (tar human)
 
     # States describing an activity-object.
-    activity_state
+    activity-state
         participant         (tar human)
         todo                (tar task)

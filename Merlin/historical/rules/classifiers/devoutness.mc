@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; devoutness (classifier) - the observance reading banded to the piety_band kinds.
+; devoutness (classifier) - the observance reading banded to the piety-band kinds.
 ; Recency-weighted worship-episode evidence: a monthly churchgoer saturates devout,
 ; a quarterly attender reads observant, a 2-year lapse decays through observant to
 ; secular. The floor band (secular) means every derived NPC carries a reading. @self
@@ -16,11 +16,11 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self {@self class_situation ?})
+  (role @self {@self class-situation ?})
 
   (effects
     (mint-band {@self devoutness} (evidence @self WORSHIP 6 6)
-      [k piety_band devout] 0.55 [k piety_band observant] 0.15 [k piety_band secular] -1)))
+      [k piety-band devout] 0.55 [k piety-band observant] 0.15 [k piety-band secular] -1)))
 
 (npc-think classify_others_devoutness
   ; Monthly cooldown (like the self side): (evidence ...) decays continuously between the ?other's
@@ -29,8 +29,8 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role ?other {?other class_situation ?})
+  (role ?other {?other class-situation ?})
 
   (effects
     (mint-band-about {?other devoutness} (evidence ?other WORSHIP 6 6)
-      [k piety_band devout] 0.55 [k piety_band observant] 0.15 [k piety_band secular] -1)))
+      [k piety-band devout] 0.55 [k piety-band observant] 0.15 [k piety-band secular] -1)))

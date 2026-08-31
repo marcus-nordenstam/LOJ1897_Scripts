@@ -13,7 +13,7 @@
 ; The rental is recognised purely from @self's OWN beliefs (object-cache role,
 ; no entity scan):
 ;   {@self own ?rental}                  the deed knowledge (register_ownership)
-;   {?rental availability [k for_rent]}  advertised to let    (list_for_lease)
+;   {?rental availability [k for-rent]}  advertised to let    (list_for_lease)
 ;   {?rental tenant ?}                   rented out (execute_lease, lessor side)
 ; listed OR leased = the DURABLE rental signal across the listed<->leased cycle;
 ; an owner-occupied home matches neither. The (when) re-checks per candidate, so
@@ -37,9 +37,9 @@
   ; business / public org / estate founds no estate (subsumes the old
   ; estate-only throttle; permanent-kind match, decay-proof).
   (role @self (old_human @self)
-              -{@self job [k head_of_non_household_org]})
+              -{@self job [k head-of-non-household-org]})
   (role ?rental {@self own ?rental}
-                (or {?rental availability [k for_rent]}
+                (or {?rental availability [k for-rent]}
                     {?rental tenant ?}))
 
   (effects
@@ -50,18 +50,18 @@
     ; estate is his articles that is-a estate (founder @self); a public-doc scan + his
     ; own belief drop, no cross-mind write. An owner-occupied home matches neither
     ; rental signal, so it is left his.
-    (for-each ?ea (env-entities [k articles_of_incorporation])
+    (for-each ?ea (env-entities [k articles-of-incorporation])
       (do
-        (o {?ea declares_org @o}): ?org
+        (o {?ea declares-org @o}): ?org
         (any {?org isa ?ok})
         (any {?org founder ?f})
         (if (and (= ?f @self) (is-a ?ok [k org estate]))
           (then
-            (for-each ?deed (env-entities [k title_deed])
+            (for-each ?deed (env-entities [k title-deed])
               (do
                 (table-match (attr ?deed writing) owner ?o building ?b)
                 (if (and (= ?o @self)
-                         (or {?b availability [k for_rent]} {?b tenant ?}))
+                         (or {?b availability [k for-rent]} {?b tenant ?}))
                   (then
                     (table-set ?deed owner ?ea)
                     (end-belief {@self own ?b})))))

@@ -13,7 +13,7 @@
   (cooldown 1 m)
 
   ; No cache yet - a CACHED self-gate; an owner of one skips the think forever.
-  (role @self -{@self hiding_spot ?})
+  (role @self -{@self hiding-spot ?})
   ; The home is a CACHED role and the proposal's target; a bedroom must exist so
   ; make_cache's guaranteed floorboard fallback lands.
   (role ?building {@self home ?building}

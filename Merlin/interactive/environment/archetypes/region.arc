@@ -11,7 +11,7 @@ archetype "region" (cap 16) (per obs) (non-occluder) (no-sector-coverage)
     (attr "wind")
     (attr "sky")
     # Region atmosphere - non-sentient archetype keeps mood as attrs (Q4).
-    (attr "mood_kinds")
-    (attr "mood_intensities")
-    (attr "mood_set_dates")
+    (attr "mood-kinds")
+    (attr "mood-intensities")
+    (attr "mood-set-dates")
 }

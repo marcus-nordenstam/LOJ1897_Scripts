@@ -10,13 +10,13 @@
 ; unheld-skill default (-1) is supplied at the call site (competence-rank macro).
 (define-table band_rank
   (fields band rank)
-  (record [k competence_level novice]  0)
-  (record [k competence_level trained] 1)
-  (record [k competence_level expert]  2))
+  (record [k competence-level novice]  0)
+  (record [k competence-level trained] 1)
+  (record [k competence-level expert]  2))
 
 ; respectability bands -> monotonic rank (worst -> best). The unappraised
 ; default (-1) is supplied at the call site (repute-rank macro), so a trust
-; post's req_repute gate fails a worker with NO proven band.
+; post's req-repute gate fails a worker with NO proven band.
 (define-table repute_rank
   (fields band rank)
   (record [k scandalous]   0)
@@ -29,13 +29,13 @@
 ; for today. Read with (now-weekday) as the key.
 (define-table weekday_hours_label
   (fields weekday label)
-  (record 0 sun_hours)
-  (record 1 mon_hours)
-  (record 2 tue_hours)
-  (record 3 wed_hours)
-  (record 4 thu_hours)
-  (record 5 fri_hours)
-  (record 6 sat_hours))
+  (record 0 sun-hours)
+  (record 1 mon-hours)
+  (record 2 tue-hours)
+  (record 3 wed-hours)
+  (record 4 thu-hours)
+  (record 5 fri-hours)
+  (record 6 sat-hours))
 
 ; job rank -> the prestige dimension it confers (0..1). rank is the level_rank
 ; rung (0 trainee .. 4 senior), 5 for headship of a non-household org, and -1

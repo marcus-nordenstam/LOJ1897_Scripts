@@ -4,7 +4,7 @@
 ; living NPC and rolls that NPC's own monthly mortality. No role casting - @self
 ; IS the subject.
 ;
-; (die @self) only MARKS the NPC dead (writes death_date, condition=dead); the
+; (die @self) only MARKS the NPC dead (writes death-date, condition=dead); the
 ; corpse is destroyed later by the zero-role burial sweep. propagate-death runs
 ; first (it needs @self's living relations to still resolve).
 ; ----------------------------------------------------------------------------
@@ -31,6 +31,6 @@
     ; propagate-death MUST precede die - die marks @self dead, and propagation
     ; reads @self's still-living kin/social ties to spread the death belief.
     (settle-death @self)
-    (record-corpse-death @self [k death_cause old_age])
+    (record-corpse-death @self [k death-cause old-age])
     )
 )

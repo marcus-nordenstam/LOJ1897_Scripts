@@ -1,4 +1,4 @@
-# One mouth per human; capacity scales with human_npc cap (4096).
+# One mouth per human; capacity scales with human-npc cap (4096).
 archetype "mouth" (cap 4096) (per obs) (non-occluder)
 {
     (spatial bounds)

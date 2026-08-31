@@ -1,8 +1,8 @@
 
 name
-    first_name
-        male_name
-            male_st_revieran_name (+ pname)
+    first-name
+        male-name
+            male-st-revieran-name (+ pname)
                 Ambrose
                 Anatole
                 Alphonse
@@ -13,63 +13,63 @@ name
                 Cyril
                 Edgar
                 Edmond
-                François
+                Franï¿½ois
                 Ferdinand
                 Gaspard
-                Gédéon
+                Gï¿½dï¿½on
                 Henri
                 Isidore
-                Léandre
+                Lï¿½andre
                 Louis
                 Laurent
                 Marcellin
                 Octave
                 Percival
                 Philippe
-                Théophile
+                Thï¿½ophile
                 Urbain
                 Victor
-        female_name
-            female_st_revieran_name  (+ pname)
+        female-name
+            female-st-revieran-name  (+ pname)
                 Adelaide
-                Amélie
+                Amï¿½lie
                 Annabelle
-                Adèle
-                Agnès
-                Aimée
+                Adï¿½le
+                Agnï¿½s
+                Aimï¿½e
                 Albertine
                 Aline
-                Angélique
+                Angï¿½lique
                 Antoinette
                 Blanche
-                Clémence
-                Élodie
+                Clï¿½mence
+                ï¿½lodie
                 Estelle
-                Félicie
+                Fï¿½licie
                 Eugenie
                 Flavie
                 Georgina
                 Henriette
                 Hortense
                 Isabelle
-                Joséphine
+                Josï¿½phine
                 Kateline
                 Lucienne
                 Louise
                 Marguerite
                 Odette
-                Philomène
+                Philomï¿½ne
                 Rosalie
                 Sidonie
-                Thérèse
+                Thï¿½rï¿½se
                 Ursule
                 Victorine
                 Wilhelmine
                 Yvonne
-                Zélie
+                Zï¿½lie
     surname
-        common_surname
-            common_st_revieran_surname (+ pname)
+        common-surname
+            common-st-revieran-surname (+ pname)
                 Ahier
                 Bichard
                 Blampied
@@ -95,8 +95,8 @@ name
                 Pipon
                 Queripel
                 Touzel
-        upper_class_surname
-            upper_class_st_revieran_surname (+ pname)
+        upper-class-surname
+            upper-class-st-revieran-surname (+ pname)
                 Allez
                 Amy
                 Balleine

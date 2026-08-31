@@ -26,11 +26,11 @@
 
   ; CACHED self-gate filters. THE FOUNDING CAP: an NPC heads at most ONE
   ; non-household org - a man who has already founded (here or in found_public_org
-  ; this same startup pass) holds a head_of_non_household_org job and drops out of
+  ; this same startup pass) holds a head-of-non-household-org job and drops out of
   ; the set the instant he founds. A salaried worker does not found either. (The
   ; household is separately capped by found_household's own throttle.)
   (role @self -{@self job.salary ?}
-              -{@self job [k head_of_non_household_org]})
+              -{@self job [k head-of-non-household-org]})
 
   ; Age, plus the DEMAND gate: a charter @self could actually take up must still be
   ; headless. Without the second test an adult who qualifies for nothing left re-fires a
@@ -43,7 +43,7 @@
     ; articles and staff book already exist, only the proprietor's seat is open. The
     ; emergent labour market staffs it from the unemployed over subsequent ticks.
     (for-each-row cornerstone_businesses
-        (kind ?k) (head_pos ?hp) (class_floor ?cf)
+        (kind ?k) (head-pos ?hp) (class-floor ?cf)
       (headless-charter ?k): ?art
       (if (and (substantial ?art)
                (class-at-least @self ?cf))

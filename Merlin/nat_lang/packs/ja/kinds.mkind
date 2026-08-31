@@ -11,7 +11,7 @@
 irish           アイルランド
 english         イギリス
 french          フランス
-st_revieran     セントレヴィエラ
+st-revieran     セントレヴィエラ
 
 # Class
 upper           上流
@@ -35,7 +35,7 @@ suffrage        参政権
 cricket         クリケット
 rowing          ボート
 rugby           ラグビー
-horse_racing    競馬
+horse-racing    競馬
 
 # Job
 editor          編集者
@@ -62,12 +62,12 @@ cook            料理人
 farmer          農民
 nurse           看護師
 steward         執事
-shop_clerk      店員
+shop-clerk      店員
 waiter          給仕
 maid            女中
 bartender       バーテンダー
-factory_worker  工場労働者
-house_agent     不動産業者
+factory-worker  工場労働者
+house-agent     不動産業者
 official        役人
 hatmaker        帽子職人
 tailor          仕立て屋

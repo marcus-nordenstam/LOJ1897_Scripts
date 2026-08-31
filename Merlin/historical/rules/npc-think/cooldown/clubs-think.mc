@@ -4,8 +4,8 @@
 ; clubs are created only by club_founding).
 ;
 ; A club is an `org` (an athletic / race club) anchored on its
-; articles_of_incorporation, exactly like a workplace - but its roster carries
-; `member_of` beliefs rather than employment. The found-club-seq macro (founding.hs)
+; articles-of-incorporation, exactly like a workplace - but its roster carries
+; `member-of` beliefs rather than employment. The found-club-seq macro (founding.hs)
 ; founds it; the register-member / unregister-member verbs (hsim_org_lifecycle) own
 ; its roster.
 ;
@@ -35,12 +35,12 @@
 
   ; MAINTENANCE: the decision OWNS the found_club goal end to end. The (chance) is an
   ; ONSET roll - (latch-eval) rolls it at the fire and LOCKS it once holding, so the
-  ; held re-check never re-rolls it (it re-rolls each month until it lands). (not member_of)
+  ; held re-check never re-rolls it (it re-rolls each month until it lands). (not member-of)
   ; is the CONTINUOUS gate: while he is still clubless the goal stands; the moment
-  ; found-club-seq enrols him ({@self member_of}) it falls and the goal ends. The act never
+  ; found-club-seq enrols him ({@self member-of}) it falls and the goal ends. The act never
   ; ends the goal.
   (when (and (>= (years-old @self) 30)
-             -{@self member_of ?}
+             -{@self member-of ?}
              (latch-eval (chance 0.0033))))
 
   ; SPLIT (Item 5): the npc-action (club_found_errand.hs) takes the founder out to found it
@@ -75,22 +75,22 @@
                   {?club_org founder ?founder})   ; produced-restricted: ?founder off the club
 
   ; A man joins a club of his OWN class band. The club's tier is read as @self's
-  ; OWN belief of the founder's class ((any {?founder class_situation}).target) - a
+  ; OWN belief of the founder's class ((any {?founder class-situation}).target) - a
   ; positive match, so @self only joins a club whose founder he
   ; actually knows (an unfamiliar founder's class @fails the match). ?founder is
   ; produced off @self's {?club_org founder ?founder} belief (minted at orientation)
   ; in the ?club_org role. chance + age + club-count are non-belief gates in (when).
   ; MAINTENANCE: the decision OWNS the join_club goal end to end. (chance) is the ONSET
   ; roll - (latch-eval) rolls it at the fire and LOCKS it once holding (it re-rolls
-  ; each month until it lands). (not member_of ?club_org) is the CONTINUOUS completion
+  ; each month until it lands). (not member-of ?club_org) is the CONTINUOUS completion
   ; gate: while he is not yet on THIS club's roster the goal stands; the moment
-  ; join_club_act enrols him (register-member mints {@self member_of ?club_org}) it falls
+  ; join_club_act enrols him (register-member mints {@self member-of ?club_org}) it falls
   ; and the goal ends. The act never ends the goal.
   (when (and (>= (years-old @self) 18)
-             (< (count (every {@self member_of ?})) 2)
-             -{@self member_of ?club_org}
-             (= (any {?founder class_situation}).target
-                (any {@self class_situation}).target)
+             (< (count (every {@self member-of ?})) 2)
+             -{@self member-of ?club_org}
+             (= (any {?founder class-situation}).target
+                (any {@self class-situation}).target)
              (latch-eval (chance 0.005))))
 
   ; SPLIT (Item 5): the npc-think - the decision to join. Mints {@self goal {@self
@@ -101,7 +101,7 @@
 
 ; club_gathering RETIRED (place-and-time reframe, Section 4.8 P2b): club members
 ; are now drawn to the clubhouse by the band itinerary's SOCIAL lane (members
-; route to building social_clubhouse), and the clubhouse's afforded rules
+; route to building social-clubhouse), and the clubhouse's afforded rules
 ; (gossip / gamble / confide / court / outdo) fire among the co-present members
 ; via resolve_affordances - so a standalone monthly roster-walk that registered
 ; clubhouse co-presence is now redundant double-routing.
@@ -115,11 +115,11 @@
   (role @self (old_human @self))
 
   ; MAINTENANCE: the decision OWNS the resign_club goal end to end. (chance) is the ONSET
-  ; roll - (latch-eval) locks it once holding. (believes member_of) is the CONTINUOUS
+  ; roll - (latch-eval) locks it once holding. (believes member-of) is the CONTINUOUS
   ; completion gate: while he still holds a membership the goal stands; the moment
-  ; resign_club_act unregisters him (unregister-member ENDS {@self member_of}) it falls and
+  ; resign_club_act unregisters him (unregister-member ENDS {@self member-of}) it falls and
   ; the goal ends. The act never ends the goal.
-  (when (and {@self member_of ?}
+  (when (and {@self member-of ?}
              (latch-eval (chance 0.004))))
 
   ; SPLIT (Item 5): the npc-think - the decision to resign. Mints {@self goal {@self

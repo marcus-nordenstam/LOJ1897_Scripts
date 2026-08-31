@@ -1,14 +1,14 @@
 ; ----------------------------------------------------------------------------
 ; sporting_event - the club ORGANISER's annual meet, the think + routing half.
-; (The act half - the contest itself - lives in rules/npc-act/hold_meet.hs.)
+; (The act half - the contest itself - lives in rules/npc-act/hold-meet.hs.)
 ;
 ; No omniscient club/roster/jockey scan: the organiser is a real deliberating NPC
 ; who reasons from HIS OWN club beliefs and acts at HIS OWN clubhouse.
 ;
-;   hold_meet (yearly timer): the club's founder/head resolves ONCE a year to
+;   hold-meet (yearly timer): the club's founder/head resolves ONCE a year to
 ;     hold his club's meet. He role-casts his OWN club from the founder / record
 ;     beliefs he minted at found-club-seq (no scan) and latches a standing
-;     {@self hold_meet <club-articles>} goal.
+;     {@self hold-meet <club-articles>} goal.
 ;   hold_meet_go / hold_meet_dwell: while the goal stands, hold_meet_go walks him to
 ;     his clubhouse (articles-building; the generic enter chain does the travel) and
 ;     cedes on arrival; hold_meet_dwell, once he is inside, proposes the on-site
@@ -17,14 +17,14 @@
 ;     {@self RACE_RUN} act (race_act runs his leg from his own attributes).
 ;
 ; The SPORT is authored content read per club kind from tables/club_sports.hs;
-; the roster is the employee_register the organiser legitimately holds - both
+; the roster is the employee-register the organiser legitimately holds - both
 ; read inside open_meet_act (hold_meet_act.hs), never here.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.mc")
 
 ; --- the annual decision to hold a meet (fires once, in June) ----------------
-(npc-think hold_meet
+(npc-think hold-meet
   ; ANNUAL: a yearly timer latches the standing meet goal once per year.
   (cooldown 1 y)
   (rng-stream behaviour)
@@ -52,5 +52,5 @@
   ; {?club record ?art} belief, exactly as club_joining / apprenticeship recover an org's
   ; articles).
   (utility duty)
-  (effects       (begin-goal {@self hold_meet (any {?club record}).target}))
-  (cease-effects (end-goal   {@self hold_meet (any {?club record}).target})))
+  (effects       (begin-goal {@self hold-meet (any {?club record}).target}))
+  (cease-effects (end-goal   {@self hold-meet (any {?club record}).target})))

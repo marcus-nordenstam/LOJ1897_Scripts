@@ -58,7 +58,7 @@
   "The Fishermans Arms" "The Kings Head" "The Globe" "The Albion Tavern"
   "The Harbour Lights")
 
-(names athletic_clubhouse
+(names athletic-clubhouse
   "The Corinthian Club" "Saltcombe Rowing Club" "The Turf Club"
   "Port Christie Cricket Club")
 

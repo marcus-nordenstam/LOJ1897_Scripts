@@ -10,7 +10,7 @@
 ; child still in the natal / inherited home). A yearly timer mints the standing
 ; {@self acquire} desire once a year; the routing
 ; thinks walk him to a house agency and read the FOR-SALE register - the KNOWLEDGE
-; CHANNEL that mints his {@self for_sale ?b} beliefs (reuse of the foundation
+; CHANNEL that mints his {@self for-sale ?b} beliefs (reuse of the foundation
 ; read-public-register macro). Only once he KNOWS listings does choose_home cast a
 ; dwelling and promote the purchase act (buy_home_act.hs).
 ;
@@ -20,7 +20,7 @@
 ;   KNOWS an agency, not there   -> buy_home_go   (travel to its office).
 ;   KNOWS no agency at all       -> buy_home_find (route to the incorporations
 ;     register via the orient lane; reading it mints his {?agency isa [k org
-;     house_agency]} beliefs so buy_home_go can then fire).
+;     house-agency]} beliefs so buy_home_go can then fire).
 ;
 ;   buy_home        : yearly timer - seeker gate -> mint the {@self acquire} desire.
 ;   buy_home_go     : hold the desire, register unread, knows an agency, not there -> travel.

@@ -14,6 +14,6 @@ event "irish_famine" {
         emotion_delta host_local fear 0.05
     }
     on_end {
-        region_mood_delta region_of=host_local anti_outsider 0.3
+        region_mood_delta region_of=host_local anti-outsider 0.3
     }
 }

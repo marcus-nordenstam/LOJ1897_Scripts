@@ -22,10 +22,10 @@
 ; ----------------------------------------------------------------------------
 
 ; /ever: "has ever met / related to" - an ended tie still means you KNOW the
-; person (an ex-lover, a dead parent), and talk_to is a TASK (Tasks.mon), so
+; person (an ex-lover, a dead parent), and talk-to is a TASK (Tasks.mon), so
 ; the contact evidence is the ENDED talk acts, not a running conversation.
 (define-macro personally-knows (?who ?other)
-  {?who friend|acquaintance|spouse|lover|mother|father|sibling|child|talk_to ?other /ever})
+  {?who friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?other /ever})
 
 ; (spouse-of ?p): who @self believes ?p is married to. The old C++ op read ?p's
 ; OWN mind (telepathy - you cannot see another's private spouse belief); this
@@ -57,7 +57,7 @@
 ; per-holder kin set + the consanguinity triangulation derivations). Add a kin
 ; label in BOTH places.
 (define-macro blood-kin (?who ?other)
-  {?who mother|father|parent|sibling|half_sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?other})
+  {?who mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?other})
 
 ; (is-attracted-to ?who ?other): does ?who hold an attraction stance of AT LEAST
 ; the `fancy` band toward ?other? Attraction is a continuous scalar (relational
@@ -82,7 +82,7 @@
   (>= (any {?actor education}).target 0.30))
 
 ; (organizing-occasion [k <kind>]): is @self hosting an occasion of that kind? An
-; occasion is a MENTAL OBJECT (its kind is wedding / birthday_party / ...); a [k <kind>]
+; occasion is a MENTAL OBJECT (its kind is wedding / birthday-party / ...); a [k <kind>]
 ; target matches an object of that kind by is-a (the belief matcher's object-vs-kind rule).
 (define-macro organizing-occasion (?kind)
   {@self organize ?kind})

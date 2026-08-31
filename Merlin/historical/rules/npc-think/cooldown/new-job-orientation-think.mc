@@ -3,7 +3,7 @@
 ;
 ; The casting rules (hiring / club_joining / apprenticeship_start /
 ; business_partnership / senior_appointment) used to role-enumerate EVERY
-; articles_of_incorporation in the world (the (kind ...) / org-kind-is-a omniscient
+; articles-of-incorporation in the world (the (kind ...) / org-kind-is-a omniscient
 ; ops). They now role only over orgs @self ALREADY KNOWS - cached mental org
 ; objects carrying an isa belief. This rule is how a townsperson comes to know the
 ; orgs: he goes to the parish (the common civic space everyone attends) and reads

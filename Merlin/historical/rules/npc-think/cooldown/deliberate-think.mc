@@ -41,7 +41,7 @@
   (select-joint
     (over-pressures ?pk ?focus ?pressure)
     (table deliberation_affinity)
-    (bind pressure_kind ?rpk)
+    (bind pressure-kind ?rpk)
     (bind action ?action)
     (bind weight ?weight)
     (bind-total ?total)

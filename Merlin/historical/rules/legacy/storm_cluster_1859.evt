@@ -12,6 +12,6 @@ event "storm_cluster_1859" {
     on_fire {
         kill drowned cause=cause_accident
         emotion_delta drowned fear 0.7
-        region_mood_delta region_of=drowned plague_fear 0.2
+        region_mood_delta region_of=drowned plague-fear 0.2
     }
 }

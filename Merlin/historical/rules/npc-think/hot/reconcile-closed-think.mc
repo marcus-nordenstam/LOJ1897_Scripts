@@ -15,7 +15,7 @@
 ; KNOWLEDGE-HONEST BY PERCEPTION. The worker's daily commute (work_attendance.hs) now
 ; FRONT-PARKS his workplace building (the Stage-5 two-arm always front-parks a building on
 ; arrival), so exterior perception RE-OBSERVES it every commute and internalizes {?wp
-; struct_status [k closed]} fresh. The rule reads that PERCEIVED belief (not an env attr).
+; struct-status [k closed]} fresh. The rule reads that PERCEIVED belief (not an env attr).
 ; He is not told; he sees the doors shut from the street. No mind but his own is written.
 ;
 ; GENERAL: no org, job, or NPC is baked in. The job / org / workplace chain
@@ -33,13 +33,13 @@
 ; beliefs when the gate holds (they do not compete for the motor).
 ; ----------------------------------------------------------------------------
 
-; The firing condition is perceiving {?wp struct_status closed} at the premises. This
+; The firing condition is perceiving {?wp struct-status closed} at the premises. This
 ; belief is about ?wp (the workplace), not @self, and lives in the (when). Cheap: gated
 ; to employed workers, and ends its own gate on first fire.
 (npc-think reconcile_closed
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              {?org workplace ?wp})   ; ?wp binds at fire
-  (when (and {?wp struct_status [k closed]}))
+  (when (and {?wp struct-status [k closed]}))
   (effects
     (end-belief {@self job ?job})))

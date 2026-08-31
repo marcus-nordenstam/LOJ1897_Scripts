@@ -24,7 +24,7 @@
     (try
       (role ?mine ?kind {@self own ?mine} (spatial ?mine building (home-of @self)))
       (when (and (not (spatial ?mine co-located @self))
-                 (unknown (spatial ?mine held_by))))
+                 (unknown (spatial ?mine held-by))))
       (utility always-pick)
       (effects (maintain-proposal {@self get ?mine})))
     ; BUY - overt only; (feasible) drops it when broke, (cost) charges the felt price.

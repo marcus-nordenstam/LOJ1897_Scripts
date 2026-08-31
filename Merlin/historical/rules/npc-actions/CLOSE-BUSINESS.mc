@@ -34,9 +34,9 @@
 ;      home-seated firm's `premises` is a room in his own home, which he does NOT
 ;      hold an {own} belief on, so he does not list his dwelling; a leased premises
 ;      he simply vacates, and the landlord perceives the vacancy later). The listing
-;      is his own act on his own property: create a for_sale_listing document in the
+;      is his own act on his own property: create a for-sale-listing document in the
 ;      premises + write its [building] record + mint his own {?wp availability
-;      for_sale} belief - the same abs-native listing list_to_let_action files for a
+;      for-sale} belief - the same abs-native listing list_to_let_action files for a
 ;      let, NOT the banned cross-mind list_for_sale op.
 ; ----------------------------------------------------------------------------
 
@@ -49,8 +49,8 @@
   (duration 90)
   (effects
     ; the register rides his own org beliefs (org recalled off his articles ?art).
-    (o {?art declares_org @o}): ?org
-    (any {?org employee_register ?reg})
+    (o {?art declares-org @o}): ?org
+    (any {?org employee-register ?reg})
     ; 1. shutter the doors - a perceivable `closed` fact; staff reconcile by seeing it.
     (shutter-building ?wp)
     ; (the owned-premises FOR-SALE listing is the list_failed_premises twin's

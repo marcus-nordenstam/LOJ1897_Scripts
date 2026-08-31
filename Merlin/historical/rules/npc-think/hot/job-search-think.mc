@@ -11,8 +11,8 @@
 ; goes to the parish board, picks an advert whose job+org he has not already FAILED, and
 ; begins ONE apply_for. Sub-tasks write + mail the application. The verdict arrives as a
 ; TYPED letter read (held) in the morning post: with one apply_for in flight, the letter's
-; KIND alone is the verdict - offer_letter -> take up the post (apply_for /succ),
-; rejection_letter -> apply_for fail. Reading requires HOLDING the paper.
+; KIND alone is the verdict - offer-letter -> take up the post (apply_for /succ),
+; rejection-letter -> apply_for fail. Reading requires HOLDING the paper.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.mc")
@@ -42,7 +42,7 @@
   (rng-stream employment)
   (role @self -{@self job ?}
               -{@self apply_for ? ? /pres})
-  (role ?ad [k job_description] (spatial ?ad co-located @self)
+  (role ?ad [k job-description] (spatial ?ad co-located @self)
                                 -{@self READ ?ad /succ})
   (utility errand)
   (effects (debug-print "JS_READ") (maintain-proposal {@self READ ?ad})))
@@ -61,7 +61,7 @@
   (role ?org {?org vacancy ?jk}
              (select (score 1) (policy roulette)))
   (when (and {?org workplace ?wp}
-             (if (table-match occupations job ?jk class_floor ?cf0) (then ?cf0) (else [k lower])): ?cf
+             (if (table-match occupations job ?jk class-floor ?cf0) (then ?cf0) (else [k lower])): ?cf
              (class-at-least @self ?cf)
              -{@self apply_for ?jk ?wp /fail}))
   (utility errand)

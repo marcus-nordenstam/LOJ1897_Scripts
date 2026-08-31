@@ -15,6 +15,6 @@ event "napoleonic_wars" {
         emotion_delta casualty fear 0.2
     }
     on_end {
-        region_mood_delta region_of=casualty war_weariness 0.4
+        region_mood_delta region_of=casualty war-weariness 0.4
     }
 }

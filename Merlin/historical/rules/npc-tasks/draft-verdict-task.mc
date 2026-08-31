@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; draft_verdict ?applicant ?kind - answer ONE applicant (whom @self learned of by
-; READing their application) with a verdict letter of ?kind (offer_letter /
-; rejection_letter). A COMPOSITION of general lego acts, one dumb step each:
+; READing their application) with a verdict letter of ?kind (offer-letter /
+; rejection-letter). A COMPOSITION of general lego acts, one dumb step each:
 ;   CREATE_ENTITY ?kind : pen the blank verdict letter (verdict rides the KIND);
 ;   ADDRESS ?ltr ?applicant : envelope it to the applicant (name + home);
 ;   send_mail ?ltr       : the mail lane delivers it to the applicant's home;

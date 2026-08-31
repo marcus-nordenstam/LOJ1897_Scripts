@@ -2,7 +2,7 @@
 ; Emigration - the DECISION to leave the parish. Leaving happens to a SPECIFIC
 ; person, not to the world, so it is a per-NPC decision, with @self bound to
 ; each living NPC. The
-; young_adult template gates @self to a fertile-age adult, and a per-month
+; young-adult template gates @self to a fertile-age adult, and a per-month
 ; (chance) - scaled by the parish's crowding (population-pressure) and by @self's
 ; own openness - rolls the departure. @self is bound O(1); there is no role cast.
 ;
@@ -45,12 +45,12 @@
         (bind ?hb-rel.target ?home)
         (if {@self own ?home}
           (then
-            (for-each ?deed (env-entities [k title_deed])
+            (for-each ?deed (env-entities [k title-deed])
               (do
                 (table-match (attr ?deed writing) building ?db)
                 (if (= ?db ?home)
                   (then
-                    (for-each ?listings (env-entities [k for_sale_listings])
+                    (for-each ?listings (env-entities [k for-sale-listings])
                       (table-add ?listings building ?home deed ?deed))
                     (break)))))
             (end-belief {@self own ?home})

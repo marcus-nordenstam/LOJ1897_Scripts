@@ -4,7 +4,7 @@
 ; The victim holds the standing {?blackmailer extort @self} anchor his coercer's
 ; press keeps refreshing (perpetration_macros coerce-* land it, coercion.hs
 ; press-coercion refreshes it). Each month he mints + COMPOUNDS his OWN
-; exposure_risk pressure toward the blackmailer: begin-belief /caused_by the anchor
+; exposure-risk pressure toward the blackmailer: begin-belief /caused_by the anchor
 ; (so a live cause keeps it off the orphan-sweep) and /salience the class-scaled
 ; stake (accumulate-on-reuse escalates it in place, walking him from bribe /
 ; confess toward the kill tail - deliberate_think turns the standing pressure into
@@ -16,7 +16,7 @@
 ;
 ; (cease-after-fire) makes it a clean monthly PULSE: (adult @self) never falls, so
 ; the bout would otherwise hold after the first fire and never re-mint; ceasing on
-; fire lets the 1-month cooldown re-arm it, so the exposure_risk pressure compounds
+; fire lets the 1-month cooldown re-arm it, so the exposure-risk pressure compounds
 ; every month the extort anchor still stands.
 ; ----------------------------------------------------------------------------
 
@@ -31,5 +31,5 @@
                      {?blackmailer extort @self})
   (effects
     (begin-belief {?blackmailer extort @self}): ?extort_anchor
-    (begin-belief {@self pressure [k exposure_risk] ?blackmailer /caused_by ?extort_anchor}
+    (begin-belief {@self pressure [k exposure-risk] ?blackmailer /caused_by ?extort_anchor}
                   (salience (coercion-stake)))))

@@ -43,9 +43,9 @@
 
 ; ----------------------------------------------------------------------------
 ; Age from a KNOWN birth date (belief-reading; replaces the omniscient C++
-; (years-old) op that read the env birth_date attr). Composed from the general
+; (years-old) op that read the env birth-date attr). Composed from the general
 ; date primitives (date-now) + (year|month|day <date>), which decompose ANY date -
-; a stored birth_date, today, an anniversary. `years-old` is EXACT: full years
+; a stored birth-date, today, an anniversary. `years-old` is EXACT: full years
 ; elapsed, minus one until this year's birthday falls.
 ; ----------------------------------------------------------------------------
 
@@ -56,13 +56,13 @@
       (and (= (month (date-now)) (month ?bd))
            (>= (day (date-now)) (day ?bd)))))
 
-; (years-old ?who): the EXACT whole-years age, read from ?who's OWN {?who birth_date
+; (years-old ?who): the EXACT whole-years age, read from ?who's OWN {?who birth-date
 ; <date>} belief - mental, no env attr, no omniscience. Works on @self and on anyone
-; whose birth_date the mind has learned (friends-and-closer); for strangers use the
-; perceived age_band predicates (age_macros.hs) instead.
+; whose birth-date the mind has learned (friends-and-closer); for strangers use the
+; perceived age-band predicates (age_macros.hs) instead.
 (define-macro years-old (?who)
-  (- (- (year (date-now)) (year (any {?who birth_date}).target))
-     (if (birthday-passed (any {?who birth_date}).target) (then 0) (else 1))))
+  (- (- (year (date-now)) (year (any {?who birth-date}).target))
+     (if (birthday-passed (any {?who birth-date}).target) (then 0) (else 1))))
 
 ; (job-tenure ?who): whole years since ?who's current job RANK began - the
 ; interval-start of the {<job> level <grade>} belief on the job mental object

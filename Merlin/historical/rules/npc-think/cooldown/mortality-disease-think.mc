@@ -8,7 +8,7 @@
 ; sets an epidemic env state and a per-NPC roll tests against it. This rule is
 ; only the age-independent background rate.
 ;
-; (die @self) marks @self dead (condition/death_date); the zero-role burial sweep
+; (die @self) marks @self dead (condition/death-date); the zero-role burial sweep
 ; destroys the corpse later. propagate-death first (reads @self's living ties).
 ; ----------------------------------------------------------------------------
 
@@ -26,5 +26,5 @@
 
   (effects
     (settle-death @self)
-    (record-corpse-death @self [k death_cause disease])
+    (record-corpse-death @self [k death-cause disease])
     ))

@@ -108,12 +108,12 @@
 .
 
 # Class - "Maria เป็น ชนชั้น lower" (Maria is class lower)
-"$sub_np(NP) เป็น ชนชั้น $kind(KIND|/isa|class_situation)"
-{ $sub_np(NP) /pres class_situation $kind(KIND|/isa|class_situation) }
+"$sub_np(NP) เป็น ชนชั้น $kind(KIND|/isa|class-situation)"
+{ $sub_np(NP) /pres class-situation $kind(KIND|/isa|class-situation) }
 .
 
-"$sub_np(NP) เป็น ชนชั้น $kind(KIND|/isa|class_situation) ครับ"
-{ $sub_np(NP) /pres class_situation $kind(KIND|/isa|class_situation) }
+"$sub_np(NP) เป็น ชนชั้น $kind(KIND|/isa|class-situation) ครับ"
+{ $sub_np(NP) /pres class-situation $kind(KIND|/isa|class-situation) }
 :: deferential
 .
 

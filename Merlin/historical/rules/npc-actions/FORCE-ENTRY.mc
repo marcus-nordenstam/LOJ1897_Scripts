@@ -10,6 +10,6 @@
   (effects
     (check (spatial ?door co-located @self))
     (set-attr ?door integrity [k broken])
-    (set-attr ?door lock_status [k unlocked])
-    (set-attr ?door opening_status [k ajar])
+    (set-attr ?door lock-status [k unlocked])
+    (set-attr ?door opening-status [k ajar])
     (set-outcome ?fe-rel /succ)))

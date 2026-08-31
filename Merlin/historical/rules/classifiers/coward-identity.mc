@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
-; coward identity (classifier). Toggles {@self identity [k role coward_role]} via
+; coward identity (classifier). Toggles {@self identity [k role coward-role]} via
 ; mint-band: a single band at 0.5 IS a toggle (>= 0.5 begins, < 0.5 ends), and the
-; held-scan matches only coward_role, so the other identities classify_identities
+; held-scan matches only coward-role, so the other identities classify_identities
 ; mints (parent / worker / christian / gentleman / ...) are untouched.
 ;
 ; Fires on EITHER the timid-by-nature trait composite (low assertiveness AND high
@@ -28,4 +28,4 @@
                    (> (attr @self withdrawal)    (coward-withdraw-min)))
                 (* (> (inhibition) (coward-inhibition-min))
                    (- 1 (prob {@self repute [k repute exemplary]})))) 0 1)
-      [k role coward_role] 0.5)))
+      [k role coward-role] 0.5)))

@@ -17,7 +17,7 @@
 ;     visible outcome the coercer is watching for;
 ;   - a demand-LESS (silence) coercion eventually loses its heat (0.10/month);
 ;   - otherwise (press-coercion ?victim) (coercion_macros.hs): end on spent
-;     leverage, else refresh the victim's exposure_risk and ride the
+;     leverage, else refresh the victim's exposure-risk and ride the
 ;     anonymous blackmail note down the covert letter channel.
 ; ----------------------------------------------------------------------------
 

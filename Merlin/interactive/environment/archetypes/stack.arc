@@ -15,8 +15,8 @@ archetype "stack" (cap 2048) (per obs) (non-occluder) (occupies-env-grid)
     (spatial items)
     # Kind-variation identity (see shared/attrs.arc).
     (attr "variant")
-    (attr "birth_date")
-    (attr "stack_label")
+    (attr "birth-date")
+    (attr "stack-label")
     (spatial bounds)
     # A stack sits IN a space (a mail pile in the hallway, letter piles inside
     # a hiding-spot cache) - seam-derived from the OBB like any located prop.

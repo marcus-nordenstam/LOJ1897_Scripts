@@ -19,7 +19,7 @@
     (else (any {?who friend ?}).target)))
 
 ; The suicide outlet: the witnessed ideation is minted in a confidant's mind ALWAYS
-; (the testimony trail); the act (death + the death_cause-suicide body-truth) only past
+; (the testimony trail); the act (death + the death-cause-suicide body-truth) only past
 ; the despair + withdrawal gate.
 (define-macro resolve-suicide (?who)
   (do
@@ -28,11 +28,11 @@
     (if (pick-confidant ?who)
         (then
           (pick-confidant ?who): ?conf
-          (begin-belief ?conf {@self mention [k death_cause suicide]})))
+          (begin-belief ?conf {@self mention [k death-cause suicide]})))
     (if (and (>= (despair ?who) (suicide_despair_min))
              (>= (attr ?who withdrawal) (suicide_withdrawal_min)))
         (then (settle-death ?who)
-            (record-corpse-death ?who [k death_cause suicide])))))
+            (record-corpse-death ?who [k death-cause suicide])))))
 
 ; The strive outlet (benign envy): discharge half the driving rivalry pressure.
 ; No goal. Getting better at the contested domain is not a bespoke act here -

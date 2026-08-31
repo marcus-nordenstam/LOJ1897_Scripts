@@ -4,7 +4,7 @@
 ; single act picked the victor by (attr ?victor assertiveness) and the grudge by
 ; (attr ?bested narcissism) - reading OTHER people's hidden traits. Now nobody reads
 ; a trait off anyone else: each competitor SELF-simulates his run (RACE_RUN.hs) and
-; the outcome is OBSERVABLE (a race_result belief minted into the co-present
+; the outcome is OBSERVABLE (a race-result belief minted into the co-present
 ; organiser), which the organiser reads from his OWN mind to declare the winner
 ; (JUDGE_DECLARE.hs).
 ;
@@ -26,10 +26,10 @@
   (effects
     ; The club's articles (carried on the act-belief) -> its kind + roster; then the
     ; sport, an EXACT lookup on the club kind (a kindless club holds no contest).
-    (o {?art declares_org @o}): ?org
+    (o {?art declares-org @o}): ?org
     (any {?org isa ?club_kind})
-    (any {?org employee_register ?reg})
-    (if (table-match club_sports org_kind ?club_kind sport ?sport)
+    (any {?org employee-register ?reg})
+    (if (table-match club_sports org-kind ?club_kind sport ?sport)
       (then
         ; Summon every co-present, living roster member by SPEAKING the call: a
         ; directed utterance the member hears and adopts as his own standing summons

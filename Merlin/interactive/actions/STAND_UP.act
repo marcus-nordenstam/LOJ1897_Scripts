@@ -14,4 +14,4 @@ out     = 0.4
 # implementation polled action.anim.ended for outcome, which made the effect
 # depend on animation completion - that's the principle this refactor fixes.
 anim_timeout_mode = success
-nature = neutral_act
+nature = neutral-act

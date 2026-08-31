@@ -23,13 +23,13 @@ archetype "road" (cap 128) (per obs) (always-visible) (non-occluder)
     (spatial spline)
     # Legacy Phase 1 nav-mesh path - kept for the "street plate" test
     # scaffold; new authored roads use (spatial spline) instead.
-    (attr "nav_mesh")
+    (attr "nav-mesh")
     # Address-numbering policy (declared in shared/attrs.arc). Pushed by the
     # Player from the GrymEngine t_road_component at scene load and consumed by
     # merlin::assign_street_addresses_all to number the street_spaces fronting
     # this road. Imperceptible: generation policy, not an NPC-observable property.
-    (attr "address_even_side")
-    (attr "address_start")
-    (attr "address_step")
-    (attr "address_ascends_forward")
+    (attr "address-even-side")
+    (attr "address-start")
+    (attr "address-step")
+    (attr "address-ascends-forward")
 }

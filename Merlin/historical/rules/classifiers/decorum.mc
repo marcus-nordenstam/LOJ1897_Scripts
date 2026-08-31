@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; decorum (classifier). Manners and propriety as the 0..1 {@self decorum} float the
-; repute fold and the life_aim role-gate read - the politeness aspect carried onto
+; repute fold and the life-aim role-gate read - the politeness aspect carried onto
 ; the dimension scale (the parallel of diligence <- industriousness).
 ;
 ; A value dim, not a band: a plain float self-belief (@excl - a re-assert
@@ -15,7 +15,7 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self {@self class_situation ?})
+  (role @self {@self class-situation ?})
 
   (effects
     (begin-belief {@self decorum (clamp (attr @self politeness) 0 1)})))

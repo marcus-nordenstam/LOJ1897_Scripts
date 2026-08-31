@@ -22,7 +22,7 @@
 
 (define-table barb_ladder
   (capture ?girth-rel ?height-rel ?sob-rel ?low_aspect-rel ?vol-rel ?low_class-rel ?pre-rel)
-  (fields context          rank  barb_eval)
+  (fields context          rank  barb-eval)
 
   ; displaced_anger: lashing out grabs what is visible at hand.
   (record displaced_anger  3    (if (matches ?girth-rel.target [k girth fat|thin]) (then ?girth-rel)
@@ -74,7 +74,7 @@
     (tolerate (any {?victim sobriety ?}):?sob-rel)
     (tolerate (lowest /target {?victim politeness|industriousness|orderliness|compassion ?}):?low_aspect-rel)
     (tolerate (any {?victim volatility ?}):?vol-rel)
-    (tolerate (any {?victim class_situation [k class_situation lower]}):?low_class-rel)
+    (tolerate (any {?victim class-situation [k class-situation lower]}):?low_class-rel)
     (tolerate (any {?victim prestige ?}):?pre-rel))
 
   ; Compose the barb: context is the anger-driven ladder choice; ?barb-rel the
@@ -82,7 +82,7 @@
   (select-row (table barb_ladder)
     (bind context ?ctx)
     (bind rank ?rank)
-    (bind barb_eval ?barb-rel)
+    (bind barb-eval ?barb-rel)
     (when (= ?ctx ?emo_ctx))
     (score (if (is-belief ?barb-rel) (then ?rank) (else 0)))
     (policy roulette))
@@ -90,4 +90,4 @@
   (utility want)
 
   (effects
-    (maintain-proposal {@self SAY (utterable-msg ?barb-rel (msg_class insult)) ?victim})))
+    (maintain-proposal {@self SAY (utterable-msg ?barb-rel (msg-class insult)) ?victim})))

@@ -12,7 +12,7 @@ relation
     state (+ state)
 
         # Spatial predicate states.
-        within_reach_of         (tar object|space)
+        within-reach-of         (tar object|space)
         facing                  (tar object|space)
 
         # `frequent` is the whereabouts-HABIT summary: the sleep-time themed fuse
@@ -43,15 +43,15 @@ relation
         # avoid-state).
         avoid                   (sub human)           (tar ?)
 
-        expect_answer           (sub human)           (tar ?)
-        expect_question         (sub human)           (tar ?)
+        expect-answer           (sub human)           (tar ?)
+        expect-question         (sub human)           (tar ?)
 
 
-        expect_answer           (sub human)           (tar ?)
-        expect_question         (sub human)           (tar ?)
+        expect-answer           (sub human)           (tar ?)
+        expect-question         (sub human)           (tar ?)
 
         # meet: an arranged meeting between two people; the aux carries the
-        # venue. A tryst_note's writing quotes it ({author meet recipient
+        # venue. A tryst-note's writing quotes it ({author meet recipient
         # /aux <hotel>}) - the paper that names the place.
         meet                    (sub human)           (tar human)  (aux ?)
 
@@ -61,7 +61,7 @@ relation
         # demand). Deliberately distinct from the `coerce` TASK: the task
         # commits as a point-interval act-record (the threat as an act),
         # while THIS is the ongoing relation the repeat-demand coercion
-        # pass walks monthly and the victim's exposure_risk pressure hangs
+        # pass walks monthly and the victim's exposure-risk pressure hangs
         # its /caused_by on. Ends when the demand is met, the secret leaks, or
         # a party dies.
         extort                  (sub human)           (tar human)  (aux ?)  (facets blackmailable)
@@ -73,42 +73,42 @@ relation
         # dies. blackmailable: an instigator who commissioned a murder is
         # exposed to the killer's later leverage.
         commission              (sub human)           (tar human)  (aux human)  (facets blackmailable)
-        # hired_by: the reciprocal the KILLER holds - {killer hired_by
+        # hired-by: the reciprocal the KILLER holds - {killer hired-by
         # instigator /aux victim}. The killer's knowledge of who paid him is
         # the latent blackmail-back leverage (deferred).
-        hired_by                (sub human)           (tar human)  (aux human)  (facets blackmailable)
-        # vouched_for: the connection edge that UNLOCKS commissioning - the
+        hired-by                (sub human)           (tar human)  (aux human)  (facets blackmailable)
+        # vouched-for: the connection edge that UNLOCKS commissioning - the
         # subject has been introduced to / can deal with the target (a
-        # for_hire killer or a go_between fixer). Minted by the connection
+        # for-hire killer or a go-between fixer). Minted by the connection
         # gate (seek_killer_connection); read as the precondition for a
         # commission.
-        vouched_for             (sub human)           (tar human)
-        # sought_introduction: the WITNESS record - the subject (the asked
+        vouched-for             (sub human)           (tar human)
+        # sought-introduction: the WITNESS record - the subject (the asked
         # acquaintance) remembers that the aux instigator asked them to be
         # put in touch with a hard man. A permanent evidence thread ("he
         # asked me where to find someone who'd do violence"). Held in the
         # asked party's mind.
-        sought_introduction     (sub human)           (tar human)  (aux ?)
+        sought-introduction     (sub human)           (tar human)  (aux ?)
 
         # post: the recruiter's live board advert - {recruiter post <advert> /aux <org>}.
         # The seeker's hiring lifecycle rides the `apply_for` TASK outcome (Tasks.mon), not
         # a state here. Dedups advertising; gates the take-down. The hiring officer needs no
         # `offering` state: gather_applications resolves the whole inbox in ONE sweep act
         # (offer the top applicant, reject the rest, destroy every application).
-        post                    (sub human)           (tar job_description)  (aux org @excl)
+        post                    (sub human)           (tar job-description)  (aux org @excl)
 
         # Household mealtimes - the COOK's authority (tell-only comms plan,
-        # ruling 11): {<home> breakfast_hour 6} / {<home> lunch_hour 12} /
-        # {<home> supper_hour 18}, held per-mind. The cook DECIDES them
+        # ruling 11): {<home> breakfast-hour 6} / {<home> lunch-hour 12} /
+        # {<home> supper-hour 18}, held per-mind. The cook DECIDES them
         # (set_mealtimes, household.hs - genesis of her own decision, with
         # per-cook variation) and SAYS them; residents adopt from the say or
         # re-learn through the ask-the-cook channel ((ask-to) /
         # (asked-me-about) - so a forgotten mealtime self-heals by asking).
         # The 2h meal window opens AT the hour; the meal lanes (meals.hs)
         # gate on it. Int-hour target (a scalar - bypasses tar checks).
-        breakfast_hour          (sub structure)        (tar ? @excl)
-        lunch_hour              (sub structure)        (tar ? @excl)
-        supper_hour             (sub structure)        (tar ? @excl)
+        breakfast-hour          (sub structure)        (tar ? @excl)
+        lunch-hour              (sub structure)        (tar ? @excl)
+        supper-hour             (sub structure)        (tar ? @excl)
 
         # The cook's personal grocery-run slot (2a staggering, household.hs
         # set_shop_schedule / plan_provisioning). Each cook picks a random
@@ -116,13 +116,13 @@ relation
         # trips spread across the week and day instead of every household
         # converging on the one shop the same day (the 256-contents stampede).
         # Int scalar targets, held on the cook's OWN self-object.
-        shop_weekday            (sub human)            (tar ? @excl)
-        shop_hour               (sub human)            (tar ? @excl)
+        shop-weekday            (sub human)            (tar ? @excl)
+        shop-hour               (sub human)            (tar ? @excl)
 
-        # under_suspicion: the graded wariness an observer has accumulated
+        # under-suspicion: the graded wariness an observer has accumulated
         # toward someone hiding something (see Docs/hsim/hsim_social.md).
         # Held in the OBSERVER's mind about the watched person:
-        # {<wife> under_suspicion 0.6} = "in my eyes she is 0.6 suspect".
+        # {<wife> under-suspicion 0.6} = "in my eyes she is 0.6 suspect".
         # Accrues from unexplained absences, handled letters in an unknown
         # hand, and public indiscretions; past a threshold a hostile observer
         # ACTS (engineers an interception - the Alice Yapp pattern). Distinct
@@ -130,11 +130,11 @@ relation
         # this is an evidence-accumulator, not an affective stance. No decay
         # (a Victorian misgiving, once seeded, is nursed). One value at a
         # time per watched person.
-        under_suspicion         (sub human)           (tar ? @excl)
+        under-suspicion         (sub human)           (tar ? @excl)
 
         # (under_attack RETIRED: the victim's threat perception is no longer a minted
         # state - fight_defence reads the WITNESSED violent act directly, matched by the
-        # (theme-labels violent_to) comptime expansion, and latches its counter-fight off it.)
+        # (theme-labels violent-to) comptime expansion, and latches its counter-fight off it.)
 
         # Attitudes - persistent dispositions toward a person, object or
         # fact. These are the DRIVERS of emotion, not emotions themselves:
@@ -151,11 +151,11 @@ relation
             value               (tar ?)  (disclosure friend)
             # justify: a held cognitive narrative that frames a past or
             # planned act as acceptable.
-            # Target is a `narrative` kind ({@self justify they_deserved_it
+            # Target is a `narrative` kind ({@self justify they-deserved-it
             # /aux <victim>}). Pre-perpetration deliberation events mint
             # justify on the chosen harmful branch as the actor commits;
             # post-perpetration the actor-POV reaction row mints it when
-            # moral_violation pressure crosses threshold. Each held
+            # moral-violation pressure crosses threshold. Each held
             # justification discounts inhibition so
             # the second bar is lower than the first - the rationalization
             # feedback loop that turns a one-off crime into a habit.
@@ -186,7 +186,7 @@ relation
         # (bond) is the separate `relationship` block, NOT part of this vector.
         # The continuous magnitude lives in the _stance_by_object cache; the
         # belief stores only the crossed BAND in /aux (a *_band kind,
-        # Concepts.mon), re-minted on a band crossing like skilled_in. The
+        # Concepts.mon), re-minted on a band crossing like skilled-in. The
         # neutral middle has no belief. appraisal_input so a band change
         # recontextualizes the target's past acts. Non-@excl: one belief per
         # (label, target).
@@ -231,13 +231,13 @@ relation
         # emitting gate reads a trait attr mapped by an
         # (impression <attr> [k impression <leaf>] <w>) row in
         # definitions/signals.hs. The target is an impression KIND leaf
-        # (Concepts.mon). Non-@excl: a person can seem hot_tempered AND
+        # (Concepts.mon). Non-@excl: a person can seem hot-tempered AND
         # cruel - each leaf is an independent conclusion.
         seem                    (sub human)           (tar impression)
 
         # Construals are tags, not beliefs. Each construal is one of
-        # the construed_act sub-kinds in Concepts.mon (wrong_act,
-        # harm_act, betray_act, etc.) declared on a task / ACTION;
+        # the construed-act sub-kinds in Concepts.mon (wrong-act,
+        # harm-act, betray-act, etc.) declared on a task / ACTION;
         # categorize() reads the tag set on the anchor's label and
         # dispatches one reaction row per tag per POV. No construal
         # beliefs are minted; the anchor itself is the /causes link.
@@ -252,13 +252,13 @@ relation
         # relations below. Appraisal_input - a held "X is rude to me"
         # influences future categorization of X's acts.
         (semantic_summary)      (+ sub human)  (+ appraisal_input)
-            rude_to             (tar human)
-            violent_to          (tar human)
-            thief_to            (tar human)
-            coercive_to         (tar human)
+            rude-to             (tar human)
+            violent-to          (tar human)
+            thief-to            (tar human)
+            coercive-to         (tar human)
             # mention: the spoken-of-topic gist - the subject has SPOKEN OF the
             # target concept, a witnessed remark distilled to its topic (not an
-            # enacted state). {<despairing> mention [k death_cause suicide]}
+            # enacted state). {<despairing> mention [k death-cause suicide]}
             # held in a confidant's mind is the suicidal-ideation testimony
             # minted when the suicide branch is deliberated (the
             # valet-testimony half of the Not-Proven engine). A real
@@ -273,7 +273,7 @@ relation
             # (a) Legal - own / lease / rent / borrow (verb-states below).
             # (b) Physical grip - the placement index's grip edge (the hand
             #     grips the item), read in .hs as (spatial ?hand grip) /
-            #     (spatial ?item gripped_by) / the composed (spatial ?actor
+            #     (spatial ?item gripped-by) / the composed (spatial ?actor
             #     hold); the hand-holds-item reasoning is done in .hs, not C++.
             # (c) Access / welcome - physical reach and social permission are
             #     .hs reasoning too (co-presence, (public)-space checks, own /
@@ -282,18 +282,18 @@ relation
             # own: legal ownership. Subject is the owner; target is the
             # owned thing (movable prop, building, space, OR an org - you can
             # legally own a business/household yet hold no job in it, a state
-            # distinct from heading it ({@self job [k org_head]}) or being
+            # distinct from heading it ({@self job [k org-head]}) or being
             # employed by it ({@self job ?j} + {?j salary ?})). Authored by
             # `.hse` transactions (BuyBuilding, founding, inheritance) and by
-            # reading documents (title_deed) whose writings encode the legal fact.
+            # reading documents (title-deed) whose writings encode the legal fact.
             # object subsumes structure (a building is-a object), so object|space|org
             # covers props, buildings, spaces AND orgs within the 3-kind field cap.
             own                 (tar object|space|org)
-            # coin_pile: single-valued pointer to the NPC's OWN coin pile (the
+            # coin-pile: single-valued pointer to the NPC's OWN coin pile (the
             # money heap). A direct handle so balance / spend reads resolve the
             # pile without iterating `own`. Minted by seed_coins alongside
             # {@self own <pile>}; @excl (one coin pile per NPC today).
-            coin_pile           (tar @excl object)
+            coin-pile           (tar @excl object)
             # hold: physical grip - what the actor currently has in
             # hand / on body / in carried containers. Dual purpose:
             # goal-target verb-state ({@self goal {@self hold ?t}}) AND
@@ -337,9 +337,9 @@ relation
             # engine future-interval support; wills and disinherit re-wire to
             # it when that lands.
             inherit             (tar ?)               (aux human)
-            # member_of: club / society membership - distinct from employment
+            # member-of: club / society membership - distinct from employment
             # (`employer`). Non-exclusive: an NPC may join several.
-            member_of           (tar org)
+            member-of           (tar org)
             # participant: the roster of a game OBJECT - {<game> participant
             # <person>}. Subject is the game (overriding the block's human
             # default), target a co-player. The inverse, player-side belief is
@@ -348,22 +348,22 @@ relation
             participant         (sub game)  (tar human)
             # dwell / work are activity-lane TASKS, not states - they live in
             # Tasks.mon ({@self dwell <home>} / {@self work <org>}).
-            # backed_by: an investor who has put up founding capital for this
+            # backed-by: an investor who has put up founding capital for this
             # NPC's venture (the investment event). Subject is the backed
             # party, target the investor - a patron (human) or an investment
             # firm (org): invest_errand seals an org target, patronage a
             # human one. Non-exclusive - a venture may have several backers.
             # A non-passive rename is an open ruling.
-            backed_by           (tar human|org)  (disclosure acquaintance)
-            # captor_of: {captor captor_of victim} - kidnap-in-progress
+            backed-by           (tar human|org)  (disclosure acquaintance)
+            # captor-of: {captor captor-of victim} - kidnap-in-progress
             # relationship. Ended by release / escape / mortality.
-            captor_of           (tar human)
-            # circumstance_of_death: {victim circumstance_of_death
+            captor-of           (tar human)
+            # circumstance-of-death: {victim circumstance-of-death
             # <incident>} - the cause-of-death narrative witnesses
             # form when perceiving a death scene. F2 gossip carries it
             # village-wide so the staged story crystallizes. @excl -
             # one held narrative per observer per victim.
-            circumstance_of_death  (tar incident @excl)
+            circumstance-of-death  (tar incident @excl)
             # suspect: {victim suspect culprit /aux <act-clause>} - whom
             # the holder believes wronged them, the aux quoting the act
             # suspected of. Minted when filing a crime report whose
@@ -390,10 +390,10 @@ relation
         (occasion_agenda)       (+ sub human)
             host                (sub occasion)  (tar human)
             venue               (sub occasion)  (tar building|space)
-            # `held_on` (the occasion's date), NOT the core temporal `date` relation
+            # `held-on` (the occasion's date), NOT the core temporal `date` relation
             # (year/month/day/hour/date/...): reusing `date` would impose this
             # (sub occasion) constraint on every time object's own `date` belief.
-            held_on             (sub occasion)  (tar ?)
+            held-on             (sub occasion)  (tar ?)
             hours               (sub occasion)  (tar ?)  (aux ?)
             organize            (tar occasion)
             # invite: {<host> invite <guest> /aux <occ>}. The host records it as
@@ -403,89 +403,89 @@ relation
             # ?occ} (review_appointments).
             invite              (tar human)  (aux occasion)
             # Sporting-event goal-drivers (sporting_event / sporting_judge lanes).
-            # hold_meet: the club officer's standing goal to run a meet (tar = the
-            # club's articles). judge_meet: the judge's standing goal to officiate.
-            hold_meet           (tar ?)
-            judge_meet
+            # hold-meet: the club officer's standing goal to run a meet (tar = the
+            # club's articles). judge-meet: the judge's standing goal to officiate.
+            hold-meet           (tar ?)
+            judge-meet
 
         # Competence - the domains an NPC is practically skilled in. Targets a
-        # `domain` kind (Concepts.mon): the academic_field disciplines (classics,
+        # `domain` kind (Concepts.mon): the academic-field disciplines (classics,
         # medicine, accountancy), the martial / illicit competences
-        # (marksmanship, forgery), the performance_art / athletics skills, etc.
+        # (marksmanship, forgery), the performance-art / athletics skills, etc.
         # The earned-competence band of the unified domain axis (interest ->
-        # skilled_in -> calling). The /aux holds a `competence_level`
+        # skilled-in -> calling). The /aux holds a `competence-level`
         # (novice / trained / expert); absent /aux is treated as novice.
         # Non-exclusive: an NPC may be skilled in several domains; each is its
         # own belief.
         (competence)            (+ sub human)
-            skilled_in          (tar domain)  (aux ?)
+            skilled-in          (tar domain)  (aux ?)
             # skill-level: per-ACT competence, emitted by the action pipeline as an
             # act decorated (track-skill-level) is performed - skill accrues on
             # completion, decays over time, and thresholds into a rung
             # (skill_level_pipeline_plan.md). Target is the act performed; /aux is
             # the earned skill_rung. Exclusive per act (a new rung supersedes the
             # prior), handled by the pipeline's band-emit. The general successor to
-            # skilled_in: competence keyed by the acts you perform, not a domain.
+            # skilled-in: competence keyed by the acts you perform, not a domain.
             skill-level         (tar ?)  (aux skill-level)
             # school-grades: the credential earned on graduating a school - target
             # is the school/curriculum, /aux the letter grade (A..F). Minted by the
-            # graduate act; the successor to skilled_in [k <school>_curriculum],
+            # graduate act; the successor to skilled-in [k <school>_curriculum],
             # which conflated a grade with competence.
-            school-grades       (tar ?)  (aux school_grade)
+            school-grades       (tar ?)  (aux school-grade)
             # serve: military / naval service, a seeded biographical
             # self-belief ({@self serve <rank>}). Tense lives in the
             # interval (the interval-tense doctrine): ONGOING = still
             # serving, ENDED = discharged veteran. The rank is the target
-            # (a military_rank kind, Concepts.mon). Seeded by
+            # (a military-rank kind, Concepts.mon). Seeded by
             # seed_military_service (alongside the martial skill the
             # service conferred); the NPC KNOWS it, so the interrogation /
             # background-query path can answer "were you in the army?"
             # with the rank. Drives the contract-killing pool (a
             # discharged or serving soldier with the bad-seed or
-            # desperation gate is for_hire) and the soldier identity.
-            serve               (tar military_rank)
+            # desperation gate is for-hire) and the soldier identity.
+            serve               (tar military-rank)
 
         # Non-kin social bonds (relocated from the concept tree - they are
         # relations, not nouns, and nothing queried their old is-a
-        # `relationship` position). close_to is the confidant tie the
-        # disclosure bands / voice disposition read; relied_on_by /
-        # respected_by are dormant utility bonds (matchable vocabulary, no
+        # `relationship` position). close-to is the confidant tie the
+        # disclosure bands / voice disposition read; relied-on-by /
+        # respected-by are dormant utility bonds (matchable vocabulary, no
         # current producer); renaming the passive forms is an open ruling.
         (bond)                  (+ sub human)
-            close_to            (tar human)  (disclosure close_friend)
-            relied_on_by        (tar human)
-            respected_by        (tar human)
+            close-to            (tar human)  (disclosure close_friend)
+            relied-on-by        (tar human)
+            respected-by        (tar human)
 
         # Vocational / educational states (relocated from the concept tree -
         # relations, not nouns).
         (vocational)            (+ sub human)
             retire              (tar ? @excl)
-            # carrying_loot: the thief's transient "I hold stolen ?item, to stow it"
+            # carrying-loot: the thief's transient "I hold stolen ?item, to stow it"
             # self-state. Minted by the theft act (steal), read by want_stow which OWNS
             # the {@self stow ?item} goal, ended by stow_act when the loot is put away.
             # DEFINED so it PERSISTS the carry-home journey (an undefined /obs label is
             # disproved by self-perception every cycle).
-            carrying_loot       (tar ?)
+            carrying-loot       (tar ?)
             # stow: the goal to put loot away (want_stow OWNS {@self stow ?item
             # ?place}, stow_act ends it). tar = the loot item, aux = the cache.
             stow                (tar ?)  (aux ?)
-            # staff_household: the standing goal a household head holds to fill
-            # its servant posts (staff_household_think mints {@self staff_household}).
-            staff_household
+            # staff-household: the standing goal a household head holds to fill
+            # its servant posts (staff_household_think mints {@self staff-household}).
+            staff-household
             # since: the year the job was taken up, held on the job object ({?j since <year>}).
             # Drives tenure for the duty-assignment seniority comparison. Stamped at hire.
-            since               (sub org_pos)  (tar ? @excl)
+            since               (sub org-pos)  (tar ? @excl)
             # DUTIES (capability-based org dispatch). A duty is an obligation TO a party of a
             # given kind; its aux is the TASK the holder is obliged to perform (the duty tasks
-            # live in Tasks.mon like every task). duty_to is the FULFILLMENT belief (behaviour
-            # role-casts on it and fire-binds the party): (role @self (believes {@self duty_to
-            # ?org [k <duty-task>]})). duty_holder is the org-side MIRROR (the assigner's
+            # live in Tasks.mon like every task). duty-to is the FULFILLMENT belief (behaviour
+            # role-casts on it and fire-binds the party): (role @self (believes {@self duty-to
+            # ?org [k <duty-task>]})). duty-holder is the org-side MIRROR (the assigner's
             # ledger-derived knowledge of who holds each duty). Both non-exclusive. Assignment
             # (which job-holder gets which duty) is authored in .hs over the org's
             # employee-register document + its `duties` list; behaviour NEVER dispatches on job
             # kind or rank - only on the held duty.
-            duty_to             (sub human)      (tar human|org)  (aux task)
-            duty_holder         (sub human|org)  (tar human)      (aux task)
+            duty-to             (sub human)      (tar human|org)  (aux task)
+            duty-holder         (sub human|org)  (tar human)      (aux task)
             # Education life-cycle. study names the field a pupil reads and the
             # school they read it at ({@self study <field> /aux <school>});
             # schooling is the schooling-level outcome left behind when the
@@ -493,8 +493,8 @@ relation
             # noun (Objects.mon) - already a state, so no diploma relation is
             # declared here. `study` shares its NAME with the `study` room
             # kind (Spaces.mon); kind references disambiguate with the full
-            # path (the hiding_spot precedent, Concepts.mon).
-            study               (tar @excl academic_field)    (aux org)
+            # path (the hiding-spot precedent, Concepts.mon).
+            study               (tar @excl academic-field)    (aux org)
             schooling           (tar ? @excl)
 
         # Achievements - sporting / competitive participation and victories.
@@ -505,36 +505,36 @@ relation
             # declaration, not performed) - hence a state, not an act; the
             # past victory reads through the interval tense.
             win                 (tar ?)
-            # Club-meet mechanics (sporting_event / hold_meet POV lane). The
+            # Club-meet mechanics (sporting_event / hold-meet POV lane). The
             # competitor's participation memory is his own ended race_run
             # act-belief; the organiser's meet record is his ended
             # hold_meet_run act-belief; the call to compete is the told
             # organiser-subject `summon` act (Tasks.mon) - none needs a state
-            # here. race_result: a competitor's self-simulated performance
+            # here. race-result: a competitor's self-simulated performance
             # (tar = a 0..1 score; aux = the sport it was scored in), minted into
             # the co-present organiser, who argmaxes the winner from the ones he
             # holds.
-            race_result         (tar ?)  (aux ?)
+            race-result         (tar ?)  (aux ?)
 
         # Zero-sum outcome records. NOT tasks - act-RECORDS minted by
         # classifiers from base substrate facts (`{actor hired_at ?org}`,
         # `{actor spouse ?partner}`, `{actor own ?lot_won_at_auction}`)
         # when the substrate shows a competing patient. The tag drives
-        # the patient's rivalry_pressure via the reaction cascade.
+        # the patient's rivalry-pressure via the reaction cascade.
         (rivalrous_outcome)     (+ sub human)  (+ appraisal_input)
             # outdo: actor positionally outcompetes patient (won a post
             # the patient applied for; outbid them at auction; married
             # the partner they courted).
-            outdo               (tar human)  (aux ?)  (construed_act rivalrous_act)  (abduct)
-            # public_humiliation: the class-tagged status-injury fact a humiliate
-            # act SAYs aloud ({@self public_humiliation ?victim}); the victim
-            # perceives + construes it (degrade_act cascade). INTERIM content - the
-            # construed_act / barb-content wiring is the deferred follow-up.
-            public_humiliation  (tar human)
-            # confront_publicly: the status-injury fact an expose act broadcasts
-            # ({@self confront_publicly ?victim}); the expose-lane crime-ledger + the
-            # gossip news ground-alt read it. Sibling of public_humiliation.
-            confront_publicly   (tar human)
+            outdo               (tar human)  (aux ?)  (construed-act rivalrous-act)  (abduct)
+            # public-humiliation: the class-tagged status-injury fact a humiliate
+            # act SAYs aloud ({@self public-humiliation ?victim}); the victim
+            # perceives + construes it (degrade-act cascade). INTERIM content - the
+            # construed-act / barb-content wiring is the deferred follow-up.
+            public-humiliation  (tar human)
+            # confront-publicly: the status-injury fact an expose act broadcasts
+            # ({@self confront-publicly ?victim}); the expose-lane crime-ledger + the
+            # gossip news ground-alt read it. Sibling of public-humiliation.
+            confront-publicly   (tar human)
 
         # Loss-outcome records. NOT tasks - act-RECORDS minted by the
         # absence-discovery classifier (the hse arrival sweep) when an
@@ -542,20 +542,20 @@ relation
         # the missing PROP, target the wronged discoverer. The thief's
         # identity is deliberately absent - the owner knows the thing was
         # taken, never (yet) by whom; knowing would be telepathy. The
-        # suffer_loss_act reaction is therefore focusless (anger/distress
-        # at no one, resource_scarcity pressure) - see ms1/reactions.ms1.
+        # suffer-loss-act reaction is therefore focusless (anger/distress
+        # at no one, resource-scarcity pressure) - see ms1/reactions.ms1.
         (loss_outcome)          (+ sub prop)  (+ appraisal_input)
-            # stolen_from: the discoverer's "someone took my X" memory,
+            # stolen-from: the discoverer's "someone took my X" memory,
             # dated at DISCOVERY (the sweep that found it gone), not at
             # the unknown taking time. reportable_crime: a discovered
             # theft is what a victim takes to the police station.
-            stolen_from         (tar human)  (construed_act suffer_loss_act)  (facets reportable_crime)
+            stolen-from         (tar human)  (construed-act suffer-loss-act)  (facets reportable_crime)
 
         # Acquired interior drives (F4.3). A drive is neither an emotion nor a
         # heritable temperament - it is deposited by a life of events and then
         # shapes which events cast the NPC.
         #   interest - the casual-pull band of the unified `domain` axis
-        #     (interest -> skilled_in -> calling): an NPC is drawn to a domain
+        #     (interest -> skilled-in -> calling): an NPC is drawn to a domain
         #     without (yet) practising it. {@self interest <domain>}. Seeded
         #     hereditary in mx_make_human + grown by the substrate-rooted S3
         #     acquisition events (parental_seeding / peer_propagation /
@@ -580,10 +580,10 @@ relation
             # {@self forage}, the food-source desires drive it). A goal-driver
             # label, not a disposition; defined so the goal clause is a valid term.
             forage
-            # life_aim - the existential-frame drive: what the NPC
-            # wants their LIFE to amount to. Target is a life_aim kind
-            # (legacy_aim / wealth_aim / piety_aim / respectability_aim
-            # / autonomy_aim / power_aim / belonging_aim). Distinct
+            # life-aim - the existential-frame drive: what the NPC
+            # wants their LIFE to amount to. Target is a life-aim kind
+            # (legacy-aim / wealth-aim / piety-aim / respectability-aim
+            # / autonomy-aim / power-aim / belonging-aim). Distinct
             # from calling (DOMAIN: music / engineering / soldiering)
             # and from craving (substance-targeted compulsion). DERIVED
             # by hsim_derive::classify_life_aim annually from substrate
@@ -593,10 +593,10 @@ relation
             # by deliberation / perpetration / incident outcome
             # selectors. NOT @excl - the classifier explicitly ends the
             # prior dominant belief with k_unforgettable salience on a
-            # qualitative shift, so multi-decade life_aim history is
-            # queryable as repeated {@self life_aim ?} beliefs with
+            # qualitative shift, so multi-decade life-aim history is
+            # queryable as repeated {@self life-aim ?} beliefs with
             # non-overlapping intervals. See PR-aim-history.
-            life_aim            (tar life_aim)  (disclosure friend)
+            life-aim            (tar life-aim)  (disclosure friend)
 
         # Derived dimensions (F3.2) - each a single numeric quality, computed
         # and cached by an F3.5 classifier, never authored by hand (the same
@@ -610,12 +610,12 @@ relation
             honesty             (tar ? @excl) (range 0 1)
             sobriety            (tar ? @excl) (range 0 1)
             piety               (tar ? @excl) (range 0 1)
-            # devoutness - the piety SIGNAL banded to a piety_band KIND
+            # devoutness - the piety SIGNAL banded to a piety-band KIND
             # (devout/observant/secular) by the derived-signals engine
             # (definitions/signals.hs). The band is the discrete, queryable
             # belief; the continuous magnitude lives OFF the belief timeline
             # in the per-mind signal table.
-            devoutness          (tar piety_band @excl)
+            devoutness          (tar piety-band @excl)
             diligence           (tar ? @excl) (range 0 1)
             # chastity - the self-derived TRUE chastity float (@self-only,
             # secret-inclusive). Others judge a person's chastity PER-OBSERVER, on
@@ -624,13 +624,13 @@ relation
             chastity            (tar ? @excl) (range 0 1)
             decorum             (tar ? @excl) (range 0 1)
             generosity          (tar ? @excl) (range 0 1)
-            # work_standing - a BOSS's subjective assessment of an EMPLOYEE's job
+            # work-standing - a BOSS's subjective assessment of an EMPLOYEE's job
             # performance (Section 4.11 career model; NOT self-derived). Held in
-            # the boss's mind as {<employee> work_standing <0..1>}, nudged by the
+            # the boss's mind as {<employee> work-standing <0..1>}, nudged by the
             # employee's workday conduct + any workplace incident; promotion /
             # firing read it. The boss is the org head (or, in a household, the
             # steward over the staff, the head over the steward).
-            work_standing       (tar ? @excl) (range 0 1)
+            work-standing       (tar ? @excl) (range 0 1)
             # Conduct-risk
             aggression          (tar ? @excl) (range 0 1)
             criminality         (tar ? @excl) (range 0 1)
@@ -653,7 +653,7 @@ relation
             inhibition          (tar ? @excl) (range 0 1)
             # Material
             wealth              (tar ? @excl) (range 0 1)
-            income_security     (tar ? @excl) (range 0 1)
+            income-security     (tar ? @excl) (range 0 1)
             # Standing
             prestige            (tar ? @excl) (range 0 1)
             breeding            (tar ? @excl) (range 0 1)
@@ -683,18 +683,18 @@ relation
             purpose             (tar ? @excl) (range 0 1)
             autonomy            (tar ? @excl) (range 0 1)
             # Rootedness in the community - tenure, employer, property, kin,
-            # club memberships. The life_satisfaction band classifier reads
+            # club memberships. The life-satisfaction band classifier reads
             # it to distinguish a LONER (low life_sat with high rootedness:
             # established but solitary by character) from an ADRIFT drifter
             # (low life_sat with low rootedness: newly arrived, no anchor).
             rootedness          (tar ? @excl) (range 0 1)
-            # family_alignment (PR-skill-life S7) - how far the NPC's drives
-            # (interest / skilled_in / calling domains) echo their LIVING
+            # family-alignment (PR-skill-life S7) - how far the NPC's drives
+            # (interest / skilled-in / calling domains) echo their LIVING
             # parents'. 1 = every drive follows the family path; 0 = full
             # divergence (the rebellion signal). classify_family_alignment caches
             # it annually; a parent reads each child's score to feel the
-            # autonomy_loss pressure when a child strikes out on their own.
-            family_alignment    (tar ? @excl) (range 0 1)
+            # autonomy-loss pressure when a child strikes out on their own.
+            family-alignment    (tar ? @excl) (range 0 1)
 
         # starve - the physiology-to-belief seam marker. Minted/ended by the
         # meals starving_watch pair at the hunger threshold crossing, so the
@@ -707,29 +707,29 @@ relation
         # gestation timer; gates re-conception while carried.
         pregnant                (sub human)  (tar human @excl)
 
-        # Document -> org back-link: the inverse of org_state's `record`
+        # Document -> org back-link: the inverse of org-state's `record`
         # (Concepts.mon). Lets any mind reconstruct its own per-mind org
-        # object from the stable articles_of_incorporation env anchor, via
-        # mx_imagine_or_recall(orgkind, mx_observe(articles), "declares_org").
-        declares_org            (sub document)  (tar org @excl)
+        # object from the stable articles-of-incorporation env anchor, via
+        # mx_imagine_or_recall(orgkind, mx_observe(articles), "declares-org").
+        declares-org            (sub document)  (tar org @excl)
 
-        # household_cook - @self is THE cook of <home> (one per household,
+        # household-cook - @self is THE cook of <home> (one per household,
         # elected via the home's public-bb `cook` marker; provisioning_think).
-        household_cook          (sub human)  (tar structure @excl)
+        household-cook          (sub human)  (tar structure @excl)
 
         # Historical-sim-only situation predicates (hsim_ prefix). Read by the
         # event engine to drive crime / drama template eligibility and role
         # binding. Pruned from NPC minds at the historical -> interactive
         # phase transition.
         (hsim)                  (+ sub human)
-            hsim_motive             (tar @excl)
-            hsim_secret_at_risk
-            hsim_publicly_humiliated
-            hsim_family_dishonored
-            hsim_legacy_threatened
-            hsim_class_resentful
-            hsim_religious_zealot
-            hsim_political_radical
-            hsim_witness_to_suffering
-            hsim_business_failing
-            hsim_homeless
+            hsim-motive             (tar @excl)
+            hsim-secret-at-risk
+            hsim-publicly-humiliated
+            hsim-family-dishonored
+            hsim-legacy-threatened
+            hsim-class-resentful
+            hsim-religious-zealot
+            hsim-political-radical
+            hsim-witness-to-suffering
+            hsim-business-failing
+            hsim-homeless

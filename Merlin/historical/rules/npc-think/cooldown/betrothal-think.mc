@@ -29,29 +29,29 @@
               -{@self fiancee ?}
               -{@self repute [k scandalous]}
               -{@self repute [k disreputable]}
-              {@self age_band ?peer_band})
+              {@self age-band ?peer_band})
   (role ?bride (unmarried_woman ?bride)
                ;; Not already spoken-for (he avoids a woman he KNOWS is engaged or
                ;; attached; a secret he has not heard does not stop the match).
                -{?bride fiancee ?}
                -{?bride lover ?}
                ;; A fallen woman (divorced for adultery) is shut out absolutely.
-               -{?bride prototype [k fallen_woman]}
+               -{?bride prototype [k fallen-woman]}
                -{?bride repute [k scandalous]}
                -{?bride repute [k disreputable]}
                ;; (The chastity gate lives in (when) - per-observer, a count of the
                ;; liaisons the groom himself has heard of; the (not (believes
                ;; {?bride lover ?})) filter above already bars a known ONGOING lover.)
                ;; Same class as the groom: the deliberating mind's belief that
-               ;; the bride's class_situation equals @self's own (dynamic-target
+               ;; the bride's class-situation equals @self's own (dynamic-target
                ;; shape-2, cacheable - like age-peers; NOT a cross-(target =)).
-               {?bride class_situation (any {@self class_situation}).target}
+               {?bride class-situation (any {@self class-situation}).target}
                ;; Belief-pure perceived predicates - the near-age window and the
                ;; blood-kin exclusion - stay role filters (cacheable), gating the
                ;; bride candidate set directly. @self's band is bound in the @self
-               ;; role: an inline (any {@self age_band}).target does not resolve against
-               ;; the plural age_span belief.
-               {?bride age_span ?peer_band}
+               ;; role: an inline (any {@self age-band}).target does not resolve against
+               ;; the plural age-span belief.
+               {?bride age-span ?peer_band}
                (none (blood-kin @self ?bride)))
 
   ;; Only the non-cacheable gates stay live: the per-groom (chance) pacing and
@@ -66,8 +66,8 @@
              ;; has not heard passes - the market gives the benefit of the doubt.
              (< (count (every {?bride lover ? /ever})) 2)
              (not (and {@self lover ?}
-                       (= (any {(any {@self lover}).target class_situation}).target
-                          (any {@self class_situation}).target)))))
+                       (= (any {(any {@self lover}).target class-situation}).target
+                          (any {@self class-situation}).target)))))
 
   (effects
     (begin-belief {@self fiancee ?bride})

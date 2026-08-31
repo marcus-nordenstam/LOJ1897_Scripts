@@ -9,12 +9,12 @@
 ;   - business_partnership - an established proprietor takes him on as co-owner,
 ;   - business_founding   - he self-funds, or founds on a backer's capital.
 ; Each gates on merit (a high `diligence` dimension), character (a sound
-; `respectability_situation`) and means (`wealth`, or a `backed_by` belief).
+; `respectability_situation`) and means (`wealth`, or a `backed-by` belief).
 ; The derived dimensions are read via (belief-target ...) - they are cached
 ; each December by derive_prototypes, so the January founding rules see the
 ; prior year's appraisal.
 ;
-; CATALOG ORDER MATTERS. investment is authored FIRST so the `backed_by`
+; CATALOG ORDER MATTERS. investment is authored FIRST so the `backed-by`
 ; beliefs it writes are visible to business_founding the same January tick.
 ; The three rules partition the merit candidates with no overlap: a wealthy
 ; or backed man founds; a poor-but-worthy man with a business-owner friend
@@ -25,7 +25,7 @@
 ; NPC, so each (chance) is /12 to hold the annual rate. The first three are
 ; MERIT-gated; business_homeostat is the non-merit floor net (founds from any adult
 ; while the town is below its business floor). NB the catalog-order dependency
-; (investment before founding, for backed_by) resolves within the one monthly
+; (investment before founding, for backed-by) resolves within the one monthly
 ; round, which runs them in catalog order.
 ; ----------------------------------------------------------------------------
 
@@ -44,7 +44,7 @@
   ; banded diligence/repute @failed: 628k futile candidate-evals / 0 backings, and a
   ; 450ms+ per-run perf hog. @self weighs his OWN merit + means here, exactly like
   ; business_partnership (which fires healthily). A backed clerk then founds his own
-  ; business via business_founding's `backed_by` means-branch.
+  ; business via business_founding's `backed-by` means-branch.
   ; A merit-and-character clerk who can weigh his own standing (the belief-pure
   ; part). The backing firm is his job's org, bound as ?org via the ?job role's
   ; {?job org ?org} (threaded off {@self job ?job}). The working-age band, not-
@@ -57,23 +57,23 @@
   (role ?job {@self job ?job})
   (role ?org {?job org ?org})          ; produced-restricted: ?org threaded off ?job
 
-  ; MAINTENANCE: the decision OWNS the back goal end to end. (not backed_by) is the
+  ; MAINTENANCE: the decision OWNS the back goal end to end. (not backed-by) is the
   ; CONTINUOUS completion gate - while he is still unbacked the goal stands; the moment
-  ; invest_act seals it ({@self backed_by ?}) the gate falls and the goal ends. The
+  ; invest_act seals it ({@self backed-by ?}) the gate falls and the goal ends. The
   ; (chance) is an ONSET roll - (latch-eval) rolls it at the fire and LOCKS it once
   ; holding (re-rolling each month until it lands). The working-age band, not-already-an-
   ; owner and the merit + means dims stay live gates.
-  (when (and -{@self backed_by ?}
+  (when (and -{@self backed-by ?}
              (>= (years-old @self) 25)
              (<= (years-old @self) 55)
-             -{@self job [k head_of_non_household_org]}
+             -{@self job [k head-of-non-household-org]}
              (>= (diligence) 0.55)
              (< ?wealth 0.5)
              (latch-eval (chance (* 0.033 (+ 0.5 (attr @self assertiveness)))))))
 
   ; npc-think: the clerk resolves to secure his firm's backing. Mints {@self goal
   ; {@self back ?org}} (focus = the firm); the npc-action (invest_errand.hs)
-  ; sends him to the firm and the completion records {@self backed_by ?org} there -
+  ; sends him to the firm and the completion records {@self backed-by ?org} there -
   ; which trips the completion gate above. Focus = the firm ?org, bound in the role
   ; from @self's own job.org belief. cease-effects end the goal on that falling edge.
   (utility errand)
@@ -95,7 +95,7 @@
               {@self wealth ?wealth}
               (or {@self repute [k respectable]}
                   {@self repute [k exemplary]})
-              -{@self backed_by ?})
+              -{@self backed-by ?})
   (role ?job {@self job ?job}
              {?job org ?})             ; threaded job.org existence
   ; An existing business he is taken into - a KNOWN org of business kind (@self
@@ -107,18 +107,18 @@
                        [k org business])
 
   ;; Live exclusivity re-check (see betrothal.hs): the candidate's "not
-  ;; org_head" eligibility is evaluated at enumeration time, so within one
+  ;; org-head" eligibility is evaluated at enumeration time, so within one
   ;; january tick several businesses can each sample the same strong candidate
   ;; before any partnership commits - one man "taken into partnership" by a
   ;; dozen firms. The when_gate is evaluated live per firing; once the candidate
-  ;; has been made an org_head this tick, the re-check fails and the sampler
+  ;; has been made an org-head this tick, the re-check fails and the sampler
   ;; backtracks to another candidate.
-  ;; MAINTENANCE: that same "not org_head" test is ALSO the CONTINUOUS completion
+  ;; MAINTENANCE: that same "not org-head" test is ALSO the CONTINUOUS completion
   ;; gate - the hold re-checks the (when) each pass, so the moment partner_act seats
-  ;; him as proprietor (org_head) it falls and the goal ceases. The (chance) is the
+  ;; him as proprietor (org-head) it falls and the goal ceases. The (chance) is the
   ;; ONSET roll: (latch-eval) rolls it at the fire and LOCKS it once holding. The
   ;; working-age band and the merit + means dims stay live gates.
-  (when (and -{@self job [k head_of_non_household_org]}
+  (when (and -{@self job [k head-of-non-household-org]}
              (>= (years-old @self) 25)
              (<= (years-old @self) 55)
              (>= (diligence) 0.55)
@@ -152,7 +152,7 @@
   (rng-stream business)
 
   ; Merit, character, and means - either enough wealth to self-fund, or a
-  ; backer (the backed_by belief a prior patronage / investment errand wrote).
+  ; backer (the backed-by belief a prior patronage / investment errand wrote).
   ; SELF-POV (telepathy purge CAT-2): @self weighs his OWN standing; no other
   ; mind is read. Belief-pure part only; the age band, not-already-an-owner, merit
   ; dim, means branch and the monthly chance are non-belief and live in (when ...).
@@ -163,18 +163,18 @@
   (role ?job {@self job ?job}
              {?job org ?})             ; threaded job.org existence
 
-  ; MAINTENANCE: the decision OWNS the found goal end to end. (not org_head) is the
+  ; MAINTENANCE: the decision OWNS the found goal end to end. (not org-head) is the
   ; CONTINUOUS completion gate - while he is not yet a proprietor the goal stands; the
   ; hold re-checks the (when) each pass, so the moment found_business_act seats him as
-  ; org_head it falls and the goal ceases. The (chance) is an ONSET roll - (eval-until-
+  ; org-head it falls and the goal ceases. The (chance) is an ONSET roll - (eval-until-
   ; hold) rolls it at the fire and LOCKS it once holding. The working-age band, merit
   ; dim and the means branch (enough wealth OR a backer) stay live gates.
-  (when (and -{@self job [k head_of_non_household_org]}
+  (when (and -{@self job [k head-of-non-household-org]}
              (>= (years-old @self) 25)
              (<= (years-old @self) 55)
              (>= (diligence) 0.55)
              (or (>= ?wealth 0.5)
-                 {@self backed_by ?})
+                 {@self backed-by ?})
              (latch-eval (chance (* 0.025 (+ 0.5 (attr @self assertiveness)))))))
 
   (utility errand)
@@ -211,13 +211,13 @@
   (role @self (old_human @self))
 
   ; MAINTENANCE floor-net (co-minter of {@self FOUND} alongside business_founding). The
-  ; CONTINUOUS completion gate is org_head (falls when he founds -> cease). The ONSET group
+  ; CONTINUOUS completion gate is org-head (falls when he founds -> cease). The ONSET group
   ; (latch-eval) is rolled at the fire and locked once holding: the monthly chance, the
   ; not-already-pursuing self-dedup (would self-defeat if re-checked - it minted the goal), and
   ; the LIVE business-floor gate (do not abort a founding-in-flight if the floor recovers).
   (when (and (>= (years-old @self) 25)
              (<= (years-old @self) 55)
-             -{@self job [k head_of_non_household_org]}
+             -{@self job [k head-of-non-household-org]}
              (latch-eval (chance 0.05)
                               -{@self goal {@self FOUND}}
                               (< (* (count-orgs-isa [k org business]) 12)

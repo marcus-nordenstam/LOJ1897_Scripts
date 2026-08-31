@@ -7,56 +7,56 @@ world_part (+ obs)
 # Kinds of spaces
         
 space (+ obs)
-    interior_space
-        bar_back
+    interior-space
+        bar-back
         entrance (facets entrance)
-            main_entrance (facets entrance)
+            main-entrance (facets entrance)
         doorway
         room
             kitchen
-            dining_room
-            restaurant_dining_room
+            dining-room
+            restaurant-dining-room
             hallway
-            living_room
+            living-room
             bedroom
             # Rooms the crime arcs need.
             # study: private workroom; canonical Victorian crime-scene
             # room (where a gentleman drinks port and reads in the
-            # evening). drawing_room: formal sitting room for receiving
-            # callers. back_office: commercial-building private workspace.
+            # evening). drawing-room: formal sitting room for receiving
+            # callers. back-office: commercial-building private workspace.
             study
-            drawing_room
-            back_office
+            drawing-room
+            back-office
         # Concealment caches - the places a household member hides letters and small valuables.
-        # One hiding_spot entity per cache, spawned at the owner's home.
+        # One hiding-spot entity per cache, spawned at the owner's home.
         # The CACHE SPACE carries the engine hidden bit - never the items:
         # concealment is containment. A cached item is placed INSIDE the
-        # hiding_spot (location = the cache; filed in the cache's own
+        # hiding-spot (location = the cache; filed in the cache's own
         # `contents`), and observation never recurses into hidden
         # sub-spaces, so the contents stay unseen until a deliberate search
         # observes the cache directly. The leaf kind encodes the
-        # concealment quality (a secret_chamber outlasts a jewelry_box_lining).
-        hiding_spot
-            floorboard_cache
-            book_cache
-            jewelry_box_lining
-            painting_cache
-            secret_chamber
+        # concealment quality (a secret-chamber outlasts a jewelry-box-lining).
+        hiding-spot
+            floorboard-cache
+            book-cache
+            jewelry-box-lining
+            painting-cache
+            secret-chamber
         stage
         auditorium
-    exterior_space
+    exterior-space
         land
             territory
-                crown_dependency
+                crown-dependency
                 nation
                     country
             area
                 neighborhood
         # Occupiable exterior spaces with OBBs (Section 4.12). Each is a `space`
         # entity (so it reuses the OBB co-presence machinery) and may carry
-        # name / address (-> road) / address_number. (street_space deleted: the
-        # address lives ON the premise now - a building / exterior_space carries
-        # its own address -> road + address_number, no frontage-box indirection.)
+        # name / address (-> road) / address-number. (street_space deleted: the
+        # address lives ON the premise now - a building / exterior-space carries
+        # its own address -> road + address-number, no frontage-box indirection.)
         # Amenity grounds for larger homes + public open space.
         garden
         field

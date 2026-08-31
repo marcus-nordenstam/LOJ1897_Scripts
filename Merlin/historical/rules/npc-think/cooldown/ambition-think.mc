@@ -3,7 +3,7 @@
 ;
 ; Sibling of covet_inheritance.hs. A cold, ambitious actor who is the CLEAR
 ; HEIR-APPARENT of their organisation's leadership post - the most-senior employee
-; below the org_head - murders the incumbent to take the seat. The victim is an
+; below the org-head - murders the incumbent to take the seat. The victim is an
 ; OBSTACLE (an innocent who holds the post), not a wrongdoer.
 ;
 ; PURE .hs, per-mind honest (the old (ambition-target ...) C++ verb entered every
@@ -13,7 +13,7 @@
 ;     clear-deputy proxy: senior is the top rung below the head, so removing the head
 ;     lifts @self (promote_on_vacancy). All self-reads of my own job object.
 ;   - ?victim is the incumbent head: a colleague I LEARNED from the staff register
-;     (read_roster) whose job at MY org is-a org_head. The JOIN {?victim job.org ?org}
+;     (read_roster) whose job at MY org is-a org-head. The JOIN {?victim job.org ?org}
 ;     shares my own org object - a read of my own beliefs, no telepathy.
 ;   - (when ...) is the disposition pre-gate (ambition = mean(machiavellianism,
 ;     narcissism), scaled by disinhibition, at the 0.03 base rate).
@@ -38,15 +38,15 @@
   (role @self (adult @self)
               {@self job.org ?org}
               {@self job.level [k senior]}
-              -{@self job [k org_head]})
+              -{@self job [k org-head]})
 
   ; The incumbent head I stand behind - a known colleague (learned from the staff
-  ; register by read_roster) whose job is-a org_head. read_roster only mints coworkers
+  ; register by read_roster) whose job is-a org-head. read_roster only mints coworkers
   ; from MY own register, so a known org-head IS my org's head; the (when) below pins it
   ; to my current ?org with a LIVE chain read (a cross-role JOIN on the job.org chain in
   ; a cached role filter is unsupported, so the org match lives in the gate, not the role).
   (role ?victim (known_alive ?victim)
-                {?victim job [k org_head]}
+                {?victim job [k org-head]}
                 (select (policy first-match)))
 
   ; Same-org pin + disposition pre-gate. ambition = mean(machiavellianism, narcissism);

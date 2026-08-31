@@ -24,8 +24,8 @@ $kind(KIND)
 "brothers"              [k brother]             .
 "sisters"               [k sister]              .
 "siblings"              [k sibling]             .
-"half siblings"         [k half_sibling]        .
-"half-siblings"         [k half_sibling]        .
+"half siblings"         [k half-sibling]        .
+"half-siblings"         [k half-sibling]        .
 "mothers"               [k mother]              .
 "fathers"               [k father]              .
 "parents"               [k parent]              .

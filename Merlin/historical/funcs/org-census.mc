@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; count-orgs-isa - the town's live org census, read straight off the incorporation
-; documents (no @gm registry attr). Scans every articles_of_incorporation and counts
-; the ones whose org_kind cell is-a ?kind, returning the tally. A closed org's AOC is
+; documents (no @gm registry attr). Scans every articles-of-incorporation and counts
+; the ones whose org-kind cell is-a ?kind, returning the tally. A closed org's AOC is
 ; destroyed at wind-up, so the scan is self-pruning: it counts only live orgs.
 ;
 ; A mental-only VALUE func (returns the count) - usable in a (when) gate or an
@@ -13,8 +13,8 @@
 
 (define-func count-orgs-isa (?kind)
   (bind 0 ?n)
-  (for-each ?art (env-entities [k articles_of_incorporation])
-    (if (table-match (attr ?art writing) org_kind ?kind) (then (+= ?n 1))))
+  (for-each ?art (env-entities [k articles-of-incorporation])
+    (if (table-match (attr ?art writing) org-kind ?kind) (then (+= ?n 1))))
   ?n)
 
 ; ----------------------------------------------------------------------------
@@ -27,8 +27,8 @@
 
 (define-func headless-charter (?kind)
   (bind @nothing ?found)
-  (for-each ?art (env-entities [k articles_of_incorporation])
-    (if (table-match (attr ?art writing) org_kind ?kind founder @nothing)
+  (for-each ?art (env-entities [k articles-of-incorporation])
+    (if (table-match (attr ?art writing) org-kind ?kind founder @nothing)
       (then
         (bind ?art ?found)
         (break))))
@@ -47,14 +47,14 @@
 
 (define-func charter-for (?who)
   (bind @nothing ?found)
-  (for-each ?art (env-entities [k articles_of_incorporation])
-    (for-each-row (attr ?art writing) (org_kind ?ok) (founder ?ofr)
+  (for-each ?art (env-entities [k articles-of-incorporation])
+    (for-each-row (attr ?art writing) (org-kind ?ok) (founder ?ofr)
       (if (= ?ofr @nothing)
         (then
-          (if (table-match public_orgs kind ?ok class_floor ?pcf)
+          (if (table-match public_orgs kind ?ok class-floor ?pcf)
             (then
               (if (class-at-least ?who ?pcf) (then (bind ?art ?found)))))
-          (if (table-match cornerstone_businesses kind ?ok class_floor ?ccf)
+          (if (table-match cornerstone_businesses kind ?ok class-floor ?ccf)
             (then
               (if (class-at-least ?who ?ccf) (then (bind ?art ?found)))))))))
   ?found)

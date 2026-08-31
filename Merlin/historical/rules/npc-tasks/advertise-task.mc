@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; advertise ?org - post the org's open staff role on the parish board. A COMPOSITION
 ; of general lego acts (no bespoke POST_ADVERT):
-;   CREATE_ENTITY [k job_description] : pen the notice (born on the church board);
+;   CREATE_ENTITY [k job-description] : pen the notice (born on the church board);
 ;   WRITE ?ad {?org vacancy ?jk}      : the vacancy - the ORG has an opening for role
 ;                                       ?jk (a seeker READs + adopts this);
 ;   WRITE ?ad {?org workplace ?wp}    : where to apply (appended second sentence -
@@ -21,26 +21,26 @@
     (try
       (when (and (find-building [k building church]): ?board
                  (spatial @self building ?board)
-                 -{@self CREATE_ENTITY [k job_description] /succ /caused_by ?adv-rel}))
+                 -{@self CREATE_ENTITY [k job-description] /succ /caused_by ?adv-rel}))
       (effects (debug-print "ADV_PEN")
-               (maintain-proposal {@self CREATE_ENTITY [k job_description]})))
+               (maintain-proposal {@self CREATE_ENTITY [k job-description]})))
     (try
-      (role ?ad [k job_description] (spatial ?ad co-located @self)
+      (role ?ad [k job-description] (spatial ?ad co-located @self)
             (not (substantial (attr ?ad writing))))
       (when (and {?org isa ?ok}
-                 (table-match org_staffing org_kind ?ok staff_role ?jk)
+                 (table-match org_staffing org-kind ?ok staff-role ?jk)
                  (is-kind ?jk)))
       (effects (debug-print "ADV_VACANCY")
                (maintain-proposal {@self WRITE ?ad {?org vacancy ?jk}})))
     (try
-      (role ?ad [k job_description] (spatial ?ad co-located @self)
+      (role ?ad [k job-description] (spatial ?ad co-located @self)
             (substantial (attr ?ad writing)))
       (when (and {?org workplace ?wp}
                  -{@self WRITE ?ad {?org workplace ?wp} /succ}))
       (effects (debug-print "ADV_WHERE")
                (maintain-proposal {@self WRITE ?ad {?org workplace ?wp}})))
     (try
-      (role ?ad [k job_description] (spatial ?ad co-located @self)
+      (role ?ad [k job-description] (spatial ?ad co-located @self)
             -{@self post ?ad ?})
       (when {@self WRITE ?ad {?org workplace ?} /succ})
       (effects (debug-print "ADV_BOOK") (begin-belief {@self post ?ad ?org})))))

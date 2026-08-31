@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; money_macros - the physical-cash (coin PILE) vocabulary. Money is a `pile`
-; entity (content_kind = coin, count = the coins); an NPC's BALANCE is the sum of
+; entity (content-kind = coin, count = the coins); an NPC's BALANCE is the sum of
 ; the counts of the coin piles it OWNS ({@self own ?pile}). Built entirely on the
 ; general pile ops + the `own` belief - no C++ money model.
 ;
@@ -27,12 +27,12 @@
                (money_utility_scale)))))
 
 ; (coin-balance ?who): the coins ?who BELIEVES it has - the perceived count of its
-; coin pile, read through the {@self coin_pile <pile>} pointer's `.count` chain. The
+; coin pile, read through the {@self coin-pile <pile>} pointer's `.count` chain. The
 ; count belief mirrors the entity's real count attr the moment ?who observes the pile
 ; (seed / accrual / spend all observe), so this is belief-honest and legal in a (when).
 (define-macro coin-balance (?who)
-  (if {?who coin_pile.count ?}
-      (then (any {?who coin_pile.count ?}).target)
+  (if {?who coin-pile.count ?}
+      (then (any {?who coin-pile.count ?}).target)
       (else 0)))
 
 ; ---- the economic model (was hsim_derive.cc, purged) -----------------------
@@ -51,7 +51,7 @@
   (if (is-a ?b [k manor])                      (then 40)
   (else (if (is-a ?b [k townhouse])            (then 30)
   (else (if (is-a ?b [k farmhouse])            (then 18)
-  (else (if (is-a ?b [k residential_building]) (then 0)
+  (else (if (is-a ?b [k residential-building]) (then 0)
             (else 25)))))))))
 
 ; (estate-worth ?who): the worth of ?who's home dwelling (B-simplify: the home only,

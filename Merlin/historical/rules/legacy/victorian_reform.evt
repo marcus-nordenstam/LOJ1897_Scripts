@@ -14,6 +14,6 @@ event "victorian_reform" {
         attitude_delta citizen citizen scorn 0.0
     }
     on_end {
-        region_mood_delta region_of=citizen pro_reform 0.5
+        region_mood_delta region_of=citizen pro-reform 0.5
     }
 }

@@ -10,5 +10,5 @@
   (effects
     (check (spatial ?win co-located @self))
     (set-attr ?win integrity [k broken])
-    (set-attr ?win opening_status [k ajar])
+    (set-attr ?win opening-status [k ajar])
     (set-outcome ?bw-rel /succ)))

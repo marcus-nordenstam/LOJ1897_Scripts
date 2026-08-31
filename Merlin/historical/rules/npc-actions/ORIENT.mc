@@ -3,7 +3,7 @@
 ;
 ; @self holds {@self goal {@self ORIENT}}. He routes to the parish church (the
 ; common civic space) and, once there, reads the PUBLIC register of incorporations:
-; for every articles_of_incorporation document he forms / recalls its org object and
+; for every articles-of-incorporation document he forms / recalls its org object and
 ; mints the kind / founder / record beliefs that let the belief-pure casting rules
 ; role over it. (env-entities [k ...]) is a public-register read in an act effect (not
 ; a role filter), so it stays off the per-candidate cache path; the minted beliefs
@@ -24,6 +24,6 @@
     ; {?org isa/name/founder/workplace/register} beliefs the casting filters read. This
     ; is the sanctioned "read a doc to learn what you don't know" path - a stranger
     ; learning the town's orgs.
-    (for-each ?art (env-entities [k articles_of_incorporation])
+    (for-each ?art (env-entities [k articles-of-incorporation])
       (adopt-aoc ?art))
     (set-outcome {@self ORIENT} /succ)))

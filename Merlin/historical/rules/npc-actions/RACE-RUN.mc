@@ -31,6 +31,6 @@
     ; my own memory of competing); aux carries the sport so the judge's
     ; declaration knows which contest the score belongs to.
     (if (spatial ?judge co-located @self)
-        (then (begin-belief ?judge {@self race_result ?perf ?sport})))
+        (then (begin-belief ?judge {@self race-result ?perf ?sport})))
     (end-belief {?judge summon @self ?sport})
     (set-outcome {@self RACE_RUN ?sport ?judge} /succ)))

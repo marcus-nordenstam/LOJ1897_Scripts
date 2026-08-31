@@ -41,8 +41,8 @@
 # the surface noun. Mirrors the entries in :REL below.
 :RELP
 "siblings"              sibling                 .
-"half siblings"         half_sibling            .
-"half-siblings"         half_sibling            .
+"half siblings"         half-sibling            .
+"half-siblings"         half-sibling            .
 "parents"               parent                  .
 "brothers"              brother                 .
 "sisters"               sister                  .
@@ -56,24 +56,24 @@
 "nieces"                niece                   .
 "nephews"               nephew                  .
 "cousins"               cousin                  .
-"mothers in law"        mother_in_law           .
-"mothers-in-law"        mother_in_law           .
-"fathers in law"        father_in_law           .
-"fathers-in-law"        father_in_law           .
-"parents in law"        parent_in_law           .
-"parents-in-law"        parent_in_law           .
-"sisters in law"        sister_in_law           .
-"sisters-in-law"        sister_in_law           .
-"brothers in law"       brother_in_law          .
-"brothers-in-law"       brother_in_law          .
-"siblings in law"       sibling_in_law          .
-"siblings-in-law"       sibling_in_law          .
-"daughters in law"      daughter_in_law         .
-"daughters-in-law"      daughter_in_law         .
-"sons in law"           son_in_law              .
-"sons-in-law"           son_in_law              .
-"children in law"       child_in_law            .
-"children-in-law"       child_in_law            .
+"mothers in law"        mother-in-law           .
+"mothers-in-law"        mother-in-law           .
+"fathers in law"        father-in-law           .
+"fathers-in-law"        father-in-law           .
+"parents in law"        parent-in-law           .
+"parents-in-law"        parent-in-law           .
+"sisters in law"        sister-in-law           .
+"sisters-in-law"        sister-in-law           .
+"brothers in law"       brother-in-law          .
+"brothers-in-law"       brother-in-law          .
+"siblings in law"       sibling-in-law          .
+"siblings-in-law"       sibling-in-law          .
+"daughters in law"      daughter-in-law         .
+"daughters-in-law"      daughter-in-law         .
+"sons in law"           son-in-law              .
+"sons-in-law"           son-in-law              .
+"children in law"       child-in-law            .
+"children-in-law"       child-in-law            .
 "stepmothers"           stepmother              .
 "stepfathers"           stepfather              .
 "stepchildren"          stepchild               .
@@ -94,8 +94,8 @@
 "brother"               brother                 .
 "sister"                sister                  .
 "sibling"               sibling                 .
-"half sibling"          half_sibling            .
-"half-sibling"          half_sibling            .
+"half sibling"          half-sibling            .
+"half-sibling"          half-sibling            .
 "child"                 child                   .
 "grandmother"           grandmother             .
 "grandfather"           grandfather             .
@@ -106,24 +106,24 @@
 "niece"                 niece                   .
 "nephew"                nephew                  .
 "cousin"                cousin                  .
-"mother in law"         mother_in_law           .
-"mother-in-law"         mother_in_law           .
-"father in law"         father_in_law           .
-"father-in-law"         father_in_law           .
-"parent in law"         parent_in_law           .
-"parent-in-law"         parent_in_law           .
-"sister in law"         sister_in_law           .
-"sister-in-law"         sister_in_law           .
-"brother in law"        brother_in_law          .
-"brother-in-law"        brother_in_law          .
-"sibling in law"        sibling_in_law          .
-"sibling-in-law"        sibling_in_law          .
-"daughter in law"       daughter_in_law         .
-"daughter-in-law"       daughter_in_law         .
-"son in law"            son_in_law              .
-"son-in-law"            son_in_law              .
-"child in law"          child_in_law            .
-"child-in-law"          child_in_law            .
+"mother in law"         mother-in-law           .
+"mother-in-law"         mother-in-law           .
+"father in law"         father-in-law           .
+"father-in-law"         father-in-law           .
+"parent in law"         parent-in-law           .
+"parent-in-law"         parent-in-law           .
+"sister in law"         sister-in-law           .
+"sister-in-law"         sister-in-law           .
+"brother in law"        brother-in-law          .
+"brother-in-law"        brother-in-law          .
+"sibling in law"        sibling-in-law          .
+"sibling-in-law"        sibling-in-law          .
+"daughter in law"       daughter-in-law         .
+"daughter-in-law"       daughter-in-law         .
+"son in law"            son-in-law              .
+"son-in-law"            son-in-law              .
+"child in law"          child-in-law            .
+"child-in-law"          child-in-law            .
 "stepmother"            stepmother              .
 "stepfather"            stepfather              .
 "stepchild"             stepchild               .
@@ -135,7 +135,7 @@
 "lover"                 lover                   .
 "marriage prospect"     marriage_prospect       .
 "family"                family                  .
-"game-role"             game_role               .
+"game-role"             game-role               .
 
 # Attribute-style possessive relations - rendered "X's gender is ...".
 # Kind-valued targets, rendered by KIND in :NP. nationality is NOT here -
@@ -143,4 +143,4 @@
 # Statements.mgr; keeping it in :REL too would let the longer possessive
 # phrase outsort the bare-is form (see the greedy lexicon sort).
 "gender"                gender                  .
-"social class"          class_situation         .
+"social class"          class-situation         .

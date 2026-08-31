@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; life_aim (classifier, Shape M). The dominant of the seven aims - an argmax over
+; life-aim (classifier, Shape M). The dominant of the seven aims - an argmax over
 ; multiplicative composites; the floor keeps a featureless NPC wanting to belong
 ; somewhere. (mint-argmax) ends the prior dominant on a qualitative shift and marks
 ; both ends core-episode so the multi-decade interval history survives semantic
@@ -24,33 +24,33 @@
               {@self decorum ?decorum})
 
   (effects
-    (mint-argmax {@self life_aim} 0.01 [k life_aim belonging_aim]
-      [k life_aim legacy_aim]
+    (mint-argmax {@self life-aim} 0.01 [k life-aim belonging-aim]
+      [k life-aim legacy-aim]
         (* (/ (+ (attr @self compassion) (attr @self politeness)) 2)
            (+ 0.3 (* (prob {@self child ?}) 0.7))
-           (+ 0.3 (* (clamp (+ (prob {@self class_situation [k class_situation upper]})
-                               (prob {@self class_situation [k class_situation middle]})) 0 1) 0.7)))
-      [k life_aim wealth_aim]
+           (+ 0.3 (* (clamp (+ (prob {@self class-situation [k class-situation upper]})
+                               (prob {@self class-situation [k class-situation middle]})) 0 1) 0.7)))
+      [k life-aim wealth-aim]
         (* (attr @self industriousness)
            (- 1 (piety))
            (max (- 1 ?wealth)
-                (prob {@self social_trajectory [k social_trajectory rising]})))
-      [k life_aim piety_aim]
+                (prob {@self social-trajectory [k social-trajectory rising]})))
+      [k life-aim piety-aim]
         (* (piety)
            (- 1 (criminality))
            (+ 0.4 (* (prob {@self WORSHIP [k building church] /ever}) 0.6)))
-      [k life_aim respectability_aim]
+      [k life-aim respectability-aim]
         (* (attr @self politeness)
            (piety)
-           (+ 0.2 (* (prob {@self class_situation [k class_situation middle]}) 0.8))
+           (+ 0.2 (* (prob {@self class-situation [k class-situation middle]}) 0.8))
            ?decorum)
-      [k life_aim autonomy_aim]
+      [k life-aim autonomy-aim]
         (* (attr @self assertiveness) (- 1 (rootedness)))
-      [k life_aim power_aim]
+      [k life-aim power-aim]
         (* (attr @self machiavellianism)
            (attr @self narcissism)
            (+ 0.3 (* (>= (prob {@self job.salary ?}) 1) 0.7)))
-      [k life_aim belonging_aim]
+      [k life-aim belonging-aim]
         (* (attr @self enthusiasm)
            (- 1 (rootedness))
            (clamp (* (count (every {@self friend ?})) 0.2) 0 1)))))

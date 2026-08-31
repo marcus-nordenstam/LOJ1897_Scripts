@@ -21,7 +21,7 @@
   ;; The plan's "infatuation-target overlap or parental matchmaking
   ;; pressure" motivations are V2 work - infatuation substrate ships
   ;; with PR-A-9 (crush_forms.hse), parental matchmaking pressure
-  ;; needs the parent's life_aim plus child's current courtship state
+  ;; needs the parent's life-aim plus child's current courtship state
   ;; (multi-role join, deferred). V1 substrate-routes the chance via a
   ;; trait product over (enthusiasm + openness) - outgoing brides
   ;; engage in seasonal courtship rituals more than withdrawn ones;
@@ -42,21 +42,21 @@
               -{@self fiancee ?}
               -{@self repute [k scandalous]}
               -{@self repute [k disreputable]}
-              {@self age_band ?peer_band})
+              {@self age-band ?peer_band})
   ;; An exemplary bride one class BELOW the groom (spotless reputation lifts her).
-  ;; class_situation values are upper / middle / lower; the explicit kind literals
+  ;; class-situation values are upper / middle / lower; the explicit kind literals
   ;; dodge the ambiguous bare-atom path. The (or ...) encodes the two valid lifts.
   ;; age-peers / blood-kin are belief-pure perceived predicates, so they stay role
   ;; filters (cacheable), gating the bride candidate set directly.
   (role ?bride (unmarried_woman ?bride)
-               {?bride age_span ?peer_band}
+               {?bride age-span ?peer_band}
                (none (blood-kin @self ?bride))
                -{?bride fiancee ?}
                {?bride repute [k exemplary]}
-               (or (and {@self class_situation [k middle]}
-                        {?bride class_situation [k lower]})
-                   (and {@self class_situation [k upper]}
-                        {?bride class_situation [k middle]})))
+               (or (and {@self class-situation [k middle]}
+                        {?bride class-situation [k lower]})
+                   (and {@self class-situation [k upper]}
+                        {?bride class-situation [k middle]})))
 
   ;; Only the trait-graded pacing stays live: the exclusivity conditions ARE the
   ;; role/self-gate filters (the cache reconciles at belief-write, so a live

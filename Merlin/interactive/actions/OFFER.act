@@ -1,9 +1,9 @@
 ﻿action = OFFER
-motor = right_hand
+motor = right-hand
 transmission = obs
 
 preroll = 0.0
 in      = 0.3
 run     = ?
 out     = 0.3
-nature = provision_act
+nature = provision-act

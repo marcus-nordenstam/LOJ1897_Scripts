@@ -32,7 +32,7 @@
   ; out. The per-suitor (chance) gate lives in (when ...) (role-belief purity).
   (role @self
               (adult-age @self)
-              {@self age_band ?peer_band}
+              {@self age-band ?peer_band}
               -{@self fiancee ?}
               -{@self spouse ?}
               -{@self repute [k scandalous]}
@@ -40,8 +40,8 @@
               ;; respectable classes shut her out of courtship entirely, but
               ;; working-class communities are pragmatic - a lower-class fall may
               ;; still wed (the beloved role completes the pair check).
-              (or -{@self prototype fallen_woman}
-                  {@self class_situation [k lower]}))
+              (or -{@self prototype fallen-woman}
+                  {@self class-situation [k lower]}))
   ;; SELF-POV (telepathy purge CAT-3): @self judges the beloved from his OWN
   ;; knowledge - her marital state / lover / fallen mark as HE knows them (banded
   ;; in via gossip/believe_about; permissive on the unknown), her repute as HE
@@ -54,11 +54,11 @@
                 -{?beloved repute [k scandalous]}
                 ;; Pair half of the fallen-woman gate: a fallen party (either
                 ;; side) weds only when BOTH sides are lower class.
-                (or -{?beloved prototype fallen_woman}
-                    (and {?beloved class_situation [k lower]}
-                         {@self    class_situation [k lower]}))
-                (or -{@self prototype fallen_woman}
-                    {?beloved class_situation [k lower]})
+                (or -{?beloved prototype fallen-woman}
+                    (and {?beloved class-situation [k lower]}
+                         {@self    class-situation [k lower]}))
+                (or -{@self prototype fallen-woman}
+                    {?beloved class-situation [k lower]})
                 ; the heart of it: @self is attracted to this person (attraction
                 ; at least the `fancy` band, the explicit band-ladder belief) ...
                 (is-attracted-to @self ?beloved)
@@ -83,7 +83,7 @@
                 ; gender differs from his own (gender is visible-on-sight, so this
                 ; dynamic-target belief is object-cacheable; drops same-sex passes).
                 -{?beloved gender (any {@self gender}).target}
-                {?beloved age_span ?peer_band})
+                {?beloved age-span ?peer_band})
 
   ;; Live un-betrothed re-check: the role filters are alpha-indexed and go stale
   ;; within the window, so re-check at firing - now from @self's OWN beliefs

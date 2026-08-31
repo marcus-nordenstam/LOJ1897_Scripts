@@ -8,18 +8,18 @@
 ; safer). PURE .hs: no C++ generator, no C++ fixation op - the whole scan is
 ; role-casting over the predator's own acquaintance beliefs + belief-matching.
 ;
-; hair_color / eye_color are (hsim-percept) attrs (common.arc), so ANYONE who
-; observes a person mirrors {?them hair_color X} / {?them eye_color Y} into their
+; hair-color / eye-color are (hsim-percept) attrs (common.arc), so ANYONE who
+; observes a person mirrors {?them hair-color X} / {?them eye-color Y} into their
 ; OWN beliefs - the physical look is knowable non-telepathically, exactly like
 ; the predator perceives it. No C++ attr backdoor.
 ;
 ; Two rules:
 ;   - seed_predation_profile: a latent predator (top lethal-disposition tail) with
-;     no victim-type yet copies the PERCEIVED look (hair_color + eye_color) of a
+;     no victim-type yet copies the PERCEIVED look (hair-color + eye-color) of a
 ;     random adult he knows into {@self fixation <trait-value>} beliefs, so
 ;     victim-type consistency emerges ("blond, blue-eyed"). One-shot.
 ;   - predation: role-casts a victim from the predator's OWN non-kin acquaintance
-;     ties, HARD-filtered to his type via (overlapping-target {?victim hair_color}
+;     ties, HARD-filtered to his type via (overlapping-target {?victim hair-color}
 ;     {@self fixation}) (the non-@excl overlap op - the victim's hair OR eye colour
 ;     is one of the predator's fixations), then weighted-samples by SOCIAL
 ;     INVISIBILITY in the score (low class / stained repute = safer). (when ...)
@@ -46,15 +46,15 @@
   (role ?proto (any_human ?proto)
                (adult ?proto)
                (!= ?proto @self)
-               {?proto hair_color ?}
-               {?proto eye_color ?}
+               {?proto hair-color ?}
+               {?proto eye-color ?}
                (select (score 1) (policy roulette)))
   ; Only the hard lethal-disposition tail ever seeds (same floor as the hunt).
   (when (>= (lethal-disposition @self) 0.65))
   (effects
     ; Copy the perceived look as the type signature (effect, so (target ...) is fine).
-    (begin-belief {@self fixation (any {?proto hair_color}).target})
-    (begin-belief {@self fixation (any {?proto eye_color}).target})))
+    (begin-belief {@self fixation (any {?proto hair-color}).target})
+    (begin-belief {@self fixation (any {?proto eye-color}).target})))
 
 ; --- the hunt ---------------------------------------------------------------
 (npc-think predation
@@ -74,12 +74,12 @@
                 (adult ?victim)
                 (none (blood-kin @self ?victim))
                 ; TYPE FLOOR (cacheable non-@excl overlap): the victim carries one of
-                ; the predator's fixation values on hair_color OR eye_color.
-                (or (overlapping-target {?victim hair_color} {@self fixation})
-                    (overlapping-target {?victim eye_color} {@self fixation}))
+                ; the predator's fixation values on hair-color OR eye-color.
+                (or (overlapping-target {?victim hair-color} {@self fixation})
+                    (overlapping-target {?victim eye-color} {@self fixation}))
                 ; Invisibility score. Low class / stained repute = safer.
                 (select (score (+ 0.1
-                                  (is-a (any {?victim class_situation}).target [k class_situation lower])
+                                  (is-a (any {?victim class-situation}).target [k class-situation lower])
                                   (is-a (any {?victim repute}).target [k repute disreputable])
                                   (is-a (any {?victim repute}).target [k repute scandalous])))
                         (policy argmax)))
@@ -89,14 +89,14 @@
   (any {@self fixation ?}):?fixation_bond
 
   ; Disposition floor + rate. lethal = mean(psychopathy, sadism); propensity =
-  ; (1 - inhibition) * lethal, DOUBLED for {@self life_aim power_aim}. The lethal tip
+  ; (1 - inhibition) * lethal, DOUBLED for {@self life-aim power-aim}. The lethal tip
   ; fires ONCE then the running kill proposal latches it.
   (when (and (>= (lethal-disposition @self) 0.65)
              -{?victim condition [k dead]}
              (or (has-proposal {@self kill ?victim})
                  (chance (* (crime-scale) 0.005
                             (* (dark-propensity (lethal-disposition @self))
-                               (if {@self life_aim [k power_aim]} (then 2.0) (else 1.0))))))))
+                               (if {@self life-aim [k power-aim]} (then 2.0) (else 1.0))))))))
   (utility want)
   (effects
     (maintain-proposal {@self kill ?victim /caused_by ?fixation_bond})))

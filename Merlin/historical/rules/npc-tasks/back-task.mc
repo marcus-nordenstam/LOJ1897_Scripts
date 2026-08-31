@@ -5,7 +5,7 @@
 ; promotion makes the `back` task RUN. The shared role binds ?wp, the org's workplace.
 ;
 ;   OUTSIDE the firm -> route there (maintain the enter proposal).
-;   AT the firm      -> seal {@self backed_by <org>} and conclude the task; the
+;   AT the firm      -> seal {@self backed-by <org>} and conclude the task; the
 ;                       decision's maintenance then retires the goal.
 ; ----------------------------------------------------------------------------
 
@@ -19,5 +19,5 @@
     (try
       (when (spatial @self building ?wp))
       (effects
-        (begin-belief {@self backed_by ?org})
+        (begin-belief {@self backed-by ?org})
         (set-outcome {@self back ?org} /succ)))))

@@ -6,7 +6,7 @@
 irish           ไอริช
 english         อังกฤษ
 french          ฝรั่งเศส
-st_revieran     เซนต์เรเวียน
+st-revieran     เซนต์เรเวียน
 
 # Class
 upper           ชั้นสูง
@@ -30,7 +30,7 @@ suffrage        สิทธิเลือกตั้ง
 cricket         คริกเก็ต
 rowing          พายเรือ
 rugby           รักบี้
-horse_racing    แข่งม้า
+horse-racing    แข่งม้า
 
 # Job
 editor          บรรณาธิการ
@@ -57,12 +57,12 @@ cook            คนครัว
 farmer          ชาวนา
 nurse           พยาบาล
 steward         ผู้จัดการ
-shop_clerk      พนักงานร้าน
+shop-clerk      พนักงานร้าน
 waiter          พนักงานเสิร์ฟ
 maid            สาวใช้
 bartender       บาร์เทนเดอร์
-factory_worker  คนงานโรงงาน
-house_agent     นายหน้า
+factory-worker  คนงานโรงงาน
+house-agent     นายหน้า
 official        เจ้าหน้าที่
 hatmaker        ช่างทำหมวก
 tailor          ช่างตัดเสื้อ

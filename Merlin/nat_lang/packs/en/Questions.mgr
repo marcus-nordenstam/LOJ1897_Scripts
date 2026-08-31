@@ -147,25 +147,25 @@
 
 # birth date
 "when were you born"
-( any { ?_you /pres birth_date } ).target
+( any { ?_you /pres birth-date } ).target
 .
 "when was I born"
-( any { ?_I /pres birth_date } ).target
+( any { ?_I /pres birth-date } ).target
 .
 "when was $person(Q_NP) born"
-( any { $person(Q_NP) /pres birth_date } ).target
+( any { $person(Q_NP) /pres birth-date } ).target
 .
 "what year were you born"
-( any { ?_you /pres birth_date } ).target
+( any { ?_you /pres birth-date } ).target
 .
 "what year was I born"
-( any { ?_I /pres birth_date } ).target
+( any { ?_I /pres birth-date } ).target
 .
 "what year was $person(Q_NP) born"
-( any { $person(Q_NP) /pres birth_date } ).target
+( any { $person(Q_NP) /pres birth-date } ).target
 .
 
-# age - derivative belief, computed on demand from birth_date by
+# age - derivative belief, computed on demand from birth-date by
 # reasoning/age.ms2 when (any ...) finds no matching age belief.
 "how old are you"
 ( any { ?_you /pres age } ).target
@@ -219,19 +219,19 @@
 .
 
 # whereabouts on the night of a crime - the alibi question. Anchored on the
-# victim: death_date is the start of the answerer's {victim condition dead}
+# victim: death-date is the start of the answerer's {victim condition dead}
 # belief; night_of wraps that day to its night window; whereabouts_on returns
 # the location memory overlapping it, and .target yields the venue ("the Red
 # Lion"). No memory -> @unknown ("I don't know") until the routine fallback
 # lands. The answerer is ?_you (the suspect being questioned).
 "where were you the night $person(Q_NP) was killed"
-( whereabouts_on ?_you ( night_of ( death_date $person(Q_NP) ) ) ).target
+( whereabouts_on ?_you ( night_of ( death-date $person(Q_NP) ) ) ).target
 .
 "where were you the night $person(Q_NP) was murdered"
-( whereabouts_on ?_you ( night_of ( death_date $person(Q_NP) ) ) ).target
+( whereabouts_on ?_you ( night_of ( death-date $person(Q_NP) ) ) ).target
 .
 "where were you the night $person(Q_NP) died"
-( whereabouts_on ?_you ( night_of ( death_date $person(Q_NP) ) ) ).target
+( whereabouts_on ?_you ( night_of ( death-date $person(Q_NP) ) ) ).target
 .
 
 # specific interest (do you like X)
@@ -276,34 +276,34 @@
 
 # social class
 "what is your social class"
-( any { ?_you /pres class_situation } ).target
+( any { ?_you /pres class-situation } ).target
 .
 "what is my social class"
-( any { ?_I /pres class_situation } ).target
+( any { ?_I /pres class-situation } ).target
 .
 "what is $person(Q_NP) ++'s social class"
-( any { $person(Q_NP) /pres class_situation } ).target
+( any { $person(Q_NP) /pres class-situation } ).target
 .
 "what social class are you"
-( any { ?_you /pres class_situation } ).target
+( any { ?_you /pres class-situation } ).target
 .
 "what social class am I"
-( any { ?_I /pres class_situation } ).target
+( any { ?_I /pres class-situation } ).target
 .
 "what social class is $person(Q_NP)"
-( any { $person(Q_NP) /pres class_situation } ).target
+( any { $person(Q_NP) /pres class-situation } ).target
 .
 "what social class do you belong to"
-( any { ?_you /pres class_situation } ).target
+( any { ?_you /pres class-situation } ).target
 .
 "what social class do I belong to"
-( any { ?_I /pres class_situation } ).target
+( any { ?_I /pres class-situation } ).target
 .
 "what social class does $person(Q_NP) belong to"
-( any { $person(Q_NP) /pres class_situation } ).target
+( any { $person(Q_NP) /pres class-situation } ).target
 .
 "what social class do you consider yourself part of"
-( any { ?_you /pres class_situation } ).target
+( any { ?_you /pres class-situation } ).target
 .
 
 "who $np(Q_NP) is"
@@ -455,13 +455,13 @@
 .
 
 "what are you skilled in"
-( every { ?_you /ever skilled_in ? } ).target
+( every { ?_you /ever skilled-in ? } ).target
 .
 "what is your training"
-( every { ?_you /ever skilled_in ? } ).target
+( every { ?_you /ever skilled-in ? } ).target
 .
 "are you skilled in $thing(KIND)"
-( prob { ?_you /pres skilled_in $thing(KIND) } )
+( prob { ?_you /pres skilled-in $thing(KIND) } )
 .
 
 "did you serve in the army"
@@ -587,13 +587,13 @@
 ( any { ?_you /pres socialize_at ? } ).target
 .
 "do you belong to any club"
-( prob { ?_you /pres member_of ? } )
+( prob { ?_you /pres member-of ? } )
 .
 "what clubs do you belong to"
-( every { ?_you /pres member_of ? } ).target
+( every { ?_you /pres member-of ? } ).target
 .
 "are you a member of $np(Q_NP)"
-( prob { ?_you /pres member_of $np(Q_NP) } )
+( prob { ?_you /pres member-of $np(Q_NP) } )
 .
 
 # # FLAG: day-of-week / time-of-day routine ("what do you do on Sundays",
@@ -795,13 +795,13 @@
 # --- 10. ALIBI (extends the crime-night set already above) -------------------
 
 "where were you on the night of the murder"
-( whereabouts_on ?_you ( night_of ( death_date $person(Q_NP) ) ) ).target
+( whereabouts_on ?_you ( night_of ( death-date $person(Q_NP) ) ) ).target
 .
 "can you account for your whereabouts the night $person(Q_NP) died"
-( whereabouts_on ?_you ( night_of ( death_date $person(Q_NP) ) ) ).target
+( whereabouts_on ?_you ( night_of ( death-date $person(Q_NP) ) ) ).target
 .
 "where were you the morning $person(Q_NP) was killed"
-( whereabouts_on ?_you ( morning_of ( death_date $person(Q_NP) ) ) ).target
+( whereabouts_on ?_you ( morning_of ( death-date $person(Q_NP) ) ) ).target
 .
 
 # # FLAG: an inspector-named clock time ("where were you at nine") needs a

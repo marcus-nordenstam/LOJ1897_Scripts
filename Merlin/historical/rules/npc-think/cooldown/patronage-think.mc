@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; patronage (npc-think). A man of standing - high prestige, exemplary reputation
-; - takes a lower-class connection under his wing. The effect is a `backed_by`
+; - takes a lower-class connection under his wing. The effect is a `backed-by`
 ; belief on the protege, which business_founding (business.hs) gates on as a
 ; means-branch the next january.
 ;
@@ -13,7 +13,7 @@
 ; so the per-patron (chance) is /12 (0.06 -> 0.005) to hold the old annual
 ; once-a-year notable-act rate.
 ;
-; class_situation values today are upper / middle / lower; the (or ...) below
+; class-situation values today are upper / middle / lower; the (or ...) below
 ; encodes the valid one-rung-or-more downward sponsorships - an upper patron can
 ; elevate a middle or lower protege, a middle one a lower protege. Same-class is
 ; excluded - patronage is a class-bridging act by definition. The repute / class
@@ -38,20 +38,20 @@
   ;; only elevate a connection he actually KNOWS:
   ;; the class match @fails (no firing) for a stranger, while the repute gate is
   ;; permissive on the unknown (only a KNOWN-scandalous protege is excluded).
-  ;; (Not already backed - read from the PATRON's OWN knowledge ({backed_by} is
+  ;; (Not already backed - read from the PATRON's OWN knowledge ({backed-by} is
   ;; banded in via believe_about), no mind peek; permissive on the unknown.)
   (role ?protege (old_human ?protege)
                  ;; A working-age adult, elevatable into a trade - a belief-pure
                  ;; perceived age-band predicate, so it stays a role filter.
                  (working-age ?protege)
                  -{?protege repute [k scandalous]}
-                 -{?protege backed_by ?}
-                 (or (and {@self    class_situation [k upper]}
-                          {?protege class_situation [k middle]})
-                     (and {@self    class_situation [k upper]}
-                          {?protege class_situation [k lower]})
-                     (and {@self    class_situation [k middle]}
-                          {?protege class_situation [k lower]})))
+                 -{?protege backed-by ?}
+                 (or (and {@self    class-situation [k upper]}
+                          {?protege class-situation [k middle]})
+                     (and {@self    class-situation [k upper]}
+                          {?protege class-situation [k lower]})
+                     (and {@self    class-situation [k middle]}
+                          {?protege class-situation [k lower]})))
 
   ;; Non-belief gates: the per-patron (chance) roll (first, cheap, short-circuits)
   ;; and the patron's age / prestige floors.
@@ -59,12 +59,12 @@
              (>= (years-old @self) 35)
              (>= ?prestige 0.65)))
 
-  ;; The patron gates only on his OWN knowledge of who is backed (the {backed_by}
+  ;; The patron gates only on his OWN knowledge of who is backed (the {backed-by}
   ;; role filter above), never a peek at the protege's mind. A rare same-window
   ;; double-back by two patrons is left for a future public-blackboard claim (the
   ;; sanctioned synchronized-group mechanism).
 
   (effects
-    ; The protege learns of the backing in THEIR own mind ({me backed_by patron}).
-    (begin-belief ?protege {?protege backed_by @self})
+    ; The protege learns of the backing in THEIR own mind ({me backed-by patron}).
+    (begin-belief ?protege {?protege backed-by @self})
     ))

@@ -50,4 +50,4 @@
     ; body, "Signed, .." -> the (formulaic author ..) the reader resolves @i from.
     (send-covert-letter ?paramour
                          (nl-written-msg "I have taken ?paramour_name as a lover. Signed, ?author_name")
-                         [k love_letter])))
+                         [k love-letter])))

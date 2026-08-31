@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; betrayal_kill.hs - the LETHAL answer to a betrayal. A DRIVER, not an appraisal:
-; The betray_act reflex rows mint the reaction (anger @ the unfaithful partner, contempt @
+; The betray-act reflex rows mint the reaction (anger @ the unfaithful partner, contempt @
 ; the interloper); this rule READS those emotions and maintain-proposes the kill,
 ; /caused_by-pinned to the emotion it reads. It mints nothing - so the murderous
 ; drive fades as the anger / contempt cools.
@@ -30,7 +30,7 @@
     -{?partner spouse ?interloper}
     (select (policy first-match)))
 
-  ; The REASON: the appraised emotions (minted by the betray_act reflex rows). Read as the
+  ; The REASON: the appraised emotions (minted by the betray-act reflex rows). Read as the
   ; /caused_by anchors, never re-minted.
   (any {@self emotion [k anger] ?partner}):?anger_bond
   (any {@self emotion [k contempt] ?interloper}):?contempt_bond

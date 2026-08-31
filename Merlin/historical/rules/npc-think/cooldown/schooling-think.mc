@@ -13,16 +13,16 @@
 ;                 the subject chosen by the youth's own interest.
 ;
 ; Substrate - NO new ontology; reuses the existing education-life-cycle relation
-; `study (tar @excl academic_field) (aux org)` and the `skilled_in` credential:
+; `study (tar @excl academic-field) (aux org)` and the `skilled-in` credential:
 ;   {pupil study <curriculum-or-subject>}        - the ongoing enrollment interval.
-;   {pupil skilled_in <curriculum> /aux <band>}  - the credential minted at
+;   {pupil skilled-in <curriculum> /aux <band>}  - the credential minted at
 ;        graduation: primary -> novice, secondary / university subject -> trained.
 ;   A university subject credential (medicine / law / ...) at trained feeds the
 ;   PR-skill-life S8 physician / lawyer / scholar identities + the prestige bump,
 ;   closing the class -> education -> profession -> prestige -> class loop.
 ;
 ; The CLASS GATE is the `breeding` lineage anchor (0..1, birth-seeded, stable
-; across the 15+ class_situation re-derivation; in-sim children inherit it from
+; across the 15+ class-situation re-derivation; in-sim children inherit it from
 ; their family - deliver_child). A breeding-graded chance routes upper
 ; children into school and working-class children toward apprenticeship - no hard
 ; class read needed (breeding IS the heritable class signal). The pattern mirrors
@@ -46,14 +46,14 @@
   (rng-stream behaviour)
 
   ; MAINTENANCE: the decision OWNS the enrol_primary goal end to end. @self is a child
-  ; who does not yet hold the basic-schooling credential; the (not skilled_in) guard
+  ; who does not yet hold the basic-schooling credential; the (not skilled-in) guard
   ; keeps a once-schooled child from re-enrolling on a later month of the 5-7 window.
   ; CONTINUOUS completion gate as a CACHED role filter: while the child is not yet studying
   ; primary the goal stands; the moment enrol_primary_act matriculates him ({@self study [k
-  ; primary_school_curriculum]}) the role drops and the goal ends. The act never ends the goal.
+  ; primary-school-curriculum]}) the role drops and the goal ends. The act never ends the goal.
   (role @self
-              -{@self school-grades [k primary_school_curriculum] ?}
-              -{@self study [k primary_school_curriculum]})
+              -{@self school-grades [k primary-school-curriculum] ?}
+              -{@self study [k primary-school-curriculum]})
 
   ; ONSET: the breeding-squared class-gate (chance) is rolled at the fire and LOCKED once
   ; holding (it re-rolls each month until it lands), routing an upper child (breeding
@@ -63,7 +63,7 @@
              (latch-eval (chance (* 0.0833 (any {@self breeding ?}).target (any {@self breeding ?}).target)))))
 
   (utility errand)
-  (effects (maintain-proposal {@self matriculate [k primary_school_curriculum]})))
+  (effects (maintain-proposal {@self matriculate [k primary-school-curriculum]})))
 
 ; --- enroll_secondary: a middle+ youth goes on to secondary ------------------
 (npc-think enroll_secondary
@@ -75,11 +75,11 @@
   ; apprenticeship (the working-class child who finished primary has a low chance and
   ; instead falls to apprenticeship_start, which excludes pupils).
   ; CONTINUOUS completion gate as a CACHED role filter: the role drops (and the goal ends) when
-  ; enrol_secondary_act matriculates him ({@self study [k secondary_school_curriculum]}).
+  ; enrol_secondary_act matriculates him ({@self study [k secondary-school-curriculum]}).
   (role @self
-              {@self school-grades [k primary_school_curriculum] ?}
-              -{@self school-grades [k secondary_school_curriculum] ?}
-              -{@self study [k secondary_school_curriculum]}
+              {@self school-grades [k primary-school-curriculum] ?}
+              -{@self school-grades [k secondary-school-curriculum] ?}
+              -{@self study [k secondary-school-curriculum]}
               -{@self job.salary ?})
 
   ; ONSET: the middle+ breeding-squared (chance) is rolled at the fire and LOCKED once holding.
@@ -88,7 +88,7 @@
              (latch-eval (chance (* 0.0833 (any {@self breeding ?}).target (any {@self breeding ?}).target)))))
 
   (utility errand)
-  (effects (maintain-proposal {@self matriculate [k secondary_school_curriculum]})))
+  (effects (maintain-proposal {@self matriculate [k secondary-school-curriculum]})))
 
 ; --- enroll_university: an upper / wealthy youth goes up to university --------
 (npc-think enroll_university
@@ -97,12 +97,12 @@
 
   ; MAINTENANCE: the decision OWNS the enrol_university goal end to end. @self is
   ; secondary-educated and not employed. The subject is interest-led, chosen inside the
-  ; act - enrol_university_act mints {@self study <academic_field>} (medicine / law /
+  ; act - enrol_university_act mints {@self study <academic-field>} (medicine / law /
   ; ...), NOT a fixed university curriculum, so the completion gate is the generic (not
   ; (any {@self study ?})) CACHED role filter: at 18-20 the youth holds no prior
   ; study, so the role drops (and the goal ends) exactly when he matriculates.
   (role @self
-              {@self school-grades [k secondary_school_curriculum] ?}
+              {@self school-grades [k secondary-school-curriculum] ?}
               -{@self study ?}
               -{@self job.salary ?})
 
@@ -113,7 +113,7 @@
              (latch-eval (chance (* 0.0833 (any {@self breeding ?}).target (* (any {@self breeding ?}).target (any {@self breeding ?}).target))))))
 
   (utility errand)
-  (effects (maintain-proposal {@self matriculate [k academic_field]})))
+  (effects (maintain-proposal {@self matriculate [k academic-field]})))
 
 ; --- leave_primary: every primary pupil finishes at ~11 ----------------------
 (npc-think leave_primary
@@ -121,12 +121,12 @@
   (rng-stream behaviour)
 
   ; Deterministic: @self, a primary pupil who has reached the leaving age, takes
-  ; the basic-schooling credential (graduate mints skilled_in primary_school_
+  ; the basic-schooling credential (graduate mints skilled-in primary_school_
   ; curriculum at novice and ends the study). The credential then gates secondary
   ; enrollment; a non-continuer becomes apprenticeship-eligible. Monthly firing is
   ; idempotent - the first fire ends the study, so later months no-op. age -> (when).
   (role @self 
-              {@self study [k primary_school_curriculum]})
+              {@self study [k primary-school-curriculum]})
 
   (when (>= (years-old @self) 11))
 
@@ -140,7 +140,7 @@
   (rng-stream behaviour)
 
   (role @self 
-              {@self study [k secondary_school_curriculum]})
+              {@self study [k secondary-school-curriculum]})
 
   (when (>= (years-old @self) 17))
 
@@ -155,7 +155,7 @@
 
   ; Any ongoing study at 22+ is a university degree (primary / secondary pupils
   ; are <18 and have already left). graduate-from-study mints the subject credential
-  ; {@self skilled_in <subject> trained}, feeding the S8 physician / lawyer /
+  ; {@self skilled-in <subject> trained}, feeding the S8 physician / lawyer /
   ; scholar identities + the prestige bump - the profession pipeline payoff.
   (role @self 
               {@self study ?})

@@ -32,7 +32,7 @@
 # A relation's RANGE is fixed by the relation, and a query never returns a kind
 # outside it - that is what keeps a call-site's expectation unambiguous. `space` is
 # the entity's directly-containing space: a room indoors, the smallest enclosing
-# exterior_space outdoors, @unknown when the mind does not know. It is a single up-hop
+# exterior-space outdoors, @unknown when the mind does not know. It is a single up-hop
 # (the whereabouts parent), NOT a ladder ascent - it always lands on a space. `building`
 # and `town` are their OWN relations (a building is-a object, a town is-a region -
 # neither is-a space), so they read the containment chain separately; they are never
@@ -69,10 +69,10 @@
 (spatial-label contents   (spatial-struct space) (down))
 (spatial-label co-located (spatial-struct space) (co))
 (spatial-label co-located-building (spatial-struct space) (co) (rung building))
-(spatial-label room       (spatial-struct space) (first) (rung interior_space))
-(spatial-label gripped_by (spatial-struct grip))
+(spatial-label room       (spatial-struct space) (first) (rung interior-space))
+(spatial-label gripped-by (spatial-struct grip))
 (spatial-label grip       (spatial-struct grip) (down))
 (spatial-label hold       (spatial-struct grip) (down) (descend))
-(spatial-label held_by    (spatial-struct grip) (up) (ascend))
-(spatial-label in_stack   (spatial-struct stack))
+(spatial-label held-by    (spatial-struct grip) (up) (ascend))
+(spatial-label in-stack   (spatial-struct stack))
 (spatial-label top        (spatial-struct stack) (head))

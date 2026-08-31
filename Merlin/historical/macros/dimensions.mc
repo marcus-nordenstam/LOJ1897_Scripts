@@ -14,23 +14,23 @@
 ; ----------------------------------------------------------------------------
 
 ; --- per-observer repute fold (uniform for @self and a tracked other) ------------
-; repute reads BANDED conduct beliefs {X <dim> <conduct_level>} + {X devoutness},
+; repute reads BANDED conduct beliefs {X <dim> <conduct-level>} + {X devoutness},
 ; the {X decorum} float, and per-observer chastity - all keyed on ?who, so ONE fold
 ; serves self-repute (?who = @self) and other-repute (?who = a tracked person). An
 ; absent band reads `fair` (unknown -> benefit of the doubt, 0.65), so an unknown
 ; other reads RESPECTABLE and only accumulated negative evidence drags them down;
 ; reputation sharpens only with evidence.
 
-; conduct-scalar - a conduct_level band -> 0..1 (good 0.85, lax 0.25, fair/absent 0.65).
+; conduct-scalar - a conduct-level band -> 0..1 (good 0.85, lax 0.25, fair/absent 0.65).
 (define-macro conduct-scalar (?who ?dim)
-  (if {?who ?dim [k conduct_level good]} (then 0.85)
-  (else (if {?who ?dim [k conduct_level lax]}  (then 0.25)
+  (if {?who ?dim [k conduct-level good]} (then 0.85)
+  (else (if {?who ?dim [k conduct-level lax]}  (then 0.25)
       (else 0.65)))))
 
-; devoutness-scalar - the piety_band -> 0..1 (devout 0.85, secular 0.25, else 0.65).
+; devoutness-scalar - the piety-band -> 0..1 (devout 0.85, secular 0.25, else 0.65).
 (define-macro devoutness-scalar (?who)
-  (if {?who devoutness [k piety_band devout]}  (then 0.85)
-  (else (if {?who devoutness [k piety_band secular]} (then 0.25)
+  (if {?who devoutness [k piety-band devout]}  (then 0.85)
+  (else (if {?who devoutness [k piety-band secular]} (then 0.25)
       (else 0.65)))))
 
 ; decorum-scalar - the decorum float (@self's own C++-derived value, or a tracked
@@ -55,12 +55,12 @@
         (chastity-scalar ?who)) 7))
 
 ; criminality - a low base (0.05), raised 0.25 per recorded crime of ANY tense. Violence
-; (every (theme violent_to) act - the fight-lane blows, the organic-brawl PUNCH, and kill)
+; (every (theme violent-to) act - the fight-lane blows, the organic-brawl PUNCH, and kill)
 ; is counted through the theme expansion, since there is no `assault` term any more; theft /
 ; fraud / embezzlement / kidnap are the remaining crime act-records. Habitual offenders saturate.
 (define-macro criminality ()
   (clamp (+ 0.05
-            (* (+ (count (every {@self (theme-labels violent_to) ? /ever})) (count (every {@self steal ? /ever}))
+            (* (+ (count (every {@self (theme-labels violent-to) ? /ever})) (count (every {@self steal ? /ever}))
                   (count (every {@self defraud ? /ever})) (count (every {@self embezzle ? /ever}))
                   (count (every {@self kidnap ? /ever}))) 0.25)) 0 1))
 
@@ -77,8 +77,8 @@
             (* 0.20 (prob {@self spouse ?}))
             (* 0.06 (min (count (every {@self child ?})) 4))
             (* 0.20 (prob {@self job ?}))
-            (* 0.15 (>= (count (every {@self owns_building ?})) 1))
-            (* 0.10 (>= (count (every {@self member_of ?})) 1))) 0 1))
+            (* 0.15 (>= (count (every {@self owns-building ?})) 1))
+            (* 0.10 (>= (count (every {@self member-of ?})) 1))) 0 1))
 
 ; diligence - the industriousness aspect.
 (define-macro diligence () (attr @self industriousness))
@@ -98,19 +98,19 @@
 (define-macro sobriety ()
   (clamp (+ (* (- 1 (prob {@self craving ?})) (- 1 (attr @self intoxication)))
             (* (prob {@self craving ?})       (min (- 1 (attr @self intoxication)) 0.15))
-            (* (attr @self gambling_addiction) -0.25)) 0 1))
+            (* (attr @self gambling-addiction) -0.25)) 0 1))
 
 ; belonging - how well warmth bonds + immediate kin meet the sociability need.
-; Warmth = friends (close_to / friend) + kin (spouse x2, children capped 5, parents
+; Warmth = friends (close-to / friend) + kin (spouse x2, children capped 5, parents
 ; capped 2, siblings capped 4). Need = 1 + Extraversion x 5 (Extraversion = the mean
 ; of enthusiasm + assertiveness); belonging falls 0.18 per unit of unmet need.
 (define-macro belonging ()
   (clamp (- 1 (* (max (- (+ 1 (* (* (+ (attr @self enthusiasm) (attr @self assertiveness)) 0.5) 5))
-                         (+ (count (every {@self close_to ?})) (count (every {@self friend ?}))
+                         (+ (count (every {@self close-to ?})) (count (every {@self friend ?}))
                             (* 2 (prob {@self spouse ?}))
                             (min (count (every {@self child ?})) 5)
                             (min (+ (count (every {@self mother ?})) (count (every {@self father ?}))) 2)
-                            (min (+ (count (every {@self sibling ?})) (count (every {@self half_sibling ?}))) 4)))
+                            (min (+ (count (every {@self sibling ?})) (count (every {@self half-sibling ?}))) 4)))
                      0) 0.18)) 0 1))
 
 ; piety - worship-episode observance mapped onto the historical piety anchors:

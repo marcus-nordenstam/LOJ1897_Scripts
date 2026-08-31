@@ -13,6 +13,6 @@
     ; The foundable-club catalog, ungated (0): clubs are not premises-gated -
     ; a dry pool just no-ops the founding macro via its (if ?wp) guard.
     (tolerate (roll-org-kind 0
-                   [k org race_club] [k org athletic_club]):?clubkind)
+                   [k org race-club] [k org athletic-club]):?clubkind)
     (if ?clubkind (then (found-club-seq ?clubkind)))
     (set-outcome {@self FOUND_CLUB} /succ)))

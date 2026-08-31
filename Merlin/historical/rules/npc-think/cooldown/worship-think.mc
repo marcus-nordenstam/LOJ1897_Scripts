@@ -44,7 +44,7 @@
 
 ; THE DEVOUT'S SUNDAY OBSERVANCE - the classifier-cast band split (ruling 8a). The SAME
 ; worship drive, but role-cast on the identity-grade `devoutness` classifier belief
-; ({@self devoutness [k piety_band devout]}, minted + decayed by devoutness.hs): a devout
+; ({@self devoutness [k piety-band devout]}, minted + decayed by devoutness.hs): a devout
 ; NPC's churchgoing is an OBLIGATION (socially mandatory), not a passing want, so it outranks
 ; ordinary errands and leisure. The atheist is never cast; the lapsed churchgoer decays out of
 ; the classifier; the pretender fools observers exactly as before. Co-drives the ONE
@@ -52,7 +52,7 @@
 (npc-think sunday_observance
   (cooldown 3 d)
   (role @self (grown @self)
-              {@self devoutness [k piety_band devout]})
+              {@self devoutness [k piety-band devout]})
   (when    (>= (days-since-last {@self WORSHIP /ever}) 3))
   (utility obligation)
   (effects       (begin-goal {@self WORSHIP}))

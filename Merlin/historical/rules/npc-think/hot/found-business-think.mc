@@ -3,7 +3,7 @@
 ;
 ; The decision (business_think.hs `business_founding`) minted {@self goal {@self
 ; found}} and OWNS its whole life (it ceases when found_business_act seats him as a
-; proprietor/org_head). found_go routes the would-be proprietor to a same-town bank;
+; proprietor/org-head). found_go routes the would-be proprietor to a same-town bank;
 ; AT the bank found_go ceases and the goal is the leaf and promotes to
 ; found_business_act, which arranges his capital, files, and FOUNDS the business there
 ; - no dwell rung.

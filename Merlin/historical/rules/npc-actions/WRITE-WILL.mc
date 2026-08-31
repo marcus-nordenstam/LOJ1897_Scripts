@@ -31,7 +31,7 @@
     (set-writing ?will
       (written-msg {?heir inherit
                      (o [k pile] {@o space
-                       (o [k interior_space] {@o struct_parent
+                       (o [k interior-space] {@o struct_parent
                          (o [k building] {@self home @o})})})}
                    signed))
     (begin-belief {@self own ?will})

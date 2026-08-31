@@ -10,8 +10,8 @@
 "proposed that"                     /past proposal              .
 "has the goal: "                    /pres goal                  .
 "had the goal: "                    /past goal                  .
-"is pregnant by"                    /pres pregnant_by           .
-"was pregnant by"                   /past pregnant_by           .
+"is pregnant by"                    /pres pregnant-by           .
+"was pregnant by"                   /past pregnant-by           .
 "is"                                /pres isa                   .
 "was"                               /past isa                   .
 "does"                              /pres do                    .
