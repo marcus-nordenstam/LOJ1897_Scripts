@@ -10,6 +10,7 @@
 (include "../../macros/acquisition-macros.mc")
 
 (npc-task {@self steal ?kind}:?steal-rel
+  (track-skill-level [k illicit])
   (tar ?)
   (construed_act appropriation_act wrong_act) (theme thief_to) (contradicts property)
   (facets reportable_crime blackmailable)

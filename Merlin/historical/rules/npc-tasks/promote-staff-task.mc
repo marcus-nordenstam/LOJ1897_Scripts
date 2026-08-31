@@ -7,6 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self promote_staff ?worker}:?pr-rel
+  (track-skill-level [k personnel])
   (tar human)
   (and
     ; GO: not at the workplace -> travel to it.

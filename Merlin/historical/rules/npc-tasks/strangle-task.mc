@@ -9,6 +9,7 @@
 (include "../../definitions/roles.mc")
 
 (npc-task {@self strangle ?victim}:?strangle-rel
+  (track-skill-level [k garrotting])
   (tar human)
   (and
     ; REACH: route to the victim's known location, else their home.

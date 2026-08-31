@@ -8,6 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self frame ?victim}:?frame-rel
+  (track-skill-level [k illicit])
   (tar human)
   (aux ?)
   (construed_act harm_act betray_act wrong_act)

@@ -10,6 +10,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self recruit_staff ?org}:?rec-rel
+  (track-skill-level [k personnel])
   (tar org)
   (and
     (try

@@ -11,6 +11,7 @@
 (include "../../definitions/roles.mc")
 
 (npc-action {@self JUDGE_DECLARE ?winner ?sport}
+  (track-skill-level [k officiating])
   ; (obs): the declaration is made to the assembled - co-present racers WITNESS
   ; {@self JUDGE_DECLARE ?winner ?sport}, which is how a losing racer learns the
   ; victor and construes the outdo (outdone_at_meet, sporting_judge_think.hs).

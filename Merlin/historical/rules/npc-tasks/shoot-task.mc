@@ -10,6 +10,7 @@
 (include "../../definitions/roles.mc")
 
 (npc-task {@self shoot ?victim}:?shoot-rel
+  (track-skill-level [k marksmanship])
   (tar human)
   (and
     ; REACH (armed only): route to the victim's known location, else their home.

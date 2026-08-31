@@ -10,6 +10,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self coerce ?victim}:?coerce-rel
+  (track-skill-level [k illicit])
   (tar human)
   (aux ?)
   (construed_act coercion_act wrong_act)

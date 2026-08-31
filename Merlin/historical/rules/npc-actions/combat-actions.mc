@@ -26,6 +26,7 @@
 (include "../../macros/combat-macros.mc")
 
 (npc-action {@self STRIKE ?foe ?method}
+  (track-skill-level [k martial])
   (obs) (theme violent_to) (construed_act harm_act) (contradicts safety) (duration 1)
   (effects
     (set-attr @self adrenaline 1)

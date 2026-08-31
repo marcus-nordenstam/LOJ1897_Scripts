@@ -9,6 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self WRITE ?doc ?sentence}
+  (track-skill-level [k literacy])
   (duration 10)
   (effects
     (if (nothing (attr ?doc writing))

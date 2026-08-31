@@ -9,6 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self READ ?doc}
+  (track-skill-level [k literacy])
   (duration 10)
   (effects
     (adopt-msg (attr ?doc writing))

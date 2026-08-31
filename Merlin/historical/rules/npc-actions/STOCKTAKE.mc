@@ -38,6 +38,7 @@
 ; The stocktake round itself: the goal, at the counter, is the leaf and promotes
 ; here. The begun-then-ended {@self STOCKTAKE} act-belief IS the round (30 min).
 (npc-action {@self STOCKTAKE}
+  (track-skill-level [k accountancy])
   (duration 30)
   (effects
     (if (spatial @self building)

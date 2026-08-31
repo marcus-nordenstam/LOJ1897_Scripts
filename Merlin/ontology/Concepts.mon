@@ -194,9 +194,17 @@ concept
     # duplicate that lived in both skill_kind and field_of_study is deduped to
     # one leaf). `t_ontology::is_a` answers "any martial skill?" / "any academic
     # field?" in one query. The semantic categories group the practicable
-    # competences (academic_field / performance_art / martial / illicit / sport)
-    # and the non-practicable topical interests (avocation / devotional / civic)
-    # an NPC may hold an `interest` in without ever being `skilled_in` it.
+    # competences (academic_field / performance_art / martial / illicit /
+    # athletics / pastime / social_craft) and the non-practicable topical
+    # interests (avocation / devotional / civic) an NPC may hold an `interest`
+    # in without ever being `skilled_in` it.
+    #
+    # A domain is ALSO what an act's (track-skill-level <domain>) decoration
+    # names, so the pipeline accrues competence to it as the act is performed
+    # (act_skill.h). That makes the DEPTH of this tree the granularity dial:
+    # kind matching is subsumptive, so an act decorated with a leaf
+    # (marksmanship) still answers a category-level read (martial). Decorate at
+    # the level the competence is really earned at.
     domain
         # Studied disciplines (former field_of_study) + scholarly topics.
         academic_field
@@ -214,6 +222,11 @@ concept
             secondary_school_curriculum
             history
             science
+            # Reading and writing as ONE earned competence - the literate NPC
+            # takes in a document and drafts a clear letter. Distinct from
+            # `literature` (performance_art), which is the literary ART, and
+            # from the `writing` attr, which is a document's text.
+            literacy
         # Expressive / cultural arts.
         performance_art
             music
@@ -248,6 +261,26 @@ concept
         # which is the achievement target of the win achievement belief.
         athletics
             sports
+        # Practised leisure: recreational competences one measurably gets better
+        # at, unlike the topical `avocation` interests below. `gaming` is skill
+        # at the table - reading opponents, the odds, the bluff - across every
+        # game kind; the money/non-money split is the (gambling) FACET on the
+        # game, not a branch here.
+        pastime
+            gaming
+        # The social crafts: competences at handling other PEOPLE, as opposed to
+        # a subject (academic_field), a body (martial / athletics) or a tool.
+        social_craft
+            # Running and adjudicating a proceeding - a club meet, a race, a
+            # service. The competence behind the duties an office carries.
+            officiating
+            # Drawing another into intimacy against the odds.
+            seduction
+            # Judging, hiring, promoting and dismissing staff - the duty lane an
+            # org officer performs (org_duties, duty-tables.mc). The `work` task
+            # itself is a SHELL (it proposes the held duty and DWELL), so the
+            # competence lives on the specific duty tasks, never on `work`.
+            personnel
         # Topical interests one holds without practising a skill.
         avocation
             antiques

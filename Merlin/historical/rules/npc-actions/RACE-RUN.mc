@@ -17,6 +17,7 @@
 ; (compete reads the summons and passes them); the body reads only its own
 ; physiology - the physics of the run - and writes the records.
 (npc-action {@self RACE_RUN ?sport ?judge}
+  (track-skill-level [k athletics])
   (duration 30)
   (effects
     ; My run: own vigour + a draw, all self-reads. Clamped to a 0..1 score.

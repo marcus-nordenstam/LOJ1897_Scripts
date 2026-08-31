@@ -7,6 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self defraud ?victim}:?defraud-rel
+  (track-skill-level [k forgery])
   (tar human)
   (construed_act appropriation_act wrong_act betray_act) (theme thief_to) (contradicts property)
   (facets reportable_crime blackmailable)

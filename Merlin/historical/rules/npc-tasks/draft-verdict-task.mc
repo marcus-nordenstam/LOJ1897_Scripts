@@ -10,6 +10,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self draft_verdict ?applicant ?kind}:?dv-rel
+  (track-skill-level [k law])
   (tar human)
   (and
     (try

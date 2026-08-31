@@ -9,6 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self resolve_applications}:?rt-rel
+  (track-skill-level [k personnel])
   (and
     (try
       (role ?applicant {?applicant apply_for ?}

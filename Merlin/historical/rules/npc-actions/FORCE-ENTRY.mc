@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self FORCE_ENTRY ?door}:?fe-rel
+  (track-skill-level [k illicit])
   (tar object) (duration 2)
   (effects
     (check (spatial ?door co-located @self))

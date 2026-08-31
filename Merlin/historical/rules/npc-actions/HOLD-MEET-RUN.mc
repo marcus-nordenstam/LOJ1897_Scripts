@@ -21,6 +21,7 @@
 ; want_judge think holds the judge goal off it). The victor/grudge deliberation is GONE -
 ; this act reads no trait.
 (npc-action {@self HOLD_MEET_RUN ?art}
+  (track-skill-level [k officiating])
   (duration 30)
   (effects
     ; The club's articles (carried on the act-belief) -> its kind + roster; then the

@@ -18,6 +18,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self WRITE_WILL ?heir}
+  (track-skill-level [k law])
   (duration 30)
   (effects
     ; Supersede a prior will.

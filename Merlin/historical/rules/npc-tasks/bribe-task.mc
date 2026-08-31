@@ -8,6 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self bribe ?victim}:?bribe-rel
+  (track-skill-level [k illicit])
   (tar human)
   (aux ?)
   (facets reportable_crime)

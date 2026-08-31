@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self BREAK_WINDOW ?win}:?bw-rel
+  (track-skill-level [k illicit])
   (tar object) (duration 1)
   (effects
     (check (spatial ?win co-located @self))
