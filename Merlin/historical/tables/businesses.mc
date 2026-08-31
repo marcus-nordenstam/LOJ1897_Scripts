@@ -71,6 +71,11 @@
   (record [n the-assembly-rooms]  [k org meeting_hall]    [k building theatre]            back_office  on_site)
   (record [n victoria-park]       [k org sports_ground]   [k building sports_ground]      back_office  on_site)
 
+  ;; --- Civic administration: registries and agencies, seated in general offices ---
+  (record [n the-land-registry]   [k org land_registry]   [k building office]             back_office  on_site)
+  (record [n companies-house]     [k org company_registry] [k building office]            back_office  on_site)
+  (record [n the-parish-agency]   [k org agency]          [k building office]             back_office  on_site)
+
   ;; --- Residence-seated orgs: run from the proprietor's home study ---
   (record [n the-estate]          [k org estate]          [k building office]             study        residence)
   (record [n the-household]       [k org household]       [k building office]             study        residence))

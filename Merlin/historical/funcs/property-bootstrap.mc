@@ -42,8 +42,11 @@
   ; ENV ONLY. No org OBJECT is minted here: an org object is a MENTAL thing and a mindless
   ; bootstrap has no mind to mint it in. Whoever needs to know these orgs exist READS the
   ; articles (ORIENT -> adopt-aoc) and the reading rule mints the object in their own mind.
-  ; The deed is left UNOWNED - a government body's seat has no proprietor, and pulling the
-  ; row off the for-sale register is what stops anyone else claiming it.
+  ; The deed is left UNOWNED and the founder cell stays @nothing - a government body has no
+  ; proprietor and no founder; pulling the row off the for-sale register is what stops anyone
+  ; else claiming the premises. Every OTHER cell is filled here, staff book included, because
+  ; all of them are environment facts: a charter with a name and a staff book is a going
+  ; concern the labour market can hire into. Only the head post is left open.
   (for-each ?kind (list infra_org_kinds)
     (for-each ?reg (env-entities [k for_sale_listings])
       (for-each-row (attr ?reg writing) (building ?bldg)
@@ -53,10 +56,13 @@
             (if (none (env-entities [k incorporation_stack]))
               (then (create-entity [k incorporation_stack] ?iroom)))
             (create-entity [k articles_of_incorporation] ?iroom): ?art
+            (create-entity [k employee_register]         ?iroom): ?ireg
+            (table-init ?ireg worker job level)
             (table-remove ?reg building ?bldg)
             (table-init ?art org_kind org_name founder workplace register)
-            (table-add ?art org_kind ?kind org_name @nothing founder @nothing
-                            workplace ?bldg register @nothing)
+            (table-match businesses org_kind ?kind name ?iname)
+            (table-add ?art org_kind ?kind org_name ?iname founder @nothing
+                            workplace ?bldg register ?ireg)
             (head (env-entities [k incorporation_stack])): ?ist
             (if ?ist (then (push ?art ?ist)))
             (break)))))))
