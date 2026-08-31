@@ -5,10 +5,11 @@
 ; The founder population func loops this; any other caller that needs a single human
 ; (not a whole population) calls it directly.
 ;
-;   (make-human ?building)  - ?building = the residence the human is housed in.
+;   (make-human ?building ?class)  - ?building = the residence the human is housed in,
+;                                    ?class = the class situation he is born into.
 ; ----------------------------------------------------------------------------
 
-(define-func make-human (?building)
+(define-func make-human (?building ?class)
   (head (spatial ?building parts [k room] /env)): ?room
   (if ?room
     (then
@@ -31,14 +32,14 @@
           (+ 20 (random-int 0 29)): ?age
           (set-attr ?h birth_date
             (create-date (- (year) ?age) (random-int 0 11) (random-int 0 27)))
-          (set-attr ?h name (sample-name ?gender ?nat [k middle]))
+          (set-attr ?h name (sample-name ?gender ?nat ?class))
           (enter-mind ?h)
           ; SEE the home before believing anything about it. A belief field is passively
           ; converted into the believer's own realm, so an object the mind has never met
           ; lands as @fail - you cannot hold a belief about a building you have never laid
           ; eyes on. Observing is the sanctioned way to meet one.
           (observe ?building)
-          (begin-belief {@self class_situation [k middle]})
+          (begin-belief {@self class_situation ?class})
           (begin-belief {@self nationality ?nat})
           (begin-belief {@self breeding 0.55})
           (begin-belief {@self home ?building})
@@ -49,10 +50,29 @@
           ?h)))))
 
 ; ----------------------------------------------------------------------------
-; make-human-founder - the world-gen founder population: one adult per residential
-; building (capped), each minted by (make-human). Invoked ONCE at populate.
+; class-for-residence - the class a founder is born into, read off the residence he
+; heads. The house IS the class marker in 1700: a manor seats gentry, a townhouse the
+; middle, and everything else that people live in (rowhouse / farmhouse / chapel) the
+; working class. This is what spreads founders across the class floors the public_orgs
+; and cornerstone_businesses tables gate on - a town of nothing but townhouse-dwellers
+; can seat neither an upper-class hospital nor a lower-class registry.
+; ----------------------------------------------------------------------------
+
+(define-func class-for-residence (?b)
+  (if (is-a ?b [k building manor])
+    (then [k upper])
+    (else
+      (if (is-a ?b [k building townhouse])
+        (then [k middle])
+        (else [k lower])))))
+
+; ----------------------------------------------------------------------------
+; make-human-founder - the world-gen founder population: one adult per RESIDENTIAL
+; building, each minted by (make-human) with the class his residence implies.
+; Commercial buildings house nobody, so they are not walked at all. Invoked ONCE at
+; populate.
 ; ----------------------------------------------------------------------------
 
 (define-func make-human-founder ()
-  (for-each ?b (env-entities [k building]) 5
-    (make-human ?b)))
+  (for-each ?b (env-entities [k building residential_building])
+    (make-human ?b (class-for-residence ?b))))

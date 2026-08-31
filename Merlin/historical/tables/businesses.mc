@@ -74,7 +74,6 @@
   ;; --- Civic administration: registries and agencies, seated in general offices ---
   (record [n the-land-registry]   [k org land_registry]   [k building office]             back_office  on_site)
   (record [n companies-house]     [k org company_registry] [k building office]            back_office  on_site)
-  (record [n the-parish-agency]   [k org agency]          [k building office]             back_office  on_site)
 
   ;; --- Residence-seated orgs: run from the proprietor's home study ---
   (record [n the-estate]          [k org estate]          [k building office]             study        residence)

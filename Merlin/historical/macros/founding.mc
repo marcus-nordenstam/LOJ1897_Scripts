@@ -43,10 +43,7 @@
             ; CLAIM: stamp @self as the premises' owner + pull the row off the register.
             (table-set ?deed owner @self)
             (table-remove ?listings building ?wp)
-            ; The head LEARNS the workplace's rooms up front (owning it stands in for
-            ; exploring it): {building room <room>} + the reverse.
-            (for-each ?room (spatial ?wp parts [k interior_space room] /env)
-                (spatial-write ?room struct_parent ?wp))
+            (take-premises ?wp)
             ; The org's documents (articles + an empty register), seeded in a room (a
             ; document must live in a SPACE, never at the building).
             (spatial ?wp room): ?back
@@ -65,26 +62,51 @@
             ; stack), not the org's own premises - the town's org record lives there.
             (head (env-entities [k incorporation_stack])): ?ist
             (if ?ist (then (push ?art ?ist)))
-            ; --- and now the MENTAL half, which the founder gets the same way anyone else
-            ; does: he LOOKS AT the articles he just filed and READS them. adopt-aoc is the
-            ; one decoder (ORIENT and hire-beliefs call it too), so a founder's org object is
-            ; built by exactly the rule that builds a stranger's - no privileged minting.
-            (observe ?art)
-            (adopt-aoc ?art)
-            ; adopt-aoc anchored the org to these articles ({?art declares_org ?org}), so the
-            ; founder just READS it back - no second object search.
-            (any {?art declares_org ?org})
-            (begin-belief {?org record ?art})
-            ; Seat the founder as HEAD: roster row + head-job beliefs (heading is NOT
-            ; employment - no salary). ?head-role is-a org_head.
-            (table-add ?reg worker @self job ?head-role level [k senior])
-            (begin-belief {?wp occupant @self})
-            (o ?head-role {@self job @o}): ?job
-            (begin-belief {?job org ?org})
-            (begin-belief {?job level [k senior]})
-            (begin-belief {?job since (year)})
-            (stamp-work-hours ?job ?head-role)
+            (seat-org-head ?art ?wp ?reg ?head-role)
             (break)))))))
+
+; take-premises - the head takes possession of the org's building: he SEES it and its rooms
+; (a placement write resolves passively, so an unseen room cannot be written about) and
+; learns which building they belong to. Owning the premises stands in for exploring them.
+(define-macro take-premises (?wp)
+  (do
+    (observe ?wp)
+    (for-each ?room (spatial ?wp parts [k interior_space room] /env)
+      (observe ?room)
+      (spatial-write ?room struct_parent ?wp))))
+
+; seat-org-head - the MENTAL half of founding, shared by every route into a head seat. The
+; head gets his org object the same way anyone else does: he LOOKS AT the articles and READS
+; them through adopt-aoc, the one decoder (ORIENT and hire-beliefs call it too) - no
+; privileged minting. adopt-aoc anchors the org to the articles, so the org is READ BACK off
+; that anchor rather than searched for a second time. Heading is NOT employment - no salary.
+(define-macro seat-org-head (?art ?wp ?reg ?head-role)
+  (do
+    (observe ?art)
+    (adopt-aoc ?art)
+    (any {?art declares_org ?org})
+    (begin-belief {?org record ?art})
+    (table-add ?reg worker @self job ?head-role level [k senior])
+    (begin-belief {?wp occupant @self})
+    (o ?head-role {@self job @o}): ?job
+    (begin-belief {?job org ?org})
+    (begin-belief {?job level [k senior]})
+    (begin-belief {?job since (year)})
+    (stamp-work-hours ?job ?head-role)))
+
+; take-up-charter - found an org the town already chartered: the premises, articles and staff
+; book exist and only the head seat is open, so founding is writing @self into the founder
+; cell and seating himself. The deed is NOT claimed - taking a post is not buying the
+; premises.
+;
+;   (take-up-charter ?art ?head-role)
+;     ?art       - a headless articles_of_incorporation (see headless-charter)
+;     ?head-role - the head's job, a scoped job kind ([k job superintendent])
+(define-macro take-up-charter (?art ?head-role)
+  (for-each-row (attr ?art writing) (workplace ?wp) (register ?reg)
+    (take-premises ?wp)
+    (table-set ?art founder @self)
+    (seat-org-head ?art ?wp ?reg ?head-role)))
 
 ; ----------------------------------------------------------------------------
 ; found-club-seq - the CLUB analogue of found-org-seq.

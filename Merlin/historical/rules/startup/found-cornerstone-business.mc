@@ -32,15 +32,20 @@
   (role @self -{@self job.salary ?}
               -{@self job [k head_of_non_household_org]})
 
-  ; age gate stays live (non-belief op read).
-  (when (>= (years-old @self) 25))
+  ; Age, plus the DEMAND gate: a charter @self could actually take up must still be
+  ; headless. Without the second test an adult who qualifies for nothing left re-fires a
+  ; fruitless scan every startup round and the pass never quiesces.
+  (when (and (>= (years-old @self) 25)
+             (substantial (charter-for @self))))
 
   (effects
-    ; Found the business with its HEAD only (the proprietor); the emergent labour
-    ; market staffs it from the unemployed over subsequent ticks.
+    ; TAKE UP a charter the town filed at seeding and nobody heads yet - premises,
+    ; articles and staff book already exist, only the proprietor's seat is open. The
+    ; emergent labour market staffs it from the unemployed over subsequent ticks.
     (for-each-row cornerstone_businesses
         (kind ?k) (head_pos ?hp) (class_floor ?cf)
-      (if (and (= (count-orgs-isa ?k) 0)
+      (headless-charter ?k): ?art
+      (if (and (substantial ?art)
                (class-at-least @self ?cf))
-          (then (found-org-seq ?k ?hp)
+          (then (take-up-charter ?art ?hp)
               (break))))))
