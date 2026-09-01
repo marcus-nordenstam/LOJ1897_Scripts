@@ -5,7 +5,7 @@
 ; CONSTRAINED to the job whose org's workplace IS ?wp (an actor holds plural jobs by design).
 ;
 ;   spawn_recruit_staff : while the org's wage book is short of its authored headcount, begin
-;                         the held recruit_staff duty performance (one drive at a time).
+;                         the held recruit-staff duty performance (one drive at a time).
 ;   at_post_morning/afternoon : BE at the post - the pre/post-lunch dwell blocks, each aimed
 ;                         at its absolute boundary; the lowest job utility (any duty outbids).
 ;   shift_over : outside the working + starts-soon window -> the day's work concluded.
@@ -17,7 +17,7 @@
     (try
       (lock-rule)
       (rng-stream employment)
-      (role ?org {@self duty-to ?org recruit_staff}
+      (role ?org {@self duty-to ?org recruit-staff}
                  -{?org isa [k org household]}
                  {?org record ?})
       (when (and {?org isa ?ok}
@@ -26,7 +26,7 @@
                     (if (table-match public_orgs kind ?ok employee-count ?ec) (then ?ec) (else 2)))))
       (utility duty)
       (effects (debug-print "RC_ROOT")
-               (begin-proposal {@self recruit_staff ?org})))
+               (begin-proposal {@self recruit-staff ?org})))
     (try
       (role ?job {@self job ?job})
       (role ?org {?job org ?org}

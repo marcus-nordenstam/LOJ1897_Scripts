@@ -3,10 +3,10 @@
 ; Re-points ?dwell's registry title-deed to name @self (the authoritative transfer that
 ; overrides the seller's now-stale {own} for every future deed reader) and pulls ?dwell's
 ; row off the for-sale register. All orchestration + the buyer's own beliefs live in the
-; buy_home / founding task.
+; buy-home / founding task.
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self RECORD_SALE ?dwell}
+(npc-action {@self RECORD-SALE ?dwell}
   (track-skill-level [k accountancy])
   (duration 60)
   (effects
@@ -19,4 +19,4 @@
               (break)))))
     (for-each ?listings (env-entities [k for-sale-listings])
       (table-remove ?listings building ?dwell))
-    (set-outcome {@self RECORD_SALE ?dwell} /succ)))
+    (set-outcome {@self RECORD-SALE ?dwell} /succ)))

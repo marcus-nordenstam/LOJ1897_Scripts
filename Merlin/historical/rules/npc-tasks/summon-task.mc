@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; summon - NO-OP declaration stub. The organiser's call to compete is currently
-; recorded as a relation ({@self summon ?member ?sport}, minted by HOLD_MEET_RUN
-; and cleared by RACE_RUN); this npc-task exists only to SELF-DECLARE the `summon`
+; recorded as a relation ({@self summon ?member ?sport}, minted by HOLD-MEET-RUN
+; and cleared by RACE-RUN); this npc-task exists only to SELF-DECLARE the `summon`
 ; label + its field shape so the Tasks.mon row can retire. To be fleshed out into
 ; the real summon task later. The (try) never fires (declaration only).
 ; ----------------------------------------------------------------------------

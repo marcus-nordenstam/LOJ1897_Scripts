@@ -32,15 +32,15 @@
                  (spatial ?recipient co-located @self)
                  (empty (spatial (spatial ?recipient right-hand) grip))))
       (utility (above go))
-      (effects (maintain-proposal {@self OFFER_RIGHT ?thing ?recipient})))
+      (effects (maintain-proposal {@self OFFER-RIGHT ?thing ?recipient})))
     (try
       (when (and (= (spatial ?thing held-by) @self)
                  (spatial ?recipient co-located @self)
                  (not (empty (spatial (spatial ?recipient right-hand) grip)))))
       (utility (above go))
-      (effects (maintain-proposal {@self OFFER_LEFT ?thing ?recipient})))
+      (effects (maintain-proposal {@self OFFER-LEFT ?thing ?recipient})))
     (try
-      (when {@self /succ OFFER_LEFT|OFFER_RIGHT ?thing ?recipient /caused_by ?give-rel})
+      (when {@self /succ OFFER-LEFT|OFFER-RIGHT ?thing ?recipient /caused_by ?give-rel})
       (effects (set-outcome ?give-rel /succ)))
     (try
       (when (not (alive ?recipient)))

@@ -53,7 +53,7 @@
 # The role-based mail-reading binds a letter via this belief.
 (attr "addressee" (type name) (per obs) (auto-percept) (hsim-percept))
 # The DUTY a document is addressed to ("To the Recruiting Officer") - the office
-# envelope line, matched against the reader's own duty-to aux by take_my_letters.
+# envelope line, matched against the reader's own duty-to aux by take-my-letters.
 (attr "addressee-duty" (type kind) (per obs) (auto-percept) (hsim-percept))
 
 # Conditions & properties. Conceptual: kind-typed; @excl lives on the concept.

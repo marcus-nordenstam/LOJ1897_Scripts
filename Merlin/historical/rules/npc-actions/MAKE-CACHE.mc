@@ -19,7 +19,7 @@
 
 (include "../../definitions/roles.mc")
 
-(npc-action {@self MAKE_CACHE ?building}
+(npc-action {@self MAKE-CACHE ?building}
   (duration 0)
   (effects
     (bind 0 ?made)
@@ -64,4 +64,4 @@
               (create-entity [k floorboard-cache] ?bedroom ?bedroom): ?cache
               (begin-belief {@self hiding-spot ?cache})
               (bind 1 ?made))))
-    (set-outcome {@self MAKE_CACHE} /succ)))
+    (set-outcome {@self MAKE-CACHE} /succ)))

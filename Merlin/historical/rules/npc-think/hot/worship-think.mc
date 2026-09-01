@@ -14,7 +14,7 @@
 ;   AT a church (case A): {@self WORSHIP} has no active sub-goal, so it is the leaf and
 ;     promotes straight to worship_act (the service). No rule needed.
 ;   know a church (case B): worship_go holds {@self go ?church}.
-;   know none  (case C): worship_find holds {@self find_building [k church]}.
+;   know none  (case C): worship_find holds {@self find-building [k church]}.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.mc")
@@ -42,12 +42,12 @@
   (effects (debug-print "TRACE-WORSHIPGO church=?church")
            (maintain-proposal {@self enter ?church})))
 
-; CASE C - not at a church and knows none: search for one (find_building.hs runs it).
+; CASE C - not at a church and knows none: search for one (find-building.hs runs it).
 (npc-think worship_find
   (goal    {@self WORSHIP})
   (role @self (grown @self))
   (no-role [k building church])
   (when    (and (not (is-a (spatial @self building) [k building church]))
-                (not (did-fail {@self find_building [k building church] /past}))))
+                (not (did-fail {@self find-building [k building church] /past}))))
   (effects (debug-print "WSEEK @self")
-           (maintain-proposal {@self find_building [k building church] (current-region @self)})))
+           (maintain-proposal {@self find-building [k building church] (current-region @self)})))

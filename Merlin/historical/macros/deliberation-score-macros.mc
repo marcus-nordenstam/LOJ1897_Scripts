@@ -20,7 +20,7 @@
   (= ?a silence_witness))))))))))
 (define-macro is-prosocial (?a)
   (or (= ?a forgive) (or (= ?a atone) (or (= ?a confess_in_person)
-  (or (= ?a confess_letter) (or (= ?a report_crime) (= ?a do_nothing)))))))
+  (or (= ?a confess-letter) (or (= ?a report-crime) (= ?a do_nothing)))))))
 (define-macro is-passive (?a)
   (or (= ?a withdraw) (or (= ?a flee) (or (= ?a mourn) (or (= ?a plead)
   (or (= ?a surrender) (or (= ?a replace) (= ?a expose_first))))))))
@@ -104,7 +104,7 @@
   (if (and (is-aggressive ?a) (= ?focus @self)) (then 0) (else 1)))
 (define-macro secret-material-ok (?a ?focus)
   (if (= ?a expose)
-      (then (if (> (prob {?focus lover|HAVE_SEX_WITH ? /ever}) 0) (then 1) (else 0)))
+      (then (if (> (prob {?focus lover|HAVE-SEX-WITH ? /ever}) 0) (then 1) (else 0)))
       (else 1)))
 
 ; The full per-branch weight (excludes disinhibition + the kind-match, applied

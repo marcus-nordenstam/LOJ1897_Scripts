@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; seduce ?paramour - take a new lover to replace a lost attachment. @self reaches the
 ; paramour and, discreetly (no spouse in the room) and only if opposite-sex and non-kin,
-; proposes the SHARED consummation act HAVE_SEX_WITH (reused, never duplicated). The sex
+; proposes the SHARED consummation act HAVE-SEX-WITH (reused, never duplicated). The sex
 ; record then lets recognize_lover recognise the `lover` bond on both sides (no fiat mint),
 ; and THAT recognition is the seduce's conclusive outcome. A dead, same-sex, or kin
 ; paramour cannot be seduced -> abandon. Already a lover -> the deed is already done.
@@ -34,9 +34,9 @@
                  (not (spatial (spouse-of @self) co-located @self))
                  -{?paramour gender (any {@self gender}).target}
                  (none (blood-kin @self ?paramour))
-                 -{@self HAVE_SEX_WITH ?paramour /succ /caused_by ?seduce-rel}))
+                 -{@self HAVE-SEX-WITH ?paramour /succ /caused_by ?seduce-rel}))
       (utility errand always-pick)
-      (effects (maintain-proposal {@self HAVE_SEX_WITH ?paramour})))
+      (effects (maintain-proposal {@self HAVE-SEX-WITH ?paramour})))
     (try
       (when {@self lover ?paramour})
       (effects (set-outcome ?seduce-rel /succ)))

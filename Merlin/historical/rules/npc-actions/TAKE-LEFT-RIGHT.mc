@@ -8,10 +8,10 @@
     (spatial-write ?item gripped-by ?hand /env)
     (set-outcome ?take-action /succ)))
 
-(npc-action {@self LEFT_TAKE ?item}:?take-action-rel
+(npc-action {@self LEFT-TAKE ?item}:?take-action-rel
   (duration 1)
   (effects (take-effects (spatial @self left-hand /env) ?item ?take-action-rel)))
 
-(npc-action {@self RIGHT_TAKE ?item}:?take-action-rel
+(npc-action {@self RIGHT-TAKE ?item}:?take-action-rel
   (duration 1)
   (effects (take-effects (spatial @self right-hand /env) ?item ?take-action-rel)))

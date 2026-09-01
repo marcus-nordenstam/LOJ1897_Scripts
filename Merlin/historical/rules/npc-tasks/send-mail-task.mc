@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; send_mail ?doc - post a composed document from HOME (the mirror of read_mail). If @self
+; send-mail ?doc - post a composed document from HOME (the mirror of read-mail). If @self
 ; does not know where the home's outgoing-mail-stack is, LOCATE it (wandering home); once
 ; known, go to its room and deposit ?doc (the post_mail act). The magic mail service then
 ; teleports the posted doc to the addressee building each morning. The tries step UP (home
@@ -7,7 +7,7 @@
 ; errand's priority.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self send_mail ?doc}:?sm-rel
+(npc-task {@self send-mail ?doc}:?sm-rel
   (tar document)
   (and
     (try
@@ -30,8 +30,8 @@
       (effects (debug-print "SM_GO") (maintain-proposal {@self WALK ?room})))
     (try
       (role ?out [k outgoing-mail-stack] (spatial ?out co-located @self))
-      (when -{@self STACK_PUT ?doc ? /succ})
-      (effects (debug-print "SM_PUT") (maintain-proposal {@self STACK_PUT ?doc ?out})))
+      (when -{@self STACK-PUT ?doc ? /succ})
+      (effects (debug-print "SM_PUT") (maintain-proposal {@self STACK-PUT ?doc ?out})))
     (try
-      (when {@self STACK_PUT ?doc ? /succ})
+      (when {@self STACK-PUT ?doc ? /succ})
       (effects (debug-print "SM_DONE") (set-outcome ?sm-rel /succ)))))

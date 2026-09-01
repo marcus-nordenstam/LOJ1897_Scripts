@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; household_day (npc-think) - the home-leisure DRIVER. Proposes @self's
 ; day-at-home as a real task through the action pipeline: an amenity-gated
-; {@self rest <home>} by default, {@self read_at <home>} if the home is known
+; {@self rest <home>} by default, {@self read-at <home>} if the home is known
 ; to have a study (scholarly temperaments favour it - the read weight scales
 ; with intellect) - so a manor yields a richer home-leisure record than a
 ; rowhouse. The room gate reads @self's OWN {?home room [k study]} beliefs
@@ -18,7 +18,7 @@
 ;
 ; NOTE: the dine episode is owned by the SUPPER lane (npc-act/meals.hs,
 ; a real daily at-home act with table talk), so the pick here is rest /
-; read_at only.
+; read-at only.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.mc")
@@ -40,11 +40,11 @@
                        (* (read-weight-intellect-scale) (attr @self intellect))))
               (else 0)): ?read_w
     (if (chance (/ ?read_w (+ (rest-weight) ?read_w)))
-        (then (begin-proposal {@self read_at ?home}))
+        (then (begin-proposal {@self read-at ?home}))
         (else (begin-proposal {@self rest ?home})))))
 
-; The rest / read_at TASKS (the immediate-conclude outcome rungs) live in
-; npc-tasks/rest-task.hs and npc-tasks/read_at-task.hs.
+; The rest / read-at TASKS (the immediate-conclude outcome rungs) live in
+; npc-tasks/rest-task.hs and npc-tasks/read-at-task.hs.
 
 ; ----------------------------------------------------------------------------
 ; set_mealtimes (npc-think) - the COOK decides the household mealtimes
@@ -75,6 +75,8 @@
   (role ?home {@self home ?home}
               -{?home supper-hour ?})
 
+  (utility want)
+
   (effects
     ; The per-cook offset: -1 / 0 / +1 on the whole day (breakfast 5-7,
     ; lunch 11-13, supper 17-19; each window is 2h from the hour).
@@ -82,10 +84,12 @@
     (begin-belief {?home breakfast-hour (+ 6 ?o)})
     (begin-belief {?home lunch-hour (+ 12 ?o)})
     (begin-belief {?home supper-hour (+ 18 ?o)})
-    ; Say the house's hours aloud - the household hears and adopts.
-    (tell (utterable-msg {?home breakfast-hour (+ 6 ?o)}
-                         {?home lunch-hour (+ 12 ?o)}
-                         {?home supper-hour (+ 18 ?o)}))
+    ; Say the house's hours aloud - the household hears and adopts. begin-proposal, not
+    ; maintain: the three begin-beliefs above empty this rule's own -{?home supper-hour ?}
+    ; role, so a maintained proposal would lose its support before it could be selected.
+    (begin-proposal {@self SAY (utterable-msg {?home breakfast-hour (+ 6 ?o)}
+                                              {?home lunch-hour (+ 12 ?o)}
+                                              {?home supper-hour (+ 18 ?o)}) _})
     ))
 
 ; ----------------------------------------------------------------------------
@@ -94,7 +98,7 @@
 ; question say - {@self SAY (qs {?home supper-hour _}) /aux cook}); the cook,
 ; gated on having HEARD such a question ((asked-me-about supper-hour) - the
 ; cheap per-mind gate comes first), answers with a directed tell of all three
-; hours. tell-to's per-listener dedup makes re-answers harmless; the asked
+; hours. The per-listener SAY dedup makes re-answers harmless; the asked
 ; record fades on the normal recall curve. Semantic self-healing: mealtime
 ; knowledge can never be permanently lost while the cook lives.
 ; Both are SAYS (acts carried by perception), but they run at the household's
@@ -143,10 +147,14 @@
   (role ?asker (any_human ?asker)
                {?asker SAY (qs {? supper-hour ?}) @self /past})
 
+  (utility want)
+
   (effects
-    (tell-to ?asker (utterable-msg {?home breakfast-hour ?b}
-                                   {?home lunch-hour ?l}
-                                   {?home supper-hour ?s}))
+    (utterable-msg {?home breakfast-hour ?b}
+                   {?home lunch-hour ?l}
+                   {?home supper-hour ?s}): ?msg
+    (if -{@self SAY ?msg ?asker}
+        (then (maintain-proposal {@self SAY ?msg ?asker})))
     ))
 
 ; (plan_provisioning / set_shop_schedule are GONE: provisioning is the

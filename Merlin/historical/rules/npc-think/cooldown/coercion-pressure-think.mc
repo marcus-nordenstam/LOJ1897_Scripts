@@ -5,10 +5,10 @@
 ; press keeps refreshing (perpetration_macros coerce-* land it, coercion.hs
 ; press-coercion refreshes it). Each month he mints + COMPOUNDS his OWN
 ; exposure-risk pressure toward the blackmailer: begin-belief /caused_by the anchor
-; (so a live cause keeps it off the orphan-sweep) and /salience the class-scaled
+; (so a live cause keeps it off the orphan-sweep) and (salience ..) the class-scaled
 ; stake (accumulate-on-reuse escalates it in place, walking him from bribe /
 ; confess toward the kill tail - deliberate_think turns the standing pressure into
-; the actual bribe / confess_letter / flee / silence-the-witness action).
+; the actual bribe / confess-letter / flee / silence-the-witness action).
 ;
 ; NO telepathy / no cross-mind: he role-casts the blackmailer from his OWN extort
 ; belief and mints only in his OWN mind. When the coercer gives up, the anchor

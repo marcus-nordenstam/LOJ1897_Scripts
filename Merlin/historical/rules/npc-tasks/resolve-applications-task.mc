@@ -1,32 +1,32 @@
 ; ----------------------------------------------------------------------------
-; resolve_applications - the recruit officer's verdict round over the applicants he
+; resolve-applications - the recruit officer's verdict round over the applicants he
 ; has learned of by READing their applications (each READ adopted a {?applicant
-; apply_for ?jk} belief). ONE at a time: the first gets an offer drafted, every later
-; one a rejection; each draft_verdict envelopes + mails its verdict and ENDS that
-; applicant's apply_for belief, so the unanswered set shrinks to empty and the round
+; apply-for ?jk} belief). ONE at a time: the first gets an offer drafted, every later
+; one a rejection; each draft-verdict envelopes + mails its verdict and ENDS that
+; applicant's apply-for belief, so the unanswered set shrinks to empty and the round
 ; concludes. The iteration and the offer-vs-reject decision live here; the drafting is
-; the draft_verdict sub-task (composing the lego acts).
+; the draft-verdict sub-task (composing the lego acts).
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self resolve_applications}:?rt-rel
+(npc-task {@self resolve-applications}:?rt-rel
   (track-skill-level [k personnel])
   (and
     (try
-      (role ?applicant {?applicant apply_for ?}
+      (role ?applicant {?applicant apply-for ?}
             (select (policy first-match)))
-      (when (and -{@self draft_verdict ? [k offer-letter] /caused_by ?rt-rel /ever}
-                 -{@self draft_verdict ?applicant ? /caused_by ?rt-rel /ever}))
+      (when (and -{@self draft-verdict ? [k offer-letter] /caused_by ?rt-rel /ever}
+                 -{@self draft-verdict ?applicant ? /caused_by ?rt-rel /ever}))
       (utility fallback)
       (effects (debug-print "RSV_OFFER")
-               (begin-proposal {@self draft_verdict ?applicant [k offer-letter]})))
+               (begin-proposal {@self draft-verdict ?applicant [k offer-letter]})))
     (try
-      (role ?applicant {?applicant apply_for ?}
+      (role ?applicant {?applicant apply-for ?}
             (select (policy first-match)))
-      (when (and {@self draft_verdict ? [k offer-letter] /caused_by ?rt-rel /ever}
-                 -{@self draft_verdict ?applicant ? /caused_by ?rt-rel /ever}))
-      (utility (above draft_verdict))
+      (when (and {@self draft-verdict ? [k offer-letter] /caused_by ?rt-rel /ever}
+                 -{@self draft-verdict ?applicant ? /caused_by ?rt-rel /ever}))
+      (utility (above draft-verdict))
       (effects (debug-print "RSV_REJECT")
-               (begin-proposal {@self draft_verdict ?applicant [k rejection-letter]})))
+               (begin-proposal {@self draft-verdict ?applicant [k rejection-letter]})))
     (try
-      (when -{? apply_for ?})
+      (when -{? apply-for ?})
       (effects (debug-print "RSV_DONE") (set-outcome ?rt-rel /succ)))))

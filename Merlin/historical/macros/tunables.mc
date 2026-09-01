@@ -71,12 +71,12 @@
 
 ; The practice-marker window (days) the strive outlet stamps; read by skill atrophy.
 (define-macro skill_practice_window_days () 548)
-; find_building's `surveyed` private-bb marker lifetime, in hsim cycles (= months).
+; find-building's `surveyed` private-bb marker lifetime, in hsim cycles (= months).
 ; Long enough for one coverage sweep to complete without re-surveying; short enough
 ; that a searcher's markers self-reclaim within a year of the search ending.
 (define-macro survey_marker_ttl_cycles () 12)
 
-; buy_home's public-bb `claimed` marker lifetime, in hsim cycles (= months). A buyer
+; buy-home's public-bb `claimed` marker lifetime, in hsim cycles (= months). A buyer
 ; posts it on the dwelling he commits to (choose_home) so a rival seeker in the same
 ; window defers. choose_home cont-fires and RE-POSTS the claim every cycle the buyer
 ; stays committed, so the ttl only bounds how fast an ABANDONED claim self-clears once

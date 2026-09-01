@@ -24,7 +24,7 @@
 ; Action atoms are the goal/task labels deliberation and perpetration mint
 ; (kill / coerce / expose / discredit / threaten / humiliate / frame / hurt /
 ; seduce / silence_witness / bribe / steal / defraud / urge / disinherit /
-; atone / confess_in_person / confess_letter / forgive). Magnitudes here are
+; atone / confess_in_person / confess-letter / forgive). Magnitudes here are
 ; starter values matched to the bonded_incident outcome table; tune as
 ; behaviour-distribution drift surfaces from mxlog.
 ; ----------------------------------------------------------------------------
@@ -39,7 +39,7 @@
   (record [k life-aim wealth-aim] bribe           0.3)
   (record [k life-aim wealth-aim] outdo           0.3)
   (record [k life-aim wealth-aim] atone          -0.2)
-  (record [k life-aim wealth-aim] confess_letter -0.2)
+  (record [k life-aim wealth-aim] confess-letter -0.2)
 
   ; ---- power-aim ----------------------------------------------------------
   (record [k life-aim power-aim]   coerce          0.4)
@@ -59,14 +59,14 @@
   (record [k life-aim legacy-aim]  silence_witness 0.3)
   (record [k life-aim legacy-aim]  bribe           0.2)
   (record [k life-aim legacy-aim]  expose         -0.2)
-  (record [k life-aim legacy-aim]  confess_letter -0.3)
+  (record [k life-aim legacy-aim]  confess-letter -0.3)
   (record [k life-aim legacy-aim]  confess_in_person -0.3)
 
   ; ---- respectability-aim -------------------------------------------------
   (record [k life-aim respectability-aim]  urge            0.4)
   (record [k life-aim respectability-aim]  disinherit      0.3)
   (record [k life-aim respectability-aim]  expose          0.3)
-  (record [k life-aim respectability-aim]  report_crime    0.3)
+  (record [k life-aim respectability-aim]  report-crime    0.3)
   (record [k life-aim respectability-aim]  silence_witness 0.3)
   (record [k life-aim respectability-aim]  insult         -0.3)
   (record [k life-aim respectability-aim]  threaten       -0.3)
@@ -77,9 +77,9 @@
   ; ---- piety-aim ----------------------------------------------------------
   (record [k life-aim piety-aim]   atone           0.4)
   (record [k life-aim piety-aim]   confess_in_person 0.4)
-  (record [k life-aim piety-aim]   confess_letter  0.3)
+  (record [k life-aim piety-aim]   confess-letter  0.3)
   (record [k life-aim piety-aim]   forgive         0.4)
-  (record [k life-aim piety-aim]   report_crime    0.2)
+  (record [k life-aim piety-aim]   report-crime    0.2)
   (record [k life-aim piety-aim]   defraud        -0.4)
   (record [k life-aim piety-aim]   insult         -0.2)
   (record [k life-aim piety-aim]   frame          -0.4)

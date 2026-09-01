@@ -25,6 +25,10 @@
 ;     (the generic enter chain routes him into a church he knows - the graveyard
 ;     room the convey deposit files bodies into). CEASES the instant co-present
 ;     flips true (he has reached the body).
+;   announce_burial: once his OWN rite has ended, PROPOSE the broadcast {@self SAY ..}
+;     that tells the mourners still in the room the interment is done. bury_act does not
+;     speak - saying something is the SAY act's job, so the words compete like any other
+;     utterance. Keyed /caused_by the rite, so it is said once per burial.
 ;   bury_onsite: while CO-PRESENT with the body, PROPOSE {@self BURY ?corpse}, whose
 ;     winning proposal promotes bury_act (the rite). The propose STOPS when the
 ;     corpse gate drops: bury_act tells {?corpse internment buried}, which @excl-
@@ -44,10 +48,10 @@
 ; would never match. Only humans carry
 ; condition dead, so the filter is exact. The corpse is cast off the POSITIVE
 ; internment-unburied percept (every observer of a person holds it by default);
-; bury_act mints {?corpse internment buried} in the burying priest's mind and
-; TELLS the rite's co-present witnesses, and internment is @excl, so buried
-; supersedes unburied and the positive filter drops it - no re-bury, no
-; env-existence probe. A knower absent from the rite keeps the stale unburied
+; bury_act mints {?corpse internment buried} in the burying priest's mind (and
+; announce_burial says it to the rite's co-present witnesses), and internment is
+; @excl, so buried supersedes unburied and the positive filter drops it - no
+; re-bury, no env-existence probe. A knower absent from the rite keeps the stale unburied
 ; percept until it fades (peripheral-object decay).
 ; ----------------------------------------------------------------------------
 
@@ -82,3 +86,16 @@
   (when (>= (months-since-death ?corpse) 1))
   (utility obligation (above WORSHIP))
   (effects (maintain-proposal {@self BURY ?corpse})))
+
+; ANNOUNCE rung. The rite is silent; the WORDS are their own act. Once the priest's own
+; {@self BURY ?corpse} has ended he proposes a broadcast SAY of the interment, heard by
+; whoever is still co-present. The /caused_by dedup is per-RITE, so each burial is
+; announced exactly once however long the record lives; a priest with nobody left in the
+; room simply says it to an empty room, which is what a real one does.
+(npc-think announce_burial
+  (role @self {@self job [k job priest]})
+  (role ?corpse {@self BURY ?corpse /past}:?bury-rel)
+  (when -{@self SAY ? /succ /caused_by ?bury-rel})
+  (utility want)
+  (effects
+    (maintain-proposal {@self SAY (utterable-msg {?corpse internment [k buried]}) _})))

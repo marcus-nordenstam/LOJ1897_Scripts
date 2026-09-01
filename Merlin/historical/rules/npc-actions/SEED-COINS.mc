@@ -8,7 +8,7 @@
 
 (include "../../definitions/roles.mc")
 
-(npc-action {@self SEED_COINS ?home}
+(npc-action {@self SEED-COINS ?home}
   (duration 0)
   (effects
     (bind 0 ?made)
@@ -24,4 +24,4 @@
             (begin-belief {@self own ?pile})
             (begin-belief {@self coin-pile ?pile})
             (bind 1 ?made))))
-    (set-outcome {@self SEED_COINS ?home} /succ)))
+    (set-outcome {@self SEED-COINS ?home} /succ)))

@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; advertise ?org - post the org's open staff role on the parish board. A COMPOSITION
 ; of general lego acts (no bespoke POST_ADVERT):
-;   CREATE_ENTITY [k job-description] : pen the notice (born on the church board);
+;   CREATE-ENTITY [k job-description] : pen the notice (born on the church board);
 ;   WRITE ?ad {?org vacancy ?jk}      : the vacancy - the ORG has an opening for role
 ;                                       ?jk (a seeker READs + adopts this);
 ;   WRITE ?ad {?org workplace ?wp}    : where to apply (appended second sentence -
@@ -14,16 +14,23 @@
 (npc-task {@self advertise ?org}:?adv-rel
   (tar org)
   (and
+    ; The board is a church the officer KNOWS; knowing none, he searches the region for
+    ; one (the find-building task), and gives up once that search has failed.
     (try
-      (when (and (find-building [k building church]): ?board
-                 (not (spatial @self building ?board))))
-      (effects (maintain-proposal {@self enter ?board})))
+      (role ?board [k building church] (select (score (near @self ?board)) (policy roulette)))
+      (when (not (spatial @self building ?board)))
+      (effects (debug-print "ADV_GO") (maintain-proposal {@self enter ?board})))
     (try
-      (when (and (find-building [k building church]): ?board
-                 (spatial @self building ?board)
-                 -{@self CREATE_ENTITY [k job-description] /succ /caused_by ?adv-rel}))
+      (no-role [k building church])
+      (when (and -{@self find-building [k building church] ? /fail}
+                 (current-region @self): ?rg))
+      (effects (debug-print "ADV_FIND")
+               (maintain-proposal {@self find-building [k building church] ?rg})))
+    (try
+      (when (and (is-a (spatial @self building) [k building church])
+                 -{@self CREATE-ENTITY [k job-description] /succ /caused_by ?adv-rel}))
       (effects (debug-print "ADV_PEN")
-               (maintain-proposal {@self CREATE_ENTITY [k job-description]})))
+               (maintain-proposal {@self CREATE-ENTITY [k job-description]})))
     (try
       (role ?ad [k job-description] (spatial ?ad co-located @self)
             (not (substantial (attr ?ad writing))))

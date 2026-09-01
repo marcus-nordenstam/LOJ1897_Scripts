@@ -3,7 +3,7 @@
 ; The go/dwell think rungs live in npc-think/close_business_errand.hs.
 ;
 ; The decision (npc-think/close_business.hs) minted {@self goal {@self
-; CLOSE_BUSINESS <own_articles>}} on the proprietor each December. The intra-day
+; CLOSE-BUSINESS <own_articles>}} on the proprietor each December. The intra-day
 ; think rungs drain it: the owner goes to his OWN premises and winds the firm up in
 ; person - so the failure happens AT the workplace, by the man himself, leaving the
 ; co-presence a witness (and his staff) would see, instead of a faceless town-lane
@@ -45,7 +45,7 @@
 ; his own documents, lists the premises for sale if he owns it, and clears the act on
 ; completion (close_business.hs owns the goal's teardown). No cross-mind write: workers
 ; reconcile themselves via reconcile_closed when they find the premises shut.
-(npc-action {@self CLOSE_BUSINESS ?art ?wp}
+(npc-action {@self CLOSE-BUSINESS ?art ?wp}
   (duration 90)
   (effects
     ; the register rides his own org beliefs (org recalled off his articles ?art).
@@ -59,4 +59,4 @@
     (destroy-entity ?reg)
     (destroy-entity ?art)
     ; 4. clear the act (close_business.hs's cease-effects end the goal on the falling edge).
-    (set-outcome {@self CLOSE_BUSINESS} /succ)))
+    (set-outcome {@self CLOSE-BUSINESS} /succ)))

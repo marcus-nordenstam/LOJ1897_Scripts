@@ -5,8 +5,8 @@
 ; pile, lodging a listing / deed into a registry stack, shelving any document.
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self STACK_PUT ?doc ?stack}
+(npc-action {@self STACK-PUT ?doc ?stack}
   (duration 1)
   (effects
     (push ?doc ?stack)
-    (set-outcome {@self STACK_PUT ?doc ?stack} /succ)))
+    (set-outcome {@self STACK-PUT ?doc ?stack} /succ)))

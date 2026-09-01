@@ -8,13 +8,21 @@
 (npc-task {@self buy ?kind}:?buy-rel
   (tar ?)
   (and
-    ; not at a shop -> head to one (any shop carries the stock).
+    ; not at a shop -> head to a shop @self KNOWS (any shop carries the stock).
     (try
+      (role ?shop [k building shop] (select (score (near @self ?shop)) (policy roulette)))
       (when (and (empty (spatial @self hold ?kind))
-                 (find-building [k building shop]): ?shop
                  (not (spatial @self building ?shop))))
       (utility fallback)
       (effects (maintain-proposal {@self enter ?shop})))
+    ; knows no shop -> search the region for one, until the search proves there is none.
+    (try
+      (no-role [k building shop])
+      (when (and (empty (spatial @self hold ?kind))
+                 -{@self find-building [k building shop] ? /fail}
+                 (current-region @self): ?rg))
+      (utility fallback)
+      (effects (maintain-proposal {@self find-building [k building shop] ?rg})))
     ; at a shop -> find a shelf item of the kind and buy it (pay + take, atomic).
     (try
       (when (and (empty (spatial @self hold ?kind))

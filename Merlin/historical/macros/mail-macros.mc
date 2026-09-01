@@ -2,7 +2,7 @@
 ; mail_macros.hs - composing + POSTING outgoing mail, as define-macros.
 ;
 ; The mail model: a sender COMPOSES an addressed letter and hands it to the
-; send_mail posting lane (send_mail_think.hs), which walks @self to a room
+; send-mail posting lane (send_mail_think.hs), which walks @self to a room
 ; holding an outgoing-mail-stack and deposits it. The magic mail service
 ; (deliver_posted_mail, engine) then drains every building's outgoing pile each
 ; morning and teleports each letter to the incoming mail-stack of the building at
@@ -27,7 +27,7 @@
 ; (post-letter [k <kind>] <msg> ?dest ?addressee): compose a <kind> letter carrying
 ; <msg>, addressed to ?addressee's NAME (the envelope tag the reader compares), its destination
 ; stamped as ?dest (the DESTINATION building - e.g. (any {?target home ?}).target); then hand it to
-; the send_mail posting lane (send_mail_think.hs). The magic mail service routes it to ?dest's mail room by
+; the send-mail posting lane (send_mail_think.hs). The magic mail service routes it to ?dest's mail room by
 ; that written destination. The letter is born where @self stands, so @self can carry it
 ; to a post pile.
 (define-macro post-letter (?kind ?msg ?dest ?addressee)
@@ -37,7 +37,7 @@
       (set-writing ?ltr ?msg)
       (set-attr ?ltr addressee (attr ?addressee name))
       (set-attr ?ltr address ?dest)
-      (begin-proposal {@self send_mail ?ltr}))))
+      (begin-proposal {@self send-mail ?ltr}))))
 
 ; (post-blank-letter [k <kind>] ?dest ?addressee): like post-letter but with NO written
 ; body - a letter whose verdict IS its KIND (offer-letter / rejection-letter, read by kind
@@ -48,7 +48,7 @@
       (create-entity ?kind (spatial @self space)): ?ltr
       (set-attr ?ltr addressee (attr ?addressee name))
       (set-attr ?ltr address ?dest)
-      (begin-proposal {@self send_mail ?ltr}))))
+      (begin-proposal {@self send-mail ?ltr}))))
 
 ; (plant-letter [k <kind>] <msg> ?premises): leave an UNADDRESSED <kind> letter
 ; carrying <msg> at ?premises - a killer's kept forged draft as discoverable evidence

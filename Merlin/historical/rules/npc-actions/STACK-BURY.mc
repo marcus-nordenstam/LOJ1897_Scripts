@@ -6,8 +6,8 @@
 
 (include "../../definitions/roles.mc")
 
-(npc-action {@self STACK_BURY ?doc ?stack}
+(npc-action {@self STACK-BURY ?doc ?stack}
   (duration 1)
   (effects
     (bury ?doc ?stack)
-    (set-outcome {@self STACK_BURY ?doc ?stack} /succ)))
+    (set-outcome {@self STACK-BURY ?doc ?stack} /succ)))

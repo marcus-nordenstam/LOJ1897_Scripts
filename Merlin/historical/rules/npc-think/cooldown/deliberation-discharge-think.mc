@@ -8,24 +8,24 @@
 ; live to drive another try next deliberation.
 ;
 ; GROWS as crimes migrate: add a rung per migrated crime whose /succ should discharge
-; its pressure (confess_letter is the pilot). report_crime / confess are lawful outlets,
+; its pressure (confess-letter is the pilot). report-crime / confess are lawful outlets,
 ; but a concluded outlet still spends the grievance that drove it.
 ; ----------------------------------------------------------------------------
 
 (npc-think discharge_confess_letter
   (cooldown 1 m)
-  (role @self {@self confess_letter ? /succ}:?rec-rel)
+  (role @self {@self confess-letter ? /succ}:?rec-rel)
   (when (and (caused-by ?rec-rel {@self pressure ?})
-             (< (days-since-last {@self confess_letter ? /succ}) 40)))
+             (< (days-since-last {@self confess-letter ? /succ}) 40)))
   (effects
     (caused-by ?rec-rel {@self pressure ?}): ?p-rel
     (discharge-pressure ?p-rel 0.75)))
 
 (npc-think discharge_report_crime
   (cooldown 1 m)
-  (role @self {@self report_crime ? /succ}:?rec-rel)
+  (role @self {@self report-crime ? /succ}:?rec-rel)
   (when (and (caused-by ?rec-rel {@self pressure ?})
-             (< (days-since-last {@self report_crime ? /succ}) 40)))
+             (< (days-since-last {@self report-crime ? /succ}) 40)))
   (effects
     (caused-by ?rec-rel {@self pressure ?}): ?p-rel
     (discharge-pressure ?p-rel 0.75)))

@@ -595,3 +595,4 @@ attr struct_status = struct-status
 attr structure_part = structure-part
 attr visual_sensor = visual-sensor
 
+kind doorXYZ = door

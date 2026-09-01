@@ -14,7 +14,7 @@
 ;   AT a church (case A): {@self WORSHIP} has no active sub-goal, so it is the leaf and
 ;     promotes straight to worship_act (the service). No rule needed.
 ;   know a church (case B): worship_go holds {@self go ?church}.
-;   know none  (case C): worship_find holds {@self find_building [k church]}.
+;   know none  (case C): worship_find holds {@self find-building [k church]}.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.mc")

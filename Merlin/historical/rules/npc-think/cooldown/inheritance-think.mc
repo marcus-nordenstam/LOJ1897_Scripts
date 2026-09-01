@@ -29,7 +29,7 @@
                       (count       (every {@self sibling ?heir}))))))
   (when (in-month 12))
   (utility duty)
-  (effects (maintain-proposal {@self WRITE_WILL ?heir})))
+  (effects (maintain-proposal {@self WRITE-WILL ?heir})))
 
 ; Open the settle task on learning a relative died. Any kinsman may attend the
 ; reading; only the one the will names ends up claiming.
@@ -38,4 +38,4 @@
   (role ?dead (believes {?dead condition [k dead]}))
   (when {@self spouse|child|sibling ?dead})
   (utility duty)
-  (effects (begin-proposal {@self receive_inheritance ?dead})))
+  (effects (begin-proposal {@self receive-inheritance ?dead})))

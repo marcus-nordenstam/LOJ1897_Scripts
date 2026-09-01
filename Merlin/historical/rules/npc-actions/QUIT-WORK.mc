@@ -4,8 +4,8 @@
 ; commits the retirement (fires the worker) AT the workplace.
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self QUIT_WORK}
+(npc-action {@self QUIT-WORK}
   (duration 60)
   (effects
     (fire /worker @self)
-    (set-outcome {@self QUIT_WORK} /succ)))
+    (set-outcome {@self QUIT-WORK} /succ)))

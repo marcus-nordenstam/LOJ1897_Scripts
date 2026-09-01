@@ -37,22 +37,22 @@
 (include "../../../definitions/roles.mc")
 
 ; TERMINAL (act_body_purification): AT his own premises, PROPOSE the winding-up. close_business is
-; a proposed label, so the bare {@self CLOSE_BUSINESS} goal does not promote on its own - the act
+; a proposed label, so the bare {@self CLOSE-BUSINESS} goal does not promote on its own - the act
 ; runs ONLY here, ONLY once the owner has reached the premises (at-workplace). articles-building
-; binds ?wp (the firm's premises) off ?art, the focus bound off the {@self CLOSE_BUSINESS} goal - the same read the close_go routing rung uses
+; binds ?wp (the firm's premises) off ?art, the focus bound off the {@self CLOSE-BUSINESS} goal - the same read the close_go routing rung uses
 ; (npc-think/close_business_errand.hs), whose (not (spatial @self building ?wp)) gate this arrived condition
 ; negates. The (goal ...) gate supplies the /caused_by.
 (npc-think close_at_premises
-  (goal {@self CLOSE_BUSINESS ?art})
+  (goal {@self CLOSE-BUSINESS ?art})
   (when (and (articles-building ?art ?wp)
              (spatial @self building ?wp)))
-  (effects (maintain-proposal {@self CLOSE_BUSINESS ?art ?wp})))
+  (effects (maintain-proposal {@self CLOSE-BUSINESS ?art ?wp})))
 
 ; Outcome twin of the winding-up: he LISTS his OWN premises for sale IF he owns
 ; it (a leased / home-seated premises has no {@self own ?wp} belief - he just
 ; vacates). The availability belief is the fired-once latch.
 (npc-think list_failed_premises
-  (role @self {@self CLOSE_BUSINESS ? ?wp /succ}
+  (role @self {@self CLOSE-BUSINESS ? ?wp /succ}
               {@self own ?wp}
               -{?wp availability ?})
   (effects

@@ -1,12 +1,12 @@
 ; ----------------------------------------------------------------------------
-; promote_staff ?worker - the DOING of a boss advancing a subordinate: go to the
+; promote-staff ?worker - the DOING of a boss advancing a subordinate: go to the
 ; workplace and TELL him his new job level (the boss SAYs it, the worker hears and
 ; adopts it - no cross-mind write). The next rung is read off the worker's current rank
 ; the boss knows from reading the roster (read_roster); the level_rank ladder steps it.
 ; The decision (employment_think promotion) proposes this task and owns its life.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self promote_staff ?worker}:?pr-rel
+(npc-task {@self promote-staff ?worker}:?pr-rel
   (track-skill-level [k personnel])
   (tar human)
   (and

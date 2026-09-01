@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; seek_indenture ?art - the DOING of taking up an apprenticeship: go to the master's
+; seek-indenture ?art - the DOING of taking up an apprenticeship: go to the master's
 ; premises, ENROL on the wage book as a clerk (trainee entry), then come to know the
 ; post and the master. The decision (apprenticeship_think apprenticeship_start) proposes
 ; this task and owns its life (it maintains the proposal while the youth is unemployed
@@ -12,7 +12,7 @@
 (include "../../definitions/roles.mc")
 (include "../../macros/founding.mc")
 
-(npc-task {@self seek_indenture ?art}:?si-rel
+(npc-task {@self seek-indenture ?art}:?si-rel
   (tar document)
   (and
     ; GO: not at the master's premises -> travel to it.

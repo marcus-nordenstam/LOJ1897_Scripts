@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; join_club ?art - the DOING of joining a club: go to the clubhouse, ENROL on its
+; join-club ?art - the DOING of joining a club: go to the clubhouse, ENROL on its
 ; roster, and come to know myself a member. The decision (clubs_think club_joining)
 ; proposes this task and owns its life (it maintains the proposal until I hold
 ; member-of, then withdraws). ?art is the club's articles; its clubhouse is
@@ -7,7 +7,7 @@
 ; just files the row. Others learn me by reading the roster (read_roster).
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self join_club ?art}:?jc-rel
+(npc-task {@self join-club ?art}:?jc-rel
   (tar document)
   (and
     ; GO: not at the clubhouse -> travel to it.

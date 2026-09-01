@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
-; recruit_staff ?org - the PERFORMANCE of the held recruit_staff duty ({@self duty-to ?org
-; recruit_staff} is the obligation; the running task is doing it). Spawned by the running
+; recruit-staff ?org - the PERFORMANCE of the held recruit-staff duty ({@self duty-to ?org
+; recruit-staff} is the obligation; the running task is doing it). Spawned by the running
 ; work task while the wage book is short of the org's authored headcount; concluded by the
 ; done try when the book fills. Tries: post an advert; a daily office round that READS the
 ; office mail (locate the mail room, duty-scan the applications into hand); RESOLVE the held
@@ -9,7 +9,7 @@
 ; debug probes over the held-application / outbox state.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self recruit_staff ?org}:?rec-rel
+(npc-task {@self recruit-staff ?org}:?rec-rel
   (track-skill-level [k personnel])
   (tar org)
   (and
@@ -25,16 +25,16 @@
     (try
       (when (and {?org workplace ?wp}
                  (not (spatial @self building ?wp))
-                 (>= (days-since-last {@self read_mail ?wp /succ}) 1)))
+                 (>= (days-since-last {@self read-mail ?wp /succ}) 1)))
       (utility obligation)
       (effects (debug-print "RC_GOOFC") (maintain-proposal {@self enter ?wp})))
     (try
       (lock-rule)
       (when (and {?org workplace ?wp}
                  (spatial @self building ?wp)
-                 (>= (days-since-last {@self read_mail ?wp /succ}) 1)))
+                 (>= (days-since-last {@self read-mail ?wp /succ}) 1)))
       (utility obligation)
-      (effects (debug-print "RC_RDMAIL") (begin-proposal {@self read_mail ?wp})))
+      (effects (debug-print "RC_RDMAIL") (begin-proposal {@self read-mail ?wp})))
     (try
       (role ?home {@self home ?home})
       (role ?out [k outgoing-mail-stack] (not (spatial ?out co-located @self)))
@@ -44,7 +44,7 @@
                  (spatial ?out space): ?room))
       (utility obligation)
       (effects (debug-print "RC_RESGO") (maintain-proposal {@self WALK ?room})))
-    ; READ each held application - adopt its {?applicant apply_for ?jk} - then consume it.
+    ; READ each held application - adopt its {?applicant apply-for ?jk} - then consume it.
     (try
       (role ?app [k application] (spatial @self hold)
             -{@self READ ?app /succ})
@@ -53,15 +53,15 @@
     (try
       (role ?app [k application] (spatial @self hold)
             (any {@self READ ?app /succ}))
-      (effects (debug-print "RC_DROPAPP") (maintain-proposal {@self DESTROY_ENTITY ?app})))
+      (effects (debug-print "RC_DROPAPP") (maintain-proposal {@self DESTROY-ENTITY ?app})))
     ; RESOLVE the learned applicants: draft + mail a verdict to each.
     (try
       (lock-rule)
-      (when (and {? apply_for ?}
+      (when (and {? apply-for ?}
                  (empty (spatial @self hold [k application]))
-                 -{@self resolve_applications /pres}))
+                 -{@self resolve-applications /pres}))
       (utility obligation)
-      (effects (debug-print "RC_RESOLVE") (begin-proposal {@self resolve_applications})))
+      (effects (debug-print "RC_RESOLVE") (begin-proposal {@self resolve-applications})))
     (try
       (role ?app [k application] (spatial @self hold))
       (effects (debug-print "RCP_APP app=?app")))

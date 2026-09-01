@@ -12,10 +12,10 @@
     (spatial-write ?thing gripped-by ?recipient-hand /env)
     (set-outcome ?offer-action /succ)))
 
-(npc-action {@self OFFER_LEFT ?thing ?recipient}:?offer-action-rel
+(npc-action {@self OFFER-LEFT ?thing ?recipient}:?offer-action-rel
   (tar object) (aux human) (duration 0)
   (effects (offer-effects (spatial ?recipient left-hand /env) ?thing ?recipient ?offer-action-rel)))
 
-(npc-action {@self OFFER_RIGHT ?thing ?recipient}:?offer-action-rel
+(npc-action {@self OFFER-RIGHT ?thing ?recipient}:?offer-action-rel
   (tar object) (aux human) (duration 0)
   (effects (offer-effects (spatial ?recipient right-hand /env) ?thing ?recipient ?offer-action-rel)))

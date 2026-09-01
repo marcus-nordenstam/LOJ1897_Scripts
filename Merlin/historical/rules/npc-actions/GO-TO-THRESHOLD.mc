@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; go_to_threshold - the counterpart DUMB travel primitive: reach a structure's THRESHOLD
 ; (front-park ~1m OUTSIDE its face), never a room center. The enter chain (enter.hs) mints
-; {@self GO_TO_THRESHOLD ?s} to bring the actor to a venue's door, where at-threshold reads
+; {@self GO-TO-THRESHOLD ?s} to bring the actor to a venue's door, where at-threshold reads
 ; true and perception teaches the entrance; enter_step_in then steps inside. relocate only
 ; drops an actor at a target's CENTER (inside), so front-park is the ONLY op that yields an
 ; outside point - hence a separate act, not a branch inside walk (WALK.hs). The completion pass
@@ -12,7 +12,7 @@
 (include "../../definitions/roles.mc")
 (include "../../macros/tunables.mc")
 
-(npc-action {@self GO_TO_THRESHOLD ?s}
+(npc-action {@self GO-TO-THRESHOLD ?s}
   (duration (max (go_travel_floor_min) (travel-minutes @self ?s)))
   (effects
     ; The destination can vanish from the walker's MIND mid-travel (an unreinforced

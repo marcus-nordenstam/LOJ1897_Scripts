@@ -24,5 +24,5 @@
 
 ; Public-register READING is no longer a global scan + slot pull. A register is a
 ; physical stack of documents lodged at its venue; a reader walks there and BROWSES
-; it, adopting each document's writing as beliefs - see rules/npc-tasks/read_listings-task.hs
+; it, adopting each document's writing as beliefs - see rules/npc-tasks/read-listings-task.hs
 ; and the buy_home_read driver (buy_home_think.hs).

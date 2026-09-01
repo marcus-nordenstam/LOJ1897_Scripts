@@ -5,7 +5,7 @@
 ; write-through-paper (the written twin of hearing speech): @self comes away holding
 ; whatever beliefs the page asserts. Dumb and general - it ONLY reads. Getting the
 ; document into reach, and putting it down / re-filing it afterwards, are the
-; consuming task's job (via get / DROP / stack_browse), never bundled in here.
+; consuming task's job (via get / DROP / stack-browse), never bundled in here.
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self READ ?doc}

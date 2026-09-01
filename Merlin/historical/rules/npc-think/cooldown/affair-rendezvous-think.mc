@@ -34,9 +34,11 @@
     -{@self spouse ?paramour}
     (covert-affair-motive ?paramour)
     (select (policy first-match)))
+  ; The venue is a hotel @self KNOWS - knowing none, there is no assignation to plan.
+  (role ?venue [k commercial-building hotel]
+    (select (score (near @self ?venue)) (policy roulette)))
 
   (when (and (chance 0.10)
-             (find-building [k commercial-building hotel])
              (or {?paramour fancy @self}
                  {?paramour desire @self}
                  {?paramour crave @self})
@@ -45,7 +47,6 @@
   (utility want)
 
   (effects
-    (find-building [k commercial-building hotel]): ?venue
     (spouse-of @self): ?spouse
     (register-occupant ?venue @self 0)
     (register-occupant ?venue ?spouse 0)
@@ -118,17 +119,22 @@
     -{@self spouse ?paramour}
     (covert-affair-motive ?paramour)
     (select (policy first-match)))
+  ; The outing venue is a commercial building @self KNOWS; the score keeps the old
+  ; theatre-before-pub preference (either outranks any other known premises), and the
+  ; (when) below bars the rest.
+  (role ?venue [k commercial-building]
+    (select (score (+ (near @self ?venue)
+                      (* 10 (is-a ?venue [k commercial-building theatre]))
+                      (* 5  (is-a ?venue [k commercial-building pub]))))
+            (policy argmax)))
 
   (when (and (chance 0.11)
-             (or (find-building [k commercial-building theatre])
-                 (find-building [k commercial-building pub]))))
+             (or (is-a ?venue [k commercial-building theatre])
+                 (is-a ?venue [k commercial-building pub]))))
 
   (utility want)
 
   (effects
-    (if (find-building [k commercial-building theatre])
-              (then (find-building [k commercial-building theatre]))
-              (else (find-building [k commercial-building pub]))): ?venue
     (register-occupant ?venue @self 1)
     (register-occupant ?venue ?paramour 1)
     ; an indiscretion before whoever is there this date; whispers reach the spouses.

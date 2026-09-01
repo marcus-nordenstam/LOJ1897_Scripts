@@ -4,7 +4,7 @@
 ; sentence at a time. Composed entirely from general funcs: read the current
 ; writing ((attr ?doc writing)); if blank, mint (msg ?sentence); else append the
 ; sentence as a new arg of the existing (msg ..) with add-func-arg. Reading (READ)
-; adopts every sentence back. A doc is created first (CREATE_ENTITY), then WRITTEN;
+; adopts every sentence back. A doc is created first (CREATE-ENTITY), then WRITTEN;
 ; the composing + which sentences to write are the task's job.
 ; ----------------------------------------------------------------------------
 

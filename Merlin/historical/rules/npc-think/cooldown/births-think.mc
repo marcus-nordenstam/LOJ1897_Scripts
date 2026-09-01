@@ -2,7 +2,7 @@
 ; Conception. PER-NPC: a married, fertile-age woman who is not already carrying a
 ; pregnancy rolls a monthly conception (chance). On success she records the
 ; pregnancy the isim way - the pregnant-when / pregnant-by physiological attrs
-; (the same attrs HAVE_SEX_WITH sets) - plus a {@self pregnant ?husband}
+; (the same attrs HAVE-SEX-WITH sets) - plus a {@self pregnant ?husband}
 ; self-belief that gates her out of re-conceiving until she delivers.
 ;
 ; DELIVERY is NOT here: update_physiology (hse_engine.cc) runs the ~9-month

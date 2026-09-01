@@ -45,6 +45,8 @@
   ;; cadence, rolled once per host per month.
   (when (chance (* 0.0667 (attr @self enthusiasm))))
 
+  (utility want)
+
   (effects
     ; Tell ?guest ONE piece of the host's own news they have not heard. for-each-present-tense-belief
     ; binds each matched belief as ?belief; the dedup is PER-GUEST - the SAY's aux is
@@ -53,5 +55,5 @@
       (do
         (utterable-msg ?belief-rel): ?msg
         (if -{@self SAY ?msg ?guest}
-            (then (tell-to ?guest ?msg) (break)))))
+            (then (maintain-proposal {@self SAY ?msg ?guest}) (break)))))
     ))

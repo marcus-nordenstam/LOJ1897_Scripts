@@ -20,7 +20,7 @@
 ;   AT a church (case A): convey_at_church proposes {@self CONVEY ?corpse} - the leaf
 ;     label promotes to convey_act (the deposit); the bare goal never self-promotes.
 ;   know a church (case B): convey_go holds {@self go ?church} /caused_by the goal.
-;   know none  (case C): convey_find holds {@self find_building [k church]}.
+;   know none  (case C): convey_find holds {@self find-building [k church]}.
 ;
 ; The go / find sub-goals fire only while NOT at a church; at a church neither is
 ; live, so the convey goal is the leaf and convey_act runs - the same implicit
@@ -90,13 +90,13 @@
   (when    (not (is-a (spatial @self building) [k building church])))
   (effects (maintain-proposal {@self enter ?church})))
 
-; CASE C - not at a church and knows none: search for one (find_building.hs runs it).
+; CASE C - not at a church and knows none: search for one (find-building.hs runs it).
 (npc-think convey_find
   (goal    {@self CONVEY ?corpse})
   (role @self (grown @self))
   (no-role [k building church])
-  ; Search while no church is known and the region is not yet proven churchless (find_building's
+  ; Search while no church is known and the region is not yet proven churchless (find-building's
   ; /fail fires only once the whole region is covered without finding one).
   (when    (and (not (is-a (spatial @self building) [k building church]))
-                (not (did-fail {@self find_building [k building church] /past}))))
-  (effects (maintain-proposal {@self find_building [k building church] (current-region @self)})))
+                (not (did-fail {@self find-building [k building church] /past}))))
+  (effects (maintain-proposal {@self find-building [k building church] (current-region @self)})))

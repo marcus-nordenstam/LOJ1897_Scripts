@@ -61,19 +61,19 @@
              (>= (years-old @self) 12)
              (<= (years-old @self) 16)))
 
-  ;; The youth chooses a trade and proposes the seek_indenture task (npc-tasks/
-  ;; seek_indenture-task.hs), which sends him to the master's premises and enrols him
+  ;; The youth chooses a trade and proposes the seek-indenture task (npc-tasks/
+  ;; seek-indenture-task.hs), which sends him to the master's premises and enrols him
   ;; there. maintain-proposal keeps ONE standing search, retargeted each fire as the
   ;; roulette lands on a different master (a per-target begin would stack a distinct
   ;; proposal per org's articles and overflow the attention set).
   ;; Focus = the org's articles, recovered from @self's {?org record ?art} belief.
-  ;; MAINTENANCE: the decision OWNS the seek_indenture proposal end to end. While the
+  ;; MAINTENANCE: the decision OWNS the seek-indenture proposal end to end. While the
   ;; youth is unemployed (role @self (none {@self job.salary ?})) and not yet a trainee
-  ;; (the (when) trainee-rank gate), the proposal stands; the moment seek_indenture's
+  ;; (the (when) trainee-rank gate), the proposal stands; the moment seek-indenture's
   ;; ENROL files his clerk row and hire-beliefs mints {@self job ...}, both gates fall
   ;; and maintain-proposal withdraws. The task never ends the motivating proposal.
   (utility errand)
-  (effects (maintain-proposal {@self seek_indenture ?org_record})))
+  (effects (maintain-proposal {@self seek-indenture ?org_record})))
 
 (npc-think apprenticeship_completion
   (cooldown 1 m)

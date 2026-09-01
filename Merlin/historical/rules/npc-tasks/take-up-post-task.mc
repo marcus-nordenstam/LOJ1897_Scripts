@@ -1,12 +1,12 @@
 ; ----------------------------------------------------------------------------
-; take_up_post ?jk ?wp - the offered seeker goes to the workplace ?wp and takes the
-; post (apply_for's success sub-task). Keyed on the job kind + the WORKPLACE building;
+; take-up-post ?jk ?wp - the offered seeker goes to the workplace ?wp and takes the
+; post (apply-for's success sub-task). Keyed on the job kind + the WORKPLACE building;
 ; the org's articles are the doc found AT the workplace (perceived on arrival). The
 ; chain concludes BOTTOM-UP: TAKE_POST stamps the world signal (job.salary), the
 ; outcome try's conclusive signal.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self take_up_post ?jk ?wp}:?tup-rel
+(npc-task {@self take-up-post ?jk ?wp}:?tup-rel
   (tar job)
   (aux building)
   (and

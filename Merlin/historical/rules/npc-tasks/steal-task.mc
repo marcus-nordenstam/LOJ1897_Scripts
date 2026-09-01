@@ -15,13 +15,21 @@
   (construed-act appropriation-act wrong-act) (theme thief-to) (contradicts property)
   (facets reportable_crime blackmailable)
   (and
-    ; not at a source -> head to a shop that stocks the kind.
+    ; not at a source -> head to a shop @self KNOWS that stocks the kind.
     (try
+      (role ?shop [k building shop] (select (score (near @self ?shop)) (policy roulette)))
       (when (and (empty (spatial @self hold ?kind))
-                 (find-building [k building shop]): ?shop
                  (not (spatial @self building ?shop))))
       (utility fallback)
       (effects (maintain-proposal {@self enter ?shop})))
+    ; knows no shop -> search the region for one, until the search proves there is none.
+    (try
+      (no-role [k building shop])
+      (when (and (empty (spatial @self hold ?kind))
+                 -{@self find-building [k building shop] ? /fail}
+                 (current-region @self): ?rg))
+      (utility fallback)
+      (effects (maintain-proposal {@self find-building [k building shop] ?rg})))
     ; at a source, unwatched -> take a shelf item of the kind (the guarded snatch).
     (try
       (when (and (empty (spatial @self hold ?kind))

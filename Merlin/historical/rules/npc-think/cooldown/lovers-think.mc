@@ -68,6 +68,8 @@
   ;; it lives in (when), not a role.
   (when (chance 0.2))
 
+  (utility want)
+
   (effects
     ; Reciprocal lover bond + mutual profile sync (mirrors betrothal's shape so
     ; downstream consumers see a fully-wired pair).
@@ -83,6 +85,7 @@
     ; @self discloses their friend-tier profile to ?b (the SAY they hear and adopt);
     ; @self's knowledge of ?b pre-exists. Friend-tier keeps @self's other lovers
     ; (intimate-tier) unspoken.
-    (for-each ?fact-rel (every {@self (disclosure-tier-labels friend) ?})
-      (tell-to ?b (utterable-msg ?fact-rel)))
+    (every {@self (disclosure-tier-labels friend) ?}): ?facts
+    (if ?facts
+        (then (begin-proposal {@self SAY (utterable-msg ?facts) ?b})))
     ))

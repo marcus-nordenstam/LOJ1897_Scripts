@@ -47,8 +47,8 @@
   ; (found-club-seq acquires the clubhouse + enrols him). found_club_go routes; there is no
   ; dwell - the goal is minted here and leaf-promotes to the act once he is at the pub.
   (utility errand)
-  (effects       (begin-goal {@self FOUND_CLUB}))
-  (cease-effects (end-goal   {@self FOUND_CLUB})))
+  (effects       (begin-goal {@self FOUND-CLUB}))
+  (cease-effects (end-goal   {@self FOUND-CLUB})))
 
 ; --- club_joining: an adult joins an existing club --------------------------
 ;; Clubs gate on character and class: a scandalous or disreputable member is
@@ -80,7 +80,7 @@
   ; actually knows (an unfamiliar founder's class @fails the match). ?founder is
   ; produced off @self's {?club_org founder ?founder} belief (minted at orientation)
   ; in the ?club_org role. chance + age + club-count are non-belief gates in (when).
-  ; MAINTENANCE: the decision OWNS the join_club goal end to end. (chance) is the ONSET
+  ; MAINTENANCE: the decision OWNS the join-club goal end to end. (chance) is the ONSET
   ; roll - (latch-eval) rolls it at the fire and LOCKS it once holding (it re-rolls
   ; each month until it lands). (not member-of ?club_org) is the CONTINUOUS completion
   ; gate: while he is not yet on THIS club's roster the goal stands; the moment
@@ -94,10 +94,10 @@
              (latch-eval (chance 0.005))))
 
   ; SPLIT (Item 5): the npc-think - the decision to join. Mints {@self goal {@self
-  ; join_club <articles>}} (focus = the club's articles, {?club_org record}); the npc-action
+  ; join-club <articles>}} (focus = the club's articles, {?club_org record}); the npc-action
   ; (club_join_errand.hs) sends the member to the clubhouse and registers him there.
   (utility errand)
-  (effects (maintain-proposal {@self join_club (any {?club_org record}).target})))
+  (effects (maintain-proposal {@self join-club (any {?club_org record}).target})))
 
 ; club_gathering RETIRED (place-and-time reframe, Section 4.8 P2b): club members
 ; are now drawn to the clubhouse by the band itinerary's SOCIAL lane (members
@@ -114,7 +114,7 @@
   ; The resigning member is the sole deliberator (@self).
   (role @self (old_human @self))
 
-  ; MAINTENANCE: the decision OWNS the resign_club goal end to end. (chance) is the ONSET
+  ; MAINTENANCE: the decision OWNS the resign-club goal end to end. (chance) is the ONSET
   ; roll - (latch-eval) locks it once holding. (believes member-of) is the CONTINUOUS
   ; completion gate: while he still holds a membership the goal stands; the moment
   ; resign_club_act unregisters him (unregister-member ENDS {@self member-of}) it falls and
@@ -123,7 +123,7 @@
              (latch-eval (chance 0.004))))
 
   ; SPLIT (Item 5): the npc-think - the decision to resign. Mints {@self goal {@self
-  ; resign_club}}; the npc-action (club_resign_errand.hs) sends the member to a clubhouse and
+  ; resign-club}}; the npc-action (club_resign_errand.hs) sends the member to a clubhouse and
   ; unregisters him there (unregister-member resolves his own club).
   (utility errand)
-  (effects (maintain-proposal {@self resign_club})))
+  (effects (maintain-proposal {@self resign-club})))

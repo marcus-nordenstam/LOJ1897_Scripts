@@ -2,7 +2,7 @@
 ; enrol ?reg ?job ?level - THE one dumb roster-write: file @self's row (worker @self,
 ; at ?job / ?level) onto the register ?reg the proposing task resolved (perceived at
 ; the org's premises). Pen changes paper; WHICH register, and what job / level, are the
-; task's decision, handed in on the pattern. Shared by employment (take_up_post) and
+; task's decision, handed in on the pattern. Shared by employment (take-up-post) and
 ; membership (club join). The worker READs his own row back to realize the post; other
 ; members are learned by the roster-reading duty (read_roster).
 ; ----------------------------------------------------------------------------

@@ -99,7 +99,7 @@
 ; mirrors the ontology's `blackmailable` facet (extort / commission / hired-by / kill);
 ; keep in sync if that facet set changes.
 (define-macro holds-coercion-material (?victim)
-  (or (any {?victim lover|HAVE_SEX_WITH ? /ever})
+  (or (any {?victim lover|HAVE-SEX-WITH ? /ever})
       (any {?victim extort|commission|hired-by|kill ? /ever})))
 
 ; The standard motive-gate product: a disposition released by disinhibition.

@@ -10,7 +10,7 @@
 ;   AT a pub   (case A):  drink_at_pub proposes {@self DRINK} - the leaf label promotes
 ;                to drink_act (drink.hs); the bare goal never self-promotes.
 ;   know a pub (case B):  drink_go holds {@self go ?pub} /caused_by the drink goal.
-;   know none  (case C):  drink_find holds {@self find_building [k pub]} /caused_by it.
+;   know none  (case C):  drink_find holds {@self find-building [k pub]} /caused_by it.
 ;
 ; The go / find sub-goals carry the inherited drive and, being the live leaves, win the
 ; motor; the drink goal itself only promotes once no sub-goal is active (i.e. at a pub).
@@ -47,7 +47,7 @@
   (when    (not (spatial @self building ?pub)))
   (effects (maintain-proposal {@self enter ?pub})))
 
-; CASE C - not at a pub and knows none: search for one (find_building.hs runs it). A maintenance
+; CASE C - not at a pub and knows none: search for one (find-building.hs runs it). A maintenance
 ; rule: it mints the standing find goal and holds it while the search runs; the moment a pub is
 ; learned the (no-role) gate flips (or arrival makes can-drink hold), the find goal ends, and the
 ; go rung takes over.
@@ -55,8 +55,8 @@
   (goal    {@self DRINK})
   (role @self (grown @self))
   (no-role [k building pub])
-  ; Search while no pub is known and the region is not yet proven publess (find_building's /fail
+  ; Search while no pub is known and the region is not yet proven publess (find-building's /fail
   ; fires only once the whole region is covered without finding one).
   (when    (and (not (is-a (spatial @self building) [k building pub]))
-                (not (did-fail {@self find_building [k building pub] /past}))))
-  (effects (maintain-proposal {@self find_building [k building pub] (current-region @self)})))
+                (not (did-fail {@self find-building [k building pub] /past}))))
+  (effects (maintain-proposal {@self find-building [k building pub] (current-region @self)})))

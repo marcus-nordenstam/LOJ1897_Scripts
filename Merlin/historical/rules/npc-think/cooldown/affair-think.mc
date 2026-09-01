@@ -63,6 +63,8 @@
                    (infidelity-disposition @self)
                    (callousness @self))))
 
+  (utility want)
+
   (effects
     (debug-print "AFFAIR_FORM @self lover=?lover")
     ; Reciprocal lover bond + mutual profile sync (mirrors lovers.hs's shape so
@@ -83,6 +85,7 @@
     ; @self discloses their friend-tier profile to the lover (the SAY they hear and
     ; adopt); @self's knowledge of the lover pre-exists. Friend-tier, so @self does
     ; not reveal their OTHER lovers (that is intimate-tier, above this band).
-    (for-each ?fact-rel (every {@self (disclosure-tier-labels friend) ?})
-      (tell-to ?lover (utterable-msg ?fact-rel)))
+    (every {@self (disclosure-tier-labels friend) ?}): ?facts
+    (if ?facts
+        (then (begin-proposal {@self SAY (utterable-msg ?facts) ?lover})))
     ))

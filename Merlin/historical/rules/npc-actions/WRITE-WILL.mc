@@ -17,7 +17,7 @@
 ; the prior testament in place (destroy + re-pen).
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self WRITE_WILL ?heir}
+(npc-action {@self WRITE-WILL ?heir}
   (track-skill-level [k law])
   (duration 30)
   (effects
@@ -35,4 +35,4 @@
                          (o [k building] {@self home @o})})})}
                    signed))
     (begin-belief {@self own ?will})
-    (set-outcome {@self WRITE_WILL ?heir} /succ)))
+    (set-outcome {@self WRITE-WILL ?heir} /succ)))

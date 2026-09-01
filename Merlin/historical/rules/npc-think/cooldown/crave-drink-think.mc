@@ -10,7 +10,7 @@
 ;   AT a pub   (case A):  {@self DRINK} has no active sub-goal, so it is the leaf and
 ;                promotes straight to drink_act (drink.hs). No rule needed.
 ;   know a pub (case B):  drink_go holds {@self go ?pub} /caused_by the drink goal.
-;   know none  (case C):  drink_find holds {@self find_building [k pub]} /caused_by it.
+;   know none  (case C):  drink_find holds {@self find-building [k pub]} /caused_by it.
 ;
 ; The go / find sub-goals carry the inherited drive and, being the live leaves, win the
 ; motor; the drink goal itself only promotes once no sub-goal is active (i.e. at a pub).

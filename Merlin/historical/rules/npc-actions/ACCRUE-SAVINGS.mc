@@ -8,9 +8,9 @@
 (include "../../definitions/roles.mc")
 (include "../../macros/collection-macros.mc")
 
-(npc-action {@self ACCRUE_SAVINGS ?pile ?net}
+(npc-action {@self ACCRUE-SAVINGS ?pile ?net}
   (duration 0)
   (effects
     (pile-add ?pile ?net)
     (observe ?pile)
-    (set-outcome {@self ACCRUE_SAVINGS ?pile ?net} /succ)))
+    (set-outcome {@self ACCRUE-SAVINGS ?pile ?net} /succ)))

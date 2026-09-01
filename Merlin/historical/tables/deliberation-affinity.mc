@@ -32,13 +32,13 @@
   (record [k injustice]          expose              0.5)
   (record [k injustice]          plead               0.3)
   (record [k injustice]          kill                0.02)
-  (record [k injustice]          report_crime        0.5)
+  (record [k injustice]          report-crime        0.5)
 
   ; ---- exposure-risk: standing secret may break ----------------------------
   (record [k exposure-risk]      silence_witness     0.4)
   (record [k exposure-risk]      flee                0.4)
   (record [k exposure-risk]      expose_first        0.3)
-  (record [k exposure-risk]      confess_letter      0.2)
+  (record [k exposure-risk]      confess-letter      0.2)
   (record [k exposure-risk]      bribe               0.4)
   (record [k exposure-risk]      kill                0.05)
 
@@ -52,7 +52,7 @@
   (record [k attachment-loss]    suicide             0.03)
 
   ; ---- moral-violation: actor's own held norms breached --------------------
-  (record [k moral-violation]    confess_letter      0.5)
+  (record [k moral-violation]    confess-letter      0.5)
   (record [k moral-violation]    confess_in_person   0.3)
   (record [k moral-violation]    surrender           0.2)
   (record [k moral-violation]    atone               0.4)
@@ -80,7 +80,7 @@
   (record [k resource-scarcity]  plead               0.5)
   (record [k resource-scarcity]  steal               0.3)
   (record [k resource-scarcity]  withdraw            0.3)
-  (record [k resource-scarcity]  report_crime        0.3)
+  (record [k resource-scarcity]  report-crime        0.3)
 
   ; ---- obligation-strain: too many duties ----------------------------------
   (record [k obligation-strain]  withdraw            0.5)

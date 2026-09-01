@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; putter - the monthly home round. It no longer walks the rooms or reads mail itself: the
-; room-walk is the general `wander` task (putter proposes ONE), and mail is `read_mail` on
+; room-walk is the general `wander` task (putter proposes ONE), and mail is `read-mail` on
 ; its own cadence. What remains bespoke is discovering / re-checking the hiding-spot caches
 ; in each room the wander carries @self through. The want_putter driver stays in
 ; putter_think.hs.

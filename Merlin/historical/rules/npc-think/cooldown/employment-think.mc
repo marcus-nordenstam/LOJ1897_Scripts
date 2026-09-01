@@ -17,7 +17,7 @@
 
 ; --- hiring: the labour market (advert -> application -> offer -> enrolment) --
 ; Lives in job_search_think.hs (worker side) + recruit_think.hs (recruiter side,
-; driven by the recruit_staff duty) + recruit_actions.hs (the clerical writes).
+; driven by the recruit-staff duty) + recruit_actions.hs (the clerical writes).
 
 ; --- staff review: per-worker maintenance minters (dismiss / promote) ----------
 ; The boss OWNS each staffing intent end to end. @self is the BOSS: career conduct
@@ -28,7 +28,7 @@
 ; is the ONSET roll, locking once it lands. THE FALLING EDGE that ends the SPECIFIC goal is
 ; the worker leaving the role set: fire()/promote() clear the boss's {?w work-standing}
 ; assessment (hsim_org_lifecycle), so the acted-on worker drops out and (cease-effects
-; (end-goal {@self SACK|promote_staff ?w})) retires just his goal (target-specific). The
+; (end-goal {@self SACK|promote-staff ?w})) retires just his goal (target-specific). The
 ; intra-day sack/promote acts run pure effects - they never end the goal.
 (npc-think sack_review
   (cooldown 1 m)
@@ -55,7 +55,7 @@
              (> ?ws 0.7)
              (latch-eval (chance (* 0.12 (- ?ws 0.7))))))
   (utility errand)
-  (effects (maintain-proposal {@self promote_staff ?w})))
+  (effects (maintain-proposal {@self promote-staff ?w})))
 
 ; --- retirement: an employed worker of 65+ leaves working life --------------
 ; SPLIT (Item 5, the great split): this rule is now the npc-THINK - the decision
@@ -78,7 +78,7 @@
 
   (utility errand)
   (effects
-    (begin-goal {@self QUIT_WORK}))
+    (begin-goal {@self QUIT-WORK}))
   ; The minter owns the ending: once quit_work_act fires @self, the (role @self (believes
   ; {@self job ?})) drops and this falling edge ends the goal. The act never does.
-  (cease-effects (end-goal {@self QUIT_WORK})))
+  (cease-effects (end-goal {@self QUIT-WORK})))

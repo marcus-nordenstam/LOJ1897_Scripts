@@ -12,8 +12,8 @@
 "killed"                            /past kill                 .
 "walks to"                          /pres WALK_TO               .
 "walked to"                         /past WALK_TO               .
-"has sex with"                      /pres HAVE_SEX_WITH         .
-"had sex with"                      /past HAVE_SEX_WITH         .
+"has sex with"                      /pres HAVE-SEX-WITH         .
+"had sex with"                      /past HAVE-SEX-WITH         .
 "acquires"                          /pres ACQUIRE               .
 "acquired"                          /past ACQUIRE               .
 

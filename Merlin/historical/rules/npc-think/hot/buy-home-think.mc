@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; buy_home - the DEMAND side of the property market (per-NPC replacement for the
+; buy-home - the DEMAND side of the property market (per-NPC replacement for the
 ; omniscient world-act/housing_market.hs buy stage). A seeker LEARNS what is for
 ; sale by reading the agent's register, then buys the nicest dwelling he can
 ; afford by a per-NPC roulette: no seeker knows a listing he has not read, and
@@ -21,7 +21,7 @@
 ;     register via the orient lane; reading it mints his {?agency isa [k org
 ;     house-agency]} beliefs so buy_home_go can then fire).
 ;
-;   buy_home        : yearly timer - seeker gate -> mint the {@self acquire} desire.
+;   buy-home        : yearly timer - seeker gate -> mint the {@self acquire} desire.
 ;   buy_home_go     : hold the desire, register unread, knows an agency, not there -> travel.
 ;   buy_home_read   : hold the desire, register unread, AT a known agency -> read it.
 ;   buy_home_find   : hold the desire, register unread, knows NO agency -> orient (learn one).
@@ -68,7 +68,7 @@
   (role ?reg [k for-sale-listings])
   (when (and (articles-building ?art ?venue)
              (spatial @self building ?venue)))
-  (effects (maintain-proposal {@self read_listings ?reg})))
+  (effects (maintain-proposal {@self read-listings ?reg})))
 
 ; CASE C - register unread and @self knows NO house agency at all: consult the
 ; parish incorporations register (the orient lane, orient_errand.hs), which mints
@@ -106,16 +106,16 @@
   (utility errand)
   (effects
     (pub-bb-post ?dwell claimed (claim_marker_ttl_cycles))
-    (begin-goal {@self buy_home ?dwell}))
-  (cease-effects (end-goal {@self buy_home ?dwell})))
+    (begin-goal {@self buy-home ?dwell}))
+  (cease-effects (end-goal {@self buy-home ?dwell})))
 
-; TERMINAL step (act_body_purification): PROMOTE the buy_home TASK off the latched
-; {@self buy_home ?dwell} goal choose_home minted (the chosen dwelling). Kept
+; TERMINAL step (act_body_purification): PROMOTE the buy-home TASK off the latched
+; {@self buy-home ?dwell} goal choose_home minted (the chosen dwelling). Kept
 ; separate from choose_home because that rung roulettes + posts the claim and must
 ; NOT re-roll the chosen dwelling; this rung proposes the already-chosen dwelling
 ; until the task concludes (its take_up rung drops {?dwell availability for-sale},
-; ending the goal). The buy_home task itself re-validates against @self's read-in
+; ending the goal). The buy-home task itself re-validates against @self's read-in
 ; availability belief, so a stale propose is a safe no-op.
 (npc-think buy_home_do
-  (goal {@self buy_home ?dwell})
-  (effects (maintain-proposal {@self buy_home ?dwell})))
+  (goal {@self buy-home ?dwell})
+  (effects (maintain-proposal {@self buy-home ?dwell})))

@@ -1,12 +1,12 @@
 ; ----------------------------------------------------------------------------
-; read_listings ?register - the KNOWLEDGE CHANNEL of the property market: @self walks
+; read-listings ?register - the KNOWLEDGE CHANNEL of the property market: @self walks
 ; to the house-agency's for-sale REGISTER (a for-sale-listings table-doc) and SCANS the
 ; written table, minting a {?b availability [k for-sale]} belief for every building it
 ; lists. Only once he KNOWS what is for sale (belief) does choose_home / the founding lane
 ; reason over it. Replaces the old stack-browse of per-listing message docs.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self read_listings ?register}:?rl-rel
+(npc-task {@self read-listings ?register}:?rl-rel
   (tar @excl for-sale-listings)
   (and
     ; WALK: not at the register -> go to its room.

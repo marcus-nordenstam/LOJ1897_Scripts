@@ -69,6 +69,8 @@
                        (= (any {(any {@self lover}).target class-situation}).target
                           (any {@self class-situation}).target)))))
 
+  (utility want)
+
   (effects
     (begin-belief {@self fiancee ?bride})
     ; The bride's own engagement belief lands in HER mind (the wedding rule
@@ -77,6 +79,7 @@
     ; @self (the groom) discloses his friend-tier profile to the bride (the SAY she
     ; hears and adopts) - the honest replacement for the believe_about profile-copy,
     ; delivered by co-presence. His own knowledge of her pre-exists from courtship.
-    (for-each ?fact-rel (every {@self (disclosure-tier-labels friend) ?})
-      (tell-to ?bride (utterable-msg ?fact-rel)))
+    (every {@self (disclosure-tier-labels friend) ?}): ?facts
+    (if ?facts
+        (then (begin-proposal {@self SAY (utterable-msg ?facts) ?bride})))
     ))

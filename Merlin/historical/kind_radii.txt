@@ -50,3 +50,9 @@ commercial-building barbershop   3.0   3.0    4.0
 # --- generic structure fallback (assert_self_beliefs' birthplace search
 # walks structure entities). ---
 structure     5.0   4.0   5.0
+
+# The EARSHOT of a spoken utterance: a speech sound is an entity at the speaker,
+# and its half-extents ARE how far the voice carries (6m). Was a hardcoded
+# k_tell_earshot_m in C++ (comms_functions.h); it is world knowledge, so it lives
+# here with every other kind's extent.
+speech        6.0    6.0    6.0

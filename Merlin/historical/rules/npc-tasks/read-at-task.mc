@@ -1,10 +1,10 @@
 ; ----------------------------------------------------------------------------
-; read_at ?venue - a home-leisure reading session at a study/library (proposed by
+; read-at ?venue - a home-leisure reading session at a study/library (proposed by
 ; household_day for scholarly temperaments). Like rest, it has no sub-steps: the promoted
 ; task concludes immediately, leaving the ended task belief as the episodic memory.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self read_at ?venue}:?t-rel
+(npc-task {@self read-at ?venue}:?t-rel
   (tar structure|space)
   (try
     (role @self)

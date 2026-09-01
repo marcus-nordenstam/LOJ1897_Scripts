@@ -1,10 +1,10 @@
 ; ----------------------------------------------------------------------------
-; BREAK_WINDOW ?win - smash a window: mark it broken and ajar (a shattered window is a
-; permanent passable gap). Like FORCE_ENTRY it only opens the breach; the enter chain's
+; BREAK-WINDOW ?win - smash a window: mark it broken and ajar (a shattered window is a
+; permanent passable gap). Like FORCE-ENTRY it only opens the breach; the enter chain's
 ; WALK-in step carries the actor through.
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self BREAK_WINDOW ?win}:?bw-rel
+(npc-action {@self BREAK-WINDOW ?win}:?bw-rel
   (track-skill-level [k illicit])
   (tar object) (duration 1)
   (effects

@@ -7,7 +7,7 @@
 ;     -> a `go` sub-act-goal to a church (the Victorian charity venue).
 ;   give_alms_act (npc-action, give_alms.hs): the durative almsgiving - mints the
 ;     punctual {@self give <sum>} record the generosity classifier reads, ends the
-;     act. The {@self GIVE_ALMS <church>} act-belief IS the episodic memory
+;     act. The {@self GIVE-ALMS <church>} act-belief IS the episodic memory
 ;     days-since-last reads. No aim, no end-goal.
 ;
 ; COOLDOWN: the drive returns on a ~20-day refractory; the days-since-last ramp is
@@ -17,11 +17,11 @@
 (include "../../../definitions/roles.mc")
 
 ; TERMINAL step (act_body_purification): the almsgiving act is PROPOSED, guarded by being AT
-; the church, not auto-promoted by the bare {@self GIVE_ALMS <church>} goal. feel_charitable holds
+; the church, not auto-promoted by the bare {@self GIVE-ALMS <church>} goal. feel_charitable holds
 ; that goal at the church (or routes there via enter); the act promotes ONLY here, ONLY in-building.
-; The proposal inherits the compassion-ramp drive from the {@self GIVE_ALMS ?church} goal it
+; The proposal inherits the compassion-ramp drive from the {@self GIVE-ALMS ?church} goal it
 ; /causes (via the (goal ...) gate).
 (npc-think give_alms_at_church
-  (goal    {@self GIVE_ALMS ?church})
+  (goal    {@self GIVE-ALMS ?church})
   (when    (spatial @self building ?church))
-  (effects (maintain-proposal {@self GIVE_ALMS ?church})))
+  (effects (maintain-proposal {@self GIVE-ALMS ?church})))

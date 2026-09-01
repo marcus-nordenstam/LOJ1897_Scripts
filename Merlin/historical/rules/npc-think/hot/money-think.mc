@@ -2,14 +2,14 @@
 ; money (npc-think lane) - physical-cash housekeeping.
 ;
 ;   seed_coin_pile : an NPC that owns no coin pile yet PROPOSES seeding one (the
-;                    env writes live in the SEED_COINS action - a think must not
+;                    env writes live in the SEED-COINS action - a think must not
 ;                    mutate the world). The negative own-gate is a ROLE filter, so
 ;                    a write under `own` wakes it; once the pile is owned it closes.
 ;                    Self-heals immigrants + the newly-adult. Homeless NPCs (no
 ;                    home belief) wait until housed.
 ;   accrue_savings : once a year (December, adults) the NPC's coin pile is credited
 ;                    with (accrual-net). The pile + the amount are resolved HERE
-;                    (a think may read beliefs) and handed to the ACCRUE_SAVINGS
+;                    (a think may read beliefs) and handed to the ACCRUE-SAVINGS
 ;                    action on its pattern; the action only writes the env pile.
 ;                    The same think mints the derived {@self wealth ?} off the
 ;                    PROJECTED post-credit balance (annual, post-accrual - the shape
@@ -24,7 +24,7 @@
   (role @self -{@self own [k pile]})
   (role ?home {@self home ?home})
   (utility duty)
-  (effects (maintain-proposal {@self SEED_COINS ?home})))
+  (effects (maintain-proposal {@self SEED-COINS ?home})))
 
 (npc-think accrue_savings
   (cooldown 1 m)
@@ -34,5 +34,5 @@
   (utility duty)
   (effects
     (bind (accrual-net @self) ?net)
-    (maintain-proposal {@self ACCRUE_SAVINGS ?pile ?net})
+    (maintain-proposal {@self ACCRUE-SAVINGS ?pile ?net})
     (begin-belief {@self wealth (wealth-from @self (+ (coin-balance @self) ?net))})))

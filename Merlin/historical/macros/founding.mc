@@ -9,7 +9,7 @@
 ;   (stamp-work-hours ...) - the shift stamp, reading the occupation_shifts table for the job.
 ;
 ; STAFFING is NOT done here. A new org is founded with its HEAD only; the emergent
-; labour market staffs it over subsequent ticks: the recruit_staff duty-holder posts
+; labour market staffs it over subsequent ticks: the recruit-staff duty-holder posts
 ; a parish-board advert (recruit_think.hs), jobless seekers read the board and apply
 ; in person (job_search_think.hs), the recruiter decides over his applicants book,
 ; letters go out, and the accepted hire is enrolled on the wage book - which the

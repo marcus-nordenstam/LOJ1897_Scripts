@@ -46,8 +46,8 @@
 ; terminals. GROWS one atom at a time as each crime migrates (perpetration_task_action_
 ; migration_plan P2/P3); an action still on the goal/terminal path must NOT appear here.
 (define-macro is-migrated-crime (?action)
-  (or (= ?action confess_letter)
-      (= ?action report_crime)
+  (or (= ?action confess-letter)
+      (= ?action report-crime)
       (= ?action coerce)
       (= ?action expose)
       (= ?action humiliate)

@@ -2,7 +2,7 @@
 ; enter - the generic "get inside a venue" chain (§5.11). Any lane that wants the actor
 ; INSIDE a structure raises {@self enter ?venue} as a bodyless TASK; these two GENERIC
 ; tries decompose the running enter task STRAIGHT into the movement PRIMITIVES
-; (GO_TO_THRESHOLD / WALK). The actions promote directly off the maintain-proposals, so
+; (GO-TO-THRESHOLD / WALK). The actions promote directly off the maintain-proposals, so
 ; there is no intermediate go / go_to_threshold goal and no separate stepping rung. Each
 ; leg is auto-/caused_by the running enter task (the head gate pins it).
 ;
@@ -31,7 +31,7 @@
       (when (and (not (spatial @self building ?s))
                  (not (at-threshold @self ?s))))
       (effects (debug-print "TRACE-ENTERTASK dest=?s")
-               (maintain-proposal {@self GO_TO_THRESHOLD ?s})))
+               (maintain-proposal {@self GO-TO-THRESHOLD ?s})))
     (try
       (when (and (at-threshold @self ?s)
                  (spatial ?s room): ?entry

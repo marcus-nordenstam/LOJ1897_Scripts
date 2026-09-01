@@ -13,10 +13,10 @@
 ; ----------------------------------------------------------------------------
 
 ; Not at the premises: pursue a `go` sub-goal to them. articles-building BINDS ?wp
-; (the firm's premises building) off ?art, the articles focus bound off the {@self CLOSE_BUSINESS} goal, threading it to the
+; (the firm's premises building) off ?art, the articles focus bound off the {@self CLOSE-BUSINESS} goal, threading it to the
 ; at-place gate + the (go) effect.
 (npc-think close_go
-  (goal {@self CLOSE_BUSINESS ?art})
+  (goal {@self CLOSE-BUSINESS ?art})
   (when (and (articles-building ?art ?wp)
              (not (spatial @self building ?wp))))
   (effects (maintain-proposal {@self enter ?wp})))

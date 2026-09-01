@@ -48,9 +48,10 @@
                 (bind ?lb-rel.target ?l)
                 (for-each ?sb-rel (every {?home supper-hour ?})
                     (bind ?sb-rel.target ?s)
-                    (tell (utterable-msg {?home breakfast-hour ?b}
-                                         {?home lunch-hour ?l}
-                                         {?home supper-hour ?s})))))))
+                    (begin-proposal
+                      {@self SAY (utterable-msg {?home breakfast-hour ?b}
+                                                {?home lunch-hour ?l}
+                                                {?home supper-hour ?s}) _}))))))
     (try
       (rng-stream behaviour)
       (role ?diner (any_human ?diner)

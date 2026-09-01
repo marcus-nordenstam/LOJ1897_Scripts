@@ -7,6 +7,16 @@
 ; requirement is unauthored.
 ; ----------------------------------------------------------------------------
 
+; (job-seeker ?w): the WORKER-side eligibility to hunt for waged work - working age,
+; not disgraced, and not rich enough to live without a wage. The wealth leg reads as
+; "needs work" for a seeker with no wealth belief yet (the inner (and ..) is false).
+; Shared by the two job_search pre-commit cases (head to a known board / search for one).
+(define-macro job-seeker (?w)
+  (and (>= (years-old ?w) 16)
+       (<= (years-old ?w) 55)
+       (!= (any {?w repute ?}).target [k scandalous])
+       (not (and {?w wealth ?wl} (>= ?wl (seek_job_wealth_ceiling))))))
+
 ; (hosted-by ?bt ?org-kind): does an org of ?org-kind host this post? A `none`
 ; business-type is a generic post (a cook / clerk works anywhere).
 (define-macro hosted-by (?bt ?org-kind)

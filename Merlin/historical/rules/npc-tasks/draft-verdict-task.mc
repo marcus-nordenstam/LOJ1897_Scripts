@@ -1,22 +1,22 @@
 ; ----------------------------------------------------------------------------
-; draft_verdict ?applicant ?kind - answer ONE applicant (whom @self learned of by
+; draft-verdict ?applicant ?kind - answer ONE applicant (whom @self learned of by
 ; READing their application) with a verdict letter of ?kind (offer-letter /
 ; rejection-letter). A COMPOSITION of general lego acts, one dumb step each:
-;   CREATE_ENTITY ?kind : pen the blank verdict letter (verdict rides the KIND);
+;   CREATE-ENTITY ?kind : pen the blank verdict letter (verdict rides the KIND);
 ;   ADDRESS ?ltr ?applicant : envelope it to the applicant (name + home);
-;   send_mail ?ltr       : the mail lane delivers it to the applicant's home;
-; then @self ends his {?applicant apply_for} belief (answered - don't re-draft).
-; WHICH verdict is the proposing resolve_applications round's decision, not this task's.
+;   send-mail ?ltr       : the mail lane delivers it to the applicant's home;
+; then @self ends his {?applicant apply-for} belief (answered - don't re-draft).
+; WHICH verdict is the proposing resolve-applications round's decision, not this task's.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self draft_verdict ?applicant ?kind}:?dv-rel
+(npc-task {@self draft-verdict ?applicant ?kind}:?dv-rel
   (track-skill-level [k law])
   (tar human)
   (and
     (try
-      (when -{@self CREATE_ENTITY ?kind /succ /caused_by ?dv-rel})
+      (when -{@self CREATE-ENTITY ?kind /succ /caused_by ?dv-rel})
       (utility fallback)
-      (effects (debug-print "DV_PEN") (maintain-proposal {@self CREATE_ENTITY ?kind})))
+      (effects (debug-print "DV_PEN") (maintain-proposal {@self CREATE-ENTITY ?kind})))
     (try
       (role ?ltr [k letter] (spatial ?ltr co-located @self)
             (not (substantial (attr ?ltr addressee))))
@@ -24,11 +24,11 @@
     (try
       (role ?ltr [k letter] (spatial ?ltr co-located @self)
             (substantial (attr ?ltr addressee)))
-      (when -{@self send_mail ?ltr /caused_by ?dv-rel /ever})
-      (effects (debug-print "DV_SEND") (begin-proposal {@self send_mail ?ltr})))
+      (when -{@self send-mail ?ltr /caused_by ?dv-rel /ever})
+      (effects (debug-print "DV_SEND") (begin-proposal {@self send-mail ?ltr})))
     (try
-      (when (and {@self send_mail ? /succ /caused_by ?dv-rel}
-                 {?applicant apply_for ?}))
+      (when (and {@self send-mail ? /succ /caused_by ?dv-rel}
+                 {?applicant apply-for ?}))
       (effects (debug-print "DV_DONE")
-               (end-belief {?applicant apply_for ?})
+               (end-belief {?applicant apply-for ?})
                (set-outcome ?dv-rel /succ)))))

@@ -7,7 +7,7 @@
 
 (include "../../definitions/roles.mc")
 
-(npc-action {@self STACK_TAKE ?doc ?stack}
+(npc-action {@self STACK-TAKE ?doc ?stack}
   (duration 1)
   (effects
     (if (empty (spatial (spatial @self right-hand) grip))
@@ -15,5 +15,5 @@
         (else (pop ?stack (spatial @self left-hand)))): ?taken
     (if (substantial ?taken)
         (then (observe ?taken)
-              (set-outcome {@self STACK_TAKE ?doc ?stack} /succ))
-        (else (set-outcome {@self STACK_TAKE ?doc ?stack} /fail)))))
+              (set-outcome {@self STACK-TAKE ?doc ?stack} /succ))
+        (else (set-outcome {@self STACK-TAKE ?doc ?stack} /fail)))))

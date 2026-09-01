@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
-; find_building - the venue-discovery search. A seek rule PROPOSES (maintain-proposal)
-; the {@self find_building [k building <kind>] ?region} task; these two tries ARE its
+; find-building - the venue-discovery search. A seek rule PROPOSES (maintain-proposal)
+; the {@self find-building [k building <kind>] ?region} task; these two tries ARE its
 ; body, decomposing the running search: cover the region one hop at a time, or conclude
 ; it failed.
 ; The head binds ?sought (the sought kind) + ?region (the region) off the matched task,
@@ -19,15 +19,16 @@
 ; exactly one try is ever live - exclusivity is inherent in the gates.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self find_building ?sought ?region}:?find_task-rel
+(npc-task {@self find-building ?sought ?region}:?find_task-rel
+  ; The frontier IS the exception: covering unexplored ground means asking the world what
+  ; is out there that @self has not seen yet. Signed off deliberately.
+  (lint-waive env-read-outside-action)
   (tar ?)
   (aux ?)
-  (and
+  (preemptive-or
     (try
       (when (and (latch-eval (closest-unobserved [k structure] ?region): ?dest)
-                 (observed ?dest): ?observed
-                 (not (observed ?dest))))
-      (effects (maintain-proposal {@self GO_TO_THRESHOLD ?dest})))
+                 (observed ?dest /not)))
+      (effects (maintain-proposal {@self WALK (spatial ?dest bounds /env)})))
     (try
-      (when (not (closest-unobserved [k structure] ?region)))
       (effects (set-outcome ?find_task-rel /fail)))))

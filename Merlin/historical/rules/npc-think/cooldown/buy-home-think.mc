@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; buy_home - the DEMAND side of the property market (per-NPC replacement for the
+; buy-home - the DEMAND side of the property market (per-NPC replacement for the
 ; omniscient world-act/housing_market.hs buy stage). A seeker LEARNS what is for
 ; sale by reading the agent's register, then buys the nicest dwelling he can
 ; afford by a per-NPC roulette. This REPLACES the old global "the wealthiest
@@ -22,7 +22,7 @@
 ;     register via the orient lane; reading it mints his {?agency isa [k org
 ;     house-agency]} beliefs so buy_home_go can then fire).
 ;
-;   buy_home        : yearly timer - seeker gate -> mint the {@self acquire} desire.
+;   buy-home        : yearly timer - seeker gate -> mint the {@self acquire} desire.
 ;   buy_home_go     : hold the desire, register unread, knows an agency, not there -> travel.
 ;   buy_home_read   : hold the desire, register unread, AT a known agency -> read it.
 ;   buy_home_find   : hold the desire, register unread, knows NO agency -> orient (learn one).
@@ -32,7 +32,7 @@
 (include "../../../definitions/roles.mc")
 (include "../../../macros/tunables.mc")
 
-(npc-think buy_home
+(npc-think buy-home
   ; ANNUAL: a yearly timer mints the standing acquire desire once per year (the market
   ; then works it through buy_home_go / find / choose_home). (begin-goal) is idempotent
   ; so an annual re-mint is a no-op.

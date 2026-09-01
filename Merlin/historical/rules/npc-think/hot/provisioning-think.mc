@@ -4,7 +4,7 @@
 ; otherwise), and ONE cook per household owns the errand.
 ;
 ; THE COOK: any grown resident may claim the role; the home's PUBLIC bb `cook`
-; marker is the synchronization (the buy_home `claimed` pattern) - the first
+; marker is the synchronization (the buy-home `claimed` pattern) - the first
 ; claimant posts it, every later would-be claimant sees it and defers. The
 ; sitting cook re-posts the marker each cycle, so the ttl only clears a DEAD
 ; (or emigrated) cook and the household re-elects.

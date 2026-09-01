@@ -93,6 +93,8 @@
   ;; (role-belief purity keeps it out of the roles).
   (when (chance 0.3))
 
+  (utility want)
+
   (effects
     ; Symmetric fiancee bond + mutual profile sync - identical to betrothal, so
     ; the existing wedding rule consumes the couple (it recovers the groom from
@@ -101,6 +103,7 @@
     (begin-belief ?beloved {?beloved fiancee @self})
     ; @self discloses their friend-tier profile to the beloved (the SAY they hear
     ; and adopt); @self's knowledge of the beloved pre-exists from courtship.
-    (for-each ?fact-rel (every {@self (disclosure-tier-labels friend) ?})
-      (tell-to ?beloved (utterable-msg ?fact-rel)))
+    (every {@self (disclosure-tier-labels friend) ?}): ?facts
+    (if ?facts
+        (then (begin-proposal {@self SAY (utterable-msg ?facts) ?beloved})))
     ))

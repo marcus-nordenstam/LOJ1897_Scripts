@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; resign_club - the DOING of resigning from my own club: call at a clubhouse, strike
+; resign-club - the DOING of resigning from my own club: call at a clubhouse, strike
 ; my row off my club's roster, and give up my membership belief. Focusless - a man
 ; resigns from his OWN club, resolved off {@self member-of ?org}. The decision
 ; (clubs_think club_resignation) proposes this task and owns its life (maintains until
@@ -7,7 +7,7 @@
 ; just crosses out the row.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self resign_club}:?rc-rel
+(npc-task {@self resign-club}:?rc-rel
   (and
     ; GO: not at a clubhouse -> travel to one (nearest known).
     (try

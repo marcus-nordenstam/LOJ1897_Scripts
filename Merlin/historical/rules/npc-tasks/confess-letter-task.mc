@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; confess_letter ?focus - reveal @self's OWN non-spousal liaison to the nearest living
+; confess-letter ?focus - reveal @self's OWN non-spousal liaison to the nearest living
 ; kin by letter: scandal without murder, and the leak kills any standing blackmail
 ; leverage once the secret is out. NOT a crime - no ledger. The kin is the first close
 ; relation on the father > mother > fiancee > spouse > sibling ladder (one ground-alt
@@ -10,12 +10,12 @@
 ; way, mirroring the old terminal). Nothing confessable / no kin at all -> abandon.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self confess_letter ?focus}:?confess-rel
+(npc-task {@self confess-letter ?focus}:?confess-rel
   (tar human)
   (construed-act honour-act)
   (and
     (try
-      (when (and {@self lover|HAVE_SEX_WITH ?partner /ever}
+      (when (and {@self lover|HAVE-SEX-WITH ?partner /ever}
                  -{@self spouse ?partner /ever}
                  {@self father|mother|fiancee|spouse|sibling ?kin}))
       (utility errand)
@@ -26,7 +26,7 @@
                                ?kinhome ?kin)))
         (set-outcome ?confess-rel /succ)))
     (try
-      (when (or (not (and {@self lover|HAVE_SEX_WITH ?partner /ever}
+      (when (or (not (and {@self lover|HAVE-SEX-WITH ?partner /ever}
                           -{@self spouse ?partner /ever}))
                 -{@self father|mother|fiancee|spouse|sibling ?}))
       (effects (set-outcome ?confess-rel /fail)))))

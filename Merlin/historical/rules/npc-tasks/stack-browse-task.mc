@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; stack_browse ?stack - the GENERIC one-doc-at-a-time stack iteration (the hsim twin of
+; stack-browse ?stack - the GENERIC one-doc-at-a-time stack iteration (the hsim twin of
 ; isim's stack-browse). It knows NOTHING about why the docs matter: it surfaces ?stack's
 ; top into hand one at a time, and re-files every doc the consumer marked handled. The
 ; consumer proposes this browse and, per held pending doc, either KEEPs it (stays in hand,
@@ -13,7 +13,7 @@
 ; / accept-kept / bury-handled), each gated by a distinct stack + hand state.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self stack_browse ?stack}:?browse-rel
+(npc-task {@self stack-browse ?stack}:?browse-rel
   (tar stack)
   (and
     (try
@@ -40,7 +40,7 @@
             (not (bb-private-any (bb-read ?stack browse-inflight) browse-status)))
       (effects
         (debug-print "SBR_TAKE doc=?top")
-        (maintain-proposal {@self STACK_TAKE ?top ?stack}
+        (maintain-proposal {@self STACK-TAKE ?top ?stack}
             (postlude (bb-write ?top browse-status pending)
                       (bb-write ?stack browse-inflight ?top)))))
     (try
@@ -63,7 +63,7 @@
             (= (bb-read ?doc browse-status) handled))
       (effects
         (debug-print "SBR_RETURN doc=?doc")
-        (maintain-proposal {@self STACK_BURY ?doc ?stack}
+        (maintain-proposal {@self STACK-BURY ?doc ?stack}
             (postlude (if (not (bb-private-any ?stack browse-cycle-end))
                           (then (bb-write ?stack browse-cycle-end ?doc)))
                       (bb-clear ?doc browse-status)))))))

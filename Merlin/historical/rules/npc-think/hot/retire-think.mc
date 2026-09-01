@@ -17,7 +17,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think retire_go
-  (goal {@self QUIT_WORK})
+  (goal {@self QUIT-WORK})
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              {?org workplace ?wp})   ; ?wp binds at fire
@@ -25,12 +25,12 @@
   (effects (maintain-proposal {@self enter ?wp})))
 
 ; TERMINAL (act_body_purification): AT the workplace, PROPOSE giving notice - the quit_work act no
-; longer promotes off the bare {@self QUIT_WORK} goal (a proposed label drops out of goal
+; longer promotes off the bare {@self QUIT-WORK} goal (a proposed label drops out of goal
 ; competition). The ?org role binds ?wp (the workplace) for the arrived gate.
 (npc-think retire_dwell
-  (goal {@self QUIT_WORK})
+  (goal {@self QUIT-WORK})
   (role ?job {@self job ?job})
   (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              {?org workplace ?wp})   ; ?wp binds at fire
   (when (and (spatial @self building ?wp)))
-  (effects (maintain-proposal {@self QUIT_WORK})))
+  (effects (maintain-proposal {@self QUIT-WORK})))
