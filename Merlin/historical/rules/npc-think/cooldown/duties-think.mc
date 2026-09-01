@@ -53,11 +53,11 @@
                       (then
                         (if -{@self duty-to ?org ?duty}
                             (then (begin-belief {@self duty-to ?org ?duty})
-                                  (debug-print "DUTY-take ?duty ?org"))))
+                                  )))
                       (else
                         (if {@self duty-to ?org ?duty}
                             (then (end-belief {@self duty-to ?org ?duty})
-                                  (debug-print "DUTY-drop ?duty ?org")))))
+                                  ))))
                   ; The mirror: retire stale holders, record the current one.
                   (for-each ?dhb-rel (every {?org duty-holder ? ?duty})
                       (bind ?dhb-rel.target ?p)

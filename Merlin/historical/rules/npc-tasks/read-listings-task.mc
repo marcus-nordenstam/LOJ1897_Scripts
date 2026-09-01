@@ -14,12 +14,11 @@
       (role ?reg [k for-sale-listings] (= ?reg ?register)
             (not (spatial ?reg co-located @self)))
       (when (spatial ?reg space): ?room)
-      (effects (debug-print "RL_WALK") (maintain-proposal {@self WALK ?room})))
+      (effects (maintain-proposal {@self WALK ?room})))
     ; READ: at the register -> scan the table, minting an availability belief per row.
     (try
       (when (spatial ?register co-located @self))
       (effects
-        (debug-print "RL_READ")
         (for-each-row (attr ?register writing) (building ?b)
           (begin-belief {?b availability [k for-sale]}))
         (set-outcome ?rl-rel /succ)))))

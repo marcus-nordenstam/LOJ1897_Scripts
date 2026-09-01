@@ -44,7 +44,6 @@
             (spatial (spouse-of @self) co-located @self)))
   (utility want always-pick)
   (effects
-    (debug-print "TRYST_SLIP @self para=?paramour")
     (maintain-proposal {@self WALK ?room})))
 
 ; ACT: alone in a room with the lover -> consummate. ?paramour is a live third-party
@@ -62,5 +61,4 @@
   (when (not (spatial (spouse-of @self) co-located @self)))
   (utility want always-pick)
   (effects
-    (debug-print "CONSUMMATE_HOT @self para=?paramour")
     (maintain-proposal {@self HAVE-SEX-WITH ?paramour})))

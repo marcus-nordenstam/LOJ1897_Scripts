@@ -27,7 +27,6 @@
   (utility want (* 10 (* (attr @self compassion)
               (min (* (days-since-last {@self GIVE-ALMS /ever}) 0.8) 25))))
   (effects
-    (debug-print "TRACE-CHARITABLE venue=?venue")
     (if (spatial @self building ?venue)
         (then (begin-goal {@self GIVE-ALMS ?venue}))
         (else (maintain-proposal {@self enter ?venue})))))

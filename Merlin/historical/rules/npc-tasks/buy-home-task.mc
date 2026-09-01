@@ -22,12 +22,11 @@
       (when (and {?dwell availability [k for-sale]}
                  -{@self RECORD-SALE ?dwell /succ}))
       (utility errand)
-      (effects (debug-print "BH_SETTLE")
+      (effects
                (maintain-proposal {@self RECORD-SALE ?dwell})))
     (try
       (when {@self RECORD-SALE ?dwell /succ})
       (effects
-        (debug-print "BH_TAKEUP")
         (begin-belief {@self own ?dwell})
         (begin-belief {@self home ?dwell})
         (begin-belief {?dwell occupant @self})
@@ -36,4 +35,4 @@
     (try
       (when (and -{?dwell availability [k for-sale]}
                  -{@self RECORD-SALE ?dwell /succ}))
-      (effects (debug-print "BH_LOST") (set-outcome ?bh-rel /fail)))))
+      (effects (set-outcome ?bh-rel /fail)))))

@@ -35,7 +35,7 @@
       (when (and {@self prepare-application ?wp ?jk /succ}
                  -{@self STACK-PUT ?app ? /succ}))
       (utility errand (above read-mail))
-      (effects (debug-print "JS_SEND")
+      (effects
                (begin-proposal {@self send-mail ?app})))
     (try
       (role ?home {@self home ?home})
@@ -43,11 +43,11 @@
                  (spatial @self building ?home)
                  (>= (days-since-last {@self read-mail ?home /succ}) 1)))
       (utility errand)
-      (effects (debug-print "JS_AWAIT")
+      (effects
                (maintain-proposal {@self read-mail ?home})))
     (try
       (role ?ltr [k offer-letter] {@self READ ?ltr /ever})
-      (effects (debug-print "JS_TAKEUP")
+      (effects
                (maintain-proposal {@self take-up-post ?jk ?wp})))
     (try
       (role ?ltr [k rejection-letter] {@self READ ?ltr /ever})

@@ -16,18 +16,18 @@
     (try
       (when -{@self CREATE-ENTITY [k application] /succ /caused_by ?pa-rel})
       (utility fallback)
-      (effects (debug-print "PA_PEN")
+      (effects
                (maintain-proposal {@self CREATE-ENTITY [k application]})))
     (try
       (role ?app [k application] (spatial ?app co-located @self)
             (not (substantial (attr ?app writing))))
       (when {@self name ?myName})
-      (effects (debug-print "PA_WHO")
+      (effects
                (maintain-proposal {@self WRITE ?app {(o {@o name ?myName}) apply-for ?jk}})))
     (try
       (role ?app [k application] (spatial ?app co-located @self)
             (substantial (attr ?app writing))
             (not (substantial (attr ?app address))))
-      (effects (debug-print "PA_ADDR")
+      (effects
                (set-attr ?app address ?wp)
                (set-outcome ?pa-rel /succ)))))

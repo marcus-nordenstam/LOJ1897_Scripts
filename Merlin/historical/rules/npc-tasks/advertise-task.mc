@@ -19,17 +19,17 @@
     (try
       (role ?board [k building church] (select (score (near @self ?board)) (policy roulette)))
       (when (not (spatial @self building ?board)))
-      (effects (debug-print "ADV_GO") (maintain-proposal {@self enter ?board})))
+      (effects (maintain-proposal {@self enter ?board})))
     (try
       (no-role [k building church])
       (when (and -{@self find-building [k building church] ? /fail}
                  (current-region @self): ?rg))
-      (effects (debug-print "ADV_FIND")
+      (effects
                (maintain-proposal {@self find-building [k building church] ?rg})))
     (try
       (when (and (is-a (spatial @self building) [k building church])
                  -{@self CREATE-ENTITY [k job-description] /succ /caused_by ?adv-rel}))
-      (effects (debug-print "ADV_PEN")
+      (effects
                (maintain-proposal {@self CREATE-ENTITY [k job-description]})))
     (try
       (role ?ad [k job-description] (spatial ?ad co-located @self)
@@ -37,17 +37,17 @@
       (when (and {?org isa ?ok}
                  (table-match org_staffing org-kind ?ok staff-role ?jk)
                  (is-kind ?jk)))
-      (effects (debug-print "ADV_VACANCY")
+      (effects
                (maintain-proposal {@self WRITE ?ad {?org vacancy ?jk}})))
     (try
       (role ?ad [k job-description] (spatial ?ad co-located @self)
             (substantial (attr ?ad writing)))
       (when (and {?org workplace ?wp}
                  -{@self WRITE ?ad {?org workplace ?wp} /succ}))
-      (effects (debug-print "ADV_WHERE")
+      (effects
                (maintain-proposal {@self WRITE ?ad {?org workplace ?wp}})))
     (try
       (role ?ad [k job-description] (spatial ?ad co-located @self)
             -{@self post ?ad ?})
       (when {@self WRITE ?ad {?org workplace ?} /succ})
-      (effects (debug-print "ADV_BOOK") (begin-belief {@self post ?ad ?org})))))
+      (effects (begin-belief {@self post ?ad ?org})))))

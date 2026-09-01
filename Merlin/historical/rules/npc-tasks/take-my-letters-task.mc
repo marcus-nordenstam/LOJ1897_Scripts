@@ -12,7 +12,7 @@
     (try
       (when -{@self stack-browse ?stack /caused_by ?take-letters-rel /ever})
       (utility errand)
-      (effects (debug-print "TML_BROWSE")
+      (effects
                (begin-proposal {@self stack-browse ?stack})))
     (try
       (role @self {@self name ?name})
@@ -23,13 +23,13 @@
         (tolerate (attr ?doc addressee-duty): ?duty)
         (if (or (= ?addressee ?name)
                 {@self duty-to ? ?duty})
-            (then (debug-print "TML_KEEP doc=?doc")
+            (then
                   (bb-write ?doc browse-status kept))
-            (else (debug-print "TML_HANDLE doc=?doc")
+            (else
                   (bb-write ?doc browse-status handled)))))
     (try
       (when {@self stack-browse ?stack /succ /caused_by ?take-letters-rel})
-      (effects (debug-print "TML_DONE")
+      (effects
                (set-outcome ?take-letters-rel /succ)))
     (try
-      (effects (debug-print "TML_P_TASK stk=?stack")))))
+      (effects ))))

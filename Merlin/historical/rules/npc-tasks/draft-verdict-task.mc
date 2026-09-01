@@ -16,19 +16,19 @@
     (try
       (when -{@self CREATE-ENTITY ?kind /succ /caused_by ?dv-rel})
       (utility fallback)
-      (effects (debug-print "DV_PEN") (maintain-proposal {@self CREATE-ENTITY ?kind})))
+      (effects (maintain-proposal {@self CREATE-ENTITY ?kind})))
     (try
       (role ?ltr [k letter] (spatial ?ltr co-located @self)
             (not (substantial (attr ?ltr addressee))))
-      (effects (debug-print "DV_ADDRESS") (maintain-proposal {@self ADDRESS ?ltr ?applicant})))
+      (effects (maintain-proposal {@self ADDRESS ?ltr ?applicant})))
     (try
       (role ?ltr [k letter] (spatial ?ltr co-located @self)
             (substantial (attr ?ltr addressee)))
       (when -{@self send-mail ?ltr /caused_by ?dv-rel /ever})
-      (effects (debug-print "DV_SEND") (begin-proposal {@self send-mail ?ltr})))
+      (effects (begin-proposal {@self send-mail ?ltr})))
     (try
       (when (and {@self send-mail ? /succ /caused_by ?dv-rel}
                  {?applicant apply-for ?}))
-      (effects (debug-print "DV_DONE")
+      (effects
                (end-belief {?applicant apply-for ?})
                (set-outcome ?dv-rel /succ)))))

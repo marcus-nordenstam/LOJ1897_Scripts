@@ -9,7 +9,7 @@
 ;   find_survey hops to the CLOSEST unobserved structure. (latch-eval (closest-unobserved
 ;     ...): ?dest) LATCHES ?dest while the go act walks; the sibling (not (observed ?dest))
 ;     falls on ARRIVAL, resetting the latch so the next cycle re-binds the next structure.
-;     go_to_threshold front-parks at ?dest's face, where perception teaches the building
+;     walk to ?dest's THRESHOLD point, where perception teaches the building
 ;     and its kind - so the sought venue ends the search naturally (success is not stamped
 ;     here). Searching STRUCTURES, not the sought kind, keeps it non-telepathic.
 ;   find_exhausted fires once every structure is observed (closest-unobserved fails): the
@@ -29,6 +29,6 @@
     (try
       (when (and (latch-eval (closest-unobserved [k structure] ?region): ?dest)
                  (observed ?dest /not)))
-      (effects (maintain-proposal {@self WALK (spatial ?dest bounds /env)})))
+      (effects (maintain-proposal {@self WALK (front-park-point ?dest)})))
     (try
       (effects (set-outcome ?find_task-rel /fail)))))

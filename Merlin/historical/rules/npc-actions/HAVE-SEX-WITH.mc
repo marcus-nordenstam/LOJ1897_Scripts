@@ -19,7 +19,6 @@
 (npc-action {@self HAVE-SEX-WITH ?paramour}
   (duration 45)
   (effects
-    (debug-print "CONSUMMATE_ACT_DONE @self para=?paramour")
     ; The reciprocal act-record on the paramour (the actor's own side is the
     ; begun-then-ended running act-belief, auto-ended at completion).
     (begin-ended-belief ?paramour {?paramour HAVE-SEX-WITH @self})

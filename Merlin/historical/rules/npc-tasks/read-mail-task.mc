@@ -14,7 +14,7 @@
     (try
       (when -{@self locate [k mail-stack] ?prem /succ})
       (utility errand)
-      (effects (debug-print "RM_LOC") (begin-proposal {@self locate [k mail-stack] ?prem})))
+      (effects (begin-proposal {@self locate [k mail-stack] ?prem})))
     (try
       (role ?stk [k mail-stack] (spatial ?stk building ?prem)
                                 (not (spatial ?stk co-located @self)))
@@ -25,7 +25,7 @@
                                 (spatial ?stk co-located @self))
       (when -{@self take-my-letters ?stk /caused_by ?rm-rel /ever})
       (utility errand)
-      (effects (debug-print "RM_TAKE")
+      (effects
                (begin-proposal {@self take-my-letters ?stk})))
     (try
       (role ?ltr [k letter] (spatial @self hold))
@@ -34,6 +34,6 @@
       (role ?stk [k mail-stack] (spatial ?stk building ?prem))
       (when (and {@self take-my-letters ?stk /succ /caused_by ?rm-rel}
                  (empty (spatial @self hold [k letter]))))
-      (effects (debug-print "RM_DONE") (set-outcome ?rm-rel /succ)))
+      (effects (set-outcome ?rm-rel /succ)))
     (try
-      (effects (debug-print "RM_P_TASK prem=?prem")))))
+      (effects ))))

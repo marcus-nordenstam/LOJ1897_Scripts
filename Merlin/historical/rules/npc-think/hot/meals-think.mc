@@ -227,7 +227,7 @@
   ; location for the latter.
   (when    (not (or (spatial @self building ?place)
                     (spatial @self space ?place))))
-  (effects (debug-print "TRACE-EATGO place=?place meal=?meal")
+  (effects
            (maintain-proposal {@self enter ?place})))
 
 ; A paid EATERY (pub / restaurant) - a supper bought out, as opposed to the free

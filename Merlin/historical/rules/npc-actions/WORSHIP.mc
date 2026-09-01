@@ -20,7 +20,6 @@
   ; extracts its fields off the promoted belief (act_body_purification - precondition on the proposal).
   (duration 90)
   (effects
-    (debug-print "WORSHIPPED @self")
     ; The congregation SEES the service: co-present others mint {her worship her}
     ; (capped fan-out) - the observable-practice evidence observer-side
     ; devoutness folds and abduction read. The record is identical for the

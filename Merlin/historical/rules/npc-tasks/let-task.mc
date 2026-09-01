@@ -16,22 +16,22 @@
     (try
       (when -{@self CREATE-ENTITY [k for-lease-listing] /succ /caused_by ?let-rel})
       (utility fallback)
-      (effects (debug-print "LET_PEN")
+      (effects
                (maintain-proposal {@self CREATE-ENTITY [k for-lease-listing]})))
     (try
       (role ?listing [k for-lease-listing] (spatial ?listing co-located @self)
             (not (substantial (attr ?listing writing))))
-      (effects (debug-print "LET_WRITE")
+      (effects
                (maintain-proposal {@self WRITE ?listing {?prop availability [k for-rent]}})))
     (try
       (role ?listing [k for-lease-listing] (spatial ?listing co-located @self)
             (substantial (attr ?listing writing)))
       (role ?stk [k for-lease-listing-stack])
       (when -{@self STACK-PUT ?listing ? /succ /caused_by ?let-rel})
-      (effects (debug-print "LET_FILE")
+      (effects
                (maintain-proposal {@self STACK-PUT ?listing ?stk})))
     (try
       (when {@self STACK-PUT ? ? /succ /caused_by ?let-rel})
-      (effects (debug-print "LET_DONE")
+      (effects
                (begin-belief {?prop availability [k for-rent]})
                (set-outcome ?let-rel /succ)))))

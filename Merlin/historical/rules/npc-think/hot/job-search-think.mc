@@ -30,7 +30,7 @@
              (not (spatial @self building ?board))
              (latch-eval (chance 0.3))))
   (utility errand)
-  (effects (debug-print "JS_BOARDGO") (maintain-proposal {@self enter ?board})))
+  (effects (maintain-proposal {@self enter ?board})))
 
 (npc-think seek_board_find
   (cooldown 1 m)
@@ -44,7 +44,7 @@
              -{@self find-building [k building church] ? /fail}
              (current-region @self): ?rg))
   (utility errand)
-  (effects (debug-print "JS_BOARDFIND rg=?rg")
+  (effects
            (maintain-proposal {@self find-building [k building church] ?rg})))
 
 ; --- at the board, READ each advert not yet read: adopt its {?org vacancy ?jk} +
@@ -57,7 +57,7 @@
   (role ?ad [k job-description] (spatial ?ad co-located @self)
                                 -{@self READ ?ad /succ})
   (utility errand)
-  (effects (debug-print "JS_READ") (maintain-proposal {@self READ ?ad})))
+  (effects (maintain-proposal {@self READ ?ad})))
 
 ; --- a vacancy @self has READ, qualifies for (class-floor derived from the role), and
 ; never FAILED -> begin ONE apply-for, keyed on the job-kind + the concrete WORKPLACE
@@ -77,7 +77,7 @@
              (class-at-least @self ?cf)
              -{@self apply-for ?jk ?wp /fail}))
   (utility errand)
-  (effects (debug-print "JS_PICK jk=?jk")
+  (effects
            (begin-proposal {@self apply-for ?jk ?wp})))
 
 ; === The apply-for TASK (gohome / write / send / await_verdict / take_up / rejected /

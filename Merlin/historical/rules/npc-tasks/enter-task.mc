@@ -1,12 +1,13 @@
 ; ----------------------------------------------------------------------------
 ; enter - the generic "get inside a venue" chain (§5.11). Any lane that wants the actor
 ; INSIDE a structure raises {@self enter ?venue} as a bodyless TASK; these two GENERIC
-; tries decompose the running enter task STRAIGHT into the movement PRIMITIVES
-; (GO-TO-THRESHOLD / WALK). The actions promote directly off the maintain-proposals, so
-; there is no intermediate go / go_to_threshold goal and no separate stepping rung. Each
+; tries decompose the running enter task STRAIGHT into the ONE movement PRIMITIVE (WALK).
+; The actions promote directly off the maintain-proposals, so there is no intermediate go
+; goal and no separate stepping rung. Each
 ; leg is auto-/caused_by the running enter task (the head gate pins it).
 ;
-;   OUTSIDE the venue and not yet at its door -> front-park at the face.
+;   OUTSIDE the venue and not yet at its door -> walk to the stand-off point at its face
+;     ((front-park-point ?s), funcs/spatial.mc - a POINT, so WALK needs no threshold variant).
 ;   AT the threshold, the entrance {?s room ?entry} known (taught by perception at the
 ;     door) and the venue open -> step into the entrance room.
 ;
@@ -29,12 +30,12 @@
   (and
     (try
       (when (and (not (spatial @self building ?s))
-                 (not (at-threshold @self ?s))))
-      (effects (debug-print "TRACE-ENTERTASK dest=?s")
-               (maintain-proposal {@self GO-TO-THRESHOLD ?s})))
+                 (not (at-threshold ?s))))
+      (effects
+               (maintain-proposal {@self WALK (front-park-point ?s)})))
     (try
-      (when (and (at-threshold @self ?s)
+      (when (and (at-threshold ?s)
                  (spatial ?s room): ?entry
                  -{?s struct-status [k closed]}))
-      (effects (debug-print "TRACE-STEPIN bld=?s room=?entry")
+      (effects
                (maintain-proposal {@self WALK ?entry})))))

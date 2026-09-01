@@ -38,7 +38,7 @@
   (when    (and (>= (days-since-last {@self WORSHIP /ever}) 3)
                 (>= (attr @self politeness) 0.3)))
   (utility want (* (recency-ramp WORSHIP 3 21 500) (devotional-drive-tilt)))
-  (effects       (debug-print "WANTWORSHIP @self")
+  (effects
                  (begin-goal {@self WORSHIP}))
   (cease-effects (end-goal   {@self WORSHIP})))
 

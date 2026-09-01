@@ -25,7 +25,7 @@
                  (< (table-count ?reg)
                     (if (table-match public_orgs kind ?ok employee-count ?ec) (then ?ec) (else 2)))))
       (utility duty)
-      (effects (debug-print "RC_ROOT")
+      (effects
                (begin-proposal {@self recruit-staff ?org})))
     (try
       (role ?job {@self job ?job})

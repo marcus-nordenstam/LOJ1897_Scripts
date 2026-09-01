@@ -39,7 +39,7 @@
   (role @self (grown @self))
   (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
   (when    (not (spatial @self building ?church)))
-  (effects (debug-print "TRACE-WORSHIPGO church=?church")
+  (effects
            (maintain-proposal {@self enter ?church})))
 
 ; CASE C - not at a church and knows none: search for one (find-building.hs runs it).
@@ -49,5 +49,5 @@
   (no-role [k building church])
   (when    (and (not (is-a (spatial @self building) [k building church]))
                 (not (did-fail {@self find-building [k building church] /past}))))
-  (effects (debug-print "WSEEK @self")
+  (effects
            (maintain-proposal {@self find-building [k building church] (current-region @self)})))

@@ -20,7 +20,7 @@
       (task-prelude
         (tolerate (observe (spatial ?stack top /env)): ?top)
         (if (nothing ?top)
-            (then (debug-print "SBR_EMPTY")
+            (then
                   (bb-clear ?stack browse-cycle-end)
                   (bb-clear ?stack browse-inflight)
                   (set-outcome ?browse-rel /succ)))))
@@ -30,7 +30,7 @@
       (effects
         (tolerate (observe (spatial ?stack top /env)): ?top)
         (if (nothing ?top)
-            (then (debug-print "SBR_EMPTY")
+            (then
                   (bb-clear ?stack browse-cycle-end)
                   (bb-clear ?stack browse-inflight)
                   (set-outcome ?browse-rel /succ)))))
@@ -39,7 +39,6 @@
             (!= ?top (bb-read ?stack browse-cycle-end))
             (not (bb-private-any (bb-read ?stack browse-inflight) browse-status)))
       (effects
-        (debug-print "SBR_TAKE doc=?top")
         (maintain-proposal {@self STACK-TAKE ?top ?stack}
             (postlude (bb-write ?top browse-status pending)
                       (bb-write ?stack browse-inflight ?top)))))
@@ -48,7 +47,6 @@
             (= ?top (bb-read ?stack browse-cycle-end))
             (not (bb-private-any (bb-read ?stack browse-inflight) browse-status)))
       (effects
-        (debug-print "SBR_CYCLED")
         (bb-clear ?stack browse-cycle-end)
         (bb-clear ?stack browse-inflight)
         (set-outcome ?browse-rel /succ)))
@@ -56,13 +54,11 @@
       (role ?doc [k document] (spatial @self hold)
             (= (bb-read ?doc browse-status) kept))
       (effects
-        (debug-print "SBR_ACCEPT doc=?doc")
         (bb-clear ?doc browse-status)))
     (try
       (role ?doc [k document] (spatial @self hold)
             (= (bb-read ?doc browse-status) handled))
       (effects
-        (debug-print "SBR_RETURN doc=?doc")
         (maintain-proposal {@self STACK-BURY ?doc ?stack}
             (postlude (if (not (bb-private-any ?stack browse-cycle-end))
                           (then (bb-write ?stack browse-cycle-end ?doc)))

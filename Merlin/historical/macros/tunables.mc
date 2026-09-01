@@ -144,6 +144,15 @@
 ; is the arriving lane firing its purpose act (see at-place-kind).
 (define-macro go_travel_floor_min      () 1)
 
+; THRESHOLD GEOMETRY (was C++ front_park_point / at_threshold). An actor approaching a
+; venue stands off its front face by its own forward half-extent times this clearance,
+; so a wider body stands proportionally further back. front-park-point (funcs/spatial.mc)
+; is the whole formula.
+(define-macro front_park_clearance     () 1.0)
+; How close to that stand-off point counts as AT the threshold. The "not inside the
+; venue" guard does the real work, so the exact band is not critical.
+(define-macro at_threshold_band_m      () 1.5)
+
 ; The household cook's public-bb claim lifetime, in hsim cycles (= months). The
 ; sitting cook RE-POSTS it every cycle (renew_cook), so the ttl only bounds how
 ; fast a DEAD or emigrated cook's household re-elects.

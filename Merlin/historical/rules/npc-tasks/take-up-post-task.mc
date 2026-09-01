@@ -29,5 +29,5 @@
       (effects (hire-beliefs ?art ?jk ?lvl)))
     (try
       (role @self {@self job.salary ?})
-      (effects (debug-print "TUP_SUCC")
+      (effects
                (set-outcome ?tup-rel /succ)))))

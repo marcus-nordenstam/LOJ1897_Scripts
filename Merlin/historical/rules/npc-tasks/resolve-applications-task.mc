@@ -17,7 +17,7 @@
       (when (and -{@self draft-verdict ? [k offer-letter] /caused_by ?rt-rel /ever}
                  -{@self draft-verdict ?applicant ? /caused_by ?rt-rel /ever}))
       (utility fallback)
-      (effects (debug-print "RSV_OFFER")
+      (effects
                (begin-proposal {@self draft-verdict ?applicant [k offer-letter]})))
     (try
       (role ?applicant {?applicant apply-for ?}
@@ -25,8 +25,8 @@
       (when (and {@self draft-verdict ? [k offer-letter] /caused_by ?rt-rel /ever}
                  -{@self draft-verdict ?applicant ? /caused_by ?rt-rel /ever}))
       (utility (above draft-verdict))
-      (effects (debug-print "RSV_REJECT")
+      (effects
                (begin-proposal {@self draft-verdict ?applicant [k rejection-letter]})))
     (try
       (when -{? apply-for ?})
-      (effects (debug-print "RSV_DONE") (set-outcome ?rt-rel /succ)))))
+      (effects (set-outcome ?rt-rel /succ)))))

@@ -15,4 +15,4 @@
   (when (substantial ?class))
   (effects
     (reframe ?b ?class ?speaker ?audience)
-    (debug-print reflex_classified_speech)))
+    ))

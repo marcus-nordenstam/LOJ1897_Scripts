@@ -21,20 +21,20 @@
       (effects (set-outcome ?rec-rel /succ)))
     (try
       (when -{@self post ? ?org})
-      (effects (debug-print "RC_ADPICK") (maintain-proposal {@self advertise ?org})))
+      (effects (maintain-proposal {@self advertise ?org})))
     (try
       (when (and {?org workplace ?wp}
                  (not (spatial @self building ?wp))
                  (>= (days-since-last {@self read-mail ?wp /succ}) 1)))
       (utility obligation)
-      (effects (debug-print "RC_GOOFC") (maintain-proposal {@self enter ?wp})))
+      (effects (maintain-proposal {@self enter ?wp})))
     (try
       (lock-rule)
       (when (and {?org workplace ?wp}
                  (spatial @self building ?wp)
                  (>= (days-since-last {@self read-mail ?wp /succ}) 1)))
       (utility obligation)
-      (effects (debug-print "RC_RDMAIL") (begin-proposal {@self read-mail ?wp})))
+      (effects (begin-proposal {@self read-mail ?wp})))
     (try
       (role ?home {@self home ?home})
       (role ?out [k outgoing-mail-stack] (not (spatial ?out co-located @self)))
@@ -43,17 +43,17 @@
       (when (and (spatial ?out building ?home)
                  (spatial ?out space): ?room))
       (utility obligation)
-      (effects (debug-print "RC_RESGO") (maintain-proposal {@self WALK ?room})))
+      (effects (maintain-proposal {@self WALK ?room})))
     ; READ each held application - adopt its {?applicant apply-for ?jk} - then consume it.
     (try
       (role ?app [k application] (spatial @self hold)
             -{@self READ ?app /succ})
       (utility obligation)
-      (effects (debug-print "RC_READAPP") (maintain-proposal {@self READ ?app})))
+      (effects (maintain-proposal {@self READ ?app})))
     (try
       (role ?app [k application] (spatial @self hold)
             (any {@self READ ?app /succ}))
-      (effects (debug-print "RC_DROPAPP") (maintain-proposal {@self DESTROY-ENTITY ?app})))
+      (effects (maintain-proposal {@self DESTROY-ENTITY ?app})))
     ; RESOLVE the learned applicants: draft + mail a verdict to each.
     (try
       (lock-rule)
@@ -61,74 +61,74 @@
                  (empty (spatial @self hold [k application]))
                  -{@self resolve-applications /pres}))
       (utility obligation)
-      (effects (debug-print "RC_RESOLVE") (begin-proposal {@self resolve-applications})))
+      (effects (begin-proposal {@self resolve-applications})))
     (try
       (role ?app [k application] (spatial @self hold))
-      (effects (debug-print "RCP_APP app=?app")))
+      (effects ))
     (try
       (role ?out [k outgoing-mail-stack] (spatial ?out co-located @self))
-      (effects (debug-print "RCP_OUT out=?out")))
+      (effects ))
     (try
       (role ?app [k application] (spatial @self hold))
       (role ?out [k outgoing-mail-stack] (spatial ?out co-located @self))
-      (effects (debug-print "RCP_BOTH")))
+      (effects ))
     (try
       (role ?app [k application] (spatial @self hold))
       (when {?org record ?art})
-      (effects (debug-print "RCP_ART art=?art")))
+      (effects ))
     (try
       (role ?app [k application] (spatial @self hold))
       (role ?home {@self home ?home})
-      (effects (debug-print "RCP_P5")))
+      (effects ))
     (try
       (role ?app [k application] (spatial @self hold))
       (role ?home {@self home ?home})
       (role ?out [k outgoing-mail-stack])
-      (effects (debug-print "RCP_P6")))
+      (effects ))
     (try
       (role ?home {@self home ?home})
       (role ?app [k application] (spatial @self hold))
-      (effects (debug-print "RCP_P7")))
+      (effects ))
     (try
       (role ?h [k hand] (spatial @self hand))
       (role ?home {@self home ?home})
-      (effects (debug-print "RCP_P8")))
+      (effects ))
     (try
       (when (and {?org workplace ?wp}
                  (spatial @self building ?wp)))
-      (effects (debug-print "RCP_P15_INSIDE")))
+      (effects ))
     (try
       (when (and {?org workplace ?wp}
                  (>= (now-hour) 9)
                  (< (now-hour) 11)))
-      (effects (debug-print "RCP_P16_MAIL")))
+      (effects ))
     (try
       (role ?home {@self home ?home})
       (role ?out [k outgoing-mail-stack])
       (role ?app [k application] (spatial @self hold))
-      (effects (debug-print "RCP_P9")))
+      (effects ))
     (try
       (role ?home {@self home ?home})
       (role ?out [k outgoing-mail-stack])
-      (effects (debug-print "RCP_P10")))
+      (effects ))
     (try
       (role ?out [k outgoing-mail-stack])
       (role ?app [k application] (spatial @self hold))
-      (effects (debug-print "RCP_P11")))
+      (effects ))
     (try
       (role ?home {@self home ?home})
       (role ?out [k outgoing-mail-stack])
       (role ?app [k application] (spatial @self hold))
       (when (spatial ?out building ?home))
-      (effects (debug-print "RCP_P12")))
+      (effects ))
     (try
       (role ?home {@self home ?home})
       (role ?out [k outgoing-mail-stack])
       (role ?app [k application] (spatial @self hold))
       (when (spatial ?out space): ?room)
-      (effects (debug-print "RCP_P13 room=?room")))
+      (effects ))
     (try
       (role ?home {@self home ?home})
       (role ?out [k outgoing-mail-stack] (not (spatial ?out co-located @self)))
       (role ?app [k application] (spatial @self hold))
-      (effects (debug-print "RCP_P14")))))
+      (effects ))))
