@@ -40,7 +40,7 @@
 
     ; (1) REFRESH - one colleague job object per roster row (skip my own row), mirroring
     ; my own job object so {?cw job.org ?org} / rank / head-ness read uniformly.
-    (for-each-row (attr ?reg writing) (worker ?cw) (job ?jk) (level ?lvl)
+    (for-each-row (attr ?reg writing) [/worker ?cw] [/job ?jk] [/level ?lvl]
       (if (!= ?cw @self)
           (then
             (o ?jk {?cw job @o}): ?cojob

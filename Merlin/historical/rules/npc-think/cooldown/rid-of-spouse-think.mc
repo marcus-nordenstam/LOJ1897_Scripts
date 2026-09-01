@@ -59,7 +59,7 @@
   (when (and (or (detests ?spouse)
                  {?spouse (theme-labels violent-to) @self /ever})
              -{?spouse condition [k dead]}
-             (or (has-proposal {@self kill ?spouse})
+             (or {@self kill ?spouse}
                  (chance
                    (* (crime-scale) 0.02
                       (* (+ (if (detests ?spouse) (then 1) (else 0))

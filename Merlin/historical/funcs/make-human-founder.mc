@@ -26,7 +26,7 @@
           (set-attr ?h hair-color (table-sample-weighted hair_color_dist value weight))
           (set-attr ?h eye-color  (table-sample-weighted eye_color_dist value weight))
           (for-each-row continuous_traits
-              (trait ?t) (mean-male ?mm) (mean-female ?mf) (sigma ?sg)
+              [/trait ?t] [/mean-male ?mm] [/mean-female ?mf] [/sigma ?sg]
             (if (= ?gender [k male]) (then ?mm) (else ?mf)): ?mean
             (set-attr ?h ?t (clamp (sample-gaussian ?mean ?sg) 0 1)))
           (+ 20 (random-int 0 29)): ?age

@@ -54,7 +54,7 @@
   ; ONCE then the running kill proposal latches it; drop the drive if the victim dies.
   (when (and {?victim job.org ?org}
              -{?victim condition [k dead]}
-             (or (has-proposal {@self kill ?victim})
+             (or {@self kill ?victim}
                  (chance (* (crime-scale) 0.03
                             (* (- 1 (inhibition))
                                (* 0.5 (+ (attr @self machiavellianism)

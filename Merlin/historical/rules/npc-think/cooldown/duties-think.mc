@@ -46,7 +46,7 @@
   (effects
     (if ?senior
         (then
-          (for-each-row org_duties (kind ?dk) (duty ?duty)
+          (for-each-row org_duties [/kind ?dk] [/duty ?duty]
             (if (is-a ?ok ?dk)
                 (then
                   (if (= ?senior @self)

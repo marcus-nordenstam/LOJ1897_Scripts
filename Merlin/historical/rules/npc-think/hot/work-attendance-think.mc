@@ -46,7 +46,6 @@
   (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
         (latch-eval (any {?job ?tl ?}): ?sh (bind ?sh.target ?start) (bind ?sh.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
         (and -{@self work ?wp /pres}
-             (not (has-proposal {@self work ?wp}))
              (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
   (utility duty (labour-drive-tilt))
   ; SPAWN the day's WORK TASK (npc-tasks/work-task.hs): its performance tries fan the shift

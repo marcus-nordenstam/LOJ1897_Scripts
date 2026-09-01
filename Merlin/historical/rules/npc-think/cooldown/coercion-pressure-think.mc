@@ -32,4 +32,4 @@
   (effects
     (begin-belief {?blackmailer extort @self}): ?extort_anchor
     (begin-belief {@self pressure [k exposure-risk] ?blackmailer /caused_by ?extort_anchor}
-                  (salience (coercion-stake)))))
+                  [/salience (coercion-stake)])))

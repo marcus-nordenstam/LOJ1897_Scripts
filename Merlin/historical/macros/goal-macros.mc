@@ -15,7 +15,9 @@
 ;       A macro over (believes {@self goal {..}}) - defined in definitions/roles.hs.
 ;   (no-goal {@self <action> [<target>]}) - boolean negative, the (not ...) twin -
 ;       also a roles.hs macro.
-;   (has-proposal {@self <action> [<target>]}) - engine primitive: reads a PENDING
-;       (un-promoted) proposal - a pipeline node, NOT a belief, so no believes read
-;       can see it.
+;   {@self <action> [<target>]} - the RUNNING act itself, and the way a driver asks
+;       "am I already committed to this?". Promotion mints the act belief in the SAME
+;       deliberation pass that mints the proposal, so the belief is the latch. There is
+;       deliberately no read for a pending proposal: a rule states what it wants, it does
+;       not interrogate the utility-selection machinery.
 ; ----------------------------------------------------------------------------

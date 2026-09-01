@@ -48,7 +48,7 @@
 (define-func charter-for (?who)
   (bind @nothing ?found)
   (for-each ?art (env-entities [k articles-of-incorporation])
-    (for-each-row (attr ?art writing) (org-kind ?ok) (founder ?ofr)
+    (for-each-row (attr ?art writing) [/org-kind ?ok] [/founder ?ofr]
       (if (= ?ofr @nothing)
         (then
           (if (table-match public_orgs kind ?ok class-floor ?pcf)

@@ -37,7 +37,7 @@
     (if (table-match businesses org-kind ?org-kind building ?bk)
         (then ?bk) (else [k building office])): ?want-kind
     (for-each ?listings (env-entities [k for-sale-listings])
-      (for-each-row (attr ?listings writing) (building ?wp) (deed ?deed)
+      (for-each-row (attr ?listings writing) [/building ?wp] [/deed ?deed]
         (if (is-a ?wp ?want-kind)
           (then
             ; CLAIM: stamp @self as the premises' owner + pull the row off the register.
@@ -103,8 +103,8 @@
 ;     ?art       - a headless articles-of-incorporation (see headless-charter)
 ;     ?head-role - the head's job, a scoped job kind ([k job superintendent])
 (define-macro take-up-charter (?art ?head-role)
-  (for-each-row (attr ?art writing) (workplace ?wp) (register ?reg)
-    (take-premises ?wp)
+  (for-each-row (attr ?art writing) [/workplace ?wp] [/register ?reg]
+    [/take-premises ?wp]
     (table-set ?art founder @self)
     (seat-org-head ?art ?wp ?reg ?head-role)))
 
@@ -125,7 +125,7 @@
     (if (table-match businesses org-kind ?club-kind building ?bk)
         (then ?bk) (else [k building office])): ?want-kind
     (for-each ?listings (env-entities [k for-sale-listings])
-      (for-each-row (attr ?listings writing) (building ?wp) (deed ?deed)
+      (for-each-row (attr ?listings writing) [/building ?wp] [/deed ?deed]
         (if (is-a ?wp ?want-kind)
           (then
             (table-set ?deed owner @self)

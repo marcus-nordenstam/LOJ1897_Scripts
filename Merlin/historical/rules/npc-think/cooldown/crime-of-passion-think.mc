@@ -61,12 +61,12 @@
 
   ; MAINTAIN the kill while the crave holds and the victim lives. The jealous-rage
   ; tip fires ONCE (chance = 0.02 * (1-inhibition) * mean(volatility,psychopathy)),
-  ; then the running proposal latches it (has-proposal) so it is not re-rolled; the
+  ; then the RUNNING kill act latches it so it is not re-rolled; the
   ; drive drops when the crave fades or the victim dies. (knows-affair) keeps crave the
   ; FALLBACK - a discovered betrayal routes to betrayal_kill.hs.
   (when (and (not (knows-affair))
              -{?victim condition [k dead]}
-             (or (has-proposal {@self kill ?victim})
+             (or {@self kill ?victim}
                  (chance (* (crime-scale) 0.02
                             (dark-propensity (rage-disposition @self)))))))
   (utility want)

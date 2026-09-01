@@ -19,6 +19,6 @@
     (try
       (when (spatial ?register co-located @self))
       (effects
-        (for-each-row (attr ?register writing) (building ?b)
+        (for-each-row (attr ?register writing) [/building ?b]
           (begin-belief {?b availability [k for-sale]}))
         (set-outcome ?rl-rel /succ)))))

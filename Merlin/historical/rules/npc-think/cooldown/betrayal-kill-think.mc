@@ -38,8 +38,8 @@
   ; Fires only once the betrayal is appraised (anger present); the rage tip fires ONCE
   ; (0.02 base * dark-propensity), then a running kill proposal latches it.
   (when (and (substantial ?anger_bond)
-             (or (has-proposal {@self kill ?partner})
-                 (has-proposal {@self kill ?interloper})
+             (or {@self kill ?partner}
+                 {@self kill ?interloper}
                  (chance (* (crime-scale) 0.02
                             (dark-propensity (rage-disposition @self)))))))
   (utility want)

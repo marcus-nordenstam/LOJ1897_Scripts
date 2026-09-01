@@ -69,7 +69,7 @@
   ; victim dies.
   (when (and (>= (any {?benefactor wealth}).target 0.5)
              -{?victim condition [k dead]}
-             (or (has-proposal {@self kill ?victim})
+             (or {@self kill ?victim}
                  (chance (* (crime-scale) 0.02
                             (* (- 1 (inhibition))
                                (* 0.5 (+ (attr @self machiavellianism)

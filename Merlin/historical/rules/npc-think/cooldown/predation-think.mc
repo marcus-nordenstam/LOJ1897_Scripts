@@ -93,7 +93,7 @@
   ; fires ONCE then the running kill proposal latches it.
   (when (and (>= (lethal-disposition @self) 0.65)
              -{?victim condition [k dead]}
-             (or (has-proposal {@self kill ?victim})
+             (or {@self kill ?victim}
                  (chance (* (crime-scale) 0.005
                             (* (dark-propensity (lethal-disposition @self))
                                (if {@self life-aim [k power-aim]} (then 2.0) (else 1.0))))))))

@@ -15,7 +15,7 @@
 
 (define-macro adopt-aoc (?art)
   (for-each-row (attr ?art writing)
-      (org-kind ?ok) (org_name ?onm) (founder ?ofr) (workplace ?owp) (register ?oreg)
+      [/org-kind ?ok] [/org_name ?onm] [/founder ?ofr] [/workplace ?owp] [/register ?oreg]
       (o {?art declares-org @o}): ?org
       (begin-belief {?art declares-org ?org})
       (begin-belief {?org isa ?ok})

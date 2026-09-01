@@ -60,8 +60,8 @@ npc.lists.pool                      =   50000   4000    256
 npc.beliefIdsByLabel.pool           =   16       4       8
 
 # Float-data bounds
-npc.spatialBounds.pool              =   10000   128     32
-npc.float4.pool                     =   10000   64      16
+npc.spatialBounds.pool              =   4000   128     32
+npc.float4.pool                     =   4000   128     32
 
 # Per-mind spline reference slots (Mental::t_spline_ref).
 abs.splines.pool                    =   256     16      8
@@ -75,14 +75,4 @@ npc.private_bb_entries.pool         =   1024    128     64
 # uses one). maxItems is bounded by MEnv::k_max_public_bbs (65536) - asserted at
 # startup. Bump initial reserve and stride if profiling shows churn.
 abs.public_bb.pool                  =   65536   1024    512
-
-# EPS pools
-npc.wm.pool                         =   4096    256     128
-npc.wmeArray.pool                   =   1024    256     128
-npc.tokenArray.pool                 =   8000    1000    128
-npc.token.pool                      =   10000   2000    100
-npc.node.pool                       =   1000    250     25
-npc.alphaMemory.pool                =   512     256     64
-npc.gammaMemory.pool                =   128     32      8
-
 

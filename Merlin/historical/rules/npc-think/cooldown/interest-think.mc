@@ -159,5 +159,5 @@
     ; on botany" survives the sleep sweep as history.
     (random-unbacked-kind-target interest skill-level): ?d
     (if (is-kind ?d)
-        (then (end-belief {@self interest ?d} (salience unforgettable))))
+        (then (end-belief {@self interest ?d} [/salience unforgettable])))
     ))

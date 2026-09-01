@@ -48,6 +48,6 @@
   (role @self (grown @self))
   (no-role [k building church])
   (when    (and (not (is-a (spatial @self building) [k building church]))
-                (not (did-fail {@self find-building [k building church] /past}))))
+                (not {@self find-building [k building church] /fail})))
   (effects
            (maintain-proposal {@self find-building [k building church] (current-region @self)})))

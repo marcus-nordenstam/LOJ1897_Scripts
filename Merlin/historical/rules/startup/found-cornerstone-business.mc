@@ -43,8 +43,8 @@
     ; articles and staff book already exist, only the proprietor's seat is open. The
     ; emergent labour market staffs it from the unemployed over subsequent ticks.
     (for-each-row cornerstone_businesses
-        (kind ?k) (head-pos ?hp) (class-floor ?cf)
-      (headless-charter ?k): ?art
+        [/kind ?k] [/head-pos ?hp] [/class-floor ?cf]
+      [/headless-charter ?k]: ?art
       (if (and (substantial ?art)
                (class-at-least @self ?cf))
           (then (take-up-charter ?art ?hp)

@@ -46,7 +46,7 @@
   (when (and (!= ?instigator @self)
              (>= (stance-band ?instigator attraction) 2)
              -{?victim condition [k dead]}
-             (or (has-proposal {@self kill ?victim})
+             (or {@self kill ?victim}
                  (chance (attr @self psychopathy)))))
 
   (utility want)

@@ -58,8 +58,8 @@
   ; and only while @self is not answering it lethally: a killer keeps the secret,
   ; since exposing the affair would advertise the motive.
   (when (and {@self emotion [k anger] ?partner}
-             (not (has-proposal {@self kill ?partner}))
-             (not (has-proposal {@self kill ?interloper}))))
+             -{@self kill ?partner}
+             -{@self kill ?interloper}))
 
   (effects
     ; Divorce: the husband's remedy alone; the proper / high-decorum are likeliest

@@ -59,7 +59,7 @@
     (any {?org employee-register ?reg})
     (if (table-match club_sports org-kind ?club_kind sport ?sport)
       (then
-        (for-each-row (attr ?reg writing) (worker ?m)
+        (for-each-row (attr ?reg writing) [/worker ?m]
           (do
             (utterable-msg {@self summon ?m ?sport}): ?msg
             (if (and (alive ?m)

@@ -41,10 +41,10 @@
   ; company-registry is chartered FIRST - its premises seat the incorporation stack every
   ; other charter is filed on.
   (charter-org [k org company-registry])
-  (for-each-row public_orgs (kind ?pk)
-    (charter-org ?pk))
-  (for-each-row cornerstone_businesses (kind ?ck)
-    (charter-org ?ck)))
+  (for-each-row public_orgs [/kind ?pk]
+    [/charter-org ?pk])
+  (for-each-row cornerstone_businesses [/kind ?ck]
+    [/charter-org ?ck]))
 
 ; charter-org - file one org's charter on a free building of its kind. A no-op if the town
 ; already holds a charter of this kind (the census counts charters, headed or not, so a kind
@@ -60,7 +60,7 @@
       (if (table-match businesses org-kind ?kind building ?bk)
           (then ?bk) (else [k building office])): ?want-kind
       (for-each ?reg (env-entities [k for-sale-listings])
-        (for-each-row (attr ?reg writing) (building ?bldg)
+        (for-each-row (attr ?reg writing) [/building ?bldg]
           (if (is-a ?bldg ?want-kind)
             (then
               (spatial ?bldg room /env): ?croom

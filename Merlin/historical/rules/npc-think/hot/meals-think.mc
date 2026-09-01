@@ -253,9 +253,9 @@
   (when    (or (spatial @self building ?place)
                (spatial @self space ?place)))
   (effects (maintain-proposal {@self eat ?meal ?place}
-             (affect   (if (dining-out? ?place) (then (* (attr @self enthusiasm) 20)) (else 0)))
-             (cost     (money-cost-util (coin-balance @self)
-                         (if (dining-out? ?place) (then (price ?meal ?place)) (else 0))))
+             [/affect (if (dining-out? ?place) (then (* (attr @self enthusiasm) 20)) (else 0))]
+             [/cost (money-cost-util (coin-balance @self)
+                         (if (dining-out? ?place) (then (price ?meal ?place)) (else 0)))]
              (feasible (or (not (dining-out? ?place)) (>= (coin-balance @self) (price ?meal ?place)))))))
 
 ; (PROVISIONING - the cook keeping the kitchen larder stocked - lives in

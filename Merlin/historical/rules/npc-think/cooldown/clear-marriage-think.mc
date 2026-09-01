@@ -59,7 +59,7 @@
              ; Latch BOTH committed paths so neither the chance nor the agency fork
              ; re-rolls: a running direct-kill proposal, OR an already-recruited
              ; accomplice bond, holds the drive; else the propensity roll tips it once.
-             (or (has-proposal {@self kill ?spouse})
+             (or {@self kill ?spouse}
                  {@self accomplice ?paramour}
                  (chance
                    (* (crime-scale) 0.03
@@ -74,7 +74,7 @@
   ; the cheater never flips direct<->instigated or re-sends the letter.
   (utility want)
   (effects
-    (if (has-proposal {@self kill ?spouse})
+    (if {@self kill ?spouse}
         ; Already committed DIRECT: maintain the kill /caused_by the READ lover bond.
         (then (maintain-proposal {@self kill ?spouse /caused_by ?lover_bond}))
         (else (if -{@self accomplice ?paramour}

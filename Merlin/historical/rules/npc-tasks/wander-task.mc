@@ -16,13 +16,13 @@
   (and
     (try
       (role ?room (spatial ?bldg parts [k interior-space room] /env)
-                  (not (spatial @self space ?room))
+                  (not (spatial @self space ?room /env))
                   (!= (bb-read ?room wander-visited) ?w-rel))
       (effects
-               (maintain-proposal {@self WALK ?room})))
+               (maintain-proposal {@self WALK (observe ?room)})))
     (try
       (role ?room (spatial ?bldg parts [k interior-space room] /env)
-                  (spatial @self space ?room))
+                  (spatial @self space ?room /env))
       (effects (bb-write ?room wander-visited ?w-rel)))
     (try
       (when (>= (count (every {@self WALK ? /caused_by ?w-rel /succ /ever}))

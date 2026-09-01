@@ -58,5 +58,5 @@
   ; Search while no pub is known and the region is not yet proven publess (find-building's /fail
   ; fires only once the whole region is covered without finding one).
   (when    (and (not (is-a (spatial @self building) [k building pub]))
-                (not (did-fail {@self find-building [k building pub] /past}))))
+                (not {@self find-building [k building pub] /fail})))
   (effects (maintain-proposal {@self find-building [k building pub] (current-region @self)})))
