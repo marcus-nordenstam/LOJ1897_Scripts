@@ -17,7 +17,7 @@
 ; BEFORE (destroy-entity ...).
 (define-macro realize-destroyed (?item ?rel ?state)
   (do
-    (end-beliefs-about ?item (exclude condition internment) /reason destroyed)
+    (end-beliefs-about ?item [/exclude condition|internment] /reason destroyed)
     (begin-belief {?item ?rel ?state})))
 
 ; (months-since-death ?c): whole months since THIS mind learned of ?c's death -

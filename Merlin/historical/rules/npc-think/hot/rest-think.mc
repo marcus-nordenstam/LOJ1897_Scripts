@@ -34,9 +34,9 @@
 ; hour gate at want-tier, where midnight has no real competitors.
 (define-macro sleep-drive ()
   (homeostatic-banded sleepiness 2.0
-    (want   0.0  0   400)
-    (need   0.8  400 900)
-    (crisis 1.0  800 1000)))
+    [/want   0.0  0   400]
+    [/need   0.8  400 900]
+    [/crisis 1.0  800 1000]))
 
 ; tired and away from home: go home to rest. The drive climbs with fatigue - WANT band
 ; while merely tired, NEED late evening, CRISIS past the collapse knee, so an exhausted

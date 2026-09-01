@@ -1,7 +1,7 @@
 # rules/classifiers
 
 Derived-signal classifiers (the derived-signals program,
-`Merlin/docs/derived_signals_program.md`). Each file here is an ordinary `.hs`
+`Merlin/docs/derived_signals_program.md`). Each file here is an ordinary `.mc`
 rule (`npc-think`) that derives a per-mind category belief from what the mind
 already holds.
 
@@ -9,7 +9,7 @@ Two shapes:
 
 - **Band / toggle / argmax classifiers** -> `(npc-think)` rules whose effect is
   `(mint-band ...)` (hysteresis + end-old/begin-new). Inputs are declared as
-  `(role @self (believes {@self <input>}))` self-belief conjuncts, so a
+  `(role @self {@self <input>})` self-belief conjuncts, so a
   classifier is gated reactively - it only runs for minds whose inputs are
   present, and re-bands when they change. A `(cooldown 1 m)` paces the re-band
   where the inputs drift continuously (respectability, devoutness, conduct,

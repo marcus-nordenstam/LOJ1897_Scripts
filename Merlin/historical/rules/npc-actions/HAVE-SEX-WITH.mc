@@ -21,8 +21,10 @@
   (effects
     ; The reciprocal act-record on the paramour (the actor's own side is the
     ; begun-then-ended running act-belief, auto-ended at completion).
-    (begin-ended-belief ?paramour {?paramour HAVE-SEX-WITH @self})
+    (begin-belief {?paramour HAVE-SEX-WITH @self /momentary})
     ; The tryst advances the affair on both sides.
-    (nudge-stance @self ?paramour attraction 0.10)
-    (nudge-stance ?paramour @self attraction 0.10)
+    (nudge-stance ?paramour attraction 0.10)
+    ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
+    ; party's own reflex on the act. Commented out pending that redesign.
+    ; (nudge-stance ?paramour @self attraction 0.10)
     (set-outcome {@self HAVE-SEX-WITH ?paramour} /succ)))

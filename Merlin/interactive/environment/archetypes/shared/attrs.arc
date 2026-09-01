@@ -339,26 +339,15 @@
 # the value is an ontology term end to end.
 (attr "taint" (type kind) (imperceptible) (state-flags-tar @excl))
 
-# PR-evi-A 2026-05-25 - the three plural-kind evidence attrs. Each holds
-# up to 4 leaf-kind atoms of the named taxonomy; the transmitter plural-
-# expands into repeated singular `{?host wound|stain|mark <atom>}` beliefs.
-# State-name override (the bare attr name is plural; the underlying state
-# label is singular). All /obs - perceivable to anyone looking. Wired
-# onto body-part archetypes (wounds + stains + marks), prop and
-# structure-part (stains + marks only - props don't bleed).
-#
-# Forensic-trace attrs. PR-evi-D 2026-05-27 unifies wound / stain / mark
-# under a single `blemish` parent kind in Objects.mon; the `blemishes`
-# attr below is the unified plural-kind attr that accepts any mix
-# (puncture-wound + blood-stain + tool-mark on the same body-part / prop
-# is one attr write, not three). The three legacy attrs (wounds /
-# stains / marks) remain in place until shared_functions/yield_evidence
-# is migrated to write to `blemishes` instead; new writers should
-# target `blemishes` directly.
+# The forensic-trace attr. Holds up to 4 leaf kinds of the `blemish` taxonomy
+# (Objects.mon: wound / stain / mark), in any mix - a puncture-wound, a
+# blood-stain and a tool-mark on the same body-part is ONE attr write. The
+# state-name override makes the singular `blemish` the state label the
+# transmitter plural-expands into `{?host blemish <atom>}` beliefs. /obs +
+# auto-percept, so anyone who looks at the body or the prop reads it: that IS
+# the evidence channel. Wired onto the body-part archetypes, prop and
+# structure-part; the .mc (yield-evidence ..) macro is the writer.
 (attr "blemishes" (type kind array 4) (state "blemish") (per obs) (auto-percept))
-(attr "wounds"  (type kind array 4) (state "wound") (per obs) (auto-percept))
-(attr "stains"  (type kind array 4) (state "stain") (per obs) (auto-percept))
-(attr "marks"   (type kind array 4) (state "mark")  (per obs) (auto-percept))
 
 # the space an entity is in
 

@@ -13,7 +13,5 @@ archetype "hand" (cap 8192) (per obs) (non-occluder)
     # blood-stains on hand, scratch-marks etc. The transmitter plural-
     # expands these into repeated singular `{?hand wound|stain|mark
     # <atom>}` beliefs.
-    (attr "wounds")
-    (attr "stains")
-    (attr "marks")
+    (attr "blemishes")
 }

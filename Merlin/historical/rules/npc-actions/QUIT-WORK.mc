@@ -7,5 +7,5 @@
 (npc-action {@self QUIT-WORK}
   (duration 60)
   (effects
-    (fire /worker @self)
+    (fire-self)
     (set-outcome {@self QUIT-WORK} /succ)))

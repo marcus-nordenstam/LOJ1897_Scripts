@@ -49,6 +49,5 @@ archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
     # PR-evi-A 2026-05-25 - per-object evidence attrs. A blood-stained
     # weapon, gunpowder-residue on a coat, scratch-marks on a lock-pick.
     # Wounds are body-only (no `wounds` attr on props).
-    (attr "stains")
-    (attr "marks")
+    (attr "blemishes")
 }

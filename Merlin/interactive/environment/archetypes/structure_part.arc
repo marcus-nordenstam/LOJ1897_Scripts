@@ -21,8 +21,7 @@ archetype "structure-part" (cap 4096) (per obs) (always-visible) (occupies-env-g
     (attr "opening-status" (auto-percept) (ext-per obs))
     (attr "lock-status"    (auto-percept) (ext-per obs))
     (attr "integrity"      (auto-percept) (ext-per obs))
+    (attr "blemishes")
     # PR-evi-A 2026-05-25 - per-object evidence attrs. Blood-stains on
     # a wall, tool-marks on a door-jamb, gunpowder-residue on a counter.
-    (attr "stains")
-    (attr "marks")
 }

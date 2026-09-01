@@ -34,3 +34,28 @@
 (define-macro date-in-current-month (?d)
   (and (= (year ?d) (year (date-now)))
        (= (month ?d) (month (date-now)))))
+
+; plan-occasion - the host stages one. He mints the occasion object AT the venue,
+; decorates it with the constitutive beliefs the attend lane reads (host / venue /
+; hours / held-on) and takes the organizing duty. Guests learn of it the only way
+; anyone learns anything: an invitation letter posted to each. ?months is the lead
+; time; a lead that runs past December rolls into next year.
+(define-macro plan-occasion (?po-kind ?po-venue ?po-months ?po-start ?po-end)
+  (if (substantial ?po-venue)
+    (then
+      (+ (month) ?po-months): ?po-m
+      (if (> ?po-m 12)
+          (then (create-date (+ (year) 1) (- ?po-m 12) 15))
+          (else (create-date (year) ?po-m 15))): ?po-date
+      (create-entity ?po-kind ?po-venue): ?po-occ
+      (if ?po-occ
+        (then
+          (begin-belief {?po-occ host @self})
+          (begin-belief {?po-occ venue ?po-venue})
+          (begin-belief {?po-occ hours ?po-start ?po-end})
+          (begin-belief {?po-occ held-on ?po-date})
+          (begin-belief {@self organize ?po-occ})
+          (for-each ?po-guest (every {@self friend ?})
+            (bind ?po-guest.target ?po-invitee)
+            (post-blank-letter [k invitation-letter]
+              (any {?po-invitee home ?}).target ?po-invitee)))))))

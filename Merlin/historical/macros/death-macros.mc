@@ -21,7 +21,5 @@
 
 (define-macro settle-death (?dead)
   (do
-    (promote-on-vacancy ?dead)
-    (fire /worker ?dead)
     (set-attr ?dead condition [k dead])
     (die ?dead)))

@@ -53,7 +53,7 @@
   (role ?home {@self home ?home})
   (when (bb-public-none ?home cook))
   (effects
-    (pub-bb-post ?home cook (cook_marker_ttl_cycles))
+    (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles))
     (begin-belief {@self household-cook ?home})))
 
 (npc-think claim_cook_woman
@@ -66,7 +66,7 @@
              (not (and {@self mother ?mum}
                        {?mum home ?home}))))
   (effects
-    (pub-bb-post ?home cook (cook_marker_ttl_cycles))
+    (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles))
     (begin-belief {@self household-cook ?home})))
 
 (npc-think claim_cook_man
@@ -81,12 +81,12 @@
                        {?c gender [k female]}
                        {?c home ?home}))))
   (effects
-    (pub-bb-post ?home cook (cook_marker_ttl_cycles))
+    (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles))
     (begin-belief {@self household-cook ?home})))
 
 (npc-think renew_cook
   (role ?home {@self household-cook ?home})
-  (effects (pub-bb-post ?home cook (cook_marker_ttl_cycles))))
+  (effects (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles))))
 
 ; ---- the pressure: the kitchen larder is low --------------------------------
 

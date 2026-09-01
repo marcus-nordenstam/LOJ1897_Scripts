@@ -105,7 +105,7 @@
              (bb-public-none ?dwell claimed)))
   (utility errand)
   (effects
-    (pub-bb-post ?dwell claimed (claim_marker_ttl_cycles))
+    (bb-public-maintain ?dwell claimed @self (claim_marker_ttl_cycles))
     (begin-goal {@self buy-home ?dwell}))
   (cease-effects (end-goal {@self buy-home ?dwell})))
 

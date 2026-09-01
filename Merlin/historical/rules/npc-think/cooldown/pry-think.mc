@@ -18,4 +18,4 @@
              -{?visitor gender ?host_gender}
              (not (spatial ?host_spouse co-located-building @self))))
   (effects
-    (bump-suspicion @self ?host (* 0.08 (+ 1 (hostility-toward ?host))))))
+    (nudge-stance ?host trust (- 0 (* 0.08 (+ 1 (hostility-toward ?host)))))))

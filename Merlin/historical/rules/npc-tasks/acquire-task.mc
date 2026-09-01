@@ -22,7 +22,7 @@
   (and
     ; RETRIEVE - an instance already in my home, unheld -> fetch it.
     (try
-      (role ?mine ?kind {@self own ?mine} (spatial ?mine building (home-of @self)))
+      (role ?mine ?kind {@self own ?mine} (spatial ?mine building (any {@self home ?}).target))
       (when (and (not (spatial ?mine co-located @self))
                  (unknown (spatial ?mine held-by))))
       (utility always-pick)
@@ -31,14 +31,14 @@
     (try
       (when (not (is-a ?disc [k covert])))
       (effects (maintain-proposal {@self buy ?kind}
-                 (feasible (>= (coin-balance @self) (price ?kind)))
+                 [/feasible (>= (coin-balance @self) (price ?kind))]
                  [/cost (money-cost-util (coin-balance @self) (price ?kind))])))
     ; HIRE - covert paid channel; agent fee folded into the price gate.
     (try
       (role ?agent (any_human ?agent) (personally-knows @self ?agent))
       (when (is-a ?disc [k covert]))
       (effects (maintain-proposal {@self hire-procure ?agent ?kind}
-                 (feasible (>= (coin-balance @self) (+ (price ?kind) (procure_fee))))
+                 [/feasible (>= (coin-balance @self) (+ (price ?kind) (procure_fee)))]
                  [/cost (money-cost-util (coin-balance @self) (+ (price ?kind) (procure_fee)))])))
     ; STEAL - floored last resort, only while crime is enabled.
     (try

@@ -16,7 +16,7 @@
 (npc-action {@self PARTNER ?art}
   (duration 90)
   (effects
-    (fire /worker @self)
-    (add-co-owner /articles ?art /owner @self)
+    (fire-self)
+    (table-set ?art co-owner @self)
     (hire-seq ?art [k job proprietor] [k senior])
     (set-outcome {@self PARTNER} /succ)))

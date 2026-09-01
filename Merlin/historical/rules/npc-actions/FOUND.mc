@@ -10,19 +10,13 @@
 (npc-action {@self FOUND}
   (duration 90)
   (effects
-    ; Roll a HOUSABLE business kind first (premises-aware: only kinds with a free
-    ; building of their declared kind). If none can be housed right now, ?bizkind is
-    ; a fail value and we found nothing this trip. No premises -> no founding -> no error.
-    ; The foundable-business catalog, premises-gated (1): only a kind a free
-    ; building of its declared premises kind can house right now is rolled -
-    ; supply self-limits to what the authored level provides.
-    (tolerate (roll-org-kind 1
-                   [k org grocer] [k org bookseller] [k org barbershop]
-                   [k org restaurant] [k org pawnbroker] [k org apothecary]
-                   [k org antiques-shop] [k org hotel]):?bizkind)
+    ; Roll a kind from the authored catalog. found-org-seq's own premises guard
+    ; no-ops the founding when no free building of that kind's declared premises
+    ; exists, so a dry pool costs a trip and nothing else.
+    (table-sample-weighted foundable_businesses kind weight): ?bizkind
     (if ?bizkind
       (then
-        (fire /worker @self)
+        (fire-self)
         ; mint the founding via the atomic-op sequence (proprietor head).
         (found-org-seq ?bizkind [k job proprietor])))
     ; Clear the goal regardless of the premises outcome. A dry-premises resolution

@@ -7,7 +7,5 @@ archetype "finger" (cap 8192) (per obs) (non-occluder)
     (attr "wear")
     (spatial bounds)
     # PR-evi-A 2026-05-25 - per-body-part evidence attrs.
-    (attr "wounds")
-    (attr "stains")
-    (attr "marks")
+    (attr "blemishes")
 }

@@ -92,9 +92,9 @@
 ; keeps the sub-need shape for any future re-gating. Value climbs convex toward collapse.
 (define-macro starve-drive ()
   (homeostatic-banded appetite 2.0
-    (want   0.0  0   500)
-    (need   0.45 300 900)
-    (crisis 0.9  600 1000)))
+    [/want   0.0  0   500]
+    [/need   0.45 300 900]
+    [/crisis 0.9  600 1000]))
 
 ; ---- notice the larder -----------------------------------------------------
 ; A home, hungry resident who believes there is NO food OBSERVES their own
@@ -256,7 +256,7 @@
              [/affect (if (dining-out? ?place) (then (* (attr @self enthusiasm) 20)) (else 0))]
              [/cost (money-cost-util (coin-balance @self)
                          (if (dining-out? ?place) (then (price ?meal ?place)) (else 0)))]
-             (feasible (or (not (dining-out? ?place)) (>= (coin-balance @self) (price ?meal ?place)))))))
+             [/feasible (or (not (dining-out? ?place)) (>= (coin-balance @self) (price ?meal ?place)))])))
 
 ; (PROVISIONING - the cook keeping the kitchen larder stocked - lives in
 ; npc-think/provisioning_think.hs; the general carry-to-a-place chain in
@@ -437,7 +437,7 @@
                         (bind 1 ?found)
                         (begin-belief {@self provisions-shop ?shop})
                         (if (not (> (any {@self wealth}).target 0.2))
-                            (then (owner-of ?shop): ?owner))))))))
+                            (then (any {? own ?shop}).subject: ?owner))))))))
     (if (= ?found 1)
         (then (maintain-proposal {@self EAT ?item ?owner})))))
 

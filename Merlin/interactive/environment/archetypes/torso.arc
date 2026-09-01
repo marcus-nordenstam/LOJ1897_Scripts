@@ -4,7 +4,5 @@
 archetype "torso" (cap 4096) (per obs) (non-occluder)
 {
     (spatial bounds)
-    (attr "wounds")
-    (attr "stains")
-    (attr "marks")
+    (attr "blemishes")
 }

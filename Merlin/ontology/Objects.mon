@@ -325,6 +325,9 @@ object (+ obs)
             diploma
             letter
                 adverts-letter
+                # The occasion lane's invitation: its writing names the occasion, and
+                # holding one is how a guest knows an occasion exists at all.
+                invitation-letter
                 # Perpetrator's own admission; writing embeds their
                 # band-5 self-beliefs. Discovery internalizes the
                 # crime fact via the standard read path.

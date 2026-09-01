@@ -34,7 +34,7 @@
           (for-each ?item (spatial ?room contents ?kind /env) /limit 1
             (if (= ?found 0) (then (bind ?item ?goods) (bind 1 ?found)))))
         (if (= ?found 1)
-            (then (maintain-proposal {@self BUY ?goods (owner-of ?shop)})))))
+            (then (maintain-proposal {@self BUY ?goods (any {? own ?shop}).subject})))))
     ; concluded: an instance of the kind is in hand.
     (try
       (when (not (empty (spatial @self hold ?kind))))

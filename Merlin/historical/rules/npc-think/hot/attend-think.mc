@@ -54,7 +54,11 @@
                    {@self spouse ?betrothed})
   (effects
     (end-belief {@self fiancee ?betrothed})
-    (formalize-marriage ?betrothed)))
+    ; TELEPATHY - this married both parties by writing the bride's mind. The vow is
+    ; spoken and HEARD; the reciprocal marriage below is her own rule on hearing it.
+    ; Commented out pending that redesign.
+    ; (formalize-marriage ?betrothed)
+    ))
 
 ; Reciprocal marriage: learning {?p spouse @self} while betrothed to ?p marries @self
 ; back in their own mind - the bride hears the vow at the altar; an absent bride

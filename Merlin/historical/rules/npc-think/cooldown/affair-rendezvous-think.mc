@@ -48,14 +48,25 @@
 
   (effects
     (spouse-of @self): ?spouse
-    (register-occupant ?venue @self 0)
-    (register-occupant ?venue ?spouse 0)
-    (register-occupant ?venue ?paramour 0)
-    (record-hotel-guest ?venue @self)
-    (record-hotel-guest ?venue ?spouse)
-    (record-hotel-guest ?venue ?paramour)
-    (nudge-stance @self ?paramour attraction 0.10)
-    (nudge-stance ?paramour @self attraction 0.10)
+    (relocate @self ?venue)
+    (relocate ?spouse ?venue)
+    (relocate ?paramour ?venue)
+    ; No guest register exists on a hotel org, so there is nothing to write. The
+    ; relocate above already puts them in the room, which is what a witness sees.
+    ; Commented out pending the register. 
+    ; (record-hotel-guest ?venue @self)
+    ; No guest register exists on a hotel org, so there is nothing to write. The
+    ; relocate above already puts them in the room, which is what a witness sees.
+    ; Commented out pending the register. 
+    ; (record-hotel-guest ?venue ?spouse)
+    ; No guest register exists on a hotel org, so there is nothing to write. The
+    ; relocate above already puts them in the room, which is what a witness sees.
+    ; Commented out pending the register. 
+    ; (record-hotel-guest ?venue ?paramour)
+    (nudge-stance ?paramour attraction 0.10)
+    ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
+    ; party's own reflex on the act. Commented out pending that redesign.
+    ; (nudge-stance ?paramour @self attraction 0.10)
     ; the hotel is an org premises - the note names it by the org's name.
     (if (and (chance 0.30) {?paramour home ?paramour_home}
              {? workplace ?venue}: ?wob
@@ -65,7 +76,10 @@
           (post-letter [k tryst-note]
                 (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
                 ?paramour_home ?paramour)))
-    (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)))
+    ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
+    ; re-authoring as what the spouse can actually notice. Commented out pending that.
+    ; (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)
+    ))
 
 ; --- houseguest silent hours ------------------------------------------------
 ; Silent hours at the actor's own home. Risk = a co-present onlooker (pry_think)
@@ -88,10 +102,12 @@
   (utility want)
 
   (effects
-    (register-occupant ?venue @self 0)
-    (register-occupant ?venue ?paramour 0)
-    (nudge-stance @self ?paramour attraction 0.10)
-    (nudge-stance ?paramour @self attraction 0.10)
+    (relocate @self ?venue)
+    (relocate ?paramour ?venue)
+    (nudge-stance ?paramour attraction 0.10)
+    ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
+    ; party's own reflex on the act. Commented out pending that redesign.
+    ; (nudge-stance ?paramour @self attraction 0.10)
     ; @self's own home: a named residence carries a name; a plain house has only
     ; an address (not expressible in a note yet), so unnamed homes write no note.
     (if (and (chance 0.30) {?paramour home ?paramour_home} {?venue name ?})
@@ -100,8 +116,13 @@
           (post-letter [k tryst-note]
                 (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
                 ?paramour_home ?paramour)))
-    (bump-suspicion (spouse-of @self) @self 0.05)
-    (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)))
+    ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
+    ; re-authoring as what the spouse can actually notice. Commented out pending that.
+    ; (bump-suspicion (spouse-of @self) @self 0.05)
+    ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
+    ; re-authoring as what the spouse can actually notice. Commented out pending that.
+    ; (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)
+    ))
 
 ; --- public crowd -----------------------------------------------------------
 ; Co-presence at a public venue (theatre, else pub); an indiscretion plays out
@@ -135,15 +156,22 @@
   (utility want)
 
   (effects
-    (register-occupant ?venue @self 1)
-    (register-occupant ?venue ?paramour 1)
+    (relocate @self ?venue)
+    (relocate ?paramour ?venue)
     ; an indiscretion before whoever is there this date; whispers reach the spouses.
     (if (chance (* 0.10 (carelessness-of @self ?paramour)))
         (then
-          (bump-suspicion (spouse-of @self) @self 0.20)
-          (bump-suspicion (spouse-of ?paramour) ?paramour 0.20)))
-    (nudge-stance @self ?paramour attraction 0.10)
-    (nudge-stance ?paramour @self attraction 0.10)
+          ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
+          ; re-authoring as what the spouse can actually notice. Commented out pending that.
+          ; (bump-suspicion (spouse-of @self) @self 0.20)
+          ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
+          ; re-authoring as what the spouse can actually notice. Commented out pending that.
+          ; (bump-suspicion (spouse-of ?paramour) ?paramour 0.20)
+          ))
+    (nudge-stance ?paramour attraction 0.10)
+    ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
+    ; party's own reflex on the act. Commented out pending that redesign.
+    ; (nudge-stance ?paramour @self attraction 0.10)
     ; the theatre / pub is an org premises - the note names it by the org's name.
     (if (and (chance 0.30) {?paramour home ?paramour_home}
              {? workplace ?venue}: ?wob
@@ -153,5 +181,10 @@
           (post-letter [k tryst-note]
                 (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
                 ?paramour_home ?paramour)))
-    (bump-suspicion (spouse-of @self) @self 0.05)
-    (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)))
+    ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
+    ; re-authoring as what the spouse can actually notice. Commented out pending that.
+    ; (bump-suspicion (spouse-of @self) @self 0.05)
+    ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
+    ; re-authoring as what the spouse can actually notice. Commented out pending that.
+    ; (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)
+    ))

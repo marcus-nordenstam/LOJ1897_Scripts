@@ -50,5 +50,5 @@
                  (is-a (spatial @self building) [k building shop])))
       (effects
         (spatial @self building): ?shop
-        (crime-ledger-append @self (owner-of ?shop) opportunist_theft steal ?kind @u)
+        (crime-ledger-append @self (any {? own ?shop}).subject opportunist_theft steal ?kind @u)
         (set-outcome ?steal-rel /succ)))))

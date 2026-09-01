@@ -36,7 +36,7 @@
   (role @self (grown @self))
   (when (chance 0.02))
   (effects
-    (plan-occasion @self [k dinner-party] (any {@self home ?}).target 3 19 23 formal)))
+    (plan-occasion [k dinner-party] (any {@self home ?}).target 3 19 23)))
 
 ; An IMPROMPTU supper (the INFORMAL channel): unlike the planned dinner party, this
 ; reaches only whoever the host is physically WITH right now - the co-present set at
@@ -48,7 +48,7 @@
   (role @self (grown @self))
   (when (chance 0.015))
   (effects
-    (plan-occasion @self [k dinner-party] (any {@self home ?}).target 0 18 22 informal)))
+    (plan-occasion [k dinner-party] (any {@self home ?}).target 0 18 22)))
 
 ; Attendance is no scan: reading the invitation (ordinary mail) leaves @self holding
 ; {<host> invite @self /aux <occ>} + {<occ> held-on <date>}, and the attend_think.hs

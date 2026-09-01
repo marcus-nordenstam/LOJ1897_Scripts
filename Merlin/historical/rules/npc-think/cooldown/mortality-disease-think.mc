@@ -26,5 +26,5 @@
 
   (effects
     (settle-death @self)
-    (record-corpse-death @self [k death-cause disease])
+    (set-attr @self death-cause [k death-cause disease])
     ))

@@ -17,8 +17,18 @@
 ; the specific verb), the objective violent death-cause on the corpse, then settle-death
 ; (world settlement + die - NO telepathy; witnesses learn via observation, absentees via
 ; the learn_of_death keystone). ?method is the striking verb literal.
+; yield-evidence - the forensic trace a blow leaves on the body. ?site is the
+; body-part kind struck; ?blemish a leaf of the blemish taxonomy (Objects.mon:
+; wound / stain / mark). Written to the struck part's `blemishes` attr, which is
+; /obs + auto-percept, so anyone who looks at the body reads it - that is the whole
+; evidence channel. A body with no such part (or a part already carrying the same
+; leaf, since the array is a SET) is a no-op.
+(define-macro yield-evidence (?ye-target ?ye-site ?ye-blemish)
+  (for-each ?ye-part (spatial ?ye-target parts ?ye-site /env) /limit 1
+    (add-attr-item ?ye-part blemishes ?ye-blemish)))
+
 (define-macro kill-blow (?foe ?method)
   (do
     (crime-ledger-append @self ?foe ?method kill @u @u)
-    (record-corpse-death ?foe [k death-cause violence])
+    (set-attr ?foe death-cause [k death-cause violence])
     (settle-death ?foe)))

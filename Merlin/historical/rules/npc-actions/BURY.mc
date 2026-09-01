@@ -19,8 +19,18 @@
 (npc-action {@self BURY ?corpse}
   (duration 60)
   (effects
-    (record-verdict ?corpse)
-    (tombstone ?corpse)
+    ; The burier READS the body before it goes in the ground: any blemish of the
+    ; wound family on any part is a violent reading. A poisoning leaves none, so it
+    ; passes as natural - the divergence the verdicts query measures.
+    (bind 0 ?violent)
+    (for-each ?part (spatial ?corpse parts /env)
+      (for-each ?blem (attr-values ?part blemishes)
+        (if (is-a ?blem [k wound]) (then (bind 1 ?violent)))))
+    (record-verdict ?corpse ?violent)
+    ; No tombstone kind or archetype exists yet, so there is nothing to create -
+    ; and the grave marker is the durable record a detective would read. Commented
+    ; out pending the ontology + archetype.
+    ; (tombstone ?corpse)
     (realize-destroyed ?corpse internment [k internment buried])
     (destroy-entity ?corpse)
     (set-outcome {@self BURY ?corpse} /succ)))

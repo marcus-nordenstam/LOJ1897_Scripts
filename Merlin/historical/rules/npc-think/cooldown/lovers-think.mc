@@ -80,8 +80,10 @@
     ; least the `fancy` band (0.4 clears the 0.24 entry threshold; ?b may have
     ; reciprocated with warmth only, but becoming lovers grows the attraction).
     ; This is what lets love_match marry the pair later: it keys on `fancy`.
-    (nudge-stance @self ?b attraction 0.4)
-    (nudge-stance ?b @self attraction 0.4)
+    (nudge-stance ?b attraction 0.4)
+    ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
+    ; party's own reflex on the act. Commented out pending that redesign.
+    ; (nudge-stance ?b @self attraction 0.4)
     ; @self discloses their friend-tier profile to ?b (the SAY they hear and adopt);
     ; @self's knowledge of ?b pre-exists. Friend-tier keeps @self's other lovers
     ; (intimate-tier) unspoken.

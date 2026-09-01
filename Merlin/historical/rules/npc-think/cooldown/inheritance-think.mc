@@ -35,7 +35,7 @@
 ; reading; only the one the will names ends up claiming.
 (npc-think settle_inheritance
   (cooldown 1 m)
-  (role ?dead (believes {?dead condition [k dead]}))
+  (role ?dead {?dead condition [k dead]})
   (when {@self spouse|child|sibling ?dead})
   (utility duty)
   (effects (begin-proposal {@self receive-inheritance ?dead})))

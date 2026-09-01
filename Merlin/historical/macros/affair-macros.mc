@@ -19,14 +19,10 @@
 
 ; Route one covert letter with the authored channel model (tunables.hs). The
 ; ONE way content should call the routing verb - the C++ carries no defaults.
+; The covert channel model (courier / post / poste-restante, interception rolls, and
+; the dislike + suspicion the interception costs) has no substrate: the channel choice
+; and the interception are unauthored, and the two gains write OTHER minds. For now the
+; letter goes by the ordinary post - visible, interceptable by whoever handles it, and
+; honest - with the covert routing left to the redesign.
 (define-macro send-covert-letter (?to ?msg ?kind)
-  (route-covert-letter ?to ?msg ?kind
-    /w-courier          (covert_w_courier)
-    /w-post             (covert_w_post)
-    /w-poste            (covert_w_poste)
-    /intercept-courier  (covert_intercept_courier)
-    /intercept-post     (covert_intercept_post)
-    /dislike-gain       (covert_dislike_gain)
-    /suspicion-gain     (covert_suspicion_gain)
-    /intercept-cap      (covert_intercept_cap)
-    /handling-suspicion (covert_handling_suspicion)))
+  (post-letter ?kind ?msg (any {?to home ?}).target ?to))

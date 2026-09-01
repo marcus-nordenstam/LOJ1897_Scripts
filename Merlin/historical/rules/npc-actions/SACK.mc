@@ -7,7 +7,9 @@
 (npc-action {@self SACK ?worker}
   (duration 45)
   (effects
-    (fire /worker ?worker)
+    (strike-from-register ?worker)
     ; the grudge: the dismissed man resents the boss who let him go (a named motive)
-    (nudge-stance ?worker @self warmth -0.5)
+    ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
+    ; party's own reflex on the act. Commented out pending that redesign.
+    ; (nudge-stance ?worker @self warmth -0.5)
     (set-outcome {@self SACK} /succ)))

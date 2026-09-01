@@ -40,4 +40,8 @@
   (effects
     ; ~3 months' banns lead, an 11-14h ceremony. plan-wedding stages the occasion
     ; (both principals forced-attend, both circles invited).
-    (plan-wedding @self ?fiancee ?church 3 11 14)))
+    ; TELEPATHY - this staged the occasion in both principals' and every guest's mind.
+    ; Wants re-authoring as the groom minting his OWN occasion + posting invitations.
+    ; Commented out pending that redesign.
+    ; (plan-wedding @self ?fiancee ?church 3 11 14)
+    ))

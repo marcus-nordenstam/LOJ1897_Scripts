@@ -32,7 +32,7 @@
     (if (and (>= (despair ?who) (suicide_despair_min))
              (>= (attr ?who withdrawal) (suicide_withdrawal_min)))
         (then (settle-death ?who)
-            (record-corpse-death ?who [k death-cause suicide])))))
+            (set-attr ?who death-cause [k death-cause suicide])))))
 
 ; The strive outlet (benign envy): discharge half the driving rivalry pressure.
 ; No goal. Getting better at the contested domain is not a bespoke act here -

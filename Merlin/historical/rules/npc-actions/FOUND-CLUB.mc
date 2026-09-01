@@ -10,9 +10,8 @@
 (npc-action {@self FOUND-CLUB}
   (duration 90)
   (effects
-    ; The foundable-club catalog, ungated (0): clubs are not premises-gated -
-    ; a dry pool just no-ops the founding macro via its (if ?wp) guard.
-    (tolerate (roll-org-kind 0
-                   [k org race-club] [k org athletic-club]):?clubkind)
+    ; Clubs are not premises-gated; a dry pool just no-ops found-club-seq's own
+    ; (if ?wp) guard.
+    (table-sample-weighted foundable_clubs kind weight): ?clubkind
     (if ?clubkind (then (found-club-seq ?clubkind)))
     (set-outcome {@self FOUND-CLUB} /succ)))

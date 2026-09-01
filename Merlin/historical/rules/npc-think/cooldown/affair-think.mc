@@ -79,8 +79,10 @@
     ; (0.4 clears the 0.24 band-entry threshold). Without the reciprocal nudge a
     ; paramour could "be a lover" while fancying nobody, which broke love_match's
     ; ability to marry the pair once both were free.
-    (nudge-stance @self ?lover attraction 0.4)
-    (nudge-stance ?lover @self attraction 0.4)
+    (nudge-stance ?lover attraction 0.4)
+    ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
+    ; party's own reflex on the act. Commented out pending that redesign.
+    ; (nudge-stance ?lover @self attraction 0.4)
     ; @self discloses their friend-tier profile to the lover (the SAY they hear and
     ; adopt); @self's knowledge of the lover pre-exists. Friend-tier, so @self does
     ; not reveal their OTHER lovers (that is intimate-tier, above this band).

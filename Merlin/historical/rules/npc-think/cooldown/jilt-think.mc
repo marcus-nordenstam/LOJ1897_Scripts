@@ -60,7 +60,9 @@
     ; wrong-act) into the grief / attachment-loss stack. No incident-anchor, no cross-mind mint.
     (begin-proposal {@self SAY (utterable-msg {@self jilt ?jilted}) ?jilted})
     ; Warmth curdles; attraction is NOT touched (longing persists).
-    (nudge-stance ?jilted @self warmth -0.4)
+    ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
+    ; party's own reflex on the act. Commented out pending that redesign.
+    ; (nudge-stance ?jilted @self warmth -0.4)
     ))
 
 ; ----------------------------------------------------------------------------
@@ -109,5 +111,7 @@
   (effects
     (end-belief {@self lover ?jilted})
     (begin-proposal {@self SAY (utterable-msg {@self jilt ?jilted}) ?jilted})
-    (nudge-stance ?jilted @self warmth -0.4)
+    ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
+    ; party's own reflex on the act. Commented out pending that redesign.
+    ; (nudge-stance ?jilted @self warmth -0.4)
     ))

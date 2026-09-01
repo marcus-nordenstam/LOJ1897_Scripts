@@ -46,7 +46,10 @@
     (try
       (when {@self SAY ? /succ /caused_by ?expose-rel})
       (effects
-        (publish-secret-about @self ?victim)
+        ; TELEPATHY - this pushed the secret into every other mind. The SAY above is
+        ; already the honest channel; the spread belongs to the hearers' own adoption.
+        ; Commented out pending that redesign.
+        ; (publish-secret-about @self ?victim)
         (if {@self extort ?victim} (then (end-belief {@self extort ?victim})))
         (crime-ledger-append @self ?victim confront-publicly expose @u @u)
         (set-outcome ?expose-rel /succ)))

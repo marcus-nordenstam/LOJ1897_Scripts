@@ -110,21 +110,16 @@
 (define-macro immigrant_age_min            () 18)
 (define-macro immigrant_age_max            () 32)
 
-; One immigrant wave with the full authored model - the ONE way content
-; should call the spawn verb (no C++ defaults).
+; One immigrant wave: ?count arrivals, each a full human minted by the shared
+; make-human func into a residence that will take them. The authored knobs above
+; shape who arrives; the row data (ranks / origins / marginal jobs) lives in
+; tables/immigrant-tables.hs and is read where those beliefs are minted, not here.
 (define-macro spawn-immigrant-wave (?count)
-  (spawn-immigrant ?count
-    /female-frac        (immigrant_female_frac)
-    /marginal-frac      (immigrant_marginal_frac)
-    /military-frac      (immigrant_military_frac)
-    /still-serving-frac (immigrant_still_serving_frac)
-    /swordsman-frac     (immigrant_swordsman_frac)
-    /age-min            (immigrant_age_min)
-    /age-max            (immigrant_age_max)
-    /class              lower
-    /ranks              immigrant_ranks
-    /origins            immigrant_origins
-    /marginal-jobs      immigrant_marginal_jobs))
+  (repeat ?count
+    (head (env-entities [k building rowhouse])): ?imm-home
+    (if (substantial ?imm-home)
+      (then
+        (make-human ?imm-home [k class-situation lower])))))
 
 ; Household staffing hire-age window (the staff slots themselves live in
 ; tables/household_staff.hs).

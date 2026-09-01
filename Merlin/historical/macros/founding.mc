@@ -245,6 +245,40 @@
 ; beliefs; the sacked worker reconciles his own stale row.)
 ; ----------------------------------------------------------------------------
 
+; strike-from-register - the EMPLOYER's half of a dismissal. @self walks his OWN
+; belief chain to his OWN firm's employee-register (a public doc) and strikes the
+; worker's row. He cannot end the worker's {job} belief - that is the worker's own
+; to reconcile off the struck row, the same way an emigrant's stale row lapses.
+(define-macro strike-from-register (?worker)
+  (for-each ?sr-jrel (every {@self job ?})
+      (bind ?sr-jrel.target ?sr-job)
+      (for-each ?sr-orel (every {?sr-job org ?})
+          (bind ?sr-orel.target ?sr-org)
+          (for-each ?sr-rrel (every {?sr-org employee-register ?})
+              (bind ?sr-rrel.target ?sr-reg)
+              (table-remove ?sr-reg worker ?worker)))))
+
+; stamp-work-hours - the shift stamp. Reads the authored occupation_shifts rows for
+; ?job-kind (falling back to the `default` Mon-Sat week when the kind has none) and
+; mints one {?job <day>-hours <start> <end>} belief per day of ONE shift. A kind
+; authored under several shift-ids (nurse / factory-worker: day AND night) puts the
+; worker on exactly one, drawn here.
+(define-macro stamp-work-hours (?job ?job-kind)
+  (do
+    (if (table-match occupation_shifts job ?job-kind)
+        (then ?job-kind)
+        (else default)): ?swh-key
+    (bind 0 ?swh-top)
+    (for-each-row occupation_shifts [/job ?swh-j] [/shift-id ?swh-sid]
+      (if (and (= ?swh-j ?swh-key) (> ?swh-sid ?swh-top))
+          (then (bind ?swh-sid ?swh-top))))
+    (random-int 0 ?swh-top): ?swh-shift
+    (for-each-row occupation_shifts
+        [/job ?swh-j2] [/shift-id ?swh-sid2] [/day-label ?swh-day]
+        [/start-h ?swh-start] [/end-h ?swh-end]
+      (if (and (= ?swh-j2 ?swh-key) (= ?swh-sid2 ?swh-shift))
+          (then (begin-belief {?job ?swh-day ?swh-start ?swh-end}))))))
+
 (define-macro fire-self ()
   (for-each ?fire-jrel (every {@self job ?})
       (bind ?fire-jrel.target ?fire-job)

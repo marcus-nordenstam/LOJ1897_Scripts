@@ -100,7 +100,12 @@
   (when (and (>= (years-old @self) 21)
              (or (in-month 12) (in-month 1) (in-month 2))))
 
-  (effects (staff-household ?h
-             /slots   household_staff_slots
-             /age-min (staff_hire_age_min)
-             /age-max (staff_hire_age_max))))
+  ; TELEPATHY, and a second hiring path besides: this hired straight out of a jobless
+  ; pool, bypassing the labour lane (recruit-staff -> advertise -> apply-for -> hire)
+  ; that already exists. Wants folding into that lane. Commented out pending that.
+  (effects
+    ; (staff-household ?h
+    ;   /slots   household_staff_slots
+    ;   /age-min (staff_hire_age_min)
+    ;   /age-max (staff_hire_age_max))
+    ))

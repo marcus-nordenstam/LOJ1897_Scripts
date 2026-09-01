@@ -21,13 +21,20 @@
       (end-belief {@self spouse ?partner})
       ; Mutual: end her reciprocal bond and land HER record of being put away.
       (end-belief ?partner {?partner spouse @self})
-      (begin-ended-belief ?partner {@self divorce ?partner})
+      (begin-belief {@self divorce ?partner /momentary})
       ; The fallen woman: marked in her mind AND his, expelled from the marital roof,
       ; dismissed from reputable service.
       (if {?partner gender [k female]}
           (then
             (begin-belief ?partner {?partner prototype [k fallen-woman]})
             (begin-belief {?partner prototype [k fallen-woman]})
-            (expel-divorced-wife ?partner)
-            (dismiss-from-service ?partner)))
+            ; He puts her out: his OWN tenancy belief for her ends. What she now
+            ; believes about where she lives is hers to reconcile.
+            (for-each ?edw-h (every {@self home ?})
+              (bind ?edw-h.target ?edw-home)
+              (end-belief {?edw-home tenant ?partner}))
+            ; Her dismissal from reputable service is her EMPLOYER's decision, not
+            ; the husband's - it wants a rule on the employer reading her new
+            ; standing. Commented out pending that.
+            ))
       (set-outcome ?divorce-rel /succ))))
