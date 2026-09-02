@@ -73,13 +73,24 @@
                    (prob {@self repute [k repute scandalous]})) 0 1))
       [k prototype undeserving-poor] 0.5)))
 
-; go-between (the underworld fixer) - migrated from hsim_derive.cc is_go_between.
-; NOT-reputable (neither exemplary nor respectable) + lower/middle class + the
-; externalizing temperament to broker violence (the corrupt publican / fence /
-; flash sporting-man). derive_prototypes READS this band to feed the C++
-; contract-killing fixer pool. NB "disinhibition" here is the externalizing trait
-; fold (low industriousness + low politeness + high volatility), the quantity the
-; C++ used - NOT the (disinhibition) = 1 - inhibition macro.
+; go-between (the underworld fixer) - NOT-reputable (neither exemplary nor
+; respectable) + lower/middle class + the externalizing temperament to broker
+; violence (the corrupt publican / fence / flash sporting-man). NB "disinhibition"
+; here is the externalizing trait fold (low industriousness + low politeness +
+; high volatility), NOT the (disinhibition) = 1 - inhibition macro.
+;
+; TODO - this is SELF-knowledge only, and nothing reads it yet.
+; The old C++ hireling census walked every mind to build a global "fixer pool";
+; that was a director read and is purged. A fixer is worth nothing until another
+; mind can come to believe {?other prototype go-between} on its own evidence, so
+; the work is:
+;   (a) a per-observer twin, classify_others_go_between, on the
+;       classify_others_repute template in repute.mc - (role ?other ..) +
+;       (mint-band-about {?other prototype} ..) folding only what @self has
+;       personally witnessed or been told about ?other;
+;   (b) an "ask the fixer" rung in hire-assassin-task.mc, since the whole POINT of
+;       a go-between is that you need not know a killer yourself - you need to know
+;       someone who does. That rung is how an employer ACQUIRES the name.
 (npc-think classify_go_between
   (rng-stream behaviour)
   (role @self {@self repute ?, class-situation ?})
@@ -95,13 +106,25 @@
              0.50))
       [k prototype go-between] 0.5)))
 
-; for-hire (migrated from hsim_derive.cc is_for_hire): CAPABILITY (a lethal skill
-; OR raw brute strength) AND REASON (economic desperation OR a callous, disinhibited
-; bad-seed). Split into a skilled path (role binds a martial / garrotting skill) and
-; a MUTUALLY-EXCLUSIVE brute path (role excludes such a skill), so the two never
-; clobber the shared for-hire toggle and a skill-loss hands the subject cleanly to
-; the brute path. derive_prototypes reads the band for the contract-killing pool.
-; "disinhibition" is the externalizing fold, as in classify_go_between.
+; for-hire: CAPABILITY (a lethal skill OR raw brute strength) AND REASON (economic
+; desperation OR a callous, disinhibited bad-seed). Split into a skilled path (role
+; binds a martial / garrotting skill) and a MUTUALLY-EXCLUSIVE brute path (role
+; excludes such a skill), so the two never clobber the shared for-hire toggle and a
+; skill-loss hands the subject cleanly to the brute path. "disinhibition" is the
+; externalizing fold, as in classify_go_between.
+;
+; The skill-level reads below are shape-correct: the action pipeline emits
+; {@self skill-level [k <domain>] [k <rung>]}, a DOMAIN-kind target, which is what
+; these clauses match. They stay quiet only while no act accruing martial /
+; garrotting skill is being performed.
+;
+; TODO - same gap as classify_go_between: this is SELF-knowledge and nothing reads
+; it. An employer cannot see another mind's willingness to kill for money. Needs a
+; per-observer classify_others_for_hire (the classify_others_repute template in
+; repute.mc) fed by legal evidence only - witnessed violence, reputation, gossip,
+; or the solicitation itself, since asking someone and hearing their answer IS how
+; you learn it. Then hire-assassin-task.mc prefers a believed hireling and proposes
+; ACQUIRING that belief when it holds none.
 
 ; skilled path: a martial or garrotting skill IS the capability; mint on reason.
 (npc-think classify_for_hire_skilled
