@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
 ; covet_inheritance.hs - instrumental (appetitive) homicide genesis.
 ;
-; The appetitive counterpart to the reactive pressure-deliberation path
-; (deliberate.hs). Where deliberation turns a GRIEVANCE into a goal against the
+; The appetitive counterpart to the reactive grievance rules
+; (grievance-*-think.mc). Where those turn a GRIEVANCE into an act against the
 ; wrongdoer, this rule turns a WANT (a wealthier relative's fortune) into a
 ; goal against an INNOCENT obstacle - the rich kin. The victim is selected for
 ; what removing them achieves (the inheritance), not for anything they did.
