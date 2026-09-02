@@ -35,7 +35,7 @@
 ; (coercion-stake): the exposure-risk pressure delta a victim mints per month, as
 ; HE reckons it - the base window scaled by what publication would cost HIS OWN
 ; standing (class, self-known). begin-belief (salience ..) compounds it across months,
-; walking him from bribe / confess toward the kill tail (deliberation_affinity).
+; walking him from bribe / confess toward the harsher grievance outlets.
 (define-macro coercion-stake ()
   (* 1440
      (if (is-a (any {@self class-situation}).target [k class-situation upper]) (then 1.5)

@@ -40,14 +40,13 @@
 ; as needing work (the gate defaults them in).
 (define-macro seek_job_wealth_ceiling () 1.0)
 
-; Deliberation inaction floor: the fixed weight of "forgive / do nothing" in the
-; act-vs-floor pick that follows the (select-joint ...) deliberation. The winner's
-; pressure-driven action score competes against this ONCE per fire, so a weak
-; pressure resolves to inaction and a strong one acts. Replaces the old per-branch
-; C++ floor rows + identity anchor.
-(define-macro deliberation_inaction_floor () 0.55)
+; The monthly base rate a LAWFUL grievance outlet (confess / report) rolls at, before
+; its own base weight and the actor's drive. The unlawful outlets use (crime-scale)
+; instead - this is its lawful twin, kept at the same magnitude so a lawful and an
+; unlawful response to the same grievance stay comparable.
+(define-macro k-grievance-rate () 0.1)
 
-; Deliberation tilt swings: how far one dimension at 0 or 1 moves its category
+; Grievance tilt swings: how far one dimension at 0 or 1 moves its category
 ; multiplier off the 1.0 baseline. Trait is dispositional (larger), mood transient
 ; (smaller); each held rationalisation adds k-justify-per to the (1 + discount) wrap.
 (define-macro k-trait-swing () 0.2)
