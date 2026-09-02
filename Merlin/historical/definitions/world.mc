@@ -9,5 +9,10 @@
 ; from the same folder as the .mwo (Content/Environment/Merlin). The .ter is
 ; resolved as <content>/<terrain-ref-stored-in-the-.mwo>.
 
-(mwo     "C:/Users/realm/Dropbox/CnE/LOJ1897/Game/Content/Environment/Merlin/demo_tech_level_v2.mwo")
-(content "C:/Users/realm/Dropbox/CnE/LOJ1897/Game/Content")
+; windows
+; (mwo     "C:/Users/realm/Dropbox/CnE/LOJ1897/Game/Content/Environment/Merlin/demo_tech_level_v2.mwo")
+; (content "C:/Users/realm/Dropbox/CnE/LOJ1897/Game/Content")
+
+; mac
+(mwo     "~/Dropbox/CnE/LOJ1897/Game/Content/Environment/Merlin/demo_tech_level_v2.mwo")
+(content "~/Dropbox/CnE/LOJ1897/Game/Content")
