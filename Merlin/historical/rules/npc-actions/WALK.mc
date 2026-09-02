@@ -14,4 +14,5 @@
 (npc-action {@self WALK ?dest}
   (duration (max (go_travel_floor_min) (travel-minutes @self ?dest)))
   (effects
+    (debug-print "@self WALK to ?dest")
     (relocate @self ?dest)))

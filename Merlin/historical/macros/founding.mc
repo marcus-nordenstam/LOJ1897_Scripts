@@ -103,8 +103,7 @@
 ;     ?art       - a headless articles-of-incorporation (see headless-charter)
 ;     ?head-role - the head's job, a scoped job kind ([k job superintendent])
 (define-macro take-up-charter (?art ?head-role)
-  (for-each-row (attr ?art writing) [/workplace ?wp] [/register ?reg]
-    [/take-premises ?wp]
+  (for-each-row (attr ?art writing) [/workplace ?wp] [/register ?reg] [/take-premises ?wp]
     (table-set ?art founder @self)
     (seat-org-head ?art ?wp ?reg ?head-role)))
 

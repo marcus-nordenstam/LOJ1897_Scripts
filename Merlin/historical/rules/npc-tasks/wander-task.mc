@@ -18,7 +18,9 @@
       (role ?room (spatial ?bldg parts [k interior-space room] /env)
                   (not (spatial @self space ?room /env))
                   (!= (bb-read (observe ?room):?obs_room wander-visited) ?w-rel))
-      (effects (maintain-proposal {@self WALK ?obs_room})))
+      (effects 
+        (debug-print "wander proposal: {@self WALK ?obs_room}")
+        (maintain-proposal {@self WALK ?obs_room})))
     (try
       (role ?room (spatial ?bldg parts [k interior-space room] /env)
                   (spatial @self space ?room /env))
@@ -26,4 +28,6 @@
     (try
       (when (>= (count (every {@self WALK ? /caused_by ?w-rel /succ /ever}))
                 (- (count (spatial ?bldg parts [k interior-space room] /env)) 1)))
-      (effects (set-outcome ?w-rel /succ)))))
+      (effects 
+        (debug-print "@self COMPLETES wander ?bldg")
+        (set-outcome ?w-rel /succ)))))
