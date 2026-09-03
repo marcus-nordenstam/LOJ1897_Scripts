@@ -42,7 +42,8 @@
     ; TAKE UP a charter the town filed at seeding and nobody heads yet - premises,
     ; articles and staff book already exist, only the proprietor's seat is open. The
     ; emergent labour market staffs it from the unemployed over subsequent ticks.
-    (for-each-row cornerstone_businesses [/kind ?k] [/head-pos ?hp] [/class-floor ?cf] [/headless-charter ?k]: ?art
+    (for-each-row cornerstone_businesses [/kind ?k] [/head-pos ?hp] [/class-floor ?cf] 
+      (headless-charter ?k): ?art
       (if (and (substantial ?art)
                (class-at-least @self ?cf))
           (then (take-up-charter ?art ?hp)

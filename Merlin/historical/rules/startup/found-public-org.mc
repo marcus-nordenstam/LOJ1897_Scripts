@@ -46,7 +46,7 @@
     ; hire_errand -> hire-matched) staffs it from the unemployed over subsequent ticks.
     (for-each-row public_orgs
         [/kind ?k] [/head-pos ?hp] [/class-floor ?cf]
-      [/headless-charter ?k]: ?art
+      (headless-charter ?k): ?art
       (if (and (substantial ?art)
                (class-at-least @self ?cf))
           (then (take-up-charter ?art ?hp)
