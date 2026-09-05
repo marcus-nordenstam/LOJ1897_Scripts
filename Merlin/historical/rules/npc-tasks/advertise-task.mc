@@ -50,4 +50,10 @@
       (role ?ad [k job-description] (spatial ?ad co-located @self)
             -{@self post ?ad ?})
       (when {@self WRITE ?ad ? /succ})
-      (effects (begin-belief {@self post ?ad ?org})))))
+      ; Minting the post-belief IS the conclusive moment, so the duty is discharged here
+      ; rather than by a rung that re-reads the belief a pass later. Without an outcome the
+      ; task never concludes: its board search (find-building -> locate -> wander) keeps
+      ; running and holds the body at the SAME band the recruit-staff round bids at, so the
+      ; officer can never leave to enter his own office - the round starved for the run.
+      (effects (begin-belief {@self post ?ad ?org})
+               (set-outcome ?adv-rel /succ)))))
