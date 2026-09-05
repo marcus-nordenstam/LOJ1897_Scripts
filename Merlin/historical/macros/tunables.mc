@@ -56,6 +56,11 @@
 ; Routine-drive tilt swings (worship / work). Larger than the crime buckets': a
 ; drive lane carries ONE or TWO trait rows, so each needs a wider spread to give
 ; the diligent-vs-shirker / devout-vs-lax spread off a single trait.
+; The in-band VALUE a work shift carries before the disposition tilt. A bare (utility <band>)
+; takes the band's default value, so the shift has to be authored on that same scale or the
+; commute (a bare (utility duty)) permanently outranks being AT work and the work task never
+; promotes.
+(define-macro k-work-drive-value () 600)
 (define-macro k-drive-trait-swing () 0.6)
 (define-macro k-drive-mood-swing  () 0.3)
 
