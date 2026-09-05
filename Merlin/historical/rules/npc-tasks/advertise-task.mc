@@ -10,8 +10,8 @@
 ;                                       anchors the org for that reader, so it must
 ;                                       carry a BOUND ?wp - an unbound one writes a
 ;                                       hole and no seeker can act on the advert.
-; The advert sits loose on the board (co-located reads find it); book-kept by
-; {@self post ?ad ?org}. The role is derived from the org's OWN kind belief, the
+; The advert sits loose on the board (co-located reads find it). Nothing book-keeps it:
+; the ENDED advertise belief is the record that it went up. The role is derived from the org's OWN kind belief, the
 ; workplace from @self's {?org workplace} belief - no articles-doc read. One WRITE
 ; per advert is what lets the post rung read the outcome as a plain {.. WRITE ?ad ?}.
 ; ----------------------------------------------------------------------------
@@ -47,13 +47,11 @@
                (maintain-proposal {@self WRITE ?ad (written-msg {?org vacancy ?jk}
                                                                 {?org workplace ?wp})})))
     (try
-      (role ?ad [k job-description] (spatial ?ad co-located @self)
-            -{@self post ?ad ?})
+      (role ?ad [k job-description] (spatial ?ad co-located @self))
       (when {@self WRITE ?ad ? /succ})
-      ; Minting the post-belief IS the conclusive moment, so the duty is discharged here
-      ; rather than by a rung that re-reads the belief a pass later. Without an outcome the
-      ; task never concludes: its board search (find-building -> locate -> wander) keeps
-      ; running and holds the body at the SAME band the recruit-staff round bids at, so the
+      ; The notice is up, so the duty is done - and the ENDED advertise belief is the only
+      ; record of that: no separate state is minted to say the same thing twice. Without an
+      ; outcome the task never concludes and its board search (find-building -> locate ->
+      ; wander) keeps the body at the SAME band the recruit-staff round bids at, so the
       ; officer can never leave to enter his own office - the round starved for the run.
-      (effects (begin-belief {@self post ?ad ?org})
-               (set-outcome ?adv-rel /succ)))))
+      (effects (set-outcome ?adv-rel /succ)))))

@@ -5,7 +5,8 @@
 ; done try when the book fills. Tries: post an advert; a daily office round that READS the
 ; office mail (locate the mail room, duty-scan the applications into hand); RESOLVE the held
 ; batch (offer the first, reject the rest); the filled posting comes off the board via the
-; standalone take_down lane (recruit_think.hs, post-belief driven). The tmp_pN tries are
+; standalone take_down lane (recruit_think.hs, driven by the ended advertise + WRITE
+; records). The tmp_pN tries are
 ; debug probes over the held-application / outbox state.
 ; ----------------------------------------------------------------------------
 
@@ -20,10 +21,10 @@
                      (if (table-match public_orgs kind ?ok employee-count ?ec) (then ?ec) (else 2)))))
       (effects (set-outcome ?rec-rel /succ)))
     (try
-      (when -{@self post ? ?org})
+      (when -{@self advertise ?org /succ /caused_by ?rec-rel})
       ; The advert is the ENTRY POINT: the office round below reads applications that only exist
       ; once a posting stands, so it must not sit a band under the round that consumes it. The
-      ; gate is self-limiting - it holds only while this org has no posting of @self's.
+      ; gate is self-limiting - it holds only until @self's advertise for this org succeeds.
       (utility obligation)
       (effects (maintain-proposal {@self advertise ?org})))
     (try
@@ -32,15 +33,14 @@
       ; the duty starts, and the advert rung's own (enter <board>) - a sibling at the same band -
       ; never gets a turn: the officer can never leave to post the vacancy he is waiting on.
       (when (and {?org workplace ?wp}
-                 {@self post ? ?org}
+                 {@self advertise ?org /succ /caused_by ?rec-rel}
                  (not (spatial @self building ?wp))
                  (>= (days-since-last {@self read-mail ?wp /succ}) 1)))
       (utility obligation)
       (effects (maintain-proposal {@self enter ?wp})))
     (try
-      (lock-rule)
       (when (and {?org workplace ?wp}
-                 {@self post ? ?org}
+                 {@self advertise ?org /succ /caused_by ?rec-rel}
                  (spatial @self building ?wp)
                  (>= (days-since-last {@self read-mail ?wp /succ}) 1)))
       (utility obligation)

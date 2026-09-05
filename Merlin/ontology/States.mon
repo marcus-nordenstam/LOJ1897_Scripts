@@ -90,13 +90,6 @@ relation
         # asked party's mind.
         sought-introduction     (sub human)           (tar human)  (aux ?)
 
-        # post: the recruiter's live board advert - {recruiter post <advert> /aux <org>}.
-        # The seeker's hiring lifecycle rides the `apply-for` TASK outcome (Tasks.mon), not
-        # a state here. Dedups advertising; gates the take-down. The hiring officer needs no
-        # `offering` state: gather_applications resolves the whole inbox in ONE sweep act
-        # (offer the top applicant, reject the rest, destroy every application).
-        post                    (sub human)           (tar job-description)  (aux org @excl)
-
         # Household mealtimes - the COOK's authority (tell-only comms plan,
         # ruling 11): {<home> breakfast-hour 6} / {<home> lunch-hour 12} /
         # {<home> supper-hour 18}, held per-mind. The cook DECIDES them
