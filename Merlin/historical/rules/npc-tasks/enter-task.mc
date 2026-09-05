@@ -35,7 +35,7 @@
                (maintain-proposal {@self WALK (front-park-point ?s)})))
     (try
       (when (and (at-threshold ?s)
-                 (spatial ?s room): ?entry
                  -{?s struct-status [k closed]}))
-      (effects
-               (maintain-proposal {@self WALK ?entry})))))
+      (effects  (head (spatial ?s parts [k interior-space room] /env)): ?first_room
+                (observe ?first_room): ?obs_room
+                (maintain-proposal {@self WALK ?obs_room})))))
