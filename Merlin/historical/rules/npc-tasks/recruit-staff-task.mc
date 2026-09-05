@@ -27,7 +27,12 @@
       (utility obligation)
       (effects (maintain-proposal {@self advertise ?org})))
     (try
+      ; The round collects applications, and an application only exists in answer to a POSTING -
+      ; so it waits for one. Without this it holds the obligation band every day from the moment
+      ; the duty starts, and the advert rung's own (enter <board>) - a sibling at the same band -
+      ; never gets a turn: the officer can never leave to post the vacancy he is waiting on.
       (when (and {?org workplace ?wp}
+                 {@self post ? ?org}
                  (not (spatial @self building ?wp))
                  (>= (days-since-last {@self read-mail ?wp /succ}) 1)))
       (utility obligation)
@@ -35,6 +40,7 @@
     (try
       (lock-rule)
       (when (and {?org workplace ?wp}
+                 {@self post ? ?org}
                  (spatial @self building ?wp)
                  (>= (days-since-last {@self read-mail ?wp /succ}) 1)))
       (utility obligation)
