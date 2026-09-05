@@ -23,7 +23,7 @@
             (not (substantial (attr ?app writing))))
       (when {@self name ?myName})
       (effects
-               (maintain-proposal {@self WRITE ?app {(o {@o name ?myName}) apply-for ?jk}})))
+               (maintain-proposal {@self WRITE ?app (written-msg {(o {@o name ?myName}) apply-for ?jk})})))
     (try
       (role ?app [k application] (spatial ?app co-located @self)
             (substantial (attr ?app writing))

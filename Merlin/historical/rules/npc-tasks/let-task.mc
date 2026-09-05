@@ -22,7 +22,7 @@
       (role ?listing [k for-lease-listing] (spatial ?listing co-located @self)
             (not (substantial (attr ?listing writing))))
       (effects
-               (maintain-proposal {@self WRITE ?listing {?prop availability [k for-rent]}})))
+               (maintain-proposal {@self WRITE ?listing (written-msg {?prop availability [k for-rent]})})))
     (try
       (role ?listing [k for-lease-listing] (spatial ?listing co-located @self)
             (substantial (attr ?listing writing)))

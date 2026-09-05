@@ -13,6 +13,6 @@
   (duration 10)
   (effects
     (if (nothing (attr ?doc writing))
-        (then (set-writing ?doc (written-msg ?sentence)))
+        (then (set-writing ?doc ?sentence))
         (else (set-writing ?doc (add-func-arg (attr ?doc writing) ?sentence))))
     (set-outcome {@self WRITE ?doc ?sentence} /succ)))
