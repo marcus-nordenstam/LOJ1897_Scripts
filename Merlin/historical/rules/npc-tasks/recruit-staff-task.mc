@@ -21,6 +21,10 @@
       (effects (set-outcome ?rec-rel /succ)))
     (try
       (when -{@self post ? ?org})
+      ; The advert is the ENTRY POINT: the office round below reads applications that only exist
+      ; once a posting stands, so it must not sit a band under the round that consumes it. The
+      ; gate is self-limiting - it holds only while this org has no posting of @self's.
+      (utility obligation)
       (effects (maintain-proposal {@self advertise ?org})))
     (try
       (when (and {?org workplace ?wp}
