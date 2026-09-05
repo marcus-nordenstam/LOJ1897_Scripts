@@ -39,6 +39,7 @@
       (utility obligation)
       (effects (maintain-proposal {@self enter ?wp})))
     (try
+      (lock-rule)
       (when (and {?org workplace ?wp}
                  {@self advertise ?org /succ /caused_by ?rec-rel}
                  (spatial @self building ?wp)
