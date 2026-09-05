@@ -24,7 +24,7 @@
 ; evidence channel. A body with no such part (or a part already carrying the same
 ; leaf, since the array is a SET) is a no-op.
 (define-macro yield-evidence (?ye-target ?ye-site ?ye-blemish)
-  (for-each ?ye-part (spatial ?ye-target parts ?ye-site /env) /limit 1
+  (for-each ?ye-part (spatial ?ye-target parts ?ye-site /env) [/limit 1]
     (add-attr-item ?ye-part blemishes ?ye-blemish)))
 
 (define-macro kill-blow (?foe ?method)

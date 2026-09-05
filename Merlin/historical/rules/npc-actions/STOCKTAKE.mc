@@ -49,9 +49,9 @@
           (for-each ?room ?rooms
             (take-stock-of ?room [k food]))
           ; Re-seed the shopfront to the daily cap (the morning delivery): top
-          ; the ONE food pile (/limit 1 room) back up to the cap. Idempotent -
+          ; the ONE food pile ([/limit 1] room) back up to the cap. Idempotent -
           ; a full shelf writes the same count it already holds.
-          (for-each ?room ?rooms /limit 1
+          (for-each ?room ?rooms [/limit 1]
             (do
               (bind 0 ?food_pile)
               (pile-at-into ?room [k food] ?food_pile)
@@ -62,7 +62,7 @@
           ; Restock the weapons + household-chemicals shelf the same way (one room
           ; carries the stock). Poison counts by the toxin FAMILY, spawns the
           ; household staple (white-arsenic) - just another provision the shop carries.
-          (for-each ?room ?rooms /limit 1
+          (for-each ?room ?rooms [/limit 1]
             (repeat (- (shop_weapon_stock) (count (spatial ?room contents [k firearm] /env)))
               (create-entity [k pistol] ?room): ?gun)
             (repeat (- (shop_weapon_stock) (count (spatial ?room contents [k knife] /env)))

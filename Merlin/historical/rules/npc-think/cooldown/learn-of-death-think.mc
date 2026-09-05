@@ -35,4 +35,4 @@
   (role ?x {?x condition [k dead]})
 
   (effects
-    (end-beliefs-about ?x [/exclude condition|internment] /reason died)))
+    (end-beliefs-about ?x [/exclude condition|internment])))

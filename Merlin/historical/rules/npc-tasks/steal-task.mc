@@ -39,7 +39,7 @@
         (spatial @self building): ?shop
         (bind 0 ?found)
         (for-each ?room (spatial ?shop parts [k interior-space room] /env)
-          (for-each ?item (spatial ?room contents ?kind /env) /limit 1
+          (for-each ?item (spatial ?room contents ?kind /env) [/limit 1]
             (if (= ?found 0) (then (bind ?item ?loot) (bind 1 ?found)))))
         (if (= ?found 1)
             (then (maintain-proposal {@self take ?loot})))))
