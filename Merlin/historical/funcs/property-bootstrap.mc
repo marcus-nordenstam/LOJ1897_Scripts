@@ -32,6 +32,20 @@
         (table-add ?deed building ?b)
         (for-each ?reg (env-entities [k for-sale-listings])
           (table-add ?reg building ?b deed ?deed)))))
+  ; Per-building MAIL PILES: the INCOMING pile letters are delivered to, and the OUTGOING
+  ; pile a sender deposits into (the mail service drains it each morning and teleports each
+  ; letter to the incoming pile of the address written on it). The ontology already declares
+  ; outgoing-mail-stack as 'seeded at world setup' - nothing seeded either, so every
+  ; (locate [k mail-stack] ..) searched a building, found nothing and concluded /fail, and
+  ; read-mail could only ever end /fail: 0 successes town-wide over a 2yr run. That dead
+  ; channel is what held the recruiting officer's office round to ONE round in two years -
+  ; its gate re-arms on (days-since-last {@self read-mail ?wp /succ}), which never reset.
+  (for-each ?mb (env-entities [k building])
+    (spatial ?mb room /env): ?mroom
+    (if ?mroom
+      (then
+        (create-entity [k mail-stack] ?mroom)
+        (create-entity [k outgoing-mail-stack] ?mroom))))
   ; Every org the town OPENS WITH is CHARTERED here, ready to found: premises claimed off
   ; the register, articles filed on the incorporation stack, staff book created - and the
   ; founder cell left EMPTY. All of that is environment, which is why a mindless bootstrap
