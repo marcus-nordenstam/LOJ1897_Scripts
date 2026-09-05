@@ -43,11 +43,11 @@
       (role ?ad [k job-description] (spatial ?ad co-located @self)
             (substantial (attr ?ad writing)))
       (when (and {?org workplace ?wp}
-                 -{@self WRITE ?ad {?org workplace ?wp} /succ}))
+                 -{@self WRITE ?ad (written-msg {?org workplace ?wp}) /succ}))
       (effects
                (maintain-proposal {@self WRITE ?ad (written-msg {?org workplace ?wp})})))
     (try
       (role ?ad [k job-description] (spatial ?ad co-located @self)
             -{@self post ?ad ?})
-      (when {@self WRITE ?ad {?org workplace ?} /succ})
+      (when {@self WRITE ?ad (written-msg {?org workplace ?}) /succ})
       (effects (begin-belief {@self post ?ad ?org})))))
