@@ -29,8 +29,8 @@
   (role ?org {?job org ?org}
              {?org record ?})
 
-  (when (and {?org isa ?ok}
-             {?org employee-register ?reg}))
+  (role ?ok {?org isa ?ok})
+  (when {?org employee-register ?reg})
 
   ; The most senior LIVING member on the wage book.
   (select-row (entity ?reg)

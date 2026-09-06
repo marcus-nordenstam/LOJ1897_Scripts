@@ -27,17 +27,15 @@
   (rng-stream employment)
 
   (role ?job {@self job ?job})
+  ; My firm's register hangs off my own {?org employee-register ?reg} belief - learned when
+  ; I read the incorporation page at hire/orient (hire-beliefs adopt-msg). A belief walk, no
+  ; doc scan, and a ROLE: an org known without a register belief (a club, or one learned by
+  ; orient alone) simply yields no activation.
   (role ?org {?job org ?org})
+  (role ?reg {?org employee-register ?reg})
   (when (or (in-month 3) (in-month 6) (in-month 9) (in-month 12)))
 
   (effects
-    ; My firm's register hangs off my own {?org employee-register ?reg} belief - learned
-    ; when I read the incorporation page at hire/orient (hire-beliefs adopt-msg). A belief
-    ; walk, no doc scan. ?org (my job.org, role above) is where colleague beliefs hang so
-    ; they JOIN my own {@self job.org ?org}. Any duty-holder reuses this by binding ?org.
-    (any {?org employee-register ?reg})
-    (check ?reg)
-
     ; (1) REFRESH - one colleague job object per roster row (skip my own row), mirroring
     ; my own job object so {?cw job.org ?org} / rank / head-ness read uniformly.
     (for-each-row (attr ?reg writing) [/worker ?cw] [/job ?jk] [/level ?lvl]

@@ -93,7 +93,7 @@
   (when (>= (days-since-last {@self JUDGE-DECLARE /ever}) 1))
   (utility want)
   (effects       (begin-goal {@self judge-meet}))
-  (cease-effects (end-goal   {@self judge-meet})))
+  (cease-effects (set-outcome {@self goal {@self judge-meet}} /succ)))
 
 ; --- the COMPETITOR's terminal: a summoned member proposes his own race act --------
 ; open_meet_act told this member {?judge summon @self /aux ?sport}; while that

@@ -53,4 +53,4 @@
   ; articles).
   (utility duty)
   (effects       (begin-goal {@self hold-meet (any {?club record}).target}))
-  (cease-effects (end-goal   {@self hold-meet (any {?club record}).target})))
+  (cease-effects (set-outcome {@self goal {@self hold-meet (any {?club record}).target}} /succ)))

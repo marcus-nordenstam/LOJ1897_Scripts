@@ -43,7 +43,7 @@
 (npc-think borrowing_done
   (goal {@self TAKE-LOAN ?creditor})
   (role @self {@self owe ?creditor})
-  (effects (end-goal {@self TAKE-LOAN ?creditor})))
+  (effects (set-outcome {@self goal {@self TAKE-LOAN ?creditor}} /succ)))
 
 ; Outcome twin: the creditor is KNOWN dead - withdraw the pursuit. POSITIVE death
 ; knowledge only: a merely-decayed alive belief must not abandon the errand. The
@@ -52,4 +52,4 @@
 (npc-think borrowing_abandoned
   (goal {@self TAKE-LOAN ?creditor})
   (role @self {?creditor condition [k dead]})
-  (effects (end-goal {@self TAKE-LOAN ?creditor})))
+  (effects (set-outcome {@self goal {@self TAKE-LOAN ?creditor}} /succ)))

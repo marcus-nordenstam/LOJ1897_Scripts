@@ -34,4 +34,4 @@
   (when          (>= (days-since-last {@self DRINK /ever}) 3))
   (utility want (* 10 (drink-drive @self)))
   (effects       (begin-goal {@self DRINK}))
-  (cease-effects (end-goal   {@self DRINK})))
+  (cease-effects (set-outcome {@self goal {@self DRINK}} /succ)))

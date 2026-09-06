@@ -39,4 +39,4 @@
                       (- 1.3 (* 0.6 (belonging)))) 1.6)
               (min (* (days-since-last {@self DRINK /ever}) 5) 45))))
   (effects       (begin-goal {@self DRINK}))
-  (cease-effects (end-goal   {@self DRINK})))
+  (cease-effects (set-outcome {@self goal {@self DRINK}} /succ)))

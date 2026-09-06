@@ -66,7 +66,7 @@
   ; follows (at x80 the two tied and the deposit lost the tie for years).
   (utility want (* 10 (attr @self politeness) 85))
   (effects       (begin-goal {@self CONVEY ?corpse}))
-  (cease-effects (end-goal   {@self CONVEY ?corpse})))
+  (cease-effects (set-outcome {@self goal {@self CONVEY ?corpse}} /succ)))
 
 ; TERMINAL step (act_body_purification): the deposit is PROPOSED, guarded by being IN a church
 ; (the deposit's own precondition). Because `convey` is a proposed label the {@self CONVEY ?corpse}

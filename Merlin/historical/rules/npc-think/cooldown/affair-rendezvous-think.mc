@@ -97,7 +97,8 @@
     (covert-affair-motive ?paramour)
     (select (policy first-match)))
 
-  (when (and (chance 0.14) {@self home ?venue}))
+  (role ?venue {@self home ?venue})
+  (when (chance 0.14))
 
   (utility want)
 

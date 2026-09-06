@@ -25,11 +25,11 @@
       ; The BOOK is the headcount - an empty worker cell is an open post - so nothing here
       ; consults a config table the officer has no way of knowing. The standing-notice leg
       ; is what brings him back to take a filled post's advert down.
-      (when (and {?org employee-register ?reg}
-                 (or (table-match (attr ?reg writing) worker @nothing)
-                     {?org display-ad ?})))
+      (role ?reg {?org employee-register ?reg})
+      (when (or (table-match (attr ?reg writing) worker @nothing)
+                     {?org display-ad ?}))
       (utility duty)
-      (effects
+      (effects
                (begin-proposal {@self recruit-staff ?org})))
     (try
       (role ?job {@self job ?job})
@@ -54,4 +54,5 @@
       (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
             (latch-eval (any {?job ?tl ?}): ?sh-rel (bind ?sh-rel.target ?start) (bind ?sh-rel.auxiliary ?end))
             (not (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
-      (effects (set-outcome ?w-rel /succ)))))
+      (effects
+        (set-outcome ?w-rel /succ)))))

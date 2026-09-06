@@ -99,7 +99,7 @@
   (when (< (believed-pile-count ?kitchen [k food]) (larder_low_water)))
   (utility duty)
   (effects       (begin-goal {@self PROVISION}))
-  (cease-effects (end-goal   {@self PROVISION})))
+  (cease-effects (set-outcome {@self goal {@self PROVISION}} /succ)))
 
 ; TERMINAL step (act_body_purification): the buy is PROPOSED, guarded by being at a shop - the
 ; at-place-kind precondition (identity is enforced by
@@ -141,7 +141,7 @@
   (goal {@self PROVISION})
   (role @self -{@self provisions-shop ?})
   (effects       (begin-goal {@self ORIENT}))
-  (cease-effects (end-goal   {@self ORIENT})))
+  (cease-effects (set-outcome {@self goal {@self ORIENT}} /succ)))
 
 ; ---- the delivery drive ------------------------------------------------------
 ; Laden with food = the standing pressure to deliver it, re-stamped per
@@ -157,4 +157,4 @@
   (when (not (empty (spatial @self hold [k pile]))))
   (utility duty (if (spatial @self space ?kitchen) (then 1000) (else 900)))
   (effects       (begin-goal {@self BRING [k pile] ?kitchen}))
-  (cease-effects (end-goal   {@self BRING [k pile] ?kitchen})))
+  (cease-effects (set-outcome {@self goal {@self BRING [k pile] ?kitchen}} /succ)))

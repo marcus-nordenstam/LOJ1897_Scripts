@@ -57,8 +57,8 @@
   ; Recourse to an APPRAISED betrayal (the betray-act reflex rows minted the anger @ partner),
   ; and only while @self is not answering it lethally: a killer keeps the secret,
   ; since exposing the affair would advertise the motive.
-  (when (and {@self emotion [k anger] ?partner}
-             -{@self kill ?partner}
+  (role @self {@self emotion [k anger] ?partner})
+  (when (and -{@self kill ?partner}
              -{@self kill ?interloper}))
 
   (effects

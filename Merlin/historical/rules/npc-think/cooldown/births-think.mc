@@ -25,8 +25,8 @@
   (role @self (fertile_wife @self))
 
   ; chance first (cheap, short-circuits), then bind the husband from her spouse
-  (when (and (chance 0.05)
-             {@self spouse ?husband}))
+  (role ?husband {@self spouse ?husband})
+  (when (chance 0.05))
 
   (effects
     (set-attr @self pregnant-when (date-now))

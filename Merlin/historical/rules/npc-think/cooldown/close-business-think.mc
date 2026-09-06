@@ -94,4 +94,4 @@
                         (+ 1.0 (* (business_failure_merit_weight)  (- 1.0 (diligence)))))))))
   (utility errand)
   (effects       (begin-goal {@self CLOSE-BUSINESS ?art}))
-  (cease-effects (end-goal   {@self CLOSE-BUSINESS ?art})))
+  (cease-effects (set-outcome {@self goal {@self CLOSE-BUSINESS ?art}} /succ)))

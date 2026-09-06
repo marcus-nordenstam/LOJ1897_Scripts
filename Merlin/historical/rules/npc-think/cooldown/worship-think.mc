@@ -40,7 +40,7 @@
   (utility want (* (recency-ramp WORSHIP 3 21 500) (devotional-drive-tilt)))
   (effects
                  (begin-goal {@self WORSHIP}))
-  (cease-effects (end-goal   {@self WORSHIP})))
+  (cease-effects (set-outcome {@self goal {@self WORSHIP}} /succ)))
 
 ; THE DEVOUT'S SUNDAY OBSERVANCE - the classifier-cast band split (ruling 8a). The SAME
 ; worship drive, but role-cast on the identity-grade `devoutness` classifier belief
@@ -56,4 +56,4 @@
   (when    (>= (days-since-last {@self WORSHIP /ever}) 3))
   (utility obligation)
   (effects       (begin-goal {@self WORSHIP}))
-  (cease-effects (end-goal   {@self WORSHIP})))
+  (cease-effects (set-outcome {@self goal {@self WORSHIP}} /succ)))

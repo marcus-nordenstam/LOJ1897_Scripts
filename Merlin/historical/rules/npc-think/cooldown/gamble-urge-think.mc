@@ -47,4 +47,4 @@
               (+ 2 (* 22 (attr @self gambling-addiction)))          ; onset 2 -> morbid 24 (below leisure)
               (min (* (days-since-last {@self PLAY-GAME /ever}) 0.04) 1.0)))) ; slow craving modulator [0,1]
   (effects       (begin-goal {@self PLAY-GAME}))
-  (cease-effects (end-goal   {@self PLAY-GAME})))
+  (cease-effects (set-outcome {@self goal {@self PLAY-GAME}} /succ)))

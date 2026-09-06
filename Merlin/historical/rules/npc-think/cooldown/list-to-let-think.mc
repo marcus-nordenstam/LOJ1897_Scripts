@@ -43,4 +43,4 @@
               -{?prop availability [k for-rent]})  ; not already listed
   (utility errand)
   (effects       (begin-goal {@self LET ?prop}))
-  (cease-effects (end-goal   {@self LET ?prop})))
+  (cease-effects (set-outcome {@self goal {@self LET ?prop}} /succ)))

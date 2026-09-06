@@ -48,7 +48,7 @@
   ; dwell - the goal is minted here and leaf-promotes to the act once he is at the pub.
   (utility errand)
   (effects       (begin-goal {@self FOUND-CLUB}))
-  (cease-effects (end-goal   {@self FOUND-CLUB})))
+  (cease-effects (set-outcome {@self goal {@self FOUND-CLUB}} /succ)))
 
 ; --- club_joining: an adult joins an existing club --------------------------
 ;; Clubs gate on character and class: a scandalous or disreputable member is

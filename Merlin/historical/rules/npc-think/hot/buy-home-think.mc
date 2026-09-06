@@ -85,7 +85,7 @@
   (role @self -{? availability [k for-sale]})   ; no listing read yet - cached
   (utility errand)
   (effects       (begin-goal {@self ORIENT}))
-  (cease-effects (end-goal   {@self ORIENT})))
+  (cease-effects (set-outcome {@self goal {@self ORIENT}} /succ)))
 
 ; Listings learned: cast the nicest dwelling he can AFFORD and that no rival has
 ; CLAIMED, by a value-weighted roulette (per-NPC choice), and promote the purchase.
@@ -108,7 +108,7 @@
   (effects
     (bb-public-maintain ?dwell claimed @self (claim_marker_ttl_cycles))
     (begin-goal {@self buy-home ?dwell}))
-  (cease-effects (end-goal {@self buy-home ?dwell})))
+  (cease-effects (set-outcome {@self goal {@self buy-home ?dwell}} /succ)))
 
 ; TERMINAL step (act_body_purification): PROMOTE the buy-home TASK off the latched
 ; {@self buy-home ?dwell} goal choose_home minted (the chosen dwelling). Kept

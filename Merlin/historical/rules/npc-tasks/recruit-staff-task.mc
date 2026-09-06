@@ -29,8 +29,8 @@
     ; survives the holder coming and going, which is what lets -{?post filled-by ?} be a
     ; standing fact about the POST rather than about the last man in it.
     (try
-      (when (and {?org employee-register ?reg}
-                 (check ?reg)))
+      ; The book, as a role: with no register belief there is simply no activation.
+      (role ?reg {?org employee-register ?reg})
       (effects
         (bind 0 ?line)
         (for-each-row (attr ?reg writing) [/worker ?worker] [/job ?jk]
@@ -78,8 +78,8 @@
     ; starts and the posting rung - a sibling at the same band - never gets a turn, so the
     ; officer can never leave to post the opening he is waiting on.
     (try
-      (when (and {?org workplace ?wp}
-                 {?org display-ad ?}
+      (role ?wp {?org workplace ?wp})
+      (when (and {?org display-ad ?}
                  (not (spatial @self building ?wp))
                  (>= (days-since-last {@self read-mail ?wp /succ}) 1)))
       (utility obligation)
@@ -122,4 +122,5 @@
       (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
             (latch-eval (any {?job ?tl ?}): ?sh-rel (bind ?sh-rel.target ?start) (bind ?sh-rel.auxiliary ?end))
             (not (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
-      (effects (set-outcome ?rec-rel /succ)))))
+      (effects
+        (set-outcome ?rec-rel /succ)))))

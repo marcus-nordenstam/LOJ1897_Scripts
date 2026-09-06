@@ -132,13 +132,13 @@
   ; fire - begin-goal is idempotent only per identical target and each firm's
   ; articles is a DISTINCT object, so an accumulating mint overflowed the
   ; attention set (13 standing goals by 1707); a blocking goal gate instead
-  ; deadlocks the search on an unreachable first target. (end-goal) no-ops when
-  ; no goal stands. Focus = the firm's articles ({?org record ?art}).
+  ; deadlocks the search on an unreachable first target. The set-outcome no-ops
+  ; when no goal stands. Focus = the firm's articles ({?org record ?art}).
   (utility errand)
   (effects
-    (end-goal {@self PARTNER})
+    (set-outcome {@self goal {@self PARTNER}} /succ)
     (begin-goal {@self PARTNER (any {?principal_org record}).target}))
-  (cease-effects (end-goal {@self PARTNER})))
+  (cease-effects (set-outcome {@self goal {@self PARTNER}} /succ)))
 
 ; --- business_founding: a man of means sets up on his own account ----------
 ; SPLIT (Item 5, the great split): this is now the npc-THINK - the decision to
@@ -179,7 +179,7 @@
 
   (utility errand)
   (effects       (begin-goal {@self FOUND}))
-  (cease-effects (end-goal   {@self FOUND})))
+  (cease-effects (set-outcome {@self goal {@self FOUND}} /succ)))
 
 ; --- business_homeostat: the org-supply floor, founder-by-founder --------------
 ; The safety net that sustains EMPLOYMENT across generations. The MERIT founding
@@ -225,4 +225,4 @@
 
   (utility errand)
   (effects       (begin-goal {@self FOUND}))
-  (cease-effects (end-goal   {@self FOUND})))
+  (cease-effects (set-outcome {@self goal {@self FOUND}} /succ)))

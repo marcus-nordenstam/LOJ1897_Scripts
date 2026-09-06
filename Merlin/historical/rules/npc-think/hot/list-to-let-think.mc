@@ -66,4 +66,4 @@
   (no-role [k org house-agency])
   (utility errand)
   (effects       (begin-goal {@self ORIENT}))
-  (cease-effects (end-goal   {@self ORIENT})))
+  (cease-effects (set-outcome {@self goal {@self ORIENT}} /succ)))

@@ -25,8 +25,10 @@
       (effects
         (o {?art declares-org @o}): ?org
         (any {?org employee-register ?reg})
-        (check ?reg)
-        (maintain-proposal {@self ENROL ?reg [k membership]})))
+        ; No register belief -> nothing to enrol on. It was a (check ?reg) ASSERT, but an
+        ; org with no register is a legitimate state: (o ..) INVENTS one when it recalls
+        ; nothing, and an invented org has no papers.
+        (if ?reg (then (maintain-proposal {@self ENROL ?reg [k membership]})))))
 
     ; REALIZE: my row is on the roster -> I now know I am a member (self-knowledge).
     ; Minting member-of trips the decision's completion gate, which withdraws the task.

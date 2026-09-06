@@ -30,7 +30,7 @@
   (role @self {@self carrying-loot ?item})
   (utility errand always-pick)
   (effects       (begin-goal {@self stow ?item}))
-  (cease-effects (end-goal   {@self stow ?item})))
+  (cease-effects (set-outcome {@self goal {@self stow ?item}} /succ)))
 
 (npc-think stow_go
   (goal {@self stow ?item})

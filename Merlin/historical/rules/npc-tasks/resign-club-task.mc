@@ -22,8 +22,9 @@
       (effects
         (any {@self member-of ?org})
         (any {?org employee-register ?reg})
-        (check ?reg)
-        (maintain-proposal {@self UNENROL ?reg})))
+        ; No register belief -> no roster to strike. It was a (check ?reg) ASSERT, but a
+        ; member-of org whose papers @self has never read is a legitimate state.
+        (if ?reg (then (maintain-proposal {@self UNENROL ?reg})))))
 
     ; REALIZE: my row is gone -> end my membership belief (trips the decision's completion).
     (try

@@ -48,7 +48,7 @@
               (spatial @self building ?home))
   (utility idle fallback)
   (effects       (begin-goal {@self DWELL ?home}))
-  (cease-effects (end-goal   {@self DWELL ?home})))
+  (cease-effects (set-outcome {@self goal {@self DWELL ?home}} /succ)))
 
 ; TERMINAL step (act_body_purification): the at-home dwell is now PROPOSED, guarded by being at
 ; home, not auto-promoted by the bare {@self DWELL ?home} goal. idle_at_home holds the goal (util
@@ -132,7 +132,7 @@
              (> (believed-home-food-count ?home) 0)))
   (utility need)
   (effects       (begin-goal {@self eat [k breakfast] ?home}))
-  (cease-effects (end-goal   {@self eat [k breakfast] ?home})))
+  (cease-effects (set-outcome {@self goal {@self eat [k breakfast] ?home}} /succ)))
 
 ; LUNCH at the workplace - the CO-WORKER channel (eat where you stand at midday).
 (npc-think want_lunch_work
@@ -145,7 +145,7 @@
              (< (now-hour) 14)))
   (utility need)
   (effects       (begin-goal {@self eat [k lunch] ?wp}))
-  (cease-effects (end-goal   {@self eat [k lunch] ?wp})))
+  (cease-effects (set-outcome {@self goal {@self eat [k lunch] ?wp}} /succ)))
 
 ; LUNCH at home - the jobless / housewife / child midday meal, per lunch-hour.
 (npc-think want_lunch_home
@@ -158,7 +158,7 @@
              (> (believed-home-food-count ?home) 0)))
   (utility need)
   (effects       (begin-goal {@self eat [k lunch] ?home}))
-  (cease-effects (end-goal   {@self eat [k lunch] ?home})))
+  (cease-effects (set-outcome {@self goal {@self eat [k lunch] ?home}} /succ)))
 
 ; SUPPER at home - the FAMILY table. The window opens an hour early so eat_go's
 ; travel (30 min) lands the household home by the cook's hour.
@@ -171,7 +171,7 @@
              (> (believed-home-food-count ?home) 0)))
   (utility need)
   (effects       (begin-goal {@self eat [k supper] ?home}))
-  (cease-effects (end-goal   {@self eat [k supper] ?home})))
+  (cease-effects (set-outcome {@self goal {@self eat [k supper] ?home}} /succ)))
 
 ; EATING OUT - no food at home (as the diner KNOWS) in the supper window and
 ; wealth permits: a pub supper (lower/middle), a restaurant one (upper). The
@@ -191,7 +191,7 @@
              (= (believed-home-food-count ?home) 0)))
   (utility need (below eat))
   (effects       (begin-goal {@self eat [k supper] ?venue}))
-  (cease-effects (end-goal   {@self eat [k supper] ?venue})))
+  (cease-effects (set-outcome {@self goal {@self eat [k supper] ?venue}} /succ)))
 
 (npc-think want_eat_out_restaurant
   ; upper-class only - the CACHED self-gate skips the majority (and the
@@ -207,7 +207,7 @@
              (= (believed-home-food-count ?home) 0)))
   (utility need (below eat))
   (effects       (begin-goal {@self eat [k supper] ?venue}))
-  (cease-effects (end-goal   {@self eat [k supper] ?venue})))
+  (cease-effects (set-outcome {@self goal {@self eat [k supper] ?venue}} /succ)))
 
 ; ---- the shared approach: the <place> drives a leaf-first go sub-goal --------
 
@@ -314,7 +314,7 @@
              (> (held-pile-count @self [k food]) 0)))
   (utility (starve-drive))
   (effects       (begin-goal {@self forage}))
-  (cease-effects (end-goal   {@self forage})))
+  (cease-effects (set-outcome {@self goal {@self forage}} /succ)))
 
 (npc-think starving_pantry
   (role @self {@self starve})
@@ -324,7 +324,7 @@
              (> (believed-home-food-count ?home) 0)))
   (utility (starve-drive))
   (effects       (begin-goal {@self forage}))
-  (cease-effects (end-goal   {@self forage})))
+  (cease-effects (set-outcome {@self goal {@self forage}} /succ)))
 
 (npc-think starving_go_home
   (role @self {@self starve})
@@ -344,7 +344,7 @@
              (is-a (spatial @self building) [k building shop])))
   (utility (starve-drive))
   (effects       (begin-goal {@self forage}))
-  (cease-effects (end-goal   {@self forage})))
+  (cease-effects (set-outcome {@self goal {@self forage}} /succ)))
 
 (npc-think starving_buy_go
   (role @self {@self starve ?, wealth ?wealth})
@@ -371,7 +371,7 @@
              (is-a (spatial @self building) [k building shop])))
   (utility (starve-drive))
   (effects       (begin-goal {@self forage}))
-  (cease-effects (end-goal   {@self forage})))
+  (cease-effects (set-outcome {@self goal {@self forage}} /succ)))
 
 (npc-think starving_steal_go
   (role @self {@self starve ?, wealth ?wealth})
