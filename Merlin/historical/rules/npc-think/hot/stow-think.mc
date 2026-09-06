@@ -34,17 +34,18 @@
 
 (npc-think stow_go
   (goal {@self stow ?item})
-  (role ?home {@self home ?home})
-  (when (and ?item
-             (not (at-home))))
+  (role ?home {@self home ?home}
+              (not (spatial @self building ?home)))
+  (when ?item)
   (effects (maintain-proposal {@self enter ?home})))
 
 ; AT home: PROPOSE the put-away act (goals never propose themselves). stow_act reads the carried
 ; item off the standing {@self stow} goal and ends it, so the propose is label-only.
 (npc-think stow_at_home
   (goal {@self stow ?item})
-  (when (and ?item
-             (at-home)))
+  (role ?home {@self home ?home}
+              (spatial @self building ?home))
+  (when ?item)
   ; The put-away place is DECIDED here: a fashioned hiding spot for a
   ; worth-hiding item (priced above the loot floor), else 0 (the body puts
   ; it openly in the room it stands in).

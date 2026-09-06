@@ -15,15 +15,15 @@
   (facets reportable_crime)
   (and
     (try
-      (when (and (alive ?victim)
-                 {?victim home ?home}
-                 (not (spatial @self building ?home))))
+      (role ?home {?victim home ?home}
+                  (not (spatial @self building ?home)))
+      (when (alive ?victim))
       (utility errand)
       (effects (maintain-proposal {@self go ?home})))
     (try
+      (role ?home {?victim home ?home}
+                  (spatial @self building ?home))
       (when (and (alive ?victim)
-                 {?victim home ?home}
-                 (spatial @self building ?home)
                  -{@self frame ?victim /succ /ever}))
       (utility errand always-pick)
       (effects

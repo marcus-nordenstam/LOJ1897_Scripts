@@ -13,8 +13,8 @@
 (npc-think borrow_go
   (lock-rule)
   (goal {@self TAKE-LOAN ?creditor})
-  (when (and {?creditor home ?cred_home}
-             (not (spatial @self building ?cred_home))))
+  (role ?cred_home {?creditor home ?cred_home}
+                   (not (spatial @self building ?cred_home)))
   (effects (maintain-proposal {@self enter ?cred_home})))
 
 ; AT the lender's home: PROPOSE the loan-taking act (goals never propose themselves).
@@ -23,6 +23,6 @@
 (npc-think borrow_at_home
   (lock-rule)
   (goal {@self TAKE-LOAN ?creditor})
-  (when (and {?creditor home ?cred_home}
-             (spatial @self building ?cred_home)))
+  (role ?cred_home {?creditor home ?cred_home}
+                   (spatial @self building ?cred_home))
   (effects (maintain-proposal {@self TAKE-LOAN ?creditor})))
