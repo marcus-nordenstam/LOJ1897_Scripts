@@ -13,19 +13,19 @@
   (tar ?)
   (and
     (try
-      (when (and (is-a ?dest [k structure])
-                 (not (spatial @self building ?dest))))
+      (role @self (not (spatial @self building ?dest)))
+      (when (is-a ?dest [k structure]))
       (effects (maintain-proposal {@self enter ?dest})))
     (try
       (when (and (is-a ?dest [k interior-space])
                  (not (spatial @self building (spatial ?dest building)))))
       (effects (maintain-proposal {@self enter (spatial ?dest building)})))
     (try
+      (role @self (not (spatial @self space ?dest)))
       (when (and (is-a ?dest [k interior-space])
-                 (spatial @self building (spatial ?dest building))
-                 (not (spatial @self space ?dest))))
+                 (spatial @self building (spatial ?dest building))))
       (effects (maintain-proposal {@self WALK ?dest})))
     (try
-      (when (and (is-a ?dest [k exterior-space])
-                 (not (spatial @self space ?dest))))
+      (role @self (not (spatial @self space ?dest)))
+      (when (is-a ?dest [k exterior-space]))
       (effects (maintain-proposal {@self WALK ?dest})))))

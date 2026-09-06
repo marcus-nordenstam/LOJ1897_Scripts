@@ -24,8 +24,8 @@
 
     ; READ the will (co-present with it) - adopt its bequest into @self's mind.
     (try
-      (when (and (spatial @self building ?dhome)
-                 -{@self inherit ?}
+      (role @self (spatial @self building ?dhome))
+      (when (and -{@self inherit ?}
                  -{@self READ ?will /succ}))
       (utility duty)
       (effects (maintain-proposal {@self READ ?will})))

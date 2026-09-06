@@ -26,8 +26,8 @@
   (role @self -{@self job ?}
               -{@self apply-for ? ? /pres})
   (role ?board [k building church] (select (score (near @self ?board)) (policy roulette)))
+  (role @self (not (spatial @self building ?board)))
   (when (and (job-seeker @self)
-             (not (spatial @self building ?board))
              (latch-eval (chance 0.3))))
   (utility errand)
   (effects (maintain-proposal {@self enter ?board})))

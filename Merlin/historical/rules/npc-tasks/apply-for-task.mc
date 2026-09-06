@@ -20,13 +20,13 @@
   (and
     (try
       (role ?home {@self home ?home})
-      (when (and -{@self prepare-application ?wp ?jk /succ}
-                 (not (spatial @self building ?home))))
+      (role @self (not (spatial @self building ?home)))
+      (when -{@self prepare-application ?wp ?jk /succ})
       (effects (maintain-proposal {@self enter ?home})))
     (try
       (role ?home {@self home ?home})
-      (when (and -{@self prepare-application ?wp ?jk /succ}
-                 (spatial @self building ?home)))
+      (role @self (spatial @self building ?home))
+      (when -{@self prepare-application ?wp ?jk /succ})
       (effects (maintain-proposal {@self prepare-application ?wp ?jk})))
     (try
       (lock-rule)
@@ -39,8 +39,8 @@
                (begin-proposal {@self send-mail ?app})))
     (try
       (role ?home {@self home ?home})
+      (role @self (spatial @self building ?home))
       (when (and {@self prepare-application ?wp ?jk /succ}
-                 (spatial @self building ?home)
                  (>= (days-since-last {@self read-mail ?home /succ}) 1)))
       (utility errand)
       (effects

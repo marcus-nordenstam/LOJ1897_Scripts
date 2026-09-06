@@ -45,8 +45,8 @@
   (tar @excl structure)
   (and
     (try
-      (when (and (not (spatial @self building ?s))
-                 (not (at-threshold ?s))))
+      (role @self (not (spatial @self building ?s)))
+      (when (not (at-threshold ?s)))
       (effects
                (maintain-proposal {@self WALK (front-park-point ?s)})))
     (try

@@ -17,8 +17,8 @@
       ; The wage book, perceived at the workplace; the task resolves it and hands it to
       ; the dumb ENROL - no org/register resolution inside the act.
       (role ?reg [k employee-register] (spatial ?reg building ?wp))
-      (when (and (spatial @self building ?wp)
-                 (>= (now-hour) 9)
+      (role @self (spatial @self building ?wp))
+      (when (and (>= (now-hour) 9)
                  (<= (now-hour) 16)
                  -{@self job.salary ?}))
       (effects (maintain-proposal {@self ENROL ?reg ?jk})))
