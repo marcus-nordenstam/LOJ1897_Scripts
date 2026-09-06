@@ -39,12 +39,12 @@
 (npc-think seed_predation_profile
   (cooldown 1 m)
   (rng-stream perpetration)
-  (role @self (adult @self)
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               -{@self fixation ?})
   ; A random adult the predator KNOWS the look of (has both perceived colour
   ; beliefs about), sampled by roulette - the victim-type prototype.
-  (role ?proto (any_human ?proto)
-               (adult ?proto)
+  (role ?proto {?proto isa [k human], condition [k alive]}
+               {?proto age-band [k young-adult|middle-aged|mature|elderly]}
                (!= ?proto @self)
                {?proto hair-color ?}
                {?proto eye-color ?}
@@ -61,7 +61,7 @@
   (cooldown 1 m)
   (rng-stream perpetration)
 
-  (role @self (adult @self)
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self fixation ?})
 
   ; The victim: cast from the predator's OWN non-kin acquaintance ties (his
@@ -69,10 +69,10 @@
   ; victim's hair OR eye colour is one of his fixations), then picked by social
   ; invisibility. ARGMAX (not roulette) so the maintained kill locks onto ONE stable
   ; target instead of re-rolling the victim every deliberation.
-  (role ?victim (any_human ?victim)
+  (role ?victim {?victim isa [k human], condition [k alive]}
                 {@self spouse|fiancee|friend|lover|acquaintance|neighbour|enemy ?victim}
-                (adult ?victim)
-                (none (blood-kin @self ?victim))
+                {?victim age-band [k young-adult|middle-aged|mature|elderly]}
+                (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?victim})
                 ; TYPE FLOOR (cacheable non-@excl overlap): the victim carries one of
                 ; the predator's fixation values on hair-color OR eye-color.
                 (or (overlapping-target {?victim hair-color} {@self fixation})

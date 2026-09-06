@@ -23,7 +23,7 @@
   ;; belief (no mind peek). The male-gender / spouse / fiancee gates are belief
   ;; filters here; the first-year re-fire guard is a date read that gates the
   ;; fire in (when ...) below.
-  (role @self (adult @self)
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self gender [k male]}
               -{@self spouse ?}
               {@self fiancee ?})

@@ -18,7 +18,7 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self (grown @self))
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
   (role ?job {@self job ?job})
   (role ?org {?job org ?org})
 

@@ -24,12 +24,12 @@
   (cooldown 1 m)
   (rng-stream incidents)
 
-  (role @self (adult @self)
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self lover ?}
-              (is-married @self)
+              {@self spouse @something}
               -{@self class-situation [k class-situation lower]}
               {@self name ?author_name})
-  (role ?paramour (any_human ?paramour)
+  (role ?paramour {?paramour isa [k human], condition [k alive]}
     {@self lover ?paramour}
     -{@self spouse ?paramour}
     (covert-affair-motive ?paramour)
@@ -88,10 +88,10 @@
   (cooldown 1 m)
   (rng-stream incidents)
 
-  (role @self (adult @self)
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self lover ?}
               {@self name ?author_name})
-  (role ?paramour (any_human ?paramour)
+  (role ?paramour {?paramour isa [k human], condition [k alive]}
     {@self lover ?paramour}
     -{@self spouse ?paramour}
     (covert-affair-motive ?paramour)
@@ -132,10 +132,10 @@
   (cooldown 1 m)
   (rng-stream incidents)
 
-  (role @self (adult @self)
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self lover ?}
               {@self name ?author_name})
-  (role ?paramour (any_human ?paramour)
+  (role ?paramour {?paramour isa [k human], condition [k alive]}
     {@self lover ?paramour}
     -{@self spouse ?paramour}
     (covert-affair-motive ?paramour)

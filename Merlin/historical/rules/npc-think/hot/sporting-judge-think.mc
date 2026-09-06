@@ -52,7 +52,7 @@
   ; declarations from meets he attended (the auto-witness drops the sport aux, so it
   ; is not bound here); pairing that with his own RACE-RUN memory means he competed
   ; at a meet where another was crowned.
-  (role ?winner (any_human ?winner)
+  (role ?winner {?winner isa [k human], condition [k alive]}
                 {? JUDGE-DECLARE ?winner}
                 -{?winner outdo @self})
   (when (and (!= ?winner @self)

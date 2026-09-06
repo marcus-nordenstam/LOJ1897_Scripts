@@ -10,6 +10,6 @@
   (lock-rule)
   (cooldown 1 m)
   (role ?home {@self home ?home})
-  (when (spatial @self building ?home))
+  (role @self (spatial @self building ?home))
   (utility idle)
   (effects (begin-proposal {@self putter ?home})))

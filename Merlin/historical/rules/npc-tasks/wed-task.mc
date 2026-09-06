@@ -14,7 +14,7 @@
   (and
     ; VOW: at the church, still my betrothed, not yet vowed -> speak it.
     (try
-      (role @self {@self fiancee ?betrothed} (none (is-married @self)))
+      (role @self {@self fiancee ?betrothed} (none {@self spouse @something}))
       (role ?venue {?occ venue ?venue})
       (role @self (spatial @self building ?venue))
       (when (and {?occ hours ?start ?end}
@@ -25,7 +25,7 @@
 
     ; GO: not at the church yet -> head to it (in the window).
     (try
-      (role @self {@self fiancee ?} (none (is-married @self)))
+      (role @self {@self fiancee ?} (none {@self spouse @something}))
       (role ?venue {?occ venue ?venue})
       (role @self (not (spatial @self building ?venue)))
       (when (and {?occ hours ?start ?end}

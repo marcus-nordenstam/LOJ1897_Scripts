@@ -21,7 +21,7 @@
 (npc-think report_injustice
   (cooldown 1 m)
   (rng-stream deliberation)
-  (role ?target (any_human ?target)
+  (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k injustice] ?target}:?pressure)
   (when (or {@self report-crime ?target /succ /caused_by ?pressure}
             {@self report-crime ?target}
@@ -36,7 +36,7 @@
 (npc-think report_for_relief
   (cooldown 1 m)
   (rng-stream deliberation)
-  (role ?target (any_human ?target)
+  (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k resource-scarcity] ?target}:?pressure)
   (when (or {@self report-crime ?target /succ /caused_by ?pressure}
             {@self report-crime ?target}
@@ -54,7 +54,7 @@
 (npc-think confess_at_risk
   (cooldown 1 m)
   (rng-stream deliberation)
-  (role ?target (any_human ?target)
+  (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k exposure-risk] ?target}:?pressure)
   (when (or {@self confess-letter ?target /succ /caused_by ?pressure}
             {@self confess-letter ?target}
@@ -69,7 +69,7 @@
 (npc-think confess_remorse
   (cooldown 1 m)
   (rng-stream deliberation)
-  (role ?target (any_human ?target)
+  (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k moral-violation] ?target}:?pressure)
   (when (or {@self confess-letter ?target /succ /caused_by ?pressure}
             {@self confess-letter ?target}

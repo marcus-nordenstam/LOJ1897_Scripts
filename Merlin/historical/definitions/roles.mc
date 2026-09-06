@@ -3,8 +3,8 @@
 ;
 ; Each is a (define-macro ...) taking the candidate ?x - or @self at a gate. Drop it
 ; into a (role ...) as a single filter:
-;     (role ?b   (any_human ?b)   <extra-filters>...)   ; BIND + enumerate ?b
-;     (role @self (grown @self))                        ; GATE the deliberating NPC
+;     (role ?b   {?b isa [k human], condition [k alive]}   <extra-filters>...)   ; BIND + enumerate ?b
+;     (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})                        ; GATE the deliberating NPC
 ; The candidate is passed explicitly (no ?this rewrite): whatever token you pass is
 ; the subject the body's patterns read.
 ;
@@ -35,49 +35,24 @@
 ; non-belief ops, dynamic-label binds and act-desire gates stay in (when).
 ; ----------------------------------------------------------------------------
 
-;; `condition` is @excl, so a learned {?x condition dead} supersedes the earlier
-;; {?x condition alive} percept-mirror in that mind - the positive liveness leg
-;; alone suffices; no separate not-dead leg.
-(define-macro known_alive (?x)
-  {?x isa [k human], condition [k alive]})
-
 (define-macro old_human (?x)
-  (and (known_alive ?x)
-       (marriageable-age ?x)))          ; >=16
-
-;; Any alive human, no age qualifier. Base for rules that gate on situational
-;; filters (disease, war, accidents) regardless of age.
-(define-macro any_human (?x)
-  (known_alive ?x))
-
-;; LIGHT @self-only gates - no redundant isa / condition (the deliberating NPC is
-;; always a living human). Age-band-only, for (role @self ...).
-; Goal reads through the unified belief path (a goal IS a belief
-; {@self goal {@self <action> <focus>}} with a nested-clause target; see
-; macros/goal_macros.hs). Bound pattern vars constrain; free vars bind off the match.
-(define-macro has-goal (?g)
-  {@self goal ?g})
-
-(define-macro grown (?x)
-  (marriageable-age ?x))                 ; >=16, old enough to act as an agent
-
-(define-macro adult (?x)
-  (adult-age ?x))                        ; >=18
+  (and {?x isa [k human], condition [k alive]}
+       {?x age-band [k youth|young-adult|middle-aged|mature|elderly]}))          ; >=16
 
 ;; Unmarried adult woman. The (not (believes {?x spouse ?})) is the deliberating
 ;; mind's OWN belief about the candidate's marital status (shape-2), NOT the
 ;; candidate's self-knowledge (the 2-arg {?x {@self spouse ?}} telepathic read) - so
 ;; it stays object-cacheable and telepathy-pure: you only skip women YOU know married.
 (define-macro unmarried_woman (?x)
-  (and (known_alive ?x)
+  (and {?x isa [k human], condition [k alive]}
        {?x gender [k female]}
-       (adult-age ?x)
+       {?x age-band [k young-adult|middle-aged|mature|elderly]}
        -{?x spouse ?}))
 
 (define-macro unmarried_man (?x)
-  (and (known_alive ?x)
+  (and {?x isa [k human], condition [k alive]}
        {?x gender [k male]}
-       (adult-age ?x)
+       {?x age-band [k young-adult|middle-aged|mature|elderly]}
        -{?x spouse ?}))
 
 ;; Married woman of fertile age who can conceive NOW - not already carrying a
@@ -85,7 +60,7 @@
 ;; update_physiology gestation timer). Shape-2 spouse read (the deliberating mind's
 ;; own belief), so it stays object-cacheable like unmarried_woman.
 (define-macro fertile_wife (?x)
-  (and (known_alive ?x)
+  (and {?x isa [k human], condition [k alive]}
        {?x gender [k female]}
        (working-age ?x)                  ; 16-49 childbearing band
        {?x spouse ?}
@@ -93,15 +68,8 @@
 
 ;; Adult of working / migration age. Used by emigration.
 (define-macro young-adult (?x)
-  (and (known_alive ?x)
+  (and {?x isa [k human], condition [k alive]}
        (working-age ?x)))                ; 16-49
-
-;; An org the deliberator already KNOWS - a mental org object carrying its kind belief
-;; (minted at founding / hire / new_job_orientation when @self reads the org's
-;; articles). isa [k org] matches any org kind (is-a); each casting rule narrows to
-;; its category ([k org club] / business / gov) or excludes household.
-(define-macro known_org (?x)
-  {?x isa [k org]})
 
 ;; A letter / document the deliberating mind has SEEN - perception minted
 ;; {?x isa [k letter]} (and observable attrs, e.g. {?x addressee ..}) when @self

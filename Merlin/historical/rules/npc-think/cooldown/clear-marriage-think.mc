@@ -39,13 +39,13 @@
 
   ; @self signs the covert murder-proposal letter - bind his OWN name.
   (role @self {@self name ?author_name})
-  (role ?spouse (any_human ?spouse) {@self spouse ?spouse}
+  (role ?spouse {?spouse isa [k human], condition [k alive]} {@self spouse ?spouse}
                 ; @self names the spouse-victim in the plot (a name value).
                 {?spouse name ?spouse_name}
                 (select (policy first-match)))
   ; A covert lover (belief-query role filter: a lover who is not the spouse,
   ; and not KNOWN married - is-married is a pure belief macro, cached here).
-  (role ?paramour (any_human ?paramour)
+  (role ?paramour {?paramour isa [k human], condition [k alive]}
     {@self lover ?paramour}:?lover_bond
     -{@self spouse ?paramour}
     -{?paramour spouse ?}   ; free to marry - cached

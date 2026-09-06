@@ -72,7 +72,7 @@
 
   ; Light @self gate; the owner + business-kind identification is the cached
   ; ?org role; the articles filter caches as EXISTENCE and binds ?art at fire.
-  (role @self (grown @self))
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
   (role ?job {@self job ?job})
   (role ?org {?job org [k org business]:?org}    ; produced-restricted: ?org threaded off ?job
              {@self wealth ?wealth}

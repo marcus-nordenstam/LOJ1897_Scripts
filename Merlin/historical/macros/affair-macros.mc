@@ -10,8 +10,8 @@
 ; ----------------------------------------------------------------------------
 
 (define-macro covert-affair-motive (?paramour)
-  (or (is-married @self) (is-married ?paramour)
-      (is-betrothed @self) (is-betrothed ?paramour)
+  (or {@self spouse @something} {?paramour spouse @something}
+      {@self fiancee @something} {?paramour fiancee @something}
       ; cross-class as @self KNOWS it: @self holds a class belief about ?paramour and
       ; it is not @self's own class (telepathy-pure - no read of ?paramour's own mind).
       (and {?paramour class-situation ?}

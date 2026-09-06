@@ -47,7 +47,7 @@
 ; late-hired cook does not usurp a sitting family cook (first claim sticks).
 
 (npc-think claim_cook_hired
-  (role @self (grown @self)
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
                            {@self job [k job cook]}
               -{@self household-cook ?})
   (role ?home {@self home ?home})
@@ -57,7 +57,7 @@
     (begin-belief {@self household-cook ?home})))
 
 (npc-think claim_cook_woman
-  (role @self (grown @self)
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
                            {@self gender [k female]}
               -{@self household-cook ?}
               -{@self class-situation [k upper]})
@@ -70,7 +70,7 @@
     (begin-belief {@self household-cook ?home})))
 
 (npc-think claim_cook_man
-  (role @self (grown @self)
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
                            {@self gender [k male]}
               -{@self household-cook ?}
               -{@self spouse ?}

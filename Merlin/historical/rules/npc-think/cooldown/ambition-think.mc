@@ -35,7 +35,7 @@
   (rng-stream perpetration)
 
   ; @self: a credible successor - seated (binds my org), senior grade, not the head.
-  (role @self (adult @self)
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self job.org ?org}
               {@self job.level [k senior]}
               -{@self job [k org-head]})
@@ -45,7 +45,7 @@
   ; from MY own register, so a known org-head IS my org's head; the (when) below pins it
   ; to my current ?org with a LIVE chain read (a cross-role JOIN on the job.org chain in
   ; a cached role filter is unsupported, so the org match lives in the gate, not the role).
-  (role ?victim (known_alive ?victim)
+  (role ?victim {?victim isa [k human], condition [k alive]}
                 {?victim job [k org-head]}
                 (select (policy first-match)))
 

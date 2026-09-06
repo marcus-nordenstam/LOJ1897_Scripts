@@ -10,14 +10,16 @@
 
 (npc-think partner_go
   (goal {@self PARTNER ?art})
-  (when (and (articles-building ?art ?venue)
-             (not (spatial @self building ?venue))))
+  (role ?art_org {?art_org record ?art}
+                  {?art_org workplace ?venue}
+                  (not (spatial @self building ?venue)))
   (effects (maintain-proposal {@self enter ?venue})))
 
 ; AT the premises: PROPOSE the partnership act (goals never propose themselves). partner_act reads
 ; the firm articles off the standing {@self PARTNER} goal focus, so the propose is label-only.
 (npc-think partner_at_firm
   (goal {@self PARTNER ?art})
-  (when (and (articles-building ?art ?venue)
-             (spatial @self building ?venue)))
+  (role ?art_org {?art_org record ?art}
+                  {?art_org workplace ?venue}
+                  (spatial @self building ?venue))
   (effects (maintain-proposal {@self PARTNER})))

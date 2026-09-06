@@ -6,9 +6,9 @@
   (rng-stream behaviour)
 
   (role ?stranger 
-       (any_human ?stranger)
+       {?stranger isa [k human], condition [k alive]}
        (spatial ?stranger co-located @self)
-       (none (personally-knows @self ?stranger))
+       (none {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?stranger /ever})
        -{@self SAY ? ?stranger})
 
   ; Sociability gate: an extraverted NPC strikes up an introduction more readily.

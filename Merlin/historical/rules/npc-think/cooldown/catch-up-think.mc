@@ -22,7 +22,7 @@
   ; ?guest is anyone CO-PRESENT: sourced OBJECTIVELY from @self's current room (env
   ; contents), each guest passively perceived - enumerated, so each co-present listener
   ; hears their own untold slice of @self's news.
-  (role ?guest (any_human ?guest)
+  (role ?guest {?guest isa [k human], condition [k alive]}
                (spatial ?guest co-located @self))
 
   ; Non-belief gates (out of the role): extraversion-weighted chance + minimum age.

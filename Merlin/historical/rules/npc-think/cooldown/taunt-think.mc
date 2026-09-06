@@ -28,7 +28,7 @@
 (npc-think taunt
   (cooldown 1 m)
   (rng-stream perpetration)
-  (role @self (adult @self) {@self home ?home})
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]} {@self home ?home})
   ; The actor's own overt-method kill (the corpse whose mystery he inserts himself into).
   (role ?victim {@self strangle|shoot ?victim}
                 (not (alive ?victim)))

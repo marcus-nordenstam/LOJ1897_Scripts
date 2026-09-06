@@ -36,7 +36,7 @@
                   {@self identity parent-role}))
   ; A CO-PRESENT friend (the party guest actually in the room): the friend tie is the
   ; guest list; co-presence (objective room occupancy) is who is here to be told.
-  (role ?guest (any_human ?guest)
+  (role ?guest {?guest isa [k human], condition [k alive]}
                {@self friend ?guest}
                (spatial ?guest co-located @self))
 

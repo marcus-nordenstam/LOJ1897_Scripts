@@ -34,15 +34,15 @@
   ; to resolve. An available adult who fancies someone and is not already
   ; attached. (The per-NPC (chance) that paces pairing lives in (when).)
   (role @self 
-              (adult-age @self)
+              {@self age-band [k young-adult|middle-aged|mature|elderly]}
               -{@self spouse ?}
               -{@self fiancee ?}
               -{@self lover ?})
   ;; SELF-POV (telepathy purge CAT-3): @self reads ?b's free/attached state from
   ;; his OWN knowledge (permissive on the unknown), and ?b's reciprocation as SHE
   ;; signalled it (confess_fancy). No cross-mind read.
-  (role ?b (any_human ?b)
-           (adult-age ?b)
+  (role ?b {?b isa [k human], condition [k alive]}
+           {?b age-band [k young-adult|middle-aged|mature|elderly]}
            -{?b spouse ?}
            -{?b fiancee ?}
            -{?b lover ?}
@@ -59,7 +59,7 @@
            ; @self's belief that ?b's PERCEIVED gender differs from his own (visible-
            ; on-sight, so cacheable as a dynamic-target belief). And not kin.
            -{?b gender (any {@self gender}).target}
-           (none (blood-kin @self ?b)))
+           (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?b}))
 
   ;; Live re-check: within the window the un-attached role filters go stale as
   ;; earlier firings mint lover bonds; re-confirm both are still free - from @self's

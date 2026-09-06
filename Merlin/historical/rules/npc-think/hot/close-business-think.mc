@@ -44,8 +44,9 @@
 ; negates. The (goal ...) gate supplies the /caused_by.
 (npc-think close_at_premises
   (goal {@self CLOSE-BUSINESS ?art})
-  (when (and (articles-building ?art ?wp)
-             (spatial @self building ?wp)))
+  (role ?art_org {?art_org record ?art}
+                  {?art_org workplace ?wp}
+                  (spatial @self building ?wp))
   (effects (maintain-proposal {@self CLOSE-BUSINESS ?art ?wp})))
 
 ; Outcome twin of the winding-up: he LISTS his OWN premises for sale IF he owns

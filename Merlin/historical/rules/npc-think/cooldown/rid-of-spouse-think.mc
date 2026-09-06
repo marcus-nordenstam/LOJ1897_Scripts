@@ -34,11 +34,11 @@
   (rng-stream perpetration)
 
   (role @self 
-              (adult @self))
-  (role ?spouse (any_human ?spouse) {@self spouse ?spouse} (select (policy first-match)))
+              {@self age-band [k young-adult|middle-aged|mature|elderly]})
+  (role ?spouse {?spouse isa [k human], condition [k alive]} {@self spouse ?spouse} (select (policy first-match)))
 
   ; The actor's lover, bound once (an unmarriageable - already-married - lover
-  ; waiting raises the propensity). Bound at top-level so (is-married ?lover)
+  ; waiting raises the propensity). Bound at top-level so {?lover spouse @something}
   ; below takes a plain ?var (a macro arg cannot carry an op-expr into a pattern).
   (any {@self lover ?lover})
 
@@ -68,7 +68,7 @@
                             (* (disinhibition)
                                (* (callousness @self)
                                   (* (+ 1 (any {?spouse wealth}).target)
-                                     (if (is-married ?lover) (then 1.5) (else 1.0))))))))))))
+                                     (if {?lover spouse @something} (then 1.5) (else 1.0))))))))))))
 
   (utility want)
   (effects

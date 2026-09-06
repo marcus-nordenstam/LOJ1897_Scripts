@@ -11,7 +11,7 @@
 ; ----------------------------------------------------------------------------
 (hsim-rule means_strike
   (kind _means_strike)
-  (role ?actor  (any_human ?actor))
-  (role ?victim (any_human ?victim) (co-present ?actor))
+  (role ?actor  {?actor isa [k human], condition [k alive]})
+  (role ?victim {?victim isa [k human], condition [k alive]} (co-present ?actor))
   (effects
     (strike ?actor ?victim)))

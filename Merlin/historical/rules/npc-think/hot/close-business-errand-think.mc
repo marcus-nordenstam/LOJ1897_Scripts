@@ -17,6 +17,7 @@
 ; at-place gate + the (go) effect.
 (npc-think close_go
   (goal {@self CLOSE-BUSINESS ?art})
-  (when (and (articles-building ?art ?wp)
-             (not (spatial @self building ?wp))))
+  (role ?art_org {?art_org record ?art}
+                  {?art_org workplace ?wp}
+                  (not (spatial @self building ?wp)))
   (effects (maintain-proposal {@self enter ?wp})))

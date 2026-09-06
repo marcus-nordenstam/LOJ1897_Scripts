@@ -35,7 +35,7 @@
                  [/cost (money-cost-util (coin-balance @self) (price ?kind))])))
     ; HIRE - covert paid channel; agent fee folded into the price gate.
     (try
-      (role ?agent (any_human ?agent) (personally-knows @self ?agent))
+      (role ?agent {?agent isa [k human], condition [k alive]} {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?agent /ever})
       (when (is-a ?disc [k covert]))
       (effects (maintain-proposal {@self hire-procure ?agent ?kind}
                  [/feasible (>= (coin-balance @self) (+ (price ?kind) (procure_fee)))]

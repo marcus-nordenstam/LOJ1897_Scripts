@@ -6,7 +6,7 @@
 ; an act of a SPECIFIC official - the town's senior civic gatekeeper (the [k job
 ; official] a senior_appointment installs at a public gov org). So @self is
 ; bound to each living NPC; the
-; (grown @self) template + the (any {@self job [k job official]}) gate cast
+; {@self age-band [k youth|young-adult|middle-aged|mature|elderly]} template + the (any {@self job [k job official]}) gate cast
 ; @self down to a holder of a senior public post, reading his OWN job belief (no
 ; scan, no telepathy). While the parish is sparse he quietly admits arrivals;
 ; each admission raises (living-npc-count), so (population-pressure) climbs toward the
@@ -42,7 +42,7 @@
   ;; The gatekeeper: an adult holding a senior public post ([k job official],
   ;; installed by senior_appointment). His job belief is his own - a CACHED
   ;; self-gate filter, so every non-official empty-set-skips the rule.
-  (role @self (grown @self)
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self job [k job official]})
 
   ;; Fire only while sparse, and then with a sparseness-scaled monthly chance. The

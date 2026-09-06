@@ -28,8 +28,8 @@
   ; per NPC now lives in the (when ...) gate below (a non-belief chance read
   ; cannot live on the role under the belief-purity invariant).
   (role @self )
-  (role ?victim (any_human ?victim)
-                (personally-knows @self ?victim))
+  (role ?victim {?victim isa [k human], condition [k alive]}
+                {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?victim /ever})
 
   ; Dark-tetrad assault disposition, rolled once per NPC (moved off the @self
   ; role): volatility x psychopathy x sadism x (1 - politeness), amplified by

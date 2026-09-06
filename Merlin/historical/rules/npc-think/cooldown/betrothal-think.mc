@@ -23,7 +23,7 @@
   ;; HE has heard of ((count (every {?bride lover ? /ever})) - per-observer, never an
   ;; omniscient public reading), her availability as his own belief
   ;; ((any {?bride <label> ?}), permissive on the unknown).
-  (role @self (adult @self)
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self gender [k male]}
               -{@self spouse ?}
               -{@self fiancee ?}
@@ -52,7 +52,7 @@
                ;; role: an inline (any {@self age-band}).target does not resolve against
                ;; the plural age-span belief.
                {?bride age-span ?peer_band}
-               (none (blood-kin @self ?bride)))
+               (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?bride}))
 
   ;; Only the non-cacheable gates stay live: the per-groom (chance) pacing and
   ;; the same-station-lover impediment (a lover whose class equals his keeps him

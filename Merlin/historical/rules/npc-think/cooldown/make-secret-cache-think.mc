@@ -21,7 +21,7 @@
 
   ; Something to hide: a covert lover or a standing stow goal.
   (when (or {@self lover ?}
-            (has-goal {@self stow})))
+            {@self goal {@self stow}}))
 
   (utility want)
   (effects (maintain-proposal {@self MAKE-CACHE ?building})))

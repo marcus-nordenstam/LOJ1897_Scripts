@@ -39,7 +39,7 @@
   ;; pure + cached. The master gate (the org's founder, whom the youth avoids if
   ;; KNOWN to be scandalous - permissive on the unknown) is a residual filter on
   ;; ?master, produced off {?org founder ?master} and re-checked in the role.
-  (role ?org (known_org ?org)
+  (role ?org {?org isa [k org]}
              -{?org isa [k org household]}
              {?org founder ?master}
              -{?master repute [k scandalous]}

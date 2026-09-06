@@ -41,7 +41,7 @@
 ; wedding occasions.
 (npc-think want_wed
   (role ?occ {@self organize [k wedding]:?occ})
-  (role @self {@self fiancee ?} (none (is-married @self)))
+  (role @self {@self fiancee ?} (none {@self spouse @something}))
   (when (date-in-current-month (any {?occ held-on ?}).target))
   (utility errand)
   (effects (maintain-proposal {@self wed ?occ})))

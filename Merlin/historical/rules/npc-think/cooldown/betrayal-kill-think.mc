@@ -23,9 +23,9 @@
   ; The unfaithful partner + the interloper the actor believes she keeps (a JOIN over
   ; @self's OWN beliefs; any_human keeps both to the believed-alive, so a dead corner
   ; drops the drive).
-  (role ?partner (any_human ?partner)
+  (role ?partner {?partner isa [k human], condition [k alive]}
     {@self spouse|lover ?partner} (select (policy first-match)))
-  (role ?interloper (any_human ?interloper)
+  (role ?interloper {?interloper isa [k human], condition [k alive]}
     {?partner lover ?interloper}
     -{?partner spouse ?interloper}
     (select (policy first-match)))

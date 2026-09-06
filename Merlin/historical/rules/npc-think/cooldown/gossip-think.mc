@@ -26,10 +26,10 @@
 
   (role @self {@self friend ?})
   ; The person gossiped ABOUT: someone @self knows of, drawn by roulette.
-  (role ?x (any_human ?x)
+  (role ?x {?x isa [k human], condition [k alive]}
            (select (score 1) (policy roulette)))
   ; The LISTENER: a co-present person (objective room occupancy), drawn by roulette.
-  (role ?ear (any_human ?ear)
+  (role ?ear {?ear isa [k human], condition [k alive]}
              (spatial ?ear co-located @self)
              (select (score 1) (policy roulette)))
 

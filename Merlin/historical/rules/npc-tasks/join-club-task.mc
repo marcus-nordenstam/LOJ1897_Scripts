@@ -12,14 +12,16 @@
   (and
     ; GO: not at the clubhouse -> travel to it.
     (try
-      (when (and (articles-building ?art ?venue)
-                 (not (spatial @self building ?venue))))
+      (role ?art_org {?art_org record ?art}
+                      {?art_org workplace ?venue}
+                      (not (spatial @self building ?venue)))
       (effects (maintain-proposal {@self enter ?venue})))
 
     ; ENROL: at the clubhouse -> resolve the club's roster and file my membership row.
     (try
-      (when (and (articles-building ?art ?venue)
-                 (spatial @self building ?venue)))
+      (role ?art_org {?art_org record ?art}
+                      {?art_org workplace ?venue}
+                      (spatial @self building ?venue))
       (effects
         (o {?art declares-org @o}): ?org
         (any {?org employee-register ?reg})

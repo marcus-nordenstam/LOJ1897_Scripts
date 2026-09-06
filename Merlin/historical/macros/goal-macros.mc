@@ -11,7 +11,7 @@
 ;   (goal  {@self <action> [<target>]}) - engine primitive, a first-position rule
 ;       CLAUSE: requires the goal, binds a free clause-target ?var off it, and pins it
 ;       as the auto-/caused_by of sub-goals the rule mints.
-;   (has-goal {@self <action> [<target>]}) - boolean read (use in when/if/and/or/effects).
+;   {@self goal {@self <action> [<target>]}} - boolean read (use in when/if/and/or/effects).
 ;       A macro over (believes {@self goal {..}}) - defined in definitions/roles.hs.
 ;   (no-goal {@self <action> [<target>]}) - boolean negative, the (not ...) twin -
 ;       also a roles.hs macro.

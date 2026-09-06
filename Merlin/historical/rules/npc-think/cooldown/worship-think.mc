@@ -34,7 +34,7 @@
   ; once worship_act resets days-since-last the (when) drops, ending
   ; {@self WORSHIP}. The act never ends the goal.
   (cooldown 3 d)
-  (role @self (grown @self))
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
   (when    (and (>= (days-since-last {@self WORSHIP /ever}) 3)
                 (>= (attr @self politeness) 0.3)))
   (utility want (* (recency-ramp WORSHIP 3 21 500) (devotional-drive-tilt)))
@@ -51,7 +51,7 @@
 ; {@self WORSHIP} goal with want_worship - each rung ceases only its OWN source.
 (npc-think sunday_observance
   (cooldown 3 d)
-  (role @self (grown @self)
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self devoutness [k piety-band devout]})
   (when    (>= (days-since-last {@self WORSHIP /ever}) 3))
   (utility obligation)

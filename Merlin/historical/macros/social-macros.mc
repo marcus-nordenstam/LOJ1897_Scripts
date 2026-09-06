@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; social_macros.hs - relationship-query define-macros.
 ;
-; (personally-knows ?who ?other): does ?who hold ANY referential tie to ?other -
+; {?who friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?other /ever}: does ?who hold ANY referential tie to ?other -
 ; i.e. has ?who ever met / related to them? Expands to a single ground-alts
 ; `believes` (the label `A|B|C` matches if the queried mind holds any of those
 ; bonds). The query ALWAYS runs in the DELIBERATING NPC's own mind, so:
@@ -21,12 +21,6 @@
 ; tie label in BOTH places.
 ; ----------------------------------------------------------------------------
 
-; /ever: "has ever met / related to" - an ended tie still means you KNOW the
-; person (an ex-lover, a dead parent), and talk-to is a TASK (Tasks.mon), so
-; the contact evidence is the ENDED talk acts, not a running conversation.
-(define-macro personally-knows (?who ?other)
-  {?who friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?other /ever})
-
 ; (spouse-of ?p): who @self believes ?p is married to. The old C++ op read ?p's
 ; OWN mind (telepathy - you cannot see another's private spouse belief); this
 ; reads the ASKER's own knowledge of ?p's marriage. Every call site is @self
@@ -35,29 +29,6 @@
 ; @fail (propagate-death ends the spouse belief everywhere it propagated).
 (define-macro spouse-of (?p)
   (any {?p spouse ?}).target)
-
-; (is-married ?p): does @self believe ?p has a spouse? Composes spouse-of.
-(define-macro is-married (?p)
-  {?p spouse @something})
-
-; (is-betrothed ?p): does @self believe ?p holds a fiancee bond? Asker's-own-
-; knowledge, same anti-telepathy fix as spouse-of (the old op read ?p's mind).
-(define-macro is-betrothed (?p)
-  {?p fiancee @something})
-
-
-; (blood-kin ?who ?other): does ?who hold ANY consanguinity bond to ?other - the
-; courtship / crush / affair blood-relative exclusion (used as `(none (blood-kin
-; @self ?o))`). Expands to a single ground-alts `believes` so the belief read is
-; EXPLICIT (the parser sees every kin label -> the object cache can index it),
-; replacing the old opaque C++ (kin ...) cross-pair op + its maintained bitset.
-;
-; CANONICAL SET: this alt-list MUST stay in lockstep with kin_label_names() in
-; src/lib/hsim/hsim_strings.h (the C++ source of truth shared by the maintained
-; per-holder kin set + the consanguinity triangulation derivations). Add a kin
-; label in BOTH places.
-(define-macro blood-kin (?who ?other)
-  {?who mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?other})
 
 ; (is-attracted-to ?who ?other): does ?who hold an attraction stance of AT LEAST
 ; the `fancy` band toward ?other? Attraction is a continuous scalar (relational

@@ -34,8 +34,8 @@
 
   ; Open contempt is a considered, adult act - minors do not deliver it.
   (role @self
-              (adult-age @self))
-  (role ?victim (any_human ?victim)
+              {@self age-band [k young-adult|middle-aged|mature|elderly]})
+  (role ?victim {?victim isa [k human], condition [k alive]}
                 ; @self holds ?victim in deep contempt (esteem `despise`, the
                 ; floor esteem band - so the exact-band belief IS "esteem at
                 ; least despise"), read as an EXPLICIT verb-state belief.

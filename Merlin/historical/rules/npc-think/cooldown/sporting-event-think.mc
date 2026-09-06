@@ -34,7 +34,7 @@
   ; {?club record ?articles} handle are his own beliefs, minted at found-club-seq).
   ; [k org club] narrows to club orgs (a business he founded is not cast here).
   (role @self (old_human @self))
-  (role ?club (known_org ?club)
+  (role ?club {?club isa [k org]}
               [k org club]
               {?club founder @self})
 

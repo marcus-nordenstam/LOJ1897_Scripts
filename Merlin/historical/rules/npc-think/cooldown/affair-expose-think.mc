@@ -4,10 +4,10 @@
   (cooldown 1 m)
   (rng-stream incidents)
 
-  (role @self (adult @self) {@self lover ?}
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]} {@self lover ?}
               ; @self signs the denunciation - bind his OWN name for "Signed, ..".
               {@self name ?author_name})
-  (role ?cheater (any_human ?cheater)
+  (role ?cheater {?cheater isa [k human], condition [k alive]}
     {@self lover ?cheater}
     ; @self names the cheater in the letter body (a name value, not the object).
     {?cheater name ?cheater_name}

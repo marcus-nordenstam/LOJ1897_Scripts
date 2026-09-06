@@ -36,7 +36,7 @@
   ; by telepathy. The adopted belief is {<instigator> goal {<me> kill <victim>}}; the
   ; nested kill clause is the role's own membership criterion, and the {..}:?plot-rel
   ; capture + free ?victim bind at the when-gate.
-  (role ?instigator (any_human ?instigator)
+  (role ?instigator {?instigator isa [k human], condition [k alive]}
                     {?instigator goal {@self kill ?victim}:?plot-rel})
 
   ; It must be ANOTHER's plot (not my own), I must be willing: desire for the

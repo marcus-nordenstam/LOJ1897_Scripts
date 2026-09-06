@@ -36,8 +36,9 @@
 ; parent and retracts, and both inside rungs stop proposing.
 (npc-think hold_meet_go
   (goal {@self hold-meet ?art})
-  (when (and (articles-building ?art ?clubhouse)
-             (not (spatial @self building ?clubhouse))))
+  (role ?art_org {?art_org record ?art}
+                  {?art_org workplace ?clubhouse}
+                  (not (spatial @self building ?clubhouse)))
   (effects (maintain-proposal {@self enter ?clubhouse})))
 
 ; The organiser SUMMONS the field by SPEAKING: one directed SAY per co-present, living
@@ -50,8 +51,9 @@
 ; said, so the rung empties itself when the field is called.
 (npc-think summon_field
   (goal {@self hold-meet ?art})
-  (when (and (articles-building ?art ?clubhouse)
-             (spatial @self building ?clubhouse)))
+  (role ?art_org {?art_org record ?art}
+                  {?art_org workplace ?clubhouse}
+                  (spatial @self building ?clubhouse))
   (utility always-pick)
   (effects
     (o {?art declares-org @o}): ?org
@@ -72,8 +74,9 @@
 ; has nothing left to say - the field is called in BEFORE the meet is declared open.
 (npc-think hold_meet_dwell
   (goal {@self hold-meet ?art})
-  (when (and (articles-building ?art ?clubhouse)
-             (spatial @self building ?clubhouse)))
+  (role ?art_org {?art_org record ?art}
+                  {?art_org workplace ?clubhouse}
+                  (spatial @self building ?clubhouse))
   (utility fallback)
   (effects (maintain-proposal {@self HOLD-MEET-RUN ?art})))
 

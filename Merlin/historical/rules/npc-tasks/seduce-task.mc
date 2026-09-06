@@ -33,7 +33,7 @@
                  (spatial ?paramour co-located @self)
                  (not (spatial (spouse-of @self) co-located @self))
                  -{?paramour gender (any {@self gender}).target}
-                 (none (blood-kin @self ?paramour))
+                 (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?paramour})
                  -{@self HAVE-SEX-WITH ?paramour /succ /caused_by ?seduce-rel}))
       (utility errand always-pick)
       (effects (maintain-proposal {@self HAVE-SEX-WITH ?paramour})))
@@ -43,5 +43,5 @@
     (try
       (when (or (not (alive ?paramour))
                 {?paramour gender (any {@self gender}).target}
-                (blood-kin @self ?paramour)))
+                {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?paramour}))
       (effects (set-outcome ?seduce-rel /fail)))))

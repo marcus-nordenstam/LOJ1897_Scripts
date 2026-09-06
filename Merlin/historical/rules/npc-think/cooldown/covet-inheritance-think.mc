@@ -39,7 +39,7 @@
   ; object-cache filter (Shape-1 {@self <label> ?cand}); (select (score ...)) ranks the
   ; cached set by believed wealth and binds the single richest. The wealth
   ; floor is enforced in (when) on the winner.
-  (role ?benefactor (any_human ?benefactor)
+  (role ?benefactor {?benefactor isa [k human], condition [k alive]}
     {@self mother|father|parent|spouse|sibling ?benefactor}
     (select (score (any {?benefactor wealth}).target) (policy argmax)))
   ; The benefactor's HEIR, role-cast via the object-cache JOIN: the cross-role filter

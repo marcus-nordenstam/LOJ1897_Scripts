@@ -47,8 +47,8 @@
   (cooldown 1 m)
   (rng-stream incidents)
 
-  (role @self  (any_human @self))
-  (role ?victim (any_human ?victim)
+  (role @self  {@self isa [k human], condition [k alive]})
+  (role ?victim {?victim isa [k human], condition [k alive]}
                 {@self child ?victim})
 
   ; Grounds, not a floor: mild standing disregard (dislike / disdain) admits the cut

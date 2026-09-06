@@ -42,14 +42,14 @@
 
   (role @self )
   ; The unfaithful partner: a spouse or lover of the actor's.
-  (role ?partner (any_human ?partner)
+  (role ?partner {?partner isa [k human], condition [k alive]}
     {@self spouse|lover ?partner}
     (select (policy first-match)))
   ; The interloper: the third-party lover the actor believes ?partner keeps -
   ; a JOIN role over the actor's OWN beliefs (no mind peek). Excludes
   ; ?partner's known spouse; the role machinery never casts @self. No known
   ; affair -> no activation, and the fallout never rolls.
-  (role ?interloper (any_human ?interloper)
+  (role ?interloper {?interloper isa [k human], condition [k alive]}
     {?partner lover ?interloper}
     -{?partner spouse ?interloper}
     (select (policy first-match)))

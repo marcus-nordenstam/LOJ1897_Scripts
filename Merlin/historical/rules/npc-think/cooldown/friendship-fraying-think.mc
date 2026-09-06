@@ -32,8 +32,8 @@
   ;; SELF-POV: @self reads only his OWN mind - his soured warmth toward ?b and his
   ;; own friend bond. (The bond is structural/mutual, so the effect drops it on both
   ;; sides, as befriend mints it on both.)
-  (role @self (adult-age @self))
-  (role ?b (any_human ?b)
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]})
+  (role ?b {?b isa [k human], condition [k alive]}
            ; @self now detests ?b (sustained strong-negative warmth, the floor
            ; warmth band - so the exact-band belief IS "warmth at least detest") ...
            {@self detest ?b}

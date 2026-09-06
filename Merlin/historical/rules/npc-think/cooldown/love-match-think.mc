@@ -31,7 +31,7 @@
   ; @self the suitor: an unmarried, un-betrothed adult who is not socially shut
   ; out. The per-suitor (chance) gate lives in (when ...) (role-belief purity).
   (role @self
-              (adult-age @self)
+              {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self age-band ?peer_band}
               -{@self fiancee ?}
               -{@self spouse ?}
@@ -47,8 +47,8 @@
   ;; in via gossip/believe_about; permissive on the unknown), her repute as HE
   ;; sees it (3-arg situation), and crucially her RECIPROCAL fancy as SHE TOLD
   ;; HIM (confess_fancy minted {?beloved fancy @self} in his mind). No mind peek.
-  (role ?beloved (any_human ?beloved)
-                (adult-age ?beloved)
+  (role ?beloved {?beloved isa [k human], condition [k alive]}
+                {?beloved age-band [k young-adult|middle-aged|mature|elderly]}
                 -{?beloved fiancee ?}
                 -{?beloved spouse ?}
                 -{?beloved repute [k scandalous]}
@@ -78,7 +78,7 @@
                 (or -{?beloved lover ?}
                     {@self lover ?beloved})
                 ; no marrying blood kin (consanguinity backstop) ...
-                (none (blood-kin @self ?beloved))
+                (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?beloved})
                 ; ... opposite-sex: @self's belief that the beloved's PERCEIVED
                 ; gender differs from his own (gender is visible-on-sight, so this
                 ; dynamic-target belief is object-cacheable; drops same-sex passes).

@@ -14,7 +14,7 @@
 ; belief and mints only in his OWN mind. When the coercer gives up, the anchor
 ; stops refreshing and decays out - the role stops binding, the dread fades.
 ;
-; (cease-after-fire) makes it a clean monthly PULSE: (adult @self) never falls, so
+; (cease-after-fire) makes it a clean monthly PULSE: {@self age-band [k young-adult|middle-aged|mature|elderly]} never falls, so
 ; the bout would otherwise hold after the first fire and never re-mint; ceasing on
 ; fire lets the 1-month cooldown re-arm it, so the exposure-risk pressure compounds
 ; every month the extort anchor still stands.
@@ -26,8 +26,8 @@
   (cooldown 1 m)
   (cease-after-fire)
   (rng-stream perpetration)
-  (role @self (adult @self))
-  (role ?blackmailer (any_human ?blackmailer)
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]})
+  (role ?blackmailer {?blackmailer isa [k human], condition [k alive]}
                      {?blackmailer extort @self})
   (effects
     (begin-belief {?blackmailer extort @self}): ?extort_anchor

@@ -39,10 +39,10 @@
 ; match the (act {@self LET}) body.
 (npc-think list_to_let_at_agency
   (goal {@self LET ?prop})
+  ; The office is the agency's OWN workplace belief - see buy_home_go on the ?art round trip.
   (role ?agency {?agency isa [k org house-agency]}
-                {?agency record ?art})   ; existence cached, ?art binds at fire
-  (when (and (articles-building ?art ?venue)
-             (spatial @self building ?venue)))
+                {?agency workplace ?venue}
+                (spatial @self building ?venue))
   (effects (maintain-proposal {@self LET ?prop})))
 
 ; CASE B - knows a house agency, not at its office: travel there. Its incorporation
@@ -50,9 +50,8 @@
 (npc-think list_to_let_go
   (goal {@self LET})
   (role ?agency {?agency isa [k org house-agency]}
-                {?agency record ?art})   ; existence cached, ?art binds at fire
-  (when (and (articles-building ?art ?venue)
-             (not (spatial @self building ?venue))))
+                {?agency workplace ?venue}
+                (not (spatial @self building ?venue)))
   (effects (maintain-proposal {@self enter ?venue})))
 
 ; CASE C - @self knows NO house agency at all: consult the parish incorporations

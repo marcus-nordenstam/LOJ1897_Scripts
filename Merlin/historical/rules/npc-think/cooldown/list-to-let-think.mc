@@ -34,7 +34,7 @@
   ; ANNUAL: a yearly timer mints the standing let intent once per year; (begin-goal) is
   ; idempotent.
   (cooldown 1 y)
-  (role @self (adult @self))
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]})
   ; His OWN vacant residential holdings (object-cache role over his beliefs).
   (role ?prop {@self own ?prop}
               {?prop isa [k residential-building]}

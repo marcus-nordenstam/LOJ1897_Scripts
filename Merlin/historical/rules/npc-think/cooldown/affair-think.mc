@@ -33,16 +33,16 @@
   ;; gate (the chance product over openness x enthusiasm x impropriety) is a
   ;; non-belief filter and lives in the (when ...) clause below.
   (role @self
-              (adult-age @self)
+              {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self spouse ?}
               -{@self lover ?}
               {@self age-band ?peer_band})
-  (role ?lover (any_human ?lover)
-               (adult-age ?lover)
+  (role ?lover {?lover isa [k human], condition [k alive]}
+               {?lover age-band [k young-adult|middle-aged|mature|elderly]}
                ; the paramour must NOT be @self's own spouse (a third party).
                -{@self spouse ?lover}
                ; the affair ignites with a known third party (social tie).
-               (personally-knows @self ?lover)
+               {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?lover /ever}
                ; @self's band within ?lover's perceived age-span (+/-1). Bound in
                ; the @self role: an inline (any {@self age-band}).target does not
                ; resolve against the plural age-span belief.
@@ -50,7 +50,7 @@
                ; opposite-sex: @self's belief that ?lover's PERCEIVED gender differs
                ; from his own (visible-on-sight -> cacheable), and non-kin.
                -{?lover gender (any {@self gender}).target}
-               (none (blood-kin @self ?lover)))
+               (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?lover}))
 
   ;; The disposition-to-stray, rolled once per NPC per month: the character tail
   ;; (infidelity-disposition) released by callousness (the empathy brake off),

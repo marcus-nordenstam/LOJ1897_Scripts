@@ -70,7 +70,7 @@
   ; a CACHED role: home + no-supper-hour tested against the SAME candidate, and
   ; the role BINDS ?home for the effects. Whichever adult woman fires first sets
   ; the hours; the (not supper-hour) filter then empties for the whole household.
-  (role @self (grown @self)
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self gender [k female]})
   (role ?home {@self home ?home}
               -{?home supper-hour ?})
@@ -136,7 +136,7 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self (grown @self)
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self home ?home}
               {?home breakfast-hour ?b}   ; existence cached; the three
               {?home lunch-hour ?l}       ; hours bind at fire for the
@@ -144,7 +144,7 @@
 
   ; Someone asked @self about supper-hour: a heard qs about supper-hour with
   ; @self as the audience. Binds ?asker (the speaker, not @self).
-  (role ?asker (any_human ?asker)
+  (role ?asker {?asker isa [k human], condition [k alive]}
                {?asker SAY (qs {? supper-hour ?}) @self /past})
 
   (utility want)

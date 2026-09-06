@@ -18,7 +18,7 @@
 
 (npc-think feel_charitable
   (cooldown 20 d)
-  (role @self (grown @self))
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
   ; The nearest church the NPC KNOWS (role-cast; no known church -> no fire).
   (role ?venue [k building church] (select (score (near @self ?venue)) (policy roulette)))
   (when (>= (days-since-last {@self GIVE-ALMS /ever}) 20))

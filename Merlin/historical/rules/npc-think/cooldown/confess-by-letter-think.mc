@@ -19,7 +19,7 @@
   (cooldown 1 m)
   (rng-stream marriages)
 
-  (role @self (grown @self)
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               -{@self spouse ?}
               -{@self fiancee ?}
               {@self fancy ?}
@@ -29,8 +29,8 @@
   ; already knows she cares - the one who has LEARNED she is fancied is exactly who
   ; should now declare back, so this must NOT gate on {?target fancy @self}. Writing
   ; stops when @self betroths / weds (the @self role gates above).
-  (role ?target (any_human ?target)
-                (marriageable-age ?target)
+  (role ?target {?target isa [k human], condition [k alive]}
+                {?target age-band [k youth|young-adult|middle-aged|mature|elderly]}
                 -{?target spouse ?}
                 (is-attracted-to @self ?target)
                 ; APART: a co-present suitor uses the spoken confess_fancy. Role-side so a

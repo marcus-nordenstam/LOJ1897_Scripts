@@ -43,10 +43,10 @@
                          (attr @self sadism)
                          (- 1.0 (attr @self politeness))
                          (+ 0.3 (* 0.7 (attr @self intoxication))))))
-  (role ?victim (any_human ?victim)
+  (role ?victim {?victim isa [k human], condition [k alive]}
                 ; the victim is co-present (physically THERE) and a STRANGER.
                 (spatial @self co-located ?victim)
-                (none (personally-knows @self ?victim)))
+                (none {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?victim /ever}))
 
   (effects
     ; incident-anchor now also auto-witnesses co-present bystanders (assault is

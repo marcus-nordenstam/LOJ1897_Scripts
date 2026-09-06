@@ -27,10 +27,10 @@
 ; the spouse in the room (the cue to peel away). Needs somewhere private to go.
 (npc-think tryst_slip
   (cooldown 1 d)
-  (role @self (adult @self)
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self lover ?})
   (role ?paramour (spatial ?paramour co-located-building @self)
-                  (any_human ?paramour)
+                  {?paramour isa [k human], condition [k alive]}
                   {@self lover ?paramour}
                   -{@self spouse ?paramour})
   ; A room in @self's building @self BELIEVES holds no third party - only @self and the
@@ -50,10 +50,10 @@
 ; lover @self BELIEVES shares his room (the location co-location role filter).
 (npc-think affair_consummate
   (cooldown 1 d)
-  (role @self (adult @self)
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self lover ?})
   (role ?paramour (spatial ?paramour co-located @self)
-                  (any_human ?paramour)
+                  {?paramour isa [k human], condition [k alive]}
                   {@self lover ?paramour}
                   -{@self spouse ?paramour})
   ; Discretion: not in the same ROOM as the wronged spouse. (spouse-of @self) is fail

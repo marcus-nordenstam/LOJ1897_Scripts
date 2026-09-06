@@ -104,7 +104,7 @@
   ; principal and candidate by a prior bond - friend / former master / club
   ; co-member; v1 gates on the candidate's merit alone, as the relationship layer
   ; is not yet rich enough to gate on without starving the rule.)
-  (role ?principal_org (known_org ?principal_org)
+  (role ?principal_org {?principal_org isa [k org]}
                        [k org business])
 
   ;; Live exclusivity re-check (see betrothal.hs): the candidate's "not

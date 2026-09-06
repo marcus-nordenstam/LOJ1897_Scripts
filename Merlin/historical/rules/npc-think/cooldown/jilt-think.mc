@@ -41,7 +41,7 @@
                 {@self fiancee ?})
   ; The jilted: the jilter's lover who is NOT the jilter's fiancee (the
   ; two-bound believes shape wedding.hs uses to recover the groom).
-  (role ?jilted (any_human ?jilted)
+  (role ?jilted {?jilted isa [k human], condition [k alive]}
                 {@self lover ?jilted}
                 -{@self fiancee ?jilted}
                 (select (policy first-match)))
@@ -91,7 +91,7 @@
                 -{@self fiancee ?}
                 -{@self spouse ?})
   ; The lover beneath the jilter's station (at least one class below).
-  (role ?jilted (any_human ?jilted)
+  (role ?jilted {?jilted isa [k human], condition [k alive]}
                 {@self lover ?jilted}
                 ;; @self reads the jilted lover's class from his OWN belief about him
                 ;; (he knows his lover intimately, so it is banded in).

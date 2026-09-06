@@ -37,12 +37,12 @@
               -{@self lover ?}
               -{@self spouse ?}
               {@self age-band ?peer_band})
-  (role ?victim (any_human ?victim)
-                (marriageable-age ?victim)
+  (role ?victim {?victim isa [k human], condition [k alive]}
+                {?victim age-band [k youth|young-adult|middle-aged|mature|elderly]}
                 ; the crush forms on someone @self has actually met.
-                (personally-knows @self ?victim)
+                {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?victim /ever}
                 ; No incestuous crush (kin cross-pair believes-macro).
-                (none (blood-kin @self ?victim))
+                (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?victim})
                 ; Opposite-sex: @self's belief that ?victim's PERCEIVED gender
                 ; differs from his own (visible-on-sight -> cacheable).
                 -{?victim gender (any {@self gender}).target}

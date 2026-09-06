@@ -16,10 +16,7 @@
   (and
     ; A room of ?bldg I am not standing in and have not already walked to during THIS
     ; wander. The WALK act records ARE the visited memory - keyed /caused_by this wander, so
-    ; they scope themselves to it and retire with it. No marker to write: the old form kept a
-    ; per-room `wander-visited` blackboard entry, and had to (observe ?room) inside the FILTER
-    ; to mint the mind-local symbol the bb was keyed on - a MUTATION in a role filter, paid
-    ; once per candidate (measured: ~1.2M observes in a 2yr run, against 1712 fires).
+    ; they scope themselves to it and retire with it. 
     ;
     ; ?room is an ENV symbol (the /env parts walk), and that is exactly what the negative
     ; wants: an unobserved room has no mental twin, the criteria degenerate, the search finds

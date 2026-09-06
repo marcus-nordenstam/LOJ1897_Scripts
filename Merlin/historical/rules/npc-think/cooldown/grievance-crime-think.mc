@@ -34,7 +34,7 @@
 (npc-think expose_slight
   (cooldown 1 m)
   (rng-stream deliberation)
-  (role ?target (any_human ?target)
+  (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k humiliation|status-loss|rivalry-pressure] ?target}:?pressure)
   (when (or {@self expose ?target /succ /caused_by ?pressure}
             (and (not (= ?target @self))
@@ -52,7 +52,7 @@
 (npc-think expose_wrongdoing
   (cooldown 1 m)
   (rng-stream deliberation)
-  (role ?target (any_human ?target)
+  (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k injustice] ?target}:?pressure)
   (when (or {@self expose ?target /succ /caused_by ?pressure}
             (and (not (= ?target @self))
@@ -72,7 +72,7 @@
 (npc-think humiliate_slight
   (cooldown 1 m)
   (rng-stream deliberation)
-  (role ?target (any_human ?target)
+  (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k humiliation|rivalry-pressure] ?target}:?pressure)
   (when (or {@self humiliate ?target /succ /caused_by ?pressure}
             (and (not (= ?target @self))
@@ -92,7 +92,7 @@
 (npc-think coerce_silence
   (cooldown 1 m)
   (rng-stream deliberation)
-  (role ?target (any_human ?target)
+  (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k humiliation] ?target}:?pressure)
   (when (or {@self coerce ?target /succ /caused_by ?pressure}
             (and (not (= ?target @self))
@@ -109,7 +109,7 @@
 (npc-think coerce_hold
   (cooldown 1 m)
   (rng-stream deliberation)
-  (role ?target (any_human ?target)
+  (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k attachment-loss] ?target}:?pressure)
   (when (or {@self coerce ?target /succ /caused_by ?pressure}
             (and (not (= ?target @self))
@@ -128,7 +128,7 @@
 (npc-think seduce_replacement
   (cooldown 1 m)
   (rng-stream deliberation)
-  (role ?target (any_human ?target)
+  (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k attachment-loss] ?target}:?pressure)
   (when (or {@self seduce ?target /succ /caused_by ?pressure}
             (and (not (= ?target @self))
@@ -147,7 +147,7 @@
 (npc-think frame_deflection
   (cooldown 1 m)
   (rng-stream deliberation)
-  (role ?target (any_human ?target)
+  (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k moral-violation] ?target}:?pressure)
   (when (or {@self frame ?target /succ /caused_by ?pressure}
             (and (not (= ?target @self))
@@ -167,7 +167,7 @@
 (npc-think bribe_to_bury
   (cooldown 1 m)
   (rng-stream deliberation)
-  (role ?target (any_human ?target)
+  (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k exposure-risk] ?target}:?pressure)
   (when (or {@self bribe ?target /succ /caused_by ?pressure}
             (and (not (= ?target @self))

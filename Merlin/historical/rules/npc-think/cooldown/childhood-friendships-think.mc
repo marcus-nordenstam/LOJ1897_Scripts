@@ -24,7 +24,7 @@
   (role @self
            (schoolchild-age @self)
            {@self age-band ?peer_band})
-  (role ?b (any_human ?b)
+  (role ?b {?b isa [k human], condition [k alive]}
            (schoolchild-age ?b)
            ; Same class: @self's belief that ?b's class matches his own (dynamic-
            ; target shape-2, cacheable - replaces the (= (target..)(target..)) pair).

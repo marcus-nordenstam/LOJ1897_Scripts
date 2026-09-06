@@ -70,7 +70,7 @@
   ; the omniscient org-kind-is-a doc read is gone. The founder is produced-restricted
   ; off {?club_org founder ?founder} in the role; the own-class match (below) reads
   ; it live in (when).
-  (role ?club_org (known_org ?club_org)
+  (role ?club_org {?club_org isa [k org]}
                   [k org club]
                   -{@self member-of ?club_org}
                   {?club_org founder ?founder})   ; produced-restricted: ?founder off the club

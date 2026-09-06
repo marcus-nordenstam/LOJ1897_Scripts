@@ -84,7 +84,7 @@
   (role @self 
               {@self friend ?})
   ; The friend whose enthusiasm rubs off - a uniform pick over the circle.
-  (role ?friend (any_human ?friend)
+  (role ?friend {?friend isa [k human], condition [k alive]}
     {@self friend ?friend}
     (select (score 1) (policy roulette)))
 

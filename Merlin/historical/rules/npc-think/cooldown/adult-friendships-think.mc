@@ -30,15 +30,15 @@
   ; to age-band believes). Only the enthusiasm-scaled (chance) roll is non-belief
   ; and lives in the (when ...) clause below.
   (role @self -{@self repute [k scandalous]}
-              (adult-age @self)
+              {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self age-band ?peer_band})
   ;; SELF-POV (telepathy purge CAT-3): @self sizes up ?b from what HE knows -
   ;; ?b's repute / class as banded in via gossip / believe_about (3-arg
   ;; situation). The class match is positive, so @self only befriends a
   ;; same-class peer he is actually acquainted with (a stranger's class @fails);
   ;; the repute gate is permissive on the unknown. No cross-mind read.
-  (role ?b (any_human ?b)
-           (adult-age ?b)
+  (role ?b {?b isa [k human], condition [k alive]}
+           {?b age-band [k young-adult|middle-aged|mature|elderly]}
            {?b age-span ?peer_band}
            -{?b repute [k scandalous]}
            ; Same class: @self's belief that ?b's class matches his own (dynamic-

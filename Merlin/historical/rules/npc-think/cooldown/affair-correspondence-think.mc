@@ -28,12 +28,12 @@
   (cooldown 1 m)
   (rng-stream incidents)
 
-  (role @self (adult @self)
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self lover ?}
               ; @self signs the love letter - bind his OWN name for "Signed, ..".
               {@self name ?author_name})
   ; The paramour: a lover who is not also a spouse (the covert third party).
-  (role ?paramour (any_human ?paramour)
+  (role ?paramour {?paramour isa [k human], condition [k alive]}
     {@self lover ?paramour}
     -{@self spouse ?paramour}
     (covert-affair-motive ?paramour)   ; belief-pure macro - cached

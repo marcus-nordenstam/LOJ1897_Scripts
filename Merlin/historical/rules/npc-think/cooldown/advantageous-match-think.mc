@@ -36,7 +36,7 @@
   ;; non-belief gate (the (chance) trait-graded pacing) lives in (when); the role
   ;; keeps the belief-pure availability / repute / gender filters plus the
   ;; perceived age-peer + blood-kin predicates (belief macros).
-  (role @self (adult @self)
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self gender [k male]}
               -{@self spouse ?}
               -{@self fiancee ?}
@@ -50,7 +50,7 @@
   ;; filters (cacheable), gating the bride candidate set directly.
   (role ?bride (unmarried_woman ?bride)
                {?bride age-span ?peer_band}
-               (none (blood-kin @self ?bride))
+               (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?bride})
                -{?bride fiancee ?}
                {?bride repute [k exemplary]}
                (or (and {@self class-situation [k middle]}

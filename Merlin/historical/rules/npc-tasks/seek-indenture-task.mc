@@ -17,8 +17,9 @@
   (and
     ; GO: not at the master's premises -> travel to it.
     (try
-      (when (and (articles-building ?art ?venue)
-                 (not (spatial @self building ?venue))))
+      (role ?art_org {?art_org record ?art}
+                      {?art_org workplace ?venue}
+                      (not (spatial @self building ?venue)))
       (effects (maintain-proposal {@self enter ?venue})))
 
     ; ENROL: at the premises, not yet hired -> resolve the wage book off the articles
@@ -37,8 +38,9 @@
     ; articles) and the master bond. Minting {@self job ...} trips the decision's
     ; completion gate (no longer unemployed / not trainee), which withdraws the task.
     (try
-      (when (and (articles-building ?art ?venue)
-                 (spatial @self building ?venue)))
+      (role ?art_org {?art_org record ?art}
+                      {?art_org workplace ?venue}
+                      (spatial @self building ?venue))
       (effects
         (o {?art declares-org @o}): ?org
         (any {?org employee-register ?reg})

@@ -44,7 +44,7 @@
   ; unmarried gate is a self-gate filter, and ?h is a cached role whose filters
   ; all test the SAME candidate (his home, unowned, unleased) - a non-seeker
   ; carries an empty set and skips without any live belief scan.
-  (role @self (adult @self)
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               -{@self spouse ?})
   (role ?h {@self home ?h}
            -{@self own ?h}

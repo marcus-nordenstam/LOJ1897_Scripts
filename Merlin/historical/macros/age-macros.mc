@@ -20,14 +20,6 @@
 ; belief-existence test. The alt-list MUST stay in lockstep with the ladder above.
 ; ----------------------------------------------------------------------------
 
-; >= 18 (the boundary sits at young-adult). "A grown adult."
-(define-macro adult-age (?o)
-  {?o age-band [k young-adult|middle-aged|mature|elderly]})
-
-; >= 16 (the boundary sits at youth). "Old enough to court / marry."
-(define-macro marriageable-age (?o)
-  {?o age-band [k youth|young-adult|middle-aged|mature|elderly]})
-
 ; 3-15: a school-age child (covers the old 8-16 childhood-friendship intent; the
 ; band boundaries are the perceptible granularity, so it is juvenile OR adolescent).
 (define-macro schoolchild-age (?o)

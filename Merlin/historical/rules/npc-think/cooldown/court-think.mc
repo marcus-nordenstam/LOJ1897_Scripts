@@ -26,7 +26,7 @@
   ; @self the suitor must ALREADY fancy someone and be a marriageable single -
   ; courtship is the directed pursuit of a specific crush, not a random advance.
   (role @self 
-              (marriageable-age @self)
+              {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               -{@self spouse ?}
               -{@self fiancee ?}
               {@self fancy ?})
@@ -34,8 +34,8 @@
   ;; knowledge - her marital state / lover / fallen mark as HE knows them
   ;; (permissive on the unknown), and her receptivity as SHE has signalled it to
   ;; him (confess_fancy). No cross-mind read.
-  (role ?beloved (any_human ?beloved)
-                (marriageable-age ?beloved)
+  (role ?beloved {?beloved isa [k human], condition [k alive]}
+                {?beloved age-band [k youth|young-adult|middle-aged|mature|elderly]}
                 -{?beloved spouse ?}
                 -{?beloved fiancee ?}
                 ; You do not court a TAKEN or FALLEN woman: a lover bond means
@@ -57,7 +57,7 @@
                 ; opposite-sex: @self's belief that the beloved's PERCEIVED gender
                 ; differs from his own (visible-on-sight -> cacheable). And not kin.
                 -{?beloved gender (any {@self gender}).target}
-                (none (blood-kin @self ?beloved))
+                (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?beloved})
                 ; Court the ONE the suitor is most drawn to - "the directed pursuit of a
                 ; specific crush", so the fan-out reduces to the strongest attraction.
                 (select (score (stance-band ?beloved attraction)) (policy argmax)))

@@ -51,7 +51,7 @@
   ; The craved beloved - the durable REASON; capture the crave belief as the
   ; /caused_by anchor (read, never re-minted, so the drive fades when the crave does).
   ; (policy first-match) binds ONE, so a multi-crave actor pursues a single victim.
-  (role ?beloved (any_human ?beloved)
+  (role ?beloved {?beloved isa [k human], condition [k alive]}
     {@self crave ?beloved}:?crave_bond
     (select (policy first-match)))
 

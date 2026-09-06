@@ -54,7 +54,7 @@
                                                 {?home supper-hour ?s}) _}))))))
     (try
       (rng-stream behaviour)
-      (role ?diner (any_human ?diner)
+      (role ?diner {?diner isa [k human], condition [k alive]}
                    (spatial ?diner co-located @self)
                    (select (score 1) (policy roulette)))
       (effects

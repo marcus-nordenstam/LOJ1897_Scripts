@@ -40,7 +40,7 @@
               {@self repute [k exemplary], prestige ?prestige})
   ;; A public organisation - any gov-subkind: church, hospital, agency. A KNOWN
   ;; org of gov kind (@self learned it at new_job_orientation). Belief-pure + cached.
-  (role ?org (known_org ?org)
+  (role ?org {?org isa [k org]}
              [k org gov])
 
   ;; (chance) FIRST (cheap, short-circuits), then the live exclusivity re-check

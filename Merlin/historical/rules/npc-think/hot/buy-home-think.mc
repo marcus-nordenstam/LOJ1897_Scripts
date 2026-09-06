@@ -48,10 +48,12 @@
 (npc-think buy_home_go
   (goal {@self acquire})
   (role @self -{? availability [k for-sale]})   ; no listing read yet - cached
+  ; The office is the agency's OWN workplace belief. The old spelling bound ?art off
+  ; {?agency record ?art} and then had (articles-building ?art ?venue) walk BACK from the
+  ; articles to the org that records them - which is ?agency - purely to read its workplace.
   (role ?agency {?agency isa [k org house-agency]}
-                {?agency record ?art})   ; existence cached, ?art binds at fire
-  (when (and (articles-building ?art ?venue)
-             (not (spatial @self building ?venue))))
+                {?agency workplace ?venue}
+                (not (spatial @self building ?venue)))
   (effects (maintain-proposal {@self enter ?venue})))
 
 ; CASE A - AT a known agency, register still unread: PROPOSE the read act (the
@@ -64,10 +66,9 @@
   (goal {@self acquire})
   (role @self -{? availability [k for-sale]})   ; no listing read yet - cached
   (role ?agency {?agency isa [k org house-agency]}
-                {?agency record ?art})   ; existence cached, ?art binds at fire
+                {?agency workplace ?venue}
+                (spatial @self building ?venue))
   (role ?reg [k for-sale-listings])
-  (when (and (articles-building ?art ?venue)
-             (spatial @self building ?venue)))
   (effects (maintain-proposal {@self read-listings ?reg})))
 
 ; CASE C - register unread and @self knows NO house agency at all: consult the
