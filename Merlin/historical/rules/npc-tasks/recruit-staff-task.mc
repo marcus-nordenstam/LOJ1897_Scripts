@@ -1,39 +1,85 @@
 ; ----------------------------------------------------------------------------
 ; recruit-staff ?org - the PERFORMANCE of the held recruit-staff duty ({@self duty-to ?org
 ; recruit-staff} is the obligation; the running task is doing it). Spawned by the running
-; work task while the wage book is short of the org's authored headcount; concluded by the
-; done try when the book fills. Tries: post an advert; a daily office round that READS the
-; office mail (locate the mail room, duty-scan the applications into hand); RESOLVE the held
-; batch (offer the first, reject the rest); the filled posting comes off the board via the
-; standalone take_down lane (recruit_think.hs, driven by the ended advertise + WRITE
-; records). The tmp_pN tries are
-; debug probes over the held-application / outbox state.
+; work task while the wage book shows an open line or a notice of the org's still stands,
+; and concluded EVERY DAY - a duty that can only end when the book is full never ends, and
+; a task that never ends keeps its actor busy and eats every same-band bid behind it.
+;
+; The officer's order of business, and every rung of it is PER POST: he reasons about the
+; posts on his own book, one job object each, never about an org-level summary.
+;   (0) read the book - one job object per line, carrying {?post filled-by <holder>}
+;       exactly where the line names one. Every rung below reads what he now KNOWS,
+;       never what this task instance has done: /caused_by asks "did I post this through
+;       THIS run", which re-posts yesterday's opening and cannot span a shift.
+;   (1) an open post with no notice up   -> post-ad ?org ?post
+;   (2) a filled post with a notice up   -> remove-ad ?org ?post
+;   (3) work the applications: the office round (enter the premises, read the morning
+;       post), READ each application into a {?applicant apply-for ?jk} belief, consume
+;       the paper, and hand the learned batch to resolve-applications.
+;   (4) the shift that spawned the round ends it.
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self recruit-staff ?org}:?rec-rel
   (track-skill-level [k personnel])
   (tar org)
   (and
+    ; (0) THE BOOK, re-read on every run of the round: hires and departures rewrite the
+    ; paper, and this read is the only thing that moves the officer's picture with it.
+    ; One job object per LINE - the line number is the post's identity, so the object
+    ; survives the holder coming and going, which is what lets -{?post filled-by ?} be a
+    ; standing fact about the POST rather than about the last man in it.
     (try
-      (when (and {?org isa ?ok}
-                 {?org employee-register ?reg}
-                 (>= (table-count ?reg)
-                     (if (table-match public_orgs kind ?ok employee-count ?ec) (then ?ec) (else 2)))))
-      (effects (set-outcome ?rec-rel /succ)))
+      (when (and {?org employee-register ?reg}
+                 (check ?reg)))
+      (effects
+        (bind 0 ?line)
+        (for-each-row (attr ?reg writing) [/worker ?worker] [/job ?jk]
+          (bind (+ ?line 1) ?line)
+          (o ?jk {@o org ?org} {@o post-no ?line}): ?post
+          (begin-belief {?post org ?org})
+          (begin-belief {?post post-no ?line})
+          (if (substantial ?worker)
+              (then (begin-belief {?post filled-by ?worker}))
+              (else (for-each ?frel (every {?post filled-by ?})
+                      (end-belief ?frel)))))))
+
+    ; (1) POST A NOTICE for an open post that has none. One activation per open post, so
+    ; an org with two distinct openings advertises both.
     (try
-      (when -{@self advertise ?org /succ /caused_by ?rec-rel})
-      ; The advert is the ENTRY POINT: the office round below reads applications that only exist
-      ; once a posting stands, so it must not sit a band under the round that consumes it. The
-      ; gate is self-limiting - it holds only until @self's advertise for this org succeeds.
+      ; ONE posting at a time: the lock admits a single activation, and it releases when
+      ; that activation retires - which is when the notice goes up and -{?org display-ad
+      ; ?post} falls. The next open post is admitted then. Without it both open posts are
+      ; posted CONCURRENTLY on one body: both instances propose CREATE-ENTITY, one sheet
+      ; comes out, and both WRITE that same sheet - two posts marked advertised, one notice
+      ; standing (measured: instances B423/B424 both concluded on sheet o85).
+      (lock-rule)
+      ; post-no is what makes this a POST and not just any job object hanging off the org -
+      ; @self's OWN job carries {job org ?org} too, and without the filter he posts a notice
+      ; for his own seat (measured: the notice read "display-ad superintendent").
+      (role ?post {?post org ?org}
+                  {?post post-no ?}
+                  -{?post filled-by ?}
+                  -{?org display-ad ?post})
       (utility obligation)
-      (effects (maintain-proposal {@self advertise ?org})))
+      (effects (maintain-proposal {@self post-ad ?org ?post})))
+
+    ; (2) TAKE THE NOTICE DOWN for a post that has since been filled.
     (try
-      ; The round collects applications, and an application only exists in answer to a POSTING -
-      ; so it waits for one. Without this it holds the obligation band every day from the moment
-      ; the duty starts, and the advert rung's own (enter <board>) - a sibling at the same band -
-      ; never gets a turn: the officer can never leave to post the vacancy he is waiting on.
+      (role ?post {?post org ?org}
+                  {?post post-no ?}
+                  {?post filled-by ?}
+                  {?org display-ad ?post})
+      (utility obligation)
+      (effects (maintain-proposal {@self remove-ad ?org ?post})))
+
+    ; (3) THE OFFICE ROUND. It waits on a STANDING notice, not on this run's posting: an
+    ; application only exists in answer to one, and the notice outlives the shift that put
+    ; it up. Without the wait the round holds the obligation band from the moment the duty
+    ; starts and the posting rung - a sibling at the same band - never gets a turn, so the
+    ; officer can never leave to post the opening he is waiting on.
+    (try
       (when (and {?org workplace ?wp}
-                 {@self advertise ?org /succ /caused_by ?rec-rel}
+                 {?org display-ad ?}
                  (not (spatial @self building ?wp))
                  (>= (days-since-last {@self read-mail ?wp /succ}) 1)))
       (utility obligation)
@@ -41,20 +87,11 @@
     (try
       (lock-rule)
       (when (and {?org workplace ?wp}
-                 {@self advertise ?org /succ /caused_by ?rec-rel}
+                 {?org display-ad ?}
                  (spatial @self building ?wp)
                  (>= (days-since-last {@self read-mail ?wp /succ}) 1)))
       (utility obligation)
       (effects (begin-proposal {@self read-mail ?wp})))
-    (try
-      (role ?home {@self home ?home})
-      (role ?out [k outgoing-mail-stack] (not (spatial ?out co-located @self)))
-      (role ?app [k application] (spatial @self hold)
-            (select (policy first-match)))
-      (when (and (spatial ?out building ?home)
-                 (spatial ?out space): ?room))
-      (utility obligation)
-      (effects (maintain-proposal {@self WALK ?room})))
     ; READ each held application - adopt its {?applicant apply-for ?jk} - then consume it.
     (try
       (role ?app [k application] (spatial @self hold)
@@ -73,73 +110,16 @@
                  -{@self resolve-applications /pres}))
       (utility obligation)
       (effects (begin-proposal {@self resolve-applications})))
+
+    ; (4) THE DAY IS OVER. The window includes starts-soon because the duty is proposed
+    ; while the officer is still at home: a bare out-of-hours test is TRUE then and would
+    ; conclude the round before it has had a turn. The job is the one AT THIS ORG - an
+    ; actor holds plural jobs by design, and a bare {@self job ?job} would read a
+    ; stranger's shift.
     (try
-      (role ?app [k application] (spatial @self hold))
-      (effects ))
-    (try
-      (role ?out [k outgoing-mail-stack] (spatial ?out co-located @self))
-      (effects ))
-    (try
-      (role ?app [k application] (spatial @self hold))
-      (role ?out [k outgoing-mail-stack] (spatial ?out co-located @self))
-      (effects ))
-    (try
-      (role ?app [k application] (spatial @self hold))
-      (when {?org record ?art})
-      (effects ))
-    (try
-      (role ?app [k application] (spatial @self hold))
-      (role ?home {@self home ?home})
-      (effects ))
-    (try
-      (role ?app [k application] (spatial @self hold))
-      (role ?home {@self home ?home})
-      (role ?out [k outgoing-mail-stack])
-      (effects ))
-    (try
-      (role ?home {@self home ?home})
-      (role ?app [k application] (spatial @self hold))
-      (effects ))
-    (try
-      (role ?h [k hand] (spatial @self hand))
-      (role ?home {@self home ?home})
-      (effects ))
-    (try
-      (when (and {?org workplace ?wp}
-                 (spatial @self building ?wp)))
-      (effects ))
-    (try
-      (when (and {?org workplace ?wp}
-                 (>= (now-hour) 9)
-                 (< (now-hour) 11)))
-      (effects ))
-    (try
-      (role ?home {@self home ?home})
-      (role ?out [k outgoing-mail-stack])
-      (role ?app [k application] (spatial @self hold))
-      (effects ))
-    (try
-      (role ?home {@self home ?home})
-      (role ?out [k outgoing-mail-stack])
-      (effects ))
-    (try
-      (role ?out [k outgoing-mail-stack])
-      (role ?app [k application] (spatial @self hold))
-      (effects ))
-    (try
-      (role ?home {@self home ?home})
-      (role ?out [k outgoing-mail-stack])
-      (role ?app [k application] (spatial @self hold))
-      (when (spatial ?out building ?home))
-      (effects ))
-    (try
-      (role ?home {@self home ?home})
-      (role ?out [k outgoing-mail-stack])
-      (role ?app [k application] (spatial @self hold))
-      (when (spatial ?out space): ?room)
-      (effects ))
-    (try
-      (role ?home {@self home ?home})
-      (role ?out [k outgoing-mail-stack] (not (spatial ?out co-located @self)))
-      (role ?app [k application] (spatial @self hold))
-      (effects ))))
+      (role ?job {@self job ?job}
+                 {?job org ?org})
+      (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
+            (latch-eval (any {?job ?tl ?}): ?sh-rel (bind ?sh-rel.target ?start) (bind ?sh-rel.auxiliary ?end))
+            (not (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
+      (effects (set-outcome ?rec-rel /succ)))))

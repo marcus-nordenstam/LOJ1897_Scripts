@@ -6,8 +6,12 @@
 ; leaves the browse) or marks it handled (back to the bottom).
 ;
 ; CYCLE DETECTION is browse-cycle-end on ?stack = the first doc buried this round; when it
-; resurfaces as the top every original doc has been seen -> concluded. ONE doc in flight
-; (browse-inflight); "settled" is DERIVED (the doc's browse-status tag cleared).
+; resurfaces as the top every original doc has been seen -> concluded. ONE doc in flight:
+; browse-inflight names it and is CLEARED the moment it settles, so "nothing in flight" is
+; read straight off the slot. It used to be derived by reaching THROUGH the slot at the
+; named doc's browse-status - which is only well-formed while a doc IS in flight: with the
+; slot empty (before the first lift, and after every conclusion) the inner read answers
+; @fail, and a @fail bb host is a loud authoring error that aborts the run.
 ;
 ; and (inclusive): the tries are the browse phases (first look / re-look / lift / cycle-end
 ; / accept-kept / bury-handled), each gated by a distinct stack + hand state.
@@ -26,7 +30,7 @@
                   (set-outcome ?browse-rel /succ)))))
     (try
       (when (and (unknown (spatial ?stack top))
-                 (not (bb-any (bb-read ?stack browse-inflight) browse-status))))
+                 (bb-none ?stack browse-inflight)))
       (effects
         (tolerate (observe (spatial ?stack top /env)): ?top)
         (if (nothing ?top)
@@ -37,7 +41,7 @@
     (try
       (role ?top (spatial ?stack top)
             (!= ?top (bb-read ?stack browse-cycle-end))
-            (not (bb-any (bb-read ?stack browse-inflight) browse-status)))
+            (bb-none ?stack browse-inflight))
       (effects
         (maintain-proposal {@self STACK-TAKE ?top ?stack}
             [/postlude (bb-write ?top browse-status pending)
@@ -45,7 +49,7 @@
     (try
       (role ?top (spatial ?stack top)
             (= ?top (bb-read ?stack browse-cycle-end))
-            (not (bb-any (bb-read ?stack browse-inflight) browse-status)))
+            (bb-none ?stack browse-inflight))
       (effects
         (bb-clear ?stack browse-cycle-end)
         (bb-clear ?stack browse-inflight)
@@ -54,7 +58,8 @@
       (role ?doc [k document] (spatial @self hold)
             (= (bb-read ?doc browse-status) kept))
       (effects
-        (bb-clear ?doc browse-status)))
+        (bb-clear ?doc browse-status)
+        (bb-clear ?stack browse-inflight)))
     (try
       (role ?doc [k document] (spatial @self hold)
             (= (bb-read ?doc browse-status) handled))
@@ -62,4 +67,5 @@
         (maintain-proposal {@self STACK-BURY ?doc ?stack}
             [/postlude (if (not (bb-any ?stack browse-cycle-end))
                           (then (bb-write ?stack browse-cycle-end ?doc)))
-                      (bb-clear ?doc browse-status)])))))
+                      (bb-clear ?doc browse-status)
+                      (bb-clear ?stack browse-inflight)])))))

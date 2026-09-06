@@ -29,7 +29,8 @@
   ; Clubs are founded by a settled adult of some standing - an employed man over
   ; thirty. (The class-floor the plan names is carried by the `job.salary` gate: a man
   ; with a paid post is a man of standing.) The founder is the sole deliberator (@self).
-  (role @self (old_human @self))
+  (role @self (old_human @self)
+              -{@self member-of ?})
   (role ?job {@self job ?job}
              {?job salary ?})          ; threaded job.salary existence
 
@@ -40,7 +41,6 @@
   ; found-club-seq enrols him ({@self member-of}) it falls and the goal ends. The act never
   ; ends the goal.
   (when (and (>= (years-old @self) 30)
-             -{@self member-of ?}
              (latch-eval (chance 0.0033))))
 
   ; SPLIT (Item 5): the npc-action (club_found_errand.hs) takes the founder out to found it
@@ -72,6 +72,7 @@
   ; it live in (when).
   (role ?club_org (known_org ?club_org)
                   [k org club]
+                  -{@self member-of ?club_org}
                   {?club_org founder ?founder})   ; produced-restricted: ?founder off the club
 
   ; A man joins a club of his OWN class band. The club's tier is read as @self's
@@ -88,7 +89,6 @@
   ; and the goal ends. The act never ends the goal.
   (when (and (>= (years-old @self) 18)
              (< (count (every {@self member-of ?})) 2)
-             -{@self member-of ?club_org}
              (= (any {?founder class-situation}).target
                 (any {@self class-situation}).target)
              (latch-eval (chance 0.005))))
@@ -112,15 +112,15 @@
   (rng-stream behaviour)
 
   ; The resigning member is the sole deliberator (@self).
-  (role @self (old_human @self))
+  (role @self (old_human @self)
+              {@self member-of ?})
 
   ; MAINTENANCE: the decision OWNS the resign-club goal end to end. (chance) is the ONSET
   ; roll - (latch-eval) locks it once holding. (believes member-of) is the CONTINUOUS
   ; completion gate: while he still holds a membership the goal stands; the moment
   ; resign_club_act unregisters him (unregister-member ENDS {@self member-of}) it falls and
   ; the goal ends. The act never ends the goal.
-  (when (and {@self member-of ?}
-             (latch-eval (chance 0.004))))
+  (when (latch-eval (chance 0.004)))
 
   ; SPLIT (Item 5): the npc-think - the decision to resign. Mints {@self goal {@self
   ; resign-club}}; the npc-action (club_resign_errand.hs) sends the member to a clubhouse and

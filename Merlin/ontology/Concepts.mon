@@ -1299,7 +1299,14 @@ concept
         head-job            (tar org-pos @excl)
         workplace           (tar space|structure @excl)
         employee            (tar human)
-        vacancy             (tar job)
+        # display-ad - the org is DISPLAYING an advert for this post. An ongoing org
+        # state: minted by the post-ad task when the notice goes up, ended by remove-ad
+        # when it comes down. It answers "what stands", so it must never be re-derived
+        # from /caused_by - that asks whether THIS task instance posted it, which
+        # re-posts yesterday's opening and cannot span a shift. It is ALSO the sentence
+        # the notice carries, so a seeker who READs the board adopts the same fact the
+        # org holds - one term, no separate advert vocabulary.
+        display-ad          (tar job)
         record              (tar document @excl)
 
     # Building -> tenant link: the queryable form of a lease, whose contract

@@ -468,6 +468,16 @@ relation
             # since: the year the job was taken up, held on the job object ({?j since <year>}).
             # Drives tenure for the duty-assignment seniority comparison. Stamped at hire.
             since               (sub org-pos)  (tar ? @excl)
+            # THE ESTABLISHMENT - a POST as a thing in its own right, distinct from
+            # whoever happens to hold it. post-no is the post's line on the org's
+            # employee-register, and that line is what gives the post object its
+            # identity: the same object persists as the worker cell is filled and
+            # emptied, so -{?post filled-by ?} is a standing fact about the POST and
+            # not about the last man in it. filled-by is the org-side mirror of
+            # {?worker job ?post} (the duty-holder precedent) - read off the wage
+            # book, never out of the worker's mind.
+            filled-by           (sub org-pos)  (tar human @excl)
+            post-no             (sub org-pos)  (tar ? @excl)
             # DUTIES (capability-based org dispatch). A duty is an obligation TO a party of a
             # given kind; its aux is the TASK the holder is obliged to perform (the duty tasks
             # live in Tasks.mon like every task). duty-to is the FULFILLMENT belief (behaviour

@@ -10,6 +10,7 @@
 (npc-action {@self ENROL ?reg ?job}:?en-rel
   (duration 15)
   (effects
-    ; New rows start at the entry rank (trainee for a hire; unread for a club member).
-    (table-add ?reg worker @self job ?job level [k trainee])
+    ; The vacant line for this post is what @self fills; a membership (no establishment
+    ; behind it) simply adds one. New lines start at the entry rank.
+    (fill-post ?reg ?job [k trainee])
     (set-outcome ?en-rel /succ)))

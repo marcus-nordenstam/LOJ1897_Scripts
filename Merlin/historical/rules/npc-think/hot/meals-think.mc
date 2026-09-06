@@ -44,8 +44,8 @@
 ; An unknown mealtime contributes a huge sentinel (minutes-until-hour) and
 ; drops out of the (min ...).
 (npc-think idle_at_home
-  (role ?home {@self home ?home})
-  (when (at-home))
+  (role ?home {@self home ?home}
+              (spatial @self building ?home))
   (utility idle fallback)
   (effects       (begin-goal {@self DWELL ?home}))
   (cease-effects (end-goal   {@self DWELL ?home})))
@@ -62,17 +62,20 @@
 ; midnight and the sleep lane takes over long before.
 (npc-think dwell_at_home_morning
   (goal    {@self DWELL ?home})
-  (when    (and (at-home) (< (now-hour) 12)))
+  (role @self (spatial @self building ?home))
+  (when    (and (< (now-hour) 12)))
   (effects (maintain-proposal {@self DWELL ?home 12})))
 
 (npc-think dwell_at_home_afternoon
   (goal    {@self DWELL ?home})
-  (when    (and (at-home) (>= (now-hour) 12) (< (now-hour) 18)))
+  (role @self (spatial @self building ?home))
+  (when    (and (>= (now-hour) 12) (< (now-hour) 18)))
   (effects (maintain-proposal {@self DWELL ?home 18})))
 
 (npc-think dwell_at_home_evening
   (goal    {@self DWELL ?home})
-  (when    (and (at-home) (>= (now-hour) 18)))
+  (role @self (spatial @self building ?home))
+  (when    (and (>= (now-hour) 18)))
   (effects (maintain-proposal {@self DWELL ?home 24})))
 
 ; ============================ the unified eat lane ==========================
@@ -107,11 +110,11 @@
 ; stops firing until the larder is eaten down again; a truly empty kitchen keeps
 ; reading 0 and the resident falls through to the meal-less lanes, as it should.
 (npc-think notice_larder
-  (role ?home {@self home ?home})
-  (when (and (at-home)
-             (> (attr @self appetite) 0.25)
-             (= (believed-home-food-count ?home) 0)
-             (spatial ?home room [k kitchen]): ?kitchen))   ; a resident who does not know their kitchen just skips
+  (role ?home {@self home ?home}
+              (spatial @self building ?home)
+              (spatial ?home room [k kitchen]): ?kitchen)   ; a resident who does not know their kitchen just skips
+  (when (and (> (attr @self appetite) 0.25)
+             (= (believed-home-food-count ?home) 0)))
   (effects
     (observe ?kitchen)))
 
@@ -121,9 +124,9 @@
 ; rule): you breakfast in the house you woke in or not at all.
 (npc-think want_breakfast
   (role ?home {@self home ?home}
-              {?home breakfast-hour ?h})   ; existence cached, ?h binds at fire
-  (when (and (at-home)
-             (> (attr @self appetite) 0.25)
+              {?home breakfast-hour ?h}   ; existence cached, ?h binds at fire
+              (spatial @self building ?home))
+  (when (and (> (attr @self appetite) 0.25)
              (>= (now-hour) ?h)
              (< (now-hour) (+ ?h 3))
              (> (believed-home-food-count ?home) 0)))
@@ -147,9 +150,9 @@
 ; LUNCH at home - the jobless / housewife / child midday meal, per lunch-hour.
 (npc-think want_lunch_home
   (role ?home {@self home ?home}
-              {?home lunch-hour ?h})   ; existence cached, ?h binds at fire
-  (when (and (at-home)
-             (> (attr @self appetite) 0.25)
+              {?home lunch-hour ?h}   ; existence cached, ?h binds at fire
+              (spatial @self building ?home))
+  (when (and (> (attr @self appetite) 0.25)
              (>= (now-hour) ?h)
              (< (now-hour) (+ ?h 2))
              (> (believed-home-food-count ?home) 0)))
@@ -315,9 +318,9 @@
 
 (npc-think starving_pantry
   (role @self {@self starve})
-  (role ?home {@self home ?home})
+  (role ?home {@self home ?home}
+              (spatial @self building ?home))
   (when (and (> (attr @self appetite) 1.3)
-             (at-home)
              (> (believed-home-food-count ?home) 0)))
   (utility (starve-drive))
   (effects       (begin-goal {@self forage}))
@@ -325,9 +328,9 @@
 
 (npc-think starving_go_home
   (role @self {@self starve})
-  (role ?home {@self home ?home})
+  (role ?home {@self home ?home}
+              (not (spatial @self building ?home)))
   (when (and (> (attr @self appetite) 1.3)
-             (not (at-home))
              (> (believed-home-food-count ?home) 0)))
   (utility (starve-drive))
   (effects (maintain-proposal {@self enter ?home})))

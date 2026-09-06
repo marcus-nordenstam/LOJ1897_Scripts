@@ -83,6 +83,7 @@
               (create-entity [k articles-of-incorporation] ?croom): ?art
               (create-entity [k employee-register]         ?croom): ?creg
               (table-init ?creg worker job level)
+              (establish-posts ?creg ?kind)
               (table-remove ?reg building ?bldg)
               (table-init ?art org-kind org_name founder workplace register)
               (table-match businesses org-kind ?kind name ?cname)

@@ -42,21 +42,22 @@
 ; while merely tired, NEED late evening, CRISIS past the collapse knee, so an exhausted
 ; NPC abandons everything and heads home.
 (npc-think seek_rest
-  (when (and (not (at-home))
-             (> (attr @self sleepiness) 0.7)))
+  (role ?home {@self home ?home}
+              (not (spatial @self building ?home)))
+  (when (> (attr @self sleepiness) 0.7))
   (utility (sleep-drive))
-  (effects (any {@self home ?go_dest}) (maintain-proposal {@self enter ?go_dest})))
+  (effects (maintain-proposal {@self enter ?home})))
 
 ; at home and at all tired (or it is night): sleep until the morning alarm. The
 ; sleep act records a {@self SLEEP} memory ((does sleep)); its completion resets
 ; fatigue. Utility skyrockets past full fatigue so sleep dominates work / leisure.
 (npc-think sleep
   (fatigue 0)                      ; sleep is a bodily need, not a fruitless search - never fatigue-capped
-  (role ?home {@self home ?home})
+  (role ?home {@self home ?home}
+              (spatial @self building ?home))
   ; You cannot sleep through an assault - being under attack gates the whole rest
   ; lane OUT, so the fight acts (defend / flee / scream) take over (fight.hs).
-  (when (and (at-home)
-             (or (> (attr @self sleepiness) 0.5)
+  (when (and (or (> (attr @self sleepiness) 0.5)
                  (>= (now-hour) 22)
                  (< (now-hour) 6))))
   ; Banded fatigue drive (WANT while merely drowsy, NEED late evening, CRISIS past
@@ -79,6 +80,7 @@
 
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.
 (npc-think idle_go_home
-  (when (not (at-home)))
+  (role ?home {@self home ?home}
+              (not (spatial @self building ?home)))
   (utility idle fallback)
-  (effects (any {@self home ?go_dest}) (maintain-proposal {@self enter ?go_dest})))
+  (effects (maintain-proposal {@self enter ?home})))

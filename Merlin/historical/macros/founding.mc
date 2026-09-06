@@ -51,6 +51,7 @@
             (create-entity [k articles-of-incorporation] ?back): ?art
             (create-entity [k employee-register]         ?back): ?reg
             (table-init ?reg worker job level)
+            (establish-posts ?reg ?org-kind)
             ; The articles DOCUMENT the org into being: a one-row TABLE of its constitutive
             ; cells. This is the whole ENVIRONMENT half of founding - the org has no other
             ; objective existence.
@@ -86,7 +87,7 @@
     (adopt-aoc ?art)
     (any {?art declares-org ?org})
     (begin-belief {?org record ?art})
-    (table-add ?reg worker @self job ?head-role level [k senior])
+    (fill-post ?reg ?head-role [k senior])
     (begin-belief {?wp occupant @self})
     (o ?head-role {@self job @o}): ?job
     (begin-belief {?job org ?org})
@@ -232,7 +233,7 @@
     ; register is learned off the adopted {?org employee-register} belief.
     (o {?art declares-org @o}): ?org
     {?org employee-register ?reg}
-    (table-add ?reg worker @self job ?job-kind level ?level)))
+    (fill-post ?reg ?job-kind ?level)))
 
 ; ----------------------------------------------------------------------------
 ; fire-self - a worker leaves his OWN post. Scrubs @self's row off the firm's
@@ -255,7 +256,7 @@
           (bind ?sr-orel.target ?sr-org)
           (for-each ?sr-rrel (every {?sr-org employee-register ?})
               (bind ?sr-rrel.target ?sr-reg)
-              (table-remove ?sr-reg worker ?worker)))))
+              (vacate-post ?sr-reg ?worker)))))
 
 ; stamp-work-hours - the shift stamp. Reads the authored occupation_shifts rows for
 ; ?job-kind (falling back to the `default` Mon-Sat week when the kind has none) and
@@ -285,5 +286,44 @@
           (bind ?fire-orel.target ?fire-org)
           (for-each ?fire-rrel (every {?fire-org employee-register ?})
               (bind ?fire-rrel.target ?fire-reg)
-              (table-remove ?fire-reg worker @self)))
+              (vacate-post ?fire-reg @self)))
       (end-belief ?fire-jrel)))
+; ----------------------------------------------------------------------------
+; THE ESTABLISHMENT - the org's POSTS, carried on its employee-register.
+;
+; A post is a LINE on the wage book. Its worker cell names the holder, and an EMPTY
+; cell is what "vacant" means - the same shape the land registry uses for an unowned
+; building (property-bootstrap files a title-deed with owner @nothing, and lists it
+; for sale whether or not anyone has spoken for it). So the book shows the whole
+; establishment, not just the manned half of it, and an officer learns of an opening
+; by reading his own book rather than by consulting a config table he has no way of
+; knowing.
+;
+; Only the STAFF establishment is filed here (org_staffing's staff-role x the authored
+; headcount). A head is founded, never hired, so his line is appended when he seats.
+; ----------------------------------------------------------------------------
+
+; establish-posts - file the org's authored staff posts on a fresh register, all vacant.
+(define-macro establish-posts (?reg ?org-kind)
+  (if (table-match org_staffing org-kind ?org-kind staff-role ?ep-role)
+    (then
+      (repeat (if (table-match public_orgs kind ?org-kind employee-count ?ep-n)
+                  (then ?ep-n)
+                  (else (k-default-staff-posts)))
+        (table-add ?reg worker @nothing job ?ep-role)))))
+
+; fill-post - @self takes a post: his name goes into the vacant line's worker cell, IN
+; PLACE. The line must not move - the officer identifies a post by its line, so striking
+; and re-appending would hand his advert's post to a different line and the notice would
+; never come down. No vacant line of that kind (a club membership, a post outside the
+; establishment) -> nothing to fill, so a line is added.
+(define-macro fill-post (?reg ?job-kind ?level)
+  (if (not (table-set ?reg (where worker @nothing job ?job-kind)
+                           worker @self level ?level))
+      (then (table-add ?reg worker @self job ?job-kind level ?level))))
+
+; vacate-post - a departure leaves the POST behind: the worker's cell is emptied where it
+; stands, keeping the line, its number and its job kind. Striking the line outright would
+; retire the post along with the man, and the officer would never read an opening.
+(define-macro vacate-post (?reg ?worker)
+  (table-set ?reg (where worker ?worker) worker @nothing level @nothing))

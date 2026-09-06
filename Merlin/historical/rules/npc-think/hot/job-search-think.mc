@@ -47,8 +47,10 @@
   (effects
            (maintain-proposal {@self find-building [k building church] ?rg})))
 
-; --- at the board, READ each advert not yet read: adopt its {?org vacancy ?jk} +
+; --- at the board, READ each advert not yet read: adopt its {?org display-ad ?job} +
 ; {?org workplace ?wp} sentences (the physical knowledge channel - no doc-record pull).
+; The advert carries the org's OWN sentence, so the reader ends up holding the same fact
+; the recruiting officer does, about the same post.
 (npc-think seek_read_board
   (cooldown 1 m)
   (rng-stream employment)
@@ -59,9 +61,9 @@
   (utility errand)
   (effects (maintain-proposal {@self READ ?ad})))
 
-; --- a vacancy @self has READ, qualifies for (class-floor derived from the role), and
-; never FAILED -> begin ONE apply-for, keyed on the job-kind + the concrete WORKPLACE
-; the advert named (the shared anchor every sub-task re-derives the rest from).
+; --- a posting @self has READ, qualifies for (class-floor derived from the post's own
+; kind), and never FAILED -> begin ONE apply-for, keyed on the job-kind + the concrete
+; WORKPLACE the advert named (the shared anchor every sub-task re-derives the rest from).
 (npc-think seek_apply_pick
   ; ONE application at a time: the lock admits a single activation; it releases when
   ; the activation retires (the /pres role filter falls at promotion), and the /pres
@@ -70,9 +72,10 @@
   (rng-stream employment)
   (role @self -{@self job ?}
               -{@self apply-for ? ? /pres})
-  (role ?org {?org vacancy ?jk}
+  (role ?org {?org display-ad ?job}
+             {?org workplace ?wp}
              (select (score 1) (policy roulette)))
-  (when (and {?org workplace ?wp}
+  (when (and (kind ?job): ?jk
              (if (table-match occupations job ?jk class-floor ?cf0) (then ?cf0) (else [k lower])): ?cf
              (class-at-least @self ?cf)
              -{@self apply-for ?jk ?wp /fail}))

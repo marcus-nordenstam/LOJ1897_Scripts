@@ -40,6 +40,11 @@
 ; as needing work (the gate defaults them in).
 (define-macro seek_job_wealth_ceiling () 1.0)
 
+; Labour market: the staff establishment an org carries when nothing authors one. The
+; public orgs declare their headcount (public_orgs employee-count); a cornerstone or
+; emergent business does not, so it is chartered with this many staff posts.
+(define-macro k-default-staff-posts () 2)
+
 ; The monthly base rate a LAWFUL grievance outlet (confess / report) rolls at, before
 ; its own base weight and the actor's drive. The unlawful outlets use (crime-scale)
 ; instead - this is its lawful twin, kept at the same magnitude so a lawful and an

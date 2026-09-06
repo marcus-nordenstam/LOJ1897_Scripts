@@ -75,5 +75,5 @@
 
 (define-func make-human-founder ()
   (for-each ?b (env-entities [k building residential-building])
-    (if (chance 0.2)
-      (make-human ?b (class-for-residence ?b)))))
+    (if (chance 0.2) (make-human ?b (class-for-residence ?b)))))
+    ; (make-human ?b (class-for-residence ?b))))

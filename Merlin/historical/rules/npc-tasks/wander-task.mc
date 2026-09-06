@@ -14,20 +14,27 @@
 (npc-task {@self wander ?bldg}:?w-rel
   (tar @excl structure)
   (and
+    ; A room of ?bldg I am not standing in and have not already walked to during THIS
+    ; wander. The WALK act records ARE the visited memory - keyed /caused_by this wander, so
+    ; they scope themselves to it and retire with it. No marker to write: the old form kept a
+    ; per-room `wander-visited` blackboard entry, and had to (observe ?room) inside the FILTER
+    ; to mint the mind-local symbol the bb was keyed on - a MUTATION in a role filter, paid
+    ; once per candidate (measured: ~1.2M observes in a 2yr run, against 1712 fires).
+    ;
+    ; ?room is an ENV symbol (the /env parts walk), and that is exactly what the negative
+    ; wants: an unobserved room has no mental twin, the criteria degenerate, the search finds
+    ; nothing and -{..} holds - so a room he has never been in always survives. The PROPOSAL
+    ; is the one place the mental symbol is required (a belief target may not be an env
+    ; symbol - it mints {@self WALK @fail}), so the observe happens there, on the fire, once.
     (try
       (role ?room (spatial ?bldg parts [k interior-space room] /env)
                   (not (spatial @self space ?room /env))
-                  (!= (bb-read (observe ?room):?obs-room wander-visited) ?w-rel))
+                  -{@self WALK ?room /caused_by ?w-rel /ever})
       (effects
-        (debug-print "wander proposal: {@self WALK ?obs-room}")
+        (observe ?room): ?obs-room
         (maintain-proposal {@self WALK ?obs-room})))
-    (try
-      (role ?room (spatial ?bldg parts [k interior-space room] /env)
-                  (spatial @self space ?room /env))
-      (effects (bb-write (observe ?room) wander-visited ?w-rel)))
+    ; Every room but the one he started in has been walked -> the building is seen.
     (try
       (when (>= (count (every {@self WALK ? /caused_by ?w-rel /past /ever}))
                 (- (count (spatial ?bldg parts [k interior-space room] /env)) 1)))
-      (effects 
-        (debug-print "@self COMPLETES wander ?bldg")
-        (set-outcome ?w-rel /succ)))))
+      (effects (set-outcome ?w-rel /succ)))))

@@ -52,6 +52,8 @@
   ; chance live in (when ...) below.
   (role @self (old_human @self)
               {@self wealth ?wealth}
+              -{@self backed-by ?}
+              -{@self job [k head-of-non-household-org]}
               (or {@self repute [k respectable]}
                   {@self repute [k exemplary]}))
   (role ?job {@self job ?job})
@@ -63,10 +65,8 @@
   ; (chance) is an ONSET roll - (latch-eval) rolls it at the fire and LOCKS it once
   ; holding (re-rolling each month until it lands). The working-age band, not-already-an-
   ; owner and the merit + means dims stay live gates.
-  (when (and -{@self backed-by ?}
-             (>= (years-old @self) 25)
+  (when (and (>= (years-old @self) 25)
              (<= (years-old @self) 55)
-             -{@self job [k head-of-non-household-org]}
              (>= (diligence) 0.55)
              (< ?wealth 0.5)
              (latch-eval (chance (* 0.033 (+ 0.5 (attr @self assertiveness)))))))
@@ -95,7 +95,8 @@
               {@self wealth ?wealth}
               (or {@self repute [k respectable]}
                   {@self repute [k exemplary]})
-              -{@self backed-by ?})
+              -{@self backed-by ?}
+              -{@self job [k head-of-non-household-org]})
   (role ?job {@self job ?job}
              {?job org ?})             ; threaded job.org existence
   ; An existing business he is taken into - a KNOWN org of business kind (@self
@@ -118,8 +119,7 @@
   ;; him as proprietor (org-head) it falls and the goal ceases. The (chance) is the
   ;; ONSET roll: (latch-eval) rolls it at the fire and LOCKS it once holding. The
   ;; working-age band and the merit + means dims stay live gates.
-  (when (and -{@self job [k head-of-non-household-org]}
-             (>= (years-old @self) 25)
+  (when (and (>= (years-old @self) 25)
              (<= (years-old @self) 55)
              (>= (diligence) 0.55)
              (< ?wealth 0.5)
@@ -158,6 +158,7 @@
   ; dim, means branch and the monthly chance are non-belief and live in (when ...).
   (role @self (old_human @self)
               {@self wealth ?wealth}
+              -{@self job [k head-of-non-household-org]}
               (or {@self repute [k respectable]}
                   {@self repute [k exemplary]}))
   (role ?job {@self job ?job}
@@ -169,8 +170,7 @@
   ; org-head it falls and the goal ceases. The (chance) is an ONSET roll - (eval-until-
   ; hold) rolls it at the fire and LOCKS it once holding. The working-age band, merit
   ; dim and the means branch (enough wealth OR a backer) stay live gates.
-  (when (and -{@self job [k head-of-non-household-org]}
-             (>= (years-old @self) 25)
+  (when (and (>= (years-old @self) 25)
              (<= (years-old @self) 55)
              (>= (diligence) 0.55)
              (or (>= ?wealth 0.5)
@@ -208,7 +208,8 @@
   ; (that is the whole point of the floor net). The founding-age band, not-already-
   ; an-owner, not-already-pursuing, the LIVE business-floor gate and the chance are
   ; all non-belief and live in (when ...) below.
-  (role @self (old_human @self))
+  (role @self (old_human @self)
+              -{@self job [k head-of-non-household-org]})
 
   ; MAINTENANCE floor-net (co-minter of {@self FOUND} alongside business_founding). The
   ; CONTINUOUS completion gate is org-head (falls when he founds -> cease). The ONSET group
@@ -217,7 +218,6 @@
   ; the LIVE business-floor gate (do not abort a founding-in-flight if the floor recovers).
   (when (and (>= (years-old @self) 25)
              (<= (years-old @self) 55)
-             -{@self job [k head-of-non-household-org]}
              (latch-eval (chance 0.05)
                               -{@self goal {@self FOUND}}
                               (< (* (count-orgs-isa [k org business]) 12)
