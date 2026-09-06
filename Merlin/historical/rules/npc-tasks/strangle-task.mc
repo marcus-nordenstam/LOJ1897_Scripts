@@ -20,10 +20,10 @@
       (utility survival)
       (effects (maintain-proposal {@self go ?loc})))
     (try
+      (role ?vhome {?victim home ?vhome})
       (when (and (not (spatial ?victim co-located @self))
                  -{?victim condition [k dead]}
-                 (unknown (spatial ?victim space))
-                 {?victim home ?vhome}))
+                 (unknown (spatial ?victim space))))
       (utility survival)
       (effects (maintain-proposal {@self go ?vhome})))
 

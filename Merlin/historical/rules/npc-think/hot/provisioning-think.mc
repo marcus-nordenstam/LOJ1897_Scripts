@@ -91,11 +91,12 @@
 ; ---- the pressure: the kitchen larder is low --------------------------------
 
 (npc-think want_provisions
-  (role ?home {@self household-cook ?home})
   ; The kitchen resolves from the cook's OWN room knowledge (the home pre-teach
-  ; mints {home room <r>}): the kind-cast bind picks the is-a kitchen target.
-  (when (and (spatial ?home room [k kitchen]): ?kitchen
-             (< (believed-pile-count ?kitchen [k food]) (larder_low_water))))
+  ; mints {home room <r>}): the kind-cast bind picks the is-a kitchen target. It BINDS,
+  ; so it is role work; only the stock compare is a gate condition.
+  (role ?home {@self household-cook ?home}
+              (spatial ?home room [k kitchen]): ?kitchen)
+  (when (< (believed-pile-count ?kitchen [k food]) (larder_low_water)))
   (utility duty)
   (effects       (begin-goal {@self PROVISION}))
   (cease-effects (end-goal   {@self PROVISION})))
@@ -110,10 +111,10 @@
   (goal    {@self PROVISION})
   ; The buy cap is DECIDED here (basket, larder shortfall, what is in hand)
   ; and rides the act pattern - the counter-stop body does no counting.
-  (role ?home {@self household-cook ?home})
-  (when    (and (is-a (spatial @self building) [k building shop])
-                (spatial ?home room [k kitchen]): ?kitchen
-                (believed-pile-count ?kitchen [k food]): ?blv
+  (role @self (is-a (spatial @self building) [k building shop]))
+  (role ?home {@self household-cook ?home}
+              (spatial ?home room [k kitchen]): ?kitchen)
+  (when    (and (believed-pile-count ?kitchen [k food]): ?blv
                 (held-pile-count @self [k food]): ?inh
                 (- (min (carry_cap) (- (larder_target) ?blv)) ?inh): ?cap
                 (> ?cap 0)))
@@ -126,9 +127,10 @@
 
 (npc-think provision_go
   (goal {@self PROVISION})
-  (any {@self provisions-shop ?shop})
-  (when (and ?shop
-             (not (spatial @self building ?shop))))
+  ; THE known shop, as a role: the (any ..) + truthiness test was a rule-scope bind doing
+  ; a role's job - with no candidate there is simply no activation.
+  (role ?shop {@self provisions-shop ?shop}
+              (not (spatial @self building ?shop)))
   (effects (maintain-proposal {@self enter ?shop})))
 
 ; MAINTENANCE co-minter of the shared {@self ORIENT} search: while the provisioner knows no
@@ -137,7 +139,7 @@
 ; source on {@self ORIENT} and withdraws it independently; the goal lives until the last withdraws.
 (npc-think provision_orient
   (goal {@self PROVISION})
-  (when -{@self provisions-shop ?})
+  (role @self -{@self provisions-shop ?})
   (effects       (begin-goal {@self ORIENT}))
   (cease-effects (end-goal   {@self ORIENT})))
 
@@ -150,9 +152,9 @@
 ; still holding the shopping.
 
 (npc-think provision_rearm
-  (role ?home {@self home ?home})
-  (when (and (spatial ?home room [k kitchen]): ?kitchen
-             (not (empty (spatial @self hold [k pile])))))
+  (role ?home {@self home ?home}
+              (spatial ?home room [k kitchen]): ?kitchen)
+  (when (not (empty (spatial @self hold [k pile]))))
   (utility duty (if (spatial @self space ?kitchen) (then 1000) (else 900)))
   (effects       (begin-goal {@self BRING [k pile] ?kitchen}))
   (cease-effects (end-goal   {@self BRING [k pile] ?kitchen})))

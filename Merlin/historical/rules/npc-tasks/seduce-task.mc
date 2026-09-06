@@ -21,11 +21,11 @@
       (utility errand)
       (effects (maintain-proposal {@self go ?loc})))
     (try
+      (role ?phome {?paramour home ?phome})
       (when (and (alive ?paramour)
                  -{@self lover ?paramour}
                  (not (spatial ?paramour co-located @self))
-                 (unknown (spatial ?paramour space))
-                 {?paramour home ?phome}))
+                 (unknown (spatial ?paramour space))))
       (effects (maintain-proposal {@self go ?phome})))
     (try
       (when (and (alive ?paramour)

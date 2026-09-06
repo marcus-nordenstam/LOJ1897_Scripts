@@ -22,9 +22,9 @@
       (utility errand)
       (effects (maintain-proposal {@self go ?loc})))
     (try
+      (role ?vhome {?victim home ?vhome})
       (when (and (not (spatial ?victim co-located @self))
-                 (unknown (spatial ?victim space))
-                 {?victim home ?vhome}))
+                 (unknown (spatial ?victim space))))
       (effects (maintain-proposal {@self go ?vhome})))
     (try
       (when (and (spatial ?victim co-located @self)

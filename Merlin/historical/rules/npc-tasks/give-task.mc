@@ -22,10 +22,10 @@
       (utility fallback)
       (effects (maintain-proposal {@self go ?loc})))
     (try
+      (role ?rhome {?recipient home ?rhome})
       (when (and (= (spatial ?thing held-by) @self)
                  (not (spatial ?recipient co-located @self))
-                 (unknown (spatial ?recipient space))
-                 {?recipient home ?rhome}))
+                 (unknown (spatial ?recipient space))))
       (effects (maintain-proposal {@self go ?rhome})))
     (try
       (when (and (= (spatial ?thing held-by) @self)
