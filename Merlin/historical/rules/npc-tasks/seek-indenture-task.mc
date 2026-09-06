@@ -50,4 +50,5 @@
             (then
               (hire-beliefs ?art [k job clerk] ?lvl)
               (org-founder ?art ?master)
-              (if ?master (then (begin-belief {@self master ?master})))))))))
+              (if ?master (then (begin-belief {@self master ?master})))
+              (set-outcome ?si-rel /succ)))))))

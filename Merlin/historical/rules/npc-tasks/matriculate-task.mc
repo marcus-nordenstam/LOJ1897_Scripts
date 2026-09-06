@@ -31,10 +31,13 @@
                                                   [k primary-school-curriculum] [k secondary-school-curriculum]))
                 (then (random-held-kind-target interest [k academic-field]
                                                 [k primary-school-curriculum] [k secondary-school-curriculum]): ?led
-                      (begin-belief {@self study ?led}))
+                      (begin-belief {@self study ?led})
+                      (set-outcome ?mt-rel /succ))
                 (else (if (is-kind (random-subkind [k academic-field]
                                                    [k primary-school-curriculum] [k secondary-school-curriculum]))
                           (then (random-subkind [k academic-field]
                                                 [k primary-school-curriculum] [k secondary-school-curriculum]): ?sub
-                                (begin-belief {@self study ?sub}))))))
-          (else (begin-belief {@self study ?curriculum})))))))
+                                (begin-belief {@self study ?sub})
+                                (set-outcome ?mt-rel /succ))))))
+          (else (begin-belief {@self study ?curriculum})
+                (set-outcome ?mt-rel /succ)))))))
