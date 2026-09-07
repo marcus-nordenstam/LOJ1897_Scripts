@@ -195,6 +195,23 @@
 ;   (hire-beliefs ?art ?job-kind ?level)  - args as hire-seq below.
 ; ----------------------------------------------------------------------------
 
+; employ-beliefs - @self now works for ?org at ?wp as ?job-kind at ?level: the employment
+; beliefs a hire mints once the org is KNOWN (by whatever route - the articles, or the
+; notice that named it). The premises' rooms are learned, the job object minted with its
+; org / level / salary / since and its work hours stamped.
+(define-macro employ-beliefs (?org ?wp ?job-kind ?level)
+  (do
+    (begin-belief {?wp occupant @self})
+    (for-each ?room (spatial ?wp parts [k interior-space room] /env)
+        (spatial-write ?room struct_parent ?wp))
+    (table-match income_by_level level ?level income ?salary)
+    (o ?job-kind {@self job @o}): ?job
+    (begin-belief {?job org ?org})
+    (begin-belief {?job level ?level})
+    (begin-belief {?job salary ?salary})
+    (begin-belief {?job since (year)})
+    (stamp-work-hours ?job ?job-kind)))
+
 (define-macro hire-beliefs (?art ?job-kind ?level)
   (do
     ; --- learn the org off the articles: a new hire READs the incorporation page.
@@ -205,23 +222,8 @@
     ; premises, then mint the employment beliefs.
     (o {?art declares-org @o}): ?org
     {?org workplace ?wp}
-    (begin-belief {?wp occupant @self})
-    ; @self LEARNS the workplace's rooms (the building's `parts` that are rooms):
-    ; {building room <room>} + the reverse {room building <building>}.
-    (for-each ?room (spatial ?wp parts [k interior-space room] /env)
-        (spatial-write ?room struct_parent ?wp))
-    ; --- the job mental object: org (job.org), rank (level), salary, work-hours ---
-    ; This is a HIRED (paid) post, so the job carries a salary decoration; heads
-    ; seated by found-org-seq mint NO salary (heading != being employed). The org
-    ; lives ON the job object, so {@self job.org ?} chains (no separate employer).
-    ; salary IS the yearly income (0 = unsalaried), read from income_by_level.
-    (table-match income_by_level level ?level income ?salary)
-    (o ?job-kind {@self job @o}): ?job
-    (begin-belief {?job org ?org})
-    (begin-belief {?job level ?level})
-    (begin-belief {?job salary ?salary})
-    (begin-belief {?job since (year)})
-    (stamp-work-hours ?job ?job-kind)))
+    (employ-beliefs ?org ?wp ?job-kind ?level)))
+
 
 ; ----------------------------------------------------------------------------
 ; hire-seq - the full WORKER-side hire: roster write + employment beliefs.
@@ -339,11 +341,14 @@
 ; PLACE. The line must not move - the officer identifies a post by its line, so striking
 ; and re-appending would hand his advert's post to a different line and the notice would
 ; never come down. No vacant line of that kind (a club membership, a post outside the
-; establishment) -> nothing to fill, so a line is added.
+; establishment) -> nothing to fill, so a line is added. Already on the book for this
+; post -> nothing to do (a second signing never duplicates the line).
 (define-macro fill-post (?reg ?job-kind ?level)
-  (if (not (table-set ?reg (where worker @nothing job ?job-kind)
-                           worker @self level ?level))
-      (then (table-add ?reg worker @self job ?job-kind level ?level))))
+  (if (not (table-match ?reg worker @self job ?job-kind))
+      (then
+        (if (not (table-set ?reg (where worker @nothing job ?job-kind)
+                                 worker @self level ?level))
+            (then (table-add ?reg worker @self job ?job-kind level ?level))))))
 
 ; vacate-post - a departure leaves the POST behind: the worker's cell is emptied where it
 ; stands, keeping the line, its number and its job kind. Striking the line outright would

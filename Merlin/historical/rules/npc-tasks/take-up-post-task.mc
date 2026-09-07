@@ -22,11 +22,14 @@
                  (<= (now-hour) 16)
                  -{@self job.salary ?}))
       (effects (maintain-proposal {@self ENROL ?reg ?jk})))
+    ; Signed on: read the level off the book and become the org's employee. The org is
+    ; the one @self already believes keeps this workplace (the notice named it); the
+    ; articles live on the company registry's stack, never at the workplace.
     (try
-      (role ?art [k articles-of-incorporation] (spatial ?art building ?wp))
+      (role ?org {?org workplace ?wp})
       (role ?reg [k employee-register] (spatial ?reg building ?wp))
       (when (table-match (attr ?reg writing) worker @self level ?lvl))
-      (effects (hire-beliefs ?art ?jk ?lvl)))
+      (effects (employ-beliefs ?org ?wp ?jk ?lvl)))
     (try
       (role @self {@self job.salary ?})
       (effects
