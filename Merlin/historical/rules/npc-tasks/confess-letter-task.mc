@@ -15,6 +15,7 @@
   (construed-act honour-act)
   (and
     (try
+      (role @self -{@self send-mail ? /succ /caused_by ?confess-rel})
       (when (and {@self lover|HAVE-SEX-WITH ?partner /ever}
                  -{@self spouse ?partner /ever}
                  {@self father|mother|fiancee|spouse|sibling ?kin}))
@@ -23,8 +24,12 @@
         (if (and (alive ?kin) (!= ?kin ?partner) {?kin home ?kinhome})
             (then (post-letter [k confession-letter]
                                (nl-written-msg "I have taken ?partner as a lover")
-                               ?kinhome ?kin)))
-        (set-outcome ?confess-rel /succ)))
+                               ?kinhome ?kin))
+            (else (set-outcome ?confess-rel /fail)))))
+    ; The letter is in the post: the confession is made.
+    (try
+      (when {@self send-mail ? /succ /caused_by ?confess-rel})
+      (effects (set-outcome ?confess-rel /succ)))
     (try
       (when (or (not (and {@self lover|HAVE-SEX-WITH ?partner /ever}
                           -{@self spouse ?partner /ever}))

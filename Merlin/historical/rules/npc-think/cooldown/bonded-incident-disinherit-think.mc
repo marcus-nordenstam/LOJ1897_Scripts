@@ -58,9 +58,9 @@
   ; firing, so it lives in (when), not as a role criterion (would not be cacheable).
   ; The actor trait (chance) gate ((1 - compassion) x narcissism) moved here off the
   ; @self role for the same reason (attr reads are non-belief, not role-cacheable).
-  (when (and (chance (* (crime-scale) 0.025
+  (when (and (latch-eval (chance (* (crime-scale) 0.025
                         (- 1.0 (attr @self compassion))
-                        (attr @self narcissism)))
+                        (attr @self narcissism))))
              (chance (+ (* 0.2 (+ (prob {@self dislike ?victim})
                                   (prob {@self disdain ?victim})))
                         (* 0.3 (+ (prob {@self detest  ?victim})
@@ -73,4 +73,4 @@
   ; the victim, planting the knowledge; the proper will-writing + heir-realization lands
   ; when will-documents do.)
   (effects
-    (begin-proposal {@self disinherit ?victim})))
+    (maintain-proposal {@self disinherit ?victim})))

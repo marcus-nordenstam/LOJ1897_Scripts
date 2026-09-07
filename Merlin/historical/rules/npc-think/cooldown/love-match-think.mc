@@ -91,7 +91,7 @@
   ;; race is left to a future public-blackboard claim, never a mind peek.
   ;; (chance 0.3) is the per-suitor courtship-duration knob; a non-role gate
   ;; (role-belief purity keeps it out of the roles).
-  (when (chance 0.3))
+  (when (latch-eval (chance 0.3)))
 
   (utility want)
 
@@ -105,5 +105,5 @@
     ; and adopt); @self's knowledge of the beloved pre-exists from courtship.
     (every {@self (disclosure-tier-labels friend) ?}): ?facts
     (if ?facts
-        (then (begin-proposal {@self SAY (utterable-msg ?facts) ?beloved})))
+        (then (maintain-proposal {@self SAY (utterable-msg ?facts) ?beloved})))
     ))

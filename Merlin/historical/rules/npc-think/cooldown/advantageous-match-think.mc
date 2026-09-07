@@ -62,10 +62,10 @@
   ;; role/self-gate filters (the cache reconciles at belief-write, so a live
   ;; re-read of the same store cannot differ), and the gender read is the
   ;; maintained {@self gender} self-belief filter above.
-  (when (chance (* 0.0833
+  (when (latch-eval (chance (* 0.0833
                    (+ 0.20
                       (* 0.4 (attr @self enthusiasm))
-                      (* 0.4 (attr @self openness))))))
+                      (* 0.4 (attr @self openness)))))))
 
   (utility want)
 
@@ -78,5 +78,5 @@
     ; hears and adopts); his own knowledge of her pre-exists from courtship.
     (every {@self (disclosure-tier-labels friend) ?}): ?facts
     (if ?facts
-        (then (begin-proposal {@self SAY (utterable-msg ?facts) ?bride})))
+        (then (maintain-proposal {@self SAY (utterable-msg ?facts) ?bride})))
     ))

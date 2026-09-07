@@ -66,7 +66,7 @@
   ;; OWN beliefs (his own bond, and what he knows of ?b's). The per-NPC (chance) -
   ;; the pacing knob, rolled once per NPC per month - is a non-belief filter, so
   ;; it lives in (when), not a role.
-  (when (chance 0.2))
+  (when (latch-eval (chance 0.2)))
 
   (utility want)
 
@@ -89,5 +89,5 @@
     ; (intimate-tier) unspoken.
     (every {@self (disclosure-tier-labels friend) ?}): ?facts
     (if ?facts
-        (then (begin-proposal {@self SAY (utterable-msg ?facts) ?b})))
+        (then (maintain-proposal {@self SAY (utterable-msg ?facts) ?b})))
     ))

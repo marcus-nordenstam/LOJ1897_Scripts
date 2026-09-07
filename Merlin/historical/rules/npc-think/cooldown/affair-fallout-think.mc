@@ -69,4 +69,4 @@
              {@self gender [k male]}
              -{@self divorce ?partner /ever}
              (chance (* 0.35 (target-or @self decorum 0.5))))
-        (then (begin-proposal {@self divorce ?partner})))))
+        (then (maintain-proposal {@self divorce ?partner})))))

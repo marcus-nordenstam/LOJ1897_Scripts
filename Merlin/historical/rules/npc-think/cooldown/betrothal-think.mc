@@ -60,7 +60,7 @@
   ;; @fail -> the (and ...) is false -> eligible). Exclusivity and gender ARE
   ;; the role/self-gate filters (the cache reconciles at belief-write; a live
   ;; re-read of the same store cannot differ).
-  (when (and (chance 0.0208)
+  (when (and (latch-eval (chance 0.0208))
              ;; Not KNOWN to be disgraced: fewer than two liaisons the groom himself
              ;; has heard of (per-observer chastity, any tense). A bride whose past he
              ;; has not heard passes - the market gives the benefit of the doubt.
@@ -81,5 +81,5 @@
     ; delivered by co-presence. His own knowledge of her pre-exists from courtship.
     (every {@self (disclosure-tier-labels friend) ?}): ?facts
     (if ?facts
-        (then (begin-proposal {@self SAY (utterable-msg ?facts) ?bride})))
+        (then (maintain-proposal {@self SAY (utterable-msg ?facts) ?bride})))
     ))

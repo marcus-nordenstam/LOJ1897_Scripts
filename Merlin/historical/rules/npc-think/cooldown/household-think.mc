@@ -40,8 +40,8 @@
                        (* (read-weight-intellect-scale) (attr @self intellect))))
               (else 0)): ?read_w
     (if (chance (/ ?read_w (+ (rest-weight) ?read_w)))
-        (then (begin-proposal {@self read-at ?home}))
-        (else (begin-proposal {@self rest ?home})))))
+        (then (maintain-proposal {@self read-at ?home}))
+        (else (maintain-proposal {@self rest ?home})))))
 
 ; The rest / read-at TASKS (the immediate-conclude outcome rungs) live in
 ; npc-tasks/rest-task.hs and npc-tasks/read-at-task.hs.
@@ -72,8 +72,10 @@
   ; the hours; the (not supper-hour) filter then empties for the whole household.
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self gender [k female]})
-  (role ?home {@self home ?home}
-              -{?home supper-hour ?})
+  (role ?home {@self home ?home})
+  ; Latched: the hours this fire sets would fell a live residual and withdraw the SAY that
+  ; announces them; latched at onset, the activation holds through the announcement.
+  (when (latch-eval -{?home supper-hour ?}))
 
   (utility want)
 
@@ -84,10 +86,8 @@
     (begin-belief {?home breakfast-hour (+ 6 ?o)})
     (begin-belief {?home lunch-hour (+ 12 ?o)})
     (begin-belief {?home supper-hour (+ 18 ?o)})
-    ; Say the house's hours aloud - the household hears and adopts. begin-proposal, not
-    ; maintain: the three begin-beliefs above empty this rule's own -{?home supper-hour ?}
-    ; role, so a maintained proposal would lose its support before it could be selected.
-    (begin-proposal {@self SAY (utterable-msg {?home breakfast-hour (+ 6 ?o)}
+    ; Say the house's hours aloud - the household hears and adopts.
+    (maintain-proposal {@self SAY (utterable-msg {?home breakfast-hour (+ 6 ?o)}
                                               {?home lunch-hour (+ 12 ?o)}
                                               {?home supper-hour (+ 18 ?o)}) _})
     ))

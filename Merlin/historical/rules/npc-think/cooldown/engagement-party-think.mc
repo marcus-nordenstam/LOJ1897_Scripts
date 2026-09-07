@@ -40,5 +40,5 @@
   (effects
     ; Announce the fresh engagement to whoever is co-present (the SAY they hear and
     ; adopt); the wider circle learns via gossip (fiancee is a gossip label).
-    (begin-proposal {@self SAY (nl-utterable-msg "I am engaged to ?bride_name") _})
+    (maintain-proposal {@self SAY (nl-utterable-msg "I am engaged to ?bride_name") _})
     ))

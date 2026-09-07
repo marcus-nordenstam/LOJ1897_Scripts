@@ -36,12 +36,12 @@
   ; intoxication (the 0.3 sober floor + 0.7*intox keeps the amplifier in
   ; [0.3, 1.0] so the whole product stays <= 1 - sober high-tetrad actors still
   ; occasionally fire, drunk ones much more).
-  (when (chance (* (crime-scale)
+  (when (latch-eval (chance (* (crime-scale)
                    (attr @self volatility)
                    (attr @self psychopathy)
                    (attr @self sadism)
                    (- 1.0 (attr @self politeness))
-                   (+ 0.3 (* 0.7 (attr @self intoxication))))))
+                   (+ 0.3 (* 0.7 (attr @self intoxication)))))))
 
   (utility want)
   (effects
@@ -49,4 +49,4 @@
     ; PUNCHes them. The PUNCH is an (obs) violent action - co-present bystanders perceive it
     ; and their appraisal/classifiers fire naturally (the record IS the ended act-belief;
     ; blame is runtime, since the blow traces to no violence against @self).
-    (begin-proposal {@self hurt ?victim})))
+    (maintain-proposal {@self hurt ?victim})))

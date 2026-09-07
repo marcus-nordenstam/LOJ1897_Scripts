@@ -59,9 +59,9 @@
   ; No @self-lover re-check: the engine re-consults the cached self-gate PER
   ; CANDIDATE fire (write-reconciled), so the first paramour minted this tick
   ; empties the gate and stops the rest - one new affair per spouse per tick.
-  (when (chance (* (crime-scale) 0.2
+  (when (latch-eval (chance (* (crime-scale) 0.2
                    (infidelity-disposition @self)
-                   (callousness @self))))
+                   (callousness @self)))))
 
   (utility want)
 
@@ -88,5 +88,5 @@
     ; not reveal their OTHER lovers (that is intimate-tier, above this band).
     (every {@self (disclosure-tier-labels friend) ?}): ?facts
     (if ?facts
-        (then (begin-proposal {@self SAY (utterable-msg ?facts) ?lover})))
+        (then (maintain-proposal {@self SAY (utterable-msg ?facts) ?lover})))
     ))

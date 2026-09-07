@@ -37,7 +37,7 @@
       (set-writing ?ltr ?msg)
       (set-attr ?ltr addressee (attr ?addressee name))
       (set-attr ?ltr address ?dest)
-      (begin-proposal {@self send-mail ?ltr}))))
+      (maintain-proposal {@self send-mail ?ltr}))))
 
 ; (post-blank-letter [k <kind>] ?dest ?addressee): like post-letter but with NO written
 ; body - a letter whose verdict IS its KIND (offer-letter / rejection-letter, read by kind
@@ -48,7 +48,7 @@
       (create-entity ?kind (spatial @self space)): ?ltr
       (set-attr ?ltr addressee (attr ?addressee name))
       (set-attr ?ltr address ?dest)
-      (begin-proposal {@self send-mail ?ltr}))))
+      (maintain-proposal {@self send-mail ?ltr}))))
 
 ; (plant-letter [k <kind>] <msg> ?premises): leave an UNADDRESSED <kind> letter
 ; carrying <msg> at ?premises - a killer's kept forged draft as discoverable evidence

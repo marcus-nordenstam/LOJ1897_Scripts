@@ -49,7 +49,7 @@
   ;; (chance 0.6) is a non-belief gate, so it lives in (when).
   ;; Live re-check: an earlier firing this tick may already have ended the
   ;; jilter's lover bond (one jilt per jilter per tick).
-  (when (chance (* (crime-scale) 0.6)))
+  (when (latch-eval (chance (* (crime-scale) 0.6))))
 
   (utility want)
   (effects
@@ -58,7 +58,7 @@
     ; Jilting IS a SAY (msg-class jilt): the jilter tells the jilted it is over. The jilted
     ; HEARS it and their own appraisal reprojects jilt's construed-act (abandonment-act +
     ; wrong-act) into the grief / attachment-loss stack. No incident-anchor, no cross-mind mint.
-    (begin-proposal {@self SAY (utterable-msg {@self jilt ?jilted}) ?jilted})
+    (maintain-proposal {@self SAY (utterable-msg {@self jilt ?jilted}) ?jilted})
     ; Warmth curdles; attraction is NOT touched (longing persists).
     ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
     ; party's own reflex on the act. Commented out pending that redesign.
@@ -105,12 +105,12 @@
   ;; DERIVED conduct dimension (belief) read from @self's own mind via
   ;; (any {..}).target. An unread dimension contributes 0; the +0.3 base keeps the
   ;; rule alive for the un-derived.
-  (when (chance (* (crime-scale) 0.15 (+ 0.3 (any {@self decorum}).target))))
+  (when (latch-eval (chance (* (crime-scale) 0.15 (+ 0.3 (any {@self decorum}).target)))))
 
   (utility want)
   (effects
     (end-belief {@self lover ?jilted})
-    (begin-proposal {@self SAY (utterable-msg {@self jilt ?jilted}) ?jilted})
+    (maintain-proposal {@self SAY (utterable-msg {@self jilt ?jilted}) ?jilted})
     ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
     ; party's own reflex on the act. Commented out pending that redesign.
     ; (nudge-stance ?jilted @self warmth -0.4)
