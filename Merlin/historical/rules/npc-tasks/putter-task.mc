@@ -31,5 +31,5 @@
                       (observe (spatial ?cache contents /env)))))
               (else (observe (spatial ?cache contents /env)))))))
     (try
-      (when {@self wander ?home /succ /caused_by ?p-rel})
+      (role @self {@self wander ?home /succ /caused_by ?p-rel})
       (effects (set-outcome ?p-rel /succ)))))

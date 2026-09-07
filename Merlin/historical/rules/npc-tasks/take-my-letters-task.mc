@@ -28,7 +28,7 @@
             (else
                   (bb-write ?doc browse-status handled)))))
     (try
-      (when {@self stack-browse ?stack /succ /caused_by ?take-letters-rel})
+      (role @self {@self stack-browse ?stack /succ /caused_by ?take-letters-rel})
       (effects
                (set-outcome ?take-letters-rel /succ)))
     (try
