@@ -65,13 +65,12 @@
 ; kind), and never FAILED -> begin ONE apply-for, keyed on the job-kind + the concrete
 ; WORKPLACE the advert named (the shared anchor every sub-task re-derives the rest from).
 (npc-think seek_apply_pick
-  ; ONE application at a time: the lock admits a single activation; it releases when
-  ; the activation retires (the /pres role filter falls at promotion), and the /pres
-  ; gate then bars re-admission until the apply-for concludes.
+  ; ONE application at a time: the lock admits a single activation, held for as long as
+  ; the maintained apply-for runs; it releases when the activation retires (hired, or the
+  ; application concluded).
   (lock-rule)
   (rng-stream employment)
-  (role @self -{@self job ?}
-              -{@self apply-for ? ? /pres})
+  (role @self -{@self job ?})
   (role ?org {?org display-ad ?job}
              {?org workplace ?wp}
              (select (score 1) (policy roulette)))
@@ -81,7 +80,7 @@
              -{@self apply-for ?jk ?wp /fail}))
   (utility errand)
   (effects
-           (begin-proposal {@self apply-for ?jk ?wp})))
+           (maintain-proposal {@self apply-for ?jk ?wp})))
 
 ; === The apply-for TASK (gohome / write / send / await_verdict / take_up / rejected /
 ; succeeded) lives in npc-tasks/apply-for-task.hs. The take-up-post sub-task lives in

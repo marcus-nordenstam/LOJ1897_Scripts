@@ -40,7 +40,8 @@
         (if ?rec-rel (then (set-outcome ?e-rel (outcome ?rec-rel))))))
     (try
       (role ?home {@self home ?home})
-      (when (and (= ?place ?home) (chance 0.25)))
+      (role @self -{@self SAY ? ? /succ /caused_by ?e-rel})
+      (when (and (= ?place ?home) (latch-eval (chance 0.25))))
       (effects
         (for-each ?bb-rel (every {?home breakfast-hour ?})
             (bind ?bb-rel.target ?b)
@@ -48,7 +49,7 @@
                 (bind ?lb-rel.target ?l)
                 (for-each ?sb-rel (every {?home supper-hour ?})
                     (bind ?sb-rel.target ?s)
-                    (begin-proposal
+                    (maintain-proposal
                       {@self SAY (utterable-msg {?home breakfast-hour ?b}
                                                 {?home lunch-hour ?l}
                                                 {?home supper-hour ?s}) _}))))))

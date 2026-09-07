@@ -91,7 +91,7 @@
                  (spatial @self building ?wp)
                  (>= (days-since-last {@self read-mail ?wp /succ}) 1)))
       (utility obligation)
-      (effects (begin-proposal {@self read-mail ?wp})))
+      (effects (maintain-proposal {@self read-mail ?wp})))
     ; READ each held application - adopt its {?applicant apply-for ?jk} - then consume it.
     (try
       (role ?app [k application] (spatial @self hold)
@@ -107,9 +107,9 @@
       (lock-rule)
       (when (and {? apply-for ?}
                  (empty (spatial @self hold [k application]))
-                 -{@self resolve-applications /pres}))
+                 -{@self resolve-applications /succ /caused_by ?rec-rel}))
       (utility obligation)
-      (effects (begin-proposal {@self resolve-applications})))
+      (effects (maintain-proposal {@self resolve-applications})))
 
     ; (4) THE DAY IS OVER. The window includes starts-soon because the duty is proposed
     ; while the officer is still at home: a bare out-of-hours test is TRUE then and would

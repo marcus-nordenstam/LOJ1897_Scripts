@@ -30,7 +30,7 @@
                      {?org display-ad ?}))
       (utility duty)
       (effects
-               (begin-proposal {@self recruit-staff ?org})))
+               (maintain-proposal {@self recruit-staff ?org})))
     (try
       (role ?job {@self job ?job})
       (role ?org {?job org ?org}

@@ -9,10 +9,10 @@
   (and
     (try
       (when (= (spatial ?item gripped-by) (spatial @self left-hand)))
-      (effects (begin-proposal {@self LEFT-PUT ?item ?location})))
+      (effects (maintain-proposal {@self LEFT-PUT ?item ?location})))
     (try
       (when (= (spatial ?item gripped-by) (spatial @self right-hand)))
-      (effects (begin-proposal {@self RIGHT-PUT ?item ?location})))
+      (effects (maintain-proposal {@self RIGHT-PUT ?item ?location})))
     (try
       (when {@self /succ LEFT-PUT|RIGHT-PUT ?item ?location /caused_by ?put-rel})
       (effects (set-outcome ?put-rel /succ)))))

@@ -15,12 +15,12 @@
       (when (empty (spatial (spatial @self left-hand) grip)))
       (utility fallback)
       (effects (check (spatial ?item co-located @self))
-               (begin-proposal {@self LEFT-TAKE ?item})))
+               (maintain-proposal {@self LEFT-TAKE ?item})))
     (try
       (when (empty (spatial (spatial @self right-hand) grip)))
       (utility (above LEFT-TAKE))
       (effects (check (spatial ?item co-located @self))
-               (begin-proposal {@self RIGHT-TAKE ?item})))
+               (maintain-proposal {@self RIGHT-TAKE ?item})))
     (try
       (when {@self /succ LEFT-TAKE|RIGHT-TAKE ?item /caused_by ?take-rel})
       (effects (set-outcome ?take-rel /succ)))))

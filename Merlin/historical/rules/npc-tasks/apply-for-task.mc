@@ -36,7 +36,7 @@
                  -{@self STACK-PUT ?app ? /succ}))
       (utility errand (above read-mail))
       (effects
-               (begin-proposal {@self send-mail ?app})))
+               (maintain-proposal {@self send-mail ?app})))
     (try
       (role ?home {@self home ?home})
       (role @self (spatial @self building ?home))

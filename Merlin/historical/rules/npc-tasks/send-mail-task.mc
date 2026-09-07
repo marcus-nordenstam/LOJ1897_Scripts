@@ -26,10 +26,11 @@
       (lock-rule)
       (role ?home {@self home ?home}
                   (spatial @self building ?home)
-                  -{@self locate [k outgoing-mail-stack] ?home /succ})
+                  -{@self locate [k outgoing-mail-stack] ?home /succ}
+                  -{@self locate [k outgoing-mail-stack] ?home /fail})
       (utility errand)
       (effects
-               (begin-proposal {@self locate [k outgoing-mail-stack] ?home})))
+               (maintain-proposal {@self locate [k outgoing-mail-stack] ?home})))
     (try
       (role ?home {@self home ?home})
       (role ?out [k outgoing-mail-stack] (spatial ?out building ?home)
