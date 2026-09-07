@@ -52,7 +52,8 @@
 ; The advert carries the org's OWN sentence, so the reader ends up holding the same fact
 ; the recruiting officer does, about the same post.
 (npc-think seek_read_board
-  (cooldown 1 m)
+  ; HOT, not cooldown: standing beside an unread notice is an opportunity, and the wake that
+  ; admits it (the notice perceived, the room entered) would be dropped by a cooling rule.
   (rng-stream employment)
   (role @self -{@self job ?}
               -{@self apply-for ? ? /pres})
