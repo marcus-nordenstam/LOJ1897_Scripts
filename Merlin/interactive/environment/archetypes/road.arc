@@ -1,7 +1,6 @@
-# Streets and roads. Used by the historical sim's geography.cfg to anchor
-# building addresses (a building's `address` attr points at its road, or
-# at itself for estate grounds with no street). Roads persist into the
-# interactive sim - NPCs may navigate by road name.
+# Streets and roads. A road's identity is its numberless civic address
+# ([a _ compton ave]); every building fronting it composes its number onto that.
+# Roads persist into the interactive sim - NPCs may navigate by street.
 archetype "road" (cap 128) (per obs) (always-visible) (non-occluder)
 {
     # Kind-variation identity (see shared/attrs.arc).
@@ -11,9 +10,8 @@ archetype "road" (cap 128) (per obs) (always-visible) (non-occluder)
     # parse-time mutex forbids declaring both (spatial bounds) and
     # (spatial spline) on the same archetype, so bounds are intentionally
     # absent here.
-    # Road name is observable (street signs).  ext-mech override - common.arc
-    # leaves name imperceptible for the human model.
-    (attr "name" (auto-percept) (ext-per obs))
+    # The street's civic address, observable (street signs).
+    (attr "address")
     (attr "region")
     # Nav v2 Phase 3 spline geometry. Written inline by Game.cc's LoadScene
     # entity-creation dispatch (k_spline branch) from the GRYM
@@ -26,8 +24,8 @@ archetype "road" (cap 128) (per obs) (always-visible) (non-occluder)
     (attr "nav-mesh")
     # Address-numbering policy (declared in shared/attrs.arc). Pushed by the
     # Player from the GrymEngine t_road_component at scene load and consumed by
-    # merlin::assign_street_addresses_all to number the street_spaces fronting
-    # this road. Imperceptible: generation policy, not an NPC-observable property.
+    # merlin::assign_street_addresses_all to number the buildings fronting this
+    # road. Imperceptible: generation policy, not an NPC-observable property.
     (attr "address-even-side")
     (attr "address-start")
     (attr "address-step")

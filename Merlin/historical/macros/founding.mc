@@ -26,6 +26,27 @@
 
 (include "adopt-aoc.mc")
 
+; name-premises - an org that NAMES its building (businesses names-building = yes: a pub, a
+; hotel, a factory) gives the building its `name` and hangs the building-name-sign. The
+; name is the BUILDING's from then on - it is the premises' identity, not the org's, so a
+; building already named keeps its name (first namer wins; a later tenant works "at the
+; Laughing Pig"). The sign is a structural PART of the building at a zero local offset,
+; which puts it on the fixture walk perception runs when the building itself is perceived.
+; An org that does not name its building mounts nothing: the building's address-sign (seeded
+; at world setup) is its identity, and an org has no sign of its own.
+(define-macro name-premises (?bldg ?org-kind ?org-name)
+  (do
+    (bind ?bldg ?np-bldg)
+    (bind ?org-name ?np-name)
+    (table-match businesses org-kind ?org-kind names-building ?np-names)
+    (if (and (substantial ?np-name)
+             (= ?np-names yes)
+             (not (substantial (attr ?np-bldg name))))
+      (then
+        (set-attr ?np-bldg name ?np-name)
+        (create-entity [k building-name-sign] (floats 0 0 0) ?np-bldg): ?np-sign
+        (set-attr ?np-sign name ?np-name)))))
+
 ; found-org-seq - read the house-agency's for-sale REGISTER for a premises of the org's
 ; building kind (businesses-table `building`, unlisted -> office), claim it, and found the
 ; org on it. Scanning the compressed register table (not the whole deed registry) is the
@@ -59,6 +80,7 @@
             (table-init ?art org-kind org_name founder workplace register)
             (table-add ?art org-kind ?org-kind org_name ?org-name founder @self
                             workplace ?wp register ?reg)
+            (name-premises ?wp ?org-kind ?org-name)
             ; File the AOC at the companies house (the company registry's incorporation
             ; stack), not the org's own premises - the town's org record lives there.
             (head (env-entities [k incorporation-stack])): ?ist
@@ -148,6 +170,7 @@
             (table-init ?art org-kind org_name founder workplace register)
             (table-add ?art org-kind ?club-kind org_name ?org-name founder @self
                             workplace ?wp register ?reg)
+            (name-premises ?wp ?club-kind ?org-name)
             (head (env-entities [k incorporation-stack])): ?ist
             (if ?ist (then (push ?art ?ist)))
             ; The founder is the club's first MEMBER ([k membership] roster row, no level)

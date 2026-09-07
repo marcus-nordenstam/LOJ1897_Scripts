@@ -19,12 +19,8 @@ archetype "exterior-space" (cap 4096) (per obs) (always-visible) (non-occluder) 
     (spatial bounds)
     # Nav v2: spaces can host openings whose /is-nav-passage gates a macro-graph edge.
     (attr "is-nav-passage")
-    # The address lives ON the premise: the road this exterior space fronts +
-    # its street number. (Both a building and an addressed exterior-space carry
-    # their own `address` -> road; there is no street_space frontage box.) Unset
-    # for remote wilds.
+    # The premise's civic address ([a 14 compton ave]). Unset for remote wilds.
     (attr "address")
-    (attr "address-number")
     # NO `contents` index: exterior spaces are unbounded, so they keep no
     # loose-item inverse. They remain valid `location` targets (the env seam
     # still sets an outdoor entity's location to the smallest exterior space

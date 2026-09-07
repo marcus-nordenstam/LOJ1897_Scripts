@@ -26,10 +26,8 @@ archetype "container-structure" (cap 2048) (per obs) (always-visible) (children-
     (attr "struct-status")
     (attr "era-min")
     (attr "era-max")
-    # Address - road the building is on, OR self-reference for estates.
-    # See common.arc for the _ convention on address-number.
+    # The building's civic address ([a 14 compton ave]) - its identity when it has no name.
     (attr "address")
-    (attr "address-number")
     (attr "region")
     # Nav v2: cache key into nav_graph's mesh-data table.
     (attr "nav-mesh")

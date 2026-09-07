@@ -46,6 +46,16 @@
       (then
         (create-entity [k mail-stack] ?mroom)
         (create-entity [k outgoing-mail-stack] ?mroom))))
+  ; ADDRESS-SIGNS: every addressed building shows its address, as a fixture of the building
+  ; (perceived with it). The address is the premises' identity when it has no name, and the
+  ; sign is what lets an NPC carrying a written address recognise he has arrived. A
+  ; building the numbering pass could not address gets no sign - there is nothing to show.
+  (for-each ?ab (env-entities [k building])
+    (attr ?ab address): ?aaddr
+    (if (substantial ?aaddr)
+      (then
+        (create-entity [k address-sign] (floats 0 0 0) ?ab): ?asign
+        (set-attr ?asign address ?aaddr))))
   ; Every org the town OPENS WITH is CHARTERED here, ready to found: premises claimed off
   ; the register, articles filed on the incorporation stack, staff book created - and the
   ; founder cell left EMPTY. All of that is environment, which is why a mindless bootstrap
@@ -89,6 +99,7 @@
               (table-match businesses org-kind ?kind name ?cname)
               (table-add ?art org-kind ?kind org_name ?cname founder @nothing
                               workplace ?bldg register ?creg)
+              (name-premises ?bldg ?kind ?cname)
               (head (env-entities [k incorporation-stack])): ?ist
               (if ?ist (then (push ?art ?ist)))
               (break))))))))

@@ -1297,7 +1297,10 @@ concept
         informal-name       (tar ? @excl)
         founder             (tar human @excl)
         head-job            (tar org-pos @excl)
-        workplace           (tar space|structure @excl)
+        # building FIRST: a workplace named on a page by its street address is imagined as
+        # a building until seen (the decode invents the field's first expected kind); a
+        # sub-let floor / apartment is the space form.
+        workplace           (tar building|space @excl)
         employee            (tar human)
         # display-ad - the org is DISPLAYING an advert for this post. An ongoing org
         # state: minted by the post-ad task when the notice goes up, ended by remove-ad

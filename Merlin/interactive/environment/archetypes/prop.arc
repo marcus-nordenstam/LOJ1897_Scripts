@@ -39,12 +39,10 @@ archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
     # NOT the message - reading it is a separate act.
     (attr "addressee")
     (attr "addressee-duty")
-    # The written destination street address on a letter (the envelope): the road
-    # it fronts plus the house number. The sender copies these from the addressee's
-    # building; the magic mail service reverse-maps (road, number) -> building to
-    # route the letter to that building's incoming mail-stack.
-    (attr "address")
-    (attr "address-number")
+    # The premises a letter is addressed TO (the envelope's delivery line). The sender
+    # copies it from the addressee's building; the magic mail service routes the letter to
+    # that building's incoming mail-stack.
+    (attr "destination")
     (spatial bounds)
     # PR-evi-A 2026-05-25 - per-object evidence attrs. A blood-stained
     # weapon, gunpowder-residue on a coat, scratch-marks on a lock-pick.

@@ -1,9 +1,9 @@
 # Interior spaces (Section 4.12): the indoor half of the space split. Rooms,
 # halls, entrances, apartments - anything WITHIN a building. Bound by kind: a
 # leaf like `kitchen` walks kitchen -> room -> interior-space, hitting this
-# archetype before the abstract `space` root. Interior spaces never carry a
-# street address (the building does, via its exterior address-space); they may
-# carry an apartment-number when a single address holds several apartments.
+# archetype before the abstract `space` root. A sub-let interior space (a floor, an
+# apartment) carries its own civic address extending the building's with a unit
+# ([a 14 compton ave 2]); ordinary rooms carry none.
 # cap: ~2000-3000 rooms across ~588 buildings + apartments + a century of
 # runtime spawns; the proven room-era value was 4096.
 archetype "interior-space" (cap 4096) (per obs) (always-visible) (non-occluder) (sector-coverage)
@@ -25,9 +25,8 @@ archetype "interior-space" (cap 4096) (per obs) (always-visible) (non-occluder) 
     # Nav v2: spaces can host openings whose /is-nav-passage gates a
     # macro-graph edge (e.g. an archway between rooms).
     (attr "is-nav-passage")
-    # An interior space's apartment number, when its building subdivides into
-    # numbered apartments (rooms inherit it via their apartment struct_parent).
-    (attr "apartment-number")
+    # A sub-let space's civic address (the building's plus a floor / apartment unit).
+    (attr "address")
     # Per-room loose-item index (inverse of each prop's `location`): the props
     # physically in THIS room. Moved here from the building (Section 4.12 per-
     # space model) so weapon / loot / vessel lookups and the confrontation grab

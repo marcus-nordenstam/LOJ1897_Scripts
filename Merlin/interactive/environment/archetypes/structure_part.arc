@@ -7,6 +7,9 @@ archetype "structure-part" (cap 4096) (per obs) (always-visible) (occupies-env-g
     # Structure-part name is observable (engraving / placard).  ext-mech
     # override - common.arc leaves name imperceptible for the human model.
     (attr "name" (auto-percept) (ext-per obs))
+    # An address-sign shows its building's civic address (the premises' identity when
+    # it has no name); other parts leave it unset.
+    (attr "address")
     (spatial bounds)
     # Nav v2: openings (doors, gates, archways, large_windows) ride this
     # archetype as kind-distinguished children. /is-nav-passage gates the

@@ -36,18 +36,18 @@
       (create-entity ?kind (spatial @self building)): ?ltr
       (set-writing ?ltr ?msg)
       (set-attr ?ltr addressee (attr ?addressee name))
-      (set-attr ?ltr address ?dest)
+      (set-attr ?ltr destination ?dest)
       (maintain-proposal {@self send-mail ?ltr}))))
 
 ; (post-blank-letter [k <kind>] ?dest ?addressee): like post-letter but with NO written
 ; body - a letter whose verdict IS its KIND (offer-letter / rejection-letter, read by kind
-; not body). Composed, addressed with ?dest's street address, and handed to the mail lane.
+; not body). Composed, its destination stamped as ?dest, and handed to the mail lane.
 (define-macro post-blank-letter (?kind ?dest ?addressee)
   (if (substantial ?dest)
     (then
       (create-entity ?kind (spatial @self space)): ?ltr
       (set-attr ?ltr addressee (attr ?addressee name))
-      (set-attr ?ltr address ?dest)
+      (set-attr ?ltr destination ?dest)
       (maintain-proposal {@self send-mail ?ltr}))))
 
 ; (plant-letter [k <kind>] <msg> ?premises): leave an UNADDRESSED <kind> letter

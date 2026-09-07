@@ -27,7 +27,7 @@
     (try
       (role ?app [k application] (spatial ?app co-located @self)
             (substantial (attr ?app writing))
-            (not (substantial (attr ?app address))))
+            (not (substantial (attr ?app destination))))
       (effects
-               (set-attr ?app address ?wp)
+               (set-attr ?app destination ?wp)
                (set-outcome ?pa-rel /succ)))))

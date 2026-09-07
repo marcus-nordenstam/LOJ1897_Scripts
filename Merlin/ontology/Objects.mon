@@ -579,6 +579,15 @@ object (+ obs)
             counter
                 bar-counter
             wall
+            # Signage mounted on a premise - the physical carriers of the building's
+            # identity, perceived as fixtures of the building. A building's identity is
+            # its name if it has one, else its address: a building-name-sign shows the
+            # `name`, an address-sign the `address`. Only named buildings get a name
+            # sign; only addressed buildings get an address sign. Never an org's name -
+            # many orgs may share one building, and an org has no sign of its own.
+            sign
+                building-name-sign
+                address-sign
             opening (+ nav_passage)
                 window
                 door

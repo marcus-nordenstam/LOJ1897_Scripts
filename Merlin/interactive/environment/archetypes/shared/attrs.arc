@@ -293,23 +293,19 @@
 # Era bounds - the building physically exists from era-min to era-max.
 (attr "era-min" (type date) (imperceptible))
 (attr "era-max" (type date) (imperceptible))
-# Address (Section 4.12 exterior-spaces model). Two levels share this attr:
-#   - a BUILDING's address -> its exterior address-SPACE entity (the location).
-#   - that address-SPACE's address -> the road it fronts (with address-number).
-# So a building's full street address is read FROM its address-space (the space's
-# `address` road + `address-number`). Estates with no street self-reference.
-# hsim-perceptible: observing a premise from the street mirrors {premise address
-# <road>} + its number, so the road arrives as a known object through the belief
-# target (roads are spline-only, never in the sector grid, never seen directly -
-# address belief is the ONLY road-knowledge channel). Consumed by the Stage-5
-# fringe policy (fringe-on-my-current-road).
-(attr "address" (type entity) (entity "road" "structure" "container-structure" "exterior-space") (per obs) (auto-percept) (hsim-percept))
-(attr "address-number" (type int) (range 1 9999) (per obs) (auto-percept) (hsim-percept))
-# Apartment number (Section 4.12). INTERIOR spaces only: one building at one
-# street address may hold several apartments, each an interior-space with its
-# own number; rooms within carry it via their apartment's struct_parent. Distinct
-# from address-number (the street number on the exterior address-space).
-(attr "apartment-number" (type int) (range 1 9999) (per obs) (auto-percept))
+# Civic address - a first-class [a number street postfix unit] value, the address twin of
+# `name`. A ROAD carries the numberless form [a _ compton ave]; a BUILDING or addressed
+# exterior space composes its number onto its road's: [a 14 compton ave]; a sub-let
+# interior space (a floor, an apartment) extends its building's with a unit:
+# [a 14 compton ave 2] / [a 14 compton ave b]. The value IS the premises' identity when it
+# has no name - what a notice writes, what a reader imagines, what the address-sign shows.
+# hsim-perceptible: observing a premise mirrors {premise address [a ...]}, and the same
+# value rides the written / spoken wire as a bare symbol, like a name.
+(attr "address" (type address) (per obs) (auto-percept) (hsim-percept))
+# The premises a letter is addressed TO (the envelope's delivery line) - an entity, not
+# an address value: the sender copies it from the recipient's home / workplace and the
+# mail service routes by it. Distinct from `address`, which is a premises' own identity.
+(attr "destination" (type entity) (entity "container-structure" "exterior-space") (per obs) (auto-percept) (hsim-percept))
 
 # Address-numbering POLICY (lives on the ROAD; see road.arc). Authored in the
 # GrymEngine Spline Tool and pushed by the Player at scene load. These tell the
