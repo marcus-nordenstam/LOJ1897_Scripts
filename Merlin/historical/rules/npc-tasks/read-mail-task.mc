@@ -14,10 +14,10 @@
     ; The locate's own /fail is the "no mail-stack here" record, exactly as find-building's is for
     ; seek_board_find - without reading it this rung re-proposes the search for ever.
     (try
-      (when (and -{@self locate [k mail-stack] ?prem /succ}
-                 -{@self locate [k mail-stack] ?prem /fail}))
+      (role @self -{@self locate [k mail-stack] ?prem /succ}
+                 -{@self locate [k mail-stack] ?prem /fail})
       (utility errand)
-      (effects (begin-proposal {@self locate [k mail-stack] ?prem})))
+      (effects (maintain-proposal {@self locate [k mail-stack] ?prem})))
     (try
       (role ?stk [k mail-stack] (spatial ?stk building ?prem)
                                 (not (spatial ?stk co-located @self)))
@@ -25,11 +25,11 @@
       (effects (maintain-proposal {@self WALK ?room})))
     (try
       (role ?stk [k mail-stack] (spatial ?stk building ?prem)
-                                (spatial ?stk co-located @self))
-      (when -{@self take-my-letters ?stk /caused_by ?rm-rel /ever})
+                                (spatial ?stk co-located @self)
+                                -{@self take-my-letters ?stk /succ /caused_by ?rm-rel})
       (utility errand)
       (effects
-               (begin-proposal {@self take-my-letters ?stk})))
+               (maintain-proposal {@self take-my-letters ?stk})))
     (try
       (role ?ltr [k letter] (spatial @self hold))
       (effects (maintain-proposal {@self READ ?ltr})))

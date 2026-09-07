@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; putter driver. The putter TASK itself (wander / cache / done) lives in
-; npc-tasks/putter-task.hs; want_putter is the lane that RAISES it: monthly, at home,
-; begin a putter round.
+; npc-tasks/putter-task.hs; want_putter is the lane that RAISES it: while at home, maintain
+; a putter round - it only makes sense to putter at home.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.mc")
@@ -12,4 +12,4 @@
   (role ?home {@self home ?home})
   (role @self (spatial @self building ?home))
   (utility idle)
-  (effects (begin-proposal {@self putter ?home})))
+  (effects (maintain-proposal {@self putter ?home})))

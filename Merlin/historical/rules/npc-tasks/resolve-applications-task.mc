@@ -14,19 +14,19 @@
     (try
       (role ?applicant {?applicant apply-for ?}
             (select (policy first-match)))
-      (when (and -{@self draft-verdict ? [k offer-letter] /caused_by ?rt-rel /ever}
-                 -{@self draft-verdict ?applicant ? /caused_by ?rt-rel /ever}))
+      (role @self -{@self draft-verdict ? [k offer-letter] /succ /caused_by ?rt-rel}
+                 -{@self draft-verdict ?applicant ? /succ /caused_by ?rt-rel})
       (utility fallback)
       (effects
-               (begin-proposal {@self draft-verdict ?applicant [k offer-letter]})))
+               (maintain-proposal {@self draft-verdict ?applicant [k offer-letter]})))
     (try
       (role ?applicant {?applicant apply-for ?}
             (select (policy first-match)))
-      (when (and {@self draft-verdict ? [k offer-letter] /caused_by ?rt-rel /ever}
-                 -{@self draft-verdict ?applicant ? /caused_by ?rt-rel /ever}))
+      (role @self {@self draft-verdict ? [k offer-letter] /succ /caused_by ?rt-rel}
+                 -{@self draft-verdict ?applicant ? /succ /caused_by ?rt-rel})
       (utility (above draft-verdict))
       (effects
-               (begin-proposal {@self draft-verdict ?applicant [k rejection-letter]})))
+               (maintain-proposal {@self draft-verdict ?applicant [k rejection-letter]})))
     (try
       (when -{? apply-for ?})
       (effects (set-outcome ?rt-rel /succ)))))

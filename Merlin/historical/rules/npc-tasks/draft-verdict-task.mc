@@ -23,9 +23,9 @@
       (effects (maintain-proposal {@self ADDRESS ?ltr ?applicant})))
     (try
       (role ?ltr [k letter] (spatial ?ltr co-located @self)
-            (substantial (attr ?ltr addressee)))
-      (when -{@self send-mail ?ltr /caused_by ?dv-rel /ever})
-      (effects (begin-proposal {@self send-mail ?ltr})))
+            (substantial (attr ?ltr addressee))
+            -{@self send-mail ?ltr /succ /caused_by ?dv-rel})
+      (effects (maintain-proposal {@self send-mail ?ltr})))
     (try
       (when (and {@self send-mail ? /succ /caused_by ?dv-rel}
                  {?applicant apply-for ?}))

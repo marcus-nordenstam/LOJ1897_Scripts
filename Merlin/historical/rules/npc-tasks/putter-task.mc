@@ -5,7 +5,8 @@
 ; in each room the wander carries @self through. The want_putter driver stays in
 ; putter_think.hs.
 ;
-;   wander : begin ONE wander of home (walks every known room).
+;   wander : MAINTAIN one wander of home (walks every known room) until it succeeds - an
+;            interrupted putter withdraws it, a resumed putter mints it fresh.
 ;   cache  : CHORE - in a room this round -> discover / re-check its caches.
 ;   done   : the wander concluded -> end.
 ; ----------------------------------------------------------------------------
@@ -14,9 +15,9 @@
   (tar structure)
   (and
     (try
-      (when -{@self wander ?home /caused_by ?p-rel /ever})
+      (role @self -{@self wander ?home /succ /caused_by ?p-rel})
       (utility idle)
-      (effects (begin-proposal {@self wander ?home})))
+      (effects (maintain-proposal {@self wander ?home})))
     (try
       (when (and (spatial @self space): ?room
                  (spatial @self building ?home)))

@@ -10,10 +10,10 @@
   (tar @excl stack)
   (and
     (try
-      (when -{@self stack-browse ?stack /caused_by ?take-letters-rel /ever})
+      (role @self -{@self stack-browse ?stack /succ /caused_by ?take-letters-rel})
       (utility errand)
       (effects
-               (begin-proposal {@self stack-browse ?stack})))
+               (maintain-proposal {@self stack-browse ?stack})))
     (try
       (role @self {@self name ?name})
       (role ?doc [k document] (spatial @self hold)
