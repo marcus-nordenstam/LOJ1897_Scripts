@@ -25,6 +25,7 @@
                   {?myHome address ?myAddress}
                   -{@self WRITE ? ? /succ /caused_by ?pa-rel})
       (role ?app [k application] (spatial ?app co-located @self)
+            -{@self WRITE ?app ? /succ}
             (select (policy first-match)))
       (effects
                (maintain-proposal {@self WRITE ?app [[applicant ?myName] [home ?myAddress] [job ?jk]]})))

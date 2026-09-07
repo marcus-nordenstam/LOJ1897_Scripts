@@ -9,4 +9,5 @@
   (duration 1)
   (effects
     (push ?doc ?stack)
+    (observe ?doc)
     (set-outcome {@self STACK-PUT ?doc ?stack} /succ)))

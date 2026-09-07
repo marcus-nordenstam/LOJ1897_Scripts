@@ -489,6 +489,11 @@ relation
             # kind or rank - only on the held duty.
             duty-to             (sub human)      (tar human|org)  (aux task)
             duty-holder         (sub human|org)  (tar human)      (aux task)
+            # offered-post - the recruiting officer has decided to offer this post to this
+            # applicant. His own standing memory of the verdict round's one decision: it
+            # spans the days the drafting takes (never re-derived from /caused_by, which
+            # asks whether THIS run offered it) and is ended when the round is answered.
+            offered-post        (sub human)      (tar human)      (aux job)
             # Education life-cycle. study names the field a pupil reads and the
             # school they read it at ({@self study <field> /aux <school>});
             # schooling is the schooling-level outcome left behind when the

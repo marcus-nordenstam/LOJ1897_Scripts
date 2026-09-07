@@ -24,7 +24,9 @@
       (role @self {@self CREATE-ENTITY ?kind /succ /caused_by ?dv-rel}
                   {?applicant name ?rname}
                   -{@self WRITE ? ? /succ /caused_by ?dv-rel})
-      (role ?ltr [k letter] (spatial ?ltr co-located @self) (select (policy first-match)))
+      (role ?ltr [k letter] (spatial ?ltr co-located @self)
+                            -{@self WRITE ?ltr ? /succ}
+                            (select (policy first-match)))
       (effects (maintain-proposal {@self WRITE ?ltr [[applicant ?rname]]})))
     (try
       (role @self {@self WRITE ?ltr ? /succ /caused_by ?dv-rel}
@@ -32,13 +34,14 @@
                   -{@self ADDRESS ?ltr ? /succ /caused_by ?dv-rel})
       (effects (maintain-proposal {@self ADDRESS ?ltr ?raddress})))
     ; Posted from the OFFICE out-box: answering applications is the recruiting duty, done
-    ; at work, never from home. Located first if @self has never seen the office pile.
+    ; at work, never from home. Located first when @self KNOWS no out-box - what he knows,
+    ; not whether some run once located one: an unrehearsed pile is forgotten within
+    ; months, and a locate record would outlive the knowledge it produced.
     (try
       (role ?org {@self duty-to ?org recruit-staff})
       (role ?wp {?org workplace ?wp})
-      (role @self {@self ADDRESS ?ltr ? /succ /caused_by ?dv-rel}
-                  -{@self locate [k outgoing-mail-stack] ?wp /succ}
-                  -{@self locate [k outgoing-mail-stack] ?wp /fail})
+      (role @self {@self ADDRESS ?ltr ? /succ /caused_by ?dv-rel})
+      (no-role [k outgoing-mail-stack])
       (effects (maintain-proposal {@self locate [k outgoing-mail-stack] ?wp})))
     (try
       (role ?org {@self duty-to ?org recruit-staff})

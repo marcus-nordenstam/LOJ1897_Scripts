@@ -29,9 +29,8 @@
       (when -{@self prepare-application ?wp ?jk /succ})
       (effects (maintain-proposal {@self prepare-application ?wp ?jk})))
     (try
-      (role ?home {@self home ?home}
-                  -{@self locate [k outgoing-mail-stack] ?home /succ}
-                  -{@self locate [k outgoing-mail-stack] ?home /fail})
+      (role ?home {@self home ?home})
+      (no-role [k outgoing-mail-stack])
       (when {@self prepare-application ?wp ?jk /succ})
       (utility errand)
       (effects (maintain-proposal {@self locate [k outgoing-mail-stack] ?home})))
