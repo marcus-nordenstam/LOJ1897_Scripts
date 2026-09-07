@@ -46,6 +46,8 @@
 
   (utility want)
 
+  (role ?my-home {@self home ?my-home})
+  (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
   (effects
     (spouse-of @self): ?spouse
     (relocate @self ?venue)
@@ -75,7 +77,7 @@
         (then
           (post-letter [k tryst-note]
                 (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
-                ?paramour_home ?paramour)))
+                ?paramour_home ?paramour ?my-out-box)))
     ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
     ; re-authoring as what the spouse can actually notice. Commented out pending that.
     ; (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)
@@ -102,6 +104,8 @@
 
   (utility want)
 
+  (role ?my-home {@self home ?my-home})
+  (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
   (effects
     (relocate @self ?venue)
     (relocate ?paramour ?venue)
@@ -116,7 +120,7 @@
           (any {?venue name ?venue_name})
           (post-letter [k tryst-note]
                 (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
-                ?paramour_home ?paramour)))
+                ?paramour_home ?paramour ?my-out-box)))
     ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
     ; re-authoring as what the spouse can actually notice. Commented out pending that.
     ; (bump-suspicion (spouse-of @self) @self 0.05)
@@ -156,6 +160,8 @@
 
   (utility want)
 
+  (role ?my-home {@self home ?my-home})
+  (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
   (effects
     (relocate @self ?venue)
     (relocate ?paramour ?venue)
@@ -181,7 +187,7 @@
         (then
           (post-letter [k tryst-note]
                 (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
-                ?paramour_home ?paramour)))
+                ?paramour_home ?paramour ?my-out-box)))
     ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
     ; re-authoring as what the spouse can actually notice. Commented out pending that.
     ; (bump-suspicion (spouse-of @self) @self 0.05)

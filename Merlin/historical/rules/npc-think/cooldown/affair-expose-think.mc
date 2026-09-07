@@ -17,6 +17,8 @@
 
   (utility want)
 
+  (role ?my-home {@self home ?my-home})
+  (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
   (effects
     ; The denunciation exposes the affair to the cheater's WRONGED SPOUSE - the one
     ; party it is meant to reach (they cohabit, so it lands in their shared home pile
@@ -26,4 +28,4 @@
         (then
           (post-letter [k denunciation-letter]
                        (nl-written-msg "?cheater_name has taken me as a lover. Signed, ?author_name")
-                       ?cheater_home ?betrayed)))))
+                       ?cheater_home ?betrayed ?my-out-box)))))

@@ -47,6 +47,8 @@
 
   (utility want)
 
+  (role ?my-home {@self home ?my-home})
+  (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
   (effects
     ; The confession + signature, authored in natlang: the body names her by the
     ; name @self believes ("I fancy ?target_name") and the "Signed, .." line becomes
@@ -54,4 +56,4 @@
     ; signature). Addressed to her, so her morning post read (read_post) adopts it.
     (post-letter [k courtship-letter]
                  (nl-written-msg "I fancy ?target_name. Signed, ?author_name")
-                 ?target_home ?target)))
+                 ?target_home ?target ?my-out-box)))

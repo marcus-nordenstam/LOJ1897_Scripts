@@ -16,13 +16,16 @@
                (maintain-proposal {@self stack-browse ?stack})))
     (try
       (role @self {@self name ?name})
-      (role ?doc [k document] (spatial @self hold)
-            (= (bb-read ?doc browse-status) pending))
+      (role ?doc [k document] (spatial ?doc held-by @self)
+            (= (bb-read ?doc browse-status) pending)
+            (= (bb-read ?stack browse-inflight) ?doc))
       (effects
         (tolerate (attr ?doc addressee): ?addressee)
         (tolerate (attr ?doc addressee-duty): ?duty)
-        (if (or (= ?addressee ?name)
-                {@self duty-to ? ?duty})
+        (if (and (or (= ?addressee ?name)
+                     (nothing ?addressee)
+                     {@self duty-to ? ?duty})
+                 -{@self READ ?doc /succ})
             (then
                   (bb-write ?doc browse-status kept))
             (else
@@ -30,6 +33,4 @@
     (try
       (role @self {@self stack-browse ?stack /succ /caused_by ?take-letters-rel})
       (effects
-               (set-outcome ?take-letters-rel /succ)))
-    (try
-      (effects ))))
+               (set-outcome ?take-letters-rel /succ)))))

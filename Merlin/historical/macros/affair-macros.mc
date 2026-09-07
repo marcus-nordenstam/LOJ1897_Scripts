@@ -24,5 +24,5 @@
 ; and the interception are unauthored, and the two gains write OTHER minds. For now the
 ; letter goes by the ordinary post - visible, interceptable by whoever handles it, and
 ; honest - with the covert routing left to the redesign.
-(define-macro send-covert-letter (?to ?msg ?kind)
-  (post-letter ?kind ?msg (any {?to home ?}).target ?to))
+(define-macro send-covert-letter (?to ?msg ?kind ?out)
+  (post-letter ?kind ?msg (any {?to home ?}).target ?to ?out))

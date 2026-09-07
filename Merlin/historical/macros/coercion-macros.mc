@@ -14,7 +14,7 @@
 ; and a detective can tell the papers apart.
 ; ----------------------------------------------------------------------------
 
-(define-macro press-coercion (?victim)
+(define-macro press-coercion (?victim ?out)
   ; Leverage is spent once the blackmailer already knows of the victim's OTHER
   ; liaisons (per-observer chastity: (count (every {?victim lover ? /ever})) counts the
   ; victim's affairs THIS mind holds - excluding its own dyad, which is {@self lover
@@ -30,7 +30,7 @@
         (if (chance 0.5)
             (then (send-covert-letter ?victim
                                  (nl-written-msg "I coerced ?victim into becoming my lover")
-                                 [k blackmail-note]))))))
+                                 [k blackmail-note] ?out))))))
 
 ; (coercion-stake): the exposure-risk pressure delta a victim mints per month, as
 ; HE reckons it - the base window scaled by what publication would cost HIS OWN

@@ -13,8 +13,8 @@
 ;       THIS run", which re-posts yesterday's opening and cannot span a shift.
 ;   (1) an open post with no notice up   -> post-ad ?org ?post
 ;   (2) a filled post with a notice up   -> remove-ad ?org ?post
-;   (3) work the applications: the office round (enter the premises, read the morning
-;       post), READ each application into a {?applicant apply-for ?jk} belief, consume
+;   (3) work the applications: the office round (enter the premises, collect the
+;       office post's applications), READ each into a {?applicant apply-for ?jk} belief, consume
 ;       the paper, and hand the learned batch to resolve-applications.
 ;   (4) the shift that spawned the round ends it.
 ; ----------------------------------------------------------------------------
@@ -76,12 +76,14 @@
     ; application only exists in answer to one, and the notice outlives the shift that put
     ; it up. Without the wait the round holds the obligation band from the moment the duty
     ; starts and the posting rung - a sibling at the same band - never gets a turn, so the
-    ; officer can never leave to post the opening he is waiting on.
+    ; officer can never leave to post the opening he is waiting on. The office post is
+    ; collect-applications - the officer's OWN sweep of the workplace stack, never the
+    ; home read-mail (which keeps only letters addressed to him).
     (try
       (role ?wp {?org workplace ?wp})
       (when (and {?org display-ad ?}
                  (not (spatial @self building ?wp))
-                 (>= (days-since-last {@self read-mail ?wp /succ}) 1)))
+                 (>= (days-since-last {@self collect-applications ?wp /succ}) 1)))
       (utility obligation)
       (effects (maintain-proposal {@self enter ?wp})))
     (try
@@ -89,19 +91,32 @@
       (when (and {?org workplace ?wp}
                  {?org display-ad ?}
                  (spatial @self building ?wp)
-                 (>= (days-since-last {@self read-mail ?wp /succ}) 1)))
+                 (>= (days-since-last {@self collect-applications ?wp /succ}) 1)))
       (utility obligation)
-      (effects (maintain-proposal {@self read-mail ?wp})))
-    ; READ each held application - adopt its {?applicant apply-for ?jk} - then consume it.
+      (effects (maintain-proposal {@self collect-applications ?wp})))
+    ; READ each held application FORM: who (by name), where they live (by address), for
+    ; which post - the applicant becomes {?applicant apply-for ?jk} in @self's mind, the
+    ; applicant's address rides on the applicant - then consume the paper.
     (try
-      (role ?app [k application] (spatial @self hold)
+      (role ?app [k application] (spatial ?app held-by @self)
             -{@self READ ?app /succ})
       (utility obligation)
       (effects (maintain-proposal {@self READ ?app})))
     (try
-      (role ?app [k application] (spatial @self hold)
-            (any {@self READ ?app /succ}))
-      (effects (maintain-proposal {@self DESTROY-ENTITY ?app})))
+      (role ?app [k application] (spatial ?app held-by @self)
+            {@self READ ?app /succ})
+      (effects
+        (tolerate (attr ?app writing): ?form)
+        (debug-print "FORM writing=?form")
+        (tolerate (table-match ?form field applicant value ?applicant-name))
+        (tolerate (table-match ?form field home value ?applicant-address))
+        (tolerate (table-match ?form field job value ?applied-jk))
+        (if (and (substantial ?applicant-name) (substantial ?applicant-address) (substantial ?applied-jk))
+            (then
+              (o [k human] {@o name ?applicant-name} {@o address ?applicant-address}): ?applicant
+              (if -{?applicant apply-for ?applied-jk}
+                  (then (begin-belief {?applicant apply-for ?applied-jk})))))
+        (maintain-proposal {@self DESTROY-ENTITY ?app})))
     ; RESOLVE the learned applicants: draft + mail a verdict to each.
     (try
       (lock-rule)

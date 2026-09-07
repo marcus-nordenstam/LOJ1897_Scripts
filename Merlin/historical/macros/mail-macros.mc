@@ -30,25 +30,29 @@
 ; the send-mail posting lane (send_mail_think.hs). The magic mail service routes it to ?dest's mail room by
 ; that written destination. The letter is born where @self stands, so @self can carry it
 ; to a post pile.
-(define-macro post-letter (?kind ?msg ?dest ?addressee)
+(define-macro post-letter (?kind ?msg ?dest ?addressee ?out)
   (if (substantial ?dest)
     (then
       (create-entity ?kind (spatial @self building)): ?ltr
       (set-writing ?ltr ?msg)
-      (set-attr ?ltr addressee (attr ?addressee name))
-      (set-attr ?ltr destination ?dest)
-      (maintain-proposal {@self send-mail ?ltr}))))
+      (if {?addressee name ?addressee-name}
+          (then (set-attr ?ltr addressee ?addressee-name)))
+      (if {?dest address ?dest-address}
+          (then (set-attr ?ltr address ?dest-address)))
+      (maintain-proposal {@self send-mail ?ltr ?out}))))
 
 ; (post-blank-letter [k <kind>] ?dest ?addressee): like post-letter but with NO written
 ; body - a letter whose verdict IS its KIND (offer-letter / rejection-letter, read by kind
 ; not body). Composed, its destination stamped as ?dest, and handed to the mail lane.
-(define-macro post-blank-letter (?kind ?dest ?addressee)
+(define-macro post-blank-letter (?kind ?dest ?addressee ?out)
   (if (substantial ?dest)
     (then
       (create-entity ?kind (spatial @self space)): ?ltr
-      (set-attr ?ltr addressee (attr ?addressee name))
-      (set-attr ?ltr destination ?dest)
-      (maintain-proposal {@self send-mail ?ltr}))))
+      (if {?addressee name ?addressee-name}
+          (then (set-attr ?ltr addressee ?addressee-name)))
+      (if {?dest address ?dest-address}
+          (then (set-attr ?ltr address ?dest-address)))
+      (maintain-proposal {@self send-mail ?ltr ?out}))))
 
 ; (plant-letter [k <kind>] <msg> ?premises): leave an UNADDRESSED <kind> letter
 ; carrying <msg> at ?premises - a killer's kept forged draft as discoverable evidence

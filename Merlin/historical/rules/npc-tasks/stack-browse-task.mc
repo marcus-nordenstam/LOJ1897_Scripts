@@ -55,13 +55,13 @@
         (bb-clear ?stack browse-inflight)
         (set-outcome ?browse-rel /succ)))
     (try
-      (role ?doc [k document] (spatial @self hold)
+      (role ?doc [k document] (spatial ?doc held-by @self)
             (= (bb-read ?doc browse-status) kept))
       (effects
         (bb-clear ?doc browse-status)
         (bb-clear ?stack browse-inflight)))
     (try
-      (role ?doc [k document] (spatial @self hold)
+      (role ?doc [k document] (spatial ?doc held-by @self)
             (= (bb-read ?doc browse-status) handled))
       (effects
         (maintain-proposal {@self STACK-BURY ?doc ?stack}

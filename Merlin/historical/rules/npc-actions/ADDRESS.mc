@@ -1,15 +1,11 @@
 ; ----------------------------------------------------------------------------
-; address ?doc ?recipient - the one dumb act of addressing a document to its
-; recipient: stamp the envelope (addressee = the recipient's name, destination =
-; where the recipient lives) so the mail lane can route + the recipient can claim
-; it. Reading who / where is intrinsic to addressing a person; deciding WHOM to
-; write to is the task's job.
+; ADDRESS ?doc ?address - the one dumb act of writing an ADDRESS on a document's envelope:
+; where the mail service carries it. Which address (the org's premises, a person's home)
+; is what the proposing task BELIEVES; the act stamps the value it is handed.
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self ADDRESS ?doc ?recipient}
-  (duration 2)
+(npc-action {@self ADDRESS ?doc ?address}
+  (duration 1)
   (effects
-    (set-attr ?doc addressee (attr ?recipient name))
-    (if {?recipient home ?rhome}
-        (then (set-attr ?doc destination ?rhome)))
-    (set-outcome {@self ADDRESS ?doc ?recipient} /succ)))
+    (set-attr ?doc address ?address)
+    (set-outcome {@self ADDRESS ?doc ?address} /succ)))

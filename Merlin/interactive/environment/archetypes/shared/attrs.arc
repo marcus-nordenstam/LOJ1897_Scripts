@@ -305,7 +305,6 @@
 # The premises a letter is addressed TO (the envelope's delivery line) - an entity, not
 # an address value: the sender copies it from the recipient's home / workplace and the
 # mail service routes by it. Distinct from `address`, which is a premises' own identity.
-(attr "destination" (type entity) (entity "container-structure" "exterior-space") (per obs) (auto-percept) (hsim-percept))
 
 # Address-numbering POLICY (lives on the ROAD; see road.arc). Authored in the
 # GrymEngine Spline Tool and pushed by the Player at scene load. These tell the

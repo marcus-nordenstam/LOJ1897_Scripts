@@ -1,17 +1,17 @@
 ; ----------------------------------------------------------------------------
-; apply-for ?jk ?wp - the WORKER's single job application (one at a time), keyed on
-; the job-kind + the WORKPLACE building the advert named. Its OUTCOME is the whole
-; lifecycle: running = applied, succ = took the job, fail = rejected (the /fail
-; conclusion is the re-application memory). Drivers seek_read_board / seek_apply_pick
-; (which begin this) stay in job_search_think.hs.
+; apply-for ?jk ?wp - the WORKER's job application, keyed on the job-kind + the WORKPLACE
+; building the advert named: go home, write + address the application
+; (prepare-application), hand the paper to the mail lane, done - an hour's errand, not a
+; lifecycle. Its /succ is the "applied" record the driver reads (seek_apply_pick applies
+; once per post). The verdict arrives weeks later as a TYPED letter in the home post:
+; reading an offer-letter drives take-up-post (job-search-think), a rejection-letter
+; drives nothing. Drivers stay in job-search-think.
 ;
 ;   gohome / write : go home, write + address the application (prepare-application);
 ;                    mail delivers it to the workplace inbox - no trip there.
-;   send  : hand the finished paper to the mail lane.
-;   await_verdict : once daily at home, read the home post to learn the verdict.
-;   take_up  : an OFFER letter read -> take up the post (carrying job + workplace).
-;   rejected : a REJECTION letter read -> conclude /fail.
-;   succeeded : the take-up concluded /succ -> employed -> conclude /succ.
+;   send  : hand the finished paper to the mail lane, from the HOME out-box (located first
+;           if @self has never seen it).
+;   posted : the mail lane took it -> conclude /succ.
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self apply-for ?jk ?wp}:?af-rel
@@ -29,29 +29,23 @@
       (when -{@self prepare-application ?wp ?jk /succ})
       (effects (maintain-proposal {@self prepare-application ?wp ?jk})))
     (try
+      (role ?home {@self home ?home}
+                  -{@self locate [k outgoing-mail-stack] ?home /succ}
+                  -{@self locate [k outgoing-mail-stack] ?home /fail})
+      (when {@self prepare-application ?wp ?jk /succ})
+      (utility errand)
+      (effects (maintain-proposal {@self locate [k outgoing-mail-stack] ?home})))
+    (try
       (lock-rule)
+      (role ?home {@self home ?home})
+      (role ?out [k outgoing-mail-stack] (spatial ?out building ?home))
       (role ?app [k application] (spatial ?app co-located @self)
             (select (policy first-match)))
       (when (and {@self prepare-application ?wp ?jk /succ}
                  -{@self STACK-PUT ?app ? /succ}))
       (utility errand (above read-mail))
       (effects
-               (maintain-proposal {@self send-mail ?app})))
+               (maintain-proposal {@self send-mail ?app ?out})))
     (try
-      (role ?home {@self home ?home})
-      (role @self (spatial @self building ?home))
-      (when (and {@self prepare-application ?wp ?jk /succ}
-                 (>= (days-since-last {@self read-mail ?home /succ}) 1)))
-      (utility errand)
-      (effects
-               (maintain-proposal {@self read-mail ?home})))
-    (try
-      (role ?ltr [k offer-letter] {@self READ ?ltr /ever})
-      (effects
-               (maintain-proposal {@self take-up-post ?jk ?wp})))
-    (try
-      (role ?ltr [k rejection-letter] {@self READ ?ltr /ever})
-      (effects (set-outcome ?af-rel /fail)))
-    (try
-      (role @self {@self take-up-post ?jk ?wp /succ})
+      (role @self {@self send-mail ? /succ /caused_by ?af-rel})
       (effects (set-outcome ?af-rel /succ)))))

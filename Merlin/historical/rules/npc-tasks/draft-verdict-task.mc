@@ -17,17 +17,38 @@
       (when -{@self CREATE-ENTITY ?kind /succ /caused_by ?dv-rel})
       (utility fallback)
       (effects (maintain-proposal {@self CREATE-ENTITY ?kind})))
+    ; The verdict is a FORM naming the applicant, in an envelope addressed to the home the
+    ; application gave - both as @self BELIEVES them. An applicant whose address @self
+    ; never learned gets no envelope and the letter never leaves.
     (try
-      (role ?ltr [k letter] (spatial ?ltr co-located @self)
-            (not (substantial (attr ?ltr addressee))))
-      (effects (maintain-proposal {@self ADDRESS ?ltr ?applicant})))
+      (role @self {@self CREATE-ENTITY ?kind /succ /caused_by ?dv-rel}
+                  {?applicant name ?rname}
+                  -{@self WRITE ? ? /succ /caused_by ?dv-rel})
+      (role ?ltr [k letter] (spatial ?ltr co-located @self) (select (policy first-match)))
+      (effects (maintain-proposal {@self WRITE ?ltr [[applicant ?rname]]})))
     (try
-      (role ?ltr [k letter] (spatial ?ltr co-located @self)
-            (substantial (attr ?ltr addressee))
-            -{@self send-mail ?ltr /succ /caused_by ?dv-rel})
-      (effects (maintain-proposal {@self send-mail ?ltr})))
+      (role @self {@self WRITE ?ltr ? /succ /caused_by ?dv-rel}
+                  {?applicant address ?raddress}
+                  -{@self ADDRESS ?ltr ? /succ /caused_by ?dv-rel})
+      (effects (maintain-proposal {@self ADDRESS ?ltr ?raddress})))
+    ; Posted from the OFFICE out-box: answering applications is the recruiting duty, done
+    ; at work, never from home. Located first if @self has never seen the office pile.
     (try
-      (when (and {@self send-mail ? /succ /caused_by ?dv-rel}
+      (role ?org {@self duty-to ?org recruit-staff})
+      (role ?wp {?org workplace ?wp})
+      (role @self {@self ADDRESS ?ltr ? /succ /caused_by ?dv-rel}
+                  -{@self locate [k outgoing-mail-stack] ?wp /succ}
+                  -{@self locate [k outgoing-mail-stack] ?wp /fail})
+      (effects (maintain-proposal {@self locate [k outgoing-mail-stack] ?wp})))
+    (try
+      (role ?org {@self duty-to ?org recruit-staff})
+      (role ?wp {?org workplace ?wp})
+      (role ?out [k outgoing-mail-stack] (spatial ?out building ?wp))
+      (role @self {@self ADDRESS ?ltr ? /succ /caused_by ?dv-rel}
+                  -{@self send-mail ?ltr ? /succ /caused_by ?dv-rel})
+      (effects (maintain-proposal {@self send-mail ?ltr ?out})))
+    (try
+      (when (and {@self send-mail ? ? /succ /caused_by ?dv-rel}
                  {?applicant apply-for ?}))
       (effects
                (end-belief {?applicant apply-for ?})

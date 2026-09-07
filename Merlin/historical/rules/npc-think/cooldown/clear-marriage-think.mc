@@ -73,6 +73,8 @@
   ; STAY on the committed path - only roll the fork when neither is committed yet, so
   ; the cheater never flips direct<->instigated or re-sends the letter.
   (utility want)
+  (role ?my-home {@self home ?my-home})
+  (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
   (effects
     (if {@self kill ?spouse}
         ; Already committed DIRECT: maintain the kill /caused_by the READ lover bond.
@@ -88,7 +90,7 @@
                 ; decides whether they take up the deed.
                 (then
                   (begin-belief {@self accomplice ?paramour {?paramour kill ?spouse}})
-                  (send-covert-letter ?paramour (written-msg {@self goal {?paramour kill ?spouse}} (msg-class urge) signed) [k letter]))
+                  (send-covert-letter ?paramour (written-msg {@self goal {?paramour kill ?spouse}} (msg-class urge) signed) [k letter] ?my-out-box))
                 ; DIRECT: the cheater acts alone.
                 (else (maintain-proposal {@self kill ?spouse /caused_by ?lover_bond}))))))))
     )

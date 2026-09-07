@@ -45,9 +45,11 @@
   ; concealment motive (affair_macros.hs) are role filters above.
   (when (chance 0.5))
 
+  (role ?my-home {@self home ?my-home})
+  (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
   (effects
     ; The love letter IS the affair fact, authored in natlang: her name in the
     ; body, "Signed, .." -> the (formulaic author ..) the reader resolves @i from.
     (send-covert-letter ?paramour
                          (nl-written-msg "I have taken ?paramour_name as a lover. Signed, ?author_name")
-                         [k love-letter])))
+                         [k love-letter] ?my-out-box)))

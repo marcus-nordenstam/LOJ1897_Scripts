@@ -76,3 +76,4 @@
 (spatial-label held-by    (spatial-struct grip) (up) (ascend))
 (spatial-label in-stack   (spatial-struct stack))
 (spatial-label top        (spatial-struct stack) (head))
+(spatial-label items      (spatial-struct stack) (down))

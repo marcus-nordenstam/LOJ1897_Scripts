@@ -42,7 +42,7 @@ archetype "prop" (cap 32768) (per obs) (occupies-env-grid) (non-occluder)
     # The premises a letter is addressed TO (the envelope's delivery line). The sender
     # copies it from the addressee's building; the magic mail service routes the letter to
     # that building's incoming mail-stack.
-    (attr "destination")
+    (attr "address")
     (spatial bounds)
     # PR-evi-A 2026-05-25 - per-object evidence attrs. A blood-stained
     # weapon, gunpowder-residue on a coat, scratch-marks on a lock-pick.

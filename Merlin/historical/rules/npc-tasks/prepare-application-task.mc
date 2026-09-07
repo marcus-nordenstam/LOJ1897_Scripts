@@ -1,12 +1,13 @@
 ; ----------------------------------------------------------------------------
-; prepare-application ?wp ?jk - write the job application paper (born at @self's home,
+; prepare-application ?wp ?jk - fill in a job application FORM (born at @self's home,
 ; mailed to the workplace ?wp). A COMPOSITION of general lego acts:
-;   CREATE-ENTITY [k application]           : pen the paper;
-;   WRITE ?app {(o {@o name ?myName}) apply-for ?jk} : the real message the hiring
-;       officer READs + adopts - who is applying (by NAME, so any reader resolves the
-;       applicant) for which role;
-;   then stamp the destination = ?wp (the workplace inbox the mail service delivers to).
-; The finished paper is handed to the mail lane by the apply-for send rung.
+;   CREATE-ENTITY [k application]  : take a blank form;
+;   WRITE ?app [[applicant ..] [home ..] [job ..]] : fill it in - who is applying (by
+;       NAME, so the hiring officer resolves the applicant), where they live (by ADDRESS,
+;       so the verdict can be posted back), for which role;
+;   ADDRESS ?app <the workplace's address> : the envelope, for the mail service.
+; Every rung reads the PREVIOUS act's own outcome record, never the paper's attrs (which
+; no wake watches). The finished form is handed to the mail lane by apply-for's send rung.
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self prepare-application ?wp ?jk}:?pa-rel
@@ -19,15 +20,20 @@
       (effects
                (maintain-proposal {@self CREATE-ENTITY [k application]})))
     (try
+      (role @self {@self name ?myName}
+                  {@self home ?myHome}
+                  {?myHome address ?myAddress}
+                  -{@self WRITE ? ? /succ /caused_by ?pa-rel})
       (role ?app [k application] (spatial ?app co-located @self)
-            (not (substantial (attr ?app writing))))
-      (when {@self name ?myName})
+            (select (policy first-match)))
       (effects
-               (maintain-proposal {@self WRITE ?app (written-msg {(o {@o name ?myName}) apply-for ?jk})})))
+               (maintain-proposal {@self WRITE ?app [[applicant ?myName] [home ?myAddress] [job ?jk]]})))
     (try
-      (role ?app [k application] (spatial ?app co-located @self)
-            (substantial (attr ?app writing))
-            (not (substantial (attr ?app destination))))
+      (role @self {@self WRITE ?app ? /succ /caused_by ?pa-rel}
+                  {?wp address ?wpAddress}
+                  -{@self ADDRESS ?app ? /succ /caused_by ?pa-rel})
       (effects
-               (set-attr ?app destination ?wp)
-               (set-outcome ?pa-rel /succ)))))
+               (maintain-proposal {@self ADDRESS ?app ?wpAddress})))
+    (try
+      (role @self {@self ADDRESS ? ? /succ /caused_by ?pa-rel})
+      (effects (set-outcome ?pa-rel /succ)))))

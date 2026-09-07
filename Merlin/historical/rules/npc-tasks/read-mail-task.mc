@@ -31,8 +31,16 @@
       (effects
                (maintain-proposal {@self take-my-letters ?stk})))
     (try
-      (role ?ltr [k letter] (spatial @self hold))
+      (role ?ltr [k letter] (spatial ?ltr held-by @self)
+                            -{@self READ ?ltr /succ})
       (effects (maintain-proposal {@self READ ?ltr})))
+    ; A read letter goes BACK in the pile: the pile is the household's correspondence
+    ; record, and the round is over only when the hands are empty.
+    (try
+      (role ?stk [k mail-stack] (spatial ?stk building ?prem))
+      (role ?ltr [k letter] (spatial ?ltr held-by @self)
+                            {@self READ ?ltr /succ})
+      (effects (maintain-proposal {@self STACK-PUT ?ltr ?stk})))
     (try
       (role ?stk [k mail-stack] (spatial ?stk building ?prem))
       (when (and {@self take-my-letters ?stk /succ /caused_by ?rm-rel}
@@ -42,6 +50,4 @@
     ; task fails rather than holding its band while re-proposing a search that already answered.
     (try
       (when {@self locate [k mail-stack] ?prem /fail})
-      (effects (set-outcome ?rm-rel /fail)))
-    (try
-      (effects ))))
+      (effects (set-outcome ?rm-rel /fail)))))

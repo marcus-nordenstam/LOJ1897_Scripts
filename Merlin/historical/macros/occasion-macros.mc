@@ -40,7 +40,7 @@
 ; hours / held-on) and takes the organizing duty. Guests learn of it the only way
 ; anyone learns anything: an invitation letter posted to each. ?months is the lead
 ; time; a lead that runs past December rolls into next year.
-(define-macro plan-occasion (?po-kind ?po-venue ?po-months ?po-start ?po-end)
+(define-macro plan-occasion (?po-kind ?po-venue ?po-months ?po-start ?po-end ?po-out)
   (if (substantial ?po-venue)
     (then
       (+ (month) ?po-months): ?po-m
@@ -58,4 +58,4 @@
           (for-each ?po-guest (every {@self friend ?})
             (bind ?po-guest.target ?po-invitee)
             (post-blank-letter [k invitation-letter]
-              (any {?po-invitee home ?}).target ?po-invitee)))))))
+              (any {?po-invitee home ?}).target ?po-invitee ?po-out)))))))

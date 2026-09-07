@@ -35,8 +35,10 @@
   (rng-stream behaviour)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
   (when (chance 0.02))
+  (role ?my-home {@self home ?my-home})
+  (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
   (effects
-    (plan-occasion [k dinner-party] (any {@self home ?}).target 3 19 23)))
+    (plan-occasion [k dinner-party] (any {@self home ?}).target 3 19 23 ?my-out-box)))
 
 ; An IMPROMPTU supper (the INFORMAL channel): unlike the planned dinner party, this
 ; reaches only whoever the host is physically WITH right now - the co-present set at
@@ -48,7 +50,7 @@
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
   (when (chance 0.015))
   (effects
-    (plan-occasion [k dinner-party] (any {@self home ?}).target 0 18 22)))
+    (plan-occasion [k dinner-party] (any {@self home ?}).target 0 18 22 ?my-out-box)))
 
 ; Attendance is no scan: reading the invitation (ordinary mail) leaves @self holding
 ; {<host> invite @self /aux <occ>} + {<occ> held-on <date>}, and the attend_think.hs

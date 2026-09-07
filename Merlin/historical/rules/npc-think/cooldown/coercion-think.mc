@@ -32,6 +32,8 @@
   (role ?victim {?victim isa [k human], condition [k alive]}
     {@self extort ?victim})
 
+  (role ?my-home {@self home ?my-home})
+  (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
   (effects
     (if {?victim condition [k dead]}
         (then (end-belief {@self extort ?victim}))
@@ -44,7 +46,7 @@
               ; the victim's mind.
               (then (if (any {?victim lover|fiancee @self})
                   (then (end-belief {@self extort ?victim}))
-                  (else (press-coercion ?victim))))
+                  (else (press-coercion ?victim ?my-out-box))))
               (else (if (chance 0.10)
                   (then (end-belief {@self extort ?victim}))
-                  (else (press-coercion ?victim)))))))))
+                  (else (press-coercion ?victim ?my-out-box)))))))))

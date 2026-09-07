@@ -63,8 +63,11 @@
   (effects (maintain-proposal {@self READ ?ad})))
 
 ; --- a posting @self has READ, qualifies for (class-floor derived from the post's own
-; kind), and never FAILED -> begin ONE apply-for, keyed on the job-kind + the concrete
-; WORKPLACE the advert named (the shared anchor every sub-task re-derives the rest from).
+; kind), and never APPLIED FOR -> begin ONE apply-for, keyed on the job-kind + the concrete
+; WORKPLACE the advert named. apply-for's /succ is the applied record: one application per
+; post, ever; the verdict comes back by letter (take_up_offer below). Picked in DAYTIME only
+; (LATCHED at the pick: a plain hour test is re-read on hold and would withdraw the errand
+; at dusk): the application is an hour's errand, and a night pick would sit until morning.
 (npc-think seek_apply_pick
   ; ONE application at a time: the lock admits a single activation, held for as long as
   ; the maintained apply-for runs; it releases when the activation retires (hired, or the
@@ -75,15 +78,25 @@
   (role ?org {?org display-ad ?job}
              {?org workplace ?wp}
              (select (score 1) (policy roulette)))
-  (when (and (kind ?job): ?jk
+  (when (and (latch-eval (and (>= (now-hour) 8) (<= (now-hour) 17)))
+             (kind ?job): ?jk
              (if (table-match occupations job ?jk class-floor ?cf0) (then ?cf0) (else [k lower])): ?cf
              (class-at-least @self ?cf)
-             -{@self apply-for ?jk ?wp /fail}))
+             -{@self apply-for ?jk ?wp /succ}))
   (utility errand)
   (effects
            (maintain-proposal {@self apply-for ?jk ?wp})))
 
-; === The apply-for TASK (gohome / write / send / await_verdict / take_up / rejected /
-; succeeded) lives in npc-tasks/apply-for-task.hs. The take-up-post sub-task lives in
-; npc-tasks/take-up-post-task.hs. Both are begun from the seek_apply_pick / verdict tries.
-; The verdict letter itself is read by the daily read-mail round (read_mail_think.hs).
+; --- an OFFER letter @self has read (the home post's daily read-mail round) answers the one
+; application in flight: take up the post it was for. The letter is a typed signal (its KIND
+; is the verdict); which post it answers is @self's own applied record.
+(npc-think take_up_offer
+  (role ?ltr [k offer-letter] {@self READ ?ltr /ever})
+  (role @self {@self apply-for ?jk ?wp /succ}
+              -{@self take-up-post ?jk ?wp /succ})
+  (utility errand)
+  (effects (maintain-proposal {@self take-up-post ?jk ?wp})))
+
+; === The apply-for TASK (gohome / write / send / posted) lives in
+; npc-tasks/apply-for-task.mc; take-up-post in npc-tasks/take-up-post-task.mc. The verdict
+; letter itself is read by the daily read-mail round (read-mail-think.mc).
