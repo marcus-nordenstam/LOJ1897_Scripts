@@ -10,5 +10,6 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self DWELL ?place ?until}
+  (idle-action)
   (duration (minutes-until-hour ?until))
   (effects (set-outcome {@self DWELL ?place ?until} /succ)))
