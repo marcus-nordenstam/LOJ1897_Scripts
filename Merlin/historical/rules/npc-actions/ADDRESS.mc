@@ -7,5 +7,6 @@
 (npc-action {@self ADDRESS ?doc ?address}
   (duration 1)
   (effects
+    (check (spatial ?doc co-located @self /env))
     (set-attr ?doc address ?address)
     (set-outcome {@self ADDRESS ?doc ?address} /succ)))

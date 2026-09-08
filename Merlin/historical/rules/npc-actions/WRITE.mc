@@ -14,6 +14,7 @@
   (track-skill-level [k literacy])
   (duration 10)
   (effects
+    (check (spatial ?doc co-located @self /env))
     (if (is-list ?sentence)
         (then
           (if (nothing (attr ?doc writing))

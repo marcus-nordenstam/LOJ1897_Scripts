@@ -8,6 +8,7 @@
 (npc-action {@self STACK-PUT ?doc ?stack}
   (duration 1)
   (effects
+    (check (spatial ?stack co-located @self /env))
     (push ?doc ?stack)
     (observe ?doc)
     (set-outcome {@self STACK-PUT ?doc ?stack} /succ)))

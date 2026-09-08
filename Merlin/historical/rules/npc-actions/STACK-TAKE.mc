@@ -10,6 +10,7 @@
 (npc-action {@self STACK-TAKE ?doc ?stack}
   (duration 1)
   (effects
+    (check (spatial ?stack co-located @self /env))
     (if (empty (spatial (spatial @self right-hand /env) grip /env))
         (then (pop ?stack (spatial @self right-hand /env)))
         (else (pop ?stack (spatial @self left-hand /env)))): ?taken
