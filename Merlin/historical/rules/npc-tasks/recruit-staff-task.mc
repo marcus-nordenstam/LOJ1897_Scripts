@@ -107,7 +107,6 @@
             {@self READ ?app /succ})
       (effects
         (tolerate (attr ?app writing): ?form)
-        (debug-print "FORM writing=?form")
         (tolerate (table-match ?form field applicant value ?applicant-name))
         (tolerate (table-match ?form field home value ?applicant-address))
         (tolerate (table-match ?form field job value ?applied-jk))
@@ -120,11 +119,12 @@
     ; RESOLVE the learned applicants: draft + mail a verdict to each.
     (try
       (lock-rule)
-      (when (and {? apply-for ?}
+      (when (and {? apply-for ? /pres}
                  (empty (spatial @self hold [k application]))
                  -{@self resolve-applications /succ /caused_by ?rec-rel}))
       (utility obligation)
-      (effects (maintain-proposal {@self resolve-applications})))
+      (effects
+        (maintain-proposal {@self resolve-applications})))
 
     ; (4) THE DAY IS OVER. The window includes starts-soon because the duty is proposed
     ; while the officer is still at home: a bare out-of-hours test is TRUE then and would
