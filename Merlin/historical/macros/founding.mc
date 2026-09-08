@@ -344,7 +344,7 @@
 ; establishment) -> nothing to fill, so a line is added. Already on the book for this
 ; post -> nothing to do (a second signing never duplicates the line).
 (define-macro fill-post (?reg ?job-kind ?level)
-  (if (not (table-match ?reg worker @self job ?job-kind))
+  (if (not (table-match (attr ?reg writing) worker @self job ?job-kind))
       (then
         (if (not (table-set ?reg (where worker @nothing job ?job-kind)
                                  worker @self level ?level))
