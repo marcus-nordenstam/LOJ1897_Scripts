@@ -8,45 +8,40 @@
 ; bequest rides as (written-msg ..) and the named heir reads it back after the death.
 ;
 ; The bequest clause names the testator's coin pile. A pile is nameless and fungible,
-; so it cannot ride by name: it is DESCRIBED by its place - "the pile in a room of my
-; home" - and the nested (o ..) descriptors resolve in the READER, inside-out, bottoming
-; out at the SIGNED author via the acquaintance-disclosed `home`. Because written-msg
-; QUOTES its content, those (o ..) forms are never evaluated here; they travel as the
-; descriptors they are.
-;
-; One will per testator ({@self own ?will}); a re-deliberation supersedes the prior
-; testament in place - destroy, then re-pen.
+; so it is described by WHERE it stands: the interior space of @self's home building.
+; One sequence: destroy the old will if one stands, pen the blank, inscribe the bequest,
+; own the signed paper. Each stage reads the paper in hand for what is already done.
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self write-will ?heir}:?ww-rel
   (tar @excl human)
-  (and
-    ; Supersede: a will @self already owns goes before the new one is penned.
-    (try
-      (role ?old [k will] {@self own ?old}
-                          (spatial ?old co-located @self))
-      (when -{@self CREATE-ENTITY [k will] /succ /caused_by ?ww-rel})
-      (effects (maintain-proposal {@self DESTROY-ENTITY ?old})))
-    ; Pen the paper.
-    (try
-      (when -{@self CREATE-ENTITY [k will] /succ /caused_by ?ww-rel})
-      (effects (maintain-proposal {@self CREATE-ENTITY [k will]})))
-    ; Inscribe the bequest.
-    (try
-      (role ?will [k will] (spatial ?will co-located @self)
-                           (not (substantial (attr ?will writing))))
+  (sequence
+    (stage
       (effects
-        (maintain-proposal {@self WRITE ?will
-          (written-msg {?heir inherit
-                         (o [k pile] {@o space
-                           (o [k interior-space] {@o struct_parent
-                             (o [k building] {@self home @o})})})}
-                       signed)})))
-    ; Owned and witnessed by its writing - the testament stands.
-    (try
-      (role ?will [k will] (spatial ?will co-located @self)
-                           (substantial (attr ?will writing)))
-      (when -{@self own ?will})
+        (for-each ?orel (every {@self own ?})
+          (bind ?orel.target ?owned)
+          (if (and (is-a ?owned [k will]) (spatial ?owned co-located @self))
+              (then (maintain-proposal {@self DESTROY-ENTITY ?owned}))))))
+
+    (stage
       (effects
-        (begin-belief {@self own ?will})
+        (if (empty (spatial @self hold [k will]))
+            (then (maintain-proposal {@self CREATE-ENTITY [k will]}:?ce
+                    [/postlude (bind (bb-read ?ce created) ?will)]))
+            (else (bind (head (spatial @self hold [k will])) ?will)))))
+
+    (stage
+      (effects
+        (if (unsubstantial (attr ?will writing))
+            (then (maintain-proposal {@self WRITE ?will
+                    (written-msg {?heir inherit
+                                   (o [k pile] {@o space
+                                     (o [k interior-space] {@o struct_parent
+                                       (o [k building] {@self home @o})})})}
+                                 signed)})))))
+
+    (stage
+      (effects
+        (if -{@self own ?will}
+            (then (begin-belief {@self own ?will})))
         (set-outcome ?ww-rel /succ)))))

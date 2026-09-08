@@ -1,39 +1,36 @@
 ; ----------------------------------------------------------------------------
-; prepare-application ?wp ?jk - fill in a job application FORM (born at @self's home,
-; mailed to the workplace ?wp). A COMPOSITION of general lego acts:
-;   CREATE-ENTITY [k application]  : take a blank form;
-;   WRITE ?app [[applicant ..] [home ..] [job ..]] : fill it in - who is applying (by
-;       NAME, so the hiring officer resolves the applicant), where they live (by ADDRESS,
-;       so the verdict can be posted back), for which role;
-;   ADDRESS ?app <the workplace's address> : the envelope, for the mail service.
-; Every rung reads the PREVIOUS act's own outcome record, never the paper's attrs (which
-; no wake watches). The finished form is handed to the mail lane by apply-for's send rung.
+; prepare-application ?wp ?jk - write and envelope a job application FORM: pen the
+; blank, fill the applicant / home / job fields, address it to the workplace. One
+; sequence: each stage reads the paper in hand for what is already done, so a restarted
+; errand never pens a second form. The form is left in hand for the mail lane.
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self prepare-application ?wp ?jk}:?pa-rel
   (tar building)
   (aux job)
-  (and
-    (try
-      (when -{@self CREATE-ENTITY [k application] /succ /caused_by ?pa-rel})
-      (utility fallback)
+  (sequence
+
+    (stage
       (effects
-               (maintain-proposal {@self CREATE-ENTITY [k application]})))
-    (try
-      (role @self {@self CREATE-ENTITY [k application] /succ /caused_by ?pa-rel}:?ce
-                  {@self name ?myName}
-                  {@self home ?myHome}
-                  {?myHome address ?myAddress}
-                  -{@self WRITE ? ? /succ /caused_by ?pa-rel})
+        (if (empty (spatial @self hold [k application]))
+            (then (maintain-proposal {@self CREATE-ENTITY [k application]}:?ce
+                    [/postlude (bind (bb-read ?ce created) ?app)]))
+            (else (bind (head (spatial @self hold [k application])) ?app)))))
+
+    (stage
+      (when {@self name ?myName}
+            {@self home ?myHome}
+            {?myHome address ?myAddress})
       (effects
-               (bb-read ?ce created): ?app
-               (maintain-proposal {@self WRITE ?app [[applicant ?myName] [home ?myAddress] [job ?jk]]})))
-    (try
-      (role @self {@self WRITE ?app ? /succ /caused_by ?pa-rel}
-                  {?wp address ?wpAddress}
-                  -{@self ADDRESS ?app ? /succ /caused_by ?pa-rel})
+        (if (unsubstantial (attr ?app writing))
+            (then (maintain-proposal
+                    {@self WRITE ?app [[applicant ?myName] [home ?myAddress] [job ?jk]]})))))
+
+    (stage
+      (when {?wp address ?wpAddress})
       (effects
-               (maintain-proposal {@self ADDRESS ?app ?wpAddress})))
-    (try
-      (role @self {@self ADDRESS ? ? /succ /caused_by ?pa-rel})
+        (if (unsubstantial (attr ?app address))
+            (then (maintain-proposal {@self ADDRESS ?app ?wpAddress})))))
+
+    (stage
       (effects (set-outcome ?pa-rel /succ)))))
