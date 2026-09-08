@@ -18,18 +18,15 @@
       (when -{@self CREATE-ENTITY [k application] /succ /caused_by ?pa-rel})
       (utility fallback)
       (effects
-               (maintain-proposal {@self CREATE-ENTITY [k application]}
-                 [/postlude (bb-write @self application-form (bb-read @self created))
-                            (bb-clear @self created)])))
+               (maintain-proposal {@self CREATE-ENTITY [k application]})))
     (try
-      (role @self {@self CREATE-ENTITY [k application] /succ /caused_by ?pa-rel}
+      (role @self {@self CREATE-ENTITY [k application] /succ /caused_by ?pa-rel}:?ce
                   {@self name ?myName}
                   {@self home ?myHome}
                   {?myHome address ?myAddress}
-                  -{@self WRITE ? ? /succ /caused_by ?pa-rel}
-                  (bb-any @self application-form))
+                  -{@self WRITE ? ? /succ /caused_by ?pa-rel})
       (effects
-               (bb-read @self application-form): ?app
+               (bb-read ?ce created): ?app
                (maintain-proposal {@self WRITE ?app [[applicant ?myName] [home ?myAddress] [job ?jk]]})))
     (try
       (role @self {@self WRITE ?app ? /succ /caused_by ?pa-rel}
@@ -39,6 +36,4 @@
                (maintain-proposal {@self ADDRESS ?app ?wpAddress})))
     (try
       (role @self {@self ADDRESS ? ? /succ /caused_by ?pa-rel})
-      (effects
-        (bb-clear @self application-form)
-        (set-outcome ?pa-rel /succ)))))
+      (effects (set-outcome ?pa-rel /succ)))))

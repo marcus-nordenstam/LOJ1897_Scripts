@@ -6,10 +6,10 @@
 ; task binds the new entity by kind at @self afterwards.
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self CREATE-ENTITY ?kind}
+(npc-action {@self CREATE-ENTITY ?kind}:?ce-rel
   (duration 5)
   (effects
     (create-entity ?kind (spatial @self space)): ?made
     (observe ?made): ?known
-    (bb-write @self created ?known)
-    (set-outcome {@self CREATE-ENTITY ?kind} /succ)))
+    (bb-write ?ce-rel created ?known)
+    (set-outcome ?ce-rel /succ)))
