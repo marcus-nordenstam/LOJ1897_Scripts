@@ -1,9 +1,10 @@
 ; ----------------------------------------------------------------------------
-; take-my-letters ?stack - sort ?stack's docs via the GENERIC stack-browse: browse surfaces
-; each doc into hand marked pending; this consumer KEEPS the ones addressed to ME (my name,
-; or a duty I hold) and marks the rest handled (browse re-files them at the bottom).
-; Concludes when the browse round concludes. NO away rung: the round RESUMES when @self is
-; back at the stack (browse gates fail from afar and the task idles running).
+; take-my-letters ?stack - sort ?stack's docs via the GENERIC stack-browse: browse lifts
+; each doc into hand; this consumer writes its verdict on the running browse - KEEP the
+; ones addressed to ME (my name, or a duty I hold) and not yet read, handled for the rest
+; (browse re-files them at the bottom). Concludes when the browse round concludes. NO away
+; rung: the round RESUMES when @self is back at the stack (browse gates fail from afar and
+; the task idles running).
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self take-my-letters ?stack}:?take-letters-rel
@@ -15,21 +16,20 @@
       (effects
                (maintain-proposal {@self stack-browse ?stack})))
     (try
-      (role @self {@self name ?name})
-      (role ?doc [k document] (spatial ?doc held-by @self)
-            (= (bb-read ?doc browse-status) pending)
-            (= (bb-read ?stack browse-inflight) ?doc))
+      (role @self {@self name ?name}
+                  {@self stack-browse ?stack /ever /caused_by ?take-letters-rel}:?browse
+                  (bb-any ?browse inflight)
+                  (bb-none ?browse verdict))
       (effects
+        (bb-read ?browse inflight): ?doc
         (tolerate (attr ?doc addressee): ?addressee)
         (tolerate (attr ?doc addressee-duty): ?duty)
         (if (and (or (= ?addressee ?name)
                      (nothing ?addressee)
                      {@self duty-to ? ?duty})
                  -{@self READ ?doc /succ})
-            (then
-                  (bb-write ?doc browse-status kept))
-            (else
-                  (bb-write ?doc browse-status handled)))))
+            (then (bb-write ?browse verdict kept))
+            (else (bb-write ?browse verdict handled)))))
     (try
       (role @self {@self stack-browse ?stack /succ /caused_by ?take-letters-rel})
       (effects

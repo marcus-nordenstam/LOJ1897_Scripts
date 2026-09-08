@@ -2,16 +2,14 @@
 ; stack-browse ?stack - the GENERIC one-doc-at-a-time stack iteration (the hsim twin of
 ; isim's stack-browse). It knows NOTHING about why the docs matter: it surfaces ?stack's
 ; top into hand one at a time, and re-files every doc the consumer marked handled. The
-; consumer proposes this browse and, per held pending doc, either KEEPs it (stays in hand,
-; leaves the browse) or marks it handled (back to the bottom).
+; consumer proposes this browse and, per lifted doc, writes its VERDICT on the running
+; browse: kept (stays in hand, leaves the browse) or handled (back to the bottom).
 ;
-; CYCLE DETECTION is browse-cycle-end on ?stack = the first doc buried this round; when it
-; resurfaces as the top every original doc has been seen -> concluded. ONE doc in flight:
-; browse-inflight names it and is CLEARED the moment it settles, so "nothing in flight" is
-; read straight off the slot. It used to be derived by reaching THROUGH the slot at the
-; named doc's browse-status - which is only well-formed while a doc IS in flight: with the
-; slot empty (before the first lift, and after every conclusion) the inner read answers
-; @fail, and a @fail bb host is a loud authoring error that aborts the run.
+; All browse state is tagged on the running browse act ?browse-rel and dies with it:
+;   inflight  - the ONE doc lifted and awaiting the consumer's verdict; cleared when it settles
+;   verdict   - the consumer's kept / handled for the doc in flight
+;   cycle-end - the first doc buried this round; when it resurfaces as the top every original
+;               doc has been seen -> concluded.
 ;
 ; and (inclusive): the tries are the browse phases (first look / re-look / lift / cycle-end
 ; / accept-kept / bury-handled), each gated by a distinct stack + hand state.
@@ -24,48 +22,39 @@
       (task-prelude
         (tolerate (observe (spatial ?stack top /env)): ?top)
         (if (nothing ?top)
-            (then
-                  (bb-clear ?stack browse-cycle-end)
-                  (bb-clear ?stack browse-inflight)
-                  (set-outcome ?browse-rel /succ)))))
+            (then (set-outcome ?browse-rel /succ)))))
     (try
-      (when (and (unknown (spatial ?stack top))
-                 (bb-none ?stack browse-inflight)))
+      (role @self (bb-none ?browse-rel inflight))
+      (when (unknown (spatial ?stack top)))
       (effects
         (tolerate (observe (spatial ?stack top /env)): ?top)
         (if (nothing ?top)
-            (then
-                  (bb-clear ?stack browse-cycle-end)
-                  (bb-clear ?stack browse-inflight)
-                  (set-outcome ?browse-rel /succ)))))
+            (then (set-outcome ?browse-rel /succ)))))
     (try
       (role ?top (spatial ?stack top)
-            (!= ?top (bb-read ?stack browse-cycle-end))
-            (bb-none ?stack browse-inflight))
+            (!= ?top (bb-read ?browse-rel cycle-end))
+            (bb-none ?browse-rel inflight))
       (effects
         (maintain-proposal {@self STACK-TAKE ?top ?stack}
-            [/postlude (bb-write ?top browse-status pending)
-                      (bb-write ?stack browse-inflight ?top)])))
+            [/postlude (bb-write ?browse-rel inflight ?top)])))
     (try
       (role ?top (spatial ?stack top)
-            (= ?top (bb-read ?stack browse-cycle-end))
-            (bb-none ?stack browse-inflight))
+            (= ?top (bb-read ?browse-rel cycle-end))
+            (bb-none ?browse-rel inflight))
+      (effects (set-outcome ?browse-rel /succ)))
+    (try
+      (role @self (bb-any ?browse-rel inflight)
+                  (bb-any ?browse-rel verdict kept))
       (effects
-        (bb-clear ?stack browse-cycle-end)
-        (bb-clear ?stack browse-inflight)
-        (set-outcome ?browse-rel /succ)))
+        (bb-clear ?browse-rel verdict)
+        (bb-clear ?browse-rel inflight)))
     (try
       (role ?doc [k document] (spatial ?doc held-by @self)
-            (= (bb-read ?doc browse-status) kept))
-      (effects
-        (bb-clear ?doc browse-status)
-        (bb-clear ?stack browse-inflight)))
-    (try
-      (role ?doc [k document] (spatial ?doc held-by @self)
-            (= (bb-read ?doc browse-status) handled))
+            (= ?doc (bb-read ?browse-rel inflight))
+            (bb-any ?browse-rel verdict handled))
       (effects
         (maintain-proposal {@self STACK-BURY ?doc ?stack}
-            [/postlude (if (not (bb-any ?stack browse-cycle-end))
-                          (then (bb-write ?stack browse-cycle-end ?doc)))
-                      (bb-clear ?doc browse-status)
-                      (bb-clear ?stack browse-inflight)])))))
+            [/postlude (if (not (bb-any ?browse-rel cycle-end))
+                          (then (bb-write ?browse-rel cycle-end ?doc)))
+                      (bb-clear ?browse-rel verdict)
+                      (bb-clear ?browse-rel inflight)])))))
