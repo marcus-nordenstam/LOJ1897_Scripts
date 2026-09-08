@@ -16,18 +16,20 @@
     (try
       (when -{@self CREATE-ENTITY ?kind /succ /caused_by ?dv-rel})
       (utility fallback)
-      (effects (maintain-proposal {@self CREATE-ENTITY ?kind})))
+      (effects (maintain-proposal {@self CREATE-ENTITY ?kind}
+                 [/postlude (bb-write @self draft-letter (bb-read @self created))
+                            (bb-clear @self created)])))
     ; The verdict is a FORM naming the applicant, in an envelope addressed to the home the
     ; application gave - both as @self BELIEVES them. An applicant whose address @self
     ; never learned gets no envelope and the letter never leaves.
     (try
       (role @self {@self CREATE-ENTITY ?kind /succ /caused_by ?dv-rel}
                   {?applicant name ?rname}
-                  -{@self WRITE ? ? /succ /caused_by ?dv-rel})
-      (role ?ltr [k letter] (spatial ?ltr co-located @self)
-                            -{@self WRITE ?ltr ? /succ}
-                            (select (policy first-match)))
-      (effects (maintain-proposal {@self WRITE ?ltr [[applicant ?rname]]})))
+                  -{@self WRITE ? ? /succ /caused_by ?dv-rel}
+                  (bb-any @self draft-letter))
+      (effects
+        (bb-read @self draft-letter): ?ltr
+        (maintain-proposal {@self WRITE ?ltr [[applicant ?rname]]})))
     (try
       (role @self {@self WRITE ?ltr ? /succ /caused_by ?dv-rel}
                   {?applicant address ?raddress}
@@ -55,4 +57,5 @@
                  {?applicant apply-for ?}))
       (effects
                (end-belief {?applicant apply-for ?})
+               (bb-clear @self draft-letter)
                (set-outcome ?dv-rel /succ)))))

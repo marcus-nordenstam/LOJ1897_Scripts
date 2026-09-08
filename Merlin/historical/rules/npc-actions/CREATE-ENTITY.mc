@@ -9,5 +9,7 @@
 (npc-action {@self CREATE-ENTITY ?kind}
   (duration 5)
   (effects
-    (create-entity ?kind (spatial @self space))
+    (create-entity ?kind (spatial @self space)): ?made
+    (observe ?made): ?known
+    (bb-write @self created ?known)
     (set-outcome {@self CREATE-ENTITY ?kind} /succ)))
