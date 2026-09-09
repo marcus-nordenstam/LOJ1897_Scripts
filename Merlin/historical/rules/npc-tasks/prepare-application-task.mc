@@ -24,7 +24,7 @@
       (effects
         (if (unsubstantial (attr ?app writing))
             (then (maintain-proposal
-                    {@self WRITE ?app [[applicant ?myName] [home ?myAddress] [job ?jk]]})))))
+                    {@self WRITE ?app (table-msg [[applicant ?myName] [home ?myAddress] [job ?jk]])})))))
 
     (stage
       (when {?wp address ?wpAddress})

@@ -28,7 +28,7 @@
         (when {?applicant name ?rname})
         (effects
           (if (unsubstantial (attr ?ltr writing))
-              (then (maintain-proposal {@self WRITE ?ltr [[applicant ?rname]]})))))
+              (then (maintain-proposal {@self WRITE ?ltr (table-msg [[applicant ?rname]])})))))
 
       (stage
         (when {?applicant address ?raddress})
