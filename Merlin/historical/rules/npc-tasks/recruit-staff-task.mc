@@ -21,6 +21,12 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self recruit-staff ?org}:?rec-rel
+  ; OBSERVABLE, and for the WHOLE SHIFT: a man keeping the hiring book does it in the open,
+  ; so anyone in the room reads the duty off him - that is how an applicant identifies the
+  ; officer, the way you identify the bartender by the bartending. The ?org param is
+  ; mental-only and cannot externalize; an onlooker sees it as @unknown, which is exactly
+  ; what he knows - a man recruiting, for he-cannot-tell-whom.
+  (obs)
   (track-skill-level [k personnel])
   (tar org)
   (and
