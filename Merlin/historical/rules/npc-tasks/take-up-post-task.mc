@@ -7,6 +7,10 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self take-up-post ?jk ?wp}:?tup-rel
+  ; OBSERVABLE: presenting yourself for a post is done in the open. The officer reads it
+  ; off the man standing in front of him - that is the applicant's half of the handshake,
+  ; the way the officer's recruiting is his.
+  (obs)
   (tar job)
   (aux building)
   (and
@@ -35,17 +39,10 @@
         (if (not (spatial ?officer co-located @self))
             (then (maintain-proposal {@self WALK (spatial ?officer space)})))))
 
-    (try
-      ; The wage book, perceived at the workplace; the task resolves it and hands it to
-      ; the dumb ENROL - no org/register resolution inside the act. Signing on happens in
-      ; front of the man keeping it, never behind his back.
-      (role ?reg [k employee-register] (spatial ?reg building ?wp))
-      (role ?officer [k human] {?officer recruit-staff ?}
-                               (spatial ?officer co-located @self))
-      (when (and (>= (now-hour) 9)
-                 (<= (now-hour) 16)
-                 -{@self job.salary ?}))
-      (effects (maintain-proposal {@self ENROL ?reg ?jk})))
+    ; PRESENT AND WAIT. There is no rung here that writes the book: the post is the
+    ; officer's to give, so @self's part ends at standing in front of him where he can see
+    ; what he came for. He is taken on, or he is not - and the outcome rungs below read the
+    ; answer off the book, the same way anyone else would.
     ; Signed on: read the level off the book and become the org's employee. The org is
     ; the one @self already believes keeps this workplace (the notice named it); the
     ; articles live on the company registry's stack, never at the workplace.

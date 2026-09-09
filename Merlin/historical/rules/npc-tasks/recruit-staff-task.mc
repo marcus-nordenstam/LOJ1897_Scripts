@@ -99,6 +99,23 @@
         (for-each ?orel (every {@self offered-post ?applicant ?post})
           (end-belief ?orel))))
 
+    ; (2c) TAKE A MAN ON. Someone is standing in front of @self who has come to take up a
+    ; post - his take-up-post is observable, so @self reads the errand off him, no word
+    ; spoken - and the book still shows a vacant line of that kind. Sign him on.
+    ;
+    ; The POST is his to give, so the writing is HIS act, not the applicant's. A man who
+    ; comes for a post already taken simply finds no vacant line and is not written down:
+    ; first come, first served, and the establishment never grows past its own book.
+    (try
+      (role ?applicant [k human] {?applicant take-up-post ?jk ?}
+                                 (spatial ?applicant co-located @self))
+      (role ?post {?post org ?org}
+                  {?post post-no ?}
+                  -{?post filled-by ?})
+      (when (is-a ?post ?jk))
+      (utility obligation)
+      (effects (maintain-proposal {@self HIRE ?applicant ?jk})))
+
     ; (3) THE OFFICE ROUND. It waits on a STANDING notice, not on this run's posting: an
     ; application only exists in answer to one, and the notice outlives the shift that put
     ; it up. Without the wait the round holds the obligation band from the moment the duty
