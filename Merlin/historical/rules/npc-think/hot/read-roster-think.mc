@@ -38,14 +38,18 @@
   (effects
     ; (1) REFRESH - one colleague job object per roster row (skip my own row), mirroring
     ; my own job object so {?cw job.org ?org} / rank / head-ness read uniformly.
-    (for-each-row (attr ?reg writing) [/worker ?cw] [/job ?jk] [/level ?lvl]
-      ; An empty worker cell is a VACANT post, not a colleague - it names nobody to
-      ; hang a job object off. The officer's own read (read-establishment) is what
-      ; makes those lines mean something.
+    (for-each-row (attr ?reg writing) [/line ?line] [/worker ?cw] [/job ?jk] [/level ?lvl]
+      ; An empty worker cell is a VACANT job, not a colleague - it names nobody to hang an
+      ; occupancy fact off. The officer's own read is what makes those lines mean something.
+      ; The object is keyed on the LINE, not on who sits in it, so this is the very object
+      ; @self already holds for his own seat and for every seat he has read about here.
       (if (and (substantial ?cw) (!= ?cw @self))
           (then
-            (o ?jk {?cw job @o}): ?cojob
+            (o ?jk {@o org ?org} {@o job-ledger-line-no ?line}): ?cojob
             (begin-belief {?cojob org ?org})
+            (begin-belief {?cojob job-ledger-line-no ?line})
+            (begin-belief {?cojob filled-by ?cw})
+            (begin-belief {?cw job ?cojob})
             (begin-belief {?cojob level ?lvl}))))
 
     ; (2) RECONCILE (negative confirmation) - forget colleagues no longer listed: walk the
@@ -57,4 +61,7 @@
         (bind ?jb-rel.subject ?other)
         (if (and (!= ?other @self)
                  (not (table-match (attr ?reg writing) worker ?other)))
-            (then (end-belief ?jb-rel)))))))
+            (then
+              (end-belief ?jb-rel)
+              (for-each ?fb-rel (every {?ojob filled-by ?other})
+                (end-belief ?fb-rel))))))))

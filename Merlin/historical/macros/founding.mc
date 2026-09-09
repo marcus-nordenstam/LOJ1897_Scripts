@@ -71,7 +71,7 @@
             (check ?back)
             (create-entity [k articles-of-incorporation] ?back): ?art
             (create-entity [k employee-register]         ?back): ?reg
-            (table-init ?reg worker job level)
+            (table-init ?reg line worker job level)
             (establish-posts ?reg ?org-kind)
             ; The articles DOCUMENT the org into being: a one-row TABLE of its constitutive
             ; cells. This is the whole ENVIRONMENT half of founding - the org has no other
@@ -111,11 +111,18 @@
     (begin-belief {?org record ?art})
     (fill-post ?reg ?head-role [k senior])
     (begin-belief {?wp occupant @self})
-    (o ?head-role {@self job @o}): ?job
-    (begin-belief {?job org ?org})
-    (begin-belief {?job level [k senior]})
-    (begin-belief {?job since (year)})
-    (stamp-work-hours ?job ?head-role)))
+    ; The head's seat is a ledger line like any other - keyed on it, so his own job object
+    ; is the one every later reader of this book lands on.
+    (if (table-match (attr ?reg writing) worker @self job ?head-role line ?soh-line)
+        (then
+          (o ?head-role {@o org ?org} {@o job-ledger-line-no ?soh-line}): ?job
+          (begin-belief {?job org ?org})
+          (begin-belief {?job job-ledger-line-no ?soh-line})
+          (begin-belief {?job filled-by @self})
+          (begin-belief {@self job ?job})
+          (begin-belief {?job level [k senior]})
+          (begin-belief {?job since (year)})
+          (stamp-work-hours ?job ?head-role)))))
 
 ; take-up-charter - found an org the town already chartered: the premises, articles and staff
 ; book exist and only the head seat is open, so founding is writing @self into the founder
@@ -158,7 +165,7 @@
             (check ?back)
             (create-entity [k articles-of-incorporation] ?back): ?art
             (create-entity [k employee-register]         ?back): ?reg
-            (table-init ?reg worker job level)
+            (table-init ?reg line worker job level)
             (o ?club-kind {?art declares-org @o}): ?org
             (table-match businesses org-kind ?club-kind name ?org-name)
             (begin-belief {?org isa ?club-kind})
@@ -199,18 +206,30 @@
 ; beliefs a hire mints once the org is KNOWN (by whatever route - the articles, or the
 ; notice that named it). The premises' rooms are learned, the job object minted with its
 ; org / level / salary / since and its work hours stamped.
-(define-macro employ-beliefs (?org ?wp ?job-kind ?level)
+;
+; @self reads back the LINE he was just written onto, because a job IS its line on the
+; org's ledger. That is what makes this the SAME object the recruiting officer keeps and a
+; colleague reads off the roster, rather than a private second copy of the one seat. He
+; must already be on the book - every caller matches his row before getting here.
+; ?reg is handed IN, never re-derived: a man taken on off a NOTICE never read the articles,
+; so he holds no {?org employee-register ?reg} belief - he found the book by perceiving it.
+(define-macro employ-beliefs (?org ?wp ?job-kind ?level ?reg)
   (do
     (begin-belief {?wp occupant @self})
     (for-each ?room (spatial ?wp parts [k interior-space room] /env)
         (spatial-write ?room struct_parent ?wp))
     (table-match income_by_level level ?level income ?salary)
-    (o ?job-kind {@self job @o}): ?job
-    (begin-belief {?job org ?org})
-    (begin-belief {?job level ?level})
-    (begin-belief {?job salary ?salary})
-    (begin-belief {?job since (year)})
-    (stamp-work-hours ?job ?job-kind)))
+    (if (table-match (attr ?reg writing) worker @self job ?job-kind line ?eb-line)
+        (then
+          (o ?job-kind {@o org ?org} {@o job-ledger-line-no ?eb-line}): ?job
+          (begin-belief {?job org ?org})
+          (begin-belief {?job job-ledger-line-no ?eb-line})
+          (begin-belief {?job filled-by @self})
+          (begin-belief {@self job ?job})
+          (begin-belief {?job level ?level})
+          (begin-belief {?job salary ?salary})
+          (begin-belief {?job since (year)})
+          (stamp-work-hours ?job ?job-kind)))))
 
 (define-macro hire-beliefs (?art ?job-kind ?level)
   (do
@@ -222,7 +241,8 @@
     ; premises, then mint the employment beliefs.
     (o {?art declares-org @o}): ?org
     {?org workplace ?wp}
-    (employ-beliefs ?org ?wp ?job-kind ?level)))
+    {?org employee-register ?hb-reg}
+    (employ-beliefs ?org ?wp ?job-kind ?level ?hb-reg)))
 
 
 ; ----------------------------------------------------------------------------
@@ -250,15 +270,21 @@
 ; (indenture / partner / senior) pass a literal [k job <role>].
 ; ----------------------------------------------------------------------------
 
+; The roster write comes FIRST: the employment beliefs key the job object on the ledger
+; line, so the line has to exist before they are minted. That ordering is why this does
+; not go through hire-beliefs - it would derive the org a second time, and the register
+; has to be in hand before the write, not after.
 (define-macro hire-seq (?art ?job-kind ?level)
   (do
-    ; --- the employment beliefs in @self's mind (reads the articles, learns the org) --
-    (hire-beliefs ?art ?job-kind ?level)
-    ; --- env-side roster (abs): record @self under the matched job kind + rank. The
-    ; register is learned off the adopted {?org employee-register} belief.
+    ; --- learn the org off the articles (adopt-aoc), then the register and premises it names.
+    (adopt-aoc ?art)
     (o {?art declares-org @o}): ?org
     {?org employee-register ?reg}
-    (fill-post ?reg ?job-kind ?level)))
+    {?org workplace ?wp}
+    ; --- env-side roster (abs): record @self under the matched job kind + rank.
+    (fill-post ?reg ?job-kind ?level)
+    ; --- the employment beliefs in @self's mind, off the line he now holds.
+    (employ-beliefs ?org ?wp ?job-kind ?level ?reg)))
 
 ; ----------------------------------------------------------------------------
 ; fire-self - a worker leaves his OWN post. Scrubs @self's row off the firm's
@@ -332,26 +358,34 @@
 (define-macro establish-posts (?reg ?org-kind)
   (if (table-match org_staffing org-kind ?org-kind staff-role ?ep-role)
     (then
+      (bind 0 ?ep-line)
       (repeat (if (table-match public_orgs kind ?org-kind employee-count ?ep-n)
                   (then ?ep-n)
                   (else (k-default-staff-posts)))
-        (table-add ?reg worker @nothing job ?ep-role)))))
+        (do
+          (bind (+ ?ep-line 1) ?ep-line)
+          (table-add ?reg line ?ep-line worker @nothing job ?ep-role))))))
 
-; fill-post - @self takes a post: his name goes into the vacant line's worker cell, IN
-; PLACE. The line must not move - the officer identifies a post by its line, so striking
-; and re-appending would hand his advert's post to a different line and the notice would
-; never come down. No vacant line of that kind (a club membership, a post outside the
-; establishment) -> nothing to fill, so a line is added. Already on the book for this
-; post -> nothing to do (a second signing never duplicates the line).
+; fill-post - @self takes a job: his name goes into the vacant line's worker cell, IN
+; PLACE. The line must not move - a job IS its line on this ledger, so striking and
+; re-appending would hand the advertised job to a different line and the notice would
+; never come down. No vacant line of that kind (a club membership, a job outside the
+; establishment) -> nothing to fill, so a line is added, numbered after the last.
+; Already on the book for it -> nothing to do (a second signing never duplicates a line).
 (define-macro fill-post (?reg ?job-kind ?level)
   (if (not (table-match (attr ?reg writing) worker @self job ?job-kind))
       (then
         (if (not (table-set ?reg (where worker @nothing job ?job-kind)
                                  worker @self level ?level))
-            (then (table-add ?reg worker @self job ?job-kind level ?level))))))
+            (then
+              (bind 0 ?fp-line)
+              (for-each-row (attr ?reg writing) [/line ?fp-seen]
+                (bind ?fp-seen ?fp-line))
+              (table-add ?reg line (+ ?fp-line 1)
+                              worker @self job ?job-kind level ?level))))))
 
-; vacate-post - a departure leaves the POST behind: the worker's cell is emptied where it
+; vacate-post - a departure leaves the JOB behind: the worker's cell is emptied where it
 ; stands, keeping the line, its number and its job kind. Striking the line outright would
-; retire the post along with the man, and the officer would never read an opening.
+; retire the job along with the man, and the officer would never read an opening.
 (define-macro vacate-post (?reg ?worker)
   (table-set ?reg (where worker ?worker) worker @nothing level @nothing))
