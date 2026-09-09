@@ -33,10 +33,9 @@
     ; at a source, unwatched -> take a shelf item of the kind (the guarded snatch).
     (try
       (when (and (empty (spatial @self hold ?kind))
-                 (is-a (spatial @self building) [k building shop])
+                 (is-a (spatial @self building): ?shop [k building shop])
                  (nobody-watching)))
       (effects
-        (spatial @self building): ?shop
         (bind 0 ?found)
         (for-each ?room (spatial ?shop parts [k interior-space room] /env)
           (for-each ?item (spatial ?room contents ?kind /env) [/limit 1]
@@ -47,8 +46,7 @@
     (try
       (when (and (not (empty (spatial @self hold ?kind)))
                  {@self take ? /succ /caused_by ?steal-rel}
-                 (is-a (spatial @self building) [k building shop])))
+                 (is-a (spatial @self building): ?shop [k building shop])))
       (effects
-        (spatial @self building): ?shop
         (crime-ledger-append @self (any {? own ?shop}).subject opportunist_theft steal ?kind @u)
         (set-outcome ?steal-rel /succ)))))

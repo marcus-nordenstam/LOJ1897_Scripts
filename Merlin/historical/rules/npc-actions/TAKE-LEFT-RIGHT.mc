@@ -10,8 +10,12 @@
 
 (npc-action {@self LEFT-TAKE ?item}:?take-action-rel
   (duration 1)
-  (effects (take-effects (spatial @self left-hand /env) ?item ?take-action-rel)))
+  (effects
+    (spatial @self left-hand /env): ?hand
+    (take-effects ?hand ?item ?take-action-rel)))
 
 (npc-action {@self RIGHT-TAKE ?item}:?take-action-rel
   (duration 1)
-  (effects (take-effects (spatial @self right-hand /env) ?item ?take-action-rel)))
+  (effects
+    (spatial @self right-hand /env): ?hand
+    (take-effects ?hand ?item ?take-action-rel)))

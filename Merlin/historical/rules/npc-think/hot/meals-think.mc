@@ -426,11 +426,9 @@
                 (if (and ?larder_pile (> (attr ?larder_pile count) 0))
                     (then (bind ?larder_pile ?item) (bind 1 ?found)))))))
     ; shop shelf
-    (if (and (= ?found 0)
-             (is-a (spatial @self building) [k building shop])
-             (spatial @self building))
+    (spatial @self building): ?shop
+    (if (and (= ?found 0) ?shop (is-a ?shop [k building shop]))
         (then
-          (spatial @self building): ?shop
           (for-each ?room (spatial ?shop parts [k interior-space room] /env)
             (do
               (bind 0 ?shelf_pile)

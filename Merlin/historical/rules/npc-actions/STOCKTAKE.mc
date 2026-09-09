@@ -41,9 +41,9 @@
   (track-skill-level [k accountancy])
   (duration 30)
   (effects
-    (if (spatial @self building)
+    (spatial @self building): ?shop
+    (if ?shop
         (then
-          (spatial @self building): ?shop
           (spatial ?shop parts [k interior-space room] /env): ?rooms
           ; Validate the shelves against belief - every room of the shop.
           (for-each ?room ?rooms

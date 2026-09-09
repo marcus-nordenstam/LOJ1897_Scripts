@@ -11,8 +11,9 @@
   (duration 1)
   (effects
     (check (spatial ?stack co-located @self /env))
-    (if (empty (spatial (spatial @self right-hand /env) grip /env))
-        (then (pop ?stack (spatial @self right-hand /env)))
+    (spatial @self right-hand /env): ?rh
+    (if (empty (spatial ?rh grip /env))
+        (then (pop ?stack ?rh))
         (else (pop ?stack (spatial @self left-hand /env)))): ?taken
     (if (substantial ?taken)
         (then (observe ?taken)

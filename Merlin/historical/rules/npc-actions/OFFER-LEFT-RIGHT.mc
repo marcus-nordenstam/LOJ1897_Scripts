@@ -14,8 +14,12 @@
 
 (npc-action {@self OFFER-LEFT ?thing ?recipient}:?offer-action-rel
   (tar object) (aux human) (duration 0)
-  (effects (offer-effects (spatial ?recipient left-hand /env) ?thing ?recipient ?offer-action-rel)))
+  (effects
+    (spatial ?recipient left-hand /env): ?recipient-hand
+    (offer-effects ?recipient-hand ?thing ?recipient ?offer-action-rel)))
 
 (npc-action {@self OFFER-RIGHT ?thing ?recipient}:?offer-action-rel
   (tar object) (aux human) (duration 0)
-  (effects (offer-effects (spatial ?recipient right-hand /env) ?thing ?recipient ?offer-action-rel)))
+  (effects
+    (spatial ?recipient right-hand /env): ?recipient-hand
+    (offer-effects ?recipient-hand ?thing ?recipient ?offer-action-rel)))

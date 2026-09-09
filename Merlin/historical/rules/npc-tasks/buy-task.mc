@@ -26,9 +26,8 @@
     ; at a shop -> find a shelf item of the kind and buy it (pay + take, atomic).
     (try
       (when (and (empty (spatial @self hold ?kind))
-                 (is-a (spatial @self building) [k building shop])))
+                 (is-a (spatial @self building): ?shop [k building shop])))
       (effects
-        (spatial @self building): ?shop
         (bind 0 ?found)
         (for-each ?room (spatial ?shop parts [k interior-space room] /env)
           (for-each ?item (spatial ?room contents ?kind /env) [/limit 1]

@@ -18,7 +18,8 @@
     (pile-take ?src (price ?goods))
     (any {?vendor coin-pile ?vp})
     (if ?vp (then (pile-add ?vp (price ?goods))))
-    (if (empty (spatial (spatial @self right-hand) grip))
-        (then (spatial-write ?goods gripped-by (spatial @self right-hand) /env))
+    (spatial @self right-hand): ?rh
+    (if (empty (spatial ?rh grip))
+        (then (spatial-write ?goods gripped-by ?rh /env))
         (else (spatial-write ?goods gripped-by (spatial @self left-hand) /env)))
     (set-outcome ?buy-act-rel /succ)))
