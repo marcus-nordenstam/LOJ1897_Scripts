@@ -9,7 +9,7 @@
 (define-func /window-end magic-mail-service ()
   (for-each ?out (env-entities [k outgoing-mail-stack])
     (for-each ?ltr (spatial ?out items /env)
-      (attr ?ltr address): ?dest
+      (attr ?ltr destination): ?dest
       (if (substantial ?dest)
         (then
           (for-each ?b (env-entities [k building])

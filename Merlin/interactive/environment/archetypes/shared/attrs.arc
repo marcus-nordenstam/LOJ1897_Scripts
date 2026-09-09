@@ -301,10 +301,18 @@
 # has no name - what a notice writes, what a reader imagines, what the address-sign shows.
 # hsim-perceptible: observing a premise mirrors {premise address [a ...]}, and the same
 # value rides the written / spoken wire as a bare symbol, like a name.
-(attr "address" (type address) (per obs) (auto-percept) (hsim-percept))
-# The premises a letter is addressed TO (the envelope's delivery line) - an entity, not
-# an address value: the sender copies it from the recipient's home / workplace and the
-# mail service routes by it. Distinct from `address`, which is a premises' own identity.
+# (spec-attr address) marks this as THE canonical address relation - the addressed-objects
+# index and the bare-[a ..] shorthand in (o ..). Being address-VALUED does not confer that:
+# `destination` below holds an address too and is an ordinary relation.
+(attr "address" (type address) (spec-attr address) (per obs) (auto-percept) (hsim-percept))
+# Where a document is bound (the envelope's delivery line). An ADDRESS-VALUED ordinary
+# attr - NOT the canonical address relation. Named `destination` rather than `address` on
+# purpose: a PLACE has an address - permanent, constitutive, its identity - while a movable
+# thing has none and merely CARRIES one to say where it is going. The sender copies it from
+# the recipient's home / workplace and the mail service routes by it. Perceptible like
+# `addressee`: the delivery line is written on the outside, so observing the letter reads it
+# without reading the message.
+(attr "destination" (type address) (per obs) (auto-percept) (hsim-percept))
 
 # Address-numbering POLICY (lives on the ROAD; see road.arc). Authored in the
 # GrymEngine Spline Tool and pushed by the Player at scene load. These tell the

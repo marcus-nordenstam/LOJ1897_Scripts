@@ -33,7 +33,7 @@
       (stage
         (when {?applicant address ?raddress})
         (effects
-          (if (unsubstantial (attr ?ltr address))
+          (if (unsubstantial (attr ?ltr destination))
               (then (maintain-proposal {@self ADDRESS ?ltr ?raddress})))))
 
       (stage
@@ -49,6 +49,6 @@
       (role ?org {@self duty-to ?org recruit-staff})
       (role ?wp {?org workplace ?wp})
       (role ?held [k letter] (spatial ?held held-by @self)
-                             (substantial (attr ?held address)))
+                             (substantial (attr ?held destination)))
       (no-role [k outgoing-mail-stack])
       (effects (maintain-proposal {@self locate [k outgoing-mail-stack] ?wp})))))

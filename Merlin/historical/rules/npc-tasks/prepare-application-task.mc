@@ -29,7 +29,7 @@
     (stage
       (when {?wp address ?wpAddress})
       (effects
-        (if (unsubstantial (attr ?app address))
+        (if (unsubstantial (attr ?app destination))
             (then (maintain-proposal {@self ADDRESS ?app ?wpAddress})))))
 
     (stage

@@ -38,7 +38,7 @@
       (if {?addressee name ?addressee-name}
           (then (set-attr ?ltr addressee ?addressee-name)))
       (if {?dest address ?dest-address}
-          (then (set-attr ?ltr address ?dest-address)))
+          (then (set-attr ?ltr destination ?dest-address)))
       (maintain-proposal {@self send-mail ?ltr ?out}))))
 
 ; (post-blank-letter [k <kind>] ?dest ?addressee): like post-letter but with NO written
@@ -51,7 +51,7 @@
       (if {?addressee name ?addressee-name}
           (then (set-attr ?ltr addressee ?addressee-name)))
       (if {?dest address ?dest-address}
-          (then (set-attr ?ltr address ?dest-address)))
+          (then (set-attr ?ltr destination ?dest-address)))
       (maintain-proposal {@self send-mail ?ltr ?out}))))
 
 ; (plant-letter [k <kind>] <msg> ?premises): leave an UNADDRESSED <kind> letter
