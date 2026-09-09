@@ -13,11 +13,35 @@
     (try
       (when (not (spatial @self building ?wp)))
       (effects (maintain-proposal {@self enter ?wp})))
+    ; FIND THE MAN, not the room. You take a post from whoever keeps the book, and you know
+    ; which man that is by SEEING him keep it: recruit-staff is (obs) and runs his whole
+    ; shift, so passing through his room teaches {?officer recruit-staff ?}. No name needed -
+    ; the same way you find the bartender in a bar you have never drunk in.
+    ;
+    ; SEEK: inside the workplace, nobody yet seen recruiting -> tour it. The room-walk does
+    ; the perceiving, so searching and seeing are the same act.
+    (try
+      (role @self (spatial @self building ?wp))
+      (when (and -{@self job.salary ?}
+                 -{? recruit-staff ?}))
+      (effects (maintain-proposal {@self wander ?wp})))
+
+    ; APPROACH: seen him, but he is in another room -> go to him.
+    (try
+      (role ?officer [k human] {?officer recruit-staff ?})
+      (role @self (spatial @self building ?wp))
+      (when -{@self job.salary ?})
+      (effects
+        (if (not (spatial ?officer co-located @self))
+            (then (maintain-proposal {@self WALK (spatial ?officer space)})))))
+
     (try
       ; The wage book, perceived at the workplace; the task resolves it and hands it to
-      ; the dumb ENROL - no org/register resolution inside the act.
+      ; the dumb ENROL - no org/register resolution inside the act. Signing on happens in
+      ; front of the man keeping it, never behind his back.
       (role ?reg [k employee-register] (spatial ?reg building ?wp))
-      (role @self (spatial @self building ?wp))
+      (role ?officer [k human] {?officer recruit-staff ?}
+                               (spatial ?officer co-located @self))
       (when (and (>= (now-hour) 9)
                  (<= (now-hour) 16)
                  -{@self job.salary ?}))
