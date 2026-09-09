@@ -304,7 +304,12 @@
 # (spec-attr address) marks this as THE canonical address relation - the addressed-objects
 # index and the bare-[a ..] shorthand in (o ..). Being address-VALUED does not confer that:
 # `destination` below holds an address too and is an ordinary relation.
-(attr "address" (type address) (spec-attr address) (per obs) (auto-percept) (hsim-percept))
+# @excl because a place stands at exactly ONE address at a time. Without it two address
+# beliefs about one place merge into a PLURAL target and the mind holds both at once; with
+# it they contradict, and the contradiction pipeline ends the loser on source reliability -
+# so a PERCEIVED address (self-observe, top of the ladder) supersedes a told one with no
+# special-casing anywhere.
+(attr "address" (type address) (spec-attr address) (state-flags-tar @excl) (per obs) (auto-percept) (hsim-percept))
 # Where a document is bound (the envelope's delivery line). An ADDRESS-VALUED ordinary
 # attr - NOT the canonical address relation. Named `destination` rather than `address` on
 # purpose: a PLACE has an address - permanent, constitutive, its identity - while a movable
