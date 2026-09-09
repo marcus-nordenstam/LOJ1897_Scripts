@@ -13,6 +13,7 @@
 ;       THIS run", which re-posts yesterday's opening and cannot span a shift.
 ;   (1) an open post with no notice up   -> post-ad ?org ?post
 ;   (2) a filled post with a notice up   -> remove-ad ?org ?post
+;  (2b) an offer left unanswered 180 d   -> the offer lapses, the post reopens
 ;   (3) work the applications: the office round (enter the premises, collect the
 ;       office post's applications), READ each into a {?applicant apply-for ?jk} belief, consume
 ;       the paper, and hand the learned batch to resolve-applications.
@@ -71,6 +72,26 @@
                   {?org display-ad ?post})
       (utility obligation)
       (effects (maintain-proposal {@self remove-ad ?org ?post})))
+
+    ; (2b) AN OFFER NOBODY TOOK UP LAPSES. {@self offered-post ?applicant ?post} is a
+    ; standing belief the take-up never spends, and open-post-for excludes any post
+    ; carrying one - so a stale offer holds the seat shut and every later applicant of
+    ; that kind is rejected by ABSENCE, indistinguishable from a genuinely full book.
+    ; -{?post filled-by ?} is what makes it right in both directions: while the post is
+    ; filled the offer is harmless, and the day the holder leaves and rung (0) ends
+    ; filled-by, the long-past offer lapses on the next round and the seat reopens.
+    (try
+      (role ?post {?post org ?org}
+                  {?post post-no ?}
+                  -{?post filled-by ?})
+      (role ?applicant {@self offered-post ?applicant ?post})
+      (when (>= (/ (- (now-abs-seconds)
+                      (abs-seconds (any {@self offered-post ?applicant ?post}).start))
+                   86400)
+                (offer-lapse-days)))
+      (effects
+        (for-each ?orel (every {@self offered-post ?applicant ?post})
+          (end-belief ?orel))))
 
     ; (3) THE OFFICE ROUND. It waits on a STANDING notice, not on this run's posting: an
     ; application only exists in answer to one, and the notice outlives the shift that put

@@ -45,6 +45,12 @@
 ; emergent business does not, so it is chartered with this many staff posts.
 (define-macro k-default-staff-posts () 2)
 
+; Labour market: days an unanswered offer stands before the recruit officer treats it
+; as refused. {@self offered-post ..} is what holds a post out of open-post-for, so an
+; offer nobody takes up would shut that seat for good. One hsim window is a MONTH, so
+; this is six windows - six chances for the applicant to come and take the post up.
+(define-macro offer-lapse-days () 180)
+
 ; The monthly base rate a LAWFUL grievance outlet (confess / report) rolls at, before
 ; its own base weight and the actor's drive. The unlawful outlets use (crime-scale)
 ; instead - this is its lawful twin, kept at the same magnitude so a lawful and an
