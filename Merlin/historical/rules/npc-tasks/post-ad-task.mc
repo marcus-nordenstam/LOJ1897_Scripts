@@ -7,8 +7,9 @@
 ; The notice is the WHOLE sentence the org holds ({?org display-ad ?job} plus where to
 ; apply), so a seeker who READs the board adopts the org's own fact. One sequence at a
 ; known church: go there, pen the sheet, write the notice, remember it stands. The
-; sibling try searches for a church while none is known. Each stage reads the sheet in
-; hand for what is already done, so a restarted posting never pens a second sheet.
+; sibling try searches for a church while none is known. The sheet it writes on is the
+; one it CREATED, kept under the running task's own key, so a restarted posting re-reads
+; that key instead of penning a second sheet.
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self post-ad ?org ?job}:?pad-rel
@@ -25,10 +26,11 @@
 
       (stage
         (effects
-          (if (empty (spatial @self hold [k job-description]))
-              (then (maintain-proposal {@self CREATE-ENTITY [k job-description]}:?ce
-                      [/postlude (bind (bb-read ?ce created) ?ad)]))
-              (else (bind (head (spatial @self hold [k job-description])) ?ad)))))
+          (if (bb-any ?pad-rel ad)
+              (then (bind (bb-read ?pad-rel ad) ?ad))
+              (else (maintain-proposal {@self CREATE-ENTITY [k job-description]}:?ce
+                      [/postlude (bind (bb-read ?ce created) ?ad)
+                                 (bb-write ?pad-rel ad ?ad)])))))
 
       (stage
         (when {?org workplace ?wp})
@@ -40,6 +42,7 @@
       (stage
         (effects
           (begin-belief {?org display-ad ?job})
+          (bb-clear ?pad-rel ad)
           (set-outcome ?pad-rel /succ))))
 
     (try

@@ -3,8 +3,9 @@
 ; inscribe the message a reader adopts (the building is offered to let), lodge it on
 ; the agency's to-let register, then mint his OWN {?prop availability for-rent} belief
 ; (the durable "advertised to let" signal landlord_estate / list_to_let consume, and the
-; latch that retracts the standing let intent). One sequence; each stage reads the
-; listing in hand for what is already done. Promoted at the house agency office.
+; latch that retracts the standing let intent). One sequence; the listing it inscribes
+; is the one it CREATED, kept under the running task's own key, so a restart re-reads
+; that key instead of penning a second sheet. Promoted at the house agency office.
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self LET ?prop}:?let-rel
@@ -12,10 +13,11 @@
   (sequence
     (stage
       (effects
-        (if (empty (spatial @self hold [k for-lease-listing]))
-            (then (maintain-proposal {@self CREATE-ENTITY [k for-lease-listing]}:?ce
-                    [/postlude (bind (bb-read ?ce created) ?listing)]))
-            (else (bind (head (spatial @self hold [k for-lease-listing])) ?listing)))))
+        (if (bb-any ?let-rel listing)
+            (then (bind (bb-read ?let-rel listing) ?listing))
+            (else (maintain-proposal {@self CREATE-ENTITY [k for-lease-listing]}:?ce
+                    [/postlude (bind (bb-read ?ce created) ?listing)
+                               (bb-write ?let-rel listing ?listing)])))))
 
     (stage
       (effects
@@ -30,4 +32,5 @@
     (stage
       (effects
         (begin-belief {?prop availability [k for-rent]})
+        (bb-clear ?let-rel listing)
         (set-outcome ?let-rel /succ)))))

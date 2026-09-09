@@ -10,7 +10,8 @@
 ; The bequest clause names the testator's coin pile. A pile is nameless and fungible,
 ; so it is described by WHERE it stands: the interior space of @self's home building.
 ; One sequence: destroy the old will if one stands, pen the blank, inscribe the bequest,
-; own the signed paper. Each stage reads the paper in hand for what is already done.
+; own the signed paper. The paper it inscribes is the one it CREATED, kept under the
+; running task's own key, so a restart re-reads that key instead of penning a second.
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self write-will ?heir}:?ww-rel
@@ -25,10 +26,11 @@
 
     (stage
       (effects
-        (if (empty (spatial @self hold [k will]))
-            (then (maintain-proposal {@self CREATE-ENTITY [k will]}:?ce
-                    [/postlude (bind (bb-read ?ce created) ?will)]))
-            (else (bind (head (spatial @self hold [k will])) ?will)))))
+        (if (bb-any ?ww-rel will)
+            (then (bind (bb-read ?ww-rel will) ?will))
+            (else (maintain-proposal {@self CREATE-ENTITY [k will]}:?ce
+                    [/postlude (bind (bb-read ?ce created) ?will)
+                               (bb-write ?ww-rel will ?will)])))))
 
     (stage
       (effects
@@ -44,4 +46,5 @@
       (effects
         (if -{@self own ?will}
             (then (begin-belief {@self own ?will})))
+        (bb-clear ?ww-rel will)
         (set-outcome ?ww-rel /succ)))))
