@@ -8,7 +8,9 @@
 ; un-offered (open-post-for). Each draft-verdict envelopes + mails its verdict and
 ; ENDS that applicant's apply-for belief, so the unanswered set shrinks to empty and
 ; the round concludes. The drafting is the draft-verdict sub-task (composing the lego
-; acts).
+; acts). Both drafting rungs take the lock and answer ONE applicant at a time: two drafts
+; of the same verdict at once propose the very same create-a-letter act, and one letter
+; cannot answer two men.
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self resolve-applications}:?rt-rel
@@ -25,6 +27,7 @@
       (when (is-a ?post ?jk))
       (effects (begin-belief {@self offered-post ?applicant ?post})))
     (try
+      (lock-rule)
       (role ?applicant {?applicant apply-for ?jk /pres}
                        {@self offered-post ?applicant ?})
       (utility fallback)
