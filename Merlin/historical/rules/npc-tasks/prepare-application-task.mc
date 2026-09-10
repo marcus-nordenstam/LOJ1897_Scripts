@@ -7,7 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self prepare-application ?wp ?jk}:?pa-rel
-  (tar building)
+  (tar building|space)
   (aux job)
   (sequence
 
@@ -19,8 +19,12 @@
                     [/postlude (bind (bb-read ?ce created) ?app)
                                (bb-write ?pa-rel application ?app)])))))
 
+    ; The paper must be WITHIN REACH - the very thing WRITE checks - so the stage that
+    ; proposes WRITE is what guarantees it. An errand interrupted mid-form leaves the
+    ; blank where it lay, and the stage HOLDS until he is back at it.
     (stage
-      (when {@self name ?myName}
+      (when (spatial ?app co-located @self)
+            {@self name ?myName}
             {@self home ?myHome}
             {?myHome address ?myAddress})
       (effects

@@ -393,7 +393,11 @@ object (+ obs)
                 job-application
             articles-of-incorporation
             employee-register
-            job-description
+            # job-posting - the notice a recruiting officer pins to the parish board: a
+            # table of job-kind / org-name / apply-at (the address to present oneself at),
+            # the application form's twin. Read, it yields the reader's own beliefs about a
+            # vacancy at a named org - never the org's private bookkeeping.
+            job-posting
             # A hotel's guest book: the
             # front desk's record of who stayed when - the paper residue a
             # shared-hotel rendezvous leaves for the detective.

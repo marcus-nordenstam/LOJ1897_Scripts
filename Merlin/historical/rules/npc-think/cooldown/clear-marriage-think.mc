@@ -90,7 +90,7 @@
                 ; decides whether they take up the deed.
                 (then
                   (begin-belief {@self accomplice ?paramour {?paramour kill ?spouse}})
-                  (send-covert-letter ?paramour (written-msg {@self goal {?paramour kill ?spouse}} (msg-class urge) signed) [k letter] ?my-out-box))
+                  (send-covert-letter ?paramour (written-msg [/msg-class urge] {@self goal {?paramour kill ?spouse}} signed) [k letter] ?my-out-box))
                 ; DIRECT: the cheater acts alone.
                 (else (maintain-proposal {@self kill ?spouse /caused_by ?lover_bond}))))))))
     )

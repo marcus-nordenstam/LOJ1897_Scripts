@@ -34,22 +34,26 @@
 
   ; The most senior LIVING member on the wage book.
   (select-row (entity ?reg)
-    (bind worker ?senior)
+    (bind worker ?senior-name)
     (bind job ?sjk)
     (bind level ?slvl)
-    (when (alive ?senior))
+    ; The book NAMES the man; liveness is a fact about the man, so the name is resolved to
+    ; whoever @self holds under it (a colleague he reads off this same roster every quarter).
+    (when (and (substantial ?senior-name)
+               (alive (o /realis_or_irr [k human] {@o name ?senior-name}))))
     (score (+ 1 (* 100 (is-a ?sjk [k org-head]))
                 (* 10 (if (table-match level_rank level ?slvl rank ?lr) (then ?lr) (else 0)))))
     (policy argmax)
     (else fail))
 
   (effects
-    (if ?senior
+    (if ?senior-name
         (then
+          (o /realis_or_irr [k human] {@o name ?senior-name}): ?senior
           (for-each-row org_duties [/kind ?dk] [/duty ?duty]
             (if (is-a ?ok ?dk)
                 (then
-                  (if (= ?senior @self)
+                  (if (= ?senior-name (name @self))
                       (then
                         (if -{@self duty-to ?org ?duty}
                             (then (begin-belief {@self duty-to ?org ?duty})

@@ -3,7 +3,7 @@
 ; window (define-func /window-end: mindless, abs plane, no @self). Every letter a sender
 ; has deposited in a building's outgoing-mail-stack teleports to the incoming mail-stack
 ; of the building whose address is written on it. A letter with no address, or one no
-; building carries, is a dead letter and stays in the outgoing pile.
+; building carries at its premises rung, is a dead letter and stays in the outgoing pile.
 ; ----------------------------------------------------------------------------
 
 (define-func /window-end magic-mail-service ()
@@ -13,7 +13,9 @@
       (if (substantial ?dest)
         (then
           (for-each ?b (env-entities [k building])
-            (if (= (attr ?b address) ?dest)
+            ; A letter is delivered to the HOUSE: an address naming a room in it still names
+            ; it, so the match is at the premises rung.
+            (if (= (attr ?b address) (address-premises ?dest))
               (then
                 (for-each ?in (env-entities [k mail-stack])
                   (if (spatial ?in building ?b /env)

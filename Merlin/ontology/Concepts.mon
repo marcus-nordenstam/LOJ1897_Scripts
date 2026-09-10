@@ -628,7 +628,7 @@ concept
     org-pos
         apprenticeship
         membership          (sub human)
-        job                 (sub human)  (disclosure stranger)
+        job                 (sub human|org)  (disclosure stranger)
             # org-head groups every "head of an org" position, so {@self job [k org-head]}
             # matches ANY head via is-a. It is a SOCIAL marker (status / ambition's "take
             # the seat"); OPERATIONAL behaviour dispatches on duties ({@self duty-to ?org

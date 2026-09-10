@@ -23,7 +23,7 @@
             (then (maintain-proposal {@self enter ?board})))))
 
     (stage
-      (role ?ad [k job-description] (spatial ?ad co-located @self)
+      (role ?ad [k job-posting] (spatial ?ad co-located @self)
             {@self WRITE ?ad ? /succ})
       (effects (maintain-proposal {@self DESTROY-ENTITY ?ad})))
 

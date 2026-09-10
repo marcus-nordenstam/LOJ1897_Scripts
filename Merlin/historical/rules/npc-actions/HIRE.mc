@@ -18,12 +18,15 @@
   (duration 15)
   (effects
     (check (spatial ?worker co-located @self))
+    ; You cannot write a man onto the book without his NAME - the cell holds one, and a
+    ; nameless row names nobody. He gives it when he presents himself.
+    (check (substantial (name ?worker)))
     (tolerate (closest [k employee-register]): ?reg)
     (check (substantial ?reg))
     ; Fill a VACANT line of that kind, IN PLACE, and never append: an establishment has the
     ; lines it has, so a man who comes for a post already taken is simply not written down.
     ; (Already on the book for it -> nothing to do; a second signing never duplicates a line.)
-    (if (not (table-match (attr ?reg writing) worker ?worker job ?job))
+    (if (not (table-match (attr ?reg writing) worker (name ?worker) job ?job))
         (then (table-set ?reg (where worker @nothing job ?job)
-                              worker ?worker level [k trainee])))
+                              worker (name ?worker) level [k trainee])))
     (set-outcome ?hire-rel /succ)))

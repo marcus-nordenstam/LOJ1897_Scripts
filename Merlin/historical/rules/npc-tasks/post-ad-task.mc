@@ -28,16 +28,24 @@
         (effects
           (if (bb-any ?pad-rel ad)
               (then (bind (bb-read ?pad-rel ad) ?ad))
-              (else (maintain-proposal {@self CREATE-ENTITY [k job-description]}:?ce
+              (else (maintain-proposal {@self CREATE-ENTITY [k job-posting]}:?ce
                       [/postlude (bind (bb-read ?ce created) ?ad)
                                  (bb-write ?pad-rel ad ?ad)])))))
 
+      ; The notice is a FORM: the job's kind, the org by name, and where to present
+      ; oneself - the book's own room, as its civic address (the house and the room in
+      ; one value). Nothing of the org's bookkeeping goes on it.
       (stage
-        (when {?org workplace ?wp})
+        (role ?reg {?org employee-register ?reg})
+        (when {?org name ?org-name}
+              (kind ?job): ?jk
+              (spatial ?reg space): ?office
+              (address ?office): ?apply-at
+              (substantial ?apply-at))
         (effects
           (if (unsubstantial (attr ?ad writing))
-              (then (maintain-proposal {@self WRITE ?ad (written-msg {?org display-ad ?job}
-                                                                     {?org workplace ?wp})})))))
+              (then (maintain-proposal
+                      {@self WRITE ?ad (table-msg [[job-kind ?jk] [org-name ?org-name] [apply-at ?apply-at]])})))))
 
       (stage
         (effects

@@ -61,13 +61,15 @@
     (any {?org employee-register ?reg})
     (if (table-match club_sports org-kind ?club_kind sport ?sport)
       (then
-        (for-each-row (attr ?reg writing) [/worker ?m]
-          (do
-            (utterable-msg {@self summon ?m ?sport}): ?msg
-            (if (and (alive ?m)
-                     (spatial ?m co-located @self)
-                     -{@self SAY ?msg ?m})
-                (then (maintain-proposal {@self SAY ?msg ?m})))))))))
+        (for-each-row (attr ?reg writing) [/worker ?m-name]
+          (if (substantial ?m-name)
+            (then
+              (o /realis_or_irr [k human] {@o name ?m-name}): ?m
+              (utterable-msg {@self summon ?m ?sport}): ?msg
+              (if (and (alive ?m)
+                       (spatial ?m co-located @self)
+                       -{@self SAY ?msg ?m})
+                  (then (maintain-proposal {@self SAY ?msg ?m}))))))))))
 
 ; The CLOSING act: half an hour presiding, and the {@self HOLD-MEET-RUN} record the yearly
 ; rung reads to retract the goal. fallback-ranked, so it is only selected once summon_field

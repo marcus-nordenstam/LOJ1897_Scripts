@@ -31,6 +31,6 @@
       (effects
         (any {@self member-of ?org})
         (any {?org employee-register ?reg})
-        (if (not (table-match (attr ?reg writing) worker @self))
+        (if (not (table-match (attr ?reg writing) worker (name @self)))
             (then (end-belief {@self member-of ?org})
                   (set-outcome ?rc-rel /succ)))))))

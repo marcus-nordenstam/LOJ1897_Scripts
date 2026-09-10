@@ -12,6 +12,33 @@
 (npc-task {@self go ?dest}:?go-rel
   (tar ?)
   (and
+    ; IMAGINED destination: a place @self knows only from a page - an address, no
+    ; whereabouts - cannot be planned to. The pipeline arms it for reconciliation (it is
+    ; this act's target); the instant identity_by_address fuses it with a place he has
+    ; seen, ?dest rebinds to the real one, these two gates fall, and the rungs below take
+    ; over. Rooms are only seen from INSIDE, so a room-level address is reached in two
+    ; steps: the HOUSE at its premises rung, if he has seen one, is entered - walking in
+    ; shows him the rooms; else the region is searched structure by structure until he
+    ; has. The search's own /fail record ends the hunt once every structure is seen.
+    ; ?dest is the TASK's parameter and is tested here, never cast as a role: a role over a
+    ; gate-bound var enumerates the pool afresh instead of constraining the one binding, and
+    ; every imagined thing with an address - an applicant read off a form among them - would
+    ; enter as a destination.
+    (try
+      (when (and (is-irrealis ?dest)
+                 {?dest address ?a}
+                 (address-premises ?a): ?pa
+                 (o /known /per [k building] {@o address ?pa}): ?house
+                 (not (spatial @self building ?house))))
+      (effects (maintain-proposal {@self enter ?house})))
+    (try
+      (when (and (is-irrealis ?dest)
+                 {?dest address ?a}
+                 (address-premises ?a): ?pa
+                 (unsubstantial (o /known /per [k building] {@o address ?pa}))
+                 -{@self find-building ?dest ? /fail}
+                 (current-region @self): ?rg))
+      (effects (maintain-proposal {@self find-building ?dest ?rg})))
     (try
       (role @self (not (spatial @self building ?dest)))
       (when (is-a ?dest [k structure]))

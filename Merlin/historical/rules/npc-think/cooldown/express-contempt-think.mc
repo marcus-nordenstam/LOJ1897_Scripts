@@ -66,4 +66,4 @@
   (utility want)
 
   (effects
-    (maintain-proposal {@self SAY (utterable-msg ?barb-rel (msg-class insult)) ?victim})))
+    (maintain-proposal {@self SAY (utterable-msg [/msg-class insult] ?barb-rel) ?victim})))

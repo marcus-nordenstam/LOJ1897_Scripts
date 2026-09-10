@@ -47,18 +47,16 @@
   (effects
            (maintain-proposal {@self find-building [k building church] ?rg})))
 
-; --- at the board, READ each advert not yet read: adopt its {?org display-ad ?job} +
-; {?org workplace ?wp} sentences (the physical knowledge channel - no doc-record pull).
-; The advert carries the org's OWN sentence, so the reader ends up holding the same fact
-; the recruiting officer does, about the same post.
+; --- at the board, READ each notice not yet read (the physical knowledge channel - no
+; doc-record pull).
 (npc-think seek_read_board
   ; HOT, not cooldown: standing beside an unread notice is an opportunity, and the wake that
   ; admits it (the notice perceived, the room entered) would be dropped by a cooling rule.
   (rng-stream employment)
   (role @self -{@self job ?}
               -{@self apply-for ? ? /pres})
-  (role ?ad [k job-description] (spatial ?ad co-located @self)
-                                -{@self READ ?ad /succ})
+  (role ?ad [k job-posting] (spatial ?ad co-located @self)
+                            -{@self READ ?ad /succ})
   (utility errand)
   (effects (maintain-proposal {@self READ ?ad})))
 
@@ -75,10 +73,16 @@
   (lock-rule)
   (rng-stream employment)
   (role @self -{@self job ?})
-  (role ?org {?org display-ad ?job}
-             {?org workplace ?wp}
+  ; A VACANCY @self knows of - a job held by nobody - and the door of the org that has it.
+  ; How the belief got in (a notice, a word in the street) is no business of this rule.
+  (role ?org {?org workplace ?wp})
+  (role ?job {?job filled-by _}
+             {?job org ?org}
              (select (score 1) (policy roulette)))
-  (when (and (latch-eval (and (>= (now-hour) 8) (<= (now-hour) 17)))
+  ; A man with an offer in hand WAITS to take it up - he does not fire off more
+  ; applications while he is on his way to the counter.
+  (when (and (unsubstantial (offered-job-for @self))
+             (latch-eval (and (>= (now-hour) 8) (<= (now-hour) 17)))
              (kind ?job): ?jk
              (if (table-match occupations job ?jk class-floor ?cf0) (then ?cf0) (else [k lower])): ?cf
              (class-at-least @self ?cf)
@@ -88,15 +92,31 @@
            (maintain-proposal {@self apply-for ?jk ?wp})))
 
 ; --- an OFFER letter @self has read (the home post's daily read-mail round) answers the one
-; application in flight: take up the post it was for. The letter is a typed signal (its KIND
-; is the verdict); which post it answers is @self's own applied record.
+; application in flight: go and accept it. The letter is a typed signal (its KIND is the
+; verdict); which post it answers is @self's own applied record. Once the errand has
+; CONCLUDED either way he does not go again - a man turned away does not keep returning.
+; --- an OFFER @self HOLDS - {?job offered-to @self}, minted by reading the offer letter,
+; which names the post it answers. You cannot accept an offer you were never made, and you
+; cannot accept it for a seat other than the one offered: the belief carries the post, so
+; the errand takes the post. Once the errand has CONCLUDED either way he does not go again -
+; a man turned away does not keep returning.
 (npc-think take_up_offer
-  (role ?ltr [k offer-letter] {@self READ ?ltr /ever})
-  (role @self {@self apply-for ?jk ?wp /succ}
-              -{@self take-up-post ?jk ?wp /succ})
+  ; ?org is cast BEFORE the job whose filter reads it - a role binds in the order written.
+  (role ?org {?org workplace ?wp})
+  (role ?job {?job offered-to @self}
+             {?job org ?org})
+  (role @self -{@self job ?})
+  ; DAYTIME, latched at the pick: you present yourself at a place of business in business
+  ; hours. Unlatched, the errand is picked the moment the letter is read - two in the
+  ; morning - and he arrives at a dark office with nobody keeping the book. Latched, so a
+  ; plain hour test is not re-read on hold and does not withdraw him at dusk mid-journey.
+  (when (and (latch-eval (and (>= (now-hour) 8) (<= (now-hour) 16)))
+             (kind ?job): ?jk
+             -{@self accept-job-offer ?jk ?wp /succ}
+             -{@self accept-job-offer ?jk ?wp /fail}))
   (utility errand)
-  (effects (maintain-proposal {@self take-up-post ?jk ?wp})))
+  (effects (maintain-proposal {@self accept-job-offer ?jk ?wp})))
 
 ; === The apply-for TASK (gohome / write / send / posted) lives in
-; npc-tasks/apply-for-task.mc; take-up-post in npc-tasks/take-up-post-task.mc. The verdict
-; letter itself is read by the daily read-mail round (read-mail-think.mc).
+; npc-tasks/apply-for-task.mc; accept-job-offer in npc-tasks/accept-job-offer-task.mc. The
+; verdict letter itself is read by the daily read-mail round (read-mail-think.mc).

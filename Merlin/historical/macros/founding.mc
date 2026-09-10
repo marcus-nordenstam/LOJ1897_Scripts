@@ -113,7 +113,7 @@
     (begin-belief {?wp occupant @self})
     ; The head's seat is a ledger line like any other - keyed on it, so his own job object
     ; is the one every later reader of this book lands on.
-    (if (table-match (attr ?reg writing) worker @self job ?head-role line ?soh-line)
+    (if (table-match (attr ?reg writing) worker (name @self) job ?head-role line ?soh-line)
         (then
           (o ?head-role {@o org ?org} {@o job-ledger-line-no ?soh-line}): ?job
           (begin-belief {?job org ?org})
@@ -182,7 +182,7 @@
             (if ?ist (then (push ?art ?ist)))
             ; The founder is the club's first MEMBER ([k membership] roster row, no level)
             ; + a {@self member-of} belief - not seated as a head.
-            (table-add ?reg worker @self job [k membership])
+            (table-add ?reg worker (name @self) job [k membership])
             (begin-belief {@self member-of ?org})
             (break)))))))
 
@@ -219,7 +219,7 @@
     (for-each ?room (spatial ?wp parts [k interior-space room] /env)
         (spatial-write ?room struct_parent ?wp))
     (table-match income_by_level level ?level income ?salary)
-    (if (table-match (attr ?reg writing) worker @self job ?job-kind line ?eb-line)
+    (if (table-match (attr ?reg writing) worker (name @self) job ?job-kind line ?eb-line)
         (then
           (o ?job-kind {@o org ?org} {@o job-ledger-line-no ?eb-line}): ?job
           (begin-belief {?job org ?org})
@@ -288,7 +288,7 @@
 
 ; ----------------------------------------------------------------------------
 ; fire-self - a worker leaves his OWN post. Scrubs @self's row off the firm's
-; employee-register (a public doc, keyed on him via (find worker @self)) and
+; employee-register (a public doc, keyed on him via (find worker (name @self))) and
 ; ends his OWN {@self job} belief (its org / salary / level decorations go with
 ; it). The register is reached by @self's own forward belief walk: {@self job.org}
 ; -> {org record} -> the articles' `register` field. Every step is @self / a
@@ -373,19 +373,19 @@
 ; establishment) -> nothing to fill, so a line is added, numbered after the last.
 ; Already on the book for it -> nothing to do (a second signing never duplicates a line).
 (define-macro fill-post (?reg ?job-kind ?level)
-  (if (not (table-match (attr ?reg writing) worker @self job ?job-kind))
+  (if (not (table-match (attr ?reg writing) worker (name @self) job ?job-kind))
       (then
         (if (not (table-set ?reg (where worker @nothing job ?job-kind)
-                                 worker @self level ?level))
+                                 worker (name @self) level ?level))
             (then
               (bind 0 ?fp-line)
               (for-each-row (attr ?reg writing) [/line ?fp-seen]
                 (bind ?fp-seen ?fp-line))
               (table-add ?reg line (+ ?fp-line 1)
-                              worker @self job ?job-kind level ?level))))))
+                              worker (name @self) job ?job-kind level ?level))))))
 
 ; vacate-post - a departure leaves the JOB behind: the worker's cell is emptied where it
 ; stands, keeping the line, its number and its job kind. Striking the line outright would
 ; retire the job along with the man, and the officer would never read an opening.
 (define-macro vacate-post (?reg ?worker)
-  (table-set ?reg (where worker ?worker) worker @nothing level @nothing))
+  (table-set ?reg (where worker (name ?worker)) worker @nothing level @nothing))

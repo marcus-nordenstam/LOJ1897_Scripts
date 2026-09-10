@@ -27,11 +27,21 @@
                       [/postlude (bind (bb-read ?ce created) ?ltr)
                                  (bb-write ?dv-rel letter ?ltr)])))))
 
+      ; The letter NAMES THE POST. A verdict that says only "yes" leaves the reader to guess
+      ; which of his applications it answers - and the moment he has two in flight there is
+      ; no guessing it right. Kind + org is what makes it THAT seat to him, resolved against
+      ; his own objects; he already knows where the org keeps its door.
       (stage
-        (when {?applicant name ?rname})
+        (when {?applicant name ?rname}
+              {?org name ?org-name}
+              (any {?applicant apply-for ?}): ?af-rel
+              (bind ?af-rel.target ?jk)
+              (substantial ?jk))
         (effects
           (if (unsubstantial (attr ?ltr writing))
-              (then (maintain-proposal {@self WRITE ?ltr (table-msg [[applicant ?rname]])})))))
+              (then (maintain-proposal
+                      {@self WRITE ?ltr (table-msg [[applicant ?rname] [job-kind ?jk]
+                                                    [org-name ?org-name]])})))))
 
       (stage
         (when {?applicant address ?raddress})

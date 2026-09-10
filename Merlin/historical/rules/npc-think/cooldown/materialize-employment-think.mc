@@ -55,7 +55,7 @@
         (any {?org isa ?ok})
         (any {?org employee-register ?reg})
         (if (and (not (is-a ?ok [k org club]))
-                 (table-match (attr ?reg writing) worker @self job ?job level ?lvl))
+                 (table-match (attr ?reg writing) worker (name @self) job ?job level ?lvl))
           (then
             (hire-beliefs ?art ?job ?lvl)
             (break)))))))

@@ -2,8 +2,8 @@
 ; resolve-applications - the recruit officer's verdict round over the applicants he
 ; has learned of by READing their applications (each READ adopted a {?applicant
 ; apply-for ?jk} belief). ONE decision per OPEN POST: the first applicant for its kind
-; gets it, remembered as {@self offered-post ?applicant ?job} - a STANDING belief,
-; never spent: the post is filled by the take-up and is not offered again here. An
+; gets it, pencilled against the LINE as {?job offered-to ?applicant} - a state of the
+; seat, which the acceptance spends and a lapse clears. An
 ; applicant offered nothing is rejected once no open post of his kind remains
 ; un-offered (open-job-for). Each draft-verdict envelopes + mails its verdict and
 ; ENDS that applicant's apply-for belief, so the unanswered set shrinks to empty and
@@ -21,24 +21,27 @@
       (role ?job {?job org ?org}
                  {?job job-ledger-line-no ?}
                  -{?job filled-by ?}
-                 -{@self offered-post ? ?job})
-      (role ?applicant {?applicant apply-for ?jk /pres}
-                       -{@self offered-post ?applicant ?})
-      (when (is-a ?job ?jk))
-      (effects (begin-belief {@self offered-post ?applicant ?job})))
+                 -{?job offered-to ?})
+      ; ONE offer per man in flight: a seat already promised to him is not promised twice.
+      (role ?applicant {?applicant apply-for ?jk /pres})
+      (when (and (is-a ?job ?jk)
+                 (unsubstantial (offered-job-for ?applicant))))
+      (effects (begin-belief {?job offered-to ?applicant})))
     (try
       (lock-rule)
-      (role ?applicant {?applicant apply-for ?jk /pres}
-                       {@self offered-post ?applicant ?})
+      ; A man with a seat standing offered to him. Read from HIS end, so it is the same
+      ; question the rejection rung asks and neither casts a role it does not use.
+      (role ?applicant {?applicant apply-for ?jk /pres})
+      (when (substantial (offered-job-for ?applicant)))
       (utility fallback)
       (effects
                (maintain-proposal {@self draft-verdict ?applicant [k offer-letter]})))
     (try
       (lock-rule)
       (role ?org {@self duty-to ?org recruit-staff})
-      (role ?applicant {?applicant apply-for ?jk /pres}
-                       -{@self offered-post ?applicant ?})
-      (when (unsubstantial (open-job-for ?org ?jk)))
+      (role ?applicant {?applicant apply-for ?jk /pres})
+      (when (and (unsubstantial (offered-job-for ?applicant))
+                 (unsubstantial (open-job-for ?org ?jk))))
       (utility (above draft-verdict))
       (effects
                (maintain-proposal {@self draft-verdict ?applicant [k rejection-letter]})))

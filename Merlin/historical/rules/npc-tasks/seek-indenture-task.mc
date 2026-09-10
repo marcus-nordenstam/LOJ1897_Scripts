@@ -46,7 +46,7 @@
       (effects
         (o {?art declares-org @o}): ?org
         (any {?org employee-register ?reg})
-        (if (table-match (attr ?reg writing) worker @self level ?lvl)
+        (if (table-match (attr ?reg writing) worker (name @self) level ?lvl)
             (then
               (hire-beliefs ?art [k job clerk] ?lvl)
               (org-founder ?art ?master)

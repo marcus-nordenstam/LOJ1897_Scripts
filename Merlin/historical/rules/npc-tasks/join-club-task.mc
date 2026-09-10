@@ -36,6 +36,6 @@
       (effects
         (o {?art declares-org @o}): ?org
         (any {?org employee-register ?reg})
-        (if (table-match (attr ?reg writing) worker @self)
+        (if (table-match (attr ?reg writing) worker (name @self))
             (then (begin-belief {@self member-of ?org})
                   (set-outcome ?jc-rel /succ)))))))

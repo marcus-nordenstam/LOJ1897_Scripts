@@ -480,6 +480,13 @@ relation
             # is how a man believes he holds it. {?worker job ?job} is the same fact read
             # from the man's end, on the SAME object - not a second one.
             filled-by           (sub org-pos)  (tar human @excl)
+            # offered-to - the post has been OFFERED to this man and he has not yet taken it
+            # up. A state of the JOB, exactly as filled-by is: the officer pencils it against
+            # the ledger line, and the man learns it by reading the offer letter, so both ends
+            # hold the same fact about the same seat. It is what an acceptance SPENDS - the
+            # act that fills the seat ends the offer - and what a lapse clears when nobody
+            # comes. Not a memory of having offered: that would be an act worn as a state.
+            offered-to          (sub org-pos)  (tar human @excl)
             job-ledger-line-no  (sub org-pos)  (tar ? @excl)
             # DUTIES (capability-based org dispatch). A duty is an obligation TO a party of a
             # given kind; its aux is the TASK the holder is obliged to perform (the duty tasks
@@ -492,11 +499,6 @@ relation
             # kind or rank - only on the held duty.
             duty-to             (sub human)      (tar human|org)  (aux task)
             duty-holder         (sub human|org)  (tar human)      (aux task)
-            # offered-post - the recruiting officer has decided to offer this post to this
-            # applicant. His own standing memory of the verdict round's one decision: it
-            # spans the days the drafting takes (never re-derived from /caused_by, which
-            # asks whether THIS run offered it) and is ended when the round is answered.
-            offered-post        (sub human)      (tar human)      (aux job)
             # Education life-cycle. study names the field a pupil reads and the
             # school they read it at ({@self study <field> /aux <school>});
             # schooling is the schooling-level outcome left behind when the

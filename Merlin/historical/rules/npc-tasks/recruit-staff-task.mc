@@ -42,12 +42,17 @@
       ; The book, as a role: with no register belief there is simply no activation.
       (role ?reg {?org employee-register ?reg})
       (effects
-        (for-each-row (attr ?reg writing) [/line ?line] [/worker ?worker] [/job ?jk]
+        (for-each-row (attr ?reg writing) [/line ?line] [/worker ?worker-name] [/job ?jk]
           (o ?jk {@o org ?org} {@o job-ledger-line-no ?line}): ?job
           (begin-belief {?job org ?org})
           (begin-belief {?job job-ledger-line-no ?line})
-          (if (substantial ?worker)
-              (then (begin-belief {?job filled-by ?worker}))
+          ; The cell holds the man's NAME, which is all a page can carry. Resolving it is what
+          ; turns the line into an occupancy fact about a PERSON - imagined until the officer
+          ; has met him, and fused with the man himself by identity_by_name. Resolved INSIDE
+          ; the guard: a vacant line names nobody, and (o ..) on no name is not a query.
+          (if (substantial ?worker-name)
+              (then (o /realis_or_irr [k human] {@o name ?worker-name}): ?worker
+                    (begin-belief {?job filled-by ?worker}))
               (else (for-each ?frel (every {?job filled-by ?})
                       (end-belief ?frel)))))))
 
@@ -80,61 +85,85 @@
       (utility obligation)
       (effects (maintain-proposal {@self remove-ad ?org ?job})))
 
-    ; (2b) AN OFFER NOBODY TOOK UP LAPSES. {@self offered-post ?applicant ?job} is a
-    ; standing belief the take-up never spends, and open-job-for excludes any post
-    ; carrying one - so a stale offer holds the seat shut and every later applicant of
-    ; that kind is rejected by ABSENCE, indistinguishable from a genuinely full book.
-    ; -{?job filled-by ?} is what makes it right in both directions: while the post is
-    ; filled the offer is harmless, and the day the holder leaves and rung (0) ends
-    ; filled-by, the long-past offer lapses on the next round and the seat reopens.
+    ; (2b) AN OFFER NOBODY TOOK UP LAPSES. {?job offered-to ?applicant} holds the seat out
+    ; of open-job-for, so a man who never comes would shut it for good and every later
+    ; applicant of that kind would be rejected by ABSENCE, indistinguishable from a full
+    ; book. -{?job filled-by ?} makes it right in both directions: while the post is filled
+    ; the offer is spent already, and the day the holder leaves and rung (0) ends filled-by,
+    ; a long-past offer lapses on the next round and the seat reopens.
     (try
       (role ?job {?job org ?org}
                   {?job job-ledger-line-no ?}
                   -{?job filled-by ?})
-      (role ?applicant {@self offered-post ?applicant ?job})
+      (role ?applicant {?job offered-to ?applicant})
       (when (>= (/ (- (now-abs-seconds)
-                      (abs-seconds (any {@self offered-post ?applicant ?job}).start))
+                      (abs-seconds (any {?job offered-to ?applicant}).start))
                    86400)
                 (offer-lapse-days)))
       (effects
-        (for-each ?orel (every {@self offered-post ?applicant ?job})
-          (end-belief ?orel))))
+        (end-belief {?job offered-to ?applicant})))
 
-    ; (2c) TAKE A MAN ON. Someone is standing in front of @self who has come to take up a
-    ; post - his take-up-post is observable, so @self reads the errand off him, no word
-    ; spoken - and the book still shows a vacant line of that kind. Sign him on.
+    ; (2c) TAKE A MAN ON. Someone is standing in front of @self who has come to accept a
+    ; post - his accept-job-offer is observable, so @self reads the errand off him, the way
+    ; anyone reads a stranger's business from what he is plainly doing - he has NAMED
+    ; himself, and the book shows a vacant line of that kind. Sign him on, and tell him so.
     ;
-    ; The POST is his to give, so the writing is HIS act, not the applicant's. A man who
-    ; comes for a post already taken simply finds no vacant line and is not written down:
-    ; first come, first served, and the establishment never grows past its own book.
+    ; His NAME is part of the admission, not a detail: the book records a name, so a man
+    ; @self cannot name cannot be written onto it (HIRE checks exactly that). Until he
+    ; announces himself he is a stranger standing in the room. The POST is hers to give,
+    ; so the writing is HER act; a man who comes for a post already taken finds no vacant
+    ; line and is turned away below - first come, first served.
     (try
-      (role ?applicant [k human] {?applicant take-up-post ?jk ?}
+      (role ?applicant [k human] {?applicant accept-job-offer ?jk ?}
+                                 {?applicant name ?}
                                  (spatial ?applicant co-located @self))
       (role ?job {?job org ?org}
                   {?job job-ledger-line-no ?}
                   -{?job filled-by ?})
       (when (is-a ?job ?jk))
-      (utility obligation)
-      (effects (maintain-proposal {@self HIRE ?applicant ?jk})))
+      (utility obligation always-pick)
+      ; The book and her own picture move TOGETHER: the act that fills the seat concludes
+      ; into the belief that it is filled. Left to the next book read, her beliefs lag the
+      ; page by a round and she turns away the man she has just signed on.
+      (effects (maintain-proposal {@self HIRE ?applicant ?job}:?hire
+                 [/postlude (begin-belief {?job filled-by ?applicant})])))
 
-    ; (2d) TURN A MAN AWAY. He has come for a post - his take-up-post says so, read off the
-    ; man himself - and the book shows no open line of that kind: another applicant reached
-    ; the office first. Say which post is taken and who holds it. He is standing in front of
-    ; @self, so there is nobody to write to and nothing to post; the man hears it, and that
-    ; is what ends his errand. The post named is the one the NOTICE named, which is how he
-    ; can tell it is his.
+    ; The WORD that concludes his errand: he is taken on. HIRE has written him onto the
+    ; book and minted the occupancy fact; now she says it to his face, naming the seat by
+    ; DESCRIPTION (a job has no name of its own - the org and the ledger line are what
+    ; make it THAT seat). The message QUOTES, so the (o ..) rides as a container and is
+    ; resolved in HIS mind against his own objects. Told once: the SAY record is the guard.
     (try
-      (role ?applicant [k human] {?applicant take-up-post ?jk ?}
+      (role ?applicant [k human] {?applicant accept-job-offer ?jk ?}
                                  (spatial ?applicant co-located @self))
       (role ?job {?job org ?org}
-                  {?job job-ledger-line-no ?}
+                  {?job job-ledger-line-no ?line}
+                  {?job filled-by ?applicant})
+      (when (is-a ?job ?jk))
+      (utility obligation always-pick)
+      (effects
+        (utterable-msg {(o ?jk {@o org ?org} {@o job-ledger-line-no ?line}) filled-by @you}): ?msg
+        (if (and ?msg -{@self SAY ?msg ?applicant})
+            (then (maintain-proposal {@self SAY ?msg ?applicant})))))
+
+    ; (2d) TURN A MAN AWAY. He has come to accept a post - read off the man himself - and
+    ; the book shows no open line of that kind: another applicant reached the office first.
+    ; Say who holds it, and he goes; he is standing in front of @self, so there is nobody
+    ; to write to and nothing to post. Speaking to someone present tops the band outright
+    ; (always-pick): a man waiting on an answer gets it before the ledger.
+    (try
+      (role ?applicant [k human] {?applicant accept-job-offer ?jk ?}
+                                 (spatial ?applicant co-located @self))
+      (role ?job {?job org ?org}
+                  {?job job-ledger-line-no ?line}
                   {?job filled-by ?holder})
       (when (and (is-a ?job ?jk)
+                 (!= ?holder ?applicant)
                  (unsubstantial (open-job-for ?org ?jk))))
-      (utility obligation)
+      (utility obligation always-pick)
       (effects
-        (utterable-msg {?job filled-by ?holder}): ?msg
-        (if ?msg
+        (utterable-msg {(o ?jk {@o org ?org} {@o job-ledger-line-no ?line}) filled-by ?holder}): ?msg
+        (if (and ?msg -{@self SAY ?msg ?applicant})
             (then (maintain-proposal {@self SAY ?msg ?applicant})))))
 
     ; (3) THE OFFICE ROUND. It waits on a STANDING notice, not on this run's posting: an
@@ -177,7 +206,7 @@
         (tolerate (table-match ?form field job value ?applied-jk))
         (if (and (substantial ?applicant-name) (substantial ?applicant-address) (substantial ?applied-jk))
             (then
-              (o [k human] {@o name ?applicant-name} {@o address ?applicant-address}): ?applicant
+              (o /realis_or_irr [k human] {@o name ?applicant-name} {@o address ?applicant-address}): ?applicant
               (if -{?applicant apply-for ?applied-jk}
                   (then (begin-belief {?applicant apply-for ?applied-jk})))))
         (maintain-proposal {@self DESTROY-ENTITY ?app})))

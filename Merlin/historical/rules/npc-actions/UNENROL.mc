@@ -8,5 +8,5 @@
 (npc-action {@self UNENROL ?reg}:?un-rel
   (duration 15)
   (effects
-    (table-remove ?reg worker @self)
+    (table-remove ?reg worker (name @self))
     (set-outcome ?un-rel /succ)))

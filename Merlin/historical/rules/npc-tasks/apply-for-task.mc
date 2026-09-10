@@ -4,7 +4,7 @@
 ; (prepare-application), hand the paper to the mail lane from the HOME out-box, done - an
 ; hour's errand, not a lifecycle. Its /succ is the "applied" record the driver reads
 ; (seek_apply_pick applies once per post). The verdict arrives weeks later as a TYPED
-; letter in the home post: reading an offer-letter drives take-up-post (job-search-think),
+; letter in the home post: reading an offer-letter drives accept-job-offer (job-search-think),
 ; a rejection-letter drives nothing. Drivers stay in job-search-think.
 ;
 ; One sequence: home, form, post, done; each stage reads the world for what is already
@@ -14,7 +14,7 @@
 
 (npc-task {@self apply-for ?jk ?wp}:?af-rel
   (tar job)
-  (aux building)
+  (aux building|space)
   (and
     (sequence
       (role ?home {@self home ?home})
