@@ -33,3 +33,21 @@
   (and (not (spatial @self building ?venue))
        (<= (vec-distance (bounds-position ?sb) (front-park-point ?venue))
            (at_threshold_band_m))))
+
+; ----------------------------------------------------------------------------
+; seen-premises-at ?address - the building @self has PERCEIVED at that premises address,
+; or @nothing. The negative twin of the role that joins a house to an address: a role can
+; join on a value, but a NEGATIVE role reads the per-mind cache alone and has no binding
+; env to join with - so "no house I have seen stands there" is asked as a walk.
+; ----------------------------------------------------------------------------
+
+(define-func seen-premises-at (?address)
+  (bind @nothing ?found)
+  (for-each ?rel (every {? address ?address})
+    (bind ?rel.subject ?p)
+    (if (and (is-a ?p [k building])
+             (observed ?p))
+      (then
+        (bind ?p ?found)
+        (break))))
+  ?found)

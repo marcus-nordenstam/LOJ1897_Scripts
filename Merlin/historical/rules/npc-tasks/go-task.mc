@@ -20,22 +20,19 @@
     ; steps: the HOUSE at its premises rung, if he has seen one, is entered - walking in
     ; shows him the rooms; else the region is searched structure by structure until he
     ; has. The search's own /fail record ends the hunt once every structure is seen.
-    ; ?dest is the TASK's parameter and is tested here, never cast as a role: a role over a
-    ; gate-bound var enumerates the pool afresh instead of constraining the one binding, and
-    ; every imagined thing with an address - an applicant read off a form among them - would
-    ; enter as a destination.
+    ; The house is either one @self has SEEN - walk in, and the rooms are learnt - or one he
+    ; has not, and the region is searched until he has. COMPLEMENTARY on that, so exactly one
+    ; is ever live: the positive is the role that joins the house to the address, and the
+    ; negative is a walk, because a (no-role ..) reads the cache alone and cannot join on a
+    ; value. The search's own /fail record ends the hunt once every structure is seen.
     (try
-      (when (and (is-irrealis ?dest)
-                 {?dest address ?a}
-                 (address-premises ?a): ?pa
-                 (o /known /per [k building] {@o address ?pa}): ?house
-                 (not (spatial @self building ?house))))
+      (role ?dest (is-irrealis ?dest) {?dest address ?a} (address-premises ?a): ?pa)
+      (role ?house [k building] (observed ?house) {?house address ?pa})
+      (role @self (not (spatial @self building ?house)))
       (effects (maintain-proposal {@self enter ?house})))
     (try
-      (when (and (is-irrealis ?dest)
-                 {?dest address ?a}
-                 (address-premises ?a): ?pa
-                 (unsubstantial (o /known /per [k building] {@o address ?pa}))
+      (role ?dest (is-irrealis ?dest) {?dest address ?a} (address-premises ?a): ?pa)
+      (when (and (unsubstantial (seen-premises-at ?pa))
                  -{@self find-building ?dest ? /fail}
                  (current-region @self): ?rg))
       (effects (maintain-proposal {@self find-building ?dest ?rg})))
