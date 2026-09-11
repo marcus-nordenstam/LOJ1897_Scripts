@@ -51,7 +51,7 @@
           ; has met him, and fused with the man himself by identity_by_name. Resolved INSIDE
           ; the guard: a vacant line names nobody, and (o ..) on no name is not a query.
           (if (substantial ?worker-name)
-              (then (o /realis_or_irr [k human] {@o name ?worker-name}): ?worker
+              (then (o [k human] {@o name ?worker-name}): ?worker
                     (begin-belief {?job filled-by ?worker}))
               (else (for-each ?frel (every {?job filled-by ?})
                       (end-belief ?frel)))))))
@@ -215,7 +215,7 @@
         (tolerate (table-match ?form field job value ?applied-jk))
         (if (and (substantial ?applicant-name) (substantial ?applicant-address) (substantial ?applied-jk))
             (then
-              (o /realis_or_irr [k human] {@o name ?applicant-name} {@o address ?applicant-address}): ?applicant
+              (o [k human] {@o name ?applicant-name} {@o address ?applicant-address}): ?applicant
               (if -{?applicant apply-for ?applied-jk}
                   (then (begin-belief {?applicant apply-for ?applied-jk})))))
         (maintain-proposal {@self DESTROY-ENTITY ?app})))

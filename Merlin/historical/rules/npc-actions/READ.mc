@@ -31,8 +31,8 @@
           (tolerate (table-match ?vform field org-name value ?vorg-name))
           (if (and (substantial ?vjk) (substantial ?vorg-name))
               (then
-                (o /realis_or_irr [k org] {@o name ?vorg-name}): ?vorg
-                (o /realis_or_irr ?vjk {@o org ?vorg}): ?vjob
+                (o [k org] {@o name ?vorg-name}): ?vorg
+                (o ?vjk {@o org ?vorg}): ?vjob
                 (if -{?vjob org ?vorg} (then (begin-belief {?vjob org ?vorg})))
                 (if (is-a ?doc [k offer-letter])
                     (then (if -{?vjob offered-to @self}
@@ -47,8 +47,8 @@
           (tolerate (table-match ?form field apply-at value ?apply-at))
           (if (and (substantial ?jk) (substantial ?org-name) (substantial ?apply-at))
               (then
-                (o /realis_or_irr [k org] {@o name ?org-name}): ?org
-                (o /realis_or_irr ?jk {@o org ?org}): ?job
+                (o [k org] {@o name ?org-name}): ?org
+                (o ?jk {@o org ?org}): ?job
                 (if -{?job org ?org}    (then (begin-belief {?job org ?org})))
                 (if -{?job filled-by _} (then (begin-belief {?job filled-by _})))
                 (if -{?org workplace ?} (then (begin-belief {?org workplace ?apply-at}))))))

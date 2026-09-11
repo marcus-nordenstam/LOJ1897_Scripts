@@ -47,7 +47,7 @@
           (then
             ; The roster NAMES him; the colleague object is what the workplace-social rules
             ; role-cast on. Imagined until @self has met him, then fused by identity_by_name.
-            (o /realis_or_irr [k human] {@o name ?cw-name}): ?cw
+            (o [k human] {@o name ?cw-name}): ?cw
             (o ?jk {@o org ?org} {@o job-ledger-line-no ?line}): ?cojob
             (begin-belief {?cojob org ?org})
             (begin-belief {?cojob job-ledger-line-no ?line})

@@ -64,7 +64,7 @@
         (for-each-row (attr ?reg writing) [/worker ?m-name]
           (if (substantial ?m-name)
             (then
-              (o /realis_or_irr [k human] {@o name ?m-name}): ?m
+              (o [k human] {@o name ?m-name}): ?m
               (utterable-msg {@self summon ?m ?sport}): ?msg
               (if (and (alive ?m)
                        (spatial ?m co-located @self)

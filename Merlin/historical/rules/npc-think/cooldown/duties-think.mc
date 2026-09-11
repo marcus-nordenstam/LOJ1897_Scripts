@@ -40,7 +40,7 @@
     ; The book NAMES the man; liveness is a fact about the man, so the name is resolved to
     ; whoever @self holds under it (a colleague he reads off this same roster every quarter).
     (when (and (substantial ?senior-name)
-               (alive (o /realis_or_irr [k human] {@o name ?senior-name}))))
+               (alive (o [k human] {@o name ?senior-name}))))
     (score (+ 1 (* 100 (is-a ?sjk [k org-head]))
                 (* 10 (if (table-match level_rank level ?slvl rank ?lr) (then ?lr) (else 0)))))
     (policy argmax)
@@ -49,7 +49,7 @@
   (effects
     (if ?senior-name
         (then
-          (o /realis_or_irr [k human] {@o name ?senior-name}): ?senior
+          (o [k human] {@o name ?senior-name}): ?senior
           (for-each-row org_duties [/kind ?dk] [/duty ?duty]
             (if (is-a ?ok ?dk)
                 (then
