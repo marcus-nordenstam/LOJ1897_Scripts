@@ -1,19 +1,25 @@
 ; ----------------------------------------------------------------------------
-; draft-verdict ?applicant ?kind - answer ONE applicant (whom @self learned of by
-; READing their application) with a verdict letter of ?kind (offer-letter /
-; rejection-letter): pen, fill, envelope, post from the OFFICE out-box, then end the
-; applicant's apply-for belief (answered - don't re-draft). The letter this task pens is
-; the one it CREATED: the CREATE postlude stashes it under the running task's own
-; `letter` key, so a restart re-reads that key instead of picking up whatever letter
-; happens to be in hand. Each later stage reads the letter for what is already done, so a
-; restarted round never pens a second one. The out-box is located by the sibling try once
-; the letter is addressed and no pile is known; the send stage holds until one is. WHICH
-; verdict is the proposing resolve-applications round's decision, not this task's.
+; draft-verdict ?app ?kind - answer ONE application FORM with a verdict letter of ?kind
+; (offer-letter / rejection-letter): pen, fill, envelope, post from the OFFICE out-box,
+; then destroy the form. WHICH verdict is the proposing resolve-applications round's
+; decision, not this task's.
+;
+; It answers the PAPER, never a person. Everything the letter needs - whom to name, which
+; post, where to send it - is written on the form in hand, so @self need believe nothing
+; about a man he has not met. Destroying the form is what takes him off the queue: a
+; clerk's out-tray is his record of what is done.
+;
+; The letter this task pens is the one it CREATED: the CREATE postlude stashes it under
+; the running task's own `letter` key, so a restart re-reads that key instead of picking
+; up whatever letter happens to be in hand. Each later stage reads the letter for what is
+; already done, so a restarted round never pens a second one. The out-box is located by
+; the sibling try once the letter is addressed and no pile is known; the send stage holds
+; until one is.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self draft-verdict ?applicant ?kind}:?dv-rel
+(npc-task {@self draft-verdict ?app ?kind}:?dv-rel
   (track-skill-level [k law])
-  (tar human)
+  (tar application)
   (and
     (sequence
       (role ?org {@self duty-to ?org recruit-staff})
@@ -32,11 +38,9 @@
       ; no guessing it right. Kind + org is what makes it THAT seat to him, resolved against
       ; his own objects; he already knows where the org keeps its door.
       (stage
-        (when {?applicant name ?rname}
-              {?org name ?org-name}
-              (any {?applicant apply-for ?}): ?af-rel
-              (bind ?af-rel.target ?jk)
-              (substantial ?jk))
+        (when (and (table-match (attr ?app writing) field applicant value ?rname)
+                   (table-match (attr ?app writing) field job value ?jk))
+              {?org name ?org-name})
         (effects
           (if (unsubstantial (attr ?ltr writing))
               (then (maintain-proposal
@@ -44,7 +48,7 @@
                                                     [org-name ?org-name]])})))))
 
       (stage
-        (when {?applicant address ?raddress})
+        (when (table-match (attr ?app writing) field home value ?raddress))
         (effects
           (if (unsubstantial (attr ?ltr destination))
               (then (maintain-proposal {@self ADDRESS ?ltr ?raddress})))))
@@ -53,10 +57,15 @@
         (role ?out [k outgoing-mail-stack] (spatial ?out building ?wp))
         (effects (maintain-proposal {@self send-mail ?ltr ?out})))
 
+      ; The answer is in the post, so the form has done its work. Its own stage: the
+      ; destroy must CONCLUDE before the task does, or the paper stays in hand and the
+      ; round re-drafts the verdict it has already sent.
+      (stage
+        (effects (maintain-proposal {@self DESTROY-ENTITY ?app})))
+
       (stage
         (effects
           (bb-clear ?dv-rel letter)
-          (end-belief {?applicant apply-for ?})
           (set-outcome ?dv-rel /succ))))
 
     (try

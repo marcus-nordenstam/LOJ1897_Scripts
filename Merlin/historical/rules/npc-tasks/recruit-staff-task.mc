@@ -14,10 +14,13 @@
 ;   (1) an open job with no notice up    -> post-ad ?org ?job
 ;   (2) a filled job with a notice up    -> remove-ad ?org ?job
 ;  (2b) an offer left unanswered 180 d   -> the offer lapses, the job reopens
+; (2b2) a seat standing offered to a man -> keep watching for him, so the day he
+;       walks in @self knows him for the applicant rather than a second stranger
 ;  (2d) a man come for a job now taken   -> tell him so, and he goes
 ;   (3) work the applications: the office round (enter the premises, collect the
-;       office post's applications), READ each into a {?applicant apply-for ?jk} belief, consume
-;       the paper, and hand the learned batch to resolve-applications.
+;       office post's applications), READ each, and hand the forms still in hand to
+;       resolve-applications. The PAPER is the queue - @self believes nothing whatever
+;       about a man he has not met.
 ;   (4) the shift that spawned the round ends it.
 ; ----------------------------------------------------------------------------
 
@@ -105,7 +108,27 @@
                  (now-abs-seconds): ?onow
                  (>= (/ (- ?onow ?ostart) 86400) (offer-lapse-days))))
       (effects
-        (end-belief {?job offered-to ?applicant})))
+        (end-belief {?job offered-to ?applicant})
+        (set-reconcilable ?applicant @false)))
+
+    ; (2b2) KEEP WATCHING FOR THE MAN WHO WAS OFFERED THE SEAT. He exists in @self's
+    ; mind only as the name on an application - ungrounded, a man he has heard of and
+    ; never met. The day he walks in, perception mints a SECOND object for him, and
+    ; the two only fuse if the paper one is in the RECONCILE set at that moment -
+    ; the set of ungrounded objects worth comparing, which is not the perception
+    ; attention set and has nothing to do with looking at anything.
+    ;
+    ; It is not, by default: the paper applicant is draft-verdict's target, so the
+    ; pipeline disarms him the moment that task ends - months before he arrives. This
+    ; rung re-arms him every round for as long as the offer stands, which is precisely
+    ; the window in which he might come. Arming is idempotent and the lapse rung above
+    ; is what lets go, so the set stays the size of the outstanding offers.
+    (try
+      (role ?job {?job org ?org}
+                 {?job job-id ?}
+                 -{?job filled-by ?})
+      (role ?applicant {?job offered-to ?applicant})
+      (effects (set-reconcilable ?applicant @true)))
 
     ; (2c) TAKE A MAN ON. Someone is standing in front of @self who has come to accept a
     ; post - his accept-job-offer is observable, so @self reads the errand off him, the way
@@ -197,33 +220,24 @@
                  (>= (days-since-last {@self collect-applications ?wp /succ}) 1)))
       (utility obligation)
       (effects (maintain-proposal {@self collect-applications ?wp})))
-    ; READ each held application FORM: who (by name), where they live (by address), for
-    ; which post - the applicant becomes {?applicant apply-for ?jk} in @self's mind, the
-    ; applicant's address rides on the applicant - then consume the paper.
+    ; READ each held application FORM. Reading is ALL that happens: @self mints nothing
+    ; about the man. Until he walks in he is a name on a sheet of paper, and a sheet of
+    ; paper is what @self keeps.
+    ;
+    ; The PAPER is the queue. A clerk knows whom he owes an answer by the forms still in
+    ; his hand - not by a belief that each of them is at this moment applying, which would
+    ; be false (the man's apply-for concluded when he posted it, weeks ago) and unknowable
+    ; (apply-for carries no (obs), so it can never be read off anybody). draft-verdict
+    ; consumes the form once the answer to it is in the out-box.
     (try
       (role ?app [k application] (spatial ?app held-by @self)
             -{@self READ ?app /succ})
       (utility obligation)
       (effects (maintain-proposal {@self READ ?app})))
-    (try
-      (role ?app [k application] (spatial ?app held-by @self)
-            {@self READ ?app /succ})
-      (effects
-        (tolerate (attr ?app writing): ?form)
-        (tolerate (table-match ?form field applicant value ?applicant-name))
-        (tolerate (table-match ?form field home value ?applicant-address))
-        (tolerate (table-match ?form field job value ?applied-jk))
-        (if (and (substantial ?applicant-name) (substantial ?applicant-address) (substantial ?applied-jk))
-            (then
-              (o [k human] {@o name ?applicant-name} {@o address ?applicant-address}): ?applicant
-              (if -{?applicant apply-for ?applied-jk}
-                  (then (begin-belief {?applicant apply-for ?applied-jk})))))
-        (maintain-proposal {@self DESTROY-ENTITY ?app})))
-    ; RESOLVE the learned applicants: draft + mail a verdict to each.
+    ; RESOLVE the forms in hand: draft + mail a verdict for each.
     (try
       (lock-rule)
-      (when (and {? apply-for ? /pres}
-                 (empty (spatial @self hold [k application]))
+      (when (and (not (empty (spatial @self hold [k application])))
                  -{@self resolve-applications /succ /caused_by ?rec-rel}))
       (utility obligation)
       (effects

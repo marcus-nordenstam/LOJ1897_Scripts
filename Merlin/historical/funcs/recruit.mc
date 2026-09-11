@@ -17,3 +17,21 @@
         (bind ?p ?found)
         (break))))
   ?found)
+
+; ----------------------------------------------------------------------------
+; offeree-named ?name - the man of that NAME who holds a standing offer from anyone, or
+; @nothing. The NAME is the join: an application is a piece of paper and the promise is a
+; belief about a person, and the name written on the form is the only thing the two share
+; - the same key the counter uses when the man himself finally turns up. Lets the officer
+; tell the form he has just answered with an offer from the forms he must still refuse.
+; ----------------------------------------------------------------------------
+
+(define-func offeree-named (?name)
+  (bind @nothing ?found)
+  (for-each ?rel (every {? offered-to ?})
+    (bind ?rel.target ?p)
+    (if (any {?p name ?name})
+      (then
+        (bind ?p ?found)
+        (break))))
+  ?found)
