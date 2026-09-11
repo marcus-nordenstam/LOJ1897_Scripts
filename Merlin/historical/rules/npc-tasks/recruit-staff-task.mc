@@ -96,10 +96,14 @@
                   {?job job-ledger-line-no ?}
                   -{?job filled-by ?})
       (role ?applicant {?job offered-to ?applicant})
-      (when (>= (/ (- (now-abs-seconds)
-                      (abs-seconds (any {?job offered-to ?applicant}).start))
-                   86400)
-                (offer-lapse-days)))
+      ; BIND THE QUERY ONCE. Spelled inline - (abs-seconds (any {..}).start) - the elapsed
+      ; test passed on a one-second-old offer, so every fresh offer lapsed the instant it
+      ; was made and the verdict round re-made it: two rules eating each other, 145 lapses
+      ; a year and the deliberation never quiescing.
+      (when (and (any {?job offered-to ?applicant}): ?orel
+                 (abs-seconds ?orel.start): ?ostart
+                 (now-abs-seconds): ?onow
+                 (>= (/ (- ?onow ?ostart) 86400) (offer-lapse-days))))
       (effects
         (end-belief {?job offered-to ?applicant})))
 
