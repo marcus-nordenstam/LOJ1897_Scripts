@@ -129,7 +129,12 @@
       ; The book and her own picture move TOGETHER: the act that fills the seat concludes
       ; into the belief that it is filled. Left to the next book read, her beliefs lag the
       ; page by a round and she turns away the man she has just signed on.
-      (effects (maintain-proposal {@self HIRE ?applicant ?job}:?hire
+      ;
+      ; The ACT takes the post's KIND - a physical primitive's fields are physical,
+      ; literal or spatial, and a job is none of those. The POSTLUDE takes the job
+      ; OBJECT, and may: a belief can be about a seat on a page, an act cannot be
+      ; performed on one.
+      (effects (maintain-proposal {@self HIRE ?applicant ?jk}:?hire
                  [/postlude (begin-belief {?job filled-by ?applicant})])))
 
     ; The WORD that concludes his errand: he is taken on. HIRE has written him onto the
