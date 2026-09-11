@@ -38,7 +38,7 @@
   (effects
     ; (1) REFRESH - one colleague job object per roster row (skip my own row), mirroring
     ; my own job object so {?cw job.org ?org} / rank / head-ness read uniformly.
-    (for-each-row (attr ?reg writing) [/line ?line] [/worker ?cw-name] [/job ?jk] [/level ?lvl]
+    (for-each-row (attr ?reg writing) [/job-id ?line] [/worker ?cw-name] [/job ?jk] [/level ?lvl]
       ; An empty worker cell is a VACANT job, not a colleague - it names nobody to hang an
       ; occupancy fact off. The officer's own read is what makes those lines mean something.
       ; The object is keyed on the LINE, not on who sits in it, so this is the very object
@@ -48,9 +48,9 @@
             ; The roster NAMES him; the colleague object is what the workplace-social rules
             ; role-cast on. Imagined until @self has met him, then fused by identity_by_name.
             (o [k human] {@o name ?cw-name}): ?cw
-            (o ?jk {@o org ?org} {@o job-ledger-line-no ?line}): ?cojob
+            (o ?jk {@o org ?org} {@o job-id ?line}): ?cojob
             (begin-belief {?cojob org ?org})
-            (begin-belief {?cojob job-ledger-line-no ?line})
+            (begin-belief {?cojob job-id ?line})
             (begin-belief {?cojob filled-by ?cw})
             (begin-belief {?cw job ?cojob})
             (begin-belief {?cojob level ?lvl}))))

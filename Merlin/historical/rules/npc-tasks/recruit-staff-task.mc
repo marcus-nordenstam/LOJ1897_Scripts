@@ -42,10 +42,10 @@
       ; The book, as a role: with no register belief there is simply no activation.
       (role ?reg {?org employee-register ?reg})
       (effects
-        (for-each-row (attr ?reg writing) [/line ?line] [/worker ?worker-name] [/job ?jk]
-          (o ?jk {@o org ?org} {@o job-ledger-line-no ?line}): ?job
+        (for-each-row (attr ?reg writing) [/job-id ?line] [/worker ?worker-name] [/job ?jk]
+          (o ?jk {@o org ?org} {@o job-id ?line}): ?job
           (begin-belief {?job org ?org})
-          (begin-belief {?job job-ledger-line-no ?line})
+          (begin-belief {?job job-id ?line})
           ; The cell holds the man's NAME, which is all a page can carry. Resolving it is what
           ; turns the line into an occupancy fact about a PERSON - imagined until the officer
           ; has met him, and fused with the man himself by identity_by_name. Resolved INSIDE
@@ -67,10 +67,10 @@
       ; standing (measured: instances B423/B424 both concluded on sheet o85).
       (lock-rule)
       ; -{?job filled-by ?} is what keeps @self's OWN seat out of this: his job is a ledger
-      ; line like every other, and it is filled - by him. (It used to take a job-ledger-line-no
+      ; line like every other, and it is filled - by him. (It used to take a job-id
       ; filter, back when his own seat was a second object with no line at all.)
       (role ?job {?job org ?org}
-                  {?job job-ledger-line-no ?}
+                  {?job job-id ?}
                   -{?job filled-by ?}
                   -{?org display-ad ?job})
       (utility obligation)
@@ -79,7 +79,7 @@
     ; (2) TAKE THE NOTICE DOWN for a post that has since been filled.
     (try
       (role ?job {?job org ?org}
-                  {?job job-ledger-line-no ?}
+                  {?job job-id ?}
                   {?job filled-by ?}
                   {?org display-ad ?job})
       (utility obligation)
@@ -93,7 +93,7 @@
     ; a long-past offer lapses on the next round and the seat reopens.
     (try
       (role ?job {?job org ?org}
-                  {?job job-ledger-line-no ?}
+                  {?job job-id ?}
                   -{?job filled-by ?})
       (role ?applicant {?job offered-to ?applicant})
       ; BIND THE QUERY ONCE. Spelled inline - (abs-seconds (any {..}).start) - the elapsed
@@ -122,7 +122,7 @@
                                  {?applicant name ?}
                                  (spatial ?applicant co-located @self))
       (role ?job {?job org ?org}
-                  {?job job-ledger-line-no ?}
+                  {?job job-id ?}
                   -{?job filled-by ?})
       (when (is-a ?job ?jk))
       (utility obligation always-pick)
@@ -146,12 +146,12 @@
       (role ?applicant [k human] {?applicant accept-job-offer ?jk ?}
                                  (spatial ?applicant co-located @self))
       (role ?job {?job org ?org}
-                  {?job job-ledger-line-no ?line}
+                  {?job job-id ?line}
                   {?job filled-by ?applicant})
       (when (is-a ?job ?jk))
       (utility obligation always-pick)
       (effects
-        (utterable-msg {(o ?jk {@o org ?org} {@o job-ledger-line-no ?line}) filled-by @you}): ?msg
+        (utterable-msg {(o ?jk {@o org ?org} {@o job-id ?line}) filled-by @you}): ?msg
         (if (and ?msg -{@self SAY ?msg ?applicant})
             (then (maintain-proposal {@self SAY ?msg ?applicant})))))
 
@@ -164,14 +164,14 @@
       (role ?applicant [k human] {?applicant accept-job-offer ?jk ?}
                                  (spatial ?applicant co-located @self))
       (role ?job {?job org ?org}
-                  {?job job-ledger-line-no ?line}
+                  {?job job-id ?line}
                   {?job filled-by ?holder})
       (when (and (is-a ?job ?jk)
                  (!= ?holder ?applicant)
                  (unsubstantial (open-job-for ?org ?jk))))
       (utility obligation always-pick)
       (effects
-        (utterable-msg {(o ?jk {@o org ?org} {@o job-ledger-line-no ?line}) filled-by ?holder}): ?msg
+        (utterable-msg {(o ?jk {@o org ?org} {@o job-id ?line}) filled-by ?holder}): ?msg
         (if (and ?msg -{@self SAY ?msg ?applicant})
             (then (maintain-proposal {@self SAY ?msg ?applicant})))))
 

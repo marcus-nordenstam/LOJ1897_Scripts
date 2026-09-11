@@ -92,7 +92,7 @@
                 (then (create-entity [k incorporation-stack] ?croom)))
               (create-entity [k articles-of-incorporation] ?croom): ?art
               (create-entity [k employee-register]         ?croom): ?creg
-              (table-init ?creg line worker job level)
+              (table-init ?creg job-id worker job level)
               (establish-posts ?creg ?kind)
               (table-remove ?reg building ?bldg)
               (table-init ?art org-kind org_name founder workplace register)

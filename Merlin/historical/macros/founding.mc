@@ -113,11 +113,11 @@
     (begin-belief {?wp occupant @self})
     ; The head's seat is a ledger line like any other - keyed on it, so his own job object
     ; is the one every later reader of this book lands on.
-    (if (table-match (attr ?reg writing) worker (name @self) job ?head-role line ?soh-line)
+    (if (table-match (attr ?reg writing) worker (name @self) job ?head-role job-id ?soh-line)
         (then
-          (o ?head-role {@o org ?org} {@o job-ledger-line-no ?soh-line}): ?job
+          (o ?head-role {@o org ?org} {@o job-id ?soh-line}): ?job
           (begin-belief {?job org ?org})
-          (begin-belief {?job job-ledger-line-no ?soh-line})
+          (begin-belief {?job job-id ?soh-line})
           (begin-belief {?job filled-by @self})
           (begin-belief {@self job ?job})
           (begin-belief {?job level [k senior]})
@@ -219,11 +219,11 @@
     (for-each ?room (spatial ?wp parts [k interior-space room] /env)
         (spatial-write ?room struct_parent ?wp))
     (table-match income_by_level level ?level income ?salary)
-    (if (table-match (attr ?reg writing) worker (name @self) job ?job-kind line ?eb-line)
+    (if (table-match (attr ?reg writing) worker (name @self) job ?job-kind job-id ?eb-line)
         (then
-          (o ?job-kind {@o org ?org} {@o job-ledger-line-no ?eb-line}): ?job
+          (o ?job-kind {@o org ?org} {@o job-id ?eb-line}): ?job
           (begin-belief {?job org ?org})
-          (begin-belief {?job job-ledger-line-no ?eb-line})
+          (begin-belief {?job job-id ?eb-line})
           (begin-belief {?job filled-by @self})
           (begin-belief {@self job ?job})
           (begin-belief {?job level ?level})
@@ -364,7 +364,7 @@
                   (else (k-default-staff-posts)))
         (do
           (bind (+ ?ep-line 1) ?ep-line)
-          (table-add ?reg line ?ep-line worker @nothing job ?ep-role))))))
+          (table-add ?reg job-id ?ep-line worker @nothing job ?ep-role))))))
 
 ; fill-post - @self takes a job: his name goes into the vacant line's worker cell, IN
 ; PLACE. The line must not move - a job IS its line on this ledger, so striking and
@@ -379,9 +379,9 @@
                                  worker (name @self) level ?level))
             (then
               (bind 0 ?fp-line)
-              (for-each-row (attr ?reg writing) [/line ?fp-seen]
+              (for-each-row (attr ?reg writing) [/job-id ?fp-seen]
                 (bind ?fp-seen ?fp-line))
-              (table-add ?reg line (+ ?fp-line 1)
+              (table-add ?reg job-id (+ ?fp-line 1)
                               worker (name @self) job ?job-kind level ?level))))))
 
 ; vacate-post - a departure leaves the JOB behind: the worker's cell is emptied where it

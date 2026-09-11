@@ -19,7 +19,7 @@
     (try
       (role ?org {@self duty-to ?org recruit-staff})
       (role ?job {?job org ?org}
-                 {?job job-ledger-line-no ?}
+                 {?job job-id ?}
                  -{?job filled-by ?}
                  -{?job offered-to ?})
       ; ONE offer per man in flight: a seat already promised to him is not promised twice.

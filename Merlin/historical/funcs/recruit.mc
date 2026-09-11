@@ -10,7 +10,7 @@
   (for-each ?rel (every {? org ?org})
     (bind ?rel.subject ?p)
     (if (and (is-a ?p ?jk)
-             (any {?p job-ledger-line-no ?})
+             (any {?p job-id ?})
              (none {?p filled-by ?})
              (none {?p offered-to ?}))
       (then

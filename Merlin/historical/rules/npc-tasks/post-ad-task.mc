@@ -32,12 +32,20 @@
                       [/postlude (bind (bb-read ?ce created) ?ad)
                                  (bb-write ?pad-rel ad ?ad)])))))
 
-      ; The notice is a FORM: the job's kind, the org by name, and where to present
-      ; oneself - the book's own room, as its civic address (the house and the room in
-      ; one value). Nothing of the org's bookkeeping goes on it.
+      ; The notice is a FORM: the job's kind, the org by name, the org's own reference for
+      ; the seat, and where to present oneself - the book's own room, as its civic address
+      ; (the house and the room in one value).
+      ;
+      ; The JOB-ID is what makes the notice name a SEAT rather than a kind of work. Without
+      ; it a reader learns only `a clerk's place at companies-house`, which two separate
+      ; vacancies answer equally - so he cannot tell one from the other, cannot tell a
+      ; second telling of one vacancy from a first telling of two, and the post he is
+      ; offered is never quite the post he read about. It is the org's reference, not its
+      ; bookkeeping: a real advertisement quotes one.
       (stage
         (role ?reg {?org employee-register ?reg})
         (when {?org name ?org-name}
+              {?job job-id ?job-id}
               (kind ?job): ?jk
               (spatial ?reg space): ?office
               (address ?office): ?apply-at
@@ -45,7 +53,7 @@
         (effects
           (if (unsubstantial (attr ?ad writing))
               (then (maintain-proposal
-                      {@self WRITE ?ad (table-msg [[job-kind ?jk] [org-name ?org-name] [apply-at ?apply-at]])})))))
+                      {@self WRITE ?ad (table-msg [[job-kind ?jk] [org-name ?org-name] [job-id ?job-id] [apply-at ?apply-at]])})))))
 
       (stage
         (effects

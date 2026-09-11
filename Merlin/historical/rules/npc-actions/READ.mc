@@ -44,12 +44,18 @@
           (tolerate (attr ?doc writing): ?form)
           (tolerate (table-match ?form field job-kind value ?jk))
           (tolerate (table-match ?form field org-name value ?org-name))
+          (tolerate (table-match ?form field job-id value ?job-id))
           (tolerate (table-match ?form field apply-at value ?apply-at))
           (if (and (substantial ?jk) (substantial ?org-name) (substantial ?apply-at))
               (then
                 (o [k org] {@o name ?org-name}): ?org
-                (o ?jk {@o org ?org}): ?job
+                ; The seat is (org, job-id) - the notice's own reference. Two readings of
+                ; ONE vacancy land on one object; two vacancies of the same kind at the
+                ; same org stay two. Without the id both collapse into `a clerk's place
+                ; there`, which is neither.
+                (o ?jk {@o org ?org} {@o job-id ?job-id}): ?job
                 (if -{?job org ?org}    (then (begin-belief {?job org ?org})))
+                (if -{?job job-id ?job-id} (then (begin-belief {?job job-id ?job-id})))
                 (if -{?job filled-by _} (then (begin-belief {?job filled-by _})))
                 (if -{?org workplace ?} (then (begin-belief {?org workplace ?apply-at}))))))
         (else (adopt-msg (attr ?doc writing))))

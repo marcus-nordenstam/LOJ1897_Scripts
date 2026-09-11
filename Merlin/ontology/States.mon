@@ -469,13 +469,15 @@ relation
             # Drives tenure for the duty-assignment seniority comparison. Stamped at hire.
             since               (sub org-pos)  (tar ? @excl)
             # THE ESTABLISHMENT. A JOB is a thing in its own right, distinct from
-            # whoever happens to hold it, and its identity is its LINE on the org's
-            # employee-register: job-ledger-line-no. That is what lets ONE object serve
-            # every mind that speaks of the seat - the officer reading his ledger, the
-            # man who holds it, a colleague reading the roster - because they all key it
-            # the same way off the same page. The object persists as the worker cell is
-            # filled and emptied, so -{?job filled-by ?} is a standing fact about the JOB
-            # and not about the last man in it.
+            # whoever happens to hold it, and its identity is (org, job-id): the org's
+            # own reference for the seat. An IDENTIFIER, not a position - the register
+            # keys its rows by it, so a row that moves is still the same job, and the
+            # notice quotes it so a reader can key the seat the same way the officer
+            # does. That is what lets ONE object serve every mind that speaks of it -
+            # the officer reading his ledger, the man who holds it, a colleague reading
+            # the roster. The object persists as the worker cell is filled and emptied,
+            # so -{?job filled-by ?} is a standing fact about the JOB and not about the
+            # last man in it.
             # filled-by is THE occupancy fact, held on the job: {?job filled-by @self}
             # is how a man believes he holds it. {?worker job ?job} is the same fact read
             # from the man's end, on the SAME object - not a second one.
@@ -487,7 +489,7 @@ relation
             # act that fills the seat ends the offer - and what a lapse clears when nobody
             # comes. Not a memory of having offered: that would be an act worn as a state.
             offered-to          (sub org-pos)  (tar human @excl)
-            job-ledger-line-no  (sub org-pos)  (tar ? @excl)
+            job-id              (sub org-pos)  (tar ? @excl)
             # DUTIES (capability-based org dispatch). A duty is an obligation TO a party of a
             # given kind; its aux is the TASK the holder is obliged to perform (the duty tasks
             # live in Tasks.mon like every task). duty-to is the FULFILLMENT belief (behaviour
