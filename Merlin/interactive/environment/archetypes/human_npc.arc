@@ -9,7 +9,6 @@ archetype "human-npc" (cap 4096) (per obs) (raycast-visible) (sentient) (non-occ
     (attr "sound-sensor")
     (attr "physical-motors")
     (attr "game-role")
-    (attr "perform")
     # Lifecycle dates - written by historical sim, surface into interactive.
     (attr "birth-date")
     (attr "death-date")

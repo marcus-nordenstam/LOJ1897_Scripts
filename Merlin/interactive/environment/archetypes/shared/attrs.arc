@@ -229,9 +229,6 @@
 # Region - updated by Environment, self-perceived via /feel
 (attr "region" (type entity) (entity "region") (spec-attr region) (per feel) (state-flags-tar @excl))
 
-# Activity - remaps perceived target & aux to kind and place of the activity
-(attr "perform" (type entity) (entity "activity") (lookup-target "isa") (lookup-aux "location") (per obs) (auto-percept))
-
 # Sound
 # Holds the specific action that produced this sound (e.g. {john SAY (msg...) sam}).
 # Imperceptible so we perceive the createAction on its own, not embedded in the sound.

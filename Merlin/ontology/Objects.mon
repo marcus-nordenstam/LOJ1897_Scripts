@@ -68,13 +68,6 @@ object (+ obs)
     # consistently with the victim's habit beliefs. Victorian table:
     # breakfast / luncheon / tea / supper alongside the plain lunch /
     # dinner.
-    meal                        (price 5)
-        breakfast
-        lunch
-        luncheon
-        dinner
-        tea
-        supper
     # Man-made things
     prop
         container
@@ -499,6 +492,13 @@ object (+ obs)
         bread
         cheese
         soup
+        meal                        (price 5)
+            breakfast
+            lunch
+            luncheon
+            dinner
+            tea
+            supper
 
     # Man-made structures
     structure

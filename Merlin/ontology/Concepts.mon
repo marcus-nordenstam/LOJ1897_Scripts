@@ -622,9 +622,6 @@ concept
     capacity            (tar ? @excl)
         pub-patron
 
-    activity
-        bartending
-        
     org-pos
         apprenticeship
         membership          (sub human)
