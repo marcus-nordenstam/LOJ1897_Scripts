@@ -17,17 +17,3 @@
         (bind ?p ?found)
         (break))))
   ?found)
-
-; ----------------------------------------------------------------------------
-; offered-job-for ?applicant - the job standing OFFERED to this man, or @nothing. The
-; reverse read of {?job offered-to ?applicant}: the offer is a state of the SEAT, so
-; asking it from the man's end is a walk, exactly as open-job-for walks an org's seats.
-; ----------------------------------------------------------------------------
-
-(define-func offered-job-for (?applicant)
-  (bind @nothing ?found)
-  (for-each ?rel (every {? offered-to ?applicant})
-    (bind ?rel.subject ?p)
-    (bind ?p ?found)
-    (break))
-  ?found)

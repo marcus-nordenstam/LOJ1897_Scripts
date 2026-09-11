@@ -23,25 +23,25 @@
                  -{?job filled-by ?}
                  -{?job offered-to ?})
       ; ONE offer per man in flight: a seat already promised to him is not promised twice.
-      (role ?applicant {?applicant apply-for ?jk /pres})
-      (when (and (is-a ?job ?jk)
-                 (unsubstantial (offered-job-for ?applicant))))
+      (role ?applicant {?applicant apply-for ?jk /pres}
+                       -{? offered-to ?applicant})
+      (when (is-a ?job ?jk))
       (effects (begin-belief {?job offered-to ?applicant})))
     (try
       (lock-rule)
       ; A man with a seat standing offered to him. Read from HIS end, so it is the same
       ; question the rejection rung asks and neither casts a role it does not use.
-      (role ?applicant {?applicant apply-for ?jk /pres})
-      (when (substantial (offered-job-for ?applicant)))
+      (role ?applicant {?applicant apply-for ?jk /pres}
+                       {? offered-to ?applicant})
       (utility fallback)
       (effects
                (maintain-proposal {@self draft-verdict ?applicant [k offer-letter]})))
     (try
       (lock-rule)
       (role ?org {@self duty-to ?org recruit-staff})
-      (role ?applicant {?applicant apply-for ?jk /pres})
-      (when (and (unsubstantial (offered-job-for ?applicant))
-                 (unsubstantial (open-job-for ?org ?jk))))
+      (role ?applicant {?applicant apply-for ?jk /pres}
+                       -{? offered-to ?applicant})
+      (when (unsubstantial (open-job-for ?org ?jk)))
       (utility (above draft-verdict))
       (effects
                (maintain-proposal {@self draft-verdict ?applicant [k rejection-letter]})))

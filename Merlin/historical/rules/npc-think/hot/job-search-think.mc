@@ -72,16 +72,18 @@
   ; application concluded).
   (lock-rule)
   (rng-stream employment)
-  (role @self -{@self job ?})
+  ; A man with an offer in hand WAITS to take it up - he does not fire off more
+  ; applications while he is on his way to the counter. On the ROLE, so a write under
+  ; offered-to re-tests membership and re-arms him the day the offer is spent.
+  (role @self -{@self job ?}
+              -{? offered-to @self})
   ; A VACANCY @self knows of - a job held by nobody - and the door of the org that has it.
   ; How the belief got in (a notice, a word in the street) is no business of this rule.
   (role ?org {?org workplace ?wp})
   (role ?job {?job filled-by _}
              {?job org ?org}
              (select (score 1) (policy roulette)))
-  ; A man with an offer in hand WAITS to take it up - he does not fire off more
-  ; applications while he is on his way to the counter.
-  (when (and (unsubstantial (offered-job-for @self))
+  (when (and
              (latch-eval (and (>= (now-hour) 8) (<= (now-hour) 17)))
              (kind ?job): ?jk
              (if (table-match occupations job ?jk class-floor ?cf0) (then ?cf0) (else [k lower])): ?cf
