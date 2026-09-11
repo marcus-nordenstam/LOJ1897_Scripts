@@ -29,7 +29,7 @@
 ; "owns the home he lives in"). A kind-cast target [k K]:?x (ONE kind, no alts) is
 ; identity AND is-a against the object's PERMANENT kind - the decay-proof kind test
 ; on a relation ({@self employer [k org business]:?org}); chain labels (a.b) and
-; ground-alts compose as filters too. A filter with a FREE target var
+; options compose as filters too. A filter with a FREE target var
 ; ({?cand record ?art}) is a cached EXISTENCE criterion that BINDS the var at
 ; fire time off the drawn candidate - producing binds role-ify too; only
 ; non-belief ops, dynamic-label binds and act-desire gates stay in (when).

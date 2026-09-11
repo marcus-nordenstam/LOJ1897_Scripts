@@ -2,7 +2,7 @@
 ; confess-letter ?focus - reveal @self's OWN non-spousal liaison to the nearest living
 ; kin by letter: scandal without murder, and the leak kills any standing blackmail
 ; leverage once the secret is out. NOT a crime - no ledger. The kin is the first close
-; relation on the father > mother > fiancee > spouse > sibling ladder (one ground-alt
+; relation on the father > mother > fiancee > spouse > sibling ladder (one option
 ; read); the confessed partner must be a real third party. Handing the confession-letter
 ; to the mail lane IS the deed - the magic mail service delivers it and the kin learns the
 ; lover fact at their next home read - so the compose try concludes the task whether or not

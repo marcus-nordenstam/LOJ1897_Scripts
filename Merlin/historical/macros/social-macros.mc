@@ -2,7 +2,7 @@
 ; social_macros.hs - relationship-query define-macros.
 ;
 ; {?who friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?other /ever}: does ?who hold ANY referential tie to ?other -
-; i.e. has ?who ever met / related to them? Expands to a single ground-alts
+; i.e. has ?who ever met / related to them? Expands to a single options
 ; `believes` (the label `A|B|C` matches if the queried mind holds any of those
 ; bonds). The query ALWAYS runs in the DELIBERATING NPC's own mind, so:
 ;   - subject @self  -> "do I know ?other" (a self-tie read), and
@@ -34,7 +34,7 @@
 ; the `fancy` band toward ?other? Attraction is a continuous scalar (relational
 ; stance) that core appraisal projects to a discrete VERB-STATE belief per band -
 ; fancy(1) < desire(2) < crave(3) - holding exactly the current band. So
-; "attraction >= fancy" is "holds ANY of those bands", a ground-alts believes
+; "attraction >= fancy" is "holds ANY of those bands", an options believes
 ; (the name is is-attracted-to, not fancies, because it matches the stronger
 ; desire / crave bands too, not just the fancy band).
 ; This replaces the old opaque (stance-at-least @self ?o fancy) C++ op (which read
