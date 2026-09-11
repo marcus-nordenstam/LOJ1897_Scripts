@@ -504,7 +504,10 @@ object (+ obs)
             supper
 
     # Man-made structures
-    structure
+    # ANCHORS. A place is matched by its ADDRESS: the room a notice sends a man to and the
+    # room he walks into are one when the address agrees. Grounding is still the WALKING
+    # IN - an address off a page tells you where a place is, not which place you are in.
+    structure           (anchors address)
         path
             road
             trail

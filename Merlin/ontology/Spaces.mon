@@ -6,7 +6,9 @@ world_part (+ obs)
 
 # Kinds of spaces
         
-space (+ obs)
+# ANCHORS. A space is matched by its ADDRESS, exactly as a structure is - the back-office a
+# notice names and the back-office a man walks into are one place when the address agrees.
+space (+ obs) (anchors address)
     interior-space
         bar-back
         entrance (facets entrance)
