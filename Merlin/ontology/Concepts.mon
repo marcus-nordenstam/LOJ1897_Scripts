@@ -622,7 +622,10 @@ concept
     capacity            (tar ? @excl)
         pub-patron
 
-    org-pos
+    # ANCHORS. A post is pinned by the org that keeps it and that org's own id for the
+    # seat: (org, job-id). Not by who holds it - a job outlives its holder, and the
+    # next clerk in the chair has the SAME job, not a new one.
+    org-pos             (anchors org job-id)
         apprenticeship
         membership          (sub human)
         job                 (sub human|org)  (disclosure stranger)
@@ -749,7 +752,9 @@ concept
     movement
         political
             suffrage
-    org
+    # ANCHORS. An org is pinned by its NAME - unique in this world - so a mind that
+    # hears of one and later learns its name knows it for the org it already knew of.
+    org                 (anchors name)
         edu
             apprenticeship
             private-school

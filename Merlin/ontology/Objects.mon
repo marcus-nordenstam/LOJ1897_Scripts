@@ -17,7 +17,10 @@ object (+ obs)
         robot
         cyborg
         animal
-            human
+            # ANCHORS. A man is matched by his NAME: the man read of on an application and
+            # the man at the counter are one the moment both are named the same. Grounding
+            # itself comes from PERCEIVING him - this is the key that finds the pair.
+            human           (anchors name)
             dog
                 whippet
                 german-shepard
