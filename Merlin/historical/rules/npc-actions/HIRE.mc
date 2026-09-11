@@ -21,11 +21,9 @@
 (npc-action {@self HIRE ?worker ?job-kind}:?hire-rel
   (track-skill-level [k personnel])
   (tar human)
-  ; The aux carries a job KIND - a literal, which is legal on a physical act. `?`
-  ; because there is as yet no way to DECLARE that: (aux job) would say "an OBJECT
-  ; of kind job", which is the illegal form, and @kind is taken - it marks the one
-  ; kind-relation (isa), not a kind-valued field.
-  (aux ?)
+  ; [k job] - a job KIND rides here, a literal. `(aux job)` would say an OBJECT of
+  ; kind job, which no archetype can host and which a physical act may not touch.
+  (aux [k job])
   (duration 15)
   (effects
     (check (spatial ?worker co-located @self))
