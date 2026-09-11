@@ -14,5 +14,9 @@
 (npc-action {@self WALK ?dest}
   (duration (max (go_travel_floor_min) (travel-minutes @self ?dest)))
   (effects
-    ;(debug-print "@self WALK to ?dest")
+    ; A destination nobody can point to is not one. The relocate seam takes a POINT as
+    ; readily as a space, and the vector ops read a failed geometry read as the ZERO
+    ; vector - so an unresolved venue walks the body to the world origin and it never
+    ; comes back. The act asserts its own precondition instead.
+    (check (substantial ?dest))
     (relocate @self ?dest)))
