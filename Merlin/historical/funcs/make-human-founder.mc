@@ -47,11 +47,15 @@
   ; converted into the believer's own realm, so an object the mind has never met
   ; lands as @fail - you cannot hold a belief about a building you have never laid
   ; eyes on. Observing is the sanctioned way to meet one.
-  (observe ?home)
+  (observe ?home): ?known-home
   (begin-belief {@self class-situation ?class})
   (begin-belief {@self nationality ?nat})
   (begin-belief {@self breeding (breeding-for-class ?class)})
-  (begin-belief {@self home ?home})
+  ; The OBSERVED object, not the raw abs one: a place field left to convert itself
+  ; passively lands as the building's ADDRESS - the universal place reference - and
+  ; an address is a value, not an object. A home is a BUILDING, so every reader that
+  ; asks the home for its rooms, or mints a belief about it, needs the object.
+  (begin-belief {@self home ?known-home})
   (begin-belief {@self interest (random-subkind [k domain])})
   (begin-belief {@self interest (random-subkind [k domain])})
   (begin-belief {@self interest (random-subkind [k domain])})
