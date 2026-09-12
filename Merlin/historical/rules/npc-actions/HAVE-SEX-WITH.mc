@@ -13,12 +13,29 @@
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.mc")
+(include "../../macros/tunables.mc")
 
 ; ~45 minutes: a real dwell, not an instant. Both lovers run their own copy
 ; (each sees the other as a co-present lover), so both are held for the window.
 (npc-action {@self HAVE-SEX-WITH ?paramour}
   (duration 45)
   (effects
+    ; CONCEPTION. The one place a pregnancy begins, so a wife and a paramour
+    ; conceive by the same physics and an affair can produce a child without a
+    ; rule of its own. A man, or a woman past her years or already carrying,
+    ; falls straight through: pregnant-when is what the gestation clock is read
+    ; against, so it is only ever stamped on someone who can carry.
+    (age (attr @self birth-date)): ?her-age
+    (and (= (attr @self gender) [k female])
+         (>= ?her-age (fertile_age_min))
+         (<= ?her-age (fertile_age_max))
+         (unsubstantial (attr @self pregnant-when))
+         (chance (conception_chance))): ?conceived
+    (if ?conceived
+      (then
+        (set-attr @self pregnant-when (date-now))
+        (set-attr @self pregnant-by ?paramour)
+        (begin-belief {@self pregnant ?paramour})))
     ; The reciprocal act-record on the paramour (the actor's own side is the
     ; begun-then-ended running act-belief, auto-ended at completion).
     (begin-belief {?paramour HAVE-SEX-WITH @self /momentary})

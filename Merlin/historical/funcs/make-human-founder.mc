@@ -9,6 +9,8 @@
 ;                                    ?class = the class situation he is born into.
 ; ----------------------------------------------------------------------------
 
+(include "human-traits.mc")
+
 (define-func make-human (?building ?class)
   (head (spatial ?building parts [k room] /env)): ?room
   (if ?room
@@ -20,34 +22,38 @@
         (then
           (set-attr ?h gender ?gender)
           (set-attr ?h game-role [k nonplayer])
-          (set-attr ?h appearance (table-sample-weighted appearance_dist value weight))
-          (set-attr ?h girth      (table-sample-weighted girth_dist value weight))
-          (set-attr ?h height     (table-sample-weighted height_dist value weight))
-          (set-attr ?h hair-color (table-sample-weighted hair_color_dist value weight))
-          (set-attr ?h eye-color  (table-sample-weighted eye_color_dist value weight))
-          (for-each-row continuous_traits
-              [/trait ?t] [/mean-male ?mm] [/mean-female ?mf] [/sigma ?sg]
-            (if (= ?gender [k male]) (then ?mm) (else ?mf)): ?mean
-            (set-attr ?h ?t (clamp (sample-gaussian ?mean ?sg) 0 1)))
-          (+ 20 (random-int 0 29)): ?age
+          ; Parentless: both lineage args unsubstantial, so every trait is a fresh
+          ; draw on the population distribution (see human-traits.hs).
+          (seed-human-genetics ?h ?gender @nothing @nothing)
+          (+ (founder_age_min) (random-int 0 (- (founder_age_max) (founder_age_min)))): ?age
           (set-attr ?h birth-date
             (create-date (- (year) ?age) (random-int 0 11) (random-int 0 27)))
           (set-attr ?h name (sample-name ?gender ?nat ?class))
-          (enter-mind ?h)
-          ; SEE the home before believing anything about it. A belief field is passively
-          ; converted into the believer's own realm, so an object the mind has never met
-          ; lands as @fail - you cannot hold a belief about a building you have never laid
-          ; eyes on. Observing is the sanctioned way to meet one.
-          (observe ?building)
-          (begin-belief {@self class-situation ?class})
-          (begin-belief {@self nationality ?nat})
-          (begin-belief {@self breeding 0.55})
-          (begin-belief {@self home ?building})
-          (begin-belief {@self interest (random-subkind [k domain])})
-          (begin-belief {@self interest (random-subkind [k domain])})
-          (begin-belief {@self interest (random-subkind [k domain])})
-          (exit-mind)
+          (seed-human-self-beliefs ?h ?class ?nat ?building)
           ?h)))))
+
+; ----------------------------------------------------------------------------
+; seed-human-self-beliefs - the mental layer every human starts life holding: who
+; he is (class, nationality, the breeding his class seeds) and where he lives.
+; Shared by make-human and the GIVE-BIRTH action, which adds the kin beliefs a
+; newborn also carries.
+; ----------------------------------------------------------------------------
+
+(define-func seed-human-self-beliefs (?h ?class ?nat ?home)
+  (enter-mind ?h)
+  ; SEE the home before believing anything about it. A belief field is passively
+  ; converted into the believer's own realm, so an object the mind has never met
+  ; lands as @fail - you cannot hold a belief about a building you have never laid
+  ; eyes on. Observing is the sanctioned way to meet one.
+  (observe ?home)
+  (begin-belief {@self class-situation ?class})
+  (begin-belief {@self nationality ?nat})
+  (begin-belief {@self breeding (breeding-for-class ?class)})
+  (begin-belief {@self home ?home})
+  (begin-belief {@self interest (random-subkind [k domain])})
+  (begin-belief {@self interest (random-subkind [k domain])})
+  (begin-belief {@self interest (random-subkind [k domain])})
+  (exit-mind))
 
 ; ----------------------------------------------------------------------------
 ; class-for-residence - the class a founder is born into, read off the residence he
@@ -75,5 +81,4 @@
 
 (define-func make-human-founder ()
   (for-each ?b (env-entities [k building residential-building])
-    (if (chance 0.2) (make-human ?b (class-for-residence ?b)))))
-    ; (make-human ?b (class-for-residence ?b))))
+    (if (chance (founder_density)) (make-human ?b (class-for-residence ?b)))))

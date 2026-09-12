@@ -115,6 +115,41 @@
 (define-macro covert_intercept_cap      () 0.5)
 (define-macro covert_handling_suspicion () 0.06)  ; a strange hand on the post, again
 
+; The genetic model (human-traits.hs's authored knobs). heritability is the weight
+; each PARENT carries in a newborn's continuous traits; what is left over pulls the
+; child toward its own sex-mean, which is what holds population SD steady instead of
+; collapsing generation over generation. The standout figures are the accentuation
+; pass: how far past its mean a human's most extreme trait is pushed (~1.3 SD), and
+; the spread that keeps forced standouts off the threshold.
+(define-macro trait_heritability () 0.3)   ; per parent; 0.6 of the child, 0.4 the mean
+(define-macro standout_delta     () 0.20)
+(define-macro standout_jitter    () 0.12)
+
+; The lineage anchor each origin class seeds. class-situation is re-derived over a
+; life from breeding + prestige + wealth; breeding itself never moves.
+(define-macro breeding_upper  () 0.85)
+(define-macro breeding_middle () 0.55)
+(define-macro breeding_lower  () 0.25)
+
+; Whole weeks of gestation before a pregnancy delivers - the span the deliver rung
+; measures against pregnant-when.
+(define-macro gestation_weeks () 39)
+
+; Odds that one coupling takes, and the years over which a woman can carry.
+; Rolled by HAVE-SEX-WITH, so a marriage and an affair conceive alike.
+(define-macro conception_chance () 0.1)
+(define-macro fertile_age_min   () 16)
+(define-macro fertile_age_max   () 49)
+
+; How long a delivery occupies the mother.
+(define-macro birth_labour_minutes () 240)
+
+; The founder population: what fraction of the town's residential buildings seat a
+; founder at populate, and the adult age band each is minted into.
+(define-macro founder_density () 0.2)
+(define-macro founder_age_min () 20)
+(define-macro founder_age_max () 49)
+
 ; The immigrant-wave model (spawn-immigrant's authored knobs; the row data -
 ; ranks / origins / marginal jobs - lives in tables/immigrant_tables.hs).
 (define-macro immigrant_female_frac        () 0.5)
@@ -124,17 +159,7 @@
 (define-macro immigrant_swordsman_frac     () 0.25)  ; blade vs musket
 (define-macro immigrant_age_min            () 18)
 (define-macro immigrant_age_max            () 32)
-
-; One immigrant wave: ?count arrivals, each a full human minted by the shared
-; make-human func into a residence that will take them. The authored knobs above
-; shape who arrives; the row data (ranks / origins / marginal jobs) lives in
-; tables/immigrant-tables.hs and is read where those beliefs are minted, not here.
-(define-macro spawn-immigrant-wave (?count)
-  (repeat ?count
-    (head (env-entities [k building rowhouse])): ?imm-home
-    (if (substantial ?imm-home)
-      (then
-        (make-human ?imm-home [k class-situation lower])))))
+(define-macro admission_minutes            () 30)  ; the clerical act itself
 
 ; Household staffing hire-age window (the staff slots themselves live in
 ; tables/household_staff.hs).
