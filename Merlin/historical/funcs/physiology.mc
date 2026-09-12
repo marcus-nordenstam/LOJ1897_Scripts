@@ -13,11 +13,14 @@
 ;    so a combatant reads calm until the surge fades - then the debt lands at
 ;    once (the post-fight crash).
 ;  - FATIGUE: a SLEEP act recovers it, any other act accrues waking fatigue. The
-;    masked value (sleepiness) drives the sleep-pull utility; mint-band de-
-;    quantizes it into {@self alertness alert|tired|sleepy}.
+;    masked value (sleepiness) drives the sleep-pull utility.
 ;  - HUNGER: every act accrues it, sleep included (you wake hungry). Meal acts
-;    reduce it content-side. The masked value (appetite) gates the meal lane;
-;    mint-band de-quantizes it into {@self satiety sated|hungry|famished}.
+;    reduce it content-side. The masked value (appetite) gates the meal lane.
+;
+; ATTRS ONLY. The engine's update_physiology calls this and then mirrors the actor's
+; attrs into self-beliefs, so every drive this func moves arrives on the belief plane
+; by the one route every other attr takes. A belief minted here would be a second,
+; divergent account of the same number.
 ; ----------------------------------------------------------------------------
 
 (include "../macros/physiology-macros.mc")
@@ -44,14 +47,6 @@
 
       (set-attr @self fatigue ?fatigue)
       (set-attr @self sleepiness ?sleepiness)
-      (mint-band {@self alertness} ?sleepiness
-        [k alertness sleepy] (sleepy_min)
-        [k alertness tired]  (tired_min)
-        [k alertness alert]  -1)
 
       (set-attr @self hunger ?hunger)
-      (set-attr @self appetite ?appetite)
-      (mint-band {@self satiety} ?appetite
-        [k satiety famished] (famished_min)
-        [k satiety hungry]   (hungry_min)
-        [k satiety sated]    -1))))
+      (set-attr @self appetite ?appetite))))

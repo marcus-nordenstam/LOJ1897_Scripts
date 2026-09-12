@@ -152,11 +152,11 @@
 # Sleepiness = the ADRENALINE-MASKED fatigue the sleep-pull utility reads (raw fatigue is the
 # untouched debt). Derived by the run_physiology func; drops to ~0 during a fight, re-emerges at
 # full on the crash.
-(attr "sleepiness" (type float) (range 0 2) (imperceptible) (state-flags-tar @excl))
+(attr "sleepiness" (type float) (range 0 2) (int-per feel) (ext-per imperceptible) (state-flags-tar @excl))
 
 # Appetite = the ADRENALINE-MASKED hunger the meal-lane eligibility + starvation utilities read
 # (raw hunger is the untouched debt). Derived by the run_physiology func; suppressed mid-fight.
-(attr "appetite" (type float) (range 0 2) (imperceptible) (state-flags-tar @excl))
+(attr "appetite" (type float) (range 0 2) (int-per feel) (ext-per imperceptible) (state-flags-tar @excl))
 
 # Emigration marker (0 / 1). Set by (mark-emigrating @self) in the per-NPC
 # emigration think event; the zero-role (sweep-emigrants) world-act collects
