@@ -240,8 +240,12 @@
     ; --- @self's mind: recall the org just learned (anchored to the articles) + its
     ; premises, then mint the employment beliefs.
     (o {?art declares-org @o}): ?org
-    {?org workplace ?wp}
-    {?org employee-register ?hb-reg}
+    ; (any ..).target, not a bare {?org workplace ?wp}: a bare pattern standing as an effect
+    ; STATEMENT computes a clause and throws it away - it binds nothing, however plainly it
+    ; reads as a recall. The workplace adopt-aoc has just minted was arriving unbound here,
+    ; and {@fail occupant @self} went in after it.
+    (any {?org workplace ?}).target: ?wp
+    (any {?org employee-register ?}).target: ?hb-reg
     (employ-beliefs ?org ?wp ?job-kind ?level ?hb-reg)))
 
 
@@ -279,8 +283,9 @@
     ; --- learn the org off the articles (adopt-aoc), then the register and premises it names.
     (adopt-aoc ?art)
     (o {?art declares-org @o}): ?org
-    {?org employee-register ?reg}
-    {?org workplace ?wp}
+    ; (any ..).target - a bare pattern as an effect statement binds nothing (see hire-beliefs).
+    (any {?org employee-register ?}).target: ?reg
+    (any {?org workplace ?}).target: ?wp
     ; --- env-side roster (abs): record @self under the matched job kind + rank.
     (fill-post ?reg ?job-kind ?level)
     ; --- the employment beliefs in @self's mind, off the line he now holds.

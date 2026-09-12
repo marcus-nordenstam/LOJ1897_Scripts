@@ -49,7 +49,10 @@
       (role ?job {?job filled-by @self}
                  {?job org ?org})
       (role ?reg [k employee-register] (spatial ?reg co-located @self))
-      (role @self (spatial @self building): ?bldg)
+      ; The premises are ?wp - the task's own field, the place the notice named and the
+      ; place he walked to. It was reading (spatial @self building) instead: the building he
+      ; happened to be standing in, off his OWN index, which need not know where he is. The
+      ; @fail that came back was minting {@fail occupant @self}.
       (when (and (is-a ?job ?jk)
                  (table-match (attr ?reg writing) worker (name @self) level ?lvl)))
       (effects
@@ -60,7 +63,7 @@
           (bind ?vrel.subject ?vac)
           (if (and (is-a ?vac ?jk) {?vac org ?org})
               (then (end-belief ?vrel))))
-        (employ-beliefs ?org ?bldg ?jk ?lvl ?reg)
+        (employ-beliefs ?org ?wp ?jk ?lvl ?reg)
         (set-outcome ?ajo-rel /succ)))
 
     ; TURNED AWAY. She has named the man who holds it - a seat of the kind he came for, at
