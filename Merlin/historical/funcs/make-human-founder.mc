@@ -11,6 +11,7 @@
 ; ----------------------------------------------------------------------------
 
 (include "human-traits.mc")
+(include "age.mc")
 
 (define-func make-human (?building ?class ?gender)
   (head (spatial ?building parts [k room] /env)): ?room
@@ -29,6 +30,7 @@
           (set-attr ?h birth-date
             (create-date (- (year) ?age) (random-int 0 11) (random-int 0 27)))
           (set-attr ?h name (sample-name ?gender ?nat ?class))
+          (start-aging ?h)
           (seed-human-self-beliefs ?h ?class ?nat ?building)
           ?h)))))
 

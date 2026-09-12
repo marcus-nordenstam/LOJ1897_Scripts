@@ -28,6 +28,7 @@
 
 (include "../../macros/tunables.mc")
 (include "../../funcs/human-traits.mc")
+(include "../../funcs/age.mc")
 
 (npc-action {@self GIVE-BIRTH ?father}
   (duration (birth_labour_minutes))
@@ -43,6 +44,7 @@
     (set-attr ?baby game-role [k nonplayer])
     (seed-human-genetics ?baby ?gender @self ?father)
     (set-attr ?baby birth-date (create-date (year) (month) (day)))
+    (start-aging ?baby)
     ; The newborn's own kin beliefs, minted IN the mind being created - the same
     ; thing make-human does for a founder, and the only mind this body writes to
     ; besides the actor's own. The two-arg form externalizes each field and
