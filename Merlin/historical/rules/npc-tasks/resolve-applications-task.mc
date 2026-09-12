@@ -1,9 +1,11 @@
 ; ----------------------------------------------------------------------------
 ; resolve-applications - the recruit officer's verdict round over the application FORMS
 ; still in his hand. The PAPER is the queue: he owes an answer to every form he holds,
-; and a form is destroyed by the draft-verdict that answers it, so the round drains to
-; empty and concludes. @self believes NOTHING about the men named on them - they are
-; names on paper until one walks through his door.
+; and an answered form is burned by the recruit-staff rung that follows the verdict into
+; the post, so the round drains to empty and concludes. @self believes NOTHING about the
+; men named on them - what he holds is what the PAPER says (applicant-name / -home /
+; -post, minted by READ), and those beliefs die with the paper. They are names on paper
+; until one walks through his door.
 ;
 ; ONE decision per OPEN POST: the first applicant for its kind gets it, pencilled against
 ; the LINE as {?job offered-to ?applicant}. That is the one place a man @self has never
@@ -53,11 +55,11 @@
                  -{?job offered-to ?})
       (role ?app [k application] (spatial ?app held-by @self)
                                  {@self READ ?app /succ}
-                                 -{@self draft-verdict ?app ? /succ})
-      (when (and (table-match (attr ?app writing) field job value ?jk)
-                 (table-match (attr ?app writing) field applicant value ?name)
-                 (table-match (attr ?app writing) field home value ?addr)
-                 (is-a ?job ?jk)))
+                                 -{@self draft-verdict ?app ? /succ}
+                                 {?app applicant-post ?jk}
+                                 {?app applicant-name ?name}
+                                 {?app applicant-home ?addr})
+      (when (is-a ?job ?jk))
       (effects
         (o [k human] {@o name ?name} {@o address ?addr}): ?applicant
         ; ONE offer per man in flight: a seat already promised to him is not promised twice.
@@ -70,9 +72,9 @@
       (lock-rule)
       (role ?app [k application] (spatial ?app held-by @self)
                                  {@self READ ?app /succ}
-                                 -{@self draft-verdict ?app ? /succ})
-      (when (and (table-match (attr ?app writing) field applicant value ?name)
-                 (substantial (offeree-named ?name))))
+                                 -{@self draft-verdict ?app ? /succ}
+                                 {?app applicant-name ?name})
+      (when (substantial (offeree-named ?name)))
       (utility obligation)
       (effects (maintain-proposal {@self draft-verdict ?app [k offer-letter]})))
 
@@ -83,10 +85,10 @@
       (role ?org {@self duty-to ?org recruit-staff})
       (role ?app [k application] (spatial ?app held-by @self)
                                  {@self READ ?app /succ}
-                                 -{@self draft-verdict ?app ? /succ})
-      (when (and (table-match (attr ?app writing) field job value ?jk)
-                 (table-match (attr ?app writing) field applicant value ?name)
-                 (unsubstantial (offeree-named ?name))
+                                 -{@self draft-verdict ?app ? /succ}
+                                 {?app applicant-post ?jk}
+                                 {?app applicant-name ?name})
+      (when (and (unsubstantial (offeree-named ?name))
                  (unsubstantial (open-job-for ?org ?jk))))
       (utility obligation)
       (effects (maintain-proposal {@self draft-verdict ?app [k rejection-letter]})))

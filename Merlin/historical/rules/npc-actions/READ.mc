@@ -58,5 +58,21 @@
                 (if -{?job job-id ?job-id} (then (begin-belief {?job job-id ?job-id})))
                 (if -{?job filled-by _} (then (begin-belief {?job filled-by _})))
                 (if -{?org workplace ?} (then (begin-belief {?org workplace ?apply-at}))))))
-        (else (adopt-msg (attr ?doc writing))))
+        (else
+          ; An APPLICATION is a form like the notice, and what it says is said about the
+          ; PAPER: the name, the home and the post asked for. No man is minted - a name on
+          ; a sheet is not somebody @self has met - and the beliefs end with the form when
+          ; it is burned, which is what takes it off the clerk's queue.
+          (if (is-a ?doc [k application])
+              (then
+                (tolerate (attr ?doc writing): ?aform)
+                (tolerate (table-match ?aform field applicant value ?aname))
+                (tolerate (table-match ?aform field home value ?ahome))
+                (tolerate (table-match ?aform field job value ?ajk))
+                (if (and (substantial ?aname) (substantial ?ahome) (substantial ?ajk))
+                    (then
+                      (if -{?doc applicant-name ?aname} (then (begin-belief {?doc applicant-name ?aname})))
+                      (if -{?doc applicant-home ?ahome} (then (begin-belief {?doc applicant-home ?ahome})))
+                      (if -{?doc applicant-post ?ajk}   (then (begin-belief {?doc applicant-post ?ajk}))))))
+              (else (adopt-msg (attr ?doc writing))))))
     (set-outcome {@self READ ?doc} /succ)))

@@ -227,13 +227,23 @@
     ; The PAPER is the queue. A clerk knows whom he owes an answer by the forms still in
     ; his hand - not by a belief that each of them is at this moment applying, which would
     ; be false (the man's apply-for concluded when he posted it, weeks ago) and unknowable
-    ; (apply-for carries no (obs), so it can never be read off anybody). draft-verdict
-    ; consumes the form once the answer to it is in the out-box.
+    ; (apply-for carries no (obs), so it can never be read off anybody). The form burns
+    ; once its verdict is in the out-box.
     (try
       (role ?app [k application] (spatial ?app held-by @self)
             -{@self READ ?app /succ})
       (utility obligation)
       (effects (maintain-proposal {@self READ ?app})))
+    ; BURN THE ANSWERED FORM. The verdict is in the post, so the paper has done its
+    ; work, and the empty hand is what takes the man off the queue. Its own rung and
+    ; never draft-verdict's last stage: that task TARGETS the form, so realizing the
+    ; form destroyed would conclude the very task that answered it, with a fail.
+    (try
+      (role ?app [k application] (spatial ?app held-by @self)
+                                 {@self draft-verdict ?app ? /succ})
+      (utility obligation)
+      (effects (maintain-proposal {@self DESTROY-ENTITY ?app})))
+
     ; RESOLVE the forms in hand: draft + mail a verdict for each.
     (try
       (lock-rule)

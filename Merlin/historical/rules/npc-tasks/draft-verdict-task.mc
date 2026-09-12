@@ -1,13 +1,13 @@
 ; ----------------------------------------------------------------------------
 ; draft-verdict ?app ?kind - answer ONE application FORM with a verdict letter of ?kind
-; (offer-letter / rejection-letter): pen, fill, envelope, post from the OFFICE out-box,
-; then destroy the form. WHICH verdict is the proposing resolve-applications round's
-; decision, not this task's.
+; (offer-letter / rejection-letter): pen, fill, envelope, post from the OFFICE out-box.
+; WHICH verdict is the proposing resolve-applications round's decision, not this task's.
 ;
 ; It answers the PAPER, never a person. Everything the letter needs - whom to name, which
-; post, where to send it - is written on the form in hand, so @self need believe nothing
-; about a man he has not met. Destroying the form is what takes him off the queue: a
-; clerk's out-tray is his record of what is done.
+; post, where to send it - @self read off the form and holds as beliefs ABOUT THE FORM, so
+; he need believe nothing about a man he has not met. BURNING the answered form is what
+; takes him off the queue, and that is a recruit-staff rung: this task targets the form, so
+; realizing it destroyed would conclude the very task that answered it, with a fail.
 ;
 ; The letter this task pens is the one it CREATED: the CREATE postlude stashes it under
 ; the running task's own `letter` key, so a restart re-reads that key instead of picking
@@ -38,8 +38,8 @@
       ; no guessing it right. Kind + org is what makes it THAT seat to him, resolved against
       ; his own objects; he already knows where the org keeps its door.
       (stage
-        (when (and (table-match (attr ?app writing) field applicant value ?rname)
-                   (table-match (attr ?app writing) field job value ?jk))
+        (when {?app applicant-name ?rname}
+              {?app applicant-post ?jk}
               {?org name ?org-name})
         (effects
           (if (unsubstantial (attr ?ltr writing))
@@ -48,7 +48,7 @@
                                                     [org-name ?org-name]])})))))
 
       (stage
-        (when (table-match (attr ?app writing) field home value ?raddress))
+        (when {?app applicant-home ?raddress})
         (effects
           (if (unsubstantial (attr ?ltr destination))
               (then (maintain-proposal {@self ADDRESS ?ltr ?raddress})))))
@@ -56,12 +56,6 @@
       (stage
         (role ?out [k outgoing-mail-stack] (spatial ?out building ?wp))
         (effects (maintain-proposal {@self send-mail ?ltr ?out})))
-
-      ; The answer is in the post, so the form has done its work. Its own stage: the
-      ; destroy must CONCLUDE before the task does, or the paper stays in hand and the
-      ; round re-drafts the verdict it has already sent.
-      (stage
-        (effects (maintain-proposal {@self DESTROY-ENTITY ?app})))
 
       (stage
         (effects

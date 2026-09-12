@@ -728,6 +728,13 @@ relation
         # mx_imagine_or_recall(orgkind, mx_observe(articles), "declares-org").
         declares-org            (sub document)  (tar org @excl)
 
+        # What an application FORM says, held about the PAPER and never about a man:
+        # a clerk who has read a form knows what it asks for and still knows nothing
+        # about whoever wrote it. The three are what prepare-application pens.
+        applicant-name          (sub document)  (tar ? @excl)
+        applicant-home          (sub document)  (tar ? @excl)
+        applicant-post          (sub document)  (tar ? @excl)
+
         # household-cook - @self is THE cook of <home> (one per household,
         # elected via the home's public-bb `cook` marker; provisioning_think).
         household-cook          (sub human)  (tar structure @excl)
