@@ -28,9 +28,15 @@
   (cooldown 1 m)
   (rng-stream births)
 
-  ; a married, fertile-age woman not already carrying a pregnancy (fertile_wife
-  ; folds in the not-pregnant gate)
-  (role @self (fertile_wife @self))
+  ; A married, fertile-age woman not already carrying a pregnancy. Spelled as
+  ; SEPARATE role filters, not as the fertile_wife macro: that macro expands to one
+  ; (and ..), and a single op filter never joins the alpha - the role would carry no
+  ; membership at all and the rule would never be admitted.
+  (role @self {@self isa [k human], condition [k alive]}
+              {@self gender [k female]}
+              {@self age-band [k youth|young-adult|middle-aged]}
+              {@self spouse ?}
+              -{@self pregnant ?})
 
   ; her husband, and under the same roof - a coupling needs both bodies present.
   (role ?husband {@self spouse ?husband}

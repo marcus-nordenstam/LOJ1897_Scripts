@@ -2,20 +2,20 @@
 ; make-human - mint ONE fully-specified NPC human housed in ?building: pick a room,
 ; sample appearance / traits / name, create the entity, and seed its self-beliefs
 ; (home = ?building). Returns the created human (@fail when the building has no room).
-; The founder population func loops this; any other caller that needs a single human
-; (not a whole population) calls it directly.
 ;
-;   (make-human ?building ?class)  - ?building = the residence the human is housed in,
-;                                    ?class = the class situation he is born into.
+;   (make-human ?building ?class ?gender)
+;
+; The gender is the CALLER's, not a roll made in here: a founder household needs one
+; of each, and a rule that rolled its own could not ask for that. A caller with no
+; stake in it draws (table-sample-weighted gender_dist value weight) and passes it.
 ; ----------------------------------------------------------------------------
 
 (include "human-traits.mc")
 
-(define-func make-human (?building ?class)
+(define-func make-human (?building ?class ?gender)
   (head (spatial ?building parts [k room] /env)): ?room
   (if ?room
     (then
-      (table-sample-weighted gender_dist value weight): ?gender
       (table-sample-weighted nationality_dist value weight): ?nat
       (create-entity [k human] ?room): ?h
       (if ?h
@@ -73,12 +73,32 @@
         (else [k lower])))))
 
 ; ----------------------------------------------------------------------------
-; make-human-founder - the world-gen founder population: one adult per RESIDENTIAL
-; building, each minted by (make-human) with the class his residence implies.
-; Commercial buildings house nobody, so they are not walked at all. Invoked ONCE at
-; populate.
+; make-founder-household - one COUPLE per residence, man and woman. Never a
+; single: a parish of people living one to a house has no co-presence in it, and
+; without co-presence nothing social can start - no conception, no introduction,
+; no affair, since every one of those gates on two people being in the same place.
+; Both are minted into the same building (make-human seats them in its first
+; room), so they begin life under one roof and in one another's sight.
+;
+; They are not WED here. A marriage is a belief each spouse holds about the other,
+; and at populate no mind has been self-perceived yet - a human simply cannot be
+; the target of another mind's belief at that point (it lands @fail, and the
+; conversion ops either fail or take the sim down). The wedding is therefore a
+; (startup) rung - wed_at_founding - which runs once minds are live and each
+; spouse mints their own half.
+; ----------------------------------------------------------------------------
+
+(define-func make-founder-household (?building ?class)
+  (make-human ?building ?class [k male]): ?husband
+  (make-human ?building ?class [k female]): ?wife
+  ?husband)
+
+; ----------------------------------------------------------------------------
+; make-human-founder - the world-gen founder population: one household per
+; RESIDENTIAL building, each with the class its residence implies. Commercial
+; buildings house nobody, so they are not walked at all. Invoked ONCE at populate.
 ; ----------------------------------------------------------------------------
 
 (define-func make-human-founder ()
   (for-each ?b (env-entities [k building residential-building])
-    (if (chance (founder_density)) (make-human ?b (class-for-residence ?b)))))
+    (if (chance (founder_density)) (make-founder-household ?b (class-for-residence ?b)))))

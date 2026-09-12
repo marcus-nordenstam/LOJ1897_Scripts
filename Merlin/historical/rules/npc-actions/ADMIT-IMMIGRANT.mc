@@ -24,6 +24,7 @@
     (count ?homes): ?n
     (check (> ?n 0))
     (nth ?homes (random-int 0 (- ?n 1))): ?imm-home
-    (make-human ?imm-home [k class-situation lower]): ?newcomer
+    (table-sample-weighted gender_dist value weight): ?gender
+    (make-human ?imm-home [k class-situation lower] ?gender): ?newcomer
     (check (substantial ?newcomer))
     (set-outcome {@self ADMIT-IMMIGRANT ?office} /succ)))
