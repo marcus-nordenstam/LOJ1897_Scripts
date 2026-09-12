@@ -2,7 +2,7 @@
 ; rest (npc-think) - the FATIGUE / REST lane: a real physiological fatigue model
 ; drives when an NPC sleeps.
 ;
-; (attr @self sleepiness) reads the ADRENALINE-MASKED fatigue (sleepiness = fatigue *
+; (target-or @self sleepiness 0) reads the ADRENALINE-MASKED fatigue (sleepiness = fatigue *
 ; (1 - adrenaline), derived by update_physiology). The raw `fatigue` attr (0 rested ..
 ; 1 ready-for-bed, can exceed 1) is the untouched debt; the sleep act's completion REDUCES
 ; it (1/6 per hour slept -> 6h clears 1.0), waking time accrues it. A combatant reads
@@ -44,7 +44,7 @@
 (npc-think seek_rest
   (role ?home {@self home ?home}
               (not (spatial @self building ?home)))
-  (when (> (attr @self sleepiness) 0.7))
+  (when (> (target-or @self sleepiness 0) 0.7))
   (utility (sleep-drive))
   (effects (maintain-proposal {@self enter ?home})))
 
@@ -57,7 +57,7 @@
               (spatial @self building ?home))
   ; You cannot sleep through an assault - being under attack gates the whole rest
   ; lane OUT, so the fight acts (defend / flee / scream) take over (fight.hs).
-  (when (and (or (> (attr @self sleepiness) 0.5)
+  (when (and (or (> (target-or @self sleepiness 0) 0.5)
                  (>= (now-hour) 22)
                  (< (now-hour) 6))))
   ; Banded fatigue drive (WANT while merely drowsy, NEED late evening, CRISIS past

@@ -18,4 +18,4 @@
   (role @self {@self class-situation ?})
 
   (effects
-    (begin-belief {@self decorum (clamp (attr @self politeness) 0 1)})))
+    (begin-belief {@self decorum (clamp (target-or @self politeness 0) 0 1)})))

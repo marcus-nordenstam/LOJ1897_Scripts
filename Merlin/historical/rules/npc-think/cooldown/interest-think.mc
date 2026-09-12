@@ -50,7 +50,7 @@
 
   (when (and (>= (years-old @self) 3)
              (<= (years-old @self) 14)
-             (chance (* 0.015 (+ 0.3 (attr @self politeness))))))
+             (chance (* 0.015 (+ 0.3 (target-or @self politeness 0))))))
 
   (effects
     ; One novel domain copied off a parent's interests (a 50/50 pick when both
@@ -89,7 +89,7 @@
     (select (score 1) (policy roulette)))
 
   (when (and (>= (years-old @self) 8)
-             (chance (* 0.0167 (attr @self openness) (+ 0.5 (attr @self enthusiasm))))))
+             (chance (* 0.0167 (target-or @self openness 0) (+ 0.5 (target-or @self enthusiasm 0))))))
 
   (effects
     (random-unheld-kind-target ?friend interest interest): ?d
@@ -108,7 +108,7 @@
   (role @self 
               {@self master ?})
 
-  (when (chance (* 0.025 (+ 0.3 (attr @self openness)))))
+  (when (chance (* 0.025 (+ 0.3 (target-or @self openness 0)))))
 
   (effects
     ; The master's craft becomes the apprentice's casual interest (which
@@ -130,7 +130,7 @@
   (role @self )
 
   (when (and (>= (years-old @self) 10)
-             (chance (* 0.0083 (attr @self openness) (attr @self openness)))))
+             (chance (* 0.0083 (target-or @self openness 0) (target-or @self openness 0)))))
 
   (effects
     ; A brand-new interest sampled off the whole domain axis (leaf-only, so a

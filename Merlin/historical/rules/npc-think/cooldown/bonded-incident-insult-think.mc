@@ -57,8 +57,8 @@
   ; The actor's impulse (dispositional base + displaced anger) and the victim-
   ; stance gate are both non-belief (chance) tests, so they live in (when).
   (when (and (chance (+ (* (crime-scale) 0.06
-                           (- 1.0 (attr @self politeness))
-                           (attr @self narcissism))
+                           (- 1.0 (target-or @self politeness 0))
+                           (target-or @self narcissism 0))
                         (* (crime-scale) 0.08 ?emo_load)))
              (chance (+ 0.10
                         (* 0.15 (+ (prob {@self dislike ?victim})

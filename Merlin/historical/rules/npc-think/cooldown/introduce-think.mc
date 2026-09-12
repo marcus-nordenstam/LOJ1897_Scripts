@@ -12,7 +12,7 @@
        -{@self SAY ? ?stranger})
 
   ; Sociability gate: an extraverted NPC strikes up an introduction more readily.
-  (when (chance (* 0.5 (+ 0.4 (attr @self enthusiasm)))))
+  (when (chance (* 0.5 (+ 0.4 (target-or @self enthusiasm 0)))))
 
   (utility want)
 

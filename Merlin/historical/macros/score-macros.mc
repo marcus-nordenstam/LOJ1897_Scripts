@@ -21,9 +21,9 @@
 (define-macro mean3 (?a ?b ?c)
   (* 0.3333 (+ ?a (+ ?b ?c))))
 
-; Mean of two env trait attrs of ?who.
+; Mean of two of ?who's trait self-beliefs.
 (define-macro trait-mean (?who ?trait_a ?trait_b)
-  (mean2 (attr ?who ?trait_a) (attr ?who ?trait_b)))
+  (mean2 (target-or ?who ?trait_a 0) (target-or ?who ?trait_b 0)))
 
 ; ?who's ?label belief target, else ?default when the belief is absent
 ; (the "unknown reads as X" parity idiom).
@@ -84,7 +84,7 @@
 ; whatever their home life. Paired with (callousness ...) as the empathy-brake-off
 ; release, NOT (disinhibition), whose inhibition input folds in the family decorum.
 (define-macro infidelity-disposition (?who)
-  (mean3 (attr ?who narcissism) (attr ?who psychopathy) (attr ?who volatility)))
+  (mean3 (target-or ?who narcissism 0) (target-or ?who psychopathy 0) (target-or ?who volatility 0)))
 
 ; --- Layer 2: the propensity product -----------------------------------------
 
@@ -121,7 +121,7 @@
 ; ... and inflated by self-regard: how much the betrayed self blames the
 ; unfaithful partner.
 (define-macro blame-partner-score (?t)
-  (+ (attr @self narcissism) (cold-affront ?t)))
+  (+ (target-or @self narcissism 0) (cold-affront ?t)))
 
 ; How much the betrayed self blames the interloper instead: attachment to the
 ; partner (worth keeping) + compassion (spare the partner) + hostility already
@@ -134,7 +134,7 @@
 ; The dual-kill outrage: enough anger + propriety + scheming to kill BOTH.
 (define-macro dual-outrage-score ()
   (+ (emotion-load @self [k anger])
-     (+ (any {@self decorum}).target (attr @self machiavellianism))))
+     (+ (any {@self decorum}).target (target-or @self machiavellianism 0))))
 
 ; Value dissonance between ?a and ?b AS THE DELIBERATOR KNOWS IT: the share of
 ; declared moral values (chastity / piety / sobriety) the two hold differently,

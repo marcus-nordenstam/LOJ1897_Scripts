@@ -59,12 +59,12 @@
   ; bound on the standing-corpse scan where the burial propagation missed a
   ; knower (an emigrant, a returnee).
   (when    (and (observed ?corpse)
-                (>= (attr @self politeness) 0.3)
+                (>= (target-or @self politeness 0) 0.3)
                 (< (months-since-death ?corpse) 6)))
   ; x85, a shade OVER want_worship's x80: burying your dead outranks attending a
   ; service, so at the church the deposit wins the first slot and the service
   ; follows (at x80 the two tied and the deposit lost the tie for years).
-  (utility want (* 10 (attr @self politeness) 85))
+  (utility want (* 10 (target-or @self politeness 0) 85))
   (effects       (begin-goal {@self CONVEY ?corpse}))
   (cease-effects (set-outcome {@self goal {@self CONVEY ?corpse}} /succ)))
 
@@ -77,7 +77,7 @@
   (goal    {@self CONVEY ?corpse})
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
   (when    (is-a (spatial @self building) [k building church]))
-  (utility (* 10 (* (attr @self politeness) 85)))
+  (utility (* 10 (* (target-or @self politeness 0) 85)))
   (effects (maintain-proposal {@self CONVEY ?corpse})))
 
 ; CASE B - not at a church, but knows one: head to it. The (goal ...) clause pins

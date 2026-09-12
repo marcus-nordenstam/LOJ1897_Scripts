@@ -19,8 +19,8 @@
 ; never divides by zero (past ?danger the floor 0.05 caps the denominator, so it keeps
 ; growing ~linearly instead of exploding to infinity).
 (define-macro homeostatic (?attr ?danger ?scale)
-  (* ?scale (/ (attr @self ?attr)
-               (max 0.05 (- ?danger (attr @self ?attr))))))
+  (* ?scale (/ (target-or @self ?attr 0)
+               (max 0.05 (- ?danger (target-or @self ?attr 0))))))
 
 ; saturating rhythmic drive: ?scale x clamp((days-since-last - due) / (cap - due), 0, 1).
 ; 0 at the due day, full ?scale by the cap day, held at ?scale thereafter.

@@ -58,6 +58,6 @@
   (when (and (!= ?winner @self)
              ; @self competed at a meet (his own ended RACE-RUN memory).
              {@self RACE-RUN ? ? /succ /ever}
-             (chance (+ 0.15 (* 0.85 (attr @self narcissism) (attr @self assertiveness))))))
+             (chance (+ 0.15 (* 0.85 (target-or @self narcissism 0) (target-or @self assertiveness 0))))))
   (effects
     (begin-belief {?winner outdo @self})))

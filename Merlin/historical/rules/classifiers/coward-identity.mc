@@ -24,8 +24,8 @@
 
   (effects
     (mint-band {@self identity}
-      (clamp (+ (* (< (attr @self assertiveness) (coward-assert-max))
-                   (> (attr @self withdrawal)    (coward-withdraw-min)))
+      (clamp (+ (* (< (target-or @self assertiveness 0) (coward-assert-max))
+                   (> (target-or @self withdrawal 0)    (coward-withdraw-min)))
                 (* (> (inhibition) (coward-inhibition-min))
                    (- 1 (prob {@self repute [k repute exemplary]})))) 0 1)
       [k role coward-role] 0.5)))

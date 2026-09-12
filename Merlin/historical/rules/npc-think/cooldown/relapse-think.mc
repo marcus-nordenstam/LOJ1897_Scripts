@@ -32,9 +32,9 @@
   ; BAND = the identity/drive escalation: the dependent's baseline relapse rides NEED (a
   ; physiological drive at ordinary strength), escalating to CRISIS at the withdrawal redline
   ; (withdrawal is a DRIVE, not a trait, so the inline threshold is a legitimate escalation).
-  (utility (if (>= (attr @self withdrawal) 0.7) (then crisis) (else need))
-           (* 10 (* (min (* (+ 0.5 (* 0.8 (attr @self withdrawal)))
-                      (+ 0.6 (* 0.6 (- 1 (attr @self industriousness))))
+  (utility (if (>= (target-or @self withdrawal 0) 0.7) (then crisis) (else need))
+           (* 10 (* (min (* (+ 0.5 (* 0.8 (target-or @self withdrawal 0)))
+                      (+ 0.6 (* 0.6 (- 1 (target-or @self industriousness 0))))
                       (- 1.3 (* 0.6 (piety)))
                       (- 1.3 (* 0.6 (belonging)))) 1.6)
               (min (* (days-since-last {@self DRINK /ever}) 5) 45))))

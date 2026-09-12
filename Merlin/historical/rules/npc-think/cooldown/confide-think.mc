@@ -33,7 +33,7 @@
               {@self friend ?})
 
   ; Roll the disclosure - once per discloser per month, weighted by extraversion.
-  (when (chance (* 0.08 (+ 0.5 (attr @self enthusiasm)))))
+  (when (chance (* 0.08 (+ 0.5 (target-or @self enthusiasm 0)))))
 
   (utility want)
 

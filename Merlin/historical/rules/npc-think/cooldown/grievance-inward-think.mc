@@ -36,7 +36,7 @@
           (pick-confidant ?who): ?conf
           (begin-belief ?conf {@self mention [k death-cause suicide]})))
     (if (and (>= (despair ?who) (suicide_despair_min))
-             (>= (attr ?who withdrawal) (suicide_withdrawal_min)))
+             (>= (target-or ?who withdrawal 0) (suicide_withdrawal_min)))
         (then (settle-death ?who)
             (set-attr ?who death-cause [k death-cause suicide])))))
 

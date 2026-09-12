@@ -55,9 +55,9 @@
   ; The trait chance (openness x enthusiasm x compassion) is a non-belief filter,
   ; rolled once per NPC per month in (when) rather than as a role criterion.
   (when (chance (* 0.30
-                   (attr @self openness)
-                   (attr @self enthusiasm)
-                   (attr @self compassion))))
+                   (target-or @self openness 0)
+                   (target-or @self enthusiasm 0)
+                   (target-or @self compassion 0))))
 
   (effects
     ; Feed the one-sided attraction scalar: a crush is a strong directed pull.

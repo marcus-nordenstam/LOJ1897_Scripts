@@ -113,7 +113,7 @@
   (role ?home {@self home ?home}
               (spatial @self building ?home)
               (spatial ?home room [k kitchen]): ?kitchen)   ; a resident who does not know their kitchen just skips
-  (when (and (> (attr @self appetite) 0.25)
+  (when (and (> (target-or @self appetite 0) 0.25)
              (= (believed-home-food-count ?home) 0)))
   (effects
     (observe ?kitchen)))
@@ -126,7 +126,7 @@
   (role ?home {@self home ?home}
               {?home breakfast-hour ?h}   ; existence cached, ?h binds at fire
               (spatial @self building ?home))
-  (when (and (> (attr @self appetite) 0.25)
+  (when (and (> (target-or @self appetite 0) 0.25)
              (>= (now-hour) ?h)
              (< (now-hour) (+ ?h 3))
              (> (believed-home-food-count ?home) 0)))
@@ -140,7 +140,7 @@
   (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
              {?org workplace ?wp}       ; ?wp binds at fire
              (spatial @self building ?wp))                    ; residual gate, re-checked at the when-seam
-  (when (and (> (attr @self appetite) 0.25)
+  (when (and (> (target-or @self appetite 0) 0.25)
              (>= (now-hour) 12)
              (< (now-hour) 14)))
   (utility need)
@@ -152,7 +152,7 @@
   (role ?home {@self home ?home}
               {?home lunch-hour ?h}   ; existence cached, ?h binds at fire
               (spatial @self building ?home))
-  (when (and (> (attr @self appetite) 0.25)
+  (when (and (> (target-or @self appetite 0) 0.25)
              (>= (now-hour) ?h)
              (< (now-hour) (+ ?h 2))
              (> (believed-home-food-count ?home) 0)))
@@ -165,7 +165,7 @@
 (npc-think want_supper
   (role ?home {@self home ?home}
               {?home supper-hour ?h})   ; existence cached, ?h binds at fire
-  (when (and (> (attr @self appetite) 0.25)
+  (when (and (> (target-or @self appetite 0) 0.25)
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
              (> (believed-home-food-count ?home) 0)))
@@ -184,7 +184,7 @@
   (role ?home {@self home ?home}
               {?home supper-hour ?h})   ; existence cached, ?h binds at fire
   (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette)))
-  (when (and (> (attr @self appetite) 0.25)
+  (when (and (> (target-or @self appetite 0) 0.25)
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
              (> ?wealth 0.2)
@@ -200,7 +200,7 @@
   (role ?home {@self home ?home}
               {?home supper-hour ?h})   ; existence cached, ?h binds at fire
   (role ?venue [k building restaurant] (select (score (near @self ?venue)) (policy roulette)))
-  (when (and (> (attr @self appetite) 0.25)
+  (when (and (> (target-or @self appetite 0) 0.25)
              (>= (now-hour) (- ?h 1))
              (< (now-hour) (+ ?h 2))
              (> ?wealth 0.2)
@@ -256,7 +256,7 @@
   (when    (or (spatial @self building ?place)
                (spatial @self space ?place)))
   (effects (maintain-proposal {@self eat ?meal ?place}
-             [/affect (if (dining-out? ?place) (then (* (attr @self enthusiasm) 20)) (else 0))]
+             [/affect (if (dining-out? ?place) (then (* (target-or @self enthusiasm 0) 20)) (else 0))]
              [/cost (money-cost-util (coin-balance @self)
                          (if (dining-out? ?place) (then (price ?meal ?place)) (else 0)))]
              [/feasible (or (not (dining-out? ?place)) (>= (coin-balance @self) (price ?meal ?place)))])))
@@ -291,13 +291,13 @@
 ; the freshness check - it now only ever runs for the starving few.
 (npc-think starving_watch
   (role @self -{@self starve})
-  (when (> (attr @self appetite) 1.3))
+  (when (> (target-or @self appetite 0) 1.3))
   (effects
     (begin-belief {@self starve})))
 
 (npc-think starving_watch_end
   (role @self {@self starve})
-  (when (not (> (attr @self appetite) 1.3)))
+  (when (not (> (target-or @self appetite 0) 1.3)))
   (effects
     (end-belief {@self starve})))
 
@@ -310,7 +310,7 @@
 ; goal is a food item.
 (npc-think starving_eat_carried
   (role @self {@self starve})
-  (when (and (> (attr @self appetite) 1.3)
+  (when (and (> (target-or @self appetite 0) 1.3)
              (> (held-pile-count @self [k food]) 0)))
   (utility (starve-drive))
   (effects       (begin-goal {@self forage}))
@@ -320,7 +320,7 @@
   (role @self {@self starve})
   (role ?home {@self home ?home}
               (spatial @self building ?home))
-  (when (and (> (attr @self appetite) 1.3)
+  (when (and (> (target-or @self appetite 0) 1.3)
              (> (believed-home-food-count ?home) 0)))
   (utility (starve-drive))
   (effects       (begin-goal {@self forage}))
@@ -330,7 +330,7 @@
   (role @self {@self starve})
   (role ?home {@self home ?home}
               (not (spatial @self building ?home)))
-  (when (and (> (attr @self appetite) 1.3)
+  (when (and (> (target-or @self appetite 0) 1.3)
              (> (believed-home-food-count ?home) 0)))
   (utility (starve-drive))
   (effects (maintain-proposal {@self enter ?home})))
@@ -339,7 +339,7 @@
 ; no-coin sense as provisioning).
 (npc-think starving_buy
   (role @self {@self starve ?, wealth ?wealth})
-  (when (and (> (attr @self appetite) 1.3)
+  (when (and (> (target-or @self appetite 0) 1.3)
              (> ?wealth 0.2)
              (is-a (spatial @self building) [k building shop])))
   (utility (starve-drive))
@@ -352,7 +352,7 @@
   ; (nearest, weighted). Replaces the (venue ...) fallback.
   (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
   (any {@self provisions-shop ?shop})
-  (when (and (> (attr @self appetite) 1.3)
+  (when (and (> (target-or @self appetite 0) 1.3)
              (> ?wealth 0.2)
              (not (is-a (spatial @self building) [k building shop]))))
   (utility (starve-drive))
@@ -366,7 +366,7 @@
 ; actually eaten - forage_act appends it inside its shop branch.
 (npc-think starving_steal
   (role @self {@self starve ?, wealth ?wealth})
-  (when (and (> (attr @self appetite) 1.3)
+  (when (and (> (target-or @self appetite 0) 1.3)
              (not (> ?wealth 0.2))
              (is-a (spatial @self building) [k building shop])))
   (utility (starve-drive))
@@ -377,7 +377,7 @@
   (role @self {@self starve ?, wealth ?wealth})
   (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
   (any {@self provisions-shop ?shop})
-  (when (and (> (attr @self appetite) 1.3)
+  (when (and (> (target-or @self appetite 0) 1.3)
              (not (> ?wealth 0.2))
              (not (is-a (spatial @self building) [k building shop]))))
   (utility (starve-drive))

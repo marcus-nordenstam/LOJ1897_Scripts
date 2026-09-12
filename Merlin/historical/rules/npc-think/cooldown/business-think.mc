@@ -69,7 +69,7 @@
              (<= (years-old @self) 55)
              (>= (diligence) 0.55)
              (< ?wealth 0.5)
-             (latch-eval (chance (* 0.033 (+ 0.5 (attr @self assertiveness)))))))
+             (latch-eval (chance (* 0.033 (+ 0.5 (target-or @self assertiveness 0)))))))
 
   ; npc-think: the clerk resolves to secure his firm's backing. Mints {@self goal
   ; {@self back ?org}} (focus = the firm); the npc-action (invest_errand.hs)
@@ -123,7 +123,7 @@
              (<= (years-old @self) 55)
              (>= (diligence) 0.55)
              (< ?wealth 0.5)
-             (latch-eval (chance (* 0.01 (+ 0.5 (attr @self assertiveness)))))))
+             (latch-eval (chance (* 0.01 (+ 0.5 (target-or @self assertiveness 0)))))))
 
   ; SPLIT (Item 5): the npc-think - the clerk decides to buy in. Mints {@self
   ; goal {@self PARTNER <articles>}}; the npc-action (partner_errand.hs) sends him to
@@ -175,7 +175,7 @@
              (>= (diligence) 0.55)
              (or (>= ?wealth 0.5)
                  {@self backed-by ?})
-             (latch-eval (chance (* 0.025 (+ 0.5 (attr @self assertiveness)))))))
+             (latch-eval (chance (* 0.025 (+ 0.5 (target-or @self assertiveness 0)))))))
 
   (utility errand)
   (effects       (begin-goal {@self FOUND}))

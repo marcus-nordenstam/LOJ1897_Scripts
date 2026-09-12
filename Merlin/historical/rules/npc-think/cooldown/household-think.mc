@@ -37,7 +37,7 @@
   (effects
     (if (spatial ?home room [k interior-space study])
               (then (+ (read-weight-base)
-                       (* (read-weight-intellect-scale) (attr @self intellect))))
+                       (* (read-weight-intellect-scale) (target-or @self intellect 0))))
               (else 0)): ?read_w
     (if (chance (/ ?read_w (+ (rest-weight) ?read_w)))
         (then (maintain-proposal {@self read-at ?home}))

@@ -34,7 +34,7 @@
   (role @self {@self class-situation ?})
   (effects
     (mint-band {@self identity}
-      (* (= (attr @self gender) [k male])
+      (* (= (target-or @self gender 0) [k male])
          (clamp (+ (prob {@self class-situation [k class-situation middle]})
                    (prob {@self class-situation [k class-situation upper]})) 0 1))
       [k role gentleman-role] 0.5)))
@@ -44,7 +44,7 @@
   (role @self {@self class-situation ?})
   (effects
     (mint-band {@self identity}
-      (* (= (attr @self gender) [k female])
+      (* (= (target-or @self gender 0) [k female])
          (clamp (+ (prob {@self class-situation [k class-situation middle]})
                    (prob {@self class-situation [k class-situation upper]})) 0 1))
       [k role lady-role] 0.5)))
@@ -59,7 +59,7 @@
   (role @self {@self class-situation ?})
   (effects
     (mint-band {@self identity}
-      (>= (attr @self machiavellianism) (identity-machiavellian-min))
+      (>= (target-or @self machiavellianism 0) (identity-machiavellian-min))
       [k role machiavellian-role] 0.5)))
 
 (npc-think classify_sadist_identity
@@ -67,7 +67,7 @@
   (role @self {@self class-situation ?})
   (effects
     (mint-band {@self identity}
-      (>= (attr @self sadism) (identity-sadist-min))
+      (>= (target-or @self sadism 0) (identity-sadist-min))
       [k role sadist-role] 0.5)))
 
 ; christian / merchant / steward: the identity a membership or a post confers. A

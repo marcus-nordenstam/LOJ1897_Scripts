@@ -41,10 +41,10 @@
   ; rate-limiting the first flutter here every adult would take a first gamble and the whole
   ; town would spiral into addiction.
   (when (and (>= (days-since-last {@self PLAY-GAME /ever}) 10)
-             (or (> (attr @self gambling-addiction) 0)
-                 (latch-eval (chance (* 0.02 (- 1 (attr @self industriousness))))))))
-  (utility want (* 10 (* (- 1 (attr @self industriousness))                    ; susceptibility (0 = disciplined)
-              (+ 2 (* 22 (attr @self gambling-addiction)))          ; onset 2 -> morbid 24 (below leisure)
+             (or (> (target-or @self gambling-addiction 0) 0)
+                 (latch-eval (chance (* 0.02 (- 1 (target-or @self industriousness 0))))))))
+  (utility want (* 10 (* (- 1 (target-or @self industriousness 0))                    ; susceptibility (0 = disciplined)
+              (+ 2 (* 22 (target-or @self gambling-addiction 0)))          ; onset 2 -> morbid 24 (below leisure)
               (min (* (days-since-last {@self PLAY-GAME /ever}) 0.04) 1.0)))) ; slow craving modulator [0,1]
   (effects       (begin-goal {@self PLAY-GAME}))
   (cease-effects (set-outcome {@self goal {@self PLAY-GAME}} /succ)))

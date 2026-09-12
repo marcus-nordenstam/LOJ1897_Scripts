@@ -47,7 +47,7 @@
              (>= (stance-band ?instigator attraction) 2)
              -{?victim condition [k dead]}
              (or {@self kill ?victim}
-                 (chance (attr @self psychopathy)))))
+                 (chance (target-or @self psychopathy 0)))))
 
   (utility want)
   (effects

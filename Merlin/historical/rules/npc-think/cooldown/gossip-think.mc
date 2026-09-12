@@ -38,8 +38,8 @@
   ; assertiveness weighted chance, and the minimum-age check.
   (when (and (!= ?ear ?x)
              (chance (* 0.3
-                        (+ 0.5 (attr @self enthusiasm))
-                        (+ 0.5 (attr @self assertiveness))))
+                        (+ 0.5 (target-or @self enthusiasm 0))
+                        (+ 0.5 (target-or @self assertiveness 0))))
              (>= (years-old @self) 12)))
 
   (utility want)

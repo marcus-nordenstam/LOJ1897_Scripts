@@ -28,9 +28,9 @@
              -{@self fight ?foe /succ /caused_by ?witnessed-rel}
              -{@self fight ?foe /fail /caused_by ?witnessed-rel})
 
-  (when (latch-eval (chance (clamp (+ (attr @self volatility)
-                          (attr @self sadism)
-                          (- 1.0 (attr @self compassion)))
+  (when (latch-eval (chance (clamp (+ (target-or @self volatility 0)
+                          (target-or @self sadism 0)
+                          (- 1.0 (target-or @self compassion 0)))
                        0.05 0.95))))
 
   (utility survival always-pick)

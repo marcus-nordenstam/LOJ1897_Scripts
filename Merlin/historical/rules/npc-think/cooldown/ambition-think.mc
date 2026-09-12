@@ -57,8 +57,8 @@
              (or {@self kill ?victim}
                  (chance (* (crime-scale) 0.03
                             (* (- 1 (inhibition))
-                               (* 0.5 (+ (attr @self machiavellianism)
-                                         (attr @self narcissism)))))))))
+                               (* 0.5 (+ (target-or @self machiavellianism 0)
+                                         (target-or @self narcissism 0)))))))))
 
   (utility want)
   (effects

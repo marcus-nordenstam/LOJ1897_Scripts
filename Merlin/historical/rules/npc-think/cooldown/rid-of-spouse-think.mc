@@ -64,7 +64,7 @@
                    (* (crime-scale) 0.02
                       (* (+ (if (detests ?spouse) (then 1) (else 0))
                             (if {?spouse (theme-labels violent-to) @self /ever} (then 1) (else 0)))
-                         (* (+ 0.5 (attr @self psychopathy))
+                         (* (+ 0.5 (target-or @self psychopathy 0))
                             (* (disinhibition)
                                (* (callousness @self)
                                   (* (+ 1 (any {?spouse wealth}).target)

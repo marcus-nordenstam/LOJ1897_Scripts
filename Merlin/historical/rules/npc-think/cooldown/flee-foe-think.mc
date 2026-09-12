@@ -21,9 +21,9 @@
 
   ; The fearful flight: timidity = high volatility + low sadism + high compassion, the
   ; mirror of fight_defence's combat resolve, so most victims lean one way or the other.
-  (when (chance (clamp (+ (attr @self volatility)
-                          (- 1.0 (attr @self sadism))
-                          (attr @self compassion))
+  (when (chance (clamp (+ (target-or @self volatility 0)
+                          (- 1.0 (target-or @self sadism 0))
+                          (target-or @self compassion 0))
                        0.05 0.95)))
 
   (utility survival always-pick)

@@ -36,7 +36,7 @@
   (cooldown 3 d)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
   (when    (and (>= (days-since-last {@self WORSHIP /ever}) 3)
-                (>= (attr @self politeness) 0.3)))
+                (>= (target-or @self politeness 0) 0.3)))
   (utility want (* (recency-ramp WORSHIP 3 21 500) (devotional-drive-tilt)))
   (effects
                  (begin-goal {@self WORSHIP}))

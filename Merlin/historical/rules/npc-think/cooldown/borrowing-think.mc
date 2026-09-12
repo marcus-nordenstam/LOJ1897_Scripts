@@ -34,7 +34,7 @@
   ; more often. One evaluation round per cooldown period; the no-goal gate caps
   ; the round at one landed pursuit.
   (when (and -{@self goal {@self TAKE-LOAN ?}}
-             (chance (* 0.005 (- 1.5 (attr @self industriousness))))))
+             (chance (* 0.005 (- 1.5 (target-or @self industriousness 0))))))
 
   (utility errand)
   (effects (begin-goal {@self TAKE-LOAN ?creditor})))
