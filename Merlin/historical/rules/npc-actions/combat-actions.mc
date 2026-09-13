@@ -36,21 +36,21 @@
               (* -1.2 (attr @self intoxication)))
            0.02 0.98): ?p
     (rng-unit): ?u
-    (if (< ?u ?p)
-      (then
-        (if (= ?method punch)
-          (then (yield-evidence ?foe [k head] [k bruise]) (set-attr ?foe awareness unconscious))
-        (else (if (= ?method shoot)
-          (then (yield-evidence ?foe [k head] [k puncture-wound]) (kill-blow ?foe shoot))
-        (else (yield-evidence ?foe [k head] [k ligature-mark]) (kill-blow ?foe strangle))))))
-      (else (if (< ?u (+ ?p 0.30))
-        (then
-          (if (= ?method punch)
-            (then (yield-evidence ?foe [k torso] [k bruise]))
-          (else (if (= ?method shoot)
-            (then (yield-evidence ?foe [k right-hand] [k puncture-wound])
-                  (if (chance (blow_succumb_prob)) (then (kill-blow ?foe shoot))))
-          (else (yield-evidence ?foe [k head] [k bruise])
-                (if (chance (blow_succumb_prob)) (then (kill-blow ?foe strangle))))))))
-        (else (bb-public-maintain @self whiffed @self (whiff_ttl_cycles))))))
+    (cond
+      (case (< ?u ?p)
+        (switch ?method
+          (on punch (yield-evidence ?foe [k head] [k bruise])
+                    (set-attr ?foe awareness unconscious))
+          (on shoot (yield-evidence ?foe [k head] [k puncture-wound])
+                    (kill-blow ?foe shoot))
+          (else     (yield-evidence ?foe [k head] [k ligature-mark])
+                    (kill-blow ?foe strangle))))
+      (case (< ?u (+ ?p 0.30))
+        (switch ?method
+          (on punch (yield-evidence ?foe [k torso] [k bruise]))
+          (on shoot (yield-evidence ?foe [k right-hand] [k puncture-wound])
+                    (if (chance (blow_succumb_prob)) (then (kill-blow ?foe shoot))))
+          (else     (yield-evidence ?foe [k head] [k bruise])
+                    (if (chance (blow_succumb_prob)) (then (kill-blow ?foe strangle))))))
+      (else (bb-public-maintain @self whiffed @self (whiff_ttl_cycles))))
     (set-outcome {@self STRIKE ?foe ?method} /succ)))

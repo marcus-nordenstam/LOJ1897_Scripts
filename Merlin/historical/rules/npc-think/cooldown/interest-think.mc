@@ -56,21 +56,19 @@
     ; One novel domain copied off a parent's interests (a 50/50 pick when both
     ; parents offer one) - the hobbies the child grows up around. Each lane
     ; guards its pick so a parent with nothing novel just drops out.
-    (if (is-kind (random-unheld-kind-target (any {@self mother}).target interest interest))
-        (then
-          (if (and (is-kind (random-unheld-kind-target (any {@self father}).target interest interest))
-                   (chance 0.5))
-              (then
-                (random-unheld-kind-target (any {@self father}).target interest interest): ?df
-                (begin-belief {@self interest ?df}))
-              (else
-                (random-unheld-kind-target (any {@self mother}).target interest interest): ?dm
-                (begin-belief {@self interest ?dm}))))
-        (else
-          (if (is-kind (random-unheld-kind-target (any {@self father}).target interest interest))
-              (then
-                (random-unheld-kind-target (any {@self father}).target interest interest): ?df
-                (begin-belief {@self interest ?df})))))
+    (cond
+      (case (is-kind (random-unheld-kind-target (any {@self mother}).target interest interest))
+        (if (and (is-kind (random-unheld-kind-target (any {@self father}).target interest interest))
+                 (chance 0.5))
+            (then
+              (random-unheld-kind-target (any {@self father}).target interest interest): ?df
+              (begin-belief {@self interest ?df}))
+            (else
+              (random-unheld-kind-target (any {@self mother}).target interest interest): ?dm
+              (begin-belief {@self interest ?dm}))))
+      (case (is-kind (random-unheld-kind-target (any {@self father}).target interest interest))
+        (random-unheld-kind-target (any {@self father}).target interest interest): ?df
+        (begin-belief {@self interest ?df})))
     ))
 
 ; --- peer_propagation: a friend's enthusiasm rubs off -----------------------

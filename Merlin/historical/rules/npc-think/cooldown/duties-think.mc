@@ -53,15 +53,12 @@
           (for-each-row org_duties [/kind ?dk] [/duty ?duty]
             (if (is-a ?ok ?dk)
                 (then
-                  (if (= ?senior-name (name @self))
-                      (then
-                        (if -{@self duty-to ?org ?duty}
-                            (then (begin-belief {@self duty-to ?org ?duty})
-                                  )))
-                      (else
-                        (if {@self duty-to ?org ?duty}
-                            (then (end-belief {@self duty-to ?org ?duty})
-                                  ))))
+                  (cond
+                    (case (= ?senior-name (name @self))
+                      (if -{@self duty-to ?org ?duty}
+                          (then (begin-belief {@self duty-to ?org ?duty}))))
+                    (case {@self duty-to ?org ?duty}
+                      (end-belief {@self duty-to ?org ?duty})))
                   ; The mirror: retire stale holders, record the current one.
                   (for-each ?dhb-rel (every {?org duty-holder ? ?duty})
                       (bind ?dhb-rel.target ?p)

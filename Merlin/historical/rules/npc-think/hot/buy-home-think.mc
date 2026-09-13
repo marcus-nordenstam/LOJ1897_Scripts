@@ -36,12 +36,13 @@
 ; macro. is-a resolves the dwelling's kind (mental object, else the env entity),
 ; so a listing read off a [building]-only document still ranks. 0 = not a dwelling.
 (define-macro dwelling-value (?b)
-  (if (is-a ?b [k manor])     (then 5)
-  (else (if (is-a ?b [k townhouse]) (then 4)
-  (else (if (is-a ?b [k farmhouse]) (then 3)
-  (else (if (is-a ?b [k chapel])    (then 2)
-  (else (if (is-a ?b [k rowhouse])  (then 1)
-      (else 0)))))))))))
+  (switch (kind ?b)
+    (on [k manor]     5)
+    (on [k townhouse] 4)
+    (on [k farmhouse] 3)
+    (on [k chapel]    2)
+    (on [k rowhouse]  1)
+    (else 0)))
 
 ; CASE B - knows a house agency, register unread, not at its office: travel there.
 ; Its articles name the office (articles-building). Inherits the acquire drive.

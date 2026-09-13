@@ -25,19 +25,19 @@
   (fields context          rank  barb-eval)
 
   ; displaced_anger: lashing out grabs what is visible at hand.
-  (record displaced_anger  3    (if (matches ?girth-rel.target [k girth fat|thin]) (then ?girth-rel)
-                                  (else (if (= ?height-rel.target [k height short]) (then ?height-rel)))))
+  (record displaced_anger  3    (cond (case (matches ?girth-rel.target [k girth fat|thin]) ?girth-rel)
+                                      (case (= ?height-rel.target [k height short])       ?height-rel)))
   (record displaced_anger  2    (if (<= ?sob-rel.target 0.35) (then ?sob-rel)))
-  (record displaced_anger  1    (if (<= ?low_aspect-rel.target 0.30) (then ?low_aspect-rel)
-                                  (else (if (>= ?vol-rel.target 0.70) (then ?vol-rel)))))
+  (record displaced_anger  1    (cond (case (<= ?low_aspect-rel.target 0.30) ?low_aspect-rel)
+                                      (case (>= ?vol-rel.target 0.70)        ?vol-rel)))
 
   ; dispositional: the narcissist's put-down is status elevation.
   (record dispositional    4    ?low_class-rel)
   (record dispositional    3    (if (<= ?pre-rel.target 0.35) (then ?pre-rel)))
-  (record dispositional    2    (if (<= ?low_aspect-rel.target 0.30) (then ?low_aspect-rel)
-                                  (else (if (>= ?vol-rel.target 0.70) (then ?vol-rel)))))
-  (record dispositional    1    (if (matches ?girth-rel.target [k girth fat|thin]) (then ?girth-rel)
-                                  (else (if (= ?height-rel.target [k height short]) (then ?height-rel))))))
+  (record dispositional    2    (cond (case (<= ?low_aspect-rel.target 0.30) ?low_aspect-rel)
+                                      (case (>= ?vol-rel.target 0.70)        ?vol-rel)))
+  (record dispositional    1    (cond (case (matches ?girth-rel.target [k girth fat|thin]) ?girth-rel)
+                                      (case (= ?height-rel.target [k height short])       ?height-rel))))
 
 (npc-think bonded_incident_insult
   (cooldown 1 m)

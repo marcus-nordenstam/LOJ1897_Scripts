@@ -82,7 +82,9 @@
   (effects
     ; The per-cook offset: -1 / 0 / +1 on the whole day (breakfast 5-7,
     ; lunch 11-13, supper 17-19; each window is 2h from the hour).
-    (if (chance 0.33) (then -1) (else (if (chance 0.5) (then 0) (else 1)))): ?o
+    (cond (case (chance 0.33) -1)
+          (case (chance 0.5)   0)
+          (else                1)): ?o
     (begin-belief {?home breakfast-hour (+ 6 ?o)})
     (begin-belief {?home lunch-hour (+ 12 ?o)})
     (begin-belief {?home supper-hour (+ 18 ?o)})

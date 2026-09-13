@@ -18,14 +18,14 @@
   (effects
     (check (spatial ?doc co-located @self /env))
     (tolerate (table-rows ?sentence): ?rows)
-    (if (substantial ?rows)
-        (then
-          (if (nothing (attr ?doc writing))
-              (then (table-init ?doc field value)))
-          (for-each ?entry ?rows
-            (table-add ?doc field (head ?entry) value (nth 1 ?entry))))
-        (else
-          (if (nothing (attr ?doc writing))
-              (then (set-writing ?doc ?sentence))
-              (else (set-writing ?doc (add-func-arg (attr ?doc writing) ?sentence))))))
+    (cond
+      (case (substantial ?rows)
+        (if (nothing (attr ?doc writing))
+            (then (table-init ?doc field value)))
+        (for-each ?entry ?rows
+          (table-add ?doc field (head ?entry) value (nth 1 ?entry))))
+      (case (nothing (attr ?doc writing))
+        (set-writing ?doc ?sentence))
+      (else
+        (set-writing ?doc (add-func-arg (attr ?doc writing) ?sentence))))
     (set-outcome {@self WRITE ?doc ?sentence} /succ)))

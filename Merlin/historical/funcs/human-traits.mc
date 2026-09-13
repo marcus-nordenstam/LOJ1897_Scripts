@@ -44,9 +44,10 @@
   (if ?has-parents
     (then
       (random-int 0 2): ?pick
-      (if (= ?pick 0)
-        (then (attr ?mother ?trait))
-        (else (if (= ?pick 1) (then (attr ?father ?trait)) (else ?sampled)))))
+      (switch ?pick
+        (on 0 (attr ?mother ?trait))
+        (on 1 (attr ?father ?trait))
+        (else ?sampled)))
     (else ?sampled)))
 
 ; The sex-conditioned population centre for one continuous trait, off its row.
@@ -102,12 +103,10 @@
 ; itself read class-situation - seeding it from the raw origin class keeps that
 ; derivation acyclic.
 (define-func breeding-for-class (?class)
-  (if (is-a ?class [k class-situation upper])
-    (then (breeding_upper))
-    (else
-      (if (is-a ?class [k class-situation middle])
-        (then (breeding_middle))
-        (else (breeding_lower))))))
+  (switch (kind ?class)
+    (on [k class-situation upper]  (breeding_upper))
+    (on [k class-situation middle] (breeding_middle))
+    (else (breeding_lower))))
 
 ; Write every singular kind-typed trait onto ?h. Each is drawn from its own
 ; distribution table; with parents the draw is one of three even chances against

@@ -48,11 +48,12 @@
 ; C++ building_estate_worth). A rented / lower-class residence counts nothing; any
 ; other owned building is a business premises unless it is a named quality dwelling.
 (define-macro building-worth-of (?b)
-  (if (is-a ?b [k manor])                      (then 40)
-  (else (if (is-a ?b [k townhouse])            (then 30)
-  (else (if (is-a ?b [k farmhouse])            (then 18)
-  (else (if (is-a ?b [k residential-building]) (then 0)
-            (else 25)))))))))
+  (switch (kind ?b)
+    (on [k manor]                40)
+    (on [k townhouse]            30)
+    (on [k farmhouse]            18)
+    (on [k residential-building]  0)
+    (else                        25)))
 
 ; (estate-worth ?who): the worth of ?who's home dwelling (B-simplify: the home only,
 ; via the single-valued {@self home <bldg>} pointer; a rented rowhouse counts 0 by

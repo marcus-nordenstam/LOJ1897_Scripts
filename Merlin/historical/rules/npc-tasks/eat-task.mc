@@ -16,8 +16,10 @@
   (aux structure|space)
   (and
     (try
-      (utility (if (is-a ?meal [k breakfast]) (then 820)
-                (else (if (is-a ?meal [k lunch]) (then 850) (else 780)))))
+      (utility (switch (kind ?meal)
+                 (on [k breakfast] 820)
+                 (on [k lunch]     850)
+                 (else             780)))
       (effects
         (bind 0 ?food)
         ; A home supper eats one loaf off the kitchen larder PILE (the diner

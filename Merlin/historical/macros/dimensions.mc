@@ -23,15 +23,17 @@
 
 ; conduct-scalar - a conduct-level band -> 0..1 (good 0.85, lax 0.25, fair/absent 0.65).
 (define-macro conduct-scalar (?who ?dim)
-  (if {?who ?dim [k conduct-level good]} (then 0.85)
-  (else (if {?who ?dim [k conduct-level lax]}  (then 0.25)
-      (else 0.65)))))
+  (cond
+    (case {?who ?dim [k conduct-level good]} 0.85)
+    (case {?who ?dim [k conduct-level lax]}  0.25)
+    (else 0.65)))
 
 ; devoutness-scalar - the piety-band -> 0..1 (devout 0.85, secular 0.25, else 0.65).
 (define-macro devoutness-scalar (?who)
-  (if {?who devoutness [k piety-band devout]}  (then 0.85)
-  (else (if {?who devoutness [k piety-band secular]} (then 0.25)
-      (else 0.65)))))
+  (cond
+    (case {?who devoutness [k piety-band devout]}  0.85)
+    (case {?who devoutness [k piety-band secular]} 0.25)
+    (else 0.65)))
 
 ; decorum-scalar - the decorum float (@self's own C++-derived value, or a tracked
 ; other's mirrored value), reading 0.65 when unknown.

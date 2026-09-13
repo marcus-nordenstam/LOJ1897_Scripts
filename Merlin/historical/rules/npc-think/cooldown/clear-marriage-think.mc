@@ -76,21 +76,22 @@
   (role ?my-home {@self home ?my-home})
   (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
   (effects
-    (if {@self kill ?spouse}
-        ; Already committed DIRECT: maintain the kill /caused_by the READ lover bond.
-        (then (maintain-proposal {@self kill ?spouse /caused_by ?lover_bond}))
-        (else (if -{@self accomplice ?paramour}
-            ; Not yet committed - fork ONCE.
-            (then (if (chance (* 0.7 (target-or @self machiavellianism 0)))
-                ; INSTIGATED: recruit the lover. The accomplice bond carries the embedded
-                ; plot as its AUX clause: {@self accomplice <lover> {<lover> kill <spouse>}}.
-                ; The murder proposal rides the covert letter - urging is WANTING the
-                ; target to act, so the CONTENT is a goal clause classified (msg-class urge);
-                ; the lover learns it only by READING (no telepathy), and conspiracy_adoption
-                ; decides whether they take up the deed.
-                (then
-                  (begin-belief {@self accomplice ?paramour {?paramour kill ?spouse}})
-                  (send-covert-letter ?paramour (written-msg [/msg-class urge] {@self goal {?paramour kill ?spouse}} signed) [k letter] ?my-out-box))
-                ; DIRECT: the cheater acts alone.
-                (else (maintain-proposal {@self kill ?spouse /caused_by ?lover_bond}))))))))
+    (cond
+      ; Already committed DIRECT: maintain the kill /caused_by the READ lover bond.
+      (case {@self kill ?spouse}
+        (maintain-proposal {@self kill ?spouse /caused_by ?lover_bond}))
+      ; Not yet committed - fork ONCE.
+      (case -{@self accomplice ?paramour}
+        (if (chance (* 0.7 (target-or @self machiavellianism 0)))
+            ; INSTIGATED: recruit the lover. The accomplice bond carries the embedded
+            ; plot as its AUX clause: {@self accomplice <lover> {<lover> kill <spouse>}}.
+            ; The murder proposal rides the covert letter - urging is WANTING the
+            ; target to act, so the CONTENT is a goal clause classified (msg-class urge);
+            ; the lover learns it only by READING (no telepathy), and conspiracy_adoption
+            ; decides whether they take up the deed.
+            (then
+              (begin-belief {@self accomplice ?paramour {?paramour kill ?spouse}})
+              (send-covert-letter ?paramour (written-msg [/msg-class urge] {@self goal {?paramour kill ?spouse}} signed) [k letter] ?my-out-box))
+            ; DIRECT: the cheater acts alone.
+            (else (maintain-proposal {@self kill ?spouse /caused_by ?lover_bond}))))))
     )

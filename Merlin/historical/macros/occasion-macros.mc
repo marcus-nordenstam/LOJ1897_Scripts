@@ -23,11 +23,11 @@
 ; Attendance desirability: 0 bedridden, MAX for the host, a floor for a kill-driven
 ; crasher, else the warmth-scaled guest base. Shared by the attend task's rungs.
 (define-macro attend-utility (?occ)
-  (if {@self physical-mobility [k bedridden]} (then 0)
-    (else (if {@self organize ?occ} (then (attend-host-utility))
-      (else (if {@self goal {@self kill ?}}
-          (then (max (attend-crasher-utility) (attend-guest-scaled ?occ)))
-        (else (attend-guest-scaled ?occ))))))))
+  (cond
+    (case {@self physical-mobility [k bedridden]} 0)
+    (case {@self organize ?occ}                   (attend-host-utility))
+    (case {@self goal {@self kill ?}}             (max (attend-crasher-utility) (attend-guest-scaled ?occ)))
+    (else                                         (attend-guest-scaled ?occ))))
 
 ; The occasion's held-on date lands in the current month (hsim is monthly-resolution,
 ; so month + year is the natural grain for "the day has come").

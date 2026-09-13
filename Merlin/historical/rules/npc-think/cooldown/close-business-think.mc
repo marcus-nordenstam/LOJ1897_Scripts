@@ -43,26 +43,19 @@
 (define-macro business_failure_means_weight () 1.5)    ; a penniless owner folds up to (1 + this)x more
 (define-macro business_failure_merit_weight () 1.0)    ; a slack owner folds up to (1 + this)x more
 
-; The ambient economic climate for the current sim year, as the historical era
-; bands (pre-industrial agrarian, early industrial growth, the Hungry Forties, the
-; mid-Victorian boom, the Long Depression). Atom-valued (stable | expansion |
-; downturn), so compared, not scaled.
-(define-macro economic-climate ()
-  (if (< (year) 1820) (then stable)
-    (else (if (< (year) 1846) (then expansion)
-      (else (if (< (year) 1852) (then downturn)
-        (else (if (< (year) 1874) (then expansion)
-          (else (if (< (year) 1897) (then downturn)
-            (else stable)))))))))))
-
-; The economic weather multiplier on the base rate: a panic wrecks businesses,
-; an expansion sustains them. (economic-climate) is an ambient scalar read
-; (decision #1 - allowed in a think). Atom-valued, so compared, not scaled.
+; The economic weather multiplier on the base rate, by the historical era bands
+; (pre-industrial agrarian, early industrial growth, the Hungry Forties, the
+; mid-Victorian boom, the Long Depression): a downturn wrecks businesses, an
+; expansion sustains them. (year) is an ambient scalar read (decision #1 -
+; allowed in a think).
 (define-macro business_failure_climate_mult ()
-  (if (= (economic-climate) panic)     (then 4.0)
-    (else (if (= (economic-climate) downturn)  (then 2.0)
-      (else (if (= (economic-climate) expansion) (then 0.5)
-        (else 1.0)))))))                              ; stable
+  (cond
+    (case (< (year) 1820) 1.0)    ; stable
+    (case (< (year) 1846) 0.5)    ; expansion
+    (case (< (year) 1852) 2.0)    ; downturn
+    (case (< (year) 1874) 0.5)    ; expansion
+    (case (< (year) 1897) 2.0)    ; downturn
+    (else 1.0)))                  ; stable
 
 ; --- the decision -------------------------------------------------------------
 (npc-think close_business

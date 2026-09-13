@@ -71,12 +71,10 @@
 ; ----------------------------------------------------------------------------
 
 (define-func class-for-residence (?b)
-  (if (is-a ?b [k building manor])
-    (then [k upper])
-    (else
-      (if (is-a ?b [k building townhouse])
-        (then [k middle])
-        (else [k lower])))))
+  (switch (kind ?b)
+    (on [k building manor]     [k upper])
+    (on [k building townhouse] [k middle])
+    (else [k lower])))
 
 ; ----------------------------------------------------------------------------
 ; make-founder-household - one COUPLE per residence, man and woman. Never a

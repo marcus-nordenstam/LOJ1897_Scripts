@@ -45,14 +45,16 @@
   (utility want)
   (effects
     ; Dual (kill BOTH) when the outrage clears the bar; else the more-blamed corner.
-    (if (>= (dual-outrage-score) 2.5)
-        (then (if -{?partner condition [k dead]}
-                  (then (maintain-proposal {@self kill ?partner /caused_by ?anger_bond})))
-              (if -{?interloper condition [k dead]}
-                  (then (maintain-proposal {@self kill ?interloper /caused_by ?contempt_bond}))))
-        (else (if (>= (blame-partner-score ?partner)
-                      (blame-interloper-score ?partner ?interloper))
-                  (then (if -{?partner condition [k dead]}
-                            (then (maintain-proposal {@self kill ?partner /caused_by ?anger_bond}))))
-                  (else (if -{?interloper condition [k dead]}
-                            (then (maintain-proposal {@self kill ?interloper /caused_by ?contempt_bond})))))))))
+    (cond
+      (case (>= (dual-outrage-score) 2.5)
+        (if -{?partner condition [k dead]}
+            (then (maintain-proposal {@self kill ?partner /caused_by ?anger_bond})))
+        (if -{?interloper condition [k dead]}
+            (then (maintain-proposal {@self kill ?interloper /caused_by ?contempt_bond}))))
+      (case (>= (blame-partner-score ?partner)
+                (blame-interloper-score ?partner ?interloper))
+        (if -{?partner condition [k dead]}
+            (then (maintain-proposal {@self kill ?partner /caused_by ?anger_bond}))))
+      (else
+        (if -{?interloper condition [k dead]}
+            (then (maintain-proposal {@self kill ?interloper /caused_by ?contempt_bond})))))))

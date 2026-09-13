@@ -45,11 +45,10 @@
   ; The REASON: the held detest belief, else dislike, else the spouse-wealth belief.
   ; Read as the /caused_by anchor, never re-minted, so the drive fades as the reason
   ; does. The attitude / wealth beliefs are minted elsewhere by the appraisal lanes.
-  (if {@self detest ?spouse}
-      (then (any {@self detest ?spouse}))
-      (else (if {@self dislike ?spouse}
-          (then (any {@self dislike ?spouse}))
-          (else (any {?spouse wealth}))))): ?spouse_bond
+  (cond
+    (case {@self detest ?spouse}  (any {@self detest ?spouse}))
+    (case {@self dislike ?spouse} (any {@self dislike ?spouse}))
+    (else                         (any {?spouse wealth}))): ?spouse_bond
 
   ; Misery gate (deep hatred OR abuse) + propensity. misery counts the two:
   ; hated = warmth band toward the spouse <= -2 (the detest band); abused = the
