@@ -74,6 +74,36 @@
       ; at all. A born-ended record of another man's act, which is how a deed is
       ; remembered - not a state invented to stand in for one. The clerk cannot know
       ; WHEN he applied, only that he did, so the record is /momentary at the reading.
+      ; The WAGE BOOK: one line per seat. The line IS the seat's identity (org, job-id),
+      ; so every reader of the same page lands on the same object. filled-by is what the
+      ; worker cell says; display-ad is what the advertise-date cell says - the notice
+      ; itself hangs on the parish board, this is the firm's own note of it. The offered /
+      ; offer-date cells are NOT mirrored: a promise reserves nothing, and the counter
+      ; reads them off the page when a man presents himself. The org is whichever one
+      ; @self knows keeps this book; a stranger reading it learns nothing of seats.
+      (on [k employee-register]
+        (tolerate (any {? employee-register ?doc}): ?erel)
+        (if (substantial ?erel)
+            (then
+              (bind ?erel.subject ?eorg)
+              (for-each-row (attr ?doc writing) [/job-id ?eline] [/worker ?ewname] [/job ?ejk]
+                            [/advertise-date ?ead]
+                (o ?ejk {@o org ?eorg} {@o job-id ?eline}): ?ejob
+                (if -{?ejob org ?eorg}      (then (begin-belief {?ejob org ?eorg})))
+                (if -{?ejob job-id ?eline}  (then (begin-belief {?ejob job-id ?eline})))
+                (if (substantial ?ewname)
+                    (then (o [k human] {@o name ?ewname}): ?eworker
+                          (if -{?ejob filled-by ?eworker}
+                              (then (for-each ?efrel (every {?ejob filled-by ?})
+                                      (end-belief ?efrel))
+                                    (begin-belief {?ejob filled-by ?eworker}))))
+                    (else (for-each ?efrel (every {?ejob filled-by ?})
+                            (end-belief ?efrel))))
+                (if (substantial ?ead)
+                    (then (if -{?eorg display-ad ?ejob}
+                              (then (begin-belief {?eorg display-ad ?ejob}))))
+                    (else (for-each ?edrel (every {?eorg display-ad ?ejob})
+                            (end-belief ?edrel))))))))
       (on [k application]
         (tolerate (attr ?doc writing): ?aform)
         (tolerate (table-match ?aform field applicant value ?aname))

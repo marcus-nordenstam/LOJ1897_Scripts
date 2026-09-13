@@ -27,7 +27,18 @@
             {@self WRITE ?ad ? /succ})
       (effects (maintain-proposal {@self DESTROY-ENTITY ?ad})))
 
+    ; The notice is down; strike the date off the seat's line, and the act's conclusion
+    ; ends the belief that it stood.
     (stage
+      (role ?reg {?org employee-register ?reg})
       (effects
-        (end-belief {?org display-ad ?job})
-        (set-outcome ?rad-rel /succ)))))
+        (if (not (spatial ?reg co-located @self))
+            (then (maintain-proposal {@self go (spatial ?reg space)})))))
+    (stage
+      (role ?reg {?org employee-register ?reg})
+      (when {?job job-id ?job-id})
+      (effects
+        (maintain-proposal {@self STRIKE-ADVERT ?reg ?job-id}
+          [/postlude (end-belief {?org display-ad ?job})])))
+    (stage
+      (effects (set-outcome ?rad-rel /succ)))))

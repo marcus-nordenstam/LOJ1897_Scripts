@@ -1,26 +1,25 @@
 ; ----------------------------------------------------------------------------
-; draft-verdict ?app ?kind - answer ONE application FORM with a verdict letter of ?kind
-; (offer-letter / rejection-letter): pen, fill, envelope, post from the OFFICE out-box.
-; WHICH verdict is the proposing resolve-applications round's decision, not this task's.
+; draft-verdict ?p ?kind - answer ONE applicant with a verdict letter of ?kind
+; (offer-letter / rejection-letter): pen, fill, envelope, post from the OFFICE out-box;
+; for an offer, pencil the promise on the wage book; then burn the form he wrote. WHICH
+; verdict is the proposing recruit-staff rung's decision, not this task's.
 ;
-; It answers a MAN, by way of the paper he wrote. Everything the letter needs - whom to
-; name, which post, where to send it - @self read off the form and now holds about HIM: his
-; name, the apply-for he completed, and the home he gave. The form is reached through
-; {?app written-by ?rman}. BURNING the answered form is what takes him off the queue, and
-; that is a recruit-staff rung: this task targets the form, so realizing it destroyed would
-; conclude the very task that answered it, with a fail.
+; It answers a MAN, by way of the paper he wrote. Everything the letter needs - his name,
+; the post he asked for, where to send it - @self holds about HIM, read off the form; the
+; form itself is reached through {?app written-by ?p}. Targeting the man is what lets this
+; task burn the form as its own last stage: a task that targeted the form would conclude
+; itself, with a fail, by destroying it.
 ;
-; The letter this task pens is the one it CREATED: the CREATE postlude stashes it under
-; the running task's own `letter` key, so a restart re-reads that key instead of picking
-; up whatever letter happens to be in hand. Each later stage reads the letter for what is
-; already done, so a restarted round never pens a second one. The out-box is located by
-; the sibling try once the letter is addressed and no pile is known; the send stage holds
-; until one is.
+; The letter this task pens is the one it CREATED: the CREATE postlude stashes it under the
+; running task's own `letter` key, so a restart re-reads that key instead of penning a
+; second one. Each later stage reads the world for what is already done. The out-box is
+; located by the sibling try once the letter is addressed and no pile is known.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self draft-verdict ?app ?kind}:?dv-rel
+(npc-task {@self draft-verdict ?p ?kind}:?dv-rel
   (track-skill-level [k law])
-  (tar application)
+  (tar human)
+  (aux ?)
   (and
     (sequence
       (role ?org {@self duty-to ?org recruit-staff})
@@ -34,14 +33,11 @@
                       [/postlude (bind (bb-read ?ce created) ?ltr)
                                  (bb-write ?dv-rel letter ?ltr)])))))
 
-      ; The letter NAMES THE POST. A verdict that says only "yes" leaves the reader to guess
-      ; which of his applications it answers - and the moment he has two in flight there is
-      ; no guessing it right. Kind + org is what makes it THAT seat to him, resolved against
-      ; his own objects; he already knows where the org keeps its door.
+      ; The letter NAMES THE POST: kind + org is what makes it THAT seat to the reader,
+      ; resolved against his own objects; he already knows where the org keeps its door.
       (stage
-        (when {?app written-by ?rman}
-              {?rman name ?rname}
-              {?rman apply-for ?jk ? /succ}
+        (when {?p name ?rname}
+              {?p apply-for ?jk ? /succ}
               {?org name ?org-name})
         (effects
           (if (unsubstantial (attr ?ltr writing))
@@ -50,8 +46,7 @@
                                                     [org-name ?org-name]])})))))
 
       (stage
-        (when {?app written-by ?rman}
-              {?rman home ?rhome}
+        (when {?p home ?rhome}
               {?rhome address ?raddress})
         (effects
           (if (unsubstantial (attr ?ltr destination))
@@ -60,6 +55,30 @@
       (stage
         (role ?out [k outgoing-mail-stack] (spatial ?out building ?wp))
         (effects (maintain-proposal {@self send-mail ?ltr ?out})))
+
+      ; An OFFER goes in the book as well as the post: the officer walks to the wage book
+      ; and pencils the man's name against a vacant line of his kind. A rejection leaves
+      ; no mark - nothing was promised.
+      (stage
+        (role ?reg {?org employee-register ?reg})
+        (effects
+          (if (and (= ?kind [k offer-letter])
+                   (not (spatial ?reg co-located @self)))
+              (then (maintain-proposal {@self go (spatial ?reg space)})))))
+      (stage
+        (role ?reg {?org employee-register ?reg})
+        (when {?p name ?rname}
+              {?p apply-for ?jk ? /succ})
+        (effects
+          (if (= ?kind [k offer-letter])
+              (then (maintain-proposal {@self RECORD-OFFER ?rname ?jk})))))
+
+      ; The answered form has done its work. The empty hand is what takes the man off the
+      ; queue; the beliefs about HIM stay - he is someone @self has heard of.
+      (stage
+        (role ?app [k application] (spatial ?app held-by @self)
+                                   {?app written-by ?p})
+        (effects (maintain-proposal {@self DESTROY-ENTITY ?app})))
 
       (stage
         (effects

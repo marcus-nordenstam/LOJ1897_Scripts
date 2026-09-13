@@ -82,3 +82,16 @@
   ; The minter owns the ending: once quit_work_act fires @self, the (role @self (believes
   ; {@self job ?})) drops and this falling edge ends the goal. The act never does.
   (cease-effects (set-outcome {@self goal {@self QUIT-WORK}} /succ)))
+
+; --- keep the men we wrote to in sight ---------------------------------------
+; A man the officer offered a post to exists in his mind as a name on paper - realis,
+; ungrounded. The day he walks in perception mints a second object, and the two fuse only
+; if the paper one is in the RECONCILE set at that moment. The pipeline arms an object only
+; while an act involving it runs, so the arming must be renewed for as long as the offer is
+; outstanding: every offer-letter record whose man is not yet on any book.
+(npc-think rearm_offerees
+  (cooldown 1 d)
+  (role @self {@self duty-to ?org recruit-staff})
+  (role ?p [k human] {@self draft-verdict ?p [k offer-letter] /succ}
+                     -{? filled-by ?p})
+  (effects (set-reconcilable ?p @true)))
