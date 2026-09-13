@@ -16,14 +16,14 @@
     ; REACH: route to the victim's known location, else their home.
     (try
       (when (and (not (spatial ?victim co-located @self))
-                 (not (attr-is ?victim awareness unconscious))
+                 (not (attr-is ?victim awareness [k unconscious]))
                  (spatial ?victim space): ?loc))
       (utility survival)
       (effects (maintain-proposal {@self go ?loc})))
     (try
       (role ?vhome {?victim home ?vhome})
       (when (and (not (spatial ?victim co-located @self))
-                 (not (attr-is ?victim awareness unconscious))
+                 (not (attr-is ?victim awareness [k unconscious]))
                  (unknown (spatial ?victim space))))
       (utility survival)
       (effects (maintain-proposal {@self go ?vhome})))
@@ -32,14 +32,14 @@
     (try
       (when (and (spatial ?victim co-located @self)
                  -{?victim condition [k dead]}
-                 (not (attr-is ?victim awareness unconscious))))
+                 (not (attr-is ?victim awareness [k unconscious]))))
       (utility survival always-pick)
       (effects (maintain-proposal {@self STRIKE ?victim punch})))
 
     ; CONCLUDE: the victim is beaten senseless (or already down) - ledger the assault
     ; (method PUNCH, goal hurt) and end the episode.
     (try
-      (when (or (attr-is ?victim awareness unconscious)
+      (when (or (attr-is ?victim awareness [k unconscious])
                 {?victim condition [k dead]}))
       (effects
         (crime-ledger-append @self ?victim punch hurt @u @u)

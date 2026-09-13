@@ -40,7 +40,7 @@
       (case (< ?u ?p)
         (switch ?method
           (on punch (yield-evidence ?foe [k head] [k bruise])
-                    (set-attr ?foe awareness unconscious))
+                    (set-attr ?foe awareness [k unconscious]))
           (on shoot (yield-evidence ?foe [k head] [k puncture-wound])
                     (kill-blow ?foe shoot))
           (else     (yield-evidence ?foe [k head] [k ligature-mark])

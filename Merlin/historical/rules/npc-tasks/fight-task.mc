@@ -22,7 +22,7 @@
     (try
       (when (and (spatial ?foe co-located @self)
                  -{?foe condition [k dead]}
-                 (not (attr-is ?foe awareness unconscious))))
+                 (not (attr-is ?foe awareness [k unconscious]))))
       (utility survival always-pick)
       (effects (maintain-proposal {@self STRIKE ?foe punch})))
 
@@ -30,6 +30,6 @@
     ; no longer co-present) - the brawl is over.
     (try
       (when (or {?foe condition [k dead]}
-                (attr-is ?foe awareness unconscious)
+                (attr-is ?foe awareness [k unconscious])
                 (not (spatial ?foe co-located @self))))
       (effects (set-outcome ?fight-rel /succ)))))
