@@ -3,9 +3,9 @@
 ; post it from the home out-box. The same pen / envelope / post chain draft-verdict
 ; runs for a verdict letter, because it is the same physical job.
 ;
-; The letter is BLANK for now: it says only what its KIND says. Until it carries a
-; form, a reader learns nothing from it and no guest can come - the content is the
-; next piece of work, not an oversight here.
+; The letter is a FORM, like an application or a job notice: a two-column table the
+; reader looks up by field. READ's invitation branch reasons the occasion back out of
+; those cells.
 ;
 ; The letter this task pens is the one it CREATED: the CREATE postlude stashes it
 ; under the running task's own `letter` key, so a restart re-reads that key rather
@@ -31,6 +31,26 @@
               (else (maintain-proposal {@self CREATE-ENTITY [k invitation-letter]}:?ce
                       [/postlude (bind (bb-read ?ce created) ?ltr)
                                  (bb-write ?ig-rel letter ?ltr)])))))
+
+      ; The FORM. An occasion is a nameless abstract object and cannot ride a wire as
+      ; itself, so the letter carries the facts that CONSTITUTE it - whose it is, when,
+      ; where, between which hours - and the reader rebuilds his own occasion from them.
+      ; Host by NAME and venue by ADDRESS: the two things a stranger can resolve.
+      (stage
+        (when {@self name ?my-name}
+              {?occ held-on ?occ-date}
+              {?occ venue ?occ-venue}
+              {?occ-venue address ?venue-address}
+              {?occ hours ?occ-from ?occ-to})
+        (effects
+          (if (unsubstantial (attr ?ltr writing))
+              (then (maintain-proposal
+                      {@self WRITE ?ltr (table-msg [[occasion-kind (kind ?occ)]
+                                                    [host ?my-name]
+                                                    [venue ?venue-address]
+                                                    [held-on ?occ-date]
+                                                    [from-hour ?occ-from]
+                                                    [to-hour ?occ-to]])})))))
 
       (stage
         (when {?guest-home address ?guest-address})

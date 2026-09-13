@@ -74,5 +74,38 @@
                       (if -{?doc applicant-name ?aname} (then (begin-belief {?doc applicant-name ?aname})))
                       (if -{?doc applicant-home ?ahome} (then (begin-belief {?doc applicant-home ?ahome})))
                       (if -{?doc applicant-post ?ajk}   (then (begin-belief {?doc applicant-post ?ajk}))))))
-              (else (adopt-msg (attr ?doc writing))))))
+              (else
+                ; An INVITATION names no occasion - it cannot, an occasion being a nameless
+                ; abstract - so it carries what CONSTITUTES one and the reader builds his own
+                ; from the cells. Host by name and venue by address are the two referents a
+                ; man who has never been told of this gathering can resolve; host + date are
+                ; its identity, so two readings of one invitation land on one occasion and
+                ; the host's own copy and the guest's refer to the same evening.
+                (if (is-a ?doc [k invitation-letter])
+                    (then
+                      (tolerate (attr ?doc writing): ?iform)
+                      (tolerate (table-match ?iform field occasion-kind value ?iokind))
+                      (tolerate (table-match ?iform field host value ?ihost-name))
+                      (tolerate (table-match ?iform field venue value ?ivenue))
+                      (tolerate (table-match ?iform field held-on value ?idate))
+                      (tolerate (table-match ?iform field from-hour value ?ifrom))
+                      (tolerate (table-match ?iform field to-hour value ?ito))
+                      (if (and (substantial ?iokind) (substantial ?ihost-name)
+                               (substantial ?idate))
+                          (then
+                            (o [k human] {@o name ?ihost-name}): ?ihost
+                            (o ?iokind {@o host ?ihost} {@o held-on ?idate}): ?iocc
+                            (if -{?iocc host ?ihost}
+                                (then (begin-belief {?iocc host ?ihost})))
+                            (if -{?iocc held-on ?idate}
+                                (then (begin-belief {?iocc held-on ?idate})))
+                            (if (and (substantial ?ivenue) -{?iocc venue ?})
+                                (then (o [k building] {@o address ?ivenue}): ?ivenue-obj
+                                      (begin-belief {?iocc venue ?ivenue-obj})))
+                            (if (and (substantial ?ifrom) -{?iocc hours ? ?})
+                                (then (begin-belief {?iocc hours ?ifrom ?ito})))
+                            ; The appointment itself - what the attend lane's guest rung reads.
+                            (if -{?ihost invite @self ?iocc}
+                                (then (begin-belief {?ihost invite @self ?iocc}))))))
+                    (else (adopt-msg (attr ?doc writing))))))))
     (set-outcome {@self READ ?doc} /succ)))
