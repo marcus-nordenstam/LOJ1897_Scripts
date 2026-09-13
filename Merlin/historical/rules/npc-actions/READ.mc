@@ -20,92 +20,111 @@
   (track-skill-level [k literacy])
   (duration 10)
   (effects
-    ; A VERDICT letter answers ONE application, and it names which: kind + org. The offer
-    ; is minted as a state of the SEAT - {?job offered-to @self}, the seeker's side of the
-    ; line the officer pencilled - so accepting can gate on holding an offer for THAT post.
-    ; A rejection ends his vacancy belief instead: that place is not going, to him.
-    (if (or (is-a ?doc [k offer-letter]) (is-a ?doc [k rejection-letter]))
-        (then
-          (tolerate (attr ?doc writing): ?vform)
-          (tolerate (table-match ?vform field job-kind value ?vjk))
-          (tolerate (table-match ?vform field org-name value ?vorg-name))
-          (if (and (substantial ?vjk) (substantial ?vorg-name))
-              (then
-                (o [k org] {@o name ?vorg-name}): ?vorg
-                (o ?vjk {@o org ?vorg}): ?vjob
-                (if -{?vjob org ?vorg} (then (begin-belief {?vjob org ?vorg})))
-                (if (is-a ?doc [k offer-letter])
-                    (then (if -{?vjob offered-to @self}
-                              (then (begin-belief {?vjob offered-to @self}))))
-                    (else (for-each ?vrel (every {?vjob filled-by _})
-                            (end-belief ?vrel))))))))
-    (if (is-a ?doc [k job-posting])
-        (then
-          (tolerate (attr ?doc writing): ?form)
-          (tolerate (table-match ?form field job-kind value ?jk))
-          (tolerate (table-match ?form field org-name value ?org-name))
-          (tolerate (table-match ?form field job-id value ?job-id))
-          (tolerate (table-match ?form field apply-at value ?apply-at))
-          (if (and (substantial ?jk) (substantial ?org-name) (substantial ?apply-at))
-              (then
-                (o [k org] {@o name ?org-name}): ?org
-                ; The seat is (org, job-id) - the notice's own reference. Two readings of
-                ; ONE vacancy land on one object; two vacancies of the same kind at the
-                ; same org stay two. Without the id both collapse into `a clerk's place
-                ; there`, which is neither.
-                (o ?jk {@o org ?org} {@o job-id ?job-id}): ?job
-                (if -{?job org ?org}    (then (begin-belief {?job org ?org})))
-                (if -{?job job-id ?job-id} (then (begin-belief {?job job-id ?job-id})))
-                (if -{?job filled-by _} (then (begin-belief {?job filled-by _})))
-                (if -{?org workplace ?} (then (begin-belief {?org workplace ?apply-at}))))))
-        (else
-          ; An APPLICATION is a form like the notice, and what it says is said about the
-          ; PAPER: the name, the home and the post asked for. No man is minted - a name on
-          ; a sheet is not somebody @self has met - and the beliefs end with the form when
-          ; it is burned, which is what takes it off the clerk's queue.
-          (if (is-a ?doc [k application])
-              (then
-                (tolerate (attr ?doc writing): ?aform)
-                (tolerate (table-match ?aform field applicant value ?aname))
-                (tolerate (table-match ?aform field home value ?ahome))
-                (tolerate (table-match ?aform field job value ?ajk))
-                (if (and (substantial ?aname) (substantial ?ahome) (substantial ?ajk))
-                    (then
-                      (if -{?doc applicant-name ?aname} (then (begin-belief {?doc applicant-name ?aname})))
-                      (if -{?doc applicant-home ?ahome} (then (begin-belief {?doc applicant-home ?ahome})))
-                      (if -{?doc applicant-post ?ajk}   (then (begin-belief {?doc applicant-post ?ajk}))))))
-              (else
-                ; An INVITATION names no occasion - it cannot, an occasion being a nameless
-                ; abstract - so it carries what CONSTITUTES one and the reader builds his own
-                ; from the cells. Host by name and venue by address are the two referents a
-                ; man who has never been told of this gathering can resolve; host + date are
-                ; its identity, so two readings of one invitation land on one occasion and
-                ; the host's own copy and the guest's refer to the same evening.
-                (if (is-a ?doc [k invitation-letter])
-                    (then
-                      (tolerate (attr ?doc writing): ?iform)
-                      (tolerate (table-match ?iform field occasion-kind value ?iokind))
-                      (tolerate (table-match ?iform field host value ?ihost-name))
-                      (tolerate (table-match ?iform field venue value ?ivenue))
-                      (tolerate (table-match ?iform field held-on value ?idate))
-                      (tolerate (table-match ?iform field from-hour value ?ifrom))
-                      (tolerate (table-match ?iform field to-hour value ?ito))
-                      (if (and (substantial ?iokind) (substantial ?ihost-name)
-                               (substantial ?idate))
-                          (then
-                            (o [k human] {@o name ?ihost-name}): ?ihost
-                            (o ?iokind {@o host ?ihost} {@o held-on ?idate}): ?iocc
-                            (if -{?iocc host ?ihost}
-                                (then (begin-belief {?iocc host ?ihost})))
-                            (if -{?iocc held-on ?idate}
-                                (then (begin-belief {?iocc held-on ?idate})))
-                            (if (and (substantial ?ivenue) -{?iocc venue ?})
-                                (then (o [k building] {@o address ?ivenue}): ?ivenue-obj
-                                      (begin-belief {?iocc venue ?ivenue-obj})))
-                            (if (and (substantial ?ifrom) -{?iocc hours ? ?})
-                                (then (begin-belief {?iocc hours ?ifrom ?ito})))
-                            ; The appointment itself - what the attend lane's guest rung reads.
-                            (if -{?ihost invite @self ?iocc}
-                                (then (begin-belief {?ihost invite @self ?iocc}))))))
-                    (else (adopt-msg (attr ?doc writing))))))))
+    (switch (kind ?doc)
+      ; A VERDICT letter answers ONE application, and it names which: kind + org. The offer
+      ; is minted as a state of the SEAT - {?job offered-to @self}, the seeker's side of the
+      ; line the officer pencilled - so accepting can gate on holding an offer for THAT post.
+      ; A rejection ends his vacancy belief instead: that place is not going, to him.
+      (on [k offer-letter]
+        (tolerate (attr ?doc writing): ?vform)
+        (tolerate (table-match ?vform field job-kind value ?vjk))
+        (tolerate (table-match ?vform field org-name value ?vorg-name))
+        (if (and (substantial ?vjk) (substantial ?vorg-name))
+            (then
+              (o [k org] {@o name ?vorg-name}): ?vorg
+              (o ?vjk {@o org ?vorg}): ?vjob
+              (if -{?vjob org ?vorg} (then (begin-belief {?vjob org ?vorg})))
+              (if -{?vjob offered-to @self} (then (begin-belief {?vjob offered-to @self}))))))
+      (on [k rejection-letter]
+        (tolerate (attr ?doc writing): ?rform)
+        (tolerate (table-match ?rform field job-kind value ?rjk))
+        (tolerate (table-match ?rform field org-name value ?rorg-name))
+        (if (and (substantial ?rjk) (substantial ?rorg-name))
+            (then
+              (o [k org] {@o name ?rorg-name}): ?rorg
+              (o ?rjk {@o org ?rorg}): ?rjob
+              (if -{?rjob org ?rorg} (then (begin-belief {?rjob org ?rorg})))
+              (for-each ?rrel (every {?rjob filled-by _})
+                (end-belief ?rrel)))))
+      (on [k job-posting]
+        (tolerate (attr ?doc writing): ?form)
+        (tolerate (table-match ?form field job-kind value ?jk))
+        (tolerate (table-match ?form field org-name value ?org-name))
+        (tolerate (table-match ?form field job-id value ?job-id))
+        (tolerate (table-match ?form field apply-at value ?apply-at))
+        (if (and (substantial ?jk) (substantial ?org-name) (substantial ?apply-at))
+            (then
+              (o [k org] {@o name ?org-name}): ?org
+              ; The seat is (org, job-id) - the notice's own reference. Two readings of
+              ; ONE vacancy land on one object; two vacancies of the same kind at the
+              ; same org stay two. Without the id both collapse into `a clerk's place
+              ; there`, which is neither.
+              (o ?jk {@o org ?org} {@o job-id ?job-id}): ?job
+              (if -{?job org ?org}    (then (begin-belief {?job org ?org})))
+              (if -{?job job-id ?job-id} (then (begin-belief {?job job-id ?job-id})))
+              (if -{?job filled-by _} (then (begin-belief {?job filled-by _})))
+              (if -{?org workplace ?} (then (begin-belief {?org workplace ?apply-at}))))))
+      ; An APPLICATION names a MAN, so reading one is hearing of him: a name and an
+      ; address is a specific someone, realis and UNGROUNDED - @self has heard of him
+      ; and never met him, and the day he walks in the two fuse on the name. What the
+      ; form says is then held about HIM, in the ordinary states anybody is described
+      ; by, rather than in a private vocabulary of the paper's own.
+      ;
+      ; And he APPLIED: a completed apply-for, inferred from the form being on the desk
+      ; at all. A born-ended record of another man's act, which is how a deed is
+      ; remembered - not a state invented to stand in for one. The clerk cannot know
+      ; WHEN he applied, only that he did, so the record is /momentary at the reading.
+      (on [k application]
+        (tolerate (attr ?doc writing): ?aform)
+        (tolerate (table-match ?aform field applicant value ?aname))
+        (tolerate (table-match ?aform field home value ?ahome))
+        (tolerate (table-match ?aform field job value ?ajk))
+        ; The form was ADDRESSED to the premises applied at - the paper's own say-so
+        ; for which workplace the errand named, rather than @self assuming it was his.
+        (tolerate (attr ?doc destination): ?adest)
+        (if (and (substantial ?aname) (substantial ?ahome) (substantial ?ajk))
+            (then
+              (o [k human] {@o name ?aname}): ?applicant
+              (if -{?doc written-by ?applicant} (then (begin-belief {?doc written-by ?applicant})))
+              (if -{?applicant name ?aname}     (then (begin-belief {?applicant name ?aname})))
+              (o [k building] {@o address ?ahome}): ?ahouse
+              (if -{?ahouse address ?ahome}     (then (begin-belief {?ahouse address ?ahome})))
+              (if -{?applicant home ?ahouse}    (then (begin-belief {?applicant home ?ahouse})))
+              (if (substantial ?adest)
+                  (then
+                    (o [k building] {@o address ?adest}): ?awp
+                    (if -{?applicant apply-for ?ajk ?awp /ever}
+                        (then (begin-belief {?applicant apply-for ?ajk ?awp /succ /momentary}))))))))
+      ; An INVITATION names no occasion - it cannot, an occasion being a nameless
+      ; abstract - so it carries what CONSTITUTES one and the reader builds his own
+      ; from the cells. Host by name and venue by address are the two referents a
+      ; man who has never been told of this gathering can resolve; host + date are
+      ; its identity, so two readings of one invitation land on one occasion and
+      ; the host's own copy and the guest's refer to the same evening.
+      (on [k invitation-letter]
+        (tolerate (attr ?doc writing): ?iform)
+        (tolerate (table-match ?iform field occasion-kind value ?iokind))
+        (tolerate (table-match ?iform field host value ?ihost-name))
+        (tolerate (table-match ?iform field venue value ?ivenue))
+        (tolerate (table-match ?iform field held-on value ?idate))
+        (tolerate (table-match ?iform field from-hour value ?ifrom))
+        (tolerate (table-match ?iform field to-hour value ?ito))
+        (if (and (substantial ?iokind) (substantial ?ihost-name)
+                 (substantial ?idate))
+            (then
+              (o [k human] {@o name ?ihost-name}): ?ihost
+              (o ?iokind {@o host ?ihost} {@o held-on ?idate}): ?iocc
+              (if -{?iocc host ?ihost}
+                  (then (begin-belief {?iocc host ?ihost})))
+              (if -{?iocc held-on ?idate}
+                  (then (begin-belief {?iocc held-on ?idate})))
+              (if (and (substantial ?ivenue) -{?iocc venue ?})
+                  (then (o [k building] {@o address ?ivenue}): ?ivenue-obj
+                        (begin-belief {?iocc venue ?ivenue-obj})))
+              (if (and (substantial ?ifrom) -{?iocc hours ? ?})
+                  (then (begin-belief {?iocc hours ?ifrom ?ito})))
+              ; The appointment itself - what the attend lane's guest rung reads.
+              (if -{?ihost invite @self ?iocc}
+                  (then (begin-belief {?ihost invite @self ?iocc}))))))
+      (else (adopt-msg (attr ?doc writing))))
     (set-outcome {@self READ ?doc} /succ)))
