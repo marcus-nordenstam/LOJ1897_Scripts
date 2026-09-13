@@ -33,26 +33,17 @@
 (define-macro post-letter (?kind ?msg ?dest ?addressee ?out)
   (if (substantial ?dest)
     (then
+      (check ?out)
       (create-entity ?kind (spatial @self building)): ?ltr
-      (set-writing ?ltr ?msg)
-      (if {?addressee name ?addressee-name}
-          (then (set-attr ?ltr addressee ?addressee-name)))
-      (if {?dest address ?dest-address}
-          (then (set-attr ?ltr destination ?dest-address)))
-      (maintain-proposal {@self send-mail ?ltr ?out}))))
-
-; (post-blank-letter [k <kind>] ?dest ?addressee): like post-letter but with NO written
-; body - a letter whose verdict IS its KIND (offer-letter / rejection-letter, read by kind
-; not body). Composed, its destination stamped as ?dest, and handed to the mail lane.
-(define-macro post-blank-letter (?kind ?dest ?addressee ?out)
-  (if (substantial ?dest)
-    (then
-      (create-entity ?kind (spatial @self space)): ?ltr
-      (if {?addressee name ?addressee-name}
-          (then (set-attr ?ltr addressee ?addressee-name)))
-      (if {?dest address ?dest-address}
-          (then (set-attr ?ltr destination ?dest-address)))
-      (maintain-proposal {@self send-mail ?ltr ?out}))))
+      (check ?ltr)
+      (if (and (substantial ?ltr) (substantial ?out))
+        (then
+          (set-writing ?ltr ?msg)
+          (if {?addressee name ?addressee-name}
+              (then (set-attr ?ltr addressee ?addressee-name)))
+          (if {?dest address ?dest-address}
+              (then (set-attr ?ltr destination ?dest-address)))
+          (maintain-proposal {@self send-mail ?ltr ?out}))))))
 
 ; (plant-letter [k <kind>] <msg> ?premises): leave an UNADDRESSED <kind> letter
 ; carrying <msg> at ?premises - a killer's kept forged draft as discoverable evidence

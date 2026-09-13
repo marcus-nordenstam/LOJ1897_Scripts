@@ -1,25 +1,20 @@
 ; ----------------------------------------------------------------------------
 ; gathering - the occasion / ceremony keystone (occasion_ceremony_plan.md Item 2).
 ;
-; An occasion is a per-mind Mental Object (Concepts.mon `occasion`), NOT an env
-; entity. These two (npc-think) rules exercise the substrate:
+; These two rules only DECIDE. Everything the decision leads to - staging the occasion,
+; penning and posting the invitations - is the plan-gathering TASK's work, because a
+; think deliberates and a letter is a physical thing only an action may mint.
 ;
-;   plan_gathering        : the host's PLANNING decision. A small fraction of
-;                           grown NPCs each month decide to throw a dinner party
-;                           at home, ~3 months out. (plan-occasion ... formal)
-;                           mints the host's occasion object (search-or-invent
-;                           keyed on the constitutive {host, date} pair) +
-;                           decorates it with the venue + hours + mints the
-;                           {@self organize <occ>} appointment + posts a letter to
-;                           every guest in the host's circle (Item 3). Each guest
-;                           reads it at their next think (read_pending_invitations),
-;                           reconstructs their OWN local occasion object, and holds
-;                           the told copy of the host's own {<host> invite @self /aux <occ>}.
+; The lead time rides on the act clause, so the two drivers propose two DIFFERENT acts
+; that the one task serves: months out for the formal dinner party, this month for the
+; impromptu supper. That lead is also what decides whether anyone is written to - see
+; the invitation rung in plan-gathering-task.
 ;
-; Attendance itself is NOT here: a guest LEARNS the occasion by reading the host's
-; invitation letter (ordinary mail - its two sentences are {<host> invite @self /aux
-; <occ>} + {<occ> held-on <date>}), and the attend_think.hs drivers raise the attend
-; task (and a principal's wed duty) in the month held-on lands. No appointment scan.
+; Attendance lives in attend_think. Its HOST rung (want_attend_host) gates on {@self
+; organize <occ>}, which plan-gathering mints, so the host half works end to end. Its
+; GUEST rung gates on {<host> invite @self <occ>}, which a guest can only come to hold
+; by READING an invitation - and the invitation carries no form yet, so the guest half
+; waits on that.
 ;
 ; Validation (hsim <msb> mind <First> <Last>): a host shows {@self organize
 ; <dinner-party>} with the occasion carrying host/venue/date/hours, then the attend
@@ -28,30 +23,41 @@
 
 (include "../../../definitions/roles.mc")
 
-; The host's planning decision (npc-think). ~2% of grown NPCs each month
-; decide to host; the occasion is set ~3 months ahead, an evening affair.
+; The host's planning decision (npc-think). ~2% of grown NPCs each month decide to
+; throw a dinner party at home, set about three months ahead.
 (npc-think plan_gathering
   (cooldown 1 m)
   (rng-stream behaviour)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
   (when (chance 0.02))
-  (role ?my-home {@self home ?my-home})
-  (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
-  (effects
-    (plan-occasion [k dinner-party] (any {@self home ?}).target 3 19 23 ?my-out-box)))
+  (utility want)
+  (effects (maintain-proposal {@self plan-gathering [k dinner-party] 3})))
 
-; An IMPROMPTU supper (the INFORMAL channel): unlike the planned dinner party, this
-; reaches only whoever the host is physically WITH right now - the co-present set at
-; his current location (invite_copresent), nobody from the wider circle. Set for the
-; same month (0 months ahead), an evening affair at home.
+; An IMPROMPTU supper: the same staging, set for THIS month. Nobody is written to - the
+; post could not arrive in time - so it reaches only whoever is already there. Reaching
+; them is not wired: no co-presence op survives, and an occasion is a nameless abstract
+; object that cannot ride a spoken wire either, so today the host stages a supper only
+; he knows about.
 (npc-think plan_impromptu_supper
   (cooldown 1 m)
   (rng-stream behaviour)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
   (when (chance 0.015))
-  (effects
-    (plan-occasion [k dinner-party] (any {@self home ?}).target 0 18 22 ?my-out-box)))
+  (utility want)
+  (effects (maintain-proposal {@self plan-gathering [k dinner-party] 0})))
 
-; Attendance is no scan: reading the invitation (ordinary mail) leaves @self holding
-; {<host> invite @self /aux <occ>} + {<occ> held-on <date>}, and the attend_think.hs
-; drivers raise the attend / wed tasks in the month held-on lands. No review pass.
+; ONE invitation per friend, while the day is far enough out for the post to arrive: a
+; supper THIS month is not something you write to a man about, so a same-month occasion
+; posts nothing and reaches only whoever is already there. A guest whose home @self
+; cannot place gets no letter - there is nowhere to send it. The host's own
+; {@self invite <guest> /aux <occ>} record, minted when the letter is posted, is what
+; takes each friend off this list.
+(npc-think want_invite_guest
+  (role ?occ {@self organize ?occ}
+             {?occ held-on ?})
+  (role ?guest {@self friend ?guest}
+               {?guest home ?}
+               -{@self invite ?guest ?occ})
+  (when (not (date-in-current-month (any {?occ held-on ?}).target)))
+  (utility errand)
+  (effects (maintain-proposal {@self invite-guest ?guest ?occ})))

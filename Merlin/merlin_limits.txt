@@ -39,7 +39,7 @@ npc.structIds4.pool                 =   10000   16      8
 npc.structIds16.pool                =   100000  512     64
 npc.structIds128.pool               =   10000   8       8
 abs.listSymbols.pool                =   16000   2000    50
-npc.listSymbols.pool                =   50000   4000    256
+npc.listSymbols.pool                =   50000  4000    256
 npc.utilSource.pool                 =   5000    256     64
 
 # Object-related pools
