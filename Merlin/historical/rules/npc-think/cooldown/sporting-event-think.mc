@@ -17,7 +17,7 @@
 ;     {@self RACE-RUN} act (race_act runs his leg from his own attributes).
 ;
 ; The SPORT is authored content read per club kind from tables/club_sports.hs;
-; the roster is the employee-register the organiser legitimately holds - both
+; the field is the membership-roll the organiser legitimately holds - both
 ; read inside open_meet_act (hold_meet_act.hs), never here.
 ; ----------------------------------------------------------------------------
 

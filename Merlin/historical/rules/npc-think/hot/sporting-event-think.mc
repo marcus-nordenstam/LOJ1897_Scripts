@@ -20,7 +20,7 @@
 ;     {@self RACE-RUN} act (race_act runs his leg from his own attributes).
 ;
 ; The SPORT is authored content read per club kind from tables/club_sports.hs; the
-; roster is the employee-register the organiser legitimately holds - both read in
+; field is the membership-roll the organiser legitimately holds - both read in
 ; summon_field below, never in an act body (an act reasons about nothing).
 ; ----------------------------------------------------------------------------
 
@@ -44,8 +44,8 @@
 ; The organiser SUMMONS the field by SPEAKING: one directed SAY per co-present, living
 ; roster member ({@self summon <him> /aux <sport>}, his ticket to report - race_act ends
 ; his copy). The club's articles give the org, its kind gives the sport (an exact
-; club_sports lookup; a kindless club holds no contest) and the employee-register gives
-; the roster - all documents the organiser legitimately holds, read HERE because reading
+; club_sports lookup; a kindless club holds no contest) and the membership-roll gives
+; the field - all documents the organiser legitimately holds, read HERE because reading
 ; is deliberation and an act reasons about nothing. Nothing is written into a member's
 ; mind; awareness is by earshot. The per-listener SAY dedup retires each summons once
 ; said, so the rung empties itself when the field is called.
@@ -58,10 +58,10 @@
   (effects
     (o {?art declares-org @o}): ?org
     (any {?org isa ?club_kind})
-    (any {?org employee-register ?reg})
+    (any {?org membership-roll ?roll})
     (if (table-match club_sports org-kind ?club_kind sport ?sport)
       (then
-        (for-each-row (attr ?reg writing) [/worker ?m-name]
+        (for-each-row (attr ?roll writing) [/member ?m-name]
           (if (substantial ?m-name)
             (then
               (o [k human] {@o name ?m-name}): ?m

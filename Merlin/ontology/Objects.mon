@@ -388,7 +388,18 @@ object (+ obs)
             application
                 job-application
             articles-of-incorporation
+            # employee-register - the firm's wage book: ONE LINE PER POST, carrying the
+            # seat's own reference and kind, who holds it and since when, any promise
+            # outstanding against it and to whom and since when, and whether a notice for
+            # it stands. Every recruiting fact lives here rather than in an officer's
+            # memory, so the book outlives the man keeping it and a second officer reads
+            # the same picture.
             employee-register
+            # membership-roll - a club's members. A club has MEMBERS, not posts: nothing
+            # stands vacant, nothing is advertised, nobody holds a rank. Its own kind
+            # because sharing the register's was what let three row shapes live under one
+            # schema.
+            membership-roll
             # job-posting - the notice a recruiting officer pins to the parish board: a
             # table of job-kind / org-name / apply-at (the address to present oneself at),
             # the application form's twin. Read, it yields the reader's own beliefs about a

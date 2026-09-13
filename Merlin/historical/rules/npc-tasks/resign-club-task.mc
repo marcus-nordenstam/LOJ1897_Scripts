@@ -1,9 +1,9 @@
 ; ----------------------------------------------------------------------------
 ; resign-club - the DOING of resigning from my own club: call at a clubhouse, strike
-; my row off my club's roster, and give up my membership belief. Focusless - a man
+; my row off my club's roll, and give up my membership belief. Focusless - a man
 ; resigns from his OWN club, resolved off {@self member-of ?org}. The decision
 ; (clubs_think club_resignation) proposes this task and owns its life (maintains until
-; my member-of is gone). The register resolution is the task's job; the dumb UNENROL
+; my member-of is gone). The roll resolution is the task's job; the dumb LEAVE-ROLL
 ; just crosses out the row.
 ; ----------------------------------------------------------------------------
 
@@ -16,21 +16,21 @@
       (when (not (is-a (spatial @self building) [k building social-clubhouse])))
       (effects (maintain-proposal {@self enter ?go_dest})))
 
-    ; UNENROL: at a clubhouse -> resolve my own club's roster and strike my row.
+    ; LEAVE-ROLL: at a clubhouse -> resolve my own club's roll and strike my row.
     (try
       (when (is-a (spatial @self building) [k building social-clubhouse]))
       (effects
         (any {@self member-of ?org})
-        (any {?org employee-register ?reg})
-        ; No register belief -> no roster to strike. It was a (check ?reg) ASSERT, but a
+        (any {?org membership-roll ?roll})
+        ; No roll belief -> no row to strike. It was a (check ?roll) ASSERT, but a
         ; member-of org whose papers @self has never read is a legitimate state.
-        (if ?reg (then (maintain-proposal {@self UNENROL ?reg})))))
+        (if ?roll (then (maintain-proposal {@self LEAVE-ROLL ?roll})))))
 
     ; REALIZE: my row is gone -> end my membership belief (trips the decision's completion).
     (try
       (effects
         (any {@self member-of ?org})
-        (any {?org employee-register ?reg})
-        (if (not (table-match (attr ?reg writing) worker (name @self)))
+        (any {?org membership-roll ?roll})
+        (if (not (table-match (attr ?roll writing) member (name @self)))
             (then (end-belief {@self member-of ?org})
                   (set-outcome ?rc-rel /succ)))))))

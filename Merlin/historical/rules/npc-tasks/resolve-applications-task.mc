@@ -2,19 +2,15 @@
 ; resolve-applications - the recruit officer's verdict round over the application FORMS
 ; still in his hand. The PAPER is the queue: he owes an answer to every form he holds,
 ; and an answered form is burned by the recruit-staff rung that follows the verdict into
-; the post, so the round drains to empty and concludes. @self believes NOTHING about the
-; men named on them - what he holds is what the PAPER says (applicant-name / -home /
-; -post, minted by READ), and those beliefs die with the paper. They are names on paper
-; until one walks through his door.
+; the post, so the round drains to empty and concludes. Reading a form made him HEAR OF
+; the man who wrote it - a name, a home, and the apply-for he plainly completed, held
+; about HIM and reached through {?app written-by ?man}. He is a man @self has heard of
+; and never met until one walks through his door.
 ;
-; ONE decision per OPEN POST: the first applicant for its kind gets it, pencilled against
-; the LINE as {?job offered-to ?applicant}. That is the one place a man @self has never
-; met becomes an OBJECT, and it has to: a seat promised is promised to somebody, and
-; offered-to takes a human. He is built from what the form says - a name and an address -
-; and carries no claim about what he is doing. The day he comes to take the post up, the
-; man at the counter and this paper man fuse on the name, and the promise lands on him.
-;
-; A REJECTED applicant becomes no object at all. His letter is addressed off the form.
+; NOTHING is pencilled against a seat here. The officer writes to a man; the letter in the
+; post IS the promise, and two men may hold letters for one post. The day one comes to take
+; it up, the man at the counter and this paper man fuse on the name - and whoever arrives
+; first is hired, the other told who holds it.
 ;
 ; A form ALREADY ANSWERED is off the list, and ONLY that test. It must not also exclude a
 ; form whose draft is RUNNING: maintain-proposal holds an act only while its rung keeps
@@ -47,49 +43,58 @@
     ; of work. The object is minted here and only here; (o ..) resolves to the one already
     ; standing if @self has met him before, so a former employee re-applying does not
     ; become a second man.
-    (try
-      (role ?org {@self duty-to ?org recruit-staff})
-      (role ?job {?job org ?org}
-                 {?job job-id ?}
-                 -{?job filled-by ?}
-                 -{?job offered-to ?})
-      (role ?app [k application] (spatial ?app held-by @self)
-                                 {@self READ ?app /succ}
-                                 -{@self draft-verdict ?app ? /succ}
-                                 {?app applicant-post ?jk}
-                                 {?app applicant-name ?name}
-                                 {?app applicant-home ?addr})
-      (when (is-a ?job ?jk))
-      (effects
-        (o [k human] {@o name ?name} {@o address ?addr}): ?applicant
-        ; ONE offer per man in flight: a seat already promised to him is not promised twice.
-        (if (none {? offered-to ?applicant})
-            (then (begin-belief {?job offered-to ?applicant})))))
-
-    ; THE OFFER LETTER. The form is joined to the promise by the NAME on it - the only
-    ; thing the two have in common, and the same key the fusion at the counter uses.
+    ; THE OFFER. ONE rung: an unanswered form, the man who wrote it, and an unfilled seat
+    ; of the kind he asked for. It decides and it writes, because deciding to offer a man a
+    ; post and writing to tell him so are one piece of business.
+    ;
+    ; The gate is "am I already drafting an offer to ANYBODY" - a live lookup in the action
+    ; pipeline, true while the draft is proposed OR running. So one letter is written at a
+    ; time and finished before the next is started, and if the draft dies any other way the
+    ; gate reopens and he tries again - this man or another, whichever the world now
+    ; favours. -{@self draft-verdict ?app ? /succ} is what keeps an ANSWERED form answered.
+    ;
+    ; BEGIN-proposal, and this is the shape it exists for: the condition to START (no draft
+    ; in flight) is not the condition to STOP (the letter is in the post), and a MAINTAINED
+    ; proposal would be reaped the instant its own gate went false - withdraw_proposal stops
+    ; a running act, so the draft would be interrupted in the cycle it was admitted. A begun
+    ; proposal obviates its rule-support and is freed by its act concluding, so no twin
+    ; end-rule is needed: draft-verdict sets its own outcome.
+    ;
+    ; NOTHING is pencilled against the seat. A promise is a letter in the post, not a note
+    ; in the officer's head; two men may both be written to, and the first through the door
+    ; is hired while the second is told who holds it (recruit-staff's counter rungs).
     (try
       (lock-rule)
+      (role ?org {@self duty-to ?org recruit-staff})
+      (role ?applicant [k human] {?applicant apply-for ?jk ? /succ})
       (role ?app [k application] (spatial ?app held-by @self)
                                  {@self READ ?app /succ}
                                  -{@self draft-verdict ?app ? /succ}
-                                 {?app applicant-name ?name})
-      (when (substantial (offeree-named ?name)))
+                                 {?app written-by ?applicant})
+      ; The SEAT: unfilled, and OF HIS KIND - cast on ?jk rather than tested in a gate, so
+      ; the lock's one activation cannot be spent on a seat that was never a candidate.
+      ; Cast LAST, after the man it is for: cast before the roles it shares no variable
+      ; with, this role admits nothing at all and the rung goes silently dead (measured:
+      ; 0 activations against 20 with the same filters cast last).
+      (role ?job ?jk {?job org ?org}
+                     {?job job-id ?}
+                     -{?job filled-by ?})
+      (when (not (proposed {@self draft-verdict ?app [k offer-letter]})))
       (utility obligation)
-      (effects (maintain-proposal {@self draft-verdict ?app [k offer-letter]})))
+      (effects (begin-proposal {@self draft-verdict ?app [k offer-letter]})))
 
     ; THE REJECTION. No open post of his kind remains un-offered, so there is nothing to
-    ; give him. Nobody is minted: @self answers the paper and never learns who he was.
+    ; give him. He stays a man @self has heard of and never met, and the hearing of him
+    ; fades with everything else he has no reason to keep.
     (try
       (lock-rule)
       (role ?org {@self duty-to ?org recruit-staff})
+      (role ?applicant [k human] {?applicant apply-for ?jk ? /succ})
       (role ?app [k application] (spatial ?app held-by @self)
                                  {@self READ ?app /succ}
                                  -{@self draft-verdict ?app ? /succ}
-                                 {?app applicant-post ?jk}
-                                 {?app applicant-name ?name})
-      (when (and (unsubstantial (offeree-named ?name))
-                 (unsubstantial (open-job-for ?org ?jk))))
+                                 {?app written-by ?applicant})
+      (when (unsubstantial (open-job-for ?org ?jk)))
       (utility obligation)
       (effects (maintain-proposal {@self draft-verdict ?app [k rejection-letter]})))
 

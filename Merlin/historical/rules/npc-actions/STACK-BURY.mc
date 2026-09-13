@@ -9,5 +9,7 @@
 (npc-action {@self STACK-BURY ?doc ?stack}
   (duration 1)
   (effects
+    ; The twin of STACK-TAKE's: a man files a paper in the pile he is standing at.
+    (check (spatial ?stack co-located @self /env))
     (bury ?doc ?stack)
     (set-outcome {@self STACK-BURY ?doc ?stack} /succ)))

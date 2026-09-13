@@ -3,11 +3,12 @@
 ; (offer-letter / rejection-letter): pen, fill, envelope, post from the OFFICE out-box.
 ; WHICH verdict is the proposing resolve-applications round's decision, not this task's.
 ;
-; It answers the PAPER, never a person. Everything the letter needs - whom to name, which
-; post, where to send it - @self read off the form and holds as beliefs ABOUT THE FORM, so
-; he need believe nothing about a man he has not met. BURNING the answered form is what
-; takes him off the queue, and that is a recruit-staff rung: this task targets the form, so
-; realizing it destroyed would conclude the very task that answered it, with a fail.
+; It answers a MAN, by way of the paper he wrote. Everything the letter needs - whom to
+; name, which post, where to send it - @self read off the form and now holds about HIM: his
+; name, the apply-for he completed, and the home he gave. The form is reached through
+; {?app written-by ?rman}. BURNING the answered form is what takes him off the queue, and
+; that is a recruit-staff rung: this task targets the form, so realizing it destroyed would
+; conclude the very task that answered it, with a fail.
 ;
 ; The letter this task pens is the one it CREATED: the CREATE postlude stashes it under
 ; the running task's own `letter` key, so a restart re-reads that key instead of picking
@@ -38,8 +39,9 @@
       ; no guessing it right. Kind + org is what makes it THAT seat to him, resolved against
       ; his own objects; he already knows where the org keeps its door.
       (stage
-        (when {?app applicant-name ?rname}
-              {?app applicant-post ?jk}
+        (when {?app written-by ?rman}
+              {?rman name ?rname}
+              {?rman apply-for ?jk ? /succ}
               {?org name ?org-name})
         (effects
           (if (unsubstantial (attr ?ltr writing))
@@ -48,7 +50,9 @@
                                                     [org-name ?org-name]])})))))
 
       (stage
-        (when {?app applicant-home ?raddress})
+        (when {?app written-by ?rman}
+              {?rman home ?rhome}
+              {?rhome address ?raddress})
         (effects
           (if (unsubstantial (attr ?ltr destination))
               (then (maintain-proposal {@self ADDRESS ?ltr ?raddress})))))

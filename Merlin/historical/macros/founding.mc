@@ -71,7 +71,6 @@
             (check ?back)
             (create-entity [k articles-of-incorporation] ?back): ?art
             (create-entity [k employee-register]         ?back): ?reg
-            (table-init ?reg line worker job level)
             (establish-posts ?reg ?org-kind)
             ; The articles DOCUMENT the org into being: a one-row TABLE of its constitutive
             ; cells. This is the whole ENVIRONMENT half of founding - the org has no other
@@ -133,7 +132,8 @@
 ;     ?art       - a headless articles-of-incorporation (see headless-charter)
 ;     ?head-role - the head's job, a scoped job kind ([k job superintendent])
 (define-macro take-up-charter (?art ?head-role)
-  (for-each-row (attr ?art writing) [/workplace ?wp] [/register ?reg] [/take-premises ?wp]
+  (for-each-row (attr ?art writing) [/workplace ?wp] [/register ?reg]
+    (take-premises ?wp)
     (table-set ?art founder @self)
     (seat-org-head ?art ?wp ?reg ?head-role)))
 
@@ -164,8 +164,8 @@
             (spatial ?wp room): ?back
             (check ?back)
             (create-entity [k articles-of-incorporation] ?back): ?art
-            (create-entity [k employee-register]         ?back): ?reg
-            (table-init ?reg line worker job level)
+            (create-entity [k membership-roll]           ?back): ?roll
+            (table-init ?roll member joined-date)
             (o ?club-kind {?art declares-org @o}): ?org
             (table-match businesses org-kind ?club-kind name ?org-name)
             (begin-belief {?org isa ?club-kind})
@@ -173,16 +173,16 @@
             (begin-belief {?org workplace ?wp})
             (begin-belief {?org name ?org-name})
             (begin-belief {?org record ?art})
-            (begin-belief {?org employee-register ?reg})
+            (begin-belief {?org membership-roll ?roll})
             (table-init ?art org-kind org_name founder workplace register)
             (table-add ?art org-kind ?club-kind org_name ?org-name founder @self
-                            workplace ?wp register ?reg)
+                            workplace ?wp register ?roll)
             (name-premises ?wp ?club-kind ?org-name)
             (head (env-entities [k incorporation-stack])): ?ist
             (if ?ist (then (push ?art ?ist)))
-            ; The founder is the club's first MEMBER ([k membership] roster row, no level)
-            ; + a {@self member-of} belief - not seated as a head.
-            (table-add ?reg worker (name @self) job [k membership])
+            ; The founder is the club's first MEMBER - a row on the roll, not a seat on
+            ; an establishment: a club has members, never posts.
+            (table-add ?roll member (name @self) joined-date (date-now))
             (begin-belief {@self member-of ?org})
             (break)))))))
 
@@ -357,40 +357,60 @@
 ;
 ; Only the STAFF establishment is filed here (org_staffing's staff-role x the authored
 ; headcount). A head is founded, never hired, so his line is appended when he seats.
+;
+; ONE LINE CARRIES THE WHOLE POST. Everything an officer must know about a seat sits on
+; its own row, so he reads it off the page instead of remembering it: who holds it and
+; since when, whether a promise is outstanding and to whom and since when, and whether a
+; notice for it stands. That is what makes the book - not any one officer's memory - the
+; authority: a second man taking the duty reads the same facts, and nothing is lost when
+; the first forgets or dies. The dates are DATE symbols ((date-now)); elapsed time comes
+; from (abs-seconds ?cell), the same composition every other recency test uses.
 ; ----------------------------------------------------------------------------
 
-; establish-posts - file the org's authored staff posts on a fresh register, all vacant.
+; establish-posts - stamp a fresh register with THE schema and file the org's authored
+; staff posts on it, all vacant. The header and the rows that fill it are written
+; together, in one place: spelled per-site, they drifted (`line` against `job-id`) and
+; every business's establishment came out blank.
 (define-macro establish-posts (?reg ?org-kind)
-  (if (table-match org_staffing org-kind ?org-kind staff-role ?ep-role)
-    (then
-      (bind 0 ?ep-line)
-      (repeat (if (table-match public_orgs kind ?org-kind employee-count ?ep-n)
-                  (then ?ep-n)
-                  (else (k-default-staff-posts)))
-        (do
-          (bind (+ ?ep-line 1) ?ep-line)
-          (table-add ?reg job-id ?ep-line worker @nothing job ?ep-role))))))
+  (do
+    (table-init ?reg job-id job worker level hiring-date offered offer-date advertise-date)
+    (if (table-match org_staffing org-kind ?org-kind staff-role ?ep-role)
+      (then
+        (bind 0 ?ep-line)
+        (repeat (if (table-match public_orgs kind ?org-kind employee-count ?ep-n)
+                    (then ?ep-n)
+                    (else (k-default-staff-posts)))
+          (do
+            (bind (+ ?ep-line 1) ?ep-line)
+            (table-add ?reg job-id ?ep-line worker @nothing job ?ep-role)))))))
 
 ; fill-post - @self takes a job: his name goes into the vacant line's worker cell, IN
 ; PLACE. The line must not move - a job IS its line on this ledger, so striking and
 ; re-appending would hand the advertised job to a different line and the notice would
-; never come down. No vacant line of that kind (a club membership, a job outside the
+; never come down. No vacant line of that kind (a head's seat, a job outside the
 ; establishment) -> nothing to fill, so a line is added, numbered after the last.
 ; Already on the book for it -> nothing to do (a second signing never duplicates a line).
+;
+; Signing a man on SPENDS whatever promise stood against the line: the offer has been
+; taken up, so the pencil goes and the seat is his outright.
 (define-macro fill-post (?reg ?job-kind ?level)
   (if (not (table-match (attr ?reg writing) worker (name @self) job ?job-kind))
       (then
         (if (not (table-set ?reg (where worker @nothing job ?job-kind)
-                                 worker (name @self) level ?level))
+                                 worker (name @self) level ?level
+                                 hiring-date (date-now)
+                                 offered @nothing offer-date @nothing))
             (then
               (bind 0 ?fp-line)
               (for-each-row (attr ?reg writing) [/job-id ?fp-seen]
                 (bind ?fp-seen ?fp-line))
               (table-add ?reg job-id (+ ?fp-line 1)
-                              worker (name @self) job ?job-kind level ?level))))))
+                              worker (name @self) job ?job-kind level ?level
+                              hiring-date (date-now)))))))
 
 ; vacate-post - a departure leaves the JOB behind: the worker's cell is emptied where it
 ; stands, keeping the line, its number and its job kind. Striking the line outright would
 ; retire the job along with the man, and the officer would never read an opening.
 (define-macro vacate-post (?reg ?worker)
-  (table-set ?reg (where worker (name ?worker)) worker @nothing level @nothing))
+  (table-set ?reg (where worker (name ?worker))
+                  worker @nothing level @nothing hiring-date @nothing))

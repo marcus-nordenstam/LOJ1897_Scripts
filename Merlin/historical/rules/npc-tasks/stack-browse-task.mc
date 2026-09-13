@@ -30,7 +30,14 @@
         (tolerate (observe (spatial ?stack top /env)): ?top)
         (if (nothing ?top)
             (then (set-outcome ?browse-rel /succ)))))
+    ; AT THE STACK, both here and at the bury below. (spatial ?stack top) is what @self
+    ; BELIEVES is on top - a memory, not a reach - so without this the browse goes on
+    ; lifting and filing while he is across town, and STACK-TAKE's own precondition
+    ; catches him at it (measured: an officer pulled away mid-browse by a letter to
+    ; write, taking from the office post from the parish board). Held, not failed: he
+    ; comes back and the round carries on where it stopped.
     (try
+      (role @self (spatial ?stack co-located @self))
       (role ?top (spatial ?stack top)
             (!= ?top (bb-read ?browse-rel cycle-end))
             (bb-none ?browse-rel inflight))
@@ -49,6 +56,7 @@
         (bb-clear ?browse-rel verdict)
         (bb-clear ?browse-rel inflight)))
     (try
+      (role @self (spatial ?stack co-located @self))
       (role ?doc [k document] (spatial ?doc held-by @self)
             (= ?doc (bb-read ?browse-rel inflight))
             (bb-any ?browse-rel verdict handled))

@@ -2,7 +2,7 @@
 ; adopt-aoc - convert an articles-of-incorporation TABLE into @self's org beliefs.
 ;
 ; The table replaces the old (written-msg ...) form: its one row holds the org's
-; kind / name / founder / workplace / employee-register as plain cells (a table is
+; kind / name / founder / workplace / register-or-roll as plain cells (a table is
 ; NOT a message, so generic (adopt-msg ...) would mint nothing from it - it must be
 ; decoded explicitly here). The org object is anchored to the articles themselves
 ; ({?art declares-org @o}), so two readers of the same AOC converge on the same org;
@@ -22,4 +22,11 @@
       (if (substantial ?onm)  (then (begin-belief {?org name ?onm})))
       (if (substantial ?ofr)  (then (begin-belief {?org founder ?ofr})))
       (if (substantial ?owp)  (then (begin-belief {?org workplace ?owp})))
-      (if (substantial ?oreg) (then (begin-belief {?org employee-register ?oreg})))))
+      ; The `register` cell names whichever book the org keeps - a firm's wage register or
+      ; a club's membership roll. WHICH relation it mints is read off the document itself,
+      ; never guessed from the org: the two carry different columns, and a reader who takes
+      ; one for the other looks up cells that are not there.
+      (if (is-a ?oreg [k employee-register])
+          (then (begin-belief {?org employee-register ?oreg})))
+      (if (is-a ?oreg [k membership-roll])
+          (then (begin-belief {?org membership-roll ?oreg})))))

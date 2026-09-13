@@ -66,9 +66,9 @@
   ; other charter is filed on.
   (charter-org [k org company-registry])
   (for-each-row public_orgs [/kind ?pk]
-    [/charter-org ?pk])
+    (charter-org ?pk))
   (for-each-row cornerstone_businesses [/kind ?ck]
-    [/charter-org ?ck]))
+    (charter-org ?ck)))
 
 ; charter-org - file one org's charter on a free building of its kind. A no-op if the town
 ; already holds a charter of this kind (the census counts charters, headed or not, so a kind
@@ -92,7 +92,6 @@
                 (then (create-entity [k incorporation-stack] ?croom)))
               (create-entity [k articles-of-incorporation] ?croom): ?art
               (create-entity [k employee-register]         ?croom): ?creg
-              (table-init ?creg job-id worker job level)
               (establish-posts ?creg ?kind)
               (table-remove ?reg building ?bldg)
               (table-init ?art org-kind org_name founder workplace register)

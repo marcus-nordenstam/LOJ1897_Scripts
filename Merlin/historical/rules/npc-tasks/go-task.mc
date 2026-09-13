@@ -5,16 +5,15 @@
 ; proposes them as sub-acts (inheriting their body motor). Arrival is go's OWN conclusion (the
 ; last try), stamped /succ before any minting lane's gate can withdraw it.
 ;
-; The dispatch turns on (unplaced ?dest) - "@self cannot route to this place" - and its
-; complement. A place he cannot route to is FOUND first (three rungs, complementary on what
-; he has seen); one he can is reached (three rungs, complementary on its kind and where he
-; stands). unplaced asks a room and a structure different questions because the primitives
-; reach them differently; funcs/spatial.mc carries the why.
+; The dispatch turns on (grounded ?dest) - "@self knows WHICH place this is" - and its
+; complement. A place he cannot yet point to is FOUND first (three rungs, complementary on
+; what he has seen); one he can is reached (three rungs, complementary on its kind and
+; where he stands).
 ;
 ; The reads LIVE IN THE (when ..) - so does @self's own position - because only the gates
 ; re-run while an activation holds, and both flip mid-journey. In a role they would be
-; decided once at admission and the unplaced rungs would keep proposing an approach he has
-; already completed. The handoff from unplaced to placed is emergent, exactly as enter's
+; decided once at admission and the ungrounded rungs would keep proposing an approach he has
+; already completed. The handoff from ungrounded to grounded is emergent, exactly as enter's
 ; threshold -> interior handoff is.
 ;
 ; and (inclusive): the rungs are a dispatch, never a competition.
@@ -29,7 +28,7 @@
     (try
       (role ?dest {?dest address ?a} (address-premises ?a): ?pa)
       (role ?house [k building] (observed ?house) {?house address ?pa})
-      (when (and (unplaced ?dest)
+      (when (and (not (grounded ?dest))
                  (not (spatial @self building ?house))))
       (effects (maintain-proposal {@self enter ?house})))
     ; UNPLACED and already INSIDE that house: walking in taught him the entrance, not every
@@ -38,7 +37,7 @@
     (try
       (role ?dest {?dest address ?a} (address-premises ?a): ?pa)
       (role ?house [k building] (observed ?house) {?house address ?pa})
-      (when (and (unplaced ?dest)
+      (when (and (not (grounded ?dest))
                  (spatial @self building ?house)))
       (effects (maintain-proposal {@self locate ?dest ?house})))
     ; UNPLACED and no house he has seen stands at that premises: search the region
@@ -46,18 +45,16 @@
     ; once every structure is seen.
     (try
       (role ?dest {?dest address ?a} (address-premises ?a): ?pa)
-      (when (and (unplaced ?dest)
+      (when (and (not (grounded ?dest))
                  (unsubstantial (seen-premises-at ?pa))
                  -{@self find-building ?dest ? /fail}
                  (current-region @self): ?rg))
       (effects (maintain-proposal {@self find-building ?dest ?rg})))
 
-    ; A REAL structure is walked to whether or not @self has seen it - enter takes it from
-    ; the world's own geometry. Only an imagined one has no face to stand at, and that is
-    ; what (unplaced ..) excludes here.
+    ; A grounded structure is walked to - enter takes it from the world's own geometry.
     (try
       (when (and (is-a ?dest [k structure])
-                 (not (unplaced ?dest))
+                 (grounded ?dest)
                  (not (spatial @self building ?dest))))
       (effects (maintain-proposal {@self enter ?dest})))
     ; A ROOM is reached through the building @self knows it sits in. The bind IS the guard:
