@@ -79,5 +79,5 @@
     (try
       (no-role [k building church])
       (when (and -{@self find-building [k building church] ? /fail}
-                 (current-region @self): ?rg))
+                 (current-exterior @self): ?rg))
       (effects (maintain-proposal {@self find-building [k building church] ?rg})))))

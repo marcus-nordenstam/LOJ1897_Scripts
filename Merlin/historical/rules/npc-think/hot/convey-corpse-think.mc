@@ -99,4 +99,4 @@
   ; /fail fires only once the whole region is covered without finding one).
   (when    (and (not (is-a (spatial @self building) [k building church]))
                 -{@self find-building [k building church] /fail}))
-  (effects (maintain-proposal {@self find-building [k building church] (current-region @self)})))
+  (effects (maintain-proposal {@self find-building [k building church] (current-exterior @self)})))

@@ -28,7 +28,6 @@ archetype "container-structure" (cap 2048) (per obs) (always-visible) (children-
     (attr "era-max")
     # The building's civic address ([a 14 compton ave]) - its identity when it has no name.
     (attr "address")
-    (attr "region")
     # Nav v2: cache key into nav_graph's mesh-data table.
     (attr "nav-mesh")
     # Nav v2: container_structures (buildings/ships/wagons) physically occupy

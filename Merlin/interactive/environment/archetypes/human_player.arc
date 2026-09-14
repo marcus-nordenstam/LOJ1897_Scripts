@@ -48,7 +48,6 @@ archetype "human-player" (cap 256) (per obs) (raycast-visible) (player) (non-occ
     (attr "dexterity")
     (attr "agility")
     (attr "endurance")
-    (attr "region")
     # The body plan (plan section 18) - same slots as human-npc.
     (struct child "left-hand" [k left-hand] (offset 0 -0.04 0))
     (struct child "right-hand" [k right-hand] (offset 0 0.04 0))

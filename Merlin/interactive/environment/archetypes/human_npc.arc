@@ -71,7 +71,6 @@ archetype "human-npc" (cap 4096) (per obs) (raycast-visible) (sentient) (non-occ
     (attr "dexterity")
     (attr "agility")
     (attr "endurance")
-    (attr "region")
     # The body plan (plan section 18): named singleton slots, builder-created at
     # the declared local offsets (decl order = creation order). A hand's own
     # archetype declares its ring-finger, so it rides along.

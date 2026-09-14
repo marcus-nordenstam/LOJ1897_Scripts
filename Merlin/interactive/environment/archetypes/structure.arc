@@ -16,7 +16,6 @@ archetype "structure" (cap 256) (per obs) (always-visible) (children-occupy-env-
     (attr "era-max")
     # The structure's civic address (piers / bridges sit on a road).
     (attr "address")
-    (attr "region")
     # Nav v2: cache key into nav_graph's mesh-data table (set by Player at
     # scene load on entities with a baked .nvm in their MerlinComponent).
     (attr "nav-mesh")

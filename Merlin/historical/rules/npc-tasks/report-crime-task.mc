@@ -28,7 +28,7 @@
                  (can-write @self)
                  -{@self report-crime ?focus /succ /ever}
                  -{@self find-building [k police-station] ? /fail}
-                 (current-region @self): ?rg))
+                 (current-exterior @self): ?rg))
       (utility errand)
       (effects (maintain-proposal {@self find-building [k police-station] ?rg})))
     (try

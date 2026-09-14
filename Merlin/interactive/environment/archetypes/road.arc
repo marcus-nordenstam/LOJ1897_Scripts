@@ -12,7 +12,6 @@ archetype "road" (cap 128) (per obs) (always-visible) (non-occluder)
     # absent here.
     # The street's civic address, observable (street signs).
     (attr "address")
-    (attr "region")
     # Nav v2 Phase 3 spline geometry. Written inline by Game.cc's LoadScene
     # entity-creation dispatch (k_spline branch) from the GRYM
     # SplineComponent + t_road_component CVs. Consumed by

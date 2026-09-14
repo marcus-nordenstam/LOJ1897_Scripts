@@ -1,13 +1,15 @@
-# Kinds of regions (top-level world areas with weather)
-
-world_part (+ obs)
-    region
-        town
-
 # Kinds of spaces
+#
+# EVERY space is a space, at every scale. A room, a park, a town and a country are the
+# same kind of thing - a place with bounds that things are IN - and a man is always in
+# one: indoors it is his room, outdoors it is the park, and failing that the town whose
+# bounds cover the whole of it. There is no scale at which a man stands in nothing.
+# The large ones simply opt out of sector coverage (see town.arc), which is the only
+# reason they ever lived in a separate `world_part` / `region` tree.
         
 # ANCHORS. A space is matched by its ADDRESS, exactly as a structure is - the back-office a
 # notice names and the back-office a man walks into are one place when the address agrees.
+# A town carries no address, so it inherits the decl and never uses it.
 space (+ obs) (anchors address)
     interior-space
         bar-back
@@ -47,6 +49,11 @@ space (+ obs) (anchors address)
         stage
         auditorium
     exterior-space
+        # The world's own top rung, and the one that carries weather. A park's parent is
+        # its town and a town's parent is its country: structures sit inside the space
+        # that holds them, and spaces inside the wider space that holds THEM, all the
+        # way up. Towns keep no sector coverage - see town.arc.
+        town
         land
             territory
                 crown-dependency

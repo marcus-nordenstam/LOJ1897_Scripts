@@ -59,4 +59,4 @@
   ; fires only once the whole region is covered without finding one).
   (when    (and (not (is-a (spatial @self building) [k building pub]))
                 -{@self find-building [k building pub] /fail}))
-  (effects (maintain-proposal {@self find-building [k building pub] (current-region @self)})))
+  (effects (maintain-proposal {@self find-building [k building pub] (current-exterior @self)})))

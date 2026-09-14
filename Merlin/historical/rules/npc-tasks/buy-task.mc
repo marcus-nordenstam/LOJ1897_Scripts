@@ -20,7 +20,7 @@
       (no-role [k building shop])
       (when (and (empty (spatial @self hold ?kind))
                  -{@self find-building [k building shop] ? /fail}
-                 (current-region @self): ?rg))
+                 (current-exterior @self): ?rg))
       (utility fallback)
       (effects (maintain-proposal {@self find-building [k building shop] ?rg})))
     ; at a shop -> find a shelf item of the kind and buy it (pay + take, atomic).

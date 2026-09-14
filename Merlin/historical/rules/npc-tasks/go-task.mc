@@ -48,7 +48,7 @@
       (when (and (not (grounded ?dest))
                  (unsubstantial (seen-premises-at ?pa))
                  -{@self find-building ?dest ? /fail}
-                 (current-region @self): ?rg))
+                 (current-exterior @self): ?rg))
       (effects (maintain-proposal {@self find-building ?dest ?rg})))
 
     ; A grounded structure is walked to - enter takes it from the world's own geometry.

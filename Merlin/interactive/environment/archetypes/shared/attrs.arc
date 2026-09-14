@@ -226,8 +226,6 @@
 # Only used to pass on appropriate DNA from the father
 (attr "pregnant-by" (type entity) (imperceptible))
 
-# Region - updated by Environment, self-perceived via /feel
-(attr "region" (type entity) (entity "region") (spec-attr region) (per feel) (state-flags-tar @excl))
 
 # Sound
 # Holds the specific action that produced this sound (e.g. {john SAY (msg...) sam}).

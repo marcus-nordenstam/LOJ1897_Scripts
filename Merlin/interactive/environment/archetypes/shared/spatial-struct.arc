@@ -34,9 +34,9 @@
 # the entity's directly-containing space: a room indoors, the smallest enclosing
 # exterior-space outdoors, @unknown when the mind does not know. It is a single up-hop
 # (the whereabouts parent), NOT a ladder ascent - it always lands on a space. `building`
-# and `town` are their OWN relations (a building is-a object, a town is-a region -
-# neither is-a space), so they read the containment chain separately; they are never
-# `space` at a coarser granularity.
+# is its OWN relation (a building is-a object, not a space), so it reads the containment
+# chain separately. `town` is a rung of the SPACE chain now - a town IS an exterior
+# space - so it names the coarsest space holding you, where `space` names the finest.
 #
 # QUALIFIER (spec, no consumers yet): /ascend [k K] and /descend [k K] walk a relation
 # WITHIN its own range - K MUST be is-a that range or the query is a load error. So
