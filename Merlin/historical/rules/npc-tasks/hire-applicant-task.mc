@@ -8,6 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self hire-applicant ?applicant ?jk}:?ha-rel
+  (aspect labour)
   (track-skill-level [k personnel])
   (tar human)
   (aux [k job])

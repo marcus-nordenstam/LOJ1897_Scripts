@@ -21,6 +21,7 @@
 ; Two cases, complementary on whether @self KNOWS a church: he heads to one he knows, or
 ; he searches the region for one (the find-building task walks the unobserved structures).
 (npc-think seek_board_visit
+  (aspect labour)
   (cooldown 1 m)
   (rng-stream employment)
   (role @self -{@self job ?}
@@ -33,6 +34,7 @@
   (effects (maintain-proposal {@self enter ?board})))
 
 (npc-think seek_board_find
+  (aspect labour)
   (cooldown 1 m)
   (rng-stream employment)
   (role @self -{@self job ?}
@@ -50,6 +52,7 @@
 ; --- at the board, READ each notice not yet read (the physical knowledge channel - no
 ; doc-record pull).
 (npc-think seek_read_board
+  (aspect labour)
   ; HOT, not cooldown: standing beside an unread notice is an opportunity, and the wake that
   ; admits it (the notice perceived, the room entered) would be dropped by a cooling rule.
   (rng-stream employment)
@@ -67,6 +70,7 @@
 ; (LATCHED at the pick: a plain hour test is re-read on hold and would withdraw the errand
 ; at dusk): the application is an hour's errand, and a night pick would sit until morning.
 (npc-think seek_apply_pick
+  (aspect labour)
   ; ONE application at a time: the lock admits a single activation, held for as long as
   ; the maintained apply-for runs; it releases when the activation retires (hired, or the
   ; application concluded).
@@ -103,6 +107,7 @@
 ; the errand takes the post. Once the errand has CONCLUDED either way he does not go again -
 ; a man turned away does not keep returning.
 (npc-think take_up_offer
+  (aspect labour)
   ; ?org is cast BEFORE the job whose filter reads it - a role binds in the order written.
   (role ?org {?org workplace ?wp})
   (role ?job {?job offered-to @self}

@@ -9,6 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self collect-applications ?wp}:?ca-rel
+  (aspect labour)
   ; OBSERVABLE: the office round is done in the open, so anyone in the room reads it off
   ; him - which is how an applicant tells WHO the recruiting officer is, the way you tell
   ; the bartender by the bartending. The param is the WORKPLACE, a real building: a task

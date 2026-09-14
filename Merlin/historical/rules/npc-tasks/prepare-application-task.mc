@@ -7,6 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self prepare-application ?wp ?jk}:?pa-rel
+  (aspect labour)
   (tar building|space)
   (aux job)
   (sequence

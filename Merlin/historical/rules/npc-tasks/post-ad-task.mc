@@ -13,6 +13,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self post-ad ?org ?job}:?pad-rel
+  (aspect labour)
   (tar org)
   (aux job)
   (and

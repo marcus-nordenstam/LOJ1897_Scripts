@@ -12,6 +12,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self remove-ad ?org ?job}:?rad-rel
+  (aspect labour)
   (tar org)
   (aux job)
   (sequence

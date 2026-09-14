@@ -13,6 +13,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self apply-for ?jk ?wp}:?af-rel
+  (aspect labour)
   (tar job)
   (aux building|space)
   (and

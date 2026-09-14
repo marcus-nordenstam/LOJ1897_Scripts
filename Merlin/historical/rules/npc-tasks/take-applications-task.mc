@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self take-applications ?stack}:?take-apps-rel
+  (aspect labour)
   (tar @excl stack)
   (and
     (try

@@ -90,6 +90,7 @@
 ; while an act involving it runs, so the arming must be renewed for as long as the offer is
 ; outstanding: every offer-letter record whose man is not yet on any book.
 (npc-think rearm_offerees
+  (aspect labour)
   (cooldown 1 d)
   (role @self {@self duty-to ?org recruit-staff})
   (role ?p [k human] {@self draft-verdict ?p [k offer-letter] /succ}

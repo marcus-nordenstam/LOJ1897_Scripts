@@ -14,6 +14,7 @@
 ; vacancy belief (READ), so a man who was turned away does not admit here. The seat is a
 ; PICK, not an axis: two open seats of his kind are one unanswered application.
 (npc-audit audit_unanswered_application
+  (aspect labour)
   (cooldown 1 d)
   (role @self {@self apply-for ?jk ?wp /succ}:?ap
               -{@self job ?}
@@ -31,6 +32,7 @@
 ; HIRED AND NEVER WORKED. A job held a window or more with no day's work concluded SINCE
 ; the hire: the last work ended before the job began, or there was none.
 (npc-audit audit_hired_never_worked
+  (aspect labour)
   (cooldown 1 d)
   (role @self {@self job ?job}:?j)
   (when (and (/ (- (now-abs-seconds) (abs-seconds ?j.start)) 86400): ?held-days
@@ -46,6 +48,7 @@
 ; (cease-after-fire) + the cooldown is the explicit daily pulse: the count is re-taken
 ; every window.
 (npc-audit audit_offers_vs_seats
+  (aspect labour)
   (cooldown 1 d)
   (cease-after-fire)
   (role @self {@self duty-to ?org recruit-staff})
@@ -63,6 +66,7 @@
 
 ; TWO VERDICTS FOR ONE MAN. The officer answered the same applicant twice.
 (npc-audit audit_two_verdicts_one_man
+  (aspect labour)
   (cooldown 1 d)
   (role @self {@self duty-to ?org recruit-staff})
   (role ?p [k human] {@self draft-verdict ?p ? /succ})
@@ -73,6 +77,7 @@
 ; or the /pres gate has failed. Gated on the running task, as a running act must be; the
 ; task's own push drives the re-evaluation.
 (npc-audit apply-for_audit_two_in_flight
+  (aspect labour)
   (task {@self apply-for ?jk ?wp})
   (when (>= (count (every {@self apply-for ? ? /pres})) 2))
   (effects (expect @false "labour: two applications in flight at once")))

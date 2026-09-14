@@ -21,6 +21,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self recruit-staff ?org}:?rec-rel
+  (aspect labour)
   ; OBSERVABLE, and for the WHOLE SHIFT: a man keeping the hiring book does it in the open,
   ; so anyone in the room reads the duty off him - that is how an applicant identifies the
   ; officer, the way you identify the bartender by the bartending.

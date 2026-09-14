@@ -17,6 +17,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self accept-job-offer ?jk ?wp}:?ajo-rel
+  (aspect labour)
   (obs)
   (tar job)
   (aux building|space)
