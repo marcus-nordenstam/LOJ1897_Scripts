@@ -25,6 +25,8 @@
     ; SIGN HIM ON: a vacant line of his kind. The act that fills the seat concludes into
     ; the belief that it is filled, so the word below follows in the same round.
     (try
+      ; HIRE writes a man standing in front of the book: his reach is this rung's to assert.
+      (role @self (spatial ?applicant co-located @self))
       (role ?org {@self duty-to ?org recruit-staff})
       (role ?job ?jk {?job org ?org}
                      {?job job-id ?}

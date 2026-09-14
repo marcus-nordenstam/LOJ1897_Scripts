@@ -25,8 +25,17 @@
             (then (maintain-proposal
                     {@self WRITE ?listing (written-msg {?prop availability [k for-rent]})})))))
 
+    ; The listing goes on the agency's pile, which is where the agency keeps it - not on
+    ; whichever pile @self happens to know of, from wherever he stands. Walk to it; then
+    ; the put is proposed only AT it (STACK-PUT asserts the reach it is given, and a man
+    ; can be pulled away between stages), so the stage HOLDS until he is there.
     (stage
-      (role ?stk [k for-lease-listing-stack])
+      (role ?stk [k for-lease-listing-stack] (select (score (near @self ?stk)) (policy roulette)))
+      (effects
+        (if (not (spatial ?stk co-located @self))
+            (then (maintain-proposal {@self go (spatial ?stk space)})))))
+    (stage
+      (role ?stk [k for-lease-listing-stack] (spatial ?stk co-located @self))
       (effects (maintain-proposal {@self STACK-PUT ?listing ?stk})))
 
     (stage

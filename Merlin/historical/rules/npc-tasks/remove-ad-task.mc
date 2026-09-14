@@ -35,7 +35,8 @@
         (if (not (spatial ?reg co-located @self))
             (then (maintain-proposal {@self go (spatial ?reg space)})))))
     (stage
-      (role ?reg {?org employee-register ?reg})
+      (role ?reg {?org employee-register ?reg}
+                 (spatial ?reg co-located @self))
       (when {?job job-id ?job-id})
       (effects
         (maintain-proposal {@self STRIKE-ADVERT ?reg ?job-id}

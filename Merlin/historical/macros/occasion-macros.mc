@@ -1,15 +1,14 @@
 ; ----------------------------------------------------------------------------
 ; occasion_macros.hs - shared timing / desirability / date helpers for the
 ; occasion lanes (the attend task, the wedding vow duty, their drivers). All
-; content-free: the prep-lead / utility tiers are authored here, the window
+; content-free: the prep-lead and the guest's desirability are authored here, the window
 ; arithmetic is the same in-work-hours the work shifts use, the date test rides
 ; the generic (year)/(month) reads over the occasion's own held-on belief.
 ; ----------------------------------------------------------------------------
 
 (define-macro attend-prep-lead      () 3)       ; hours before start an attendee sets out
-(define-macro attend-host-utility   () 10000)   ; a principal always attends his own occasion
-(define-macro attend-crasher-utility () 5000)   ; a kill-driven crasher: above work, below host
-(define-macro attend-guest-base     () 85)      ; beats the work lane (80) for the willing guest
+(define-macro attend-crasher-value  () 500)     ; a kill-driven crasher's floor within the guest tier
+(define-macro attend-guest-base     () 850)     ; the willing guest's value within the guest tier
 
 ; In the occasion's window once the prep-lead has opened (start - lead .. end).
 (define-macro attend-in-window (?start ?end)
@@ -19,15 +18,6 @@
 (define-macro attend-guest-scaled (?occ)
   (* (attend-guest-base)
      (+ 1.0 (* 0.2 (stance-band (any {?occ host ?}).target warmth)))))
-
-; Attendance desirability: 0 bedridden, MAX for the host, a floor for a kill-driven
-; crasher, else the warmth-scaled guest base. Shared by the attend task's rungs.
-(define-macro attend-utility (?occ)
-  (cond
-    (case {@self physical-mobility [k bedridden]} 0)
-    (case {@self organize ?occ}                   (attend-host-utility))
-    (case {@self goal {@self kill ?}}             (max (attend-crasher-utility) (attend-guest-scaled ?occ)))
-    (else                                         (attend-guest-scaled ?occ))))
 
 ; The occasion's held-on date lands in the current month (hsim is monthly-resolution,
 ; so month + year is the natural grain for "the day has come").

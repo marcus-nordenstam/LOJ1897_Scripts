@@ -9,8 +9,10 @@
 ;   want_attend (guest / host) : raise the shared attend task (attend-task.hs).
 ;   want_wed                   : a wedding principal raises the vow duty (wed-task.hs).
 ;
-; The attend TASK carries the host-vs-guest desirability split (attend-utility), so a
-; host and a guest share one task; a wedding principal additionally runs the wed duty.
+; A host and a guest share one attend task; the tier and desirability of attending are
+; these drivers' to set (the host is bound to his own occasion, over the working day; a
+; guest's willingness scales with warmth toward the host). A wedding principal
+; additionally runs the wed duty.
 ; maintain-proposal throughout: the desire self-withdraws once held-on leaves the
 ; current month, so the task ends with no separate outcome rung.
 ;
@@ -25,15 +27,20 @@
   (role ?occ {?occ held-on ?}
               {? invite @self ?occ})
   (when (date-in-current-month (any {?occ held-on ?}).target))
-  (utility errand)
+  ; Desirability within the tier: 0 bedridden, a floor for a kill-driven crasher, else
+  ; the warmth-scaled guest base.
+  (utility errand (cond
+                    (case {@self physical-mobility [k bedridden]} 0)
+                    (case {@self goal {@self kill ?}} (max (attend-crasher-value)
+                                                           (attend-guest-scaled ?occ)))
+                    (else (attend-guest-scaled ?occ))))
   (effects (maintain-proposal {@self attend ?occ})))
 
-; A host: I am organizing an occasion whose day has come -> attend it too (host
-; desirability comes from attend-utility inside the shared task).
+; A host: I am organizing an occasion whose day has come -> attend it too.
 (npc-think want_attend_host
   (role ?occ {@self organize ?occ})
   (when (date-in-current-month (any {?occ held-on ?}).target))
-  (utility errand)
+  (utility obligation always-pick)
   (effects (maintain-proposal {@self attend ?occ})))
 
 ; A wedding principal: organizing a wedding whose day has come, still betrothed and
@@ -43,7 +50,7 @@
   (role ?occ {@self organize [k wedding]:?occ})
   (role @self {@self fiancee ?} (none {@self spouse @something}))
   (when (date-in-current-month (any {?occ held-on ?}).target))
-  (utility errand)
+  (utility obligation always-pick)
   (effects (maintain-proposal {@self wed ?occ})))
 
 ; The vow was SPOKEN. Saying it IS believing it - the say channel mints the spoken

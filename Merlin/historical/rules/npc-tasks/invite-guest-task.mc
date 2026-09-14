@@ -43,9 +43,10 @@
               {?occ-venue address ?venue-address}
               {?occ hours ?occ-from ?occ-to})
         (effects
+          (kind ?occ): ?occ-kind
           (if (unsubstantial (attr ?ltr writing))
               (then (maintain-proposal
-                      {@self WRITE ?ltr (table-msg [[occasion-kind (kind ?occ)]
+                      {@self WRITE ?ltr (table-msg [[occasion-kind ?occ-kind]
                                                     [host ?my-name]
                                                     [venue ?venue-address]
                                                     [held-on ?occ-date]

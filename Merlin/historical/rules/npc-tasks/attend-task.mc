@@ -20,7 +20,6 @@
       (role @self (not (spatial @self building ?venue)))
       (when (and {?occ hours ?start ?end}
                  (attend-in-window ?start ?end)))
-      (utility (* 10 (attend-utility ?occ)))
       (effects (maintain-proposal {@self enter ?venue})))
 
     ; STAY: I am at the venue in the window -> dwell. The stay IS the attendance.
@@ -29,5 +28,4 @@
       (role @self (spatial @self building ?venue))
       (when (and {?occ hours ?start ?end}
                  (attend-in-window ?start ?end)))
-      (utility (* 10 (attend-utility ?occ)))
       (effects (maintain-proposal {@self DWELL ?venue (+ (now-hour) 1)})))))
