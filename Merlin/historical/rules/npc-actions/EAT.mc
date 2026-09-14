@@ -24,7 +24,7 @@
     (if ?food
         (then (if (is-a ?food [k pile])
                   (then (pile-take ?food 1))
-                  (else (realize-destroyed ?food condition [k condition consumed])
+                  (else (realize-destroyed ?food condition [k condition consumed] EAT)
                         (destroy-entity ?food)))))
     (set-attr @self hunger (max 0 (- (attr @self hunger) 0.5)))
     (if ?owner

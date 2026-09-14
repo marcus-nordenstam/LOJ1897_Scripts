@@ -15,10 +15,12 @@
 
 (define-func make-human (?building ?class ?gender)
   (head (spatial ?building parts [k room] /env)): ?room
+  (check ?room)
   (if ?room
     (then
       (table-sample-weighted nationality_dist value weight): ?nat
       (create-entity [k human] ?room): ?h
+      (check ?h)
       (if ?h
         (then
           (set-attr ?h gender ?gender)

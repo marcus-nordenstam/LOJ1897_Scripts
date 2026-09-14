@@ -34,17 +34,20 @@
                       [/postlude (bind (bb-read ?ce created) ?ltr)
                                  (bb-write ?dv-rel letter ?ltr)])))))
 
-      ; The letter NAMES THE POST: kind + org is what makes it THAT seat to the reader,
-      ; resolved against his own objects; he already knows where the org keeps its door.
+      ; The letter NAMES THE SEAT: its kind, the org's name and the line are what make it
+      ; THAT seat to the reader, resolved against his own objects; he already knows where
+      ; the org keeps its door.
       (stage
         (when {?p name ?rname}
-              {?p apply-for ?jk ? /succ}
-              {?org name ?org-name})
+              {?p apply-for ?job /succ}
+              {?job job-id ?line}
+              {?org name ?org-name}
+              (kind ?job): ?jk)
         (effects
           (if (unsubstantial (attr ?ltr writing))
               (then (maintain-proposal
                       {@self WRITE ?ltr (table-msg [[applicant ?rname] [job-kind ?jk]
-                                                    [org-name ?org-name]])})))))
+                                                    [org-name ?org-name] [job-id ?line]])})))))
 
       (stage
         (when {?p home ?rhome}
@@ -69,10 +72,11 @@
       (stage
         (role ?reg {?org employee-register ?reg})
         (when {?p name ?rname}
-              {?p apply-for ?jk ? /succ})
+              {?p apply-for ?job /succ}
+              {?job job-id ?line})
         (effects
           (if (= ?kind [k offer-letter])
-              (then (maintain-proposal {@self RECORD-OFFER ?rname ?jk})))))
+              (then (maintain-proposal {@self RECORD-OFFER ?rname ?line})))))
 
       ; The answered form has done its work. The empty hand is what takes the man off the
       ; queue; the beliefs about HIM stay - he is someone @self has heard of.

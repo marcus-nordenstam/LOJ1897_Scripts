@@ -26,8 +26,12 @@
       ; consults a config table the officer has no way of knowing. The standing-notice leg
       ; is what brings him back to take a filled post's advert down.
       (role ?reg {?org employee-register ?reg})
+      ; A MAN AT THE COUNTER keeps the book open too: the duty that ended the minute the
+      ; last seat filled left the applicants still standing there unanswered, and a man
+      ; holding an offer with nobody keeping the book comes back every day (measured).
       (when (or (table-match (attr ?reg writing) worker @nothing)
-                     {?org display-ad ?}))
+                     {?org display-ad ?}
+                     (> (count (every {? accept-job-offer ?})) 0)))
       (utility duty)
       (effects
                (maintain-proposal {@self recruit-staff ?org})))
@@ -37,7 +41,7 @@
                  {?org workplace ?wp})
       (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
             (latch-eval (any {?job ?tl ?}): ?sh-rel (bind ?sh-rel.target ?start) (bind ?sh-rel.auxiliary ?end))
-            (and (check ?org) (spatial @self building ?wp) (< (now-hour) 12)))
+            (and (check ?org) (at-workplace ?wp) (< (now-hour) 12)))
       (effects (maintain-proposal {@self DWELL ?wp (min 12 ?end)})))
     (try
       (role ?job {@self job ?job})
@@ -45,7 +49,7 @@
                  {?org workplace ?wp})
       (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
             (latch-eval (any {?job ?tl ?}): ?sh-rel (bind ?sh-rel.target ?start) (bind ?sh-rel.auxiliary ?end))
-            (and (check ?org) (spatial @self building ?wp) (>= (now-hour) 12)))
+            (and (check ?org) (at-workplace ?wp) (>= (now-hour) 12)))
       (effects (maintain-proposal {@self DWELL ?wp ?end})))
     (try
       (role ?job {@self job ?job})

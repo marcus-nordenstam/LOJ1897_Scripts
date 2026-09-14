@@ -58,7 +58,7 @@
 
       ; Back to the book: the notice stands on the board, and the firm's own record of
       ; that is a date on the seat's line. The act that stamps the page concludes into the
-      ; belief that the post is advertised - the same seam HIRE uses for filled-by.
+      ; belief that the post is advertised - the same seam HIRE uses for the holder's job.
       (stage
         (role ?reg {?org employee-register ?reg})
         (effects

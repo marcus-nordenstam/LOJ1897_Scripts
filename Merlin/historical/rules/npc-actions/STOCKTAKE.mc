@@ -42,6 +42,7 @@
   (duration 30)
   (effects
     (spatial @self building): ?shop
+    (check ?shop)
     (if ?shop
         (then
           (spatial ?shop parts [k interior-space room] /env): ?rooms

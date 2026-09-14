@@ -14,7 +14,7 @@
 ;   a form unread       -> read-doc ?app            (reading it is hearing of the man)
 ;   a man, a seat       -> draft-verdict ?p [k offer-letter]
 ;   a man, no seat      -> draft-verdict ?p [k rejection-letter]
-;   a man at the counter-> hire-applicant ?man ?jk  (first through the door)
+;   a man at the counter-> hire-applicant ?man ?job (first through the door)
 ;   shift over          -> /succ
 ; Every rung reads what he now KNOWS - the beliefs the book and the forms put there -
 ; never what this task instance has done, which cannot span a shift.
@@ -28,6 +28,7 @@
   (obs)
   (track-skill-level [k personnel])
   (tar org)
+  (lint-waive unused-role)
   (and
     ; THE BOOK, read once a round: hires and departures rewrite the page, and this read
     ; is the only thing that moves the officer's picture with it.
@@ -44,7 +45,7 @@
       (lock-rule)
       (role ?job {?job org ?org}
                  {?job job-id ?}
-                 -{?job filled-by ?}
+                 -{? job ?job}
                  -{?org display-ad ?job})
       (utility obligation)
       (effects (maintain-proposal {@self post-ad ?org ?job})))
@@ -53,7 +54,7 @@
     (try
       (role ?job {?job org ?org}
                  {?job job-id ?}
-                 {?job filled-by ?}
+                 {? job ?job}
                  {?org display-ad ?job})
       (utility obligation)
       (effects (maintain-proposal {@self remove-ad ?org ?job})))
@@ -80,10 +81,12 @@
       (effects (maintain-proposal {@self read-doc ?app})))
 
     ; THE OFFER: an unanswered form, the man who wrote it, an unfilled seat of his kind.
-    ; The gate is "am I already drafting an offer to ANYBODY" - a live pipeline lookup,
-    ; true while a draft is proposed OR running - so one letter is begun at a time and
-    ; finished before the next; per-man it would begin one draft per applicant and stack
-    ; them past the pipeline's task table (measured: t_task_util cap 16, August). BEGIN-proposal, and this is the shape it exists for: the condition
+    ; The gate is "am I already drafting a verdict of ANY kind to ANYBODY" - a live pipeline
+    ; lookup, true while a draft is proposed OR running - so one letter is begun at a time
+    ; and finished before the next; per-man it would begin one draft per applicant and stack
+    ; them past the pipeline's task table (measured: t_task_util cap 16, August), and per-KIND
+    ; a man could be offered and rejected in one round (measured: June 3, ten minutes apart).
+    ; BEGIN-proposal, and this is the shape it exists for: the condition
     ; to start is not the condition to stop, a maintained proposal would be reaped the
     ; instant its own gate went false, and draft-verdict concludes itself - no twin rung.
     ; NOTHING is pencilled against the seat here: a promise is a letter in the post plus
@@ -95,35 +98,56 @@
       ; so his form has been read) and not yet answered (only the draft burns a form, so it
       ; is still in hand). The SEAT is cast on HIS kind, and cast LAST: cast before the
       ; roles it shares no variable with, it admits nothing at all (measured: 0 vs 20).
-      (role ?p [k human] {?p apply-for ?jk ? /succ}
+      ; THE MAN who asked for a seat of this org that still stands open, and has not been
+      ; answered. The seat is HIS filter's own free var, never a second role: a filter that
+      ; names another role's var is a join, and joins do not form over the born-ended
+      ; apply-for record (measured: cast either way round, the rung admitted nobody).
+      (role ?p [k human] {?p apply-for ?job /succ}
+                         {?job org ?org}
+                         -{? job ?job}
                          -{@self draft-verdict ?p ? /succ})
-      (role ?job ?jk {?job org ?org}
-                     {?job job-id ?}
-                     -{?job filled-by ?})
-      (when (not (proposed {@self draft-verdict ? [k offer-letter]})))
+      ; HIS FORM, still in hand: the one record of "unanswered" that survives the man's
+      ; paper-self fusing into the man met (the verdict record goes with the ghost; the burn
+      ; does not). No form, no second letter. The form is a CONSTRAINT on the man, not a
+      ; parameter of the letter - the lint cannot see that (waived on the spine).
+      (role ?app [k application] (spatial ?app held-by @self)
+                                 {?app written-by ?p})
+      (when (not (proposed {@self draft-verdict ? ?})))
       (utility obligation)
       (effects (begin-proposal {@self draft-verdict ?p [k offer-letter]})))
 
-    ; THE REJECTION: no unfilled seat of his kind at all. Complementary to the offer by
-    ; construction - an open seat of his kind, or none.
+    ; THE REJECTION: the seat he asked for is taken. Complementary to the offer by
+    ; construction - his seat stands open, or it does not.
     (try
       (lock-rule)
-      (role ?p [k human] {?p apply-for ?jk ? /succ}
+      (role ?p [k human] {?p apply-for ?job /succ}
+                         {?job org ?org}
+                         {? job ?job}
                          -{@self draft-verdict ?p ? /succ})
-      (when (and (unsubstantial (open-job-for ?org ?jk))
-                 (not (proposed {@self draft-verdict ? [k rejection-letter]}))))
+      (role ?app [k application] (spatial ?app held-by @self)
+                                 {?app written-by ?p})
+      (when (not (proposed {@self draft-verdict ? ?})))
       (utility obligation)
       (effects (begin-proposal {@self draft-verdict ?p [k rejection-letter]})))
 
-    ; A MAN AT THE COUNTER: his accept-job-offer is observable and he has named himself.
+    ; A MAN AT THE COUNTER: his accept-job-offer is observable - running, or concluded the
+    ; moment he announced himself, which is why it reads /ever - and he has named himself.
     ; Speaking to someone present tops the band outright: he gets his answer before the
-    ; ledger does.
+    ; ledger does. ONE man at a time: twelve offerees walked in on one morning and twelve
+    ; hire-applicant tasks fanned out at once (measured: the 16-slot competing table). A man
+    ; already answered is done with: his errand stays observable until he is next perceived,
+    ; and the counter told him his seat was his three times while a woman waited (measured).
+    ; The record is this task's OWN conclusion, never the seat: HIRE fills the seat while the
+    ; task still runs, and a role that stops admitting him withdraws it before the word.
     (try
-      (role ?man [k human] {?man accept-job-offer ?jk ?}
+      (lock-rule)
+      (role ?man [k human] {?man accept-job-offer ?job /ever}
                            {?man name ?}
+                           -{@self hire-applicant ?man ? /succ}
+                           -{@self hire-applicant ?man ? /fail}
                            (spatial ?man co-located @self))
       (utility obligation always-pick)
-      (effects (maintain-proposal {@self hire-applicant ?man ?jk})))
+      (effects (maintain-proposal {@self hire-applicant ?man ?job})))
 
     ; THE DAY IS OVER. The window includes starts-soon because the duty is proposed while
     ; the officer is still at home. The job is the one AT THIS ORG - an actor holds plural

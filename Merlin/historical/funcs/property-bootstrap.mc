@@ -100,5 +100,6 @@
                               workplace ?bldg register ?creg)
               (name-premises ?bldg ?kind ?cname)
               (head (env-entities [k incorporation-stack])): ?ist
-              (if ?ist (then (push ?art ?ist)))
+              (check ?ist)
+              (push ?art ?ist)
               (break))))))))

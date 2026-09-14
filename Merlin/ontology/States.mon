@@ -475,15 +475,12 @@ relation
             # notice quotes it so a reader can key the seat the same way the officer
             # does. That is what lets ONE object serve every mind that speaks of it -
             # the officer reading his ledger, the man who holds it, a colleague reading
-            # the roster. The object persists as the worker cell is filled and emptied,
-            # so -{?job filled-by ?} is a standing fact about the JOB and not about the
-            # last man in it.
-            # filled-by is THE occupancy fact, held on the job: {?job filled-by @self}
-            # is how a man believes he holds it. {?worker job ?job} is the same fact read
-            # from the man's end, on the SAME object - not a second one.
-            filled-by           (sub org-pos)  (tar human @excl)
+            # the roster. The object persists as the worker cell is filled and emptied.
+            # THE occupancy fact is {?worker job ?job} (Concepts: job) - the one belief for
+            # "this man holds this seat", whoever holds it; a seat with no such belief is
+            # vacant. There is no second fact held on the job.
             # offered-to - the post has been OFFERED to this man and he has not yet taken it
-            # up. A state of the JOB, exactly as filled-by is: the officer pencils it against
+            # up. A state of the JOB: the officer pencils it against
             # the ledger line, and the man learns it by reading the offer letter, so both ends
             # hold the same fact about the same seat. It is what an acceptance SPENDS - the
             # act that fills the seat ends the offer - and what a lapse clears when nobody

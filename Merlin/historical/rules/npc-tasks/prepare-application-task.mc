@@ -1,15 +1,15 @@
 ; ----------------------------------------------------------------------------
-; prepare-application ?wp ?jk - write and envelope a job application FORM: pen the
-; blank, fill the applicant / home / job fields, address it to the workplace. One
-; sequence: the form it fills is the one it CREATED, kept under the running task's own
-; key, so a restarted errand re-reads that key instead of penning a second form. The
-; form is left for the mail lane.
+; prepare-application ?job - write and envelope a job application FORM for ONE seat: pen
+; the blank, fill the applicant / home / seat fields (the seat's kind, its org's name and
+; its line - what lets the reader land on the same seat object), address it to the org's
+; door. One sequence: the form it fills is the one it CREATED, kept under the running
+; task's own key, so a restarted errand re-reads that key instead of penning a second
+; form. The form is left for the mail lane.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self prepare-application ?wp ?jk}:?pa-rel
+(npc-task {@self prepare-application ?job}:?pa-rel
   (aspect labour)
-  (tar building|space)
-  (aux job)
+  (tar job)
   (sequence
 
     (stage
@@ -27,18 +27,26 @@
       (when (spatial ?app co-located @self)
             {@self name ?myName}
             {@self home ?myHome}
-            {?myHome address ?myAddress})
+            {?myHome address ?myAddress}
+            {?job org ?org}
+            {?org name ?orgName}
+            {?job job-id ?line}
+            (kind ?job): ?jk)
       (effects
         (if (unsubstantial (attr ?app writing))
             (then (maintain-proposal
-                    {@self WRITE ?app (table-msg [[applicant ?myName] [home ?myAddress] [job ?jk]])})))))
+                    {@self WRITE ?app (table-msg [[applicant ?myName] [home ?myAddress]
+                                                  [job-kind ?jk] [org-name ?orgName]
+                                                  [job-id ?line]])})))))
 
     (stage
-      (when {?wp address ?wpAddress})
+      (when {?job org ?org}
+            {?org workplace ?wp}
+            {?wp address ?wpAddress})
       (effects
         (if (unsubstantial (attr ?app destination))
             (then (maintain-proposal {@self ADDRESS ?app ?wpAddress})))))
 
     (stage
       (effects (bb-clear ?pa-rel application)
- (set-outcome ?pa-rel /succ)))))
+               (set-outcome ?pa-rel /succ)))))

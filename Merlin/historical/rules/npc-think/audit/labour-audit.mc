@@ -16,17 +16,13 @@
 (npc-audit audit_unanswered_application
   (aspect labour)
   (cooldown 1 d)
-  (role @self {@self apply-for ?jk ?wp /succ}:?ap
+  (role @self {@self apply-for ?job /succ}:?ap
               -{@self job ?}
-              -{? offered-to @self})
-  (role ?org {?org workplace ?wp})
-  (role ?job {?job org ?org}
-             {?job filled-by _}
-             (select (score 1) (policy roulette)))
-  (when (and (is-a ?job ?jk)
-             (>= (/ (- (now-abs-seconds) (abs-seconds ?ap.end)) 86400) 60)))
+              -{? offered-to @self}
+              -{? job ?job})
+  (when (>= (/ (- (now-abs-seconds) (abs-seconds ?ap.end)) 86400) 60))
   (effects
-    (debug-print "labour audit: @self applied for ?jk at ?wp 60+ days ago and heard nothing")
+    (debug-print "labour audit: @self applied for ?job 60+ days ago and heard nothing")
     (expect @false "labour: applied 60+ days ago, no offer, no rejection, still jobless")))
 
 ; HIRED AND NEVER WORKED. A job held a window or more with no day's work concluded SINCE
@@ -56,11 +52,11 @@
     (bind 0 ?offers)
     (for-each ?d (every {@self draft-verdict ? [k offer-letter] /succ})
       (bind ?d.target ?p)
-      (if -{? filled-by ?p} (then (bind (+ ?offers 1) ?offers))))
+      (if -{?p job ?} (then (bind (+ ?offers 1) ?offers))))
     (bind 0 ?open)
     (for-each ?jr (every {? org ?org})
       (bind ?jr.subject ?j)
-      (if (and {?j job-id ?} -{?j filled-by ?}) (then (bind (+ ?open 1) ?open))))
+      (if (and {?j job-id ?} -{? job ?j}) (then (bind (+ ?open 1) ?open))))
     (debug-print "labour audit: offers outstanding ?offers against open seats ?open")
     (expect (<= ?offers ?open) "labour: more offers outstanding than open seats")))
 
@@ -78,6 +74,6 @@
 ; task's own push drives the re-evaluation.
 (npc-audit apply-for_audit_two_in_flight
   (aspect labour)
-  (task {@self apply-for ?jk ?wp})
-  (when (>= (count (every {@self apply-for ? ? /pres})) 2))
+  (task {@self apply-for ?job})
+  (when (>= (count (every {@self apply-for ? /pres})) 2))
   (effects (expect @false "labour: two applications in flight at once")))

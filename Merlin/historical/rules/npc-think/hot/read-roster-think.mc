@@ -51,7 +51,6 @@
             (o ?jk {@o org ?org} {@o job-id ?line}): ?cojob
             (begin-belief {?cojob org ?org})
             (begin-belief {?cojob job-id ?line})
-            (begin-belief {?cojob filled-by ?cw})
             (begin-belief {?cw job ?cojob})
             (begin-belief {?cojob level ?lvl}))))
 
@@ -64,7 +63,4 @@
         (bind ?jb-rel.subject ?other)
         (if (and (!= ?other @self)
                  (not (table-match (attr ?reg writing) worker (name ?other))))
-            (then
-              (end-belief ?jb-rel)
-              (for-each ?fb-rel (every {?ojob filled-by ?other})
-                (end-belief ?fb-rel))))))))
+            (then (end-belief ?jb-rel)))))))

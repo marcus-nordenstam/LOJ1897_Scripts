@@ -31,7 +31,7 @@
     ; and the grave marker is the durable record a detective would read. Commented
     ; out pending the ontology + archetype.
     ; (tombstone ?corpse)
-    (realize-destroyed ?corpse internment [k internment buried])
+    (realize-destroyed ?corpse internment [k internment buried] BURY)
     (destroy-entity ?corpse)
     (set-outcome {@self BURY ?corpse} /succ)))
 ; go_action (the shared travel act) lives in npc-actions/go_action.hs.

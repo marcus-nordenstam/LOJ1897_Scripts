@@ -47,7 +47,7 @@
 (define-macro k-default-staff-posts () 2)
 
 ; Labour market: days an unanswered offer stands before the recruit officer treats it
-; as refused. {?job offered-to ..} is what holds a post out of open-job-for, so an
+; as refused. {?job offered-to ..} is a promise, not a reservation, so an
 ; offer nobody takes up would shut that seat for good. One hsim window is a MONTH, so
 ; this is six windows - six chances for the applicant to come and take the post up.
 (define-macro offer-lapse-days () 180)

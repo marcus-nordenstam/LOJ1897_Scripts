@@ -25,7 +25,7 @@
   (cooldown 1 m)
   (rng-stream employment)
   (role @self -{@self job ?}
-              -{@self apply-for ? ? /pres})
+              -{@self apply-for ? /pres})
   (role ?board [k building church] (select (score (near @self ?board)) (policy roulette)))
   (role @self (not (spatial @self building ?board)))
   (when (and (job-seeker @self)
@@ -38,7 +38,7 @@
   (cooldown 1 m)
   (rng-stream employment)
   (role @self -{@self job ?}
-              -{@self apply-for ? ? /pres})
+              -{@self apply-for ? /pres})
   (no-role [k building church])
   ; The search's own /fail act-memory is the "this region has no church" record - it stops
   ; the hunt re-proposing forever once find-building has walked every structure.
@@ -57,7 +57,7 @@
   ; admits it (the notice perceived, the room entered) would be dropped by a cooling rule.
   (rng-stream employment)
   (role @self -{@self job ?}
-              -{@self apply-for ? ? /pres})
+              -{@self apply-for ? /pres})
   (role ?ad [k job-posting] (spatial ?ad co-located @self)
                             -{@self READ ?ad /succ})
   (utility errand)
@@ -84,18 +84,19 @@
   ; A VACANCY @self knows of - a job held by nobody - and the door of the org that has it.
   ; How the belief got in (a notice, a word in the street) is no business of this rule.
   (role ?org {?org workplace ?wp})
-  (role ?job {?job filled-by _}
-             {?job org ?org}
+  (role ?job {?job org ?org}
+             {?job job-id ?}
+             -{? job ?job}
              (select (score 1) (policy roulette)))
   (when (and
              (latch-eval (and (>= (now-hour) 8) (<= (now-hour) 17)))
              (kind ?job): ?jk
              (if (table-match occupations job ?jk class-floor ?cf0) (then ?cf0) (else [k lower])): ?cf
              (class-at-least @self ?cf)
-             -{@self apply-for ?jk ?wp /succ}))
+             -{@self apply-for ?job /succ}))
   (utility errand)
   (effects
-           (maintain-proposal {@self apply-for ?jk ?wp})))
+           (maintain-proposal {@self apply-for ?job})))
 
 ; --- an OFFER letter @self has read (the home post's daily read-mail round) answers the one
 ; application in flight: go and accept it. The letter is a typed signal (its KIND is the
@@ -108,21 +109,19 @@
 ; a man turned away does not keep returning.
 (npc-think take_up_offer
   (aspect labour)
-  ; ?org is cast BEFORE the job whose filter reads it - a role binds in the order written.
-  (role ?org {?org workplace ?wp})
-  (role ?job {?job offered-to @self}
-             {?job org ?org})
-  (role @self -{@self job ?})
+  (role ?job {?job offered-to @self})
+  ; No -{@self job ?} here: the word that makes the seat his lands while the errand is
+  ; still concluding, and a guard on it withdrew the errand a cycle before its own /succ
+  ; (measured). The concluded record below is what retires this driver.
   ; DAYTIME, latched at the pick: you present yourself at a place of business in business
   ; hours. Unlatched, the errand is picked the moment the letter is read - two in the
   ; morning - and he arrives at a dark office with nobody keeping the book. Latched, so a
   ; plain hour test is not re-read on hold and does not withdraw him at dusk mid-journey.
   (when (and (latch-eval (and (>= (now-hour) 8) (<= (now-hour) 16)))
-             (kind ?job): ?jk
-             -{@self accept-job-offer ?jk ?wp /succ}
-             -{@self accept-job-offer ?jk ?wp /fail}))
+             -{@self accept-job-offer ?job /succ}
+             -{@self accept-job-offer ?job /fail}))
   (utility errand)
-  (effects (maintain-proposal {@self accept-job-offer ?jk ?wp})))
+  (effects (maintain-proposal {@self accept-job-offer ?job})))
 
 ; === The apply-for TASK (gohome / write / send / posted) lives in
 ; npc-tasks/apply-for-task.mc; accept-job-offer in npc-tasks/accept-job-offer-task.mc. The

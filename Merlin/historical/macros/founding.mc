@@ -83,7 +83,8 @@
             ; File the AOC at the companies house (the company registry's incorporation
             ; stack), not the org's own premises - the town's org record lives there.
             (head (env-entities [k incorporation-stack])): ?ist
-            (if ?ist (then (push ?art ?ist)))
+            (check ?ist)
+            (push ?art ?ist)
             (seat-org-head ?art ?wp ?reg ?head-role)
             (break)))))))
 
@@ -117,7 +118,6 @@
           (o ?head-role {@o org ?org} {@o job-id ?soh-line}): ?job
           (begin-belief {?job org ?org})
           (begin-belief {?job job-id ?soh-line})
-          (begin-belief {?job filled-by @self})
           (begin-belief {@self job ?job})
           (begin-belief {?job level [k senior]})
           (begin-belief {?job since (year)})
@@ -179,7 +179,8 @@
                             workplace ?wp register ?roll)
             (name-premises ?wp ?club-kind ?org-name)
             (head (env-entities [k incorporation-stack])): ?ist
-            (if ?ist (then (push ?art ?ist)))
+            (check ?ist)
+            (push ?art ?ist)
             ; The founder is the club's first MEMBER - a row on the roll, not a seat on
             ; an establishment: a club has members, never posts.
             (table-add ?roll member (name @self) joined-date (date-now))
@@ -224,7 +225,6 @@
           (o ?job-kind {@o org ?org} {@o job-id ?eb-line}): ?job
           (begin-belief {?job org ?org})
           (begin-belief {?job job-id ?eb-line})
-          (begin-belief {?job filled-by @self})
           (begin-belief {@self job ?job})
           (begin-belief {?job level ?level})
           (begin-belief {?job salary ?salary})

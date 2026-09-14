@@ -8,9 +8,9 @@
 ; the sanctioned cross-mind write-through-paper, the written twin of hearing speech:
 ; @self comes away holding whatever the page asserts. A FORM (a table) asserts nothing
 ; by itself; what its cells MEAN is content, so READ branches on the document's kind
-; and reasons the beliefs out here. A job-posting reads as a VACANCY at a named org:
-; {?job filled-by _}, "that job is held by nobody" - the same fact @self would hold had
-; someone told him "companies house has a clerk's place going" - and the org's door,
+; and reasons the beliefs out here. A job-posting reads as a VACANCY at a named org: a
+; seat known by its org and line with nobody believed to hold it - the same fact @self
+; would hold had someone told him "companies house has a clerk's place going" - and the org's door,
 ; the apply-at cell resolving to a place he imagines off its address until he walks in.
 ; The org is known by name (imagined until met); the job is imagined outright, a kind
 ; at an org, no ledger line - a reader never sees the book.
@@ -24,16 +24,19 @@
       ; A VERDICT letter answers ONE application, and it names which: kind + org. The offer
       ; is minted as a state of the SEAT - {?job offered-to @self}, the seeker's side of the
       ; line the officer pencilled - so accepting can gate on holding an offer for THAT post.
-      ; A rejection ends his vacancy belief instead: that place is not going, to him.
+      ; A rejection names the org and nothing of its seats: that place is not going, to him,
+      ; and his own applied record is what keeps him from asking again.
       (on [k offer-letter]
         (tolerate (attr ?doc writing): ?vform)
         (tolerate (table-match ?vform field job-kind value ?vjk))
         (tolerate (table-match ?vform field org-name value ?vorg-name))
-        (if (and (substantial ?vjk) (substantial ?vorg-name))
+        (tolerate (table-match ?vform field job-id value ?vline))
+        (if (and (substantial ?vjk) (substantial ?vorg-name) (substantial ?vline))
             (then
               (o [k org] {@o name ?vorg-name}): ?vorg
-              (o ?vjk {@o org ?vorg}): ?vjob
+              (o ?vjk {@o org ?vorg} {@o job-id ?vline}): ?vjob
               (if -{?vjob org ?vorg} (then (begin-belief {?vjob org ?vorg})))
+              (if -{?vjob job-id ?vline} (then (begin-belief {?vjob job-id ?vline})))
               (if -{?vjob offered-to @self} (then (begin-belief {?vjob offered-to @self}))))))
       (on [k rejection-letter]
         (tolerate (attr ?doc writing): ?rform)
@@ -43,9 +46,7 @@
             (then
               (o [k org] {@o name ?rorg-name}): ?rorg
               (o ?rjk {@o org ?rorg}): ?rjob
-              (if -{?rjob org ?rorg} (then (begin-belief {?rjob org ?rorg})))
-              (for-each ?rrel (every {?rjob filled-by _})
-                (end-belief ?rrel)))))
+              (if -{?rjob org ?rorg} (then (begin-belief {?rjob org ?rorg}))))))
       (on [k job-posting]
         (tolerate (attr ?doc writing): ?form)
         (tolerate (table-match ?form field job-kind value ?jk))
@@ -62,7 +63,6 @@
               (o ?jk {@o org ?org} {@o job-id ?job-id}): ?job
               (if -{?job org ?org}    (then (begin-belief {?job org ?org})))
               (if -{?job job-id ?job-id} (then (begin-belief {?job job-id ?job-id})))
-              (if -{?job filled-by _} (then (begin-belief {?job filled-by _})))
               (if -{?org workplace ?} (then (begin-belief {?org workplace ?apply-at}))))))
       ; An APPLICATION names a MAN, so reading one is hearing of him: a name and an
       ; address is a specific someone, realis and UNGROUNDED - @self has heard of him
@@ -75,8 +75,8 @@
       ; remembered - not a state invented to stand in for one. The clerk cannot know
       ; WHEN he applied, only that he did, so the record is /momentary at the reading.
       ; The WAGE BOOK: one line per seat. The line IS the seat's identity (org, job-id),
-      ; so every reader of the same page lands on the same object. filled-by is what the
-      ; worker cell says; display-ad is what the advertise-date cell says - the notice
+      ; so every reader of the same page lands on the same object. The holder's job belief
+      ; is what the worker cell says; display-ad is what the advertise-date cell says - the notice
       ; itself hangs on the parish board, this is the firm's own note of it. The offered /
       ; offer-date cells are NOT mirrored: a promise reserves nothing, and the counter
       ; reads them off the page when a man presents himself. The org is whichever one
@@ -93,11 +93,11 @@
                 (if -{?ejob job-id ?eline}  (then (begin-belief {?ejob job-id ?eline})))
                 (if (substantial ?ewname)
                     (then (o [k human] {@o name ?ewname}): ?eworker
-                          (if -{?ejob filled-by ?eworker}
-                              (then (for-each ?efrel (every {?ejob filled-by ?})
+                          (if -{?eworker job ?ejob}
+                              (then (for-each ?efrel (every {? job ?ejob})
                                       (end-belief ?efrel))
-                                    (begin-belief {?ejob filled-by ?eworker}))))
-                    (else (for-each ?efrel (every {?ejob filled-by ?})
+                                    (begin-belief {?eworker job ?ejob}))))
+                    (else (for-each ?efrel (every {? job ?ejob})
                             (end-belief ?efrel))))
                 (if (substantial ?ead)
                     (then (if -{?eorg display-ad ?ejob}
@@ -108,11 +108,11 @@
         (tolerate (attr ?doc writing): ?aform)
         (tolerate (table-match ?aform field applicant value ?aname))
         (tolerate (table-match ?aform field home value ?ahome))
-        (tolerate (table-match ?aform field job value ?ajk))
-        ; The form was ADDRESSED to the premises applied at - the paper's own say-so
-        ; for which workplace the errand named, rather than @self assuming it was his.
-        (tolerate (attr ?doc destination): ?adest)
-        (if (and (substantial ?aname) (substantial ?ahome) (substantial ?ajk))
+        (tolerate (table-match ?aform field job-kind value ?ajk))
+        (tolerate (table-match ?aform field org-name value ?aorg-name))
+        (tolerate (table-match ?aform field job-id value ?aline))
+        (if (and (substantial ?aname) (substantial ?ahome) (substantial ?ajk)
+                 (substantial ?aorg-name) (substantial ?aline))
             (then
               (o [k human] {@o name ?aname}): ?applicant
               (if -{?doc written-by ?applicant} (then (begin-belief {?doc written-by ?applicant})))
@@ -120,11 +120,14 @@
               (o [k building] {@o address ?ahome}): ?ahouse
               (if -{?ahouse address ?ahome}     (then (begin-belief {?ahouse address ?ahome})))
               (if -{?applicant home ?ahouse}    (then (begin-belief {?applicant home ?ahouse})))
-              (if (substantial ?adest)
-                  (then
-                    (o [k building] {@o address ?adest}): ?awp
-                    (if -{?applicant apply-for ?ajk ?awp /ever}
-                        (then (begin-belief {?applicant apply-for ?ajk ?awp /succ /momentary}))))))))
+              ; The SEAT he asked for, by the org's name and the line - the same object the
+              ; officer's own book read landed on.
+              (o [k org] {@o name ?aorg-name}): ?aorg
+              (o ?ajk {@o org ?aorg} {@o job-id ?aline}): ?ajob
+              (if -{?ajob org ?aorg}      (then (begin-belief {?ajob org ?aorg})))
+              (if -{?ajob job-id ?aline}  (then (begin-belief {?ajob job-id ?aline})))
+              (if -{?applicant apply-for ?ajob /ever}
+                  (then (begin-belief {?applicant apply-for ?ajob /succ /momentary}))))))
       ; An INVITATION names no occasion - it cannot, an occasion being a nameless
       ; abstract - so it carries what CONSTITUTES one and the reader builds his own
       ; from the cells. Host by name and venue by address are the two referents a

@@ -17,6 +17,11 @@
        (!= (any {?w repute ?}).target [k scandalous])
        (not (and {?w wealth ?wl} (>= ?wl (seek_job_wealth_ceiling))))))
 
+; (at-workplace ?wp): @self is at the workplace, whether it is the premises building (a
+; founder's) or the room a notice named (a hire's).
+(define-macro at-workplace (?wp)
+  (or (spatial @self building ?wp) (spatial @self space ?wp)))
+
 ; (hosted-by ?bt ?org-kind): does an org of ?org-kind host this post? A `none`
 ; business-type is a generic post (a cook / clerk works anywhere).
 (define-macro hosted-by (?bt ?org-kind)

@@ -1,91 +1,60 @@
-; ----------------------------------------------------------------------------
-; accept-job-offer ?jk ?wp - the offered seeker goes to the workplace and takes the post
-; up. apply-for's success sub-task, driven by the offer-letter he has read.
+; the point of this task is to gain the {? job ?job} belief,
+; with the expectation that it will be {@self job ?job} since you are accepting
+; the offer for ?job.  Once you have shown up and announced yourself,
+; the recruiter will either tell you that the job is now yours,
+; or that it's someone else's ({?other job ?job}), either way, you will have gained the
+; correct job belief.
 ;
-; OBSERVABLE, and that is the whole mechanism on the officer's side: a man keeping the
-; hiring book reads the errand off the man standing in front of him, the way anyone reads
-; a stranger's business from what he is plainly doing. No letter changes hands at the
-; counter - the errand is legible, and the NAME is what @self must supply, because the
-; officer has to find him in the book and a page records names.
+; NOT observable: the seat is a mental object, so nobody reads WHICH seat off the act.
+; You TELL the officer - your name and what you are here for - and that is how the
+; counter knows a man and his errand.
 ;
-; The order is the one a counter has always had: come to the right room, say who you are,
-; and WAIT. There is no rung here that writes the book: the post is the officer's to give,
-; so @self's part ends at standing in front of her having named himself. He learns which
-; way it went from HER MOUTH - both outcome rungs read a belief she can only have put
-; there by telling him - never by reading her book over her shoulder. His level he does
-; read off the page, once, after: she has just written him onto it in front of him.
-; ----------------------------------------------------------------------------
+; Four rungs, exclusive by where you stand: not there / there and not yet announced /
+; announced and not yet told / told. A (try ..)'s proposal is withdrawn the moment its
+; roles stop admitting, which is what ends the wait when the word lands; a (stage ..)
+; that minted a DWELL would advance only when the DWELL itself ended.
 
-(npc-task {@self accept-job-offer ?jk ?wp}:?ajo-rel
+(npc-task {@self accept-job-offer ?job}:?accept
   (aspect labour)
-  (obs)
   (tar job)
-  (aux building|space)
-  (and
-    ; TO THE ROOM the notice named. ?wp is that place - imagined off the page until he
-    ; finds it, and (go ..) owns the whole journey either way: the search while it is
-    ; imagined, enter / WALK once it is a room he has seen. Nothing is toured here.
+  (utility obligation)
+  ; The seat's org keeps its door at ?wp - where the errand goes.
+  (role ?org {?job org ?org})
+  (role ?wp {?org workplace ?wp})
+  (stable-or
+    ; if you're not at the job's workplace, then go there
     (try
       (role @self (not (spatial @self space ?wp)))
-      (utility errand)
       (effects (maintain-proposal {@self go ?wp})))
 
-    ; ANNOUNCE YOURSELF. He is in the room with the man who keeps the book - recruit-staff
-    ; is (obs), so @self knows which man that is by seeing him keep it. Speaking his own
-    ; name is what turns him from a stranger into someone she can look up.
+    ; if you're at the workplace and in the same room as the recruiter, then announce
+    ; yourself - who you are and what you are here for - so that the recruiter knows.
     (try
       (role ?officer [k human] {?officer recruit-staff ?}
                                (spatial ?officer co-located @self))
-      (role @self {@self name ?myname})
-      (utility errand (above go))
+      (role @self {@self name ?myname}
+                  -{@self SAY ? ?officer /succ /caused_by ?accept})
+      ; The seat travels as its DESCRIPTION - kind, org and line - the way the officer's own
+      ; word names it: a seat has no name for the wire to carry.
       (effects
-        (utterable-msg {@i name ?myname}): ?msg
-        (if ?msg
-            (then (maintain-proposal {@self SAY ?msg ?officer})))))
+        (any {?job job-id ?}).target: ?line
+        (kind ?job): ?jk
+        (utterable-msg {@i name ?myname}
+                       {@i accept-job-offer (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
+        (check ?msg)
+        (maintain-proposal {@self SAY ?msg ?officer})))
 
-    ; TAKEN ON. She has told him the seat is his. Only then does he read his level off the
-    ; page she has just written him onto - the book in the room with them - and become the
-    ; org's man. The vacancy he came on is spent: it was him.
+    ; wait until the officer responds with who got the job
     (try
-      (role ?job {?job filled-by @self}
-                 {?job org ?org})
-      (role ?reg [k employee-register] (spatial ?reg co-located @self))
-      ; The premises are ?wp - the task's own field, the place the notice named and the
-      ; place he walked to. It was reading (spatial @self building) instead: the building he
-      ; happened to be standing in, off his OWN index, which need not know where he is. The
-      ; @fail that came back was minting {@fail occupant @self}.
-      (when (and (is-a ?job ?jk)
-                 (table-match (attr ?reg writing) worker (name @self) level ?lvl)))
-      (effects
-        ; The offer is SPENT and the vacancy with it: he is the man in the seat now.
-        (for-each ?orel (every {?job offered-to @self})
-          (end-belief ?orel))
-        (for-each ?vrel (every {? filled-by _})
-          (bind ?vrel.subject ?vac)
-          (if (and (is-a ?vac ?jk) {?vac org ?org})
-              (then (end-belief ?vrel))))
-        (employ-beliefs ?org ?wp ?jk ?lvl ?reg)
-        (set-outcome ?ajo-rel /succ)))
+      (role ?officer [k human] {?officer recruit-staff ?}
+                               (spatial ?officer co-located @self)
+                               -{?officer SAY (utterable-msg {? job ?}) @self /succ})
+      (role @self {@self SAY ? ?officer /succ /caused_by ?accept})
+      (effects (maintain-proposal {@self DWELL ?wp (+ (now-hour) 1)})))
 
-    ; TURNED AWAY. She has named the man who holds it - a seat of the kind he came for, at
-    ; the org whose vacancy brought him. @self only ever learns that a post is another's by
-    ; being told so, which is why holding that belief is the whole gate; and he cannot be
-    ; the man in it, or the rung above would have concluded him first. The vacancy he came
-    ; on is spent either way: it went to someone else.
+    ; told: this task is successful now, whether or not the job turns out to be mine.
     (try
-      (role ?org {?org workplace ?wp})
-      (role ?vac {?vac filled-by _}
-                 {?vac org ?org})
-      (role ?job {?job org ?org})
-      ; A MAN holds it. His own vacancy belief reads {.. filled-by _} and must not pass
-      ; for a refusal - nobody is not another man.
-      (role ?holder [k human] {?job filled-by ?holder})
-      (role @self -{@self job ?})
-      (when (and (is-a ?job ?jk)
-                 (!= ?holder @self)))
-      (effects
-        ; The offer is spent either way - it went to someone else - and so is the vacancy.
-        (for-each ?orel (every {?vac offered-to @self})
-          (end-belief ?orel))
-        (end-belief {?vac filled-by _})
-        (set-outcome ?ajo-rel /fail)))))
+      (role ?officer [k human] {?officer recruit-staff ?}
+                               {?officer SAY (utterable-msg {? job ?}) @self /succ})
+      (role @self {@self SAY ? ?officer /succ /caused_by ?accept})
+      (effects (set-outcome ?accept /succ)))))
