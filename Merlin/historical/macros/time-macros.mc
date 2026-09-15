@@ -33,13 +33,17 @@
                (then (+ (- (* ?start 60) (now-min)) 1440))
                (else (- (* ?start 60) (now-min)))) 120)))
 
-; Elapsed days since the most recent ?what ended. The (none ..) gate answers
-; "never done" FIRST, so the (highest ..) recall only runs when a record
-; exists and its .end is always a concrete date - no sentinel reads.
+; Elapsed days since the most recent ?what. The (none ..) gate answers "never done"
+; FIRST, so the recall only runs when a record exists. The record is handed to
+; (time-since ..) WHOLE rather than projected: callers pass /ever patterns, which match
+; a RUNNING act as readily as a concluded one, and an ongoing record's .end is @ongoing -
+; abs-seconds reads that as the epoch, so every elapsed test against it passes. time-since
+; takes the start of an ongoing event and the end of a concluded one, which is the answer
+; either way: nothing is more recent than what is happening now.
 (define-macro days-since-last (?what)
   (if (none ?what)
     (then 36500) ; 100 years in days - never done
-    (else (/ (- (now-abs-seconds) (abs-seconds (highest /end ?what).end)) 86400))))
+    (else (time-since /days (highest /end ?what)))))
 
 ; ----------------------------------------------------------------------------
 ; Age from a KNOWN birth date (belief-reading; replaces the omniscient C++
