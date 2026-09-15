@@ -73,10 +73,9 @@
     (try
       (role ?officer [k human] {?officer recruit-staff ?})
       (role @self {@self SAY ? ?officer /succ /caused_by ?accept})
-      (role ?holder [k human] {?holder job ?job})
+      (role ?holder [k human] {?holder job ?job}:?held)
       (when (and (!= ?holder @self)
-                 (>= (abs-seconds (any {?holder job ?job}).start)
-                     (abs-seconds (any {@self accept-job-offer ?job}).start))))
+                 (>= (abs-seconds ?held.start) (abs-seconds ?accept.start))))
       (effects
         (for-each ?orel (every {?job offered-to @self})
           (end-belief ?orel))

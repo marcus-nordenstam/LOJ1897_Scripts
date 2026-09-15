@@ -16,7 +16,11 @@
 ; when the debt is slept off. A scream, an alarm or a physical attack should
 ; PREEMPT the running sleep (the engine preemption seam is future work); the
 ; old alarm-clock / obligation caps were schedule reasoning and are gone.
+; A sleep begun in the evening ends the NEXT MORNING, and a window simulates one day: crossing
+; out of it is proper to sleeping, not a mistake, so the window-exit pass concludes this act at
+; the hour its duration gave it rather than cutting it off at midnight.
 (npc-action {@self SLEEP}
+  (succeed-on-window-exit)
   (duration (max (sleep-inertia-floor-min)
                  (* (sleep-min-per-fatigue) (attr @self fatigue))))
   (effects (set-outcome {@self SLEEP} /succ)))

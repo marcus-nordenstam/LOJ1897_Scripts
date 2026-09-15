@@ -16,11 +16,11 @@
 (npc-audit audit_unanswered_application
   (aspect labour)
   (cooldown 1 d)
-  (role @self {@self apply-for ?job /succ}:?ap
+  (role @self {@self apply-for ?job /succ}
               -{@self job ?}
               -{? offered-to @self}
               -{? job ?job})
-  (when (>= (/ (- (now-abs-seconds) (abs-seconds ?ap.end)) 86400) 60))
+  (when (>= (days-since-last {@self apply-for ?job /succ}) 60))
   (effects
     (debug-print "labour audit: @self applied for ?job 60+ days ago and heard nothing")
     (expect @false "labour: applied 60+ days ago, no offer, no rejection, still jobless")))
