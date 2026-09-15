@@ -9,21 +9,32 @@
 ; days-since-last read is ~30 at every window start.
 ; ----------------------------------------------------------------------------
 
-; APPLIED AND NEVER ANSWERED. An application older than 60 days, no offer held, no seat
-; taken - and the vacancy he applied for still believed open: a rejection letter ENDS that
-; vacancy belief (READ), so a man who was turned away does not admit here. The seat is a
-; PICK, not an axis: two open seats of his kind are one unanswered application.
-(npc-audit audit_unanswered_application
+; AN APPLICATION NO RUNG CAN ANSWER. Read from the OFFICER's side, because she is the one
+; who can see it: she holds his application, has not answered it, and NEITHER rung that
+; answers an applicant can admit him. The offer rung wants a seat promised to nobody; the
+; rejection rung wants a seat somebody holds. A seat that is promised AND held by nobody
+; satisfies neither, so he waits for ever - not because she is busy, but because nothing in
+; the corpus can ever reach him. The promise is spent by an acceptance and by nothing else,
+; so an offeree who never presents himself strands every later applicant behind him.
+;
+; NOT a waiting-time test. The rungs answer one man at a time by design, so a man waiting
+; his turn is ordinary, and a calendar threshold measures hsim's cadence rather than the
+; corpus: at one simulated day a month, sixty days is two days of the officer's working
+; life. This admits the SHAPE that cannot resolve, whatever the clock says.
+(npc-audit audit_application_unanswerable
   (aspect labour)
   (cooldown 1 d)
-  (role @self {@self apply-for ?job /succ}
-              -{@self job ?}
-              -{? offered-to @self}
-              -{? job ?job})
-  (when (>= (days-since-last {@self apply-for ?job /succ}) 60))
+  ; The org is a ROLE, not a var taken off the first duty belief: an officer may keep more
+  ; than one book, and each book's seats are its own.
+  (role ?org {@self duty-to ?org recruit-staff})
+  (role ?p [k human] {?p apply-for ?job /succ}
+                     {?job org ?org}
+                     -{@self draft-verdict ?p ?job /succ}
+                     -{? job ?job}
+                     {?job offered-to ?})
   (effects
-    (debug-print "labour audit: @self applied for ?job 60+ days ago and heard nothing")
-    (expect @false "labour: applied 60+ days ago, no offer, no rejection, still jobless")))
+    (debug-print "labour audit: ?p applied for ?job - promised to another and held by nobody, so no rung answers him")
+    (expect @false "labour: an application no rung can answer - its seat is promised to another and held by nobody")))
 
 ; HIRED AND NEVER WORKED. A job held a window or more with no day's work concluded SINCE
 ; the hire: the last work ended before the job began, or there was none.
