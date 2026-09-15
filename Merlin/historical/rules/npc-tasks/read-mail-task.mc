@@ -30,17 +30,11 @@
       (utility errand)
       (effects
                (maintain-proposal {@self take-my-letters ?stk})))
-    (try
-      (role ?ltr [k letter] (spatial ?ltr held-by @self)
-                            -{@self READ ?ltr /succ})
-      (effects (maintain-proposal {@self READ ?ltr})))
-    ; A read letter goes BACK in the pile: the pile is the household's correspondence
-    ; record, and the round is over only when the hands are empty.
-    (try
-      (role ?stk [k mail-stack] (spatial ?stk building ?prem))
-      (role ?ltr [k letter] (spatial ?ltr held-by @self)
-                            {@self READ ?ltr /succ})
-      (effects (maintain-proposal {@self STACK-PUT ?ltr ?stk})))
+    ; The reading and the re-filing are the ROUND's, not this task's: take-my-letters hands
+    ; the browse a body that reads each letter of his where it lies and puts it straight
+    ; back. Doing it from up here is what broke the round - these rungs saw the letter the
+    ; browse was holding in flight, read it, and filed it away underneath the browse, which
+    ; then waited for ever to re-file a letter no longer in his hand.
     (try
       (role ?stk [k mail-stack] (spatial ?stk building ?prem))
       (when (and {@self take-my-letters ?stk /succ /caused_by ?rm-rel}

@@ -12,4 +12,6 @@
     ; The twin of STACK-TAKE's: a man files a paper in the pile he is standing at.
     (check (spatial ?stack co-located @self /env))
     (bury ?doc ?stack)
+    ; He is still standing at the pile he just filed into - the twin of STACK-TAKE's re-look.
+    (tolerate (observe (spatial ?stack top /env)))
     (set-outcome {@self STACK-BURY ?doc ?stack} /succ)))

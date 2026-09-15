@@ -1,36 +1,30 @@
 ; ----------------------------------------------------------------------------
-; take-my-letters ?stack - sort ?stack's docs via the GENERIC stack-browse: browse lifts
-; each doc into hand; this consumer writes its verdict on the running browse - KEEP the
-; ones addressed to ME (my name, or a duty I hold) and not yet read, handled for the rest
-; (browse re-files them at the bottom). Concludes when the browse round concludes. NO away
-; rung: the round RESUMES when @self is back at the stack (browse gates fail from afar and
-; the task idles running).
+; take-my-letters ?stack - the home post round: read every letter on ?stack that is mine
+; and not yet read, and leave the pile as it was found. The whole of the task is the body
+; it hands to the generic stack-browse, which does the walking: lift, do this, re-file.
+;
+; NOTHING IS KEPT. A letter is read where it lies and goes straight back on the pile - the
+; pile is the household's correspondence record. That is why the round cannot jam: the only
+; hand that touches a doc is the browse's, for the length of one reading.
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self take-my-letters ?stack}:?take-letters-rel
   (tar @excl stack)
   (and
     (try
-      (role @self -{@self stack-browse ?stack /succ /caused_by ?take-letters-rel})
+      (role @self {@self name ?name} 
+                  -{@self stack-browse ?stack ? /succ /caused_by ?take-letters-rel})
       (utility errand)
       (effects
-               (maintain-proposal {@self stack-browse ?stack})))
+        (maintain-proposal
+          {@self stack-browse ?stack
+            '(if (and (or (and (substantial (tolerate (attr .?item addressee)))
+                               (= (tolerate (attr .?item addressee)) ?name))
+                          (nothing (tolerate (attr .?item addressee)))
+                          {@self duty-to ? (tolerate (attr .?item addressee-duty))})
+                      -{@self READ .?item /succ})
+                 (then (maintain-proposal {@self READ .?item})))})))
     (try
-      (role @self {@self name ?name}
-                  {@self stack-browse ?stack /ever /caused_by ?take-letters-rel}:?browse
-                  (bb-any ?browse inflight)
-                  (bb-none ?browse verdict))
-      (effects
-        (bb-read ?browse inflight): ?doc
-        (tolerate (attr ?doc addressee): ?addressee)
-        (tolerate (attr ?doc addressee-duty): ?duty)
-        (if (and (or (= ?addressee ?name)
-                     (nothing ?addressee)
-                     {@self duty-to ? ?duty})
-                 -{@self READ ?doc /succ})
-            (then (bb-write ?browse verdict kept))
-            (else (bb-write ?browse verdict handled)))))
-    (try
-      (role @self {@self stack-browse ?stack /succ /caused_by ?take-letters-rel})
+      (role @self {@self stack-browse ?stack ? /succ /caused_by ?take-letters-rel})
       (effects
                (set-outcome ?take-letters-rel /succ)))))
