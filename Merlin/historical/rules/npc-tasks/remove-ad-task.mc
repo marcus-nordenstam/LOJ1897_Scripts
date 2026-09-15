@@ -40,7 +40,10 @@
                  (spatial ?reg co-located @self))
       (when {?job job-id ?job-id})
       (effects
-        (maintain-proposal {@self STRIKE-ADVERT ?reg ?job-id}
-          [/postlude (end-belief {?org display-ad ?job})])))
+        (maintain-proposal {@self STRIKE-ADVERT ?reg ?job-id})))
+    ; Ended WITH the conclusion, not in the act's postlude - the proposing rung reads this
+    ; belief, and a maintained proposal is reaped the instant its gate falls.
     (stage
-      (effects (set-outcome ?rad-rel /succ)))))
+      (effects
+        (end-belief {?org display-ad ?job})
+        (set-outcome ?rad-rel /succ)))))

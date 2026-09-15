@@ -39,8 +39,7 @@
                     (written-msg {?heir inherit
                                    (o [k pile] {@o space
                                      (o [k interior-space] {@o struct_parent
-                                       (o [k building] {@self home @o})})})}
-                                 signed)})))))
+                                       (o [k building] {@self home @o})})})})})))))
 
     (stage
       (effects

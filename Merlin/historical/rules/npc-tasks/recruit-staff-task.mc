@@ -98,31 +98,30 @@
       ; so his form has been read) and not yet answered (only the draft burns a form, so it
       ; is still in hand). The SEAT is cast on HIS kind, and cast LAST: cast before the
       ; roles it shares no variable with, it admits nothing at all (measured: 0 vs 20).
-      ; THE MAN who asked for a seat of this org that still stands open, and has not been
-      ; answered. The seat is HIS filter's own free var, never a second role: a filter that
-      ; names another role's var is a join, and joins do not form over the born-ended
-      ; apply-for record (measured: cast either way round, the rung admitted nobody).
+      ; THE MAN who asked for a seat of this org that still stands open, has not been
+      ; answered, and whose form still exists (the burn ends its written-by): ONE role.
+      ; The seat and the form are HIS filter's own free vars, never a second role: a filter
+      ; that names another role's var is a join, and a join admits nobody here (measured
+      ; twice, the form cast first or last, while the same filters as one role admit every
+      ; man as his form is read). The draft finds the form to burn by the man.
       (role ?p [k human] {?p apply-for ?job /succ}
                          {?job org ?org}
+                         {? written-by ?p}
                          -{? job ?job}
                          -{@self draft-verdict ?p ? /succ})
-      ; HIS FORM, still in hand: the one record of "unanswered" that survives the man's
-      ; paper-self fusing into the man met (the verdict record goes with the ghost; the burn
-      ; does not). No form, no second letter. The form is a CONSTRAINT on the man, not a
-      ; parameter of the letter - the lint cannot see that (waived on the spine).
-      (role ?app [k application] (spatial ?app held-by @self)
-                                 {?app written-by ?p})
       (when (not (proposed {@self draft-verdict ? ?})))
       (utility obligation)
       (effects (begin-proposal {@self draft-verdict ?p [k offer-letter]})))
 
-    ; THE REJECTION: the seat he asked for is taken. Complementary to the offer by
-    ; construction - his seat stands open, or it does not.
+    ; THE REJECTION: the seat he asked for is taken and he was never answered. Under the
+    ; unbounded-offer policy above this has no one to admit: every man whose form is read
+    ; while his seat stands open is offered the same day, and the offer burns his form.
     (try
       (lock-rule)
+      (role ?job {?job org ?org}
+                 {?job job-id ?})
+      (role ?holder [k human] {?holder job ?job})
       (role ?p [k human] {?p apply-for ?job /succ}
-                         {?job org ?org}
-                         {? job ?job}
                          -{@self draft-verdict ?p ? /succ})
       (role ?app [k application] (spatial ?app held-by @self)
                                  {?app written-by ?p})

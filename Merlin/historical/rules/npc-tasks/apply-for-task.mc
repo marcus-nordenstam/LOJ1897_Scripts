@@ -30,8 +30,14 @@
           (if (empty (spatial @self hold [k application]))
               (then (maintain-proposal {@self prepare-application ?job})))))
 
+      ; MY form, not yet posted: a form seen at home months ago and long since posted
+      ; still stands co-located in a stale belief, and its env attrs read true (measured:
+      ; a housemate's form was pushed out of the officer's hand into this man's out-box).
+      ; The form is never in hand (measured: held-by admitted nothing in 18 minds).
       (stage
         (role ?app [k application] (spatial ?app co-located @self)
+                                   {?app written-by @self}
+                                   -{@self send-mail ?app ? /succ}
                                    (substantial (attr ?app writing))
                                    (substantial (attr ?app destination)))
         (role ?out [k outgoing-mail-stack] (spatial ?out building ?home))

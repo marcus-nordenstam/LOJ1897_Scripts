@@ -38,6 +38,8 @@
       ; Host by NAME and venue by ADDRESS: the two things a stranger can resolve.
       (stage
         (when {@self name ?my-name}
+              {?guest name ?guest-name}
+              {?guest-home address ?guest-address}
               {?occ held-on ?occ-date}
               {?occ venue ?occ-venue}
               {?occ-venue address ?venue-address}
@@ -46,18 +48,13 @@
           (kind ?occ): ?occ-kind
           (if (unsubstantial (attr ?ltr writing))
               (then (maintain-proposal
-                      {@self WRITE ?ltr (table-msg [[occasion-kind ?occ-kind]
+                      {@self WRITE ?ltr (table-msg [/addressee ?guest-name /address ?guest-address]
+                                                   [[occasion-kind ?occ-kind]
                                                     [host ?my-name]
                                                     [venue ?venue-address]
                                                     [held-on ?occ-date]
                                                     [from-hour ?occ-from]
                                                     [to-hour ?occ-to]])})))))
-
-      (stage
-        (when {?guest-home address ?guest-address})
-        (effects
-          (if (unsubstantial (attr ?ltr destination))
-              (then (maintain-proposal {@self ADDRESS ?ltr ?guest-address})))))
 
       (stage
         (role ?out [k outgoing-mail-stack] (spatial ?out building ?my-home))

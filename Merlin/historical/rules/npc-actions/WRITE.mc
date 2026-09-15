@@ -9,7 +9,10 @@
 ; writing ((attr ?doc writing)); if blank, mint (msg ?sentence); else append the
 ; sentence as a new arg of the existing (msg ..) with add-func-arg. Reading (READ)
 ; adopts every sentence back. A doc is created first (CREATE-ENTITY), then WRITTEN;
-; the composing + which sentences to write are the task's job.
+; the composing + which sentences to write are the task's job. The ENVELOPE rides on
+; the message as riders - (table-msg [/addressee ?name /address ?addr] ..) - and is
+; stamped onto the paper here: addressee for the sorter at the door, destination for
+; the mail service. Absent riders stamp nothing.
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self WRITE ?doc ?sentence}
@@ -28,4 +31,8 @@
         (set-writing ?doc ?sentence))
       (else
         (set-writing ?doc (add-func-arg (attr ?doc writing) ?sentence))))
+    (tolerate (msg-rider ?sentence addressee): ?to)
+    (if (substantial ?to) (then (set-attr ?doc addressee ?to)))
+    (tolerate (msg-rider ?sentence address): ?dest)
+    (if (substantial ?dest) (then (set-attr ?doc destination ?dest)))
     (set-outcome {@self WRITE ?doc ?sentence} /succ)))

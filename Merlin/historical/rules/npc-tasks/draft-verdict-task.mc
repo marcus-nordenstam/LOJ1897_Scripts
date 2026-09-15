@@ -39,6 +39,8 @@
       ; the org keeps its door.
       (stage
         (when {?p name ?rname}
+              {?p home ?rhome}
+              {?rhome address ?raddress}
               {?p apply-for ?job /succ}
               {?job job-id ?line}
               {?org name ?org-name}
@@ -46,15 +48,9 @@
         (effects
           (if (unsubstantial (attr ?ltr writing))
               (then (maintain-proposal
-                      {@self WRITE ?ltr (table-msg [[applicant ?rname] [job-kind ?jk]
+                      {@self WRITE ?ltr (table-msg [/addressee ?rname /address ?raddress]
+                                                   [[applicant ?rname] [job-kind ?jk]
                                                     [org-name ?org-name] [job-id ?line]])})))))
-
-      (stage
-        (when {?p home ?rhome}
-              {?rhome address ?raddress})
-        (effects
-          (if (unsubstantial (attr ?ltr destination))
-              (then (maintain-proposal {@self ADDRESS ?ltr ?raddress})))))
 
       (stage
         (role ?out [k outgoing-mail-stack] (spatial ?out building ?wp))

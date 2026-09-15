@@ -26,8 +26,12 @@
       ; line the officer pencilled - so accepting can gate on holding an offer for THAT post.
       ; A rejection names the org and nothing of its seats: that place is not going, to him,
       ; and his own applied record is what keeps him from asking again.
+      ; The letter names its man (applicant): a housemate reading it learns of the seat and
+      ; of no offer to himself (measured: two men at one address each read the other's
+      ; letter first and both walked to the counter on it).
       (on [k offer-letter]
         (tolerate (attr ?doc writing): ?vform)
+        (tolerate (table-match ?vform field applicant value ?vname))
         (tolerate (table-match ?vform field job-kind value ?vjk))
         (tolerate (table-match ?vform field org-name value ?vorg-name))
         (tolerate (table-match ?vform field job-id value ?vline))
@@ -37,7 +41,8 @@
               (o ?vjk {@o org ?vorg} {@o job-id ?vline}): ?vjob
               (if -{?vjob org ?vorg} (then (begin-belief {?vjob org ?vorg})))
               (if -{?vjob job-id ?vline} (then (begin-belief {?vjob job-id ?vline})))
-              (if -{?vjob offered-to @self} (then (begin-belief {?vjob offered-to @self}))))))
+              (if (and (= ?vname (any {@self name ?}).target) -{?vjob offered-to @self})
+                  (then (begin-belief {?vjob offered-to @self}))))))
       (on [k rejection-letter]
         (tolerate (attr ?doc writing): ?rform)
         (tolerate (table-match ?rform field job-kind value ?rjk))

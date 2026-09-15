@@ -69,10 +69,14 @@
                    (spatial ?reg co-located @self))
         (when {?job job-id ?job-id})
         (effects
-          (maintain-proposal {@self RECORD-ADVERT ?reg ?job-id}
-            [/postlude (begin-belief {?org display-ad ?job})])))
+          (maintain-proposal {@self RECORD-ADVERT ?reg ?job-id})))
+      ; The standing belief is minted WITH the conclusion, not in the act's postlude: the
+      ; proposing rung is gated on its absence, and a maintained proposal is reaped the
+      ; instant its gate falls - one stage short of /succ (measured: every posting ended
+      ; interrupted with the notice up and the page stamped).
       (stage
         (effects
+          (begin-belief {?org display-ad ?job})
           (bb-clear ?pad-rel ad)
           (set-outcome ?pad-rel /succ))))
 
