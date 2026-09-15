@@ -74,13 +74,6 @@
           (if (= ?kind [k offer-letter])
               (then (maintain-proposal {@self RECORD-OFFER ?rname ?line})))))
 
-      ; The answered form has done its work. The empty hand is what takes the man off the
-      ; queue; the beliefs about HIM stay - he is someone @self has heard of.
-      (stage
-        (role ?app [k application] (spatial ?app held-by @self)
-                                   {?app written-by ?p})
-        (effects (maintain-proposal {@self DESTROY-ENTITY ?app})))
-
       (stage
         (effects
           (bb-clear ?dv-rel letter)

@@ -76,9 +76,9 @@
       ; by, rather than in a private vocabulary of the paper's own.
       ;
       ; And he APPLIED: a completed apply-for, inferred from the form being on the desk
-      ; at all. A born-ended record of another man's act, which is how a deed is
-      ; remembered - not a state invented to stand in for one. The clerk cannot know
-      ; WHEN he applied, only that he did, so the record is /momentary at the reading.
+      ; at all. A born-ended record of another man's act, dated by the form's own date
+      ; line, which is how a deed is remembered - not a state invented to stand in for
+      ; one. The paper needs no tie to the man beyond that: the apply-for IS the tie.
       ; The WAGE BOOK: one line per seat. The line IS the seat's identity (org, job-id),
       ; so every reader of the same page lands on the same object. The holder's job belief
       ; is what the worker cell says; display-ad is what the advertise-date cell says - the notice
@@ -116,11 +116,11 @@
         (tolerate (table-match ?aform field job-kind value ?ajk))
         (tolerate (table-match ?aform field org-name value ?aorg-name))
         (tolerate (table-match ?aform field job-id value ?aline))
+        (tolerate (table-match ?aform field date value ?adate))
         (if (and (substantial ?aname) (substantial ?ahome) (substantial ?ajk)
-                 (substantial ?aorg-name) (substantial ?aline))
+                 (substantial ?aorg-name) (substantial ?aline) (substantial ?adate))
             (then
               (o [k human] {@o name ?aname}): ?applicant
-              (if -{?doc written-by ?applicant} (then (begin-belief {?doc written-by ?applicant})))
               (if -{?applicant name ?aname}     (then (begin-belief {?applicant name ?aname})))
               (o [k building] {@o address ?ahome}): ?ahouse
               (if -{?ahouse address ?ahome}     (then (begin-belief {?ahouse address ?ahome})))
@@ -132,7 +132,7 @@
               (if -{?ajob org ?aorg}      (then (begin-belief {?ajob org ?aorg})))
               (if -{?ajob job-id ?aline}  (then (begin-belief {?ajob job-id ?aline})))
               (if -{?applicant apply-for ?ajob /ever}
-                  (then (begin-belief {?applicant apply-for ?ajob /succ /momentary}))))))
+                  (then (begin-belief {?applicant apply-for ?ajob /succ /i ?adate ?adate}))))))
       ; An INVITATION names no occasion - it cannot, an occasion being a nameless
       ; abstract - so it carries what CONSTITUTES one and the reader builds his own
       ; from the cells. Host by name and venue by address are the two referents a

@@ -80,6 +80,15 @@
       (utility obligation)
       (effects (maintain-proposal {@self read-doc ?app})))
 
+    ; A READ form is BURNED: its facts are beliefs now, and the paper's only other use was
+    ; as a queue - the man's apply-for is that queue, and his verdict record the answer.
+    (try
+      (lock-rule)
+      (role ?app [k application] (spatial ?app held-by @self)
+                                 {@self READ ?app /succ})
+      (utility obligation)
+      (effects (maintain-proposal {@self DESTROY-ENTITY ?app})))
+
     ; THE OFFER: an unanswered form, the man who wrote it, an unfilled seat of his kind.
     ; The gate is "am I already drafting a verdict of ANY kind to ANYBODY" - a live pipeline
     ; lookup, true while a draft is proposed OR running - so one letter is begun at a time
@@ -94,19 +103,13 @@
     ; the first through the door is hired.
     (try
       (lock-rule)
-      ; The MAN is the anchor: someone @self has heard of applying (a fact READ put there,
-      ; so his form has been read) and not yet answered (only the draft burns a form, so it
-      ; is still in hand). The SEAT is cast on HIS kind, and cast LAST: cast before the
-      ; roles it shares no variable with, it admits nothing at all (measured: 0 vs 20).
-      ; THE MAN who asked for a seat of this org that still stands open, has not been
-      ; answered, and whose form still exists (the burn ends its written-by): ONE role.
-      ; The seat and the form are HIS filter's own free vars, never a second role: a filter
-      ; that names another role's var is a join, and a join admits nobody here (measured
-      ; twice, the form cast first or last, while the same filters as one role admit every
-      ; man as his form is read). The draft finds the form to burn by the man.
+      ; THE MAN who asked for a seat of this org that still stands open and has not been
+      ; answered: ONE role. The seat is HIS filter's own free var, never a second role: a
+      ; filter that names another role's var is a join, and a join admits nobody here
+      ; (measured twice, the second role cast first or last, while the same filters as
+      ; one role admit every man as his form is read).
       (role ?p [k human] {?p apply-for ?job /succ}
                          {?job org ?org}
-                         {? written-by ?p}
                          -{? job ?job}
                          -{@self draft-verdict ?p ? /succ})
       (when (not (proposed {@self draft-verdict ? ?})))
@@ -115,7 +118,7 @@
 
     ; THE REJECTION: the seat he asked for is taken and he was never answered. Under the
     ; unbounded-offer policy above this has no one to admit: every man whose form is read
-    ; while his seat stands open is offered the same day, and the offer burns his form.
+    ; while his seat stands open is offered the same day.
     (try
       (lock-rule)
       (role ?job {?job org ?org}
@@ -123,8 +126,6 @@
       (role ?holder [k human] {?holder job ?job})
       (role ?p [k human] {?p apply-for ?job /succ}
                          -{@self draft-verdict ?p ? /succ})
-      (role ?app [k application] (spatial ?app held-by @self)
-                                 {?app written-by ?p})
       (when (not (proposed {@self draft-verdict ? ?})))
       (utility obligation)
       (effects (begin-proposal {@self draft-verdict ?p [k rejection-letter]})))
