@@ -30,6 +30,14 @@
                       (begin-belief {@self hiding-spot (internalize ?cache)})
                       (observe (spatial ?cache contents /env)))))
               (else (observe (spatial ?cache contents /env)))))))
+    ; STOPGAP (npc-actions/STOCK-LARDER.mc): the supply run never reaches the shop, so a
+    ; resident standing in his own empty kitchen stocks it himself. Delete with that file.
+    (try
+      (when (and (spatial @self building ?home)
+                 (spatial ?home room [k kitchen]): ?kitchen
+                 (spatial @self space ?kitchen)
+                 (= (believed-pile-count ?kitchen [k food]) 0)))
+      (effects (maintain-proposal {@self STOCK-LARDER ?kitchen})))
     (try
       (role @self {@self wander ?home /succ /caused_by ?p-rel})
       (effects (set-outcome ?p-rel /succ)))))

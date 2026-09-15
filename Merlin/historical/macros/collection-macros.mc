@@ -38,34 +38,3 @@
 ; (pile-take ?pile ?n): lower a pile's count by ?n, never below 0.
 (define-macro pile-take (?pile ?n)
   (set-attr ?pile count (max 0 (- (attr ?pile count) ?n))))
-
-; (believed-home-food-count ?home): the loaf-count this mind believes is in its
-; home LARDER (the kitchen pile). The larder lives in the kitchen room,
-; so it resolves the believed kitchen first (0 if the mind knows no kitchen).
-(define-macro believed-home-food-count (?home)
-  (do
-    (bind 0 ?bhf_kitchen)
-    (spatial ?home room [k kitchen]): ?bhf_kitchen
-    (if ?bhf_kitchen (then (believed-pile-count ?bhf_kitchen [k food])) (else 0))))
-
-; (held-pile-count ?who ?kind): the loaf-count ?who BELIEVES it carries in the
-; ?kind pile (0 if none) - belief-honest (no /env), so it is legal in a (when).
-; Reading one's OWN hand is not telepathy; the perceived {pile count N} is it.
-(define-macro held-pile-count (?who ?kind)
-  (do
-    (bind 0 ?hpc_pile)
-    (for-each ?hpc_cand (spatial ?who hold [k pile])
-      (if {?hpc_cand content-kind ?kind}
-          (then (bind ?hpc_cand ?hpc_pile))))
-    (if ?hpc_pile (then (prob {?hpc_pile count ?})) (else 0))))
-
-; (believed-pile-count ?place ?kind): the loaf-count this MIND believes the
-; ?kind pile at ?place holds (0 if it believes there is none) - per-mind and
-; no-telepathy. Reads the believed contents (never /env) + the perceived {pile count N}.
-(define-macro believed-pile-count (?place ?kind)
-  (do
-    (bind 0 ?bpc_pile)
-    (for-each ?bpc_cand (spatial ?place contents [k pile])
-      (if {?bpc_cand content-kind ?kind}
-          (then (bind ?bpc_cand ?bpc_pile))))
-    (if ?bpc_pile (then (prob {?bpc_pile count ?})) (else 0))))
