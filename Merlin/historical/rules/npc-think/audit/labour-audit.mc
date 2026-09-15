@@ -50,24 +50,23 @@
   (role @self {@self duty-to ?org recruit-staff})
   (effects
     (bind 0 ?offers)
-    (for-each ?d (every {@self draft-verdict ? [k offer-letter] /succ})
-      (bind ?d.target ?p)
-      (if -{?p job ?} (then (bind (+ ?offers 1) ?offers))))
     (bind 0 ?open)
     (for-each ?jr (every {? org ?org})
       (bind ?jr.subject ?j)
-      (if (and {?j job-id ?} -{? job ?j}) (then (bind (+ ?open 1) ?open))))
+      (if (and {?j job-id ?} -{? job ?j})
+          (then (bind (+ ?open 1) ?open)
+                (if {?j offered-to ?} (then (bind (+ ?offers 1) ?offers))))))
     (debug-print "labour audit: offers outstanding ?offers against open seats ?open")
     (expect (<= ?offers ?open) "labour: more offers outstanding than open seats")))
 
-; TWO VERDICTS FOR ONE MAN. The officer answered the same applicant twice.
+; TWO VERDICTS FOR ONE MAN ABOUT ONE SEAT. The officer answered the same application twice.
 (npc-audit audit_two_verdicts_one_man
   (aspect labour)
   (cooldown 1 d)
   (role @self {@self duty-to ?org recruit-staff})
-  (role ?p [k human] {@self draft-verdict ?p ? /succ})
-  (when (>= (count (every {@self draft-verdict ?p ? /succ})) 2))
-  (effects (expect @false "labour: two verdicts drafted for one applicant")))
+  (role ?p [k human] {@self draft-verdict ?p ?job /succ})
+  (when (>= (count (every {@self draft-verdict ?p ?job /succ})) 2))
+  (effects (expect @false "labour: two verdicts drafted for one applicant about one seat")))
 
 ; TWO APPLICATIONS IN FLIGHT. seek_apply_pick admits one at a time; a second means the lock
 ; or the /pres gate has failed. Gated on the running task, as a running act must be; the

@@ -53,21 +53,19 @@
       (effects (maintain-proposal {@self DWELL ?wp (+ (now-hour) 1)})))
 
     ; told: this task is successful now, whether or not the job turns out to be mine.
-    ; TAKEN ON. Her word put {@self job ?job} in his mind; the rest of holding a seat - level
-    ; off the page she has just written him onto, salary, since, the shift hours day_work
-    ; reads, the premises as his - is what employ-beliefs mints, and nothing else on this
-    ; path does (measured: a man hired by her word held a job a month and never worked).
+    ; TAKEN ON. Her word put {@self job ?job} in his mind, and the seat came decorated off
+    ; the offer letter - level, salary, shift hours. What is his alone to know: since when,
+    ; and that the premises are now his to be in.
     (try
       (role ?officer [k human] {?officer recruit-staff ?}
                                {?officer SAY (utterable-msg {? job ?}) @self /succ})
       (role @self {@self SAY ? ?officer /succ /caused_by ?accept}
                   {@self job ?job})
-      (role ?reg [k employee-register] (spatial ?reg co-located @self))
-      (when (table-match (attr ?reg writing) worker (name @self) level ?lvl))
       (effects
-        (kind ?job): ?jk
-        (employ-beliefs ?org ?wp ?jk ?lvl ?reg)
+        (if -{?job since ?} (then (begin-belief {?job since (year)})))
+        (if -{?wp occupant @self} (then (begin-belief {?wp occupant @self})))
         (expect (any {?job level ?}) "labour: taken on, but the seat carries no level")
+        (expect (any {?job salary ?}) "labour: taken on, but the seat carries no salary")
         (set-outcome ?accept /succ)))
     ; TURNED AWAY. Her word named the man who holds the seat he came for, and she only
     ; says so when no seat of his kind is open. The telling must be THIS errand's - a holder

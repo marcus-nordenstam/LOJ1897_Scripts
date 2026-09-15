@@ -113,7 +113,8 @@
     (begin-belief {?wp occupant @self})
     ; The head's seat is a ledger line like any other - keyed on it, so his own job object
     ; is the one every later reader of this book lands on.
-    (if (table-match (attr ?reg writing) worker (name @self) job ?head-role job-id ?soh-line)
+    (if (table-match (attr ?reg writing) worker (name @self) job ?head-role job-id ?soh-line
+                                          shift ?soh-shift)
         (then
           (o ?head-role {@o org ?org} {@o job-id ?soh-line}): ?job
           (begin-belief {?job org ?org})
@@ -121,7 +122,7 @@
           (begin-belief {@self job ?job})
           (begin-belief {?job level [k senior]})
           (begin-belief {?job since (year)})
-          (stamp-work-hours ?job ?head-role)))))
+          (stamp-shift-hours ?job ?head-role ?soh-shift)))))
 
 ; take-up-charter - found an org the town already chartered: the premises, articles and staff
 ; book exist and only the head seat is open, so founding is writing @self into the founder
@@ -220,7 +221,8 @@
     (for-each ?room (spatial ?wp parts [k interior-space room] /env)
         (spatial-write ?room struct_parent ?wp))
     (table-match income_by_level level ?level income ?salary)
-    (if (table-match (attr ?reg writing) worker (name @self) job ?job-kind job-id ?eb-line)
+    (if (table-match (attr ?reg writing) worker (name @self) job ?job-kind job-id ?eb-line
+                                          shift ?eb-shift)
         (then
           (o ?job-kind {@o org ?org} {@o job-id ?eb-line}): ?job
           (begin-belief {?job org ?org})
@@ -229,7 +231,7 @@
           (begin-belief {?job level ?level})
           (begin-belief {?job salary ?salary})
           (begin-belief {?job since (year)})
-          (stamp-work-hours ?job ?job-kind)))))
+          (stamp-shift-hours ?job ?job-kind ?eb-shift)))))
 
 (define-macro hire-beliefs (?art ?job-kind ?level)
   (do
@@ -319,21 +321,20 @@
 ; mints one {?job <day>-hours <start> <end>} belief per day of ONE shift. A kind
 ; authored under several shift-ids (nurse / factory-worker: day AND night) puts the
 ; worker on exactly one, drawn here.
-(define-macro stamp-work-hours (?job ?job-kind)
+; stamp-shift-hours - the day-hours beliefs of ONE authored shift of ?job-kind on ?job:
+; what a reader of the offer letter mints from its shift line, and what the officer holds
+; of the seat he keeps.
+(define-macro stamp-shift-hours (?job ?job-kind ?ssh-shift)
   (do
     (if (table-match occupation_shifts job ?job-kind)
         (then ?job-kind)
-        (else default)): ?swh-key
-    (bind 0 ?swh-top)
-    (for-each-row occupation_shifts [/job ?swh-j] [/shift-id ?swh-sid]
-      (if (and (= ?swh-j ?swh-key) (> ?swh-sid ?swh-top))
-          (then (bind ?swh-sid ?swh-top))))
-    (random-int 0 ?swh-top): ?swh-shift
+        (else default)): ?ssh-key
     (for-each-row occupation_shifts
-        [/job ?swh-j2] [/shift-id ?swh-sid2] [/day-label ?swh-day]
-        [/start-h ?swh-start] [/end-h ?swh-end]
-      (if (and (= ?swh-j2 ?swh-key) (= ?swh-sid2 ?swh-shift))
-          (then (begin-belief {?job ?swh-day ?swh-start ?swh-end}))))))
+        [/job ?ssh-j] [/shift-id ?ssh-sid] [/day-label ?ssh-day]
+        [/start-h ?ssh-start] [/end-h ?ssh-end]
+      (if (and (= ?ssh-j ?ssh-key) (= ?ssh-sid ?ssh-shift))
+          (then (begin-belief {?job ?ssh-day ?ssh-start ?ssh-end}))))))
+
 
 (define-macro fire-self ()
   (for-each ?fire-jrel (every {@self job ?})
@@ -373,7 +374,7 @@
 ; every business's establishment came out blank.
 (define-macro establish-posts (?reg ?org-kind)
   (do
-    (table-init ?reg job-id job worker level hiring-date offered offer-date advertise-date)
+    (table-init ?reg job-id job worker level hiring-date offered offer-date advertise-date shift)
     (if (table-match org_staffing org-kind ?org-kind staff-role ?ep-role)
       (then
         (bind 0 ?ep-line)
@@ -382,7 +383,8 @@
                     (else (k-default-staff-posts)))
           (do
             (bind (+ ?ep-line 1) ?ep-line)
-            (table-add ?reg job-id ?ep-line worker @nothing job ?ep-role)))))))
+            (table-add ?reg job-id ?ep-line worker @nothing job ?ep-role
+                            shift (draw-shift ?ep-role))))))))
 
 ; fill-post - @self takes a job: his name goes into the vacant line's worker cell, IN
 ; PLACE. The line must not move - a job IS its line on this ledger, so striking and
@@ -406,7 +408,8 @@
                 (bind ?fp-seen ?fp-line))
               (table-add ?reg job-id (+ ?fp-line 1)
                               worker (name @self) job ?job-kind level ?level
-                              hiring-date (date-now)))))))
+                              hiring-date (date-now)
+                              shift (draw-shift ?job-kind)))))))
 
 ; vacate-post - a departure leaves the JOB behind: the worker's cell is emptied where it
 ; stands, keeping the line, its number and its job kind. Striking the line outright would

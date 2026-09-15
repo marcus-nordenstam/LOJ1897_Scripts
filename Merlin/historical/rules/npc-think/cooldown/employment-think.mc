@@ -93,6 +93,6 @@
   (aspect labour)
   (cooldown 1 d)
   (role @self {@self duty-to ?org recruit-staff})
-  (role ?p [k human] {@self draft-verdict ?p [k offer-letter] /succ}
+  (role ?p [k human] {? offered-to ?p}
                      -{?p job ?})
   (effects (set-reconcilable ?p @true)))

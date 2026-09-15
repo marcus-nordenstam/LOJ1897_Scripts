@@ -98,37 +98,35 @@
     ; BEGIN-proposal, and this is the shape it exists for: the condition
     ; to start is not the condition to stop, a maintained proposal would be reaped the
     ; instant its own gate went false, and draft-verdict concludes itself - no twin rung.
-    ; NOTHING is pencilled against the seat here: a promise is a letter in the post plus
-    ; the book's note of it (draft-verdict writes both); two men may be written to, and
-    ; the first through the door is hired.
+    ; A promise is a state of the SEAT: while {?job offered-to ?} stands, that seat is
+    ; offered to nobody else; the acceptance spends it. The verdict carries the seat, so
+    ; the same man is answered once per seat he asked for.
     (try
       (lock-rule)
-      ; THE MAN who asked for a seat of this org that still stands open and has not been
-      ; answered: ONE role. The seat is HIS filter's own free var, never a second role: a
-      ; filter that names another role's var is a join, and a join admits nobody here
-      ; (measured twice, the second role cast first or last, while the same filters as
-      ; one role admit every man as his form is read).
+      ; THE MAN who asked for a seat of this org that still stands open, is promised to no
+      ; one, and has not been answered about it: ONE role. The seat is HIS filter's own free
+      ; var, never a second role: a filter that names another role's var is a join, and a
+      ; join admits nobody here (measured twice, the second role cast first or last, while
+      ; the same filters as one role admit every man as his form is read).
       (role ?p [k human] {?p apply-for ?job /succ}
                          {?job org ?org}
                          -{? job ?job}
-                         -{@self draft-verdict ?p ? /succ})
+                         -{?job offered-to ?}
+                         -{@self draft-verdict ?p ?job /succ})
       (when (not (proposed {@self draft-verdict ? ?})))
       (utility obligation)
-      (effects (begin-proposal {@self draft-verdict ?p [k offer-letter]})))
+      (effects (begin-proposal {@self draft-verdict ?p ?job})))
 
-    ; THE REJECTION: the seat he asked for is taken and he was never answered. Under the
-    ; unbounded-offer policy above this has no one to admit: every man whose form is read
-    ; while his seat stands open is offered the same day.
+    ; THE REJECTION: the seat he asked for is held, and he was never answered about it.
     (try
       (lock-rule)
-      (role ?job {?job org ?org}
-                 {?job job-id ?})
-      (role ?holder [k human] {?holder job ?job})
       (role ?p [k human] {?p apply-for ?job /succ}
-                         -{@self draft-verdict ?p ? /succ})
+                         {?job org ?org}
+                         {? job ?job}
+                         -{@self draft-verdict ?p ?job /succ})
       (when (not (proposed {@self draft-verdict ? ?})))
       (utility obligation)
-      (effects (begin-proposal {@self draft-verdict ?p [k rejection-letter]})))
+      (effects (begin-proposal {@self draft-verdict ?p ?job})))
 
     ; A MAN AT THE COUNTER: his accept-job-offer is observable - running, or concluded the
     ; moment he announced himself, which is why it reads /ever - and he has named himself.

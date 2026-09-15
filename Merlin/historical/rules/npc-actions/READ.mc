@@ -29,9 +29,35 @@
       ; The letter names its man (applicant): a housemate reading it learns of the seat and
       ; of no offer to himself (measured: two men at one address each read the other's
       ; letter first and both walked to the counter on it).
+      ; An OFFER describes the seat whole - level, salary, shift - so the man holds the job
+      ; fully decorated before he walks in; the word at the counter has only to make it his.
       (on [k offer-letter]
         (tolerate (attr ?doc writing): ?vform)
         (tolerate (table-match ?vform field applicant value ?vname))
+        (tolerate (table-match ?vform field job-kind value ?vjk))
+        (tolerate (table-match ?vform field org-name value ?vorg-name))
+        (tolerate (table-match ?vform field job-id value ?vline))
+        (tolerate (table-match ?vform field level value ?vlevel))
+        (tolerate (table-match ?vform field salary value ?vsalary))
+        (tolerate (table-match ?vform field shift value ?vshift))
+        (if (and (substantial ?vjk) (substantial ?vorg-name) (substantial ?vline))
+            (then
+              (o [k org] {@o name ?vorg-name}): ?vorg
+              (o ?vjk {@o org ?vorg} {@o job-id ?vline}): ?vjob
+              (if -{?vjob org ?vorg} (then (begin-belief {?vjob org ?vorg})))
+              (if -{?vjob job-id ?vline} (then (begin-belief {?vjob job-id ?vline})))
+              ; The description lands once, on the first offer read about this seat.
+              (if (and (substantial ?vlevel) (substantial ?vsalary) (substantial ?vshift)
+                       -{?vjob level ?})
+                  (then (begin-belief {?vjob level ?vlevel})
+                        (begin-belief {?vjob salary ?vsalary})
+                        (stamp-shift-hours ?vjob ?vjk ?vshift)))
+              (if (and (= ?vname (any {@self name ?}).target) -{?vjob offered-to @self})
+                  (then (begin-belief {?vjob offered-to @self}))))))
+      ; A REJECTION names the seat and nothing more. The same slots as the offer's: one
+      ; branch of a switch runs, and the action's slots are counted across all of them.
+      (on [k rejection-letter]
+        (tolerate (attr ?doc writing): ?vform)
         (tolerate (table-match ?vform field job-kind value ?vjk))
         (tolerate (table-match ?vform field org-name value ?vorg-name))
         (tolerate (table-match ?vform field job-id value ?vline))
@@ -40,18 +66,7 @@
               (o [k org] {@o name ?vorg-name}): ?vorg
               (o ?vjk {@o org ?vorg} {@o job-id ?vline}): ?vjob
               (if -{?vjob org ?vorg} (then (begin-belief {?vjob org ?vorg})))
-              (if -{?vjob job-id ?vline} (then (begin-belief {?vjob job-id ?vline})))
-              (if (and (= ?vname (any {@self name ?}).target) -{?vjob offered-to @self})
-                  (then (begin-belief {?vjob offered-to @self}))))))
-      (on [k rejection-letter]
-        (tolerate (attr ?doc writing): ?rform)
-        (tolerate (table-match ?rform field job-kind value ?rjk))
-        (tolerate (table-match ?rform field org-name value ?rorg-name))
-        (if (and (substantial ?rjk) (substantial ?rorg-name))
-            (then
-              (o [k org] {@o name ?rorg-name}): ?rorg
-              (o ?rjk {@o org ?rorg}): ?rjob
-              (if -{?rjob org ?rorg} (then (begin-belief {?rjob org ?rorg}))))))
+              (if -{?vjob job-id ?vline} (then (begin-belief {?vjob job-id ?vline}))))))
       (on [k job-posting]
         (tolerate (attr ?doc writing): ?form)
         (tolerate (table-match ?form field job-kind value ?jk))
