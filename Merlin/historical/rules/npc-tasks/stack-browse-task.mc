@@ -20,27 +20,19 @@
 ;   in his hand, and the body set `keep` - it is his. The round ends /succ holding it.
 ; A man has two hands, so `keep` has to end the round.
 ;
-; THE LIFT IS ITS OWN RUNG and the per-doc work is a (sequence ..) whose IDENTITY is the
-; doc in flight. That split is the whole of the design. A sequence starts over only when its
-; head's identity binds change - an activation's stage is never rewound, and a ceased-then-
-; readmitted one resumes where it stood - so the identity has to be the thing that turns
-; over once per pass, and that is `inflight`: the lift sets it, the last stage clears it,
-; and clearing it retires the activation so the next lift starts a fresh one at stage 1.
-; The believed top cannot play that part: the lift CHANGES the top, so a head cast on it
-; retires the activation mid-sequence and re-admits it at stage 1 on the next doc - the pile
-; walks into his hands one paper a minute and nothing is ever re-filed. The lift rung may
-; churn on the top all it likes; it holds no stage state.
+; THE ROUND KEEPS NO STATE ABOUT THE PAPER: the paper keeps it. STACK-TAKE writes
+; (bb-read ?doc from-stack) when it comes off a pile and STACK-PUT / STACK-BURY clear it
+; when it goes back on one, so "the paper I lifted off THIS pile and have not filed again"
+; is a question about the world, asked the same way by the rung that must not lift a second
+; one and by the (sequence ..) that works the first. That is also what makes the round LOOP:
+; a sequence starts over only when its head's identity binds change, and the noted paper
+; turns over exactly once per pass. The lift is its own rung for the same reason - it
+; churns on the believed top, which the lift itself changes, and a head cast on that retires
+; the activation mid-pass and re-admits it at stage 1 on the next doc, so the pile walks
+; into his hands one paper a minute and nothing is ever re-filed.
 ;
-; THE DOC IN HAND IS THE ONE STACK-TAKE LIFTED, read back off the act under `taken` - never
-; the believed top the lift was proposed on. A pile changes under a man between the look and
-; the reach, and a round that re-filed the doc it MEANT to lift would wait for ever on a
-; paper still lying on the pile.
-;
-; State on the running act, dying with it:
-;   inflight  - the doc lifted this pass; the per-doc sequence's identity
-;   keep      - the body claimed it
-;   cycle-end - the first doc re-filed this round; when it surfaces as the top again every
-;               original doc has been seen and the round is over.
+; The one thing that IS the round's own: cycle-end, the first doc re-filed this round. When
+; it surfaces as the top again every original doc has been seen and the round is over.
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self stack-browse ?stack ?do-this}:?browse-rel
@@ -58,7 +50,7 @@
     ; (a pile's contents are learned by observing them and by no other route), so `nothing
     ; on top` is never a fact he can hold - only the answer a fresh look gives back.
     (try
-      (role @self (bb-none ?browse-rel inflight))
+      (no-role [k document] (= (bb-read ?norole from-stack) ?stack))
       (when (unknown (spatial ?stack top)))
       (effects
         (tolerate (observe (spatial ?stack top /env)): ?top)
@@ -68,38 +60,32 @@
     ; FULL CIRCLE: the first doc re-filed is back on top, so every original has been seen.
     (try
       (role ?top (spatial ?stack top)
-            (= ?top (bb-read ?browse-rel cycle-end))
-            (bb-none ?browse-rel inflight))
+            (= ?top (bb-read ?browse-rel cycle-end)))
+      (no-role [k document] (= (bb-read ?norole from-stack) ?stack))
       (effects (set-outcome ?browse-rel /succ)))
 
     ; HE IS KEEPING IT: the body claimed the doc and it is in his hand, so the errand is
     ; done and he walks away with it.
     (try
-      (role ?doc [k document] (spatial ?doc held-by @self)
-            (= ?doc (bb-read ?browse-rel inflight))
+      (role ?doc [k document] (= (bb-read ?doc from-stack) ?stack)
+            (spatial ?doc held-by @self)
             (bb-any ?browse-rel keep))
       (effects (set-outcome ?browse-rel /succ)))
 
-    ; THE LIFT: one paper at a time, and only when his hand is empty of this round's work.
-    ; AT THE STACK - (spatial ?stack top) is what @self BELIEVES is on top, a memory rather
-    ; than a reach, so without the co-location gate he goes on lifting from across town and
-    ; STACK-TAKE's own precondition catches him at it.
+    ; THE LIFT: one paper at a time - the no-role is "I am not already working one off this
+    ; pile". AT THE STACK: (spatial ?stack top) is what @self BELIEVES is on top, a memory
+    ; rather than a reach, so without the co-location gate he lifts from across town.
     (try
       (role ?top (spatial ?stack top)
             (!= ?top (bb-read ?browse-rel cycle-end)))
+      (no-role [k document] (= (bb-read ?norole from-stack) ?stack))
       (role @self (spatial ?stack co-located @self)
-                  (bb-none ?browse-rel inflight)
                   (bb-none ?browse-rel keep))
-      (effects
-        ; A lift that came up empty - the pile went out from under him between the look
-        ; and the reach - writes nothing, and the rung simply looks again.
-        (maintain-proposal {@self STACK-TAKE ?top ?stack}:?take
-            [/postlude (if (bb-any ?take taken)
-                           (then (bb-write ?browse-rel inflight (bb-read ?take taken))))])))
+      (effects (maintain-proposal {@self stack-take ?stack})))
 
-    ; ONE DOC, in his hand: do the caller's work, then re-file it.
+    ; ONE DOC: do the caller's work, then re-file it.
     (sequence
-      (role ?doc [k document] (= ?doc (bb-read ?browse-rel inflight)))
+      (role ?doc [k document] (= (bb-read ?doc from-stack) ?stack))
       (role @self (spatial ?stack co-located @self))
 
       ; THE CALLER'S WORK. ?item is what the body's .?item resolves to - it is named here,
@@ -116,7 +102,4 @@
           (if (and (spatial ?doc held-by @self) (bb-none ?browse-rel keep))
               (then (maintain-proposal {@self STACK-BURY ?doc ?stack}
                         [/postlude (if (not (bb-any ?browse-rel cycle-end))
-                                      (then (bb-write ?browse-rel cycle-end ?doc)))])))))
-
-      (stage
-        (effects (bb-clear ?browse-rel inflight))))))
+                                      (then (bb-write ?browse-rel cycle-end ?doc)))]))))))))
