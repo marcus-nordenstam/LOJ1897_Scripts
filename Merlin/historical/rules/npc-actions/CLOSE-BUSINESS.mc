@@ -58,5 +58,5 @@
     ; 2. destroy his OWN incorporation documents (single bound entities at completion).
     (destroy-entity ?reg)
     (destroy-entity ?art)
-    ; 4. clear the act (close_business.hs's cease-effects end the goal on the falling edge).
+    ; 4. clear the act (close_business.hs's when-unsupported-effects end the goal on the falling edge).
     (set-outcome {@self CLOSE-BUSINESS} /succ)))

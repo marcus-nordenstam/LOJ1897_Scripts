@@ -51,4 +51,4 @@
            -{?h tenant @self})
   (utility errand)
   (effects       (begin-goal {@self acquire}))
-  (cease-effects (set-outcome {@self goal {@self acquire}} /succ)))
+  (when-unsupported-effects (set-outcome {@self goal {@self acquire}} /succ)))

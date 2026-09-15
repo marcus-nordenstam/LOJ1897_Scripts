@@ -7,7 +7,7 @@
 ; the stocktake act at drive 82 while the clerk stands at his counter
 ; (at-workplace), so it competes for his next act and promotes to stocktake_act.
 ;
-; It does NOT own the goal-end. There is no (cease-effects): the {@self STOCKTAKE}
+; It does NOT own the goal-end. There is no (when-unsupported-effects): the {@self STOCKTAKE}
 ; lifecycle is owned by its minter, the monthly plan_stocktake, which re-seeds
 ; the goal each month and ends it once stocktake_act resets days-since-last; this
 ; rung only re-proposes the act while the clerk stands at his counter.

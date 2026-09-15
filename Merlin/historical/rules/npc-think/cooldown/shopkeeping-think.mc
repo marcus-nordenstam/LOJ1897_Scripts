@@ -35,4 +35,4 @@
 
   (utility duty)
   (effects       (begin-goal {@self STOCKTAKE}))
-  (cease-effects (set-outcome {@self goal {@self STOCKTAKE}} /succ)))
+  (when-unsupported-effects (set-outcome {@self goal {@self STOCKTAKE}} /succ)))

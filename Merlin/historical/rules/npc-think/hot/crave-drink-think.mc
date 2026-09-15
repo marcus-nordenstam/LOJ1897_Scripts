@@ -37,7 +37,7 @@
 ; CASE B - not at a pub, but knows one: head to it via the generic enter chain (§5.11). A
 ; maintenance rule: it roulettes a pub ONCE and mints {@self enter ?pub}, then STICKS with that
 ; pub (no re-roulette while walking); on arrival (spatial @self building ?pub) the (when) drops and
-; cease-effects end the enter-goal. The enter chain steps
+; when-unsupported-effects end the enter-goal. The enter chain steps
 ; the drinker INSIDE the pub, so can-drink (current-building is-a pub) then holds and drink_act
 ; promotes.
 (npc-think drink_go

@@ -14,7 +14,7 @@
 ; the for-lease-listing and mints {?prop availability for-rent} - the durable "to
 ; let" signal landlord_estate.hs already reads, AND the completion that retracts the
 ; intent: the same {?prop availability for-rent} drops the ?prop role, so the decision's
-; cease-effects end {@self LET ?prop}. It mirrors the worship lane's routing so the
+; when-unsupported-effects end {@self LET ?prop}. It mirrors the worship lane's routing so the
 ; supply never goes dormant merely because @self has not yet learned which orgs are
 ; house agencies:
 ;   KNOWS an agency, not there -> list_to_let_go   (travel to its office).
@@ -43,4 +43,4 @@
               -{?prop availability [k for-rent]})  ; not already listed
   (utility errand)
   (effects       (begin-goal {@self LET ?prop}))
-  (cease-effects (set-outcome {@self goal {@self LET ?prop}} /succ)))
+  (when-unsupported-effects (set-outcome {@self goal {@self LET ?prop}} /succ)))

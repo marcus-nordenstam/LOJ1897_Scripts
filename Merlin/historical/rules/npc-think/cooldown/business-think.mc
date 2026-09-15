@@ -75,7 +75,7 @@
   ; {@self back ?org}} (focus = the firm); the npc-action (invest_errand.hs)
   ; sends him to the firm and the completion records {@self backed-by ?org} there -
   ; which trips the completion gate above. Focus = the firm ?org, bound in the role
-  ; from @self's own job.org belief. cease-effects end the goal on that falling edge.
+  ; from @self's own job.org belief. when-unsupported-effects end the goal on that falling edge.
   (utility errand)
   (effects (maintain-proposal {@self back ?org})))
 
@@ -138,7 +138,7 @@
   (effects
     (set-outcome {@self goal {@self PARTNER}} /succ)
     (begin-goal {@self PARTNER (any {?principal_org record}).target}))
-  (cease-effects (set-outcome {@self goal {@self PARTNER}} /succ)))
+  (when-unsupported-effects (set-outcome {@self goal {@self PARTNER}} /succ)))
 
 ; --- business_founding: a man of means sets up on his own account ----------
 ; SPLIT (Item 5, the great split): this is now the npc-THINK - the decision to
@@ -179,7 +179,7 @@
 
   (utility errand)
   (effects       (begin-goal {@self FOUND}))
-  (cease-effects (set-outcome {@self goal {@self FOUND}} /succ)))
+  (when-unsupported-effects (set-outcome {@self goal {@self FOUND}} /succ)))
 
 ; --- business_homeostat: the org-supply floor, founder-by-founder --------------
 ; The safety net that sustains EMPLOYMENT across generations. The MERIT founding
@@ -225,4 +225,4 @@
 
   (utility errand)
   (effects       (begin-goal {@self FOUND}))
-  (cease-effects (set-outcome {@self goal {@self FOUND}} /succ)))
+  (when-unsupported-effects (set-outcome {@self goal {@self FOUND}} /succ)))

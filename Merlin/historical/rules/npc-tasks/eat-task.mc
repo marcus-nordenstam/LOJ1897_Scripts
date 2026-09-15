@@ -37,7 +37,7 @@
                     (if (and ?et_pile (> (attr ?et_pile count) 0))
                         (then (bind ?et_pile ?food)))))))
         (maintain-proposal {@self EAT ?food 0}))
-      (cease-effects
+      (when-unsupported-effects
         (caused-by {@self EAT ? ? /past} ?e-rel): ?rec-rel
         (if ?rec-rel (then (set-outcome ?e-rel (outcome ?rec-rel))))))
     (try

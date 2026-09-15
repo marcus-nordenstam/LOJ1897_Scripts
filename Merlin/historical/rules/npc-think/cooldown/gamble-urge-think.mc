@@ -14,7 +14,7 @@
 ;   gamble_go (maintenance): not at a pub, but knows one - roulette the nearest known
 ;     pub and head to it via the generic enter chain (§5.11). It roulettes a pub once and
 ;     holds {@self enter ?venue} so it STICKS with that pub (no re-roulette while walking);
-;     on arrival (spatial @self building ?venue) the (when) drops and cease-effects end the enter-goal.
+;     on arrival (spatial @self building ?venue) the (when) drops and when-unsupported-effects end the enter-goal.
 ;     The enter chain steps the gambler INSIDE.
 ;   gamble_at_pub (terminal): AT a pub, the standing {@self PLAY-GAME} drive is PROPOSED
 ;     ({@self PLAY-GAME}), promoting to gamble_act (npc-act/gamble_act.hs). The proposed
@@ -47,4 +47,4 @@
               (+ 2 (* 22 (target-or @self gambling-addiction 0)))          ; onset 2 -> morbid 24 (below leisure)
               (min (* (days-since-last {@self PLAY-GAME /ever}) 0.04) 1.0)))) ; slow craving modulator [0,1]
   (effects       (begin-goal {@self PLAY-GAME}))
-  (cease-effects (set-outcome {@self goal {@self PLAY-GAME}} /succ)))
+  (when-unsupported-effects (set-outcome {@self goal {@self PLAY-GAME}} /succ)))

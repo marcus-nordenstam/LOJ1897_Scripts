@@ -27,7 +27,7 @@
 ; keep-line risks the sack; one above 0.7 earns a promotion; (latch-eval (chance ..))
 ; is the ONSET roll, locking once it lands. THE FALLING EDGE that ends the SPECIFIC goal is
 ; the worker leaving the role set: fire()/promote() clear the boss's {?w work-standing}
-; assessment (hsim_org_lifecycle), so the acted-on worker drops out and (cease-effects
+; assessment (hsim_org_lifecycle), so the acted-on worker drops out and (when-unsupported-effects
 ; (set-outcome {@self goal {@self SACK|promote-staff ?w}} /succ)) retires just his goal (target-specific). The
 ; intra-day sack/promote acts run pure effects - they never end the goal.
 (npc-think sack_review
@@ -42,7 +42,7 @@
              (latch-eval (chance (* 0.08 (- 0.4 ?ws))))))
   (utility errand)
   (effects       (begin-goal {@self SACK ?w}))
-  (cease-effects (set-outcome {@self goal {@self SACK ?w}} /succ)))
+  (when-unsupported-effects (set-outcome {@self goal {@self SACK ?w}} /succ)))
 
 (npc-think promote_review
   (cooldown 1 m)
@@ -81,7 +81,7 @@
     (begin-goal {@self QUIT-WORK}))
   ; The minter owns the ending: once quit_work_act fires @self, the (role @self (believes
   ; {@self job ?})) drops and this falling edge ends the goal. The act never does.
-  (cease-effects (set-outcome {@self goal {@self QUIT-WORK}} /succ)))
+  (when-unsupported-effects (set-outcome {@self goal {@self QUIT-WORK}} /succ)))
 
 ; --- keep the men we wrote to in sight ---------------------------------------
 ; A man the officer offered a post to exists in his mind as a name on paper - realis,

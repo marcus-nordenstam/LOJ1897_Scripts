@@ -80,11 +80,11 @@
   ; business]:?org} filter is the CONTINUOUS completion gate: while he is still the seated
   ; proprietor the goal stands; once close_business_act shutters the premises and
   ; reconcile_closed (perceiving the closed doors) ends his {@self job ?job}, the
-  ; ?job role drops (and ?org with it) and the cease-effects retract the goal.
+  ; ?job role drops (and ?org with it) and the when-unsupported-effects retract the goal.
   (when (latch-eval
           (chance (* (* (business_failure_base) (business_failure_climate_mult))
                      (* (+ 1.0 (* (business_failure_means_weight) (- 1.0 ?wealth)))
                         (+ 1.0 (* (business_failure_merit_weight)  (- 1.0 (diligence)))))))))
   (utility errand)
   (effects       (begin-goal {@self CLOSE-BUSINESS ?art}))
-  (cease-effects (set-outcome {@self goal {@self CLOSE-BUSINESS ?art}} /succ)))
+  (when-unsupported-effects (set-outcome {@self goal {@self CLOSE-BUSINESS ?art}} /succ)))
