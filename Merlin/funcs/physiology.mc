@@ -25,7 +25,12 @@
 
 (include "../macros/physiology-macros.mc")
 
-(define-func run_physiology (?duration ?recovers)
+(define-func run_physiology (?duration ?act)
+  ; WHICH ACT RECOVERS THE BODY IS CONTENT, so it is decided here. The engine used to
+  ; answer this by comparing the concluded act against a hardcoded SLEEP and handing
+  ; down a 0/1; it now hands down the act LABEL and asks nothing.
+  (cond (case (eq ?act SLEEP) 1)
+        (else                 0)): ?recovers
   (/ ?duration 60): ?hours
 
   (clamp (- (attr @self adrenaline) (* ?hours (adrenaline_decay_per_hour)))
