@@ -6,9 +6,12 @@
 cycleBudgetMs = 150000000
 
 # Maximum limit on the number of minds/NPCs allowed at any given time.
-# 2000 is the safe ceiling - pushing past it requires widening ArenaPoolId
-# from uint16_t (see Sim/Constants.h kNumPoolsPerMind comment).
-npcCapacity = 2000
+# 1024 to match k_max_util_minds, which sizes the rule runtime's per-mind
+# activation state: a mind numbered past THAT gets no activation slots and sits
+# inert, so the two limits must agree. 2000 is the ceiling the arena pool can
+# take - pushing past it requires widening ArenaPoolId from uint16_t (see
+# sim/constants.h k_num_pools_per_mind).
+npcCapacity = 1024
 
 # Maximum limit on the number of players allowed at any given time.
 playerCapacity = 4
