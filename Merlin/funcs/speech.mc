@@ -24,3 +24,53 @@
     (set-attr ?sound create-action ?xsay)
     (set-attr ?sound speaker @self)
     (set-attr ?sound preroll 0)))
+
+; ----------------------------------------------------------------------------
+; adopt-heard-msg - the LISTENER half of a speech act, as content.
+;
+; deliver-speech above makes an utterance audible; this decides what a listener
+; DOES with one he heard. It was C++ too, and held three pieces of world
+; knowledge: that a QUESTION carries no assertable facts, that a heard fact is
+; SOURCED from the utterance that carried it rather than from one's own eyes,
+; and that hearing about someone makes them an acquaintance.
+;
+; The engine calls it once per (utterance, listener), with the listener as @self:
+;   ?msg      the heard message - this listener's own mental copy
+;   ?speaker  who said it                 (@i)
+;   ?audience who it was said to          (@you); @nothing for a broadcast
+;   ?tell     this listener's mental {?speaker SAY ?msg ?audience} record
+; What stays in C++ is the boundary, not the policy: the dead-listener skip and
+; the mind-space guard are crash-prevention invariants about the abs/mental
+; seam, and the run-profile notes are instrumentation. The adopted beliefs come
+; back so the engine can count them for the dropped-utterance detector.
+; ----------------------------------------------------------------------------
+
+(define-func absorb-heard-fact (?fact ?tell)
+  (if (is-belief ?fact)
+    (then
+      ; HOW this mind came to know it: the utterance, not its own eyes.
+      ; Interrogation and the re-tell cascade both read that link.
+      (add-source ?fact ?tell)
+      (bind ?fact.subject ?subj)
+      ; PEOPLE only. A heard fact can subject a BUILDING - the enclosure deixis
+      ; carries household facts about the home - and an acquaintance tie to a
+      ; building would put it in a social circle, where death-propagation would
+      ; try to enter its mind.
+      (if (and (is-a ?subj [k human])
+               (neq ?subj @self)
+               -{@self acquaintance ?subj})
+        (then (begin-belief {@self acquaintance ?subj}))))))
+
+(define-func adopt-heard-msg (?msg ?speaker ?audience ?tell)
+  ; A QUESTION is not a claim. The heard {asker SAY (qs ..)} record IS the
+  ; deliverable - answer_mealtimes casts a role straight on it - and adopting the
+  ; asked pattern would turn a man's question into this listener's belief.
+  (if (is-qs ?msg)
+    (then @fail)
+    (else
+      ; @fail binds through: an undecodable message is no facts, not an abort.
+      (tolerate (adopt-msg ?msg ?speaker ?audience): ?out)
+      (if (is-list ?out)
+        (then (for-each ?fact ?out (absorb-heard-fact ?fact ?tell)))
+        (else (absorb-heard-fact ?out ?tell)))
+      ?out)))
