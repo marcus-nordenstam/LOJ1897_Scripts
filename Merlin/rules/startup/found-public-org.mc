@@ -3,7 +3,7 @@
 ;
 ; Same model as business_founding, applied to public institutions: each eligible
 ; adult, at cold-start, founds a still-NEEDED public org of their class. The
-; public_orgs config table (historical/tables/) lists what the town needs + the
+; public_orgs config table (tables/) lists what the town needs + the
 ; founder's class floor per row. For each row: if the org is still needed (none
 ; founded yet) AND @self meets its class floor, @self founds it and STOPS - one
 ; org per founder, so the round-based startup pass spreads founders across orgs.

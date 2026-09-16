@@ -5,7 +5,7 @@
 ; The business analogue of found_public_org: at cold-start each eligible adult
 ; founds a still-MISSING cornerstone business of their class and STOPS (one org
 ; per founder, so the round-based startup pass spreads founders across orgs). The
-; cornerstone_businesses table (historical/tables/) lists what the town opens with
+; cornerstone_businesses table (tables/) lists what the town opens with
 ; + the founder's class floor per row. Once a kind exists the demand gate
 ; (any-org-of-kind) turns false for everyone else; the emergent homeostat
 ; (business.hs) founds the rest on demand thereafter.

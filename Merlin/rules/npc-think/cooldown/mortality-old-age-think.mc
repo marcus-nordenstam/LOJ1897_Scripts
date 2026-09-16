@@ -10,7 +10,7 @@
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.mc")
-; mortality_by_age is auto-loaded from historical/tables/.
+; mortality_by_age is auto-loaded from tables/.
 
 (npc-think mortality_old_age
   ; PER-NPC: fires once a month for each living NPC (self_actor = @self).

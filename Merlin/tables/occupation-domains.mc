@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; occupation_domains.hs - the `domain` a job CONFERS competence in, as authored
 ; config (a (define-table ...), like businesses / cornerstone_businesses). Loaded
-; from historical/tables/ into the .hse catalog; read by derive_skills (C++) via
+; from tables/ into the .hse catalog; read by derive_skills (C++) via
 ; hse_table_lookup - there is NO bespoke C++ parser or derived map (the old
 ; s_skill_grants was removed).
 ;

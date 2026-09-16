@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; businesses.hs - premises metadata per org kind, as authored config (a
 ; (define-table ...), like cornerstone_businesses / public_orgs). Loaded from
-; historical/tables/ into the .hse catalog; read by the org-founding path via
+; tables/ into the .hse catalog; read by the org-founding path via
 ; hse_table_lookup (C++) - there is NO bespoke C++ parser or catalog struct.
 ;
 ; One row per foundable org kind:

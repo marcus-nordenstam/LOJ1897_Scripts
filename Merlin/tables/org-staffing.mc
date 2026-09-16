@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; org_staffing.hs - the staff occupation each org kind RECRUITS for, as authored
 ; config (a (define-table ...), like public_orgs / businesses / occupations).
-; Loaded from historical/tables/ (directory-scanned) into the .hse catalog; read
+; Loaded from tables/ (directory-scanned) into the .hse catalog; read
 ; by the advertise task (advertise-task.hs) via (table-match org_staffing ...).
 ;
 ; WHY THIS TABLE: an org advertises the occupation it NEEDS - and ONLY that. The

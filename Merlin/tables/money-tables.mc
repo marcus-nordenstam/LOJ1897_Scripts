@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; money_tables - authored economic config (was the C++ hsim_derive.cc income
-; curve). Directory-scanned from historical/tables/ into the catalog; read by
+; curve). Directory-scanned from tables/ into the catalog; read by
 ; the founding hire path (founding.hs) via (table-match ...).
 ; ----------------------------------------------------------------------------
 
