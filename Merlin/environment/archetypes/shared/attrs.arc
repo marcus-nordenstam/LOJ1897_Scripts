@@ -92,7 +92,7 @@
 # visible even to strangers - so it is (hsim-percept): a hsim mind that observes a
 # person internalizes {them age-band <band>} via mx_observe, with NO explicit mint.
 # OBS-only (like gender): self gets {@self age-band <band>} from the visual
-# self-observe inside update_self_awareness (it mirrors the /hsim_percept set in
+# self-observe inside update_self_awareness (it mirrors the /unpresented_percept set in
 # hsim too). NOT int-feel - a feel+obs split on an @excl attr makes the FEEL and
 # visual passes end each other's belief, churning the self band to /past.
 # Recomputed from birth-date yearly (hsim::refresh_all_age_attrs) + at creation.
