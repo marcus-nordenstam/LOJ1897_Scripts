@@ -81,6 +81,12 @@
       (no-role [k document] (= (bb-read ?norole from-stack) ?stack))
       (role @self (spatial ?stack co-located @self)
                   (bb-none ?browse-rel keep))
+      ; A HAND TO LIFT IT WITH. stack-take asserts one is free - a proposer reaching with
+      ; full hands is an authoring error, and this is the only rung that proposes it. The
+      ; round simply waits: whatever he is holding is something he came here carrying, and
+      ; the pile is not going anywhere.
+      (when (or (empty (spatial (spatial @self left-hand) grip))
+                (empty (spatial (spatial @self right-hand) grip))))
       (effects (maintain-proposal {@self stack-take ?stack})))
 
     ; ONE DOC: do the caller's work, then re-file it.
