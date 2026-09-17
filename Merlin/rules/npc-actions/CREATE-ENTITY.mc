@@ -6,7 +6,14 @@
 ; task binds the new entity by kind at @self afterwards.
 ; ----------------------------------------------------------------------------
 
+; ONE AT A TIME. Its whole point is to bring a NEW thing into being, so it is the one
+; kind of act that must never be shared: two rungs minting {@self CREATE-ENTITY [k x]}
+; are asking for two things, and the proposal merge would give one of them nothing -
+; its postlude never runs, so the key it meant to stash the fresh entity under stays
+; empty and its stage waits for ever. Proposing a second one while another is live is
+; an authoring error and says so out loud.
 (npc-action {@self CREATE-ENTITY ?kind}:?ce-rel
+  (one-at-a-time)
   (duration 5)
   (effects
     (create-entity ?kind (spatial @self space)): ?made
