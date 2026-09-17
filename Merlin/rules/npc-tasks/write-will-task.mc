@@ -35,7 +35,7 @@
     (stage
       (effects
         (if (unsubstantial (attr ?will writing))
-            (then (maintain-proposal {@self WRITE ?will
+            (then (maintain-proposal {@self write-doc ?will
                     (written-msg {?heir inherit
                                    (o [k pile] {@o space
                                      (o [k interior-space] {@o struct_parent

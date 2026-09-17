@@ -38,7 +38,7 @@
         (bind (date-now) ?today)
         (if (unsubstantial (attr ?app writing))
             (then (maintain-proposal
-                    {@self WRITE ?app (table-msg [/addressee ?orgName /address ?wpAddress]
+                    {@self write-doc ?app (table-msg [/addressee ?orgName /address ?wpAddress]
                                                  [[applicant ?myName] [home ?myAddress]
                                                   [job-kind ?jk] [org-name ?orgName]
                                                   [job-id ?line] [date ?today]])})))))

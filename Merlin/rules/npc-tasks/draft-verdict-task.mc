@@ -58,13 +58,13 @@
               (then
                 (if (= ?kind [k offer-letter])
                     (then (maintain-proposal
-                            {@self WRITE ?ltr (table-msg [/addressee ?rname /address ?raddress]
+                            {@self write-doc ?ltr (table-msg [/addressee ?rname /address ?raddress]
                                                          [[applicant ?rname] [job-kind ?jk]
                                                           [org-name ?org-name] [job-id ?line]
                                                           [level [k trainee]] [salary ?salary]
                                                           [shift ?shift]])}))
                     (else (maintain-proposal
-                            {@self WRITE ?ltr (table-msg [/addressee ?rname /address ?raddress]
+                            {@self write-doc ?ltr (table-msg [/addressee ?rname /address ?raddress]
                                                          [[applicant ?rname] [job-kind ?jk]
                                                           [org-name ?org-name] [job-id ?line]])})))))))
 

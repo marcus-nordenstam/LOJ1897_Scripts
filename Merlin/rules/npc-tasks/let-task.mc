@@ -23,7 +23,7 @@
       (effects
         (if (unsubstantial (attr ?listing writing))
             (then (maintain-proposal
-                    {@self WRITE ?listing (written-msg {?prop availability [k for-rent]})})))))
+                    {@self write-doc ?listing (written-msg {?prop availability [k for-rent]})})))))
 
     ; The listing goes on the agency's pile, which is where the agency keeps it - not on
     ; whichever pile @self happens to know of, from wherever he stands. Walk to it; then

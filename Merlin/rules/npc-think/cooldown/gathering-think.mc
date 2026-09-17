@@ -52,7 +52,17 @@
 ; cannot place gets no letter - there is nowhere to send it. The host's own
 ; {@self invite <guest> /aux <occ>} record, minted when the letter is posted, is what
 ; takes each friend off this list.
+; ONE LETTER AT A TIME. The ?guest role admits every friend still uninvited, so without
+; the lock the whole list is raised at once - and every one of them wants its own
+; {@self CREATE-ENTITY [k invitation-letter]}, which is the SAME act for all of them.
+; They would share one letter and all but one would wait for ever on a postlude that
+; ran for somebody else. A man pens one invitation, posts it, and then writes the next.
+; The lock rather than a (proposed ..) gate: a rule may not gate on the absence of the
+; very thing it mints, or the promoted task fells its own proposal. The
+; {@self invite ?guest ?occ} the task mints on success is what takes each friend off
+; the role for good.
 (npc-think want_invite_guest
+  (lock-rule)
   (role ?occ {@self organize ?occ}
              {?occ held-on ?})
   (role ?guest {@self friend ?guest}

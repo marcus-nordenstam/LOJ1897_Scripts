@@ -48,7 +48,7 @@
           (kind ?occ): ?occ-kind
           (if (unsubstantial (attr ?ltr writing))
               (then (maintain-proposal
-                      {@self WRITE ?ltr (table-msg [/addressee ?guest-name /address ?guest-address]
+                      {@self write-doc ?ltr (table-msg [/addressee ?guest-name /address ?guest-address]
                                                    [[occasion-kind ?occ-kind]
                                                     [host ?my-name]
                                                     [venue ?venue-address]
