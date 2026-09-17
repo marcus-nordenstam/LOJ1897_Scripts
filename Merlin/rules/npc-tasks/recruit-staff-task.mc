@@ -80,15 +80,6 @@
       (utility obligation)
       (effects (maintain-proposal {@self read-doc ?app})))
 
-    ; A READ form is BURNED: its facts are beliefs now, and the paper's only other use was
-    ; as a queue - the man's apply-for is that queue, and his verdict record the answer.
-    (try
-      (lock-rule)
-      (role ?app [k application] (spatial ?app held-by @self)
-                                 {@self READ ?app /succ})
-      (utility obligation)
-      (effects (maintain-proposal {@self DESTROY-ENTITY ?app})))
-
     ; THE OFFER: an unanswered form, the man who wrote it, an unfilled seat of his kind.
     ; The gate is "am I already drafting a verdict of ANY kind to ANYBODY" - a live pipeline
     ; lookup, true while a draft is proposed OR running - so one letter is begun at a time
