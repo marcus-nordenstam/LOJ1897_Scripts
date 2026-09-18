@@ -11,6 +11,10 @@ archetype "human-player" (cap 256) (per obs) (raycast-visible) (player) (non-occ
     (attr "death-date")
     (attr "death-cause")
     (attr "age-group")
+    # Perceptible life-stage + its +/-1 proximity window (see common.arc). The player
+    # is looked at like anyone else, so an NPC reads his age band off him.
+    (attr "age-band")
+    (attr "age-span")
     (attr "gender")
     (attr "appearance")
     (attr "height")
