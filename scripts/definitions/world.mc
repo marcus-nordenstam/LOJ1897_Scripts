@@ -10,9 +10,9 @@
 ; resolved as <content>/<terrain-ref-stored-in-the-.mwo>.
 
 ; windows
-; (mwo     "C:/Users/realm/Dropbox/CnE/LOJ1897/Game/Content/Merlin/environment/bin/demo_tech_level_v2.mwo")
+; (mwo     "C:/Users/realm/Dropbox/CnE/LOJ1897/Game/Content/Merlin/bin/demo_tech_level_v2.mwo")
 ; (content "C:/Users/realm/Dropbox/CnE/LOJ1897/Game/Content")
 
 ; mac
-(mwo     "~/Dropbox/CnE/LOJ1897/Game/Content/Merlin/environment/bin/demo_tech_level_v2.mwo")
+(mwo     "~/Dropbox/CnE/LOJ1897/Game/Content/Merlin/bin/demo_tech_level_v2.mwo")
 (content "~/Dropbox/CnE/LOJ1897/Game/Content")
