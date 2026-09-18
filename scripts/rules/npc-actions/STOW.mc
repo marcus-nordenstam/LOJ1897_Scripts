@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (npc-action {@self STOW ?target}
+  (duration 0.6)
   (motor mind)
   (obs)
   (tar @excl)

@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (npc-action {@self DIAGNOSE ?target}
+  (duration procedural)
   (motor eyes)
   (rsn)
   (tar @excl)

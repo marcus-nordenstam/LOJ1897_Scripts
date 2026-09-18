@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (npc-action {@self BLINK ?target}
+  (duration 0.3)
   (motor eyelid)
   (obs)
   (tar @excl)

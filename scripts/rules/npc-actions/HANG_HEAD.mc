@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (npc-action {@self HANG_HEAD ?target}
+  (duration procedural)
   (motor head)
   (obs)
   (tar @excl)

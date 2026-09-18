@@ -18,11 +18,12 @@
 ; ends; any admission worth more than nothing wakes the actor before then.
 ; ----------------------------------------------------------------------------
 
-; NO DURATION, and no outcome of its own. Idling has no length - it lasts until something
+; PROCEDURAL, and no outcome of its own. Idling has no length - it lasts until something
 ; worth doing displaces it - so nothing schedules its conclusion and the motor simply
 ; carries it until a real act takes the motor. The actor still re-deliberates every
 ; k_idle_minutes on the engine's own heartbeat, which is also where the body advances.
 (npc-action {@self IDLE ?motor}
+  (duration procedural)
   (presentation
     (anim-male Motion_Male_Idle_02)
     (anim-female Motion_Female_Idle_01)

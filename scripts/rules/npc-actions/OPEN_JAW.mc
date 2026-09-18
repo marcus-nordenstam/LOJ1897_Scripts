@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (npc-action {@self OPEN_JAW ?target}
+  (duration 1.0)
   (motor mouth)
   (obs)
   (tar @excl)

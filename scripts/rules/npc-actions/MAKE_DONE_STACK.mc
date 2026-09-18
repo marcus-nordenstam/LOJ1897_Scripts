@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (npc-action {@self MAKE_DONE_STACK ?target}
+  (duration 0)
   (motor eyes)
   (obs)
   (tar @excl)

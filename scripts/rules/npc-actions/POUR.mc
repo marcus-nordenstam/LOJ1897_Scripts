@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (npc-action {@self POUR ?target}
+  (duration 0.8)
   (motor right-hand)
   (obs)
   (tar @excl)

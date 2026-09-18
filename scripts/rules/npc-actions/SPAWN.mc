@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (npc-action {@self SPAWN ?target}
+  (duration 0)
   (motor mind)
   (tar @excl)
   (presentation

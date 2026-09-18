@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (npc-action {@self REACH_FOR ?target ?aux}
+  (duration 0.1)
   (sided aux left_arm right_arm)
   (obs)
   (tar @excl)

@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (npc-action {@self WRITE_DOC ?target ?aux}
+  (duration procedural)
   (motor right-hand)
   (obs)
   (tar @excl)

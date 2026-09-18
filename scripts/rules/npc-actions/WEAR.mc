@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (npc-action {@self WEAR ?target}
+  (duration 0.6)
   (motor right-hand)
   (obs)
   (tar @excl)

@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (npc-action {@self ARM_DRINK ?target}
+  (duration 1)
   (sided target left_arm right_arm)
   (obs)
   (tar @excl)

@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (npc-action {@self DEAD_IDLE ?target}
+  (duration procedural)
   (motor legs)
   (internal)
   (tar @excl)

@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (npc-action {@self ARM_BURY_FACE ?target}
+  (duration procedural)
   (sided target left_arm right_arm)
   (obs)
   (tar @excl)

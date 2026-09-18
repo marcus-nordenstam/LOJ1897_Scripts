@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (npc-action {@self CRY_EXPR ?target}
+  (duration procedural)
   (motor face)
   (obs)
   (tar @excl)

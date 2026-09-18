@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (npc-action {@self RUN ?target}
+  (duration procedural)
   (motor legs)
   (obs)
   (tar @excl)

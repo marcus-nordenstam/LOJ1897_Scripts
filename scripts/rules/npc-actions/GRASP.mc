@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (npc-action {@self GRASP ?target ?aux}
+  (duration 0)
   (sided aux left-hand right-hand)
   (obs)
   (tar @excl)
