@@ -31,6 +31,8 @@
 (include "../../funcs/age.mc")
 
 (npc-action {@self GIVE-BIRTH ?father}
+  (presentation
+    (preroll 0.0) (in 0.5) (out 0.5))
   (duration (birth_labour_minutes))
   (effects
     ; Born where the mother is. A woman with no room under her cannot deliver -

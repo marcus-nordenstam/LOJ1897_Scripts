@@ -6,6 +6,8 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self STACK-PUT ?doc ?stack}:?put-rel
+  (presentation
+    (preroll 0.0) (in 0.3) (out 0.3))
   (duration 1)
   (effects
     (check (spatial ?stack co-located @self /env))

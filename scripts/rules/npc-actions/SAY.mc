@@ -11,6 +11,10 @@
 ; sound off THAT - so the record the world carries is the pipeline's own.
 
 (npc-action {@self SAY ?msg ?audience}:?say-rel
+  (presentation
+    (state telling)
+    (proc-anim tell)
+    (preroll 0.0) (in 0.1) (out 0.1))
   (xaction ?xsay)
   (sub @msgAuthor human)   
   (tar @msg @excl @S) 

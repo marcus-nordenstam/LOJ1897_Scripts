@@ -23,4 +23,10 @@
 ; carries it until a real act takes the motor. The actor still re-deliberates every
 ; k_idle_minutes on the engine's own heartbeat, which is also where the body advances.
 (npc-action {@self IDLE ?motor}
+  (presentation
+    (anim-male Motion_Male_Idle_02)
+    (anim-female Motion_Female_Idle_01)
+    (anim-flags pingpong reset randomize_start)
+    (state standing)
+    (preroll 0.0) (in inherit) (out inherit))
   (idle-action))

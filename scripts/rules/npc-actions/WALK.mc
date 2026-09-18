@@ -12,6 +12,14 @@
 (include "../../macros/tunables.mc")
 
 (npc-action {@self WALK ?dest}
+  (presentation
+    (anim-male Motion_Male_Walk_Normal_01)
+    (anim-female Motion_Fem_Walk_Normal_01)
+    (anim-flags loop reset)
+    (state walking)
+    (movement-speed 0.1)
+    (delib-turn-speed 10.0)
+    (preroll 0) (in 0) (out 0.1))
   (duration (max (go_travel_floor_min) (travel-minutes @self ?dest)))
   (effects
     ; A destination nobody can point to is not one. The relocate seam takes a POINT as

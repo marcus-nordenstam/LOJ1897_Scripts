@@ -20,6 +20,8 @@
 ; out of it is proper to sleeping, not a mistake, so the window-exit pass concludes this act at
 ; the hour its duration gave it rather than cutting it off at midnight.
 (npc-action {@self SLEEP}
+  (presentation
+    (preroll 0.0) (in 0.0) (out 0.0))
   (succeed-on-window-exit)
   (duration (max (sleep-inertia-floor-min)
                  (* (sleep-min-per-fatigue) (attr @self fatigue))))

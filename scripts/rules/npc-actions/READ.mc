@@ -17,6 +17,8 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self READ ?doc}
+  (presentation
+    (preroll 0.0) (in 0.4) (out 0.4))
   (track-skill-level [k literacy])
   (duration 10)
   (effects

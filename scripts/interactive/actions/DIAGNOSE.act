@@ -1,9 +1,0 @@
-action = DIAGNOSE
-motor = eyes
-transmission = rsn
-
-preroll = 0.0
-in      = 0.5
-run     = ?
-out     = 0.5
-nature = neutral-act
