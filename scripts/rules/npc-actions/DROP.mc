@@ -6,7 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self DROP ?thing}
-  (duration 1)
+  (duration (minutes 1))
   (effects
     (spatial-write ?thing space (spatial @self space /env) /env)
     (set-outcome {@self DROP ?thing} /succ)))

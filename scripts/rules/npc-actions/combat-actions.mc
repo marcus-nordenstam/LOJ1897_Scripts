@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; combat_actions.hs - the dumb, general VIOLENT ACTION the killing tasks and the
-; fight task propose. STRIKE is ONE blow (duration 1):
+; fight task propose. STRIKE is ONE blow (duration (minutes 1)):
 ;   (obs)                       - witnesses SEE the blow (per-motor perception),
 ;                                 so bystanders internalize + appraise it;
 ;   (theme violent-to)          - the ontology theme (theme violent-to) that both
@@ -27,7 +27,7 @@
 
 (npc-action {@self STRIKE ?foe ?method}
   (track-skill-level [k martial])
-  (obs) (theme violent-to) (construed-act harm-act) (contradicts safety) (duration 1)
+  (obs) (theme violent-to) (construed-act harm-act) (contradicts safety) (duration (minutes 1))
   (effects
     (set-attr @self adrenaline 1)
     (clamp (+ 0.45

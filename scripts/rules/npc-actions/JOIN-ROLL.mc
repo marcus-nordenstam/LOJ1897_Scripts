@@ -6,7 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self JOIN-ROLL ?roll}:?jr-rel
-  (duration 15)
+  (duration (minutes 15))
   (effects
     (check (spatial ?roll co-located @self))
     (if (not (table-match (attr ?roll writing) member (name @self)))

@@ -15,7 +15,7 @@
   ; (obs): the declaration is made to the assembled - co-present racers WITNESS
   ; {@self JUDGE-DECLARE ?winner ?sport}, which is how a losing racer learns the
   ; victor and construes the outdo (outdone_at_meet, sporting_judge_think.hs).
-  (obs) (duration 30)
+  (obs) (duration (minutes 30))
   (effects
     ; The victor takes the honours (minted into HIS mind - he is the act's target,
     ; excluded from the bystander auto-witness, so he is told explicitly here).

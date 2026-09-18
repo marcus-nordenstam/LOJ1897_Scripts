@@ -19,6 +19,6 @@
 
 (npc-action {@self HOLD-MEET-RUN ?art}
   (track-skill-level [k officiating])
-  (duration 30)
+  (duration (minutes 30))
   (effects
     (set-outcome {@self HOLD-MEET-RUN} /succ)))

@@ -19,7 +19,7 @@
 (include "../../macros/collection-macros.mc")
 
 (npc-action {@self EAT ?food ?owner}
-  (duration 30)
+  (duration (minutes 30))
   (effects
     (if ?food
         (then (if (is-a ?food [k pile])

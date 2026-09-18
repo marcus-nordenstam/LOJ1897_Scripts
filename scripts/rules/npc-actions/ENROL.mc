@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self ENROL ?reg ?job}:?en-rel
-  (duration 15)
+  (duration (minutes 15))
   (effects
     ; The vacant line for this post is what @self fills; a job outside the establishment
     ; (a head's seat) simply adds one. New lines start at the entry rank.

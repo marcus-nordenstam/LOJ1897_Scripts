@@ -17,7 +17,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self BURY ?corpse}
-  (duration 60)
+  (duration (minutes 60))
   (effects
     ; The burier READS the body before it goes in the ground: any blemish of the
     ; wound family on any part is a violent reading. A poisoning leaves none, so it

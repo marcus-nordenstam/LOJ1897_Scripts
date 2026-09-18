@@ -13,7 +13,7 @@
   (track-skill-level [k personnel])
   (tar ?)
   (aux ?)
-  (duration 5)
+  (duration (minutes 5))
   (effects
     (check (substantial ?applicant-name))
     (tolerate (closest [k employee-register]): ?reg)

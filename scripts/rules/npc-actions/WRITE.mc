@@ -17,7 +17,7 @@
 
 (npc-action {@self WRITE ?doc ?sentence}
   (track-skill-level [k literacy])
-  (duration 10)
+  (duration (minutes 10))
   (effects
     (check (spatial ?doc co-located @self /env))
     (tolerate (table-rows ?sentence): ?rows)

@@ -6,7 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self LEAVE-ROLL ?roll}:?lr-rel
-  (duration 15)
+  (duration (minutes 15))
   (effects
     (check (spatial ?roll co-located @self))
     (table-remove ?roll member (name @self))

@@ -18,7 +18,7 @@
 (npc-action {@self WORSHIP}
   ; Pure act: worship_at_church guards the (maintain-proposal) on being in a church, so the body only
   ; extracts its fields off the promoted belief (act_body_purification - precondition on the proposal).
-  (duration 90)
+  (duration (minutes 90))
   (effects
     ; The congregation SEES the service: co-present others mint {her worship her}
     ; (capped fan-out) - the observable-practice evidence observer-side

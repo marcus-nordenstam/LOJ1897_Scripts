@@ -20,7 +20,7 @@
 (npc-action {@self HAVE-SEX-WITH ?paramour}
   (presentation
     (preroll 0.0) (in 0.5) (out 0.5))
-  (duration 45)
+  (duration (minutes 45))
   (effects
     ; CONCEPTION. The one place a pregnancy begins, so a wife and a paramour
     ; conceive by the same physics and an affair can produce a child without a

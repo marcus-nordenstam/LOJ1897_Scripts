@@ -20,7 +20,7 @@
   (presentation
     (preroll 0.0) (in 0.4) (out 0.4))
   (track-skill-level [k literacy])
-  (duration 10)
+  (duration (minutes 10))
   (effects
     (switch (kind ?doc)
       ; A VERDICT letter answers ONE application, and it names which: kind + org. The offer

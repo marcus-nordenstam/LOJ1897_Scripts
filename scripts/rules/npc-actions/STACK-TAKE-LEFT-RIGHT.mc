@@ -24,13 +24,13 @@
         (else (set-outcome ?take-action /fail)))))
 
 (npc-action {@self LEFT-STACK-TAKE ?stack}:?take-action-rel
-  (duration 1)
+  (duration (minutes 1))
   (effects
     (spatial @self left-hand /env): ?hand
     (stack-take-effects ?hand ?stack ?take-action-rel)))
 
 (npc-action {@self RIGHT-STACK-TAKE ?stack}:?take-action-rel
-  (duration 1)
+  (duration (minutes 1))
   (effects
     (spatial @self right-hand /env): ?hand
     (stack-take-effects ?hand ?stack ?take-action-rel)))

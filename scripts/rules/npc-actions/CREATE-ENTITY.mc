@@ -14,7 +14,7 @@
 ; an authoring error and says so out loud.
 (npc-action {@self CREATE-ENTITY ?kind}:?ce-rel
   (one-at-a-time)
-  (duration 5)
+  (duration (minutes 5))
   (effects
     (create-entity ?kind (spatial @self space)): ?made
     (observe ?made): ?known

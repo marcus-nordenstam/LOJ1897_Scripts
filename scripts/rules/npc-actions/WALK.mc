@@ -20,7 +20,7 @@
     (movement-speed 0.1)
     (delib-turn-speed 10.0)
     (preroll 0) (in 0) (out 0.1))
-  (duration (max (go_travel_floor_min) (travel-minutes @self ?dest)))
+  (duration (minutes (max (go_travel_floor_min) (travel-minutes @self ?dest))))
   (effects
     ; A destination nobody can point to is not one. The relocate seam takes a POINT as
     ; readily as a space, and the vector ops read a failed geometry read as the ZERO

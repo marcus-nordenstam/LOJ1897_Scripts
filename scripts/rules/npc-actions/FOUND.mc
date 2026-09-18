@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self FOUND}
-  (duration 90)
+  (duration (minutes 90))
   (effects
     ; Roll a kind from the authored catalog. found-org-seq's own premises guard
     ; no-ops the founding when no free building of that kind's declared premises

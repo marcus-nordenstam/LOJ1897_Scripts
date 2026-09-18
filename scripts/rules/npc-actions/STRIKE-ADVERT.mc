@@ -6,7 +6,7 @@
 (npc-action {@self STRIKE-ADVERT ?reg ?job-id}:?sa-rel
   (track-skill-level [k personnel])
   (tar document)
-  (duration 5)
+  (duration (minutes 5))
   (effects
     (check (spatial ?reg co-located @self /env))
     (check (table-set ?reg (where job-id ?job-id) advertise-date @nothing))

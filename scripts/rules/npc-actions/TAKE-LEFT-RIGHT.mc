@@ -9,13 +9,13 @@
     (set-outcome ?take-action /succ)))
 
 (npc-action {@self LEFT-TAKE ?item}:?take-action-rel
-  (duration 1)
+  (duration (minutes 1))
   (effects
     (spatial @self left-hand /env): ?hand
     (take-effects ?hand ?item ?take-action-rel)))
 
 (npc-action {@self RIGHT-TAKE ?item}:?take-action-rel
-  (duration 1)
+  (duration (minutes 1))
   (effects
     (spatial @self right-hand /env): ?hand
     (take-effects ?hand ?item ?take-action-rel)))

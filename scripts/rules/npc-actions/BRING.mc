@@ -10,7 +10,7 @@
 (include "../../macros/collection-macros.mc")
 
 (npc-action {@self BRING ?ware ?dest}
-  (duration 5)
+  (duration (minutes 5))
   (effects
     ; Put down each carried item of the ware kind. A carried PILE (the
     ; provisioner's basket) folds into a co-located same-content pile on

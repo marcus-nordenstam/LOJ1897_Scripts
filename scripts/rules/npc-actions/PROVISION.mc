@@ -15,7 +15,7 @@
 ; hand) is the proposing think's arithmetic and rides the pattern; the body
 ; only fills the basket at the shop it stands in - the physical grabbing.
 (npc-action {@self PROVISION ?cap}
-  (duration 15)
+  (duration (minutes 15))
   (effects
     ; The shelf is ONE food pile; the basket is ONE food pile in hand. Buying
     ; is a pile-to-pile transfer: decrement the shelf, top up the basket - never

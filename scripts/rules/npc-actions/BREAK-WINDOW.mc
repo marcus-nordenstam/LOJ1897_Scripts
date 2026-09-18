@@ -6,7 +6,7 @@
 
 (npc-action {@self BREAK-WINDOW ?win}:?bw-rel
   (track-skill-level [k illicit])
-  (tar object) (duration 1)
+  (tar object) (duration (minutes 1))
   (effects
     (check (spatial ?win co-located @self))
     (set-attr ?win integrity [k broken])
