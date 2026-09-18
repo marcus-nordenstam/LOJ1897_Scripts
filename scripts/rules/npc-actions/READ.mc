@@ -16,11 +16,21 @@
 ; at an org, no ledger line - a reader never sees the book.
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self READ ?doc}
+(npc-action {@self READ ?doc}:?read-rel
+  (motor eyes)
+  (obs)
+  (tar @excl)
   (presentation
     (preroll 0.0) (in 0.4) (out 0.4))
   (track-skill-level [k literacy])
   (duration (minutes 10))
+  ; The isim handler validated the document and let the dispatcher roll the act back;
+  ; that is the whole of what it did, and it is this. Everything else was already
+  ; Merlin's - the .act declared `transmission = read` and the codec adopts the
+  ; target's writing into the reader's mind.
+  (prelude
+    (if (unsubstantial ?doc)
+        (then (set-outcome ?read-rel /fail))))
   (effects
     (switch (kind ?doc)
       ; A VERDICT letter answers ONE application, and it names which: kind + org. The offer

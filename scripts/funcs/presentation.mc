@@ -68,3 +68,18 @@
 ; and after a detach that transform still carries the hand-tip pose - so without
 ; this it would overwrite the point the rule reasoned about.
 (declare-func place-entity (args ?thing ?point))
+
+; (steer-facing ?who ?toward) - turn ?who toward ?toward SMOOTHLY, at the turn rate the
+; act's (delib-turn-speed ..) put on it. The presented twin of (face-toward ..): the
+; unpresented write snaps the box, a watched man swings round over several frames, and
+; only the host owns the character controller that can do the second.
+;
+; ?toward is an ENTITY or a POINT. A target the actor himself controls - something in his
+; own hand - is resolved through the pre-control snapshot rather than its live pose, or
+; the mirror axis would chase the body that carries it.
+(declare-func steer-facing (args ?who ?toward))
+
+; (jump-impulse ?who) - launch ?who off the ground, once. The physics character controller
+; owns it, and it only does anything while ?who is standing on something - a man already in
+; the air cannot push off. An unpresented man has no ground to push off at all.
+(declare-func jump-impulse (args ?who))

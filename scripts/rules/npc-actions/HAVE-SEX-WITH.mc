@@ -17,10 +17,15 @@
 
 ; ~45 minutes: a real dwell, not an instant. Both lovers run their own copy
 ; (each sees the other as a co-present lover), so both are held for the window.
-(npc-action {@self HAVE-SEX-WITH ?paramour}
+(npc-action {@self HAVE-SEX-WITH ?paramour}:?sex-rel
   (presentation
     (preroll 0.0) (in 0.5) (out 0.5))
   (duration (minutes 45))
+  ; All its isim handler did: validate the partner and let the dispatcher roll the act
+  ; back. Conception was always the corpus's, and it is below.
+  (prelude
+    (if (unsubstantial ?paramour)
+        (then (set-outcome ?sex-rel /fail))))
   (effects
     ; CONCEPTION. The one place a pregnancy begins, so a wife and a paramour
     ; conceive by the same physics and an affair can produce a child without a
