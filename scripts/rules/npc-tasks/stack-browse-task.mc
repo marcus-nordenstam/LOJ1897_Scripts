@@ -40,7 +40,7 @@
   (aux ?)
   (and
     (try
-      (task-prelude
+      (prelude
         (tolerate (observe (spatial ?stack top /env)): ?top)
         (if (nothing ?top)
             (then (set-outcome ?browse-rel /succ)))))
