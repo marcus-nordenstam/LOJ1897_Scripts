@@ -1,0 +1,69 @@
+; ----------------------------------------------------------------------------
+; list_to_let - the SUPPLY side of the property market (per-NPC replacement for
+; the omniscient world-act/landlord_duties.hs). An owner advertises his OWN
+; vacant residential building to let, from his OWN knowledge - no world scan.
+;
+; The annual disposition (a yearly timer) mints a standing intent {@self LET ?prop} for each vacant
+; dwelling he owns. Vacancy is read entirely from his own beliefs (the
+; knowledge-honest signal): a dwelling he owns, that is-a residential, that is
+; NOT his home, that he holds no tenant belief for, and that he has not already
+; listed. Inheritance deeds him the dwelling ({@self own}); a tenant's death /
+; emigration ends his {?prop tenant}, so the vacancy surfaces without a scan.
+;
+; Routing then walks him to a house agency, where list_to_let_act (npc-action) files
+; the for-lease-listing and mints {?prop availability for-rent} - the durable "to
+; let" signal landlord_estate.hs already reads, AND the completion that retracts the
+; intent: the same {?prop availability for-rent} drops the ?prop role, so the decision's
+; when-unsupported-effects end {@self LET ?prop}. It mirrors the worship lane's routing so the
+; supply never goes dormant merely because @self has not yet learned which orgs are
+; house agencies:
+;   KNOWS an agency, not there -> list_to_let_go   (travel to its office).
+;   KNOWS no agency at all      -> list_to_let_find  (orient to learn one).
+; AT a known agency the go sub-goal is spent, the let goal is the leaf and promotes to
+; list_to_let_act - no dwell rung (list_to_let owns the goal's whole life).
+;
+;   list_to_let       : yearly timer - mint the standing {@self LET ?prop} intent;
+;                       cease it when the dwelling's availability flips to for-rent.
+;   list_to_let_go    : hold the intent, knows an agency, not there -> travel there.
+;   list_to_let_find  : hold the intent, knows NO agency -> orient (learn one).
+; ----------------------------------------------------------------------------
+
+(include "../../../definitions/roles.mc")
+
+; TERMINAL step (act_body_purification): AT a known house agency office the letting
+; is PROPOSED. list_to_let_act files the for-lease-listing + mints {?prop
+; availability for-rent}, which then ceases the {@self LET ?prop} intent. The
+; readiness is the negation of list_to_let_go's travel gate - standing IN the
+; agency office (articles-building of a known house-agency). The act reads ?prop off
+; the focus bound off the latched {@self LET ?prop} goal, so the propose is label-only to
+; match the (act {@self LET}) body.
+(npc-think list_to_let_at_agency
+  (goal {@self LET ?prop})
+  ; The office is the agency's OWN workplace belief - see buy_home_go on the ?art round trip.
+  (role ?agency {?agency isa [k org house-agency]}
+                {?agency workplace ?venue}
+                (spatial @self building ?venue))
+  (effects (maintain-proposal {@self LET ?prop})))
+
+; CASE B - knows a house agency, not at its office: travel there. Its incorporation
+; articles name the office he calls at (articles-building).
+(npc-think list_to_let_go
+  (goal {@self LET})
+  (role ?agency {?agency isa [k org house-agency]}
+                {?agency workplace ?venue}
+                (not (spatial @self building ?venue)))
+  (effects (maintain-proposal {@self enter ?venue})))
+
+; CASE C - @self knows NO house agency at all: consult the parish incorporations
+; register (the orient lane, orient_errand.hs), which mints a mental org object +
+; {?org isa ...} belief for EVERY org in town - the only honest channel by which an
+; org's identity is learned. The instant a house-agency is learned the (no-role ...)
+; fills, this stops, and list_to_let_go takes over. (no-role [k org house-agency])
+; reads the SAME per-mind object cache the positive role populates ([k <kind>] is
+; sugar for {isa [k <kind>]}).
+(npc-think list_to_let_find
+  (goal {@self LET})
+  (no-role [k org house-agency])
+  (utility errand)
+  (effects       (begin-goal {@self ORIENT}))
+  (when-unsupported-effects (set-outcome {@self goal {@self ORIENT}} /succ)))

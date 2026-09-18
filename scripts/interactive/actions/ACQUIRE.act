@@ -1,0 +1,8 @@
+﻿action = ACQUIRE
+motor = mind
+
+preroll = 0.0
+in      = 0.0
+run     = 0
+out     = 0.0
+nature = neutral-act

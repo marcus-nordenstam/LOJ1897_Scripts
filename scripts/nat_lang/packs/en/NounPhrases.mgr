@@ -1,0 +1,172 @@
+
+:REG_NP
+
+# Category names can pass through an internal translation table so we don't have
+# have to write phrases for every category-name.
+#
+# When two phrases match, but one of them involves a variable, then
+# the non-variable one always takes precedence.  This is how we always get
+# 'game-role nonplayer' -> "stranger", and not "nonplayer".
+
+# Specific category overrides:
+
+# General categories
+
+"unknown"
+@unknown
+.
+
+"unsure"
+@unknown%
+.
+
+"nothing"
+_
+.
+
+# A named object such as John Smith
+"$pname(PNAME)"
+( o $pname(PNAME) )
+.
+
+# Unnamed person reference - the speaker knows OF a person but does not
+# know their name (or hasn't bothered to use it). "Someone" reads more
+# natural than "a human" in every conversational context. MUST come
+# BEFORE the generic "a $kind(KIND)" rule below - the realize matcher
+# is first-match-wins by file order, not specificity-driven, so a
+# literal-kind rule placed later loses to a variable-kind rule placed
+# earlier. "Somebody" is a flowery variant; .mph schooling=high preference
+# picks it. Gendered / role-typed human variants still fall through to
+# "a <kind>" via the generic rule since they don't match the literal
+# [k human ] kind.
+"someone"
+( o [k human ] )
+.
+
+"somebody"
+( o [k human ] )
+:: flowery
+.
+
+# An un-named object known only by its kind, e.g. an unnamed relative.
+"a $kind(KIND)"
+( o $kind(KIND) )
+.
+
+# e.g. "the late John Smith" - utterable_msg emits this form when the
+# speaker's name belief about the referent has been ended (death-
+# propagation set its interval-end). Matches the listener's ended name
+# belief via /past on the constitutive clause. @o is the placeholder
+# for the object being identified (subject of the name belief).
+"the late $pname(PNAME)"
+( o { @o /past name $pname(PNAME) } )
+.
+
+# e.g. "my mother"
+"my $rel(REL)"
+( o { ?_I /pres $rel(REL) @o } )
+.
+
+# e.g. "your mother"
+"your $rel(REL)"
+( o { ?_you /pres $rel(REL) @o } )
+.
+
+# e.g. "John's mother"
+"$pname(PNAME) ++'s $rel(REL)"
+( o { $pname(PNAME) /pres $rel(REL) @o } )
+.
+
+# The reified job application, identified by who submitted it + the post + org -
+# "the application you submitted for the clerk position at Lloyd's Bank".
+# submit is episodic (/past). The reader resolves it against his own submitted
+# application (@you -> the reader).
+"the application you submitted for the $job(NP) position at $org(NP)"
+( o [k application ] { ?_you submit /past @o } { @o job $job(NP) } { @o org $org(NP) } )
+.
+
+"$thing(INDEF_KIND) at $np(NP)"
+$thing(INDEF_KIND)  { @o /pres obb $np(NP) }
+.
+
+"$thing(INDEF_KIND) named $pname(PNAME) at $np(NP)"
+$thing(INDEF_KIND) $pname(PNAME) { @o /pres obb $np(NP) }
+.
+
+"that $sub_np(NP) marries $obj_np(NP)"
+{ $sub_np(NP) /pres marry $obj_np(NP) }
+.
+
+
+# HACK!
+# we need to do this in some other way, but for the moment, let's define npc and player as complete NP
+"npc"       npc     .
+"player"    player  .
+
+# A general noun-phrase:
+
+# KIND (last, lowest precedence) renders a bare kind-valued belief target -
+# e.g. {X gender [k female]} -> "X's gender is female". Variables, pronouns,
+# named objects and proper names all win over it.
+:NP = VARIABLE|PRONOUN|REG_NP|PNAME|KIND
+
+# Oxford-comma plural NP-list. Consumes the form emitted by List::print under
+# kPrintNatLang for plural answers:
+#   n=1: "a"
+#   n=2: "a and b"
+#   n=3: "a , b , and c"
+#   n=4: "a , b , c , and d"   (and so on, via recursion on NP_PLUR)
+# Bare comma tokens on the MC side keep tokenisation clean (StringAlgo's
+# tokenizer splits on whitespace, not commas). Bind tokens (++,) on the NL
+# side glue the comma to the preceding name when the output is assembled,
+# producing "Alice, Bob, and Sue" rather than "Alice , Bob , and Sue".
+# The 1-item case naturally absorbs the "nothing" (`_`) and "unknown"
+# (`@unknown`) sentinels because they reach NP via REG_NP and pass through
+# the trivial $np(NP) rule.
+
+:NP_PLUR
+"$np(NP)"                                          $np(NP)                                          .
+"$np(NP) and $np(NP)"                              $np(NP) and $np(NP)                              .
+"$np(NP) ++, and $np(NP)"                          $np(NP) , and $np(NP)                            .
+"$np(NP) ++, $np_plur(NP_PLUR)"                    $np(NP) , $np_plur(NP_PLUR)                      .
+
+
+# Question-context noun phrases. Mirrors REG_NP with two question-only
+# adjustments:
+#   1. Relations resolve with /ever instead of /pres, so a present-tense
+#      question like "how old is your mother" matches both ongoing and
+#      ended kinship beliefs (kinship beliefs end when the relative dies).
+#   2. The (o ...) wrapper carries /known, so a noun-phrase that has no
+#      referent in the listener's memory collapses to @fail rather than
+#      inventing a fresh mental-object. Inventing for a question would
+#      asserting kind-null beliefs downstream and is the wrong move
+#      anyway: a question about an unknown referent should answer
+#      @unknown, not fabricate one.
+# REG_NP itself keeps /pres and unqualified (o ...) so statements like
+# "this is your mother" still assert a current relation and may invent.
+# Past-tense questions ("who was your mother") have their own /past
+# forms in Questions.mgr and don't go through this class.
+
+:Q_REG_NP
+
+"$pname(PNAME)"
+( o /known $pname(PNAME) )
+.
+
+"the late $pname(PNAME)"
+( o /known { @o /past name $pname(PNAME) } )
+.
+
+"my $rel(REL)"
+( o /known { ?_I /ever $rel(REL) @o } )
+.
+
+"your $rel(REL)"
+( o /known { ?_you /ever $rel(REL) @o } )
+.
+
+"$pname(PNAME) ++'s $rel(REL)"
+( o /known { $pname(PNAME) /ever $rel(REL) @o } )
+.
+
+:Q_NP = VARIABLE|PRONOUN|Q_REG_NP|PNAME

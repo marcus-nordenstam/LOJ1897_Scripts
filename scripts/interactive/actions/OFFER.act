@@ -1,0 +1,9 @@
+﻿action = OFFER
+motor = right-hand
+transmission = obs
+
+preroll = 0.0
+in      = 0.3
+run     = ?
+out     = 0.3
+nature = provision-act

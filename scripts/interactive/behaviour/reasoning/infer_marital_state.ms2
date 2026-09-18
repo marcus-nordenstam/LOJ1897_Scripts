@@ -1,0 +1,51 @@
+
+# Marital status is not stored - it is derived wherever it is needed from the
+# ongoing spouse / fiancee beliefs (ongoing spouse = married, ongoing fiancee
+# = engaged, neither ever held = single). The rules below establish those
+# spouse / fiancee beliefs for OTHERS by examining the rings on the person's
+# left-hand ring finger.
+
+# If the person is a female and NOT wearing an engagement-ring, then she's NOT engaged
+# If the person is male, well, they never wear engagement-rings, so we'll just optimistically believe they're NOT engaged as well.
+rule infer-no-fiancee
+{@self infer {?person spouse}}
+{?person hand [k left_hand]:?lhand}
+{?lhand finger [k ring_finger]:?ring_finger}
+(none {?ring_finger wear [k engagement_ring]})
+    ->
+(begin_belief {?person fiancee _}).
+
+
+# If the person, regardless of gender, is NOT wearing a wedding-band, then they're NOT married
+rule infer-no-spouse
+{@self infer {?person spouse}}
+{?person hand [k left_hand]:?lhand}
+{?lhand finger [k ring_finger]:?ring_finger}
+(none {?ring_finger wear [k wedding_band]})
+    ->
+(begin_belief {?person spouse _}).
+
+
+# If the person is female and wears an engagement-ring (but no wedding-band), then she's engaged
+rule infer-fiancee
+{@self infer {?person spouse}}
+{?person gender [k female]}
+{?person hand [k left_hand]:?lhand}
+{?lhand finger [k ring_finger]:?ring_finger}
+{?ring_finger wear [k engagement_ring]}
+(none {?ring_finger wear [k wedding_band]})
+    ->
+(begin_belief {?person fiancee @something})
+(begin_belief {?person spouse _}).
+
+
+# If the person, regardless of gender, wears a wedding-band, then they're married, and NOT engaged (anymore)
+rule infer-spouse
+{@self infer {?person spouse}}
+{?person hand [k left_hand]:?lhand}
+{?lhand finger [k ring_finger]:?ring_finger}
+{?ring_finger wear [k wedding_band]}
+    ->
+(begin_belief {?person fiancee _})
+(begin_belief {?person spouse @something}).
+

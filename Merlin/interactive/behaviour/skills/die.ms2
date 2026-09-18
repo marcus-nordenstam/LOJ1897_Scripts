@@ -1,7 +1,0 @@
-
-rule die-of-old-age-propose
-{@self condition alive}
-{@self age >60}
-    ->
-(maintain_proposal {@self DIE}).
-

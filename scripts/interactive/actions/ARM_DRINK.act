@@ -1,0 +1,15 @@
+action = ARM_DRINK
+sided = true
+action_side_field = target
+left_motor  = left_arm
+right_motor = right_arm
+transmission = obs
+
+anim = right_drink
+anim_flags = loop reset
+
+preroll = 0
+in      = 1
+run     = 1
+out     = 1
+nature = neutral-act

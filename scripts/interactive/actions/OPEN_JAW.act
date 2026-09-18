@@ -1,0 +1,11 @@
+﻿action = OPEN_JAW
+motor = mouth
+transmission = obs
+
+proc_anim = open_jaw
+
+preroll = 0.0
+in      = 0.6
+run     = 1.0
+out     = 0.9
+nature = neutral-act

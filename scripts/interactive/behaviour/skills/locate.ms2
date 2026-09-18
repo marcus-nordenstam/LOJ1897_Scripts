@@ -1,0 +1,9 @@
+
+
+# Later on we can add smarts, but for now, locating just means exploring the whole world in hopes of seeing it
+
+rule locate-explore-world-proposal
+{@self locate ?something}
+    ->
+(maintain_attention ?something)
+(maintain_proposal {@self explore world}).
