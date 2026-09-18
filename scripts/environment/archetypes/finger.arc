@@ -1,5 +1,5 @@
-# Ring-fingers only - 2 per human; capacity scales with hand cap.
-archetype "finger" (cap 8192) (per obs) (non-occluder)
+# Ring-fingers only - 2 per human; capacity scales with the two hand caps.
+archetype "finger" (cap 8704) (per obs) (non-occluder)
 {
     # Placement participation (plan section 18): which spatial relations this
     # archetype takes part in - the write seams validate both ends.

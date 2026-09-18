@@ -588,7 +588,11 @@ object (+ obs)
                 right-hand (side right)
             finger
                 ring-finger
+                    left-ring-finger  (side left)
+                    right-ring-finger (side right)
             eye
+                left-eye  (side left)
+                right-eye (side right)
             mouth
             # Central body. Default wound-site when a method-row's
             # :wound-site slot is omitted; carries generic torso
