@@ -1,8 +1,8 @@
-; DEAD_IDLE - the act, its motor and how it looks. Its BODY is still the C++ handler
+; DEAD-IDLE - the act, its motor and how it looks. Its BODY is still the C++ handler
 ;   registered under this label; it becomes (prelude ..) / (effects ..) / (cease ..)
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
-(npc-action {@self DEAD_IDLE ?target}
+(npc-action {@self DEAD-IDLE ?target}
   (duration procedural)
   (motor legs)
   (internal)

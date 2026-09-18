@@ -1,8 +1,8 @@
-; HAND_DRINK - the act, its motor and how it looks. Its BODY is still the C++ handler
+; HAND-DRINK - the act, its motor and how it looks. Its BODY is still the C++ handler
 ;   registered under this label; it becomes (prelude ..) / (effects ..) / (cease ..)
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
-(npc-action {@self HAND_DRINK ?target}
+(npc-action {@self HAND-DRINK ?target}
   (duration 1)
   (sided target left-hand right-hand)
   (obs)

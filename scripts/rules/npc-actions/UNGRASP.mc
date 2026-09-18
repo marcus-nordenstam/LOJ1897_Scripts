@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; UNGRASP ?item ?hand - open the hand. The thing rests where the hand IS: which cell
-; that is was decided by REACH_FOR, and where the man stands was decided by go.
+; that is was decided by REACH-FOR, and where the man stands was decided by go.
 ;
 ; PRESENTED ONLY, and that is not a shortcut being taken twice: unpresented has no
 ; reach to have placed the hand, so there is nothing to open it AT, and that LOD takes

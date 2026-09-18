@@ -1,12 +1,24 @@
-; OFFER - the act, its motor and how it looks. Its BODY is still the C++ handler
-;   registered under this label; it becomes (prelude ..) / (effects ..) / (cease ..)
-;   when this action is scripted (docs/plans/action_unification_plan.md).
+; ----------------------------------------------------------------------------
+; OFFER - ?thing is held out for someone else to take.
+;
+; PORTED from the C++ handler (action_unification_plan.md). The handler's init_func
+; validated its arguments and rejected the act; that rejection is the (prelude ..)
+; below, because a /fail there is what refuses an install - a (check ..) would not,
+; since it compiles out under MX_SHIPPING. It is PROCEDURAL: the handler returned no
+; outcome, so the offer stands until the proposer withdraws it - which is what an
+; offer is. How loosely the thing is held while it is out, and when the offer has
+; been taken up, are the proposing task's to watch.
+; ----------------------------------------------------------------------------
 
-(npc-action {@self OFFER ?target}
-  (duration procedural)
+(npc-action {@self OFFER ?thing}:?offer
   (motor right-hand)
   (obs)
   (tar @excl)
   (construed-act provision-act)
+  (duration procedural)
   (presentation
-    (preroll 0.0) (in 0.3) (out 0.3)))
+    (preroll 0.0) (in 0.3) (out 0.3))
+
+  (prelude
+    (if (unsubstantial ?thing)
+        (then (set-outcome ?offer /fail)))))

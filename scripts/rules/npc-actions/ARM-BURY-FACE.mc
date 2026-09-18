@@ -1,10 +1,10 @@
-; ARM_BURY_FACE - the act, its motor and how it looks. Its BODY is still the C++ handler
+; ARM-BURY-FACE - the act, its motor and how it looks. Its BODY is still the C++ handler
 ;   registered under this label; it becomes (prelude ..) / (effects ..) / (cease ..)
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
-(npc-action {@self ARM_BURY_FACE ?target}
+(npc-action {@self ARM-BURY-FACE ?target}
   (duration procedural)
-  (sided target left_arm right_arm)
+  (sided target left-arm right-arm)
   (obs)
   (tar @excl)
   (presentation

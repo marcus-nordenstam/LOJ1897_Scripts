@@ -1,8 +1,8 @@
-; TURN_TO - the act, its motor and how it looks. Its BODY is still the C++ handler
+; TURN-TO - the act, its motor and how it looks. Its BODY is still the C++ handler
 ;   registered under this label; it becomes (prelude ..) / (effects ..) / (cease ..)
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
-(npc-action {@self TURN_TO ?target}
+(npc-action {@self TURN-TO ?target}
   (duration procedural)
   (motor legs)
   (obs)

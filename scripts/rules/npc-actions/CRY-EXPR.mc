@@ -1,8 +1,8 @@
-; CRY_EXPR - the act, its motor and how it looks. Its BODY is still the C++ handler
+; CRY-EXPR - the act, its motor and how it looks. Its BODY is still the C++ handler
 ;   registered under this label; it becomes (prelude ..) / (effects ..) / (cease ..)
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
-(npc-action {@self CRY_EXPR ?target}
+(npc-action {@self CRY-EXPR ?target}
   (duration procedural)
   (motor face)
   (obs)

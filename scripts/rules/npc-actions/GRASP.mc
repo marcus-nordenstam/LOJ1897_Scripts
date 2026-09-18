@@ -42,6 +42,11 @@
     (check (spatial ?item co-located @self /env))
     (check (empty (spatial ?hand grip /env)))
     (grip-into-hand ?item ?hand)
+    ; A thing in a hand is a thing you can see - which matters when it was STOWED and
+    ; hidden a moment ago. The handler wrote this flag too, and both LODs need it: it is
+    ; what a room walk reads, not what the renderer draws.
+    (set-hidden ?item @false)
     (if (presented-lod)
-        (then (attach-to-socket ?item @self (side ?hand))))
+        (then (attach-to-socket ?item @self (side ?hand))
+              (set-renderable ?item @true)))
     (set-outcome ?grasp /succ)))
