@@ -21,7 +21,34 @@
   ; OPTIONAL by declaration: an absent audience is a BROADCAST, which is a first-class
   ; SAY form (confide / expose / humiliate / the burial announcement all use it).
   (aux @msgAudience ?)
+  ; THE SCHEDULED LENGTH IS AN INSTANT, and the presented one is the audio. The isim
+  ; handler computed the viseme total and wrote it into the act's run cap, succeeding when
+  ; the sound finished; unpresented it used a flat second, because without the natlang
+  ; pass there is no length to know and nothing to sync to. hsim has always said zero,
+  ; and one second per utterance across a year of conversation is not a second worth
+  ; moving every appointment in the town for - so the split waits, with WALK and WRITE,
+  ; on a (duration ..) expression that can branch on the LOD (plan 2.3).
   (duration 0)
+
+  ; The handler rejected an unsubstantial message and let the dispatcher roll the act
+  ; back. A /fail here is that rejection.
+  (prelude
+    (if (unsubstantial ?msg)
+        (then (set-outcome ?say-rel /fail))))
+
   (effects
+    ; The SOUND is the Merlin half and runs at both LODs: it is how anyone else hears
+    ; this at all, and it hangs off the pipeline's own externalized record.
     (deliver-speech ?xsay)
-    (set-outcome ?say-rel /succ)))
+    ; The VOICE is the presented half - the words rendered, the visemes cut, the jaw
+    ; driven, the subtitle put up. An unpresented man is heard and not watched.
+    (if (presented-lod)
+        (then (speak-aloud @self ?msg)))
+    (set-outcome ?say-rel /succ))
+
+  ; The handler's cleanup_func released the speech-state slot it claimed at install. That
+  ; is a (cease ..): it must happen on EVERY end, and a slot leaked per interrupted
+  ; utterance is a mouth that stops working after a few dozen conversations.
+  (cease
+    (if (presented-lod)
+        (then (end-speech @self)))))

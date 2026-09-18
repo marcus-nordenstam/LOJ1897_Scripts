@@ -83,3 +83,16 @@
 ; owns it, and it only does anything while ?who is standing on something - a man already in
 ; the air cannot push off. An unpresented man has no ground to push off at all.
 (declare-func jump-impulse (args ?who))
+
+; (speak-aloud ?who ?msg) - render ?msg into words in ?who's own voice and SAY it: the
+; natural-language pass, the visemes cut from the text, the jaw bone driven off them, the
+; subtitle, and the speech-state slot that holds all of it for the utterance's life. A
+; question keeps its '?' whatever the composer left off. None of it exists for an
+; unpresented speaker - he is HEARD, through the sound entity the act mints at both LODs,
+; and not watched.
+(declare-func speak-aloud (args ?who ?msg))
+
+; (end-speech ?who) - release the speech-state slot ?who claimed to speak. Must run on
+; EVERY end of an utterance, conclusive or not: a slot leaked per interrupted sentence is a
+; mouth that stops working after a few dozen conversations.
+(declare-func end-speech (args ?who))
