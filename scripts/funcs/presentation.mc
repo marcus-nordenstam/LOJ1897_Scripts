@@ -29,3 +29,42 @@
       (else (if (table-match npc_default_spawns gender ?g class any file ?catch-all)
                 (then ?catch-all)
                 (else @nothing)))))
+
+; ----------------------------------------------------------------------------
+; THE PRESENTATION WALL - funcs only a presenting host implements.
+;
+; These four touch the GRYM SCENE: sockets, parenting, renderable flags and the
+; TransformComponent. Nothing else in the corpus reaches that far, and no other
+; process holds an implementation - hsim, mlint, Talkie and mxlog's ontology replay
+; all resolve these names to a null eval, which is what forward-declared MEANS. A
+; call reaching one of them there is a loud error naming the wall, so every call
+; site sits inside an npc-action body under a (presented-lod) guard, which the
+; wall-func-outside-action and wall-func-unguarded lint rules enforce.
+;
+; The Merlin HALF of each of these deeds is authored separately and runs at BOTH
+; LODs: the grip edge is a spatial-write, the placement is a spatial-write, and the
+; hidden flag is an attr. What crosses here is only the picture of it.
+; ----------------------------------------------------------------------------
+
+; (attach-to-socket ?thing ?holder ?socket) - hang ?thing on ?holder's socket and
+; make it visible and non-colliding. ?socket is a side-bearing kind ([k left] /
+; [k right]) or @nothing for a root attach, which is what stowing wants.
+(declare-func attach-to-socket (args ?thing ?holder ?socket))
+
+; (detach-entity ?thing) - take ?thing off whatever socket or parent holds it and
+; make it a free, visible, ground-colliding root again. The socket scan is by
+; ASSIGNMENT, not by side: a thing may have been stowed on the body or hung on
+; either hand.
+(declare-func detach-entity (args ?thing))
+
+; (set-renderable ?thing ?on) - the ONE thing that distinguishes stowing (attach to
+; the body and HIDE) from grasping (attach to a hand and SHOW). The scene twin of
+; the Merlin-side hidden flag both LODs write for perception.
+(declare-func set-renderable (args ?thing ?on))
+
+; (place-entity ?thing ?point) - write the GRYM transform, the SECOND of the two
+; writes a release needs. Merlin's bounds alone do not stick: the feedback pass
+; reads the scene transform every frame for any ungripped prop and writes it back,
+; and after a detach that transform still carries the hand-tip pose - so without
+; this it would overwrite the point the rule reasoned about.
+(declare-func place-entity (args ?thing ?point))

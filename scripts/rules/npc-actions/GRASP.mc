@@ -1,13 +1,47 @@
-; GRASP - the act, its motor and how it looks. Its BODY is still the C++ handler
-;   registered under this label; it becomes (prelude ..) / (effects ..) / (cease ..)
-;   when this action is scripted (docs/plans/action_unification_plan.md).
+; ----------------------------------------------------------------------------
+; GRASP ?item ?hand - the hand closes on ?item and controls it. ONE act, both LODs,
+; both hands: it absorbs hsim's LEFT-TAKE / RIGHT-TAKE and the isim GRASP handler.
+;
+; THE HAND IS AN ARGUMENT, not part of the label. (sided aux ..) resolves the engaged
+; motor per belief from the side-bearing value in the aux slot, so one action serves
+; both hands and the two labels disappear (action_unification_plan.md 5.2 finding 1).
+;
+; Presented, the task has already looked, turned and reached, so the hand is at the
+; thing; unpresented, co-location is the whole precondition. THE GRIP IS THE SAME
+; EITHER WAY, which is why this body does not branch - only the picture does.
+;
+; Its .act said run = 0 (the presented gesture is instantaneous once the reach has
+; arrived) while hsim's TAKE was a minute. The minute stands: it is the scheduled
+; length, and the two cannot be stated together until a (duration ..) expression can
+; branch on the LOD (2.3).
+; ----------------------------------------------------------------------------
 
-(npc-action {@self GRASP ?target ?aux}
-  (duration 0)
+(include "../../definitions/roles.mc")
+
+(npc-action {@self GRASP ?item ?hand}:?grasp
   (sided aux left-hand right-hand)
   (obs)
   (tar @excl)
+  (duration (minutes 1))
   (presentation
     (anim-right right_hand_grip)
     (anim-flags loop reset)
-    (preroll 0.0) (in 0.05) (out 0.05)))
+    (preroll 0.0) (in 0.05) (out 0.05))
+
+  ; The isim init_func rejected an unsubstantial target and the dispatcher rolled the
+  ; act back with a fail. A /fail in the prelude IS that rejection: no completion is
+  ; scheduled and the act never reaches a motor. A (check ..) would not do - it
+  ; compiles out under MX_SHIPPING.
+  (prelude
+    (if (unsubstantial ?item)
+        (then (set-outcome ?grasp /fail))))
+
+  (effects
+    ; The proposer's job, asserted here: a rule that proposes a grasp it cannot reach,
+    ; or with a full hand, is the authoring error and not this act's problem.
+    (check (spatial ?item co-located @self /env))
+    (check (empty (spatial ?hand grip /env)))
+    (grip-into-hand ?item ?hand)
+    (if (presented-lod)
+        (then (attach-to-socket ?item @self (side ?hand))))
+    (set-outcome ?grasp /succ)))

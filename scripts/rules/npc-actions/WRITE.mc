@@ -13,11 +13,24 @@
 ; the message as riders - (table-msg [/addressee ?name /address ?addr] ..) - and is
 ; stamped onto the paper here: addressee for the sorter at the door, destination for
 ; the mail service. Absent riders stamp nothing.
+;
+; WRITE_DOC WAS THIS ACT UNDER ANOTHER NAME and is gone: the .act port minted it as a
+; second label because a C++ handler registered under that spelling, and an action is
+; ONE label. Its presentation, its motor and its field declarations came here; its
+; handler held nothing but a success return. Its `run = ?` was the PRESENTED length -
+; the pen moves until the task stops it - and the ten minutes below is the scheduled
+; one, which stands until a (duration ..) expression can branch on the LOD.
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self WRITE ?doc ?sentence}
   (track-skill-level [k literacy])
+  (motor right-hand)
+  (obs)
+  (tar @excl)
+  (aux @msg @excl)
   (duration (minutes 10))
+  (presentation
+    (preroll 0.0) (in 0.4) (out 0.4))
   (effects
     (check (spatial ?doc co-located @self /env))
     (tolerate (table-rows ?sentence): ?rows)

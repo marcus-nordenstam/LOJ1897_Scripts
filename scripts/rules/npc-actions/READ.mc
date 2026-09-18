@@ -2,7 +2,7 @@
 ; read - THE one document-reading action: take a document's writing into @self's mind.
 ; Works for ANY document - a letter, a will, a listing, a deed, a register. Getting the
 ; document into reach, and putting it down / re-filing it afterwards, are the consuming
-; task's job (via get / DROP / stack-browse), never bundled in here.
+; task's job (via get / put / stack-browse), never bundled in here.
 ;
 ; TWO kinds of writing. SENTENCES (a letter, a will) adopt through the writing codec -
 ; the sanctioned cross-mind write-through-paper, the written twin of hearing speech:
