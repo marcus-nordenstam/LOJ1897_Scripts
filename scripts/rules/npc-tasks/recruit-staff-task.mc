@@ -15,7 +15,7 @@
 ;   a man, a seat       -> draft-verdict ?p [k offer-letter]
 ;   a man, no seat      -> draft-verdict ?p [k rejection-letter]
 ;   a man at the counter-> hire-applicant ?man ?job (first through the door)
-;   shift over          -> /succ
+;   the shift over       -> the (cease ..) says so, and nothing else concludes it
 ; Every rung reads what he now KNOWS - the beliefs the book and the forms put there -
 ; never what this task instance has done, which cannot span a shift.
 ; ----------------------------------------------------------------------------
@@ -29,6 +29,21 @@
   (track-skill-level [k personnel])
   (tar org)
   (lint-waive unused-role)
+  ; THE JOB AT THIS ORG - an actor holds plural jobs by design, and a bare {@self job ?job}
+  ; would read a stranger's shift. It is ?shift-job and NOT ?job because every rung below
+  ; casts its own ?job on the SEATS of this org: a spine ?job is the same slot to all of
+  ; them, so it would pin each of those roles to the officer's own post.
+  (role ?shift-job {@self job ?shift-job}
+                   {?shift-job org ?org})
+  ; THE CONDITION THE PERFORMANCE RUNS UNDER, and it belongs to the round rather than to any
+  ; rung: the shift, plus the starts-soon lead because the duty is taken up while the officer
+  ; is still at home. The moment it stops holding the round stops firing, and the (cease ..)
+  ; is where it says what that meant - a day's duty done.
+  (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
+        (latch-eval (any {?shift-job ?tl ?}): ?sh-rel (bind ?sh-rel.target ?start) (bind ?sh-rel.auxiliary ?end))
+        (on-shift ?start ?end))
+  (cease (if (not (on-shift ?start ?end))
+             (then (set-outcome ?rec-rel /succ))))
   (and
     ; THE BOOK, read once a round: hires and departures rewrite the page, and this read
     ; is the only thing that moves the officer's picture with it.
@@ -136,16 +151,4 @@
                            -{@self hire-applicant ?man ? /fail}
                            (spatial ?man co-located @self))
       (utility obligation always-pick)
-      (effects (maintain-proposal {@self hire-applicant ?man ?job})))
-
-    ; THE DAY IS OVER. The window includes starts-soon because the duty is proposed while
-    ; the officer is still at home. The job is the one AT THIS ORG - an actor holds plural
-    ; jobs by design, and a bare {@self job ?job} would read a stranger's shift.
-    (try
-      (role ?job {@self job ?job}
-                 {?job org ?org})
-      (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
-            (latch-eval (any {?job ?tl ?}): ?sh-rel (bind ?sh-rel.target ?start) (bind ?sh-rel.auxiliary ?end))
-            (not (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end))))
-      (effects
-        (set-outcome ?rec-rel /succ)))))
+      (effects (maintain-proposal {@self hire-applicant ?man ?job})))))

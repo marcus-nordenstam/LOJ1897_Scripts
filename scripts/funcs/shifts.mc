@@ -14,3 +14,13 @@
     (if (and (= ?j ?key) (> ?sid ?top))
         (then (bind ?sid ?top))))
   (random-int 0 ?top))
+
+; ----------------------------------------------------------------------------
+; on-shift - the shift is on, or it is about to be: the condition the work task and the
+; recruit-staff round each run under, read by their (when ..) and inverted in their
+; (cease ..). The starts-soon lead is part of it because a duty is taken up while the man
+; is still at home.
+; ----------------------------------------------------------------------------
+
+(define-func on-shift (?start ?end)
+  (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))

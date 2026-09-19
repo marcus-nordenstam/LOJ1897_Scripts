@@ -42,8 +42,8 @@
   ; it sits on the SPINE: it belongs to the whole task, not to any one rung. A pile with
   ; nothing on it was never a round to run.
   (init
-    (tolerate (observe (spatial ?stack top /env)): ?top)
-    (if (nothing ?top)
+    (tolerate (observe (spatial ?stack top /env)): ?opening-top)
+    (if (nothing ?opening-top)
         (then (set-outcome ?browse-rel /succ))))
   (and
     ; THE ROUND IS OVER when the pile has nothing left to show. This LOOKS rather than
@@ -54,14 +54,14 @@
       (no-role [k document] (= (bb-read ?norole from-stack) ?stack))
       (when (unknown (spatial ?stack top)))
       (effects
-        (tolerate (observe (spatial ?stack top /env)): ?top)
-        (if (nothing ?top)
+        (tolerate (observe (spatial ?stack top /env)): ?fresh-top)
+        (if (nothing ?fresh-top)
             (then (set-outcome ?browse-rel /succ)))))
 
     ; FULL CIRCLE: the first doc re-filed is back on top, so every original has been seen.
     (try
-      (role ?top (spatial ?stack top)
-            (= ?top (bb-read ?browse-rel cycle-end)))
+      (role ?circled-top (spatial ?stack top)
+            (= ?circled-top (bb-read ?browse-rel cycle-end)))
       (no-role [k document] (= (bb-read ?norole from-stack) ?stack))
       (effects (set-outcome ?browse-rel /succ)))
 
@@ -77,8 +77,8 @@
     ; pile". AT THE STACK: (spatial ?stack top) is what @self BELIEVES is on top, a memory
     ; rather than a reach, so without the co-location gate he lifts from across town.
     (try
-      (role ?top (spatial ?stack top)
-            (!= ?top (bb-read ?browse-rel cycle-end)))
+      (role ?lift-top (spatial ?stack top)
+            (!= ?lift-top (bb-read ?browse-rel cycle-end)))
       (no-role [k document] (= (bb-read ?norole from-stack) ?stack))
       (role @self (spatial ?stack co-located @self)
                   (bb-none ?browse-rel keep))
