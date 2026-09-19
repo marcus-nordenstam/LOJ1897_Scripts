@@ -15,7 +15,7 @@
   (construed-act honour-act)
   (and
     (try
-      (role @self -{@self send-mail ? ? /succ /caused_by ?confess-rel})
+      (match -{@self send-mail ? ? /succ /caused_by ?confess-rel})
       (role ?my-home {@self home ?my-home})
       (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
       (when (and {@self lover|HAVE-SEX-WITH ?partner /ever}

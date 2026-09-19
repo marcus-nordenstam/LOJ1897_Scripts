@@ -21,9 +21,9 @@
   ;; the peer's class is read from @self's own view (3-arg situation, banded in via
   ;; believe_about), so a same-class match needs the two to be acquainted (an
   ;; unknown child's class @fails). No cross-mind read.
-  (role @self
-           (schoolchild-age @self)
-           {@self age-band ?peer_band})
+  (match
+      (schoolchild-age @self)
+      {@self age-band ?peer_band})
   (role ?b {?b isa [k human], condition [k alive]}
            (schoolchild-age ?b)
            ; Same class: @self's belief that ?b's class matches his own (dynamic-

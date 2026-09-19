@@ -12,7 +12,7 @@
 ;
 ; THE REACH IS A SELF-ROLE, not a check in the effects. GRASP asserts co-location, and
 ; an act's check ABORTS the run rather than deferring it - so the rung must HOLD until
-; the item is at hand. It rides a (role @self ..) rather than a (when ..) because a
+; the item is at hand. It rides a (match ..) rather than a (when ..) because a
 ; (spatial ..) read is role-cacheable: on the role it is membership the wake machinery
 ; maintains, in the gate it is re-evaluated live on every pass.
 ; ----------------------------------------------------------------------------
@@ -24,11 +24,11 @@
       (effects (check (or (empty (spatial (spatial @self left-hand) grip))
                           (empty (spatial (spatial @self right-hand) grip))))))
     (try
-      (role @self (spatial ?item co-located @self))
+      (match (spatial ?item co-located @self))
       (when (empty (spatial (spatial @self right-hand) grip)))
       (effects (maintain-proposal {@self GRASP ?item (spatial @self right-hand)})))
     (try
-      (role @self (spatial ?item co-located @self))
+      (match (spatial ?item co-located @self))
       (when (empty (spatial (spatial @self left-hand) grip)))
       (when (not (empty (spatial (spatial @self right-hand) grip))))
       (effects (maintain-proposal {@self GRASP ?item (spatial @self left-hand)})))

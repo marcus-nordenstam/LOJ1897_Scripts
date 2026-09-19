@@ -6,5 +6,5 @@
 (npc-think probe_gatevar
   (cooldown 1 m)
   (goal {@self probe_hunt ?prey})
-  (role @self {?prey accomplice ?acc})
+  (match {?prey accomplice ?acc})
   (effects (debug-print "PROBE_GATEVAR prey=?prey acc=?acc")))

@@ -27,7 +27,7 @@
 ; putting the loot away and ending carrying-loot, which retires the goal. The acts never
 ; mint or end the goal - they only write the possession state the minter reads.
 (npc-think want_stow
-  (role @self {@self carrying-loot ?item})
+  (match {@self carrying-loot ?item})
   (utility errand always-pick)
   (effects       (begin-goal {@self stow ?item}))
   (when-unsupported-effects (set-outcome {@self goal {@self stow ?item}} /succ)))

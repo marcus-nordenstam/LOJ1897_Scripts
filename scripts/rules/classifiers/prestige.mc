@@ -15,7 +15,7 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self {@self class-situation ?})
+  (match {@self class-situation ?})
 
   ; Economic rank: headship of a non-household org is the top band and trumps any
   ; level rung; a job with no level rung reads the entry band; the jobless read -1.

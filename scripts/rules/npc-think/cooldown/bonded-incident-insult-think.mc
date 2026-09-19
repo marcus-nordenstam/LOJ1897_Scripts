@@ -43,7 +43,7 @@
   (cooldown 1 m)
   (rng-stream incidents)
 
-  (role @self )
+  (match )
   (role ?victim {?victim isa [k human], condition [k alive]}
                 {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?victim /ever}
                 (spatial ?victim co-located @self))

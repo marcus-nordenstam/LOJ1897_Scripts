@@ -23,13 +23,13 @@
   ;; HE has heard of ((count (every {?bride lover ? /ever})) - per-observer, never an
   ;; omniscient public reading), her availability as his own belief
   ;; ((any {?bride <label> ?}), permissive on the unknown).
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
-              {@self gender [k male]}
-              -{@self spouse ?}
-              -{@self fiancee ?}
-              -{@self repute [k scandalous]}
-              -{@self repute [k disreputable]}
-              {@self age-band ?peer_band})
+  (match {@self age-band [k young-adult|middle-aged|mature|elderly]}
+         {@self gender [k male]}
+         -{@self spouse ?}
+         -{@self fiancee ?}
+         -{@self repute [k scandalous]}
+         -{@self repute [k disreputable]}
+         {@self age-band ?peer_band})
   (role ?bride (unmarried_woman ?bride)
                ;; Not already spoken-for (he avoids a woman he KNOWS is engaged or
                ;; attached; a secret he has not heard does not stop the match).

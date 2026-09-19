@@ -11,7 +11,7 @@
 
 (npc-think shoot_arm
   (task {@self shoot ?})
-  (role @self)
+  (match)
   (when (empty (spatial @self hold [k firearm])))
   (utility errand always-pick)
   (effects (maintain-proposal {@self acquire [k firearm] [k covert]})))

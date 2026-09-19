@@ -20,8 +20,8 @@
   ; with want_drink (each source ceases its own hold when its pressure lapses), and drink_go/find
   ; route to a pub. The routing lane handles movement, and this desire just holds the drink goal.
   (cooldown 1 d)
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-              {@self craving [k alcohol]})   ; the dependency - cached
+  (match {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+         {@self craving [k alcohol]})   ; the dependency - cached
   ; The nearest pub the NPC KNOWS (role-cast; no known pub -> no fire).
   (role ?pub [k building pub] (select (score (near @self ?pub)) (policy roulette)))
   ; A dependent, a drink already ~due (short fuse - he relapses fast).

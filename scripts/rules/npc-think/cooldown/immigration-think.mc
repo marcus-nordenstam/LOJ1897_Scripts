@@ -44,8 +44,8 @@
   ;; The gatekeeper: an adult holding a senior public post ([k job official],
   ;; installed by senior_appointment). His job belief is his own - a CACHED
   ;; self-gate filter, so every non-official empty-set-skips the rule.
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-              {@self job [k job official]})
+  (match {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+         {@self job [k job official]})
 
   ;; The premises he admits people AT, threaded off his own post: job -> org ->
   ;; workplace, three belief reads and no world lookup.

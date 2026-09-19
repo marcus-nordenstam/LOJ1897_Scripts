@@ -12,6 +12,6 @@
   (construed-act appropriation-act wrong-act betray-act) (theme thief-to) (contradicts property)
   (facets reportable_crime blackmailable)
   (try
-    (role @self)
+    (match)
     (when (chance 0))
     (effects (set-outcome ?defraud-rel /succ))))

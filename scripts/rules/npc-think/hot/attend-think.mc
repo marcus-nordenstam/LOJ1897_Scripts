@@ -48,7 +48,7 @@
 ; wedding occasions.
 (npc-think want_wed
   (role ?occ {@self organize [k wedding]:?occ})
-  (role @self {@self fiancee ?} (none {@self spouse @something}))
+  (match {@self fiancee ?} (none {@self spouse @something}))
   (when (date-in-current-month (any {?occ held-on ?}).target))
   (utility obligation always-pick)
   (effects (maintain-proposal {@self wed ?occ})))
@@ -71,7 +71,7 @@
 ; back in their own mind - the bride hears the vow at the altar; an absent bride
 ; learns by gossip and marries then.
 (npc-think spouse_reciprocate
-  (role @self -{@self spouse ?})
+  (match -{@self spouse ?})
   (role ?p {@self fiancee ?p}
            {?p spouse @self})
   (effects

@@ -2,7 +2,7 @@
 ; gate; filter 2 consumes it as a top-level constraint. Fires only when both agree.
 (npc-think probe_residual
   (cooldown 1 m)
-  (role @self )
+  (match )
   (role ?plotter6 [k human]
         {?plotter6 urge @self {@self probe_hunt ?prey6}}
         {?plotter6 accomplice ?prey6})

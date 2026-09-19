@@ -30,11 +30,11 @@
       (effects (check (or (empty (spatial (spatial @self left-hand) grip))
                           (empty (spatial (spatial @self right-hand) grip))))))
     (try
-      (role @self (spatial ?stack co-located @self))
+      (match (spatial ?stack co-located @self))
       (when (empty (spatial (spatial @self right-hand) grip)))
       (effects (maintain-proposal {@self STACK-TAKE ?stack (spatial @self right-hand)})))
     (try
-      (role @self (spatial ?stack co-located @self))
+      (match (spatial ?stack co-located @self))
       (when (empty (spatial (spatial @self left-hand) grip)))
       (when (not (empty (spatial (spatial @self right-hand) grip))))
       (effects (maintain-proposal {@self STACK-TAKE ?stack (spatial @self left-hand)})))))

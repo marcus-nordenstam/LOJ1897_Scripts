@@ -29,8 +29,8 @@
   ; Clubs are founded by a settled adult of some standing - an employed man over
   ; thirty. (The class-floor the plan names is carried by the `job.salary` gate: a man
   ; with a paid post is a man of standing.) The founder is the sole deliberator (@self).
-  (role @self (old_human @self)
-              -{@self member-of ?})
+  (match (old_human @self)
+         -{@self member-of ?})
   (role ?job {@self job ?job}
              {?job salary ?})          ; threaded job.salary existence
 
@@ -63,9 +63,9 @@
   ; An adult who belongs to fewer than two clubs takes up another. SELF-POV
   ; (telepathy purge CAT-2): @self reads his OWN repute (belief-pure). The
   ; age + club-count + chance gates are non-belief ops -> (when).
-  (role @self (old_human @self)
-              -{@self repute [k scandalous]}
-              -{@self repute [k disreputable]})
+  (match (old_human @self)
+         -{@self repute [k scandalous]}
+         -{@self repute [k disreputable]})
   ; A KNOWN club (@self learned it at new_job_orientation). Belief-pure + cached:
   ; the omniscient org-kind-is-a doc read is gone. The founder is produced-restricted
   ; off {?club_org founder ?founder} in the role; the own-class match (below) reads
@@ -112,8 +112,8 @@
   (rng-stream behaviour)
 
   ; The resigning member is the sole deliberator (@self).
-  (role @self (old_human @self)
-              {@self member-of ?})
+  (match (old_human @self)
+         {@self member-of ?})
 
   ; MAINTENANCE: the decision OWNS the resign-club goal end to end. (chance) is the ONSET
   ; roll - (latch-eval) locks it once holding. (believes member-of) is the CONTINUOUS

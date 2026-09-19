@@ -11,7 +11,7 @@
     ; not at a shop -> head to a shop @self KNOWS (any shop carries the stock).
     (try
       (role ?shop [k building shop] (select (score (near @self ?shop)) (policy roulette)))
-      (role @self (not (spatial @self building ?shop)))
+      (match (not (spatial @self building ?shop)))
       (when (empty (spatial @self hold ?kind)))
       (utility fallback)
       (effects (maintain-proposal {@self enter ?shop})))

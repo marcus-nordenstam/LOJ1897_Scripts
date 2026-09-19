@@ -30,8 +30,8 @@
   ; head-of-non-household-org job and drops out of the set the instant he founds.
   ; A salaried worker does not found either. (The household is separately capped
   ; by found_household's own throttle.)
-  (role @self -{@self job.salary ?}
-              -{@self job [k head-of-non-household-org]})
+  (match -{@self job.salary ?}
+         -{@self job [k head-of-non-household-org]})
 
   ; Age, plus the DEMAND gate: a charter @self could actually take up must still be
   ; headless. Without the second test an adult who qualifies for nothing left re-fires a

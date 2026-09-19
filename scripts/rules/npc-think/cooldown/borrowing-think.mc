@@ -22,7 +22,7 @@
   (rng-stream behaviour)
   (cease-after-fire)
 
-  (role @self   (old_human @self))
+  (match   (old_human @self))
   ; The home filter keeps the pursuit PERFORMABLE: the errand calls on the
   ; creditor at home, and there is no directory - an unknown address would
   ; strand the goal forever behind the no-goal gate.
@@ -42,14 +42,14 @@
 ; Outcome twin: the loan-call recorded the debt - the pursuit succeeded.
 (npc-think borrowing_done
   (goal {@self TAKE-LOAN ?creditor})
-  (role @self {@self owe ?creditor})
+  (match {@self owe ?creditor})
   (effects (set-outcome {@self goal {@self TAKE-LOAN ?creditor}} /succ)))
 
 ; Outcome twin: the creditor is KNOWN dead - withdraw the pursuit. POSITIVE death
 ; knowledge only: a merely-decayed alive belief must not abandon the errand. The
-; gate binds ?creditor, so the death test rides a (role @self ...) filter over that
+; gate binds ?creditor, so the death test rides a (match ...) filter over that
 ; gate var (symmetric with borrowing_done's own-belief role above).
 (npc-think borrowing_abandoned
   (goal {@self TAKE-LOAN ?creditor})
-  (role @self {?creditor condition [k dead]})
+  (match {?creditor condition [k dead]})
   (effects (set-outcome {@self goal {@self TAKE-LOAN ?creditor}} /succ)))

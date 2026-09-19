@@ -41,7 +41,7 @@
 (npc-audit audit_hired_never_worked
   (aspect labour)
   (cooldown 1 d)
-  (role @self {@self job ?job}:?j)
+  (match {@self job ?job}:?j)
   (when (and (/ (- (now-abs-seconds) (abs-seconds ?j.start)) 86400): ?held-days
              (>= ?held-days 30)
              (>= (days-since-last {@self work ? /succ}) ?held-days)))
@@ -58,7 +58,7 @@
   (aspect labour)
   (cooldown 1 d)
   (cease-after-fire)
-  (role @self {@self duty-to ?org recruit-staff})
+  (match {@self duty-to ?org recruit-staff})
   (effects
     (bind 0 ?offers)
     (bind 0 ?open)
@@ -74,7 +74,7 @@
 (npc-audit audit_two_verdicts_one_man
   (aspect labour)
   (cooldown 1 d)
-  (role @self {@self duty-to ?org recruit-staff})
+  (match {@self duty-to ?org recruit-staff})
   (role ?p [k human] {@self draft-verdict ?p ?job /succ})
   (when (>= (count (every {@self draft-verdict ?p ?job /succ})) 2))
   (effects (expect @false "labour: two verdicts drafted for one applicant about one seat")))

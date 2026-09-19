@@ -20,8 +20,8 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self {@self wealth ?wealth}
-              {@self decorum ?decorum})
+  (match {@self wealth ?wealth}
+         {@self decorum ?decorum})
 
   (effects
     (mint-argmax {@self life-aim} 0.01 [k life-aim belonging-aim]

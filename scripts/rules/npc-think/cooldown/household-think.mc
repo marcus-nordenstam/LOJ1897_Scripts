@@ -31,7 +31,7 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self {@self home ?home})
+  (match {@self home ?home})
   (utility idle)
 
   (effects
@@ -70,8 +70,8 @@
   ; a CACHED role: home + no-supper-hour tested against the SAME candidate, and
   ; the role BINDS ?home for the effects. Whichever adult woman fires first sets
   ; the hours; the (not supper-hour) filter then empties for the whole household.
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-              {@self gender [k female]})
+  (match {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+         {@self gender [k female]})
   (role ?home {@self home ?home})
   ; Latched: the hours this fire sets would fell a live residual and withdraw the SAY that
   ; announces them; latched at onset, the activation holds through the announcement.
@@ -112,7 +112,7 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self )
+  (match )
   ; The woman of the house, role-cast from the asker's OWN kinship beliefs: a
   ; female mother / parent / spouse (a child asks their mother; a husband his
   ; wife). Same {@self <kin> ?cand} cacheable shape covet uses. The woman
@@ -138,11 +138,11 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-              {@self home ?home}
-              {?home breakfast-hour ?b}   ; existence cached; the three
-              {?home lunch-hour ?l}       ; hours bind at fire for the
-              {?home supper-hour ?s})
+  (match {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+         {@self home ?home}
+         {?home breakfast-hour ?b}   ; existence cached; the three
+         {?home lunch-hour ?l}       ; hours bind at fire for the
+         {?home supper-hour ?s})
 
   ; Someone asked @self about supper-hour: a heard qs about supper-hour with
   ; @self as the audience. Binds ?asker (the speaker, not @self).

@@ -19,7 +19,7 @@
   ; commits. The timer is desynced across the herd; cold_start_window self-primes it.
   (cooldown 1 m)
 
-  (role @self {@self class-situation ?})
+  (match {@self class-situation ?})
 
   (effects
     (mint-band {@self honesty}    (honesty)

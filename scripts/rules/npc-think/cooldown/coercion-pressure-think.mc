@@ -26,7 +26,7 @@
   (cooldown 1 m)
   (cease-after-fire)
   (rng-stream perpetration)
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]})
+  (match {@self age-band [k young-adult|middle-aged|mature|elderly]})
   (role ?blackmailer {?blackmailer isa [k human], condition [k alive]}
                      {?blackmailer extort @self})
   (effects

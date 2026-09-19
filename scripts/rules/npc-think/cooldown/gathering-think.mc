@@ -28,7 +28,7 @@
 (npc-think plan_gathering
   (cooldown 1 m)
   (rng-stream behaviour)
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
+  (match {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
   (when (chance 0.02))
   (utility want)
   (effects (maintain-proposal {@self plan-gathering [k dinner-party] 3})))
@@ -41,7 +41,7 @@
 (npc-think plan_impromptu_supper
   (cooldown 1 m)
   (rng-stream behaviour)
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
+  (match {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
   (when (chance 0.015))
   (utility want)
   (effects (maintain-proposal {@self plan-gathering [k dinner-party] 0})))

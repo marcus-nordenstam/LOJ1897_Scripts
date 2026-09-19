@@ -2,7 +2,7 @@
 ; economic-situation (classifier). Bands the wealth dimension into the
 ; {@self economic-situation <band>} belief.
 ;
-; Per-NPC self-analysis. The (role @self {@self wealth ?}) self-gate
+; Per-NPC self-analysis. The (match {@self wealth ?}) self-gate
 ; qualifies a mind for banding; a mind without a derived wealth keeps its seeded
 ; band until it qualifies. (mint-band) carries the hysteresis dead-band + interval
 ; history: a value crossing ends the held band and begins the new one, a same-band
@@ -16,7 +16,7 @@
 (npc-think classify_economic_situation
   (rng-stream behaviour)
 
-  (role @self {@self wealth ?wealth})
+  (match {@self wealth ?wealth})
 
   (effects
     (mint-band {@self economic-situation} ?wealth

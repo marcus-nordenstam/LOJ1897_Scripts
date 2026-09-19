@@ -21,7 +21,7 @@
 
 (npc-think seed_coin_pile
   (cooldown 1 m)
-  (role @self -{@self own [k pile]})
+  (match -{@self own [k pile]})
   (role ?home {@self home ?home})
   (utility duty)
   (effects (maintain-proposal {@self SEED-COINS ?home})))

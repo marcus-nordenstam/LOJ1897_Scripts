@@ -27,7 +27,7 @@
   (cooldown 1 m)
   (rng-stream migrations)
 
-  (role @self (young-adult @self))
+  (match (young-adult @self))
 
   (when (chance (* 0.00125 (+ 0.5 (target-or @self openness 0)) (population-pressure))))
 

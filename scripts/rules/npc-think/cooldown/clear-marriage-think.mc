@@ -38,7 +38,7 @@
   (rng-stream perpetration)
 
   ; @self signs the covert murder-proposal letter - bind his OWN name.
-  (role @self {@self name ?author_name})
+  (match {@self name ?author_name})
   (role ?spouse {?spouse isa [k human], condition [k alive]} {@self spouse ?spouse}
                 ; @self names the spouse-victim in the plot (a name value).
                 {?spouse name ?spouse_name}

@@ -12,26 +12,26 @@
 ; parent: holds a child belief.
 (npc-think classify_parent_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?})
+  (match {@self class-situation ?})
   (effects (mint-band {@self identity} (prob {@self child ?}) [k role parent-role] 0.5)))
 
 ; spouse: married.
 (npc-think classify_spouse_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?})
+  (match {@self class-situation ?})
   (effects (mint-band {@self identity} (prob {@self spouse ?}) [k role spouse-role] 0.5)))
 
 ; worker: holds a job.
 (npc-think classify_worker_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?})
+  (match {@self class-situation ?})
   (effects (mint-band {@self identity} (prob {@self job ?}) [k role worker-role] 0.5)))
 
 ; gentleman / lady: the gendered standing of a middle-or-upper class NPC. An NPC
 ; with no gender attr reads as neither.
 (npc-think classify_gentleman_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?})
+  (match {@self class-situation ?})
   (effects
     (mint-band {@self identity}
       (* (= (target-or @self gender 0) [k male])
@@ -41,7 +41,7 @@
 
 (npc-think classify_lady_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?})
+  (match {@self class-situation ?})
   (effects
     (mint-band {@self identity}
       (* (= (target-or @self gender 0) [k female])
@@ -56,7 +56,7 @@
 
 (npc-think classify_machiavellian_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?})
+  (match {@self class-situation ?})
   (effects
     (mint-band {@self identity}
       (>= (target-or @self machiavellianism 0) (identity-machiavellian-min))
@@ -64,7 +64,7 @@
 
 (npc-think classify_sadist_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?})
+  (match {@self class-situation ?})
   (effects
     (mint-band {@self identity}
       (>= (target-or @self sadism 0) (identity-sadist-min))
@@ -76,21 +76,21 @@
 ; building and the org), so the org path is spelled out.
 (npc-think classify_christian_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?})
+  (match {@self class-situation ?})
   (effects
     (mint-band {@self identity} (prob {@self member-of [k org gov church]})
       [k role christian-role] 0.5)))
 
 (npc-think classify_merchant_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?})
+  (match {@self class-situation ?})
   (effects
     (mint-band {@self identity} (prob {@self job [k merchant]})
       [k role merchant-role] 0.5)))
 
 (npc-think classify_steward_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?})
+  (match {@self class-situation ?})
   (effects
     (mint-band {@self identity} (prob {@self job [k steward]})
       [k role steward-role] 0.5)))
@@ -117,13 +117,13 @@
 
 (npc-think classify_physician_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?})
+  (match {@self class-situation ?})
   (effects (mint-band {@self identity} (competent-in [k medicine])
              [k role physician-role] 0.5)))
 
 (npc-think classify_lawyer_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?})
+  (match {@self class-situation ?})
   (effects (mint-band {@self identity} (competent-in [k law])
              [k role lawyer-role] 0.5)))
 
@@ -131,7 +131,7 @@
 ; a secondary graduate is not a scholar.
 (npc-think classify_scholar_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?})
+  (match {@self class-situation ?})
   (effects
     (mint-band {@self identity}
       (* (competent-in [k academic-field])
@@ -141,20 +141,20 @@
 
 (npc-think classify_soldier_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?})
+  (match {@self class-situation ?})
   (effects (mint-band {@self identity} (competent-in [k martial])
              [k role soldier-role] 0.5)))
 
 (npc-think classify_musician_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?})
+  (match {@self class-situation ?})
   (effects (mint-band {@self identity} (competent-in [k music])
              [k role musician-role] 0.5)))
 
 ; artist: a performance art that is NOT music (a musician is not a generic artist).
 (npc-think classify_artist_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?})
+  (match {@self class-situation ?})
   (effects
     (mint-band {@self identity}
       (* (competent-in [k performance-art]) (- 1 (competent-in [k music])))
@@ -162,6 +162,6 @@
 
 (npc-think classify_sportsman_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?})
+  (match {@self class-situation ?})
   (effects (mint-band {@self identity} (competent-in [k athletics])
              [k role sportsman-role] 0.5)))

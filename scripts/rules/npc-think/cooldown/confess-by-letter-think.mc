@@ -19,12 +19,12 @@
   (cooldown 1 m)
   (rng-stream marriages)
 
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-              -{@self spouse ?}
-              -{@self fiancee ?}
-              {@self fancy ?}
+  (match {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+         -{@self spouse ?}
+         -{@self fiancee ?}
+         {@self fancy ?}
               ; @self signs the letter - bind his OWN name for the "Signed, .." line.
-              {@self name ?author_name})
+         {@self name ?author_name})
   ; The one @self is most drawn to, still single. @self declares whether or not he
   ; already knows she cares - the one who has LEARNED she is fancied is exactly who
   ; should now declare back, so this must NOT gate on {?target fancy @self}. Writing

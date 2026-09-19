@@ -33,7 +33,7 @@
   ; his OWN club object - a known org he founded ({?club founder @self} + the
   ; {?club record ?articles} handle are his own beliefs, minted at found-club-seq).
   ; [k org club] narrows to club orgs (a business he founded is not cast here).
-  (role @self (old_human @self))
+  (match (old_human @self))
   (role ?club {?club isa [k org]}
               [k org club]
               {?club founder @self})

@@ -45,8 +45,8 @@
   ; one), and the effect reads both parents. age / politeness-weighted chance are
   ; non-belief ops -> (when). politeness amplifies - the conforming child takes up
   ; the parent's hobby, the contrarian rarely.
-  (role @self 
-              {@self mother ?})
+  (match 
+         {@self mother ?})
 
   (when (and (>= (years-old @self) 3)
              (<= (years-old @self) 14)
@@ -79,8 +79,8 @@
   ; @self is the subject; a known friend gates it and the effect reads each
   ; friend's own interests and copies one @self lacks. age + the openness x
   ; enthusiasm chance are non-belief ops -> (when).
-  (role @self 
-              {@self friend ?})
+  (match 
+         {@self friend ?})
   ; The friend whose enthusiasm rubs off - a uniform pick over the circle.
   (role ?friend {?friend isa [k human], condition [k alive]}
     {@self friend ?friend}
@@ -103,8 +103,8 @@
   ; @self (the apprentice) holds a standing master bond (minted by
   ; apprenticeship_start); the effect reads the master's skilled-in + calling
   ; domains and copies one @self lacks. The openness-weighted chance -> (when).
-  (role @self 
-              {@self master ?})
+  (match 
+         {@self master ?})
 
   (when (chance (* 0.025 (+ 0.3 (target-or @self openness 0)))))
 
@@ -125,7 +125,7 @@
   ; specific source, sampled at random. No belief filter; age + the openness-squared
   ; chance are non-belief ops -> (when). Gated HARD on openness so only the
   ; genuinely curious drift - trait-rooted, not bare chance.
-  (role @self )
+  (match )
 
   (when (and (>= (years-old @self) 10)
              (chance (* 0.0083 (target-or @self openness 0) (target-or @self openness 0)))))
@@ -146,8 +146,8 @@
   ; @self holds at least one interest; low rate. The effect ends one interest whose
   ; domain @self is NOT skilled-in - a skilled domain is settled identity and is
   ; exempt. No-op (fires, mints nothing) if every interest is skill-backed.
-  (role @self 
-              {@self interest ?})
+  (match 
+         {@self interest ?})
 
   (when (chance 0.0025))
 

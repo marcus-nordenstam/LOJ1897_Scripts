@@ -21,7 +21,7 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self -{@self calling ?})
+  (match -{@self calling ?})
 
   (role ?domain {@self interest ?domain}
                 (or {@self skill-level ?domain [k competent]}

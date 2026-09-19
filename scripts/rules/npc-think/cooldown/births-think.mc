@@ -32,11 +32,11 @@
   ; SEPARATE role filters, not as the fertile_wife macro: that macro expands to one
   ; (and ..), and a single op filter never joins the alpha - the role would carry no
   ; membership at all and the rule would never be admitted.
-  (role @self {@self isa [k human], condition [k alive]}
-              {@self gender [k female]}
-              {@self age-band [k youth|young-adult|middle-aged]}
-              {@self spouse ?}
-              -{@self pregnant ?})
+  (match {@self isa [k human], condition [k alive]}
+         {@self gender [k female]}
+         {@self age-band [k youth|young-adult|middle-aged]}
+         {@self spouse ?}
+         -{@self pregnant ?})
 
   ; her husband, and under the same roof - a coupling needs both bodies present.
   (role ?husband {@self spouse ?husband}
@@ -54,7 +54,7 @@
 (npc-think deliver
   (cooldown 1 d)
 
-  (role @self {@self pregnant ?})
+  (match {@self pregnant ?})
   (role ?father {@self pregnant ?father})
 
   (any {@self pregnant-when ?}).target: ?conceived-when

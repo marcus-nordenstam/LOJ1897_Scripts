@@ -29,8 +29,8 @@
 ; and the falling edge ends {@self DRINK}. The act itself never ends the goal.
 (npc-think want_drink
   (cooldown 3 d)
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-              -{@self craving [k alcohol]})   ; dependents use the relapse lane
+  (match {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+         -{@self craving [k alcohol]})   ; dependents use the relapse lane
   (when          (>= (days-since-last {@self DRINK /ever}) 3))
   (utility want (* 10 (drink-drive @self)))
   (effects       (begin-goal {@self DRINK}))

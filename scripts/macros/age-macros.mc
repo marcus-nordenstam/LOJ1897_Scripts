@@ -49,5 +49,5 @@
 ; a BOUND variable, and the bind must live in the @self role (evaluated once for the
 ; deliberating self) - binding in the ?other role re-binds per candidate. Each caller
 ; uses:
-;   (role @self  ... (believes {@self  age-band ?peer_band}))
+;   (match  ... (believes {@self  age-band ?peer_band}))
 ;   (role ?other ... (believes {?other age-span ?peer_band}))

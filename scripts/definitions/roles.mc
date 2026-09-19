@@ -4,7 +4,7 @@
 ; Each is a (define-macro ...) taking the candidate ?x - or @self at a gate. Drop it
 ; into a (role ...) as a single filter:
 ;     (role ?b   {?b isa [k human], condition [k alive]}   <extra-filters>...)   ; BIND + enumerate ?b
-;     (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})                        ; GATE the deliberating NPC
+;     (match {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})                        ; GATE the deliberating NPC
 ; The candidate is passed explicitly (no ?this rewrite): whatever token you pass is
 ; the subject the body's patterns read.
 ;

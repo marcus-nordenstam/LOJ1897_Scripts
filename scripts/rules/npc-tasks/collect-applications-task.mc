@@ -33,11 +33,11 @@
         (effects (set-outcome ?ca-rel /succ))))
 
     (try
-      (role @self -{@self locate [k mail-stack] ?wp /succ}
-                 -{@self locate [k mail-stack] ?wp /fail})
+      (match -{@self locate [k mail-stack] ?wp /succ}
+            -{@self locate [k mail-stack] ?wp /fail})
       (utility obligation)
       (effects (maintain-proposal {@self locate [k mail-stack] ?wp})))
 
     (try
-      (role @self {@self locate [k mail-stack] ?wp /fail})
+      (match {@self locate [k mail-stack] ?wp /fail})
       (effects (set-outcome ?ca-rel /fail)))))

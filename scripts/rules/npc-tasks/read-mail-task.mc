@@ -14,8 +14,8 @@
     ; The locate's own /fail is the "no mail-stack here" record, exactly as find-building's is for
     ; seek_board_find - without reading it this rung re-proposes the search for ever.
     (try
-      (role @self -{@self locate [k mail-stack] ?prem /succ}
-                 -{@self locate [k mail-stack] ?prem /fail})
+      (match -{@self locate [k mail-stack] ?prem /succ}
+            -{@self locate [k mail-stack] ?prem /fail})
       (utility errand)
       (effects (maintain-proposal {@self locate [k mail-stack] ?prem})))
     (try

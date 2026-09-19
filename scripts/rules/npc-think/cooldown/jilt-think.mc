@@ -36,9 +36,9 @@
 
   ; The jilter: holds BOTH a lover bond and a betrothal (to someone else -
   ; the ?jilted filters enforce the third party).
-  (role @self 
-                {@self lover ?}
-                {@self fiancee ?})
+  (match 
+           {@self lover ?}
+           {@self fiancee ?})
   ; The jilted: the jilter's lover who is NOT the jilter's fiancee (the
   ; two-bound believes shape wedding.hs uses to recover the groom).
   (role ?jilted {?jilted isa [k human], condition [k alive]}
@@ -86,10 +86,10 @@
   ; An un-betrothed, unmarried lover-holder of marriageable standing - the
   ; market is open to them the moment the affair ends. decorum-weighted:
   ; the proper feel the impropriety of the mismatch most keenly.
-  (role @self 
-                {@self lover ?}
-                -{@self fiancee ?}
-                -{@self spouse ?})
+  (match 
+           {@self lover ?}
+           -{@self fiancee ?}
+           -{@self spouse ?})
   ; The lover beneath the jilter's station (at least one class below).
   (role ?jilted {?jilted isa [k human], condition [k alive]}
                 {@self lover ?jilted}

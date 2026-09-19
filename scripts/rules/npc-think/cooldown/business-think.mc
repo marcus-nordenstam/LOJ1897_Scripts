@@ -50,12 +50,12 @@
   ; {?job org ?org} (threaded off {@self job ?job}). The working-age band, not-
   ; already-an-owner, merit and means dims, the completion gate and the onset
   ; chance live in (when ...) below.
-  (role @self (old_human @self)
-              {@self wealth ?wealth}
-              -{@self backed-by ?}
-              -{@self job [k head-of-non-household-org]}
-              (or {@self repute [k respectable]}
-                  {@self repute [k exemplary]}))
+  (match (old_human @self)
+         {@self wealth ?wealth}
+         -{@self backed-by ?}
+         -{@self job [k head-of-non-household-org]}
+         (or {@self repute [k respectable]}
+             {@self repute [k exemplary]}))
   (role ?job {@self job ?job})
   (role ?org {?job org ?org})          ; produced-restricted: ?org threaded off ?job
 
@@ -91,12 +91,12 @@
   ; clerk-makes-partner route (the belief-pure part). The age band, not-already-an-
   ; owner, merit + means dims and the monthly chance are non-belief and live in
   ; (when ...) below.
-  (role @self (old_human @self)
-              {@self wealth ?wealth}
-              (or {@self repute [k respectable]}
-                  {@self repute [k exemplary]})
-              -{@self backed-by ?}
-              -{@self job [k head-of-non-household-org]})
+  (match (old_human @self)
+         {@self wealth ?wealth}
+         (or {@self repute [k respectable]}
+             {@self repute [k exemplary]})
+         -{@self backed-by ?}
+         -{@self job [k head-of-non-household-org]})
   (role ?job {@self job ?job}
              {?job org ?})             ; threaded job.org existence
   ; An existing business he is taken into - a KNOWN org of business kind (@self
@@ -156,11 +156,11 @@
   ; SELF-POV (telepathy purge CAT-2): @self weighs his OWN standing; no other
   ; mind is read. Belief-pure part only; the age band, not-already-an-owner, merit
   ; dim, means branch and the monthly chance are non-belief and live in (when ...).
-  (role @self (old_human @self)
-              {@self wealth ?wealth}
-              -{@self job [k head-of-non-household-org]}
-              (or {@self repute [k respectable]}
-                  {@self repute [k exemplary]}))
+  (match (old_human @self)
+         {@self wealth ?wealth}
+         -{@self job [k head-of-non-household-org]}
+         (or {@self repute [k respectable]}
+             {@self repute [k exemplary]}))
   (role ?job {@self job ?job}
              {?job org ?})             ; threaded job.org existence
 
@@ -208,8 +208,8 @@
   ; (that is the whole point of the floor net). The founding-age band, not-already-
   ; an-owner, not-already-pursuing, the LIVE business-floor gate and the chance are
   ; all non-belief and live in (when ...) below.
-  (role @self (old_human @self)
-              -{@self job [k head-of-non-household-org]})
+  (match (old_human @self)
+         -{@self job [k head-of-non-household-org]})
 
   ; MAINTENANCE floor-net (co-minter of {@self FOUND} alongside business_founding). The
   ; CONTINUOUS completion gate is org-head (falls when he founds -> cease). The ONSET group

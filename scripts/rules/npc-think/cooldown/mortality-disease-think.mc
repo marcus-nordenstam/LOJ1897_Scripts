@@ -18,7 +18,7 @@
   (cooldown 1 m)
   (rng-stream deaths)
 
-  (role @self )
+  (match )
 
   ; years-old is a non-belief op, so the age gate lives in (when), not the role.
   (when (and (>= (years-old @self) 1)

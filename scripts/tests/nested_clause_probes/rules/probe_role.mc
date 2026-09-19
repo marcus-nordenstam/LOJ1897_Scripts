@@ -4,7 +4,7 @@
 ; the when-gate.
 (npc-think probe_role
   (cooldown 1 m)
-  (role @self )
+  (match )
   (role ?plotter [k human]
         {?plotter urge @self {@self probe_hunt ?prey3}:?plot3})
   (effects (debug-print "PROBE_ROLE plotter=?plotter prey=?prey3 plot=?plot3")))

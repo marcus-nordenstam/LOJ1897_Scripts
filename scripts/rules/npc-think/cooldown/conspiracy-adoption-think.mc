@@ -30,7 +30,7 @@
   (cooldown 1 m)
   (rng-stream perpetration)
 
-  (role @self )
+  (match )
   ; Anyone @self believes WANTS him to do the kill - the goal arrives only by reading
   ; the (msg-class urge) letter (its content is the instigator's goal clause), never
   ; by telepathy. The adopted belief is {<instigator> goal {<me> kill <victim>}}; the

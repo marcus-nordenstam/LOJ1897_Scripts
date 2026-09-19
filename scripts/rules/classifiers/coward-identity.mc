@@ -20,7 +20,7 @@
 (npc-think classify_coward_identity
   (rng-stream behaviour)
 
-  (role @self {@self repute ?})
+  (match {@self repute ?})
 
   (effects
     (mint-band {@self identity}

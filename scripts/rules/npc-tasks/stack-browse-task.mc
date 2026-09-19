@@ -80,8 +80,8 @@
       (role ?lift-top (spatial ?stack top)
             (!= ?lift-top (bb-read ?browse-rel cycle-end)))
       (no-role [k document] (= (bb-read ?norole from-stack) ?stack))
-      (role @self (spatial ?stack co-located @self)
-                  (bb-none ?browse-rel keep))
+      (match (spatial ?stack co-located @self)
+             (bb-none ?browse-rel keep))
       ; A HAND TO LIFT IT WITH. stack-take asserts one is free - a proposer reaching with
       ; full hands is an authoring error, and this is the only rung that proposes it. The
       ; round simply waits: whatever he is holding is something he came here carrying, and
@@ -93,7 +93,7 @@
     ; ONE DOC: do the caller's work, then re-file it.
     (sequence
       (role ?doc [k document] (= (bb-read ?doc from-stack) ?stack))
-      (role @self (spatial ?stack co-located @self))
+      (match (spatial ?stack co-located @self))
 
       ; THE CALLER'S WORK. ?item is what the body's .?item resolves to - it is named here,
       ; in the rule that evaluates the body, which is the whole of the late-bound mechanism.

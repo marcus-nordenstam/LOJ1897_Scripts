@@ -47,7 +47,7 @@
   (cooldown 1 m)
   (rng-stream incidents)
 
-  (role @self  {@self isa [k human], condition [k alive]})
+  (match  {@self isa [k human], condition [k alive]})
   (role ?victim {?victim isa [k human], condition [k alive]}
                 {@self child ?victim})
 
