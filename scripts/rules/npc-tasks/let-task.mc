@@ -35,7 +35,7 @@
         (if (not (spatial ?stk co-located @self))
             (then (maintain-proposal {@self go (spatial ?stk space)})))))
     (stage
-      (role ?stk [k for-lease-listing-stack] (spatial ?stk co-located @self))
+      (match (spatial ?stk co-located @self))
       (effects (maintain-proposal {@self STACK-PUT ?listing ?stk})))
 
     (stage

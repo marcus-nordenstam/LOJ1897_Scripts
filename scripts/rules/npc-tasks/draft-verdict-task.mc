@@ -76,13 +76,13 @@
       ; and pencils the man's name against the line. A rejection leaves no mark - nothing
       ; was promised.
       (stage
-        (role ?reg {?org employee-register ?reg})
+        (match {?org employee-register ?reg})
         (effects
           (if (and (= ?kind [k offer-letter])
                    (not (spatial ?reg co-located @self)))
               (then (maintain-proposal {@self go (spatial ?reg space)})))))
       (stage
-        (role ?reg {?org employee-register ?reg})
+        (match {?org employee-register ?reg})
         (when {?p name ?rname}
               {?job job-id ?line})
         (effects
