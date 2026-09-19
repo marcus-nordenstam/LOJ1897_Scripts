@@ -7,7 +7,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think want_putter
-  (lock-rule)
+  (lock)
   (cooldown 1 m)
   (role ?home {@self home ?home})
   (role @self (spatial @self building ?home))

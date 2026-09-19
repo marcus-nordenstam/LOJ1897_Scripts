@@ -7,11 +7,11 @@
 ;   borrow_at_home  : AT the lender's home -> propose the loan-taking act (take_loan_act
 ;                     reads the creditor off the standing goal focus). The decision
 ;                     (borrowing_think.hs) begins the goal; its twin outcome rules end it.
-; Both rungs are (lock-rule)-locked: one borrowing errand at a time per mind.
+; Both rungs are (lock)-locked: one borrowing errand at a time per mind.
 ; ----------------------------------------------------------------------------
 
 (npc-think borrow_go
-  (lock-rule)
+  (lock)
   (goal {@self TAKE-LOAN ?creditor})
   (role ?cred_home {?creditor home ?cred_home}
                    (not (spatial @self building ?cred_home)))
@@ -21,7 +21,7 @@
 ; The creditor rides the act target - the act body binds ?lender off the promoted
 ; {@self TAKE-LOAN <creditor>} belief to record the debt against the right person.
 (npc-think borrow_at_home
-  (lock-rule)
+  (lock)
   (goal {@self TAKE-LOAN ?creditor})
   (role ?cred_home {?creditor home ?cred_home}
                    (spatial @self building ?cred_home))

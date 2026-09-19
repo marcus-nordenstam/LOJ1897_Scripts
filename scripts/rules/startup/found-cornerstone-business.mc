@@ -22,7 +22,7 @@
   ; Serialize founding: one NPC reads the org registry, founds a still-missing
   ; cornerstone and appends its kind before the next reads it, so two founders
   ; can never both see count 0 for the same kind and double-found it.
-  (lock-rule)
+  (lock)
 
   ; CACHED self-gate filters. THE FOUNDING CAP: an NPC heads at most ONE
   ; non-household org - a man who has already founded (here or in found_public_org

@@ -17,7 +17,7 @@
   (tar structure|org|space)
   (and
     (try
-      (lock-rule)
+      (lock)
       (rng-stream employment)
       (role ?org {@self duty-to ?org recruit-staff}
                  -{?org isa [k org household]}

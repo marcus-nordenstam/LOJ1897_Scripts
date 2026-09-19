@@ -74,7 +74,7 @@
   ; ONE application at a time: the lock admits a single activation, held for as long as
   ; the maintained apply-for runs; it releases when the activation retires (hired, or the
   ; application concluded).
-  (lock-rule)
+  (lock)
   (rng-stream employment)
   ; A man with an offer in hand WAITS to take it up - he does not fire off more
   ; applications while he is on his way to the counter. On the ROLE, so a write under

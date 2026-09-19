@@ -62,7 +62,7 @@
 ; {@self invite ?guest ?occ} the task mints on success is what takes each friend off
 ; the role for good.
 (npc-think want_invite_guest
-  (lock-rule)
+  (lock)
   (role ?occ {@self organize ?occ}
              {?occ held-on ?})
   (role ?guest {@self friend ?guest}

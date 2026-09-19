@@ -42,7 +42,7 @@
     ; postings on one body share one CREATE-ENTITY and mark two posts advertised on one
     ; sheet (measured).
     (try
-      (lock-rule)
+      (lock)
       (role ?job {?job org ?org}
                  {?job job-id ?}
                  -{? job ?job}
@@ -62,7 +62,7 @@
     ; THE OFFICE POST, once a day while a notice stands: an application only exists in
     ; answer to one. collect-applications walks to the stack itself.
     (try
-      (lock-rule)
+      (lock)
       (role ?wp {?org workplace ?wp}
                 {?org display-ad ?})
       (when (>= (days-since-last {@self collect-applications ?wp /succ}) 1))
@@ -74,7 +74,7 @@
     ; proposal sits in the pipeline's task table at once - a stack of forms overflowed it
     ; (measured: t_task_util cap 16, August). A man reads one paper at a time anyway.
     (try
-      (lock-rule)
+      (lock)
       (role ?app [k application] (spatial ?app held-by @self)
                                  -{@self READ ?app /succ})
       (utility obligation)
@@ -93,7 +93,7 @@
     ; offered to nobody else; the acceptance spends it. The verdict carries the seat, so
     ; the same man is answered once per seat he asked for.
     (try
-      (lock-rule)
+      (lock)
       ; THE MAN who asked for a seat of this org that still stands open, is promised to no
       ; one, and has not been answered about it: ONE role. The seat is HIS filter's own free
       ; var, never a second role: a filter that names another role's var is a join, and a
@@ -110,7 +110,7 @@
 
     ; THE REJECTION: the seat he asked for is held, and he was never answered about it.
     (try
-      (lock-rule)
+      (lock)
       (role ?p [k human] {?p apply-for ?job /succ}
                          {?job org ?org}
                          {? job ?job}
@@ -129,7 +129,7 @@
     ; The record is this task's OWN conclusion, never the seat: HIRE fills the seat while the
     ; task still runs, and a role that stops admitting him withdraws it before the word.
     (try
-      (lock-rule)
+      (lock)
       (role ?man [k human] {?man accept-job-offer ?job /ever}
                            {?man name ?}
                            -{@self hire-applicant ?man ? /succ}
