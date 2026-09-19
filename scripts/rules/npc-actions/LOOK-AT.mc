@@ -28,7 +28,7 @@
   ; echo: a PROCEDURAL act has no cap, so nothing schedules a tick for it and an
   ; (effects ..) block would never run at unpresented LOD at all. The prelude runs at
   ; install in both.
-  (prelude
+  (init
     (if (unsubstantial ?target)
         (then (set-outcome ?look /fail))
         (else

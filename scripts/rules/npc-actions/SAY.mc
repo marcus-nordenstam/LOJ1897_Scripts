@@ -32,7 +32,7 @@
 
   ; The handler rejected an unsubstantial message and let the dispatcher roll the act
   ; back. A /fail here is that rejection.
-  (prelude
+  (init
     (if (unsubstantial ?msg)
         (then (set-outcome ?say-rel /fail))))
 

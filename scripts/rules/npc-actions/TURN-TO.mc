@@ -25,7 +25,7 @@
   ; (effects ..) block for an unpresented mind, and a snap that waits for a frame
   ; that never comes is a man who never turns. Presented, the swing takes frames and
   ; belongs in the effects, which the frame loop runs.
-  (prelude
+  (init
     (cond
       (case (unsubstantial ?target) (set-outcome ?turn /fail))
       (case (unpresented-lod)

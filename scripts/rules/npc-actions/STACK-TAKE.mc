@@ -21,7 +21,7 @@
   (presentation
     (preroll 0.0) (in 0.3) (out 0.3))
 
-  (prelude
+  (init
     (if (unsubstantial ?stack)
         (then (set-outcome ?take /fail))))
 

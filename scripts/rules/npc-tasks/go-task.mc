@@ -19,8 +19,33 @@
 ; and (inclusive): the rungs are a dispatch, never a competition.
 ; ----------------------------------------------------------------------------
 
+; THE ARRIVAL TEST, written ONCE and read twice: as the concluding rung's gate, and in
+; the task's (cease ..).
+;
+; WHY THE CEASE AT ALL. A lane maintaining {@self go ?dest} often has its own gate
+; felled BY the arrival, in the same deliberation - so go is withdrawn and stamped
+; /interrupted before the concluding rung below ever reaches its turn. The SPINE knows
+; either way: its bout is the task's own lifetime, so its cease is the moment go stops
+; running, whatever stopped it, and it asks there whether the man in fact arrived.
+; /interrupted is not a conclusive outcome, so the /succ it sets overwrites it.
+; A FUNC and not a macro: a macro re-substitutes the argument EXPRESSION at each of the
+; three uses of ?dest below, so the destination would be re-derived three times per test.
+(define-func go-arrived (?dest)
+  (or (and (is-a ?dest [k structure]) (spatial @self building ?dest))
+      (spatial @self space ?dest)))
+
 (npc-task {@self go ?dest}:?go-rel
   (tar ?)
+  ; THE CONDITION THE TASK ITSELF RUNS UNDER, and it belongs to the task rather than to
+  ; any rung or any proposer: keep going while he is not there yet. It joins every
+  ; rung's own gate, as the shared roles join their roles, and it is what lets go
+  ; conclude on its OWN terms - the moment he arrives this stops holding, the task
+  ; stops firing, and the cease below is where it says what that meant.
+  (when (not (go-arrived ?dest)))
+  ; ...and it means the same thing whether he arrived or was called off mid-journey, so
+  ; the one test serves both: a withdrawal runs this cease too, at the last moment the
+  ; record is still open, and /interrupted loses to the /succ it sets.
+  (cease (if (go-arrived ?dest) (then (set-outcome ?go-rel /succ))))
   (and
     ; UNPLACED, and the house at its premises is one @self HAS seen: walk in. A room is
     ; only ever seen from INSIDE a building, so entering is what places it - and an address
@@ -75,9 +100,4 @@
     (try
       (when (and (is-a ?dest [k exterior-space])
                  (not (spatial @self space ?dest))))
-      (effects (maintain-proposal {@self WALK ?dest})))
-    ; ARRIVED: the destination is where @self now is - the task has done its one job.
-    (try
-      (when (or (and (is-a ?dest [k structure]) (spatial @self building ?dest))
-                (spatial @self space ?dest)))
-      (effects (set-outcome ?go-rel /succ)))))
+      (effects (maintain-proposal {@self WALK ?dest})))))

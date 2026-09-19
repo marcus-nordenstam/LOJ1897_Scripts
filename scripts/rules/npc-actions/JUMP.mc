@@ -17,6 +17,6 @@
   (presentation
     (preroll 0.0) (in 0.1) (out 0.1))
 
-  (prelude
+  (init
     (if (presented-lod)
         (then (jump-impulse @self)))))

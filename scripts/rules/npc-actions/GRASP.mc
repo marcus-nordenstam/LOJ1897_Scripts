@@ -32,7 +32,7 @@
   ; act back with a fail. A /fail in the prelude IS that rejection: no completion is
   ; scheduled and the act never reaches a motor. A (check ..) would not do - it
   ; compiles out under MX_SHIPPING.
-  (prelude
+  (init
     (if (unsubstantial ?item)
         (then (set-outcome ?grasp /fail))))
 

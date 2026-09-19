@@ -28,7 +28,7 @@
   ; that is the whole of what it did, and it is this. Everything else was already
   ; Merlin's - the .act declared `transmission = read` and the codec adopts the
   ; target's writing into the reader's mind.
-  (prelude
+  (init
     (if (unsubstantial ?doc)
         (then (set-outcome ?read-rel /fail))))
   (effects

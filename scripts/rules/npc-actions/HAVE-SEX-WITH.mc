@@ -23,7 +23,7 @@
   (duration (minutes 45))
   ; All its isim handler did: validate the partner and let the dispatcher roll the act
   ; back. Conception was always the corpus's, and it is below.
-  (prelude
+  (init
     (if (unsubstantial ?paramour)
         (then (set-outcome ?sex-rel /fail))))
   (effects

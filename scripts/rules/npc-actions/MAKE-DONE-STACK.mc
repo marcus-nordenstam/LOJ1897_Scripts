@@ -21,7 +21,7 @@
   (presentation
     (preroll 0.0) (in 0.0) (out 0.0))
 
-  (prelude
+  (init
     (if (or (unsubstantial ?working-stack) (unsubstantial ?where))
         (then (set-outcome ?mds /fail))))
 

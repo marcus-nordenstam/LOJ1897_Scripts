@@ -7,6 +7,12 @@
 
 (npc-task {@self read-doc ?doc}:?rd-rel
   (tar document)
+  ; THE CONDITION THE TASK RUNS UNDER: he has not read it yet. Stated once here rather
+  ; than on the rung that proposes the READ, because it is true of the whole errand -
+  ; walking to the room is equally pointless once the page has been read.
+  (when -{@self READ ?doc /succ /caused_by ?rd-rel})
+  (cease (if (any {@self READ ?doc /succ /caused_by ?rd-rel})
+             (then (set-outcome ?rd-rel /succ))))
   (and
     (try
       ; AT HAND is held OR in the room: a form in the hand has no space to walk to.
@@ -18,11 +24,9 @@
         (if (substantial ?room)
             (then (maintain-proposal {@self go ?room})))))
     (try
+      ; The read-yet test is the SPINE's now, so this role states only what is unique to
+      ; this rung: the page is within reach.
       (role @self (or (spatial ?doc held-by @self)
-                      (spatial ?doc co-located @self))
-                  -{@self READ ?doc /succ /caused_by ?rd-rel})
+                      (spatial ?doc co-located @self)))
       (utility obligation)
-      (effects (maintain-proposal {@self READ ?doc})))
-    (try
-      (role @self {@self READ ?doc /succ /caused_by ?rd-rel})
-      (effects (set-outcome ?rd-rel /succ)))))
+      (effects (maintain-proposal {@self READ ?doc})))))

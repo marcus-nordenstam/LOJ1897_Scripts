@@ -2,7 +2,7 @@
 ; INGEST - a draught or a mouthful of ?thing goes down.
 ;
 ; PORTED from the C++ handler (action_unification_plan.md). The handler's init_func
-; validated its arguments and rejected the act; that rejection is the (prelude ..)
+; validated its arguments and rejected the act; that rejection is the (init ..)
 ; below, because a /fail there is what refuses an install - a (check ..) would not,
 ; since it compiles out under MX_SHIPPING. Its run_func returned success and nothing
 ; else: what a draught DOES to what is drunk - how much it takes, and whether that
@@ -18,7 +18,7 @@
   (presentation
     (preroll 0) (in 0) (out 0))
 
-  (prelude
+  (init
     (if (unsubstantial ?thing)
         (then (set-outcome ?ingest /fail))))
 

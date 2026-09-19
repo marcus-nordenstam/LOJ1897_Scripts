@@ -19,7 +19,7 @@
   (presentation
     (preroll 0.0) (in 0.05) (out 0.05))
 
-  (prelude
+  (init
     (if (!= (spatial ?item gripped-by /env) ?hand)
         (then (set-outcome ?ungrasp /fail))))
 

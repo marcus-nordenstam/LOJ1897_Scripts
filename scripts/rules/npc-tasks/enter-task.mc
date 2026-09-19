@@ -43,6 +43,15 @@
 
 (npc-task {@self enter ?s}:?enter-rel
   (tar @excl structure)
+  ; THE CONDITION THE TASK RUNS UNDER, its own and not any proposer's: he is not
+  ; inside yet. It joins both legs' gates, and the moment the barrier is crossed it
+  ; stops holding - so enter stops firing on its own terms rather than waiting to be
+  ; torn down from outside.
+  (when (not (spatial @self building ?s)))
+  ; ...and the one test serves both endings. Crossed: /succ. Called off mid-approach:
+  ; the withdrawal runs this too, at the last moment the record is still open, and it
+  ; says nothing - leaving the /interrupted the withdrawal stamps, which is the truth.
+  (cease (if (spatial @self building ?s) (then (set-outcome ?enter-rel /succ))))
   (and
     (try
       (role @self (not (spatial @self building ?s)))
@@ -54,8 +63,4 @@
                  -{?s struct-status [k closed]}))
       (effects  (head (spatial ?s parts [k interior-space room] /env)): ?first_room
                 (observe ?first_room): ?obs_room
-                (maintain-proposal {@self WALK ?obs_room})))
-    ; INSIDE ?s: the barrier is crossed, so the task has done its one job and says so.
-    (try
-      (when (spatial @self building ?s))
-      (effects (set-outcome ?enter-rel /succ)))))
+                (maintain-proposal {@self WALK ?obs_room})))))

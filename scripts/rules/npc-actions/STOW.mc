@@ -2,7 +2,7 @@
 ; STOW - ?thing goes out of the hand, onto the body, out of sight.
 ;
 ; PORTED from the C++ handler (action_unification_plan.md). The handler's init_func
-; validated its arguments and rejected the act; that rejection is the (prelude ..)
+; validated its arguments and rejected the act; that rejection is the (init ..)
 ; below, because a /fail there is what refuses an install - a (check ..) would not,
 ; since it compiles out under MX_SHIPPING. The handler's whole run_func is here: the
 ; grip moves from the hand to the MAN (the grip store is exclusive, so gripping onto
@@ -21,7 +21,7 @@
   (presentation
     (preroll 0.0) (in 0.4) (out 0.4))
 
-  (prelude
+  (init
     (if (unsubstantial ?thing)
         (then (set-outcome ?stow /fail))))
 

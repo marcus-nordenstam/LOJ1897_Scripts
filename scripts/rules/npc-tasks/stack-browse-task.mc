@@ -38,13 +38,14 @@
 (npc-task {@self stack-browse ?stack ?do-this}:?browse-rel
   (tar stack)
   (aux ?)
+  ; THE OPENING LOOK, once, when the round begins - which is what (init ..) is, and why
+  ; it sits on the SPINE: it belongs to the whole task, not to any one rung. A pile with
+  ; nothing on it was never a round to run.
+  (init
+    (tolerate (observe (spatial ?stack top /env)): ?top)
+    (if (nothing ?top)
+        (then (set-outcome ?browse-rel /succ))))
   (and
-    (try
-      (prelude
-        (tolerate (observe (spatial ?stack top /env)): ?top)
-        (if (nothing ?top)
-            (then (set-outcome ?browse-rel /succ)))))
-
     ; THE ROUND IS OVER when the pile has nothing left to show. This LOOKS rather than
     ; reading what @self believes: observing an empty pile teaches a mind nothing at all
     ; (a pile's contents are learned by observing them and by no other route), so `nothing

@@ -22,7 +22,7 @@
   (tar @excl)
   (duration (minutes 1))
 
-  (prelude
+  (init
     (if (unsubstantial (spatial ?item gripped-by /env))
         (then (set-outcome ?put /fail))))
 

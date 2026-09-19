@@ -2,7 +2,7 @@
 ; WEAR - ?article goes onto ?part and stays there.
 ;
 ; PORTED from the C++ handler (action_unification_plan.md). The handler's init_func
-; validated its arguments and rejected the act; that rejection is the (prelude ..)
+; validated its arguments and rejected the act; that rejection is the (init ..)
 ; below, because a /fail there is what refuses an install - a (check ..) would not,
 ; since it compiles out under MX_SHIPPING. The env model is the `wear` attr the hand
 ; and finger archetypes carry, and the grip that held the article up to be put on is
@@ -20,7 +20,7 @@
   (presentation
     (preroll 0.0) (in 0.4) (out 0.4))
 
-  (prelude
+  (init
     (if (or (unsubstantial ?article) (unsubstantial ?part))
         (then (set-outcome ?wear /fail))))
 

@@ -2,7 +2,7 @@
 ; REACH-FOR - the arm extends until the hand is at ?target.
 ;
 ; PORTED from the C++ handler (action_unification_plan.md). The handler's init_func
-; validated its arguments and rejected the act; that rejection is the (prelude ..)
+; validated its arguments and rejected the act; that rejection is the (init ..)
 ; below, because a /fail there is what refuses an install - a (check ..) would not,
 ; since it compiles out under MX_SHIPPING. Its init_func also read ?target's
 ; world bounds and threw the answer away - the read existed to make the bounds-attr
@@ -22,6 +22,6 @@
     (proc-anim reachfor)
     (preroll 0.0) (in 1) (out 1))
 
-  (prelude
+  (init
     (if (unsubstantial ?target)
         (then (set-outcome ?reach /fail)))))

@@ -12,7 +12,7 @@
   (presentation
     (preroll 0.0) (in 0.3) (out 0.3))
   (duration (minutes 1))
-  (prelude
+  (init
     (if (unsubstantial ?doc)
         (then (set-outcome ?put-rel /fail))))
   (effects
