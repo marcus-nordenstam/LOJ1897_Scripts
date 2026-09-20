@@ -79,6 +79,13 @@
 ; the mirror axis would chase the body that carries it.
 (declare-func steer-facing (args ?who ?toward))
 
+; (steer-to ?who ?point) - the PRESENTED movement write: turn ?who's character toward
+; ?point at the act's (delib-turn-speed ..) and translate while it has ground or wall
+; contact. The presented twin of (advance-toward ..), which moves the box directly. The
+; speed is not an argument: the host blends it with the previous act's on the motor stack
+; so a WALK into a RUN ramps with the visual blend. @true iff it translated.
+(declare-func steer-to (args ?who ?point))
+
 ; (jump-impulse ?who) - launch ?who off the ground, once. The physics character controller
 ; owns it, and it only does anything while ?who is standing on something - a man already in
 ; the air cannot push off. An unpresented man has no ground to push off at all.

@@ -180,6 +180,18 @@
 ; is the arriving lane firing its purpose act (see at-place-kind).
 (define-macro go_travel_floor_min      () 1)
 
+; THE STEERED WALK. Per-step speeds the character integrator applies (m per step, the
+; values WALK_TO.act / RUN.act carried) and the NAV-STEERED turn rates (rad/s) - the
+; player's input responsiveness is his own and never read from here.
+(define-macro walk_speed_mps           () 0.1)
+(define-macro walk_delib_turn_rate     () 4.0)
+(define-macro run_speed_mps            () 0.5)
+(define-macro run_delib_turn_rate      () 12.0)
+; Within this of the goal a presented walker has ARRIVED and sets his own /succ.
+(define-macro walk_arrive_m            () 0.5)
+; Within this of the tick's steer point he stands on it and takes no step.
+(define-macro walk_step_eps            () 0.001)
+
 ; THRESHOLD GEOMETRY (was C++ front_park_point / at_threshold). An actor approaching a
 ; venue stands off its front face by its own forward half-extent times this clearance,
 ; so a wider body stands proportionally further back. front-park-point (funcs/spatial.mc)
