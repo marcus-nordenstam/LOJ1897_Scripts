@@ -32,8 +32,8 @@
 
   ; The REASON: the appraised emotions (minted by the betray-act reflex rows). Read as the
   ; /caused_by anchors, never re-minted.
-  (any {@self emotion [k anger] ?partner}):?anger_bond
-  (any {@self emotion [k contempt] ?interloper}):?contempt_bond
+  (bind (any {@self emotion [k anger] ?partner}) ?anger_bond)
+  (bind (any {@self emotion [k contempt] ?interloper}) ?contempt_bond)
 
   ; Fires only once the betrayal is appraised (anger present); the rage tip fires ONCE
   ; (0.02 base * dark-propensity), then a running kill proposal latches it.

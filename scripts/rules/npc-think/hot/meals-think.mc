@@ -347,11 +347,11 @@
   (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ)))
 
 (npc-think starving_buy_go
+  (any {@self provisions-shop ?shop})
   (role @self {@self starve ?, wealth ?wealth})
   ; The known provisions-shop is preferred; else a role-cast shop the NPC KNOWS
   ; (nearest, weighted). Replaces the (venue ...) fallback.
   (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
-  (any {@self provisions-shop ?shop})
   (when (and (> (target-or @self appetite 0) 1.3)
              (> ?wealth 0.2)
              (not (is-a (spatial @self building) [k building shop]))))
@@ -374,9 +374,9 @@
   (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ)))
 
 (npc-think starving_steal_go
+  (any {@self provisions-shop ?shop})
   (role @self {@self starve ?, wealth ?wealth})
   (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette)))
-  (any {@self provisions-shop ?shop})
   (when (and (> (target-or @self appetite 0) 1.3)
              (not (> ?wealth 0.2))
              (not (is-a (spatial @self building) [k building shop]))))

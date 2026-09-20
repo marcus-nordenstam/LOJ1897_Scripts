@@ -57,7 +57,7 @@
   (role @self {@self pregnant ?})
   (role ?father {@self pregnant ?father})
 
-  (any {@self pregnant-when ?}).target: ?conceived-when
+  (bind (any {@self pregnant-when ?}).target ?conceived-when)
 
   (when (>= (time-since /weeks ?conceived-when) (gestation_weeks)))
 

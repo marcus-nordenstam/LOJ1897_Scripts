@@ -56,7 +56,7 @@
   ;; Fire only while sparse, and then with a sparseness-scaled monthly chance. The
   ;; (< ...) guard fires the (and ...) only below the threshold, so the (chance ...)
   ;; argument is strictly positive whenever it is rolled.
-  (population-pressure): ?pressure
+  (bind (population-pressure) ?pressure)
   (when (and (< ?pressure (homeostat_immigration_pressure))
              (chance (* (immigrant_admit_scale)
                         (- (homeostat_immigration_pressure) ?pressure)))))

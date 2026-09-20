@@ -56,7 +56,7 @@
 
   ; crave-rival resolves the rival for the beloved (read in @self's own mind), else
   ; the beloved themselves.
-  (crave-rival ?beloved): ?victim
+  (bind (crave-rival ?beloved) ?victim)
 
   ; MAINTAIN the kill while the crave holds and the victim lives. The jealous-rage
   ; tip fires ONCE (chance = 0.02 * (1-inhibition) * mean(volatility,psychopathy)),

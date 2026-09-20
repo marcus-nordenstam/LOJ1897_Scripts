@@ -86,7 +86,7 @@
 
   ; The REASON: the fixation (read as the /caused_by anchor, never re-minted - so the
   ; hunt fades if the fixation lifts). seed_predation_profile is what mints fixations.
-  (any {@self fixation ?}):?fixation_bond
+  (bind (any {@self fixation ?}) ?fixation_bond)
 
   ; Disposition floor + rate. lethal = mean(psychopathy, sadism); propensity =
   ; (1 - inhibition) * lethal, DOUBLED for {@self life-aim power-aim}. The lethal tip

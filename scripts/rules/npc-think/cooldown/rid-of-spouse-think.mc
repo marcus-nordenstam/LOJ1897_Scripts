@@ -33,14 +33,13 @@
   (cooldown 1 m)
   (rng-stream perpetration)
 
-  (role @self 
-              {@self age-band [k young-adult|middle-aged|mature|elderly]})
-  (role ?spouse {?spouse isa [k human], condition [k alive]} {@self spouse ?spouse} (select (policy first-match)))
-
   ; The actor's lover, bound once (an unmarriageable - already-married - lover
   ; waiting raises the propensity). Bound at top-level so {?lover spouse @something}
   ; below takes a plain ?var (a macro arg cannot carry an op-expr into a pattern).
   (any {@self lover ?lover})
+  (role @self 
+              {@self age-band [k young-adult|middle-aged|mature|elderly]})
+  (role ?spouse {?spouse isa [k human], condition [k alive]} {@self spouse ?spouse} (select (policy first-match)))
 
   ; The REASON: the held detest belief, else dislike, else the spouse-wealth belief.
   ; Read as the /caused_by anchor, never re-minted, so the drive fades as the reason
