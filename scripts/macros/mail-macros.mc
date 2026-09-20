@@ -30,20 +30,29 @@
 ; the send-mail posting lane (send_mail_think.hs). The magic mail service routes it to ?dest's mail room by
 ; that written destination. The letter is born where @self stands, so @self can carry it
 ; to a post pile.
+; THE LETTER IS MADE BY THE CREATE-ENTITY ACT, never by the raw (create-entity ..) func.
+; The func returns what it MADE, in the realm it made it - an ABS entity - and an abs object
+; dropped into a mental clause degrades to @fail, so {@self send-mail ?ltr ?out} was minted
+; degenerate and the search that read it back had a @fail field. The ACT observes what it
+; created and stashes the MENTAL symbol under its own `created` key, which is the only form a
+; proposal can carry. Everything the letter needs doing to it therefore happens in the
+; [/postlude ..], which runs on the proposing activation's restored bindings once the act is
+; done - so ?msg, ?dest, ?addressee and ?out are all still in scope there.
 (define-macro post-letter (?kind ?msg ?dest ?addressee ?out)
   (if (substantial ?dest)
     (then
       (check ?out)
-      (create-entity ?kind (spatial @self building)): ?ltr
-      (check ?ltr)
-      (if (and (substantial ?ltr) (substantial ?out))
-        (then
-          (set-writing ?ltr ?msg)
-          (if {?addressee name ?addressee-name}
-              (then (set-attr ?ltr addressee ?addressee-name)))
-          (if {?dest address ?dest-address}
-              (then (set-attr ?ltr destination ?dest-address)))
-          (maintain-proposal {@self send-mail ?ltr ?out}))))))
+      (maintain-proposal {@self CREATE-ENTITY ?kind}:?ce
+        [/postlude
+          (bind (bb-read ?ce created) ?ltr)
+          (if (and (substantial ?ltr) (substantial ?out))
+            (then
+              (set-writing ?ltr ?msg)
+              (if {?addressee name ?addressee-name}
+                  (then (set-attr ?ltr addressee ?addressee-name)))
+              (if {?dest address ?dest-address}
+                  (then (set-attr ?ltr destination ?dest-address)))
+              (maintain-proposal {@self send-mail ?ltr ?out})))]))))
 
 ; (plant-letter [k <kind>] <msg> ?premises): leave an UNADDRESSED <kind> letter
 ; carrying <msg> at ?premises - a killer's kept forged draft as discoverable evidence

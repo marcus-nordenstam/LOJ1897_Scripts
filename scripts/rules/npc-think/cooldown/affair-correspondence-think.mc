@@ -41,15 +41,51 @@
     {?paramour name ?paramour_name}
     (select (policy first-match)))
 
-  ; (when) is the monthly writer rate; the adult floor, live paramour and
-  ; concealment motive (affair_macros.hs) are role filters above.
-  (when (chance 0.5))
-
   (role ?my-home {@self home ?my-home})
-  (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
-  (effects
-    ; The love letter IS the affair fact, authored in natlang: her name in the
-    ; body, "Signed, .." -> the (formulaic author ..) the reader resolves @i from.
-    (send-covert-letter ?paramour
-                         (nl-written-msg "I have taken ?paramour_name as a lover. Signed, ?author_name")
-                         [k love-letter] ?my-out-box)))
+
+  ; Making the paper, penning it and posting it are THREE deeds, each its own act, and every
+  ; rung reads the world for what is already done - an errand interrupted resumes where the
+  ; paper actually lies. Ordered finish-before-start, so a letter in hand is dealt with
+  ; before another is penned.
+  (stable-or
+    ; POST the finished letter. Getting to the pile is send-mail's own business.
+    (try
+      (role ?ltr [k love-letter] (spatial ?ltr co-located @self)
+                                 {@self WRITE ?ltr ? /succ}
+                                 -{@self send-mail ?ltr ? /succ})
+      (role ?out [k outgoing-mail-stack] (spatial ?out building ?my-home))
+      (effects
+        ; A letter he has WRITTEN must carry what the mail service routes by; a filter here
+        ; would leave an unstamped paper on the desk in silence.
+        (check (substantial (attr ?ltr writing)))
+        (check (substantial (attr ?ltr destination)))
+        (maintain-proposal {@self send-mail ?ltr ?out})))
+
+
+    ; PEN the blank one. write-doc walks him back to wherever the paper lies and proposes
+    ; WRITE itself - a task that pens never proposes WRITE directly.
+    ;
+    ; The love letter IS the affair fact, and the ENVELOPE RIDES ON THE MESSAGE: WRITE stamps
+    ; the addressee for the sorter at the door and the address for the mail service off the
+    ; riders, so the letter needs no separate addressing deed. It is (written-msg ..) rather
+    ; than the natlang twin because only this wrapper takes riders - nl-written-msg's one
+    ; argument is the string itself.
+    ;
+    ; HER ADDRESS IS A GATE, not a check: a man who does not know where his lover lives
+    ; genuinely cannot post to her, and waits until he does.
+    (try
+      (role ?ltr [k love-letter] (spatial ?ltr co-located @self)
+                                 (unsubstantial (attr ?ltr writing)))
+      (when {?paramour home ?her-home}
+            {?her-home address ?her-address})
+      (effects
+        (maintain-proposal
+          {@self write-doc ?ltr
+                 (written-msg [/addressee ?paramour_name /address ?her-address /author ?author_name]
+                              {@i lover ?paramour_name})})))
+
+    ; MAKE one. The monthly writer rate gates THIS deed alone - once a letter exists it is
+    ; finished off whatever the roll says, or a half-written affair sits on the desk for ever.
+    (try
+      (when (chance 0.5))
+      (effects (maintain-proposal {@self CREATE-ENTITY [k love-letter]})))))
