@@ -17,7 +17,7 @@
   (sided aux left-hand right-hand)
   (obs)
   (tar @excl)
-  (duration (minutes 1))
+  (duration (seconds 1 min))
   (presentation
     (preroll 0.0) (in 0.3) (out 0.3))
 

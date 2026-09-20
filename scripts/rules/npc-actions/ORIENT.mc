@@ -17,7 +17,7 @@
 (include "../../macros/adopt-aoc.mc")
 
 (npc-action {@self ORIENT}
-  (duration (minutes 30))
+  (duration (seconds 30 min))
   (effects
     ; READ the public register: per articles document, decode its TABLE into beliefs
     ; via (adopt-aoc) - the org object (anchored to the articles) + its queryable

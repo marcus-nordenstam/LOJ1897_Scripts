@@ -6,7 +6,7 @@
 ; its pressure.
 
 (npc-action {@self DRINK}
-  (duration (minutes 90))
+  (duration (seconds 90 min))
   (effects
     ; Intoxication accumulates as a lifetime-drinking proxy (v1 - no decay); the
     ; sobriety classifier reads the attr back. Locationless by design: pub

@@ -39,7 +39,7 @@
 ; here. The begun-then-ended {@self STOCKTAKE} act-belief IS the round (30 min).
 (npc-action {@self STOCKTAKE}
   (track-skill-level [k accountancy])
-  (duration (minutes 30))
+  (duration (seconds 30 min))
   (effects
     (spatial @self building): ?shop
     (check ?shop)

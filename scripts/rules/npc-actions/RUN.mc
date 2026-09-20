@@ -23,7 +23,7 @@
     (preroll 0.0) (in 0.0) (out 0.0))
   (duration
     (cond (case (presented-lod) procedural)
-          (else (minutes (max (go_travel_floor_min) (travel-minutes @self ?dest))))))
+          (else (seconds (max (go_travel_floor_min) (travel-minutes @self ?dest)) min))))
 
   (init
     (cond

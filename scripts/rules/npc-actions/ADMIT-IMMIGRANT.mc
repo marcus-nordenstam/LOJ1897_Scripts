@@ -18,7 +18,7 @@
 (include "../../macros/tunables.mc")
 
 (npc-action {@self ADMIT-IMMIGRANT ?office}
-  (duration (minutes (admission_minutes)))
+  (duration (seconds (admission_minutes) min))
   (effects
     (env-entities [k building rowhouse]): ?homes
     (count ?homes): ?n

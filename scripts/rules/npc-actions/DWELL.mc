@@ -14,5 +14,5 @@
 ; it like any other act. It carried (idle-action) once, which made it yield at equal
 ; utility to anything purposeful, and that is how a man wandered off his shift.
 (npc-action {@self DWELL ?place ?until}
-  (duration (minutes (minutes-until-hour ?until)))
+  (duration (seconds (minutes-until-hour ?until) min))
   (effects (set-outcome {@self DWELL ?place ?until} /succ)))

@@ -23,7 +23,7 @@
   (presentation
     (preroll 0.0) (in 0.4) (out 0.4))
   (track-skill-level [k literacy])
-  (duration (minutes 10))
+  (duration (seconds 10 min))
   ; The isim handler validated the document and let the dispatcher roll the act back;
   ; that is the whole of what it did, and it is this. Everything else was already
   ; Merlin's - the .act declared `transmission = read` and the codec adopts the

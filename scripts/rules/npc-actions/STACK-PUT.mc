@@ -15,7 +15,7 @@
   ; its first tick, so no clock caps it. The minute is the scheduled length.
   (duration
     (cond (case (presented-lod) procedural)
-          (else (minutes 1))))
+          (else (seconds 1 min))))
   (init
     (if (unsubstantial ?doc)
         (then (set-outcome ?put-rel /fail))))

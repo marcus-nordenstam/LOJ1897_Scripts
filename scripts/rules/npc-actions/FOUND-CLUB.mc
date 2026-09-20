@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self FOUND-CLUB}
-  (duration (minutes 90))
+  (duration (seconds 90 min))
   (effects
     ; Clubs are not premises-gated; a dry pool just no-ops found-club-seq's own
     ; (if ?wp) guard.

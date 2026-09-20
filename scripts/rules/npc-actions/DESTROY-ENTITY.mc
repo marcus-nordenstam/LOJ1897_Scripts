@@ -12,7 +12,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self DESTROY-ENTITY ?thing}
-  (duration (minutes 1))
+  (duration (seconds 1 min))
   (effects
     (realize-destroyed ?thing condition [k condition consumed] DESTROY-ENTITY)
     (destroy-entity ?thing)

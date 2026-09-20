@@ -22,7 +22,7 @@
   (sided aux left-hand right-hand)
   (obs)
   (tar @excl)
-  (duration (minutes 1))
+  (duration (seconds 1 min))
   (presentation
     (anim-right right_hand_grip)
     (anim-flags loop reset)

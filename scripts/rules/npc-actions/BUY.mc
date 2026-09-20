@@ -10,7 +10,7 @@
 (include "../../macros/collection-macros.mc")
 
 (npc-action {@self BUY ?goods ?vendor}:?buy-act-rel
-  (tar object) (aux human) (duration (minutes 1))
+  (tar object) (aux human) (duration (seconds 1 min))
   (effects
     (check (spatial ?goods co-located @self))
     (check (>= (coin-balance @self) (price ?goods)))

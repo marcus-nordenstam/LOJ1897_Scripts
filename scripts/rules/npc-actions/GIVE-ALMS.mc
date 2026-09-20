@@ -4,7 +4,7 @@
 ; days-since-last reads. No aim, no end-goal.
 
 (npc-action {@self GIVE-ALMS ?church}
-  (duration (minutes 60))
+  (duration (seconds 60 min))
   (effects
     ; A punctual {@self give <sum>} act-record (born ended - a begin would leave
     ; the give ongoing forever, and a later identical sum would trip the self-act

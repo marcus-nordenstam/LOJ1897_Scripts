@@ -20,7 +20,7 @@
   (motor body)
   (obs)
   (tar @excl)
-  (duration (minutes 1))
+  (duration (seconds 1 min))
 
   (init
     (if (unsubstantial (spatial ?item gripped-by /env))

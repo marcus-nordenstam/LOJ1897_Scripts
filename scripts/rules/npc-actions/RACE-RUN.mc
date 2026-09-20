@@ -18,7 +18,7 @@
 ; physiology - the physics of the run - and writes the records.
 (npc-action {@self RACE-RUN ?sport ?judge}
   (track-skill-level [k athletics])
-  (duration (minutes 30))
+  (duration (seconds 30 min))
   (effects
     ; My run: own vigour + a draw, all self-reads. Clamped to a 0..1 score.
     (clamp (+ 0.10

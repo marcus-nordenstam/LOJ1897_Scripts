@@ -6,7 +6,7 @@
 
 (npc-action {@self PLAY-GAME}
   (track-skill-level [k gaming])
-  (duration (minutes 90))
+  (duration (seconds 90 min))
   (kind_fold)          
   (effects
     ; gambling-addiction is the standing DISPOSITION (a state) - and the amplifier

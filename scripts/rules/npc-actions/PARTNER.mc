@@ -14,7 +14,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self PARTNER ?art}
-  (duration (minutes 90))
+  (duration (seconds 90 min))
   (effects
     (fire-self)
     (table-set ?art co-owner @self)

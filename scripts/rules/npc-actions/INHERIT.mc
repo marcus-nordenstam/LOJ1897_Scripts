@@ -14,7 +14,7 @@
 (include "../../macros/collection-macros.mc")
 
 (npc-action {@self INHERIT ?dead ?pile}
-  (duration (minutes 240))
+  (duration (seconds 240 min))
   (effects
     ; Buildings: every deed the deceased owned passes to @self.
     (for-each ?deed (env-entities [k title-deed])

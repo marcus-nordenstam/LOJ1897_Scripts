@@ -6,7 +6,7 @@
 (include "../../definitions/roles.mc")
 
 (npc-action {@self STACK-BURY ?doc ?stack}:?bury-rel
-  (duration (minutes 1))
+  (duration (seconds 1 min))
   (effects
     ; The twin of STACK-TAKE's: a man files a paper in the pile he is standing at.
     (check (spatial ?stack co-located @self /env))

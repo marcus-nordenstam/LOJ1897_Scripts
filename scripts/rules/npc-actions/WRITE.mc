@@ -30,7 +30,7 @@
   (aux @msg @excl)
   (duration
     (cond (case (presented-lod) procedural)
-          (else (minutes 10))))
+          (else (seconds 10 min))))
   (presentation
     (preroll 0.0) (in 0.4) (out 0.4))
   (effects

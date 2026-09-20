@@ -8,7 +8,7 @@
 
 (npc-action {@self RECORD-SALE ?dwell}
   (track-skill-level [k accountancy])
-  (duration (minutes 60))
+  (duration (seconds 60 min))
   (effects
     (for-each ?deed (env-entities [k title-deed])
       (do

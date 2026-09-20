@@ -34,7 +34,7 @@
   (motor body)
   (presentation
     (preroll 0.0) (in 0.5) (out 0.5))
-  (duration (minutes (birth_labour_minutes)))
+  (duration (seconds (birth_labour_minutes) min))
   (effects
     ; Born where the mother is. A woman with no room under her cannot deliver -
     ; there would be nowhere to put the child.

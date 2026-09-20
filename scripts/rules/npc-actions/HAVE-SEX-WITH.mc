@@ -21,7 +21,7 @@
   (motor body)
   (presentation
     (preroll 0.0) (in 0.5) (out 0.5))
-  (duration (minutes 45))
+  (duration (seconds 45 min))
   ; All its isim handler did: validate the partner and let the dispatcher roll the act
   ; back. Conception was always the corpus's, and it is below.
   (init

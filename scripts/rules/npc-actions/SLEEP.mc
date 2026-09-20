@@ -24,6 +24,6 @@
   (presentation
     (preroll 0.0) (in 0.0) (out 0.0))
   (succeed-on-window-exit)
-  (duration (minutes (floor (max (sleep-inertia-floor-min)
-                                 (* (sleep-min-per-fatigue) (attr @self fatigue))))))
+  (duration (seconds (floor (max (sleep-inertia-floor-min)
+                                 (* (sleep-min-per-fatigue) (attr @self fatigue)))) min))
   (effects (set-outcome {@self SLEEP} /succ)))

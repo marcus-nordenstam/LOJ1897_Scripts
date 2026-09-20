@@ -5,7 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self QUIT-WORK}
-  (duration (minutes 60))
+  (duration (seconds 60 min))
   (effects
     (fire-self)
     (set-outcome {@self QUIT-WORK} /succ)))

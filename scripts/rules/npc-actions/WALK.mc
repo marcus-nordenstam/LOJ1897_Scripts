@@ -36,7 +36,7 @@
     (preroll 0.0) (in 0.4) (out 0.4))
   (duration
     (cond (case (presented-lod) procedural)
-          (else (minutes (max (go_travel_floor_min) (travel-minutes @self ?dest))))))
+          (else (seconds (max (go_travel_floor_min) (travel-minutes @self ?dest)) min))))
 
   ; A destination nobody can point to is not one: the relocate seam takes a point as
   ; readily as a space, and the vector ops read a failed geometry read as the ZERO

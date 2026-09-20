@@ -5,7 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self SACK ?worker}
-  (duration (minutes 45))
+  (duration (seconds 45 min))
   (effects
     (strike-from-register ?worker)
     ; the grudge: the dismissed man resents the boss who let him go (a named motive)

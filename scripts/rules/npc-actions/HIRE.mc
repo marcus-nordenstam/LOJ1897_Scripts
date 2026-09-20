@@ -10,7 +10,7 @@
 (npc-action {@self HIRE ?worker ?job-id}:?hire-rel
   (track-skill-level [k personnel])
   (tar human)
-  (duration (minutes 15))
+  (duration (seconds 15 min))
   (effects
     (check (spatial ?worker co-located @self))
     (check (substantial (name ?worker)))

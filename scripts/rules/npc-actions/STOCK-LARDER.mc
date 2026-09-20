@@ -18,7 +18,7 @@
 (define-macro larder_stopgap_stock () 30)
 
 (npc-action {@self STOCK-LARDER ?kitchen}
-  (duration (minutes 5))
+  (duration (seconds 5 min))
   (effects
     (check (spatial @self space ?kitchen /env))
     (bind 0 ?pile)
