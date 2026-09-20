@@ -44,7 +44,7 @@
              (not (substantial (attr ?np-bldg name))))
       (then
         (set-attr ?np-bldg name ?np-name)
-        (create-entity [k building-name-sign] (floats 0 0 0) ?np-bldg): ?np-sign
+        (create-entity [k building-name-sign] @nothing ?np-bldg): ?np-sign
         (set-attr ?np-sign name ?np-name)))))
 
 ; found-org-seq - read the house-agency's for-sale REGISTER for a premises of the org's

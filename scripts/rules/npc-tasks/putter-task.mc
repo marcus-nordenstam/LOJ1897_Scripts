@@ -40,7 +40,8 @@
                  (spatial ?home room [k kitchen]): ?kitchen
                  (spatial @self space ?kitchen)
                  (= (believed-pile-count ?kitchen [k food]) 0)))
-      (effects (maintain-proposal {@self STOCK-LARDER ?kitchen})))
+      (when (poll (rest-cell ?kitchen [k pile]): ?cell))
+      (effects (maintain-proposal {@self STOCK-LARDER ?kitchen ?cell})))
     (try
       (role @self {@self wander ?home /succ /caused_by ?p-rel}
         (effects (set-outcome ?p-rel /succ))))))

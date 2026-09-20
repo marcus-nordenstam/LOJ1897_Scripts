@@ -1,15 +1,16 @@
 ; ----------------------------------------------------------------------------
 ; bring (npc-action) - the put-down completion of the general bring lane
-; (npc-think/bring_think.hs). Fires ONLY at the destination (the same at-place
-; gate the promotion think used): every carried item of the ware's kind is put
-; down in the space @self stands in. The held set is the env-truth hold view
-; (both hands, kind-filtered).
+; (npc-think/hot/bring-think.mc). Fires ONLY at the destination (the same in-space
+; gate the proposing think used): every carried item of the ware's kind is set down
+; on ?cell, the floor cell the think claimed at the goal's destination - the act needs
+; no destination of its own. The held set is the env-truth hold view (both hands,
+; kind-filtered).
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.mc")
 (include "../../macros/collection-macros.mc")
 
-(npc-action {@self BRING ?ware ?dest}
+(npc-action {@self BRING ?ware ?cell}
   (duration (seconds 5 min))
   (effects
     ; Put down each carried item of the ware kind. A carried PILE (the
@@ -17,7 +18,7 @@
     ; landing (the larder absorbs it), else it becomes that space's pile.
     (for-each ?item (spatial @self hold ?ware /env)
         (do
-          (spatial-write ?item space (spatial @self space /env) /env)
+          (relocate ?item ?cell)
           ; A put-down PILE folds into a co-located same-content pile (the larder
           ; absorbs the basket, basket destroyed); with none, it BECOMES the pile.
           (if (is-a ?item [k pile])
@@ -31,4 +32,4 @@
                 (if ?larder
                     (then (pile-add ?larder (attr ?item count))
                           (destroy-entity ?item)))))))
-    (set-outcome {@self BRING ?ware ?dest} /succ)))
+    (set-outcome {@self BRING ?ware ?cell} /succ)))

@@ -54,7 +54,7 @@
     (attr ?ab address): ?aaddr
     (if (substantial ?aaddr)
       (then
-        (create-entity [k address-sign] (floats 0 0 0) ?ab): ?asign
+        (create-entity [k address-sign] @nothing ?ab): ?asign
         (set-attr ?asign address ?aaddr))))
   ; Every org the town OPENS WITH is CHARTERED here, ready to found: premises claimed off
   ; the register, articles filed on the incorporation stack, staff book created - and the

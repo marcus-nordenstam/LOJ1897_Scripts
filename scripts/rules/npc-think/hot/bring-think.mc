@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; bring (npc-think lane) - the GENERAL carry-it-to-a-place chain. A think that
+; bring (npc-think lane) - the GENERAL carry-it-to-a-space chain. A think that
 ; wants goods moved mints {@self BRING <ware-kind> <dest>} (the acquisition
 ; already put the items in @self's hand); this lane drains it:
 ;
@@ -26,9 +26,11 @@
   (role @self (not (spatial @self space ?dest))
     (effects (maintain-proposal {@self go ?dest}))))
 
-; AT the destination: PROPOSE the put-down act (goals never propose themselves). No (utility):
-; the proposal inherits the minting lane's drive up the /caused_by chain (like bring_go).
+; AT the destination: claim the floor cell the ware will rest on - polled until the grid
+; answers one - and PROPOSE the put-down act with it (goals never propose themselves). No
+; (utility): the proposal inherits the minting lane's drive up the /caused_by chain.
 (npc-think bring_at_dest
   (goal {@self BRING ?ware ?dest})
   (role @self (spatial @self space ?dest)
-    (effects (maintain-proposal {@self BRING ?ware ?dest}))))
+    (when (poll (rest-cell ?dest ?ware): ?cell))
+    (effects (maintain-proposal {@self BRING ?ware ?cell}))))

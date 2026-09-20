@@ -1,21 +1,21 @@
 ; ----------------------------------------------------------------------------
-; put ?item ?location - set the held item down. ONE rung now, not two: the hand is an
-; argument to the act rather than part of its label, so the task reads which hand grips
-; the item and hands it over. The outcome try concludes once the put succeeded
-; /caused_by this task.
+; put ?item ?dest - set the held item down at ?dest, a space or a surface. The task
+; CLAIMS the cell the thing will rest on - polling the grid until it answers one - and
+; hands it to the act; the claim is the rung's and lapses with it. The outcome try
+; concludes once the put succeeded /caused_by this task.
 ;
-; UNPRESENTED ONLY, for as long as PUT is: the presented branch claims a cell on the
-; destination surface, reaches the gripping hand to it and opens with UNGRASP, and the
-; cell claim needs the env grid (action_unification_plan.md 5.9, section 10).
+; UNPRESENTED ONLY, for as long as PUT is: the presented branch reaches the gripping hand
+; to the cell and opens with UNGRASP (action_unification_plan.md 5.9).
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self put ?item ?location}:?put-rel
+(npc-task {@self put ?item ?dest}:?put-rel
   (tar @excl object)
   (and
     (try
       (when (unpresented-lod))
       (when (substantial (spatial ?item gripped-by)))
-      (effects (maintain-proposal {@self PUT ?item ?location})))
+      (when (poll (rest-cell ?dest ?item): ?cell))
+      (effects (maintain-proposal {@self PUT ?item ?cell})))
     (try
-      (when {@self /succ PUT ?item ?location /caused_by ?put-rel})
+      (when {@self /succ PUT ?item ? /caused_by ?put-rel})
       (effects (set-outcome ?put-rel /succ)))))

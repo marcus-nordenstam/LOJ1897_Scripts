@@ -15,6 +15,15 @@
 
 (include "../macros/tunables.mc")
 
+; Where a thing set down "at ?dest" comes to rest: a claimed cell of the thing's own size,
+; on the floor of a space or on top of anything else. @fail while the grid has no answer
+; yet - the asking rung polls until it does - and the claim is the asking rung's: it is
+; released when that rung ceases, so no act has to give it back.
+(define-func rest-cell (?dest ?item)
+  (if (is-a ?dest [k space])
+      (then (maintain-claim-env-cell (env-cell-size ?item) [/on_floor_of ?dest]))
+      (else (maintain-claim-env-cell (env-cell-size ?item) [/on_top_of ?dest]))))
+
 ; The world point to stand at when approaching ?venue: out from its centre along its
 ; forward axis, clear of its own half-depth, plus @self's half-depth scaled by the
 ; clearance tunable (a broader body stands further back).

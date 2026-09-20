@@ -8,14 +8,13 @@
 ; breach of "a motor is LOD-independent" - that rule binds ONE action across LODs, and
 ; these are two actions (action_unification_plan.md 5.3).
 ;
-; ?dest IS A SPACE, which is what every caller hands it and what the spatial write
-; takes. The plan's cell form - a thing is put down on a table, not vaguely in a room -
-; arrives with the env grid (section 10), and its prerequisite is unimplemented.
+; ?cell IS A CLAIMED CELL - the task claimed it with (rest-cell ..) and hands it in - so
+; the thing is put down on a table or on the floor of a room, never vaguely in it.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.mc")
 
-(npc-action {@self PUT ?item ?dest}:?put
+(npc-action {@self PUT ?item ?cell}:?put
   (lod unpresented)
   (motor body)
   (obs)
@@ -27,8 +26,7 @@
         (then (set-outcome ?put /fail))))
 
   (effects
-    ; You must be where the thing is going. hsim's PUT asserted this and it stays true:
-    ; the shortcut skips the reach, not the journey.
-    (check (= (spatial @self space) ?dest))
-    (release-grip ?item ?dest)
+    ; You must be where the thing is going: the shortcut skips the reach, not the journey.
+    (check (overlaps ?cell (spatial @self space)))
+    (release-grip ?item ?cell)
     (set-outcome ?put /succ)))

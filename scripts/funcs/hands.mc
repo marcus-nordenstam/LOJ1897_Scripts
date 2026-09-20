@@ -21,13 +21,14 @@
   (spatial-write ?item gripped-by ?hand /env)
   (observe ?item))
 
-; The hand opens: the grip edge is cleared and the thing is somewhere - ?dest, which
-; is a space at unpresented LOD and the cell the reach chose at presented LOD. BOTH
-; writes are needed: clearing the grip without placing the thing leaves it held by
-; nothing and standing nowhere.
+; The hand opens: the grip edge is cleared and the thing is somewhere - ?dest, the cell
+; the task claimed for it at unpresented LOD and the point the reach chose at presented
+; LOD; relocate takes either and files the thing in the space it lands in. BOTH writes
+; are needed: clearing the grip without setting the thing down leaves it held by nothing
+; and standing nowhere.
 (define-func release-grip (?item ?dest)
   (spatial-write ?item gripped-by @nothing /env)
-  (spatial-write ?item space ?dest /env)
+  (relocate ?item ?dest)
   (observe ?item))
 
 ; Where a thing released from ?hand comes to rest: the hand's own world position,
