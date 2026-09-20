@@ -28,8 +28,11 @@
                 (if (chance (* 0.006 (+ 1.0 (target-or @self openness 0))))
                     (then
                       (begin-belief {@self hiding-spot (internalize ?cache)})
-                      (observe (spatial ?cache contents /env)))))
-              (else (observe (spatial ?cache contents /env)))))))
+                      (for-each ?item (spatial ?cache contents /env)
+                        (observe ?item)))))
+              (else
+                (for-each ?item (spatial ?cache contents /env)
+                  (observe ?item)))))))
     ; STOPGAP (npc-actions/STOCK-LARDER.mc): the supply run never reaches the shop, so a
     ; resident standing in his own empty kitchen stocks it himself. Delete with that file.
     (try

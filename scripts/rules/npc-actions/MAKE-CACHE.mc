@@ -30,7 +30,10 @@
         (if (= ?made 0)
             (then
               (set-attr ?chamber owner @self)
-              (begin-belief {@self hiding-spot ?chamber})
+              ; The chamber is an ENV read and the belief is mental: it enters the mind
+              ; by being perceived, or the clause carries an abs object it cannot hold.
+              (observe ?chamber): ?known
+              (begin-belief {@self hiding-spot ?known})
               (bind 1 ?made)))))
     ; Tier 2 - a cavity behind a painting.
     (for-each ?room ?rooms
@@ -38,7 +41,8 @@
         (if (= ?made 0)
             (then
               (create-entity [k painting-cache] ?room ?painting): ?cache
-              (begin-belief {@self hiding-spot ?cache})
+              (observe ?cache): ?known
+              (begin-belief {@self hiding-spot ?known})
               (bind 1 ?made)))))
     ; Tier 3 - a false lining in a jewelry box.
     (for-each ?room ?rooms
@@ -46,7 +50,8 @@
         (if (= ?made 0)
             (then
               (create-entity [k jewelry-box-lining] ?room ?box): ?cache
-              (begin-belief {@self hiding-spot ?cache})
+              (observe ?cache): ?known
+              (begin-belief {@self hiding-spot ?known})
               (bind 1 ?made)))))
     ; Tier 4 - a hollowed-out book.
     (for-each ?room ?rooms
@@ -54,7 +59,8 @@
         (if (= ?made 0)
             (then
               (create-entity [k book-cache] ?room ?book): ?cache
-              (begin-belief {@self hiding-spot ?cache})
+              (observe ?cache): ?known
+              (begin-belief {@self hiding-spot ?known})
               (bind 1 ?made)))))
     ; Tier 5 - the always-available loose floorboard in the bedroom. The bedroom
     ; walk plus the hiding-spot guard carves exactly one, same as the tiers above.
@@ -62,6 +68,7 @@
         (if (= ?made 0)
             (then
               (create-entity [k floorboard-cache] ?bedroom ?bedroom): ?cache
-              (begin-belief {@self hiding-spot ?cache})
+              (observe ?cache): ?known
+              (begin-belief {@self hiding-spot ?known})
               (bind 1 ?made))))
     (set-outcome {@self MAKE-CACHE} /succ)))
