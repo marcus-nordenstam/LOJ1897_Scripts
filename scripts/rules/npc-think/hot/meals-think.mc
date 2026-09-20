@@ -347,19 +347,20 @@
     (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ))))
 
 (npc-think starving_buy_go
-  (any {@self provisions-shop ?shop})
   (role @self {@self starve ?, wealth ?wealth}
-    ; The known provisions-shop is preferred; else a role-cast shop the NPC KNOWS
-    ; (nearest, weighted). Replaces the (venue ...) fallback.
-    (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette))
-      (when (and (> (target-or @self appetite 0) 1.3)
-                 (> ?wealth 0.2)
-                 (not (is-a (spatial @self building) [k building shop]))))
-      (utility (starve-drive))
-      (effects
-        (if ?shop
-            (then (maintain-proposal {@self enter ?shop}))
-            (else (maintain-proposal {@self enter ?go_dest})))))))
+    (when (and (> (target-or @self appetite 0) 1.3)
+               (> ?wealth 0.2)
+               (not (is-a (spatial @self building) [k building shop]))))
+    (utility (starve-drive))
+    ; THE PREFERENCE IS THE RUNG ORDER: the shop he knows sells provisions, else any shop he
+    ; knows at all, nearest-weighted.
+    (stable-or
+      (try
+        (role ?shop {@self provisions-shop ?shop} (select (policy first-match))
+          (effects (maintain-proposal {@self enter ?shop}))))
+      (try
+        (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette))
+          (effects (maintain-proposal {@self enter ?go_dest})))))))
 
 ; Steal: the pauper's act - at a shop with no wealth, the mouthful goes on the
 ; ledger (the shop owner is the victim). The row lands only when something was
@@ -374,17 +375,19 @@
     (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ))))
 
 (npc-think starving_steal_go
-  (any {@self provisions-shop ?shop})
   (role @self {@self starve ?, wealth ?wealth}
-    (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette))
-      (when (and (> (target-or @self appetite 0) 1.3)
-                 (not (> ?wealth 0.2))
-                 (not (is-a (spatial @self building) [k building shop]))))
-      (utility (starve-drive))
-      (effects
-        (if ?shop
-            (then (maintain-proposal {@self enter ?shop}))
-            (else (maintain-proposal {@self enter ?go_dest})))))))
+    (when (and (> (target-or @self appetite 0) 1.3)
+               (not (> ?wealth 0.2))
+               (not (is-a (spatial @self building) [k building shop]))))
+    (utility (starve-drive))
+    ; THE PREFERENCE IS THE RUNG ORDER, as in starving_buy_go above.
+    (stable-or
+      (try
+        (role ?shop {@self provisions-shop ?shop} (select (policy first-match))
+          (effects (maintain-proposal {@self enter ?shop}))))
+      (try
+        (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette))
+          (effects (maintain-proposal {@self enter ?go_dest})))))))
 
 ; TERMINAL step: the {@self forage} goal, at a food source, promotes to the generic
 ; consume act. The four food-source desires above hold {@self forage} only while a

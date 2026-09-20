@@ -33,10 +33,6 @@
   (cooldown 1 m)
   (rng-stream perpetration)
 
-  ; The actor's lover, bound once (an unmarriageable - already-married - lover
-  ; waiting raises the propensity). Bound at top-level so {?lover spouse @something}
-  ; below takes a plain ?var (a macro arg cannot carry an op-expr into a pattern).
-  (any {@self lover ?lover})
   (role @self 
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
     (role ?spouse {?spouse isa [k human], condition [k alive]} {@self spouse ?spouse} (select (policy first-match))
@@ -52,8 +48,7 @@
       ; Misery gate (deep hatred OR abuse) + propensity. misery counts the two:
       ; hated = warmth band toward the spouse <= -2 (the detest band); abused = the
       ; spouse holds an assault record against the actor. propensity = misery *
-      ; (0.5 + psychopathy) * (1 - inhibition) * (1 - compassion) *
-      ; (1 + spouse-wealth) * (1.5 if an unmarriageable lover waits else 1.0).
+      ; (0.5 + psychopathy) * (1 - inhibition) * (1 - compassion) * (1 + spouse-wealth).
       (when (and (or (detests ?spouse)
                      {?spouse (theme-labels violent-to) @self /ever})
                  -{?spouse condition [k dead]}
@@ -65,8 +60,7 @@
                              (* (+ 0.5 (target-or @self psychopathy 0))
                                 (* (disinhibition)
                                    (* (callousness @self)
-                                      (* (+ 1 (any {?spouse wealth}).target)
-                                         (if {?lover spouse @something} (then 1.5) (else 1.0))))))))))))
+                                      (+ 1 (any {?spouse wealth}).target))))))))))
 
       (utility want)
       (effects
