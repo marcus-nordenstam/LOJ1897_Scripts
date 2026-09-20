@@ -13,36 +13,36 @@
 
 (npc-task {@self receive-inheritance ?dead}:?inherit-rel
   (tar human)
-  (role ?dhome {?dead home ?dhome})
-  (role ?will [k will] (spatial ?will building ?dhome))
-  (and
-    ; REACH the deceased's home, where the will is kept.
-    (try
-      (when (not (spatial @self building ?dhome)))
-      (utility duty)
-      (effects (maintain-proposal {@self go ?dhome})))
+  (role ?dhome {?dead home ?dhome}
+    (role ?will [k will] (spatial ?will building ?dhome)
+      (and
+        ; REACH the deceased's home, where the will is kept.
+        (try
+          (when (not (spatial @self building ?dhome)))
+          (utility duty)
+          (effects (maintain-proposal {@self go ?dhome})))
 
-    ; READ the will (co-present with it) - adopt its bequest into @self's mind.
-    (try
-      (role @self (spatial @self building ?dhome))
-      (when (and -{@self inherit ?}
-                 -{@self READ ?will /succ}))
-      (utility duty)
-      (effects (maintain-proposal {@self READ ?will})))
+        ; READ the will (co-present with it) - adopt its bequest into @self's mind.
+        (try
+          (role @self (spatial @self building ?dhome)
+            (when (and -{@self inherit ?}
+                       -{@self READ ?will /succ}))
+            (utility duty)
+            (effects (maintain-proposal {@self READ ?will}))))
 
-    ; CLAIM: the will named @self - a bequest belief was adopted - so effect it.
-    (try
-      (when {@self inherit ?pile})
-      (utility duty always-pick)
-      (effects (maintain-proposal {@self INHERIT ?dead ?pile})))
+        ; CLAIM: the will named @self - a bequest belief was adopted - so effect it.
+        (try
+          (when {@self inherit ?pile})
+          (utility duty always-pick)
+          (effects (maintain-proposal {@self INHERIT ?dead ?pile})))
 
-    ; CONCLUDE: the estate was claimed.
-    (try
-      (when {@self INHERIT ?dead ? /succ})
-      (effects (set-outcome ?inherit-rel /succ)))
+        ; CONCLUDE: the estate was claimed.
+        (try
+          (when {@self INHERIT ?dead ? /succ})
+          (effects (set-outcome ?inherit-rel /succ)))
 
-    ; ABANDON: the will was read but named someone else (nothing to inherit).
-    (try
-      (when (and {@self READ ?will /succ}
-                 -{@self inherit ?}))
-      (effects (set-outcome ?inherit-rel /fail)))))
+        ; ABANDON: the will was read but named someone else (nothing to inherit).
+        (try
+          (when (and {@self READ ?will /succ}
+                     -{@self inherit ?}))
+          (effects (set-outcome ?inherit-rel /fail)))))))
