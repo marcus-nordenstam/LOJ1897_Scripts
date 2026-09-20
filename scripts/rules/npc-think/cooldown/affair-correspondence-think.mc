@@ -43,36 +43,26 @@
 
   (role ?my-home {@self home ?my-home})
 
-  ; Making the paper, penning it and posting it are THREE deeds, each its own act, and every
-  ; rung reads the world for what is already done - an errand interrupted resumes where the
-  ; paper actually lies. Ordered finish-before-start, so a letter in hand is dealt with
-  ; before another is penned.
+  ; Make the paper, pen it, post it - three deeds, each reading the world for what is done.
+  ; Ordered finish-before-start, so a letter in hand is dealt with before another is penned.
   (stable-or
-    ; POST the finished letter. Getting to the pile is send-mail's own business.
+    ; Getting to the pile is send-mail's own business.
     (try
       (role ?ltr [k love-letter] (spatial ?ltr co-located @self)
                                  {@self WRITE ?ltr ? /succ}
                                  -{@self send-mail ?ltr ? /succ})
       (role ?out [k outgoing-mail-stack] (spatial ?out building ?my-home))
       (effects
-        ; A letter he has WRITTEN must carry what the mail service routes by; a filter here
-        ; would leave an unstamped paper on the desk in silence.
+        ; A written letter must carry what the mail service routes by; a filter would leave an
+        ; unstamped paper on the desk in silence.
         (check (substantial (attr ?ltr writing)))
         (check (substantial (attr ?ltr destination)))
         (maintain-proposal {@self send-mail ?ltr ?out})))
 
 
-    ; PEN the blank one. write-doc walks him back to wherever the paper lies and proposes
-    ; WRITE itself - a task that pens never proposes WRITE directly.
-    ;
-    ; The love letter IS the affair fact, and the ENVELOPE RIDES ON THE MESSAGE: WRITE stamps
-    ; the addressee for the sorter at the door and the address for the mail service off the
-    ; riders, so the letter needs no separate addressing deed. It is (written-msg ..) rather
-    ; than the natlang twin because only this wrapper takes riders - nl-written-msg's one
-    ; argument is the string itself.
-    ;
-    ; HER ADDRESS IS A GATE, not a check: a man who does not know where his lover lives
-    ; genuinely cannot post to her, and waits until he does.
+    ; The love letter IS the affair fact, and its envelope rides on the message - WRITE stamps
+    ; addressee and address off the riders, so there is no addressing deed. Not knowing where
+    ; she lives is a gate, not a check: he simply cannot post to her yet.
     (try
       (role ?ltr [k love-letter] (spatial ?ltr co-located @self)
                                  (unsubstantial (attr ?ltr writing)))
@@ -84,8 +74,8 @@
                  (written-msg [/addressee ?paramour_name /address ?her-address /author ?author_name]
                               {@i lover ?paramour_name})})))
 
-    ; MAKE one. The monthly writer rate gates THIS deed alone - once a letter exists it is
-    ; finished off whatever the roll says, or a half-written affair sits on the desk for ever.
+    ; The monthly writer rate gates the MAKING alone - once a letter exists it is finished off
+    ; whatever the roll says, or a half-written affair sits on the desk for ever.
     (try
       (when (chance 0.5))
       (effects (maintain-proposal {@self CREATE-ENTITY [k love-letter]})))))

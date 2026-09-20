@@ -13,19 +13,39 @@
     {?cheater name ?cheater_name}
     (select (policy first-match)))
 
-  (when (chance (* 0.3 (infidelity-disposition @self))))
-
   (utility want)
 
   (role ?my-home {@self home ?my-home})
-  (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
-  (effects
-    ; The denunciation exposes the affair to the cheater's WRONGED SPOUSE - the one
-    ; party it is meant to reach (they cohabit, so it lands in their shared home pile
-    ; and only the spouse reads it). No spouse = no betrayal to expose, so nothing sent.
-    (spouse-of ?cheater): ?betrayed
-    (if (and (alive ?betrayed) {?cheater home ?cheater_home})
-        (then
-          (post-letter [k denunciation-letter]
-                       (nl-written-msg "?cheater_name has taken me as a lover. Signed, ?author_name")
-                       ?cheater_home ?betrayed ?my-out-box)))))
+
+  ; Make the paper, pen it, post it - three deeds, each reading the world for what is done.
+  (stable-or
+    (try
+      (role ?ltr [k denunciation-letter] (spatial ?ltr co-located @self)
+                                         {@self WRITE ?ltr ? /succ}
+                                         -{@self send-mail ?ltr ? /succ})
+      (role ?out [k outgoing-mail-stack] (spatial ?out building ?my-home))
+      (effects
+        (check (substantial (attr ?ltr writing)))
+        (check (substantial (attr ?ltr destination)))
+        (maintain-proposal {@self send-mail ?ltr ?out})))
+
+    ; The denunciation exposes the affair to the cheater's WRONGED SPOUSE - the one party it
+    ; is meant to reach (they cohabit, so it lands in their shared pile and only the spouse
+    ; reads it). No spouse, no betrayal to expose, and the gate simply never opens.
+    (try
+      (role ?ltr [k denunciation-letter] (spatial ?ltr co-located @self)
+                                         (unsubstantial (attr ?ltr writing)))
+      (when (spouse-of ?cheater): ?betrayed
+            (alive ?betrayed)
+            {?betrayed name ?betrayed-name}
+            {?cheater home ?cheater-home}
+            {?cheater-home address ?cheater-address})
+      (effects
+        (maintain-proposal
+          {@self write-doc ?ltr
+                 (written-msg [/addressee ?betrayed-name /address ?cheater-address /author ?author_name]
+                              {?cheater_name lover @i})})))
+
+    (try
+      (when (chance (* 0.3 (infidelity-disposition @self))))
+      (effects (maintain-proposal {@self CREATE-ENTITY [k denunciation-letter]})))))
