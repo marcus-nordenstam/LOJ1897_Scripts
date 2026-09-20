@@ -14,19 +14,19 @@
 
 (npc-think sack_go
   (goal {@self SACK})
-  (role ?job {@self job ?job})
-  (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
-             {?org workplace ?wp})   ; ?wp binds at fire
-  (when (and (not (spatial @self building ?wp))))
-  (effects (maintain-proposal {@self enter ?wp})))
+  (role ?job {@self job ?job}
+    (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
+               {?org workplace ?wp}   ; ?wp binds at fire
+      (when (and (not (spatial @self building ?wp))))
+      (effects (maintain-proposal {@self enter ?wp})))))
 
 ; TERMINAL (act_body_purification): AT the workplace, PROPOSE the sack act - it no longer
 ; promotes off the bare {@self SACK} goal (a proposed label drops out of goal competition).
 ; The ?org role binds ?wp (the workplace) for the arrived gate.
 (npc-think sack_dwell
   (goal {@self SACK})
-  (role ?job {@self job ?job})
-  (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
-             {?org workplace ?wp})   ; ?wp binds at fire
-  (when (and (spatial @self building ?wp)))
-  (effects (maintain-proposal {@self SACK})))
+  (role ?job {@self job ?job}
+    (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
+               {?org workplace ?wp}   ; ?wp binds at fire
+      (when (and (spatial @self building ?wp)))
+      (effects (maintain-proposal {@self SACK})))))

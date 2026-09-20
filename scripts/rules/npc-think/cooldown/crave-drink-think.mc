@@ -30,8 +30,8 @@
 (npc-think want_drink
   (cooldown 3 d)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-              -{@self craving [k alcohol]})   ; dependents use the relapse lane
-  (when          (>= (days-since-last {@self DRINK /ever}) 3))
-  (utility want (* 10 (drink-drive @self)))
-  (effects       (begin-goal {@self DRINK}))
-  (when-unsupported-effects (set-outcome {@self goal {@self DRINK}} /succ)))
+              -{@self craving [k alcohol]}   ; dependents use the relapse lane
+    (when          (>= (days-since-last {@self DRINK /ever}) 3))
+    (utility want (* 10 (drink-drive @self)))
+    (effects       (begin-goal {@self DRINK}))
+    (when-unsupported-effects (set-outcome {@self goal {@self DRINK}} /succ))))

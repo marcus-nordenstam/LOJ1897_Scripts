@@ -24,14 +24,14 @@
       (effects (check (or (empty (spatial (spatial @self left-hand) grip))
                           (empty (spatial (spatial @self right-hand) grip))))))
     (try
-      (role @self (spatial ?item co-located @self))
-      (when (empty (spatial (spatial @self right-hand) grip)))
-      (effects (maintain-proposal {@self GRASP ?item (spatial @self right-hand)})))
+      (role @self (spatial ?item co-located @self)
+        (when (empty (spatial (spatial @self right-hand) grip)))
+        (effects (maintain-proposal {@self GRASP ?item (spatial @self right-hand)}))))
     (try
-      (role @self (spatial ?item co-located @self))
-      (when (empty (spatial (spatial @self left-hand) grip)))
-      (when (not (empty (spatial (spatial @self right-hand) grip))))
-      (effects (maintain-proposal {@self GRASP ?item (spatial @self left-hand)})))
+      (role @self (spatial ?item co-located @self)
+        (when (empty (spatial (spatial @self left-hand) grip)))
+        (when (not (empty (spatial (spatial @self right-hand) grip))))
+        (effects (maintain-proposal {@self GRASP ?item (spatial @self left-hand)}))))
     (try
       (when {@self /succ GRASP ?item ? /caused_by ?take-rel})
       (effects (set-outcome ?take-rel /succ)))))

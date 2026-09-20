@@ -34,13 +34,13 @@
   ; once worship_act resets days-since-last the (when) drops, ending
   ; {@self WORSHIP}. The act never ends the goal.
   (cooldown 3 d)
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
-  (when    (and (>= (days-since-last {@self WORSHIP /ever}) 3)
-                (>= (target-or @self politeness 0) 0.3)))
-  (utility want (* (recency-ramp WORSHIP 3 21 500) (devotional-drive-tilt)))
-  (effects
-                 (begin-goal {@self WORSHIP}))
-  (when-unsupported-effects (set-outcome {@self goal {@self WORSHIP}} /succ)))
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+    (when    (and (>= (days-since-last {@self WORSHIP /ever}) 3)
+                  (>= (target-or @self politeness 0) 0.3)))
+    (utility want (* (recency-ramp WORSHIP 3 21 500) (devotional-drive-tilt)))
+    (effects
+                   (begin-goal {@self WORSHIP}))
+    (when-unsupported-effects (set-outcome {@self goal {@self WORSHIP}} /succ))))
 
 ; THE DEVOUT'S SUNDAY OBSERVANCE - the classifier-cast band split (ruling 8a). The SAME
 ; worship drive, but role-cast on the identity-grade `devoutness` classifier belief
@@ -52,8 +52,8 @@
 (npc-think sunday_observance
   (cooldown 3 d)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-              {@self devoutness [k piety-band devout]})
-  (when    (>= (days-since-last {@self WORSHIP /ever}) 3))
-  (utility obligation)
-  (effects       (begin-goal {@self WORSHIP}))
-  (when-unsupported-effects (set-outcome {@self goal {@self WORSHIP}} /succ)))
+              {@self devoutness [k piety-band devout]}
+    (when    (>= (days-since-last {@self WORSHIP /ever}) 3))
+    (utility obligation)
+    (effects       (begin-goal {@self WORSHIP}))
+    (when-unsupported-effects (set-outcome {@self goal {@self WORSHIP}} /succ))))

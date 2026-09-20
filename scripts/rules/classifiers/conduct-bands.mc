@@ -19,14 +19,14 @@
   ; commits. The timer is desynced across the herd; cold_start_window self-primes it.
   (cooldown 1 m)
 
-  (role @self {@self class-situation ?})
+  (role @self {@self class-situation ?}
 
-  (effects
-    (mint-band {@self honesty}    (honesty)
-      [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1)
-    (mint-band {@self diligence}  (diligence)
-      [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1)
-    (mint-band {@self generosity} (generosity)
-      [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1)
-    (mint-band {@self sobriety}   (sobriety)
-      [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1)))
+    (effects
+      (mint-band {@self honesty}    (honesty)
+        [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1)
+      (mint-band {@self diligence}  (diligence)
+        [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1)
+      (mint-band {@self generosity} (generosity)
+        [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1)
+      (mint-band {@self sobriety}   (sobriety)
+        [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1))))

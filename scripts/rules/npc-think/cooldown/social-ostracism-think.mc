@@ -22,18 +22,18 @@
   ; SELF-POV: @self shuns a warmth-tie he reputes scandalous. ?b is a current
   ; friend / close-to whom @self's OWN repute belief bands scandalous - his belief
   ; about ?b, never a read of ?b's mind.
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]})
-  (role ?b {?b isa [k human], condition [k alive]}
-           {?b repute [k scandalous]}
-           (or {@self friend ?b}
-               {@self close-to ?b}))
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+    (role ?b {?b isa [k human], condition [k alive]}
+             {?b repute [k scandalous]}
+             (or {@self friend ?b}
+                 {@self close-to ?b})
 
-  ; ~annual cadence per soured tie; a non-belief gate, so it lives in (when).
-  (when (chance 0.0833))
+      ; ~annual cadence per soured tie; a non-belief gate, so it lives in (when).
+      (when (chance 0.0833))
 
-  (effects
-    (end-belief {@self friend ?b})
-    (end-belief ?b {?b friend @self})
-    (end-belief {@self close-to ?b})
-    (end-belief ?b {?b close-to @self})
-    ))
+      (effects
+        (end-belief {@self friend ?b})
+        (end-belief ?b {?b friend @self})
+        (end-belief {@self close-to ?b})
+        (end-belief ?b {?b close-to @self})
+        ))))

@@ -28,21 +28,21 @@
 (npc-think taunt
   (cooldown 1 m)
   (rng-stream perpetration)
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]} {@self home ?home})
-  ; The actor's own overt-method kill (the corpse whose mystery he inserts himself into).
-  (role ?victim {@self strangle|shoot ?victim}
-                (not (alive ?victim)))
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]} {@self home ?home}
+    ; The actor's own overt-method kill (the corpse whose mystery he inserts himself into).
+    (role ?victim {@self strangle|shoot ?victim}
+                  (not (alive ?victim))
 
-  ; Narcissism tail + adult floor + rate gate.
-  (when (and (>= (target-or @self narcissism 0) 0.7)
-             (chance 0.04)))
+      ; Narcissism tail + adult floor + rate gate.
+      (when (and (>= (target-or @self narcissism 0) 0.7)
+                 (chance 0.04)))
 
-  (effects
-    ; Frame a RANDOM living human the actor knows of - uniformly, so repeated letters do
-    ; not accuse the same person - excluding the real victim and @self.
-    (random {?innocent isa [k human]})
-    (if (and (substantial ?innocent) (alive ?innocent)
-             (!= ?innocent ?victim) (!= ?innocent @self))
-        (then
-          (plant-letter [k forged-letter]
-                        (nl-written-msg "?innocent killed ?victim") ?home)))))
+      (effects
+        ; Frame a RANDOM living human the actor knows of - uniformly, so repeated letters do
+        ; not accuse the same person - excluding the real victim and @self.
+        (random {?innocent isa [k human]})
+        (if (and (substantial ?innocent) (alive ?innocent)
+                 (!= ?innocent ?victim) (!= ?innocent @self))
+            (then
+              (plant-letter [k forged-letter]
+                            (nl-written-msg "?innocent killed ?victim") ?home)))))))

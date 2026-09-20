@@ -14,21 +14,21 @@
     (try
       (role ?art_org {?art_org record ?art}
                       {?art_org workplace ?venue}
-                      (not (spatial @self building ?venue)))
-      (effects (maintain-proposal {@self enter ?venue})))
+                      (not (spatial @self building ?venue))
+        (effects (maintain-proposal {@self enter ?venue}))))
 
     ; JOIN-ROLL: at the clubhouse -> resolve the club's roll and file my membership row.
     (try
       (role ?art_org {?art_org record ?art}
                       {?art_org workplace ?venue}
-                      (spatial @self building ?venue))
-      (effects
-        (o {?art declares-org @o}): ?org
-        (any {?org membership-roll ?roll})
-        ; No roll belief -> nothing to join. It was a (check ?roll) ASSERT, but an
-        ; org with no roll is a legitimate state: (o ..) INVENTS one when it recalls
-        ; nothing, and an invented org has no papers.
-        (if ?roll (then (maintain-proposal {@self JOIN-ROLL ?roll})))))
+                      (spatial @self building ?venue)
+        (effects
+          (o {?art declares-org @o}): ?org
+          (any {?org membership-roll ?roll})
+          ; No roll belief -> nothing to join. It was a (check ?roll) ASSERT, but an
+          ; org with no roll is a legitimate state: (o ..) INVENTS one when it recalls
+          ; nothing, and an invented org has no papers.
+          (if ?roll (then (maintain-proposal {@self JOIN-ROLL ?roll}))))))
 
     ; REALIZE: my row is on the roll -> I now know I am a member (self-knowledge).
     ; Minting member-of trips the decision's completion gate, which withdraws the task.

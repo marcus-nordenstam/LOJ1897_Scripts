@@ -34,36 +34,36 @@
 
   ; Open contempt is a considered, adult act - minors do not deliver it.
   (role @self
-              {@self age-band [k young-adult|middle-aged|mature|elderly]})
-  (role ?victim {?victim isa [k human], condition [k alive]}
-                ; @self holds ?victim in deep contempt (esteem `despise`, the
-                ; floor esteem band - so the exact-band belief IS "esteem at
-                ; least despise"), read as an EXPLICIT verb-state belief.
-                {@self despise ?victim}
-                ; A cutting remark must be heard: the despised is co-present.
-                (spatial ?victim co-located @self))
+              {@self age-band [k young-adult|middle-aged|mature|elderly]}
+    (role ?victim {?victim isa [k human], condition [k alive]}
+                  ; @self holds ?victim in deep contempt (esteem `despise`, the
+                  ; floor esteem band - so the exact-band belief IS "esteem at
+                  ; least despise"), read as an EXPLICIT verb-state belief.
+                  {@self despise ?victim}
+                  ; A cutting remark must be heard: the despised is co-present.
+                  (spatial ?victim co-located @self)
 
-  ; How readily the contempt surfaces: the callous (low compassion) cut openly; the
-  ; compassionate restrain it. A non-belief (chance) gate, rolled per victim at
-  ; firing, so it lives in (when) - not as a role criterion (would not be cacheable).
-  (when (chance (* (crime-scale) 0.04 (- 1.0 (target-or @self compassion 0)))))
+      ; How readily the contempt surfaces: the callous (low compassion) cut openly; the
+      ; compassionate restrain it. A non-belief (chance) gate, rolled per victim at
+      ; firing, so it lives in (when) - not as a role criterion (would not be cacheable).
+      (when (chance (* (crime-scale) 0.04 (- 1.0 (target-or @self compassion 0)))))
 
-  ; The moral material @self can voice, read per victim - each tolerant.
-  (do
-    (tolerate (any {?victim jilt|disinherit ? /ever}):?actrec-rel)
-    (tolerate (any {?victim sobriety ?}):?sob-rel)
-    (tolerate (any {?victim lover ?}):?lover-rel)
-    (tolerate (any {?victim decorum ?}):?dec-rel))
+      ; The moral material @self can voice, read per victim - each tolerant.
+      (do
+        (tolerate (any {?victim jilt|disinherit ? /ever}):?actrec-rel)
+        (tolerate (any {?victim sobriety ?}):?sob-rel)
+        (tolerate (any {?victim lover ?}):?lover-rel)
+        (tolerate (any {?victim decorum ?}):?dec-rel))
 
-  (select-row (table contempt_ladder)
-    (bind context ?ctx)
-    (bind rank ?rank)
-    (bind barb-eval ?barb-rel)
-    (when (= ?ctx cold_contempt))
-    (score (if (is-belief ?barb-rel) (then ?rank) (else 0)))
-    (policy roulette))
+      (select-row (table contempt_ladder)
+        (bind context ?ctx)
+        (bind rank ?rank)
+        (bind barb-eval ?barb-rel)
+        (when (= ?ctx cold_contempt))
+        (score (if (is-belief ?barb-rel) (then ?rank) (else 0)))
+        (policy roulette))
 
-  (utility want)
+      (utility want)
 
-  (effects
-    (maintain-proposal {@self SAY (utterable-msg [/msg-class insult] ?barb-rel) ?victim})))
+      (effects
+        (maintain-proposal {@self SAY (utterable-msg [/msg-class insult] ?barb-rel) ?victim})))))

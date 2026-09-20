@@ -26,14 +26,14 @@
       (utility errand)
       (effects (maintain-proposal {@self go ?loc})))
     (try
-      (role ?vhome {?victim home ?vhome})
-      (when (and -{@self spouse ?victim}
-                 {?victim lover|HAVE-SEX-WITH ?partner /ever}
-                 -{?victim spouse ?partner /ever}
-                 -{@self spouse ?partner}
-                 (not (spatial ?victim co-located @self))
-                 (unknown (spatial ?victim space))))
-      (effects (maintain-proposal {@self go ?vhome})))
+      (role ?vhome {?victim home ?vhome}
+        (when (and -{@self spouse ?victim}
+                   {?victim lover|HAVE-SEX-WITH ?partner /ever}
+                   -{?victim spouse ?partner /ever}
+                   -{@self spouse ?partner}
+                   (not (spatial ?victim co-located @self))
+                   (unknown (spatial ?victim space))))
+        (effects (maintain-proposal {@self go ?vhome}))))
     (try
       (when (and -{@self spouse ?victim}
                  {?victim lover|HAVE-SEX-WITH ?partner /ever}

@@ -62,15 +62,15 @@
 ; buries via bury_onsite. The rouletted ?church is stashed at fire, so the hold
 ; and the cease operate on the SAME church (no re-roulette while walking).
 (npc-think bury_route
-  (role @self {@self job [k job priest]})
-  (role ?corpse {?corpse condition [k dead]}
-                {?corpse internment [k unburied]}
-                (not (spatial ?corpse co-located @self))
-                (select (score (months-since-death ?corpse)) (policy argmax)))
-  (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
-  (when (>= (months-since-death ?corpse) 1))
-  (utility obligation (above WORSHIP))
-  (effects (maintain-proposal {@self enter ?church})))
+  (role @self {@self job [k job priest]}
+    (role ?corpse {?corpse condition [k dead]}
+                  {?corpse internment [k unburied]}
+                  (not (spatial ?corpse co-located @self))
+                  (select (score (months-since-death ?corpse)) (policy argmax))
+      (role ?church [k building church] (select (score (near @self ?church)) (policy roulette))
+        (when (>= (months-since-death ?corpse) 1))
+        (utility obligation (above WORSHIP))
+        (effects (maintain-proposal {@self enter ?church}))))))
 
 ; ONSITE rung. While the priest is CO-PRESENT with the overdue body, PROPOSE
 ; {@self BURY ?corpse} - the winning proposal promotes bury_act
@@ -78,14 +78,14 @@
 ; corpse (telling {?corpse internment buried}), so the ?corpse role empties on the next
 ; cycle and the rung simply stops proposing - no goal to retract, no cease needed.
 (npc-think bury_onsite
-  (role @self {@self job [k job priest]})
-  (role ?corpse {?corpse condition [k dead]}
-                {?corpse internment [k unburied]}
-                (spatial ?corpse co-located @self)
-                (select (score (months-since-death ?corpse)) (policy argmax)))
-  (when (>= (months-since-death ?corpse) 1))
-  (utility obligation (above WORSHIP))
-  (effects (maintain-proposal {@self BURY ?corpse})))
+  (role @self {@self job [k job priest]}
+    (role ?corpse {?corpse condition [k dead]}
+                  {?corpse internment [k unburied]}
+                  (spatial ?corpse co-located @self)
+                  (select (score (months-since-death ?corpse)) (policy argmax))
+      (when (>= (months-since-death ?corpse) 1))
+      (utility obligation (above WORSHIP))
+      (effects (maintain-proposal {@self BURY ?corpse})))))
 
 ; ANNOUNCE rung. The rite is silent; the WORDS are their own act. Once the priest's own
 ; {@self BURY ?corpse} has ended he proposes a broadcast SAY of the interment, heard by
@@ -93,9 +93,9 @@
 ; announced exactly once however long the record lives; a priest with nobody left in the
 ; room simply says it to an empty room, which is what a real one does.
 (npc-think announce_burial
-  (role @self {@self job [k job priest]})
-  (role ?corpse {@self BURY ?corpse /past}:?bury-rel)
-  (when -{@self SAY ? /succ /caused_by ?bury-rel})
-  (utility want)
-  (effects
-    (maintain-proposal {@self SAY (utterable-msg {?corpse internment [k buried]}) _})))
+  (role @self {@self job [k job priest]}
+    (role ?corpse {@self BURY ?corpse /past}:?bury-rel
+      (when -{@self SAY ? /succ /caused_by ?bury-rel})
+      (utility want)
+      (effects
+        (maintain-proposal {@self SAY (utterable-msg {?corpse internment [k buried]}) _})))))

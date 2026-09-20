@@ -22,11 +22,11 @@
   (and
     ; RETRIEVE - an instance already in my home, unheld -> fetch it.
     (try
-      (role ?mine (is-a ?mine ?kind) {@self own ?mine} (spatial ?mine building (any {@self home ?}).target))
-      (when (and (not (spatial ?mine co-located @self))
-                 (unknown (spatial ?mine held-by))))
-      (utility always-pick)
-      (effects (maintain-proposal {@self get ?mine})))
+      (role ?mine (is-a ?mine ?kind) {@self own ?mine} (spatial ?mine building (any {@self home ?}).target)
+        (when (and (not (spatial ?mine co-located @self))
+                   (unknown (spatial ?mine held-by))))
+        (utility always-pick)
+        (effects (maintain-proposal {@self get ?mine}))))
     ; BUY - overt only; (feasible) drops it when broke, (cost) charges the felt price.
     (try
       (when (not (is-a ?disc [k covert])))
@@ -35,11 +35,11 @@
                  [/cost (money-cost-util (coin-balance @self) (price ?kind))])))
     ; HIRE - covert paid channel; agent fee folded into the price gate.
     (try
-      (role ?agent {?agent isa [k human], condition [k alive]} {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?agent /ever})
-      (when (is-a ?disc [k covert]))
-      (effects (maintain-proposal {@self hire-procure ?agent ?kind}
-                 [/feasible (>= (coin-balance @self) (+ (price ?kind) (procure_fee)))]
-                 [/cost (money-cost-util (coin-balance @self) (+ (price ?kind) (procure_fee)))])))
+      (role ?agent {?agent isa [k human], condition [k alive]} {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?agent /ever}
+        (when (is-a ?disc [k covert]))
+        (effects (maintain-proposal {@self hire-procure ?agent ?kind}
+                   [/feasible (>= (coin-balance @self) (+ (price ?kind) (procure_fee)))]
+                   [/cost (money-cost-util (coin-balance @self) (+ (price ?kind) (procure_fee)))]))))
     ; STEAL - floored last resort, only while crime is enabled.
     (try
       (when (> (crime-scale) 0))

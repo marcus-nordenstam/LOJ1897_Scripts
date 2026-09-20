@@ -14,13 +14,13 @@
 
   (role @self {@self breeding ?breeding}
               {@self prestige ?prestige}
-              {@self wealth ?wealth})
+              {@self wealth ?wealth}
 
-  (effects
-    (mint-band {@self class-situation}
-      (+ (* 0.5 ?breeding)
-         (* 0.3 ?prestige)
-         (* 0.2 ?wealth))
-      [k class-situation upper]  0.70
-      [k class-situation middle] 0.40
-      [k class-situation lower]  -1)))
+    (effects
+      (mint-band {@self class-situation}
+        (+ (* 0.5 ?breeding)
+           (* 0.3 ?prestige)
+           (* 0.2 ?wealth))
+        [k class-situation upper]  0.70
+        [k class-situation middle] 0.40
+        [k class-situation lower]  -1))))

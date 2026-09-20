@@ -38,32 +38,32 @@
   ; the ?jilted filters enforce the third party).
   (role @self 
                 {@self lover ?}
-                {@self fiancee ?})
-  ; The jilted: the jilter's lover who is NOT the jilter's fiancee (the
-  ; two-bound believes shape wedding.hs uses to recover the groom).
-  (role ?jilted {?jilted isa [k human], condition [k alive]}
-                {@self lover ?jilted}
-                -{@self fiancee ?jilted}
-                (select (policy first-match)))
+                {@self fiancee ?}
+    ; The jilted: the jilter's lover who is NOT the jilter's fiancee (the
+    ; two-bound believes shape wedding.hs uses to recover the groom).
+    (role ?jilted {?jilted isa [k human], condition [k alive]}
+                  {@self lover ?jilted}
+                  -{@self fiancee ?jilted}
+                  (select (policy first-match))
 
-  ;; (chance 0.6) is a non-belief gate, so it lives in (when).
-  ;; Live re-check: an earlier firing this tick may already have ended the
-  ;; jilter's lover bond (one jilt per jilter per tick).
-  (when (latch-eval (chance (* (crime-scale) 0.6))))
+      ;; (chance 0.6) is a non-belief gate, so it lives in (when).
+      ;; Live re-check: an earlier firing this tick may already have ended the
+      ;; jilter's lover bond (one jilt per jilter per tick).
+      (when (latch-eval (chance (* (crime-scale) 0.6))))
 
-  (utility want)
-  (effects
-    ; One-sided ending - ONLY the jilter's belief (see header).
-    (end-belief {@self lover ?jilted})
-    ; Jilting IS a SAY (msg-class jilt): the jilter tells the jilted it is over. The jilted
-    ; HEARS it and their own appraisal reprojects jilt's construed-act (abandonment-act +
-    ; wrong-act) into the grief / attachment-loss stack. No incident-anchor, no cross-mind mint.
-    (maintain-proposal {@self SAY (utterable-msg {@self jilt ?jilted}) ?jilted})
-    ; Warmth curdles; attraction is NOT touched (longing persists).
-    ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
-    ; party's own reflex on the act. Commented out pending that redesign.
-    ; (nudge-stance ?jilted @self warmth -0.4)
-    ))
+      (utility want)
+      (effects
+        ; One-sided ending - ONLY the jilter's belief (see header).
+        (end-belief {@self lover ?jilted})
+        ; Jilting IS a SAY (msg-class jilt): the jilter tells the jilted it is over. The jilted
+        ; HEARS it and their own appraisal reprojects jilt's construed-act (abandonment-act +
+        ; wrong-act) into the grief / attachment-loss stack. No incident-anchor, no cross-mind mint.
+        (maintain-proposal {@self SAY (utterable-msg {@self jilt ?jilted}) ?jilted})
+        ; Warmth curdles; attraction is NOT touched (longing persists).
+        ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
+        ; party's own reflex on the act. Commented out pending that redesign.
+        ; (nudge-stance ?jilted @self warmth -0.4)
+        ))))
 
 ; ----------------------------------------------------------------------------
 ; jilt_for_station - the class-ambition jilt (the literal Smith opening).
@@ -89,29 +89,29 @@
   (role @self 
                 {@self lover ?}
                 -{@self fiancee ?}
-                -{@self spouse ?})
-  ; The lover beneath the jilter's station (at least one class below).
-  (role ?jilted {?jilted isa [k human], condition [k alive]}
-                {@self lover ?jilted}
-                ;; @self reads the jilted lover's class from his OWN belief about him
-                ;; (he knows his lover intimately, so it is banded in).
-                (or (and {@self class-situation [k upper]}
-                         -{?jilted class-situation [k upper]})
-                    (and {@self class-situation [k middle]}
-                         {?jilted class-situation [k lower]}))
-                (select (policy first-match)))
+                -{@self spouse ?}
+    ; The lover beneath the jilter's station (at least one class below).
+    (role ?jilted {?jilted isa [k human], condition [k alive]}
+                  {@self lover ?jilted}
+                  ;; @self reads the jilted lover's class from his OWN belief about him
+                  ;; (he knows his lover intimately, so it is banded in).
+                  (or (and {@self class-situation [k upper]}
+                           -{?jilted class-situation [k upper]})
+                      (and {@self class-situation [k middle]}
+                           {?jilted class-situation [k lower]}))
+                  (select (policy first-match))
 
-  ;; The chance gate is a non-belief gate, so it lives in (when). decorum is a
-  ;; DERIVED conduct dimension (belief) read from @self's own mind via
-  ;; (any {..}).target. An unread dimension contributes 0; the +0.3 base keeps the
-  ;; rule alive for the un-derived.
-  (when (latch-eval (chance (* (crime-scale) 0.15 (+ 0.3 (any {@self decorum}).target)))))
+      ;; The chance gate is a non-belief gate, so it lives in (when). decorum is a
+      ;; DERIVED conduct dimension (belief) read from @self's own mind via
+      ;; (any {..}).target. An unread dimension contributes 0; the +0.3 base keeps the
+      ;; rule alive for the un-derived.
+      (when (latch-eval (chance (* (crime-scale) 0.15 (+ 0.3 (any {@self decorum}).target)))))
 
-  (utility want)
-  (effects
-    (end-belief {@self lover ?jilted})
-    (maintain-proposal {@self SAY (utterable-msg {@self jilt ?jilted}) ?jilted})
-    ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
-    ; party's own reflex on the act. Commented out pending that redesign.
-    ; (nudge-stance ?jilted @self warmth -0.4)
-    ))
+      (utility want)
+      (effects
+        (end-belief {@self lover ?jilted})
+        (maintain-proposal {@self SAY (utterable-msg {@self jilt ?jilted}) ?jilted})
+        ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
+        ; party's own reflex on the act. Commented out pending that redesign.
+        ; (nudge-stance ?jilted @self warmth -0.4)
+        ))))

@@ -38,25 +38,25 @@
 ; whatever a jobless / homeless emigrant lacks. destroy-entity ends the mind,
 ; which closes this twin's own gate.
 (npc-think departed
-  (role @self {@self DEPART /succ})
-  (effects
-    (fire-self)
-    (for-each ?hb-rel (every {@self home ?})
-        (bind ?hb-rel.target ?home)
-        (if {@self own ?home}
-          (then
-            (for-each ?deed (env-entities [k title-deed])
-              (do
-                (table-match (attr ?deed writing) building ?db)
-                (if (= ?db ?home)
-                  (then
-                    (for-each ?listings (env-entities [k for-sale-listings])
-                      (table-add ?listings building ?home deed ?deed))
-                    (break)))))
-            (end-belief {@self own ?home})
-            (end-belief {@self home ?home}))
-          (else
-            (if {?home tenant @self} (then (end-belief {?home tenant @self})))
-            (end-belief {@self home ?home}))))
-    (end-belief {@self spouse})
-    (destroy-entity @self)))
+  (role @self {@self DEPART /succ}
+    (effects
+      (fire-self)
+      (for-each ?hb-rel (every {@self home ?})
+          (bind ?hb-rel.target ?home)
+          (if {@self own ?home}
+            (then
+              (for-each ?deed (env-entities [k title-deed])
+                (do
+                  (table-match (attr ?deed writing) building ?db)
+                  (if (= ?db ?home)
+                    (then
+                      (for-each ?listings (env-entities [k for-sale-listings])
+                        (table-add ?listings building ?home deed ?deed))
+                      (break)))))
+              (end-belief {@self own ?home})
+              (end-belief {@self home ?home}))
+            (else
+              (if {?home tenant @self} (then (end-belief {?home tenant @self})))
+              (end-belief {@self home ?home}))))
+      (end-belief {@self spouse})
+      (destroy-entity @self))))

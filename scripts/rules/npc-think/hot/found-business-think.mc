@@ -24,9 +24,9 @@
   ; {?this isa [k ..]})); the nearest is preferred, weighted so the town spreads.
   ; No known bank -> the role binds nothing and found_go does not fire (the goal
   ; waits). Replaces the omniscient (venue ...) pick.
-  (role ?go_dest [k building bank] (select (score (near @self ?go_dest)) (policy roulette)))
-  (when (not (is-a (spatial @self building) [k building bank])))
-  (effects (maintain-proposal {@self enter ?go_dest})))
+  (role ?go_dest [k building bank] (select (score (near @self ?go_dest)) (policy roulette))
+    (when (not (is-a (spatial @self building) [k building bank])))
+    (effects (maintain-proposal {@self enter ?go_dest}))))
 
 ; AT a bank: PROPOSE the founding act (goals never propose themselves). found_business_act reads
 ; its capital / articles off the standing {@self FOUND} goal focus, so the propose is label-only.

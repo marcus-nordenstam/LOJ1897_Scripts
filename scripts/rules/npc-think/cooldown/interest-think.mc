@@ -46,30 +46,30 @@
   ; non-belief ops -> (when). politeness amplifies - the conforming child takes up
   ; the parent's hobby, the contrarian rarely.
   (role @self 
-              {@self mother ?})
+              {@self mother ?}
 
-  (when (and (>= (years-old @self) 3)
-             (<= (years-old @self) 14)
-             (chance (* 0.015 (+ 0.3 (target-or @self politeness 0))))))
+    (when (and (>= (years-old @self) 3)
+               (<= (years-old @self) 14)
+               (chance (* 0.015 (+ 0.3 (target-or @self politeness 0))))))
 
-  (effects
-    ; One novel domain copied off a parent's interests (a 50/50 pick when both
-    ; parents offer one) - the hobbies the child grows up around. Each lane
-    ; guards its pick so a parent with nothing novel just drops out.
-    (cond
-      (case (is-kind (random-unheld-kind-target (any {@self mother}).target interest interest))
-        (if (and (is-kind (random-unheld-kind-target (any {@self father}).target interest interest))
-                 (chance 0.5))
-            (then
-              (random-unheld-kind-target (any {@self father}).target interest interest): ?df
-              (begin-belief {@self interest ?df}))
-            (else
-              (random-unheld-kind-target (any {@self mother}).target interest interest): ?dm
-              (begin-belief {@self interest ?dm}))))
-      (case (is-kind (random-unheld-kind-target (any {@self father}).target interest interest))
-        (random-unheld-kind-target (any {@self father}).target interest interest): ?df
-        (begin-belief {@self interest ?df})))
-    ))
+    (effects
+      ; One novel domain copied off a parent's interests (a 50/50 pick when both
+      ; parents offer one) - the hobbies the child grows up around. Each lane
+      ; guards its pick so a parent with nothing novel just drops out.
+      (cond
+        (case (is-kind (random-unheld-kind-target (any {@self mother}).target interest interest))
+          (if (and (is-kind (random-unheld-kind-target (any {@self father}).target interest interest))
+                   (chance 0.5))
+              (then
+                (random-unheld-kind-target (any {@self father}).target interest interest): ?df
+                (begin-belief {@self interest ?df}))
+              (else
+                (random-unheld-kind-target (any {@self mother}).target interest interest): ?dm
+                (begin-belief {@self interest ?dm}))))
+        (case (is-kind (random-unheld-kind-target (any {@self father}).target interest interest))
+          (random-unheld-kind-target (any {@self father}).target interest interest): ?df
+          (begin-belief {@self interest ?df})))
+      )))
 
 ; --- peer_propagation: a friend's enthusiasm rubs off -----------------------
 (npc-think interest_peer_propagation
@@ -80,20 +80,20 @@
   ; friend's own interests and copies one @self lacks. age + the openness x
   ; enthusiasm chance are non-belief ops -> (when).
   (role @self 
-              {@self friend ?})
-  ; The friend whose enthusiasm rubs off - a uniform pick over the circle.
-  (role ?friend {?friend isa [k human], condition [k alive]}
-    {@self friend ?friend}
-    (select (score 1) (policy roulette)))
+              {@self friend ?}
+    ; The friend whose enthusiasm rubs off - a uniform pick over the circle.
+    (role ?friend {?friend isa [k human], condition [k alive]}
+      {@self friend ?friend}
+      (select (score 1) (policy roulette))
 
-  (when (and (>= (years-old @self) 8)
-             (chance (* 0.0167 (target-or @self openness 0) (+ 0.5 (target-or @self enthusiasm 0))))))
+      (when (and (>= (years-old @self) 8)
+                 (chance (* 0.0167 (target-or @self openness 0) (+ 0.5 (target-or @self enthusiasm 0))))))
 
-  (effects
-    (random-unheld-kind-target ?friend interest interest): ?d
-    (if (is-kind ?d)
-        (then (begin-belief {@self interest ?d})))
-    ))
+      (effects
+        (random-unheld-kind-target ?friend interest interest): ?d
+        (if (is-kind ?d)
+            (then (begin-belief {@self interest ?d})))
+        ))))
 
 ; --- mentor_inspired: an apprentice catches the master's craft --------------
 (npc-think interest_mentor_inspired
@@ -104,17 +104,17 @@
   ; apprenticeship_start); the effect reads the master's skilled-in + calling
   ; domains and copies one @self lacks. The openness-weighted chance -> (when).
   (role @self 
-              {@self master ?})
+              {@self master ?}
 
-  (when (chance (* 0.025 (+ 0.3 (target-or @self openness 0)))))
+    (when (chance (* 0.025 (+ 0.3 (target-or @self openness 0)))))
 
-  (effects
-    ; The master's craft becomes the apprentice's casual interest (which
-    ; interest_deepens can later raise to a skill of its own).
-    (random-unheld-kind-target (any {@self master}).target interest skill-level calling): ?d
-    (if (is-kind ?d)
-        (then (begin-belief {@self interest ?d})))
-    ))
+    (effects
+      ; The master's craft becomes the apprentice's casual interest (which
+      ; interest_deepens can later raise to a skill of its own).
+      (random-unheld-kind-target (any {@self master}).target interest skill-level calling): ?d
+      (if (is-kind ?d)
+          (then (begin-belief {@self interest ?d})))
+      )))
 
 ; --- temperament_drift: the residual openness-driven catch-all --------------
 (npc-think interest_temperament_drift
@@ -125,18 +125,18 @@
   ; specific source, sampled at random. No belief filter; age + the openness-squared
   ; chance are non-belief ops -> (when). Gated HARD on openness so only the
   ; genuinely curious drift - trait-rooted, not bare chance.
-  (role @self )
+  (role @self 
 
-  (when (and (>= (years-old @self) 10)
-             (chance (* 0.0083 (target-or @self openness 0) (target-or @self openness 0)))))
+    (when (and (>= (years-old @self) 10)
+               (chance (* 0.0083 (target-or @self openness 0) (target-or @self openness 0)))))
 
-  (effects
-    ; A brand-new interest sampled off the whole domain axis (leaf-only, so a
-    ; category node is never picked); idempotent per domain at commit.
-    (random-subkind [k domain]): ?d
-    (if (is-kind ?d)
-        (then (begin-belief {@self interest ?d})))
-    ))
+    (effects
+      ; A brand-new interest sampled off the whole domain axis (leaf-only, so a
+      ; category node is never picked); idempotent per domain at commit.
+      (random-subkind [k domain]): ?d
+      (if (is-kind ?d)
+          (then (begin-belief {@self interest ?d})))
+      )))
 
 ; --- interest_lapses: an unskilled interest fades --------------------------
 (npc-think interest_lapses
@@ -147,15 +147,15 @@
   ; domain @self is NOT skilled-in - a skilled domain is settled identity and is
   ; exempt. No-op (fires, mints nothing) if every interest is skill-backed.
   (role @self 
-              {@self interest ?})
+              {@self interest ?}
 
-  (when (chance 0.0025))
+    (when (chance 0.0025))
 
-  (effects
-    ; Drop one interest never built into a skill (an overlapping skilled-in
-    ; domain is settled identity - exempt). Unforgettable: "I used to be keen
-    ; on botany" survives the sleep sweep as history.
-    (random-unbacked-kind-target interest skill-level): ?d
-    (if (is-kind ?d)
-        (then (end-belief {@self interest ?d} [/salience unforgettable])))
-    ))
+    (effects
+      ; Drop one interest never built into a skill (an overlapping skilled-in
+      ; domain is settled identity - exempt). Unforgettable: "I used to be keen
+      ; on botany" survives the sleep sweep as history.
+      (random-unbacked-kind-target interest skill-level): ?d
+      (if (is-kind ?d)
+          (then (end-belief {@self interest ?d} [/salience unforgettable])))
+      )))

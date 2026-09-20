@@ -49,44 +49,44 @@
 (npc-think claim_cook_hired
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
                            {@self job [k job cook]}
-              -{@self household-cook ?})
-  (role ?home {@self home ?home})
-  (when (bb-public-none ?home cook))
-  (effects
-    (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles))
-    (begin-belief {@self household-cook ?home})))
+              -{@self household-cook ?}
+    (role ?home {@self home ?home}
+      (when (bb-public-none ?home cook))
+      (effects
+        (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles))
+        (begin-belief {@self household-cook ?home})))))
 
 (npc-think claim_cook_woman
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
                            {@self gender [k female]}
               -{@self household-cook ?}
-              -{@self class-situation [k upper]})
-  (role ?home {@self home ?home})
-  (when (and (bb-public-none ?home cook)
-             (not (and {@self mother ?mum}
-                       {?mum home ?home}))))
-  (effects
-    (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles))
-    (begin-belief {@self household-cook ?home})))
+              -{@self class-situation [k upper]}
+    (role ?home {@self home ?home}
+      (when (and (bb-public-none ?home cook)
+                 (not (and {@self mother ?mum}
+                           {?mum home ?home}))))
+      (effects
+        (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles))
+        (begin-belief {@self household-cook ?home})))))
 
 (npc-think claim_cook_man
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
                            {@self gender [k male]}
               -{@self household-cook ?}
               -{@self spouse ?}
-              -{@self class-situation [k upper]})
-  (role ?home {@self home ?home})
-  (when (and (bb-public-none ?home cook)
-             (not (and {@self child ?c}
-                       {?c gender [k female]}
-                       {?c home ?home}))))
-  (effects
-    (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles))
-    (begin-belief {@self household-cook ?home})))
+              -{@self class-situation [k upper]}
+    (role ?home {@self home ?home}
+      (when (and (bb-public-none ?home cook)
+                 (not (and {@self child ?c}
+                           {?c gender [k female]}
+                           {?c home ?home}))))
+      (effects
+        (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles))
+        (begin-belief {@self household-cook ?home})))))
 
 (npc-think renew_cook
-  (role ?home {@self household-cook ?home})
-  (effects (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles))))
+  (role ?home {@self household-cook ?home}
+    (effects (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles)))))
 
 ; ---- the pressure: the kitchen larder is low --------------------------------
 
@@ -95,11 +95,11 @@
   ; mints {home room <r>}): the kind-cast bind picks the is-a kitchen target. It BINDS,
   ; so it is role work; only the stock compare is a gate condition.
   (role ?home {@self household-cook ?home}
-              (spatial ?home room [k kitchen]): ?kitchen)
-  (when (< (believed-pile-count ?kitchen [k food]) (larder_low_water)))
-  (utility duty)
-  (effects       (begin-goal {@self PROVISION}))
-  (when-unsupported-effects (set-outcome {@self goal {@self PROVISION}} /succ)))
+              (spatial ?home room [k kitchen]): ?kitchen
+    (when (< (believed-pile-count ?kitchen [k food]) (larder_low_water)))
+    (utility duty)
+    (effects       (begin-goal {@self PROVISION}))
+    (when-unsupported-effects (set-outcome {@self goal {@self PROVISION}} /succ))))
 
 ; TERMINAL step (act_body_purification): the buy is PROPOSED, guarded by being at a shop - the
 ; at-place-kind precondition (identity is enforced by
@@ -111,14 +111,14 @@
   (goal    {@self PROVISION})
   ; The buy cap is DECIDED here (basket, larder shortfall, what is in hand)
   ; and rides the act pattern - the counter-stop body does no counting.
-  (role @self (is-a (spatial @self building) [k building shop]))
-  (role ?home {@self household-cook ?home}
-              (spatial ?home room [k kitchen]): ?kitchen)
-  (when    (and (believed-pile-count ?kitchen [k food]): ?blv
-                (held-pile-count @self [k food]): ?inh
-                (- (min (carry_cap) (- (larder_target) ?blv)) ?inh): ?cap
-                (> ?cap 0)))
-  (effects (maintain-proposal {@self PROVISION ?cap})))
+  (role @self (is-a (spatial @self building) [k building shop])
+    (role ?home {@self household-cook ?home}
+                (spatial ?home room [k kitchen]): ?kitchen
+      (when    (and (believed-pile-count ?kitchen [k food]): ?blv
+                    (held-pile-count @self [k food]): ?inh
+                    (- (min (carry_cap) (- (larder_target) ?blv)) ?inh): ?cap
+                    (> ?cap 0)))
+      (effects (maintain-proposal {@self PROVISION ?cap})))))
 
 ; ---- the errand: go to THE provisions shop (never a generic one) ------------
 ; The go sub-goal INHERITS the provision goal's drive through /caused_by (the
@@ -130,8 +130,8 @@
   ; THE known shop, as a role: the (any ..) + truthiness test was a rule-scope bind doing
   ; a role's job - with no candidate there is simply no activation.
   (role ?shop {@self provisions-shop ?shop}
-              (not (spatial @self building ?shop)))
-  (effects (maintain-proposal {@self enter ?shop})))
+              (not (spatial @self building ?shop))
+    (effects (maintain-proposal {@self enter ?shop}))))
 
 ; MAINTENANCE co-minter of the shared {@self ORIENT} search: while the provisioner knows no
 ; provisions shop, mint the orient goal; cease the moment orient_act learns one ({@self
@@ -139,9 +139,9 @@
 ; source on {@self ORIENT} and withdraws it independently; the goal lives until the last withdraws.
 (npc-think provision_orient
   (goal {@self PROVISION})
-  (role @self -{@self provisions-shop ?})
-  (effects       (begin-goal {@self ORIENT}))
-  (when-unsupported-effects (set-outcome {@self goal {@self ORIENT}} /succ)))
+  (role @self -{@self provisions-shop ?}
+    (effects       (begin-goal {@self ORIENT}))
+    (when-unsupported-effects (set-outcome {@self goal {@self ORIENT}} /succ))))
 
 ; ---- the delivery drive ------------------------------------------------------
 ; Laden with food = the standing pressure to deliver it, re-stamped per
@@ -153,8 +153,8 @@
 
 (npc-think provision_rearm
   (role ?home {@self home ?home}
-              (spatial ?home room [k kitchen]): ?kitchen)
-  (when (not (empty (spatial @self hold [k pile]))))
-  (utility duty (if (spatial @self space ?kitchen) (then 1000) (else 900)))
-  (effects       (begin-goal {@self BRING [k pile] ?kitchen}))
-  (when-unsupported-effects (set-outcome {@self goal {@self BRING [k pile] ?kitchen}} /succ)))
+              (spatial ?home room [k kitchen]): ?kitchen
+    (when (not (empty (spatial @self hold [k pile]))))
+    (utility duty (if (spatial @self space ?kitchen) (then 1000) (else 900)))
+    (effects       (begin-goal {@self BRING [k pile] ?kitchen}))
+    (when-unsupported-effects (set-outcome {@self goal {@self BRING [k pile] ?kitchen}} /succ))))

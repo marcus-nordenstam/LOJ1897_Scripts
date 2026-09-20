@@ -30,13 +30,13 @@
   ; and has a friend to confide in.
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self calling ?domain}
-              {@self friend ?})
+              {@self friend ?}
 
-  ; Roll the disclosure - once per discloser per month, weighted by extraversion.
-  (when (chance (* 0.08 (+ 0.5 (target-or @self enthusiasm 0)))))
+    ; Roll the disclosure - once per discloser per month, weighted by extraversion.
+    (when (chance (* 0.08 (+ 0.5 (target-or @self enthusiasm 0)))))
 
-  (utility want)
+    (utility want)
 
-  (effects
-    (nl-utterable-msg "I am called to ?domain"): ?msg
-    (maintain-proposal {@self SAY ?msg _})))
+    (effects
+      (nl-utterable-msg "I am called to ?domain"): ?msg
+      (maintain-proposal {@self SAY ?msg _}))))

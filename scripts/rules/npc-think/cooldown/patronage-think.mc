@@ -31,40 +31,40 @@
   ;; The age / prestige floors and the per-patron (chance) roll are non-belief
   ;; gates and now live in the (when ...) clause below.
   (role @self (old_human @self)
-              {@self repute [k exemplary], prestige ?prestige})
-  ;; A protege one or more class steps below the patron, of sound character
-  ;; (not scandalous), without an existing backer. The patron judges the
-  ;; protege from his OWN view ({?protege <dim> ?} own-belief filters) - he can
-  ;; only elevate a connection he actually KNOWS:
-  ;; the class match @fails (no firing) for a stranger, while the repute gate is
-  ;; permissive on the unknown (only a KNOWN-scandalous protege is excluded).
-  ;; (Not already backed - read from the PATRON's OWN knowledge ({backed-by} is
-  ;; banded in via believe_about), no mind peek; permissive on the unknown.)
-  (role ?protege (old_human ?protege)
-                 ;; A working-age adult, elevatable into a trade - a belief-pure
-                 ;; perceived age-band predicate, so it stays a role filter.
-                 (working-age ?protege)
-                 -{?protege repute [k scandalous]}
-                 -{?protege backed-by ?}
-                 (or (and {@self    class-situation [k upper]}
-                          {?protege class-situation [k middle]})
-                     (and {@self    class-situation [k upper]}
-                          {?protege class-situation [k lower]})
-                     (and {@self    class-situation [k middle]}
-                          {?protege class-situation [k lower]})))
+              {@self repute [k exemplary], prestige ?prestige}
+    ;; A protege one or more class steps below the patron, of sound character
+    ;; (not scandalous), without an existing backer. The patron judges the
+    ;; protege from his OWN view ({?protege <dim> ?} own-belief filters) - he can
+    ;; only elevate a connection he actually KNOWS:
+    ;; the class match @fails (no firing) for a stranger, while the repute gate is
+    ;; permissive on the unknown (only a KNOWN-scandalous protege is excluded).
+    ;; (Not already backed - read from the PATRON's OWN knowledge ({backed-by} is
+    ;; banded in via believe_about), no mind peek; permissive on the unknown.)
+    (role ?protege (old_human ?protege)
+                   ;; A working-age adult, elevatable into a trade - a belief-pure
+                   ;; perceived age-band predicate, so it stays a role filter.
+                   (working-age ?protege)
+                   -{?protege repute [k scandalous]}
+                   -{?protege backed-by ?}
+                   (or (and {@self    class-situation [k upper]}
+                            {?protege class-situation [k middle]})
+                       (and {@self    class-situation [k upper]}
+                            {?protege class-situation [k lower]})
+                       (and {@self    class-situation [k middle]}
+                            {?protege class-situation [k lower]}))
 
-  ;; Non-belief gates: the per-patron (chance) roll (first, cheap, short-circuits)
-  ;; and the patron's age / prestige floors.
-  (when (and (chance 0.005)
-             (>= (years-old @self) 35)
-             (>= ?prestige 0.65)))
+      ;; Non-belief gates: the per-patron (chance) roll (first, cheap, short-circuits)
+      ;; and the patron's age / prestige floors.
+      (when (and (chance 0.005)
+                 (>= (years-old @self) 35)
+                 (>= ?prestige 0.65)))
 
-  ;; The patron gates only on his OWN knowledge of who is backed (the {backed-by}
-  ;; role filter above), never a peek at the protege's mind. A rare same-window
-  ;; double-back by two patrons is left for a future public-blackboard claim (the
-  ;; sanctioned synchronized-group mechanism).
+      ;; The patron gates only on his OWN knowledge of who is backed (the {backed-by}
+      ;; role filter above), never a peek at the protege's mind. A rare same-window
+      ;; double-back by two patrons is left for a future public-blackboard claim (the
+      ;; sanctioned synchronized-group mechanism).
 
-  (effects
-    ; The protege learns of the backing in THEIR own mind ({me backed-by patron}).
-    (begin-belief ?protege {?protege backed-by @self})
-    ))
+      (effects
+        ; The protege learns of the backing in THEIR own mind ({me backed-by patron}).
+        (begin-belief ?protege {?protege backed-by @self})
+        ))))

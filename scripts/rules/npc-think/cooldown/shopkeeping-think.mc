@@ -18,21 +18,21 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
-  (role ?job {@self job ?job})
-  (role ?org {?job org ?org})
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+    (role ?job {@self job ?job}
+      (role ?org {?job org ?org}
 
-  ; MAINTENANCE: the decision OWNS the stocktake goal end to end. stocktake_act mints no
-  ; durable done-belief - it ends the {@self STOCKTAKE} act-belief (begun-at-commit /
-  ; ended-at-completion), so the completion gate reads that episodic memory: the standing
-  ; goal holds until he takes stock, and once stocktake_act resets days-since-last the (when)
-  ; drops and the falling edge ends the goal. The monthly timer owns the cadence
-  ; (one representative day per month), so the day-threshold need only distinguish "done this
-  ; month" (0) from "a month on"; 1 is the minimal such gate. The act never ends the goal.
-  (role ?wp {?org workplace ?wp})
-  (when (and (is-a ?wp [k building shop])
-             (>= (days-since-last {@self STOCKTAKE /ever}) 1)))
+        ; MAINTENANCE: the decision OWNS the stocktake goal end to end. stocktake_act mints no
+        ; durable done-belief - it ends the {@self STOCKTAKE} act-belief (begun-at-commit /
+        ; ended-at-completion), so the completion gate reads that episodic memory: the standing
+        ; goal holds until he takes stock, and once stocktake_act resets days-since-last the (when)
+        ; drops and the falling edge ends the goal. The monthly timer owns the cadence
+        ; (one representative day per month), so the day-threshold need only distinguish "done this
+        ; month" (0) from "a month on"; 1 is the minimal such gate. The act never ends the goal.
+        (role ?wp {?org workplace ?wp}
+          (when (and (is-a ?wp [k building shop])
+                     (>= (days-since-last {@self STOCKTAKE /ever}) 1)))
 
-  (utility duty)
-  (effects       (begin-goal {@self STOCKTAKE}))
-  (when-unsupported-effects (set-outcome {@self goal {@self STOCKTAKE}} /succ)))
+          (utility duty)
+          (effects       (begin-goal {@self STOCKTAKE}))
+          (when-unsupported-effects (set-outcome {@self goal {@self STOCKTAKE}} /succ)))))))

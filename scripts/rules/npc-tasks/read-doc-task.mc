@@ -17,16 +17,16 @@
     (try
       ; AT HAND is held OR in the room: a form in the hand has no space to walk to.
       (role @self (not (spatial ?doc held-by @self))
-                  (not (spatial ?doc co-located @self)))
-      (utility obligation)
-      (effects
-        (spatial ?doc space): ?room
-        (if (substantial ?room)
-            (then (maintain-proposal {@self go ?room})))))
+                  (not (spatial ?doc co-located @self))
+        (utility obligation)
+        (effects
+          (spatial ?doc space): ?room
+          (if (substantial ?room)
+              (then (maintain-proposal {@self go ?room}))))))
     (try
       ; The read-yet test is the SPINE's now, so this role states only what is unique to
       ; this rung: the page is within reach.
       (role @self (or (spatial ?doc held-by @self)
-                      (spatial ?doc co-located @self)))
-      (utility obligation)
-      (effects (maintain-proposal {@self READ ?doc})))))
+                      (spatial ?doc co-located @self))
+        (utility obligation)
+        (effects (maintain-proposal {@self READ ?doc}))))))

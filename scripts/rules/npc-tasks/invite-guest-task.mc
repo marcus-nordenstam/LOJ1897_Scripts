@@ -21,56 +21,56 @@
 (npc-task {@self invite-guest ?guest ?occ}:?ig-rel
   (and
     (sequence
-      (role ?my-home {@self home ?my-home})
-      (role ?guest-home {?guest home ?guest-home})
+      (role ?my-home {@self home ?my-home}
+        (role ?guest-home {?guest home ?guest-home}
 
-      (stage
-        (effects
-          (if (bb-any ?ig-rel letter)
-              (then (bind (bb-read ?ig-rel letter) ?ltr))
-              (else (maintain-proposal {@self CREATE-ENTITY [k invitation-letter]}:?ce
-                      [/postlude (bind (bb-read ?ce created) ?ltr)
-                                 (bb-write ?ig-rel letter ?ltr)])))))
+          (stage
+            (effects
+              (if (bb-any ?ig-rel letter)
+                  (then (bind (bb-read ?ig-rel letter) ?ltr))
+                  (else (maintain-proposal {@self CREATE-ENTITY [k invitation-letter]}:?ce
+                          [/postlude (bind (bb-read ?ce created) ?ltr)
+                                     (bb-write ?ig-rel letter ?ltr)])))))
 
-      ; The FORM. An occasion is a nameless abstract object and cannot ride a wire as
-      ; itself, so the letter carries the facts that CONSTITUTE it - whose it is, when,
-      ; where, between which hours - and the reader rebuilds his own occasion from them.
-      ; Host by NAME and venue by ADDRESS: the two things a stranger can resolve.
-      (stage
-        (when {@self name ?my-name}
-              {?guest name ?guest-name}
-              {?guest-home address ?guest-address}
-              {?occ held-on ?occ-date}
-              {?occ venue ?occ-venue}
-              {?occ-venue address ?venue-address}
-              {?occ hours ?occ-from ?occ-to})
-        (effects
-          (kind ?occ): ?occ-kind
-          (if (unsubstantial (attr ?ltr writing))
-              (then (maintain-proposal
-                      {@self write-doc ?ltr (table-msg [/addressee ?guest-name /address ?guest-address]
-                                                   [[occasion-kind ?occ-kind]
-                                                    [host ?my-name]
-                                                    [venue ?venue-address]
-                                                    [held-on ?occ-date]
-                                                    [from-hour ?occ-from]
-                                                    [to-hour ?occ-to]])})))))
+          ; The FORM. An occasion is a nameless abstract object and cannot ride a wire as
+          ; itself, so the letter carries the facts that CONSTITUTE it - whose it is, when,
+          ; where, between which hours - and the reader rebuilds his own occasion from them.
+          ; Host by NAME and venue by ADDRESS: the two things a stranger can resolve.
+          (stage
+            (when {@self name ?my-name}
+                  {?guest name ?guest-name}
+                  {?guest-home address ?guest-address}
+                  {?occ held-on ?occ-date}
+                  {?occ venue ?occ-venue}
+                  {?occ-venue address ?venue-address}
+                  {?occ hours ?occ-from ?occ-to})
+            (effects
+              (kind ?occ): ?occ-kind
+              (if (unsubstantial (attr ?ltr writing))
+                  (then (maintain-proposal
+                          {@self write-doc ?ltr (table-msg [/addressee ?guest-name /address ?guest-address]
+                                                       [[occasion-kind ?occ-kind]
+                                                        [host ?my-name]
+                                                        [venue ?venue-address]
+                                                        [held-on ?occ-date]
+                                                        [from-hour ?occ-from]
+                                                        [to-hour ?occ-to]])})))))
 
-      (stage
-        (role ?out [k outgoing-mail-stack] (spatial ?out building ?my-home))
-        (effects (maintain-proposal {@self send-mail ?ltr ?out})))
+          (stage
+            (role ?out [k outgoing-mail-stack] (spatial ?out building ?my-home))
+            (effects (maintain-proposal {@self send-mail ?ltr ?out})))
 
-      (stage
-        (effects
-          (bb-clear ?ig-rel letter)
-          (begin-belief {@self invite ?guest ?occ})
-          (set-outcome ?ig-rel /succ))))
+          (stage
+            (effects
+              (bb-clear ?ig-rel letter)
+              (begin-belief {@self invite ?guest ?occ})
+              (set-outcome ?ig-rel /succ))))))
 
     ; The out-box is knowledge the posting stage needs and may not have: an addressed
     ; letter in hand with no pile known is what sends him looking for one.
     (try
-      (role ?my-home {@self home ?my-home})
-      (role ?held [k invitation-letter] (spatial ?held held-by @self)
-                                        (substantial (attr ?held destination)))
-      (no-role [k outgoing-mail-stack])
-      (effects (maintain-proposal {@self locate [k outgoing-mail-stack] ?my-home})))))
+      (role ?my-home {@self home ?my-home}
+        (role ?held [k invitation-letter] (spatial ?held held-by @self)
+                                          (substantial (attr ?held destination))
+          (no-role [k outgoing-mail-stack])
+          (effects (maintain-proposal {@self locate [k outgoing-mail-stack] ?my-home})))))))

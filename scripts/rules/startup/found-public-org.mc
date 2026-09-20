@@ -31,23 +31,23 @@
   ; A salaried worker does not found either. (The household is separately capped
   ; by found_household's own throttle.)
   (role @self -{@self job.salary ?}
-              -{@self job [k head-of-non-household-org]})
+              -{@self job [k head-of-non-household-org]}
 
-  ; Age, plus the DEMAND gate: a charter @self could actually take up must still be
-  ; headless. Without the second test an adult who qualifies for nothing left re-fires a
-  ; fruitless scan every startup round and the pass never quiesces.
-  (when (and (>= (years-old @self) 25)
-             (substantial (charter-for @self))))
+    ; Age, plus the DEMAND gate: a charter @self could actually take up must still be
+    ; headless. Without the second test an adult who qualifies for nothing left re-fires a
+    ; fruitless scan every startup round and the pass never quiesces.
+    (when (and (>= (years-old @self) 25)
+               (substantial (charter-for @self))))
 
-  (effects
-    ; TAKE UP a charter the town filed at seeding and nobody heads yet. The org already
-    ; exists on paper - premises, articles, staff book - so founding it is stepping into
-    ; its open head seat. The emergent labour market (employment.hs `hiring` ->
-    ; hire_errand -> hire-matched) staffs it from the unemployed over subsequent ticks.
-    (for-each-row public_orgs
-        [/kind ?k] [/head-pos ?hp] [/class-floor ?cf]
-      (headless-charter ?k): ?art
-      (if (and (substantial ?art)
-               (class-at-least @self ?cf))
-          (then (take-up-charter ?art ?hp)
-              (break))))))
+    (effects
+      ; TAKE UP a charter the town filed at seeding and nobody heads yet. The org already
+      ; exists on paper - premises, articles, staff book - so founding it is stepping into
+      ; its open head seat. The emergent labour market (employment.hs `hiring` ->
+      ; hire_errand -> hire-matched) staffs it from the unemployed over subsequent ticks.
+      (for-each-row public_orgs
+          [/kind ?k] [/head-pos ?hp] [/class-floor ?cf]
+        (headless-charter ?k): ?art
+        (if (and (substantial ?art)
+                 (class-at-least @self ?cf))
+            (then (take-up-charter ?art ?hp)
+                (break)))))))

@@ -17,18 +17,18 @@
   (cooldown 1 m)
 
   (role ?foe {?foe (theme-labels violent-to) @self}:?witnessed-rel
-             -{?foe condition [k dead]})
+             -{?foe condition [k dead]}
 
-  ; The fearful flight: timidity = high volatility + low sadism + high compassion, the
-  ; mirror of fight_defence's combat resolve, so most victims lean one way or the other.
-  (when (chance (clamp (+ (target-or @self volatility 0)
-                          (- 1.0 (target-or @self sadism 0))
-                          (target-or @self compassion 0))
-                       0.05 0.95)))
+    ; The fearful flight: timidity = high volatility + low sadism + high compassion, the
+    ; mirror of fight_defence's combat resolve, so most victims lean one way or the other.
+    (when (chance (clamp (+ (target-or @self volatility 0)
+                            (- 1.0 (target-or @self sadism 0))
+                            (target-or @self compassion 0))
+                         0.05 0.95)))
 
-  (utility survival always-pick)
+    (utility survival always-pick)
 
-  (effects
-    ; Run for home - a known refuge; if @self has none, no flight (they stand and take it).
-    (if {@self home ?myhome}
-        (then (maintain-proposal {@self go ?myhome})))))
+    (effects
+      ; Run for home - a known refuge; if @self has none, no flight (they stand and take it).
+      (if {@self home ?myhome}
+          (then (maintain-proposal {@self go ?myhome}))))))

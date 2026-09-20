@@ -22,80 +22,80 @@
   (track-skill-level [k personnel])
   (tar human)
   (aux [k job])
-  (role ?org {@self duty-to ?org recruit-staff})
-  (and
-    ; THE PAPER MAN AND THE MAN: the officer heard of him off a form - a name, realis and
-    ; ungrounded. The man at the counter carries the same name; fuse them, so what was
-    ; promised to the one on paper is now known of the one in the room.
-    (try
-      (role @self {?applicant name ?pname})
-      (role ?paper [k human] {?paper name ?pname}
-                             (is-reconcilable ?paper)
-                             (!= ?paper ?applicant))
-      (effects (reconcile ?paper ?applicant)))
+  (role ?org {@self duty-to ?org recruit-staff}
+    (and
+      ; THE PAPER MAN AND THE MAN: the officer heard of him off a form - a name, realis and
+      ; ungrounded. The man at the counter carries the same name; fuse them, so what was
+      ; promised to the one on paper is now known of the one in the room.
+      (try
+        (role @self {?applicant name ?pname}
+          (role ?paper [k human] {?paper name ?pname}
+                                 (is-reconcilable ?paper)
+                                 (!= ?paper ?applicant)
+            (effects (reconcile ?paper ?applicant)))))
 
-    ; SIGN HIM ON: his seat is nobody's yet. HIRE writes a man standing in front of the
-    ; book, so his reach is this rung's to assert.
-    (try
-      (role @self (spatial ?applicant co-located @self)
-                  -{?applicant job ?}  ; he holds no seat I know of
-                  -{? job ?job}        ; and nobody holds the one he came for
-                  -{@self HIRE ?applicant ? /succ /caused_by ?ha-rel})
-      (utility obligation always-pick)
-      (effects
-        (any {?job job-id ?}).target: ?line
-        (maintain-proposal {@self HIRE ?applicant ?line})))
+      ; SIGN HIM ON: his seat is nobody's yet. HIRE writes a man standing in front of the
+      ; book, so his reach is this rung's to assert.
+      (try
+        (role @self (spatial ?applicant co-located @self)
+                    -{?applicant job ?}  ; he holds no seat I know of
+                    -{? job ?job}        ; and nobody holds the one he came for
+                    -{@self HIRE ?applicant ? /succ /caused_by ?ha-rel}
+          (utility obligation always-pick)
+          (effects
+            (any {?job job-id ?}).target: ?line
+            (maintain-proposal {@self HIRE ?applicant ?line}))))
 
-    ; SIGNED: the book says he is on it, so the seat is his - and the word goes to him. The
-    ; seat is his from the moment the line is written, which is why the officer's own two
-    ; facts about it land HERE and not on the conclusion: she read her own book. The seat is
-    ; named by DESCRIPTION - a job has no name; the org and the line make it THAT seat -
-    ; and the message QUOTES, so the (o ..) resolves in HIS mind.
-    (try
-      (role @self {@self HIRE ?applicant ? /succ /caused_by ?ha-rel}
-                  -{@self SAY ? ?applicant /succ /caused_by ?ha-rel})
-      (utility obligation always-pick)
-      (effects
-        (any {?job job-id ?}).target: ?line
-        (kind ?job): ?jk
-        (utterable-msg {@you job (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
-        (check ?msg)
-        (maintain-proposal {@self SAY ?msg ?applicant})
-        (if -{?applicant job ?job} (then (begin-belief {?applicant job ?job})))
-        (for-each ?orel (every {?job offered-to ?}) (end-belief ?orel))))
+      ; SIGNED: the book says he is on it, so the seat is his - and the word goes to him. The
+      ; seat is his from the moment the line is written, which is why the officer's own two
+      ; facts about it land HERE and not on the conclusion: she read her own book. The seat is
+      ; named by DESCRIPTION - a job has no name; the org and the line make it THAT seat -
+      ; and the message QUOTES, so the (o ..) resolves in HIS mind.
+      (try
+        (role @self {@self HIRE ?applicant ? /succ /caused_by ?ha-rel}
+                    -{@self SAY ? ?applicant /succ /caused_by ?ha-rel}
+          (utility obligation always-pick)
+          (effects
+            (any {?job job-id ?}).target: ?line
+            (kind ?job): ?jk
+            (utterable-msg {@you job (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
+            (check ?msg)
+            (maintain-proposal {@self SAY ?msg ?applicant})
+            (if -{?applicant job ?job} (then (begin-belief {?applicant job ?job})))
+            (for-each ?orel (every {?job offered-to ?}) (end-belief ?orel)))))
 
-    ; TOLD: the word landed. Both of them hold the seat as his now, which is the whole
-    ; point of the errand, so it ends.
-    (try
-      (role @self {@self HIRE ?applicant ? /succ /caused_by ?ha-rel}
-                  {@self SAY ? ?applicant /succ /caused_by ?ha-rel})
-      (utility obligation always-pick)
-      (effects (set-outcome ?ha-rel /succ)))
+      ; TOLD: the word landed. Both of them hold the seat as his now, which is the whole
+      ; point of the errand, so it ends.
+      (try
+        (role @self {@self HIRE ?applicant ? /succ /caused_by ?ha-rel}
+                    {@self SAY ? ?applicant /succ /caused_by ?ha-rel}
+          (utility obligation always-pick)
+          (effects (set-outcome ?ha-rel /succ))))
 
-    ; TURN HIM AWAY: his seat is held, and not by him - he is told who holds it, and that
-    ; is the refusal. Spoken TO the man it is meant for: a bystander hears it as news of
-    ; the seat, never as his own verdict.
-    (try
-      (role @self (spatial ?applicant co-located @self)
-                  {? job ?job}          ; somebody holds the seat he came for
-                  -{?applicant job ?}   ; and it is not him
-                  -{@self HIRE ?applicant ? /succ /caused_by ?ha-rel}
-                  -{@self SAY ? ?applicant /succ /caused_by ?ha-rel})
-      (utility obligation always-pick)
-      (effects
-        (any {?job job-id ?}).target: ?line
-        (kind ?job): ?jk
-        (any {? job ?job}): ?held
-        (bind ?held.subject ?holder)
-        (utterable-msg {?holder job (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
-        (check ?msg)
-        (maintain-proposal {@self SAY ?msg ?applicant})))
+      ; TURN HIM AWAY: his seat is held, and not by him - he is told who holds it, and that
+      ; is the refusal. Spoken TO the man it is meant for: a bystander hears it as news of
+      ; the seat, never as his own verdict.
+      (try
+        (role @self (spatial ?applicant co-located @self)
+                    {? job ?job}          ; somebody holds the seat he came for
+                    -{?applicant job ?}   ; and it is not him
+                    -{@self HIRE ?applicant ? /succ /caused_by ?ha-rel}
+                    -{@self SAY ? ?applicant /succ /caused_by ?ha-rel}
+          (utility obligation always-pick)
+          (effects
+            (any {?job job-id ?}).target: ?line
+            (kind ?job): ?jk
+            (any {? job ?job}): ?held
+            (bind ?held.subject ?holder)
+            (utterable-msg {?holder job (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
+            (check ?msg)
+            (maintain-proposal {@self SAY ?msg ?applicant}))))
 
-    ; TURNED AWAY: the refusal landed, and he knows whose the seat is.
-    (try
-      (role @self {? job ?job}
-                  -{?applicant job ?}
-                  -{@self HIRE ?applicant ? /succ /caused_by ?ha-rel}
-                  {@self SAY ? ?applicant /succ /caused_by ?ha-rel})
-      (utility obligation always-pick)
-      (effects (set-outcome ?ha-rel /fail)))))
+      ; TURNED AWAY: the refusal landed, and he knows whose the seat is.
+      (try
+        (role @self {? job ?job}
+                    -{?applicant job ?}
+                    -{@self HIRE ?applicant ? /succ /caused_by ?ha-rel}
+                    {@self SAY ? ?applicant /succ /caused_by ?ha-rel}
+          (utility obligation always-pick)
+          (effects (set-outcome ?ha-rel /fail)))))))

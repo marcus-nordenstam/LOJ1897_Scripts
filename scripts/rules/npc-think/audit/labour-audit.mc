@@ -26,28 +26,28 @@
   (cooldown 1 d)
   ; The org is a ROLE, not a var taken off the first duty belief: an officer may keep more
   ; than one book, and each book's seats are its own.
-  (role ?org {@self duty-to ?org recruit-staff})
-  (role ?p [k human] {?p apply-for ?job /succ}
-                     {?job org ?org}
-                     -{@self draft-verdict ?p ?job /succ}
-                     -{? job ?job}
-                     {?job offered-to ?})
-  (effects
-    (debug-print "labour audit: ?p applied for ?job - promised to another and held by nobody, so no rung answers him")
-    (expect @false "labour: an application no rung can answer - its seat is promised to another and held by nobody")))
+  (role ?org {@self duty-to ?org recruit-staff}
+    (role ?p [k human] {?p apply-for ?job /succ}
+                       {?job org ?org}
+                       -{@self draft-verdict ?p ?job /succ}
+                       -{? job ?job}
+                       {?job offered-to ?}
+      (effects
+        (debug-print "labour audit: ?p applied for ?job - promised to another and held by nobody, so no rung answers him")
+        (expect @false "labour: an application no rung can answer - its seat is promised to another and held by nobody")))))
 
 ; HIRED AND NEVER WORKED. A job held a window or more with no day's work concluded SINCE
 ; the hire: the last work ended before the job began, or there was none.
 (npc-audit audit_hired_never_worked
   (aspect labour)
   (cooldown 1 d)
-  (role @self {@self job ?job}:?j)
-  (when (and (/ (- (now-abs-seconds) (abs-seconds ?j.start)) 86400): ?held-days
-             (>= ?held-days 30)
-             (>= (days-since-last {@self work ? /succ}) ?held-days)))
-  (effects
-    (debug-print "labour audit: @self has held ?job ?held-days days and concluded no day's work since")
-    (expect @false "labour: held a job a month or more and concluded no day's work since the hire")))
+  (role @self {@self job ?job}:?j
+    (when (and (/ (- (now-abs-seconds) (abs-seconds ?j.start)) 86400): ?held-days
+               (>= ?held-days 30)
+               (>= (days-since-last {@self work ? /succ}) ?held-days)))
+    (effects
+      (debug-print "labour audit: @self has held ?job ?held-days days and concluded no day's work since")
+      (expect @false "labour: held a job a month or more and concluded no day's work since the hire"))))
 
 ; OFFERS OUTSTANDING AGAINST OPEN SEATS, per org the officer recruits for. An offer is a
 ; letter in the post and no reservation, so more offers than seats is a policy, not a bug -
@@ -58,26 +58,26 @@
   (aspect labour)
   (cooldown 1 d)
   (cease-after-fire)
-  (role @self {@self duty-to ?org recruit-staff})
-  (effects
-    (bind 0 ?offers)
-    (bind 0 ?open)
-    (for-each ?jr (every {? org ?org})
-      (bind ?jr.subject ?j)
-      (if (and {?j job-id ?} -{? job ?j})
-          (then (bind (+ ?open 1) ?open)
-                (if {?j offered-to ?} (then (bind (+ ?offers 1) ?offers))))))
-    (debug-print "labour audit: offers outstanding ?offers against open seats ?open")
-    (expect (<= ?offers ?open) "labour: more offers outstanding than open seats")))
+  (role @self {@self duty-to ?org recruit-staff}
+    (effects
+      (bind 0 ?offers)
+      (bind 0 ?open)
+      (for-each ?jr (every {? org ?org})
+        (bind ?jr.subject ?j)
+        (if (and {?j job-id ?} -{? job ?j})
+            (then (bind (+ ?open 1) ?open)
+                  (if {?j offered-to ?} (then (bind (+ ?offers 1) ?offers))))))
+      (debug-print "labour audit: offers outstanding ?offers against open seats ?open")
+      (expect (<= ?offers ?open) "labour: more offers outstanding than open seats"))))
 
 ; TWO VERDICTS FOR ONE MAN ABOUT ONE SEAT. The officer answered the same application twice.
 (npc-audit audit_two_verdicts_one_man
   (aspect labour)
   (cooldown 1 d)
-  (role @self {@self duty-to ?org recruit-staff})
-  (role ?p [k human] {@self draft-verdict ?p ?job /succ})
-  (when (>= (count (every {@self draft-verdict ?p ?job /succ})) 2))
-  (effects (expect @false "labour: two verdicts drafted for one applicant about one seat")))
+  (role @self {@self duty-to ?org recruit-staff}
+    (role ?p [k human] {@self draft-verdict ?p ?job /succ}
+      (when (>= (count (every {@self draft-verdict ?p ?job /succ})) 2))
+      (effects (expect @false "labour: two verdicts drafted for one applicant about one seat")))))
 
 ; TWO APPLICATIONS IN FLIGHT. seek_apply_pick admits one at a time; a second means the lock
 ; or the /pres gate has failed. Gated on the running task, as a running act must be; the

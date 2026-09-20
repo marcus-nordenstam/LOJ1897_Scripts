@@ -3,7 +3,7 @@
 ; twice per NPC (once per goal), each with its own ?g11 / ?prey11 binds.
 (npc-think probe_mint2
   (cooldown 1 m)
-  (role @self )
-  (when (and {@self goal {@self probe_hunt ?}}
-             -{@self goal {@self probe_hunt @self}}))
-  (effects (begin-goal {@self probe_hunt @self})))
+  (role @self 
+    (when (and {@self goal {@self probe_hunt ?}}
+               -{@self goal {@self probe_hunt @self}}))
+    (effects (begin-goal {@self probe_hunt @self}))))

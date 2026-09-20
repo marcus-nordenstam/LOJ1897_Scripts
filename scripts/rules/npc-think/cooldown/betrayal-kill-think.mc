@@ -19,42 +19,42 @@
   (cooldown 1 m)
   (rng-stream perpetration)
 
-  (role @self )
-  ; The unfaithful partner + the interloper the actor believes she keeps (a JOIN over
-  ; @self's OWN beliefs; any_human keeps both to the believed-alive, so a dead corner
-  ; drops the drive).
-  (role ?partner {?partner isa [k human], condition [k alive]}
-    {@self spouse|lover ?partner} (select (policy first-match)))
-  (role ?interloper {?interloper isa [k human], condition [k alive]}
-    {?partner lover ?interloper}
-    -{?partner spouse ?interloper}
-    (select (policy first-match)))
+  (role @self 
+    ; The unfaithful partner + the interloper the actor believes she keeps (a JOIN over
+    ; @self's OWN beliefs; any_human keeps both to the believed-alive, so a dead corner
+    ; drops the drive).
+    (role ?partner {?partner isa [k human], condition [k alive]}
+      {@self spouse|lover ?partner} (select (policy first-match))
+      (role ?interloper {?interloper isa [k human], condition [k alive]}
+        {?partner lover ?interloper}
+        -{?partner spouse ?interloper}
+        (select (policy first-match))
 
-  ; The REASON: the appraised emotions (minted by the betray-act reflex rows). Read as the
-  ; /caused_by anchors, never re-minted.
-  (bind (any {@self emotion [k anger] ?partner}) ?anger_bond)
-  (bind (any {@self emotion [k contempt] ?interloper}) ?contempt_bond)
+        ; The REASON: the appraised emotions (minted by the betray-act reflex rows). Read as the
+        ; /caused_by anchors, never re-minted.
+        (bind (any {@self emotion [k anger] ?partner}) ?anger_bond)
+        (bind (any {@self emotion [k contempt] ?interloper}) ?contempt_bond)
 
-  ; Fires only once the betrayal is appraised (anger present); the rage tip fires ONCE
-  ; (0.02 base * dark-propensity), then a running kill proposal latches it.
-  (when (and (substantial ?anger_bond)
-             (or {@self kill ?partner}
-                 {@self kill ?interloper}
-                 (chance (* (crime-scale) 0.02
-                            (dark-propensity (rage-disposition @self)))))))
-  (utility want)
-  (effects
-    ; Dual (kill BOTH) when the outrage clears the bar; else the more-blamed corner.
-    (cond
-      (case (>= (dual-outrage-score) 2.5)
-        (if -{?partner condition [k dead]}
-            (then (maintain-proposal {@self kill ?partner /caused_by ?anger_bond})))
-        (if -{?interloper condition [k dead]}
-            (then (maintain-proposal {@self kill ?interloper /caused_by ?contempt_bond}))))
-      (case (>= (blame-partner-score ?partner)
-                (blame-interloper-score ?partner ?interloper))
-        (if -{?partner condition [k dead]}
-            (then (maintain-proposal {@self kill ?partner /caused_by ?anger_bond}))))
-      (else
-        (if -{?interloper condition [k dead]}
-            (then (maintain-proposal {@self kill ?interloper /caused_by ?contempt_bond})))))))
+        ; Fires only once the betrayal is appraised (anger present); the rage tip fires ONCE
+        ; (0.02 base * dark-propensity), then a running kill proposal latches it.
+        (when (and (substantial ?anger_bond)
+                   (or {@self kill ?partner}
+                       {@self kill ?interloper}
+                       (chance (* (crime-scale) 0.02
+                                  (dark-propensity (rage-disposition @self)))))))
+        (utility want)
+        (effects
+          ; Dual (kill BOTH) when the outrage clears the bar; else the more-blamed corner.
+          (cond
+            (case (>= (dual-outrage-score) 2.5)
+              (if -{?partner condition [k dead]}
+                  (then (maintain-proposal {@self kill ?partner /caused_by ?anger_bond})))
+              (if -{?interloper condition [k dead]}
+                  (then (maintain-proposal {@self kill ?interloper /caused_by ?contempt_bond}))))
+            (case (>= (blame-partner-score ?partner)
+                      (blame-interloper-score ?partner ?interloper))
+              (if -{?partner condition [k dead]}
+                  (then (maintain-proposal {@self kill ?partner /caused_by ?anger_bond}))))
+            (else
+              (if -{?interloper condition [k dead]}
+                  (then (maintain-proposal {@self kill ?interloper /caused_by ?contempt_bond}))))))))))

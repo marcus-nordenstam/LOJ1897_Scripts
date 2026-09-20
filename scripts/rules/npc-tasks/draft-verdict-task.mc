@@ -22,87 +22,87 @@
   (aux [k job])
   (and
     (sequence
-      (role ?org {@self duty-to ?org recruit-staff})
-      (role ?wp {?org workplace ?wp})
+      (role ?org {@self duty-to ?org recruit-staff}
+        (role ?wp {?org workplace ?wp}
 
-      ; THE VERDICT is the seat's state at the moment the pen is picked up, and it is the
-      ; letter's kind from then on: a restart reads the kind off the letter already begun.
-      (stage
-        (effects
-          (if (bb-any ?dv-rel letter)
-              (then (bind (bb-read ?dv-rel letter) ?ltr)
-                    (bind (kind ?ltr) ?kind))
-              (else (bind (if -{? job ?job}
-                              (then [k offer-letter])
-                              (else [k rejection-letter]))
-                          ?kind)
-                    (maintain-proposal {@self CREATE-ENTITY ?kind}:?ce
-                      [/postlude (bind (bb-read ?ce created) ?ltr)
-                                 (bb-write ?dv-rel letter ?ltr)])))))
+          ; THE VERDICT is the seat's state at the moment the pen is picked up, and it is the
+          ; letter's kind from then on: a restart reads the kind off the letter already begun.
+          (stage
+            (effects
+              (if (bb-any ?dv-rel letter)
+                  (then (bind (bb-read ?dv-rel letter) ?ltr)
+                        (bind (kind ?ltr) ?kind))
+                  (else (bind (if -{? job ?job}
+                                  (then [k offer-letter])
+                                  (else [k rejection-letter]))
+                              ?kind)
+                        (maintain-proposal {@self CREATE-ENTITY ?kind}:?ce
+                          [/postlude (bind (bb-read ?ce created) ?ltr)
+                                     (bb-write ?dv-rel letter ?ltr)])))))
 
-      ; THE PAGE. Both letters name the seat by its anchors. The offer adds the seat's
-      ; description: a new man is taken on at the entry level, at that level's pay, on the
-      ; shift the ledger line was established with.
-      (stage
-        (role ?reg {?org employee-register ?reg})
-        (when {?p name ?rname}
-              {?p home ?rhome}
-              {?rhome address ?raddress}
-              {?job job-id ?line}
-              {?org name ?org-name}
-              (kind ?job): ?jk
-              (table-match (attr ?reg writing) job-id ?line shift ?shift)
-              (table-match income_by_level level [k trainee] income ?salary))
-        (effects
-          (if (unsubstantial (attr ?ltr writing))
-              (then
-                (if (= ?kind [k offer-letter])
-                    (then (maintain-proposal
-                            {@self write-doc ?ltr (table-msg [/addressee ?rname /address ?raddress]
-                                                         [[applicant ?rname] [job-kind ?jk]
-                                                          [org-name ?org-name] [job-id ?line]
-                                                          [level [k trainee]] [salary ?salary]
-                                                          [shift ?shift]])}))
-                    (else (maintain-proposal
-                            {@self write-doc ?ltr (table-msg [/addressee ?rname /address ?raddress]
-                                                         [[applicant ?rname] [job-kind ?jk]
-                                                          [org-name ?org-name] [job-id ?line]])})))))))
+          ; THE PAGE. Both letters name the seat by its anchors. The offer adds the seat's
+          ; description: a new man is taken on at the entry level, at that level's pay, on the
+          ; shift the ledger line was established with.
+          (stage
+            (role ?reg {?org employee-register ?reg})
+            (when {?p name ?rname}
+                  {?p home ?rhome}
+                  {?rhome address ?raddress}
+                  {?job job-id ?line}
+                  {?org name ?org-name}
+                  (kind ?job): ?jk
+                  (table-match (attr ?reg writing) job-id ?line shift ?shift)
+                  (table-match income_by_level level [k trainee] income ?salary))
+            (effects
+              (if (unsubstantial (attr ?ltr writing))
+                  (then
+                    (if (= ?kind [k offer-letter])
+                        (then (maintain-proposal
+                                {@self write-doc ?ltr (table-msg [/addressee ?rname /address ?raddress]
+                                                             [[applicant ?rname] [job-kind ?jk]
+                                                              [org-name ?org-name] [job-id ?line]
+                                                              [level [k trainee]] [salary ?salary]
+                                                              [shift ?shift]])}))
+                        (else (maintain-proposal
+                                {@self write-doc ?ltr (table-msg [/addressee ?rname /address ?raddress]
+                                                             [[applicant ?rname] [job-kind ?jk]
+                                                              [org-name ?org-name] [job-id ?line]])})))))))
 
-      (stage
-        (role ?out [k outgoing-mail-stack] (spatial ?out building ?wp))
-        (effects (maintain-proposal {@self send-mail ?ltr ?out})))
+          (stage
+            (role ?out [k outgoing-mail-stack] (spatial ?out building ?wp))
+            (effects (maintain-proposal {@self send-mail ?ltr ?out})))
 
-      ; An OFFER goes in the book as well as the post: the officer walks to the wage book
-      ; and pencils the man's name against the line. A rejection leaves no mark - nothing
-      ; was promised.
-      (stage
-        (role @self {?org employee-register ?reg})
-        (effects
-          (if (and (= ?kind [k offer-letter])
-                   (not (spatial ?reg co-located @self)))
-              (then (maintain-proposal {@self go (spatial ?reg space)})))))
-      (stage
-        (role @self {?org employee-register ?reg})
-        (when {?p name ?rname}
-              {?job job-id ?line})
-        (effects
-          (if (= ?kind [k offer-letter])
-              (then (maintain-proposal {@self RECORD-OFFER ?rname ?line})))))
+          ; An OFFER goes in the book as well as the post: the officer walks to the wage book
+          ; and pencils the man's name against the line. A rejection leaves no mark - nothing
+          ; was promised.
+          (stage
+            (role @self {?org employee-register ?reg})
+            (effects
+              (if (and (= ?kind [k offer-letter])
+                       (not (spatial ?reg co-located @self)))
+                  (then (maintain-proposal {@self go (spatial ?reg space)})))))
+          (stage
+            (role @self {?org employee-register ?reg})
+            (when {?p name ?rname}
+                  {?job job-id ?line})
+            (effects
+              (if (= ?kind [k offer-letter])
+                  (then (maintain-proposal {@self RECORD-OFFER ?rname ?line})))))
 
-      ; The promise is a state of the SEAT, held at both ends: the man learns it off the
-      ; letter, the officer holds it from the moment it is pencilled. An acceptance spends
-      ; it; until then the seat is offered to nobody else.
-      (stage
-        (effects
-          (if (and (= ?kind [k offer-letter]) -{?job offered-to ?p})
-              (then (begin-belief {?job offered-to ?p})))
-          (bb-clear ?dv-rel letter)
-          (set-outcome ?dv-rel /succ))))
+          ; The promise is a state of the SEAT, held at both ends: the man learns it off the
+          ; letter, the officer holds it from the moment it is pencilled. An acceptance spends
+          ; it; until then the seat is offered to nobody else.
+          (stage
+            (effects
+              (if (and (= ?kind [k offer-letter]) -{?job offered-to ?p})
+                  (then (begin-belief {?job offered-to ?p})))
+              (bb-clear ?dv-rel letter)
+              (set-outcome ?dv-rel /succ))))))
 
     (try
-      (role ?org {@self duty-to ?org recruit-staff})
-      (role ?wp {?org workplace ?wp})
-      (role ?held [k letter] (spatial ?held held-by @self)
-                             (substantial (attr ?held destination)))
-      (no-role [k outgoing-mail-stack])
-      (effects (maintain-proposal {@self locate [k outgoing-mail-stack] ?wp})))))
+      (role ?org {@self duty-to ?org recruit-staff}
+        (role ?wp {?org workplace ?wp}
+          (role ?held [k letter] (spatial ?held held-by @self)
+                                 (substantial (attr ?held destination))
+            (no-role [k outgoing-mail-stack])
+            (effects (maintain-proposal {@self locate [k outgoing-mail-stack] ?wp}))))))))

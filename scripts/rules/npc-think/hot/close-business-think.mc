@@ -46,8 +46,8 @@
   (goal {@self CLOSE-BUSINESS ?art})
   (role ?art_org {?art_org record ?art}
                   {?art_org workplace ?wp}
-                  (spatial @self building ?wp))
-  (effects (maintain-proposal {@self CLOSE-BUSINESS ?art ?wp})))
+                  (spatial @self building ?wp)
+    (effects (maintain-proposal {@self CLOSE-BUSINESS ?art ?wp}))))
 
 ; Outcome twin of the winding-up: he LISTS his OWN premises for sale IF he owns
 ; it (a leased / home-seated premises has no {@self own ?wp} belief - he just
@@ -55,15 +55,15 @@
 (npc-think list_failed_premises
   (role @self {@self CLOSE-BUSINESS ? ?wp /succ}
               {@self own ?wp}
-              -{?wp availability ?})
-  (effects
-    ; list ?wp on the for-sale register (row carries its deed, found by a registry scan).
-    (for-each ?deed (env-entities [k title-deed])
-      (do
-        (table-match (attr ?deed writing) building ?db)
-        (if (= ?db ?wp)
-          (then
-            (for-each ?listings (env-entities [k for-sale-listings])
-              (table-add ?listings building ?wp deed ?deed))
-            (break)))))
-    (begin-belief {?wp availability [k for-sale]})))
+              -{?wp availability ?}
+    (effects
+      ; list ?wp on the for-sale register (row carries its deed, found by a registry scan).
+      (for-each ?deed (env-entities [k title-deed])
+        (do
+          (table-match (attr ?deed writing) building ?db)
+          (if (= ?db ?wp)
+            (then
+              (for-each ?listings (env-entities [k for-sale-listings])
+                (table-add ?listings building ?wp deed ?deed))
+              (break)))))
+      (begin-belief {?wp availability [k for-sale]}))))

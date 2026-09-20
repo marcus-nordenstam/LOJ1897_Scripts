@@ -43,23 +43,23 @@
 (npc-think suicide_disgrace
   (cooldown 1 m)
   (rng-stream deliberation)
-  (role @self {@self pressure [k humiliation] ?target}:?pressure)
-  (when (chance (* (k-grievance-rate)
-                   (* 0.01 (grievance-drive ?pressure ?target 1)))))
-  (effects (resolve-suicide @self)))
+  (role @self {@self pressure [k humiliation] ?target}:?pressure
+    (when (chance (* (k-grievance-rate)
+                     (* 0.01 (grievance-drive ?pressure ?target 1)))))
+    (effects (resolve-suicide @self))))
 
 (npc-think suicide_grief
   (cooldown 1 m)
   (rng-stream deliberation)
-  (role @self {@self pressure [k attachment-loss] ?target}:?pressure)
-  (when (chance (* (k-grievance-rate)
-                   (* 0.03 (grievance-drive ?pressure ?target 1)))))
-  (effects (resolve-suicide @self)))
+  (role @self {@self pressure [k attachment-loss] ?target}:?pressure
+    (when (chance (* (k-grievance-rate)
+                     (* 0.03 (grievance-drive ?pressure ?target 1)))))
+    (effects (resolve-suicide @self))))
 
 (npc-think strive_rivalry
   (cooldown 1 m)
   (rng-stream deliberation)
-  (role @self {@self pressure [k rivalry-pressure] ?target}:?pressure)
-  (when (chance (* (k-grievance-rate)
-                   (* 0.6 (grievance-drive ?pressure ?target 1)))))
-  (effects (discharge-pressure ?pressure 0.5)))
+  (role @self {@self pressure [k rivalry-pressure] ?target}:?pressure
+    (when (chance (* (k-grievance-rate)
+                     (* 0.6 (grievance-drive ?pressure ?target 1)))))
+    (effects (discharge-pressure ?pressure 0.5))))

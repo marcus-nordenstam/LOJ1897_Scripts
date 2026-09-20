@@ -21,22 +21,22 @@
 ; first witness binds one). No candidate -> no proposal -> no will.
 (npc-think deliberate_will
   (cooldown 1 m)
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]})
-  (role ?heir {?heir isa [k human], condition [k alive]}
-    {@self spouse|child|sibling ?heir}
-    (select (score (+ (* 4 (count (every {@self spouse  ?heir})))
-                      (* 2 (count (every {@self child   ?heir})))
-                      (count       (every {@self sibling ?heir}))))))
-  (when (in-month 12))
-  (utility duty)
-  (effects (maintain-proposal {@self write-will ?heir})))
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+    (role ?heir {?heir isa [k human], condition [k alive]}
+      {@self spouse|child|sibling ?heir}
+      (select (score (+ (* 4 (count (every {@self spouse  ?heir})))
+                        (* 2 (count (every {@self child   ?heir})))
+                        (count       (every {@self sibling ?heir})))))
+      (when (in-month 12))
+      (utility duty)
+      (effects (maintain-proposal {@self write-will ?heir})))))
 
 ; Open the settle task on learning a relative died. Any kinsman may attend the
 ; reading; only the one the will names ends up claiming.
 (npc-think settle_inheritance
   (cooldown 1 m)
   (role ?dead {?dead condition [k dead]}
-              -{@self receive-inheritance ?dead /succ})
-  (when {@self spouse|child|sibling ?dead})
-  (utility duty)
-  (effects (maintain-proposal {@self receive-inheritance ?dead})))
+              -{@self receive-inheritance ?dead /succ}
+    (when {@self spouse|child|sibling ?dead})
+    (utility duty)
+    (effects (maintain-proposal {@self receive-inheritance ?dead}))))

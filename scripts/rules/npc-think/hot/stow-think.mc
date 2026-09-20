@@ -27,30 +27,30 @@
 ; putting the loot away and ending carrying-loot, which retires the goal. The acts never
 ; mint or end the goal - they only write the possession state the minter reads.
 (npc-think want_stow
-  (role @self {@self carrying-loot ?item})
-  (utility errand always-pick)
-  (effects       (begin-goal {@self stow ?item}))
-  (when-unsupported-effects (set-outcome {@self goal {@self stow ?item}} /succ)))
+  (role @self {@self carrying-loot ?item}
+    (utility errand always-pick)
+    (effects       (begin-goal {@self stow ?item}))
+    (when-unsupported-effects (set-outcome {@self goal {@self stow ?item}} /succ))))
 
 (npc-think stow_go
   (goal {@self stow ?item})
   (role ?home {@self home ?home}
-              (not (spatial @self building ?home)))
-  (when ?item)
-  (effects (maintain-proposal {@self enter ?home})))
+              (not (spatial @self building ?home))
+    (when ?item)
+    (effects (maintain-proposal {@self enter ?home}))))
 
 ; AT home: PROPOSE the put-away act (goals never propose themselves). stow_act reads the carried
 ; item off the standing {@self stow} goal and ends it, so the propose is label-only.
 (npc-think stow_at_home
   (goal {@self stow ?item})
   (role ?home {@self home ?home}
-              (spatial @self building ?home))
-  (when ?item)
-  ; The put-away place is DECIDED here: a fashioned hiding spot for a
-  ; worth-hiding item (priced above the loot floor), else 0 (the body puts
-  ; it openly in the room it stands in).
-  (effects
-    (if (and (> (price ?item) (valuable_loot_price_min)) {@self hiding-spot ?})
-              (then (any {@self hiding-spot ?}).target)
-              (else 0)): ?place
-    (maintain-proposal {@self stow ?item ?place})))
+              (spatial @self building ?home)
+    (when ?item)
+    ; The put-away place is DECIDED here: a fashioned hiding spot for a
+    ; worth-hiding item (priced above the loot floor), else 0 (the body puts
+    ; it openly in the room it stands in).
+    (effects
+      (if (and (> (price ?item) (valuable_loot_price_min)) {@self hiding-spot ?})
+                (then (any {@self hiding-spot ?}).target)
+                (else 0)): ?place
+      (maintain-proposal {@self stow ?item ?place}))))

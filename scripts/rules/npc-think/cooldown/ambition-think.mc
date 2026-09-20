@@ -38,28 +38,28 @@
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self job.org ?org}
               {@self job.level [k senior]}
-              -{@self job [k org-head]})
+              -{@self job [k org-head]}
 
-  ; The incumbent head I stand behind - a known colleague (learned from the staff
-  ; register by read_roster) whose job is-a org-head. read_roster only mints coworkers
-  ; from MY own register, so a known org-head IS my org's head; the (when) below pins it
-  ; to my current ?org with a LIVE chain read (a cross-role JOIN on the job.org chain in
-  ; a cached role filter is unsupported, so the org match lives in the gate, not the role).
-  (role ?victim {?victim isa [k human], condition [k alive]}
-                {?victim job [k org-head]}
-                (select (policy first-match)))
+    ; The incumbent head I stand behind - a known colleague (learned from the staff
+    ; register by read_roster) whose job is-a org-head. read_roster only mints coworkers
+    ; from MY own register, so a known org-head IS my org's head; the (when) below pins it
+    ; to my current ?org with a LIVE chain read (a cross-role JOIN on the job.org chain in
+    ; a cached role filter is unsupported, so the org match lives in the gate, not the role).
+    (role ?victim {?victim isa [k human], condition [k alive]}
+                  {?victim job [k org-head]}
+                  (select (policy first-match))
 
-  ; Same-org pin + disposition pre-gate. ambition = mean(machiavellianism, narcissism);
-  ; propensity = (1 - inhibition) * ambition; fire at 0.03 * propensity. The tip fires
-  ; ONCE then the running kill proposal latches it; drop the drive if the victim dies.
-  (when (and {?victim job.org ?org}
-             -{?victim condition [k dead]}
-             (or {@self kill ?victim}
-                 (chance (* (crime-scale) 0.03
-                            (* (- 1 (inhibition))
-                               (* 0.5 (+ (target-or @self machiavellianism 0)
-                                         (target-or @self narcissism 0)))))))))
+      ; Same-org pin + disposition pre-gate. ambition = mean(machiavellianism, narcissism);
+      ; propensity = (1 - inhibition) * ambition; fire at 0.03 * propensity. The tip fires
+      ; ONCE then the running kill proposal latches it; drop the drive if the victim dies.
+      (when (and {?victim job.org ?org}
+                 -{?victim condition [k dead]}
+                 (or {@self kill ?victim}
+                     (chance (* (crime-scale) 0.03
+                                (* (- 1 (inhibition))
+                                   (* 0.5 (+ (target-or @self machiavellianism 0)
+                                             (target-or @self narcissism 0)))))))))
 
-  (utility want)
-  (effects
-    (maintain-proposal {@self kill ?victim})))
+      (utility want)
+      (effects
+        (maintain-proposal {@self kill ?victim})))))

@@ -12,9 +12,9 @@
     ; WALK: not at the register -> go to its room.
     (try
       (role ?reg [k for-sale-listings] (= ?reg ?register)
-            (not (spatial ?reg co-located @self)))
-      (when (spatial ?reg space): ?room)
-      (effects (maintain-proposal {@self WALK ?room})))
+            (not (spatial ?reg co-located @self))
+        (when (spatial ?reg space): ?room)
+        (effects (maintain-proposal {@self WALK ?room}))))
     ; READ: at the register -> scan the table, minting an availability belief per row.
     (try
       (when (spatial ?register co-located @self))

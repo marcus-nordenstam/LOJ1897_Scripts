@@ -27,26 +27,26 @@
   ; @self is any human; the dark-tetrad assault disposition that rolls once
   ; per NPC now lives in the (when ...) gate below (a non-belief chance read
   ; cannot live on the role under the belief-purity invariant).
-  (role @self )
-  (role ?victim {?victim isa [k human], condition [k alive]}
-                {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?victim /ever})
+  (role @self 
+    (role ?victim {?victim isa [k human], condition [k alive]}
+                  {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?victim /ever}
 
-  ; Dark-tetrad assault disposition, rolled once per NPC (moved off the @self
-  ; role): volatility x psychopathy x sadism x (1 - politeness), amplified by
-  ; intoxication (the 0.3 sober floor + 0.7*intox keeps the amplifier in
-  ; [0.3, 1.0] so the whole product stays <= 1 - sober high-tetrad actors still
-  ; occasionally fire, drunk ones much more).
-  (when (latch-eval (chance (* (crime-scale)
-                   (target-or @self volatility 0)
-                   (target-or @self psychopathy 0)
-                   (target-or @self sadism 0)
-                   (- 1.0 (target-or @self politeness 0))
-                   (+ 0.3 (* 0.7 (target-or @self intoxication 0)))))))
+      ; Dark-tetrad assault disposition, rolled once per NPC (not a @self role
+      ; filter): volatility x psychopathy x sadism x (1 - politeness), amplified by
+      ; intoxication (the 0.3 sober floor + 0.7*intox keeps the amplifier in
+      ; [0.3, 1.0] so the whole product stays <= 1 - sober high-tetrad actors still
+      ; occasionally fire, drunk ones much more).
+      (when (latch-eval (chance (* (crime-scale)
+                       (target-or @self volatility 0)
+                       (target-or @self psychopathy 0)
+                       (target-or @self sadism 0)
+                       (- 1.0 (target-or @self politeness 0))
+                       (+ 0.3 (* 0.7 (target-or @self intoxication 0)))))))
 
-  (utility want)
-  (effects
-    ; A DRIVER (no incident-anchor): propose the hurt task, which reaches the victim and
-    ; PUNCHes them. The PUNCH is an (obs) violent action - co-present bystanders perceive it
-    ; and their appraisal/classifiers fire naturally (the record IS the ended act-belief;
-    ; blame is runtime, since the blow traces to no violence against @self).
-    (maintain-proposal {@self hurt ?victim})))
+      (utility want)
+      (effects
+        ; A DRIVER (no incident-anchor): propose the hurt task, which reaches the victim and
+        ; PUNCHes them. The PUNCH is an (obs) violent action - co-present bystanders perceive it
+        ; and their appraisal/classifiers fire naturally (the record IS the ended act-belief;
+        ; blame is runtime, since the blow traces to no violence against @self).
+        (maintain-proposal {@self hurt ?victim})))))

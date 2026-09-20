@@ -47,30 +47,30 @@
   (cooldown 1 m)
   (rng-stream incidents)
 
-  (role @self  {@self isa [k human], condition [k alive]})
-  (role ?victim {?victim isa [k human], condition [k alive]}
-                {@self child ?victim})
+  (role @self  {@self isa [k human], condition [k alive]}
+    (role ?victim {?victim isa [k human], condition [k alive]}
+                  {@self child ?victim}
 
-  ; Grounds, not a floor: mild standing disregard (dislike / disdain) admits the cut
-  ; at 0.2 each, deep disregard (detest / despise) at 0.3 each; a child the father
-  ; holds no grudge against CANNOT be disinherited. believes folds to 0/1; static max
-  ; 1.0. A non-belief (chance) gate reading per-victim stance, rolled per victim at
-  ; firing, so it lives in (when), not as a role criterion (would not be cacheable).
-  ; The actor trait (chance) gate ((1 - compassion) x narcissism) moved here off the
-  ; @self role for the same reason (attr reads are non-belief, not role-cacheable).
-  (when (and (latch-eval (chance (* (crime-scale) 0.025
-                        (- 1.0 (target-or @self compassion 0))
-                        (target-or @self narcissism 0))))
-             (chance (+ (* 0.2 (+ (prob {@self dislike ?victim})
-                                  (prob {@self disdain ?victim})))
-                        (* 0.3 (+ (prob {@self detest  ?victim})
-                                  (prob {@self despise ?victim})))))))
+      ; Grounds, not a floor: mild standing disregard (dislike / disdain) admits the cut
+      ; at 0.2 each, deep disregard (detest / despise) at 0.3 each; a child the father
+      ; holds no grudge against CANNOT be disinherited. believes folds to 0/1; static max
+      ; 1.0. A non-belief (chance) gate reading per-victim stance, rolled per victim at
+      ; firing, so it lives in (when), not as a role criterion (would not be cacheable).
+      ; The actor trait (chance) gate ((1 - compassion) x narcissism) sits here for the same
+      ; reason, not a @self role filter (attr reads are non-belief, not role-cacheable).
+      (when (and (latch-eval (chance (* (crime-scale) 0.025
+                            (- 1.0 (target-or @self compassion 0))
+                            (target-or @self narcissism 0))))
+                 (chance (+ (* 0.2 (+ (prob {@self dislike ?victim})
+                                      (prob {@self disdain ?victim})))
+                            (* 0.3 (+ (prob {@self detest  ?victim})
+                                      (prob {@self despise ?victim})))))))
 
-  (utility want)
+      (utility want)
 
-  ; Propose the disinherit TASK (disinherit-task.hs): the benefactor performs the
-  ; disinheritance - not a fabricated omniscient record. (Interim: the task SAYs it to
-  ; the victim, planting the knowledge; the proper will-writing + heir-realization lands
-  ; when will-documents do.)
-  (effects
-    (maintain-proposal {@self disinherit ?victim})))
+      ; Propose the disinherit TASK (disinherit-task.hs): the benefactor performs the
+      ; disinheritance - not a fabricated omniscient record. (Interim: the task SAYs it to
+      ; the victim, planting the knowledge; the proper will-writing + heir-realization lands
+      ; when will-documents do.)
+      (effects
+        (maintain-proposal {@self disinherit ?victim})))))

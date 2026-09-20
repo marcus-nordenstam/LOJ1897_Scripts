@@ -30,16 +30,16 @@
   ; no-ops for the deliberating self, so drop them from the cached self-gate.
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               -{@self spouse ?}
-              {@self fancy ?})
-  ; ?target is the specific person @self is attracted to (attraction at least
-  ; the `fancy` band - the same gate court / love_match read).
-  (role ?target {?target isa [k human], condition [k alive]}
-                {?target age-band [k youth|young-adult|middle-aged|mature|elderly]}
-                (is-attracted-to @self ?target)
-                (spatial ?target co-located @self))
+              {@self fancy ?}
+    ; ?target is the specific person @self is attracted to (attraction at least
+    ; the `fancy` band - the same gate court / love_match read).
+    (role ?target {?target isa [k human], condition [k alive]}
+                  {?target age-band [k youth|young-adult|middle-aged|mature|elderly]}
+                  (is-attracted-to @self ?target)
+                  (spatial ?target co-located @self)
 
-  (utility want)
+      (utility want)
 
-  (effects
-    (nl-utterable-msg "I fancy you"): ?msg
-    (maintain-proposal {@self SAY ?msg ?target})))
+      (effects
+        (nl-utterable-msg "I fancy you"): ?msg
+        (maintain-proposal {@self SAY ?msg ?target})))))

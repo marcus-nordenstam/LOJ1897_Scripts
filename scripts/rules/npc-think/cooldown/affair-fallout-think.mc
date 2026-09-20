@@ -40,33 +40,33 @@
   (cooldown 1 m)
   (rng-stream incidents)
 
-  (role @self )
-  ; The unfaithful partner: a spouse or lover of the actor's.
-  (role ?partner {?partner isa [k human], condition [k alive]}
-    {@self spouse|lover ?partner}
-    (select (policy first-match)))
-  ; The interloper: the third-party lover the actor believes ?partner keeps -
-  ; a JOIN role over the actor's OWN beliefs (no mind peek). Excludes
-  ; ?partner's known spouse; the role machinery never casts @self. No known
-  ; affair -> no activation, and the fallout never rolls.
-  (role ?interloper {?interloper isa [k human], condition [k alive]}
-    {?partner lover ?interloper}
-    -{?partner spouse ?interloper}
-    (select (policy first-match)))
+  (role @self 
+    ; The unfaithful partner: a spouse or lover of the actor's.
+    (role ?partner {?partner isa [k human], condition [k alive]}
+      {@self spouse|lover ?partner}
+      (select (policy first-match))
+      ; The interloper: the third-party lover the actor believes ?partner keeps -
+      ; a JOIN role over the actor's OWN beliefs (no mind peek). Excludes
+      ; ?partner's known spouse; the role machinery never casts @self. No known
+      ; affair -> no activation, and the fallout never rolls.
+      (role ?interloper {?interloper isa [k human], condition [k alive]}
+        {?partner lover ?interloper}
+        -{?partner spouse ?interloper}
+        (select (policy first-match))
 
-  ; Recourse to an APPRAISED betrayal (the betray-act reflex rows minted the anger @ partner),
-  ; and only while @self is not answering it lethally: a killer keeps the secret,
-  ; since exposing the affair would advertise the motive.
-  (role @self {@self emotion [k anger] ?partner})
-  (when (and -{@self kill ?partner}
-             -{@self kill ?interloper}))
+        ; Recourse to an APPRAISED betrayal (the betray-act reflex rows minted the anger @ partner),
+        ; and only while @self is not answering it lethally: a killer keeps the secret,
+        ; since exposing the affair would advertise the motive.
+        (role @self {@self emotion [k anger] ?partner}
+          (when (and -{@self kill ?partner}
+                     -{@self kill ?interloper}))
 
-  (effects
-    ; Divorce: the husband's remedy alone; the proper / high-decorum are likeliest
-    ; to cut the tie. PROPOSE the divorce task (divorce-task.hs performs the
-    ; repudiation); once put away, the standing divorce record bars a re-propose.
-    (if (and {@self spouse ?partner}
-             {@self gender [k male]}
-             -{@self divorce ?partner /ever}
-             (chance (* 0.35 (target-or @self decorum 0.5))))
-        (then (maintain-proposal {@self divorce ?partner})))))
+          (effects
+            ; Divorce: the husband's remedy alone; the proper / high-decorum are likeliest
+            ; to cut the tie. PROPOSE the divorce task (divorce-task.hs performs the
+            ; repudiation); once put away, the standing divorce record bars a re-propose.
+            (if (and {@self spouse ?partner}
+                     {@self gender [k male]}
+                     -{@self divorce ?partner /ever}
+                     (chance (* 0.35 (target-or @self decorum 0.5))))
+                (then (maintain-proposal {@self divorce ?partner})))))))))

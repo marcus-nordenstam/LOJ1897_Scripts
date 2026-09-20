@@ -32,19 +32,19 @@
 ; its OWN act-belief, never the goal (like drink_act).
 (npc-think gamble_urge
   (cooldown 10 d)
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
-  ; ONSET is rare and susceptibility-scaled: the disciplined seldom take a first flutter
-  ; (low industriousness -> higher onset), but once any gambling-addiction has taken hold
-  ; the pull is ALWAYS felt (the spiral pulls the addicted back every window). (latch-eval)
-  ; rolls the onset (chance) at the fire and LOCKS it once holding, so the held re-check never
-  ; re-rolls it (it re-rolls each window until it lands). This gate is load-bearing: WITHOUT
-  ; rate-limiting the first flutter here every adult would take a first gamble and the whole
-  ; town would spiral into addiction.
-  (when (and (>= (days-since-last {@self PLAY-GAME /ever}) 10)
-             (or (> (target-or @self gambling-addiction 0) 0)
-                 (latch-eval (chance (* 0.02 (- 1 (target-or @self industriousness 0))))))))
-  (utility want (* 10 (* (- 1 (target-or @self industriousness 0))                    ; susceptibility (0 = disciplined)
-              (+ 2 (* 22 (target-or @self gambling-addiction 0)))          ; onset 2 -> morbid 24 (below leisure)
-              (min (* (days-since-last {@self PLAY-GAME /ever}) 0.04) 1.0)))) ; slow craving modulator [0,1]
-  (effects       (begin-goal {@self PLAY-GAME}))
-  (when-unsupported-effects (set-outcome {@self goal {@self PLAY-GAME}} /succ)))
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+    ; ONSET is rare and susceptibility-scaled: the disciplined seldom take a first flutter
+    ; (low industriousness -> higher onset), but once any gambling-addiction has taken hold
+    ; the pull is ALWAYS felt (the spiral pulls the addicted back every window). (latch-eval)
+    ; rolls the onset (chance) at the fire and LOCKS it once holding, so the held re-check never
+    ; re-rolls it (it re-rolls each window until it lands). This gate is load-bearing: WITHOUT
+    ; rate-limiting the first flutter here every adult would take a first gamble and the whole
+    ; town would spiral into addiction.
+    (when (and (>= (days-since-last {@self PLAY-GAME /ever}) 10)
+               (or (> (target-or @self gambling-addiction 0) 0)
+                   (latch-eval (chance (* 0.02 (- 1 (target-or @self industriousness 0))))))))
+    (utility want (* 10 (* (- 1 (target-or @self industriousness 0))                    ; susceptibility (0 = disciplined)
+                (+ 2 (* 22 (target-or @self gambling-addiction 0)))          ; onset 2 -> morbid 24 (below leisure)
+                (min (* (days-since-last {@self PLAY-GAME /ever}) 0.04) 1.0)))) ; slow craving modulator [0,1]
+    (effects       (begin-goal {@self PLAY-GAME}))
+    (when-unsupported-effects (set-outcome {@self goal {@self PLAY-GAME}} /succ))))

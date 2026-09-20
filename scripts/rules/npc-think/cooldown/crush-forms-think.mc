@@ -36,33 +36,33 @@
               -{@self desire ?}
               -{@self lover ?}
               -{@self spouse ?}
-              {@self age-band ?peer_band})
-  (role ?victim {?victim isa [k human], condition [k alive]}
-                {?victim age-band [k youth|young-adult|middle-aged|mature|elderly]}
-                ; the crush forms on someone @self has actually met.
-                {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?victim /ever}
-                ; No incestuous crush (kin cross-pair believes-macro).
-                (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?victim})
-                ; Opposite-sex: @self's belief that ?victim's PERCEIVED gender
-                ; differs from his own (visible-on-sight -> cacheable).
-                -{?victim gender (any {@self gender}).target}
-                ; Similar age: @self's band is within ?victim's perceived age-span
-                ; (+/-1 band). @self's band is bound in the @self role above - an
-                ; inline (any {@self age-band}).target does NOT resolve against the
-                ; plural age-span belief, so the band must be a bound variable.
-                {?victim age-span ?peer_band})
+              {@self age-band ?peer_band}
+    (role ?victim {?victim isa [k human], condition [k alive]}
+                  {?victim age-band [k youth|young-adult|middle-aged|mature|elderly]}
+                  ; the crush forms on someone @self has actually met.
+                  {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?victim /ever}
+                  ; No incestuous crush (kin cross-pair believes-macro).
+                  (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?victim})
+                  ; Opposite-sex: @self's belief that ?victim's PERCEIVED gender
+                  ; differs from his own (visible-on-sight -> cacheable).
+                  -{?victim gender (any {@self gender}).target}
+                  ; Similar age: @self's band is within ?victim's perceived age-span
+                  ; (+/-1 band). @self's band is bound in the @self role above - an
+                  ; inline (any {@self age-band}).target does NOT resolve against the
+                  ; plural age-span belief, so the band must be a bound variable.
+                  {?victim age-span ?peer_band}
 
-  ; The trait chance (openness x enthusiasm x compassion) is a non-belief filter,
-  ; rolled once per NPC per month in (when) rather than as a role criterion.
-  (when (chance (* 0.30
-                   (target-or @self openness 0)
-                   (target-or @self enthusiasm 0)
-                   (target-or @self compassion 0))))
+      ; The trait chance (openness x enthusiasm x compassion) is a non-belief filter,
+      ; rolled once per NPC per month in (when) rather than as a role criterion.
+      (when (chance (* 0.30
+                       (target-or @self openness 0)
+                       (target-or @self enthusiasm 0)
+                       (target-or @self compassion 0))))
 
-  (effects
-    ; Feed the one-sided attraction scalar: a crush is a strong directed pull.
-    ; 0.5 crosses the `fancy` band (0.20) in one fire and sustains ~a year against
-    ; the sleep decay (0.938); repeated fires deepen toward `desire` (0.60). The
-    ; `fancy` verb-state belief is what courtship (love_match / court) now reads.
-    (nudge-stance ?victim attraction 0.5)
-    ))
+      (effects
+        ; Feed the one-sided attraction scalar: a crush is a strong directed pull.
+        ; 0.5 crosses the `fancy` band (0.20) in one fire and sustains ~a year against
+        ; the sleep decay (0.938); repeated fires deepen toward `desire` (0.60). The
+        ; `fancy` verb-state belief is what courtship (love_match / court) now reads.
+        (nudge-stance ?victim attraction 0.5)
+        ))))

@@ -23,8 +23,8 @@
   (role ?other {?other gender [k female]}
                {?other spouse ?}
                (or {?other lover ? /ever}
-                   {?other prototype [k fallen-woman]}))
+                   {?other prototype [k fallen-woman]})
 
-  (effects
-    (mint-band-about {?other prototype} (prob {?other lover ? /ever})
-      [k fallen-woman] 0.5)))
+    (effects
+      (mint-band-about {?other prototype} (prob {?other lover ? /ever})
+        [k fallen-woman] 0.5))))

@@ -31,17 +31,17 @@
   ;; a post does not go reading the vacancies. The jobless filter is a belief-pure
   ;; self-role criterion, so the @self enumeration itself caches.
   (role @self
-              -{@self job ?})
+              -{@self job ?}
 
-  ; MAINTENANCE (blessed days-since-last pattern, like want_drink): mint the shared orient goal;
-  ; the (chance) is the ONSET roll (latch-eval locks it once holding); (days-since-last orient)
-  ; is the CONTINUOUS completion gate - orient_act ends its {@self ORIENT} act-belief at the read,
-  ; so days-since resets to 0, the (when) drops, and the goal ends after one read (no re-read
-  ; storm). The cooldown + chance re-arm the periodic re-read, so new orgs are still picked up.
-  (when (and (>= (years-old @self) 12)
-             (>= (days-since-last {@self ORIENT /ever}) 1)
-             (latch-eval (chance 0.3))))
+    ; MAINTENANCE (blessed days-since-last pattern, like want_drink): mint the shared orient goal;
+    ; the (chance) is the ONSET roll (latch-eval locks it once holding); (days-since-last orient)
+    ; is the CONTINUOUS completion gate - orient_act ends its {@self ORIENT} act-belief at the read,
+    ; so days-since resets to 0, the (when) drops, and the goal ends after one read (no re-read
+    ; storm). The cooldown + chance re-arm the periodic re-read, so new orgs are still picked up.
+    (when (and (>= (years-old @self) 12)
+               (>= (days-since-last {@self ORIENT /ever}) 1)
+               (latch-eval (chance 0.3))))
 
-  (utility errand)
-  (effects       (begin-goal {@self ORIENT}))
-  (when-unsupported-effects (set-outcome {@self goal {@self ORIENT}} /succ)))
+    (utility errand)
+    (effects       (begin-goal {@self ORIENT}))
+    (when-unsupported-effects (set-outcome {@self goal {@self ORIENT}} /succ))))

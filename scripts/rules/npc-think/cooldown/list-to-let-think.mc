@@ -34,13 +34,13 @@
   ; ANNUAL: a yearly timer mints the standing let intent once per year; (begin-goal) is
   ; idempotent.
   (cooldown 1 y)
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]})
-  ; His OWN vacant residential holdings (object-cache role over his beliefs).
-  (role ?prop {@self own ?prop}
-              {?prop isa [k residential-building]}
-              -{@self home ?prop}            ; not where he lives
-              -{?prop tenant ?}              ; no sitting tenant
-              -{?prop availability [k for-rent]})  ; not already listed
-  (utility errand)
-  (effects       (begin-goal {@self LET ?prop}))
-  (when-unsupported-effects (set-outcome {@self goal {@self LET ?prop}} /succ)))
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+    ; His OWN vacant residential holdings (object-cache role over his beliefs).
+    (role ?prop {@self own ?prop}
+                {?prop isa [k residential-building]}
+                -{@self home ?prop}            ; not where he lives
+                -{?prop tenant ?}              ; no sitting tenant
+                -{?prop availability [k for-rent]}  ; not already listed
+      (utility errand)
+      (effects       (begin-goal {@self LET ?prop}))
+      (when-unsupported-effects (set-outcome {@self goal {@self LET ?prop}} /succ)))))

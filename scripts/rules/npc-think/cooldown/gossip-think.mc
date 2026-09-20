@@ -24,33 +24,33 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self {@self friend ?})
-  ; The person gossiped ABOUT: someone @self knows of, drawn by roulette.
-  (role ?x {?x isa [k human], condition [k alive]}
-           (select (score 1) (policy roulette)))
-  ; The LISTENER: a co-present person (objective room occupancy), drawn by roulette.
-  (role ?ear {?ear isa [k human], condition [k alive]}
-             (spatial ?ear co-located @self)
-             (select (score 1) (policy roulette)))
+  (role @self {@self friend ?}
+    ; The person gossiped ABOUT: someone @self knows of, drawn by roulette.
+    (role ?x {?x isa [k human], condition [k alive]}
+             (select (score 1) (policy roulette))
+      ; The LISTENER: a co-present person (objective room occupancy), drawn by roulette.
+      (role ?ear {?ear isa [k human], condition [k alive]}
+                 (spatial ?ear co-located @self)
+                 (select (score 1) (policy roulette))
 
-  ; Non-belief gates (out of the roles): don't gossip to ?x about themselves (a cross-
-  ; role equality, so it lives in (when), not a cacheable role filter), extraversion +
-  ; assertiveness weighted chance, and the minimum-age check.
-  (when (and (!= ?ear ?x)
-             (chance (* 0.3
-                        (+ 0.5 (target-or @self enthusiasm 0))
-                        (+ 0.5 (target-or @self assertiveness 0))))
-             (>= (years-old @self) 12)))
+        ; Non-belief gates (not role filters): don't gossip to ?x about themselves (a cross-
+        ; role equality, so it lives in (when), not a cacheable role filter), extraversion +
+        ; assertiveness weighted chance, and the minimum-age check.
+        (when (and (!= ?ear ?x)
+                   (chance (* 0.3
+                              (+ 0.5 (target-or @self enthusiasm 0))
+                              (+ 0.5 (target-or @self assertiveness 0))))
+                   (>= (years-old @self) 12)))
 
-  (utility want)
+        (utility want)
 
-  (effects
-    ; Label order IS priority: scandal acts, then the death-story, then relationship
-    ; news. ?news is the matched fact; ?tgt its target (the shame-seal check).
-    (for-each ?news-rel (every {? disinherit|insult|outdo|public-humiliation|seduce|expose|confront-publicly|divorce|prototype|condition|circumstance-of-death|spouse|fiancee|lover|child ?})
-      (do
-        (bind ?news-rel.target ?tgt)
-        (utterable-msg ?news-rel): ?msg
-        (if (and (!= ?tgt @self)
-                 -{@self SAY ?msg ?ear})
-            (then (maintain-proposal {@self SAY ?msg ?ear}) (break)))))))
+        (effects
+          ; Label order IS priority: scandal acts, then the death-story, then relationship
+          ; news. ?news is the matched fact; ?tgt its target (the shame-seal check).
+          (for-each ?news-rel (every {? disinherit|insult|outdo|public-humiliation|seduce|expose|confront-publicly|divorce|prototype|condition|circumstance-of-death|spouse|fiancee|lover|child ?})
+            (do
+              (bind ?news-rel.target ?tgt)
+              (utterable-msg ?news-rel): ?msg
+              (if (and (!= ?tgt @self)
+                       -{@self SAY ?msg ?ear})
+                  (then (maintain-proposal {@self SAY ?msg ?ear}) (break))))))))))

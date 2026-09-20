@@ -39,19 +39,19 @@
 
 (npc-think day_work
   (fatigue 0)                      ; a work shift is not a fruitless search - never fatigue-capped
-  (role ?job {@self job ?job})
-  (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
-             {?org workplace ?wp})       ; ?wp binds at fire
-  (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
-        (latch-eval (any {?job ?tl ?}): ?sh (bind ?sh.target ?start) (bind ?sh.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
-        (latch-eval (at-workplace ?wp))                  ; onset: the day's work starts on ARRIVAL, then survives every excursion
-        (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
-  (utility duty (* (k-work-drive-value) (labour-drive-tilt)))
-  ; SPAWN the day's WORK TASK (npc-tasks/work-task.hs): its performance tries fan the shift
-  ; into the held duties' tasks and the between-duties post-stay; shift_over concludes it.
-  ; MAINTAINED on the shift window alone: arrival is latched at onset, so leaving for an
-  ; errand never withdraws the day's work.
-  (effects       (maintain-proposal {@self work ?wp})))
+  (role ?job {@self job ?job}
+    (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
+               {?org workplace ?wp}       ; ?wp binds at fire
+      (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
+            (latch-eval (any {?job ?tl ?}): ?sh (bind ?sh.target ?start) (bind ?sh.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
+            (latch-eval (at-workplace ?wp))                  ; onset: the day's work starts on ARRIVAL, then survives every excursion
+            (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
+      (utility duty (* (k-work-drive-value) (labour-drive-tilt)))
+      ; SPAWN the day's WORK TASK (npc-tasks/work-task.hs): its performance tries fan the shift
+      ; into the held duties' tasks and the between-duties post-stay; shift_over concludes it.
+      ; MAINTAINED on the shift window alone: arrival is latched at onset, so leaving for an
+      ; errand never withdraws the day's work.
+      (effects       (maintain-proposal {@self work ?wp})))))
 
 ; The work TASK's performance tries (at_post_morning / at_post_afternoon / shift_over) live
 ; in npc-tasks/work-task.hs. day_go_to_work below stays a DRIVER (no task gate).
@@ -61,12 +61,12 @@
   ; premises BUILDING (shop / office) or a ROOM (a gentleman's home study / back-office); the
   ; generic go task (go.hs) reaches either - enter the structure, walk into the room.
   (fatigue 0)                      ; commuting to work is not a fruitless search - never fatigue-capped
-  (role ?job {@self job ?job})
-  (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
-             {?org workplace ?wp}       ; ?wp binds at fire
-             (not (at-workplace ?wp)))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
-  (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
-        (latch-eval (any {?job ?tl ?}): ?sh (bind ?sh.target ?start) (bind ?sh.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
-        (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
-  (utility duty)
-  (effects       (maintain-proposal {@self go ?wp})))
+  (role ?job {@self job ?job}
+    (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
+               {?org workplace ?wp}       ; ?wp binds at fire
+               (not (at-workplace ?wp))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
+      (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
+            (latch-eval (any {?job ?tl ?}): ?sh (bind ?sh.target ?start) (bind ?sh.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
+            (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
+      (utility duty)
+      (effects       (maintain-proposal {@self go ?wp})))))

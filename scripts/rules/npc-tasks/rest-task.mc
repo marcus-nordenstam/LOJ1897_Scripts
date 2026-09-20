@@ -8,5 +8,5 @@
 (npc-task {@self rest ?venue}:?t-rel
   (tar structure|space)
   (try
-    (role @self)
-    (effects (set-outcome ?t-rel /succ))))
+    (role @self
+      (effects (set-outcome ?t-rel /succ)))))

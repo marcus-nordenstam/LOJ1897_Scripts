@@ -12,6 +12,6 @@
   (construed-act coercion-act threaten-act wrong-act) (theme coercive-to) (contradicts liberty)
   (facets reportable_crime) (obs)
   (try
-    (role @self)
-    (when (chance 0))
-    (effects (set-outcome ?kidnap-rel /succ))))
+    (role @self
+      (when (chance 0))
+      (effects (set-outcome ?kidnap-rel /succ)))))

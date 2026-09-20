@@ -34,121 +34,121 @@
   ; casts its own ?job on the SEATS of this org: a spine ?job is the same slot to all of
   ; them, so it would pin each of those roles to the officer's own post.
   (role ?shift-job {@self job ?shift-job}
-                   {?shift-job org ?org})
-  ; THE CONDITION THE PERFORMANCE RUNS UNDER, and it belongs to the round rather than to any
-  ; rung: the shift, plus the starts-soon lead because the duty is taken up while the officer
-  ; is still at home. The moment it stops holding the round stops firing, and the (cease ..)
-  ; is where it says what that meant - a day's duty done.
-  (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
-        (latch-eval (any {?shift-job ?tl ?}): ?sh-rel (bind ?sh-rel.target ?start) (bind ?sh-rel.auxiliary ?end))
-        (on-shift ?start ?end))
-  (cease (if (not (on-shift ?start ?end))
-             (then (set-outcome ?rec-rel /succ))))
-  (and
-    ; THE BOOK, read once a round: hires and departures rewrite the page, and this read
-    ; is the only thing that moves the officer's picture with it.
-    (try
-      (role ?reg {?org employee-register ?reg})
-      (when (>= (days-since-last {@self read-doc ?reg /succ}) 1))
-      (utility obligation)
-      (effects (maintain-proposal {@self read-doc ?reg})))
+                   {?shift-job org ?org}
+    ; THE CONDITION THE PERFORMANCE RUNS UNDER, and it belongs to the round rather than to any
+    ; rung: the shift, plus the starts-soon lead because the duty is taken up while the officer
+    ; is still at home. The moment it stops holding the round stops firing, and the (cease ..)
+    ; is where it says what that meant - a day's duty done.
+    (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
+          (latch-eval (any {?shift-job ?tl ?}): ?sh-rel (bind ?sh-rel.target ?start) (bind ?sh-rel.auxiliary ?end))
+          (on-shift ?start ?end))
+    (cease (if (not (on-shift ?start ?end))
+               (then (set-outcome ?rec-rel /succ))))
+    (and
+      ; THE BOOK, read once a round: hires and departures rewrite the page, and this read
+      ; is the only thing that moves the officer's picture with it.
+      (try
+        (role ?reg {?org employee-register ?reg}
+          (when (>= (days-since-last {@self read-doc ?reg /succ}) 1))
+          (utility obligation)
+          (effects (maintain-proposal {@self read-doc ?reg}))))
 
-    ; POST A NOTICE for an open post that has none. ONE posting at a time: two concurrent
-    ; postings on one body share one CREATE-ENTITY and mark two posts advertised on one
-    ; sheet (measured).
-    (try
-      (lock)
-      (role ?job {?job org ?org}
-                 {?job job-id ?}
-                 -{? job ?job}
-                 -{?org display-ad ?job})
-      (utility obligation)
-      (effects (maintain-proposal {@self post-ad ?org ?job})))
+      ; POST A NOTICE for an open post that has none. ONE posting at a time: two concurrent
+      ; postings on one body share one CREATE-ENTITY and mark two posts advertised on one
+      ; sheet (measured).
+      (try
+        (lock)
+        (role ?job {?job org ?org}
+                   {?job job-id ?}
+                   -{? job ?job}
+                   -{?org display-ad ?job}
+          (utility obligation)
+          (effects (maintain-proposal {@self post-ad ?org ?job}))))
 
-    ; TAKE THE NOTICE DOWN for a post that has since been filled.
-    (try
-      (role ?job {?job org ?org}
-                 {?job job-id ?}
-                 {? job ?job}
-                 {?org display-ad ?job})
-      (utility obligation)
-      (effects (maintain-proposal {@self remove-ad ?org ?job})))
+      ; TAKE THE NOTICE DOWN for a post that has since been filled.
+      (try
+        (role ?job {?job org ?org}
+                   {?job job-id ?}
+                   {? job ?job}
+                   {?org display-ad ?job}
+          (utility obligation)
+          (effects (maintain-proposal {@self remove-ad ?org ?job}))))
 
-    ; THE OFFICE POST, once a day while a notice stands: an application only exists in
-    ; answer to one. collect-applications walks to the stack itself.
-    (try
-      (lock)
-      (role ?wp {?org workplace ?wp}
-                {?org display-ad ?})
-      (when (>= (days-since-last {@self collect-applications ?wp /succ}) 1))
-      (utility obligation)
-      (effects (maintain-proposal {@self collect-applications ?wp})))
+      ; THE OFFICE POST, once a day while a notice stands: an application only exists in
+      ; answer to one. collect-applications walks to the stack itself.
+      (try
+        (lock)
+        (role ?wp {?org workplace ?wp}
+                  {?org display-ad ?}
+          (when (>= (days-since-last {@self collect-applications ?wp /succ}) 1))
+          (utility obligation)
+          (effects (maintain-proposal {@self collect-applications ?wp}))))
 
-    ; READ each form in hand, ONE AT A TIME. Reading is how the man on it comes to be
-    ; known. The lock matters: this proposes a TASK per form, and every activation's
-    ; proposal sits in the pipeline's task table at once - a stack of forms overflowed it
-    ; (measured: t_task_util cap 16, August). A man reads one paper at a time anyway.
-    (try
-      (lock)
-      (role ?app [k application] (spatial ?app held-by @self)
-                                 -{@self READ ?app /succ})
-      (utility obligation)
-      (effects (maintain-proposal {@self read-doc ?app})))
+      ; READ each form in hand, ONE AT A TIME. Reading is how the man on it comes to be
+      ; known. The lock matters: this proposes a TASK per form, and every activation's
+      ; proposal sits in the pipeline's task table at once - a stack of forms overflowed it
+      ; (measured: t_task_util cap 16, August). A man reads one paper at a time anyway.
+      (try
+        (lock)
+        (role ?app [k application] (spatial ?app held-by @self)
+                                   -{@self READ ?app /succ}
+          (utility obligation)
+          (effects (maintain-proposal {@self read-doc ?app}))))
 
-    ; THE OFFER: an unanswered form, the man who wrote it, an unfilled seat of his kind.
-    ; The gate is "am I already drafting a verdict of ANY kind to ANYBODY" - a live pipeline
-    ; lookup, true while a draft is proposed OR running - so one letter is begun at a time
-    ; and finished before the next; per-man it would begin one draft per applicant and stack
-    ; them past the pipeline's task table (measured: t_task_util cap 16, August), and per-KIND
-    ; a man could be offered and rejected in one round (measured: June 3, ten minutes apart).
-    ; BEGIN-proposal, and this is the shape it exists for: the condition
-    ; to start is not the condition to stop, a maintained proposal would be reaped the
-    ; instant its own gate went false, and draft-verdict concludes itself - no twin rung.
-    ; A promise is a state of the SEAT: while {?job offered-to ?} stands, that seat is
-    ; offered to nobody else; the acceptance spends it. The verdict carries the seat, so
-    ; the same man is answered once per seat he asked for.
-    (try
-      (lock)
-      ; THE MAN who asked for a seat of this org that still stands open, is promised to no
-      ; one, and has not been answered about it: ONE role. The seat is HIS filter's own free
-      ; var, never a second role: a filter that names another role's var is a join, and a
-      ; join admits nobody here (measured twice, the second role cast first or last, while
-      ; the same filters as one role admit every man as his form is read).
-      (role ?p [k human] {?p apply-for ?job /succ}
-                         {?job org ?org}
-                         -{? job ?job}
-                         -{?job offered-to ?}
-                         -{@self draft-verdict ?p ?job /succ})
-      (when (not (proposed {@self draft-verdict ? ?})))
-      (utility obligation)
-      (effects (begin-proposal {@self draft-verdict ?p ?job})))
+      ; THE OFFER: an unanswered form, the man who wrote it, an unfilled seat of his kind.
+      ; The gate is "am I already drafting a verdict of ANY kind to ANYBODY" - a live pipeline
+      ; lookup, true while a draft is proposed OR running - so one letter is begun at a time
+      ; and finished before the next; per-man it would begin one draft per applicant and stack
+      ; them past the pipeline's task table (measured: t_task_util cap 16, August), and per-KIND
+      ; a man could be offered and rejected in one round (measured: June 3, ten minutes apart).
+      ; BEGIN-proposal, and this is the shape it exists for: the condition
+      ; to start is not the condition to stop, a maintained proposal would be reaped the
+      ; instant its own gate went false, and draft-verdict concludes itself - no twin rung.
+      ; A promise is a state of the SEAT: while {?job offered-to ?} stands, that seat is
+      ; offered to nobody else; the acceptance spends it. The verdict carries the seat, so
+      ; the same man is answered once per seat he asked for.
+      (try
+        (lock)
+        ; THE MAN who asked for a seat of this org that still stands open, is promised to no
+        ; one, and has not been answered about it: ONE role. The seat is HIS filter's own free
+        ; var, never a second role: a filter that names another role's var is a join, and a
+        ; join admits nobody here (measured twice, the second role cast first or last, while
+        ; the same filters as one role admit every man as his form is read).
+        (role ?p [k human] {?p apply-for ?job /succ}
+                           {?job org ?org}
+                           -{? job ?job}
+                           -{?job offered-to ?}
+                           -{@self draft-verdict ?p ?job /succ}
+          (when (not (proposed {@self draft-verdict ? ?})))
+          (utility obligation)
+          (effects (begin-proposal {@self draft-verdict ?p ?job}))))
 
-    ; THE REJECTION: the seat he asked for is held, and he was never answered about it.
-    (try
-      (lock)
-      (role ?p [k human] {?p apply-for ?job /succ}
-                         {?job org ?org}
-                         {? job ?job}
-                         -{@self draft-verdict ?p ?job /succ})
-      (when (not (proposed {@self draft-verdict ? ?})))
-      (utility obligation)
-      (effects (begin-proposal {@self draft-verdict ?p ?job})))
+      ; THE REJECTION: the seat he asked for is held, and he was never answered about it.
+      (try
+        (lock)
+        (role ?p [k human] {?p apply-for ?job /succ}
+                           {?job org ?org}
+                           {? job ?job}
+                           -{@self draft-verdict ?p ?job /succ}
+          (when (not (proposed {@self draft-verdict ? ?})))
+          (utility obligation)
+          (effects (begin-proposal {@self draft-verdict ?p ?job}))))
 
-    ; A MAN AT THE COUNTER: his accept-job-offer is observable - running, or concluded the
-    ; moment he announced himself, which is why it reads /ever - and he has named himself.
-    ; Speaking to someone present tops the band outright: he gets his answer before the
-    ; ledger does. ONE man at a time: twelve offerees walked in on one morning and twelve
-    ; hire-applicant tasks fanned out at once (measured: the 16-slot competing table). A man
-    ; already answered is done with: his errand stays observable until he is next perceived,
-    ; and the counter told him his seat was his three times while a woman waited (measured).
-    ; The record is this task's OWN conclusion, never the seat: HIRE fills the seat while the
-    ; task still runs, and a role that stops admitting him withdraws it before the word.
-    (try
-      (lock)
-      (role ?man [k human] {?man accept-job-offer ?job /ever}
-                           {?man name ?}
-                           -{@self hire-applicant ?man ? /succ}
-                           -{@self hire-applicant ?man ? /fail}
-                           (spatial ?man co-located @self))
-      (utility obligation always-pick)
-      (effects (maintain-proposal {@self hire-applicant ?man ?job})))))
+      ; A MAN AT THE COUNTER: his accept-job-offer is observable - running, or concluded the
+      ; moment he announced himself, which is why it reads /ever - and he has named himself.
+      ; Speaking to someone present tops the band outright: he gets his answer before the
+      ; ledger does. ONE man at a time: twelve offerees walked in on one morning and twelve
+      ; hire-applicant tasks fanned out at once (measured: the 16-slot competing table). A man
+      ; already answered is done with: his errand stays observable until he is next perceived,
+      ; and the counter told him his seat was his three times while a woman waited (measured).
+      ; The record is this task's OWN conclusion, never the seat: HIRE fills the seat while the
+      ; task still runs, and a role that stops admitting him withdraws it before the word.
+      (try
+        (lock)
+        (role ?man [k human] {?man accept-job-offer ?job /ever}
+                             {?man name ?}
+                             -{@self hire-applicant ?man ? /succ}
+                             -{@self hire-applicant ?man ? /fail}
+                             (spatial ?man co-located @self)
+          (utility obligation always-pick)
+          (effects (maintain-proposal {@self hire-applicant ?man ?job})))))))

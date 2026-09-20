@@ -31,34 +31,34 @@
   ; and lives in the (when ...) clause below.
   (role @self -{@self repute [k scandalous]}
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
-              {@self age-band ?peer_band})
-  ;; SELF-POV (telepathy purge CAT-3): @self sizes up ?b from what HE knows -
-  ;; ?b's repute / class as banded in via gossip / believe_about (3-arg
-  ;; situation). The class match is positive, so @self only befriends a
-  ;; same-class peer he is actually acquainted with (a stranger's class @fails);
-  ;; the repute gate is permissive on the unknown. No cross-mind read.
-  (role ?b {?b isa [k human], condition [k alive]}
-           {?b age-band [k young-adult|middle-aged|mature|elderly]}
-           {?b age-span ?peer_band}
-           -{?b repute [k scandalous]}
-           ; Same class: @self's belief that ?b's class matches his own (dynamic-
-           ; target shape-2, cacheable).
-           {?b class-situation (any {@self class-situation}).target}
-           -{@self friend ?b}
-           ; Warmth-gated: you do not befriend someone you actively dislike. The
-           ; two negative warmth bands are EXPLICIT verb-state beliefs (core
-           ; appraisal projects the warmth scalar onto them). Neutral same-class
-           ; peers still pair (mere-exposure); only the two negative bands block.
-           ; The pair excludes BOTH bands, since each `believes` is exact-band.
-           -{@self dislike ?b}
-           -{@self detest ?b})
+              {@self age-band ?peer_band}
+    ;; SELF-POV (telepathy purge CAT-3): @self sizes up ?b from what HE knows -
+    ;; ?b's repute / class as banded in via gossip / believe_about (3-arg
+    ;; situation). The class match is positive, so @self only befriends a
+    ;; same-class peer he is actually acquainted with (a stranger's class @fails);
+    ;; the repute gate is permissive on the unknown. No cross-mind read.
+    (role ?b {?b isa [k human], condition [k alive]}
+             {?b age-band [k young-adult|middle-aged|mature|elderly]}
+             {?b age-span ?peer_band}
+             -{?b repute [k scandalous]}
+             ; Same class: @self's belief that ?b's class matches his own (dynamic-
+             ; target shape-2, cacheable).
+             {?b class-situation (any {@self class-situation}).target}
+             -{@self friend ?b}
+             ; Warmth-gated: you do not befriend someone you actively dislike. The
+             ; two negative warmth bands are EXPLICIT verb-state beliefs (core
+             ; appraisal projects the warmth scalar onto them). Neutral same-class
+             ; peers still pair (mere-exposure); only the two negative bands block.
+             ; The pair excludes BOTH bands, since each `believes` is exact-band.
+             -{@self dislike ?b}
+             -{@self detest ?b}
 
-  ; Non-belief gate kept out of the @self role (roles hold belief-pure filters):
-  ; the enthusiasm-scaled (chance), rolled ONCE per @self per month.
-  (when (chance (* 0.004 (+ 0.5 (target-or @self enthusiasm 0)))))
+      ; Non-belief gate, not a @self role filter (roles hold belief-pure filters):
+      ; the enthusiasm-scaled (chance), rolled ONCE per @self per month.
+      (when (chance (* 0.004 (+ 0.5 (target-or @self enthusiasm 0)))))
 
-  (effects
-    ; befriend mints the mutual tie (friend, or acquaintance if either side is
-    ; already at friend-capacity) AND the matching-tier profile sync.
-    (begin-belief {@self friend ?b})
-    ))
+      (effects
+        ; befriend mints the mutual tie (friend, or acquaintance if either side is
+        ; already at friend-capacity) AND the matching-tier profile sync.
+        (begin-belief {@self friend ?b})
+        ))))

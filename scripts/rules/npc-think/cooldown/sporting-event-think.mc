@@ -33,24 +33,24 @@
   ; his OWN club object - a known org he founded ({?club founder @self} + the
   ; {?club record ?articles} handle are his own beliefs, minted at found-club-seq).
   ; [k org club] narrows to club orgs (a business he founded is not cast here).
-  (role @self (old_human @self))
-  (role ?club {?club isa [k org]}
-              [k org club]
-              {?club founder @self})
+  (role @self (old_human @self)
+    (role ?club {?club isa [k org]}
+                [k org club]
+                {?club founder @self}
 
-  ; MAINTENANCE: the annual decision OWNS the meet goal end to end. hold_meet_act mints no
-  ; durable done-belief on @self (it records win on the co-present winner only),
-  ; so the completion gate reads the organiser's OWN episodic meet memory: the {@self
-  ; hold_meet_run} act-belief begun-at-commit / ended-at-completion (like gamble's play_game).
-  ; While it has been a while since his last meet the standing goal holds; once hold_meet_act
-  ; ends {@self HOLD-MEET-RUN} days-since-last resets, the (when) drops, and the goal ends.
-  ; The yearly timer owns the annual cadence, so the day-threshold need only
-  ; distinguish "just held" (0) from "a year on" (~365); 1 is the minimal such gate.
-  (when (>= (days-since-last {@self HOLD-MEET-RUN /ever}) 1))
+      ; MAINTENANCE: the annual decision OWNS the meet goal end to end. hold_meet_act mints no
+      ; durable done-belief on @self (it records win on the co-present winner only),
+      ; so the completion gate reads the organiser's OWN episodic meet memory: the {@self
+      ; hold_meet_run} act-belief begun-at-commit / ended-at-completion (like gamble's play_game).
+      ; While it has been a while since his last meet the standing goal holds; once hold_meet_act
+      ; ends {@self HOLD-MEET-RUN} days-since-last resets, the (when) drops, and the goal ends.
+      ; The yearly timer owns the annual cadence, so the day-threshold need only
+      ; distinguish "just held" (0) from "a year on" (~365); 1 is the minimal such gate.
+      (when (>= (days-since-last {@self HOLD-MEET-RUN /ever}) 1))
 
-  ; Latch the standing meet goal, focused on the club's articles (recovered from @self's
-  ; {?club record ?art} belief, exactly as club_joining / apprenticeship recover an org's
-  ; articles).
-  (utility duty)
-  (effects       (begin-goal {@self hold-meet (any {?club record}).target}))
-  (when-unsupported-effects (set-outcome {@self goal {@self hold-meet (any {?club record}).target}} /succ)))
+      ; Latch the standing meet goal, focused on the club's articles (recovered from @self's
+      ; {?club record ?art} belief, exactly as club_joining / apprenticeship recover an org's
+      ; articles).
+      (utility duty)
+      (effects       (begin-goal {@self hold-meet (any {?club record}).target}))
+      (when-unsupported-effects (set-outcome {@self goal {@self hold-meet (any {?club record}).target}} /succ)))))

@@ -42,8 +42,8 @@
   ; The office is the agency's OWN workplace belief - see buy_home_go on the ?art round trip.
   (role ?agency {?agency isa [k org house-agency]}
                 {?agency workplace ?venue}
-                (spatial @self building ?venue))
-  (effects (maintain-proposal {@self LET ?prop})))
+                (spatial @self building ?venue)
+    (effects (maintain-proposal {@self LET ?prop}))))
 
 ; CASE B - knows a house agency, not at its office: travel there. Its incorporation
 ; articles name the office he calls at (articles-building).
@@ -51,8 +51,8 @@
   (goal {@self LET})
   (role ?agency {?agency isa [k org house-agency]}
                 {?agency workplace ?venue}
-                (not (spatial @self building ?venue)))
-  (effects (maintain-proposal {@self enter ?venue})))
+                (not (spatial @self building ?venue))
+    (effects (maintain-proposal {@self enter ?venue}))))
 
 ; CASE C - @self knows NO house agency at all: consult the parish incorporations
 ; register (the orient lane, orient_errand.hs), which mints a mental org object +

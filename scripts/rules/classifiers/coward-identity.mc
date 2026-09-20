@@ -20,12 +20,12 @@
 (npc-think classify_coward_identity
   (rng-stream behaviour)
 
-  (role @self {@self repute ?})
+  (role @self {@self repute ?}
 
-  (effects
-    (mint-band {@self identity}
-      (clamp (+ (* (< (target-or @self assertiveness 0) (coward-assert-max))
-                   (> (target-or @self withdrawal 0)    (coward-withdraw-min)))
-                (* (> (inhibition) (coward-inhibition-min))
-                   (- 1 (prob {@self repute [k repute exemplary]})))) 0 1)
-      [k role coward-role] 0.5)))
+    (effects
+      (mint-band {@self identity}
+        (clamp (+ (* (< (target-or @self assertiveness 0) (coward-assert-max))
+                     (> (target-or @self withdrawal 0)    (coward-withdraw-min)))
+                  (* (> (inhibition) (coward-inhibition-min))
+                     (- 1 (prob {@self repute [k repute exemplary]})))) 0 1)
+        [k role coward-role] 0.5))))

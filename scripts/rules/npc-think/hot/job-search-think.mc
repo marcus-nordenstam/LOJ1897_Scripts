@@ -25,29 +25,29 @@
   (cooldown 1 m)
   (rng-stream employment)
   (role @self -{@self job ?}
-              -{@self apply-for ? /pres})
-  (role ?board [k building church] (select (score (near @self ?board)) (policy roulette)))
-  (role @self (not (spatial @self building ?board)))
-  (when (and (job-seeker @self)
-             (latch-eval (chance 0.3))))
-  (utility errand)
-  (effects (maintain-proposal {@self enter ?board})))
+              -{@self apply-for ? /pres}
+    (role ?board [k building church] (select (score (near @self ?board)) (policy roulette))
+      (role @self (not (spatial @self building ?board))
+        (when (and (job-seeker @self)
+                   (latch-eval (chance 0.3))))
+        (utility errand)
+        (effects (maintain-proposal {@self enter ?board}))))))
 
 (npc-think seek_board_find
   (aspect labour)
   (cooldown 1 m)
   (rng-stream employment)
   (role @self -{@self job ?}
-              -{@self apply-for ? /pres})
-  (no-role [k building church])
-  ; The search's own /fail act-memory is the "this region has no church" record - it stops
-  ; the hunt re-proposing forever once find-building has walked every structure.
-  (when (and (job-seeker @self)
-             -{@self find-building [k building church] ? /fail}
-             (current-exterior @self): ?rg))
-  (utility errand)
-  (effects
-           (maintain-proposal {@self find-building [k building church] ?rg})))
+              -{@self apply-for ? /pres}
+    (no-role [k building church])
+    ; The search's own /fail act-memory is the "this region has no church" record - it stops
+    ; the hunt re-proposing forever once find-building has walked every structure.
+    (when (and (job-seeker @self)
+               -{@self find-building [k building church] ? /fail}
+               (current-exterior @self): ?rg))
+    (utility errand)
+    (effects
+             (maintain-proposal {@self find-building [k building church] ?rg}))))
 
 ; --- at the board, READ each notice not yet read (the physical knowledge channel - no
 ; doc-record pull).
@@ -57,11 +57,11 @@
   ; admits it (the notice perceived, the room entered) would be dropped by a cooling rule.
   (rng-stream employment)
   (role @self -{@self job ?}
-              -{@self apply-for ? /pres})
-  (role ?ad [k job-posting] (spatial ?ad co-located @self)
-                            -{@self READ ?ad /succ})
-  (utility errand)
-  (effects (maintain-proposal {@self READ ?ad})))
+              -{@self apply-for ? /pres}
+    (role ?ad [k job-posting] (spatial ?ad co-located @self)
+                              -{@self READ ?ad /succ}
+      (utility errand)
+      (effects (maintain-proposal {@self READ ?ad})))))
 
 ; --- a posting @self has READ, qualifies for (class-floor derived from the post's own
 ; kind), and never APPLIED FOR -> begin ONE apply-for, keyed on the job-kind + the concrete
@@ -80,23 +80,23 @@
   ; applications while he is on his way to the counter. On the ROLE, so a write under
   ; offered-to re-tests membership and re-arms him the day the offer is spent.
   (role @self -{@self job ?}
-              -{? offered-to @self})
-  ; A VACANCY @self knows of - a job held by nobody - and the door of the org that has it.
-  ; How the belief got in (a notice, a word in the street) is no business of this rule.
-  (role ?org {?org workplace ?wp})
-  (role ?job {?job org ?org}
-             {?job job-id ?}
-             -{? job ?job}
-             (select (score 1) (policy roulette)))
-  (when (and
-             (latch-eval (and (>= (now-hour) 8) (<= (now-hour) 17)))
-             (kind ?job): ?jk
-             (if (table-match occupations job ?jk class-floor ?cf0) (then ?cf0) (else [k lower])): ?cf
-             (class-at-least @self ?cf)
-             -{@self apply-for ?job /succ}))
-  (utility errand)
-  (effects
-           (maintain-proposal {@self apply-for ?job})))
+              -{? offered-to @self}
+    ; A VACANCY @self knows of - a job held by nobody - and the door of the org that has it.
+    ; How the belief got in (a notice, a word in the street) is no business of this rule.
+    (role ?org {?org workplace ?wp}
+      (role ?job {?job org ?org}
+                 {?job job-id ?}
+                 -{? job ?job}
+                 (select (score 1) (policy roulette))
+        (when (and
+                   (latch-eval (and (>= (now-hour) 8) (<= (now-hour) 17)))
+                   (kind ?job): ?jk
+                   (if (table-match occupations job ?jk class-floor ?cf0) (then ?cf0) (else [k lower])): ?cf
+                   (class-at-least @self ?cf)
+                   -{@self apply-for ?job /succ}))
+        (utility errand)
+        (effects
+                 (maintain-proposal {@self apply-for ?job}))))))
 
 ; --- an OFFER letter @self has read (the home post's daily read-mail round) answers the one
 ; application in flight: go and accept it. The letter is a typed signal (its KIND is the
@@ -109,19 +109,19 @@
 ; a man turned away does not keep returning.
 (npc-think take_up_offer
   (aspect labour)
-  (role ?job {?job offered-to @self})
-  ; No -{@self job ?} here: the word that makes the seat his lands while the errand is
-  ; still concluding, and a guard on it withdrew the errand a cycle before its own /succ
-  ; (measured). The concluded record below is what retires this driver.
-  ; DAYTIME, latched at the pick: you present yourself at a place of business in business
-  ; hours. Unlatched, the errand is picked the moment the letter is read - two in the
-  ; morning - and he arrives at a dark office with nobody keeping the book. Latched, so a
-  ; plain hour test is not re-read on hold and does not withdraw him at dusk mid-journey.
-  (when (and (latch-eval (and (>= (now-hour) 8) (<= (now-hour) 16)))
-             -{@self accept-job-offer ?job /succ}
-             -{@self accept-job-offer ?job /fail}))
-  (utility errand)
-  (effects (maintain-proposal {@self accept-job-offer ?job})))
+  (role ?job {?job offered-to @self}
+    ; No -{@self job ?} here: the word that makes the seat his lands while the errand is
+    ; still concluding, and a guard on it withdrew the errand a cycle before its own /succ
+    ; (measured). The concluded record below is what retires this driver.
+    ; DAYTIME, latched at the pick: you present yourself at a place of business in business
+    ; hours. Unlatched, the errand is picked the moment the letter is read - two in the
+    ; morning - and he arrives at a dark office with nobody keeping the book. Latched, so a
+    ; plain hour test is not re-read on hold and does not withdraw him at dusk mid-journey.
+    (when (and (latch-eval (and (>= (now-hour) 8) (<= (now-hour) 16)))
+               -{@self accept-job-offer ?job /succ}
+               -{@self accept-job-offer ?job /fail}))
+    (utility errand)
+    (effects (maintain-proposal {@self accept-job-offer ?job}))))
 
 ; === The apply-for TASK (gohome / write / send / posted) lives in
 ; npc-tasks/apply-for-task.mc; accept-job-offer in npc-tasks/accept-job-offer-task.mc. The

@@ -43,51 +43,51 @@
   (cooldown 1 m)
   (rng-stream incidents)
 
-  (role @self )
-  (role ?victim {?victim isa [k human], condition [k alive]}
-                {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?victim /ever}
-                (spatial ?victim co-located @self))
+  (role @self 
+    (role ?victim {?victim isa [k human], condition [k alive]}
+                  {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?victim /ever}
+                  (spatial ?victim co-located @self)
 
-  ; Anger load is @self-only and (emotion-load) is not cheap - compute it ONCE and
-  ; derive the ladder context from it, so neither the (when) nor the per-row
-  ; select-row (when) re-evaluates it.
-  (bind (emotion-load @self [k anger]) ?emo_load)
-  (bind (if (> ?emo_load 0.5) (then displaced_anger) (else dispositional)) ?emo_ctx)
+      ; Anger load is @self-only and (emotion-load) is not cheap - compute it ONCE and
+      ; derive the ladder context from it, so neither the (when) nor the per-row
+      ; select-row (when) re-evaluates it.
+      (bind (emotion-load @self [k anger]) ?emo_load)
+      (bind (if (> ?emo_load 0.5) (then displaced_anger) (else dispositional)) ?emo_ctx)
 
-  ; The actor's impulse (dispositional base + displaced anger) and the victim-
-  ; stance gate are both non-belief (chance) tests, so they live in (when).
-  (when (and (chance (+ (* (crime-scale) 0.06
-                           (- 1.0 (target-or @self politeness 0))
-                           (target-or @self narcissism 0))
-                        (* (crime-scale) 0.08 ?emo_load)))
-             (chance (+ 0.10
-                        (* 0.15 (+ (prob {@self dislike ?victim})
-                                   (prob {@self disdain ?victim})))
-                        (* 0.30 (+ (prob {@self detest  ?victim})
-                                   (prob {@self despise ?victim})))))))
+      ; The actor's impulse (dispositional base + displaced anger) and the victim-
+      ; stance gate are both non-belief (chance) tests, so they live in (when).
+      (when (and (chance (+ (* (crime-scale) 0.06
+                               (- 1.0 (target-or @self politeness 0))
+                               (target-or @self narcissism 0))
+                            (* (crime-scale) 0.08 ?emo_load)))
+                 (chance (+ 0.10
+                            (* 0.15 (+ (prob {@self dislike ?victim})
+                                       (prob {@self disdain ?victim})))
+                            (* 0.30 (+ (prob {@self detest  ?victim})
+                                       (prob {@self despise ?victim})))))))
 
-  ; The mockable material, read per victim - each tolerant, so a missing lane is
-  ; just @fail (no abort). Each `-rel` var holds the whole belief.
-  (do
-    (tolerate (any {?victim girth ?}):?girth-rel)
-    (tolerate (any {?victim height ?}):?height-rel)
-    (tolerate (any {?victim sobriety ?}):?sob-rel)
-    (tolerate (lowest /target {?victim politeness|industriousness|orderliness|compassion ?}):?low_aspect-rel)
-    (tolerate (any {?victim volatility ?}):?vol-rel)
-    (tolerate (any {?victim class-situation [k class-situation lower]}):?low_class-rel)
-    (tolerate (any {?victim prestige ?}):?pre-rel))
+      ; The mockable material, read per victim - each tolerant, so a missing lane is
+      ; just @fail (no abort). Each `-rel` var holds the whole belief.
+      (do
+        (tolerate (any {?victim girth ?}):?girth-rel)
+        (tolerate (any {?victim height ?}):?height-rel)
+        (tolerate (any {?victim sobriety ?}):?sob-rel)
+        (tolerate (lowest /target {?victim politeness|industriousness|orderliness|compassion ?}):?low_aspect-rel)
+        (tolerate (any {?victim volatility ?}):?vol-rel)
+        (tolerate (any {?victim class-situation [k class-situation lower]}):?low_class-rel)
+        (tolerate (any {?victim prestige ?}):?pre-rel))
 
-  ; Compose the barb: context is the anger-driven ladder choice; ?barb-rel the
-  ; belief @self voices. No material in that context -> nothing binds -> silence.
-  (select-row (table barb_ladder)
-    (bind context ?ctx)
-    (bind rank ?rank)
-    (bind barb-eval ?barb-rel)
-    (when (= ?ctx ?emo_ctx))
-    (score (if (is-belief ?barb-rel) (then ?rank) (else 0)))
-    (policy roulette))
+      ; Compose the barb: context is the anger-driven ladder choice; ?barb-rel the
+      ; belief @self voices. No material in that context -> nothing binds -> silence.
+      (select-row (table barb_ladder)
+        (bind context ?ctx)
+        (bind rank ?rank)
+        (bind barb-eval ?barb-rel)
+        (when (= ?ctx ?emo_ctx))
+        (score (if (is-belief ?barb-rel) (then ?rank) (else 0)))
+        (policy roulette))
 
-  (utility want)
+      (utility want)
 
-  (effects
-    (maintain-proposal {@self SAY (utterable-msg [/msg-class insult] ?barb-rel) ?victim})))
+      (effects
+        (maintain-proposal {@self SAY (utterable-msg [/msg-class insult] ?barb-rel) ?victim})))))

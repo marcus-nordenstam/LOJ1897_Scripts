@@ -23,30 +23,30 @@
   ;; unknown child's class @fails). No cross-mind read.
   (role @self
       (schoolchild-age @self)
-      {@self age-band ?peer_band})
-  (role ?b {?b isa [k human], condition [k alive]}
-           (schoolchild-age ?b)
-           ; Same class: @self's belief that ?b's class matches his own (dynamic-
-           ; target shape-2, cacheable - replaces the (= (target..)(target..)) pair).
-           {?b class-situation (any {@self class-situation}).target}
-           {?b age-span ?peer_band}
-           -{@self friend ?b}
-           ; Warmth-gated: see adult_friendships.hs. The two negative warmth
-           ; bands (dislike, detest) are read as EXPLICIT verb-state beliefs
-           ; (core appraisal projects the warmth scalar onto them) - kids rarely
-           ; hold either yet, so volume is ~unchanged; the gate just prevents
-           ; befriending an already-disliked peer. The pair excludes BOTH bands
-           ; (= "warmth not below neutral"), since each `believes` is exact-band.
-           -{@self dislike ?b}
-           -{@self detest ?b})
+      {@self age-band ?peer_band}
+    (role ?b {?b isa [k human], condition [k alive]}
+             (schoolchild-age ?b)
+             ; Same class: @self's belief that ?b's class matches his own (dynamic-
+             ; target shape-2, cacheable - replaces the (= (target..)(target..)) pair).
+             {?b class-situation (any {@self class-situation}).target}
+             {?b age-span ?peer_band}
+             -{@self friend ?b}
+             ; Warmth-gated: see adult_friendships.hs. The two negative warmth
+             ; bands (dislike, detest) are read as EXPLICIT verb-state beliefs
+             ; (core appraisal projects the warmth scalar onto them) - kids rarely
+             ; hold either yet, so volume is ~unchanged; the gate just prevents
+             ; befriending an already-disliked peer. The pair excludes BOTH bands
+             ; (= "warmth not below neutral"), since each `believes` is exact-band.
+             -{@self dislike ?b}
+             -{@self detest ?b}
 
-  ; Non-belief gate moved out of the @self role: the enthusiasm-scaled chance.
-  ; High enthusiasm (the sociable Extraversion aspect) makes friends more readily;
-  ; mean-1.0 multiplier - friendship volume is unchanged.
-  (when (chance (* 0.0125 (+ 0.5 (target-or @self enthusiasm 0)))))
+      ; Non-belief gate, not a @self role filter: the enthusiasm-scaled chance.
+      ; High enthusiasm (the sociable Extraversion aspect) makes friends more readily;
+      ; mean-1.0 multiplier - friendship volume is unchanged.
+      (when (chance (* 0.0125 (+ 0.5 (target-or @self enthusiasm 0)))))
 
-  (effects
-    ; befriend mints the mutual tie (friend, or acquaintance if either side is
-    ; already at friend-capacity) AND the matching-tier profile sync.
-    (begin-belief {@self friend ?b})
-    ))
+      (effects
+        ; befriend mints the mutual tie (friend, or acquaintance if either side is
+        ; already at friend-capacity) AND the matching-tier profile sync.
+        (begin-belief {@self friend ?b})
+        ))))

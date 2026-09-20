@@ -31,17 +31,17 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self {@self home ?home})
-  (utility idle)
+  (role @self {@self home ?home}
+    (utility idle)
 
-  (effects
-    (if (spatial ?home room [k interior-space study])
-              (then (+ (read-weight-base)
-                       (* (read-weight-intellect-scale) (target-or @self intellect 0))))
-              (else 0)): ?read_w
-    (if (chance (/ ?read_w (+ (rest-weight) ?read_w)))
-        (then (maintain-proposal {@self read-at ?home}))
-        (else (maintain-proposal {@self rest ?home})))))
+    (effects
+      (if (spatial ?home room [k interior-space study])
+                (then (+ (read-weight-base)
+                         (* (read-weight-intellect-scale) (target-or @self intellect 0))))
+                (else 0)): ?read_w
+      (if (chance (/ ?read_w (+ (rest-weight) ?read_w)))
+          (then (maintain-proposal {@self read-at ?home}))
+          (else (maintain-proposal {@self rest ?home}))))))
 
 ; The rest / read-at TASKS (the immediate-conclude outcome rungs) live in
 ; npc-tasks/rest-task.hs and npc-tasks/read-at-task.hs.
@@ -71,28 +71,28 @@
   ; the role BINDS ?home for the effects. Whichever adult woman fires first sets
   ; the hours; the (not supper-hour) filter then empties for the whole household.
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-              {@self gender [k female]})
-  (role ?home {@self home ?home})
-  ; Latched: the hours this fire sets would fell a live residual and withdraw the SAY that
-  ; announces them; latched at onset, the activation holds through the announcement.
-  (when (latch-eval -{?home supper-hour ?}))
+              {@self gender [k female]}
+    (role ?home {@self home ?home}
+      ; Latched: the hours this fire sets would fell a live residual and withdraw the SAY that
+      ; announces them; latched at onset, the activation holds through the announcement.
+      (when (latch-eval -{?home supper-hour ?}))
 
-  (utility want)
+      (utility want)
 
-  (effects
-    ; The per-cook offset: -1 / 0 / +1 on the whole day (breakfast 5-7,
-    ; lunch 11-13, supper 17-19; each window is 2h from the hour).
-    (cond (case (chance 0.33) -1)
-          (case (chance 0.5)   0)
-          (else                1)): ?o
-    (begin-belief {?home breakfast-hour (+ 6 ?o)})
-    (begin-belief {?home lunch-hour (+ 12 ?o)})
-    (begin-belief {?home supper-hour (+ 18 ?o)})
-    ; Say the house's hours aloud - the household hears and adopts.
-    (maintain-proposal {@self SAY (utterable-msg {?home breakfast-hour (+ 6 ?o)}
-                                              {?home lunch-hour (+ 12 ?o)}
-                                              {?home supper-hour (+ 18 ?o)}) _})
-    ))
+      (effects
+        ; The per-cook offset: -1 / 0 / +1 on the whole day (breakfast 5-7,
+        ; lunch 11-13, supper 17-19; each window is 2h from the hour).
+        (cond (case (chance 0.33) -1)
+              (case (chance 0.5)   0)
+              (else                1)): ?o
+        (begin-belief {?home breakfast-hour (+ 6 ?o)})
+        (begin-belief {?home lunch-hour (+ 12 ?o)})
+        (begin-belief {?home supper-hour (+ 18 ?o)})
+        ; Say the house's hours aloud - the household hears and adopts.
+        (maintain-proposal {@self SAY (utterable-msg {?home breakfast-hour (+ 6 ?o)}
+                                                  {?home lunch-hour (+ 12 ?o)}
+                                                  {?home supper-hour (+ 18 ?o)}) _})
+        ))))
 
 ; ----------------------------------------------------------------------------
 ; ask_mealtimes / answer_mealtimes - the ask-the-cook channel (ruling 12).
@@ -112,27 +112,27 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self )
-  ; The woman of the house, role-cast from the asker's OWN kinship beliefs: a
-  ; female mother / parent / spouse (a child asks their mother; a husband his
-  ; wife). Same {@self <kin> ?cand} cacheable shape covet uses. The woman
-  ; herself (no female parent/spouse at home) casts nothing here - she already
-  ; knows the hours, so she never needs to ask.
-  (role ?cook {@self mother|parent|spouse ?cook}
-              {?cook gender [k female]})
-  ; The unknown-hours gate as a CACHED role (binds ?home for the ask): empties
-  ; the instant the supper hour is learned, closing the window for good.
-  (role ?home {@self home ?home}
-              -{?home supper-hour ?})
+  (role @self 
+    ; The woman of the house, role-cast from the asker's OWN kinship beliefs: a
+    ; female mother / parent / spouse (a child asks their mother; a husband his
+    ; wife). Same {@self <kin> ?cand} cacheable shape covet uses. The woman
+    ; herself (no female parent/spouse at home) casts nothing here - she already
+    ; knows the hours, so she never needs to ask.
+    (role ?cook {@self mother|parent|spouse ?cook}
+                {?cook gender [k female]}
+      ; The unknown-hours gate as a CACHED role (binds ?home for the ask): empties
+      ; the instant the supper hour is learned, closing the window for good.
+      (role ?home {@self home ?home}
+                  -{?home supper-hour ?}
 
-  (when (>= (years-old @self) 3))
+        (when (>= (years-old @self) 3))
 
-  ; Learning the house's hours beats settling into a leisure day.
-  (utility idle (above rest))
+        ; Learning the house's hours beats settling into a leisure day.
+        (utility idle (above rest))
 
-  (effects
-    (utterable-qs {?home supper-hour ?}): ?qs
-    (maintain-proposal {@self SAY ?qs ?cook})))
+        (effects
+          (utterable-qs {?home supper-hour ?}): ?qs
+          (maintain-proposal {@self SAY ?qs ?cook}))))))
 
 (npc-think answer_mealtimes
   (cooldown 1 m)
@@ -142,22 +142,22 @@
               {@self home ?home}
               {?home breakfast-hour ?b}   ; existence cached; the three
               {?home lunch-hour ?l}       ; hours bind at fire for the
-              {?home supper-hour ?s})
+              {?home supper-hour ?s}
 
-  ; Someone asked @self about supper-hour: a heard qs about supper-hour with
-  ; @self as the audience. Binds ?asker (the speaker, not @self).
-  (role ?asker {?asker isa [k human], condition [k alive]}
-               {?asker SAY (qs {? supper-hour ?}) @self /past})
+    ; Someone asked @self about supper-hour: a heard qs about supper-hour with
+    ; @self as the audience. Binds ?asker (the speaker, not @self).
+    (role ?asker {?asker isa [k human], condition [k alive]}
+                 {?asker SAY (qs {? supper-hour ?}) @self /past}
 
-  (utility want)
+      (utility want)
 
-  (effects
-    (utterable-msg {?home breakfast-hour ?b}
-                   {?home lunch-hour ?l}
-                   {?home supper-hour ?s}): ?msg
-    (if -{@self SAY ?msg ?asker}
-        (then (maintain-proposal {@self SAY ?msg ?asker})))
-    ))
+      (effects
+        (utterable-msg {?home breakfast-hour ?b}
+                       {?home lunch-hour ?l}
+                       {?home supper-hour ?s}): ?msg
+        (if -{@self SAY ?msg ?asker}
+            (then (maintain-proposal {@self SAY ?msg ?asker})))
+        ))))
 
 ; (plan_provisioning / set_shop_schedule are GONE: provisioning is the
 ; pressure-driven cook errand in npc-think/provisioning_think.hs - the kitchen

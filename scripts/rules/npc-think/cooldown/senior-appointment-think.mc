@@ -37,33 +37,33 @@
   ;; product: assertiveness + ?prestige above the floor amplifies
   ;; the rate, so a high-prestige assertive candidate fires far more often.
   (role @self (old_human @self)
-              {@self repute [k exemplary], prestige ?prestige})
-  ;; A public organisation - any gov-subkind: church, hospital, agency. A KNOWN
-  ;; org of gov kind (@self learned it at new_job_orientation). Belief-pure + cached.
-  (role ?org {?org isa [k org]}
-             [k org gov])
+              {@self repute [k exemplary], prestige ?prestige}
+    ;; A public organisation - any gov-subkind: church, hospital, agency. A KNOWN
+    ;; org of gov kind (@self learned it at new_job_orientation). Belief-pure + cached.
+    (role ?org {?org isa [k org]}
+               [k org gov]
 
-  ;; (chance) FIRST (cheap, short-circuits), then the live exclusivity re-check
-  ;; (see betrothal.hs): without it, every gov org enumerated this tick can appoint
-  ;; @self before the first appointment commits; once @self is senior this tick it
-  ;; fails and the sampler backtracks. The (when) also carries the age / repute /
-  ;; prestige floors and the trait-product chance.
-  (when (and (chance (* 0.0083
-                         (target-or @self assertiveness 0)
-                         ?prestige))
-             (!= (any {(any {@self job ?}).target level ?}).target [k senior])
-             (>= (years-old @self) 30)
-             (<= (years-old @self) 65)
-             (>= ?prestige 0.65)))
+      ;; (chance) FIRST (cheap, short-circuits), then the live exclusivity re-check
+      ;; (see betrothal.hs): without it, every gov org enumerated this tick can appoint
+      ;; @self before the first appointment commits; once @self is senior this tick it
+      ;; fails and the sampler backtracks. The (when) also carries the age / repute /
+      ;; prestige floors and the trait-product chance.
+      (when (and (chance (* 0.0083
+                             (target-or @self assertiveness 0)
+                             ?prestige))
+                 (!= (any {(any {@self job ?}).target level ?}).target [k senior])
+                 (>= (years-old @self) 30)
+                 (<= (years-old @self) 65)
+                 (>= ?prestige 0.65)))
 
-  (effects
-    ;; The org's articles (hire-seq's ?var arg - a macro arg used in a pattern must
-    ;; be a ?var, not an expr) is recovered from @self's {?org record ?art} belief.
-    (any {?org record ?articles})
-    ;; Leave the current post (no-op for the jobless), then take up the senior
-    ;; public post. hire-seq mints the employment beliefs in @self's own mind
-    ;; (no telepathy - @self IS the appointee). fire-first frees the @excl
-    ;; job slot so the gov hire takes cleanly.
-    (fire-self)
-    (hire-seq ?articles [k job official] [k senior])
-    ))
+      (effects
+        ;; The org's articles (hire-seq's ?var arg - a macro arg used in a pattern must
+        ;; be a ?var, not an expr) is recovered from @self's {?org record ?art} belief.
+        (any {?org record ?articles})
+        ;; Leave the current post (no-op for the jobless), then take up the senior
+        ;; public post. hire-seq mints the employment beliefs in @self's own mind
+        ;; (no telepathy - @self IS the appointee). fire-first frees the @excl
+        ;; job slot so the gov hire takes cleanly.
+        (fire-self)
+        (hire-seq ?articles [k job official] [k senior])
+        ))))

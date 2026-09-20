@@ -36,57 +36,57 @@
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self spouse ?}
               -{@self lover ?}
-              {@self age-band ?peer_band})
-  (role ?lover {?lover isa [k human], condition [k alive]}
-               {?lover age-band [k young-adult|middle-aged|mature|elderly]}
-               ; the paramour must NOT be @self's own spouse (a third party).
-               -{@self spouse ?lover}
-               ; the affair ignites with a known third party (social tie).
-               {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?lover /ever}
-               ; @self's band within ?lover's perceived age-span (+/-1). Bound in
-               ; the @self role: an inline (any {@self age-band}).target does not
-               ; resolve against the plural age-span belief.
-               {?lover age-span ?peer_band}
-               ; opposite-sex: @self's belief that ?lover's PERCEIVED gender differs
-               ; from his own (visible-on-sight -> cacheable), and non-kin.
-               -{?lover gender (any {@self gender}).target}
-               (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?lover}))
+              {@self age-band ?peer_band}
+    (role ?lover {?lover isa [k human], condition [k alive]}
+                 {?lover age-band [k young-adult|middle-aged|mature|elderly]}
+                 ; the paramour must NOT be @self's own spouse (a third party).
+                 -{@self spouse ?lover}
+                 ; the affair ignites with a known third party (social tie).
+                 {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?lover /ever}
+                 ; @self's band within ?lover's perceived age-span (+/-1). Bound in
+                 ; the @self role: an inline (any {@self age-band}).target does not
+                 ; resolve against the plural age-span belief.
+                 {?lover age-span ?peer_band}
+                 ; opposite-sex: @self's belief that ?lover's PERCEIVED gender differs
+                 ; from his own (visible-on-sight -> cacheable), and non-kin.
+                 -{?lover gender (any {@self gender}).target}
+                 (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?lover})
 
-  ;; The disposition-to-stray, rolled once per NPC per month: the character tail
-  ;; (infidelity-disposition) released by callousness (the empathy brake off),
-  ;; scaled by the master antisocial throttle. NO marital / decorum read - a serial
-  ;; cheater strays from character, not deficit.
-  ; No @self-lover re-check: the engine re-consults the cached self-gate PER
-  ; CANDIDATE fire (write-reconciled), so the first paramour minted this tick
-  ; empties the gate and stops the rest - one new affair per spouse per tick.
-  (when (latch-eval (chance (* (crime-scale) 0.2
-                   (infidelity-disposition @self)
-                   (callousness @self)))))
+      ;; The disposition-to-stray, rolled once per NPC per month: the character tail
+      ;; (infidelity-disposition) released by callousness (the empathy brake off),
+      ;; scaled by the master antisocial throttle. NO marital / decorum read - a serial
+      ;; cheater strays from character, not deficit.
+      ; No @self-lover re-check: the engine re-consults the cached self-gate PER
+      ; CANDIDATE fire (write-reconciled), so the first paramour minted this tick
+      ; empties the gate and stops the rest - one new affair per spouse per tick.
+      (when (latch-eval (chance (* (crime-scale) 0.2
+                       (infidelity-disposition @self)
+                       (callousness @self)))))
 
-  (utility want)
+      (utility want)
 
-  (effects
-    ; Reciprocal lover bond + mutual profile sync (mirrors lovers.hs's shape so
-    ; downstream consumers - betrayal detection, the romantic-rival derive - see a
-    ; fully-wired pair). @self's spouse will read {@self lover ?lover} in the
-    ; obsession pass and route blame.
-    (begin-belief {@self lover ?lover})
-    ; The reciprocal bond lands in the LOVER's own mind (so the lover knows of the
-    ; affair, and their own spouse's obsession pass can read {?lover lover @self}).
-    (begin-belief ?lover {?lover lover @self})
-    ; Ground the pull in the stance substrate ON BOTH SIDES - a lover bond is
-    ; constructed on physical attraction, so both hold at least the `fancy` band
-    ; (0.4 clears the 0.24 band-entry threshold). Without the reciprocal nudge a
-    ; paramour could "be a lover" while fancying nobody, which broke love_match's
-    ; ability to marry the pair once both were free.
-    (nudge-stance ?lover attraction 0.4)
-    ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
-    ; party's own reflex on the act. Commented out pending that redesign.
-    ; (nudge-stance ?lover @self attraction 0.4)
-    ; @self discloses their friend-tier profile to the lover (the SAY they hear and
-    ; adopt); @self's knowledge of the lover pre-exists. Friend-tier, so @self does
-    ; not reveal their OTHER lovers (that is intimate-tier, above this band).
-    (every {@self (disclosure-tier-labels friend) ?}): ?facts
-    (if ?facts
-        (then (maintain-proposal {@self SAY (utterable-msg ?facts) ?lover})))
-    ))
+      (effects
+        ; Reciprocal lover bond + mutual profile sync (mirrors lovers.hs's shape so
+        ; downstream consumers - betrayal detection, the romantic-rival derive - see a
+        ; fully-wired pair). @self's spouse will read {@self lover ?lover} in the
+        ; obsession pass and route blame.
+        (begin-belief {@self lover ?lover})
+        ; The reciprocal bond lands in the LOVER's own mind (so the lover knows of the
+        ; affair, and their own spouse's obsession pass can read {?lover lover @self}).
+        (begin-belief ?lover {?lover lover @self})
+        ; Ground the pull in the stance substrate ON BOTH SIDES - a lover bond is
+        ; constructed on physical attraction, so both hold at least the `fancy` band
+        ; (0.4 clears the 0.24 band-entry threshold). Without the reciprocal nudge a
+        ; paramour could "be a lover" while fancying nobody, which broke love_match's
+        ; ability to marry the pair once both were free.
+        (nudge-stance ?lover attraction 0.4)
+        ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
+        ; party's own reflex on the act. Commented out pending that redesign.
+        ; (nudge-stance ?lover @self attraction 0.4)
+        ; @self discloses their friend-tier profile to the lover (the SAY they hear and
+        ; adopt); @self's knowledge of the lover pre-exists. Friend-tier, so @self does
+        ; not reveal their OTHER lovers (that is intimate-tier, above this band).
+        (every {@self (disclosure-tier-labels friend) ?}): ?facts
+        (if ?facts
+            (then (maintain-proposal {@self SAY (utterable-msg ?facts) ?lover})))
+        ))))

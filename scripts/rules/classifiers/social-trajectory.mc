@@ -10,13 +10,13 @@
 
   (role @self {@self breeding ?breeding}
               {@self prestige ?prestige}
-              {@self wealth ?wealth})
+              {@self wealth ?wealth}
 
-  (effects
-    (mint-band {@self social-trajectory}
-      (+ (* 0.5 ?prestige)
-         (* 0.5 ?wealth)
-         (* -1  ?breeding))
-      [k social-trajectory rising]    0.15
-      [k social-trajectory stable]    -0.15
-      [k social-trajectory declining] -2)))
+    (effects
+      (mint-band {@self social-trajectory}
+        (+ (* 0.5 ?prestige)
+           (* 0.5 ?wealth)
+           (* -1  ?breeding))
+        [k social-trajectory rising]    0.15
+        [k social-trajectory stable]    -0.15
+        [k social-trajectory declining] -2))))

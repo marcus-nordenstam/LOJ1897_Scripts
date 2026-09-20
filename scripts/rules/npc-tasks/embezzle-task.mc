@@ -13,6 +13,6 @@
   (construed-act appropriation-act wrong-act betray-act) (theme thief-to) (contradicts trust)
   (facets reportable_crime blackmailable)
   (try
-    (role @self)
-    (when (chance 0))
-    (effects (set-outcome ?embezzle-rel /succ))))
+    (role @self
+      (when (chance 0))
+      (effects (set-outcome ?embezzle-rel /succ)))))

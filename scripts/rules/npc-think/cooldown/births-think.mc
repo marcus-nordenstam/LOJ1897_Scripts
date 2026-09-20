@@ -36,32 +36,32 @@
               {@self gender [k female]}
               {@self age-band [k youth|young-adult|middle-aged]}
               {@self spouse ?}
-              -{@self pregnant ?})
+              -{@self pregnant ?}
 
-  ; her husband, and under the same roof - a coupling needs both bodies present.
-  (role ?husband {@self spouse ?husband}
-                 (spatial ?husband co-located-building @self))
+    ; her husband, and under the same roof - a coupling needs both bodies present.
+    (role ?husband {@self spouse ?husband}
+                   (spatial ?husband co-located-building @self)
 
-  (when (chance (marital_coupling_chance)))
+      (when (chance (marital_coupling_chance)))
 
-  (utility want)
+      (utility want)
 
-  (effects
-    (maintain-proposal {@self HAVE-SEX-WITH ?husband})))
+      (effects
+        (maintain-proposal {@self HAVE-SEX-WITH ?husband})))))
 
 ; The child is due. A woman at term bears it ahead of any errand - labour is not
 ; something she chooses to postpone - but below the survival lanes.
 (npc-think deliver
   (cooldown 1 d)
 
-  (role @self {@self pregnant ?})
-  (role ?father {@self pregnant ?father})
+  (role @self {@self pregnant ?}
+    (role ?father {@self pregnant ?father}
 
-  (bind (any {@self pregnant-when ?}).target ?conceived-when)
+      (bind (any {@self pregnant-when ?}).target ?conceived-when)
 
-  (when (>= (time-since /weeks ?conceived-when) (gestation_weeks)))
+      (when (>= (time-since /weeks ?conceived-when) (gestation_weeks)))
 
-  (utility need)
+      (utility need)
 
-  (effects
-    (maintain-proposal {@self GIVE-BIRTH ?father})))
+      (effects
+        (maintain-proposal {@self GIVE-BIRTH ?father})))))

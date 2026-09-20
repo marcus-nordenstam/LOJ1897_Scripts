@@ -38,36 +38,36 @@
   ; below takes a plain ?var (a macro arg cannot carry an op-expr into a pattern).
   (any {@self lover ?lover})
   (role @self 
-              {@self age-band [k young-adult|middle-aged|mature|elderly]})
-  (role ?spouse {?spouse isa [k human], condition [k alive]} {@self spouse ?spouse} (select (policy first-match)))
+              {@self age-band [k young-adult|middle-aged|mature|elderly]}
+    (role ?spouse {?spouse isa [k human], condition [k alive]} {@self spouse ?spouse} (select (policy first-match))
 
-  ; The REASON: the held detest belief, else dislike, else the spouse-wealth belief.
-  ; Read as the /caused_by anchor, never re-minted, so the drive fades as the reason
-  ; does. The attitude / wealth beliefs are minted elsewhere by the appraisal lanes.
-  (cond
-    (case {@self detest ?spouse}  (any {@self detest ?spouse}))
-    (case {@self dislike ?spouse} (any {@self dislike ?spouse}))
-    (else                         (any {?spouse wealth}))): ?spouse_bond
+      ; The REASON: the held detest belief, else dislike, else the spouse-wealth belief.
+      ; Read as the /caused_by anchor, never re-minted, so the drive fades as the reason
+      ; does. The attitude / wealth beliefs are minted elsewhere by the appraisal lanes.
+      (cond
+        (case {@self detest ?spouse}  (any {@self detest ?spouse}))
+        (case {@self dislike ?spouse} (any {@self dislike ?spouse}))
+        (else                         (any {?spouse wealth}))): ?spouse_bond
 
-  ; Misery gate (deep hatred OR abuse) + propensity. misery counts the two:
-  ; hated = warmth band toward the spouse <= -2 (the detest band); abused = the
-  ; spouse holds an assault record against the actor. propensity = misery *
-  ; (0.5 + psychopathy) * (1 - inhibition) * (1 - compassion) *
-  ; (1 + spouse-wealth) * (1.5 if an unmarriageable lover waits else 1.0).
-  (when (and (or (detests ?spouse)
-                 {?spouse (theme-labels violent-to) @self /ever})
-             -{?spouse condition [k dead]}
-             (or {@self kill ?spouse}
-                 (chance
-                   (* (crime-scale) 0.02
-                      (* (+ (if (detests ?spouse) (then 1) (else 0))
-                            (if {?spouse (theme-labels violent-to) @self /ever} (then 1) (else 0)))
-                         (* (+ 0.5 (target-or @self psychopathy 0))
-                            (* (disinhibition)
-                               (* (callousness @self)
-                                  (* (+ 1 (any {?spouse wealth}).target)
-                                     (if {?lover spouse @something} (then 1.5) (else 1.0))))))))))))
+      ; Misery gate (deep hatred OR abuse) + propensity. misery counts the two:
+      ; hated = warmth band toward the spouse <= -2 (the detest band); abused = the
+      ; spouse holds an assault record against the actor. propensity = misery *
+      ; (0.5 + psychopathy) * (1 - inhibition) * (1 - compassion) *
+      ; (1 + spouse-wealth) * (1.5 if an unmarriageable lover waits else 1.0).
+      (when (and (or (detests ?spouse)
+                     {?spouse (theme-labels violent-to) @self /ever})
+                 -{?spouse condition [k dead]}
+                 (or {@self kill ?spouse}
+                     (chance
+                       (* (crime-scale) 0.02
+                          (* (+ (if (detests ?spouse) (then 1) (else 0))
+                                (if {?spouse (theme-labels violent-to) @self /ever} (then 1) (else 0)))
+                             (* (+ 0.5 (target-or @self psychopathy 0))
+                                (* (disinhibition)
+                                   (* (callousness @self)
+                                      (* (+ 1 (any {?spouse wealth}).target)
+                                         (if {?lover spouse @something} (then 1.5) (else 1.0))))))))))))
 
-  (utility want)
-  (effects
-    (maintain-proposal {@self kill ?spouse /caused_by ?spouse_bond})))
+      (utility want)
+      (effects
+        (maintain-proposal {@self kill ?spouse /caused_by ?spouse_bond})))))

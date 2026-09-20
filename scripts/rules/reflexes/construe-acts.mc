@@ -87,5 +87,5 @@
 
 (npc-reflex {?agent (construed-labels intimacy-act) ?patient /ever}:?b
   (role ?victim {?agent (exclusive-bond-labels) ?victim}
-        (not (eq ?victim ?patient)))
-  (effects (construe ?b betray-act ?agent ?victim)))
+        (not (eq ?victim ?patient))
+    (effects (construe ?b betray-act ?agent ?victim))))

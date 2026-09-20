@@ -32,23 +32,23 @@
   ;; SELF-POV: @self reads only his OWN mind - his soured warmth toward ?b and his
   ;; own friend bond. (The bond is structural/mutual, so the effect drops it on both
   ;; sides, as befriend mints it on both.)
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]})
-  (role ?b {?b isa [k human], condition [k alive]}
-           ; @self now detests ?b (sustained strong-negative warmth, the floor
-           ; warmth band - so the exact-band belief IS "warmth at least detest") ...
-           {@self detest ?b}
-           ; ... and the two are currently friends.
-           {@self friend ?b})
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+    (role ?b {?b isa [k human], condition [k alive]}
+             ; @self now detests ?b (sustained strong-negative warmth, the floor
+             ; warmth band - so the exact-band belief IS "warmth at least detest") ...
+             {@self detest ?b}
+             ; ... and the two are currently friends.
+             {@self friend ?b}
 
-  ;; The role's believes filters (detest, friend) are re-checked live at the
-  ;; when-gate seam within the tick - the alpha index goes stale and a fray could
-  ;; already have severed this pair from the other direction, so the live re-check
-  ;; preserves the hold. (when) carries only the per-pair fray (chance) - /12 of the
-  ;; annual 0.5 - a non-belief gate, so it never sits in the role.
-  (when (chance 0.04))
+      ;; The role's believes filters (detest, friend) are re-checked live at the
+      ;; when-gate seam within the tick - the alpha index goes stale and a fray could
+      ;; already have severed this pair from the other direction, so the live re-check
+      ;; preserves the hold. (when) carries only the per-pair fray (chance) - /12 of the
+      ;; annual 0.5 - a non-belief gate, so it never sits in the role.
+      (when (chance 0.04))
 
-  (effects
-    ; Sever the mutual friend tie - the bond is structural, so both drop it.
-    (end-belief {@self friend ?b})
-    (end-belief ?b {?b friend @self})
-    ))
+      (effects
+        ; Sever the mutual friend tie - the bond is structural, so both drop it.
+        (end-belief {@self friend ?b})
+        (end-belief ?b {?b friend @self})
+        ))))

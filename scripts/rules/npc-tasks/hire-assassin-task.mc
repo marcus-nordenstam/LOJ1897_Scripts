@@ -26,22 +26,22 @@
   (tar human)
   (role ?killer {?killer isa [k human], condition [k alive]}
                 {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?killer /ever}
-                (!= ?killer ?victim))
-  (and
-    ; REACH the prospective killer.
-    (try
-      (when (and (not (spatial ?killer co-located @self))
-                 (spatial ?killer space): ?loc))
-      (utility survival)
-      (effects (maintain-proposal {@self go ?loc})))
+                (!= ?killer ?victim)
+    (and
+      ; REACH the prospective killer.
+      (try
+        (when (and (not (spatial ?killer co-located @self))
+                   (spatial ?killer space): ?loc))
+        (utility survival)
+        (effects (maintain-proposal {@self go ?loc})))
 
-    ; SOLICIT: co-present, put the contract to them (a SAY - the words are the deed).
-    (try
-      (when (spatial ?killer co-located @self))
-      (utility survival always-pick)
-      (effects (maintain-proposal {@self SAY (utterable-msg {?killer kill ?victim}) ?killer})))
+      ; SOLICIT: co-present, put the contract to them (a SAY - the words are the deed).
+      (try
+        (when (spatial ?killer co-located @self))
+        (utility survival always-pick)
+        (effects (maintain-proposal {@self SAY (utterable-msg {?killer kill ?victim}) ?killer})))
 
-    ; CONCLUDE once the solicitation has been spoken.
-    (try
-      (when {@self SAY ? /succ /caused_by ?hire-rel})
-      (effects (set-outcome ?hire-rel /succ)))))
+      ; CONCLUDE once the solicitation has been spoken.
+      (try
+        (when {@self SAY ? /succ /caused_by ?hire-rel})
+        (effects (set-outcome ?hire-rel /succ))))))

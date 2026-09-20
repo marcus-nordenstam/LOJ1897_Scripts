@@ -15,8 +15,8 @@
 
 (npc-think stocktake_round
   (goal {@self STOCKTAKE})
-  (role ?job {@self job ?job})
-  (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
-             {?org workplace ?wp})   ; ?wp binds at fire
-  (when  (spatial @self building ?wp))
-  (effects (maintain-proposal {@self STOCKTAKE})))
+  (role ?job {@self job ?job}
+    (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
+               {?org workplace ?wp}   ; ?wp binds at fire
+      (when  (spatial @self building ?wp))
+      (effects (maintain-proposal {@self STOCKTAKE})))))

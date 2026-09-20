@@ -36,17 +36,17 @@
   (cooldown 1 m)
   (rng-stream employment)
 
-  (role @self )
-  (role ?h {@self home ?h}
-           (or {@self own [k manor]:?h}
-               {@self own [k townhouse]:?h}))
+  (role @self 
+    (role ?h {@self home ?h}
+             (or {@self own [k manor]:?h}
+                 {@self own [k townhouse]:?h})
 
-  (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
-             (or (in-month 12) (in-month 1) (in-month 2)) ; winter, once a year
-             -{@self goal {@self staff-household}}))        ; mint once, then skip
+      (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
+                 (or (in-month 12) (in-month 1) (in-month 2)) ; winter, once a year
+                 -{@self goal {@self staff-household}}))        ; mint once, then skip
 
-  (utility errand)
-  (effects (begin-goal {@self staff-household})))
+      (utility errand)
+      (effects (begin-goal {@self staff-household})))))
 
 ; --- FOUND: the head constitutes the household org at his home study -----------
 ; A separate THINK (not season-gated, so it catches the standing duty
@@ -67,14 +67,14 @@
   (goal {@self staff-household})
   (rng-stream employment)
 
-  (role @self -{@self job.org [k org household]})
-  (role ?h {@self home ?h}
-           (or {@self own [k manor]:?h}
-               {@self own [k townhouse]:?h}))
+  (role @self -{@self job.org [k org household]}
+    (role ?h {@self home ?h}
+             (or {@self own [k manor]:?h}
+                 {@self own [k townhouse]:?h})
 
-  (when (>= (years-old @self) 21))                      ; non-belief age gate -> (when)
+      (when (>= (years-old @self) 21))                      ; non-belief age gate -> (when)
 
-  (effects (found-org-seq [k org household] [k job head-of-household])))
+      (effects (found-org-seq [k org household] [k job head-of-household])))))
 
 ; --- ACT: the head fulfils the duty - hires what the founded household lacks ---
 (npc-think staff-household
@@ -90,22 +90,22 @@
   (goal {@self staff-household})
   (rng-stream employment)
 
-  (role @self )
-  (role ?h {@self home ?h}
-           {@self own ?h})
+  (role @self 
+    (role ?h {@self home ?h}
+             {@self own ?h}
 
-  ; Winter-only so the bout CEASES each spring and re-arms: a think-act whose (when)
-  ; stays true holds forever and fires exactly once (never refilling). Pulsing the
-  ; gate makes it re-attempt every winter as servants die or the labour pool refills.
-  (when (and (>= (years-old @self) 21)
-             (or (in-month 12) (in-month 1) (in-month 2))))
+      ; Winter-only so the bout CEASES each spring and re-arms: a think-act whose (when)
+      ; stays true holds forever and fires exactly once (never refilling). Pulsing the
+      ; gate makes it re-attempt every winter as servants die or the labour pool refills.
+      (when (and (>= (years-old @self) 21)
+                 (or (in-month 12) (in-month 1) (in-month 2))))
 
-  ; TELEPATHY, and a second hiring path besides: this hired straight out of a jobless
-  ; pool, bypassing the labour lane (recruit-staff -> advertise -> apply-for -> hire)
-  ; that already exists. Wants folding into that lane. Commented out pending that.
-  (effects
-    ; (staff-household ?h
-    ;   /slots   household_staff_slots
-    ;   /age-min (staff_hire_age_min)
-    ;   /age-max (staff_hire_age_max))
-    ))
+      ; TELEPATHY, and a second hiring path besides: this hired straight out of a jobless
+      ; pool, bypassing the labour lane (recruit-staff -> advertise -> apply-for -> hire)
+      ; that already exists. Wants folding into that lane. Commented out pending that.
+      (effects
+        ; (staff-household ?h
+        ;   /slots   household_staff_slots
+        ;   /age-min (staff_hire_age_min)
+        ;   /age-max (staff_hire_age_max))
+        ))))

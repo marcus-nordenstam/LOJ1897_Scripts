@@ -14,11 +14,11 @@
   (facets reportable_crime)
   (and
     (try
-      (role ?coin [k coin] (spatial ?coin co-located @self))
-      (when (and (alive ?victim)
-                 -{@self bribe ?victim /succ /ever}))
-      (utility errand)
-      (effects (maintain-proposal {@self give ?coin ?victim})))
+      (role ?coin [k coin] (spatial ?coin co-located @self)
+        (when (and (alive ?victim)
+                   -{@self bribe ?victim /succ /ever}))
+        (utility errand)
+        (effects (maintain-proposal {@self give ?coin ?victim}))))
     (try
       (when (and (alive ?victim)
                  -{@self bribe ?victim /succ /ever}

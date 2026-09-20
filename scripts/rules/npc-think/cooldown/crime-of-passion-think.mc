@@ -46,28 +46,28 @@
   (cooldown 1 m)
   (rng-stream perpetration)
 
-  (role @self )
-  ; The craved beloved - the durable REASON; capture the crave belief as the
-  ; /caused_by anchor (read, never re-minted, so the drive fades when the crave does).
-  ; (policy first-match) binds ONE, so a multi-crave actor pursues a single victim.
-  (role ?beloved {?beloved isa [k human], condition [k alive]}
-    {@self crave ?beloved}:?crave_bond
-    (select (policy first-match)))
+  (role @self 
+    ; The craved beloved - the durable REASON; capture the crave belief as the
+    ; /caused_by anchor (read, never re-minted, so the drive fades when the crave does).
+    ; (policy first-match) binds ONE, so a multi-crave actor pursues a single victim.
+    (role ?beloved {?beloved isa [k human], condition [k alive]}
+      {@self crave ?beloved}:?crave_bond
+      (select (policy first-match))
 
-  ; crave-rival resolves the rival for the beloved (read in @self's own mind), else
-  ; the beloved themselves.
-  (bind (crave-rival ?beloved) ?victim)
+      ; crave-rival resolves the rival for the beloved (read in @self's own mind), else
+      ; the beloved themselves.
+      (bind (crave-rival ?beloved) ?victim)
 
-  ; MAINTAIN the kill while the crave holds and the victim lives. The jealous-rage
-  ; tip fires ONCE (chance = 0.02 * (1-inhibition) * mean(volatility,psychopathy)),
-  ; then the RUNNING kill act latches it so it is not re-rolled; the
-  ; drive drops when the crave fades or the victim dies. (knows-affair) keeps crave the
-  ; FALLBACK - a discovered betrayal routes to betrayal_kill.hs.
-  (when (and (not (knows-affair))
-             -{?victim condition [k dead]}
-             (or {@self kill ?victim}
-                 (chance (* (crime-scale) 0.02
-                            (dark-propensity (rage-disposition @self)))))))
-  (utility want)
-  (effects
-    (maintain-proposal {@self kill ?victim /caused_by ?crave_bond})))
+      ; MAINTAIN the kill while the crave holds and the victim lives. The jealous-rage
+      ; tip fires ONCE (chance = 0.02 * (1-inhibition) * mean(volatility,psychopathy)),
+      ; then the RUNNING kill act latches it so it is not re-rolled; the
+      ; drive drops when the crave fades or the victim dies. (knows-affair) keeps crave the
+      ; FALLBACK - a discovered betrayal routes to betrayal_kill.hs.
+      (when (and (not (knows-affair))
+                 -{?victim condition [k dead]}
+                 (or {@self kill ?victim}
+                     (chance (* (crime-scale) 0.02
+                                (dark-propensity (rage-disposition @self)))))))
+      (utility want)
+      (effects
+        (maintain-proposal {@self kill ?victim /caused_by ?crave_bond})))))

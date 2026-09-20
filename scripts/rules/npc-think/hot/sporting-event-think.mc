@@ -38,8 +38,8 @@
   (goal {@self hold-meet ?art})
   (role ?art_org {?art_org record ?art}
                   {?art_org workplace ?clubhouse}
-                  (not (spatial @self building ?clubhouse)))
-  (effects (maintain-proposal {@self enter ?clubhouse})))
+                  (not (spatial @self building ?clubhouse))
+    (effects (maintain-proposal {@self enter ?clubhouse}))))
 
 ; The organiser SUMMONS the field by SPEAKING: one directed SAY per co-present, living
 ; roster member ({@self summon <him> /aux <sport>}, his ticket to report - race_act ends
@@ -53,23 +53,23 @@
   (goal {@self hold-meet ?art})
   (role ?art_org {?art_org record ?art}
                   {?art_org workplace ?clubhouse}
-                  (spatial @self building ?clubhouse))
-  (utility always-pick)
-  (effects
-    (o {?art declares-org @o}): ?org
-    (any {?org isa ?club_kind})
-    (any {?org membership-roll ?roll})
-    (if (table-match club_sports org-kind ?club_kind sport ?sport)
-      (then
-        (for-each-row (attr ?roll writing) [/member ?m-name]
-          (if (substantial ?m-name)
-            (then
-              (o [k human] {@o name ?m-name}): ?m
-              (utterable-msg {@self summon ?m ?sport}): ?msg
-              (if (and (alive ?m)
-                       (spatial ?m co-located @self)
-                       -{@self SAY ?msg ?m})
-                  (then (maintain-proposal {@self SAY ?msg ?m}))))))))))
+                  (spatial @self building ?clubhouse)
+    (utility always-pick)
+    (effects
+      (o {?art declares-org @o}): ?org
+      (any {?org isa ?club_kind})
+      (any {?org membership-roll ?roll})
+      (if (table-match club_sports org-kind ?club_kind sport ?sport)
+        (then
+          (for-each-row (attr ?roll writing) [/member ?m-name]
+            (if (substantial ?m-name)
+              (then
+                (o [k human] {@o name ?m-name}): ?m
+                (utterable-msg {@self summon ?m ?sport}): ?msg
+                (if (and (alive ?m)
+                         (spatial ?m co-located @self)
+                         -{@self SAY ?msg ?m})
+                    (then (maintain-proposal {@self SAY ?msg ?m})))))))))))
 
 ; The CLOSING act: half an hour presiding, and the {@self HOLD-MEET-RUN} record the yearly
 ; rung reads to retract the goal. fallback-ranked, so it is only selected once summon_field
@@ -78,9 +78,9 @@
   (goal {@self hold-meet ?art})
   (role ?art_org {?art_org record ?art}
                   {?art_org workplace ?clubhouse}
-                  (spatial @self building ?clubhouse))
-  (utility fallback)
-  (effects (maintain-proposal {@self HOLD-MEET-RUN ?art})))
+                  (spatial @self building ?clubhouse)
+    (utility fallback)
+    (effects (maintain-proposal {@self HOLD-MEET-RUN ?art}))))
 
 ; --- the organiser OWNS the judge goal off the scoreboard he holds ----------------
 ; Each racer's race_act mints {?racer race-result <score> <sport>} into the
@@ -91,11 +91,11 @@
 ; score (a racer still running when the winner was declared) from re-opening
 ; the judging the same day.
 (npc-think want_judge
-  (role ?racer {?racer race-result ?})
-  (when (>= (days-since-last {@self JUDGE-DECLARE /ever}) 1))
-  (utility want)
-  (effects       (begin-goal {@self judge-meet}))
-  (when-unsupported-effects (set-outcome {@self goal {@self judge-meet}} /succ)))
+  (role ?racer {?racer race-result ?}
+    (when (>= (days-since-last {@self JUDGE-DECLARE /ever}) 1))
+    (utility want)
+    (effects       (begin-goal {@self judge-meet}))
+    (when-unsupported-effects (set-outcome {@self goal {@self judge-meet}} /succ))))
 
 ; --- the COMPETITOR's terminal: a summoned member proposes his own race act --------
 ; open_meet_act told this member {?judge summon @self /aux ?sport}; while that
@@ -104,6 +104,6 @@
 ; is run). Utility above routine so the obligation to compete pulls him off
 ; idler errands for the one run.
 (npc-think compete
-  (role ?judge {?judge summon @self ?sport})
-  (utility want)
-  (effects (maintain-proposal {@self RACE-RUN ?sport ?judge})))
+  (role ?judge {?judge summon @self ?sport}
+    (utility want)
+    (effects (maintain-proposal {@self RACE-RUN ?sport ?judge}))))

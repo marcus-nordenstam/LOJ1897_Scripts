@@ -22,16 +22,16 @@
 
   (role @self {@self isa [k human], condition [k alive]}
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
-              -{@self spouse ?})
+              -{@self spouse ?}
 
-  ; The other adult under this roof, of the other sex and likewise unwed. A
-  ; founder household holds exactly two people, so this is unambiguous.
-  (role ?match {?match isa [k human], condition [k alive]}
-               (spatial ?match co-located @self)
-               -{?match gender (any {@self gender}).target}
-               -{@self spouse ?match})
+    ; The other adult under this roof, of the other sex and likewise unwed. A
+    ; founder household holds exactly two people, so this is unambiguous.
+    (role ?match {?match isa [k human], condition [k alive]}
+                 (spatial ?match co-located @self)
+                 -{?match gender (any {@self gender}).target}
+                 -{@self spouse ?match}
 
-  (utility duty)
+      (utility duty)
 
-  (effects
-    (begin-belief {@self spouse ?match})))
+      (effects
+        (begin-belief {@self spouse ?match})))))

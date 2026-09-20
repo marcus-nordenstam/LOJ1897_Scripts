@@ -23,17 +23,17 @@
   (role ?other (or {?other seem ?}
                    {?other honesty    [k conduct-level lax]}
                    {?other generosity [k conduct-level lax]}
-                   {?other sobriety   [k conduct-level lax]}))
+                   {?other sobriety   [k conduct-level lax]})
 
-  (effects
-    (mint-band-about {?other honesty}
-      (clamp (+ (prob {?other seem [k impression callous]})
-                (prob {?other seem [k impression selfish]})) 0 1)
-      [k conduct-level lax] 0.5)
-    (mint-band-about {?other generosity}
-      (clamp (+ (prob {?other seem [k impression callous]})
-                (prob {?other seem [k impression selfish]})) 0 1)
-      [k conduct-level lax] 0.5)
-    (mint-band-about {?other sobriety}
-      (prob {?other seem [k impression hot-tempered]})
-      [k conduct-level lax] 0.5)))
+    (effects
+      (mint-band-about {?other honesty}
+        (clamp (+ (prob {?other seem [k impression callous]})
+                  (prob {?other seem [k impression selfish]})) 0 1)
+        [k conduct-level lax] 0.5)
+      (mint-band-about {?other generosity}
+        (clamp (+ (prob {?other seem [k impression callous]})
+                  (prob {?other seem [k impression selfish]})) 0 1)
+        [k conduct-level lax] 0.5)
+      (mint-band-about {?other sobriety}
+        (prob {?other seem [k impression hot-tempered]})
+        [k conduct-level lax] 0.5))))

@@ -3,12 +3,12 @@
 ; belief carrying that clause, plus a pledge belief for the residual-ordering probe.
 (npc-think probe_mint
   (cooldown 1 m)
-  (role @self )
-  (role ?prey [k human] (select (policy first-match)))
-  (when -{@self goal {@self probe_hunt ?}})
-  (effects
-    (begin-goal {@self probe_hunt ?prey})
-    (bind {@self goal {@self probe_hunt ?p2}:?plot})
-    (begin-belief {?prey urge @self ?plot})
-    (begin-belief {?prey accomplice ?prey})
-    (debug-print "PROBE_MINT prey=?prey plot=?plot")))
+  (role @self 
+    (role ?prey [k human] (select (policy first-match))
+      (when -{@self goal {@self probe_hunt ?}})
+      (effects
+        (begin-goal {@self probe_hunt ?prey})
+        (bind {@self goal {@self probe_hunt ?p2}:?plot})
+        (begin-belief {?prey urge @self ?plot})
+        (begin-belief {?prey accomplice ?prey})
+        (debug-print "PROBE_MINT prey=?prey plot=?plot")))))

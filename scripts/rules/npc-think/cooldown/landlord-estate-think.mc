@@ -37,32 +37,32 @@
   ; business / public org / estate founds no estate (subsumes the old
   ; estate-only throttle; permanent-kind match, decay-proof).
   (role @self (old_human @self)
-              -{@self job [k head-of-non-household-org]})
-  (role ?rental {@self own ?rental}
-                (or {?rental availability [k for-rent]}
-                    {?rental tenant ?}))
+              -{@self job [k head-of-non-household-org]}
+    (role ?rental {@self own ?rental}
+                  (or {?rental availability [k for-rent]}
+                      {?rental tenant ?})
 
-  (effects
-    (found-org-seq [k org estate] [k job landlord])
-    ; Vest every rental @self owns into the estate he just founded: re-point the
-    ; deed's owner to the estate's articles and drop his own {own} - the ESTATE owns
-    ; it now (inherited / dissolved with the estate, not lumped with his home). The
-    ; estate is his articles that is-a estate (founder @self); a public-doc scan + his
-    ; own belief drop, no cross-mind write. An owner-occupied home matches neither
-    ; rental signal, so it is left his.
-    (for-each ?ea (env-entities [k articles-of-incorporation])
-      (do
-        (o {?ea declares-org @o}): ?org
-        (any {?org isa ?ok})
-        (any {?org founder ?f})
-        (if (and (= ?f @self) (is-a ?ok [k org estate]))
-          (then
-            (for-each ?deed (env-entities [k title-deed])
-              (do
-                (table-match (attr ?deed writing) owner ?o building ?b)
-                (if (and (= ?o @self)
-                         (or {?b availability [k for-rent]} {?b tenant ?}))
-                  (then
-                    (table-set ?deed owner ?ea)
-                    (end-belief {@self own ?b})))))
-            (break)))))))
+      (effects
+        (found-org-seq [k org estate] [k job landlord])
+        ; Vest every rental @self owns into the estate he just founded: re-point the
+        ; deed's owner to the estate's articles and drop his own {own} - the ESTATE owns
+        ; it now (inherited / dissolved with the estate, not lumped with his home). The
+        ; estate is his articles that is-a estate (founder @self); a public-doc scan + his
+        ; own belief drop, no cross-mind write. An owner-occupied home matches neither
+        ; rental signal, so it is left his.
+        (for-each ?ea (env-entities [k articles-of-incorporation])
+          (do
+            (o {?ea declares-org @o}): ?org
+            (any {?org isa ?ok})
+            (any {?org founder ?f})
+            (if (and (= ?f @self) (is-a ?ok [k org estate]))
+              (then
+                (for-each ?deed (env-entities [k title-deed])
+                  (do
+                    (table-match (attr ?deed writing) owner ?o building ?b)
+                    (if (and (= ?o @self)
+                             (or {?b availability [k for-rent]} {?b tenant ?}))
+                      (then
+                        (table-set ?deed owner ?ea)
+                        (end-belief {@self own ?b})))))
+                (break)))))))))

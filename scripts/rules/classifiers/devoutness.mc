@@ -16,11 +16,11 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self {@self class-situation ?})
+  (role @self {@self class-situation ?}
 
-  (effects
-    (mint-band {@self devoutness} (evidence @self WORSHIP 6 6)
-      [k piety-band devout] 0.55 [k piety-band observant] 0.15 [k piety-band secular] -1)))
+    (effects
+      (mint-band {@self devoutness} (evidence @self WORSHIP 6 6)
+        [k piety-band devout] 0.55 [k piety-band observant] 0.15 [k piety-band secular] -1))))
 
 (npc-think classify_others_devoutness
   ; Monthly cooldown (like the self side): (evidence ...) decays continuously between the ?other's
@@ -29,8 +29,8 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role ?other {?other class-situation ?})
+  (role ?other {?other class-situation ?}
 
-  (effects
-    (mint-band-about {?other devoutness} (evidence ?other WORSHIP 6 6)
-      [k piety-band devout] 0.55 [k piety-band observant] 0.15 [k piety-band secular] -1)))
+    (effects
+      (mint-band-about {?other devoutness} (evidence ?other WORSHIP 6 6)
+        [k piety-band devout] 0.55 [k piety-band observant] 0.15 [k piety-band secular] -1))))

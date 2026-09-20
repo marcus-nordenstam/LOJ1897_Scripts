@@ -29,10 +29,10 @@
 ; construction.
 (npc-think drink_at_pub
   (goal    {@self DRINK})
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
-  (when    (is-a (spatial @self building) [k building pub]))
-  (utility (* 10 (drink-drive @self)))
-  (effects (maintain-proposal {@self DRINK})))
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+    (when    (is-a (spatial @self building) [k building pub]))
+    (utility (* 10 (drink-drive @self)))
+    (effects (maintain-proposal {@self DRINK}))))
 
 ; CASE B - not at a pub, but knows one: head to it via the generic enter chain (§5.11). A
 ; maintenance rule: it roulettes a pub ONCE and mints {@self enter ?pub}, then STICKS with that
@@ -42,10 +42,10 @@
 ; promotes.
 (npc-think drink_go
   (goal    {@self DRINK})
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
-  (role ?pub [k building pub] (select (score (near @self ?pub)) (policy roulette)))
-  (when    (not (spatial @self building ?pub)))
-  (effects (maintain-proposal {@self enter ?pub})))
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+    (role ?pub [k building pub] (select (score (near @self ?pub)) (policy roulette))
+      (when    (not (spatial @self building ?pub)))
+      (effects (maintain-proposal {@self enter ?pub})))))
 
 ; CASE C - not at a pub and knows none: search for one (find-building.hs runs it). A maintenance
 ; rule: it mints the standing find goal and holds it while the search runs; the moment a pub is
@@ -53,10 +53,10 @@
 ; go rung takes over.
 (npc-think drink_find
   (goal    {@self DRINK})
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
-  (no-role [k building pub])
-  ; Search while no pub is known and the region is not yet proven publess (find-building's /fail
-  ; fires only once the whole region is covered without finding one).
-  (when    (and (not (is-a (spatial @self building) [k building pub]))
-                -{@self find-building [k building pub] /fail}))
-  (effects (maintain-proposal {@self find-building [k building pub] (current-exterior @self)})))
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+    (no-role [k building pub])
+    ; Search while no pub is known and the region is not yet proven publess (find-building's /fail
+    ; fires only once the whole region is covered without finding one).
+    (when    (and (not (is-a (spatial @self building) [k building pub]))
+                  -{@self find-building [k building pub] /fail}))
+    (effects (maintain-proposal {@self find-building [k building pub] (current-exterior @self)}))))

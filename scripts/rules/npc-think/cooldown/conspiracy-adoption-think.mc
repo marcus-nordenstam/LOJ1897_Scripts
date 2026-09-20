@@ -30,30 +30,30 @@
   (cooldown 1 m)
   (rng-stream perpetration)
 
-  (role @self )
-  ; Anyone @self believes WANTS him to do the kill - the goal arrives only by reading
-  ; the (msg-class urge) letter (its content is the instigator's goal clause), never
-  ; by telepathy. The adopted belief is {<instigator> goal {<me> kill <victim>}}; the
-  ; nested kill clause is the role's own membership criterion, and the {..}:?plot-rel
-  ; capture + free ?victim bind at the when-gate.
-  (role ?instigator {?instigator isa [k human], condition [k alive]}
-                    {?instigator goal {@self kill ?victim}:?plot-rel})
+  (role @self 
+    ; Anyone @self believes WANTS him to do the kill - the goal arrives only by reading
+    ; the (msg-class urge) letter (its content is the instigator's goal clause), never
+    ; by telepathy. The adopted belief is {<instigator> goal {<me> kill <victim>}}; the
+    ; nested kill clause is the role's own membership criterion, and the {..}:?plot-rel
+    ; capture + free ?victim bind at the when-gate.
+    (role ?instigator {?instigator isa [k human], condition [k alive]}
+                      {?instigator goal {@self kill ?victim}:?plot-rel}
 
-  ; It must be ANOTHER's plot (not my own), I must be willing: desire for the
-  ; instigator (attraction band >= 2, the REASON - read, not minted here) plus the dark
-  ; roll. The roll tips ONCE, then the running kill proposal latches it; the drive fades
-  ; if the attraction lifts or the victim dies.
-  (when (and (!= ?instigator @self)
-             (>= (stance-band ?instigator attraction) 2)
-             -{?victim condition [k dead]}
-             (or {@self kill ?victim}
-                 (chance (target-or @self psychopathy 0)))))
+      ; It must be ANOTHER's plot (not my own), I must be willing: desire for the
+      ; instigator (attraction band >= 2, the REASON - read, not minted here) plus the dark
+      ; roll. The roll tips ONCE, then the running kill proposal latches it; the drive fades
+      ; if the attraction lifts or the victim dies.
+      (when (and (!= ?instigator @self)
+                 (>= (stance-band ?instigator attraction) 2)
+                 -{?victim condition [k dead]}
+                 (or {@self kill ?victim}
+                     (chance (target-or @self psychopathy 0)))))
 
-  (utility want)
-  (effects
-    ; Join ONCE (the accomplice bond embeds the plot as its AUX + anchors the /caused_by);
-    ; then MAINTAIN my own kill of the victim while the attraction to the instigator holds.
-    (if -{@self accomplice ?instigator}
-        (then (begin-belief {@self accomplice ?instigator ?plot-rel})))
-    (any {@self accomplice ?instigator}):?accomplice-rel
-    (maintain-proposal {@self kill ?victim /caused_by ?accomplice-rel})))
+      (utility want)
+      (effects
+        ; Join ONCE (the accomplice bond embeds the plot as its AUX + anchors the /caused_by);
+        ; then MAINTAIN my own kill of the victim while the attraction to the instigator holds.
+        (if -{@self accomplice ?instigator}
+            (then (begin-belief {@self accomplice ?instigator ?plot-rel})))
+        (any {@self accomplice ?instigator}):?accomplice-rel
+        (maintain-proposal {@self kill ?victim /caused_by ?accomplice-rel})))))

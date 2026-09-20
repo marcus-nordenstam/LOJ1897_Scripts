@@ -31,51 +31,51 @@
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self lover ?}
                    ; @self signs the love letter - bind his OWN name for "Signed, ..".
-              {@self name ?author_name})
-  ; The paramour: a lover who is not also a spouse (the covert third party).
-  (role ?paramour {?paramour isa [k human], condition [k alive]}
-    {@self lover ?paramour}
-    -{@self spouse ?paramour}
-    (covert-affair-motive ?paramour)   ; belief-pure macro - cached
-    ; @self names her in the letter body (a name value, not the live object).
-    {?paramour name ?paramour_name}
-    (select (policy first-match)))
+              {@self name ?author_name}
+    ; The paramour: a lover who is not also a spouse (the covert third party).
+    (role ?paramour {?paramour isa [k human], condition [k alive]}
+      {@self lover ?paramour}
+      -{@self spouse ?paramour}
+      (covert-affair-motive ?paramour)   ; belief-pure macro - cached
+      ; @self names her in the letter body (a name value, not the live object).
+      {?paramour name ?paramour_name}
+      (select (policy first-match))
 
-  (role ?my-home {@self home ?my-home})
+      (role ?my-home {@self home ?my-home}
 
-  ; Make the paper, pen it, post it - three deeds, each reading the world for what is done.
-  ; Ordered finish-before-start, so a letter in hand is dealt with before another is penned.
-  (stable-or
-    ; Getting to the pile is send-mail's own business.
-    (try
-      (role ?ltr [k love-letter] (spatial ?ltr co-located @self)
-                                 {@self WRITE ?ltr ? /succ}
-                                 -{@self send-mail ?ltr ? /succ})
-      (role ?out [k outgoing-mail-stack] (spatial ?out building ?my-home))
-      (effects
-        ; A written letter must carry what the mail service routes by; a filter would leave an
-        ; unstamped paper on the desk in silence.
-        (check (substantial (attr ?ltr writing)))
-        (check (substantial (attr ?ltr destination)))
-        (maintain-proposal {@self send-mail ?ltr ?out})))
+        ; Make the paper, pen it, post it - three deeds, each reading the world for what is done.
+        ; Ordered finish-before-start, so a letter in hand is dealt with before another is penned.
+        (stable-or
+          ; Getting to the pile is send-mail's own business.
+          (try
+            (role ?ltr [k love-letter] (spatial ?ltr co-located @self)
+                                       {@self WRITE ?ltr ? /succ}
+                                       -{@self send-mail ?ltr ? /succ}
+              (role ?out [k outgoing-mail-stack] (spatial ?out building ?my-home)
+                (effects
+                  ; A written letter must carry what the mail service routes by; a filter would leave an
+                  ; unstamped paper on the desk in silence.
+                  (check (substantial (attr ?ltr writing)))
+                  (check (substantial (attr ?ltr destination)))
+                  (maintain-proposal {@self send-mail ?ltr ?out})))))
 
 
-    ; The love letter IS the affair fact, and its envelope rides on the message - WRITE stamps
-    ; addressee and address off the riders, so there is no addressing deed. Not knowing where
-    ; she lives is a gate, not a check: he simply cannot post to her yet.
-    (try
-      (role ?ltr [k love-letter] (spatial ?ltr co-located @self)
-                                 (unsubstantial (attr ?ltr writing)))
-      (when {?paramour home ?her-home}
-            {?her-home address ?her-address})
-      (effects
-        (maintain-proposal
-          {@self write-doc ?ltr
-                 (written-msg [/addressee ?paramour_name /address ?her-address /author ?author_name]
-                              {@i lover ?paramour_name})})))
+          ; The love letter IS the affair fact, and its envelope rides on the message - WRITE stamps
+          ; addressee and address off the riders, so there is no addressing deed. Not knowing where
+          ; she lives is a gate, not a check: he simply cannot post to her yet.
+          (try
+            (role ?ltr [k love-letter] (spatial ?ltr co-located @self)
+                                       (unsubstantial (attr ?ltr writing))
+              (when {?paramour home ?her-home}
+                    {?her-home address ?her-address})
+              (effects
+                (maintain-proposal
+                  {@self write-doc ?ltr
+                         (written-msg [/addressee ?paramour_name /address ?her-address /author ?author_name]
+                                      {@i lover ?paramour_name})}))))
 
-    ; The monthly writer rate gates the MAKING alone - once a letter exists it is finished off
-    ; whatever the roll says, or a half-written affair sits on the desk for ever.
-    (try
-      (when (chance 0.5))
-      (effects (maintain-proposal {@self CREATE-ENTITY [k love-letter]})))))
+          ; The monthly writer rate gates the MAKING alone - once a letter exists it is finished off
+          ; whatever the roll says, or a half-written affair sits on the desk for ever.
+          (try
+            (when (chance 0.5))
+            (effects (maintain-proposal {@self CREATE-ENTITY [k love-letter]}))))))))

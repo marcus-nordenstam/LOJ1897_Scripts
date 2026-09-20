@@ -16,48 +16,48 @@
   (and
     ; Make the paper, pen it, post it - three deeds, each reading the world for what is done.
     (try
-      (role @self -{@self send-mail ? ? /succ /caused_by ?confess-rel})
-      (role ?my-home {@self home ?my-home})
-      (role ?ltr [k confession-letter] (spatial ?ltr co-located @self)
-                                       {@self WRITE ?ltr ? /succ}
-                                       -{@self send-mail ?ltr ? /succ})
-      (role ?out [k outgoing-mail-stack] (spatial ?out building ?my-home))
-      (utility errand)
-      (effects
-        (check (substantial (attr ?ltr writing)))
-        (check (substantial (attr ?ltr destination)))
-        (maintain-proposal {@self send-mail ?ltr ?out})))
+      (role @self -{@self send-mail ? ? /succ /caused_by ?confess-rel}
+        (role ?my-home {@self home ?my-home}
+          (role ?ltr [k confession-letter] (spatial ?ltr co-located @self)
+                                           {@self WRITE ?ltr ? /succ}
+                                           -{@self send-mail ?ltr ? /succ}
+            (role ?out [k outgoing-mail-stack] (spatial ?out building ?my-home)
+              (utility errand)
+              (effects
+                (check (substantial (attr ?ltr writing)))
+                (check (substantial (attr ?ltr destination)))
+                (maintain-proposal {@self send-mail ?ltr ?out})))))))
 
     (try
-      (role @self -{@self send-mail ? ? /succ /caused_by ?confess-rel})
-      (role ?ltr [k confession-letter] (spatial ?ltr co-located @self)
-                                       (unsubstantial (attr ?ltr writing)))
-      (when (and {@self lover|HAVE-SEX-WITH ?partner /ever}
-                 -{@self spouse ?partner /ever}
-                 {@self father|mother|fiancee|spouse|sibling ?kin}
-                 (alive ?kin)
-                 (!= ?kin ?partner)
-                 {?kin home ?kinhome}
-                 {?kinhome address ?kin-address}
-                 {?kin name ?kin-name}
-                 {?partner name ?partner-name}))
-      (utility errand)
-      (effects
-        (maintain-proposal
-          {@self write-doc ?ltr
-                 (written-msg [/addressee ?kin-name /address ?kin-address]
-                              {@i lover ?partner-name})})))
+      (role @self -{@self send-mail ? ? /succ /caused_by ?confess-rel}
+        (role ?ltr [k confession-letter] (spatial ?ltr co-located @self)
+                                         (unsubstantial (attr ?ltr writing))
+          (when (and {@self lover|HAVE-SEX-WITH ?partner /ever}
+                     -{@self spouse ?partner /ever}
+                     {@self father|mother|fiancee|spouse|sibling ?kin}
+                     (alive ?kin)
+                     (!= ?kin ?partner)
+                     {?kin home ?kinhome}
+                     {?kinhome address ?kin-address}
+                     {?kin name ?kin-name}
+                     {?partner name ?partner-name}))
+          (utility errand)
+          (effects
+            (maintain-proposal
+              {@self write-doc ?ltr
+                     (written-msg [/addressee ?kin-name /address ?kin-address]
+                                  {@i lover ?partner-name})})))))
 
     (try
-      (role @self -{@self send-mail ? ? /succ /caused_by ?confess-rel})
-      (when (and {@self lover|HAVE-SEX-WITH ?partner /ever}
-                 -{@self spouse ?partner /ever}
-                 {@self father|mother|fiancee|spouse|sibling ?kin}
-                 (alive ?kin)
-                 (!= ?kin ?partner)
-                 {?kin home ?}))
-      (utility errand)
-      (effects (maintain-proposal {@self CREATE-ENTITY [k confession-letter]})))
+      (role @self -{@self send-mail ? ? /succ /caused_by ?confess-rel}
+        (when (and {@self lover|HAVE-SEX-WITH ?partner /ever}
+                   -{@self spouse ?partner /ever}
+                   {@self father|mother|fiancee|spouse|sibling ?kin}
+                   (alive ?kin)
+                   (!= ?kin ?partner)
+                   {?kin home ?}))
+        (utility errand)
+        (effects (maintain-proposal {@self CREATE-ENTITY [k confession-letter]}))))
 
     ; A kin who is dead, who IS the partner, or whose home he cannot name, receives nothing -
     ; the impulse is spent either way, exactly as the single compose try used to spend it.

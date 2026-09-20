@@ -25,44 +25,44 @@
   (cooldown 1 m)
   (rng-stream employment)
 
-  (role ?job {@self job ?job})
-  (role ?org {?job org ?org}
-             {?org record ?})
+  (role ?job {@self job ?job}
+    (role ?org {?job org ?org}
+               {?org record ?}
 
-  (role ?ok {?org isa ?ok})
-  (when {?org employee-register ?reg})
+      (role ?ok {?org isa ?ok}
+        (when {?org employee-register ?reg})
 
-  ; The most senior LIVING member on the wage book.
-  (select-row (entity ?reg)
-    (bind worker ?senior-name)
-    (bind job ?sjk)
-    (bind level ?slvl)
-    ; The book NAMES the man; liveness is a fact about the man, so the name is resolved to
-    ; whoever @self holds under it (a colleague he reads off this same roster every quarter).
-    (when (and (substantial ?senior-name)
-               (alive (o [k human] {@o name ?senior-name}))))
-    (score (+ 1 (* 100 (is-a ?sjk [k org-head]))
-                (* 10 (if (table-match level_rank level ?slvl rank ?lr) (then ?lr) (else 0)))))
-    (policy argmax)
-    (else fail))
+        ; The most senior LIVING member on the wage book.
+        (select-row (entity ?reg)
+          (bind worker ?senior-name)
+          (bind job ?sjk)
+          (bind level ?slvl)
+          ; The book NAMES the man; liveness is a fact about the man, so the name is resolved to
+          ; whoever @self holds under it (a colleague he reads off this same roster every quarter).
+          (when (and (substantial ?senior-name)
+                     (alive (o [k human] {@o name ?senior-name}))))
+          (score (+ 1 (* 100 (is-a ?sjk [k org-head]))
+                      (* 10 (if (table-match level_rank level ?slvl rank ?lr) (then ?lr) (else 0)))))
+          (policy argmax)
+          (else fail))
 
-  (effects
-    (if ?senior-name
-        (then
-          (o [k human] {@o name ?senior-name}): ?senior
-          (for-each-row org_duties [/kind ?dk] [/duty ?duty]
-            (if (is-a ?ok ?dk)
-                (then
-                  (cond
-                    (case (= ?senior-name (name @self))
-                      (if -{@self duty-to ?org ?duty}
-                          (then (begin-belief {@self duty-to ?org ?duty}))))
-                    (case {@self duty-to ?org ?duty}
-                      (end-belief {@self duty-to ?org ?duty})))
-                  ; The mirror: retire stale holders, record the current one.
-                  (for-each ?dhb-rel (every {?org duty-holder ? ?duty})
-                      (bind ?dhb-rel.target ?p)
-                      (if (!= ?p ?senior)
-                          (then (end-belief {?org duty-holder ?p ?duty}))))
-                  (if -{?org duty-holder ?senior ?duty}
-                      (then (begin-belief {?org duty-holder ?senior ?duty}))))))))))
+        (effects
+          (if ?senior-name
+              (then
+                (o [k human] {@o name ?senior-name}): ?senior
+                (for-each-row org_duties [/kind ?dk] [/duty ?duty]
+                  (if (is-a ?ok ?dk)
+                      (then
+                        (cond
+                          (case (= ?senior-name (name @self))
+                            (if -{@self duty-to ?org ?duty}
+                                (then (begin-belief {@self duty-to ?org ?duty}))))
+                          (case {@self duty-to ?org ?duty}
+                            (end-belief {@self duty-to ?org ?duty})))
+                        ; The mirror: retire stale holders, record the current one.
+                        (for-each ?dhb-rel (every {?org duty-holder ? ?duty})
+                            (bind ?dhb-rel.target ?p)
+                            (if (!= ?p ?senior)
+                                (then (end-belief {?org duty-holder ?p ?duty}))))
+                        (if -{?org duty-holder ?senior ?duty}
+                            (then (begin-belief {?org duty-holder ?senior ?duty})))))))))))))

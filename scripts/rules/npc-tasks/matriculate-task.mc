@@ -15,9 +15,9 @@
     ; GO: not at a school -> travel to one I know (nearest preferred).
     (try
       (role ?go_dest [k building school]
-            (select (score (near @self ?go_dest)) (policy roulette)))
-      (when (not (is-a (spatial @self building) [k building school])))
-      (effects (maintain-proposal {@self enter ?go_dest})))
+            (select (score (near @self ?go_dest)) (policy roulette))
+        (when (not (is-a (spatial @self building) [k building school])))
+        (effects (maintain-proposal {@self enter ?go_dest}))))
 
     ; MATRICULATE: at a school -> record my study. Minting {@self study ...} trips the
     ; decision's completion role, which withdraws the task.

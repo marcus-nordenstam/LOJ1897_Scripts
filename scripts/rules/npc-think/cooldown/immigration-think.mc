@@ -45,23 +45,23 @@
   ;; installed by senior_appointment). His job belief is his own - a CACHED
   ;; self-gate filter, so every non-official empty-set-skips the rule.
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-              {@self job [k job official]})
+              {@self job [k job official]}
 
-  ;; The premises he admits people AT, threaded off his own post: job -> org ->
-  ;; workplace, three belief reads and no world lookup.
-  (role ?job {@self job ?job})
-  (role ?org {?job org ?org})
-  (role ?office {?org workplace ?office})
+    ;; The premises he admits people AT, threaded off his own post: job -> org ->
+    ;; workplace, three belief reads and no world lookup.
+    (role ?job {@self job ?job}
+      (role ?org {?job org ?org}
+        (role ?office {?org workplace ?office}
 
-  ;; Fire only while sparse, and then with a sparseness-scaled monthly chance. The
-  ;; (< ...) guard fires the (and ...) only below the threshold, so the (chance ...)
-  ;; argument is strictly positive whenever it is rolled.
-  (bind (population-pressure) ?pressure)
-  (when (and (< ?pressure (homeostat_immigration_pressure))
-             (chance (* (immigrant_admit_scale)
-                        (- (homeostat_immigration_pressure) ?pressure)))))
+          ;; Fire only while sparse, and then with a sparseness-scaled monthly chance. The
+          ;; (< ...) guard fires the (and ...) only below the threshold, so the (chance ...)
+          ;; argument is strictly positive whenever it is rolled.
+          (bind (population-pressure) ?pressure)
+          (when (and (< ?pressure (homeostat_immigration_pressure))
+                     (chance (* (immigrant_admit_scale)
+                                (- (homeostat_immigration_pressure) ?pressure)))))
 
-  (utility duty)
+          (utility duty)
 
-  (effects
-    (maintain-proposal {@self ADMIT-IMMIGRANT ?office})))
+          (effects
+            (maintain-proposal {@self ADMIT-IMMIGRANT ?office})))))))

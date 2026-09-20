@@ -13,13 +13,13 @@
   (tar ?)
   (and
     (try
-      (role ?station [k police-station] (select (score (near @self ?station)) (policy roulette)))
-      (role @self (not (spatial @self building ?station)))
-      (when (and {? stolen-from @self}
-                 (can-write @self)
-                 -{@self report-crime ?focus /succ /ever}))
-      (utility errand)
-      (effects (maintain-proposal {@self enter ?station})))
+      (role ?station [k police-station] (select (score (near @self ?station)) (policy roulette))
+        (role @self (not (spatial @self building ?station))
+          (when (and {? stolen-from @self}
+                     (can-write @self)
+                     -{@self report-crime ?focus /succ /ever}))
+          (utility errand)
+          (effects (maintain-proposal {@self enter ?station})))))
     ; knows no station -> search the region for one; the search's own /fail is what the
     ; abandon try below reads as "this town has no police station".
     (try

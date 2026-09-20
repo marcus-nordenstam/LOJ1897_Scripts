@@ -14,8 +14,8 @@
   (lock)
   (goal {@self TAKE-LOAN ?creditor})
   (role ?cred_home {?creditor home ?cred_home}
-                   (not (spatial @self building ?cred_home)))
-  (effects (maintain-proposal {@self enter ?cred_home})))
+                   (not (spatial @self building ?cred_home))
+    (effects (maintain-proposal {@self enter ?cred_home}))))
 
 ; AT the lender's home: PROPOSE the loan-taking act (goals never propose themselves).
 ; The creditor rides the act target - the act body binds ?lender off the promoted
@@ -24,5 +24,5 @@
   (lock)
   (goal {@self TAKE-LOAN ?creditor})
   (role ?cred_home {?creditor home ?cred_home}
-                   (spatial @self building ?cred_home))
-  (effects (maintain-proposal {@self TAKE-LOAN ?creditor})))
+                   (spatial @self building ?cred_home)
+    (effects (maintain-proposal {@self TAKE-LOAN ?creditor}))))

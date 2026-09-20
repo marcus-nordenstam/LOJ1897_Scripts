@@ -61,52 +61,52 @@
     ; FULL CIRCLE: the first doc re-filed is back on top, so every original has been seen.
     (try
       (role ?circled-top (spatial ?stack top)
-            (= ?circled-top (bb-read ?browse-rel cycle-end)))
-      (no-role [k document] (= (bb-read ?norole from-stack) ?stack))
-      (effects (set-outcome ?browse-rel /succ)))
+            (= ?circled-top (bb-read ?browse-rel cycle-end))
+        (no-role [k document] (= (bb-read ?norole from-stack) ?stack))
+        (effects (set-outcome ?browse-rel /succ))))
 
     ; HE IS KEEPING IT: the body claimed the doc and it is in his hand, so the errand is
     ; done and he walks away with it.
     (try
       (role ?doc [k document] (= (bb-read ?doc from-stack) ?stack)
             (spatial ?doc held-by @self)
-            (bb-any ?browse-rel keep))
-      (effects (set-outcome ?browse-rel /succ)))
+            (bb-any ?browse-rel keep)
+        (effects (set-outcome ?browse-rel /succ))))
 
     ; THE LIFT: one paper at a time - the no-role is "I am not already working one off this
     ; pile". AT THE STACK: (spatial ?stack top) is what @self BELIEVES is on top, a memory
     ; rather than a reach, so without the co-location gate he lifts from across town.
     (try
       (role ?lift-top (spatial ?stack top)
-            (!= ?lift-top (bb-read ?browse-rel cycle-end)))
-      (no-role [k document] (= (bb-read ?norole from-stack) ?stack))
-      (role @self (spatial ?stack co-located @self)
-                  (bb-none ?browse-rel keep))
-      ; A HAND TO LIFT IT WITH. stack-take asserts one is free - a proposer reaching with
-      ; full hands is an authoring error, and this is the only rung that proposes it. The
-      ; round simply waits: whatever he is holding is something he came here carrying, and
-      ; the pile is not going anywhere.
-      (when (or (empty (spatial (spatial @self left-hand) grip))
-                (empty (spatial (spatial @self right-hand) grip))))
-      (effects (maintain-proposal {@self stack-take ?stack})))
+            (!= ?lift-top (bb-read ?browse-rel cycle-end))
+        (no-role [k document] (= (bb-read ?norole from-stack) ?stack))
+        (role @self (spatial ?stack co-located @self)
+                    (bb-none ?browse-rel keep)
+          ; A HAND TO LIFT IT WITH. stack-take asserts one is free - a proposer reaching with
+          ; full hands is an authoring error, and this is the only rung that proposes it. The
+          ; round simply waits: whatever he is holding is something he came here carrying, and
+          ; the pile is not going anywhere.
+          (when (or (empty (spatial (spatial @self left-hand) grip))
+                    (empty (spatial (spatial @self right-hand) grip))))
+          (effects (maintain-proposal {@self stack-take ?stack})))))
 
     ; ONE DOC: do the caller's work, then re-file it.
     (sequence
-      (role ?doc [k document] (= (bb-read ?doc from-stack) ?stack))
-      (role @self (spatial ?stack co-located @self))
+      (role ?doc [k document] (= (bb-read ?doc from-stack) ?stack)
+        (role @self (spatial ?stack co-located @self)
 
-      ; THE CALLER'S WORK. ?item is what the body's .?item resolves to - it is named here,
-      ; in the rule that evaluates the body, which is the whole of the late-bound mechanism.
-      (stage
-        (effects
-          (bind ?doc ?item)
-          (eval ?do-this)))
+          ; THE CALLER'S WORK. ?item is what the body's .?item resolves to - it is named here,
+          ; in the rule that evaluates the body, which is the whole of the late-bound mechanism.
+          (stage
+            (effects
+              (bind ?doc ?item)
+              (eval ?do-this)))
 
-      ; RE-FILE, unless the body kept it or disposed of it: either way it is not his to put
-      ; back. A stage that mints nothing falls through, which is how both of those pass.
-      (stage
-        (effects
-          (if (and (spatial ?doc held-by @self) (bb-none ?browse-rel keep))
-              (then (maintain-proposal {@self STACK-BURY ?doc ?stack}
-                        [/postlude (if (not (bb-any ?browse-rel cycle-end))
-                                      (then (bb-write ?browse-rel cycle-end ?doc)))]))))))))
+          ; RE-FILE, unless the body kept it or disposed of it: either way it is not his to put
+          ; back. A stage that mints nothing falls through, which is how both of those pass.
+          (stage
+            (effects
+              (if (and (spatial ?doc held-by @self) (bb-none ?browse-rel keep))
+                  (then (maintain-proposal {@self STACK-BURY ?doc ?stack}
+                            [/postlude (if (not (bb-any ?browse-rel cycle-end))
+                                          (then (bb-write ?browse-rel cycle-end ?doc)))]))))))))))

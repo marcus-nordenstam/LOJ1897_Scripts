@@ -21,12 +21,12 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self -{@self calling ?})
+  (role @self -{@self calling ?}
 
-  (role ?domain {@self interest ?domain}
-                (or {@self skill-level ?domain [k competent]}
-                    {@self skill-level ?domain [k proficient]}
-                    {@self skill-level ?domain [k virtuoso]}))
+    (role ?domain {@self interest ?domain}
+                  (or {@self skill-level ?domain [k competent]}
+                      {@self skill-level ?domain [k proficient]}
+                      {@self skill-level ?domain [k virtuoso]})
 
-  (effects
-    (begin-belief {@self calling ?domain})))
+      (effects
+        (begin-belief {@self calling ?domain})))))

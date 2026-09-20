@@ -31,10 +31,10 @@
 ; at-place-kind then holds and gamble_at_pub proposes {@self PLAY-GAME}.
 (npc-think gamble_go
   (goal {@self PLAY-GAME})
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
-  (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette)))
-  (role @self (not (spatial @self building ?venue)))
-  (effects (maintain-proposal {@self enter ?venue})))
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+    (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette))
+      (role @self (not (spatial @self building ?venue))
+        (effects (maintain-proposal {@self enter ?venue}))))))
 
 ; TERMINAL step (act_body_purification): the gamble act is now PROPOSED, guarded by being AT a
 ; pub, not promoted by the bare {@self PLAY-GAME} goal. Because `play_game` is a proposed label

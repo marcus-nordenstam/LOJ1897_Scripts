@@ -21,8 +21,8 @@
   (goal {@self judge-meet})
   (role ?winner [k human]
                 {?winner race-result ? ?sport}
-                (select (score (any {?winner race-result}).target) (policy argmax)))
-  (effects (maintain-proposal {@self JUDGE-DECLARE ?winner ?sport})))
+                (select (score (any {?winner race-result}).target) (policy argmax))
+    (effects (maintain-proposal {@self JUDGE-DECLARE ?winner ?sport}))))
 
 ; Scoreboard clear: once the declaration is made, the organiser retires the
 ; race-result beliefs so next year's meet starts clean (which also closes the
@@ -32,12 +32,12 @@
 ; ended /succ declare persists as a memory - without it last year's declaration
 ; plus this year's first score would clear the board before this year's winner).
 (npc-think meet_judged
-  (role @self {@self JUDGE-DECLARE ? /succ})
-  (role ?r2 {?r2 race-result ?})
-  (when (< (days-since-last {@self JUDGE-DECLARE /ever}) 1))
-  (effects
-    (for-each ?rb-rel (every {? race-result ?})
-      (end-belief ?rb-rel))))
+  (role @self {@self JUDGE-DECLARE ? /succ}
+    (role ?r2 {?r2 race-result ?}
+      (when (< (days-since-last {@self JUDGE-DECLARE /ever}) 1))
+      (effects
+        (for-each ?rb-rel (every {? race-result ?})
+          (end-belief ?rb-rel))))))
 
 ; outdone_at_meet (npc-think, LOSER's mind). A racer who competed (his own ended
 ; RACE-RUN memory) and then WITNESSED another declared the meet victor construes
@@ -54,10 +54,10 @@
   ; at a meet where another was crowned.
   (role ?winner {?winner isa [k human], condition [k alive]}
                 {? JUDGE-DECLARE ?winner}
-                -{?winner outdo @self})
-  (when (and (!= ?winner @self)
-             ; @self competed at a meet (his own ended RACE-RUN memory).
-             {@self RACE-RUN ? ? /succ /ever}
-             (chance (+ 0.15 (* 0.85 (target-or @self narcissism 0) (target-or @self assertiveness 0))))))
-  (effects
-    (begin-belief {?winner outdo @self})))
+                -{?winner outdo @self}
+    (when (and (!= ?winner @self)
+               ; @self competed at a meet (his own ended RACE-RUN memory).
+               {@self RACE-RUN ? ? /succ /ever}
+               (chance (+ 0.15 (* 0.85 (target-or @self narcissism 0) (target-or @self assertiveness 0))))))
+    (effects
+      (begin-belief {?winner outdo @self}))))

@@ -43,10 +43,10 @@
 ; NPC abandons everything and heads home.
 (npc-think seek_rest
   (role ?home {@self home ?home}
-              (not (spatial @self building ?home)))
-  (when (> (target-or @self sleepiness 0) 0.7))
-  (utility (sleep-drive))
-  (effects (maintain-proposal {@self enter ?home})))
+              (not (spatial @self building ?home))
+    (when (> (target-or @self sleepiness 0) 0.7))
+    (utility (sleep-drive))
+    (effects (maintain-proposal {@self enter ?home}))))
 
 ; at home and at all tired (or it is night): sleep until the morning alarm. The
 ; sleep act records a {@self SLEEP} memory ((does sleep)); its completion resets
@@ -54,33 +54,33 @@
 (npc-think sleep
   (fatigue 0)                      ; sleep is a bodily need, not a fruitless search - never fatigue-capped
   (role ?home {@self home ?home}
-              (spatial @self building ?home))
-  ; You cannot sleep through an assault - being under attack gates the whole rest
-  ; lane OUT, so the fight acts (defend / flee / scream) take over (fight.hs).
-  (when (and (or (> (target-or @self sleepiness 0) 0.5)
-                 (>= (now-hour) 22)
-                 (< (now-hour) 6))))
-  ; Banded fatigue drive (WANT while merely drowsy, NEED late evening, CRISIS past
-  ; collapse). The night gate lives in the (when) above: past 22h even a low drive
-  ; proposes, and want-tier suffices - midnight has no real competitors.
-  (utility (sleep-drive))
-  ; Duration is a FUNCTION: sleep until the morning alarm, but no longer than
-  ; until a pending obligation - a tired NPC with a gathering tonight wakes in
-  ; time to get ready instead of napping straight through it, and an evening
-  ; napper wakes for the household supper (the pre-dinner doze; on a normal
-  ; NIGHT sleep the next supper hour is ~20h away, far past the alarm, so
-  ; nights are unaffected - and an exhausted riser just goes straight back to
-  ; bed, the fatigue knee wins the 18:00 re-deliberation). (min ...) of the
-  ; alarm and every constraint; minutes-until-attend / -until-hour are huge
-  ; sentinels when nothing is pending.
-  ; PROPOSE the SLEEP act (act_body_purification): sleep's own (when) - at home + sleepy/night - IS
-  ; the precondition, so this propose is the whole terminal. sleep_act carries the duration
-  ; + ends the belief; fatigue recovery keys on the SLEEP label at completion.
-  (effects       (maintain-proposal {@self SLEEP})))
+              (spatial @self building ?home)
+    ; You cannot sleep through an assault - being under attack gates the whole rest
+    ; lane OUT, so the fight acts (defend / flee / scream) take over (fight.hs).
+    (when (and (or (> (target-or @self sleepiness 0) 0.5)
+                   (>= (now-hour) 22)
+                   (< (now-hour) 6))))
+    ; Banded fatigue drive (WANT while merely drowsy, NEED late evening, CRISIS past
+    ; collapse). The night gate lives in the (when) above: past 22h even a low drive
+    ; proposes, and want-tier suffices - midnight has no real competitors.
+    (utility (sleep-drive))
+    ; Duration is a FUNCTION: sleep until the morning alarm, but no longer than
+    ; until a pending obligation - a tired NPC with a gathering tonight wakes in
+    ; time to get ready instead of napping straight through it, and an evening
+    ; napper wakes for the household supper (the pre-dinner doze; on a normal
+    ; NIGHT sleep the next supper hour is ~20h away, far past the alarm, so
+    ; nights are unaffected - and an exhausted riser just goes straight back to
+    ; bed, the fatigue knee wins the 18:00 re-deliberation). (min ...) of the
+    ; alarm and every constraint; minutes-until-attend / -until-hour are huge
+    ; sentinels when nothing is pending.
+    ; PROPOSE the SLEEP act (act_body_purification): sleep's own (when) - at home + sleepy/night - IS
+    ; the precondition, so this propose is the whole terminal. sleep_act carries the duration
+    ; + ends the belief; fatigue recovery keys on the SLEEP label at completion.
+    (effects       (maintain-proposal {@self SLEEP}))))
 
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.
 (npc-think idle_go_home
   (role ?home {@self home ?home}
-              (not (spatial @self building ?home)))
-  (utility idle fallback)
-  (effects (maintain-proposal {@self enter ?home})))
+              (not (spatial @self building ?home))
+    (utility idle fallback)
+    (effects (maintain-proposal {@self enter ?home}))))

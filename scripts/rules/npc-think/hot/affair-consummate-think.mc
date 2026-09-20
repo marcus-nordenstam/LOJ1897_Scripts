@@ -28,37 +28,37 @@
 (npc-think tryst_slip
   (cooldown 1 d)
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
-              {@self lover ?})
-  (role ?paramour (spatial ?paramour co-located-building @self)
-                  {?paramour isa [k human], condition [k alive]}
-                  {@self lover ?paramour}
-                  -{@self spouse ?paramour})
-  ; A room in @self's building @self BELIEVES holds no third party - only @self and the
-  ; paramour may be there. The room SET is the building's structure (/env: stable ground
-  ; truth), but who is IN one is a belief read: a cheater slips into a room he THINKS is
-  ; empty, and walking in on someone is the story. No private room -> no slip.
-  (role ?room (spatial (spatial @self building) parts [k interior-space room] /env)
-              (not (spatial ?room contents [k human] @self ?paramour))
-              (select (policy first-match)))
-  (when (or (not (spatial ?paramour co-located @self))
-            (spatial (spouse-of @self) co-located @self)))
-  (utility want always-pick)
-  (effects
-    (maintain-proposal {@self WALK ?room})))
+              {@self lover ?}
+    (role ?paramour (spatial ?paramour co-located-building @self)
+                    {?paramour isa [k human], condition [k alive]}
+                    {@self lover ?paramour}
+                    -{@self spouse ?paramour}
+      ; A room in @self's building @self BELIEVES holds no third party - only @self and the
+      ; paramour may be there. The room SET is the building's structure (/env: stable ground
+      ; truth), but who is IN one is a belief read: a cheater slips into a room he THINKS is
+      ; empty, and walking in on someone is the story. No private room -> no slip.
+      (role ?room (spatial (spatial @self building) parts [k interior-space room] /env)
+                  (not (spatial ?room contents [k human] @self ?paramour))
+                  (select (policy first-match))
+        (when (or (not (spatial ?paramour co-located @self))
+                  (spatial (spouse-of @self) co-located @self)))
+        (utility want always-pick)
+        (effects
+          (maintain-proposal {@self WALK ?room}))))))
 
 ; ACT: alone in a room with the lover -> consummate. ?paramour is a live third-party
 ; lover @self BELIEVES shares his room (the location co-location role filter).
 (npc-think affair_consummate
   (cooldown 1 d)
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
-              {@self lover ?})
-  (role ?paramour (spatial ?paramour co-located @self)
-                  {?paramour isa [k human], condition [k alive]}
-                  {@self lover ?paramour}
-                  -{@self spouse ?paramour})
-  ; Discretion: not in the same ROOM as the wronged spouse. (spouse-of @self) is fail
-  ; for an unmarried cheater, so the gate passes them through.
-  (when (not (spatial (spouse-of @self) co-located @self)))
-  (utility want always-pick)
-  (effects
-    (maintain-proposal {@self HAVE-SEX-WITH ?paramour})))
+              {@self lover ?}
+    (role ?paramour (spatial ?paramour co-located @self)
+                    {?paramour isa [k human], condition [k alive]}
+                    {@self lover ?paramour}
+                    -{@self spouse ?paramour}
+      ; Discretion: not in the same ROOM as the wronged spouse. (spouse-of @self) is fail
+      ; for an unmarried cheater, so the gate passes them through.
+      (when (not (spatial (spouse-of @self) co-located @self)))
+      (utility want always-pick)
+      (effects
+        (maintain-proposal {@self HAVE-SEX-WITH ?paramour})))))

@@ -22,28 +22,28 @@
   (rng-stream behaviour)
   (cease-after-fire)
 
-  (role @self   (old_human @self))
-  ; The home filter keeps the pursuit PERFORMABLE: the errand calls on the
-  ; creditor at home, and there is no directory - an unknown address would
-  ; strand the goal forever behind the no-goal gate.
-  (role ?creditor (old_human ?creditor)
-                  {?creditor home ?}
-                  -{@self owe ?creditor})
+  (role @self   (old_human @self)
+    ; The home filter keeps the pursuit PERFORMABLE: the errand calls on the
+    ; creditor at home, and there is no directory - an unknown address would
+    ; strand the goal forever behind the no-goal gate.
+    (role ?creditor (old_human ?creditor)
+                    {?creditor home ?}
+                    -{@self owe ?creditor}
 
-  ; The borrow roll: low industriousness (less self-supporting) takes on debt
-  ; more often. One evaluation round per cooldown period; the no-goal gate caps
-  ; the round at one landed pursuit.
-  (when (and -{@self goal {@self TAKE-LOAN ?}}
-             (chance (* 0.005 (- 1.5 (target-or @self industriousness 0))))))
+      ; The borrow roll: low industriousness (less self-supporting) takes on debt
+      ; more often. One evaluation round per cooldown period; the no-goal gate caps
+      ; the round at one landed pursuit.
+      (when (and -{@self goal {@self TAKE-LOAN ?}}
+                 (chance (* 0.005 (- 1.5 (target-or @self industriousness 0))))))
 
-  (utility errand)
-  (effects (begin-goal {@self TAKE-LOAN ?creditor})))
+      (utility errand)
+      (effects (begin-goal {@self TAKE-LOAN ?creditor})))))
 
 ; Outcome twin: the loan-call recorded the debt - the pursuit succeeded.
 (npc-think borrowing_done
   (goal {@self TAKE-LOAN ?creditor})
-  (role @self {@self owe ?creditor})
-  (effects (set-outcome {@self goal {@self TAKE-LOAN ?creditor}} /succ)))
+  (role @self {@self owe ?creditor}
+    (effects (set-outcome {@self goal {@self TAKE-LOAN ?creditor}} /succ))))
 
 ; Outcome twin: the creditor is KNOWN dead - withdraw the pursuit. POSITIVE death
 ; knowledge only: a merely-decayed alive belief must not abandon the errand. The
@@ -51,5 +51,5 @@
 ; gate var (symmetric with borrowing_done's own-belief role above).
 (npc-think borrowing_abandoned
   (goal {@self TAKE-LOAN ?creditor})
-  (role @self {?creditor condition [k dead]})
-  (effects (set-outcome {@self goal {@self TAKE-LOAN ?creditor}} /succ)))
+  (role @self {?creditor condition [k dead]}
+    (effects (set-outcome {@self goal {@self TAKE-LOAN ?creditor}} /succ))))

@@ -53,17 +53,17 @@
   ; primary-school-curriculum]}) the role drops and the goal ends. The act never ends the goal.
   (role @self
               -{@self school-grades [k primary-school-curriculum] ?}
-              -{@self study [k primary-school-curriculum]})
+              -{@self study [k primary-school-curriculum]}
 
-  ; ONSET: the breeding-squared class-gate (chance) is rolled at the fire and LOCKED once
-  ; holding (it re-rolls each month until it lands), routing an upper child (breeding
-  ; ~0.85) into school almost always, a working-class child (~0.25) only rarely.
-  (when (and (>= (years-old @self) 5)
-             (<= (years-old @self) 7)
-             (latch-eval (chance (* 0.0833 (any {@self breeding ?}).target (any {@self breeding ?}).target)))))
+    ; ONSET: the breeding-squared class-gate (chance) is rolled at the fire and LOCKED once
+    ; holding (it re-rolls each month until it lands), routing an upper child (breeding
+    ; ~0.85) into school almost always, a working-class child (~0.25) only rarely.
+    (when (and (>= (years-old @self) 5)
+               (<= (years-old @self) 7)
+               (latch-eval (chance (* 0.0833 (any {@self breeding ?}).target (any {@self breeding ?}).target)))))
 
-  (utility errand)
-  (effects (maintain-proposal {@self matriculate [k primary-school-curriculum]})))
+    (utility errand)
+    (effects (maintain-proposal {@self matriculate [k primary-school-curriculum]}))))
 
 ; --- enroll_secondary: a middle+ youth goes on to secondary ------------------
 (npc-think enroll_secondary
@@ -80,15 +80,15 @@
               {@self school-grades [k primary-school-curriculum] ?}
               -{@self school-grades [k secondary-school-curriculum] ?}
               -{@self study [k secondary-school-curriculum]}
-              -{@self job.salary ?})
+              -{@self job.salary ?}
 
-  ; ONSET: the middle+ breeding-squared (chance) is rolled at the fire and LOCKED once holding.
-  (when (and (>= (years-old @self) 12)
-             (<= (years-old @self) 14)
-             (latch-eval (chance (* 0.0833 (any {@self breeding ?}).target (any {@self breeding ?}).target)))))
+    ; ONSET: the middle+ breeding-squared (chance) is rolled at the fire and LOCKED once holding.
+    (when (and (>= (years-old @self) 12)
+               (<= (years-old @self) 14)
+               (latch-eval (chance (* 0.0833 (any {@self breeding ?}).target (any {@self breeding ?}).target)))))
 
-  (utility errand)
-  (effects (maintain-proposal {@self matriculate [k secondary-school-curriculum]})))
+    (utility errand)
+    (effects (maintain-proposal {@self matriculate [k secondary-school-curriculum]}))))
 
 ; --- enroll_university: an upper / wealthy youth goes up to university --------
 (npc-think enroll_university
@@ -104,16 +104,16 @@
   (role @self
               {@self school-grades [k secondary-school-curriculum] ?}
               -{@self study ?}
-              -{@self job.salary ?})
+              -{@self job.salary ?}
 
-  ; ONSET: the steep upper / wealthy-middle breeding-cubed (chance) - the professions'
-  ; gateway - rolled at the fire and LOCKED once holding.
-  (when (and (>= (years-old @self) 18)
-             (<= (years-old @self) 20)
-             (latch-eval (chance (* 0.0833 (any {@self breeding ?}).target (* (any {@self breeding ?}).target (any {@self breeding ?}).target))))))
+    ; ONSET: the steep upper / wealthy-middle breeding-cubed (chance) - the professions'
+    ; gateway - rolled at the fire and LOCKED once holding.
+    (when (and (>= (years-old @self) 18)
+               (<= (years-old @self) 20)
+               (latch-eval (chance (* 0.0833 (any {@self breeding ?}).target (* (any {@self breeding ?}).target (any {@self breeding ?}).target))))))
 
-  (utility errand)
-  (effects (maintain-proposal {@self matriculate [k academic-field]})))
+    (utility errand)
+    (effects (maintain-proposal {@self matriculate [k academic-field]}))))
 
 ; --- leave_primary: every primary pupil finishes at ~11 ----------------------
 (npc-think leave_primary
@@ -126,13 +126,13 @@
   ; enrollment; a non-continuer becomes apprenticeship-eligible. Monthly firing is
   ; idempotent - the first fire ends the study, so later months no-op. age -> (when).
   (role @self 
-              {@self study [k primary-school-curriculum]})
+              {@self study [k primary-school-curriculum]}
 
-  (when (>= (years-old @self) 11))
+    (when (>= (years-old @self) 11))
 
-  (effects
-    (graduate-from-study)
-    ))
+    (effects
+      (graduate-from-study)
+      )))
 
 ; --- leave_secondary: a secondary pupil finishes at ~17 ----------------------
 (npc-think leave_secondary
@@ -140,13 +140,13 @@
   (rng-stream behaviour)
 
   (role @self 
-              {@self study [k secondary-school-curriculum]})
+              {@self study [k secondary-school-curriculum]}
 
-  (when (>= (years-old @self) 17))
+    (when (>= (years-old @self) 17))
 
-  (effects
-    (graduate-from-study)
-    ))
+    (effects
+      (graduate-from-study)
+      )))
 
 ; --- graduate_university: a degree is taken at ~22 ---------------------------
 (npc-think graduate_university
@@ -158,10 +158,10 @@
   ; {@self skilled-in <subject> trained}, feeding the S8 physician / lawyer /
   ; scholar identities + the prestige bump - the profession pipeline payoff.
   (role @self 
-              {@self study ?})
+              {@self study ?}
 
-  (when (>= (years-old @self) 22))
+    (when (>= (years-old @self) 22))
 
-  (effects
-    (graduate-from-study)
-    ))
+    (effects
+      (graduate-from-study)
+      )))

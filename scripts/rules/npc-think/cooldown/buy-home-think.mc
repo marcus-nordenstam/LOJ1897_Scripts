@@ -45,10 +45,10 @@
   ; all test the SAME candidate (his home, unowned, unleased) - a non-seeker
   ; carries an empty set and skips without any live belief scan.
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
-              -{@self spouse ?})
-  (role ?h {@self home ?h}
-           -{@self own ?h}
-           -{?h tenant @self})
-  (utility errand)
-  (effects       (begin-goal {@self acquire}))
-  (when-unsupported-effects (set-outcome {@self goal {@self acquire}} /succ)))
+              -{@self spouse ?}
+    (role ?h {@self home ?h}
+             -{@self own ?h}
+             -{?h tenant @self}
+      (utility errand)
+      (effects       (begin-goal {@self acquire}))
+      (when-unsupported-effects (set-outcome {@self goal {@self acquire}} /succ)))))

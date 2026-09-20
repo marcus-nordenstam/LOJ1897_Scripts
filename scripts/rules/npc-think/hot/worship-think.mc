@@ -26,9 +26,9 @@
 ; off-church fall-through.
 (npc-think worship_at_church
   (goal    {@self WORSHIP})
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
-  (when    (is-a (spatial @self building) [k building church]))
-  (effects (maintain-proposal {@self WORSHIP})))
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+    (when    (is-a (spatial @self building) [k building church]))
+    (effects (maintain-proposal {@self WORSHIP}))))
 
 ; CASE B - not at a church, but knows one: head to it. Inherits the worship drive. A
 ; MAINTENANCE rung (§5.11): roulette a church ONCE, hold {@self enter ?church} (the
@@ -36,18 +36,18 @@
 ; SAME church (no re-roulette while walking).
 (npc-think worship_go
   (goal    {@self WORSHIP})
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
-  (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
-  (when    (not (spatial @self building ?church)))
-  (effects
-           (maintain-proposal {@self enter ?church})))
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+    (role ?church [k building church] (select (score (near @self ?church)) (policy roulette))
+      (when    (not (spatial @self building ?church)))
+      (effects
+               (maintain-proposal {@self enter ?church})))))
 
 ; CASE C - not at a church and knows none: search for one (find-building.hs runs it).
 (npc-think worship_find
   (goal    {@self WORSHIP})
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
-  (no-role [k building church])
-  (when    (and (not (is-a (spatial @self building) [k building church]))
-                -{@self find-building [k building church] /fail}))
-  (effects
-           (maintain-proposal {@self find-building [k building church] (current-exterior @self)})))
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+    (no-role [k building church])
+    (when    (and (not (is-a (spatial @self building) [k building church]))
+                  -{@self find-building [k building church] /fail}))
+    (effects
+             (maintain-proposal {@self find-building [k building church] (current-exterior @self)}))))

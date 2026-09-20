@@ -15,9 +15,9 @@
   (tar structure)
   (and
     (try
-      (role @self -{@self wander ?home /succ /caused_by ?p-rel})
-      (utility idle)
-      (effects (maintain-proposal {@self wander ?home})))
+      (role @self -{@self wander ?home /succ /caused_by ?p-rel}
+        (utility idle)
+        (effects (maintain-proposal {@self wander ?home}))))
     (try
       (when (and (spatial @self space): ?room
                  (spatial @self building ?home)))
@@ -39,5 +39,5 @@
                  (= (believed-pile-count ?kitchen [k food]) 0)))
       (effects (maintain-proposal {@self STOCK-LARDER ?kitchen})))
     (try
-      (role @self {@self wander ?home /succ /caused_by ?p-rel})
-      (effects (set-outcome ?p-rel /succ)))))
+      (role @self {@self wander ?home /succ /caused_by ?p-rel}
+        (effects (set-outcome ?p-rel /succ))))))

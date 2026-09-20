@@ -13,18 +13,18 @@
   (and
     (try
       (role @self {@self name ?name} 
-                  -{@self stack-browse ?stack ? /succ /caused_by ?take-letters-rel})
-      (utility errand)
-      (effects
-        (maintain-proposal
-          {@self stack-browse ?stack
-            '(if (and (or (and (substantial (tolerate (attr .?item addressee)))
-                               (= (tolerate (attr .?item addressee)) ?name))
-                          (nothing (tolerate (attr .?item addressee)))
-                          {@self duty-to ? (tolerate (attr .?item addressee-duty))})
-                      -{@self READ .?item /succ})
-                 (then (maintain-proposal {@self READ .?item})))})))
+                  -{@self stack-browse ?stack ? /succ /caused_by ?take-letters-rel}
+        (utility errand)
+        (effects
+          (maintain-proposal
+            {@self stack-browse ?stack
+              '(if (and (or (and (substantial (tolerate (attr .?item addressee)))
+                                 (= (tolerate (attr .?item addressee)) ?name))
+                            (nothing (tolerate (attr .?item addressee)))
+                            {@self duty-to ? (tolerate (attr .?item addressee-duty))})
+                        -{@self READ .?item /succ})
+                   (then (maintain-proposal {@self READ .?item})))}))))
     (try
-      (role @self {@self stack-browse ?stack ? /succ /caused_by ?take-letters-rel})
-      (effects
-               (set-outcome ?take-letters-rel /succ)))))
+      (role @self {@self stack-browse ?stack ? /succ /caused_by ?take-letters-rel}
+        (effects
+                 (set-outcome ?take-letters-rel /succ))))))

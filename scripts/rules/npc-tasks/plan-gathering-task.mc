@@ -21,33 +21,33 @@
 
 (npc-task {@self plan-gathering ?kind ?months}:?pg-rel
   (sequence
-    (role ?my-home {@self home ?my-home})
+    (role ?my-home {@self home ?my-home}
 
-    ; The occasion itself - invented once, then read back from the blackboard.
-    (stage
-      (effects
-        (if (bb-any ?pg-rel occasion)
-            (then (bind (bb-read ?pg-rel occasion) ?occ))
-            (else
-              (o /invent ?kind): ?occ
-              (bb-write ?pg-rel occasion ?occ)))))
+      ; The occasion itself - invented once, then read back from the blackboard.
+      (stage
+        (effects
+          (if (bb-any ?pg-rel occasion)
+              (then (bind (bb-read ?pg-rel occasion) ?occ))
+              (else
+                (o /invent ?kind): ?occ
+                (bb-write ?pg-rel occasion ?occ)))))
 
-    ; Its constitutive facts. A lead that runs past December rolls into next year - and
-    ; (month) counts from ZERO, so december is 11 and the twelfth month past it is 23.
-    ; Each is gated on what is already there, so a restarted stage adds nothing twice.
-    (stage
-      (effects
-        (+ (month) ?months): ?pg-m
-        (if (> ?pg-m 11)
-            (then (create-date (+ (year) 1) (- ?pg-m 12) 15))
-            (else (create-date (year) ?pg-m 15))): ?pg-date
-        (if (none {?occ host ?})         (then (begin-belief {?occ host @self})))
-        (if (none {?occ venue ?})        (then (begin-belief {?occ venue ?my-home})))
-        (if (none {?occ hours ?})        (then (begin-belief {?occ hours 19 23})))
-        (if (none {?occ held-on ?})      (then (begin-belief {?occ held-on ?pg-date})))
-        (if (none {@self organize ?occ}) (then (begin-belief {@self organize ?occ})))))
+      ; Its constitutive facts. A lead that runs past December rolls into next year - and
+      ; (month) counts from ZERO, so december is 11 and the twelfth month past it is 23.
+      ; Each is gated on what is already there, so a restarted stage adds nothing twice.
+      (stage
+        (effects
+          (+ (month) ?months): ?pg-m
+          (if (> ?pg-m 11)
+              (then (create-date (+ (year) 1) (- ?pg-m 12) 15))
+              (else (create-date (year) ?pg-m 15))): ?pg-date
+          (if (none {?occ host ?})         (then (begin-belief {?occ host @self})))
+          (if (none {?occ venue ?})        (then (begin-belief {?occ venue ?my-home})))
+          (if (none {?occ hours ?})        (then (begin-belief {?occ hours 19 23})))
+          (if (none {?occ held-on ?})      (then (begin-belief {?occ held-on ?pg-date})))
+          (if (none {@self organize ?occ}) (then (begin-belief {@self organize ?occ})))))
 
-    (stage
-      (effects
-        (bb-clear ?pg-rel occasion)
-        (set-outcome ?pg-rel /succ)))))
+      (stage
+        (effects
+          (bb-clear ?pg-rel occasion)
+          (set-outcome ?pg-rel /succ))))))

@@ -2,8 +2,8 @@
 ; /pres and /ever match it and /past must not.
 (npc-think probe_tense
   (cooldown 1 m)
-  (role @self )
-  (when (and {@self goal {@self probe_hunt ? /ever}}
-             {@self goal {@self probe_hunt ? /pres}}
-             -{@self goal {@self probe_hunt ? /past}}))
-  (effects (debug-print "PROBE_TENSE_OK")))
+  (role @self 
+    (when (and {@self goal {@self probe_hunt ? /ever}}
+               {@self goal {@self probe_hunt ? /pres}}
+               -{@self goal {@self probe_hunt ? /past}}))
+    (effects (debug-print "PROBE_TENSE_OK"))))

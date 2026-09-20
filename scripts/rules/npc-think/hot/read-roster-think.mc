@@ -26,41 +26,41 @@
   (cooldown 1 m)
   (rng-stream employment)
 
-  (role ?job {@self job ?job})
-  ; My firm's register hangs off my own {?org employee-register ?reg} belief - learned when
-  ; I read the incorporation page at hire/orient (hire-beliefs adopt-msg). A belief walk, no
-  ; doc scan, and a ROLE: an org known without a register belief (a club, or one learned by
-  ; orient alone) simply yields no activation.
-  (role ?org {?job org ?org})
-  (role ?reg {?org employee-register ?reg})
-  (when (or (in-month 3) (in-month 6) (in-month 9) (in-month 12)))
+  (role ?job {@self job ?job}
+    ; My firm's register hangs off my own {?org employee-register ?reg} belief - learned when
+    ; I read the incorporation page at hire/orient (hire-beliefs adopt-msg). A belief walk, no
+    ; doc scan, and a ROLE: an org known without a register belief (a club, or one learned by
+    ; orient alone) simply yields no activation.
+    (role ?org {?job org ?org}
+      (role ?reg {?org employee-register ?reg}
+        (when (or (in-month 3) (in-month 6) (in-month 9) (in-month 12)))
 
-  (effects
-    ; (1) REFRESH - one colleague job object per roster row (skip my own row), mirroring
-    ; my own job object so {?cw job.org ?org} / rank / head-ness read uniformly.
-    (for-each-row (attr ?reg writing) [/job-id ?line] [/worker ?cw-name] [/job ?jk] [/level ?lvl]
-      ; An empty worker cell is a VACANT job, not a colleague - it names nobody to hang an
-      ; occupancy fact off. The officer's own read is what makes those lines mean something.
-      ; The object is keyed on the LINE, not on who sits in it, so this is the very object
-      ; @self already holds for his own seat and for every seat he has read about here.
-      (if (and (substantial ?cw-name) (!= ?cw-name (name @self)))
-          (then
-            ; The roster NAMES him; the colleague object is what the workplace-social rules
-            ; role-cast on. Imagined until @self has met him, then fused by identity_by_name.
-            (o [k human] {@o name ?cw-name}): ?cw
-            (o ?jk {@o org ?org} {@o job-id ?line}): ?cojob
-            (begin-belief {?cojob org ?org})
-            (begin-belief {?cojob job-id ?line})
-            (begin-belief {?cw job ?cojob})
-            (begin-belief {?cojob level ?lvl}))))
+        (effects
+          ; (1) REFRESH - one colleague job object per roster row (skip my own row), mirroring
+          ; my own job object so {?cw job.org ?org} / rank / head-ness read uniformly.
+          (for-each-row (attr ?reg writing) [/job-id ?line] [/worker ?cw-name] [/job ?jk] [/level ?lvl]
+            ; An empty worker cell is a VACANT job, not a colleague - it names nobody to hang an
+            ; occupancy fact off. The officer's own read is what makes those lines mean something.
+            ; The object is keyed on the LINE, not on who sits in it, so this is the very object
+            ; @self already holds for his own seat and for every seat he has read about here.
+            (if (and (substantial ?cw-name) (!= ?cw-name (name @self)))
+                (then
+                  ; The roster NAMES him; the colleague object is what the workplace-social rules
+                  ; role-cast on. Imagined until @self has met him, then fused by identity_by_name.
+                  (o [k human] {@o name ?cw-name}): ?cw
+                  (o ?jk {@o org ?org} {@o job-id ?line}): ?cojob
+                  (begin-belief {?cojob org ?org})
+                  (begin-belief {?cojob job-id ?line})
+                  (begin-belief {?cw job ?cojob})
+                  (begin-belief {?cojob level ?lvl}))))
 
-    ; (2) RECONCILE (negative confirmation) - forget colleagues no longer listed: walk the
-    ; job objects I believe belong to ?org, bind each holder, and drop the tie for any holder
-    ; (not me) no longer on a worker row.
-    (for-each ?ojb-rel (every {? org ?org})
-      (bind ?ojb-rel.subject ?ojob)
-      (for-each ?jb-rel (every {? job ?ojob})
-        (bind ?jb-rel.subject ?other)
-        (if (and (!= ?other @self)
-                 (not (table-match (attr ?reg writing) worker (name ?other))))
-            (then (end-belief ?jb-rel)))))))
+          ; (2) RECONCILE (negative confirmation) - forget colleagues no longer listed: walk the
+          ; job objects I believe belong to ?org, bind each holder, and drop the tie for any holder
+          ; (not me) no longer on a worker row.
+          (for-each ?ojb-rel (every {? org ?org})
+            (bind ?ojb-rel.subject ?ojob)
+            (for-each ?jb-rel (every {? job ?ojob})
+              (bind ?jb-rel.subject ?other)
+              (if (and (!= ?other @self)
+                       (not (table-match (attr ?reg writing) worker (name ?other))))
+                  (then (end-belief ?jb-rel))))))))))

@@ -18,13 +18,13 @@
   (cooldown 1 m)
   (rng-stream deaths)
 
-  (role @self )
+  (role @self 
 
-  ; years-old is a non-belief op, so the age gate lives in (when), not the role.
-  (when (and (>= (years-old @self) 1)
-             (chance 0.0008)))   ; ~1% per year background disease rate
+    ; years-old is a non-belief op, so the age gate lives in (when), not the role.
+    (when (and (>= (years-old @self) 1)
+               (chance 0.0008)))   ; ~1% per year background disease rate
 
-  (effects
-    (settle-death @self)
-    (set-attr @self death-cause [k death-cause disease])
-    ))
+    (effects
+      (settle-death @self)
+      (set-attr @self death-cause [k death-cause disease])
+      )))

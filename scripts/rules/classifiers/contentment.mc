@@ -23,19 +23,19 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self {@self wealth ?wealth})
+  (role @self {@self wealth ?wealth}
 
-  ; The baseline is summed in two halves - dispositional (personality + wealth) and
-  ; circumstantial (belonging, drink, employment) - bound to intermediates so neither the
-  ; per-func arg count nor the per-mint pattern count of the whole sum overflows the substrate.
-  (bind (+ (contentment-neutral)
-           (* (- (target-or @self enthusiasm 0) 0.5) (contentment-affect-weight))
-           (* (- 0.5 (target-or @self withdrawal 0)) (contentment-affect-weight))
-           (/ (- ?wealth 0.5) (contentment-wealth-div))) ?disposition)
-  (bind (+ (/ (- (belonging) 0.5) (contentment-belonging-div))
-           (* (max (- 0.5 (sobriety)) 0) (contentment-drink-weight))
-           (* (prob {@self craving ?}) (contentment-craving-penalty))
-           (* (- 1 (prob {@self job ?})) (contentment-jobless-penalty))) ?circumstance)
+    ; The baseline is summed in two halves - dispositional (personality + wealth) and
+    ; circumstantial (belonging, drink, employment) - bound to intermediates so neither the
+    ; per-func arg count nor the per-mint pattern count of the whole sum overflows the substrate.
+    (bind (+ (contentment-neutral)
+             (* (- (target-or @self enthusiasm 0) 0.5) (contentment-affect-weight))
+             (* (- 0.5 (target-or @self withdrawal 0)) (contentment-affect-weight))
+             (/ (- ?wealth 0.5) (contentment-wealth-div))) ?disposition)
+    (bind (+ (/ (- (belonging) 0.5) (contentment-belonging-div))
+             (* (max (- 0.5 (sobriety)) 0) (contentment-drink-weight))
+             (* (prob {@self craving ?}) (contentment-craving-penalty))
+             (* (- 1 (prob {@self job ?})) (contentment-jobless-penalty))) ?circumstance)
 
-  (effects
-    (begin-belief {@self contentment (clamp (+ ?disposition ?circumstance) 0 1)})))
+    (effects
+      (begin-belief {@self contentment (clamp (+ ?disposition ?circumstance) 0 1)}))))

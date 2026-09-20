@@ -33,27 +33,27 @@
   ;; chance gate lives in (when) below (non-belief filter).
   (role @self (or {@self life-aim belonging-aim}
                   {@self life-aim respectability-aim}
-                  {@self identity parent-role}))
-  ; A CO-PRESENT friend (the party guest actually in the room): the friend tie is the
-  ; guest list; co-presence (objective room occupancy) is who is here to be told.
-  (role ?guest {?guest isa [k human], condition [k alive]}
-               {@self friend ?guest}
-               (spatial ?guest co-located @self))
+                  {@self identity parent-role})
+    ; A CO-PRESENT friend (the party guest actually in the room): the friend tie is the
+    ; guest list; co-presence (objective room occupancy) is who is here to be told.
+    (role ?guest {?guest isa [k human], condition [k alive]}
+                 {@self friend ?guest}
+                 (spatial ?guest co-located @self)
 
-  ;; Non-belief gate kept out of the @self role: enthusiasm-scaled chance, multiplicative
-  ;; so outgoing hosts engage more than withdrawn ones, /12'd to the monthly
-  ;; cadence, rolled once per host per month.
-  (when (chance (* 0.0667 (target-or @self enthusiasm 0))))
+      ;; Non-belief gate, not a @self role filter: enthusiasm-scaled chance, multiplicative
+      ;; so outgoing hosts engage more than withdrawn ones, /12'd to the monthly
+      ;; cadence, rolled once per host per month.
+      (when (chance (* 0.0667 (target-or @self enthusiasm 0))))
 
-  (utility want)
+      (utility want)
 
-  (effects
-    ; Tell ?guest ONE piece of the host's own news they have not heard. for-each-present-tense-belief
-    ; binds each matched belief as ?belief; the dedup is PER-GUEST - the SAY's aux is
-    ; the listener, so {@self SAY <msg> ?guest} is "have I told THIS guest this".
-    (for-each ?belief-rel (every {@self spouse|fiancee|lover|child ?})
-      (do
-        (utterable-msg ?belief-rel): ?msg
-        (if -{@self SAY ?msg ?guest}
-            (then (maintain-proposal {@self SAY ?msg ?guest}) (break)))))
-    ))
+      (effects
+        ; Tell ?guest ONE piece of the host's own news they have not heard. for-each-present-tense-belief
+        ; binds each matched belief as ?belief; the dedup is PER-GUEST - the SAY's aux is
+        ; the listener, so {@self SAY <msg> ?guest} is "have I told THIS guest this".
+        (for-each ?belief-rel (every {@self spouse|fiancee|lover|child ?})
+          (do
+            (utterable-msg ?belief-rel): ?msg
+            (if -{@self SAY ?msg ?guest}
+                (then (maintain-proposal {@self SAY ?msg ?guest}) (break)))))
+        ))))

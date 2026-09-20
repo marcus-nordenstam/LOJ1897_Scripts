@@ -15,27 +15,27 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (role @self {@self class-situation ?})
+  (role @self {@self class-situation ?}
 
-  ; Economic rank: headship of a non-household org is the top band and trumps any
-  ; level rung; a job with no level rung reads the entry band; the jobless read -1.
-  (bind (cond
-          (case -{@self job ?} -1)
-          (case (is-a (any {@self job ?}).target [k head-of-non-household-org]) 5)
-          (case (table-match level_rank level
-                             (any {(any {@self job ?}).target level ?}).target rank ?rung)
-            ?rung)
-          (else 0)) ?rank)
+    ; Economic rank: headship of a non-household org is the top band and trumps any
+    ; level rung; a job with no level rung reads the entry band; the jobless read -1.
+    (bind (cond
+            (case -{@self job ?} -1)
+            (case (is-a (any {@self job ?}).target [k head-of-non-household-org]) 5)
+            (case (table-match level_rank level
+                               (any {(any {@self job ?}).target level ?}).target rank ?rung)
+              ?rung)
+            (else 0)) ?rank)
 
-  (effects
-    (begin-belief {@self prestige
-      (clamp (+ (if (table-match prestige_by_rank rank ?rank prestige ?curve)
-                  (then ?curve)
-                  (else 0.15))
-                (min (* (count (every {@self win ?})) 0.04) 0.20)
-                (* 0.15
-                   (min (+ (prob {@self skilled-in [k performance-art] [k competence-level expert]})
-                           (prob {@self skilled-in [k academic-field]  [k competence-level expert]})
-                           (prob {@self skilled-in [k martial]         [k competence-level expert]}))
-                        1)))
-             0 1)})))
+    (effects
+      (begin-belief {@self prestige
+        (clamp (+ (if (table-match prestige_by_rank rank ?rank prestige ?curve)
+                    (then ?curve)
+                    (else 0.15))
+                  (min (* (count (every {@self win ?})) 0.04) 0.20)
+                  (* 0.15
+                     (min (+ (prob {@self skilled-in [k performance-art] [k competence-level expert]})
+                             (prob {@self skilled-in [k academic-field]  [k competence-level expert]})
+                             (prob {@self skilled-in [k martial]         [k competence-level expert]}))
+                          1)))
+               0 1)}))))

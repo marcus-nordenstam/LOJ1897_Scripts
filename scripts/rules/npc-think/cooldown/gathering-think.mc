@@ -28,10 +28,10 @@
 (npc-think plan_gathering
   (cooldown 1 m)
   (rng-stream behaviour)
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
-  (when (chance 0.02))
-  (utility want)
-  (effects (maintain-proposal {@self plan-gathering [k dinner-party] 3})))
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+    (when (chance 0.02))
+    (utility want)
+    (effects (maintain-proposal {@self plan-gathering [k dinner-party] 3}))))
 
 ; An IMPROMPTU supper: the same staging, set for THIS month. Nobody is written to - the
 ; post could not arrive in time - so it reaches only whoever is already there. Reaching
@@ -41,10 +41,10 @@
 (npc-think plan_impromptu_supper
   (cooldown 1 m)
   (rng-stream behaviour)
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
-  (when (chance 0.015))
-  (utility want)
-  (effects (maintain-proposal {@self plan-gathering [k dinner-party] 0})))
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+    (when (chance 0.015))
+    (utility want)
+    (effects (maintain-proposal {@self plan-gathering [k dinner-party] 0}))))
 
 ; ONE invitation per friend, while the day is far enough out for the post to arrive: a
 ; supper THIS month is not something you write to a man about, so a same-month occasion
@@ -64,10 +64,10 @@
 (npc-think want_invite_guest
   (lock)
   (role ?occ {@self organize ?occ}
-             {?occ held-on ?})
-  (role ?guest {@self friend ?guest}
-               {?guest home ?}
-               -{@self invite ?guest ?occ})
-  (when (not (date-in-current-month (any {?occ held-on ?}).target)))
-  (utility errand)
-  (effects (maintain-proposal {@self invite-guest ?guest ?occ})))
+             {?occ held-on ?}
+    (role ?guest {@self friend ?guest}
+                 {?guest home ?}
+                 -{@self invite ?guest ?occ}
+      (when (not (date-in-current-month (any {?occ held-on ?}).target)))
+      (utility errand)
+      (effects (maintain-proposal {@self invite-guest ?guest ?occ})))))

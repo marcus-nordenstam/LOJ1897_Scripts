@@ -32,16 +32,16 @@
   ; skipped by the gate-builder). Only the groom plans; the bride is wired in as
   ; co-principal by plan-wedding.
   (role @self (unmarried_man @self)
-              {@self fiancee ?fiancee})   ; existence cached, ?fiancee binds at fire
-  ; The venue is a same-town church the groom KNOWS; nearest preferred, weighted.
-  ; No known church -> no fire (the goal waits).
-  (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
-  (when (none (organizing-occasion [k wedding])))
-  (effects
-    ; ~3 months' banns lead, an 11-14h ceremony. plan-wedding stages the occasion
-    ; (both principals forced-attend, both circles invited).
-    ; TELEPATHY - this staged the occasion in both principals' and every guest's mind.
-    ; Wants re-authoring as the groom minting his OWN occasion + posting invitations.
-    ; Commented out pending that redesign.
-    ; (plan-wedding @self ?fiancee ?church 3 11 14)
-    ))
+              {@self fiancee ?fiancee}   ; existence cached, ?fiancee binds at fire
+    ; The venue is a same-town church the groom KNOWS; nearest preferred, weighted.
+    ; No known church -> no fire (the goal waits).
+    (role ?church [k building church] (select (score (near @self ?church)) (policy roulette))
+      (when (none (organizing-occasion [k wedding])))
+      (effects
+        ; ~3 months' banns lead, an 11-14h ceremony. plan-wedding stages the occasion
+        ; (both principals forced-attend, both circles invited).
+        ; TELEPATHY - this staged the occasion in both principals' and every guest's mind.
+        ; Wants re-authoring as the groom minting his OWN occasion + posting invitations.
+        ; Commented out pending that redesign.
+        ; (plan-wedding @self ?fiancee ?church 3 11 14)
+        ))))

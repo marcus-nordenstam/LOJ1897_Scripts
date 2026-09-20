@@ -19,37 +19,37 @@
 
 (npc-task {@self work ?wp}:?w-rel
   (tar structure|org|space)
-  (role ?job {@self job ?job})
-  (role ?org {?job org ?org}
-             {?org workplace ?wp})
-  (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
-        (latch-eval (any {?job ?tl ?}): ?sh-rel (bind ?sh-rel.target ?start) (bind ?sh-rel.auxiliary ?end))
-        (on-shift ?start ?end))
-  (cease (if (not (on-shift ?start ?end))
-             (then (set-outcome ?w-rel /succ))))
-  (and
-    (try
-      (lock)
-      (rng-stream employment)
-      (role ?duty-org {@self duty-to ?duty-org recruit-staff}
-                 -{?duty-org isa [k org household]}
-                 {?duty-org record ?})
-      ; The BOOK is the headcount - an empty worker cell is an open post - so nothing here
-      ; consults a config table the officer has no way of knowing. The standing-notice leg
-      ; is what brings him back to take a filled post's advert down.
-      (role ?reg {?duty-org employee-register ?reg})
-      ; A MAN AT THE COUNTER keeps the book open too: the duty that ended the minute the
-      ; last seat filled left the applicants still standing there unanswered, and a man
-      ; holding an offer with nobody keeping the book comes back every day (measured).
-      (when (or (table-match (attr ?reg writing) worker @nothing)
-                     {?duty-org display-ad ?}
-                     (> (count (every {? accept-job-offer ?})) 0)))
-      (utility duty)
-      (effects
-               (maintain-proposal {@self recruit-staff ?duty-org})))
-    (try
-      (when (and (check ?org) (at-workplace ?wp) (< (now-hour) 12)))
-      (effects (maintain-proposal {@self DWELL ?wp (min 12 ?end)})))
-    (try
-      (when (and (check ?org) (at-workplace ?wp) (>= (now-hour) 12)))
-      (effects (maintain-proposal {@self DWELL ?wp ?end})))))
+  (role ?job {@self job ?job}
+    (role ?org {?job org ?org}
+               {?org workplace ?wp}
+      (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
+            (latch-eval (any {?job ?tl ?}): ?sh-rel (bind ?sh-rel.target ?start) (bind ?sh-rel.auxiliary ?end))
+            (on-shift ?start ?end))
+      (cease (if (not (on-shift ?start ?end))
+                 (then (set-outcome ?w-rel /succ))))
+      (and
+        (try
+          (lock)
+          (rng-stream employment)
+          (role ?duty-org {@self duty-to ?duty-org recruit-staff}
+                     -{?duty-org isa [k org household]}
+                     {?duty-org record ?}
+            ; The BOOK is the headcount - an empty worker cell is an open post - so nothing here
+            ; consults a config table the officer has no way of knowing. The standing-notice leg
+            ; is what brings him back to take a filled post's advert down.
+            (role ?reg {?duty-org employee-register ?reg}
+              ; A MAN AT THE COUNTER keeps the book open too: the duty that ended the minute the
+              ; last seat filled left the applicants still standing there unanswered, and a man
+              ; holding an offer with nobody keeping the book comes back every day (measured).
+              (when (or (table-match (attr ?reg writing) worker @nothing)
+                             {?duty-org display-ad ?}
+                             (> (count (every {? accept-job-offer ?})) 0)))
+              (utility duty)
+              (effects
+                       (maintain-proposal {@self recruit-staff ?duty-org})))))
+        (try
+          (when (and (check ?org) (at-workplace ?wp) (< (now-hour) 12)))
+          (effects (maintain-proposal {@self DWELL ?wp (min 12 ?end)})))
+        (try
+          (when (and (check ?org) (at-workplace ?wp) (>= (now-hour) 12)))
+          (effects (maintain-proposal {@self DWELL ?wp ?end})))))))

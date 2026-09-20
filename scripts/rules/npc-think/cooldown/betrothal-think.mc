@@ -29,57 +29,57 @@
               -{@self fiancee ?}
               -{@self repute [k scandalous]}
               -{@self repute [k disreputable]}
-              {@self age-band ?peer_band})
-  (role ?bride (unmarried_woman ?bride)
-               ;; Not already spoken-for (he avoids a woman he KNOWS is engaged or
-               ;; attached; a secret he has not heard does not stop the match).
-               -{?bride fiancee ?}
-               -{?bride lover ?}
-               ;; A fallen woman (divorced for adultery) is shut out absolutely.
-               -{?bride prototype [k fallen-woman]}
-               -{?bride repute [k scandalous]}
-               -{?bride repute [k disreputable]}
-               ;; (The chastity gate lives in (when) - per-observer, a count of the
-               ;; liaisons the groom himself has heard of; the (not (believes
-               ;; {?bride lover ?})) filter above already bars a known ONGOING lover.)
-               ;; Same class as the groom: the deliberating mind's belief that
-               ;; the bride's class-situation equals @self's own (dynamic-target
-               ;; shape-2, cacheable - like age-peers; NOT a cross-(target =)).
-               {?bride class-situation (any {@self class-situation}).target}
-               ;; Belief-pure perceived predicates - the near-age window and the
-               ;; blood-kin exclusion - stay role filters (cacheable), gating the
-               ;; bride candidate set directly. @self's band is bound in the @self
-               ;; role: an inline (any {@self age-band}).target does not resolve against
-               ;; the plural age-span belief.
-               {?bride age-span ?peer_band}
-               (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?bride}))
+              {@self age-band ?peer_band}
+    (role ?bride (unmarried_woman ?bride)
+                 ;; Not already spoken-for (he avoids a woman he KNOWS is engaged or
+                 ;; attached; a secret he has not heard does not stop the match).
+                 -{?bride fiancee ?}
+                 -{?bride lover ?}
+                 ;; A fallen woman (divorced for adultery) is shut out absolutely.
+                 -{?bride prototype [k fallen-woman]}
+                 -{?bride repute [k scandalous]}
+                 -{?bride repute [k disreputable]}
+                 ;; (The chastity gate lives in (when) - per-observer, a count of the
+                 ;; liaisons the groom himself has heard of; the (not (believes
+                 ;; {?bride lover ?})) filter above already bars a known ONGOING lover.)
+                 ;; Same class as the groom: the deliberating mind's belief that
+                 ;; the bride's class-situation equals @self's own (dynamic-target
+                 ;; shape-2, cacheable - like age-peers; NOT a cross-(target =)).
+                 {?bride class-situation (any {@self class-situation}).target}
+                 ;; Belief-pure perceived predicates - the near-age window and the
+                 ;; blood-kin exclusion - stay role filters (cacheable), gating the
+                 ;; bride candidate set directly. @self's band is bound in the @self
+                 ;; role: an inline (any {@self age-band}).target does not resolve against
+                 ;; the plural age-span belief.
+                 {?bride age-span ?peer_band}
+                 (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?bride})
 
-  ;; Only the non-cacheable gates stay live: the per-groom (chance) pacing and
-  ;; the same-station-lover impediment (a lover whose class equals his keeps him
-  ;; out of the arranged market; such pairs wed via love_match - no lover ->
-  ;; @fail -> the (and ...) is false -> eligible). Exclusivity and gender ARE
-  ;; the role/self-gate filters (the cache reconciles at belief-write; a live
-  ;; re-read of the same store cannot differ).
-  (when (and (latch-eval (chance 0.0208))
-             ;; Not KNOWN to be disgraced: fewer than two liaisons the groom himself
-             ;; has heard of (per-observer chastity, any tense). A bride whose past he
-             ;; has not heard passes - the market gives the benefit of the doubt.
-             (< (count (every {?bride lover ? /ever})) 2)
-             (not (and {@self lover ?}
-                       (= (any {(any {@self lover}).target class-situation}).target
-                          (any {@self class-situation}).target)))))
+      ;; Only the non-cacheable gates stay live: the per-groom (chance) pacing and
+      ;; the same-station-lover impediment (a lover whose class equals his keeps him
+      ;; out of the arranged market; such pairs wed via love_match - no lover ->
+      ;; @fail -> the (and ...) is false -> eligible). Exclusivity and gender ARE
+      ;; the role/self-gate filters (the cache reconciles at belief-write; a live
+      ;; re-read of the same store cannot differ).
+      (when (and (latch-eval (chance 0.0208))
+                 ;; Not KNOWN to be disgraced: fewer than two liaisons the groom himself
+                 ;; has heard of (per-observer chastity, any tense). A bride whose past he
+                 ;; has not heard passes - the market gives the benefit of the doubt.
+                 (< (count (every {?bride lover ? /ever})) 2)
+                 (not (and {@self lover ?}
+                           (= (any {(any {@self lover}).target class-situation}).target
+                              (any {@self class-situation}).target)))))
 
-  (utility want)
+      (utility want)
 
-  (effects
-    (begin-belief {@self fiancee ?bride})
-    ; The bride's own engagement belief lands in HER mind (the wedding rule
-    ; recovers the groom from the bride's fiancee belief, either side initiating).
-    (begin-belief ?bride {?bride fiancee @self})
-    ; @self (the groom) discloses his friend-tier profile to the bride (the SAY she
-    ; hears and adopts) - the honest replacement for the believe_about profile-copy,
-    ; delivered by co-presence. His own knowledge of her pre-exists from courtship.
-    (every {@self (disclosure-tier-labels friend) ?}): ?facts
-    (if ?facts
-        (then (maintain-proposal {@self SAY (utterable-msg ?facts) ?bride})))
-    ))
+      (effects
+        (begin-belief {@self fiancee ?bride})
+        ; The bride's own engagement belief lands in HER mind (the wedding rule
+        ; recovers the groom from the bride's fiancee belief, either side initiating).
+        (begin-belief ?bride {?bride fiancee @self})
+        ; @self (the groom) discloses his friend-tier profile to the bride (the SAY she
+        ; hears and adopts) - the honest replacement for the believe_about profile-copy,
+        ; delivered by co-presence. His own knowledge of her pre-exists from courtship.
+        (every {@self (disclosure-tier-labels friend) ?}): ?facts
+        (if ?facts
+            (then (maintain-proposal {@self SAY (utterable-msg ?facts) ?bride})))
+        ))))

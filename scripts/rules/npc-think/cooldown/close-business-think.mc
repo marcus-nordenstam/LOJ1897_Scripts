@@ -65,26 +65,26 @@
 
   ; Light @self gate; the owner + business-kind identification is the cached
   ; ?org role; the articles filter caches as EXISTENCE and binds ?art at fire.
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
-  (role ?job {@self job ?job})
-  (role ?org {?job org [k org business]:?org}    ; produced-restricted: ?org threaded off ?job
-             {@self wealth ?wealth}
-             {?org founder @self}
-             {?org record ?art})
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+    (role ?job {@self job ?job}
+      (role ?org {?job org [k org business]:?org}    ; produced-restricted: ?org threaded off ?job
+                 {@self wealth ?wealth}
+                 {?org founder @self}
+                 {?org record ?art}
 
-  ; The once-a-year failure roll (base x climate x means-penalty x merit-penalty;
-  ; wealth / diligence are his OWN derived dims, read as the founding rules do), an
-  ; ONSET: (latch-eval) rolls it at the fire and LOCKS it once the goal holds (it
-  ; re-rolls each year until it lands). MAINTENANCE - the decision OWNS the winding-up
-  ; goal focused on his OWN articles end to end. The ?org role's {?job org [k org
-  ; business]:?org} filter is the CONTINUOUS completion gate: while he is still the seated
-  ; proprietor the goal stands; once close_business_act shutters the premises and
-  ; reconcile_closed (perceiving the closed doors) ends his {@self job ?job}, the
-  ; ?job role drops (and ?org with it) and the when-unsupported-effects retract the goal.
-  (when (latch-eval
-          (chance (* (* (business_failure_base) (business_failure_climate_mult))
-                     (* (+ 1.0 (* (business_failure_means_weight) (- 1.0 ?wealth)))
-                        (+ 1.0 (* (business_failure_merit_weight)  (- 1.0 (diligence)))))))))
-  (utility errand)
-  (effects       (begin-goal {@self CLOSE-BUSINESS ?art}))
-  (when-unsupported-effects (set-outcome {@self goal {@self CLOSE-BUSINESS ?art}} /succ)))
+        ; The once-a-year failure roll (base x climate x means-penalty x merit-penalty;
+        ; wealth / diligence are his OWN derived dims, read as the founding rules do), an
+        ; ONSET: (latch-eval) rolls it at the fire and LOCKS it once the goal holds (it
+        ; re-rolls each year until it lands). MAINTENANCE - the decision OWNS the winding-up
+        ; goal focused on his OWN articles end to end. The ?org role's {?job org [k org
+        ; business]:?org} filter is the CONTINUOUS completion gate: while he is still the seated
+        ; proprietor the goal stands; once close_business_act shutters the premises and
+        ; reconcile_closed (perceiving the closed doors) ends his {@self job ?job}, the
+        ; ?job role drops (and ?org with it) and the when-unsupported-effects retract the goal.
+        (when (latch-eval
+                (chance (* (* (business_failure_base) (business_failure_climate_mult))
+                           (* (+ 1.0 (* (business_failure_means_weight) (- 1.0 ?wealth)))
+                              (+ 1.0 (* (business_failure_merit_weight)  (- 1.0 (diligence)))))))))
+        (utility errand)
+        (effects       (begin-goal {@self CLOSE-BUSINESS ?art}))
+        (when-unsupported-effects (set-outcome {@self goal {@self CLOSE-BUSINESS ?art}} /succ))))))

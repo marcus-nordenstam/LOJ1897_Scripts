@@ -42,41 +42,41 @@
               -{@self fiancee ?}
               -{@self repute [k scandalous]}
               -{@self repute [k disreputable]}
-              {@self age-band ?peer_band})
-  ;; An exemplary bride one class BELOW the groom (spotless reputation lifts her).
-  ;; class-situation values are upper / middle / lower; the explicit kind literals
-  ;; dodge the ambiguous bare-atom path. The (or ...) encodes the two valid lifts.
-  ;; age-peers / blood-kin are belief-pure perceived predicates, so they stay role
-  ;; filters (cacheable), gating the bride candidate set directly.
-  (role ?bride (unmarried_woman ?bride)
-               {?bride age-span ?peer_band}
-               (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?bride})
-               -{?bride fiancee ?}
-               {?bride repute [k exemplary]}
-               (or (and {@self class-situation [k middle]}
-                        {?bride class-situation [k lower]})
-                   (and {@self class-situation [k upper]}
-                        {?bride class-situation [k middle]})))
+              {@self age-band ?peer_band}
+    ;; An exemplary bride one class BELOW the groom (spotless reputation lifts her).
+    ;; class-situation values are upper / middle / lower; the explicit kind literals
+    ;; dodge the ambiguous bare-atom path. The (or ...) encodes the two valid lifts.
+    ;; age-peers / blood-kin are belief-pure perceived predicates, so they stay role
+    ;; filters (cacheable), gating the bride candidate set directly.
+    (role ?bride (unmarried_woman ?bride)
+                 {?bride age-span ?peer_band}
+                 (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?bride})
+                 -{?bride fiancee ?}
+                 {?bride repute [k exemplary]}
+                 (or (and {@self class-situation [k middle]}
+                          {?bride class-situation [k lower]})
+                     (and {@self class-situation [k upper]}
+                          {?bride class-situation [k middle]}))
 
-  ;; Only the trait-graded pacing stays live: the exclusivity conditions ARE the
-  ;; role/self-gate filters (the cache reconciles at belief-write, so a live
-  ;; re-read of the same store cannot differ), and the gender read is the
-  ;; maintained {@self gender} self-belief filter above.
-  (when (latch-eval (chance (* 0.0833
-                   (+ 0.20
-                      (* 0.4 (target-or @self enthusiasm 0))
-                      (* 0.4 (target-or @self openness 0)))))))
+      ;; Only the trait-graded pacing stays live: the exclusivity conditions ARE the
+      ;; role/self-gate filters (the cache reconciles at belief-write, so a live
+      ;; re-read of the same store cannot differ), and the gender read is the
+      ;; maintained {@self gender} self-belief filter above.
+      (when (latch-eval (chance (* 0.0833
+                       (+ 0.20
+                          (* 0.4 (target-or @self enthusiasm 0))
+                          (* 0.4 (target-or @self openness 0)))))))
 
-  (utility want)
+      (utility want)
 
-  (effects
-    (begin-belief {@self fiancee ?bride})
-    ; The bride's own engagement belief lands in HER mind (wedding recovers the
-    ; groom from the bride's fiancee belief, either side initiating).
-    (begin-belief ?bride {?bride fiancee @self})
-    ; @self (the groom) discloses his friend-tier profile to the bride (the SAY she
-    ; hears and adopts); his own knowledge of her pre-exists from courtship.
-    (every {@self (disclosure-tier-labels friend) ?}): ?facts
-    (if ?facts
-        (then (maintain-proposal {@self SAY (utterable-msg ?facts) ?bride})))
-    ))
+      (effects
+        (begin-belief {@self fiancee ?bride})
+        ; The bride's own engagement belief lands in HER mind (wedding recovers the
+        ; groom from the bride's fiancee belief, either side initiating).
+        (begin-belief ?bride {?bride fiancee @self})
+        ; @self (the groom) discloses his friend-tier profile to the bride (the SAY she
+        ; hears and adopts); his own knowledge of her pre-exists from courtship.
+        (every {@self (disclosure-tier-labels friend) ?}): ?facts
+        (if ?facts
+            (then (maintain-proposal {@self SAY (utterable-msg ?facts) ?bride})))
+        ))))

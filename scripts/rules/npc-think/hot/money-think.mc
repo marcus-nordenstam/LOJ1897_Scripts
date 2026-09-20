@@ -21,18 +21,18 @@
 
 (npc-think seed_coin_pile
   (cooldown 1 m)
-  (role @self -{@self own [k pile]})
-  (role ?home {@self home ?home})
-  (utility duty)
-  (effects (maintain-proposal {@self SEED-COINS ?home})))
+  (role @self -{@self own [k pile]}
+    (role ?home {@self home ?home}
+      (utility duty)
+      (effects (maintain-proposal {@self SEED-COINS ?home})))))
 
 (npc-think accrue_savings
   (cooldown 1 m)
-  (role ?pile {@self coin-pile ?pile})
-  (when (and (in-month 12)
-             (>= (years-old @self) 15)))
-  (utility duty)
-  (effects
-    (bind (accrual-net @self) ?net)
-    (maintain-proposal {@self ACCRUE-SAVINGS ?pile ?net})
-    (begin-belief {@self wealth (wealth-from @self (+ (coin-balance @self) ?net))})))
+  (role ?pile {@self coin-pile ?pile}
+    (when (and (in-month 12)
+               (>= (years-old @self) 15)))
+    (utility duty)
+    (effects
+      (bind (accrual-net @self) ?net)
+      (maintain-proposal {@self ACCRUE-SAVINGS ?pile ?net})
+      (begin-belief {@self wealth (wealth-from @self (+ (coin-balance @self) ?net))}))))

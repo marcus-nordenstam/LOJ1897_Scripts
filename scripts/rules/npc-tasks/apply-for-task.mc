@@ -17,38 +17,38 @@
   (tar job)
   (and
     (sequence
-      (role ?home {@self home ?home})
-      (utility errand (above read-mail))
+      (role ?home {@self home ?home}
+        (utility errand (above read-mail))
 
-      (stage
-        (effects
-          (if (not (spatial @self building ?home))
-              (then (maintain-proposal {@self enter ?home})))))
+        (stage
+          (effects
+            (if (not (spatial @self building ?home))
+                (then (maintain-proposal {@self enter ?home})))))
 
-      (stage
-        (effects
-          (if (empty (spatial @self hold [k application]))
-              (then (maintain-proposal {@self prepare-application ?job})))))
+        (stage
+          (effects
+            (if (empty (spatial @self hold [k application]))
+                (then (maintain-proposal {@self prepare-application ?job})))))
 
-      ; THE FORM I WROTE and have not posted - the memory of the WRITE, never a form merely
-      ; near: a housemate's form seen at home months ago still stands co-located in a
-      ; stale belief with its env attrs reading true (measured: it was pushed out of the
-      ; officer's hand into this man's out-box). The form is never in hand (measured).
-      (stage
-        (role ?app [k application] (spatial ?app co-located @self)
-                                   {@self WRITE ?app ? /succ}
-                                   -{@self send-mail ?app ? /succ}
-                                   (substantial (attr ?app writing))
-                                   (substantial (attr ?app destination)))
-        (role ?out [k outgoing-mail-stack] (spatial ?out building ?home))
-        (effects (maintain-proposal {@self send-mail ?app ?out})))
+        ; THE FORM I WROTE and have not posted - the memory of the WRITE, never a form merely
+        ; near: a housemate's form seen at home months ago still stands co-located in a
+        ; stale belief with its env attrs reading true (measured: it was pushed out of the
+        ; officer's hand into this man's out-box). The form is never in hand (measured).
+        (stage
+          (role ?app [k application] (spatial ?app co-located @self)
+                                     {@self WRITE ?app ? /succ}
+                                     -{@self send-mail ?app ? /succ}
+                                     (substantial (attr ?app writing))
+                                     (substantial (attr ?app destination)))
+          (role ?out [k outgoing-mail-stack] (spatial ?out building ?home))
+          (effects (maintain-proposal {@self send-mail ?app ?out})))
 
-      (stage
-        (effects (set-outcome ?af-rel /succ))))
+        (stage
+          (effects (set-outcome ?af-rel /succ)))))
 
     (try
-      (role ?home {@self home ?home})
-      (no-role [k outgoing-mail-stack])
-      (when (not (empty (spatial @self hold [k application]))))
-      (utility errand)
-      (effects (maintain-proposal {@self locate [k outgoing-mail-stack] ?home})))))
+      (role ?home {@self home ?home}
+        (no-role [k outgoing-mail-stack])
+        (when (not (empty (spatial @self hold [k application]))))
+        (utility errand)
+        (effects (maintain-proposal {@self locate [k outgoing-mail-stack] ?home}))))))

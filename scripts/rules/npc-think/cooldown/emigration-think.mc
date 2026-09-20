@@ -27,10 +27,10 @@
   (cooldown 1 m)
   (rng-stream migrations)
 
-  (role @self (young-adult @self))
+  (role @self (young-adult @self)
 
-  (when (chance (* 0.00125 (+ 0.5 (target-or @self openness 0)) (population-pressure))))
+    (when (chance (* 0.00125 (+ 0.5 (target-or @self openness 0)) (population-pressure))))
 
-  (utility errand)
-  (effects
-    (begin-goal {@self DEPART})))
+    (utility errand)
+    (effects
+      (begin-goal {@self DEPART}))))

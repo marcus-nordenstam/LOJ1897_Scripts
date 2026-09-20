@@ -41,28 +41,28 @@
         (caused-by {@self EAT ? ? /past} ?e-rel): ?rec-rel
         (if ?rec-rel (then (set-outcome ?e-rel (outcome ?rec-rel))))))
     (try
-      (role ?home {@self home ?home})
-      (role @self -{@self SAY ? ? /succ /caused_by ?e-rel})
-      (when (and (= ?place ?home) (latch-eval (chance 0.25))))
-      (effects
-        (for-each ?bb-rel (every {?home breakfast-hour ?})
-            (bind ?bb-rel.target ?b)
-            (for-each ?lb-rel (every {?home lunch-hour ?})
-                (bind ?lb-rel.target ?l)
-                (for-each ?sb-rel (every {?home supper-hour ?})
-                    (bind ?sb-rel.target ?s)
-                    (maintain-proposal
-                      {@self SAY (utterable-msg {?home breakfast-hour ?b}
-                                                {?home lunch-hour ?l}
-                                                {?home supper-hour ?s}) _}))))))
+      (role ?home {@self home ?home}
+        (role @self -{@self SAY ? ? /succ /caused_by ?e-rel}
+          (when (and (= ?place ?home) (latch-eval (chance 0.25))))
+          (effects
+            (for-each ?bb-rel (every {?home breakfast-hour ?})
+                (bind ?bb-rel.target ?b)
+                (for-each ?lb-rel (every {?home lunch-hour ?})
+                    (bind ?lb-rel.target ?l)
+                    (for-each ?sb-rel (every {?home supper-hour ?})
+                        (bind ?sb-rel.target ?s)
+                        (maintain-proposal
+                          {@self SAY (utterable-msg {?home breakfast-hour ?b}
+                                                    {?home lunch-hour ?l}
+                                                    {?home supper-hour ?s}) _}))))))))
     (try
       (rng-stream behaviour)
       (role ?diner {?diner isa [k human], condition [k alive]}
                    (spatial ?diner co-located @self)
-                   (select (score 1) (policy roulette)))
-      (effects
-        (for-each ?belief-rel (every {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life-aim ?})
-          (do
-            (utterable-msg ?belief-rel): ?msg
-            (if -{@self SAY ?msg ?diner}
-                (then (maintain-proposal {@self SAY ?msg ?diner}) (break)))))))))
+                   (select (score 1) (policy roulette))
+        (effects
+          (for-each ?belief-rel (every {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life-aim ?})
+            (do
+              (utterable-msg ?belief-rel): ?msg
+              (if -{@self SAY ?msg ?diner}
+                  (then (maintain-proposal {@self SAY ?msg ?diner}) (break))))))))))

@@ -37,57 +37,57 @@
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
               -{@self spouse ?}
               -{@self fiancee ?}
-              -{@self lover ?})
-  ;; SELF-POV (telepathy purge CAT-3): @self reads ?b's free/attached state from
-  ;; his OWN knowledge (permissive on the unknown), and ?b's reciprocation as SHE
-  ;; signalled it (confess_fancy). No cross-mind read.
-  (role ?b {?b isa [k human], condition [k alive]}
-           {?b age-band [k young-adult|middle-aged|mature|elderly]}
-           -{?b spouse ?}
-           -{?b fiancee ?}
-           -{?b lover ?}
-           ; @self is attracted to ?b (attraction at least the `fancy` band,
-           ; the explicit band-ladder verb-state belief) ...
-           (is-attracted-to @self ?b)
-           ; ... and ?b reciprocates - she has TOLD HIM she fancies him
-           ; (confess_fancy minted {?b fancy @self} in his mind), so the pairing
-           ; is never unrequited. (The old warmth-only reciprocity is dropped: a
-           ; lover bond is built on attraction, and warmth she never voiced cannot
-           ; be read without a mind peek.)
-           {?b fancy @self}
-           ; opposite-sex (fancy is opposite-sex via crush_forms; belt-and-braces):
-           ; @self's belief that ?b's PERCEIVED gender differs from his own (visible-
-           ; on-sight, so cacheable as a dynamic-target belief). And not kin.
-           -{?b gender (any {@self gender}).target}
-           (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?b}))
+              -{@self lover ?}
+    ;; SELF-POV (telepathy purge CAT-3): @self reads ?b's free/attached state from
+    ;; his OWN knowledge (permissive on the unknown), and ?b's reciprocation as SHE
+    ;; signalled it (confess_fancy). No cross-mind read.
+    (role ?b {?b isa [k human], condition [k alive]}
+             {?b age-band [k young-adult|middle-aged|mature|elderly]}
+             -{?b spouse ?}
+             -{?b fiancee ?}
+             -{?b lover ?}
+             ; @self is attracted to ?b (attraction at least the `fancy` band,
+             ; the explicit band-ladder verb-state belief) ...
+             (is-attracted-to @self ?b)
+             ; ... and ?b reciprocates - she has TOLD HIM she fancies him
+             ; (confess_fancy minted {?b fancy @self} in his mind), so the pairing
+             ; is never unrequited. (The old warmth-only reciprocity is dropped: a
+             ; lover bond is built on attraction, and warmth she never voiced cannot
+             ; be read without a mind peek.)
+             {?b fancy @self}
+             ; opposite-sex (fancy is opposite-sex via crush_forms; belt-and-braces):
+             ; @self's belief that ?b's PERCEIVED gender differs from his own (visible-
+             ; on-sight, so cacheable as a dynamic-target belief). And not kin.
+             -{?b gender (any {@self gender}).target}
+             (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?b})
 
-  ;; Live re-check: within the window the un-attached role filters go stale as
-  ;; earlier firings mint lover bonds; re-confirm both are still free - from @self's
-  ;; OWN beliefs (his own bond, and what he knows of ?b's). The per-NPC (chance) -
-  ;; the pacing knob, rolled once per NPC per month - is a non-belief filter, so
-  ;; it lives in (when), not a role.
-  (when (latch-eval (chance 0.2)))
+      ;; Live re-check: within the window the un-attached role filters go stale as
+      ;; earlier firings mint lover bonds; re-confirm both are still free - from @self's
+      ;; OWN beliefs (his own bond, and what he knows of ?b's). The per-NPC (chance) -
+      ;; the pacing knob, rolled once per NPC per month - is a non-belief filter, so
+      ;; it lives in (when), not a role.
+      (when (latch-eval (chance 0.2)))
 
-  (utility want)
+      (utility want)
 
-  (effects
-    ; Reciprocal lover bond + mutual profile sync (mirrors betrothal's shape so
-    ; downstream consumers see a fully-wired pair).
-    (begin-belief {@self lover ?b})
-    ; The reciprocal bond lands in ?b's own mind (so ?b knows of the pairing).
-    (begin-belief ?b {?b lover @self})
-    ; A lover bond is constructed on physical attraction - BOTH sides hold at
-    ; least the `fancy` band (0.4 clears the 0.24 entry threshold; ?b may have
-    ; reciprocated with warmth only, but becoming lovers grows the attraction).
-    ; This is what lets love_match marry the pair later: it keys on `fancy`.
-    (nudge-stance ?b attraction 0.4)
-    ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
-    ; party's own reflex on the act. Commented out pending that redesign.
-    ; (nudge-stance ?b @self attraction 0.4)
-    ; @self discloses their friend-tier profile to ?b (the SAY they hear and adopt);
-    ; @self's knowledge of ?b pre-exists. Friend-tier keeps @self's other lovers
-    ; (intimate-tier) unspoken.
-    (every {@self (disclosure-tier-labels friend) ?}): ?facts
-    (if ?facts
-        (then (maintain-proposal {@self SAY (utterable-msg ?facts) ?b})))
-    ))
+      (effects
+        ; Reciprocal lover bond + mutual profile sync (mirrors betrothal's shape so
+        ; downstream consumers see a fully-wired pair).
+        (begin-belief {@self lover ?b})
+        ; The reciprocal bond lands in ?b's own mind (so ?b knows of the pairing).
+        (begin-belief ?b {?b lover @self})
+        ; A lover bond is constructed on physical attraction - BOTH sides hold at
+        ; least the `fancy` band (0.4 clears the 0.24 entry threshold; ?b may have
+        ; reciprocated with warmth only, but becoming lovers grows the attraction).
+        ; This is what lets love_match marry the pair later: it keys on `fancy`.
+        (nudge-stance ?b attraction 0.4)
+        ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
+        ; party's own reflex on the act. Commented out pending that redesign.
+        ; (nudge-stance ?b @self attraction 0.4)
+        ; @self discloses their friend-tier profile to ?b (the SAY they hear and adopt);
+        ; @self's knowledge of ?b pre-exists. Friend-tier keeps @self's other lovers
+        ; (intimate-tier) unspoken.
+        (every {@self (disclosure-tier-labels friend) ?}): ?facts
+        (if ?facts
+            (then (maintain-proposal {@self SAY (utterable-msg ?facts) ?b})))
+        ))))

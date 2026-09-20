@@ -3,11 +3,11 @@
 ; handle-form provenance that replaces re-derived /caused_by {pattern} pins.
 (npc-think probe_cause
   (cooldown 1 m)
-  (role @self )
-  (role ?prey9 [k human] (select (policy first-match)))
-  (when (and {@self goal {@self probe_hunt ?}}
-             -{@self accomplice ?prey9}))
-  (effects
-    (bind (begin-belief {@self accomplice ?prey9}) ?bond)
-    (begin-goal {@self kill ?prey9} /caused_by ?bond)
-    (debug-print "PROBE_CAUSE bond=?bond")))
+  (role @self 
+    (role ?prey9 [k human] (select (policy first-match))
+      (when (and {@self goal {@self probe_hunt ?}}
+                 -{@self accomplice ?prey9}))
+      (effects
+        (bind (begin-belief {@self accomplice ?prey9}) ?bond)
+        (begin-goal {@self kill ?prey9} /caused_by ?bond)
+        (debug-print "PROBE_CAUSE bond=?bond")))))

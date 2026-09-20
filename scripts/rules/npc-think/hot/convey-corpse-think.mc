@@ -49,24 +49,24 @@
 ; once the deposit ends {@self CONVEY ?corpse} /succ the role stops casting the corpse,
 ; the gate drops, and the convey goal ends.
 (npc-think want_convey
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
-  (role ?corpse {?corpse condition [k dead]}
-                {?corpse internment [k unburied]}
-                -{@self CONVEY ?corpse /past}
-                (select (score (months-since-death ?corpse)) (policy argmax)))
-  ; FRESHNESS cap beside the politeness gate: a death known for months no longer
-  ; motivates the errand (someone has surely dealt with it) - the belt-and-braces
-  ; bound on the standing-corpse scan where the burial propagation missed a
-  ; knower (an emigrant, a returnee).
-  (when    (and (observed ?corpse)
-                (>= (target-or @self politeness 0) 0.3)
-                (< (months-since-death ?corpse) 6)))
-  ; x85, a shade OVER want_worship's x80: burying your dead outranks attending a
-  ; service, so at the church the deposit wins the first slot and the service
-  ; follows (at x80 the two tied and the deposit lost the tie for years).
-  (utility want (* 10 (target-or @self politeness 0) 85))
-  (effects       (begin-goal {@self CONVEY ?corpse}))
-  (when-unsupported-effects (set-outcome {@self goal {@self CONVEY ?corpse}} /succ)))
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+    (role ?corpse {?corpse condition [k dead]}
+                  {?corpse internment [k unburied]}
+                  -{@self CONVEY ?corpse /past}
+                  (select (score (months-since-death ?corpse)) (policy argmax))
+      ; FRESHNESS cap beside the politeness gate: a death known for months no longer
+      ; motivates the errand (someone has surely dealt with it) - the belt-and-braces
+      ; bound on the standing-corpse scan where the burial propagation missed a
+      ; knower (an emigrant, a returnee).
+      (when    (and (observed ?corpse)
+                    (>= (target-or @self politeness 0) 0.3)
+                    (< (months-since-death ?corpse) 6)))
+      ; x85, a shade OVER want_worship's x80: burying your dead outranks attending a
+      ; service, so at the church the deposit wins the first slot and the service
+      ; follows (at x80 the two tied and the deposit lost the tie for years).
+      (utility want (* 10 (target-or @self politeness 0) 85))
+      (effects       (begin-goal {@self CONVEY ?corpse}))
+      (when-unsupported-effects (set-outcome {@self goal {@self CONVEY ?corpse}} /succ)))))
 
 ; TERMINAL step (act_body_purification): the deposit is PROPOSED, guarded by being IN a church
 ; (the deposit's own precondition). Because `convey` is a proposed label the {@self CONVEY ?corpse}
@@ -75,28 +75,28 @@
 ; bearer stood.
 (npc-think convey_at_church
   (goal    {@self CONVEY ?corpse})
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
-  (when    (is-a (spatial @self building) [k building church]))
-  (utility (* 10 (* (target-or @self politeness 0) 85)))
-  (effects (maintain-proposal {@self CONVEY ?corpse})))
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+    (when    (is-a (spatial @self building) [k building church]))
+    (utility (* 10 (* (target-or @self politeness 0) 85)))
+    (effects (maintain-proposal {@self CONVEY ?corpse}))))
 
 ; CASE B - not at a church, but knows one: head to it. The (goal ...) clause pins
 ; the convey goal as this rule's parent, so the go sub-goal inherits the drive and
 ; auto-links its /caused_by - no hand-written /caused_by.
 (npc-think convey_go
   (goal    {@self CONVEY ?corpse})
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
-  (role ?church [k building church] (select (score (near @self ?church)) (policy roulette)))
-  (when    (not (is-a (spatial @self building) [k building church])))
-  (effects (maintain-proposal {@self enter ?church})))
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+    (role ?church [k building church] (select (score (near @self ?church)) (policy roulette))
+      (when    (not (is-a (spatial @self building) [k building church])))
+      (effects (maintain-proposal {@self enter ?church})))))
 
 ; CASE C - not at a church and knows none: search for one (find-building.hs runs it).
 (npc-think convey_find
   (goal    {@self CONVEY ?corpse})
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
-  (no-role [k building church])
-  ; Search while no church is known and the region is not yet proven churchless (find-building's
-  ; /fail fires only once the whole region is covered without finding one).
-  (when    (and (not (is-a (spatial @self building) [k building church]))
-                -{@self find-building [k building church] /fail}))
-  (effects (maintain-proposal {@self find-building [k building church] (current-exterior @self)})))
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+    (no-role [k building church])
+    ; Search while no church is known and the region is not yet proven churchless (find-building's
+    ; /fail fires only once the whole region is covered without finding one).
+    (when    (and (not (is-a (spatial @self building) [k building church]))
+                  -{@self find-building [k building church] /fail}))
+    (effects (maintain-proposal {@self find-building [k building church] (current-exterior @self)}))))

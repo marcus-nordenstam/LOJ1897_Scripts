@@ -51,30 +51,30 @@
     ; only ever seen from INSIDE a building, so entering is what places it - and an address
     ; is the only thing a page can carry about a place.
     (try
-      (role @self {?dest address ?a} (address-premises ?a): ?pa)
-      (role ?house [k building] (observed ?house) {?house address ?pa})
-      (when (and (not (grounded ?dest))
-                 (not (spatial @self building ?house))))
-      (effects (maintain-proposal {@self enter ?house})))
+      (role @self {?dest address ?a} (address-premises ?a): ?pa
+        (role ?house [k building] (observed ?house) {?house address ?pa}
+          (when (and (not (grounded ?dest))
+                     (not (spatial @self building ?house))))
+          (effects (maintain-proposal {@self enter ?house})))))
     ; UNPLACED and already INSIDE that house: walking in taught him the entrance, not every
     ; room. Tour it until the room itself is placed, which drops this rung and raises the
     ; WALK below.
     (try
-      (role @self {?dest address ?a} (address-premises ?a): ?pa)
-      (role ?house [k building] (observed ?house) {?house address ?pa})
-      (when (and (not (grounded ?dest))
-                 (spatial @self building ?house)))
-      (effects (maintain-proposal {@self locate ?dest ?house})))
+      (role @self {?dest address ?a} (address-premises ?a): ?pa
+        (role ?house [k building] (observed ?house) {?house address ?pa}
+          (when (and (not (grounded ?dest))
+                     (spatial @self building ?house)))
+          (effects (maintain-proposal {@self locate ?dest ?house})))))
     ; UNPLACED and no house he has seen stands at that premises: search the region
     ; structure by structure until one does. The search's own /fail record ends the hunt
     ; once every structure is seen.
     (try
-      (role @self {?dest address ?a} (address-premises ?a): ?pa)
-      (when (and (not (grounded ?dest))
-                 (unsubstantial (seen-premises-at ?pa))
-                 -{@self find-building ?dest ? /fail}
-                 (current-exterior @self): ?rg))
-      (effects (maintain-proposal {@self find-building ?dest ?rg})))
+      (role @self {?dest address ?a} (address-premises ?a): ?pa
+        (when (and (not (grounded ?dest))
+                   (unsubstantial (seen-premises-at ?pa))
+                   -{@self find-building ?dest ? /fail}
+                   (current-exterior @self): ?rg))
+        (effects (maintain-proposal {@self find-building ?dest ?rg}))))
 
     ; A grounded structure is walked to - enter takes it from the world's own geometry.
     (try

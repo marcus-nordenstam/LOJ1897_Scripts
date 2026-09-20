@@ -15,10 +15,10 @@
 
 (npc-think recognize_lover
   (cooldown 1 m)
-  (role @self)
-  (role ?paramour {?paramour isa [k human], condition [k alive]}
-                  {@self HAVE-SEX-WITH ?paramour /ever}
-                  -{@self spouse ?paramour}
-                  -{@self lover ?paramour})
-  (when (< (days-since-last {@self HAVE-SEX-WITH ?paramour /ever}) 365))
-  (effects (begin-belief {@self lover ?paramour})))
+  (role @self
+    (role ?paramour {?paramour isa [k human], condition [k alive]}
+                    {@self HAVE-SEX-WITH ?paramour /ever}
+                    -{@self spouse ?paramour}
+                    -{@self lover ?paramour}
+      (when (< (days-since-last {@self HAVE-SEX-WITH ?paramour /ever}) 365))
+      (effects (begin-belief {@self lover ?paramour})))))

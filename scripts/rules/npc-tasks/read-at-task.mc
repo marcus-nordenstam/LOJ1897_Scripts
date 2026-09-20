@@ -7,5 +7,5 @@
 (npc-task {@self read-at ?venue}:?t-rel
   (tar structure|space)
   (try
-    (role @self)
-    (effects (set-outcome ?t-rel /succ))))
+    (role @self
+      (effects (set-outcome ?t-rel /succ)))))

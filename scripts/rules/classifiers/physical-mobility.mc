@@ -17,13 +17,13 @@
 (npc-think classify_physical_mobility
   (rng-stream behaviour)
 
-  (role @self {@self condition ?})
+  (role @self {@self condition ?}
 
-  (effects
-    (if {@self condition [k dead]}
-      (then (end-belief {@self physical-mobility ?}))
-      (else
-        (begin-belief {@self physical-mobility
-          (if {@self awareness [k unconscious]}
-            (then [k bedridden])
-            (else [k mobile]))})))))
+    (effects
+      (if {@self condition [k dead]}
+        (then (end-belief {@self physical-mobility ?}))
+        (else
+          (begin-belief {@self physical-mobility
+            (if {@self awareness [k unconscious]}
+              (then [k bedridden])
+              (else [k mobile]))}))))))

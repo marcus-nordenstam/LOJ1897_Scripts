@@ -14,19 +14,19 @@
   (and
     ; VOW: at the church, still my betrothed, not yet vowed -> speak it.
     (try
-      (role @self {@self fiancee ?betrothed} (none {@self spouse @something}))
-      (role ?venue {?occ venue ?venue})
-      (role @self (spatial @self building ?venue))
-      (when (and {?occ hours ?start ?end}
-                 (attend-in-window ?start ?end)
-                 -{@self SAY (msg {@self spouse ?betrothed}) ?betrothed}))
-      (effects (maintain-proposal {@self SAY (utterable-msg {@self spouse ?betrothed}) ?betrothed})))
+      (role @self {@self fiancee ?betrothed} (none {@self spouse @something})
+        (role ?venue {?occ venue ?venue}
+          (role @self (spatial @self building ?venue)
+            (when (and {?occ hours ?start ?end}
+                       (attend-in-window ?start ?end)
+                       -{@self SAY (msg {@self spouse ?betrothed}) ?betrothed}))
+            (effects (maintain-proposal {@self SAY (utterable-msg {@self spouse ?betrothed}) ?betrothed}))))))
 
     ; GO: not at the church yet -> head to it (in the window).
     (try
-      (role @self {@self fiancee ?} (none {@self spouse @something}))
-      (role ?venue {?occ venue ?venue})
-      (role @self (not (spatial @self building ?venue)))
-      (when (and {?occ hours ?start ?end}
-                 (attend-in-window ?start ?end)))
-      (effects (maintain-proposal {@self enter ?venue})))))
+      (role @self {@self fiancee ?} (none {@self spouse @something})
+        (role ?venue {?occ venue ?venue}
+          (role @self (not (spatial @self building ?venue))
+            (when (and {?occ hours ?start ?end}
+                       (attend-in-window ?start ?end)))
+            (effects (maintain-proposal {@self enter ?venue}))))))))

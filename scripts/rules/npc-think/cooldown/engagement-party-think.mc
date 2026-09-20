@@ -26,19 +26,19 @@
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self gender [k male]}
               -{@self spouse ?}
-              {@self fiancee ?})
-  (role ?bride (unmarried_woman ?bride)
-               {@self fiancee ?bride}
-               {?bride name ?bride_name})
+              {@self fiancee ?}
+    (role ?bride (unmarried_woman ?bride)
+                 {@self fiancee ?bride}
+                 {?bride name ?bride_name}
 
-  ;; The fiancee belief must be in its first calendar year - the once-per-betrothal
-  ;; re-fire guard; it gates the fire here rather than filtering the role.
-  (when (= (- (year (date-now)) (year (any {@self fiancee ?}).start)) 0))
+      ;; The fiancee belief must be in its first calendar year - the once-per-betrothal
+      ;; re-fire guard; it gates the fire here rather than filtering the role.
+      (when (= (- (year (date-now)) (year (any {@self fiancee ?}).start)) 0))
 
-  (utility want)
+      (utility want)
 
-  (effects
-    ; Announce the fresh engagement to whoever is co-present (the SAY they hear and
-    ; adopt); the wider circle learns via gossip (fiancee is a gossip label).
-    (maintain-proposal {@self SAY (nl-utterable-msg "I am engaged to ?bride_name") _})
-    ))
+      (effects
+        ; Announce the fresh engagement to whoever is co-present (the SAY they hear and
+        ; adopt); the wider circle learns via gossip (fiancee is a gossip label).
+        (maintain-proposal {@self SAY (nl-utterable-msg "I am engaged to ?bride_name") _})
+        ))))

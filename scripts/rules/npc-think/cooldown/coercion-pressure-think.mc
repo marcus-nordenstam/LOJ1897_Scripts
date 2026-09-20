@@ -26,10 +26,10 @@
   (cooldown 1 m)
   (cease-after-fire)
   (rng-stream perpetration)
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]})
-  (role ?blackmailer {?blackmailer isa [k human], condition [k alive]}
-                     {?blackmailer extort @self})
-  (effects
-    (begin-belief {?blackmailer extort @self}): ?extort_anchor
-    (begin-belief {@self pressure [k exposure-risk] ?blackmailer /caused_by ?extort_anchor}
-                  [/salience (coercion-stake)])))
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+    (role ?blackmailer {?blackmailer isa [k human], condition [k alive]}
+                       {?blackmailer extort @self}
+      (effects
+        (begin-belief {?blackmailer extort @self}): ?extort_anchor
+        (begin-belief {@self pressure [k exposure-risk] ?blackmailer /caused_by ?extort_anchor}
+                      [/salience (coercion-stake)])))))

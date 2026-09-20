@@ -54,10 +54,10 @@
   (cease (if (spatial @self building ?s) (then (set-outcome ?enter-rel /succ))))
   (and
     (try
-      (role @self (not (spatial @self building ?s)))
-      (when (not (at-threshold ?s)))
-      (effects
-               (maintain-proposal {@self WALK (front-park-point ?s)})))
+      (role @self (not (spatial @self building ?s))
+        (when (not (at-threshold ?s)))
+        (effects
+                 (maintain-proposal {@self WALK (front-park-point ?s)}))))
     (try
       (when (and (at-threshold ?s)
                  -{?s struct-status [k closed]}))

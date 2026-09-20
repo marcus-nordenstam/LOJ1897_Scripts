@@ -9,7 +9,7 @@
 (npc-think want_putter
   (lock)
   (cooldown 1 m)
-  (role ?home {@self home ?home})
-  (role @self (spatial @self building ?home))
-  (utility idle)
-  (effects (maintain-proposal {@self putter ?home})))
+  (role ?home {@self home ?home}
+    (role @self (spatial @self building ?home)
+      (utility idle)
+      (effects (maintain-proposal {@self putter ?home})))))

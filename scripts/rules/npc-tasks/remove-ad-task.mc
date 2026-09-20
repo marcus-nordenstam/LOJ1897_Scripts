@@ -16,34 +16,34 @@
   (tar org)
   (aux job)
   (sequence
-    (role ?board [k building church] (select (score (near @self ?board)) (policy roulette)))
+    (role ?board [k building church] (select (score (near @self ?board)) (policy roulette))
 
-    (stage
-      (effects
-        (if (not (spatial @self building ?board))
-            (then (maintain-proposal {@self enter ?board})))))
+      (stage
+        (effects
+          (if (not (spatial @self building ?board))
+              (then (maintain-proposal {@self enter ?board})))))
 
-    (stage
-      (role ?ad [k job-posting] (spatial ?ad co-located @self)
-            {@self WRITE ?ad ? /succ})
-      (effects (maintain-proposal {@self DESTROY-ENTITY ?ad})))
+      (stage
+        (role ?ad [k job-posting] (spatial ?ad co-located @self)
+              {@self WRITE ?ad ? /succ})
+        (effects (maintain-proposal {@self DESTROY-ENTITY ?ad})))
 
-    ; The notice is down; strike the date off the seat's line, and the act's conclusion
-    ; ends the belief that it stood.
-    (stage
-      (role ?reg {?org employee-register ?reg})
-      (effects
-        (if (not (spatial ?reg co-located @self))
-            (then (maintain-proposal {@self go (spatial ?reg space)})))))
-    (stage
-      (role @self {?org employee-register ?reg}
-                  (spatial ?reg co-located @self))
-      (when {?job job-id ?job-id})
-      (effects
-        (maintain-proposal {@self STRIKE-ADVERT ?reg ?job-id})))
-    ; Ended WITH the conclusion, not in the act's postlude - the proposing rung reads this
-    ; belief, and a maintained proposal is reaped the instant its gate falls.
-    (stage
-      (effects
-        (end-belief {?org display-ad ?job})
-        (set-outcome ?rad-rel /succ)))))
+      ; The notice is down; strike the date off the seat's line, and the act's conclusion
+      ; ends the belief that it stood.
+      (stage
+        (role ?reg {?org employee-register ?reg})
+        (effects
+          (if (not (spatial ?reg co-located @self))
+              (then (maintain-proposal {@self go (spatial ?reg space)})))))
+      (stage
+        (role @self {?org employee-register ?reg}
+                    (spatial ?reg co-located @self))
+        (when {?job job-id ?job-id})
+        (effects
+          (maintain-proposal {@self STRIKE-ADVERT ?reg ?job-id})))
+      ; Ended WITH the conclusion, not in the act's postlude - the proposing rung reads this
+      ; belief, and a maintained proposal is reaped the instant its gate falls.
+      (stage
+        (effects
+          (end-belief {?org display-ad ?job})
+          (set-outcome ?rad-rel /succ))))))

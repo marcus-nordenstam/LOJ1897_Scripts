@@ -21,8 +21,8 @@
 (npc-think rehabilitation
   (cooldown 15 d)
   (role @self (old_human @self)
-              {@self repute [k disreputable]})   ; derive-maintained band - cached
-  (when    (>= (days-since-last {@self WORSHIP /ever}) 15))
-  (utility idle (* 10 (min (* (days-since-last {@self WORSHIP /ever}) 2) 40)))
-  (effects       (begin-goal {@self WORSHIP}))
-  (when-unsupported-effects (set-outcome {@self goal {@self WORSHIP}} /succ)))
+              {@self repute [k disreputable]}   ; derive-maintained band - cached
+    (when    (>= (days-since-last {@self WORSHIP /ever}) 15))
+    (utility idle (* 10 (min (* (days-since-last {@self WORSHIP /ever}) 2) 40)))
+    (effects       (begin-goal {@self WORSHIP}))
+    (when-unsupported-effects (set-outcome {@self goal {@self WORSHIP}} /succ))))

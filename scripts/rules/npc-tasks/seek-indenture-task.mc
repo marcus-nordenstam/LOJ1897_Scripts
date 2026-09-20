@@ -19,8 +19,8 @@
     (try
       (role ?art_org {?art_org record ?art}
                       {?art_org workplace ?venue}
-                      (not (spatial @self building ?venue)))
-      (effects (maintain-proposal {@self enter ?venue})))
+                      (not (spatial @self building ?venue))
+        (effects (maintain-proposal {@self enter ?venue}))))
 
     ; ENROL: at the premises, not yet hired -> resolve the wage book off the articles
     ; and file my clerk row (ENROL enters at trainee).
@@ -42,13 +42,13 @@
     (try
       (role ?art_org {?art_org record ?art}
                       {?art_org workplace ?venue}
-                      (spatial @self building ?venue))
-      (effects
-        (o {?art declares-org @o}): ?org
-        (any {?org employee-register ?reg})
-        (if (table-match (attr ?reg writing) worker (name @self) level ?lvl)
-            (then
-              (hire-beliefs ?art [k job clerk] ?lvl)
-              (org-founder ?art ?master)
-              (if ?master (then (begin-belief {@self master ?master})))
-              (set-outcome ?si-rel /succ)))))))
+                      (spatial @self building ?venue)
+        (effects
+          (o {?art declares-org @o}): ?org
+          (any {?org employee-register ?reg})
+          (if (table-match (attr ?reg writing) worker (name @self) level ?lvl)
+              (then
+                (hire-beliefs ?art [k job clerk] ?lvl)
+                (org-founder ?art ?master)
+                (if ?master (then (begin-belief {@self master ?master})))
+                (set-outcome ?si-rel /succ))))))))

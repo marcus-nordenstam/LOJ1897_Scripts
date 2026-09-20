@@ -30,10 +30,10 @@
       (utility errand)
       (effects (maintain-proposal {@self go ?loc})))
     (try
-      (role ?vhome {?victim home ?vhome})
-      (when (and (not (spatial ?victim co-located @self))
-                 (unknown (spatial ?victim space))))
-      (effects (maintain-proposal {@self go ?vhome})))
+      (role ?vhome {?victim home ?vhome}
+        (when (and (not (spatial ?victim co-located @self))
+                   (unknown (spatial ?victim space))))
+        (effects (maintain-proposal {@self go ?vhome}))))
 
     ; CO-PRESENT: SAY the disinheritance. The co-present victim ADOPTS {benefactor
     ; disinherit victim} from the utterance - real told-knowledge, no fiat cross-mind
