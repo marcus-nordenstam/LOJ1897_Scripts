@@ -11,6 +11,7 @@
 ; sound off THAT - so the record the world carries is the pipeline's own.
 
 (npc-action {@self SAY ?msg ?audience}:?say-rel
+  (motor mouth)
   (presentation
     (state telling)
     (proc-anim tell)
