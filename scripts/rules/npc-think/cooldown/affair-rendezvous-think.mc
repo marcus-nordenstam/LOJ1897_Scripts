@@ -20,178 +20,190 @@
 ; standing - not lower class) and the paramour shadows them, gated on their OWN
 ; attraction band + boldness. Residue = hotel-register entries for all three;
 ; risk = the spouse in the next room.
-(npc-think affair_rendezvous_hotel
-  (cooldown 1 m)
-  (rng-stream incidents)
-
-  (match {@self age-band [k young-adult|middle-aged|mature|elderly]}
-         {@self lover ?}
-         {@self spouse @something}
-         -{@self class-situation [k class-situation lower]}
-         {@self name ?author_name})
-  (role ?paramour {?paramour isa [k human], condition [k alive]}
-    {@self lover ?paramour}
-    -{@self spouse ?paramour}
-    (covert-affair-motive ?paramour)
-    (select (policy first-match)))
-  ; The venue is a hotel @self KNOWS - knowing none, there is no assignation to plan.
-  (role ?venue [k commercial-building hotel]
-    (select (score (near @self ?venue)) (policy roulette)))
-
-  (when (and (chance 0.10)
-             (or {?paramour fancy @self}
-                 {?paramour desire @self}
-                 {?paramour crave @self})
-             (chance (+ 0.40 (* 0.60 (attr ?paramour assertiveness))))))
-
-  (utility want)
-
-  (role ?my-home {@self home ?my-home})
-  (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
-  (effects
-    (spouse-of @self): ?spouse
-    (relocate @self ?venue)
-    (relocate ?spouse ?venue)
-    (relocate ?paramour ?venue)
-    ; No guest register exists on a hotel org, so there is nothing to write. The
-    ; relocate above already puts them in the room, which is what a witness sees.
-    ; Commented out pending the register. 
-    ; (record-hotel-guest ?venue @self)
-    ; No guest register exists on a hotel org, so there is nothing to write. The
-    ; relocate above already puts them in the room, which is what a witness sees.
-    ; Commented out pending the register. 
-    ; (record-hotel-guest ?venue ?spouse)
-    ; No guest register exists on a hotel org, so there is nothing to write. The
-    ; relocate above already puts them in the room, which is what a witness sees.
-    ; Commented out pending the register. 
-    ; (record-hotel-guest ?venue ?paramour)
-    (nudge-stance ?paramour attraction 0.10)
-    ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
-    ; party's own reflex on the act. Commented out pending that redesign.
-    ; (nudge-stance ?paramour @self attraction 0.10)
-    ; the hotel is an org premises - the note names it by the org's name.
-    (if (and (chance 0.30) {?paramour home ?paramour_home}
-             {? workplace ?venue}: ?wob
-             (bind ?wob.subject ?org)
-             {?org name ?venue_name})
-        (then
-          (post-letter [k tryst-note]
-                (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
-                ?paramour_home ?paramour ?my-out-box)))
-    ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
-    ; re-authoring as what the spouse can actually notice. Commented out pending that.
-    ; (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)
-    ))
+; PARKED pending the three-deed conversion: this rule still calls the retired post-letter
+; macro, which made the paper with the raw (create-entity ..) func - an ABS entity, which
+; degrades to @fail the moment a proposal names it. It fires 0 times, so parking it costs
+; the run nothing. Restore it by the shape affair_correspondence now uses.
+; (npc-think affair_rendezvous_hotel
+;   (cooldown 1 m)
+;   (rng-stream incidents)
+; 
+;   (match {@self age-band [k young-adult|middle-aged|mature|elderly]}
+;          {@self lover ?}
+;          {@self spouse @something}
+;          -{@self class-situation [k class-situation lower]}
+;          {@self name ?author_name})
+;   (role ?paramour {?paramour isa [k human], condition [k alive]}
+;     {@self lover ?paramour}
+;     -{@self spouse ?paramour}
+;     (covert-affair-motive ?paramour)
+;     (select (policy first-match)))
+;   ; The venue is a hotel @self KNOWS - knowing none, there is no assignation to plan.
+;   (role ?venue [k commercial-building hotel]
+;     (select (score (near @self ?venue)) (policy roulette)))
+; 
+;   (when (and (chance 0.10)
+;              (or {?paramour fancy @self}
+;                  {?paramour desire @self}
+;                  {?paramour crave @self})
+;              (chance (+ 0.40 (* 0.60 (attr ?paramour assertiveness))))))
+; 
+;   (utility want)
+; 
+;   (role ?my-home {@self home ?my-home})
+;   (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
+;   (effects
+;     (spouse-of @self): ?spouse
+;     (relocate @self ?venue)
+;     (relocate ?spouse ?venue)
+;     (relocate ?paramour ?venue)
+;     ; No guest register exists on a hotel org, so there is nothing to write. The
+;     ; relocate above already puts them in the room, which is what a witness sees.
+;     ; Commented out pending the register. 
+;     ; (record-hotel-guest ?venue @self)
+;     ; No guest register exists on a hotel org, so there is nothing to write. The
+;     ; relocate above already puts them in the room, which is what a witness sees.
+;     ; Commented out pending the register. 
+;     ; (record-hotel-guest ?venue ?spouse)
+;     ; No guest register exists on a hotel org, so there is nothing to write. The
+;     ; relocate above already puts them in the room, which is what a witness sees.
+;     ; Commented out pending the register. 
+;     ; (record-hotel-guest ?venue ?paramour)
+;     (nudge-stance ?paramour attraction 0.10)
+;     ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
+;     ; party's own reflex on the act. Commented out pending that redesign.
+;     ; (nudge-stance ?paramour @self attraction 0.10)
+;     ; the hotel is an org premises - the note names it by the org's name.
+;     (if (and (chance 0.30) {?paramour home ?paramour_home}
+;              {? workplace ?venue}: ?wob
+;              (bind ?wob.subject ?org)
+;              {?org name ?venue_name})
+;         (then
+;           (post-letter [k tryst-note]
+;                 (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
+;                 ?paramour_home ?paramour ?my-out-box)))
+;     ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
+;     ; re-authoring as what the spouse can actually notice. Commented out pending that.
+;     ; (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)
+;     ))
 
 ; --- houseguest silent hours ------------------------------------------------
 ; Silent hours at the actor's own home. Risk = a co-present onlooker (pry_think)
 ; noticing the private visit and warning the wronged spouse.
-(npc-think affair_rendezvous_home
-  (cooldown 1 m)
-  (rng-stream incidents)
-
-  (match {@self age-band [k young-adult|middle-aged|mature|elderly]}
-         {@self lover ?}
-         {@self name ?author_name})
-  (role ?paramour {?paramour isa [k human], condition [k alive]}
-    {@self lover ?paramour}
-    -{@self spouse ?paramour}
-    (covert-affair-motive ?paramour)
-    (select (policy first-match)))
-
-  (role ?venue {@self home ?venue})
-  (when (chance 0.14))
-
-  (utility want)
-
-  (role ?my-home {@self home ?my-home})
-  (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
-  (effects
-    (relocate @self ?venue)
-    (relocate ?paramour ?venue)
-    (nudge-stance ?paramour attraction 0.10)
-    ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
-    ; party's own reflex on the act. Commented out pending that redesign.
-    ; (nudge-stance ?paramour @self attraction 0.10)
-    ; @self's own home: a named residence carries a name; a plain house has only
-    ; an address (not expressible in a note yet), so unnamed homes write no note.
-    (if (and (chance 0.30) {?paramour home ?paramour_home} {?venue name ?})
-        (then
-          (any {?venue name ?venue_name})
-          (post-letter [k tryst-note]
-                (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
-                ?paramour_home ?paramour ?my-out-box)))
-    ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
-    ; re-authoring as what the spouse can actually notice. Commented out pending that.
-    ; (bump-suspicion (spouse-of @self) @self 0.05)
-    ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
-    ; re-authoring as what the spouse can actually notice. Commented out pending that.
-    ; (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)
-    ))
+; PARKED pending the three-deed conversion: this rule still calls the retired post-letter
+; macro, which made the paper with the raw (create-entity ..) func - an ABS entity, which
+; degrades to @fail the moment a proposal names it. It fires 0 times, so parking it costs
+; the run nothing. Restore it by the shape affair_correspondence now uses.
+; (npc-think affair_rendezvous_home
+;   (cooldown 1 m)
+;   (rng-stream incidents)
+; 
+;   (match {@self age-band [k young-adult|middle-aged|mature|elderly]}
+;          {@self lover ?}
+;          {@self name ?author_name})
+;   (role ?paramour {?paramour isa [k human], condition [k alive]}
+;     {@self lover ?paramour}
+;     -{@self spouse ?paramour}
+;     (covert-affair-motive ?paramour)
+;     (select (policy first-match)))
+; 
+;   (role ?venue {@self home ?venue})
+;   (when (chance 0.14))
+; 
+;   (utility want)
+; 
+;   (role ?my-home {@self home ?my-home})
+;   (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
+;   (effects
+;     (relocate @self ?venue)
+;     (relocate ?paramour ?venue)
+;     (nudge-stance ?paramour attraction 0.10)
+;     ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
+;     ; party's own reflex on the act. Commented out pending that redesign.
+;     ; (nudge-stance ?paramour @self attraction 0.10)
+;     ; @self's own home: a named residence carries a name; a plain house has only
+;     ; an address (not expressible in a note yet), so unnamed homes write no note.
+;     (if (and (chance 0.30) {?paramour home ?paramour_home} {?venue name ?})
+;         (then
+;           (any {?venue name ?venue_name})
+;           (post-letter [k tryst-note]
+;                 (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
+;                 ?paramour_home ?paramour ?my-out-box)))
+;     ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
+;     ; re-authoring as what the spouse can actually notice. Commented out pending that.
+;     ; (bump-suspicion (spouse-of @self) @self 0.05)
+;     ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
+;     ; re-authoring as what the spouse can actually notice. Commented out pending that.
+;     ; (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)
+;     ))
 
 ; --- public crowd -----------------------------------------------------------
 ; Co-presence at a public venue (theatre, else pub); an indiscretion plays out
 ; before whoever is ACTUALLY co-present, and scandal whispers reach both spouses
 ; even unseen.
-(npc-think affair_rendezvous_public
-  (cooldown 1 m)
-  (rng-stream incidents)
-
-  (match {@self age-band [k young-adult|middle-aged|mature|elderly]}
-         {@self lover ?}
-         {@self name ?author_name})
-  (role ?paramour {?paramour isa [k human], condition [k alive]}
-    {@self lover ?paramour}
-    -{@self spouse ?paramour}
-    (covert-affair-motive ?paramour)
-    (select (policy first-match)))
-  ; The outing venue is a commercial building @self KNOWS; the score keeps the old
-  ; theatre-before-pub preference (either outranks any other known premises), and the
-  ; (when) below bars the rest.
-  (role ?venue [k commercial-building]
-    (select (score (+ (near @self ?venue)
-                      (* 10 (is-a ?venue [k commercial-building theatre]))
-                      (* 5  (is-a ?venue [k commercial-building pub]))))
-            (policy argmax)))
-
-  (when (and (chance 0.11)
-             (or (is-a ?venue [k commercial-building theatre])
-                 (is-a ?venue [k commercial-building pub]))))
-
-  (utility want)
-
-  (role ?my-home {@self home ?my-home})
-  (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
-  (effects
-    (relocate @self ?venue)
-    (relocate ?paramour ?venue)
-    ; an indiscretion before whoever is there this date; whispers reach the spouses.
-    (if (chance (* 0.10 (carelessness-of @self ?paramour)))
-        (then
-          ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
-          ; re-authoring as what the spouse can actually notice. Commented out pending that.
-          ; (bump-suspicion (spouse-of @self) @self 0.20)
-          ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
-          ; re-authoring as what the spouse can actually notice. Commented out pending that.
-          ; (bump-suspicion (spouse-of ?paramour) ?paramour 0.20)
-          ))
-    (nudge-stance ?paramour attraction 0.10)
-    ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
-    ; party's own reflex on the act. Commented out pending that redesign.
-    ; (nudge-stance ?paramour @self attraction 0.10)
-    ; the theatre / pub is an org premises - the note names it by the org's name.
-    (if (and (chance 0.30) {?paramour home ?paramour_home}
-             {? workplace ?venue}: ?wob
-             (bind ?wob.subject ?org)
-             {?org name ?venue_name})
-        (then
-          (post-letter [k tryst-note]
-                (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
-                ?paramour_home ?paramour ?my-out-box)))
-    ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
-    ; re-authoring as what the spouse can actually notice. Commented out pending that.
-    ; (bump-suspicion (spouse-of @self) @self 0.05)
-    ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
-    ; re-authoring as what the spouse can actually notice. Commented out pending that.
-    ; (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)
-    ))
+; PARKED pending the three-deed conversion: this rule still calls the retired post-letter
+; macro, which made the paper with the raw (create-entity ..) func - an ABS entity, which
+; degrades to @fail the moment a proposal names it. It fires 0 times, so parking it costs
+; the run nothing. Restore it by the shape affair_correspondence now uses.
+; (npc-think affair_rendezvous_public
+;   (cooldown 1 m)
+;   (rng-stream incidents)
+; 
+;   (match {@self age-band [k young-adult|middle-aged|mature|elderly]}
+;          {@self lover ?}
+;          {@self name ?author_name})
+;   (role ?paramour {?paramour isa [k human], condition [k alive]}
+;     {@self lover ?paramour}
+;     -{@self spouse ?paramour}
+;     (covert-affair-motive ?paramour)
+;     (select (policy first-match)))
+;   ; The outing venue is a commercial building @self KNOWS; the score keeps the old
+;   ; theatre-before-pub preference (either outranks any other known premises), and the
+;   ; (when) below bars the rest.
+;   (role ?venue [k commercial-building]
+;     (select (score (+ (near @self ?venue)
+;                       (* 10 (is-a ?venue [k commercial-building theatre]))
+;                       (* 5  (is-a ?venue [k commercial-building pub]))))
+;             (policy argmax)))
+; 
+;   (when (and (chance 0.11)
+;              (or (is-a ?venue [k commercial-building theatre])
+;                  (is-a ?venue [k commercial-building pub]))))
+; 
+;   (utility want)
+; 
+;   (role ?my-home {@self home ?my-home})
+;   (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
+;   (effects
+;     (relocate @self ?venue)
+;     (relocate ?paramour ?venue)
+;     ; an indiscretion before whoever is there this date; whispers reach the spouses.
+;     (if (chance (* 0.10 (carelessness-of @self ?paramour)))
+;         (then
+;           ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
+;           ; re-authoring as what the spouse can actually notice. Commented out pending that.
+;           ; (bump-suspicion (spouse-of @self) @self 0.20)
+;           ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
+;           ; re-authoring as what the spouse can actually notice. Commented out pending that.
+;           ; (bump-suspicion (spouse-of ?paramour) ?paramour 0.20)
+;           ))
+;     (nudge-stance ?paramour attraction 0.10)
+;     ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
+;     ; party's own reflex on the act. Commented out pending that redesign.
+;     ; (nudge-stance ?paramour @self attraction 0.10)
+;     ; the theatre / pub is an org premises - the note names it by the org's name.
+;     (if (and (chance 0.30) {?paramour home ?paramour_home}
+;              {? workplace ?venue}: ?wob
+;              (bind ?wob.subject ?org)
+;              {?org name ?venue_name})
+;         (then
+;           (post-letter [k tryst-note]
+;                 (nl-written-msg "I met you at ?venue_name. Signed, ?author_name")
+;                 ?paramour_home ?paramour ?my-out-box)))
+;     ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
+;     ; re-authoring as what the spouse can actually notice. Commented out pending that.
+;     ; (bump-suspicion (spouse-of @self) @self 0.05)
+;     ; TELEPATHY - this raised the SPOUSE's suspicion by writing their mind. Wants
+;     ; re-authoring as what the spouse can actually notice. Commented out pending that.
+;     ; (bump-suspicion (spouse-of ?paramour) ?paramour 0.05)
+;     ))

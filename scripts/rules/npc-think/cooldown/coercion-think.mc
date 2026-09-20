@@ -24,47 +24,51 @@
 
 (include "../../../definitions/roles.mc")
 
-(npc-think coercion
-  (cooldown 1 m)
-  (rng-stream perpetration)
-
-  (match )
-  ; One firing per standing anchor: no (select ...) / (select (policy first-match)).
-  (role ?victim {?victim isa [k human], condition [k alive]}
-    {@self extort ?victim})
-
-  (role ?my-home {@self home ?my-home})
-  (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
-  (effects
-    ; The anchor's demand rides its AUX clause; no clause = a silence coercion.
-    (tolerate (is-clause (any {@self extort ?victim}).auxiliary)): ?demand
-    (cond
-      (case {?victim condition [k dead]}
-        (end-belief {@self extort ?victim}))
-      ; Either bond satisfies a relationship demand. @self reads his OWN belief
-      ; about the bond - formed by courting, consummation or being told - never
-      ; the victim's mind.
-      (case (and ?demand (any {?victim lover|fiancee @self}))
-        (end-belief {@self extort ?victim}))
-      ; A silence coercion lapses of itself, one month in ten.
-      (case (and (not ?demand) (chance 0.10))
-        (end-belief {@self extort ?victim}))
-      ; Leverage is spent once the blackmailer already knows of the victim's OTHER
-      ; liaisons (per-observer chastity: (count (every {?victim lover ? /ever})) counts
-      ; the victim's affairs THIS mind holds - excluding its own dyad, which is {@self
-      ; lover ?victim}, a different subject). If she is already known-unchaste to him,
-      ; threatening to expose their affair no longer bites.
-      (case (>= (count (every {?victim lover ? /ever})) 1)
-        (end-belief {@self extort ?victim}))
-      (else
-        ; Refresh the standing extort anchor in the victim's mind (his renewed demand,
-        ; perceived); the victim's coercion_pressure rule compounds the pressure off
-        ; it. No act-record on a mere refresh - the anchor carries the demand. Half the
-        ; months the anonymous blackmail note rides the covert letter channel - a
-        ; DEDICATED kind so a campaign cannot exhaust the conspiracy-letter cache cap
-        ; and a detective can tell the papers apart.
-        (begin-belief ?victim {@self extort ?victim})
-        (if (chance 0.5)
-            (then (send-covert-letter ?victim
-                                      (nl-written-msg "I coerced ?victim into becoming my lover")
-                                      [k blackmail-note] ?my-out-box)))))))
+; PARKED pending the three-deed conversion: this rule still calls the retired post-letter
+; macro, which made the paper with the raw (create-entity ..) func - an ABS entity, which
+; degrades to @fail the moment a proposal names it. It fires 0 times, so parking it costs
+; the run nothing. Restore it by the shape affair_correspondence now uses.
+; (npc-think coercion
+;   (cooldown 1 m)
+;   (rng-stream perpetration)
+; 
+;   (match )
+;   ; One firing per standing anchor: no (select ...) / (select (policy first-match)).
+;   (role ?victim {?victim isa [k human], condition [k alive]}
+;     {@self extort ?victim})
+; 
+;   (role ?my-home {@self home ?my-home})
+;   (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
+;   (effects
+;     ; The anchor's demand rides its AUX clause; no clause = a silence coercion.
+;     (tolerate (is-clause (any {@self extort ?victim}).auxiliary)): ?demand
+;     (cond
+;       (case {?victim condition [k dead]}
+;         (end-belief {@self extort ?victim}))
+;       ; Either bond satisfies a relationship demand. @self reads his OWN belief
+;       ; about the bond - formed by courting, consummation or being told - never
+;       ; the victim's mind.
+;       (case (and ?demand (any {?victim lover|fiancee @self}))
+;         (end-belief {@self extort ?victim}))
+;       ; A silence coercion lapses of itself, one month in ten.
+;       (case (and (not ?demand) (chance 0.10))
+;         (end-belief {@self extort ?victim}))
+;       ; Leverage is spent once the blackmailer already knows of the victim's OTHER
+;       ; liaisons (per-observer chastity: (count (every {?victim lover ? /ever})) counts
+;       ; the victim's affairs THIS mind holds - excluding its own dyad, which is {@self
+;       ; lover ?victim}, a different subject). If she is already known-unchaste to him,
+;       ; threatening to expose their affair no longer bites.
+;       (case (>= (count (every {?victim lover ? /ever})) 1)
+;         (end-belief {@self extort ?victim}))
+;       (else
+;         ; Refresh the standing extort anchor in the victim's mind (his renewed demand,
+;         ; perceived); the victim's coercion_pressure rule compounds the pressure off
+;         ; it. No act-record on a mere refresh - the anchor carries the demand. Half the
+;         ; months the anonymous blackmail note rides the covert letter channel - a
+;         ; DEDICATED kind so a campaign cannot exhaust the conspiracy-letter cache cap
+;         ; and a detective can tell the papers apart.
+;         (begin-belief ?victim {@self extort ?victim})
+;         (if (chance 0.5)
+;             (then (send-covert-letter ?victim
+;                                       (nl-written-msg "I coerced ?victim into becoming my lover")
+;                                       [k blackmail-note] ?my-out-box)))))))

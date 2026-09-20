@@ -17,12 +17,4 @@
       (and {?paramour class-situation ?}
            -{?paramour class-situation (any {@self class-situation}).target})))
 
-; Route one covert letter with the authored channel model (tunables.hs). The
-; ONE way content should call the routing verb - the C++ carries no defaults.
-; The covert channel model (courier / post / poste-restante, interception rolls, and
-; the dislike + suspicion the interception costs) has no substrate: the channel choice
-; and the interception are unauthored, and the two gains write OTHER minds. For now the
-; letter goes by the ordinary post - visible, interceptable by whoever handles it, and
-; honest - with the covert routing left to the redesign.
-(define-macro send-covert-letter (?to ?msg ?kind ?out)
-  (post-letter ?kind ?msg (any {?to home ?}).target ?to ?out))
+

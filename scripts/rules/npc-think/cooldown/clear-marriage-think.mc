@@ -33,65 +33,69 @@
 
 (include "../../../definitions/roles.mc")
 
-(npc-think clear_marriage
-  (cooldown 1 m)
-  (rng-stream perpetration)
-
-  ; @self signs the covert murder-proposal letter - bind his OWN name.
-  (match {@self name ?author_name})
-  (role ?spouse {?spouse isa [k human], condition [k alive]} {@self spouse ?spouse}
-                ; @self names the spouse-victim in the plot (a name value).
-                {?spouse name ?spouse_name}
-                (select (policy first-match)))
-  ; A covert lover (belief-query role filter: a lover who is not the spouse,
-  ; and not KNOWN married - is-married is a pure belief macro, cached here).
-  (role ?paramour {?paramour isa [k human], condition [k alive]}
-    {@self lover ?paramour}:?lover_bond
-    -{@self spouse ?paramour}
-    -{?paramour spouse ?}   ; free to marry - cached
-    (select (policy first-match)))
-
-  ; Dark floor + the lover must be free to marry + drive + propensity
-  ; (score_macros.hs: romantic-drive = attraction(lover) - warmth(spouse)).
-  (when (and (>= (* (target-or @self psychopathy 0) (target-or @self machiavellianism 0)) 0.36)
-             (>= (romantic-drive ?paramour ?spouse) 2)
-             -{?spouse condition [k dead]}
-             ; Latch BOTH committed paths so neither the chance nor the agency fork
-             ; re-rolls: a running direct-kill proposal, OR an already-recruited
-             ; accomplice bond, holds the drive; else the propensity roll tips it once.
-             (or {@self kill ?spouse}
-                 {@self accomplice ?paramour}
-                 (chance
-                   (* (crime-scale) 0.03
-                      (* (target-or @self psychopathy 0)
-                         (* (target-or @self machiavellianism 0)
-                            (* (disinhibition)
-                               (* (callousness @self)
-                                  (romantic-drive ?paramour ?spouse))))))))))
-
-  ; Agency fork (P(instigated) = 0.7 * machiavellianism, a schemer keeps clean hands).
-  ; STAY on the committed path - only roll the fork when neither is committed yet, so
-  ; the cheater never flips direct<->instigated or re-sends the letter.
-  (utility want)
-  (role ?my-home {@self home ?my-home})
-  (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
-  (effects
-    (cond
-      ; Already committed DIRECT: maintain the kill /caused_by the READ lover bond.
-      (case {@self kill ?spouse}
-        (maintain-proposal {@self kill ?spouse /caused_by ?lover_bond}))
-      ; Not yet committed - fork ONCE.
-      (case -{@self accomplice ?paramour}
-        (if (chance (* 0.7 (target-or @self machiavellianism 0)))
-            ; INSTIGATED: recruit the lover. The accomplice bond carries the embedded
-            ; plot as its AUX clause: {@self accomplice <lover> {<lover> kill <spouse>}}.
-            ; The murder proposal rides the covert letter - urging is WANTING the
-            ; target to act, so the CONTENT is a goal clause classified (msg-class urge);
-            ; the lover learns it only by READING (no telepathy), and conspiracy_adoption
-            ; decides whether they take up the deed.
-            (then
-              (begin-belief {@self accomplice ?paramour {?paramour kill ?spouse}})
-              (send-covert-letter ?paramour (written-msg [/msg-class urge] {@self goal {?paramour kill ?spouse}}) [k letter] ?my-out-box))
-            ; DIRECT: the cheater acts alone.
-            (else (maintain-proposal {@self kill ?spouse /caused_by ?lover_bond}))))))
-    )
+; PARKED pending the three-deed conversion: this rule still calls the retired post-letter
+; macro, which made the paper with the raw (create-entity ..) func - an ABS entity, which
+; degrades to @fail the moment a proposal names it. It fires 0 times, so parking it costs
+; the run nothing. Restore it by the shape affair_correspondence now uses.
+; (npc-think clear_marriage
+;   (cooldown 1 m)
+;   (rng-stream perpetration)
+; 
+;   ; @self signs the covert murder-proposal letter - bind his OWN name.
+;   (match {@self name ?author_name})
+;   (role ?spouse {?spouse isa [k human], condition [k alive]} {@self spouse ?spouse}
+;                 ; @self names the spouse-victim in the plot (a name value).
+;                 {?spouse name ?spouse_name}
+;                 (select (policy first-match)))
+;   ; A covert lover (belief-query role filter: a lover who is not the spouse,
+;   ; and not KNOWN married - is-married is a pure belief macro, cached here).
+;   (role ?paramour {?paramour isa [k human], condition [k alive]}
+;     {@self lover ?paramour}:?lover_bond
+;     -{@self spouse ?paramour}
+;     -{?paramour spouse ?}   ; free to marry - cached
+;     (select (policy first-match)))
+; 
+;   ; Dark floor + the lover must be free to marry + drive + propensity
+;   ; (score_macros.hs: romantic-drive = attraction(lover) - warmth(spouse)).
+;   (when (and (>= (* (target-or @self psychopathy 0) (target-or @self machiavellianism 0)) 0.36)
+;              (>= (romantic-drive ?paramour ?spouse) 2)
+;              -{?spouse condition [k dead]}
+;              ; Latch BOTH committed paths so neither the chance nor the agency fork
+;              ; re-rolls: a running direct-kill proposal, OR an already-recruited
+;              ; accomplice bond, holds the drive; else the propensity roll tips it once.
+;              (or {@self kill ?spouse}
+;                  {@self accomplice ?paramour}
+;                  (chance
+;                    (* (crime-scale) 0.03
+;                       (* (target-or @self psychopathy 0)
+;                          (* (target-or @self machiavellianism 0)
+;                             (* (disinhibition)
+;                                (* (callousness @self)
+;                                   (romantic-drive ?paramour ?spouse))))))))))
+; 
+;   ; Agency fork (P(instigated) = 0.7 * machiavellianism, a schemer keeps clean hands).
+;   ; STAY on the committed path - only roll the fork when neither is committed yet, so
+;   ; the cheater never flips direct<->instigated or re-sends the letter.
+;   (utility want)
+;   (role ?my-home {@self home ?my-home})
+;   (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
+;   (effects
+;     (cond
+;       ; Already committed DIRECT: maintain the kill /caused_by the READ lover bond.
+;       (case {@self kill ?spouse}
+;         (maintain-proposal {@self kill ?spouse /caused_by ?lover_bond}))
+;       ; Not yet committed - fork ONCE.
+;       (case -{@self accomplice ?paramour}
+;         (if (chance (* 0.7 (target-or @self machiavellianism 0)))
+;             ; INSTIGATED: recruit the lover. The accomplice bond carries the embedded
+;             ; plot as its AUX clause: {@self accomplice <lover> {<lover> kill <spouse>}}.
+;             ; The murder proposal rides the covert letter - urging is WANTING the
+;             ; target to act, so the CONTENT is a goal clause classified (msg-class urge);
+;             ; the lover learns it only by READING (no telepathy), and conspiracy_adoption
+;             ; decides whether they take up the deed.
+;             (then
+;               (begin-belief {@self accomplice ?paramour {?paramour kill ?spouse}})
+;               (send-covert-letter ?paramour (written-msg [/msg-class urge] {@self goal {?paramour kill ?spouse}}) [k letter] ?my-out-box))
+;             ; DIRECT: the cheater acts alone.
+;             (else (maintain-proposal {@self kill ?spouse /caused_by ?lover_bond}))))))
+;     )
