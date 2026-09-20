@@ -21,7 +21,7 @@
 ; first witness binds one). No candidate -> no proposal -> no will.
 (npc-think deliberate_will
   (cooldown 1 m)
-  (match {@self age-band [k young-adult|middle-aged|mature|elderly]})
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]})
   (role ?heir {?heir isa [k human], condition [k alive]}
     {@self spouse|child|sibling ?heir}
     (select (score (+ (* 4 (count (every {@self spouse  ?heir})))

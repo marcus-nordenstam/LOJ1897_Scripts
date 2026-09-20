@@ -14,7 +14,7 @@
 (npc-think want_read_mail
   (cooldown 1 d)
   (role ?home {@self home ?home})
-  (match (spatial @self building ?home))
+  (role @self (spatial @self building ?home))
   (when (>= (days-since-last {@self read-mail ?home /succ}) 1))
   (utility errand)
   (effects (maintain-proposal {@self read-mail ?home})))

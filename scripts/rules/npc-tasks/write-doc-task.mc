@@ -19,21 +19,21 @@
   (and
     (try
       ; AT HAND is held OR in the room: a form in the hand has no space to walk to.
-      (match (not (spatial ?doc held-by @self))
-             (not (spatial ?doc co-located @self)))
+      (role @self (not (spatial ?doc held-by @self))
+                  (not (spatial ?doc co-located @self)))
       (utility obligation)
       (effects
         (spatial ?doc space): ?room
         (if (substantial ?room)
             (then (maintain-proposal {@self go ?room})))))
     (try
-      (match (or (spatial ?doc held-by @self)
-                 (spatial ?doc co-located @self))
-             -{@self WRITE ?doc ? /succ /caused_by ?wd-rel})
+      (role @self (or (spatial ?doc held-by @self)
+                      (spatial ?doc co-located @self))
+                  -{@self WRITE ?doc ? /succ /caused_by ?wd-rel})
       (utility obligation)
       (effects (maintain-proposal {@self WRITE ?doc ?sentence})))
     ; The sentence is a composed msg, freshly built at each fire, so the done-test
     ; wildcards it and leans on /caused_by to scope the record to THIS activation.
     (try
-      (match {@self WRITE ?doc ? /succ /caused_by ?wd-rel})
+      (role @self {@self WRITE ?doc ? /succ /caused_by ?wd-rel})
       (effects (set-outcome ?wd-rel /succ)))))

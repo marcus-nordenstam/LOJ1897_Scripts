@@ -31,9 +31,9 @@
   ;; social life-aim (belonging / respectability - the aims that prize community
   ;; visibility) OR being a parent (parties for one's child). The enthusiasm-scaled
   ;; chance gate lives in (when) below (non-belief filter).
-  (match (or {@self life-aim belonging-aim}
-             {@self life-aim respectability-aim}
-             {@self identity parent-role}))
+  (role @self (or {@self life-aim belonging-aim}
+                  {@self life-aim respectability-aim}
+                  {@self identity parent-role}))
   ; A CO-PRESENT friend (the party guest actually in the room): the friend tie is the
   ; guest list; co-presence (objective room occupancy) is who is here to be told.
   (role ?guest {?guest isa [k human], condition [k alive]}

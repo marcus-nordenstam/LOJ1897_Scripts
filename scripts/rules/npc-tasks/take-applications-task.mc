@@ -9,7 +9,7 @@
   (tar @excl stack)
   (and
     (try
-      (match -{@self stack-browse ?stack ? /succ /caused_by ?take-apps-rel})
+      (role @self -{@self stack-browse ?stack ? /succ /caused_by ?take-apps-rel})
       (utility obligation)
       (effects
         (maintain-proposal
@@ -25,5 +25,5 @@
                            (then (maintain-proposal {@self READ .?item}))
                            (else (maintain-proposal {@self DESTROY-ENTITY .?item})))))})))
     (try
-      (match {@self stack-browse ?stack ? /succ /caused_by ?take-apps-rel})
+      (role @self {@self stack-browse ?stack ? /succ /caused_by ?take-apps-rel})
       (effects (set-outcome ?take-apps-rel /succ)))))

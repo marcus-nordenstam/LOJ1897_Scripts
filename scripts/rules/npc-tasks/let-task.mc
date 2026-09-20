@@ -35,7 +35,7 @@
         (if (not (spatial ?stk co-located @self))
             (then (maintain-proposal {@self go (spatial ?stk space)})))))
     (stage
-      (match (spatial ?stk co-located @self))
+      (role @self (spatial ?stk co-located @self))
       (effects (maintain-proposal {@self STACK-PUT ?listing ?stk})))
 
     (stage

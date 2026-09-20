@@ -23,7 +23,7 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (match {@self wealth ?wealth})
+  (role @self {@self wealth ?wealth})
 
   ; The baseline is summed in two halves - dispositional (personality + wealth) and
   ; circumstantial (belonging, drink, employment) - bound to intermediates so neither the

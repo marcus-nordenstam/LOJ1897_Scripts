@@ -16,7 +16,7 @@
   (and
     ; Make the paper, pen it, post it - three deeds, each reading the world for what is done.
     (try
-      (match -{@self send-mail ? ? /succ /caused_by ?confess-rel})
+      (role @self -{@self send-mail ? ? /succ /caused_by ?confess-rel})
       (role ?my-home {@self home ?my-home})
       (role ?ltr [k confession-letter] (spatial ?ltr co-located @self)
                                        {@self WRITE ?ltr ? /succ}
@@ -29,7 +29,7 @@
         (maintain-proposal {@self send-mail ?ltr ?out})))
 
     (try
-      (match -{@self send-mail ? ? /succ /caused_by ?confess-rel})
+      (role @self -{@self send-mail ? ? /succ /caused_by ?confess-rel})
       (role ?ltr [k confession-letter] (spatial ?ltr co-located @self)
                                        (unsubstantial (attr ?ltr writing)))
       (when (and {@self lover|HAVE-SEX-WITH ?partner /ever}
@@ -49,7 +49,7 @@
                               {@i lover ?partner-name})})))
 
     (try
-      (match -{@self send-mail ? ? /succ /caused_by ?confess-rel})
+      (role @self -{@self send-mail ? ? /succ /caused_by ?confess-rel})
       (when (and {@self lover|HAVE-SEX-WITH ?partner /ever}
                  -{@self spouse ?partner /ever}
                  {@self father|mother|fiancee|spouse|sibling ?kin}

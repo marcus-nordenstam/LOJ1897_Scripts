@@ -15,7 +15,7 @@
   (tar structure)
   (and
     (try
-      (match -{@self wander ?home /succ /caused_by ?p-rel})
+      (role @self -{@self wander ?home /succ /caused_by ?p-rel})
       (utility idle)
       (effects (maintain-proposal {@self wander ?home})))
     (try
@@ -39,5 +39,5 @@
                  (= (believed-pile-count ?kitchen [k food]) 0)))
       (effects (maintain-proposal {@self STOCK-LARDER ?kitchen})))
     (try
-      (match {@self wander ?home /succ /caused_by ?p-rel})
+      (role @self {@self wander ?home /succ /caused_by ?p-rel})
       (effects (set-outcome ?p-rel /succ)))))

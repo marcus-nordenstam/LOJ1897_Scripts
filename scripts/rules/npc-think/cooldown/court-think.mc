@@ -25,11 +25,11 @@
 
   ; @self the suitor must ALREADY fancy someone and be a marriageable single -
   ; courtship is the directed pursuit of a specific crush, not a random advance.
-  (match 
-         {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-         -{@self spouse ?}
-         -{@self fiancee ?}
-         {@self fancy ?})
+  (role @self 
+              {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+              -{@self spouse ?}
+              -{@self fiancee ?}
+              {@self fancy ?})
   ;; SELF-POV (telepathy purge CAT-3): the suitor reads the beloved from his OWN
   ;; knowledge - her marital state / lover / fallen mark as HE knows them
   ;; (permissive on the unknown), and her receptivity as SHE has signalled it to

@@ -46,7 +46,7 @@
   (cooldown 1 m)
   (rng-stream perpetration)
 
-  (match )
+  (role @self )
   ; The craved beloved - the durable REASON; capture the crave belief as the
   ; /caused_by anchor (read, never re-minted, so the drive fades when the crave does).
   ; (policy first-match) binds ONE, so a multi-crave actor pursues a single victim.

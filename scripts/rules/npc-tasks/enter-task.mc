@@ -54,7 +54,7 @@
   (cease (if (spatial @self building ?s) (then (set-outcome ?enter-rel /succ))))
   (and
     (try
-      (match (not (spatial @self building ?s)))
+      (role @self (not (spatial @self building ?s)))
       (when (not (at-threshold ?s)))
       (effects
                (maintain-proposal {@self WALK (front-park-point ?s)})))

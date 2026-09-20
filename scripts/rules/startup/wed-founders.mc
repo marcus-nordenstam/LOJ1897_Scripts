@@ -20,9 +20,9 @@
   (startup)
   (rng-stream marriages)
 
-  (match {@self isa [k human], condition [k alive]}
-         {@self age-band [k young-adult|middle-aged|mature|elderly]}
-         -{@self spouse ?})
+  (role @self {@self isa [k human], condition [k alive]}
+              {@self age-band [k young-adult|middle-aged|mature|elderly]}
+              -{@self spouse ?})
 
   ; The other adult under this roof, of the other sex and likewise unwed. A
   ; founder household holds exactly two people, so this is unambiguous.

@@ -32,7 +32,7 @@
 ; ended /succ declare persists as a memory - without it last year's declaration
 ; plus this year's first score would clear the board before this year's winner).
 (npc-think meet_judged
-  (match {@self JUDGE-DECLARE ? /succ})
+  (role @self {@self JUDGE-DECLARE ? /succ})
   (role ?r2 {?r2 race-result ?})
   (when (< (days-since-last {@self JUDGE-DECLARE /ever}) 1))
   (effects

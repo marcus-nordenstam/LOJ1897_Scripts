@@ -34,7 +34,7 @@
   (cooldown 1 m)
   (rng-stream perpetration)
 
-  (match )
+  (role @self )
   ; The wealthiest co-heir benefactor the actor KNOWS. The kin edge is the
   ; object-cache filter (Shape-1 {@self <label> ?cand}); (select (score ...)) ranks the
   ; cached set by believed wealth and binds the single richest. The wealth

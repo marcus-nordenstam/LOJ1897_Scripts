@@ -48,7 +48,7 @@
 ; Its articles name the office (articles-building). Inherits the acquire drive.
 (npc-think buy_home_go
   (goal {@self acquire})
-  (match -{? availability [k for-sale]})   ; no listing read yet - cached
+  (role @self -{? availability [k for-sale]})   ; no listing read yet - cached
   ; The office is the agency's OWN workplace belief. The old spelling bound ?art off
   ; {?agency record ?art} and then had (articles-building ?art ?venue) walk BACK from the
   ; articles to the org that records them - which is ?agency - purely to read its workplace.
@@ -65,7 +65,7 @@
 ; rung stops.
 (npc-think buy_home_read
   (goal {@self acquire})
-  (match -{? availability [k for-sale]})   ; no listing read yet - cached
+  (role @self -{? availability [k for-sale]})   ; no listing read yet - cached
   (role ?agency {?agency isa [k org house-agency]}
                 {?agency workplace ?venue}
                 (spatial @self building ?venue))
@@ -83,7 +83,7 @@
 (npc-think buy_home_find
   (goal {@self acquire})
   (no-role [k org house-agency])
-  (match -{? availability [k for-sale]})   ; no listing read yet - cached
+  (role @self -{? availability [k for-sale]})   ; no listing read yet - cached
   (utility errand)
   (effects       (begin-goal {@self ORIENT}))
   (when-unsupported-effects (set-outcome {@self goal {@self ORIENT}} /succ)))
@@ -98,7 +98,7 @@
 ; C++ k_buy_wealth_per_value).
 (npc-think choose_home
   (goal {@self acquire})
-  (match {@self wealth ?wealth})
+  (role @self {@self wealth ?wealth})
   (role ?dwell {?dwell availability [k for-sale]}
                (select (score (* (dwelling-value ?dwell)
                                  (if (bb-public-none ?dwell claimed) (then 1) (else 0))))

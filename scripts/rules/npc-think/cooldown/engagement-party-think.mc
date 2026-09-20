@@ -23,10 +23,10 @@
   ;; belief (no mind peek). The male-gender / spouse / fiancee gates are belief
   ;; filters here; the first-year re-fire guard is a date read that gates the
   ;; fire in (when ...) below.
-  (match {@self age-band [k young-adult|middle-aged|mature|elderly]}
-         {@self gender [k male]}
-         -{@self spouse ?}
-         {@self fiancee ?})
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+              {@self gender [k male]}
+              -{@self spouse ?}
+              {@self fiancee ?})
   (role ?bride (unmarried_woman ?bride)
                {@self fiancee ?bride}
                {?bride name ?bride_name})

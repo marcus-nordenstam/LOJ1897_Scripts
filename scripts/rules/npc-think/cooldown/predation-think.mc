@@ -39,8 +39,8 @@
 (npc-think seed_predation_profile
   (cooldown 1 m)
   (rng-stream perpetration)
-  (match {@self age-band [k young-adult|middle-aged|mature|elderly]}
-         -{@self fixation ?})
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+              -{@self fixation ?})
   ; A random adult the predator KNOWS the look of (has both perceived colour
   ; beliefs about), sampled by roulette - the victim-type prototype.
   (role ?proto {?proto isa [k human], condition [k alive]}
@@ -61,8 +61,8 @@
   (cooldown 1 m)
   (rng-stream perpetration)
 
-  (match {@self age-band [k young-adult|middle-aged|mature|elderly]}
-         {@self fixation ?})
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+              {@self fixation ?})
 
   ; The victim: cast from the predator's OWN non-kin acquaintance ties (his
   ; acquaintance graph, role-cast - no world scan), HARD-filtered to his type (the

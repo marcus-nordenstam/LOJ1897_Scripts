@@ -16,8 +16,8 @@
   (and
     (try
       ; AT HAND is held OR in the room: a form in the hand has no space to walk to.
-      (match (not (spatial ?doc held-by @self))
-             (not (spatial ?doc co-located @self)))
+      (role @self (not (spatial ?doc held-by @self))
+                  (not (spatial ?doc co-located @self)))
       (utility obligation)
       (effects
         (spatial ?doc space): ?room
@@ -26,7 +26,7 @@
     (try
       ; The read-yet test is the SPINE's now, so this role states only what is unique to
       ; this rung: the page is within reach.
-      (match (or (spatial ?doc held-by @self)
-                 (spatial ?doc co-located @self)))
+      (role @self (or (spatial ?doc held-by @self)
+                      (spatial ?doc co-located @self)))
       (utility obligation)
       (effects (maintain-proposal {@self READ ?doc})))))

@@ -27,7 +27,7 @@
   ; @self is any human; the dark-tetrad assault disposition that rolls once
   ; per NPC now lives in the (when ...) gate below (a non-belief chance read
   ; cannot live on the role under the belief-purity invariant).
-  (match )
+  (role @self )
   (role ?victim {?victim isa [k human], condition [k alive]}
                 {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?victim /ever})
 

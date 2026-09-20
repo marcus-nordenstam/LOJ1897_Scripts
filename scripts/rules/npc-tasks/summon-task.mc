@@ -10,6 +10,6 @@
   (tar human)
   (aux ?)
   (try
-    (match)
+    (role @self)
     (when (chance 0))
     (effects (set-outcome ?summon-rel /succ))))

@@ -36,8 +36,8 @@
   ;; doesn't express cleanly today. V1 routes the chance through a trait
   ;; product: assertiveness + ?prestige above the floor amplifies
   ;; the rate, so a high-prestige assertive candidate fires far more often.
-  (match (old_human @self)
-         {@self repute [k exemplary], prestige ?prestige})
+  (role @self (old_human @self)
+              {@self repute [k exemplary], prestige ?prestige})
   ;; A public organisation - any gov-subkind: church, hospital, agency. A KNOWN
   ;; org of gov kind (@self learned it at new_job_orientation). Belief-pure + cached.
   (role ?org {?org isa [k org]}

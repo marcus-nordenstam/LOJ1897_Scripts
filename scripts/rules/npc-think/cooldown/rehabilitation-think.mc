@@ -20,8 +20,8 @@
 
 (npc-think rehabilitation
   (cooldown 15 d)
-  (match (old_human @self)
-         {@self repute [k disreputable]})   ; derive-maintained band - cached
+  (role @self (old_human @self)
+              {@self repute [k disreputable]})   ; derive-maintained band - cached
   (when    (>= (days-since-last {@self WORSHIP /ever}) 15))
   (utility idle (* 10 (min (* (days-since-last {@self WORSHIP /ever}) 2) 40)))
   (effects       (begin-goal {@self WORSHIP}))

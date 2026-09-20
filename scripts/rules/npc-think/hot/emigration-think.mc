@@ -38,7 +38,7 @@
 ; whatever a jobless / homeless emigrant lacks. destroy-entity ends the mind,
 ; which closes this twin's own gate.
 (npc-think departed
-  (match {@self DEPART /succ})
+  (role @self {@self DEPART /succ})
   (effects
     (fire-self)
     (for-each ?hb-rel (every {@self home ?})

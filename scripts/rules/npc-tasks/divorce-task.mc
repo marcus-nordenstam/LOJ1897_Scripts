@@ -16,7 +16,7 @@
 (npc-task {@self divorce ?partner}:?divorce-rel
   (tar human)
   (try
-    (match)
+    (role @self)
     (effects
       (end-belief {@self spouse ?partner})
       ; Mutual: end her reciprocal bond and land HER record of being put away.

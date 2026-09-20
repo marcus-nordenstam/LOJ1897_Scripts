@@ -3,7 +3,7 @@
 ; the join matcher at materialization).
 (npc-think probe_join
   (cooldown 1 m)
-  (match )
+  (role @self )
   (role ?prey7 [k human] (select (policy first-match)))
   (role ?plotter7 [k human]
         {?plotter7 urge @self {@self probe_hunt ?prey7}})

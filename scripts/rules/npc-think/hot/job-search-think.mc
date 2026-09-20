@@ -24,10 +24,10 @@
   (aspect labour)
   (cooldown 1 m)
   (rng-stream employment)
-  (match -{@self job ?}
-         -{@self apply-for ? /pres})
+  (role @self -{@self job ?}
+              -{@self apply-for ? /pres})
   (role ?board [k building church] (select (score (near @self ?board)) (policy roulette)))
-  (match (not (spatial @self building ?board)))
+  (role @self (not (spatial @self building ?board)))
   (when (and (job-seeker @self)
              (latch-eval (chance 0.3))))
   (utility errand)
@@ -37,8 +37,8 @@
   (aspect labour)
   (cooldown 1 m)
   (rng-stream employment)
-  (match -{@self job ?}
-         -{@self apply-for ? /pres})
+  (role @self -{@self job ?}
+              -{@self apply-for ? /pres})
   (no-role [k building church])
   ; The search's own /fail act-memory is the "this region has no church" record - it stops
   ; the hunt re-proposing forever once find-building has walked every structure.
@@ -56,8 +56,8 @@
   ; HOT, not cooldown: standing beside an unread notice is an opportunity, and the wake that
   ; admits it (the notice perceived, the room entered) would be dropped by a cooling rule.
   (rng-stream employment)
-  (match -{@self job ?}
-         -{@self apply-for ? /pres})
+  (role @self -{@self job ?}
+              -{@self apply-for ? /pres})
   (role ?ad [k job-posting] (spatial ?ad co-located @self)
                             -{@self READ ?ad /succ})
   (utility errand)
@@ -79,8 +79,8 @@
   ; A man with an offer in hand WAITS to take it up - he does not fire off more
   ; applications while he is on his way to the counter. On the ROLE, so a write under
   ; offered-to re-tests membership and re-arms him the day the offer is spent.
-  (match -{@self job ?}
-         -{? offered-to @self})
+  (role @self -{@self job ?}
+              -{? offered-to @self})
   ; A VACANCY @self knows of - a job held by nobody - and the door of the org that has it.
   ; How the belief got in (a notice, a word in the street) is no business of this rule.
   (role ?org {?org workplace ?wp})

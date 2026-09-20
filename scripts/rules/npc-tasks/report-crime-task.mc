@@ -14,7 +14,7 @@
   (and
     (try
       (role ?station [k police-station] (select (score (near @self ?station)) (policy roulette)))
-      (match (not (spatial @self building ?station)))
+      (role @self (not (spatial @self building ?station)))
       (when (and {? stolen-from @self}
                  (can-write @self)
                  -{@self report-crime ?focus /succ /ever}))

@@ -27,13 +27,13 @@
   ;; @self reads, so they gate the fire in (when), not role selection.
   ;; SELF-POV (telepathy purge CAT-2): the youth is the sole deliberator,
   ;; reading his OWN employment / marital / schooling state.
-  (match {@self breeding ?breeding}
-         -{@self job.salary ?}
-         -{@self spouse ?}
-              ;; A youth still in school (PR-education) is not on the labour
-              ;; market - the working-class on-ramp is for those who left after
-              ;; primary (or never enrolled), not secondary pupils.
-         -{@self study ?})
+  (role @self {@self breeding ?breeding}
+              -{@self job.salary ?}
+              -{@self spouse ?}
+                   ;; A youth still in school (PR-education) is not on the labour
+                   ;; market - the working-class on-ramp is for those who left after
+                   ;; primary (or never enrolled), not secondary pupils.
+              -{@self study ?})
   ;; A KNOWN org (the youth learned it at new_job_orientation), not a household:
   ;; a household is an org but NOT a trade - no master, no apprenticeship. Belief-
   ;; pure + cached. The master gate (the org's founder, whom the youth avoids if
@@ -68,7 +68,7 @@
   ;; proposal per org's articles and overflow the attention set).
   ;; Focus = the org's articles, recovered from @self's {?org record ?art} belief.
   ;; MAINTENANCE: the decision OWNS the seek-indenture proposal end to end. While the
-  ;; youth is unemployed (match (none {@self job.salary ?})) and not yet a trainee
+  ;; youth is unemployed (role @self (none {@self job.salary ?})) and not yet a trainee
   ;; (the (when) trainee-rank gate), the proposal stands; the moment seek-indenture's
   ;; ENROL files his clerk row and hire-beliefs mints {@self job ...}, both gates fall
   ;; and maintain-proposal withdraws. The task never ends the motivating proposal.
@@ -81,7 +81,7 @@
 
   ;; The trainee is the sole deliberator (@self). The trainee-rank read / job-tenure
   ;; (.start macro) / chance gate the fire in (when), not role selection.
-  (match )
+  (role @self )
 
   ;; A trainee who has held the trainee rank at least three years; the chance
   ;; spreads completion over the following years (0.033/mo ~= the old 0.4/yr).

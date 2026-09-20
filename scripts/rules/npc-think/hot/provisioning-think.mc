@@ -47,9 +47,9 @@
 ; late-hired cook does not usurp a sitting family cook (first claim sticks).
 
 (npc-think claim_cook_hired
-  (match {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-                      {@self job [k job cook]}
-         -{@self household-cook ?})
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+                           {@self job [k job cook]}
+              -{@self household-cook ?})
   (role ?home {@self home ?home})
   (when (bb-public-none ?home cook))
   (effects
@@ -57,10 +57,10 @@
     (begin-belief {@self household-cook ?home})))
 
 (npc-think claim_cook_woman
-  (match {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-                      {@self gender [k female]}
-         -{@self household-cook ?}
-         -{@self class-situation [k upper]})
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+                           {@self gender [k female]}
+              -{@self household-cook ?}
+              -{@self class-situation [k upper]})
   (role ?home {@self home ?home})
   (when (and (bb-public-none ?home cook)
              (not (and {@self mother ?mum}
@@ -70,11 +70,11 @@
     (begin-belief {@self household-cook ?home})))
 
 (npc-think claim_cook_man
-  (match {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-                      {@self gender [k male]}
-         -{@self household-cook ?}
-         -{@self spouse ?}
-         -{@self class-situation [k upper]})
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+                           {@self gender [k male]}
+              -{@self household-cook ?}
+              -{@self spouse ?}
+              -{@self class-situation [k upper]})
   (role ?home {@self home ?home})
   (when (and (bb-public-none ?home cook)
              (not (and {@self child ?c}
@@ -111,7 +111,7 @@
   (goal    {@self PROVISION})
   ; The buy cap is DECIDED here (basket, larder shortfall, what is in hand)
   ; and rides the act pattern - the counter-stop body does no counting.
-  (match (is-a (spatial @self building) [k building shop]))
+  (role @self (is-a (spatial @self building) [k building shop]))
   (role ?home {@self household-cook ?home}
               (spatial ?home room [k kitchen]): ?kitchen)
   (when    (and (believed-pile-count ?kitchen [k food]): ?blv
@@ -139,7 +139,7 @@
 ; source on {@self ORIENT} and withdraws it independently; the goal lives until the last withdraws.
 (npc-think provision_orient
   (goal {@self PROVISION})
-  (match -{@self provisions-shop ?})
+  (role @self -{@self provisions-shop ?})
   (effects       (begin-goal {@self ORIENT}))
   (when-unsupported-effects (set-outcome {@self goal {@self ORIENT}} /succ)))
 

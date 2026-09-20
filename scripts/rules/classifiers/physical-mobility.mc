@@ -17,7 +17,7 @@
 (npc-think classify_physical_mobility
   (rng-stream behaviour)
 
-  (match {@self condition ?})
+  (role @self {@self condition ?})
 
   (effects
     (if {@self condition [k dead]}

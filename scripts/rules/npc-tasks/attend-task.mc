@@ -17,7 +17,7 @@
     ; GO: I know the venue and I am not there yet -> head to it (in the window).
     (try
       (role ?venue {?occ venue ?venue})
-      (match (not (spatial @self building ?venue)))
+      (role @self (not (spatial @self building ?venue)))
       (when (and {?occ hours ?start ?end}
                  (attend-in-window ?start ?end)))
       (effects (maintain-proposal {@self enter ?venue})))
@@ -25,7 +25,7 @@
     ; STAY: I am at the venue in the window -> dwell. The stay IS the attendance.
     (try
       (role ?venue {?occ venue ?venue})
-      (match (spatial @self building ?venue))
+      (role @self (spatial @self building ?venue))
       (when (and {?occ hours ?start ?end}
                  (attend-in-window ?start ?end)))
       (effects (maintain-proposal {@self DWELL ?venue (+ (now-hour) 1)})))))

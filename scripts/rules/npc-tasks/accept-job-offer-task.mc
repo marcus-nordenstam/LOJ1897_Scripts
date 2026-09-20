@@ -24,7 +24,7 @@
   (stable-or
     ; if you're not at the job's workplace, then go there
     (try
-      (match (not (spatial @self space ?wp)))
+      (role @self (not (spatial @self space ?wp)))
       (effects (maintain-proposal {@self go ?wp})))
 
     ; if you're at the workplace and in the same room as the recruiter, then announce
@@ -32,8 +32,8 @@
     (try
       (role ?officer [k human] {?officer recruit-staff ?}
                                (spatial ?officer co-located @self))
-      (match {@self name ?myname}
-             -{@self SAY ? ?officer /succ /caused_by ?accept})
+      (role @self {@self name ?myname}
+                  -{@self SAY ? ?officer /succ /caused_by ?accept})
       ; The seat travels as its DESCRIPTION - kind, org and line - the way the officer's own
       ; word names it: a seat has no name for the wire to carry.
       (effects
@@ -49,7 +49,7 @@
       (role ?officer [k human] {?officer recruit-staff ?}
                                (spatial ?officer co-located @self)
                                -{?officer SAY (utterable-msg {? job ?}) @self /succ})
-      (match {@self SAY ? ?officer /succ /caused_by ?accept})
+      (role @self {@self SAY ? ?officer /succ /caused_by ?accept})
       (effects (maintain-proposal {@self DWELL ?wp (+ (now-hour) 1)})))
 
     ; told: this task is successful now, whether or not the job turns out to be mine.
@@ -59,8 +59,8 @@
     (try
       (role ?officer [k human] {?officer recruit-staff ?}
                                {?officer SAY (utterable-msg {? job ?}) @self /succ})
-      (match {@self SAY ? ?officer /succ /caused_by ?accept}
-             {@self job ?job})
+      (role @self {@self SAY ? ?officer /succ /caused_by ?accept}
+                  {@self job ?job})
       (effects
         (if -{?job since ?} (then (begin-belief {?job since (year)})))
         (if -{?wp occupant @self} (then (begin-belief {?wp occupant @self})))
@@ -72,7 +72,7 @@
     ; learned on an earlier visit is not a refusal. The offer is spent.
     (try
       (role ?officer [k human] {?officer recruit-staff ?})
-      (match {@self SAY ? ?officer /succ /caused_by ?accept})
+      (role @self {@self SAY ? ?officer /succ /caused_by ?accept})
       (role ?holder [k human] {?holder job ?job}:?held)
       (when (and (!= ?holder @self)
                  (>= (abs-seconds ?held.start) (abs-seconds ?accept.start))))

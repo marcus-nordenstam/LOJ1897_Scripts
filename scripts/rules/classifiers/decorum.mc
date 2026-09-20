@@ -15,7 +15,7 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (match {@self class-situation ?})
+  (role @self {@self class-situation ?})
 
   (effects
     (begin-belief {@self decorum (clamp (target-or @self politeness 0) 0 1)})))

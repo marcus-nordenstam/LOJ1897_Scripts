@@ -28,11 +28,11 @@
 ;   (cooldown 1 m)
 ;   (rng-stream incidents)
 ; 
-;   (match {@self age-band [k young-adult|middle-aged|mature|elderly]}
-;          {@self lover ?}
-;          {@self spouse @something}
-;          -{@self class-situation [k class-situation lower]}
-;          {@self name ?author_name})
+;   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+;               {@self lover ?}
+;               {@self spouse @something}
+;               -{@self class-situation [k class-situation lower]}
+;               {@self name ?author_name})
 ;   (role ?paramour {?paramour isa [k human], condition [k alive]}
 ;     {@self lover ?paramour}
 ;     -{@self spouse ?paramour}
@@ -98,9 +98,9 @@
 ;   (cooldown 1 m)
 ;   (rng-stream incidents)
 ; 
-;   (match {@self age-band [k young-adult|middle-aged|mature|elderly]}
-;          {@self lover ?}
-;          {@self name ?author_name})
+;   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+;               {@self lover ?}
+;               {@self name ?author_name})
 ;   (role ?paramour {?paramour isa [k human], condition [k alive]}
 ;     {@self lover ?paramour}
 ;     -{@self spouse ?paramour}
@@ -149,9 +149,9 @@
 ;   (cooldown 1 m)
 ;   (rng-stream incidents)
 ; 
-;   (match {@self age-band [k young-adult|middle-aged|mature|elderly]}
-;          {@self lover ?}
-;          {@self name ?author_name})
+;   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+;               {@self lover ?}
+;               {@self name ?author_name})
 ;   (role ?paramour {?paramour isa [k human], condition [k alive]}
 ;     {@self lover ?paramour}
 ;     -{@self spouse ?paramour}

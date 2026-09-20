@@ -51,9 +51,9 @@
   ; CONTINUOUS completion gate as a CACHED role filter: while the child is not yet studying
   ; primary the goal stands; the moment enrol_primary_act matriculates him ({@self study [k
   ; primary-school-curriculum]}) the role drops and the goal ends. The act never ends the goal.
-  (match
-         -{@self school-grades [k primary-school-curriculum] ?}
-         -{@self study [k primary-school-curriculum]})
+  (role @self
+              -{@self school-grades [k primary-school-curriculum] ?}
+              -{@self study [k primary-school-curriculum]})
 
   ; ONSET: the breeding-squared class-gate (chance) is rolled at the fire and LOCKED once
   ; holding (it re-rolls each month until it lands), routing an upper child (breeding
@@ -76,11 +76,11 @@
   ; instead falls to apprenticeship_start, which excludes pupils).
   ; CONTINUOUS completion gate as a CACHED role filter: the role drops (and the goal ends) when
   ; enrol_secondary_act matriculates him ({@self study [k secondary-school-curriculum]}).
-  (match
-         {@self school-grades [k primary-school-curriculum] ?}
-         -{@self school-grades [k secondary-school-curriculum] ?}
-         -{@self study [k secondary-school-curriculum]}
-         -{@self job.salary ?})
+  (role @self
+              {@self school-grades [k primary-school-curriculum] ?}
+              -{@self school-grades [k secondary-school-curriculum] ?}
+              -{@self study [k secondary-school-curriculum]}
+              -{@self job.salary ?})
 
   ; ONSET: the middle+ breeding-squared (chance) is rolled at the fire and LOCKED once holding.
   (when (and (>= (years-old @self) 12)
@@ -101,10 +101,10 @@
   ; ...), NOT a fixed university curriculum, so the completion gate is the generic (not
   ; (any {@self study ?})) CACHED role filter: at 18-20 the youth holds no prior
   ; study, so the role drops (and the goal ends) exactly when he matriculates.
-  (match
-         {@self school-grades [k secondary-school-curriculum] ?}
-         -{@self study ?}
-         -{@self job.salary ?})
+  (role @self
+              {@self school-grades [k secondary-school-curriculum] ?}
+              -{@self study ?}
+              -{@self job.salary ?})
 
   ; ONSET: the steep upper / wealthy-middle breeding-cubed (chance) - the professions'
   ; gateway - rolled at the fire and LOCKED once holding.
@@ -125,8 +125,8 @@
   ; curriculum at novice and ends the study). The credential then gates secondary
   ; enrollment; a non-continuer becomes apprenticeship-eligible. Monthly firing is
   ; idempotent - the first fire ends the study, so later months no-op. age -> (when).
-  (match 
-         {@self study [k primary-school-curriculum]})
+  (role @self 
+              {@self study [k primary-school-curriculum]})
 
   (when (>= (years-old @self) 11))
 
@@ -139,8 +139,8 @@
   (cooldown 1 m)
   (rng-stream behaviour)
 
-  (match 
-         {@self study [k secondary-school-curriculum]})
+  (role @self 
+              {@self study [k secondary-school-curriculum]})
 
   (when (>= (years-old @self) 17))
 
@@ -157,8 +157,8 @@
   ; are <18 and have already left). graduate-from-study mints the subject credential
   ; {@self skilled-in <subject> trained}, feeding the S8 physician / lawyer /
   ; scholar identities + the prestige bump - the profession pipeline payoff.
-  (match 
-         {@self study ?})
+  (role @self 
+              {@self study ?})
 
   (when (>= (years-old @self) 22))
 

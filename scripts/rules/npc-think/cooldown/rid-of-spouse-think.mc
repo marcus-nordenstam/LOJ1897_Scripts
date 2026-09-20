@@ -33,8 +33,8 @@
   (cooldown 1 m)
   (rng-stream perpetration)
 
-  (match 
-         {@self age-band [k young-adult|middle-aged|mature|elderly]})
+  (role @self 
+              {@self age-band [k young-adult|middle-aged|mature|elderly]})
   (role ?spouse {?spouse isa [k human], condition [k alive]} {@self spouse ?spouse} (select (policy first-match)))
 
   ; The actor's lover, bound once (an unmarriageable - already-married - lover

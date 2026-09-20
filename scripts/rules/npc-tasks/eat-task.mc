@@ -42,7 +42,7 @@
         (if ?rec-rel (then (set-outcome ?e-rel (outcome ?rec-rel))))))
     (try
       (role ?home {@self home ?home})
-      (match -{@self SAY ? ? /succ /caused_by ?e-rel})
+      (role @self -{@self SAY ? ? /succ /caused_by ?e-rel})
       (when (and (= ?place ?home) (latch-eval (chance 0.25))))
       (effects
         (for-each ?bb-rel (every {?home breakfast-hour ?})

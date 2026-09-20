@@ -19,7 +19,7 @@
   (cooldown 1 m)
   (rng-stream perpetration)
 
-  (match )
+  (role @self )
   ; The unfaithful partner + the interloper the actor believes she keeps (a JOIN over
   ; @self's OWN beliefs; any_human keeps both to the believed-alive, so a dead corner
   ; drops the drive).

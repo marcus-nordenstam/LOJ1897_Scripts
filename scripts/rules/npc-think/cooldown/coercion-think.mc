@@ -32,7 +32,7 @@
 ;   (cooldown 1 m)
 ;   (rng-stream perpetration)
 ; 
-;   (match )
+;   (role @self )
 ;   ; One firing per standing anchor: no (select ...) / (select (policy first-match)).
 ;   (role ?victim {?victim isa [k human], condition [k alive]}
 ;     {@self extort ?victim})

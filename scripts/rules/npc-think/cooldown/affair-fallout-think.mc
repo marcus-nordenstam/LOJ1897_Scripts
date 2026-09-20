@@ -40,7 +40,7 @@
   (cooldown 1 m)
   (rng-stream incidents)
 
-  (match )
+  (role @self )
   ; The unfaithful partner: a spouse or lover of the actor's.
   (role ?partner {?partner isa [k human], condition [k alive]}
     {@self spouse|lover ?partner}
@@ -57,7 +57,7 @@
   ; Recourse to an APPRAISED betrayal (the betray-act reflex rows minted the anger @ partner),
   ; and only while @self is not answering it lethally: a killer keeps the secret,
   ; since exposing the affair would advertise the motive.
-  (match {@self emotion [k anger] ?partner})
+  (role @self {@self emotion [k anger] ?partner})
   (when (and -{@self kill ?partner}
              -{@self kill ?interloper}))
 

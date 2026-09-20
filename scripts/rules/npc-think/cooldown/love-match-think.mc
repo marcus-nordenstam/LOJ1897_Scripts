@@ -30,18 +30,18 @@
 
   ; @self the suitor: an unmarried, un-betrothed adult who is not socially shut
   ; out. The per-suitor (chance) gate lives in (when ...) (role-belief purity).
-  (match
-         {@self age-band [k young-adult|middle-aged|mature|elderly]}
-         {@self age-band ?peer_band}
-         -{@self fiancee ?}
-         -{@self spouse ?}
-         -{@self repute [k scandalous]}
-         ;; Fallen-woman gate, class-modulated (late-Victorian model): the
-         ;; respectable classes shut her out of courtship entirely, but
-         ;; working-class communities are pragmatic - a lower-class fall may
-         ;; still wed (the beloved role completes the pair check).
-         (or -{@self prototype fallen-woman}
-             {@self class-situation [k lower]}))
+  (role @self
+              {@self age-band [k young-adult|middle-aged|mature|elderly]}
+              {@self age-band ?peer_band}
+              -{@self fiancee ?}
+              -{@self spouse ?}
+              -{@self repute [k scandalous]}
+              ;; Fallen-woman gate, class-modulated (late-Victorian model): the
+              ;; respectable classes shut her out of courtship entirely, but
+              ;; working-class communities are pragmatic - a lower-class fall may
+              ;; still wed (the beloved role completes the pair check).
+              (or -{@self prototype fallen-woman}
+                  {@self class-situation [k lower]}))
   ;; SELF-POV (telepathy purge CAT-3): @self judges the beloved from his OWN
   ;; knowledge - her marital state / lover / fallen mark as HE knows them (banded
   ;; in via gossip/believe_about; permissive on the unknown), her repute as HE

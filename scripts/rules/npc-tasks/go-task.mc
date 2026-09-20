@@ -51,7 +51,7 @@
     ; only ever seen from INSIDE a building, so entering is what places it - and an address
     ; is the only thing a page can carry about a place.
     (try
-      (match {?dest address ?a} (address-premises ?a): ?pa)
+      (role @self {?dest address ?a} (address-premises ?a): ?pa)
       (role ?house [k building] (observed ?house) {?house address ?pa})
       (when (and (not (grounded ?dest))
                  (not (spatial @self building ?house))))
@@ -60,7 +60,7 @@
     ; room. Tour it until the room itself is placed, which drops this rung and raises the
     ; WALK below.
     (try
-      (match {?dest address ?a} (address-premises ?a): ?pa)
+      (role @self {?dest address ?a} (address-premises ?a): ?pa)
       (role ?house [k building] (observed ?house) {?house address ?pa})
       (when (and (not (grounded ?dest))
                  (spatial @self building ?house)))
@@ -69,7 +69,7 @@
     ; structure by structure until one does. The search's own /fail record ends the hunt
     ; once every structure is seen.
     (try
-      (match {?dest address ?a} (address-premises ?a): ?pa)
+      (role @self {?dest address ?a} (address-premises ?a): ?pa)
       (when (and (not (grounded ?dest))
                  (unsubstantial (seen-premises-at ?pa))
                  -{@self find-building ?dest ? /fail}

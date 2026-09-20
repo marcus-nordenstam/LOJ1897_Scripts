@@ -26,7 +26,7 @@
   ; not a fold input.
   (rng-stream behaviour)
 
-  (match {@self class-situation ?})
+  (role @self {@self class-situation ?})
 
   (effects
     (mint-band {@self repute} (repute-fold @self)

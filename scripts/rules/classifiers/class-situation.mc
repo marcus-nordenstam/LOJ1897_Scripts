@@ -12,9 +12,9 @@
 (npc-think classify_class_situation
   (rng-stream behaviour)
 
-  (match {@self breeding ?breeding}
-         {@self prestige ?prestige}
-         {@self wealth ?wealth})
+  (role @self {@self breeding ?breeding}
+              {@self prestige ?prestige}
+              {@self wealth ?wealth})
 
   (effects
     (mint-band {@self class-situation}

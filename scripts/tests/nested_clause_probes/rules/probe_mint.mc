@@ -3,7 +3,7 @@
 ; belief carrying that clause, plus a pledge belief for the residual-ordering probe.
 (npc-think probe_mint
   (cooldown 1 m)
-  (match )
+  (role @self )
   (role ?prey [k human] (select (policy first-match)))
   (when -{@self goal {@self probe_hunt ?}})
   (effects

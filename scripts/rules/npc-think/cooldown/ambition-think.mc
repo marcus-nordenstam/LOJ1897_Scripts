@@ -35,10 +35,10 @@
   (rng-stream perpetration)
 
   ; @self: a credible successor - seated (binds my org), senior grade, not the head.
-  (match {@self age-band [k young-adult|middle-aged|mature|elderly]}
-         {@self job.org ?org}
-         {@self job.level [k senior]}
-         -{@self job [k org-head]})
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+              {@self job.org ?org}
+              {@self job.level [k senior]}
+              -{@self job [k org-head]})
 
   ; The incumbent head I stand behind - a known colleague (learned from the staff
   ; register by read_roster) whose job is-a org-head. read_roster only mints coworkers

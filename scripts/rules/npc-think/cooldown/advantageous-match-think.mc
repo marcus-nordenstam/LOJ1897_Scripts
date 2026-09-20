@@ -36,13 +36,13 @@
   ;; non-belief gate (the (chance) trait-graded pacing) lives in (when); the role
   ;; keeps the belief-pure availability / repute / gender filters plus the
   ;; perceived age-peer + blood-kin predicates (belief macros).
-  (match {@self age-band [k young-adult|middle-aged|mature|elderly]}
-         {@self gender [k male]}
-         -{@self spouse ?}
-         -{@self fiancee ?}
-         -{@self repute [k scandalous]}
-         -{@self repute [k disreputable]}
-         {@self age-band ?peer_band})
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+              {@self gender [k male]}
+              -{@self spouse ?}
+              -{@self fiancee ?}
+              -{@self repute [k scandalous]}
+              -{@self repute [k disreputable]}
+              {@self age-band ?peer_band})
   ;; An exemplary bride one class BELOW the groom (spotless reputation lifts her).
   ;; class-situation values are upper / middle / lower; the explicit kind literals
   ;; dodge the ambiguous bare-atom path. The (or ...) encodes the two valid lifts.

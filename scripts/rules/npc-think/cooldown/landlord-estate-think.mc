@@ -36,8 +36,8 @@
   ; non-household org, and an estate IS one - so a man already heading ANY
   ; business / public org / estate founds no estate (subsumes the old
   ; estate-only throttle; permanent-kind match, decay-proof).
-  (match (old_human @self)
-         -{@self job [k head-of-non-household-org]})
+  (role @self (old_human @self)
+              -{@self job [k head-of-non-household-org]})
   (role ?rental {@self own ?rental}
                 (or {?rental availability [k for-rent]}
                     {?rental tenant ?}))

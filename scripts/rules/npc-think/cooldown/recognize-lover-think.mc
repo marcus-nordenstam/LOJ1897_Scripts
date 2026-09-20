@@ -15,7 +15,7 @@
 
 (npc-think recognize_lover
   (cooldown 1 m)
-  (match)
+  (role @self)
   (role ?paramour {?paramour isa [k human], condition [k alive]}
                   {@self HAVE-SEX-WITH ?paramour /ever}
                   -{@self spouse ?paramour}

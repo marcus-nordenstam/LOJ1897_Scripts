@@ -36,7 +36,7 @@
   (cooldown 1 m)
   (rng-stream employment)
 
-  (match )
+  (role @self )
   (role ?h {@self home ?h}
            (or {@self own [k manor]:?h}
                {@self own [k townhouse]:?h}))
@@ -67,7 +67,7 @@
   (goal {@self staff-household})
   (rng-stream employment)
 
-  (match -{@self job.org [k org household]})
+  (role @self -{@self job.org [k org household]})
   (role ?h {@self home ?h}
            (or {@self own [k manor]:?h}
                {@self own [k townhouse]:?h}))
@@ -90,7 +90,7 @@
   (goal {@self staff-household})
   (rng-stream employment)
 
-  (match )
+  (role @self )
   (role ?h {@self home ?h}
            {@self own ?h})
 

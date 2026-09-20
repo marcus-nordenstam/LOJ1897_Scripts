@@ -35,7 +35,7 @@
   (rng-stream employment)
   ; Duty dispatch: whoever HOLDS the org's dismiss_staff duty reviews (assignment:
   ; duties_think.hs) - never a job-kind or rank test. Fire-binds ?org O(1).
-  (match {@self duty-to ?org dismiss_staff})
+  (role @self {@self duty-to ?org dismiss_staff})
   (role ?w    {?w work-standing ?ws})
   (when (and (!= ?w @self)
              (> 0.4 ?ws)
@@ -49,7 +49,7 @@
   (rng-stream employment)
   ; Duty dispatch: whoever HOLDS the org's review_staff duty promotes (assignment:
   ; duties_think.hs) - never a job-kind or rank test. Fire-binds ?org O(1).
-  (match {@self duty-to ?org review_staff})
+  (role @self {@self duty-to ?org review_staff})
   (role ?w    {?w work-standing ?ws})
   (when (and (!= ?w @self)
              (> ?ws 0.7)
@@ -68,8 +68,8 @@
   (rng-stream employment)
 
   ;; The worker (@self) decides to retire; age + chance -> (when).
-  (match
-         {@self job ?})
+  (role @self
+              {@self job ?})
 
   ; Re-firing is harmless: (goal) is idempotent, so re-rolling the chance while the
   ; worker still holds an unacted retire goal just re-mints the same goal (no-op).
@@ -79,8 +79,8 @@
   (utility errand)
   (effects
     (begin-goal {@self QUIT-WORK}))
-  ; The minter owns the ending: once quit_work_act fires @self, the (match (believes
-  ; {@self job ?})) drops and this falling edge ends the goal. The act never does.
+  ; The minter owns the ending: once quit_work_act fires @self, the (role @self
+  ; (believes {@self job ?})) drops and this falling edge ends the goal. The act never does.
   (when-unsupported-effects (set-outcome {@self goal {@self QUIT-WORK}} /succ)))
 
 ; --- keep the men we wrote to in sight ---------------------------------------
@@ -92,7 +92,7 @@
 (npc-think rearm_offerees
   (aspect labour)
   (cooldown 1 d)
-  (match {@self duty-to ?org recruit-staff})
+  (role @self {@self duty-to ?org recruit-staff})
   (role ?p [k human] {? offered-to ?p}
                      -{?p job ?})
   (effects (set-reconcilable ?p @true)))

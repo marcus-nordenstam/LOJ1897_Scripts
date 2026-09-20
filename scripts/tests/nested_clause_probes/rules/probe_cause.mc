@@ -3,7 +3,7 @@
 ; handle-form provenance that replaces re-derived /caused_by {pattern} pins.
 (npc-think probe_cause
   (cooldown 1 m)
-  (match )
+  (role @self )
   (role ?prey9 [k human] (select (policy first-match)))
   (when (and {@self goal {@self probe_hunt ?}}
              -{@self accomplice ?prey9}))

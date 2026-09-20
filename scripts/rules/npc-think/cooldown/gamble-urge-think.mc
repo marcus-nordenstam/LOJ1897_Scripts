@@ -32,7 +32,7 @@
 ; its OWN act-belief, never the goal (like drink_act).
 (npc-think gamble_urge
   (cooldown 10 d)
-  (match {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]})
   ; ONSET is rare and susceptibility-scaled: the disciplined seldom take a first flutter
   ; (low industriousness -> higher onset), but once any gambling-addiction has taken hold
   ; the pull is ALWAYS felt (the spiral pulls the addicted back every window). (latch-eval)
