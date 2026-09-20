@@ -22,30 +22,34 @@
   ; OPTIONAL by declaration: an absent audience is a BROADCAST, which is a first-class
   ; SAY form (confide / expose / humiliate / the burial announcement all use it).
   (aux @msgAudience ?)
-  ; THE SCHEDULED LENGTH IS AN INSTANT, and the presented one is the audio. The isim
-  ; handler computed the viseme total and wrote it into the act's run cap, succeeding when
-  ; the sound finished; unpresented it used a flat second, because without the natlang
-  ; pass there is no length to know and nothing to sync to. hsim has always said zero,
-  ; and one second per utterance across a year of conversation is not a second worth
-  ; moving every appointment in the town for - so the split waits, with WALK and WRITE,
-  ; on a (duration ..) expression that can branch on the LOD (plan 2.3).
-  (duration 0)
+  ; THE SCHEDULED LENGTH IS AN INSTANT, and the presented one is the AUDIO: the seconds
+  ; the rendered words take to say, cut from the visemes, so the act ends when the sound
+  ; does and the cap commits the /succ. hsim has always said zero, and one second per
+  ; utterance across a year of conversation is not a second worth moving every
+  ; appointment in the town for.
+  (duration
+    (cond (case (presented-lod) (speech-seconds @self ?msg))
+          (else 0)))
 
-  ; The handler rejected an unsubstantial message and let the dispatcher roll the act
-  ; back. A /fail here is that rejection.
+  ; A /fail here rejects the install, as the handler's rejection of an unsubstantial
+  ; message did. A presented say starts here, ONCE: the SOUND, which is the Merlin half
+  ; and how anyone else hears this at all, hung off the pipeline's own externalized
+  ; record; and the VOICE - the words rendered, the visemes cut, the jaw driven, the
+  ; subtitle put up. Effects run every frame while the audio plays and would say it
+  ; again each time.
   (init
-    (if (unsubstantial ?msg)
-        (then (set-outcome ?say-rel /fail))))
+    (cond
+      (case (unsubstantial ?msg) (set-outcome ?say-rel /fail))
+      (case (presented-lod)
+        (deliver-speech ?xsay)
+        (speak-aloud @self ?msg))))
 
+  ; The unpresented say is its one tick: the sound, and done. An unpresented man is
+  ; heard and not watched.
   (effects
-    ; The SOUND is the Merlin half and runs at both LODs: it is how anyone else hears
-    ; this at all, and it hangs off the pipeline's own externalized record.
-    (deliver-speech ?xsay)
-    ; The VOICE is the presented half - the words rendered, the visemes cut, the jaw
-    ; driven, the subtitle put up. An unpresented man is heard and not watched.
-    (if (presented-lod)
-        (then (speak-aloud @self ?msg)))
-    (set-outcome ?say-rel /succ))
+    (if (unpresented-lod)
+        (then (deliver-speech ?xsay)
+              (set-outcome ?say-rel /succ))))
 
   ; The handler's cleanup_func released the speech-state slot it claimed at install. That
   ; is a (cease ..): it must happen on EVERY end, and a slot leaked per interrupted

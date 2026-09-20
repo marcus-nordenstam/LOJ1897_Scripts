@@ -17,9 +17,9 @@
 ; WRITE_DOC WAS THIS ACT UNDER ANOTHER NAME and is gone: the .act port minted it as a
 ; second label because a C++ handler registered under that spelling, and an action is
 ; ONE label. Its presentation, its motor and its field declarations came here; its
-; handler held nothing but a success return. Its `run = ?` was the PRESENTED length -
-; the pen moves until the task stops it - and the ten minutes below is the scheduled
-; one, which stands until a (duration ..) expression can branch on the LOD.
+; handler held nothing but a success return. The presented length is PROCEDURAL, as its
+; `run = ?` was: the body ends the act itself on its first tick, the pen having written,
+; and no clock has a say. The ten minutes is the scheduled length.
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self WRITE ?doc ?sentence}
@@ -28,7 +28,9 @@
   (obs)
   (tar @excl)
   (aux @msg @excl)
-  (duration (minutes 10))
+  (duration
+    (cond (case (presented-lod) procedural)
+          (else (minutes 10))))
   (presentation
     (preroll 0.0) (in 0.4) (out 0.4))
   (effects

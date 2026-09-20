@@ -11,7 +11,11 @@
   (tar @excl)
   (presentation
     (preroll 0.0) (in 0.3) (out 0.3))
-  (duration (minutes 1))
+  ; A presented filing is over the moment the hand lets go: the body ends the act on
+  ; its first tick, so no clock caps it. The minute is the scheduled length.
+  (duration
+    (cond (case (presented-lod) procedural)
+          (else (minutes 1))))
   (init
     (if (unsubstantial ?doc)
         (then (set-outcome ?put-rel /fail))))

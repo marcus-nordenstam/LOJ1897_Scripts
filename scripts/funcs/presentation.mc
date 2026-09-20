@@ -99,6 +99,12 @@
 ; and not watched.
 (declare-func speak-aloud (args ?who ?msg))
 
+; (speech-seconds ?who ?msg) - how long ?msg takes ?who to say, in seconds: the words
+; rendered and the visemes cut, the same pass (speak-aloud ..) will run. A SAY's presented
+; (duration ..) is this, so the act ends when the sound does. A message that renders to
+; nothing answers one second, the flat utterance an unpresented say used to take.
+(declare-func speech-seconds (args ?who ?msg))
+
 ; (end-speech ?who) - release the speech-state slot ?who claimed to speak. Must run on
 ; EVERY end of an utterance, conclusive or not: a slot leaked per interrupted sentence is a
 ; mouth that stops working after a few dozen conversations.
