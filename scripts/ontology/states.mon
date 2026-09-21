@@ -1,11 +1,11 @@
 
 # NOTE: Words in parenthesis -- such as (attitude) -- are used for GROUPING only.
 #
-# A noun IS a state (see Merlin/docs/knowledge_design_notes.md). Every noun
-# declared in Concepts.mon / Objects.mon / etc. is automatically usable as a
-# state, and env attrs contribute the physical realization. This file holds
-# only the states that are NOT nouns: verb / predicate states (know, owe,
-# like, hate, ...) and the historical-sim situation predicates.
+# Every state relation is declared here (see Merlin/docs/knowledge_design_notes.md):
+# the verb / predicate states (know, owe, like, hate, ...), the historical-sim
+# situation predicates, and the states that share a name with a noun (spouse,
+# gender, job, ...) - a noun is a kind, and a relation on it is declared as a
+# relation. Env attrs contribute the physical realization of a state.
 
 relation
 
@@ -42,10 +42,6 @@ relation
         # state) and by `urge` (the task that argues a target into an
         # avoid-state).
         avoid                   (sub [k human] @object)           (tar ?)
-
-        expect-answer           (sub [k human] @object)           (tar ?)
-        expect-question         (sub [k human] @object)           (tar ?)
-
 
         expect-answer           (sub [k human] @object)           (tar ?)
         expect-question         (sub [k human] @object)           (tar ?)
@@ -132,7 +128,7 @@ relation
         # Attitudes - persistent dispositions toward a person, object or
         # fact. These are the DRIVERS of emotion, not emotions themselves:
         # emotions are transient affective states, declared as the `emotion`
-        # noun-taxonomy in Concepts.mon. //appraisal_input marks the whole
+        # noun-taxonomy in concepts.mon. //appraisal_input marks the whole
         # block as context the appraisal categorizer consults. See
         # Docs/emotion/emotion_system.md.
         (attitude)              (+ sub [k human] @object)  (+ appraisal_input)
@@ -179,7 +175,7 @@ relation
         # (bond) is the separate `relationship` block, NOT part of this vector.
         # The continuous magnitude lives in the _stance_by_object cache; the
         # belief stores only the crossed BAND in /aux (a *_band kind,
-        # Concepts.mon), re-minted on a band crossing like skilled-in. The
+        # concepts.mon), re-minted on a band crossing like skilled-in. The
         # neutral middle has no belief. appraisal_input so a band change
         # recontextualizes the target's past acts. Non-@excl: one belief per
         # (label, target).
@@ -206,7 +202,6 @@ relation
             rely                (tar [k human|org] @object)
             trust               (tar [k human|org] @object)
             distrust            (tar [k human|org] @object)
-            suspect             (tar [k human|org] @object)
             # attraction axis (one-sided pull)
             fancy               (tar [k human] @object)
             desire              (tar [k human] @object)
@@ -224,12 +219,12 @@ relation
         # emitting gate reads a trait attr mapped by an
         # (impression <attr> [k impression <leaf>] <w>) row in
         # definitions/signals.hs. The target is an impression KIND leaf
-        # (Concepts.mon). Non-@excl: a person can seem hot-tempered AND
+        # (concepts.mon). Non-@excl: a person can seem hot-tempered AND
         # cruel - each leaf is an independent conclusion.
         seem                    (sub [k human] @object)           (tar [k impression])
 
         # Construals are tags, not beliefs. Each construal is one of
-        # the construed-act sub-kinds in Concepts.mon (wrong-act,
+        # the construed-act sub-kinds in concepts.mon (wrong-act,
         # harm-act, betray-act, etc.) declared on a task / ACTION;
         # categorize() reads the tag set on the anchor's label and
         # dispatches one reaction row per tag per POV. No construal
@@ -260,7 +255,7 @@ relation
             mention             (tar ?)
 
         # Social predicate states. The noun-form social roles (mother,
-        # friend, spouse, ...) are noun-states declared in Concepts.mon.
+        # friend, spouse, ...) are declared at the end of this file.
         (social)                (+ sub [k human] @object)
             # The three independent axes of "having a thing":
             # (a) Legal - own / lease / rent / borrow (verb-states below).
@@ -336,11 +331,11 @@ relation
             # participant: the roster of a game OBJECT - {<game> participant
             # <person>}. Subject is the game (overriding the block's human
             # default), target a co-player. The inverse, player-side belief is
-            # {@self play <game>} (Tasks.mon); the two are wired symmetrically
+            # {@self play <game>} (tasks.mon); the two are wired symmetrically
             # per-mind, like family membership.
             participant         (sub [k game] @object)  (tar [k human] @object)
             # dwell / work are activity-lane TASKS, not states - they live in
-            # Tasks.mon ({@self dwell <home>} / {@self work <org>}).
+            # tasks.mon ({@self dwell <home>} / {@self work <org>}).
             # backed-by: an investor who has put up founding capital for this
             # NPC's venture (the investment event). Subject is the backed
             # party, target the investor - a patron (human) or an investment
@@ -366,7 +361,7 @@ relation
             suspect             (tar [k human] @object)  (aux ?)
 
         # Occasions (the occasion/ceremony model). Two roles share this block:
-        #  (a) the DECORATIONS on an occasion Mental Object (Concepts.mon
+        #  (a) the DECORATIONS on an occasion Mental Object (concepts.mon
         #      `occasion`) - subject overridden to `occasion`. {<occ> host
         #      <human>} + {<occ> date <date>} are the CONSTITUTIVE identity pair
         #      (recall-or-mint keys on them, so two occasions sharing a host OR a
@@ -402,7 +397,7 @@ relation
             judge-meet
 
         # Competence - the domains an NPC is practically skilled in. Targets a
-        # `domain` kind (Concepts.mon): the academic-field disciplines (classics,
+        # `domain` kind (concepts.mon): the academic-field disciplines (classics,
         # medicine, accountancy), the martial / illicit competences
         # (marksmanship, forgery), the performance-art / athletics skills, etc.
         # The earned-competence band of the unified domain axis (interest ->
@@ -429,7 +424,7 @@ relation
             # self-belief ({@self serve <rank>}). Tense lives in the
             # interval (the interval-tense doctrine): ONGOING = still
             # serving, ENDED = discharged veteran. The rank is the target
-            # (a military-rank kind, Concepts.mon). Seeded by
+            # (a military-rank kind, concepts.mon). Seeded by
             # seed_military_service (alongside the martial skill the
             # service conferred); the NPC KNOWS it, so the interrogation /
             # background-query path can answer "were you in the army?"
@@ -489,7 +484,7 @@ relation
             job-id              (sub [k org-pos] @object)  (tar ? @excl)
             # DUTIES (capability-based org dispatch). A duty is an obligation TO a party of a
             # given kind; its aux is the TASK the holder is obliged to perform (the duty tasks
-            # live in Tasks.mon like every task). duty-to is the FULFILLMENT belief (behaviour
+            # live in tasks.mon like every task). duty-to is the FULFILLMENT belief (behaviour
             # role-casts on it and fire-binds the party): (role @self (believes {@self duty-to
             # ?org [k <duty-task>]})). duty-holder is the org-side MIRROR (the assigner's
             # ledger-derived knowledge of who holds each duty). Both non-exclusive. Assignment
@@ -505,7 +500,7 @@ relation
             # noun (Objects.mon) - already a state, so no diploma relation is
             # declared here. `study` shares its NAME with the `study` room
             # kind (Spaces.mon); kind references disambiguate with the full
-            # path (the hiding-spot precedent, Concepts.mon).
+            # path (the hiding-spot precedent, concepts.mon).
             study               (tar @excl [k academic-field])    (aux [k org] @object)
             schooling           (tar ? @excl)
 
@@ -521,7 +516,7 @@ relation
             # competitor's participation memory is his own ended race_run
             # act-belief; the organiser's meet record is his ended
             # hold_meet_run act-belief; the call to compete is the told
-            # organiser-subject `summon` act (Tasks.mon) - none needs a state
+            # organiser-subject `summon` act (tasks.mon) - none needs a state
             # here. race-result: a competitor's self-simulated performance
             # (tar = a 0..1 score; aux = the sport it was scored in), minted into
             # the co-present organiser, who argmaxes the winner from the ones he
@@ -720,7 +715,7 @@ relation
         pregnant                (sub [k human] @object)  (tar [k human] @excl @object)
 
         # Document -> org back-link: the inverse of org-state's `record`
-        # (Concepts.mon). Lets any mind reconstruct its own per-mind org
+        # (concepts.mon). Lets any mind reconstruct its own per-mind org
         # object from the stable articles-of-incorporation env anchor, via
         # mx_imagine_or_recall(orgkind, mx_observe(articles), "declares-org").
         declares-org            (sub [k document] @object)  (tar [k org] @excl @object)
@@ -746,3 +741,122 @@ relation
             hsim-business-failing
             hsim-homeless
 
+        # The relations that were once minted for a noun by its declaration (a noun IS
+        # a state) are declared here, one row per noun the corpus uses as a relation,
+        # carrying what the noun line said: (sub ..) / (tar ..) / (aux ..) / bond and
+        # kin flags / disclosure / construed-act. A state's fields are its own; the
+        # noun is only its value kinds. An env attr on one of these enriches the row
+        # (its transmission mechanism and per-field flags), so the row leaves those out.
+
+        # Nouns the rules and funcs use as relation labels.
+        abandonment-act         (sub [k human] @object) (tar [k abandonment-act] @object)
+        accomplice              (sub [k human] @object) (tar [k human] @object) (aux ?)
+        acquaintance            (sub [k human] @object) (tar [k human] @object) (inclusive_bond) (disclosure acquaintance)
+        aid-act                 (sub [k human] @object) (tar [k aid-act] @object)
+        appropriation-act       (sub [k human] @object) (tar [k appropriation-act] @object)
+        availability            (sub [k building] @object) (tar [k availability] @object @excl)
+        betray-act              (sub [k human] @object) (tar [k betray-act] @object)
+        child                   (sub [k human] @object) (tar [k human] @object) (inclusive_bond) (close_kin) (disclosure acquaintance)
+        class-situation         (sub [k human] @object) (tar [k class-situation] @object @excl) (disclosure stranger)
+        coercion-act            (sub [k human] @object) (tar [k coercion-act] @object)
+        commitment-act          (sub [k human] @object) (tar [k commitment-act] @object)
+        degrade-act             (sub [k human] @object) (tar [k degrade-act] @object)
+        display-ad              (sub [k org] @object) (tar [k job] @object)
+        economic-situation      (sub [k human] @object) (tar [k economic-situation] @object @excl)
+        emotion                 (sub [k human] @object) (tar [k emotion] @object)
+        employee-register       (tar [k employee-register] @object) (obs)
+        expose-act              (sub [k human] @object) (tar [k expose-act] @object)
+        father                  (sub [k human] @object) (tar [k human] @object @excl) (inclusive_bond) (close_kin) (disclosure acquaintance)
+        fiancee                 (sub [k human] @object) (tar [k human] @object @excl) (exclusive_bond) (close_kin) (disclosure acquaintance)
+        fixation                (sub [k human] @object) (tar ?)
+        founder                 (sub [k org] @object) (tar [k human] @object @excl)
+        friend                  (sub [k human] @object) (tar [k human] @object) (inclusive_bond) (disclosure acquaintance)
+        half-sibling            (sub [k human] @object) (tar [k human] @object) (inclusive_bond) (close_kin) (disclosure acquaintance)
+        harm-act                (sub [k human] @object) (tar [k harm-act] @object)
+        help-act                (sub [k human] @object) (tar [k help-act] @object)
+        hiding-spot             (sub [k human] @object) (tar [k interior-space] @object)
+        home                    (sub [k human] @object) (tar [k structure] @object @excl) (disclosure acquaintance)
+        honour-act              (sub [k human] @object) (tar [k honour-act] @object)
+        insult                  (tar [k insult] @object) (construed-act slight-act)
+        jilt                    (tar [k jilt] @object) (construed-act abandonment-act wrong-act)
+        job                     (sub [k human|org] @object) (tar [k job] @object) (disclosure stranger)
+        level                   (sub [k human|org-pos] @object) (tar [k level] @object @excl)
+        love                    (sub [k human] @object) (tar ?) (exclusive_bond)
+        lover                   (sub [k human] @object) (tar [k human] @object) (inclusive_bond) (close_kin) (disclosure intimate) (construed-act intimacy-act)
+        master                  (sub [k human] @object) (tar [k human] @object @excl)
+        membership-roll         (tar [k membership-roll] @object) (obs)
+        mother                  (sub [k human] @object) (tar [k human] @object @excl) (inclusive_bond) (close_kin) (disclosure acquaintance)
+        nationality             (sub [k human] @object) (tar [k nationality] @object @excl) (disclosure stranger)
+        occupant                (sub [k building|space] @object) (tar [k human] @object)
+        org                     (tar [k org] @object)
+        owns-building           (sub [k human|org] @object) (tar [k building] @object)
+        parent                  (sub [k human] @object) (tar [k human] @object) (inclusive_bond) (close_kin) (disclosure acquaintance)
+        physical-mobility       (tar [k physical-mobility] @object @excl)
+        pressure                (sub [k human] @object) (tar [k pressure] @object)
+        provision-act           (sub [k human] @object) (tar [k provision-act] @object)
+        provisions-shop         (sub [k human] @object) (tar [k structure] @object @excl) (disclosure acquaintance)
+        record                  (sub [k org] @object) (tar [k document] @object @excl)
+        repudiation-act         (sub [k human] @object) (tar [k repudiation-act] @object)
+        repute                  (sub [k human] @object) (tar [k repute] @object @excl)
+        rivalrous-act           (sub [k human] @object) (tar [k rivalrous-act] @object)
+        salary                  (sub [k org-pos] @object) (tar ? @excl)
+        sibling                 (sub [k human] @object) (tar [k human] @object) (inclusive_bond) (close_kin) (disclosure acquaintance)
+        slight-act              (sub [k human] @object) (tar [k slight-act] @object)
+        social-trajectory       (sub [k human] @object) (tar [k social-trajectory] @object @excl)
+        spouse                  (sub [k human] @object) (tar [k human] @object @excl) (exclusive_bond) (close_kin) (disclosure acquaintance)
+        suffer-loss-act         (sub [k human] @object) (tar [k suffer-loss-act] @object)
+        tenant                  (sub [k building|space] @object) (tar [k human|org] @object @excl)
+        threaten-act            (sub [k human] @object) (tar [k threaten-act] @object)
+        urge                    (tar [k urge] @object) (construed-act coercion-act)
+        workplace               (sub [k org] @object) (tar [k building|space] @object @excl)
+        wrong-act               (sub [k human] @object) (tar [k wrong-act] @object)
+
+        # A task someone means to do; the func-contract fixture kind_value.mc reads it.
+        todo                    (tar [k task])
+
+        # Nouns the tables use as relation labels (occupation_shifts day-label).
+        mon-hours               (sub [k human|org-pos] @object) (tar ? @excl) (aux ?)
+        tue-hours               (sub [k human|org-pos] @object) (tar ? @excl) (aux ?)
+        wed-hours               (sub [k human|org-pos] @object) (tar ? @excl) (aux ?)
+        thu-hours               (sub [k human|org-pos] @object) (tar ? @excl) (aux ?)
+        fri-hours               (sub [k human|org-pos] @object) (tar ? @excl) (aux ?)
+        sat-hours               (sub [k human|org-pos] @object) (tar ? @excl) (aux ?)
+        sun-hours               (sub [k human|org-pos] @object) (tar ? @excl) (aux ?)
+
+        # Nouns an env attr realizes - the attr adds the mechanism.
+        age-band                (sub [k human] @object) (tar [k age-band] @excl)
+        age-span                (sub [k human] @object) (tar [k age-band])
+        appearance              (tar [k appearance] @excl)
+        awareness               (tar [k awareness] @excl)
+        blemish                 (tar [k blemish])
+        building                (tar [k building] @object @excl) (building)
+        color                   (tar [k color] @excl)
+        condition               (tar [k condition] @excl)
+        death-cause             (tar [k death-cause] @excl)
+        eye-color               (tar [k eye-color] @excl)
+        fog                     (tar [k strength-measurement] @excl)
+        game-role               (tar [k game-role] @excl)
+        gender                  (tar [k gender] @excl) (disclosure stranger)
+        girth                   (tar [k girth] @excl)
+        hair-color              (tar [k hair-color] @excl)
+        height                  (tar [k height] @excl)
+        integrity               (tar [k integrity] @excl)
+        internment              (tar [k internment] @excl)
+        life-aim                (sub [k human] @object) (tar [k life-aim]) (disclosure friend)
+        lock-status             (tar [k lock-status] @excl)
+        mood                    (tar [k mood])
+        name                    (tar ?) (disclosure stranger)
+        opening-status          (tar [k opening-status] @excl)
+        participant             (sub [k human|game] @object) (tar [k human] @object)
+        prototype               (sub [k human] @object) (tar [k prototype])
+        rain                    (tar [k strength-measurement] @excl)
+        room                    (tar [k room] @object @excl) (building)
+        sexual-orient           (tar [k sexual-orient] @excl)
+        skill-level             (sub [k human] @object) (tar ?) (aux [k skill-level])
+        sky                     (tar [k sky-condition] @excl)
+        snow                    (tar [k strength-measurement] @excl)
+        space                   (tar [k space] @object @excl) (space) (theme frequent)
+        study                   (sub [k human] @object) (tar [k academic-field] @excl) (aux [k org] @object)
+        town                    (tar [k town] @object @excl) (building)
+        trust                   (sub [k human] @object) (tar [k human|org] @object) (appraisal_input)
+        wind                    (tar [k strength-measurement] @excl)

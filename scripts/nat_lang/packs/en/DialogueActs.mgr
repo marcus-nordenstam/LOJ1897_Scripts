@@ -25,7 +25,7 @@
 #                        Defer until belief-confidence-from-hedge plumbing
 #                        is designed (the spec ties hedge to salience).
 #   ACCUSE / CONFRONT  - need hostile-content predicate labels (lie, deceive,
-#                        protect, conceal) in States.mon.
+#                        protect, conceal) in states.mon.
 #   THREATEN / PROMISE - future-tense (msg ...) bodies + predicate gap.
 #   PRESENT_EVIDENCE   - composite (msg + ASK_KNOWLEDGE); needs the dialogue
 #                        session to track the indicated object across turns.

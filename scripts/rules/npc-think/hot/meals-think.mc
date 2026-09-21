@@ -446,7 +446,7 @@
         (then (maintain-proposal {@self EAT ?item ?owner})))))
 
 ; ---- the eat TASK's PERFORMANCE rungs ----------------------------------------
-; eat is a TASK (Tasks.mon): its desires promote it AT the place (eat_at_place),
+; eat is a TASK (tasks.mon): its desires promote it AT the place (eat_at_place),
 ; and these rungs PERFORM it. The physical eating is the EAT action (duration +
 ; hunger); the food to consume is the REASONING
 ; (which loaf, is it a home supper) decided HERE and handed to EAT on its

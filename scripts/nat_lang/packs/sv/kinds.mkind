@@ -3,7 +3,7 @@
 #
 # Each line is "<canonical>[.<agree>...] <localized>". The canonical is the
 # ontology leaf name (English convention - see LOJ1897_Scripts/Merlin/ontology/
-# Concepts.mon); the localized is the Swedish surface form the realize layer
+# concepts.mon); the localized is the Swedish surface form the realize layer
 # emits when a [k <canonical>] atom is rendered. A kind without an entry falls
 # back to the canonical hstr (so a missing translation is visible but not
 # broken).

@@ -17,7 +17,7 @@
 # -----------------------------------------------------------------------------
 
 # === domain axis (interest / skilled-in / calling targets) ===================
-# Concepts.mon `domain` subtree. The interest band is the prominent description
+# concepts.mon `domain` subtree. The interest band is the prominent description
 # element, so the whole axis is owned here for a clean, browsable vocabulary.
 
 # academic-field

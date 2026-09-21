@@ -6,7 +6,7 @@
 ; or catalog (the old hsim_occupations.{h,cc} loader was deleted).
 ;
 ; One row per job (a named record: unlisted fields take the (defaults ...) fill):
-;   job            - the job kind, [k job <leaf>] (the KEY; matches Concepts.mon).
+;   job            - the job kind, [k job <leaf>] (the KEY; matches concepts.mon).
 ;   class-floor    - minimum class allowed (HARD hiring gate).
 ;   business-type  - the org kind that hosts this post, or `none` = generic (a
 ;                    cook / clerk / maid works anywhere).

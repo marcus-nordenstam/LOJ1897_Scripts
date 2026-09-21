@@ -16,7 +16,7 @@
 ; axiom 0). No new "obsession" state.
 ;
 ; The incident-anchor mints {@self jilt ?jilted} in BOTH minds; the patient
-; cascade (Tasks.mon: abandonment-act + wrong-act) mints grief +
+; cascade (tasks.mon: abandonment-act + wrong-act) mints grief +
 ; attachment-loss + status-loss + anger + humiliation + injustice in the
 ; jilted - the exact pressure stack the new (affinity attachment-loss coerce)
 ; deliberation row reads on later ticks. Warmth curdles via nudge-stance;

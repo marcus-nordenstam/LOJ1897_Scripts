@@ -8,14 +8,13 @@
 # ----------------------------------------------------------------------------
 # Nouns are objects or concepts.
 #
-# States represents something you HAVE or that you ARE.  Unless already 
-# declared in spatial or attr declarations, they must be declared in states.mon
-# or the inferred via the state-from-noun mechanism (see below).
+# States represent something you HAVE or that you ARE.  Unless already
+# declared in spatial or attr declarations, they must be declared in states.mon.
 #
-# Any ontological noun/object/concept is also always declared as a state.
-# A noun-as-a-state idea is an implied 'I have'.  For example, if ball is 
-# declared as a noun, then {@self ball <ball>} could be written indicating that
-# I have the ball <ball>.
+# A noun is a kind and nothing else. A state that shares a noun's name
+# (spouse, gender, job, ..) is a relation in its own right and is declared in
+# states.mon with its own fields; a clause whose label is a noun with no such
+# declaration is a load error.
 #
 # Acts (tasks and actions) are things an NPC DOES.  They are NOT declared
 # in .mon files; instead they are declared in rules:
@@ -43,14 +42,14 @@
 
 # Concepts, names, objects, etc.
 
-using "Concepts"
-using "EnglishNames"
-using "IrishNames"
-using "StRevierNames"
+using "concepts"
+using "english-names"
+using "irish-names"
+using "st-revier-names"
 using "things"
 
 # Relations
 
-using "States"
-using "Tasks"
+using "states"
+using "tasks"
 

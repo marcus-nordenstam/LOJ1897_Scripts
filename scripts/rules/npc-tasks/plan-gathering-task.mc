@@ -2,7 +2,7 @@
 ; plan-gathering ?kind ?months - the host STAGES an occasion ?months ahead and has an
 ; invitation carried to every friend whose home he can place.
 ;
-; Staging is MENTAL: an occasion is a Mental Object (Concepts.mon `occasion`), never an
+; Staging is MENTAL: an occasion is a Mental Object (concepts.mon `occasion`), never an
 ; env entity - it has no body, no archetype and no place in the world. What it has is a
 ; host, a venue, hours and a date, and those beliefs ARE the gathering. The invitations
 ; are the opposite: paper, physical, so each one is a sub-task that mints it through the

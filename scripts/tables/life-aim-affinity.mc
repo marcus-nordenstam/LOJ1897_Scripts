@@ -19,7 +19,7 @@
 ; life-aim itself is a per-NPC belief minted by the classify_life_aim rule
 ; (classifiers/life-aim.hs); it is read @self-only (non-telepathic).
 ;
-; life-aim sub-kinds (Concepts.mon life-aim): legacy-aim / wealth-aim /
+; life-aim sub-kinds (concepts.mon life-aim): legacy-aim / wealth-aim /
 ; piety-aim / respectability-aim / autonomy-aim / power-aim / belonging-aim.
 ; Action atoms are the goal/task labels deliberation and perpetration mint
 ; (kill / coerce / expose / discredit / threaten / humiliate / frame / hurt /

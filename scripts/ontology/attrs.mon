@@ -88,7 +88,7 @@
 (attr age (type int) (range 0 120) (spec-attr age) (per feel) (state-flags-tar @excl))
 (attr age-group (type int) (range 0 8) (spec-attr age-group) (per obs) (auto-percept) (state-flags-tar @excl))
 # Perceptible life-stage (the @excl concept + its 8 band kinds live in
-# Concepts.mon). age-band is what anyone SEES on sight - kind/gender/age-band are
+# concepts.mon). age-band is what anyone SEES on sight - kind/gender/age-band are
 # visible even to strangers - so it is (hsim-percept): a hsim mind that observes a
 # person internalizes {them age-band <band>} via mx_observe, with NO explicit mint.
 # OBS-only (like gender): self gets {@self age-band <band>} from the visual
@@ -102,7 +102,7 @@
 # arithmetic in the .hs. ext-obs only: a mind never needs its own span.
 (attr age-span (type kind array 3) (per obs) (auto-percept) (hsim-percept))
 # gender / appearance / height / girth are conceptual: kind-typed, value is an
-# ontology term. @excl now lives on the concept in Concepts.mon (rule 4b / 5).
+# ontology term. @excl now lives on the concept in concepts.mon (rule 4b / 5).
 (attr gender (type kind) (per obs) (auto-percept) (hsim-percept))
 (attr appearance (type kind) (per obs) (auto-percept) (hsim-percept))
 (attr height (type kind) (per obs) (auto-percept) (hsim-percept))
@@ -113,12 +113,12 @@
 (attr hair-color (type kind) (per obs) (auto-percept) (hsim-percept))
 (attr eye-color (type kind) (per obs) (auto-percept) (hsim-percept))
 # nationality and social standing are not physical environment state - they
-# exist solely as beliefs (nationality / class-situation labels in States.mon).
+# exist solely as beliefs (nationality / class-situation labels in states.mon).
 
 # Personality & internal. sexual-orient is kind-typed; @excl lives on the
-# concept in Concepts.mon. Interests are NOT physical - they are seeded
+# concept in concepts.mon. Interests are NOT physical - they are seeded
 # directly as {@self interest <kind>} self-beliefs in mx_make_human (kinds
-# sampled from the `interest` subtree in Concepts.mon) and propagated via the
+# sampled from the `interest` subtree in concepts.mon) and propagated via the
 # friend-tier belief mirror.
 (attr sexual-orient (type kind) (per feel))
 
@@ -276,7 +276,7 @@
 # building on arrival (Stage-5 two-arm), a worker RE-OBSERVES his workplace every commute
 # via exterior perception and INTERNALIZES {building struct-status [k closed]} fresh;
 # reconcile_closed drops his own stale employment beliefs off that PERCEIVED belief - no
-# mind but his own is written. Kind-valued (open|closed under `status`, Concepts.mon), so
+# mind but his own is written. Kind-valued (open|closed under `status`, concepts.mon), so
 # it mirrors as a clean belief like `condition`. Lives on container-structure (buildings).
 (attr struct-status (type kind open) (per obs) (auto-percept) (hsim-percept))
 # A door/window structure-part's opening state (ajar|shut) and lock state

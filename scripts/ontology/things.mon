@@ -293,13 +293,13 @@
         (physical tea-set (price 10))
         (physical silver-tea-service (price 30))
         (physical china-service (price 20)))
-      # Parlour games. (`game` proper is a Concepts.mon activity object; these
+      # Parlour games. (`game` proper is a concepts.mon activity object; these
       # are the physical play sets.)
       (physical parlour-game
         (physical chess-set)
         (physical playing-cards))
       (physical collection
-        (physical stack (sub [k space|structure] @object) (tar @excl)
+        (physical stack
           (pop (cap 2048)
             (spatials -gripped-by -grip -in-stack)
             (attrs -color -condition -name -writing -grip-force -owner -addressee -addressee-duty -destination -blemishes)
@@ -460,7 +460,7 @@
         # Testamentary document; writing encodes the testator's
         # goal beliefs about disinheritance / inheritance / expose.
         # Ruled model: writings encode the heirs' bequest prospects
-        # (future-tense `inherit` per object, States.mon) once engine
+        # (future-tense `inherit` per object, states.mon) once engine
         # future-interval support lands; the death-trigger estate
         # settlement then realises them per thing.
         (physical will)))
@@ -483,7 +483,7 @@
       # Concentrated poison substances - the contents of a poison bottle,
       # the trade good behind the perpetration row's (control_any toxin)
       # gate. (`toxin`, not `poison`: `poison` is already the leaf kill
-      # TASK in Tasks.mon, and two noun kinds of the same name make the
+      # TASK in tasks.mon, and two noun kinds of the same name make the
       # kind-value parser ambiguous.) Each is a real Victorian-era poison;
       # the `fluid-amount` (fluid.arc) is the bottle's fill level, depleted
       # one dose at a time by chronic poisoning - an emptied bottle is
@@ -626,7 +626,7 @@
       (physical pier)
       (physical bridge
         (physical suspension-bridge)))
-    (physical part (tar [k space|part] @object)
+    (physical part
       (pop (cap 2048)
         (attrs variant birth-date)
         (attr name (auto-percept) (ext-per obs))
@@ -716,7 +716,7 @@
       (attrs create-action speaker preroll)
       (spatials bounds))
     (physical squeak)
-    (physical speech (sub [k sound] @msg @object))
+    (physical speech)
     (physical shout)
     (physical song)
     (physical scream)

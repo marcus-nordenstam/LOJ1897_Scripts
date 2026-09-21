@@ -7,7 +7,7 @@
 ;   - love_match / betrothal: the formal `fiancee` commitment.
 ; A lover pair may go on to betroth (love_match reads the same `fancy` supply) or
 ; may not - the bond persists underneath either outcome. `lover` is an
-; inclusive_bond (Concepts.mon), so this never trips the exclusive-bond betray
+; inclusive_bond (concepts.mon), so this never trips the exclusive-bond betray
 ; cascade and never collides with an @excl placeholder.
 ;
 ; The driver is "fancy + warmth": ?a is attracted to ?b (the cross-pair `fancy`

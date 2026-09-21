@@ -8,7 +8,7 @@
 ; communicated only to friends-and-closer. So role filters test the band, never
 ; a specific age.
 ;
-; The ladder (Concepts.mon `age-band`, C++ age_band_index is the source of truth):
+; The ladder (concepts.mon `age-band`, C++ age_band_index is the source of truth):
 ;   infant 0-2 < child 3-9 < adolescent 10-15 < youth 16-17 < young-adult 18-29
 ;   < middle-aged 30-49 < mature 50-69 < elderly 70+
 ; Narrow under 30, wide at 30+ - so "same / adjacent band" (age-peers) stands in
