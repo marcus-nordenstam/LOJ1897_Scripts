@@ -24,6 +24,7 @@
   (bind @nothing ?class)
   (if {@self class-situation ?band}
       (then (bind ?band ?class)))
+  (exit-mind)
   (if (table-match npc_default_spawns gender ?g class ?class file ?exact)
       (then ?exact)
       (else (if (table-match npc_default_spawns gender ?g class any file ?catch-all)

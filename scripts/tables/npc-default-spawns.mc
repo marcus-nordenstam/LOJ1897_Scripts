@@ -13,9 +13,11 @@
 ;   class  - matches the NPC's `class-situation` self-belief band.
 ;   file   - resolves against the project Content/Spawn directory.
 ;
-; `any` in gender or class is a WILDCARD. Rows are tried top-to-bottom; the FIRST
-; whose every non-wildcard filter matches wins - so list specific rows before the
-; per-gender catch-alls.
+; `any` is a CONVENTION, not a matcher wildcard: (table-match ..) compares cells
+; literally, so a row's `any` matches only a filter that asks for `any`, which is
+; what the catch-all query in (npc-spawn-file ?who) does after the exact query
+; misses. A `[k ..]` filter never matches an `any` cell. Rows are tried
+; top-to-bottom; the FIRST whose every filter matches wins.
 ;
 ; (Age / role refinement can be added later as extra fields; a reader that does
 ; not know a field ignores it, so adding one is additive.)
