@@ -29,6 +29,7 @@
     (try
       (when (and (latch-eval (closest-unobserved [k structure] ?region): ?dest)
                  (observed ?dest /not)))
-      (effects (maintain-proposal {@self WALK (front-park-point ?dest)})))
+      (effects (maintain-proposal {@self WALK (spatial ?dest bounds /env)}
+                                  [/postlude (observe ?dest)])))
     (try
       (effects (set-outcome ?find_task-rel /fail)))))
