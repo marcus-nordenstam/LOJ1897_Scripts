@@ -582,10 +582,21 @@ object (+ obs)
             suspension-bridge
     part (tar [k space|part] @object)
         body-part
-            head
+            # A (motor) kind is a motor an act occupies; the set is these kinds in declaration
+            # order, so this order IS the motor index. legs is the base layer, and mind - the
+            # motor that drives no bone - must be declared last (init_motor_set checks it).
+            legs (motor)
+            head (motor)
             hand
-                left-hand  (side left)
-                right-hand (side right)
+                right-hand (motor) (side right)
+                left-hand  (motor) (side left)
+            mouth (motor)
+            eyes (motor)
+            eyelid (motor)
+            body (motor)
+            face (motor)
+            right-arm (motor) (side right)
+            left-arm  (motor) (side left)
             finger
                 ring-finger
                     left-ring-finger  (side left)
@@ -593,13 +604,13 @@ object (+ obs)
             eye
                 left-eye  (side left)
                 right-eye (side right)
-            mouth
             # Central body. Default wound-site when a method-row's
             # :wound-site slot is omitted; carries generic torso
             # wounds (stab, gunshot, beating). Additional body-parts
             # (neck, arm, leg, lungs) land alongside the method rows
             # that need them.
             torso
+            mind (motor)
         structure-part
             counter
                 bar-counter
