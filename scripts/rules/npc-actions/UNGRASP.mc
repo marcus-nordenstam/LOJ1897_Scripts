@@ -24,7 +24,7 @@
         (then (set-outcome ?ungrasp /fail))))
 
   (effects
-    (hand-rest-point ?hand): ?rest
+    (hand-rest-cell ?hand ?item): ?rest
     (release-grip ?item ?rest)
     (detach-entity ?item)
     ; TWO writes are required for the placement to stick: Merlin's bounds AND the GRYM

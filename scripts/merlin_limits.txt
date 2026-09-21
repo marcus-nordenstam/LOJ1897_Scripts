@@ -63,7 +63,6 @@ npc.beliefIdsByLabel.pool           =   16       4       8
 
 # Float-data bounds
 npc.spatialBounds.pool              =   4000   128     32
-npc.float4.pool                     =   4000   128     32
 
 # Per-mind spline reference slots (Mental::t_spline_ref).
 abs.splines.pool                    =   256     16      8

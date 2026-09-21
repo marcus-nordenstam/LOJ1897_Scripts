@@ -31,16 +31,9 @@
   (relocate ?item ?dest)
   (observe ?item))
 
-; Where a thing released from ?hand comes to rest: the hand's own world position,
-; dropped by its half-height so the thing's BOTTOM sits on the surface rather than
-; its centre - which is the "floating" gap, and the same bottom-anchoring the spawn
-; path does. A handless hand has no such point, and the zero vector is not an
-; acceptable answer: the vector ops read a failed geometry read as the ORIGIN, so
-; the glass would be placed at the centre of the world.
-(define-func hand-rest-point (?hand)
-  (spatial ?hand bounds /env): ?hb
-  (check (substantial ?hb))
-  (if (unsubstantial ?hb)
-      (then @fail)
-      (else (vec-sub (bounds-position ?hb)
-                     (vec-mul (floats 0.0 1.0 0.0) (bounds-extent ?hb))))))
+; Where a thing released from ?hand comes to rest: the free cell of the thing's own size
+; at or nearest the hand. No rule holds a point; a cell names the spot and the grid says
+; whether it is free. @fail while the grid has no answer, which the caller treats as
+; "not yet".
+(define-func hand-rest-cell (?hand ?item)
+  (env-cell (env-cell-size ?item) [/at_or_near ?hand]))
