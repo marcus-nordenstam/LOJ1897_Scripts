@@ -1,6 +1,0 @@
-
-# env-point: nav waypoints / spawnpoints (the env-point.arc archetype). Dormant in
-# hsim - GrymEngine runtime nav/spawn instantiates these.
-env-point (+ obs)
-    waypoint
-    spawnpoint

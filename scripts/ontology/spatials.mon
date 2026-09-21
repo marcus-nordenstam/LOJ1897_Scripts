@@ -4,7 +4,7 @@
 # lens / belief-label over one struct; the (spatial ?ent <label>) read op and the
 # (spatial-write ...) op resolve their relation argument to a label record, never a
 # hardcoded C++ name compare. Each label names the struct it reads and its decorations:
-#   (spatial-struct space|grip|stack)     which physical edge store this label reads
+#   (store space|grip|stack)     which physical edge store this label reads
 #   (up)                         single-target read (default; explicit for clarity)
 #   (down)                       list read (the store's inverse / occupants side)
 #   (ascend)                     one struct-parent hop after an up-view
@@ -50,30 +50,41 @@
 # runtime; (excl) a child has one parent; (ordered) the store maintains head order
 # (stack top); (subjective) a mind's value can diverge from env truth. Stores MUST
 # precede the views that reference them.
-(spatial-struct space    (mobile) (excl) (subjective))
-(spatial-struct grip     (mobile) (excl) (recurse-on-obs))
-(spatial-struct stack    (mobile) (excl) (ordered))
-(spatial-struct part     (immutable) (excl))
+(spatial space    (mobile) (excl) (subjective))
+(spatial grip     (mobile) (excl) (recurse-on-obs))
+(spatial stack    (mobile) (excl) (ordered))
+(spatial part     (immutable) (excl))
 
 # The immutable structural topology (the old struct_skeleton), read through the
 # same fused (spatial ?ent <view> /env?) op: `parts` = a whole's children (down).
 # Default plane = belief-honest (perceived); /env = every edge in the environment
 # (all rooms of a building, etc.). A part's enclosing whole (the up-read) is the
 # `parent` term, resolved per-archetype by the op's struct fallback.
-(spatial-label parts (spatial-struct part) (down))
+(spatial-label parts (store part) (down))
 
-(spatial-label bounds     (spatial-struct space) (payload))
-(spatial-label space      (spatial-struct space) (theme frequent))
-(spatial-label building   (spatial-struct space) (rung building))
-(spatial-label town       (spatial-struct space) (rung town))
-(spatial-label contents   (spatial-struct space) (down))
-(spatial-label co-located (spatial-struct space) (co))
-(spatial-label co-located-building (spatial-struct space) (co) (rung building))
-(spatial-label room       (spatial-struct space) (first) (rung interior-space))
-(spatial-label gripped-by (spatial-struct grip))
-(spatial-label grip       (spatial-struct grip) (down))
-(spatial-label hold       (spatial-struct grip) (down) (descend))
-(spatial-label held-by    (spatial-struct grip) (up) (ascend))
-(spatial-label in-stack   (spatial-struct stack))
-(spatial-label top        (spatial-struct stack) (head))
-(spatial-label items      (spatial-struct stack) (down))
+(spatial-label bounds     (store space) (payload))
+(spatial-label space      (store space) (theme frequent))
+(spatial-label building   (store space) (rung building))
+(spatial-label town       (store space) (rung town))
+(spatial-label contents   (store space) (down))
+(spatial-label co-located (store space) (co))
+(spatial-label co-located-building (store space) (co) (rung building))
+(spatial-label room       (store space) (first) (rung interior-space))
+(spatial-label gripped-by (store grip))
+(spatial-label grip       (store grip) (down))
+(spatial-label hold       (store grip) (down) (descend))
+(spatial-label held-by    (store grip) (up) (ascend))
+(spatial-label in-stack   (store stack))
+(spatial-label top        (store stack) (head))
+(spatial-label items      (store stack) (down))
+
+# The struct children a pop's (structs ..) names: the slot, its kind and its local offset.
+(struct left-hand (child) [k left-hand] (offset 0 -0.04 0))
+(struct right-hand (child) [k right-hand] (offset 0 0.04 0))
+(struct head (child) [k head] (offset 0 1.6 0))
+(struct left-eye (child) [k left-eye] (offset -0.032 1.6 0))
+(struct right-eye (child) [k right-eye] (offset 0.032 1.6 0))
+(struct mouth (child) [k mouth] (offset 0 1.55 0.03))
+(struct torso (child) [k torso] (offset 0 1.2 0))
+(struct left-ring-finger (child) [k left-ring-finger] (offset 0 0 0))
+(struct right-ring-finger (child) [k right-ring-finger] (offset 0 0 0))

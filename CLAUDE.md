@@ -29,7 +29,7 @@ scripts/
     macros/         macro expansions shared by the rules
     tables/         authored data the rules and the engine read by table lookup
     ontology/       the game's ontology (.mon): every term, its fields and its decorations
-    environment/    archetypes/ - the .arc archetype and attr definitions of the one world
+    ontology/       things.mon - the physical tree with its pops; attrs.mon + spatials.mon - the definitions
     definitions/    run configs (.mc): historical_1yr.mc and its siblings. hsim's --cfg
                     path is relative, so run hsim from here
     nat_lang/       grammar packs and the phrasebook, for converting between the Merlin
