@@ -6,9 +6,9 @@
 ; (chance) - scaled by the parish's crowding (population-pressure) and by @self's
 ; own openness - rolls the departure. @self is bound O(1); there is no role cast.
 ;
-; This is a pure DECISION think (mirrors clubs.hs club_resignation): it only mints
+; This is a pure DECISION think (mirrors clubs.mc club_resignation): it only mints
 ; the standing act-goal {@self DEPART}. The teardown - quitting the job, releasing
-; the home, and leaving the world - is @self's OWN act (npc-act/depart.hs), which
+; the home, and leaving the world - is @self's OWN act (npc-act/depart.mc), which
 ; acts entirely on @self and @self's own beliefs. No mark, no sweep: a departing
 ; person removes THEMSELVES.
 ;

@@ -7,10 +7,10 @@
 ;       it (each holds {@self organize <occ>}), so both are forced-attend (the
 ;       couple ALWAYS shows up); both guest circles are invited. No marriage yet.
 ;
-;   attend_* (the attendance TASK, attend_think.hs): the couple + guests route to
+;   attend_* (the attendance TASK, attend_think.mc): the couple + guests route to
 ;       the church (enter) and gather there through the window (dwell).
 ;
-;   attend_vow / vow_realized / spouse_reciprocate (attend_think.hs): the marriage
+;   attend_vow / vow_realized / spouse_reciprocate (attend_think.mc): the marriage
 ;       is MADE AT THE CHURCH by whoever shows up - the vow is a say_to ("you are
 ;       my spouse"); hearers adopt it, the speaker's own beliefs are think
 ;       effects, reciprocation marries the bride back, and (formalize-marriage)

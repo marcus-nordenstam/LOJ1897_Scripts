@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; time_macros.hs - shift / clock arithmetic, pure .hs over (now-hour)/(now-minute).
+; time_macros.mc - shift / clock arithmetic, pure .mc over (now-hour)/(now-minute).
 ;
 ; These fold the old C++ shift ops (in-work-hours / work-starts-soon /
 ; minutes-until-shift-end + the t_hse_engine helper methods) into macros. The
@@ -63,7 +63,7 @@
 ; (years-old ?who): the EXACT whole-years age, read from ?who's OWN {?who birth-date
 ; <date>} belief - mental, no env attr, no omniscience. Works on @self and on anyone
 ; whose birth-date the mind has learned (friends-and-closer); for strangers use the
-; perceived age-band predicates (age_macros.hs) instead.
+; perceived age-band predicates (age_macros.mc) instead.
 (define-macro years-old (?who)
   (- (- (year (date-now)) (year (any {?who birth-date}).target))
      (if (birthday-passed (any {?who birth-date}).target) (then 0) (else 1))))

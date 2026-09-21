@@ -31,13 +31,13 @@
 ; reads, cached annually by derive_prototypes - the same reads the founding rules use.
 ;
 ; The routing (go / dwell) and the winding-up ACT live in the mirror errand file
-; npc-act/close_business_errand.hs.
+; npc-act/close_business_errand.mc.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.mc")
 
 ; --- failure-pressure tunables (rule-local content; see report note (b)) ------
-; A shared tunables.hs home may be warranted if other lanes come to read the same
+; A shared tunables.mc home may be warranted if other lanes come to read the same
 ; base rate - flagged for reconciliation. Held here so the formula is one place.
 (define-macro business_failure_base         () 0.02)   ; annual base failure rate (was fail-businesses 0.02)
 (define-macro business_failure_means_weight () 1.5)    ; a penniless owner folds up to (1 + this)x more

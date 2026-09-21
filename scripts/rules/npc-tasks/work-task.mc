@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; work ?wp - the day's WORK task (a bodyless umbrella, never an action), spawned by
-; day_work (work_attendance_think.hs) at shift start. Its tries fan the shift into the held
+; day_work (work_attendance_think.mc) at shift start. Its tries fan the shift into the held
 ; duties' tasks and the between-duties post-stay.
 ;
 ; THE CONDITION THE TASK RUNS UNDER is its own and not any proposer's: while the shift is on

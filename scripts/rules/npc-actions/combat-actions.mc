@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; combat_actions.hs - the dumb, general VIOLENT ACTION the killing tasks and the
+; combat_actions.mc - the dumb, general VIOLENT ACTION the killing tasks and the
 ; fight task propose. STRIKE is ONE blow (duration (seconds 1 min)):
 ;   (obs)                       - witnesses SEE the blow (per-motor perception),
 ;                                 so bystanders internalize + appraise it;

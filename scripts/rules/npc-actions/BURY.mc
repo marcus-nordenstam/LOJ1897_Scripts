@@ -1,13 +1,13 @@
 ; ----------------------------------------------------------------------------
 ; bury (act lane) - the priest's burial rite act. The planning thinks (bury_route /
-; bury_onsite) live in npc-think/intra-day/bury_think.hs.
+; bury_onsite) live in npc-think/intra-day/bury_think.mc.
 ;
 ;   bury_action (act): perform the rites via the blessed rite ops - the verdict
 ;     ledger row and the tombstone (the dead mind's rendered memory timeline) -
 ;     realize the interment, then destroy the corpse and end the act. The corpse is a
 ;     SINGLE known role-cast object destroyed in the act (safe: no mark, no sweep, no
 ;     in-flight role walk). SPEAKING the interment is NOT this act's job: announce_burial
-;     (bury_think.hs) proposes its own {@self SAY ..} off the ended rite, so the words
+;     (bury_think.mc) proposes its own {@self SAY ..} off the ended rite, so the words
 ;     compete and are said by the ONE speech act like every other utterance.
 ;
 ; Death / burial KNOWLEDGE is PULLED, never pushed. Co-present mourners learn the death
@@ -35,4 +35,4 @@
     (realize-destroyed ?corpse internment [k internment buried] BURY)
     (destroy-entity ?corpse)
     (set-outcome {@self BURY ?corpse} /succ)))
-; go_action (the shared travel act) lives in npc-actions/go_action.hs.
+; go_action (the shared travel act) lives in npc-actions/go_action.mc.

@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; Immigration - the sparse-side population valve, as a GATEKEEPER decision (the
-; mirror of emigration.hs's crowded-side per-NPC outflow).
+; mirror of emigration.mc's crowded-side per-NPC outflow).
 ;
 ; Admitting a newcomer is not a world concern any more than emigration is: it is
 ; an act of a SPECIFIC official - the town's senior civic gatekeeper (the [k job

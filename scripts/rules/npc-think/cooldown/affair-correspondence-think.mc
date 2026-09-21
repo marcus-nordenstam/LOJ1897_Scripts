@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
-; affair_correspondence.hs - the letter channel of a covert affair
+; affair_correspondence.mc - the letter channel of a covert affair
 ; (see Docs/hsim/hsim_social.md "Conduct channel 1: correspondence").
 ;
-; PURE .hs (no C++ generator) - sibling of the other affair/motive rules:
+; PURE .mc (no C++ generator) - sibling of the other affair/motive rules:
 ;   - ?paramour is the actor's first live third-party lover (a lover who is
 ;     not also a spouse - the actor's OWN beliefs, self-POV, no mind peek);
 ;   - the CONCEALMENT motive is the ?paramour role's (covert-affair-motive)

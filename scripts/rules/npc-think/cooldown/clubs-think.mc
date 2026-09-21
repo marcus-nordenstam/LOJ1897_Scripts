@@ -5,7 +5,7 @@
 ;
 ; A club is an `org` (an athletic / race club) anchored on its
 ; articles-of-incorporation, exactly like a workplace - but its roster carries
-; `member-of` beliefs rather than employment. The found-club-seq macro (founding.hs)
+; `member-of` beliefs rather than employment. The found-club-seq macro (founding.mc)
 ; founds it; the register-member / unregister-member verbs (hsim_org_lifecycle) own
 ; its roster.
 ;
@@ -43,7 +43,7 @@
       (when (and (>= (years-old @self) 30)
                  (latch-eval (chance 0.0033))))
 
-      ; SPLIT (Item 5): the npc-action (club_found_errand.hs) takes the founder out to found it
+      ; SPLIT (Item 5): the npc-action (club_found_errand.mc) takes the founder out to found it
       ; (found-club-seq acquires the clubhouse + enrols him). found_club_go routes; there is no
       ; dwell - the goal is minted here and leaf-promotes to the act once he is at the pub.
       (utility errand)
@@ -95,7 +95,7 @@
 
       ; SPLIT (Item 5): the npc-think - the decision to join. Mints {@self goal {@self
       ; join-club <articles>}} (focus = the club's articles, {?club_org record}); the npc-action
-      ; (club_join_errand.hs) sends the member to the clubhouse and registers him there.
+      ; (club_join_errand.mc) sends the member to the clubhouse and registers him there.
       (utility errand)
       (effects (maintain-proposal {@self join-club (any {?club_org record}).target})))))
 
@@ -123,7 +123,7 @@
     (when (latch-eval (chance 0.004)))
 
     ; SPLIT (Item 5): the npc-think - the decision to resign. Mints {@self goal {@self
-    ; resign-club}}; the npc-action (club_resign_errand.hs) sends the member to a clubhouse and
+    ; resign-club}}; the npc-action (club_resign_errand.mc) sends the member to a clubhouse and
     ; unregisters him there (unregister-member resolves his own club).
     (utility errand)
     (effects (maintain-proposal {@self resign-club}))))

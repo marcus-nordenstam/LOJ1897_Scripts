@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; covet_inheritance.hs - instrumental (appetitive) homicide genesis.
+; covet_inheritance.mc - instrumental (appetitive) homicide genesis.
 ;
 ; The appetitive counterpart to the reactive grievance rules
 ; (grievance-*-think.mc). Where those turn a GRIEVANCE into an act against the
@@ -7,7 +7,7 @@
 ; goal against an INNOCENT obstacle - the rich kin. The victim is selected for
 ; what removing them achieves (the inheritance), not for anything they did.
 ;
-; PURE .hs (no C++ generator). The selection that the old (generative-covet)
+; PURE .mc (no C++ generator). The selection that the old (generative-covet)
 ; flag dispatched to run_generative_covet is expressed here with the engine's
 ; scored select-one primitive:
 ;   - (role ?benefactor ... (select (score ...))) binds the single WEALTHIEST co-heir

@@ -3,7 +3,7 @@
 ; room-walk is the general `wander` task (putter proposes ONE), and mail is `read-mail` on
 ; its own cadence. What remains bespoke is discovering / re-checking the hiding-spot caches
 ; in each room the wander carries @self through. The want_putter driver stays in
-; putter_think.hs.
+; putter_think.mc.
 ;
 ;   wander : MAINTAIN one wander of home (walks every known room) until it succeeds - an
 ;            interrupted putter withdraws it, a resumed putter mints it fresh.

@@ -10,7 +10,7 @@
 ;
 ; Mapping: callous / selfish (psychopathy / narcissism) -> lax honesty + generosity;
 ; hot-tempered (volatility) -> lax sobriety. diligence has no abduced impression, so it
-; is never banded down for others (always reads fair). The self side (conduct_bands.hs)
+; is never banded down for others (always reads fair). The self side (conduct_bands.mc)
 ; bands @self's OWN four dims from their real values. The (or ... held-lax) role input
 ; keeps the rule eligible so a band can toggle back OFF if the impression is forgotten.
 ; ----------------------------------------------------------------------------

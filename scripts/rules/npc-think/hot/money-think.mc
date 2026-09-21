@@ -14,7 +14,7 @@
 ;                    The same think mints the derived {@self wealth ?} off the
 ;                    PROJECTED post-credit balance (annual, post-accrual - the shape
 ;                    the old C++ classify_wealth had), so no fragile re-arm on a
-;                    perceived count change is needed. economic-situation.hs bands it.
+;                    perceived count change is needed. economic-situation.mc bands it.
 ; ----------------------------------------------------------------------------
 
 (include "../../../macros/money-macros.mc")

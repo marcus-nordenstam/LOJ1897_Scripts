@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; back - the investment task: approach the firm, then seal the backing.
 ;
-; The decision (business_think.hs `investment`) mints {@self goal {@self back <org>}};
+; The decision (business_think.mc `investment`) mints {@self goal {@self back <org>}};
 ; promotion makes the `back` task RUN. The shared role binds ?wp, the org's workplace.
 ;
 ;   OUTSIDE the firm -> route there (maintain the enter proposal).

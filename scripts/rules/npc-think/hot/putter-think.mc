@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; putter driver. The putter TASK itself (wander / cache / done) lives in
-; npc-tasks/putter-task.hs; want_putter is the lane that RAISES it: while at home, maintain
+; npc-tasks/putter-task.mc; want_putter is the lane that RAISES it: while at home, maintain
 ; a putter round - it only makes sense to putter at home.
 ; ----------------------------------------------------------------------------
 

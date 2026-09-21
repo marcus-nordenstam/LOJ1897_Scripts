@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; partner_errand - the npc-ACT half of the business-partnership split (Item 5).
 ;
-; The decision (business.hs `business_partnership`) minted {@self goal {@self
+; The decision (business.mc `business_partnership`) minted {@self goal {@self
 ; PARTNER <principal_articles>}}. The clerk goes to the firm's premises and is
 ; bought in there - the partnership documents (the clue trail) + the co-presence a
 ; witness would see, instead of a faceless world edit. The firm's articles are the

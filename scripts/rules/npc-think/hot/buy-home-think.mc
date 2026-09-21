@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; buy-home - the DEMAND side of the property market (per-NPC replacement for the
-; omniscient world-act/housing_market.hs buy stage). A seeker LEARNS what is for
+; omniscient world-act/housing_market.mc buy stage). A seeker LEARNS what is for
 ; sale by reading the agent's register, then buys the nicest dwelling he can
 ; afford by a per-NPC roulette: no seeker knows a listing he has not read, and
 ; the winner is drawn (value-weighted), not sorted.
@@ -11,7 +11,7 @@
 ; thinks walk him to a house agency and read the FOR-SALE register - the KNOWLEDGE
 ; CHANNEL that mints his {@self for-sale ?b} beliefs (reuse of the foundation
 ; read-public-register macro). Only once he KNOWS listings does choose_home cast a
-; dwelling and promote the purchase act (buy_home_act.hs).
+; dwelling and promote the purchase act (buy_home_act.mc).
 ;
 ; Routing mirrors the worship lane's three-case structure so the market never goes
 ; dormant merely because @self has not yet learned which orgs are house agencies:
@@ -73,7 +73,7 @@
         (effects (maintain-proposal {@self read-listings ?reg}))))))
 
 ; CASE C - register unread and @self knows NO house agency at all: consult the
-; parish incorporations register (the orient lane, orient_errand.hs), which mints
+; parish incorporations register (the orient lane, orient_errand.mc), which mints
 ; a mental org object + {?org isa ...} belief for EVERY org in town - the only
 ; honest channel by which an org's identity is learned (co-presence at an office
 ; teaches acquaintances, not that the office IS a house agency). The instant a
@@ -93,7 +93,7 @@
 ; A claimed dwelling scores 0 (dropped from the draw); the (when) also hard-blocks
 ; committing to one, so two seekers in the same window cannot both buy it. On
 ; commit @self posts his OWN claim (pub-bb-post) so a rival defers; the claim is
-; refreshed while he keeps choosing and self-clears by ttl once he stops (see tunables.hs).
+; refreshed while he keeps choosing and self-clears by ttl once he stops (see tunables.mc).
 ; The affordability gate is his OWN wealth vs the tier cost (0.15 per tier - the
 ; C++ k_buy_wealth_per_value).
 (npc-think choose_home

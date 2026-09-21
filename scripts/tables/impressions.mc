@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; impressions.hs - the abduction v2 impression map: which perceived-character
+; impressions.mc - the abduction v2 impression map: which perceived-character
 ; kind a witnessed act's trait-gated (chance (attr @self <trait>) ...) term
 ; evidences, and at what authored strength. Read by build_abduction_index (C++)
 ; via hse_table_lookup: witnessing an episode whose gate reads (attr @self <trait>)

@@ -1,9 +1,9 @@
 ; ----------------------------------------------------------------------------
-; age-bands.hs - the perceptible age ladder, as authored data.
+; age-bands.mc - the perceptible age ladder, as authored data.
 ;
 ; Age is never read as a number by a rule. Every mind holds a PERCEIVED band
 ; belief about the people it has seen - {?o age-band <band>} - and role filters
-; test the band. This table is where the ladder lives; macros/age-macros.hs reads
+; test the band. This table is where the ladder lives; macros/age-macros.mc reads
 ; the same bands in its threshold predicates and MUST stay in lockstep with it.
 ;
 ;   band     - the band kind stamped on the age-band attr

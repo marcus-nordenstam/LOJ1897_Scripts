@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; found_business (npc-action lane) - the ACT half of the business-founding split.
 ;
-; The decision (rules/work/business.hs `business_founding`) minted {@self goal
+; The decision (rules/work/business.mc `business_founding`) minted {@self goal
 ; {@self FOUND}}. The would-be proprietor goes to the bank (npc-think lane) and the
 ; business is FOUNDED there as the act's completion - leaving the founding documents
 ; (the detective clue trail) and the co-presence a witness would see.

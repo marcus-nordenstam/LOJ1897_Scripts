@@ -1,5 +1,5 @@
 ; give_alms - the almsgiving ACT-BODY (npc-action). The pressure think that proposes
-; it is npc-think/feel_charitable.hs. The {@self GIVE-ALMS <church>} act-belief -
+; it is npc-think/feel_charitable.mc. The {@self GIVE-ALMS <church>} act-belief -
 ; begun at commit, ended by (set-outcome {..} /succ) at completion - IS the episodic memory
 ; days-since-last reads. No aim, no end-goal.
 

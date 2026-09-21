@@ -1,12 +1,12 @@
 ; ----------------------------------------------------------------------------
 ; meals - the npc-THINK half of the UNIFIED eat lane (the acts + the meals-local
-; define-macros live in npc-act/meals.hs). This file holds the meal desires, the
+; define-macros live in npc-act/meals.mc). This file holds the meal desires, the
 ; at-home idle yield, the shared approach (eat_go), the provisioning approach
 ; desires, and the starvation-tail desires.
 ;
 ; ONE act-goal serves every routine meal: {@self eat [k <meal>] <place>} - a
 ; desire mints it in its window; the <place> drives a leaf-first approach (eat_go);
-; at the place it promotes to the shared eat_act (npc-act/meals.hs).
+; at the place it promotes to the shared eat_act (npc-act/meals.mc).
 ;
 ; UTILITY IS PROXIMITY TO THE MEALTIME, NEVER HUNGER (ruling 10): each desire is
 ; eligible only inside its believed window. Hunger is pure physiology - it
@@ -211,7 +211,7 @@
 
 ; ---- the shared approach: the <place> drives a leaf-first go sub-goal --------
 
-; Not yet at the eat place -> head there via the generic enter chain (enter.hs),
+; Not yet at the eat place -> head there via the generic enter chain (enter.mc),
 ; like worship. A MAINTENANCE rung (§5.11/§5.12): hold {@self enter ?place} while
 ; not at the place, cease it on arrival (at-place). The enter chain's sub-goals are
 ; the live leaves while routing; on arrival they collapse and the eat goal becomes
@@ -262,8 +262,8 @@
              [/feasible (or (not (dining-out? ?place)) (>= (coin-balance @self) (price ?meal ?place)))])))
 
 ; (PROVISIONING - the cook keeping the kitchen larder stocked - lives in
-; npc-think/provisioning_think.hs; the general carry-to-a-place chain in
-; npc-think/bring_think.hs. Meals only EAT here.)
+; npc-think/provisioning_think.mc; the general carry-to-a-place chain in
+; npc-think/bring_think.mc. Meals only EAT here.)
 
 ; (EATING OUT is folded into the unified eat lane above: want_eat_out_pub /
 ; want_eat_out_restaurant mint {@self eat [k supper] <venue>}, eat_go walks
@@ -458,4 +458,4 @@
 ; PERSON-DAY food prop (?food = a believed loaf); breakfast / lunch / a bought-out
 ; supper eat abstractly (?food = 0, EAT destroys nothing). A stale belief (a loaf
 ; a sibling already ate) reads @fail (falsy) and the supper stays abstract.
-; The eat TASK (take_meal / table_hours / table_talk) lives in npc-tasks/eat-task.hs.
+; The eat TASK (take_meal / table_hours / table_talk) lives in npc-tasks/eat-task.mc.

@@ -31,7 +31,7 @@
 ; reads, cached annually by derive_prototypes - the same reads the founding rules use.
 ;
 ; The routing (go / dwell) and the winding-up ACT live in the mirror errand file
-; npc-act/close_business_errand.hs.
+; npc-act/close_business_errand.mc.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.mc")
@@ -40,7 +40,7 @@
 ; a proposed label, so the bare {@self CLOSE-BUSINESS} goal does not promote on its own - the act
 ; runs ONLY here, ONLY once the owner has reached the premises (at-workplace). articles-building
 ; binds ?wp (the firm's premises) off ?art, the focus bound off the {@self CLOSE-BUSINESS} goal - the same read the close_go routing rung uses
-; (npc-think/close_business_errand.hs), whose (not (spatial @self building ?wp)) gate this arrived condition
+; (npc-think/close_business_errand.mc), whose (not (spatial @self building ?wp)) gate this arrived condition
 ; negates. The (goal ...) gate supplies the /caused_by.
 (npc-think close_at_premises
   (goal {@self CLOSE-BUSINESS ?art})

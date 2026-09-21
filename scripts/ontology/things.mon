@@ -40,7 +40,7 @@
         (physical cat
           (physical siamese))))
     # Forensic-trace families. The `blemish` parent unifies three
-    # sub-trees so the `blemishes` plural-kind attr (common.arc) can
+    # sub-trees so the `blemishes` plural-kind attr (attrs.mon) can
     # hold any mix and the forensic-detective layer reasons over the
     # union with one attr walk:
     #   wound  - body-internal injury (puncture-wound, slash-wound,
@@ -404,7 +404,7 @@
           # grounds reciprocal courtship travels by post - the beloved reads
           # it in the morning mail and comes to know she is fancied.
           (physical courtship-letter)
-          # The labour-market verdict letters (recruit_actions.hs). A TYPED signal:
+          # The labour-market verdict letters (recruit_actions.mc). A TYPED signal:
           # the seeker has one apply-for task in flight, so the letter's KIND alone
           # tells him the verdict - offer-letter -> take the post (apply-for succ),
           # rejection-letter -> apply-for fail. Delivered to his home mail pile, read
@@ -472,7 +472,7 @@
       (physical beer)
       # Drink fluids - what sits in a table-service vessel. A poisoning
       # TAINTS the victim's drink: the chosen drink fluid's `taint` attr
-      # (common.arc) names the concentrated poison kind it was laced with
+      # (attrs.mon) names the concentrated poison kind it was laced with
       # (the forensic ground truth a chemical analysis reveals - distinct
       # from the perpetrator's `add_substance` act-record belief). The
       # occasion picks the drink: supper / luncheon -> wine, tea ->
@@ -485,7 +485,7 @@
       # gate. (`toxin`, not `poison`: `poison` is already the leaf kill
       # TASK in tasks.mon, and two noun kinds of the same name make the
       # kind-value parser ambiguous.) Each is a real Victorian-era poison;
-      # the `fluid-amount` (fluid.arc) is the bottle's fill level, depleted
+      # the `fluid-amount` (things.mon (fluid)) is the bottle's fill level, depleted
       # one dose at a time by chronic poisoning - an emptied bottle is
       # spent evidence at the killer's home. A dose laces the victim's
       # drink (sets that drink fluid's `taint` to this kind). Modelled
@@ -729,7 +729,7 @@
   # same kind of thing - a place with bounds that things are IN - and a man is always in
   # one: indoors it is his room, outdoors it is the park, and failing that the town whose
   # bounds cover the whole of it. There is no scale at which a man stands in nothing.
-  # The large ones simply opt out of sector coverage (see town.arc), which is the only
+  # The large ones simply opt out of sector coverage (see things.mon (town)), which is the only
   # reason they ever lived in a separate `world_part` / `region` tree.
   # ANCHORS. A space is matched by its ADDRESS, exactly as a structure is - the back-office a
   # notice names and the back-office a man walks into are one place when the address agrees.
@@ -787,7 +787,7 @@
       # The world's own top rung, and the one that carries weather. A park's parent is
       # its town and a town's parent is its country: structures sit inside the space
       # that holds them, and spaces inside the wider space that holds THEM, all the
-      # way up. Towns keep no sector coverage - see town.arc.
+      # way up. Towns keep no sector coverage - see things.mon (town).
       (physical town
         (pop (cap 16) (-sector-coverage) (no-sector-coverage)
           (attrs -variant -birth-date -is-nav-passage -address)
@@ -814,7 +814,7 @@
       (physical moor)
       (physical bluff)
       (physical cliff)))
-  # env-point: nav waypoints / spawnpoints (the env-point.arc archetype). Dormant in
+  # env-point: nav waypoints / spawnpoints (the things.mon (env-point) archetype). Dormant in
   # hsim - GrymEngine runtime nav/spawn instantiates these.
   (physical env-point (+ per obs)
     (pop (cap 256) (per obs) (always-visible) (non-occluder) (sector-coverage) (spatials bounds))

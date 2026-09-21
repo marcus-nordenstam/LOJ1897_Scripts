@@ -28,8 +28,10 @@ scripts/
                     the /nightly town post)
     macros/         macro expansions shared by the rules
     tables/         authored data the rules and the engine read by table lookup
-    ontology/       the game's ontology (.mon): every term, its fields and its decorations
-    ontology/       things.mon - the physical tree with its pops; attrs.mon + spatials.mon - the definitions
+    ontology/       the game's ontology (.mon, one s-expr tree language): things.mon the physical
+                    tree with its pops, concepts.mon the abstract tree, the name pools, states.mon
+                    + tasks.mon the relation definitions, attrs.mon + spatials.mon the attr /
+                    spatial / struct definitions, ontology.mon the (using ..) index
     definitions/    run configs (.mc): historical_1yr.mc and its siblings. hsim's --cfg
                     path is relative, so run hsim from here
     nat_lang/       grammar packs and the phrasebook, for converting between the Merlin

@@ -1,12 +1,12 @@
 ; ----------------------------------------------------------------------------
 ; bury (think lane) - the priest's burial planning think. The rite act
-; (bury_act) lives in npc-act/bury_act.hs.
+; (bury_act) lives in npc-act/bury_act.mc.
 ;
 ; Burial is not a zero-role world sweep over every condition=dead corpse. A
-; PRIEST (a real job-holder - the church org's head-pos, public_orgs.hs) buries
+; PRIEST (a real job-holder - the church org's head-pos, public_orgs.mc) buries
 ; the dead whose bodies are brought to his church. Knowledge reaches him by
 ; PERCEPTION, not telepathy: a bereaved NPC CARRIES the corpse into the church
-; (convey_corpse.hs relocates the body into the church's room), and the priest,
+; (convey_corpse.mc relocates the body into the church's room), and the priest,
 ; co-present in that room, PERCEIVES {<corpse> condition dead} on it directly
 ; (condition is a (per obs)(hsim-percept) attr, so mx_observe_interior_space
 ; mirrors it into his own mind as he walks the room's contents). No priest in a
@@ -14,7 +14,7 @@
 ; buried (accepted per the emergent-death-knowledge decision).
 ;
 ; TWO maintenance rungs, mutually exclusive on the co-present spatial gate (the
-; enter.hs OUTSIDE-vs-INSIDE pattern), so the route->rite handoff is EMERGENT -
+; enter.mc OUTSIDE-vs-INSIDE pattern), so the route->rite handoff is EMERGENT -
 ; no excl-goal, no per-trip arm flag. Both cast the priest (his OWN job belief,
 ; the CACHED self-gate, so every non-priest empty-set-skips the rung before the
 ; corpse/church pools materialize) and the most-overdue dead person he knows

@@ -1,13 +1,13 @@
 ; ----------------------------------------------------------------------------
 ; club_found_errand (npc-think lane) - the THINK half of the club-founding split.
 ;
-; The decision (clubs.hs `club_founding`) minted {@self goal {@self FOUND-CLUB}}.
+; The decision (clubs.mc `club_founding`) minted {@self goal {@self FOUND-CLUB}}.
 ; The founder goes out (to a pub - the period's clubs grew out of tavern society)
-; and founds the club there (npc-act/club_found_errand.hs).
+; and founds the club there (npc-act/club_found_errand.mc).
 ;
 ;   found_club_go      : hold the goal, not at a pub -> travel act to one.
 ;   found_club_at_pub  : AT a pub -> propose the founding act (found_club_act reads its
-;                        club details off the standing goal). The decision (clubs.hs
+;                        club details off the standing goal). The decision (clubs.mc
 ;                        club_founding) owns the goal's whole life.
 ; ----------------------------------------------------------------------------
 

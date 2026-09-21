@@ -1,12 +1,12 @@
 ; ----------------------------------------------------------------------------
-; affair_fallout.hs - broad, NON-lethal betrayal fallout (homicide_motive_realism
-; pattern-4 + divorce). The counterpart to betrayal_kill.hs: where that pass is
+; affair_fallout.mc - broad, NON-lethal betrayal fallout (homicide_motive_realism
+; pattern-4 + divorce). The counterpart to betrayal_kill.mc: where that pass is
 ; the murderous tail, this is what happens to EVERYONE else who is betrayed -
 ; the great majority who react without violence.
 ;
-; PURE .hs (no C++ generator):
+; PURE .mc (no C++ generator):
 ;   - ?partner is a spouse or lover the actor believes keeps a third-party
-;     lover (the same discovery shape as betrayal_kill.hs - the actor's OWN
+;     lover (the same discovery shape as betrayal_kill.mc - the actor's OWN
 ;     beliefs, no mind peek); ?interloper is the JOIN role over those beliefs;
 ;   - the monthly discovery chance (0.12) surfaces a standing affair over
 ;     time, not instantly;
@@ -63,7 +63,7 @@
 
           (effects
             ; Divorce: the husband's remedy alone; the proper / high-decorum are likeliest
-            ; to cut the tie. PROPOSE the divorce task (divorce-task.hs performs the
+            ; to cut the tie. PROPOSE the divorce task (divorce-task.mc performs the
             ; repudiation); once put away, the standing divorce record bars a re-propose.
             (if (and {@self spouse ?partner}
                      {@self gender [k male]}

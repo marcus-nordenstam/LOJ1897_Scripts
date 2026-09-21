@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
-; physiology_macros.hs - the tunable rates + band thresholds the physiology
-; action (physiology-action.hs) advances each act completion. All content: the
+; physiology_macros.mc - the tunable rates + band thresholds the physiology
+; action (physiology-action.mc) advances each act completion. All content: the
 ; engine only triggers the action and supplies the elapsed minutes + a recovers
 ; flag; the model itself lives here.
 ; ----------------------------------------------------------------------------

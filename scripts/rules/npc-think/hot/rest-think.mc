@@ -19,7 +19,7 @@
 ;                    over-tired NPC abandons everything else and goes to bed.
 ;   - idle_go_home : the mild fallback - when nothing pulls you,
 ;                    drift home. Lowest priority.
-; The durative sleep act itself (sleep_act) lives in npc-act/rest.hs.
+; The durative sleep act itself (sleep_act) lives in npc-act/rest.mc.
 ; ----------------------------------------------------------------------------
 
 (include "../../../macros/intensity-macros.mc")
@@ -56,7 +56,7 @@
   (role ?home {@self home ?home}
               (spatial @self building ?home)
     ; You cannot sleep through an assault - being under attack gates the whole rest
-    ; lane OUT, so the fight acts (defend / flee / scream) take over (fight.hs).
+    ; lane OUT, so the fight acts (defend / flee / scream) take over (fight.mc).
     (when (and (or (> (target-or @self sleepiness 0) 0.5)
                    (>= (now-hour) 22)
                    (< (now-hour) 6))))

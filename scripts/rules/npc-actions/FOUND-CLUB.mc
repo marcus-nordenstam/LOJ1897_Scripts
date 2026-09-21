@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; club_found_errand (npc-action lane) - the ACT half of the club-founding split.
 ;
-; The decision (clubs.hs `club_founding`) minted {@self goal {@self FOUND-CLUB}}.
+; The decision (clubs.mc `club_founding`) minted {@self goal {@self FOUND-CLUB}}.
 ; The founder goes out (npc-think lane) and founds the club at a pub;
 ; found-club-seq acquires the clubhouse, founds the org, and enrols him as its
 ; first member. Members join afterwards via club_joining.

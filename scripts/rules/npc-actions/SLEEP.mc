@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; rest (npc-action) - the sleep act of the FATIGUE / REST lane. The intra-day
-; think rules (seek_rest / sleep / idle_go_home) live in npc-think/rest.hs;
+; think rules (seek_rest / sleep / idle_go_home) live in npc-think/rest.mc;
 ; this file holds the durative sleep act promoted from the SLEEP desire.
 ; ----------------------------------------------------------------------------
 

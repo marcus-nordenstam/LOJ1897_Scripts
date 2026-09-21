@@ -5,7 +5,7 @@
 ; and PROPOSES the telling. the shared say_to act says it aloud.
 ;
 ; ?x (gossiped ABOUT) is drawn by roulette from the people @self knows of; ?ear (the
-; listener) from whoever shares @self's room (the location JOIN, cf. introduce.hs).
+; listener) from whoever shares @self's room (the location JOIN, cf. introduce.mc).
 ; for-each-present-tense-belief walks @self's OWN beliefs about ?x (the DEFAULT subject-anchored
 ; read - @self's own mind, never telepathy) in label-PRIORITY order (scandal labels
 ; first, so a scandal outranks relationship news), skips any already in a {@self SAY

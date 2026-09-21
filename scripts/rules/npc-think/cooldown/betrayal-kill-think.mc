@@ -1,11 +1,11 @@
 ; ----------------------------------------------------------------------------
-; betrayal_kill.hs - the LETHAL answer to a betrayal. A DRIVER, not an appraisal:
+; betrayal_kill.mc - the LETHAL answer to a betrayal. A DRIVER, not an appraisal:
 ; The betray-act reflex rows mint the reaction (anger @ the unfaithful partner, contempt @
 ; the interloper); this rule READS those emotions and maintain-proposes the kill,
 ; /caused_by-pinned to the emotion it reads. It mints nothing - so the murderous
 ; drive fades as the anger / contempt cools.
 ;
-; The blame decision reads the layered score macros (score_macros.hs) over the minted
+; The blame decision reads the layered score macros (score_macros.mc) over the minted
 ; emotions: kill BOTH when (dual-outrage-score) >= 2.5 (rare); else the partner when
 ; (blame-partner-score) >= (blame-interloper-score); else the interloper. The rage tip
 ; (dark-propensity over rage-disposition) fires ONCE then the running proposal latches,

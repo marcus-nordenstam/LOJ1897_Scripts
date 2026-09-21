@@ -2,7 +2,7 @@
 ; catch_up (npc-think). Away from the table, @self proposes SAYING their OWN recent
 ; news (a new spouse / fiancee / child / friendship) to whoever is CO-PRESENT; the
 ; shared say_to act says it aloud. The listener ?guest is bound by the location
-; JOIN ({@self location ?loc} + {?guest location ?loc}, cf. introduce.hs - the guest
+; JOIN ({@self location ?loc} + {?guest location ?loc}, cf. introduce.mc - the guest
 ; perceived sharing @self's room), and @self proposes ONE fact they have not heard.
 ; Hearing it, a guest files @self as the source and can pass "did you hear, X had a
 ; child" along - self-news cascades onward as ordinary gossip.
@@ -10,7 +10,7 @@
 ; Fired per NPC monthly; the gates (extraversion-weighted chance + a minimum
 ; age) live in (when). Dedup is PER-LISTENER (the SAY's aux is the guest), so a
 ; guest hears each fact only once. Proposing nothing (all heard, or nobody
-; co-present) is a safe no-op. Meal-table chatter is table_talk_think.hs.
+; co-present) is a safe no-op. Meal-table chatter is table_talk_think.mc.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.mc")

@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
-; historical_10yr.hs - 10-year validation config for the single-evaluator pass.
-; Mirrors historical_5yr.hs but with a 10-year span (1700..1709). Same seed +
+; historical_10yr.mc - 10-year validation config for the single-evaluator pass.
+; Mirrors historical_5yr.mc but with a 10-year span (1700..1709). Same seed +
 ; population so early years line up with the 5yr run.
 ; ----------------------------------------------------------------------------
 

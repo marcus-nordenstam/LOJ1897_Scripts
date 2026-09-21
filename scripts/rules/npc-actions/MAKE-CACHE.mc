@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; make_cache (npc-action) - EXECUTION half: carve the actual hiding spot. The
-; deliberation that proposes it lives in make_secret_cache_think.hs; env writes
+; deliberation that proposes it lives in make_secret_cache_think.mc; env writes
 ; (a think must not mutate the world) live here. The act walks the host-quality
 ; ladder and claims/creates the FIRST available host's cache - the belief-guard
 ; makes exactly one, in strict priority order:
@@ -12,7 +12,7 @@
 ;   5. floorboard-cache  - the always-available loose floorboard in the bedroom.
 ; create-entity stamps owner = @self (the "you make it, you own it" rule);
 ; {@self hiding-spot ?cache} is the durable self-knowledge the search routine
-; (read_secret_letters_think.hs) casts. The cache-kind is a static literal per
+; (read_secret_letters_think.mc) casts. The cache-kind is a static literal per
 ; tier because create-entity takes only a syntactic [k <kind>], so the ladder
 ; stays here rather than a runtime kind threaded through the proposal.
 ; ----------------------------------------------------------------------------

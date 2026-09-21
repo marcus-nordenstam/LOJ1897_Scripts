@@ -6,8 +6,8 @@
 ; has come: the occasion is bound by a ROLE (change-driven, wakes on the invite /
 ; organize write) and only the held-on date test rides (when).
 ;
-;   want_attend (guest / host) : raise the shared attend task (attend-task.hs).
-;   want_wed                   : a wedding principal raises the vow duty (wed-task.hs).
+;   want_attend (guest / host) : raise the shared attend task (attend-task.mc).
+;   want_wed                   : a wedding principal raises the vow duty (wed-task.mc).
 ;
 ; A host and a guest share one attend task; the tier and desirability of attending are
 ; these drivers' to set (the host is bound to his own occasion, over the working day; a

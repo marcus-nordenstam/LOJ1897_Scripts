@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; combat_macros.hs - the shared per-blow physics for STRIKE (combat_actions.hs). The
+; combat_macros.mc - the shared per-blow physics for STRIKE (combat_actions.mc). The
 ; roll + wound dispatch lives inline in the action; what stays here is the two tunables
 ; and the fatal physics (kill-blow). blame lives on the driving TASK / the runtime-blame
 ; gate, never on the neutral blow.

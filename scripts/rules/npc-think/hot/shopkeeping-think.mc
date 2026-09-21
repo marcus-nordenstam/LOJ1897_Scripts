@@ -2,7 +2,7 @@
 ; shopkeeping (npc-think, intra-day) - the stocktake terminal-propose rung.
 ;
 ; The standing stocktake goal is seeded monthly by the plan_stocktake decision
-; (npc-think/cooldown/shopkeeping.hs). A dumb {@self STOCKTAKE}
+; (npc-think/cooldown/shopkeeping.mc). A dumb {@self STOCKTAKE}
 ; act only runs when a think proposes it; this rung is that think. It PROPOSES
 ; the stocktake act at drive 82 while the clerk stands at his counter
 ; (at-workplace), so it competes for his next act and promotes to stocktake_act.

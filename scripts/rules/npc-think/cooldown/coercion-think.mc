@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
-; coercion.hs - the repeat-demand loop (see Docs/hsim/hsim_crime.md "Blackmail /
+; coercion.mc - the repeat-demand loop (see Docs/hsim/hsim_crime.md "Blackmail /
 ; coercion").
 ;
-; PURE .hs (no C++ generator). An actor holding a standing coercion anchor
+; PURE .mc (no C++ generator). An actor holding a standing coercion anchor
 ; ({@self extort X /aux <demand>}, the ONGOING verb state the silence_coerce
 ; perpetration terminal mints - the `coerce` TASK label commits as a
 ; point-interval act-record and would never read back as standing) re-presses

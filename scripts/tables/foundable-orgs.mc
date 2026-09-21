@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; foundable-orgs.hs - the catalogs an NPC founding a concern draws from. One row
+; foundable-orgs.mc - the catalogs an NPC founding a concern draws from. One row
 ; per foundable kind; `weight` biases the draw. Nothing here gates on premises:
 ; found-org-seq's own (if ?wp) guard no-ops a founding with nowhere to house it,
 ; so a kind with no free building simply produces nothing that trip.

@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; list_to_let - the SUPPLY side of the property market (per-NPC replacement for
-; the omniscient world-act/landlord_duties.hs). An owner advertises his OWN
+; the omniscient world-act/landlord_duties.mc). An owner advertises his OWN
 ; vacant residential building to let, from his OWN knowledge - no world scan.
 ;
 ; The annual disposition (a yearly timer) mints a standing intent {@self LET ?prop} for each vacant
@@ -12,7 +12,7 @@
 ;
 ; Routing then walks him to a house agency, where list_to_let_act (npc-action) files
 ; the for-lease-listing and mints {?prop availability for-rent} - the durable "to
-; let" signal landlord_estate.hs already reads, AND the completion that retracts the
+; let" signal landlord_estate.mc already reads, AND the completion that retracts the
 ; intent: the same {?prop availability for-rent} drops the ?prop role, so the decision's
 ; when-unsupported-effects end {@self LET ?prop}. It mirrors the worship lane's routing so the
 ; supply never goes dormant merely because @self has not yet learned which orgs are
@@ -55,7 +55,7 @@
     (effects (maintain-proposal {@self enter ?venue}))))
 
 ; CASE C - @self knows NO house agency at all: consult the parish incorporations
-; register (the orient lane, orient_errand.hs), which mints a mental org object +
+; register (the orient lane, orient_errand.mc), which mints a mental org object +
 ; {?org isa ...} belief for EVERY org in town - the only honest channel by which an
 ; org's identity is learned. The instant a house-agency is learned the (no-role ...)
 ; fills, this stops, and list_to_let_go takes over. (no-role [k org house-agency])

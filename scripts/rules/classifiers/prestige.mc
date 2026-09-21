@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; prestige (classifier). Public standing as the 0..1 {@self prestige} float the
 ; class-situation and social-trajectory role-gates read: the job-rank curve
-; (prestige_by_rank in tables/lookup-tables.hs, headship at the top) plus a capped
+; (prestige_by_rank in tables/lookup-tables.mc, headship at the top) plus a capped
 ; sporting-victory bonus and a bump for an expert skill in a publicly-esteemed
 ; domain (performance art / academic field / martial). The competence band is the
 ; skilled-in belief's 4th field, so domain and band match in one clause.

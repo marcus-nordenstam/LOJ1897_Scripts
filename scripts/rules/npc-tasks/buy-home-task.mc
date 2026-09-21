@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; buy-home ?dwell - the BUYER's purchase task (the demand side promotes it from
 ; the {@self acquire} desire once choose_home has picked a dwelling; see
-; buy_home_think.hs). Buying a home is a COMPLEX task: it ORCHESTRATES the sale and
+; buy_home_think.mc). Buying a home is a COMPLEX task: it ORCHESTRATES the sale and
 ; carries the buyer's own thinking (the ownership + residence beliefs he takes on),
 ; delegating the single authoritative ENV record-change to the simple RECORD-SALE
 ; action. @self NEVER touches the seller's mind - the deed the act re-points is the

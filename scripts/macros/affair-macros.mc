@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; affair_macros.hs - shared covert-affair effect sequences.
+; affair_macros.mc - shared covert-affair effect sequences.
 ;
 ; (covert-affair-motive ?paramour): the concealment gate - an affair conducts
 ; itself covertly only when discovery has a price: a married side, a betrothed

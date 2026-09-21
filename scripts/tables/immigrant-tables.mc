@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
-; immigrant_tables.hs - the authored immigrant model's row data, consumed by
+; immigrant_tables.mc - the authored immigrant model's row data, consumed by
 ; the (spawn-immigrant ...) world verb via table-name kwargs (the
-; spawn-immigrant-wave macro in tunables.hs composes them).
+; spawn-immigrant-wave macro in tunables.mc composes them).
 ; ----------------------------------------------------------------------------
 
 ; Military rank ladder for demobbed/serving male immigrants: mostly privates,

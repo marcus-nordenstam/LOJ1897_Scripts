@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; race (npc-ACT lane) - a summoned competitor's leg of the club meet. The routing
-; think (sporting_event_think.hs `compete`) latched {@self RACE-RUN} off the
+; think (sporting_event_think.mc `compete`) latched {@self RACE-RUN} off the
 ; {<organiser> summon @self /aux <sport>} ticket the organiser told him; this body runs
 ; the contest FROM HIS OWN attributes and reports the outcome.
 ;

@@ -1,14 +1,14 @@
 ; ----------------------------------------------------------------------------
-; predation.hs - appetitive homicide genesis (serial_predation).
+; predation.mc - appetitive homicide genesis (serial_predation).
 ;
 ; The first APPETITIVE generative kill motive: the reward is the killing itself
 ; (sadism / power), not inheritance, passion, a seat, or silencing a witness.
 ; Victims are chosen for a stable victim-TYPE (the predator's fixation) AND for
 ; SOCIAL INVISIBILITY (low class, stained repute = few defenders = mechanically
-; safer). PURE .hs: no C++ generator, no C++ fixation op - the whole scan is
+; safer). PURE .mc: no C++ generator, no C++ fixation op - the whole scan is
 ; role-casting over the predator's own acquaintance beliefs + belief-matching.
 ;
-; hair-color / eye-color are (hsim-percept) attrs (common.arc), so ANYONE who
+; hair-color / eye-color are (hsim-percept) attrs (attrs.mon), so ANYONE who
 ; observes a person mirrors {?them hair-color X} / {?them eye-color Y} into their
 ; OWN beliefs - the physical look is knowable non-telepathically, exactly like
 ; the predator perceives it. No C++ attr backdoor.

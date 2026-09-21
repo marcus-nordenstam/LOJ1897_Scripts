@@ -99,7 +99,7 @@
 (attr age-band (type kind) (per obs) (auto-percept) (hsim-percept))
 # The +/-1 proximity window of age-band (a plural set of band kinds), perceived
 # about OTHERS so the age-peers macro can test "same / adjacent band" without
-# arithmetic in the .hs. ext-obs only: a mind never needs its own span.
+# arithmetic in the .mc. ext-obs only: a mind never needs its own span.
 (attr age-span (type kind array 3) (per obs) (auto-percept) (hsim-percept))
 # gender / appearance / height / girth are conceptual: kind-typed, value is an
 # ontology term. @excl now lives on the concept in concepts.mon (rule 4b / 5).
@@ -271,7 +271,7 @@
 (attr has-crypt   (type int) (range 0 1) (per obs))
 (attr locked-wing (type int) (range 0 1) (per obs))
 # Premises open/closed STATUS (no-telepathy teardown). A perceivable PHYSICAL fact the
-# owner's closure act sets on the BUILDING via (shutter-building ?wp) (closure_macros.hs),
+# owner's closure act sets on the BUILDING via (shutter-building ?wp) (closure_macros.mc),
 # writing [k closed] (from [k open]). (hsim-percept): since NPCs ALWAYS front-park a
 # building on arrival (Stage-5 two-arm), a worker RE-OBSERVES his workplace every commute
 # via exterior perception and INTERNALIZES {building struct-status [k closed]} fresh;
@@ -314,7 +314,7 @@
 # without reading the message.
 (attr destination (type address) (per obs) (auto-percept) (hsim-percept))
 
-# Address-numbering POLICY (lives on the ROAD; see road.arc). Authored in the
+# Address-numbering POLICY (lives on the ROAD; see things.mon (road)). Authored in the
 # GrymEngine Spline Tool and pushed by the Player at scene load. These tell the
 # shared sim-time numbering pass (merlin::assign_street_addresses_all) HOW to
 # number the street_spaces fronting this road; the NUMBERS themselves are never
@@ -385,7 +385,7 @@
 # terrain-walkability blocker during t_nav_terrain::build (nav_v2_plan.md §7).
 # Defaults to 0 on plain `structure`; archetypes that physically obstruct the
 # ground (buildings, walls, fences, gates, large rocks, tree trunks) override
-# to 1 in their own .arc file. Connector throat clearing (§7.3) overrides
+# to 1 in their own pop. Connector throat clearing (§7.3) overrides
 # this for cells under a structure's door, so a building with /blocks-nav-terrain
 # = 1 still allows path entry through its baked-passage doorway.
 (attr blocks-nav-terrain (type int) (range 0 1) (blocks-nav-terrain) (imperceptible))

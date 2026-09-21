@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; death_macros.hs - death world-settlement.
+; death_macros.mc - death world-settlement.
 ;
 ; (settle-death ?dead) settles the WORLD when a person dies (natural death,
 ; suicide, kill - every terminal calls it): a vacated leadership post backfills,

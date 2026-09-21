@@ -4,7 +4,7 @@
 ; physical act - speech - by which the marriage is made; the party HEARS and adopts
 ; it (no fiat cross-mind write). Both principals hold {@self organize <wedding>} and
 ; each raises this duty; whoever vows first marries, the other HEARS and reciprocates
-; (spouse_reciprocate, attend_think.hs) then fails the unmarried gate - the SAY-memory
+; (spouse_reciprocate, attend_think.mc) then fails the unmarried gate - the SAY-memory
 ; dedup covers the same-window gap before reciprocation lands. This duty is separate
 ; from (and runs alongside) the shared attend task; its own go rung gets him there.
 ; ----------------------------------------------------------------------------

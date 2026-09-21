@@ -9,7 +9,7 @@
 ; The lover himself does NOT mark her (he holds {@self lover ?her}, subject @self -
 ; a different subject - so (any {?her lover ?} (out exists-bool)) is false for him); only THIRD
 ; parties who learned of the liaison ({?her lover <partner>}) do. The divorce path
-; (affair_fallout.hs) still marks + dismisses her directly, and the widow / unmarried
+; (affair_fallout.mc) still marks + dismisses her directly, and the widow / unmarried
 ; cases (no ongoing spouse) are left to that path - this catches the "still married,
 ; the town has heard" fall. The (or ... held-fallen) input keeps the rule eligible so
 ; the mark can toggle OFF if the observer forgets the liaison (per-observer rehab).

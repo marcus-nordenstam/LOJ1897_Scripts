@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; buy-home - the DEMAND side of the property market (per-NPC replacement for the
-; omniscient world-act/housing_market.hs buy stage). A seeker LEARNS what is for
+; omniscient world-act/housing_market.mc buy stage). A seeker LEARNS what is for
 ; sale by reading the agent's register, then buys the nicest dwelling he can
 ; afford by a per-NPC roulette. This REPLACES the old global "the wealthiest
 ; claim the nicest" optimiser - no seeker knows a listing he has not read, and
@@ -12,7 +12,7 @@
 ; thinks walk him to a house agency and read the FOR-SALE register - the KNOWLEDGE
 ; CHANNEL that mints his {@self for-sale ?b} beliefs (reuse of the foundation
 ; read-public-register macro). Only once he KNOWS listings does choose_home cast a
-; dwelling and promote the purchase act (buy_home_act.hs).
+; dwelling and promote the purchase act (buy_home_act.mc).
 ;
 ; Routing mirrors the worship lane's three-case structure so the market never goes
 ; dormant merely because @self has not yet learned which orgs are house agencies:

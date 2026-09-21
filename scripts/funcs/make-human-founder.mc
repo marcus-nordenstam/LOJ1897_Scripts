@@ -26,7 +26,7 @@
           (set-attr ?h gender ?gender)
           (set-attr ?h game-role [k nonplayer])
           ; Parentless: both lineage args unsubstantial, so every trait is a fresh
-          ; draw on the population distribution (see human-traits.hs).
+          ; draw on the population distribution (see human-traits.mc).
           (seed-human-genetics ?h ?gender @nothing @nothing)
           (+ (founder_age_min) (random-int 0 (- (founder_age_max) (founder_age_min)))): ?age
           (set-attr ?h birth-date

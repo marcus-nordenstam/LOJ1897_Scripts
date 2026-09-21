@@ -2,7 +2,7 @@
 ; repute (per-observer). Each mind bands a person's public respectability into
 ; {X repute [k repute ...]} from (repute-fold X) - the seven-term mean over that
 ; person's conduct bands + devoutness + decorum + per-observer chastity
-; (dimensions.hs). ONE fold, ONE belief, serving both cases; the only difference
+; (dimensions.mc). ONE fold, ONE belief, serving both cases; the only difference
 ; is which mind's inputs it reads, never the algorithm:
 ;   - classify_self_repute:   {@self repute}   from @self's OWN inputs, which are
 ;                             complete - so self-repute IS the truth (mint-band).

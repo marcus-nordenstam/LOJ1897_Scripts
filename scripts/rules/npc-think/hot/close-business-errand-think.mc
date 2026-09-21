@@ -1,10 +1,10 @@
 ; ----------------------------------------------------------------------------
 ; close_business_errand (think lane) - the go/dwell think rungs of the
-; business-failure split. The winding-up act lives in npc-act/close_business_errand.hs.
+; business-failure split. The winding-up act lives in npc-act/close_business_errand.mc.
 ;
 ;   close_go     : hold the goal, not at the premises -> travel sub-goal to it. AT the
 ;                  premises the go sub-goal is spent, the aim is the leaf and promotes to
-;                  close_business_act - no dwell rung (the decision, close_business.hs,
+;                  close_business_act - no dwell rung (the decision, close_business.mc,
 ;                  owns the goal's whole life).
 ;
 ; Utility 85 matches retirement / founding: a man set on closing pursues it over

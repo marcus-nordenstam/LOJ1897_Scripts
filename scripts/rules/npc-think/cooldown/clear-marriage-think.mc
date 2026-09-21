@@ -1,15 +1,15 @@
 ; ----------------------------------------------------------------------------
-; clear_marriage.hs - instrumental homicide genesis: clear the marriage.
+; clear_marriage.mc - instrumental homicide genesis: clear the marriage.
 ;
 ; A cold instrumental branch of the affair-homicide family (siblings:
-; crime_of_passion.hs, betrayal_kill.hs, rid_of_spouse.hs). A married actor with a
+; crime_of_passion.mc, betrayal_kill.mc, rid_of_spouse.mc). A married actor with a
 ; covert third-party lover (themselves free to marry) WANTS the lover; the OBSTACLE
 ; is their own innocent spouse. They either kill the spouse DIRECTLY (the Florence
 ; Maybrick shape) or INSTIGATE the lover to do it - a conspiracy, the cheater
 ; staying physically clean. Calculating, not enraged, so it carries its OWN
 ; dark-tail gate (no rage gate).
 ;
-; PURE .hs over composable ops:
+; PURE .mc over composable ops:
 ;   - (role ?paramour ...) binds an UNMARRIED lover who is not the spouse;
 ;     (role ?spouse ...) binds the spouse (so the actor is married by construction);
 ;   - (when ...) is the dark floor (psychopathy * machiavellianism >= 0.36), the
@@ -21,7 +21,7 @@
 ;     (never re-minted, so the drive fades as the attraction does); INSTIGATED mints the
 ;     cheater's accomplice bond {@self accomplice <lover> /aux {<lover> kill <spouse>}}
 ;     and routes the murder proposal as a covert letter; the lover's side of the
-;     conspiracy lives in conspiracy_adoption.hs, fired by READING that letter.
+;     conspiracy lives in conspiracy_adoption.mc, fired by READING that letter.
 ;     The (when) drops the drive when the spouse dies and latches the one-time impulse.
 ; attempt_harm then consumes the proposal and executes a method (poison's domestic
 ; deniability fits the co-resident victim). The murder proposal rides the covert
@@ -56,7 +56,7 @@
 ;     (select (policy first-match)))
 ; 
 ;   ; Dark floor + the lover must be free to marry + drive + propensity
-;   ; (score_macros.hs: romantic-drive = attraction(lover) - warmth(spouse)).
+;   ; (score_macros.mc: romantic-drive = attraction(lover) - warmth(spouse)).
 ;   (when (and (>= (* (target-or @self psychopathy 0) (target-or @self machiavellianism 0)) 0.36)
 ;              (>= (romantic-drive ?paramour ?spouse) 2)
 ;              -{?spouse condition [k dead]}

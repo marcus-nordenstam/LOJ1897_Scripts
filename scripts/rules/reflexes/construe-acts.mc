@@ -53,7 +53,7 @@
 ; (No construe rules for help-act / aid-act / provision-act / commitment-act /
 ; repudiation-act: NO hsim label carries those tags today - a (construed-labels
 ; <tag>) gate over an empty family is a load error, deliberately. Their REACT
-; rows in reactions.hs stay authored: the moment an act declares the tag, the
+; rows in reactions.mc stay authored: the moment an act declares the tag, the
 ; construe rule here is one line and the reactions are ready.)
 
 ; -- wrong-act, static wrongs (steal / defraud / embezzle / kidnap / expose /

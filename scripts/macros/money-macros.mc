@@ -38,7 +38,7 @@
 ; ---- the economic model (was hsim_derive.cc, purged) -----------------------
 
 ; (job-income ?who): the yearly salary of ?who's job (0 if unsalaried / no job). The
-; job.salary belief IS the income - set at hire from income_by_level (money_tables.hs).
+; job.salary belief IS the income - set at hire from income_by_level (money_tables.mc).
 (define-macro job-income (?who)
   (if {?who job.salary ?}
       (then (any {?who job.salary ?}).target)

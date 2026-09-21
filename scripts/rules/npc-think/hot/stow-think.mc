@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; stow (npc-think lane) - the drive/travel thinks of the CARRY-IT-HOME-AND-PUT-
-; IT-AWAY chain. The completion act lives in npc-act/stow.hs.
+; IT-AWAY chain. The completion act lives in npc-act/stow.mc.
 ;
 ; Anything an NPC resolves to squirrel away rides ONE mechanism: a think mints
 ; {@self goal {@self stow <item>}} (the item is already in hand - a take-act
@@ -10,7 +10,7 @@
 ;                 bloody knife is physically CARRIED (gripped-by rides the
 ;                 hand), so the world sees a laden walker, not a teleport. AT home the
 ;                 go sub-goal is spent, the stow goal is the leaf and promotes to
-;                 stow_act (npc-act/stow.hs) - no dwell rung.
+;                 stow_act (npc-act/stow.mc) - no dwell rung.
 ;
 ; A homeless NPC never fires stow_go; the item simply stays in hand (it rides
 ; them) and the goal stands - the same degenerate case the old C++ kept.

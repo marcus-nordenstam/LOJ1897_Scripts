@@ -12,7 +12,7 @@
 ;                    household all clusters in the entrance room, so privacy must be
 ;                    SOUGHT.
 ;   affair_consummate - alone in a room with the lover (no spouse present) -> the
-;                    durative HAVE-SEX-WITH act (consummate_action.hs, ~45 min), whose
+;                    durative HAVE-SEX-WITH act (consummate_action.mc, ~45 min), whose
 ;                    running holds them there long enough to land and to be caught.
 ;
 ; A per-day cooldown keeps one co-presence bout to a single tryst. Utility 95 clears

@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; conspiracy_adoption.hs - taking up a murder proposal learned from a letter.
+; conspiracy_adoption.mc - taking up a murder proposal learned from a letter.
 ;
 ; The read-side half of clear_marriage's INSTIGATED conspiracy. The cheater's
 ; covert letter carries the plot ((written-msg {@self urge {?paramour kill ?spouse}}));
@@ -11,7 +11,7 @@
 ; they READ, never to a cross-mind mint. An intercepted letter means this
 ; rule never fires: the lover simply never learned of the plot.
 ;
-; PURE .hs over composable ops:
+; PURE .mc over composable ops:
 ;   - (role ?instigator (believes {?instigator urge @self {@self kill ?victim}:?plot-rel}))
 ;     - anyone this mind holds a kill-me-plot urge FROM, matched structurally by
 ;     the role cache's clause descent: membership wakes on the urge-belief write,

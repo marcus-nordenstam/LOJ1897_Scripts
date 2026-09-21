@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; property_bootstrap.hs - the world-gen property + civic seed, authored as a MINDLESS
+; property_bootstrap.mc - the world-gen property + civic seed, authored as a MINDLESS
 ; (define-func) the engine invokes ONCE at bootstrap (call_hs_func, no actor - abs mind;
 ; @self would resolve to @fail, so this func never uses it).
 ;
@@ -76,7 +76,7 @@
 ; deed stays UNOWNED: taking a post is not buying the premises, and pulling the row off the
 ; register is what stops anyone else claiming them.
 ;
-; A MACRO, not a func: it WRITES the environment, and a define-func called from .hs must be
+; A MACRO, not a func: it WRITES the environment, and a define-func called from .mc must be
 ; pure (see the value-func-purity lint).
 (define-macro charter-org (?kind)
   (if (= (count-orgs-isa ?kind) 0)

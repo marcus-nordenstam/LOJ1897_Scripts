@@ -1,10 +1,10 @@
 ; ----------------------------------------------------------------------------
-; drink_macros.hs - the drink DESIRE predicate + its drive (utility) expression,
-; factored so the one desire think and the case sub-rules share them (crave_drink.hs).
+; drink_macros.mc - the drink DESIRE predicate + its drive (utility) expression,
+; factored so the one desire think and the case sub-rules share them (crave_drink.mc).
 ; ----------------------------------------------------------------------------
 
 ; (drink-due ?actor): the drink-desire condition - a service is ~due (days since the
-; last drink) AND the actor is not already dependent (dependents are the relapse.hs
+; last drink) AND the actor is not already dependent (dependents are the relapse.mc
 ; lane). Perf: most passes skip on the days-since test.
 (define-macro drink-due (?actor)
   (and (!= (any {?actor craving}).target [k alcohol])

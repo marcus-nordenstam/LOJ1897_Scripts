@@ -32,7 +32,7 @@
   ;;
   ;; The plan's "member-of of an organisation that hosts the post" tenure
   ;; gate (PR-A-8 audit) is V2 work - the substrate has the member-of relation
-  ;; but the gov-org subset filter would need a cross-role join the .hse layer
+  ;; but the gov-org subset filter would need a cross-role join the .mc layer
   ;; doesn't express cleanly today. V1 routes the chance through a trait
   ;; product: assertiveness + ?prestige above the floor amplifies
   ;; the rate, so a high-prestige assertive candidate fires far more often.
@@ -44,7 +44,7 @@
                [k org gov]
 
       ;; (chance) FIRST (cheap, short-circuits), then the live exclusivity re-check
-      ;; (see betrothal.hs): without it, every gov org enumerated this tick can appoint
+      ;; (see betrothal.mc): without it, every gov org enumerated this tick can appoint
       ;; @self before the first appointment commits; once @self is senior this tick it
       ;; fails and the sampler backtracks. The (when) also carries the age / repute /
       ;; prestige floors and the trait-product chance.

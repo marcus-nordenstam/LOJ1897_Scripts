@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; crime_tables.hs - authored config the C++ acquisition + skill-derive paths read
+; crime_tables.mc - authored config the C++ acquisition + skill-derive paths read
 ; via hse_table_lookup / hse_table_for_each_all (was the perpetration.hsc method-table
 ; parser; the method table itself is retired - methods are now real strike actions and
 ; the crime tasks). Keyed by KIND casts so the C++ side compares kind_ids.

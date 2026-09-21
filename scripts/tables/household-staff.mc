@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; household_staff.hs - the staff slots a quality home keeps filled, per home
+; household_staff.mc - the staff slots a quality home keeps filled, per home
 ; kind (gender-normed per period custom; female=1). Consumed by the
 ; (staff-household ?home /slots household_staff_slots ...) verb - a home whose
 ; kind matches NO row keeps no staff (the quality-home gate is this table).

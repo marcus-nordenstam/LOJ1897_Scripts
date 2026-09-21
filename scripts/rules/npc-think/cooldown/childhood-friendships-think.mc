@@ -31,7 +31,7 @@
              {?b class-situation (any {@self class-situation}).target}
              {?b age-span ?peer_band}
              -{@self friend ?b}
-             ; Warmth-gated: see adult_friendships.hs. The two negative warmth
+             ; Warmth-gated: see adult_friendships.mc. The two negative warmth
              ; bands (dislike, detest) are read as EXPLICIT verb-state beliefs
              ; (core appraisal projects the warmth scalar onto them) - kids rarely
              ; hold either yet, so volume is ~unchanged; the gate just prevents

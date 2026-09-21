@@ -1,140 +1,140 @@
 
-name (name-kind human)
-    first-name
-        male-name
-            male-irish-name (+ pname)
-                Aidan
-                Aengus
-                Barra
-                Brendan
-                Brian
-                Cathal
-                Colm
-                Conall
-                Cillian
-                Conor
-                Cormac
-                Darragh
-                Dermot
-                Declan
-                Desmond
-                Donal
-                Eamon
-                Eoghan
-                Fergus
-                Finley
-                Flann
-                Liam
-                Lorcan
-                Malachy
-                Miche�l
-                Niall
-                Oisin
-                Patrick
-                Ronan
-                Seamus
-                Shane
-                Tadhg
-                Tiernan
-                Tom�s
-        female-name
-            female-irish-name (+ pname)
-                Aileen
-                Aisling
-                Aoife
-                Ailish
-                Bridget
-                Brigid
-                Ciara
-                Colleen
-                Darina
-                Dervla
-                Deirdre
-                Eileen
-                Eithne
-                Fiona
-                Finola
-                Grainne
-                Kathleen
-                Maeve
-                Moira
-                Muireann
-                Niamh
-                Orla
-                Roisin
-                Saoirse
-                Siobhan
-                Sorcha
-                Sheila
-                Una
-                Treasa
-    surname
-        common-surname
-            common-irish-surname (+ pname)
-                MacCarthy
-                MacDermott
-                MacMahon
-                O'Brien
-                O'Connell
-                O'Connor
-                O'Donnell
-                O'Grady
-                O'Leary
-                O'Malley
-                O'Neill
-                O'Reilly
-                O'Sullivan
-                Barrett
-                Brady
-                Brennan
-                Carey
-                Connelly
-                Corrigan
-                Daly
-                Devlin
-                Doherty
-                Donnelly
-                Duffy
-                Gallagher
-                Hughes
-                Kelly
-                Kenny
-                Kerrigan
-                Lynch
-                McCarthy
-                McGrath
-                McHugh
-                McNamara
-                Murphy
-                Murray
-                Nolan
-                Quinn
-                Reilly
-                Riley
-                Sullivan
-                Tierney
-                Ward
-                Whelan
-                Woods
-        upper-class-surname
-            upper-class-irish-surname (+ pname)
-                Burke
-                Butler
-                Byrne
-                Callaghan
-                Carroll
-                Collins
-                Connolly
-                Donovan
-                Doyle
-                Fitzgerald
-                Flynn
-                Kavanagh
-                Keane
-                Kennedy
-                Maguire
-                Power
-                Quinlan
-                Ryan
-                Sheehan
-                Walsh
+(abstract name (name-kind human)
+  (abstract first-name
+    (abstract male-name
+      (abstract male-irish-name (+ pname)
+        (abstract Aidan)
+        (abstract Aengus)
+        (abstract Barra)
+        (abstract Brendan)
+        (abstract Brian)
+        (abstract Cathal)
+        (abstract Colm)
+        (abstract Conall)
+        (abstract Cillian)
+        (abstract Conor)
+        (abstract Cormac)
+        (abstract Darragh)
+        (abstract Dermot)
+        (abstract Declan)
+        (abstract Desmond)
+        (abstract Donal)
+        (abstract Eamon)
+        (abstract Eoghan)
+        (abstract Fergus)
+        (abstract Finley)
+        (abstract Flann)
+        (abstract Liam)
+        (abstract Lorcan)
+        (abstract Malachy)
+        (abstract Miche�l)
+        (abstract Niall)
+        (abstract Oisin)
+        (abstract Patrick)
+        (abstract Ronan)
+        (abstract Seamus)
+        (abstract Shane)
+        (abstract Tadhg)
+        (abstract Tiernan)
+        (abstract Tom�s)))
+    (abstract female-name
+      (abstract female-irish-name (+ pname)
+        (abstract Aileen)
+        (abstract Aisling)
+        (abstract Aoife)
+        (abstract Ailish)
+        (abstract Bridget)
+        (abstract Brigid)
+        (abstract Ciara)
+        (abstract Colleen)
+        (abstract Darina)
+        (abstract Dervla)
+        (abstract Deirdre)
+        (abstract Eileen)
+        (abstract Eithne)
+        (abstract Fiona)
+        (abstract Finola)
+        (abstract Grainne)
+        (abstract Kathleen)
+        (abstract Maeve)
+        (abstract Moira)
+        (abstract Muireann)
+        (abstract Niamh)
+        (abstract Orla)
+        (abstract Roisin)
+        (abstract Saoirse)
+        (abstract Siobhan)
+        (abstract Sorcha)
+        (abstract Sheila)
+        (abstract Una)
+        (abstract Treasa))))
+  (abstract surname
+    (abstract common-surname
+      (abstract common-irish-surname (+ pname)
+        (abstract MacCarthy)
+        (abstract MacDermott)
+        (abstract MacMahon)
+        (abstract O'Brien)
+        (abstract O'Connell)
+        (abstract O'Connor)
+        (abstract O'Donnell)
+        (abstract O'Grady)
+        (abstract O'Leary)
+        (abstract O'Malley)
+        (abstract O'Neill)
+        (abstract O'Reilly)
+        (abstract O'Sullivan)
+        (abstract Barrett)
+        (abstract Brady)
+        (abstract Brennan)
+        (abstract Carey)
+        (abstract Connelly)
+        (abstract Corrigan)
+        (abstract Daly)
+        (abstract Devlin)
+        (abstract Doherty)
+        (abstract Donnelly)
+        (abstract Duffy)
+        (abstract Gallagher)
+        (abstract Hughes)
+        (abstract Kelly)
+        (abstract Kenny)
+        (abstract Kerrigan)
+        (abstract Lynch)
+        (abstract McCarthy)
+        (abstract McGrath)
+        (abstract McHugh)
+        (abstract McNamara)
+        (abstract Murphy)
+        (abstract Murray)
+        (abstract Nolan)
+        (abstract Quinn)
+        (abstract Reilly)
+        (abstract Riley)
+        (abstract Sullivan)
+        (abstract Tierney)
+        (abstract Ward)
+        (abstract Whelan)
+        (abstract Woods)))
+    (abstract upper-class-surname
+      (abstract upper-class-irish-surname (+ pname)
+        (abstract Burke)
+        (abstract Butler)
+        (abstract Byrne)
+        (abstract Callaghan)
+        (abstract Carroll)
+        (abstract Collins)
+        (abstract Connolly)
+        (abstract Donovan)
+        (abstract Doyle)
+        (abstract Fitzgerald)
+        (abstract Flynn)
+        (abstract Kavanagh)
+        (abstract Keane)
+        (abstract Kennedy)
+        (abstract Maguire)
+        (abstract Power)
+        (abstract Quinlan)
+        (abstract Ryan)
+        (abstract Sheehan)
+        (abstract Walsh)))))

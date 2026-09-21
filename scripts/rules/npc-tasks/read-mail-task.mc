@@ -5,7 +5,7 @@
 ; Concluded once the stack is swept this round and @self's hands are empty of letters. The
 ; stack binds SCOPED to ?prem via (spatial ?stk building ?prem). NO give-up try: an interrupted
 ; round RESUMES on the next premises visit (the rungs propose nothing from afar).
-; Driver + saturation probe stay in read_mail_think.hs.
+; Driver + saturation probe stay in read_mail_think.mc.
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self read-mail ?prem}:?rm-rel

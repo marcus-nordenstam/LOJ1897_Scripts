@@ -1,12 +1,12 @@
 ; ----------------------------------------------------------------------------
 ; retire (npc-think) - the go/dwell half of the retirement split.
 ;
-; The decision (rules/work/employment.hs `retirement`) minted {@self goal
+; The decision (rules/work/employment.mc `retirement`) minted {@self goal
 ; {@self retire}}. These intra-day rules drain it: the worker routes to
 ; his own workplace and gives notice there, so the retirement happens AT the
 ; workplace - co-presence his colleagues (and any witness) would see - rather than
 ; as a faceless world-lane belief edit. The actual (fire) commit fires as the
-; act's completion (quit_work_act, npc-act/retire.hs).
+; act's completion (quit_work_act, npc-act/retire.mc).
 ;
 ;   retire_go     : hold the goal, not at the workplace -> travel act to it.
 ;   retire_dwell  : hold the goal, AT the workplace -> propose giving notice (quit_work_act).

@@ -1,10 +1,10 @@
 ; ----------------------------------------------------------------------------
-; dimensions.hs - value-dimension DEFS (define-macro). A value dim is a 0..1
+; dimensions.mc - value-dimension DEFS (define-macro). A value dim is a 0..1
 ; magnitude a fusion or utility reads on demand - never a minted belief. Each is
 ; an ordinary zero-arg macro inlined by every consumer (written (dimname)), so
 ; there is ONE encoding and no classifier catalog to evaluate it.
 ;
-; The macro bodies are ordinary .hs read/fold expressions (attr / believes /
+; The macro bodies are ordinary .mc read/fold expressions (attr / believes /
 ; (count (every ..)) / evidence + the + - * / min max clamp >= <=
 ; combinators). (believes {@self L ?}) is the boolean "holds an ongoing L"
 ; (0-or-1 in arithmetic); (count (every {@self L ?})) the ongoing tally;

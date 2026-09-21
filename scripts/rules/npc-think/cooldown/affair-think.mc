@@ -10,7 +10,7 @@
 ; draw, not a deterrent.
 ;
 ; The affair is the betrayal-detector's INPUT, not itself a crime:
-; run_generative_obsession (crime_of_passion.hs) reads a jealous spouse whose partner
+; run_generative_obsession (crime_of_passion.mc) reads a jealous spouse whose partner
 ; holds a third-party `lover` and routes blame -> kill; it is also the surveillance /
 ; discovery surface (pry_think, affair_rendezvous).
 ;
@@ -66,7 +66,7 @@
       (utility want)
 
       (effects
-        ; Reciprocal lover bond + mutual profile sync (mirrors lovers.hs's shape so
+        ; Reciprocal lover bond + mutual profile sync (mirrors lovers.mc's shape so
         ; downstream consumers - betrayal detection, the romantic-rival derive - see a
         ; fully-wired pair). @self's spouse will read {@self lover ?lover} in the
         ; obsession pass and route blame.

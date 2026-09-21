@@ -7,7 +7,7 @@
 ;
 ; crave_drink excludes the dependent and relapse casts only him, so the two are
 ; disjoint drivers of the ONE {@self DRINK} act-goal (one executor, two desires).
-; Dependence ONSET is still rolled by drink_act (drink.hs). A maintenance drive: it
+; Dependence ONSET is still rolled by drink_act (drink.mc). A maintenance drive: it
 ; holds {@self DRINK} while due and ends its OWN source (when-unsupported-effects) when drinking
 ; resets the days-since pressure - want_drink owns its source symmetrically, so under
 ; multi-rule support each of the two co-minters withdraws only its own hold.

@@ -8,7 +8,7 @@
 ; cornerstone_businesses table (tables/) lists what the town opens with
 ; + the founder's class floor per row. Once a kind exists the demand gate
 ; (any-org-of-kind) turns false for everyone else; the emergent homeostat
-; (business.hs) founds the rest on demand thereafter.
+; (business.mc) founds the rest on demand thereafter.
 ;
 ; Replaces the C++ bootstrap_orgs cornerstone loop (retired): founding now runs
 ; through found-org-seq like every other org, so there is no C++ found_org/hire.

@@ -3,7 +3,7 @@
 ; pregnancy bears the child of herself and ?father, in the room she is standing
 ; in. The THIRD way a human comes into being, beside the founder pass and the
 ; immigrant arrival, and the only one with a lineage - so it seeds the SAME
-; genetic layer those do (human-traits.hs), with both parents supplied instead of
+; genetic layer those do (human-traits.mc), with both parents supplied instead of
 ; neither. That is the whole difference between being born and being minted.
 ;
 ; The target is the father because the proposing think already read him off her

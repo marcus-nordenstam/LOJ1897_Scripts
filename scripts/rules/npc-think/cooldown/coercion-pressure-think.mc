@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
-; coercion_pressure.hs - the coerced party's own dread (VICTIM-POV, self-mind).
+; coercion_pressure.mc - the coerced party's own dread (VICTIM-POV, self-mind).
 ;
 ; The victim holds the standing {?blackmailer extort @self} anchor his coercer's
-; press keeps refreshing (perpetration_macros coerce-* land it, coercion.hs
+; press keeps refreshing (perpetration_macros coerce-* land it, coercion.mc
 ; refreshes it). Each month he mints + COMPOUNDS his OWN
 ; exposure-risk pressure toward the blackmailer: begin-belief /caused_by the anchor
 ; (so a live cause keeps it off the orphan-sweep) and (salience ..) the class-scaled

@@ -20,7 +20,7 @@
   ;; Exemplary bride: spotless reputation lifts her one class up.
   ;; The plan's "infatuation-target overlap or parental matchmaking
   ;; pressure" motivations are V2 work - infatuation substrate ships
-  ;; with PR-A-9 (crush_forms.hse), parental matchmaking pressure
+  ;; with PR-A-9 (crush_forms.mc), parental matchmaking pressure
   ;; needs the parent's life-aim plus child's current courtship state
   ;; (multi-role join, deferred). V1 substrate-routes the chance via a
   ;; trait product over (enthusiasm + openness) - outgoing brides

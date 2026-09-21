@@ -80,7 +80,7 @@
 .
 
 # "Maria är irländsk." - nationality is rendered as the adjective form
-# (the .arc-declared nationality kind's leaf name; e.g. "irländsk" / "svensk").
+# (the attr-declared nationality kind's leaf name; e.g. "irländsk" / "svensk").
 # In Swedish nationality adjectives are LOWERCASE - the is_proper_adjective_-
 # kind helper is gated on the active output language and returns false for
 # Swedish, so the realize layer emits lowercase here.

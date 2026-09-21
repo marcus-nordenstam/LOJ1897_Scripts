@@ -3,10 +3,10 @@
 ; Split out of the old judge_meet_act (act_body_purification): choosing the victor is an
 ; argmax over the race-result beliefs the co-present racers minted into the organiser -
 ; that is deliberation, so it lives here; the observable declaration (honours) is the
-; dumb judge_declare_act (JUDGE-DECLARE.hs).
+; dumb judge_declare_act (JUDGE-DECLARE.mc).
 ;
 ; open_meet_act summoned the field; the want_judge think holds the standing
-; {@self judge-meet} goal while any race-result stands unjudged (sporting_event_think.hs).
+; {@self judge-meet} goal while any race-result stands unjudged (sporting_event_think.mc).
 ; Each racer's race_act mints {?racer race-result <score> <sport>} into the organiser as
 ; he finishes (aux = the sport, so the declaration knows which contest it crowns).
 ; This think casts the current top scorer and proposes {@self JUDGE-DECLARE ?winner ?sport},

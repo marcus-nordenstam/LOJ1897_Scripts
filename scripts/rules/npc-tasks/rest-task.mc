@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; rest ?venue - a home-leisure day (the amenity-gated default, proposed by household_day
-; in household_think.hs). A leisure day has no sub-steps: the promoted task concludes
+; in household_think.mc). A leisure day has no sub-steps: the promoted task concludes
 ; immediately, leaving the ended task belief as the episodic memory (the decay pass folds
 ; repeats into a cumulative-frequency belief).
 ; ----------------------------------------------------------------------------

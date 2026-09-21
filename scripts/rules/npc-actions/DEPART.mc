@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; depart - the emigrant's OWN act of packing up and leaving the parish. Matched by
-; the standing {@self DEPART} goal that emigration.hs (the decision) mints. The
+; the standing {@self DEPART} goal that emigration.mc (the decision) mints. The
 ; emigrant acts on THEMSELVES, their OWN beliefs, and PUBLIC documents keyed on his
 ; OWN identity only - no scan, no mark, no sweep, and NO cross-mind write. Every
 ; step below is the atomic-op decomposition of the old (fire ...) / release-home
@@ -28,7 +28,7 @@
 ;     LEASED / occupied (no {own}): he simply vacates, dropping his OWN
 ;       {?home tenant @self} + {@self home}. The landlord is NOT touched - he learns
 ;       the dwelling is empty by perception (co-presence) or the belief lapses by
-;       decay, and his re-letting lane (list_to_let.hs) surfaces the vacancy with no
+;       decay, and his re-letting lane (list_to_let.mc) surfaces the vacancy with no
 ;       scan. The lessor's tenancy belief is HIS to reconcile, never the emigrant's.
 ;
 ;   (end-belief @self spouse) - the survivor's marriage reference to someone who has
@@ -49,12 +49,12 @@
 ;
 ; NOTE - the emigrant removes only HIMSELF. A departing business OWNER leaves a
 ; headless org (its articles / register persist minus his row); winding the firm up
-; is close_business.hs's job, not depart's.
+; is close_business.mc's job, not depart's.
 ; ----------------------------------------------------------------------------
 
 ; The packing day - a DUMB act: the emigrant spends the day settling affairs;
 ; the whole teardown (quit the posts, release the home, the departure itself)
-; is the departed twin's (emigration_think.hs), off this act's /succ record.
+; is the departed twin's (emigration_think.mc), off this act's /succ record.
 (npc-action {@self DEPART}
   (motor body legs)
   (duration (seconds 480 min))                     ; ~a day spent packing up and settling affairs

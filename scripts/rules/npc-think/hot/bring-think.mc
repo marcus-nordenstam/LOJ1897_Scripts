@@ -5,7 +5,7 @@
 ;
 ;   bring_go       : holding the goal, not at <dest> -> travel there (the same
 ;                    destination-first shape as worship_go / drink_go).
-;   bring_at_dest  : AT <dest> -> propose the put-down act (npc-act/bring_act.hs);
+;   bring_at_dest  : AT <dest> -> propose the put-down act (npc-act/bring_act.mc);
 ;                    goals never propose themselves. Off <dest> nothing fires,
 ;                    exactly like worship never happens outside the church.
 ; The MINTING desire owns the utility and boosts it at the destination.
@@ -20,7 +20,7 @@
 ; The go sub-goal INHERITS the bring goal's drive through /caused_by (worship_go
 ; shape) - the MINTING lane owns the utility (provisioning: provision_rearm 90).
 ; <dest> may be a premises BUILDING or a ROOM (provisioning aims the kitchen); the
-; generic go task (go.hs) reaches either - enter the structure, walk into the room.
+; generic go task (go.mc) reaches either - enter the structure, walk into the room.
 (npc-think bring_go
   (goal {@self BRING ?ware ?dest})
   (role @self (not (spatial @self space ?dest))

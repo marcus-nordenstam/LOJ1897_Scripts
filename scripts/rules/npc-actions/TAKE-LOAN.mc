@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
 ; borrow_errand (act lane) - the npc-ACT half of the borrowing split (Item 5).
-; The go/dwell think rungs live in npc-think/borrow_errand.hs.
+; The go/dwell think rungs live in npc-think/borrow_errand.mc.
 ;
-; The decision (borrowing_think.hs) minted {@self goal {@self TAKE-LOAN <creditor>}}. The
+; The decision (borrowing_think.mc) minted {@self goal {@self TAKE-LOAN <creditor>}}. The
 ; debtor calls on his creditor (the lender) at home and the debt is struck there -
 ; a located commit with the co-presence a witness would see, instead of a faceless
 ; world edit. The creditor is the goal focus; the debtor navigates to the lender's

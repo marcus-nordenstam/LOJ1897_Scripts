@@ -5,7 +5,7 @@
 ; both ends core-episode so the multi-decade interval history survives semantic
 ; compression.
 ;
-; Reads value dims via the dimensions.hs macros ((piety) / (criminality) /
+; Reads value dims via the dimensions.mc macros ((piety) / (criminality) /
 ; (rootedness)), the C++ wealth/decorum floats via (any ..).target, the situation bands
 ; + (present ...) via (believes ...), the any-tense worship-at-church act-record via
 ; a kind-cast /ever believes, and the friend count via (count (every ..)). Gated on

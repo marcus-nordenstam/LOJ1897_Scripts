@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
-; job_search - the WORKER side of the labour market (recruiter side: recruit_think.hs;
-; clerical acts: recruit_actions.hs).
+; job_search - the WORKER side of the labour market (recruiter side: recruit_think.mc;
+; clerical acts: recruit_actions.mc).
 ;
 ; The whole hunt is the `apply-for <job> <org-articles>` TASK and its OUTCOME:
 ;   running   = applied / in progress (one at a time)

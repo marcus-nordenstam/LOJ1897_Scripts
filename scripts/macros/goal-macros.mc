@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; goal_macros.hs - read an NPC's own goals through the unified belief path.
+; goal_macros.mc - read an NPC's own goals through the unified belief path.
 ;
 ; A goal is a belief {@self goal {@self <action> <focus>}} whose TARGET is a
 ; nested CLAUSE (the action + its focus). The goal-read forms below read that nested
@@ -12,9 +12,9 @@
 ;       CLAUSE: requires the goal, binds a free clause-target ?var off it, and pins it
 ;       as the auto-/caused_by of sub-goals the rule mints.
 ;   {@self goal {@self <action> [<target>]}} - boolean read (use in when/if/and/or/effects).
-;       A macro over (believes {@self goal {..}}) - defined in definitions/roles.hs.
+;       A macro over (believes {@self goal {..}}) - defined in definitions/roles.mc.
 ;   (no-goal {@self <action> [<target>]}) - boolean negative, the (not ...) twin -
-;       also a roles.hs macro.
+;       also a roles.mc macro.
 ;   {@self <action> [<target>]} - the RUNNING act itself, and the way a driver asks
 ;       "am I already committed to this?". Promotion mints the act belief in the SAME
 ;       deliberation pass that mints the proposal, so the belief is the latch. There is

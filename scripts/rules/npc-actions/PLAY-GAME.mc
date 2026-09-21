@@ -1,5 +1,5 @@
 ; gamble - the gambling ACT-BODY (npc-action). The pressure think that proposes it is
-; npc-think/intra-day/gamble_urge_think.hs. The {@self PLAY-GAME} act-belief - begun at
+; npc-think/intra-day/gamble_urge_think.mc. The {@self PLAY-GAME} act-belief - begun at
 ; commit, ended by (set-outcome {..} /succ) at completion - IS the episodic memory days-since-last reads.
 ; The drive is an abstract {@self PLAY-GAME} goal (gamble_go routes to a pub); the act only
 ; accrues the addiction disposition and ends its OWN act-belief, never the goal, like drink_action.

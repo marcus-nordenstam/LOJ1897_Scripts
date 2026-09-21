@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
 ; work_attendance (npc-think lane) - the daily WORK-ATTENDANCE thinks. The
-; shift-stay act lives in npc-act/work_attendance.hs.
+; shift-stay act lives in npc-act/work_attendance.mc.
 ;
-; The labour market (employment.hs / business.hs / apprenticeship.hs) mints the
+; The labour market (employment.mc / business.mc / apprenticeship.mc) mints the
 ; job beliefs but never moves anyone; THIS lane is what physically gets
 ; an employed NPC to their workplace during their shift and holds them there.
 ; Gated on the beliefs the labour market mints, all resolved live as composable
@@ -47,19 +47,19 @@
             (latch-eval (at-workplace ?wp))                  ; onset: the day's work starts on ARRIVAL, then survives every excursion
             (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
       (utility duty (* (k-work-drive-value) (labour-drive-tilt)))
-      ; SPAWN the day's WORK TASK (npc-tasks/work-task.hs): its performance tries fan the shift
+      ; SPAWN the day's WORK TASK (npc-tasks/work-task.mc): its performance tries fan the shift
       ; into the held duties' tasks and the between-duties post-stay; shift_over concludes it.
       ; MAINTAINED on the shift window alone: arrival is latched at onset, so leaving for an
       ; errand never withdraws the day's work.
       (effects       (maintain-proposal {@self work ?wp})))))
 
 ; The work TASK's performance tries (at_post_morning / at_post_afternoon / shift_over) live
-; in npc-tasks/work-task.hs. day_go_to_work below stays a DRIVER (no task gate).
+; in npc-tasks/work-task.mc. day_go_to_work below stays a DRIVER (no task gate).
 
 (npc-think day_go_to_work
   ; Shift on or imminent and not yet at the workplace: go there. The workplace ?wp may be a
   ; premises BUILDING (shop / office) or a ROOM (a gentleman's home study / back-office); the
-  ; generic go task (go.hs) reaches either - enter the structure, walk into the room.
+  ; generic go task (go.mc) reaches either - enter the structure, walk into the room.
   (fatigue 0)                      ; commuting to work is not a fruitless search - never fatigue-capped
   (role ?job {@self job ?job}
     (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)

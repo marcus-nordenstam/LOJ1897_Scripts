@@ -1,12 +1,12 @@
 ; ----------------------------------------------------------------------------
-; ambition.hs - instrumental homicide genesis: ambition (npc-think).
+; ambition.mc - instrumental homicide genesis: ambition (npc-think).
 ;
-; Sibling of covet_inheritance.hs. A cold, ambitious actor who is the CLEAR
+; Sibling of covet_inheritance.mc. A cold, ambitious actor who is the CLEAR
 ; HEIR-APPARENT of their organisation's leadership post - the most-senior employee
 ; below the org-head - murders the incumbent to take the seat. The victim is an
 ; OBSTACLE (an innocent who holds the post), not a wrongdoer.
 ;
-; PURE .hs, per-mind honest (the old (ambition-target ...) C++ verb entered every
+; PURE .mc, per-mind honest (the old (ambition-target ...) C++ verb entered every
 ; colleague's mind + scanned the register). The selection is now a role-cast JOIN
 ; over what @self KNOWS, exactly like covet's:
 ;   - @self must be seated at an org, SENIOR grade, and NOT the head - the honest

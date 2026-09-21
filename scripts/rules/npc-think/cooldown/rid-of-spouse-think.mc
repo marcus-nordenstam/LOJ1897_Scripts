@@ -1,15 +1,15 @@
 ; ----------------------------------------------------------------------------
-; rid_of_spouse.hs - instrumental homicide genesis: rid of a hated/abusive spouse.
+; rid_of_spouse.mc - instrumental homicide genesis: rid of a hated/abusive spouse.
 ;
 ; A cold instrumental branch of the affair-homicide family (siblings:
-; crime_of_passion.hs, betrayal_kill.hs, clear_marriage.hs). An actor kills their
+; crime_of_passion.mc, betrayal_kill.mc, clear_marriage.mc). An actor kills their
 ; spouse out of standing HATRED or ABUSE - to live in peace - independent of any
 ; lover, amplified by the spouse's ESTATE (the widow's portion pays for the
 ; childless) and by an UNMARRIAGEABLE lover waiting (the affair carries on into
 ; widowhood). A festering standing state, not a fresh grievance, so it carries its
 ; OWN misery gate (no rage gate).
 ;
-; PURE .hs. The selection that run_generative_rid_of_spouse dispatched is spelled
+; PURE .mc. The selection that run_generative_rid_of_spouse dispatched is spelled
 ; out here over composable ops:
 ;   - (role ?spouse ...) binds the actor's spouse;
 ;   - (when ...) is the misery gate (deep negative warmth - the detest band <= -2 -

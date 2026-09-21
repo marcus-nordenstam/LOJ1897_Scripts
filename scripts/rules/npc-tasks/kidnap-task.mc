@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; kidnap - NO-OP declaration stub. The abduction crime record ({@self kidnap
-; ?victim}) is read by the criminality classifiers (dimensions.hs); this npc-task
+; ?victim}) is read by the criminality classifiers (dimensions.mc); this npc-task
 ; exists only to SELF-DECLARE the `kidnap` label + its crime metadata so the
 ; tasks.mon row can retire. To be fleshed out into the real abduction task later.
 ; The (try) never fires (declaration only).

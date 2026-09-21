@@ -2,12 +2,12 @@
 ; shopkeeping (npc-think) - the clerk resolves to take stock.
 ;
 ; A shopkeeper KNOWS his stores: every month he takes on the stocktake
-; round (npc-act/shopkeeping.hs takes stock at the counter; this decision owns
+; round (npc-act/shopkeeping.mc takes stock at the counter; this decision owns
 ; the goal-end). This is how a shelf-adjacent mind's whereabouts beliefs stay
 ; honest without any ambient disproof: validating the stock IS the job. The sold-vs-stolen
 ; ledger (a tally document reconciling the day's sales against the gaps)
 ; is future work - today a gap is simply a gap. The per-cycle desire that
-; drives the standing goal to the act lives in npc-think/intra-day/shopkeeping.hs.
+; drives the standing goal to the act lives in npc-think/intra-day/shopkeeping.mc.
 ; ----------------------------------------------------------------------------
 
 ; Whoever RUNS a shop takes stock - the PROPRIETOR (seated at founding) as much as a

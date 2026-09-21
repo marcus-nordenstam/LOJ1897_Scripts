@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; intensity_macros.hs - the DRIVE-SHAPE helpers a desire's (utility) is built from.
+; intensity_macros.mc - the DRIVE-SHAPE helpers a desire's (utility) is built from.
 ;
 ; Three canonical intensity shapes, each returning a value on the shared ~0..100
 ; competition scale (?scale sets the reference magnitude, the shape sets how the

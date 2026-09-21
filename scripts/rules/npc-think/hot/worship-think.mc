@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; worship (npc-think lane) - the churchgoing lane, B4 desire + case sub-goals
-; (mirrors the drinking lane in crave_drink.hs). The service act lives in
-; npc-act/worship.hs.
+; (mirrors the drinking lane in crave_drink.mc). The service act lives in
+; npc-act/worship.mc.
 ;
 ; ONE desire computes the pressure ONCE; the case rules read the worship goal and
 ; maintain the appropriate sub-goal, which INHERITS the worship drive (auto-/caused_by off
@@ -42,7 +42,7 @@
       (effects
                (maintain-proposal {@self enter ?church})))))
 
-; CASE C - not at a church and knows none: search for one (find-building.hs runs it).
+; CASE C - not at a church and knows none: search for one (find-building.mc runs it).
 (npc-think worship_find
   (goal    {@self WORSHIP})
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}

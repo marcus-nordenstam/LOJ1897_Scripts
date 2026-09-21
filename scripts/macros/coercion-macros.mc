@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
-; coercion_macros.hs - the blackmail stake (coercion_pressure.hs); the press
-; sequence itself lives in coercion.hs.
+; coercion_macros.mc - the blackmail stake (coercion_pressure.mc); the press
+; sequence itself lives in coercion.mc.
 ; ----------------------------------------------------------------------------
 
 ; (coercion-stake): the exposure-risk pressure delta a victim mints per month, as

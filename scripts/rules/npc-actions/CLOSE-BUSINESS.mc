@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
 ; close_business_errand (act lane) - the npc-ACT half of the business-failure split.
-; The go/dwell think rungs live in npc-think/close_business_errand.hs.
+; The go/dwell think rungs live in npc-think/close_business_errand.mc.
 ;
-; The decision (npc-think/close_business.hs) minted {@self goal {@self
+; The decision (npc-think/close_business.mc) minted {@self goal {@self
 ; CLOSE-BUSINESS <own_articles>}} on the proprietor each December. The intra-day
 ; think rungs drain it: the owner goes to his OWN premises and winds the firm up in
 ; person - so the failure happens AT the workplace, by the man himself, leaving the
@@ -17,9 +17,9 @@
 ; primitives. He does NOT reach into any worker's mind (the old (dissolve-org)
 ; op did, ending every roster worker's employment beliefs cross-mind - BANNED):
 ;   1. He SHUTTERS the premises building - (shutter-building ?wp) sets a
-;      perceivable `closed` env attr (macros/closure_macros.hs). Each worker
+;      perceivable `closed` env attr (macros/closure_macros.mc). Each worker
 ;      reconciles his own stale {@self employer}/{@self job} beliefs when he next
-;      turns up and reads the shut doors (rules/npc-think/reconcile_closed.hs) -
+;      turns up and reads the shut doors (rules/npc-think/reconcile_closed.mc) -
 ;      perception at co-presence, never a mind edit. The building is MARKED, not
 ;      destroyed, so workers can still perceive the closed state.
 ;   2. He DESTROYS his OWN incorporation documents - the articles (?art, the act
@@ -43,7 +43,7 @@
 ; The winding-up - the owner's own act on his own state. Reads the premises +
 ; register off his articles (?art), shutters the doors, destroys
 ; his own documents, lists the premises for sale if he owns it, and clears the act on
-; completion (close_business.hs owns the goal's teardown). No cross-mind write: workers
+; completion (close_business.mc owns the goal's teardown). No cross-mind write: workers
 ; reconcile themselves via reconcile_closed when they find the premises shut.
 (npc-action {@self CLOSE-BUSINESS ?art ?wp}
   (motor body legs)
@@ -55,9 +55,9 @@
     ; 1. shutter the doors - a perceivable `closed` fact; staff reconcile by seeing it.
     (shutter-building ?wp)
     ; (the owned-premises FOR-SALE listing is the list_failed_premises twin's
-    ;  decision - close_business_think.hs - off this act's /succ record.)
+    ;  decision - close_business_think.mc - off this act's /succ record.)
     ; 2. destroy his OWN incorporation documents (single bound entities at completion).
     (destroy-entity ?reg)
     (destroy-entity ?art)
-    ; 4. clear the act (close_business.hs's when-unsupported-effects end the goal on the falling edge).
+    ; 4. clear the act (close_business.mc's when-unsupported-effects end the goal on the falling edge).
     (set-outcome {@self CLOSE-BUSINESS} /succ)))

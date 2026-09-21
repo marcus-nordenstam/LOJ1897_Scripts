@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; provision (npc-action) - the counter stop of the provisioning errand
-; (npc-think/provisioning_think.hs). Fires ONLY at the shop the cook KNOWS
+; (npc-think/provisioning_think.mc). Fires ONLY at the shop the cook KNOWS
 ; sells provisions. She grabs up to a basket (carry_cap), never more than the
 ; kitchen larder is short of its target. A laden hand is then a live pressure:
 ; provision_rearm mints the general bring goal that carries the food TO THE

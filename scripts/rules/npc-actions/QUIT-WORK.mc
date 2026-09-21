@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; retire (npc-action) - the ACT half of the retirement split. The go/dwell think
-; half lives in npc-think/retire.hs; this file holds the dwell completion that
+; half lives in npc-think/retire.mc; this file holds the dwell completion that
 ; commits the retirement (fires the worker) AT the workplace.
 ; ----------------------------------------------------------------------------
 

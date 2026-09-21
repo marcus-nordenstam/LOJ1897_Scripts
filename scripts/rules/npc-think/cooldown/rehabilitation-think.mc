@@ -2,7 +2,7 @@
 ; rehabilitation (Phase 9.3, B4 pressure model). A DISREPUTABLE NPC feels a
 ; second, distinct pull toward church - not piety but the wish to restore
 ; standing. A SECOND worship DRIVE: it mints the same abstract {@self WORSHIP}
-; drive goal want_worship (worship_think.hs) proposes, on a shorter 15-day itch;
+; drive goal want_worship (worship_think.mc) proposes, on a shorter 15-day itch;
 ; the two utility sources SUM on that one goal, so a disreputable devout man is
 ; drawn hardest, and BOTH pressures relieve on one act (both ramp with
 ; days-since-last worship, which the worship act resets). The shared worship_go

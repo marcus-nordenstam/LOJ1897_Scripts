@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; sack_errand (npc-action) - the ACT half of the employer-side job-loss split. The
-; go/dwell think half lives in npc-think/sack_errand.hs; this file holds the
+; go/dwell think half lives in npc-think/sack_errand.mc; this file holds the
 ; dwell completion that fires the worker and seeds his grudge toward the boss.
 ; ----------------------------------------------------------------------------
 

@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; score_macros.hs - composable scoring/disposition macros for motive rules.
+; score_macros.mc - composable scoring/disposition macros for motive rules.
 ;
 ; Layered by design: small named readings nest into bigger named scores, so an
 ; rule's (when ...) / blame decision reads as intent, not arithmetic. Macros
@@ -77,7 +77,7 @@
 (define-macro ambitious-disposition (?who)   (trait-mean ?who machiavellianism narcissism))
 (define-macro acquisitive-disposition (?who) (trait-mean ?who machiavellianism psychopathy))
 
-; The CHARACTER-cheater's straying tail (affair.hs Pathway B): narcissistic
+; The CHARACTER-cheater's straying tail (affair.mc Pathway B): narcissistic
 ; supply-hunger + psychopathic thrill / low empathy + volatile impulsivity. A pure
 ; per-NPC personality read (dark tetrad via env attr, never self-mirrored) - no
 ; family, marital or decorum term - so a "chaos is baseline" serial cheater strays
@@ -107,7 +107,7 @@
 (define-macro dark-propensity (?disposition)
   (* (disinhibition) ?disposition))
 
-; --- Layer 3: betrayal blame (betrayal_kill.hs) ------------------------------
+; --- Layer 3: betrayal blame (betrayal_kill.mc) ------------------------------
 
 ; Blame-the-partner terms, innermost out: the self's sense of propriety plus
 ; any standing grudge toward the partner ...

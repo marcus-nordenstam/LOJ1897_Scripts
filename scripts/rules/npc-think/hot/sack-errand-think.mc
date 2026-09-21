@@ -1,12 +1,12 @@
 ; ----------------------------------------------------------------------------
 ; sack_errand (npc-think) - the go/dwell half of the boss-side job-loss split.
 ;
-; The decision (employment.hs `job_loss`) minted {@self goal {@self SACK
+; The decision (employment.mc `job_loss`) minted {@self goal {@self SACK
 ; <worker>}} on the BOSS (the org-head). The boss goes to the workplace and lets
 ; the man go in person - and the sacked man's grudge toward the NAMED boss is
 ; seeded there (a motive the detective layer can read), instead of a faceless
 ; world-lane firing. The worker is the goal focus. The completion commit
-; (sack_act) lives in npc-act/sack_errand.hs.
+; (sack_act) lives in npc-act/sack_errand.mc.
 ;
 ;   sack_go     : hold the goal, not at the workplace -> travel act to it.
 ;   sack_dwell  : hold the goal, AT the workplace -> propose the dismissal (sack_act).

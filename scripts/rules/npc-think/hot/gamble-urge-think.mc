@@ -17,7 +17,7 @@
 ;     on arrival (spatial @self building ?venue) the (when) drops and when-unsupported-effects end the enter-goal.
 ;     The enter chain steps the gambler INSIDE.
 ;   gamble_at_pub (terminal): AT a pub, the standing {@self PLAY-GAME} drive is PROPOSED
-;     ({@self PLAY-GAME}), promoting to gamble_act (npc-act/gamble_act.hs). The proposed
+;     ({@self PLAY-GAME}), promoting to gamble_act (npc-act/gamble_act.mc). The proposed
 ;     label no longer auto-promotes, so this is the only place the act runs.
 ; No known pub -> no gamble_go role -> no gambling.
 ; ----------------------------------------------------------------------------

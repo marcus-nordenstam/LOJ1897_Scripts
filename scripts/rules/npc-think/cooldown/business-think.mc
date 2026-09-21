@@ -72,7 +72,7 @@
                    (latch-eval (chance (* 0.033 (+ 0.5 (target-or @self assertiveness 0)))))))
 
         ; npc-think: the clerk resolves to secure his firm's backing. Mints {@self goal
-        ; {@self back ?org}} (focus = the firm); the npc-action (invest_errand.hs)
+        ; {@self back ?org}} (focus = the firm); the npc-action (invest_errand.mc)
         ; sends him to the firm and the completion records {@self backed-by ?org} there -
         ; which trips the completion gate above. Focus = the firm ?org, bound in the role
         ; from @self's own job.org belief. when-unsupported-effects end the goal on that falling edge.
@@ -107,7 +107,7 @@
       (role ?principal_org {?principal_org isa [k org]}
                            [k org business]
 
-        ;; Live exclusivity re-check (see betrothal.hs): the candidate's "not
+        ;; Live exclusivity re-check (see betrothal.mc): the candidate's "not
         ;; org-head" eligibility is evaluated at enumeration time, so within one
         ;; january tick several businesses can each sample the same strong candidate
         ;; before any partnership commits - one man "taken into partnership" by a
@@ -126,7 +126,7 @@
                    (latch-eval (chance (* 0.01 (+ 0.5 (target-or @self assertiveness 0)))))))
 
         ; SPLIT (Item 5): the npc-think - the clerk decides to buy in. Mints {@self
-        ; goal {@self PARTNER <articles>}}; the npc-action (partner_errand.hs) sends him to
+        ; goal {@self PARTNER <articles>}}; the npc-action (partner_errand.mc) sends him to
         ; the firm's premises and the completion buys him in there. RE-TARGET pattern:
         ; a search-type pursuit holds ONE standing goal, replaced (not stacked) each
         ; fire - begin-goal is idempotent only per identical target and each firm's
@@ -143,7 +143,7 @@
 ; --- business_founding: a man of means sets up on his own account ----------
 ; SPLIT (Item 5, the great split): this is now the npc-THINK - the decision to
 ; set up in business. It mints {?founder goal {?founder FOUND}}; the npc-action
-; (rules/work/found_business.hs) routes the founder to the bank and the
+; (rules/work/found_business.mc) routes the founder to the bank and the
 ; completion does the real (found-org) commit - so the business is founded at the
 ; bank, by the man himself, leaving the founding documents (the clue trail) and the
 ; co-presence a witness would see, instead of a faceless world-lane edit.

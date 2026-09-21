@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; life-aim-affinity.hs - the (life-aim, action) affinity table, as authored config.
+; life-aim-affinity.mc - the (life-aim, action) affinity table, as authored config.
 ;
 ; One record per (life-aim, action) pair with a signed weight - the
 ; LIFE_AIM_ALIGN modifier of the unified weight formula.
@@ -17,7 +17,7 @@
 ;     ...)
 ; with the consumer defaulting the bound weight to 0 when no record matches.
 ; life-aim itself is a per-NPC belief minted by the classify_life_aim rule
-; (classifiers/life-aim.hs); it is read @self-only (non-telepathic).
+; (classifiers/life-aim.mc); it is read @self-only (non-telepathic).
 ;
 ; life-aim sub-kinds (concepts.mon life-aim): legacy-aim / wealth-aim /
 ; piety-aim / respectability-aim / autonomy-aim / power-aim / belonging-aim.

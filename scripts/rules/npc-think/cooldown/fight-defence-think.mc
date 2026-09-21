@@ -11,7 +11,7 @@
 ;
 ; MAINTAINED on the RECORD of the blow (/ever), not the blow itself - a transient act would
 ; flicker the maintainer between exchanges; the fight then persists across the brawl and
-; concludes on its own twin (foe down / gone, in fight-task.hs), which ends the bout. The
+; concludes on its own twin (foe down / gone, in fight-task.mc), which ends the bout. The
 ; concluded-fight guard keeps one old blow from raising a new fight every period. Combat resolve (volatility
 ; + sadism - compassion) gates whether this victim has the stomach to fight back at all.
 ; ----------------------------------------------------------------------------

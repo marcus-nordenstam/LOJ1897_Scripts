@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; patronage (npc-think). A man of standing - high prestige, exemplary reputation
 ; - takes a lower-class connection under his wing. The effect is a `backed-by`
-; belief on the protege, which business_founding (business.hs) gates on as a
+; belief on the protege, which business_founding (business.mc) gates on as a
 ; means-branch the next january.
 ;
 ; Differs from `investment` in direction: investment is candidate-led (a worthy

@@ -8,7 +8,7 @@
 ;   want_drink  (desire): pressure-gated (drink-due), utility = drink-drive. Holds
 ;                {@self DRINK} while thirsty; auto-retracts when the pressure lapses.
 ;   AT a pub   (case A):  drink_at_pub proposes {@self DRINK} - the leaf label promotes
-;                to drink_act (drink.hs); the bare goal never self-promotes.
+;                to drink_act (drink.mc); the bare goal never self-promotes.
 ;   know a pub (case B):  drink_go holds {@self go ?pub} /caused_by the drink goal.
 ;   know none  (case C):  drink_find holds {@self find-building [k pub]} /caused_by it.
 ;
@@ -17,7 +17,7 @@
 ; The cases are mutually exclusive (at-pub vs role ?pub vs no-role), so exactly one path
 ; is live at a time.
 ;
-; Already-dependent NPCs are excluded here (relapse.hs casts them - a second drink source).
+; Already-dependent NPCs are excluded here (relapse.mc casts them - a second drink source).
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.mc")
@@ -47,7 +47,7 @@
       (when    (not (spatial @self building ?pub)))
       (effects (maintain-proposal {@self enter ?pub})))))
 
-; CASE C - not at a pub and knows none: search for one (find-building.hs runs it). A maintenance
+; CASE C - not at a pub and knows none: search for one (find-building.mc runs it). A maintenance
 ; rule: it mints the standing find goal and holds it while the search runs; the moment a pub is
 ; learned the (no-role) gate flips (or arrival makes can-drink hold), the find goal ends, and the
 ; go rung takes over.

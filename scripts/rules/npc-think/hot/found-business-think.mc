@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; found_business (npc-think lane) - the THINK half of the business-founding split.
 ;
-; The decision (business_think.hs `business_founding`) minted {@self goal {@self
+; The decision (business_think.mc `business_founding`) minted {@self goal {@self
 ; found}} and OWNS its whole life (it ceases when found_business_act seats him as a
 ; proprietor/org-head). found_go routes the would-be proprietor to a same-town bank;
 ; AT the bank found_go ceases and the goal is the leaf and promotes to

@@ -1,9 +1,9 @@
 ; ----------------------------------------------------------------------------
-; taunt.hs - narcissist self-insertion (serial_predation).
+; taunt.mc - narcissist self-insertion (serial_predation).
 ;
 ; The Cream signature: a narcissistic murderer inserts himself into the
-; public mystery his own crime created. PURE .hs (no C++ generator) -
-; sibling of predation.hs / covet_inheritance.hs:
+; public mystery his own crime created. PURE .mc (no C++ generator) -
+; sibling of predation.mc / covet_inheritance.mc:
 ;   - (when ...) is the narcissism tail (>= 0.7, env ground truth), the
 ;     adult floor, and the per-corpse-window-month base rate (0.04);
 ;   - (covert-kill-corpse) resolves the actor's own recent OVERT-method

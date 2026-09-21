@@ -3,11 +3,11 @@
 ;
 ; The clerk, at his counter with the standing stocktake goal, walks the
 ; premises for half an hour validating what he believes is on the shelves
-; against what actually is (take-stock-of, stocktake_macros.hs): a
+; against what actually is (take-stock-of, stocktake_macros.mc): a
 ; sold / stolen / eaten item's whereabouts belief ends at the gap where it
 ; used to sit. Utility 82: a shade over the work shift (80), so the round
 ; happens on arrival and the counter work resumes after. The per-cycle desire
-; (stocktake_round) lives in npc-think/shopkeeping.hs.
+; (stocktake_round) lives in npc-think/shopkeeping.mc.
 ;
 ; RE-STOCK: restocking the shelves is the grocer's OWN daily job, done at
 ; his OWN co-present shop - the deliveries a Victorian shop takes each
@@ -17,7 +17,7 @@
 ; grocer already bound his own premises via (spatial @self building) off his
 ; {@self job.org ?org}->{?org workplace ?wp} presence; the count-then-spawn
 ; is idempotent (a full shelf is a no-op), so only the day's shortfall (sold
-; / stolen / eaten down) is re-seeded. Replaces world-act/grocer_restock.hs.
+; / stolen / eaten down) is re-seeded. Replaces world-act/grocer_restock.mc.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/collection-macros.mc")

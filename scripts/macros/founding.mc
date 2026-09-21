@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
-; founding.hs - the org-founding belief sequence, as atomic .hse ops.
+; founding.mc - the org-founding belief sequence, as atomic .mc ops.
 ;
 ; This is the DECOMPOSITION of the old monolithic C++ (found-org) effect: the documents +
-; every belief the FOUNDER/head holds are minted here, in the .hse DSL. Premises are claimed
+; every belief the FOUNDER/head holds are minted here, in the .mc DSL. Premises are claimed
 ; off the land registry (found-org-seq scans the title_deeds for a vacant one of the org's
 ; building kind and stamps @self as its owner), not acquired from a C++ pool. The one op still
 ; reaching outside @self's mind is:
@@ -10,8 +10,8 @@
 ;
 ; STAFFING is NOT done here. A new org is founded with its HEAD only; the emergent
 ; labour market staffs it over subsequent ticks: the recruit-staff duty-holder posts
-; a parish-board advert (recruit_think.hs), jobless seekers read the board and apply
-; in person (job_search_think.hs), the recruiter decides over his applicants book,
+; a parish-board advert (recruit_think.mc), jobless seekers read the board and apply
+; in person (job_search_think.mc), the recruiter decides over his applicants book,
 ; letters go out, and the accepted hire is enrolled on the wage book - which the
 ; new employee READS to realize his employment. No bulk scan, no telepathy.
 ;
@@ -196,7 +196,7 @@
 ; rostered separately: hire-seq (below) writes the register itself for an emergent
 ; hire, while the C++ candidate-scan effects (bootstrap / staff-household / jockey)
 ; roster the worker via the thin enrol verb and let the materialize_employment
-; rule call THIS to mint the beliefs. So the beliefs live in .hs; the roster
+; rule call THIS to mint the beliefs. So the beliefs live in .mc; the roster
 ; (objective) is owned by whoever enrolled the worker. @self is always the worker
 ; (no telepathy). Only (stamp-work-hours) (the occupation_shifts table stamp)
 ; reaches outside @self's own mind.

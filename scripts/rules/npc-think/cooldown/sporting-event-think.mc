@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; sporting_event - the club ORGANISER's annual meet, the think + routing half.
-; (The act half - the contest itself - lives in rules/npc-act/hold-meet.hs.)
+; (The act half - the contest itself - lives in rules/npc-act/hold-meet.mc.)
 ;
 ; No omniscient club/roster/jockey scan: the organiser is a real deliberating NPC
 ; who reasons from HIS OWN club beliefs and acts at HIS OWN clubhouse.
@@ -16,9 +16,9 @@
 ;   compete: the COMPETITOR's half - a member the organiser summoned proposes his own
 ;     {@self RACE-RUN} act (race_act runs his leg from his own attributes).
 ;
-; The SPORT is authored content read per club kind from tables/club_sports.hs;
+; The SPORT is authored content read per club kind from tables/club_sports.mc;
 ; the field is the membership-roll the organiser legitimately holds - both
-; read inside open_meet_act (hold_meet_act.hs), never here.
+; read inside open_meet_act (hold_meet_act.mc), never here.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.mc")

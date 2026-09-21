@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; public_orgs.hs - the public orgs the town NEEDS, as authored config.
+; public_orgs.mc - the public orgs the town NEEDS, as authored config.
 ;
 ; A (define-table ...): implementation config with an inline schema, keyed by the
 ; plain name `public_orgs`. NOT a world entity and NOT an ontology kind - no NPC

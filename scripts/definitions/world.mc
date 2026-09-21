@@ -1,4 +1,4 @@
-; world.hs - default world for the standalone hsim_world app.
+; world.mc - default world for the standalone hsim_world app.
 ;
 ; When hsim_world runs with NO command-line args it reads this file and
 ; materialises the named .mwo against the given content root. Override either

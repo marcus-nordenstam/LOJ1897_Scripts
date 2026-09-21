@@ -68,7 +68,7 @@
 
       (utility want)
 
-      ; Propose the disinherit TASK (disinherit-task.hs): the benefactor performs the
+      ; Propose the disinherit TASK (disinherit-task.mc): the benefactor performs the
       ; disinheritance - not a fabricated omniscient record. (Interim: the task SAYs it to
       ; the victim, planting the knowledge; the proper will-writing + heir-realization lands
       ; when will-documents do.)

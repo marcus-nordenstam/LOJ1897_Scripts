@@ -1,10 +1,10 @@
 ; ----------------------------------------------------------------------------
-; closure_macros.hs - the no-telepathy business-teardown primitives.
+; closure_macros.mc - the no-telepathy business-teardown primitives.
 ;
 ; A closing owner NEVER writes a worker's mind. Instead he sets a PERCEIVABLE
 ; physical fact on the workplace BUILDING - the doors are shuttered - and workers
 ; reconcile their own stale employment beliefs when they turn up and find it shut
-; (rules/npc-think/reconcile_closed.hs). This is the primary no-telepathy
+; (rules/npc-think/reconcile_closed.mc). This is the primary no-telepathy
 ; coordination channel (perception at co-presence), not a mind edit.
 ;
 ; (shutter-building ?wp): shutter the premises ?wp by writing its struct-status = [k closed]

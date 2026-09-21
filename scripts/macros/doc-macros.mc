@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; doc_macros.hs - readable named accessors over the generic document ops.
+; doc_macros.mc - readable named accessors over the generic document ops.
 ;
 ; These REPLACE the old C++ (org-founder ?a) / (articles-building ?a) value-ops.
 ; read-doc-record BINDS (the field flows out to the ?var), so a call is a binding

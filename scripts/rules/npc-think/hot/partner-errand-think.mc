@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; partner_errand - the npc-THINK half of the business-partnership split (approach).
 ;
-; The decision (business_think.hs `business_partnership`) minted {@self goal {@self
+; The decision (business_think.mc `business_partnership`) minted {@self goal {@self
 ; partner <articles>}} and OWNS its whole life (it ceases when partner_act seats the
 ; clerk as proprietor/org-head). partner_go routes him to the firm's premises; AT the
 ; premises partner_go ceases and the goal is the leaf and promotes to partner_act -

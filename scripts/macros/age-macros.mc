@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; age_macros.hs - perceptible age-band predicates, as define-macros.
+; age_macros.mc - perceptible age-band predicates, as define-macros.
 ;
 ; Age is NOT read as a number any more (the old (years-old ?o) op read the env
 ; birth-date attr OMNISCIENTLY). Instead every mind holds a PERCEIVED age-band

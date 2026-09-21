@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
-; duty_tables.hs - the duty model's authored data.
+; duty_tables.mc - the duty model's authored data.
 ;
-; org_duties: which duties an org KIND requires held. duty_review (duties_think.hs)
+; org_duties: which duties an org KIND requires held. duty_review (duties_think.mc)
 ; walks these rows and applies every row whose kind the org is-a - so the base
 ; [k org] rows cover every org, and specific rows add per-kind duties on top.
 ; Behaviour dispatches on the HELD duty ({@self duty-to ?org [k <duty>]}), never

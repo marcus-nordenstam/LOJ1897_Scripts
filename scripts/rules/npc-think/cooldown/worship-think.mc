@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; worship (npc-think lane) - the churchgoing lane, B4 desire + case sub-goals
-; (mirrors the drinking lane in crave_drink.hs). The service act lives in
-; npc-act/worship.hs.
+; (mirrors the drinking lane in crave_drink.mc). The service act lives in
+; npc-act/worship.mc.
 ;
 ; ONE desire computes the pressure ONCE; the case rules read the worship goal and
 ; maintain the appropriate sub-goal, which INHERITS the worship drive (auto-/caused_by off
@@ -44,7 +44,7 @@
 
 ; THE DEVOUT'S SUNDAY OBSERVANCE - the classifier-cast band split (ruling 8a). The SAME
 ; worship drive, but role-cast on the identity-grade `devoutness` classifier belief
-; ({@self devoutness [k piety-band devout]}, minted + decayed by devoutness.hs): a devout
+; ({@self devoutness [k piety-band devout]}, minted + decayed by devoutness.mc): a devout
 ; NPC's churchgoing is an OBLIGATION (socially mandatory), not a passing want, so it outranks
 ; ordinary errands and leisure. The atheist is never cast; the lapsed churchgoer decays out of
 ; the classifier; the pretender fools observers exactly as before. Co-drives the ONE

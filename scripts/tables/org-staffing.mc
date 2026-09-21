@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
-; org_staffing.hs - the staff occupation each org kind RECRUITS for, as authored
+; org_staffing.mc - the staff occupation each org kind RECRUITS for, as authored
 ; config (a (define-table ...), like public_orgs / businesses / occupations).
-; Loaded from tables/ (directory-scanned) into the .hse catalog; read
-; by the advertise task (advertise-task.hs) via (table-match org_staffing ...).
+; Loaded from tables/ (directory-scanned) into the .mc catalog; read
+; by the advertise task (advertise-task.mc) via (table-match org_staffing ...).
 ;
 ; WHY THIS TABLE: an org advertises the occupation it NEEDS - and ONLY that. The
 ; earlier advertise_post scored every hosted occupation a flat 1 and argmax-picked
@@ -16,7 +16,7 @@
 ;                 founding path resolves and advertise_post reads off the articles).
 ;   staff-role  - the occupation this org hires (the HEAD/owner is founded, never
 ;                 hired, so it is not listed): a scoped job kind [k job <leaf>]
-;                 matching an occupations.hs row. One primary staff role per org
+;                 matching an occupations.mc row. One primary staff role per org
 ;                 (headcount lives in public_orgs employee-count); an org needing a
 ;                 second distinct role (restaurant cook, newspaper printer) is a
 ;                 future multi-role extension.

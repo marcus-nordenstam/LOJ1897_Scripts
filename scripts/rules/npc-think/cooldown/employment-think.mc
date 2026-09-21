@@ -16,8 +16,8 @@
 (include "../../../definitions/roles.mc")
 
 ; --- hiring: the labour market (advert -> application -> offer -> enrolment) --
-; Lives in job_search_think.hs (worker side) + recruit_think.hs (recruiter side,
-; driven by the recruit-staff duty) + recruit_actions.hs (the clerical writes).
+; Lives in job_search_think.mc (worker side) + recruit_think.mc (recruiter side,
+; driven by the recruit-staff duty) + recruit_actions.mc (the clerical writes).
 
 ; --- staff review: per-worker maintenance minters (dismiss / promote) ----------
 ; The boss OWNS each staffing intent end to end. @self is the BOSS: career conduct
@@ -34,7 +34,7 @@
   (cooldown 1 m)
   (rng-stream employment)
   ; Duty dispatch: whoever HOLDS the org's dismiss_staff duty reviews (assignment:
-  ; duties_think.hs) - never a job-kind or rank test. Fire-binds ?org O(1).
+  ; duties_think.mc) - never a job-kind or rank test. Fire-binds ?org O(1).
   (role @self {@self duty-to ?org dismiss_staff}
     (role ?w    {?w work-standing ?ws}
       (when (and (!= ?w @self)
@@ -48,7 +48,7 @@
   (cooldown 1 m)
   (rng-stream employment)
   ; Duty dispatch: whoever HOLDS the org's review_staff duty promotes (assignment:
-  ; duties_think.hs) - never a job-kind or rank test. Fire-binds ?org O(1).
+  ; duties_think.mc) - never a job-kind or rank test. Fire-binds ?org O(1).
   (role @self {@self duty-to ?org review_staff}
     (role ?w    {?w work-standing ?ws}
       (when (and (!= ?w @self)
@@ -60,7 +60,7 @@
 ; --- retirement: an employed worker of 65+ leaves working life --------------
 ; SPLIT (Item 5, the great split): this rule is now the npc-THINK - the decision
 ; to retire. It no longer ends the job here; it mints {?worker goal {?worker retire}}.
-; The npc-ACT (rules/work/retire.hs) routes the worker to their workplace and the
+; The npc-ACT (rules/work/retire.mc) routes the worker to their workplace and the
 ; completion fires the actual (fire) commit - so a retirement happens AT the
 ; workplace, by the man himself, generating the co-presence a witness would see.
 (npc-think retirement

@@ -2,8 +2,8 @@
 ; convey_corpse (npc-think lane) - the bereaved-kin lane that CARRIES a dead
 ; relative's body to a church. Pure perception, no telepathy: nobody writes the
 ; priest's mind. The body physically ends up in the church's room (deposit act in
-; npc-act/convey_corpse.hs), and a co-present priest PERCEIVES the corpse there
-; (bury.hs). The corpse's presence in the church IS the "bury me" marker - no
+; npc-act/convey_corpse.mc), and a co-present priest PERCEIVES the corpse there
+; (bury.mc). The corpse's presence in the church IS the "bury me" marker - no
 ; blackboard, no (tell), no report doc.
 ;
 ; A mind holds {<corpse> condition dead} ONLY by a real channel of its own - it
@@ -90,7 +90,7 @@
       (when    (not (is-a (spatial @self building) [k building church])))
       (effects (maintain-proposal {@self enter ?church})))))
 
-; CASE C - not at a church and knows none: search for one (find-building.hs runs it).
+; CASE C - not at a church and knows none: search for one (find-building.mc runs it).
 (npc-think convey_find
   (goal    {@self CONVEY ?corpse})
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}

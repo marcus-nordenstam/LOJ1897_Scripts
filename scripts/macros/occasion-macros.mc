@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; occasion_macros.hs - shared timing / desirability / date helpers for the
+; occasion_macros.mc - shared timing / desirability / date helpers for the
 ; occasion lanes (the attend task, the wedding vow duty, their drivers). All
 ; content-free: the prep-lead and the guest's desirability are authored here, the window
 ; arithmetic is the same in-work-hours the work shifts use, the date test rides

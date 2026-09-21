@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
-; staff-household.hs - domestic-service staffing of quality homes
+; staff-household.mc - domestic-service staffing of quality homes
 ; (see Docs/hsim/hsim_social.md "Households").
 ;
-; PURE .hs, three passes: THINK (a quality-home owner takes on the standing
+; PURE .mc, three passes: THINK (a quality-home owner takes on the standing
 ; staffing duty), FOUND (the head constitutes the `org household` seated AT
 ; the home - its employee-register doubles as the servants' wage book), and
 ; ACT (the head fills vacant roster slots via the (staff-household ?h)
@@ -53,7 +53,7 @@
 ; whatever the rule load order): a head who holds the staffing duty, OWNS the
 ; manor / townhouse that is his HOME, and does NOT yet run a household founds the
 ; `org household` via the shared found-org-seq macro. household is residence-seated
-; (businesses.hs), so acquire-org-premises returns the home study - the same seat
+; (businesses.mc), so acquire-org-premises returns the home study - the same seat
 ; the old C++ found_org used. The self-throttle is the CACHED self-gate filter
 ; (none {@self job.org [k org household]}): the kind criterion matches
 ; the job.org target's org-object kind by is-a (the symbolic matcher's
@@ -79,7 +79,7 @@
 ; --- ACT: the head fulfils the duty - hires what the founded household lacks ---
 (npc-think staff-household
   ; PER-NPC (cooldown 1 m): the household head fulfils his standing staffing
-  ; duty once a month. PURE .hs: the gate is the duty the think minted
+  ; duty once a month. PURE .mc: the gate is the duty the think minted
   ; plus ownership of the home (a co-resident spouse / tenant staffs nothing).
   ; `?h` is a CACHED role - home + own tested against the SAME candidate, and the
   ; role BINDS ?h for the effect. (staff-household ?h) then FILLS-TO-TARGET

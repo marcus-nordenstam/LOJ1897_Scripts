@@ -3,13 +3,13 @@
 ; dimensions into {@self <dim> [k conduct-level ...]} beliefs so the per-observer
 ; repute fuse can read a uniform banded belief for @self AND for a tracked other.
 ; @self reads its OWN dims (honest self-image, no telepathy); the OTHER side
-; (conduct_bands_others.hs) abduces {?other <dim> <level>} from what it witnessed.
+; (conduct_bands_others.mc) abduces {?other <dim> <level>} from what it witnessed.
 ;
 ; Four dims band here (honesty / diligence / generosity / sobriety); the fuse's
 ; remaining terms come from elsewhere - piety from {X devoutness} (the about-others
 ; classifier, already per-observer), decorum from the {X decorum} float, and chastity
 ; on demand from (count (every {X lover ? /ever})). Bands: good >= 0.66, fair >= 0.33,
-; lax the floor. honesty / diligence / generosity / sobriety read the dimensions.hs
+; lax the floor. honesty / diligence / generosity / sobriety read the dimensions.mc
 ; value macros.
 ; ----------------------------------------------------------------------------
 

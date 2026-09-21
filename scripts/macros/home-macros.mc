@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; home_macros.hs - the "am I at my own home" convenience.
+; home_macros.mc - the "am I at my own home" convenience.
 ;
 ; UNAMBIGUOUS by construction: a home is ALWAYS a building (the address-on-the-premise
 ; model), so this is a plain (spatial @self building <my home>) - it never mixes a building

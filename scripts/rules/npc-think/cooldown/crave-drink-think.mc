@@ -8,7 +8,7 @@
 ;   want_drink  (desire): pressure-gated (drink-due), utility = drink-drive. Holds
 ;                {@self DRINK} while thirsty; auto-retracts when the pressure lapses.
 ;   AT a pub   (case A):  {@self DRINK} has no active sub-goal, so it is the leaf and
-;                promotes straight to drink_act (drink.hs). No rule needed.
+;                promotes straight to drink_act (drink.mc). No rule needed.
 ;   know a pub (case B):  drink_go holds {@self go ?pub} /caused_by the drink goal.
 ;   know none  (case C):  drink_find holds {@self find-building [k pub]} /caused_by it.
 ;
@@ -17,7 +17,7 @@
 ; The cases are mutually exclusive (at-pub vs role ?pub vs no-role), so exactly one path
 ; is live at a time.
 ;
-; Already-dependent NPCs are excluded here (relapse.hs casts them - a second drink source).
+; Already-dependent NPCs are excluded here (relapse.mc casts them - a second drink source).
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.mc")

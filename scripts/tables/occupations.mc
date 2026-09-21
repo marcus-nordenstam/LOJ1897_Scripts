@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
-; occupations.hs - the job catalog as authored config (a (define-table ...) with
+; occupations.mc - the job catalog as authored config (a (define-table ...) with
 ; NAMED records, like businesses / cornerstone_businesses). Loaded from
-; tables/ into the .hse catalog; consumed by the (select-row ...)
-; hiring match in hire_errand_act.hs - there is NO bespoke C++ parser, struct,
+; tables/ into the .mc catalog; consumed by the (select-row ...)
+; hiring match in hire_errand_act.mc - there is NO bespoke C++ parser, struct,
 ; or catalog (the old hsim_occupations.{h,cc} loader was deleted).
 ;
 ; One row per job (a named record: unlisted fields take the (defaults ...) fill):
@@ -32,8 +32,8 @@
 ;   solicitor (law trained). Secondary credential --> teacher/principal.
 ; Lower-class trades carry NO hard gates - the on-ramp must stay open.
 ;
-; The domain a job CONFERS competence in lives in occupation_domains.hs; the
-; working hours live in occupation_shifts.hs.
+; The domain a job CONFERS competence in lives in occupation_domains.mc; the
+; working hours live in occupation_shifts.mc.
 ; ----------------------------------------------------------------------------
 
 (define-table occupations
@@ -116,7 +116,7 @@
      (req-repute [k respectable])
      (pref-trait1 industriousness 0.8))
 
-  ; priest: irregular week (Sunday IS the working day) - see occupation_shifts.hs.
+  ; priest: irregular week (Sunday IS the working day) - see occupation_shifts.mc.
   (record (job [k job priest])
      (class-floor [k middle])
      (business-type [k org church])
@@ -242,7 +242,7 @@
      (pref-trait1 industriousness 0.6)
      (pref-trait2 politeness 0.5))
 
-  ; nurse: a hospital runs round the clock - two shifts in occupation_shifts.hs;
+  ; nurse: a hospital runs round the clock - two shifts in occupation_shifts.mc;
   ; a hire is assigned one (day or night).
   (record (job [k job nurse])
      (class-floor [k lower])
@@ -262,7 +262,7 @@
      (pref-trait1 politeness 0.6)
      (pref-trait2 enthusiasm 0.5))
 
-  ; factory-worker: day AND night shifts - see occupation_shifts.hs.
+  ; factory-worker: day AND night shifts - see occupation_shifts.mc.
   (record (job [k job factory-worker])
      (class-floor [k lower])
      (business-type [k org factory])

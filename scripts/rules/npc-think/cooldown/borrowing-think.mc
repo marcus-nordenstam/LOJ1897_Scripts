@@ -11,8 +11,8 @@
 ; twin outcome rules below (conventions): borrowing_done concludes it when the
 ; loan-call records the debt; borrowing_abandoned withdraws it if the creditor
 ; dies first (else the standing goal would block all future borrowing).
-; The errand rungs (borrow_errand_think.hs) perform the goal; the loan-call act
-; (borrow_errand_action.hs) records the {owe}.
+; The errand rungs (borrow_errand_think.mc) perform the goal; the loan-call act
+; (borrow_errand_action.mc) records the {owe}.
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.mc")

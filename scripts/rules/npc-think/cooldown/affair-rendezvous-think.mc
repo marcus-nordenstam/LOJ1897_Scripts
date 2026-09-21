@@ -3,7 +3,7 @@
 ; channel 2: rendezvous"). The npc-think sibling of affair_correspondence (the
 ; letter channel).
 ;
-; PURE .hs (no C++ generator), no shared macro: ONE rule per rendezvous KIND,
+; PURE .mc (no C++ generator), no shared macro: ONE rule per rendezvous KIND,
 ; so the venue kind is IMPLICIT in each rule and its tryst note names the venue
 ; directly - an org premises (hotel / theatre / pub) by the org's name, a named
 ; residence by its name. Same covert-affair cast + concealment gate as the

@@ -45,7 +45,7 @@
                -{?master repute [k scandalous]}
                {?org record ?org_record}
 
-      ;; Live exclusivity re-check (see employment.hs): the youth's "unemployed"
+      ;; Live exclusivity re-check (see employment.mc): the youth's "unemployed"
       ;; filter is alpha-indexed, so within one tick several masters sample the same
       ;; youth before the first apprenticeship commits. We re-check via a live
       ;; (any ...) two-hop read of the youth's own job then level - reading it live,
@@ -62,7 +62,7 @@
                  (<= (years-old @self) 16)))
 
       ;; The youth chooses a trade and proposes the seek-indenture task (npc-tasks/
-      ;; seek-indenture-task.hs), which sends him to the master's premises and enrols him
+      ;; seek-indenture-task.mc), which sends him to the master's premises and enrols him
       ;; there. maintain-proposal keeps ONE standing search, retargeted each fire as the
       ;; roulette lands on a different master (a per-target begin would stack a distinct
       ;; proposal per org's articles and overflow the attention set).

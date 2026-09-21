@@ -42,7 +42,7 @@
     (effects
       ; TAKE UP a charter the town filed at seeding and nobody heads yet. The org already
       ; exists on paper - premises, articles, staff book - so founding it is stepping into
-      ; its open head seat. The emergent labour market (employment.hs `hiring` ->
+      ; its open head seat. The emergent labour market (employment.mc `hiring` ->
       ; hire_errand -> hire-matched) staffs it from the unemployed over subsequent ticks.
       (for-each-row public_orgs
           [/kind ?k] [/head-pos ?hp] [/class-floor ?cf]

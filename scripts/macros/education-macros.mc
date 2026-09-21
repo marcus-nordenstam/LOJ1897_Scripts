@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; education_macros.hs - the schooling credential sequence (schooling.hs).
+; education_macros.mc - the schooling credential sequence (schooling.mc).
 ;
 ; (graduate-from-study): end the ongoing {@self study <curriculum>} interval
 ; (unforgettable, so the schooling years survive as queryable history) and

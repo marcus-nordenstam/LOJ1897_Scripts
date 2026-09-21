@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
 ; convey_corpse (npc-action lane) - the deposit ACT of the bereaved-kin lane that
 ; CARRIES a dead relative's body to a church. The think half
-; (npc-think/convey_corpse.hs) routes the bearer; here the body is filed into the
-; church's room where a co-present priest PERCEIVES it (bury.hs) - no telepathy.
+; (npc-think/convey_corpse.mc) routes the bearer; here the body is filed into the
+; church's room where a co-present priest PERCEIVES it (bury.mc) - no telepathy.
 ; ----------------------------------------------------------------------------
 
 (include "../../definitions/roles.mc")
@@ -25,4 +25,4 @@
     ; PLACEMENT (not travel): deposit the carried body into a room of this church.
     (relocate ?corpse (spatial @self space))
     (set-outcome {@self CONVEY ?corpse} /succ)))
-; go_action (the shared travel act) lives in npc-actions/go_action.hs.
+; go_action (the shared travel act) lives in npc-actions/go_action.mc.

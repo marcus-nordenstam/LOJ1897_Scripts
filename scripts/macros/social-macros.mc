@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; social_macros.hs - relationship-query define-macros.
+; social_macros.mc - relationship-query define-macros.
 ;
 ; {?who friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?other /ever}: does ?who hold ANY referential tie to ?other -
 ; i.e. has ?who ever met / related to them? Expands to a single options

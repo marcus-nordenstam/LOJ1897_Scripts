@@ -1,12 +1,12 @@
 ; ----------------------------------------------------------------------------
 ; borrow_errand (think lane) - the npc-THINK half of the borrowing split (Item 5).
 ; The go/dwell rungs that route the debtor to the lender's home and promote the
-; loan-taking act (npc-act/borrow_errand.hs).
+; loan-taking act (npc-act/borrow_errand.mc).
 ;
 ;   borrow_go       : hold the goal, not at the lender's home -> travel sub-goal to it.
 ;   borrow_at_home  : AT the lender's home -> propose the loan-taking act (take_loan_act
 ;                     reads the creditor off the standing goal focus). The decision
-;                     (borrowing_think.hs) begins the goal; its twin outcome rules end it.
+;                     (borrowing_think.mc) begins the goal; its twin outcome rules end it.
 ; Both rungs are (lock)-locked: one borrowing errand at a time per mind.
 ; ----------------------------------------------------------------------------
 

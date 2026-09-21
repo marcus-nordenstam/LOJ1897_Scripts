@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; tunables.hs - shared curves + tunable constants, as macros.
+; tunables.mc - shared curves + tunable constants, as macros.
 ;
 ; These were formerly (define-table ...) + (table-lookup ...) named expressions; they
 ; are just named formulas / constants, so they are macros now. A curve takes its
@@ -103,7 +103,7 @@
 (define-macro claim_marker_ttl_cycles () 3)
 
 ; Covert-letter channel model (route-covert-letter's authored knobs; composed
-; by send-covert-letter in affair_macros.hs). Channel weights are relative -
+; by send-covert-letter in affair_macros.mc). Channel weights are relative -
 ; the courier needs the sender's own staff, poste-restante needs standing, so
 ; either may zero out at routing time and the rest renormalize.
 (define-macro covert_w_courier          () 0.35)
@@ -116,7 +116,7 @@
 (define-macro covert_intercept_cap      () 0.5)
 (define-macro covert_handling_suspicion () 0.06)  ; a strange hand on the post, again
 
-; The genetic model (human-traits.hs's authored knobs). heritability is the weight
+; The genetic model (human-traits.mc's authored knobs). heritability is the weight
 ; each PARENT carries in a newborn's continuous traits; what is left over pulls the
 ; child toward its own sex-mean, which is what holds population SD steady instead of
 ; collapsing generation over generation. The standout figures are the accentuation
@@ -152,7 +152,7 @@
 (define-macro founder_age_max () 49)
 
 ; The immigrant-wave model (spawn-immigrant's authored knobs; the row data -
-; ranks / origins / marginal jobs - lives in tables/immigrant_tables.hs).
+; ranks / origins / marginal jobs - lives in tables/immigrant_tables.mc).
 (define-macro immigrant_female_frac        () 0.5)
 (define-macro immigrant_marginal_frac      () 0.30)  ; arrive socially invisible
 (define-macro immigrant_military_frac      () 0.20)  ; of MALE immigrants
@@ -163,11 +163,11 @@
 (define-macro admission_minutes            () 30)  ; the clerical act itself
 
 ; Household staffing hire-age window (the staff slots themselves live in
-; tables/household_staff.hs).
+; tables/household_staff.mc).
 (define-macro staff_hire_age_min () 16)
 (define-macro staff_hire_age_max () 55)
 
-; Sporting-meet model (the per-sport rows live in tables/club_sports.hs).
+; Sporting-meet model (the per-sport rows live in tables/club_sports.mc).
 (define-macro jockey_hire_age_min      () 16)
 (define-macro jockey_hire_age_max      () 45)
 (define-macro trained_victory_weight   () 3.0)  ; practice marker's edge in the victor roll

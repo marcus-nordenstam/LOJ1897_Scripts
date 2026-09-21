@@ -40,7 +40,7 @@
                 {@self lover ?}
                 {@self fiancee ?}
     ; The jilted: the jilter's lover who is NOT the jilter's fiancee (the
-    ; two-bound believes shape wedding.hs uses to recover the groom).
+    ; two-bound believes shape wedding.mc uses to recover the groom).
     (role ?jilted {?jilted isa [k human], condition [k alive]}
                   {@self lover ?jilted}
                   -{@self fiancee ?jilted}

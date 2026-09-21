@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; occupation_shifts.hs - authored working hours per job, as config rows read by
+; occupation_shifts.mc - authored working hours per job, as config rows read by
 ; the C++ (stamp-work-hours ...) backend via the generic table reader
 ; (hse_table_for_each_row) - the old t_work_shift/t_work_day structs + the am/pm
 ; parse are gone. At hire, one {<job_obj> <weekday>_hours <start> <end>} belief

@@ -13,10 +13,10 @@
 ; Monthly per homed NPC (the homeless do not dwell), at a LOW utility: leisure
 ; fills an idle day and never displaces real work - a busy month simply
 ; records no home-leisure episode. Home CO-PRESENCE is not registered here -
-; the physical rest lane (rest.hs) puts the NPC at home and the routine
+; the physical rest lane (rest.mc) puts the NPC at home and the routine
 ; itinerary provides co-presence.
 ;
-; NOTE: the dine episode is owned by the SUPPER lane (npc-act/meals.hs,
+; NOTE: the dine episode is owned by the SUPPER lane (npc-act/meals.mc,
 ; a real daily at-home act with table talk), so the pick here is rest /
 ; read-at only.
 ; ----------------------------------------------------------------------------
@@ -44,7 +44,7 @@
           (else (maintain-proposal {@self rest ?home}))))))
 
 ; The rest / read-at TASKS (the immediate-conclude outcome rungs) live in
-; npc-tasks/rest-task.hs and npc-tasks/read-at-task.hs.
+; npc-tasks/rest-task.mc and npc-tasks/read-at-task.mc.
 
 ; ----------------------------------------------------------------------------
 ; set_mealtimes (npc-think) - the COOK decides the household mealtimes
@@ -160,5 +160,5 @@
         ))))
 
 ; (plan_provisioning / set_shop_schedule are GONE: provisioning is the
-; pressure-driven cook errand in npc-think/provisioning_think.hs - the kitchen
+; pressure-driven cook errand in npc-think/provisioning_think.mc - the kitchen
 ; larder count IS the schedule.)

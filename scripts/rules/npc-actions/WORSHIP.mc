@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; worship (npc-action lane) - the service act of the churchgoing lane. The desire +
-; case sub-goal thinks live in npc-think/worship.hs.
+; case sub-goal thinks live in npc-think/worship.mc.
 ;
 ; The {@self WORSHIP} act-belief - begun at commit, ended by (set-outcome {..} /succ) at completion - IS
 ; the episodic service memory (interval = the service). days-since-last reads it for the
@@ -27,4 +27,4 @@
     ; devout and the appearances-keeping pretender, by design. Witnessing is now
     ; engine-side (auto-witness on this obs act at completion), not hand-authored.
     (set-outcome {@self WORSHIP} /succ)))
-; go_action (the shared travel act) lives in npc-actions/go_action.hs.
+; go_action (the shared travel act) lives in npc-actions/go_action.mc.

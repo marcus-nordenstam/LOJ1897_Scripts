@@ -4,22 +4,22 @@
 ;
 ; A business owner who closes his firm does NOT reach into his workers' minds. He
 ; sets a PERCEIVABLE physical fact on the workplace building - (shutter-building
-; ?wp), a `closed` env attr (macros/closure_macros.hs) - and destroys HIS OWN
+; ?wp), a `closed` env attr (macros/closure_macros.mc) - and destroys HIS OWN
 ; incorporation docs. Each worker still holds his stale {@self job ?job} beliefs
 ; and, not yet knowing, still commutes to the premises
-; during his shift (work_attendance.hs). THIS rule is what he learns on turning up:
+; during his shift (work_attendance.mc). THIS rule is what he learns on turning up:
 ; standing AT the shuttered building he reads its `closed` state and drops his own
 ; employment beliefs - freeing him to re-seek work via the existing hiring lane
-; (employment.hs gates on (none {@self job.salary ?})).
+; (employment.mc gates on (none {@self job.salary ?})).
 ;
-; KNOWLEDGE-HONEST BY PERCEPTION. The worker's daily commute (work_attendance.hs) now
+; KNOWLEDGE-HONEST BY PERCEPTION. The worker's daily commute (work_attendance.mc) now
 ; FRONT-PARKS his workplace building (the Stage-5 two-arm always front-parks a building on
 ; arrival), so exterior perception RE-OBSERVES it every commute and internalizes {?wp
 ; struct-status [k closed]} fresh. The rule reads that PERCEIVED belief (not an env attr).
 ; He is not told; he sees the doors shut from the street. No mind but his own is written.
 ;
 ; GENERAL: no org, job, or NPC is baked in. The job / org / workplace chain
-; is the SAME one work_attendance.hs binds ({@self job.org ?org} -> {?org
+; is the SAME one work_attendance.mc binds ({@self job.org ?org} -> {?org
 ; workplace ?wp}, plus {@self job ?job}); every conjunct is a live belief read.
 ;
 ; The same "my referent is gone, drop the belief" shape generalises to other

@@ -13,7 +13,7 @@
 ; register read lives in the act effect, not a per-candidate role filter).
 ;
 ; THINK (here): a townsperson of working age resolves to consult the register.
-; ACT (orient_errand.hs): routes him to the church and the completion reads it.
+; ACT (orient_errand.mc): routes him to the church and the completion reads it.
 ;
 ; Not org heads (they already know their own org). The per-month (chance) keeps it
 ; periodic so newly-founded orgs are picked up over time (idempotent re-reads -

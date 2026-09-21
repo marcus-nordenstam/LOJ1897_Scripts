@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
 ; sporting_event - the club ORGANISER's annual meet, the think + routing half.
-; (The act half - the contest itself - lives in rules/npc-act/hold-meet.hs.)
+; (The act half - the contest itself - lives in rules/npc-act/hold-meet.mc.)
 ;
-; Replaces the old zero-role world sweep (world-act/sports.hs + the C++
+; Replaces the old zero-role world sweep (world-act/sports.mc + the C++
 ; run_effect_hold_sporting_events). No omniscient club/roster/jockey scan: the
 ; organiser is a real deliberating NPC who reasons from HIS OWN club beliefs and
 ; acts at HIS OWN clubhouse.
@@ -19,7 +19,7 @@
 ;   compete: the COMPETITOR's half - a member the organiser summoned proposes his own
 ;     {@self RACE-RUN} act (race_act runs his leg from his own attributes).
 ;
-; The SPORT is authored content read per club kind from tables/club_sports.hs; the
+; The SPORT is authored content read per club kind from tables/club_sports.mc; the
 ; field is the membership-roll the organiser legitimately holds - both read in
 ; summon_field below, never in an act body (an act reasons about nothing).
 ; ----------------------------------------------------------------------------
@@ -86,7 +86,7 @@
 ; Each racer's race_act mints {?racer race-result <score> <sport>} into the
 ; co-present organiser. While any such score stands unjudged this MAINTENANCE
 ; think holds the standing {@self judge-meet} goal that sporting_judge reads
-; (sporting_judge_think.hs) to pick + propose the winner; meet_judged clearing
+; (sporting_judge_think.mc) to pick + propose the winner; meet_judged clearing
 ; the scoreboard then retracts the goal. The days-since guard bars a straggler
 ; score (a racer still running when the winner was declared) from re-opening
 ; the judging the same day.

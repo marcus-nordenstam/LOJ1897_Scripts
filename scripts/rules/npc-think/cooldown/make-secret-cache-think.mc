@@ -3,7 +3,7 @@
 ; hide (a covert lover, a standing stow goal) and no cache yet resolves to
 ; fashion a private hiding spot at home. It only PROPOSES the make_cache act -
 ; the host-quality tier walk and the env writes (create the cache, stamp owner,
-; record it) live in the pure make_cache_act.hs, since a think must not mutate
+; record it) live in the pure make_cache_act.mc, since a think must not mutate
 ; the world.
 ; ----------------------------------------------------------------------------
 

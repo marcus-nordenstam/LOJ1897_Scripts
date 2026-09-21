@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; npc_traits.hs - the founder trait distributions, as authored config (define-table),
+; npc_traits.mc - the founder trait distributions, as authored config (define-table),
 ; migrated out of the old npc_traits/*.txt frequency files. make-human-founder draws
 ; each singular trait with (table-sample-weighted <dist> value weight) and each
 ; continuous trait with (sample-gaussian <mean> <sigma>) over continuous_traits.

@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; duties - duty ASSIGNMENT (the capability side of the duty model; the duties an
-; org requires live in tables/duty_tables.hs, and behaviour dispatches on the
+; org requires live in tables/duty_tables.mc, and behaviour dispatches on the
 ; HELD duty - {@self duty-to ?org <duty>}, the duty a TASK-LABEL symbol - never on job
 ; kind or rank).
 ;

@@ -19,7 +19,7 @@
 ;                     incorporations at the church (the orient errand), which
 ;                     teaches where the grocer trades.
 ;   provision-act   : AT the known shop the standing goal is the leaf and
-;                     (npc-act/provision-act.hs) promotes on its own when: buy a
+;                     (npc-act/provision-act.mc) promotes on its own when: buy a
 ;                     basket and mint {@self BRING [k food] <kitchen>} - the
 ;                     general bring lane carries it home and puts it down IN the
 ;                     kitchen.
