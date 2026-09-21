@@ -28,10 +28,12 @@
           (structs left-hand right-hand head left-eye right-eye mouth torso)
           (attrs pregnant-by)
           (spatials bounds)
-          (physical human-npc pop (cap 4096) (raycast-visible) (sentient) (non-occluder) (occupies-env-grid)
-            (spatials space)
-            (attrs visual-sensor sound-sensor parentless awareness internment emigrating intoxication gambling-addiction))
-          (physical human-player pop (cap 256) (raycast-visible) (player) (non-occluder) (occupies-env-grid)))
+          (physical human-npc
+            (pop (cap 4096) (raycast-visible) (sentient) (non-occluder) (occupies-env-grid)
+              (spatials space)
+              (attrs visual-sensor sound-sensor parentless awareness internment emigrating intoxication gambling-addiction)))
+          (physical human-player
+            (pop (cap 256) (raycast-visible) (player) (non-occluder) (occupies-env-grid))))
         (physical dog
           (physical whippet)
           (physical german-shepard))
@@ -83,13 +85,14 @@
     # breakfast / luncheon / tea / supper alongside the plain lunch /
     # dinner.
     # Man-made things
-    (physical prop pop (cap 32768) (occupies-env-grid) (non-occluder)
-      (spatials gripped-by grip space in-stack)
-      (attrs variant birth-date color condition)
-      (attr name (auto-percept) (ext-per obs))
-      (attrs writing grip-force owner addressee addressee-duty destination)
-      (spatials bounds)
-      (attrs blemishes)
+    (physical prop
+      (pop (cap 32768) (occupies-env-grid) (non-occluder)
+        (spatials gripped-by grip space in-stack)
+        (attrs variant birth-date color condition)
+        (attr name (auto-percept) (ext-per obs))
+        (attrs writing grip-force owner addressee addressee-duty destination)
+        (spatials bounds)
+        (attrs blemishes))
       (physical container
         (physical drinking-glass)
         # Table-service vessels - the poison-delivery layer's concrete
@@ -296,10 +299,12 @@
         (physical chess-set)
         (physical playing-cards))
       (physical collection
-        (physical stack pop (sub [k space|structure] @object) (tar @excl) (cap 2048) (non-occluder) (occupies-env-grid)
-          (spatials space items)
-          (attrs variant birth-date stack-label)
-          (spatials bounds)
+        (physical stack (sub [k space|structure] @object) (tar @excl)
+          (pop (cap 2048)
+            (spatials -gripped-by -grip -in-stack)
+            (attrs -color -condition -name -writing -grip-force -owner -addressee -addressee-duty -destination -blemishes)
+            (spatials items)
+            (attrs stack-label))
           (physical root-npc-knowledge-stack)
           (physical for-sale-listing-stack)
           (physical for-lease-listing-stack)
@@ -328,9 +333,11 @@
         # never per-item entities. increment/decrement change the count;
         # subsume folds a real item in; extract spawns one out. A
         # memory-compression device - its bounds are the pile SHAPE.
-        (physical pile pop (cap 4096) (non-occluder) (occupies-env-grid)
-          (spatials space gripped-by bounds)
-          (attrs variant birth-date content-kind count)))
+        (physical pile
+          (pop (cap 4096)
+            (spatials -grip -in-stack)
+            (attrs -color -condition -name -writing -grip-force -owner -addressee -addressee-duty -destination -blemishes)
+            (attrs content-kind count))))
       (physical sporting-gear
         (physical ball
           (physical football))
@@ -457,10 +464,11 @@
         # future-interval support lands; the death-trigger estate
         # settlement then realises them per thing.
         (physical will)))
-    (physical fluid pop (cap 256) (occupies-env-grid) (non-occluder)
-      (spatials gripped-by)
-      (attrs variant fluid-amount taint)
-      (spatials bounds)
+    (physical fluid
+      (pop (cap 256) (occupies-env-grid) (non-occluder)
+        (spatials gripped-by)
+        (attrs variant fluid-amount taint)
+        (spatials bounds))
       (physical beer)
       # Drink fluids - what sits in a table-service vessel. A poisoning
       # TAINTS the victim's drink: the chosen drink fluid's `taint` attr
@@ -526,10 +534,11 @@
     # poisoning a food vessel uses the same `add_substance` task as
     # fluids. Sub-kinds are starter content; extend as authored arcs
     # demand more variants.
-    (physical food pop (cap 8192) (occupies-env-grid) (non-occluder)
-      (spatials gripped-by space)
-      (attrs variant)
-      (spatials bounds)
+    (physical food
+      (pop (cap 8192) (occupies-env-grid) (non-occluder)
+        (spatials gripped-by space)
+        (attrs variant)
+        (spatials bounds))
       (physical bread)
       (physical cheese)
       (physical soup)
@@ -544,25 +553,25 @@
     # ANCHORS. A place is matched by its ADDRESS: the room a notice sends a man to and the
     # room he walks into are one when the address agrees. Grounding is still the WALKING
     # IN - an address off a page tells you where a place is, not which place you are in.
-    (physical structure pop (anchors address) (cap 256) (always-visible) (children-occupy-env-grid)
-      (attrs variant birth-date)
-      (attr name (auto-percept) (ext-per obs))
-      (spatials bounds)
-      (attrs era-min era-max address nav-mesh blocks-nav-terrain)
+    (physical structure (anchors address)
+      (pop (cap 256) (always-visible) (children-occupy-env-grid)
+        (attrs variant birth-date)
+        (attr name (auto-percept) (ext-per obs))
+        (spatials bounds)
+        (attrs era-min era-max address nav-mesh blocks-nav-terrain))
       (physical path
-        (physical road pop (cap 128) (always-visible) (non-occluder)
-          (attrs variant address)
-          (spatials spline)
-          (attrs nav-mesh address-even-side address-start address-step address-ascends-forward))
+        (physical road
+          (pop (cap 128) (-children-occupy-env-grid) (non-occluder)
+            (spatials -bounds)
+            (attrs -birth-date -name -era-min -era-max -blocks-nav-terrain)
+            (spatials spline)
+            (attrs address-even-side address-start address-step address-ascends-forward)))
         (physical trail))
       (physical sporting-grounds
         (physical racing-grounds)
         (physical cricket-grounds))
-      (physical container-structure pop (cap 2048) (always-visible) (children-occupy-env-grid)
-        (attrs variant birth-date)
-        (attr name (auto-percept) (ext-per obs))
-        (spatials bounds)
-        (attrs isolated has-crypt locked-wing struct-status era-min era-max address nav-mesh blocks-nav-terrain)
+      (physical container-structure
+        (pop (cap 2048) (attrs isolated has-crypt locked-wing struct-status))
         (physical wagon)
         (physical train-car)
         (physical ship)
@@ -617,51 +626,49 @@
       (physical pier)
       (physical bridge
         (physical suspension-bridge)))
-    (physical part pop (tar [k space|part] @object) (cap 2048)
-      (attrs variant birth-date)
-      (attr name (auto-percept) (ext-per obs))
-      (spatials bounds)
+    (physical part (tar [k space|part] @object)
+      (pop (cap 2048)
+        (attrs variant birth-date)
+        (attr name (auto-percept) (ext-per obs))
+        (spatials bounds))
       (physical body-part
         # A (motor) kind is a motor an act occupies; the set is these kinds in declaration
         # order, so this order IS the motor index. legs is the base layer, and mind - the
         # motor that drives no bone - must be declared last (init_motor_set checks it).
         (physical legs (motor))
-        (physical head pop (motor) (cap 4096) (non-occluder)
-          (spatials bounds)
-          (attrs blemishes))
+        (physical head (motor)
+          (pop (cap 4096) (non-occluder) (attrs -variant -birth-date -name) (attrs blemishes)))
         (physical hand
-          (physical right-hand pop (motor) (side right) (cap 4352) (non-occluder)
-            (spatials grip)
-            (structs right-ring-finger)
-            (attrs wear)
-            (spatials bounds)
-            (attrs blemishes))
-          (physical left-hand pop (motor) (side left) (cap 4352) (non-occluder)
-            (spatials grip)
-            (structs left-ring-finger)
-            (attrs wear)
-            (spatials bounds)
-            (attrs blemishes)))
-        (physical mouth pop (motor) (cap 4096) (non-occluder)
-          (spatials bounds)
-          (attrs blemishes))
+          (physical right-hand (motor) (side right)
+            (pop (cap 4352) (non-occluder)
+              (attrs -variant -birth-date -name)
+              (spatials grip)
+              (structs right-ring-finger)
+              (attrs wear blemishes)))
+          (physical left-hand (motor) (side left)
+            (pop (cap 4352) (non-occluder)
+              (attrs -variant -birth-date -name)
+              (spatials grip)
+              (structs left-ring-finger)
+              (attrs wear blemishes))))
+        (physical mouth (motor)
+          (pop (cap 4096) (non-occluder) (attrs -variant -birth-date -name) (attrs blemishes)))
         (physical eyes (motor))
         (physical eyelid (motor))
         (physical body (motor))
         (physical face (motor))
         (physical right-arm (motor) (side right))
         (physical left-arm (motor) (side left))
-        (physical finger pop (cap 8704) (non-occluder)
-          (spatials grip)
-          (attrs wear)
-          (spatials bounds)
-          (attrs blemishes)
+        (physical finger
+          (pop (cap 8704) (non-occluder)
+            (attrs -variant -birth-date -name)
+            (spatials grip)
+            (attrs wear blemishes))
           (physical ring-finger
             (physical left-ring-finger (side left))
             (physical right-ring-finger (side right))))
-        (physical eye pop (cap 8704) (non-occluder)
-          (spatials bounds)
-          (attrs blemishes)
+        (physical eye
+          (pop (cap 8704) (non-occluder) (attrs -variant -birth-date -name) (attrs blemishes))
           (physical left-eye (side left))
           (physical right-eye (side right)))
         # Central body. Default wound-site when a method-row's
@@ -669,20 +676,16 @@
         # wounds (stab, gunshot, beating). Additional body-parts
         # (neck, arm, leg, lungs) land alongside the method rows
         # that need them.
-        (physical torso pop (cap 4096) (non-occluder)
-          (spatials bounds)
-          (attrs blemishes))
+        (physical torso
+          (pop (cap 4096) (non-occluder) (attrs -variant -birth-date -name) (attrs blemishes)))
         (physical mind (motor)))
-      (physical structure-part pop (cap 4096) (always-visible) (occupies-env-grid) (children-occupy-env-grid)
-        (attrs variant birth-date)
-        (attr name (auto-percept) (ext-per obs))
-        (attrs address)
-        (spatials bounds)
-        (attrs is-nav-passage)
-        (attr opening-status (auto-percept) (ext-per obs))
-        (attr lock-status (auto-percept) (ext-per obs))
-        (attr integrity (auto-percept) (ext-per obs))
-        (attrs blemishes)
+      (physical structure-part
+        (pop (cap 4096) (always-visible) (occupies-env-grid) (children-occupy-env-grid)
+          (attrs address is-nav-passage)
+          (attr opening-status (auto-percept) (ext-per obs))
+          (attr lock-status (auto-percept) (ext-per obs))
+          (attr integrity (auto-percept) (ext-per obs))
+          (attrs blemishes))
         (physical counter
           (physical bar-counter))
         (physical wall)
@@ -698,20 +701,20 @@
         (physical opening (+ nav_passage)
           (physical window)
           (physical door))))
-    (physical gm pop (cap 1) (imperceptible))
-    (physical instance pop (cap 1) (occupies-env-grid)
-      (attrs prototype)
-      (spatials bounds)))
+    (physical gm
+      (pop (cap 1) (imperceptible)))
+    (physical instance
+      (pop (cap 1) (occupies-env-grid) (attrs prototype) (spatials bounds))))
   # Kinds of smells
-  (physical smell pop (+ per smell) (cap 512) (per smell) (non-occluder)
-    (attrs create-action)
-    (spatials bounds)
+  (physical smell (+ per smell)
+    (pop (cap 512) (per smell) (non-occluder) (attrs create-action) (spatials bounds))
     (physical cheese)
     (physical fart))
   # Kinds of sounds
-  (physical sound pop (+ per hear) (cap 512) (per hear) (non-occluder)
-    (attrs create-action speaker preroll)
-    (spatials bounds)
+  (physical sound (+ per hear)
+    (pop (cap 512) (per hear) (non-occluder)
+      (attrs create-action speaker preroll)
+      (spatials bounds))
     (physical squeak)
     (physical speech (sub [k sound] @msg @object))
     (physical shout)
@@ -732,12 +735,13 @@
   # notice names and the back-office a man walks into are one place when the address agrees.
   # A town carries no address, so it inherits the decl and never uses it.
   (physical space (+ per obs) (anchors address)
-    (physical interior-space pop (cap 4096) (always-visible) (non-occluder) (sector-coverage)
-      (attrs variant birth-date)
-      (attr name (auto-percept) (ext-per obs))
-      (attrs owner)
-      (spatials bounds)
-      (attrs is-nav-passage address)
+    (physical interior-space
+      (pop (cap 4096) (always-visible) (non-occluder) (sector-coverage)
+        (attrs variant birth-date)
+        (attr name (auto-percept) (ext-per obs))
+        (attrs owner)
+        (spatials bounds)
+        (attrs is-nav-passage address))
       (physical bar-back)
       (physical entrance (facets entrance)
         (physical main-entrance (facets entrance)))
@@ -774,19 +778,20 @@
         (physical secret-chamber))
       (physical stage)
       (physical auditorium))
-    (physical exterior-space pop (cap 4096) (always-visible) (non-occluder) (sector-coverage)
-      (attrs variant birth-date)
-      (attr name (auto-percept) (ext-per obs))
-      (spatials bounds)
-      (attrs is-nav-passage address)
+    (physical exterior-space
+      (pop (cap 4096) (always-visible) (non-occluder) (sector-coverage)
+        (attrs variant birth-date)
+        (attr name (auto-percept) (ext-per obs))
+        (spatials bounds)
+        (attrs is-nav-passage address))
       # The world's own top rung, and the one that carries weather. A park's parent is
       # its town and a town's parent is its country: structures sit inside the space
       # that holds them, and spaces inside the wider space that holds THEM, all the
       # way up. Towns keep no sector coverage - see town.arc.
-      (physical town pop (cap 16) (always-visible) (non-occluder) (no-sector-coverage)
-        (spatials bounds)
-        (attr name (auto-percept) (ext-per obs))
-        (attrs rain snow fog wind sky mood-kinds mood-intensities mood-set-dates))
+      (physical town
+        (pop (cap 16) (-sector-coverage) (no-sector-coverage)
+          (attrs -variant -birth-date -is-nav-passage -address)
+          (attrs rain snow fog wind sky mood-kinds mood-intensities mood-set-dates)))
       (physical land
         (physical territory
           (physical crown-dependency)
@@ -811,7 +816,7 @@
       (physical cliff)))
   # env-point: nav waypoints / spawnpoints (the env-point.arc archetype). Dormant in
   # hsim - GrymEngine runtime nav/spawn instantiates these.
-  (physical env-point pop (+ per obs) (cap 256) (per obs) (always-visible) (non-occluder) (sector-coverage)
-    (spatials bounds)
+  (physical env-point (+ per obs)
+    (pop (cap 256) (per obs) (always-visible) (non-occluder) (sector-coverage) (spatials bounds))
     (physical waypoint)
     (physical spawnpoint)))
