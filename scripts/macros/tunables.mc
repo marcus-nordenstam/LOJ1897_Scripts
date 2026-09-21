@@ -187,6 +187,10 @@
 (define-macro walk_delib_turn_rate     () 4.0)
 (define-macro run_speed_mps            () 0.5)
 (define-macro run_delib_turn_rate      () 12.0)
+; SUPER-RUN is the player debug sprint - five times a run, and nothing an NPC
+; proposes. The turn rate stays the run's: a man who cannot steer at speed is
+; no use for crossing the town to look at something.
+(define-macro super_run_speed_mps     () 2.5)
 ; Within this of the goal a presented walker has ARRIVED and sets his own /succ.
 (define-macro walk_arrive_m            () 0.5)
 ; Within this of the tick's steer point he stands on it and takes no step.
