@@ -7,7 +7,7 @@
 (npc-action {@self FORCE-ENTRY ?door}:?fe-rel
   (motor body legs)
   (track-skill-level [k illicit])
-  (tar object) (duration (seconds 2 min))
+  (tar [k object] @object) (duration (seconds 2 min))
   (effects
     (check (spatial ?door co-located @self))
     (set-attr ?door integrity [k broken])

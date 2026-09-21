@@ -15,7 +15,7 @@
   ; the bartender by the bartending. The param is the WORKPLACE, a real building: a task
   ; can only be published to onlookers if its fields externalize, and an ORG cannot.
   (obs)
-  (tar @excl structure)
+  (tar @excl [k structure] @object)
   (and
     (sequence
       (utility obligation)

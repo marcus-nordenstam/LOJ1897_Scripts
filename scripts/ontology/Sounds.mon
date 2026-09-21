@@ -2,7 +2,7 @@
 
 sound (+ hear)
     squeak
-    speech              (sub sound @msg)
+    speech              (sub [k sound] @msg @object)
     shout
     song
     scream

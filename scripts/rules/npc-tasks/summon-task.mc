@@ -7,7 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self summon ?member ?sport}:?summon-rel
-  (tar human)
+  (tar [k human] @object)
   (aux ?)
   (try
     (role @self

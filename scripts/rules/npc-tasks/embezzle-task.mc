@@ -9,7 +9,7 @@
 
 (npc-task {@self embezzle ?victim}:?embezzle-rel
   (track-skill-level [k illicit])
-  (tar human|org)
+  (tar [k human|org] @object)
   (construed-act appropriation-act wrong-act betray-act) (theme thief-to) (contradicts trust)
   (facets reportable_crime blackmailable)
   (try

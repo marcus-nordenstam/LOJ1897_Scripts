@@ -6,7 +6,7 @@
 
 (npc-task {@self take-applications ?stack}:?take-apps-rel
   (aspect labour)
-  (tar @excl stack)
+  (tar @excl [k stack] @object)
   (and
     (try
       (role @self -{@self stack-browse ?stack ? /succ /caused_by ?take-apps-rel}

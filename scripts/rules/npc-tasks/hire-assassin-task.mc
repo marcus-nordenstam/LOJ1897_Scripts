@@ -23,7 +23,7 @@
 (include "../../definitions/roles.mc")
 
 (npc-task {@self hire-assassin ?victim}:?hire-rel
-  (tar human)
+  (tar [k human] @object)
   (role ?killer {?killer isa [k human], condition [k alive]}
                 {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?killer /ever}
                 (!= ?killer ?victim)

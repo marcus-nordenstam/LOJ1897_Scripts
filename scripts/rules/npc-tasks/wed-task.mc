@@ -10,7 +10,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self wed ?occ}:?w-rel
-  (tar occasion)
+  (tar [k occasion] @object)
   (and
     ; VOW: at the church, still my betrothed, not yet vowed -> speak it.
     (try

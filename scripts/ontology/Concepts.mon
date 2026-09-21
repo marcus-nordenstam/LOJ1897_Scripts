@@ -9,12 +9,12 @@ concept
     # Weather components. rain/snow/fog/wind carry a strength-measurement;
     # sky carries a sky-condition.
     weather             (obs) (tar @excl)
-        rain            (tar @excl strength-measurement)
-        snow            (tar @excl strength-measurement)
-        fog             (tar @excl strength-measurement)
-        wind            (tar @excl strength-measurement)
-        sky             (tar @excl sky-condition)
-        thunder         (obs) (tar @excl strength-measurement)
+        rain            (tar @excl [k strength-measurement])
+        snow            (tar @excl [k strength-measurement])
+        fog             (tar @excl [k strength-measurement])
+        wind            (tar @excl [k strength-measurement])
+        sky             (tar @excl [k sky-condition])
+        thunder         (obs) (tar @excl [k strength-measurement])
         temperature     (obs) (tar @excl)
 
     phrase
@@ -28,7 +28,7 @@ concept
         left  (side left)
         right (side right)
 
-    availability        (sub building)  (tar @excl)
+    availability        (sub [k building] @object)  (tar @excl)
         for-sale
         for-rent
         off-the-market
@@ -70,7 +70,7 @@ concept
         overt
 
     legal-right
-        property        (sub being)
+        property        (sub [k being] @object)
 
     # Held-VALUE taxonomy: the virtues a person can be attested to hold via
     # {person value <kind>} attitude beliefs (States.mon `value`). The wrong-act
@@ -179,7 +179,7 @@ concept
     # several beliefs. Seeded once per predator by copying 1-2 traits off a
     # random "type prototype" person, so victim-type consistency EMERGES
     # (and the profile is guaranteed achievable). Renders in the rap-sheet.
-    fixation            (sub human)  (tar ?)
+    fixation            (sub [k human] @object)  (tar ?)
 
     # (method / method_means RETIRED: choose_kill_method no longer mints a chosen-MO
     # belief - it PROPOSES the killing task directly from kill_method_table each cycle,
@@ -421,7 +421,7 @@ concept
     # coexist (joy about one thing, grief about another). /tar is omitted, so
     # the target defaults to emotion's own subkinds. The directed "about"
     # focus rides in the belief's aux field. See Docs/emotion/emotion_system.md.
-    emotion             (sub human)
+    emotion             (sub [k human] @object)
         joy
         pride
         hope
@@ -459,7 +459,7 @@ concept
     # different mood contribution (pressures feed the `stress` dimension, not
     # contentment / agitation). Non-@excl: pressures stack - the layered
     # motive a deliberation event reads IS the stacked pressure set.
-    pressure            (sub human)
+    pressure            (sub [k human] @object)
         status-loss
         attachment-loss
         autonomy-loss
@@ -612,10 +612,10 @@ concept
         # the case study. Concrete bottles are `prop` entities containing it.
         digitalis
 
-    living-arrangement  (sub human)  (tar ? @excl)
+    living-arrangement  (sub [k human] @object)  (tar ? @excl)
         # home-tenure: the owner-occupier arrangement (renamed from `owner` to free that
         # word from legal-ownership `own`). Target is the dwelling's owner (self or org).
-        home-tenure     (tar human|org @excl)
+        home-tenure     (tar [k human|org] @excl @object)
         houseguest
         renting
 
@@ -627,8 +627,8 @@ concept
     # next clerk in the chair has the SAME job, not a new one.
     org-pos             (anchors org job-id)
         apprenticeship
-        membership          (sub human)
-        job                 (sub human|org)  (disclosure stranger)
+        membership          (sub [k human] @object)
+        job                 (sub [k human|org] @object)  (disclosure stranger)
             # org-head groups every "head of an org" position, so {@self job [k org-head]}
             # matches ANY head via is-a. It is a SOCIAL marker (status / ambition's "take
             # the seat"); OPERATIONAL behaviour dispatches on duties ({@self duty-to ?org
@@ -725,17 +725,17 @@ concept
     # is the start hour (0..23), aux the end hour; start > end wraps past midnight
     # (a night shift). A weekday with no relation is a day off. Stamped at hire
     # from the occupation's authored shift(s) (occupations.hs).
-    mon-hours           (sub human|org-pos)  (tar ? @excl)  (aux ?)
-    tue-hours           (sub human|org-pos)  (tar ? @excl)  (aux ?)
-    wed-hours           (sub human|org-pos)  (tar ? @excl)  (aux ?)
-    thu-hours           (sub human|org-pos)  (tar ? @excl)  (aux ?)
-    fri-hours           (sub human|org-pos)  (tar ? @excl)  (aux ?)
-    sat-hours           (sub human|org-pos)  (tar ? @excl)  (aux ?)
-    sun-hours           (sub human|org-pos)  (tar ? @excl)  (aux ?)
+    mon-hours           (sub [k human|org-pos] @object)  (tar ? @excl)  (aux ?)
+    tue-hours           (sub [k human|org-pos] @object)  (tar ? @excl)  (aux ?)
+    wed-hours           (sub [k human|org-pos] @object)  (tar ? @excl)  (aux ?)
+    thu-hours           (sub [k human|org-pos] @object)  (tar ? @excl)  (aux ?)
+    fri-hours           (sub [k human|org-pos] @object)  (tar ? @excl)  (aux ?)
+    sat-hours           (sub [k human|org-pos] @object)  (tar ? @excl)  (aux ?)
+    sun-hours           (sub [k human|org-pos] @object)  (tar ? @excl)  (aux ?)
     # level grades a human, or a job / org-pos - the seniority WITHIN a position,
     # orthogonal to the job KIND. A trainee clerk is {@self job ?j} + {?j level trainee}.
     # (Head-ness is NOT a level; it is the job kind org-head - see the job taxonomy.)
-    level               (sub human|org-pos)  (tar @excl)
+    level               (sub [k human|org-pos] @object)  (tar @excl)
             trainee
             apprentice
             junior
@@ -745,10 +745,10 @@ concept
     # the job is PAID; its absence means unpaid (a head-of-household job has no salary).
     # A money-seeker gates on (not (believes {@self job.salary})). Stamped at hire from
     # the occupation's authored wage (occupations.hs); heads/unpaid roles mint no salary.
-    salary              (sub org-pos)  (tar ? @excl)
+    salary              (sub [k org-pos] @object)  (tar ? @excl)
     unit
         social
-            family          (sub human)  (tar @excl)
+            family          (sub [k human] @object)  (tar @excl)
     movement
         political
             suffrage
@@ -838,7 +838,7 @@ concept
     # grounding. (`stable` / `struggling` recur across situations - a
     # deliberate scoped homonym, resolved by the field's /tar, like `medium`.)
     # ----------------------------------------------------------------------
-    economic-situation       (sub human)  (tar @excl)
+    economic-situation       (sub [k human] @object)  (tar @excl)
         destitute
         poor
         struggling
@@ -851,7 +851,7 @@ concept
     # of the subject. Per-observer and non-telepathic: self reads complete inputs
     # (so self-repute IS the truth), a tracked other reads only what leaked, a
     # stranger reads middling. One belief, one classifier - no separate truth label.
-    repute                   (sub human)  (tar @excl)
+    repute                   (sub [k human] @object)  (tar @excl)
         exemplary
         respectable
         questionable
@@ -864,7 +864,7 @@ concept
     # repute fuses these bands (+ devoutness for piety, the decorum float, and per-observer
     # chastity) identically for self and for a tracked other - reputation is genuinely
     # per-observer, sharpening with evidence.
-    conduct-level            (sub human)  (tar @excl)
+    conduct-level            (sub [k human] @object)  (tar @excl)
         lax
         fair
         good
@@ -874,7 +874,7 @@ concept
     # signal accrues per worship act and leaks monthly, so the band tracks
     # LIVED devoutness: a regular churchgoer reads devout, a lapsed one
     # slides through observant to secular over ~2 years.
-    piety-band               (sub human)  (tar @excl)
+    piety-band               (sub [k human] @object)  (tar @excl)
         devout
         observant
         secular
@@ -884,25 +884,25 @@ concept
     # terms to these leaves; a witness then mints {actor seems <leaf>} at the
     # authored weight. Targets of the `seems` relation (States.mon), never
     # minted as a band; NOT @excl there - the leaves are independent.
-    impression               (sub human)  (tar)
+    impression               (sub [k human] @object)  (tar)
         hot-tempered
         callous
         cruel
         selfish
-    class-situation          (sub human)  (tar @excl)  (disclosure stranger)
+    class-situation          (sub [k human] @object)  (tar @excl)  (disclosure stranger)
         upper
         middle
         lower
-    health-situation         (sub human)  (tar @excl)
+    health-situation         (sub [k human] @object)  (tar @excl)
         robust
         frail
         ailing
         invalid
-    social-trajectory        (sub human)  (tar @excl)
+    social-trajectory        (sub [k human] @object)  (tar @excl)
         rising
         stable
         declining
-    life-satisfaction        (sub human)  (tar @excl)
+    life-satisfaction        (sub [k human] @object)  (tar @excl)
         fulfilled
         content
         secure-but-hollow
@@ -923,7 +923,7 @@ concept
     #   infant 0-2  juvenile 3-9  adolescent 10-15  youth 16-17
     #   young-adult 18-29  middle-aged 30-49  mature 50-69  elderly 70+
     # (`juvenile` not `child` - `child` is already the kinship bond kind.)
-    age-band                 (sub human)  (tar @excl)
+    age-band                 (sub [k human] @object)  (tar @excl)
         infant
         juvenile
         adolescent
@@ -936,12 +936,12 @@ concept
     # (band +/- 1), so 2-3 values. Non-@excl. Proximity ("are we age peers")
     # binds @self's single age-band and tests whether the candidate's age-span
     # covers it - i.e. |band(self) - band(other)| <= 1 (same or adjacent).
-    age-span                 (sub human)  (tar age-band)
+    age-span                 (sub [k human] @object)  (tar [k age-band])
 
     # Derived archetypes (F3.4) - a named conjunction over situations and
     # dimensions; non-@excl, an NPC may match several. Prototype kinds are
     # added with their classifiers - these four are F3.7 / Phase 7 consumers.
-    prototype                (sub human)
+    prototype                (sub [k human] @object) (tar [k prototype])
         deserving-poor
         undeserving-poor
         self-made-man
@@ -1018,7 +1018,7 @@ concept
     # neutral-act      : legacy "do not appraise" tag - kept so .act files
     #                    declaring `nature = neutral-act` keep parsing.
     #                    New code: just omit (construed-act ...) entirely.
-    construed-act       (+ sub human)
+    construed-act       (+ sub [k human] @object)
         wrong-act
         harm-act
         slight-act
@@ -1098,7 +1098,7 @@ concept
 
     cultural-aspect
         title
-        nationality         (sub human)  (tar @excl)  (disclosure stranger)
+        nationality         (sub [k human] @object)  (tar @excl)  (disclosure stranger)
             english
             irish
             st-revieran
@@ -1174,13 +1174,13 @@ concept
 
     # Transaction states.
     price               (tar @excl)
-    item                (obs) (tar object)
-    view                (obs) (sub human)  (tar @excl object)
+    item                (obs) (tar [k object] @object)
+    view                (obs) (sub [k human] @object)  (tar @excl [k object] @object)
 
     # Kinship and social bonds - subject and target are both human. //noun
     # makes every role explicitly a noun, so the bond decorations below
     # (relation flags) do not trip define()'s noun-vs-relation inference.
-    relationship        (+ sub human)  (+ tar human)  (+ noun)
+    relationship        (+ sub [k human] @object)  (+ tar [k human] @object)  (+ noun)
         parent          (inclusive_bond)  (close_kin)  (disclosure acquaintance)
         mother          (tar @excl)  (inclusive_bond)  (close_kin)  (disclosure acquaintance)
         father          (tar @excl)  (inclusive_bond)  (close_kin)  (disclosure acquaintance)
@@ -1252,23 +1252,23 @@ concept
         # carries the org. Distinct from `founder` (one-shot
         # constitutive, @excl) and `employer` (subordinate relation).
         # Same org may have many partners.
-        business-partner        (aux org)
+        business-partner        (aux [k org] @object)
 
     marriage-desirability   (tar ? @excl)
 
-    birthplace          (sub human)  (tar structure @excl)  (disclosure acquaintance)
+    birthplace          (sub [k human] @object)  (tar [k structure] @excl @object)  (disclosure acquaintance)
 
     # Residential / venue knowledge and the apprenticeship bond (subject is a
     # human). The verb-shaped vocational relations (retire / carrying-loot /
     # since / duty-to / duty-holder / study / schooling) live in States.mon.
-    vocational-state    (+ sub human)
-        home                (tar structure @excl)  (disclosure acquaintance)
+    vocational-state    (+ sub [k human] @object)
+        home                (tar [k structure] @excl @object)  (disclosure acquaintance)
         # WHERE the NPC believes provisions are sold - the shop they buy food
         # at. Per-mind venue knowledge, learned honestly (the public register
         # read at orientation, or having found food at a shop's counter);
         # meals.hs provisioning / starving lanes route on it. @excl: one
         # habitual shop; a new discovery supersedes.
-        provisions-shop     (tar structure @excl)  (disclosure acquaintance)
+        provisions-shop     (tar [k structure] @excl @object)  (disclosure acquaintance)
         # A private hiding-spot cache the NPC MADE (an interior sub-space they own).
         # A DEFINED relation so {@self hiding-spot <cache>} mints reasoned (/rsn) and
         # PERSISTS - an undefined label mints /obs and self-perception disproves it
@@ -1276,13 +1276,13 @@ concept
         # sub-spaces. Shares its NAME with the `hiding-spot` KIND; kind references
         # disambiguate with the full path `[k interior-space hiding-spot]` /
         # mx_resolve_kind_id("interior-space hiding-spot"). Inclusive.
-        hiding-spot         (tar interior-space)
+        hiding-spot         (tar [k interior-space] @object)
         # Work life-cycle. The position is the job OBJECT ({@self job ?j}); its org,
         # wage, seniority and start-date are decorations ON that object ({?j org ?},
         # {?j salary ?}, {?j level ?}, {?j since <year>}) - there is no separate `employer`
         # relation. master is the person a youth apprentices under - a mentorship bond
         # held on the apprentice ({@self master <person>}), not a job-object decoration.
-        master              (sub human)  (noun) (tar human @excl)
+        master              (sub [k human] @object)  (noun) (tar [k human] @excl @object)
 
     # Property holdings: a holder's owned buildings and land are recorded as
     # repeated singular {holder owns-building <building>} / {holder land <land>}
@@ -1290,20 +1290,20 @@ concept
     # buildings need an explicit relation because the `building` label is reserved
     # for whereabouts ({X building <bldg>} = X is located in the building, for any
     # subject) - so ownership is a distinct `owns-building` label declared here.
-    owns-building       (sub human|org)  (tar building)
+    owns-building       (sub [k human|org] @object)  (tar [k building] @object)
 
     # States describing an organisation (subject is the org mental object).
     # employee is repeated once per worker; record points at the org's
     # articles-of-incorporation document.
-    org-state           (+ sub org)
+    org-state           (+ sub [k org] @object)
         informal-name       (tar ? @excl)
-        founder             (tar human @excl)
-        head-job            (tar org-pos @excl)
+        founder             (tar [k human] @excl @object)
+        head-job            (tar [k org-pos] @excl @object)
         # building FIRST: a workplace named on a page by its street address is imagined as
         # a building until seen (the decode invents the field's first expected kind); a
         # sub-let floor / apartment is the space form.
-        workplace           (tar building|space @excl)
-        employee            (tar human)
+        workplace           (tar [k building|space] @excl @object)
+        employee            (tar [k human] @object)
         # display-ad - the org is DISPLAYING an advert for this post. An ongoing org
         # state: minted by the post-ad task when the notice goes up, ended by remove-ad
         # when it comes down. It answers "what stands", so it must never be re-derived
@@ -1311,23 +1311,23 @@ concept
         # re-posts yesterday's opening and cannot span a shift. It is ALSO the sentence
         # the notice carries, so a seeker who READs the board adopts the same fact the
         # org holds - one term, no separate advert vocabulary.
-        display-ad          (tar job)
-        record              (tar document @excl)
+        display-ad          (tar [k job] @object)
+        record              (tar [k document] @excl @object)
 
     # Building -> tenant link: the queryable form of a lease, whose contract
     # records are the private lease-agreement documents kept at both parties'
     # premises. @excl - one ongoing tenant at a time (a re-lease opens a fresh
     # interval after the prior one ends).
-    tenant              (sub building|space)  (tar human|org @excl)
+    tenant              (sub [k building|space] @object)  (tar [k human|org] @excl @object)
 
     # Building -> occupant link: everyone habitually present in the building,
     # regardless of legal title - household members and staff at a home,
     # employees at a workplace. Distinct from owner / tenant (which are about
     # title); non-@excl, since a building has many occupants and a person
     # occupies both their home and their workplace.
-    occupant            (sub building|space)  (tar human)
+    occupant            (sub [k building|space] @object)  (tar [k human] @object)
 
     # States describing an activity-object.
     activity-state
-        participant         (tar human)
-        todo                (tar task)
+        participant         (tar [k human] @object)
+        todo                (tar [k task])

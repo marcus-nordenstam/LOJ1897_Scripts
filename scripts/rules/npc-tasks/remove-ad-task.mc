@@ -13,8 +13,8 @@
 
 (npc-task {@self remove-ad ?org ?job}:?rad-rel
   (aspect labour)
-  (tar org)
-  (aux job)
+  (tar [k org] @object)
+  (aux [k job] @object)
   (sequence
     (role ?board [k building church] (select (score (near @self ?board)) (policy roulette))
 

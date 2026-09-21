@@ -18,7 +18,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self take ?item}:?take-rel
-  (tar @excl object)
+  (tar @excl [k object] @object)
   (and
     (try
       (effects (check (or (empty (spatial (spatial @self left-hand) grip))

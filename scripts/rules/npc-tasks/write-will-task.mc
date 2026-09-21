@@ -15,7 +15,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self write-will ?heir}:?ww-rel
-  (tar @excl human)
+  (tar @excl [k human] @object)
   (sequence
     (stage
       (effects

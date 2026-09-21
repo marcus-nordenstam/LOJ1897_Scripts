@@ -20,7 +20,7 @@
 (include "../../definitions/roles.mc")
 
 (npc-task {@self disinherit ?victim}:?disinherit-rel
-  (tar human)
+  (tar [k human] @object)
   (construed-act abandonment-act wrong-act) (contradicts kin-loyalty)
   (and
     ; REACH the victim - route to them, or their home if their location is unknown.

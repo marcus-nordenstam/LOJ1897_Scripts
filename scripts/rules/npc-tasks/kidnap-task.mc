@@ -8,7 +8,7 @@
 
 (npc-task {@self kidnap ?victim}:?kidnap-rel
   (track-skill-level [k illicit])
-  (tar human)
+  (tar [k human] @object)
   (construed-act coercion-act threaten-act wrong-act) (theme coercive-to) (contradicts liberty)
   (facets reportable_crime) (obs)
   (try

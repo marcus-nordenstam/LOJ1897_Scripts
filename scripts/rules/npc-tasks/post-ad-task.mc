@@ -14,8 +14,8 @@
 
 (npc-task {@self post-ad ?org ?job}:?pad-rel
   (aspect labour)
-  (tar org)
-  (aux job)
+  (tar [k org] @object)
+  (aux [k job] @object)
   (and
     (sequence
       (role ?board [k building church] (select (score (near @self ?board)) (policy roulette))

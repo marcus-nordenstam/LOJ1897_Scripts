@@ -10,7 +10,7 @@
 (npc-action {@self HIRE ?worker ?job-id}:?hire-rel
   (motor body legs)
   (track-skill-level [k personnel])
-  (tar human)
+  (tar [k human] @object)
   (duration (seconds 15 min))
   (effects
     (check (spatial ?worker co-located @self))

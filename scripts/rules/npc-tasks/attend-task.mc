@@ -12,7 +12,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self attend ?occ}:?a-rel
-  (tar occasion)
+  (tar [k occasion] @object)
   (and
     ; GO: I know the venue and I am not there yet -> head to it (in the window).
     (try

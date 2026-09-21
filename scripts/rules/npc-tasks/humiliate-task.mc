@@ -12,7 +12,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self humiliate ?victim}:?humiliate-rel
-  (tar human)
+  (tar [k human] @object)
   (construed-act degrade-act wrong-act)
   (and
     (try

@@ -27,7 +27,7 @@
   ; officer, the way you identify the bartender by the bartending.
   (obs)
   (track-skill-level [k personnel])
-  (tar org)
+  (tar [k org] @object)
   (lint-waive unused-role)
   ; THE JOB AT THIS ORG - an actor holds plural jobs by design, and a bare {@self job ?job}
   ; would read a stranger's shift. It is ?shift-job and NOT ?job because every rung below

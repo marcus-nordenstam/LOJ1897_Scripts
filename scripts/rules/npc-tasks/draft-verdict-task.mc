@@ -18,7 +18,7 @@
 (npc-task {@self draft-verdict ?p ?job}:?dv-rel
   (aspect labour)
   (track-skill-level [k law])
-  (tar human)
+  (tar [k human] @object)
   (aux [k job])
   (and
     (sequence

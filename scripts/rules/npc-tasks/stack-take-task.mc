@@ -14,7 +14,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self stack-take ?stack}:?stack-take-rel
-  (tar @excl stack)
+  (tar @excl [k stack] @object)
   ; THE CONDITION THE TASK RUNS UNDER: nothing off this pile is in hand yet. Its own,
   ; not any proposer's - the moment the lift lands this stops holding and the task
   ; stops firing, whoever was asking for it.

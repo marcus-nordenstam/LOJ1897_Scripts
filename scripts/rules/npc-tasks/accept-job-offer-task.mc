@@ -16,7 +16,7 @@
 
 (npc-task {@self accept-job-offer ?job}:?accept
   (aspect labour)
-  (tar job)
+  (tar [k job] @object)
   (utility obligation)
   ; The seat's org keeps its door at ?wp - where the errand goes.
   (role ?org {?job org ?org}

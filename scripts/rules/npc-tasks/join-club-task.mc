@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self join-club ?art}:?jc-rel
-  (tar document)
+  (tar [k document] @object)
   (and
     ; GO: not at the clubhouse -> travel to it.
     (try

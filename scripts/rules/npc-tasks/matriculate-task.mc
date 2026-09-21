@@ -10,7 +10,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self matriculate ?curriculum}:?mt-rel
-  (tar academic-field)
+  (tar [k academic-field])
   (and
     ; GO: not at a school -> travel to one I know (nearest preferred).
     (try

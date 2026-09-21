@@ -11,7 +11,7 @@
 
 (npc-task {@self coerce ?victim}:?coerce-rel
   (track-skill-level [k illicit])
-  (tar human)
+  (tar [k human] @object)
   (aux ?)
   (construed-act coercion-act wrong-act)
   (facets reportable_crime)

@@ -7,7 +7,7 @@
 (npc-action {@self BREAK-WINDOW ?win}:?bw-rel
   (motor body legs)
   (track-skill-level [k illicit])
-  (tar object) (duration (seconds 1 min))
+  (tar [k object] @object) (duration (seconds 1 min))
   (effects
     (check (spatial ?win co-located @self))
     (set-attr ?win integrity [k broken])

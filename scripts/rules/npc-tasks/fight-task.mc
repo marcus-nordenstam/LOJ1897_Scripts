@@ -16,7 +16,7 @@
 
 (npc-task {@self fight ?foe}:?fight-rel
   (track-skill-level [k martial])
-  (tar human)
+  (tar [k human] @object)
   (and
     ; THE COUNTER-BLOW: co-present with a conscious, living foe - PUNCH them.
     (try

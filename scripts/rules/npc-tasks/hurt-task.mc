@@ -11,7 +11,7 @@
 (include "../../definitions/roles.mc")
 
 (npc-task {@self hurt ?victim}:?hurt-rel
-  (tar human)
+  (tar [k human] @object)
   (and
     ; REACH: route to the victim's known location, else their home.
     (try

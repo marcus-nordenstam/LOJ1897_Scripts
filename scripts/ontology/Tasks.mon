@@ -1,0 +1,13 @@
+# Tasks declared by row rather than by an (npc-task ..) head: duties an org assigns
+# (org_duties, tables/duty-tables.mc) that no rule performs yet. A duty is a TASK label -
+# {@self duty-to ?org [k <duty>]} - so the name is a task term under act > task.
+relation
+    act (noun)
+        task (noun) (+ task) (+ sub [k human] @object)
+            dismiss_staff
+            review_staff
+            keep_records
+            provide_for
+            protect
+            officiate
+            admit_member

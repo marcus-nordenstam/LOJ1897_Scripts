@@ -9,7 +9,7 @@
 
 (npc-task {@self frame ?victim}:?frame-rel
   (track-skill-level [k illicit])
-  (tar human)
+  (tar [k human] @object)
   (aux ?)
   (construed-act harm-act betray-act wrong-act)
   (facets reportable_crime)

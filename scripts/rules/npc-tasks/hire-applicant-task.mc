@@ -20,7 +20,7 @@
 (npc-task {@self hire-applicant ?applicant ?job}:?ha-rel
   (aspect labour)
   (track-skill-level [k personnel])
-  (tar human)
+  (tar [k human] @object)
   (aux [k job])
   (role ?org {@self duty-to ?org recruit-staff}
     (and

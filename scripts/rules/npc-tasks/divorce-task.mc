@@ -14,7 +14,7 @@
 (include "../../definitions/roles.mc")
 
 (npc-task {@self divorce ?partner}:?divorce-rel
-  (tar human)
+  (tar [k human] @object)
   (try
     (role @self
       (effects

@@ -17,8 +17,8 @@
     (proc-anim tell)
     (preroll 0.0) (in 0.1) (out 0.1))
   (xaction ?xsay)
-  (sub @msgAuthor human)   
-  (tar @msg @excl @S) 
+  (sub @msgAuthor [k human] @object)   
+  (tar @msg @excl @pattern) 
   ; OPTIONAL by declaration: an absent audience is a BROADCAST, which is a first-class
   ; SAY form (confide / expose / humiliate / the burial announcement all use it).
   (aux @msgAudience ?)

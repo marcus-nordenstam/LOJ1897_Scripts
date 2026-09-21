@@ -15,7 +15,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self write-doc ?doc ?sentence}:?wd-rel
-  (tar document)
+  (tar [k document] @object)
   (and
     (try
       ; AT HAND is held OR in the room: a form in the hand has no space to walk to.

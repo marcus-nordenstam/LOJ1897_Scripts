@@ -279,7 +279,7 @@ object (+ obs)
             chess-set
             playing-cards
         collection
-            stack               (sub space|structure)  (tar @excl)
+            stack               (sub [k space|structure] @object)  (tar @excl)
                 root-npc-knowledge-stack
                 for-sale-listing-stack
                 for-lease-listing-stack
@@ -580,7 +580,7 @@ object (+ obs)
         pier
         bridge
             suspension-bridge
-    part (tar space|part)
+    part (tar [k space|part] @object)
         body-part
             head
             hand

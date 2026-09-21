@@ -11,7 +11,7 @@
 
 (npc-task {@self shoot ?victim}:?shoot-rel
   (track-skill-level [k marksmanship])
-  (tar human)
+  (tar [k human] @object)
   (and
     ; REACH (armed only): route to the victim's known location, else their home.
     (try

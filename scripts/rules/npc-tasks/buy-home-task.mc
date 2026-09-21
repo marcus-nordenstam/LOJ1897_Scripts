@@ -16,7 +16,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self buy-home ?dwell}:?bh-rel
-  (tar @excl building)
+  (tar @excl [k building] @object)
   (and
     (try
       (when (and {?dwell availability [k for-sale]}

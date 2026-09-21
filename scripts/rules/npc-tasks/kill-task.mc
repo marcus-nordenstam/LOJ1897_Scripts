@@ -26,7 +26,7 @@
   (record hire-assassin       0.5           (if (>= (coin-balance @self) 80) (then 1) (else 0))))
 
 (npc-task {@self kill ?victim}:?kill-rel
-  (tar human)
+  (tar [k human] @object)
   (construed-act harm-act) (theme violent-to) (contradicts life)
   (facets reportable_crime blackmailable)
   (try

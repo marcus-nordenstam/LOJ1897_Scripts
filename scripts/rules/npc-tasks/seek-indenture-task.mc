@@ -13,7 +13,7 @@
 (include "../../macros/founding.mc")
 
 (npc-task {@self seek-indenture ?art}:?si-rel
-  (tar document)
+  (tar [k document] @object)
   (and
     ; GO: not at the master's premises -> travel to it.
     (try

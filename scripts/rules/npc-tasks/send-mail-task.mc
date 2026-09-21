@@ -8,8 +8,8 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self send-mail ?doc ?out}:?sm-rel
-  (tar document)
-  (aux stack)
+  (tar [k document] @object)
+  (aux [k stack] @object)
   (sequence
     ; go, NEVER the raw WALK: reaching a place is go's whole job and it dispatches to enter or
     ; WALK by what the destination is. WALK alone cannot let him into a building he is not

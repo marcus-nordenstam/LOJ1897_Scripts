@@ -8,8 +8,8 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self give ?thing ?recipient}:?give-rel
-  (tar @excl object)
-  (aux human)
+  (tar @excl [k object] @object)
+  (aux [k human] @object)
   (and
     (try
       (when (!= (spatial ?thing held-by) @self))

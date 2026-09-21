@@ -11,7 +11,7 @@
 
 (npc-action {@self BUY ?goods ?vendor}:?buy-act-rel
   (motor body legs)
-  (tar object) (aux human) (duration (seconds 1 min))
+  (tar [k object] @object) (aux [k human] @object) (duration (seconds 1 min))
   (effects
     (check (spatial ?goods co-located @self))
     (check (>= (coin-balance @self) (price ?goods)))

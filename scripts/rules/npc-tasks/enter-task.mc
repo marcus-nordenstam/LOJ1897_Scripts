@@ -40,7 +40,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self enter ?s}:?enter-rel
-  (tar @excl structure)
+  (tar @excl [k structure] @object)
   ; The coarse leg reads the venue's box from ground truth: a bounds read is a perception
   ; signal, and a venue he is still walking toward is one he cannot yet see.
   (lint-waive env-read-outside-action)

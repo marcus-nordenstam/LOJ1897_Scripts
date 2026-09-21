@@ -13,7 +13,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self expose ?victim}:?expose-rel
-  (tar @S)
+  (tar @pattern)
   (construed-act expose-act betray-act wrong-act) (contradicts privacy)
   (and
     (try

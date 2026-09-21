@@ -9,7 +9,7 @@
 
 (npc-task {@self locate ?thing ?bldg}:?loc-rel
   (tar @excl)
-  (aux structure)
+  (aux [k structure] @object)
   (and
     (try
       (when (not (spatial ?thing building ?bldg)))

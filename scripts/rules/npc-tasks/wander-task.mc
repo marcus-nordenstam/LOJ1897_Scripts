@@ -12,7 +12,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self wander ?bldg}:?w-rel
-  (tar @excl structure)
+  (tar @excl [k structure] @object)
   (and
     ; A room of ?bldg I am not standing in and have not already walked to during THIS
     ; wander. The WALK act records ARE the visited memory - keyed /caused_by this wander, so

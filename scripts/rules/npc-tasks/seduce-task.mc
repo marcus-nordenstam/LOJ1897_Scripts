@@ -9,7 +9,7 @@
 
 (npc-task {@self seduce ?paramour}:?seduce-rel
   (track-skill-level [k seduction])
-  (tar human)
+  (tar [k human] @object)
   (construed-act intimacy-act)
   (facets blackmailable)
   (and

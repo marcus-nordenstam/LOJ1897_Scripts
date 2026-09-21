@@ -9,7 +9,7 @@
 (include "../../definitions/roles.mc")
 
 (npc-task {@self hire-procure ?agent ?kind}:?hire-rel
-  (tar human)
+  (tar [k human] @object)
   (aux ?)
   (and
     (try

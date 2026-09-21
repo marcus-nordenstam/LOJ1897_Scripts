@@ -9,7 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self take-my-letters ?stack}:?take-letters-rel
-  (tar @excl stack)
+  (tar @excl [k stack] @object)
   (and
     (try
       (role @self {@self name ?name} 

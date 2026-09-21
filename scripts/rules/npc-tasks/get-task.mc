@@ -6,7 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self get ?item}:?get-rel
-  (tar @excl object)
+  (tar @excl [k object] @object)
   (and
     (try
       (when (not (spatial ?item co-located @self)))

@@ -6,7 +6,7 @@
 (npc-action {@self STRIKE-ADVERT ?reg ?job-id}:?sa-rel
   (motor body legs)
   (track-skill-level [k personnel])
-  (tar document)
+  (tar [k document] @object)
   (duration (seconds 5 min))
   (effects
     (check (spatial ?reg co-located @self /env))

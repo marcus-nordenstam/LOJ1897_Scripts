@@ -36,7 +36,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self stack-browse ?stack ?do-this}:?browse-rel
-  (tar stack)
+  (tar [k stack] @object)
   (aux ?)
   ; THE OPENING LOOK, once, when the round begins - which is what (init ..) is, and why
   ; it sits on the SPINE: it belongs to the whole task, not to any one rung. A pile with

@@ -9,7 +9,7 @@
 
 (npc-task {@self prepare-application ?job}:?pa-rel
   (aspect labour)
-  (tar job)
+  (tar [k job] @object)
   (sequence
 
     (stage

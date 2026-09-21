@@ -6,7 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self read-doc ?doc}:?rd-rel
-  (tar document)
+  (tar [k document] @object)
   ; THE CONDITION THE TASK RUNS UNDER: he has not read it yet. Stated once here rather
   ; than on the rung that proposes the READ, because it is true of the whole errand -
   ; walking to the room is equally pointless once the page has been read.

@@ -10,7 +10,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self back ?org}
-  (tar org)
+  (tar [k org] @object)
   (role ?wp {?org workplace ?wp}
     (and
       (try

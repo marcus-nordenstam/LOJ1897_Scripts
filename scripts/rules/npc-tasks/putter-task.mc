@@ -12,7 +12,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self putter ?home}:?p-rel
-  (tar structure)
+  (tar [k structure] @object)
   (and
     (try
       (role @self -{@self wander ?home /succ /caused_by ?p-rel}

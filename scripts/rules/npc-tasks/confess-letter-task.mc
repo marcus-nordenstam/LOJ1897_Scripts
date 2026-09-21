@@ -11,7 +11,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self confess-letter ?focus}:?confess-rel
-  (tar human)
+  (tar [k human] @object)
   (construed-act honour-act)
   (and
     ; Make the paper, pen it, post it - three deeds, each reading the world for what is done.

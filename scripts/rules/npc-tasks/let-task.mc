@@ -9,7 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self LET ?prop}:?let-rel
-  (tar @excl building)
+  (tar @excl [k building] @object)
   (sequence
     (stage
       (effects

@@ -10,7 +10,7 @@
 
 (npc-task {@self strangle ?victim}:?strangle-rel
   (track-skill-level [k garrotting])
-  (tar human)
+  (tar [k human] @object)
   (and
     ; REACH: route to the victim's known location, else their home.
     (try

@@ -14,7 +14,7 @@
 
 (npc-task {@self apply-for ?job}:?af-rel
   (aspect labour)
-  (tar job)
+  (tar [k job] @object)
   (and
     (sequence
       (role ?home {@self home ?home}

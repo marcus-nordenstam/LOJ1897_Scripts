@@ -12,8 +12,8 @@
 (include "../../macros/collection-macros.mc")
 
 (npc-task {@self eat ?meal ?place}:?e-rel
-  (tar meal)
-  (aux structure|space)
+  (tar [k meal])
+  (aux [k structure|space] @object)
   (and
     (try
       (utility (switch (kind ?meal)

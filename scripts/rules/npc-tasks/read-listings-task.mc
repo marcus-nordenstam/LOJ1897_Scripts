@@ -7,7 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self read-listings ?register}:?rl-rel
-  (tar @excl for-sale-listings)
+  (tar @excl [k for-sale-listings] @object)
   (and
     ; WALK: not at the register -> go to its room.
     (try

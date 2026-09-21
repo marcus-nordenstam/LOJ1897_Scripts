@@ -9,7 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self put ?item ?dest}:?put-rel
-  (tar @excl object)
+  (tar @excl [k object] @object)
   (and
     (try
       (when (unpresented-lod))

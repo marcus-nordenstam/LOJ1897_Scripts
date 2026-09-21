@@ -18,7 +18,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self work ?wp}:?w-rel
-  (tar structure|org|space)
+  (tar [k structure|org|space] @object)
   (role ?job {@self job ?job}
     (role ?org {?job org ?org}
                {?org workplace ?wp}
