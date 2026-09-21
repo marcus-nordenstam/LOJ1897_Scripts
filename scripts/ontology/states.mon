@@ -1,4 +1,3 @@
-
 # NOTE: Words in parenthesis -- such as (attitude) -- are used for GROUPING only.
 #
 # Every state relation is declared here (see Merlin/docs/knowledge_design_notes.md):
@@ -6,7 +5,6 @@
 # situation predicates, and the states that share a name with a noun (spouse,
 # gender, job, ...) - a noun is a kind, and a relation on it is declared as a
 # relation. Env attrs contribute the physical realization of a state.
-
 
 # Spatial predicate states.
 (state within-reach-of (tar [k object|space] @object))

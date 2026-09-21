@@ -1,4 +1,3 @@
-
 # Abstract concepts
 
 (abstract concept
@@ -530,7 +529,6 @@
       (child casual-laborer
         (children preacher lecturer))))
 
-
   # Work hours (band_deliberate substrate): a worker's shift on one weekday,
   # held on their job object as {<job> <weekday>_hours <start> <end>} - target
   # is the start hour (0..23), aux the end hour; start > end wraps past midnight
@@ -788,7 +786,6 @@
   # where the construal tags live). These are NOT tasks.
   (child msg-class
     (children insult jilt urge))
-
 
   (child sky-condition
     (children clear overcast cloudy))

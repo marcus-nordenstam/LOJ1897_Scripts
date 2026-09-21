@@ -55,14 +55,10 @@
                    agility endurance pregnant-by)
             (structs left-hand right-hand head left-eye right-eye mouth torso))
           (child human-npc
-            (population
-              (cap 4096)
-              (raycast-visible)
-              (sentient)
-              (non-occluder)
-              (occupies-env-grid)
+            (decorations
               (spatials space)
-              (attrs visual-sensor sound-sensor parentless awareness internment emigrating intoxication gambling-addiction)))
+              (attrs visual-sensor sound-sensor parentless awareness internment emigrating intoxication gambling-addiction))
+            (population (cap 4096) (raycast-visible) (sentient) (non-occluder) (occupies-env-grid)))
           (child human-player
             (population (cap 256) (raycast-visible) (player) (non-occluder) (occupies-env-grid))))
         (child dog
@@ -98,15 +94,13 @@
     # dinner.
     # Man-made things
     (child prop
-      (decorations (states stolen-from))
-      (population
-        (cap 32768)
-        (occupies-env-grid)
-        (non-occluder)
+      (decorations
+        (states stolen-from)
         (spatials gripped-by grip space in-stack bounds)
         (attrs variant birth-date color condition writing grip-force owner addressee
                addressee-duty destination blemishes)
         (attr name (auto-percept) (ext-per obs)))
+      (population (cap 32768) (occupies-env-grid) (non-occluder))
       (child container
         (children drinking-glass)
         # Table-service vessels - the poison-delivery layer's concrete
@@ -274,11 +268,11 @@
         (children chess-set playing-cards))
       (child collection
         (child stack
-          (population
-            (cap 2048)
+          (decorations
             (spatials -gripped-by -grip -in-stack items)
             (attrs -color -condition -name -writing -grip-force -owner -addressee -addressee-duty
                    -destination -blemishes stack-label))
+          (population (cap 2048))
           (children root-npc-knowledge-stack for-sale-listing-stack for-lease-listing-stack title-deed-stack)
           # The company registry's INCORPORATION stack: every org's
           # articles-of-incorporation doc is filed here (the companies house),
@@ -305,11 +299,11 @@
         # subsume folds a real item in; extract spawns one out. A
         # memory-compression device - its bounds are the pile SHAPE.
         (child pile
-          (population
-            (cap 4096)
+          (decorations
             (spatials -grip -in-stack)
             (attrs -color -condition -name -writing -grip-force -owner -addressee -addressee-duty
-                   -destination -blemishes content-kind count))))
+                   -destination -blemishes content-kind count))
+          (population (cap 4096))))
       (child sporting-gear
         (child ball
           (children football))
@@ -428,12 +422,10 @@
         # settlement then realises them per thing.
         (children will)))
     (child fluid
-      (population
-        (cap 256)
-        (occupies-env-grid)
-        (non-occluder)
+      (decorations
         (spatials gripped-by bounds)
         (attrs variant fluid-amount taint))
+      (population (cap 256) (occupies-env-grid) (non-occluder))
       (children beer)
       # Drink fluids - what sits in a table-service vessel. A poisoning
       # TAINTS the victim's drink: the chosen drink fluid's `taint` attr
@@ -498,12 +490,10 @@
     # fluids. Sub-kinds are starter content; extend as authored arcs
     # demand more variants.
     (child food
-      (population
-        (cap 8192)
-        (occupies-env-grid)
-        (non-occluder)
+      (decorations
         (spatials gripped-by space bounds)
         (attrs variant))
+      (population (cap 8192) (occupies-env-grid) (non-occluder))
       (children bread cheese soup)
       (child meal (price 5)
         (children breakfast lunch luncheon dinner tea supper)))
@@ -512,28 +502,25 @@
     # room he walks into are one when the address agrees. Grounding is still the WALKING
     # IN - an address off a page tells you where a place is, not which place you are in.
     (child structure (grounding-anchors address)
-      (decorations (states breakfast-hour lunch-hour supper-hour))
-      (population
-        (cap 256)
-        (always-visible)
-        (children-occupy-env-grid)
+      (decorations
+        (states breakfast-hour lunch-hour supper-hour)
         (attrs variant birth-date era-min era-max address nav-mesh blocks-nav-terrain)
         (attr name (auto-percept) (ext-per obs))
         (spatials bounds))
+      (population (cap 256) (always-visible) (children-occupy-env-grid))
       (child path
         (child road
-          (population
-            (cap 128)
-            (-children-occupy-env-grid)
-            (non-occluder)
+          (decorations
             (spatials -bounds spline)
             (attrs -birth-date -name -era-min -era-max -blocks-nav-terrain address-even-side address-start address-step
-                   address-ascends-forward)))
+                   address-ascends-forward))
+          (population (cap 128) (-children-occupy-env-grid) (non-occluder)))
         (children trail))
       (child sporting-grounds
         (children racing-grounds cricket-grounds))
       (child container-structure
-        (population (cap 2048) (attrs isolated has-crypt locked-wing struct-status))
+        (decorations (attrs isolated has-crypt locked-wing struct-status))
+        (population (cap 2048))
         (children wagon train-car ship)
         (child building
           (decorations (states availability occupant tenant))
@@ -582,35 +569,35 @@
       (child bridge
         (children suspension-bridge)))
     (child part
-      (population
-        (cap 2048)
+      (decorations
         (attrs variant birth-date)
         (attr name (auto-percept) (ext-per obs))
         (spatials bounds))
+      (population (cap 2048))
       (child body-part
         # A (motor) kind is a motor an act occupies; the set is these kinds in declaration
         # order, so this order IS the motor index. legs is the base layer, and mind - the
         # motor that drives no bone - must be declared last (init_motor_set checks it).
         (child legs (motor))
         (child head (motor)
-          (population (cap 4096) (non-occluder) (attrs -variant -birth-date -name blemishes)))
+          (decorations (attrs -variant -birth-date -name blemishes))
+          (population (cap 4096) (non-occluder)))
         (child hand
           (child right-hand (motor) (side right)
-            (population
-              (cap 4352)
-              (non-occluder)
+            (decorations
               (attrs -variant -birth-date -name wear blemishes)
               (spatials grip)
-              (structs right-ring-finger)))
+              (structs right-ring-finger))
+            (population (cap 4352) (non-occluder)))
           (child left-hand (motor) (side left)
-            (population
-              (cap 4352)
-              (non-occluder)
+            (decorations
               (attrs -variant -birth-date -name wear blemishes)
               (spatials grip)
-              (structs left-ring-finger))))
+              (structs left-ring-finger))
+            (population (cap 4352) (non-occluder))))
         (child mouth (motor)
-          (population (cap 4096) (non-occluder) (attrs -variant -birth-date -name blemishes)))
+          (decorations (attrs -variant -birth-date -name blemishes))
+          (population (cap 4096) (non-occluder)))
         (child eyes (motor))
         (child eyelid (motor))
         (child body (motor))
@@ -618,16 +605,16 @@
         (child right-arm (motor) (side right))
         (child left-arm (motor) (side left))
         (child finger
-          (population
-            (cap 8704)
-            (non-occluder)
+          (decorations
             (attrs -variant -birth-date -name wear blemishes)
             (spatials grip))
+          (population (cap 8704) (non-occluder))
           (child ring-finger
             (child left-ring-finger (side left))
             (child right-ring-finger (side right))))
         (child eye
-          (population (cap 8704) (non-occluder) (attrs -variant -birth-date -name blemishes))
+          (decorations (attrs -variant -birth-date -name blemishes))
+          (population (cap 8704) (non-occluder))
           (child left-eye (side left))
           (child right-eye (side right)))
         # Central body. Default wound-site when a method-row's
@@ -636,18 +623,16 @@
         # (neck, arm, leg, lungs) land alongside the method rows
         # that need them.
         (child torso
-          (population (cap 4096) (non-occluder) (attrs -variant -birth-date -name blemishes)))
+          (decorations (attrs -variant -birth-date -name blemishes))
+          (population (cap 4096) (non-occluder)))
         (child mind (motor)))
       (child structure-part
-        (population
-          (cap 4096)
-          (always-visible)
-          (occupies-env-grid)
-          (children-occupy-env-grid)
+        (decorations
           (attrs address is-nav-passage blemishes)
           (attr opening-status (auto-percept) (ext-per obs))
           (attr lock-status (auto-percept) (ext-per obs))
           (attr integrity (auto-percept) (ext-per obs)))
+        (population (cap 4096) (always-visible) (occupies-env-grid) (children-occupy-env-grid))
         (child counter
           (children bar-counter))
         (children wall)
@@ -664,14 +649,23 @@
     (child gm
       (population (cap 1) (imperceptible)))
     (child instance
-      (population (cap 1) (occupies-env-grid) (attrs prototype) (spatials bounds))))
+      (decorations
+        (attrs prototype)
+        (spatials bounds))
+      (population (cap 1) (occupies-env-grid))))
   # Kinds of smells
-  (child smell (+ per smell)
-    (population (cap 512) (per smell) (non-occluder) (attrs create-action) (spatials bounds))
+  (child smell (+ per smell) (per smell)
+    (decorations
+      (attrs create-action)
+      (spatials bounds))
+    (population (cap 512) (non-occluder))
     (children cheese fart))
   # Kinds of sounds
-  (child sound (+ per hear)
-    (population (cap 512) (per hear) (non-occluder) (attrs create-action speaker preroll) (spatials bounds))
+  (child sound (+ per hear) (per hear)
+    (decorations
+      (attrs create-action speaker preroll)
+      (spatials bounds))
+    (population (cap 512) (non-occluder))
     (children squeak speech shout song scream laugh crash boom))
   # Kinds of spaces
   #
@@ -687,14 +681,11 @@
   (child space (+ per obs) (grounding-anchors address)
     (decorations (states occupant tenant))
     (child interior-space
-      (population
-        (cap 4096)
-        (always-visible)
-        (non-occluder)
-        (sector-coverage)
+      (decorations
         (attrs variant birth-date owner is-nav-passage address)
         (attr name (auto-percept) (ext-per obs))
         (spatials bounds))
+      (population (cap 4096) (always-visible) (non-occluder) (sector-coverage))
       (children bar-back)
       (child entrance (facets entrance)
         (child main-entrance (facets entrance)))
@@ -720,25 +711,20 @@
         (children floorboard-cache book-cache jewelry-box-lining painting-cache secret-chamber))
       (children stage auditorium))
     (child exterior-space
-      (population
-        (cap 4096)
-        (always-visible)
-        (non-occluder)
-        (sector-coverage)
+      (decorations
         (attrs variant birth-date is-nav-passage address)
         (attr name (auto-percept) (ext-per obs))
         (spatials bounds))
+      (population (cap 4096) (always-visible) (non-occluder) (sector-coverage))
       # The world's own top rung, and the one that carries weather. A park's parent is
       # its town and a town's parent is its country: structures sit inside the space
       # that holds them, and spaces inside the wider space that holds THEM, all the
       # way up. Towns keep no sector coverage - see things.mon (town).
       (child town
-        (population
-          (cap 16)
-          (-sector-coverage)
-          (no-sector-coverage)
+        (decorations
           (attrs -variant -birth-date -is-nav-passage -address rain snow fog wind
-                 sky mood-kinds mood-intensities mood-set-dates)))
+                 sky mood-kinds mood-intensities mood-set-dates))
+        (population (cap 16) (-sector-coverage) (no-sector-coverage)))
       (child land
         (child territory
           (children crown-dependency)
@@ -757,6 +743,7 @@
       (children meadow forest moor bluff cliff)))
   # env-point: nav waypoints / spawnpoints (the things.mon (env-point) archetype). Dormant in
   # hsim - GrymEngine runtime nav/spawn instantiates these.
-  (child env-point (+ per obs)
-    (population (cap 256) (per obs) (always-visible) (non-occluder) (sector-coverage) (spatials bounds))
+  (child env-point (+ per obs) (per obs)
+    (decorations (spatials bounds))
+    (population (cap 256) (always-visible) (non-occluder) (sector-coverage))
     (children waypoint spawnpoint)))

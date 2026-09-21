@@ -54,6 +54,9 @@
 (spatial grip     (mobile) (excl) (recurse-on-obs))
 (spatial stack    (mobile) (excl) (ordered))
 (spatial part     (immutable) (excl))
+# Road geometry: a road's shape is a spline, not a containment. Declared here so the
+# (spatials spline) that names it references something, like every other decoration.
+(spatial spline   (immutable) (excl))
 
 # The immutable structural topology (the old struct_skeleton), read through the
 # same fused (spatial ?ent <view> /env?) op: `parts` = a whole's children (down).
