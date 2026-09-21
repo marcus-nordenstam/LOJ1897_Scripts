@@ -2,43 +2,73 @@
 # that holds it. Paren scope is parentage; a clause on a node holds for every pop beneath it.
 (physical thing
   # PHYSICAL objects
-  (physical object (+ per obs)
-    (physical label
-      (physical applications)
-      (physical mail)
-      (physical out-mail))
+  (child object (+ per obs)
+    (child label
+      (children applications mail out-mail))
     # Natural (non-living) things
-    (physical mineral
-      (physical rock))
+    (child mineral
+      (children rock))
     # Living things
-    (physical plant
-      (physical flower
-        (physical rose))
-      (physical tree))
-    (physical being
-      (physical robot)
-      (physical cyborg)
-      (physical animal
+    (child plant
+      (child flower
+        (children rose))
+      (children tree))
+    (child being
+      (children robot cyborg)
+      (child animal
         # ANCHORS. A man is matched by his NAME: the man read of on an application and
         # the man at the counter are one the moment both are named the same. Grounding
         # itself comes from PERCEIVING him - this is the key that finds the pair.
-        (physical human (anchors name)
-          (spatials grip)
-          (attrs physical-motors game-role birth-date death-date death-cause age-group age-band age-span gender appearance height girth hair-color eye-color attractiveness name condition pregnant-when sexual-orient fatigue hunger adrenaline sleepiness appetite openness intellect industriousness orderliness enthusiasm assertiveness compassion politeness volatility withdrawal narcissism machiavellianism psychopathy sadism strength dexterity agility endurance)
-          (structs left-hand right-hand head left-eye right-eye mouth torso)
-          (attrs pregnant-by)
-          (spatials bounds)
-          (physical human-npc
-            (pop (cap 4096) (raycast-visible) (sentient) (non-occluder) (occupies-env-grid)
+        (child human (grounding-anchors name)
+          (decorations
+            (states physical-mobility jilt todo insult urge frequent facing within-reach-of
+                    know avoid expect-answer expect-question meet extort commission hired-by
+                    vouched-for sought-introduction shop-weekday shop-hour under-suspicion value justify identity
+                    adore like dislike detest revere admire disdain despise
+                    rely trust distrust fancy desire crave wary dread
+                    terror seem rude-to violent-to thief-to coercive-to mention own
+                    coin-pile hold lease rent borrow sell owe inherit
+                    member-of participant backed-by captor-of circumstance-of-death suspect host venue
+                    held-on hours organize invite hold-meet judge-meet skilled-in skill-level
+                    school-grades serve close-to relied-on-by respected-by retire carrying-loot stow
+                    staff-household since offered-to job-id duty-to duty-holder study schooling
+                    win race-result outdo public-humiliation confront-publicly interest calling craving
+                    forage life-aim honesty sobriety piety devoutness diligence chastity
+                    decorum generosity work-standing aggression criminality disinhibition inhibition wealth
+                    income-security prestige breeding influence connectedness constitution affliction soundness
+                    radicalism education belonging contentment agitation stress purpose autonomy
+                    rootedness family-alignment starve pregnant household-cook hsim-motive hsim-secret-at-risk hsim-publicly-humiliated
+                    hsim-family-dishonored hsim-legacy-threatened hsim-class-resentful hsim-religious-zealot hsim-political-radical hsim-witness-to-suffering hsim-business-failing hsim-homeless
+                    abandonment-act accomplice acquaintance aid-act appropriation-act betray-act child class-situation
+                    coercion-act commitment-act degrade-act economic-situation emotion expose-act father fiancee
+                    fixation friend half-sibling harm-act help-act hiding-spot home honour-act
+                    job level love lover master mother nationality owns-building
+                    parent pressure provision-act provisions-shop repudiation-act repute rivalrous-act sibling
+                    slight-act social-trajectory spouse suffer-loss-act threaten-act wrong-act mon-hours tue-hours
+                    wed-hours thu-hours fri-hours sat-hours sun-hours age-band age-span prototype)
+            (spatials grip bounds)
+            (attrs physical-motors game-role birth-date death-date death-cause age-group age-band age-span
+                   gender appearance height girth hair-color eye-color attractiveness name
+                   condition pregnant-when sexual-orient fatigue hunger adrenaline sleepiness appetite
+                   openness intellect industriousness orderliness enthusiasm assertiveness compassion politeness
+                   volatility withdrawal narcissism machiavellianism psychopathy sadism strength dexterity
+                   agility endurance pregnant-by)
+            (structs left-hand right-hand head left-eye right-eye mouth torso))
+          (child human-npc
+            (population
+              (cap 4096)
+              (raycast-visible)
+              (sentient)
+              (non-occluder)
+              (occupies-env-grid)
               (spatials space)
               (attrs visual-sensor sound-sensor parentless awareness internment emigrating intoxication gambling-addiction)))
-          (physical human-player
-            (pop (cap 256) (raycast-visible) (player) (non-occluder) (occupies-env-grid))))
-        (physical dog
-          (physical whippet)
-          (physical german-shepard))
-        (physical cat
-          (physical siamese))))
+          (child human-player
+            (population (cap 256) (raycast-visible) (player) (non-occluder) (occupies-env-grid))))
+        (child dog
+          (children whippet german-shepard))
+        (child cat
+          (children siamese))))
     # Forensic-trace families. The `blemish` parent unifies three
     # sub-trees so the `blemishes` plural-kind attr (attrs.mon) can
     # hold any mix and the forensic-detective layer reasons over the
@@ -53,31 +83,13 @@
     # Per Rule 4 of knowledge_design_notes.md no leaf restates a
     # weapon kind: a gunshot entry is a `puncture-wound`, not a
     # `gunshot_wound`.
-    (physical blemish
-      (physical wound
-        (physical puncture-wound)
-        (physical slash-wound)
-        (physical blunt-wound)
-        (physical ligature-mark)
-        (physical burn-wound)
-        (physical bite-wound)
-        (physical bruise))
-      (physical stain
-        (physical ink-stain)
-        (physical blood-stain)
-        (physical dirt-stain)
-        (physical gunpowder-residue)
-        (physical ash)
-        (physical mud-stain)
-        (physical paint-stain)
-        (physical wine-stain))
-      (physical mark
-        (physical scratch-mark)
-        (physical dent)
-        (physical crack)
-        (physical scuff)
-        (physical tool-mark)
-        (physical tear)))
+    (child blemish
+      (child wound
+        (children puncture-wound slash-wound blunt-wound ligature-mark burn-wound bite-wound bruise))
+      (child stain
+        (children ink-stain blood-stain dirt-stain gunpowder-residue ash mud-stain paint-stain wine-stain))
+      (child mark
+        (children scratch-mark dent crack scuff tool-mark tear)))
     # Meals & food. The leaves double as the OCCASION vocabulary the
     # evidence layer samples ("the wine, at supper") - a poisoning's
     # consume record carries one of these as its /aux occasion, chosen
@@ -85,158 +97,139 @@
     # breakfast / luncheon / tea / supper alongside the plain lunch /
     # dinner.
     # Man-made things
-    (physical prop
-      (pop (cap 32768) (occupies-env-grid) (non-occluder)
-        (spatials gripped-by grip space in-stack)
-        (attrs variant birth-date color condition)
-        (attr name (auto-percept) (ext-per obs))
-        (attrs writing grip-force owner addressee addressee-duty destination)
-        (spatials bounds)
-        (attrs blemishes))
-      (physical container
-        (physical drinking-glass)
+    (child prop
+      (decorations (states stolen-from))
+      (population
+        (cap 32768)
+        (occupies-env-grid)
+        (non-occluder)
+        (spatials gripped-by grip space in-stack bounds)
+        (attrs variant birth-date color condition writing grip-force owner addressee
+               addressee-duty destination blemishes)
+        (attr name (auto-percept) (ext-per obs)))
+      (child container
+        (children drinking-glass)
         # Table-service vessels - the poison-delivery layer's concrete
         # props. The victim's drink (a wine / tea fluid) sits in one of
         # these; a poisoning TAINTS that drink fluid (the `taint` attr),
         # so the vessel is the recovered delivery object and the tainted
         # fluid inside it is the forensic proof.
-        (physical cup)
-        (physical decanter)
-        (physical jewelry-box (price 25)))
+        (children cup decanter)
+        (child jewelry-box (price 25)))
       # Currency - a single coin: the buildable unit of cash (a plain gripped
       # prop). A bribe / gift hands over ONE via give -> OFFER. Not a wealth
       # model - the coin entity IS the cash: a real, transferable, discoverable
       # object, never a fictional sum.
-      (physical coin (price 1))
-      (physical accessory
-        (physical cufflink)
-        (physical ring
-          (physical engagement-ring)
-          (physical wedding-band))
-        (physical hat
-          (physical bowler))
-        (physical umbrella)
-        (physical backpack))
-      (physical clothing
-        (physical police-uniform)
-        (physical dress
-          (physical summer-dress))
+      (child coin (price 1))
+      (child accessory
+        (children cufflink)
+        (child ring
+          (children engagement-ring wedding-band))
+        (child hat
+          (children bowler))
+        (children umbrella backpack))
+      (child clothing
+        (children police-uniform)
+        (child dress
+          (children summer-dress))
         # Footwear, the muddy-prints clue class.
-        (physical boots))
+        (children boots))
       # Inert household furniture - scene dressing the detective walks
       # through and searches. None carry a weapon facet (a heavy chair is
       # not modelled as an improvised bludgeon - keeping these inert stops
       # furniture from flooding the improvised-weapon pool; the genuine
       # improvised weapons are the candlestick / fire-poker / cutlery kinds
       # under their own families).
-      (physical loose-furniture
-        (physical table
-          (physical kitchen-table)
-          (physical dining-table))
-        (physical chair)
-        (physical stool)
-        (physical armchair)
-        (physical bed)
-        (physical wardrobe)
-        (physical chest)
-        (physical crate)
-        (physical writing-desk)
-        (physical writing-bureau)
-        (physical bookshelf)
-        (physical sideboard)
-        (physical display-cabinet)
-        (physical smoking-cabinet)
-        (physical hat-stand)
-        (physical umbrella-stand)
-        (physical bell-pull)
-        (physical sewing-machine)
-        (physical drying-rack)
-        (physical fireplace)
-        (physical piano
-          (physical upright-piano)
-          (physical grand-piano))
-        (physical evidence-box))
+      (child loose-furniture
+        (child table
+          (children kitchen-table dining-table))
+        (children chair stool armchair bed wardrobe chest crate writing-desk
+                  writing-bureau bookshelf sideboard display-cabinet smoking-cabinet hat-stand umbrella-stand bell-pull
+                  sewing-machine drying-rack fireplace)
+        (child piano
+          (children upright-piano grand-piano))
+        (children evidence-box))
       # Purpose-built instruments of harm. Each leaf is naturally a
       # weapon (designed for combat / violence) - non-weapon items
       # that CAN be used to harm (a bust, a candlestick, a knife) live
       # under their natural parent kinds and pick up the relevant
       # (facets bludgeon / pierce / ...) instead.
-      (physical weapon
-        (physical dagger (facets pierce))
-        (physical stiletto (facets pierce))
-        (physical sword (facets slash pierce))
-        (physical sabre (facets slash))
-        (physical cutlass (facets slash))
-        (physical club (facets bludgeon))
-        (physical cudgel (facets bludgeon))
+      (child weapon
+        (child dagger (facets pierce))
+        (child stiletto (facets pierce))
+        (child sword (facets slash pierce))
+        (child sabre (facets slash))
+        (child cutlass (facets slash))
+        (child club (facets bludgeon))
+        (child cudgel (facets bludgeon))
         # conspicuous: a gun sale is REMEMBERED (the shopkeeper, the
         # sales-record); the acquisition calculus has careful buyers
         # prefer a safe theft over the paper trail. Per-leaf - facets
         # do not cascade.
-        (physical firearm (price 60)
-          (physical pistol (facets conspicuous))
-          (physical duelling-pistol (facets conspicuous))
-          (physical musket (facets conspicuous))
-          (physical revolver (facets conspicuous))
-          (physical shotgun (facets conspicuous))
-          (physical hunting-rifle (facets conspicuous)))
-        (physical explosive (price 40)
-          (physical gunpowder-keg (facets conspicuous))
-          (physical dynamite-stick (facets conspicuous))))
+        (child firearm (price 60)
+          (child pistol (facets conspicuous))
+          (child duelling-pistol (facets conspicuous))
+          (child musket (facets conspicuous))
+          (child revolver (facets conspicuous))
+          (child shotgun (facets conspicuous))
+          (child hunting-rifle (facets conspicuous)))
+        (child explosive (price 40)
+          (child gunpowder-keg (facets conspicuous))
+          (child dynamite-stick (facets conspicuous))))
       # Kitchen / table-service blades. Knife is the canonical sub-kind;
       # cleaver is the heavy-bladed chopping variant.
-      (physical cutlery
-        (physical knife (facets pierce slash) (price 2))
-        (physical cleaver (facets slash chop bludgeon) (price 3)))
+      (child cutlery
+        (child knife (facets pierce slash) (price 2))
+        (child cleaver (facets slash chop bludgeon) (price 3)))
       # Decorative sculpture (the canonical Victorian crime-novel
       # improvised bludgeon).
-      (physical sculpture
-        (physical bust (facets bludgeon)))
+      (child sculpture
+        (child bust (facets bludgeon)))
       # Cordage. Natural taxonomic parent for rope-like materials. The
       # strangle facet covers garrotte / hang use.
-      (physical cordage
-        (physical rope (facets strangle) (price 1))
-        (physical twine (facets strangle))
-        (physical garrotte-wire (facets strangle)))
+      (child cordage
+        (child rope (facets strangle) (price 1))
+        (child twine (facets strangle))
+        (child garrotte-wire (facets strangle)))
       # Household textiles. Bedding / linen. The smother facet covers
       # smother / suffocate use.
-      (physical textile
-        (physical pillow (facets smother))
-        (physical bedsheet (facets smother strangle))
-        (physical towel (facets smother))
-        (physical blanket (facets smother)))
+      (child textile
+        (child pillow (facets smother))
+        (child bedsheet (facets smother strangle))
+        (child towel (facets smother))
+        (child blanket (facets smother)))
       # Lighting fixtures. A candlestick can also be used to bludgeon
       # (the brass-base variety); an oil-lamp carries fuel as well as
       # being an ignition source.
-      (physical lighting
-        (physical candle (facets ignite))
-        (physical candlestick (facets bludgeon ignite) (price 12))
-        (physical oil-lamp (facets ignite burn_fuel) (price 4))
-        (physical lantern (facets ignite))
-        (physical gas-lamp (facets ignite))
-        (physical chandelier (facets ignite)))
+      (child lighting
+        (child candle (facets ignite))
+        (child candlestick (facets bludgeon ignite) (price 12))
+        (child oil-lamp (facets ignite burn_fuel) (price 4))
+        (child lantern (facets ignite))
+        (child gas-lamp (facets ignite))
+        (child chandelier (facets ignite)))
       # Fire-starting implements that aren't themselves a light fixture.
-      (physical fire-starter
-        (physical matches (facets ignite))
-        (physical tinderbox (facets ignite)))
+      (child fire-starter
+        (child matches (facets ignite))
+        (child tinderbox (facets ignite)))
       # Tools - purpose-built craft / labour implements.
-      (physical tools
-        (physical hammer (facets bludgeon) (price 2))
-        (physical awl (facets pierce))
-        (physical chisel)
-        (physical scissors (facets pierce))
-        (physical saw)
-        (physical axe (facets chop slash bludgeon) (price 3))
-        (physical fire-poker (facets bludgeon)))
+      (child tools
+        (child hammer (facets bludgeon) (price 2))
+        (child awl (facets pierce))
+        (children chisel)
+        (child scissors (facets pierce))
+        (children saw)
+        (child axe (facets chop slash bludgeon) (price 3))
+        (child fire-poker (facets bludgeon)))
       # Surgical instruments - a hospital / surgeon's sharps. They pierce
       # and slash like any blade, so they satisfy the same perpetration
       # facet gates (a surgeon killing with a scalpel is the in-period case).
-      (physical surgical-instrument
-        (physical scalpel (facets pierce slash))
-        (physical lancet (facets pierce))
-        (physical bone-saw (facets slash chop)))
+      (child surgical-instrument
+        (child scalpel (facets pierce slash))
+        (child lancet (facets pierce))
+        (child bone-saw (facets slash chop)))
       # Physician's carry-bag, holds substance bottles.
-      (physical medical-bag)
+      (children medical-bag)
       # Stoppered glass containers - the generic carriable vessel. There
       # is NO `poison_bottle` kind: a bottle is just a bottle, and the
       # POISON it holds is a concrete `poison` fluid (Objects.mon `fluid`)
@@ -245,200 +238,175 @@
       # (control_any toxin)); purchasing it rides mint_purchase_trail
       # (receipt + sales-record + shopkeeper memory) - the Victorian
       # poison register.
-      (physical bottle)
+      (children bottle)
       # Clocks and timepieces. Inert household time-keeping props; a stopped
       # mantel / grandfather clock is the classic time-of-death clue.
-      (physical timepiece
-        (physical wall-clock)
-        (physical mantel-clock (price 12))
-        (physical grandfather-clock))
+      (child timepiece
+        (children wall-clock)
+        (child mantel-clock (price 12))
+        (children grandfather-clock))
       # Decorative ornaments - inert scene dressing the detective searches.
-      (physical ornament
-        (physical figurine (price 8))
-        (physical painting)
-        (physical mirror)
-        (physical taxidermy)
-        (physical photograph)
-        (physical vase))
+      (child ornament
+        (child figurine (price 8))
+        (children painting mirror taxidermy photograph vase))
       # Floor coverings - rugs / carpets (the body-under-the-rug clue).
-      (physical floor-covering
-        (physical rug
-          (physical rag-rug)
-          (physical persian-rug)))
+      (child floor-covering
+        (child rug
+          (children rag-rug persian-rug)))
       # Scientific / observation instruments - a gentleman's study pieces.
-      (physical scientific-instrument
-        (physical globe)
-        (physical telescope))
+      (child scientific-instrument
+        (children globe telescope))
       # Household / kitchen utility goods. Inert (no weapon facet) so they
       # furnish rooms without flooding the improvised-weapon pool; the
       # cutting goods that ARE weapons live under `cutlery`.
-      (physical houseware
-        (physical cooking-pot)
-        (physical stove)
-        (physical coal-scuttle)
-        (physical wash-basin)
-        (physical pitcher)
-        (physical chamber-pot)
-        (physical broom)
-        (physical sewing-kit)
-        (physical flatiron)
-        (physical washtub)
-        (physical tin-cup)
-        (physical tin-plate)
-        (physical teacup)
-        (physical inkstand))
+      (child houseware
+        (children cooking-pot stove coal-scuttle wash-basin pitcher chamber-pot broom sewing-kit
+                  flatiron washtub tin-cup tin-plate teacup inkstand))
       # Tea / dinner services - class-signalling tableware (a silver service
       # marks an upper-class home).
-      (physical tableware
-        (physical tea-set (price 10))
-        (physical silver-tea-service (price 30))
-        (physical china-service (price 20)))
+      (child tableware
+        (child tea-set (price 10))
+        (child silver-tea-service (price 30))
+        (child china-service (price 20)))
       # Parlour games. (`game` proper is a concepts.mon activity object; these
       # are the physical play sets.)
-      (physical parlour-game
-        (physical chess-set)
-        (physical playing-cards))
-      (physical collection
-        (physical stack
-          (pop (cap 2048)
-            (spatials -gripped-by -grip -in-stack)
-            (attrs -color -condition -name -writing -grip-force -owner -addressee -addressee-duty -destination -blemishes)
-            (spatials items)
-            (attrs stack-label))
-          (physical root-npc-knowledge-stack)
-          (physical for-sale-listing-stack)
-          (physical for-lease-listing-stack)
-          (physical title-deed-stack)
+      (child parlour-game
+        (children chess-set playing-cards))
+      (child collection
+        (child stack
+          (population
+            (cap 2048)
+            (spatials -gripped-by -grip -in-stack items)
+            (attrs -color -condition -name -writing -grip-force -owner -addressee -addressee-duty
+                   -destination -blemishes stack-label))
+          (children root-npc-knowledge-stack for-sale-listing-stack for-lease-listing-stack title-deed-stack)
           # The company registry's INCORPORATION stack: every org's
           # articles-of-incorporation doc is filed here (the companies house),
           # not at the org's own premises. An NPC learns the town's orgs by
           # browsing it (orient); the founding lane pushes each new AOC on.
-          (physical incorporation-stack)
+          (children incorporation-stack)
           # Per-premises INCOMING mail pile (ONE in each home's mail room,
           # one inside each hiding-spot cache): letters land here on
           # delivery and stay put - the pile IS the correspondence record.
           # Read-state is each reader's own {@self read <letter>}
           # act-memory, not a spatial move.
-          (physical mail-stack)
+          (children mail-stack)
           # Per-building OUTGOING mail pile (ONE per building, seeded at
           # world setup). A resident/officer posts a letter by depositing
           # it here (post_mail); the magic mail service drains every
           # outgoing pile each morning and teleports each letter to the
           # incoming mail-stack of the building at its written address.
-          (physical outgoing-mail-stack))
-        (physical row)
+          (children outgoing-mail-stack))
+        (children row)
         # A pile of N identical FUNGIBLE items (shop-shelf bread, a coin
         # heap, a larder's stock): ONE entity + ONE mental object standing
         # for the whole, storing the item KIND (content-kind) and a COUNT,
         # never per-item entities. increment/decrement change the count;
         # subsume folds a real item in; extract spawns one out. A
         # memory-compression device - its bounds are the pile SHAPE.
-        (physical pile
-          (pop (cap 4096)
+        (child pile
+          (population
+            (cap 4096)
             (spatials -grip -in-stack)
-            (attrs -color -condition -name -writing -grip-force -owner -addressee -addressee-duty -destination -blemishes)
-            (attrs content-kind count))))
-      (physical sporting-gear
-        (physical ball
-          (physical football))
-        (physical cricket-bat (facets bludgeon)))
+            (attrs -color -condition -name -writing -grip-force -owner -addressee -addressee-duty
+                   -destination -blemishes content-kind count))))
+      (child sporting-gear
+        (child ball
+          (children football))
+        (child cricket-bat (facets bludgeon)))
       # Documents are props - loose, carriable items. As prop subkinds they
       # inherit the prop archetype (writing + obb + in-stack attrs), so
       # mx_make_entity can create them; the org / property documents the
       # historical sim builds depend on that.
-      (physical document
-        (physical diploma)
-        (physical letter
-          (physical adverts-letter)
+      (child document
+        (decorations (states declares-org))
+        (children diploma)
+        (child letter
+          (children adverts-letter)
           # The occasion lane's invitation: its writing names the occasion, and
           # holding one is how a guest knows an occasion exists at all.
-          (physical invitation-letter)
+          (children invitation-letter)
           # Perpetrator's own admission; writing embeds their
           # band-5 self-beliefs. Discovery internalizes the
           # crime fact via the standard read path.
-          (physical confession-letter)
+          (children confession-letter)
           # Kidnap-arc artifact; writing embeds
           # {family goal {family pay perp ?amount}} and a per-mind
           # "expects-to-see-victim" belief shape (missingness is
           # what other minds believe about an NPC, not a physical
           # fact about the body, so it lives in beliefs rather
           # than as a condition).
-          (physical ransom-note)
+          (children ransom-note)
           # Structurally a letter but claimed_author env attr differs
           # from the real author; plant-evidence events place these.
-          (physical forged-letter)
+          (children forged-letter)
           # Multi-generational revenge channel: a dying ancestor
           # writes one embedding {@self enemy ?perp_line} beliefs.
           # Descendants reading it internalize the grievance
           # (boundary liveness gate prevents fresh-internalization
           # of dead ancestors otherwise).
-          (physical family-history-letter)
+          (children family-history-letter)
           # Affair correspondence (see Docs/hsim/hsim_social.md).
           # A love-letter's writing carries the affair fact itself
           # ({author lover recipient}) - reading one IS discovering
           # the affair. A tryst-note's writing carries a concrete
           # meeting ({author meet recipient /at venue}) - the
           # rendezvous channel.
-          (physical love-letter)
-          (physical tryst-note)
+          (children love-letter tryst-note)
           # The repeat-demand coercion pass's physical demand note
           # ({blackmailer coerce victim /aux <demand>}), routed down
           # the covert letter channel. Its own kind so the per-kind
           # cache caps don't share a budget with conspiracy letters.
-          (physical blackmail-note)
+          (children blackmail-note)
           # A victim's report to the police station: sentence 1 the
           # crime that befell them (the grievance act), sentence 2 -
           # when the wrongdoer is known - {victim suspect culprit}.
           # Nobody staffs the station, so reports accumulate unread:
           # the PLAYER's case feed.
-          (physical crime-report-letter)
+          (children crime-report-letter)
           # An exposure sent OPENLY to someone a secret wounds (not the
           # covert channel): the writing carries the exposed fact - e.g. a
           # spurned paramour naming an affair to the wronged spouse
           # ({cheater lover author}). Delivered to the target's home mail
           # pile, read in the morning post, and left there as evidence.
-          (physical denunciation-letter)
+          (children denunciation-letter)
           # A courtship declaration (billet-doux): the writing carries the
           # author's own regard ({author fancy recipient}). A suitor and a
           # SPECIFIC beloved rarely share a room, so the confession that
           # grounds reciprocal courtship travels by post - the beloved reads
           # it in the morning mail and comes to know she is fancied.
-          (physical courtship-letter)
+          (children courtship-letter)
           # The labour-market verdict letters (recruit_actions.mc). A TYPED signal:
           # the seeker has one apply-for task in flight, so the letter's KIND alone
           # tells him the verdict - offer-letter -> take the post (apply-for succ),
           # rejection-letter -> apply-for fail. Delivered to his home mail pile, read
           # (held) in the morning post.
-          (physical offer-letter)
-          (physical rejection-letter))
-        (physical pamphlet)
-        (physical book)
-        (physical newspaper)
-        (physical application
-          (physical job-application))
-        (physical articles-of-incorporation)
+          (children offer-letter rejection-letter))
+        (children pamphlet book newspaper)
+        (child application
+          (children job-application))
+        (children articles-of-incorporation)
         # employee-register - the firm's wage book: ONE LINE PER POST, carrying the
         # seat's own reference and kind, who holds it and since when, any promise
         # outstanding against it and to whom and since when, and whether a notice for
         # it stands. Every recruiting fact lives here rather than in an officer's
         # memory, so the book outlives the man keeping it and a second officer reads
         # the same picture.
-        (physical employee-register)
+        (children employee-register)
         # membership-roll - a club's members. A club has MEMBERS, not posts: nothing
         # stands vacant, nothing is advertised, nobody holds a rank. Its own kind
         # because sharing the register's was what let three row shapes live under one
         # schema.
-        (physical membership-roll)
+        (children membership-roll)
         # job-posting - the notice a recruiting officer pins to the parish board: a
         # table of job-kind / org-name / apply-at (the address to present oneself at),
         # the application form's twin. Read, it yields the reader's own beliefs about a
         # vacancy at a named org - never the org's private bookkeeping.
-        (physical job-posting)
+        (children job-posting)
         # A hotel's guest book: the
         # front desk's record of who stayed when - the paper residue a
         # shared-hotel rendezvous leaves for the detective.
-        (physical hotel-register)
-        (physical title-deed)
+        (children hotel-register title-deed)
         # Purchase trail (weapon_acquire purchase mode). receipt
         # spawns at the buyer's home; sales-record spawns at the
         # selling shop. Both serve as physical evidence a detective
@@ -446,30 +414,27 @@
         # `{shopkeeper sell <item> /aux <buyer>}` belief; that
         # memory is the richest queryable signal until writings
         # patterns on these documents are wired.
-        (physical receipt)
-        (physical sales-record)
-        (physical root-npc-knowledge-doc)
-        (physical for-sale-listing)
+        (children receipt sales-record root-npc-knowledge-doc for-sale-listing)
         # The singleton for-sale REGISTER: one compressed table-doc (writing = a
         # list_form table of the available premises, one [building] row each) the
         # house-agency holds. Premises-seekers scan it (table-match) for a match, mint
         # {?b availability for-sale}, then reason via beliefs.
-        (physical for-sale-listings)
-        (physical for-lease-listing)
-        (physical lease-agreement)
+        (children for-sale-listings for-lease-listing lease-agreement)
         # Testamentary document; writing encodes the testator's
         # goal beliefs about disinheritance / inheritance / expose.
         # Ruled model: writings encode the heirs' bequest prospects
         # (future-tense `inherit` per object, states.mon) once engine
         # future-interval support lands; the death-trigger estate
         # settlement then realises them per thing.
-        (physical will)))
-    (physical fluid
-      (pop (cap 256) (occupies-env-grid) (non-occluder)
-        (spatials gripped-by)
-        (attrs variant fluid-amount taint)
-        (spatials bounds))
-      (physical beer)
+        (children will)))
+    (child fluid
+      (population
+        (cap 256)
+        (occupies-env-grid)
+        (non-occluder)
+        (spatials gripped-by bounds)
+        (attrs variant fluid-amount taint))
+      (children beer)
       # Drink fluids - what sits in a table-service vessel. A poisoning
       # TAINTS the victim's drink: the chosen drink fluid's `taint` attr
       # (attrs.mon) names the concentrated poison kind it was laced with
@@ -477,9 +442,7 @@
       # from the perpetrator's `add_substance` act-record belief). The
       # occasion picks the drink: supper / luncheon -> wine, tea ->
       # tea, breakfast -> water.
-      (physical wine)
-      (physical tea)
-      (physical water)
+      (children wine tea water)
       # Concentrated poison substances - the contents of a poison bottle,
       # the trade good behind the perpetration row's (control_any toxin)
       # gate. (`toxin`, not `poison`: `poison` is already the leaf kill
@@ -494,7 +457,7 @@
       # crystals (oxalic acid) dissolved into food / drink - the dose
       # mechanics are identical. Availability per venue lives in
       # weapon_seed.cc, not the ontology.
-      (physical toxin (price 8)
+      (child toxin (price 8)
         # Medicinal extracts / draughts - apothecary & hospital
         # dispensary (purchase / authorized). The line between medicine
         # and poison was the dose. laudanum=opium tincture,
@@ -505,85 +468,79 @@
         # chloride disinfectant.
         # conspicuous: every toxin sale goes in the poison register -
         # the canonical paper trail a careful poisoner avoids.
-        (physical laudanum (facets conspicuous))
-        (physical opium (facets conspicuous))
-        (physical digitalis-tincture (facets conspicuous))
-        (physical prussic-acid (facets conspicuous))
-        (physical chloral-draught (facets conspicuous))
-        (physical antimony (facets conspicuous))
-        (physical aconite (facets conspicuous))
-        (physical belladonna (facets conspicuous))
-        (physical chloroform (facets conspicuous))
-        (physical corrosive-sublimate (facets conspicuous))
+        (child laudanum (facets conspicuous))
+        (child opium (facets conspicuous))
+        (child digitalis-tincture (facets conspicuous))
+        (child prussic-acid (facets conspicuous))
+        (child chloral-draught (facets conspicuous))
+        (child antimony (facets conspicuous))
+        (child aconite (facets conspicuous))
+        (child belladonna (facets conspicuous))
+        (child chloroform (facets conspicuous))
+        (child corrosive-sublimate (facets conspicuous))
         # Vermin killers / household chemicals - general shop, grocer,
         # agricultural supplier (purchase, no profession gate). The
         # classic over-the-counter poisons. white-arsenic=arsenic trioxide
         # (tasteless rat poison), strychnine=convulsant vermin killer,
         # oxalic-acid=rust / stain remover mistaken for sugar.
-        (physical white-arsenic (facets conspicuous))
-        (physical strychnine (facets conspicuous))
-        (physical oxalic-acid (facets conspicuous)))
+        (child white-arsenic (facets conspicuous))
+        (child strychnine (facets conspicuous))
+        (child oxalic-acid (facets conspicuous)))
       # Combustible accelerants. The (facets burn_fuel) flag is what
       # perpetration's immolate / arson methods key on, not the
       # parent kind.
-      (physical whiskey (facets burn_fuel))
-      (physical lamp-oil (facets burn_fuel))
-      (physical kerosene (facets burn_fuel))
-      (physical turpentine (facets burn_fuel)))
+      (child whiskey (facets burn_fuel))
+      (child lamp-oil (facets burn_fuel))
+      (child kerosene (facets burn_fuel))
+      (child turpentine (facets burn_fuel)))
     # Food taxonomy for trap-set / trap-fire arcs. Parallel to fluid;
     # poisoning a food vessel uses the same `add_substance` task as
     # fluids. Sub-kinds are starter content; extend as authored arcs
     # demand more variants.
-    (physical food
-      (pop (cap 8192) (occupies-env-grid) (non-occluder)
-        (spatials gripped-by space)
-        (attrs variant)
-        (spatials bounds))
-      (physical bread)
-      (physical cheese)
-      (physical soup)
-      (physical meal (price 5)
-        (physical breakfast)
-        (physical lunch)
-        (physical luncheon)
-        (physical dinner)
-        (physical tea)
-        (physical supper)))
+    (child food
+      (population
+        (cap 8192)
+        (occupies-env-grid)
+        (non-occluder)
+        (spatials gripped-by space bounds)
+        (attrs variant))
+      (children bread cheese soup)
+      (child meal (price 5)
+        (children breakfast lunch luncheon dinner tea supper)))
     # Man-made structures
     # ANCHORS. A place is matched by its ADDRESS: the room a notice sends a man to and the
     # room he walks into are one when the address agrees. Grounding is still the WALKING
     # IN - an address off a page tells you where a place is, not which place you are in.
-    (physical structure (anchors address)
-      (pop (cap 256) (always-visible) (children-occupy-env-grid)
-        (attrs variant birth-date)
+    (child structure (grounding-anchors address)
+      (decorations (states breakfast-hour lunch-hour supper-hour))
+      (population
+        (cap 256)
+        (always-visible)
+        (children-occupy-env-grid)
+        (attrs variant birth-date era-min era-max address nav-mesh blocks-nav-terrain)
         (attr name (auto-percept) (ext-per obs))
-        (spatials bounds)
-        (attrs era-min era-max address nav-mesh blocks-nav-terrain))
-      (physical path
-        (physical road
-          (pop (cap 128) (-children-occupy-env-grid) (non-occluder)
-            (spatials -bounds)
-            (attrs -birth-date -name -era-min -era-max -blocks-nav-terrain)
-            (spatials spline)
-            (attrs address-even-side address-start address-step address-ascends-forward)))
-        (physical trail))
-      (physical sporting-grounds
-        (physical racing-grounds)
-        (physical cricket-grounds))
-      (physical container-structure
-        (pop (cap 2048) (attrs isolated has-crypt locked-wing struct-status))
-        (physical wagon)
-        (physical train-car)
-        (physical ship)
-        (physical building
-          (physical residential-building
-            (physical manor)
-            (physical townhouse)
-            (physical rowhouse)
-            (physical farmhouse)
-            (physical chapel))
-          (physical commercial-building
-            (physical office)
+        (spatials bounds))
+      (child path
+        (child road
+          (population
+            (cap 128)
+            (-children-occupy-env-grid)
+            (non-occluder)
+            (spatials -bounds spline)
+            (attrs -birth-date -name -era-min -era-max -blocks-nav-terrain address-even-side address-start address-step
+                   address-ascends-forward)))
+        (children trail))
+      (child sporting-grounds
+        (children racing-grounds cricket-grounds))
+      (child container-structure
+        (population (cap 2048) (attrs isolated has-crypt locked-wing struct-status))
+        (children wagon train-car ship)
+        (child building
+          (decorations (states availability occupant tenant))
+          (child residential-building
+            (children manor townhouse rowhouse farmhouse chapel))
+          (child commercial-building
+            (children office)
             # (facets public_space) flag on open-to-public
             # leaves: any actor is welcome_at without a personal
             # invitation. Authored per-leaf so private
@@ -592,137 +549,130 @@
             # shop) do NOT inherit. bank carries the flag for
             # the lobby; a future refinement can split bank into
             # bank_lobby / bank_vault.
-            (physical bank (facets public_space))
-            (physical newspaper (facets public_space))
-            (physical shop (facets public_space))
-            (physical barbershop (facets public_space))
-            (physical restaurant (facets public_space) (markup 3))
-            (physical pub (facets public_space) (markup 2))
-            (physical factory
-              (physical warehouse))
-            (physical hotel)
-            (physical school)
-            (physical hospital (facets public_space))
-            (physical police-station)
-            (physical church (facets public_space))
-            (physical theatre (facets public_space))
+            (child bank (facets public_space))
+            (child newspaper (facets public_space))
+            (child shop (facets public_space))
+            (child barbershop (facets public_space))
+            (child restaurant (facets public_space) (markup 3))
+            (child pub (facets public_space) (markup 2))
+            (child factory
+              (children warehouse))
+            (children hotel school)
+            (child hospital (facets public_space))
+            (children police-station)
+            (child church (facets public_space))
+            (child theatre (facets public_space))
             # Public civic / cultural venues - founded + minimally
             # staffed at sim start by the govt-bootstrap pass
             # (public_orgs.hsc), and the venues the interest activity
             # lane sends enthusiasts to (activity-lanes L5). All
             # open-to-public, so they carry the public_space facet.
-            (physical library (facets public_space))
-            (physical museum (facets public_space))
-            (physical meeting-hall (facets public_space))
-            (physical sports-ground (facets public_space))
+            (child library (facets public_space))
+            (child museum (facets public_space))
+            (child meeting-hall (facets public_space))
+            (child sports-ground (facets public_space))
             # Private members' club premises (activity-lanes L8). NOT
             # public_space - a club is members-only, so a non-member is
             # not welcome_at without invitation. The club lane convenes
             # the member-register here (clubhouse co-presence). Split by
             # club type: athletic (sporting) vs social (gentlemen's).
-            (physical clubhouse
-              (physical athletic-clubhouse)
-              (physical social-clubhouse)))))
-      (physical pier)
-      (physical bridge
-        (physical suspension-bridge)))
-    (physical part
-      (pop (cap 2048)
+            (child clubhouse
+              (children athletic-clubhouse social-clubhouse)))))
+      (children pier)
+      (child bridge
+        (children suspension-bridge)))
+    (child part
+      (population
+        (cap 2048)
         (attrs variant birth-date)
         (attr name (auto-percept) (ext-per obs))
         (spatials bounds))
-      (physical body-part
+      (child body-part
         # A (motor) kind is a motor an act occupies; the set is these kinds in declaration
         # order, so this order IS the motor index. legs is the base layer, and mind - the
         # motor that drives no bone - must be declared last (init_motor_set checks it).
-        (physical legs (motor))
-        (physical head (motor)
-          (pop (cap 4096) (non-occluder) (attrs -variant -birth-date -name) (attrs blemishes)))
-        (physical hand
-          (physical right-hand (motor) (side right)
-            (pop (cap 4352) (non-occluder)
-              (attrs -variant -birth-date -name)
+        (child legs (motor))
+        (child head (motor)
+          (population (cap 4096) (non-occluder) (attrs -variant -birth-date -name blemishes)))
+        (child hand
+          (child right-hand (motor) (side right)
+            (population
+              (cap 4352)
+              (non-occluder)
+              (attrs -variant -birth-date -name wear blemishes)
               (spatials grip)
-              (structs right-ring-finger)
-              (attrs wear blemishes)))
-          (physical left-hand (motor) (side left)
-            (pop (cap 4352) (non-occluder)
-              (attrs -variant -birth-date -name)
+              (structs right-ring-finger)))
+          (child left-hand (motor) (side left)
+            (population
+              (cap 4352)
+              (non-occluder)
+              (attrs -variant -birth-date -name wear blemishes)
               (spatials grip)
-              (structs left-ring-finger)
-              (attrs wear blemishes))))
-        (physical mouth (motor)
-          (pop (cap 4096) (non-occluder) (attrs -variant -birth-date -name) (attrs blemishes)))
-        (physical eyes (motor))
-        (physical eyelid (motor))
-        (physical body (motor))
-        (physical face (motor))
-        (physical right-arm (motor) (side right))
-        (physical left-arm (motor) (side left))
-        (physical finger
-          (pop (cap 8704) (non-occluder)
-            (attrs -variant -birth-date -name)
-            (spatials grip)
-            (attrs wear blemishes))
-          (physical ring-finger
-            (physical left-ring-finger (side left))
-            (physical right-ring-finger (side right))))
-        (physical eye
-          (pop (cap 8704) (non-occluder) (attrs -variant -birth-date -name) (attrs blemishes))
-          (physical left-eye (side left))
-          (physical right-eye (side right)))
+              (structs left-ring-finger))))
+        (child mouth (motor)
+          (population (cap 4096) (non-occluder) (attrs -variant -birth-date -name blemishes)))
+        (child eyes (motor))
+        (child eyelid (motor))
+        (child body (motor))
+        (child face (motor))
+        (child right-arm (motor) (side right))
+        (child left-arm (motor) (side left))
+        (child finger
+          (population
+            (cap 8704)
+            (non-occluder)
+            (attrs -variant -birth-date -name wear blemishes)
+            (spatials grip))
+          (child ring-finger
+            (child left-ring-finger (side left))
+            (child right-ring-finger (side right))))
+        (child eye
+          (population (cap 8704) (non-occluder) (attrs -variant -birth-date -name blemishes))
+          (child left-eye (side left))
+          (child right-eye (side right)))
         # Central body. Default wound-site when a method-row's
         # :wound-site slot is omitted; carries generic torso
         # wounds (stab, gunshot, beating). Additional body-parts
         # (neck, arm, leg, lungs) land alongside the method rows
         # that need them.
-        (physical torso
-          (pop (cap 4096) (non-occluder) (attrs -variant -birth-date -name) (attrs blemishes)))
-        (physical mind (motor)))
-      (physical structure-part
-        (pop (cap 4096) (always-visible) (occupies-env-grid) (children-occupy-env-grid)
-          (attrs address is-nav-passage)
+        (child torso
+          (population (cap 4096) (non-occluder) (attrs -variant -birth-date -name blemishes)))
+        (child mind (motor)))
+      (child structure-part
+        (population
+          (cap 4096)
+          (always-visible)
+          (occupies-env-grid)
+          (children-occupy-env-grid)
+          (attrs address is-nav-passage blemishes)
           (attr opening-status (auto-percept) (ext-per obs))
           (attr lock-status (auto-percept) (ext-per obs))
-          (attr integrity (auto-percept) (ext-per obs))
-          (attrs blemishes))
-        (physical counter
-          (physical bar-counter))
-        (physical wall)
+          (attr integrity (auto-percept) (ext-per obs)))
+        (child counter
+          (children bar-counter))
+        (children wall)
         # Signage mounted on a premise - the physical carriers of the building's
         # identity, perceived as fixtures of the building. A building's identity is
         # its name if it has one, else its address: a building-name-sign shows the
         # `name`, an address-sign the `address`. Only named buildings get a name
         # sign; only addressed buildings get an address sign. Never an org's name -
         # many orgs may share one building, and an org has no sign of its own.
-        (physical sign
-          (physical building-name-sign)
-          (physical address-sign))
-        (physical opening (+ nav_passage)
-          (physical window)
-          (physical door))))
-    (physical gm
-      (pop (cap 1) (imperceptible)))
-    (physical instance
-      (pop (cap 1) (occupies-env-grid) (attrs prototype) (spatials bounds))))
+        (child sign
+          (children building-name-sign address-sign))
+        (child opening (+ nav_passage)
+          (children window door))))
+    (child gm
+      (population (cap 1) (imperceptible)))
+    (child instance
+      (population (cap 1) (occupies-env-grid) (attrs prototype) (spatials bounds))))
   # Kinds of smells
-  (physical smell (+ per smell)
-    (pop (cap 512) (per smell) (non-occluder) (attrs create-action) (spatials bounds))
-    (physical cheese)
-    (physical fart))
+  (child smell (+ per smell)
+    (population (cap 512) (per smell) (non-occluder) (attrs create-action) (spatials bounds))
+    (children cheese fart))
   # Kinds of sounds
-  (physical sound (+ per hear)
-    (pop (cap 512) (per hear) (non-occluder)
-      (attrs create-action speaker preroll)
-      (spatials bounds))
-    (physical squeak)
-    (physical speech)
-    (physical shout)
-    (physical song)
-    (physical scream)
-    (physical laugh)
-    (physical crash)
-    (physical boom))
+  (child sound (+ per hear)
+    (population (cap 512) (per hear) (non-occluder) (attrs create-action speaker preroll) (spatials bounds))
+    (children squeak speech shout song scream laugh crash boom))
   # Kinds of spaces
   #
   # EVERY space is a space, at every scale. A room, a park, a town and a country are the
@@ -734,33 +684,29 @@
   # ANCHORS. A space is matched by its ADDRESS, exactly as a structure is - the back-office a
   # notice names and the back-office a man walks into are one place when the address agrees.
   # A town carries no address, so it inherits the decl and never uses it.
-  (physical space (+ per obs) (anchors address)
-    (physical interior-space
-      (pop (cap 4096) (always-visible) (non-occluder) (sector-coverage)
-        (attrs variant birth-date)
+  (child space (+ per obs) (grounding-anchors address)
+    (decorations (states occupant tenant))
+    (child interior-space
+      (population
+        (cap 4096)
+        (always-visible)
+        (non-occluder)
+        (sector-coverage)
+        (attrs variant birth-date owner is-nav-passage address)
         (attr name (auto-percept) (ext-per obs))
-        (attrs owner)
-        (spatials bounds)
-        (attrs is-nav-passage address))
-      (physical bar-back)
-      (physical entrance (facets entrance)
-        (physical main-entrance (facets entrance)))
-      (physical doorway)
-      (physical room
-        (physical kitchen)
-        (physical dining-room)
-        (physical restaurant-dining-room)
-        (physical hallway)
-        (physical living-room)
-        (physical bedroom)
+        (spatials bounds))
+      (children bar-back)
+      (child entrance (facets entrance)
+        (child main-entrance (facets entrance)))
+      (children doorway)
+      (child room
+        (children kitchen dining-room restaurant-dining-room hallway living-room bedroom)
         # Rooms the crime arcs need.
         # study: private workroom; canonical Victorian crime-scene
         # room (where a gentleman drinks port and reads in the
         # evening). drawing-room: formal sitting room for receiving
         # callers. back-office: commercial-building private workspace.
-        (physical study)
-        (physical drawing-room)
-        (physical back-office))
+        (children study drawing-room back-office))
       # Concealment caches - the places a household member hides letters and small valuables.
       # One hiding-spot entity per cache, spawned at the owner's home.
       # The CACHE SPACE carries the engine hidden bit - never the items:
@@ -770,53 +716,47 @@
       # sub-spaces, so the contents stay unseen until a deliberate search
       # observes the cache directly. The leaf kind encodes the
       # concealment quality (a secret-chamber outlasts a jewelry-box-lining).
-      (physical hiding-spot
-        (physical floorboard-cache)
-        (physical book-cache)
-        (physical jewelry-box-lining)
-        (physical painting-cache)
-        (physical secret-chamber))
-      (physical stage)
-      (physical auditorium))
-    (physical exterior-space
-      (pop (cap 4096) (always-visible) (non-occluder) (sector-coverage)
-        (attrs variant birth-date)
+      (child hiding-spot
+        (children floorboard-cache book-cache jewelry-box-lining painting-cache secret-chamber))
+      (children stage auditorium))
+    (child exterior-space
+      (population
+        (cap 4096)
+        (always-visible)
+        (non-occluder)
+        (sector-coverage)
+        (attrs variant birth-date is-nav-passage address)
         (attr name (auto-percept) (ext-per obs))
-        (spatials bounds)
-        (attrs is-nav-passage address))
+        (spatials bounds))
       # The world's own top rung, and the one that carries weather. A park's parent is
       # its town and a town's parent is its country: structures sit inside the space
       # that holds them, and spaces inside the wider space that holds THEM, all the
       # way up. Towns keep no sector coverage - see things.mon (town).
-      (physical town
-        (pop (cap 16) (-sector-coverage) (no-sector-coverage)
-          (attrs -variant -birth-date -is-nav-passage -address)
-          (attrs rain snow fog wind sky mood-kinds mood-intensities mood-set-dates)))
-      (physical land
-        (physical territory
-          (physical crown-dependency)
-          (physical nation
-            (physical country)))
-        (physical area
-          (physical neighborhood)))
+      (child town
+        (population
+          (cap 16)
+          (-sector-coverage)
+          (no-sector-coverage)
+          (attrs -variant -birth-date -is-nav-passage -address rain snow fog wind
+                 sky mood-kinds mood-intensities mood-set-dates)))
+      (child land
+        (child territory
+          (children crown-dependency)
+          (child nation
+            (children country)))
+        (child area
+          (children neighborhood)))
       # Occupiable exterior spaces with OBBs (Section 4.12). Each is a `space`
       # entity (so it reuses the OBB co-presence machinery) and may carry
       # name / address (-> road) / address-number. (street_space deleted: the
       # address lives ON the premise now - a building / exterior-space carries
       # its own address -> road + address-number, no frontage-box indirection.)
       # Amenity grounds for larger homes + public open space.
-      (physical garden)
-      (physical field)
-      (physical park)
+      (children garden field park)
       # Remote named wilds (usually name-only, no road/number).
-      (physical meadow)
-      (physical forest)
-      (physical moor)
-      (physical bluff)
-      (physical cliff)))
+      (children meadow forest moor bluff cliff)))
   # env-point: nav waypoints / spawnpoints (the things.mon (env-point) archetype). Dormant in
   # hsim - GrymEngine runtime nav/spawn instantiates these.
-  (physical env-point (+ per obs)
-    (pop (cap 256) (per obs) (always-visible) (non-occluder) (sector-coverage) (spatials bounds))
-    (physical waypoint)
-    (physical spawnpoint)))
+  (child env-point (+ per obs)
+    (population (cap 256) (per obs) (always-visible) (non-occluder) (sector-coverage) (spatials bounds))
+    (children waypoint spawnpoint)))
