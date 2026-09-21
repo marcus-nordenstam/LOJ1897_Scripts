@@ -19,6 +19,7 @@
 (include "../../macros/collection-macros.mc")
 
 (npc-action {@self EAT ?food ?owner}
+  (motor body legs)
   (duration (seconds 30 min))
   (effects
     (if ?food

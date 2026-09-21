@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self QUIT-WORK}
+  (motor body legs)
   (duration (seconds 60 min))
   (effects
     (fire-self)

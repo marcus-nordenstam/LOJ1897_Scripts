@@ -28,6 +28,7 @@
 ; empty and its stage waits for ever. Proposing a second one while another is live is
 ; an authoring error and says so out loud.
 (npc-action {@self CREATE-ENTITY ?kind}:?ce-rel
+  (motor body legs)
   (one-at-a-time)
   (duration (seconds 5 min))
   (effects

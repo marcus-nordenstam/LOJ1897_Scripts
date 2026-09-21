@@ -14,6 +14,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self PARTNER ?art}
+  (motor body legs)
   (duration (seconds 90 min))
   (effects
     (fire-self)

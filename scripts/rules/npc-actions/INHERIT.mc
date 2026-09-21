@@ -14,6 +14,7 @@
 (include "../../macros/collection-macros.mc")
 
 (npc-action {@self INHERIT ?dead ?pile}
+  (motor body legs)
   (duration (seconds 240 min))
   (effects
     ; Buildings: every deed the deceased owned passes to @self.

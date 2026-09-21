@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self BREAK-WINDOW ?win}:?bw-rel
+  (motor body legs)
   (track-skill-level [k illicit])
   (tar object) (duration (seconds 1 min))
   (effects

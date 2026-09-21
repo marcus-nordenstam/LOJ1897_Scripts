@@ -17,6 +17,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self BURY ?corpse}
+  (motor body legs)
   (duration (seconds 60 min))
   (effects
     ; The burier READS the body before it goes in the ground: any blemish of the

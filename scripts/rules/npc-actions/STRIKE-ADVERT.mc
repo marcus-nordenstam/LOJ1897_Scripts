@@ -4,6 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self STRIKE-ADVERT ?reg ?job-id}:?sa-rel
+  (motor body legs)
   (track-skill-level [k personnel])
   (tar document)
   (duration (seconds 5 min))

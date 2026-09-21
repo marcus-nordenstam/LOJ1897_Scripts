@@ -26,6 +26,7 @@
 (include "../../macros/combat-macros.mc")
 
 (npc-action {@self STRIKE ?foe ?method}
+  (motor body legs)
   (track-skill-level [k martial])
   (obs) (theme violent-to) (construed-act harm-act) (contradicts safety) (duration (seconds 1 min))
   (effects

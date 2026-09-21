@@ -7,6 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self RECORD-SALE ?dwell}
+  (motor body legs)
   (track-skill-level [k accountancy])
   (duration (seconds 60 min))
   (effects

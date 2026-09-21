@@ -6,7 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self STACK-PUT ?doc ?stack}:?put-rel
-  (motor body)
+  (motor body legs)
   (obs)
   (tar @excl)
   (presentation

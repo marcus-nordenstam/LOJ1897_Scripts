@@ -8,6 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self HIRE ?worker ?job-id}:?hire-rel
+  (motor body legs)
   (track-skill-level [k personnel])
   (tar human)
   (duration (seconds 15 min))

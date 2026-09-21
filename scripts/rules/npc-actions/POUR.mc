@@ -11,7 +11,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self POUR ?source ?vessel}:?pour
-  (motor right-hand)
+  (motor right-hand legs)
   (obs)
   (tar @excl)
   (duration 0.8)

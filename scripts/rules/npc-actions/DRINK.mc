@@ -6,6 +6,7 @@
 ; its pressure.
 
 (npc-action {@self DRINK}
+  (motor body legs)
   (duration (seconds 90 min))
   (effects
     ; Intoxication accumulates as a lifetime-drinking proxy (v1 - no decay); the

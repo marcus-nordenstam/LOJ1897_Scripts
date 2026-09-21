@@ -17,6 +17,7 @@
 ; (compete reads the summons and passes them); the body reads only its own
 ; physiology - the physics of the run - and writes the records.
 (npc-action {@self RACE-RUN ?sport ?judge}
+  (motor body legs)
   (track-skill-level [k athletics])
   (duration (seconds 30 min))
   (effects

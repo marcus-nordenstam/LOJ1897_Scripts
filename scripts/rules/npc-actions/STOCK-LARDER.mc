@@ -20,6 +20,7 @@
 ; ?cell is the kitchen floor cell the proposing rung holds for a new pile; the rung gives
 ; it back when it ceases, once the larder reads stocked.
 (npc-action {@self STOCK-LARDER ?kitchen ?cell}
+  (motor body legs)
   (duration (seconds 5 min))
   (effects
     (check (spatial @self space ?kitchen /env))

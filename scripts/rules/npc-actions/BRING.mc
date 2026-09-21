@@ -11,6 +11,7 @@
 (include "../../macros/collection-macros.mc")
 
 (npc-action {@self BRING ?ware ?cell}
+  (motor body legs)
   (duration (seconds 5 min))
   (effects
     ; Put down each carried item of the ware kind. A carried PILE (the

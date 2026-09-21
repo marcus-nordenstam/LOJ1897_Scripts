@@ -6,6 +6,7 @@
 (include "../../definitions/roles.mc")
 
 (npc-action {@self STACK-BURY ?doc ?stack}:?bury-rel
+  (motor body legs)
   (duration (seconds 1 min))
   (effects
     ; The twin of STACK-TAKE's: a man files a paper in the pile he is standing at.

@@ -12,6 +12,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self DESTROY-ENTITY ?thing}
+  (motor body legs)
   (duration (seconds 1 min))
   (effects
     (realize-destroyed ?thing condition [k condition consumed] DESTROY-ENTITY)

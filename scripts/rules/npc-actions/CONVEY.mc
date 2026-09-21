@@ -19,6 +19,7 @@
 ; whatever building the bearer stood in. The act-label lives in the cached
 ; self-role gate, so the promotion scan rejects O(1) before any mind-entry.
 (npc-action {@self CONVEY ?corpse}
+  (motor body legs)
   (duration (seconds 15 min))
   (effects
     ; PLACEMENT (not travel): deposit the carried body into a room of this church.

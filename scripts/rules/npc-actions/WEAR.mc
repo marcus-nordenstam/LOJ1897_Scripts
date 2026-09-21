@@ -13,7 +13,7 @@
 (include "../../definitions/roles.mc")
 
 (npc-action {@self WEAR ?article ?part}:?wear
-  (motor right-hand)
+  (motor right-hand legs)
   (obs)
   (tar @excl)
   (duration 0.6)

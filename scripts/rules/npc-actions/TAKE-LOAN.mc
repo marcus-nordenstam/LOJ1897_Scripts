@@ -18,6 +18,7 @@
 ; The 45-min call, promoted from the TAKE-LOAN aim at the lender's home; matched by its
 ; (when) on the promoted {@self TAKE-LOAN} belief. Records the debt, ends act + aim.
 (npc-action {@self TAKE-LOAN ?lender}
+  (motor body legs)
   (duration (seconds 45 min))
   (effects
     (begin-belief {@self owe ?lender})

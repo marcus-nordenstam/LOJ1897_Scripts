@@ -10,6 +10,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self RECORD-OFFER ?applicant-name ?job-id}:?ro-rel
+  (motor body legs)
   (track-skill-level [k personnel])
   (tar ?)
   (aux ?)

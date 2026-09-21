@@ -16,7 +16,7 @@
 
 (npc-action {@self PUT ?item ?cell}:?put
   (lod unpresented)
-  (motor body)
+  (motor body legs)
   (obs)
   (tar @excl)
   (duration (seconds 1 min))

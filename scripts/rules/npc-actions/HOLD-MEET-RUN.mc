@@ -18,6 +18,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self HOLD-MEET-RUN ?art}
+  (motor body legs)
   (track-skill-level [k officiating])
   (duration (seconds 30 min))
   (effects

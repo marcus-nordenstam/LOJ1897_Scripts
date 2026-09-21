@@ -7,6 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self RECORD-ADVERT ?reg ?job-id}:?ra-rel
+  (motor body legs)
   (track-skill-level [k personnel])
   (tar document)
   (duration (seconds 5 min))

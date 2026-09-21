@@ -13,12 +13,14 @@
     (set-outcome ?offer-action /succ)))
 
 (npc-action {@self OFFER-LEFT ?thing ?recipient}:?offer-action-rel
+  (motor body legs)
   (tar object) (aux human) (duration 0)
   (effects
     (spatial ?recipient left-hand /env): ?recipient-hand
     (offer-effects ?recipient-hand ?thing ?recipient ?offer-action-rel)))
 
 (npc-action {@self OFFER-RIGHT ?thing ?recipient}:?offer-action-rel
+  (motor body legs)
   (tar object) (aux human) (duration 0)
   (effects
     (spatial ?recipient right-hand /env): ?recipient-hand

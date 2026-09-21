@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self SACK ?worker}
+  (motor body legs)
   (duration (seconds 45 min))
   (effects
     (strike-from-register ?worker)

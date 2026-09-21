@@ -24,7 +24,7 @@
 
 (npc-action {@self WRITE ?doc ?sentence}
   (track-skill-level [k literacy])
-  (motor right-hand)
+  (motor right-hand legs)
   (obs)
   (tar @excl)
   (aux @msg @excl)

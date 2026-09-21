@@ -11,7 +11,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self OFFER ?thing}:?offer
-  (motor right-hand)
+  (motor right-hand legs)
   (obs)
   (tar @excl)
   (construed-act provision-act)

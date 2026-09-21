@@ -8,6 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self ENROL ?reg ?job}:?en-rel
+  (motor body legs)
   (duration (seconds 15 min))
   (effects
     ; The vacant line for this post is what @self fills; a job outside the establishment

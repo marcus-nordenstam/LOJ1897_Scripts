@@ -46,6 +46,7 @@
 ; completion (close_business.hs owns the goal's teardown). No cross-mind write: workers
 ; reconcile themselves via reconcile_closed when they find the premises shut.
 (npc-action {@self CLOSE-BUSINESS ?art ?wp}
+  (motor body legs)
   (duration (seconds 90 min))
   (effects
     ; the register rides his own org beliefs (org recalled off his articles ?art).

@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self LEAVE-ROLL ?roll}:?lr-rel
+  (motor body legs)
   (duration (seconds 15 min))
   (effects
     (check (spatial ?roll co-located @self))

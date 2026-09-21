@@ -8,6 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self FOUND}
+  (motor body legs)
   (duration (seconds 90 min))
   (effects
     ; Roll a kind from the authored catalog. found-org-seq's own premises guard

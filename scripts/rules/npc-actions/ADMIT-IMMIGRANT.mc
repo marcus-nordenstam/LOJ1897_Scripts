@@ -18,6 +18,7 @@
 (include "../../macros/tunables.mc")
 
 (npc-action {@self ADMIT-IMMIGRANT ?office}
+  (motor body legs)
   (duration (seconds (admission_minutes) min))
   (effects
     (env-entities [k building rowhouse]): ?homes

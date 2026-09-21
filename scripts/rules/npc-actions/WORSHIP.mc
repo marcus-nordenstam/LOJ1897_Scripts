@@ -16,6 +16,7 @@
 ; The service (case A): AT a church {@self WORSHIP} is the leaf and promotes here. The
 ; act-belief IS the service memory; ending it closes its interval to the ~90-min service.
 (npc-action {@self WORSHIP}
+  (motor body legs)
   ; Pure act: worship_at_church guards the (maintain-proposal) on being in a church, so the body only
   ; extracts its fields off the promoted belief (act_body_purification - precondition on the proposal).
   (duration (seconds 90 min))

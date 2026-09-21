@@ -9,6 +9,7 @@
 (include "../../definitions/roles.mc")
 
 (npc-action {@self SEED-COINS ?home}
+  (motor body legs)
   (duration 0)
   (effects
     (bind 0 ?made)

@@ -17,7 +17,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self READ ?doc}:?read-rel
-  (motor eyes)
+  (motor eyes legs)
   (obs)
   (tar @excl)
   (presentation

@@ -9,6 +9,7 @@
 (include "../../macros/collection-macros.mc")
 
 (npc-action {@self ACCRUE-SAVINGS ?pile ?net}
+  (motor body legs)
   (duration 0)
   (effects
     (pile-add ?pile ?net)

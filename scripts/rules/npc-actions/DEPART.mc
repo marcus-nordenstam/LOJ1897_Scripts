@@ -56,6 +56,7 @@
 ; the whole teardown (quit the posts, release the home, the departure itself)
 ; is the departed twin's (emigration_think.hs), off this act's /succ record.
 (npc-action {@self DEPART}
+  (motor body legs)
   (duration (seconds 480 min))                     ; ~a day spent packing up and settling affairs
   (effects
     (set-outcome {@self DEPART} /succ)))

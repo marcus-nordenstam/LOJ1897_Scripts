@@ -17,6 +17,7 @@
 (include "../../macros/adopt-aoc.mc")
 
 (npc-action {@self ORIENT}
+  (motor body legs)
   (duration (seconds 30 min))
   (effects
     ; READ the public register: per articles document, decode its TABLE into beliefs

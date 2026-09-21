@@ -5,6 +5,7 @@
 ; accrues the addiction disposition and ends its OWN act-belief, never the goal, like drink_action.
 
 (npc-action {@self PLAY-GAME}
+  (motor body legs)
   (track-skill-level [k gaming])
   (duration (seconds 90 min))
   (kind_fold)          

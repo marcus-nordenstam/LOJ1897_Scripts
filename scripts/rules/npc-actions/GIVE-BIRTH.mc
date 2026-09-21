@@ -31,7 +31,7 @@
 (include "../../funcs/age.mc")
 
 (npc-action {@self GIVE-BIRTH ?father}
-  (motor body)
+  (motor body legs)
   (presentation
     (preroll 0.0) (in 0.5) (out 0.5))
   (duration (seconds (birth_labour_minutes) min))

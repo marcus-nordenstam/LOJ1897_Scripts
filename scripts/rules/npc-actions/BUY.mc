@@ -10,6 +10,7 @@
 (include "../../macros/collection-macros.mc")
 
 (npc-action {@self BUY ?goods ?vendor}:?buy-act-rel
+  (motor body legs)
   (tar object) (aux human) (duration (seconds 1 min))
   (effects
     (check (spatial ?goods co-located @self))

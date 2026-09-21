@@ -14,7 +14,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self MAKE-DONE-STACK ?working-stack ?where}:?mds
-  (motor eyes)
+  (motor eyes legs)
   (obs)
   (tar @excl)
   (duration 0)

@@ -20,6 +20,7 @@
 (include "../../definitions/roles.mc")
 
 (npc-action {@self MAKE-CACHE ?building}
+  (motor body legs)
   (duration 0)
   (effects
     (bind 0 ?made)

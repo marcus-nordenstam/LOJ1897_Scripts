@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self FORCE-ENTRY ?door}:?fe-rel
+  (motor body legs)
   (track-skill-level [k illicit])
   (tar object) (duration (seconds 2 min))
   (effects

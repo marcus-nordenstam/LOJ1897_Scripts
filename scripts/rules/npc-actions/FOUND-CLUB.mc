@@ -8,6 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-action {@self FOUND-CLUB}
+  (motor body legs)
   (duration (seconds 90 min))
   (effects
     ; Clubs are not premises-gated; a dry pool just no-ops found-club-seq's own

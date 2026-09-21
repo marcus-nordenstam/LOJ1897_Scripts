@@ -33,6 +33,6 @@
 ; LARDER (the kitchen pile). The larder lives in the kitchen room, so it resolves the
 ; believed kitchen first (0 if the mind knows no kitchen).
 (define-func believed-home-food-count (?home)
-  (bind 0 ?kitchen)
-  (bind (spatial ?home room [k kitchen]) ?kitchen)
-  (if ?kitchen (then (believed-pile-count ?kitchen [k food])) (else 0)))
+  (if (spatial ?home room [k kitchen])
+      (then (believed-pile-count (spatial ?home room [k kitchen]) [k food]))
+      (else 0)))
