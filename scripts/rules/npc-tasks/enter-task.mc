@@ -81,18 +81,6 @@
                    (current-exterior @self): ?rg))
         (effects (maintain-proposal {@self find-building ?place ?rg}))))
 
-    ; KNOWN OF but never SEEN - no box he remembers, so nothing he could claim against.
-    ; The spot is COMPOSED from the venue's own bounds and he looks at the venue itself
-    ; on arrival, which is what grounds it and drops this rung in favour of the legs
-    ; below. Without this a man could only set out for somewhere he had already been,
-    ; or somewhere a page had given him an address for.
-    (try
-      (when (not (grounded ?place)))
-      (effects
-        (travel-cell (spatial ?place bounds /env)): ?spot
-        (if (is-cell ?spot)
-            (then (maintain-proposal {@self go ?spot}
-                                     [/postlude (observe ?place)])))))
     ; PLACED and FAR - a structure is approached, which lands him before its front face
     ; without reserving anything inside it.
     ;
