@@ -6,9 +6,14 @@
 ;
 ; INCLUSIVE (and ...): the three tries co-fire - walk toward unvisited rooms, mark the
 ; room you are standing in, and conclude when the round is covered - they are not a
-; partition. NO (select ...): the go role fans one WALK proposal per unvisited room and
-; the action pipeline is the iterator (promote one WALK, arrival vetoes that room, next
-; WALK promotes).
+; partition.
+;
+; (select ..) PICKS ONE ROOM, and it has to. The round used to fan a proposal per
+; unvisited room and let the ACTION pipeline iterate - promote one, arrival vetoes that
+; room, the next promotes - because the losers sat as proposals and waited their turn.
+; What it fans now is a TASK, and an exclusive one: a newly promoted enter does not
+; queue behind the running one, it TEARS IT DOWN. A round over four rooms was three
+; interruptions and one arrival.
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self wander ?bldg}:?w-rel
@@ -27,6 +32,7 @@
       (role ?room (spatial ?bldg parts [k interior-space room] /env)
                   (not (spatial @self space ?room /env))
                   -{@self enter ?room /caused_by ?w-rel /ever}
+                  (select (score (near @self ?room)) (policy roulette))
         (effects
           (observe ?room): ?obs-room
           (maintain-proposal {@self enter ?obs-room}))))
