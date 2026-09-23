@@ -122,19 +122,16 @@
         (observe ?way): ?seen-way
         (travel-cell ?seen-way): ?spot
         (if (is-cell ?spot) (then (maintain-proposal {@self WALK ?spot})))))
-    ; NEAR a space: claim on its floor and take the last paces onto what he got. Poll for
-    ; the same reason - the floor's chunk may still be loading.
+    ; NEAR a space: the spot is ENCODED from the room, not claimed on its floor. Claiming
+    ; one WORKS now - a person-cell fits inside a storey, so a room holds cell centres and
+    ; the floor search no longer comes back empty - but it was measured against this and
+    ; came out worse over the year: fewer acts completed and more read-mail rounds left
+    ; open, because a claim waits on the room's chunk and an encode does not. A spot two
+    ; men may share beats a spot neither reaches.
     (try
       (when (poll (grounded ?place)
                   (not (is-a ?place [k structure]))
                   (< (distance @self ?place) (near_space_m))))
-      ; ENCODED and not CLAIMED. A claim cannot place a standing man in a room: the
-      ; directional tests that could - in_front_of and its kin - are measured off an
-      ; entity's FACE, and the two that name a volume, (des inside ..) and (des
-      ; on_floor_of ..), ask whether a cell's CENTRE lies in the box. A person-cell is
-      ; 4.8m tall and a room is not, so a room holds no cell centre at all and the claim
-      ; answers nothing for every cell it generates. Measured: 72 cells, 72 available,
-      ; none passing direction.
       (effects
         (travel-cell ?place): ?spot
         (if (is-cell ?spot) (then (maintain-proposal {@self WALK ?spot})))))))
