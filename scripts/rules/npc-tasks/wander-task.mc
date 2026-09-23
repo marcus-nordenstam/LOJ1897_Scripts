@@ -26,12 +26,12 @@
     (try
       (role ?room (spatial ?bldg parts [k interior-space room] /env)
                   (not (spatial @self space ?room /env))
-                  -{@self WALK ?room /caused_by ?w-rel /ever}
+                  -{@self enter ?room /caused_by ?w-rel /ever}
         (effects
           (observe ?room): ?obs-room
-          (maintain-proposal {@self WALK ?obs-room}))))
+          (maintain-proposal {@self enter ?obs-room}))))
     ; Every room but the one he started in has been walked -> the building is seen.
     (try
-      (when (>= (count (every {@self WALK ? /caused_by ?w-rel /past /ever}))
+      (when (>= (count (every {@self enter ? /caused_by ?w-rel /past /ever}))
                 (- (count (spatial ?bldg parts [k interior-space room] /env)) 1)))
       (effects (set-outcome ?w-rel /succ)))))

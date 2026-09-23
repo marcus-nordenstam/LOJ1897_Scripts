@@ -19,7 +19,7 @@
 ;     for the observances), capped as an errand.
 ;   AT a church (case A): convey_at_church proposes {@self CONVEY ?corpse} - the leaf
 ;     label promotes to convey_act (the deposit); the bare goal never self-promotes.
-;   know a church (case B): convey_go holds {@self go ?church} /caused_by the goal.
+;   know a church (case B): convey_go holds {@self enter ?church} /caused_by the goal.
 ;   know none  (case C): convey_find holds {@self find-building [k church]}.
 ;
 ; The go / find sub-goals fire only while NOT at a church; at a church neither is

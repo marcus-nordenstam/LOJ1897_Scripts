@@ -63,7 +63,7 @@
           (role @self {?org employee-register ?reg})
           (effects
             (if (not (spatial ?reg co-located @self))
-                (then (maintain-proposal {@self go (spatial ?reg space)})))))
+                (then (maintain-proposal {@self enter (spatial ?reg space)})))))
         (stage
           (role @self {?org employee-register ?reg}
                       (spatial ?reg co-located @self))

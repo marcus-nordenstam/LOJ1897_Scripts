@@ -16,7 +16,7 @@
       (when (and (not (spatial ?agent co-located @self))
                  (spatial ?agent space): ?loc))
       (utility errand)
-      (effects (maintain-proposal {@self go ?loc})))
+      (effects (maintain-proposal {@self enter ?loc})))
     (try
       (when (spatial ?agent co-located @self))
       (utility errand always-pick)

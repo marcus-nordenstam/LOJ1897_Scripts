@@ -24,7 +24,7 @@
 (npc-think bring_go
   (goal {@self BRING ?ware ?dest})
   (role @self (not (spatial @self space ?dest))
-    (effects (maintain-proposal {@self go ?dest}))))
+    (effects (maintain-proposal {@self enter ?dest}))))
 
 ; AT the destination: claim the floor cell the ware will rest on - polled until the grid
 ; answers one - and PROPOSE the put-down act with it (goals never propose themselves). No

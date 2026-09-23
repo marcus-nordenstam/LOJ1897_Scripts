@@ -193,11 +193,18 @@
 (define-macro super_run_speed_mps     () 2.5)
 ; Within this of the goal a presented walker has ARRIVED and sets his own /succ.
 (define-macro walk_arrive_m            () 0.5)
+; THE ONE MOVEMENT THRESHOLD, at three scales. Outside it a man heads for the SHAPE of
+; where he is going and reserves nothing, because a cell held from across town is a cell
+; taken from whoever is standing in it; inside it he CLAIMS a spot and finishes on what
+; he actually got. A street's worth for a building, a room's width for a space, and
+; arm's length for a thing he means to touch.
+(define-macro near_building_m          () 20)
+(define-macro near_space_m             () 6)
+(define-macro near_reach_m             () 1.5)
 
-; THRESHOLD GEOMETRY (was C++ front_park_point / at_threshold). An actor approaching a
-; venue stands off its front face by its own forward half-extent times this clearance,
-; so a wider body stands proportionally further back. front-park-point (funcs/spatial.mc)
-; is the whole formula.
+; THRESHOLD GEOMETRY. An actor approaching a venue stands off its front face by its own
+; forward half-extent times this clearance, so a wider body stands proportionally further
+; back. The stand-off is a CELL claimed in front of the venue, never a bare point.
 ; How close to that stand-off point counts as AT the threshold. The "not inside the
 ; venue" guard does the real work, so the exact band is not critical.
 

@@ -20,7 +20,7 @@
         (try
           (when (not (spatial @self building ?dhome)))
           (utility duty)
-          (effects (maintain-proposal {@self go ?dhome})))
+          (effects (maintain-proposal {@self enter ?dhome})))
 
         ; READ the will (co-present with it) - adopt its bequest into @self's mind.
         (try

@@ -33,7 +33,7 @@
         (when (and (not (spatial ?killer co-located @self))
                    (spatial ?killer space): ?loc))
         (utility survival)
-        (effects (maintain-proposal {@self go ?loc})))
+        (effects (maintain-proposal {@self enter ?loc})))
 
       ; SOLICIT: co-present, put the contract to them (a SAY - the words are the deed).
       (try

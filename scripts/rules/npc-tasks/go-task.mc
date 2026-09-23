@@ -1,103 +1,61 @@
 ; ----------------------------------------------------------------------------
-; go - the smart TRAVEL TASK. THE one place that reasons about reaching a destination
-; (structure, room, or exterior space). Every lane issues {@self go <dest>} for ANY dest
-; and never branches on its kind - the tries dispatch to the primitives (enter / WALK). go
-; proposes them as sub-acts (inheriting their body motor). Arrival is go's OWN conclusion (the
-; last try), stamped /succ before any minting lane's gate can withdraw it.
+; go - THE movement task. It is handed a CELL and gets the man onto it from wherever he
+; stands, and it is the only rule in the corpus that reconciles the building he is in
+; against the building he is going into.
 ;
-; The dispatch turns on (grounded ?dest) - "@self knows WHICH place this is" - and its
-; complement. A place he cannot yet point to is FOUND first (three rungs, complementary on
-; what he has seen); one he can is reached (three rungs, complementary on its kind and
-; where he stands).
+; A DESTINATION IS A CELL. Not a room, not a building, not a bounds handle - a spot on the
+; env grid one man can stand on and hold. Everything else was under-specified: "walk to
+; the room" meant the middle of the room's box, which is half a storey up on a person and
+; half a church up on a church, and it sent every man who wanted that room to one point.
+; A cell has a floor, an owner and a size, so arrival is an OVERLAP rather than a distance
+; under some threshold.
 ;
-; The reads LIVE IN THE (when ..) - so does @self's own position - because only the gates
-; re-run while an activation holds, and both flip mid-journey. In a role they would be
-; decided once at admission and the ungrounded rungs would keep proposing an approach he has
-; already completed. The handoff from ungrounded to grounded is emergent, exactly as enter's
-; threshold -> interior handoff is.
+; Which building a cell leads into is read off its ANCHOR - the entity it was claimed
+; beside. A world-cell is anchored on nothing, which means where he already stands, so it
+; never asks him to leave a building to reach it.
 ;
-; and (inclusive): the rungs are a dispatch, never a competition.
+; The three rungs are complementary on containment and each handoff is emergent: while he
+; is in the wrong building the first holds; the moment exit puts him out of doors his
+; building is nothing and the second lights; once enter has him across the threshold the
+; third carries him the rest of the way. Crossing the threshold is not a rung of its own -
+; a structure's rooms are ONE navmesh island and its doors are passages, so a doorway and
+; a corridor are both just a path.
+;
+; go NEVER proposes enter, and that is what keeps the layering acyclic: enter resolves a
+; place into a cell and hands it here, so a rung here that answered with enter would hand
+; it straight back, and since neither act takes any time the pair spins the clock in place.
+; A barrier is the lane's business at the point it asks to get IN, not a rescue mid-journey.
+; Finding a place he cannot point to is not go's work either: go is given a cell, and a cell can
+; only be claimed beside something already found. That reasoning lives in enter.
 ; ----------------------------------------------------------------------------
 
-; THE ARRIVAL TEST, written ONCE and read twice: as the concluding rung's gate, and in
-; the task's (cease ..).
-;
-; WHY THE CEASE AT ALL. A lane maintaining {@self go ?dest} often has its own gate
-; felled BY the arrival, in the same deliberation - so go is withdrawn and stamped
-; /interrupted before the concluding rung below ever reaches its turn. The SPINE knows
-; either way: its bout is the task's own lifetime, so its cease is the moment go stops
-; running, whatever stopped it, and it asks there whether the man in fact arrived.
-; /interrupted is not a conclusive outcome, so the /succ it sets overwrites it.
-; A FUNC and not a macro: a macro re-substitutes the argument EXPRESSION at each of the
-; three uses of ?dest below, so the destination would be re-derived three times per test.
-(define-func go-arrived (?dest)
-  (or (and (is-a ?dest [k structure]) (spatial @self building ?dest))
-      (spatial @self space ?dest)))
+(include "../../definitions/roles.mc")
+(include "../../macros/tunables.mc")
 
 (npc-task {@self go ?dest}:?go-rel
-  (tar ?)
-  ; THE CONDITION THE TASK ITSELF RUNS UNDER, and it belongs to the task rather than to
-  ; any rung or any proposer: keep going while he is not there yet. It joins every
-  ; rung's own gate, as the shared roles join their roles, and it is what lets go
-  ; conclude on its OWN terms - the moment he arrives this stops holding, the task
-  ; stops firing, and the cease below is where it says what that meant.
-  (when (not (go-arrived ?dest)))
-  ; ...and it means the same thing whether he arrived or was called off mid-journey, so
-  ; the one test serves both: a withdrawal runs this cease too, at the last moment the
-  ; record is still open, and /interrupted loses to the /succ it sets.
-  (cease (if (go-arrived ?dest) (then (set-outcome ?go-rel /succ))))
+  (tar @excl)
+  ; ARRIVAL IS OVERLAP - his box on the cell. The task runs while it is not, and the cease
+  ; says what stopping meant, so a withdrawal mid-journey and an arrival read the one test
+  ; and the /succ overwrites the /interrupted a withdrawal stamps.
+  (when (not (overlaps ?dest @self)))
+  (cease (if (overlaps ?dest @self) (then (set-outcome ?go-rel /succ))))
   (and
-    ; UNPLACED, and the house at its premises is one @self HAS seen: walk in. A room is
-    ; only ever seen from INSIDE a building, so entering is what places it - and an address
-    ; is the only thing a page can carry about a place.
+    ; WRONG BUILDING - the cell is anchored on something outside the building he stands in,
+    ; a destination out of doors included (a target in no building answers @false to the
+    ; membership test, which is the reading we want). Leave it first.
     (try
-      (role @self {?dest address ?a} (address-premises ?a): ?pa
-        (role ?house [k building] (observed ?house) {?house address ?pa}
-          (when (and (not (grounded ?dest))
-                     (not (spatial @self building ?house))))
-          (effects (maintain-proposal {@self enter ?house})))))
-    ; UNPLACED and already INSIDE that house: walking in taught him the entrance, not every
-    ; room. Tour it until the room itself is placed, which drops this rung and raises the
-    ; WALK below.
+      (when (poll (cell-anchor ?dest): ?anchor
+                  (spatial @self building): ?here
+                  (not (spatial @self building (spatial ?anchor building)))))
+      (effects
+        (check (is-cell ?dest))
+        (maintain-proposal {@self exit ?here})))
+    ; SAME BUILDING, or both out of doors, or a world-cell (which means here): one leg.
     (try
-      (role @self {?dest address ?a} (address-premises ?a): ?pa
-        (role ?house [k building] (observed ?house) {?house address ?pa}
-          (when (and (not (grounded ?dest))
-                     (spatial @self building ?house)))
-          (effects (maintain-proposal {@self locate ?dest ?house})))))
-    ; UNPLACED and no house he has seen stands at that premises: search the region
-    ; structure by structure until one does. The search's own /fail record ends the hunt
-    ; once every structure is seen.
-    (try
-      (role @self {?dest address ?a} (address-premises ?a): ?pa
-        (when (and (not (grounded ?dest))
-                   (unsubstantial (seen-premises-at ?pa))
-                   -{@self find-building ?dest ? /fail}
-                   (current-exterior @self): ?rg))
-        (effects (maintain-proposal {@self find-building ?dest ?rg}))))
-
-    ; A grounded structure is walked to - enter takes it from the world's own geometry.
-    (try
-      (when (and (is-a ?dest [k structure])
-                 (grounded ?dest)
-                 (not (spatial @self building ?dest))))
-      (effects (maintain-proposal {@self enter ?dest})))
-    ; A ROOM is reached through the building @self knows it sits in. The bind IS the guard:
-    ; an @unknown gates the rung false, so no rung can mint (enter @unknown) - and a move
-    ; act on a place nobody can point to walks the body to the world origin for good.
-    (try
-      (when (and (is-a ?dest [k interior-space])
-                 (spatial ?dest building): ?bldg
-                 (not (spatial @self building ?bldg))))
-      (effects (maintain-proposal {@self enter ?bldg})))
-    (try
-      (when (and (is-a ?dest [k interior-space])
-                 (spatial ?dest building): ?bldg
-                 (spatial @self building ?bldg)
-                 (not (spatial @self space ?dest))))
-      (effects (maintain-proposal {@self WALK ?dest})))
-    ; An outdoor space is walked to and is contained by no building.
-    (try
-      (when (and (is-a ?dest [k exterior-space])
-                 (not (spatial @self space ?dest))))
-      (effects (maintain-proposal {@self WALK ?dest})))))
+      (when (poll (or (unsubstantial (cell-anchor ?dest))
+                      (spatial @self building (spatial (cell-anchor ?dest) building))
+                      (and (unsubstantial (spatial @self building))
+                           (unsubstantial (spatial (cell-anchor ?dest) building))))))
+      (effects
+        (check (is-cell ?dest))
+        (maintain-proposal {@self WALK ?dest})))))

@@ -33,7 +33,7 @@
       (role ?stk [k for-lease-listing-stack] (select (score (near @self ?stk)) (policy roulette)))
       (effects
         (if (not (spatial ?stk co-located @self))
-            (then (maintain-proposal {@self go (spatial ?stk space)})))))
+            (then (maintain-proposal {@self enter (spatial ?stk space)})))))
     (stage
       (role @self (spatial ?stk co-located @self))
       (effects (maintain-proposal {@self STACK-PUT ?listing ?stk})))

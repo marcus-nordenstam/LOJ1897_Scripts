@@ -19,14 +19,14 @@
                  (not (spatial ?paramour co-located @self))
                  (spatial ?paramour space): ?loc))
       (utility errand)
-      (effects (maintain-proposal {@self go ?loc})))
+      (effects (maintain-proposal {@self enter ?loc})))
     (try
       (role ?phome {?paramour home ?phome}
         (when (and (alive ?paramour)
                    -{@self lover ?paramour}
                    (not (spatial ?paramour co-located @self))
                    (unknown (spatial ?paramour space))))
-        (effects (maintain-proposal {@self go ?phome}))))
+        (effects (maintain-proposal {@self enter ?phome}))))
     (try
       (when (and (alive ?paramour)
                  -{@self lover ?paramour}

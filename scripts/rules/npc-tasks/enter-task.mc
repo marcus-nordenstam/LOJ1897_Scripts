@@ -1,85 +1,165 @@
 ; ----------------------------------------------------------------------------
-; enter - the generic "get inside a venue" chain (§5.11). Any lane that wants the actor
-; INSIDE a structure raises {@self enter ?venue} as a bodyless TASK; these two GENERIC
-; tries decompose the running enter task STRAIGHT into the ONE movement PRIMITIVE (WALK).
-; The actions promote directly off the maintain-proposals, so there is no intermediate go
-; goal and no separate stepping rung. Each
-; leg is auto-/caused_by the running enter task (the head gate pins it).
+; enter - THE access task: get @self inside a place, finding it first if he cannot yet
+; point to one. Where go is handed a cell and moves, enter is handed a PLACE - a structure
+; or a space - and works out which cell inside it he should be standing on.
 ;
-;   The venue's box not yet SEEN -> the COARSE leg: walk to its bounds handle (the engine
-;     lands a traveller before a structure's front face), and look at it on arrival.
-;   Seen -> the NEAR-FIELD leg: claim a stand cell in front of it (held by the rung that
-;     asked, released when it ceases) and walk onto it - distinct cells for two callers.
-;   Standing on the cell, the venue open -> step into the entrance room.
+; That split is the whole design. A destination a rule can reason about is a cell: it has
+; a floor, a size and one owner. A place is what a lane knows ("the pub", "my bedroom"),
+; and turning one into the other needs a look at the world, which is exactly what enter
+; does and go must not.
 ;
-; and (not stable-or): the guards are COMPLEMENTARY (box unseen / seen and off the cell /
-; seen and on it), so exactly one try is ever live - the exclusivity a lock would impose is
-; already inherent in the gates. Each handoff is emergent: the coarse walk's postlude makes
-; the box seen, the short walk makes the cell overlap. Reaching the interior drops the
-; minting lane's gate, ceasing the enter proposal; the shared pipeline tears the task down.
+; TWO PHASES, one threshold, and the same rule everywhere in the movement lanes: outside
+; near_building_m he heads for the SHAPE and reserves nothing, because a cell held from
+; across town is a cell taken from whoever is standing in it; inside it he CLAIMS, and
+; finishes on whatever he actually got. The claim is the rung's, released when the rung
+; ceases.
 ;
-; enter is a TASK because crossing the shell of a structure is work in its own right: the
-; door may be shut, locked or otherwise barred (which will spawn unlocking / forcing /
-; find-another-way sub-tasks), and the entrance may itself have to be located. Moving
-; about OUTSIDE is one lane and moving between rooms INSIDE is another; enter is the
-; traversal of the mobile barrier between them. So it can genuinely FAIL - calling on a
-; friend who is not home leaves you outside a locked door unless you force it - and it
-; SUCCEEDS when it has put @self inside ?s.
+; enter is a TASK and not an action because crossing the shell of a structure is work in
+; its own right: the door may be shut, locked or barred, and the entrance may have to be
+; located first. So it can genuinely FAIL - calling on a friend who is not home leaves you
+; outside a locked door - and it SUCCEEDS when @self is in fact inside.
 ;
-; BOTH teardown paths are live and neither replaces the other: the minting lane's gate
-; dropping ceases the proposal from outside (an interrupted approach), and the success
-; rung below concludes it from inside once the job is done. A task that could ONLY be
-; torn down from outside keeps its actor BUSY until that happens, and
-; maybe_interrupt_wake re-deliberates a busy actor only for a STRICTLY higher bid - so
-; a held enter silently ate every same-band duty queued behind it (the recruiting
-; officer entered her office and then never ran the office round she came to do).
+; The near leg WALKS rather than proposing go, and that is load-bearing: go hands a cell
+; inside a building back to enter, so if enter answered with go again the two would recur.
+; It does not need go - a structure's rooms are one navmesh island reached through its door
+; passages, so the threshold is a single leg.
 ;
-; The unified form still DECLARES the unhandled locked-door case: a CLOSED venue at the
-; threshold matches NEITHER try, so the task stalls (locked-door / key / break-and-enter
-; rungs plug into this same chain later - §5.11 deferred).
+; A CLOSED venue at the threshold matches no rung, so the task stalls rather than lying:
+; the locked-door / key / force-entry rungs plug in here.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self enter ?s}:?enter-rel
-  (tar @excl [k structure] @object)
-  ; The coarse leg reads the venue's box from ground truth: a bounds read is a perception
-  ; signal, and a venue he is still walking toward is one he cannot yet see.
+(include "../../definitions/roles.mc")
+(include "../../macros/tunables.mc")
+
+; INSIDE, as the place's own kind means it: a structure holds him at its building rung, a
+; space holds him directly. Written once and read three times - the gate, the cease, and
+; the rungs that must not fire once he is in.
+(define-func is-inside (?place)
+  (or (and (is-a ?place [k structure]) (spatial @self building ?place))
+      (spatial @self space ?place)))
+
+(npc-task {@self enter ?place}:?enter-rel
+  (tar @excl [k structure|space] @object)
+  ; The venue's box is read from ground truth on the coarse leg: a bounds read is a
+  ; perception signal, and a venue he is still walking toward is one he cannot yet see.
   (lint-waive env-read-outside-action)
-  ; THE CONDITION THE TASK RUNS UNDER, its own and not any proposer's: he is not
-  ; inside yet. It joins both legs' gates, and the moment the barrier is crossed it
-  ; stops holding - so enter stops firing on its own terms rather than waiting to be
-  ; torn down from outside.
-  (when (not (spatial @self building ?s)))
-  ; ...and the one test serves both endings. Crossed: /succ. Called off mid-approach:
-  ; the withdrawal runs this too, at the last moment the record is still open, and it
-  ; says nothing - leaving the /interrupted the withdrawal stamps, which is the truth.
-  (cease (if (spatial @self building ?s) (then (set-outcome ?enter-rel /succ))))
+  ; THE CONDITION THE TASK RUNS UNDER, its own and no proposer's: he is not in yet. It
+  ; joins every rung's gate, and the moment the barrier is crossed it stops holding, so
+  ; enter concludes on its own terms rather than waiting to be torn down from outside.
+  (when (not (is-inside ?place)))
+  ; ...and the one test serves both endings. Crossed: /succ. Called off mid-approach: the
+  ; withdrawal runs this too, at the last moment the record is still open, and says
+  ; nothing - leaving the /interrupted the withdrawal stamps, which is the truth.
+  (cease (if (is-inside ?place) (then (set-outcome ?enter-rel /succ))))
   (and
-    ; COARSE leg: to the venue's bounds handle - the engine lands him before its front
-    ; face - while its box is still something he only knows of; the walk's postlude looks
-    ; at it, which is what the near-field leg needs.
+    ; UNPLACED, and the house at its premises is one he HAS seen: walk in. A room is only
+    ; ever seen from INSIDE a building, so entering is what places it - and an address is
+    ; the only thing a page can carry about a place.
     (try
-      (role @self (not (spatial @self building ?s))
-        (when (unsubstantial (spatial ?s bounds)))
-        (effects
-                 (maintain-proposal {@self WALK (spatial ?s bounds /env)}
-                                    [/postlude (observe ?s)]))))
-    ; NEAR-FIELD leg: a stand cell of his own before the face, claimed once the venue is
-    ; seen and held by this rung, then the short walk onto it.
-    ; The cell is bound INSIDE the poll and tested there too: a bind made inside a poll is
-    ; invisible to the conjunct ordering, so a separate (when ..) reading ?stand would run
-    ; first, unbound, and the poll would never be reached. [/at_or_near @self] keeps the
-    ; cell under his feet admissible: the default search is the cells AROUND him, so once
-    ; he stood on his cell the next poll would hand him a neighbour, for ever.
+      (role @self {?place address ?a} (address-premises ?a): ?pa
+        (role ?house [k building] (observed ?house) {?house address ?pa}
+          (when (and (not (grounded ?place))
+                     (not (spatial @self building ?house))))
+          (effects (maintain-proposal {@self enter ?house})))))
+    ; UNPLACED and already INSIDE that house: walking in taught him the entrance, not every
+    ; room. Tour it until the room itself is placed, which drops this rung and raises the
+    ; legs below.
     (try
-      (when (poll (maintain-claim-env-cell (env-cell-size @self) [/in_front_of ?s]
+      (role @self {?place address ?a} (address-premises ?a): ?pa
+        (role ?house [k building] (observed ?house) {?house address ?pa}
+          (when (and (not (grounded ?place))
+                     (spatial @self building ?house)))
+          (effects (maintain-proposal {@self locate ?place ?house})))))
+    ; UNPLACED and no house he has seen stands at that premises: search the region
+    ; structure by structure. The search's own /fail record ends the hunt once every
+    ; structure is seen.
+    (try
+      (role @self {?place address ?a} (address-premises ?a): ?pa
+        (when (and (not (grounded ?place))
+                   (unsubstantial (seen-premises-at ?pa))
+                   -{@self find-building ?place ? /fail}
+                   (current-exterior @self): ?rg))
+        (effects (maintain-proposal {@self find-building ?place ?rg}))))
+
+    ; KNOWN OF but never SEEN - no box he remembers, so nothing he could claim against.
+    ; The spot is COMPOSED from the venue's own bounds and he looks at the venue itself
+    ; on arrival, which is what grounds it and drops this rung in favour of the legs
+    ; below. Without this a man could only set out for somewhere he had already been,
+    ; or somewhere a page had given him an address for.
+    (try
+      (when (not (grounded ?place)))
+      (effects
+        (travel-cell (spatial ?place bounds /env)): ?spot
+        (if (is-cell ?spot)
+            (then (maintain-proposal {@self go ?spot}
+                                     [/postlude (observe ?place)])))))
+    ; PLACED and FAR - a structure is approached, which lands him before its front face
+    ; without reserving anything inside it.
+    ;
+    ; FAR is the NEGATION of near, never a >= of its own. A mind is GROUNDED on anything it
+    ; internalized, and a GROUNDED object can still have no box at all: an unnamed church
+    ; he holds an object for answers @unknown to (distance ..), where a church he has met
+    ; answers metres. @unknown fails a >= and a < alike, so a FAR side written as its own
+    ; >= leaves every rung of this task dead. A distance he cannot measure is not NEAR, so
+    ; it belongs here, and the approach reads the world's own box to get him there.
+    (try
+      (when (poll (grounded ?place)
+                  (is-a ?place [k structure])
+                  (not (< (distance @self ?place) (near_building_m)))))
+      (effects (maintain-proposal {@self approach ?place})))
+    ; PLACED and FAR - a space is headed for. (env-cell ..) picks a spot and claims
+    ; nothing, so many men can be bound for the same room without contending.
+    (try
+      (when (poll (grounded ?place)
+                  (not (is-a ?place [k structure]))
+                  (not (< (distance @self ?place) (near_space_m)))))
+      (effects
+        (travel-cell ?place): ?spot
+        (if (is-cell ?spot) (then (maintain-proposal {@self go ?spot})))))
+
+    ; AT THE HULL and not yet on a stand cell: claim one BEFORE THE FRONT FACE - ground he
+    ; is standing on, so the grid has it - and walk onto it.
+    ;
+    ; The claim sits in a POLL and not in effects, and that is load-bearing. A claim can
+    ; answer "waiting for chunk": the env grid loads asynchronously and a pending claim
+    ; stays pending (Marcus 2026-09-20), so the rule must RE-ASK until a real cell comes
+    ; back. A poll re-tests every cycle and does exactly that. In effects the @fail aborts
+    ; the rung once and nothing ever asks again - the man stands outside his own house for
+    ; the rest of the year.
+    (try
+      (when (poll (grounded ?place)
+                  (is-a ?place [k structure])
+                  (< (distance @self ?place) (near_building_m))
+                  (maintain-claim-env-cell (env-cell-size @self) [/in_front_of ?place]
                                            [/at_or_near @self]): ?stand
                   (not (overlaps ?stand @self))))
       (effects (maintain-proposal {@self WALK ?stand})))
+    ; ON that cell, the venue open: step inside. The first room is read from ground truth
+    ; and OBSERVED - standing at the door is how a man learns what is behind it - and
+    ; entering THAT room is an ordinary enter on a space, whose own near leg claims a floor
+    ; cell with the grid now loaded around him.
     (try
-      (when (poll (maintain-claim-env-cell (env-cell-size @self) [/in_front_of ?s]
+      (when (poll (grounded ?place)
+                  (is-a ?place [k structure])
+                  (maintain-claim-env-cell (env-cell-size @self) [/in_front_of ?place]
                                            [/at_or_near @self]): ?stand
                   (overlaps ?stand @self)))
-      (when -{?s struct-status [k closed]})
-      (effects  (head (spatial ?s parts [k interior-space room] /env)): ?first_room
-                (observe ?first_room): ?obs_room
-                (maintain-proposal {@self WALK ?obs_room})))))
+      (when -{?place struct-status [k closed]})
+      ; A WALK and NOT a nested enter: enter is (tar @excl ..), one to a mind, so an enter
+      ; on the room could never start while this one on the building still holds the slot -
+      ; the pair would wait on each other for ever. The cell is ENCODED from the room
+      ; (travel-cell touches no grid), so there is nothing to wait for either.
+      (effects
+        (head (spatial ?place parts [k interior-space] /env)): ?way
+        (observe ?way): ?seen-way
+        (travel-cell ?seen-way): ?spot
+        (if (is-cell ?spot) (then (maintain-proposal {@self WALK ?spot})))))
+    ; NEAR a space: claim on its floor and take the last paces onto what he got. Poll for
+    ; the same reason - the floor's chunk may still be loading.
+    (try
+      (when (poll (grounded ?place)
+                  (not (is-a ?place [k structure]))
+                  (< (distance @self ?place) (near_space_m))
+                  (maintain-claim-env-cell (env-cell-size @self) [/on_floor_of ?place]
+                                           [/at_or_near @self]): ?cell))
+      (effects (maintain-proposal {@self WALK ?cell})))))

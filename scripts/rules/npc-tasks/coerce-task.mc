@@ -20,12 +20,12 @@
       (when (and (not (spatial ?victim co-located @self))
                  (spatial ?victim space): ?loc))
       (utility errand)
-      (effects (maintain-proposal {@self go ?loc})))
+      (effects (maintain-proposal {@self enter ?loc})))
     (try
       (role ?vhome {?victim home ?vhome}
         (when (and (not (spatial ?victim co-located @self))
                    (unknown (spatial ?victim space))))
-        (effects (maintain-proposal {@self go ?vhome}))))
+        (effects (maintain-proposal {@self enter ?vhome}))))
     (try
       (when (and (spatial ?victim co-located @self)
                  -{@self extort ?victim}))

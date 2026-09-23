@@ -22,7 +22,7 @@
         (effects
           (spatial ?doc space): ?room
           (if (substantial ?room)
-              (then (maintain-proposal {@self go ?room}))))))
+              (then (maintain-proposal {@self enter ?room}))))))
     (try
       ; The read-yet test is the SPINE's now, so this role states only what is unique to
       ; this rung: the page is within reach.

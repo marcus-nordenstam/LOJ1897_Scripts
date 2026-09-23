@@ -29,7 +29,19 @@
     (try
       (when (and (latch-eval (closest-unobserved [k structure] ?region): ?dest)
                  (observed ?dest /not)))
-      (effects (maintain-proposal {@self WALK (spatial ?dest bounds /env)}
-                                  [/postlude (observe ?dest)])))
+      ; The cell is COMPOSED from the venue's /env bounds, not from a box he remembers -
+      ; he has never seen this one, that being the point of the lane. A cell carries no
+      ; mind of its own, so what comes back is the same public spot either way; the plane
+      ; rode in on the bounds handle, which is where the decision to look at the world
+      ; belongs. He looks at the venue itself on arrival.
+      ; (travel-cell ..) and not (env-cell ..): the latter SCANS the grid for an
+      ; unoccupied spot, which materialises chunks around a venue he is nowhere near and
+      ; for no gain - nothing is reserved at this range anyway. travel-cell encodes the
+      ; cell the approach point lies in and touches no grid at all.
+      (effects
+        (travel-cell (spatial ?dest bounds /env)): ?spot
+        (if (is-cell ?spot)
+            (then (maintain-proposal {@self WALK ?spot}
+                                     [/postlude (observe ?dest)])))))
     (try
       (effects (set-outcome ?find_task-rel /fail)))))
