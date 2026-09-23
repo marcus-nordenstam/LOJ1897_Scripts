@@ -379,8 +379,8 @@
 # rotation, scale-as-half-extents per mx_radii_from_world_scale) plus its
 # spatial relationship to nearby nav-meshes. No /opening_name attr; no
 # /passage_throat_obb attr.
-(attr is-nav-passage (type int) (range 0 1) (is-nav-passage) (per obs))
-(attr nav-mesh (type str) (nav-mesh) (imperceptible))
+(attr is-nav-passage (type int) (range 0 1) (spec-attr is-nav-passage) (per obs))
+(attr nav-mesh (type str) (spec-attr nav-mesh) (imperceptible))
 # /blocks-nav-terrain - when 1, the entity's OBB footprint rasterises as a
 # terrain-walkability blocker during t_nav_terrain::build (nav_v2_plan.md §7).
 # Defaults to 0 on plain `structure`; archetypes that physically obstruct the
@@ -388,7 +388,7 @@
 # to 1 in their own pop. Connector throat clearing (§7.3) overrides
 # this for cells under a structure's door, so a building with /blocks-nav-terrain
 # = 1 still allows path entry through its baked-passage doorway.
-(attr blocks-nav-terrain (type int) (range 0 1) (blocks-nav-terrain) (imperceptible))
+(attr blocks-nav-terrain (type int) (range 0 1) (spec-attr blocks-nav-terrain) (imperceptible))
 
 # Road spline geometry is DECLARED per-archetype via (spatial spline) - there
 # is no spline attr. Per-entity CVs are written by Game.cc's LoadScene bridge
