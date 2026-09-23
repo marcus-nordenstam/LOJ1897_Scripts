@@ -127,7 +127,14 @@
     (try
       (when (poll (grounded ?place)
                   (not (is-a ?place [k structure]))
-                  (< (distance @self ?place) (near_space_m))
-                  (maintain-claim-env-cell (env-cell-size @self) [/on_floor_of ?place]
-                                           [/at_or_near @self]): ?cell))
-      (effects (maintain-proposal {@self WALK ?cell})))))
+                  (< (distance @self ?place) (near_space_m))))
+      ; ENCODED and not CLAIMED. A claim cannot place a standing man in a room: the
+      ; directional tests that could - in_front_of and its kin - are measured off an
+      ; entity's FACE, and the two that name a volume, (des inside ..) and (des
+      ; on_floor_of ..), ask whether a cell's CENTRE lies in the box. A person-cell is
+      ; 4.8m tall and a room is not, so a room holds no cell centre at all and the claim
+      ; answers nothing for every cell it generates. Measured: 72 cells, 72 available,
+      ; none passing direction.
+      (effects
+        (travel-cell ?place): ?spot
+        (if (is-cell ?spot) (then (maintain-proposal {@self WALK ?spot})))))))
