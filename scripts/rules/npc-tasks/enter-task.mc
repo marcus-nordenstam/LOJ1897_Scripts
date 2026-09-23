@@ -105,38 +105,18 @@
         (travel-cell ?place): ?spot
         (if (is-cell ?spot) (then (maintain-proposal {@self go ?spot})))))
 
-    ; AT THE HULL and not yet on a stand cell: claim one BEFORE THE FRONT FACE - ground he
-    ; is standing on, so the grid has it - and walk onto it.
-    ;
-    ; The claim sits in a POLL and not in effects, and that is load-bearing. A claim can
-    ; answer "waiting for chunk": the env grid loads asynchronously and a pending claim
-    ; stays pending (Marcus 2026-09-20), so the rule must RE-ASK until a real cell comes
-    ; back. A poll re-tests every cycle and does exactly that. In effects the @fail aborts
-    ; the rung once and nothing ever asks again - the man stands outside his own house for
-    ; the rest of the year.
+    ; AT THE HULL: one leg through the door onto a spot in the first room. The way in is
+    ; read from GROUND TRUTH and OBSERVED before it is used - standing before a building is
+    ; how a man learns what is behind its door - and the cell is ENCODED from that room, so
+    ; there is no grid to wait on. A structure's rooms are one navmesh island reached through
+    ; its passages, so the threshold needs no hop of its own: a stand cell before the face and
+    ; then a second walk inside is two acts, two minimum durations and two arrivals to reach
+    ; one room.
     (try
       (when (poll (grounded ?place)
                   (is-a ?place [k structure])
-                  (< (distance @self ?place) (near_building_m))
-                  (maintain-claim-env-cell (env-cell-size @self) [/in_front_of ?place]
-                                           [/at_or_near @self]): ?stand
-                  (not (overlaps ?stand @self))))
-      (effects (maintain-proposal {@self WALK ?stand})))
-    ; ON that cell, the venue open: step inside. The first room is read from ground truth
-    ; and OBSERVED - standing at the door is how a man learns what is behind it - and
-    ; entering THAT room is an ordinary enter on a space, whose own near leg claims a floor
-    ; cell with the grid now loaded around him.
-    (try
-      (when (poll (grounded ?place)
-                  (is-a ?place [k structure])
-                  (maintain-claim-env-cell (env-cell-size @self) [/in_front_of ?place]
-                                           [/at_or_near @self]): ?stand
-                  (overlaps ?stand @self)))
+                  (< (distance @self ?place) (near_building_m))))
       (when -{?place struct-status [k closed]})
-      ; A WALK and NOT a nested enter: enter is (tar @excl ..), one to a mind, so an enter
-      ; on the room could never start while this one on the building still holds the slot -
-      ; the pair would wait on each other for ever. The cell is ENCODED from the room
-      ; (travel-cell touches no grid), so there is nothing to wait for either.
       (effects
         (head (spatial ?place parts [k interior-space] /env)): ?way
         (observe ?way): ?seen-way
