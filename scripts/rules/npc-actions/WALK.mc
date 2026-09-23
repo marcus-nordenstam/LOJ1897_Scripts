@@ -60,9 +60,12 @@
         (switch (nav-ensure-path @self ?dest)
           (on failed (set-outcome ?walk /fail))
           (on ready
+            ; No "he is already on it" rung before these: (distance ..) is OBB-to-OBB, so a
+            ; 0.2 m steer cell reads ZERO as soon as his box touches it - some 0.4 m out -
+            ; and a near-zero threshold there latches him in place short of every waypoint.
+            ; Both movement writes already refuse a step too short to take, in centre metres.
             (nav-steer-target @self ?dest):?steer
             (cond
-              (case (< (distance @self ?steer) (walk_step_eps)))
               (case (< (distance @self (travel-point ?dest)) (walk_arrive_m))
                 (set-outcome ?walk /succ))
               (case (presented-lod)

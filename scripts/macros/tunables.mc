@@ -193,8 +193,6 @@
 (define-macro super_run_speed_mps     () 2.5)
 ; Within this of the goal a presented walker has ARRIVED and sets his own /succ.
 (define-macro walk_arrive_m            () 0.5)
-; Within this of the tick's steer point he stands on it and takes no step.
-(define-macro walk_step_eps            () 0.001)
 
 ; THRESHOLD GEOMETRY (was C++ front_park_point / at_threshold). An actor approaching a
 ; venue stands off its front face by its own forward half-extent times this clearance,
