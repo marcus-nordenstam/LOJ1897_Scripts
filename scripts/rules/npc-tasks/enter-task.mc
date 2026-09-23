@@ -123,11 +123,16 @@
         (travel-cell ?seen-way): ?spot
         (if (is-cell ?spot) (then (maintain-proposal {@self WALK ?spot})))))
     ; NEAR a space: the spot is ENCODED from the room, not claimed on its floor. Claiming
-    ; one WORKS now - a person-cell fits inside a storey, so a room holds cell centres and
-    ; the floor search no longer comes back empty - but it was measured against this and
-    ; came out worse over the year: fewer acts completed and more read-mail rounds left
-    ; open, because a claim waits on the room's chunk and an encode does not. A spot two
-    ; men may share beats a spot neither reaches.
+    ; one WORKS now - a person-cell fits inside a storey, so a room holds cell centres -
+    ; and the two were measured against each other over a year with everything else equal.
+    ; It is a LATENCY against CONTENTION trade. A claim reserves a spot no one else takes,
+    ; but it can answer 'waiting for chunk' and the man stands still until the grid loads
+    ; the ground under the room; an encode costs nothing and sets him off at once, at the
+    ; price of two men bound for one room aiming at one spot. Waiting cost more: 19353
+    ; acts completed against 18660, and enter interrupted 254 against 389 - a man held
+    ; waiting is a man whose lane can be outbid. Real work came out within half a per
+    ; cent either way, so the contention the claim would prevent is not costing anything
+    ; that shows.
     (try
       (when (poll (grounded ?place)
                   (not (is-a ?place [k structure]))
