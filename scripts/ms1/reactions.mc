@@ -18,8 +18,8 @@
   max-pressure-salience  8760
   mood-salience-gain     0.5
   stance-lr              0.2
-  default-salience-isim  24
-  default-salience-hsim  8640)
+  default-salience-realtime  1440
+  default-salience-jump     43200)
 
 ; ---- emotion affect (kind valence arousal) ---------------------------------
 (define-table emotion_affect (fields kind valence arousal)

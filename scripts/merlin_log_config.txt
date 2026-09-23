@@ -2,9 +2,8 @@
 # Merlin debugging, logging etc
 # ---------------------------------------------------------------------------------------
 
-debug
-
---trace all
+#debug
+#--trace all
 
 #--trace {@self job [k bartender]}
 #--trace {@self name [n Elizabeth Fallow]}
