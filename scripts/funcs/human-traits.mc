@@ -135,3 +135,16 @@
   (seed-singular-traits ?h ?mother ?father)
   (seed-continuous-traits ?h ?gender ?mother ?father)
   (accentuate-traits ?h ?gender))
+
+; The body at rest: the drives run_physiology advances from here.
+(define-func seed-human-vitals (?h)
+  (set-attr ?h adrenaline 0)
+  (set-attr ?h fatigue 0)
+  (set-attr ?h sleepiness 0)
+  (set-attr ?h hunger 0)
+  (set-attr ?h appetite 0))
+
+; An NPC starts sober and unhooked; DRINK and PLAY-GAME move these from here.
+(define-func seed-npc-habits (?h)
+  (set-attr ?h intoxication 0)
+  (set-attr ?h gambling-addiction 0))

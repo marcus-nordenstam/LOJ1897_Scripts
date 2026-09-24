@@ -46,6 +46,9 @@
     (set-attr ?baby gender ?gender)
     (set-attr ?baby game-role [k nonplayer])
     (seed-human-genetics ?baby ?gender @self ?father)
+    (seed-human-vitals ?baby)
+    (seed-npc-habits ?baby)
+    (set-attr ?baby parentless 0)
     (set-attr ?baby birth-date (create-date (year) (month) (day)))
     (start-aging ?baby)
     ; The newborn's own kin beliefs, minted IN the mind being created - the same

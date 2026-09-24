@@ -29,6 +29,7 @@
       (set-attr ?p gender ?gender)
       (set-attr ?p game-role [k player])
       (seed-human-genetics ?p ?gender @nothing @nothing)
+      (seed-human-vitals ?p)
       (+ (founder_age_min) (random-int 0 (- (founder_age_max) (founder_age_min)))): ?age
       (set-attr ?p birth-date
         (create-date (- (year) ?age) (random-int 0 11) (random-int 0 27)))

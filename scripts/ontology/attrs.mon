@@ -29,7 +29,7 @@
 # (buildings, roads) override (ext-per obs) per-archetype because their names
 # WILL eventually be observable via address signs - for now those archetypes
 # also add (auto-percept).
-(attr name (type name) (spec-attr name) (int-per reason) (ext-per imperceptible) (disclosure stranger))
+(attr name (type name) (default @nothing) (spec-attr name) (int-per reason) (ext-per imperceptible) (disclosure stranger))
 
 # Spatial
 # Bounds are DECLARED per-archetype via (spatial bounds) and live in the env's
@@ -51,10 +51,10 @@
 # addressee is visible on sight, so a mind that observes the letter internalizes
 # {letter addressee <person>} - WITHOUT learning the message (that needs reading).
 # The role-based mail-reading binds a letter via this belief.
-(attr addressee (type name) (per obs) (auto-percept) (hsim-percept))
+(attr addressee (type name) (default @nothing) (per obs) (auto-percept) (hsim-percept))
 # The DUTY a document is addressed to ("To the Recruiting Officer") - the office
 # envelope line, matched against the reader's own duty-to aux by take-my-letters.
-(attr addressee-duty (type kind) (per obs) (auto-percept) (hsim-percept))
+(attr addressee-duty (type kind) (default @nothing) (per obs) (auto-percept) (hsim-percept))
 
 # Conditions & properties. Conceptual: kind-typed; @excl lives on the concept.
 # condition is hsim-perceptible: liveness (alive/dead) is visible on sight, so a
@@ -70,7 +70,7 @@
 # person holds {them internment unburied}; the burial rite mints buried
 # belief-side, which @excl-supersedes the unburied percept in every witness.
 (attr internment (type kind unburied) (per obs) (auto-percept) (hsim-percept))
-(attr color (type kind) (per obs) (auto-percept))
+(attr color (type kind) (default @nothing) (per obs) (auto-percept))
 
 # Sensors & motors
 (attr visual-sensor (type visual-sensor))
@@ -81,7 +81,7 @@
 # Hands are integral to reasoning - they get their own attrs even though they also appear in parts.
 # Body parts are FELT internally (the NPC always knows their own body) AND observed externally
 # (others see your hands when they look at you). Same int-feel-ext-obs split as `name`.
-(attr wear (type entity) (per obs) (auto-percept))
+(attr wear (type entity) (default @nothing) (per obs) (auto-percept))
 
 # Demographics
 (attr game-role (type kind) (per obs) (auto-percept) (unaware))
@@ -222,9 +222,9 @@
 # attraction stance scalar.
 (attr attractiveness (type float) (range 0 1) (int-per feel) (ext-per obs) (state-flags-tar @excl))
 # Relationships
-(attr pregnant-when (type date) (per obs) (auto-percept))
+(attr pregnant-when (type date) (default @nothing) (per obs) (auto-percept))
 # Only used to pass on appropriate DNA from the father
-(attr pregnant-by (type entity) (imperceptible))
+(attr pregnant-by (type entity) (default @nothing) (imperceptible))
 
 
 # Sound
@@ -238,12 +238,12 @@
 # A writing is a Merlin pattern holding a document's content - a (msg ...)
 # wrapper around one or more belief sentences. /read transmits it to a
 # reader's mind, where the sentences are evaluated into beliefs.
-(attr writing (type pattern) (per read) (state-flags-tar @msg @S))
+(attr writing (type pattern) (default @nothing) (per read) (state-flags-tar @msg @S))
 # How hard the entity is being gripped. 0=loose, 1=hard
 (attr grip-force (type int) (range 0 1) (imperceptible))
 
 # Stack
-(attr stack-label (type str) (per obs) (auto-percept) (state-flags-tar @excl))
+(attr stack-label (type str) (default @nothing) (per obs) (auto-percept) (state-flags-tar @excl))
 # Filing membership + order live in the placement index (whereabouts_chains
 # stack edges: the list head is the exposed item, bury re-links to the tail) -
 # there are no items/top/in-stack attrs.
@@ -304,7 +304,7 @@
 # it they contradict, and the contradiction pipeline ends the loser on source reliability -
 # so a PERCEIVED address (self-observe, top of the ladder) supersedes a told one with no
 # special-casing anywhere.
-(attr address (type address) (spec-attr address) (state-flags-tar @excl) (per obs) (auto-percept) (hsim-percept))
+(attr address (type address) (default @nothing) (spec-attr address) (state-flags-tar @excl) (per obs) (auto-percept) (hsim-percept))
 # Where a document is bound (the envelope's delivery line). An ADDRESS-VALUED ordinary
 # attr - NOT the canonical address relation. Named `destination` rather than `address` on
 # purpose: a PLACE has an address - permanent, constitutive, its identity - while a movable
@@ -312,7 +312,7 @@
 # the recipient's home / workplace and the mail service routes by it. Perceptible like
 # `addressee`: the delivery line is written on the outside, so observing the letter reads it
 # without reading the message.
-(attr destination (type address) (per obs) (auto-percept) (hsim-percept))
+(attr destination (type address) (default @nothing) (per obs) (auto-percept) (hsim-percept))
 
 # Address-numbering POLICY (lives on the ROAD; see things.mon (road)). Authored in the
 # GrymEngine Spline Tool and pushed by the Player at scene load. These tell the

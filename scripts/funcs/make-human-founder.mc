@@ -28,6 +28,9 @@
           ; Parentless: both lineage args unsubstantial, so every trait is a fresh
           ; draw on the population distribution (see human-traits.mc).
           (seed-human-genetics ?h ?gender @nothing @nothing)
+          (seed-human-vitals ?h)
+          (seed-npc-habits ?h)
+          (set-attr ?h parentless 1)
           (+ (founder_age_min) (random-int 0 (- (founder_age_max) (founder_age_min)))): ?age
           (set-attr ?h birth-date
             (create-date (- (year) ?age) (random-int 0 11) (random-int 0 27)))

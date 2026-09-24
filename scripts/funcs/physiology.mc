@@ -46,12 +46,10 @@
          0 (hunger_max)): ?hunger
   (* ?hunger ?mask): ?appetite
 
-  (if (has-attr @self fatigue)
-    (then
-      (set-attr @self adrenaline ?adren)
+  (set-attr @self adrenaline ?adren)
 
-      (set-attr @self fatigue ?fatigue)
-      (set-attr @self sleepiness ?sleepiness)
+  (set-attr @self fatigue ?fatigue)
+  (set-attr @self sleepiness ?sleepiness)
 
-      (set-attr @self hunger ?hunger)
-      (set-attr @self appetite ?appetite))))
+  (set-attr @self hunger ?hunger)
+  (set-attr @self appetite ?appetite))

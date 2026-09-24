@@ -47,17 +47,17 @@
                     slight-act social-trajectory spouse suffer-loss-act threaten-act wrong-act mon-hours tue-hours
                     wed-hours thu-hours fri-hours sat-hours sun-hours age-band age-span prototype)
             (spatials grip bounds)
-            (attrs physical-motors game-role birth-date death-date death-cause age-group age-band age-span
+            (attrs physical-motors game-role birth-date death-date death-cause age-band age-span
                    gender appearance height girth hair-color eye-color attractiveness name
                    condition pregnant-when sexual-orient fatigue hunger adrenaline sleepiness appetite
                    openness intellect industriousness orderliness enthusiasm assertiveness compassion politeness
                    volatility withdrawal narcissism machiavellianism psychopathy sadism strength dexterity
-                   agility endurance pregnant-by)
+                   agility endurance pregnant-by awareness internment)
             (structs left-hand right-hand head left-eye right-eye mouth torso))
           (child human-npc
             (decorations
               (spatials space)
-              (attrs visual-sensor sound-sensor parentless awareness internment emigrating intoxication gambling-addiction))
+              (attrs visual-sensor sound-sensor parentless emigrating intoxication gambling-addiction))
             (population (cap 4096) (raycast-visible) (sentient) (non-occluder) (occupies-env-grid)))
           (child human-player
             (population (cap 256) (raycast-visible) (player) (non-occluder) (occupies-env-grid))))
