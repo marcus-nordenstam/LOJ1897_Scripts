@@ -24,7 +24,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think emigration
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream migrations)
 
   (role @self (young-adult @self)

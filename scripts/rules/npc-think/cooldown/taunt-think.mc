@@ -26,7 +26,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think taunt
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream perpetration)
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]} {@self home ?home}
     ; The actor's own overt-method kill (the corpse whose mystery he inserts himself into).

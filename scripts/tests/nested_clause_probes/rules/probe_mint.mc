@@ -2,7 +2,7 @@
 ; probes match), then re-bind its clause and mint an urge-shaped candidate-subject
 ; belief carrying that clause, plus a pledge belief for the residual-ordering probe.
 (npc-think probe_mint
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (role @self 
     (role ?prey [k human] (select (policy first-match))
       (when -{@self goal {@self probe_hunt ?}})

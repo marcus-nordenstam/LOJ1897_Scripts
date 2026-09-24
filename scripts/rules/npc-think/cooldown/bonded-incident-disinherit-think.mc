@@ -44,7 +44,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think bonded_incident_disinherit
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream incidents)
 
   (role @self  {@self isa [k human], condition [k alive]}

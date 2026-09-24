@@ -18,7 +18,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_calling
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   (role @self -{@self calling ?}

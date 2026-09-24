@@ -20,7 +20,7 @@
 ; > sibling (a choice, not a primogeniture age-law - within a tier the select's
 ; first witness binds one). No candidate -> no proposal -> no will.
 (npc-think deliberate_will
-  (cooldown 1 m)
+  (cooldown 1 m try-until-succ)
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
     (role ?heir {?heir isa [k human], condition [k alive]}
       {@self spouse|child|sibling ?heir}
@@ -34,7 +34,7 @@
 ; Open the settle task on learning a relative died. Any kinsman may attend the
 ; reading; only the one the will names ends up claiming.
 (npc-think settle_inheritance
-  (cooldown 1 m)
+  (cooldown 1 m try-until-succ)
   (role ?dead {?dead condition [k dead]}
               -{@self receive-inheritance ?dead /succ}
     (when {@self spouse|child|sibling ?dead})

@@ -12,7 +12,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think apprenticeship_start
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream apprenticeship)
 
   ;; ?youth is enumerated and per-youth chance-gated; ?articles is then
@@ -76,7 +76,7 @@
       (effects (maintain-proposal {@self seek-indenture ?org_record})))))
 
 (npc-think apprenticeship_completion
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream apprenticeship)
 
   ;; The trainee is the sole deliberator (@self). The trainee-rank read / job-tenure

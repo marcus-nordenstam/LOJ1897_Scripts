@@ -17,7 +17,7 @@
   ; Monthly cooldown: sobriety folds the continuously-drifting intoxication attr and the give
   ; act-record, so the bands need a periodic recompute to stay fresh between the rare belief
   ; commits. The timer is desynced across the herd; cold_start_window self-primes it.
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
 
   (role @self {@self class-situation ?}
 

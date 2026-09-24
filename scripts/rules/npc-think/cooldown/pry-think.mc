@@ -6,7 +6,7 @@
 ; mind only (single POV). No write into any other mind. Building-scoped (not room)
 ; so a tryst behind a closed door is still witnessed by the household around it.
 (npc-think pry
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream incidents)
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
     (role ?host {?host isa [k human], condition [k alive]} (spatial ?host co-located-building @self)

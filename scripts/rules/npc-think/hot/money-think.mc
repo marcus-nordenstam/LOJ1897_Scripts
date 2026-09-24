@@ -20,14 +20,14 @@
 (include "../../../macros/money-macros.mc")
 
 (npc-think seed_coin_pile
-  (cooldown 1 m)
+  (cooldown 1 m try-until-succ)
   (role @self -{@self own [k pile]}
     (role ?home {@self home ?home}
       (utility duty)
       (effects (maintain-proposal {@self SEED-COINS ?home})))))
 
 (npc-think accrue_savings
-  (cooldown 1 m)
+  (cooldown 1 m try-until-succ)
   (role ?pile {@self coin-pile ?pile}
     (when (and (in-month 12)
                (>= (years-old @self) 15)))

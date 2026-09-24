@@ -15,7 +15,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think engagement-party
-  (cooldown 1 m)
+  (cooldown 1 m try-until-succ)
   (rng-stream marriages)
 
   ;; SELF-POV (telepathy purge CAT-3): @self the GROOM (belief-pure @self role)

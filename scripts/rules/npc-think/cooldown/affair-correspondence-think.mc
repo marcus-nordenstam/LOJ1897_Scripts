@@ -25,7 +25,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think affair_correspondence
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream incidents)
 
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}

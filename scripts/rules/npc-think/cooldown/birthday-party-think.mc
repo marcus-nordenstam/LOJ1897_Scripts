@@ -24,7 +24,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think birthday-party
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream friendships)
 
   ;; @self is the host. PR-A-8 substrate gate: the canonical host motivation is a

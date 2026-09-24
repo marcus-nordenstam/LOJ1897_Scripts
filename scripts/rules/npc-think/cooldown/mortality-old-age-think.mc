@@ -15,7 +15,7 @@
 (npc-think mortality_old_age
   ; PER-NPC: fires once a month for each living NPC (self_actor = @self).
   ; The per-age (when (chance ?per_month)) IS the rate; the monthly cooldown is the cadence.
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream deaths)
 
   (role @self 

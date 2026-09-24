@@ -15,7 +15,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think mortality_disease
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream deaths)
 
   (role @self 

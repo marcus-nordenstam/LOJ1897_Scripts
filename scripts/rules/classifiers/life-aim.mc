@@ -17,7 +17,7 @@
   ; (rootedness) tallies alongside the wealth/decorum floats and situation bands; the decaying
   ; reads need a periodic recompute to track. Gated on wealth+decorum being derived; self-primed
   ; by cold_start_window.
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   (role @self {@self wealth ?wealth}

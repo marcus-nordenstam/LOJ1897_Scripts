@@ -26,7 +26,7 @@
 ; --- the annual decision to hold a meet (fires once, in June) ----------------
 (npc-think hold-meet
   ; ANNUAL: a yearly timer latches the standing meet goal once per year.
-  (cooldown 1 y)
+  (cooldown 1 y try-until-succ)
   (rng-stream behaviour)
 
   ; The organiser is the club's founder/head (an established adult). @self reads

@@ -31,7 +31,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think ambition
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream perpetration)
 
   ; @self: a credible successor - seated (binds my org), senior grade, not the head.

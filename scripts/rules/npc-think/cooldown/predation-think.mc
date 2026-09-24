@@ -37,7 +37,7 @@
 
 ; --- profile seeding (one-shot, precedes the first hunt) --------------------
 (npc-think seed_predation_profile
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream perpetration)
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               -{@self fixation ?}
@@ -58,7 +58,7 @@
 
 ; --- the hunt ---------------------------------------------------------------
 (npc-think predation
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream perpetration)
 
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}

@@ -24,7 +24,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think new_job_orientation
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream employment)
 
   ;; Only the JOBLESS consult the register - this is a JOB SEARCH. A man already in

@@ -19,7 +19,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think rehabilitation
-  (cooldown 15 d)
+  (cooldown 15 d try-until-succ)
   (role @self (old_human @self)
               {@self repute [k disreputable]}   ; derive-maintained band - cached
     (when    (>= (days-since-last {@self WORSHIP /ever}) 15))

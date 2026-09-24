@@ -14,7 +14,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think flee_foe
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
 
   (role ?foe {?foe (theme-labels violent-to) @self}:?witnessed-rel
              -{?foe condition [k dead]}

@@ -60,7 +60,7 @@
 ; --- the decision -------------------------------------------------------------
 (npc-think close_business
   ; ANNUAL: a yearly timer runs the failure roll once per year.
-  (cooldown 1 y)
+  (cooldown 1 y try-once)
   (rng-stream business)
 
   ; Light @self gate; the owner + business-kind identification is the cached

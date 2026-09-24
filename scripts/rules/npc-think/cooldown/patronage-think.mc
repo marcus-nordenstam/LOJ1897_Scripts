@@ -24,7 +24,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think patronage
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream business)
 
   ;; @self the patron, a man of standing: exemplary character (belief-pure here).

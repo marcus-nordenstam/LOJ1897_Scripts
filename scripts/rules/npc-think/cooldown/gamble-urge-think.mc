@@ -31,7 +31,7 @@
 ; ending {@self PLAY-GAME}. The act itself only accrues the addiction and ends
 ; its OWN act-belief, never the goal (like drink_act).
 (npc-think gamble_urge
-  (cooldown 10 d)
+  (cooldown 10 d try-once)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     ; ONSET is rare and susceptibility-scaled: the disciplined seldom take a first flutter
     ; (low industriousness -> higher onset), but once any gambling-addiction has taken hold

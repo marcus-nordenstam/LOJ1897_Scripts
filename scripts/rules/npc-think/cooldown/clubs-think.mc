@@ -23,7 +23,7 @@
 
 ; --- club_founding: an established adult founds a club with two members ------
 (npc-think club_founding
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   ; Clubs are founded by a settled adult of some standing - an employed man over
@@ -57,7 +57,7 @@
 ;; cached belief is missing - a new adult appraised before december still
 ;; reads @fail and is not excluded by the (not (= ...)) form.
 (npc-think club_joining
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   ; An adult who belongs to fewer than two clubs takes up another. SELF-POV
@@ -108,7 +108,7 @@
 
 ; --- club_resignation: an adult resigns from a club -------------------------
 (npc-think club_resignation
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   ; The resigning member is the sole deliberator (@self).

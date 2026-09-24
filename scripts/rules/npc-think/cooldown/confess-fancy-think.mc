@@ -21,7 +21,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think confess_fancy
-  (cooldown 1 m)
+  (cooldown 1 m try-until-succ)
   (rng-stream marriages)
 
   ; @self fancies someone and is free to court (cheap @self pre-gate; the

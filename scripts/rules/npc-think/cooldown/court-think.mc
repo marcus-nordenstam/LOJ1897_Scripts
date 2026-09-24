@@ -20,7 +20,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think court
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream marriages)
 
   ; @self the suitor must ALREADY fancy someone and be a marriageable single -

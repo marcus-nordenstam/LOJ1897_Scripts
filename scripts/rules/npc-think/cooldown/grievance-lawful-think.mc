@@ -19,7 +19,7 @@
 ; Take it to the police. Indignation and want are different motives for the same
 ; walk to the station, so they are two rules with their own weights.
 (npc-think report_injustice
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k injustice] ?target}:?pressure
@@ -34,7 +34,7 @@
           (else (maintain-proposal {@self report-crime ?target /caused_by ?pressure}))))))
 
 (npc-think report_for_relief
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k resource-scarcity] ?target}:?pressure
@@ -52,7 +52,7 @@
 ; Put it in writing. Confessing because the secret is about to break and confessing
 ; because you cannot carry it are different acts - one is calculated, one is remorse.
 (npc-think confess_at_risk
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k exposure-risk] ?target}:?pressure
@@ -67,7 +67,7 @@
           (else (maintain-proposal {@self confess-letter ?target /caused_by ?pressure}))))))
 
 (npc-think confess_remorse
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k moral-violation] ?target}:?pressure

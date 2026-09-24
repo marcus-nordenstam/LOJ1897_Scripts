@@ -25,7 +25,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think love_match
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream marriages)
 
   ; @self the suitor: an unmarried, un-betrothed adult who is not socially shut

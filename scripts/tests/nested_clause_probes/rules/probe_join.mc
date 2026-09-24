@@ -2,7 +2,7 @@
 ; the filter must route to join_filters (load proof; the A-object is tested by
 ; the join matcher at materialization).
 (npc-think probe_join
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (role @self 
     (role ?prey7 [k human] (select (policy first-match))
       (role ?plotter7 [k human]

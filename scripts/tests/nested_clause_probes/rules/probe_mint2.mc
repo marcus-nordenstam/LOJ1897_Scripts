@@ -2,7 +2,7 @@
 ; gate must FAN OUT one activation per matching goal, so PROBE_GOAL_CAP fires
 ; twice per NPC (once per goal), each with its own ?g11 / ?prey11 binds.
 (npc-think probe_mint2
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (role @self 
     (when (and {@self goal {@self probe_hunt ?}}
                -{@self goal {@self probe_hunt @self}}))

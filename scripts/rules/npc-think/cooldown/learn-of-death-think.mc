@@ -29,7 +29,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think learn_of_death
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
 
   ; Enumerating role: every person @self believes dead, however @self learned it.
   (role ?x {?x condition [k dead]}

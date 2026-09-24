@@ -25,7 +25,7 @@
 (define-macro marital_coupling_chance () 0.5)
 
 (npc-think marital_coupling
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream births)
 
   ; A married, fertile-age woman not already carrying a pregnancy. Spelled as
@@ -52,7 +52,7 @@
 ; The child is due. A woman at term bears it ahead of any errand - labour is not
 ; something she chooses to postpone - but below the survival lanes.
 (npc-think deliver
-  (cooldown 1 d)
+  (cooldown 1 d try-until-succ)
 
   (role @self {@self pregnant ?}
     (role ?father {@self pregnant ?father}

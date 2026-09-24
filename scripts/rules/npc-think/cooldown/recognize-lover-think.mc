@@ -14,7 +14,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think recognize_lover
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (role @self
     (role ?paramour {?paramour isa [k human], condition [k alive]}
                     {@self HAVE-SEX-WITH ?paramour /ever}

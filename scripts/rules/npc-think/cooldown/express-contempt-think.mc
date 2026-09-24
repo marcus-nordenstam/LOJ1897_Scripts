@@ -29,7 +29,7 @@
   (record cold_contempt  1  (if (<= ?dec-rel.target 0.35) (then ?dec-rel))))
 
 (npc-think express_contempt
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream incidents)
 
   ; Open contempt is a considered, adult act - minors do not deliver it.

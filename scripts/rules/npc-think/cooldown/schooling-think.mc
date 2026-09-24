@@ -42,7 +42,7 @@
 
 ; --- enroll_primary: a young child starts primary school ---------------------
 (npc-think enroll_primary
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   ; MAINTENANCE: the decision OWNS the enrol_primary goal end to end. @self is a child
@@ -67,7 +67,7 @@
 
 ; --- enroll_secondary: a middle+ youth goes on to secondary ------------------
 (npc-think enroll_secondary
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   ; MAINTENANCE: the decision OWNS the enrol_secondary goal end to end. @self holds the
@@ -92,7 +92,7 @@
 
 ; --- enroll_university: an upper / wealthy youth goes up to university --------
 (npc-think enroll_university
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   ; MAINTENANCE: the decision OWNS the enrol_university goal end to end. @self is
@@ -117,7 +117,7 @@
 
 ; --- leave_primary: every primary pupil finishes at ~11 ----------------------
 (npc-think leave_primary
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   ; Deterministic: @self, a primary pupil who has reached the leaving age, takes
@@ -136,7 +136,7 @@
 
 ; --- leave_secondary: a secondary pupil finishes at ~17 ----------------------
 (npc-think leave_secondary
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   (role @self 
@@ -150,7 +150,7 @@
 
 ; --- graduate_university: a degree is taken at ~22 ---------------------------
 (npc-think graduate_university
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   ; Any ongoing study at 22+ is a university degree (primary / secondary pupils

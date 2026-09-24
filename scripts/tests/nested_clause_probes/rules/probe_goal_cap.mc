@@ -3,6 +3,6 @@
 ; and the gate PUSH-arms this rule off the goal write - no matching goal, no
 ; activation attempt.
 (npc-think probe_goal_cap
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (goal {@self probe_hunt ?prey11}:?g11)
   (effects (debug-print "PROBE_GOAL_CAP goal=?g11 prey=?prey11")))

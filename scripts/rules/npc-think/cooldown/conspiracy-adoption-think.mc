@@ -27,7 +27,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think conspiracy_adoption
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream perpetration)
 
   (role @self 

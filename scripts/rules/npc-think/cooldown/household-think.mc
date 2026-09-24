@@ -23,23 +23,25 @@
 
 (include "../../../definitions/roles.mc")
 
-(define-macro rest-weight ()                 100)
-(define-macro read-weight-base ()            40)
-(define-macro read-weight-intellect-scale () 120)
+(define-macro read-intellect-threshold () 0.5)
+(define-macro household-breakfast-hour () 6)
+(define-macro household-lunch-hour ()     12)
+(define-macro household-supper-hour ()    18)
 
 (npc-think household_day
-  (cooldown 1 m)
-  (rng-stream behaviour)
+  (cooldown 1 m try-until-succ)
 
   (role @self {@self home ?home}
     (utility idle)
 
     (effects
-      (if (spatial ?home room [k interior-space study])
-                (then (+ (read-weight-base)
-                         (* (read-weight-intellect-scale) (target-or @self intellect 0))))
-                (else 0)): ?read_w
-      (if (chance (/ ?read_w (+ (rest-weight) ?read_w)))
+      (bind 0 ?bookish)
+      (for-each ?ir (every {@self interest ?})
+        (if (or (is-a ?ir.target [k academic-field]) (is-a ?ir.target [k literature]))
+            (then (bind 1 ?bookish))))
+      (if (and (spatial ?home room [k interior-space study])
+               (or (= ?bookish 1)
+                   (>= (target-or @self intellect 0) (read-intellect-threshold))))
           (then (maintain-proposal {@self read-at ?home}))
           (else (maintain-proposal {@self rest ?home}))))))
 
@@ -53,8 +55,7 @@
 ; daughter > head) when her OWN mind lacks the home's supper-hour - so it
 ; fires once per cook per home (and again only if the cook changes homes or
 ; the beliefs are somehow lost). The hours are HER decision (genesis, not
-; communication): base 6/12/18 shifted by a per-cook offset, the whole day
-; coherent. She then SAYS them aloud - the household is home
+; communication): the household's breakfast / lunch / supper hours. She then SAYS them aloud - the household is home
 ; (asleep co-presence), so the residents adopt the facts from the say; any
 ; straggler self-heals through the ask-the-cook channel below.
 ; The missing-belief gate comes FIRST so the (household-cook) resolution
@@ -62,8 +63,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think set_mealtimes
-  (cooldown 1 m)
-  (rng-stream behaviour)
+  (cooldown 1 m try-until-succ)
 
   ; The COOK is the woman of the house - self-identified from @self's OWN gender
   ; belief (mental, no household-cook scan) - a CACHED self-gate filter. ?home is
@@ -80,18 +80,13 @@
       (utility want)
 
       (effects
-        ; The per-cook offset: -1 / 0 / +1 on the whole day (breakfast 5-7,
-        ; lunch 11-13, supper 17-19; each window is 2h from the hour).
-        (cond (case (chance 0.33) -1)
-              (case (chance 0.5)   0)
-              (else                1)): ?o
-        (begin-belief {?home breakfast-hour (+ 6 ?o)})
-        (begin-belief {?home lunch-hour (+ 12 ?o)})
-        (begin-belief {?home supper-hour (+ 18 ?o)})
+        (begin-belief {?home breakfast-hour (household-breakfast-hour)})
+        (begin-belief {?home lunch-hour (household-lunch-hour)})
+        (begin-belief {?home supper-hour (household-supper-hour)})
         ; Say the house's hours aloud - the household hears and adopts.
-        (maintain-proposal {@self SAY (utterable-msg {?home breakfast-hour (+ 6 ?o)}
-                                                  {?home lunch-hour (+ 12 ?o)}
-                                                  {?home supper-hour (+ 18 ?o)}) _})
+        (maintain-proposal {@self SAY (utterable-msg {?home breakfast-hour (household-breakfast-hour)}
+                                                  {?home lunch-hour (household-lunch-hour)}
+                                                  {?home supper-hour (household-supper-hour)}) _})
         ))))
 
 ; ----------------------------------------------------------------------------
@@ -109,7 +104,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think ask_mealtimes
-  (cooldown 1 m)
+  (cooldown 1 m try-until-succ)
   (rng-stream behaviour)
 
   (role @self 
@@ -135,7 +130,7 @@
           (maintain-proposal {@self SAY ?qs ?cook}))))))
 
 (npc-think answer_mealtimes
-  (cooldown 1 m)
+  (cooldown 1 m try-until-succ)
   (rng-stream behaviour)
 
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}

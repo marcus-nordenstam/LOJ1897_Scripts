@@ -12,7 +12,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think betrothal
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream marriages)
 
   ;; SELF-POV (telepathy purge CAT-3): @self the GROOM is the deliberator (the POV

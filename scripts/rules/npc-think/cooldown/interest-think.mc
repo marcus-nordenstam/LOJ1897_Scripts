@@ -38,7 +38,7 @@
 
 ; --- parental_seeding: a child adopts one of a parent's interests ------------
 (npc-think interest_parental_seeding
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   ; The child (@self) is the subject; a known mother gates it (births always seed
@@ -73,7 +73,7 @@
 
 ; --- peer_propagation: a friend's enthusiasm rubs off -----------------------
 (npc-think interest_peer_propagation
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   ; @self is the subject; a known friend gates it and the effect reads each
@@ -97,7 +97,7 @@
 
 ; --- mentor_inspired: an apprentice catches the master's craft --------------
 (npc-think interest_mentor_inspired
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   ; @self (the apprentice) holds a standing master bond (minted by
@@ -118,7 +118,7 @@
 
 ; --- temperament_drift: the residual openness-driven catch-all --------------
 (npc-think interest_temperament_drift
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   ; The only non-relational path: @self drifts into a brand-new interest with no
@@ -140,7 +140,7 @@
 
 ; --- interest_lapses: an unskilled interest fades --------------------------
 (npc-think interest_lapses
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   ; @self holds at least one interest; low rate. The effect ends one interest whose

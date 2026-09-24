@@ -21,7 +21,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think adult_friendship
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream friendships)
 
   ; @self is the deliberating NPC (bound O(1)); ?b is enumerated underneath.

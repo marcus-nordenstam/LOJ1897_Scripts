@@ -46,7 +46,7 @@
 ; on a 0.15 floor (the retired roll_outdo_resentment); the dedup keeps one grudge
 ; per winner.
 (npc-think outdone_at_meet
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream incidents)
   ; The declaration @self witnessed binds the winner (its target). @self only holds
   ; declarations from meets he attended (the auto-witness drops the sport aux, so it

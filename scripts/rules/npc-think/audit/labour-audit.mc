@@ -23,7 +23,7 @@
 ; life. This admits the SHAPE that cannot resolve, whatever the clock says.
 (npc-audit audit_application_unanswerable
   (aspect labour)
-  (cooldown 1 d)
+  (cooldown 1 d try-once)
   ; The org is a ROLE, not a var taken off the first duty belief: an officer may keep more
   ; than one book, and each book's seats are its own.
   (role ?org {@self duty-to ?org recruit-staff}
@@ -40,7 +40,7 @@
 ; the hire: the last work ended before the job began, or there was none.
 (npc-audit audit_hired_never_worked
   (aspect labour)
-  (cooldown 1 d)
+  (cooldown 1 d try-once)
   (role @self {@self job ?job}:?j
     (when (and (/ (- (now-abs-seconds) (abs-seconds ?j.start)) 86400): ?held-days
                (>= ?held-days 30)
@@ -56,7 +56,7 @@
 ; every window.
 (npc-audit audit_offers_vs_seats
   (aspect labour)
-  (cooldown 1 d)
+  (cooldown 1 d try-once)
   (cease-after-fire)
   (role @self {@self duty-to ?org recruit-staff}
     (effects
@@ -73,7 +73,7 @@
 ; TWO VERDICTS FOR ONE MAN ABOUT ONE SEAT. The officer answered the same application twice.
 (npc-audit audit_two_verdicts_one_man
   (aspect labour)
-  (cooldown 1 d)
+  (cooldown 1 d try-once)
   (role @self {@self duty-to ?org recruit-staff}
     (role ?p [k human] {@self draft-verdict ?p ?job /succ}
       (when (>= (count (every {@self draft-verdict ?p ?job /succ})) 2))

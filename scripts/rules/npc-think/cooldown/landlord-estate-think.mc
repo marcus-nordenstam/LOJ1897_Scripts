@@ -29,7 +29,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think landlord_estate
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream business)
 
   ; THE FOUNDING CAP as a CACHED self-gate filter: an NPC heads at most ONE

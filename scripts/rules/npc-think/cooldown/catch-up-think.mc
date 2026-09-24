@@ -16,7 +16,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think catch_up
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   ; ?guest is anyone CO-PRESENT: sourced OBJECTIVELY from @self's current room (env

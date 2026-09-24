@@ -14,7 +14,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think childhood_friendship
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream friendships)
 
   ;; SELF-POV (telepathy purge CAT-3): @self the child befriends a peer he KNOWS -

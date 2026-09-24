@@ -31,7 +31,7 @@
 ; (set-outcome {@self goal {@self SACK|promote-staff ?w}} /succ)) retires just his goal (target-specific). The
 ; intra-day sack/promote acts run pure effects - they never end the goal.
 (npc-think sack_review
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream employment)
   ; Duty dispatch: whoever HOLDS the org's dismiss_staff duty reviews (assignment:
   ; duties_think.mc) - never a job-kind or rank test. Fire-binds ?org O(1).
@@ -45,7 +45,7 @@
       (when-unsupported-effects (set-outcome {@self goal {@self SACK ?w}} /succ)))))
 
 (npc-think promote_review
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream employment)
   ; Duty dispatch: whoever HOLDS the org's review_staff duty promotes (assignment:
   ; duties_think.mc) - never a job-kind or rank test. Fire-binds ?org O(1).
@@ -64,7 +64,7 @@
 ; completion fires the actual (fire) commit - so a retirement happens AT the
 ; workplace, by the man himself, generating the co-presence a witness would see.
 (npc-think retirement
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream employment)
 
   ;; The worker (@self) decides to retire; age + chance -> (when).
@@ -91,7 +91,7 @@
 ; outstanding: every offer-letter record whose man is not yet on any book.
 (npc-think rearm_offerees
   (aspect labour)
-  (cooldown 1 d)
+  (cooldown 1 d try-once)
   (role @self {@self duty-to ?org recruit-staff}
     (role ?p [k human] {? offered-to ?p}
                        -{?p job ?}

@@ -26,7 +26,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think affair
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream incidents)
 
   ;; @self - a married adult, not already mid-affair. The disposition-to-stray

@@ -33,7 +33,7 @@
   ; fire-gate holds the standing worship desire while due. The MINTER owns un-minting:
   ; once worship_act resets days-since-last the (when) drops, ending
   ; {@self WORSHIP}. The act never ends the goal.
-  (cooldown 3 d)
+  (cooldown 3 d try-until-succ)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (when    (and (>= (days-since-last {@self WORSHIP /ever}) 3)
                   (>= (target-or @self politeness 0) 0.3)))
@@ -50,7 +50,7 @@
 ; the classifier; the pretender fools observers exactly as before. Co-drives the ONE
 ; {@self WORSHIP} goal with want_worship - each rung ceases only its OWN source.
 (npc-think sunday_observance
-  (cooldown 3 d)
+  (cooldown 3 d try-until-succ)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self devoutness [k piety-band devout]}
     (when    (>= (days-since-last {@self WORSHIP /ever}) 3))

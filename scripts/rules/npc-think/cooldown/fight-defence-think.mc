@@ -19,7 +19,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think fight_defend
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
 
   ; Bind the aggressor + the witnessed violent act (the /caused_by handle); a believed-dead
   ; aggressor filters out.

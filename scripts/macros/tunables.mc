@@ -28,6 +28,11 @@
 (define-macro homeostat_immigration_pressure () 0.90)
 (define-macro homeostat_immigration_count   () 6)
 
+; The hours a place of business keeps: errands to a board, an office or a counter are
+; picked between them.
+(define-macro business_open_hour  () 8)
+(define-macro business_close_hour () 17)
+
 ; Live crowding ratio: living-npc-count / target. 1.0 at carrying capacity, < 1 when
 ; sparse, > 1 when crowded. The per-NPC emigration think scales each young
 ; adult's monthly leave-chance by it, so crowding raises the outflow and a sparse

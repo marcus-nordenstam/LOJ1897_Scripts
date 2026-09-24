@@ -17,7 +17,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think feel_charitable
-  (cooldown 20 d)
+  (cooldown 20 d try-until-succ)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     ; The nearest church the NPC KNOWS (role-cast; no known church -> no fire).
     (role ?venue [k building church] (select (score (near @self ?venue)) (policy roulette))

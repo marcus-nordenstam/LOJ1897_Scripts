@@ -41,7 +41,7 @@
             (set-attr ?who death-cause [k death-cause suicide])))))
 
 (npc-think suicide_disgrace
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role @self {@self pressure [k humiliation] ?target}:?pressure
     (when (chance (* (k-grievance-rate)
@@ -49,7 +49,7 @@
     (effects (resolve-suicide @self))))
 
 (npc-think suicide_grief
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role @self {@self pressure [k attachment-loss] ?target}:?pressure
     (when (chance (* (k-grievance-rate)
@@ -57,7 +57,7 @@
     (effects (resolve-suicide @self))))
 
 (npc-think strive_rivalry
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role @self {@self pressure [k rivalry-pressure] ?target}:?pressure
     (when (chance (* (k-grievance-rate)

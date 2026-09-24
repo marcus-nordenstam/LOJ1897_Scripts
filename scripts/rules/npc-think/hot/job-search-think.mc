@@ -16,26 +16,28 @@
 ; ----------------------------------------------------------------------------
 
 (include "../../../definitions/roles.mc")
+(include "../../../macros/tunables.mc")
 
 ; --- pre-commit: visit the parish board while jobless and not already applying -----
 ; Two cases, complementary on whether @self KNOWS a church: he heads to one he knows, or
 ; he searches the region for one (the find-building task walks the unobserved structures).
 (npc-think seek_board_visit
   (aspect labour)
-  (cooldown 1 m)
+  (cooldown 1 m try-until-succ)
   (rng-stream employment)
   (role @self -{@self job ?}
               -{@self apply-for ? /pres}
     (role ?board [k building church] (select (score (near @self ?board)) (policy roulette))
       (role @self (not (spatial @self building ?board))
         (when (and (job-seeker @self)
-                   (latch-eval (chance 0.3))))
+                   (latch-eval (and (>= (now-hour) (business_open_hour))
+                                    (<= (now-hour) (business_close_hour))))))
         (utility errand)
         (effects (maintain-proposal {@self go ?board}))))))
 
 (npc-think seek_board_find
   (aspect labour)
-  (cooldown 1 m)
+  (cooldown 1 m try-until-succ)
   (rng-stream employment)
   (role @self -{@self job ?}
               -{@self apply-for ? /pres}
@@ -43,6 +45,8 @@
     ; The search's own /fail act-memory is the "this region has no church" record - it stops
     ; the hunt re-proposing forever once find-building has walked every structure.
     (when (and (job-seeker @self)
+               (latch-eval (and (>= (now-hour) (business_open_hour))
+                                (<= (now-hour) (business_close_hour))))
                -{@self find-building [k building church] ? /fail}
                (current-exterior @self): ?rg))
     (utility errand)
@@ -89,7 +93,7 @@
                  -{? job ?job}
                  (select (score 1) (policy roulette))
         (when (and
-                   (latch-eval (and (>= (now-hour) 8) (<= (now-hour) 17)))
+                   (latch-eval (and (>= (now-hour) (business_open_hour)) (<= (now-hour) (business_close_hour))))
                    (kind ?job): ?jk
                    (if (table-match occupations job ?jk class-floor ?cf0) (then ?cf0) (else [k lower])): ?cf
                    (class-at-least @self ?cf)

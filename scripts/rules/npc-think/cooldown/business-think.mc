@@ -33,7 +33,7 @@
 
 ; --- investment: a worthy clerk secures his firm's backing -----------------
 (npc-think investment
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream business)
 
   ; SELF-POV (reframe 2026-06-23): the worthy CLERK is the deliberator and seeks his
@@ -84,7 +84,7 @@
 ; his OWN standing (diligence / repute / wealth, all self-beliefs) and resolves to
 ; buy into a firm. @self, no counterpart mind is read.
 (npc-think business_partnership
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream business)
 
   ; A merit-and-character man who cannot self-fund and is not backed - the
@@ -148,7 +148,7 @@
 ; bank, by the man himself, leaving the founding documents (the clue trail) and the
 ; co-presence a witness would see, instead of a faceless world-lane edit.
 (npc-think business_founding
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream business)
 
   ; Merit, character, and means - either enough wealth to self-fund, or a
@@ -197,7 +197,7 @@
 ; the town is at floor; a small (chance) throttles the per-month volume so the
 ; goal->commit lag cannot overshoot far. Premises availability self-limits it too.
 (npc-think business_homeostat
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream business)
   ; Serialize the floor-net decision: one founder reads the org registry, mints
   ; the FOUND goal and (on founding) appends the kind before the next reads it -

@@ -3,7 +3,7 @@
 ; the plotter via alpha clause descent, and bind the inner free var + capture at
 ; the when-gate.
 (npc-think probe_role
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (role @self 
     (role ?plotter [k human]
           {?plotter urge @self {@self probe_hunt ?prey3}:?plot3}

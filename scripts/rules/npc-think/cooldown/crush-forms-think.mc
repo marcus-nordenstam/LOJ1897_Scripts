@@ -25,7 +25,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think crush_forms
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream incidents)
 
   ;; @self - a romantically-open single, not already deep in a crush. The trait

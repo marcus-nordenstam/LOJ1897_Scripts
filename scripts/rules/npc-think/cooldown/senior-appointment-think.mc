@@ -20,7 +20,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think senior_appointment
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream employment)
 
   ;; The candidate IS the deliberating NPC (@self self-role, the standard

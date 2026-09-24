@@ -15,7 +15,7 @@
 ; ?job -> ?org -> ?wp threading is the stocktake_round shape); the store's stock is
 ; the ONLY source of goods, so the round cannot wait on the labour market hiring clerks.
 (npc-think plan_stocktake
-  (cooldown 1 m)
+  (cooldown 1 m try-until-succ)
   (rng-stream behaviour)
 
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}

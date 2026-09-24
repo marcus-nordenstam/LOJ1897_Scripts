@@ -34,7 +34,7 @@
 (define-macro immigrant_admit_scale () 0.5)
 
 (npc-think admit_immigrant
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream migrations)
   ; (population-pressure) is an AMBIENT SCALAR - how full the parish is, which
   ; an official knows from his own register. It names no object, so it reveals

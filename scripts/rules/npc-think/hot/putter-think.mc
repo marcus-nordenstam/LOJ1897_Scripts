@@ -8,7 +8,7 @@
 
 (npc-think want_putter
   (lock)
-  (cooldown 1 m)
+  (cooldown 1 m try-until-succ)
   (role ?home {@self home ?home}
     (role @self (spatial @self building ?home)
       (utility idle)

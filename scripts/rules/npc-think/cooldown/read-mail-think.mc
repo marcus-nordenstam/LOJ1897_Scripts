@@ -12,7 +12,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think want_read_mail
-  (cooldown 1 d)
+  (cooldown 1 d try-until-succ)
   (role ?home {@self home ?home}
     (role @self (spatial @self building ?home)
       (when (>= (days-since-last {@self read-mail ?home /succ}) 1))

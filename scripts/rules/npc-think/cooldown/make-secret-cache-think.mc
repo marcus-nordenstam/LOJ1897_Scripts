@@ -10,7 +10,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think make_secret_cache
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
 
   ; No cache yet - a CACHED self-gate; an owner of one skips the think forever.
   (role @self -{@self hiding-spot ?}

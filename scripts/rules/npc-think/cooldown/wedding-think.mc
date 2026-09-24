@@ -25,7 +25,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think plan_wedding
-  (cooldown 1 m)
+  (cooldown 1 m try-until-succ)
   (rng-stream marriages)
   ; @self GATE: unmarried adult man (the template's male / 18+ / not-spouse filters
   ; apply to @self; its kind/alive existence checks are no-ops for @self and are

@@ -28,7 +28,7 @@
 ; The MINTER owns un-minting: once drink_act completes, days-since-last resets, the (when) drops,
 ; and the falling edge ends {@self DRINK}. The act itself never ends the goal.
 (npc-think want_drink
-  (cooldown 3 d)
+  (cooldown 3 d try-until-succ)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               -{@self craving [k alcohol]}   ; dependents use the relapse lane
     (when          (>= (days-since-last {@self DRINK /ever}) 3))

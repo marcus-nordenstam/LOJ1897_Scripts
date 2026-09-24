@@ -31,7 +31,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think covet_inheritance
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream perpetration)
 
   (role @self 

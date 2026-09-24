@@ -33,7 +33,7 @@
 ; skip the rule without any belief scan; only the non-belief date / age / goal
 ; gates stay live in (when).
 (npc-think consider_household_staffing
-  (cooldown 1 m)
+  (cooldown 1 m try-until-succ)
   (rng-stream employment)
 
   (role @self 
@@ -63,7 +63,7 @@
 ; role as the THINK above. Servant hiring stays in the monthly ACT below (it
 ; no-ops until the articles exist).
 (npc-think found_household
-  (cooldown 1 m)
+  (cooldown 1 m try-until-succ)
   (goal {@self staff-household})
   (rng-stream employment)
 
@@ -86,7 +86,7 @@
   ; (hsim::staff_household hires the shortfall once found_household has
   ; constituted the org; no-ops while no articles exist and once full -
   ; self-throttles).
-  (cooldown 1 m)
+  (cooldown 1 m try-until-succ)
   (goal {@self staff-household})
   (rng-stream employment)
 

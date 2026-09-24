@@ -22,7 +22,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think duty_review
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream employment)
 
   (role ?job {@self job ?job}

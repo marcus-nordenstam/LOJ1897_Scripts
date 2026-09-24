@@ -13,7 +13,7 @@
   ; worship episodes (a lapsing churchgoer slides devout->observant->secular purely by the clock),
   ; so no belief edge marks the band change - only a periodic recompute catches it. Self-primed
   ; by cold_start_window.
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   (role @self {@self class-situation ?}
@@ -26,7 +26,7 @@
   ; Monthly cooldown (like the self side): (evidence ...) decays continuously between the ?other's
   ; witnessed worship episodes, so no belief edge marks the band change - a periodic recompute
   ; re-bands every tracked ?other from what @self currently holds of their observance.
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   (role ?other {?other class-situation ?}

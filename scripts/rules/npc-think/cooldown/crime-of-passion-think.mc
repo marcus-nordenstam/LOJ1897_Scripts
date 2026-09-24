@@ -43,7 +43,7 @@
     (else ?beloved)))
 
 (npc-think crime_of_passion
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream perpetration)
 
   (role @self 

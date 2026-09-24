@@ -21,7 +21,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think gossip
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   (role @self {@self friend ?}

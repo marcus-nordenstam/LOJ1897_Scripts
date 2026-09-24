@@ -31,7 +31,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think jilt
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream marriages)
 
   ; The jilter: holds BOTH a lover bond and a betrothal (to someone else -
@@ -80,7 +80,7 @@
 ; ----------------------------------------------------------------------------
 
 (npc-think jilt_for_station
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream marriages)
 
   ; An un-betrothed, unmarried lover-holder of marriageable standing - the

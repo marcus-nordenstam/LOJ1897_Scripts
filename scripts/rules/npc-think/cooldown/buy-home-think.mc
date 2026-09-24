@@ -36,7 +36,7 @@
   ; ANNUAL: a yearly timer mints the standing acquire desire once per year (the market
   ; then works it through buy_home_go / find / choose_home). (begin-goal) is idempotent
   ; so an annual re-mint is a no-op.
-  (cooldown 1 y)
+  (cooldown 1 y try-until-succ)
   ; Seeker: an UNMARRIED adult who has a home but neither owns nor leases it (an
   ; adult child still in the natal / inherited home). The unmarried gate keeps the
   ; market from re-separating a couple housed in a spouse's owned / leased home -

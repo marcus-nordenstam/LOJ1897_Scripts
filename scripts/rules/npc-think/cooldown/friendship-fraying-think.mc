@@ -26,7 +26,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think friendship_fraying
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream friendships)
 
   ;; SELF-POV: @self reads only his OWN mind - his soured warmth toward ?b and his

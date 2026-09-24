@@ -18,7 +18,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think borrowing
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
   (cease-after-fire)
 

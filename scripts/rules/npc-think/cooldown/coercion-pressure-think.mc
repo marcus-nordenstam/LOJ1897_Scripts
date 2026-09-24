@@ -23,7 +23,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think coercion_pressure
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (cease-after-fire)
   (rng-stream perpetration)
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}

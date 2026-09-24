@@ -32,7 +32,7 @@
 ; Make the focus's discreditable material public. Two grievances drive it and they
 ; are different acts: answering a slight against yourself, and answering a wrong.
 (npc-think expose_slight
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k humiliation|status-loss|rivalry-pressure] ?target}:?pressure
@@ -50,7 +50,7 @@
           (else (maintain-proposal {@self expose ?target /caused_by ?pressure}))))))
 
 (npc-think expose_wrongdoing
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k injustice] ?target}:?pressure
@@ -70,7 +70,7 @@
 ; ---- humiliate -------------------------------------------------------------
 ; Put the focus down in public - the status answer to a status injury.
 (npc-think humiliate_slight
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k humiliation|rivalry-pressure] ?target}:?pressure
@@ -90,7 +90,7 @@
 ; Press a threat on the focus. Silencing the source of a slight and holding on to
 ; someone you are losing are the same act for opposite reasons, so they are two rules.
 (npc-think coerce_silence
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k humiliation] ?target}:?pressure
@@ -107,7 +107,7 @@
           (else (maintain-proposal {@self coerce ?target /caused_by ?pressure}))))))
 
 (npc-think coerce_hold
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k attachment-loss] ?target}:?pressure
@@ -126,7 +126,7 @@
 ; ---- seduce ----------------------------------------------------------------
 ; Replace what was lost by taking someone else's attachment.
 (npc-think seduce_replacement
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k attachment-loss] ?target}:?pressure
@@ -145,7 +145,7 @@
 ; ---- frame -----------------------------------------------------------------
 ; Pin your own breach on someone else - the guilty actor's way out.
 (npc-think frame_deflection
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k moral-violation] ?target}:?pressure
@@ -165,7 +165,7 @@
 ; Buy the focus's silence. A crime, but not an aggression - no disposition tilt
 ; steers it, so the drive is the grievance's heat alone.
 (npc-think bribe_to_bury
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role ?target {?target isa [k human], condition [k alive]}
     {@self pressure [k exposure-risk] ?target}:?pressure

@@ -20,7 +20,7 @@
   ; Monthly cooldown: contentment folds the continuously-drifting (sobriety) (intoxication attr)
   ; and (belonging) reads alongside wealth and the kin/employ beliefs, so a periodic recompute
   ; tracks that drift. Gated on wealth being derived; self-primed by cold_start_window.
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   (role @self {@self wealth ?wealth}

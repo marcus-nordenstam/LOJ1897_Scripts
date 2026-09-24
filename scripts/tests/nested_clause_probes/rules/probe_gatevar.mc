@@ -4,7 +4,7 @@
 ; PLACEABLE (threaded live at the when-gate seam) rather than a hard load error.
 ; Fires once per NPC holding the mint's goal + the {?prey accomplice ?prey} belief.
 (npc-think probe_gatevar
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (goal {@self probe_hunt ?prey})
   (role @self {?prey accomplice ?acc}
     (effects (debug-print "PROBE_GATEVAR prey=?prey acc=?acc"))))

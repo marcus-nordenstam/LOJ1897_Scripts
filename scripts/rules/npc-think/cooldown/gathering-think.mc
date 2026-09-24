@@ -26,7 +26,7 @@
 ; The host's planning decision (npc-think). ~2% of grown NPCs each month decide to
 ; throw a dinner party at home, set about three months ahead.
 (npc-think plan_gathering
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (when (chance 0.02))
@@ -39,7 +39,7 @@
 ; object that cannot ride a spoken wire either, so today the host stages a supper only
 ; he knows about.
 (npc-think plan_impromptu_supper
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (when (chance 0.015))

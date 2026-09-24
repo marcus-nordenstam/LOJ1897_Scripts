@@ -21,7 +21,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think bonded_incident_assault
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream incidents)
 
   ; @self is any human; the dark-tetrad assault disposition that rolls once

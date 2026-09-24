@@ -2,7 +2,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think introduce
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   (role ?stranger 

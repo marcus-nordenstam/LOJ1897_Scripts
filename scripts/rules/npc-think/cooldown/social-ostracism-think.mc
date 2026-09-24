@@ -16,7 +16,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think social_ostracism
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream behaviour)
 
   ; SELF-POV: @self shuns a warmth-tie he reputes scandalous. ?b is a current

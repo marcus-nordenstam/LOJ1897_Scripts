@@ -27,7 +27,7 @@
 (include "../../../definitions/roles.mc")
 
 (npc-think lovers
-  (cooldown 1 m)
+  (cooldown 1 m try-once)
   (rng-stream marriages)
 
   ; @self is the BELIEVER - the outer role for the cross-pair fancy gate on ?b
