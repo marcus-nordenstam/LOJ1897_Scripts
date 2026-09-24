@@ -93,11 +93,11 @@
 ; The starving tail (below) all gate on appetite > 1.3, so this always sits in the
 ; CRISIS band (starving is an acute emergency, above every routine need); the ladder
 ; keeps the sub-need shape for any future re-gating. Value climbs convex toward collapse.
-(define-macro starve-drive ()
-  (homeostatic-banded appetite 2.0
-    [/want   0.0  0   500]
-    [/need   0.45 300 900]
-    [/crisis 0.9  600 1000]))
+; (define-macro starve-drive ()
+;   (homeostatic-banded appetite 2.0
+;     [/want   0.0  0   500]
+;     [/need   0.45 300 900]
+;     [/crisis 0.9  600 1000]))
 
 ; ---- notice the larder -----------------------------------------------------
 ; A home, hungry resident who believes there is NO food OBSERVES their own
@@ -281,6 +281,8 @@
 ; the same provisions-shop belief the provisioning errand builds; a starving stranger
 ; to the town tries any shop.
 
+; DISABLED, down to forage_at_source: no mind eats (the eat task and forage never run), so
+; every mind starves from day one and these drivers swamp every other lane.
 ; THE STARVING WATCH - the physiology->belief seam. Hunger is an ATTR (no belief
 ; seam, so no cached gate can key on it directly); this pair maintains the
 ; {@self starve} marker belief AT the crossing, so every tail lane below keys
@@ -289,17 +291,17 @@
 ; gated to the not-yet-starving); the marker ends at the same threshold once
 ; a meal brings hunger back under. The tails keep the live hunger conjunct as
 ; the freshness check - it now only ever runs for the starving few.
-(npc-think starving_watch
-  (role @self -{@self starve}
-    (when (> (target-or @self appetite 0) 1.3))
-    (effects
-      (begin-belief {@self starve}))))
+; (npc-think starving_watch
+;   (role @self -{@self starve}
+;     (when (> (target-or @self appetite 0) 1.3))
+;     (effects
+;       (begin-belief {@self starve}))))
 
-(npc-think starving_watch_end
-  (role @self {@self starve}
-    (when (not (> (target-or @self appetite 0) 1.3)))
-    (effects
-      (end-belief {@self starve}))))
+; (npc-think starving_watch_end
+;   (role @self {@self starve}
+;     (when (not (> (target-or @self appetite 0) 1.3)))
+;     (effects
+;       (end-belief {@self starve}))))
 
 ; The four food-source DESIRES all push the same convex drive onto one {@self forage}
 ; goal (the source is chosen by branch ORDER in forage_act, not by competing utility):
@@ -308,86 +310,86 @@
 
 ; Eat what you carry: the laden cook (or laden thief) whose FIRST standing stow
 ; goal is a food item.
-(npc-think starving_eat_carried
-  (role @self {@self starve}
-    (when (and (> (target-or @self appetite 0) 1.3)
-               (> (held-pile-count @self [k food]) 0)))
-    (utility (starve-drive))
-    (effects       (begin-goal {@self forage}))
-    (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ))))
+; (npc-think starving_eat_carried
+;   (role @self {@self starve}
+;     (when (and (> (target-or @self appetite 0) 1.3)
+;                (> (held-pile-count @self [k food]) 0)))
+;     (utility (starve-drive))
+;     (effects       (begin-goal {@self forage}))
+;     (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ))))
 
-(npc-think starving_pantry
-  (role @self {@self starve}
-    (role ?home {@self home ?home}
-                (spatial @self building ?home)
-      (when (and (> (target-or @self appetite 0) 1.3)
-                 (> (believed-home-food-count ?home) 0)))
-      (utility (starve-drive))
-      (effects       (begin-goal {@self forage}))
-      (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ)))))
+; (npc-think starving_pantry
+;   (role @self {@self starve}
+;     (role ?home {@self home ?home}
+;                 (spatial @self building ?home)
+;       (when (and (> (target-or @self appetite 0) 1.3)
+;                  (> (believed-home-food-count ?home) 0)))
+;       (utility (starve-drive))
+;       (effects       (begin-goal {@self forage}))
+;       (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ)))))
 
-(npc-think starving_go_home
-  (role @self {@self starve}
-    (role ?home {@self home ?home}
-                (not (spatial @self building ?home))
-      (when (and (> (target-or @self appetite 0) 1.3)
-                 (> (believed-home-food-count ?home) 0)))
-      (utility (starve-drive))
-      (effects (maintain-proposal {@self go ?home})))))
+; (npc-think starving_go_home
+;   (role @self {@self starve}
+;     (role ?home {@self home ?home}
+;                 (not (spatial @self building ?home))
+;       (when (and (> (target-or @self appetite 0) 1.3)
+;                  (> (believed-home-food-count ?home) 0)))
+;       (utility (starve-drive))
+;       (effects (maintain-proposal {@self go ?home})))))
 
 ; Buy: at a shop with wealth, one item eaten on the spot (paid-for in the v1
 ; no-coin sense as provisioning).
-(npc-think starving_buy
-  (role @self {@self starve ?, wealth ?wealth}
-    (when (and (> (target-or @self appetite 0) 1.3)
-               (> ?wealth 0.2)
-               (is-a (spatial @self building) [k building shop])))
-    (utility (starve-drive))
-    (effects       (begin-goal {@self forage}))
-    (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ))))
+; (npc-think starving_buy
+;   (role @self {@self starve ?, wealth ?wealth}
+;     (when (and (> (target-or @self appetite 0) 1.3)
+;                (> ?wealth 0.2)
+;                (is-a (spatial @self building) [k building shop])))
+;     (utility (starve-drive))
+;     (effects       (begin-goal {@self forage}))
+;     (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ))))
 
-(npc-think starving_buy_go
-  (role @self {@self starve ?, wealth ?wealth}
-    (when (and (> (target-or @self appetite 0) 1.3)
-               (> ?wealth 0.2)
-               (not (is-a (spatial @self building) [k building shop]))))
-    (utility (starve-drive))
-    ; THE PREFERENCE IS THE RUNG ORDER: the shop he knows sells provisions, else any shop he
-    ; knows at all, nearest-weighted.
-    (stable-or
-      (try
-        (role ?shop {@self provisions-shop ?shop} (select (policy first-match))
-          (effects (maintain-proposal {@self go ?shop}))))
-      (try
-        (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette))
-          (effects (maintain-proposal {@self go ?go_dest})))))))
+; (npc-think starving_buy_go
+;   (role @self {@self starve ?, wealth ?wealth}
+;     (when (and (> (target-or @self appetite 0) 1.3)
+;                (> ?wealth 0.2)
+;                (not (is-a (spatial @self building) [k building shop]))))
+;     (utility (starve-drive))
+;     ; THE PREFERENCE IS THE RUNG ORDER: the shop he knows sells provisions, else any shop he
+;     ; knows at all, nearest-weighted.
+;     (stable-or
+;       (try
+;         (role ?shop {@self provisions-shop ?shop} (select (policy first-match))
+;           (effects (maintain-proposal {@self go ?shop}))))
+;       (try
+;         (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette))
+;           (effects (maintain-proposal {@self go ?go_dest})))))))
 
 ; Steal: the pauper's act - at a shop with no wealth, the mouthful goes on the
 ; ledger (the shop owner is the victim). The row lands only when something was
 ; actually eaten - forage_act appends it inside its shop branch.
-(npc-think starving_steal
-  (role @self {@self starve ?, wealth ?wealth}
-    (when (and (> (target-or @self appetite 0) 1.3)
-               (not (> ?wealth 0.2))
-               (is-a (spatial @self building) [k building shop])))
-    (utility (starve-drive))
-    (effects       (begin-goal {@self forage}))
-    (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ))))
+; (npc-think starving_steal
+;   (role @self {@self starve ?, wealth ?wealth}
+;     (when (and (> (target-or @self appetite 0) 1.3)
+;                (not (> ?wealth 0.2))
+;                (is-a (spatial @self building) [k building shop])))
+;     (utility (starve-drive))
+;     (effects       (begin-goal {@self forage}))
+;     (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ))))
 
-(npc-think starving_steal_go
-  (role @self {@self starve ?, wealth ?wealth}
-    (when (and (> (target-or @self appetite 0) 1.3)
-               (not (> ?wealth 0.2))
-               (not (is-a (spatial @self building) [k building shop]))))
-    (utility (starve-drive))
-    ; THE PREFERENCE IS THE RUNG ORDER, as in starving_buy_go above.
-    (stable-or
-      (try
-        (role ?shop {@self provisions-shop ?shop} (select (policy first-match))
-          (effects (maintain-proposal {@self go ?shop}))))
-      (try
-        (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette))
-          (effects (maintain-proposal {@self go ?go_dest})))))))
+; (npc-think starving_steal_go
+;   (role @self {@self starve ?, wealth ?wealth}
+;     (when (and (> (target-or @self appetite 0) 1.3)
+;                (not (> ?wealth 0.2))
+;                (not (is-a (spatial @self building) [k building shop]))))
+;     (utility (starve-drive))
+;     ; THE PREFERENCE IS THE RUNG ORDER, as in starving_buy_go above.
+;     (stable-or
+;       (try
+;         (role ?shop {@self provisions-shop ?shop} (select (policy first-match))
+;           (effects (maintain-proposal {@self go ?shop}))))
+;       (try
+;         (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette))
+;           (effects (maintain-proposal {@self go ?go_dest})))))))
 
 ; TERMINAL step: the {@self forage} goal, at a food source, promotes to the generic
 ; consume act. The four food-source desires above hold {@self forage} only while a
@@ -398,52 +400,52 @@
 ; (carried > home pantry > shop) and handed to the act as ?item + ?owner. The
 ; proposal inherits the starving-band utility (141/140/135/130) from the
 ; {@self forage} goal it /causes (via the (goal ...) gate).
-(npc-think forage_at_source
-  (goal    {@self forage})
-  (when    (or (> (held-pile-count @self [k food]) 0)
-               (at-home)
-               (is-a (spatial @self building) [k building shop])))
-  ; Every food source is a PILE (basket / larder / shelf); ?item is bound to the
-  ; pile and EAT eats one off its count (never destroys it). ?owner stays 0
-  ; unless the mouthful is STOLEN (at a shop, no wealth) - then the shop owner is
-  ; the wronged party the EAT act ledgers. An empty scene (?found 0 - a stale
-  ; belief a sibling already ate) proposes nothing and lets the >1.3 gate re-drive.
-  (effects
-    (bind 0 ?found)
-    (bind 0 ?owner)
-    (bind 0 ?item)
-    ; carried basket
-    (bind 0 ?carried_pile)
-    (held-pile-into @self [k food] ?carried_pile)
-    (if (and (= ?found 0) ?carried_pile (> (attr ?carried_pile count) 0))
-        (then (bind ?carried_pile ?item) (bind 1 ?found)))
-    ; home larder (the kitchen pile - the diner stands in the home)
-    (if (and (= ?found 0) (at-home))
-        (then
-          (bind 0 ?home_kitchen)
-          (spatial (any {@self home}).target room [k kitchen]): ?home_kitchen
-          (if ?home_kitchen
-              (then
-                (bind 0 ?larder_pile)
-                (pile-at-into ?home_kitchen [k food] ?larder_pile)
-                (if (and ?larder_pile (> (attr ?larder_pile count) 0))
-                    (then (bind ?larder_pile ?item) (bind 1 ?found)))))))
-    ; shop shelf
-    (spatial @self building): ?shop
-    (if (and (= ?found 0) ?shop (is-a ?shop [k building shop]))
-        (then
-          (for-each ?room (spatial ?shop parts [k interior-space room] /env)
-            (do
-              (bind 0 ?shelf_pile)
-              (pile-at-into ?room [k food] ?shelf_pile)
-              (if (and (= ?found 0) ?shelf_pile (> (attr ?shelf_pile count) 0))
-                  (then (bind ?shelf_pile ?item)
-                        (bind 1 ?found)
-                        (begin-belief {@self provisions-shop ?shop})
-                        (if (not (> (any {@self wealth}).target 0.2))
-                            (then (any {? own ?shop}).subject: ?owner))))))))
-    (if (= ?found 1)
-        (then (maintain-proposal {@self EAT ?item ?owner})))))
+; (npc-think forage_at_source
+;   (goal    {@self forage})
+;   (when    (or (> (held-pile-count @self [k food]) 0)
+;                (at-home)
+;                (is-a (spatial @self building) [k building shop])))
+;   ; Every food source is a PILE (basket / larder / shelf); ?item is bound to the
+;   ; pile and EAT eats one off its count (never destroys it). ?owner stays 0
+;   ; unless the mouthful is STOLEN (at a shop, no wealth) - then the shop owner is
+;   ; the wronged party the EAT act ledgers. An empty scene (?found 0 - a stale
+;   ; belief a sibling already ate) proposes nothing and lets the >1.3 gate re-drive.
+;   (effects
+;     (bind 0 ?found)
+;     (bind 0 ?owner)
+;     (bind 0 ?item)
+;     ; carried basket
+;     (bind 0 ?carried_pile)
+;     (held-pile-into @self [k food] ?carried_pile)
+;     (if (and (= ?found 0) ?carried_pile (> (attr ?carried_pile count) 0))
+;         (then (bind ?carried_pile ?item) (bind 1 ?found)))
+;     ; home larder (the kitchen pile - the diner stands in the home)
+;     (if (and (= ?found 0) (at-home))
+;         (then
+;           (bind 0 ?home_kitchen)
+;           (spatial (any {@self home}).target room [k kitchen]): ?home_kitchen
+;           (if ?home_kitchen
+;               (then
+;                 (bind 0 ?larder_pile)
+;                 (pile-at-into ?home_kitchen [k food] ?larder_pile)
+;                 (if (and ?larder_pile (> (attr ?larder_pile count) 0))
+;                     (then (bind ?larder_pile ?item) (bind 1 ?found)))))))
+;     ; shop shelf
+;     (spatial @self building): ?shop
+;     (if (and (= ?found 0) ?shop (is-a ?shop [k building shop]))
+;         (then
+;           (for-each ?room (spatial ?shop parts [k interior-space room] /env)
+;             (do
+;               (bind 0 ?shelf_pile)
+;               (pile-at-into ?room [k food] ?shelf_pile)
+;               (if (and (= ?found 0) ?shelf_pile (> (attr ?shelf_pile count) 0))
+;                   (then (bind ?shelf_pile ?item)
+;                         (bind 1 ?found)
+;                         (begin-belief {@self provisions-shop ?shop})
+;                         (if (not (> (any {@self wealth}).target 0.2))
+;                             (then (any {? own ?shop}).subject: ?owner))))))))
+;     (if (= ?found 1)
+;         (then (maintain-proposal {@self EAT ?item ?owner})))))
 
 ; ---- the eat TASK's PERFORMANCE rungs ----------------------------------------
 ; eat is a TASK (tasks.mon): its desires promote it AT the place (eat_at_place),
