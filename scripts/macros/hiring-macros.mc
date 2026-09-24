@@ -7,6 +7,17 @@
 ; requirement is unauthored.
 ; ----------------------------------------------------------------------------
 
+; respectability bands -> monotonic rank (worst -> best). The unappraised
+; default (-1) is supplied at the call site (repute-rank macro), so a trust
+; post's req-repute gate fails a worker with NO proven band.
+(define-table repute_rank
+  (fields band rank)
+  (record [k scandalous]   0)
+  (record [k disreputable] 1)
+  (record [k questionable] 2)
+  (record [k respectable]  3)
+  (record [k exemplary]    4))
+
 ; (job-seeker ?w): the WORKER-side eligibility to hunt for waged work - working age,
 ; not disgraced, and not rich enough to live without a wage. The wealth leg reads as
 ; "needs work" for a seeker with no wealth belief yet (the inner (and ..) is false).

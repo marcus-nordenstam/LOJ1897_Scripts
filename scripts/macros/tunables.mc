@@ -172,7 +172,7 @@
 (define-macro staff_hire_age_min () 16)
 (define-macro staff_hire_age_max () 55)
 
-; Sporting-meet model (the per-sport rows live in tables/club_sports.mc).
+; Sporting-meet model (the per-sport rows live in the club_sports table, rules/npc-think/hot/sporting-event-think.mc).
 (define-macro jockey_hire_age_min      () 16)
 (define-macro jockey_hire_age_max      () 45)
 (define-macro trained_victory_weight   () 3.0)  ; practice marker's edge in the victor roll

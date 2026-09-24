@@ -16,7 +16,7 @@
 ;   compete: the COMPETITOR's half - a member the organiser summoned proposes his own
 ;     {@self RACE-RUN} act (race_act runs his leg from his own attributes).
 ;
-; The SPORT is authored content read per club kind from tables/club_sports.mc;
+; The SPORT is authored content read per club kind from the club_sports table (hot/sporting-event-think.mc);
 ; the field is the membership-roll the organiser legitimately holds - both
 ; read inside open_meet_act (hold_meet_act.mc), never here.
 ; ----------------------------------------------------------------------------

@@ -19,11 +19,27 @@
 ;   compete: the COMPETITOR's half - a member the organiser summoned proposes his own
 ;     {@self RACE-RUN} act (race_act runs his leg from his own attributes).
 ;
-; The SPORT is authored content read per club kind from tables/club_sports.mc; the
+; The SPORT is authored content read per club kind from the club_sports table below; the
 ; field is the membership-roll the organiser legitimately holds - both read in
 ; summon_field below, never in an act body (an act reasons about nothing).
 ; ----------------------------------------------------------------------------
 
+; club_sports - which sport a club competes in, per org kind. Read by the
+; club organiser's annual meet (rules/npc-act/hold-meet.mc) via
+;   (table-match club_sports org-kind ?club_kind sport ?sport)
+; an EXACT key match on the club's org kind (the kind it was founded with,
+; read off its articles). Author one row per foundable club kind - the club
+; founding lane (rules/npc-act/club_found_errand.mc) rolls race-club /
+; athletic-club, so those are the rows that matter; add a row when a new club
+; kind becomes foundable (a kind with no row simply holds no contest).
+;
+; WHO competes and WHO wins is decided in hold-meet.mc from OBSERVABLE state
+; (roster co-presence + assertiveness), not from this table: the table carries
+; only the sport label, which is pure authored content.
+(define-table club_sports
+  (fields org-kind sport)
+  (record [k org race-club]     [k sport horse-racing])
+  (record [k org athletic-club] [k sport cricket]))
 
 ; --- routing: get the organiser to his clubhouse, then propose the on-site act ---
 ; The clubhouse is the goal focus's premises (articles-building), role-free (recovered from

@@ -7,6 +7,17 @@
 ; (the detective clue trail) and the co-presence a witness would see.
 ; ----------------------------------------------------------------------------
 
+(define-table foundable_businesses
+  (fields kind weight)
+  (record [k org grocer]        1)
+  (record [k org bookseller]    1)
+  (record [k org barbershop]    1)
+  (record [k org restaurant]    1)
+  (record [k org pawnbroker]    1)
+  (record [k org apothecary]    1)
+  (record [k org antiques-shop] 1)
+  (record [k org hotel]         1))
+
 (npc-action {@self FOUND}
   (motor body legs)
   (duration (seconds 90 min))

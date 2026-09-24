@@ -7,6 +7,15 @@
 ; first member. Members join afterwards via club_joining.
 ; ----------------------------------------------------------------------------
 
+; foundable_clubs - the catalogs an NPC founding a concern draws from. One row
+; per foundable kind; `weight` biases the draw. Nothing here gates on premises:
+; found-org-seq's own (if ?wp) guard no-ops a founding with nowhere to house it,
+; so a kind with no free building simply produces nothing that trip.
+(define-table foundable_clubs
+  (fields kind weight)
+  (record [k org race-club]     1)
+  (record [k org athletic-club] 1))
+
 (npc-action {@self FOUND-CLUB}
   (motor body legs)
   (duration (seconds 90 min))
