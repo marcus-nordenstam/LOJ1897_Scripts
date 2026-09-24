@@ -19,12 +19,32 @@
 ; exactly one try is ever live - exclusivity is inherent in the gates.
 ; ----------------------------------------------------------------------------
 
+; What the search was for, if @self has now seen it: a building of the sought KIND, or
+; the house standing at the sought PLACE's premises. @nothing while it is still out there.
+(define-func find-building-found (?sought)
+  (bind @nothing ?found)
+  (if (is-kind ?sought)
+    (then
+      (for-each ?rel (every {? address})
+        (bind ?rel.subject ?b)
+        (if (and (is-a ?b ?sought) (observed ?b))
+          (then
+            (bind ?b ?found)
+            (break)))))
+    (else
+      (if (any {?sought address}): ?addr-rel
+        (then (bind (seen-premises-at (address-premises ?addr-rel.target)) ?found)))))
+  ?found)
+
 (npc-task {@self find-building ?sought ?region}:?find_task-rel
   ; The frontier IS the exception: covering unexplored ground means asking the world what
   ; is out there that @self has not seen yet. Signed off deliberately.
   (lint-waive env-read-outside-action)
   (tar ?)
   (aux ?)
+  ; Seeing the sought venue is what makes its proposer let go, so the withdrawal is where
+  ; the search learns it succeeded.
+  (cease (if (substantial (find-building-found ?sought)) (then (set-outcome ?find_task-rel /succ))))
   (preemptive-or
     (try
       (when (and (latch-eval (closest-unobserved [k structure] ?region): ?dest)
