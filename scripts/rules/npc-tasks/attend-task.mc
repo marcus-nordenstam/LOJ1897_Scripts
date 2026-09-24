@@ -5,7 +5,7 @@
 ; reads. The desire that RAISES this task - an invitation held / an occasion
 ; organized whose held-on date has come - lives in attend_think.mc; a wedding
 ; principal's extra vow duty is its own task (wed-task.mc). The physical work
-; routes through the shared enter / DWELL actions.
+; routes through go and the DWELL action, and the task concludes once the hours are over.
 ;
 ; ?occ is read straight off the task head; the venue + presence gate are roles
 ; (change-driven), and only the intra-day timing rides (when).
@@ -22,10 +22,26 @@
                      (attend-in-window ?start ?end)))
           (effects (maintain-proposal {@self go ?venue})))))
 
-    ; STAY: I am at the venue in the window -> dwell. The stay IS the attendance.
+    ; STAY: I am at the venue in the window -> dwell to its end. The stay IS the attendance.
     (try
       (role ?venue {?occ venue ?venue}
         (role @self (spatial @self building ?venue)
           (when (and {?occ hours ?start ?end}
                      (attend-in-window ?start ?end)))
-          (effects (maintain-proposal {@self DWELL ?venue (+ (now-hour) 1)})))))))
+          (effects (maintain-proposal {@self DWELL ?venue ?end})))))
+
+    ; OVER, having stayed: attended.
+    (try
+      (role ?venue {?occ venue ?venue}
+        (when (and {?occ hours ?start ?end}
+                   (>= (now-hour) ?end)
+                   {@self DWELL ?venue ? /succ /caused_by ?a-rel /ever}))
+        (effects (set-outcome ?a-rel /succ))))
+
+    ; OVER, never having stayed: missed it.
+    (try
+      (role ?venue {?occ venue ?venue}
+        (when (and {?occ hours ?start ?end}
+                   (>= (now-hour) ?end)
+                   -{@self DWELL ?venue ? /succ /caused_by ?a-rel /ever}))
+        (effects (set-outcome ?a-rel /fail))))))

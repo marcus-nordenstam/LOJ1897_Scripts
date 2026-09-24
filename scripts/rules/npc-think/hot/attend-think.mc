@@ -14,7 +14,7 @@
 ; guest's willingness scales with warmth toward the host). A wedding principal
 ; additionally runs the wed duty.
 ; maintain-proposal throughout: the desire self-withdraws once held-on leaves the
-; current month, so the task ends with no separate outcome rung.
+; current month; the task concludes itself once the occasion's hours are over.
 ;
 ; vow_realized / spouse_reciprocate reconcile the marriage beliefs the vow makes -
 ; they gate on fiancee / spouse, not on any attend token, so they stay here.
