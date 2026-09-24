@@ -38,10 +38,8 @@
 (npc-task {@self stack-browse ?stack ?do-this}:?browse-rel
   (tar [k stack] @object)
   (aux ?)
-  ; THE OPENING LOOK. (init ..) runs on the rising edge of EACH rung's firing, not once per
-  ; round, so it only looks: a verdict here would re-run mid-round - on the pass after he
-  ; lifts the last paper, the pile reads empty with the paper still in his hand. The empty
-  ; pile is concluded by the first rung below, which asks that nothing of the pile is held.
+  ; THE OPENING LOOK, once, when the rule-rung rises. It only looks: the empty pile is
+  ; concluded by the first rung below, which also asks that nothing of the pile is held.
   (init
     (tolerate (observe (spatial ?stack top /env))))
   (and
