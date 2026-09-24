@@ -14,15 +14,15 @@
 ; buried (accepted per the emergent-death-knowledge decision).
 ;
 ; TWO maintenance rungs, mutually exclusive on the co-present spatial gate (the
-; enter.mc OUTSIDE-vs-INSIDE pattern), so the route->rite handoff is EMERGENT -
+; go-task.mc OUTSIDE-vs-INSIDE pattern), so the route->rite handoff is EMERGENT -
 ; no excl-goal, no per-trip arm flag. Both cast the priest (his OWN job belief,
 ; the CACHED self-gate, so every non-priest empty-set-skips the rung before the
 ; corpse/church pools materialize) and the most-overdue dead person he knows
 ; whose coroner window (>= 1 month, so a physician could examine the body -
 ; EXAMINE.act) has elapsed:
 ;
-;   bury_route: while NOT co-present with the body, hold {@self enter ?church}
-;     (the generic enter chain routes him into a church he knows - the graveyard
+;   bury_route: while NOT co-present with the body, hold {@self go ?church}
+;     (the generic go task routes him into a church he knows - the graveyard
 ;     room the convey deposit files bodies into). CEASES the instant co-present
 ;     flips true (he has reached the body).
 ;   announce_burial: once his OWN rite has ended, PROPOSE the broadcast {@self SAY ..}
@@ -56,8 +56,8 @@
 ; ----------------------------------------------------------------------------
 
 ; ROUTE rung. Held while the priest is NOT yet co-present with the overdue body:
-; roulette the nearest church he knows ONCE, hold {@self enter ?church} (the
-; enter chain does the actual travel), and cease it on arrival (co-located flips
+; roulette the nearest church he knows ONCE, hold {@self go ?church} (the
+; go task does the actual travel), and cease it on arrival (co-located flips
 ; true). No known church -> the rung never selects; a co-present body still
 ; buries via bury_onsite. The rouletted ?church is stashed at fire, so the hold
 ; and the cease operate on the SAME church (no re-roulette while walking).
@@ -70,7 +70,7 @@
       (role ?church [k building church] (select (score (near @self ?church)) (policy roulette))
         (when (>= (months-since-death ?corpse) 1))
         (utility obligation (above WORSHIP))
-        (effects (maintain-proposal {@self enter ?church}))))))
+        (effects (maintain-proposal {@self go ?church}))))))
 
 ; ONSITE rung. While the priest is CO-PRESENT with the overdue body, PROPOSE
 ; {@self BURY ?corpse} - the winning proposal promotes bury_act

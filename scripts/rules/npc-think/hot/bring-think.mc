@@ -20,11 +20,11 @@
 ; The go sub-goal INHERITS the bring goal's drive through /caused_by (worship_go
 ; shape) - the MINTING lane owns the utility (provisioning: provision_rearm 90).
 ; <dest> may be a premises BUILDING or a ROOM (provisioning aims the kitchen); the
-; generic go task (go.mc) reaches either - enter the structure, walk into the room.
+; generic go task (go-task.mc) reaches either - enter the structure, walk into the room.
 (npc-think bring_go
   (goal {@self BRING ?ware ?dest})
   (role @self (not (spatial @self space ?dest))
-    (effects (maintain-proposal {@self enter ?dest}))))
+    (effects (maintain-proposal {@self go ?dest}))))
 
 ; AT the destination: claim the floor cell the ware will rest on - polled until the grid
 ; answers one - and PROPOSE the put-down act with it (goals never propose themselves). No

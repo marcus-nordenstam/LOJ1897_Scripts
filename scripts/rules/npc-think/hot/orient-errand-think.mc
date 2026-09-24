@@ -12,7 +12,7 @@
   ; weighted. No known church -> no fire (the goal waits). Replaces (venue ...).
   (role ?go_dest [k building church] (select (score (near @self ?go_dest)) (policy roulette))
     (when (not (is-a (spatial @self building) [k building church])))
-    (effects (maintain-proposal {@self enter ?go_dest}))))
+    (effects (maintain-proposal {@self go ?go_dest}))))
 
 ; AT a church: PROPOSE the orient act (goals never propose themselves). orient_act reads the
 ; register off the standing {@self ORIENT} search goal, so the propose is label-only. One shared

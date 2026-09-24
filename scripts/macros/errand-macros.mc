@@ -16,8 +16,8 @@
 ; ----------------------------------------------------------------------------
 
 ; (route-to-venue-then-act ...) and (go-into ...) - the old STAGE-5 two-arm routing
-; macros - are RETIRED. Errand routing now mints {@self enter ?venue} into the generic
-; enter chain (rules/npc-think/intra-day/enter.mc), which front-parks the structure's
+; macros - are RETIRED. Errand routing now mints {@self go ?venue} into the generic
+; go task (rules/npc-tasks/go-task.mc), which front-parks the structure's
 ; threshold then steps into its entrance room, reactive on the actor's own movement
 ; (§5.10/§5.11). The per-trip `approached` bb-flag is gone (whereabouts is the at-threshold
 ; spatial gate, not a flag).

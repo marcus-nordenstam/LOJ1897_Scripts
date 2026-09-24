@@ -19,7 +19,7 @@
                      (can-write @self)
                      -{@self report-crime ?focus /succ /ever}))
           (utility errand)
-          (effects (maintain-proposal {@self enter ?station})))))
+          (effects (maintain-proposal {@self go ?station})))))
     ; knows no station -> search the region for one; the search's own /fail is what the
     ; abandon try below reads as "this town has no police station".
     (try

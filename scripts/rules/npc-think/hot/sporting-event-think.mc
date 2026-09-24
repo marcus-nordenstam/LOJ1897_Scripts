@@ -12,7 +12,7 @@
 ;     beliefs he minted at found-club-seq (no scan) and latches a standing
 ;     {@self hold-meet <club-articles>} goal.
 ;   hold_meet_go / summon_field / hold_meet_dwell: while the goal stands, hold_meet_go
-;     walks him to his clubhouse (articles-building; the generic enter chain does the
+;     walks him to his clubhouse (articles-building; the generic go task does the
 ;     travel) and cedes on arrival; once he is inside summon_field proposes a directed
 ;     SAY per co-present roster member (always-pick, so the field is called first) and
 ;     hold_meet_dwell proposes the closing {@self HOLD-MEET-RUN} act (fallback).
@@ -29,8 +29,8 @@
 ; --- routing: get the organiser to his clubhouse, then propose the on-site act ---
 ; The clubhouse is the goal focus's premises (articles-building), role-free (recovered from
 ; the standing goal, never a scan). Three rungs, all gated on the standing {@self hold-meet}:
-; hold_meet_go (maintenance) holds {@self enter ?clubhouse} while he is not yet inside (the
-; generic enter chain does the travel) and ceases it on arrival; summon_field and
+; hold_meet_go (maintenance) holds {@self go ?clubhouse} while he is not yet inside (the
+; generic go task does the travel) and ceases it on arrival; summon_field and
 ; hold_meet_dwell, once he is inside, propose the summonses and then the closing act, ordered
 ; by always-pick / fallback. When hold-meet ceases the standing goal, hold_meet_go loses its
 ; parent and retracts, and both inside rungs stop proposing.
@@ -39,7 +39,7 @@
   (role ?art_org {?art_org record ?art}
                   {?art_org workplace ?clubhouse}
                   (not (spatial @self building ?clubhouse))
-    (effects (maintain-proposal {@self enter ?clubhouse}))))
+    (effects (maintain-proposal {@self go ?clubhouse}))))
 
 ; The organiser SUMMONS the field by SPEAKING: one directed SAY per co-present, living
 ; roster member ({@self summon <him> /aux <sport>}, his ticket to report - race_act ends

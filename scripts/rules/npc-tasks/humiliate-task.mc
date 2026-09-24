@@ -18,15 +18,15 @@
     (try
       (when (and (alive ?victim)
                  (not (spatial ?victim co-located @self))
-                 (spatial ?victim space): ?loc))
+                 (spatial ?victim space)))
       (utility errand)
-      (effects (maintain-proposal {@self enter ?loc})))
+      (effects (maintain-proposal {@self go ?victim})))
     (try
       (role ?vhome {?victim home ?vhome}
         (when (and (alive ?victim)
                    (not (spatial ?victim co-located @self))
                    (unknown (spatial ?victim space))))
-        (effects (maintain-proposal {@self enter ?vhome}))))
+        (effects (maintain-proposal {@self go ?vhome}))))
     (try
       (when (and (alive ?victim)
                  (spatial ?victim co-located @self)

@@ -17,16 +17,16 @@
     (try
       (when (and (not (spatial ?victim co-located @self))
                  (not (attr-is ?victim awareness [k unconscious]))
-                 (spatial ?victim space): ?loc))
+                 (spatial ?victim space)))
       (utility survival)
-      (effects (maintain-proposal {@self enter ?loc})))
+      (effects (maintain-proposal {@self go ?victim})))
     (try
       (role ?vhome {?victim home ?vhome}
         (when (and (not (spatial ?victim co-located @self))
                    (not (attr-is ?victim awareness [k unconscious]))
                    (unknown (spatial ?victim space))))
         (utility survival)
-        (effects (maintain-proposal {@self enter ?vhome}))))
+        (effects (maintain-proposal {@self go ?vhome}))))
 
     ; THE BEATING: PUNCH a co-present, conscious victim.
     (try

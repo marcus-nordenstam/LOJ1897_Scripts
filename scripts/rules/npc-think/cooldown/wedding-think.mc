@@ -8,7 +8,7 @@
 ;       couple ALWAYS shows up); both guest circles are invited. No marriage yet.
 ;
 ;   attend_* (the attendance TASK, attend_think.mc): the couple + guests route to
-;       the church (enter) and gather there through the window (dwell).
+;       the church (go) and gather there through the window (dwell).
 ;
 ;   attend_vow / vow_realized / spouse_reciprocate (attend_think.mc): the marriage
 ;       is MADE AT THE CHURCH by whoever shows up - the vow is a say_to ("you are

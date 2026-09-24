@@ -10,7 +10,7 @@
 ;     beliefs he minted at found-club-seq (no scan) and latches a standing
 ;     {@self hold-meet <club-articles>} goal.
 ;   hold_meet_go / hold_meet_dwell: while the goal stands, hold_meet_go walks him to
-;     his clubhouse (articles-building; the generic enter chain does the travel) and
+;     his clubhouse (articles-building; the generic go task does the travel) and
 ;     cedes on arrival; hold_meet_dwell, once he is inside, proposes the on-site
 ;     {@self HOLD-MEET-RUN} act that open_meet_act drains (it summons the field).
 ;   compete: the COMPETITOR's half - a member the organiser summoned proposes his own

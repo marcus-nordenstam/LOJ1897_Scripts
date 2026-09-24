@@ -55,7 +55,7 @@
     (role ?agency {?agency isa [k org house-agency]}
                   {?agency workplace ?venue}
                   (not (spatial @self building ?venue))
-      (effects (maintain-proposal {@self enter ?venue})))))
+      (effects (maintain-proposal {@self go ?venue})))))
 
 ; CASE A - AT a known agency, register still unread: PROPOSE the read act (the
 ; knowledge channel). act_body_purification: this rung already gates on the

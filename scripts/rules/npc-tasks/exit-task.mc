@@ -20,10 +20,17 @@
   (spatial @self building ?bldg))
 
 (npc-task {@self exit ?bldg}:?exit-rel
-  (tar @excl [k structure] @object)
+  (tar @excl [k container-structure] @object)
+  (init
+    (check (is-a ?bldg [k container-structure]))
+    (check (grounded ?bldg))
+    (check (still-in ?bldg)))
   (when (still-in ?bldg))
   (cease (if (not (still-in ?bldg)) (then (set-outcome ?exit-rel /succ))))
   (try
     (when (poll (maintain-claim-env-cell (env-cell-size @self) [/in_front_of ?bldg]
                                          [/at_or_near @self]): ?cell))
-    (effects (maintain-proposal {@self WALK ?cell}))))
+    (effects
+      (check (is-rel-cell ?cell))
+      (check (= (cell-anchor ?cell) ?bldg))
+      (maintain-proposal {@self WALK ?cell}))))

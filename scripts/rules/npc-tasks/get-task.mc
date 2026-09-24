@@ -11,10 +11,10 @@
     (try
       (when (not (spatial ?item co-located @self)))
       (utility fallback)
-      (effects (maintain-proposal {@self enter (spatial ?item space)})))
+      (effects (maintain-proposal {@self go ?item})))
     (try
       (when (spatial ?item co-located @self))
-      (utility (above enter))
+      (utility (above go))
       (effects (maintain-proposal {@self take ?item})))
     (try
       (when {@self take ?item /succ /caused_by ?get-rel})

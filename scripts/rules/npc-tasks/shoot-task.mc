@@ -18,9 +18,9 @@
       (when (and (not (spatial ?victim co-located @self))
                  (not (empty (spatial @self hold [k firearm])))
                  -{?victim condition [k dead]}
-                 (spatial ?victim space): ?loc))
+                 (spatial ?victim space)))
       (utility survival)
-      (effects (maintain-proposal {@self enter ?loc})))
+      (effects (maintain-proposal {@self go ?victim})))
     (try
       (role ?vhome {?victim home ?vhome}
         (when (and (not (spatial ?victim co-located @self))
@@ -28,7 +28,7 @@
                    -{?victim condition [k dead]}
                    (unknown (spatial ?victim space))))
         (utility survival)
-        (effects (maintain-proposal {@self enter ?vhome}))))
+        (effects (maintain-proposal {@self go ?vhome}))))
 
     ; THE SHOT: armed, co-present with a living victim - fire.
     (try

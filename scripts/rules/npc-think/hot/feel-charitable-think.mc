@@ -18,7 +18,7 @@
 
 ; TERMINAL step (act_body_purification): the almsgiving act is PROPOSED, guarded by being AT
 ; the church, not auto-promoted by the bare {@self GIVE-ALMS <church>} goal. feel_charitable holds
-; that goal at the church (or routes there via enter); the act promotes ONLY here, ONLY in-building.
+; that goal at the church (or routes there via go); the act promotes ONLY here, ONLY in-building.
 ; The proposal inherits the compassion-ramp drive from the {@self GIVE-ALMS ?church} goal it
 ; /causes (via the (goal ...) gate).
 (npc-think give_alms_at_church

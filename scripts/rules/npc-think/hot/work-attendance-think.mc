@@ -59,7 +59,7 @@
 (npc-think day_go_to_work
   ; Shift on or imminent and not yet at the workplace: go there. The workplace ?wp may be a
   ; premises BUILDING (shop / office) or a ROOM (a gentleman's home study / back-office); the
-  ; generic go task (go.mc) reaches either - enter the structure, walk into the room.
+  ; generic go task (go-task.mc) reaches either - enter the structure, walk into the room.
   (fatigue 0)                      ; commuting to work is not a fruitless search - never fatigue-capped
   (role ?job {@self job ?job}
     (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
@@ -69,4 +69,4 @@
             (latch-eval (any {?job ?tl ?}): ?sh (bind ?sh.target ?start) (bind ?sh.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
             (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
       (utility duty)
-      (effects       (maintain-proposal {@self enter ?wp})))))
+      (effects       (maintain-proposal {@self go ?wp})))))

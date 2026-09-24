@@ -47,7 +47,7 @@
   (cease (if (substantial (find-building-found ?sought)) (then (set-outcome ?find_task-rel /succ))))
   (preemptive-or
     (try
-      (when (and (latch-eval (closest-unobserved [k structure] ?region): ?dest)
+      (when (and (latch-eval (closest-unobserved [k container-structure] ?region): ?dest)
                  (observed ?dest /not)))
       ; The cell is COMPOSED from the venue's /env bounds, not from a box he remembers -
       ; he has never seen this one, that being the point of the lane. A cell carries no
@@ -60,8 +60,7 @@
       ; cell the approach point lies in and touches no grid at all.
       (effects
         (travel-cell (spatial ?dest bounds /env)): ?spot
-        (if (is-cell ?spot)
-            (then (maintain-proposal {@self WALK ?spot}
-                                     [/postlude (observe ?dest)])))))
+        (check (is-abs-cell ?spot))
+        (maintain-proposal {@self WALK ?spot} [/postlude (observe ?dest)])))
     (try
       (effects (set-outcome ?find_task-rel /fail)))))

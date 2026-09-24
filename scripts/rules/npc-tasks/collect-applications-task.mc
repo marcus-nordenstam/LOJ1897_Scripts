@@ -24,7 +24,7 @@
         (role ?stk [k mail-stack] (spatial ?stk building ?wp))
         (effects
           (if (not (spatial ?stk co-located @self))
-              (then (maintain-proposal {@self approach ?stk})))))
+              (then (maintain-proposal {@self go ?stk})))))
 
       (stage
         (effects (maintain-proposal {@self take-applications ?stk})))

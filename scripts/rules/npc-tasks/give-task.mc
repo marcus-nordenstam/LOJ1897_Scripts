@@ -18,26 +18,26 @@
     (try
       (when (and (= (spatial ?thing held-by) @self)
                  (not (spatial ?recipient co-located @self))
-                 (spatial ?recipient space): ?loc))
+                 (spatial ?recipient space)))
       (utility fallback)
-      (effects (maintain-proposal {@self enter ?loc})))
+      (effects (maintain-proposal {@self go ?recipient})))
     (try
       (role ?rhome {?recipient home ?rhome}
         (when (and (= (spatial ?thing held-by) @self)
                    (not (spatial ?recipient co-located @self))
                    (unknown (spatial ?recipient space))))
-        (effects (maintain-proposal {@self enter ?rhome}))))
+        (effects (maintain-proposal {@self go ?rhome}))))
     (try
       (when (and (= (spatial ?thing held-by) @self)
                  (spatial ?recipient co-located @self)
                  (empty (spatial (spatial ?recipient right-hand) grip))))
-      (utility (above enter))
+      (utility (above go))
       (effects (maintain-proposal {@self OFFER-RIGHT ?thing ?recipient})))
     (try
       (when (and (= (spatial ?thing held-by) @self)
                  (spatial ?recipient co-located @self)
                  (not (empty (spatial (spatial ?recipient right-hand) grip)))))
-      (utility (above enter))
+      (utility (above go))
       (effects (maintain-proposal {@self OFFER-LEFT ?thing ?recipient})))
     (try
       (when {@self /succ OFFER-LEFT|OFFER-RIGHT ?thing ?recipient /caused_by ?give-rel})

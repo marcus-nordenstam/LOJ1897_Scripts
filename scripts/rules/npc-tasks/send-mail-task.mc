@@ -18,7 +18,7 @@
     (stage
       (effects
         (if (not (spatial ?out co-located @self))
-            (then (maintain-proposal {@self enter (spatial ?out space)})))))
+            (then (maintain-proposal {@self go ?out})))))
 
     ; The put is proposed only AT the pile: the walk is the stage before, but a man can be
     ; pulled away between stages, and STACK-PUT asserts the reach it is given. The stage

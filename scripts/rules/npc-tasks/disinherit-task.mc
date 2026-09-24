@@ -26,14 +26,14 @@
     ; REACH the victim - route to them, or their home if their location is unknown.
     (try
       (when (and (not (spatial ?victim co-located @self))
-                 (spatial ?victim space): ?loc))
+                 (spatial ?victim space)))
       (utility errand)
-      (effects (maintain-proposal {@self enter ?loc})))
+      (effects (maintain-proposal {@self go ?victim})))
     (try
       (role ?vhome {?victim home ?vhome}
         (when (and (not (spatial ?victim co-located @self))
                    (unknown (spatial ?victim space))))
-        (effects (maintain-proposal {@self enter ?vhome}))))
+        (effects (maintain-proposal {@self go ?vhome}))))
 
     ; CO-PRESENT: SAY the disinheritance. The co-present victim ADOPTS {benefactor
     ; disinherit victim} from the utterance - real told-knowledge, no fiat cross-mind

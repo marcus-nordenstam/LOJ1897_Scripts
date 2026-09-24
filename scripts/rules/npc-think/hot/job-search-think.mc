@@ -31,7 +31,7 @@
         (when (and (job-seeker @self)
                    (latch-eval (chance 0.3))))
         (utility errand)
-        (effects (maintain-proposal {@self enter ?board}))))))
+        (effects (maintain-proposal {@self go ?board}))))))
 
 (npc-think seek_board_find
   (aspect labour)

@@ -211,14 +211,14 @@
 
 ; ---- the shared approach: the <place> drives a leaf-first go sub-goal --------
 
-; Not yet at the eat place -> head there via the generic enter chain (enter.mc),
-; like worship. A MAINTENANCE rung (§5.11/§5.12): hold {@self enter ?place} while
-; not at the place, cease it on arrival (at-place). The enter chain's sub-goals are
+; Not yet at the eat place -> head there via the generic go task (go-task.mc),
+; like worship. A MAINTENANCE rung (§5.11/§5.12): hold {@self go ?place} while
+; not at the place, cease it on arrival (at-place). The go task's sub-acts are
 ; the live leaves while routing; on arrival they collapse and the eat goal becomes
 ; the leaf and promotes to eat_act. ?place is bound from the eat goal (fixed, not
 ; rouletted). For breakfast / home-lunch / work-lunch the diner is already at the
 ; place, so eat_go is SELECTED but its (when) is false and mints nothing (never a
-; spurious enter goal) - the eat goal promotes directly.
+; spurious go proposal) - the eat goal promotes directly.
 (npc-think eat_go
   (goal    {@self eat ?meal ?place})
   ; at-place, but BIND-FREE: (at-place)/(in-room) expand to (bind {@self location
@@ -231,7 +231,7 @@
   (when    (not (or (spatial @self building ?place)
                     (spatial @self space ?place))))
   (effects
-           (maintain-proposal {@self enter ?place})))
+           (maintain-proposal {@self go ?place})))
 
 ; A paid EATERY (pub / restaurant) - a supper bought out, as opposed to the free
 ; family table / workplace lunch. Keys the per-means intrinsics on eat_at_place.
@@ -333,7 +333,7 @@
       (when (and (> (target-or @self appetite 0) 1.3)
                  (> (believed-home-food-count ?home) 0)))
       (utility (starve-drive))
-      (effects (maintain-proposal {@self enter ?home})))))
+      (effects (maintain-proposal {@self go ?home})))))
 
 ; Buy: at a shop with wealth, one item eaten on the spot (paid-for in the v1
 ; no-coin sense as provisioning).
@@ -357,10 +357,10 @@
     (stable-or
       (try
         (role ?shop {@self provisions-shop ?shop} (select (policy first-match))
-          (effects (maintain-proposal {@self enter ?shop}))))
+          (effects (maintain-proposal {@self go ?shop}))))
       (try
         (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette))
-          (effects (maintain-proposal {@self enter ?go_dest})))))))
+          (effects (maintain-proposal {@self go ?go_dest})))))))
 
 ; Steal: the pauper's act - at a shop with no wealth, the mouthful goes on the
 ; ledger (the shop owner is the victim). The row lands only when something was
@@ -384,10 +384,10 @@
     (stable-or
       (try
         (role ?shop {@self provisions-shop ?shop} (select (policy first-match))
-          (effects (maintain-proposal {@self enter ?shop}))))
+          (effects (maintain-proposal {@self go ?shop}))))
       (try
         (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette))
-          (effects (maintain-proposal {@self enter ?go_dest})))))))
+          (effects (maintain-proposal {@self go ?go_dest})))))))
 
 ; TERMINAL step: the {@self forage} goal, at a food source, promotes to the generic
 ; consume act. The four food-source desires above hold {@self forage} only while a

@@ -45,6 +45,7 @@
   ; first effects tick already has a plan to poll.
   (init
     (check (is-cell ?dest))
+    (check (or (is-abs-cell ?dest) (substantial (cell-anchor ?dest))))
     (cond
       (case (unsubstantial ?dest) (set-outcome ?walk /fail))
       (case (nav-navigable @self ?dest) (nav-ensure-path @self ?dest))))

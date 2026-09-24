@@ -20,4 +20,4 @@
   (role ?art_org {?art_org record ?art}
                   {?art_org workplace ?wp}
                   (not (spatial @self building ?wp))
-    (effects (maintain-proposal {@self enter ?wp}))))
+    (effects (maintain-proposal {@self go ?wp}))))

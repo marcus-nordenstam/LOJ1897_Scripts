@@ -19,7 +19,7 @@
                   (not (spatial @self building ?home))
         (when (alive ?victim))
         (utility errand)
-        (effects (maintain-proposal {@self enter ?home}))))
+        (effects (maintain-proposal {@self go ?home}))))
     (try
       (role ?home {?victim home ?home}
                   (spatial @self building ?home)

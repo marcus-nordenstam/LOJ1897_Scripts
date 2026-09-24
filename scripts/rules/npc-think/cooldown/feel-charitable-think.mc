@@ -29,4 +29,4 @@
       (effects
         (if (spatial @self building ?venue)
             (then (begin-goal {@self GIVE-ALMS ?venue}))
-            (else (maintain-proposal {@self enter ?venue})))))))
+            (else (maintain-proposal {@self go ?venue})))))))

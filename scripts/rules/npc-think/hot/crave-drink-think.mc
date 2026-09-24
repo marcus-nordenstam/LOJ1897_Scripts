@@ -9,7 +9,7 @@
 ;                {@self DRINK} while thirsty; auto-retracts when the pressure lapses.
 ;   AT a pub   (case A):  drink_at_pub proposes {@self DRINK} - the leaf label promotes
 ;                to drink_act (drink.mc); the bare goal never self-promotes.
-;   know a pub (case B):  drink_go holds {@self enter ?pub} /caused_by the drink goal.
+;   know a pub (case B):  drink_go holds {@self go ?pub} /caused_by the drink goal.
 ;   know none  (case C):  drink_find holds {@self find-building [k pub]} /caused_by it.
 ;
 ; The go / find sub-goals carry the inherited drive and, being the live leaves, win the
@@ -34,10 +34,10 @@
     (utility (* 10 (drink-drive @self)))
     (effects (maintain-proposal {@self DRINK}))))
 
-; CASE B - not at a pub, but knows one: head to it via the generic enter chain (§5.11). A
-; maintenance rule: it roulettes a pub ONCE and mints {@self enter ?pub}, then STICKS with that
+; CASE B - not at a pub, but knows one: head to it via the generic go task (§5.11). A
+; maintenance rule: it roulettes a pub ONCE and mints {@self go ?pub}, then STICKS with that
 ; pub (no re-roulette while walking); on arrival (spatial @self building ?pub) the (when) drops and
-; when-unsupported-effects end the enter-goal. The enter chain steps
+; when-unsupported-effects end the go proposal. The go task steps
 ; the drinker INSIDE the pub, so can-drink (current-building is-a pub) then holds and drink_act
 ; promotes.
 (npc-think drink_go
@@ -45,7 +45,7 @@
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (role ?pub [k building pub] (select (score (near @self ?pub)) (policy roulette))
       (when    (not (spatial @self building ?pub)))
-      (effects (maintain-proposal {@self enter ?pub})))))
+      (effects (maintain-proposal {@self go ?pub})))))
 
 ; CASE C - not at a pub and knows none: search for one (find-building.mc runs it). A maintenance
 ; rule: it mints the standing find goal and holds it while the search runs; the moment a pub is

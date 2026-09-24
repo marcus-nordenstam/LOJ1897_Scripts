@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; BREAK-WINDOW ?win - smash a window: mark it broken and ajar (a shattered window is a
-; permanent passable gap). Like FORCE-ENTRY it only opens the breach; the enter chain's
+; permanent passable gap). Like FORCE-ENTRY it only opens the breach; the enter task's
 ; WALK-in step carries the actor through.
 ; ----------------------------------------------------------------------------
 

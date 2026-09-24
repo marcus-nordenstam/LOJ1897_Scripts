@@ -12,10 +12,10 @@
 ;     {@self PLAY-GAME} goal: once gamble_act resets days-since-last the (when) drops,
 ;     ending it - the act only accrues the addiction, never the goal.
 ;   gamble_go (maintenance): not at a pub, but knows one - roulette the nearest known
-;     pub and head to it via the generic enter chain (§5.11). It roulettes a pub once and
-;     holds {@self enter ?venue} so it STICKS with that pub (no re-roulette while walking);
-;     on arrival (spatial @self building ?venue) the (when) drops and when-unsupported-effects end the enter-goal.
-;     The enter chain steps the gambler INSIDE.
+;     pub and head to it via the generic go task (§5.11). It roulettes a pub once and
+;     holds {@self go ?venue} so it STICKS with that pub (no re-roulette while walking);
+;     on arrival (spatial @self building ?venue) the (when) drops and when-unsupported-effects end the go proposal.
+;     The go task steps the gambler INSIDE.
 ;   gamble_at_pub (terminal): AT a pub, the standing {@self PLAY-GAME} drive is PROPOSED
 ;     ({@self PLAY-GAME}), promoting to gamble_act (npc-act/gamble_act.mc). The proposed
 ;     label no longer auto-promotes, so this is the only place the act runs.
@@ -24,17 +24,17 @@
 
 (include "../../../definitions/roles.mc")
 
-; MAINTENANCE - not at a pub, but knows one: head to it via the generic enter chain
-; (§5.11). It roulettes a pub once and holds {@self enter ?venue} so it STICKS with that
+; MAINTENANCE - not at a pub, but knows one: head to it via the generic go task
+; (§5.11). It roulettes a pub once and holds {@self go ?venue} so it STICKS with that
 ; pub (no re-roulette while walking); on arrival (spatial @self building ?venue) the (when) drops and
-; when-unsupported-effects end the enter-goal. The enter chain steps the gambler INSIDE the pub, so
+; when-unsupported-effects end the go proposal. The go task steps the gambler INSIDE the pub, so
 ; at-place-kind then holds and gamble_at_pub proposes {@self PLAY-GAME}.
 (npc-think gamble_go
   (goal {@self PLAY-GAME})
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette))
       (role @self (not (spatial @self building ?venue))
-        (effects (maintain-proposal {@self enter ?venue}))))))
+        (effects (maintain-proposal {@self go ?venue}))))))
 
 ; TERMINAL step (act_body_purification): the gamble act is now PROPOSED, guarded by being AT a
 ; pub, not promoted by the bare {@self PLAY-GAME} goal. Because `play_game` is a proposed label

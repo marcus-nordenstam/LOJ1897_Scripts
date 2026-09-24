@@ -18,7 +18,7 @@
     (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
                {?org workplace ?wp}   ; ?wp binds at fire
       (when (and (not (spatial @self building ?wp))))
-      (effects (maintain-proposal {@self enter ?wp})))))
+      (effects (maintain-proposal {@self go ?wp})))))
 
 ; TERMINAL (act_body_purification): AT the workplace, PROPOSE the sack act - it no longer
 ; promotes off the bare {@self SACK} goal (a proposed label drops out of goal competition).

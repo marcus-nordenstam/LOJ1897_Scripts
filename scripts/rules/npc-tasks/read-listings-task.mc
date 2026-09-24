@@ -9,12 +9,12 @@
 (npc-task {@self read-listings ?register}:?rl-rel
   (tar @excl [k for-sale-listings] @object)
   (and
-    ; WALK: not at the register -> go to its room.
+    ; WALK: not at the register -> go to it.
     (try
       (role ?reg [k for-sale-listings] (= ?reg ?register)
             (not (spatial ?reg co-located @self))
-        (when (spatial ?reg space): ?room)
-        (effects (maintain-proposal {@self enter ?room}))))
+        (when (spatial ?reg space))
+        (effects (maintain-proposal {@self go ?reg}))))
     ; READ: at the register -> scan the table, minting an availability belief per row.
     (try
       (when (spatial ?register co-located @self))

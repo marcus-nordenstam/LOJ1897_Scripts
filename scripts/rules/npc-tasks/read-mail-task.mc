@@ -21,8 +21,8 @@
     (try
       (role ?stk [k mail-stack] (spatial ?stk building ?prem)
                                 (not (spatial ?stk co-located @self))
-        (when (spatial ?stk space): ?room)
-        (effects (maintain-proposal {@self enter ?room}))))
+        (when (spatial ?stk space))
+        (effects (maintain-proposal {@self go ?stk}))))
     (try
       (role ?stk [k mail-stack] (spatial ?stk building ?prem)
                                 (spatial ?stk co-located @self)

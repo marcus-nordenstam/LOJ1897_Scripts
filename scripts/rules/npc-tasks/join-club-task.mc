@@ -15,7 +15,7 @@
       (role ?art_org {?art_org record ?art}
                       {?art_org workplace ?venue}
                       (not (spatial @self building ?venue))
-        (effects (maintain-proposal {@self enter ?venue}))))
+        (effects (maintain-proposal {@self go ?venue}))))
 
     ; JOIN-ROLL: at the clubhouse -> resolve the club's roll and file my membership row.
     (try

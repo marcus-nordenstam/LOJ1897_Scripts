@@ -9,7 +9,7 @@
 ;                {@self DRINK} while thirsty; auto-retracts when the pressure lapses.
 ;   AT a pub   (case A):  {@self DRINK} has no active sub-goal, so it is the leaf and
 ;                promotes straight to drink_act (drink.mc). No rule needed.
-;   know a pub (case B):  drink_go holds {@self enter ?pub} /caused_by the drink goal.
+;   know a pub (case B):  drink_go holds {@self go ?pub} /caused_by the drink goal.
 ;   know none  (case C):  drink_find holds {@self find-building [k pub]} /caused_by it.
 ;
 ; The go / find sub-goals carry the inherited drive and, being the live leaves, win the

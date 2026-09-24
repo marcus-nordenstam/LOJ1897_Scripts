@@ -44,7 +44,8 @@
                   (spatial (spouse-of @self) co-located @self)))
         (utility want always-pick)
         (effects
-          (maintain-proposal {@self enter ?room}))))))
+          (observe ?room): ?obs-room
+          (maintain-proposal {@self go ?obs-room}))))))
 
 ; ACT: alone in a room with the lover -> consummate. ?paramour is a live third-party
 ; lover @self BELIEVES shares his room (the location co-location role filter).

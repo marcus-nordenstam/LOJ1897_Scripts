@@ -17,6 +17,22 @@
       (then (maintain-claim-env-cell (env-cell-size ?item) [/on_floor_of ?dest]))
       (else (maintain-claim-env-cell (env-cell-size ?item) [/on_top_of ?dest]))))
 
+; Where @self stands inside a space: a claimed cell of his own size on its floor, the one
+; nearest him. Polled like rest-cell, and likewise the asking rung's claim.
+; @self could stand in ?space: a free floor cell of his size, asked without claiming it.
+(define-func can-stand-in (?space)
+  (is-cell (env-cell (env-cell-size @self) [/on_floor_of ?space] [/near @self] [/at_or_near @self])))
+
+(define-func stand-cell-in (?space)
+  (maintain-claim-env-cell (env-cell-size @self) [/on_floor_of ?space] [/near @self]
+                           [/at_or_near @self]))
+
+; Where @self stands to be BY a thing: the free floor cell of its space nearest it. Not the
+; cell before its face - a thing set on furniture has the furniture there.
+(define-func stand-cell-by (?ent)
+  (maintain-claim-env-cell (env-cell-size @self) [/on_floor_of (spatial ?ent space)] [/near ?ent]
+                           [/at_or_near @self]))
+
 ; ----------------------------------------------------------------------------
 ; seen-premises-at ?address - the building @self has PERCEIVED at that premises address,
 ; or @nothing. The negative twin of the role that joins a house to an address: a role can

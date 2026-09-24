@@ -13,7 +13,7 @@
   (role ?art_org {?art_org record ?art}
                   {?art_org workplace ?venue}
                   (not (spatial @self building ?venue))
-    (effects (maintain-proposal {@self enter ?venue}))))
+    (effects (maintain-proposal {@self go ?venue}))))
 
 ; AT the premises: PROPOSE the partnership act (goals never propose themselves). partner_act reads
 ; the firm articles off the standing {@self PARTNER} goal focus, so the propose is label-only.

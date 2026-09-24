@@ -1,43 +1,55 @@
 ; ----------------------------------------------------------------------------
-; wander - tour every room of a building not yet visited this round. The head binds
-; ?bldg and captures the wander instance :?w-rel; the visited mark is VALUED with ?w-rel, so a
-; mark from an older round reads unvisited (a fresh round re-tours with no clearing, a
-; resumed round keeps its progress).
+; wander ?bldg - tour every room of the building he stands in that he has not walked into
+; this round. It walks each room itself, onto a spot claimed on its floor, rather than
+; proposing go: wander runs under locate, which runs under go, and a go nested under a go
+; would supersede its own ancestor.
 ;
-; INCLUSIVE (and ...): the three tries co-fire - walk toward unvisited rooms, mark the
-; room you are standing in, and conclude when the round is covered - they are not a
-; partition.
-;
-; (select ..) PICKS ONE ROOM, and it has to. The round used to fan a proposal per
-; unvisited room and let the ACTION pipeline iterate - promote one, arrival vetoes that
-; room, the next promotes - because the losers sat as proposals and waited their turn.
-; What it fans now is a TASK, and an exclusive one: a newly promoted enter does not
-; queue behind the running one, it TEARS IT DOWN. A round over four rooms was three
-; interruptions and one arrival.
+; The round's WALK records ARE the visited memory: each one's cell is anchored on the room
+; it was claimed in, and they are keyed /caused_by this wander, so they scope themselves to
+; it and retire with it.
 ; ----------------------------------------------------------------------------
 
+(include "../../definitions/roles.mc")
+
+; 1 if @self has walked into ?room during the wander ?w-rel, else 0.
+(define-func wander-walked-into (?room ?w-rel)
+  (bind 0 ?walked)
+  (for-each ?rel (every {@self WALK ? /succ /caused_by ?w-rel /ever})
+    (if (= (tolerate (cell-anchor ?rel.target)) ?room)
+      (then
+        (bind 1 ?walked)
+        (break))))
+  ?walked)
+
 (npc-task {@self wander ?bldg}:?w-rel
-  (tar @excl [k structure] @object)
+  (tar @excl [k container-structure] @object)
+  (init
+    (check (is-a ?bldg [k container-structure]))
+    (check (spatial @self building ?bldg)))
   (and
-    ; A room of ?bldg I am not standing in and have not already walked to during THIS
-    ; wander. The WALK act records ARE the visited memory - keyed /caused_by this wander, so
-    ; they scope themselves to it and retire with it. 
-    ;
-    ; ?room is an ENV symbol (the /env parts walk), and that is exactly what the negative
-    ; wants: an unobserved room has no mental twin, the criteria degenerate, the search finds
-    ; nothing and -{..} holds - so a room he has never been in always survives. The PROPOSAL
-    ; is the one place the mental symbol is required (a belief target may not be an env
-    ; symbol - it mints {@self WALK @fail}), so the observe happens there, on the fire, once.
+    ; Standing in the building he looks along its rooms: a room he has not yet seen from
+    ; inside has no mental twin, and it cannot be walked into until it has one.
     (try
-      (role ?room (spatial ?bldg parts [k interior-space room] /env)
-                  (not (spatial @self space ?room /env))
-                  -{@self enter ?room /caused_by ?w-rel /ever}
+      (when (poll (< (count (spatial ?bldg parts [k interior-space room]))
+                     (count (spatial ?bldg parts [k interior-space room] /env)))))
+      (effects
+        (for-each ?r (spatial ?bldg parts [k interior-space room] /env)
+          (observe ?r))))
+    (try
+      (role ?room (spatial ?bldg parts [k interior-space room])
+                  (not (spatial @self space ?room))
+                  (= (wander-walked-into ?room ?w-rel) 0)
                   (select (score (near @self ?room)) (policy roulette))
+        (when (poll (stand-cell-in ?room): ?cell))
         (effects
-          (observe ?room): ?obs-room
-          (maintain-proposal {@self enter ?obs-room}))))
+          (check (grounded ?room))
+          (check (spatial ?room building ?bldg))
+          (check (is-rel-cell ?cell))
+          (check (= (cell-anchor ?cell) ?room))
+          (expect (spatial @self building ?bldg) "wander: touring a building he is not in")
+          (maintain-proposal {@self WALK ?cell}))))
     ; Every room but the one he started in has been walked -> the building is seen.
     (try
-      (when (>= (count (every {@self enter ? /caused_by ?w-rel /past /ever}))
+      (when (>= (count (every {@self WALK ? /succ /caused_by ?w-rel /ever}))
                 (- (count (spatial ?bldg parts [k interior-space room] /env)) 1)))
       (effects (set-outcome ?w-rel /succ)))))

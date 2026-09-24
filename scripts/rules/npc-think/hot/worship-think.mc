@@ -13,7 +13,7 @@
 ;     ~weekly while a secular one never clears a routine act. Holds {@self WORSHIP}.
 ;   AT a church (case A): {@self WORSHIP} has no active sub-goal, so it is the leaf and
 ;     promotes straight to worship_act (the service). No rule needed.
-;   know a church (case B): worship_go holds {@self enter ?church}.
+;   know a church (case B): worship_go holds {@self go ?church}.
 ;   know none  (case C): worship_find holds {@self find-building [k church]}.
 ; ----------------------------------------------------------------------------
 
@@ -31,8 +31,8 @@
     (effects (maintain-proposal {@self WORSHIP}))))
 
 ; CASE B - not at a church, but knows one: head to it. Inherits the worship drive. A
-; MAINTENANCE rung (§5.11): roulette a church ONCE, hold {@self enter ?church} (the
-; generic enter chain routes the actual travel), and cease it on arrival (spatial ; building ?church). The rouletted ?church is stashed at fire, so the hold + cease operate on the
+; MAINTENANCE rung (§5.11): roulette a church ONCE, hold {@self go ?church} (the
+; generic go task routes the actual travel), and cease it on arrival (spatial ; building ?church). The rouletted ?church is stashed at fire, so the hold + cease operate on the
 ; SAME church (no re-roulette while walking).
 (npc-think worship_go
   (goal    {@self WORSHIP})
@@ -40,7 +40,7 @@
     (role ?church [k building church] (select (score (near @self ?church)) (policy roulette))
       (when    (not (spatial @self building ?church)))
       (effects
-               (maintain-proposal {@self enter ?church})))))
+               (maintain-proposal {@self go ?church})))))
 
 ; CASE C - not at a church and knows none: search for one (find-building.mc runs it).
 (npc-think worship_find

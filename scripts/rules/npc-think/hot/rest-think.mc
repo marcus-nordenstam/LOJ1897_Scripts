@@ -46,7 +46,7 @@
               (not (spatial @self building ?home))
     (when (> (target-or @self sleepiness 0) 0.7))
     (utility (sleep-drive))
-    (effects (maintain-proposal {@self enter ?home}))))
+    (effects (maintain-proposal {@self go ?home}))))
 
 ; at home and at all tired (or it is night): sleep until the morning alarm. The
 ; sleep act records a {@self SLEEP} memory ((does sleep)); its completion resets
@@ -83,4 +83,4 @@
   (role ?home {@self home ?home}
               (not (spatial @self building ?home))
     (utility idle fallback)
-    (effects (maintain-proposal {@self enter ?home}))))
+    (effects (maintain-proposal {@self go ?home}))))

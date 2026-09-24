@@ -14,7 +14,7 @@
       (role ?go_dest [k building social-clubhouse]
             (select (score (near @self ?go_dest)) (policy roulette))
         (when (not (is-a (spatial @self building) [k building social-clubhouse])))
-        (effects (maintain-proposal {@self enter ?go_dest}))))
+        (effects (maintain-proposal {@self go ?go_dest}))))
 
     ; LEAVE-ROLL: at a clubhouse -> resolve my own club's roll and strike my row.
     (try

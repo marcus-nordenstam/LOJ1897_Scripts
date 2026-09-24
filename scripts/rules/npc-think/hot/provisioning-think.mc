@@ -131,7 +131,7 @@
   ; a role's job - with no candidate there is simply no activation.
   (role ?shop {@self provisions-shop ?shop}
               (not (spatial @self building ?shop))
-    (effects (maintain-proposal {@self enter ?shop}))))
+    (effects (maintain-proposal {@self go ?shop}))))
 
 ; MAINTENANCE co-minter of the shared {@self ORIENT} search: while the provisioner knows no
 ; provisions shop, mint the orient goal; cease the moment orient_act learns one ({@self

@@ -20,7 +20,7 @@
       (role ?art_org {?art_org record ?art}
                       {?art_org workplace ?venue}
                       (not (spatial @self building ?venue))
-        (effects (maintain-proposal {@self enter ?venue}))))
+        (effects (maintain-proposal {@self go ?venue}))))
 
     ; ENROL: at the premises, not yet hired -> resolve the wage book off the articles
     ; and file my clerk row (ENROL enters at trainee).

@@ -31,9 +31,9 @@
       ; REACH the prospective killer.
       (try
         (when (and (not (spatial ?killer co-located @self))
-                   (spatial ?killer space): ?loc))
+                   (spatial ?killer space)))
         (utility survival)
-        (effects (maintain-proposal {@self enter ?loc})))
+        (effects (maintain-proposal {@self go ?killer})))
 
       ; SOLICIT: co-present, put the contract to them (a SAY - the words are the deed).
       (try
