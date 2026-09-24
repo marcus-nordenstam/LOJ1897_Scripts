@@ -55,13 +55,16 @@
 
       ; POST A NOTICE for an open post that has none. ONE posting at a time: two concurrent
       ; postings on one body share one CREATE-ENTITY and mark two posts advertised on one
-      ; sheet (measured).
+      ; sheet (measured). ONE notice per KIND of post: the next seat of a kind goes up only
+      ; once its predecessor is filled, so an applicant can never hold two seats of one kind.
       (try
         (lock)
         (role ?job {?job org ?org}
                    {?job job-id ?}
                    -{? job ?job}
                    -{?org display-ad ?job}
+          (when (kind ?job): ?jk
+                (= (count-notices-for-kind ?org ?jk) 0))
           (utility obligation)
           (effects (maintain-proposal {@self post-ad ?org ?job}))))
 

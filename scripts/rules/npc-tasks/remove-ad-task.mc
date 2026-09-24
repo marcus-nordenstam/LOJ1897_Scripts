@@ -24,9 +24,13 @@
               (then (maintain-proposal {@self go ?board})))))
 
       (stage
-        (role ?ad [k job-posting] (spatial ?ad co-located @self)
-              {@self WRITE ?ad ? /succ})
-        (effects (maintain-proposal {@self DESTROY-ENTITY ?ad})))
+        (effects
+          (for-each ?wr (every {@self WRITE ? ? /succ})
+            (bind ?wr.target ?ad)
+            (if (and (is-a ?ad [k job-posting])
+                     (spatial ?ad co-located @self))
+                (then (maintain-proposal {@self DESTROY-ENTITY ?ad})
+                      (break))))))
 
       ; The notice is down; strike the date off the seat's line, and the act's conclusion
       ; ends the belief that it stood.

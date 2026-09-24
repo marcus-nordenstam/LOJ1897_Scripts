@@ -17,6 +17,14 @@
     (if (table-match (attr ?art writing) org-kind ?kind) (then (+= ?n 1))))
   ?n)
 
+; (count-notices-for-kind ?org ?kind): how many notices this mind believes ?org has up for
+; posts of ?kind. Belief-only, so legal in a (when).
+(define-func count-notices-for-kind (?org ?kind)
+  (bind 0 ?n)
+  (for-each ?dr (every {?org display-ad ?})
+    (if (= (kind ?dr.target) ?kind) (then (+= ?n 1))))
+  ?n)
+
 ; ----------------------------------------------------------------------------
 ; headless-charter - the first charter of ?kind that nobody heads yet, or @nothing.
 ;
