@@ -22,8 +22,7 @@
     (preroll 0.0) (in 0.0) (out 0.0))
 
   (init
-    (if (or (unsubstantial ?working-stack) (unsubstantial ?where))
-        (then (set-outcome ?mds /fail))))
+    (check (substantial ?where)))
 
   (effects
     (check (spatial ?working-stack co-located @self /env))

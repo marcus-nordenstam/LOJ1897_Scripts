@@ -16,9 +16,6 @@
   (duration
     (cond (case (presented-lod) procedural)
           (else (seconds 1 min))))
-  (init
-    (if (unsubstantial ?doc)
-        (then (set-outcome ?put-rel /fail))))
   (effects
     (check (spatial ?stack co-located @self /env))
     (push ?doc ?stack)

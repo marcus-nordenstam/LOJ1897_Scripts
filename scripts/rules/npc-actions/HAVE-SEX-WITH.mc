@@ -24,9 +24,6 @@
   (duration (seconds 45 min))
   ; All its isim handler did: validate the partner and let the dispatcher roll the act
   ; back. Conception was always the corpus's, and it is below.
-  (init
-    (if (unsubstantial ?paramour)
-        (then (set-outcome ?sex-rel /fail))))
   (effects
     ; CONCEPTION. The one place a pregnancy begins, so a wife and a paramour
     ; conceive by the same physics and an affair can produce a child without a

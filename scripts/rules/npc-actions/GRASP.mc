@@ -28,14 +28,6 @@
     (anim-flags loop reset)
     (preroll 0.0) (in 0.05) (out 0.05))
 
-  ; The isim init_func rejected an unsubstantial target and the dispatcher rolled the
-  ; act back with a fail. A /fail in the prelude IS that rejection: no completion is
-  ; scheduled and the act never reaches a motor. A (check ..) would not do - it
-  ; compiles out under MX_SHIPPING.
-  (init
-    (if (unsubstantial ?item)
-        (then (set-outcome ?grasp /fail))))
-
   (effects
     ; The proposer's job, asserted here: a rule that proposes a grasp it cannot reach,
     ; or with a full hand, is the authoring error and not this act's problem.

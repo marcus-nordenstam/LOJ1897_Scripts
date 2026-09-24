@@ -29,12 +29,9 @@
   ; (effects ..) block would never run at unpresented LOD at all. The prelude runs at
   ; install in both.
   (init
-    (if (unsubstantial ?target)
-        (then (set-outcome ?look /fail))
-        (else
-          (push-attention ?target)
-          ; The head only. Presented, the gaze solver aims it every frame off the
-          ; proc-anim, so a write here would fight it - which is why the handler did
-          ; this for UNPRESENTED actors alone.
-          (if (unpresented-lod)
-              (then (tolerate (face-toward (spatial @self head /env) ?target))))))))
+    (push-attention ?target)
+    ; The head only. Presented, the gaze solver aims it every frame off the
+    ; proc-anim, so a write here would fight it - which is why the handler did
+    ; this for UNPRESENTED actors alone.
+    (if (unpresented-lod)
+        (then (tolerate (face-toward (spatial @self head /env) ?target))))))

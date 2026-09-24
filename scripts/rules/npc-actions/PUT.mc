@@ -22,8 +22,7 @@
   (duration (seconds 1 min))
 
   (init
-    (if (unsubstantial (spatial ?item gripped-by /env))
-        (then (set-outcome ?put /fail))))
+    (check (substantial (spatial ?item gripped-by /env))))
 
   (effects
     ; You must be where the thing is going: the shortcut skips the reach, not the journey.

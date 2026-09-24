@@ -21,10 +21,6 @@
   (presentation
     (preroll 0.0) (in 0.3) (out 0.3))
 
-  (init
-    (if (unsubstantial ?stack)
-        (then (set-outcome ?take /fail))))
-
   (effects
     (check (spatial ?stack co-located @self /env))
     (check (empty (spatial ?hand grip /env)))

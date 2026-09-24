@@ -26,11 +26,9 @@
   ; that never comes is a man who never turns. Presented, the swing takes frames and
   ; belongs in the effects, which the frame loop runs.
   (init
-    (cond
-      (case (unsubstantial ?target) (set-outcome ?turn /fail))
-      (case (unpresented-lod)
-        (face-toward @self ?target)
-        (set-outcome ?turn /succ))))
+    (if (unpresented-lod)
+        (then (face-toward @self ?target)
+              (set-outcome ?turn /succ))))
 
   (effects
     (if (presented-lod)

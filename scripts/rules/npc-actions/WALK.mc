@@ -38,17 +38,13 @@
     (cond (case (presented-lod) procedural)
           (else (seconds (max (go_travel_floor_min) (travel-minutes @self ?dest)) min))))
 
-  ; A destination nobody can point to is not one: the relocate seam takes a point as
-  ; readily as a space, and the vector ops read a failed geometry read as the ZERO
-  ; vector, so an unresolved venue would walk the body to the world origin. A /fail here
-  ; rejects the install. Where the ground is navigable the search starts now, so the
-  ; first effects tick already has a plan to poll.
+  ; Where the ground is navigable the search starts now, so the first effects tick
+  ; already has a plan to poll.
   (init
     (check (is-cell ?dest))
     (check (or (is-abs-cell ?dest) (substantial (cell-anchor ?dest))))
-    (cond
-      (case (unsubstantial ?dest) (set-outcome ?walk /fail))
-      (case (nav-navigable @self ?dest) (nav-ensure-path @self ?dest))))
+    (if (nav-navigable @self ?dest)
+        (then (nav-ensure-path @self ?dest))))
 
   (effects
     (cond

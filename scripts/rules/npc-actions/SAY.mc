@@ -5,10 +5,10 @@
 ; per-listener untold dedup); an absent audience (_) is an open BROADCAST.
 ; Delivery is by co-presence either way.
 ;
-; The act-belief the head binds IS the utterance record - minted by the pipeline
-; when the proposal won, ended here. (xaction ?xsay) hands the body that act's ABS
-; twin, externalized by the pipeline at promotion, and deliver-speech hangs the
-; sound off THAT - so the record the world carries is the pipeline's own.
+; The act-belief the head binds IS the utterance record - born at the install,
+; ended here. (xaction ?xsay) hands the body that act's ABS twin, externalized at
+; that birth, and deliver-speech hangs the sound off THAT - so the record the world
+; carries is the pipeline's own.
 
 (npc-action {@self SAY ?msg ?audience}:?say-rel
   (motor mouth)
@@ -31,18 +31,14 @@
     (cond (case (presented-lod) (speech-seconds @self ?msg))
           (else 0)))
 
-  ; A /fail here rejects the install, as the handler's rejection of an unsubstantial
-  ; message did. A presented say starts here, ONCE: the SOUND, which is the Merlin half
-  ; and how anyone else hears this at all, hung off the pipeline's own externalized
-  ; record; and the VOICE - the words rendered, the visemes cut, the jaw driven, the
-  ; subtitle put up. Effects run every frame while the audio plays and would say it
-  ; again each time.
+  ; A presented say starts here, ONCE: the SOUND, which is the Merlin half and how
+  ; anyone else hears this at all, and the VOICE - the words rendered, the visemes cut,
+  ; the jaw driven, the subtitle put up. Effects run every frame while the audio plays
+  ; and would say it again each time.
   (init
-    (cond
-      (case (unsubstantial ?msg) (set-outcome ?say-rel /fail))
-      (case (presented-lod)
-        (deliver-speech ?xsay)
-        (speak-aloud @self ?msg))))
+    (if (presented-lod)
+        (then (deliver-speech ?xsay)
+              (speak-aloud @self ?msg))))
 
   ; The unpresented say is its one tick: the sound, and done. An unpresented man is
   ; heard and not watched.

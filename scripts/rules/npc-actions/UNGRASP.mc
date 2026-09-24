@@ -20,8 +20,7 @@
     (preroll 0.0) (in 0.05) (out 0.05))
 
   (init
-    (if (!= (spatial ?item gripped-by /env) ?hand)
-        (then (set-outcome ?ungrasp /fail))))
+    (check (= (spatial ?item gripped-by /env) ?hand)))
 
   (effects
     (hand-rest-cell ?hand ?item): ?rest
