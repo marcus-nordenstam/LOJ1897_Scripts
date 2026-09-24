@@ -32,8 +32,7 @@
 ;   solicitor (law trained). Secondary credential --> teacher/principal.
 ; Lower-class trades carry NO hard gates - the on-ramp must stay open.
 ;
-; The domain a job CONFERS competence in lives in occupation_domains.mc; the
-; working hours live in occupation_shifts.mc.
+; The working hours live in occupation_shifts.mc.
 ; ----------------------------------------------------------------------------
 
 (define-table occupations

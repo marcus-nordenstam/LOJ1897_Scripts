@@ -156,8 +156,7 @@
 (define-macro founder_age_min () 20)
 (define-macro founder_age_max () 49)
 
-; The immigrant-wave model (spawn-immigrant's authored knobs; the row data -
-; ranks / origins / marginal jobs - lives in tables/immigrant_tables.mc).
+; The immigrant-wave model (spawn-immigrant's authored knobs).
 (define-macro immigrant_female_frac        () 0.5)
 (define-macro immigrant_marginal_frac      () 0.30)  ; arrive socially invisible
 (define-macro immigrant_military_frac      () 0.20)  ; of MALE immigrants
@@ -167,8 +166,7 @@
 (define-macro immigrant_age_max            () 32)
 (define-macro admission_minutes            () 30)  ; the clerical act itself
 
-; Household staffing hire-age window (the staff slots themselves live in
-; tables/household_staff.mc).
+; Household staffing hire-age window.
 (define-macro staff_hire_age_min () 16)
 (define-macro staff_hire_age_max () 55)
 
