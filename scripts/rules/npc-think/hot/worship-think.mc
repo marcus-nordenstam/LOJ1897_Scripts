@@ -17,7 +17,6 @@
 ;   know none  (case C): worship_find holds {@self find-building [k church]}.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 (include "../../../macros/intensity-macros.mc")
 
 ; TERMINAL step (act_body_purification): the service is now PROPOSED, guarded by being IN a church.

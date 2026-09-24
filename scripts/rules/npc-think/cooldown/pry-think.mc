@@ -1,4 +1,3 @@
-(include "../../../definitions/roles.mc")
 
 ; A witness anywhere in the BUILDING (a servant on the stairs, a co-resident in the
 ; next room) who sees an opposite-gender visitor with a married host, the host's

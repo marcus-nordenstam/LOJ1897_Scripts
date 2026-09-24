@@ -10,7 +10,6 @@
 ; ?pile rides in from the {@self inherit ?pile} belief the will-reading adopted.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 (include "../../macros/collection-macros.mc")
 
 (npc-action {@self INHERIT ?dead ?pile}

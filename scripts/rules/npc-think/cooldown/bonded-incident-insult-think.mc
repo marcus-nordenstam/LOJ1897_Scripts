@@ -18,7 +18,6 @@
 ; nothing is said (finding a barb is a condition). rank is the roulette weight.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (define-table barb_ladder
   (capture ?girth-rel ?height-rel ?sob-rel ?low_aspect-rel ?vol-rel ?low_class-rel ?pre-rel)

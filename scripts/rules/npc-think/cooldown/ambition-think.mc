@@ -28,7 +28,6 @@
 ; motive, rename / remove this file (runtime-loaded; no rebuild).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think ambition
   (cooldown 1 m try-once)

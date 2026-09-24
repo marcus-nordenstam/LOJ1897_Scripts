@@ -17,7 +17,6 @@
 ; stays here rather than a runtime kind threaded through the proposal.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-action {@self MAKE-CACHE ?building}
   (motor body legs)

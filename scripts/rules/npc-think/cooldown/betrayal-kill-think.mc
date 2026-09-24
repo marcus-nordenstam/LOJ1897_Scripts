@@ -13,7 +13,6 @@
 ; rid_of_spouse; non-lethal fallout: affair_fallout).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think betrayal_kill
   (cooldown 1 m try-once)

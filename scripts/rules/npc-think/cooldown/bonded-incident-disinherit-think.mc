@@ -41,7 +41,6 @@
 ;
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think bonded_incident_disinherit
   (cooldown 1 m try-once)

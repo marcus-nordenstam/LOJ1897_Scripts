@@ -7,7 +7,6 @@
 ; let it be worn" were both left to the corpus, and this is the corpus.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-action {@self WEAR ?article ?part}:?wear
   (motor right-hand legs)

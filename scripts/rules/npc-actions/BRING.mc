@@ -7,7 +7,6 @@
 ; kind-filtered).
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 (include "../../macros/collection-macros.mc")
 
 (npc-action {@self BRING ?ware ?cell}

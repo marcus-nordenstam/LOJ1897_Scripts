@@ -23,7 +23,6 @@
 ; To A/B, rename/remove this file (runtime-loaded; no rebuild).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think taunt
   (cooldown 1 m try-once)

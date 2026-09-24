@@ -24,7 +24,6 @@
 ; knob - higher pairs the smitten faster).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think lovers
   (cooldown 1 m try-once)

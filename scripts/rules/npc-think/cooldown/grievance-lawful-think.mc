@@ -13,7 +13,6 @@
 ; and compassionate confess and report where the dark and volatile expose and coerce.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; ---- report-crime ----------------------------------------------------------
 ; Take it to the police. Indignation and want are different motives for the same

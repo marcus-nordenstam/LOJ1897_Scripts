@@ -7,7 +7,6 @@
 ; (TRIGGER_FIREARM) are the (obs) witnessed acts that carry the blame.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-task {@self shoot ?victim}:?shoot-rel
   (track-skill-level [k marksmanship])

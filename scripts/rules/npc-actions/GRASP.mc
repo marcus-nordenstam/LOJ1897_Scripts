@@ -16,7 +16,6 @@
 ; branch on the LOD (2.3).
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-action {@self GRASP ?item ?hand}:?grasp
   (sided aux left-hand right-hand)

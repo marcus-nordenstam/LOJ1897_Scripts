@@ -13,7 +13,6 @@
 ; multi-rule support each of the two co-minters withdraws only its own hold.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think relapse
   ; The dependent's short-fuse drink drive - a 1-day cooldown; co-mints the {@self DRINK} goal

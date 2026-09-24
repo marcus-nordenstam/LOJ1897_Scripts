@@ -21,7 +21,6 @@
 ; chance are non-belief ops, so they gate the fire in (when).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think new_job_orientation
   (cooldown 1 m try-once)

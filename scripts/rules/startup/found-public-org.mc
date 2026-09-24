@@ -14,7 +14,6 @@
 ; bootstrap_orgs public-good block (retired).
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-think found_public_org
   (startup)

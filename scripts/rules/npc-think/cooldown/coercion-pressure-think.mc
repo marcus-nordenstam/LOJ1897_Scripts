@@ -20,7 +20,6 @@
 ; every month the extort anchor still stands.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think coercion_pressure
   (cooldown 1 m try-once)

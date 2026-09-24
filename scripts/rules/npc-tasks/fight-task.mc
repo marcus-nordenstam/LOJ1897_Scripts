@@ -12,7 +12,6 @@
 ; battering their attacker senseless.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-task {@self fight ?foe}:?fight-rel
   (track-skill-level [k martial])

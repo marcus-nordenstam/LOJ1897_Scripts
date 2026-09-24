@@ -18,7 +18,6 @@
 ; needed.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think confess_fancy
   (cooldown 1 m try-until-succ)

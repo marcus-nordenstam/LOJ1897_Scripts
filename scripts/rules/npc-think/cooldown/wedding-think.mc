@@ -22,7 +22,6 @@
 ; date. Only the groom (unmarried_man) plans; the bride is wired in as co-principal.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think plan_wedding
   (cooldown 1 m try-until-succ)

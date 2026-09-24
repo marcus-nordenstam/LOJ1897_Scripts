@@ -20,7 +20,6 @@
 ; Already-dependent NPCs are excluded here (relapse.mc casts them - a second drink source).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; The DESIRE, and the MAINTENANCE rule that owns the drink goal end to end. A 3-day cooldown
 ; re-checks the urge; the (days-since) gate holds the standing drink desire while genuinely due

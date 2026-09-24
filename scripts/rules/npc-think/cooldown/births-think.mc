@@ -18,7 +18,6 @@
 ; wake plane.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; Per-month odds that a fertile wife and her husband share a bed at all, and the
 ; odds that a coupling takes. Their product is the monthly conception rate.

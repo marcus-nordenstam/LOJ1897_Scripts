@@ -20,7 +20,6 @@
 ; Until then this lane works, but blindly - it asks whoever it happens to know.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-task {@self hire-assassin ?victim}:?hire-rel
   (tar [k human] @object)

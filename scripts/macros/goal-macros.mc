@@ -12,7 +12,7 @@
 ;       CLAUSE: requires the goal, binds a free clause-target ?var off it, and pins it
 ;       as the auto-/caused_by of sub-goals the rule mints.
 ;   {@self goal {@self <action> [<target>]}} - boolean read (use in when/if/and/or/effects).
-;       A macro over (believes {@self goal {..}}) - defined in definitions/roles.mc.
+;       A macro over (believes {@self goal {..}}) - defined in macros/roles.mc.
 ;   (no-goal {@self <action> [<target>]}) - boolean negative, the (not ...) twin -
 ;       also a roles.mc macro.
 ;   {@self <action> [<target>]} - the RUNNING act itself, and the way a driver asks

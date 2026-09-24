@@ -14,7 +14,6 @@
 
 (include "../../macros/money-macros.mc")
 (include "../../macros/acquisition-macros.mc")
-(include "../../definitions/roles.mc")
 
 (npc-task {@self acquire ?kind ?disc}:?acq-rel
   (tar ?)

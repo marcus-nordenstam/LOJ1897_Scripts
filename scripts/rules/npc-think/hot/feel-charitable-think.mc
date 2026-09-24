@@ -14,7 +14,6 @@
 ; the utility SHAPE and the cooldown is the floor.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; TERMINAL step (act_body_purification): the almsgiving act is PROPOSED, guarded by being AT
 ; the church, not auto-promoted by the bare {@self GIVE-ALMS <church>} goal. feel_charitable holds

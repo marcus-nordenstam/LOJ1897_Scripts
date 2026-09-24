@@ -17,7 +17,6 @@
 ; a sibling rung here would die with the task the instant the staging concluded.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-task {@self plan-gathering ?kind ?months}:?pg-rel
   (sequence

@@ -16,7 +16,6 @@
 ; visit cannot lift them in one pass. The disreputable can rehabilitate.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think rehabilitation
   (cooldown 15 d try-until-succ)

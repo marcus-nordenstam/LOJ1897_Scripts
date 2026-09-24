@@ -20,7 +20,6 @@
 ; happen too, so nothing is missed.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think read_roster
   (cooldown 1 m try-once)

@@ -9,7 +9,6 @@
 ; it and retire with it.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 ; 1 if @self has walked into ?room during the wander ?w-rel, else 0.
 (define-func wander-walked-into (?room ?w-rel)

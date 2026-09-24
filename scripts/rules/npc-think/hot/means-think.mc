@@ -7,7 +7,6 @@
 ; controls a firearm (the falling edge of the empty-grip test) or the kill intent dies.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think shoot_arm
   (task {@self shoot ?})

@@ -5,7 +5,6 @@
 ; injected twin (the player's shift-run, no mind, no body) rides the direction steer.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 (include "../../macros/tunables.mc")
 
 (npc-action {@self RUN ?dest}:?run

@@ -1,4 +1,3 @@
-(include "../../definitions/roles.mc")
 
 ; offer ?thing to ?recipient - transfer @self's grip straight into the recipient's
 ; named hand. ?recipient-hand is a HAND ENTITY read via the struct label

@@ -5,7 +5,6 @@
 ; church's room where a co-present priest PERCEIVES it (bury.mc) - no telepathy.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 ; CASE A (deposit): at a church the convey goal is the leaf and promotes here.
 ; (relocate ?corpse <church>) files the body into the church's room contents (the

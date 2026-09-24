@@ -14,7 +14,6 @@
 ; running - by then everyone is married, and the -{@self spouse ?} gate is shut.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-think wed_at_founding
   (startup)

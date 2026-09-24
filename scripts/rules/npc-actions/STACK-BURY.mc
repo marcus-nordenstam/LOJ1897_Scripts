@@ -3,7 +3,6 @@
 ; BOTTOM (the grip releases as part of the bury), beneath every other filing.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-action {@self STACK-BURY ?doc ?stack}:?bury-rel
   (motor body legs)

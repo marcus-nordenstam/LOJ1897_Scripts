@@ -24,7 +24,6 @@
 ; begin-belief / begin-goal idempotency keeps re-reads from double-minting.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think conspiracy_adoption
   (cooldown 1 m try-once)

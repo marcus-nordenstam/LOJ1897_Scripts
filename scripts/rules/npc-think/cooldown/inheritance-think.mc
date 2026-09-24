@@ -14,7 +14,6 @@
 ;                       the heir is discovered by reading the physical will.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; The preferred heir: a living relative the testator knows, ranked spouse > child
 ; > sibling (a choice, not a primogeniture age-law - within a tier the select's

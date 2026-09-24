@@ -11,7 +11,6 @@
 ; (not (believes ...)) filter on both bride and groom.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think advantageous_match
   (cooldown 1 m try-once)

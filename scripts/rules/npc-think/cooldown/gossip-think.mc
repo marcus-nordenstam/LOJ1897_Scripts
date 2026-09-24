@@ -18,7 +18,6 @@
 ; on top of the has-a-friend gate. Proposing nothing is a safe no-op.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think gossip
   (cooldown 1 m try-once)

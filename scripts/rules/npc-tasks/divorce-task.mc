@@ -11,7 +11,6 @@
 ; it - the memory of being involved is the record, no fiat act-mint of his own.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-task {@self divorce ?partner}:?divorce-rel
   (tar [k human] @object)

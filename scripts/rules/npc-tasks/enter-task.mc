@@ -12,7 +12,6 @@
 ; force-entry rungs plug in there.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 (include "../../macros/tunables.mc")
 
 (define-func inside (?bldg)

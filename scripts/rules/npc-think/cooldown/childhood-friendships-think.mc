@@ -11,7 +11,6 @@
 ; query renders with detail.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think childhood_friendship
   (cooldown 1 m try-once)

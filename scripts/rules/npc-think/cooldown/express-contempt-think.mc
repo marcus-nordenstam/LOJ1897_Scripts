@@ -14,7 +14,6 @@
 ; contempt is a considered, adult act - minors do not deliver it.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; cold_contempt: voice the REASON he is despised - his moral record first, then
 ; his drink, his affairs, his want of decorum. Each `-rel` var is a whole belief

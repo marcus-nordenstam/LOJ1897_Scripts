@@ -12,7 +12,6 @@
 ; the thing is put down on a table or on the floor of a room, never vaguely in it.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-action {@self PUT ?item ?cell}:?put
   (lod unpresented)

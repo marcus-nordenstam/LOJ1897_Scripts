@@ -13,7 +13,6 @@
 ; co-present) is a safe no-op. Meal-table chatter is table_talk_think.mc.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think catch_up
   (cooldown 1 m try-once)

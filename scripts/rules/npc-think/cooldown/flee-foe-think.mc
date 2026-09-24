@@ -11,7 +11,6 @@
 ; sub-lanes are a deferred refinement (see fight_decomposition_plan section 4).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think flee_foe
   (cooldown 1 m try-once)

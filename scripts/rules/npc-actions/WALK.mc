@@ -18,7 +18,6 @@
 ; write is (steer-to ..), the one thing that crosses to the host.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 (include "../../macros/tunables.mc")
 
 (npc-action {@self WALK ?dest}:?walk

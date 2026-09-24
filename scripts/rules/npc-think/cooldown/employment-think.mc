@@ -13,7 +13,6 @@
 ; go those below the keep-threshold (mass economic layoffs remain business_failure's job).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; --- hiring: the labour market (advert -> application -> offer -> enrolment) --
 ; Lives in job_search_think.mc (worker side) + recruit_think.mc (recruiter side,

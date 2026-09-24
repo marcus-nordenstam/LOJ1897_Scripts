@@ -8,7 +8,6 @@
 ; The crime is ledgered once the victim is beaten down.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-task {@self hurt ?victim}:?hurt-rel
   (tar [k human] @object)

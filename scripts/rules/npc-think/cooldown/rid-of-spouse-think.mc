@@ -27,7 +27,6 @@
 ; file (runtime-loaded; no rebuild).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think rid_of_spouse
   (cooldown 1 m try-once)

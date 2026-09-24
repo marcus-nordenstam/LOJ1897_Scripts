@@ -26,7 +26,6 @@
 ; whole file off cleanly - the same switch the old deliberate rule carried.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; ---- expose ----------------------------------------------------------------
 ; Make the focus's discreditable material public. Two grievances drive it and they

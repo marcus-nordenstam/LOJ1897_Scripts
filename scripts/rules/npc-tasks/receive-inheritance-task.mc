@@ -9,7 +9,6 @@
 ; act of reading the will; no death-time cross-mind kin walk.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-task {@self receive-inheritance ?dead}:?inherit-rel
   (tar [k human] @object)

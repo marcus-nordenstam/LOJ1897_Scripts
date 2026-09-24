@@ -17,7 +17,6 @@
 ; (chance) paces repeated courting.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think court
   (cooldown 1 m try-once)

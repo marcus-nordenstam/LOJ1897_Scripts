@@ -29,7 +29,6 @@
 ; round, which runs them in catalog order.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; --- investment: a worthy clerk secures his firm's backing -----------------
 (npc-think investment

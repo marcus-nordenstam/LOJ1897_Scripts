@@ -34,7 +34,6 @@
 ; npc-act/close_business_errand.mc.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; TERMINAL (act_body_purification): AT his own premises, PROPOSE the winding-up. close_business is
 ; a proposed label, so the bare {@self CLOSE-BUSINESS} goal does not promote on its own - the act

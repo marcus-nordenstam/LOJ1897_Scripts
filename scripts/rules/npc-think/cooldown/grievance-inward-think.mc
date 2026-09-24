@@ -15,7 +15,6 @@
 ; do not fit, and the despair gate is what decides the suicide, not a trait product.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; despair = stress x (1 - contentment) - the self-belief reading behind the gate.
 (define-macro despair (?who)

@@ -1,4 +1,3 @@
-(include "../../../definitions/roles.mc")
 
 (npc-think affair_expose
   (cooldown 1 m try-once)

@@ -38,7 +38,6 @@
 ; and mints the tier credential, deriving the tier from the study target.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; --- enroll_primary: a young child starts primary school ---------------------
 (npc-think enroll_primary

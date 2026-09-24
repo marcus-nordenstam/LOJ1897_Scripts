@@ -34,7 +34,6 @@
 ; betrayed-spouse candidate. To A/B, rename / remove this file (runtime-loaded).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think affair_fallout
   (cooldown 1 m try-once)

@@ -21,7 +21,6 @@
 ; read inside open_meet_act (hold_meet_act.mc), never here.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; --- the annual decision to hold a meet (fires once, in June) ----------------
 (npc-think hold-meet

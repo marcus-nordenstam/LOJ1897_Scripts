@@ -22,7 +22,6 @@
 ; No known pub -> no gamble_go role -> no gambling.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; MAINTENANCE - not at a pub, but knows one: head to it via the generic go task
 ; (§5.11). It roulettes a pub once and holds {@self go ?venue} so it STICKS with that

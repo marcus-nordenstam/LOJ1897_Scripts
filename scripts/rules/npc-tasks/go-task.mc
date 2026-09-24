@@ -14,7 +14,6 @@
 ; with no box answers @unknown to (distance ..), and a distance he cannot measure is not near.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 (include "../../macros/tunables.mc")
 
 ; The seen building standing at the premises of an unplaced ?dest's address, or @nothing.

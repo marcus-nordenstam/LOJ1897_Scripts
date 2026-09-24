@@ -15,7 +15,6 @@
 ; the kitchen; nothing here presupposes food).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; The go sub-goal INHERITS the bring goal's drive through /caused_by (worship_go
 ; shape) - the MINTING lane owns the utility (provisioning: provision_rearm 90).

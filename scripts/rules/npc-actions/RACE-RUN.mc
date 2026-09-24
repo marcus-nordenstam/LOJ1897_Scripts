@@ -11,7 +11,6 @@
 ; field). If the organiser has since left, the run simply goes unrecorded.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 ; The run: the sport + the judging organiser arrive ON the action pattern
 ; (compete reads the summons and passes them); the body reads only its own

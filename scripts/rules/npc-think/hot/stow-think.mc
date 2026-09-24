@@ -18,7 +18,6 @@
 ; before hunting the next mark.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 (include "../../../macros/tunables.mc")
 
 ; want_stow (npc-think) - OWNS the stow goal end to end. The theft act records the take

@@ -7,7 +7,6 @@
 ; the world.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think make_secret_cache
   (cooldown 1 m try-once)

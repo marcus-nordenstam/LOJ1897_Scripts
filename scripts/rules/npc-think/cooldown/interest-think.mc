@@ -34,7 +34,6 @@
 ; S4 derive_skills precedent.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; --- parental_seeding: a child adopts one of a parent's interests ------------
 (npc-think interest_parental_seeding

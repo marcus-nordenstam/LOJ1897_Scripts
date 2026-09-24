@@ -28,7 +28,6 @@
 ;   list_to_let_find  : hold the intent, knows NO agency -> orient (learn one).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think list_to_let
   ; ANNUAL: a yearly timer mints the standing let intent once per year; (begin-goal) is

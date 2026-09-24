@@ -8,7 +8,6 @@
 ; authored ONCE all the same - release-grip, which both call.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-action {@self UNGRASP ?item ?hand}:?ungrasp
   (lod presented)

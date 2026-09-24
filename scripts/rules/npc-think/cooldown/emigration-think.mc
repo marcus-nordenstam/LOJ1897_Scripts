@@ -21,7 +21,6 @@
 ; (immigration territory) sheds almost no one.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think emigration
   (cooldown 1 m try-once)

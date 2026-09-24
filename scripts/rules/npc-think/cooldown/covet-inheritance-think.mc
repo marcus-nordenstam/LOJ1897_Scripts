@@ -28,7 +28,6 @@
 ; remove this file (runtime-loaded; no rebuild).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think covet_inheritance
   (cooldown 1 m try-once)

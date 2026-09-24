@@ -6,7 +6,6 @@
 ; bottom-up on the victim's death (this hand's grip, or another's - the goal is moot).
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-task {@self strangle ?victim}:?strangle-rel
   (track-skill-level [k garrotting])

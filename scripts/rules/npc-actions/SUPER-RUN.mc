@@ -8,7 +8,6 @@
 ; played at this speed reads as a man being dragged, and the speed is the point.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 (include "../../macros/tunables.mc")
 
 (npc-action {@self SUPER-RUN ?dest}:?run

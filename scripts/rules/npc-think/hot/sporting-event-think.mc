@@ -24,7 +24,6 @@
 ; summon_field below, never in an act body (an act reasons about nothing).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; --- routing: get the organiser to his clubhouse, then propose the on-site act ---
 ; The clubhouse is the goal focus's premises (articles-building), role-free (recovered from

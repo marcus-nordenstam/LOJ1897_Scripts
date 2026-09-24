@@ -17,7 +17,6 @@
 ; proposing the winner retracts it automatically when this task drops.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (define-table kill_method_table
   (fields method              score-weight  score-eval)

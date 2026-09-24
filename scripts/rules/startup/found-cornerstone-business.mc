@@ -14,7 +14,6 @@
 ; through found-org-seq like every other org, so there is no C++ found_org/hire.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-think found_cornerstone_business
   (startup)

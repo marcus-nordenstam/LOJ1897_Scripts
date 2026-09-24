@@ -12,7 +12,6 @@
 ; Restricting ?bride to women makes each couple enumerate exactly once.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think engagement-party
   (cooldown 1 m try-until-succ)

@@ -9,7 +9,6 @@
 ;   competition. The recruit officer's workplace read-mail rides the recruit-staff duty.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think want_read_mail
   (cooldown 1 d try-until-succ)

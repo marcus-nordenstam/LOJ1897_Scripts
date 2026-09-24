@@ -22,7 +22,6 @@
 ;     consume the knowledge through the evidence-mediated discover_affair.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think affair_correspondence
   (cooldown 1 m try-once)

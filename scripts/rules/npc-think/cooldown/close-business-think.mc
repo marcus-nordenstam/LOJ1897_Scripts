@@ -34,7 +34,6 @@
 ; npc-act/close_business_errand.mc.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; --- failure-pressure tunables (rule-local content; see report note (b)) ------
 ; A shared tunables.mc home may be warranted if other lanes come to read the same

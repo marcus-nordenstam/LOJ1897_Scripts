@@ -19,7 +19,6 @@
 ; generally. Refills annually as servants die or move on.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; --- THINK: a quality-home OWNER takes on the standing staffing duty -----------
 ; The slow dispositional THINK, per NPC, fully declarative: a 21+

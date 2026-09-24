@@ -6,7 +6,6 @@
 ; means this runs once. Env writes live here, since a think must not mutate the world.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-action {@self SEED-COINS ?home}
   (motor body legs)

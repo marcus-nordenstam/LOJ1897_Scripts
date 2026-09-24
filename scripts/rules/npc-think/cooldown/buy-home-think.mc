@@ -29,7 +29,6 @@
 ;   choose_home     : listings learned -> pick nicest affordable UNCLAIMED, promote the buy.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 (include "../../../macros/tunables.mc")
 
 (npc-think buy-home

@@ -21,7 +21,6 @@
 ; read-at only.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (define-macro read-intellect-threshold () 0.5)
 (define-macro household-breakfast-hour () 6)

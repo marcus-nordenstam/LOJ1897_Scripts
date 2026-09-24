@@ -33,7 +33,6 @@
 ; Kept a tail by design (trait floor + base rate): 1-3 predators per few gens.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; --- profile seeding (one-shot, precedes the first hunt) --------------------
 (npc-think seed_predation_profile

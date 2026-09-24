@@ -28,7 +28,6 @@
 ; the distribution wants it.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think jilt
   (cooldown 1 m try-once)

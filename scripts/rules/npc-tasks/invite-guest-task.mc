@@ -16,7 +16,6 @@
 ; parent round's queue.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-task {@self invite-guest ?guest ?occ}:?ig-rel
   (and

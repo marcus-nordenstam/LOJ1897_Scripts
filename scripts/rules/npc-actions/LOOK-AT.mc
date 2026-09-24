@@ -12,7 +12,6 @@
 ; target's position every frame rather than this act re-aiming it.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-action {@self LOOK-AT ?target}:?look
   (motor head)

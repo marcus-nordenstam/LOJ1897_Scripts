@@ -15,7 +15,6 @@
 ; (borrow_errand_action.mc) records the {owe}.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think borrowing
   (cooldown 1 m try-once)

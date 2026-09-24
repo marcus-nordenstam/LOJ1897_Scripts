@@ -26,7 +26,6 @@
 ; witness-chains until Phase B's news lane lands.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think learn_of_death
   (cooldown 1 m try-once)

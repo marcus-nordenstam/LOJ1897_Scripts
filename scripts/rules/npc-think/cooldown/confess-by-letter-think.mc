@@ -13,7 +13,6 @@
 ; declares whether or not he yet knows she reciprocates.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; PARKED pending the three-deed conversion: this rule still calls the retired post-letter
 ; macro, which made the paper with the raw (create-entity ..) func - an ABS entity, which

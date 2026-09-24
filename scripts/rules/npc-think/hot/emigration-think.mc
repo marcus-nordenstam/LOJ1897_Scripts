@@ -21,7 +21,6 @@
 ; (immigration territory) sheds almost no one.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; TERMINAL step (act_body_purification): the depart act is PROPOSED, not promoted by
 ; the bare {@self DEPART} goal - goals never propose themselves, so the latched goal above

@@ -19,7 +19,6 @@
 ; say_to msg can carry it.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think confide
   (cooldown 1 m try-once)

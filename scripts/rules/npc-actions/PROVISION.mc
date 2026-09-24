@@ -7,7 +7,6 @@
 ; KITCHEN (the larder room), put down only when she stands in it (bring lane).
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 (include "../../macros/tunables.mc")
 (include "../../macros/collection-macros.mc")
 

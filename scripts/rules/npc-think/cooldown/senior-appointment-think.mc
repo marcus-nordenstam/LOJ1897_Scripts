@@ -17,7 +17,6 @@
 ; ?articles (the gov org), live-rechecked in (when).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think senior_appointment
   (cooldown 1 m try-once)

@@ -29,7 +29,6 @@
 ;                     fossilize in hand across the window gap.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 (include "../../../macros/tunables.mc")
 (include "../../../macros/collection-macros.mc")
 

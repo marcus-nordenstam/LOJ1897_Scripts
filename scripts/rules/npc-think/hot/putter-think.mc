@@ -4,7 +4,6 @@
 ; a putter round - it only makes sense to putter at home.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think want_putter
   (lock)

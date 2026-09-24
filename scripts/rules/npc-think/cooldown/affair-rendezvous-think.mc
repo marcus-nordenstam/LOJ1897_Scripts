@@ -13,7 +13,6 @@
 ; gossip / discover_affair); `lover` is not an observable ACT, so no auto-witness.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; --- shared-hotel family excursion ------------------------------------------
 ; The married couple stays at the hotel (cover = the co-present spouse; needs

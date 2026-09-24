@@ -11,7 +11,6 @@
 ; once; the reciprocal side is the paramour's own recognition firing, never a fiat here.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think recognize_lover
   (cooldown 1 m try-once)

@@ -15,7 +15,6 @@
 ; rejection-letter -> apply-for fail. Reading requires HOLDING the paper.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 (include "../../../macros/tunables.mc")
 
 ; --- pre-commit: visit the parish board while jobless and not already applying -----

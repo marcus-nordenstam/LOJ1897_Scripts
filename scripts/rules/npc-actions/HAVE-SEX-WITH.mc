@@ -12,7 +12,6 @@
 ; a co-present witness abduce the {cheater lover paramour} bond.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 (include "../../macros/tunables.mc")
 
 ; ~45 minutes: a real dwell, not an instant. Both lovers run their own copy

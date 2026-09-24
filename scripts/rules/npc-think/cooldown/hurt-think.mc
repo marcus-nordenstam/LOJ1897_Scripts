@@ -18,7 +18,6 @@
 ; C++ dispatcher) - a tuning knob to validate against the crime/incident volume.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think bonded_incident_assault
   (cooldown 1 m try-once)

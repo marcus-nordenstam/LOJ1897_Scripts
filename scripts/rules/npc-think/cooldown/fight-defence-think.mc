@@ -16,7 +16,6 @@
 ; + sadism - compassion) gates whether this victim has the stomach to fight back at all.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think fight_defend
   (cooldown 1 m try-once)

@@ -28,7 +28,6 @@
 ;   list_to_let_find  : hold the intent, knows NO agency -> orient (learn one).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; TERMINAL step (act_body_purification): AT a known house agency office the letting
 ; is PROPOSED. list_to_let_act files the for-lease-listing + mints {?prop

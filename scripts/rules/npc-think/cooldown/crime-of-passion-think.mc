@@ -30,7 +30,6 @@
 ; this file (runtime-loaded; no rebuild).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; The rival for ?beloved AS THE DELIBERATOR KNOWS IT: the beloved's spouse, else their
 ; lover, else the beloved themselves - every read from the deliberator's own beliefs (no

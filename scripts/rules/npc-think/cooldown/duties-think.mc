@@ -19,7 +19,6 @@
 ; [k <duty>]}) is each member's own ledger-derived knowledge of who holds what.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think duty_review
   (cooldown 1 m try-once)

@@ -18,7 +18,6 @@
 ; with detail.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think adult_friendship
   (cooldown 1 m try-once)

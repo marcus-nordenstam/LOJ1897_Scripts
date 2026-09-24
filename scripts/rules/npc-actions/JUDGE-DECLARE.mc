@@ -8,7 +8,6 @@
 ; winner is the highest OBSERVED performance, chosen in the think.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-action {@self JUDGE-DECLARE ?winner ?sport}
   (motor body legs)

@@ -17,7 +17,6 @@
 ;   know none  (case C): worship_find holds {@self find-building [k church]}.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 (include "../../../macros/intensity-macros.mc")
 
 ; The DESIRE. A churchgoer (some politeness) who has not been to a service since the

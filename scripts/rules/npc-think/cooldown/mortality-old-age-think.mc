@@ -9,7 +9,6 @@
 ; first (it needs @self's living relations to still resolve).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 ; mortality_by_age is auto-loaded from tables/.
 
 (npc-think mortality_old_age

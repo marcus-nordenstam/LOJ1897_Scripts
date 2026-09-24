@@ -12,7 +12,6 @@
 ; destroys the corpse later. propagate-death first (reads @self's living ties).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think mortality_disease
   (cooldown 1 m try-once)

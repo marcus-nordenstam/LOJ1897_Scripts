@@ -8,7 +8,6 @@
 ; hand socket, onto the body root, renderable off.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-action {@self STOW ?thing}:?stow
   (motor mind)

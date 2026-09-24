@@ -40,7 +40,6 @@
 ; dead abs link meanwhile.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; The DESIRE - the ONLY place the errand pressure is computed. Casts the most-
 ; overdue death this NPC knows AND has not yet delivered; argmax keeps the target

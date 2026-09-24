@@ -14,7 +14,6 @@
 ; unconstrained once clubs exist.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; club_founding CREATES the clubhouse venue (so it cannot itself be place-lane),
 ; and club_joining/resignation are roster acts.

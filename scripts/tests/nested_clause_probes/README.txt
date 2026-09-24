@@ -1,7 +1,7 @@
 Nested-clause role-matching probe suite (docs/plans/nested_clause_role_matching_plan.md §9).
 
 Run the rules/ dir alone against the 1yr cfg:
-  hsim.exe --cfg .../definitions/historical_1yr.hs --rulebook .../tests/nested_clause_probes/rules --out probes.msb
+  hsim.exe --cfg .../configs/historical_1yr.mc --rulebook .../tests/nested_clause_probes/rules --out probes.msb
 
 Expected: PROBE_MINT, PROBE_WHEN_EXISTS, PROBE_TENSE_OK, PROBE_BIND, PROBE_ROLE,
 PROBE_RESIDUAL, PROBE_JOIN each fire once per NPC (49 at 50-pop);

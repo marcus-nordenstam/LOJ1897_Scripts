@@ -20,7 +20,6 @@
 ; the sleep-emergency / fight bands.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; SEEK: a lover shares my building but we are not yet alone together. Slip to a
 ; vacant room (the same one they resolve). Fire while apart, OR while together with

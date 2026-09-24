@@ -21,7 +21,6 @@
 ; excludes infants (no friends), so no age gate is needed.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think birthday-party
   (cooldown 1 m try-once)

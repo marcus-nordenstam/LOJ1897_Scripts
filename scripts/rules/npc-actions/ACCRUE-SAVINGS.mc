@@ -5,7 +5,6 @@
 ; the env pile (no belief reads), so it stays action-pure.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 (include "../../macros/collection-macros.mc")
 
 (npc-action {@self ACCRUE-SAVINGS ?pile ?net}

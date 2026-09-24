@@ -22,7 +22,6 @@
 ; believer (@self) is the enumerated outer role; ?beloved is the attracted target.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think love_match
   (cooldown 1 m try-once)

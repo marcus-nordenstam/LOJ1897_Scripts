@@ -21,7 +21,6 @@
 ; task fires in the month the date lands.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; The host's planning decision (npc-think). ~2% of grown NPCs each month decide to
 ; throw a dinner party at home, set about three months ahead.

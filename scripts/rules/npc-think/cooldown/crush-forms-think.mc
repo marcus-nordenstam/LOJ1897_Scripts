@@ -22,7 +22,6 @@
 ; plus opposite-sex, non-kin and an age-band check.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think crush_forms
   (cooldown 1 m try-once)

@@ -13,7 +13,6 @@
 ; filial.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think social_ostracism
   (cooldown 1 m try-once)

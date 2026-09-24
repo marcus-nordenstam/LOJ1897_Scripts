@@ -10,7 +10,6 @@
 ; public knowledge.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 (include "../../macros/tunables.mc")
 
 (define-func approach-box (?ent)

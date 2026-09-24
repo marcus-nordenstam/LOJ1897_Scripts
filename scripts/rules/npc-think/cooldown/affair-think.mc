@@ -23,7 +23,6 @@
 ; collision, no exclusive-bond betray cascade).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think affair
   (cooldown 1 m try-once)

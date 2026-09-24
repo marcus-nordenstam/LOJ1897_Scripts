@@ -26,7 +26,6 @@
 ;          + reassign-rentals-to-estate (vest the rentals into it).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think landlord_estate
   (cooldown 1 m try-once)

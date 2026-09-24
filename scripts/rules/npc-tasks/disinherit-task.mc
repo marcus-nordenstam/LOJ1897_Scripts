@@ -17,7 +17,6 @@
 ; heir-child).
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-task {@self disinherit ?victim}:?disinherit-rel
   (tar [k human] @object)

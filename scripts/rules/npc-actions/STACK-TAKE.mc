@@ -11,7 +11,6 @@
 ; off which pile, whatever else he is carrying, and no task has to remember it for him.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-action {@self STACK-TAKE ?stack ?hand}:?take
   (sided aux left-hand right-hand)

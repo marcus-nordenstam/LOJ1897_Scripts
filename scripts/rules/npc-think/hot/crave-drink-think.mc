@@ -20,7 +20,6 @@
 ; Already-dependent NPCs are excluded here (relapse.mc casts them - a second drink source).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; TERMINAL step (act_body_purification): the drink act is PROPOSED, precondition-guarded, not
 ; promoted by the bare {@self DRINK} goal. Because `drink` is a proposed label, that goal drops out

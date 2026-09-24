@@ -11,7 +11,6 @@
 ; days-since-last and collapsing the find-a-church search before she ever arrives.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 ; The service (case A): AT a church {@self WORSHIP} is the leaf and promotes here. The
 ; act-belief IS the service memory; ending it closes its interval to the ~90-min service.

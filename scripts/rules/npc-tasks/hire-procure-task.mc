@@ -6,7 +6,6 @@
 ; nothing arrives. Concludes once the solicitation has been spoken.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 
 (npc-task {@self hire-procure ?agent ?kind}:?hire-rel
   (tar [k human] @object)

@@ -21,7 +21,6 @@
 ; never matches a kind mint).
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think patronage
   (cooldown 1 m try-once)

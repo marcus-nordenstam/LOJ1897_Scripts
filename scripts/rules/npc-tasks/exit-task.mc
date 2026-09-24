@@ -11,7 +11,6 @@
 ; is standing inside it. So there is no ground-truth read here and nothing to waive.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 (include "../../macros/tunables.mc")
 
 ; STILL IN IT, written once and read twice: as the condition the task runs under, and in

@@ -14,7 +14,6 @@
 ; the utility SHAPE and the cooldown is the floor.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think feel_charitable
   (cooldown 20 d try-until-succ)

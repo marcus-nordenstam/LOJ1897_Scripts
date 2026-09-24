@@ -9,7 +9,6 @@
 ; ?bride's age and class via filters that reference ?bride.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think betrothal
   (cooldown 1 m try-once)

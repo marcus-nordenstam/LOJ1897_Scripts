@@ -9,7 +9,6 @@
 ; row at trainee - exactly the apprentice's starting rank.
 ; ----------------------------------------------------------------------------
 
-(include "../../definitions/roles.mc")
 (include "../../macros/founding.mc")
 
 (npc-task {@self seek-indenture ?art}:?si-rel

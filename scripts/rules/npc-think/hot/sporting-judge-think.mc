@@ -15,7 +15,6 @@
 ; scoreboard, which (via want_judge) retracts the judge-meet goal.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think sporting_judge
   (goal {@self judge-meet})

@@ -22,7 +22,6 @@
 ; No known pub -> no gamble_go role -> no gambling.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 ; The DRIVE, and the MAINTENANCE rule that owns the play_game goal end to end. A 10-day
 ; cooldown re-checks the urge; the (days-since-last) gate holds the standing {@self PLAY-GAME}

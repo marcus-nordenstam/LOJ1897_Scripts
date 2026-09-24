@@ -23,7 +23,6 @@
 ; believes residue and the non-root (chance ...) gate correctly.
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think friendship_fraying
   (cooldown 1 m try-once)

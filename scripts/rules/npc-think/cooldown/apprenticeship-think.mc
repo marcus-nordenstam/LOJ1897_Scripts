@@ -9,7 +9,6 @@
 ;
 ; ----------------------------------------------------------------------------
 
-(include "../../../definitions/roles.mc")
 
 (npc-think apprenticeship_start
   (cooldown 1 m try-once)
