@@ -32,8 +32,9 @@ scripts/
                     tree with its pops, concepts.mon the abstract tree, the name pools, states.mon
                     + tasks.mon the relation definitions, attrs.mon + spatials.mon the attr /
                     spatial / struct definitions, ontology.mon the (using ..) index
-    definitions/    run configs (.mc): historical_1yr.mc and its siblings. msim's --cfg
-                    path is relative, so run msim from here
+    configs/        run configs (.mc): historical_1yr.mc and its siblings, and gauntlets/
+                    (one self-contained file per gauntlet). A relative --cfg resolves here
+    chronicle/      the (chronicle ..) stream declarations: crime, verdict, tombstone
     nat_lang/       grammar packs and the phrasebook, for converting between the Merlin
                     knowledge representation and natural language
     tests/          corpus-side probes
