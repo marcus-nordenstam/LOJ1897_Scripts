@@ -73,7 +73,7 @@
 ;
 ; These four touch the GRYM SCENE: sockets, parenting, renderable flags and the
 ; TransformComponent. Nothing else in the corpus reaches that far, and no other
-; process holds an implementation - hsim, mlint, Talkie and mxlog's ontology replay
+; process holds an implementation - msim, mlint, Talkie and mxlog's ontology replay
 ; all resolve these names to a null eval, which is what forward-declared MEANS. A
 ; call reaching one of them there is a loud error naming the wall, so every call
 ; site sits inside an npc-action body under a (presented-lod) guard, which the

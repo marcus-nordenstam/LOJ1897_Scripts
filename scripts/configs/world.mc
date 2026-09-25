@@ -1,6 +1,6 @@
-; world.mc - default world for hsim and mstudio.
+; world.mc - default world for msim and mstudio.
 ;
-; When hsim runs without --mwo it reads this file and
+; When msim runs without --mwo it reads this file and
 ; materialises the named .mwo against the given content root. Override either
 ; value on the command line with --mwo <path> / --content <dir>, or point at a
 ; different config with --world-cfg <path>.

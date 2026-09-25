@@ -10,7 +10,7 @@ THERE IS ONE CORPUS, and it is `scripts/` - the module root every process loads 
 directory holding merlin_limits.txt + ontology/ + rules/). The old `historical/` and
 `interactive/` split is GONE: a mind is simulated at PRESENTED LOD (near the camera,
 animated, real motors) or UNPRESENTED LOD (out of view, movement by relocation at
-completion), hsim pins every mind to unpresented, and where behaviour differs by LOD the
+completion), msim pins every mind to unpresented, and where behaviour differs by LOD the
 difference is AUTHORED inside the rules, never expressed by which folder a rule sits in.
 The corpus language is `.mc`; `.hs` and `.ms2` are dead extensions.
 
@@ -32,8 +32,8 @@ scripts/
                     tree with its pops, concepts.mon the abstract tree, the name pools, states.mon
                     + tasks.mon the relation definitions, attrs.mon + spatials.mon the attr /
                     spatial / struct definitions, ontology.mon the (using ..) index
-    definitions/    run configs (.mc): historical_1yr.mc and its siblings. hsim's --cfg
-                    path is relative, so run hsim from here
+    definitions/    run configs (.mc): historical_1yr.mc and its siblings. msim's --cfg
+                    path is relative, so run msim from here
     nat_lang/       grammar packs and the phrasebook, for converting between the Merlin
                     knowledge representation and natural language
     tests/          corpus-side probes
