@@ -12,17 +12,17 @@
                   Thaddeus Vernon William Walter Wilbur Wilfred Winthrop)))
     (child female-name
       (child female-english-name (+ pname)
-        (children Alice Amelia Arabella Ada Agnes Anna Beatrice Caroline
+        (children Alice Amelia Arabella Ada Anna Beatrice Caroline
                   Catherine Constance Charlotte Sophia Sophie Clara Rebecca Doris
                   Edith Emmeline Eliza Eleanor Nora Elizabeth Emily Flora
-                  Josephine Florence Henrietta Harriet Susannah Cecilia Isabella Ivy
+                  Florence Henrietta Harriet Susannah Cecilia Isabella Ivy
                   Lillian Louisa Jane Mary Matilda Mabel Maggie Martha
                   Minnie Rose Olivia Sarah Victoria Violet))))
   (child surname
     (child common-surname
       (child common-english-surname (+ pname)
         (children Adams Abbott Archer Baker Barker Bennett Black Blake
-                  Bolton Brooks Bond Booth Brooks Brown Burton Carter
+                  Bolton Brooks Bond Booth Brown Burton Carter
                   Chapman Clarke Clark Coleman Cook Cooper Cox Dawson
                   Davis Dixon Ellis Edwards Evans Fisher Foster Green
                   Gardner Gibson Griffiths Harris Harvey Hayes Henderson Higgins

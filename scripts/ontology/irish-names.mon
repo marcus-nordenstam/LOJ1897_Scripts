@@ -5,8 +5,8 @@
         (children Aidan Aengus Barra Brendan Brian Cathal Colm Conall
                   Cillian Conor Cormac Darragh Dermot Declan Desmond Donal
                   Eamon Eoghan Fergus Finley Flann Liam Lorcan Malachy
-                  Miche�l Niall Oisin Patrick Ronan Seamus Shane Tadhg
-                  Tiernan Tom�s)))
+                  Michel Niall Oisin Patrick Ronan Seamus Shane Tadhg
+                  Tiernan Tomas)))
     (child female-name
       (child female-irish-name (+ pname)
         (children Aileen Aisling Aoife Ailish Bridget Brigid Ciara Colleen

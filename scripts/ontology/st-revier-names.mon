@@ -3,16 +3,16 @@
     (child male-name
       (child male-st-revieran-name (+ pname)
         (children Ambrose Anatole Alphonse Augustus Armand Blaise Clement Cyril
-                  Edgar Edmond Fran�ois Ferdinand Gaspard G�d�on Henri Isidore
-                  L�andre Louis Laurent Marcellin Octave Percival Philippe Th�ophile
+                  Edgar Edmond Francois Ferdinand Gaspard Gideon Henri Isidore
+                  Louis Laurent Marcellin Octave Percival Philippe Theophile
                   Urbain Victor)))
     (child female-name
       (child female-st-revieran-name (+ pname)
-        (children Adelaide Am�lie Annabelle Ad�le Agn�s Aim�e Albertine Aline
-                  Ang�lique Antoinette Blanche Cl�mence �lodie Estelle F�licie Eugenie
-                  Flavie Georgina Henriette Hortense Isabelle Jos�phine Kateline Lucienne
-                  Louise Marguerite Odette Philom�ne Rosalie Sidonie Th�r�se Ursule
-                  Victorine Wilhelmine Yvonne Z�lie))))
+        (children Adelaide Amelie Annabelle Adele Agnes Aimee Albertine Aline
+                  Angelique Antoinette Blanche Clemence Elodie Estelle Felicie Eugenie
+                  Flavie Georgina Henriette Hortense Isabelle Josephine Kateline Lucienne
+                  Louise Marguerite Odette Philomene Rosalie Sidonie Therese Ursule
+                  Victorine Wilhelmine Yvonne Zelie))))
   (child surname
     (child common-surname
       (child common-st-revieran-surname (+ pname)
