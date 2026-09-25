@@ -7,7 +7,7 @@
 ; blackboard, no (tell), no report doc.
 ;
 ; A mind holds {<corpse> condition dead} ONLY by a real channel of its own - it
-; PERCEIVED the corpse (the condition attr is an hsim-percept), or read a death
+; PERCEIVED the corpse (the condition attr is auto-percept), or read a death
 ; notice. On learning, learn_of_death end-dates its other stale beliefs about the
 ; deceased (incl. {<corpse> isa human}). So a bereaved NPC who has seen the body
 ; KNOWS the death, but the priest does not until he sees it. This chain closes that

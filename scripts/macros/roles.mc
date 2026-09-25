@@ -11,7 +11,7 @@
 ; Multi-criterion predicates bundle with (and ...) plus the believes comma-sugar
 ; ({?x a, b, c} = a AND b AND c on the shared subject ?x, written once). Every filter
 ; is a belief-query - kind / liveness / gender / age read from PERCEIVED beliefs (the
-; attrs carry (hsim-percept) in attrs.mon, so a mind internalizes {?o isa <kind>} /
+; attrs carry (auto-percept) in attrs.mon, so a mind internalizes {?o isa <kind>} /
 ; {?o condition alive} / {?o gender <g>} / {?o age-band <band>} on sight, even for
 ; strangers; the self mirrors them about @self via update_self_awareness). No
 ; omniscient (kind ...) / (alive) / (attr ...) / (years-old ...) ops. Age is band-only

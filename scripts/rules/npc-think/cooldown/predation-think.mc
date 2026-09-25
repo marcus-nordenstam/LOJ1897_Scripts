@@ -8,7 +8,7 @@
 ; safer). PURE .mc: no C++ generator, no C++ fixation op - the whole scan is
 ; role-casting over the predator's own acquaintance beliefs + belief-matching.
 ;
-; hair-color / eye-color are (hsim-percept) attrs (attrs.mon), so ANYONE who
+; hair-color / eye-color are (auto-percept) attrs (attrs.mon), so ANYONE who
 ; observes a person mirrors {?them hair-color X} / {?them eye-color Y} into their
 ; OWN beliefs - the physical look is knowable non-telepathically, exactly like
 ; the predator perceives it. No C++ attr backdoor.

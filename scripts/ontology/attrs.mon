@@ -47,29 +47,29 @@
 # others (the whole point), and the owner drives "observe your OWN cache".
 (attr owner (type entity) (imperceptible))
 # What this entity controls (stowed or held items)
-# The person a document (letter) is addressed to. hsim-perceptible: the envelope
+# The person a document (letter) is addressed to. Perceptible on sight: the envelope
 # addressee is visible on sight, so a mind that observes the letter internalizes
 # {letter addressee <person>} - WITHOUT learning the message (that needs reading).
 # The role-based mail-reading binds a letter via this belief.
-(attr addressee (type name) (default @nothing) (per obs) (auto-percept) (hsim-percept))
+(attr addressee (type name) (default @nothing) (per obs) (auto-percept))
 # The DUTY a document is addressed to ("To the Recruiting Officer") - the office
 # envelope line, matched against the reader's own duty-to aux by take-my-letters.
-(attr addressee-duty (type kind) (default @nothing) (per obs) (auto-percept) (hsim-percept))
+(attr addressee-duty (type kind) (default @nothing) (per obs) (auto-percept))
 
 # Conditions & properties. Conceptual: kind-typed; @excl lives on the concept.
-# condition is hsim-perceptible: liveness (alive/dead) is visible on sight, so a
+# condition is perceptible on sight: liveness (alive/dead) is visible, so a
 # hsim mind that observes someone internalizes {them condition alive|dead} - the
 # perception-native replacement for an explicit liveness mint.
-(attr condition (type kind alive) (per obs) (auto-percept) (hsim-percept))
+(attr condition (type kind alive) (per obs) (auto-percept))
 # Consciousness axis - human-npc only (props never carry it). Default conscious;
 # a subdue blow writes unconscious, recovery writes it back. Mirrors like
 # condition, so a witness who observes the struck body internalizes {them
 # awareness unconscious}; @excl (concept-side) supersedes the prior value.
-(attr awareness (type kind conscious) (per obs) (auto-percept) (hsim-percept))
+(attr awareness (type kind conscious) (per obs) (auto-percept))
 # Interment axis - human-npc only. Default unburied, so anyone who observes a
 # person holds {them internment unburied}; the burial rite mints buried
 # belief-side, which @excl-supersedes the unburied percept in every witness.
-(attr internment (type kind unburied) (per obs) (auto-percept) (hsim-percept))
+(attr internment (type kind unburied) (per obs) (auto-percept))
 (attr color (type kind) (default @nothing) (per obs) (auto-percept))
 
 # Sensors & motors
@@ -89,29 +89,29 @@
 (attr age-group (type int) (range 0 8) (spec-attr age-group) (per obs) (auto-percept) (state-flags-tar @excl))
 # Perceptible life-stage (the @excl concept + its 8 band kinds live in
 # concepts.mon). age-band is what anyone SEES on sight - kind/gender/age-band are
-# visible even to strangers - so it is (hsim-percept): a hsim mind that observes a
+# visible even to strangers - so it is (auto-percept): a mind that observes a
 # person internalizes {them age-band <band>} via mx_observe, with NO explicit mint.
 # OBS-only (like gender): self gets {@self age-band <band>} from the visual
-# self-observe inside update_self_awareness (it mirrors the /unpresented_percept set in
+# self-observe inside update_self_awareness (it mirrors the (auto-percept) set in
 # hsim too). NOT int-feel - a feel+obs split on an @excl attr makes the FEEL and
 # visual passes end each other's belief, churning the self band to /past.
 # Recomputed from birth-date yearly (hsim::refresh_all_age_attrs) + at creation.
-(attr age-band (type kind) (per obs) (auto-percept) (hsim-percept))
+(attr age-band (type kind) (per obs) (auto-percept))
 # The +/-1 proximity window of age-band (a plural set of band kinds), perceived
 # about OTHERS so the age-peers macro can test "same / adjacent band" without
 # arithmetic in the .mc. ext-obs only: a mind never needs its own span.
-(attr age-span (type kind array 3) (per obs) (auto-percept) (hsim-percept))
+(attr age-span (type kind array 3) (per obs) (auto-percept))
 # gender / appearance / height / girth are conceptual: kind-typed, value is an
 # ontology term. @excl now lives on the concept in concepts.mon (rule 4b / 5).
-(attr gender (type kind) (per obs) (auto-percept) (hsim-percept))
-(attr appearance (type kind) (per obs) (auto-percept) (hsim-percept))
-(attr height (type kind) (per obs) (auto-percept) (hsim-percept))
-(attr girth (type kind) (per obs) (auto-percept) (hsim-percept))
+(attr gender (type kind) (per obs) (auto-percept))
+(attr appearance (type kind) (per obs) (auto-percept))
+(attr height (type kind) (per obs) (auto-percept))
+(attr girth (type kind) (per obs) (auto-percept))
 # Hair / eye colour - observable physical traits (serial_predation
 # generalized fixation). Kind-typed; seeded at creation from the
 # hereditary trait tables (hair-color.txt / eye-color.txt).
-(attr hair-color (type kind) (per obs) (auto-percept) (hsim-percept))
-(attr eye-color (type kind) (per obs) (auto-percept) (hsim-percept))
+(attr hair-color (type kind) (per obs) (auto-percept))
+(attr eye-color (type kind) (per obs) (auto-percept))
 # nationality and social standing are not physical environment state - they
 # exist solely as beliefs (nationality / class-situation labels in states.mon).
 
@@ -250,8 +250,8 @@
 
 # Pile (fungible-item collection). A co-present observer mints exactly two
 # beliefs regardless of count: {pile content-kind [k <kind>]} + {pile count N}.
-(attr content-kind (type kind) (per obs) (auto-percept) (hsim-percept))
-(attr count (type int) (range 0 1000000) (per obs) (auto-percept) (hsim-percept))
+(attr content-kind (type kind) (per obs) (auto-percept))
+(attr count (type int) (range 0 1000000) (per obs) (auto-percept))
 
 # Weather (region)
 (attr rain (type kind heavy) (per obs) (auto-percept))
@@ -272,19 +272,19 @@
 (attr locked-wing (type int) (range 0 1) (per obs))
 # Premises open/closed STATUS (no-telepathy teardown). A perceivable PHYSICAL fact the
 # owner's closure act sets on the BUILDING via (shutter-building ?wp) (closure_macros.mc),
-# writing [k closed] (from [k open]). (hsim-percept): since NPCs ALWAYS front-park a
+# writing [k closed] (from [k open]). (auto-percept): since NPCs ALWAYS front-park a
 # building on arrival (Stage-5 two-arm), a worker RE-OBSERVES his workplace every commute
 # via exterior perception and INTERNALIZES {building struct-status [k closed]} fresh;
 # reconcile_closed drops his own stale employment beliefs off that PERCEIVED belief - no
 # mind but his own is written. Kind-valued (open|closed under `status`, concepts.mon), so
 # it mirrors as a clean belief like `condition`. Lives on container-structure (buildings).
-(attr struct-status (type kind open) (per obs) (auto-percept) (hsim-percept))
+(attr struct-status (type kind open) (per obs) (auto-percept))
 # A door/window structure-part's opening state (ajar|shut) and lock state
 # (locked|unlocked). Kind-valued @excl, perceived on sight (a thief cases a lock).
-(attr opening-status (type kind ajar) (per obs) (auto-percept) (hsim-percept))
-(attr lock-status (type kind locked) (per obs) (auto-percept) (hsim-percept))
+(attr opening-status (type kind ajar) (per obs) (auto-percept))
+(attr lock-status (type kind locked) (per obs) (auto-percept))
 # Structural integrity of an opening (intact|broken) - distinct from the condition axis.
-(attr integrity (type kind intact) (per obs) (auto-percept) (hsim-percept))
+(attr integrity (type kind intact) (per obs) (auto-percept))
 # Era bounds - the building physically exists from era-min to era-max.
 (attr era-min (type date) (imperceptible))
 (attr era-max (type date) (imperceptible))
@@ -294,7 +294,7 @@
 # interior space (a floor, an apartment) extends its building's with a unit:
 # [a 14 compton ave 2] / [a 14 compton ave b]. The value IS the premises' identity when it
 # has no name - what a notice writes, what a reader imagines, what the address-sign shows.
-# hsim-perceptible: observing a premise mirrors {premise address [a ...]}, and the same
+# Perceptible on sight: observing a premise mirrors {premise address [a ...]}, and the same
 # value rides the written / spoken wire as a bare symbol, like a name.
 # (spec-attr address) marks this as THE canonical address relation - the addressed-objects
 # index and the bare-[a ..] shorthand in (o ..). Being address-VALUED does not confer that:
@@ -304,7 +304,7 @@
 # it they contradict, and the contradiction pipeline ends the loser on source reliability -
 # so a PERCEIVED address (self-observe, top of the ladder) supersedes a told one with no
 # special-casing anywhere.
-(attr address (type address) (default @nothing) (spec-attr address) (state-flags-tar @excl) (per obs) (auto-percept) (hsim-percept))
+(attr address (type address) (default @nothing) (spec-attr address) (state-flags-tar @excl) (per obs) (auto-percept))
 # Where a document is bound (the envelope's delivery line). An ADDRESS-VALUED ordinary
 # attr - NOT the canonical address relation. Named `destination` rather than `address` on
 # purpose: a PLACE has an address - permanent, constitutive, its identity - while a movable
@@ -312,7 +312,7 @@
 # the recipient's home / workplace and the mail service routes by it. Perceptible like
 # `addressee`: the delivery line is written on the outside, so observing the letter reads it
 # without reading the message.
-(attr destination (type address) (default @nothing) (per obs) (auto-percept) (hsim-percept))
+(attr destination (type address) (default @nothing) (per obs) (auto-percept))
 
 # Address-numbering POLICY (lives on the ROAD; see things.mon (road)). Authored in the
 # GrymEngine Spline Tool and pushed by the Player at scene load. These tell the

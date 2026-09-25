@@ -5,7 +5,7 @@
 ; PURGED (it minted {dead condition dead} into every relative's mind by a
 ; /their-mind director walk - the telepathy batch-3 ruling 4 targets). Instead,
 ; each mind learns of a death only through a REAL channel - perceiving the corpse
-; (condition is (per obs)(hsim-percept), so a co-present witness internalizes
+; (condition is (per obs)(auto-percept), so a co-present witness internalizes
 ; {?x condition dead} on sight), being told, or reading it. Every channel mints
 ; the same {?x condition [k dead]}, so this rung is channel-agnostic.
 ;

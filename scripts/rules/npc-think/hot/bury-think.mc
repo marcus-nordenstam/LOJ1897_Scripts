@@ -8,7 +8,7 @@
 ; PERCEPTION, not telepathy: a bereaved NPC CARRIES the corpse into the church
 ; (convey_corpse.mc relocates the body into the church's room), and the priest,
 ; co-present in that room, PERCEIVES {<corpse> condition dead} on it directly
-; (condition is a (per obs)(hsim-percept) attr, so mx_observe_interior_space
+; (condition is a (per obs)(auto-percept) attr, so mx_observe_interior_space
 ; mirrors it into his own mind as he walks the room's contents). No priest in a
 ; run (or a body nobody carries to a church) -> that corpse is simply never
 ; buried (accepted per the emergent-death-knowledge decision).
