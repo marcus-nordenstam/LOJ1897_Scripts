@@ -8,6 +8,7 @@
   start 1700-01-01
   end 1700-06-30
   clock jump
+  mwo "Merlin/bin/demo_tech_level_v2.mwo"
   startup g01-find-pub-startup)
 
 (define-list gauntlet validate g01-find-pub-validate)
