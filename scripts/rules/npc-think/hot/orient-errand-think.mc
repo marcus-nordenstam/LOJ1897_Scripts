@@ -10,7 +10,7 @@
   (goal {@self ORIENT})
   ; The church is role-cast from the churches the NPC KNOWS; nearest preferred,
   ; weighted. No known church -> no fire (the goal waits). Replaces (venue ...).
-  (role ?go_dest [k building church] (select (score (near @self ?go_dest)) (policy roulette))
+  (role ?go_dest [k building church] (select (score (near @self ?go_dest)) (policy roulette unknown-last))
     (when (not (is-a (spatial @self building) [k building church])))
     (effects (maintain-proposal {@self go ?go_dest}))))
 

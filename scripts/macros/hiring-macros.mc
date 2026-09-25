@@ -69,5 +69,5 @@
 ; marginal fit may not be taken this time).
 (define-macro job-match-score (?t1 ?w1 ?t2 ?w2)
   (+ 0.1
-     (if (= ?t1 none) (then 0) (else (* ?w1 (target-or @self ?t1 0))))
-     (if (= ?t2 none) (then 0) (else (* ?w2 (target-or @self ?t2 0))))))
+     (if (= ?t1 none) (then 0) (else (* ?w1 (target-or @self ?t1 0.0))))
+     (if (= ?t2 none) (then 0) (else (* ?w2 (target-or @self ?t2 0.0))))))

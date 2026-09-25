@@ -58,8 +58,8 @@
       ; The actor trait (chance) gate ((1 - compassion) x narcissism) sits here for the same
       ; reason, not a @self role filter (attr reads are non-belief, not role-cacheable).
       (when (and (latch-eval (chance (* (crime-scale) 0.025
-                            (- 1.0 (target-or @self compassion 0))
-                            (target-or @self narcissism 0))))
+                            (- 1.0 (target-or @self compassion 0.0))
+                            (target-or @self narcissism 0.0))))
                  (chance (+ (* 0.2 (+ (prob {@self dislike ?victim})
                                       (prob {@self disdain ?victim})))
                             (* 0.3 (+ (prob {@self detest  ?victim})

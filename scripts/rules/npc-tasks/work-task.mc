@@ -22,7 +22,7 @@
   (role ?job {@self job ?job}
     (role ?org {?job org ?org}
                {?org workplace ?wp}
-      (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
+      (when (table-match weekday_hours_label weekday (time weekday) label ?tl)
             (latch-eval (any {?job ?tl ?}): ?sh-rel (bind ?sh-rel.target ?start) (bind ?sh-rel.auxiliary ?end))
             (on-shift ?start ?end))
       (cease (if (not (on-shift ?start ?end))
@@ -48,8 +48,8 @@
               (effects
                        (maintain-proposal {@self recruit-staff ?duty-org})))))
         (try
-          (when (and (check ?org) (at-workplace ?wp) (< (now-hour) 12)))
+          (when (and (check ?org) (at-workplace ?wp) (< (time hour) 12)))
           (effects (maintain-proposal {@self DWELL ?wp (min 12 ?end)})))
         (try
-          (when (and (check ?org) (at-workplace ?wp) (>= (now-hour) 12)))
+          (when (and (check ?org) (at-workplace ?wp) (>= (time hour) 12)))
           (effects (maintain-proposal {@self DWELL ?wp ?end})))))))

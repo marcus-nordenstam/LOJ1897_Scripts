@@ -20,6 +20,6 @@
     (check (spatial ?reg co-located @self /env))
     (check (table-set ?reg (where job-id ?job-id worker @nothing)
                            worker (name ?worker) level [k trainee]
-                           hiring-date (date-now)
+                           hiring-date (time date)
                            offered @nothing offer-date @nothing))
     (set-outcome ?hire-rel /succ)))

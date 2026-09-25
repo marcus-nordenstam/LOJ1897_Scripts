@@ -34,7 +34,7 @@
     (try
       (role ?venue {?occ venue ?venue}
         (when (and {?occ hours ?start ?end}
-                   (>= (now-hour) ?end)
+                   (>= (time hour) ?end)
                    {@self DWELL ?venue ? /succ /caused_by ?a-rel /ever}))
         (effects (set-outcome ?a-rel /succ))))
 
@@ -42,6 +42,6 @@
     (try
       (role ?venue {?occ venue ?venue}
         (when (and {?occ hours ?start ?end}
-                   (>= (now-hour) ?end)
+                   (>= (time hour) ?end)
                    -{@self DWELL ?venue ? /succ /caused_by ?a-rel /ever}))
         (effects (set-outcome ?a-rel /fail))))))

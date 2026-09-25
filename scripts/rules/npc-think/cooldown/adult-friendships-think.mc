@@ -54,7 +54,7 @@
 
       ; Non-belief gate, not a @self role filter (roles hold belief-pure filters):
       ; the enthusiasm-scaled (chance), rolled ONCE per @self per month.
-      (when (chance (* 0.004 (+ 0.5 (target-or @self enthusiasm 0)))))
+      (when (chance (* 0.004 (+ 0.5 (target-or @self enthusiasm 0.0)))))
 
       (effects
         ; befriend mints the mutual tie (friend, or acquaintance if either side is

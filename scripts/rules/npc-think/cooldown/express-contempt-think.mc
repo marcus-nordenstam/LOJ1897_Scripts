@@ -45,7 +45,7 @@
       ; How readily the contempt surfaces: the callous (low compassion) cut openly; the
       ; compassionate restrain it. A non-belief (chance) gate, rolled per victim at
       ; firing, so it lives in (when) - not as a role criterion (would not be cacheable).
-      (when (chance (* (crime-scale) 0.04 (- 1.0 (target-or @self compassion 0)))))
+      (when (chance (* (crime-scale) 0.04 (- 1.0 (target-or @self compassion 0.0)))))
 
       ; The moral material @self can voice, read per victim - each tolerant.
       (do

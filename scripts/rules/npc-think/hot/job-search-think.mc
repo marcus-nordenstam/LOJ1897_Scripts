@@ -26,11 +26,11 @@
   (rng-stream employment)
   (role @self -{@self job ?}
               -{@self apply-for ? /pres}
-    (role ?board [k building church] (select (score (near @self ?board)) (policy roulette))
+    (role ?board [k building church] (select (score (near @self ?board)) (policy roulette unknown-last))
       (role @self (not (spatial @self building ?board))
         (when (and (job-seeker @self)
-                   (latch-eval (and (>= (now-hour) (business_open_hour))
-                                    (<= (now-hour) (business_close_hour))))))
+                   (latch-eval (and (>= (time hour) (business_open_hour))
+                                    (<= (time hour) (business_close_hour))))))
         (utility errand)
         (effects (maintain-proposal {@self go ?board}))))))
 
@@ -44,8 +44,8 @@
     ; The search's own /fail act-memory is the "this region has no church" record - it stops
     ; the hunt re-proposing forever once find-building has walked every structure.
     (when (and (job-seeker @self)
-               (latch-eval (and (>= (now-hour) (business_open_hour))
-                                (<= (now-hour) (business_close_hour))))
+               (latch-eval (and (>= (time hour) (business_open_hour))
+                                (<= (time hour) (business_close_hour))))
                -{@self find-building [k building church] ? /fail}
                (current-exterior @self): ?rg))
     (utility errand)
@@ -92,7 +92,7 @@
                  -{? job ?job}
                  (select (score 1) (policy roulette))
         (when (and
-                   (latch-eval (and (>= (now-hour) (business_open_hour)) (<= (now-hour) (business_close_hour))))
+                   (latch-eval (and (>= (time hour) (business_open_hour)) (<= (time hour) (business_close_hour))))
                    (kind ?job): ?jk
                    (if (table-match occupations job ?jk class-floor ?cf0) (then ?cf0) (else [k lower])): ?cf
                    (class-at-least @self ?cf)
@@ -120,7 +120,7 @@
     ; hours. Unlatched, the errand is picked the moment the letter is read - two in the
     ; morning - and he arrives at a dark office with nobody keeping the book. Latched, so a
     ; plain hour test is not re-read on hold and does not withdraw him at dusk mid-journey.
-    (when (and (latch-eval (and (>= (now-hour) 8) (<= (now-hour) 16)))
+    (when (and (latch-eval (and (>= (time hour) 8) (<= (time hour) 16)))
                -{@self accept-job-offer ?job /succ}
                -{@self accept-job-offer ?job /fail}))
     (utility errand)

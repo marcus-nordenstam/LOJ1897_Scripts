@@ -42,7 +42,7 @@
 (npc-think drink_go
   (goal    {@self DRINK})
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-    (role ?pub [k building pub] (select (score (near @self ?pub)) (policy roulette))
+    (role ?pub [k building pub] (select (score (near @self ?pub)) (policy roulette unknown-last))
       (when    (not (spatial @self building ?pub)))
       (effects (maintain-proposal {@self go ?pub})))))
 

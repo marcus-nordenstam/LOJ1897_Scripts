@@ -16,7 +16,7 @@
   (tar [k org] @object)
   (aux [k job] @object)
   (sequence
-    (role ?board [k building church] (select (score (near @self ?board)) (policy roulette))
+    (role ?board [k building church] (select (score (near @self ?board)) (policy roulette unknown-last))
 
       (stage
         (effects

@@ -18,6 +18,6 @@
 ; drive.
 (define-macro drink-drive (?actor)
   (* (min (+ 0.35
-             (* 0.9 (- 1 (target-or ?actor industriousness 0)))
-             (* 0.8 (target-or ?actor withdrawal 0))) 1.5)
-     (min (* (days-since-last {?actor DRINK /ever}) 2) 30)))
+             (* 0.9 (- 1.0 (target-or ?actor industriousness 0.0)))
+             (* 0.8 (target-or ?actor withdrawal 0.0))) 1.5)
+     (min (* (days-since-last-float {?actor DRINK /ever}) 2.0) 30.0)))

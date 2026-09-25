@@ -39,7 +39,7 @@
     ; rung: the shift, plus the starts-soon lead because the duty is taken up while the officer
     ; is still at home. The moment it stops holding the round stops firing, and the (cease ..)
     ; is where it says what that meant - a day's duty done.
-    (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
+    (when (table-match weekday_hours_label weekday (time weekday) label ?tl)
           (latch-eval (any {?shift-job ?tl ?}): ?sh-rel (bind ?sh-rel.target ?start) (bind ?sh-rel.auxiliary ?end))
           (on-shift ?start ?end))
     (cease (if (not (on-shift ?start ?end))

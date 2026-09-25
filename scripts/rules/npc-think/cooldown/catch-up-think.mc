@@ -25,7 +25,7 @@
                (spatial ?guest co-located @self)
 
     ; Non-belief gates (not role filters): extraversion-weighted chance + minimum age.
-    (when (and (chance (* 0.25 (+ 0.5 (target-or @self enthusiasm 0))))
+    (when (and (chance (* 0.25 (+ 0.5 (target-or @self enthusiasm 0.0))))
                (>= (years-old @self) 12)))
 
     (utility want)

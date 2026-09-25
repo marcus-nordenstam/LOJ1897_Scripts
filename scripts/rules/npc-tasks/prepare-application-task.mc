@@ -35,7 +35,7 @@
             {?job job-id ?line}
             (kind ?job): ?jk)
       (effects
-        (bind (date-now) ?today)
+        (bind (time date) ?today)
         (if (unsubstantial (attr ?app writing))
             (then (maintain-proposal
                     {@self write-doc ?app (table-msg [/addressee ?orgName /address ?wpAddress]

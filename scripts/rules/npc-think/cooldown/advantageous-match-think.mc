@@ -63,8 +63,8 @@
       ;; maintained {@self gender} self-belief filter above.
       (when (latch-eval (chance (* 0.0833
                        (+ 0.20
-                          (* 0.4 (target-or @self enthusiasm 0))
-                          (* 0.4 (target-or @self openness 0)))))))
+                          (* 0.4 (target-or @self enthusiasm 0.0))
+                          (* 0.4 (target-or @self openness 0.0)))))))
 
       (utility want)
 

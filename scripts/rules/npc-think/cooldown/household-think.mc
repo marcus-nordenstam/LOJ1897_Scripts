@@ -40,7 +40,7 @@
             (then (bind 1 ?bookish))))
       (if (and (spatial ?home room [k interior-space study])
                (or (= ?bookish 1)
-                   (>= (target-or @self intellect 0) (read-intellect-threshold))))
+                   (>= (target-or @self intellect 0.0) (read-intellect-threshold))))
           (then (maintain-proposal {@self read-at ?home}))
           (else (maintain-proposal {@self rest ?home}))))))
 

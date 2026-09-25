@@ -42,9 +42,9 @@
   (aspect labour)
   (cooldown 1 d try-once)
   (role @self {@self job ?job}:?j
-    (when (and (/ (- (now-abs-seconds) (abs-seconds ?j.start)) 86400): ?held-days
-               (>= ?held-days 30)
-               (>= (days-since-last {@self work ? /succ}) ?held-days)))
+    (when (and (/ (seconds-between (time seconds) (start-time ?j)) 86400.0): ?held-days
+               (>= ?held-days 30.0)
+               (>= (days-since-last-float {@self work ? /succ}) ?held-days)))
     (effects
       (debug-print "labour audit: @self has held ?job ?held-days days and concluded no day's work since")
       (expect @false "labour: held a job a month or more and concluded no day's work since the hire"))))

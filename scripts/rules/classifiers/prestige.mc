@@ -45,10 +45,10 @@
         (clamp (+ (if (table-match prestige_by_rank rank ?rank prestige ?curve)
                     (then ?curve)
                     (else 0.15))
-                  (min (* (count (every {@self win ?})) 0.04) 0.20)
+                  (min (* (count (every {@self win ?}) /float) 0.04) 0.20)
                   (* 0.15
                      (min (+ (prob {@self skilled-in [k performance-art] [k competence-level expert]})
                              (prob {@self skilled-in [k academic-field]  [k competence-level expert]})
                              (prob {@self skilled-in [k martial]         [k competence-level expert]}))
-                          1)))
-               0 1)}))))
+                          1.0)))
+               0.0 1.0)}))))

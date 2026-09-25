@@ -42,7 +42,7 @@
   (role ?job {@self job ?job}
     (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
                {?org workplace ?wp}       ; ?wp binds at fire
-      (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
+      (when (table-match weekday_hours_label weekday (time weekday) label ?tl)
             (latch-eval (any {?job ?tl ?}): ?sh (bind ?sh.target ?start) (bind ?sh.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
             (latch-eval (at-workplace ?wp))                  ; onset: the day's work starts on ARRIVAL, then survives every excursion
             (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
@@ -65,7 +65,7 @@
     (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
                {?org workplace ?wp}       ; ?wp binds at fire
                (not (at-workplace ?wp))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
-      (when (table-match weekday_hours_label weekday (now-weekday) label ?tl)
+      (when (table-match weekday_hours_label weekday (time weekday) label ?tl)
             (latch-eval (any {?job ?tl ?}): ?sh (bind ?sh.target ?start) (bind ?sh.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
             (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
       (utility duty)

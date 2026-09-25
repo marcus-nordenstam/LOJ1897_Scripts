@@ -32,7 +32,7 @@
 
       ;; The fiancee belief must be in its first calendar year - the once-per-betrothal
       ;; re-fire guard; it gates the fire here rather than filtering the role.
-      (when (= (- (year (date-now)) (year (any {@self fiancee ?}).start)) 0))
+      (when (= (- (year (time date)) (year (start-time {@self fiancee ?}))) 0))
 
       (utility want)
 

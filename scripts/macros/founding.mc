@@ -177,7 +177,7 @@
           (begin-belief {?job job-id ?soh-line})
           (begin-belief {@self job ?job})
           (begin-belief {?job level [k senior]})
-          (begin-belief {?job since (year)})
+          (begin-belief {?job since (time year)})
           (stamp-shift-hours ?job ?head-role ?soh-shift)))))
 
 ; take-up-charter - found an org the town already chartered: the premises, articles and staff
@@ -240,7 +240,7 @@
             (push ?art ?ist)
             ; The founder is the club's first MEMBER - a row on the roll, not a seat on
             ; an establishment: a club has members, never posts.
-            (table-add ?roll member (name @self) joined-date (date-now))
+            (table-add ?roll member (name @self) joined-date (time date))
             (begin-belief {@self member-of ?org})
             (break)))))))
 
@@ -286,7 +286,7 @@
           (begin-belief {@self job ?job})
           (begin-belief {?job level ?level})
           (begin-belief {?job salary ?salary})
-          (begin-belief {?job since (year)})
+          (begin-belief {?job since (time year)})
           (stamp-shift-hours ?job ?job-kind ?eb-shift)))))
 
 (define-macro hire-beliefs (?art ?job-kind ?level)
@@ -384,7 +384,7 @@
   (do
     (if (table-match occupation_shifts job ?job-kind)
         (then ?job-kind)
-        (else default)): ?ssh-key
+        (else [k job])): ?ssh-key
     (for-each-row occupation_shifts
         [/job ?ssh-j] [/shift-id ?ssh-sid] [/day-label ?ssh-day]
         [/start-h ?ssh-start] [/end-h ?ssh-end]
@@ -420,7 +420,7 @@
 ; since when, whether a promise is outstanding and to whom and since when, and whether a
 ; notice for it stands. That is what makes the book - not any one officer's memory - the
 ; authority: a second man taking the duty reads the same facts, and nothing is lost when
-; the first forgets or dies. The dates are DATE symbols ((date-now)); elapsed time comes
+; the first forgets or dies. The dates are DATE symbols ((time date)); elapsed time comes
 ; from (abs-seconds ?cell), the same composition every other recency test uses.
 ; ----------------------------------------------------------------------------
 
@@ -456,7 +456,7 @@
       (then
         (if (not (table-set ?reg (where worker @nothing job ?job-kind)
                                  worker (name @self) level ?level
-                                 hiring-date (date-now)
+                                 hiring-date (time date)
                                  offered @nothing offer-date @nothing))
             (then
               (bind 0 ?fp-line)
@@ -464,7 +464,7 @@
                 (bind ?fp-seen ?fp-line))
               (table-add ?reg job-id (+ ?fp-line 1)
                               worker (name @self) job ?job-kind level ?level
-                              hiring-date (date-now)
+                              hiring-date (time date)
                               shift (draw-shift ?job-kind)))))))
 
 ; vacate-post - a departure leaves the JOB behind: the worker's cell is emptied where it

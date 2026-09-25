@@ -25,7 +25,7 @@
         (for-each ?cache (spatial ?room parts [k interior-space hiding-spot] /env)
           (if -{@self hiding-spot ?cache}
               (then
-                (if (chance (* 0.006 (+ 1.0 (target-or @self openness 0))))
+                (if (chance (* 0.006 (+ 1.0 (target-or @self openness 0.0))))
                     (then
                       (begin-belief {@self hiding-spot (internalize ?cache)})
                       (for-each ?item (spatial ?cache contents /env)

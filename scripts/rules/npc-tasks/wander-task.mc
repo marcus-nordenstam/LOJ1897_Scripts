@@ -38,7 +38,7 @@
       (role ?room (spatial ?bldg parts [k interior-space room])
                   (not (spatial @self space ?room))
                   (= (wander-walked-into ?room ?w-rel) 0)
-                  (select (score (near @self ?room)) (policy roulette))
+                  (select (score (near @self ?room)) (policy roulette unknown-first))
         (when (poll (stand-cell-in ?room): ?cell))
         (effects
           (check (grounded ?room))

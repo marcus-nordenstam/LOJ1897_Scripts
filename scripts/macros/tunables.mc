@@ -38,7 +38,7 @@
 ; adult's monthly leave-chance by it, so crowding raises the outflow and a sparse
 ; parish (immigration territory) sheds almost no one. Replaces the old
 ; homeostat_emigration "emigrate the oldest N by fiat" world valve.
-(define-macro population-pressure () (/ (living-npc-count) (homeostat_target_population)))
+(define-macro population-pressure () (/ /float (living-npc-count) (homeostat_target_population)))
 
 ; Labour market: the wealth ceiling above which an NPC does NOT seek waged work (the
 ; independently wealthy). Wealth is the {@self wealth ?w} belief (~0..1.25, balance/120);
@@ -77,7 +77,7 @@
 ; takes the band's default value, so the shift has to be authored on that same scale or the
 ; commute (a bare (utility duty)) permanently outranks being AT work and the work task never
 ; promotes.
-(define-macro k-work-drive-value () 600)
+(define-macro k-work-drive-value () 600.0)
 (define-macro k-drive-trait-swing () 0.6)
 (define-macro k-drive-mood-swing  () 0.3)
 
@@ -181,7 +181,7 @@
 ; cannot re-deliberate every simulated minute - defense-in-depth against destination
 ; thrash. Small enough not to distort real travel; the real fix for "why re-go at all"
 ; is the arriving chain firing its purpose act (see at-place-kind).
-(define-macro go_travel_floor_min      () 1)
+(define-macro go_travel_floor_min      () 1.0)
 
 ; THE STEERED WALK. Per-step speeds the character integrator applies (m per step, the
 ; values WALK_TO.act / RUN.act carried) and the NAV-STEERED turn rates (rad/s) - the
@@ -201,8 +201,8 @@
 ; taken from whoever is standing in it; inside it he CLAIMS a spot and finishes on what
 ; he actually got. A street's worth for a building, a room's width for a space, and
 ; arm's length for a thing he means to touch.
-(define-macro near_building_m          () 20)
-(define-macro near_space_m             () 6)
+(define-macro near_building_m          () 20.0)
+(define-macro near_space_m             () 6.0)
 (define-macro near_reach_m             () 1.5)
 
 ; THRESHOLD GEOMETRY. An actor approaching a venue stands off its front face by its own

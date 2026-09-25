@@ -80,4 +80,4 @@
 ; the believed balance for any other caller.
 (define-macro wealth_coin_div () 120.0)   ; coins -> wealth points
 (define-macro wealth-from (?who ?coins)
-  (/ (clamp (+ (/ ?coins (wealth_coin_div)) (estate-worth ?who)) 0 100) 100))
+  (/ (clamp (+ /float (/ /float ?coins (wealth_coin_div)) (estate-worth ?who)) 0.0 100.0) 100.0))

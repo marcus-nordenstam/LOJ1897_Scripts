@@ -2,7 +2,7 @@
 ; rest (npc-think) - the FATIGUE / REST aspect: a real physiological fatigue model
 ; drives when an NPC sleeps.
 ;
-; (target-or @self sleepiness 0) reads the ADRENALINE-MASKED fatigue (sleepiness = fatigue *
+; (target-or @self sleepiness 0.0) reads the ADRENALINE-MASKED fatigue (sleepiness = fatigue *
 ; (1 - adrenaline), derived by update_physiology). The raw `fatigue` attr (0 rested ..
 ; 1 ready-for-bed, can exceed 1) is the untouched debt; the sleep act's completion REDUCES
 ; it (1/6 per hour slept -> 6h clears 1.0), waking time accrues it. A combatant reads
@@ -44,7 +44,7 @@
 (npc-think seek_rest
   (role ?home {@self home ?home}
               (not (spatial @self building ?home))
-    (when (> (target-or @self sleepiness 0) 0.7))
+    (when (> (target-or @self sleepiness 0.0) 0.7))
     (utility (sleep-drive))
     (effects (maintain-proposal {@self go ?home}))))
 
@@ -57,9 +57,9 @@
               (spatial @self building ?home)
     ; You cannot sleep through an assault - being under attack gates the whole rest
     ; aspect OUT, so the fight acts (defend / flee / scream) take over (fight.mc).
-    (when (and (or (> (target-or @self sleepiness 0) 0.5)
-                   (>= (now-hour) 22)
-                   (< (now-hour) 6))))
+    (when (and (or (> (target-or @self sleepiness 0.0) 0.5)
+                   (>= (time hour) 22)
+                   (< (time hour) 6))))
     ; Banded fatigue drive (WANT while merely drowsy, NEED late evening, CRISIS past
     ; collapse). The night gate lives in the (when) above: past 22h even a low drive
     ; proposes, and want-tier suffices - midnight has no real competitors.

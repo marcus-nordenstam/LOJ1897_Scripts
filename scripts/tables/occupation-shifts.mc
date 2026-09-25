@@ -5,7 +5,7 @@
 ; parse are gone. At hire, one {<job_obj> <weekday>_hours <start> <end>} belief
 ; is minted per row of the assigned shift (target = start hour, aux = end hour).
 ;
-;   job       - the job kind [k job <leaf>], or the bare atom `default`: the
+;   job       - the job kind [k job <leaf>], or [k job] itself: the
 ;               schedule for every job with NO authored rows (Mon-Sat 9-17).
 ;   shift-id  - groups a shift's days. A job with rows under MORE than one
 ;               shift-id (nurse / factory-worker: day AND night) has the worker
@@ -20,12 +20,12 @@
   (fields job shift-id day-label start-h end-h)
 
   ;; the default working week (any job without authored rows): Mon-Sat 9-17
-  (record default 0 mon-hours 9 17)
-  (record default 0 tue-hours 9 17)
-  (record default 0 wed-hours 9 17)
-  (record default 0 thu-hours 9 17)
-  (record default 0 fri-hours 9 17)
-  (record default 0 sat-hours 9 17)
+  (record [k job] 0 mon-hours 9 17)
+  (record [k job] 0 tue-hours 9 17)
+  (record [k job] 0 wed-hours 9 17)
+  (record [k job] 0 thu-hours 9 17)
+  (record [k job] 0 fri-hours 9 17)
+  (record [k job] 0 sat-hours 9 17)
 
   ;; priest: irregular week - Sunday IS the working day; omitted days are off
   (record [k job priest] 0 sun-hours 8 13)

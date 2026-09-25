@@ -33,7 +33,7 @@
                   (not (alive ?victim))
 
       ; Narcissism tail + adult floor + rate gate.
-      (when (and (>= (target-or @self narcissism 0) 0.7)
+      (when (and (>= (target-or @self narcissism 0.0) 0.7)
                  (chance 0.04)))
 
       (effects

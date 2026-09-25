@@ -23,7 +23,7 @@
 
 ; Mean of two of ?who's trait self-beliefs.
 (define-macro trait-mean (?who ?trait_a ?trait_b)
-  (mean2 (target-or ?who ?trait_a 0) (target-or ?who ?trait_b 0)))
+  (mean2 (target-or ?who ?trait_a 0.0) (target-or ?who ?trait_b 0.0)))
 
 ; ?who's ?label belief target, else ?default when the belief is absent
 ; (the "unknown reads as X" parity idiom).
@@ -34,11 +34,11 @@
 
 ; How uninhibited @self is: the inverse of the inhibition moral brake.
 (define-macro disinhibition ()
-  (- 1 (inhibition)))
+  (- 1.0 (inhibition)))
 
 ; How cold ?who is (inverse compassion).
 (define-macro callousness (?who)
-  (- 1 (any {?who compassion}).target))
+  (- 1.0 (any {?who compassion}).target))
 
 ; Does the deliberating self hold a grudge toward ?t (any negative warmth)?
 ; 1 / 0 - a score TERM, not a predicate.
@@ -62,8 +62,8 @@
 ; indiscretion likely; one careful partner keeps the affair tight. Read from
 ; the deliberating self's beliefs (an unknown side reads the 0.5 prior).
 (define-macro carelessness-of (?a ?b)
-  (* (- 1 (target-or ?a decorum 0.5))
-     (- 1 (target-or ?b decorum 0.5))))
+  (* (- 1.0 (target-or ?a decorum 0.5))
+     (- 1.0 (target-or ?b decorum 0.5))))
 
 ; The pull of ?toward measured against what still binds the self to ?away
 ; (attraction minus kept warmth - the affair-triangle drive).
@@ -84,7 +84,7 @@
 ; whatever their home life. Paired with (callousness ...) as the empathy-brake-off
 ; release, NOT (disinhibition), whose inhibition input folds in the family decorum.
 (define-macro infidelity-disposition (?who)
-  (mean3 (target-or ?who narcissism 0) (target-or ?who psychopathy 0) (target-or ?who volatility 0)))
+  (mean3 (target-or ?who narcissism 0.0) (target-or ?who psychopathy 0.0) (target-or ?who volatility 0.0)))
 
 ; --- Layer 2: the propensity product -----------------------------------------
 
@@ -121,7 +121,7 @@
 ; ... and inflated by self-regard: how much the betrayed self blames the
 ; unfaithful partner.
 (define-macro blame-partner-score (?t)
-  (+ (target-or @self narcissism 0) (cold-affront ?t)))
+  (+ (target-or @self narcissism 0.0) (cold-affront ?t)))
 
 ; How much the betrayed self blames the interloper instead: attachment to the
 ; partner (worth keeping) + compassion (spare the partner) + hostility already
@@ -134,7 +134,7 @@
 ; The dual-kill outrage: enough anger + propriety + scheming to kill BOTH.
 (define-macro dual-outrage-score ()
   (+ (emotion-load @self [k anger])
-     (+ (any {@self decorum}).target (target-or @self machiavellianism 0))))
+     (+ (any {@self decorum}).target (target-or @self machiavellianism 0.0))))
 
 ; Value dissonance between ?a and ?b AS THE DELIBERATOR KNOWS IT: the share of
 ; declared moral values (chastity / piety / sobriety) the two hold differently,

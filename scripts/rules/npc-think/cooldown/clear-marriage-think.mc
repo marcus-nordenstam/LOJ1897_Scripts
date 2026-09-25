@@ -56,7 +56,7 @@
 ; 
 ;   ; Dark floor + the lover must be free to marry + drive + propensity
 ;   ; (score_macros.mc: romantic-drive = attraction(lover) - warmth(spouse)).
-;   (when (and (>= (* (target-or @self psychopathy 0) (target-or @self machiavellianism 0)) 0.36)
+;   (when (and (>= (* (target-or @self psychopathy 0.0) (target-or @self machiavellianism 0.0)) 0.36)
 ;              (>= (romantic-drive ?paramour ?spouse) 2)
 ;              -{?spouse condition [k dead]}
 ;              ; Latch BOTH committed paths so neither the chance nor the agency fork
@@ -66,8 +66,8 @@
 ;                  {@self accomplice ?paramour}
 ;                  (chance
 ;                    (* (crime-scale) 0.03
-;                       (* (target-or @self psychopathy 0)
-;                          (* (target-or @self machiavellianism 0)
+;                       (* (target-or @self psychopathy 0.0)
+;                          (* (target-or @self machiavellianism 0.0)
 ;                             (* (disinhibition)
 ;                                (* (callousness @self)
 ;                                   (romantic-drive ?paramour ?spouse))))))))))
@@ -85,7 +85,7 @@
 ;         (maintain-proposal {@self kill ?spouse /caused_by ?lover_bond}))
 ;       ; Not yet committed - fork ONCE.
 ;       (case -{@self accomplice ?paramour}
-;         (if (chance (* 0.7 (target-or @self machiavellianism 0)))
+;         (if (chance (* 0.7 (target-or @self machiavellianism 0.0)))
 ;             ; INSTIGATED: recruit the lover. The accomplice bond carries the embedded
 ;             ; plot as its AUX clause: {@self accomplice <lover> {<lover> kill <spouse>}}.
 ;             ; The murder proposal rides the covert letter - urging is WANTING the

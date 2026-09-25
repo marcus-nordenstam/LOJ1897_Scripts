@@ -7,8 +7,8 @@
 ; Sleep physics: recovery clears fatigue at 1/6 per hour (the engine's
 ; completion physiology), so the natural sleep length is fatigue x 6h. The
 ; floor is sleep inertia (even a barely-tired sleeper stays down a while).
-(define-macro sleep-min-per-fatigue () 360)
-(define-macro sleep-inertia-floor-min () 120)
+(define-macro sleep-min-per-fatigue () 360.0)
+(define-macro sleep-inertia-floor-min () 120.0)
 
 ; The sleep act, promoted from the SLEEP desire at home: the action computes
 ; its NATURAL duration from the sleeper's own physiology - no calendar, no

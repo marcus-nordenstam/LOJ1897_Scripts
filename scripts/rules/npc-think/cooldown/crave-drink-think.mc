@@ -31,6 +31,6 @@
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               -{@self craving [k alcohol]}   ; dependents use the relapse chain
     (when          (>= (days-since-last {@self DRINK /ever}) 3))
-    (utility want (* 10 (drink-drive @self)))
+    (utility want (* 10.0 (drink-drive @self)))
     (effects       (begin-goal {@self DRINK}))
     (when-unsupported-effects (set-outcome {@self goal {@self DRINK}} /succ))))

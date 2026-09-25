@@ -17,7 +17,7 @@
   (and
     ; not at a source -> head to a shop @self KNOWS that stocks the kind.
     (try
-      (role ?shop [k building shop] (select (score (near @self ?shop)) (policy roulette))
+      (role ?shop [k building shop] (select (score (near @self ?shop)) (policy roulette unknown-last))
         (role @self (not (spatial @self building ?shop))
           (when (empty (spatial @self hold ?kind)))
           (utility fallback)

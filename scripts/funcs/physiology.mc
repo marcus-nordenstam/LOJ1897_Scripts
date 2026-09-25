@@ -29,21 +29,21 @@
   ; WHICH ACT RECOVERS THE BODY IS CONTENT, so it is decided here. The engine used to
   ; answer this by comparing the concluded act against a hardcoded SLEEP and handing
   ; down a 0/1; it now hands down the act LABEL and asks nothing.
-  (cond (case (eq ?act SLEEP) 1)
-        (else                 0)): ?recovers
-  (/ ?duration 60): ?hours
+  (cond (case (eq ?act SLEEP) 1.0)
+        (else                 0.0)): ?recovers
+  (/ ?duration 60.0): ?hours
 
   (clamp (- (attr @self adrenaline) (* ?hours (adrenaline_decay_per_hour)))
-         0 (adrenaline_max)): ?adren
-  (- 1 ?adren): ?mask
+         0.0 (adrenaline_max)): ?adren
+  (- 1.0 ?adren): ?mask
 
-  (- (* (* ?hours (fatigue_accrue_per_hour)) (- 1 ?recovers))
+  (- (* (* ?hours (fatigue_accrue_per_hour)) (- 1.0 ?recovers))
      (* (* ?hours (fatigue_recover_per_hour)) ?recovers)): ?df
-  (clamp (+ (attr @self fatigue) ?df) 0 (fatigue_max)): ?fatigue
+  (clamp (+ (attr @self fatigue) ?df) 0.0 (fatigue_max)): ?fatigue
   (* ?fatigue ?mask): ?sleepiness
 
   (clamp (+ (attr @self hunger) (* ?hours (hunger_accrue_per_hour)))
-         0 (hunger_max)): ?hunger
+         0.0 (hunger_max)): ?hunger
   (* ?hunger ?mask): ?appetite
 
   (set-attr @self adrenaline ?adren)

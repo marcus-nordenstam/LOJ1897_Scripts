@@ -11,5 +11,5 @@
   (effects
     (check (spatial ?roll co-located @self))
     (if (not (table-match (attr ?roll writing) member (name @self)))
-        (then (table-add ?roll member (name @self) joined-date (date-now))))
+        (then (table-add ?roll member (name @self) joined-date (time date))))
     (set-outcome ?jr-rel /succ)))

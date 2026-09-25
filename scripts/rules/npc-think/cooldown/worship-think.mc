@@ -35,8 +35,8 @@
   (cooldown 3 d try-until-succ)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (when    (and (>= (days-since-last {@self WORSHIP /ever}) 3)
-                  (>= (target-or @self politeness 0) 0.3)))
-    (utility want (* (recency-ramp WORSHIP 3 21 500) (devotional-drive-tilt)))
+                  (>= (target-or @self politeness 0.0) 0.3)))
+    (utility want (* (recency-ramp WORSHIP 3.0 21.0 500.0) (devotional-drive-tilt)))
     (effects
                    (begin-goal {@self WORSHIP}))
     (when-unsupported-effects (set-outcome {@self goal {@self WORSHIP}} /succ))))

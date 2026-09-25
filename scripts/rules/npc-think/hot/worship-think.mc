@@ -36,7 +36,7 @@
 (npc-think worship_go
   (goal    {@self WORSHIP})
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-    (role ?church [k building church] (select (score (near @self ?church)) (policy roulette))
+    (role ?church [k building church] (select (score (near @self ?church)) (policy roulette unknown-last))
       (when    (not (spatial @self building ?church)))
       (effects
                (maintain-proposal {@self go ?church})))))

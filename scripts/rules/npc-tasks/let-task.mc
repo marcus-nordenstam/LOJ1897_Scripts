@@ -30,7 +30,7 @@
     ; the put is proposed only AT it (STACK-PUT asserts the reach it is given, and a man
     ; can be pulled away between stages), so the stage HOLDS until he is there.
     (stage
-      (role ?stk [k for-lease-listing-stack] (select (score (near @self ?stk)) (policy roulette)))
+      (role ?stk [k for-lease-listing-stack] (select (score (near @self ?stk)) (policy roulette unknown-last)))
       (effects
         (if (not (spatial ?stk co-located @self))
             (then (maintain-proposal {@self go ?stk})))))

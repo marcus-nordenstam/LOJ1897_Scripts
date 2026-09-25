@@ -13,7 +13,7 @@
   (tar ?)
   (and
     (try
-      (role ?station [k police-station] (select (score (near @self ?station)) (policy roulette))
+      (role ?station [k police-station] (select (score (near @self ?station)) (policy roulette unknown-last))
         (role @self (not (spatial @self building ?station))
           (when (and {? stolen-from @self}
                      (can-write @self)

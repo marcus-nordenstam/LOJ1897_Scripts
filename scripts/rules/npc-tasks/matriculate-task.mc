@@ -15,7 +15,7 @@
     ; GO: not at a school -> travel to one I know (nearest preferred).
     (try
       (role ?go_dest [k building school]
-            (select (score (near @self ?go_dest)) (policy roulette))
+            (select (score (near @self ?go_dest)) (policy roulette unknown-last))
         (when (not (is-a (spatial @self building) [k building school])))
         (effects (maintain-proposal {@self go ?go_dest}))))
 

@@ -58,7 +58,7 @@
 
       (bind (any {@self pregnant-when ?}).target ?conceived-when)
 
-      (when (>= (time-since /weeks ?conceived-when) (gestation_weeks)))
+      (when (>= (elapsed /weeks ?conceived-when) (gestation_weeks)))
 
       (utility need)
 

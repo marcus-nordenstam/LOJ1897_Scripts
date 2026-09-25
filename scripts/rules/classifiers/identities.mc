@@ -34,9 +34,9 @@
   (role @self {@self class-situation ?}
     (effects
       (mint-band {@self identity}
-        (* (= (target-or @self gender 0) [k male])
+        (* (= (target-or @self gender @nothing) [k male])
            (clamp (+ (prob {@self class-situation [k class-situation middle]})
-                     (prob {@self class-situation [k class-situation upper]})) 0 1))
+                     (prob {@self class-situation [k class-situation upper]})) 0.0 1.0))
         [k role gentleman-role] 0.5))))
 
 (npc-think classify_lady_identity
@@ -44,9 +44,9 @@
   (role @self {@self class-situation ?}
     (effects
       (mint-band {@self identity}
-        (* (= (target-or @self gender 0) [k female])
+        (* (= (target-or @self gender @nothing) [k female])
            (clamp (+ (prob {@self class-situation [k class-situation middle]})
-                     (prob {@self class-situation [k class-situation upper]})) 0 1))
+                     (prob {@self class-situation [k class-situation upper]})) 0.0 1.0))
         [k role lady-role] 0.5))))
 
 ; The two Dark Tetrad identities - the homonymous trait attr against a floor.
@@ -59,7 +59,7 @@
   (role @self {@self class-situation ?}
     (effects
       (mint-band {@self identity}
-        (>= (target-or @self machiavellianism 0) (identity-machiavellian-min))
+        (>= (target-or @self machiavellianism 0.0) (identity-machiavellian-min))
         [k role machiavellian-role] 0.5))))
 
 (npc-think classify_sadist_identity
@@ -67,7 +67,7 @@
   (role @self {@self class-situation ?}
     (effects
       (mint-band {@self identity}
-        (>= (target-or @self sadism 0) (identity-sadist-min))
+        (>= (target-or @self sadism 0.0) (identity-sadist-min))
         [k role sadist-role] 0.5))))
 
 ; christian / merchant / steward: the identity a membership or a post confers. A
@@ -113,7 +113,7 @@
 (define-macro competent-in (?domain)
   (clamp (+ (prob {@self skill-level ?domain [k competent]})
             (prob {@self skill-level ?domain [k proficient]})
-            (prob {@self skill-level ?domain [k virtuoso]})) 0 1))
+            (prob {@self skill-level ?domain [k virtuoso]})) 0.0 1.0))
 
 (npc-think classify_physician_identity
   (rng-stream behaviour)
@@ -135,8 +135,8 @@
     (effects
       (mint-band {@self identity}
         (* (competent-in [k academic-field])
-           (- 1 (competent-in [k primary-school-curriculum]))
-           (- 1 (competent-in [k secondary-school-curriculum])))
+           (- 1.0 (competent-in [k primary-school-curriculum]))
+           (- 1.0 (competent-in [k secondary-school-curriculum])))
         [k role scholar-role] 0.5))))
 
 (npc-think classify_soldier_identity
@@ -157,7 +157,7 @@
   (role @self {@self class-situation ?}
     (effects
       (mint-band {@self identity}
-        (* (competent-in [k performance-art]) (- 1 (competent-in [k music])))
+        (* (competent-in [k performance-art]) (- 1.0 (competent-in [k music])))
         [k role artist-role] 0.5))))
 
 (npc-think classify_sportsman_identity

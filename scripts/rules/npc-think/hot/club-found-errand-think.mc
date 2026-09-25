@@ -15,7 +15,7 @@
   (goal {@self FOUND-CLUB})
   ; The pub is role-cast from the pubs the NPC KNOWS; nearest preferred, weighted.
   ; No known pub -> no fire (the goal waits).
-  (role ?go_dest [k building pub] (select (score (near @self ?go_dest)) (policy roulette))
+  (role ?go_dest [k building pub] (select (score (near @self ?go_dest)) (policy roulette unknown-last))
     (when (not (is-a (spatial @self building) [k building pub])))
     (effects (maintain-proposal {@self go ?go_dest}))))
 

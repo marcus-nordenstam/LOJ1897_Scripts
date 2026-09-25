@@ -21,12 +21,12 @@
 ; A room whose floor holds no person-sized cell - too low a storey, or full - is passed over.
 (define-func nearest-standable-room (?bldg)
   (bind @nothing ?room)
-  (bind -1 ?best)
+  (bind -1.0 ?best)
   (for-each ?r (spatial ?bldg parts [k interior-space room])
     (if (can-stand-in ?r)
       (then
         (bind (distance @self ?r) ?d)
-        (if (or (< ?best 0) (< ?d ?best))
+        (if (or (< ?best 0.0) (< ?d ?best))
           (then
             (bind ?r ?room)
             (bind ?d ?best))))))

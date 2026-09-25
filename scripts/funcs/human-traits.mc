@@ -88,10 +88,10 @@
     (then
       (clamp (+ (* (trait_heritability) (attr ?mother ?trait))
                 (* (trait_heritability) (attr ?father ?trait))
-                (* (- 1 (* 2 (trait_heritability))) ?mean)
-                (sample-gaussian 0 ?sigma))
-             0 1))
-    (else (clamp (sample-gaussian ?mean ?sigma) 0 1))))
+                (* (- 1.0 (* 2.0 (trait_heritability))) ?mean)
+                (sample-gaussian 0.0 ?sigma))
+             0.0 1.0))
+    (else (clamp (sample-gaussian ?mean ?sigma) 0.0 1.0))))
 
 ; One SINGULAR kind-typed trait (appearance, girth, height, hair, eyes). A child
 ; takes its mother's, its father's, or a fresh draw, at even odds; a parentless
@@ -131,11 +131,11 @@
 ; standouts instead of piling them on the threshold.
 (define-func accentuate-traits (?h ?gender)
   (bind @nothing ?hi-trait)
-  (bind 0 ?hi-mean)
-  (bind -2 ?hi-dev)
+  (bind 0.0 ?hi-mean)
+  (bind -2.0 ?hi-dev)
   (bind @nothing ?lo-trait)
-  (bind 0 ?lo-mean)
-  (bind 2 ?lo-dev)
+  (bind 0.0 ?lo-mean)
+  (bind 2.0 ?lo-dev)
   (for-each-row continuous_traits
       [/trait ?t] [/mean-male ?mm] [/mean-female ?mf]
     (sex-trait-mean ?gender ?mm ?mf): ?mean
@@ -147,15 +147,15 @@
   (if (and (substantial ?hi-trait) (< ?hi-dev (standout_delta)))
     (then
       (set-attr ?h ?hi-trait
-        (clamp (+ ?hi-mean (standout_delta) (* (rng-unit) (standout_jitter))) 0 1))))
+        (clamp (+ ?hi-mean (standout_delta) (* (rng-unit) (standout_jitter))) 0.0 1.0))))
   ; The low pick is only distinct from the high pick when the table has two rows
   ; to choose between; with one it would undo the push just made.
   (if (and (substantial ?lo-trait)
            (not (= ?lo-trait ?hi-trait))
-           (> ?lo-dev (- 0 (standout_delta))))
+           (> ?lo-dev (- 0.0 (standout_delta))))
     (then
       (set-attr ?h ?lo-trait
-        (clamp (- ?lo-mean (standout_delta) (* (rng-unit) (standout_jitter))) 0 1)))))
+        (clamp (- ?lo-mean (standout_delta) (* (rng-unit) (standout_jitter))) 0.0 1.0)))))
 
 ; The permanent lineage anchor, seeded ONCE from the origin class. class-situation
 ; is later re-derived from breeding + prestige + wealth, so breeding must not

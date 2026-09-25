@@ -42,7 +42,7 @@
       ;; Non-belief gate, not a @self role filter: enthusiasm-scaled chance, multiplicative
       ;; so outgoing hosts engage more than withdrawn ones, /12'd to the monthly
       ;; cadence, rolled once per host per month.
-      (when (chance (* 0.0667 (target-or @self enthusiasm 0))))
+      (when (chance (* 0.0667 (target-or @self enthusiasm 0.0))))
 
       (utility want)
 

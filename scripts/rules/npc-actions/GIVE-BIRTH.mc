@@ -49,7 +49,7 @@
     (seed-human-vitals ?baby)
     (seed-npc-habits ?baby)
     (set-attr ?baby parentless 0)
-    (set-attr ?baby birth-date (create-date (year) (month) (day)))
+    (set-attr ?baby birth-date (create-date (time year) (time month) (time day)))
     (start-aging ?baby)
     ; The newborn's own kin beliefs, minted IN the mind being created - the same
     ; thing make-human does for a founder, and the only mind this body writes to

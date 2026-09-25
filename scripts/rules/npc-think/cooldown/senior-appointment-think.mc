@@ -48,7 +48,7 @@
       ;; fails and the sampler backtracks. The (when) also carries the age / repute /
       ;; prestige floors and the trait-product chance.
       (when (and (chance (* 0.0083
-                             (target-or @self assertiveness 0)
+                             (target-or @self assertiveness 0.0)
                              ?prestige))
                  (!= (any {(any {@self job ?}).target level ?}).target [k senior])
                  (>= (years-old @self) 30)

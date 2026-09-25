@@ -40,7 +40,6 @@ rule
 {?founder goal {.. achieve {?clientOrg workplace ?workplaceDescr}}}
 {?clientOrg name ?ownerName}
 {?clientOrg categories ?ownerCats}
-{@time date ?date}
 # Do I know of a place that matches the ?clientOrg's workplace description?
 (o /known ?workplaceDescr): ?place
 # Determine if this place is listed in a deed, and that we have directly

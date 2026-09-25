@@ -16,7 +16,7 @@
       (mint-band {@self social-trajectory}
         (+ (* 0.5 ?prestige)
            (* 0.5 ?wealth)
-           (* -1  ?breeding))
+           (* -1.0  ?breeding))
         [k social-trajectory rising]    0.15
         [k social-trajectory stable]    -0.15
         [k social-trajectory declining] -2))))

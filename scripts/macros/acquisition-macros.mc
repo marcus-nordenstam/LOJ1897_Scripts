@@ -8,9 +8,9 @@
 (define-macro nobody-watching ()
   (= (count (spatial (spatial @self space) contents [k human] /env)) 1))
 
-; (after-dark): the cover-of-darkness window (the now-hour clock is band-granular).
+; (after-dark): the cover-of-darkness window (the (time hour) clock is band-granular).
 (define-macro after-dark ()
-  (or (>= (now-hour) 22) (< (now-hour) 5)))
+  (or (>= (time hour) 22) (< (time hour) 5)))
 
 ; (procure_fee): the coins a hired procurer takes on top of the item's price. Tunable.
 (define-macro procure_fee () 20)

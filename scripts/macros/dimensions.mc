@@ -54,7 +54,7 @@
         (conduct-scalar ?who sobriety)
         (devoutness-scalar ?who)
         (decorum-scalar ?who)
-        (chastity-scalar ?who)) 7))
+        (chastity-scalar ?who)) 7.0))
 
 ; criminality - a low base (0.05), raised 0.25 per recorded crime of ANY tense. Violence
 ; (every (theme violent-to) act - the fight-aspect blows, the organic-brawl PUNCH, and kill)
@@ -77,50 +77,50 @@
   (clamp (+ (* 0.15 (prob {@self mother ?}))
             (* 0.15 (prob {@self father ?}))
             (* 0.20 (prob {@self spouse ?}))
-            (* 0.06 (min (count (every {@self child ?})) 4))
+            (* 0.06 (min (count (every {@self child ?}) /float) 4.0))
             (* 0.20 (prob {@self job ?}))
             (* 0.15 (>= (count (every {@self owns-building ?})) 1))
-            (* 0.10 (>= (count (every {@self member-of ?})) 1))) 0 1))
+            (* 0.10 (>= (count (every {@self member-of ?})) 1))) 0.0 1.0))
 
 ; diligence - the industriousness aspect.
-(define-macro diligence () (target-or @self industriousness 0))
+(define-macro diligence () (target-or @self industriousness 0.0))
 
 ; honesty - high politeness, low Machiavellianism (the dark-tetrad deceit trait).
 (define-macro honesty ()
-  (/ (+ (target-or @self politeness 0) (- 1 (target-or @self machiavellianism 0))) 2))
+  (/ (+ (target-or @self politeness 0.0) (- 1.0 (target-or @self machiavellianism 0.0))) 2.0))
 
 ; generosity - the compassion prior, lifted 0.20 by any recorded act of charity (an
 ; ended {@self give <alms>} act-record still counts - a lifetime tally).
 (define-macro generosity ()
-  (clamp (+ (target-or @self compassion 0) (* (>= (count (every {@self give ? /ever})) 1) 0.20)) 0 1))
+  (clamp (+ (target-or @self compassion 0.0) (* (>= (count (every {@self give ? /ever})) 1) 0.20)) 0.0 1.0))
 
 ; sobriety - inverse of accumulated intoxication (absent intoxication = 0 = fully
 ; sober), hard-capped at 0.15 once a standing craving for drink has formed, and
 ; docked 0.25 x the gambling-addiction severity.
 (define-macro sobriety ()
-  (clamp (+ (* (- 1 (prob {@self craving ?})) (- 1 (target-or @self intoxication 0)))
-            (* (prob {@self craving ?})       (min (- 1 (target-or @self intoxication 0)) 0.15))
-            (* (target-or @self gambling-addiction 0) -0.25)) 0 1))
+  (clamp (+ (* (- 1.0 (prob {@self craving ?})) (- 1.0 (target-or @self intoxication 0.0)))
+            (* (prob {@self craving ?})       (min (- 1.0 (target-or @self intoxication 0.0)) 0.15))
+            (* (target-or @self gambling-addiction 0.0) -0.25)) 0.0 1.0))
 
 ; belonging - how well warmth bonds + immediate kin meet the sociability need.
 ; Warmth = friends (close-to / friend) + kin (spouse x2, children capped 5, parents
 ; capped 2, siblings capped 4). Need = 1 + Extraversion x 5 (Extraversion = the mean
 ; of enthusiasm + assertiveness); belonging falls 0.18 per unit of unmet need.
 (define-macro belonging ()
-  (clamp (- 1 (* (max (- (+ 1 (* (* (+ (target-or @self enthusiasm 0) (target-or @self assertiveness 0)) 0.5) 5))
-                         (+ (count (every {@self close-to ?})) (count (every {@self friend ?}))
-                            (* 2 (prob {@self spouse ?}))
-                            (min (count (every {@self child ?})) 5)
-                            (min (+ (count (every {@self mother ?})) (count (every {@self father ?}))) 2)
-                            (min (+ (count (every {@self sibling ?})) (count (every {@self half-sibling ?}))) 4)))
-                     0) 0.18)) 0 1))
+  (clamp (- 1.0 (* (max (- (+ 1.0 (* (* (+ (target-or @self enthusiasm 0.0) (target-or @self assertiveness 0.0)) 0.5) 5.0))
+                         (+ (count (every {@self close-to ?}) /float) (count (every {@self friend ?}) /float)
+                            (* 2.0 (prob {@self spouse ?}))
+                            (min (count (every {@self child ?}) /float) 5.0)
+                            (min (+ (count (every {@self mother ?}) /float) (count (every {@self father ?}) /float)) 2.0)
+                            (min (+ (count (every {@self sibling ?}) /float) (count (every {@self half-sibling ?}) /float)) 4.0)))
+                     0.0) 0.18)) 0.0 1.0))
 
 ; piety - worship-episode observance mapped onto the historical piety anchors:
 ; 0.25 the never-worships floor, 0.85 the regular-churchgoer ceiling. observance
 ; is the recency-weighted mass of the subject's OWN worship memories (forgetting
 ; them honestly degrades it; the church-going pretender fools it by design).
 (define-macro piety ()
-  (clamp (+ 0.25 (* (evidence @self WORSHIP 6 6) 0.60)) 0 1))
+  (clamp (+ 0.25 (* (evidence @self WORSHIP 6 6) 0.60)) 0.0 1.0))
 
 ; inhibition - the moral / conscientious brake on pressure-driven impulse. A
 ; weighted fold of politeness / industriousness / compassion / piety / decorum
@@ -131,18 +131,18 @@
 ; counts. decorum is a C++ float belief and stress a mood belief - both read
 ; absent-safe (0 when the subject holds none, e.g. children / fresh spawns).
 (define-macro inhibition ()
-  (clamp (+ (+ (* (target-or @self politeness 0)      0.30)
-               (* (target-or @self industriousness 0) 0.30)
-               (* (target-or @self compassion 0)      0.15)
+  (clamp (+ (+ (* (target-or @self politeness 0.0)      0.30)
+               (* (target-or @self industriousness 0.0) 0.30)
+               (* (target-or @self compassion 0.0)      0.15)
                (* (piety)                       0.20)
-               (* (if {@self decorum ?} (then (any {@self decorum}).target) (else 0)) 0.10)
-               (* (/ (+ (- 1 (target-or @self industriousness 0)) (- 1 (target-or @self politeness 0))
-                        (target-or @self volatility 0)) 3) -0.20)
-               (* (if {@self stress ?}  (then (any {@self stress}).target)  (else 0)) -0.30))
-            (+ (* (clamp (+ (target-or @self narcissism 0)       -0.5) 0 1) -0.10)
-               (* (clamp (+ (target-or @self machiavellianism 0) -0.5) 0 1) -0.15)
-               (* (clamp (+ (target-or @self psychopathy 0)      -0.5) 0 1) -0.20)
-               (* (clamp (+ (target-or @self sadism 0)           -0.5) 0 1) -0.25)
-               (* (count (every {@self value ?}))    0.05)
-               (* (count (every {@self justify ?})) -0.08))) 0 1))
+               (* (if {@self decorum ?} (then (any {@self decorum}).target) (else 0.0)) 0.10)
+               (* (/ (+ (- 1.0 (target-or @self industriousness 0.0)) (- 1.0 (target-or @self politeness 0.0))
+                        (target-or @self volatility 0.0)) 3.0) -0.20)
+               (* (if {@self stress ?}  (then (any {@self stress}).target)  (else 0.0)) -0.30))
+            (+ (* (clamp (+ (target-or @self narcissism 0.0)       -0.5) 0.0 1.0) -0.10)
+               (* (clamp (+ (target-or @self machiavellianism 0.0) -0.5) 0.0 1.0) -0.15)
+               (* (clamp (+ (target-or @self psychopathy 0.0)      -0.5) 0.0 1.0) -0.20)
+               (* (clamp (+ (target-or @self sadism 0.0)           -0.5) 0.0 1.0) -0.25)
+               (* (count (every {@self value ?}) /float)    0.05)
+               (* (count (every {@self justify ?}) /float) -0.08))) 0.0 1.0))
 

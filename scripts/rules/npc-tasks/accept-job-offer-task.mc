@@ -50,7 +50,7 @@
                                    (spatial ?officer co-located @self)
                                    -{?officer SAY (utterable-msg {? job ?}) @self /succ}
             (role @self {@self SAY ? ?officer /succ /caused_by ?accept}
-              (effects (maintain-proposal {@self DWELL ?wp (+ (now-hour) 1)})))))
+              (effects (maintain-proposal {@self DWELL ?wp (+ (time hour) 1)})))))
 
         ; told: this task is successful now, whether or not the job turns out to be mine.
         ; TAKEN ON. Her word put {@self job ?job} in his mind, and the seat came decorated off
@@ -62,7 +62,7 @@
             (role @self {@self SAY ? ?officer /succ /caused_by ?accept}
                         {@self job ?job}
               (effects
-                (if -{?job since ?} (then (begin-belief {?job since (year)})))
+                (if -{?job since ?} (then (begin-belief {?job since (time year)})))
                 (if -{?wp occupant @self} (then (begin-belief {?wp occupant @self})))
                 (expect (any {?job level ?}) "labour: taken on, but the seat carries no level")
                 (expect (any {?job salary ?}) "labour: taken on, but the seat carries no salary")
@@ -75,7 +75,7 @@
             (role @self {@self SAY ? ?officer /succ /caused_by ?accept}
               (role ?holder [k human] {?holder job ?job}:?held
                 (when (and (!= ?holder @self)
-                           (>= (abs-seconds ?held.start) (abs-seconds ?accept.start))))
+                           (>= (abs-seconds (start-time ?held)) (abs-seconds (start-time ?accept)))))
                 (effects
                   (for-each ?orel (every {?job offered-to @self})
                     (end-belief ?orel))

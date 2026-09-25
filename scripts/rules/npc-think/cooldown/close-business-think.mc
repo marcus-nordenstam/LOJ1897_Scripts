@@ -45,15 +45,15 @@
 ; The economic weather multiplier on the base rate, by the historical era bands
 ; (pre-industrial agrarian, early industrial growth, the Hungry Forties, the
 ; mid-Victorian boom, the Long Depression): a downturn wrecks businesses, an
-; expansion sustains them. (year) is an ambient scalar read (decision #1 -
+; expansion sustains them. (time year) is an ambient scalar read (decision #1 -
 ; allowed in a think).
 (define-macro business_failure_climate_mult ()
   (cond
-    (case (< (year) 1820) 1.0)    ; stable
-    (case (< (year) 1846) 0.5)    ; expansion
-    (case (< (year) 1852) 2.0)    ; downturn
-    (case (< (year) 1874) 0.5)    ; expansion
-    (case (< (year) 1897) 2.0)    ; downturn
+    (case (< (time year) 1820) 1.0)    ; stable
+    (case (< (time year) 1846) 0.5)    ; expansion
+    (case (< (time year) 1852) 2.0)    ; downturn
+    (case (< (time year) 1874) 0.5)    ; expansion
+    (case (< (time year) 1897) 2.0)    ; downturn
     (else 1.0)))                  ; stable
 
 ; --- the decision -------------------------------------------------------------

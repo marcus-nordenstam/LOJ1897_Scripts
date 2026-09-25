@@ -15,7 +15,7 @@
   (record [k competence-level expert]  2))
 
 ; weekday index (0=Sun .. 6=Sat) -> the {job <label> start end} shift-belief label
-; for today. Read with (now-weekday) as the key.
+; for today. Read with (time weekday) as the key.
 (define-table weekday_hours_label
   (fields weekday label)
   (record 0 sun-hours)

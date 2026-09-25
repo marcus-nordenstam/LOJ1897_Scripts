@@ -4,7 +4,7 @@
 ; begins the kind, < 0.5 ends it), and mint-band's held-scan only matches the ONE
 ; declared kind, so a toggle never disturbs the other (non-@excl) prototype beliefs.
 ; Booleans compose as products of (believes)/(>=)/(<=) 0-or-1 terms; OR =
-; (clamp (+ ...) 0 1). Gated on a PERSISTENT input band (plus the held prototype
+; (clamp (+ ...) 0.0 1.0). Gated on a PERSISTENT input band (plus the held prototype
 ; itself, for inputs like craving that can end) so the toggle can flip OFF when the
 ; condition lapses.
 ; ----------------------------------------------------------------------------
@@ -26,7 +26,7 @@
   ; wealth re-derives annually; breeding is birth-seeded (an inert input, kept to document it).
   ; The toggle drops if wealth is retracted.
   (rng-stream behaviour)
-  (role @self {@self wealth ?wealth, breeding ?breeding}
+  (role @self {@self wealth ?wealth} {@self breeding ?breeding}
     (effects
       (mint-band {@self prototype}
         (* (>= ?wealth 0.60)
@@ -43,10 +43,10 @@
       (mint-band {@self prototype}
         (* (prob {@self social-trajectory [k social-trajectory rising]})
            (clamp (+ (prob {@self class-situation [k class-situation middle]})
-                     (prob {@self class-situation [k class-situation upper]})) 0 1)
+                     (prob {@self class-situation [k class-situation upper]})) 0.0 1.0)
            (<= ?breeding 0.40)
            (clamp (+ (prob {@self repute [k repute exemplary]})
-                     (prob {@self repute [k repute respectable]})) 0 1))
+                     (prob {@self repute [k repute respectable]})) 0.0 1.0))
         [k prototype self-made-man] 0.5))))
 
 ; deserving-poor: poor/destitute + reputable.
@@ -56,9 +56,9 @@
     (effects
       (mint-band {@self prototype}
         (* (clamp (+ (prob {@self economic-situation [k economic-situation poor]})
-                     (prob {@self economic-situation [k economic-situation destitute]})) 0 1)
+                     (prob {@self economic-situation [k economic-situation destitute]})) 0.0 1.0)
            (clamp (+ (prob {@self repute [k repute exemplary]})
-                     (prob {@self repute [k repute respectable]})) 0 1))
+                     (prob {@self repute [k repute respectable]})) 0.0 1.0))
         [k prototype deserving-poor] 0.5))))
 
 ; undeserving-poor: poor/destitute + disreputable.
@@ -68,9 +68,9 @@
     (effects
       (mint-band {@self prototype}
         (* (clamp (+ (prob {@self economic-situation [k economic-situation poor]})
-                     (prob {@self economic-situation [k economic-situation destitute]})) 0 1)
+                     (prob {@self economic-situation [k economic-situation destitute]})) 0.0 1.0)
            (clamp (+ (prob {@self repute [k repute disreputable]})
-                     (prob {@self repute [k repute scandalous]})) 0 1))
+                     (prob {@self repute [k repute scandalous]})) 0.0 1.0))
         [k prototype undeserving-poor] 0.5))))
 
 ; go-between (the underworld fixer) - NOT-reputable (neither exemplary nor
@@ -96,13 +96,13 @@
   (role @self {@self repute ?, class-situation ?}
     (effects
       (mint-band {@self prototype}
-        (* (* (- 1 (prob {@self repute [k repute exemplary]}))
-              (- 1 (prob {@self repute [k repute respectable]})))
+        (* (* (- 1.0 (prob {@self repute [k repute exemplary]}))
+              (- 1.0 (prob {@self repute [k repute respectable]})))
            (clamp (+ (prob {@self class-situation [k class-situation lower]})
-                     (prob {@self class-situation [k class-situation middle]})) 0 1)
-           (>= (/ (+ (- 1 (target-or @self industriousness 0))
-                     (- 1 (target-or @self politeness 0))
-                     (target-or @self volatility 0)) 3)
+                     (prob {@self class-situation [k class-situation middle]})) 0.0 1.0)
+           (>= (/ (+ (- 1.0 (target-or @self industriousness 0.0))
+                     (- 1.0 (target-or @self politeness 0.0))
+                     (target-or @self volatility 0.0)) 3.0)
                0.50))
         [k prototype go-between] 0.5))))
 
@@ -136,12 +136,12 @@
       (mint-band {@self prototype}
         ; REASON: economic desperation OR the callous + disinhibited bad seed.
         (clamp (+ (clamp (+ (prob {@self economic-situation [k economic-situation poor]})
-                            (prob {@self economic-situation [k economic-situation destitute]})) 0 1)
-                  (* (<= (target-or @self compassion 0) 0.40)
-                     (>= (/ (+ (- 1 (target-or @self industriousness 0))
-                               (- 1 (target-or @self politeness 0))
-                               (target-or @self volatility 0)) 3)
-                         0.55))) 0 1)
+                            (prob {@self economic-situation [k economic-situation destitute]})) 0.0 1.0)
+                  (* (<= (target-or @self compassion 0.0) 0.40)
+                     (>= (/ (+ (- 1.0 (target-or @self industriousness 0.0))
+                               (- 1.0 (target-or @self politeness 0.0))
+                               (target-or @self volatility 0.0)) 3.0)
+                         0.55))) 0.0 1.0)
         [k prototype for-hire] 0.5))))
 
 ; brute path: the lower-class strong man with NO lethal skill (footpad / cosh thug).
@@ -152,13 +152,13 @@
               -{@self skill-level [k garrotting]}
     (effects
       (mint-band {@self prototype}
-        (* (>= (target-or @self strength 0) 0.65)
+        (* (>= (target-or @self strength 0.0) 0.65)
            (prob {@self class-situation [k class-situation lower]})
            (clamp (+ (clamp (+ (prob {@self economic-situation [k economic-situation poor]})
-                               (prob {@self economic-situation [k economic-situation destitute]})) 0 1)
-                     (* (<= (target-or @self compassion 0) 0.40)
-                        (>= (/ (+ (- 1 (target-or @self industriousness 0))
-                                  (- 1 (target-or @self politeness 0))
-                                  (target-or @self volatility 0)) 3)
-                            0.55))) 0 1))
+                               (prob {@self economic-situation [k economic-situation destitute]})) 0.0 1.0)
+                     (* (<= (target-or @self compassion 0.0) 0.40)
+                        (>= (/ (+ (- 1.0 (target-or @self industriousness 0.0))
+                                  (- 1.0 (target-or @self politeness 0.0))
+                                  (target-or @self volatility 0.0)) 3.0)
+                            0.55))) 0.0 1.0))
         [k prototype for-hire] 0.5))))

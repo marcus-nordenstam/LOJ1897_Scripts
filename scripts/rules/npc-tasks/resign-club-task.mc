@@ -12,7 +12,7 @@
     ; GO: not at a clubhouse -> travel to one (nearest known).
     (try
       (role ?go_dest [k building social-clubhouse]
-            (select (score (near @self ?go_dest)) (policy roulette))
+            (select (score (near @self ?go_dest)) (policy roulette unknown-last))
         (when (not (is-a (spatial @self building) [k building social-clubhouse])))
         (effects (maintain-proposal {@self go ?go_dest}))))
 

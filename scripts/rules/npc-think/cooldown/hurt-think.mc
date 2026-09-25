@@ -36,11 +36,11 @@
       ; [0.3, 1.0] so the whole product stays <= 1 - sober high-tetrad actors still
       ; occasionally fire, drunk ones much more).
       (when (latch-eval (chance (* (crime-scale)
-                       (target-or @self volatility 0)
-                       (target-or @self psychopathy 0)
-                       (target-or @self sadism 0)
-                       (- 1.0 (target-or @self politeness 0))
-                       (+ 0.3 (* 0.7 (target-or @self intoxication 0)))))))
+                       (target-or @self volatility 0.0)
+                       (target-or @self psychopathy 0.0)
+                       (target-or @self sadism 0.0)
+                       (- 1.0 (target-or @self politeness 0.0))
+                       (+ 0.3 (* 0.7 (target-or @self intoxication 0.0)))))))
 
       (utility want)
       (effects

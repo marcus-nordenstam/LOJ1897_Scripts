@@ -21,5 +21,5 @@
     (check (substantial ?reg))
     (check (spatial ?reg co-located @self /env))
     (check (table-set ?reg (where job-id ?job-id)
-                           offered ?applicant-name offer-date (date-now)))
+                           offered ?applicant-name offer-date (time date)))
     (set-outcome ?ro-rel /succ)))

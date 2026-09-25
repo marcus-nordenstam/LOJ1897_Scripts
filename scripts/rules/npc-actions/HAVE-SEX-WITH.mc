@@ -37,7 +37,7 @@
          (chance (conception_chance))): ?conceived
     (if ?conceived
       (then
-        (set-attr @self pregnant-when (date-now))
+        (set-attr @self pregnant-when (time date))
         (set-attr @self pregnant-by ?paramour)
         (begin-belief {@self pregnant ?paramour})))
     ; The reciprocal act-record on the paramour (the actor's own side is the

@@ -22,7 +22,7 @@
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self craving [k alcohol]}   ; the dependency - cached
     ; The nearest pub the NPC KNOWS (role-cast; no known pub -> no fire).
-    (role ?pub [k building pub] (select (score (near @self ?pub)) (policy roulette))
+    (role ?pub [k building pub] (select (score (near @self ?pub)) (policy roulette unknown-last))
       ; A dependent, a drink already ~due (short fuse - he relapses fast).
       (when (>= (days-since-last {@self DRINK /ever}) 1))
       ; High pull: distress + weak restraint drive, piety/belonging resist (bounded,
@@ -31,9 +31,9 @@
       ; BAND = the identity/drive escalation: the dependent's baseline relapse rides NEED (a
       ; physiological drive at ordinary strength), escalating to CRISIS at the withdrawal redline
       ; (withdrawal is a DRIVE, not a trait, so the inline threshold is a legitimate escalation).
-      (utility (if (>= (target-or @self withdrawal 0) 0.7) (then crisis) (else need))
-               (* 10 (* (min (* (+ 0.5 (* 0.8 (target-or @self withdrawal 0)))
-                          (+ 0.6 (* 0.6 (- 1 (target-or @self industriousness 0))))
+      (utility (if (>= (target-or @self withdrawal 0.0) 0.7) (then crisis) (else need))
+               (* 10 (* (min (* (+ 0.5 (* 0.8 (target-or @self withdrawal 0.0)))
+                          (+ 0.6 (* 0.6 (- 1 (target-or @self industriousness 0.0))))
                           (- 1.3 (* 0.6 (piety)))
                           (- 1.3 (* 0.6 (belonging)))) 1.6)
                   (min (* (days-since-last {@self DRINK /ever}) 5) 45))))

@@ -42,7 +42,7 @@
       ; Non-belief gate, not a @self role filter: the enthusiasm-scaled chance.
       ; High enthusiasm (the sociable Extraversion aspect) makes friends more readily;
       ; mean-1.0 multiplier - friendship volume is unchanged.
-      (when (chance (* 0.0125 (+ 0.5 (target-or @self enthusiasm 0)))))
+      (when (chance (* 0.0125 (+ 0.5 (target-or @self enthusiasm 0.0)))))
 
       (effects
         ; befriend mints the mutual tie (friend, or acquaintance if either side is

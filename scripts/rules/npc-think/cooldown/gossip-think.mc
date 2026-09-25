@@ -37,8 +37,8 @@
         ; assertiveness weighted chance, and the minimum-age check.
         (when (and (!= ?ear ?x)
                    (chance (* 0.3
-                              (+ 0.5 (target-or @self enthusiasm 0))
-                              (+ 0.5 (target-or @self assertiveness 0))))
+                              (+ 0.5 (target-or @self enthusiasm 0.0))
+                              (+ 0.5 (target-or @self assertiveness 0.0))))
                    (>= (years-old @self) 12)))
 
         (utility want)
@@ -50,6 +50,6 @@
             (do
               (bind ?news-rel.target ?tgt)
               (utterable-msg ?news-rel): ?msg
-              (if (and (!= ?tgt @self)
+              (if (and (or (not (is-object ?tgt)) (!= ?tgt @self))
                        -{@self SAY ?msg ?ear})
                   (then (maintain-proposal {@self SAY ?msg ?ear}) (break))))))))))

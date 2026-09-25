@@ -31,7 +31,7 @@
 (npc-think gamble_go
   (goal {@self PLAY-GAME})
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-    (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette))
+    (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette unknown-last))
       (role @self (not (spatial @self building ?venue))
         (effects (maintain-proposal {@self go ?venue}))))))
 

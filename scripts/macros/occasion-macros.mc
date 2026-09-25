@@ -3,7 +3,7 @@
 ; occasion aspect (the attend task, the wedding vow duty, their drivers). All
 ; content-free: the prep-lead and the guest's desirability are authored here, the window
 ; arithmetic is the same in-work-hours the work shifts use, the date test rides
-; the generic (year)/(month) reads over the occasion's own held-on belief.
+; the generic (time year)/(time month) reads over the occasion's own held-on belief.
 ; ----------------------------------------------------------------------------
 
 (define-macro attend-prep-lead      () 3)       ; hours before start an attendee sets out
@@ -22,6 +22,6 @@
 ; The occasion's held-on date lands in the current month (hsim is monthly-resolution,
 ; so month + year is the natural grain for "the day has come").
 (define-macro date-in-current-month (?d)
-  (and (= (year ?d) (year (date-now)))
-       (= (month ?d) (month (date-now)))))
+  (and (= (year ?d) (year (time date)))
+       (= (month ?d) (month (time date)))))
 

@@ -7,7 +7,7 @@
 ; Fires on EITHER the timid-by-nature trait composite (low assertiveness AND high
 ; withdrawal) OR the cautious-by-conscience composite (high inhibition AND not
 ; exemplary) - the two routes to the same self-concept, deliberately permissive.
-; Booleans compose as products of 0-or-1 terms; OR = (clamp (+ ...) 0 1). Gated on
+; Booleans compose as products of 0-or-1 terms; OR = (clamp (+ ...) 0.0 1.0). Gated on
 ; respectability_situation being derived (the !exemplary term is meaningful only
 ; then, and it is the adult-derive admission gate). Norm thresholds are the
 ; tunables below.
@@ -24,8 +24,8 @@
 
     (effects
       (mint-band {@self identity}
-        (clamp (+ (* (< (target-or @self assertiveness 0) (coward-assert-max))
-                     (> (target-or @self withdrawal 0)    (coward-withdraw-min)))
+        (clamp (+ (* (< (target-or @self assertiveness 0.0) (coward-assert-max))
+                     (> (target-or @self withdrawal 0.0)    (coward-withdraw-min)))
                   (* (> (inhibition) (coward-inhibition-min))
-                     (- 1 (prob {@self repute [k repute exemplary]})))) 0 1)
+                     (- 1.0 (prob {@self repute [k repute exemplary]})))) 0.0 1.0)
         [k role coward-role] 0.5))))

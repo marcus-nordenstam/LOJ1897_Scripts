@@ -14,8 +14,8 @@
 
 ; Per-dimension centered swing: swing * (2v - 1), v the 0..1 reading (raw for
 ; trait self-beliefs / attrs; clamped for the transient mood dims).
-(define-macro delib-ctr  (?v ?swing) (* ?swing (- (* 2 ?v) 1)))
-(define-macro delib-ctrc (?v ?swing) (* ?swing (- (* 2 (clamp ?v 0 1)) 1)))
+(define-macro delib-ctr  (?v ?swing) (* ?swing (- (* 2.0 ?v) 1.0)))
+(define-macro delib-ctrc (?v ?swing) (* ?swing (- (* 2.0 (clamp ?v 0.0 1.0)) 1.0)))
 
 ; The 1.0-centered dispositional multiplier an AGGRESSIVE outlet rides: dark tetrad
 ; (env attr) + volatility amplify, politeness + compassion damp; the transient mood
@@ -23,10 +23,10 @@
 ; spans [0, 4].
 (define-macro agg-tilt ()
   (* (clamp (+ 1
-       (- (+ (delib-ctr (target-or @self narcissism 0)          (k-trait-swing))
-          (+ (delib-ctr (target-or @self machiavellianism 0)    (k-trait-swing))
-          (+ (delib-ctr (target-or @self psychopathy 0)         (k-trait-swing))
-          (+ (delib-ctr (target-or @self sadism 0)              (k-trait-swing))
+       (- (+ (delib-ctr (target-or @self narcissism 0.0)          (k-trait-swing))
+          (+ (delib-ctr (target-or @self machiavellianism 0.0)    (k-trait-swing))
+          (+ (delib-ctr (target-or @self psychopathy 0.0)         (k-trait-swing))
+          (+ (delib-ctr (target-or @self sadism 0.0)              (k-trait-swing))
              (delib-ctr (target-or @self volatility 0.5) (k-trait-swing))))))
           (+ (delib-ctr (target-or @self politeness 0.5) (k-trait-swing))
              (delib-ctr (target-or @self compassion 0.5) (k-trait-swing))))) 0 2)
@@ -42,10 +42,10 @@
        (- (+ (delib-ctr (target-or @self politeness 0.5) (k-trait-swing))
              (delib-ctr (target-or @self compassion 0.5) (k-trait-swing)))
           (+ (delib-ctr (target-or @self volatility 0.5) (k-trait-swing))
-          (+ (delib-ctr (target-or @self narcissism 0)          (k-trait-swing))
-          (+ (delib-ctr (target-or @self machiavellianism 0)    (k-trait-swing))
-          (+ (delib-ctr (target-or @self psychopathy 0)         (k-trait-swing))
-             (delib-ctr (target-or @self sadism 0)              (k-trait-swing)))))))) 0 2)
+          (+ (delib-ctr (target-or @self narcissism 0.0)          (k-trait-swing))
+          (+ (delib-ctr (target-or @self machiavellianism 0.0)    (k-trait-swing))
+          (+ (delib-ctr (target-or @self psychopathy 0.0)         (k-trait-swing))
+             (delib-ctr (target-or @self sadism 0.0)              (k-trait-swing)))))))) 0 2)
      (clamp (+ 1
        (- (delib-ctrc (target-or @self contentment 0.5)  (k-mood-swing))
           (+ (delib-ctrc (target-or @self stress 0.5)    (k-mood-swing))
@@ -57,7 +57,7 @@
 ; rationalisation about the focus adds (its narrative is the target, the focus the aux).
 (define-macro grievance-drive (?pressure ?focus ?tilt)
   (* (pressure-intensity ?pressure)
-     (* ?tilt (+ 1 (* (k-justify-per) (prob {@self justify ? ?focus}))))))
+     (* ?tilt (+ 1.0 (* (k-justify-per) (prob {@self justify ? ?focus}))))))
 
 ; ----------------------------------------------------------------------------
 ; Routine-drive personality tilts (NOT grievance) - the disposition scaling the
@@ -67,7 +67,7 @@
 ; (utility), so a diligent / devout NPC out-ranks a shirker / lapsed one.
 ; ----------------------------------------------------------------------------
 (define-macro devotional-drive-tilt ()
-  (clamp (+ 1 (delib-ctr (target-or @self politeness 0) (k-drive-trait-swing))) 0 2))
+  (clamp (+ 1.0 (delib-ctr (target-or @self politeness 0.0) (k-drive-trait-swing))) 0.0 2.0))
 (define-macro labour-drive-tilt ()
-  (* (clamp (+ 1 (delib-ctr (target-or @self industriousness 0) (k-drive-trait-swing))) 0 2)
-     (clamp (+ 1 (delib-ctrc (target-or @self stress 0.5) (- 0 (k-drive-mood-swing)))) 0 2)))
+  (* (clamp (+ 1.0 (delib-ctr (target-or @self industriousness 0.0) (k-drive-trait-swing))) 0.0 2.0)
+     (clamp (+ 1.0 (delib-ctrc (target-or @self stress 0.5) (- 0.0 (k-drive-mood-swing)))) 0.0 2.0)))

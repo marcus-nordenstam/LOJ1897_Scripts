@@ -67,7 +67,7 @@
                   {?corpse internment [k unburied]}
                   (not (spatial ?corpse co-located @self))
                   (select (score (months-since-death ?corpse)) (policy argmax))
-      (role ?church [k building church] (select (score (near @self ?church)) (policy roulette))
+      (role ?church [k building church] (select (score (near @self ?church)) (policy roulette unknown-last))
         (when (>= (months-since-death ?corpse) 1))
         (utility obligation (above WORSHIP))
         (effects (maintain-proposal {@self go ?church}))))))
