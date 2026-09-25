@@ -90,7 +90,7 @@
 
     (effects
       ;; Advance his own rank one rung (trainee -> apprentice; the (when) gates this
-      ;; lane to trainees). His own job belief only - the master's standing assessment
+      ;; rule to trainees). His own job belief only - the master's standing assessment
       ;; is the master's to re-accrue, never edited from here.
       (any {@self job ?job})
       (end-belief {?job level [k trainee]})

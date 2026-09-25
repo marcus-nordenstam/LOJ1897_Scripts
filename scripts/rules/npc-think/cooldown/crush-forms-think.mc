@@ -9,9 +9,9 @@
 ; A mental change (a new attraction), so npc-think. Fired by the per-NPC emergent
 ; pass MONTHLY. RELATIONAL, gated on personally-knows: a crush forms on someone
 ; the actor has actually met (the acquaintance ties the conversation / friendship
-; lanes seed), NOT on whoever shares a room - a SPECIFIC attracted pair rarely
+; chains seed), NOT on whoever shares a room - a SPECIFIC attracted pair rarely
 ; coincides physically by chance, so courtship FORMATION is keyed on the social
-; tie, not co-presence (the settled reversion; a place-lane "spark at a venue"
+; tie, not co-presence (the settled reversion; a place-based "spark at a venue"
 ; form is a future refinement).
 ;
 ; Actor gates on the (openness x enthusiasm x compassion) trait product (people

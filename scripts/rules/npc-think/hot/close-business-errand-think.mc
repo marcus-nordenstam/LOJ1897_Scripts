@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; close_business_errand (think lane) - the go/dwell think rungs of the
+; close_business_errand (npc-think) - the go/dwell think rungs of the
 ; business-failure split. The winding-up act lives in npc-act/close_business_errand.mc.
 ;
 ;   close_go     : hold the goal, not at the premises -> travel sub-goal to it. AT the
@@ -8,7 +8,7 @@
 ;                  owns the goal's whole life).
 ;
 ; Utility 85 matches retirement / founding: a man set on closing pursues it over
-; another shift (work lane 80) but still yields to night sleep (100), so he does it
+; another shift (work aspect 80) but still yields to night sleep (100), so he does it
 ; by day.
 ; ----------------------------------------------------------------------------
 

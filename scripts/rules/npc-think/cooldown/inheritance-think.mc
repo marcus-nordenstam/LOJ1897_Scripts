@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; inheritance - the will-based estate lane (replaces the C++ pick_heir /
+; inheritance - the will-based estate chain (replaces the C++ pick_heir /
 ; inherit_estate settlement).
 ;
 ;   deliberate_will   : once a year an adult re-picks the single heir they wish

@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; bury (act lane) - the priest's burial rite act. The planning thinks (bury_route /
+; bury (npc-action) - the priest's burial rite act. The planning thinks (bury_route /
 ; bury_onsite) live in npc-think/intra-day/bury_think.mc.
 ;
 ;   bury_action (act): perform the rites via the blessed rite ops - the verdict

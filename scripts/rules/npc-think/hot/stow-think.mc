@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; stow (npc-think lane) - the drive/travel thinks of the CARRY-IT-HOME-AND-PUT-
+; stow (npc-think) - the drive/travel thinks of the CARRY-IT-HOME-AND-PUT-
 ; IT-AWAY chain. The completion act lives in npc-act/stow.mc.
 ;
 ; Anything an NPC resolves to squirrel away rides ONE mechanism: a think mints

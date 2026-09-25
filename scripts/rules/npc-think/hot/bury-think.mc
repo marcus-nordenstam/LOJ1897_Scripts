@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; bury (think lane) - the priest's burial planning think. The rite act
+; bury (npc-think) - the priest's burial planning think. The rite act
 ; (bury_act) lives in npc-act/bury_act.mc.
 ;
 ; Burial is not a zero-role world sweep over every condition=dead corpse. A

@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; worship (npc-action lane) - the service act of the churchgoing lane. The desire +
+; worship (npc-action) - the service act of the churchgoing aspect. The desire +
 ; case sub-goal thinks live in npc-think/worship.mc.
 ;
 ; The {@self WORSHIP} act-belief - begun at commit, ended by (set-outcome {..} /succ) at completion - IS

@@ -82,9 +82,9 @@
 
   # Interment axis (@excl), HUMAN-NPC only. Default unburied; the burial rite
   # mints buried (belief-only - the rite destroys the entity), which supersedes
-  # the unburied percept in every witness. The bury / convey lanes cast off the
+  # the unburied percept in every witness. The bury / convey chains cast off the
   # positive unburied belief; the standing dead + unburied pair is the body-state
-  # that drives those duty lanes.
+  # that drives those duty chains.
   (child internment
     (children unburied buried))
 
@@ -96,7 +96,7 @@
 
   # The discrete de-quantization of the continuous `hunger` attr, minted as
   # a {@self satiety <kind>} self-belief by the physiology appraiser (like
-  # `alertness` over `fatigue`). The meal lanes gate eligibility on the
+  # `alertness` over `fatigue`). The meal aspect gates eligibility on the
   # attr; consumers of the BELIEF are the body couplings (mood; physical
   # weakness arrives with the combat spec) and the famished starvation
   # tail.
@@ -214,7 +214,7 @@
       (children officiating)
       # Drawing another into intimacy against the odds.
       (children seduction)
-      # Judging, hiring, promoting and dismissing staff - the duty lane an
+      # Judging, hiring, promoting and dismissing staff - the duty aspect an
       # org officer performs (org_duties, duty-tables.mc). The `work` task
       # itself is a SHELL (it proposes the held duty and DWELL), so the
       # competence lives on the specific duty tasks, never on `work`.
@@ -566,7 +566,7 @@
       # Public civic / cultural institutions. Founded + minimally staffed
       # at sim start by the govt-bootstrap pass (public_orgs.hsc), each
       # occupying its own building kind (businesses.hsc). They are the
-      # venues the interest activity lane sends enthusiasts to (L5):
+      # venues the interest activity aspect sends enthusiasts to (L5):
       # library <- literature/history/science, museum <- antiques,
       # meeting-hall <- suffrage + the civic default, sports-ground <-
       # sports/riding.
@@ -907,7 +907,7 @@
     # WHERE the NPC believes provisions are sold - the shop they buy food
     # at. Per-mind venue knowledge, learned honestly (the public register
     # read at orientation, or having found food at a shop's counter);
-    # meals.mc provisioning / starving lanes route on it. @excl: one
+    # meals.mc provisioning / starving chains route on it. @excl: one
     # habitual shop; a new discovery supersedes.
     (children provisions-shop)
     # A private hiding-spot cache the NPC MADE (an interior sub-space they own).

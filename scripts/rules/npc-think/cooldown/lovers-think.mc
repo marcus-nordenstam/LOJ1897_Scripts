@@ -17,7 +17,7 @@
 ;
 ; A mental change (a new bond), so npc-think. RELATIONAL: courtship is a TARGETED
 ; arc (a SPECIFIC attracted pair), and such a pair never coincides physically by
-; chance - the co-present gate the place-lane draft tried made lovers fire NEVER,
+; chance - the co-present gate the place-based draft tried made lovers fire NEVER,
 ; so FORMATION is keyed on the standing attraction, not co-presence (the settled
 ; reversion). Fired by the per-NPC emergent pass MONTHLY; the per-?a (chance)
 ; paces how quickly a reciprocated, available pair becomes a couple (a tuning

@@ -8,7 +8,7 @@
 ;
 ; A mental change (the harm anchor + witness copies land), so npc-think, per
 ; NPC. RELATIONAL: the victim is a personally-known
-; acquaintance (a co-present "brawl at a venue" form awaits the venue lane - see
+; acquaintance (a co-present "brawl at a venue" form awaits the venue chain - see
 ; public_incident_assault for the stranger case). The dark-tetrad chance rolls
 ; ONCE per NPC (the old C++ dispatcher rolled it per-actor for
 ; exactly this reason: a per-victim re-roll inflated the rate by the pool size).

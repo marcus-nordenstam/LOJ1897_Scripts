@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; The CHARITY lane (B4 pressure model). ONE think:
+; The CHARITY aspect (B4 pressure model). ONE think:
 ;   feel_charitable (npc-think): almsgiving is a VIRTUE - a duty-style pressure
 ;     (like worship) = days-since-last-alms ramp x COMPASSION, capped LOW as a
 ;     rare leisure act (charity is occasional, not a fixture). The uncompassionate

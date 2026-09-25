@@ -65,7 +65,7 @@
                             (* 0.30 (+ (prob {@self detest  ?victim})
                                        (prob {@self despise ?victim})))))))
 
-      ; The mockable material, read per victim - each tolerant, so a missing lane is
+      ; The mockable material, read per victim - each tolerant, so a missing read is
       ; just @fail (no abort). Each `-rel` var holds the whole belief.
       (do
         (tolerate (any {?victim girth ?}):?girth-rel)

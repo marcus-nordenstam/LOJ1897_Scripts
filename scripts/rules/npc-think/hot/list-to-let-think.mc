@@ -14,7 +14,7 @@
 ; the for-lease-listing and mints {?prop availability for-rent} - the durable "to
 ; let" signal landlord_estate.mc already reads, AND the completion that retracts the
 ; intent: the same {?prop availability for-rent} drops the ?prop role, so the decision's
-; when-unsupported-effects end {@self LET ?prop}. It mirrors the worship lane's routing so the
+; when-unsupported-effects end {@self LET ?prop}. It mirrors the worship chain's routing so the
 ; supply never goes dormant merely because @self has not yet learned which orgs are
 ; house agencies:
 ;   KNOWS an agency, not there -> list_to_let_go   (travel to its office).
@@ -54,7 +54,7 @@
     (effects (maintain-proposal {@self go ?venue}))))
 
 ; CASE C - @self knows NO house agency at all: consult the parish incorporations
-; register (the orient lane, orient_errand.mc), which mints a mental org object +
+; register (the orient chain, orient_errand.mc), which mints a mental org object +
 ; {?org isa ...} belief for EVERY org in town - the only honest channel by which an
 ; org's identity is learned. The instant a house-agency is learned the (no-role ...)
 ; fills, this stops, and list_to_let_go takes over. (no-role [k org house-agency])

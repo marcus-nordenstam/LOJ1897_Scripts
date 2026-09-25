@@ -17,7 +17,7 @@
 (npc-think relapse
   ; The dependent's short-fuse drink drive - a 1-day cooldown; co-mints the {@self DRINK} goal
   ; with want_drink (each source ceases its own hold when its pressure lapses), and drink_go/find
-  ; route to a pub. The routing lane handles movement, and this desire just holds the drink goal.
+  ; route to a pub. The routing chain handles movement, and this desire just holds the drink goal.
   (cooldown 1 d try-once)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self craving [k alcohol]}   ; the dependency - cached

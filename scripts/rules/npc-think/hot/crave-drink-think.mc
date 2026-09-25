@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; The DRINKING lane - B4 desire + case sub-goals (hierarchical goals).
+; The DRINKING aspect - B4 desire + case sub-goals (hierarchical goals).
 ;
 ; ONE desire computes the pressure ONCE; the case rules just read the drink goal and
 ; maintain the appropriate sub-goal, which INHERITS the drink drive (mint_goal /caused_by

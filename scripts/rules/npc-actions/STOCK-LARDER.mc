@@ -3,8 +3,8 @@
 ;
 ; The household supply run (npc-think/provisioning-think.mc) elects its cook - 47 of
 ; them - and then never reaches the shop, so no kitchen is ever stocked, every
-; (believed-home-food-count ..) reads 0, and the whole meal lane sits behind an empty
-; larder while the town starves. Until that lane is resurrected a resident puttering
+; (believed-home-food-count ..) reads 0, and the whole meal aspect sits behind an empty
+; larder while the town starves. Until that chain is resurrected a resident puttering
 ; through his own kitchen finds it stocked, which is a lie about where food comes from
 ; but a true statement about there being some.
 ;

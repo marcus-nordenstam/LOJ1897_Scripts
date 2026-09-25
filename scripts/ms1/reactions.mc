@@ -56,9 +56,9 @@
   (record obligation-strain  0.4)
   (record rivalry-pressure   0.5))
 
-; ---- trait affect (one row per (aspect, kind); grouped by aspect at load) ---
+; TRAIT AFFECT: one row per (trait, kind); grouped by trait at load.
 ; dampens 1 negates the gain (an alias for amplifies-with-negated-gain).
-(define-table trait_affect (fields aspect kind gain one-sided dampens)
+(define-table trait_affect (fields trait kind gain one-sided dampens)
   (record volatility  anger           0.8 0 0)
   (record volatility  fear            0.8 0 0)
   (record volatility  distress        0.8 0 0)

@@ -57,7 +57,7 @@
         (chastity-scalar ?who)) 7))
 
 ; criminality - a low base (0.05), raised 0.25 per recorded crime of ANY tense. Violence
-; (every (theme violent-to) act - the fight-lane blows, the organic-brawl PUNCH, and kill)
+; (every (theme violent-to) act - the fight-aspect blows, the organic-brawl PUNCH, and kill)
 ; is counted through the theme expansion, since there is no `assault` term any more; theft /
 ; fraud / embezzlement / kidnap are the remaining crime act-records. Habitual offenders saturate.
 (define-macro criminality ()

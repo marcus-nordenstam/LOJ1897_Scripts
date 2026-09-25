@@ -50,7 +50,7 @@
       (when (and (latch-eval (closest-unobserved [k container-structure] ?region): ?dest)
                  (observed ?dest /not)))
       ; The cell is COMPOSED from the venue's /env bounds, not from a box he remembers -
-      ; he has never seen this one, that being the point of the lane. A cell carries no
+      ; he has never seen this one, that being the point of the chain. A cell carries no
       ; mind of its own, so what comes back is the same public spot either way; the plane
       ; rode in on the bounds handle, which is where the decision to look at the world
       ; belongs. He looks at the venue itself on arrival.

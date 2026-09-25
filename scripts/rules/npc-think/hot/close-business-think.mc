@@ -26,7 +26,7 @@
 ; role filter cannot bind, and the suffix bind provably threads to the lifecycle
 ; block (same eval env; the retire / sack routing thinks rely on it).
 ;
-; LANE: a yearly timer ((cooldown 1 y)) runs the failure roll once a year and
+; TIMING: a yearly timer ((cooldown 1 y)) runs the failure roll once a year and
 ; mints the LATCHED winding-up goal. The derived means / merit dims are (target ...)
 ; reads, cached annually by derive_prototypes - the same reads the founding rules use.
 ;

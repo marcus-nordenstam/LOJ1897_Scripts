@@ -1,12 +1,12 @@
 ; ----------------------------------------------------------------------------
-; close_business_errand (act lane) - the npc-ACT half of the business-failure split.
+; close_business_errand (npc-action) - the npc-ACT half of the business-failure split.
 ; The go/dwell think rungs live in npc-think/close_business_errand.mc.
 ;
 ; The decision (npc-think/close_business.mc) minted {@self goal {@self
 ; CLOSE-BUSINESS <own_articles>}} on the proprietor each December. The intra-day
 ; think rungs drain it: the owner goes to his OWN premises and winds the firm up in
 ; person - so the failure happens AT the workplace, by the man himself, leaving the
-; co-presence a witness (and his staff) would see, instead of a faceless town-lane
+; co-presence a witness (and his staff) would see, instead of a faceless town-rule
 ; cull. His articles are the act focus (?art, bound in the pattern); the premises
 ; are its articles-building - mirrors apprentice_errand.
 ;

@@ -49,7 +49,7 @@
         (maintain-proposal {@self HAVE-SEX-WITH ?husband})))))
 
 ; The child is due. A woman at term bears it ahead of any errand - labour is not
-; something she chooses to postpone - but below the survival lanes.
+; something she chooses to postpone - but below the survival aspects.
 (npc-think deliver
   (cooldown 1 d try-until-succ)
 

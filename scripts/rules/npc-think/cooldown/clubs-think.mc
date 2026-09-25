@@ -15,7 +15,7 @@
 ; ----------------------------------------------------------------------------
 
 
-; club_founding CREATES the clubhouse venue (so it cannot itself be place-lane),
+; club_founding CREATES the clubhouse venue (so it cannot itself be place-based),
 ; and club_joining/resignation are roster acts.
 ; (Future: bind club_joining to the clubhouse the member is actually in - needs
 ; the affordance resolver to pass the venue's club context.)
@@ -99,7 +99,7 @@
       (effects (maintain-proposal {@self join-club (any {?club_org record}).target})))))
 
 ; club_gathering RETIRED (place-and-time reframe, Section 4.8 P2b): club members
-; are now drawn to the clubhouse by the band itinerary's SOCIAL lane (members
+; are now drawn to the clubhouse by the band itinerary's SOCIAL aspect (members
 ; route to building social-clubhouse), and the clubhouse's afforded rules
 ; (gossip / gamble / confide / court / outdo) fire among the co-present members
 ; via resolve_affordances - so a standalone monthly roster-walk that registered

@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; consummate (npc-action lane) - the durative intimate act of an affair. The
+; consummate (npc-action) - the durative intimate act of an affair. The
 ; think half (npc-think/hot/affair_consummate.mc) decides - whenever two lovers
 ; are co-present and it is discreet enough - and PROMOTES this act; here the act
 ; RUNS for its duration, which is what holds both lovers co-present long enough

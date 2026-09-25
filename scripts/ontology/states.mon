@@ -88,7 +88,7 @@
 # per-cook variation) and SAYS them; residents adopt from the say or
 # re-learn through the ask-the-cook channel ((ask-to) /
 # (asked-me-about) - so a forgotten mealtime self-heals by asking).
-# The 2h meal window opens AT the hour; the meal lanes (meals.mc)
+# The 2h meal window opens AT the hour; the meal aspect (meals.mc)
 # gate on it. Int-hour target (a scalar - bypasses tar checks).
 (state breakfast-hour (tar ? @excl))
 (state lunch-hour (tar ? @excl))
@@ -329,7 +329,7 @@
 # {@self play <game>} (tasks.mon); the two are wired symmetrically
 # per-mind, like family membership.
 (state participant (tar [k human] @object))
-# dwell / work are activity-lane TASKS, not states - they live in
+# dwell / work are activity TASKS, not states - they live in
 # tasks.mon ({@self dwell <home>} / {@self work <org>}).
 # backed-by: an investor who has put up founding capital for this
 # NPC's venture (the investment event). Subject is the backed
@@ -385,7 +385,7 @@
 # delivery and reads his appointments as {?host invite @self /aux
 # ?occ} (review_appointments).
 (state invite (tar [k human] @object) (aux [k occasion] @object))
-# Sporting-event goal-drivers (sporting_event / sporting_judge lanes).
+# Sporting-event goal-drivers (sporting_event / sporting_judge chains).
 # hold-meet: the club officer's standing goal to run a meet (tar = the
 # club's articles). judge-meet: the judge's standing goal to officiate.
 (state hold-meet (tar ?))
@@ -507,7 +507,7 @@
 # declaration, not performed) - hence a state, not an act; the
 # past victory reads through the interval tense.
 (state win (tar ?))
-# Club-meet mechanics (sporting_event / hold-meet POV lane). The
+# Club-meet mechanics (sporting_event / hold-meet POV chain). The
 # competitor's participation memory is his own ended race_run
 # act-belief; the organiser's meet record is his ended
 # hold_meet_run act-belief; the call to compete is the told
@@ -534,7 +534,7 @@
 # construed-act / barb-content wiring is the deferred follow-up.
 (state public-humiliation (appraisal_input) (tar [k human] @object))
 # confront-publicly: the status-injury fact an expose act broadcasts
-# ({@self confront-publicly ?victim}); the expose-lane crime-ledger + the
+# ({@self confront-publicly ?victim}); the expose-chain crime-ledger + the
 # gossip news ground-alt read it. Sibling of public-humiliation.
 (state confront-publicly (appraisal_input) (tar [k human] @object))
 
@@ -700,7 +700,7 @@
 
 # starve - the physiology-to-belief seam marker. Minted/ended by the
 # meals starving_watch pair at the hunger threshold crossing, so the
-# starvation-tail lanes gate on a CACHED self-belief instead of
+# starvation-tail chains gate on a CACHED self-belief instead of
 # re-reading the hunger attr per deliberation. Label-only self state.
 (state starve)
 

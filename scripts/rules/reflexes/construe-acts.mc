@@ -67,7 +67,7 @@
             {?patient value ?v}))
   (effects (construe ?b wrong-act ?agent ?patient)))
 
-; -- wrong-act, violence (runtime blame - the fight-lane doctrine). Violent
+; wrong-act, violence (runtime blame - the fight-aspect doctrine). Violent
 ; labels carry NO static wrong-act tag; blame is earned here unless the blow
 ; traces to prior violence against its own actor.
 (npc-reflex {?attacker (theme-labels violent-to) ?victim /ever}:?belief

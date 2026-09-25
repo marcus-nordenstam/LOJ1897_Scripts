@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; The DRINKING lane - B4 desire + case sub-goals (hierarchical goals).
+; The DRINKING aspect - B4 desire + case sub-goals (hierarchical goals).
 ;
 ; ONE desire computes the pressure ONCE; the case rules just read the drink goal and
 ; maintain the appropriate sub-goal, which INHERITS the drink drive (mint_goal /caused_by
@@ -23,13 +23,13 @@
 
 ; The DESIRE, and the MAINTENANCE rule that owns the drink goal end to end. A 3-day cooldown
 ; re-checks the urge; the (days-since) gate holds the standing drink desire while genuinely due
-; (also catching a cross-source drink via the relapse lane); the drink-drive utility competes it.
+; (also catching a cross-source drink via the relapse chain); the drink-drive utility competes it.
 ; The MINTER owns un-minting: once drink_act completes, days-since-last resets, the (when) drops,
 ; and the falling edge ends {@self DRINK}. The act itself never ends the goal.
 (npc-think want_drink
   (cooldown 3 d try-until-succ)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-              -{@self craving [k alcohol]}   ; dependents use the relapse lane
+              -{@self craving [k alcohol]}   ; dependents use the relapse chain
     (when          (>= (days-since-last {@self DRINK /ever}) 3))
     (utility want (* 10 (drink-drive @self)))
     (effects       (begin-goal {@self DRINK}))

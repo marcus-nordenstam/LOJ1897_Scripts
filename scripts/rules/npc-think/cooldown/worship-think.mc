@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
-; worship (npc-think lane) - the churchgoing lane, B4 desire + case sub-goals
-; (mirrors the drinking lane in crave_drink.mc). The service act lives in
+; worship (npc-think) - the churchgoing aspect, B4 desire + case sub-goals
+; (mirrors the drinking aspect in crave_drink.mc). The service act lives in
 ; npc-act/worship.mc.
 ;
 ; ONE desire computes the pressure ONCE; the case rules read the worship goal and

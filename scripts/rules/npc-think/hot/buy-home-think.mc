@@ -13,12 +13,12 @@
 ; read-public-register macro). Only once he KNOWS listings does choose_home cast a
 ; dwelling and promote the purchase act (buy_home_act.mc).
 ;
-; Routing mirrors the worship lane's three-case structure so the market never goes
+; Routing mirrors the worship chain's three-case structure so the market never goes
 ; dormant merely because @self has not yet learned which orgs are house agencies:
 ;   AT a known agency's office   -> buy_home_read (promote the register read).
 ;   KNOWS an agency, not there   -> buy_home_go   (travel to its office).
 ;   KNOWS no agency at all       -> buy_home_find (route to the incorporations
-;     register via the orient lane; reading it mints his {?agency isa [k org
+;     register via the orient chain; reading it mints his {?agency isa [k org
 ;     house-agency]} beliefs so buy_home_go can then fire).
 ;
 ;   buy-home        : yearly timer - seeker gate -> mint the {@self acquire} desire.
@@ -72,7 +72,7 @@
         (effects (maintain-proposal {@self read-listings ?reg}))))))
 
 ; CASE C - register unread and @self knows NO house agency at all: consult the
-; parish incorporations register (the orient lane, orient_errand.mc), which mints
+; parish incorporations register (the orient chain, orient_errand.mc), which mints
 ; a mental org object + {?org isa ...} belief for EVERY org in town - the only
 ; honest channel by which an org's identity is learned (co-presence at an office
 ; teaches acquaintances, not that the office IS a house agency). The instant a

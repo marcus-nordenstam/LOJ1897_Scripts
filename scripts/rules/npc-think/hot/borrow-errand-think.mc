@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; borrow_errand (think lane) - the npc-THINK half of the borrowing split (Item 5).
+; borrow_errand (npc-think) - the npc-THINK half of the borrowing split (Item 5).
 ; The go/dwell rungs that route the debtor to the lender's home and promote the
 ; loan-taking act (npc-act/borrow_errand.mc).
 ;

@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; embezzle - NO-OP declaration stub. The workplace-theft crime record
-; ({@self embezzle ?victim}) is currently minted by the burgle lane
+; ({@self embezzle ?victim}) is currently minted by the burgle chain
 ; (burgle_strike, at the thief's own workplace); this npc-task exists only to
 ; SELF-DECLARE the `embezzle` label + its crime metadata so the tasks.mon row
 ; can retire. To be fleshed out into the real embezzlement task later. The (try)

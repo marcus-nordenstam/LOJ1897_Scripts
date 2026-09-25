@@ -53,7 +53,7 @@
 
     (effects
       ; One novel domain copied off a parent's interests (a 50/50 pick when both
-      ; parents offer one) - the hobbies the child grows up around. Each lane
+      ; parents offer one) - the hobbies the child grows up around. Each rule
       ; guards its pick so a parent with nothing novel just drops out.
       (cond
         (case (is-kind (random-unheld-kind-target (any {@self mother}).target interest interest))

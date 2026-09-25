@@ -16,7 +16,7 @@
 
 ; AT a church: PROPOSE the orient act (goals never propose themselves). orient_act reads the
 ; register off the standing {@self ORIENT} search goal, so the propose is label-only. One shared
-; terminal for all four minting lanes (the marker is minter-agnostic).
+; terminal for all four minting chains (the marker is minter-agnostic).
 (npc-think orient_at_church
   (goal {@self ORIENT})
   (when (is-a (spatial @self building) [k building church]))

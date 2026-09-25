@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; apply-for ?job - the WORKER's job application for ONE seat, the one the notice named
 ; (its org and line make it that seat): go home, write + address the application
-; (prepare-application), hand the paper to the mail lane from the HOME out-box, done - an
+; (prepare-application), hand the paper to the mail chain from the HOME out-box, done - an
 ; hour's errand, not a lifecycle. Its /succ is the "applied" record the driver reads
 ; (seek_apply_pick applies once per seat). The verdict arrives weeks later as a TYPED
 ; letter in the home post: reading an offer-letter drives accept-job-offer

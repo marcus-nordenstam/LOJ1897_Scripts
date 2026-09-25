@@ -5,13 +5,13 @@
 ; {@self retire}}. These intra-day rules drain it: the worker routes to
 ; his own workplace and gives notice there, so the retirement happens AT the
 ; workplace - co-presence his colleagues (and any witness) would see - rather than
-; as a faceless world-lane belief edit. The actual (fire) commit fires as the
+; as a faceless world-rule belief edit. The actual (fire) commit fires as the
 ; act's completion (quit_work_act, npc-act/retire.mc).
 ;
 ;   retire_go     : hold the goal, not at the workplace -> travel act to it.
 ;   retire_dwell  : hold the goal, AT the workplace -> propose giving notice (quit_work_act).
 ;
-; Utility 85 beats the work lane (80) so a man who has decided to retire goes to
+; Utility 85 beats the work aspect (80) so a man who has decided to retire goes to
 ; give notice rather than putting in another shift; it still loses to night sleep
 ; (100), so he does it by day.
 ; ----------------------------------------------------------------------------

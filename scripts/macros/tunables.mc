@@ -71,7 +71,7 @@
 (define-macro k-justify-per () 0.1)
 
 ; Routine-drive tilt swings (worship / work). Larger than the crime buckets': a
-; drive lane carries ONE or TWO trait rows, so each needs a wider spread to give
+; drive aspect carries ONE or TWO trait rows, so each needs a wider spread to give
 ; the diligent-vs-shirker / devout-vs-lax spread off a single trait.
 ; The in-band VALUE a work shift carries before the disposition tilt. A bare (utility <band>)
 ; takes the band's default value, so the shift has to be authored on that same scale or the
@@ -180,7 +180,7 @@
 ; door, or a re-go to where you already stand). Floors the completion cadence so an NPC
 ; cannot re-deliberate every simulated minute - defense-in-depth against destination
 ; thrash. Small enough not to distort real travel; the real fix for "why re-go at all"
-; is the arriving lane firing its purpose act (see at-place-kind).
+; is the arriving chain firing its purpose act (see at-place-kind).
 (define-macro go_travel_floor_min      () 1)
 
 ; THE STEERED WALK. Per-step speeds the character integrator applies (m per step, the

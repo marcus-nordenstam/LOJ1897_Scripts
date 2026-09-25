@@ -16,7 +16,7 @@
 ;                    running holds them there long enough to land and to be caught.
 ;
 ; A per-day cooldown keeps one co-presence bout to a single tryst. Utility 95 clears
-; the routine lanes (work 80, meals ~85) - lovers break away for it - but sits below
+; the routine aspects (work 80, meals ~85) - lovers break away for it - but sits below
 ; the sleep-emergency / fight bands.
 ; ----------------------------------------------------------------------------
 

@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; provisioning (npc-think lane) - keeping the household LARDER stocked. The
+; provisioning (npc-think) - keeping the household LARDER stocked. The
 ; larder is THE KITCHEN (every inhabited home has one - world-gen aborts
 ; otherwise), and ONE cook per household owns the errand.
 ;
@@ -21,7 +21,7 @@
 ;   provision-act   : AT the known shop the standing goal is the leaf and
 ;                     (npc-act/provision-act.mc) promotes on its own when: buy a
 ;                     basket and mint {@self BRING [k food] <kitchen>} - the
-;                     general bring lane carries it home and puts it down IN the
+;                     general bring chain carries it home and puts it down IN the
 ;                     kitchen.
 ;   provision_rearm : laden with food = the standing pressure to deliver it, so
 ;                     re-mint the bring goal each deliberation; a full hand is a
@@ -134,7 +134,7 @@
 
 ; MAINTENANCE co-minter of the shared {@self ORIENT} search: while the provisioner knows no
 ; provisions shop, mint the orient goal; cease the moment orient_act learns one ({@self
-; provisions-shop}). No (no-goal) dedup - under multi-rule support each lane co-mints its own
+; provisions-shop}). No (no-goal) dedup - under multi-rule support each chain co-mints its own
 ; source on {@self ORIENT} and withdraws it independently; the goal lives until the last withdraws.
 (npc-think provision_orient
   (goal {@self PROVISION})

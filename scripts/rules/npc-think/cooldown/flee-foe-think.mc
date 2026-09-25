@@ -8,7 +8,7 @@
 ; The flight is a run for home: breaking co-presence interrupts the assault (the current
 ; blow needs the parties together), so a pursuer must re-close before the next blow. This
 ; is the compact flee - the probabilistic escape-roll + the scream-for-help / cry-alarm
-; sub-lanes are a deferred refinement (see fight_decomposition_plan section 4).
+; sub-chains are a deferred refinement (see fight_decomposition_plan section 4).
 ; ----------------------------------------------------------------------------
 
 

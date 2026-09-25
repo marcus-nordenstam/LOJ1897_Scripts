@@ -4,7 +4,7 @@
 ; sells provisions. She grabs up to a basket (carry_cap), never more than the
 ; kitchen larder is short of its target. A laden hand is then a live pressure:
 ; provision_rearm mints the general bring goal that carries the food TO THE
-; KITCHEN (the larder room), put down only when she stands in it (bring lane).
+; KITCHEN (the larder room), put down only when she stands in it (bring chain).
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/tunables.mc")

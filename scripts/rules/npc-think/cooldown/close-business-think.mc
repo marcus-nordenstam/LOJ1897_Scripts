@@ -26,7 +26,7 @@
 ; role filter cannot bind, and the suffix bind provably threads to the lifecycle
 ; block (same eval env; the retire / sack routing thinks rely on it).
 ;
-; LANE: a yearly timer ((cooldown 1 y)) runs the failure roll once a year and
+; TIMING: a yearly timer ((cooldown 1 y)) runs the failure roll once a year and
 ; mints the LATCHED winding-up goal. The derived means / merit dims are (target ...)
 ; reads, cached annually by derive_prototypes - the same reads the founding rules use.
 ;
@@ -36,7 +36,7 @@
 
 
 ; --- failure-pressure tunables (rule-local content; see report note (b)) ------
-; A shared tunables.mc home may be warranted if other lanes come to read the same
+; A shared tunables.mc home may be warranted if other aspects come to read the same
 ; base rate - flagged for reconciliation. Held here so the formula is one place.
 (define-macro business_failure_base         () 0.02)   ; annual base failure rate (was fail-businesses 0.02)
 (define-macro business_failure_means_weight () 1.5)    ; a penniless owner folds up to (1 + this)x more

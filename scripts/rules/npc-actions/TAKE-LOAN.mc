@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; borrow_errand (act lane) - the npc-ACT half of the borrowing split (Item 5).
+; borrow_errand (npc-action) - the npc-ACT half of the borrowing split (Item 5).
 ; The go/dwell think rungs live in npc-think/borrow_errand.mc.
 ;
 ; The decision (borrowing_think.mc) minted {@self goal {@self TAKE-LOAN <creditor>}}. The

@@ -15,7 +15,7 @@
 ;  - FATIGUE: a SLEEP act recovers it, any other act accrues waking fatigue. The
 ;    masked value (sleepiness) drives the sleep-pull utility.
 ;  - HUNGER: every act accrues it, sleep included (you wake hungry). Meal acts
-;    reduce it content-side. The masked value (appetite) gates the meal lane.
+;    reduce it content-side. The masked value (appetite) gates the meal aspect.
 ;
 ; ATTRS ONLY. The engine's update_physiology calls this and then mirrors the actor's
 ; attrs into self-beliefs, so every drive this func moves arrives on the belief plane

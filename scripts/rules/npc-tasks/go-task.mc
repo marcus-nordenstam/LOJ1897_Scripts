@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; go ?dest - THE movement task, and the only one a lane proposes. ?dest is anything a man
+; go ?dest - THE movement task, and the only one a chain proposes. ?dest is anything a man
 ; can be bound for: a cell, a building, a room, a person, a thing. go decomposes it and
 ; never proposes itself, so no second go is ever nested under the first:
 ;

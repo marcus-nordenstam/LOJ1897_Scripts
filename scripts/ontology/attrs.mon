@@ -126,7 +126,7 @@
 # can exceed 1 when sleep is denied). Imperceptible: the physiological scalar is
 # never auto-mirrored into the mind as a belief - the alertness appraiser
 # de-quantizes it into a discrete {@self alertness alert|tired|sleepy} belief
-# (the queryable memory). The rest lane reads it for the sleep-pull utility; the
+# (the queryable memory). The rest aspect reads it for the sleep-pull utility; the
 # sleep act's completion reduces it (1/6 per hour slept), waking time accrues it.
 (attr fatigue (type float) (range 0 2) (imperceptible) (state-flags-tar @excl))
 
@@ -136,7 +136,7 @@
 # appraiser de-quantizes it into a discrete {@self satiety sated|hungry|
 # famished} belief (the queryable memory). Waking AND sleeping time accrue it
 # (you wake hungry); meal-act completions reduce it (meal size is authored in
-# the meal events via set-attr). Meal-lane eligibility reads it as a gate;
+# the meal events via set-attr). Meal-aspect eligibility reads it as a gate;
 # meal UTILITY is proximity to the household mealtime, never hunger
 # (tell-only comms plan, ruling 10) - hunger re-enters utility only at the
 # famished starvation tail.
@@ -154,7 +154,7 @@
 # full on the crash.
 (attr sleepiness (type float) (range 0 2) (int-per feel) (ext-per imperceptible) (state-flags-tar @excl))
 
-# Appetite = the ADRENALINE-MASKED hunger the meal-lane eligibility + starvation utilities read
+# Appetite = the ADRENALINE-MASKED hunger the meal-aspect eligibility + starvation utilities read
 # (raw hunger is the untouched debt). Derived by the run_physiology func; suppressed mid-fight.
 (attr appetite (type float) (range 0 2) (int-per feel) (ext-per imperceptible) (state-flags-tar @excl))
 

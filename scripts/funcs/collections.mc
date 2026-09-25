@@ -5,7 +5,7 @@
 ; these three need a body - a local, a walk over candidates, then a value - which is
 ; a FUNCTION, not a substitution. As macros their (do ..) handed back the walk's own
 ; result instead of the closing expression, so every one of them answered @true and
-; every (> (believed-home-food-count ..) 0) in the meal lane read false. The pile
+; every (> (believed-home-food-count ..) 0) in the meal aspect read false. The pile
 ; MUTATORS stay macros in collection-macros.mc: they thread an output var by design.
 ; ----------------------------------------------------------------------------
 

@@ -4,7 +4,7 @@
 ; leverage once the secret is out. NOT a crime - no ledger. The kin is the first close
 ; relation on the father > mother > fiancee > spouse > sibling ladder (one option
 ; read); the confessed partner must be a real third party. Handing the confession-letter
-; to the mail lane IS the deed - the magic mail service delivers it and the kin learns the
+; to the mail chain IS the deed - the magic mail service delivers it and the kin learns the
 ; lover fact at their next home read - so the compose try concludes the task whether or not
 ; a living, non-partner, locatable kin was there to receive it (the impulse is spent either
 ; way, mirroring the old terminal). Nothing confessable / no kin at all -> abandon.

@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; rest (npc-think) - the FATIGUE / REST lane: a real physiological fatigue model
+; rest (npc-think) - the FATIGUE / REST aspect: a real physiological fatigue model
 ; drives when an NPC sleeps.
 ;
 ; (target-or @self sleepiness 0) reads the ADRENALINE-MASKED fatigue (sleepiness = fatigue *
@@ -9,7 +9,7 @@
 ; sleepiness ~0 during a fight (adrenaline masks it) then crashes when the surge fades.
 ; A separate
 ; appraiser de-quantizes it into {@self alertness alert|tired|sleepy} (the
-; queryable memory); this lane and the utility only ever read the attr.
+; queryable memory); this aspect and the utility only ever read the attr.
 ;
 ; Three intra-day rules, competing by (utility):
 ;   - seek_rest    : tired and not home -> head home (rises with fatigue).
@@ -56,7 +56,7 @@
   (role ?home {@self home ?home}
               (spatial @self building ?home)
     ; You cannot sleep through an assault - being under attack gates the whole rest
-    ; lane OUT, so the fight acts (defend / flee / scream) take over (fight.mc).
+    ; aspect OUT, so the fight acts (defend / flee / scream) take over (fight.mc).
     (when (and (or (> (target-or @self sleepiness 0) 0.5)
                    (>= (now-hour) 22)
                    (< (now-hour) 6))))

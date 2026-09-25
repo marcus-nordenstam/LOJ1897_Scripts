@@ -4,7 +4,7 @@
 ; its line - what lets the reader land on the same seat object), address it to the org's
 ; door. One sequence: the form it fills is the one it CREATED, kept under the running
 ; task's own key, so a restarted errand re-reads that key instead of penning a second
-; form. The form is left for the mail lane.
+; form. The form is left for the mail chain.
 ; ----------------------------------------------------------------------------
 
 (npc-task {@self prepare-application ?job}:?pa-rel

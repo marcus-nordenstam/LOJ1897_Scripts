@@ -9,7 +9,7 @@
 ; and, not yet knowing, still commutes to the premises
 ; during his shift (work_attendance.mc). THIS rule is what he learns on turning up:
 ; standing AT the shuttered building he reads its `closed` state and drops his own
-; employment beliefs - freeing him to re-seek work via the existing hiring lane
+; employment beliefs - freeing him to re-seek work via the existing hiring chain
 ; (employment.mc gates on (none {@self job.salary ?})).
 ;
 ; KNOWLEDGE-HONEST BY PERCEPTION. The worker's daily commute (work_attendance.mc) now
@@ -25,7 +25,7 @@
 ; The same "my referent is gone, drop the belief" shape generalises to other
 ; closed/demolished referents (a razed home, an ended tenancy) - each its own
 ; minimal rule over the perceivable fact. Only the org/closed-workplace
-; reconciliation is built here; the rest are left to their own teardown lanes.
+; reconciliation is built here; the rest are left to their own teardown chains.
 ;
 ; This rule fires the cycle he is at the shuttered premises. Ending the job belief makes
 ; the (role ?org {@self job.org ?org}) gate fail next cycle, so the rule

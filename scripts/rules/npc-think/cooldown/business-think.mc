@@ -20,7 +20,7 @@
 ; or backed man founds; a poor-but-worthy man with a business-owner friend
 ; partners; investment claims poor-but-worthy men a year ahead of founding.
 ;
-; LANE SPLIT: the founding routes (investment / business_partnership /
+; ASPECT SPLIT: the founding routes (investment / business_partnership /
 ; business_founding / business_homeostat) are EMERGENT - fired MONTHLY for each
 ; NPC, so each (chance) is /12 to hold the annual rate. The first three are
 ; MERIT-gated; business_homeostat is the non-merit floor net (founds from any adult
@@ -145,7 +145,7 @@
 ; (rules/work/found_business.mc) routes the founder to the bank and the
 ; completion does the real (found-org) commit - so the business is founded at the
 ; bank, by the man himself, leaving the founding documents (the clue trail) and the
-; co-presence a witness would see, instead of a faceless world-lane edit.
+; co-presence a witness would see, instead of a faceless world-rule edit.
 (npc-think business_founding
   (cooldown 1 m try-once)
   (rng-stream business)

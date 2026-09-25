@@ -38,7 +38,7 @@
 
       ; The REASON: the held detest belief, else dislike, else the spouse-wealth belief.
       ; Read as the /caused_by anchor, never re-minted, so the drive fades as the reason
-      ; does. The attitude / wealth beliefs are minted elsewhere by the appraisal lanes.
+      ; does. The attitude / wealth beliefs are minted elsewhere by the appraisal chains.
       (cond
         (case {@self detest ?spouse}  (any {@self detest ?spouse}))
         (case {@self dislike ?spouse} (any {@self dislike ?spouse}))

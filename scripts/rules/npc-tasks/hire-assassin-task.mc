@@ -17,7 +17,7 @@
 ;       {?fixer prototype go-between} and ask for a name, or treat the solicitation
 ;       itself as the probe (you ask, and the answer teaches you). Either way the
 ;       task that needs the knowledge is the task that goes and gets it.
-; Until then this lane works, but blindly - it asks whoever it happens to know.
+; Until then this chain works, but blindly - it asks whoever it happens to know.
 ; ----------------------------------------------------------------------------
 
 

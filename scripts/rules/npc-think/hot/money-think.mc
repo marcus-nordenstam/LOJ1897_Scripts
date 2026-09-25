@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; money (npc-think lane) - physical-cash housekeeping.
+; money (npc-think) - physical-cash housekeeping.
 ;
 ;   seed_coin_pile : an NPC that owns no coin pile yet PROPOSES seeding one (the
 ;                    env writes live in the SEED-COINS action - a think must not

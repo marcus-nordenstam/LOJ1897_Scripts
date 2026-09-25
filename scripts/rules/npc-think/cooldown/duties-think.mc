@@ -7,7 +7,7 @@
 ; Every org member reviews his own org's duty allocation monthly. ALL inputs are
 ; PUBLIC documents (the articles + the wage book) plus his own beliefs - reading
 ; the ledger is how real org management works, no telepathy: the wage book's
-; names internalize into the reader's own mind at the read (think-lane doc
+; names internalize into the reader's own mind at the read (think-rule doc
 ; reads are mental-only end to end).
 ;
 ; The seniority argmax picks ONE holder per duty: a head-kind job outranks any

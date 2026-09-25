@@ -9,7 +9,7 @@
 ;
 ; A mental change (a new bond), so npc-think. Fired by the per-NPC emergent pass
 ; (relational: same-class, near-age, warmth-gated). RELATIONAL - physical
-; co-presence is not required; a place-lane "befriend at a venue" form (preset ?a
+; co-presence is not required; a place-based "befriend at a venue" form (preset ?a
 ; from a venue's occupants) is a future refinement. MONTHLY now, so the ?a
 ; (chance) base is /12 (0.05 -> 0.004) to hold the annual adult-friendship volume.
 ;

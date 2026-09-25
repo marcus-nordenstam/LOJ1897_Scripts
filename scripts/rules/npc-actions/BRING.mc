@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; bring (npc-action) - the put-down completion of the general bring lane
+; bring (npc-action) - the put-down completion of the general bring chain
 ; (npc-think/hot/bring-think.mc). Fires ONLY at the destination (the same in-space
 ; gate the proposing think used): every carried item of the ware's kind is set down
 ; on ?cell, the floor cell the think claimed at the goal's destination - the act needs

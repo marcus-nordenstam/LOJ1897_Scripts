@@ -1,9 +1,9 @@
 ; ----------------------------------------------------------------------------
-; work_attendance (npc-think lane) - the daily WORK-ATTENDANCE thinks. The
+; work_attendance (npc-think) - the daily WORK-ATTENDANCE thinks. The
 ; shift-stay act lives in npc-act/work_attendance.mc.
 ;
 ; The labour market (employment.mc / business.mc / apprenticeship.mc) mints the
-; job beliefs but never moves anyone; THIS lane is what physically gets
+; job beliefs but never moves anyone; THIS chain is what physically gets
 ; an employed NPC to their workplace during their shift and holds them there.
 ; Gated on the beliefs the labour market mints, all resolved live as composable
 ; belief reads: (any {@self job.org ?org}) (any {?org workplace ?wp}) for the

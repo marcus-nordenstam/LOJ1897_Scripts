@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; historical_2yr.mc - 2-year validation config (1700-1701, ~50-person town). Long
-; enough for a slow, single-purpose lane (churchgoing / building-discovery) to show
+; enough for a slow, single-purpose aspect (churchgoing / building-discovery) to show
 ; multiple cycles; short enough for a fast release iteration. Mirrors the prior
 ; find-building baseline span so behaviour is directly comparable across the change.
 ; ----------------------------------------------------------------------------

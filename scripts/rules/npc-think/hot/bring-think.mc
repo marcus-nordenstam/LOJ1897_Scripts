@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
-; bring (npc-think lane) - the GENERAL carry-it-to-a-space chain. A think that
+; bring (npc-think) - the GENERAL carry-it-to-a-space chain. A think that
 ; wants goods moved mints {@self BRING <ware-kind> <dest>} (the acquisition
-; already put the items in @self's hand); this lane drains it:
+; already put the items in @self's hand); this chain drains it:
 ;
 ;   bring_go       : holding the goal, not at <dest> -> travel there (the same
 ;                    destination-first shape as worship_go / drink_go).
@@ -11,13 +11,13 @@
 ; The MINTING desire owns the utility and boosts it at the destination.
 ;
 ; Content-free w.r.t. the ware: what is carried, where it goes, and when the
-; goal is (re)minted is the MINTING lane's policy (provisioning brings food to
+; goal is (re)minted is the MINTING chain's policy (provisioning brings food to
 ; the kitchen; nothing here presupposes food).
 ; ----------------------------------------------------------------------------
 
 
 ; The go sub-goal INHERITS the bring goal's drive through /caused_by (worship_go
-; shape) - the MINTING lane owns the utility (provisioning: provision_rearm 90).
+; shape) - the MINTING chain owns the utility (provisioning: provision_rearm 90).
 ; <dest> may be a premises BUILDING or a ROOM (provisioning aims the kitchen); the
 ; generic go task (go-task.mc) reaches either - enter the structure, walk into the room.
 (npc-think bring_go
@@ -27,7 +27,7 @@
 
 ; AT the destination: claim the floor cell the ware will rest on - polled until the grid
 ; answers one - and PROPOSE the put-down act with it (goals never propose themselves). No
-; (utility): the proposal inherits the minting lane's drive up the /caused_by chain.
+; (utility): the proposal inherits the minting chain's drive up the /caused_by chain.
 (npc-think bring_at_dest
   (goal {@self BRING ?ware ?dest})
   (role @self (spatial @self space ?dest)

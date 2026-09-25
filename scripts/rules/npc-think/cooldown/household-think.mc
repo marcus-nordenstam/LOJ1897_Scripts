@@ -13,10 +13,10 @@
 ; Monthly per homed NPC (the homeless do not dwell), at a LOW utility: leisure
 ; fills an idle day and never displaces real work - a busy month simply
 ; records no home-leisure episode. Home CO-PRESENCE is not registered here -
-; the physical rest lane (rest.mc) puts the NPC at home and the routine
+; the physical rest aspect (rest.mc) puts the NPC at home and the routine
 ; itinerary provides co-presence.
 ;
-; NOTE: the dine episode is owned by the SUPPER lane (npc-act/meals.mc,
+; NOTE: the dine episode is owned by the SUPPER aspect (npc-act/meals.mc,
 ; a real daily at-home act with table talk), so the pick here is rest /
 ; read-at only.
 ; ----------------------------------------------------------------------------

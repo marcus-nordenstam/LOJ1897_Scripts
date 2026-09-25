@@ -277,7 +277,7 @@
           # The company registry's INCORPORATION stack: every org's
           # articles-of-incorporation doc is filed here (the companies house),
           # not at the org's own premises. An NPC learns the town's orgs by
-          # browsing it (orient); the founding lane pushes each new AOC on.
+          # browsing it (orient); the founding chain pushes each new AOC on.
           (children incorporation-stack)
           # Per-premises INCOMING mail pile (ONE in each home's mail room,
           # one inside each hiding-spot cache): letters land here on
@@ -317,7 +317,7 @@
         (children diploma)
         (child letter
           (children adverts-letter)
-          # The occasion lane's invitation: its writing names the occasion, and
+          # The occasion aspect's invitation: its writing names the occasion, and
           # holding one is how a guest knows an occasion exists at all.
           (children invitation-letter)
           # Perpetrator's own admission; writing embeds their
@@ -552,15 +552,15 @@
             # Public civic / cultural venues - founded + minimally
             # staffed at sim start by the govt-bootstrap pass
             # (public_orgs.hsc), and the venues the interest activity
-            # lane sends enthusiasts to (activity-lanes L5). All
+            # aspect sends enthusiasts to (activity plan L5). All
             # open-to-public, so they carry the public_space facet.
             (child library (facets public_space))
             (child museum (facets public_space))
             (child meeting-hall (facets public_space))
             (child sports-ground (facets public_space))
-            # Private members' club premises (activity-lanes L8). NOT
+            # Private members' club premises (activity plan L8). NOT
             # public_space - a club is members-only, so a non-member is
-            # not welcome_at without invitation. The club lane convenes
+            # not welcome_at without invitation. The club aspect convenes
             # the member-register here (clubhouse co-presence). Split by
             # club type: athletic (sporting) vs social (gentlemen's).
             (child clubhouse

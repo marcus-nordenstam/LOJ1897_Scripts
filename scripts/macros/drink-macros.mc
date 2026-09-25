@@ -5,7 +5,7 @@
 
 ; (drink-due ?actor): the drink-desire condition - a service is ~due (days since the
 ; last drink) AND the actor is not already dependent (dependents are the relapse.mc
-; lane). Perf: most passes skip on the days-since test.
+; chain). Perf: most passes skip on the days-since test.
 (define-macro drink-due (?actor)
   (and (!= (any {?actor craving}).target [k alcohol])
        (>= (days-since-last {?actor DRINK /ever}) 3)))

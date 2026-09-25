@@ -12,7 +12,7 @@
 ; suitor courts the SPECIFIC person he fancies (the cross-pair `fancy` bitset),
 ; not whoever shares a venue - a particular pair rarely coincides physically, so
 ; (like all courtship FORMATION) it is keyed on the standing attraction, not
-; co-presence (the settled reversion; the place-lane errand-magnetism form is a
+; co-presence (the settled reversion; the place-based errand-magnetism form is a
 ; future refinement). Fired by the per-NPC emergent pass MONTHLY; the per-suitor
 ; (chance) paces repeated courting.
 ; ----------------------------------------------------------------------------

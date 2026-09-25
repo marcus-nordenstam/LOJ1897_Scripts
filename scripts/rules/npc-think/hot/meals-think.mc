@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; meals - the npc-THINK half of the UNIFIED eat lane (the acts + the meals-local
+; meals - the npc-THINK half of the UNIFIED eat aspect (the acts + the meals-local
 ; define-macros live in npc-act/meals.mc). This file holds the meal desires, the
 ; at-home idle yield, the shared approach (eat_go), the provisioning approach
 ; desires, and the starvation-tail desires.
@@ -11,7 +11,7 @@
 ; UTILITY IS PROXIMITY TO THE MEALTIME, NEVER HUNGER (ruling 10): each desire is
 ; eligible only inside its believed window. Hunger is pure physiology - it
 ; accrues at the completion seam (sleep included - you wake hungry) and each
-; meal reduces it - and enters the lanes only as the ELIGIBILITY gate
+; meal reduces it - and enters the aspect only as the ELIGIBILITY gate
 ; (> hunger 0.25): just-fed NPCs skip the next window (the once-per-window dedup).
 ;
 ; FOOD KNOWLEDGE IS PER-MIND (the no-omniscience rule): every stock gate reads
@@ -22,7 +22,7 @@
 ;
 ; THREE MEALS (ruling 13):
 ;   breakfast  - at home, 30 min, come-as-you-wake (3h window). Utility 82 - a
-;                shade over the work lane so the commuter eats before leaving.
+;                shade over the work aspect so the commuter eats before leaving.
 ;   lunch      - one meal-kind, two places: at the workplace at midday (util 85,
 ;                the co-worker channel) OR at home per lunch-hour (util 76).
 ;   supper     - the FAMILY table, 60 min. Utility 78: under work's 80, over
@@ -40,7 +40,7 @@
 ; uncapped multi-hour idle leaps clean over a 2h meal window (the engine's
 ; bare fallback idles in 3h blocks - the household would idle straight past
 ; supper). This authored idle owns the at-home nothing-to-do slot and ends
-; at the next meal hour, so the meal lanes get their deliberation instant.
+; at the next meal hour, so the meal chains get their deliberation instant.
 ; An unknown mealtime contributes a huge sentinel (minutes-until-hour) and
 ; drops out of the (min ...).
 (npc-think idle_at_home
@@ -55,11 +55,11 @@
 ; 2, the at-home nothing-to-do slot); the dwell promotes ONLY here, ONLY at home. The proposal
 ; inherits the idle utility from the {@self DWELL ?home} goal it /causes (via the (goal ...) gate).
 ; The idle blocks, one per canonical meal window, each aimed at its ABSOLUTE
-; boundary hour (the eat lanes decide the actual eating at those completions;
+; boundary hour (the eat chains decide the actual eating at those completions;
 ; a household's own +-1h mealtime shift just moves who wins the boundary).
 ; Per-window (when)s fell each bout at its boundary, so a resumed dwell never
 ; carries a stale ?until across windows; post-supper the block runs to
-; midnight and the sleep lane takes over long before.
+; midnight and the sleep aspect takes over long before.
 (npc-think dwell_at_home_morning
   (goal    {@self DWELL ?home})
   (role @self (spatial @self building ?home)
@@ -78,7 +78,7 @@
     (when    (and (>= (now-hour) 18)))
     (effects (maintain-proposal {@self DWELL ?home 24}))))
 
-; ============================ the unified eat lane ==========================
+; ============================ the unified eat aspect ==========================
 ; Every routine meal is ONE act-goal {@self eat [k <meal>] <place>}: a desire
 ; mints it in its window, the <place> drives a leaf-first approach (eat_go), and
 ; at the place the goal promotes to the shared eat_act. The begun-then-ended
@@ -108,7 +108,7 @@
 ; hungry at home) and un-gated by food belief (LEARNING whether food is there is
 ; the whole point). Self-limiting: once the food is seen the count is > 0 and this
 ; stops firing until the larder is eaten down again; a truly empty kitchen keeps
-; reading 0 and the resident falls through to the meal-less lanes, as it should.
+; reading 0 and the resident falls through to the meal-less chains, as it should.
 (npc-think notice_larder
   (role ?home {@self home ?home}
               (spatial @self building ?home)
@@ -265,14 +265,14 @@
 ; npc-think/provisioning_think.mc; the general carry-to-a-place chain in
 ; npc-think/bring_think.mc. Meals only EAT here.)
 
-; (EATING OUT is folded into the unified eat lane above: want_eat_out_pub /
+; (EATING OUT is folded into the unified eat aspect above: want_eat_out_pub /
 ; want_eat_out_restaurant mint {@self eat [k supper] <venue>}, eat_go walks
 ; there, and eat_act runs the meal - no venue prop consumed.)
 
 ; THE STARVATION TAIL (ruling 15) - past famished (appetite > 1.3) food-seeking
-; overrides schedule and window. Every food-source lane carries the SAME convex
+; overrides schedule and window. Every food-source chain carries the SAME convex
 ; (homeostatic appetite 2.0 70) drive: ~130 at the famished threshold (above every
-; routine lane, work maxes at 100) and DIVERGING as appetite climbs toward the limit,
+; routine aspect, work maxes at 100) and DIVERGING as appetite climbs toward the limit,
 ; so the closer to collapse the more decisively food-seeking dominates - the convex
 ; tail the old flat 130-141 band only approximated. The source PREFERENCE emerges, not
 ; from magic gaps: eat-at-source (carried / pantry, R=0) beats a go-leg (travel, -rhoR)
@@ -282,10 +282,10 @@
 ; to the town tries any shop.
 
 ; DISABLED, down to forage_at_source: no mind eats (the eat task and forage never run), so
-; every mind starves from day one and these drivers swamp every other lane.
+; every mind starves from day one and these drivers swamp every other aspect.
 ; THE STARVING WATCH - the physiology->belief seam. Hunger is an ATTR (no belief
 ; seam, so no cached gate can key on it directly); this pair maintains the
-; {@self starve} marker belief AT the crossing, so every tail lane below keys
+; {@self starve} marker belief AT the crossing, so every tail chain below keys
 ; on the CACHED self-gate instead of re-reading the attr per deliberation. The
 ; watch itself is the only per-deliberation hunger read left (one attr read,
 ; gated to the not-yet-starving); the marker ends at the same threshold once
@@ -305,7 +305,7 @@
 
 ; The four food-source DESIRES all push the same convex drive onto one {@self forage}
 ; goal (the source is chosen by branch ORDER in forage_act, not by competing utility):
-; eat what you carry > eat the pantry > buy at a shop > STEAL and eat. The GO lanes
+; eat what you carry > eat the pantry > buy at a shop > STEAL and eat. The GO chains
 ; (already goal-based) route to home / a shop when not there.
 
 ; Eat what you carry: the laden cook (or laden thief) whose FIRST standing stow

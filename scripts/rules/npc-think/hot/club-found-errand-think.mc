@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; club_found_errand (npc-think lane) - the THINK half of the club-founding split.
+; club_found_errand (npc-think) - the THINK half of the club-founding split.
 ;
 ; The decision (clubs.mc `club_founding`) minted {@self goal {@self FOUND-CLUB}}.
 ; The founder goes out (to a pub - the period's clubs grew out of tavern society)

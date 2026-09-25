@@ -13,17 +13,17 @@
 ; end @self's stale PRESENT-TENSE beliefs about them (their job, whereabouts,
 ; membership, ...) - the ended beliefs stay as episodic /past history - EXCLUDING
 ; the standing body-state (condition dead + internment
-; - the dead-and-unburied pair that drives the convey / bury duty lanes). A
+; - the dead-and-unburied pair that drives the convey / bury duty chains). A
 ; STANDING INVARIANT, not fire-once: hearsay arriving years later flips within a
 ; month (the sim's native resolution). end-beliefs-about is idempotent - an
 ; already-cleaned picture is a no-op walk - so re-firing is cheap. Goal retirement
-; is NOT here: each person-targeted lane owns its own dead-twin (fight_concluded /
+; is NOT here: each person-targeted chain owns its own dead-twin (fight_concluded /
 ; kill_concluded / ...), so post-mortem DUTY goals (convey / bury / attend) survive.
 ;
 ; Consequence, accepted as the model: an absentee (never perceived the corpse,
 ; never told) keeps stale beliefs - a modeled fact about them, not a leak. The
 ; kin-death-awareness that propagate-death pushed telepathically now travels by
-; witness-chains until Phase B's news lane lands.
+; witness-chains until Phase B's news chain lands.
 ; ----------------------------------------------------------------------------
 
 

@@ -28,7 +28,7 @@
 ;     LEASED / occupied (no {own}): he simply vacates, dropping his OWN
 ;       {?home tenant @self} + {@self home}. The landlord is NOT touched - he learns
 ;       the dwelling is empty by perception (co-presence) or the belief lapses by
-;       decay, and his re-letting lane (list_to_let.mc) surfaces the vacancy with no
+;       decay, and his re-letting chain (list_to_let.mc) surfaces the vacancy with no
 ;       scan. The lessor's tenancy belief is HIS to reconcile, never the emigrant's.
 ;
 ;   (end-belief @self spouse) - the survivor's marriage reference to someone who has

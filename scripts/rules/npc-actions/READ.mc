@@ -185,7 +185,7 @@
                         (begin-belief {?iocc venue ?ivenue-obj})))
               (if (and (substantial ?ifrom) -{?iocc hours ? ?})
                   (then (begin-belief {?iocc hours ?ifrom ?ito})))
-              ; The appointment itself - what the attend lane's guest rung reads.
+              ; The appointment itself - what the attend chain's guest rung reads.
               (if -{?ihost invite @self ?iocc}
                   (then (begin-belief {?ihost invite @self ?iocc}))))))
       (else (adopt-msg (attr ?doc writing))))

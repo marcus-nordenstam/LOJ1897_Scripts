@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; eat - the npc-ACT of eating ONE mouthful of food (the opportunistic-forage desires
 ; live in npc-think/meals.mc; the scheduled-meal sitting in npc-tasks/eat-task.mc). The
-; physical eating for both lanes: destroy one food + relieve hunger, theft-ledgered
+; physical eating for both chains: destroy one food + relieve hunger, theft-ledgered
 ; when the mouthful is not the eater's own.
 ;
 ; Generic - the WHICH (carried basket / home larder / a shop's shelf / an abstract

@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; convey_corpse (npc-think lane) - the bereaved-kin lane that CARRIES a dead
+; convey_corpse (npc-think) - the bereaved-kin chain that CARRIES a dead
 ; relative's body to a church. Pure perception, no telepathy: nobody writes the
 ; priest's mind. The body physically ends up in the church's room (deposit act in
 ; npc-act/convey_corpse.mc), and a co-present priest PERCEIVES the corpse there
@@ -10,10 +10,10 @@
 ; PERCEIVED the corpse (the condition attr is an hsim-percept), or read a death
 ; notice. On learning, learn_of_death end-dates its other stale beliefs about the
 ; deceased (incl. {<corpse> isa human}). So a bereaved NPC who has seen the body
-; KNOWS the death, but the priest does not until he sees it. This lane closes that
+; KNOWS the death, but the priest does not until he sees it. This chain closes that
 ; gap PHYSICALLY: the bearer brings the body to a church, where the priest sees it.
 ;
-; Structure mirrors the drink / worship B4 lanes (one desire, case sub-goals):
+; Structure mirrors the drink / worship B4 aspects (one desire, case sub-goals):
 ;   want_convey  (desire): a grown, decent NPC who holds a not-yet-delivered
 ;     death belief holds {@self CONVEY ?corpse}. Utility x politeness (respect
 ;     for the observances), capped as an errand.
@@ -24,7 +24,7 @@
 ;
 ; The go / find sub-goals fire only while NOT at a church; at a church neither is
 ; live, so the convey goal is the leaf and convey_act runs - the same implicit
-; location gate the drink lane uses (drink_act only runs at a pub).
+; location gate the drink aspect uses (drink_act only runs at a pub).
 ;
 ; The corpse is cast off the ONGOING {?corpse condition dead} belief alone (no
 ; [k human] positional kind: that would compile to a (believes {?corpse isa

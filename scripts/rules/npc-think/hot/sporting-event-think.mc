@@ -29,7 +29,7 @@
 ;   (table-match club_sports org-kind ?club_kind sport ?sport)
 ; an EXACT key match on the club's org kind (the kind it was founded with,
 ; read off its articles). Author one row per foundable club kind - the club
-; founding lane (rules/npc-act/club_found_errand.mc) rolls race-club /
+; founding chain (rules/npc-act/club_found_errand.mc) rolls race-club /
 ; athletic-club, so those are the rows that matter; add a row when a new club
 ; kind becomes foundable (a kind with no row simply holds no contest).
 ;
