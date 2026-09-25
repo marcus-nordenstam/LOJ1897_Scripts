@@ -2,8 +2,7 @@
 ; bury (npc-action) - the priest's burial rite act. The planning thinks (bury_route /
 ; bury_onsite) live in npc-think/intra-day/bury_think.mc.
 ;
-;   bury_action (act): perform the rites via the blessed rite ops - the verdict
-;     ledger row and the tombstone (the dead mind's rendered memory timeline) -
+;   bury_action (act): perform the rites - the verdict and tombstone chronicle rows -
 ;     realize the interment, then destroy the corpse and end the act. The corpse is a
 ;     SINGLE known role-cast object destroyed in the act (safe: no mark, no sweep, no
 ;     in-flight role walk). SPEAKING the interment is NOT this act's job: announce_burial
@@ -27,11 +26,9 @@
     (for-each ?part (spatial ?corpse parts /env)
       (for-each ?blem (attr-values ?part blemishes)
         (if (is-a ?blem [k wound]) (then (bind 1 ?violent)))))
-    (record-verdict ?corpse ?violent)
-    ; No tombstone kind or archetype exists yet, so there is nothing to create -
-    ; and the grave marker is the durable record a detective would read. Commented
-    ; out pending the ontology + archetype.
-    ; (tombstone ?corpse)
+    (write-chronicle verdict deceased ?corpse cause (attr ?corpse death-cause) violent ?violent)
+    (write-chronicle tombstone name ?corpse born (year (attr ?corpse birth-date))
+                     cause (attr ?corpse death-cause))
     (realize-destroyed ?corpse internment [k internment buried] BURY)
     (destroy-entity ?corpse)
     (set-outcome {@self BURY ?corpse} /succ)))

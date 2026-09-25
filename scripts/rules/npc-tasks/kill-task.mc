@@ -10,7 +10,7 @@
 ;
 ; No outcome twin: the drivers' maintain-conditions own the lifecycle (victim dead
 ; or reason gone -> the proposal drops), and the DEED's record is the killing
-; action's own ended act-belief + its crime-ledger row - not this coordinator's.
+; action's own ended act-belief + its crime row - not this coordinator's.
 ; The method pick is ARGMAX (deterministic on trait / means), so it is STABLE across
 ; deliberations - a strong hand strangles, an armed weak hand shoots, a rich hand
 ; hires - and only switches if the means change (a firearm acquired). Maintain-

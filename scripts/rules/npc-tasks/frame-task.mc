@@ -3,7 +3,7 @@
 ; victim's home and PLANTS a forged-letter there - a real, discoverable/witnessable
 ; object left at the scene (decision 3: a placed object, not a fiat yield-evidence
 ; stain). A later search / detective finds it and reads the victim as implicated. The
-; ended {@self frame ?victim} belief IS the deed memory; the crime-ledger row records it.
+; ended {@self frame ?victim} belief IS the deed memory; the crime row records it.
 ; A dead victim, or one whose home @self cannot place, -> abandon.
 ; ----------------------------------------------------------------------------
 
@@ -29,7 +29,7 @@
         (effects
           (plant-letter [k forged-letter]
                         (nl-written-msg "?victim killed me") (spatial @self space))
-          (crime-ledger-append @self ?victim plant_evidence frame @u @u)
+          (record-crime @self ?victim plant_evidence frame @u @u)
           (set-outcome ?frame-rel /succ))))
     (try
       (when (or (not (alive ?victim))

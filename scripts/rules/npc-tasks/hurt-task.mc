@@ -5,7 +5,7 @@
 ; plan - the PUNCH blows are the (obs) witnessed violent acts that carry the blame, and
 ; because a beater's PUNCH traces (/caused_by) to no assault on THEM, appraisal keeps its
 ; wrong-act (the beater is blamed), whereas a defender's identical PUNCH is exonerated.
-; The crime is ledgered once the victim is beaten down.
+; The crime is recorded once the victim is beaten down.
 ; ----------------------------------------------------------------------------
 
 
@@ -35,11 +35,11 @@
       (utility survival always-pick)
       (effects (maintain-proposal {@self STRIKE ?victim punch})))
 
-    ; CONCLUDE: the victim is beaten senseless (or already down) - ledger the assault
+    ; CONCLUDE: the victim is beaten senseless (or already down) - record the assault
     ; (method PUNCH, goal hurt) and end the episode.
     (try
       (when (or (attr-is ?victim awareness [k unconscious])
                 {?victim condition [k dead]}))
       (effects
-        (crime-ledger-append @self ?victim punch hurt @u @u)
+        (record-crime @self ?victim punch hurt @u @u)
         (set-outcome ?hurt-rel /succ)))))

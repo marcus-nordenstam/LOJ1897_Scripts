@@ -4,7 +4,7 @@
 ; ADOPTS {<speaker> extort @self}, the coercion anchor his own coercion_pressure reads;
 ; anyone else in earshot hears it too). NO fiat cross-mind write. @self also holds the
 ; ACTOR-side {@self extort ?victim} anchor in his OWN mind, which coercion_think then
-; re-presses monthly. The deed is ledgered by method - blackmail when @self holds
+; re-presses monthly. The deed is recorded by method - blackmail when @self holds
 ; leverage, else threaten_violence. The ended {@self coerce ?victim} belief IS the deed
 ; memory. No live victim -> abandon.
 ; ----------------------------------------------------------------------------
@@ -37,8 +37,8 @@
       (effects
         (if -{@self extort ?victim} (then (begin-belief {@self extort ?victim})))
         (if (holds-coercion-material ?victim)
-            (then (crime-ledger-append @self ?victim blackmail coerce @u @u))
-            (else (crime-ledger-append @self ?victim threaten_violence coerce @u @u)))
+            (then (record-crime @self ?victim blackmail coerce @u @u))
+            (else (record-crime @self ?victim threaten_violence coerce @u @u)))
         (set-outcome ?coerce-rel /succ)))
     (try
       (when (not (alive ?victim)))

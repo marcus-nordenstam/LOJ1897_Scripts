@@ -3,7 +3,7 @@
 ; twin of buy: same source-walk (to a shop that stocks the kind), but the grip is
 ; gated on (nobody-watching) - a snatch waits for the shelf to be unobserved - and no
 ; coin changes hands. The wronged party is the source's proprietor; the take concludes
-; the theft and lands the crime-ledger row. The ended {@self steal ?kind} belief IS the
+; the theft and lands the crime row. The ended {@self steal ?kind} belief IS the
 ; deed memory (act/state doctrine) - no fiat record.
 ; ----------------------------------------------------------------------------
 
@@ -42,11 +42,11 @@
             (if (= ?found 0) (then (bind ?item ?loot) (bind 1 ?found)))))
         (if (= ?found 1)
             (then (maintain-proposal {@self take ?loot})))))
-    ; concluded: the loot is in hand /caused_by this pursuit -> ledger + succ.
+    ; concluded: the loot is in hand /caused_by this pursuit -> crime row + succ.
     (try
       (when (and (not (empty (spatial @self hold ?kind)))
                  {@self take ? /succ /caused_by ?steal-rel}
                  (is-a (spatial @self building): ?shop [k building shop])))
       (effects
-        (crime-ledger-append @self (any {? own ?shop}).subject opportunist_theft steal ?kind @u)
+        (record-crime @self (any {? own ?shop}).subject opportunist_theft steal ?kind @u)
         (set-outcome ?steal-rel /succ)))))

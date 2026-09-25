@@ -4,7 +4,7 @@
 ; lover ?partner} through the real auditory channel), then publish-secret-about seeds
 ; the victim's circle and the scandal spreads town-wide. A published secret is spent
 ; leverage, so any standing {@self extort ?victim} anchor ends. The ended {@self expose
-; ?victim} belief IS the deed memory; the crime-ledger row records it. Nothing to expose
+; ?victim} belief IS the deed memory; the crime row records it. Nothing to expose
 ; (no known liaison) or a dead victim -> abandon.
 ;
 ; DEFERRED: the anonymous_letter sibling method (a covert posted denunciation) - the
@@ -51,7 +51,7 @@
         ; Commented out pending that redesign.
         ; (publish-secret-about @self ?victim)
         (if {@self extort ?victim} (then (end-belief {@self extort ?victim})))
-        (crime-ledger-append @self ?victim confront-publicly expose @u @u)
+        (record-crime @self ?victim confront-publicly expose @u @u)
         (set-outcome ?expose-rel /succ)))
     (try
       (when (or (not (and -{@self spouse ?victim}

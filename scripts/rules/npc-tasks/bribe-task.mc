@@ -3,7 +3,7 @@
 ; buildable unit of cash - a real gripped prop) and HANDS IT OVER via give: the give task
 ; takes the coin, reaches the co-present victim, and OFFERs it hand-to-hand. Private, no
 ; cross-mind write; the punctual OFFER is visually unwitnessed - the point of a bribe. The
-; ended {@self bribe ?victim} belief IS the deed memory; the crime-ledger row records it.
+; ended {@self bribe ?victim} belief IS the deed memory; the crime row records it.
 ; A dead victim -> abandon.
 ; ----------------------------------------------------------------------------
 
@@ -27,7 +27,7 @@
     (try
       (when {@self give ? ?victim /succ /caused_by ?bribe-rel})
       (effects
-        (crime-ledger-append @self ?victim offer_bribe bribe @u @u)
+        (record-crime @self ?victim offer_bribe bribe @u @u)
         (set-outcome ?bribe-rel /succ)))
     (try
       (when (not (alive ?victim)))

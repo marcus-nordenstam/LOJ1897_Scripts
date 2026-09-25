@@ -3,7 +3,7 @@
 ; aloud as an open BROADCAST: the victim AND everyone in the room hear it through the real
 ; auditory channel, so the victim's own degrade construals fire off the PERCEIVED record
 ; (NO fiat cross-mind write, no principals-only incident anchor). The ended {@self
-; humiliate ?victim} belief IS the deed memory; the crime-ledger row records it. A dead
+; humiliate ?victim} belief IS the deed memory; the crime row records it. A dead
 ; victim -> abandon.
 ;
 ; INTERIM content: the SAY carries the class-tagged {@self public-humiliation ?victim}
@@ -37,7 +37,7 @@
     (try
       (when {@self SAY ? /succ /caused_by ?humiliate-rel})
       (effects
-        (crime-ledger-append @self ?victim public-humiliation humiliate @u @u)
+        (record-crime @self ?victim public-humiliation humiliate @u @u)
         (set-outcome ?humiliate-rel /succ)))
     (try
       (when (not (alive ?victim)))

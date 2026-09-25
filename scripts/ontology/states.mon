@@ -534,7 +534,7 @@
 # construed-act / barb-content wiring is the deferred follow-up.
 (state public-humiliation (appraisal_input) (tar [k human] @object))
 # confront-publicly: the status-injury fact an expose act broadcasts
-# ({@self confront-publicly ?victim}); the expose-chain crime-ledger + the
+# ({@self confront-publicly ?victim}); the expose-chain crime row + the
 # gossip news ground-alt read it. Sibling of public-humiliation.
 (state confront-publicly (appraisal_input) (tar [k human] @object))
 
