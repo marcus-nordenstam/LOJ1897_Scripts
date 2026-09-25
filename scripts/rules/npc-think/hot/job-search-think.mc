@@ -21,6 +21,7 @@
 ; Two cases, complementary on whether @self KNOWS a church: he heads to one he knows, or
 ; he searches the region for one (the find-building task walks the unobserved structures).
 (npc-think seek_board_visit
+  (at-time (hour (business_open_hour) (+ (business_close_hour) 1)))
   (aspect labour)
   (cooldown 1 m try-until-succ)
   (rng-stream employment)
@@ -35,6 +36,7 @@
         (effects (maintain-proposal {@self go ?board}))))))
 
 (npc-think seek_board_find
+  (at-time (hour (business_open_hour) (+ (business_close_hour) 1)))
   (aspect labour)
   (cooldown 1 m try-until-succ)
   (rng-stream employment)
@@ -73,6 +75,7 @@
 ; (LATCHED at the pick: a plain hour test is re-read on hold and would withdraw the errand
 ; at dusk): the application is an hour's errand, and a night pick would sit until morning.
 (npc-think seek_apply_pick
+  (at-time (hour (business_open_hour) (+ (business_close_hour) 1)))
   (aspect labour)
   ; ONE application at a time: the lock admits a single activation, held for as long as
   ; the maintained apply-for runs; it releases when the activation retires (hired, or the
@@ -111,6 +114,7 @@
 ; the errand takes the post. Once the errand has CONCLUDED either way he does not go again -
 ; a man turned away does not keep returning.
 (npc-think take_up_offer
+  (at-time (hour 8 17))
   (aspect labour)
   (role ?job {?job offered-to @self}
     ; No -{@self job ?} here: the word that makes the seat his lands while the errand is

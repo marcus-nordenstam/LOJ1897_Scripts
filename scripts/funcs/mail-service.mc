@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
-; magic-mail-service - the town's post, run by the engine ONCE every
-; night (define-func /nightly: mindless, abs plane, no @self). Every letter a sender
+; magic-mail-service - the town's post, run by the engine at every midnight
+; (define-func /nightly: mindless, abs plane, no @self). Every letter a sender
 ; has deposited in a building's outgoing-mail-stack teleports to the incoming mail-stack
 ; of the building whose address is written on it. A letter with no address, or one no
 ; building carries at its premises rung, is a dead letter and stays in the outgoing pile.

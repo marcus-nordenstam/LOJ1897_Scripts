@@ -24,6 +24,8 @@
 ; (work-starts-soon ?start ?end): NOT on shift now, and the shift's next start is
 ; within the 120-minute lead. delta = start*60 - now-min, wrapped into [0,1440)
 ; so a just-before-midnight now still sees an early-morning start as soon.
+(define-macro work-lead-hours () 2)
+
 (define-macro work-starts-soon (?start ?end)
   (and (not (in-work-hours ?start ?end))
        (> (if (< (- (* ?start 60) (now-min)) 0)
@@ -31,7 +33,7 @@
               (else (- (* ?start 60) (now-min)))) 0)
        (<= (if (< (- (* ?start 60) (now-min)) 0)
                (then (+ (- (* ?start 60) (now-min)) 1440))
-               (else (- (* ?start 60) (now-min)))) 120)))
+               (else (- (* ?start 60) (now-min)))) (* (work-lead-hours) 60))))
 
 ; Elapsed days since the most recent ?what. The (none ..) gate answers "never done"
 ; FIRST, so the recall only runs when a record exists. The record is handed to

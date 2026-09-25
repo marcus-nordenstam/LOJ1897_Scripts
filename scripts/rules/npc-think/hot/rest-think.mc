@@ -52,6 +52,7 @@
 ; sleep act records a {@self SLEEP} memory ((does sleep)); its completion resets
 ; fatigue. Utility skyrockets past full fatigue so sleep dominates work / leisure.
 (npc-think sleep
+  (at-time (hour 6 22))
   (fatigue 0)                      ; sleep is a bodily need, not a fruitless search - never fatigue-capped
   (role ?home {@self home ?home}
               (spatial @self building ?home)

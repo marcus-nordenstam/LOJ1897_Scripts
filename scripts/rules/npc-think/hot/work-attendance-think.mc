@@ -38,6 +38,7 @@
 ; goal the cycle a gate drops (shift end, or leaving the workplace).
 
 (npc-think day_work
+  (at-time (hour (table occupation_shifts start-h end-h) (- (table occupation_shifts start-h) (work-lead-hours))))
   (fatigue 0)                      ; a work shift is not a fruitless search - never fatigue-capped
   (role ?job {@self job ?job}
     (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
@@ -57,6 +58,7 @@
 ; in npc-tasks/work-task.mc. day_go_to_work below stays a DRIVER (no task gate).
 
 (npc-think day_go_to_work
+  (at-time (hour (table occupation_shifts start-h end-h) (- (table occupation_shifts start-h) (work-lead-hours))))
   ; Shift on or imminent and not yet at the workplace: go there. The workplace ?wp may be a
   ; premises BUILDING (shop / office) or a ROOM (a gentleman's home study / back-office); the
   ; generic go task (go-task.mc) reaches either - enter the structure, walk into the room.

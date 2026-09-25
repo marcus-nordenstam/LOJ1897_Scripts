@@ -14,6 +14,11 @@
 (define-macro attend-in-window (?start ?end)
   (in-work-hours (- ?start (attend-prep-lead)) ?end))
 
+; Wake at the window's opening, so an attendee busy elsewhere gets the chance to set out.
+(define-macro set-occasion-alarm (?start)
+  (set-think-alarm (+ (time seconds)
+                      (seconds (minutes-until-hour (- ?start (attend-prep-lead))) min))))
+
 ; A guest's base willingness scaled by warmth toward the host: hostile 0.6x .. warm 1.4x.
 (define-macro attend-guest-scaled (?occ)
   (* (attend-guest-base)

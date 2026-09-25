@@ -19,6 +19,7 @@
 
 (npc-task {@self work ?wp}:?w-rel
   (tar [k structure|org|space] @object)
+  (at-time (hour 12 (table occupation_shifts start-h end-h) (- (table occupation_shifts start-h) (work-lead-hours))))
   (role ?job {@self job ?job}
     (role ?org {?job org ?org}
                {?org workplace ?wp}

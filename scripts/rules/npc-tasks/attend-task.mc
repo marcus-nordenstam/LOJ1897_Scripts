@@ -14,6 +14,11 @@
 (npc-task {@self attend ?occ}:?a-rel
   (tar [k occasion] @object)
   (and
+    ; ALARM: think again when the window opens.
+    (try
+      (when {?occ hours ?start ?end})
+      (effects (set-occasion-alarm ?start)))
+
     ; GO: I know the venue and I am not there yet -> head to it (in the window).
     (try
       (role ?venue {?occ venue ?venue}

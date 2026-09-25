@@ -12,6 +12,11 @@
 (npc-task {@self wed ?occ}:?w-rel
   (tar [k occasion] @object)
   (and
+    ; ALARM: think again when the window opens.
+    (try
+      (when {?occ hours ?start ?end})
+      (effects (set-occasion-alarm ?start)))
+
     ; VOW: at the church, still my betrothed, not yet vowed -> speak it.
     (try
       (role @self {@self fiancee ?betrothed} (none {@self spouse @something})
