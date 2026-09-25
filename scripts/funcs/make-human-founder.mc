@@ -33,7 +33,7 @@
           (set-attr ?h parentless 1)
           (+ (founder_age_min) (random-int 0 (- (founder_age_max) (founder_age_min)))): ?age
           (set-attr ?h birth-date
-            (create-date (- (time year) ?age) (random-int 0 11) (random-int 0 27)))
+            (create-date (- (time year) ?age) (random-int 1 12) (random-int 1 28)))
           (set-attr ?h name (sample-name ?gender ?nat ?class))
           (start-aging ?h)
           (seed-human-self-beliefs ?h ?class ?nat ?building)

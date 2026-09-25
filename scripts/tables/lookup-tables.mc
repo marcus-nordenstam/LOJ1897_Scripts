@@ -14,15 +14,15 @@
   (record [k competence-level trained] 1)
   (record [k competence-level expert]  2))
 
-; weekday index (0=Sun .. 6=Sat) -> the {job <label> start end} shift-belief label
+; weekday (1=Sun .. 7=Sat) -> the {job <label> start end} shift-belief label
 ; for today. Read with (time weekday) as the key.
 (define-table weekday_hours_label
   (fields weekday label)
-  (record 0 sun-hours)
-  (record 1 mon-hours)
-  (record 2 tue-hours)
-  (record 3 wed-hours)
-  (record 4 thu-hours)
-  (record 5 fri-hours)
-  (record 6 sat-hours))
+  (record 1 sun-hours)
+  (record 2 mon-hours)
+  (record 3 tue-hours)
+  (record 4 wed-hours)
+  (record 5 thu-hours)
+  (record 6 fri-hours)
+  (record 7 sat-hours))
 

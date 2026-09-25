@@ -31,13 +31,13 @@
                 (o /invent ?kind): ?occ
                 (bb-write ?pg-rel occasion ?occ)))))
 
-      ; Its constitutive facts. A lead that runs past December rolls into next year - and
-      ; (time month) counts from ZERO, so december is 11 and the twelfth month past it is 23.
+      ; Its constitutive facts. A lead that runs past December rolls into next year: month 12
+      ; is december, so the months past it are 13 and on.
       ; Each is gated on what is already there, so a restarted stage adds nothing twice.
       (stage
         (effects
           (+ (time month) ?months): ?pg-m
-          (if (> ?pg-m 11)
+          (if (> ?pg-m 12)
               (then (create-date (+ (time year) 1) (- ?pg-m 12) 15))
               (else (create-date (time year) ?pg-m 15))): ?pg-date
           (if (none {?occ host ?})         (then (begin-belief {?occ host @self})))
