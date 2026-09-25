@@ -25,7 +25,7 @@
 
 (include "../macros/physiology-macros.mc")
 
-(define-func run_physiology (?duration ?act)
+(define-func /physiology run_physiology (?duration ?act)
   ; WHICH ACT RECOVERS THE BODY IS CONTENT, so it is decided here. The engine used to
   ; answer this by comparing the concluded act against a hardcoded SLEEP and handing
   ; down a 0/1; it now hands down the act LABEL and asks nothing.

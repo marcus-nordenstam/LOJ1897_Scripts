@@ -6,4 +6,9 @@
 ; watchdog.
 ; ----------------------------------------------------------------------------
 
-(define-list config seed 4242 start_year 1700 end_year 1700 start_population 200)
+(define-list config
+  seeds 4242
+  start 1700-01-01
+  end 1700-12-31
+  clock jump
+  startup town-startup)

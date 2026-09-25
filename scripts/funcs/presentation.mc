@@ -55,7 +55,7 @@
 ; a SELF-BELIEF (it is what he takes himself to be), so it is read from inside his
 ; own mind - which is also why the attr read comes first, before the mind is
 ; entered.
-(define-func npc-spawn-file (?who)
+(define-func /spawn-body npc-spawn-file (?who)
   (attr ?who gender): ?g
   (enter-mind ?who)
   (bind @nothing ?class)

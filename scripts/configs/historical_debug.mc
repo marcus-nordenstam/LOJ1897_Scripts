@@ -3,4 +3,9 @@
 ; stays small AND stays UNDER the 256 contents cap (no venue overflow), completing
 ; so its .msb + trace bin-log can be queried to see where NPCs actually relocate.
 
-(define-list config seed 4242 start_year 1700 end_year 1701 start_population 50)
+(define-list config
+  seeds 4242
+  start 1700-01-01
+  end 1701-12-31
+  clock jump
+  startup town-startup)

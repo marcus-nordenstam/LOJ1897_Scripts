@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; property_bootstrap.mc - the world-gen property + civic seed, authored as a MINDLESS
-; (define-func) the engine invokes ONCE at bootstrap (call_hs_func, no actor - abs mind;
+; (define-func) town-startup calls ONCE, mindless (no actor - abs mind;
 ; @self would resolve to @fail, so this func never uses it).
 ;
 ;  (1) files a vacant title-deed (owner @nothing) per building - the land registry.

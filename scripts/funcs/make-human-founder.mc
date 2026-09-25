@@ -105,7 +105,7 @@
 ; ----------------------------------------------------------------------------
 ; make-human-founder - the world-gen founder population: one household per
 ; RESIDENTIAL building, each with the class its residence implies. Commercial
-; buildings house nobody, so they are not walked at all. Invoked ONCE at populate.
+; buildings house nobody, so they are not walked at all. Called ONCE by town-startup.
 ; ----------------------------------------------------------------------------
 
 (define-func make-human-founder ()
