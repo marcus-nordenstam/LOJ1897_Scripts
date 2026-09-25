@@ -97,7 +97,7 @@
       (decorations
         (states stolen-from)
         (spatials gripped-by grip space in-stack bounds)
-        (attrs variant birth-date color condition writing grip-force owner addressee
+        (attrs variant birth-date color condition writing grip-force addressee
                addressee-duty destination blemishes)
         (attr name (auto-percept) (ext-per obs)))
       (population (cap 32768) (occupies-env-grid) (non-occluder))
@@ -270,7 +270,7 @@
         (child stack
           (decorations
             (spatials -gripped-by -grip -in-stack items)
-            (attrs -color -condition -name -writing -grip-force -owner -addressee -addressee-duty
+            (attrs -color -condition -name -writing -grip-force -addressee -addressee-duty
                    -destination -blemishes stack-label))
           (population (cap 2048))
           (children root-npc-knowledge-stack for-sale-listing-stack for-lease-listing-stack title-deed-stack)
@@ -301,7 +301,7 @@
         (child pile
           (decorations
             (spatials -grip -in-stack)
-            (attrs -color -condition -name -writing -grip-force -owner -addressee -addressee-duty
+            (attrs -color -condition -name -writing -grip-force -addressee -addressee-duty
                    -destination -blemishes content-kind count))
           (population (cap 4096))))
       (child sporting-gear
@@ -682,7 +682,7 @@
     (decorations (states occupant tenant))
     (child interior-space
       (decorations
-        (attrs variant birth-date owner is-nav-passage address)
+        (attrs variant birth-date is-nav-passage address)
         (attr name (auto-percept) (ext-per obs))
         (spatials bounds))
       (population (cap 4096) (always-visible) (non-occluder) (sector-coverage))

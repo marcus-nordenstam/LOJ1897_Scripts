@@ -4,13 +4,12 @@
 ; (a think must not mutate the world) live here. The act walks the host-quality
 ; ladder and claims/creates the FIRST available host's cache - the belief-guard
 ; makes exactly one, in strict priority order:
-;   1. secret-chamber    - a concealed chamber the manor was built with; CLAIMED
-;                          (owner stamped), never created.
+;   1. secret-chamber    - a concealed chamber the manor was built with; CLAIMED,
+;                          never created.
 ;   2. painting-cache    - a cavity behind a hung painting.
 ;   3. jewelry-box-lining - a false lining in a jewelry box.
 ;   4. book-cache        - a hollowed-out book.
 ;   5. floorboard-cache  - the always-available loose floorboard in the bedroom.
-; create-entity stamps owner = @self (the "you make it, you own it" rule);
 ; {@self hiding-spot ?cache} is the durable self-knowledge the search routine
 ; (read_secret_letters_think.mc) casts. The cache-kind is a static literal per
 ; tier because create-entity takes only a syntactic [k <kind>], so the ladder
@@ -29,7 +28,6 @@
       (for-each ?chamber (spatial ?room parts [k secret-chamber] /env)
         (if (= ?made 0)
             (then
-              (set-attr ?chamber owner @self)
               ; The chamber is an ENV read and the belief is mental: it enters the mind
               ; by being perceived, or the clause carries an abs object it cannot hold.
               (observe ?chamber): ?known

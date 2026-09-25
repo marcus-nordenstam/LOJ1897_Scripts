@@ -40,13 +40,6 @@
 # creation and read via the fused (spatial ?ent parts [k K]? /env?) op + the C++
 # struct_children_of helpers.
 
-# Ownership & control
-# The entity currently controlling the position of this entity (if any)
-# Durable OWNER of this entity: whoever created it (general rule - you make it,
-# you own it). IMPERCEPTIBLE: ownership of a SECRET cache is not visible to
-# others (the whole point), and the owner drives "observe your OWN cache".
-(attr owner (type entity) (imperceptible))
-# What this entity controls (stowed or held items)
 # The person a document (letter) is addressed to. Perceptible on sight: the envelope
 # addressee is visible on sight, so a mind that observes the letter internalizes
 # {letter addressee <person>} - WITHOUT learning the message (that needs reading).
