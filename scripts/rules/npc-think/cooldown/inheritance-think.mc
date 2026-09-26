@@ -32,10 +32,11 @@
 
 ; Open the settle task on learning a relative died. Any kinsman may attend the
 ; reading; only the one the will names ends up claiming.
-(npc-think settle_inheritance
-  (cooldown 1 m try-until-succ)
-  (role ?dead {?dead condition [k dead]}
-              -{@self receive-inheritance ?dead /succ}
-    (when {@self spouse|child|sibling ?dead})
-    (utility duty)
-    (effects (maintain-proposal {@self receive-inheritance ?dead}))))
+; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
+;(npc-think settle_inheritance
+;  (cooldown 1 m try-until-succ)
+;  (role ?dead {?dead condition [k dead]}
+;              -{@self receive-inheritance ?dead /succ}
+;    (when {@self spouse|child|sibling ?dead})
+;    (utility duty)
+;    (effects (maintain-proposal {@self receive-inheritance ?dead}))))

@@ -5,11 +5,9 @@
 ; These are the economic seed: the handful of trades that must exist from the
 ; cold start (1700) so the town has a bank, a solicitor, an apothecary, a pub and
 ; a grocer before the emergent business homeostat (business.mc) takes over and
-; founds the rest on demand. Read by the (startup) found_cornerstone_business
-; rule via (for-each-table-record ...): the first eligible adult of the right
-; class founds each still-missing one through found-org-seq, head-only - the
-; labour market staffs it over subsequent ticks. Replaces the C++ bootstrap_orgs
-; cornerstone loop (retired).
+; founds the rest on demand. Read by world-gen (charter-org files each one's
+; charter, seat-founding-heads seats a founder of the right class at its head) -
+; the labour market staffs it over subsequent ticks.
 ;
 ;   kind        - the business org kind ([k org <leaf>], a `business` sub-kind)
 ;   head-pos    - the founder's job, a scoped job kind ([k job <role>])

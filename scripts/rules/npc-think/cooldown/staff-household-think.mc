@@ -61,19 +61,20 @@
 ; head, reconciled on job.org writes. `?h` is the same cached owned-quality-home
 ; role as the THINK above. Servant hiring stays in the monthly ACT below (it
 ; no-ops until the articles exist).
-(npc-think found_household
-  (cooldown 1 m try-until-succ)
-  (goal {@self staff-household})
-  (rng-stream employment)
+; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
+;(npc-think found_household
+;  (cooldown 1 m try-until-succ)
+;  (goal {@self staff-household})
+;  (rng-stream employment)
 
-  (role @self -{@self job.org [k org household]}
-    (role ?h {@self home ?h}
-             (or {@self own [k manor]:?h}
-                 {@self own [k townhouse]:?h})
+;  (role @self -{@self job.org [k org household]}
+;    (role ?h {@self home ?h}
+;             (or {@self own [k manor]:?h}
+;                 {@self own [k townhouse]:?h})
 
-      (when (>= (years-old @self) 21))                      ; non-belief age gate -> (when)
-      (utility errand)
-      (effects (maintain-proposal {@self FOUND-ORG [k org household] [k job head-of-household]})))))
+;      (when (>= (years-old @self) 21))                      ; non-belief age gate -> (when)
+;      (utility errand)
+;      (effects (maintain-proposal {@self FOUND-ORG [k org household] [k job head-of-household]})))))
 
 ; --- ACT: the head fulfils the duty - hires what the founded household lacks ---
 (npc-think staff-household

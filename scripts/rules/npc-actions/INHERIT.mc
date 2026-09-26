@@ -1,38 +1,40 @@
-; ----------------------------------------------------------------------------
-; inherit - the named heir effects the estate (replaces C++ inherit_estate /
-; inherit_or_dissolve_orgs). @self reads the public registers - no cross-mind
-; touch - and re-points every record naming the deceased to @self:
-;   - each title-deed the deceased owned: owner -> @self, and @self mints {own};
-;   - each articles-of-incorporation the deceased founded: founder -> @self;
-;   - the coin pile the will bequeathed (?pile, resolved from the will's location
-;     descriptor): its count is merged into @self's own pile and the empty pile
-;     destroyed, so @self keeps a single pile the coin-balance pointer reads.
-; ?pile rides in from the {@self inherit ?pile} belief the will-reading adopted.
-; ----------------------------------------------------------------------------
+; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
+;; ----------------------------------------------------------------------------
+;; inherit - the named heir effects the estate (replaces C++ inherit_estate /
+;; inherit_or_dissolve_orgs). @self reads the public registers - no cross-mind
+;; touch - and re-points every record naming the deceased to @self:
+;;   - each title-deed the deceased owned: owner -> @self, and @self mints {own};
+;;   - each articles-of-incorporation the deceased founded: founder -> @self;
+;;   - the coin pile the will bequeathed (?pile, resolved from the will's location
+;;     descriptor): its count is merged into @self's own pile and the empty pile
+;;     destroyed, so @self keeps a single pile the coin-balance pointer reads.
+;; ?pile rides in from the {@self inherit ?pile} belief the will-reading adopted.
+;; ----------------------------------------------------------------------------
 
-(include "../../macros/collection-macros.mc")
+;(include "../../macros/collection-macros.mc")
 
-(npc-action {@self INHERIT ?dead ?pile}
-  (motor body legs)
-  (duration (seconds 240 min))
-  (effects
-    ; Buildings: every deed the deceased owned passes to @self.
-    (for-each ?deed (env-entities [k title-deed])
-      (do
-        (table-match (attr ?deed writing) owner ?o building ?b)
-        (if (= ?o ?dead)
-            (then
-              (table-set ?deed owner @self)
-              (begin-belief {@self own ?b})))))
-    ; Founded orgs: every org @self KNOWS the deceased founded passes to @self - a
-    ; belief re-point in @self's own mind (founder is @excl, so it supersedes). No
-    ; doc scan: @self walks his OWN {? founder ?dead} beliefs.
-    (for-each ?forel (every {? founder ?dead})
-      (bind ?forel.subject ?iorg)
-      (begin-belief {?iorg founder @self}))
-    ; Coins: merge the bequeathed pile into @self's own, then destroy the empty.
-    (if (substantial ?pile)
-        (then
-          (pile-add (any {@self coin-pile ?}).target (attr ?pile count))
-          (destroy-entity ?pile)))
-    (set-outcome {@self INHERIT ?dead ?pile} /succ)))
+;(npc-action {@self INHERIT ?dead ?pile}
+;  (motor body legs)
+;  (duration (seconds 240 min))
+;  (effects
+;    ; Buildings: every deed the deceased owned passes to @self.
+;    (for-each ?deed (env-entities [k title-deed])
+;      (do
+;        (table-match (attr ?deed writing) owner ?o building ?baddr)
+;        (if (= ?o (name ?dead))
+;            (then
+;              (table-set ?deed owner (name @self))
+;              (building-at ?baddr): ?b
+;              (begin-belief {@self own ?b})))))
+;    ; Founded orgs: every org @self KNOWS the deceased founded passes to @self - a
+;    ; belief re-point in @self's own mind (founder is @excl, so it supersedes). No
+;    ; doc scan: @self walks his OWN {? founder ?dead} beliefs.
+;    (for-each ?forel (every {? founder ?dead})
+;      (bind ?forel.subject ?iorg)
+;      (begin-belief {?iorg founder @self}))
+;    ; Coins: merge the bequeathed pile into @self's own, then destroy the empty.
+;    (if (substantial ?pile)
+;        (then
+;          (pile-add (any {@self coin-pile ?}).target (attr ?pile count))
+;          (destroy-entity ?pile)))
+;    (set-outcome {@self INHERIT ?dead ?pile} /succ)))

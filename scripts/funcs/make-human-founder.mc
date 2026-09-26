@@ -93,9 +93,9 @@
 ; They are not WED here. A marriage is a belief each spouse holds about the other,
 ; and at populate no mind has been self-perceived yet - a human simply cannot be
 ; the target of another mind's belief at that point (it lands @fail, and the
-; conversion ops either fail or take the sim down). The wedding is therefore a
-; (startup) rung - wed_at_founding - which runs once minds are live and each
-; spouse mints their own half.
+; conversion ops either fail or take the sim down). The wedding is therefore
+; wed-founders (founder-generation.mc), which the startup func runs once minds
+; are live, each spouse holding their own half.
 ; ----------------------------------------------------------------------------
 
 (define-func make-founder-household (?building ?class)

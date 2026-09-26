@@ -156,6 +156,9 @@
 (define-macro founder_age_min () 20)
 (define-macro founder_age_max () 49)
 
+; The youngest a founder may be and still head one of the town's chartered institutions.
+(define-macro founding_head_age_min () 25)
+
 ; The immigrant-wave model (spawn-immigrant's authored knobs).
 (define-macro immigrant_female_frac        () 0.5)
 (define-macro immigrant_marginal_frac      () 0.30)  ; arrive socially invisible

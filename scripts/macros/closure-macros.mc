@@ -16,5 +16,6 @@
 ; general - any closure act (business_failure, dissolution) calls it on the premises.
 ; ----------------------------------------------------------------------------
 
-(define-macro shutter-building (?wp)
-  (set-attr ?wp struct-status [k closed]))
+; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
+;(define-macro shutter-building (?wp)
+;  (set-attr ?wp struct-status [k closed]))

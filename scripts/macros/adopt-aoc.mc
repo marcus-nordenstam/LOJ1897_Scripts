@@ -1,32 +1,41 @@
 ; ----------------------------------------------------------------------------
-; adopt-aoc - convert an articles-of-incorporation TABLE into @self's org beliefs.
+; adopt-aoc - read an articles-of-incorporation FORM into @self's org beliefs.
 ;
-; The table replaces the old (written-msg ...) form: its one row holds the org's
-; kind / name / founder / workplace / register-or-roll as plain cells (a table is
-; NOT a message, so generic (adopt-msg ...) would mint nothing from it - it must be
-; decoded explicitly here). The org object is anchored to the articles themselves
-; ({?art declares-org @o}), so two readers of the same AOC converge on the same org;
-; the optional cells (name / founder / register) mint only when present, so an infra
-; org filed with @nothing in those columns adopts cleanly. Mirrors what the msg-form
-; adopt did: {?art declares-org ?org} + {?org isa/name/founder/workplace/register}.
+; A page names, it never points: its owners by name, the workplace by its address, and the
+; book by its kind - the book carries the org's name - so each resolves to whatever @self
+; already knows by that reference, or to one he imagines until he meets it. The owners are
+; the entries not struck out; an entry marked is-org names an organisation, any other a
+; person. The org object is anchored to the articles themselves ({?art declares-org @o}), so
+; two readers of the same articles converge on the same org.
 ;
 ;   (adopt-aoc ?art)  - ?art = an articles-of-incorporation document.
 ; ----------------------------------------------------------------------------
 
-(define-macro adopt-aoc (?art)
-  (for-each-row (attr ?art writing)
-      [/org-kind ?ok] [/org_name ?onm] [/founder ?ofr] [/workplace ?owp] [/register ?oreg]
-      (o {?art declares-org @o}): ?org
-      (begin-belief {?art declares-org ?org})
-      (begin-belief {?org isa ?ok})
-      (if (substantial ?onm)  (then (begin-belief {?org name ?onm})))
-      (if (substantial ?ofr)  (then (begin-belief {?org founder ?ofr})))
-      (if (substantial ?owp)  (then (begin-belief {?org workplace ?owp})))
-      ; The `register` cell names whichever book the org keeps - a firm's wage register or
-      ; a club's membership roll. WHICH relation it mints is read off the document itself,
-      ; never guessed from the org: the two carry different columns, and a reader who takes
-      ; one for the other looks up cells that are not there.
-      (if (is-a ?oreg [k employee-register])
-          (then (begin-belief {?org employee-register ?oreg})))
-      (if (is-a ?oreg [k membership-roll])
-          (then (begin-belief {?org membership-roll ?oreg})))))
+(define-func adopt-aoc (?art)
+  (do
+    (form-match (attr ?art writing) articles_form
+        [/org-kind ?ok] [/org-name ?onm] [/workplace ?owp] [/register ?oreg] [/owners ?oowners])
+    (o {?art declares-org @o}): ?org
+    (begin-belief {?art declares-org ?org})
+    (begin-belief {?org isa ?ok})
+    (begin-belief {?org name ?onm})
+    (o [k building] {@o address ?owp}): ?aoc-wp
+    (if -{?aoc-wp address ?owp} (then (begin-belief {?aoc-wp address ?owp})))
+    (begin-belief {?org workplace ?aoc-wp})
+    ; WHICH relation the book mints is read off the document itself, never guessed from the
+    ; org: a wage register and a membership roll carry different columns.
+    (o ?oreg {@o name ?onm}): ?aoc-book
+    (if -{?aoc-book name ?onm} (then (begin-belief {?aoc-book name ?onm})))
+    (if (is-a ?oreg [k employee-register])
+        (then (begin-belief {?org employee-register ?aoc-book})))
+    (if (is-a ?oreg [k membership-roll])
+        (then (begin-belief {?org membership-roll ?aoc-book})))
+    (for-each-row ?oowners [/owner ?aoc-oname] [/is-org ?aoc-oorg] [/struck ?aoc-ostruck]
+      (if (not ?aoc-ostruck)
+          (then (bind (if ?aoc-oorg
+                            (then (o [k org] {@o name ?aoc-oname}))
+                            (else (o [k human] {@o name ?aoc-oname})))
+                        ?aoc-owner)
+                (if -{?aoc-owner name ?aoc-oname}
+                    (then (begin-belief {?aoc-owner name ?aoc-oname})))
+                (if -{?aoc-owner own ?org} (then (begin-belief {?aoc-owner own ?org}))))))))

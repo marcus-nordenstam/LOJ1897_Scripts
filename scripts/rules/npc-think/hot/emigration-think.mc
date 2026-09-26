@@ -42,14 +42,16 @@
 
 ; He sells up: everything he owns goes on the market, and once it is listed it is no
 ; longer his to hold on to. Only when nothing is left does depart_now send him off.
-(npc-think sell_up
-  (goal {@self DEPART})
-  (role ?b {@self own ?b}
-           -{?b availability [k for-sale]}
-    (effects (maintain-proposal {@self LIST-FOR-SALE ?b}))))
+; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
+;(npc-think sell_up
+;  (goal {@self DEPART})
+;  (role ?b {@self own ?b}
+;           -{?b availability [k for-sale]}
+;    (effects (maintain-proposal {@self LIST-FOR-SALE ?b}))))
 
-(npc-think sold_up
-  (goal {@self DEPART})
-  (role ?b {@self own ?b}
-           {@self LIST-FOR-SALE ?b /succ /ever}
-    (effects (end-belief {@self own ?b}))))
+; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
+;(npc-think sold_up
+;  (goal {@self DEPART})
+;  (role ?b {@self own ?b}
+;           {@self LIST-FOR-SALE ?b /succ /ever}
+;    (effects (end-belief {@self own ?b}))))

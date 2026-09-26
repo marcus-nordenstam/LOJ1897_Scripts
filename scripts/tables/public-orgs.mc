@@ -8,9 +8,8 @@
 ; REAL org kinds (the org founded is a real entity); `class-floor` is the
 ; founder's minimum class.
 ;
-; Read by the (startup) found_public_org rule via (for-each-table-record ...):
-; each eligible NPC founds a still-needed org of their class. Replaces the C++
-; public_orgs.hsc catalog + the bootstrap founding.
+; Read by world-gen: charter-org files each one's charter, and seat-founding-heads
+; seats a founder of the right class at its head.
 ; ----------------------------------------------------------------------------
 
 ; head-pos is the founder's job as a SCOPED job kind ([k job <role>]): the founding

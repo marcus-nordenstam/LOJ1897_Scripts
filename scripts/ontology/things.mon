@@ -386,12 +386,12 @@
         # it stands. Every recruiting fact lives here rather than in an officer's
         # memory, so the book outlives the man keeping it and a second officer reads
         # the same picture.
-        (children employee-register)
+        (child employee-register (grounding-anchors name))
         # membership-roll - a club's members. A club has MEMBERS, not posts: nothing
         # stands vacant, nothing is advertised, nobody holds a rank. Its own kind
         # because sharing the register's was what let three row shapes live under one
         # schema.
-        (children membership-roll)
+        (child membership-roll (grounding-anchors name))
         # job-posting - the notice a recruiting officer pins to the parish board: a
         # table of job-kind / org-name / apply-at (the address to present oneself at),
         # the application form's twin. Read, it yields the reader's own beliefs about a

@@ -90,7 +90,7 @@
 ; which puts it on the fixture walk perception runs when the building itself is perceived.
 ; An org that does not name its building mounts nothing: the building's address-sign (seeded
 ; at world setup) is its identity, and an org has no sign of its own.
-(define-macro name-premises (?bldg ?org-kind ?org-name)
+(define-func name-premises (?bldg ?org-kind ?org-name)
   (do
     (bind ?bldg ?np-bldg)
     (bind ?org-name ?np-name)
@@ -109,56 +109,73 @@
 ; knowledge channel: the founder consults the published listings, claims the first row of
 ; the right kind (table-set the deed's owner + drop the row), and founds. No such row ->
 ; NOTHING is minted (no malformed org, no error).
-(define-macro found-org-seq (?org-kind ?head-role)
+; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
+;(define-macro found-org-seq (?org-kind ?head-role)
+;  (do
+;    (free-premises-for ?org-kind): ?wp
+;    (if (substantial ?wp)
+;      (then
+;        ; CLAIM: stamp @self as the premises' owner + pull the row off the register.
+;        (claim-deed ?wp)
+;        (delist ?wp)
+;        (take-premises ?wp)
+;        ; The org's documents (articles + an empty register), seeded in a room (a
+;        ; document must live in a SPACE, never at the building).
+;        (spatial ?wp room): ?back
+;        (check ?back)
+;        (create-entity [k articles-of-incorporation] ?back): ?art
+;        (create-entity [k employee-register]         ?back): ?reg
+;        (establish-posts ?reg ?org-kind)
+;        ; The articles DOCUMENT the org into being: a one-row TABLE of its constitutive
+;        ; cells. This is the whole ENVIRONMENT half of founding - the org has no other
+;        ; objective existence.
+;        (table-match businesses org-kind ?org-kind name ?org-name)
+;        (file-articles ?art ?org-kind ?org-name (name @self) ?wp ?reg)
+;        (name-premises ?wp ?org-kind ?org-name)
+;        (seat-org-head ?art ?wp ?reg ?head-role)))))
+
+; List building ?b, by its address, on every for-sale listing - a building the land registry
+; holds a deed for.
+; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
+;(define-macro list-for-sale (?b)
+;  (if (substantial (title-deed-of ?b))
+;    (then
+;      (for-each ?listings (env-entities [k for-sale-listings])
+;        (table-add ?listings building (attr ?b address))))))
+
+; delist ?b - pull building ?b's row off every for-sale register.
+(define-func delist (?b)
+  (for-each ?listings (env-entities [k for-sale-listings])
+    (table-remove ?listings building (attr ?b address))))
+
+; claim-deed ?b - @self's name goes on the land registry's deed for building ?b.
+; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
+;(define-macro claim-deed (?b)
+;  (do
+;    (title-deed-of ?b): ?cd-deed
+;    (check (substantial ?cd-deed))
+;    (table-set ?cd-deed owner (name @self))))
+
+; file-articles - write an org's articles and file them at the companies house (the company
+; registry's incorporation stack), not the org's own premises - the town's org record lives
+; there. The page names the founder by his name (@nothing for a charter), the premises by
+; their address and the book by its kind; the book itself is titled with the org's name,
+; which is how a reader of the articles knows it when he sees it.
+(define-func file-articles (?art ?fa-kind ?fa-name ?fa-wp ?fa-book)
   (do
-    (if (table-match businesses org-kind ?org-kind building ?bk)
-        (then ?bk) (else [k building office])): ?want-kind
-    (for-each ?listings (env-entities [k for-sale-listings])
-      (for-each-row (attr ?listings writing) [/building ?wp] [/deed ?deed]
-        (if (is-a ?wp ?want-kind)
-          (then
-            ; CLAIM: stamp @self as the premises' owner + pull the row off the register.
-            (table-set ?deed owner @self)
-            (table-remove ?listings building ?wp)
-            (take-premises ?wp)
-            ; The org's documents (articles + an empty register), seeded in a room (a
-            ; document must live in a SPACE, never at the building).
-            (spatial ?wp room): ?back
-            (check ?back)
-            (create-entity [k articles-of-incorporation] ?back): ?art
-            (create-entity [k employee-register]         ?back): ?reg
-            (establish-posts ?reg ?org-kind)
-            ; The articles DOCUMENT the org into being: a one-row TABLE of its constitutive
-            ; cells. This is the whole ENVIRONMENT half of founding - the org has no other
-            ; objective existence.
-            (table-match businesses org-kind ?org-kind name ?org-name)
-            (table-init ?art org-kind org_name founder workplace register)
-            (table-add ?art org-kind ?org-kind org_name ?org-name founder @self
-                            workplace ?wp register ?reg)
-            (name-premises ?wp ?org-kind ?org-name)
-            ; File the AOC at the companies house (the company registry's incorporation
-            ; stack), not the org's own premises - the town's org record lives there.
-            (head (env-entities [k incorporation-stack])): ?ist
-            (check ?ist)
-            (push ?art ?ist)
-            (seat-org-head ?art ?wp ?reg ?head-role)
-            (break)))))))
+    (set-attr ?fa-book name ?fa-name)
+    (attr ?fa-wp address): ?fa-addr
+    (kind ?fa-book): ?fa-book-kind
+    (set-writing ?art (table-msg articles_form [[org-kind ?fa-kind] [org-name ?fa-name]
+                                                [workplace ?fa-addr] [register ?fa-book-kind]]))
+    (head (env-entities [k incorporation-stack])): ?fa-ist
+    (check ?fa-ist)
+    (push ?art ?fa-ist)))
 
 ; take-premises - the head takes possession of the org's building: he SEES it and its rooms
 ; (a placement write resolves passively, so an unseen room cannot be written about) and
 ; learns which building they belong to. Owning the premises stands in for exploring them.
-; List building ?b on every for-sale listing, with its deed.
-(define-macro list-for-sale (?b)
-  (for-each ?deed (env-entities [k title-deed])
-    (do
-      (table-match (attr ?deed writing) building ?db)
-      (if (= ?db ?b)
-        (then
-          (for-each ?listings (env-entities [k for-sale-listings])
-            (table-add ?listings building ?b deed ?deed))
-          (break))))))
-
-(define-macro take-premises (?wp)
+(define-func take-premises (?wp)
   (do
     (observe ?wp)
     (for-each ?room (spatial ?wp parts [k interior-space room] /env)
@@ -170,11 +187,12 @@
 ; them through adopt-aoc, the one decoder (ORIENT and hire-beliefs call it too) - no
 ; privileged minting. adopt-aoc anchors the org to the articles, so the org is READ BACK off
 ; that anchor rather than searched for a second time. Heading is NOT employment - no salary.
-(define-macro seat-org-head (?art ?wp ?reg ?head-role)
+(define-func seat-org-head (?art ?wp ?reg ?head-role)
   (do
     (observe ?art)
+    (observe ?reg)
     (adopt-aoc ?art)
-    (any {?art declares-org ?org})
+    (o {?art declares-org @o}): ?org
     (begin-belief {?org record ?art})
     (fill-post ?reg ?head-role [k senior])
     (begin-belief {?wp occupant @self})
@@ -191,20 +209,6 @@
           (begin-belief {?job since (time year)})
           (stamp-shift-hours ?job ?head-role ?soh-shift)))))
 
-; take-up-charter - found an org the town already chartered: the premises, articles and staff
-; book exist and only the head seat is open, so founding is writing @self into the founder
-; cell and seating himself. The deed is NOT claimed - taking a post is not buying the
-; premises.
-;
-;   (take-up-charter ?art ?head-role)
-;     ?art       - a headless articles-of-incorporation (see headless-charter)
-;     ?head-role - the head's job, a scoped job kind ([k job superintendent])
-(define-macro take-up-charter (?art ?head-role)
-  (for-each-row (attr ?art writing) [/workplace ?wp] [/register ?reg]
-    (take-premises ?wp)
-    (table-set ?art founder @self)
-    (seat-org-head ?art ?wp ?reg ?head-role)))
-
 ; ----------------------------------------------------------------------------
 ; found-club-seq - the CLUB analogue of found-org-seq.
 ;
@@ -217,43 +221,35 @@
 ;     ?club-kind - the rolled club kind value ([k org race-club] / [k org athletic-club])
 ; ----------------------------------------------------------------------------
 
-(define-macro found-club-seq (?club-kind)
-  (do
-    (if (table-match businesses org-kind ?club-kind building ?bk)
-        (then ?bk) (else [k building office])): ?want-kind
-    (for-each ?listings (env-entities [k for-sale-listings])
-      (for-each-row (attr ?listings writing) [/building ?wp] [/deed ?deed]
-        (if (is-a ?wp ?want-kind)
-          (then
-            (table-set ?deed owner @self)
-            (table-remove ?listings building ?wp)
-            (for-each ?room (spatial ?wp parts [k interior-space room] /env)
-                (spatial-write ?room struct_parent ?wp))
-            (spatial ?wp room): ?back
-            (check ?back)
-            (create-entity [k articles-of-incorporation] ?back): ?art
-            (create-entity [k membership-roll]           ?back): ?roll
-            (table-init ?roll member joined-date)
-            (o ?club-kind {?art declares-org @o}): ?org
-            (table-match businesses org-kind ?club-kind name ?org-name)
-            (begin-belief {?org isa ?club-kind})
-            (begin-belief {?org founder @self})
-            (begin-belief {?org workplace ?wp})
-            (begin-belief {?org name ?org-name})
-            (begin-belief {?org record ?art})
-            (begin-belief {?org membership-roll ?roll})
-            (table-init ?art org-kind org_name founder workplace register)
-            (table-add ?art org-kind ?club-kind org_name ?org-name founder @self
-                            workplace ?wp register ?roll)
-            (name-premises ?wp ?club-kind ?org-name)
-            (head (env-entities [k incorporation-stack])): ?ist
-            (check ?ist)
-            (push ?art ?ist)
-            ; The founder is the club's first MEMBER - a row on the roll, not a seat on
-            ; an establishment: a club has members, never posts.
-            (table-add ?roll member (name @self) joined-date (time date))
-            (begin-belief {@self member-of ?org})
-            (break)))))))
+; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
+;(define-macro found-club-seq (?club-kind)
+;  (do
+;    (free-premises-for ?club-kind): ?wp
+;    (if (substantial ?wp)
+;      (then
+;        (claim-deed ?wp)
+;        (delist ?wp)
+;        (for-each ?room (spatial ?wp parts [k interior-space room] /env)
+;            (spatial-write ?room struct_parent ?wp))
+;        (spatial ?wp room): ?back
+;        (check ?back)
+;        (create-entity [k articles-of-incorporation] ?back): ?art
+;        (create-entity [k membership-roll]           ?back): ?roll
+;        (table-init ?roll member joined-date)
+;        (o ?club-kind {?art declares-org @o}): ?org
+;        (table-match businesses org-kind ?club-kind name ?org-name)
+;        (begin-belief {?org isa ?club-kind})
+;        (begin-belief {?org founder @self})
+;        (begin-belief {?org workplace ?wp})
+;        (begin-belief {?org name ?org-name})
+;        (begin-belief {?org record ?art})
+;        (begin-belief {?org membership-roll ?roll})
+;        (file-articles ?art ?club-kind ?org-name (name @self) ?wp ?roll)
+;        (name-premises ?wp ?club-kind ?org-name)
+;        ; The founder is the club's first MEMBER - a row on the roll, not a seat on
+;        ; an establishment: a club has members, never posts.
+;        (table-add ?roll member (name @self) joined-date (time date))
+;        (begin-belief {@self member-of ?org})))))
 
 ; ----------------------------------------------------------------------------
 ; hire-beliefs - the BELIEF-ONLY half of hiring (no roster write).
@@ -282,40 +278,42 @@
 ; must already be on the book - every caller matches his row before getting here.
 ; ?reg is handed IN, never re-derived: a man taken on off a NOTICE never read the articles,
 ; so he holds no {?org employee-register ?reg} belief - he found the book by perceiving it.
-(define-macro employ-beliefs (?org ?wp ?job-kind ?level ?reg)
-  (do
-    (begin-belief {?wp occupant @self})
-    (for-each ?room (spatial ?wp parts [k interior-space room] /env)
-        (spatial-write ?room struct_parent ?wp))
-    (table-match income_by_level level ?level income ?salary)
-    (if (table-match (attr ?reg writing) worker (name @self) job ?job-kind job-id ?eb-line
-                                          shift ?eb-shift)
-        (then
-          (o ?job-kind {@o org ?org} {@o job-id ?eb-line}): ?job
-          (begin-belief {?job org ?org})
-          (begin-belief {?job job-id ?eb-line})
-          (begin-belief {@self job ?job})
-          (begin-belief {?job level ?level})
-          (begin-belief {?job salary ?salary})
-          (begin-belief {?job since (time year)})
-          (stamp-shift-hours ?job ?job-kind ?eb-shift)))))
+; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
+;(define-macro employ-beliefs (?org ?wp ?job-kind ?level ?reg)
+;  (do
+;    (begin-belief {?wp occupant @self})
+;    (for-each ?room (spatial ?wp parts [k interior-space room] /env)
+;        (spatial-write ?room struct_parent ?wp))
+;    (table-match income_by_level level ?level income ?salary)
+;    (if (table-match (attr ?reg writing) worker (name @self) job ?job-kind job-id ?eb-line
+;                                          shift ?eb-shift)
+;        (then
+;          (o ?job-kind {@o org ?org} {@o job-id ?eb-line}): ?job
+;          (begin-belief {?job org ?org})
+;          (begin-belief {?job job-id ?eb-line})
+;          (begin-belief {@self job ?job})
+;          (begin-belief {?job level ?level})
+;          (begin-belief {?job salary ?salary})
+;          (begin-belief {?job since (time year)})
+;          (stamp-shift-hours ?job ?job-kind ?eb-shift)))))
 
-(define-macro hire-beliefs (?art ?job-kind ?level)
-  (do
-    ; --- learn the org off the articles: a new hire READs the incorporation page.
-    ; adopt-aoc decodes the AOC table into the org object + its constitutive beliefs
-    ; ({?art declares-org ?org} / {?org isa} / {?org workplace} / {?org employee-register}).
-    (adopt-aoc ?art)
-    ; --- @self's mind: recall the org just learned (anchored to the articles) + its
-    ; premises, then mint the employment beliefs.
-    (o {?art declares-org @o}): ?org
-    ; (any ..).target, not a bare {?org workplace ?wp}: a bare pattern standing as an effect
-    ; STATEMENT computes a clause and throws it away - it binds nothing, however plainly it
-    ; reads as a recall. The workplace adopt-aoc has just minted was arriving unbound here,
-    ; and {@fail occupant @self} went in after it.
-    (any {?org workplace ?}).target: ?wp
-    (any {?org employee-register ?}).target: ?hb-reg
-    (employ-beliefs ?org ?wp ?job-kind ?level ?hb-reg)))
+; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
+;(define-macro hire-beliefs (?art ?job-kind ?level)
+;  (do
+;    ; --- learn the org off the articles: a new hire READs the incorporation page.
+;    ; adopt-aoc decodes the AOC table into the org object + its constitutive beliefs
+;    ; ({?art declares-org ?org} / {?org isa} / {?org workplace} / {?org employee-register}).
+;    (adopt-aoc ?art)
+;    ; --- @self's mind: recall the org just learned (anchored to the articles) + its
+;    ; premises, then mint the employment beliefs.
+;    (o {?art declares-org @o}): ?org
+;    ; (any ..).target, not a bare {?org workplace ?wp}: a bare pattern standing as an effect
+;    ; STATEMENT computes a clause and throws it away - it binds nothing, however plainly it
+;    ; reads as a recall. The workplace adopt-aoc has just minted was arriving unbound here,
+;    ; and {@fail occupant @self} went in after it.
+;    (any {?org workplace ?}).target: ?wp
+;    (any {?org employee-register ?}).target: ?hb-reg
+;    (employ-beliefs ?org ?wp ?job-kind ?level ?hb-reg)))
 
 
 ; ----------------------------------------------------------------------------
@@ -347,18 +345,21 @@
 ; line, so the line has to exist before they are minted. That ordering is why this does
 ; not go through hire-beliefs - it would derive the org a second time, and the register
 ; has to be in hand before the write, not after.
-(define-macro hire-seq (?art ?job-kind ?level)
-  (do
-    ; --- learn the org off the articles (adopt-aoc), then the register and premises it names.
-    (adopt-aoc ?art)
-    (o {?art declares-org @o}): ?org
-    ; (any ..).target - a bare pattern as an effect statement binds nothing (see hire-beliefs).
-    (any {?org employee-register ?}).target: ?reg
-    (any {?org workplace ?}).target: ?wp
-    ; --- env-side roster (abs): record @self under the matched job kind + rank.
-    (fill-post ?reg ?job-kind ?level)
-    ; --- the employment beliefs in @self's mind, off the line he now holds.
-    (employ-beliefs ?org ?wp ?job-kind ?level ?reg)))
+; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
+;(define-macro hire-seq (?art ?job-kind ?level)
+;  (do
+;    ; --- the register and premises the articles name, found where they stand: @self is at
+;    ; the premises and signs the book in hand, so he sees it before learning the org.
+;    (articles-register ?art): ?reg
+;    (articles-premises ?art): ?wp
+;    (check (substantial ?reg))
+;    (observe ?reg)
+;    (adopt-aoc ?art)
+;    (o {?art declares-org @o}): ?org
+;    ; --- env-side roster (abs): record @self under the matched job kind + rank.
+;    (fill-post ?reg ?job-kind ?level)
+;    ; --- the employment beliefs in @self's mind, off the line he now holds.
+;    (employ-beliefs ?org ?wp ?job-kind ?level ?reg)))
 
 ; ----------------------------------------------------------------------------
 ; fire-self - a worker leaves his OWN post. Scrubs @self's row off the firm's
@@ -403,7 +404,7 @@
           (then (begin-belief {?job ?ssh-day ?ssh-start ?ssh-end}))))))
 
 
-(define-macro fire-self ()
+(define-func fire-self ()
   (for-each ?fire-jrel (every {@self job ?})
       (bind ?fire-jrel.target ?fire-job)
       (for-each ?fire-orel (every {?fire-job org ?})
@@ -439,7 +440,7 @@
 ; staff posts on it, all vacant. The header and the rows that fill it are written
 ; together, in one place: spelled per-site, they drifted (`line` against `job-id`) and
 ; every business's establishment came out blank.
-(define-macro establish-posts (?reg ?org-kind)
+(define-func establish-posts (?reg ?org-kind)
   (do
     (table-init ?reg job-id job worker level hiring-date offered offer-date advertise-date shift)
     (if (table-match org_staffing org-kind ?org-kind staff-role ?ep-role)

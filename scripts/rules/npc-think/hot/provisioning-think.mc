@@ -136,11 +136,12 @@
 ; provisions shop, mint the orient goal; cease the moment orient_act learns one ({@self
 ; provisions-shop}). No (no-goal) dedup - under multi-rule support each chain co-mints its own
 ; source on {@self ORIENT} and withdraws it independently; the goal lives until the last withdraws.
-(npc-think provision_orient
-  (goal {@self PROVISION})
-  (role @self -{@self provisions-shop ?}
-    (effects       (begin-goal {@self ORIENT}))
-    (when-unsupported-effects (set-outcome {@self goal {@self ORIENT}} /succ))))
+; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
+;(npc-think provision_orient
+;  (goal {@self PROVISION})
+;  (role @self -{@self provisions-shop ?}
+;    (effects       (begin-goal {@self ORIENT}))
+;    (when-unsupported-effects (set-outcome {@self goal {@self ORIENT}} /succ))))
 
 ; ---- the delivery drive ------------------------------------------------------
 ; Laden with food = the standing pressure to deliver it, re-stamped per

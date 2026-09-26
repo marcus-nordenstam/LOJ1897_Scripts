@@ -1,23 +1,24 @@
-; ----------------------------------------------------------------------------
-; partner_errand - the npc-ACT half of the business-partnership split (Item 5).
-;
-; The decision (business.mc `business_partnership`) minted {@self goal {@self
-; PARTNER <principal_articles>}}. The clerk goes to the firm's premises and is
-; bought in there - the partnership documents (the clue trail) + the co-presence a
-; witness would see, instead of a faceless world edit. The firm's articles are the
-; act focus (?art, bound in the pattern); the premises are its articles-building.
-;
-;   partner_go     : hold the goal, not at the firm -> travel act to its premises.
-;   partner_dwell  : hold the goal, AT the firm -> a dwell (settling the terms).
-;   partner_commit : completion (completion-only) - leaves his salaried post, is added
-;                    as co-owner + installed as proprietor (org-head), clears goal.
-; ----------------------------------------------------------------------------
+; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
+;; ----------------------------------------------------------------------------
+;; partner_errand - the npc-ACT half of the business-partnership split (Item 5).
+;;
+;; The decision (business.mc `business_partnership`) minted {@self goal {@self
+;; PARTNER <principal_articles>}}. The clerk goes to the firm's premises and is
+;; bought in there - the partnership documents (the clue trail) + the co-presence a
+;; witness would see, instead of a faceless world edit. The firm's articles are the
+;; act focus (?art, bound in the pattern); the premises are its articles-building.
+;;
+;;   partner_go     : hold the goal, not at the firm -> travel act to its premises.
+;;   partner_dwell  : hold the goal, AT the firm -> a dwell (settling the terms).
+;;   partner_commit : completion (completion-only) - leaves his salaried post, is added
+;;                    as co-owner + installed as proprietor (org-head), clears goal.
+;; ----------------------------------------------------------------------------
 
-(npc-action {@self PARTNER ?art}
-  (motor body legs)
-  (duration (seconds 90 min))
-  (effects
-    (fire-self)
-    (table-set ?art co-owner @self)
-    (hire-seq ?art [k job proprietor] [k senior])
-    (set-outcome {@self PARTNER} /succ)))
+;(npc-action {@self PARTNER ?art}
+;  (motor body legs)
+;  (duration (seconds 90 min))
+;  (effects
+;    (fire-self)
+;    (table-set ?art co-owner (name @self))
+;    (hire-seq ?art [k job proprietor] [k senior])
+;    (set-outcome {@self PARTNER} /succ)))

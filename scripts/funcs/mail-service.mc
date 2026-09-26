@@ -12,14 +12,13 @@
       (attr ?ltr destination): ?dest
       (if (substantial ?dest)
         (then
-          (for-each ?b (env-entities [k building])
-            ; A letter is delivered to the HOUSE: an address naming a room in it still names
-            ; it, so the match is at the premises rung.
-            (if (= (attr ?b address) (address-premises ?dest))
-              (then
-                (for-each ?in (env-entities [k mail-stack])
-                  (if (spatial ?in building ?b /env)
-                    (then
-                      (push ?ltr ?in)
-                      (break))))
-                (break)))))))))
+          ; A letter is delivered to the HOUSE: an address naming a room in it still names
+          ; it, so the match is at the premises rung.
+          (building-at (address-premises ?dest)): ?b
+          (if (substantial ?b)
+            (then
+              (for-each ?in (env-entities [k mail-stack])
+                (if (spatial ?in building ?b /env)
+                  (then
+                    (push ?ltr ?in)
+                    (break)))))))))))

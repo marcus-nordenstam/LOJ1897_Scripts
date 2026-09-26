@@ -1,23 +1,24 @@
-; ----------------------------------------------------------------------------
-; close_business_errand (npc-think) - the go/dwell think rungs of the
-; business-failure split. The winding-up act lives in npc-act/close_business_errand.mc.
-;
-;   close_go     : hold the goal, not at the premises -> travel sub-goal to it. AT the
-;                  premises the go sub-goal is spent, the aim is the leaf and promotes to
-;                  close_business_act - no dwell rung (the decision, close_business.mc,
-;                  owns the goal's whole life).
-;
-; Utility 85 matches retirement / founding: a man set on closing pursues it over
-; another shift (work aspect 80) but still yields to night sleep (100), so he does it
-; by day.
-; ----------------------------------------------------------------------------
+; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
+;; ----------------------------------------------------------------------------
+;; close_business_errand (npc-think) - the go/dwell think rungs of the
+;; business-failure split. The winding-up act lives in npc-act/close_business_errand.mc.
+;;
+;;   close_go     : hold the goal, not at the premises -> travel sub-goal to it. AT the
+;;                  premises the go sub-goal is spent, the aim is the leaf and promotes to
+;;                  close_business_act - no dwell rung (the decision, close_business.mc,
+;;                  owns the goal's whole life).
+;;
+;; Utility 85 matches retirement / founding: a man set on closing pursues it over
+;; another shift (work aspect 80) but still yields to night sleep (100), so he does it
+;; by day.
+;; ----------------------------------------------------------------------------
 
-; Not at the premises: pursue a `go` sub-goal to them. articles-building BINDS ?wp
-; (the firm's premises building) off ?art, the articles focus bound off the {@self CLOSE-BUSINESS} goal, threading it to the
-; at-place gate + the (go) effect.
-(npc-think close_go
-  (goal {@self CLOSE-BUSINESS ?art})
-  (role ?art_org {?art_org record ?art}
-                  {?art_org workplace ?wp}
-                  (not (spatial @self building ?wp))
-    (effects (maintain-proposal {@self go ?wp}))))
+;; Not at the premises: pursue a `go` sub-goal to them. articles-building BINDS ?wp
+;; (the firm's premises building) off ?art, the articles focus bound off the {@self CLOSE-BUSINESS} goal, threading it to the
+;; at-place gate + the (go) effect.
+;(npc-think close_go
+;  (goal {@self CLOSE-BUSINESS ?art})
+;  (role ?art_org {?art_org record ?art}
+;                  {?art_org workplace ?wp}
+;                  (not (spatial @self building ?wp))
+;    (effects (maintain-proposal {@self go ?wp}))))

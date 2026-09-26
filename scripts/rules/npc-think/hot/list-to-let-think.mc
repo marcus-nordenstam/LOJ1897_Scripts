@@ -60,9 +60,10 @@
 ; fills, this stops, and list_to_let_go takes over. (no-role [k org house-agency])
 ; reads the SAME per-mind object cache the positive role populates ([k <kind>] is
 ; sugar for {isa [k <kind>]}).
-(npc-think list_to_let_find
-  (goal {@self LET})
-  (no-role [k org house-agency])
-  (utility errand)
-  (effects       (begin-goal {@self ORIENT}))
-  (when-unsupported-effects (set-outcome {@self goal {@self ORIENT}} /succ)))
+; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
+;(npc-think list_to_let_find
+;  (goal {@self LET})
+;  (no-role [k org house-agency])
+;  (utility errand)
+;  (effects       (begin-goal {@self ORIENT}))
+;  (when-unsupported-effects (set-outcome {@self goal {@self ORIENT}} /succ)))

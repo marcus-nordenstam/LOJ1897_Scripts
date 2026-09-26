@@ -50,3 +50,15 @@
         (bind ?p ?found)
         (break))))
   ?found)
+
+; building-at ?address - the building that stands at that premises address, or @nothing.
+; The world's answer, not a mind's: for the town's own services and the acts that file and
+; re-point its records.
+(define-func building-at (?address)
+  (bind @nothing ?found)
+  (for-each ?b (env-entities [k building])
+    (if (= (attr ?b address) ?address)
+      (then
+        (bind ?b ?found)
+        (break))))
+  ?found)

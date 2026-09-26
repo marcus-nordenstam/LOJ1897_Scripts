@@ -16,6 +16,8 @@
 ; at an org, no ledger line - a reader never sees the book.
 ; ----------------------------------------------------------------------------
 
+(include "../../macros/adopt-aoc.mc")
+
 (npc-action {@self READ ?doc}:?read-rel
   (motor eyes legs)
   (obs)
@@ -101,6 +103,9 @@
       ; offer-date cells are NOT mirrored: a promise reserves nothing, and the counter
       ; reads them off the page when a man presents himself. The org is whichever one
       ; @self knows keeps this book; a stranger reading it learns nothing of seats.
+      ; ARTICLES: the org they declare, its workplace, its book and its current owners.
+      (on [k articles-of-incorporation]
+        (adopt-aoc ?doc))
       (on [k employee-register]
         (tolerate (any {? employee-register ?doc}): ?erel)
         (if (substantial ?erel)
