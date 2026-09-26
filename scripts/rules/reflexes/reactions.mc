@@ -1,6 +1,5 @@
 ; ----------------------------------------------------------------------------
-; reactions (npc-reflex, react phase) - the category reaction doctrine, ported
-; row-for-row from the retired ms1/reactions.ms1 (reaction ..) rows.
+; reactions (npc-reflex, react phase) - the category reaction doctrine.
 ;
 ; POV is WHERE @self SITS in the gate (construal = {actor <category> patient}):
 ;   {?actor CAT @self}    - patient row (it was done to me)
