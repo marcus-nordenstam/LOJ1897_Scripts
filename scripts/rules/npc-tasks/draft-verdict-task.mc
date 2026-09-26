@@ -59,12 +59,14 @@
                     (if (= ?kind [k offer-letter])
                         (then (maintain-proposal
                                 {@self write-doc ?ltr (table-msg [/addressee ?rname /address ?raddress]
+                                                             offer_letter_form
                                                              [[applicant ?rname] [job-kind ?jk]
                                                               [org-name ?org-name] [job-id ?line]
                                                               [level [k trainee]] [salary ?salary]
                                                               [shift ?shift]])}))
                         (else (maintain-proposal
                                 {@self write-doc ?ltr (table-msg [/addressee ?rname /address ?raddress]
+                                                             rejection_letter_form
                                                              [[applicant ?rname] [job-kind ?jk]
                                                               [org-name ?org-name] [job-id ?line]])})))))))
 

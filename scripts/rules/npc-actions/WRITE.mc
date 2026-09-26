@@ -2,15 +2,15 @@
 ; write ?doc ?sentence - THE one document-writing action: inscribe ?sentence into
 ; ?doc's writing, APPENDING to whatever is already there. Pen changes paper, one
 ; sentence at a time. A FORM is written the same way: ?sentence is then a
-; (table-msg [[field value] ..]) - the wrapper is what makes a table legal to carry
+; (table-msg <form> [[field value] ..]) - the wrapper is what makes a table legal to carry
 ; on an act, since a bare LIST may never sit in a belief's subject / target / aux,
-; exactly as (msg ..) wraps a clause. The paper's writing is a two-column TABLE
-; (field, value) that any reader looks up by field. Composed entirely from general funcs: read the current
-; writing ((attr ?doc writing)); if blank, mint (msg ?sentence); else append the
-; sentence as a new arg of the existing (msg ..) with add-func-arg. Reading (READ)
-; adopts every sentence back. A doc is created first (CREATE-ENTITY), then WRITTEN;
+; exactly as (msg ..) wraps a clause. A form fills a BLANK paper, which then holds the
+; (table-msg ..) itself, riders and all; a reader reads it with (form-match ..).
+; Composed entirely from general funcs: read the current writing ((attr ?doc writing));
+; if blank, write the penned message; else append the sentence as a new arg of the
+; existing (msg ..) with add-func-arg. Reading (READ) adopts every sentence back. A doc is created first (CREATE-ENTITY), then WRITTEN;
 ; the composing + which sentences to write are the task's job. The ENVELOPE rides on
-; the message as riders - (table-msg [/addressee ?name /address ?addr] ..) - and is
+; the message as riders - (table-msg [/addressee ?name /address ?addr] <form> ..) - and is
 ; stamped onto the paper here: addressee for the sorter at the door, destination for
 ; the mail service. Absent riders stamp nothing.
 ;
@@ -37,17 +37,11 @@
     (check (spatial ?doc co-located @self /env))
     ; Whatever the message claims about who wrote it, the hand is the writer's own.
     (set-msg-rider ?sentence handwriting (attr @self handwriting)): ?penned
-    (tolerate (table-rows ?sentence): ?rows)
     (cond
-      (case (substantial ?rows)
-        (if (nothing (attr ?doc writing))
-            (then (table-init ?doc field value)))
-        (for-each ?entry ?rows
-          (table-add ?doc field (head ?entry) value (nth 1 ?entry)))
-        (table-add ?doc field handwriting value (attr @self handwriting)))
       (case (nothing (attr ?doc writing))
         (set-writing ?doc ?penned))
       (else
+        (check (unsubstantial (table-rows ?sentence)))
         (set-writing ?doc (add-func-arg (attr ?doc writing) ?penned))))
     (tolerate (msg-rider ?sentence addressee): ?to)
     (if (substantial ?to) (then (set-attr ?doc addressee ?to)))

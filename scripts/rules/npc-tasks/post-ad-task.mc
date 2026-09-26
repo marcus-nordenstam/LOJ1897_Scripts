@@ -54,7 +54,7 @@
           (effects
             (if (unsubstantial (attr ?ad writing))
                 (then (maintain-proposal
-                        {@self write-doc ?ad (table-msg [[job-kind ?jk] [org-name ?org-name] [job-id ?job-id] [apply-at ?apply-at]])})))))
+                        {@self write-doc ?ad (table-msg job_posting_form [[job-kind ?jk] [org-name ?org-name] [job-id ?job-id] [apply-at ?apply-at]])})))))
 
         ; Back to the book: the notice stands on the board, and the firm's own record of
         ; that is a date on the seat's line. The act that stamps the page concludes into the

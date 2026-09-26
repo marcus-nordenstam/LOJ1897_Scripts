@@ -41,15 +41,10 @@
       ; An OFFER describes the seat whole - level, salary, shift - so the man holds the job
       ; fully decorated before he walks in; the word at the counter has only to make it his.
       (on [k offer-letter]
-        (tolerate (attr ?doc writing): ?vform)
-        (tolerate (table-match ?vform field applicant value ?vname))
-        (tolerate (table-match ?vform field job-kind value ?vjk))
-        (tolerate (table-match ?vform field org-name value ?vorg-name))
-        (tolerate (table-match ?vform field job-id value ?vline))
-        (tolerate (table-match ?vform field level value ?vlevel))
-        (tolerate (table-match ?vform field salary value ?vsalary))
-        (tolerate (table-match ?vform field shift value ?vshift))
-        (if (and (substantial ?vjk) (substantial ?vorg-name) (substantial ?vline))
+        (if (and (form-match (attr ?doc writing) offer_letter_form
+                             [/applicant ?vname] [/job-kind ?vjk] [/org-name ?vorg-name]
+                             [/job-id ?vline] [/level ?vlevel] [/salary ?vsalary] [/shift ?vshift])
+                 (substantial ?vjk) (substantial ?vorg-name) (substantial ?vline))
             (then
               (o [k org] {@o name ?vorg-name}): ?vorg
               (o ?vjk {@o org ?vorg} {@o job-id ?vline}): ?vjob
@@ -66,23 +61,19 @@
       ; A REJECTION names the seat and nothing more. The same slots as the offer's: one
       ; branch of a switch runs, and the action's slots are counted across all of them.
       (on [k rejection-letter]
-        (tolerate (attr ?doc writing): ?vform)
-        (tolerate (table-match ?vform field job-kind value ?vjk))
-        (tolerate (table-match ?vform field org-name value ?vorg-name))
-        (tolerate (table-match ?vform field job-id value ?vline))
-        (if (and (substantial ?vjk) (substantial ?vorg-name) (substantial ?vline))
+        (if (and (form-match (attr ?doc writing) rejection_letter_form
+                             [/job-kind ?vjk] [/org-name ?vorg-name] [/job-id ?vline])
+                 (substantial ?vjk) (substantial ?vorg-name) (substantial ?vline))
             (then
               (o [k org] {@o name ?vorg-name}): ?vorg
               (o ?vjk {@o org ?vorg} {@o job-id ?vline}): ?vjob
               (if -{?vjob org ?vorg} (then (begin-belief {?vjob org ?vorg})))
               (if -{?vjob job-id ?vline} (then (begin-belief {?vjob job-id ?vline}))))))
       (on [k job-posting]
-        (tolerate (attr ?doc writing): ?form)
-        (tolerate (table-match ?form field job-kind value ?jk))
-        (tolerate (table-match ?form field org-name value ?org-name))
-        (tolerate (table-match ?form field job-id value ?job-id))
-        (tolerate (table-match ?form field apply-at value ?apply-at))
-        (if (and (substantial ?jk) (substantial ?org-name) (substantial ?apply-at))
+        (if (and (form-match (attr ?doc writing) job_posting_form
+                             [/job-kind ?jk] [/org-name ?org-name] [/job-id ?job-id]
+                             [/apply-at ?apply-at])
+                 (substantial ?jk) (substantial ?org-name) (substantial ?apply-at))
             (then
               (o [k org] {@o name ?org-name}): ?org
               ; The seat is (org, job-id) - the notice's own reference. Two readings of
@@ -134,14 +125,10 @@
                     (else (for-each ?edrel (every {?eorg display-ad ?ejob})
                             (end-belief ?edrel))))))))
       (on [k application]
-        (tolerate (attr ?doc writing): ?aform)
-        (tolerate (table-match ?aform field applicant value ?aname))
-        (tolerate (table-match ?aform field home value ?ahome))
-        (tolerate (table-match ?aform field job-kind value ?ajk))
-        (tolerate (table-match ?aform field org-name value ?aorg-name))
-        (tolerate (table-match ?aform field job-id value ?aline))
-        (tolerate (table-match ?aform field date value ?adate))
-        (if (and (substantial ?aname) (substantial ?ahome) (substantial ?ajk)
+        (if (and (form-match (attr ?doc writing) application_form
+                             [/applicant ?aname] [/home ?ahome] [/job-kind ?ajk]
+                             [/org-name ?aorg-name] [/job-id ?aline] [/date ?adate])
+                 (substantial ?aname) (substantial ?ahome) (substantial ?ajk)
                  (substantial ?aorg-name) (substantial ?aline) (substantial ?adate))
             (then
               (o [k human] {@o name ?aname}): ?applicant
@@ -164,14 +151,10 @@
       ; its identity, so two readings of one invitation land on one occasion and
       ; the host's own copy and the guest's refer to the same evening.
       (on [k invitation-letter]
-        (tolerate (attr ?doc writing): ?iform)
-        (tolerate (table-match ?iform field occasion-kind value ?iokind))
-        (tolerate (table-match ?iform field host value ?ihost-name))
-        (tolerate (table-match ?iform field venue value ?ivenue))
-        (tolerate (table-match ?iform field held-on value ?idate))
-        (tolerate (table-match ?iform field from-hour value ?ifrom))
-        (tolerate (table-match ?iform field to-hour value ?ito))
-        (if (and (substantial ?iokind) (substantial ?ihost-name)
+        (if (and (form-match (attr ?doc writing) invitation_letter_form
+                             [/occasion-kind ?iokind] [/host ?ihost-name] [/venue ?ivenue]
+                             [/held-on ?idate] [/from-hour ?ifrom] [/to-hour ?ito])
+                 (substantial ?iokind) (substantial ?ihost-name)
                  (substantial ?idate))
             (then
               (o [k human] {@o name ?ihost-name}): ?ihost

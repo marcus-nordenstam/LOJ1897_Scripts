@@ -48,6 +48,7 @@
               (if (unsubstantial (attr ?ltr writing))
                   (then (maintain-proposal
                           {@self write-doc ?ltr (table-msg [/addressee ?guest-name /address ?guest-address]
+                                                       invitation_letter_form
                                                        [[occasion-kind ?occ-kind]
                                                         [host ?my-name]
                                                         [venue ?venue-address]

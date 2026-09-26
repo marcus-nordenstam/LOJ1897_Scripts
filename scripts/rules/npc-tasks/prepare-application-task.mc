@@ -39,6 +39,7 @@
         (if (unsubstantial (attr ?app writing))
             (then (maintain-proposal
                     {@self write-doc ?app (table-msg [/addressee ?orgName /address ?wpAddress]
+                                                 application_form
                                                  [[applicant ?myName] [home ?myAddress]
                                                   [job-kind ?jk] [org-name ?orgName]
                                                   [job-id ?line] [date ?today]])})))))
