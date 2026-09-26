@@ -26,7 +26,7 @@
               {@self report-crime ?target}
               (chance (* (k-grievance-rate)
                          (* 0.5 (grievance-drive ?pressure ?target (pro-tilt)))))))
-    (utility want (* (disinhibition) 1000))
+    (utility want (* (disinhibition) 1000.0))
     (effects
       (if {@self report-crime ?target /succ /caused_by ?pressure}
           (then (discharge-pressure ?pressure 0.75))
@@ -41,7 +41,7 @@
               {@self report-crime ?target}
               (chance (* (k-grievance-rate)
                          (* 0.3 (grievance-drive ?pressure ?target (pro-tilt)))))))
-    (utility want (* (disinhibition) 1000))
+    (utility want (* (disinhibition) 1000.0))
     (effects
       (if {@self report-crime ?target /succ /caused_by ?pressure}
           (then (discharge-pressure ?pressure 0.75))
@@ -59,7 +59,7 @@
               {@self confess-letter ?target}
               (chance (* (k-grievance-rate)
                          (* 0.2 (grievance-drive ?pressure ?target (pro-tilt)))))))
-    (utility want (* (disinhibition) 1000))
+    (utility want (* (disinhibition) 1000.0))
     (effects
       (if {@self confess-letter ?target /succ /caused_by ?pressure}
           (then (discharge-pressure ?pressure 0.75))
@@ -74,7 +74,7 @@
               {@self confess-letter ?target}
               (chance (* (k-grievance-rate)
                          (* 0.5 (grievance-drive ?pressure ?target (pro-tilt)))))))
-    (utility want (* (disinhibition) 1000))
+    (utility want (* (disinhibition) 1000.0))
     (effects
       (if {@self confess-letter ?target /succ /caused_by ?pressure}
           (then (discharge-pressure ?pressure 0.75))

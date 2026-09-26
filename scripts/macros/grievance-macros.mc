@@ -22,34 +22,34 @@
 ; overlay rides a smaller swing on top. Each half clamps to [0, 2], so the product
 ; spans [0, 4].
 (define-macro agg-tilt ()
-  (* (clamp (+ 1
+  (* (clamp (+ 1.0
        (- (+ (delib-ctr (target-or @self narcissism 0.0)          (k-trait-swing))
           (+ (delib-ctr (target-or @self machiavellianism 0.0)    (k-trait-swing))
           (+ (delib-ctr (target-or @self psychopathy 0.0)         (k-trait-swing))
           (+ (delib-ctr (target-or @self sadism 0.0)              (k-trait-swing))
              (delib-ctr (target-or @self volatility 0.5) (k-trait-swing))))))
           (+ (delib-ctr (target-or @self politeness 0.5) (k-trait-swing))
-             (delib-ctr (target-or @self compassion 0.5) (k-trait-swing))))) 0 2)
-     (clamp (+ 1
+             (delib-ctr (target-or @self compassion 0.5) (k-trait-swing))))) 0.0 2.0)
+     (clamp (+ 1.0
        (- (+ (delib-ctrc (target-or @self stress 0.5)    (k-mood-swing))
              (delib-ctrc (target-or @self agitation 0.5) (k-mood-swing)))
-             (delib-ctrc (target-or @self contentment 0.5) (k-mood-swing)))) 0 2)))
+             (delib-ctrc (target-or @self contentment 0.5) (k-mood-swing)))) 0.0 2.0)))
 
 ; The PROSOCIAL twin - the same dimensions with the signs reversed, so the polite and
 ; compassionate confess and report where the dark and volatile expose and coerce.
 (define-macro pro-tilt ()
-  (* (clamp (+ 1
+  (* (clamp (+ 1.0
        (- (+ (delib-ctr (target-or @self politeness 0.5) (k-trait-swing))
              (delib-ctr (target-or @self compassion 0.5) (k-trait-swing)))
           (+ (delib-ctr (target-or @self volatility 0.5) (k-trait-swing))
           (+ (delib-ctr (target-or @self narcissism 0.0)          (k-trait-swing))
           (+ (delib-ctr (target-or @self machiavellianism 0.0)    (k-trait-swing))
           (+ (delib-ctr (target-or @self psychopathy 0.0)         (k-trait-swing))
-             (delib-ctr (target-or @self sadism 0.0)              (k-trait-swing)))))))) 0 2)
-     (clamp (+ 1
+             (delib-ctr (target-or @self sadism 0.0)              (k-trait-swing)))))))) 0.0 2.0)
+     (clamp (+ 1.0
        (- (delib-ctrc (target-or @self contentment 0.5)  (k-mood-swing))
           (+ (delib-ctrc (target-or @self stress 0.5)    (k-mood-swing))
-             (delib-ctrc (target-or @self agitation 0.5) (k-mood-swing))))) 0 2)))
+             (delib-ctrc (target-or @self agitation 0.5) (k-mood-swing))))) 0.0 2.0)))
 
 ; How hard this grievance pushes toward one class of outlet, before that outlet's own
 ; base weight: the grievance's heat, the caller's class multiplier ((agg-tilt) /

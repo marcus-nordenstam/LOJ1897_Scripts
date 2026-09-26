@@ -27,7 +27,7 @@
                   (then (pile-take ?food 1))
                   (else (realize-destroyed ?food condition [k condition consumed] EAT)
                         (destroy-entity ?food)))))
-    (set-attr @self hunger (max 0 (- (attr @self hunger) 0.5)))
+    (set-attr @self hunger (max 0.0 (- (attr @self hunger) 0.5)))
     (if ?owner
         (then (record-crime @self ?owner steal steal @u @u)))
     (set-outcome {@self EAT ?food ?owner} /succ)))

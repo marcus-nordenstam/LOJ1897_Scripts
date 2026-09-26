@@ -43,19 +43,19 @@
 ; Does the deliberating self hold a grudge toward ?t (any negative warmth)?
 ; 1 / 0 - a score TERM, not a predicate.
 (define-macro is-hostile-toward (?t)
-  (if (< (stance-band ?t warmth) 0) (then 1) (else 0)))
+  (if (< (stance-band ?t warmth) 0.0) (then 1.0) (else 0.0)))
 
 ; The MAGNITUDE of the self's hostility toward ?t (0 when warmth is positive).
 (define-macro hostility-toward (?t)
-  (if (< (stance-band ?t warmth) 0) (then (- 0 (stance-band ?t warmth))) (else 0)))
+  (if (< (stance-band ?t warmth) 0.0) (then (- 0.0 (stance-band ?t warmth))) (else 0.0)))
 
 ; How attached the self is to ?t: kept warmth plus half the attraction.
 (define-macro attachment-toward (?t)
-  (+ (max 0 (stance-band ?t warmth)) (* 0.5 (stance-band ?t attraction))))
+  (+ (max 0.0 (stance-band ?t warmth)) (* 0.5 (stance-band ?t attraction))))
 
 ; Does the self DETEST ?t (warmth at or below the detest band)?
 (define-macro detests (?t)
-  (<= (stance-band ?t warmth) -2))
+  (<= (stance-band ?t warmth) -2.0))
 
 
 ; The pair's joint carelessness: low decorum on BOTH sides makes an
@@ -150,4 +150,4 @@
   (/ (+ (value-gap ?a ?b [k chastity])
         (value-gap ?a ?b [k piety])
         (value-gap ?a ?b [k sobriety]))
-     3))
+     3.0))

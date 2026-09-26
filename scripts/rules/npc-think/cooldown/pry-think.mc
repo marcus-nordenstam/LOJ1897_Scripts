@@ -17,4 +17,4 @@
                    -{?visitor gender ?host_gender}
                    (not (spatial ?host_spouse co-located-building @self))))
         (effects
-          (nudge-stance ?host trust (- 0 (* 0.08 (+ 1 (hostility-toward ?host))))))))))
+          (nudge-stance ?host trust (- 0.0 (* 0.08 (+ 1.0 (hostility-toward ?host))))))))))

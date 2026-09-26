@@ -28,11 +28,11 @@
     (effects
       (mint-band-about {?other honesty}
         (clamp (+ (prob {?other seem [k impression callous]})
-                  (prob {?other seem [k impression selfish]})) 0 1)
+                  (prob {?other seem [k impression selfish]})) 0.0 1.0)
         [k conduct-level lax] 0.5)
       (mint-band-about {?other generosity}
         (clamp (+ (prob {?other seem [k impression callous]})
-                  (prob {?other seem [k impression selfish]})) 0 1)
+                  (prob {?other seem [k impression selfish]})) 0.0 1.0)
         [k conduct-level lax] 0.5)
       (mint-band-about {?other sobriety}
         (prob {?other seem [k impression hot-tempered]})

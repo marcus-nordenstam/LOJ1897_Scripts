@@ -18,7 +18,7 @@
 
 ; despair = stress x (1 - contentment) - the self-belief reading behind the gate.
 (define-macro despair (?who)
-  (* (any {?who stress}).target (- 1 (any {?who contentment}).target)))
+  (* (any {?who stress}).target (- 1.0 (any {?who contentment}).target)))
 
 ; A confidant to witness ?who's ideation - their living spouse, else the first friend
 ; they know (read from ?who's OWN relations). The rare servant-only confidant is not

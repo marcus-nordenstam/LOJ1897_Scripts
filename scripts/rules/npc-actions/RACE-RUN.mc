@@ -26,7 +26,7 @@
                     (* 0.25 (attr @self endurance))
                     (* 0.30 (attr @self assertiveness))
                     (* 0.30 (rng-unit)))
-                 0 1): ?perf
+                 0.0 1.0): ?perf
     ; The OBSERVABLE result to the organiser (the ended race_run act-belief is
     ; my own memory of competing); aux carries the sport so the judge's
     ; declaration knows which contest the score belongs to.

@@ -7,8 +7,8 @@
 ; ----------------------------------------------------------------------------
 
 (define-macro attend-prep-lead      () 3)       ; hours before start an attendee sets out
-(define-macro attend-crasher-value  () 500)     ; a kill-driven crasher's floor within the guest tier
-(define-macro attend-guest-base     () 850)     ; the willing guest's value within the guest tier
+(define-macro attend-crasher-value  () 500.0)    ; a kill-driven crasher's floor within the guest tier
+(define-macro attend-guest-base     () 850.0)    ; the willing guest's value within the guest tier
 
 ; In the occasion's window once the prep-lead has opened (start - lead .. end).
 (define-macro attend-in-window (?start ?end)

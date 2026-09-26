@@ -26,18 +26,18 @@
     (effects
       (mint-argmax {@self life-aim} 0.01 [k life-aim belonging-aim]
         [k life-aim legacy-aim]
-          (* (/ (+ (target-or @self compassion 0.0) (target-or @self politeness 0.0)) 2)
+          (* (/ (+ (target-or @self compassion 0.0) (target-or @self politeness 0.0)) 2.0)
              (+ 0.3 (* (prob {@self child ?}) 0.7))
              (+ 0.3 (* (clamp (+ (prob {@self class-situation [k class-situation upper]})
-                                 (prob {@self class-situation [k class-situation middle]})) 0 1) 0.7)))
+                                 (prob {@self class-situation [k class-situation middle]})) 0.0 1.0) 0.7)))
         [k life-aim wealth-aim]
           (* (target-or @self industriousness 0.0)
-             (- 1 (piety))
-             (max (- 1 ?wealth)
+             (- 1.0 (piety))
+             (max (- 1.0 ?wealth)
                   (prob {@self social-trajectory [k social-trajectory rising]})))
         [k life-aim piety-aim]
           (* (piety)
-             (- 1 (criminality))
+             (- 1.0 (criminality))
              (+ 0.4 (* (prob {@self WORSHIP [k building church] /ever}) 0.6)))
         [k life-aim respectability-aim]
           (* (target-or @self politeness 0.0)
@@ -45,12 +45,12 @@
              (+ 0.2 (* (prob {@self class-situation [k class-situation middle]}) 0.8))
              ?decorum)
         [k life-aim autonomy-aim]
-          (* (target-or @self assertiveness 0.0) (- 1 (rootedness)))
+          (* (target-or @self assertiveness 0.0) (- 1.0 (rootedness)))
         [k life-aim power-aim]
           (* (target-or @self machiavellianism 0.0)
              (target-or @self narcissism 0.0)
-             (+ 0.3 (* (>= (prob {@self job.salary ?}) 1) 0.7)))
+             (+ 0.3 (* (>= (prob {@self job.salary ?}) 1.0) 0.7)))
         [k life-aim belonging-aim]
           (* (target-or @self enthusiasm 0.0)
-             (- 1 (rootedness))
-             (clamp (* (count (every {@self friend ?})) 0.2) 0 1))))))
+             (- 1.0 (rootedness))
+             (clamp (* (count (every {@self friend ?}) /float) 0.2) 0.0 1.0))))))

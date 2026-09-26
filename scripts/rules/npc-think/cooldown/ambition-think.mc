@@ -55,7 +55,7 @@
                  -{?victim condition [k dead]}
                  (or {@self kill ?victim}
                      (chance (* (crime-scale) 0.03
-                                (* (- 1 (inhibition))
+                                (* (- 1.0 (inhibition))
                                    (* 0.5 (+ (target-or @self machiavellianism 0.0)
                                              (target-or @self narcissism 0.0)))))))))
 

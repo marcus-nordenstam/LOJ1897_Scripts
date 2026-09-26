@@ -54,12 +54,12 @@
                  (or {@self kill ?spouse}
                      (chance
                        (* (crime-scale) 0.02
-                          (* (+ (if (detests ?spouse) (then 1) (else 0))
-                                (if {?spouse (theme-labels violent-to) @self /ever} (then 1) (else 0)))
+                          (* (+ (if (detests ?spouse) (then 1.0) (else 0.0))
+                                (if {?spouse (theme-labels violent-to) @self /ever} (then 1.0) (else 0.0)))
                              (* (+ 0.5 (target-or @self psychopathy 0.0))
                                 (* (disinhibition)
                                    (* (callousness @self)
-                                      (+ 1 (any {?spouse wealth}).target))))))))))
+                                      (+ 1.0 (any {?spouse wealth}).target))))))))))
 
       (utility want)
       (effects

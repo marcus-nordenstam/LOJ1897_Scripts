@@ -41,7 +41,7 @@
                    [/cost (money-cost-util (coin-balance @self) (+ (price ?kind) (procure_fee)))]))))
     ; STEAL - floored last resort, only while crime is enabled.
     (try
-      (when (> (crime-scale) 0))
+      (when (> (crime-scale) 0.0))
       (utility fallback)
       (effects (maintain-proposal {@self steal ?kind})))
     ; DONE - an instance of the kind is in hand, however it arrived.

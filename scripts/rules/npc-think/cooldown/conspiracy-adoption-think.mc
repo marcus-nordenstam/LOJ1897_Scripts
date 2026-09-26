@@ -43,7 +43,7 @@
       ; roll. The roll tips ONCE, then the running kill proposal latches it; the drive fades
       ; if the attraction lifts or the victim dies.
       (when (and (!= ?instigator @self)
-                 (>= (stance-band ?instigator attraction) 2)
+                 (>= (stance-band ?instigator attraction) 2.0)
                  -{?victim condition [k dead]}
                  (or {@self kill ?victim}
                      (chance (target-or @self psychopathy 0.0)))))

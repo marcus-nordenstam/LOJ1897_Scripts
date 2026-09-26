@@ -62,9 +62,11 @@
 ; fraud / embezzlement / kidnap are the remaining crime act-records. Habitual offenders saturate.
 (define-macro criminality ()
   (clamp (+ 0.05
-            (* (+ (count (every {@self (theme-labels violent-to) ? /ever})) (count (every {@self steal ? /ever}))
-                  (count (every {@self defraud ? /ever})) (count (every {@self embezzle ? /ever}))
-                  (count (every {@self kidnap ? /ever}))) 0.25)) 0 1))
+            (* (+ (count (every {@self (theme-labels violent-to) ? /ever}) /float)
+                  (count (every {@self steal ? /ever}) /float)
+                  (count (every {@self defraud ? /ever}) /float)
+                  (count (every {@self embezzle ? /ever}) /float)
+                  (count (every {@self kidnap ? /ever}) /float)) 0.25)) 0.0 1.0))
 
 ; rootedness - how established the NPC is in the community. Local lineage
 ; (mother / father), a spouse, children (each +0.06, capped at 4 = +0.24), a

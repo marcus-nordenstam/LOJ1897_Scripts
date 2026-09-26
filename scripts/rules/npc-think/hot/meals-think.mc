@@ -269,7 +269,7 @@
   (when    (or (spatial @self building ?place)
                (spatial @self space ?place)))
   (effects (maintain-proposal {@self eat ?meal ?place}
-             [/affect (if (dining-out? ?place) (then (* (target-or @self enthusiasm 0.0) 20)) (else 0))]
+             [/affect (if (dining-out? ?place) (then (* (target-or @self enthusiasm 0.0) 20.0)) (else 0.0))]
              [/cost (money-cost-util (coin-balance @self)
                          (if (dining-out? ?place) (then (price ?meal ?place)) (else 0)))]
              [/feasible (or (not (dining-out? ?place)) (>= (coin-balance @self) (price ?meal ?place)))])))

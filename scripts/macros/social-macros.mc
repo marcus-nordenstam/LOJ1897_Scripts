@@ -64,7 +64,7 @@
 ; arithmetic over the deliberator's own mind; a partner-less anchor reads
 ; {@fail lover ?} and counts zero, harmlessly.
 (define-macro partner-keeps-interloper (?p)
-  (> (count (every {?p lover ?}))
+  (> (count (every {?p lover ?}) /float)
      (+ (prob {?p lover @self})
         (prob {?p lover (any {?p spouse ?}).target}))))
 

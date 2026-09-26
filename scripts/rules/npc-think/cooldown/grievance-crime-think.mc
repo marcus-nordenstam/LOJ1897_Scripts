@@ -38,11 +38,11 @@
     (when (or {@self expose ?target /succ /caused_by ?pressure}
               (and (not (= ?target @self))
                    -{?target condition [k dead]}
-                   (> (prob {?target lover|HAVE-SEX-WITH ? /ever}) 0)
+                   (> (prob {?target lover|HAVE-SEX-WITH ? /ever}) 0.0)
                    (or {@self expose ?target}
                        (chance (* (crime-scale)
                                   (* 0.4 (grievance-drive ?pressure ?target (agg-tilt)))))))))
-    (utility want (* (disinhibition) 1000))
+    (utility want (* (disinhibition) 1000.0))
     (effects
       (if {@self expose ?target /succ /caused_by ?pressure}
           (then (discharge-pressure ?pressure 0.75))
@@ -56,11 +56,11 @@
     (when (or {@self expose ?target /succ /caused_by ?pressure}
               (and (not (= ?target @self))
                    -{?target condition [k dead]}
-                   (> (prob {?target lover|HAVE-SEX-WITH ? /ever}) 0)
+                   (> (prob {?target lover|HAVE-SEX-WITH ? /ever}) 0.0)
                    (or {@self expose ?target}
                        (chance (* (crime-scale)
                                   (* 0.5 (grievance-drive ?pressure ?target (agg-tilt)))))))))
-    (utility want (* (disinhibition) 1000))
+    (utility want (* (disinhibition) 1000.0))
     (effects
       (if {@self expose ?target /succ /caused_by ?pressure}
           (then (discharge-pressure ?pressure 0.75))
@@ -79,7 +79,7 @@
                    (or {@self humiliate ?target}
                        (chance (* (crime-scale)
                                   (* 0.5 (grievance-drive ?pressure ?target (agg-tilt)))))))))
-    (utility want (* (disinhibition) 1000))
+    (utility want (* (disinhibition) 1000.0))
     (effects
       (if {@self humiliate ?target /succ /caused_by ?pressure}
           (then (discharge-pressure ?pressure 0.75))
@@ -99,7 +99,7 @@
                    (or {@self coerce ?target}
                        (chance (* (crime-scale)
                                   (* 0.10 (grievance-drive ?pressure ?target (agg-tilt)))))))))
-    (utility want (* (disinhibition) 1000))
+    (utility want (* (disinhibition) 1000.0))
     (effects
       (if {@self coerce ?target /succ /caused_by ?pressure}
           (then (discharge-pressure ?pressure 0.75))
@@ -116,7 +116,7 @@
                    (or {@self coerce ?target}
                        (chance (* (crime-scale)
                                   (* 0.20 (grievance-drive ?pressure ?target (agg-tilt)))))))))
-    (utility want (* (disinhibition) 1000))
+    (utility want (* (disinhibition) 1000.0))
     (effects
       (if {@self coerce ?target /succ /caused_by ?pressure}
           (then (discharge-pressure ?pressure 0.75))
@@ -135,7 +135,7 @@
                    (or {@self seduce ?target}
                        (chance (* (crime-scale)
                                   (* 0.2 (grievance-drive ?pressure ?target (agg-tilt)))))))))
-    (utility want (* (disinhibition) 1000))
+    (utility want (* (disinhibition) 1000.0))
     (effects
       (if {@self seduce ?target /succ /caused_by ?pressure}
           (then (discharge-pressure ?pressure 0.75))
@@ -155,7 +155,7 @@
                    (or {@self bribe ?target}
                        (chance (* (crime-scale)
                                   (* 0.4 (grievance-drive ?pressure ?target 1))))))))
-    (utility want (* (disinhibition) 1000))
+    (utility want (* (disinhibition) 1000.0))
     (effects
       (if {@self bribe ?target /succ /caused_by ?pressure}
           (then (discharge-pressure ?pressure 0.75))

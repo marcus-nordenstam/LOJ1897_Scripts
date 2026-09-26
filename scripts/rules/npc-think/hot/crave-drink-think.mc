@@ -30,7 +30,7 @@
   (goal    {@self DRINK})
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (when    (is-a (spatial @self building) [k building pub]))
-    (utility (* 10 (drink-drive @self)))
+    (utility (* 10.0 (drink-drive @self)))
     (effects (maintain-proposal {@self DRINK}))))
 
 ; CASE B - not at a pub, but knows one: head to it via the generic go task (§5.11). A

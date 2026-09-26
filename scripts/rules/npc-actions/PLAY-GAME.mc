@@ -14,5 +14,5 @@
     ; gamble_urge feeds back into: accumulating ~0.5 per fire (~2 to morbid), it
     ; deepens the pull. The sobriety + wealth classifiers read it graded.
     (set-attr @self gambling-addiction
-              (min 1 (+ (attr @self gambling-addiction) 0.5)))
+              (min 1.0 (+ (attr @self gambling-addiction) 0.5)))
     (set-outcome {@self PLAY-GAME} /succ)))
