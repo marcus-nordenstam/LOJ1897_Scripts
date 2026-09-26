@@ -46,6 +46,7 @@
     (set-attr ?baby gender ?gender)
     (set-attr ?baby game-role [k nonplayer])
     (seed-human-genetics ?baby ?gender @self ?father)
+    (seed-handwriting ?baby @nothing @self)
     (seed-human-vitals ?baby)
     (seed-npc-habits ?baby)
     (set-attr ?baby parentless 0)

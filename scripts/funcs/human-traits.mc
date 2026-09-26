@@ -67,6 +67,30 @@
   (record [k girth medium] 4)
   (record [k girth fat]    2))
 
+; The school a hand is taught in follows the schooling a class buys.
+(define-table handwriting_upper_dist
+  (fields value weight)
+  (record [k handwriting copperplate] 4)
+  (record [k handwriting spencerian]  2)
+  (record [k handwriting italic]      2))
+(define-table handwriting_middle_dist
+  (fields value weight)
+  (record [k handwriting commercial] 4)
+  (record [k handwriting round-hand] 2)
+  (record [k handwriting copperplate] 1))
+(define-table handwriting_lower_dist
+  (fields value weight)
+  (record [k handwriting schoolroom] 3)
+  (record [k handwriting scrawl]     3))
+(define-table handwriting_schools
+  (fields school)
+  (record [k handwriting copperplate])
+  (record [k handwriting spencerian])
+  (record [k handwriting round-hand])
+  (record [k handwriting commercial])
+  (record [k handwriting italic])
+  (record [k handwriting schoolroom])
+  (record [k handwriting scrawl]))
 (define-table appearance_dist
   (fields value weight)
   (record [k appearance ugly]          1)
@@ -166,6 +190,29 @@
     (on [k class-situation upper]  (breeding_upper))
     (on [k class-situation middle] (breeding_middle))
     (else (breeding_lower))))
+
+; The school ?h is taught to write in: a child learns its mother's, anyone else the one
+; its class buys.
+(define-func handwriting-school (?class ?mother)
+  (bind @nothing ?school)
+  (if (substantial ?mother)
+    (then
+      (for-each-row handwriting_schools [/school ?s]
+        (if (is-a (attr ?mother handwriting) ?s) (then (bind ?s ?school) (break)))))
+    (else
+      (switch (kind ?class)
+        (on [k class-situation upper]
+          (bind (table-sample-weighted handwriting_upper_dist value weight) ?school))
+        (on [k class-situation middle]
+          (bind (table-sample-weighted handwriting_middle_dist value weight) ?school))
+        (else
+          (bind (table-sample-weighted handwriting_lower_dist value weight) ?school)))))
+  ?school)
+
+; ?h's own hand: a leaf of its school no other human holds.
+(define-func seed-handwriting (?h ?class ?mother)
+  (set-attr ?h handwriting
+    (random-unheld-subkind (handwriting-school ?class ?mother) [k human] handwriting)))
 
 ; Write every singular kind-typed trait onto ?h. Each is drawn from its own
 ; distribution table; with parents the draw is one of three even chances against

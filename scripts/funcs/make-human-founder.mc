@@ -28,6 +28,7 @@
           ; Parentless: both lineage args unsubstantial, so every trait is a fresh
           ; draw on the population distribution (see human-traits.mc).
           (seed-human-genetics ?h ?gender @nothing @nothing)
+          (seed-handwriting ?h ?class @nothing)
           (seed-human-vitals ?h)
           (seed-npc-habits ?h)
           (set-attr ?h parentless 1)

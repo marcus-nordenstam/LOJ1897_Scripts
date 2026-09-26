@@ -47,22 +47,22 @@
 (attr addressee (type name) (default @nothing) (per obs) (auto-percept))
 # The DUTY a document is addressed to ("To the Recruiting Officer") - the office
 # envelope line, matched against the reader's own duty-to aux by take-my-letters.
-(attr addressee-duty (type kind) (default @nothing) (per obs) (auto-percept))
+(attr addressee-duty (type kind task) (default @nothing) (per obs) (auto-percept))
 
 # Conditions & properties. Conceptual: kind-typed; @excl lives on the concept.
 # condition is perceptible on sight: liveness (alive/dead) is visible, so a
 # hsim mind that observes someone internalizes {them condition alive|dead} - the
 # perception-native replacement for an explicit liveness mint.
-(attr condition (type kind alive) (per obs) (auto-percept))
+(attr condition (type kind) (default alive) (per obs) (auto-percept))
 # Consciousness axis - human-npc only (props never carry it). Default conscious;
 # a subdue blow writes unconscious, recovery writes it back. Mirrors like
 # condition, so a witness who observes the struck body internalizes {them
 # awareness unconscious}; @excl (concept-side) supersedes the prior value.
-(attr awareness (type kind conscious) (per obs) (auto-percept))
+(attr awareness (type kind) (default conscious) (per obs) (auto-percept))
 # Interment axis - human-npc only. Default unburied, so anyone who observes a
 # person holds {them internment unburied}; the burial rite mints buried
 # belief-side, which @excl-supersedes the unburied percept in every witness.
-(attr internment (type kind unburied) (per obs) (auto-percept))
+(attr internment (type kind) (default unburied) (per obs) (auto-percept))
 (attr color (type kind) (default @nothing) (per obs) (auto-percept))
 
 # Sensors & motors
@@ -93,7 +93,7 @@
 # The +/-1 proximity window of age-band (a plural set of band kinds), perceived
 # about OTHERS so the age-peers macro can test "same / adjacent band" without
 # arithmetic in the .mc. ext-obs only: a mind never needs its own span.
-(attr age-span (type kind array 3) (per obs) (auto-percept))
+(attr age-span (type kind age-band array 3) (per obs) (auto-percept))
 # gender / appearance / height / girth are conceptual: kind-typed, value is an
 # ontology term. @excl now lives on the concept in concepts.mon (rule 4b / 5).
 (attr gender (type kind) (per obs) (auto-percept))
@@ -105,6 +105,9 @@
 # hereditary trait tables (hair-color.txt / eye-color.txt).
 (attr hair-color (type kind) (per obs) (auto-percept))
 (attr eye-color (type kind) (per obs) (auto-percept))
+# One person's own hand. Not seen by looking at him: it is known from what he writes,
+# which WRITE stamps with it message by message.
+(attr handwriting (type kind) (default @nothing) (imperceptible))
 # nationality and social standing are not physical environment state - they
 # exist solely as beliefs (nationality / class-situation labels in states.mon).
 
@@ -243,19 +246,19 @@
 
 # Pile (fungible-item collection). A co-present observer mints exactly two
 # beliefs regardless of count: {pile content-kind [k <kind>]} + {pile count N}.
-(attr content-kind (type kind) (per obs) (auto-percept))
+(attr content-kind (type kind thing) (per obs) (auto-percept))
 (attr count (type int) (range 0 1000000) (per obs) (auto-percept))
 
 # Weather (region)
-(attr rain (type kind heavy) (per obs) (auto-percept))
-(attr snow (type kind none) (per obs) (auto-percept))
-(attr fog (type kind none) (per obs) (auto-percept))
-(attr wind (type kind none) (per obs) (auto-percept))
-(attr sky (type kind clear) (per obs) (auto-percept))
+(attr rain (type kind strength-measurement) (default heavy) (per obs) (auto-percept))
+(attr snow (type kind strength-measurement) (default none) (per obs) (auto-percept))
+(attr fog (type kind strength-measurement) (default none) (per obs) (auto-percept))
+(attr wind (type kind strength-measurement) (default none) (per obs) (auto-percept))
+(attr sky (type kind sky-condition) (default clear) (per obs) (auto-percept))
 
 # Region mood - non-sentient archetype, so per Q4 we keep mood state on the
 # region itself as parallel-array attrs. Updated by run_region_mood_pass.
-(attr mood-kinds (type kind array 8) (state "mood") (per obs) (auto-percept))
+(attr mood-kinds (type kind mood array 8) (state "mood") (per obs) (auto-percept))
 (attr mood-intensities (type int array 8) (range 0 100) (per obs))
 (attr mood-set-dates (type date array 8) (imperceptible))
 
@@ -271,13 +274,13 @@
 # reconcile_closed drops his own stale employment beliefs off that PERCEIVED belief - no
 # mind but his own is written. Kind-valued (open|closed under `status`, concepts.mon), so
 # it mirrors as a clean belief like `condition`. Lives on container-structure (buildings).
-(attr struct-status (type kind open) (per obs) (auto-percept))
+(attr struct-status (type kind status) (default open) (per obs) (auto-percept))
 # A door/window structure-part's opening state (ajar|shut) and lock state
 # (locked|unlocked). Kind-valued @excl, perceived on sight (a thief cases a lock).
-(attr opening-status (type kind ajar) (per obs) (auto-percept))
-(attr lock-status (type kind locked) (per obs) (auto-percept))
+(attr opening-status (type kind) (default ajar) (per obs) (auto-percept))
+(attr lock-status (type kind) (default locked) (per obs) (auto-percept))
 # Structural integrity of an opening (intact|broken) - distinct from the condition axis.
-(attr integrity (type kind intact) (per obs) (auto-percept))
+(attr integrity (type kind) (default intact) (per obs) (auto-percept))
 # Era bounds - the building physically exists from era-min to era-max.
 (attr era-min (type date) (imperceptible))
 (attr era-max (type date) (imperceptible))
@@ -333,7 +336,7 @@
 # physical complement to the perpetrator's `add_substance` act-record
 # belief (a fluid can be tainted with one poison at a time). Kind-typed so
 # the value is an ontology term end to end.
-(attr taint (type kind) (imperceptible) (state-flags-tar @excl))
+(attr taint (type kind substance) (imperceptible) (state-flags-tar @excl))
 
 # The forensic-trace attr. Holds up to 4 leaf kinds of the `blemish` taxonomy
 # (Objects.mon: wound / stain / mark), in any mix - a puncture-wound, a
@@ -343,7 +346,7 @@
 # auto-percept, so anyone who looks at the body or the prop reads it: that IS
 # the evidence channel. Wired onto the body-part archetypes, prop and
 # structure-part; the .mc (yield-evidence ..) macro is the writer.
-(attr blemishes (type kind array 4) (state "blemish") (per obs) (auto-percept))
+(attr blemishes (type kind blemish array 4) (state "blemish") (per obs) (auto-percept))
 
 # the space an entity is in
 

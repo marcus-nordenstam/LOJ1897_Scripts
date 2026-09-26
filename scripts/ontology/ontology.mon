@@ -26,7 +26,7 @@
 # ----------------------------------------------------------------------------
 # The appraisal cascade categorises a task by reading the `construed-act`
 # tags on the task's declaration (e.g.
-# `frame ... (construed-act harm-act betray-act wrong-act)`) at the anchor's
+# `confess-letter ... (construed-act honour-act)`) at the anchor's
 # task-label. It does NOT mint construal beliefs. Anchors carry their tags
 # via the relation_def lookup; categorize runs one reaction row per tag
 # per POV (patient / actor / third_party / sadist). Promote a construal

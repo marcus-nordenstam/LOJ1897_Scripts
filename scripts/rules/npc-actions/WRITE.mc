@@ -35,17 +35,20 @@
     (preroll 0.0) (in 0.4) (out 0.4))
   (effects
     (check (spatial ?doc co-located @self /env))
+    ; Whatever the message claims about who wrote it, the hand is the writer's own.
+    (set-msg-rider ?sentence handwriting (attr @self handwriting)): ?penned
     (tolerate (table-rows ?sentence): ?rows)
     (cond
       (case (substantial ?rows)
         (if (nothing (attr ?doc writing))
             (then (table-init ?doc field value)))
         (for-each ?entry ?rows
-          (table-add ?doc field (head ?entry) value (nth 1 ?entry))))
+          (table-add ?doc field (head ?entry) value (nth 1 ?entry)))
+        (table-add ?doc field handwriting value (attr @self handwriting)))
       (case (nothing (attr ?doc writing))
-        (set-writing ?doc ?sentence))
+        (set-writing ?doc ?penned))
       (else
-        (set-writing ?doc (add-func-arg (attr ?doc writing) ?sentence))))
+        (set-writing ?doc (add-func-arg (attr ?doc writing) ?penned))))
     (tolerate (msg-rider ?sentence addressee): ?to)
     (if (substantial ?to) (then (set-attr ?doc addressee ?to)))
     (tolerate (msg-rider ?sentence address): ?dest)

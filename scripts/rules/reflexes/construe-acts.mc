@@ -57,7 +57,7 @@
 ; construe rule here is one line and the reactions are ready.)
 
 ; -- wrong-act, static wrongs (steal / defraud / embezzle / kidnap / expose /
-; disinherit / coerce / humiliate / frame ...). Value gate: permissive when the
+; disinherit / coerce / humiliate ...). Value gate: permissive when the
 ; act declares no (contradicts ..) or the patient's value substrate is silent;
 ; strict when the substrate speaks and says no.
 (npc-reflex {?agent (construed-labels wrong-act) ?patient /ever}:?b

@@ -141,25 +141,6 @@
           (then (discharge-pressure ?pressure 0.75))
           (else (maintain-proposal {@self seduce ?target /caused_by ?pressure}))))))
 
-; ---- frame -----------------------------------------------------------------
-; Pin your own breach on someone else - the guilty actor's way out.
-(npc-think frame_deflection
-  (cooldown 1 m try-once)
-  (rng-stream deliberation)
-  (role ?target {?target isa [k human], condition [k alive]}
-    {@self pressure [k moral-violation] ?target}:?pressure
-    (when (or {@self frame ?target /succ /caused_by ?pressure}
-              (and (not (= ?target @self))
-                   -{?target condition [k dead]}
-                   (or {@self frame ?target}
-                       (chance (* (crime-scale)
-                                  (* 0.2 (grievance-drive ?pressure ?target (agg-tilt)))))))))
-    (utility want (* (disinhibition) 1000))
-    (effects
-      (if {@self frame ?target /succ /caused_by ?pressure}
-          (then (discharge-pressure ?pressure 0.75))
-          (else (maintain-proposal {@self frame ?target /caused_by ?pressure}))))))
-
 ; ---- bribe -----------------------------------------------------------------
 ; Buy the focus's silence. A crime, but not an aggression - no disposition tilt
 ; steers it, so the drive is the grievance's heat alone.

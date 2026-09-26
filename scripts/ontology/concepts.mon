@@ -832,6 +832,108 @@
     (child eye-color
       (children blue brown green grey hazel)))
 
+  # Handwriting: the SCHOOL a hand was taught in is what a reader names on sight; the
+  # leaf is one person's own hand, dealt so that no two living people share one.
+  (child handwriting
+    # the educated formal hand
+    (child copperplate
+      (children
+        copperplate-001 copperplate-002 copperplate-003 copperplate-004 copperplate-005 copperplate-006 copperplate-007 copperplate-008
+        copperplate-009 copperplate-010 copperplate-011 copperplate-012 copperplate-013 copperplate-014 copperplate-015 copperplate-016
+        copperplate-017 copperplate-018 copperplate-019 copperplate-020 copperplate-021 copperplate-022 copperplate-023 copperplate-024
+        copperplate-025 copperplate-026 copperplate-027 copperplate-028 copperplate-029 copperplate-030 copperplate-031 copperplate-032
+        copperplate-033 copperplate-034 copperplate-035 copperplate-036 copperplate-037 copperplate-038 copperplate-039 copperplate-040
+        copperplate-041 copperplate-042 copperplate-043 copperplate-044 copperplate-045 copperplate-046 copperplate-047 copperplate-048
+        copperplate-049 copperplate-050 copperplate-051 copperplate-052 copperplate-053 copperplate-054 copperplate-055 copperplate-056
+        copperplate-057 copperplate-058 copperplate-059 copperplate-060))
+    # the flourished ornamental hand
+    (child spencerian
+      (children
+        spencerian-001 spencerian-002 spencerian-003 spencerian-004 spencerian-005 spencerian-006 spencerian-007 spencerian-008
+        spencerian-009 spencerian-010 spencerian-011 spencerian-012 spencerian-013 spencerian-014 spencerian-015 spencerian-016
+        spencerian-017 spencerian-018 spencerian-019 spencerian-020 spencerian-021 spencerian-022 spencerian-023 spencerian-024
+        spencerian-025 spencerian-026 spencerian-027 spencerian-028 spencerian-029 spencerian-030 spencerian-031 spencerian-032
+        spencerian-033 spencerian-034 spencerian-035 spencerian-036 spencerian-037 spencerian-038 spencerian-039 spencerian-040))
+    # the clerk's and lawyer's engrossing hand
+    (child round-hand
+      (children
+        round-hand-001 round-hand-002 round-hand-003 round-hand-004 round-hand-005 round-hand-006 round-hand-007 round-hand-008
+        round-hand-009 round-hand-010 round-hand-011 round-hand-012 round-hand-013 round-hand-014 round-hand-015 round-hand-016
+        round-hand-017 round-hand-018 round-hand-019 round-hand-020 round-hand-021 round-hand-022 round-hand-023 round-hand-024
+        round-hand-025 round-hand-026 round-hand-027 round-hand-028 round-hand-029 round-hand-030 round-hand-031 round-hand-032
+        round-hand-033 round-hand-034 round-hand-035 round-hand-036 round-hand-037 round-hand-038 round-hand-039 round-hand-040
+        round-hand-041 round-hand-042 round-hand-043 round-hand-044 round-hand-045 round-hand-046 round-hand-047 round-hand-048
+        round-hand-049 round-hand-050 round-hand-051 round-hand-052 round-hand-053 round-hand-054 round-hand-055 round-hand-056
+        round-hand-057 round-hand-058 round-hand-059 round-hand-060))
+    # the fast business hand
+    (child commercial
+      (children
+        commercial-001 commercial-002 commercial-003 commercial-004 commercial-005 commercial-006 commercial-007 commercial-008
+        commercial-009 commercial-010 commercial-011 commercial-012 commercial-013 commercial-014 commercial-015 commercial-016
+        commercial-017 commercial-018 commercial-019 commercial-020 commercial-021 commercial-022 commercial-023 commercial-024
+        commercial-025 commercial-026 commercial-027 commercial-028 commercial-029 commercial-030 commercial-031 commercial-032
+        commercial-033 commercial-034 commercial-035 commercial-036 commercial-037 commercial-038 commercial-039 commercial-040
+        commercial-041 commercial-042 commercial-043 commercial-044 commercial-045 commercial-046 commercial-047 commercial-048
+        commercial-049 commercial-050 commercial-051 commercial-052 commercial-053 commercial-054 commercial-055 commercial-056
+        commercial-057 commercial-058 commercial-059 commercial-060 commercial-061 commercial-062 commercial-063 commercial-064
+        commercial-065 commercial-066 commercial-067 commercial-068 commercial-069 commercial-070 commercial-071 commercial-072
+        commercial-073 commercial-074 commercial-075 commercial-076 commercial-077 commercial-078 commercial-079 commercial-080
+        commercial-081 commercial-082 commercial-083 commercial-084 commercial-085 commercial-086 commercial-087 commercial-088
+        commercial-089 commercial-090 commercial-091 commercial-092 commercial-093 commercial-094 commercial-095 commercial-096
+        commercial-097 commercial-098 commercial-099 commercial-100 commercial-101 commercial-102 commercial-103 commercial-104
+        commercial-105 commercial-106 commercial-107 commercial-108 commercial-109 commercial-110 commercial-111 commercial-112
+        commercial-113 commercial-114 commercial-115 commercial-116 commercial-117 commercial-118 commercial-119 commercial-120))
+    # the slanted hand of the lady's or scholar's schooling
+    (child italic
+      (children
+        italic-001 italic-002 italic-003 italic-004 italic-005 italic-006 italic-007 italic-008
+        italic-009 italic-010 italic-011 italic-012 italic-013 italic-014 italic-015 italic-016
+        italic-017 italic-018 italic-019 italic-020 italic-021 italic-022 italic-023 italic-024
+        italic-025 italic-026 italic-027 italic-028 italic-029 italic-030 italic-031 italic-032
+        italic-033 italic-034 italic-035 italic-036 italic-037 italic-038 italic-039 italic-040))
+    # the laboured, rounded board-school hand
+    (child schoolroom
+      (children
+        schoolroom-001 schoolroom-002 schoolroom-003 schoolroom-004 schoolroom-005 schoolroom-006 schoolroom-007 schoolroom-008
+        schoolroom-009 schoolroom-010 schoolroom-011 schoolroom-012 schoolroom-013 schoolroom-014 schoolroom-015 schoolroom-016
+        schoolroom-017 schoolroom-018 schoolroom-019 schoolroom-020 schoolroom-021 schoolroom-022 schoolroom-023 schoolroom-024
+        schoolroom-025 schoolroom-026 schoolroom-027 schoolroom-028 schoolroom-029 schoolroom-030 schoolroom-031 schoolroom-032
+        schoolroom-033 schoolroom-034 schoolroom-035 schoolroom-036 schoolroom-037 schoolroom-038 schoolroom-039 schoolroom-040
+        schoolroom-041 schoolroom-042 schoolroom-043 schoolroom-044 schoolroom-045 schoolroom-046 schoolroom-047 schoolroom-048
+        schoolroom-049 schoolroom-050 schoolroom-051 schoolroom-052 schoolroom-053 schoolroom-054 schoolroom-055 schoolroom-056
+        schoolroom-057 schoolroom-058 schoolroom-059 schoolroom-060 schoolroom-061 schoolroom-062 schoolroom-063 schoolroom-064
+        schoolroom-065 schoolroom-066 schoolroom-067 schoolroom-068 schoolroom-069 schoolroom-070 schoolroom-071 schoolroom-072
+        schoolroom-073 schoolroom-074 schoolroom-075 schoolroom-076 schoolroom-077 schoolroom-078 schoolroom-079 schoolroom-080
+        schoolroom-081 schoolroom-082 schoolroom-083 schoolroom-084 schoolroom-085 schoolroom-086 schoolroom-087 schoolroom-088
+        schoolroom-089 schoolroom-090 schoolroom-091 schoolroom-092 schoolroom-093 schoolroom-094 schoolroom-095 schoolroom-096
+        schoolroom-097 schoolroom-098 schoolroom-099 schoolroom-100 schoolroom-101 schoolroom-102 schoolroom-103 schoolroom-104
+        schoolroom-105 schoolroom-106 schoolroom-107 schoolroom-108 schoolroom-109 schoolroom-110 schoolroom-111 schoolroom-112
+        schoolroom-113 schoolroom-114 schoolroom-115 schoolroom-116 schoolroom-117 schoolroom-118 schoolroom-119 schoolroom-120
+        schoolroom-121 schoolroom-122 schoolroom-123 schoolroom-124 schoolroom-125 schoolroom-126 schoolroom-127 schoolroom-128
+        schoolroom-129 schoolroom-130 schoolroom-131 schoolroom-132 schoolroom-133 schoolroom-134 schoolroom-135 schoolroom-136
+        schoolroom-137 schoolroom-138 schoolroom-139 schoolroom-140 schoolroom-141 schoolroom-142 schoolroom-143 schoolroom-144
+        schoolroom-145 schoolroom-146 schoolroom-147 schoolroom-148 schoolroom-149 schoolroom-150))
+    # the barely lettered hand
+    (child scrawl
+      (children
+        scrawl-001 scrawl-002 scrawl-003 scrawl-004 scrawl-005 scrawl-006 scrawl-007 scrawl-008
+        scrawl-009 scrawl-010 scrawl-011 scrawl-012 scrawl-013 scrawl-014 scrawl-015 scrawl-016
+        scrawl-017 scrawl-018 scrawl-019 scrawl-020 scrawl-021 scrawl-022 scrawl-023 scrawl-024
+        scrawl-025 scrawl-026 scrawl-027 scrawl-028 scrawl-029 scrawl-030 scrawl-031 scrawl-032
+        scrawl-033 scrawl-034 scrawl-035 scrawl-036 scrawl-037 scrawl-038 scrawl-039 scrawl-040
+        scrawl-041 scrawl-042 scrawl-043 scrawl-044 scrawl-045 scrawl-046 scrawl-047 scrawl-048
+        scrawl-049 scrawl-050 scrawl-051 scrawl-052 scrawl-053 scrawl-054 scrawl-055 scrawl-056
+        scrawl-057 scrawl-058 scrawl-059 scrawl-060 scrawl-061 scrawl-062 scrawl-063 scrawl-064
+        scrawl-065 scrawl-066 scrawl-067 scrawl-068 scrawl-069 scrawl-070 scrawl-071 scrawl-072
+        scrawl-073 scrawl-074 scrawl-075 scrawl-076 scrawl-077 scrawl-078 scrawl-079 scrawl-080
+        scrawl-081 scrawl-082 scrawl-083 scrawl-084 scrawl-085 scrawl-086 scrawl-087 scrawl-088
+        scrawl-089 scrawl-090 scrawl-091 scrawl-092 scrawl-093 scrawl-094 scrawl-095 scrawl-096
+        scrawl-097 scrawl-098 scrawl-099 scrawl-100 scrawl-101 scrawl-102 scrawl-103 scrawl-104
+        scrawl-105 scrawl-106 scrawl-107 scrawl-108 scrawl-109 scrawl-110 scrawl-111 scrawl-112
+        scrawl-113 scrawl-114 scrawl-115 scrawl-116 scrawl-117 scrawl-118 scrawl-119 scrawl-120
+        scrawl-121 scrawl-122 scrawl-123 scrawl-124 scrawl-125 scrawl-126 scrawl-127 scrawl-128
+        scrawl-129 scrawl-130)))
+
   (child blood-type (per obs)
     (children A B AB O))
 

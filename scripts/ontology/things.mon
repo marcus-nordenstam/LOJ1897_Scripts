@@ -48,7 +48,7 @@
                     wed-hours thu-hours fri-hours sat-hours sun-hours age-band age-span prototype)
             (spatials grip bounds)
             (attrs physical-motors game-role birth-date death-date death-cause age-band age-span
-                   gender appearance height girth hair-color eye-color attractiveness name
+                   gender appearance height girth hair-color eye-color handwriting attractiveness name
                    condition pregnant-when sexual-orient fatigue hunger adrenaline sleepiness appetite
                    openness intellect industriousness orderliness enthusiasm assertiveness compassion politeness
                    volatility withdrawal narcissism machiavellianism psychopathy sadism strength dexterity
@@ -331,8 +331,8 @@
           # fact about the body, so it lives in beliefs rather
           # than as a condition).
           (children ransom-note)
-          # Structurally a letter but claimed_author env attr differs
-          # from the real author; plant-evidence events place these.
+          # A letter signed with an alias: its message's /handwriting rider
+          # is still the writer's own hand.
           (children forged-letter)
           # Multi-generational revenge channel: a dying ancestor
           # writes one embedding {@self enemy ?perp_line} beliefs.
