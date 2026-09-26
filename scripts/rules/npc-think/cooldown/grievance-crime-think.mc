@@ -154,7 +154,7 @@
                    -{?target condition [k dead]}
                    (or {@self bribe ?target}
                        (chance (* (crime-scale)
-                                  (* 0.4 (grievance-drive ?pressure ?target 1))))))))
+                                  (* 0.4 (grievance-drive ?pressure ?target 1.0))))))))
     (utility want (* (disinhibition) 1000.0))
     (effects
       (if {@self bribe ?target /succ /caused_by ?pressure}
