@@ -9,18 +9,18 @@
   end 1700-06-30
   clock jump
   mwo "Merlin/bin/demo_tech_level_v2.mwo"
-  startup g01-find-pub-startup)
+  startup startup-func)
 
-(define-list gauntlet validate g01-find-pub-validate)
+(define-list gauntlet validate validate-func)
 
-(define-func g01-find-pub-startup ()
+(define-func startup-func ()
   (seed_property)
   (head (env-entities [k building residential-building])): ?home
   (make-human ?home [k lower] [k male]): ?man
   (cast seeker ?man)
   (initialize-minds))
 
-(define-func g01-find-pub-validate ()
+(define-func validate-func ()
   (cast seeker): ?man
   (expect (> (acts ?man DRINK succ) 0) "g01: never drank")
   (expect (> (acts ?man find-building succ) 0) "g01: never found a pub")

@@ -53,3 +53,13 @@
 
   (set-attr @self hunger ?hunger)
   (set-attr @self appetite ?appetite))
+
+; A jump window opens at midnight after a month nobody lived: the body is the one an ordinary
+; waking day leaves - a full day's fatigue, calm, fed at supper.
+(define-func /window-start midnight_body ()
+  (* (waking_day_hours) (fatigue_accrue_per_hour)): ?fatigue
+  (set-attr @self adrenaline 0.0)
+  (set-attr @self fatigue ?fatigue)
+  (set-attr @self sleepiness ?fatigue)
+  (set-attr @self hunger 0.0)
+  (set-attr @self appetite 0.0))

@@ -14,6 +14,7 @@
 (define-macro fatigue_recover_per_hour () (/ 1.0 6.0))
 (define-macro fatigue_accrue_per_hour () (/ 1.0 16.0))
 (define-macro fatigue_max () 2.0)
+(define-macro waking_day_hours () 16.0)
 
 ; HUNGER: every act accrues it, sleep included - you wake hungry. Meal acts
 ; reduce it content-side (set-attr @self hunger ...).

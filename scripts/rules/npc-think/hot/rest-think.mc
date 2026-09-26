@@ -33,7 +33,7 @@
 ; night-onset case (hour >= 22 with low sleepiness) rides the sleep rung's (when)
 ; hour gate at want-tier, where midnight has no real competitors.
 (define-macro sleep-drive ()
-  (homeostatic-banded sleepiness 2.0
+  (homeostatic-banded (target-or @self sleepiness 0.0) 2.0
     [/want   0.0  0   400]
     [/need   0.8  400 900]
     [/crisis 1.0  800 1000]))
