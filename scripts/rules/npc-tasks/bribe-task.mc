@@ -20,10 +20,11 @@
         (utility errand)
         (effects (maintain-proposal {@self give ?coin ?victim}))))
     (try
+      (no-role [k coin] (spatial ?norole co-located @self))
       (when (and (alive ?victim)
                  -{@self bribe ?victim /succ /ever}
                  -{@self give ? ?victim}))
-      (effects (create-entity [k coin] (spatial @self space))))
+      (effects (maintain-proposal {@self CREATE-ENTITY [k coin]})))
     (try
       (when {@self give ? ?victim /succ /caused_by ?bribe-rel})
       (effects

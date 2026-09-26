@@ -23,7 +23,5 @@
     (when (and (>= (years-old @self) 1)
                (chance 0.0008)))   ; ~1% per year background disease rate
 
-    (effects
-      (settle-death @self)
-      (set-attr @self death-cause [k death-cause disease])
-      )))
+    (utility survival)
+    (effects (begin-goal {@self DIE [k death-cause disease]}))))

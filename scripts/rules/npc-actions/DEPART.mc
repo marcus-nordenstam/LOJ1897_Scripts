@@ -52,11 +52,11 @@
 ; is close_business.mc's job, not depart's.
 ; ----------------------------------------------------------------------------
 
-; The packing day - a DUMB act: the emigrant spends the day settling affairs;
-; the whole teardown (quit the posts, release the home, the departure itself)
-; is the departed twin's (emigration_think.mc), off this act's /succ record.
+; The packing day: he settles his affairs and leaves - his posts, his home, his marriage,
+; then the world.
 (npc-action {@self DEPART}
   (motor body legs)
   (duration (seconds 480 min))                     ; ~a day spent packing up and settling affairs
   (effects
-    (set-outcome {@self DEPART} /succ)))
+    (set-outcome {@self DEPART} /succ)
+    (destroy-entity @self)))

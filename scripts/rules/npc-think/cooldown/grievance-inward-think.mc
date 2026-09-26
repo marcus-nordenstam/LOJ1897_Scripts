@@ -36,8 +36,7 @@
           (begin-belief ?conf {@self mention [k death-cause suicide]})))
     (if (and (>= (despair ?who) (suicide_despair_min))
              (>= (target-or ?who withdrawal 0.0) (suicide_withdrawal_min)))
-        (then (settle-death ?who)
-            (set-attr ?who death-cause [k death-cause suicide])))))
+        (then (begin-goal {@self DIE [k death-cause suicide]})))))
 
 (npc-think suicide_disgrace
   (cooldown 1 m try-once)
@@ -45,6 +44,7 @@
   (role @self {@self pressure [k humiliation] ?target}:?pressure
     (when (chance (* (k-grievance-rate)
                      (* 0.01 (grievance-drive ?pressure ?target 1)))))
+    (utility survival)
     (effects (resolve-suicide @self))))
 
 (npc-think suicide_grief
@@ -53,6 +53,7 @@
   (role @self {@self pressure [k attachment-loss] ?target}:?pressure
     (when (chance (* (k-grievance-rate)
                      (* 0.03 (grievance-drive ?pressure ?target 1)))))
+    (utility survival)
     (effects (resolve-suicide @self))))
 
 (npc-think strive_rivalry

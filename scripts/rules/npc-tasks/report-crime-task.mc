@@ -17,7 +17,8 @@
         (role @self (not (spatial @self building ?station))
           (when (and {? stolen-from @self}
                      (can-write @self)
-                     -{@self report-crime ?focus /succ /ever}))
+                     -{@self report-crime ?focus /succ /ever}
+                     (not (is-a (spatial @self building) [k police-station]))))
           (utility errand)
           (effects (maintain-proposal {@self go ?station})))))
     ; knows no station -> search the region for one; the search's own /fail is what the
@@ -31,24 +32,35 @@
                  (current-exterior @self): ?rg))
       (utility errand)
       (effects (maintain-proposal {@self find-building [k police-station] ?rg})))
-    (try
-      (when (and {? stolen-from @self}
-                 (can-write @self)
-                 -{@self report-crime ?focus /succ /ever}
-                 (is-a (spatial @self building) [k police-station])))
-      (utility errand)
-      (effects
-        (if (alive ?focus) (then (begin-belief {@self suspect ?focus})))
-        (for-each ?lb-rel (every {? stolen-from @self})
-          (do
-            (bind ?lb-rel.subject ?loot)
-            (plant-letter [k crime-report-letter]
-                          (if (alive ?focus)
-                              (then (nl-written-msg "I suspect ?focus"))
-                              (else (nl-written-msg "?loot was stolen from me")))
-                          (spatial @self space))
-            (break)))
-        (set-outcome ?report-rel /succ)))
+    (sequence
+      (role @self
+        (utility errand)
+        (stage
+          (when (and {? stolen-from @self}
+                     (can-write @self)
+                     -{@self report-crime ?focus /succ /ever}
+                     (is-a (spatial @self building) [k police-station])))
+          (effects
+            (if (bb-any ?report-rel letter)
+                (then (bind (bb-read ?report-rel letter) ?ltr))
+                (else (maintain-proposal {@self CREATE-ENTITY [k crime-report-letter]}:?ce
+                        [/postlude (bind (bb-read ?ce created) ?ltr)
+                                   (bb-write ?report-rel letter ?ltr)])))))
+        (stage
+          (when (spatial ?ltr co-located @self))
+          (effects
+            (any {? stolen-from @self}).subject: ?loot
+            (if (unsubstantial (attr ?ltr writing))
+                (then (maintain-proposal
+                        {@self write-doc ?ltr
+                               (if (alive ?focus)
+                                   (then (nl-written-msg "I suspect ?focus"))
+                                   (else (nl-written-msg "?loot was stolen from me")))})))))
+        (stage
+          (effects
+            (if (alive ?focus) (then (begin-belief {@self suspect ?focus})))
+            (bb-clear ?report-rel letter)
+            (set-outcome ?report-rel /succ)))))
     (try
       (when (or -{? stolen-from @self}
                 (not (can-write @self))

@@ -72,8 +72,8 @@
                  {@self own [k townhouse]:?h})
 
       (when (>= (years-old @self) 21))                      ; non-belief age gate -> (when)
-
-      (effects (found-org-seq [k org household] [k job head-of-household])))))
+      (utility errand)
+      (effects (maintain-proposal {@self FOUND-ORG [k org household] [k job head-of-household]})))))
 
 ; --- ACT: the head fulfils the duty - hires what the founded household lacks ---
 (npc-think staff-household

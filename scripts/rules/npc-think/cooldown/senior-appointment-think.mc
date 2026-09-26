@@ -41,6 +41,7 @@
     ;; org of gov kind (@self learned it at new_job_orientation). Belief-pure + cached.
     (role ?org {?org isa [k org]}
                [k org gov]
+               {?org record ?articles}
 
       ;; (chance) FIRST (cheap, short-circuits), then the live exclusivity re-check
       ;; (see betrothal.mc): without it, every gov org enumerated this tick can appoint
@@ -55,14 +56,5 @@
                  (<= (years-old @self) 65)
                  (>= ?prestige 0.65)))
 
-      (effects
-        ;; The org's articles (hire-seq's ?var arg - a macro arg used in a pattern must
-        ;; be a ?var, not an expr) is recovered from @self's {?org record ?art} belief.
-        (any {?org record ?articles})
-        ;; Leave the current post (no-op for the jobless), then take up the senior
-        ;; public post. hire-seq mints the employment beliefs in @self's own mind
-        ;; (no telepathy - @self IS the appointee). fire-first frees the @excl
-        ;; job slot so the gov hire takes cleanly.
-        (fire-self)
-        (hire-seq ?articles [k job official] [k senior])
-        ))))
+      (utility errand)
+      (effects (maintain-proposal {@self seek-appointment ?articles})))))

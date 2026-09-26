@@ -54,8 +54,6 @@
     (any {?org employee-register ?reg})
     ; 1. shutter the doors - a perceivable `closed` fact; staff reconcile by seeing it.
     (shutter-building ?wp)
-    ; (the owned-premises FOR-SALE listing is the list_failed_premises twin's
-    ;  decision - close_business_think.mc - off this act's /succ record.)
     ; 2. destroy his OWN incorporation documents (single bound entities at completion).
     (destroy-entity ?reg)
     (destroy-entity ?art)

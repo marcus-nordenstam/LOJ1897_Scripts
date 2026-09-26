@@ -30,38 +30,21 @@
 (npc-think landlord_estate
   (cooldown 1 m try-once)
   (rng-stream business)
-
-  ; THE FOUNDING CAP as a CACHED self-gate filter: an NPC heads at most ONE
-  ; non-household org, and an estate IS one - so a man already heading ANY
-  ; business / public org / estate founds no estate (subsumes the old
-  ; estate-only throttle; permanent-kind match, decay-proof).
   (role @self (old_human @self)
               -{@self job [k head-of-non-household-org]}
+              -{@self FOUND-ORG [k org estate] ? /succ /ever}
     (role ?rental {@self own ?rental}
                   (or {?rental availability [k for-rent]}
                       {?rental tenant ?})
+      (utility errand)
+      (effects (maintain-proposal {@self FOUND-ORG [k org estate] [k job landlord]})))))
 
-      (effects
-        (found-org-seq [k org estate] [k job landlord])
-        ; Vest every rental @self owns into the estate he just founded: re-point the
-        ; deed's owner to the estate's articles and drop his own {own} - the ESTATE owns
-        ; it now (inherited / dissolved with the estate, not lumped with his home). The
-        ; estate is his articles that is-a estate (founder @self); a public-doc scan + his
-        ; own belief drop, no cross-mind write. An owner-occupied home matches neither
-        ; rental signal, so it is left his.
-        (for-each ?ea (env-entities [k articles-of-incorporation])
-          (do
-            (o {?ea declares-org @o}): ?org
-            (any {?org isa ?ok})
-            (any {?org founder ?f})
-            (if (and (= ?f @self) (is-a ?ok [k org estate]))
-              (then
-                (for-each ?deed (env-entities [k title-deed])
-                  (do
-                    (table-match (attr ?deed writing) owner ?o building ?b)
-                    (if (and (= ?o @self)
-                             (or {?b availability [k for-rent]} {?b tenant ?}))
-                      (then
-                        (table-set ?deed owner ?ea)
-                        (end-belief {@self own ?b})))))
-                (break)))))))))
+; Once the estate stands, each let property's deed is made over to it.
+(npc-think estate_deeds
+  (role ?estate {?estate isa [k org estate]}
+                {?estate founder @self}
+    (role ?rental {@self own ?rental}
+                  (or {?rental availability [k for-rent]}
+                      {?rental tenant ?})
+      (utility errand)
+      (effects (maintain-proposal {@self ASSIGN-DEED ?rental ?estate})))))

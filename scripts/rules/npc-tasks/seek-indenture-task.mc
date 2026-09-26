@@ -33,7 +33,7 @@
         ; No register belief -> nothing to enrol on. It was a (check ?reg) ASSERT, but an
         ; org with no register is a legitimate state: (o ..) INVENTS one when it recalls
         ; nothing, and an invented org has no papers.
-        (if ?reg (then (maintain-proposal {@self ENROL ?reg [k job clerk]})))))
+        (if ?reg (then (maintain-proposal {@self ENROL ?reg '[[k job clerk] [k trainee]]})))))
 
     ; REALIZE: my row is on the wage book -> mint the employment beliefs (read off the
     ; articles) and the master bond. Minting {@self job ...} trips the decision's

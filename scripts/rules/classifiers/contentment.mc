@@ -10,8 +10,8 @@
 
 (define-macro contentment-neutral ()          0.50)
 (define-macro contentment-affect-weight ()    0.26)   ; enthusiasm up, withdrawal (mirrored) down
-(define-macro contentment-wealth-div ()       3)      ; (wealth - 0.5) / this
-(define-macro contentment-belonging-div ()    5)      ; (belonging - 0.5) / this
+(define-macro contentment-wealth-div ()       3.0)    ; (wealth - 0.5) / this
+(define-macro contentment-belonging-div ()    5.0)    ; (belonging - 0.5) / this
 (define-macro contentment-drink-weight ()    -0.5)    ; x the sobriety shortfall below 0.5
 (define-macro contentment-craving-penalty () -0.12)   ; standing addiction depressor
 (define-macro contentment-jobless-penalty () -0.08)   ; no job
@@ -33,9 +33,9 @@
              (* (- 0.5 (target-or @self withdrawal 0.0)) (contentment-affect-weight))
              (/ (- ?wealth 0.5) (contentment-wealth-div))) ?disposition)
     (bind (+ (/ (- (belonging) 0.5) (contentment-belonging-div))
-             (* (max (- 0.5 (sobriety)) 0) (contentment-drink-weight))
+             (* (max (- 0.5 (sobriety)) 0.0) (contentment-drink-weight))
              (* (prob {@self craving ?}) (contentment-craving-penalty))
-             (* (- 1 (prob {@self job ?})) (contentment-jobless-penalty))) ?circumstance)
+             (* (- 1.0 (prob {@self job ?})) (contentment-jobless-penalty))) ?circumstance)
 
     (effects
-      (begin-belief {@self contentment (clamp (+ ?disposition ?circumstance) 0 1)}))))
+      (begin-belief {@self contentment (clamp (+ ?disposition ?circumstance) 0.0 1.0)}))))

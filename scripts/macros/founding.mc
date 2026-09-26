@@ -147,6 +147,17 @@
 ; take-premises - the head takes possession of the org's building: he SEES it and its rooms
 ; (a placement write resolves passively, so an unseen room cannot be written about) and
 ; learns which building they belong to. Owning the premises stands in for exploring them.
+; List building ?b on every for-sale listing, with its deed.
+(define-macro list-for-sale (?b)
+  (for-each ?deed (env-entities [k title-deed])
+    (do
+      (table-match (attr ?deed writing) building ?db)
+      (if (= ?db ?b)
+        (then
+          (for-each ?listings (env-entities [k for-sale-listings])
+            (table-add ?listings building ?b deed ?deed))
+          (break))))))
+
 (define-macro take-premises (?wp)
   (do
     (observe ?wp)
