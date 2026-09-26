@@ -7,7 +7,7 @@
   (role ?stranger 
        {?stranger isa [k human], condition [k alive]}
        (spatial ?stranger co-located @self)
-       (none {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?stranger /ever})
+       (none {@self (closeness-labels acquaintance) ?stranger /ever})
        ; A CONCLUDED greeting is what makes him no stranger. Without /succ this reads the
        ; present tense - only a SAY still in progress - so each greeting's end made him a
        ; stranger again and the minute cooldown greeted him afresh: 960 greetings in one

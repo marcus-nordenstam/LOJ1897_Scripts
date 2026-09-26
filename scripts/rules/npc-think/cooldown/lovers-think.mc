@@ -58,7 +58,7 @@
              ; @self's belief that ?b's PERCEIVED gender differs from his own (visible-
              ; on-sight, so cacheable as a dynamic-target belief). And not kin.
              -{?b gender (any {@self gender}).target}
-             (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?b})
+             (none {@self (kin-labels) ?b})
 
       ;; Live re-check: within the window the un-attached role filters go stale as
       ;; earlier firings mint lover bonds; re-confirm both are still free - from @self's

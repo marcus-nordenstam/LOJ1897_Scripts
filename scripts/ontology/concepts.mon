@@ -340,9 +340,15 @@
   # different mood contribution (pressures feed the `stress` dimension, not
   # contentment / agitation). Non-@excl: pressures stack - the layered
   # motive a deliberation event reads IS the stacked pressure set.
-  (child pressure
-    (children status-loss attachment-loss autonomy-loss exposure-risk resource-scarcity humiliation injustice moral-violation
-              existential-threat obligation-strain rivalry-pressure))
+  # How close a listener must be to hear of a pressure: a grievance or lament is for friends; a
+  # confession (moral-violation) or the fear of one coming out (exposure-risk) only for the
+  # intimate; a rivalry grudge is aired freely.
+  (child pressure (disclosure friend)
+    (children status-loss attachment-loss autonomy-loss resource-scarcity humiliation injustice
+              existential-threat obligation-strain)
+    (child exposure-risk (disclosure intimate))
+    (child moral-violation (disclosure intimate))
+    (child rivalry-pressure (disclosure acquaintance)))
 
   # Justifying narratives - the cognitive frames an NPC holds to make a
   # past or planned harmful act acceptable to themselves (plan section

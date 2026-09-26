@@ -24,7 +24,7 @@
 (npc-task {@self hire-assassin ?victim}:?hire-rel
   (tar [k human] @object)
   (role ?killer {?killer isa [k human], condition [k alive]}
-                {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?killer /ever}
+                {@self (closeness-labels acquaintance) ?killer /ever}
                 (!= ?killer ?victim)
     (and
       ; REACH the prospective killer.

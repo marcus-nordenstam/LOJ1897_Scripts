@@ -28,7 +28,7 @@
   ; cannot live on the role under the belief-purity invariant).
   (role @self 
     (role ?victim {?victim isa [k human], condition [k alive]}
-                  {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?victim /ever}
+                  {@self (closeness-labels acquaintance) ?victim /ever}
 
       ; Dark-tetrad assault disposition, rolled once per NPC (not a @self role
       ; filter): volatility x psychopathy x sadism x (1 - politeness), amplified by

@@ -49,7 +49,7 @@
     ;; filters (cacheable), gating the bride candidate set directly.
     (role ?bride (unmarried_woman ?bride)
                  {?bride age-span ?peer_band}
-                 (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?bride})
+                 (none {@self (kin-labels) ?bride})
                  -{?bride fiancee ?}
                  {?bride repute [k exemplary]}
                  (or (and {@self class-situation [k middle]}

@@ -39,9 +39,9 @@
     (role ?victim {?victim isa [k human], condition [k alive]}
                   {?victim age-band [k youth|young-adult|middle-aged|mature|elderly]}
                   ; the crush forms on someone @self has actually met.
-                  {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?victim /ever}
+                  {@self (closeness-labels acquaintance) ?victim /ever}
                   ; No incestuous crush (kin cross-pair believes-macro).
-                  (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?victim})
+                  (none {@self (kin-labels) ?victim})
                   ; Opposite-sex: @self's belief that ?victim's PERCEIVED gender
                   ; differs from his own (visible-on-sight -> cacheable).
                   -{?victim gender (any {@self gender}).target}

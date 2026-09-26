@@ -77,7 +77,7 @@
                   (or -{?beloved lover ?}
                       {@self lover ?beloved})
                   ; no marrying blood kin (consanguinity backstop) ...
-                  (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?beloved})
+                  (none {@self (kin-labels) ?beloved})
                   ; ... opposite-sex: @self's belief that the beloved's PERCEIVED
                   ; gender differs from his own (gender is visible-on-sight, so this
                   ; dynamic-target belief is object-cacheable; drops same-sex passes).

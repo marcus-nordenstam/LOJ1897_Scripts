@@ -41,7 +41,7 @@
                  ; the paramour must NOT be @self's own spouse (a third party).
                  -{@self spouse ?lover}
                  ; the affair ignites with a known third party (social tie).
-                 {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?lover /ever}
+                 {@self (closeness-labels acquaintance) ?lover /ever}
                  ; @self's band within ?lover's perceived age-span (+/-1). Bound in
                  ; the @self role: an inline (any {@self age-band}).target does not
                  ; resolve against the plural age-span belief.
@@ -49,7 +49,7 @@
                  ; opposite-sex: @self's belief that ?lover's PERCEIVED gender differs
                  ; from his own (visible-on-sight -> cacheable), and non-kin.
                  -{?lover gender (any {@self gender}).target}
-                 (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?lover})
+                 (none {@self (kin-labels) ?lover})
 
       ;; The disposition-to-stray, rolled once per NPC per month: the character tail
       ;; (infidelity-disposition) released by callousness (the empathy brake off),

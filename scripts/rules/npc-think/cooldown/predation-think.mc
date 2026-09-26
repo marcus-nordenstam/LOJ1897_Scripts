@@ -71,7 +71,7 @@
     (role ?victim {?victim isa [k human], condition [k alive]}
                   {@self spouse|fiancee|friend|lover|acquaintance|neighbour|enemy ?victim}
                   {?victim age-band [k young-adult|middle-aged|mature|elderly]}
-                  (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?victim})
+                  (none {@self (kin-labels) ?victim})
                   ; TYPE FLOOR (cacheable non-@excl overlap): the victim carries one of
                   ; the predator's fixation values on hair-color OR eye-color.
                   (or (overlapping-target {?victim hair-color} {@self fixation})

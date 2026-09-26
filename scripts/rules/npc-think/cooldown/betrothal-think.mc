@@ -51,7 +51,7 @@
                  ;; role: an inline (any {@self age-band}).target does not resolve against
                  ;; the plural age-span belief.
                  {?bride age-span ?peer_band}
-                 (none {@self mother|father|parent|sibling|half-sibling|child|cousin|grandparent|grandchild|aunt|uncle|niece|nephew ?bride})
+                 (none {@self (kin-labels) ?bride})
 
       ;; Only the non-cacheable gates stay live: the per-groom (chance) pacing and
       ;; the same-station-lover impediment (a lover whose class equals his keeps him

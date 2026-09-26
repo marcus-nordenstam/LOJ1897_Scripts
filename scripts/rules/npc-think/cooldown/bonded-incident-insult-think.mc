@@ -44,7 +44,7 @@
 
   (role @self 
     (role ?victim {?victim isa [k human], condition [k alive]}
-                  {@self friend|acquaintance|spouse|lover|mother|father|sibling|child|talk-to ?victim /ever}
+                  {@self (closeness-labels acquaintance) ?victim /ever}
                   (spatial ?victim co-located @self)
 
       ; Anger load is @self-only and (emotion-load) is not cheap - compute it ONCE and
