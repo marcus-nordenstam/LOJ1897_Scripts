@@ -8,14 +8,29 @@
 
 (include "../macros/tunables.mc")
 
-; Where a thing set down "at ?dest" comes to rest: a claimed cell of the thing's own size,
+; Where a thing set down "at ?dest" comes to rest: a claimed cell where the whole thing fits,
 ; on the floor of a space or on top of anything else. @fail while the grid has no answer
 ; yet - the asking rung polls until it does - and the claim is the asking rung's: it is
 ; released when that rung ceases, so no act has to give it back.
 (define-func rest-cell (?dest ?item)
   (if (is-a ?dest [k space])
-      (then (maintain-claim-env-cell (env-cell-size ?item) [/on_floor_of ?dest]))
-      (else (maintain-claim-env-cell (env-cell-size ?item) [/on_top_of ?dest]))))
+      (then (maintain-claim-env-cell ?item [/on_floor_of ?dest]))
+      (else (maintain-claim-env-cell ?item [/on_top_of ?dest]))))
+
+; Where world-gen sets a new ?kind down in ?bldg: a free spot on a writing-desk or table in
+; any of its rooms, else a room's floor. Mindless: the world is read as it stands and
+; nothing is claimed - each call sees what the calls before it placed.
+(define-func seed-rest-cell (?bldg ?kind)
+  (spatial ?bldg room /env): ?found
+  (for-each ?surface (env-entities [k loose-furniture])
+    (if (and (or (is-a ?surface [k writing-desk]) (is-a ?surface [k table]))
+             (= (spatial ?surface building /env) ?bldg))
+      (then
+        (if (env-cell ?kind [/on_top_of ?surface]): ?cell
+          (then
+            (bind ?cell ?found)
+            (break))))))
+  ?found)
 
 ; Where @self stands inside a space: a claimed cell of his own size on its floor, the one
 ; nearest him. Polled like rest-cell, and likewise the asking rung's claim.

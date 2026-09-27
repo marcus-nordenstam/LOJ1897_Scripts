@@ -270,7 +270,7 @@
       (child collection
         (child stack
           (decorations
-            (spatials -gripped-by -grip -in-stack items)
+            (spatials -grip -in-stack items)
             (attrs -color -condition -name -writing -grip-force -addressee -addressee-duty
                    -destination -blemishes stack-label))
           (population (cap 2048))

@@ -31,9 +31,9 @@
   (relocate ?item ?dest)
   (observe ?item))
 
-; Where a thing released from ?hand comes to rest: the free cell of the thing's own size
+; Where a thing released from ?hand comes to rest: the free cell where the whole thing fits,
 ; at or nearest the hand. No rule holds a point; a cell names the spot and the grid says
 ; whether it is free. @fail while the grid has no answer, which the caller treats as
 ; "not yet".
 (define-func hand-rest-cell (?hand ?item)
-  (env-cell (env-cell-size ?item) [/at_or_near ?hand]))
+  (env-cell ?item [/at_or_near ?hand]))
