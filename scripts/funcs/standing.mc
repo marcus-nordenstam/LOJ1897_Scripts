@@ -115,7 +115,7 @@
 (define-func judge-attraction-of (?other)
   (bind (target-or @self gender @nothing) ?my-sex)
   (bind (target-or ?other gender @nothing) ?their-sex)
-  (bind (known-age @self) ?my-age)
+  (bind (+ /float (target-or @self age -1) 0) ?my-age)
   (bind (known-age ?other) ?their-age)
   (if (and (substantial ?my-sex) (substantial ?their-sex)
            (drawn-to (= ?my-sex ?their-sex))

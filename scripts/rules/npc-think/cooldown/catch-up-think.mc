@@ -21,26 +21,27 @@
   ; ?guest is anyone CO-PRESENT: sourced OBJECTIVELY from @self's current room (env
   ; contents), each guest passively perceived - enumerated, so each co-present listener
   ; hears their own untold slice of @self's news.
-  (role ?guest {?guest isa [k human], condition [k alive]}
-               (spatial ?guest co-located @self)
+  (role @self {@self age ?age}
+    (role ?guest {?guest isa [k human], condition [k alive]}
+                 (spatial ?guest co-located @self)
 
-    ; Non-belief gates (not role filters): extraversion-weighted chance + minimum age.
-    (when (and (chance (* 0.25 (+ 0.5 (target-or @self enthusiasm 0.0))))
-               (>= (years-old @self) 12)))
+      ; His age rides the @self role; the extraversion-weighted chance is a non-belief gate.
+      (when (and (chance (* 0.25 (+ 0.5 (target-or @self enthusiasm 0.0))))
+                 (>= ?age 12)))
 
-    (utility want)
+      (utility want)
 
-    (effects
-      ; Propose telling ?guest ONE piece of my OWN news they have not heard. for-each-present-tense-belief
-      ; walks my {@self <label> ?} beliefs across the relationship labels, binding the matched
-      ; label + its target; the dedup is PER-GUEST - the SAY's aux is the listener, so {@self
-      ; SAY <msg> ?guest} is "have I told THIS guest this". (break) stops at the first untold
-      ; fact. Proposing nothing is a safe no-op.
-      (for-each ?belief-rel (every {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality ?})
-        (do
-          (utterable-msg ?belief-rel): ?msg
-          (if -{@self SAY ?msg ?guest}
-              (then (maintain-proposal {@self SAY ?msg ?guest}) 
-                    (break))))))))
+      (effects
+        ; Propose telling ?guest ONE piece of my OWN news they have not heard. for-each-present-tense-belief
+        ; walks my {@self <label> ?} beliefs across the relationship labels, binding the matched
+        ; label + its target; the dedup is PER-GUEST - the SAY's aux is the listener, so {@self
+        ; SAY <msg> ?guest} is "have I told THIS guest this". (break) stops at the first untold
+        ; fact. Proposing nothing is a safe no-op.
+        (for-each ?belief-rel (every {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality ?})
+          (do
+            (utterable-msg ?belief-rel): ?msg
+            (if -{@self SAY ?msg ?guest}
+                (then (maintain-proposal {@self SAY ?msg ?guest}) 
+                      (break)))))))))
 
   

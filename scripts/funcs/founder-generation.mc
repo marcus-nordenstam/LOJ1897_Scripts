@@ -34,7 +34,7 @@
 
 (define-func seat-founding-head (?h)
   (enter-mind ?h)
-  (if (>= (years-old @self) (founding_head_age_min))
+  (if (>= (any {@self age}).target (founding_head_age_min))
     (then
       (bind (headless-charter-for-self public_orgs) ?sfh-art)
       (if (not (substantial ?sfh-art))

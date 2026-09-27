@@ -17,10 +17,9 @@
   (cooldown 1 m try-once)
   (rng-stream deaths)
 
-  (role @self 
+  (role @self {@self age ?age}
 
-    ; years-old is a non-belief op, so the age gate lives in (when), not the role.
-    (when (and (>= (years-old @self) 1)
+    (when (and (>= ?age 1)
                (chance 0.0008)))   ; ~1% per year background disease rate
 
     (utility survival)

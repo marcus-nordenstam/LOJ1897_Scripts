@@ -14,7 +14,27 @@
 (define-macro fatigue_recover_per_hour () (/ 1.0 6.0))
 (define-macro fatigue_accrue_per_hour () (/ 1.0 16.0))
 (define-macro fatigue_max () 2.0)
-(define-macro waking_day_hours () 16.0)
+
+; THE BODY CLOCK: a pressure toward sleep in fatigue units, read on the PERSONAL clock (the
+; world hour minus the man's chronotype). It holds +amp through the night and -amp through the
+; day, ramping across midnight and across the morning hour, so a late night or a lie-in pulls
+; the next bedtime and waking back toward the clock instead of carrying them forward. The same
+; night holds his appetite down, so each man breakfasts on his own morning.
+(define-macro minutes_per_hour () 60.0)
+(define-macro hours_per_day () 24.0)
+(define-macro circadian_amp () 0.25)
+(define-macro circadian_ramp_hours () 1.0)
+(define-macro circadian_morning_hour () 6.0)
+(define-macro chronotype_sigma_hours () 0.5)
+(define-macro chronotype_max_hours () 1.0)
+
+; SLEEP: the sleepiness at which a man goes to bed. A normal day crosses it near 23:00 on his
+; own clock; an unslept debt crosses it in the day, and that is a nap. A sleep ends once the
+; debt left and the body clock together no longer press, never before the inertia floor.
+(define-macro sleep_gate () 0.8)
+(define-macro sleep_inertia_min () 120.0)
+(define-macro body_clock_step_min () 10.0)
+(define-macro body_clock_search_steps () 144.0)
 
 ; HUNGER: every act accrues it, sleep included - you wake hungry. Meal acts
 ; reduce it content-side (set-attr @self hunger ...).

@@ -35,12 +35,12 @@
   (cooldown 1 m try-until-succ)
   (rng-stream employment)
 
-  (role @self 
+  (role @self {@self age ?age}
     (role ?h {@self home ?h}
              (or {@self own [k manor]:?h}
                  {@self own [k townhouse]:?h})
 
-      (when (and (>= (years-old @self) 21)                  ; non-belief age gate -> (when)
+      (when (and (>= ?age 21)
                  (or (in-month 12) (in-month 1) (in-month 2)) ; winter, once a year
                  -{@self goal {@self staff-household}}))        ; mint once, then skip
 
@@ -72,7 +72,7 @@
 ;             (or {@self own [k manor]:?h}
 ;                 {@self own [k townhouse]:?h})
 
-;      (when (>= (years-old @self) 21))                      ; non-belief age gate -> (when)
+;      (when (>= (years-old @self) 21))
 ;      (utility errand)
 ;      (effects (maintain-proposal {@self FOUND-ORG [k org household] [k job head-of-household]})))))
 
@@ -90,14 +90,14 @@
   (goal {@self staff-household})
   (rng-stream employment)
 
-  (role @self 
+  (role @self {@self age ?age}
     (role ?h {@self home ?h}
              {@self own ?h}
 
       ; Winter-only so the bout CEASES each spring and re-arms: a think-act whose (when)
       ; stays true holds forever and fires exactly once (never refilling). Pulsing the
       ; gate makes it re-attempt every winter as servants die or the labour pool refills.
-      (when (and (>= (years-old @self) 21)
+      (when (and (>= ?age 21)
                  (or (in-month 12) (in-month 1) (in-month 2))))
 
       ; TELEPATHY, and a second hiring path besides: this hired straight out of a jobless

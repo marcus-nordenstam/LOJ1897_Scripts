@@ -23,7 +23,7 @@
   (cooldown 1 m try-once)
   (rng-stream behaviour)
 
-  (role @self {@self friend ?}
+  (role @self {@self age ?age} {@self friend ?}
     ; The person gossiped ABOUT: someone @self knows of, drawn by roulette.
     (role ?x {?x isa [k human], condition [k alive]}
              (select (score 1) (policy roulette))
@@ -39,7 +39,7 @@
                    (chance (* 0.3
                               (+ 0.5 (target-or @self enthusiasm 0.0))
                               (+ 0.5 (target-or @self assertiveness 0.0))))
-                   (>= (years-old @self) 12)))
+                   (>= ?age 12)))
 
         (utility want)
 

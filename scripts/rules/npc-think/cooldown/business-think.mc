@@ -49,7 +49,7 @@
   ; {?job org ?org} (threaded off {@self job ?job}). The working-age band, not-
   ; already-an-owner, merit and means dims, the completion gate and the onset
   ; chance live in (when ...) below.
-  (role @self (old_human @self)
+  (role @self {@self age ?age} (old_human @self)
               {@self wealth ?wealth}
               -{@self backed-by ?}
               -{@self job [k head-of-non-household-org]}
@@ -64,8 +64,8 @@
         ; (chance) is an ONSET roll - (latch-eval) rolls it at the fire and LOCKS it once
         ; holding (re-rolling each month until it lands). The working-age band, not-already-an-
         ; owner and the merit + means dims stay live gates.
-        (when (and (>= (years-old @self) 25)
-                   (<= (years-old @self) 55)
+        (when (and (>= ?age 25)
+                   (<= ?age 55)
                    (>= (diligence) 0.55)
                    (< ?wealth 0.5)
                    (latch-eval (chance (* 0.033 (+ 0.5 (target-or @self assertiveness 0.0)))))))

@@ -1,24 +1,13 @@
 ; ----------------------------------------------------------------------------
-; rest (npc-action) - the sleep act of the FATIGUE / REST aspect. The intra-day
-; think rules (seek_rest / sleep / idle_go_home) live in npc-think/rest.mc;
-; this file holds the durative sleep act promoted from the SLEEP desire.
+; SLEEP (npc-action) - the sleep act of the FATIGUE / REST aspect, proposed by go-to-bed
+; (npc-tasks/go-to-bed-task.mc) in a bedroom.
 ; ----------------------------------------------------------------------------
 
-; Sleep physics: recovery clears fatigue at 1/6 per hour (the engine's
-; completion physiology), so the natural sleep length is fatigue x 6h. The
-; floor is sleep inertia (even a barely-tired sleeper stays down a while).
-(define-macro sleep-min-per-fatigue () 360.0)
-(define-macro sleep-inertia-floor-min () 120.0)
-
-; The sleep act, promoted from the SLEEP desire at home: the action computes
-; its NATURAL duration from the sleeper's own physiology - no calendar, no
-; schedule, no beliefs; sleeping is simulated, not reasoned. The actor wakes
-; when the debt is slept off. A scream, an alarm or a physical attack should
-; PREEMPT the running sleep (the engine preemption seam is future work); the
-; old alarm-clock / obligation caps were schedule reasoning and are gone.
-; A sleep begun in the evening ends the NEXT MORNING, and a window simulates one day: crossing
-; out of it is proper to sleeping, not a mistake, so the window-exit pass concludes this act at
-; the hour its duration gave it rather than cutting it off at midnight.
+; The act computes its NATURAL duration from the sleeper's own body (sleep-duration-min,
+; funcs/physiology.mc): the debt left and his body clock - no schedule, no beliefs. A sleep
+; begun in the evening ends the NEXT MORNING, and a window simulates one day: crossing out of it
+; is proper to sleeping, not a mistake, so the window-exit pass concludes this act at the hour
+; its duration gave it rather than cutting it off at midnight.
 (npc-action {@self SLEEP}
   (motor all)
   (init (set-attr @self awareness [k asleep]))
@@ -26,6 +15,5 @@
   (presentation
     (preroll 0.0) (in 0.0) (out 0.0))
   (succeed-on-window-exit)
-  (duration (seconds (floor (max (sleep-inertia-floor-min)
-                                 (* (sleep-min-per-fatigue) (attr @self fatigue)))) min))
+  (duration (seconds (floor (sleep-duration-min)) min))
   (effects (set-outcome {@self SLEEP} /succ)))

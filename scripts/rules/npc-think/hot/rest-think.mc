@@ -2,82 +2,29 @@
 ; rest (npc-think) - the FATIGUE / REST aspect: a real physiological fatigue model
 ; drives when an NPC sleeps.
 ;
-; (target-or @self sleepiness 0.0) reads the ADRENALINE-MASKED fatigue (sleepiness = fatigue *
-; (1 - adrenaline), derived by update_physiology). The raw `fatigue` attr (0 rested ..
-; 1 ready-for-bed, can exceed 1) is the untouched debt; the sleep act's completion REDUCES
-; it (1/6 per hour slept -> 6h clears 1.0), waking time accrues it. A combatant reads
-; sleepiness ~0 during a fight (adrenaline masks it) then crashes when the surge fades.
-; A separate
-; appraiser de-quantizes it into {@self alertness alert|tired|sleepy} (the
-; queryable memory); this aspect and the utility only ever read the attr.
+; Sleepiness = (fatigue + the body clock's pressure) * (1 - adrenaline), derived by
+; run_physiology (funcs/physiology.mc). Fatigue is the untouched debt, the clock pulls bedtime and
+; waking toward the man's own chronotype, and a combatant reads ~0 until the surge fades.
 ;
-; Three intra-day rules, competing by (utility):
-;   - seek_rest    : tired and not home -> head home (rises with fatigue).
-;   - sleep        : at home -> the durative sleep act ((does sleep) records the
-;                    {@self SLEEP} memory; its completion resets fatigue). Utility
-;                    climbs with fatigue and SKYROCKETS once fatigue > 1.0, so an
-;                    over-tired NPC abandons everything else and goes to bed.
-;   - idle_go_home : the mild fallback - when nothing pulls you,
-;                    drift home. Lowest priority.
-; The durative sleep act itself (sleep_act) lives in npc-act/rest.mc.
+; Two rules:
+;   - sleep        : sleepy -> go-to-bed (npc-tasks/go-to-bed-task.mc), which goes home to a
+;                    bedroom and SLEEPs there. A normal day crosses the gate near 23:00 on his
+;                    own clock; a night's unslept debt crosses it in the day, and that is a nap.
+;   - idle_go_home : the mild fallback - when nothing pulls you, drift home.
 ; ----------------------------------------------------------------------------
 
 (include "../../../macros/intensity-macros.mc")
+(include "../../../macros/physiology-macros.mc")
 
-; THE SLEEP DRIVE - the banded fatigue escalation, aligned with the engine's alertness
-; thresholds (update_physiology: < 0.5 alert, < 1.0 tired, else sleepy; accrual 1/16 per
-; waking hour, so 0.8 ~ 19:00 and 1.0 ~ 22:00). Ordinary drowsiness is WANT-tier (it
-; loses to work / meals / errands, as the old 90*s^2 value did); NEED engages only when
-; genuinely tired late evening (bedtime outranks leisure and duty); CRISIS past the
-; collapse knee, so an exhausted NPC abandons everything and beds down. The
-; night-onset case (hour >= 22 with low sleepiness) rides the sleep rung's (when)
-; hour gate at want-tier, where midnight has no real competitors.
-(define-macro sleep-drive ()
-  (homeostatic-banded (target-or @self sleepiness 0.0) 2.0
-    [/want   0.0  0   400]
-    [/need   0.8  400 900]
-    [/crisis 1.0  800 1000]))
-
-; tired and away from home: go home to rest. The drive climbs with fatigue - WANT band
-; while merely tired, NEED late evening, CRISIS past the collapse knee, so an exhausted
-; NPC abandons everything and heads home.
-(npc-think seek_rest
-  (role ?home {@self home ?home}
-              (not (spatial @self building ?home))
-    (when (> (target-or @self sleepiness 0.0) 0.7))
-    (utility (sleep-drive))
-    (effects (maintain-proposal {@self go ?home}))))
-
-; at home and at all tired (or it is night): sleep until the morning alarm. The
-; sleep act records a {@self SLEEP} memory ((does sleep)); its completion resets
-; fatigue. Utility skyrockets past full fatigue so sleep dominates work / leisure.
+; NEED from the gate, CRISIS past the collapse knee, so an exhausted man abandons everything
+; and beds down.
 (npc-think sleep
-  (at-time (hour 6 22))
-  (fatigue 0)                      ; sleep is a bodily need, not a fruitless search - never fatigue-capped
   (role ?home {@self home ?home}
-              (spatial @self building ?home)
-    ; You cannot sleep through an assault - being under attack gates the whole rest
-    ; aspect OUT, so the fight acts (defend / flee / scream) take over (fight.mc).
-    (when (and (or (> (target-or @self sleepiness 0.0) 0.5)
-                   (>= (time hour) 22)
-                   (< (time hour) 6))))
-    ; Banded fatigue drive (WANT while merely drowsy, NEED late evening, CRISIS past
-    ; collapse). The night gate lives in the (when) above: past 22h even a low drive
-    ; proposes, and want-tier suffices - midnight has no real competitors.
-    (utility (sleep-drive))
-    ; Duration is a FUNCTION: sleep until the morning alarm, but no longer than
-    ; until a pending obligation - a tired NPC with a gathering tonight wakes in
-    ; time to get ready instead of napping straight through it, and an evening
-    ; napper wakes for the household supper (the pre-dinner doze; on a normal
-    ; NIGHT sleep the next supper hour is ~20h away, far past the alarm, so
-    ; nights are unaffected - and an exhausted riser just goes straight back to
-    ; bed, the fatigue knee wins the 18:00 re-deliberation). (min ...) of the
-    ; alarm and every constraint; minutes-until-attend / -until-hour are huge
-    ; sentinels when nothing is pending.
-    ; PROPOSE the SLEEP act (act_body_purification): sleep's own (when) - at home + sleepy/night - IS
-    ; the precondition, so this propose is the whole terminal. sleep_act carries the duration
-    ; + ends the belief; fatigue recovery keys on the SLEEP label at completion.
-    (effects       (maintain-proposal {@self SLEEP}))))
+    (when (> (target-or @self sleepiness 0.0) (sleep_gate)))
+    (utility (homeostatic-banded (target-or @self sleepiness 0.0) 2.0
+               [/need   0.8  400 900]
+               [/crisis 1.0  800 1000]))
+    (effects (maintain-proposal {@self go-to-bed ?home}))))
 
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.
 (npc-think idle_go_home

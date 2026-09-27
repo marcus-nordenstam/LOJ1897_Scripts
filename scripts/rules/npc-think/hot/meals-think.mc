@@ -57,28 +57,25 @@
 ; The idle blocks, one per canonical meal window, each aimed at its ABSOLUTE
 ; boundary hour (the eat chains decide the actual eating at those completions;
 ; a household's own +-1h mealtime shift just moves who wins the boundary).
-; Per-window (when)s fell each bout at its boundary, so a resumed dwell never
+; Each (hours ..) window ends its bout at its boundary, so a resumed dwell never
 ; carries a stale ?until across windows; post-supper the block runs to
 ; midnight and the sleep aspect takes over long before.
 (npc-think dwell_at_home_morning
-  (at-time (hour 0 12))
   (goal    {@self DWELL ?home})
   (role @self (spatial @self building ?home)
-    (when    (and (< (time hour) 12)))
+    (when (hours 0 12))
     (effects (maintain-proposal {@self DWELL ?home 12}))))
 
 (npc-think dwell_at_home_afternoon
-  (at-time (hour 12 18))
   (goal    {@self DWELL ?home})
   (role @self (spatial @self building ?home)
-    (when    (and (>= (time hour) 12) (< (time hour) 18)))
+    (when (hours 12 18))
     (effects (maintain-proposal {@self DWELL ?home 18}))))
 
 (npc-think dwell_at_home_evening
-  (at-time (hour 18 0))
   (goal    {@self DWELL ?home})
   (role @self (spatial @self building ?home)
-    (when    (and (>= (time hour) 18)))
+    (when (hours 18 0))
     (effects (maintain-proposal {@self DWELL ?home 24}))))
 
 ; ============================ the unified eat aspect ==========================
@@ -130,13 +127,10 @@
 (define-macro supper-lead-hours ()      1)
 
 (npc-think want_breakfast
-  (at-time (hour (household-breakfast-hour) (+ (household-breakfast-hour) (breakfast-window-hours))))
   (role ?home {@self home ?home}
-              {?home breakfast-hour ?h}   ; existence cached, ?h binds at fire
+              {?home breakfast-hour ?}
               (spatial @self building ?home)
-    (when (and (> (target-or @self appetite 0.0) 0.25)
-               (>= (time hour) ?h)
-               (< (time hour) (+ ?h (breakfast-window-hours)))
+    (when (hours (household-breakfast-hour) (+ (household-breakfast-hour) (breakfast-window-hours))) (and (> (target-or @self appetite 0.0) 0.25)
                (> (believed-home-food-count ?home) 0)))
     (utility need)
     (effects       (begin-goal {@self eat [k breakfast] ?home}))
@@ -144,27 +138,21 @@
 
 ; LUNCH at the workplace - the CO-WORKER channel (eat where you stand at midday).
 (npc-think want_lunch_work
-  (at-time (hour 12 14))
   (role ?job {@self job ?job}
     (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
                {?org workplace ?wp}       ; ?wp binds at fire
                (spatial @self building ?wp)                    ; residual gate, re-checked at the when-seam
-      (when (and (> (target-or @self appetite 0.0) 0.25)
-                 (>= (time hour) 12)
-                 (< (time hour) 14)))
+      (when (hours 12 14) (> (target-or @self appetite 0.0) 0.25))
       (utility need)
       (effects       (begin-goal {@self eat [k lunch] ?wp}))
       (when-unsupported-effects (set-outcome {@self goal {@self eat [k lunch] ?wp}} /succ)))))
 
 ; LUNCH at home - the jobless / housewife / child midday meal, per lunch-hour.
 (npc-think want_lunch_home
-  (at-time (hour (household-lunch-hour) (+ (household-lunch-hour) (meal-window-hours))))
   (role ?home {@self home ?home}
-              {?home lunch-hour ?h}   ; existence cached, ?h binds at fire
+              {?home lunch-hour ?}
               (spatial @self building ?home)
-    (when (and (> (target-or @self appetite 0.0) 0.25)
-               (>= (time hour) ?h)
-               (< (time hour) (+ ?h (meal-window-hours)))
+    (when (hours (household-lunch-hour) (+ (household-lunch-hour) (meal-window-hours))) (and (> (target-or @self appetite 0.0) 0.25)
                (> (believed-home-food-count ?home) 0)))
     (utility need)
     (effects       (begin-goal {@self eat [k lunch] ?home}))
@@ -173,12 +161,9 @@
 ; SUPPER at home - the FAMILY table. The window opens an hour early so eat_go's
 ; travel (30 min) lands the household home by the cook's hour.
 (npc-think want_supper
-  (at-time (hour (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))))
   (role ?home {@self home ?home}
-              {?home supper-hour ?h}   ; existence cached, ?h binds at fire
-    (when (and (> (target-or @self appetite 0.0) 0.25)
-               (>= (time hour) (- ?h (supper-lead-hours)))
-               (< (time hour) (+ ?h (meal-window-hours)))
+              {?home supper-hour ?}
+    (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> (target-or @self appetite 0.0) 0.25)
                (> (believed-home-food-count ?home) 0)))
     (utility need)
     (effects       (begin-goal {@self eat [k supper] ?home}))
@@ -189,16 +174,13 @@
 ; venue is the eat place; eat_go walks there. Utility 70: under the home supper
 ; (whose stock gate already failed if this is eligible), over leisure.
 (npc-think want_eat_out_pub
-  (at-time (hour (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))))
   ; class gate = CACHED self-gate filter (the belief form, not the live conjunct).
   (role @self {@self wealth ?wealth} 
               -{@self class-situation [k upper]}
     (role ?home {@self home ?home}
-                {?home supper-hour ?h}   ; existence cached, ?h binds at fire
+                {?home supper-hour ?}
       (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette unknown-last))
-        (when (and (> (target-or @self appetite 0.0) 0.25)
-                   (>= (time hour) (- ?h (supper-lead-hours)))
-                   (< (time hour) (+ ?h (meal-window-hours)))
+        (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> (target-or @self appetite 0.0) 0.25)
                    (> ?wealth 0.2)
                    (= (believed-home-food-count ?home) 0)))
         (utility need (below eat))
@@ -206,16 +188,13 @@
         (when-unsupported-effects (set-outcome {@self goal {@self eat [k supper] ?venue}} /succ))))))
 
 (npc-think want_eat_out_restaurant
-  (at-time (hour (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))))
   ; upper-class only - the CACHED self-gate skips the majority (and the
   ; larder belief-fold below) with zero eval.
   (role @self {@self class-situation [k upper], wealth ?wealth}
     (role ?home {@self home ?home}
-                {?home supper-hour ?h}   ; existence cached, ?h binds at fire
+                {?home supper-hour ?}
       (role ?venue [k building restaurant] (select (score (near @self ?venue)) (policy roulette unknown-last))
-        (when (and (> (target-or @self appetite 0.0) 0.25)
-                   (>= (time hour) (- ?h (supper-lead-hours)))
-                   (< (time hour) (+ ?h (meal-window-hours)))
+        (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> (target-or @self appetite 0.0) 0.25)
                    (> ?wealth 0.2)
                    (= (believed-home-food-count ?home) 0)))
         (utility need (below eat))

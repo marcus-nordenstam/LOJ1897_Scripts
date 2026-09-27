@@ -106,7 +106,7 @@
   (cooldown 1 m try-until-succ)
   (rng-stream behaviour)
 
-  (role @self 
+  (role @self {@self age ?age}
     ; The woman of the house, role-cast from the asker's OWN kinship beliefs: a
     ; female mother / parent / spouse (a child asks their mother; a husband his
     ; wife). Same {@self <kin> ?cand} cacheable shape covet uses. The woman
@@ -119,7 +119,7 @@
       (role ?home {@self home ?home}
                   -{?home supper-hour ?}
 
-        (when (>= (years-old @self) 3))
+        (when (>= ?age 3))
 
         ; Learning the house's hours beats settling into a leisure day.
         (utility idle (above rest))

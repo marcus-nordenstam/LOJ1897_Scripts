@@ -29,7 +29,7 @@
   ;; @self the patron, a man of standing: exemplary character (belief-pure here).
   ;; The age / prestige floors and the per-patron (chance) roll are non-belief
   ;; gates and now live in the (when ...) clause below.
-  (role @self (old_human @self)
+  (role @self {@self age ?age} (old_human @self)
               {@self repute [k exemplary], prestige ?prestige}
     ;; A protege one or more class steps below the patron, of sound character
     ;; (not scandalous), without an existing backer. The patron judges the
@@ -55,7 +55,7 @@
       ;; Non-belief gates: the per-patron (chance) roll (first, cheap, short-circuits)
       ;; and the patron's age / prestige floors.
       (when (and (chance 0.005)
-                 (>= (years-old @self) 35)
+                 (>= ?age 35)
                  (>= ?prestige 0.65)))
 
       ;; The patron gates only on his OWN knowledge of who is backed (the {backed-by}

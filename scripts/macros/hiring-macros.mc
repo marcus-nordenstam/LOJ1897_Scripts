@@ -18,13 +18,13 @@
   (record [k respectable]  3)
   (record [k exemplary]    4))
 
-; (job-seeker ?w): the WORKER-side eligibility to hunt for waged work - working age,
+; (job-seeker ?w ?age): the WORKER-side eligibility to hunt for waged work - working age,
 ; not disgraced, and not rich enough to live without a wage. The wealth leg reads as
 ; "needs work" for a seeker with no wealth belief yet (the inner (and ..) is false).
 ; Shared by the two job_search pre-commit cases (head to a known board / search for one).
-(define-macro job-seeker (?w)
-  (and (>= (years-old ?w) 16)
-       (<= (years-old ?w) 55)
+(define-macro job-seeker (?w ?age)
+  (and (>= ?age 16)
+       (<= ?age 55)
        (!= (any {?w repute ?}).target [k scandalous])
        (not (and {?w wealth ?wl} (>= ?wl (seek_job_wealth_ceiling))))))
 

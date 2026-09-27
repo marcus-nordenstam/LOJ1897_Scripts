@@ -98,6 +98,7 @@
   (record [k appearance beautiful]     2))
 
 (include "../macros/tunables.mc")
+(include "../macros/physiology-macros.mc")
 
 ; One CONTINUOUS genetic trait (the Big-Five aspects, the dark tetrad,
 ; attractiveness, the physicals). Parentless: N(mean, sigma) about the
@@ -240,7 +241,9 @@
 (define-func seed-human-genetics (?h ?gender ?mother ?father)
   (seed-singular-traits ?h ?mother ?father)
   (seed-continuous-traits ?h ?gender ?mother ?father)
-  (accentuate-traits ?h ?gender))
+  (accentuate-traits ?h ?gender)
+  (set-attr ?h chronotype (clamp (sample-gaussian 0.0 (chronotype_sigma_hours))
+                                 (- 0.0 (chronotype_max_hours)) (chronotype_max_hours))))
 
 ; The body at rest: the drives run_physiology advances from here.
 (define-func seed-human-vitals (?h)

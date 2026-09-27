@@ -14,8 +14,8 @@
 ; attrs carry (auto-percept) in attrs.mon, so a mind internalizes {?o isa <kind>} /
 ; {?o condition alive} / {?o gender <g>} / {?o age-band <band>} on sight, even for
 ; strangers; the self mirrors them about @self via update_self_awareness). No
-; omniscient (kind ...) / (alive) / (attr ...) / (years-old ...) ops. Age is band-only
-; (see macros/age_macros.mc).
+; omniscient (kind ...) / (alive) / (attr ...) ops. Another's age is band-only
+; (see macros/age_macros.mc); his own is {@self age <years>}.
 ;
 ; A BINDING role (?x) reads the deliberating mind's OWN beliefs ABOUT the candidate
 ; ({?x <label> ..}) - what the per-(mind, signature) object cache materializes; an

@@ -21,33 +21,29 @@
 ; Two cases, complementary on whether @self KNOWS a church: he heads to one he knows, or
 ; he searches the region for one (the find-building task walks the unobserved structures).
 (npc-think seek_board_visit
-  (at-time (hour (business_open_hour) (+ (business_close_hour) 1)))
   (aspect labour)
   (cooldown 1 m try-until-succ)
   (rng-stream employment)
-  (role @self -{@self job ?}
+  (role @self {@self age ?age}
+              -{@self job ?}
               -{@self apply-for ? /pres}
     (role ?board [k building church] (select (score (near @self ?board)) (policy roulette unknown-last))
       (role @self (not (spatial @self building ?board))
-        (when (and (job-seeker @self)
-                   (latch-eval (and (>= (time hour) (business_open_hour))
-                                    (<= (time hour) (business_close_hour))))))
+        (when (hours (business_open_hour) (business_close_hour)) (job-seeker @self ?age))
         (utility errand)
         (effects (maintain-proposal {@self go ?board}))))))
 
 (npc-think seek_board_find
-  (at-time (hour (business_open_hour) (+ (business_close_hour) 1)))
   (aspect labour)
   (cooldown 1 m try-until-succ)
   (rng-stream employment)
-  (role @self -{@self job ?}
+  (role @self {@self age ?age}
+              -{@self job ?}
               -{@self apply-for ? /pres}
     (no-role [k building church])
     ; The search's own /fail act-memory is the "this region has no church" record - it stops
     ; the hunt re-proposing forever once find-building has walked every structure.
-    (when (and (job-seeker @self)
-               (latch-eval (and (>= (time hour) (business_open_hour))
-                                (<= (time hour) (business_close_hour))))
+    (when (hours (business_open_hour) (business_close_hour)) (and (job-seeker @self ?age)
                -{@self find-building [k building church] ? /fail}
                (current-exterior @self): ?rg))
     (utility errand)
@@ -71,11 +67,9 @@
 ; --- a posting @self has READ, qualifies for (class-floor derived from the post's own
 ; kind), and never APPLIED FOR -> begin ONE apply-for, keyed on the job-kind + the concrete
 ; WORKPLACE the advert named. apply-for's /succ is the applied record: one application per
-; post, ever; the verdict comes back by letter (take_up_offer below). Picked in DAYTIME only
-; (LATCHED at the pick: a plain hour test is re-read on hold and would withdraw the errand
-; at dusk): the application is an hour's errand, and a night pick would sit until morning.
+; post, ever; the verdict comes back by letter (take_up_offer below). Admitted in business
+; hours only: at closing the errand is withdrawn, since an office reached after it is shut.
 (npc-think seek_apply_pick
-  (at-time (hour (business_open_hour) (+ (business_close_hour) 1)))
   (aspect labour)
   ; ONE application at a time: the lock admits a single activation, held for as long as
   ; the maintained apply-for runs; it releases when the activation retires (hired, or the
@@ -94,9 +88,7 @@
                  {?job job-id ?}
                  -{? job ?job}
                  (select (score 1) (policy roulette))
-        (when (and
-                   (latch-eval (and (>= (time hour) (business_open_hour)) (<= (time hour) (business_close_hour))))
-                   (kind ?job): ?jk
+        (when (hours (business_open_hour) (business_close_hour)) (and (kind ?job): ?jk
                    (if (table-match occupations job ?jk class-floor ?cf0) (then ?cf0) (else [k lower])): ?cf
                    (class-at-least @self ?cf)
                    -{@self apply-for ?job /succ}))
@@ -114,18 +106,15 @@
 ; the errand takes the post. Once the errand has CONCLUDED either way he does not go again -
 ; a man turned away does not keep returning.
 (npc-think take_up_offer
-  (at-time (hour 8 17))
   (aspect labour)
   (role ?job {?job offered-to @self}
     ; No -{@self job ?} here: the word that makes the seat his lands while the errand is
     ; still concluding, and a guard on it withdrew the errand a cycle before its own /succ
     ; (measured). The concluded record below is what retires this driver.
-    ; DAYTIME, latched at the pick: you present yourself at a place of business in business
-    ; hours. Unlatched, the errand is picked the moment the letter is read - two in the
-    ; morning - and he arrives at a dark office with nobody keeping the book. Latched, so a
-    ; plain hour test is not re-read on hold and does not withdraw him at dusk mid-journey.
-    (when (and (latch-eval (and (>= (time hour) 8) (<= (time hour) 16)))
-               -{@self accept-job-offer ?job /succ}
+    ; Business hours only: you present yourself at a place of business while it is open, and
+    ; at closing the errand is withdrawn - an office reached after it is shut has nobody
+    ; keeping the book.
+    (when (hours (business_open_hour) (business_close_hour)) (and -{@self accept-job-offer ?job /succ}
                -{@self accept-job-offer ?job /fail}))
     (utility errand)
     (effects (maintain-proposal {@self accept-job-offer ?job}))))

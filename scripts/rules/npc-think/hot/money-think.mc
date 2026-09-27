@@ -28,11 +28,12 @@
 
 (npc-think accrue_savings
   (cooldown 1 m try-until-succ)
-  (role ?pile {@self coin-pile ?pile}
-    (when (and (in-month 12)
-               (>= (years-old @self) 15)))
-    (utility duty)
-    (effects
-      (bind (accrual-net @self) ?net)
-      (maintain-proposal {@self ACCRUE-SAVINGS ?pile ?net})
-      (begin-belief {@self wealth (wealth-from @self (+ (coin-balance @self) ?net))}))))
+  (role @self {@self age ?age}
+    (role ?pile {@self coin-pile ?pile}
+      (when (and (in-month 12)
+                 (>= ?age 15)))
+      (utility duty)
+      (effects
+        (bind (accrual-net @self) ?net)
+        (maintain-proposal {@self ACCRUE-SAVINGS ?pile ?net})
+        (begin-belief {@self wealth (wealth-from @self (+ (coin-balance @self) ?net))})))))

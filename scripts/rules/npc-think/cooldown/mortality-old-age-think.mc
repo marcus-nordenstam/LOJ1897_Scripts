@@ -17,13 +17,12 @@
   (cooldown 1 m try-once)
   (rng-stream deaths)
 
-  (role @self 
+  (role @self {@self age ?age}
 
-    ; years-old is a non-belief op, so the age gate lives in (when), not the role.
-    (bind (mortality_by_age (years-old @self)) ?per_year)
+    (bind (mortality_by_age ?age) ?per_year)
     (bind (/ ?per_year 12.0) ?per_month)
 
-    (when (and (>= (years-old @self) 15)
+    (when (and (>= ?age 15)
                (chance ?per_month)))
 
     (utility survival)

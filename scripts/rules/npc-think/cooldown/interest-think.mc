@@ -41,14 +41,14 @@
   (rng-stream behaviour)
 
   ; The child (@self) is the subject; a known mother gates it (births always seed
-  ; one), and the effect reads both parents. age / politeness-weighted chance are
-  ; non-belief ops -> (when). politeness amplifies - the conforming child takes up
+  ; one), and the effect reads both parents. His age rides the @self role; the
+  ; politeness-weighted chance is a non-belief op -> (when). politeness amplifies - the conforming child takes up
   ; the parent's hobby, the contrarian rarely.
-  (role @self 
+  (role @self {@self age ?age}
               {@self mother ?}
 
-    (when (and (>= (years-old @self) 3)
-               (<= (years-old @self) 14)
+    (when (and (>= ?age 3)
+               (<= ?age 14)
                (chance (* 0.015 (+ 0.3 (target-or @self politeness 0.0))))))
 
     (effects
@@ -76,16 +76,16 @@
   (rng-stream behaviour)
 
   ; @self is the subject; a known friend gates it and the effect reads each
-  ; friend's own interests and copies one @self lacks. age + the openness x
-  ; enthusiasm chance are non-belief ops -> (when).
-  (role @self 
+  ; friend's own interests and copies one @self lacks. His age rides the @self role;
+  ; the openness x enthusiasm chance is a non-belief op -> (when).
+  (role @self {@self age ?age}
               {@self friend ?}
     ; The friend whose enthusiasm rubs off - a uniform pick over the circle.
     (role ?friend {?friend isa [k human], condition [k alive]}
       {@self friend ?friend}
       (select (score 1) (policy roulette))
 
-      (when (and (>= (years-old @self) 8)
+      (when (and (>= ?age 8)
                  (chance (* 0.0167 (target-or @self openness 0.0) (+ 0.5 (target-or @self enthusiasm 0.0))))))
 
       (effects
@@ -121,12 +121,12 @@
   (rng-stream behaviour)
 
   ; The only non-relational path: @self drifts into a brand-new interest with no
-  ; specific source, sampled at random. No belief filter; age + the openness-squared
-  ; chance are non-belief ops -> (when). Gated HARD on openness so only the
+  ; specific source, sampled at random. His age rides the @self role; the
+  ; openness-squared chance is a non-belief op -> (when). Gated HARD on openness so only the
   ; genuinely curious drift - trait-rooted, not bare chance.
-  (role @self 
+  (role @self {@self age ?age}
 
-    (when (and (>= (years-old @self) 10)
+    (when (and (>= ?age 10)
                (chance (* 0.0083 (target-or @self openness 0.0) (target-or @self openness 0.0)))))
 
     (effects

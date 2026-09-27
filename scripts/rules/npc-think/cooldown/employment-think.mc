@@ -67,12 +67,12 @@
   (rng-stream employment)
 
   ;; The worker (@self) decides to retire; age + chance -> (when).
-  (role @self
+  (role @self {@self age ?age}
               {@self job ?}
 
     ; Re-firing is harmless: (goal) is idempotent, so re-rolling the chance while the
     ; worker still holds an unacted retire goal just re-mints the same goal (no-op).
-    (when (and (>= (years-old @self) 65)
+    (when (and (>= ?age 65)
                (chance 0.033)))   ; /12 of the old annual 0.4 (now monthly)
 
     (utility errand)

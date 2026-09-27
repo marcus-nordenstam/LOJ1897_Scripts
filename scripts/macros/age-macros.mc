@@ -1,12 +1,11 @@
 ; ----------------------------------------------------------------------------
 ; age_macros.mc - perceptible age-band predicates, as define-macros.
 ;
-; Age is NOT read as a number any more (the old (years-old ?o) op read the env
-; birth-date attr OMNISCIENTLY). Instead every mind holds a PERCEIVED age-band
-; belief about the people it has seen - {?o age-band <band>} - minted on sight
-; (perceive_person_appearance), even for strangers. The exact birth-date is
-; communicated only to friends-and-closer. So role filters test the band, never
-; a specific age.
+; A man reads his OWN age as a number, {@self age <years>}. Of others every mind
+; holds a PERCEIVED age-band belief about the people it has seen - {?o age-band
+; <band>} - minted on sight (perceive_person_appearance), even for strangers. The
+; exact birth-date is communicated only to friends-and-closer. So role filters test
+; another's band, never a specific age.
 ;
 ; The ladder (concepts.mon `age-band`, C++ age_band_index is the source of truth):
 ;   infant 0-2 < child 3-9 < adolescent 10-15 < youth 16-17 < young-adult 18-29

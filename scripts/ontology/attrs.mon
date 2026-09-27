@@ -80,8 +80,8 @@
 
 # Demographics
 (attr game-role (type kind) (per obs) (auto-percept) (unaware))
-(attr age (type int) (range 0 120) (spec-attr age) (per feel) (state-flags-tar @excl) (talkable))
-(attr age-group (type int) (range 0 8) (spec-attr age-group) (per obs) (auto-percept) (state-flags-tar @excl))
+# A man's age in whole years, felt by him: stamped on his birthday by refresh-age (funcs/age.mc).
+(attr age (type int) (range 0 120) (per feel) (state-flags-tar @excl) (talkable))
 # Perceptible life-stage (the @excl concept + its 8 band kinds live in
 # concepts.mon). age-band is what anyone SEES on sight - kind/gender/age-band are
 # visible even to strangers - so it is (auto-percept): a mind that observes a
@@ -90,7 +90,7 @@
 # self-observe inside update_self_awareness (it mirrors the (auto-percept) set in
 # hsim too). NOT int-feel - a feel+obs split on an @excl attr makes the FEEL and
 # visual passes end each other's belief, churning the self band to /past.
-# Recomputed from birth-date yearly (hsim::refresh_all_age_attrs) + at creation.
+# Stamped with age by refresh-age (funcs/age.mc) at creation and on each birthday.
 (attr age-band (type kind) (per obs) (auto-percept))
 # The +/-1 proximity window of age-band (a plural set of band kinds), perceived
 # about OTHERS so the age-peers macro can test "same / adjacent band" without
@@ -127,6 +127,10 @@
 # (the queryable memory). The rest aspect reads it for the sleep-pull utility; the
 # sleep act's completion reduces it (1/6 per hour slept), waking time accrues it.
 (attr fatigue (type float) (range 0 2) (imperceptible) (state-flags-tar @excl))
+
+# Chronotype, the hours a man's body clock runs behind the town's (negative = ahead): an early
+# riser sleeps, wakes and hungers before his household, a night owl after. Dealt at birth.
+(attr chronotype (type float) (range -1 1) (imperceptible))
 
 # Hunger, the continuous physical need-to-eat state (0 just-ate .. 1 very
 # hungry, can exceed 1 when meals are missed). Imperceptible, like fatigue:

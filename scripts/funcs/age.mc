@@ -1,9 +1,9 @@
 ; ----------------------------------------------------------------------------
 ; age.mc - the yearly age stamp.
 ;
-; age-band and age-span are (per obs) (auto-percept) attrs, so the moment they are
-; WRITTEN the self-perceive pass mirrors them into {@self age-band <band>} and
-; every observer internalizes them on sight. Nothing else has to mint anything.
+; age is a (per feel) attr, felt by its bearer the moment it is written, so he holds
+; {@self age <years>} and his own rules read it. age-band and age-span are (per obs)
+; (auto-percept) attrs every observer internalizes on sight. Nothing else has to mint anything.
 ;
 ; They were written by refresh_all_age_attrs, which was stripped as content in the
 ; C++ migration and never rewritten - so for as long as that hole stood, no NPC in
@@ -17,9 +17,8 @@
 
 ; age_bands - the perceptible age ladder, as authored data.
 ;
-; Age is never read as a number by a rule. Every mind holds a PERCEIVED band
-; belief about the people it has seen - {?o age-band <band>} - and role filters
-; test the band. This table is where the ladder lives; macros/age-macros.mc reads
+; A man reads his own age as a number; of others he holds only the PERCEIVED
+; band - {?o age-band <band>} - which role filters test. This table is where the ladder lives; macros/age-macros.mc reads
 ; the same bands in its threshold predicates and MUST stay in lockstep with it.
 ;
 ;   band     - the band kind stamped on the age-band attr
@@ -43,8 +42,9 @@
   (record [k mature]       50  [k middle-aged]  [k mature]       [k elderly])
   (record [k elderly]      70  [k mature]       [k elderly]      [k elderly]))
 
-(define-func refresh-age-band (?h)
+(define-func refresh-age (?h)
   (age (attr ?h birth-date)): ?yrs
+  (set-attr ?h age ?yrs)
   (bind @nothing ?band)
   (bind @nothing ?span-lo)
   (bind @nothing ?span-mid)
@@ -72,12 +72,12 @@
       (add-attr-item-unique ?h age-span ?span-hi))))
 
 ; ----------------------------------------------------------------------------
-; start-aging - stamp a new person's band now and book the yearly re-stamp on
+; start-aging - stamp a new person's age now and book the yearly re-stamp on
 ; their birthday. Called by every creation path: the founder pass, the immigrant
 ; arrival, and a birth.
 ; ----------------------------------------------------------------------------
 
 (define-func start-aging (?h)
-  (refresh-age-band ?h)
+  (refresh-age ?h)
   (attr ?h birth-date): ?bd
-  (register-annual-func (month ?bd) (day ?bd) refresh-age-band ?h))
+  (register-annual-func (month ?bd) (day ?bd) refresh-age ?h))

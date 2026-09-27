@@ -29,7 +29,7 @@
     ; rule of its own. A man, or a woman past her years or already carrying,
     ; falls straight through: pregnant-when is what the gestation clock is read
     ; against, so it is only ever stamped on someone who can carry.
-    (age (attr @self birth-date)): ?her-age
+    (attr @self age): ?her-age
     (and (= (attr @self gender) [k female])
          (>= ?her-age (fertile_age_min))
          (<= ?her-age (fertile_age_max))

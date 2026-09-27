@@ -47,7 +47,8 @@
                     slight-act social-trajectory spouse suffer-loss-act threaten-act wrong-act mon-hours tue-hours
                     wed-hours thu-hours fri-hours sat-hours sun-hours age-band age-span prototype)
             (spatials grip bounds)
-            (attrs physical-motors game-role birth-date death-date death-cause age-band age-span
+            (attrs physical-motors game-role birth-date death-date death-cause age age-band age-span
+                   chronotype
                    gender appearance height girth hair-color eye-color handwriting attractiveness name
                    condition pregnant-when sexual-orient fatigue hunger adrenaline sleepiness appetite pain
                    openness intellect industriousness orderliness enthusiasm assertiveness compassion politeness
