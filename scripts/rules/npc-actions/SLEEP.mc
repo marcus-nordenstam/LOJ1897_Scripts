@@ -21,6 +21,8 @@
 ; the hour its duration gave it rather than cutting it off at midnight.
 (npc-action {@self SLEEP}
   (motor all)
+  (init (set-attr @self awareness [k asleep]))
+  (cease (set-attr @self awareness [k awake]))
   (presentation
     (preroll 0.0) (in 0.0) (out 0.0))
   (succeed-on-window-exit)

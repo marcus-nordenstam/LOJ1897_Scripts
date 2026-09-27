@@ -14,8 +14,8 @@
 (define-macro blow_succumb_prob () 0.25)
 
 ; (kill-blow ?foe ?method): the fatal physics - the crime row (goal kill, task
-; the specific verb), the objective violent death-cause on the corpse, then settle-death
-; (world settlement + die - NO telepathy; witnesses learn via observation, absentees via
+; the specific verb), the objective violent death-cause on the corpse, then (die)
+; (NO telepathy; witnesses learn via observation, absentees via
 ; the learn_of_death keystone). ?method is the striking verb literal.
 ; yield-evidence - the forensic trace a blow leaves on the body. ?site is the
 ; body-part kind struck; ?blemish a leaf of the blemish taxonomy (Objects.mon:
@@ -31,4 +31,4 @@
   (do
     (record-crime @self ?foe ?method kill @u @u)
     (set-attr ?foe death-cause [k death-cause violence])
-    (settle-death ?foe)))
+    (die ?foe)))

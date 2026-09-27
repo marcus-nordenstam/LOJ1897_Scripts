@@ -52,13 +52,15 @@
 # Conditions & properties. Conceptual: kind-typed; @excl lives on the concept.
 # condition is perceptible on sight: liveness (alive/dead) is visible, so a
 # hsim mind that observes someone internalizes {them condition alive|dead} - the
-# perception-native replacement for an explicit liveness mint.
-(attr condition (type kind) (default alive) (per obs) (auto-percept))
-# Consciousness axis - human-npc only (props never carry it). Default conscious;
-# a subdue blow writes unconscious, recovery writes it back. Mirrors like
-# condition, so a witness who observes the struck body internalizes {them
-# awareness unconscious}; @excl (concept-side) supersedes the prior value.
-(attr awareness (type kind) (default conscious) (per obs) (auto-percept))
+# perception-native replacement for an explicit liveness mint. THE one truth of whether
+# a person lives: (die) writes it, and the engine reads it by its special id.
+(attr condition (type kind) (default alive) (spec-attr condition) (per obs) (auto-percept))
+# Consciousness axis - human-npc only (props never carry it). Default awake; SLEEP's
+# (init ..) writes asleep and its (cease ..) awake, a subdue blow writes unconscious.
+# Anything but awake is OBLIVIOUS: the mind hears and feels but neither sees nor
+# thinks. Mirrors like condition, so a witness who observes the body internalizes
+# {them awareness asleep|unconscious}; @excl (concept-side) supersedes the prior value.
+(attr awareness (type kind) (default awake) (spec-attr awareness) (per obs) (auto-percept))
 # Interment axis - human-npc only. Default unburied, so anyone who observes a
 # person holds {them internment unburied}; the burial rite mints buried
 # belief-side, which @excl-supersedes the unburied percept in every witness.

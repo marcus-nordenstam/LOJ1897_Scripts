@@ -1,5 +1,5 @@
-; DIE - dying of ?cause: the body falls, the world is settled (settle-death), and the
-; corpse carries its cause.
+; DIE - dying of ?cause: the body falls, (die) writes its condition dead, and the corpse
+; carries its cause.
 
 (npc-action {@self DIE ?cause}:?die-rel
   (duration 1.5)
@@ -11,4 +11,4 @@
   (effects
     (set-outcome ?die-rel /succ)
     (set-attr @self death-cause ?cause)
-    (settle-death @self)))
+    (die @self)))

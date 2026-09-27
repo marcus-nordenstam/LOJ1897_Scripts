@@ -74,11 +74,11 @@
     (children alive dead consumed))
 
   # Consciousness axis (@excl), HUMAN-NPC only - the awareness attr is listed
-  # on human-npc alone, so props never carry it. Default conscious; a subdue
-  # blow writes unconscious, recovery / re-observation writes conscious back.
+  # on human-npc alone, so props never carry it. Default awake; sleep writes asleep,
+  # a subdue blow writes unconscious, and waking / recovery writes awake back.
   # The physical-mobility classifier reads the awareness attr for bedridden.
   (child awareness
-    (children conscious unconscious))
+    (children awake asleep unconscious))
 
   # Interment axis (@excl), HUMAN-NPC only. Default unburied; the burial rite
   # mints buried (belief-only - the rite destroys the entity), which supersedes
@@ -107,9 +107,9 @@
   # directly as a belief (like `condition` / `alertness`; no separate
   # relation). Derived in hsim_derive::classify_physical_mobility from
   # condition + awareness + age. Distinct from `alertness` (sleep / wake),
-  # from `condition` (alive / dead) and from `awareness` (conscious /
+  # from `condition` (alive / dead) and from `awareness` (awake / asleep /
   # unconscious): physical-mobility captures what an NPC can DO physically when
-  # conscious. The bedridden value covers both genuine incapacity
+  # awake. The bedridden value covers both genuine incapacity
   # (severe injury) and the social state of staying-in-bed;
   # physical-mobility being derived means the same symbol can mean both
   # as the substrate behind it varies.
