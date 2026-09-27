@@ -899,6 +899,10 @@ $form(FORM)
 { $sub_np(NP) /pres condition [k buried ] } .
 " $sub_np(NP) was stolen from $value(NP) "
 { $sub_np(NP) /past stolen-from $value(NP) } .
+" I leave $thing(NP) to $heir(NP) "
+{ $heir(NP) inherit $thing(NP) ?_I } .
+" $heir(NP) inherits $thing(NP) from $benefactor(NP) "
+{ $heir(NP) inherit $thing(NP) $benefactor(NP) } .
 " I am married to $value(NP) "
 { ?_I /pres spouse $value(NP) } .
 " I am engaged to $value(NP) "

@@ -33,13 +33,16 @@
                                (bb-write ?ww-rel will ?will)])))))
 
     (stage
+      (when {@self name ?my-name})
       (effects
         (if (unsubstantial (attr ?will writing))
             (then (maintain-proposal {@self write-doc ?will
-                    (written-msg {?heir inherit
+                    (written-msg [/author ?my-name]
+                                 {?heir inherit
                                    (o [k pile] {@o space
                                      (o [k interior-space] {@o struct_parent
-                                       (o [k building] {@self home @o})})})})})))))
+                                       (o [k building] {@self home @o})})})
+                                   @self})})))))
 
     (stage
       (effects

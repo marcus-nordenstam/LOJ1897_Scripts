@@ -24,6 +24,15 @@
 _
 .
 
+# A coin pile named by where it is kept - the interior of the building its owner lives in.
+"the money kept in my home"
+( o [k pile ] { @o space ( o [k interior-space ] { @o struct_parent ( o [k building ] { ?_I home @o } ) } ) } )
+.
+
+"the money kept in the home of $owner(NP)"
+( o [k pile ] { @o space ( o [k interior-space ] { @o struct_parent ( o [k building ] { $owner(NP) home @o } ) } ) } )
+.
+
 # A named object such as John Smith
 "$pname(PNAME)"
 ( o $pname(PNAME) )
