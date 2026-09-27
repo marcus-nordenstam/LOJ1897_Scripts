@@ -151,6 +151,9 @@
 # untouched debt). Derived by the run_physiology func; drops to ~0 during a fight, re-emerges at
 # full on the crash.
 (attr sleepiness (type float) (range 0 2) (int-per feel) (ext-per imperceptible) (state-flags-tar @excl))
+# The felt hurt of the body, 0 none .. 1 agony. A blow writes it on its victim (PUNCH /
+# SHOOT / STRANGLE through inflict-pain); only its bearer feels it.
+(attr pain (type float) (range 0 1) (int-per feel) (ext-per imperceptible) (state-flags-tar @excl))
 
 # Appetite = the ADRENALINE-MASKED hunger the meal-aspect eligibility + starvation utilities read
 # (raw hunger is the untouched debt). Derived by the run_physiology func; suppressed mid-fight.
@@ -348,7 +351,7 @@
 # auto-percept, so anyone who looks at the body or the prop reads it: that IS
 # the evidence channel. Wired onto the body-part archetypes, prop and
 # structure-part; the .mc (yield-evidence ..) macro is the writer.
-(attr blemishes (type kind blemish array 4) (state "blemish") (per obs) (auto-percept))
+(attr blemishes (type kind blemish array 8) (state "blemish") (per obs) (auto-percept))
 
 # the space an entity is in
 

@@ -49,7 +49,7 @@
             (spatials grip bounds)
             (attrs physical-motors game-role birth-date death-date death-cause age-band age-span
                    gender appearance height girth hair-color eye-color handwriting attractiveness name
-                   condition pregnant-when sexual-orient fatigue hunger adrenaline sleepiness appetite
+                   condition pregnant-when sexual-orient fatigue hunger adrenaline sleepiness appetite pain
                    openness intellect industriousness orderliness enthusiasm assertiveness compassion politeness
                    volatility withdrawal narcissism machiavellianism psychopathy sadism strength dexterity
                    agility endurance pregnant-by awareness internment)

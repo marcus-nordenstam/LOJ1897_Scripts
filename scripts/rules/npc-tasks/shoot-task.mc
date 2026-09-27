@@ -35,7 +35,7 @@
                  (not (empty (spatial @self hold [k firearm])))
                  -{?victim condition [k dead]}))
       (utility survival always-pick)
-      (effects (maintain-proposal {@self STRIKE ?victim shoot})))
+      (effects (maintain-proposal {@self SHOOT ?victim})))
 
     ; CONCLUDE: the victim is dead - the method is spent.
     (try

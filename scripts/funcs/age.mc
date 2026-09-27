@@ -67,9 +67,9 @@
       ; removes a year; tracking which three were there would not be cheaper.
       (for-each-row age_bands [/band ?old]
         (remove-attr-item ?h age-span ?old))
-      (add-attr-item ?h age-span ?span-lo)
-      (add-attr-item ?h age-span ?span-mid)
-      (add-attr-item ?h age-span ?span-hi))))
+      (add-attr-item-unique ?h age-span ?span-lo)
+      (add-attr-item-unique ?h age-span ?span-mid)
+      (add-attr-item-unique ?h age-span ?span-hi))))
 
 ; ----------------------------------------------------------------------------
 ; start-aging - stamp a new person's band now and book the yearly re-stamp on

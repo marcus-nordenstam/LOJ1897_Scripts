@@ -4,25 +4,19 @@
 ; clear_marriage) maintain-propose {@self kill ?victim} while their REASON (the
 ; grudge bond named on /caused_by) holds; the drive fades the moment the reason
 ; does, and drops when the victim dies. This task, once selected, is the METHOD
-; DECIDER: it roulette-picks over kill_method_table and proposes the chosen killing
-; sub-task (strangle / shoot / hire-assassin), which drives down to the physical
-; blow (CHOKE / TRIGGER_FIREARM / SAY).
+; DECIDER: a strong hand strangles, an armed one shoots, a rich one hires; a weak,
+; unarmed, poor one has no means and proposes nothing. The chosen killing sub-task
+; drives down to the physical blow (STRANGLE / SHOOT) or the hiring talk.
 ;
 ; No outcome twin: the drivers' maintain-conditions own the lifecycle (victim dead
 ; or reason gone -> the proposal drops), and the DEED's record is the killing
-; action's own ended act-belief + its crime row - not this coordinator's.
-; The method pick is ARGMAX (deterministic on trait / means), so it is STABLE across
-; deliberations - a strong hand strangles, an armed weak hand shoots, a rich hand
-; hires - and only switches if the means change (a firearm acquired). Maintain-
-; proposing the winner retracts it automatically when this task drops.
+; action's own ended act-belief + its crime row - not this coordinator's. The pick
+; only switches when the means change (a firearm acquired); maintain-proposing it
+; retracts it automatically when this task drops.
 ; ----------------------------------------------------------------------------
 
-
-(define-table kill_method_table
-  (fields method              score-weight  score-eval)
-  (record strangle            1             (if (>= (target-or @self strength 0.0) 0.45) (then 1) (else 0.3)))
-  (record shoot               0.9           (if (spatial [k firearm] space) (then 1) (else 0.4)))
-  (record hire-assassin       0.5           (if (>= (coin-balance @self) 80) (then 1) (else 0))))
+(define-macro strangling_strength () 0.45)
+(define-macro assassin_fee_coins () 80)
 
 (npc-task {@self kill ?victim}:?kill-rel
   (tar [k human] @object)
@@ -30,12 +24,12 @@
   (facets reportable_crime blackmailable)
   (try
     (when -{?victim condition [k dead]})
-    (select-joint
-      (table kill_method_table)
-      (bind method ?method)
-      (bind score-weight ?weight)
-      (bind score-eval ?eval)
-      (score (* ?weight (eval ?eval)))
-      (policy argmax))
     (utility survival)
-    (effects (maintain-proposal {@self ?method ?victim}))))
+    (effects
+      (cond
+        (case (>= (target-or @self strength 0.0) (strangling_strength))
+              (maintain-proposal {@self strangle ?victim}))
+        (case (spatial [k firearm] space)
+              (maintain-proposal {@self shoot ?victim}))
+        (case (>= (coin-balance @self) (assassin_fee_coins))
+              (maintain-proposal {@self hire-assassin ?victim}))))))

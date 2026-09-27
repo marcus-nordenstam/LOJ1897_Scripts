@@ -248,7 +248,8 @@
   (set-attr ?h fatigue 0)
   (set-attr ?h sleepiness 0)
   (set-attr ?h hunger 0)
-  (set-attr ?h appetite 0))
+  (set-attr ?h appetite 0)
+  (set-attr ?h pain 0))
 
 ; An NPC starts sober and unhooked; DRINK and PLAY-GAME move these from here.
 (define-func seed-npc-habits (?h)

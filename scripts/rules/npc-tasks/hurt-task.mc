@@ -33,7 +33,7 @@
                  -{?victim condition [k dead]}
                  (not (attr-is ?victim awareness [k unconscious]))))
       (utility survival always-pick)
-      (effects (maintain-proposal {@self STRIKE ?victim punch})))
+      (effects (maintain-proposal {@self PUNCH ?victim})))
 
     ; CONCLUDE: the victim is beaten senseless (or already down) - record the assault
     ; (method PUNCH, goal hurt) and end the episode.
