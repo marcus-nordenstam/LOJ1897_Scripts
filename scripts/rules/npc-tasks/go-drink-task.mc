@@ -1,0 +1,29 @@
+; ----------------------------------------------------------------------------
+; go-drink - get into a pub and DRINK there. Raised by want_drink and relapse. In a pub
+; he drinks; knowing one, he goes to it; knowing none, he searches the town for one, and a
+; search that covered the town without finding one fails the outing.
+; ----------------------------------------------------------------------------
+
+(define-func go-drink-in-pub ()
+  (is-a (spatial @self building) [k building pub]))
+
+(npc-task {@self go-drink}:?gd-rel
+  (cease (if {@self DRINK /succ /caused_by ?gd-rel}
+             (then (set-outcome ?gd-rel /succ))))
+  (and
+    (try
+      (when (go-drink-in-pub))
+      (effects (maintain-proposal {@self DRINK})))
+    (try
+      (role ?pub [k building pub] (select (score (near @self ?pub)) (policy roulette unknown-last))
+        (when (not (go-drink-in-pub)))
+        (effects (maintain-proposal {@self go ?pub}))))
+    (try
+      (role @self -{@self find-building [k building pub] ? /fail}
+        (no-role [k building pub])
+        (when (not (go-drink-in-pub)))
+        (effects (maintain-proposal {@self find-building [k building pub] (current-exterior @self)}))))
+    (try
+      (role @self {@self find-building [k building pub] ? /fail}
+        (no-role [k building pub])
+        (effects (set-outcome ?gd-rel /fail))))))

@@ -1,13 +1,10 @@
-; drink - the drink ACT-BODY (npc-action). The pressure think that proposes it is
-; npc-think/crave_drink.mc (+ relapse.mc for dependents). The {@self DRINK}
-; act-belief - begun at commit, ended by (set-outcome {..} /succ) at completion - IS the episodic
-; drinking memory days-since-last / the sobriety classifier read. No aim, no
-; end-goal: the act just does the act; crave_drink ceases because drinking reset
-; its pressure.
+; drink - the drink ACT-BODY (npc-action), proposed by go-drink in a pub. The {@self DRINK}
+; act-belief IS the episodic drinking memory days-since-last and the sobriety classifier read.
 
-(npc-action {@self DRINK}
+(npc-action {@self DRINK}:?d-rel
   (motor body legs)
   (duration (seconds 90 min))
+  (init (check (is-a (spatial @self building) [k building pub])))
   (effects
     ; Intoxication accumulates as a lifetime-drinking proxy (v1 - no decay); the
     ; sobriety classifier reads the attr back. Locationless by design: pub
@@ -24,4 +21,4 @@
     ; visible-vice evidence observer estimates read. The home drinker generates
     ; no witnesses; concealment is emergent, not simulated. Witnessing is now
     ; engine-side (auto-witness on this obs act at completion), not hand-authored.
-    (set-outcome {@self DRINK} /succ)))
+    (set-outcome ?d-rel /succ)))

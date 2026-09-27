@@ -644,7 +644,7 @@
         # sign; only addressed buildings get an address sign. Never an org's name -
         # many orgs may share one building, and an org has no sign of its own.
         (child sign
-          (children building-name-sign address-sign))
+          (children building-name-sign address-sign public-notice-board))
         (child opening (+ nav_passage)
           (children window door))))
     (child gm
