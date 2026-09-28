@@ -1,7 +1,7 @@
 ; Stage the nested-clause probe state: mint a goal (whose inner clause the other
 ; probes match), then re-bind its clause and mint an urge-shaped candidate-subject
 ; belief carrying that clause, plus a pledge belief for the residual-ordering probe.
-(npc-think probe_mint
+(think probe_mint
   (cooldown 1 m try-once)
   (role @self 
     (role ?prey [k human] (select (policy first-match))

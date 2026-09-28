@@ -63,7 +63,7 @@
 
 (define-func /hear adopt-heard-msg (?msg ?speaker ?audience ?tell)
   ; A QUESTION is not a claim. The heard {asker SAY (qs ..)} record IS the
-  ; deliverable - answer_mealtimes casts a role straight on it - and adopting the
+  ; deliverable - answer-mealtimes casts a role straight on it - and adopting the
   ; asked pattern would turn a man's question into this listener's belief.
   (if (is-qs ?msg)
     (then @fail)

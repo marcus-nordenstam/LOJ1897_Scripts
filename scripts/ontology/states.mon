@@ -84,7 +84,7 @@
 # Household mealtimes - the COOK's authority (tell-only comms plan,
 # ruling 11): {<home> breakfast-hour 6} / {<home> lunch-hour 12} /
 # {<home> supper-hour 18}, held per-mind. The cook DECIDES them
-# (set_mealtimes, household.mc - genesis of her own decision, with
+# (set-mealtimes, household.mc - genesis of her own decision, with
 # per-cook variation) and SAYS them; residents adopt from the say or
 # re-learn through the ask-the-cook channel ((ask-to) /
 # (asked-me-about) - so a forgotten mealtime self-heals by asking).
@@ -149,7 +149,7 @@
 # infatuation RETIRED: directed
 # attraction is now the one-sided attraction stance scalar, projected
 # to fancy/desire/crave verb-state beliefs (the same regulator/
-# regulated split as warmth/esteem/trust). crush_forms reads the
+# regulated split as warmth/esteem/trust). crush-forms reads the
 # attraction verb.
 # identity: the salient role(s) an NPC self-identifies as
 # (parent / spouse / worker / christian / ...). Each
@@ -385,7 +385,7 @@
 # delivery and reads his appointments as {?host invite @self /aux
 # ?occ} (review_appointments).
 (state invite (tar [k human] @object) (aux [k occasion] @object))
-# Sporting-event goal-drivers (sporting_event / sporting_judge chains).
+# Sporting-event goal-drivers (sporting_event / sporting-judge chains).
 # hold-meet: the club officer's standing goal to run a meet (tar = the
 # club's articles). judge-meet: the judge's standing goal to officiate.
 (state hold-meet (tar ?))
@@ -444,12 +444,12 @@
 # ---- vocational ----
 (state retire (tar ? @excl))
 # carrying-loot: the thief's transient "I hold stolen ?item, to stow it"
-# self-state. Minted by the theft act (steal), read by want_stow which OWNS
+# self-state. Minted by the theft act (steal), read by want-stow which OWNS
 # the {@self stow ?item} goal, ended by stow_act when the loot is put away.
 # DEFINED so it PERSISTS the carry-home journey (an undefined /obs label is
 # disproved by self-perception every cycle).
 (state carrying-loot (tar ?))
-# stow: the goal to put loot away (want_stow OWNS {@self stow ?item
+# stow: the goal to put loot away (want-stow OWNS {@self stow ?item
 # ?place}, stow_act ends it). tar = the loot item, aux = the cache.
 (state stow (tar ?) (aux ?))
 # staff-household: the standing goal a household head holds to fill
@@ -561,13 +561,13 @@
 #     without (yet) practising it. {@self interest <domain>}. Seeded
 #     hereditary in mx_make_human + grown by the substrate-rooted S3
 #     acquisition events (parental_seeding / peer_propagation /
-#     mentor_inspired / temperament_drift) and shed by interest_lapses
+#     mentor_inspired / temperament_drift) and shed by interest-lapses
 #     (an unskilled interest only). Non-exclusive. (Was a noun-kind doubling as a label
 #     before the PR-skill-life domain collapse; now an explicit
 #     verb-state so the label keeps validating its domain targets.)
 #   calling - the life-organising band: a drive toward a `domain`, seeded
 #     once in childhood for a minority of NPCs and never shed by
-#     interest_lapses. @excl - one overriding calling ({@self calling
+#     interest-lapses. @excl - one overriding calling ({@self calling
 #     music} / {@self calling engineering}). Drives event-casting and
 #     feeds the `purpose` felt-life dimension.
 #   craving - an acquired compulsive drive (addiction to drink); durable
@@ -588,7 +588,7 @@
 # / autonomy-aim / power-aim / belonging-aim). Distinct
 # from calling (DOMAIN: music / engineering / soldiering)
 # and from craving (substance-targeted compulsion). DERIVED
-# by hsim_derive::classify_life_aim annually from substrate
+# by hsim_derive::classify-life-aim annually from substrate
 # (Big Five + Dark Tetrad + class trajectory + bond counts
 # + worship); never minted by events. Feeds the
 # LIFE_AIM_ALIGN factor in the unified weight formula used

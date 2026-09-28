@@ -1,0 +1,160 @@
+; ----------------------------------------------------------------------------
+; provisioning (think) - keeping the household LARDER stocked. The
+; larder is THE KITCHEN (every inhabited home has one - world-gen aborts
+; otherwise), and ONE cook per household owns the errand.
+;
+; THE COOK: any grown resident may claim the role; the home's PUBLIC bb `cook`
+; marker is the synchronization (the buy-home `claimed` pattern) - the first
+; claimant posts it, every later would-be claimant sees it and defers. The
+; sitting cook re-posts the marker each cycle, so the ttl only clears a DEAD
+; (or emigrated) cook and the household re-elects.
+;
+; THE ERRAND (the worship/drink shape - a pressure, a go, a do-at-the-place):
+;   want-provisions : cook + the believed kitchen larder is low -> the standing
+;                     {@self PROVISION} goal (the pressure).
+;   provision-go    : knows the provisions shop -> travel there. Provisioning
+;                     NEVER wanders generic shops: the ONLY venue is the shop
+;                     the cook KNOWS sells provisions ({@self provisions-shop}).
+;   provision_orient: knows NO provisions shop -> read the public register of
+;                     incorporations at the church (the orient errand), which
+;                     teaches where the grocer trades.
+;   provision-act   : AT the known shop the standing goal is the leaf and
+;                     (npc-act/provision-act.mc) promotes on its own when: buy a
+;                     basket and mint {@self BRING [k food] <kitchen>} - the
+;                     general bring chain carries it home and puts it down IN the
+;                     kitchen.
+;   provision-rearm : laden with food = the standing pressure to deliver it, so
+;                     re-mint the bring goal each deliberation; a full hand is a
+;                     live pressure re-read every cycle, so the basket can never
+;                     fossilize in hand across the window gap.
+; ----------------------------------------------------------------------------
+
+(include "../../../macros/tunables.mc")
+(include "../../../macros/collection-macros.mc")
+
+; ---- the cook election (public-bb synchronized, one per household) ----------
+; Priority ladder: hired cook > wife > (oldest) daughter > husband/father >
+; bachelor alone. Encoded as per-mind defer-gates, ties within a tier resolved
+; first-come by the bb marker:
+;   hired  - holds the cook job; claims outright.
+;   woman  - any grown woman of the house, UNLESS her living mother shares the
+;            home (the senior woman outranks her: wife > daughter in one gate)
+;            or she is upper-class (her household hires its cook).
+;   man    - only with no living spouse (his wife owns the kitchen) and no
+;            believed daughter under his roof; covers widower and bachelor.
+; Known approximations: "oldest" daughter is first-come among sisters, and a
+; late-hired cook does not usurp a sitting family cook (first claim sticks).
+
+(think claim-cook-hired
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+                           {@self job [k job cook]}
+              -{@self household-cook ?}
+    (role ?home {@self home ?home}
+      (when (bb-public-none ?home cook))
+      (effects
+        (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles))
+        (begin-belief {@self household-cook ?home})))))
+
+(think claim-cook-woman
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+                           {@self gender [k female]}
+              -{@self household-cook ?}
+              -{@self class-situation [k upper]}
+    (role ?home {@self home ?home}
+      (when (and (bb-public-none ?home cook)
+                 (not (and {@self mother ?mum}
+                           {?mum home ?home}))))
+      (effects
+        (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles))
+        (begin-belief {@self household-cook ?home})))))
+
+(think claim-cook-man
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+                           {@self gender [k male]}
+              -{@self household-cook ?}
+              -{@self spouse ?}
+              -{@self class-situation [k upper]}
+    (role ?home {@self home ?home}
+      (when (and (bb-public-none ?home cook)
+                 (not (and {@self child ?c}
+                           {?c gender [k female]}
+                           {?c home ?home}))))
+      (effects
+        (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles))
+        (begin-belief {@self household-cook ?home})))))
+
+(think renew-cook
+  (role ?home {@self household-cook ?home}
+    (effects (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles)))))
+
+; ---- the pressure: the kitchen larder is low --------------------------------
+
+(think want-provisions
+  ; The kitchen resolves from the cook's OWN room knowledge (the home pre-teach
+  ; mints {home room <r>}): the kind-cast bind picks the is-a kitchen target. It BINDS,
+  ; so it is role work; only the stock compare is a gate condition.
+  (role ?home {@self household-cook ?home}
+              (spatial ?home room [k kitchen]): ?kitchen
+    (when (< (believed-pile-count ?kitchen [k food]) (larder_low_water)))
+    (utility duty)
+    (effects       (begin-goal {@self PROVISION}))
+    (when-unsupported-effects (set-outcome {@self goal {@self PROVISION}} /succ))))
+
+; TERMINAL step (act_body_purification): the buy is PROPOSED, guarded by being at a shop - the
+; at-place-kind precondition (identity is enforced by
+; the routing: provision-go walks only to the KNOWN provisions shop). Because `provision` is a
+; proposed label, auto_propose skips the {@self PROVISION} goal (it still persists + drives
+; provision-go/orient), so the buy promotes ONLY here, ONLY at a shop - closing the off-shop
+; spurious-promotion hole a bare pure act would open.
+(think provision-at-shop
+  (goal    {@self PROVISION})
+  ; The buy cap is DECIDED here (basket, larder shortfall, what is in hand)
+  ; and rides the act pattern - the counter-stop body does no counting.
+  (role @self (is-a (spatial @self building) [k building shop])
+    (role ?home {@self household-cook ?home}
+                (spatial ?home room [k kitchen]): ?kitchen
+      (when    (and (believed-pile-count ?kitchen [k food]): ?blv
+                    (held-pile-count @self [k food]): ?inh
+                    (- (min (carry_cap) (- (larder_target) ?blv)) ?inh): ?cap
+                    (> ?cap 0)))
+      (effects (maintain-proposal {@self PROVISION ?cap})))))
+
+; ---- the errand: go to THE provisions shop (never a generic one) ------------
+; The go sub-goal INHERITS the provision goal's drive through /caused_by (the
+; worship-go shape - no own utility); at the shop the go retires, the standing
+; goal is the leaf, and provision-act promotes on its when.
+
+(think provision-go
+  (goal {@self PROVISION})
+  ; THE known shop, as a role: the (any ..) + truthiness test was a rule-scope bind doing
+  ; a role's job - with no candidate there is simply no activation.
+  (role ?shop {@self provisions-shop ?shop}
+              (not (spatial @self building ?shop))
+    (effects (maintain-proposal {@self go ?shop}))))
+
+; MAINTENANCE co-minter of the shared {@self ORIENT} search: while the provisioner knows no
+; provisions shop, mint the orient goal; cease the moment orient_act learns one ({@self
+; provisions-shop}). No (no-goal) dedup - under multi-rule support each chain co-mints its own
+; source on {@self ORIENT} and withdraws it independently; the goal lives until the last withdraws.
+; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
+;(think provision_orient
+;  (goal {@self PROVISION})
+;  (role @self -{@self provisions-shop ?}
+;    (effects       (begin-goal {@self ORIENT}))
+;    (when-unsupported-effects (set-outcome {@self goal {@self ORIENT}} /succ))))
+
+; ---- the delivery drive ------------------------------------------------------
+; Laden with food = the standing pressure to deliver it, re-stamped per
+; deliberation (so the intention survives the window gap). ONE desire owns the
+; bring goal's whole utility: 90 on the road (outbids the 77 provision pull the
+; moment the basket is in hand; bring-go inherits it via /caused_by), MAXIMUM once
+; standing at the kitchen - the put-down takes a minute and nobody beds down
+; still holding the shopping.
+
+(think provision-rearm
+  (role ?home {@self home ?home}
+              (spatial ?home room [k kitchen]): ?kitchen
+    (when (not (empty (spatial @self hold [k pile]))))
+    (utility duty (if (spatial @self space ?kitchen) (then 1000) (else 900)))
+    (effects       (begin-goal {@self BRING [k pile] ?kitchen}))
+    (when-unsupported-effects (set-outcome {@self goal {@self BRING [k pile] ?kitchen}} /succ))))

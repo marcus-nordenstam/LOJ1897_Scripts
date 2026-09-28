@@ -1,0 +1,64 @@
+; ----------------------------------------------------------------------------
+; affair-consummate (hot think) - (a) TAKING the opportunity to consummate an
+; affair whenever the two lovers can be ALONE together, however they came to share a
+; building: an engineered tryst (affair_rendezvous), co-attending an occasion, a
+; shared workplace, or a live-in staff paramour under the same roof.
+;
+; Two rungs, the seek -> act shape of a fight:
+;   tryst-slip     - a lover is in my BUILDING but we are not yet privately together
+;                    (apart, or together with the spouse in the room). Slip off to a
+;                    vacant room. Both lovers resolve the SAME vacant room and
+;                    converge there without signalling. This is the missing step: the
+;                    household all clusters in the entrance room, so privacy must be
+;                    SOUGHT.
+;   affair-consummate - alone in a room with the lover (no spouse present) -> the
+;                    durative HAVE-SEX-WITH act (consummate_action.mc, ~45 min), whose
+;                    running holds them there long enough to land and to be caught.
+;
+; A per-day cooldown keeps one co-presence bout to a single tryst. Utility 95 clears
+; the routine aspects (work 80, meals ~85) - lovers break away for it - but sits below
+; the sleep-emergency / fight bands.
+; ----------------------------------------------------------------------------
+
+
+; SEEK: a lover shares my building but we are not yet alone together. Slip to a
+; vacant room (the same one they resolve). Fire while apart, OR while together with
+; the spouse in the room (the cue to peel away). Needs somewhere private to go.
+(think tryst-slip
+  (cooldown 1 d try-once)
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+              {@self lover ?}
+    (role ?paramour (spatial ?paramour co-located-building @self)
+                    {?paramour isa [k human], condition [k alive]}
+                    {@self lover ?paramour}
+                    -{@self spouse ?paramour}
+      ; A room in @self's building @self BELIEVES holds no third party - only @self and the
+      ; paramour may be there. The room SET is the building's structure (/env: stable ground
+      ; truth), but who is IN one is a belief read: a cheater slips into a room he THINKS is
+      ; empty, and walking in on someone is the story. No private room -> no slip.
+      (role ?room (spatial (spatial @self building) parts [k interior-space room] /env)
+                  (not (spatial ?room contents [k human] @self ?paramour))
+                  (select (policy first-match))
+        (when (or (not (spatial ?paramour co-located @self))
+                  (spouse-co-located)))
+        (utility want always-pick)
+        (effects
+          (observe ?room): ?obs-room
+          (maintain-proposal {@self go ?obs-room}))))))
+
+; ACT: alone in a room with the lover -> consummate. ?paramour is a live third-party
+; lover @self BELIEVES shares his room (the location co-location role filter).
+(think affair-consummate
+  (cooldown 1 d try-once)
+  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+              {@self lover ?}
+    (role ?paramour (spatial ?paramour co-located @self)
+                    {?paramour isa [k human], condition [k alive]}
+                    {@self lover ?paramour}
+                    -{@self spouse ?paramour}
+      ; Discretion: not in the same ROOM as the wronged spouse; an unmarried cheater has
+      ; none, so the gate passes them through.
+      (when (not (spouse-co-located)))
+      (utility want always-pick)
+      (effects
+        (maintain-proposal {@self HAVE-SEX-WITH ?paramour})))))

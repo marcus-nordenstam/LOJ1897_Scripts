@@ -1,6 +1,6 @@
 ; Inner tense is a structural clause-interval test: a goal clause is ongoing, so
 ; /pres and /ever match it and /past must not.
-(npc-think probe_tense
+(think probe_tense
   (cooldown 1 m try-once)
   (role @self 
     (when (and {@self goal {@self probe_hunt ? /ever}}

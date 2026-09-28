@@ -1,4 +1,4 @@
-(npc-think bad_inner_expr
+(think bad_inner_expr
   (cooldown 1 m try-once)
   (role @self 
     (role ?p [k human]

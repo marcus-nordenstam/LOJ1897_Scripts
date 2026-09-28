@@ -280,7 +280,7 @@
 # writing [k closed] (from [k open]). (auto-percept): since NPCs ALWAYS front-park a
 # building on arrival (Stage-5 two-arm), a worker RE-OBSERVES his workplace every commute
 # via exterior perception and INTERNALIZES {building struct-status [k closed]} fresh;
-# reconcile_closed drops his own stale employment beliefs off that PERCEIVED belief - no
+# reconcile-closed drops his own stale employment beliefs off that PERCEIVED belief - no
 # mind but his own is written. Kind-valued (open|closed under `status`, concepts.mon), so
 # it mirrors as a clean belief like `condition`. Lives on container-structure (buildings).
 (attr struct-status (type kind status) (default open) (per obs) (auto-percept))

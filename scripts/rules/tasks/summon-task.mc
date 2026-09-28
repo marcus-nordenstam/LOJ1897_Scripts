@@ -1,0 +1,15 @@
+; ----------------------------------------------------------------------------
+; summon - NO-OP declaration stub. The organiser's call to compete is currently
+; recorded as a relation ({@self summon ?member ?sport}, minted by HOLD-MEET-RUN
+; and cleared by RACE-RUN); this task exists only to SELF-DECLARE the `summon`
+; label + its field shape so the tasks.mon row can retire. To be fleshed out into
+; the real summon task later. The (try) never fires (declaration only).
+; ----------------------------------------------------------------------------
+
+(task {@self summon ?member ?sport}:?summon
+  (tar [k human] @object)
+  (aux ?)
+  (try
+    (role @self
+      (when (chance 0))
+      (effects (set-outcome ?summon /succ)))))

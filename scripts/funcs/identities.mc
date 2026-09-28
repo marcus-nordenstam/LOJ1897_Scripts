@@ -2,7 +2,7 @@
 ; The COMPETENCE confers these, not the job title: a domain at `competent` or
 ; above on the pipeline-emitted {@self skill-level [k <domain>] [k <rung>]}.
 ; `competent` is the same rung position the retired C++ fold's `trained` held on
-; the old 3-rung ladder - see classifiers/calling.mc for that judgement call.
+; the old 3-rung ladder - see thinks/classify/classify-calling.mc for that judgement call.
 ;
 ; DORMANT until acts decorated (track-skill-level <domain>) actually run - no
 ; skill-level belief exists in a 2-year run today, so none of these can fire yet.

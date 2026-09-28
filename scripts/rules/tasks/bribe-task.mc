@@ -1,0 +1,35 @@
+; ----------------------------------------------------------------------------
+; bribe ?victim - buy the victim's silence with cash. @self conjures a coin (the single
+; buildable unit of cash - a real gripped prop) and HANDS IT OVER via give: the give task
+; takes the coin, reaches the co-present victim, and OFFERs it hand-to-hand. Private, no
+; cross-mind write; the punctual OFFER is visually unwitnessed - the point of a bribe. The
+; ended {@self bribe ?victim} belief IS the deed memory; the crime row records it.
+; A dead victim -> abandon.
+; ----------------------------------------------------------------------------
+
+(task {@self bribe ?victim}:?bribe
+  (track-skill-level [k illicit])
+  (tar [k human] @object)
+  (aux ?)
+  (facets reportable_crime)
+  (and
+    (try
+      (role ?coin [k coin] (spatial ?coin co-located @self)
+        (when (and (alive ?victim)
+                   -{@self bribe ?victim /succ /ever}))
+        (utility errand)
+        (effects (maintain-proposal {@self give ?coin ?victim}))))
+    (try
+      (no-role [k coin] (spatial ?norole co-located @self))
+      (when (and (alive ?victim)
+                 -{@self bribe ?victim /succ /ever}
+                 -{@self give ? ?victim}))
+      (effects (maintain-proposal {@self CREATE-ENTITY [k coin]})))
+    (try
+      (when {@self give ? ?victim /succ /caused_by ?bribe})
+      (effects
+        (record-crime @self ?victim offer_bribe bribe @u @u)
+        (set-outcome ?bribe /succ)))
+    (try
+      (when (not (alive ?victim)))
+      (effects (set-outcome ?bribe /fail)))))

@@ -105,7 +105,7 @@
 
   # Observable locomotion level - the physical-mobility state, mirrored
   # directly as a belief (like `condition` / `alertness`; no separate
-  # relation). Derived in hsim_derive::classify_physical_mobility from
+  # relation). Derived in hsim_derive::classify-physical-mobility from
   # condition + awareness + age. Distinct from `alertness` (sleep / wake),
   # from `condition` (alive / dead) and from `awareness` (awake / asleep /
   # unconscious): physical-mobility captures what an NPC can DO physically when
@@ -122,7 +122,7 @@
   # engineering, soldiering): same musician (calling=music) can hold
   # life-aim=wealth-aim (mercenary success), life-aim=legacy-aim (be
   # remembered), or life-aim=belonging-aim (just play in the local pub
-  # band). Derived annually by hsim_derive::classify_life_aim from
+  # band). Derived annually by hsim_derive::classify-life-aim from
   # substrate (Big Five + Dark Tetrad + class trajectory + bond counts
   # + worship). NOT @excl - the classifier explicitly end-dates the
   # prior dominant life-aim belief on a qualitative shift (PR-aim-
@@ -625,7 +625,7 @@
   # ----------------------------------------------------------------------
   (child economic-situation
     (children destitute poor struggling stable comfortable prosperous wealthy))
-  # repute - PUBLIC respectability, banded per (observer, subject) by repute.mc
+  # repute - PUBLIC respectability, banded per (observer, subject) by thinks/classify/repute/
   # from the conduct bands + devoutness + decorum + chastity the observer holds
   # of the subject. Per-observer and non-telepathic: self reads complete inputs
   # (so self-repute IS the truth), a tracked other reads only what leaked, a
@@ -697,7 +697,7 @@
     # run_generative_betrayal marks directly) or an adulterous liaison
     # at least one third mind learned of (hsim_derive
     # classify_fallen_woman, annual). Class-modulated consumers:
-    # betrothal excludes her absolutely, love_match re-admits only a
+    # betrothal excludes her absolutely, love-match re-admits only a
     # lower-class pair (working-class pragmatism), respectable service
     # (households / schools) turns her out; the gossiped divorce
     # record's repudiation-act reactions carry the parish scorn. NOT
@@ -1021,7 +1021,7 @@
     # A private hiding-spot cache the NPC MADE (an interior sub-space they own).
     # A DEFINED relation so {@self hiding-spot <cache>} mints reasoned (/rsn) and
     # PERSISTS - an undefined label mints /obs and self-perception disproves it
-    # every cycle, which re-opens the make_secret_cache gate and floods a bedroom's
+    # every cycle, which re-opens the make-secret-cache gate and floods a bedroom's
     # sub-spaces. Shares its NAME with the `hiding-spot` KIND; kind references
     # disambiguate with the full path `[k interior-space hiding-spot]` /
     # mx_resolve_kind_id("interior-space hiding-spot"). Inclusive.

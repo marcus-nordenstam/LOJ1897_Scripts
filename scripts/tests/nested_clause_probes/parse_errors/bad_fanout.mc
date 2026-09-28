@@ -1,4 +1,4 @@
-(npc-think bad_fanout
+(think bad_fanout
   (cooldown 1 m try-once)
   (role @self 
     (when (believes {@self goal {@self probe_hunt (fan-out ?x)}}))

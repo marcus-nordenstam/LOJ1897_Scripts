@@ -1,5 +1,5 @@
 ; Nested existence in (when): full structural inner match (subject + label).
-(npc-think probe_when
+(think probe_when
   (cooldown 1 m try-once)
   (role @self 
     (when {@self goal {@self probe_hunt ?}})

@@ -1,0 +1,27 @@
+; ----------------------------------------------------------------------------
+; seed_coins (action) - EXECUTION half of coin-pile seeding (the deliberation
+; is seed-coin-pile in thinks/hot/money_think.mc). Creates the NPC's coin pile
+; in the home kitchen (a guaranteed room) with a zero count - savings accrue into
+; it - and records the ownership. One pile per NPC: the belief-guard on the think
+; means this runs once. Env writes live here, since a think must not mutate the world.
+; ----------------------------------------------------------------------------
+
+
+(action {@self SEED-COINS ?home}
+  (motor body legs)
+  (duration 0)
+  (effects
+    (bind 0 ?made)
+    (for-each ?room (spatial ?home parts [k interior-space room] /env)
+      (if (= ?made 0)
+          (then
+            (create-entity [k pile] ?room): ?pile
+            (set-attr ?pile content-kind [k coin])
+            (set-attr ?pile count 0)
+            ; SEE it before believing about it - a belief field lands in the believer's own
+            ; realm, so an unobserved object reads @fail.
+            (observe ?pile)
+            (begin-belief {@self own ?pile})
+            (begin-belief {@self coin-pile ?pile})
+            (bind 1 ?made))))
+    (set-outcome {@self SEED-COINS ?home} /succ)))

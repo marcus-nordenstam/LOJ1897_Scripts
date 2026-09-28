@@ -1,0 +1,36 @@
+; ----------------------------------------------------------------------------
+; retire (think) - the go/dwell half of the retirement split.
+;
+; The decision (rules/work/employment.mc `retirement`) minted {@self goal
+; {@self retire}}. These intra-day rules drain it: the worker routes to
+; his own workplace and gives notice there, so the retirement happens AT the
+; workplace - co-presence his colleagues (and any witness) would see - rather than
+; as a faceless world-rule belief edit. The actual (fire) commit fires as the
+; act's completion (quit_work_act, npc-act/retire.mc).
+;
+;   retire-go     : hold the goal, not at the workplace -> travel act to it.
+;   retire-dwell  : hold the goal, AT the workplace -> propose giving notice (quit_work_act).
+;
+; Utility 85 beats the work aspect (80) so a man who has decided to retire goes to
+; give notice rather than putting in another shift; it still loses to night sleep
+; (100), so he does it by day.
+; ----------------------------------------------------------------------------
+
+(think retire-go
+  (goal {@self QUIT-WORK})
+  (role ?job {@self job ?job}
+    (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
+               {?org workplace ?wp}   ; ?wp binds at fire
+      (when (and (not (spatial @self building ?wp))))
+      (effects (maintain-proposal {@self go ?wp})))))
+
+; TERMINAL (act_body_purification): AT the workplace, PROPOSE giving notice - the quit_work act no
+; longer promotes off the bare {@self QUIT-WORK} goal (a proposed label drops out of goal
+; competition). The ?org role binds ?wp (the workplace) for the arrived gate.
+(think retire-dwell
+  (goal {@self QUIT-WORK})
+  (role ?job {@self job ?job}
+    (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
+               {?org workplace ?wp}   ; ?wp binds at fire
+      (when (and (spatial @self building ?wp)))
+      (effects (maintain-proposal {@self QUIT-WORK})))))

@@ -3,7 +3,7 @@
 ; placement seeds the (goal ...)/(task ...) gate vars, so a gate-var subject is
 ; PLACEABLE (threaded live at the when-gate seam) rather than a hard load error.
 ; Fires once per NPC holding the mint's goal + the {?prey accomplice ?prey} belief.
-(npc-think probe_gatevar
+(think probe_gatevar
   (cooldown 1 m try-once)
   (goal {@self probe_hunt ?prey})
   (role @self {?prey accomplice ?acc}

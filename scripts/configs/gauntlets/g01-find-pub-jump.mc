@@ -1,6 +1,6 @@
 ; G1 find_pub under hsim's jump clock: one window a month, so half a year is six days lived.
 ; One man who knows only his own house gets thirsty; the corpus has to take him from
-; want_drink through the find-building survey into a pub and through DRINK. The startup func
+; want-drink through the find-building survey into a pub and through DRINK. The startup func
 ; builds the town and the man, the validate func reads what happened - nothing here behaves.
 
 (define-list config

@@ -1,0 +1,18 @@
+; ----------------------------------------------------------------------------
+; embezzle - NO-OP declaration stub. The workplace-theft crime record
+; ({@self embezzle ?victim}) is currently minted by the burgle chain
+; (burgle_strike, at the thief's own workplace); this task exists only to
+; SELF-DECLARE the `embezzle` label + its crime metadata so the tasks.mon row
+; can retire. To be fleshed out into the real embezzlement task later. The (try)
+; never fires (the label is minted as a record, never promoted as a task).
+; ----------------------------------------------------------------------------
+
+(task {@self embezzle ?victim}:?embezzle
+  (track-skill-level [k illicit])
+  (tar [k human|org] @object)
+  (construed-act appropriation-act wrong-act betray-act) (theme thief-to) (contradicts trust)
+  (facets reportable_crime blackmailable)
+  (try
+    (role @self
+      (when (chance 0))
+      (effects (set-outcome ?embezzle /succ)))))

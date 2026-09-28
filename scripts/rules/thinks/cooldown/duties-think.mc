@@ -1,0 +1,67 @@
+; ----------------------------------------------------------------------------
+; duties - duty ASSIGNMENT (the capability side of the duty model; the duties an
+; org requires live in tables/duty_tables.mc, and behaviour dispatches on the
+; HELD duty - {@self duty-to ?org <duty>}, the duty a TASK-LABEL symbol - never on job
+; kind or rank).
+;
+; Every org member reviews his own org's duty allocation monthly. ALL inputs are
+; PUBLIC documents (the articles + the wage book) plus his own beliefs - reading
+; the ledger is how real org management works, no telepathy: the wage book's
+; names internalize into the reader's own mind at the read (think-rule doc
+; reads are mental-only end to end).
+;
+; The seniority argmax picks ONE holder per duty: a head-kind job outranks any
+; staff post (+100), then the level rung (+10 x rank), then the wage book's
+; append order (= hire order) breaks ties (argmax keeps the FIRST max). Every
+; member computes the same answer from the same ledger, so each SELF-assigns
+; exactly the duties he wins and drops the ones he no longer does - no
+; cross-mind writes anywhere. The org-side mirror ({?org duty-holder <who>
+; [k <duty>]}) is each member's own ledger-derived knowledge of who holds what.
+; ----------------------------------------------------------------------------
+
+
+(think duty-review
+  (cooldown 1 m try-once)
+  (rng-stream employment)
+
+  (role ?job {@self job ?job}
+    (role ?org {?job org ?org}
+               {?org record ?}
+
+      (role ?ok {?org isa ?ok}
+        (when {?org employee-register ?reg})
+
+        ; The most senior LIVING member on the wage book.
+        (select-row (entity ?reg)
+          (bind worker ?senior-name)
+          (bind job ?sjk)
+          (bind level ?slvl)
+          ; The book NAMES the man; liveness is a fact about the man, so the name is resolved to
+          ; whoever @self holds under it (a colleague he reads off this same roster every quarter).
+          (when (and (substantial ?senior-name)
+                     (alive (o [k human] {@o name ?senior-name}))))
+          (score (+ 1 (if (is-a ?sjk [k org-head]) (then 100) (else 0))
+                      (* 10 (if (table-match level_rank level ?slvl rank ?lr) (then ?lr) (else 0)))))
+          (policy argmax)
+          (else fail))
+
+        (effects
+          (if ?senior-name
+              (then
+                (o [k human] {@o name ?senior-name}): ?senior
+                (for-each-row org_duties [/kind ?dk] [/duty ?duty]
+                  (if (is-a ?ok ?dk)
+                      (then
+                        (cond
+                          (case (= ?senior-name (name @self))
+                            (if -{@self duty-to ?org ?duty}
+                                (then (begin-belief {@self duty-to ?org ?duty}))))
+                          (case {@self duty-to ?org ?duty}
+                            (end-belief {@self duty-to ?org ?duty})))
+                        ; The mirror: retire stale holders, record the current one.
+                        (for-each ?duty-holder (every {?org duty-holder ? ?duty})
+                            (bind ?duty-holder.target ?p)
+                            (if (!= ?p ?senior)
+                                (then (end-belief {?org duty-holder ?p ?duty}))))
+                        (if -{?org duty-holder ?senior ?duty}
+                            (then (begin-belief {?org duty-holder ?senior ?duty})))))))))))))

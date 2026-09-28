@@ -1,0 +1,15 @@
+; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
+;; ----------------------------------------------------------------------------
+;; leave-roll ?roll - THE one dumb membership-strike: drop @self's row from the club roll
+;; ?roll the proposing task resolved. The twin of JOIN-ROLL. A membership leaves nothing
+;; behind when it goes - unlike a post, which outlives its holder - so the row goes
+;; outright. @self ends his own member-of belief think-side once his row is gone.
+;; ----------------------------------------------------------------------------
+
+;(action {@self LEAVE-ROLL ?roll}:?LEAVE-ROLL
+;  (motor body legs)
+;  (duration (seconds 15 min))
+;  (effects
+;    (check (spatial ?roll co-located @self))
+;    (table-remove ?roll member (name @self))
+;    (set-outcome ?LEAVE-ROLL /succ)))

@@ -16,13 +16,13 @@ The corpus language is `.mc`; `.hs` and `.ms2` are dead extensions.
 
 scripts/
     rules/          THE behaviour corpus, loaded whole.
-                    npc-actions/  one (npc-action ..) per file - the physical primitives
-                    npc-tasks/    (npc-task ..) orchestrators and concrete tasks
-                    npc-think/    the drivers, plus the audit/, hot/ and cooldown/ lanes
-                    classifiers/  banding rules over what a mind already believes
-                    reflexes/     the reflex rules
-                    startup/      what runs once when a mind is born
-                    legacy/       dead .evt files, kept for reference only
+                    actions/   one (action ..) per file - the physical primitives
+                    tasks/     one (task ..) per file - orchestrators and concrete tasks
+                    thinks/    the drivers in the audit/, hot/ and cooldown/ lanes, and
+                               classify/: one classify-* think per file, banding what a
+                               mind already believes
+                    reflexes/  the reflex rules
+                    legacy/    dead .evt files, kept for reference only
     funcs/          authored (define-func ..) bodies - content the engine calls by name
                     (run_physiology at each act completion, adopt-heard-msg per utterance,
                     the /nightly town post)

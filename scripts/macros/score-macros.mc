@@ -44,7 +44,7 @@
 
 
 
-; --- Layer 3: betrayal blame (betrayal_kill.mc) ------------------------------
+; --- Layer 3: betrayal blame (betrayal-kill.mc) ------------------------------
 
 
 

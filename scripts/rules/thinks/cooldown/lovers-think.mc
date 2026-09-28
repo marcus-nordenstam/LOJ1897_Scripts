@@ -1,0 +1,92 @@
+; ----------------------------------------------------------------------------
+; lovers (think). The romance that bridges the one-sided crush and the formal
+; betrothal. Two unmarried, un-betrothed adults pair off when one is attracted
+; (`fancy`) and the other reciprocates (warmth or attraction of its own) - a
+; reciprocal `lover` bond, the courting-couple state. Distinct from:
+;   - crush-forms: one-sided attraction (the `fancy` scalar/verb on one side);
+;   - love-match / betrothal: the formal `fiancee` commitment.
+; A lover pair may go on to betroth (love-match reads the same `fancy` supply) or
+; may not - the bond persists underneath either outcome. `lover` is an
+; inclusive_bond (concepts.mon), so this never trips the exclusive-bond betray
+; cascade and never collides with an @excl placeholder.
+;
+; The driver is "fancy + warmth": ?a is attracted to ?b (the cross-pair `fancy`
+; bitset), and ?b reciprocates - with warmth (like/adore) OR attraction
+; (fancy/desire) of its own (an (or ...) of believes residues on the reverse
+; direction so the pairing is never unrequited).
+;
+; A mental change (a new bond), so think. RELATIONAL: courtship is a TARGETED
+; arc (a SPECIFIC attracted pair), and such a pair never coincides physically by
+; chance - the co-present gate the place-based draft tried made lovers fire NEVER,
+; so FORMATION is keyed on the standing attraction, not co-presence (the settled
+; reversion). Fired by the per-NPC emergent pass MONTHLY; the per-?a (chance)
+; paces how quickly a reciprocated, available pair becomes a couple (a tuning
+; knob - higher pairs the smitten faster).
+; ----------------------------------------------------------------------------
+
+
+(think lovers
+  (cooldown 1 m try-once)
+  (rng-stream marriages)
+
+  ; @self is the BELIEVER - the outer role for the cross-pair fancy gate on ?b
+  ; to resolve. An available adult who fancies someone and is not already
+  ; attached. (The per-NPC (chance) that paces pairing lives in (when).)
+  (role @self 
+              {@self age-band [k young-adult|middle-aged|mature|elderly]}
+              -{@self spouse ?}
+              -{@self fiancee ?}
+              -{@self lover ?}
+    ;; SELF-POV (telepathy purge CAT-3): @self reads ?b's free/attached state from
+    ;; his OWN knowledge (permissive on the unknown), and ?b's reciprocation as SHE
+    ;; signalled it (confess-fancy). No cross-mind read.
+    (role ?b {?b isa [k human], condition [k alive]}
+             {?b age-band [k young-adult|middle-aged|mature|elderly]}
+             -{?b spouse ?}
+             -{?b fiancee ?}
+             -{?b lover ?}
+             ; @self is attracted to ?b (attraction at least the `fancy` band,
+             ; the explicit band-ladder verb-state belief) ...
+             {@self fancy|desire|crave ?b}
+             ; ... and ?b reciprocates - she has TOLD HIM she fancies him
+             ; (confess-fancy minted {?b fancy @self} in his mind), so the pairing
+             ; is never unrequited. (The old warmth-only reciprocity is dropped: a
+             ; lover bond is built on attraction, and warmth she never voiced cannot
+             ; be read without a mind peek.)
+             {?b fancy @self}
+             ; opposite-sex (fancy is opposite-sex via crush-forms; belt-and-braces):
+             ; @self's belief that ?b's PERCEIVED gender differs from his own (visible-
+             ; on-sight, so cacheable as a dynamic-target belief). And not kin.
+             -{?b gender (any {@self gender}).target}
+             (none {@self (kin-labels) ?b})
+
+      ;; Live re-check: within the window the un-attached role filters go stale as
+      ;; earlier firings mint lover bonds; re-confirm both are still free - from @self's
+      ;; OWN beliefs (his own bond, and what he knows of ?b's). The per-NPC (chance) -
+      ;; the pacing knob, rolled once per NPC per month - is a non-belief filter, so
+      ;; it lives in (when), not a role.
+      (when (latch-eval (chance 0.2)))
+
+      (utility want)
+
+      (effects
+        ; Reciprocal lover bond + mutual profile sync (mirrors betrothal's shape so
+        ; downstream consumers see a fully-wired pair).
+        (begin-belief {@self lover ?b})
+        ; The reciprocal bond lands in ?b's own mind (so ?b knows of the pairing).
+        (begin-belief ?b {?b lover @self})
+        ; A lover bond is constructed on physical attraction - BOTH sides hold at
+        ; least the `fancy` band (0.4 clears the 0.24 entry threshold; ?b may have
+        ; reciprocated with warmth only, but becoming lovers grows the attraction).
+        ; This is what lets love-match marry the pair later: it keys on `fancy`.
+        (nudge-stance ?b attraction 0.4)
+        ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
+        ; party's own reflex on the act. Commented out pending that redesign.
+        ; (nudge-stance ?b @self attraction 0.4)
+        ; @self discloses their friend-tier profile to ?b (the SAY they hear and adopt);
+        ; @self's knowledge of ?b pre-exists. Friend-tier keeps @self's other lovers
+        ; (intimate-tier) unspoken.
+        (every {@self (disclosure-tier-labels friend) ?}): ?facts
+        (if ?facts
+            (then (maintain-proposal {@self SAY (utterable-msg ?facts) ?b})))
+        ))))

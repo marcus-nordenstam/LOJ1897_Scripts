@@ -1,4 +1,4 @@
-(npc-think bad_depth
+(think bad_depth
   (cooldown 1 m try-once)
   (role @self 
     (when (believes {@self a {@self b {@self c {@self d {@self e {@self f ?}}}}}}))

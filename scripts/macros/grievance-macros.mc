@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; grievance-macros - the shared scoring vocabulary the pressure-response rules
-; (rules/npc-think/cooldown/grievance-*.mc) compose their drive from.
+; (rules/thinks/cooldown/grievance-*.mc) compose their drive from.
 ;
 ; A standing {@self pressure <kind> /aux <focus>} belief is a grievance: something
 ; happened, it is directed at someone, and it has not been spent. Each response rule

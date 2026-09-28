@@ -76,7 +76,7 @@
 ; process holds an implementation - msim, mlint, Talkie and mxlog's ontology replay
 ; all resolve these names to a null eval, which is what forward-declared MEANS. A
 ; call reaching one of them there is a loud error naming the wall, so every call
-; site sits inside an npc-action body under a (presented-lod) guard, which the
+; site sits inside an action body under a (presented-lod) guard, which the
 ; wall-func-outside-action and wall-func-unguarded lint rules enforce.
 ;
 ; The Merlin HALF of each of these deeds is authored separately and runs at BOTH

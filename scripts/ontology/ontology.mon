@@ -18,8 +18,8 @@
 #
 # Acts (tasks and actions) are things an NPC DOES.  They are NOT declared
 # in .mon files; instead they are declared in rules:
-# * npc-action rules implicitly declares the action-label as an ontological action.
-# * npc-task rules implicitly declares the task-label as an ontological task.
+# * action rules implicitly declares the action-label as an ontological action.
+# * task rules implicitly declares the task-label as an ontological task.
 #
 # ----------------------------------------------------------------------------
 # Construals are tags, not beliefs

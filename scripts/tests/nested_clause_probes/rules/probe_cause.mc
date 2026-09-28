@@ -1,7 +1,7 @@
 ; Ops return values: (bind (begin-belief {..}) ?bond) captures the committed
 ; belief SYMBOL, and /caused_by ?bond pins it on the minted goal by identity - the
 ; handle-form provenance that replaces re-derived /caused_by {pattern} pins.
-(npc-think probe_cause
+(think probe_cause
   (cooldown 1 m try-once)
   (role @self 
     (role ?prey9 [k human] (select (policy first-match))

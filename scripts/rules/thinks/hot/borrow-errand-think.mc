@@ -1,0 +1,28 @@
+; ----------------------------------------------------------------------------
+; borrow_errand (think) - the npc-THINK half of the borrowing split (Item 5).
+; The go/dwell rungs that route the debtor to the lender's home and promote the
+; loan-taking act (npc-act/borrow_errand.mc).
+;
+;   borrow-go       : hold the goal, not at the lender's home -> travel sub-goal to it.
+;   borrow-at-home  : AT the lender's home -> propose the loan-taking act (take_loan_act
+;                     reads the creditor off the standing goal focus). The decision
+;                     (borrowing_think.mc) begins the goal; its twin outcome rules end it.
+; Both rungs are (lock)-locked: one borrowing errand at a time per mind.
+; ----------------------------------------------------------------------------
+
+(think borrow-go
+  (lock)
+  (goal {@self TAKE-LOAN ?creditor})
+  (role ?cred_home {?creditor home ?cred_home}
+                   (not (spatial @self building ?cred_home))
+    (effects (maintain-proposal {@self go ?cred_home}))))
+
+; AT the lender's home: PROPOSE the loan-taking act (goals never propose themselves).
+; The creditor rides the act target - the act body binds ?lender off the promoted
+; {@self TAKE-LOAN <creditor>} belief to record the debt against the right person.
+(think borrow-at-home
+  (lock)
+  (goal {@self TAKE-LOAN ?creditor})
+  (role ?cred_home {?creditor home ?cred_home}
+                   (spatial @self building ?cred_home)
+    (effects (maintain-proposal {@self TAKE-LOAN ?creditor}))))

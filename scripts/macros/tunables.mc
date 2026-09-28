@@ -155,7 +155,7 @@
 (define-macro staff_hire_age_min () 16)
 (define-macro staff_hire_age_max () 55)
 
-; Sporting-meet model (the per-sport rows live in the club_sports table, rules/npc-think/hot/sporting-event-think.mc).
+; Sporting-meet model (the per-sport rows live in the club_sports table, rules/thinks/hot/sporting-event-think.mc).
 (define-macro jockey_hire_age_min      () 16)
 (define-macro jockey_hire_age_max      () 45)
 (define-macro trained_victory_weight   () 3.0)  ; practice marker's edge in the victor roll
@@ -197,7 +197,7 @@
 ; venue" guard does the real work, so the exact band is not critical.
 
 ; The household cook's public-bb claim lifetime, in hsim cycles (= months). The
-; sitting cook RE-POSTS it every cycle (renew_cook), so the ttl only bounds how
+; sitting cook RE-POSTS it every cycle (renew-cook), so the ttl only bounds how
 ; fast a DEAD or emigrated cook's household re-elects.
 (define-macro cook_marker_ttl_cycles () 3)
 

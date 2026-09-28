@@ -2,7 +2,7 @@
 ; rule must wake on probe_mint's urge-belief write (outer-label trigger), admit
 ; the plotter via alpha clause descent, and bind the inner free var + capture at
 ; the when-gate.
-(npc-think probe_role
+(think probe_role
   (cooldown 1 m try-once)
   (role @self 
     (role ?plotter [k human]
