@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
 ; exit - the twin of enter: get @self out of a structure and onto the street, through its
-; threshold. He first walks onto the floor of the entry space enter would step in by (the
-; main entrance, else any entrance, else the nearest room), then out to a spot before the
-; building. Standing in it already, the first stage falls through.
+; entrance. Knowing no entrance of it, he tours it once; a tour that shows none means it has
+; none. Knowing one, he walks onto its floor, then out to a spot before the building;
+; standing in it already, or with no entrance to take, that first stage falls through.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/tunables.mc")
@@ -20,22 +20,29 @@
     (check (still-in ?bldg)))
   (when (still-in ?bldg))
   (cease (if (not (still-in ?bldg)) (then (set-outcome ?exit /succ))))
-  (sequence
-    ; @nothing when he already stands on the threshold or the building has none; a claim
-    ; that finds its floor full is @fail, and holds the stage until a spot frees.
-    (stage
-      (bind (entry-space ?bldg) ?entry)
-      (bind (cond (case (unsubstantial ?entry) @nothing)
-                  (case (spatial @self space ?entry) @nothing)
-                  (else (stand-spot-in ?entry)))
-            ?step)
-      (effects
-        (if (is-spot ?step)
-            (then (maintain-proposal {@self WALK ?step})))))
+  (stable-or
+    (try
+      (when (poll (empty (spatial ?bldg parts [k interior-space entrance]))
+                  -{@self wander ?bldg /succ /caused_by ?exit}))
+      (effects (maintain-proposal {@self wander ?bldg})))
 
-    (stage
-      (bind (maintain-claim-spot @self [/in_front_of ?bldg] [/at_or_near @self]) ?spot)
-      (effects
-        (check (is-spot ?spot))
-        (check (not (overlaps ?spot ?bldg)))
-        (maintain-proposal {@self WALK ?spot})))))
+    (sequence
+      ; A building toured without an entrance has none, and he steps straight out; one whose
+      ; entrance has no floor free for him holds the stage until a spot frees.
+      (stage
+        (bind (entrance-space ?bldg) ?entry)
+        (when (or (substantial ?entry) (empty (spatial ?bldg parts [k interior-space entrance]))))
+        (bind (cond (case (unsubstantial ?entry) @nothing)
+                    (case (spatial @self space ?entry) @nothing)
+                    (else (stand-spot-in ?entry)))
+              ?step)
+        (effects
+          (if (is-spot ?step)
+              (then (maintain-proposal {@self WALK ?step})))))
+
+      (stage
+        (bind (maintain-claim-spot @self [/in_front_of ?bldg] [/at_or_near @self]) ?spot)
+        (effects
+          (check (is-spot ?spot))
+          (check (not (overlaps ?spot ?bldg)))
+          (maintain-proposal {@self WALK ?spot}))))))

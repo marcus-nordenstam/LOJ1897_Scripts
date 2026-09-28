@@ -10,14 +10,18 @@
     (check (is-a ?bldg [k container-structure]))
     (check (spatial @self building ?bldg)))
   (and
-    ; Standing in the building he looks along its rooms: a room he has not yet seen from
-    ; inside has no mental twin, and it cannot be walked into until it has one.
+    ; Standing in the building he looks along its rooms and entrances: a space he has not yet
+    ; seen from inside has no mental twin, and it cannot be walked into until it has one.
     (try
-      (when (poll (< (count (spatial ?bldg parts [k interior-space room]))
-                     (count (spatial ?bldg parts [k interior-space room] /env)))))
+      (when (poll (or (< (count (spatial ?bldg parts [k interior-space room]))
+                         (count (spatial ?bldg parts [k interior-space room] /env)))
+                      (< (count (spatial ?bldg parts [k interior-space entrance]))
+                         (count (spatial ?bldg parts [k interior-space entrance] /env))))))
       (effects
         (for-each ?r (spatial ?bldg parts [k interior-space room] /env)
-          (observe ?r))))
+          (observe ?r))
+        (for-each ?e (spatial ?bldg parts [k interior-space entrance] /env)
+          (observe ?e))))
     (try
       (role ?room (spatial ?bldg parts [k interior-space room])
                   (not (spatial @self space ?room))
