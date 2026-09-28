@@ -355,7 +355,7 @@
 # auto-percept, so anyone who looks at the body or the prop reads it: that IS
 # the evidence channel. Wired onto the body-part archetypes, prop and
 # structure-part; the .mc (yield-evidence ..) macro is the writer.
-(attr blemishes (type kind blemish array 32) (state "blemish") (per obs) (auto-percept))
+(attr blemishes (type kind blemish array 8 overwrite-last) (state "blemish") (per obs) (auto-percept))
 
 # the space an entity is in
 
