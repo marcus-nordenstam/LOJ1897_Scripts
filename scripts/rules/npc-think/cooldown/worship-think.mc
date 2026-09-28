@@ -34,7 +34,7 @@
   ; {@self WORSHIP}. The act never ends the goal.
   (cooldown 3 d try-until-succ)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-    (when    (and (>= (days-since-last {@self WORSHIP /ever}) 3)
+    (when    (and (>= (days-since-last {@self WORSHIP /succ /ever}) 3)
                   (>= (target-or @self politeness 0.0) 0.3)))
     (utility want (* (recency-ramp WORSHIP 3.0 21.0 500.0) (devotional-drive-tilt)))
     (effects
@@ -52,7 +52,7 @@
   (cooldown 3 d try-until-succ)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self devoutness [k piety-band devout]}
-    (when    (>= (days-since-last {@self WORSHIP /ever}) 3))
+    (when    (>= (days-since-last {@self WORSHIP /succ /ever}) 3))
     (utility obligation)
     (effects       (begin-goal {@self WORSHIP}))
     (when-unsupported-effects (set-outcome {@self goal {@self WORSHIP}} /succ))))

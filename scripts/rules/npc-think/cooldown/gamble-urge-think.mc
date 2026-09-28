@@ -2,7 +2,7 @@
 ; The GAMBLING aspect (B4 pressure model). Two thinks:
 ;   gamble_urge (drive): gambling is a VICE, so its pressure is ADDICTION-driven,
 ;     not "overdue"-driven (a man who never gambled feels no pull). A 10-day cooldown
-;     re-checks the urge; the (days-since-last {@self PLAY-GAME /ever}) fire-gate mints the
+;     re-checks the urge; the (days-since-last {@self PLAY-GAME /succ /ever}) fire-gate mints the
 ;     standing {@self PLAY-GAME} drive only when genuinely due; the utility is
 ;     susceptibility (low industriousness) x an amplifier that starts tiny - a rare
 ;     deep-idle ONSET draw - and SPIRALS with gambling-addiction, x a days-since-last
@@ -39,11 +39,11 @@
     ; re-rolls it (it re-rolls each window until it lands). This gate is load-bearing: WITHOUT
     ; rate-limiting the first flutter here every adult would take a first gamble and the whole
     ; town would spiral into addiction.
-    (when (and (>= (days-since-last {@self PLAY-GAME /ever}) 10)
+    (when (and (>= (days-since-last {@self PLAY-GAME /succ /ever}) 10)
                (or (> (target-or @self gambling-addiction 0.0) 0.0)
                    (latch-eval (chance (* 0.02 (- 1.0 (target-or @self industriousness 0.0))))))))
     (utility want (* 10.0 (* (- 1.0 (target-or @self industriousness 0.0))                    ; susceptibility (0 = disciplined)
                 (+ 2.0 (* 22.0 (target-or @self gambling-addiction 0.0)))          ; onset 2 -> morbid 24 (below leisure)
-                (min (* (days-since-last-float {@self PLAY-GAME /ever}) 0.04) 1.0)))) ; slow craving modulator [0,1]
+                (min (* (days-since-last-float {@self PLAY-GAME /succ /ever}) 0.04) 1.0)))) ; slow craving modulator [0,1]
     (effects       (begin-goal {@self PLAY-GAME}))
     (when-unsupported-effects (set-outcome {@self goal {@self PLAY-GAME}} /succ))))

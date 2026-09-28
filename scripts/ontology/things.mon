@@ -629,7 +629,7 @@
         (child mind (motor)))
       (child structure-part
         (decorations
-          (attrs address is-nav-passage blemishes)
+          (attrs is-nav-passage blemishes)
           (attr opening-status (auto-percept) (ext-per obs))
           (attr lock-status (auto-percept) (ext-per obs))
           (attr integrity (auto-percept) (ext-per obs)))
@@ -644,7 +644,9 @@
         # sign; only addressed buildings get an address sign. Never an org's name -
         # many orgs may share one building, and an org has no sign of its own.
         (child sign
-          (children building-name-sign address-sign public-notice-board))
+          (children building-name-sign public-notice-board)
+          (child address-sign
+            (decorations (attrs address))))
         (child opening (+ nav_passage)
           (children window door))))
     (child gm
@@ -683,7 +685,7 @@
     (decorations (states occupant tenant))
     (child interior-space
       (decorations
-        (attrs variant birth-date is-nav-passage address)
+        (attrs variant birth-date is-nav-passage)
         (attr name (auto-percept) (ext-per obs))
         (spatials bounds))
       (population (cap 4096) (always-visible) (non-occluder) (sector-coverage))
@@ -692,6 +694,7 @@
         (child main-entrance (facets entrance)))
       (children doorway)
       (child room
+        (decorations (attrs address))
         (children kitchen dining-room restaurant-dining-room hallway living-room bedroom)
         # Rooms the crime arcs need.
         # study: private workroom; canonical Victorian crime-scene

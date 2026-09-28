@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
-; go ?dest - THE movement task, and the only one a chain proposes. ?dest is anything a man
-; can be bound for: a spot, a building, a room, a person, a thing. go decomposes it and
-; never proposes itself, so no second go is ever nested under the first:
+; go ?dest - THE movement task, and the only one a chain proposes: only go and its own legs
+; (exit / enter / approach) propose WALK. ?dest is anything a man can be bound for: a spot,
+; a building, a room, a person, a thing. go decomposes it:
 ;
 ;   in the wrong building          -> exit it
 ;   out of doors, dest in building -> enter that building
@@ -67,7 +67,6 @@
   (< (distance @self ?dest) (near_building_m)))
 
 (npc-task {@self go ?dest}:?go-rel
-  (tar @excl)
   (init
     (check (or (is-spot ?dest) (is-a ?dest [k thing])))
     (check (go-reachable (go-target ?dest))))

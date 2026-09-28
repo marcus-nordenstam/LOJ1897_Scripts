@@ -31,7 +31,7 @@
         ; month" (0) from "a month on"; 1 is the minimal such gate. The act never ends the goal.
         (role ?wp {?org workplace ?wp}
           (when (and (is-a ?wp [k building shop])
-                     (>= (days-since-last {@self STOCKTAKE /ever}) 1)))
+                     (>= (days-since-last {@self STOCKTAKE /succ /ever}) 1)))
 
           (utility duty)
           (effects       (begin-goal {@self STOCKTAKE}))

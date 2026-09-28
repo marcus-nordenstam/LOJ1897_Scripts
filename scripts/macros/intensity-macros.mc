@@ -25,6 +25,6 @@
 ; saturating rhythmic drive: ?scale x clamp((days-since-last - due) / (cap - due), 0, 1).
 ; 0 at the due day, full ?scale by the cap day, held at ?scale thereafter.
 (define-macro recency-ramp (?label ?due ?cap ?scale)
-  (* ?scale (clamp (/ (- (days-since-last-float {@self ?label /ever}) ?due)
+  (* ?scale (clamp (/ (- (days-since-last-float {@self ?label /succ /ever}) ?due)
                       (- ?cap ?due))
                    0.0 1.0)))
